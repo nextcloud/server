@@ -1,10 +1,24 @@
-/*
+/**
  * Copyright (c) 2014 Vincent Petry <pvince81@owncloud.com>
  *
- * This file is licensed under the Affero General Public License version 3
- * or later.
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
- * See the COPYING-README file.
+ * @license AGPL-3.0-or-later
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
@@ -13,17 +27,17 @@ describe('OCA.Files.TagsPlugin tests', function() {
 	var testFiles;
 
 	beforeEach(function() {
-		var $content = $('<div id="content"></div>');
+		var $content = $('<div id="app-content"></div>');
 		$('#testArea').append($content);
 		// dummy file list
 		var $div = $(
 			'<div>' +
-			'<table id="filestable">' +
+			'<table class="files-filestable">' +
 			'<thead></thead>' +
-			'<tbody id="fileList"></tbody>' +
+			'<tbody class="files-fileList"></tbody>' +
 			'</table>' +
 			'</div>');
-		$('#content').append($div);
+		$('#app-content').append($div);
 
 		fileList = new OCA.Files.FileList($div);
 		OCA.Files.TagsPlugin.attach(fileList);

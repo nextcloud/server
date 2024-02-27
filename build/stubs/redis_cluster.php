@@ -38,6 +38,16 @@ class RedisCluster {
     const SCAN_RETRY = 1;
 
     /**
+     * @since 5.3.0
+     */
+    const SCAN_PREFIX = 2;
+
+    /**
+     * @since 5.3.0
+     */
+    const SCAN_NOPREFIX = 3;
+
+    /**
      * Serializers
      */
     const SERIALIZER_NONE = 0;
@@ -66,12 +76,13 @@ class RedisCluster {
     /**
      * Creates a Redis Cluster client
      *
-     * @param string|null   $name
-     * @param array         $seeds
-     * @param float         $timeout
-     * @param float         $readTimeout
-     * @param bool          $persistent
-     * @param string|null   $auth
+     * @param string|null           $name
+     * @param array                 $seeds
+     * @param float                 $timeout
+     * @param float                 $readTimeout
+     * @param bool                  $persistent
+     * @param string|string[]|null  $auth
+     * @param array                 $connectionParameters  extra config to send to redis
      * @throws RedisClusterException
      *
      * @example
@@ -94,7 +105,7 @@ class RedisCluster {
      * $redisClusterDev = new RedisCluster('test');
      * </pre>
      */
-    public function __construct($name, $seeds, $timeout = null, $readTimeout = null, $persistent = false, $auth = null) { }
+    public function __construct($name, $seeds, $timeout = null, $readTimeout = null, $persistent = false, $auth = null, $connectionParameters = []) { }
 
     /**
      * Disconnects from the Redis instance, except when pconnect is used.
@@ -1565,7 +1576,7 @@ class RedisCluster {
     public function hSetNx($key, $hashKey, $value) { }
 
     /**
-     * Retirieve the values associated to the specified fields in the hash.
+     * Retrieve the values associated to the specified fields in the hash.
      *
      * @param   string $key
      * @param   array  $hashKeys
@@ -2162,6 +2173,7 @@ class RedisCluster {
      * $redisCluster->pfAdd('key2', array('elem3', 'elem2'));
      * $redisCluster->pfCount('key1'); // int(2)
      * $redisCluster->pfCount(array('key1', 'key2')); // int(3)
+     * </pre>
      */
     public function pfCount($key) { }
 
@@ -2192,6 +2204,7 @@ class RedisCluster {
      * $redisCluster->pfAdd('key2', array('elem3', 'elem2'));
      * $redisCluster->pfMerge('key3', array('key1', 'key2'));
      * $redisCluster->pfCount('key3'); // int(3)
+     * </pre>
      */
     public function pfMerge($destKey, array $sourceKeys) { }
 
@@ -2439,7 +2452,7 @@ class RedisCluster {
      *
      * @param string $Output
      * @param array  $ZSetKeys
-     * @param array  $Weights
+     * @param null|array $Weights
      * @param string $aggregateFunction Either "SUM", "MIN", or "MAX": defines the behaviour to use on
      *                                  duplicate entries during the zUnion.
      *
@@ -2467,14 +2480,14 @@ class RedisCluster {
      * $redisCluster->zUnionStore('ko3', array('k1', 'k2'), array(5, 1)); // 4, 'ko3' => array('val0', 'val2', 'val3','val1')
      * </pre>
      */
-    public function zUnionStore($Output, $ZSetKeys, array $Weights = null, $aggregateFunction = 'SUM') { }
+    public function zUnionStore($Output, $ZSetKeys, ?array $Weights = null, $aggregateFunction = 'SUM') { }
 
     /**
      * Intersect multiple sorted sets and store the resulting sorted set in a new key
      *
      * @param   string $Output
      * @param   array  $ZSetKeys
-     * @param   array  $Weights
+     * @param   null|array $Weights
      * @param   string $aggregateFunction Either "SUM", "MIN", or "MAX":
      *                                    defines the behaviour to use on duplicate entries during the zInterStore.
      *
@@ -2703,7 +2716,7 @@ class RedisCluster {
      * Scan a set for members.
      *
      * @param   string $key      The set to search.
-     * @param   int    $iterator LONG (reference) to the iterator as we go.
+     * @param   int    &$iterator LONG (reference) to the iterator as we go.
      * @param   null   $pattern  String, optional pattern to match against.
      * @param   int    $count    How many members to return at a time (Redis might return a different amount).
      *
@@ -2725,7 +2738,7 @@ class RedisCluster {
      * Scan a sorted set for members, with optional pattern and count.
      *
      * @param   string $key      String, the set to scan.
-     * @param   int    $iterator Long (reference), initialized to NULL.
+     * @param   int    &$iterator Long (reference), initialized to NULL.
      * @param   string $pattern  String (optional), the pattern to match.
      * @param   int    $count    How many keys to return per iteration (Redis might return a different number).
      *
@@ -2747,7 +2760,7 @@ class RedisCluster {
      * Scan a HASH value for members, with an optional pattern and count.
      *
      * @param   string $key
-     * @param   int    $iterator
+     * @param   int    &$iterator
      * @param   string $pattern Optional pattern to match against.
      * @param   int    $count   How many keys to return in a go (only a sugestion to Redis).
      *
@@ -3425,10 +3438,10 @@ class RedisCluster {
     /**
      * Returns members of a geospatial index as standard geohash strings
      *
-     * @param $key     string
-     * @param $member1 string
-     * @param $member2 string
-     * @param $memberN string
+     * @param string $key
+     * @param string $member1
+     * @param string $member2
+     * @param string $memberN
      *
      * @example
      * <pre>
@@ -3442,11 +3455,10 @@ class RedisCluster {
     /**
      * Returns longitude and latitude of members of a geospatial index
      *
-     * @param $key     string
-     * @param $member1 string
-     * @param $member2 string
-     * @param $memberN string
-     *
+     * @param string $key
+     * @param string $member1
+     * @param string $member2
+     * @param string $memberN
      * @example
      * <pre>
      * $redisCluster->geoAdd('Sicily', 15.087269, 37.502669, "Catania"); // int(1)

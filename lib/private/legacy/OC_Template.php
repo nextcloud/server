@@ -10,7 +10,7 @@
  * @author Jakob Sack <mail@jakobsack.de>
  * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
@@ -21,6 +21,7 @@
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <vincent@nextcloud.com>
+ * @author Richard Steinmetz <richard@steinmetz.cloud>
  *
  * @license AGPL-3.0
  *
@@ -37,9 +38,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 use OC\TemplateLayout;
+use OCP\AppFramework\Http\Events\BeforeTemplateRenderedEvent;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\EventDispatcher\IEventDispatcher;
 
 require_once __DIR__.'/template/functions.php';
 
@@ -47,7 +49,6 @@ require_once __DIR__.'/template/functions.php';
  * This class provides the templates for ownCloud.
  */
 class OC_Template extends \OC\Template\Base {
-
 	/** @var string */
 	private $renderAs; // Create a full page?
 
@@ -59,8 +60,6 @@ class OC_Template extends \OC\Template\Base {
 
 	/** @var string */
 	protected $app; // app id
-
-	protected static $initTemplateEngineFirstRun = true;
 
 	/**
 	 * Constructor
@@ -74,9 +73,6 @@ class OC_Template extends \OC\Template\Base {
 	 * @param bool $registerCall = true
 	 */
 	public function __construct($app, $name, $renderAs = TemplateResponse::RENDER_AS_BLANK, $registerCall = true) {
-		// Read the selected theme from the config file
-		self::initTemplateEngine($renderAs);
-
 		$theme = OC_Util::getTheme();
 
 		$requestToken = (OC::$server->getSession() && $registerCall) ? \OCP\Util::callRegister() : '';
@@ -84,7 +80,7 @@ class OC_Template extends \OC\Template\Base {
 		$parts = explode('/', $app); // fix translation when app is something like core/lostpassword
 		$l10n = \OC::$server->getL10N($parts[0]);
 		/** @var \OCP\Defaults $themeDefaults */
-		$themeDefaults = \OC::$server->query(\OCP\Defaults::class);
+		$themeDefaults = \OCP\Server::get(\OCP\Defaults::class);
 
 		[$path, $template] = $this->findTemplate($theme, $app, $name);
 
@@ -94,40 +90,6 @@ class OC_Template extends \OC\Template\Base {
 		$this->app = $app;
 
 		parent::__construct($template, $requestToken, $l10n, $themeDefaults);
-	}
-
-	/**
-	 * @param string $renderAs
-	 */
-	public static function initTemplateEngine($renderAs) {
-		if (self::$initTemplateEngineFirstRun) {
-
-			//apps that started before the template initialization can load their own scripts/styles
-			//so to make sure this scripts/styles here are loaded first we use OC_Util::addScript() with $prepend=true
-			//meaning the last script/style in this list will be loaded first
-			if (\OC::$server->getSystemConfig()->getValue('installed', false) && $renderAs !== TemplateResponse::RENDER_AS_ERROR && !\OCP\Util::needUpgrade()) {
-				if (\OC::$server->getConfig()->getAppValue('core', 'backgroundjobs_mode', 'ajax') == 'ajax') {
-					OC_Util::addScript('backgroundjobs', null, true);
-				}
-			}
-			OC_Util::addStyle('css-variables', null, true);
-			OC_Util::addStyle('server', null, true);
-			OC_Util::addTranslations('core', null, true);
-
-			if (\OC::$server->getSystemConfig()->getValue('installed', false) && !\OCP\Util::needUpgrade()) {
-				OC_Util::addScript('merged-template-prepend', null, true);
-				OC_Util::addScript('dist/files_client', null, true);
-				OC_Util::addScript('dist/files_fileinfo', null, true);
-			}
-			OC_Util::addScript('core', 'dist/main', true);
-
-			if (\OC::$server->getRequest()->isUserAgent([\OC\AppFramework\Http\Request::USER_AGENT_IE])) {
-				// shim for the davclient.js library
-				\OCP\Util::addScript('dist/files_iedavclient');
-			}
-
-			self::$initTemplateEngineFirstRun = false;
-		}
 	}
 
 
@@ -290,20 +252,44 @@ class OC_Template extends \OC\Template\Base {
 			// If the hint is the same as the message there is no need to display it twice.
 			$hint = '';
 		}
+		$errors = [['error' => $error_msg, 'hint' => $hint]];
 
 		http_response_code($statusCode);
 		try {
-			$content = new \OC_Template('', 'error', 'error', false);
-			$errors = [['error' => $error_msg, 'hint' => $hint]];
-			$content->assign('errors', $errors);
-			$content->printPage();
-		} catch (\Exception $e) {
+			// Try rendering themed html error page
+			$response = new TemplateResponse(
+				'',
+				'error',
+				['errors' => $errors],
+				TemplateResponse::RENDER_AS_ERROR,
+				$statusCode,
+			);
+			$event = new BeforeTemplateRenderedEvent(false, $response);
+			\OC::$server->get(IEventDispatcher::class)->dispatchTyped($event);
+			print($response->render());
+		} catch (\Throwable $e1) {
 			$logger = \OC::$server->getLogger();
-			$logger->error("$error_msg $hint", ['app' => 'core']);
-			$logger->logException($e, ['app' => 'core']);
+			$logger->logException($e1, [
+				'app' => 'core',
+				'message' => 'Rendering themed error page failed. Falling back to unthemed error page.'
+			]);
 
-			header('Content-Type: text/plain; charset=utf-8');
-			print("$error_msg $hint");
+			try {
+				// Try rendering unthemed html error page
+				$content = new \OC_Template('', 'error', 'error', false);
+				$content->assign('errors', $errors);
+				$content->printPage();
+			} catch (\Exception $e2) {
+				// If nothing else works, fall back to plain text error page
+				$logger->error("$error_msg $hint", ['app' => 'core']);
+				$logger->logException($e2, [
+					'app' => 'core',
+					'message' => 'Rendering unthemed error page failed. Falling back to plain text error page.'
+				]);
+
+				header('Content-Type: text/plain; charset=utf-8');
+				print("$error_msg $hint");
+			}
 		}
 		die();
 	}
@@ -316,8 +302,10 @@ class OC_Template extends \OC\Template\Base {
 	 * @suppress PhanAccessMethodInternal
 	 */
 	public static function printExceptionErrorPage($exception, $statusCode = 503) {
+		$debug = false;
 		http_response_code($statusCode);
 		try {
+			$debug = \OC::$server->getSystemConfig()->getValue('debug', false);
 			$request = \OC::$server->getRequest();
 			$content = new \OC_Template('', 'exception', 'error', false);
 			$content->assign('errorClass', get_class($exception));
@@ -326,7 +314,7 @@ class OC_Template extends \OC\Template\Base {
 			$content->assign('file', $exception->getFile());
 			$content->assign('line', $exception->getLine());
 			$content->assign('exception', $exception);
-			$content->assign('debugMode', \OC::$server->getSystemConfig()->getValue('debug', false));
+			$content->assign('debugMode', $debug);
 			$content->assign('remoteAddr', $request->getRemoteAddress());
 			$content->assign('requestID', $request->getId());
 			$content->printPage();
@@ -337,22 +325,28 @@ class OC_Template extends \OC\Template\Base {
 				$logger->logException($e, ['app' => 'core']);
 			} catch (Throwable $e) {
 				// no way to log it properly - but to avoid a white page of death we send some output
-				header('Content-Type: text/plain; charset=utf-8');
-				print("Internal Server Error\n\n");
-				print("The server encountered an internal error and was unable to complete your request.\n");
-				print("Please contact the server administrator if this error reappears multiple times, please include the technical details below in your report.\n");
-				print("More details can be found in the server log.\n");
+				self::printPlainErrorPage($e, $debug);
 
 				// and then throw it again to log it at least to the web server error log
 				throw $e;
 			}
 
-			header('Content-Type: text/plain; charset=utf-8');
-			print("Internal Server Error\n\n");
-			print("The server encountered an internal error and was unable to complete your request.\n");
-			print("Please contact the server administrator if this error reappears multiple times, please include the technical details below in your report.\n");
-			print("More details can be found in the server log.\n");
+			self::printPlainErrorPage($e, $debug);
 		}
 		die();
+	}
+
+	private static function printPlainErrorPage(\Throwable $exception, bool $debug = false) {
+		header('Content-Type: text/plain; charset=utf-8');
+		print("Internal Server Error\n\n");
+		print("The server encountered an internal error and was unable to complete your request.\n");
+		print("Please contact the server administrator if this error reappears multiple times, please include the technical details below in your report.\n");
+		print("More details can be found in the server log.\n");
+
+		if ($debug) {
+			print("\n");
+			print($exception->getMessage() . ' ' . $exception->getFile() . ' at ' . $exception->getLine() . "\n");
+			print($exception->getTraceAsString());
+		}
 	}
 }

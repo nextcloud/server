@@ -17,16 +17,18 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Files_Versions\Sabre;
 
+use OCA\Files_Versions\Versions\IDeletableVersionBackend;
+use OCA\Files_Versions\Versions\INameableVersion;
+use OCA\Files_Versions\Versions\INameableVersionBackend;
 use OCA\Files_Versions\Versions\IVersion;
 use OCA\Files_Versions\Versions\IVersionManager;
 use OCP\Files\NotFoundException;
@@ -66,12 +68,20 @@ class VersionFile implements IFile {
 		return (string)$this->version->getRevisionId();
 	}
 
-	public function getSize(): int {
+	/**
+	 * @psalm-suppress ImplementedReturnTypeMismatch \Sabre\DAV\IFile::getSize signature does not support 32bit
+	 * @return int|float
+	 */
+	public function getSize(): int|float {
 		return $this->version->getSize();
 	}
 
 	public function delete() {
-		throw new Forbidden();
+		if ($this->versionManager instanceof IDeletableVersionBackend) {
+			$this->versionManager->deleteVersion($this->version);
+		} else {
+			throw new Forbidden();
+		}
 	}
 
 	public function getName(): string {
@@ -80,6 +90,23 @@ class VersionFile implements IFile {
 
 	public function setName($name) {
 		throw new Forbidden();
+	}
+
+	public function getLabel(): ?string {
+		if ($this->version instanceof INameableVersion && $this->version->getSourceFile()->getSize() > 0) {
+			return $this->version->getLabel();
+		} else {
+			return null;
+		}
+	}
+
+	public function setLabel($label): bool {
+		if ($this->versionManager instanceof INameableVersionBackend) {
+			$this->versionManager->setVersionLabel($this->version, $label);
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	public function getLastModified(): int {

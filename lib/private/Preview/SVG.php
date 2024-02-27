@@ -25,12 +25,11 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Preview;
 
 use OCP\Files\File;
 use OCP\IImage;
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 
 class SVG extends ProviderV2 {
 	/**
@@ -61,16 +60,16 @@ class SVG extends ProviderV2 {
 			$svg->readImageBlob($content);
 			$svg->setImageFormat('png32');
 		} catch (\Exception $e) {
-			\OC::$server->getLogger()->logException($e, [
-				'level' => ILogger::ERROR,
+			\OC::$server->get(LoggerInterface::class)->error($e->getMessage(), [
+				'exception' => $e,
 				'app' => 'core',
 			]);
 			return null;
 		}
 
 		//new image object
-		$image = new \OC_Image();
-		$image->loadFromData($svg);
+		$image = new \OCP\Image();
+		$image->loadFromData((string) $svg);
 		//check if image object is valid
 		if ($image->valid()) {
 			$image->scaleDownToFit($maxX, $maxY);

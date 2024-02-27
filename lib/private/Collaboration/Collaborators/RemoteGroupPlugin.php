@@ -4,7 +4,7 @@
  *
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -15,14 +15,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Collaboration\Collaborators;
 
 use OCP\Collaboration\Collaborators\ISearchPlugin;
@@ -34,14 +33,12 @@ use OCP\Share;
 use OCP\Share\IShare;
 
 class RemoteGroupPlugin implements ISearchPlugin {
-	protected $shareeEnumeration;
+	private bool $enabled = false;
 
-	/** @var ICloudIdManager */
-	private $cloudIdManager;
-	/** @var bool */
-	private $enabled = false;
-
-	public function __construct(ICloudFederationProviderManager $cloudFederationProviderManager, ICloudIdManager $cloudIdManager) {
+	public function __construct(
+		ICloudFederationProviderManager $cloudFederationProviderManager,
+		private ICloudIdManager $cloudIdManager,
+	) {
 		try {
 			$fileSharingProvider = $cloudFederationProviderManager->getCloudFederationProvider('file');
 			$supportedShareTypes = $fileSharingProvider->getSupportedShareTypes();
@@ -51,10 +48,9 @@ class RemoteGroupPlugin implements ISearchPlugin {
 		} catch (\Exception $e) {
 			// do nothing, just don't enable federated group shares
 		}
-		$this->cloudIdManager = $cloudIdManager;
 	}
 
-	public function search($search, $limit, $offset, ISearchResult $searchResult) {
+	public function search($search, $limit, $offset, ISearchResult $searchResult): bool {
 		$result = ['wide' => [], 'exact' => []];
 		$resultType = new SearchResultType('remote_groups');
 
@@ -84,7 +80,7 @@ class RemoteGroupPlugin implements ISearchPlugin {
 	 * @return array [user, remoteURL]
 	 * @throws \InvalidArgumentException
 	 */
-	public function splitGroupRemote($address) {
+	public function splitGroupRemote($address): array {
 		try {
 			$cloudId = $this->cloudIdManager->resolveCloudId($address);
 			return [$cloudId->getUser(), $cloudId->getRemote()];

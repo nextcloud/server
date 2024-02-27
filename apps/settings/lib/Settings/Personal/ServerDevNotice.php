@@ -16,14 +16,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Settings\Settings\Personal;
 
 use OCA\Viewer\Event\LoadViewer;
@@ -58,11 +57,11 @@ class ServerDevNotice implements ISettings {
 	private $urlGenerator;
 
 	public function __construct(IRegistry $registry,
-								IEventDispatcher $eventDispatcher,
-								IRootFolder $rootFolder,
-								IUserSession $userSession,
-								IInitialState $initialState,
-								IURLGenerator $urlGenerator) {
+		IEventDispatcher $eventDispatcher,
+		IRootFolder $rootFolder,
+		IUserSession $userSession,
+		IInitialState $initialState,
+		IURLGenerator $urlGenerator) {
 		$this->registry = $registry;
 		$this->eventDispatcher = $eventDispatcher;
 		$this->rootFolder = $rootFolder;
@@ -74,16 +73,16 @@ class ServerDevNotice implements ISettings {
 	/**
 	 * @return TemplateResponse
 	 */
-	public function getForm() {
+	public function getForm(): TemplateResponse {
 		$userFolder = $this->rootFolder->getUserFolder($this->userSession->getUser()->getUID());
 
 		$hasInitialState = false;
 
-		// viewer is default enabled and this makes a zero-cost assertion for Psalm
-		assert(class_exists(LoadViewer::class));
-
-		// If the Reasons to use Nextcloud.pdf file is here, let's init Viewer
-		if ($userFolder->nodeExists('Reasons to use Nextcloud.pdf')) {
+		// If the Reasons to use Nextcloud.pdf file is here, let's init Viewer, also check that Viewer is there
+		if (class_exists(LoadViewer::class) && $userFolder->nodeExists('Reasons to use Nextcloud.pdf')) {
+			/**
+			 * @psalm-suppress UndefinedClass, InvalidArgument
+			 */
 			$this->eventDispatcher->dispatch(LoadViewer::class, new LoadViewer());
 			$hasInitialState = true;
 		}
@@ -98,9 +97,9 @@ class ServerDevNotice implements ISettings {
 	}
 
 	/**
-	 * @return string the section ID, e.g. 'sharing'
+	 * @return string|null the section ID, e.g. 'sharing'
 	 */
-	public function getSection() {
+	public function getSection(): ?string {
 		if ($this->registry->delegateHasValidSubscription()) {
 			return null;
 		}
@@ -115,7 +114,7 @@ class ServerDevNotice implements ISettings {
 	 *
 	 * E.g.: 70
 	 */
-	public function getPriority() {
+	public function getPriority(): int {
 		return 1000;
 	}
 }

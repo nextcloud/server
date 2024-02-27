@@ -19,26 +19,24 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\LookupServerConnector\AppInfo;
 
 use Closure;
 use OCA\LookupServerConnector\UpdateLookupServer;
+use OCP\Accounts\UserUpdatedEvent;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
-use OCP\AppFramework\IAppContainer;
-use OCP\IUser;
-use Symfony\Component\EventDispatcher\EventDispatcher;
-use Symfony\Component\EventDispatcher\GenericEvent;
+use OCP\EventDispatcher\IEventDispatcher;
+use Psr\Container\ContainerInterface;
 
 class Application extends App implements IBootstrap {
 	public const APP_ID = 'lookup_server_connector';
@@ -57,15 +55,12 @@ class Application extends App implements IBootstrap {
 	/**
 	 * @todo move the OCP events and then move the registration to `register`
 	 */
-	private function registerEventListeners(EventDispatcher $dispatcher,
-											IAppContainer $appContainer): void {
-		$dispatcher->addListener('OC\AccountManager::userUpdated', function (GenericEvent $event) use ($appContainer) {
-			/** @var IUser $user */
-			$user = $event->getSubject();
-
+	private function registerEventListeners(IEventDispatcher $dispatcher,
+		ContainerInterface $appContainer): void {
+		$dispatcher->addListener(UserUpdatedEvent::class, function (UserUpdatedEvent $event) use ($appContainer) {
 			/** @var UpdateLookupServer $updateLookupServer */
 			$updateLookupServer = $appContainer->get(UpdateLookupServer::class);
-			$updateLookupServer->userUpdated($user);
+			$updateLookupServer->userUpdated($event->getUser());
 		});
 	}
 }

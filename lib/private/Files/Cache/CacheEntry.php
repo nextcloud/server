@@ -20,7 +20,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Files\Cache;
 
 use OCP\Files\Cache\ICacheEntry;
@@ -38,18 +37,22 @@ class CacheEntry implements ICacheEntry {
 		$this->data = $data;
 	}
 
-	public function offsetSet($offset, $value) {
+	public function offsetSet($offset, $value): void {
 		$this->data[$offset] = $value;
 	}
 
-	public function offsetExists($offset) {
+	public function offsetExists($offset): bool {
 		return isset($this->data[$offset]);
 	}
 
-	public function offsetUnset($offset) {
+	public function offsetUnset($offset): void {
 		unset($this->data[$offset]);
 	}
 
+	/**
+	 * @return mixed
+	 */
+	#[\ReturnTypeWillChange]
 	public function offsetGet($offset) {
 		if (isset($this->data[$offset])) {
 			return $this->data[$offset];
@@ -111,18 +114,30 @@ class CacheEntry implements ICacheEntry {
 	}
 
 	public function getMetadataEtag(): ?string {
-		return $this->data['metadata_etag'];
+		return $this->data['metadata_etag'] ?? null;
 	}
 
 	public function getCreationTime(): ?int {
-		return $this->data['creation_time'];
+		return $this->data['creation_time'] ?? null;
 	}
 
 	public function getUploadTime(): ?int {
-		return $this->data['upload_time'];
+		return $this->data['upload_time'] ?? null;
 	}
 
 	public function getData() {
 		return $this->data;
+	}
+
+	public function __clone() {
+		$this->data = array_merge([], $this->data);
+	}
+
+	public function getUnencryptedSize(): int {
+		if ($this->data['encrypted'] && isset($this->data['unencrypted_size']) && $this->data['unencrypted_size'] > 0) {
+			return $this->data['unencrypted_size'];
+		} else {
+			return $this->data['size'] ?? 0;
+		}
 	}
 }

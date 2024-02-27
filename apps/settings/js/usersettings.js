@@ -10,6 +10,8 @@
 (function() {
 	'use strict';
 
+	var errorNotification;
+
 	/**
 	 * Model for storing and saving user settings
 	 *
@@ -25,8 +27,12 @@
 				return null;
 			}
 
+			if (errorNotification) {
+				errorNotification.hide();
+			}
+
 			if (data.status && data.status === 'error') {
-				OC.Notification.show(data.data.message, { type: 'error' });
+				errorNotification = OC.Notification.show(data.data.message, { type: 'error' });
 			}
 
 			if (_.isUndefined(data.data)) {

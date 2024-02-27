@@ -16,14 +16,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\Tests\unit\CalDAV\Activity\Filter;
 
 use OCA\DAV\CalDAV\Activity\Filter\Todo;
@@ -55,7 +54,7 @@ class TodoTest extends TestCase {
 		);
 	}
 
-	public function testGetIcon() {
+	public function testGetIcon(): void {
 		$this->url->expects($this->once())
 			->method('imagePath')
 			->with('core', 'actions/checkmark.svg')
@@ -83,7 +82,7 @@ class TodoTest extends TestCase {
 	 * @param string[] $types
 	 * @param string[] $expected
 	 */
-	public function testFilterTypes($types, $expected) {
+	public function testFilterTypes($types, $expected): void {
 		$this->assertEquals($expected, $this->filter->filterTypes($types));
 	}
 }

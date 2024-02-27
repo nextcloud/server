@@ -5,6 +5,7 @@ declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2020 Joas Schilling <coding@schilljs.com>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  *
  * @license GNU AGPL version 3 or any later version
@@ -16,24 +17,23 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Core\Command\Db;
 
 use OC\DB\Connection;
 use OC\DB\SchemaWrapper;
-use OCP\IDBConnection;
+use OCP\DB\Events\AddMissingColumnsEvent;
+use OCP\EventDispatcher\IEventDispatcher;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
  * Class AddMissingColumns
@@ -44,63 +44,53 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  * @package OC\Core\Command\Db
  */
 class AddMissingColumns extends Command {
-
-	/** @var Connection */
-	private $connection;
-
-	/** @var EventDispatcherInterface */
-	private $dispatcher;
-
-	public function __construct(Connection $connection, EventDispatcherInterface $dispatcher) {
+	public function __construct(
+		private Connection $connection,
+		private IEventDispatcher $dispatcher,
+	) {
 		parent::__construct();
-
-		$this->connection = $connection;
-		$this->dispatcher = $dispatcher;
 	}
 
 	protected function configure() {
 		$this
 			->setName('db:add-missing-columns')
-			->setDescription('Add missing optional columns to the database tables');
+			->setDescription('Add missing optional columns to the database tables')
+			->addOption('dry-run', null, InputOption::VALUE_NONE, "Output the SQL queries instead of running them.");
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
-		$this->addCoreColumns($output);
+		$dryRun = $input->getOption('dry-run');
 
 		// Dispatch event so apps can also update columns if needed
-		$event = new GenericEvent($output);
-		$this->dispatcher->dispatch(IDBConnection::ADD_MISSING_COLUMNS_EVENT, $event);
-		return 0;
-	}
-
-	/**
-	 * add missing indices to the share table
-	 *
-	 * @param OutputInterface $output
-	 * @throws \Doctrine\DBAL\Schema\SchemaException
-	 */
-	private function addCoreColumns(OutputInterface $output) {
-		$output->writeln('<info>Check columns of the comments table.</info>');
-
-		$schema = new SchemaWrapper($this->connection);
+		$event = new AddMissingColumnsEvent();
+		$this->dispatcher->dispatchTyped($event);
+		$missingColumns = $event->getMissingColumns();
 		$updated = false;
 
-		if ($schema->hasTable('comments')) {
-			$table = $schema->getTable('comments');
-			if (!$table->hasColumn('reference_id')) {
-				$output->writeln('<info>Adding additional reference_id column to the comments table, this can take some time...</info>');
-				$table->addColumn('reference_id', 'string', [
-					'notnull' => false,
-					'length' => 64,
-				]);
-				$this->connection->migrateToSchema($schema->getWrappedSchema());
-				$updated = true;
-				$output->writeln('<info>Comments table updated successfully.</info>');
+		if (!empty($missingColumns)) {
+			$schema = new SchemaWrapper($this->connection);
+
+			foreach ($missingColumns as $missingColumn) {
+				if ($schema->hasTable($missingColumn['tableName'])) {
+					$table = $schema->getTable($missingColumn['tableName']);
+					if (!$table->hasColumn($missingColumn['columnName'])) {
+						$output->writeln('<info>Adding additional ' . $missingColumn['columnName'] . ' column to the ' . $missingColumn['tableName'] . ' table, this can take some time...</info>');
+						$table->addColumn($missingColumn['columnName'], $missingColumn['typeName'], $missingColumn['options']);
+						$sqlQueries = $this->connection->migrateToSchema($schema->getWrappedSchema(), $dryRun);
+						if ($dryRun && $sqlQueries !== null) {
+							$output->writeln($sqlQueries);
+						}
+						$updated = true;
+						$output->writeln('<info>' . $missingColumn['tableName'] . ' table updated successfully.</info>');
+					}
+				}
 			}
 		}
 
 		if (!$updated) {
 			$output->writeln('<info>Done.</info>');
 		}
+
+		return 0;
 	}
 }

@@ -17,16 +17,16 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\AdminAudit\Actions;
 
+use OCP\Authentication\TwoFactorAuth\IProvider;
 use OCP\IUser;
 
 /**
@@ -36,14 +36,14 @@ use OCP\IUser;
  */
 class Security extends Action {
 	/**
-	 * Log twofactor auth enabled
-	 *
-	 * @param IUser $user
-	 * @param array $params
+	 * Logs failed twofactor challenge
 	 */
-	public function twofactorFailed(IUser $user, array $params) {
-		$params['uid'] = $user->getUID();
-		$params['displayName'] = $user->getDisplayName();
+	public function twofactorFailed(IUser $user, IProvider $provider): void {
+		$params = [
+			'displayName' => $user->getDisplayName(),
+			'uid' => $user->getUID(),
+			'provider' => $provider->getDisplayName(),
+		];
 
 		$this->log(
 			'Failed two factor attempt by user %s (%s) with provider %s',
@@ -57,14 +57,14 @@ class Security extends Action {
 	}
 
 	/**
-	 * Logs unsharing of data
-	 *
-	 * @param IUser $user
-	 * @param array $params
+	 * Logs successful twofactor challenge
 	 */
-	public function twofactorSuccess(IUser $user, array $params) {
-		$params['uid'] = $user->getUID();
-		$params['displayName'] = $user->getDisplayName();
+	public function twofactorSuccess(IUser $user, IProvider $provider): void {
+		$params = [
+			'displayName' => $user->getDisplayName(),
+			'uid' => $user->getUID(),
+			'provider' => $provider->getDisplayName(),
+		];
 
 		$this->log(
 			'Successful two factor attempt by user %s (%s) with provider %s',

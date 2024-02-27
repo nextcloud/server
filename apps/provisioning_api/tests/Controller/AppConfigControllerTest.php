@@ -16,22 +16,26 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Provisioning_API\Tests\Controller;
 
+use OC\AppConfig;
 use OCA\Provisioning_API\Controller\AppConfigController;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\IAppConfig;
-use OCP\IConfig;
+use OCP\IGroupManager;
+use OCP\IL10N;
 use OCP\IRequest;
+use OCP\IUser;
+use OCP\IUserSession;
+use OCP\Settings\IManager;
 use Test\TestCase;
 
 /**
@@ -41,16 +45,25 @@ use Test\TestCase;
  */
 class AppConfigControllerTest extends TestCase {
 
-	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
-	private $config;
 	/** @var IAppConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $appConfig;
+	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
+	private $userSession;
+	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
+	private $l10n;
+	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
+	private $settingManager;
+	/** @var IGroupManager|\PHPUnit\Framework\MockObject\MockObject */
+	private $groupManager;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->config = $this->createMock(IConfig::class);
-		$this->appConfig = $this->createMock(IAppConfig::class);
+		$this->appConfig = $this->createMock(AppConfig::class);
+		$this->userSession = $this->createMock(IUserSession::class);
+		$this->l10n = $this->createMock(IL10N::class);
+		$this->groupManager = $this->createMock(IGroupManager::class);
+		$this->settingManager = $this->createMock(IManager::class);
 	}
 
 	/**
@@ -64,16 +77,22 @@ class AppConfigControllerTest extends TestCase {
 			return new AppConfigController(
 				'provisioning_api',
 				$request,
-				$this->config,
-				$this->appConfig
+				$this->appConfig,
+				$this->userSession,
+				$this->l10n,
+				$this->groupManager,
+				$this->settingManager
 			);
 		} else {
 			return $this->getMockBuilder(AppConfigController::class)
 				->setConstructorArgs([
 					'provisioning_api',
 					$request,
-					$this->config,
 					$this->appConfig,
+					$this->userSession,
+					$this->l10n,
+					$this->groupManager,
+					$this->settingManager
 				])
 				->setMethods($methods)
 				->getMock();
@@ -113,15 +132,15 @@ class AppConfigControllerTest extends TestCase {
 				->with($app)
 				->willThrowException($throws);
 
-			$this->config->expects($this->never())
-				->method('getAppKeys');
+			$this->appConfig->expects($this->never())
+				->method('getKeys');
 		} else {
 			$api->expects($this->once())
 				->method('verifyAppId')
 				->with($app);
 
-			$this->config->expects($this->once())
-				->method('getAppKeys')
+			$this->appConfig->expects($this->once())
+				->method('getKeys')
 				->with($app)
 				->willReturn($keys);
 		}
@@ -159,16 +178,13 @@ class AppConfigControllerTest extends TestCase {
 				->method('verifyAppId')
 				->with($app)
 				->willThrowException($throws);
-
-			$this->config->expects($this->never())
-				->method('getAppValue');
 		} else {
 			$api->expects($this->once())
 				->method('verifyAppId')
 				->with($app);
 
-			$this->config->expects($this->once())
-				->method('getAppValue')
+			$this->appConfig->expects($this->once())
+				->method('getValueMixed')
 				->with($app, $key, $default)
 				->willReturn($return);
 		}
@@ -201,6 +217,18 @@ class AppConfigControllerTest extends TestCase {
 	 * @param int $status
 	 */
 	public function testSetValue($app, $key, $value, $appThrows, $keyThrows, $status) {
+		$adminUser = $this->createMock(IUser::class);
+		$adminUser->expects($this->once())
+			->method('getUid')
+			->willReturn('admin');
+
+		$this->userSession->expects($this->once())
+			->method('getUser')
+			->willReturn($adminUser);
+		$this->groupManager->expects($this->once())
+			->method('isAdmin')
+			->with('admin')
+			->willReturn(true);
 		$api = $this->getInstance(['verifyAppId', 'verifyConfigKey']);
 		if ($appThrows instanceof \Exception) {
 			$api->expects($this->once())
@@ -210,8 +238,8 @@ class AppConfigControllerTest extends TestCase {
 
 			$api->expects($this->never())
 				->method('verifyConfigKey');
-			$this->config->expects($this->never())
-				->method('setAppValue');
+			$this->appConfig->expects($this->never())
+				->method('setValueMixed');
 		} elseif ($keyThrows instanceof  \Exception) {
 			$api->expects($this->once())
 				->method('verifyAppId')
@@ -221,8 +249,8 @@ class AppConfigControllerTest extends TestCase {
 				->with($app, $key)
 				->willThrowException($keyThrows);
 
-			$this->config->expects($this->never())
-				->method('setAppValue');
+			$this->appConfig->expects($this->never())
+				->method('setValueMixed');
 		} else {
 			$api->expects($this->once())
 				->method('verifyAppId')
@@ -231,8 +259,8 @@ class AppConfigControllerTest extends TestCase {
 				->method('verifyConfigKey')
 				->with($app, $key);
 
-			$this->config->expects($this->once())
-				->method('setAppValue')
+			$this->appConfig->expects($this->once())
+				->method('setValueMixed')
 				->with($app, $key, $value);
 		}
 
@@ -274,8 +302,8 @@ class AppConfigControllerTest extends TestCase {
 
 			$api->expects($this->never())
 				->method('verifyConfigKey');
-			$this->config->expects($this->never())
-				->method('deleteAppValue');
+			$this->appConfig->expects($this->never())
+				->method('deleteKey');
 		} elseif ($keyThrows instanceof  \Exception) {
 			$api->expects($this->once())
 				->method('verifyAppId')
@@ -285,8 +313,8 @@ class AppConfigControllerTest extends TestCase {
 				->with($app, $key)
 				->willThrowException($keyThrows);
 
-			$this->config->expects($this->never())
-				->method('deleteAppValue');
+			$this->appConfig->expects($this->never())
+				->method('deleteKey');
 		} else {
 			$api->expects($this->once())
 				->method('verifyAppId')
@@ -295,8 +323,8 @@ class AppConfigControllerTest extends TestCase {
 				->method('verifyConfigKey')
 				->with($app, $key);
 
-			$this->config->expects($this->once())
-				->method('deleteAppValue')
+			$this->appConfig->expects($this->once())
+				->method('deleteKey')
 				->with($app, $key);
 		}
 

@@ -21,7 +21,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\FederatedFileSharing\Tests;
 
 use OCA\FederatedFileSharing\TokenHandler;
@@ -50,7 +49,7 @@ class TokenHandlerTest extends \Test\TestCase {
 		$this->secureRandom->expects($this->once())->method('generate')
 			->with(
 				$this->expectedTokenLength,
-				ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_UPPER . ISecureRandom::CHAR_DIGITS
+				ISecureRandom::CHAR_ALPHANUMERIC
 			)
 			->willReturn('mytoken');
 

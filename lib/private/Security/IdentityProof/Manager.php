@@ -20,42 +20,32 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Security\IdentityProof;
 
 use OC\Files\AppData\Factory;
 use OCP\Files\IAppData;
 use OCP\IConfig;
-use OCP\ILogger;
 use OCP\IUser;
 use OCP\Security\ICrypto;
+use Psr\Log\LoggerInterface;
 
 class Manager {
-	/** @var IAppData */
-	private $appData;
-	/** @var ICrypto */
-	private $crypto;
-	/** @var IConfig */
-	private $config;
-	/** @var ILogger */
-	private $logger;
+	private IAppData $appData;
 
-	public function __construct(Factory $appDataFactory,
-								ICrypto $crypto,
-								IConfig $config,
-								ILogger $logger
+	public function __construct(
+		Factory $appDataFactory,
+		private ICrypto $crypto,
+		private IConfig $config,
+		private LoggerInterface $logger,
 	) {
 		$this->appData = $appDataFactory->get('identityproof');
-		$this->crypto = $crypto;
-		$this->config = $config;
-		$this->logger = $logger;
 	}
 
 	/**
@@ -96,7 +86,6 @@ class Manager {
 	 * Note: If a key already exists it will be overwritten
 	 *
 	 * @param string $id key id
-	 * @return Key
 	 * @throws \RuntimeException
 	 */
 	protected function generateKey(string $id): Key {
@@ -119,8 +108,6 @@ class Manager {
 	/**
 	 * Get key for a specific id
 	 *
-	 * @param string $id
-	 * @return Key
 	 * @throws \RuntimeException
 	 */
 	protected function retrieveKey(string $id): Key {
@@ -139,8 +126,6 @@ class Manager {
 	/**
 	 * Get public and private key for $user
 	 *
-	 * @param IUser $user
-	 * @return Key
 	 * @throws \RuntimeException
 	 */
 	public function getKey(IUser $user): Key {
@@ -151,7 +136,6 @@ class Manager {
 	/**
 	 * Get instance wide public and private key
 	 *
-	 * @return Key
 	 * @throws \RuntimeException
 	 */
 	public function getSystemKey(): Key {

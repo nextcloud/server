@@ -16,41 +16,35 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Command;
 
+use Laravel\SerializableClosure\SerializableClosure;
+use OCP\BackgroundJob\IJob;
+use OCP\BackgroundJob\IJobList;
 use OCP\Command\ICommand;
 
 class CronBus extends AsyncBus {
-	/**
-	 * @var \OCP\BackgroundJob\IJobList
-	 */
-	private $jobList;
-
-
-	/**
-	 * @param \OCP\BackgroundJob\IJobList $jobList
-	 */
-	public function __construct($jobList) {
-		$this->jobList = $jobList;
+	public function __construct(
+		private IJobList $jobList,
+	) {
 	}
 
-	protected function queueCommand($command) {
+	protected function queueCommand($command): void {
 		$this->jobList->add($this->getJobClass($command), $this->serializeCommand($command));
 	}
 
 	/**
-	 * @param \OCP\Command\ICommand | callable $command
-	 * @return string
+	 * @param ICommand|callable $command
+	 * @return class-string<IJob>
 	 */
-	private function getJobClass($command) {
+	private function getJobClass($command): string {
 		if ($command instanceof \Closure) {
 			return ClosureJob::class;
 		} elseif (is_callable($command)) {
@@ -63,14 +57,14 @@ class CronBus extends AsyncBus {
 	}
 
 	/**
-	 * @param \OCP\Command\ICommand | callable $command
+	 * @param ICommand|callable $command
 	 * @return string
 	 */
-	private function serializeCommand($command) {
+	private function serializeCommand($command): string {
 		if ($command instanceof \Closure) {
-			return \Opis\Closure\serialize($command);
+			return serialize(new SerializableClosure($command));
 		} elseif (is_callable($command) or $command instanceof ICommand) {
-			return \Opis\Closure\serialize($command);
+			return serialize($command);
 		} else {
 			throw new \InvalidArgumentException('Invalid command');
 		}

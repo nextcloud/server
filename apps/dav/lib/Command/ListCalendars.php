@@ -5,7 +5,6 @@
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Citharel <nextcloud@tcit.fr>
  *
  * @license GNU AGPL version 3 or any later version
@@ -17,14 +16,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\Command;
 
 use OCA\DAV\CalDAV\BirthdayService;
@@ -37,24 +35,14 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class ListCalendars extends Command {
-
-	/** @var IUserManager */
-	protected $userManager;
-
-	/** @var CalDavBackend */
-	private $caldav;
-
-	/**
-	 * @param IUserManager $userManager
-	 * @param CalDavBackend $caldav
-	 */
-	public function __construct(IUserManager $userManager, CalDavBackend $caldav) {
+	public function __construct(
+		protected IUserManager $userManager,
+		private CalDavBackend $caldav,
+	) {
 		parent::__construct();
-		$this->userManager = $userManager;
-		$this->caldav = $caldav;
 	}
 
-	protected function configure() {
+	protected function configure(): void {
 		$this
 			->setName('dav:list-calendars')
 			->setDescription('List all calendars of a user')
@@ -102,6 +90,6 @@ class ListCalendars extends Command {
 		} else {
 			$output->writeln("<info>User <$user> has no calendars</info>");
 		}
-		return 0;
+		return self::SUCCESS;
 	}
 }

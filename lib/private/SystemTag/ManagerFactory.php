@@ -24,9 +24,9 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\SystemTag;
 
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IServerContainer;
 use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ISystemTagManagerFactory;
@@ -39,34 +39,24 @@ use OCP\SystemTag\ISystemTagObjectMapper;
  * @since 9.0.0
  */
 class ManagerFactory implements ISystemTagManagerFactory {
-
-	/**
-	 * Server container
-	 *
-	 * @var IServerContainer
-	 */
-	private $serverContainer;
-
 	/**
 	 * Constructor for the system tag manager factory
-	 *
-	 * @param IServerContainer $serverContainer server container
 	 */
-	public function __construct(IServerContainer $serverContainer) {
-		$this->serverContainer = $serverContainer;
+	public function __construct(
+		private IServerContainer $serverContainer,
+	) {
 	}
 
 	/**
 	 * Creates and returns an instance of the system tag manager
 	 *
-	 * @return ISystemTagManager
 	 * @since 9.0.0
 	 */
 	public function getManager(): ISystemTagManager {
 		return new SystemTagManager(
 			$this->serverContainer->getDatabaseConnection(),
 			$this->serverContainer->getGroupManager(),
-			$this->serverContainer->getEventDispatcher()
+			$this->serverContainer->get(IEventDispatcher::class),
 		);
 	}
 
@@ -74,14 +64,13 @@ class ManagerFactory implements ISystemTagManagerFactory {
 	 * Creates and returns an instance of the system tag object
 	 * mapper
 	 *
-	 * @return ISystemTagObjectMapper
 	 * @since 9.0.0
 	 */
 	public function getObjectMapper(): ISystemTagObjectMapper {
 		return new SystemTagObjectMapper(
 			$this->serverContainer->getDatabaseConnection(),
 			$this->getManager(),
-			$this->serverContainer->getEventDispatcher()
+			$this->serverContainer->get(IEventDispatcher::class),
 		);
 	}
 }

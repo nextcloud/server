@@ -6,7 +6,6 @@
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Stefan Weil <sw@weilnetz.de>
  *
@@ -25,7 +24,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\User_LDAP\Tests\Mapping;
 
 use OCA\User_LDAP\Mapping\AbstractMapping;
@@ -84,7 +82,7 @@ abstract class AbstractMappingTest extends \Test\TestCase {
 	}
 
 	/**
-	 * initalizes environment for a test run and returns an array with
+	 * initializes environment for a test run and returns an array with
 	 * test objects. Preparing environment means that all mappings are cleared
 	 * first and then filled with test entries.
 	 * @return array 0 = \OCA\User_LDAP\Mapping\AbstractMapping, 1 = array of
@@ -129,8 +127,12 @@ abstract class AbstractMappingTest extends \Test\TestCase {
 		[$mapper, $data] = $this->initTest();
 
 		foreach ($data as $entry) {
+			$fdnBefore = $mapper->getDNByName($entry['name']);
 			$result = $mapper->unmap($entry['name']);
+			$fdnAfter = $mapper->getDNByName($entry['name']);
 			$this->assertTrue($result);
+			$this->assertSame($fdnBefore, $entry['dn']);
+			$this->assertFalse($fdnAfter);
 		}
 
 		$result = $mapper->unmap('notAnEntry');
@@ -274,7 +276,7 @@ abstract class AbstractMappingTest extends \Test\TestCase {
 		$this->assertSame(count($data) - 1, count($results));
 
 		// get first 2 entries by limit, but not offset
-		$results = $mapper->getList(null, 2);
+		$results = $mapper->getList(0, 2);
 		$this->assertSame(2, count($results));
 
 		// get 2nd entry by specifying both offset and limit

@@ -18,8 +18,8 @@
 				<input v-if="lastCheckComplete"
 					type="button"
 					class="check--add"
-					value="Add a new filter"
-					@click="rule.checks.push({class: null, operator: null, value: ''})">
+					:value="t('workflowengine', 'Add a new filter')"
+					@click="onAddFilter">
 			</p>
 		</div>
 		<div class="flow-icon icon-confirm" />
@@ -31,17 +31,19 @@
 					@input="updateOperation" />
 			</Operation>
 			<div class="buttons">
-				<button class="status-button icon"
-					:class="ruleStatus.class"
-					@click="saveRule">
-					{{ ruleStatus.title }}
-				</button>
-				<button v-if="rule.id < -1 || dirty" @click="cancelRule">
+				<NcButton v-if="rule.id < -1 || dirty" @click="cancelRule">
 					{{ t('workflowengine', 'Cancel') }}
-				</button>
-				<button v-else-if="!dirty" @click="deleteRule">
+				</NcButton>
+				<NcButton v-else-if="!dirty" @click="deleteRule">
 					{{ t('workflowengine', 'Delete') }}
-				</button>
+				</NcButton>
+				<NcButton :type="ruleStatus.type"
+					@click="saveRule">
+					<template #icon>
+						<component :is="ruleStatus.icon" :size="20" />
+					</template>
+					{{ ruleStatus.title }}
+				</NcButton>
 			</div>
 			<p v-if="error" class="error-message">
 				{{ error }}
@@ -51,17 +53,30 @@
 </template>
 
 <script>
-import Tooltip from '@nextcloud/vue/dist/Directives/Tooltip'
-import Actions from '@nextcloud/vue/dist/Components/Actions'
-import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
-import Event from './Event'
-import Check from './Check'
-import Operation from './Operation'
+import Tooltip from '@nextcloud/vue/dist/Directives/Tooltip.js'
+import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
+import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import ArrowRight from 'vue-material-design-icons/ArrowRight.vue'
+import CheckMark from 'vue-material-design-icons/Check.vue'
+import Close from 'vue-material-design-icons/Close.vue'
+
+import Event from './Event.vue'
+import Check from './Check.vue'
+import Operation from './Operation.vue'
 
 export default {
 	name: 'Rule',
 	components: {
-		Operation, Check, Event, Actions, ActionButton,
+		ArrowRight,
+		Check,
+		CheckMark,
+		Close,
+		Event,
+		NcActionButton,
+		NcActions,
+		NcButton,
+		Operation,
 	},
 	directives: {
 		Tooltip,
@@ -89,14 +104,15 @@ export default {
 			if (this.error || !this.rule.valid || this.rule.checks.length === 0 || this.rule.checks.some((check) => check.invalid === true)) {
 				return {
 					title: t('workflowengine', 'The configuration is invalid'),
-					class: 'icon-close-white invalid',
+					icon: 'Close',
+					type: 'warning',
 					tooltip: { placement: 'bottom', show: true, content: this.error },
 				}
 			}
 			if (!this.dirty) {
-				return { title: t('workflowengine', 'Active'), class: 'icon icon-checkmark' }
+				return { title: t('workflowengine', 'Active'), icon: 'CheckMark', type: 'success' }
 			}
-			return { title: t('workflowengine', 'Save'), class: 'icon-confirm-white primary' }
+			return { title: t('workflowengine', 'Save'), icon: 'ArrowRight', type: 'primary' }
 
 		},
 		lastCheckComplete() {
@@ -152,6 +168,7 @@ export default {
 				this.dirty = false
 			}
 		},
+
 		async removeCheck(check) {
 			const index = this.rule.checks.findIndex(item => item === check)
 			if (index > -1) {
@@ -159,50 +176,32 @@ export default {
 			}
 			this.$store.dispatch('updateRule', this.rule)
 		},
+
+		onAddFilter() {
+			// eslint-disable-next-line vue/no-mutating-props
+			this.rule.checks.push({ class: null, operator: null, value: '' })
+		},
 	},
 }
 </script>
 
 <style scoped lang="scss">
-	button.icon {
-		padding-left: 32px;
-		background-position: 10px center;
-	}
 
 	.buttons {
-		display: block;
-		overflow: hidden;
+		display: flex;
+		justify-content: end;
 
 		button {
-			float: right;
-			height: 34px;
+			margin-left: 5px;
+		}
+		button:last-child{
+			margin-right: 10px;
 		}
 	}
 
 	.error-message {
 		float: right;
 		margin-right: 10px;
-	}
-
-	.status-button {
-		transition: 0.5s ease all;
-		display: block;
-		margin: 3px 10px 3px auto;
-	}
-	.status-button.primary {
-		padding-left: 32px;
-		background-position: 10px center;
-	}
-	.status-button:not(.primary) {
-		background-color: var(--color-main-background);
-	}
-	.status-button.invalid {
-		background-color: var(--color-warning);
-		color: #fff;
-		border: none;
-	}
-	.status-button.icon-checkmark {
-		border: 1px solid var(--color-success);
 	}
 
 	.flow-icon {
@@ -214,10 +213,11 @@ export default {
 		flex-wrap: wrap;
 		border-left: 5px solid var(--color-primary-element);
 
-		.trigger, .action {
+		.trigger,
+		.action {
 			flex-grow: 1;
 			min-height: 100px;
-			max-width: 700px;
+			max-width: 920px;
 		}
 		.action {
 			max-width: 400px;
@@ -247,6 +247,9 @@ export default {
 	}
 	.trigger p:first-child span {
 			padding-top: 3px;
+	}
+	.trigger p:last-child {
+			padding-top: 8px;
 	}
 
 	.check--add {

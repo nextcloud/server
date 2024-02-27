@@ -28,8 +28,9 @@ use OC\DB\QueryBuilder\Literal;
 use OC\DB\QueryBuilder\Parameter;
 use OC\DB\QueryBuilder\QueryBuilder;
 use OC\SystemConfig;
+use OCP\DB\QueryBuilder\IQueryFunction;
 use OCP\IDBConnection;
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class QueryBuilderTest
@@ -48,7 +49,7 @@ class QueryBuilderTest extends \Test\TestCase {
 	/** @var SystemConfig|\PHPUnit\Framework\MockObject\MockObject */
 	protected $config;
 
-	/** @var ILogger|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
 	protected $logger;
 
 	protected function setUp(): void {
@@ -56,7 +57,7 @@ class QueryBuilderTest extends \Test\TestCase {
 
 		$this->connection = \OC::$server->getDatabaseConnection();
 		$this->config = $this->createMock(SystemConfig::class);
-		$this->logger = $this->createMock(ILogger::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->queryBuilder = new QueryBuilder($this->connection, $this->config, $this->logger);
 	}
 
@@ -102,7 +103,7 @@ class QueryBuilderTest extends \Test\TestCase {
 
 	public function dataFirstResult() {
 		return [
-			[null, [99, 98, 97, 96, 95, 94, 93, 92, 91]],
+			[0, [99, 98, 97, 96, 95, 94, 93, 92, 91]],
 			[0, [99, 98, 97, 96, 95, 94, 93, 92, 91]],
 			[1, [98, 97, 96, 95, 94, 93, 92, 91]],
 			[5, [94, 93, 92, 91]],
@@ -112,7 +113,7 @@ class QueryBuilderTest extends \Test\TestCase {
 	/**
 	 * @dataProvider dataFirstResult
 	 *
-	 * @param int $firstResult
+	 * @param int|null $firstResult
 	 * @param array $expectedSet
 	 */
 	public function testFirstResult($firstResult, $expectedSet) {
@@ -121,14 +122,10 @@ class QueryBuilderTest extends \Test\TestCase {
 
 		if ($firstResult !== null) {
 			$this->queryBuilder->setFirstResult($firstResult);
-
-			// FIXME Remove this once Doctrine/DBAL is >2.5.1:
-			// FIXME See https://github.com/doctrine/dbal/pull/782
-			$this->queryBuilder->setMaxResults(100);
 		}
 
 		$this->assertSame(
-			$firstResult,
+			$firstResult ?? 0,
 			$this->queryBuilder->getFirstResult()
 		);
 
@@ -179,7 +176,7 @@ class QueryBuilderTest extends \Test\TestCase {
 
 	public function dataSelect() {
 		$config = $this->createMock(SystemConfig::class);
-		$logger = $this->createMock(ILogger::class);
+		$logger = $this->createMock(LoggerInterface::class);
 		$queryBuilder = new QueryBuilder(\OC::$server->getDatabaseConnection(), $config, $logger);
 		return [
 			// select('column1')
@@ -247,7 +244,7 @@ class QueryBuilderTest extends \Test\TestCase {
 
 	public function dataSelectAlias() {
 		$config = $this->createMock(SystemConfig::class);
-		$logger = $this->createMock(ILogger::class);
+		$logger = $this->createMock(LoggerInterface::class);
 		$queryBuilder = new QueryBuilder(\OC::$server->getDatabaseConnection(), $config, $logger);
 		return [
 			['configvalue', 'cv', ['cv' => '99']],
@@ -329,7 +326,7 @@ class QueryBuilderTest extends \Test\TestCase {
 				'appid',
 				$this->queryBuilder->expr()->literal('testFirstResult1')
 			))
-			->orderBy('appid', 'DESC');
+			->orderBy('configkey', 'ASC');
 
 		$query = $this->queryBuilder->execute();
 		$rows = $query->fetchAll();
@@ -356,7 +353,7 @@ class QueryBuilderTest extends \Test\TestCase {
 
 	public function dataAddSelect() {
 		$config = $this->createMock(SystemConfig::class);
-		$logger = $this->createMock(ILogger::class);
+		$logger = $this->createMock(LoggerInterface::class);
 		$queryBuilder = new QueryBuilder(\OC::$server->getDatabaseConnection(), $config, $logger);
 		return [
 			// addSelect('column1')
@@ -510,7 +507,13 @@ class QueryBuilderTest extends \Test\TestCase {
 	}
 
 	public function dataFrom() {
+		$config = $this->createMock(SystemConfig::class);
+		$logger = $this->createMock(LoggerInterface::class);
+		$qb = new QueryBuilder(\OC::$server->getDatabaseConnection(), $config, $logger);
 		return [
+			[$qb->createFunction('(' . $qb->select('*')->from('test')->getSQL() . ')'), 'q', null, null, [
+				['table' => '(SELECT * FROM `*PREFIX*test`)', 'alias' => '`q`']
+			], '(SELECT * FROM `*PREFIX*test`) `q`'],
 			['data', null, null, null, [['table' => '`*PREFIX*data`', 'alias' => null]], '`*PREFIX*data`'],
 			['data', 't', null, null, [['table' => '`*PREFIX*data`', 'alias' => '`t`']], '`*PREFIX*data` `t`'],
 			['data1', null, 'data2', null, [
@@ -527,9 +530,9 @@ class QueryBuilderTest extends \Test\TestCase {
 	/**
 	 * @dataProvider dataFrom
 	 *
-	 * @param string $table1Name
+	 * @param string|IQueryFunction $table1Name
 	 * @param string $table1Alias
-	 * @param string $table2Name
+	 * @param string|IQueryFunction $table2Name
 	 * @param string $table2Alias
 	 * @param array $expectedQueryPart
 	 * @param string $expectedQuery
@@ -1208,6 +1211,9 @@ class QueryBuilderTest extends \Test\TestCase {
 	}
 
 	public function dataGetTableName() {
+		$config = $this->createMock(SystemConfig::class);
+		$logger = $this->createMock(LoggerInterface::class);
+		$qb = new QueryBuilder(\OC::$server->getDatabaseConnection(), $config, $logger);
 		return [
 			['*PREFIX*table', null, '`*PREFIX*table`'],
 			['*PREFIX*table', true, '`*PREFIX*table`'],
@@ -1216,13 +1222,17 @@ class QueryBuilderTest extends \Test\TestCase {
 			['table', null, '`*PREFIX*table`'],
 			['table', true, '`*PREFIX*table`'],
 			['table', false, '`table`'],
+
+			[$qb->createFunction('(' . $qb->select('*')->from('table')->getSQL() . ')'), null, '(SELECT * FROM `*PREFIX*table`)'],
+			[$qb->createFunction('(' . $qb->select('*')->from('table')->getSQL() . ')'), true, '(SELECT * FROM `*PREFIX*table`)'],
+			[$qb->createFunction('(' . $qb->select('*')->from('table')->getSQL() . ')'), false, '(SELECT * FROM `*PREFIX*table`)'],
 		];
 	}
 
 	/**
 	 * @dataProvider dataGetTableName
 	 *
-	 * @param string $tableName
+	 * @param string|IQueryFunction $tableName
 	 * @param bool $automatic
 	 * @param string $expected
 	 */
@@ -1404,12 +1414,12 @@ class QueryBuilderTest extends \Test\TestCase {
 			->willReturn($this->createMock(Result::class));
 		$this->logger
 			->expects($this->once())
-			->method('logException')
-			->willReturnCallback(function ($e, $parameters) {
-				$this->assertInstanceOf(QueryException::class, $e);
+			->method('error')
+			->willReturnCallback(function ($message, $parameters) {
+				$this->assertInstanceOf(QueryException::class, $parameters['exception']);
 				$this->assertSame(
 					'More than 1000 expressions in a list are not allowed on Oracle.',
-					$parameters['message']
+					$message
 				);
 			});
 		$this->config
@@ -1439,12 +1449,12 @@ class QueryBuilderTest extends \Test\TestCase {
 			->willReturn($this->createMock(Result::class));
 		$this->logger
 			->expects($this->once())
-			->method('logException')
-			->willReturnCallback(function ($e, $parameters) {
-				$this->assertInstanceOf(QueryException::class, $e);
+			->method('error')
+			->willReturnCallback(function ($message, $parameters) {
+				$this->assertInstanceOf(QueryException::class, $parameters['exception']);
 				$this->assertSame(
 					'The number of parameters must not exceed 65535. Restriction by PostgreSQL.',
-					$parameters['message']
+					$message
 				);
 			});
 		$this->config

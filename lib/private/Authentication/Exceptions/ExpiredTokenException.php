@@ -16,29 +16,30 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Authentication\Exceptions;
 
 use OC\Authentication\Token\IToken;
 
-class ExpiredTokenException extends InvalidTokenException {
-	/** @var IToken */
-	private $token;
-
-	public function __construct(IToken $token) {
-		parent::__construct();
-
-		$this->token = $token;
+/**
+ * @deprecated 28.0.0 use {@see \OCP\Authentication\Exceptions\ExpiredTokenException} instead
+ */
+class ExpiredTokenException extends \OCP\Authentication\Exceptions\ExpiredTokenException {
+	public function __construct(
+		IToken $token,
+	) {
+		parent::__construct($token);
 	}
 
 	public function getToken(): IToken {
-		return $this->token;
+		$token = parent::getToken();
+		/** @var IToken $token We know that we passed OC interface from constructor */
+		return $token;
 	}
 }

@@ -17,14 +17,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Settings\Tests\Controller;
 
 use OCA\Settings\Controller\AdminSettingsController;
@@ -121,13 +120,16 @@ class AdminSettingsControllerTest extends TestCase {
 			->willReturn([]);
 		$this->settingsManager
 			->expects($this->once())
-			->method('getAdminSettings')
+			->method('getAllowedAdminSettings')
 			->with('test')
 			->willReturn([5 => $this->createMock(ServerDevNotice::class)]);
 
 		$idx = $this->adminSettingsController->index('test');
 
-		$expected = new TemplateResponse('settings', 'settings/frame', ['forms' => ['personal' => [], 'admin' => []], 'content' => '']);
+		$expected = new TemplateResponse('settings', 'settings/frame', [
+			'forms' => ['personal' => [], 'admin' => []],
+			'content' => ''
+		]);
 		$this->assertEquals($expected, $idx);
 	}
 }

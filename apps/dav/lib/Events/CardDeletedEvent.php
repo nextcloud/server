@@ -16,7 +16,7 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -57,9 +57,9 @@ class CardDeletedEvent extends Event {
 	 * @since 20.0.0
 	 */
 	public function __construct(int $addressBookId,
-								array $addressBookData,
-								array $shares,
-								array $cardData) {
+		array $addressBookData,
+		array $shares,
+		array $cardData) {
 		parent::__construct();
 		$this->addressBookId = $addressBookId;
 		$this->addressBookData = $addressBookData;

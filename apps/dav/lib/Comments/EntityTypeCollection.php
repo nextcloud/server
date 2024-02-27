@@ -21,13 +21,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\Comments;
 
 use OCP\Comments\ICommentsManager;
-use OCP\ILogger;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use Psr\Log\LoggerInterface;
 use Sabre\DAV\Exception\MethodNotAllowed;
 use Sabre\DAV\Exception\NotFound;
 
@@ -43,34 +42,22 @@ use Sabre\DAV\Exception\NotFound;
  * @package OCA\DAV\Comments
  */
 class EntityTypeCollection extends RootCollection {
-
-	/** @var ILogger */
-	protected $logger;
-
-	/** @var IUserManager */
-	protected $userManager;
+	protected LoggerInterface $logger;
+	protected IUserManager $userManager;
 
 	/** @var \Closure */
 	protected $childExistsFunction;
 
-	/**
-	 * @param string $name
-	 * @param ICommentsManager $commentsManager
-	 * @param IUserManager $userManager
-	 * @param IUserSession $userSession
-	 * @param ILogger $logger
-	 * @param \Closure $childExistsFunction
-	 */
 	public function __construct(
-		$name,
+		string $name,
 		ICommentsManager $commentsManager,
 		IUserManager $userManager,
 		IUserSession $userSession,
-		ILogger $logger,
+		LoggerInterface $logger,
 		\Closure $childExistsFunction
 	) {
 		$name = trim($name);
-		if (empty($name) || !is_string($name)) {
+		if (empty($name)) {
 			throw new \InvalidArgumentException('"name" parameter must be non-empty string');
 		}
 		$this->name = $name;

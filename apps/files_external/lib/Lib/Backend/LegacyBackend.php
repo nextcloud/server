@@ -21,7 +21,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_External\Lib\Backend;
 
 use OCA\Files_External\Lib\Auth\Builtin;
@@ -62,18 +61,18 @@ class LegacyBackend extends Backend {
 				$placeholder = substr($placeholder, 1);
 			}
 			switch ($placeholder[0]) {
-			case '!':
-				$type = DefinitionParameter::VALUE_BOOLEAN;
-				$placeholder = substr($placeholder, 1);
-				break;
-			case '*':
-				$type = DefinitionParameter::VALUE_PASSWORD;
-				$placeholder = substr($placeholder, 1);
-				break;
-			case '#':
-				$type = DefinitionParameter::VALUE_HIDDEN;
-				$placeholder = substr($placeholder, 1);
-				break;
+				case '!':
+					$type = DefinitionParameter::VALUE_BOOLEAN;
+					$placeholder = substr($placeholder, 1);
+					break;
+				case '*':
+					$type = DefinitionParameter::VALUE_PASSWORD;
+					$placeholder = substr($placeholder, 1);
+					break;
+				case '#':
+					$type = DefinitionParameter::VALUE_HIDDEN;
+					$placeholder = substr($placeholder, 1);
+					break;
 			}
 			$this->addParameter((new DefinitionParameter($name, $placeholder))
 				->setType($type)

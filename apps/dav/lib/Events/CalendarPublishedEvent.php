@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @copyright Copyright (c) 2020, Georg Ehrke
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -16,7 +17,7 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -34,15 +35,9 @@ use OCP\EventDispatcher\Event;
  * @since 20.0.0
  */
 class CalendarPublishedEvent extends Event {
-
-	/** @var int */
-	private $calendarId;
-
-	/** @var array */
-	private $calendarData;
-
-	/** @var string */
-	private $publicUri;
+	private int $calendarId;
+	private array $calendarData;
+	private string $publicUri;
 
 	/**
 	 * CalendarPublishedEvent constructor.
@@ -53,8 +48,8 @@ class CalendarPublishedEvent extends Event {
 	 * @since 20.0.0
 	 */
 	public function __construct(int $calendarId,
-								array $calendarData,
-								string $publicUri) {
+		array $calendarData,
+		string $publicUri) {
 		parent::__construct();
 		$this->calendarId = $calendarId;
 		$this->calendarData = $calendarData;

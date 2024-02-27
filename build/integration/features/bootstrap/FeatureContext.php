@@ -1,6 +1,6 @@
 <?php
 /**
- *
+ * @copyright Copyright (c) 2016 Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
  * @author Joas Schilling <coding@schilljs.com>
@@ -16,7 +16,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -33,6 +33,7 @@ require __DIR__ . '/../../vendor/autoload.php';
  * Features context.
  */
 class FeatureContext implements Context, SnippetAcceptingContext {
+	use ContactsMenu;
 	use Search;
 	use WebDav;
 	use Trashbin;

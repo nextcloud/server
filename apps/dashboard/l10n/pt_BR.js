@@ -3,11 +3,10 @@ OC.L10N.register(
     {
     "Dashboard" : "Painel",
     "Dashboard app" : "Aplicativo Painel",
-    "Show something" : "Mostrar alguma coisa",
+    "\"{title} icon\"" : "\"{title} icon\"",
     "Customize" : "Personalizar",
     "Edit widgets" : "Editar widgets",
-    "Get more widgets from the app store" : "Obtenha mais widgets a partir da loja de aplicativos",
-    "Change background image" : "Mudar imagem de fundo",
+    "Get more widgets from the App Store" : "Obtenha mais widgets na App Store",
     "Weather service" : "Serviço de Clima",
     "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "Para sua privacidade, as informações de Tempo são solicitadas pelo servidor Nextcloud de forma que o serviço de Tempo não receba suas informações pessoais.",
     "Weather data from Met.no" : "Dados de Tempo do Met.no",
@@ -23,12 +22,7 @@ OC.L10N.register(
     "Good evening, {name}" : "Boa noite, {name}",
     "Hello" : "Olá",
     "Hello, {name}" : "Olá, {name}",
-    "Pick from Files" : "Escolher de Arquivos",
-    "Default images" : "Imagens padrão",
-    "Plain background" : "Fundo simples",
-    "Insert from {productName}" : "Inserir de {productName}",
-    "Good night, {name}" : "Boa noite, {name}",
-    "Good night" : "Boa noite",
-    "Pick from files" : "Escolher de Arquivos"
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an\noverview of your upcoming appointments, urgent emails, chat messages,\nincoming tickets, latest tweets and much more! Users can add the widgets\nthey like and change the background to their liking." : "Comece o seu dia informado\n\nO Painel Nextcloud é o seu ponto de partida do dia, dando-lhe uma\nvisão geral de seus compromissos futuros, e-mails urgentes, mensagens de bate-papo,\ningressos recebidos, tweets mais recentes e muito mais! Os usuários podem adicionar os widgets\neles gostam e mudam o fundo ao seu gosto.",
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! Users can add the widgets they like and change the background to their liking." : "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! Users can add the widgets they like and change the background to their liking."
 },
-"nplurals=2; plural=(n > 1);");
+"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

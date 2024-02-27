@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @copyright 2018 Georg Ehrke <oc.list@georgehrke.com>
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Citharel <nextcloud@tcit.fr>
@@ -19,14 +20,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\BackgroundJob;
 
 use DateInterval;
@@ -35,42 +35,18 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
 use OCP\BackgroundJob\Job;
 use OCP\IConfig;
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 use Sabre\VObject\DateTimeParser;
 use Sabre\VObject\InvalidDataException;
 
 class RefreshWebcalJob extends Job {
-
-	/**
-	 * @var RefreshWebcalService
-	 */
-	private $refreshWebcalService;
-
-	/**
-	 * @var IConfig
-	 */
-	private $config;
-
-	/** @var ILogger */
-	private $logger;
-
-	/** @var ITimeFactory */
-	private $timeFactory;
-
-	/**
-	 * RefreshWebcalJob constructor.
-	 *
-	 * @param RefreshWebcalService $refreshWebcalService
-	 * @param IConfig $config
-	 * @param ILogger $logger
-	 * @param ITimeFactory $timeFactory
-	 */
-	public function __construct(RefreshWebcalService $refreshWebcalService, IConfig $config, ILogger $logger, ITimeFactory $timeFactory) {
+	public function __construct(
+		private RefreshWebcalService $refreshWebcalService,
+		private IConfig $config,
+		private LoggerInterface $logger,
+		ITimeFactory $timeFactory,
+	) {
 		parent::__construct($timeFactory);
-		$this->refreshWebcalService = $refreshWebcalService;
-		$this->config = $config;
-		$this->logger = $logger;
-		$this->timeFactory = $timeFactory;
 	}
 
 	/**
@@ -78,7 +54,7 @@ class RefreshWebcalJob extends Job {
 	 *
 	 * @inheritdoc
 	 */
-	public function execute(IJobList $jobList, ILogger $logger = null) {
+	public function start(IJobList $jobList): void {
 		$subscription = $this->refreshWebcalService->getSubscription($this->argument['principaluri'], $this->argument['uri']);
 		if (!$subscription) {
 			return;
@@ -96,17 +72,19 @@ class RefreshWebcalJob extends Job {
 			/** @var DateInterval $dateInterval */
 			$dateInterval = DateTimeParser::parseDuration($refreshRate);
 		} catch (InvalidDataException $ex) {
-			$this->logger->logException($ex);
-			$this->logger->warning("Subscription $subscriptionId could not be refreshed, refreshrate in database is invalid");
+			$this->logger->error(
+				"Subscription $subscriptionId could not be refreshed, refreshrate in database is invalid",
+				['exception' => $ex]
+			);
 			return;
 		}
 
 		$interval = $this->getIntervalFromDateInterval($dateInterval);
-		if (($this->timeFactory->getTime() - $this->lastRun) <= $interval) {
+		if (($this->time->getTime() - $this->lastRun) <= $interval) {
 			return;
 		}
 
-		parent::execute($jobList, $logger);
+		parent::start($jobList);
 	}
 
 	/**

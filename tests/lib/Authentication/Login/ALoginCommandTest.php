@@ -22,7 +22,7 @@
 
 declare(strict_types=1);
 
-namespace lib\Authentication\Login;
+namespace Test\Authentication\Login;
 
 use OC\Authentication\Login\ALoginCommand;
 use OC\Authentication\Login\LoginData;
@@ -32,7 +32,6 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 abstract class ALoginCommandTest extends TestCase {
-
 	/** @var IRequest|MockObject */
 	protected $request;
 

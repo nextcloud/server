@@ -54,7 +54,7 @@ Feature: sharing
       | shareWith | a-room-token |
       | shareType | 10 |
     Then the OCS status code should be "403"
-    And the HTTP status code should be "401"
+    And the HTTP status code should be "200"
 
   Scenario: Creating a new mail share
     Given dummy mail server is listening
@@ -84,7 +84,7 @@ Feature: sharing
   Scenario: Creating a new mail share with password when password protection is enforced
     Given dummy mail server is listening
     And As an "admin"
-    And parameter "enforcePasswordProtection" of app "sharebymail" is set to "yes"
+    And parameter "shareapi_enforce_links_password" of app "core" is set to "yes"
     And user "user0" exists
     And As an "user0"
     When creating a share with
@@ -269,6 +269,7 @@ Feature: sharing
       | shareType | 3 |
     And Updating last share with
       | permissions | 7 |
+      | publicUpload | true |
     And the OCS status code should be "100"
     And the HTTP status code should be "200"
     And Getting info of last share

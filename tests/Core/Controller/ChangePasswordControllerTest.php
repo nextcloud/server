@@ -22,11 +22,11 @@
 
 namespace Tests\Core\Controller;
 
-use OC\HintException;
 use OC\User\Session;
 use OCA\Settings\Controller\ChangePasswordController;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\JSONResponse;
+use OCP\HintException;
 use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IRequest;
@@ -138,6 +138,9 @@ class ChangePasswordControllerTest extends \Test\TestCase {
 
 		$expects = [
 			'status' => 'error',
+			'data' => [
+				'message' => 'Unable to change personal password',
+			],
 		];
 
 		$res = $this->controller->changePersonalPassword('old');
@@ -163,6 +166,9 @@ class ChangePasswordControllerTest extends \Test\TestCase {
 
 		$expects = new JSONResponse([
 			'status' => 'error',
+			'data' => [
+				'message' => 'Unable to change personal password',
+			],
 		]);
 
 		$actual = $this->controller->changePersonalPassword('old', 'new');

@@ -6,6 +6,7 @@
  * @author Björn Schießle <bjoern@schiessle.org>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Morris Jobke <hey@morrisjobke.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @license AGPL-3.0
@@ -23,7 +24,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Encryption\Controller;
 
 use OCA\Encryption\Session;
@@ -52,11 +52,11 @@ class StatusController extends Controller {
 	 * @param IManager $encryptionManager
 	 */
 	public function __construct($AppName,
-								IRequest $request,
-								IL10N $l10n,
-								Session $session,
-								IManager $encryptionManager
-								) {
+		IRequest $request,
+		IL10N $l10n,
+		Session $session,
+		IManager $encryptionManager
+	) {
 		parent::__construct($AppName, $request);
 		$this->l = $l10n;
 		$this->session = $session;

@@ -3,7 +3,7 @@
  *
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -12,7 +12,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -22,14 +22,14 @@
 
 export default class ShareSearch {
 
-	#state;
+	_state
 
 	constructor() {
 		// init empty state
-		this.#state = {}
+		this._state = {}
 
 		// init default values
-		this.#state.results = []
+		this._state.results = []
 		console.debug('OCA.Sharing.ShareSearch initialized')
 	}
 
@@ -38,10 +38,10 @@ export default class ShareSearch {
 	 *
 	 * @readonly
 	 * @memberof ShareSearch
-	 * @returns {Object} the data state
+	 * @return {object} the data state
 	 */
 	get state() {
-		return this.#state
+		return this._state
 	}
 
 	/**
@@ -49,19 +49,19 @@ export default class ShareSearch {
 	 * Mostly used by the guests app.
 	 * We should consider deprecation and add results via php ?
 	 *
-	 * @param {Object} result entry to append
+	 * @param {object} result entry to append
 	 * @param {string} [result.user] entry user
 	 * @param {string} result.displayName entry first line
 	 * @param {string} [result.desc] entry second line
 	 * @param {string} [result.icon] entry icon
-	 * @param {function} result.handler function to run on entry selection
-	 * @param {function} [result.condition] condition to add entry or not
-	 * @returns {boolean}
+	 * @param {Function} result.handler function to run on entry selection
+	 * @param {Function} [result.condition] condition to add entry or not
+	 * @return {boolean}
 	 */
 	addNewResult(result) {
 		if (result.displayName.trim() !== ''
 			&& typeof result.handler === 'function') {
-			this.#state.results.push(result)
+			this._state.results.push(result)
 			return true
 		}
 		console.error('Invalid search result provided', result)

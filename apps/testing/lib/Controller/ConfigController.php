@@ -20,7 +20,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Testing\Controller;
 
 use OCP\AppFramework\Http\DataResponse;
@@ -39,8 +38,8 @@ class ConfigController extends OCSController {
 	 * @param IConfig $config
 	 */
 	public function __construct($appName,
-								IRequest $request,
-								IConfig $config) {
+		IRequest $request,
+		IConfig $config) {
 		parent::__construct($appName, $request);
 		$this->config = $config;
 	}

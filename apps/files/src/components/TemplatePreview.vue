@@ -47,9 +47,9 @@
 </template>
 
 <script>
+import { encodePath } from '@nextcloud/paths'
 import { generateUrl } from '@nextcloud/router'
-import { encodeFilePath } from '../utils/fileUtils'
-import { getToken, isPublic } from '../utils/davUtils'
+import { getToken, isPublic } from '../utils/davUtils.js'
 
 // preview width generation
 const previewWidth = 256
@@ -102,7 +102,8 @@ export default {
 	computed: {
 		/**
 		 * Strip away extension from name
-		 * @returns {string}
+		 *
+		 * @return {string}
 		 */
 		nameWithoutExt() {
 			return this.basename.indexOf('.') > -1 ? this.basename.split('.').slice(0, -1).join('.') : this.basename
@@ -123,7 +124,7 @@ export default {
 			}
 			// TODO: find a nicer standard way of doing this?
 			if (isPublic()) {
-				return generateUrl(`/apps/files_sharing/publicpreview/${getToken()}?fileId=${this.fileid}&file=${encodeFilePath(this.filename)}&x=${previewWidth}&y=${previewWidth}&a=1`)
+				return generateUrl(`/apps/files_sharing/publicpreview/${getToken()}?fileId=${this.fileid}&file=${encodePath(this.filename)}&x=${previewWidth}&y=${previewWidth}&a=1`)
 			}
 			return generateUrl(`/core/preview?fileId=${this.fileid}&x=${previewWidth}&y=${previewWidth}&a=1`)
 		},
@@ -181,7 +182,7 @@ export default {
 		border-radius: var(--border-radius-large);
 
 		input:checked + label > & {
-			border-color: var(--color-primary);
+			border-color: var(--color-primary-element);
 		}
 
 		&--failed {

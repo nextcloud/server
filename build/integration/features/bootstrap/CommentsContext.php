@@ -24,7 +24,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 require __DIR__ . '/../../vendor/autoload.php';
 
 class CommentsContext implements \Behat\Behat\Context\Context {
@@ -48,6 +47,37 @@ class CommentsContext implements \Behat\Behat\Context\Context {
 		if ($testServerUrl !== false) {
 			$this->baseUrl = substr($testServerUrl, 0, -5);
 		}
+	}
+
+
+
+	/**
+	 * get a named entry from response instead of picking a random entry from values
+	 *
+	 * @param string $path
+	 *
+	 * @return array|string
+	 * @throws Exception
+	 */
+	private function getValueFromNamedEntries(string $path, array $response): mixed {
+		$next = '';
+		if (str_contains($path, ' ')) {
+			[$key, $next] = explode(' ', $path, 2);
+		} else {
+			$key = $path;
+		}
+
+		foreach ($response as $entry) {
+			if ($entry['name'] === $key) {
+				if ($next !== '') {
+					return $this->getValueFromNamedEntries($next, $entry['value']);
+				} else {
+					return $entry['value'];
+				}
+			}
+		}
+
+		return null;
 	}
 
 	/** @AfterScenario */
@@ -176,7 +206,7 @@ class CommentsContext implements \Behat\Behat\Context\Context {
 		if ($res->getStatusCode() === 207) {
 			$service = new Sabre\Xml\Service();
 			$this->response = $service->parse($res->getBody()->getContents());
-			$this->commentId = (int)$this->response[0]['value'][2]['value'][0]['value'][0]['value'];
+			$this->commentId = (int) ($this->getValueFromNamedEntries('{DAV:}response {DAV:}propstat {DAV:}prop {http://owncloud.org/ns}id', $this->response ?? []) ?? 0);
 		}
 	}
 
@@ -239,7 +269,8 @@ class CommentsContext implements \Behat\Behat\Context\Context {
 	 * @throws \Exception
 	 */
 	public function theResponseShouldContainAPropertyWithValue($key, $value) {
-		$keys = $this->response[0]['value'][2]['value'][0]['value'];
+		//		$keys = $this->response[0]['value'][1]['value'][0]['value'];
+		$keys = $this->getValueFromNamedEntries('{DAV:}response {DAV:}propstat {DAV:}prop', $this->response);
 		$found = false;
 		foreach ($keys as $singleKey) {
 			if ($singleKey['name'] === '{http://owncloud.org/ns}' . substr($key, 3)) {

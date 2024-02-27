@@ -4,8 +4,8 @@
  *
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Björn Schießle <bjoern@schiessle.org>
- * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
+ * @author szaimen <szaimen@e.mail.de>
  *
  * @license AGPL-3.0
  *
@@ -22,13 +22,13 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_Sharing\External;
 
 use OC\Files\Mount\MountPoint;
 use OC\Files\Mount\MoveableMount;
+use OCA\Files_Sharing\ISharedMountPoint;
 
-class Mount extends MountPoint implements MoveableMount {
+class Mount extends MountPoint implements MoveableMount, ISharedMountPoint {
 
 	/**
 	 * @var \OCA\Files_Sharing\External\Manager
@@ -43,7 +43,7 @@ class Mount extends MountPoint implements MoveableMount {
 	 * @param \OC\Files\Storage\StorageFactory $loader
 	 */
 	public function __construct($storage, $mountpoint, $options, $manager, $loader = null) {
-		parent::__construct($storage, $mountpoint, $options, $loader);
+		parent::__construct($storage, $mountpoint, $options, $loader, null, null, MountProvider::class);
 		$this->manager = $manager;
 	}
 
@@ -62,16 +62,13 @@ class Mount extends MountPoint implements MoveableMount {
 
 	/**
 	 * Remove the mount points
-	 *
-	 * @return mixed
-	 * @return bool
 	 */
-	public function removeMount() {
+	public function removeMount(): bool {
 		return $this->manager->removeShare($this->mountPoint);
 	}
 
 	/**
-	 * Get the type of mount point, used to distinguish things like shares and external storages
+	 * Get the type of mount point, used to distinguish things like shares and external storage
 	 * in the web interface
 	 *
 	 * @return string

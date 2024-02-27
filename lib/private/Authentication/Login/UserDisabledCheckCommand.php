@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
@@ -14,16 +17,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
-declare(strict_types=1);
-
 namespace OC\Authentication\Login;
 
 use OC\Core\Controller\LoginController;
@@ -31,7 +31,6 @@ use OCP\IUserManager;
 use Psr\Log\LoggerInterface;
 
 class UserDisabledCheckCommand extends ALoginCommand {
-
 	/** @var IUserManager */
 	private $userManager;
 
@@ -39,7 +38,7 @@ class UserDisabledCheckCommand extends ALoginCommand {
 	private $logger;
 
 	public function __construct(IUserManager $userManager,
-								LoggerInterface $logger) {
+		LoggerInterface $logger) {
 		$this->userManager = $userManager;
 		$this->logger = $logger;
 	}

@@ -16,14 +16,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Files\Mount;
 
 use OC\Files\ObjectStore\AppdataPreviewObjectStoreStorage;
@@ -32,18 +31,17 @@ use OC\Files\Storage\Wrapper\Jail;
 use OCP\Files\Config\IRootMountProvider;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\IConfig;
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 
 /**
  * Mount provider for object store app data folder for previews
  */
 class ObjectStorePreviewCacheMountProvider implements IRootMountProvider {
-	/** @var ILogger */
-	private $logger;
+	private LoggerInterface $logger;
 	/** @var IConfig */
 	private $config;
 
-	public function __construct(ILogger $logger, IConfig $config) {
+	public function __construct(LoggerInterface $logger, IConfig $config) {
 		$this->logger = $logger;
 		$this->config = $config;
 	}
@@ -70,7 +68,10 @@ class ObjectStorePreviewCacheMountProvider implements IRootMountProvider {
 					AppdataPreviewObjectStoreStorage::class,
 					'/appdata_' . $instanceId . '/preview/' . $parent . '/' . $child,
 					$this->getMultiBucketObjectStore($i),
-					$loader
+					$loader,
+					null,
+					null,
+					self::class
 				);
 				$i++;
 			}
@@ -88,7 +89,10 @@ class ObjectStorePreviewCacheMountProvider implements IRootMountProvider {
 			$fakeRootStorageJail,
 			'/appdata_' . $instanceId . '/preview/old-multibucket',
 			null,
-			$loader
+			$loader,
+			null,
+			null,
+			self::class
 		);
 
 		return $mountPoints;

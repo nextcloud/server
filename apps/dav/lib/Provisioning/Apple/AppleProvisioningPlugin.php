@@ -6,6 +6,7 @@
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Nils Wittenbrink <nilswittenbrink@web.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -16,14 +17,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\Provisioning\Apple;
 
 use OCP\IL10N;
@@ -36,7 +36,6 @@ use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
 
 class AppleProvisioningPlugin extends ServerPlugin {
-
 	/**
 	 * @var Server
 	 */
@@ -68,23 +67,21 @@ class AppleProvisioningPlugin extends ServerPlugin {
 	protected $l10n;
 
 	/**
-	 * @var \closure
+	 * @var \Closure
 	 */
 	protected $uuidClosure;
 
 	/**
 	 * AppleProvisioningPlugin constructor.
-	 *
-	 * @param IUserSession $userSession
-	 * @param IURLGenerator $urlGenerator
-	 * @param \OC_Defaults $themingDefaults
-	 * @param IRequest $request
-	 * @param IL10N $l10n
-	 * @param \closure $uuidClosure
 	 */
-	public function __construct(IUserSession $userSession, IURLGenerator $urlGenerator,
-								\OC_Defaults $themingDefaults, IRequest $request,
-								IL10N $l10n, \closure $uuidClosure) {
+	public function __construct(
+		IUserSession $userSession,
+		IURLGenerator $urlGenerator,
+		\OC_Defaults $themingDefaults,
+		IRequest $request,
+		IL10N $l10n,
+		\Closure $uuidClosure
+	) {
 		$this->userSession = $userSession;
 		$this->urlGenerator = $urlGenerator;
 		$this->themingDefaults = $themingDefaults;

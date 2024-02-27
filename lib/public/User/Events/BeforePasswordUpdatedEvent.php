@@ -17,14 +17,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCP\User\Events;
 
 use OCP\EventDispatcher\Event;
@@ -36,7 +35,6 @@ use OCP\IUser;
  * @since 18.0.0
  */
 class BeforePasswordUpdatedEvent extends Event {
-
 	/** @var IUser */
 	private $user;
 
@@ -53,8 +51,8 @@ class BeforePasswordUpdatedEvent extends Event {
 	 * @since 18.0.0
 	 */
 	public function __construct(IUser $user,
-								string $password,
-								string $recoveryPassword = null) {
+		string $password,
+		string $recoveryPassword = null) {
 		parent::__construct();
 		$this->user = $user;
 		$this->password = $password;

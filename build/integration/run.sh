@@ -34,15 +34,20 @@ if [ -z "$EXECUTOR_NUMBER" ]; then
 fi
 PORT=$((8080 + $EXECUTOR_NUMBER))
 echo $PORT
-php -S localhost:$PORT -t ../.. &
+
+echo "" > phpserver.log
+
+php -S localhost:$PORT -t ../.. &> phpserver.log &
 PHPPID=$!
 echo $PHPPID
 
+# Output filtered php server logs
+tail -f phpserver.log | grep --line-buffered -v -E ":[0-9]+ Accepted$" | grep --line-buffered -v -E ":[0-9]+ Closing$" &
+
+# The federated server is started and stopped by the tests themselves
 PORT_FED=$((8180 + $EXECUTOR_NUMBER))
 echo $PORT_FED
-php -S localhost:$PORT_FED -t ../.. &
-PHPPID_FED=$!
-echo $PHPPID_FED
+export PORT_FED
 
 export TEST_SERVER_URL="http://localhost:$PORT/ocs/"
 export TEST_SERVER_FED_URL="http://localhost:$PORT_FED/ocs/"
@@ -61,11 +66,10 @@ if [ "$INSTALLED" == "true" ]; then
 
 fi
 
-vendor/bin/behat --strict -f junit -f pretty $TAGS $SCENARIO_TO_RUN
+vendor/bin/behat --strict --colors -f junit -f pretty $TAGS $SCENARIO_TO_RUN
 RESULT=$?
 
 kill $PHPPID
-kill $PHPPID_FED
 
 if [ "$INSTALLED" == "true" ]; then
 

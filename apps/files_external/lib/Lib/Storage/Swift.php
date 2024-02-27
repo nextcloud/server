@@ -40,17 +40,17 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_External\Lib\Storage;
 
 use GuzzleHttp\Psr7\Uri;
 use Icewind\Streams\CallbackWrapper;
 use Icewind\Streams\IteratorDirectory;
 use OC\Files\ObjectStore\SwiftFactory;
+use OCP\Files\IMimeTypeDetector;
 use OCP\Files\StorageBadConfigException;
-use OCP\ILogger;
 use OpenStack\Common\Error\BadResponseError;
 use OpenStack\ObjectStore\v1\Models\StorageObject;
+use Psr\Log\LoggerInterface;
 
 class Swift extends \OC\Files\Storage\Common {
 	/** @var SwiftFactory */
@@ -75,6 +75,9 @@ class Swift extends \OC\Files\Storage\Common {
 
 	/** @var \OC\Files\ObjectStore\Swift */
 	private $objectStore;
+
+	/** @var IMimeTypeDetector */
+	private $mimeDetector;
 
 	/**
 	 * Key value cache mapping path to data object. Maps path to
@@ -123,9 +126,10 @@ class Swift extends \OC\Files\Storage\Common {
 	 * @throws \OCP\Files\StorageNotAvailableException
 	 */
 	private function fetchObject(string $path) {
-		if ($this->objectCache->hasKey($path)) {
+		$cached = $this->objectCache->get($path);
+		if ($cached !== null) {
 			// might be "false" if object did not exist from last check
-			return $this->objectCache->get($path);
+			return $cached;
 		}
 		try {
 			$object = $this->getContainer()->getObject($path);
@@ -135,8 +139,8 @@ class Swift extends \OC\Files\Storage\Common {
 		} catch (BadResponseError $e) {
 			// Expected response is "404 Not Found", so only log if it isn't
 			if ($e->getResponse()->getStatusCode() !== 404) {
-				\OC::$server->getLogger()->logException($e, [
-					'level' => ILogger::ERROR,
+				\OC::$server->get(LoggerInterface::class)->error($e->getMessage(), [
+					'exception' => $e,
 					'app' => 'files_external',
 				]);
 			}
@@ -163,7 +167,7 @@ class Swift extends \OC\Files\Storage\Common {
 			or (empty($params['user']) && empty($params['userid'])) or empty($params['bucket'])
 			or empty($params['region'])
 		) {
-			throw new StorageBadConfigException("API Key or password, Username, Bucket and Region have to be configured.");
+			throw new StorageBadConfigException("API Key or password, Login, Bucket and Region have to be configured.");
 		}
 
 		$user = $params['user'];
@@ -197,14 +201,15 @@ class Swift extends \OC\Files\Storage\Common {
 
 		$this->params = $params;
 		// FIXME: private class...
-		$this->objectCache = new \OC\Cache\CappedMemoryCache();
+		$this->objectCache = new \OCP\Cache\CappedMemoryCache();
 		$this->connectionFactory = new SwiftFactory(
 			\OC::$server->getMemCacheFactory()->createDistributed('swift/'),
 			$this->params,
-			\OC::$server->getLogger()
+			\OC::$server->get(LoggerInterface::class)
 		);
 		$this->objectStore = new \OC\Files\ObjectStore\Swift($this->params, $this->connectionFactory);
 		$this->bucket = $params['bucket'];
+		$this->mimeDetector = \OC::$server->get(IMimeTypeDetector::class);
 	}
 
 	public function mkdir($path) {
@@ -228,8 +233,8 @@ class Swift extends \OC\Files\Storage\Common {
 			// with all properties
 			$this->objectCache->remove($path);
 		} catch (BadResponseError $e) {
-			\OC::$server->getLogger()->logException($e, [
-				'level' => ILogger::ERROR,
+			\OC::$server->get(LoggerInterface::class)->error($e->getMessage(), [
+				'exception' => $e,
 				'app' => 'files_external',
 			]);
 			return false;
@@ -272,8 +277,8 @@ class Swift extends \OC\Files\Storage\Common {
 			$this->objectStore->deleteObject($path . '/');
 			$this->objectCache->remove($path . '/');
 		} catch (BadResponseError $e) {
-			\OC::$server->getLogger()->logException($e, [
-				'level' => ILogger::ERROR,
+			\OC::$server->get(LoggerInterface::class)->error($e->getMessage(), [
+				'exception' => $e,
 				'app' => 'files_external',
 			]);
 			return false;
@@ -291,7 +296,7 @@ class Swift extends \OC\Files\Storage\Common {
 			$path .= '/';
 		}
 
-//		$path = str_replace('%23', '#', $path); // the prefix is sent as a query param, so revert the encoding of #
+		//		$path = str_replace('%23', '#', $path); // the prefix is sent as a query param, so revert the encoding of #
 
 		try {
 			$files = [];
@@ -310,8 +315,8 @@ class Swift extends \OC\Files\Storage\Common {
 
 			return IteratorDirectory::wrap($files);
 		} catch (\Exception $e) {
-			\OC::$server->getLogger()->logException($e, [
-				'level' => ILogger::ERROR,
+			\OC::$server->get(LoggerInterface::class)->error($e->getMessage(), [
+				'exception' => $e,
 				'app' => 'files_external',
 			]);
 			return false;
@@ -333,8 +338,8 @@ class Swift extends \OC\Files\Storage\Common {
 				return false;
 			}
 		} catch (BadResponseError $e) {
-			\OC::$server->getLogger()->logException($e, [
-				'level' => ILogger::ERROR,
+			\OC::$server->get(LoggerInterface::class)->error($e->getMessage(), [
+				'exception' => $e,
 				'app' => 'files_external',
 			]);
 			return false;
@@ -387,8 +392,8 @@ class Swift extends \OC\Files\Storage\Common {
 			$this->objectCache->remove($path . '/');
 		} catch (BadResponseError $e) {
 			if ($e->getResponse()->getStatusCode() !== 404) {
-				\OC::$server->getLogger()->logException($e, [
-					'level' => ILogger::ERROR,
+				\OC::$server->get(LoggerInterface::class)->error($e->getMessage(), [
+					'exception' => $e,
 					'app' => 'files_external',
 				]);
 				throw $e;
@@ -411,8 +416,8 @@ class Swift extends \OC\Files\Storage\Common {
 				try {
 					return $this->objectStore->readObject($path);
 				} catch (BadResponseError $e) {
-					\OC::$server->getLogger()->logException($e, [
-						'level' => ILogger::ERROR,
+					\OC::$server->get(LoggerInterface::class)->error($e->getMessage(), [
+						'exception' => $e,
 						'app' => 'files_external',
 					]);
 					return false;
@@ -466,7 +471,7 @@ class Swift extends \OC\Files\Storage\Common {
 			}
 			return true;
 		} else {
-			$mimeType = \OC::$server->getMimeTypeDetector()->detectPath($path);
+			$mimeType = $this->mimeDetector->detectPath($path);
 			$this->getContainer()->createObject([
 				'name' => $path,
 				'content' => '',
@@ -478,57 +483,57 @@ class Swift extends \OC\Files\Storage\Common {
 		}
 	}
 
-	public function copy($path1, $path2) {
-		$path1 = $this->normalizePath($path1);
-		$path2 = $this->normalizePath($path2);
+	public function copy($source, $target) {
+		$source = $this->normalizePath($source);
+		$target = $this->normalizePath($target);
 
-		$fileType = $this->filetype($path1);
+		$fileType = $this->filetype($source);
 		if ($fileType) {
 			// make way
-			$this->unlink($path2);
+			$this->unlink($target);
 		}
 
 		if ($fileType === 'file') {
 			try {
-				$source = $this->fetchObject($path1);
-				$source->copy([
-					'destination' => $this->bucket . '/' . $path2
+				$sourceObject = $this->fetchObject($source);
+				$sourceObject->copy([
+					'destination' => $this->bucket . '/' . $target
 				]);
 				// invalidate target object to force repopulation on fetch
-				$this->objectCache->remove($path2);
-				$this->objectCache->remove($path2 . '/');
+				$this->objectCache->remove($target);
+				$this->objectCache->remove($target . '/');
 			} catch (BadResponseError $e) {
-				\OC::$server->getLogger()->logException($e, [
-					'level' => ILogger::ERROR,
+				\OC::$server->get(LoggerInterface::class)->error($e->getMessage(), [
+					'exception' => $e,
 					'app' => 'files_external',
 				]);
 				return false;
 			}
 		} elseif ($fileType === 'dir') {
 			try {
-				$source = $this->fetchObject($path1 . '/');
-				$source->copy([
-					'destination' => $this->bucket . '/' . $path2 . '/'
+				$sourceObject = $this->fetchObject($source . '/');
+				$sourceObject->copy([
+					'destination' => $this->bucket . '/' . $target . '/'
 				]);
 				// invalidate target object to force repopulation on fetch
-				$this->objectCache->remove($path2);
-				$this->objectCache->remove($path2 . '/');
+				$this->objectCache->remove($target);
+				$this->objectCache->remove($target . '/');
 			} catch (BadResponseError $e) {
-				\OC::$server->getLogger()->logException($e, [
-					'level' => ILogger::ERROR,
+				\OC::$server->get(LoggerInterface::class)->error($e->getMessage(), [
+					'exception' => $e,
 					'app' => 'files_external',
 				]);
 				return false;
 			}
 
-			$dh = $this->opendir($path1);
+			$dh = $this->opendir($source);
 			while ($file = readdir($dh)) {
 				if (\OC\Files\Filesystem::isIgnoredDir($file)) {
 					continue;
 				}
 
-				$source = $path1 . '/' . $file;
-				$target = $path2 . '/' . $file;
+				$source = $source . '/' . $file;
+				$target = $target . '/' . $file;
 				$this->copy($source, $target);
 			}
 		} else {
@@ -539,22 +544,22 @@ class Swift extends \OC\Files\Storage\Common {
 		return true;
 	}
 
-	public function rename($path1, $path2) {
-		$path1 = $this->normalizePath($path1);
-		$path2 = $this->normalizePath($path2);
+	public function rename($source, $target) {
+		$source = $this->normalizePath($source);
+		$target = $this->normalizePath($target);
 
-		$fileType = $this->filetype($path1);
+		$fileType = $this->filetype($source);
 
 		if ($fileType === 'dir' || $fileType === 'file') {
 			// copy
-			if ($this->copy($path1, $path2) === false) {
+			if ($this->copy($source, $target) === false) {
 				return false;
 			}
 
 			// cleanup
-			if ($this->unlink($path1) === false) {
+			if ($this->unlink($source) === false) {
 				throw new \Exception('failed to remove original');
-				$this->unlink($path2);
+				$this->unlink($target);
 				return false;
 			}
 
@@ -588,7 +593,7 @@ class Swift extends \OC\Files\Storage\Common {
 
 	public function writeBack($tmpFile, $path) {
 		$fileData = fopen($tmpFile, 'r');
-		$this->objectStore->writeObject($path, $fileData);
+		$this->objectStore->writeObject($path, $fileData, $this->mimeDetector->detectPath($path));
 		// invalidate target object to force repopulation on fetch
 		$this->objectCache->remove($path);
 		unlink($tmpFile);

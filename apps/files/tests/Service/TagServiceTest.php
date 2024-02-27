@@ -25,15 +25,14 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files\Tests\Service;
 
 use OCA\Files\Service\TagService;
 use OCP\Activity\IManager;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\ITags;
 use OCP\IUser;
 use OCP\IUserSession;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Class TagServiceTest
@@ -60,7 +59,7 @@ class TagServiceTest extends \Test\TestCase {
 	 */
 	private $root;
 
-	/** @var EventDispatcherInterface|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IEventDispatcher|\PHPUnit\Framework\MockObject\MockObject */
 	private $dispatcher;
 
 	/**
@@ -91,7 +90,7 @@ class TagServiceTest extends \Test\TestCase {
 			->willReturn($user);
 
 		$this->root = \OC::$server->getUserFolder();
-		$this->dispatcher = $this->createMock(EventDispatcherInterface::class);
+		$this->dispatcher = $this->createMock(IEventDispatcher::class);
 
 		$this->tagger = \OC::$server->getTagManager()->load('files');
 		$this->tagService = $this->getTagService(['addActivity']);

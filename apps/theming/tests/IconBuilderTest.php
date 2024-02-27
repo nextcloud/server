@@ -18,14 +18,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Theming\Tests;
 
 use OC\Files\AppData\AppData;
@@ -64,7 +63,7 @@ class IconBuilderTest extends TestCase {
 		$this->themingDefaults = $this->createMock(ThemingDefaults::class);
 		$this->appManager = $this->createMock(IAppManager::class);
 		$this->imageManager = $this->createMock(ImageManager::class);
-		$this->util = new Util($this->config, $this->appManager, $this->appData);
+		$this->util = new Util($this->config, $this->appManager, $this->appData, $this->imageManager);
 		$this->iconBuilder = new IconBuilder($this->themingDefaults, $this->util, $this->imageManager);
 	}
 
@@ -104,7 +103,7 @@ class IconBuilderTest extends TestCase {
 			->willReturn($color);
 		$this->appData->expects($this->once())
 			->method('getFolder')
-			->with('images')
+			->with('global/images')
 			->willThrowException(new NotFoundException());
 
 		$expectedIcon = new \Imagick(realpath(dirname(__FILE__)). "/data/" . $file);
@@ -133,7 +132,7 @@ class IconBuilderTest extends TestCase {
 			->willReturn($color);
 		$this->appData->expects($this->once())
 			->method('getFolder')
-			->with('images')
+			->with('global/images')
 			->willThrowException(new NotFoundException());
 
 		$expectedIcon = new \Imagick(realpath(dirname(__FILE__)). "/data/" . $file);
@@ -166,7 +165,7 @@ class IconBuilderTest extends TestCase {
 			->willReturn($color);
 		$this->appData->expects($this->once())
 			->method('getFolder')
-			->with('images')
+			->with('global/images')
 			->willThrowException(new NotFoundException());
 
 		$expectedIcon = new \Imagick(realpath(dirname(__FILE__)). "/data/" . $file);
@@ -187,7 +186,7 @@ class IconBuilderTest extends TestCase {
 
 	public function testGetFaviconNotFound() {
 		$this->checkImagick();
-		$this->expectException(Warning::class);
+		$this->expectWarning(Warning::class);
 		$util = $this->getMockBuilder(Util::class)->disableOriginalConstructor()->getMock();
 		$iconBuilder = new IconBuilder($this->themingDefaults, $util, $this->imageManager);
 		$this->imageManager->expects($this->once())
@@ -201,7 +200,7 @@ class IconBuilderTest extends TestCase {
 
 	public function testGetTouchIconNotFound() {
 		$this->checkImagick();
-		$this->expectException(Warning::class);
+		$this->expectWarning(Warning::class);
 		$util = $this->getMockBuilder(Util::class)->disableOriginalConstructor()->getMock();
 		$iconBuilder = new IconBuilder($this->themingDefaults, $util, $this->imageManager);
 		$util->expects($this->once())
@@ -212,12 +211,12 @@ class IconBuilderTest extends TestCase {
 
 	public function testColorSvgNotFound() {
 		$this->checkImagick();
-		$this->expectException(Warning::class);
+		$this->expectWarning(Warning::class);
 		$util = $this->getMockBuilder(Util::class)->disableOriginalConstructor()->getMock();
 		$iconBuilder = new IconBuilder($this->themingDefaults, $util, $this->imageManager);
 		$util->expects($this->once())
 			->method('getAppImage')
 			->willReturn('notexistingfile');
-		$this->assertFalse($iconBuilder->colorSvg('noapp','noimage'));
+		$this->assertFalse($iconBuilder->colorSvg('noapp', 'noimage'));
 	}
 }

@@ -43,7 +43,6 @@ use Test\TestCase;
 use function get_class;
 
 class RequestManagerTest extends TestCase {
-
 	/** @var Coordinator|MockObject */
 	private $coordinator;
 

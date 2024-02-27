@@ -24,23 +24,21 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Repair;
 
 use Doctrine\DBAL\Exception\DriverException;
 use Doctrine\DBAL\Platforms\MySQLPlatform;
 use OCP\IConfig;
 use OCP\IDBConnection;
-use OCP\ILogger;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
+use Psr\Log\LoggerInterface;
 
 class Collation implements IRepairStep {
 	/**  @var IConfig */
 	protected $config;
 
-	/** @var ILogger */
-	protected $logger;
+	protected LoggerInterface $logger;
 
 	/** @var IDBConnection */
 	protected $connection;
@@ -49,12 +47,14 @@ class Collation implements IRepairStep {
 	protected $ignoreFailures;
 
 	/**
-	 * @param IConfig $config
-	 * @param ILogger $logger
-	 * @param IDBConnection $connection
 	 * @param bool $ignoreFailures
 	 */
-	public function __construct(IConfig $config, ILogger $logger, IDBConnection $connection, $ignoreFailures) {
+	public function __construct(
+		IConfig $config,
+		LoggerInterface $logger,
+		IDBConnection $connection,
+		$ignoreFailures
+	) {
 		$this->connection = $connection;
 		$this->config = $config;
 		$this->logger = $logger;
@@ -74,7 +74,7 @@ class Collation implements IRepairStep {
 			return;
 		}
 
-		$characterSet = $this->config->getSystemValue('mysql.utf8mb4', false) ? 'utf8mb4' : 'utf8';
+		$characterSet = $this->config->getSystemValueBool('mysql.utf8mb4', false) ? 'utf8mb4' : 'utf8';
 
 		$tables = $this->getAllNonUTF8BinTables($this->connection);
 		foreach ($tables as $table) {
@@ -84,24 +84,19 @@ class Collation implements IRepairStep {
 				$query->execute();
 			} catch (DriverException $e) {
 				// Just log this
-				$this->logger->logException($e);
+				$this->logger->error($e->getMessage(), ['exception' => $e]);
 				if (!$this->ignoreFailures) {
 					throw $e;
 				}
 			}
 
 			$output->info("Change collation for $table ...");
-			if ($characterSet === 'utf8mb4') {
-				// need to set row compression first
-				$query = $this->connection->prepare('ALTER TABLE `' . $table . '` ROW_FORMAT=COMPRESSED;');
-				$query->execute();
-			}
 			$query = $this->connection->prepare('ALTER TABLE `' . $table . '` CONVERT TO CHARACTER SET ' . $characterSet . ' COLLATE ' . $characterSet . '_bin;');
 			try {
 				$query->execute();
 			} catch (DriverException $e) {
 				// Just log this
-				$this->logger->logException($e);
+				$this->logger->error($e->getMessage(), ['exception' => $e]);
 				if (!$this->ignoreFailures) {
 					throw $e;
 				}
@@ -117,8 +112,8 @@ class Collation implements IRepairStep {
 	 * @return string[]
 	 */
 	protected function getAllNonUTF8BinTables(IDBConnection $connection) {
-		$dbName = $this->config->getSystemValue("dbname");
-		$characterSet = $this->config->getSystemValue('mysql.utf8mb4', false) ? 'utf8mb4' : 'utf8';
+		$dbName = $this->config->getSystemValueString("dbname");
+		$characterSet = $this->config->getSystemValueBool('mysql.utf8mb4', false) ? 'utf8mb4' : 'utf8';
 
 		// fetch tables by columns
 		$statement = $connection->executeQuery(

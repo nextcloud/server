@@ -17,14 +17,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Core\Command\Broadcast;
 
 use OCP\EventDispatcher\ABroadcastedEvent;
@@ -35,13 +34,10 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Test extends Command {
-
-	/** @var IEventDispatcher */
-	private $eventDispatcher;
-
-	public function __construct(IEventDispatcher $eventDispatcher) {
+	public function __construct(
+		private IEventDispatcher $eventDispatcher,
+	) {
 		parent::__construct();
-		$this->eventDispatcher = $eventDispatcher;
 	}
 
 	protected function configure(): void {
@@ -72,7 +68,7 @@ class Test extends Command {
 			private $uid;
 
 			public function __construct(string $name,
-										string $uid) {
+				string $uid) {
 				parent::__construct();
 				$this->name = $name;
 				$this->uid = $uid;
@@ -88,7 +84,7 @@ class Test extends Command {
 				];
 			}
 
-			public function jsonSerialize() {
+			public function jsonSerialize(): array {
 				return [
 					'description' => 'this is a test event',
 				];

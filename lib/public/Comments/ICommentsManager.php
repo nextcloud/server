@@ -5,7 +5,7 @@
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -26,10 +26,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP\Comments;
 
 use OCP\IUser;
+use OCP\PreConditionNotMetException;
 
 /**
  * Interface ICommentsManager
@@ -39,7 +39,6 @@ use OCP\IUser;
  * @since 9.0.0
  */
 interface ICommentsManager {
-
 	/**
 	 * @const DELETED_USER type and id for a user that has been deleted
 	 * @see deleteReferencesOfActor
@@ -62,12 +61,12 @@ interface ICommentsManager {
 	public function get($id);
 
 	/**
-	 * returns the comment specified by the id and all it's child comments
+	 * Returns the comment specified by the id and all it's child comments
 	 *
 	 * @param string $id
 	 * @param int $limit max number of entries to return, 0 returns all
 	 * @param int $offset the start entry
-	 * @return array
+	 * @return array{comment: IComment, replies: list<array{comment: IComment, replies: array<empty, empty>}>}
 	 * @since 9.0.0
 	 *
 	 * The return array looks like this
@@ -111,15 +110,15 @@ interface ICommentsManager {
 	 * @param int $offset optional, starting point
 	 * @param \DateTime|null $notOlderThan optional, timestamp of the oldest comments
 	 * that may be returned
-	 * @return IComment[]
+	 * @return list<IComment>
 	 * @since 9.0.0
 	 */
 	public function getForObject(
-			$objectType,
-			$objectId,
-			$limit = 0,
-			$offset = 0,
-			\DateTime $notOlderThan = null
+		$objectType,
+		$objectId,
+		$limit = 0,
+		$offset = 0,
+		\DateTime $notOlderThan = null
 	);
 
 	/**
@@ -130,12 +129,35 @@ interface ICommentsManager {
 	 * @param int $limit optional, number of maximum comments to be returned. if
 	 * set to 0, all comments are returned.
 	 * @param bool $includeLastKnown
-	 * @return IComment[]
+	 * @return list<IComment>
 	 * @since 14.0.0
+	 * @deprecated 24.0.0 - Use getCommentsWithVerbForObjectSinceComment instead
 	 */
 	public function getForObjectSince(
 		string $objectType,
 		string $objectId,
+		int $lastKnownCommentId,
+		string $sortDirection = 'asc',
+		int $limit = 30,
+		bool $includeLastKnown = false
+	): array;
+
+	/**
+	 * @param string $objectType the object type, e.g. 'files'
+	 * @param string $objectId the id of the object
+	 * @param string[] $verbs List of verbs to filter by
+	 * @param int $lastKnownCommentId the last known comment (will be used as offset)
+	 * @param string $sortDirection direction of the comments (`asc` or `desc`)
+	 * @param int $limit optional, number of maximum comments to be returned. if
+	 * set to 0, all comments are returned.
+	 * @param bool $includeLastKnown
+	 * @return list<IComment>
+	 * @since 24.0.0
+	 */
+	public function getCommentsWithVerbForObjectSinceComment(
+		string $objectType,
+		string $objectId,
+		array $verbs,
 		int $lastKnownCommentId,
 		string $sortDirection = 'asc',
 		int $limit = 30,
@@ -151,7 +173,7 @@ interface ICommentsManager {
 	 * @param string $verb Limit the verb of the comment
 	 * @param int $offset
 	 * @param int $limit
-	 * @return IComment[]
+	 * @return list<IComment>
 	 * @since 14.0.0
 	 */
 	public function search(string $search, string $objectType, string $objectId, string $verb, int $offset, int $limit = 50): array;
@@ -199,8 +221,20 @@ interface ICommentsManager {
 	 * @param string $verb
 	 * @return int
 	 * @since 21.0.0
+	 * @deprecated 24.0.0 - Use getNumberOfCommentsWithVerbsForObjectSinceComment instead
 	 */
 	public function getNumberOfCommentsForObjectSinceComment(string $objectType, string $objectId, int $lastRead, string $verb = ''): int;
+
+
+	/**
+	 * @param string $objectType
+	 * @param string $objectId
+	 * @param int $lastRead
+	 * @param string[] $verbs
+	 * @return int
+	 * @since 24.0.0
+	 */
+	public function getNumberOfCommentsWithVerbsForObjectSinceComment(string $objectType, string $objectId, int $lastRead, array $verbs): int;
 
 	/**
 	 * @param string $objectType
@@ -265,6 +299,58 @@ interface ICommentsManager {
 	 * @since 9.0.0
 	 */
 	public function delete($id);
+
+	/**
+	 * Get comment related with user reaction
+	 *
+	 * Throws PreConditionNotMetException when the system haven't the minimum requirements to
+	 * use reactions
+	 *
+	 * @param int $parentId
+	 * @param string $actorType
+	 * @param string $actorId
+	 * @param string $reaction
+	 * @return IComment
+	 * @throws NotFoundException
+	 * @throws PreConditionNotMetException
+	 * @since 24.0.0
+	 */
+	public function getReactionComment(int $parentId, string $actorType, string $actorId, string $reaction): IComment;
+
+	/**
+	 * Retrieve all reactions of a message
+	 *
+	 * Throws PreConditionNotMetException when the system haven't the minimum requirements to
+	 * use reactions
+	 *
+	 * @param int $parentId
+	 * @return IComment[]
+	 * @throws PreConditionNotMetException
+	 * @since 24.0.0
+	 */
+	public function retrieveAllReactions(int $parentId): array;
+
+	/**
+	 * Retrieve all reactions with specific reaction of a message
+	 *
+	 * Throws PreConditionNotMetException when the system haven't the minimum requirements to
+	 * use reactions
+	 *
+	 * @param int $parentId
+	 * @param string $reaction
+	 * @return IComment[]
+	 * @throws PreConditionNotMetException
+	 * @since 24.0.0
+	 */
+	public function retrieveAllReactionsWithSpecificReaction(int $parentId, string $reaction): array;
+
+	/**
+	 * Support reactions
+	 *
+	 * @return bool
+	 * @since 24.0.0
+	 */
+	public function supportReactions(): bool;
 
 	/**
 	 * saves the comment permanently
@@ -395,4 +481,15 @@ interface ICommentsManager {
 	 * @since 21.0.0
 	 */
 	public function load(): void;
+
+	/**
+	 * Delete comments with field expire_date less than current date
+	 * Only will delete the message related with the object.
+	 *
+	 * @param string $objectType the object type (e.g. 'files')
+	 * @param string $objectId e.g. the file id, leave empty to expire on all objects of this type
+	 * @return boolean true if at least one row was deleted
+	 * @since 25.0.0
+	 */
+	public function deleteCommentsExpiredAtObject(string $objectType, string $objectId = ''): bool;
 }

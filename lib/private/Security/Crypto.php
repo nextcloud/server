@@ -27,12 +27,11 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Security;
 
+use Exception;
 use OCP\IConfig;
 use OCP\Security\ICrypto;
-use OCP\Security\ISecureRandom;
 use phpseclib\Crypt\AES;
 use phpseclib\Crypt\Hash;
 
@@ -47,20 +46,13 @@ use phpseclib\Crypt\Hash;
  * @package OC\Security
  */
 class Crypto implements ICrypto {
-	/** @var AES $cipher */
-	private $cipher;
-	/** @var int */
-	private $ivLength = 16;
-	/** @var IConfig */
-	private $config;
+	private AES $cipher;
+	private int $ivLength = 16;
 
-	/**
-	 * @param IConfig $config
-	 * @param ISecureRandom $random
-	 */
-	public function __construct(IConfig $config) {
+	public function __construct(
+		private IConfig $config,
+	) {
 		$this->cipher = new AES();
-		$this->config = $config;
 	}
 
 	/**
@@ -70,7 +62,7 @@ class Crypto implements ICrypto {
 	 */
 	public function calculateHMAC(string $message, string $password = ''): string {
 		if ($password === '') {
-			$password = $this->config->getSystemValue('secret');
+			$password = $this->config->getSystemValueString('secret');
 		}
 
 		// Append an "a" behind the password and hash it to prevent reusing the same password as for encryption
@@ -83,13 +75,15 @@ class Crypto implements ICrypto {
 
 	/**
 	 * Encrypts a value and adds an HMAC (Encrypt-Then-MAC)
-	 * @param string $plaintext
+	 *
 	 * @param string $password Password to encrypt, if not specified the secret from config.php will be taken
 	 * @return string Authenticated ciphertext
+	 * @throws Exception if it was not possible to gather sufficient entropy
+	 * @throws Exception if encrypting the data failed
 	 */
 	public function encrypt(string $plaintext, string $password = ''): string {
 		if ($password === '') {
-			$password = $this->config->getSystemValue('secret');
+			$password = $this->config->getSystemValueString('secret');
 		}
 		$keyMaterial = hash_hkdf('sha512', $password);
 		$this->cipher->setPassword(substr($keyMaterial, 0, 32));
@@ -97,7 +91,13 @@ class Crypto implements ICrypto {
 		$iv = \random_bytes($this->ivLength);
 		$this->cipher->setIV($iv);
 
-		$ciphertext = bin2hex($this->cipher->encrypt($plaintext));
+		/** @var string|false $encrypted */
+		$encrypted = $this->cipher->encrypt($plaintext);
+		if ($encrypted === false) {
+			throw new Exception('Encrypting failed.');
+		}
+
+		$ciphertext = bin2hex($encrypted);
 		$iv = bin2hex($iv);
 		$hmac = bin2hex($this->calculateHMAC($ciphertext.$iv, substr($keyMaterial, 32)));
 
@@ -106,32 +106,43 @@ class Crypto implements ICrypto {
 
 	/**
 	 * Decrypts a value and verifies the HMAC (Encrypt-Then-Mac)
-	 * @param string $authenticatedCiphertext
 	 * @param string $password Password to encrypt, if not specified the secret from config.php will be taken
-	 * @return string plaintext
-	 * @throws \Exception If the HMAC does not match
-	 * @throws \Exception If the decryption failed
+	 * @throws Exception If the HMAC does not match
+	 * @throws Exception If the decryption failed
 	 */
 	public function decrypt(string $authenticatedCiphertext, string $password = ''): string {
-		if ($password === '') {
-			$password = $this->config->getSystemValue('secret');
+		$secret = $this->config->getSystemValue('secret');
+		try {
+			if ($password === '') {
+				return $this->decryptWithoutSecret($authenticatedCiphertext, $secret);
+			}
+			return $this->decryptWithoutSecret($authenticatedCiphertext, $password);
+		} catch (Exception $e) {
+			if ($password === '') {
+				// Retry with empty secret as a fallback for instances where the secret might not have been set by accident
+				return $this->decryptWithoutSecret($authenticatedCiphertext, '');
+			}
+			throw $e;
 		}
+	}
+
+	private function decryptWithoutSecret(string $authenticatedCiphertext, string $password = ''): string {
 		$hmacKey = $encryptionKey = $password;
 
 		$parts = explode('|', $authenticatedCiphertext);
 		$partCount = \count($parts);
 		if ($partCount < 3 || $partCount > 4) {
-			throw new \Exception('Authenticated ciphertext could not be decoded.');
+			throw new Exception('Authenticated ciphertext could not be decoded.');
 		}
 
-		$ciphertext = hex2bin($parts[0]);
+		$ciphertext = $this->hex2bin($parts[0]);
 		$iv = $parts[1];
-		$hmac = hex2bin($parts[2]);
+		$hmac = $this->hex2bin($parts[2]);
 
 		if ($partCount === 4) {
 			$version = $parts[3];
 			if ($version >= '2') {
-				$iv = hex2bin($iv);
+				$iv = $this->hex2bin($iv);
 			}
 
 			if ($version === '3') {
@@ -144,12 +155,28 @@ class Crypto implements ICrypto {
 		$this->cipher->setIV($iv);
 
 		if (!hash_equals($this->calculateHMAC($parts[0] . $parts[1], $hmacKey), $hmac)) {
-			throw new \Exception('HMAC does not match.');
+			throw new Exception('HMAC does not match.');
 		}
 
 		$result = $this->cipher->decrypt($ciphertext);
 		if ($result === false) {
-			throw new \Exception('Decryption failed');
+			throw new Exception('Decryption failed');
+		}
+
+		return $result;
+	}
+
+	private function hex2bin(string $hex): string {
+		if (!ctype_xdigit($hex)) {
+			throw new \RuntimeException('String contains non hex chars: ' . $hex);
+		}
+		if (strlen($hex) % 2 !== 0) {
+			throw new \RuntimeException('Hex string is not of even length: ' . $hex);
+		}
+		$result = hex2bin($hex);
+
+		if ($result === false) {
+			throw new \RuntimeException('Hex to bin conversion failed: ' . $hex);
 		}
 
 		return $result;

@@ -23,12 +23,27 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\CalDAV;
 
+use Psr\Log\LoggerInterface;
+use Sabre\CalDAV\Backend;
+use Sabre\DAVACL\PrincipalBackend;
+
 class CalendarRoot extends \Sabre\CalDAV\CalendarRoot {
+	private LoggerInterface $logger;
+
+	public function __construct(
+		PrincipalBackend\BackendInterface $principalBackend,
+		Backend\BackendInterface $caldavBackend,
+		$principalPrefix,
+		LoggerInterface $logger
+	) {
+		parent::__construct($principalBackend, $caldavBackend, $principalPrefix);
+		$this->logger = $logger;
+	}
+
 	public function getChildForPrincipal(array $principal) {
-		return new CalendarHome($this->caldavBackend, $principal);
+		return new CalendarHome($this->caldavBackend, $principal, $this->logger);
 	}
 
 	public function getName() {

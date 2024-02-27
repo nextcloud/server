@@ -16,14 +16,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Core\Db;
 
 use OCP\AppFramework\Db\DoesNotExistException;
@@ -31,15 +30,21 @@ use OCP\AppFramework\Db\QBMapper;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IDBConnection;
 
+/**
+ * @template-extends QBMapper<LoginFlowV2>
+ */
 class LoginFlowV2Mapper extends QBMapper {
 	private const lifetime = 1200;
 
-	/** @var ITimeFactory */
-	private $timeFactory;
-
-	public function __construct(IDBConnection $db, ITimeFactory $timeFactory) {
-		parent::__construct($db, 'login_flow_v2', LoginFlowV2::class);
-		$this->timeFactory = $timeFactory;
+	public function __construct(
+		IDBConnection $db,
+		private ITimeFactory $timeFactory,
+	) {
+		parent::__construct(
+			$db,
+			'login_flow_v2',
+			LoginFlowV2::class,
+		);
 	}
 
 	/**

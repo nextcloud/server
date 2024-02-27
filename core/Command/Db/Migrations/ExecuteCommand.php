@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2017 Joas Schilling <coding@schilljs.com>
  * @copyright Copyright (c) 2017, ownCloud GmbH
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  *
  * @license AGPL-3.0
@@ -20,7 +21,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Core\Command\Db\Migrations;
 
 use OC\DB\Connection;
@@ -35,23 +35,10 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class ExecuteCommand extends Command implements CompletionAwareInterface {
-
-	/** @var Connection */
-	private $connection;
-
-	/** @var IConfig */
-	private $config;
-
-	/**
-	 * ExecuteCommand constructor.
-	 *
-	 * @param Connection $connection
-	 * @param IConfig $config
-	 */
-	public function __construct(Connection $connection, IConfig $config) {
-		$this->connection = $connection;
-		$this->config = $config;
-
+	public function __construct(
+		private Connection $connection,
+		private IConfig $config,
+	) {
 		parent::__construct();
 	}
 
@@ -79,7 +66,7 @@ class ExecuteCommand extends Command implements CompletionAwareInterface {
 			$olderVersions = $ms->getMigratedVersions();
 			$olderVersions[] = '0';
 			$olderVersions[] = 'prev';
-			if (in_array($version,  $olderVersions, true)) {
+			if (in_array($version, $olderVersions, true)) {
 				$output->writeln('<error>Can not go back to previous migration without debug enabled</error>');
 				return 1;
 			}

@@ -2,8 +2,9 @@
  * @copyright Copyright (c) 2019 John Molakvoæ <skjnldsv@protonmail.com>
  *
  * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Julius Härtl <jus@bitgrid.net>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -19,14 +20,21 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import Vue from 'vue'
-import VueClipboard from 'vue-clipboard2'
-import { translate as t, translatePlural as n } from '@nextcloud/l10n'
 
-import SharingTab from './views/SharingTab'
-import ShareSearch from './services/ShareSearch'
-import ExternalLinkActions from './services/ExternalLinkActions'
-import TabSections from './services/TabSections'
+import Vue from 'vue'
+import { translate as t, translatePlural as n } from '@nextcloud/l10n'
+import { getRequestToken } from '@nextcloud/auth'
+
+import ShareSearch from './services/ShareSearch.js'
+import ExternalLinkActions from './services/ExternalLinkActions.js'
+import ExternalShareActions from './services/ExternalShareActions.js'
+import TabSections from './services/TabSections.js'
+
+// eslint-disable-next-line n/no-missing-import, import/no-unresolved
+import ShareVariant from '@mdi/svg/svg/share-variant.svg?raw'
+
+// eslint-disable-next-line camelcase
+__webpack_nonce__ = btoa(getRequestToken())
 
 // Init Sharing Tab Service
 if (!window.OCA.Sharing) {
@@ -34,14 +42,13 @@ if (!window.OCA.Sharing) {
 }
 Object.assign(window.OCA.Sharing, { ShareSearch: new ShareSearch() })
 Object.assign(window.OCA.Sharing, { ExternalLinkActions: new ExternalLinkActions() })
+Object.assign(window.OCA.Sharing, { ExternalShareActions: new ExternalShareActions() })
 Object.assign(window.OCA.Sharing, { ShareTabSections: new TabSections() })
 
 Vue.prototype.t = t
 Vue.prototype.n = n
-Vue.use(VueClipboard)
 
 // Init Sharing tab component
-const View = Vue.extend(SharingTab)
 let TabInstance = null
 
 window.addEventListener('DOMContentLoaded', function() {
@@ -49,9 +56,12 @@ window.addEventListener('DOMContentLoaded', function() {
 		OCA.Files.Sidebar.registerTab(new OCA.Files.Sidebar.Tab({
 			id: 'sharing',
 			name: t('files_sharing', 'Sharing'),
-			icon: 'icon-share',
+			iconSvg: ShareVariant,
 
 			async mount(el, fileInfo, context) {
+				const SharingTab = (await import('./views/SharingTab.vue')).default
+				const View = Vue.extend(SharingTab)
+
 				if (TabInstance) {
 					TabInstance.$destroy()
 				}

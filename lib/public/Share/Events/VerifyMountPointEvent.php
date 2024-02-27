@@ -16,14 +16,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCP\Share\Events;
 
 use OC\Files\View;
@@ -34,7 +33,6 @@ use OCP\Share\IShare;
  * @since 19.0.0
  */
 class VerifyMountPointEvent extends Event {
-
 	/** @var IShare */
 	private $share;
 	/** @var View */
@@ -46,8 +44,8 @@ class VerifyMountPointEvent extends Event {
 	 * @since 19.0.0
 	 */
 	public function __construct(IShare $share,
-								View $view,
-								string $parent) {
+		View $view,
+		string $parent) {
 		parent::__construct();
 
 		$this->share = $share;

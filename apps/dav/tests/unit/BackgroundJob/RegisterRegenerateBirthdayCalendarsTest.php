@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright 2019 Georg Ehrke <oc.list@georgehrke.com>
  *
@@ -16,27 +19,24 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\Tests\unit\BackgroundJob;
 
 use OCA\DAV\BackgroundJob\GenerateBirthdayCalendarBackgroundJob;
 use OCA\DAV\BackgroundJob\RegisterRegenerateBirthdayCalendars;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
-use OCP\IConfig;
 use OCP\IUser;
 use OCP\IUserManager;
 use Test\TestCase;
 
 class RegisterRegenerateBirthdayCalendarsTest extends TestCase {
-
 	/** @var ITimeFactory | \PHPUnit\Framework\MockObject\MockObject */
 	private $time;
 
@@ -45,9 +45,6 @@ class RegisterRegenerateBirthdayCalendarsTest extends TestCase {
 
 	/** @var IJobList | \PHPUnit\Framework\MockObject\MockObject */
 	private $jobList;
-
-	/** @var IConfig | \PHPUnit\Framework\MockObject\MockObject */
-	private $config;
 
 	/** @var RegisterRegenerateBirthdayCalendars */
 	private $backgroundJob;
@@ -58,16 +55,18 @@ class RegisterRegenerateBirthdayCalendarsTest extends TestCase {
 		$this->time = $this->createMock(ITimeFactory::class);
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->jobList = $this->createMock(IJobList::class);
-		$this->config = $this->createMock(IConfig::class);
 
-		$this->backgroundJob = new RegisterRegenerateBirthdayCalendars($this->time,
-			$this->userManager, $this->jobList);
+		$this->backgroundJob = new RegisterRegenerateBirthdayCalendars(
+			$this->time,
+			$this->userManager,
+			$this->jobList
+		);
 	}
 
-	public function testRun() {
+	public function testRun(): void {
 		$this->userManager->expects($this->once())
 			->method('callForSeenUsers')
-			->willReturnCallback(function ($closure) {
+			->willReturnCallback(function ($closure): void {
 				$user1 = $this->createMock(IUser::class);
 				$user1->method('getUID')->willReturn('uid1');
 				$user2 = $this->createMock(IUser::class);
@@ -80,24 +79,22 @@ class RegisterRegenerateBirthdayCalendarsTest extends TestCase {
 				$closure($user3);
 			});
 
-		$this->jobList->expects($this->at(0))
+		$this->jobList->expects($this->exactly(3))
 			->method('add')
-			->with(GenerateBirthdayCalendarBackgroundJob::class, [
-				'userId' => 'uid1',
-				'purgeBeforeGenerating' => true
-			]);
-		$this->jobList->expects($this->at(1))
-			->method('add')
-			->with(GenerateBirthdayCalendarBackgroundJob::class, [
-				'userId' => 'uid2',
-				'purgeBeforeGenerating' => true
-			]);
-		$this->jobList->expects($this->at(2))
-			->method('add')
-			->with(GenerateBirthdayCalendarBackgroundJob::class, [
-				'userId' => 'uid3',
-				'purgeBeforeGenerating' => true
-			]);
+			->withConsecutive(
+				[GenerateBirthdayCalendarBackgroundJob::class, [
+					'userId' => 'uid1',
+					'purgeBeforeGenerating' => true
+				]],
+				[GenerateBirthdayCalendarBackgroundJob::class, [
+					'userId' => 'uid2',
+					'purgeBeforeGenerating' => true
+				]],
+				[GenerateBirthdayCalendarBackgroundJob::class, [
+					'userId' => 'uid3',
+					'purgeBeforeGenerating' => true
+				]],
+			);
 
 		$this->backgroundJob->run([]);
 	}

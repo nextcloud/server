@@ -23,14 +23,13 @@
 
 declare(strict_types=1);
 
-namespace lib\Authentication\Login;
+namespace Test\Authentication\Login;
 
 use OC\Authentication\Login\UpdateLastPasswordConfirmCommand;
 use OCP\ISession;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class UpdateLastPasswordConfirmCommandTest extends ALoginCommandTest {
-
 	/** @var ISession|MockObject */
 	private $session;
 

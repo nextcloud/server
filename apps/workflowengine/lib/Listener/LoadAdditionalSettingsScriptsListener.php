@@ -5,7 +5,8 @@ declare(strict_types=1);
 /**
  * @copyright 2020 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
- * @author 2020 Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author François Freitag <mail@franek.fr>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -16,23 +17,25 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
  */
-
 namespace OCA\WorkflowEngine\Listener;
 
 use OCA\WorkflowEngine\AppInfo\Application;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\Template;
+use OCP\Util;
+use OCP\WorkflowEngine\Events\LoadSettingsScriptsEvent;
 use function class_exists;
 use function function_exists;
-use function script;
 
+/** @template-implements IEventListener<LoadSettingsScriptsEvent> */
 class LoadAdditionalSettingsScriptsListener implements IEventListener {
 	public function handle(Event $event): void {
 		if (!function_exists('style')) {
@@ -40,12 +43,9 @@ class LoadAdditionalSettingsScriptsListener implements IEventListener {
 			class_exists(Template::class, true);
 		}
 
-		script('core', [
-			'dist/systemtags',
-		]);
-
-		script(Application::APP_ID, [
-			'workflowengine',
-		]);
+		Util::addScript('core', 'files_fileinfo');
+		Util::addScript('core', 'files_client');
+		Util::addScript('core', 'systemtags');
+		Util::addScript(Application::APP_ID, 'workflowengine');
 	}
 }

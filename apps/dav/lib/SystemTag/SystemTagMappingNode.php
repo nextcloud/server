@@ -21,7 +21,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\SystemTag;
 
 use OCP\IUser;
@@ -138,6 +137,8 @@ class SystemTagMappingNode implements \Sabre\DAV\INode {
 	 * @param string $name The new name
 	 *
 	 * @throws MethodNotAllowed not allowed to rename node
+	 *
+	 * @return never
 	 */
 	public function setName($name) {
 		throw new MethodNotAllowed();
@@ -146,6 +147,7 @@ class SystemTagMappingNode implements \Sabre\DAV\INode {
 	/**
 	 * Returns null, not supported
 	 *
+	 * @return null
 	 */
 	public function getLastModified() {
 		return null;
@@ -153,6 +155,8 @@ class SystemTagMappingNode implements \Sabre\DAV\INode {
 
 	/**
 	 * Delete tag to object association
+	 *
+	 * @return void
 	 */
 	public function delete() {
 		try {

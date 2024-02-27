@@ -3,6 +3,8 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Julius Härtl <jus@bitgrid.net>
+ * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
@@ -21,7 +23,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Preview;
 
 use OCP\Files\File;
@@ -42,7 +43,7 @@ class MarkDown extends TXT {
 			return null;
 		}
 
-		$content = stream_get_contents($content,3000);
+		$content = stream_get_contents($content, 3000);
 
 		//don't create previews of empty text files
 		if (trim($content) === '') {
@@ -118,7 +119,7 @@ class MarkDown extends TXT {
 				// Get rid of markdown symbols that we still needed for the font size
 				$line = preg_replace('/^#*\s/', '', $line);
 
-				$wrappedText = wordwrap($line, $wordWrap,"\n");
+				$wrappedText = wordwrap($line, $wordWrap, "\n");
 				$linesWrapped = count(explode("\n", $wrappedText));
 				imagettftext($image, $actualFontSize, 0, $x, $y, $textColor, $actualFontSize === $fontSize ? $fontFile : $fontFileBold, $wrappedText);
 				$nextLineStart = (int)($linesWrapped * ceil($actualFontSize * 2));
@@ -136,7 +137,7 @@ class MarkDown extends TXT {
 			}
 		}
 
-		$imageObject = new \OC_Image();
+		$imageObject = new \OCP\Image();
 		$imageObject->setResource($image);
 
 		return $imageObject->valid() ? $imageObject : null;

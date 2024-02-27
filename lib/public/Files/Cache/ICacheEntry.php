@@ -20,7 +20,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP\Files\Cache;
 
 use ArrayAccess;
@@ -29,12 +28,16 @@ use ArrayAccess;
  * meta data for a file or folder
  *
  * @since 9.0.0
+ * @template-extends ArrayAccess<string,mixed>
  *
  * This interface extends \ArrayAccess since v21.0.0, previous versions only
  * implemented it in the private implementation. Hence php would allow using the
  * object as array, while strictly speaking it didn't support this.
  */
 interface ICacheEntry extends ArrayAccess {
+	/**
+	 * @since 9.0.0
+	 */
 	public const DIRECTORY_MIMETYPE = 'httpd/unix-directory';
 
 	/**
@@ -124,8 +127,8 @@ interface ICacheEntry extends ArrayAccess {
 	public function getEtag();
 
 	/**
-	 * Get the permissions for the file stored as bitwise combination of \OCP\PERMISSION_READ, \OCP\PERMISSION_CREATE
-	 * \OCP\PERMISSION_UPDATE, \OCP\PERMISSION_DELETE and \OCP\PERMISSION_SHARE
+	 * Get the permissions for the file stored as bitwise combination of \OCP\Constants::PERMISSION_READ, \OCP\Constants::PERMISSION_CREATE
+	 * \OCP\Constants::PERMISSION_UPDATE, \OCP\Constants::PERMISSION_DELETE and \OCP\Constants::PERMISSION_SHARE
 	 *
 	 * @return int
 	 * @since 9.0.0
@@ -163,4 +166,14 @@ interface ICacheEntry extends ArrayAccess {
 	 * @since 18.0.0
 	 */
 	public function getUploadTime(): ?int;
+
+	/**
+	 * Get the unencrypted size
+	 *
+	 * This might be different from the result of getSize
+	 *
+	 * @return int
+	 * @since 25.0.0
+	 */
+	public function getUnencryptedSize(): int;
 }

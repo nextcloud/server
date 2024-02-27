@@ -23,14 +23,13 @@
 
 declare(strict_types=1);
 
-namespace lib\Authentication\Login;
+namespace Test\Authentication\Login;
 
 use OC\Authentication\Login\UidLoginCommand;
 use OC\User\Manager;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class UidLoginCommandTest extends ALoginCommandTest {
-
 	/** @var Manager|MockObject */
 	private $userManager;
 

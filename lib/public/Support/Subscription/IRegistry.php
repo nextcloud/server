@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- *
+ * @copyright Copyright (c) 2016 Morris Jobke <hey@morrisjobke.de>
  *
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Morris Jobke <hey@morrisjobke.de>
@@ -18,23 +18,22 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCP\Support\Subscription;
 
+use OCP\Notification\IManager;
 use OCP\Support\Subscription\Exception\AlreadyRegisteredException;
 
 /**
  * @since 17.0.0
  */
 interface IRegistry {
-
 	/**
 	 * Register a subscription instance. In case it is called multiple times an
 	 * exception is thrown
@@ -82,7 +81,8 @@ interface IRegistry {
 	/**
 	 * Indicates if a hard user limit is reached and no new users should be created
 	 *
+	 * @param IManager|null $notificationManager
 	 * @since 21.0.0
 	 */
-	public function delegateIsHardUserLimitReached(): bool;
+	public function delegateIsHardUserLimitReached(?IManager $notificationManager = null): bool;
 }

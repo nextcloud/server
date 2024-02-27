@@ -17,33 +17,28 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Core\Command\TwoFactorAuth;
 
-use function implode;
 use OC\Authentication\TwoFactorAuth\EnforcementState;
 use OC\Authentication\TwoFactorAuth\MandatoryTwoFactor;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use function implode;
 
 class Enforce extends Command {
-
-	/** @var MandatoryTwoFactor */
-	private $mandatoryTwoFactor;
-
-	public function __construct(MandatoryTwoFactor $mandatoryTwoFactor) {
+	public function __construct(
+		private MandatoryTwoFactor $mandatoryTwoFactor,
+	) {
 		parent::__construct();
-
-		$this->mandatoryTwoFactor = $mandatoryTwoFactor;
 	}
 
 	protected function configure() {
@@ -93,9 +88,6 @@ class Enforce extends Command {
 		return 0;
 	}
 
-	/**
-	 * @param OutputInterface $output
-	 */
 	protected function writeEnforced(OutputInterface $output, EnforcementState $state) {
 		if (empty($state->getEnforcedGroups())) {
 			$message = 'Two-factor authentication is enforced for all users';
@@ -108,9 +100,6 @@ class Enforce extends Command {
 		$output->writeln($message);
 	}
 
-	/**
-	 * @param OutputInterface $output
-	 */
 	protected function writeNotEnforced(OutputInterface $output) {
 		$output->writeln('Two-factor authentication is not enforced');
 	}

@@ -8,8 +8,9 @@ use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\IConfig;
-use OCP\ILogger;
+use OCP\Lock\ILockingProvider;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Formatter\OutputFormatterInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -20,7 +21,7 @@ class RepairTest extends TestCase {
 	private $config;
 	/** @var IRootFolder|MockObject */
 	private $rootFolder;
-	/** @var ILogger|MockObject */
+	/** @var LoggerInterface|MockObject */
 	private $logger;
 	/** @var IniGetWrapper|MockObject */
 	private $iniGetWrapper;
@@ -39,11 +40,17 @@ class RepairTest extends TestCase {
 			->getMock();
 		$this->rootFolder = $this->getMockBuilder(IRootFolder::class)
 			->getMock();
-		$this->logger = $this->getMockBuilder(ILogger::class)
+		$this->logger = $this->getMockBuilder(LoggerInterface::class)
 			->getMock();
 		$this->iniGetWrapper = $this->getMockBuilder(IniGetWrapper::class)
 			->getMock();
-		$this->repair = new Repair($this->config, $this->rootFolder, $this->logger, $this->iniGetWrapper);
+		$this->repair = new Repair(
+			$this->config,
+			$this->rootFolder,
+			$this->logger,
+			$this->iniGetWrapper,
+			$this->createMock(ILockingProvider::class)
+		);
 		$this->input = $this->getMockBuilder(InputInterface::class)
 			->getMock();
 		$this->input->expects($this->any())
@@ -61,9 +68,15 @@ class RepairTest extends TestCase {
 		$this->output->expects($this->any())
 			->method('section')
 			->willReturn($this->output);
+
+		/* We need format method to return a string */
+		$outputFormatter = $this->createMock(OutputFormatterInterface::class);
+		$outputFormatter->method('isDecorated')->willReturn(false);
+		$outputFormatter->method('format')->willReturnArgument(0);
+
 		$this->output->expects($this->any())
 			->method('getFormatter')
-			->willReturn($this->getMockBuilder(OutputFormatterInterface::class)->getMock());
+			->willReturn($outputFormatter);
 		$this->output->expects($this->any())
 			->method('writeln')
 			->willReturnCallback(function ($line) use ($self) {
@@ -129,7 +142,7 @@ class RepairTest extends TestCase {
 		$previewFolder->expects($this->once())
 			->method('getDirectoryListing')
 			->willReturn($directories);
-		$this->rootFolder->expects($this->at(0))
+		$this->rootFolder->expects($this->once())
 			->method('get')
 			->with("appdata_/preview")
 			->willReturn($previewFolder);

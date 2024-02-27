@@ -13,6 +13,7 @@
  * @author Sander Ruitenbeek <sander@grids.be>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Thomas Pulzer <t.pulzer@kniel.de>
+ * @author Valdnet <47037905+Valdnet@users.noreply.github.com>
  * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
@@ -30,20 +31,26 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Core\Command;
 
 use OC\Console\TimestampFormatter;
-use OC\Installer;
+use OC\DB\MigratorExecuteSqlEvent;
+use OC\Repair\Events\RepairAdvanceEvent;
+use OC\Repair\Events\RepairErrorEvent;
+use OC\Repair\Events\RepairFinishEvent;
+use OC\Repair\Events\RepairInfoEvent;
+use OC\Repair\Events\RepairStartEvent;
+use OC\Repair\Events\RepairStepEvent;
+use OC\Repair\Events\RepairWarningEvent;
 use OC\Updater;
+use OCP\EventDispatcher\Event;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
-use OCP\ILogger;
 use OCP\Util;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
 
 class Upgrade extends Command {
 	public const ERROR_SUCCESS = 0;
@@ -53,22 +60,10 @@ class Upgrade extends Command {
 	public const ERROR_INVALID_ARGUMENTS = 4;
 	public const ERROR_FAILURE = 5;
 
-	/** @var IConfig */
-	private $config;
-
-	/** @var ILogger */
-	private $logger;
-
-	/**
-	 * @param IConfig $config
-	 * @param ILogger $logger
-	 * @param Installer $installer
-	 */
-	public function __construct(IConfig $config, ILogger $logger, Installer $installer) {
+	public function __construct(
+		private IConfig $config
+	) {
 		parent::__construct();
-		$this->config = $config;
-		$this->logger = $logger;
-		$this->installer = $installer;
 	}
 
 	protected function configure() {
@@ -92,91 +87,72 @@ class Upgrade extends Command {
 			}
 
 			$self = $this;
-			$updater = new Updater(
-					$this->config,
-					\OC::$server->getIntegrityCodeChecker(),
-					$this->logger,
-					$this->installer
-			);
+			$updater = \OCP\Server::get(Updater::class);
 
-			$dispatcher = \OC::$server->getEventDispatcher();
+			/** @var IEventDispatcher $dispatcher */
+			$dispatcher = \OC::$server->get(IEventDispatcher::class);
 			$progress = new ProgressBar($output);
 			$progress->setFormat(" %message%\n %current%/%max% [%bar%] %percent:3s%%");
-			$listener = function ($event) use ($progress, $output) {
-				if ($event instanceof GenericEvent) {
-					$message = $event->getSubject();
-					if (OutputInterface::VERBOSITY_NORMAL < $output->getVerbosity()) {
-						$output->writeln(' Checking table ' . $message);
-					} else {
-						if (strlen($message) > 60) {
-							$message = substr($message, 0, 57) . '...';
-						}
-						$progress->setMessage($message);
-						if ($event[0] === 1) {
-							$output->writeln('');
-							$progress->start($event[1]);
-						}
-						$progress->setProgress($event[0]);
-						if ($event[0] === $event[1]) {
-							$progress->setMessage('Done');
-							$progress->finish();
-							$output->writeln('');
-						}
+			$listener = function (MigratorExecuteSqlEvent $event) use ($progress, $output): void {
+				$message = $event->getSql();
+				if (OutputInterface::VERBOSITY_NORMAL < $output->getVerbosity()) {
+					$output->writeln(' Executing SQL ' . $message);
+				} else {
+					if (strlen($message) > 60) {
+						$message = substr($message, 0, 57) . '...';
 					}
-				}
-			};
-			$repairListener = function ($event) use ($progress, $output) {
-				if (!$event instanceof GenericEvent) {
-					return;
-				}
-				switch ($event->getSubject()) {
-					case '\OC\Repair::startProgress':
-						$progress->setMessage('Starting ...');
-						$output->writeln($event->getArgument(1));
+					$progress->setMessage($message);
+					if ($event->getCurrentStep() === 1) {
 						$output->writeln('');
-						$progress->start($event->getArgument(0));
-						break;
-					case '\OC\Repair::advance':
-						$desc = $event->getArgument(1);
-						if (!empty($desc)) {
-							$progress->setMessage($desc);
-						}
-						$progress->advance($event->getArgument(0));
-
-						break;
-					case '\OC\Repair::finishProgress':
+						$progress->start($event->getMaxStep());
+					}
+					$progress->setProgress($event->getCurrentStep());
+					if ($event->getCurrentStep() === $event->getMaxStep()) {
 						$progress->setMessage('Done');
 						$progress->finish();
 						$output->writeln('');
-						break;
-					case '\OC\Repair::step':
-						if (OutputInterface::VERBOSITY_NORMAL < $output->getVerbosity()) {
-							$output->writeln('<info>Repair step: ' . $event->getArgument(0) . '</info>');
-						}
-						break;
-					case '\OC\Repair::info':
-						if (OutputInterface::VERBOSITY_NORMAL < $output->getVerbosity()) {
-							$output->writeln('<info>Repair info: ' . $event->getArgument(0) . '</info>');
-						}
-						break;
-					case '\OC\Repair::warning':
-						$output->writeln('<error>Repair warning: ' . $event->getArgument(0) . '</error>');
-						break;
-					case '\OC\Repair::error':
-						$output->writeln('<error>Repair error: ' . $event->getArgument(0) . '</error>');
-						break;
+					}
+				}
+			};
+			$repairListener = function (Event $event) use ($progress, $output): void {
+				if ($event instanceof RepairStartEvent) {
+					$progress->setMessage('Starting ...');
+					$output->writeln($event->getCurrentStepName());
+					$output->writeln('');
+					$progress->start($event->getMaxStep());
+				} elseif ($event instanceof RepairAdvanceEvent) {
+					$desc = $event->getDescription();
+					if (!empty($desc)) {
+						$progress->setMessage($desc);
+					}
+					$progress->advance($event->getIncrement());
+				} elseif ($event instanceof RepairFinishEvent) {
+					$progress->setMessage('Done');
+					$progress->finish();
+					$output->writeln('');
+				} elseif ($event instanceof RepairStepEvent) {
+					if (OutputInterface::VERBOSITY_NORMAL < $output->getVerbosity()) {
+						$output->writeln('<info>Repair step: ' . $event->getStepName() . '</info>');
+					}
+				} elseif ($event instanceof RepairInfoEvent) {
+					if (OutputInterface::VERBOSITY_NORMAL < $output->getVerbosity()) {
+						$output->writeln('<info>Repair info: ' . $event->getMessage() . '</info>');
+					}
+				} elseif ($event instanceof RepairWarningEvent) {
+					$output->writeln('<error>Repair warning: ' . $event->getMessage() . '</error>');
+				} elseif ($event instanceof RepairErrorEvent) {
+					$output->writeln('<error>Repair error: ' . $event->getMessage() . '</error>');
 				}
 			};
 
-			$dispatcher->addListener('\OC\DB\Migrator::executeSql', $listener);
-			$dispatcher->addListener('\OC\DB\Migrator::checkTable', $listener);
-			$dispatcher->addListener('\OC\Repair::startProgress', $repairListener);
-			$dispatcher->addListener('\OC\Repair::advance', $repairListener);
-			$dispatcher->addListener('\OC\Repair::finishProgress', $repairListener);
-			$dispatcher->addListener('\OC\Repair::step', $repairListener);
-			$dispatcher->addListener('\OC\Repair::info', $repairListener);
-			$dispatcher->addListener('\OC\Repair::warning', $repairListener);
-			$dispatcher->addListener('\OC\Repair::error', $repairListener);
+			$dispatcher->addListener(MigratorExecuteSqlEvent::class, $listener);
+			$dispatcher->addListener(RepairStartEvent::class, $repairListener);
+			$dispatcher->addListener(RepairAdvanceEvent::class, $repairListener);
+			$dispatcher->addListener(RepairFinishEvent::class, $repairListener);
+			$dispatcher->addListener(RepairStepEvent::class, $repairListener);
+			$dispatcher->addListener(RepairInfoEvent::class, $repairListener);
+			$dispatcher->addListener(RepairWarningEvent::class, $repairListener);
+			$dispatcher->addListener(RepairErrorEvent::class, $repairListener);
 
 
 			$updater->listen('\OC\Updater', 'maintenanceEnabled', function () use ($output) {
@@ -203,32 +179,14 @@ class Upgrade extends Command {
 			$updater->listen('\OC\Updater', 'dbUpgrade', function () use ($output) {
 				$output->writeln('<info>Updated database</info>');
 			});
-			$updater->listen('\OC\Updater', 'dbSimulateUpgradeBefore', function () use ($output) {
-				$output->writeln('<info>Checking whether the database schema can be updated (this can take a long time depending on the database size)</info>');
-			});
-			$updater->listen('\OC\Updater', 'dbSimulateUpgrade', function () use ($output) {
-				$output->writeln('<info>Checked database schema update</info>');
-			});
 			$updater->listen('\OC\Updater', 'incompatibleAppDisabled', function ($app) use ($output) {
 				$output->writeln('<comment>Disabled incompatible app: ' . $app . '</comment>');
 			});
-			$updater->listen('\OC\Updater', 'checkAppStoreAppBefore', function ($app) use ($output) {
-				$output->writeln('<info>Checking for update of app ' . $app . ' in appstore</info>');
-			});
 			$updater->listen('\OC\Updater', 'upgradeAppStoreApp', function ($app) use ($output) {
-				$output->writeln('<info>Update app ' . $app . ' from appstore</info>');
-			});
-			$updater->listen('\OC\Updater', 'checkAppStoreApp', function ($app) use ($output) {
-				$output->writeln('<info>Checked for update of app "' . $app . '" in appstore </info>');
-			});
-			$updater->listen('\OC\Updater', 'appUpgradeCheckBefore', function () use ($output) {
-				$output->writeln('<info>Checking updates of apps</info>');
+				$output->writeln('<info>Update app ' . $app . ' from App Store</info>');
 			});
 			$updater->listen('\OC\Updater', 'appSimulateUpdate', function ($app) use ($output) {
 				$output->writeln("<info>Checking whether the database schema for <$app> can be updated (this can take a long time depending on the database size)</info>");
-			});
-			$updater->listen('\OC\Updater', 'appUpgradeCheck', function () use ($output) {
-				$output->writeln('<info>Checked database schema update for apps</info>');
 			});
 			$updater->listen('\OC\Updater', 'appUpgradeStarted', function ($app, $version) use ($output) {
 				$output->writeln("<info>Updating <$app> ...</info>");
@@ -267,8 +225,7 @@ class Upgrade extends Command {
 			$output->write('<comment>Maybe an upgrade is already in process. Please check the '
 				. 'logfile (data/nextcloud.log). If you want to re-run the '
 				. 'upgrade procedure, remove the "maintenance mode" from '
-				. 'config.php and call this script again.</comment>'
-				, true);
+				. 'config.php and call this script again.</comment>', true);
 			return self::ERROR_MAINTENANCE_MODE;
 		} else {
 			$output->writeln('<info>Nextcloud is already latest version</info>');

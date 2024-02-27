@@ -26,7 +26,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Files\Node;
 
 use OCP\Files\GenericFileException;
@@ -38,7 +37,7 @@ class File extends Node implements \OCP\Files\File {
 	 * Creates a Folder that represents a non-existing path
 	 *
 	 * @param string $path path
-	 * @return string non-existing node class
+	 * @return NonExistingFile non-existing node
 	 */
 	protected function createNonExistingNode($path) {
 		return new NonExistingFile($this->root, $this->view, $path);
@@ -47,14 +46,16 @@ class File extends Node implements \OCP\Files\File {
 	/**
 	 * @return string
 	 * @throws NotPermittedException
+	 * @throws GenericFileException
 	 * @throws LockedException
 	 */
 	public function getContent() {
 		if ($this->checkPermissions(\OCP\Constants::PERMISSION_READ)) {
-			/**
-			 * @var \OC\Files\Storage\Storage $storage;
-			 */
-			return $this->view->file_get_contents($this->path);
+			$content = $this->view->file_get_contents($this->path);
+			if ($content === false) {
+				throw new GenericFileException();
+			}
+			return $content;
 		} else {
 			throw new NotPermittedException();
 		}
@@ -63,7 +64,7 @@ class File extends Node implements \OCP\Files\File {
 	/**
 	 * @param string|resource $data
 	 * @throws NotPermittedException
-	 * @throws \OCP\Files\GenericFileException
+	 * @throws GenericFileException
 	 * @throws LockedException
 	 */
 	public function putContent($data) {
@@ -81,7 +82,7 @@ class File extends Node implements \OCP\Files\File {
 
 	/**
 	 * @param string $mode
-	 * @return resource
+	 * @return resource|false
 	 * @throws NotPermittedException
 	 * @throws LockedException
 	 */
@@ -132,7 +133,6 @@ class File extends Node implements \OCP\Files\File {
 			$this->view->unlink($this->path);
 			$nonExisting = new NonExistingFile($this->root, $this->view, $this->path, $fileInfo);
 			$this->sendHooks(['postDelete'], [$nonExisting]);
-			$this->exists = false;
 			$this->fileInfo = null;
 		} else {
 			throw new NotPermittedException();

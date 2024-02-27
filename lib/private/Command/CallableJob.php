@@ -19,10 +19,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Command;
 
-use OC\BackgroundJob\QueuedJob;
+use OCP\BackgroundJob\QueuedJob;
 
 class CallableJob extends QueuedJob {
 	protected function run($serializedCallable) {

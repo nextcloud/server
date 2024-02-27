@@ -17,14 +17,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Authentication\Listeners;
 
 use BadMethodCallException;
@@ -40,7 +39,6 @@ use Psr\Log\LoggerInterface;
  * @template-implements IEventListener<\OC\Authentication\Events\ARemoteWipeEvent>
  */
 class RemoteWipeActivityListener implements IEventListener {
-
 	/** @var IActvityManager */
 	private $activityManager;
 
@@ -48,7 +46,7 @@ class RemoteWipeActivityListener implements IEventListener {
 	private $logger;
 
 	public function __construct(IActvityManager $activityManager,
-								LoggerInterface $logger) {
+		LoggerInterface $logger) {
 		$this->activityManager = $activityManager;
 		$this->logger = $logger;
 	}

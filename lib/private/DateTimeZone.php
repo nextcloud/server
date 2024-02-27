@@ -22,13 +22,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC;
 
 use OCP\IConfig;
 use OCP\IDateTimeZone;
-use OCP\ILogger;
 use OCP\ISession;
+use Psr\Log\LoggerInterface;
 
 class DateTimeZone implements IDateTimeZone {
 	/** @var IConfig */
@@ -66,7 +65,7 @@ class DateTimeZone implements IDateTimeZone {
 		try {
 			return new \DateTimeZone($timeZone);
 		} catch (\Exception $e) {
-			\OCP\Util::writeLog('datetimezone', 'Failed to created DateTimeZone "' . $timeZone . "'", ILogger::DEBUG);
+			\OC::$server->get(LoggerInterface::class)->debug('Failed to created DateTimeZone "' . $timeZone . '"', ['app' => 'datetimezone']);
 			return new \DateTimeZone($this->getDefaultTimeZone());
 		}
 	}
@@ -111,7 +110,7 @@ class DateTimeZone implements IDateTimeZone {
 			}
 
 			// No timezone found, fallback to UTC
-			\OCP\Util::writeLog('datetimezone', 'Failed to find DateTimeZone for offset "' . $offset . "'", ILogger::DEBUG);
+			\OC::$server->get(LoggerInterface::class)->debug('Failed to find DateTimeZone for offset "' . $offset . '"', ['app' => 'datetimezone']);
 			return new \DateTimeZone($this->getDefaultTimeZone());
 		}
 	}

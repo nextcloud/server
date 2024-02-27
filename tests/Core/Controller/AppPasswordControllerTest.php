@@ -29,21 +29,23 @@ use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Token\IProvider;
 use OC\Authentication\Token\IToken;
 use OC\Core\Controller\AppPasswordController;
+use OC\User\Session;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\Authentication\Exceptions\CredentialsUnavailableException;
 use OCP\Authentication\Exceptions\PasswordUnavailableException;
 use OCP\Authentication\LoginCredentials\ICredentials;
 use OCP\Authentication\LoginCredentials\IStore;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IRequest;
 use OCP\ISession;
+use OCP\IUserManager;
+use OCP\Security\Bruteforce\IThrottler;
 use OCP\Security\ISecureRandom;
 use PHPUnit\Framework\MockObject\MockObject;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Test\TestCase;
 
 class AppPasswordControllerTest extends TestCase {
-
 	/** @var ISession|MockObject */
 	private $session;
 
@@ -59,8 +61,17 @@ class AppPasswordControllerTest extends TestCase {
 	/** @var IRequest|MockObject */
 	private $request;
 
-	/** @var EventDispatcherInterface|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IEventDispatcher|\PHPUnit\Framework\MockObject\MockObject */
 	private $eventDispatcher;
+
+	/** @var Session|MockObject */
+	private $userSession;
+
+	/** @var IUserManager|MockObject */
+	private $userManager;
+
+	/** @var IThrottler|MockObject */
+	private $throttler;
 
 	/** @var AppPasswordController */
 	private $controller;
@@ -73,7 +84,10 @@ class AppPasswordControllerTest extends TestCase {
 		$this->tokenProvider = $this->createMock(IProvider::class);
 		$this->credentialStore = $this->createMock(IStore::class);
 		$this->request = $this->createMock(IRequest::class);
-		$this->eventDispatcher = $this->createMock(EventDispatcherInterface::class);
+		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
+		$this->userSession = $this->createMock(Session::class);
+		$this->userManager = $this->createMock(IUserManager::class);
+		$this->throttler = $this->createMock(IThrottler::class);
 
 		$this->controller = new AppPasswordController(
 			'core',
@@ -82,7 +96,10 @@ class AppPasswordControllerTest extends TestCase {
 			$this->random,
 			$this->tokenProvider,
 			$this->credentialStore,
-			$this->eventDispatcher
+			$this->eventDispatcher,
+			$this->userSession,
+			$this->userManager,
+			$this->throttler
 		);
 	}
 
@@ -144,7 +161,7 @@ class AppPasswordControllerTest extends TestCase {
 			);
 
 		$this->eventDispatcher->expects($this->once())
-			->method('dispatch');
+			->method('dispatchTyped');
 
 		$this->controller->getAppPassword();
 	}
@@ -185,7 +202,7 @@ class AppPasswordControllerTest extends TestCase {
 			);
 
 		$this->eventDispatcher->expects($this->once())
-			->method('dispatch');
+			->method('dispatchTyped');
 
 		$this->controller->getAppPassword();
 	}

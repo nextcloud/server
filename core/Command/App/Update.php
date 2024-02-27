@@ -4,7 +4,7 @@
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author michag86 <micha_g@arcor.de>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -18,19 +18,18 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Core\Command\App;
 
 use OC\Installer;
 use OCP\App\IAppManager;
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -38,26 +37,15 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Update extends Command {
-
-	/** @var IAppManager */
-	protected $manager;
-	/** @var Installer */
-	private $installer;
-	/** @var ILogger */
-	private $logger;
-
-	/**
-	 * @param IAppManager $manager
-	 * @param Installer $installer
-	 */
-	public function __construct(IAppManager $manager, Installer $installer, ILogger $logger) {
+	public function __construct(
+		protected IAppManager $manager,
+		private Installer $installer,
+		private LoggerInterface $logger,
+	) {
 		parent::__construct();
-		$this->manager = $manager;
-		$this->installer = $installer;
-		$this->logger = $logger;
 	}
 
-	protected function configure() {
+	protected function configure(): void {
 		$this
 			->setName('app:update')
 			->setDescription('update an app or all apps')
@@ -89,6 +77,7 @@ class Update extends Command {
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$singleAppId = $input->getArgument('app-id');
+		$updateFound = false;
 
 		if ($singleAppId) {
 			$apps = [$singleAppId];
@@ -109,14 +98,19 @@ class Update extends Command {
 		foreach ($apps as $appId) {
 			$newVersion = $this->installer->isUpdateAvailable($appId, $input->getOption('allow-unstable'));
 			if ($newVersion) {
+				$updateFound = true;
 				$output->writeln($appId . ' new version available: ' . $newVersion);
 
 				if (!$input->getOption('showonly')) {
 					try {
 						$result = $this->installer->updateAppstoreApp($appId, $input->getOption('allow-unstable'));
 					} catch (\Exception $e) {
-						$this->logger->logException($e, ['message' => 'Failure during update of app "' . $appId . '"','app' => 'app:update']);
+						$this->logger->error('Failure during update of app "' . $appId . '"', [
+							'app' => 'app:update',
+							'exception' => $e,
+						]);
 						$output->writeln('Error: ' . $e->getMessage());
+						$result = false;
 						$return = 1;
 					}
 
@@ -127,6 +121,14 @@ class Update extends Command {
 						$output->writeln($appId . ' updated');
 					}
 				}
+			}
+		}
+
+		if (!$updateFound) {
+			if ($singleAppId) {
+				$output->writeln($singleAppId . ' is up-to-date or no updates could be found');
+			} else {
+				$output->writeln('All apps are up-to-date or no updates could be found');
 			}
 		}
 

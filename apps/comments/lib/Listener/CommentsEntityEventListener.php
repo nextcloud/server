@@ -16,29 +16,36 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Comments\Listener;
 
 use OCP\Comments\CommentsEntityEvent;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
+use OCP\Files\IRootFolder;
 
+/** @template-implements IEventListener<CommentsEntityEvent> */
 class CommentsEntityEventListener implements IEventListener {
+	public function __construct(
+		private IRootFolder $rootFolder,
+		private ?string $userId = null,
+	) {
+	}
+
 	public function handle(Event $event): void {
 		if (!($event instanceof CommentsEntityEvent)) {
 			// Unrelated
 			return;
 		}
 
-		$event->addEntityCollection('files', function ($name) {
-			$nodes = \OC::$server->getUserFolder()->getById((int)$name);
+		$event->addEntityCollection('files', function ($name): bool {
+			$nodes = $this->rootFolder->getUserFolder($this->userId)->getById((int)$name);
 			return !empty($nodes);
 		});
 	}

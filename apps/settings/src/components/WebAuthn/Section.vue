@@ -25,33 +25,38 @@
 		<p class="settings-hint hidden-when-empty">
 			{{ t('settings', 'Set up your account for passwordless authentication following the FIDO2 standard.') }}
 		</p>
-		<p v-if="devices.length === 0">
+		<NcNoteCard v-if="devices.length === 0" type="info">
 			{{ t('settings', 'No devices configured.') }}
-		</p>
-		<p v-else>
+		</NcNoteCard>
+		<h3 v-else>
 			{{ t('settings', 'The following devices are configured for your account:') }}
-		</p>
+		</h3>
 		<Device v-for="device in sortedDevices"
 			:key="device.id"
 			:name="device.name"
 			@delete="deleteDevice(device.id)" />
 
-		<p v-if="!hasPublicKeyCredential" class="warning">
+		<NcNoteCard v-if="!hasPublicKeyCredential" type="warning">
 			{{ t('settings', 'Your browser does not support WebAuthn.') }}
-		</p>
+		</NcNoteCard>
 
-		<AddDevice v-if="hasPublicKeyCredential" :is-https="isHttps" @added="deviceAdded" />
+		<AddDevice v-if="hasPublicKeyCredential"
+			:is-https="isHttps"
+			:is-localhost="isLocalhost"
+			@added="deviceAdded" />
 	</div>
 </template>
 
 <script>
-import confirmPassword from '@nextcloud/password-confirmation'
-import sortBy from 'lodash/fp/sortBy'
+import { confirmPassword } from '@nextcloud/password-confirmation'
+import NcNoteCard from '@nextcloud/vue/dist/Components/NcNoteCard.js'
+import '@nextcloud/password-confirmation/dist/style.css'
+import sortBy from 'lodash/fp/sortBy.js'
 
-import AddDevice from './AddDevice'
-import Device from './Device'
-import logger from '../../logger'
-import { removeRegistration } from '../../service/WebAuthnRegistrationSerice'
+import AddDevice from './AddDevice.vue'
+import Device from './Device.vue'
+import logger from '../../logger.js'
+import { removeRegistration } from '../../service/WebAuthnRegistrationSerice.js'
 
 const sortByName = sortBy('name')
 
@@ -59,6 +64,7 @@ export default {
 	components: {
 		AddDevice,
 		Device,
+		NcNoteCard,
 	},
 	props: {
 		initialDevices: {
@@ -66,6 +72,10 @@ export default {
 			required: true,
 		},
 		isHttps: {
+			type: Boolean,
+			default: false,
+		},
+		isLocalhost: {
 			type: Boolean,
 			default: false,
 		},

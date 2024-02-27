@@ -25,9 +25,9 @@ namespace Test\AppFramework\Http;
 
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\IRequest;
 
 class DataResponseTest extends \Test\TestCase {
-
 	/**
 	 * @var DataResponse
 	 */
@@ -67,7 +67,8 @@ class DataResponseTest extends \Test\TestCase {
 			'Cache-Control' => 'no-cache, no-store, must-revalidate',
 			'Content-Security-Policy' => "default-src 'none';base-uri 'none';manifest-src 'self';frame-ancestors 'none'",
 			'Feature-Policy' => "autoplay 'none';camera 'none';fullscreen 'none';geolocation 'none';microphone 'none';payment 'none'",
-			'X-Robots-Tag' => 'none',
+			'X-Robots-Tag' => 'noindex, nofollow',
+			'X-Request-Id' => \OC::$server->get(IRequest::class)->getId(),
 		];
 		$expectedHeaders = array_merge($expectedHeaders, $headers);
 

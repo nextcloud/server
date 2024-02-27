@@ -37,43 +37,58 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_External\Lib\Storage;
 
-use Aws\Result;
 use Aws\S3\Exception\S3Exception;
-use Aws\S3\S3Client;
 use Icewind\Streams\CallbackWrapper;
 use Icewind\Streams\IteratorDirectory;
-use OC\Cache\CappedMemoryCache;
 use OC\Files\Cache\CacheEntry;
 use OC\Files\ObjectStore\S3ConnectionTrait;
 use OC\Files\ObjectStore\S3ObjectTrait;
+use OCP\Cache\CappedMemoryCache;
 use OCP\Constants;
+use OCP\Files\FileInfo;
+use OCP\Files\IMimeTypeDetector;
+use OCP\ICache;
+use OCP\ICacheFactory;
+use OCP\Server;
+use Psr\Log\LoggerInterface;
 
 class AmazonS3 extends \OC\Files\Storage\Common {
 	use S3ConnectionTrait;
 	use S3ObjectTrait;
 
+	private LoggerInterface $logger;
+
 	public function needsPartFile() {
 		return false;
 	}
 
-	/** @var CappedMemoryCache|Result[] */
-	private $objectCache;
+	/** @var CappedMemoryCache<array|false> */
+	private CappedMemoryCache $objectCache;
 
-	/** @var CappedMemoryCache|bool[] */
-	private $directoryCache;
+	/** @var CappedMemoryCache<bool> */
+	private CappedMemoryCache $directoryCache;
 
-	/** @var CappedMemoryCache|array */
-	private $filesCache;
+	/** @var CappedMemoryCache<array> */
+	private CappedMemoryCache $filesCache;
+
+	private IMimeTypeDetector $mimeDetector;
+	private ?bool $versioningEnabled = null;
+	private ICache $memCache;
 
 	public function __construct($parameters) {
 		parent::__construct($parameters);
 		$this->parseParams($parameters);
+		$this->id = 'amazon::external::' . md5($this->params['hostname'] . ':' . $this->params['bucket'] . ':' . $this->params['key']);
 		$this->objectCache = new CappedMemoryCache();
 		$this->directoryCache = new CappedMemoryCache();
 		$this->filesCache = new CappedMemoryCache();
+		$this->mimeDetector = Server::get(IMimeTypeDetector::class);
+		/** @var ICacheFactory $cacheFactory */
+		$cacheFactory = Server::get(ICacheFactory::class);
+		$this->memCache = $cacheFactory->createLocal('s3-external');
+		$this->logger = Server::get(LoggerInterface::class);
 	}
 
 	/**
@@ -116,20 +131,27 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 				unset($this->objectCache[$existingKey]);
 			}
 		}
-		unset($this->directoryCache[$key], $this->filesCache[$key]);
+		unset($this->filesCache[$key]);
+		$keys = array_keys($this->directoryCache->getData());
+		$keyLength = strlen($key);
+		foreach ($keys as $existingKey) {
+			if (substr($existingKey, 0, $keyLength) === $key) {
+				unset($this->directoryCache[$existingKey]);
+			}
+		}
+		unset($this->directoryCache[$key]);
 	}
 
 	/**
-	 * @param $key
-	 * @return Result|boolean
+	 * @return array|false
 	 */
-	private function headObject($key) {
+	private function headObject(string $key) {
 		if (!isset($this->objectCache[$key])) {
 			try {
 				$this->objectCache[$key] = $this->getConnection()->headObject([
 					'Bucket' => $this->bucket,
 					'Key' => $key
-				]);
+				])->toArray();
 			} catch (S3Exception $e) {
 				if ($e->getStatusCode() >= 500) {
 					throw $e;
@@ -138,6 +160,10 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 			}
 		}
 
+		if (is_array($this->objectCache[$key]) && !isset($this->objectCache[$key]["Key"])) {
+			/** @psalm-suppress InvalidArgument Psalm doesn't understand nested arrays well */
+			$this->objectCache[$key]["Key"] = $key;
+		}
 		return $this->objectCache[$key];
 	}
 
@@ -155,63 +181,45 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 	 * @throws \Exception
 	 */
 	private function doesDirectoryExist($path) {
-		if (!isset($this->directoryCache[$path])) {
+		if ($path === '.' || $path === '') {
+			return true;
+		}
+		$path = rtrim($path, '/') . '/';
+
+		if (isset($this->directoryCache[$path])) {
+			return $this->directoryCache[$path];
+		}
+		try {
 			// Maybe this isn't an actual key, but a prefix.
 			// Do a prefix listing of objects to determine.
-			try {
-				$result = $this->getConnection()->listObjects([
-					'Bucket' => $this->bucket,
-					'Prefix' => rtrim($path, '/'),
-					'MaxKeys' => 1,
-					'Delimiter' => '/',
-				]);
+			$result = $this->getConnection()->listObjectsV2([
+				'Bucket' => $this->bucket,
+				'Prefix' => $path,
+				'MaxKeys' => 1,
+			]);
 
-				if ((isset($result['Contents'][0]['Key']) && $result['Contents'][0]['Key'] === rtrim($path, '/') . '/')
-					 || isset($result['CommonPrefixes'])) {
-					$this->directoryCache[$path] = true;
-				} else {
-					$this->directoryCache[$path] = false;
-				}
-			} catch (S3Exception $e) {
-				if ($e->getStatusCode() === 403) {
-					$this->directoryCache[$path] = false;
-				}
-				throw $e;
+			if (isset($result['Contents'])) {
+				$this->directoryCache[$path] = true;
+				return true;
 			}
+
+			// empty directories have their own object
+			$object = $this->headObject($path);
+
+			if ($object) {
+				$this->directoryCache[$path] = true;
+				return true;
+			}
+		} catch (S3Exception $e) {
+			if ($e->getStatusCode() >= 400 && $e->getStatusCode() < 500) {
+				$this->directoryCache[$path] = false;
+			}
+			throw $e;
 		}
 
-		return $this->directoryCache[$path];
-	}
 
-	/**
-	 * Updates old storage ids (v0.2.1 and older) that are based on key and secret to new ones based on the bucket name.
-	 * TODO Do this in a repair step. requires iterating over all users and loading the mount.json from their home
-	 *
-	 * @param array $params
-	 */
-	public function updateLegacyId(array $params) {
-		$oldId = 'amazon::' . $params['key'] . md5($params['secret']);
-
-		// find by old id or bucket
-		$stmt = \OC::$server->getDatabaseConnection()->prepare(
-			'SELECT `numeric_id`, `id` FROM `*PREFIX*storages` WHERE `id` IN (?, ?)'
-		);
-		$stmt->execute([$oldId, $this->id]);
-		while ($row = $stmt->fetch()) {
-			$storages[$row['id']] = $row['numeric_id'];
-		}
-
-		if (isset($storages[$this->id]) && isset($storages[$oldId])) {
-			// if both ids exist, delete the old storage and corresponding filecache entries
-			\OC\Files\Cache\Storage::remove($oldId);
-		} elseif (isset($storages[$oldId])) {
-			// if only the old id exists do an update
-			$stmt = \OC::$server->getDatabaseConnection()->prepare(
-				'UPDATE `*PREFIX*storages` SET `id` = ? WHERE `id` = ?'
-			);
-			$stmt->execute([$this->id, $oldId]);
-		}
-		// only the bucket based id may exist, do nothing
+		$this->directoryCache[$path] = false;
+		return false;
 	}
 
 	/**
@@ -244,11 +252,14 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 				'Bucket' => $this->bucket,
 				'Key' => $path . '/',
 				'Body' => '',
-				'ContentType' => 'httpd/unix-directory'
+				'ContentType' => FileInfo::MIMETYPE_FOLDER
 			]);
 			$this->testTimeout();
 		} catch (S3Exception $e) {
-			\OC::$server->getLogger()->logException($e, ['app' => 'files_external']);
+			$this->logger->error($e->getMessage(), [
+				'app' => 'files_external',
+				'exception' => $e,
+			]);
 			return false;
 		}
 
@@ -279,16 +290,11 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 
 	protected function clearBucket() {
 		$this->clearCache();
-		try {
-			$this->getConnection()->clearBucket($this->bucket);
-			return true;
-			// clearBucket() is not working with Ceph, so if it fails we try the slower approach
-		} catch (\Exception $e) {
-			return $this->batchDelete();
-		}
+		return $this->batchDelete();
 	}
 
 	private function batchDelete($path = null) {
+		// TODO explore using https://docs.aws.amazon.com/aws-sdk-php/v3/api/class-Aws.S3.BatchDelete.html
 		$params = [
 			'Bucket' => $this->bucket
 		];
@@ -314,62 +320,26 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 				}
 				// we reached the end when the list is no longer truncated
 			} while ($objects['IsTruncated']);
+			if ($path !== '' && $path !== null) {
+				$this->deleteObject($path);
+			}
 		} catch (S3Exception $e) {
-			\OC::$server->getLogger()->logException($e, ['app' => 'files_external']);
+			$this->logger->error($e->getMessage(), [
+				'app' => 'files_external',
+				'exception' => $e,
+			]);
 			return false;
 		}
 		return true;
 	}
 
 	public function opendir($path) {
-		$path = $this->normalizePath($path);
-
-		if ($this->isRoot($path)) {
-			$path = '';
-		} else {
-			$path .= '/';
-		}
-
 		try {
-			$files = [];
-			$results = $this->getConnection()->getPaginator('ListObjects', [
-				'Bucket' => $this->bucket,
-				'Delimiter' => '/',
-				'Prefix' => $path,
-			]);
-
-			foreach ($results as $result) {
-				// sub folders
-				if (is_array($result['CommonPrefixes'])) {
-					foreach ($result['CommonPrefixes'] as $prefix) {
-						$directoryName = trim($prefix['Prefix'], '/');
-						$files[] = substr($directoryName, strlen($path));
-						$this->directoryCache[$directoryName] = true;
-					}
-				}
-				if (is_array($result['Contents'])) {
-					foreach ($result['Contents'] as $object) {
-						if (isset($object['Key']) && $object['Key'] === $path) {
-							// it's the directory itself, skip
-							continue;
-						}
-						$file = basename(
-							isset($object['Key']) ? $object['Key'] : $object['Prefix']
-						);
-						$files[] = $file;
-
-						// store this information for later usage
-						$this->filesCache[$path . $file] = [
-							'ContentLength' => $object['Size'],
-							'LastModified' => (string)$object['LastModified'],
-						];
-					}
-				}
-			}
-
-			return IteratorDirectory::wrap($files);
+			$content = iterator_to_array($this->getDirectoryContent($path));
+			return IteratorDirectory::wrap(array_map(function (array $item) {
+				return $item['name'];
+			}, $content));
 		} catch (S3Exception $e) {
-			\OC::$server->getLogger()->logException($e, ['app' => 'files_external']);
 			return false;
 		}
 	}
@@ -377,28 +347,18 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 	public function stat($path) {
 		$path = $this->normalizePath($path);
 
-		try {
-			$stat = [];
-			if ($this->is_dir($path)) {
-				//folders don't really exist
-				$stat['size'] = -1; //unknown
-				$stat['mtime'] = time();
-				$cacheEntry = $this->getCache()->get($path);
-				if ($cacheEntry instanceof CacheEntry && $this->getMountOption('filesystem_check_changes', 1) !== 1) {
-					$stat['size'] = $cacheEntry->getSize();
-					$stat['mtime'] = $cacheEntry->getMTime();
-				}
-			} else {
-				$stat['size'] = $this->getContentLength($path);
-				$stat['mtime'] = strtotime($this->getLastModified($path));
+		if ($this->is_dir($path)) {
+			$stat = $this->getDirectoryMetaData($path);
+		} else {
+			$object = $this->headObject($path);
+			if ($object === false) {
+				return false;
 			}
-			$stat['atime'] = time();
-
-			return $stat;
-		} catch (S3Exception $e) {
-			\OC::$server->getLogger()->logException($e, ['app' => 'files_external']);
-			return false;
+			$stat = $this->objectToMetaData($object);
 		}
+		$stat['atime'] = time();
+
+		return $stat;
 	}
 
 	/**
@@ -453,9 +413,12 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		}
 
 		try {
-			return $this->isRoot($path) || $this->doesDirectoryExist($path);
+			return $this->doesDirectoryExist($path);
 		} catch (S3Exception $e) {
-			\OC::$server->getLogger()->logException($e, ['app' => 'files_external']);
+			$this->logger->error($e->getMessage(), [
+				'app' => 'files_external',
+				'exception' => $e,
+			]);
 			return false;
 		}
 	}
@@ -468,6 +431,9 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		}
 
 		try {
+			if (isset($this->directoryCache[$path]) && $this->directoryCache[$path]) {
+				return 'dir';
+			}
 			if (isset($this->filesCache[$path]) || $this->headObject($path)) {
 				return 'file';
 			}
@@ -475,7 +441,10 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 				return 'dir';
 			}
 		} catch (S3Exception $e) {
-			\OC::$server->getLogger()->logException($e, ['app' => 'files_external']);
+			$this->logger->error($e->getMessage(), [
+				'app' => 'files_external',
+				'exception' => $e,
+			]);
 			return false;
 		}
 
@@ -501,7 +470,10 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 			$this->deleteObject($path);
 			$this->invalidateCache($path);
 		} catch (S3Exception $e) {
-			\OC::$server->getLogger()->logException($e, ['app' => 'files_external']);
+			$this->logger->error($e->getMessage(), [
+				'app' => 'files_external',
+				'exception' => $e,
+			]);
 			return false;
 		}
 
@@ -522,8 +494,11 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 
 				try {
 					return $this->readObject($path);
-				} catch (S3Exception $e) {
-					\OC::$server->getLogger()->logException($e, ['app' => 'files_external']);
+				} catch (\Exception $e) {
+					$this->logger->error($e->getMessage(), [
+						'app' => 'files_external',
+						'exception' => $e,
+					]);
 					return false;
 				}
 			case 'w':
@@ -572,20 +547,25 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		];
 
 		try {
-			if (!$this->file_exists($path)) {
-				$mimeType = \OC::$server->getMimeTypeDetector()->detectPath($path);
-				$this->getConnection()->putObject([
-					'Bucket' => $this->bucket,
-					'Key' => $this->cleanKey($path),
-					'Metadata' => $metadata,
-					'Body' => '',
-					'ContentType' => $mimeType,
-					'MetadataDirective' => 'REPLACE',
-				]);
-				$this->testTimeout();
+			if ($this->file_exists($path)) {
+				return false;
 			}
+
+			$mimeType = $this->mimeDetector->detectPath($path);
+			$this->getConnection()->putObject([
+				'Bucket' => $this->bucket,
+				'Key' => $this->cleanKey($path),
+				'Metadata' => $metadata,
+				'Body' => '',
+				'ContentType' => $mimeType,
+				'MetadataDirective' => 'REPLACE',
+			]);
+			$this->testTimeout();
 		} catch (S3Exception $e) {
-			\OC::$server->getLogger()->logException($e, ['app' => 'files_external']);
+			$this->logger->error($e->getMessage(), [
+				'app' => 'files_external',
+				'exception' => $e,
+			]);
 			return false;
 		}
 
@@ -593,76 +573,69 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		return true;
 	}
 
-	public function copy($path1, $path2) {
-		$path1 = $this->normalizePath($path1);
-		$path2 = $this->normalizePath($path2);
+	public function copy($source, $target, $isFile = null) {
+		$source = $this->normalizePath($source);
+		$target = $this->normalizePath($target);
 
-		if ($this->is_file($path1)) {
+		if ($isFile === true || $this->is_file($source)) {
 			try {
-				$this->getConnection()->copyObject([
-					'Bucket' => $this->bucket,
-					'Key' => $this->cleanKey($path2),
-					'CopySource' => S3Client::encodeKey($this->bucket . '/' . $path1)
+				$this->copyObject($source, $target, [
+					'StorageClass' => $this->storageClass,
 				]);
 				$this->testTimeout();
 			} catch (S3Exception $e) {
-				\OC::$server->getLogger()->logException($e, ['app' => 'files_external']);
+				$this->logger->error($e->getMessage(), [
+					'app' => 'files_external',
+					'exception' => $e,
+				]);
 				return false;
 			}
 		} else {
-			$this->remove($path2);
+			$this->remove($target);
 
 			try {
-				$this->getConnection()->copyObject([
-					'Bucket' => $this->bucket,
-					'Key' => $path2 . '/',
-					'CopySource' => S3Client::encodeKey($this->bucket . '/' . $path1 . '/')
-				]);
+				$this->mkdir($target);
 				$this->testTimeout();
 			} catch (S3Exception $e) {
-				\OC::$server->getLogger()->logException($e, ['app' => 'files_external']);
+				$this->logger->error($e->getMessage(), [
+					'app' => 'files_external',
+					'exception' => $e,
+				]);
 				return false;
 			}
 
-			$dh = $this->opendir($path1);
-			if (is_resource($dh)) {
-				while (($file = readdir($dh)) !== false) {
-					if (\OC\Files\Filesystem::isIgnoredDir($file)) {
-						continue;
-					}
-
-					$source = $path1 . '/' . $file;
-					$target = $path2 . '/' . $file;
-					$this->copy($source, $target);
-				}
+			foreach ($this->getDirectoryContent($source) as $item) {
+				$childSource = $source . '/' . $item['name'];
+				$childTarget = $target . '/' . $item['name'];
+				$this->copy($childSource, $childTarget, $item['mimetype'] !== FileInfo::MIMETYPE_FOLDER);
 			}
 		}
 
-		$this->invalidateCache($path2);
+		$this->invalidateCache($target);
 
 		return true;
 	}
 
-	public function rename($path1, $path2) {
-		$path1 = $this->normalizePath($path1);
-		$path2 = $this->normalizePath($path2);
+	public function rename($source, $target) {
+		$source = $this->normalizePath($source);
+		$target = $this->normalizePath($target);
 
-		if ($this->is_file($path1)) {
-			if ($this->copy($path1, $path2) === false) {
+		if ($this->is_file($source)) {
+			if ($this->copy($source, $target) === false) {
 				return false;
 			}
 
-			if ($this->unlink($path1) === false) {
-				$this->unlink($path2);
+			if ($this->unlink($source) === false) {
+				$this->unlink($target);
 				return false;
 			}
 		} else {
-			if ($this->copy($path1, $path2) === false) {
+			if ($this->copy($source, $target) === false) {
 				return false;
 			}
 
-			if ($this->rmdir($path1) === false) {
-				$this->rmdir($path2);
+			if ($this->rmdir($source) === false) {
+				$this->rmdir($target);
 				return false;
 			}
 		}
@@ -684,13 +657,16 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 	public function writeBack($tmpFile, $path) {
 		try {
 			$source = fopen($tmpFile, 'r');
-			$this->writeObject($path, $source);
+			$this->writeObject($path, $source, $this->mimeDetector->detectPath($path));
 			$this->invalidateCache($path);
 
 			unlink($tmpFile);
 			return true;
 		} catch (S3Exception $e) {
-			\OC::$server->getLogger()->logException($e, ['app' => 'files_external']);
+			$this->logger->error($e->getMessage(), [
+				'app' => 'files_external',
+				'exception' => $e,
+			]);
 			return false;
 		}
 	}
@@ -700,5 +676,115 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 	 */
 	public static function checkDependencies() {
 		return true;
+	}
+
+	public function getDirectoryContent($directory): \Traversable {
+		$path = $this->normalizePath($directory);
+
+		if ($this->isRoot($path)) {
+			$path = '';
+		} else {
+			$path .= '/';
+		}
+
+		$results = $this->getConnection()->getPaginator('ListObjectsV2', [
+			'Bucket' => $this->bucket,
+			'Delimiter' => '/',
+			'Prefix' => $path,
+		]);
+
+		foreach ($results as $result) {
+			// sub folders
+			if (is_array($result['CommonPrefixes'])) {
+				foreach ($result['CommonPrefixes'] as $prefix) {
+					$dir = $this->getDirectoryMetaData($prefix['Prefix']);
+					if ($dir) {
+						yield $dir;
+					}
+				}
+			}
+			if (is_array($result['Contents'])) {
+				foreach ($result['Contents'] as $object) {
+					$this->objectCache[$object['Key']] = $object;
+					if ($object['Key'] !== $path) {
+						yield $this->objectToMetaData($object);
+					}
+				}
+			}
+		}
+	}
+
+	private function objectToMetaData(array $object): array {
+		return [
+			'name' => basename($object['Key']),
+			'mimetype' => $this->mimeDetector->detectPath($object['Key']),
+			'mtime' => strtotime($object['LastModified']),
+			'storage_mtime' => strtotime($object['LastModified']),
+			'etag' => trim($object['ETag'], '"'),
+			'permissions' => Constants::PERMISSION_ALL - Constants::PERMISSION_CREATE,
+			'size' => (int)($object['Size'] ?? $object['ContentLength']),
+		];
+	}
+
+	private function getDirectoryMetaData(string $path): ?array {
+		$path = trim($path, '/');
+		// when versioning is enabled, delete markers are returned as part of CommonPrefixes
+		// resulting in "ghost" folders, verify that each folder actually exists
+		if ($this->versioningEnabled() && !$this->doesDirectoryExist($path)) {
+			return null;
+		}
+		$cacheEntry = $this->getCache()->get($path);
+		if ($cacheEntry instanceof CacheEntry) {
+			return $cacheEntry->getData();
+		} else {
+			return [
+				'name' => basename($path),
+				'mimetype' => FileInfo::MIMETYPE_FOLDER,
+				'mtime' => time(),
+				'storage_mtime' => time(),
+				'etag' => uniqid(),
+				'permissions' => Constants::PERMISSION_ALL,
+				'size' => -1,
+			];
+		}
+	}
+
+	public function versioningEnabled(): bool {
+		if ($this->versioningEnabled === null) {
+			$cached = $this->memCache->get('versioning-enabled::' . $this->getBucket());
+			if ($cached === null) {
+				$this->versioningEnabled = $this->getVersioningStatusFromBucket();
+				$this->memCache->set('versioning-enabled::' . $this->getBucket(), $this->versioningEnabled, 60);
+			} else {
+				$this->versioningEnabled = $cached;
+			}
+		}
+		return $this->versioningEnabled;
+	}
+
+	protected function getVersioningStatusFromBucket(): bool {
+		try {
+			$result = $this->getConnection()->getBucketVersioning(['Bucket' => $this->getBucket()]);
+			return $result->get('Status') === 'Enabled';
+		} catch (S3Exception $s3Exception) {
+			// This is needed for compatibility with Storj gateway which does not support versioning yet
+			if ($s3Exception->getAwsErrorCode() === 'NotImplemented' || $s3Exception->getAwsErrorCode() === 'AccessDenied') {
+				return false;
+			}
+			throw $s3Exception;
+		}
+	}
+
+	public function hasUpdated($path, $time) {
+		// for files we can get the proper mtime
+		if ($path !== '' && $object = $this->headObject($path)) {
+			$stat = $this->objectToMetaData($object);
+			return $stat['mtime'] > $time;
+		} else {
+			// for directories, the only real option we have is to do a prefix listing and iterate over all objects
+			// however, since this is just as expensive as just re-scanning the directory, we can simply return true
+			// and have the scanner figure out if anything has actually changed
+			return true;
+		}
 	}
 }

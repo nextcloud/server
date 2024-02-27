@@ -17,7 +17,7 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -27,26 +27,26 @@ declare(strict_types=1);
 
 namespace OCP\User\Events;
 
+use OCP\Authentication\IApacheBackend;
 use OCP\EventDispatcher\Event;
 
 /**
  * @since 18.0.0
  */
 class BeforeUserLoggedInEvent extends Event {
-
-	/** @var string */
-	private $username;
-
-	/** @var string */
-	private $password;
+	private string $username;
+	private ?string $password;
+	private ?IApacheBackend $backend;
 
 	/**
 	 * @since 18.0.0
+	 * @since 26.0.0 password can be null
 	 */
-	public function __construct(string $username, string $password) {
+	public function __construct(string $username, ?string $password, ?IApacheBackend $backend = null) {
 		parent::__construct();
 		$this->username = $username;
 		$this->password = $password;
+		$this->backend = $backend;
 	}
 
 	/**
@@ -60,8 +60,19 @@ class BeforeUserLoggedInEvent extends Event {
 
 	/**
 	 * @since 18.0.0
+	 * @since 26.0.0 value can be null
 	 */
-	public function getPassword(): string {
+	public function getPassword(): ?string {
 		return $this->password;
+	}
+
+	/**
+	 * return backend if available (or null)
+	 *
+	 * @return IApacheBackend|null
+	 * @since 26.0.0
+	 */
+	public function getBackend(): ?IApacheBackend {
+		return $this->backend;
 	}
 }

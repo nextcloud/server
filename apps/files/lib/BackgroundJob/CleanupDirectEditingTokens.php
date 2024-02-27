@@ -1,6 +1,9 @@
 <?php
+
+declare(strict_types=1);
+
 /**
- *
+ * @copyright Copyright (c) 2016 Julius Härtl <jus@bitgrid.net>
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Julius Härtl <jus@bitgrid.net>
@@ -14,7 +17,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -23,18 +26,18 @@
  */
 namespace OCA\Files\BackgroundJob;
 
-use OC\BackgroundJob\TimedJob;
+use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\BackgroundJob\TimedJob;
 use OCP\DirectEditing\IManager;
 
 class CleanupDirectEditingTokens extends TimedJob {
 	private const INTERVAL_MINUTES = 15 * 60;
 
-	/**
-	 * @var IManager
-	 */
-	private $manager;
+	private IManager $manager;
 
-	public function __construct(IManager $manager) {
+	public function __construct(ITimeFactory $time,
+		IManager $manager) {
+		parent::__construct($time);
 		$this->interval = self::INTERVAL_MINUTES;
 		$this->manager = $manager;
 	}

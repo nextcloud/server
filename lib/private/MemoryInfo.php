@@ -17,7 +17,7 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -26,6 +26,8 @@ declare(strict_types=1);
  */
 
 namespace OC;
+
+use OCP\Util;
 
 /**
  * Helper class that covers memory info.
@@ -46,14 +48,14 @@ class MemoryInfo {
 	/**
 	 * Returns the php memory limit.
 	 *
-	 * @return int The memory limit in bytes.
+	 * @return int|float The memory limit in bytes.
 	 */
-	public function getMemoryLimit(): int {
+	public function getMemoryLimit(): int|float {
 		$iniValue = trim(ini_get('memory_limit'));
 		if ($iniValue === '-1') {
 			return -1;
-		} elseif (is_numeric($iniValue) === true) {
-			return (int)$iniValue;
+		} elseif (is_numeric($iniValue)) {
+			return Util::numericToNumber($iniValue);
 		} else {
 			return $this->memoryLimitToBytes($iniValue);
 		}
@@ -63,13 +65,17 @@ class MemoryInfo {
 	 * Converts the ini memory limit to bytes.
 	 *
 	 * @param string $memoryLimit The "memory_limit" ini value
-	 * @return int
 	 */
-	private function memoryLimitToBytes(string $memoryLimit): int {
+	private function memoryLimitToBytes(string $memoryLimit): int|float {
 		$last = strtolower(substr($memoryLimit, -1));
-		$memoryLimit = (int)substr($memoryLimit, 0, -1);
+		$number = substr($memoryLimit, 0, -1);
+		if (is_numeric($number)) {
+			$memoryLimit = Util::numericToNumber($number);
+		} else {
+			throw new \InvalidArgumentException($number.' is not a valid numeric string (in memory_limit ini directive)');
+		}
 
-		// intended fall trough
+		// intended fall through
 		switch ($last) {
 			case 'g':
 				$memoryLimit *= 1024;

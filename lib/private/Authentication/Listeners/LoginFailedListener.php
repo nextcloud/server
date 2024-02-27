@@ -17,17 +17,17 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Authentication\Listeners;
 
 use OC\Authentication\Events\LoginFailed;
+use OCP\Authentication\Events\AnyLoginFailedEvent;
 use OCP\Authentication\Events\LoginFailedEvent;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -39,7 +39,6 @@ use OCP\Util;
  * @template-implements IEventListener<\OC\Authentication\Events\LoginFailed>
  */
 class LoginFailedListener implements IEventListener {
-
 	/** @var IEventDispatcher */
 	private $dispatcher;
 
@@ -55,6 +54,8 @@ class LoginFailedListener implements IEventListener {
 		if (!($event instanceof LoginFailed)) {
 			return;
 		}
+
+		$this->dispatcher->dispatchTyped(new AnyLoginFailedEvent($event->getLoginName(), $event->getPassword()));
 
 		$uid = $event->getLoginName();
 		Util::emitHook(

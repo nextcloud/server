@@ -1,0 +1,5 @@
+{ "translations": {
+    "Lookup Server Connector" : "Keresőkiszolgáló csatlakozó",
+    "Sync public user information with the lookup server" : "Nyilvános felhasználói információk szinkronizálása a keresőkiszolgálóval"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}

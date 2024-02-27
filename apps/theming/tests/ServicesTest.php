@@ -16,20 +16,19 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Theming\Tests;
 
 use OCA\Theming\Capabilities;
 use OCA\Theming\Controller\ThemingController;
 use OCA\Theming\Settings\Admin;
-use OCA\Theming\Settings\Section;
+use OCA\Theming\Settings\PersonalSection;
 use OCA\Theming\ThemingDefaults;
 use OCA\Theming\Util;
 use OCP\AppFramework\App;
@@ -75,8 +74,8 @@ class ServicesTest extends TestCase {
 			// Settings
 			[Admin::class],
 			[Admin::class, ISettings::class],
-			[Section::class],
-			[Section::class, IIconSection::class],
+			[PersonalSection::class],
+			[PersonalSection::class, IIconSection::class],
 		];
 	}
 

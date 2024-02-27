@@ -22,7 +22,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Comments\Tests\Unit\AppInfo;
 
 use OCA\Comments\AppInfo\Application;
@@ -52,11 +51,8 @@ class ApplicationTest extends TestCase {
 		$app = new Application();
 		$c = $app->getContainer();
 
-		// assert service instances in the container are properly setup
-		$s = $c->query('NotificationsController');
-		$this->assertInstanceOf('OCA\Comments\Controller\Notifications', $s);
-
 		$services = [
+			'OCA\Comments\Controller\NotificationsController',
 			'OCA\Comments\Activity\Filter',
 			'OCA\Comments\Activity\Listener',
 			'OCA\Comments\Activity\Provider',
@@ -66,7 +62,7 @@ class ApplicationTest extends TestCase {
 		];
 
 		foreach ($services as $service) {
-			$s = $c->query($service);
+			$s = $c->get($service);
 			$this->assertInstanceOf($service, $s);
 		}
 	}

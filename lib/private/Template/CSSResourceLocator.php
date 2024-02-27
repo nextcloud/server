@@ -6,7 +6,7 @@
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Kyle Fazzari <kyrofa@ubuntu.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
@@ -29,27 +29,13 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Template;
 
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 
 class CSSResourceLocator extends ResourceLocator {
-
-	/** @var SCSSCacher */
-	protected $scssCacher;
-
-	/**
-	 * @param ILogger $logger
-	 * @param string $theme
-	 * @param array $core_map
-	 * @param array $party_map
-	 * @param SCSSCacher $scssCacher
-	 */
-	public function __construct(ILogger $logger, $theme, $core_map, $party_map, $scssCacher) {
-		$this->scssCacher = $scssCacher;
-
-		parent::__construct($logger, $theme, $core_map, $party_map);
+	public function __construct(LoggerInterface $logger) {
+		parent::__construct($logger);
 	}
 
 	/**
@@ -57,11 +43,7 @@ class CSSResourceLocator extends ResourceLocator {
 	 */
 	public function doFind($style) {
 		$app = substr($style, 0, strpos($style, '/'));
-		if (strpos($style, '3rdparty') === 0
-			&& $this->appendIfExist($this->thirdpartyroot, $style.'.css')
-			|| $this->cacheAndAppendScssIfExist($this->serverroot, $style.'.scss', $app)
-			|| $this->cacheAndAppendScssIfExist($this->serverroot, 'core/'.$style.'.scss')
-			|| $this->appendIfExist($this->serverroot, $style.'.css')
+		if ($this->appendIfExist($this->serverroot, $style.'.css')
 			|| $this->appendIfExist($this->serverroot, 'core/'.$style.'.css')
 		) {
 			return;
@@ -83,9 +65,7 @@ class CSSResourceLocator extends ResourceLocator {
 		// turned into cwd.
 		$app_path = realpath($app_path);
 
-		if (!$this->cacheAndAppendScssIfExist($app_path, $style.'.scss', $app)) {
-			$this->append($app_path, $style.'.css', $app_url);
-		}
+		$this->append($app_path, $style.'.css', $app_url);
 	}
 
 	/**
@@ -96,30 +76,6 @@ class CSSResourceLocator extends ResourceLocator {
 		$this->appendIfExist($this->serverroot, $theme_dir.'apps/'.$style.'.css')
 			|| $this->appendIfExist($this->serverroot, $theme_dir.$style.'.css')
 			|| $this->appendIfExist($this->serverroot, $theme_dir.'core/'.$style.'.css');
-	}
-
-	/**
-	 * cache and append the scss $file if exist at $root
-	 *
-	 * @param string $root path to check
-	 * @param string $file the filename
-	 * @return bool True if the resource was found and cached, false otherwise
-	 */
-	protected function cacheAndAppendScssIfExist($root, $file, $app = 'core') {
-		if (is_file($root.'/'.$file)) {
-			if ($this->scssCacher !== null) {
-				if ($this->scssCacher->process($root, $file, $app)) {
-					$this->append($this->serverroot, $this->scssCacher->getCachedSCSS($app, $file), \OC::$WEBROOT, true, true);
-					return true;
-				} else {
-					$this->logger->warning('Failed to compile and/or save '.$root.'/'.$file, ['app' => 'core']);
-					return false;
-				}
-			} else {
-				return true;
-			}
-		}
-		return false;
 	}
 
 	public function append($root, $file, $webRoot = null, $throw = true, $scss = false) {

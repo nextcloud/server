@@ -24,28 +24,13 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_Sharing;
 
 use OC\Files\Filesystem;
-use OCP\EventDispatcher\IEventDispatcher;
 
 class Hooks {
 	public static function deleteUser($params) {
-		$manager = new External\Manager(
-			\OC::$server->getDatabaseConnection(),
-			\OC\Files\Filesystem::getMountManager(),
-			\OC\Files\Filesystem::getLoader(),
-			\OC::$server->getHTTPClientService(),
-			\OC::$server->getNotificationManager(),
-			\OC::$server->query(\OCP\OCS\IDiscoveryService::class),
-			\OC::$server->getCloudFederationProviderManager(),
-			\OC::$server->getCloudFederationFactory(),
-			\OC::$server->getGroupManager(),
-			\OC::$server->getUserManager(),
-			$params['uid'],
-			\OC::$server->query(IEventDispatcher::class)
-		);
+		$manager = \OC::$server->get(External\Manager::class);
 
 		$manager->removeUserShares($params['uid']);
 	}

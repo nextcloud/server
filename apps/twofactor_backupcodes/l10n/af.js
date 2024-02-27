@@ -12,6 +12,7 @@ OC.L10N.register(
     "Print backup codes" : "Druk rugsteunkodes",
     "Regenerate backup codes" : "Hergenereer rugsteunkodes",
     "If you regenerate backup codes, you automatically invalidate old codes." : "Indien u rugsteunkodes hergenereer maak u outomaties die ou kodes ongeldig.",
-    "An error occurred while generating your backup codes" : "’n fout het voorgekom tydens generering van u rugsteunkodes"
+    "An error occurred while generating your backup codes" : "’n fout het voorgekom tydens generering van u rugsteunkodes",
+    "Submit" : "Dien in"
 },
 "nplurals=2; plural=(n != 1);");

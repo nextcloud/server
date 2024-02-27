@@ -23,10 +23,11 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\Connector\Sabre;
 
 use OCP\IConfig;
+use OCP\IRequest;
+use Sabre\DAV\Server;
 use Sabre\DAV\ServerPlugin;
 use Sabre\HTTP\RequestInterface;
 
@@ -37,23 +38,17 @@ use Sabre\HTTP\RequestInterface;
  * @package OCA\DAV\Connector\Sabre
  */
 class BlockLegacyClientPlugin extends ServerPlugin {
-	/** @var \Sabre\DAV\Server */
-	protected $server;
-	/** @var IConfig */
-	protected $config;
+	protected ?Server $server = null;
+	protected IConfig $config;
 
-	/**
-	 * @param IConfig $config
-	 */
 	public function __construct(IConfig $config) {
 		$this->config = $config;
 	}
 
 	/**
-	 * @param \Sabre\DAV\Server $server
 	 * @return void
 	 */
-	public function initialize(\Sabre\DAV\Server $server) {
+	public function initialize(Server $server) {
 		$this->server = $server;
 		$this->server->on('beforeMethod:*', [$this, 'beforeHandler'], 200);
 	}
@@ -70,11 +65,8 @@ class BlockLegacyClientPlugin extends ServerPlugin {
 			return;
 		}
 
-		$minimumSupportedDesktopVersion = $this->config->getSystemValue('minimum.supported.desktop.version', '2.0.0');
-
-		// Match on the mirall version which is in scheme "Mozilla/5.0 (%1) mirall/%2" or
-		// "mirall/%1" for older releases
-		preg_match("/(?:mirall\\/)([\d.]+)/i", $userAgent, $versionMatches);
+		$minimumSupportedDesktopVersion = $this->config->getSystemValue('minimum.supported.desktop.version', '2.3.0');
+		preg_match(IRequest::USER_AGENT_CLIENT_DESKTOP, $userAgent, $versionMatches);
 		if (isset($versionMatches[1]) &&
 			version_compare($versionMatches[1], $minimumSupportedDesktopVersion) === -1) {
 			throw new \Sabre\DAV\Exception\Forbidden('Unsupported client version.');

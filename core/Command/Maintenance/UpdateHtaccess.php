@@ -5,7 +5,6 @@
  * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
  *
@@ -22,7 +21,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Core\Command\Maintenance;
 
 use Symfony\Component\Console\Command\Command;
@@ -41,7 +39,7 @@ class UpdateHtaccess extends Command {
 			$output->writeln('.htaccess has been updated');
 			return 0;
 		} else {
-			$output->writeln('<error>Error updating .htaccess file, not enough permissions or "overwrite.cli.url" set to an invalid URL?</error>');
+			$output->writeln('<error>Error updating .htaccess file, not enough permissions, not enough free space or "overwrite.cli.url" set to an invalid URL?</error>');
 			return 1;
 		}
 	}

@@ -21,17 +21,18 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_Sharing\Tests\Controllers;
 
 use OCA\Files_Sharing\Controller\ExternalSharesController;
+use OCA\Files_Sharing\External\Manager;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\JSONResponse;
-use OCP\Http\Client\IClientService;
-use OCP\IRequest;
-use OCP\Http\Client\IResponse;
 use OCP\Http\Client\IClient;
-use OCA\Files_Sharing\External\Manager;
+use OCP\Http\Client\IClientService;
+use OCP\Http\Client\IResponse;
+use OCP\IConfig;
+use OCP\IRequest;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Class ExternalShareControllerTest
@@ -43,6 +44,8 @@ class ExternalShareControllerTest extends \Test\TestCase {
 	private $request;
 	/** @var \OCA\Files_Sharing\External\Manager */
 	private $externalManager;
+	/** @var IConfig|MockObject */
+	private $config;
 	/** @var IClientService */
 	private $clientService;
 
@@ -51,6 +54,7 @@ class ExternalShareControllerTest extends \Test\TestCase {
 		$this->request = $this->createMock(IRequest::class);
 		$this->externalManager = $this->createMock(Manager::class);
 		$this->clientService = $this->createMock(IClientService::class);
+		$this->config = $this->createMock(IConfig::class);
 	}
 
 	/**
@@ -61,7 +65,8 @@ class ExternalShareControllerTest extends \Test\TestCase {
 			'files_sharing',
 			$this->request,
 			$this->externalManager,
-			$this->clientService
+			$this->clientService,
+			$this->config,
 		);
 	}
 

@@ -14,14 +14,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Federation;
 
 use OCP\Federation\ICloudFederationShare;
@@ -58,16 +57,16 @@ class CloudFederationShare implements ICloudFederationShare {
 	 * @param string $sharedSecret
 	 */
 	public function __construct($shareWith = '',
-								$name = '',
-								$description = '',
-								$providerId = '',
-								$owner = '',
-								$ownerDisplayName = '',
-								$sharedBy = '',
-								$sharedByDisplayName = '',
-								$shareType = '',
-								$resourceType = '',
-								$sharedSecret = ''
+		$name = '',
+		$description = '',
+		$providerId = '',
+		$owner = '',
+		$ownerDisplayName = '',
+		$sharedBy = '',
+		$sharedByDisplayName = '',
+		$shareType = '',
+		$resourceType = '',
+		$sharedSecret = ''
 	) {
 		$this->setShareWith($shareWith);
 		$this->setResourceName($name);

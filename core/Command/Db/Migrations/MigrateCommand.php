@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2017, ownCloud GmbH
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  *
  * @license AGPL-3.0
@@ -19,7 +20,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Core\Command\Db\Migrations;
 
 use OC\DB\Connection;
@@ -33,15 +33,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class MigrateCommand extends Command implements CompletionAwareInterface {
-
-	/** @var Connection */
-	private $connection;
-
-	/**
-	 * @param Connection $connection
-	 */
-	public function __construct(Connection $connection) {
-		$this->connection = $connection;
+	public function __construct(
+		private Connection $connection,
+	) {
 		parent::__construct();
 	}
 

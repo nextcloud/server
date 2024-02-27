@@ -18,16 +18,16 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCP\Migration;
 
+use Closure;
 use OCP\DB\ISchemaWrapper;
 
 /**
@@ -35,7 +35,7 @@ use OCP\DB\ISchemaWrapper;
  */
 interface IMigrationStep {
 	/**
-	 * Human readable name of the migration step
+	 * Human-readable name of the migration step
 	 *
 	 * @return string
 	 * @since 14.0.0
@@ -43,7 +43,7 @@ interface IMigrationStep {
 	public function name(): string;
 
 	/**
-	 * Human readable description of the migration steps
+	 * Human-readable description of the migration step
 	 *
 	 * @return string
 	 * @since 14.0.0
@@ -52,29 +52,29 @@ interface IMigrationStep {
 
 	/**
 	 * @param IOutput $output
-	 * @param \Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
+	 * @param Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
 	 * @psalm-param Closure():ISchemaWrapper $schemaClosure
 	 * @param array $options
 	 * @since 13.0.0
 	 */
-	public function preSchemaChange(IOutput $output, \Closure $schemaClosure, array $options);
+	public function preSchemaChange(IOutput $output, Closure $schemaClosure, array $options);
 
 	/**
 	 * @param IOutput $output
-	 * @param \Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
+	 * @param Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
 	 * @psalm-param Closure():ISchemaWrapper $schemaClosure
 	 * @param array $options
 	 * @return null|ISchemaWrapper
 	 * @since 13.0.0
 	 */
-	public function changeSchema(IOutput $output, \Closure $schemaClosure, array $options);
+	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options);
 
 	/**
 	 * @param IOutput $output
-	 * @param \Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
+	 * @param Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
 	 * @psalm-param Closure():ISchemaWrapper $schemaClosure
 	 * @param array $options
 	 * @since 13.0.0
 	 */
-	public function postSchemaChange(IOutput $output, \Closure $schemaClosure, array $options);
+	public function postSchemaChange(IOutput $output, Closure $schemaClosure, array $options);
 }

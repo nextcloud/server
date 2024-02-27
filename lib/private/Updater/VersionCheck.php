@@ -24,29 +24,23 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Updater;
 
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
+use OCP\IUserManager;
+use OCP\Support\Subscription\IRegistry;
 use OCP\Util;
+use Psr\Log\LoggerInterface;
 
 class VersionCheck {
-
-	/** @var IClientService */
-	private $clientService;
-
-	/** @var IConfig */
-	private $config;
-
-	/**
-	 * @param IClientService $clientService
-	 * @param IConfig $config
-	 */
-	public function __construct(IClientService $clientService,
-								IConfig $config) {
-		$this->clientService = $clientService;
-		$this->config = $config;
+	public function __construct(
+		private IClientService $clientService,
+		private IConfig $config,
+		private IUserManager $userManager,
+		private IRegistry $registry,
+		private LoggerInterface $logger,
+	) {
 	}
 
 
@@ -66,12 +60,12 @@ class VersionCheck {
 			return json_decode($this->config->getAppValue('core', 'lastupdateResult'), true);
 		}
 
-		$updaterUrl = $this->config->getSystemValue('updater.server.url', 'https://updates.nextcloud.com/updater_server/');
+		$updaterUrl = $this->config->getSystemValueString('updater.server.url', 'https://updates.nextcloud.com/updater_server/');
 
-		$this->config->setAppValue('core', 'lastupdatedat', time());
+		$this->config->setAppValue('core', 'lastupdatedat', (string)time());
 
 		if ($this->config->getAppValue('core', 'installedat', '') === '') {
-			$this->config->setAppValue('core', 'installedat', microtime(true));
+			$this->config->setAppValue('core', 'installedat', (string)microtime(true));
 		}
 
 		$version = Util::getVersion();
@@ -83,6 +77,8 @@ class VersionCheck {
 		$version['php_major'] = PHP_MAJOR_VERSION;
 		$version['php_minor'] = PHP_MINOR_VERSION;
 		$version['php_release'] = PHP_RELEASE_VERSION;
+		$version['category'] = $this->computeCategory();
+		$version['isSubscriber'] = (int) $this->registry->delegateHasValidSubscription();
 		$versionString = implode('x', $version);
 
 		//fetch xml data from updater
@@ -92,13 +88,19 @@ class VersionCheck {
 		try {
 			$xml = $this->getUrlContent($url);
 		} catch (\Exception $e) {
+			$this->logger->info('Version could not be fetched from updater server: ' . $url, ['exception' => $e]);
+
 			return false;
 		}
 
 		if ($xml) {
-			$loadEntities = libxml_disable_entity_loader(true);
-			$data = @simplexml_load_string($xml);
-			libxml_disable_entity_loader($loadEntities);
+			if (\LIBXML_VERSION < 20900) {
+				$loadEntities = libxml_disable_entity_loader(true);
+				$data = @simplexml_load_string($xml);
+				libxml_disable_entity_loader($loadEntities);
+			} else {
+				$data = @simplexml_load_string($xml);
+			}
 			if ($data !== false) {
 				$tmp['version'] = (string)$data->version;
 				$tmp['versionstring'] = (string)$data->versionstring;
@@ -125,7 +127,30 @@ class VersionCheck {
 	 */
 	protected function getUrlContent($url) {
 		$client = $this->clientService->newClient();
-		$response = $client->get($url);
+		$response = $client->get($url, [
+			'timeout' => 5,
+		]);
 		return $response->getBody();
+	}
+
+	private function computeCategory(): int {
+		$categoryBoundaries = [
+			100,
+			500,
+			1000,
+			5000,
+			10000,
+			100000,
+			1000000,
+		];
+
+		$nbUsers = $this->userManager->countSeenUsers();
+		foreach ($categoryBoundaries as $categoryId => $boundary) {
+			if ($nbUsers <= $boundary) {
+				return $categoryId;
+			}
+		}
+
+		return count($categoryBoundaries);
 	}
 }

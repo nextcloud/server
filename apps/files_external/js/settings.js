@@ -24,6 +24,28 @@ function getSelection($row) {
 	return values;
 }
 
+function getSelectedApplicable($row) {
+	var users = [];
+	var groups = [];
+	var multiselect = getSelection($row);
+	$.each(multiselect, function(index, value) {
+		// FIXME: don't rely on string parts to detect groups...
+		var pos = (value.indexOf)?value.indexOf('(group)'): -1;
+		if (pos !== -1) {
+			groups.push(value.substr(0, pos));
+		} else {
+			users.push(value);
+		}
+	});
+
+	// FIXME: this should be done in the multiselect change event instead
+	$row.find('.applicable')
+		.data('applicable-groups', groups)
+		.data('applicable-users', users);
+
+	return { users, groups };
+}
+
 function highlightBorder($element, highlight) {
 	$element.toggleClass('warning-input', highlight);
 	return highlight;
@@ -54,9 +76,9 @@ function highlightInput($input) {
  * Initialize select2 plugin on the given elements
  *
  * @param {Array<Object>} array of jQuery elements
- * @param {int} userListLimit page size for result list
+ * @param {number} userListLimit page size for result list
  */
-function addSelect2 ($elements, userListLimit) {
+function initApplicableUsersMultiselect($elements, userListLimit) {
 	var escapeHTML = function (text) {
 		return text.toString()
 			.split('&').join('&amp;')
@@ -68,8 +90,8 @@ function addSelect2 ($elements, userListLimit) {
 	if (!$elements.length) {
 		return;
 	}
-	$elements.select2({
-		placeholder: t('files_external', 'All users. Type to select user or group.'),
+	return $elements.select2({
+		placeholder: t('files_external', 'Type to select account or group.'),
 		allowClear: true,
 		multiple: true,
 		toggleSelect: true,
@@ -141,7 +163,7 @@ function addSelect2 ($elements, userListLimit) {
 			return element.name;
 		},
 		formatResult: function (element) {
-			var $result = $('<span><div class="avatardiv"/><span>'+escapeHTML(element.displayname)+'</span></span>');
+			var $result = $('<span><div class="avatardiv"></div><span>'+escapeHTML(element.displayname)+'</span></span>');
 			var $div = $result.find('.avatardiv')
 				.attr('data-type', element.type)
 				.attr('data-name', element.name)
@@ -154,7 +176,7 @@ function addSelect2 ($elements, userListLimit) {
 		},
 		formatSelection: function (element) {
 			if (element.type === 'group') {
-				return '<span title="'+escapeHTML(element.name)+'" class="group">'+escapeHTML(element.displayname+' '+t('files_external', '(group)'))+'</span>';
+				return '<span title="'+escapeHTML(element.name)+'" class="group">'+escapeHTML(element.displayname+' '+t('files_external', '(Group)'))+'</span>';
 			} else {
 				return '<span title="'+escapeHTML(element.name)+'" class="user">'+escapeHTML(element.displayname)+'</span>';
 			}
@@ -167,6 +189,8 @@ function addSelect2 ($elements, userListLimit) {
 				$div.avatar($div.data('name'),32);
 			}
 		});
+	}).on('change', function(event) {
+		highlightBorder($(event.target).closest('.applicableUsersContainer').find('.select2-choices'), !event.val.length);
 	});
 }
 
@@ -479,7 +503,7 @@ MountOptionsDropdown.prototype = {
 			mountOptionsFilesystemCheckOnce: t('files_external', 'Never'),
 			mountOptionsFilesystemCheckDA: t('files_external', 'Once every direct access'),
 			mountOptionsReadOnlyLabel: t('files_external', 'Read only'),
-			deleteLabel: t('files_external', 'Delete')
+			deleteLabel: t('files_external', 'Disconnect')
 		}));
 		this.$el = $el;
 
@@ -571,7 +595,7 @@ MountOptionsDropdown.prototype = {
  *
  * @param {Object} $el DOM object containing the list
  * @param {Object} [options]
- * @param {int} [options.userListLimit] page size in applicable users dropdown
+ * @param {number} [options.userListLimit] page size in applicable users dropdown
  */
 var MountConfigListView = function($el, options) {
 	this.initialize($el, options);
@@ -642,7 +666,7 @@ MountConfigListView.prototype = _.extend({
 	/**
 	 * @param {Object} $el DOM object containing the list
 	 * @param {Object} [options]
-	 * @param {int} [options.userListLimit] page size in applicable users dropdown
+	 * @param {number} [options.userListLimit] page size in applicable users dropdown
 	 */
 	initialize: function($el, options) {
 		var self = this;
@@ -659,6 +683,7 @@ MountConfigListView.prototype = _.extend({
 		}
 
 		this._encryptionEnabled = options.encryptionEnabled;
+		this._canCreateLocal = options.canCreateLocal;
 
 		// read the backend config that was carefully crammed
 		// into the data-configurations attribute of the select
@@ -673,7 +698,7 @@ MountConfigListView.prototype = _.extend({
 	 * Trigger callback for all existing configurations
 	 */
 	whenSelectBackend: function(callback) {
-		this.$el.find('tbody tr:not(#addMountPoint)').each(function(i, tr) {
+		this.$el.find('tbody tr:not(#addMountPoint):not(.externalStorageLoading)').each(function(i, tr) {
 			var backend = $(tr).find('.backend').data('identifier');
 			callback($(tr), backend);
 		});
@@ -681,7 +706,7 @@ MountConfigListView.prototype = _.extend({
 	},
 	whenSelectAuthMechanism: function(callback) {
 		var self = this;
-		this.$el.find('tbody tr:not(#addMountPoint)').each(function(i, tr) {
+		this.$el.find('tbody tr:not(#addMountPoint):not(.externalStorageLoading)').each(function(i, tr) {
 			var authMechanism = $(tr).find('.selectAuthMechanism').val();
 			callback($(tr), authMechanism, self._allAuthMechanisms[authMechanism]['scheme']);
 		});
@@ -714,11 +739,14 @@ MountConfigListView.prototype = _.extend({
 		});
 
 		this.$el.on('click', 'td.mountOptionsToggle>.icon-more', function() {
+			$(this).attr('aria-expanded', 'true');
 			self._showMountOptionsDropdown($(this).closest('tr'));
 		});
 
 		this.$el.on('change', '.selectBackend', _.bind(this._onSelectBackend, this));
 		this.$el.on('change', '.selectAuthMechanism', _.bind(this._onSelectAuthMechanism, this));
+
+		this.$el.on('change', '.applicableToAllUsers', _.bind(this._onChangeApplicableToAllUsers, this));
 	},
 
 	_onChange: function(event) {
@@ -744,6 +772,7 @@ MountConfigListView.prototype = _.extend({
 
 		var onCompletion = jQuery.Deferred();
 		$tr = this.newStorage(storageConfig, onCompletion);
+		$tr.find('.applicableToAllUsers').prop('checked', false).trigger('change');
 		onCompletion.resolve();
 
 		$tr.find('td.configuration').children().not('[type=hidden]').first().focus();
@@ -758,6 +787,19 @@ MountConfigListView.prototype = _.extend({
 		var onCompletion = jQuery.Deferred();
 		this.configureAuthMechanism($tr, authMechanism, onCompletion);
 		onCompletion.resolve();
+
+		this.saveStorageConfig($tr);
+	},
+
+	_onChangeApplicableToAllUsers: function(event) {
+		var $target = $(event.target);
+		var $tr = $target.closest('tr');
+		var checked = $target.is(':checked');
+
+		$tr.find('.applicableUsersContainer').toggleClass('hidden', checked);
+		if (!checked) {
+			$tr.find('.applicableUsers').select2('val', '', true);
+		}
 
 		this.saveStorageConfig($tr);
 	},
@@ -788,9 +830,10 @@ MountConfigListView.prototype = _.extend({
 	 *
 	 * @param {StorageConfig} storageConfig storage config to pull values from
 	 * @param {jQuery.Deferred} onCompletion
+	 * @param {boolean} deferAppend
 	 * @return {jQuery} created row
 	 */
-	newStorage: function(storageConfig, onCompletion) {
+	newStorage: function(storageConfig, onCompletion, deferAppend) {
 		var mountPoint = storageConfig.mountPoint;
 		var backend = this._allBackends[storageConfig.backend];
 
@@ -802,8 +845,11 @@ MountConfigListView.prototype = _.extend({
 		}
 
 		// FIXME: Replace with a proper Handlebar template
-		var $tr = this.$el.find('tr#addMountPoint');
-		this.$el.find('tbody').append($tr.clone());
+		var $template = this.$el.find('tr#addMountPoint');
+		var $tr = $template.clone();
+		if (!deferAppend) {
+			$tr.insertBefore($template);
+		}
 
 		$tr.data('storageConfig', storageConfig);
 		$tr.show();
@@ -811,7 +857,9 @@ MountConfigListView.prototype = _.extend({
 		$tr.find('td').last().removeAttr('style');
 		$tr.removeAttr('id');
 		$tr.find('select#selectBackend');
-		addSelect2($tr.find('.applicableUsers'), this._userListLimit);
+		if (!deferAppend) {
+			initApplicableUsersMultiselect($tr.find('.applicableUsers'), this._userListLimit);
+		}
 
 		if (storageConfig.id) {
 			$tr.data('id', storageConfig.id);
@@ -825,10 +873,13 @@ MountConfigListView.prototype = _.extend({
 		$tr.addClass(backend.identifier);
 		$tr.find('.backend').data('identifier', backend.identifier);
 
-		if (backend.invalid) {
+		if (backend.invalid || (backend.identifier === 'local' && !this._canCreateLocal)) {
 			$tr.find('[name=mountPoint]').prop('disabled', true);
 			$tr.find('.applicable,.mountOptionsToggle').empty();
-			this.updateStatus($tr, false, 'Unknown backend: ' + backend.name);
+			$tr.find('.save').empty();
+			if (backend.invalid) {
+				this.updateStatus($tr, false, 'Unknown backend: ' + backend.name);
+			}
 			return $tr;
 		}
 
@@ -879,7 +930,14 @@ MountConfigListView.prototype = _.extend({
 				})
 			);
 		}
-		$tr.find('.applicableUsers').val(applicable).trigger('change');
+		if (applicable.length) {
+			$tr.find('.applicableUsers').val(applicable).trigger('change')
+			$tr.find('.applicableUsersContainer').removeClass('hidden');
+		} else {
+			// applicable to all
+			$tr.find('.applicableUsersContainer').addClass('hidden');
+		}
+		$tr.find('.applicableToAllUsers').prop('checked', !applicable.length);
 
 		var priorityEl = $('<input type="hidden" class="priority" value="' + backend.priority + '" />');
 		$tr.append(priorityEl);
@@ -907,6 +965,14 @@ MountConfigListView.prototype = _.extend({
 	loadStorages: function() {
 		var self = this;
 
+		var onLoaded1 = $.Deferred();
+		var onLoaded2 = $.Deferred();
+
+		this.$el.find('.externalStorageLoading').removeClass('hidden');
+		$.when(onLoaded1, onLoaded2).always(() => {
+			self.$el.find('.externalStorageLoading').addClass('hidden');
+		})
+
 		if (this._isPersonal) {
 			// load userglobal storages
 			$.ajax({
@@ -916,7 +982,8 @@ MountConfigListView.prototype = _.extend({
 				contentType: 'application/json',
 				success: function(result) {
 					var onCompletion = jQuery.Deferred();
-					$.each(result, function(i, storageParams) {
+					var $rows = $();
+					Object.values(result).forEach(function(storageParams) {
 						var storageConfig;
 						var isUserGlobal = storageParams.type === 'system' && self._isPersonal;
 						storageParams.mountPoint = storageParams.mountPoint.substr(1); // trim leading slash
@@ -926,7 +993,7 @@ MountConfigListView.prototype = _.extend({
 							storageConfig = new self._storageConfigClass();
 						}
 						_.extend(storageConfig, storageParams);
-						var $tr = self.newStorage(storageConfig, onCompletion);
+						var $tr = self.newStorage(storageConfig, onCompletion,true);
 
 						// userglobal storages must be at the top of the list
 						$tr.detach();
@@ -945,16 +1012,22 @@ MountConfigListView.prototype = _.extend({
 							// userglobal storages do not expose configuration data
 							$tr.find('.configuration').text(t('files_external', 'Admin defined'));
 						}
+						$rows = $rows.add($tr);
 					});
+					initApplicableUsersMultiselect(self.$el.find('.applicableUsers'), this._userListLimit);
+					self.$el.find('tr#addMountPoint').before($rows);
 					var mainForm = $('#files_external');
 					if (result.length === 0 && mainForm.attr('data-can-create') === 'false') {
 						mainForm.hide();
 						$('a[href="#external-storage"]').parent().hide();
-						$('#emptycontent').show();
+						$('.emptycontent').show();
 					}
 					onCompletion.resolve();
+					onLoaded1.resolve();
 				}
 			});
+		} else {
+			onLoaded1.resolve();
 		}
 
 		var url = this._storageConfigClass.prototype._url;
@@ -964,15 +1037,27 @@ MountConfigListView.prototype = _.extend({
 			url: OC.generateUrl(url),
 			contentType: 'application/json',
 			success: function(result) {
+				result = Object.values(result);
 				var onCompletion = jQuery.Deferred();
-				$.each(result, function(i, storageParams) {
+				var $rows = $();
+				result.forEach(function(storageParams) {
 					storageParams.mountPoint = (storageParams.mountPoint === '/')? '/' : storageParams.mountPoint.substr(1); // trim leading slash
 					var storageConfig = new self._storageConfigClass();
 					_.extend(storageConfig, storageParams);
-					var $tr = self.newStorage(storageConfig, onCompletion);
-					self.recheckStorageConfig($tr);
+					var $tr = self.newStorage(storageConfig, onCompletion, true);
+
+					// don't recheck config automatically when there are a large number of storages
+					if (result.length < 20) {
+						self.recheckStorageConfig($tr);
+					} else {
+						self.updateStatus($tr, StorageConfig.Status.INDETERMINATE, t('files_external', 'Automatic status checking is disabled due to the large number of configured storages, click to check status'));
+					}
+					$rows = $rows.add($tr);
 				});
+				initApplicableUsersMultiselect($rows.find('.applicableUsers'), this._userListLimit);
+				self.$el.find('tr#addMountPoint').before($rows);
 				onCompletion.resolve();
+				onLoaded2.resolve();
 			}
 		});
 	},
@@ -1014,6 +1099,14 @@ MountConfigListView.prototype = _.extend({
 			newElement = $('<input type="hidden" class="'+classes.join(' ')+'" data-parameter="'+parameter+'" />');
 		} else {
 			newElement = $('<input type="text" class="'+classes.join(' ')+'" data-parameter="'+parameter+'" placeholder="'+ trimmedPlaceholder+'" />');
+		}
+
+		if (placeholder.defaultValue) {
+			if (placeholder.type === MountConfigListView.ParameterTypes.BOOLEAN) {
+				newElement.find('input').prop('checked', placeholder.defaultValue);
+			} else {
+				newElement.val(placeholder.defaultValue);
+			}
 		}
 
 		if (placeholder.tooltip) {
@@ -1080,24 +1173,25 @@ MountConfigListView.prototype = _.extend({
 
 		// gather selected users and groups
 		if (!this._isPersonal) {
-			var groups = [];
-			var users = [];
-			var multiselect = getSelection($tr);
-			$.each(multiselect, function(index, value) {
-				var pos = (value.indexOf)?value.indexOf('(group)'): -1;
-				if (pos !== -1) {
-					groups.push(value.substr(0, pos));
-				} else {
-					users.push(value);
-				}
-			});
-			// FIXME: this should be done in the multiselect change event instead
-			$tr.find('.applicable')
-				.data('applicable-groups', groups)
-				.data('applicable-users', users);
+			var multiselect = getSelectedApplicable($tr);
+			var users = multiselect.users || [];
+			var groups = multiselect.groups || [];
+			var isApplicableToAllUsers = $tr.find('.applicableToAllUsers').is(':checked');
 
-			storage.applicableUsers = users;
-			storage.applicableGroups = groups;
+			if (isApplicableToAllUsers) {
+				storage.applicableUsers = [];
+				storage.applicableGroups = [];
+			} else {
+				storage.applicableUsers = users;
+				storage.applicableGroups = groups;
+
+				if (!storage.applicableUsers.length && !storage.applicableGroups.length) {
+					if (!storage.errors) {
+						storage.errors = {};
+					}
+					storage.errors['requiredApplicable'] = true;
+				}
+			}
 
 			storage.priority = parseInt($tr.find('input.priority').val() || '100', 10);
 		}
@@ -1126,7 +1220,7 @@ MountConfigListView.prototype = _.extend({
 		}
 		var storage = new this._storageConfigClass(configId);
 
-		OC.dialogs.confirm(t('files_external', 'Are you sure you want to delete this external storage?', {
+		OC.dialogs.confirm(t('files_external', 'Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself.', {
 				storage: this.mountPoint
 			}), t('files_external', 'Delete storage?'), function(confirm) {
 			if (confirm) {
@@ -1210,7 +1304,7 @@ MountConfigListView.prototype = _.extend({
 	 * Update status display
 	 *
 	 * @param {jQuery} $tr
-	 * @param {int} status
+	 * @param {number} status
 	 * @param {string} message
 	 */
 	updateStatus: function($tr, status, message) {
@@ -1235,7 +1329,7 @@ MountConfigListView.prototype = _.extend({
 			$statusSpan.attr('title', message);
 			$statusSpan.tooltip();
 		} else {
-			$statusSpan.tooltip('destroy');
+			$statusSpan.tooltip('dispose');
 		}
 	},
 
@@ -1306,6 +1400,7 @@ MountConfigListView.prototype = _.extend({
 			var mountOptions = dropDown.getOptions();
 			$('body').off('mouseup.mountOptionsDropdown');
 			$tr.find('input.mountOptions').val(JSON.stringify(mountOptions));
+			$tr.find('td.mountOptionsToggle>.icon-more').attr('aria-expanded', 'false');
 			self.saveStorageConfig($tr);
 		});
 	}
@@ -1313,9 +1408,11 @@ MountConfigListView.prototype = _.extend({
 
 window.addEventListener('DOMContentLoaded', function() {
 	var enabled = $('#files_external').attr('data-encryption-enabled');
+	var canCreateLocal = $('#files_external').attr('data-can-create-local');
 	var encryptionEnabled = (enabled ==='true')? true: false;
 	var mountConfigListView = new MountConfigListView($('#externalStorage'), {
-		encryptionEnabled: encryptionEnabled
+		encryptionEnabled: encryptionEnabled,
+		canCreateLocal: (canCreateLocal === 'true') ? true: false,
 	});
 	mountConfigListView.loadStorages();
 

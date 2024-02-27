@@ -23,7 +23,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Files\Storage;
 
 use OC\Files\Cache\FailedCache;
@@ -35,7 +34,6 @@ use OCP\Lock\ILockingProvider;
  * Storage placeholder to represent a missing precondition, storage unavailable
  */
 class FailedStorage extends Common {
-
 	/** @var \Exception */
 	protected $e;
 
@@ -82,7 +80,7 @@ class FailedStorage extends Common {
 		throw new StorageNotAvailableException($this->e->getMessage(), $this->e->getCode(), $this->e);
 	}
 
-	public function filesize($path) {
+	public function filesize($path): false|int|float {
 		throw new StorageNotAvailableException($this->e->getMessage(), $this->e->getCode(), $this->e);
 	}
 
@@ -130,11 +128,11 @@ class FailedStorage extends Common {
 		throw new StorageNotAvailableException($this->e->getMessage(), $this->e->getCode(), $this->e);
 	}
 
-	public function rename($path1, $path2) {
+	public function rename($source, $target) {
 		throw new StorageNotAvailableException($this->e->getMessage(), $this->e->getCode(), $this->e);
 	}
 
-	public function copy($path1, $path2) {
+	public function copy($source, $target) {
 		throw new StorageNotAvailableException($this->e->getMessage(), $this->e->getCode(), $this->e);
 	}
 
@@ -163,10 +161,6 @@ class FailedStorage extends Common {
 	}
 
 	public function getLocalFile($path) {
-		throw new StorageNotAvailableException($this->e->getMessage(), $this->e->getCode(), $this->e);
-	}
-
-	public function getLocalFolder($path) {
 		throw new StorageNotAvailableException($this->e->getMessage(), $this->e->getCode(), $this->e);
 	}
 

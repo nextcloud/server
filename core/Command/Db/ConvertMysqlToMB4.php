@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2017, ownCloud GmbH
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
@@ -21,7 +22,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Core\Command\Db;
 
 use Doctrine\DBAL\Platforms\MySQLPlatform;
@@ -30,36 +30,19 @@ use OC\Migration\ConsoleOutput;
 use OC\Repair\Collation;
 use OCP\IConfig;
 use OCP\IDBConnection;
-use OCP\ILogger;
 use OCP\IURLGenerator;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class ConvertMysqlToMB4 extends Command {
-	/** @var IConfig */
-	private $config;
-
-	/** @var IDBConnection */
-	private $connection;
-
-	/** @var IURLGenerator */
-	private $urlGenerator;
-
-	/** @var ILogger */
-	private $logger;
-
-	/**
-	 * @param IConfig $config
-	 * @param IDBConnection $connection
-	 * @param IURLGenerator $urlGenerator
-	 * @param ILogger $logger
-	 */
-	public function __construct(IConfig $config, IDBConnection $connection, IURLGenerator $urlGenerator, ILogger $logger) {
-		$this->config = $config;
-		$this->connection = $connection;
-		$this->urlGenerator = $urlGenerator;
-		$this->logger = $logger;
+	public function __construct(
+		private IConfig $config,
+		private IDBConnection $connection,
+		private IURLGenerator $urlGenerator,
+		private LoggerInterface $logger,
+	) {
 		parent::__construct();
 	}
 

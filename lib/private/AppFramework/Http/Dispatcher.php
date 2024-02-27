@@ -30,7 +30,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\AppFramework\Http;
 
 use OC\AppFramework\Http;
@@ -39,16 +38,18 @@ use OC\AppFramework\Utility\ControllerMethodReflector;
 use OC\DB\ConnectionAdapter;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\Http\ParameterOutOfRangeException;
 use OCP\AppFramework\Http\Response;
+use OCP\Diagnostics\IEventLogger;
 use OCP\IConfig;
 use OCP\IRequest;
+use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
 /**
  * Class to dispatch the request to the middleware dispatcher
  */
 class Dispatcher {
-
 	/** @var MiddlewareDispatcher */
 	private $middlewareDispatcher;
 
@@ -70,6 +71,11 @@ class Dispatcher {
 	/** @var LoggerInterface */
 	private $logger;
 
+	/** @var IEventLogger */
+	private $eventLogger;
+
+	private ContainerInterface $appContainer;
+
 	/**
 	 * @param Http $protocol the http protocol with contains all status headers
 	 * @param MiddlewareDispatcher $middlewareDispatcher the dispatcher which
@@ -80,14 +86,17 @@ class Dispatcher {
 	 * @param IConfig $config
 	 * @param ConnectionAdapter $connection
 	 * @param LoggerInterface $logger
+	 * @param IEventLogger $eventLogger
 	 */
 	public function __construct(Http $protocol,
-								MiddlewareDispatcher $middlewareDispatcher,
-								ControllerMethodReflector $reflector,
-								IRequest $request,
-								IConfig $config,
-								ConnectionAdapter $connection,
-								LoggerInterface $logger) {
+		MiddlewareDispatcher $middlewareDispatcher,
+		ControllerMethodReflector $reflector,
+		IRequest $request,
+		IConfig $config,
+		ConnectionAdapter $connection,
+		LoggerInterface $logger,
+		IEventLogger $eventLogger,
+		ContainerInterface $appContainer) {
 		$this->protocol = $protocol;
 		$this->middlewareDispatcher = $middlewareDispatcher;
 		$this->reflector = $reflector;
@@ -95,6 +104,8 @@ class Dispatcher {
 		$this->config = $config;
 		$this->connection = $connection;
 		$this->logger = $logger;
+		$this->eventLogger = $eventLogger;
+		$this->appContainer = $appContainer;
 	}
 
 
@@ -112,7 +123,7 @@ class Dispatcher {
 		$out = [null, [], null];
 
 		try {
-			// prefill reflector with everything thats needed for the
+			// prefill reflector with everything that's needed for the
 			// middlewares
 			$this->reflector->reflect($controller, $methodName);
 
@@ -132,7 +143,7 @@ class Dispatcher {
 				$numExecuted = $databaseStatsAfter['executed'] - $databaseStatsBefore['executed'];
 
 				if ($numBuilt > 50) {
-					$this->logger->debug('Controller {class}::{method} created {count} QueryBuilder objects, please check if they are created inside a loop by accident.' , [
+					$this->logger->debug('Controller {class}::{method} created {count} QueryBuilder objects, please check if they are created inside a loop by accident.', [
 						'class' => get_class($controller),
 						'method' => $methodName,
 						'count' => $numBuilt,
@@ -140,7 +151,7 @@ class Dispatcher {
 				}
 
 				if ($numExecuted > 100) {
-					$this->logger->warning('Controller {class}::{method} executed {count} queries.' , [
+					$this->logger->warning('Controller {class}::{method} executed {count} queries.', [
 						'class' => get_class($controller),
 						'method' => $methodName,
 						'count' => $numExecuted,
@@ -150,15 +161,15 @@ class Dispatcher {
 
 			// if an exception appears, the middleware checks if it can handle the
 			// exception and creates a response. If no response is created, it is
-			// assumed that theres no middleware who can handle it and the error is
+			// assumed that there's no middleware who can handle it and the error is
 			// thrown again
 		} catch (\Exception $exception) {
 			$response = $this->middlewareDispatcher->afterException(
 				$controller, $methodName, $exception);
 		} catch (\Throwable $throwable) {
-			$exception = new \Exception($throwable->getMessage(), $throwable->getCode(), $throwable);
+			$exception = new \Exception($throwable->getMessage() . ' in file \'' . $throwable->getFile() . '\' line ' . $throwable->getLine(), $throwable->getCode(), $throwable);
 			$response = $this->middlewareDispatcher->afterException(
-			$controller, $methodName, $exception);
+				$controller, $methodName, $exception);
 		}
 
 		$response = $this->middlewareDispatcher->afterController(
@@ -187,11 +198,10 @@ class Dispatcher {
 	private function executeController(Controller $controller, string $methodName): Response {
 		$arguments = [];
 
-		// valid types that will be casted
-		$types = ['int', 'integer', 'bool', 'boolean', 'float'];
+		// valid types that will be cast
+		$types = ['int', 'integer', 'bool', 'boolean', 'float', 'double'];
 
 		foreach ($this->reflector->getParameters() as $param => $default) {
-
 			// try to get the parameter from the request object and cast
 			// it to the type annotated in the @param annotation
 			$value = $this->request->getParam($param, $default);
@@ -203,23 +213,27 @@ class Dispatcher {
 				$value === 'false' &&
 				(
 					$this->request->method === 'GET' ||
-					strpos($this->request->getHeader('Content-Type'),
-						'application/x-www-form-urlencoded') !== false
+					str_contains($this->request->getHeader('Content-Type'),
+						'application/x-www-form-urlencoded')
 				)
 			) {
 				$value = false;
 			} elseif ($value !== null && \in_array($type, $types, true)) {
 				settype($value, $type);
+				$this->ensureParameterValueSatisfiesRange($param, $value);
+			} elseif ($value === null && $type !== null && $this->appContainer->has($type)) {
+				$value = $this->appContainer->get($type);
 			}
 
 			$arguments[] = $value;
 		}
 
+		$this->eventLogger->start('controller:' . get_class($controller) . '::' . $methodName, 'App framework controller execution');
 		$response = \call_user_func_array([$controller, $methodName], $arguments);
+		$this->eventLogger->end('controller:' . get_class($controller) . '::' . $methodName);
 
 		// format response
 		if ($response instanceof DataResponse || !($response instanceof Response)) {
-
 			// get format from the url format or request format parameter
 			$format = $this->request->getParam('format');
 
@@ -237,5 +251,23 @@ class Dispatcher {
 		}
 
 		return $response;
+	}
+
+	/**
+	 * @psalm-param mixed $value
+	 * @throws ParameterOutOfRangeException
+	 */
+	private function ensureParameterValueSatisfiesRange(string $param, $value): void {
+		$rangeInfo = $this->reflector->getRange($param);
+		if ($rangeInfo) {
+			if ($value < $rangeInfo['min'] || $value > $rangeInfo['max']) {
+				throw new ParameterOutOfRangeException(
+					$param,
+					$value,
+					$rangeInfo['min'],
+					$rangeInfo['max'],
+				);
+			}
+		}
 	}
 }

@@ -10,6 +10,7 @@ declare(strict_types=1);
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Richard Steinmetz <richard@steinmetz.cloud>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -20,23 +21,22 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\CalDAV\Reminder\NotificationProvider;
 
 use OCA\DAV\CalDAV\Reminder\INotificationProvider;
 use OCP\IConfig;
 use OCP\IL10N;
-use OCP\ILogger;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\L10N\IFactory as L10NFactory;
+use Psr\Log\LoggerInterface;
 use Sabre\VObject\Component\VEvent;
 use Sabre\VObject\DateTimeParser;
 use Sabre\VObject\Property;
@@ -51,8 +51,7 @@ abstract class AbstractProvider implements INotificationProvider {
 	/** @var string */
 	public const NOTIFICATION_TYPE = '';
 
-	/** @var ILogger */
-	protected $logger;
+	protected LoggerInterface $logger;
 
 	/** @var L10NFactory */
 	protected $l10nFactory;
@@ -69,16 +68,10 @@ abstract class AbstractProvider implements INotificationProvider {
 	/** @var IConfig */
 	protected $config;
 
-	/**
-	 * @param ILogger $logger
-	 * @param L10NFactory $l10nFactory
-	 * @param IConfig $config
-	 * @param IUrlGenerator $urlGenerator
-	 */
-	public function __construct(ILogger $logger,
-								L10NFactory $l10nFactory,
-								IURLGenerator $urlGenerator,
-								IConfig $config) {
+	public function __construct(LoggerInterface $logger,
+		L10NFactory $l10nFactory,
+		IURLGenerator $urlGenerator,
+		IConfig $config) {
 		$this->logger = $logger;
 		$this->l10nFactory = $l10nFactory;
 		$this->urlGenerator = $urlGenerator;
@@ -89,13 +82,15 @@ abstract class AbstractProvider implements INotificationProvider {
 	 * Send notification
 	 *
 	 * @param VEvent $vevent
-	 * @param string $calendarDisplayName
+	 * @param string|null $calendarDisplayName
+	 * @param string[] $principalEmailAddresses
 	 * @param IUser[] $users
 	 * @return void
 	 */
 	abstract public function send(VEvent $vevent,
-						   string $calendarDisplayName,
-						   array $users = []): void;
+		?string $calendarDisplayName,
+		array $principalEmailAddresses,
+		array $users = []): void;
 
 	/**
 	 * @return string
@@ -105,7 +100,7 @@ abstract class AbstractProvider implements INotificationProvider {
 			return $this->fallbackLanguage;
 		}
 
-		$fallbackLanguage = $this->l10nFactory->findLanguage();
+		$fallbackLanguage = $this->l10nFactory->findGenericLanguage();
 		$this->fallbackLanguage = $fallbackLanguage;
 
 		return $fallbackLanguage;
@@ -189,5 +184,9 @@ abstract class AbstractProvider implements INotificationProvider {
 		}
 
 		return clone $vevent->DTSTART;
+	}
+
+	protected function getCalendarDisplayNameFallback(string $lang): string {
+		return $this->getL10NForLang($lang)->t('Untitled calendar');
 	}
 }

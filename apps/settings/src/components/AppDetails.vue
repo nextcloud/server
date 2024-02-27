@@ -35,22 +35,23 @@
 					class="group_select"
 					:title="t('settings', 'All')"
 					value="">
-				<Multiselect v-if="isLimitedToGroups(app)"
+				<br />
+				<label for="limitToGroups">
+					<span>{{ t('settings', 'Limit app usage to groups') }}</span>
+				</label>
+				<NcSelect v-if="isLimitedToGroups(app)"
+					input-id="limitToGroups"
 					:options="groups"
 					:value="appGroups"
-					:options-limit="5"
-					:placeholder="t('settings', 'Limit app usage to groups')"
+					:limit="5"
 					label="name"
-					track-by="id"
-					class="multiselect-vue"
 					:multiple="true"
 					:close-on-select="false"
-					:tag-width="60"
-					@select="addGroupLimitation"
-					@remove="removeGroupLimitation"
-					@search-change="asyncFindGroup">
+					@option:selected="addGroupLimitation"
+					@option:deselected="removeGroupLimitation"
+					@search="asyncFindGroup">
 					<span slot="noResult">{{ t('settings', 'No results') }}</span>
-				</Multiselect>
+				</NcSelect>
 			</div>
 			<div class="app-details__actions-manage">
 				<input v-if="app.update"
@@ -72,14 +73,16 @@
 					:disabled="installing || isLoading"
 					@click="disable(app.id)">
 				<input v-if="!app.active && (app.canInstall || app.isCompatible)"
-					v-tooltip.auto="enableButtonTooltip"
+					:title="enableButtonTooltip"
+					:aria-label="enableButtonTooltip"
 					class="enable primary"
 					type="button"
 					:value="enableButtonText"
 					:disabled="!app.canInstall || installing || isLoading"
 					@click="enable(app.id)">
 				<input v-else-if="!app.active && !app.canInstall"
-					v-tooltip.auto="forceEnableButtonTooltip"
+					:title="forceEnableButtonTooltip"
+					:aria-label="forceEnableButtonTooltip"
 					class="enable force"
 					type="button"
 					:value="forceEnableButtonText"
@@ -127,7 +130,7 @@
 				class="appslink"
 				:href="app.documentation.user"
 				target="_blank"
-				rel="noreferrer noopener">{{ t('settings', 'User documentation') }} ↗</a>
+				rel="noreferrer noopener">{{ t('settings', 'Usage documentation') }} ↗</a>
 			<a v-if="app.documentation && app.documentation.admin"
 				class="appslink"
 				:href="app.documentation.admin"
@@ -144,17 +147,17 @@
 </template>
 
 <script>
-import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
+import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
 
-import AppManagement from '../mixins/AppManagement'
-import PrefixMixin from './PrefixMixin'
-import Markdown from './Markdown'
+import AppManagement from '../mixins/AppManagement.js'
+import PrefixMixin from './PrefixMixin.vue'
+import Markdown from './Markdown.vue'
 
 export default {
 	name: 'AppDetails',
 
 	components: {
-		Multiselect,
+		NcSelect,
 		Markdown,
 	},
 	mixins: [AppManagement, PrefixMixin],
@@ -235,6 +238,9 @@ export default {
 	}
 	&__documentation {
 		padding-top: 20px;
+		a.appslink {
+			display: block;
+		}
 	}
 	&__description {
 		padding-top: 20px;

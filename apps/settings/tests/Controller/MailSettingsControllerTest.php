@@ -19,14 +19,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Settings\Tests\Controller;
 
 use OC\Mail\Message;
@@ -36,6 +35,7 @@ use OCP\AppFramework\Http;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
+use OCP\IURLGenerator;
 use OCP\IUserSession;
 use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
@@ -53,6 +53,8 @@ class MailSettingsControllerTest extends \Test\TestCase {
 	private $mailer;
 	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
 	private $l;
+	/** @var IURLGenerator */
+	private $urlGenerator;
 
 	/** @var MailSettingsController */
 	private $mailController;
@@ -64,6 +66,7 @@ class MailSettingsControllerTest extends \Test\TestCase {
 		$this->config = $this->createMock(IConfig::class);
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->mailer = $this->createMock(IMailer::class);
+		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject $request */
 		$request = $this->createMock(IRequest::class);
 		$this->mailController = new MailSettingsController(
@@ -72,6 +75,7 @@ class MailSettingsControllerTest extends \Test\TestCase {
 			$this->l,
 			$this->config,
 			$this->userSession,
+			$this->urlGenerator,
 			$this->mailer,
 			'no-reply@nextcloud.com'
 		);
@@ -87,7 +91,6 @@ class MailSettingsControllerTest extends \Test\TestCase {
 					'mail_smtpmode' => 'smtp',
 					'mail_smtpsecure' => 'ssl',
 					'mail_smtphost' => 'mx.nextcloud.org',
-					'mail_smtpauthtype' => 'NTLM',
 					'mail_smtpauth' => 1,
 					'mail_smtpport' => '25',
 					'mail_sendmailmode' => null,
@@ -98,7 +101,6 @@ class MailSettingsControllerTest extends \Test\TestCase {
 					'mail_smtpmode' => 'smtp',
 					'mail_smtpsecure' => 'ssl',
 					'mail_smtphost' => 'mx.nextcloud.org',
-					'mail_smtpauthtype' => 'NTLM',
 					'mail_smtpauth' => null,
 					'mail_smtpport' => '25',
 					'mail_smtpname' => null,
@@ -114,7 +116,6 @@ class MailSettingsControllerTest extends \Test\TestCase {
 			'smtp',
 			'ssl',
 			'mx.nextcloud.org',
-			'NTLM',
 			1,
 			'25',
 			null
@@ -128,7 +129,6 @@ class MailSettingsControllerTest extends \Test\TestCase {
 			'smtp',
 			'ssl',
 			'mx.nextcloud.org',
-			'NTLM',
 			0,
 			'25',
 			null
@@ -171,7 +171,7 @@ class MailSettingsControllerTest extends \Test\TestCase {
 		// Ensure that it fails when no mail address has been specified
 		$response = $this->mailController->sendTestMail();
 		$this->assertSame(Http::STATUS_BAD_REQUEST, $response->getStatus());
-		$this->assertSame('You need to set your user email before being able to send test emails.', $response->getData());
+		$this->assertSame('You need to set your account email before being able to send test emails. Go to  for that.', $response->getData());
 
 		// If no exception is thrown it should work
 		$this->config

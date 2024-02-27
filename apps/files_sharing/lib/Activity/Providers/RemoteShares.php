@@ -15,17 +15,17 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Files_Sharing\Activity\Providers;
 
 use OCP\Activity\IEvent;
+use OCP\Activity\IEventMerger;
 use OCP\Activity\IManager;
 use OCP\Contacts\IManager as IContactsManager;
 use OCP\Federation\ICloudIdManager;
@@ -40,13 +40,13 @@ class RemoteShares extends Base {
 	public const SUBJECT_REMOTE_SHARE_UNSHARED = 'remote_share_unshared';
 
 	public function __construct(IFactory $languageFactory,
-								IURLGenerator $url,
-								IManager $activityManager,
-								IUserManager $userManager,
-								IContactsManager $contactsManager,
-								ICloudIdManager $cloudIdManager
-	) {
-		parent::__construct($languageFactory, $url, $activityManager, $userManager, $cloudIdManager, $contactsManager);
+		IURLGenerator $url,
+		IManager $activityManager,
+		IUserManager $userManager,
+		ICloudIdManager $cloudIdManager,
+		IContactsManager $contactsManager,
+		IEventMerger $eventMerger) {
+		parent::__construct($languageFactory, $url, $activityManager, $userManager, $cloudIdManager, $contactsManager, $eventMerger);
 	}
 
 	/**
@@ -78,11 +78,12 @@ class RemoteShares extends Base {
 
 	/**
 	 * @param IEvent $event
+	 * @param IEvent|null $previousEvent
 	 * @return IEvent
 	 * @throws \InvalidArgumentException
 	 * @since 11.0.0
 	 */
-	public function parseLongVersion(IEvent $event) {
+	public function parseLongVersion(IEvent $event, IEvent $previousEvent = null) {
 		$parsedParameters = $this->getParsedParameters($event);
 
 		if ($event->getSubject() === self::SUBJECT_REMOTE_SHARE_RECEIVED) {
@@ -114,13 +115,14 @@ class RemoteShares extends Base {
 		switch ($subject) {
 			case self::SUBJECT_REMOTE_SHARE_RECEIVED:
 			case self::SUBJECT_REMOTE_SHARE_UNSHARED:
+				$displayName = (count($parameters) > 2) ? $parameters[2] : '';
 				return [
 					'file' => [
 						'type' => 'pending-federated-share',
 						'id' => $parameters[1],
 						'name' => $parameters[1],
 					],
-					'user' => $this->getUser($parameters[0]),
+					'user' => $this->getUser($parameters[0], $displayName)
 				];
 			case self::SUBJECT_REMOTE_SHARE_ACCEPTED:
 			case self::SUBJECT_REMOTE_SHARE_DECLINED:

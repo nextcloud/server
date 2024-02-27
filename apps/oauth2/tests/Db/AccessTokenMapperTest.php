@@ -14,18 +14,18 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\OAuth2\Tests\Db;
 
 use OCA\OAuth2\Db\AccessToken;
 use OCA\OAuth2\Db\AccessTokenMapper;
+use OCP\AppFramework\Utility\ITimeFactory;
 use Test\TestCase;
 
 /**
@@ -37,7 +37,7 @@ class AccessTokenMapperTest extends TestCase {
 
 	protected function setUp(): void {
 		parent::setUp();
-		$this->accessTokenMapper = new AccessTokenMapper(\OC::$server->getDatabaseConnection());
+		$this->accessTokenMapper = new AccessTokenMapper(\OC::$server->getDatabaseConnection(), \OC::$server->get(ITimeFactory::class));
 	}
 
 	public function testGetByCode() {
@@ -55,7 +55,7 @@ class AccessTokenMapperTest extends TestCase {
 		$this->accessTokenMapper->delete($token);
 	}
 
-	
+
 	public function testDeleteByClientId() {
 		$this->expectException(\OCA\OAuth2\Exceptions\AccessTokenNotFoundException::class);
 

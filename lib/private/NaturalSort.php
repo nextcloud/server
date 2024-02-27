@@ -6,7 +6,6 @@
  * @author AW-UC <git@a-wesemann.de>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Vincent Petry <vincent@nextcloud.com>
  *
@@ -25,10 +24,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC;
 
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 
 class NaturalSort {
 	private static $instance;
@@ -44,7 +42,7 @@ class NaturalSort {
 		// or inject an instance of \OC\NaturalSort_DefaultCollator to force using Owncloud's default collator
 		if (isset($injectedCollator)) {
 			$this->collator = $injectedCollator;
-			\OCP\Util::writeLog('core', 'forced use of '.get_class($injectedCollator), ILogger::DEBUG);
+			\OC::$server->get(LoggerInterface::class)->debug('forced use of '.get_class($injectedCollator));
 		}
 	}
 

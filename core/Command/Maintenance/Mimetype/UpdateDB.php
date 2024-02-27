@@ -22,7 +22,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Core\Command\Maintenance\Mimetype;
 
 use OCP\Files\IMimeTypeDetector;
@@ -36,19 +35,11 @@ use Symfony\Component\Console\Output\OutputInterface;
 class UpdateDB extends Command {
 	public const DEFAULT_MIMETYPE = 'application/octet-stream';
 
-	/** @var IMimeTypeDetector */
-	protected $mimetypeDetector;
-
-	/** @var IMimeTypeLoader */
-	protected $mimetypeLoader;
-
 	public function __construct(
-		IMimeTypeDetector $mimetypeDetector,
-		IMimeTypeLoader $mimetypeLoader
+		protected IMimeTypeDetector $mimetypeDetector,
+		protected IMimeTypeLoader $mimetypeLoader,
 	) {
 		parent::__construct();
-		$this->mimetypeDetector = $mimetypeDetector;
-		$this->mimetypeLoader = $mimetypeLoader;
 	}
 
 	protected function configure() {

@@ -43,7 +43,7 @@ class UpdateLanguageCodesTest extends TestCase {
 	/** @var IConfig | \PHPUnit_Framework_MockObject_MockObject */
 	private $config;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->connection = \OC::$server->getDatabaseConnection();
@@ -86,6 +86,7 @@ class UpdateLanguageCodesTest extends TestCase {
 			->from('preferences')
 			->where($qb->expr()->eq('appid', $qb->createNamedParameter('core')))
 			->andWhere($qb->expr()->eq('configkey', $qb->createNamedParameter('lang')))
+			->orderBy('userid')
 			->execute();
 
 		$rows = $result->fetchAll();
@@ -95,30 +96,20 @@ class UpdateLanguageCodesTest extends TestCase {
 
 		/** @var IOutput|\PHPUnit_Framework_MockObject_MockObject $outputMock */
 		$outputMock = $this->createMock(IOutput::class);
-		$outputMock->expects($this->at(0))
+		$outputMock->expects($this->exactly(7))
 			->method('info')
-			->with('Changed 1 setting(s) from "bg_BG" to "bg" in preferences table.');
-		$outputMock->expects($this->at(1))
-			->method('info')
-			->with('Changed 0 setting(s) from "cs_CZ" to "cs" in preferences table.');
-		$outputMock->expects($this->at(2))
-			->method('info')
-			->with('Changed 1 setting(s) from "fi_FI" to "fi" in preferences table.');
-		$outputMock->expects($this->at(3))
-			->method('info')
-			->with('Changed 0 setting(s) from "hu_HU" to "hu" in preferences table.');
-		$outputMock->expects($this->at(4))
-			->method('info')
-			->with('Changed 0 setting(s) from "nb_NO" to "nb" in preferences table.');
-		$outputMock->expects($this->at(5))
-			->method('info')
-			->with('Changed 0 setting(s) from "sk_SK" to "sk" in preferences table.');
-		$outputMock->expects($this->at(6))
-			->method('info')
-			->with('Changed 2 setting(s) from "th_TH" to "th" in preferences table.');
+			->withConsecutive(
+				['Changed 1 setting(s) from "bg_BG" to "bg" in preferences table.'],
+				['Changed 0 setting(s) from "cs_CZ" to "cs" in preferences table.'],
+				['Changed 1 setting(s) from "fi_FI" to "fi" in preferences table.'],
+				['Changed 0 setting(s) from "hu_HU" to "hu" in preferences table.'],
+				['Changed 0 setting(s) from "nb_NO" to "nb" in preferences table.'],
+				['Changed 0 setting(s) from "sk_SK" to "sk" in preferences table.'],
+				['Changed 2 setting(s) from "th_TH" to "th" in preferences table.'],
+			);
 
 		$this->config->expects($this->once())
-			->method('getSystemValue')
+			->method('getSystemValueString')
 			->with('version', '0.0.0')
 			->willReturn('12.0.0.13');
 
@@ -164,7 +155,7 @@ class UpdateLanguageCodesTest extends TestCase {
 			->method('info');
 
 		$this->config->expects($this->once())
-			->method('getSystemValue')
+			->method('getSystemValueString')
 			->with('version', '0.0.0')
 			->willReturn('12.0.0.14');
 

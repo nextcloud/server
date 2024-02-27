@@ -29,7 +29,6 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 
 class JSONResponseTest extends \Test\TestCase {
-
 	/**
 	 * @var JSONResponse
 	 */
@@ -88,10 +87,10 @@ class JSONResponseTest extends \Test\TestCase {
 		$this->assertEquals($expected, $this->json->render());
 	}
 
-	
+
 	public function testRenderWithNonUtf8Encoding() {
-		$this->expectException(\Exception::class);
-		$this->expectExceptionMessage('Could not json_encode due to invalid non UTF-8 characters in the array: array (');
+		$this->expectException(\JsonException::class);
+		$this->expectExceptionMessage('Malformed UTF-8 characters, possibly incorrectly encoded');
 
 		$params = ['test' => hex2bin('e9')];
 		$this->json->setData($params);

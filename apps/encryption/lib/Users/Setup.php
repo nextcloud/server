@@ -25,7 +25,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Encryption\Users;
 
 use OCA\Encryption\Crypto\Crypt;
@@ -38,7 +37,7 @@ class Setup {
 	private $keyManager;
 
 	public function __construct(Crypt $crypt,
-								KeyManager $keyManager) {
+		KeyManager $keyManager) {
 		$this->crypt = $crypt;
 		$this->keyManager = $keyManager;
 	}

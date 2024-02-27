@@ -17,19 +17,18 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Files\AppData;
 
-use OC\Cache\CappedMemoryCache;
 use OC\Files\SimpleFS\SimpleFolder;
 use OC\SystemConfig;
+use OCP\Cache\CappedMemoryCache;
 use OCP\Files\Folder;
 use OCP\Files\IAppData;
 use OCP\Files\IRootFolder;
@@ -39,21 +38,12 @@ use OCP\Files\NotPermittedException;
 use OCP\Files\SimpleFS\ISimpleFolder;
 
 class AppData implements IAppData {
-
-	/** @var IRootFolder */
-	private $rootFolder;
-
-	/** @var SystemConfig */
-	private $config;
-
-	/** @var string */
-	private $appId;
-
-	/** @var Folder */
-	private $folder;
-
-	/** @var (ISimpleFolder|NotFoundException)[]|CappedMemoryCache */
-	private $folders;
+	private IRootFolder $rootFolder;
+	private SystemConfig $config;
+	private string $appId;
+	private ?Folder $folder = null;
+	/** @var CappedMemoryCache<ISimpleFolder|NotFoundException> */
+	private CappedMemoryCache $folders;
 
 	/**
 	 * AppData constructor.
@@ -63,8 +53,8 @@ class AppData implements IAppData {
 	 * @param string $appId
 	 */
 	public function __construct(IRootFolder $rootFolder,
-								SystemConfig $systemConfig,
-								string $appId) {
+		SystemConfig $systemConfig,
+		string $appId) {
 		$this->rootFolder = $rootFolder;
 		$this->config = $systemConfig;
 		$this->appId = $appId;
@@ -80,7 +70,7 @@ class AppData implements IAppData {
 		return 'appdata_' . $instanceId;
 	}
 
-	private function getAppDataRootFolder(): Folder {
+	protected function getAppDataRootFolder(): Folder {
 		$name = $this->getAppDataFolderName();
 
 		try {

@@ -27,13 +27,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
-/**
- * Public interface of ownCloud for apps to use.
- * Session interface
- *
- */
-
 // use OCP namespace for all classes that are considered public.
 // This means that they should be used by apps instead of the internal ownCloud classes
 
@@ -48,7 +41,6 @@ use OCP\Session\Exceptions\SessionNotAvailableException;
  * @since 6.0.0
  */
 interface ISession {
-
 	/**
 	 * Set a value in the session
 	 *
@@ -89,6 +81,14 @@ interface ISession {
 	 * @since 6.0.0
 	 */
 	public function clear();
+
+	/**
+	 * Reopen a session for writing again
+	 *
+	 * @return bool true if the session was actually reopened, otherwise false
+	 * @since 25.0.0
+	 */
+	public function reopen(): bool;
 
 	/**
 	 * Close the session and release the lock

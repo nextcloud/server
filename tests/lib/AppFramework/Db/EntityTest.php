@@ -43,6 +43,8 @@ use PHPUnit\Framework\Constraint\IsType;
  * @method bool getAnotherBool()
  * @method bool isAnotherBool()
  * @method void setAnotherBool(bool $anotherBool)
+ * @method string getLongText()
+ * @method void setLongText(string $longText)
  */
 class TestEntity extends Entity {
 	protected $name;
@@ -51,11 +53,13 @@ class TestEntity extends Entity {
 	protected $preName;
 	protected $trueOrFalse;
 	protected $anotherBool;
+	protected $longText;
 
 	public function __construct($name = null) {
 		$this->addType('testId', 'integer');
 		$this->addType('trueOrFalse', 'bool');
 		$this->addType('anotherBool', 'boolean');
+		$this->addType('longText', 'blob');
 		$this->name = $name;
 	}
 }
@@ -210,6 +214,18 @@ class EntityTest extends \Test\TestCase {
 		$this->assertSame(null, $entity->getId());
 	}
 
+	public function testSetterConvertsResourcesToStringProperly() {
+		$string = 'Definitely a string';
+		$stream = fopen('php://memory', 'r+');
+		fwrite($stream, $string);
+		rewind($stream);
+
+		$entity = new TestEntity();
+		$entity->setLongText($stream);
+		fclose($stream);
+		$this->assertSame($string, $entity->getLongText());
+	}
+
 
 	public function testGetFieldTypes() {
 		$entity = new TestEntity();
@@ -218,6 +234,7 @@ class EntityTest extends \Test\TestCase {
 			'testId' => 'integer',
 			'trueOrFalse' => 'bool',
 			'anotherBool' => 'boolean',
+			'longText' => 'blob',
 		], $entity->getFieldTypes());
 	}
 

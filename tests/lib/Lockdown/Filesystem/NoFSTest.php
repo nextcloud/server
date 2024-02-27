@@ -23,7 +23,7 @@
 
 namespace Test\Lockdown\Filesystem;
 
-use OC\Authentication\Token\DefaultToken;
+use OC\Authentication\Token\PublicKeyToken;
 use OC\Files\Filesystem;
 use OC\Lockdown\Filesystem\NullStorage;
 use Test\Traits\UserTrait;
@@ -35,7 +35,7 @@ class NoFSTest extends \Test\TestCase {
 	use UserTrait;
 
 	protected function tearDown(): void {
-		$token = new DefaultToken();
+		$token = new PublicKeyToken();
 		$token->setScope([
 			'filesystem' => true
 		]);
@@ -45,7 +45,7 @@ class NoFSTest extends \Test\TestCase {
 
 	protected function setUp(): void {
 		parent::setUp();
-		$token = new DefaultToken();
+		$token = new PublicKeyToken();
 		$token->setScope([
 			'filesystem' => false
 		]);

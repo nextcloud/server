@@ -24,7 +24,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Memcache;
 
 class NullCache extends Cache implements \OCP\IMemcache {
@@ -68,7 +67,7 @@ class NullCache extends Cache implements \OCP\IMemcache {
 		return true;
 	}
 
-	public static function isAvailable() {
+	public static function isAvailable(): bool {
 		return true;
 	}
 }

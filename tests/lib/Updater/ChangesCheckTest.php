@@ -26,14 +26,14 @@ declare(strict_types=1);
 
 namespace Test\Updater;
 
+use OC\Updater\Changes;
 use OC\Updater\ChangesCheck;
 use OC\Updater\ChangesMapper;
-use OC\Updater\ChangesResult;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
 use OCP\Http\Client\IResponse;
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class ChangesCheckTest extends TestCase {
@@ -46,7 +46,7 @@ class ChangesCheckTest extends TestCase {
 	/** @var ChangesMapper|\PHPUnit\Framework\MockObject\MockObject */
 	protected $mapper;
 
-	/** @var ILogger|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
 	protected $logger;
 
 	protected function setUp(): void {
@@ -54,7 +54,7 @@ class ChangesCheckTest extends TestCase {
 
 		$this->clientService = $this->createMock(IClientService::class);
 		$this->mapper = $this->createMock(ChangesMapper::class);
-		$this->logger = $this->createMock(ILogger::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 
 		$this->checker = new ChangesCheck($this->clientService, $this->mapper, $this->logger);
 	}
@@ -88,7 +88,7 @@ class ChangesCheckTest extends TestCase {
 
 	public function testCacheResultInsert() {
 		$version = '13.0.4';
-		$entry = $this->createMock(ChangesResult::class);
+		$entry = $this->createMock(Changes::class);
 		$entry->expects($this->exactly(2))
 			->method('__call')
 			->withConsecutive(['getVersion'], ['setVersion', [$version]])
@@ -104,7 +104,7 @@ class ChangesCheckTest extends TestCase {
 
 	public function testCacheResultUpdate() {
 		$version = '13.0.4';
-		$entry = $this->createMock(ChangesResult::class);
+		$entry = $this->createMock(Changes::class);
 		$entry->expects($this->once())
 			->method('__call')
 			->willReturn($version);
@@ -306,7 +306,7 @@ class ChangesCheckTest extends TestCase {
 	 */
 	public function testQueryChangesServer(string $etag) {
 		$uri = 'https://changes.nextcloud.server/?13.0.5';
-		$entry = $this->createMock(ChangesResult::class);
+		$entry = $this->createMock(Changes::class);
 		$entry->expects($this->any())
 			->method('__call')
 			->willReturn($etag);
@@ -370,7 +370,7 @@ class ChangesCheckTest extends TestCase {
 			$this->expectException(DoesNotExistException::class);
 			$mocker->willThrowException(new DoesNotExistException('Changes info is not present'));
 		} else {
-			$entry = $this->createMock(ChangesResult::class);
+			$entry = $this->createMock(Changes::class);
 			$entry->expects($this->once())
 				->method('__call')
 				->with('getData')
@@ -386,7 +386,7 @@ class ChangesCheckTest extends TestCase {
 	}
 
 	public function testGetChangesForVersionEmptyData() {
-		$entry = $this->createMock(ChangesResult::class);
+		$entry = $this->createMock(Changes::class);
 		$entry->expects($this->once())
 			->method('__call')
 			->with('getData')

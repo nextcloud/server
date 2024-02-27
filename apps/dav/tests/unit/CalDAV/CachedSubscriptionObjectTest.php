@@ -15,21 +15,20 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\Tests\unit\CalDAV;
 
 use OCA\DAV\CalDAV\CachedSubscriptionObject;
 use OCA\DAV\CalDAV\CalDavBackend;
 
 class CachedSubscriptionObjectTest extends \Test\TestCase {
-	public function testGet() {
+	public function testGet(): void {
 		$backend = $this->createMock(CalDavBackend::class);
 		$calendarInfo = [
 			'{http://owncloud.org/ns}owner-principal' => 'user1',
@@ -53,7 +52,7 @@ class CachedSubscriptionObjectTest extends \Test\TestCase {
 	}
 
 	
-	public function testPut() {
+	public function testPut(): void {
 		$this->expectException(\Sabre\DAV\Exception\MethodNotAllowed::class);
 		$this->expectExceptionMessage('Creating objects in a cached subscription is not allowed');
 
@@ -73,7 +72,7 @@ class CachedSubscriptionObjectTest extends \Test\TestCase {
 	}
 
 	
-	public function testDelete() {
+	public function testDelete(): void {
 		$this->expectException(\Sabre\DAV\Exception\MethodNotAllowed::class);
 		$this->expectExceptionMessage('Deleting objects in a cached subscription is not allowed');
 

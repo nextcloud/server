@@ -17,14 +17,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\Connector\Sabre;
 
 use Sabre\DAV\CorePlugin;
@@ -55,7 +54,7 @@ class AnonymousOptionsPlugin extends ServerPlugin {
 	 * @return bool
 	 */
 	public function isRequestInRoot($path) {
-		return $path === '' || (is_string($path) && strpos($path, '/') === false);
+		return $path === '' || (is_string($path) && !str_contains($path, '/'));
 	}
 
 	/**
@@ -63,7 +62,7 @@ class AnonymousOptionsPlugin extends ServerPlugin {
 	 * @return bool
 	 */
 	public function handleAnonymousOptions(RequestInterface $request, ResponseInterface $response) {
-		$isOffice = preg_match('/Microsoft Office/i', $request->getHeader('User-Agent'));
+		$isOffice = preg_match('/Microsoft Office/i', $request->getHeader('User-Agent') ?? '');
 		$emptyAuth = $request->getHeader('Authorization') === null
 			|| $request->getHeader('Authorization') === ''
 			|| trim($request->getHeader('Authorization')) === 'Bearer';

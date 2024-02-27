@@ -5,7 +5,6 @@
  * @author Andrew Brown <andrew@casabrown.com>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Morris Jobke <hey@morrisjobke.de>
  *
  * @license AGPL-3.0
  *
@@ -22,7 +21,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Search\Result;
 
 /**
@@ -30,7 +28,6 @@ namespace OC\Search\Result;
  * @deprecated 20.0.0
  */
 class Folder extends File {
-
 	/**
 	 * Type name; translated in templates
 	 * @var string

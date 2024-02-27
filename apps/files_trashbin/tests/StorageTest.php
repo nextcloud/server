@@ -29,10 +29,11 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_Trashbin\Tests;
 
 use OC\Files\Filesystem;
+use OC\Files\Storage\Common;
+use OC\Files\Storage\Local;
 use OC\Files\Storage\Temporary;
 use OCA\Files_Trashbin\AppInfo\Application;
 use OCA\Files_Trashbin\Events\MoveToTrashEvent;
@@ -40,15 +41,27 @@ use OCA\Files_Trashbin\Storage;
 use OCA\Files_Trashbin\Trash\ITrashManager;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Cache\ICache;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
-use OCP\ILogger;
+use OCP\Files\Storage\IStorage;
 use OCP\IUserManager;
 use OCP\Lock\ILockingProvider;
 use OCP\Share\IShare;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Psr\Log\LoggerInterface;
+use Test\Traits\MountProviderTrait;
+
+class TemporaryNoCross extends Temporary {
+	public function copyFromStorage(IStorage $sourceStorage, $sourceInternalPath, $targetInternalPath, $preserveMtime = null) {
+		return Common::copyFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath, $preserveMtime);
+	}
+
+	public function moveFromStorage(IStorage $sourceStorage, $sourceInternalPath, $targetInternalPath) {
+		return Common::moveFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
+	}
+}
 
 /**
  * Class Storage
@@ -58,6 +71,8 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  * @package OCA\Files_Trashbin\Tests
  */
 class StorageTest extends \Test\TestCase {
+	use MountProviderTrait;
+
 	/**
 	 * @var string
 	 */
@@ -73,10 +88,17 @@ class StorageTest extends \Test\TestCase {
 	 */
 	private $userView;
 
+	// 239 chars so appended timestamp of 12 chars will exceed max length of 250 chars
+	private const LONG_FILENAME = 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.txt';
+	// 250 chars
+	private const MAX_FILENAME = 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.txt';
+
 	protected function setUp(): void {
 		parent::setUp();
 
 		\OC_Hook::clear();
+		\OC::$server->boot();
+
 		// register trashbin hooks
 		$trashbinApp = new Application();
 		$trashbinApp->boot($this->createMock(IBootContext::class));
@@ -92,6 +114,8 @@ class StorageTest extends \Test\TestCase {
 		$this->rootView = new \OC\Files\View('/');
 		$this->userView = new \OC\Files\View('/' . $this->user . '/files/');
 		$this->userView->file_put_contents('test.txt', 'foo');
+		$this->userView->file_put_contents(static::LONG_FILENAME, 'foo');
+		$this->userView->file_put_contents(static::MAX_FILENAME, 'foo');
 
 		$this->userView->mkdir('folder');
 		$this->userView->file_put_contents('folder/inside.txt', 'bar');
@@ -145,6 +169,44 @@ class StorageTest extends \Test\TestCase {
 		$this->assertEquals(1, count($results));
 		$name = $results[0]->getName();
 		$this->assertEquals('inside.txt', $name);
+	}
+
+	/**
+	 * Test that deleting a file with a long filename puts it into the trashbin.
+	 */
+	public function testSingleStorageDeleteLongFilename() {
+		$truncatedFilename = 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.txt';
+
+		$this->assertTrue($this->userView->file_exists(static::LONG_FILENAME));
+		$this->userView->unlink(static::LONG_FILENAME);
+		[$storage,] = $this->userView->resolvePath(static::LONG_FILENAME);
+		$storage->getScanner()->scan(''); // make sure we check the storage
+		$this->assertFalse($this->userView->getFileInfo(static::LONG_FILENAME));
+
+		// check if file is in trashbin
+		$results = $this->rootView->getDirectoryContent($this->user . '/files_trashbin/files/');
+		$this->assertEquals(1, count($results));
+		$name = $results[0]->getName();
+		$this->assertEquals($truncatedFilename, substr($name, 0, strrpos($name, '.')));
+	}
+
+	/**
+	 * Test that deleting a file with the max filename length puts it into the trashbin.
+	 */
+	public function testSingleStorageDeleteMaxLengthFilename() {
+		$truncatedFilename = 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.txt';
+
+		$this->assertTrue($this->userView->file_exists(static::MAX_FILENAME));
+		$this->userView->unlink(static::MAX_FILENAME);
+		[$storage,] = $this->userView->resolvePath(static::MAX_FILENAME);
+		$storage->getScanner()->scan(''); // make sure we check the storage
+		$this->assertFalse($this->userView->getFileInfo(static::MAX_FILENAME));
+
+		// check if file is in trashbin
+		$results = $this->rootView->getDirectoryContent($this->user . '/files_trashbin/files/');
+		$this->assertEquals(1, count($results));
+		$name = $results[0]->getName();
+		$this->assertEquals($truncatedFilename, substr($name, 0, strrpos($name, '.')));
 	}
 
 	/**
@@ -209,8 +271,6 @@ class StorageTest extends \Test\TestCase {
 	 * Test that deleted versions properly land in the trashbin.
 	 */
 	public function testDeleteVersionsOfFile() {
-		\OCA\Files_Versions\Hooks::connectHooks();
-
 		// trigger a version (multiple would not work because of the expire logic)
 		$this->userView->file_put_contents('test.txt', 'v1');
 
@@ -238,8 +298,6 @@ class StorageTest extends \Test\TestCase {
 	 * Test that deleted versions properly land in the trashbin.
 	 */
 	public function testDeleteVersionsOfFolder() {
-		\OCA\Files_Versions\Hooks::connectHooks();
-
 		// trigger a version (multiple would not work because of the expire logic)
 		$this->userView->file_put_contents('folder/inside.txt', 'v1');
 
@@ -273,8 +331,6 @@ class StorageTest extends \Test\TestCase {
 	 * Test that deleted versions properly land in the trashbin when deleting as share recipient.
 	 */
 	public function testDeleteVersionsOfFileAsRecipient() {
-		\OCA\Files_Versions\Hooks::connectHooks();
-
 		$this->userView->mkdir('share');
 		// trigger a version (multiple would not work because of the expire logic)
 		$this->userView->file_put_contents('share/test.txt', 'v1');
@@ -326,8 +382,6 @@ class StorageTest extends \Test\TestCase {
 	 * Test that deleted versions properly land in the trashbin when deleting as share recipient.
 	 */
 	public function testDeleteVersionsOfFolderAsRecipient() {
-		\OCA\Files_Versions\Hooks::connectHooks();
-
 		$this->userView->mkdir('share');
 		$this->userView->mkdir('share/folder');
 		// trigger a version (multiple would not work because of the expire logic)
@@ -395,8 +449,6 @@ class StorageTest extends \Test\TestCase {
 	 * unlink() which should NOT trigger the version deletion logic.
 	 */
 	public function testKeepFileAndVersionsWhenMovingFileBetweenStorages() {
-		\OCA\Files_Versions\Hooks::connectHooks();
-
 		$storage2 = new Temporary([]);
 		\OC\Files\Filesystem::mount($storage2, [], $this->user . '/files/substorage');
 
@@ -436,8 +488,6 @@ class StorageTest extends \Test\TestCase {
 	 * unlink() which should NOT trigger the version deletion logic.
 	 */
 	public function testKeepFileAndVersionsWhenMovingFolderBetweenStorages() {
-		\OCA\Files_Versions\Hooks::connectHooks();
-
 		$storage2 = new Temporary([]);
 		\OC\Files\Filesystem::mount($storage2, [], $this->user . '/files/substorage');
 
@@ -556,8 +606,8 @@ class StorageTest extends \Test\TestCase {
 			->disableOriginalConstructor()->getMock();
 		$userManager->expects($this->any())
 			->method('userExists')->willReturn($userExists);
-		$logger = $this->getMockBuilder(ILogger::class)->getMock();
-		$eventDispatcher = $this->createMock(EventDispatcherInterface::class);
+		$logger = $this->getMockBuilder(LoggerInterface::class)->getMock();
+		$eventDispatcher = $this->createMock(IEventDispatcher::class);
 		$rootFolder = $this->createMock(IRootFolder::class);
 		$userFolder = $this->createMock(Folder::class);
 		$node = $this->getMockBuilder(Node::class)->disableOriginalConstructor()->getMock();
@@ -644,5 +694,22 @@ class StorageTest extends \Test\TestCase {
 
 		$this->assertEquals('foo', $this->rootView->file_get_contents($this->user . '/files_trashbin/files/test.txt.d1000'));
 		$this->assertEquals('bar', $this->rootView->file_get_contents($this->user . '/files_trashbin/files/test.txt.d1001'));
+	}
+
+	public function testMoveFromStoragePreserveFileId() {
+		if (!$this->userView->getMount('')->getStorage()->instanceOfStorage(Local::class)) {
+			$this->markTestSkipped("Skipping on non-local users storage");
+		}
+		$this->userView->file_put_contents('test.txt', 'foo');
+		$fileId = $this->userView->getFileInfo('test.txt')->getId();
+
+		$externalStorage = new TemporaryNoCross([]);
+		$externalStorage->getScanner()->scan('');
+		Filesystem::mount($externalStorage, [], "/" . $this->user . "/files/storage");
+
+		$this->assertTrue($this->userView->rename('test.txt', 'storage/test.txt'));
+		$this->assertTrue($externalStorage->file_exists('test.txt'));
+
+		$this->assertEquals($fileId, $this->userView->getFileInfo('storage/test.txt')->getId());
 	}
 }

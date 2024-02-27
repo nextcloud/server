@@ -1,9 +1,10 @@
 /**
  * @copyright Copyright (c) 2019 Julius Härtl <jus@bitgrid.net>
  *
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Julius Härtl <jus@bitgrid.net>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -12,7 +13,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -22,28 +23,28 @@
 
 import Vue from 'vue'
 import Vuex from 'vuex'
-import store from './store'
-import Settings from './components/Workflow'
-import ShippedChecks from './components/Checks'
+import store from './store.js'
+import Settings from './components/Workflow.vue'
+import ShippedChecks from './components/Checks/index.js'
 
 /**
  * A plugin for displaying a custom value field for checks
  *
- * @typedef {Object} CheckPlugin
+ * @typedef {object} CheckPlugin
  * @property {string} class - The PHP class name of the check
  * @property {Comparison[]} operators - A list of possible comparison operations running on the check
  * @property {Vue} component - A vue component to handle the rendering of options
  *  The component should handle the v-model directive properly,
  *  so it needs a value property to receive data and emit an input
  *  event once the data has changed
- * @property {callable} placeholder - Return a placeholder of no custom component is used
- * @property {callable} validate - validate a check if no custom component is used
- **/
+ * @property {Function} placeholder - Return a placeholder of no custom component is used
+ * @property {Function} validate - validate a check if no custom component is used
+ */
 
 /**
- * A plugin for extending the admin page repesentation of a operator
+ * A plugin for extending the admin page representation of an operator
  *
- * @typedef {Object} OperatorPlugin
+ * @typedef {object} OperatorPlugin
  * @property {string} id - The PHP class name of the check
  * @property {string} operation - Default value for the operation field
  * @property {string} color - Custom color code to be applied for the operator selector
@@ -54,10 +55,10 @@ import ShippedChecks from './components/Checks'
  */
 
 /**
- * @typedef {Object} Comparison
+ * @typedef {object} Comparison
  * @property {string} operator - value the comparison should have, e.g. !less, greater
  * @property {string} name - Translated readable text, e.g. less or equals
- **/
+ */
 
 /**
  * Public javascript api for apps to register custom plugins

@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2017 EITA Cooperative (eita.org.br)
  *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Filis Futsarov <filisko@users.noreply.github.com>
  * @author Vinicius Cubas Brand <vinicius@eita.org.br>
@@ -15,24 +16,22 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\User_LDAP;
 
 use OC\User\Backend;
+use Psr\Log\LoggerInterface;
 
 class UserPluginManager {
-	public $test = false;
+	private int $respondToActions = 0;
 
-	private $respondToActions = 0;
-
-	private $which = [
+	private array $which = [
 		Backend::CREATE_USER => null,
 		Backend::SET_PASSWORD => null,
 		Backend::GET_HOME => null,
@@ -42,6 +41,8 @@ class UserPluginManager {
 		Backend::COUNT_USERS => null,
 		'deleteUser' => null
 	];
+
+	private bool $suppressDeletion = false;
 
 	/**
 	 * @return int All implemented actions, except for 'deleteUser'
@@ -62,12 +63,12 @@ class UserPluginManager {
 		foreach ($this->which as $action => $v) {
 			if (is_int($action) && (bool)($respondToActions & $action)) {
 				$this->which[$action] = $plugin;
-				\OC::$server->getLogger()->debug("Registered action ".$action." to plugin ".get_class($plugin), ['app' => 'user_ldap']);
+				\OCP\Server::get(LoggerInterface::class)->debug("Registered action ".$action." to plugin ".get_class($plugin), ['app' => 'user_ldap']);
 			}
 		}
-		if (method_exists($plugin,'deleteUser')) {
+		if (method_exists($plugin, 'deleteUser')) {
 			$this->which['deleteUser'] = $plugin;
-			\OC::$server->getLogger()->debug("Registered action deleteUser to plugin ".get_class($plugin), ['app' => 'user_ldap']);
+			\OCP\Server::get(LoggerInterface::class)->debug("Registered action deleteUser to plugin ".get_class($plugin), ['app' => 'user_ldap']);
 		}
 	}
 
@@ -92,7 +93,7 @@ class UserPluginManager {
 		$plugin = $this->which[Backend::CREATE_USER];
 
 		if ($plugin) {
-			return $plugin->createUser($username,$password);
+			return $plugin->createUser($username, $password);
 		}
 		throw new \Exception('No plugin implements createUser in this LDAP Backend.');
 	}
@@ -108,7 +109,7 @@ class UserPluginManager {
 		$plugin = $this->which[Backend::SET_PASSWORD];
 
 		if ($plugin) {
-			return $plugin->setPassword($uid,$password);
+			return $plugin->setPassword($uid, $password);
 		}
 		throw new \Exception('No plugin implements setPassword in this LDAP Backend.');
 	}
@@ -176,7 +177,7 @@ class UserPluginManager {
 
 	/**
 	 * Count the number of users
-	 * @return int|bool
+	 * @return int|false
 	 * @throws \Exception
 	 */
 	public function countUsers() {
@@ -192,7 +193,7 @@ class UserPluginManager {
 	 * @return bool
 	 */
 	public function canDeleteUser() {
-		return $this->which['deleteUser'] !== null;
+		return !$this->suppressDeletion && $this->which['deleteUser'] !== null;
 	}
 
 	/**
@@ -203,8 +204,21 @@ class UserPluginManager {
 	public function deleteUser($uid) {
 		$plugin = $this->which['deleteUser'];
 		if ($plugin) {
+			if ($this->suppressDeletion) {
+				return false;
+			}
 			return $plugin->deleteUser($uid);
 		}
 		throw new \Exception('No plugin implements deleteUser in this LDAP Backend.');
+	}
+
+	/**
+	 * @param bool $value
+	 * @return bool – the value before the change
+	 */
+	public function setSuppressDeletion(bool $value): bool {
+		$old = $this->suppressDeletion;
+		$this->suppressDeletion = $value;
+		return $old;
 	}
 }

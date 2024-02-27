@@ -14,14 +14,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\Migration;
 
 use OCP\DB\ISchemaWrapper;
@@ -42,7 +41,8 @@ class Version1004Date20170924124212 extends SimpleMigrationStep {
 		$schema = $schemaClosure();
 
 		$table = $schema->getTable('cards');
-		$table->addIndex(['addressbookid'], 'cards_abid');
+		// Dropped in Version1030Date20240205103243 because cards_abid is redundant with cards_abiduri
+		// $table->addIndex(['addressbookid'], 'cards_abid');
 		$table->addIndex(['addressbookid', 'uri'], 'cards_abiduri');
 
 		$table = $schema->getTable('cards_properties');

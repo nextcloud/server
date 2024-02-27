@@ -3,7 +3,7 @@
  *
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -12,7 +12,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -21,43 +21,22 @@
  */
 
 import axios from '@nextcloud/axios'
+import { davGetDefaultPropfind } from '@nextcloud/files'
 
+/**
+ * @param {any} url -
+ */
 export default async function(url) {
 	const response = await axios({
 		method: 'PROPFIND',
 		url,
-		data: `<?xml version="1.0"?>
-			<d:propfind  xmlns:d="DAV:"
-				xmlns:oc="http://owncloud.org/ns"
-				xmlns:nc="http://nextcloud.org/ns"
-				xmlns:ocs="http://open-collaboration-services.org/ns">
-			<d:prop>
-				<d:getlastmodified />
-				<d:getetag />
-				<d:getcontenttype />
-				<d:resourcetype />
-				<oc:fileid />
-				<oc:permissions />
-				<oc:size />
-				<d:getcontentlength />
-				<nc:has-preview />
-				<nc:mount-type />
-				<nc:is-encrypted />
-				<ocs:share-permissions />
-				<oc:tags />
-				<oc:favorite />
-				<oc:comments-unread />
-				<oc:owner-id />
-				<oc:owner-display-name />
-				<oc:share-types />
-			</d:prop>
-			</d:propfind>`,
+		data: davGetDefaultPropfind(),
 	})
 
 	// TODO: create new parser or use cdav-lib when available
-	const file = OCA.Files.App.fileList.filesClient._client.parseMultiStatus(response.data)
+	const file = OC.Files.getClient()._client.parseMultiStatus(response.data)
 	// TODO: create new parser or use cdav-lib when available
-	const fileInfo = OCA.Files.App.fileList.filesClient._parseFileInfo(file[0])
+	const fileInfo = OC.Files.getClient()._parseFileInfo(file[0])
 
 	// TODO remove when no more legacy backbone is used
 	fileInfo.get = (key) => fileInfo[key]

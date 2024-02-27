@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
@@ -15,16 +18,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
-declare(strict_types=1);
-
 namespace OC\Authentication\Login;
 
 use OC\Authentication\Events\LoginFailed;
@@ -33,14 +33,13 @@ use OCP\EventDispatcher\IEventDispatcher;
 use Psr\Log\LoggerInterface;
 
 class LoggedInCheckCommand extends ALoginCommand {
-
 	/** @var LoggerInterface */
 	private $logger;
 	/** @var IEventDispatcher */
 	private $dispatcher;
 
 	public function __construct(LoggerInterface $logger,
-								IEventDispatcher $dispatcher) {
+		IEventDispatcher $dispatcher) {
 		$this->logger = $logger;
 		$this->dispatcher = $dispatcher;
 	}
@@ -48,11 +47,12 @@ class LoggedInCheckCommand extends ALoginCommand {
 	public function process(LoginData $loginData): LoginResult {
 		if ($loginData->getUser() === false) {
 			$loginName = $loginData->getUsername();
+			$password = $loginData->getPassword();
 			$ip = $loginData->getRequest()->getRemoteAddress();
 
 			$this->logger->warning("Login failed: $loginName (Remote IP: $ip)");
 
-			$this->dispatcher->dispatchTyped(new LoginFailed($loginName));
+			$this->dispatcher->dispatchTyped(new LoginFailed($loginName, $password));
 
 			return LoginResult::failure($loginData, LoginController::LOGIN_MSG_INVALIDPASSWORD);
 		}

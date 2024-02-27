@@ -4,6 +4,7 @@
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <vincent@nextcloud.com>
@@ -23,10 +24,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_Sharing\Tests;
 
 use OCA\Files_Sharing\DeleteOrphanedSharesJob;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Share\IShare;
 
 /**
@@ -37,7 +38,6 @@ use OCP\Share\IShare;
  * @package OCA\Files_Sharing\Tests
  */
 class DeleteOrphanedSharesJobTest extends \Test\TestCase {
-
 	/**
 	 * @var bool
 	 */
@@ -94,7 +94,7 @@ class DeleteOrphanedSharesJobTest extends \Test\TestCase {
 
 		\OC::registerShareHooks(\OC::$server->getSystemConfig());
 
-		$this->job = new DeleteOrphanedSharesJob();
+		$this->job = new DeleteOrphanedSharesJob(\OCP\Server::get(ITimeFactory::class));
 	}
 
 	protected function tearDown(): void {

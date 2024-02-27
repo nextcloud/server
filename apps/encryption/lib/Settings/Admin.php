@@ -16,14 +16,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Encryption\Settings;
 
 use OC\Files\View;
@@ -33,46 +32,21 @@ use OCA\Encryption\Util;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
 use OCP\IL10N;
-use OCP\ILogger;
 use OCP\ISession;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\Settings\ISettings;
+use Psr\Log\LoggerInterface;
 
 class Admin implements ISettings {
-
-	/** @var IL10N */
-	private $l;
-
-	/** @var ILogger */
-	private $logger;
-
-	/** @var IUserSession */
-	private $userSession;
-
-	/** @var IConfig */
-	private $config;
-
-	/** @var IUserManager */
-	private $userManager;
-
-	/** @var ISession */
-	private $session;
-
 	public function __construct(
-		IL10N $l,
-		ILogger $logger,
-		IUserSession $userSession,
-		IConfig $config,
-		IUserManager $userManager,
-		ISession $session
+		private IL10N $l,
+		private LoggerInterface $logger,
+		private IUserSession $userSession,
+		private IConfig $config,
+		private IUserManager $userManager,
+		private ISession $session
 	) {
-		$this->l = $l;
-		$this->logger = $logger;
-		$this->userSession = $userSession;
-		$this->config = $config;
-		$this->userManager = $userManager;
-		$this->session = $session;
 	}
 
 	/**
@@ -88,7 +62,6 @@ class Admin implements ISettings {
 		$util = new Util(
 			new View(),
 			$crypt,
-			$this->logger,
 			$this->userSession,
 			$this->config,
 			$this->userManager);

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -20,13 +23,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 return [
 	'routes' => [
 		['name' => 'Admin#createCredentials', 'url' => '/credentials', 'verb' => 'GET'],
 		['name' => 'Admin#setChannel', 'url' => '/channel', 'verb' => 'POST'],
 	],
 	'ocs' => [
-		['name' => 'API#getAppList', 'url' => '/api/{apiVersion}/applist/{newVersion}', 'verb' => 'GET', 'requirements' => ['apiVersion' => 'v1']],
+		['name' => 'API#getAppList', 'url' => '/api/{apiVersion}/applist/{newVersion}', 'verb' => 'GET', 'requirements' => ['apiVersion' => '(v1)']],
 	],
 ];

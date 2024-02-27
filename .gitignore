@@ -13,7 +13,6 @@
 
 # ignore all apps except core ones
 /apps*/*
-!/apps/accessibility
 !/apps/cloud_federation_api
 !/apps/comments
 !/apps/contactsinteraction
@@ -25,6 +24,7 @@
 !/apps/sharebymail
 !/apps/encryption
 !/apps/files_external
+!/apps/files_reminders
 !/apps/files_sharing
 !/apps/files_trashbin
 !/apps/files_versions
@@ -74,6 +74,7 @@ CVS/*
 RCS/*
 *.backup*
 .php_cs.cache
+.php-cs-fixer.cache
 
 # kdevelop
 .kdev
@@ -96,6 +97,7 @@ nbproject
 
 # vscode
 .vscode
+*.code-workspace
 
 # geany
 *.geany
@@ -127,9 +129,10 @@ nbproject
 /build/bin
 /build/lib/
 /build/jsdocs/
+/build/integration/output/
+/build/integration/phpserver.log
 /npm-debug.log
 /PhantomJS_*
-/build/package-lock.json
 
 # puphpet
 puphpet
@@ -154,8 +157,19 @@ Vagrantfile
 /config/config-autotest-backup.php
 /config/autoconfig.php
 clover.xml
+/coverage
 
 # Tests - dependencies
 tests/acceptance/vendor/
 
 composer.phar
+/lib/composer/bin
+/lib/composer/bamarni
+/vendor-bin/**/vendor
+
+./.htaccess
+core/js/mimetypelist.js
+
+# Tests - cypress
+cypress/snapshots
+cypress/videos

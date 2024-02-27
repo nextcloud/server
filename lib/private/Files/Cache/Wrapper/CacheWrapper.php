@@ -27,36 +27,56 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Files\Cache\Wrapper;
 
 use OC\Files\Cache\Cache;
+use OC\Files\Cache\CacheDependencies;
 use OCP\Files\Cache\ICache;
 use OCP\Files\Cache\ICacheEntry;
+use OCP\Files\Search\ISearchOperator;
 use OCP\Files\Search\ISearchQuery;
+use OCP\Server;
 
 class CacheWrapper extends Cache {
 	/**
-	 * @var \OCP\Files\Cache\ICache
+	 * @var ?ICache
 	 */
 	protected $cache;
 
-	/**
-	 * @param \OCP\Files\Cache\ICache $cache
-	 */
-	public function __construct($cache) {
+	public function __construct(?ICache $cache, CacheDependencies $dependencies = null) {
 		$this->cache = $cache;
+		if (!$dependencies && $cache instanceof Cache) {
+			$this->mimetypeLoader = $cache->mimetypeLoader;
+			$this->connection = $cache->connection;
+			$this->querySearchHelper = $cache->querySearchHelper;
+		} else {
+			if (!$dependencies) {
+				$dependencies = Server::get(CacheDependencies::class);
+			}
+			$this->mimetypeLoader = $dependencies->getMimeTypeLoader();
+			$this->connection = $dependencies->getConnection();
+			$this->querySearchHelper = $dependencies->getQuerySearchHelper();
+		}
 	}
 
 	protected function getCache() {
 		return $this->cache;
 	}
 
+	protected function hasEncryptionWrapper(): bool {
+		$cache = $this->getCache();
+		if ($cache instanceof Cache) {
+			return $cache->hasEncryptionWrapper();
+		} else {
+			return false;
+		}
+	}
+
 	/**
 	 * Make it easy for wrappers to modify every returned cache entry
 	 *
 	 * @param ICacheEntry $entry
-	 * @return ICacheEntry
+	 * @return ICacheEntry|false
 	 */
 	protected function formatCacheEntry($entry) {
 		return $entry;
@@ -70,7 +90,7 @@ class CacheWrapper extends Cache {
 	 */
 	public function get($file) {
 		$result = $this->getCache()->get($file);
-		if ($result) {
+		if ($result instanceof ICacheEntry) {
 			$result = $this->formatCacheEntry($result);
 		}
 		return $result;
@@ -216,31 +236,8 @@ class CacheWrapper extends Cache {
 		return $this->getCache()->getStatus($file);
 	}
 
-	/**
-	 * search for files matching $pattern
-	 *
-	 * @param string $pattern
-	 * @return ICacheEntry[] an array of file data
-	 */
-	public function search($pattern) {
-		$results = $this->getCache()->search($pattern);
-		return array_map([$this, 'formatCacheEntry'], $results);
-	}
-
-	/**
-	 * search for files by mimetype
-	 *
-	 * @param string $mimetype
-	 * @return ICacheEntry[]
-	 */
-	public function searchByMime($mimetype) {
-		$results = $this->getCache()->searchByMime($mimetype);
-		return array_map([$this, 'formatCacheEntry'], $results);
-	}
-
-	public function searchQuery(ISearchQuery $query) {
-		$results = $this->getCache()->searchQuery($query);
-		return array_map([$this, 'formatCacheEntry'], $results);
+	public function searchQuery(ISearchQuery $searchQuery) {
+		return current($this->querySearchHelper->searchInCaches($searchQuery, [$this]));
 	}
 
 	/**
@@ -259,8 +256,8 @@ class CacheWrapper extends Cache {
 	 * get the size of a folder and set it in the cache
 	 *
 	 * @param string $path
-	 * @param array $entry (optional) meta data of the folder
-	 * @return int
+	 * @param array|null|ICacheEntry $entry (optional) meta data of the folder
+	 * @return int|float
 	 */
 	public function calculateFolderSize($path, $entry = null) {
 		if ($this->getCache() instanceof Cache) {
@@ -286,7 +283,7 @@ class CacheWrapper extends Cache {
 	 * use the one with the highest id gives the best result with the background scanner, since that is most
 	 * likely the folder where we stopped scanning previously
 	 *
-	 * @return string|bool the path of the folder or false when no folder matched
+	 * @return string|false the path of the folder or false when no folder matched
 	 */
 	public function getIncomplete() {
 		return $this->getCache()->getIncomplete();
@@ -321,5 +318,19 @@ class CacheWrapper extends Cache {
 	 */
 	public static function getById($id) {
 		return parent::getById($id);
+	}
+
+	public function getQueryFilterForStorage(): ISearchOperator {
+		return $this->getCache()->getQueryFilterForStorage();
+	}
+
+	public function getCacheEntryFromSearchResult(ICacheEntry $rawEntry): ?ICacheEntry {
+		$rawEntry = $this->getCache()->getCacheEntryFromSearchResult($rawEntry);
+		if ($rawEntry) {
+			$entry = $this->formatCacheEntry(clone $rawEntry);
+			return $entry ?: null;
+		}
+
+		return null;
 	}
 }

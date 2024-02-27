@@ -16,30 +16,33 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Authentication\Events;
 
 use OCP\EventDispatcher\Event;
 
 class LoginFailed extends Event {
+	private string $loginName;
+	private ?string $password;
 
-	/** @var string */
-	private $loginName;
-
-	public function __construct(string $loginName) {
+	public function __construct(string $loginName, ?string $password) {
 		parent::__construct();
 
 		$this->loginName = $loginName;
+		$this->password = $password;
 	}
 
 	public function getLoginName(): string {
 		return $this->loginName;
+	}
+
+	public function getPassword(): ?string {
+		return $this->password;
 	}
 }

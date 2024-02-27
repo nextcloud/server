@@ -1,11 +1,10 @@
 <?php
 /**
- *
+ * @copyright Copyright (c) 2016 Thomas Citharel <nextcloud@tcit.fr>
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Citharel <nextcloud@tcit.fr>
  *
  * @license GNU AGPL version 3 or any later version
@@ -17,14 +16,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\Tests\unit\CalDAV\Publishing;
 
 use OCA\DAV\CalDAV\Publishing\Xml\Publisher;
@@ -34,7 +32,7 @@ use Test\TestCase;
 class PublisherTest extends TestCase {
 	public const NS_CALENDARSERVER = 'http://calendarserver.org/ns/';
 
-	public function testSerializePublished() {
+	public function testSerializePublished(): void {
 		$publish = new Publisher('urltopublish', true);
 
 		$xml = $this->write([
@@ -50,7 +48,7 @@ class PublisherTest extends TestCase {
 			</x1:publish-url>', $xml);
 	}
 
-	public function testSerializeNotPublished() {
+	public function testSerializeNotPublished(): void {
 		$publish = new Publisher('urltopublish', false);
 
 		$xml = $this->write([

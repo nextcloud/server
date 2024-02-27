@@ -25,39 +25,47 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Lock;
 
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IMemcache;
 use OCP\IMemcacheTTL;
 use OCP\Lock\LockedException;
 
 class MemcacheLockingProvider extends AbstractLockingProvider {
-	/**
-	 * @var \OCP\IMemcache
-	 */
-	private $memcache;
+	/** @var array<string, array{time: int, ttl: int}> */
+	private array $oldTTLs = [];
 
-	/**
-	 * @param \OCP\IMemcache $memcache
-	 * @param int $ttl
-	 */
-	public function __construct(IMemcache $memcache, int $ttl = 3600) {
-		$this->memcache = $memcache;
-		$this->ttl = $ttl;
+	public function __construct(
+		private IMemcache $memcache,
+		private ITimeFactory $timeFactory,
+		int $ttl = 3600,
+	) {
+		parent::__construct($ttl);
 	}
 
-	private function setTTL(string $path) {
+	private function setTTL(string $path, int $ttl = null, ?int $compare = null): void {
+		if (is_null($ttl)) {
+			$ttl = $this->ttl;
+		}
 		if ($this->memcache instanceof IMemcacheTTL) {
-			$this->memcache->setTTL($path, $this->ttl);
+			if ($compare !== null) {
+				$this->memcache->compareSetTTL($path, $compare, $ttl);
+			} else {
+				$this->memcache->setTTL($path, $ttl);
+			}
 		}
 	}
 
-	/**
-	 * @param string $path
-	 * @param int $type self::LOCK_SHARED or self::LOCK_EXCLUSIVE
-	 * @return bool
-	 */
+	private function getTTL(string $path): int {
+		if ($this->memcache instanceof IMemcacheTTL) {
+			$ttl = $this->memcache->getTTL($path);
+			return $ttl === false ? -1 : $ttl;
+		} else {
+			return -1;
+		}
+	}
+
 	public function isLocked(string $path, int $type): bool {
 		$lockValue = $this->memcache->get($path);
 		if ($type === self::LOCK_SHARED) {
@@ -69,32 +77,30 @@ class MemcacheLockingProvider extends AbstractLockingProvider {
 		}
 	}
 
-	/**
-	 * @param string $path
-	 * @param int $type self::LOCK_SHARED or self::LOCK_EXCLUSIVE
-	 * @param string $readablePath human readable path to use in error messages
-	 * @throws \OCP\Lock\LockedException
-	 */
-	public function acquireLock(string $path, int $type, string $readablePath = null) {
+	public function acquireLock(string $path, int $type, ?string $readablePath = null): void {
 		if ($type === self::LOCK_SHARED) {
+			// save the old TTL to for `restoreTTL`
+			$this->oldTTLs[$path] = [
+				"ttl" => $this->getTTL($path),
+				"time" => $this->timeFactory->getTime()
+			];
 			if (!$this->memcache->inc($path)) {
 				throw new LockedException($path, null, $this->getExistingLockForException($path), $readablePath);
 			}
 		} else {
+			// when getting exclusive locks, we know there are no old TTLs to restore
 			$this->memcache->add($path, 0);
+			// ttl is updated automatically when the `set` succeeds
 			if (!$this->memcache->cas($path, 0, 'exclusive')) {
 				throw new LockedException($path, null, $this->getExistingLockForException($path), $readablePath);
 			}
+			unset($this->oldTTLs[$path]);
 		}
 		$this->setTTL($path);
 		$this->markAcquire($path, $type);
 	}
 
-	/**
-	 * @param string $path
-	 * @param int $type self::LOCK_SHARED or self::LOCK_EXCLUSIVE
-	 */
-	public function releaseLock(string $path, int $type) {
+	public function releaseLock(string $path, int $type): void {
 		if ($type === self::LOCK_SHARED) {
 			$ownSharedLockCount = $this->getOwnSharedLockCount($path);
 			$newValue = 0;
@@ -111,6 +117,12 @@ class MemcacheLockingProvider extends AbstractLockingProvider {
 				$newValue = $this->memcache->dec($path);
 			}
 
+			if ($newValue > 0) {
+				$this->restoreTTL($path);
+			} else {
+				unset($this->oldTTLs[$path]);
+			}
+
 			// if we somehow release more locks then exists, reset the lock
 			if ($newValue < 0) {
 				$this->memcache->cad($path, $newValue);
@@ -121,14 +133,7 @@ class MemcacheLockingProvider extends AbstractLockingProvider {
 		$this->markRelease($path, $type);
 	}
 
-	/**
-	 * Change the type of an existing lock
-	 *
-	 * @param string $path
-	 * @param int $targetType self::LOCK_SHARED or self::LOCK_EXCLUSIVE
-	 * @throws \OCP\Lock\LockedException
-	 */
-	public function changeLock(string $path, int $targetType) {
+	public function changeLock(string $path, int $targetType): void {
 		if ($targetType === self::LOCK_SHARED) {
 			if (!$this->memcache->cas($path, 'exclusive', 1)) {
 				throw new LockedException($path, null, $this->getExistingLockForException($path));
@@ -136,14 +141,53 @@ class MemcacheLockingProvider extends AbstractLockingProvider {
 		} elseif ($targetType === self::LOCK_EXCLUSIVE) {
 			// we can only change a shared lock to an exclusive if there's only a single owner of the shared lock
 			if (!$this->memcache->cas($path, 1, 'exclusive')) {
+				$this->restoreTTL($path);
 				throw new LockedException($path, null, $this->getExistingLockForException($path));
 			}
+			unset($this->oldTTLs[$path]);
 		}
 		$this->setTTL($path);
 		$this->markChange($path, $targetType);
 	}
 
-	private function getExistingLockForException($path) {
+	/**
+	 * With shared locks, each time the lock is acquired, the ttl for the path is reset.
+	 *
+	 * Due to this "ttl extension" when a shared lock isn't freed correctly for any reason
+	 * the lock won't expire until no shared locks are required for the path for 1h.
+	 * This can lead to a client repeatedly trying to upload a file, and failing forever
+	 * because the lock never gets the opportunity to expire.
+	 *
+	 * To help the lock expire in this case, we lower the TTL back to what it was before we
+	 * took the shared lock *only* if nobody else got a shared lock after we did.
+	 *
+	 * This doesn't handle all cases where multiple requests are acquiring shared locks
+	 * but it should handle some of the more common ones and not hurt things further
+	 */
+	private function restoreTTL(string $path): void {
+		if (isset($this->oldTTLs[$path])) {
+			$saved = $this->oldTTLs[$path];
+			$elapsed = $this->timeFactory->getTime() - $saved['time'];
+
+			// old value to compare to when setting ttl in case someone else changes the lock in the middle of this function
+			$value = $this->memcache->get($path);
+
+			$currentTtl = $this->getTTL($path);
+
+			// what the old ttl would be given the time elapsed since we acquired the lock
+			// note that if this gets negative the key will be expired directly when we set the ttl
+			$remainingOldTtl = $saved['ttl'] - $elapsed;
+			// what the currently ttl would be if nobody else acquired a lock since we did (+1 to cover rounding errors)
+			$expectedTtl = $this->ttl - $elapsed + 1;
+
+			// check if another request has acquired a lock (and didn't release it yet)
+			if ($currentTtl <= $expectedTtl) {
+				$this->setTTL($path, $remainingOldTtl, $value);
+			}
+		}
+	}
+
+	private function getExistingLockForException(string $path): string {
 		$existing = $this->memcache->get($path);
 		if (!$existing) {
 			return 'none';

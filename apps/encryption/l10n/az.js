@@ -17,7 +17,6 @@ OC.L10N.register(
     "The old password was not correct, please try again." : "Köhnə şifrə düzgün deyildi, xahiş olunur yenidən cəhd edəsiniz.",
     "The current log-in password was not correct, please try again." : "Hal-hazırki istifadəçi şifrəsi düzgün deyildi, xahiş olunur yenidən cəhd edəsiniz.",
     "Private key password successfully updated." : "Gizli aşar şifrəsi uğurla yeniləndi.",
-    "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Bu faylı deşifrə etmək olmur və ola bilər ki, bu paylaşımda olan fayldır. Xahiş olunur faylın sahibinə həmin faylı sizinlə yenidən paylaşım etməsini bildirəsiniz. ",
     "Cheers!" : "Şərəfə!",
     "Recovery key password" : "Açar şifrənin bərpa edilməsi",
     "Change recovery key password:" : "Bərpa açarın şifrəsini dəyişdir:",

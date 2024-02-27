@@ -20,14 +20,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Settings\Mailer;
 
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -36,6 +35,7 @@ use OCP\IConfig;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\L10N\IFactory;
+use OCP\Mail\Headers\AutoSubmitted;
 use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
 use OCP\Security\ICrypto;
@@ -73,14 +73,14 @@ class NewUserMailHelper {
 	 * @param string $fromAddress
 	 */
 	public function __construct(Defaults $themingDefaults,
-								IURLGenerator $urlGenerator,
-								IFactory $l10nFactory,
-								IMailer $mailer,
-								ISecureRandom $secureRandom,
-								ITimeFactory $timeFactory,
-								IConfig $config,
-								ICrypto $crypto,
-								$fromAddress) {
+		IURLGenerator $urlGenerator,
+		IFactory $l10nFactory,
+		IMailer $mailer,
+		ISecureRandom $secureRandom,
+		ITimeFactory $timeFactory,
+		IConfig $config,
+		ICrypto $crypto,
+		$fromAddress) {
 		$this->themingDefaults = $themingDefaults;
 		$this->urlGenerator = $urlGenerator;
 		$this->l10nFactory = $l10nFactory;
@@ -105,9 +105,7 @@ class NewUserMailHelper {
 		if ($generatePasswordResetToken) {
 			$token = $this->secureRandom->generate(
 				21,
-				ISecureRandom::CHAR_DIGITS .
-				ISecureRandom::CHAR_LOWER .
-				ISecureRandom::CHAR_UPPER
+				ISecureRandom::CHAR_ALPHANUMERIC
 			);
 			$tokenValue = $this->timeFactory->getTime() . ':' . $token;
 			$mailAddress = (null !== $user->getEMailAddress()) ? $user->getEMailAddress() : '';
@@ -136,7 +134,7 @@ class NewUserMailHelper {
 		}
 		$emailTemplate->addBodyText($l10n->t('Welcome to your %s account, you can add, protect, and share your data.', [$this->themingDefaults->getName()]));
 		if ($user->getBackendClassName() !== 'LDAP') {
-			$emailTemplate->addBodyText($l10n->t('Your username is: %s', [$userId]));
+			$emailTemplate->addBodyText($l10n->t('Your Login is: %s', [$userId]));
 		}
 		if ($generatePasswordResetToken) {
 			$leftButtonText = $l10n->t('Set your password');
@@ -172,7 +170,7 @@ class NewUserMailHelper {
 	 * @throws \Exception If mail could not be sent
 	 */
 	public function sendMail(IUser $user,
-							 IEMailTemplate $emailTemplate): void {
+		IEMailTemplate $emailTemplate): void {
 
 		// Be sure to never try to send to an empty e-mail
 		$email = $user->getEMailAddress();
@@ -184,6 +182,7 @@ class NewUserMailHelper {
 		$message->setTo([$email => $user->getDisplayName()]);
 		$message->setFrom([$this->fromAddress => $this->themingDefaults->getName()]);
 		$message->useTemplate($emailTemplate);
+		$message->setAutoSubmitted(AutoSubmitted::VALUE_AUTO_GENERATED);
 		$this->mailer->send($message);
 	}
 }

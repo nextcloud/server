@@ -27,17 +27,15 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Cache;
 
 use OC\Files\Filesystem;
 use OC\Files\View;
 use OCP\ICache;
-use OCP\ILogger;
 use OCP\Security\ISecureRandom;
+use Psr\Log\LoggerInterface;
 
 class File implements ICache {
-
 	/** @var View */
 	protected $storage;
 
@@ -49,7 +47,7 @@ class File implements ICache {
 	 * @throws \OC\User\NoUserException
 	 */
 	protected function getStorage() {
-		if (isset($this->storage)) {
+		if ($this->storage !== null) {
 			return $this->storage;
 		}
 		if (\OC::$server->getUserSession()->isLoggedIn()) {
@@ -62,7 +60,7 @@ class File implements ICache {
 			$this->storage = new View('/' . $user->getUID() . '/cache');
 			return $this->storage;
 		} else {
-			\OCP\Util::writeLog('core', 'Can\'t get cache storage, user not logged in', ILogger::ERROR);
+			\OCP\Server::get(LoggerInterface::class)->error('Can\'t get cache storage, user not logged in', ['app' => 'core']);
 			throw new \OC\ForbiddenException('Can\t get cache storage, user not logged in');
 		}
 	}
@@ -109,7 +107,7 @@ class File implements ICache {
 		// unique id to avoid chunk collision, just in case
 		$uniqueId = \OC::$server->getSecureRandom()->generate(
 			16,
-			ISecureRandom::CHAR_DIGITS . ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_UPPER
+			ISecureRandom::CHAR_ALPHANUMERIC
 		);
 
 		// use part file to prevent hasKey() to find the key
@@ -162,7 +160,7 @@ class File implements ICache {
 			$dh = $storage->opendir('/');
 			if (is_resource($dh)) {
 				while (($file = readdir($dh)) !== false) {
-					if ($file != '.' and $file != '..' and ($prefix === '' || strpos($file, $prefix) === 0)) {
+					if ($file != '.' and $file != '..' and ($prefix === '' || str_starts_with($file, $prefix))) {
 						$storage->unlink('/' . $file);
 					}
 				}
@@ -194,14 +192,18 @@ class File implements ICache {
 						}
 					} catch (\OCP\Lock\LockedException $e) {
 						// ignore locked chunks
-						\OC::$server->getLogger()->debug('Could not cleanup locked chunk "' . $file . '"', ['app' => 'core']);
+						\OCP\Server::get(LoggerInterface::class)->debug('Could not cleanup locked chunk "' . $file . '"', ['app' => 'core']);
 					} catch (\OCP\Files\ForbiddenException $e) {
-						\OC::$server->getLogger()->debug('Could not cleanup forbidden chunk "' . $file . '"', ['app' => 'core']);
+						\OCP\Server::get(LoggerInterface::class)->debug('Could not cleanup forbidden chunk "' . $file . '"', ['app' => 'core']);
 					} catch (\OCP\Files\LockNotAcquiredException $e) {
-						\OC::$server->getLogger()->debug('Could not cleanup locked chunk "' . $file . '"', ['app' => 'core']);
+						\OCP\Server::get(LoggerInterface::class)->debug('Could not cleanup locked chunk "' . $file . '"', ['app' => 'core']);
 					}
 				}
 			}
 		}
+	}
+
+	public static function isAvailable(): bool {
+		return true;
 	}
 }

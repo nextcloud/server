@@ -17,14 +17,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\L10N;
 
 use OCP\IConfig;
@@ -46,7 +45,7 @@ class LanguageIterator implements ILanguageIterator {
 	/**
 	 * Rewind the Iterator to the first element
 	 */
-	public function rewind() {
+	public function rewind(): void {
 		$this->i = 0;
 	}
 
@@ -64,8 +63,8 @@ class LanguageIterator implements ILanguageIterator {
 					return $forcedLang;
 				}
 				$this->next();
-			/** @noinspection PhpMissingBreakStatementInspection */
-			// no break
+				/** @noinspection PhpMissingBreakStatementInspection */
+				// no break
 			case 1:
 				$forcedLang = $this->config->getSystemValue('force_language', false);
 				if (is_string($forcedLang)
@@ -74,16 +73,16 @@ class LanguageIterator implements ILanguageIterator {
 					return $truncated;
 				}
 				$this->next();
-			/** @noinspection PhpMissingBreakStatementInspection */
-			// no break
+				/** @noinspection PhpMissingBreakStatementInspection */
+				// no break
 			case 2:
 				$userLang = $this->config->getUserValue($this->user->getUID(), 'core', 'lang', null);
 				if (is_string($userLang)) {
 					return $userLang;
 				}
 				$this->next();
-			/** @noinspection PhpMissingBreakStatementInspection */
-			// no break
+				/** @noinspection PhpMissingBreakStatementInspection */
+				// no break
 			case 3:
 				$userLang = $this->config->getUserValue($this->user->getUID(), 'core', 'lang', null);
 				if (is_string($userLang)
@@ -94,10 +93,10 @@ class LanguageIterator implements ILanguageIterator {
 				$this->next();
 				// no break
 			case 4:
-				return $this->config->getSystemValue('default_language', 'en');
-			/** @noinspection PhpMissingBreakStatementInspection */
+				return $this->config->getSystemValueString('default_language', 'en');
+				/** @noinspection PhpMissingBreakStatementInspection */
 			case 5:
-				$defaultLang = $this->config->getSystemValue('default_language', 'en');
+				$defaultLang = $this->config->getSystemValueString('default_language', 'en');
 				if (($truncated = $this->getTruncatedLanguage($defaultLang)) !== $defaultLang) {
 					return $truncated;
 				}
@@ -113,7 +112,7 @@ class LanguageIterator implements ILanguageIterator {
 	 *
 	 * @since 14.0.0
 	 */
-	public function next() {
+	public function next(): void {
 		++$this->i;
 	}
 

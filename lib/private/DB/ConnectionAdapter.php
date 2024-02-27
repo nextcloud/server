@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-/*
+/**
  * @copyright 2020 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
- * @author 2020 Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -16,17 +16,21 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
  */
-
 namespace OC\DB;
 
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
+use Doctrine\DBAL\Platforms\MySQLPlatform;
+use Doctrine\DBAL\Platforms\OraclePlatform;
+use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
+use Doctrine\DBAL\Platforms\SqlitePlatform;
 use Doctrine\DBAL\Schema\Schema;
 use OC\DB\Exceptions\DbalException;
 use OCP\DB\IPreparedStatement;
@@ -38,7 +42,6 @@ use OCP\IDBConnection;
  * Adapts the public API to our internal DBAL connection wrapper
  */
 class ConnectionAdapter implements IDBConnection {
-
 	/** @var Connection */
 	private $inner;
 
@@ -88,7 +91,7 @@ class ConnectionAdapter implements IDBConnection {
 
 	public function lastInsertId(string $table): int {
 		try {
-			return (int)$this->inner->lastInsertId($table);
+			return $this->inner->lastInsertId($table);
 		} catch (Exception $e) {
 			throw DbalException::wrap($e);
 		}
@@ -242,5 +245,20 @@ class ConnectionAdapter implements IDBConnection {
 
 	public function getInner(): Connection {
 		return $this->inner;
+	}
+
+	public function getDatabaseProvider(): string {
+		$platform = $this->inner->getDatabasePlatform();
+		if ($platform instanceof MySQLPlatform) {
+			return IDBConnection::PLATFORM_MYSQL;
+		} elseif ($platform instanceof OraclePlatform) {
+			return IDBConnection::PLATFORM_ORACLE;
+		} elseif ($platform instanceof PostgreSQLPlatform) {
+			return IDBConnection::PLATFORM_POSTGRES;
+		} elseif ($platform instanceof SqlitePlatform) {
+			return IDBConnection::PLATFORM_SQLITE;
+		} else {
+			throw new \Exception('Database ' . $platform::class . ' not supported');
+		}
 	}
 }

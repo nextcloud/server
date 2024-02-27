@@ -4,7 +4,6 @@
  *
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
@@ -25,7 +24,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_External\Lib\Storage;
 
 abstract class StreamWrapper extends \OC\Files\Storage\Common {
@@ -119,8 +117,8 @@ abstract class StreamWrapper extends \OC\Files\Storage\Common {
 		return copy($path, $this->constructUrl($target));
 	}
 
-	public function rename($path1, $path2) {
-		return rename($this->constructUrl($path1), $this->constructUrl($path2));
+	public function rename($source, $target) {
+		return rename($this->constructUrl($source), $this->constructUrl($target));
 	}
 
 	public function stat($path) {

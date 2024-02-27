@@ -8,6 +8,21 @@
 
 namespace Test\Traits;
 
+use OC\User\User;
+use OCP\IUser;
+
+class DummyUser extends User {
+	private string $uid;
+
+	public function __construct(string $uid) {
+		$this->uid = $uid;
+	}
+
+	public function getUID(): string {
+		return $this->uid;
+	}
+}
+
 /**
  * Allow creating users in a temporary backend
  */
@@ -17,8 +32,9 @@ trait UserTrait {
 	 */
 	protected $userBackend;
 
-	protected function createUser($name, $password) {
+	protected function createUser($name, $password): IUser {
 		$this->userBackend->createUser($name, $password);
+		return new DummyUser($name);
 	}
 
 	protected function setUpUserTrait() {

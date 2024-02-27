@@ -50,7 +50,7 @@ describe('OC.Files.Client tests', function() {
 	 * status code
 	 *
 	 * @param {Promise} promise promise
-	 * @param {int} status status to test
+	 * @param {number} status status to test
 	 */
 	function respondAndCheckStatus(promise, status) {
 		var successHandler = sinon.stub();
@@ -79,7 +79,7 @@ describe('OC.Files.Client tests', function() {
 	 * status code
 	 *
 	 * @param {Promise} promise promise object
-	 * @param {int} status error status to test
+	 * @param {number} status error status to test
 	 */
 	function respondAndCheckError(promise, status) {
 		var successHandler = sinon.stub();

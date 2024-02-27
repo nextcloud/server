@@ -7,56 +7,56 @@ declare(strict_types=1);
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
  *
- * @license AGPL-3.0
+ * @license GNU AGPL version 3 or any later version
  *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\UserStatus\Listener;
 
+use OCA\DAV\CalDAV\Status\StatusService as CalendarStatusService;
+use OCA\UserStatus\Connector\UserStatus as ConnectorUserStatus;
 use OCA\UserStatus\Db\UserStatus;
 use OCA\UserStatus\Db\UserStatusMapper;
 use OCA\UserStatus\Service\StatusService;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Utility\ITimeFactory;
-use OCP\EventDispatcher\IEventListener;
+use OCP\DB\Exception;
 use OCP\EventDispatcher\Event;
+use OCP\EventDispatcher\IEventListener;
 use OCP\User\Events\UserLiveStatusEvent;
 use OCP\UserStatus\IUserStatus;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class UserDeletedListener
  *
  * @package OCA\UserStatus\Listener
+ * @template-implements IEventListener<UserLiveStatusEvent>
  */
 class UserLiveStatusListener implements IEventListener {
+	private UserStatusMapper $mapper;
+	private StatusService $statusService;
+	private ITimeFactory $timeFactory;
 
-	/** @var UserStatusMapper */
-	private $mapper;
-
-	/** @var ITimeFactory */
-	private $timeFactory;
-
-	/**
-	 * UserLiveStatusListener constructor.
-	 *
-	 * @param UserStatusMapper $mapper
-	 * @param ITimeFactory $timeFactory
-	 */
 	public function __construct(UserStatusMapper $mapper,
-								ITimeFactory $timeFactory) {
+		StatusService $statusService,
+		ITimeFactory $timeFactory,
+		private CalendarStatusService $calendarStatusService,
+		private LoggerInterface $logger) {
 		$this->mapper = $mapper;
+		$this->statusService = $statusService;
 		$this->timeFactory = $timeFactory;
 	}
 
@@ -71,7 +71,8 @@ class UserLiveStatusListener implements IEventListener {
 
 		$user = $event->getUser();
 		try {
-			$userStatus = $this->mapper->findByUserId($user->getUID());
+			$this->calendarStatusService->processCalendarStatus($user->getUID());
+			$userStatus = $this->statusService->findByUserId($user->getUID());
 		} catch (DoesNotExistException $ex) {
 			$userStatus = new UserStatus();
 			$userStatus->setUserId($user->getUID());
@@ -80,10 +81,16 @@ class UserLiveStatusListener implements IEventListener {
 			$userStatus->setIsUserDefined(false);
 		}
 
-		// If the status is user-defined and one of the persistent statuses, we
+		// If the status is user-defined and one of the persistent status, we
 		// will not override it.
 		if ($userStatus->getIsUserDefined() &&
 			\in_array($userStatus->getStatus(), StatusService::PERSISTENT_STATUSES, true)) {
+			return;
+		}
+
+		// Don't overwrite the "away" calendar status if it's set
+		if($userStatus->getMessageId() === IUserStatus::MESSAGE_CALENDAR_BUSY) {
+			$event->setUserStatus(new ConnectorUserStatus($userStatus));
 			return;
 		}
 
@@ -107,10 +114,24 @@ class UserLiveStatusListener implements IEventListener {
 			$userStatus->setIsUserDefined(false);
 
 			if ($userStatus->getId() === null) {
-				$this->mapper->insert($userStatus);
+				try {
+					$this->mapper->insert($userStatus);
+				} catch (Exception $e) {
+					if ($e->getReason() === Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
+						// A different process might have written another status
+						// update to the DB while we're processing our stuff.
+						// We can safely ignore it as we're only changing between AWAY and ONLINE
+						// and not doing anything with the message or icon.
+						$this->logger->debug('Unique constraint violation for live user status', ['exception' => $e]);
+						return;
+					}
+					throw $e;
+				}
 			} else {
 				$this->mapper->update($userStatus);
 			}
 		}
+
+		$event->setUserStatus(new ConnectorUserStatus($userStatus));
 	}
 }

@@ -9,8 +9,9 @@
 namespace Test\Files;
 
 use OC\Files\Filesystem;
-use OCP\EventDispatcher\IEventDispatcher;
 use OCA\Files_Sharing\AppInfo\Application;
+use OCP\EventDispatcher\IEventDispatcher;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class EtagTest
@@ -40,7 +41,7 @@ class EtagTest extends \Test\TestCase {
 		\OC\Share\Share::registerBackend('folder', 'OCA\Files_Sharing\ShareBackend\Folder', 'file');
 
 		$config = \OC::$server->getConfig();
-		$this->datadir = $config->getSystemValue('datadirectory');
+		$this->datadir = $config->getSystemValueString('datadirectory');
 		$this->tmpDir = \OC::$server->getTempManager()->getTemporaryFolder();
 		$config->setSystemValue('datadirectory', $this->tmpDir);
 
@@ -69,7 +70,7 @@ class EtagTest extends \Test\TestCase {
 		$files = ['/foo.txt', '/folder/bar.txt', '/folder/subfolder', '/folder/subfolder/qwerty.txt'];
 		$originalEtags = $this->getEtags($files);
 
-		$scanner = new \OC\Files\Utils\Scanner($user1, \OC::$server->getDatabaseConnection(), \OC::$server->query(IEventDispatcher::class), \OC::$server->getLogger());
+		$scanner = new \OC\Files\Utils\Scanner($user1, \OC::$server->getDatabaseConnection(), \OC::$server->query(IEventDispatcher::class), \OC::$server->get(LoggerInterface::class));
 		$scanner->backgroundScan('/');
 
 		$newEtags = $this->getEtags($files);

@@ -29,39 +29,38 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Settings\Controller;
 
 use BadMethodCallException;
-use OC\Authentication\Exceptions\ExpiredTokenException;
-use OC\Authentication\Exceptions\InvalidTokenException;
+use OC\Authentication\Exceptions\InvalidTokenException as OcInvalidTokenException;
 use OC\Authentication\Exceptions\PasswordlessTokenException;
-use OC\Authentication\Exceptions\WipeTokenException;
 use OC\Authentication\Token\INamedToken;
 use OC\Authentication\Token\IProvider;
-use OC\Authentication\Token\IToken;
 use OC\Authentication\Token\RemoteWipe;
 use OCA\Settings\Activity\Provider;
 use OCP\Activity\IManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
-use OCP\ILogger;
+use OCP\Authentication\Exceptions\ExpiredTokenException;
+use OCP\Authentication\Exceptions\InvalidTokenException;
+use OCP\Authentication\Exceptions\WipeTokenException;
+use OCP\Authentication\Token\IToken;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IUserSession;
 use OCP\Security\ISecureRandom;
 use OCP\Session\Exceptions\SessionNotAvailableException;
+use Psr\Log\LoggerInterface;
 
 class AuthSettingsController extends Controller {
-
 	/** @var IProvider */
 	private $tokenProvider;
 
 	/** @var ISession */
 	private $session;
 
-	/** IUserSession */
+	/** @var IUserSession */
 	private $userSession;
 
 	/** @var string */
@@ -76,7 +75,7 @@ class AuthSettingsController extends Controller {
 	/** @var RemoteWipe */
 	private $remoteWipe;
 
-	/** @var ILogger */
+	/** @var LoggerInterface */
 	private $logger;
 
 	/**
@@ -89,18 +88,18 @@ class AuthSettingsController extends Controller {
 	 * @param IUserSession $userSession
 	 * @param IManager $activityManager
 	 * @param RemoteWipe $remoteWipe
-	 * @param ILogger $logger
+	 * @param LoggerInterface $logger
 	 */
 	public function __construct(string $appName,
-								IRequest $request,
-								IProvider $tokenProvider,
-								ISession $session,
-								ISecureRandom $random,
-								?string $userId,
-								IUserSession $userSession,
-								IManager $activityManager,
-								RemoteWipe $remoteWipe,
-								ILogger $logger) {
+		IRequest $request,
+		IProvider $tokenProvider,
+		ISession $session,
+		ISecureRandom $random,
+		?string $userId,
+		IUserSession $userSession,
+		IManager $activityManager,
+		RemoteWipe $remoteWipe,
+		LoggerInterface $logger) {
 		parent::__construct($appName, $request);
 		$this->tokenProvider = $tokenProvider;
 		$this->uid = $userId;
@@ -121,6 +120,10 @@ class AuthSettingsController extends Controller {
 	 * @return JSONResponse
 	 */
 	public function create($name) {
+		if ($this->checkAppToken()) {
+			return $this->getServiceNotAvailableResponse();
+		}
+
 		try {
 			$sessionId = $this->session->getId();
 		} catch (SessionNotAvailableException $ex) {
@@ -140,6 +143,10 @@ class AuthSettingsController extends Controller {
 			}
 		} catch (InvalidTokenException $ex) {
 			return $this->getServiceNotAvailableResponse();
+		}
+
+		if (mb_strlen($name) > 128) {
+			$name = mb_substr($name, 0, 120) . '…';
 		}
 
 		$token = $this->generateRandomDeviceToken();
@@ -181,6 +188,10 @@ class AuthSettingsController extends Controller {
 		return implode('-', $groups);
 	}
 
+	private function checkAppToken(): bool {
+		return $this->session->exists('app_password');
+	}
+
 	/**
 	 * @NoAdminRequired
 	 * @NoSubAdminRequired
@@ -189,6 +200,10 @@ class AuthSettingsController extends Controller {
 	 * @return array|JSONResponse
 	 */
 	public function destroy($id) {
+		if ($this->checkAppToken()) {
+			return new JSONResponse([], Http::STATUS_BAD_REQUEST);
+		}
+
 		try {
 			$token = $this->findTokenByIdAndUser($id);
 		} catch (WipeTokenException $e) {
@@ -213,6 +228,10 @@ class AuthSettingsController extends Controller {
 	 * @return array|JSONResponse
 	 */
 	public function update($id, array $scope, string $name) {
+		if ($this->checkAppToken()) {
+			return new JSONResponse([], Http::STATUS_BAD_REQUEST);
+		}
+
 		try {
 			$token = $this->findTokenByIdAndUser($id);
 		} catch (InvalidTokenException $e) {
@@ -224,6 +243,10 @@ class AuthSettingsController extends Controller {
 		if ($scope !== $token->getScopeAsArray()) {
 			$token->setScope(['filesystem' => $scope['filesystem']]);
 			$this->publishActivity($scope['filesystem'] ? Provider::APP_TOKEN_FILESYSTEM_GRANTED : Provider::APP_TOKEN_FILESYSTEM_REVOKED, $token->getId(), ['name' => $currentName]);
+		}
+
+		if (mb_strlen($name) > 128) {
+			$name = mb_substr($name, 0, 120) . '…';
 		}
 
 		if ($token instanceof INamedToken && $name !== $currentName) {
@@ -252,8 +275,7 @@ class AuthSettingsController extends Controller {
 		try {
 			$this->activityManager->publish($event);
 		} catch (BadMethodCallException $e) {
-			$this->logger->warning('could not publish activity');
-			$this->logger->logException($e);
+			$this->logger->warning('could not publish activity', ['exception' => $e]);
 		}
 	}
 
@@ -271,7 +293,8 @@ class AuthSettingsController extends Controller {
 			$token = $e->getToken();
 		}
 		if ($token->getUID() !== $this->uid) {
-			throw new InvalidTokenException('This token does not belong to you!');
+			/** @psalm-suppress DeprecatedClass We have to throw the OC version so both OC and OCP catches catch it */
+			throw new OcInvalidTokenException('This token does not belong to you!');
 		}
 		return $token;
 	}
@@ -284,9 +307,13 @@ class AuthSettingsController extends Controller {
 	 * @param int $id
 	 * @return JSONResponse
 	 * @throws InvalidTokenException
-	 * @throws \OC\Authentication\Exceptions\ExpiredTokenException
+	 * @throws ExpiredTokenException
 	 */
 	public function wipe(int $id): JSONResponse {
+		if ($this->checkAppToken()) {
+			return new JSONResponse([], Http::STATUS_BAD_REQUEST);
+		}
+
 		try {
 			$token = $this->findTokenByIdAndUser($id);
 		} catch (InvalidTokenException $e) {

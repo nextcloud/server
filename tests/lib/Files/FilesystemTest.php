@@ -140,11 +140,26 @@ class FilesystemTest extends \Test\TestCase {
 			['/foo/.bar', '/foo/.bar/'],
 			['/foo/.bar/', '/foo/.bar/', false],
 			['/foo/.bar/tee', '/foo/.bar/tee'],
+			['/foo/bar.', '/foo/bar./'],
+			['/foo/bar./', '/foo/bar./', false],
+			['/foo/bar./tee', '/foo/bar./tee'],
+			['/foo/.bar.', '/foo/.bar./'],
+			['/foo/.bar./', '/foo/.bar./', false],
+			['/foo/.bar./tee', '/foo/.bar./tee'],
 
-			['/foo/bar', '/.///././//./foo/.///././//./bar/./././.'],
-			['/foo/bar/', '/.///././//./foo/.///././//./bar/./././.', false],
-			['/foo/bar', '/.///././//./foo/.///././//./bar/././././'],
-			['/foo/bar/', '/.///././//./foo/.///././//./bar/././././', false],
+			['/foo/bar', '/.////././//./foo/.///././//./bar/././/./.'],
+			['/foo/bar/', '/.////././//./foo/.///././//./bar/./././.', false],
+			['/foo/bar', '/.////././//./foo/.///././//./bar/././/././'],
+			['/foo/bar/', '/.////././//./foo/.///././//./bar/././/././', false],
+			['/foo/.bar', '/.////././//./foo/./././/./.bar/././/././'],
+			['/foo/.bar/', '/.////././//./foo/./././/./.bar/././/././', false],
+			['/foo/.bar/tee./', '/.////././//./foo/./././/./.bar/tee././/././', false],
+			['/foo/bar.', '/.////././//./foo/./././/./bar./././/././'],
+			['/foo/bar./', '/.////././//./foo/./././/./bar./././/././', false],
+			['/foo/bar./tee./', '/.////././//./foo/./././/./bar./tee././/././', false],
+			['/foo/.bar.', '/.////././//./foo/./././/./.bar./././/././'],
+			['/foo/.bar./', '/.////././//./foo/./././/./.bar./././././', false],
+			['/foo/.bar./tee./', '/.////././//./foo/./././/./.bar./tee././././', false],
 
 			// Windows paths
 			['/', ''],
@@ -186,7 +201,9 @@ class FilesystemTest extends \Test\TestCase {
 
 			// normalize does not resolve '..' (by design)
 			['/foo/..', '/foo/../'],
+			['/foo/../bar', '/foo/../bar/.'],
 			['/foo/..', '\\foo\\..\\'],
+			['/foo/../bar', '\\foo\\..\\bar'],
 		];
 	}
 
@@ -308,14 +325,14 @@ class FilesystemTest extends \Test\TestCase {
 		$rootView->mkdir('/' . $user);
 		$rootView->mkdir('/' . $user . '/files');
 
-//		\OC\Files\Filesystem::file_put_contents('/foo', 'foo');
+		//		\OC\Files\Filesystem::file_put_contents('/foo', 'foo');
 		\OC\Files\Filesystem::mkdir('/bar');
-//		\OC\Files\Filesystem::file_put_contents('/bar//foo', 'foo');
+		//		\OC\Files\Filesystem::file_put_contents('/bar//foo', 'foo');
 
 		$tmpFile = \OC::$server->getTempManager()->getTemporaryFile();
 		file_put_contents($tmpFile, 'foo');
 		$fh = fopen($tmpFile, 'r');
-//		\OC\Files\Filesystem::file_put_contents('/bar//foo', $fh);
+		//		\OC\Files\Filesystem::file_put_contents('/bar//foo', $fh);
 	}
 
 	/**
@@ -330,7 +347,7 @@ class FilesystemTest extends \Test\TestCase {
 		\OC\Files\Filesystem::initMountPoints($userId);
 	}
 
-	
+
 	public function testNullUserThrows() {
 		$this->expectException(\OC\User\NoUserException::class);
 
@@ -410,7 +427,7 @@ class FilesystemTest extends \Test\TestCase {
 	public function testMountDefaultCacheDir() {
 		$userId = $this->getUniqueID('user_');
 		$config = \OC::$server->getConfig();
-		$oldCachePath = $config->getSystemValue('cache_path', '');
+		$oldCachePath = $config->getSystemValueString('cache_path', '');
 		// no cache path configured
 		$config->setSystemValue('cache_path', '');
 
@@ -440,7 +457,7 @@ class FilesystemTest extends \Test\TestCase {
 		$userId = $this->getUniqueID('user_');
 
 		$config = \OC::$server->getConfig();
-		$oldCachePath = $config->getSystemValue('cache_path', '');
+		$oldCachePath = $config->getSystemValueString('cache_path', '');
 		// set cache path to temp dir
 		$cachePath = \OC::$server->getTempManager()->getTemporaryFolder() . '/extcache';
 		$config->setSystemValue('cache_path', $cachePath);

@@ -1,10 +1,14 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Björn Schießle <bjoern@schiessle.org>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
@@ -24,79 +28,76 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Log;
 
+use Error;
 use OCP\ILogger;
+use Psr\Log\LoggerInterface;
+use Throwable;
 
 class ErrorHandler {
-	/** @var ILogger */
-	private static $logger;
+	public function __construct(
+		private LoggerInterface $logger,
+	) {
+	}
 
 	/**
-	 * remove password in URLs
-	 * @param string $msg
-	 * @return string
+	 * Remove password in URLs
 	 */
-	protected static function removePassword($msg) {
-		return preg_replace('/\/\/(.*):(.*)@/', '//xxx:xxx@', $msg);
+	private static function removePassword(string $msg): string {
+		return preg_replace('#//(.*):(.*)@#', '//xxx:xxx@', $msg);
 	}
 
-	public static function register($debug = false) {
-		$handler = new ErrorHandler();
-
-		if ($debug) {
-			set_error_handler([$handler, 'onAll'], E_ALL);
-			if (\OC::$CLI) {
-				set_exception_handler(['OC_Template', 'printExceptionErrorPage']);
-			}
-		} else {
-			set_error_handler([$handler, 'onError']);
-		}
-		register_shutdown_function([$handler, 'onShutdown']);
-		set_exception_handler([$handler, 'onException']);
-	}
-
-	public static function setLogger(ILogger $logger) {
-		self::$logger = $logger;
-	}
-
-	//Fatal errors handler
-	public static function onShutdown() {
+	/**
+	 * Fatal errors handler
+	 */
+	public function onShutdown(): void {
 		$error = error_get_last();
-		if ($error && self::$logger) {
-			//ob_end_clean();
+		if ($error) {
 			$msg = $error['message'] . ' at ' . $error['file'] . '#' . $error['line'];
-			self::$logger->critical(self::removePassword($msg), ['app' => 'PHP']);
+			$this->logger->critical(self::removePassword($msg), ['app' => 'PHP']);
 		}
 	}
 
 	/**
-	 * 	Uncaught exception handler
-	 *
-	 * @param \Exception $exception
+	 * Uncaught exception handler
 	 */
-	public static function onException($exception) {
+	public function onException(Throwable $exception): void {
 		$class = get_class($exception);
 		$msg = $exception->getMessage();
 		$msg = "$class: $msg at " . $exception->getFile() . '#' . $exception->getLine();
-		self::$logger->critical(self::removePassword($msg), ['app' => 'PHP']);
+		$this->logger->critical(self::removePassword($msg), ['app' => 'PHP']);
 	}
 
-	//Recoverable errors handler
-	public static function onError($number, $message, $file, $line) {
-		if (error_reporting() === 0) {
-			return;
+	/**
+	 * Recoverable errors handler
+	 */
+	public function onError(int $number, string $message, string $file, int $line): bool {
+		if (!(error_reporting() & $number)) {
+			return true;
 		}
 		$msg = $message . ' at ' . $file . '#' . $line;
-		$e = new \Error(self::removePassword($msg));
-		self::$logger->logException($e, ['app' => 'PHP']);
+		$e = new Error(self::removePassword($msg));
+		$this->logger->log(self::errnoToLogLevel($number), $e->getMessage(), ['app' => 'PHP']);
+		return true;
 	}
 
-	//Recoverable handler which catch all errors, warnings and notices
-	public static function onAll($number, $message, $file, $line) {
+	/**
+	 * Recoverable handler which catch all errors, warnings and notices
+	 */
+	public function onAll(int $number, string $message, string $file, int $line): bool {
 		$msg = $message . ' at ' . $file . '#' . $line;
-		$e = new \Error(self::removePassword($msg));
-		self::$logger->logException($e, ['app' => 'PHP', 'level' => 0]);
+		$e = new Error(self::removePassword($msg));
+		$this->logger->log(self::errnoToLogLevel($number), $e->getMessage(), ['app' => 'PHP']);
+		return true;
+	}
+
+	private static function errnoToLogLevel(int $errno): int {
+		return match ($errno) {
+			E_USER_WARNING => ILogger::WARN,
+			E_DEPRECATED, E_USER_DEPRECATED => ILogger::DEBUG,
+			E_USER_NOTICE => ILogger::INFO,
+			default => ILogger::ERROR,
+		};
 	}
 }

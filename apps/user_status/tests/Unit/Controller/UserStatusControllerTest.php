@@ -6,25 +6,27 @@ declare(strict_types=1);
  * @copyright Copyright (c) 2020, Georg Ehrke
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author Joas Schilling <coding@schilljs.com>
  *
- * @license AGPL-3.0
+ * @license GNU AGPL version 3 or any later version
  *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\UserStatus\Tests\Controller;
 
+use OCA\DAV\CalDAV\Status\StatusService as CalendarStatusService;
 use OCA\UserStatus\Controller\UserStatusController;
 use OCA\UserStatus\Db\UserStatus;
 use OCA\UserStatus\Exception\InvalidClearAtException;
@@ -36,18 +38,20 @@ use OCA\UserStatus\Service\StatusService;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
-use OCP\ILogger;
 use OCP\IRequest;
+use Psr\Log\LoggerInterface;
 use Test\TestCase;
 use Throwable;
 
 class UserStatusControllerTest extends TestCase {
-
-	/** @var ILogger|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
 	private $logger;
 
 	/** @var StatusService|\PHPUnit\Framework\MockObject\MockObject */
-	private $service;
+	private $statusService;
+
+	/** @var CalendarStatusService|\PHPUnit\Framework\MockObject\MockObject $calendarStatusService */
+	private $calendarStatusService;
 
 	/** @var UserStatusController */
 	private $controller;
@@ -57,16 +61,24 @@ class UserStatusControllerTest extends TestCase {
 
 		$request = $this->createMock(IRequest::class);
 		$userId = 'john.doe';
-		$this->logger = $this->createMock(ILogger::class);
-		$this->service = $this->createMock(StatusService::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
+		$this->statusService = $this->createMock(StatusService::class);
+		$this->calendarStatusService = $this->createMock(CalendarStatusService::class);
 
-		$this->controller = new UserStatusController('user_status', $request, $userId, $this->logger, $this->service);
+		$this->controller = new UserStatusController(
+			'user_status',
+			$request,
+			$userId,
+			$this->logger,
+			$this->statusService,
+			$this->calendarStatusService,
+		);
 	}
 
 	public function testGetStatus(): void {
 		$userStatus = $this->getUserStatus();
 
-		$this->service->expects($this->once())
+		$this->statusService->expects($this->once())
 			->method('findByUserId')
 			->with('john.doe')
 			->willReturn($userStatus);
@@ -85,7 +97,10 @@ class UserStatusControllerTest extends TestCase {
 	}
 
 	public function testGetStatusDoesNotExist(): void {
-		$this->service->expects($this->once())
+		$this->calendarStatusService->expects(self::once())
+			->method('processCalendarStatus')
+			->with('john.doe');
+		$this->statusService->expects($this->once())
 			->method('findByUserId')
 			->with('john.doe')
 			->willThrowException(new DoesNotExistException(''));
@@ -110,23 +125,23 @@ class UserStatusControllerTest extends TestCase {
 	 * @dataProvider setStatusDataProvider
 	 */
 	public function testSetStatus(string $statusType,
-								  ?string $statusIcon,
-								  ?string $message,
-								  ?int $clearAt,
-								  bool $expectSuccess,
-								  bool $expectException,
-								  ?Throwable $exception,
-								  bool $expectLogger,
-								  ?string $expectedLogMessage): void {
+		?string $statusIcon,
+		?string $message,
+		?int $clearAt,
+		bool $expectSuccess,
+		bool $expectException,
+		?Throwable $exception,
+		bool $expectLogger,
+		?string $expectedLogMessage): void {
 		$userStatus = $this->getUserStatus();
 
 		if ($expectException) {
-			$this->service->expects($this->once())
+			$this->statusService->expects($this->once())
 				->method('setStatus')
 				->with('john.doe', $statusType, null, true)
 				->willThrowException($exception);
 		} else {
-			$this->service->expects($this->once())
+			$this->statusService->expects($this->once())
 				->method('setStatus')
 				->with('john.doe', $statusType, null, true)
 				->willReturn($userStatus);
@@ -178,21 +193,21 @@ class UserStatusControllerTest extends TestCase {
 	 * @dataProvider setPredefinedMessageDataProvider
 	 */
 	public function testSetPredefinedMessage(string $messageId,
-											 ?int $clearAt,
-											 bool $expectSuccess,
-											 bool $expectException,
-											 ?Throwable $exception,
-											 bool $expectLogger,
-											 ?string $expectedLogMessage): void {
+		?int $clearAt,
+		bool $expectSuccess,
+		bool $expectException,
+		?Throwable $exception,
+		bool $expectLogger,
+		?string $expectedLogMessage): void {
 		$userStatus = $this->getUserStatus();
 
 		if ($expectException) {
-			$this->service->expects($this->once())
+			$this->statusService->expects($this->once())
 				->method('setPredefinedMessage')
 				->with('john.doe', $messageId, $clearAt)
 				->willThrowException($exception);
 		} else {
-			$this->service->expects($this->once())
+			$this->statusService->expects($this->once())
 				->method('setPredefinedMessage')
 				->with('john.doe', $messageId, $clearAt)
 				->willReturn($userStatus);
@@ -248,39 +263,39 @@ class UserStatusControllerTest extends TestCase {
 	 * @dataProvider setCustomMessageDataProvider
 	 */
 	public function testSetCustomMessage(?string $statusIcon,
-										 string $message,
-										 ?int $clearAt,
-										 bool $expectSuccess,
-										 bool $expectException,
-										 ?Throwable $exception,
-										 bool $expectLogger,
-										 ?string $expectedLogMessage,
-										 bool $expectSuccessAsReset = false): void {
+		string $message,
+		?int $clearAt,
+		bool $expectSuccess,
+		bool $expectException,
+		?Throwable $exception,
+		bool $expectLogger,
+		?string $expectedLogMessage,
+		bool $expectSuccessAsReset = false): void {
 		$userStatus = $this->getUserStatus();
 
 		if ($expectException) {
-			$this->service->expects($this->once())
+			$this->statusService->expects($this->once())
 				->method('setCustomMessage')
 				->with('john.doe', $statusIcon, $message, $clearAt)
 				->willThrowException($exception);
 		} else {
 			if ($expectSuccessAsReset) {
-				$this->service->expects($this->never())
+				$this->statusService->expects($this->never())
 					->method('setCustomMessage');
-				$this->service->expects($this->once())
+				$this->statusService->expects($this->once())
 					->method('clearMessage')
 					->with('john.doe');
-				$this->service->expects($this->once())
+				$this->statusService->expects($this->once())
 					->method('findByUserId')
 					->with('john.doe')
 					->willReturn($userStatus);
 			} else {
-				$this->service->expects($this->once())
+				$this->statusService->expects($this->once())
 					->method('setCustomMessage')
 					->with('john.doe', $statusIcon, $message, $clearAt)
 					->willReturn($userStatus);
 
-				$this->service->expects($this->never())
+				$this->statusService->expects($this->never())
 					->method('clearMessage');
 			}
 		}
@@ -314,7 +329,8 @@ class UserStatusControllerTest extends TestCase {
 	public function setCustomMessageDataProvider(): array {
 		return [
 			['👨🏽‍💻', 'Busy developing the status feature', 500, true, false, null, false, null],
-			['👨🏽‍💻', '', 500, true, false, null, false, null, true],
+			['👨🏽‍💻', '', 500, true, false, null, false, null, false],
+			['👨🏽‍💻', '', 0, true, false, null, false, null, false],
 			['👨🏽‍💻', 'Busy developing the status feature', 500, false, true, new InvalidClearAtException('Original exception message'), true,
 				'New user-status for "john.doe" was rejected due to an invalid clearAt value "500"'],
 			['👨🏽‍💻', 'Busy developing the status feature', 500, false, true, new InvalidStatusIconException('Original exception message'), true,
@@ -324,17 +340,8 @@ class UserStatusControllerTest extends TestCase {
 		];
 	}
 
-	public function testClearStatus(): void {
-		$this->service->expects($this->once())
-			->method('clearStatus')
-			->with('john.doe');
-
-		$response = $this->controller->clearStatus();
-		$this->assertEquals([], $response->getData());
-	}
-
 	public function testClearMessage(): void {
-		$this->service->expects($this->once())
+		$this->statusService->expects($this->once())
 			->method('clearMessage')
 			->with('john.doe');
 

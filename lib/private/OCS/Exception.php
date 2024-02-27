@@ -20,20 +20,16 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\OCS;
 
 class Exception extends \Exception {
-
-	/** @var Result */
-	private $result;
-
-	public function __construct(Result $result) {
+	public function __construct(
+		private Result $result,
+	) {
 		parent::__construct();
-		$this->result = $result;
 	}
 
-	public function getResult() {
+	public function getResult(): Result {
 		return $this->result;
 	}
 }

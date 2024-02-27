@@ -32,7 +32,6 @@ use OCP\Authentication\TwoFactorAuth\IProvider;
 use Test\TestCase;
 
 class ProviderSetTest extends TestCase {
-
 	/** @var ProviderSet */
 	private $providerSet;
 

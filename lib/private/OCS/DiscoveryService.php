@@ -19,14 +19,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\OCS;
 
 use OCP\AppFramework\Http;
@@ -37,19 +36,18 @@ use OCP\ICacheFactory;
 use OCP\OCS\IDiscoveryService;
 
 class DiscoveryService implements IDiscoveryService {
-
 	/** @var ICache */
-	private $cache;
+	private ICache $cache;
 
 	/** @var IClient */
-	private $client;
+	private IClient $client;
 
 	/**
 	 * @param ICacheFactory $cacheFactory
 	 * @param IClientService $clientService
 	 */
 	public function __construct(ICacheFactory $cacheFactory,
-								IClientService $clientService
+		IClientService $clientService
 	) {
 		$this->cache = $cacheFactory->createDistributed('ocs-discovery');
 		$this->client = $clientService->newClient();
@@ -63,7 +61,7 @@ class DiscoveryService implements IDiscoveryService {
 	 *
 	 * @param string $remote
 	 * @param string $service the service you want to discover
-	 * @param bool $skipCache We won't check if the data is in the cache. This is usefull if a background job is updating the status
+	 * @param bool $skipCache We won't check if the data is in the cache. This is useful if a background job is updating the status
 	 * @return array
 	 */
 	public function discover(string $remote, string $service, bool $skipCache = false): array {

@@ -1,12 +1,12 @@
 <?php
 /**
- *
+ * @copyright Copyright (c) 2016 Sergio Bertolin <sbertolin@solidgear.es>
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
@@ -24,14 +24,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 use Behat\Gherkin\Node\TableNode;
 use GuzzleHttp\Client;
 use GuzzleHttp\Cookie\CookieJar;
@@ -74,7 +73,6 @@ trait BasicStructure {
 	protected $remoteBaseUrl;
 
 	public function __construct($baseUrl, $admin, $regular_user_password) {
-
 		// Initialize your context here
 		$this->baseUrl = $baseUrl;
 		$this->adminUser = $admin;
@@ -181,7 +179,7 @@ trait BasicStructure {
 			$options['auth'] = [$this->currentUser, $this->regularUser];
 		}
 		$options['headers'] = [
-			'OCS_APIREQUEST' => 'true'
+			'OCS-APIRequest' => 'true'
 		];
 		if ($body instanceof TableNode) {
 			$fd = $body->getRowsHash();
@@ -197,6 +195,40 @@ trait BasicStructure {
 
 		try {
 			$this->response = $client->request($verb, $fullUrl, $options);
+		} catch (ClientException $ex) {
+			$this->response = $ex->getResponse();
+		}
+	}
+
+	/**
+	 * @param string $verb
+	 * @param string $url
+	 * @param TableNode|array|null $body
+	 * @param array $headers
+	 */
+	protected function sendRequestForJSON(string $verb, string $url, $body = null, array $headers = []): void {
+		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php" . $url;
+		$client = new Client();
+		$options = [];
+		if ($this->currentUser === 'admin') {
+			$options['auth'] = ['admin', 'admin'];
+		} elseif (strpos($this->currentUser, 'guest') !== 0) {
+			$options['auth'] = [$this->currentUser, self::TEST_PASSWORD];
+		}
+		if ($body instanceof TableNode) {
+			$fd = $body->getRowsHash();
+			$options['form_params'] = $fd;
+		} elseif (is_array($body)) {
+			$options['form_params'] = $body;
+		}
+
+		$options['headers'] = array_merge($headers, [
+			'OCS-ApiRequest' => 'true',
+			'Accept' => 'application/json',
+		]);
+
+		try {
+			$this->response = $client->{$verb}($fullUrl, $options);
 		} catch (ClientException $ex) {
 			$this->response = $ex->getResponse();
 		}
@@ -274,7 +306,7 @@ trait BasicStructure {
 	 * @param string $user
 	 */
 	public function loggingInUsingWebAs($user) {
-		$loginUrl = substr($this->baseUrl, 0, -5) . '/login';
+		$loginUrl = substr($this->baseUrl, 0, -5) . '/index.php/login';
 		// Request a new session and extract CSRF token
 		$client = new Client();
 		$response = $client->get(

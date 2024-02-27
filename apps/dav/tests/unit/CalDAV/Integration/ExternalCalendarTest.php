@@ -13,14 +13,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\Tests\unit\CalDAV\Integration;
 
 use OCA\DAV\CalDAV\Integration\ExternalCalendar;
@@ -41,13 +40,13 @@ class ExternalCalendarTest extends TestCase {
 		$this->assertEquals('app-generated--example-app-id--calendar-uri-in-backend',
 			$this->abstractExternalCalendar->getName());
 
-		// Check that the method is final and can't be overriden by other classes
+		// Check that the method is final and can't be overridden by other classes
 		$reflectionMethod = new \ReflectionMethod(ExternalCalendar::class, 'getName');
 		$this->assertTrue($reflectionMethod->isFinal());
 	}
 
 	public function testSetName():void {
-		// Check that the method is final and can't be overriden by other classes
+		// Check that the method is final and can't be overridden by other classes
 		$reflectionMethod = new \ReflectionMethod(ExternalCalendar::class, 'setName');
 		$this->assertTrue($reflectionMethod->isFinal());
 
@@ -58,7 +57,7 @@ class ExternalCalendarTest extends TestCase {
 	}
 
 	public function createDirectory():void {
-		// Check that the method is final and can't be overriden by other classes
+		// Check that the method is final and can't be overridden by other classes
 		$reflectionMethod = new \ReflectionMethod(ExternalCalendar::class, 'createDirectory');
 		$this->assertTrue($reflectionMethod->isFinal());
 

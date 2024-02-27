@@ -16,14 +16,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Repair\NC18;
 
 use OCP\IConfig;
@@ -32,14 +31,13 @@ use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 
 class ResetGeneratedAvatarFlag implements IRepairStep {
-
 	/** @var IConfig */
 	private $config;
 	/** @var IDBConnection */
 	private $connection;
 
 	public function __construct(IConfig $config,
-								IDBConnection $connection) {
+		IDBConnection $connection) {
 		$this->config = $config;
 		$this->connection = $connection;
 	}
@@ -49,7 +47,7 @@ class ResetGeneratedAvatarFlag implements IRepairStep {
 	}
 
 	private function shouldRun(): bool {
-		$versionFromBeforeUpdate = $this->config->getSystemValue('version', '0.0.0.0');
+		$versionFromBeforeUpdate = $this->config->getSystemValueString('version', '0.0.0.0');
 		return version_compare($versionFromBeforeUpdate, '18.0.0.5', '<=');
 	}
 

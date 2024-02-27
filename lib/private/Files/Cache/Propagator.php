@@ -24,14 +24,19 @@
 
 namespace OC\Files\Cache;
 
+use OC\DB\Exceptions\DbalException;
+use OC\Files\Storage\Wrapper\Encryption;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\Cache\IPropagator;
+use OCP\Files\Storage\IReliableEtagStorage;
 use OCP\IDBConnection;
+use Psr\Log\LoggerInterface;
 
 /**
  * Propagate etags and mtimes within the storage
  */
 class Propagator implements IPropagator {
+	public const MAX_RETRIES = 3;
 	private $inBatch = false;
 
 	private $batch = [];
@@ -64,9 +69,9 @@ class Propagator implements IPropagator {
 	 * @param int $sizeDifference number of bytes the file has grown
 	 */
 	public function propagateChange($internalPath, $time, $sizeDifference = 0) {
-		// Do not propogate changes in ignored paths
+		// Do not propagate changes in ignored paths
 		foreach ($this->ignore as $ignore) {
-			if (strpos($internalPath, $ignore) === 0) {
+			if (str_starts_with($internalPath, $ignore)) {
 				return;
 			}
 		}
@@ -92,25 +97,54 @@ class Propagator implements IPropagator {
 
 		$builder->update('filecache')
 			->set('mtime', $builder->func()->greatest('mtime', $builder->createNamedParameter((int)$time, IQueryBuilder::PARAM_INT)))
-			->set('etag', $builder->createNamedParameter($etag, IQueryBuilder::PARAM_STR))
 			->where($builder->expr()->eq('storage', $builder->createNamedParameter($storageId, IQueryBuilder::PARAM_INT)))
 			->andWhere($builder->expr()->in('path_hash', $hashParams));
-
-		$builder->execute();
+		if (!$this->storage->instanceOfStorage(IReliableEtagStorage::class)) {
+			$builder->set('etag', $builder->createNamedParameter($etag, IQueryBuilder::PARAM_STR));
+		}
 
 		if ($sizeDifference !== 0) {
-			// we need to do size separably so we can ignore entries with uncalculated size
-			$builder = $this->connection->getQueryBuilder();
-			$builder->update('filecache')
-				->set('size', $builder->func()->greatest(
-					$builder->func()->add('size', $builder->createNamedParameter($sizeDifference)),
-					$builder->createNamedParameter(-1, IQueryBuilder::PARAM_INT)
-				))
-				->where($builder->expr()->eq('storage', $builder->createNamedParameter($storageId, IQueryBuilder::PARAM_INT)))
-				->andWhere($builder->expr()->in('path_hash', $hashParams))
-				->andWhere($builder->expr()->gt('size', $builder->expr()->literal(-1, IQueryBuilder::PARAM_INT)));
+			$hasCalculatedSize = $builder->expr()->gt('size', $builder->expr()->literal(-1, IQUeryBuilder::PARAM_INT));
+			$sizeColumn = $builder->getColumnName('size');
+			$newSize = $builder->func()->greatest(
+				$builder->func()->add('size', $builder->createNamedParameter($sizeDifference)),
+				$builder->createNamedParameter(-1, IQueryBuilder::PARAM_INT)
+			);
 
-			$builder->execute();
+			// Only update if row had a previously calculated size
+			$builder->set('size', $builder->createFunction("CASE WHEN $hasCalculatedSize THEN $newSize ELSE $sizeColumn END"));
+
+			if ($this->storage->instanceOfStorage(Encryption::class)) {
+				// in case of encryption being enabled after some files are already uploaded, some entries will have an unencrypted_size of 0 and a non-zero size
+				$hasUnencryptedSize = $builder->expr()->neq('unencrypted_size', $builder->expr()->literal(0, IQueryBuilder::PARAM_INT));
+				$sizeColumn = $builder->getColumnName('size');
+				$unencryptedSizeColumn = $builder->getColumnName('unencrypted_size');
+				$newUnencryptedSize = $builder->func()->greatest(
+					$builder->func()->add(
+						$builder->createFunction("CASE WHEN $hasUnencryptedSize THEN $unencryptedSizeColumn ELSE $sizeColumn END"),
+						$builder->createNamedParameter($sizeDifference)
+					),
+					$builder->createNamedParameter(-1, IQueryBuilder::PARAM_INT)
+				);
+
+				// Only update if row had a previously calculated size
+				$builder->set('unencrypted_size', $builder->createFunction("CASE WHEN $hasCalculatedSize THEN $newUnencryptedSize ELSE $unencryptedSizeColumn END"));
+			}
+		}
+
+		for ($i = 0; $i < self::MAX_RETRIES; $i++) {
+			try {
+				$builder->executeStatement();
+				break;
+			} catch (DbalException $e) {
+				if (!$e->isRetryable()) {
+					throw $e;
+				}
+
+				/** @var LoggerInterface $loggerInterface */
+				$loggerInterface = \OCP\Server::get(LoggerInterface::class);
+				$loggerInterface->warning('Retrying propagation query after retryable exception.', [ 'exception' => $e ]);
+			}
 		}
 	}
 
@@ -142,7 +176,7 @@ class Propagator implements IPropagator {
 			$this->batch[$internalPath] = [
 				'hash' => md5($internalPath),
 				'time' => $time,
-				'size' => $sizeDifference
+				'size' => $sizeDifference,
 			];
 		} else {
 			$this->batch[$internalPath]['size'] += $sizeDifference;

@@ -21,28 +21,28 @@
 
 <template>
 	<div class="clear-at-select">
-		<span
-			class="clear-at-select__label">
-			{{ $t('user_status', 'Clear status message after') }}
-		</span>
-		<Multiselect
-			label="label"
-			:value="option"
+		<label class="clear-at-select__label" for="clearStatus">
+			{{ $t('user_status', 'Clear status after') }}
+		</label>
+		<NcSelect input-id="clearStatus"
+			class="clear-at-select__select"
 			:options="options"
-			open-direction="top"
-			@select="select" />
+			:value="option"
+			:clearable="false"
+			placement="top"
+			@option:selected="select" />
 	</div>
 </template>
 
 <script>
-import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
-import { getAllClearAtOptions } from '../services/clearAtOptionsService'
-import { clearAtFilter } from '../filters/clearAtFilter'
+import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
+import { getAllClearAtOptions } from '../services/clearAtOptionsService.js'
+import { clearAtFilter } from '../filters/clearAtFilter.js'
 
 export default {
 	name: 'ClearAtSelect',
 	components: {
-		Multiselect,
+		NcSelect,
 	},
 	props: {
 		clearAt: {
@@ -59,7 +59,7 @@ export default {
 		/**
 		 * Returns an object of the currently selected option
 		 *
-		 * @returns {Object}
+		 * @return {object}
 		 */
 		option() {
 			return {
@@ -72,14 +72,14 @@ export default {
 		/**
 		 * Triggered when the user selects a new option.
 		 *
-		 * @param {Object=} option The new selected option
+		 * @param {object=} option The new selected option
 		 */
 		select(option) {
 			if (!option) {
 				return
 			}
 
-			this.$emit('selectClearAt', option.clearAt)
+			this.$emit('select-clear-at', option.clearAt)
 		},
 	},
 }
@@ -92,11 +92,12 @@ export default {
 	align-items: center;
 
 	&__label {
-		margin-right: 10px;
+		margin-right: 12px;
 	}
 
-	.multiselect {
+	&__select {
 		flex-grow: 1;
+		min-width: 215px;
 	}
 }
 </style>

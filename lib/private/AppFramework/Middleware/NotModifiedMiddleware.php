@@ -16,14 +16,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\AppFramework\Middleware;
 
 use OCP\AppFramework\Http;
@@ -47,7 +46,7 @@ class NotModifiedMiddleware extends Middleware {
 		}
 
 		$modifiedSinceHeader = $this->request->getHeader('IF_MODIFIED_SINCE');
-		if ($modifiedSinceHeader !== '' && $response->getLastModified() !== null && trim($modifiedSinceHeader) === $response->getLastModified()->format(\DateTime::RFC2822)) {
+		if ($modifiedSinceHeader !== '' && $response->getLastModified() !== null && trim($modifiedSinceHeader) === $response->getLastModified()->format(\DateTimeInterface::RFC2822)) {
 			$response->setStatus(Http::STATUS_NOT_MODIFIED);
 			return $response;
 		}

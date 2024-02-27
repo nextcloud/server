@@ -3,11 +3,13 @@
  * @copyright Copyright (c) 2016 Joas Schilling <coding@schilljs.com>
  *
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Jonas Rittershofer <jotoeri@users.noreply.github.com>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Maxence Lange <maxence@nextcloud.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Citharel <nextcloud@tcit.fr>
  * @author Vincent Petry <vincent@nextcloud.com>
+ * @author Vitor Mattos <vitor@php.rio>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -18,14 +20,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCP\RichObjectStrings;
 
 /**
@@ -192,6 +193,18 @@ class Definitions {
 					'description' => 'The link to the conversation',
 					'example' => 'https://localhost/index.php/call/R4nd0mToken',
 				],
+				'icon-url' => [
+					'since' => '27.0.0',
+					'required' => false,
+					'description' => 'The icon url to use as avatar',
+					'example' => 'https://localhost/ocs/v2.php/apps/spreed/api/v1/room/R4nd0mToken/avatar'
+				],
+				'message-id' => [
+					'since' => '27.0.0',
+					'required' => false,
+					'description' => 'The id of a message that was referred to',
+					'example' => '12345',
+				],
 			],
 		],
 		'circle' => [
@@ -347,6 +360,37 @@ class Definitions {
 					'description' => 'Whether or not a preview is available. If `no` the mimetype icon should be used',
 					'example' => 'yes',
 				],
+				'mtime' => [
+					'since' => '25.0.0',
+					'required' => false,
+					'description' => 'The mtime of the file/folder as unix timestamp',
+					'example' => '1661854213',
+				],
+			],
+		],
+		'forms-form' => [
+			'author' => 'Nextcloud',
+			'app' => 'forms',
+			'since' => '21.0.1',
+			'parameters' => [
+				'id' => [
+					'since' => '21.0.1',
+					'required' => true,
+					'description' => 'The form-hash of the form',
+					'example' => 'q72GGqbfbLBC6xNB',
+				],
+				'name' => [
+					'since' => '21.0.1',
+					'required' => true,
+					'description' => 'The title of the form',
+					'example' => 'Nice Form',
+				],
+				'link' => [
+					'since' => '21.0.1',
+					'required' => true,
+					'description' => 'The full URL to the board',
+					'example' => 'http://localhost/index.php/apps/forms/q72GGqbfbLBC6xNB',
+				],
 			],
 		],
 		'guest' => [
@@ -390,6 +434,37 @@ class Definitions {
 					'required' => false,
 					'description' => 'The full URL that should be opened when clicking the highlighted text.',
 					'example' => 'http://localhost/index.php/f/42',
+				],
+			],
+		],
+		'geo-location' => [
+			'author' => 'Nextcloud',
+			'app' => 'core',
+			'since' => '22.0.0',
+			'parameters' => [
+				'id' => [
+					'since' => '22.0.0',
+					'required' => true,
+					'description' => 'The geo URI (https://en.wikipedia.org/wiki/Geo_URI_scheme) to identify the location',
+					'example' => 'geo:52.5450511,13.3741463',
+				],
+				'name' => [
+					'since' => '22.0.0',
+					'required' => true,
+					'description' => 'A description of the location',
+					'example' => 'Nextcloud Berlin Office',
+				],
+				'latitude' => [
+					'since' => '22.0.0',
+					'required' => true,
+					'description' => 'The latitude of the location MUST be the same as in the id',
+					'example' => '52.5450511',
+				],
+				'longitude' => [
+					'since' => '22.0.0',
+					'required' => true,
+					'description' => 'The longitude of the location MUST be the same as in the id',
+					'example' => '13.3741463',
 				],
 			],
 		],
@@ -520,6 +595,25 @@ class Definitions {
 					'required' => false,
 					'description' => 'Whether or not a preview is available. If `no` the mimetype icon should be used',
 					'example' => 'yes',
+				],
+			],
+		],
+		'talk-poll' => [
+			'author' => 'Nextcloud',
+			'app' => 'talk',
+			'since' => '25.0.0',
+			'parameters' => [
+				'id' => [
+					'since' => '25.0.0',
+					'required' => true,
+					'description' => 'The id used to identify the poll on the instance',
+					'example' => '12345',
+				],
+				'name' => [
+					'since' => '25.0.0',
+					'required' => true,
+					'description' => 'The poll question',
+					'example' => 'What is the question?',
 				],
 			],
 		],

@@ -7,7 +7,7 @@
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Maxence Lange <maxence@nextcloud.com>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -27,20 +27,20 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Share20;
 
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\File;
+use OCP\Files\FileInfo;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\IUserManager;
 use OCP\Share\Exceptions\IllegalIDChangeException;
+use OCP\Share\IAttributes;
 use OCP\Share\IShare;
 
-class Share implements \OCP\Share\IShare {
-
+class Share implements IShare {
 	/** @var string */
 	private $id;
 	/** @var string */
@@ -65,6 +65,8 @@ class Share implements \OCP\Share\IShare {
 	private $shareOwner;
 	/** @var int */
 	private $permissions;
+	/** @var IAttributes */
+	private $attributes;
 	/** @var int */
 	private $status;
 	/** @var string */
@@ -73,6 +75,7 @@ class Share implements \OCP\Share\IShare {
 	private $expireDate;
 	/** @var string */
 	private $password;
+	private ?\DateTimeInterface $passwordExpirationTime = null;
 	/** @var bool */
 	private $sendPasswordByTalk = false;
 	/** @var string */
@@ -233,8 +236,13 @@ class Share implements \OCP\Share\IShare {
 	 */
 	public function getNodeType() {
 		if ($this->nodeType === null) {
-			$node = $this->getNode();
-			$this->nodeType = $node instanceof File ? 'file' : 'folder';
+			if ($this->getNodeCacheEntry()) {
+				$info = $this->getNodeCacheEntry();
+				$this->nodeType = $info->getMimeType() === FileInfo::MIMETYPE_FOLDER ? 'folder' : 'file';
+			} else {
+				$node = $this->getNode();
+				$this->nodeType = $node instanceof File ? 'file' : 'folder';
+			}
 		}
 
 		return $this->nodeType;
@@ -313,7 +321,7 @@ class Share implements \OCP\Share\IShare {
 	 * @inheritdoc
 	 */
 	public function setPermissions($permissions) {
-		//TODO checkes
+		//TODO checks
 
 		$this->permissions = $permissions;
 		return $this;
@@ -324,6 +332,28 @@ class Share implements \OCP\Share\IShare {
 	 */
 	public function getPermissions() {
 		return $this->permissions;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function newAttributes(): IAttributes {
+		return new ShareAttributes();
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function setAttributes(?IAttributes $attributes) {
+		$this->attributes = $attributes;
+		return $this;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getAttributes(): ?IAttributes {
+		return $this->attributes;
 	}
 
 	/**
@@ -459,6 +489,21 @@ class Share implements \OCP\Share\IShare {
 	/**
 	 * @inheritdoc
 	 */
+	public function setPasswordExpirationTime(?\DateTimeInterface $passwordExpirationTime = null): IShare {
+		$this->passwordExpirationTime = $passwordExpirationTime;
+		return $this;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getPasswordExpirationTime(): ?\DateTimeInterface {
+		return $this->passwordExpirationTime;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
 	public function setSendPasswordByTalk(bool $sendPasswordByTalk) {
 		$this->sendPasswordByTalk = $sendPasswordByTalk;
 		return $this;
@@ -490,7 +535,7 @@ class Share implements \OCP\Share\IShare {
 	 * Set the parent of this share
 	 *
 	 * @param int parent
-	 * @return \OCP\Share\IShare
+	 * @return IShare
 	 * @deprecated The new shares do not have parents. This is just here for legacy reasons.
 	 */
 	public function setParent($parent) {

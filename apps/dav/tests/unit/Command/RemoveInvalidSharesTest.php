@@ -20,7 +20,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\Tests\Unit\Command;
 
 use OCA\DAV\Command\RemoveInvalidShares;
@@ -49,7 +48,7 @@ class RemoveInvalidSharesTest extends TestCase {
 		]);
 	}
 
-	public function test() {
+	public function test(): void {
 		$db = \OC::$server->getDatabaseConnection();
 		/** @var Principal | \PHPUnit\Framework\MockObject\MockObject $principal */
 		$principal = $this->createMock(Principal::class);

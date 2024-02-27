@@ -7,7 +7,6 @@
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
@@ -26,7 +25,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 // Check user and app status
 \OC_JSON::checkAdminUser();
 \OC_JSON::checkAppEnabled('user_ldap');
@@ -37,6 +35,6 @@ $helper = new \OCA\User_LDAP\Helper(\OC::$server->getConfig(), \OC::$server->get
 if ($helper->deleteServerConfiguration($prefix)) {
 	\OC_JSON::success();
 } else {
-	$l = \OC::$server->getL10N('user_ldap');
+	$l = \OCP\Util::getL10N('user_ldap');
 	\OC_JSON::error(['message' => $l->t('Failed to delete the server configuration')]);
 }

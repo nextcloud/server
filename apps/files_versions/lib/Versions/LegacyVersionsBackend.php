@@ -17,37 +17,52 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Files_Versions\Versions;
 
 use OC\Files\View;
+use OCA\DAV\Connector\Sabre\Exception\Forbidden;
+use OCA\Files_Sharing\ISharedStorage;
 use OCA\Files_Sharing\SharedStorage;
+use OCA\Files_Versions\Db\VersionEntity;
+use OCA\Files_Versions\Db\VersionsMapper;
 use OCA\Files_Versions\Storage;
 use OCP\Files\File;
 use OCP\Files\FileInfo;
 use OCP\Files\Folder;
+use OCP\Files\IMimeTypeLoader;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IStorage;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\IUserSession;
 
-class LegacyVersionsBackend implements IVersionBackend {
-	/** @var IRootFolder */
-	private $rootFolder;
-	/** @var IUserManager */
-	private $userManager;
+class LegacyVersionsBackend implements IVersionBackend, INameableVersionBackend, IDeletableVersionBackend, INeedSyncVersionBackend {
+	private IRootFolder $rootFolder;
+	private IUserManager $userManager;
+	private VersionsMapper $versionsMapper;
+	private IMimeTypeLoader $mimeTypeLoader;
+	private IUserSession $userSession;
 
-	public function __construct(IRootFolder $rootFolder, IUserManager $userManager) {
+	public function __construct(
+		IRootFolder $rootFolder,
+		IUserManager $userManager,
+		VersionsMapper $versionsMapper,
+		IMimeTypeLoader $mimeTypeLoader,
+		IUserSession $userSession,
+	) {
 		$this->rootFolder = $rootFolder;
 		$this->userManager = $userManager;
+		$this->versionsMapper = $versionsMapper;
+		$this->mimeTypeLoader = $mimeTypeLoader;
+		$this->userSession = $userSession;
 	}
 
 	public function useBackendForStorage(IStorage $storage): bool {
@@ -56,29 +71,95 @@ class LegacyVersionsBackend implements IVersionBackend {
 
 	public function getVersionsForFile(IUser $user, FileInfo $file): array {
 		$storage = $file->getStorage();
+
 		if ($storage->instanceOfStorage(SharedStorage::class)) {
 			$owner = $storage->getOwner('');
 			$user = $this->userManager->get($owner);
+
+			$fileId = $file->getId();
+			if ($fileId === null) {
+				throw new NotFoundException("File not found ($fileId)");
+			}
+
+			if ($user === null) {
+				throw new NotFoundException("User $owner not found for $fileId");
+			}
+
+			$userFolder = $this->rootFolder->getUserFolder($user->getUID());
+
+			$nodes = $userFolder->getById($fileId);
+			$file = array_pop($nodes);
+
+			if (!$file) {
+				throw new NotFoundException("version file not found for share owner");
+			}
+		} else {
+			$userFolder = $this->rootFolder->getUserFolder($user->getUID());
 		}
 
-		$userFolder = $this->rootFolder->getUserFolder($user->getUID());
-		$nodes = $userFolder->getById($file->getId());
-		$file2 = array_pop($nodes);
-		$versions = Storage::getVersions($user->getUID(), $userFolder->getRelativePath($file2->getPath()));
+		$fileId = $file->getId();
+		if ($fileId === null) {
+			throw new NotFoundException("File not found ($fileId)");
+		}
 
-		return array_map(function (array $data) use ($file, $user) {
-			return new Version(
-				(int)$data['version'],
-				(int)$data['version'],
-				$data['name'],
-				(int)$data['size'],
-				$data['mimetype'],
-				$data['path'],
+		$versions = $this->getVersionsForFileFromDB($file, $user);
+
+		// Early exit if we find any version in the database.
+		// Else we continue to populate the DB from what's on disk.
+		if (count($versions) > 0) {
+			return $versions;
+		}
+
+		// Insert the entry in the DB for the current version.
+		$versionEntity = new VersionEntity();
+		$versionEntity->setFileId($fileId);
+		$versionEntity->setTimestamp($file->getMTime());
+		$versionEntity->setSize($file->getSize());
+		$versionEntity->setMimetype($this->mimeTypeLoader->getId($file->getMimetype()));
+		$versionEntity->setMetadata([]);
+		$this->versionsMapper->insert($versionEntity);
+
+		// Insert entries in the DB for existing versions.
+		$relativePath = $userFolder->getRelativePath($file->getPath());
+		if ($relativePath === null) {
+			throw new NotFoundException("Relative path not found for file $fileId (" . $file->getPath() . ')');
+		}
+
+		$versionsOnFS = Storage::getVersions($user->getUID(), $relativePath);
+		foreach ($versionsOnFS as $version) {
+			$versionEntity = new VersionEntity();
+			$versionEntity->setFileId($fileId);
+			$versionEntity->setTimestamp((int)$version['version']);
+			$versionEntity->setSize((int)$version['size']);
+			$versionEntity->setMimetype($this->mimeTypeLoader->getId($version['mimetype']));
+			$versionEntity->setMetadata([]);
+			$this->versionsMapper->insert($versionEntity);
+		}
+
+		return $this->getVersionsForFileFromDB($file, $user);
+	}
+
+	/**
+	 * @return IVersion[]
+	 */
+	private function getVersionsForFileFromDB(FileInfo $file, IUser $user): array {
+		$userFolder = $this->rootFolder->getUserFolder($user->getUID());
+
+		return array_map(
+			fn (VersionEntity $versionEntity) => new Version(
+				$versionEntity->getTimestamp(),
+				$versionEntity->getTimestamp(),
+				$file->getName(),
+				$versionEntity->getSize(),
+				$this->mimeTypeLoader->getMimetypeById($versionEntity->getMimetype()),
+				$userFolder->getRelativePath($file->getPath()),
 				$file,
 				$this,
-				$user
-			);
-		}, $versions);
+				$user,
+				$versionEntity->getLabel(),
+			),
+			$this->versionsMapper->findAllVersionsForFileId($file->getId())
+		);
 	}
 
 	public function createVersion(IUser $user, FileInfo $file) {
@@ -97,6 +178,10 @@ class LegacyVersionsBackend implements IVersionBackend {
 	}
 
 	public function rollback(IVersion $version) {
+		if (!$this->currentUserHasPermissions($version, \OCP\Constants::PERMISSION_UPDATE)) {
+			throw new Forbidden('You cannot restore this version because you do not have update permissions on the source file.');
+		}
+
 		return Storage::rollback($version->getVersionPath(), $version->getRevisionId(), $version->getUser());
 	}
 
@@ -121,9 +206,104 @@ class LegacyVersionsBackend implements IVersionBackend {
 
 	public function getVersionFile(IUser $user, FileInfo $sourceFile, $revision): File {
 		$userFolder = $this->rootFolder->getUserFolder($user->getUID());
+		$owner = $sourceFile->getOwner();
+		$storage = $sourceFile->getStorage();
+
+		// Shared files have their versions in the owners root folder so we need to obtain them from there
+		if ($storage->instanceOfStorage(ISharedStorage::class) && $owner) {
+			/** @var SharedStorage $storage */
+			$userFolder = $this->rootFolder->getUserFolder($owner->getUID());
+			$user = $owner;
+			$ownerPathInStorage = $sourceFile->getInternalPath();
+			$sourceFile = $storage->getShare()->getNode();
+			if ($sourceFile instanceof Folder) {
+				$sourceFile = $sourceFile->get($ownerPathInStorage);
+			}
+		}
+
 		$versionFolder = $this->getVersionFolder($user);
 		/** @var File $file */
 		$file = $versionFolder->get($userFolder->getRelativePath($sourceFile->getPath()) . '.v' . $revision);
 		return $file;
+	}
+
+	public function setVersionLabel(IVersion $version, string $label): void {
+		if (!$this->currentUserHasPermissions($version, \OCP\Constants::PERMISSION_UPDATE)) {
+			throw new Forbidden('You cannot label this version because you do not have update permissions on the source file.');
+		}
+
+		$versionEntity = $this->versionsMapper->findVersionForFileId(
+			$version->getSourceFile()->getId(),
+			$version->getTimestamp(),
+		);
+		if (trim($label) === '') {
+			$label = null;
+		}
+		$versionEntity->setLabel($label ?? '');
+		$this->versionsMapper->update($versionEntity);
+	}
+
+	public function deleteVersion(IVersion $version): void {
+		if (!$this->currentUserHasPermissions($version, \OCP\Constants::PERMISSION_DELETE)) {
+			throw new Forbidden('You cannot delete this version because you do not have delete permissions on the source file.');
+		}
+
+		Storage::deleteRevision($version->getVersionPath(), $version->getRevisionId());
+		$versionEntity = $this->versionsMapper->findVersionForFileId(
+			$version->getSourceFile()->getId(),
+			$version->getTimestamp(),
+		);
+		$this->versionsMapper->delete($versionEntity);
+	}
+
+	public function createVersionEntity(File $file): void {
+		$versionEntity = new VersionEntity();
+		$versionEntity->setFileId($file->getId());
+		$versionEntity->setTimestamp($file->getMTime());
+		$versionEntity->setSize($file->getSize());
+		$versionEntity->setMimetype($this->mimeTypeLoader->getId($file->getMimetype()));
+		$versionEntity->setMetadata([]);
+		$this->versionsMapper->insert($versionEntity);
+	}
+
+	public function updateVersionEntity(File $sourceFile, int $revision, array $properties): void {
+		$versionEntity = $this->versionsMapper->findVersionForFileId($sourceFile->getId(), $revision);
+
+		if (isset($properties['timestamp'])) {
+			$versionEntity->setTimestamp($properties['timestamp']);
+		}
+
+		if (isset($properties['size'])) {
+			$versionEntity->setSize($properties['size']);
+		}
+
+		if (isset($properties['mimetype'])) {
+			$versionEntity->setMimetype($properties['mimetype']);
+		}
+
+		$this->versionsMapper->update($versionEntity);
+	}
+
+	public function deleteVersionsEntity(File $file): void {
+		$this->versionsMapper->deleteAllVersionsForFileId($file->getId());
+	}
+
+	private function currentUserHasPermissions(IVersion $version, int $permissions): bool {
+		$sourceFile = $version->getSourceFile();
+		$currentUserId = $this->userSession->getUser()?->getUID();
+
+		if ($currentUserId === null) {
+			throw new NotFoundException("No user logged in");
+		}
+
+		if ($sourceFile->getOwner()?->getUID() !== $currentUserId) {
+			$nodes = $this->rootFolder->getUserFolder($currentUserId)->getById($sourceFile->getId());
+			$sourceFile = array_pop($nodes);
+			if (!$sourceFile) {
+				throw new NotFoundException("Version file not accessible by current user");
+			}
+		}
+
+		return ($sourceFile->getPermissions() & $permissions) === $permissions;
 	}
 }

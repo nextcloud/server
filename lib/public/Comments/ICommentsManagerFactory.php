@@ -22,7 +22,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP\Comments;
 
 use OCP\IServerContainer;
@@ -36,7 +35,6 @@ use OCP\IServerContainer;
  * @since 9.0.0
  */
 interface ICommentsManagerFactory {
-
 	/**
 	 * Constructor for the comments manager factory
 	 *

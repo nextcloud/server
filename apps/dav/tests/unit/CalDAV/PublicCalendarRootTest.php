@@ -1,6 +1,6 @@
 <?php
 /**
- *
+ * @copyright Copyright (c) 2016 Thomas Citharel <nextcloud@tcit.fr>
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
@@ -21,14 +21,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\Tests\unit\CalDAV;
 
 use OCA\DAV\CalDAV\CalDavBackend;
@@ -40,10 +39,9 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IL10N;
-use OCP\ILogger;
 use OCP\IUserManager;
 use OCP\Security\ISecureRandom;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 /**
@@ -72,7 +70,7 @@ class PublicCalendarRootTest extends TestCase {
 
 	/** @var ISecureRandom */
 	private $random;
-	/** @var ILogger */
+	/** @var LoggerInterface */
 	private $logger;
 
 	protected function setUp(): void {
@@ -83,9 +81,10 @@ class PublicCalendarRootTest extends TestCase {
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->random = \OC::$server->getSecureRandom();
-		$this->logger = $this->createMock(ILogger::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 		$dispatcher = $this->createMock(IEventDispatcher::class);
-		$legacyDispatcher = $this->createMock(EventDispatcherInterface::class);
+		$config = $this->createMock(IConfig::class);
+		$sharingBackend = $this->createMock(\OCA\DAV\CalDAV\Sharing\Backend::class);
 
 		$this->principal->expects($this->any())->method('getGroupMembership')
 			->withAnyParameters()
@@ -99,18 +98,19 @@ class PublicCalendarRootTest extends TestCase {
 			$db,
 			$this->principal,
 			$this->userManager,
-			$this->groupManager,
 			$this->random,
 			$this->logger,
 			$dispatcher,
-			$legacyDispatcher
+			$config,
+			$sharingBackend,
+			false,
 		);
 		$this->l10n = $this->getMockBuilder(IL10N::class)
 			->disableOriginalConstructor()->getMock();
 		$this->config = $this->createMock(IConfig::class);
 
 		$this->publicCalendarRoot = new PublicCalendarRoot($this->backend,
-			$this->l10n, $this->config);
+			$this->l10n, $this->config, $this->logger);
 	}
 
 	protected function tearDown(): void {
@@ -129,16 +129,16 @@ class PublicCalendarRootTest extends TestCase {
 
 		$books = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER);
 		foreach ($books as $book) {
-			$this->backend->deleteCalendar($book['id']);
+			$this->backend->deleteCalendar($book['id'], true);
 		}
 	}
 
-	public function testGetName() {
+	public function testGetName(): void {
 		$name = $this->publicCalendarRoot->getName();
 		$this->assertEquals('public-calendars', $name);
 	}
 
-	public function testGetChild() {
+	public function testGetChild(): void {
 		$calendar = $this->createPublicCalendar();
 
 		$publicCalendars = $this->backend->getPublicCalendars();
@@ -151,7 +151,7 @@ class PublicCalendarRootTest extends TestCase {
 		$this->assertEquals($calendar, $calendarResult);
 	}
 
-	public function testGetChildren() {
+	public function testGetChildren(): void {
 		$this->createPublicCalendar();
 		$calendarResults = $this->publicCalendarRoot->getChildren();
 		$this->assertSame([], $calendarResults);
@@ -164,11 +164,11 @@ class PublicCalendarRootTest extends TestCase {
 		$this->backend->createCalendar(self::UNIT_TEST_USER, 'Example', []);
 
 		$calendarInfo = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER)[0];
-		$calendar = new PublicCalendar($this->backend, $calendarInfo, $this->l10n, $this->config);
+		$calendar = new PublicCalendar($this->backend, $calendarInfo, $this->l10n, $this->config, $this->logger);
 		$publicUri = $calendar->setPublishStatus(true);
 
 		$calendarInfo = $this->backend->getPublicCalendar($publicUri);
-		$calendar = new PublicCalendar($this->backend, $calendarInfo, $this->l10n, $this->config);
+		$calendar = new PublicCalendar($this->backend, $calendarInfo, $this->l10n, $this->config, $this->logger);
 
 		return $calendar;
 	}

@@ -28,7 +28,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\AppFramework\Routing;
 
 use OC\AppFramework\DependencyInjection\DIContainer;
@@ -80,7 +79,6 @@ class RouteConfig {
 	 * The routes and resource will be registered to the \OCP\Route\IRouter
 	 */
 	public function register() {
-
 		// parse simple
 		$this->processIndexRoutes($this->routes);
 
@@ -131,14 +129,20 @@ class RouteConfig {
 
 		$split = explode('#', $name, 2);
 		if (count($split) !== 2) {
-			throw new \UnexpectedValueException('Invalid route name');
+			throw new \UnexpectedValueException('Invalid route name: use the format foo#bar to reference FooController::bar');
 		}
 		[$controller, $action] = $split;
 
 		$controllerName = $this->buildControllerName($controller);
 		$actionName = $this->buildActionName($action);
 
-		$routeName = $routeNamePrefix . $this->appName . '.' . $controller . '.' . $action . $postfix;
+		/*
+		 * The route name has to be lowercase, for symfony to match it correctly.
+		 * This is required because smyfony allows mixed casing for controller names in the routes.
+		 * To avoid breaking all the existing route names, registering and matching will only use the lowercase names.
+		 * This is also safe on the PHP side because class and method names collide regardless of the casing.
+		 */
+		$routeName = strtolower($routeNamePrefix . $this->appName . '.' . $controller . '.' . $action . $postfix);
 
 		$router = $this->router->create($routeName, $url)
 			->method($verb);

@@ -13,89 +13,78 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Contacts\ContactsMenu\Actions;
 
 use OCP\Contacts\ContactsMenu\ILinkAction;
 
 class LinkAction implements ILinkAction {
-
-	/** @var string */
-	private $icon;
-
-	/** @var string */
-	private $name;
-
-	/** @var string */
-	private $href;
-
-	/** @var int */
-	private $priority = 10;
+	private string $icon = '';
+	private string $name = '';
+	private string $href = '';
+	private int $priority = 10;
+	private string $appId = '';
 
 	/**
 	 * @param string $icon absolute URI to an icon
 	 */
-	public function setIcon($icon) {
+	public function setIcon(string $icon): void {
 		$this->icon = $icon;
 	}
 
-	/**
-	 * @param string $name
-	 */
-	public function setName($name) {
+	public function setName(string $name): void {
 		$this->name = $name;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getName() {
+	public function getName(): string {
 		return $this->name;
 	}
 
-	/**
-	 * @param int $priority
-	 */
-	public function setPriority($priority) {
+	public function setPriority(int $priority): void {
 		$this->priority = $priority;
 	}
 
-	/**
-	 * @return int
-	 */
-	public function getPriority() {
+	public function getPriority(): int {
 		return $this->priority;
 	}
 
-	/**
-	 * @param string $href
-	 */
-	public function setHref($href) {
+	public function setHref(string $href): void {
 		$this->href = $href;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getHref() {
+	public function getHref(): string {
 		return $this->href;
 	}
 
 	/**
-	 * @return array
+	 * @since 23.0.0
 	 */
-	public function jsonSerialize() {
+	public function setAppId(string $appId): void {
+		$this->appId = $appId;
+	}
+
+	/**
+	 * @since 23.0.0
+	 */
+	public function getAppId(): string {
+		return $this->appId;
+	}
+
+	/**
+	 * @return array{title: string, icon: string, hyperlink: string, appId: string}
+	 */
+	public function jsonSerialize(): array {
 		return [
 			'title' => $this->name,
 			'icon' => $this->icon,
 			'hyperlink' => $this->href,
+			'appId' => $this->appId,
 		];
 	}
 }

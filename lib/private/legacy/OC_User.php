@@ -36,7 +36,15 @@
  *
  */
 
-use OCP\ILogger;
+use OC\User\LoginException;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\IGroupManager;
+use OCP\IUser;
+use OCP\IUserManager;
+use OCP\Server;
+use OCP\User\Events\BeforeUserLoggedInEvent;
+use OCP\User\Events\UserLoggedInEvent;
+use Psr\Log\LoggerInterface;
 
 /**
  * This class provides wrapper methods for user management. Multiple backends are
@@ -88,7 +96,7 @@ class OC_User {
 				case 'database':
 				case 'mysql':
 				case 'sqlite':
-					\OCP\Util::writeLog('core', 'Adding user backend ' . $backend . '.', ILogger::DEBUG);
+					Server::get(LoggerInterface::class)->debug('Adding user backend ' . $backend . '.', ['app' => 'core']);
 					self::$_usedBackends[$backend] = new \OC\User\Database();
 					\OC::$server->getUserManager()->registerBackend(self::$_usedBackends[$backend]);
 					break;
@@ -97,7 +105,7 @@ class OC_User {
 					\OC::$server->getUserManager()->registerBackend(self::$_usedBackends[$backend]);
 					break;
 				default:
-					\OCP\Util::writeLog('core', 'Adding default user backend ' . $backend . '.', ILogger::DEBUG);
+					Server::get(LoggerInterface::class)->debug('Adding default user backend ' . $backend . '.', ['app' => 'core']);
 					$className = 'OC_USER_' . strtoupper($backend);
 					self::$_usedBackends[$backend] = new $className();
 					\OC::$server->getUserManager()->registerBackend(self::$_usedBackends[$backend]);
@@ -133,7 +141,7 @@ class OC_User {
 			$class = $config['class'];
 			$arguments = $config['arguments'];
 			if (class_exists($class)) {
-				if (array_search($i, self::$_setupedBackends) === false) {
+				if (!in_array($i, self::$_setupedBackends)) {
 					// make a reflection object
 					$reflectionObj = new ReflectionClass($class);
 
@@ -142,10 +150,10 @@ class OC_User {
 					self::useBackend($backend);
 					self::$_setupedBackends[] = $i;
 				} else {
-					\OCP\Util::writeLog('core', 'User backend ' . $class . ' already initialized.', ILogger::DEBUG);
+					Server::get(LoggerInterface::class)->debug('User backend ' . $class . ' already initialized.', ['app' => 'core']);
 				}
 			} else {
-				\OCP\Util::writeLog('core', 'User backend ' . $class . ' not found.', ILogger::ERROR);
+				Server::get(LoggerInterface::class)->error('User backend ' . $class . ' not found.', ['app' => 'core']);
 			}
 		}
 	}
@@ -168,9 +176,26 @@ class OC_User {
 			if (self::getUser() !== $uid) {
 				self::setUserId($uid);
 				$userSession = \OC::$server->getUserSession();
+
+				/** @var IEventDispatcher $dispatcher */
+				$dispatcher = \OC::$server->get(IEventDispatcher::class);
+
+				if ($userSession->getUser() && !$userSession->getUser()->isEnabled()) {
+					$message = \OC::$server->getL10N('lib')->t('Account disabled');
+					throw new LoginException($message);
+				}
 				$userSession->setLoginName($uid);
 				$request = OC::$server->getRequest();
-				$userSession->createSessionToken($request, $uid, $uid);
+				$password = null;
+				if ($backend instanceof \OCP\Authentication\IProvideUserSecretBackend) {
+					$password = $backend->getCurrentUserSecret();
+				}
+
+				/** @var IEventDispatcher $dispatcher */
+				$dispatcher->dispatchTyped(new BeforeUserLoggedInEvent($uid, $password, $backend));
+
+				$userSession->createSessionToken($request, $uid, $uid, $password);
+				$userSession->createRememberMeToken($userSession->getUser());
 				// setup the filesystem
 				OC_Util::setupFS($uid);
 				// first call the post_login hooks, the login-process needs to be
@@ -182,10 +207,17 @@ class OC_User {
 					'post_login',
 					[
 						'uid' => $uid,
-						'password' => '',
+						'password' => $password,
 						'isTokenLogin' => false,
 					]
 				);
+				$dispatcher->dispatchTyped(new UserLoggedInEvent(
+					\OC::$server->get(IUserManager::class)->get($uid),
+					$uid,
+					null,
+					false)
+				);
+
 				//trigger creation of user home and /files folder
 				\OC::$server->getUserFolder($uid);
 			}
@@ -274,7 +306,7 @@ class OC_User {
 		}
 
 		$user = \OC::$server->getUserSession()->getUser();
-		if ($user instanceof \OCP\IUser) {
+		if ($user instanceof IUser) {
 			$backend = $user->getBackend();
 			if ($backend instanceof \OCP\User\Backend\ICustomLogout) {
 				return $backend->getLogoutUrl();
@@ -294,19 +326,16 @@ class OC_User {
 	 * @return bool
 	 */
 	public static function isAdminUser($uid) {
-		$group = \OC::$server->getGroupManager()->get('admin');
-		$user = \OC::$server->getUserManager()->get($uid);
-		if ($group && $user && $group->inGroup($user) && self::$incognitoMode === false) {
-			return true;
-		}
-		return false;
+		$user = Server::get(IUserManager::class)->get($uid);
+		$isAdmin = $user && Server::get(IGroupManager::class)->isAdmin($user->getUID());
+		return $isAdmin && self::$incognitoMode === false;
 	}
 
 
 	/**
 	 * get the user id of the user currently logged in.
 	 *
-	 * @return string|bool uid or false
+	 * @return string|false uid or false
 	 */
 	public static function getUser() {
 		$uid = \OC::$server->getSession() ? \OC::$server->getSession()->get('user_id') : null;
@@ -314,32 +343,6 @@ class OC_User {
 			return $uid;
 		} else {
 			return false;
-		}
-	}
-
-	/**
-	 * get the display name of the user currently logged in.
-	 *
-	 * @param string $uid
-	 * @return string|bool uid or false
-	 * @deprecated 8.1.0 fetch \OCP\IUser (has getDisplayName()) by using method
-	 *                   get() of \OCP\IUserManager - \OC::$server->getUserManager()
-	 */
-	public static function getDisplayName($uid = null) {
-		if ($uid) {
-			$user = \OC::$server->getUserManager()->get($uid);
-			if ($user) {
-				return $user->getDisplayName();
-			} else {
-				return $uid;
-			}
-		} else {
-			$user = \OC::$server->getUserSession()->getUser();
-			if ($user) {
-				return $user->getDisplayName();
-			} else {
-				return false;
-			}
 		}
 	}
 

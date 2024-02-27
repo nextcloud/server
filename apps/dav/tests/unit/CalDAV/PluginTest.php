@@ -16,14 +16,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\Tests\unit\CalDAV;
 
 use OCA\DAV\CalDAV\Plugin;
@@ -62,11 +61,11 @@ class PluginTest extends TestCase {
 	 * @param $input
 	 * @param $expected
 	 */
-	public function testGetCalendarHomeForPrincipal($input, $expected) {
+	public function testGetCalendarHomeForPrincipal($input, $expected): void {
 		$this->assertSame($expected, $this->plugin->getCalendarHomeForPrincipal($input));
 	}
 
-	public function testGetCalendarHomeForUnknownPrincipal() {
+	public function testGetCalendarHomeForUnknownPrincipal(): void {
 		$this->assertNull($this->plugin->getCalendarHomeForPrincipal('FOO/BAR/BLUB'));
 	}
 }

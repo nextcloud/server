@@ -5,6 +5,7 @@
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -15,14 +16,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Files\Activity;
 
 use OCP\Activity\IEvent;
@@ -38,12 +38,10 @@ use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\IL10N;
 use OCP\IURLGenerator;
-use OCP\IUser;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
 
 class Provider implements IProvider {
-
 	/** @var IFactory */
 	protected $languageFactory;
 
@@ -79,13 +77,13 @@ class Provider implements IProvider {
 	protected $fileIsEncrypted = false;
 
 	public function __construct(IFactory $languageFactory,
-								IURLGenerator $url,
-								IManager $activityManager,
-								IUserManager $userManager,
-								IRootFolder $rootFolder,
-								ICloudIdManager $cloudIdManager,
-								IContactsManager $contactsManager,
-								IEventMerger $eventMerger) {
+		IURLGenerator $url,
+		IManager $activityManager,
+		IUserManager $userManager,
+		IRootFolder $rootFolder,
+		ICloudIdManager $cloudIdManager,
+		IContactsManager $contactsManager,
+		IEventMerger $eventMerger) {
 		$this->languageFactory = $languageFactory;
 		$this->url = $url;
 		$this->activityManager = $activityManager;
@@ -165,7 +163,7 @@ class Provider implements IProvider {
 
 		if (!isset($parsedParameters['user'])) {
 			// External user via public link share
-			$subject = str_replace('{user}', $this->activityLang->t('"remote user"'), $subject);
+			$subject = str_replace('{user}', $this->activityLang->t('"remote account"'), $subject);
 		}
 
 		$this->setSubjects($event, $subject, $parsedParameters);
@@ -230,10 +228,42 @@ class Provider implements IProvider {
 			$subject = $this->l->t('{user} restored {file}');
 			$this->setIcon($event, 'actions/history', 'core');
 		} elseif ($event->getSubject() === 'renamed_self') {
-			$subject = $this->l->t('You renamed {oldfile} to {newfile}');
+			$oldFileName = $parsedParameters['oldfile']['name'];
+			$newFileName = $parsedParameters['newfile']['name'];
+
+			if ($this->isHiddenFile($oldFileName)) {
+				if ($this->isHiddenFile($newFileName)) {
+					$subject = $this->l->t('You renamed {oldfile} (hidden) to {newfile} (hidden)');
+				} else {
+					$subject = $this->l->t('You renamed {oldfile} (hidden) to {newfile}');
+				}
+			} else {
+				if ($this->isHiddenFile($newFileName)) {
+					$subject = $this->l->t('You renamed {oldfile} to {newfile} (hidden)');
+				} else {
+					$subject = $this->l->t('You renamed {oldfile} to {newfile}');
+				}
+			}
+
 			$this->setIcon($event, 'change');
 		} elseif ($event->getSubject() === 'renamed_by') {
-			$subject = $this->l->t('{user} renamed {oldfile} to {newfile}');
+			$oldFileName = $parsedParameters['oldfile']['name'];
+			$newFileName = $parsedParameters['newfile']['name'];
+
+			if ($this->isHiddenFile($oldFileName)) {
+				if ($this->isHiddenFile($newFileName)) {
+					$subject = $this->l->t('{user} renamed {oldfile} (hidden) to {newfile} (hidden)');
+				} else {
+					$subject = $this->l->t('{user} renamed {oldfile} (hidden) to {newfile}');
+				}
+			} else {
+				if ($this->isHiddenFile($newFileName)) {
+					$subject = $this->l->t('{user} renamed {oldfile} to {newfile} (hidden)');
+				} else {
+					$subject = $this->l->t('{user} renamed {oldfile} to {newfile}');
+				}
+			}
+
 			$this->setIcon($event, 'change');
 		} elseif ($event->getSubject() === 'moved_self') {
 			$subject = $this->l->t('You moved {oldfile} to {newfile}');
@@ -251,7 +281,7 @@ class Provider implements IProvider {
 
 		if (!isset($parsedParameters['user'])) {
 			// External user via public link share
-			$subject = str_replace('{user}', $this->activityLang->t('"remote user"'), $subject);
+			$subject = str_replace('{user}', $this->activityLang->t('"remote account"'), $subject);
 		}
 
 		$this->setSubjects($event, $subject, $parsedParameters);
@@ -270,19 +300,12 @@ class Provider implements IProvider {
 		return $event;
 	}
 
-	protected function setSubjects(IEvent $event, $subject, array $parameters) {
-		$placeholders = $replacements = [];
-		foreach ($parameters as $placeholder => $parameter) {
-			$placeholders[] = '{' . $placeholder . '}';
-			if ($parameter['type'] === 'file') {
-				$replacements[] = $parameter['path'];
-			} else {
-				$replacements[] = $parameter['name'];
-			}
-		}
+	private function isHiddenFile(string $filename): bool {
+		return strlen($filename) > 0 && $filename[0] === '.';
+	}
 
-		$event->setParsedSubject(str_replace($placeholders, $replacements, $subject))
-			->setRichSubject($subject, $parameters);
+	protected function setSubjects(IEvent $event, string $subject, array $parameters): void {
+		$event->setRichSubject($subject, $parameters);
 	}
 
 	/**
@@ -491,12 +514,12 @@ class Provider implements IProvider {
 	 */
 	protected function getUser($uid) {
 		// First try local user
-		$user = $this->userManager->get($uid);
-		if ($user instanceof IUser) {
+		$displayName = $this->userManager->getDisplayName($uid);
+		if ($displayName !== null) {
 			return [
 				'type' => 'user',
-				'id' => $user->getUID(),
-				'name' => $user->getDisplayName(),
+				'id' => $uid,
+				'name' => $displayName,
 			];
 		}
 
@@ -524,7 +547,12 @@ class Provider implements IProvider {
 			return $this->displayNames[$search];
 		}
 
-		$addressBookContacts = $this->contactsManager->search($search, ['CLOUD']);
+		$addressBookContacts = $this->contactsManager->search($search, ['CLOUD'], [
+			'limit' => 1,
+			'enumeration' => false,
+			'fullmatch' => false,
+			'strict_search' => true,
+		]);
 		foreach ($addressBookContacts as $contact) {
 			if (isset($contact['isLocalSystemBook'])) {
 				continue;

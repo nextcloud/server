@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-/*
+/**
  * @copyright 2021 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
- * @author 2021 Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -16,13 +16,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
  */
-
 namespace OCP\DB;
 
 use Exception as BaseException;
@@ -39,7 +39,6 @@ use Exception as BaseException;
  * @since 21.0.0
  */
 class Exception extends BaseException {
-
 	/**
 	 * Nextcloud lost connection to the database
 	 *
@@ -111,7 +110,7 @@ class Exception extends BaseException {
 	public const REASON_NON_UNIQUE_FIELD_NAME = 10;
 
 	/**
-	 * A not null contraint was violated
+	 * A not null constraint was violated
 	 *
 	 * @since 21.0.0
 	 */

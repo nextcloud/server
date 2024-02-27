@@ -17,40 +17,34 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Files\AppData;
 
 use OC\SystemConfig;
+use OCP\Files\AppData\IAppDataFactory;
+use OCP\Files\IAppData;
 use OCP\Files\IRootFolder;
 
-class Factory {
+class Factory implements IAppDataFactory {
+	private IRootFolder $rootFolder;
+	private SystemConfig $config;
 
-	/** @var IRootFolder */
-	private $rootFolder;
-
-	/** @var SystemConfig */
-	private $config;
-
-	private $folders = [];
+	/** @var array<string, IAppData> */
+	private array $folders = [];
 
 	public function __construct(IRootFolder $rootFolder,
-								SystemConfig $systemConfig) {
+		SystemConfig $systemConfig) {
 		$this->rootFolder = $rootFolder;
 		$this->config = $systemConfig;
 	}
 
-	/**
-	 * @param string $appId
-	 * @return AppData
-	 */
-	public function get(string $appId): AppData {
+	public function get(string $appId): IAppData {
 		if (!isset($this->folders[$appId])) {
 			$this->folders[$appId] = new AppData($this->rootFolder, $this->config, $appId);
 		}

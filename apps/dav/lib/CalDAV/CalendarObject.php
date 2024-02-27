@@ -24,7 +24,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\CalDAV;
 
 use OCP\IL10N;
@@ -46,8 +45,8 @@ class CalendarObject extends \Sabre\CalDAV\CalendarObject {
 	 * @param array $objectData
 	 */
 	public function __construct(CalDavBackend $caldavBackend, IL10N $l10n,
-								array $calendarInfo,
-								array $objectData) {
+		array $calendarInfo,
+		array $objectData) {
 		parent::__construct($caldavBackend, $calendarInfo, $objectData);
 
 		if ($this->isShared()) {
@@ -80,6 +79,10 @@ class CalendarObject extends \Sabre\CalDAV\CalendarObject {
 		}
 
 		return $vObject->serialize();
+	}
+
+	public function getId(): int {
+		return (int) $this->objectData['id'];
 	}
 
 	protected function isShared() {
@@ -150,5 +153,20 @@ class CalendarObject extends \Sabre\CalDAV\CalendarObject {
 			return !$this->calendarInfo['{http://owncloud.org/ns}read-only'];
 		}
 		return true;
+	}
+
+	public function getCalendarId(): int {
+		return (int)$this->objectData['calendarid'];
+	}
+
+	public function getPrincipalUri(): string {
+		return $this->calendarInfo['principaluri'];
+	}
+
+	public function getOwner(): ?string {
+		if (isset($this->calendarInfo['{http://owncloud.org/ns}owner-principal'])) {
+			return $this->calendarInfo['{http://owncloud.org/ns}owner-principal'];
+		}
+		return parent::getOwner();
 	}
 }

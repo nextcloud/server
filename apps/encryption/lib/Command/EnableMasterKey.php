@@ -21,7 +21,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Encryption\Command;
 
 use OCA\Encryption\Util;
@@ -49,8 +48,8 @@ class EnableMasterKey extends Command {
 	 * @param QuestionHelper $questionHelper
 	 */
 	public function __construct(Util $util,
-								IConfig $config,
-								QuestionHelper $questionHelper) {
+		IConfig $config,
+		QuestionHelper $questionHelper) {
 		$this->util = $util;
 		$this->config = $config;
 		$this->questionHelper = $questionHelper;

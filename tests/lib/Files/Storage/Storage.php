@@ -94,12 +94,13 @@ abstract class Storage extends \Test\TestCase {
 		$dirEntry = $content[0];
 		unset($dirEntry['scan_permissions']);
 		unset($dirEntry['etag']);
+		$this->assertLessThanOrEqual(1, abs($dirEntry['mtime'] - $this->instance->filemtime($directory)));
+		unset($dirEntry['mtime']);
+		unset($dirEntry['storage_mtime']);
 		$this->assertEquals([
 			'name' => $directory,
 			'mimetype' => $this->instance->getMimeType($directory),
-			'mtime' => $this->instance->filemtime($directory),
 			'size' => -1,
-			'storage_mtime' => $this->instance->filemtime($directory),
 			'permissions' => $this->instance->getPermissions($directory),
 		], $dirEntry);
 
@@ -498,6 +499,9 @@ abstract class Storage extends \Test\TestCase {
 		$this->assertTrue($this->instance->file_exists('target/subfolder'));
 		$this->assertTrue($this->instance->file_exists('target/subfolder/test.txt'));
 
+		$contents = iterator_to_array($this->instance->getDirectoryContent(''));
+		$this->assertCount(1, $contents);
+
 		$this->assertEquals('foo', $this->instance->file_get_contents('target/test1.txt'));
 		$this->assertEquals('qwerty', $this->instance->file_get_contents('target/test2.txt'));
 		$this->assertEquals('bar', $this->instance->file_get_contents('target/subfolder/test.txt'));
@@ -658,6 +662,21 @@ abstract class Storage extends \Test\TestCase {
 
 		$storage->writeStream('test.txt', $source);
 		$this->assertTrue($storage->file_exists('test.txt'));
-		$this->assertEquals(file_get_contents($textFile), $storage->file_get_contents('test.txt'));
+		$this->assertStringEqualsFile($textFile, $storage->file_get_contents('test.txt'));
+		$this->assertEquals('resource (closed)', gettype($source));
+	}
+
+	public function testFseekSize() {
+		$textFile = \OC::$SERVERROOT . '/tests/data/lorem.txt';
+		$this->instance->file_put_contents('bar.txt', file_get_contents($textFile));
+
+		$size = $this->instance->filesize('bar.txt');
+		$this->assertEquals(filesize($textFile), $size);
+		$fh = $this->instance->fopen('bar.txt', 'r');
+
+		fseek($fh, 0, SEEK_END);
+		$pos = ftell($fh);
+
+		$this->assertEquals($size, $pos);
 	}
 }

@@ -34,7 +34,7 @@ class NonCachingDBLockingProviderTest extends DBLockingProviderTest {
 	 */
 	protected function getInstance() {
 		$this->connection = \OC::$server->getDatabaseConnection();
-		return new \OC\Lock\DBLockingProvider($this->connection, \OC::$server->getLogger(), $this->timeFactory, 3600, false);
+		return new \OC\Lock\DBLockingProvider($this->connection, $this->timeFactory, 3600, false);
 	}
 
 	public function testDoubleShared() {

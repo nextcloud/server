@@ -14,36 +14,30 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Core\Command\Group;
 
 use OC\Core\Command\Base;
+use OCP\IGroup;
 use OCP\IGroupManager;
+use OCP\IUser;
 use OCP\IUserManager;
+use Stecman\Component\Symfony\Console\BashCompletion\CompletionContext;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class AddUser extends Base {
-	/** @var IUserManager */
-	protected $userManager;
-	/** @var IGroupManager */
-	protected $groupManager;
-
-	/**
-	 * @param IUserManager $userManager
-	 * @param IGroupManager $groupManager
-	 */
-	public function __construct(IUserManager $userManager, IGroupManager $groupManager) {
-		$this->userManager = $userManager;
-		$this->groupManager = $groupManager;
+	public function __construct(
+		protected IUserManager $userManager,
+		protected IGroupManager $groupManager,
+	) {
 		parent::__construct();
 	}
 
@@ -75,5 +69,28 @@ class AddUser extends Base {
 		}
 		$group->addUser($user);
 		return 0;
+	}
+
+	/**
+	 * @param string $argumentName
+	 * @param CompletionContext $context
+	 * @return string[]
+	 */
+	public function completeArgumentValues($argumentName, CompletionContext $context) {
+		if ($argumentName === 'group') {
+			return array_map(static fn (IGroup $group) => $group->getGID(), $this->groupManager->search($context->getCurrentWord()));
+		}
+		if ($argumentName === 'user') {
+			$groupId = $context->getWordAtIndex($context->getWordIndex() - 1);
+			$group = $this->groupManager->get($groupId);
+			if ($group === null) {
+				return [];
+			}
+
+			$members = array_map(static fn (IUser $user) => $user->getUID(), $group->searchUsers($context->getCurrentWord()));
+			$users = array_map(static fn (IUser $user) => $user->getUID(), $this->userManager->search($context->getCurrentWord()));
+			return array_diff($users, $members);
+		}
+		return [];
 	}
 }

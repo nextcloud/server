@@ -26,7 +26,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_Sharing\ShareBackend;
 
 class Folder extends File implements \OCP\Share_Backend_Collection {

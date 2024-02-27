@@ -7,6 +7,7 @@
  * @author Clark Tomlinson <fallen013@gmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Phil Davis <phil.davis@inf.org>
+ * @author Robin Appelman <robin@icewind.nl>
  *
  * @license AGPL-3.0
  *
@@ -23,65 +24,29 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Encryption;
 
 use OC\Files\View;
 use OCA\Encryption\Crypto\Crypt;
 use OCP\IConfig;
-use OCP\ILogger;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\PreConditionNotMetException;
 
 class Util {
-	/**
-	 * @var View
-	 */
-	private $files;
-	/**
-	 * @var Crypt
-	 */
-	private $crypt;
-	/**
-	 * @var ILogger
-	 */
-	private $logger;
-	/**
-	 * @var bool|IUser
-	 */
-	private $user;
-	/**
-	 * @var IConfig
-	 */
-	private $config;
-	/**
-	 * @var IUserManager
-	 */
-	private $userManager;
+	private IUser|false $user;
 
-	/**
-	 * Util constructor.
-	 *
-	 * @param View $files
-	 * @param Crypt $crypt
-	 * @param ILogger $logger
-	 * @param IUserSession $userSession
-	 * @param IConfig $config
-	 * @param IUserManager $userManager
-	 */
-	public function __construct(View $files,
-								Crypt $crypt,
-								ILogger $logger,
-								IUserSession $userSession,
-								IConfig $config,
-								IUserManager $userManager
+	public function __construct(
+		private View $files,
+		private Crypt $crypt,
+		IUserSession $userSession,
+		private IConfig $config,
+		private IUserManager $userManager,
 	) {
 		$this->files = $files;
 		$this->crypt = $crypt;
-		$this->logger = $logger;
-		$this->user = $userSession && $userSession->isLoggedIn() ? $userSession->getUser() : false;
+		$this->user = $userSession->isLoggedIn() ? $userSession->getUser() : false;
 		$this->config = $config;
 		$this->userManager = $userManager;
 	}
@@ -132,10 +97,8 @@ class Util {
 
 	/**
 	 * check if master key is enabled
-	 *
-	 * @return bool
 	 */
-	public function isMasterKeyEnabled() {
+	public function isMasterKeyEnabled(): bool {
 		$userMasterKey = $this->config->getAppValue('encryption', 'useMasterKey', '1');
 		return ($userMasterKey === '1');
 	}
@@ -191,7 +154,7 @@ class Util {
 	 * get storage of path
 	 *
 	 * @param string $path
-	 * @return \OC\Files\Storage\Storage
+	 * @return \OC\Files\Storage\Storage|null
 	 */
 	public function getStorage($path) {
 		return $this->files->getMount($path)->getStorage();

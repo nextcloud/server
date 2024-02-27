@@ -13,14 +13,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Files_External\Lib\Auth\PublicKey;
 
 use OCA\Files_External\Lib\Auth\AuthMechanism;
@@ -47,7 +46,7 @@ class RSAPrivateKey extends AuthMechanism {
 			->setScheme(self::SCHEME_PUBLICKEY)
 			->setText($l->t('RSA private key'))
 			->addParameters([
-				new DefinitionParameter('user', $l->t('Username')),
+				new DefinitionParameter('user', $l->t('Login')),
 				(new DefinitionParameter('password', $l->t('Password')))
 					->setFlag(DefinitionParameter::FLAG_OPTIONAL)
 					->setType(DefinitionParameter::VALUE_PASSWORD),
@@ -59,7 +58,11 @@ class RSAPrivateKey extends AuthMechanism {
 		$auth = new RSACrypt();
 		$auth->setPassword($this->config->getSystemValue('secret', ''));
 		if (!$auth->loadKey($storage->getBackendOption('private_key'))) {
-			throw new \RuntimeException('unable to load private key');
+			// Add fallback routine for a time where secret was not enforced to be exists
+			$auth->setPassword('');
+			if (!$auth->loadKey($storage->getBackendOption('private_key'))) {
+				throw new \RuntimeException('unable to load private key');
+			}
 		}
 		$storage->setBackendOption('public_key_auth', $auth);
 	}

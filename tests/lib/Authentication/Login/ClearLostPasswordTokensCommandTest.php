@@ -25,13 +25,11 @@ declare(strict_types=1);
 
 namespace Test\Authentication\Login;
 
-use lib\Authentication\Login\ALoginCommandTest;
 use OC\Authentication\Login\ClearLostPasswordTokensCommand;
 use OCP\IConfig;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class ClearLostPasswordTokensCommandTest extends ALoginCommandTest {
-
 	/** @var IConfig|MockObject */
 	private $config;
 

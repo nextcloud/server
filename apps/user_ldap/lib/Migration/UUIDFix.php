@@ -14,27 +14,23 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\User_LDAP\Migration;
 
-use OC\BackgroundJob\QueuedJob;
 use OCA\User_LDAP\Mapping\AbstractMapping;
 use OCA\User_LDAP\Proxy;
 use OCA\User_LDAP\User_Proxy;
+use OCP\BackgroundJob\QueuedJob;
 
 abstract class UUIDFix extends QueuedJob {
-	/** @var  AbstractMapping */
-	protected $mapper;
-
-	/** @var  Proxy */
-	protected $proxy;
+	protected AbstractMapping $mapper;
+	protected Proxy $proxy;
 
 	public function run($argument) {
 		$isUser = $this->proxy instanceof User_Proxy;

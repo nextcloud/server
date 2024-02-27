@@ -22,7 +22,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\Tests\unit\Connector\Sabre\RequestTest;
 
 use Sabre\DAV\Auth\Backend\BackendInterface;
@@ -114,7 +113,7 @@ class Auth implements BackendInterface {
 	 * @param ResponseInterface $response
 	 * @return void
 	 */
-	public function challenge(RequestInterface $request, ResponseInterface $response) {
+	public function challenge(RequestInterface $request, ResponseInterface $response): void {
 		// TODO: Implement challenge() method.
 	}
 }

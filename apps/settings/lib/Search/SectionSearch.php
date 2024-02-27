@@ -6,7 +6,7 @@ declare(strict_types=1);
  * @copyright Copyright (c) 2020 Joas Schilling <coding@schilljs.com>
  *
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  *
  * @license GNU AGPL version 3 or any later version
@@ -18,14 +18,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Settings\Search;
 
 use OCP\IGroupManager;
@@ -54,9 +53,9 @@ class SectionSearch implements IProvider {
 	protected $l;
 
 	public function __construct(IManager $settingsManager,
-								IGroupManager $groupManager,
-								IURLGenerator $urlGenerator,
-								IL10N $l) {
+		IGroupManager $groupManager,
+		IURLGenerator $urlGenerator,
+		IL10N $l) {
 		$this->settingsManager = $settingsManager;
 		$this->groupManager = $groupManager;
 		$this->urlGenerator = $urlGenerator;
@@ -144,7 +143,7 @@ class SectionSearch implements IProvider {
 					$section->getName(),
 					$subline,
 					$this->urlGenerator->linkToRouteAbsolute($routeName, ['section' => $section->getID()]),
-					'icon-settings'
+					'icon-settings-dark'
 				);
 			}
 		}

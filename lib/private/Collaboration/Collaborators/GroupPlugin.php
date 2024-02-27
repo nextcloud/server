@@ -18,14 +18,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Collaboration\Collaborators;
 
 use OCP\Collaboration\Collaborators\ISearchPlugin;
@@ -38,27 +37,35 @@ use OCP\IUserSession;
 use OCP\Share\IShare;
 
 class GroupPlugin implements ISearchPlugin {
-	protected $shareeEnumeration;
-	protected $shareWithGroupOnly;
+	protected bool $shareeEnumeration;
 
-	/** @var IGroupManager */
-	private $groupManager;
-	/** @var IConfig */
-	private $config;
-	/** @var IUserSession */
-	private $userSession;
+	protected bool $shareWithGroupOnly;
 
-	public function __construct(IConfig $config, IGroupManager $groupManager, IUserSession $userSession) {
-		$this->groupManager = $groupManager;
-		$this->config = $config;
-		$this->userSession = $userSession;
+	protected bool $shareeEnumerationInGroupOnly;
 
+	protected bool $groupSharingDisabled;
+
+	public function __construct(
+		private IConfig $config,
+		private IGroupManager $groupManager,
+		private IUserSession $userSession,
+		private mixed $shareWithGroupOnlyExcludeGroupsList = [],
+	) {
 		$this->shareeEnumeration = $this->config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') === 'yes';
 		$this->shareWithGroupOnly = $this->config->getAppValue('core', 'shareapi_only_share_with_group_members', 'no') === 'yes';
 		$this->shareeEnumerationInGroupOnly = $this->shareeEnumeration && $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_group', 'no') === 'yes';
+		$this->groupSharingDisabled = $this->config->getAppValue('core', 'shareapi_allow_group_sharing', 'yes') === 'no';
+
+		if ($this->shareWithGroupOnly) {
+			$this->shareWithGroupOnlyExcludeGroupsList = json_decode($this->config->getAppValue('core', 'shareapi_only_share_with_group_members_exclude_group_list', ''), true) ?? [];
+		}
 	}
 
-	public function search($search, $limit, $offset, ISearchResult $searchResult) {
+	public function search($search, $limit, $offset, ISearchResult $searchResult): bool {
+		if ($this->groupSharingDisabled) {
+			return false;
+		}
+
 		$hasMoreResults = false;
 		$result = ['wide' => [], 'exact' => []];
 
@@ -79,6 +86,9 @@ class GroupPlugin implements ISearchPlugin {
 				return $group->getGID();
 			}, $userGroups);
 			$groupIds = array_intersect($groupIds, $userGroups);
+
+			// ShareWithGroupOnly filtering
+			$groupIds = array_diff($groupIds, $this->shareWithGroupOnlyExcludeGroupsList);
 		}
 
 		$lowerSearch = strtolower($search);
@@ -118,7 +128,7 @@ class GroupPlugin implements ISearchPlugin {
 			// On page one we try if the search result has a direct hit on the
 			// user id and if so, we add that to the exact match list
 			$group = $this->groupManager->get($search);
-			if ($group instanceof IGroup && (!$this->shareWithGroupOnly || in_array($group->getGID(), $userGroups))) {
+			if ($group instanceof IGroup && !$group->hideFromCollaboration() && (!$this->shareWithGroupOnly || in_array($group->getGID(), $userGroups))) {
 				$result['exact'][] = [
 					'label' => $group->getDisplayName(),
 					'value' => [

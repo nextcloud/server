@@ -5,7 +5,7 @@
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
@@ -27,22 +27,25 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP\Share;
 
 use OCP\Files\Folder;
 use OCP\Files\Node;
 
+use OCP\IUser;
 use OCP\Share\Exceptions\GenericShareException;
 use OCP\Share\Exceptions\ShareNotFound;
 
 /**
- * Interface IManager
+ * This interface allows to manage sharing files between users and groups.
+ *
+ * This interface must not be implemented in your application but
+ * instead should be used as a service and injected in your code with
+ * dependency injection.
  *
  * @since 9.0.0
  */
 interface IManager {
-
 	/**
 	 * Create a Share
 	 *
@@ -131,10 +134,11 @@ interface IManager {
 	 * @param string $userId
 	 * @param Folder $node
 	 * @param bool $reshares
+	 * @param bool $shallow Whether the method should stop at the first level, or look into sub-folders.
 	 * @return IShare[][] [$fileId => IShare[], ...]
 	 * @since 11.0.0
 	 */
-	public function getSharesInFolder($userId, Folder $node, $reshares = false);
+	public function getSharesInFolder($userId, Folder $node, $reshares = false, $shallow = true);
 
 	/**
 	 * Get shares shared by (initiated) by the provided user.
@@ -206,7 +210,7 @@ interface IManager {
 	 * Verify the password of a public share
 	 *
 	 * @param IShare $share
-	 * @param string $password
+	 * @param ?string $password
 	 * @return bool
 	 * @since 9.0.0
 	 */
@@ -317,10 +321,12 @@ interface IManager {
 	/**
 	 * Is password on public link requires
 	 *
+	 * @param bool $checkGroupMembership Check group membership exclusion
 	 * @return bool
 	 * @since 9.0.0
+	 * @since 24.0.0 Added optional $checkGroupMembership parameter
 	 */
-	public function shareApiLinkEnforcePassword();
+	public function shareApiLinkEnforcePassword(bool $checkGroupMembership = true);
 
 	/**
 	 * Is default expire date enabled
@@ -347,6 +353,54 @@ interface IManager {
 	public function shareApiLinkDefaultExpireDays();
 
 	/**
+	 * Is default internal expire date enabled
+	 *
+	 * @return bool
+	 * @since 22.0.0
+	 */
+	public function shareApiInternalDefaultExpireDate(): bool;
+
+	/**
+	 * Is default remote expire date enabled
+	 *
+	 * @return bool
+	 * @since 22.0.0
+	 */
+	public function shareApiRemoteDefaultExpireDate(): bool;
+
+	/**
+	 * Is default expire date enforced
+	 *
+	 * @return bool
+	 * @since 22.0.0
+	 */
+	public function shareApiInternalDefaultExpireDateEnforced(): bool;
+
+	/**
+	 * Is default expire date enforced for remote shares
+	 *
+	 * @return bool
+	 * @since 22.0.0
+	 */
+	public function shareApiRemoteDefaultExpireDateEnforced(): bool;
+
+	/**
+	 * Number of default expire days
+	 *
+	 * @return int
+	 * @since 22.0.0
+	 */
+	public function shareApiInternalDefaultExpireDays(): int;
+
+	/**
+	 * Number of default expire days for remote shares
+	 *
+	 * @return int
+	 * @since 22.0.0
+	 */
+	public function shareApiRemoteDefaultExpireDays(): int;
+
+	/**
 	 * Allow public upload on link shares
 	 *
 	 * @return bool
@@ -360,6 +414,15 @@ interface IManager {
 	 * @since 9.0.0
 	 */
 	public function shareWithGroupMembersOnly();
+
+	/**
+	 * If shareWithGroupMembersOnly is enabled, return an optional
+	 * list of groups that must be excluded from the principle of
+	 * belonging to the same group.
+	 * @return array
+	 * @since 27.0.0
+	 */
+	public function shareWithGroupMembersOnlyExcludeGroupsList();
 
 	/**
 	 * Check if users can share with groups
@@ -383,6 +446,48 @@ interface IManager {
 	 * @since 19.0.0
 	 */
 	public function limitEnumerationToGroups(): bool;
+
+	/**
+	 * Check if user enumeration is limited to the phonebook matches
+	 *
+	 * @return bool
+	 * @since 21.0.1
+	 */
+	public function limitEnumerationToPhone(): bool;
+
+	/**
+	 * Check if user enumeration is allowed to return on full match
+	 *
+	 * @return bool
+	 * @since 21.0.1
+	 */
+	public function allowEnumerationFullMatch(): bool;
+
+	/**
+	 * Check if the search should match the email
+	 *
+	 * @return bool
+	 * @since 25.0.0
+	 */
+	public function matchEmail(): bool;
+
+	/**
+	 * Check if the search should ignore the second in parentheses display name if there is any
+	 *
+	 * @return bool
+	 * @since 25.0.0
+	 */
+	public function ignoreSecondDisplayName(): bool;
+
+	/**
+	 * Check if the current user can enumerate the target user
+	 *
+	 * @param IUser|null $currentUser
+	 * @param IUser $targetUser
+	 * @return bool
+	 * @since 23.0.0
+	 */
+	public function currentUserCanEnumerateTargetUser(?IUser $currentUser, IUser $targetUser): bool;
 
 	/**
 	 * Check if sharing is disabled for the given user

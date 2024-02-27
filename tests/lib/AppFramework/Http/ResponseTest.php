@@ -28,7 +28,6 @@ use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Utility\ITimeFactory;
 
 class ResponseTest extends \Test\TestCase {
-
 	/**
 	 * @var \OCP\AppFramework\Http\Response
 	 */
@@ -52,13 +51,16 @@ class ResponseTest extends \Test\TestCase {
 			'Last-Modified' => 1,
 			'ETag' => 3,
 			'Something-Else' => 'hi',
-			'X-Robots-Tag' => 'none',
+			'X-Robots-Tag' => 'noindex, nofollow',
+			'Cache-Control' => 'no-cache, no-store, must-revalidate',
 		];
 
 		$this->childResponse->setHeaders($expected);
-		$headers = $this->childResponse->getHeaders();
 		$expected['Content-Security-Policy'] = "default-src 'none';base-uri 'none';manifest-src 'self';frame-ancestors 'none'";
 		$expected['Feature-Policy'] = "autoplay 'none';camera 'none';fullscreen 'none';geolocation 'none';microphone 'none';payment 'none'";
+
+		$headers = $this->childResponse->getHeaders();
+		unset($headers['X-Request-Id']);
 
 		$this->assertEquals($expected, $headers);
 	}
@@ -68,7 +70,6 @@ class ResponseTest extends \Test\TestCase {
 			'Content-Security-Policy' => "default-src 'none';base-uri 'none';manifest-src 'self';script-src 'self' 'unsafe-inline';style-src 'self' 'unsafe-inline';img-src 'self';font-src 'self' data:;connect-src 'self';media-src 'self'",
 		];
 		$policy = new Http\ContentSecurityPolicy();
-		$policy->allowInlineScript(true);
 
 		$this->childResponse->setContentSecurityPolicy($policy);
 		$headers = $this->childResponse->getHeaders();
@@ -78,7 +79,6 @@ class ResponseTest extends \Test\TestCase {
 
 	public function testGetCsp() {
 		$policy = new Http\ContentSecurityPolicy();
-		$policy->allowInlineScript(true);
 
 		$this->childResponse->setContentSecurityPolicy($policy);
 		$this->assertEquals($policy, $this->childResponse->getContentSecurityPolicy());
@@ -91,7 +91,7 @@ class ResponseTest extends \Test\TestCase {
 	public function testAddHeaderValueNullDeletesIt() {
 		$this->childResponse->addHeader('hello', 'world');
 		$this->childResponse->addHeader('hello', null);
-		$this->assertEquals(4, count($this->childResponse->getHeaders()));
+		$this->assertEquals(5, count($this->childResponse->getHeaders()));
 	}
 
 
@@ -216,7 +216,7 @@ class ResponseTest extends \Test\TestCase {
 
 
 	public function testGetLastModified() {
-		$lastModified = new \DateTime(null, new \DateTimeZone('GMT'));
+		$lastModified = new \DateTime('now', new \DateTimeZone('GMT'));
 		$lastModified->setTimestamp(1);
 		$this->childResponse->setLastModified($lastModified);
 		$this->assertEquals($lastModified, $this->childResponse->getLastModified());
@@ -229,7 +229,6 @@ class ResponseTest extends \Test\TestCase {
 
 		$headers = $this->childResponse->getHeaders();
 		$this->assertEquals('no-cache, no-store, must-revalidate', $headers['Cache-Control']);
-		$this->assertFalse(isset($headers['Pragma']));
 		$this->assertFalse(isset($headers['Expires']));
 	}
 
@@ -245,14 +244,13 @@ class ResponseTest extends \Test\TestCase {
 
 		$headers = $this->childResponse->getHeaders();
 		$this->assertEquals('private, max-age=33, must-revalidate', $headers['Cache-Control']);
-		$this->assertEquals('private', $headers['Pragma']);
 		$this->assertEquals('Thu, 15 Jan 1970 06:56:40 +0000', $headers['Expires']);
 	}
 
 
 
 	public function testEtagLastModifiedHeaders() {
-		$lastModified = new \DateTime(null, new \DateTimeZone('GMT'));
+		$lastModified = new \DateTime('now', new \DateTimeZone('GMT'));
 		$lastModified->setTimestamp(1);
 		$this->childResponse->setLastModified($lastModified);
 		$headers = $this->childResponse->getHeaders();
@@ -260,7 +258,7 @@ class ResponseTest extends \Test\TestCase {
 	}
 
 	public function testChainability() {
-		$lastModified = new \DateTime(null, new \DateTimeZone('GMT'));
+		$lastModified = new \DateTime('now', new \DateTimeZone('GMT'));
 		$lastModified->setTimestamp(1);
 
 		$this->childResponse->setEtag('hi')

@@ -23,6 +23,7 @@
 namespace Test\Support\Subscription;
 
 use OC\Support\Subscription\Registry;
+use OC\User\Database;
 use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IGroupManager;
@@ -31,12 +32,13 @@ use OCP\IUserManager;
 use OCP\Notification\IManager;
 use OCP\Support\Subscription\ISubscription;
 use OCP\Support\Subscription\ISupportedApps;
+use OCP\User\Backend\ICountUsersBackend;
+use OCP\UserInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class RegistryTest extends TestCase {
-
 	/** @var Registry */
 	private $registry;
 
@@ -72,8 +74,7 @@ class RegistryTest extends TestCase {
 			$this->serverContainer,
 			$this->userManager,
 			$this->groupManager,
-			$this->logger,
-			$this->notificationManager
+			$this->logger
 		);
 	}
 
@@ -174,7 +175,7 @@ class RegistryTest extends TestCase {
 			->method('get')
 			->willReturn($dummyGroup);
 
-		$this->assertSame(true, $this->registry->delegateIsHardUserLimitReached());
+		$this->assertSame(true, $this->registry->delegateIsHardUserLimitReached($this->notificationManager));
 	}
 
 	public function testDelegateIsHardUserLimitReachedWithoutSupportApp() {
@@ -183,7 +184,7 @@ class RegistryTest extends TestCase {
 			->with('one-click-instance')
 			->willReturn(false);
 
-		$this->assertSame(false, $this->registry->delegateIsHardUserLimitReached());
+		$this->assertSame(false, $this->registry->delegateIsHardUserLimitReached($this->notificationManager));
 	}
 
 	public function dataForUserLimitCheck() {
@@ -205,15 +206,15 @@ class RegistryTest extends TestCase {
 			->with('one-click-instance')
 			->willReturn(true);
 		$this->config->expects($this->once())
-			->method('getSystemValue')
+			->method('getSystemValueInt')
 			->with('one-click-instance.user-limit')
 			->willReturn($userLimit);
 		$this->config->expects($this->once())
 			->method('getUsersForUserValue')
 			->with('core', 'enabled', 'false')
 			->willReturn(array_fill(0, $disabledUsers, ''));
-		/* @var UserInterface|\PHPUnit\Framework\MockObject\MockObject $dummyBackend */
-		$dummyBackend = $this->createMock(UserInterface::class);
+		/* @var UserInterface|ICountUsersBackend|\PHPUnit\Framework\MockObject\MockObject $dummyBackend */
+		$dummyBackend = $this->createMock(Database::class);
 		$dummyBackend->expects($this->once())
 			->method('implementsActions')
 			->willReturn(true);
@@ -234,6 +235,6 @@ class RegistryTest extends TestCase {
 				->willReturn($dummyGroup);
 		}
 
-		$this->assertSame($expectedResult, $this->registry->delegateIsHardUserLimitReached());
+		$this->assertSame($expectedResult, $this->registry->delegateIsHardUserLimitReached($this->notificationManager));
 	}
 }

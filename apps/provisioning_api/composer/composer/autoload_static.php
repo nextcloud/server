@@ -23,14 +23,19 @@ class ComposerStaticInitProvisioning_API
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'OCA\\Provisioning_API\\AppInfo\\Application' => __DIR__ . '/..' . '/../lib/AppInfo/Application.php',
+        'OCA\\Provisioning_API\\Capabilities' => __DIR__ . '/..' . '/../lib/Capabilities.php',
         'OCA\\Provisioning_API\\Controller\\AUserData' => __DIR__ . '/..' . '/../lib/Controller/AUserData.php',
         'OCA\\Provisioning_API\\Controller\\AppConfigController' => __DIR__ . '/..' . '/../lib/Controller/AppConfigController.php',
         'OCA\\Provisioning_API\\Controller\\AppsController' => __DIR__ . '/..' . '/../lib/Controller/AppsController.php',
         'OCA\\Provisioning_API\\Controller\\GroupsController' => __DIR__ . '/..' . '/../lib/Controller/GroupsController.php',
+        'OCA\\Provisioning_API\\Controller\\PreferencesController' => __DIR__ . '/..' . '/../lib/Controller/PreferencesController.php',
         'OCA\\Provisioning_API\\Controller\\UsersController' => __DIR__ . '/..' . '/../lib/Controller/UsersController.php',
+        'OCA\\Provisioning_API\\Controller\\VerificationController' => __DIR__ . '/..' . '/../lib/Controller/VerificationController.php',
         'OCA\\Provisioning_API\\FederatedShareProviderFactory' => __DIR__ . '/..' . '/../lib/FederatedShareProviderFactory.php',
+        'OCA\\Provisioning_API\\Listener\\UserDeletedListener' => __DIR__ . '/..' . '/../lib/Listener/UserDeletedListener.php',
         'OCA\\Provisioning_API\\Middleware\\Exceptions\\NotSubAdminException' => __DIR__ . '/..' . '/../lib/Middleware/Exceptions/NotSubAdminException.php',
         'OCA\\Provisioning_API\\Middleware\\ProvisioningApiMiddleware' => __DIR__ . '/..' . '/../lib/Middleware/ProvisioningApiMiddleware.php',
+        'OCA\\Provisioning_API\\ResponseDefinitions' => __DIR__ . '/..' . '/../lib/ResponseDefinitions.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

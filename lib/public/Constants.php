@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -25,9 +28,7 @@
  *
  */
 
-/**
- * This file defines common constants used in ownCloud
- */
+// This file defines common constants used in ownCloud
 
 namespace OCP;
 
@@ -42,10 +43,30 @@ class Constants {
 	 * @since 8.0.0
 	 */
 	public const PERMISSION_CREATE = 4;
+
+	/**
+	 * @since 8.0.0
+	 */
 	public const PERMISSION_READ = 1;
+
+	/**
+	 * @since 8.0.0
+	 */
 	public const PERMISSION_UPDATE = 2;
+
+	/**
+	 * @since 8.0.0
+	 */
 	public const PERMISSION_DELETE = 8;
+
+	/**
+	 * @since 8.0.0
+	 */
 	public const PERMISSION_SHARE = 16;
+
+	/**
+	 * @since 8.0.0
+	 */
 	public const PERMISSION_ALL = 31;
 
 	/**

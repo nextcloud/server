@@ -18,14 +18,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCP\AppFramework\Services;
 
 use Closure;
@@ -34,7 +33,6 @@ use Closure;
  * @since 20.0.0
  */
 interface IInitialState {
-
 	/**
 	 * Allows an app to provide its initial state to the template system.
 	 * Use this if you know your initial state sill be used for example if
@@ -58,7 +56,7 @@ interface IInitialState {
 	 *
 	 * @param string $key
 	 * @param Closure $closure returns a primitive or an object that implements JsonSerializable
-	 * @psalm-param Closure():int|Closure():float|Closure():string|Closure():\JsonSerializable $closure
+	 * @psalm-param Closure():bool|Closure():int|Closure():float|Closure():string|Closure():\JsonSerializable $closure
 	 */
 	public function provideLazyInitialState(string $key, Closure $closure): void;
 }

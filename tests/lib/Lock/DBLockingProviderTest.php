@@ -65,7 +65,7 @@ class DBLockingProviderTest extends LockingProvider {
 	 */
 	protected function getInstance() {
 		$this->connection = \OC::$server->getDatabaseConnection();
-		return new \OC\Lock\DBLockingProvider($this->connection, \OC::$server->getLogger(), $this->timeFactory, 3600);
+		return new \OC\Lock\DBLockingProvider($this->connection, $this->timeFactory, 3600);
 	}
 
 	protected function tearDown(): void {

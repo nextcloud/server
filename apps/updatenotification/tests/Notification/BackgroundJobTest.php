@@ -25,36 +25,37 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\UpdateNotification\Tests\Notification;
 
 use OC\Installer;
 use OC\Updater\VersionCheck;
 use OCA\UpdateNotification\Notification\BackgroundJob;
 use OCP\App\IAppManager;
-use OCP\Http\Client\IClientService;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\Notification\IManager;
 use OCP\Notification\INotification;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class BackgroundJobTest extends TestCase {
-
-	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IConfig|MockObject */
 	protected $config;
-	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IManager|MockObject */
 	protected $notificationManager;
-	/** @var IGroupManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IGroupManager|MockObject */
 	protected $groupManager;
-	/** @var IAppManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IAppManager|MockObject */
 	protected $appManager;
-	/** @var IClientService|\PHPUnit\Framework\MockObject\MockObject */
-	protected $client;
-	/** @var Installer|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var ITimeFactory|MockObject */
+	protected $timeFactory;
+	/** @var Installer|MockObject */
 	protected $installer;
+	/** @var VersionCheck|MockObject */
+	protected $versionCheck;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -63,34 +64,37 @@ class BackgroundJobTest extends TestCase {
 		$this->notificationManager = $this->createMock(IManager::class);
 		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->appManager = $this->createMock(IAppManager::class);
-		$this->client = $this->createMock(IClientService::class);
+		$this->timeFactory = $this->createMock(ITimeFactory::class);
 		$this->installer = $this->createMock(Installer::class);
+		$this->versionCheck = $this->createMock(VersionCheck::class);
 	}
 
 	/**
 	 * @param array $methods
-	 * @return BackgroundJob|\PHPUnit\Framework\MockObject\MockObject
+	 * @return BackgroundJob|MockObject
 	 */
 	protected function getJob(array $methods = []) {
 		if (empty($methods)) {
 			return new BackgroundJob(
+				$this->timeFactory,
 				$this->config,
 				$this->notificationManager,
 				$this->groupManager,
 				$this->appManager,
-				$this->client,
-				$this->installer
+				$this->installer,
+				$this->versionCheck,
 			);
 		}
 		{
 			return $this->getMockBuilder(BackgroundJob::class)
 				->setConstructorArgs([
+					$this->timeFactory,
 					$this->config,
 					$this->notificationManager,
 					$this->groupManager,
 					$this->appManager,
-					$this->client,
 					$this->installer,
+					$this->versionCheck,
 				])
 				->setMethods($methods)
 				->getMock();
@@ -107,6 +111,35 @@ class BackgroundJobTest extends TestCase {
 			->method('checkCoreUpdate');
 		$job->expects($this->once())
 			->method('checkAppUpdates');
+
+		$this->config->expects($this->exactly(2))
+			->method('getSystemValueBool')
+			->withConsecutive(
+				['has_internet_connection', true],
+				['debug', false],
+			)
+			->willReturnOnConsecutiveCalls(
+				true,
+				true,
+			);
+
+		self::invokePrivate($job, 'run', [null]);
+	}
+
+	public function testRunNoInternet() {
+		$job = $this->getJob([
+			'checkCoreUpdate',
+			'checkAppUpdates',
+		]);
+
+		$job->expects($this->never())
+			->method('checkCoreUpdate');
+		$job->expects($this->never())
+			->method('checkAppUpdates');
+
+		$this->config->method('getSystemValueBool')
+			->with('has_internet_connection', true)
+			->willReturn(false);
 
 		self::invokePrivate($job, 'run', [null]);
 	}
@@ -151,7 +184,6 @@ class BackgroundJobTest extends TestCase {
 	public function testCheckCoreUpdate(string $channel, $versionCheck, $version, $readableVersion, $errorDays) {
 		$job = $this->getJob([
 			'getChannel',
-			'createVersionCheck',
 			'createNotifications',
 			'clearErrorNotifications',
 			'sendErrorNotifications',
@@ -162,17 +194,12 @@ class BackgroundJobTest extends TestCase {
 			->willReturn($channel);
 
 		if ($versionCheck === null) {
-			$job->expects($this->never())
-				->method('createVersionCheck');
+			$this->versionCheck->expects($this->never())
+				->method('check');
 		} else {
-			$check = $this->createMock(VersionCheck::class);
-			$check->expects($this->once())
+			$this->versionCheck->expects($this->once())
 				->method('check')
 				->willReturn($versionCheck);
-
-			$job->expects($this->once())
-				->method('createVersionCheck')
-				->willReturn($check);
 		}
 
 		if ($version === null) {
@@ -331,8 +358,7 @@ class BackgroundJobTest extends TestCase {
 				\call_user_func_array([$mockedMethod, 'withConsecutive'], $userNotifications);
 
 				$this->notificationManager->expects($this->exactly(\count($userNotifications)))
-					->method('notify')
-					->willReturn($notification);
+					->method('notify');
 			}
 
 			$this->notificationManager->expects($this->once())
@@ -427,7 +453,7 @@ class BackgroundJobTest extends TestCase {
 
 	/**
 	 * @param string[] $userIds
-	 * @return IUser[]|\PHPUnit\Framework\MockObject\MockObject[]
+	 * @return IUser[]|MockObject[]
 	 */
 	protected function getUsers(array $userIds): array {
 		$users = [];
@@ -443,7 +469,7 @@ class BackgroundJobTest extends TestCase {
 
 	/**
 	 * @param string $gid
-	 * @return \OCP\IGroup|\PHPUnit\Framework\MockObject\MockObject
+	 * @return \OCP\IGroup|MockObject
 	 */
 	protected function getGroup(string $gid) {
 		$group = $this->createMock(IGroup::class);

@@ -24,7 +24,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Repair;
 
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -39,7 +38,6 @@ use OCP\Migration\IRepairStep;
  * @package OC\Repair
  */
 class CleanTags implements IRepairStep {
-
 	/** @var IDBConnection */
 	protected $connection;
 

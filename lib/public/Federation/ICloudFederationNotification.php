@@ -13,14 +13,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCP\Federation;
 
 /**
@@ -30,14 +29,13 @@ namespace OCP\Federation;
  * @since 14.0.0
  */
 interface ICloudFederationNotification {
-
 	/**
 	 * add a message to the notification
 	 *
 	 * @param string $notificationType (e.g. SHARE_ACCEPTED)
 	 * @param string $resourceType (e.g. file, calendar, contact,...)
-	 * @param $providerId id of the share
-	 * @param array $notification , payload of the notification
+	 * @param string $providerId id of the share
+	 * @param array $notification payload of the notification
 	 *
 	 * @since 14.0.0
 	 */

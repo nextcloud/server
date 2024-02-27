@@ -8,14 +8,15 @@
 
 namespace Test\Files\Node;
 
-use OC\Cache\CappedMemoryCache;
 use OC\Files\FileInfo;
 use OC\Files\Mount\Manager;
 use OC\Files\Node\Folder;
 use OC\Files\View;
-use OCP\ILogger;
+use OCP\Cache\CappedMemoryCache;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IUser;
 use OCP\IUserManager;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class RootTest
@@ -29,10 +30,12 @@ class RootTest extends \Test\TestCase {
 	private $manager;
 	/** @var \OCP\Files\Config\IUserMountCache|\PHPUnit\Framework\MockObject\MockObject */
 	private $userMountCache;
-	/** @var ILogger|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
 	private $logger;
 	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $userManager;
+	/** @var IEventDispatcher|\PHPUnit\Framework\MockObject\MockObject */
+	private $eventDispatcher;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -44,8 +47,20 @@ class RootTest extends \Test\TestCase {
 		$this->userMountCache = $this->getMockBuilder('\OCP\Files\Config\IUserMountCache')
 			->disableOriginalConstructor()
 			->getMock();
-		$this->logger = $this->createMock(ILogger::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->userManager = $this->createMock(IUserManager::class);
+		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
+	}
+
+	/**
+	 * @return \OC\Files\View | \PHPUnit\Framework\MockObject\MockObject $view
+	 */
+	protected function getRootViewMock() {
+		$view = $this->createMock(View::class);
+		$view->expects($this->any())
+			->method('getRoot')
+			->willReturn('');
+		return $view;
 	}
 
 	protected function getFileInfo($data) {
@@ -59,19 +74,15 @@ class RootTest extends \Test\TestCase {
 		$storage = $this->getMockBuilder('\OC\Files\Storage\Storage')
 			->disableOriginalConstructor()
 			->getMock();
-		/**
-		 * @var \OC\Files\View | \PHPUnit\Framework\MockObject\MockObject $view
-		 */
-		$view = $this->getMockBuilder(View::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$view = $this->getRootViewMock();
 		$root = new \OC\Files\Node\Root(
 			$this->manager,
 			$view,
 			$this->user,
 			$this->userMountCache,
 			$this->logger,
-			$this->userManager
+			$this->userManager,
+			$this->eventDispatcher
 		);
 
 		$view->expects($this->once())
@@ -95,19 +106,15 @@ class RootTest extends \Test\TestCase {
 		$storage = $this->getMockBuilder('\OC\Files\Storage\Storage')
 			->disableOriginalConstructor()
 			->getMock();
-		/**
-		 * @var \OC\Files\View | \PHPUnit\Framework\MockObject\MockObject $view
-		 */
-		$view = $this->getMockBuilder(View::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$view = $this->getRootViewMock();
 		$root = new \OC\Files\Node\Root(
 			$this->manager,
 			$view,
 			$this->user,
 			$this->userMountCache,
 			$this->logger,
-			$this->userManager
+			$this->userManager,
+			$this->eventDispatcher
 		);
 
 		$view->expects($this->once())
@@ -123,19 +130,15 @@ class RootTest extends \Test\TestCase {
 	public function testGetInvalidPath() {
 		$this->expectException(\OCP\Files\NotPermittedException::class);
 
-		/**
-		 * @var \OC\Files\View | \PHPUnit\Framework\MockObject\MockObject $view
-		 */
-		$view = $this->getMockBuilder(View::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$view = $this->getRootViewMock();
 		$root = new \OC\Files\Node\Root(
 			$this->manager,
 			$view,
 			$this->user,
 			$this->userMountCache,
 			$this->logger,
-			$this->userManager
+			$this->userManager,
+			$this->eventDispatcher
 		);
 
 		$root->get('/../foo');
@@ -145,19 +148,15 @@ class RootTest extends \Test\TestCase {
 	public function testGetNoStorages() {
 		$this->expectException(\OCP\Files\NotFoundException::class);
 
-		/**
-		 * @var \OC\Files\View | \PHPUnit\Framework\MockObject\MockObject $view
-		 */
-		$view = $this->getMockBuilder(View::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$view = $this->getRootViewMock();
 		$root = new \OC\Files\Node\Root(
 			$this->manager,
 			$view,
 			$this->user,
 			$this->userMountCache,
 			$this->logger,
-			$this->userManager
+			$this->userManager,
+			$this->eventDispatcher
 		);
 
 		$root->get('/bar/foo');
@@ -166,11 +165,12 @@ class RootTest extends \Test\TestCase {
 	public function testGetUserFolder() {
 		$root = new \OC\Files\Node\Root(
 			$this->manager,
-			$this->createMock(View::class),
+			$this->getRootViewMock(),
 			$this->user,
 			$this->userMountCache,
 			$this->logger,
-			$this->userManager
+			$this->userManager,
+			$this->eventDispatcher
 		);
 		$user = $this->createMock(IUser::class);
 		$user
@@ -206,11 +206,12 @@ class RootTest extends \Test\TestCase {
 
 		$root = new \OC\Files\Node\Root(
 			$this->createMock(Manager::class),
-			$this->createMock(View::class),
+			$this->getRootViewMock(),
 			null,
 			$this->userMountCache,
 			$this->logger,
-			$this->userManager
+			$this->userManager,
+			$this->eventDispatcher
 		);
 		$this->userManager
 			->expects($this->once())
@@ -222,9 +223,7 @@ class RootTest extends \Test\TestCase {
 			->method('error')
 			->with(
 				'Backends provided no user object for NotExistingUser',
-				[
-					'app' => 'files',
-				]
+				$this->anything()
 			);
 
 		$root->getUserFolder('NotExistingUser');

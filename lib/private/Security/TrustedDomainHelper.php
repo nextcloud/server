@@ -1,12 +1,15 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author J0WI <J0WI@users.noreply.github.com>
  * @author Johannes Ernst <jernst@indiecomputing.com>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
@@ -24,34 +27,23 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Security;
 
 use OC\AppFramework\Http\Request;
 use OCP\IConfig;
+use OCP\Security\ITrustedDomainHelper;
 
-/**
- * Class TrustedDomain
- *
- * @package OC\Security
- */
-class TrustedDomainHelper {
-	/** @var IConfig */
-	private $config;
-
-	/**
-	 * @param IConfig $config
-	 */
-	public function __construct(IConfig $config) {
-		$this->config = $config;
+class TrustedDomainHelper implements ITrustedDomainHelper {
+	public function __construct(
+		private IConfig $config,
+	) {
 	}
 
 	/**
 	 * Strips a potential port from a domain (in format domain:port)
-	 * @param string $host
 	 * @return string $host without appended port
 	 */
-	private function getDomainWithoutPort($host) {
+	private function getDomainWithoutPort(string $host): string {
 		$pos = strrpos($host, ':');
 		if ($pos !== false) {
 			$port = substr($host, $pos + 1);
@@ -63,15 +55,25 @@ class TrustedDomainHelper {
 	}
 
 	/**
-	 * Checks whether a domain is considered as trusted from the list
-	 * of trusted domains. If no trusted domains have been configured, returns
-	 * true.
-	 * This is used to prevent Host Header Poisoning.
-	 * @param string $domainWithPort
-	 * @return bool true if the given domain is trusted or if no trusted domains
-	 * have been configured
+	 * {@inheritDoc}
 	 */
-	public function isTrustedDomain($domainWithPort) {
+	public function isTrustedUrl(string $url): bool {
+		$parsedUrl = parse_url($url);
+		if (empty($parsedUrl['host'])) {
+			return false;
+		}
+
+		if (isset($parsedUrl['port']) && $parsedUrl['port']) {
+			return $this->isTrustedDomain($parsedUrl['host'] . ':' . $parsedUrl['port']);
+		}
+
+		return $this->isTrustedDomain($parsedUrl['host']);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function isTrustedDomain(string $domainWithPort): bool {
 		// overwritehost is always trusted
 		if ($this->config->getSystemValue('overwritehost') !== '') {
 			return true;
@@ -89,8 +91,8 @@ class TrustedDomainHelper {
 		if (preg_match(Request::REGEX_LOCALHOST, $domain) === 1) {
 			return true;
 		}
-		// Reject misformed domains in any case
-		if (strpos($domain,'-') === 0 || strpos($domain,'..') !== false) {
+		// Reject malformed domains in any case
+		if (str_starts_with($domain, '-') || str_contains($domain, '..')) {
 			return false;
 		}
 		// Match, allowing for * wildcards

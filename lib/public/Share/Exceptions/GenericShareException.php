@@ -22,10 +22,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP\Share\Exceptions;
 
-use OC\HintException;
+use OCP\HintException;
 
 /**
  * Class GenericEncryptionException
@@ -33,7 +32,6 @@ use OC\HintException;
  * @since 9.0.0
  */
 class GenericShareException extends HintException {
-
 	/**
 	 * @param string $message
 	 * @param string $hint

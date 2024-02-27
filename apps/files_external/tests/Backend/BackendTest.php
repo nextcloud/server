@@ -22,7 +22,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_External\Tests\Backend;
 
 use OCA\Files_External\Lib\Backend\Backend;
@@ -47,8 +46,8 @@ class BackendTest extends \Test\TestCase {
 		$this->assertEquals($json['name'], $json['backend']);
 		$this->assertEquals(57, $json['priority']);
 
-		$this->assertContains('foopass', $json['authSchemes']);
-		$this->assertContains('barauth', $json['authSchemes']);
+		$this->assertContains('foopass', array_keys($json['authSchemes']));
+		$this->assertContains('barauth', array_keys($json['authSchemes']));
 	}
 
 	public function validateStorageProvider() {

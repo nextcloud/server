@@ -60,10 +60,9 @@ class MemoryInfoTest extends TestCase {
 	public function getMemoryLimitTestData(): array {
 		return [
 			'unlimited' => ['-1', -1,],
-			'0' => ['0', 0,],
-			'134217728 bytes' => ['134217728', 134217728,],
-			'128M' => ['128M', 134217728,],
-			'131072K' => ['131072K', 134217728,],
+			'524288000 bytes' => ['524288000', 524288000,],
+			'500M' => ['500M', 524288000,],
+			'512000K' => ['512000K', 524288000,],
 			'2G' => ['2G', 2147483648,],
 		];
 	}
@@ -72,10 +71,10 @@ class MemoryInfoTest extends TestCase {
 	 * Tests that getMemoryLimit works as expected.
 	 *
 	 * @param string $iniValue The "memory_limit" ini data.
-	 * @param int $expected The expected detected memory limit.
+	 * @param int|float $expected The expected detected memory limit.
 	 * @dataProvider getMemoryLimitTestData
 	 */
-	public function testMemoryLimit($iniValue, int $expected) {
+	public function testMemoryLimit(string $iniValue, int|float $expected) {
 		ini_set('memory_limit', $iniValue);
 		$memoryInfo = new MemoryInfo();
 		self::assertEquals($expected, $memoryInfo->getMemoryLimit());

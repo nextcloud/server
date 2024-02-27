@@ -29,15 +29,15 @@ use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
-use OCP\ILogger;
 use OCP\IUserManager;
+use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class CleanPreviewsBackgroundJobTest extends TestCase {
 	/** @var IRootFolder|\PHPUnit_Framework_MockObject_MockObject */
 	private $rootFolder;
 
-	/** @var ILogger|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var LoggerInterface|\PHPUnit_Framework_MockObject_MockObject */
 	private $logger;
 
 	/** @var IJobList|\PHPUnit_Framework_MockObject_MockObject */
@@ -52,11 +52,11 @@ class CleanPreviewsBackgroundJobTest extends TestCase {
 	/** @var  IUserManager|\PHPUnit_Framework_MockObject_MockObject */
 	private $userManager;
 
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 
 		$this->rootFolder = $this->createMock(IRootFolder::class);
-		$this->logger = $this->createMock(ILogger::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->jobList = $this->createMock(IJobList::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
 		$this->userManager = $this->createMock(IUserManager::class);
@@ -107,12 +107,12 @@ class CleanPreviewsBackgroundJobTest extends TestCase {
 				$this->equalTo(['uid' => 'myuid'])
 			);
 
-		$this->logger->expects($this->at(0))
+		$this->logger->expects($this->exactly(2))
 			->method('info')
-			->with($this->equalTo('Started preview cleanup for myuid'));
-		$this->logger->expects($this->at(1))
-			->method('info')
-			->with($this->equalTo('New preview cleanup scheduled for myuid'));
+			->withConsecutive(
+				[$this->equalTo('Started preview cleanup for myuid')],
+				[$this->equalTo('New preview cleanup scheduled for myuid')],
+			);
 
 		$this->job->run(['uid' => 'myuid']);
 	}
@@ -146,12 +146,12 @@ class CleanPreviewsBackgroundJobTest extends TestCase {
 		$this->jobList->expects($this->never())
 			->method('add');
 
-		$this->logger->expects($this->at(0))
+		$this->logger->expects($this->exactly(2))
 			->method('info')
-			->with($this->equalTo('Started preview cleanup for myuid'));
-		$this->logger->expects($this->at(1))
-			->method('info')
-			->with($this->equalTo('Preview cleanup done for myuid'));
+			->withConsecutive(
+				[$this->equalTo('Started preview cleanup for myuid')],
+				[$this->equalTo('Preview cleanup done for myuid')],
+			);
 
 		$thumbnailFolder->expects($this->once())
 			->method('delete');
@@ -165,12 +165,12 @@ class CleanPreviewsBackgroundJobTest extends TestCase {
 			->with($this->equalTo('myuid'))
 			->willThrowException(new NotFoundException());
 
-		$this->logger->expects($this->at(0))
+		$this->logger->expects($this->exactly(2))
 			->method('info')
-			->with($this->equalTo('Started preview cleanup for myuid'));
-		$this->logger->expects($this->at(1))
-			->method('info')
-			->with($this->equalTo('Preview cleanup done for myuid'));
+			->withConsecutive(
+				[$this->equalTo('Started preview cleanup for myuid')],
+				[$this->equalTo('Preview cleanup done for myuid')],
+			);
 
 		$this->job->run(['uid' => 'myuid']);
 	}
@@ -189,12 +189,12 @@ class CleanPreviewsBackgroundJobTest extends TestCase {
 			->with($this->equalTo('thumbnails'))
 			->willThrowException(new NotFoundException());
 
-		$this->logger->expects($this->at(0))
+		$this->logger->expects($this->exactly(2))
 			->method('info')
-			->with($this->equalTo('Started preview cleanup for myuid'));
-		$this->logger->expects($this->at(1))
-			->method('info')
-			->with($this->equalTo('Preview cleanup done for myuid'));
+			->withConsecutive(
+				[$this->equalTo('Started preview cleanup for myuid')],
+				[$this->equalTo('Preview cleanup done for myuid')],
+			);
 
 		$this->job->run(['uid' => 'myuid']);
 	}
@@ -229,12 +229,12 @@ class CleanPreviewsBackgroundJobTest extends TestCase {
 		$this->jobList->expects($this->never())
 			->method('add');
 
-		$this->logger->expects($this->at(0))
+		$this->logger->expects($this->exactly(2))
 			->method('info')
-			->with($this->equalTo('Started preview cleanup for myuid'));
-		$this->logger->expects($this->at(1))
-			->method('info')
-			->with($this->equalTo('Preview cleanup done for myuid'));
+			->withConsecutive(
+				[$this->equalTo('Started preview cleanup for myuid')],
+				[$this->equalTo('Preview cleanup done for myuid')],
+			);
 
 		$thumbnailFolder->expects($this->once())
 			->method('delete')

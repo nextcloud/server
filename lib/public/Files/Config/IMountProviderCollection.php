@@ -20,7 +20,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP\Files\Config;
 
 use OCP\IUser;
@@ -38,6 +37,16 @@ interface IMountProviderCollection {
 	 * @since 8.0.0
 	 */
 	public function getMountsForUser(IUser $user);
+
+	/**
+	 * Get the configured mount points for the user from a specific mount provider
+	 *
+	 * @param \OCP\IUser $user
+	 * @param class-string<IMountProvider>[] $mountProviderClasses
+	 * @return \OCP\Files\Mount\IMountPoint[]
+	 * @since 24.0.0
+	 */
+	public function getUserMountsForProviderClasses(IUser $user, array $mountProviderClasses): array;
 
 	/**
 	 * Get the configured home mount for this user

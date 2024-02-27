@@ -20,14 +20,14 @@
   -->
 
 <template>
-	<div v-if="!isHttps">
+	<div v-if="!isHttps && !isLocalhost">
 		{{ t('settings', 'Passwordless authentication requires a secure connection.') }}
 	</div>
 	<div v-else>
 		<div v-if="step === RegistrationSteps.READY">
-			<button @click="start">
+			<NcButton @click="start" type="primary">
 				{{ t('settings', 'Add WebAuthn device') }}
-			</button>
+			</NcButton>
 		</div>
 
 		<div v-else-if="step === RegistrationSteps.REGISTRATION"
@@ -43,9 +43,9 @@
 				type="text"
 				:placeholder="t('settings', 'Name your device')"
 				@:keyup.enter="submit">
-			<button @click="submit">
+			<NcButton @click="submit" type="primary">
 				{{ t('settings', 'Add') }}
-			</button>
+			</NcButton>
 		</div>
 
 		<div v-else-if="step === RegistrationSteps.PERSIST"
@@ -61,13 +61,15 @@
 </template>
 
 <script>
-import confirmPassword from '@nextcloud/password-confirmation'
+import { confirmPassword } from '@nextcloud/password-confirmation'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import '@nextcloud/password-confirmation/dist/style.css'
 
-import logger from '../../logger'
+import logger from '../../logger.js'
 import {
 	startRegistration,
 	finishRegistration,
-} from '../../service/WebAuthnRegistrationSerice'
+} from '../../service/WebAuthnRegistrationSerice.js'
 
 const logAndPass = (text) => (data) => {
 	logger.debug(text)
@@ -83,9 +85,18 @@ const RegistrationSteps = Object.freeze({
 
 export default {
 	name: 'AddDevice',
+
+	components: {
+		NcButton,
+	},
+
 	props: {
 		httpWarning: Boolean,
 		isHttps: {
+			type: Boolean,
+			default: false,
+		},
+		isLocalhost: {
 			type: Boolean,
 			default: false,
 		},

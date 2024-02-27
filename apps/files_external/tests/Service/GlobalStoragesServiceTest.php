@@ -25,7 +25,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_External\Tests\Service;
 
 use OC\Files\Filesystem;
@@ -38,7 +37,7 @@ use OCA\Files_External\Service\GlobalStoragesService;
 class GlobalStoragesServiceTest extends StoragesServiceTest {
 	protected function setUp(): void {
 		parent::setUp();
-		$this->service = new GlobalStoragesService($this->backendService, $this->dbConfig, $this->mountCache);
+		$this->service = new GlobalStoragesService($this->backendService, $this->dbConfig, $this->mountCache, $this->eventDispatcher);
 	}
 
 	protected function tearDown(): void {

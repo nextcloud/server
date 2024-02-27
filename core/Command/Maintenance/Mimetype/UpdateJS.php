@@ -22,7 +22,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Core\Command\Maintenance\Mimetype;
 
 use OCP\Files\IMimeTypeDetector;
@@ -32,15 +31,10 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class UpdateJS extends Command {
-
-	/** @var IMimeTypeDetector */
-	protected $mimetypeDetector;
-
 	public function __construct(
-		IMimeTypeDetector $mimetypeDetector
+		protected IMimeTypeDetector $mimetypeDetector,
 	) {
 		parent::__construct();
-		$this->mimetypeDetector = $mimetypeDetector;
 	}
 
 	protected function configure() {

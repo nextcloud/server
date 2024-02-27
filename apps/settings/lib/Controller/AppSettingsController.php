@@ -7,12 +7,13 @@
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -29,7 +30,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Settings\Controller;
 
 use OC\App\AppStore\Bundles\BundleFetcher;
@@ -43,85 +43,42 @@ use OC_App;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Services\IInitialState;
 use OCP\IConfig;
 use OCP\IL10N;
-use OCP\ILogger;
 use OCP\INavigationManager;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\L10N\IFactory;
+use Psr\Log\LoggerInterface;
 
+#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class AppSettingsController extends Controller {
-
-	/** @var \OCP\IL10N */
-	private $l10n;
-	/** @var IConfig */
-	private $config;
-	/** @var INavigationManager */
-	private $navigationManager;
-	/** @var IAppManager */
-	private $appManager;
-	/** @var CategoryFetcher */
-	private $categoryFetcher;
-	/** @var AppFetcher */
-	private $appFetcher;
-	/** @var IFactory */
-	private $l10nFactory;
-	/** @var BundleFetcher */
-	private $bundleFetcher;
-	/** @var Installer */
-	private $installer;
-	/** @var IURLGenerator */
-	private $urlGenerator;
-	/** @var ILogger */
-	private $logger;
 
 	/** @var array */
 	private $allApps = [];
 
-	/**
-	 * @param string $appName
-	 * @param IRequest $request
-	 * @param IL10N $l10n
-	 * @param IConfig $config
-	 * @param INavigationManager $navigationManager
-	 * @param IAppManager $appManager
-	 * @param CategoryFetcher $categoryFetcher
-	 * @param AppFetcher $appFetcher
-	 * @param IFactory $l10nFactory
-	 * @param BundleFetcher $bundleFetcher
-	 * @param Installer $installer
-	 * @param IURLGenerator $urlGenerator
-	 * @param ILogger $logger
-	 */
-	public function __construct(string $appName,
-								IRequest $request,
-								IL10N $l10n,
-								IConfig $config,
-								INavigationManager $navigationManager,
-								IAppManager $appManager,
-								CategoryFetcher $categoryFetcher,
-								AppFetcher $appFetcher,
-								IFactory $l10nFactory,
-								BundleFetcher $bundleFetcher,
-								Installer $installer,
-								IURLGenerator $urlGenerator,
-								ILogger $logger) {
+	public function __construct(
+		string $appName,
+		IRequest $request,
+		private IL10N $l10n,
+		private IConfig $config,
+		private INavigationManager $navigationManager,
+		private IAppManager $appManager,
+		private CategoryFetcher $categoryFetcher,
+		private AppFetcher $appFetcher,
+		private IFactory $l10nFactory,
+		private BundleFetcher $bundleFetcher,
+		private Installer $installer,
+		private IURLGenerator $urlGenerator,
+		private LoggerInterface $logger,
+		private IInitialState $initialState,
+	) {
 		parent::__construct($appName, $request);
-		$this->l10n = $l10n;
-		$this->config = $config;
-		$this->navigationManager = $navigationManager;
-		$this->appManager = $appManager;
-		$this->categoryFetcher = $categoryFetcher;
-		$this->appFetcher = $appFetcher;
-		$this->l10nFactory = $l10nFactory;
-		$this->bundleFetcher = $bundleFetcher;
-		$this->installer = $installer;
-		$this->urlGenerator = $urlGenerator;
-		$this->logger = $logger;
 	}
 
 	/**
@@ -130,18 +87,21 @@ class AppSettingsController extends Controller {
 	 * @return TemplateResponse
 	 */
 	public function viewApps(): TemplateResponse {
-		\OC_Util::addScript('settings', 'apps');
-		$params = [];
-		$params['appstoreEnabled'] = $this->config->getSystemValue('appstoreenabled', true) === true;
-		$params['updateCount'] = count($this->getAppsWithUpdates());
-		$params['developerDocumentation'] = $this->urlGenerator->linkToDocs('developer-manual');
-		$params['bundles'] = $this->getBundles();
 		$this->navigationManager->setActiveEntry('core_apps');
 
-		$templateResponse = new TemplateResponse('settings', 'settings-vue', ['serverData' => $params]);
+		$this->initialState->provideInitialState('appstoreEnabled', $this->config->getSystemValueBool('appstoreenabled', true));
+		$this->initialState->provideInitialState('appstoreBundles', $this->getBundles());
+		$this->initialState->provideInitialState('appstoreDeveloperDocs', $this->urlGenerator->linkToDocs('developer-manual'));
+		$this->initialState->provideInitialState('appstoreUpdateCount', count($this->getAppsWithUpdates()));
+
 		$policy = new ContentSecurityPolicy();
 		$policy->addAllowedImageDomain('https://usercontent.apps.nextcloud.com');
+
+		$templateResponse = new TemplateResponse('settings', 'settings/empty', ['pageTitle' => $this->l10n->t('Settings')]);
 		$templateResponse->setContentSecurityPolicy($policy);
+
+		\OCP\Util::addStyle('settings', 'settings');
+		\OCP\Util::addScript('settings', 'vue-settings-apps-users-management');
 
 		return $templateResponse;
 	}
@@ -183,17 +143,11 @@ class AppSettingsController extends Controller {
 	private function getAllCategories() {
 		$currentLanguage = substr($this->l10nFactory->findLanguage(), 0, 2);
 
-		$formattedCategories = [];
 		$categories = $this->categoryFetcher->get();
-		foreach ($categories as $category) {
-			$formattedCategories[] = [
-				'id' => $category['id'],
-				'ident' => $category['id'],
-				'displayName' => isset($category['translations'][$currentLanguage]['name']) ? $category['translations'][$currentLanguage]['name'] : $category['translations']['en']['name'],
-			];
-		}
-
-		return $formattedCategories;
+		return array_map(fn ($category) => [
+			'id' => $category['id'],
+			'displayName' => $category['translations'][$currentLanguage]['name'] ?? $category['translations']['en']['name'],
+		], $categories);
 	}
 
 	private function fetchApps() {
@@ -205,12 +159,17 @@ class AppSettingsController extends Controller {
 		}
 
 		$apps = $this->getAppsForCategory('');
+		$supportedApps = $appClass->getSupportedApps();
 		foreach ($apps as $app) {
 			$app['appstore'] = true;
 			if (!array_key_exists($app['id'], $this->allApps)) {
 				$this->allApps[$app['id']] = $app;
 			} else {
 				$this->allApps[$app['id']] = array_merge($app, $this->allApps[$app['id']]);
+			}
+
+			if (in_array($app['id'], $supportedApps)) {
+				$this->allApps[$app['id']]['level'] = \OC_App::supportedApp;
 			}
 		}
 
@@ -234,7 +193,6 @@ class AppSettingsController extends Controller {
 	/**
 	 * Get all available apps in a category
 	 *
-	 * @param string $category
 	 * @return JSONResponse
 	 * @throws \Exception
 	 */
@@ -244,8 +202,14 @@ class AppSettingsController extends Controller {
 
 		$dependencyAnalyzer = new DependencyAnalyzer(new Platform($this->config), $this->l10n);
 
+		$ignoreMaxApps = $this->config->getSystemValue('app_install_overwrite', []);
+		if (!is_array($ignoreMaxApps)) {
+			$this->logger->warning('The value given for app_install_overwrite is not an array. Ignoring...');
+			$ignoreMaxApps = [];
+		}
+
 		// Extend existing app details
-		$apps = array_map(function ($appData) use ($dependencyAnalyzer) {
+		$apps = array_map(function (array $appData) use ($dependencyAnalyzer, $ignoreMaxApps) {
 			if (isset($appData['appstoreData'])) {
 				$appstoreData = $appData['appstoreData'];
 				$appData['screenshot'] = isset($appstoreData['screenshots'][0]['url']) ? 'https://usercontent.apps.nextcloud.com/' . base64_encode($appstoreData['screenshots'][0]['url']) : '';
@@ -271,11 +235,6 @@ class AppSettingsController extends Controller {
 				$appData['licence'] = $appData['license'];
 			}
 
-			$ignoreMaxApps = $this->config->getSystemValue('app_install_overwrite', []);
-			if (!is_array($ignoreMaxApps)) {
-				$this->logger->warning('The value given for app_install_overwrite is not an array. Ignoring...');
-				$ignoreMaxApps = [];
-			}
 			$ignoreMax = in_array($appData['id'], $ignoreMaxApps);
 
 			// analyse dependencies
@@ -362,14 +321,14 @@ class AppSettingsController extends Controller {
 			if ($this->appManager->isInstalled($app['id'])) {
 				$currentVersion = $this->appManager->getAppVersion($app['id']);
 			} else {
-				$currentLanguage = $app['releases'][0]['version'];
+				$currentVersion = $app['releases'][0]['version'];
 			}
 
 			$formattedApps[] = [
 				'id' => $app['id'],
-				'name' => isset($app['translations'][$currentLanguage]['name']) ? $app['translations'][$currentLanguage]['name'] : $app['translations']['en']['name'],
-				'description' => isset($app['translations'][$currentLanguage]['description']) ? $app['translations'][$currentLanguage]['description'] : $app['translations']['en']['description'],
-				'summary' => isset($app['translations'][$currentLanguage]['summary']) ? $app['translations'][$currentLanguage]['summary'] : $app['translations']['en']['summary'],
+				'name' => $app['translations'][$currentLanguage]['name'] ?? $app['translations']['en']['name'],
+				'description' => $app['translations'][$currentLanguage]['description'] ?? $app['translations']['en']['description'],
+				'summary' => $app['translations'][$currentLanguage]['summary'] ?? $app['translations']['en']['summary'],
 				'license' => $app['releases'][0]['licenses'],
 				'author' => $authors,
 				'shipped' => false,
@@ -458,7 +417,7 @@ class AppSettingsController extends Controller {
 			}
 			return new JSONResponse(['data' => ['update_required' => $updateRequired]]);
 		} catch (\Exception $e) {
-			$this->logger->logException($e);
+			$this->logger->error('could not enable apps', ['exception' => $e]);
 			return new JSONResponse(['data' => ['message' => $e->getMessage()]], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 	}
@@ -499,7 +458,7 @@ class AppSettingsController extends Controller {
 			}
 			return new JSONResponse([]);
 		} catch (\Exception $e) {
-			$this->logger->logException($e);
+			$this->logger->error('could not disable app', ['exception' => $e]);
 			return new JSONResponse(['data' => ['message' => $e->getMessage()]], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 	}
@@ -517,7 +476,7 @@ class AppSettingsController extends Controller {
 			$this->appManager->clearAppsCache();
 			return new JSONResponse(['data' => ['appid' => $appId]]);
 		}
-		return new JSONResponse(['data' => ['message' => $this->l10n->t('Couldn\'t remove app.')]], Http::STATUS_INTERNAL_SERVER_ERROR);
+		return new JSONResponse(['data' => ['message' => $this->l10n->t('Could not remove app.')]], Http::STATUS_INTERNAL_SERVER_ERROR);
 	}
 
 	/**
@@ -539,7 +498,7 @@ class AppSettingsController extends Controller {
 		if ($result !== false) {
 			return new JSONResponse(['data' => ['appid' => $appId]]);
 		}
-		return new JSONResponse(['data' => ['message' => $this->l10n->t('Couldn\'t update app.')]], Http::STATUS_INTERNAL_SERVER_ERROR);
+		return new JSONResponse(['data' => ['message' => $this->l10n->t('Could not update app.')]], Http::STATUS_INTERNAL_SERVER_ERROR);
 	}
 
 	private function sortApps($a, $b) {

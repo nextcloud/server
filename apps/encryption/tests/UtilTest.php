@@ -25,7 +25,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Encryption\Tests;
 
 use OC\Files\View;
@@ -34,7 +33,6 @@ use OCA\Encryption\Util;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Storage;
 use OCP\IConfig;
-use OCP\ILogger;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
@@ -90,8 +88,6 @@ class UtilTest extends TestCase {
 		$cryptMock = $this->getMockBuilder(Crypt::class)
 			->disableOriginalConstructor()
 			->getMock();
-		/** @var \OCP\ILogger $loggerMock */
-		$loggerMock = $this->createMock(ILogger::class);
 
 		$user = $this->createMock(IUser::class);
 		$user->expects($this->any())
@@ -117,7 +113,7 @@ class UtilTest extends TestCase {
 			->method('setUserValue')
 			->willReturnCallback([$this, 'setValueTester']);
 
-		$this->instance = new Util($this->filesMock, $cryptMock, $loggerMock, $userSessionMock, $this->configMock, $this->userManagerMock);
+		$this->instance = new Util($this->filesMock, $cryptMock, $userSessionMock, $this->configMock, $this->userManagerMock);
 	}
 
 	/**

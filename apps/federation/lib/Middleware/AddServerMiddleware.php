@@ -26,35 +26,23 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Federation\Middleware;
 
-use OC\HintException;
 use OCA\Federation\Controller\SettingsController;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Middleware;
+use OCP\HintException;
 use OCP\IL10N;
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 
 class AddServerMiddleware extends Middleware {
+	protected string $appName;
+	protected IL10N $l;
+	protected LoggerInterface $logger;
 
-	/** @var  string */
-	protected $appName;
-
-	/** @var  IL10N */
-	protected $l;
-
-	/** @var  ILogger */
-	protected $logger;
-
-	/**
-	 * @param string $appName
-	 * @param IL10N $l
-	 * @param ILogger $logger
-	 */
-	public function __construct($appName, IL10N $l, ILogger $logger) {
+	public function __construct(string $appName, IL10N $l, LoggerInterface $logger) {
 		$this->appName = $appName;
 		$this->l = $l;
 		$this->logger = $logger;
@@ -73,9 +61,9 @@ class AddServerMiddleware extends Middleware {
 		if (($controller instanceof SettingsController) === false) {
 			throw $exception;
 		}
-		$this->logger->logException($exception, [
-			'level' => ILogger::ERROR,
+		$this->logger->error($exception->getMessage(), [
 			'app' => $this->appName,
+			'exception' => $exception,
 		]);
 		if ($exception instanceof HintException) {
 			$message = $exception->getHint();

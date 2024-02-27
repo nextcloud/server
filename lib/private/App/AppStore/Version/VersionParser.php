@@ -15,14 +15,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\App\AppStore\Version;
 
 /**
@@ -55,9 +54,9 @@ class VersionParser {
 		// Count the amount of =, if it is one then it's either maximum or minimum
 		// version. If it is two then it is maximum and minimum.
 		$versionElements = explode(' ', $versionSpec);
-		$firstVersion = isset($versionElements[0]) ? $versionElements[0] : '';
+		$firstVersion = $versionElements[0] ?? '';
 		$firstVersionNumber = substr($firstVersion, 2);
-		$secondVersion = isset($versionElements[1]) ? $versionElements[1] : '';
+		$secondVersion = $versionElements[1] ?? '';
 		$secondVersionNumber = substr($secondVersion, 2);
 
 		switch (count($versionElements)) {
@@ -65,7 +64,7 @@ class VersionParser {
 				if (!$this->isValidVersionString($firstVersionNumber)) {
 					break;
 				}
-				if (strpos($firstVersion, '>') === 0) {
+				if (str_starts_with($firstVersion, '>')) {
 					return new Version($firstVersionNumber, '');
 				}
 				return new Version('', $firstVersionNumber);

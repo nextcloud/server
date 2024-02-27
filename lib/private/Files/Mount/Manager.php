@@ -10,6 +10,7 @@ declare(strict_types=1);
  * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Jonas <jonas@freesources.org>
  *
  * @license AGPL-3.0
  *
@@ -29,24 +30,28 @@ declare(strict_types=1);
 
 namespace OC\Files\Mount;
 
-use OC\Cache\CappedMemoryCache;
 use OC\Files\Filesystem;
+use OC\Files\SetupManager;
+use OC\Files\SetupManagerFactory;
+use OCP\Cache\CappedMemoryCache;
+use OCP\Files\Config\ICachedMountInfo;
 use OCP\Files\Mount\IMountManager;
 use OCP\Files\Mount\IMountPoint;
+use OCP\Files\NotFoundException;
 
 class Manager implements IMountManager {
 	/** @var MountPoint[] */
-	private $mounts = [];
+	private array $mounts = [];
+	/** @var CappedMemoryCache<IMountPoint> */
+	private CappedMemoryCache $pathCache;
+	/** @var CappedMemoryCache<IMountPoint[]> */
+	private CappedMemoryCache $inPathCache;
+	private SetupManager $setupManager;
 
-	/** @var CappedMemoryCache */
-	private $pathCache;
-
-	/** @var CappedMemoryCache */
-	private $inPathCache;
-
-	public function __construct() {
+	public function __construct(SetupManagerFactory $setupManagerFactory) {
 		$this->pathCache = new CappedMemoryCache();
 		$this->inPathCache = new CappedMemoryCache();
+		$this->setupManager = $setupManagerFactory->create($this);
 	}
 
 	/**
@@ -86,14 +91,23 @@ class Manager implements IMountManager {
 	 * Find the mount for $path
 	 *
 	 * @param string $path
-	 * @return MountPoint|null
+	 * @return IMountPoint
 	 */
-	public function find(string $path) {
-		\OC_Util::setupFS();
+	public function find(string $path): IMountPoint {
+		$this->setupManager->setupForPath($path);
 		$path = Filesystem::normalizePath($path);
 
 		if (isset($this->pathCache[$path])) {
 			return $this->pathCache[$path];
+		}
+
+
+
+		if (count($this->mounts) === 0) {
+			$this->setupManager->setupRoot();
+			if (count($this->mounts) === 0) {
+				throw new \Exception("No mounts even after explicitly setting up the root mounts");
+			}
 		}
 
 		$current = $path;
@@ -102,10 +116,8 @@ class Manager implements IMountManager {
 			if (isset($this->mounts[$mountPoint])) {
 				$this->pathCache[$path] = $this->mounts[$mountPoint];
 				return $this->mounts[$mountPoint];
-			}
-
-			if ($current === '') {
-				return null;
+			} elseif ($current === '') {
+				break;
 			}
 
 			$current = dirname($current);
@@ -113,16 +125,18 @@ class Manager implements IMountManager {
 				$current = '';
 			}
 		}
+
+		throw new NotFoundException("No mount for path " . $path . " existing mounts (" . count($this->mounts) ."): " . implode(",", array_keys($this->mounts)));
 	}
 
 	/**
 	 * Find all mounts in $path
 	 *
 	 * @param string $path
-	 * @return MountPoint[]
+	 * @return IMountPoint[]
 	 */
 	public function findIn(string $path): array {
-		\OC_Util::setupFS();
+		$this->setupManager->setupForPath($path, true);
 		$path = $this->formatPath($path);
 
 		if (isset($this->inPathCache[$path])) {
@@ -152,10 +166,9 @@ class Manager implements IMountManager {
 	 * Find mounts by storage id
 	 *
 	 * @param string $id
-	 * @return MountPoint[]
+	 * @return IMountPoint[]
 	 */
 	public function findByStorageId(string $id): array {
-		\OC_Util::setupFS();
 		if (\strlen($id) > 64) {
 			$id = md5($id);
 		}
@@ -169,7 +182,7 @@ class Manager implements IMountManager {
 	}
 
 	/**
-	 * @return MountPoint[]
+	 * @return IMountPoint[]
 	 */
 	public function getAll(): array {
 		return $this->mounts;
@@ -179,11 +192,16 @@ class Manager implements IMountManager {
 	 * Find mounts by numeric storage id
 	 *
 	 * @param int $id
-	 * @return MountPoint[]
+	 * @return IMountPoint[]
 	 */
 	public function findByNumericId(int $id): array {
-		$storageId = \OC\Files\Cache\Storage::getStorageId($id);
-		return $this->findByStorageId($storageId);
+		$result = [];
+		foreach ($this->mounts as $mount) {
+			if ($mount->getNumericStorageId() === $id) {
+				$result[] = $mount;
+			}
+		}
+		return $result;
 	}
 
 	/**
@@ -196,5 +214,44 @@ class Manager implements IMountManager {
 			$path .= '/';
 		}
 		return $path;
+	}
+
+	public function getSetupManager(): SetupManager {
+		return $this->setupManager;
+	}
+
+	/**
+	 * Return all mounts in a path from a specific mount provider
+	 *
+	 * @param string $path
+	 * @param string[] $mountProviders
+	 * @return MountPoint[]
+	 */
+	public function getMountsByMountProvider(string $path, array $mountProviders) {
+		$this->getSetupManager()->setupForProvider($path, $mountProviders);
+		if (in_array('', $mountProviders)) {
+			return $this->mounts;
+		} else {
+			return array_filter($this->mounts, function ($mount) use ($mountProviders) {
+				return in_array($mount->getMountProvider(), $mountProviders);
+			});
+		}
+	}
+
+	/**
+	 * Return the mount matching a cached mount info (or mount file info)
+	 *
+	 * @param ICachedMountInfo $info
+	 *
+	 * @return IMountPoint|null
+	 */
+	public function getMountFromMountInfo(ICachedMountInfo $info): ?IMountPoint {
+		$this->setupManager->setupForPath($info->getMountPoint());
+		foreach ($this->mounts as $mount) {
+			if ($mount->getMountPoint() === $info->getMountPoint()) {
+				return $mount;
+			}
+		}
+		return null;
 	}
 }

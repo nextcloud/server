@@ -16,14 +16,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\Tests\Files\Sharing;
 
 use OC\Files\View;
@@ -65,7 +64,7 @@ class FilesDropPluginTest extends TestCase {
 			->method($this->anything());
 	}
 
-	public function testInitialize() {
+	public function testInitialize(): void {
 		$this->server->expects($this->once())
 			->method('on')
 			->with(
@@ -77,7 +76,7 @@ class FilesDropPluginTest extends TestCase {
 		$this->plugin->initialize($this->server);
 	}
 
-	public function testNotEnabled() {
+	public function testNotEnabled(): void {
 		$this->view->expects($this->never())
 			->method($this->anything());
 
@@ -87,7 +86,7 @@ class FilesDropPluginTest extends TestCase {
 		$this->plugin->beforeMethod($this->request, $this->response);
 	}
 
-	public function testValid() {
+	public function testValid(): void {
 		$this->plugin->enable();
 		$this->plugin->setView($this->view);
 
@@ -111,7 +110,7 @@ class FilesDropPluginTest extends TestCase {
 		$this->plugin->beforeMethod($this->request, $this->response);
 	}
 
-	public function testFileAlreadyExistsValid() {
+	public function testFileAlreadyExistsValid(): void {
 		$this->plugin->enable();
 		$this->plugin->setView($this->view);
 
@@ -140,7 +139,7 @@ class FilesDropPluginTest extends TestCase {
 		$this->plugin->beforeMethod($this->request, $this->response);
 	}
 
-	public function testNoMKCOL() {
+	public function testNoMKCOL(): void {
 		$this->plugin->enable();
 		$this->plugin->setView($this->view);
 
@@ -152,7 +151,7 @@ class FilesDropPluginTest extends TestCase {
 		$this->plugin->beforeMethod($this->request, $this->response);
 	}
 
-	public function testNoSubdirPut() {
+	public function testNoSubdirPut(): void {
 		$this->plugin->enable();
 		$this->plugin->setView($this->view);
 

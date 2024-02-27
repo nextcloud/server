@@ -8,6 +8,7 @@ declare(strict_types=1);
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Konrad Bucheli <kb@open.ch>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Citharel <nextcloud@tcit.fr>
  *
@@ -20,14 +21,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Security\Normalizer;
 
 /**
@@ -37,43 +37,18 @@ namespace OC\Security\Normalizer;
  * @package OC\Security\Normalizer
  */
 class IpAddress {
-	/** @var string */
-	private $ip;
-
 	/**
-	 * @param string $ip IP to normalized
+	 * @param string $ip IP to normalize
 	 */
-	public function __construct(string $ip) {
-		$this->ip = $ip;
+	public function __construct(
+		private string $ip,
+	) {
 	}
 
 	/**
-	 * Return the given subnet for an IPv4 address and mask bits
-	 *
-	 * @param string $ip
-	 * @param int $maskBits
-	 * @return string
+	 * Return the given subnet for an IPv6 address (64 first bits)
 	 */
-	private function getIPv4Subnet(string $ip, int $maskBits = 32): string {
-		$binary = \inet_pton($ip);
-		for ($i = 32; $i > $maskBits; $i -= 8) {
-			$j = \intdiv($i, 8) - 1;
-			$k = \min(8, $i - $maskBits);
-			$mask = (0xff - ((2 ** $k) - 1));
-			$int = \unpack('C', $binary[$j]);
-			$binary[$j] = \pack('C', $int[1] & $mask);
-		}
-		return \inet_ntop($binary).'/'.$maskBits;
-	}
-
-	/**
-	 * Return the given subnet for an IPv6 address and mask bits
-	 *
-	 * @param string $ip
-	 * @param int $maskBits
-	 * @return string
-	 */
-	private function getIPv6Subnet(string $ip, int $maskBits = 48): string {
+	private function getIPv6Subnet(string $ip): string {
 		if ($ip[0] === '[' && $ip[-1] === ']') { // If IP is with brackets, for example [::1]
 			$ip = substr($ip, 1, strlen($ip) - 2);
 		}
@@ -81,39 +56,52 @@ class IpAddress {
 		if ($pos !== false) {
 			$ip = substr($ip, 0, $pos - 1);
 		}
+
 		$binary = \inet_pton($ip);
-		for ($i = 128; $i > $maskBits; $i -= 8) {
-			$j = \intdiv($i, 8) - 1;
-			$k = \min(8, $i - $maskBits);
-			$mask = (0xff - ((2 ** $k) - 1));
-			$int = \unpack('C', $binary[$j]);
-			$binary[$j] = \pack('C', $int[1] & $mask);
-		}
-		return \inet_ntop($binary).'/'.$maskBits;
+		$mask = inet_pton('FFFF:FFFF:FFFF:FFFF::');
+
+		return inet_ntop($binary & $mask).'/64';
 	}
 
 	/**
-	 * Gets either the /32 (IPv4) or the /128 (IPv6) subnet of an IP address
+	 * Returns the IPv4 address embedded in an IPv6 if applicable.
+	 * The detected format is "::ffff:x.x.x.x" using the binary form.
 	 *
-	 * @return string
+	 * @return string|null embedded IPv4 string or null if none was found
+	 */
+	private function getEmbeddedIpv4(string $ipv6): ?string {
+		$binary = inet_pton($ipv6);
+		if (!$binary) {
+			return null;
+		}
+
+		$mask = inet_pton('::FFFF:FFFF');
+		if (($binary & ~$mask) !== inet_pton('::FFFF:0.0.0.0')) {
+			return null;
+		}
+
+		return inet_ntop(substr($binary, -4));
+	}
+
+
+	/**
+	 * Gets either the /32 (IPv4) or the /64 (IPv6) subnet of an IP address
 	 */
 	public function getSubnet(): string {
-		if (\preg_match('/^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$/', $this->ip)) {
-			return $this->getIPv4Subnet(
-				$this->ip,
-				32
-			);
+		if (filter_var($this->ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
+			return $this->ip.'/32';
 		}
-		return $this->getIPv6Subnet(
-			$this->ip,
-			128
-		);
+
+		$ipv4 = $this->getEmbeddedIpv4($this->ip);
+		if ($ipv4 !== null) {
+			return $ipv4.'/32';
+		}
+
+		return $this->getIPv6Subnet($this->ip);
 	}
 
 	/**
 	 * Returns the specified IP address
-	 *
-	 * @return string
 	 */
 	public function __toString(): string {
 		return $this->ip;

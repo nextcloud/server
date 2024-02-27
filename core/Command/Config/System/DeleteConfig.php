@@ -21,7 +21,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Core\Command\Config\System;
 
 use OC\SystemConfig;
@@ -31,15 +30,10 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class DeleteConfig extends Base {
-	/** * @var SystemConfig */
-	protected $systemConfig;
-
-	/**
-	 * @param SystemConfig $systemConfig
-	 */
-	public function __construct(SystemConfig $systemConfig) {
-		parent::__construct();
-		$this->systemConfig = $systemConfig;
+	public function __construct(
+		SystemConfig $systemConfig,
+	) {
+		parent::__construct($systemConfig);
 	}
 
 	protected function configure() {

@@ -25,7 +25,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP;
 
 /**
@@ -34,18 +33,6 @@ namespace OCP;
  * @since 7.0.0
  */
 interface ICacheFactory {
-	/**
-	 * Get a distributed memory cache instance
-	 *
-	 * All entries added trough the cache instance will be namespaced by $prefix to prevent collisions between apps
-	 *
-	 * @param string $prefix
-	 * @return ICache
-	 * @since 7.0.0
-	 * @deprecated 13.0.0 Use either createLocking, createDistributed or createLocal
-	 */
-	public function create(string $prefix = ''): ICache;
-
 	/**
 	 * Check if any memory cache backend is available
 	 *
@@ -88,4 +75,20 @@ interface ICacheFactory {
 	 * @since 13.0.0
 	 */
 	public function createLocal(string $prefix = ''): ICache;
+
+	/**
+	 * Create an in-memory cache instance
+	 *
+	 * Useful for remembering values inside one process. Cache memory is cleared
+	 * when the object is garbage-collected. Implementation may also expire keys
+	 * earlier when the TTL is reached or too much memory is consumed.
+	 *
+	 * Cache keys are local to the cache object. When building two in-memory
+	 * caches, there is no data exchange between the instances.
+	 *
+	 * @param int $capacity maximum number of cache keys
+	 * @return ICache
+	 * @since 28.0.0
+	 */
+	public function createInMemory(int $capacity = 512): ICache;
 }

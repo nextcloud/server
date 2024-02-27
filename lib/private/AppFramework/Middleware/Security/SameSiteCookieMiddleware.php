@@ -14,14 +14,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\AppFramework\Middleware\Security;
 
 use OC\AppFramework\Http\Request;
@@ -32,7 +31,6 @@ use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Middleware;
 
 class SameSiteCookieMiddleware extends Middleware {
-
 	/** @var Request */
 	private $request;
 
@@ -40,7 +38,7 @@ class SameSiteCookieMiddleware extends Middleware {
 	private $reflector;
 
 	public function __construct(Request $request,
-								ControllerMethodReflector $reflector) {
+		ControllerMethodReflector $reflector) {
 		$this->request = $request;
 		$this->reflector = $reflector;
 	}

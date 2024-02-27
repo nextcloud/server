@@ -5,7 +5,7 @@
  * @author Björn Schießle <bjoern@schiessle.org>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
@@ -30,11 +30,14 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_Sharing\Tests;
 
 use OC\Files\Filesystem;
+use OC\User\DisplayNameCache;
 use OCA\Files_Sharing\AppInfo\Application;
+use OCA\Files_Sharing\External\MountProvider as ExternalMountProvider;
+use OCA\Files_Sharing\MountProvider;
+use OCP\Files\Config\IMountProviderCollection;
 use OCP\Share\IShare;
 use Test\Traits\MountProviderTrait;
 
@@ -61,6 +64,10 @@ abstract class TestCase extends \Test\TestCase {
 	 * @var \OC\Files\View
 	 */
 	public $view;
+	/**
+	 * @var \OC\Files\View
+	 */
+	public $view2;
 	public $folder;
 	public $subfolder;
 
@@ -72,7 +79,12 @@ abstract class TestCase extends \Test\TestCase {
 	public static function setUpBeforeClass(): void {
 		parent::setUpBeforeClass();
 
-		new Application();
+		$app = new Application();
+		$app->registerMountProviders(
+			\OC::$server->get(IMountProviderCollection::class),
+			\OC::$server->get(MountProvider::class),
+			\OC::$server->get(ExternalMountProvider::class),
+		);
 
 		// reset backend
 		\OC_User::clearBackends();
@@ -109,12 +121,14 @@ abstract class TestCase extends \Test\TestCase {
 
 	protected function setUp(): void {
 		parent::setUp();
+		\OC::$server->get(DisplayNameCache::class)->clear();
 
 		//login as user1
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
 
 		$this->data = 'foobar';
 		$this->view = new \OC\Files\View('/' . self::TEST_FILES_SHARING_API_USER1 . '/files');
+		$this->view2 = new \OC\Files\View('/' . self::TEST_FILES_SHARING_API_USER2 . '/files');
 
 		$this->shareManager = \OC::$server->getShareManager();
 		$this->rootFolder = \OC::$server->getRootFolder();
@@ -187,12 +201,10 @@ abstract class TestCase extends \Test\TestCase {
 			$userObject = $userManager->createUser($user, $password);
 			$group = $groupManager->createGroup('group');
 
-			if ($group and $userObject) {
+			if ($group && $userObject) {
 				$group->addUser($userObject);
 			}
 		}
-
-		self::resetStorage();
 
 		\OC_Util::tearDownFS();
 		\OC\Files\Cache\Storage::getGlobalCache()->clearCache();
@@ -202,17 +214,6 @@ abstract class TestCase extends \Test\TestCase {
 		\OC::$server->getUserFolder($user);
 
 		\OC_Util::setupFS($user);
-	}
-
-	/**
-	 * reset init status for the share storage
-	 */
-	protected static function resetStorage() {
-		$storage = new \ReflectionClass('\OCA\Files_Sharing\SharedStorage');
-		$isInitialized = $storage->getProperty('initialized');
-		$isInitialized->setAccessible(true);
-		$isInitialized->setValue($storage, false);
-		$isInitialized->setAccessible(false);
 	}
 
 	/**

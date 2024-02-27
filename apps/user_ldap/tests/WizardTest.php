@@ -26,7 +26,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\User_LDAP\Tests;
 
 use OCA\User_LDAP\Access;
@@ -73,7 +72,7 @@ class WizardTest extends TestCase {
 		/** @var Configuration|\PHPUnit\Framework\MockObject\MockObject $conf */
 		$conf = $this->getMockBuilder(Configuration::class)
 			->setMethods($confMethods)
-			->setConstructorArgs([$lw, null, null])
+			->setConstructorArgs(['', true])
 			->getMock();
 
 		/** @var Access|\PHPUnit\Framework\MockObject\MockObject $access */

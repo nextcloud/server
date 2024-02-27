@@ -2,8 +2,8 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -25,20 +25,20 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\Tests\unit\CardDAV;
 
-use OC\Accounts\AccountManager;
 use OCA\DAV\CardDAV\CardDavBackend;
+use OCA\DAV\CardDAV\Converter;
 use OCA\DAV\CardDAV\SyncService;
-use OCP\Accounts\IAccountManager;
-use OCP\ILogger;
+use OCP\IDBConnection;
 use OCP\IUser;
 use OCP\IUserManager;
+use Psr\Log\LoggerInterface;
+use Sabre\VObject\Component\VCard;
 use Test\TestCase;
 
 class SyncServiceTest extends TestCase {
-	public function testEmptySync() {
+	public function testEmptySync(): void {
 		$backend = $this->getBackendMock(0, 0, 0);
 
 		$ss = $this->getSyncServiceMock($backend, []);
@@ -46,7 +46,7 @@ class SyncServiceTest extends TestCase {
 		$this->assertEquals('sync-token-1', $return);
 	}
 
-	public function testSyncWithNewElement() {
+	public function testSyncWithNewElement(): void {
 		$backend = $this->getBackendMock(1, 0, 0);
 		$backend->method('getCard')->willReturn(false);
 
@@ -55,7 +55,7 @@ class SyncServiceTest extends TestCase {
 		$this->assertEquals('sync-token-1', $return);
 	}
 
-	public function testSyncWithUpdatedElement() {
+	public function testSyncWithUpdatedElement(): void {
 		$backend = $this->getBackendMock(0, 1, 0);
 		$backend->method('getCard')->willReturn(true);
 
@@ -64,7 +64,7 @@ class SyncServiceTest extends TestCase {
 		$this->assertEquals('sync-token-1', $return);
 	}
 
-	public function testSyncWithDeletedElement() {
+	public function testSyncWithDeletedElement(): void {
 		$backend = $this->getBackendMock(0, 0, 1);
 
 		$ss = $this->getSyncServiceMock($backend, ['0' => [404 => '']]);
@@ -72,18 +72,24 @@ class SyncServiceTest extends TestCase {
 		$this->assertEquals('sync-token-1', $return);
 	}
 
-	public function testEnsureSystemAddressBookExists() {
+	public function testEnsureSystemAddressBookExists(): void {
 		/** @var CardDavBackend | \PHPUnit\Framework\MockObject\MockObject $backend */
 		$backend = $this->getMockBuilder(CardDavBackend::class)->disableOriginalConstructor()->getMock();
 		$backend->expects($this->exactly(1))->method('createAddressBook');
-		$backend->expects($this->at(0))->method('getAddressBooksByUri')->willReturn(null);
-		$backend->expects($this->at(1))->method('getAddressBooksByUri')->willReturn([]);
+		$backend->expects($this->exactly(2))
+			->method('getAddressBooksByUri')
+			->willReturnOnConsecutiveCalls(
+				null,
+				[],
+			);
 
 		/** @var IUserManager $userManager */
 		$userManager = $this->getMockBuilder(IUserManager::class)->disableOriginalConstructor()->getMock();
-		$logger = $this->getMockBuilder(ILogger::class)->disableOriginalConstructor()->getMock();
-		$accountManager = $this->getMockBuilder(AccountManager::class)->disableOriginalConstructor()->getMock();
-		$ss = new SyncService($backend, $userManager, $logger, $accountManager);
+		$dbConnection = $this->createMock(IDBConnection::class);
+		$logger = $this->getMockBuilder(LoggerInterface::class)->disableOriginalConstructor()->getMock();
+		$converter = $this->createMock(Converter::class);
+
+		$ss = new SyncService($backend, $userManager, $dbConnection, $logger, $converter);
 		$ss->ensureSystemAddressBookExists('principals/users/adam', 'contacts', []);
 	}
 
@@ -103,10 +109,10 @@ class SyncServiceTest extends TestCase {
 	 * @param integer $deleteCalls
 	 * @return void
 	 */
-	public function testUpdateAndDeleteUser($activated, $createCalls, $updateCalls, $deleteCalls) {
+	public function testUpdateAndDeleteUser($activated, $createCalls, $updateCalls, $deleteCalls): void {
 		/** @var CardDavBackend | \PHPUnit\Framework\MockObject\MockObject $backend */
 		$backend = $this->getMockBuilder(CardDavBackend::class)->disableOriginalConstructor()->getMock();
-		$logger = $this->getMockBuilder(ILogger::class)->disableOriginalConstructor()->getMock();
+		$logger = $this->getMockBuilder(LoggerInterface::class)->disableOriginalConstructor()->getMock();
 
 		$backend->expects($this->exactly($createCalls))->method('createCard');
 		$backend->expects($this->exactly($updateCalls))->method('updateCard');
@@ -122,6 +128,7 @@ class SyncServiceTest extends TestCase {
 
 		/** @var IUserManager | \PHPUnit\Framework\MockObject\MockObject $userManager */
 		$userManager = $this->getMockBuilder(IUserManager::class)->disableOriginalConstructor()->getMock();
+		$dbConnection = $this->createMock(IDBConnection::class);
 
 		/** @var IUser | \PHPUnit\Framework\MockObject\MockObject $user */
 		$user = $this->getMockBuilder(IUser::class)->disableOriginalConstructor()->getMock();
@@ -130,47 +137,12 @@ class SyncServiceTest extends TestCase {
 		$user->method('getCloudId')->willReturn('cloudId');
 		$user->method('getDisplayName')->willReturn('test-user');
 		$user->method('isEnabled')->willReturn($activated);
-		$accountManager = $this->getMockBuilder(AccountManager::class)->disableOriginalConstructor()->getMock();
-		$accountManager->expects($this->any())->method('getUser')
-			->willReturn([
-				IAccountManager::PROPERTY_DISPLAYNAME =>
-					[
-						'value' => $user->getDisplayName(),
-						'scope' => AccountManager::VISIBILITY_CONTACTS_ONLY,
-					],
-				IAccountManager::PROPERTY_ADDRESS =>
-					[
-						'value' => '',
-						'scope' => AccountManager::VISIBILITY_PRIVATE,
-					],
-				IAccountManager::PROPERTY_WEBSITE =>
-					[
-						'value' => '',
-						'scope' => AccountManager::VISIBILITY_PRIVATE,
-					],
-				IAccountManager::PROPERTY_EMAIL =>
-					[
-						'value' => $user->getEMailAddress(),
-						'scope' => AccountManager::VISIBILITY_CONTACTS_ONLY,
-					],
-				IAccountManager::PROPERTY_AVATAR =>
-					[
-						'scope' => AccountManager::VISIBILITY_CONTACTS_ONLY
-					],
-				IAccountManager::PROPERTY_PHONE =>
-					[
-						'value' => '',
-						'scope' => AccountManager::VISIBILITY_PRIVATE,
-					],
-				IAccountManager::PROPERTY_TWITTER =>
-					[
-						'value' => '',
-						'scope' => AccountManager::VISIBILITY_PRIVATE,
-					],
-			]
-			);
+		$converter = $this->createMock(Converter::class);
+		$converter->expects($this->any())
+			->method('createCardFromUser')
+			->willReturn($this->createMock(VCard::class));
 
-		$ss = new SyncService($backend, $userManager, $logger, $accountManager);
+		$ss = new SyncService($backend, $userManager, $dbConnection, $logger, $converter);
 		$ss->updateUser($user);
 
 		$ss->updateUser($user);
@@ -182,7 +154,7 @@ class SyncServiceTest extends TestCase {
 	 * @param int $createCount
 	 * @param int $updateCount
 	 * @param int $deleteCount
-	 * @return \PHPUnit\Framework\MockObject\MockObject
+	 * @return \PHPUnit\Framework\MockObject\MockObject|CardDavBackend
 	 */
 	private function getBackendMock($createCount, $updateCount, $deleteCount) {
 		$backend = $this->getMockBuilder(CardDavBackend::class)
@@ -201,12 +173,13 @@ class SyncServiceTest extends TestCase {
 	 */
 	private function getSyncServiceMock($backend, $response) {
 		$userManager = $this->getMockBuilder(IUserManager::class)->disableOriginalConstructor()->getMock();
-		$logger = $this->getMockBuilder(ILogger::class)->disableOriginalConstructor()->getMock();
-		$accountManager = $this->getMockBuilder(AccountManager::class)->disableOriginalConstructor()->getMock();
+		$dbConnection = $this->createMock(IDBConnection::class);
+		$logger = $this->getMockBuilder(LoggerInterface::class)->disableOriginalConstructor()->getMock();
+		$converter = $this->createMock(Converter::class);
 		/** @var SyncService | \PHPUnit\Framework\MockObject\MockObject $ss */
 		$ss = $this->getMockBuilder(SyncService::class)
 			->setMethods(['ensureSystemAddressBookExists', 'requestSyncReport', 'download', 'getCertPath'])
-			->setConstructorArgs([$backend, $userManager, $logger, $accountManager])
+			->setConstructorArgs([$backend, $userManager, $dbConnection, $logger, $converter])
 			->getMock();
 		$ss->method('requestSyncReport')->withAnyParameters()->willReturn(['response' => $response, 'token' => 'sync-token-1']);
 		$ss->method('ensureSystemAddressBookExists')->willReturn(['id' => 1]);

@@ -5,6 +5,7 @@ declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2018 Joas Schilling <coding@schilljs.com>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -18,25 +19,22 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Core\Migrations;
 
 use Closure;
-use OCP\DB\Types;
 use OCP\DB\ISchemaWrapper;
+use OCP\DB\Types;
 use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
 
 class Version16000Date20190207141427 extends SimpleMigrationStep {
-
-
 	/**
 	 * @param IOutput $output
 	 * @param Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
@@ -78,7 +76,7 @@ class Version16000Date20190207141427 extends SimpleMigrationStep {
 			]);
 
 			$table->setPrimaryKey(['collection_id', 'resource_type', 'resource_id'], 'crr_pk');
-//			$table->addUniqueIndex(['collection_id', 'resource_type', 'resource_id'], 'collres_unique_res');
+			//			$table->addUniqueIndex(['collection_id', 'resource_type', 'resource_id'], 'collres_unique_res');
 		}
 
 		if (!$schema->hasTable('collres_accesscache')) {
@@ -108,7 +106,7 @@ class Version16000Date20190207141427 extends SimpleMigrationStep {
 			]);
 
 			$table->setPrimaryKey(['user_id', 'collection_id', 'resource_type', 'resource_id'], 'cra_pk');
-//			$table->addUniqueIndex(['user_id', 'collection_id', 'resource_type', 'resource_id'], 'collres_unique_user');
+			//			$table->addUniqueIndex(['user_id', 'collection_id', 'resource_type', 'resource_id'], 'collres_unique_user');
 			$table->addIndex(['user_id', 'resource_type', 'resource_id'], 'collres_user_res');
 			$table->addIndex(['user_id', 'collection_id'], 'collres_user_coll');
 		}

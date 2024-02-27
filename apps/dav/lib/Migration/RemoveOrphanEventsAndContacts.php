@@ -18,14 +18,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\Migration;
 
 use OCA\DAV\CalDAV\CalDavBackend;
@@ -54,23 +53,23 @@ class RemoveOrphanEventsAndContacts implements IRepairStep {
 	 * @inheritdoc
 	 */
 	public function run(IOutput $output) {
-		$orphanItems = $this->removeOrphanChildren('calendarobjects', 'calendars',  'calendarid');
+		$orphanItems = $this->removeOrphanChildren('calendarobjects', 'calendars', 'calendarid');
 		$output->info(sprintf('%d events without a calendar have been cleaned up', $orphanItems));
-		$orphanItems = $this->removeOrphanChildren('calendarobjects_props', 'calendarobjects',  'objectid');
+		$orphanItems = $this->removeOrphanChildren('calendarobjects_props', 'calendarobjects', 'objectid');
 		$output->info(sprintf('%d properties without an events have been cleaned up', $orphanItems));
-		$orphanItems = $this->removeOrphanChildren('calendarchanges', 'calendars',  'calendarid');
+		$orphanItems = $this->removeOrphanChildren('calendarchanges', 'calendars', 'calendarid');
 		$output->info(sprintf('%d changes without a calendar have been cleaned up', $orphanItems));
 
-		$orphanItems = $this->removeOrphanChildren('calendarobjects', 'calendarsubscriptions',  'calendarid');
+		$orphanItems = $this->removeOrphanChildren('calendarobjects', 'calendarsubscriptions', 'calendarid');
 		$output->info(sprintf('%d cached events without a calendar subscription have been cleaned up', $orphanItems));
-		$orphanItems = $this->removeOrphanChildren('calendarchanges', 'calendarsubscriptions',  'calendarid');
+		$orphanItems = $this->removeOrphanChildren('calendarchanges', 'calendarsubscriptions', 'calendarid');
 		$output->info(sprintf('%d changes without a calendar subscription have been cleaned up', $orphanItems));
 
-		$orphanItems = $this->removeOrphanChildren('cards', 'addressbooks',  'addressbookid');
+		$orphanItems = $this->removeOrphanChildren('cards', 'addressbooks', 'addressbookid');
 		$output->info(sprintf('%d contacts without an addressbook have been cleaned up', $orphanItems));
-		$orphanItems = $this->removeOrphanChildren('cards_properties', 'cards',  'cardid');
+		$orphanItems = $this->removeOrphanChildren('cards_properties', 'cards', 'cardid');
 		$output->info(sprintf('%d properties without a contact have been cleaned up', $orphanItems));
-		$orphanItems = $this->removeOrphanChildren('addressbookchanges', 'addressbooks',  'addressbookid');
+		$orphanItems = $this->removeOrphanChildren('addressbookchanges', 'addressbooks', 'addressbookid');
 		$output->info(sprintf('%d changes without an addressbook have been cleaned up', $orphanItems));
 	}
 

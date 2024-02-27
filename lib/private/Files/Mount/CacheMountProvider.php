@@ -19,7 +19,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Files\Mount;
 
 use OCP\Files\Config\IMountProvider;
@@ -53,7 +52,7 @@ class CacheMountProvider implements IMountProvider {
 	 * @return \OCP\Files\Mount\IMountPoint[]
 	 */
 	public function getMountsForUser(IUser $user, IStorageFactory $loader) {
-		$cacheBaseDir = $this->config->getSystemValue('cache_path', '');
+		$cacheBaseDir = $this->config->getSystemValueString('cache_path', '');
 		if ($cacheBaseDir !== '') {
 			$cacheDir = rtrim($cacheBaseDir, '/') . '/' . $user->getUID();
 			if (!file_exists($cacheDir)) {
@@ -62,8 +61,8 @@ class CacheMountProvider implements IMountProvider {
 			}
 
 			return [
-				new MountPoint('\OC\Files\Storage\Local', '/' . $user->getUID() . '/cache', ['datadir' => $cacheDir, $loader]),
-				new MountPoint('\OC\Files\Storage\Local', '/' . $user->getUID() . '/uploads', ['datadir' => $cacheDir . '/uploads', $loader])
+				new MountPoint('\OC\Files\Storage\Local', '/' . $user->getUID() . '/cache', ['datadir' => $cacheDir], $loader, null, null, self::class),
+				new MountPoint('\OC\Files\Storage\Local', '/' . $user->getUID() . '/uploads', ['datadir' => $cacheDir . '/uploads'], $loader, null, null, self::class)
 			];
 		} else {
 			return [];

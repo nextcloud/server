@@ -6,6 +6,7 @@
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
  *
@@ -22,7 +23,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\User_LDAP\User;
 
 use OCA\User_LDAP\Mapping\UserMapping;
@@ -60,6 +60,7 @@ class OfflineUser {
 	 * @var string $foundDeleted the timestamp when the user was detected as unavailable
 	 */
 	protected $foundDeleted;
+	protected ?string $extStorageHome = null;
 	/**
 	 * @var string $email
 	 */
@@ -146,7 +147,8 @@ class OfflineUser {
 	 */
 	public function getDN() {
 		if ($this->dn === null) {
-			$this->fetchDetails();
+			$dn = $this->mapping->getDNByName($this->ocName);
+			$this->dn = ($dn !== false) ? $dn : '';
 		}
 		return $this->dn;
 	}
@@ -206,13 +208,20 @@ class OfflineUser {
 		return (int)$this->foundDeleted;
 	}
 
+	public function getExtStorageHome(): string {
+		if ($this->extStorageHome === null) {
+			$this->fetchDetails();
+		}
+		return (string)$this->extStorageHome;
+	}
+
 	/**
 	 * getter for having active shares
 	 * @return bool
 	 */
 	public function getHasActiveShares() {
 		if ($this->hasActiveShares === null) {
-			$this->fetchDetails();
+			$this->determineShares();
 		}
 		return $this->hasActiveShares;
 	}
@@ -226,17 +235,13 @@ class OfflineUser {
 			'uid' => 'user_ldap',
 			'homePath' => 'user_ldap',
 			'foundDeleted' => 'user_ldap',
+			'extStorageHome' => 'user_ldap',
 			'email' => 'settings',
 			'lastLogin' => 'login',
 		];
 		foreach ($properties as $property => $app) {
 			$this->$property = $this->config->getUserValue($this->ocName, $app, $property, '');
 		}
-
-		$dn = $this->mapping->getDNByName($this->ocName);
-		$this->dn = ($dn !== false) ? $dn : '';
-
-		$this->determineShares();
 	}
 
 	/**
@@ -248,7 +253,7 @@ class OfflineUser {
 		$shareConstants = $shareInterface->getConstants();
 
 		foreach ($shareConstants as $constantName => $constantValue) {
-			if (strpos($constantName, 'TYPE_') !== 0
+			if (!str_starts_with($constantName, 'TYPE_')
 				|| $constantValue === IShare::TYPE_USERGROUP
 			) {
 				continue;

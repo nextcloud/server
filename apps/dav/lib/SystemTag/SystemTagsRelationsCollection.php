@@ -24,9 +24,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\SystemTag;
 
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IGroupManager;
 use OCP\IUserSession;
 use OCP\SystemTag\ISystemTagManager;
@@ -34,25 +34,14 @@ use OCP\SystemTag\ISystemTagObjectMapper;
 use OCP\SystemTag\SystemTagsEntityEvent;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\SimpleCollection;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class SystemTagsRelationsCollection extends SimpleCollection {
-
-	/**
-	 * SystemTagsRelationsCollection constructor.
-	 *
-	 * @param ISystemTagManager $tagManager
-	 * @param ISystemTagObjectMapper $tagMapper
-	 * @param IUserSession $userSession
-	 * @param IGroupManager $groupManager
-	 * @param EventDispatcherInterface $dispatcher
-	 */
 	public function __construct(
 		ISystemTagManager $tagManager,
 		ISystemTagObjectMapper $tagMapper,
 		IUserSession $userSession,
 		IGroupManager $groupManager,
-		EventDispatcherInterface $dispatcher
+		IEventDispatcher $dispatcher,
 	) {
 		$children = [
 			new SystemTagsObjectTypeCollection(
@@ -68,8 +57,9 @@ class SystemTagsRelationsCollection extends SimpleCollection {
 			),
 		];
 
-		$event = new SystemTagsEntityEvent(SystemTagsEntityEvent::EVENT_ENTITY);
+		$event = new SystemTagsEntityEvent();
 		$dispatcher->dispatch(SystemTagsEntityEvent::EVENT_ENTITY, $event);
+		$dispatcher->dispatchTyped($event);
 
 		foreach ($event->getEntityCollections() as $entity => $entityExistsFunction) {
 			$children[] = new SystemTagsObjectTypeCollection(

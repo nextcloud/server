@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @author Lukas Reschke <lukas@owncloud.com>
  *
@@ -24,7 +27,6 @@ namespace Test\Security;
 use OC\Security\Certificate;
 
 class CertificateTest extends \Test\TestCase {
-
 	/** @var Certificate That contains a valid certificate */
 	protected $goodCertificate;
 	/** @var Certificate That contains an invalid certificate */

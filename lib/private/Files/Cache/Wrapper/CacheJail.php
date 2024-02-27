@@ -25,13 +25,17 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Files\Cache\Wrapper;
 
 use OC\Files\Cache\Cache;
-use OC\Files\Search\SearchQuery;
+use OC\Files\Cache\CacheDependencies;
+use OC\Files\Search\SearchBinaryOperator;
+use OC\Files\Search\SearchComparison;
+use OCP\Files\Cache\ICache;
 use OCP\Files\Cache\ICacheEntry;
-use OCP\Files\Search\ISearchQuery;
+use OCP\Files\Search\ISearchBinaryOperator;
+use OCP\Files\Search\ISearchComparison;
+use OCP\Files\Search\ISearchOperator;
 
 /**
  * Jail to a subdirectory of the wrapped cache
@@ -41,18 +45,34 @@ class CacheJail extends CacheWrapper {
 	 * @var string
 	 */
 	protected $root;
+	protected $unjailedRoot;
 
-	/**
-	 * @param \OCP\Files\Cache\ICache $cache
-	 * @param string $root
-	 */
-	public function __construct($cache, $root) {
-		parent::__construct($cache);
+	public function __construct(
+		?ICache $cache,
+		string $root,
+		CacheDependencies $dependencies = null,
+	) {
+		parent::__construct($cache, $dependencies);
 		$this->root = $root;
+
+		if ($cache instanceof CacheJail) {
+			$this->unjailedRoot = $cache->getSourcePath($root);
+		} else {
+			$this->unjailedRoot = $root;
+		}
 	}
 
 	protected function getRoot() {
 		return $this->root;
+	}
+
+	/**
+	 * Get the root path with any nested jails resolved
+	 *
+	 * @return string
+	 */
+	protected function getGetUnjailedRoot() {
+		return $this->unjailedRoot;
 	}
 
 	protected function getSourcePath($path) {
@@ -65,36 +85,31 @@ class CacheJail extends CacheWrapper {
 
 	/**
 	 * @param string $path
+	 * @param null|string $root
 	 * @return null|string the jailed path or null if the path is outside the jail
 	 */
-	protected function getJailedPath($path) {
-		if ($this->getRoot() === '') {
+	protected function getJailedPath(string $path, string $root = null) {
+		if ($root === null) {
+			$root = $this->getRoot();
+		}
+		if ($root === '') {
 			return $path;
 		}
-		$rootLength = strlen($this->getRoot()) + 1;
-		if ($path === $this->getRoot()) {
+		$rootLength = strlen($root) + 1;
+		if ($path === $root) {
 			return '';
-		} elseif (substr($path, 0, $rootLength) === $this->getRoot() . '/') {
+		} elseif (substr($path, 0, $rootLength) === $root . '/') {
 			return substr($path, $rootLength);
 		} else {
 			return null;
 		}
 	}
 
-	/**
-	 * @param ICacheEntry|array $entry
-	 * @return array
-	 */
 	protected function formatCacheEntry($entry) {
 		if (isset($entry['path'])) {
 			$entry['path'] = $this->getJailedPath($entry['path']);
 		}
 		return $entry;
-	}
-
-	protected function filterCacheEntry($entry) {
-		$rootLength = strlen($this->getRoot()) + 1;
-		return $rootLength === 1 || ($entry['path'] === $this->getRoot()) || (substr($entry['path'], 0, $rootLength) === $this->getRoot() . '/');
 	}
 
 	/**
@@ -208,45 +223,6 @@ class CacheJail extends CacheWrapper {
 		return $this->getCache()->getStatus($this->getSourcePath($file));
 	}
 
-	private function formatSearchResults($results) {
-		$results = array_filter($results, [$this, 'filterCacheEntry']);
-		$results = array_values($results);
-		return array_map([$this, 'formatCacheEntry'], $results);
-	}
-
-	/**
-	 * search for files matching $pattern
-	 *
-	 * @param string $pattern
-	 * @return array an array of file data
-	 */
-	public function search($pattern) {
-		$results = $this->getCache()->search($pattern);
-		return $this->formatSearchResults($results);
-	}
-
-	/**
-	 * search for files by mimetype
-	 *
-	 * @param string $mimetype
-	 * @return array
-	 */
-	public function searchByMime($mimetype) {
-		$results = $this->getCache()->searchByMime($mimetype);
-		return $this->formatSearchResults($results);
-	}
-
-	public function searchQuery(ISearchQuery $query) {
-		$simpleQuery = new SearchQuery($query->getSearchOperation(), 0, 0, $query->getOrder(), $query->getUser());
-		$results = $this->getCache()->searchQuery($simpleQuery);
-		$results = $this->formatSearchResults($results);
-
-		$limit = $query->getLimit() === 0 ? null : $query->getLimit();
-		$results = array_slice($results, $query->getOffset(), $limit);
-
-		return $results;
-	}
-
 	/**
 	 * update the folder size and the size of all parent folders
 	 *
@@ -263,8 +239,8 @@ class CacheJail extends CacheWrapper {
 	 * get the size of a folder and set it in the cache
 	 *
 	 * @param string $path
-	 * @param array $entry (optional) meta data of the folder
-	 * @return int
+	 * @param array|null|ICacheEntry $entry (optional) meta data of the folder
+	 * @return int|float
 	 */
 	public function calculateFolderSize($path, $entry = null) {
 		if ($this->getCache() instanceof Cache) {
@@ -291,7 +267,7 @@ class CacheJail extends CacheWrapper {
 	 * use the one with the highest id gives the best result with the background scanner, since that is most
 	 * likely the folder where we stopped scanning previously
 	 *
-	 * @return string|bool the path of the folder or false when no folder matched
+	 * @return string|false the path of the folder or false when no folder matched
 	 */
 	public function getIncomplete() {
 		// not supported
@@ -327,5 +303,41 @@ class CacheJail extends CacheWrapper {
 			return $this->move($sourcePath, $targetPath);
 		}
 		return $this->getCache()->moveFromCache($sourceCache, $sourcePath, $this->getSourcePath($targetPath));
+	}
+
+	public function getQueryFilterForStorage(): ISearchOperator {
+		return $this->addJailFilterQuery($this->getCache()->getQueryFilterForStorage());
+	}
+
+	protected function addJailFilterQuery(ISearchOperator $filter): ISearchOperator {
+		if ($this->getGetUnjailedRoot() !== '' && $this->getGetUnjailedRoot() !== '/') {
+			return new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_AND,
+				[
+					$filter,
+					new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_OR,
+						[
+							new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'path', $this->getGetUnjailedRoot()),
+							new SearchComparison(ISearchComparison::COMPARE_LIKE_CASE_SENSITIVE, 'path', SearchComparison::escapeLikeParameter($this->getGetUnjailedRoot()) . '/%'),
+						],
+					)
+				]
+			);
+		} else {
+			return $filter;
+		}
+	}
+
+	public function getCacheEntryFromSearchResult(ICacheEntry $rawEntry): ?ICacheEntry {
+		if ($this->getGetUnjailedRoot() === '' || str_starts_with($rawEntry->getPath(), $this->getGetUnjailedRoot())) {
+			$rawEntry = $this->getCache()->getCacheEntryFromSearchResult($rawEntry);
+			if ($rawEntry) {
+				$jailedPath = $this->getJailedPath($rawEntry->getPath());
+				if ($jailedPath !== null) {
+					return $this->formatCacheEntry(clone $rawEntry) ?: null;
+				}
+			}
+		}
+
+		return null;
 	}
 }

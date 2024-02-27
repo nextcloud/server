@@ -16,24 +16,23 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCP\User\Events;
 
 use OCP\EventDispatcher\Event;
 use OCP\IUser;
+use OCP\UserStatus\IUserStatus;
 
 /**
  * @since 20.0.0
  */
 class UserLiveStatusEvent extends Event {
-
 	/**
 	 * @var string
 	 * @since 20.0.0
@@ -52,24 +51,17 @@ class UserLiveStatusEvent extends Event {
 	 */
 	public const STATUS_OFFLINE = 'offline';
 
-	/** @var IUser */
-	private $user;
-
-	/** @var string */
-	private $status;
-
-	/** @var int */
-	private $timestamp;
+	private IUser $user;
+	private string $status;
+	private int $timestamp;
+	private ?IUserStatus $userStatus = null;
 
 	/**
-	 * @param IUser $user
-	 * @param string $status
-	 * @param int $timestamp
 	 * @since 20.0.0
 	 */
 	public function __construct(IUser $user,
-								string $status,
-								int $timestamp) {
+		string $status,
+		int $timestamp) {
 		parent::__construct();
 		$this->user = $user;
 		$this->status = $status;
@@ -98,5 +90,20 @@ class UserLiveStatusEvent extends Event {
 	 */
 	public function getTimestamp(): int {
 		return $this->timestamp;
+	}
+
+	/**
+	 * Get the user status that might be available after processing the event
+	 * @since 24.0.0
+	 */
+	public function getUserStatus(): ?IUserStatus {
+		return $this->userStatus;
+	}
+
+	/**
+	 * @since 24.0.0
+	 */
+	public function setUserStatus(IUserStatus $userStatus) {
+		$this->userStatus = $userStatus;
 	}
 }

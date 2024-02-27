@@ -4,7 +4,6 @@
  *
  * @author Christopher Schäpers <kondou@ts.unde.re>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Tom Needham <tom@owncloud.com>
  *
@@ -23,22 +22,35 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
- 
 namespace OCA\Files_Versions;
 
+use OCP\App\IAppManager;
 use OCP\Capabilities\ICapability;
+use OCP\IConfig;
 
 class Capabilities implements ICapability {
-	
+	private IConfig $config;
+	private IAppManager $appManager;
+
+	public function __construct(
+		IConfig $config,
+		IAppManager $appManager
+	) {
+		$this->config = $config;
+		$this->appManager = $appManager;
+	}
+
 	/**
 	 * Return this classes capabilities
 	 *
-	 * @return array
+	 * @return array{files: array{versioning: bool, version_labeling: bool, version_deletion: bool}}
 	 */
 	public function getCapabilities() {
 		return [
 			'files' => [
-				'versioning' => true
+				'versioning' => true,
+				'version_labeling' => $this->config->getSystemValueBool('enable_version_labeling', true),
+				'version_deletion' => $this->config->getSystemValueBool('enable_version_deletion', true),
 			]
 		];
 	}

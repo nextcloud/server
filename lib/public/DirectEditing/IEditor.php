@@ -16,14 +16,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCP\DirectEditing;
 
 use OCP\AppFramework\Http\Response;
@@ -32,7 +31,6 @@ use OCP\AppFramework\Http\Response;
  * @since 18.0.0
  */
 interface IEditor {
-
 	/**
 	 * Return a unique identifier for the editor
 	 *
@@ -89,7 +87,7 @@ interface IEditor {
 	 * Return a template response for displaying the editor
 	 *
 	 * open can only be called once when the client requests the editor with a one-time-use token
-	 * For handling editing and later requests, editors need to impelement their own token handling and take care of invalidation
+	 * For handling editing and later requests, editors need to implement their own token handling and take care of invalidation
 	 *
 	 * This behavior is similar to the current direct editing implementation in collabora where we generate a one-time token and switch over to the regular wopi token for the actual editing/saving process
 	 *

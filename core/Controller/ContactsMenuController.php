@@ -15,60 +15,52 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Core\Controller;
 
+use Exception;
 use OC\Contacts\ContactsMenu\Manager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\FrontpageRoute;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\IRequest;
 use OCP\IUserSession;
 
 class ContactsMenuController extends Controller {
-
-	/** @var Manager */
-	private $manager;
-
-	/** @var IUserSession */
-	private $userSession;
-
-	/**
-	 * @param IRequest $request
-	 * @param IUserSession $userSession
-	 * @param Manager $manager
-	 */
-	public function __construct(IRequest $request, IUserSession $userSession, Manager $manager) {
+	public function __construct(
+		IRequest $request,
+		private IUserSession $userSession,
+		private Manager $manager,
+	) {
 		parent::__construct('core', $request);
-		$this->userSession = $userSession;
-		$this->manager = $manager;
 	}
 
 	/**
 	 * @NoAdminRequired
 	 *
-	 * @param string|null filter
 	 * @return \JsonSerializable[]
+	 * @throws Exception
 	 */
-	public function index($filter = null) {
+	#[FrontpageRoute(verb: 'POST', url: '/contactsmenu/contacts')]
+	public function index(?string $filter = null): array {
 		return $this->manager->getEntries($this->userSession->getUser(), $filter);
 	}
 
 	/**
 	 * @NoAdminRequired
 	 *
-	 * @param integer $shareType
-	 * @param string $shareWith
 	 * @return JSONResponse|\JsonSerializable
+	 * @throws Exception
 	 */
-	public function findOne($shareType, $shareWith) {
+	#[FrontpageRoute(verb: 'POST', url: '/contactsmenu/findOne')]
+	public function findOne(int $shareType, string $shareWith) {
 		$contact = $this->manager->findOne($this->userSession->getUser(), $shareType, $shareWith);
 
 		if ($contact) {

@@ -18,14 +18,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Authentication\Token;
 
 use OCP\AppFramework\Db\DoesNotExistException;
@@ -49,7 +48,7 @@ class PublicKeyTokenMapper extends QBMapper {
 	public function invalidate(string $token) {
 		/* @var $qb IQueryBuilder */
 		$qb = $this->db->getQueryBuilder();
-		$qb->delete('authtoken')
+		$qb->delete($this->tableName)
 			->where($qb->expr()->eq('token', $qb->createNamedParameter($token)))
 			->andWhere($qb->expr()->eq('version', $qb->createNamedParameter(PublicKeyToken::VERSION, IQueryBuilder::PARAM_INT)))
 			->execute();
@@ -62,12 +61,21 @@ class PublicKeyTokenMapper extends QBMapper {
 	public function invalidateOld(int $olderThan, int $remember = IToken::DO_NOT_REMEMBER) {
 		/* @var $qb IQueryBuilder */
 		$qb = $this->db->getQueryBuilder();
-		$qb->delete('authtoken')
+		$qb->delete($this->tableName)
 			->where($qb->expr()->lt('last_activity', $qb->createNamedParameter($olderThan, IQueryBuilder::PARAM_INT)))
 			->andWhere($qb->expr()->eq('type', $qb->createNamedParameter(IToken::TEMPORARY_TOKEN, IQueryBuilder::PARAM_INT)))
 			->andWhere($qb->expr()->eq('remember', $qb->createNamedParameter($remember, IQueryBuilder::PARAM_INT)))
 			->andWhere($qb->expr()->eq('version', $qb->createNamedParameter(PublicKeyToken::VERSION, IQueryBuilder::PARAM_INT)))
 			->execute();
+	}
+
+	public function invalidateLastUsedBefore(string $uid, int $before): int {
+		$qb = $this->db->getQueryBuilder();
+		$qb->delete($this->tableName)
+			->where($qb->expr()->eq('uid', $qb->createNamedParameter($uid)))
+			->andWhere($qb->expr()->lt('last_activity', $qb->createNamedParameter($before, IQueryBuilder::PARAM_INT)))
+			->andWhere($qb->expr()->eq('version', $qb->createNamedParameter(PublicKeyToken::VERSION, IQueryBuilder::PARAM_INT)));
+		return $qb->executeStatement();
 	}
 
 	/**
@@ -79,7 +87,7 @@ class PublicKeyTokenMapper extends QBMapper {
 		/* @var $qb IQueryBuilder */
 		$qb = $this->db->getQueryBuilder();
 		$result = $qb->select('*')
-			->from('authtoken')
+			->from($this->tableName)
 			->where($qb->expr()->eq('token', $qb->createNamedParameter($token)))
 			->andWhere($qb->expr()->eq('version', $qb->createNamedParameter(PublicKeyToken::VERSION, IQueryBuilder::PARAM_INT)))
 			->execute();
@@ -101,7 +109,7 @@ class PublicKeyTokenMapper extends QBMapper {
 		/* @var $qb IQueryBuilder */
 		$qb = $this->db->getQueryBuilder();
 		$result = $qb->select('*')
-			->from('authtoken')
+			->from($this->tableName)
 			->where($qb->expr()->eq('id', $qb->createNamedParameter($id)))
 			->andWhere($qb->expr()->eq('version', $qb->createNamedParameter(PublicKeyToken::VERSION, IQueryBuilder::PARAM_INT)))
 			->execute();
@@ -127,7 +135,7 @@ class PublicKeyTokenMapper extends QBMapper {
 		/* @var $qb IQueryBuilder */
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('*')
-			->from('authtoken')
+			->from($this->tableName)
 			->where($qb->expr()->eq('uid', $qb->createNamedParameter($uid)))
 			->andWhere($qb->expr()->eq('version', $qb->createNamedParameter(PublicKeyToken::VERSION, IQueryBuilder::PARAM_INT)))
 			->setMaxResults(1000);
@@ -145,7 +153,7 @@ class PublicKeyTokenMapper extends QBMapper {
 	public function deleteById(string $uid, int $id) {
 		/* @var $qb IQueryBuilder */
 		$qb = $this->db->getQueryBuilder();
-		$qb->delete('authtoken')
+		$qb->delete($this->tableName)
 			->where($qb->expr()->eq('id', $qb->createNamedParameter($id)))
 			->andWhere($qb->expr()->eq('uid', $qb->createNamedParameter($uid)))
 			->andWhere($qb->expr()->eq('version', $qb->createNamedParameter(PublicKeyToken::VERSION, IQueryBuilder::PARAM_INT)));
@@ -159,7 +167,7 @@ class PublicKeyTokenMapper extends QBMapper {
 	 */
 	public function deleteByName(string $name) {
 		$qb = $this->db->getQueryBuilder();
-		$qb->delete('authtoken')
+		$qb->delete($this->tableName)
 			->where($qb->expr()->eq('name', $qb->createNamedParameter($name), IQueryBuilder::PARAM_STR))
 			->andWhere($qb->expr()->eq('version', $qb->createNamedParameter(PublicKeyToken::VERSION, IQueryBuilder::PARAM_INT)));
 		$qb->execute();
@@ -168,7 +176,7 @@ class PublicKeyTokenMapper extends QBMapper {
 	public function deleteTempToken(PublicKeyToken $except) {
 		$qb = $this->db->getQueryBuilder();
 
-		$qb->delete('authtoken')
+		$qb->delete($this->tableName)
 			->where($qb->expr()->eq('uid', $qb->createNamedParameter($except->getUID())))
 			->andWhere($qb->expr()->eq('type', $qb->createNamedParameter(IToken::TEMPORARY_TOKEN)))
 			->andWhere($qb->expr()->neq('id', $qb->createNamedParameter($except->getId())))
@@ -180,7 +188,7 @@ class PublicKeyTokenMapper extends QBMapper {
 	public function hasExpiredTokens(string $uid): bool {
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('*')
-			->from('authtoken')
+			->from($this->tableName)
 			->where($qb->expr()->eq('uid', $qb->createNamedParameter($uid)))
 			->andWhere($qb->expr()->eq('password_invalid', $qb->createNamedParameter(true), IQueryBuilder::PARAM_BOOL))
 			->setMaxResults(1);
@@ -190,5 +198,71 @@ class PublicKeyTokenMapper extends QBMapper {
 		$cursor->closeCursor();
 
 		return count($data) === 1;
+	}
+
+	/**
+	 * Update the last activity timestamp
+	 *
+	 * In highly concurrent setups it can happen that two parallel processes
+	 * trigger the update at (nearly) the same time. In that special case it's
+	 * not necessary to hit the database with two actual updates. Therefore the
+	 * target last activity is included in the WHERE clause with a few seconds
+	 * of tolerance.
+	 *
+	 * Example:
+	 * - process 1 (P1) reads the token at timestamp 1500
+	 * - process 1 (P2) reads the token at timestamp 1501
+	 * - activity update interval is 100
+	 *
+	 * This means
+	 *
+	 * - P1 will see a last_activity smaller than the current time and update
+	 *   the token row
+	 * - If P2 reads after P1 had written, it will see 1600 as last activity
+	 *   and the comparison on last_activity won't be truthy. This means no rows
+	 *   need to be updated a second time
+	 * - If P2 reads before P1 had written, it will see 1501 as last activity,
+	 *   but the comparison on last_activity will still not be truthy and the
+	 *   token row is not updated a second time
+	 *
+	 * @param IToken $token
+	 * @param int $now
+	 */
+	public function updateActivity(IToken $token, int $now): void {
+		$qb = $this->db->getQueryBuilder();
+		$update = $qb->update($this->getTableName())
+			->set('last_activity', $qb->createNamedParameter($now, IQueryBuilder::PARAM_INT))
+			->where(
+				$qb->expr()->eq('id', $qb->createNamedParameter($token->getId(), IQueryBuilder::PARAM_INT), IQueryBuilder::PARAM_INT),
+				$qb->expr()->lt('last_activity', $qb->createNamedParameter($now - 15, IQueryBuilder::PARAM_INT), IQueryBuilder::PARAM_INT)
+			);
+		$update->executeStatement();
+	}
+
+	public function updateHashesForUser(string $userId, string $passwordHash): void {
+		$qb = $this->db->getQueryBuilder();
+		$update = $qb->update($this->getTableName())
+			->set('password_hash', $qb->createNamedParameter($passwordHash))
+			->where(
+				$qb->expr()->eq('uid', $qb->createNamedParameter($userId))
+			);
+		$update->executeStatement();
+	}
+
+	public function getFirstTokenForUser(string $userId): ?PublicKeyToken {
+		$qb = $this->db->getQueryBuilder();
+		$qb->select('*')
+			->from($this->getTableName())
+			->where($qb->expr()->eq('uid', $qb->createNamedParameter($userId)))
+			->setMaxResults(1)
+			->orderBy('id');
+		$result = $qb->executeQuery();
+
+		$data = $result->fetch();
+		$result->closeCursor();
+		if ($data === false) {
+			return null;
+		}
+		return PublicKeyToken::fromRow($data);
 	}
 }

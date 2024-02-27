@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2017 Robin Appelman <robin@icewind.nl>
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Maxence Lange <maxence@artificial-owl.com>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Tobias Kaminsky <tobias@kaminsky.me>
@@ -16,211 +17,252 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Files\Cache;
 
+use OC\Files\Cache\Wrapper\CacheJail;
+use OC\Files\Search\QueryOptimizer\QueryOptimizer;
+use OC\Files\Search\SearchBinaryOperator;
+use OC\SystemConfig;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\Files\Cache\ICache;
+use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\IMimeTypeLoader;
+use OCP\Files\IRootFolder;
+use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Search\ISearchBinaryOperator;
-use OCP\Files\Search\ISearchComparison;
-use OCP\Files\Search\ISearchOperator;
-use OCP\Files\Search\ISearchOrder;
+use OCP\Files\Search\ISearchQuery;
+use OCP\FilesMetadata\IFilesMetadataManager;
+use OCP\FilesMetadata\IMetadataQuery;
+use OCP\IDBConnection;
+use OCP\IGroupManager;
+use OCP\IUser;
+use Psr\Log\LoggerInterface;
 
-/**
- * Tools for transforming search queries into database queries
- */
 class QuerySearchHelper {
-	protected static $searchOperatorMap = [
-		ISearchComparison::COMPARE_LIKE => 'iLike',
-		ISearchComparison::COMPARE_EQUAL => 'eq',
-		ISearchComparison::COMPARE_GREATER_THAN => 'gt',
-		ISearchComparison::COMPARE_GREATER_THAN_EQUAL => 'gte',
-		ISearchComparison::COMPARE_LESS_THAN => 'lt',
-		ISearchComparison::COMPARE_LESS_THAN_EQUAL => 'lte'
-	];
+	public function __construct(
+		private IMimeTypeLoader $mimetypeLoader,
+		private IDBConnection $connection,
+		private SystemConfig $systemConfig,
+		private LoggerInterface $logger,
+		private SearchBuilder $searchBuilder,
+		private QueryOptimizer $queryOptimizer,
+		private IGroupManager $groupManager,
+		private IFilesMetadataManager $filesMetadataManager,
+	) {
+	}
 
-	protected static $searchOperatorNegativeMap = [
-		ISearchComparison::COMPARE_LIKE => 'notLike',
-		ISearchComparison::COMPARE_EQUAL => 'neq',
-		ISearchComparison::COMPARE_GREATER_THAN => 'lte',
-		ISearchComparison::COMPARE_GREATER_THAN_EQUAL => 'lt',
-		ISearchComparison::COMPARE_LESS_THAN => 'gte',
-		ISearchComparison::COMPARE_LESS_THAN_EQUAL => 'lt'
-	];
-
-	public const TAG_FAVORITE = '_$!<Favorite>!$_';
-
-	/** @var IMimeTypeLoader */
-	private $mimetypeLoader;
+	protected function getQueryBuilder() {
+		return new CacheQueryBuilder(
+			$this->connection,
+			$this->systemConfig,
+			$this->logger,
+			$this->filesMetadataManager,
+		);
+	}
 
 	/**
-	 * QuerySearchUtil constructor.
+	 * @param CacheQueryBuilder $query
+	 * @param ISearchQuery $searchQuery
+	 * @param array $caches
+	 * @param IMetadataQuery|null $metadataQuery
+	 */
+	protected function applySearchConstraints(
+		CacheQueryBuilder $query,
+		ISearchQuery $searchQuery,
+		array $caches,
+		?IMetadataQuery $metadataQuery = null
+	): void {
+		$storageFilters = array_values(array_map(function (ICache $cache) {
+			return $cache->getQueryFilterForStorage();
+		}, $caches));
+		$storageFilter = new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_OR, $storageFilters);
+		$filter = new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_AND, [$searchQuery->getSearchOperation(), $storageFilter]);
+		$this->queryOptimizer->processOperator($filter);
+
+		$searchExpr = $this->searchBuilder->searchOperatorToDBExpr($query, $filter, $metadataQuery);
+		if ($searchExpr) {
+			$query->andWhere($searchExpr);
+		}
+
+		$this->searchBuilder->addSearchOrdersToQuery($query, $searchQuery->getOrder(), $metadataQuery);
+
+		if ($searchQuery->getLimit()) {
+			$query->setMaxResults($searchQuery->getLimit());
+		}
+		if ($searchQuery->getOffset()) {
+			$query->setFirstResult($searchQuery->getOffset());
+		}
+	}
+
+
+	/**
+	 * @return array<array-key, array{id: int, name: string, visibility: int, editable: int, ref_file_id: int, number_files: int}>
+	 */
+	public function findUsedTagsInCaches(ISearchQuery $searchQuery, array $caches): array {
+		$query = $this->getQueryBuilder();
+		$query->selectTagUsage();
+
+		$this->applySearchConstraints($query, $searchQuery, $caches);
+
+		$result = $query->execute();
+		$tags = $result->fetchAll();
+		$result->closeCursor();
+		return $tags;
+	}
+
+	protected function equipQueryForSystemTags(CacheQueryBuilder $query, IUser $user): void {
+		$query->leftJoin('file', 'systemtag_object_mapping', 'systemtagmap', $query->expr()->andX(
+			$query->expr()->eq('file.fileid', $query->expr()->castColumn('systemtagmap.objectid', IQueryBuilder::PARAM_INT)),
+			$query->expr()->eq('systemtagmap.objecttype', $query->createNamedParameter('files'))
+		));
+		$on = $query->expr()->andX($query->expr()->eq('systemtag.id', 'systemtagmap.systemtagid'));
+		if (!$this->groupManager->isAdmin($user->getUID())) {
+			$on->add($query->expr()->eq('systemtag.visibility', $query->createNamedParameter(true)));
+		}
+		$query->leftJoin('systemtagmap', 'systemtag', 'systemtag', $on);
+	}
+
+	protected function equipQueryForDavTags(CacheQueryBuilder $query, IUser $user): void {
+		$query
+			->leftJoin('file', 'vcategory_to_object', 'tagmap', $query->expr()->eq('file.fileid', 'tagmap.objid'))
+			->leftJoin('tagmap', 'vcategory', 'tag', $query->expr()->andX(
+				$query->expr()->eq('tagmap.type', 'tag.type'),
+				$query->expr()->eq('tagmap.categoryid', 'tag.id'),
+				$query->expr()->eq('tag.type', $query->createNamedParameter('files')),
+				$query->expr()->eq('tag.uid', $query->createNamedParameter($user->getUID()))
+			));
+	}
+
+
+	protected function equipQueryForShares(CacheQueryBuilder $query): void {
+		$query->join('file', 'share', 's', $query->expr()->eq('file.fileid', 's.file_source'));
+	}
+
+	/**
+	 * Perform a file system search in multiple caches
 	 *
-	 * @param IMimeTypeLoader $mimetypeLoader
-	 */
-	public function __construct(IMimeTypeLoader $mimetypeLoader) {
-		$this->mimetypeLoader = $mimetypeLoader;
-	}
-
-	/**
-	 * Whether or not the tag tables should be joined to complete the search
+	 * the results will be grouped by the same array keys as the $caches argument to allow
+	 * post-processing based on which cache the result came from
 	 *
-	 * @param ISearchOperator $operator
-	 * @return boolean
+	 * @template T of array-key
+	 * @param ISearchQuery $searchQuery
+	 * @param array<T, ICache> $caches
+	 * @return array<T, ICacheEntry[]>
 	 */
-	public function shouldJoinTags(ISearchOperator $operator) {
-		if ($operator instanceof ISearchBinaryOperator) {
-			return array_reduce($operator->getArguments(), function ($shouldJoin, ISearchOperator $operator) {
-				return $shouldJoin || $this->shouldJoinTags($operator);
-			}, false);
-		} elseif ($operator instanceof ISearchComparison) {
-			return $operator->getField() === 'tagname' || $operator->getField() === 'favorite';
+	public function searchInCaches(ISearchQuery $searchQuery, array $caches): array {
+		// search in multiple caches at once by creating one query in the following format
+		// SELECT ... FROM oc_filecache WHERE
+		//     <filter expressions from the search query>
+		// AND (
+		//     <filter expression for storage1> OR
+		//     <filter expression for storage2> OR
+		//     ...
+		// );
+		//
+		// This gives us all the files matching the search query from all caches
+		//
+		// while the resulting rows don't have a way to tell what storage they came from (multiple storages/caches can share storage_id)
+		// we can just ask every cache if the row belongs to them and give them the cache to do any post processing on the result.
+
+		$builder = $this->getQueryBuilder();
+
+		$query = $builder->selectFileCache('file', false);
+
+		$requestedFields = $this->searchBuilder->extractRequestedFields($searchQuery->getSearchOperation());
+
+		if (in_array('systemtag', $requestedFields)) {
+			$this->equipQueryForSystemTags($query, $this->requireUser($searchQuery));
 		}
-		return false;
-	}
+		if (in_array('tagname', $requestedFields) || in_array('favorite', $requestedFields)) {
+			$this->equipQueryForDavTags($query, $this->requireUser($searchQuery));
+		}
+		if (in_array('owner', $requestedFields) || in_array('share_with', $requestedFields) || in_array('share_type', $requestedFields)) {
+			$this->equipQueryForShares($query);
+		}
 
-	/**
-	 * @param IQueryBuilder $builder
-	 * @param ISearchOperator $operator
-	 */
-	public function searchOperatorArrayToDBExprArray(IQueryBuilder $builder, array $operators) {
-		return array_filter(array_map(function ($operator) use ($builder) {
-			return $this->searchOperatorToDBExpr($builder, $operator);
-		}, $operators));
-	}
+		$metadataQuery = $query->selectMetadata();
 
-	public function searchOperatorToDBExpr(IQueryBuilder $builder, ISearchOperator $operator) {
-		$expr = $builder->expr();
-		if ($operator instanceof ISearchBinaryOperator) {
-			if (count($operator->getArguments()) === 0) {
-				return null;
+		$this->applySearchConstraints($query, $searchQuery, $caches, $metadataQuery);
+
+		$result = $query->execute();
+		$files = $result->fetchAll();
+
+		$rawEntries = array_map(function (array $data) use ($metadataQuery) {
+			// migrate to null safe ...
+			if ($metadataQuery === null) {
+				$data['metadata'] = [];
+			} else {
+				$data['metadata'] = $metadataQuery->extractMetadata($data)->asArray();
 			}
+			return Cache::cacheEntryFromData($data, $this->mimetypeLoader);
+		}, $files);
 
-			switch ($operator->getType()) {
-				case ISearchBinaryOperator::OPERATOR_NOT:
-					$negativeOperator = $operator->getArguments()[0];
-					if ($negativeOperator instanceof ISearchComparison) {
-						return $this->searchComparisonToDBExpr($builder, $negativeOperator, self::$searchOperatorNegativeMap);
-					} else {
-						throw new \InvalidArgumentException('Binary operators inside "not" is not supported');
-					}
-					// no break
-				case ISearchBinaryOperator::OPERATOR_AND:
-					return call_user_func_array([$expr, 'andX'], $this->searchOperatorArrayToDBExprArray($builder, $operator->getArguments()));
-				case ISearchBinaryOperator::OPERATOR_OR:
-					return call_user_func_array([$expr, 'orX'], $this->searchOperatorArrayToDBExprArray($builder, $operator->getArguments()));
-				default:
-					throw new \InvalidArgumentException('Invalid operator type: ' . $operator->getType());
-			}
-		} elseif ($operator instanceof ISearchComparison) {
-			return $this->searchComparisonToDBExpr($builder, $operator, self::$searchOperatorMap);
-		} else {
-			throw new \InvalidArgumentException('Invalid operator type: ' . get_class($operator));
-		}
-	}
+		$result->closeCursor();
 
-	private function searchComparisonToDBExpr(IQueryBuilder $builder, ISearchComparison $comparison, array $operatorMap) {
-		$this->validateComparison($comparison);
-
-		[$field, $value, $type] = $this->getOperatorFieldAndValue($comparison);
-		if (isset($operatorMap[$type])) {
-			$queryOperator = $operatorMap[$type];
-			return $builder->expr()->$queryOperator($field, $this->getParameterForValue($builder, $value));
-		} else {
-			throw new \InvalidArgumentException('Invalid operator type: ' . $comparison->getType());
-		}
-	}
-
-	private function getOperatorFieldAndValue(ISearchComparison $operator) {
-		$field = $operator->getField();
-		$value = $operator->getValue();
-		$type = $operator->getType();
-		if ($field === 'mimetype') {
-			if ($operator->getType() === ISearchComparison::COMPARE_EQUAL) {
-				$value = (int)$this->mimetypeLoader->getId($value);
-			} elseif ($operator->getType() === ISearchComparison::COMPARE_LIKE) {
-				// transform "mimetype='foo/%'" to "mimepart='foo'"
-				if (preg_match('|(.+)/%|', $value, $matches)) {
-					$field = 'mimepart';
-					$value = (int)$this->mimetypeLoader->getId($matches[1]);
-					$type = ISearchComparison::COMPARE_EQUAL;
-				} elseif (strpos($value, '%') !== false) {
-					throw new \InvalidArgumentException('Unsupported query value for mimetype: ' . $value . ', only values in the format "mime/type" or "mime/%" are supported');
-				} else {
-					$field = 'mimetype';
-					$value = (int)$this->mimetypeLoader->getId($value);
-					$type = ISearchComparison::COMPARE_EQUAL;
+		// loop through all caches for each result to see if the result matches that storage
+		// results are grouped by the same array keys as the caches argument to allow the caller to distinguish the source of the results
+		$results = array_fill_keys(array_keys($caches), []);
+		foreach ($rawEntries as $rawEntry) {
+			foreach ($caches as $cacheKey => $cache) {
+				$entry = $cache->getCacheEntryFromSearchResult($rawEntry);
+				if ($entry) {
+					$results[$cacheKey][] = $entry;
 				}
 			}
-		} elseif ($field === 'favorite') {
-			$field = 'tag.category';
-			$value = self::TAG_FAVORITE;
-		} elseif ($field === 'tagname') {
-			$field = 'tag.category';
-		} elseif ($field === 'fileid') {
-			$field = 'file.fileid';
 		}
-		return [$field, $value, $type];
+		return $results;
 	}
 
-	private function validateComparison(ISearchComparison $operator) {
-		$types = [
-			'mimetype' => 'string',
-			'mtime' => 'integer',
-			'name' => 'string',
-			'size' => 'integer',
-			'tagname' => 'string',
-			'favorite' => 'boolean',
-			'fileid' => 'integer'
-		];
-		$comparisons = [
-			'mimetype' => ['eq', 'like'],
-			'mtime' => ['eq', 'gt', 'lt', 'gte', 'lte'],
-			'name' => ['eq', 'like'],
-			'size' => ['eq', 'gt', 'lt', 'gte', 'lte'],
-			'tagname' => ['eq', 'like'],
-			'favorite' => ['eq'],
-			'fileid' => ['eq']
-		];
-
-		if (!isset($types[$operator->getField()])) {
-			throw new \InvalidArgumentException('Unsupported comparison field ' . $operator->getField());
+	protected function requireUser(ISearchQuery $searchQuery): IUser {
+		$user = $searchQuery->getUser();
+		if ($user === null) {
+			throw new \InvalidArgumentException("This search operation requires the user to be set in the query");
 		}
-		$type = $types[$operator->getField()];
-		if (gettype($operator->getValue()) !== $type) {
-			throw new \InvalidArgumentException('Invalid type for field ' . $operator->getField());
-		}
-		if (!in_array($operator->getType(), $comparisons[$operator->getField()])) {
-			throw new \InvalidArgumentException('Unsupported comparison for field  ' . $operator->getField() . ': ' . $operator->getType());
-		}
-	}
-
-	private function getParameterForValue(IQueryBuilder $builder, $value) {
-		if ($value instanceof \DateTime) {
-			$value = $value->getTimestamp();
-		}
-		if (is_numeric($value)) {
-			$type = IQueryBuilder::PARAM_INT;
-		} else {
-			$type = IQueryBuilder::PARAM_STR;
-		}
-		return $builder->createNamedParameter($value, $type);
+		return $user;
 	}
 
 	/**
-	 * @param IQueryBuilder $query
-	 * @param ISearchOrder[] $orders
+	 * @return list{0?: array<array-key, ICache>, 1?: array<array-key, IMountPoint>}
 	 */
-	public function addSearchOrdersToQuery(IQueryBuilder $query, array $orders) {
-		foreach ($orders as $order) {
-			$query->addOrderBy($order->getField(), $order->getDirection());
+	public function getCachesAndMountPointsForSearch(IRootFolder $root, string $path, bool $limitToHome = false): array {
+		$rootLength = strlen($path);
+		$mount = $root->getMount($path);
+		$storage = $mount->getStorage();
+		if ($storage === null) {
+			return [];
 		}
+		$internalPath = $mount->getInternalPath($path);
+
+		if ($internalPath !== '') {
+			// a temporary CacheJail is used to handle filtering down the results to within this folder
+			/** @var ICache[] $caches */
+			$caches = ['' => new CacheJail($storage->getCache(''), $internalPath)];
+		} else {
+			/** @var ICache[] $caches */
+			$caches = ['' => $storage->getCache('')];
+		}
+		/** @var IMountPoint[] $mountByMountPoint */
+		$mountByMountPoint = ['' => $mount];
+
+		if (!$limitToHome) {
+			$mounts = $root->getMountsIn($path);
+			foreach ($mounts as $mount) {
+				$storage = $mount->getStorage();
+				if ($storage) {
+					$relativeMountPoint = ltrim(substr($mount->getMountPoint(), $rootLength), '/');
+					$caches[$relativeMountPoint] = $storage->getCache('');
+					$mountByMountPoint[$relativeMountPoint] = $mount;
+				}
+			}
+		}
+
+		return [$caches, $mountByMountPoint];
 	}
 }

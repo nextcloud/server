@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @copyright 2018, Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
@@ -17,14 +18,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\Tests\Unit\Direct;
 
 use OCA\DAV\Db\Direct;
@@ -82,57 +82,57 @@ class DirectFileTest extends TestCase {
 		$this->directFile = new DirectFile($this->direct, $this->rootFolder, $this->eventDispatcher);
 	}
 
-	public function testPut() {
+	public function testPut(): void {
 		$this->expectException(Forbidden::class);
 
 		$this->directFile->put('foo');
 	}
 
-	public function testGet() {
+	public function testGet(): void {
 		$this->file->expects($this->once())
 			->method('fopen')
 			->with('rb');
 		$this->directFile->get();
 	}
 
-	public function testGetContentType() {
+	public function testGetContentType(): void {
 		$this->file->method('getMimeType')
 			->willReturn('direct/type');
 
 		$this->assertSame('direct/type', $this->directFile->getContentType());
 	}
 
-	public function testGetETag() {
+	public function testGetETag(): void {
 		$this->file->method('getEtag')
 			->willReturn('directEtag');
 
 		$this->assertSame('directEtag', $this->directFile->getETag());
 	}
 
-	public function testGetSize() {
+	public function testGetSize(): void {
 		$this->file->method('getSize')
 			->willReturn(42);
 
 		$this->assertSame(42, $this->directFile->getSize());
 	}
 
-	public function testDelete() {
+	public function testDelete(): void {
 		$this->expectException(Forbidden::class);
 
 		$this->directFile->delete();
 	}
 
-	public function testGetName() {
+	public function testGetName(): void {
 		$this->assertSame('directToken', $this->directFile->getName());
 	}
 
-	public function testSetName() {
+	public function testSetName(): void {
 		$this->expectException(Forbidden::class);
 
 		$this->directFile->setName('foobar');
 	}
 
-	public function testGetLastModified() {
+	public function testGetLastModified(): void {
 		$this->file->method('getMTime')
 			->willReturn(42);
 

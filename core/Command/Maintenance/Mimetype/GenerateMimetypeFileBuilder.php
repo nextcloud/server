@@ -18,30 +18,27 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Core\Command\Maintenance\Mimetype;
 
 class GenerateMimetypeFileBuilder {
 	/**
 	 * Generate mime type list file
-	 * @param $aliases
+	 *
+	 * @param array $aliases
 	 * @return string
 	 */
 	public function generateFile(array $aliases): string {
 		// Remove comments
-		$keys = array_filter(array_keys($aliases), function ($k) {
-			return $k[0] === '_';
-		});
-		foreach ($keys as $key) {
-			unset($aliases[$key]);
-		}
+		$aliases = array_filter($aliases, static function ($key) {
+			return !($key === '' || $key[0] === '_');
+		}, ARRAY_FILTER_USE_KEY);
 
 		// Fetch all files
 		$dir = new \DirectoryIterator(\OC::$SERVERROOT.'/core/img/filetypes');

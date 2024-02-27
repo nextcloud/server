@@ -19,17 +19,17 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Files_Sharing\Notification;
 
 use OCP\Files\IRootFolder;
+use OCP\Files\NotFoundException;
 use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IURLGenerator;
@@ -61,11 +61,11 @@ class Notifier implements INotifier {
 	protected $url;
 
 	public function __construct(IFactory $l10nFactory,
-								IManager $shareManager,
-								IRootFolder $rootFolder,
-								IGroupManager $groupManager,
-								IUserManager $userManager,
-								IURLGenerator $url) {
+		IManager $shareManager,
+		IRootFolder $rootFolder,
+		IGroupManager $groupManager,
+		IUserManager $userManager,
+		IURLGenerator $url) {
 		$this->l10nFactory = $l10nFactory;
 		$this->shareManager = $shareManager;
 		$this->rootFolder = $rootFolder;
@@ -118,6 +118,13 @@ class Notifier implements INotifier {
 			throw new AlreadyProcessedException();
 		}
 
+		try {
+			$share->getNode();
+		} catch (NotFoundException $e) {
+			// Node is already deleted, so discard the notification
+			throw new AlreadyProcessedException();
+		}
+
 		if ($notification->getSubject() === 'expiresTomorrow') {
 			$notification = $this->parseShareExpiration($share, $notification, $l);
 		} else {
@@ -133,7 +140,6 @@ class Notifier implements INotifier {
 
 		$notification
 			->setParsedSubject($l->t('Share will expire tomorrow'))
-			->setParsedMessage($l->t('One or more of your shares will expire tomorrow'))
 			->setRichMessage(
 				$l->t('Your share of {node} will expire tomorrow'),
 				[
@@ -158,6 +164,8 @@ class Notifier implements INotifier {
 			if ($share->getStatus() !== IShare::STATUS_PENDING) {
 				throw new AlreadyProcessedException();
 			}
+		} else {
+			throw new \InvalidArgumentException('Invalid share type');
 		}
 
 		switch ($notification->getSubject()) {
@@ -193,7 +201,7 @@ class Notifier implements INotifier {
 				}
 
 				$group = $this->groupManager->get($share->getSharedWith());
-				if (!$group->inGroup($user)) {
+				if ($group === null || !$group->inGroup($user)) {
 					throw new AlreadyProcessedException();
 				}
 
@@ -231,14 +239,7 @@ class Notifier implements INotifier {
 				throw new \InvalidArgumentException('Invalid subject');
 		}
 
-		$placeholders = $replacements = [];
-		foreach ($subjectParameters as $placeholder => $parameter) {
-			$placeholders[] = '{' . $placeholder . '}';
-			$replacements[] = $parameter['name'];
-		}
-
-		$notification->setParsedSubject(str_replace($placeholders, $replacements, $subject))
-			->setRichSubject($subject, $subjectParameters)
+		$notification->setRichSubject($subject, $subjectParameters)
 			->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/share.svg')));
 
 		$acceptAction = $notification->createAction();

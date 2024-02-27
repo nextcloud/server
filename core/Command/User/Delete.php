@@ -5,7 +5,6 @@
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Jens-Christian Fischer <jens-christian.fischer@switch.ch>
  * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
@@ -23,24 +22,20 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Core\Command\User;
 
+use OC\Core\Command\Base;
+use OCP\IUser;
 use OCP\IUserManager;
-use Symfony\Component\Console\Command\Command;
+use Stecman\Component\Symfony\Console\BashCompletion\CompletionContext;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class Delete extends Command {
-	/** @var IUserManager */
-	protected $userManager;
-
-	/**
-	 * @param IUserManager $userManager
-	 */
-	public function __construct(IUserManager $userManager) {
-		$this->userManager = $userManager;
+class Delete extends Base {
+	public function __construct(
+		protected IUserManager $userManager,
+	) {
 		parent::__construct();
 	}
 
@@ -69,5 +64,17 @@ class Delete extends Command {
 
 		$output->writeln('<error>The specified user could not be deleted. Please check the logs.</error>');
 		return 1;
+	}
+
+	/**
+	 * @param string $argumentName
+	 * @param CompletionContext $context
+	 * @return string[]
+	 */
+	public function completeArgumentValues($argumentName, CompletionContext $context) {
+		if ($argumentName === 'uid') {
+			return array_map(static fn (IUser $user) => $user->getUID(), $this->userManager->search($context->getCurrentWord()));
+		}
+		return [];
 	}
 }

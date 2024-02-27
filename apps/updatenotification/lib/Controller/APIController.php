@@ -17,17 +17,17 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\UpdateNotification\Controller;
 
 use OC\App\AppStore\Fetcher\AppFetcher;
+use OCA\UpdateNotification\ResponseDefinitions;
 use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
@@ -35,7 +35,12 @@ use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCSController;
 use OCP\IConfig;
 use OCP\IRequest;
+use OCP\IUserSession;
+use OCP\L10N\IFactory;
 
+/**
+ * @psalm-import-type UpdateNotificationApp from ResponseDefinitions
+ */
 class APIController extends OCSController {
 
 	/** @var IConfig */
@@ -47,28 +52,52 @@ class APIController extends OCSController {
 	/** @var AppFetcher */
 	protected $appFetcher;
 
+	/** @var IFactory */
+	protected $l10nFactory;
+
+	/** @var IUserSession */
+	protected $userSession;
+
+	/** @var string */
+	protected $language;
+
 	/**
-	 * @param string $appName
-	 * @param IRequest $request
-	 * @param IConfig $config
-	 * @param IAppManager $appManager
-	 * @param AppFetcher $appFetcher
+	 * List of apps that were in the appstore but are now shipped and don't have
+	 * a compatible update available.
+	 *
+	 * @var array<string, int>
 	 */
-	public function __construct($appName,
-								IRequest $request,
-								IConfig $config,
-								IAppManager $appManager,
-								AppFetcher $appFetcher) {
+	protected array $appsShippedInFutureVersion = [
+		'bruteforcesettings' => 25,
+		'suspicious_login' => 25,
+		'twofactor_totp' => 25,
+	];
+
+	public function __construct(string $appName,
+		IRequest $request,
+		IConfig $config,
+		IAppManager $appManager,
+		AppFetcher $appFetcher,
+		IFactory $l10nFactory,
+		IUserSession $userSession) {
 		parent::__construct($appName, $request);
 
 		$this->config = $config;
 		$this->appManager = $appManager;
 		$this->appFetcher = $appFetcher;
+		$this->l10nFactory = $l10nFactory;
+		$this->userSession = $userSession;
 	}
 
 	/**
-	 * @param string $newVersion
-	 * @return DataResponse
+	 * List available updates for apps
+	 *
+	 * @param string $newVersion Server version to check updates for
+	 *
+	 * @return DataResponse<Http::STATUS_OK, array{missing: UpdateNotificationApp[], available: UpdateNotificationApp[]}, array{}>|DataResponse<Http::STATUS_NOT_FOUND, array{appstore_disabled: bool, already_on_latest?: bool}, array{}>
+	 *
+	 * 200: Apps returned
+	 * 404: New versions not found
 	 */
 	public function getAppList(string $newVersion): DataResponse {
 		if (!$this->config->getSystemValue('appstoreenabled', true)) {
@@ -85,7 +114,7 @@ class APIController extends OCSController {
 			} catch (AppPathNotFoundException $e) {
 				return false;
 			}
-			return !$this->appManager->isShipped($app);
+			return !$this->appManager->isShipped($app) && !isset($this->appsShippedInFutureVersion[$app]);
 		});
 
 		if (empty($installedApps)) {
@@ -98,7 +127,7 @@ class APIController extends OCSController {
 		$this->appFetcher->setVersion($newVersion, 'future-apps.json', false);
 
 		// Apps available on the app store for that version
-		$availableApps = array_map(function (array $app) {
+		$availableApps = array_map(static function (array $app) {
 			return $app['id'];
 		}, $this->appFetcher->get());
 
@@ -108,6 +137,17 @@ class APIController extends OCSController {
 				'already_on_latest' => false,
 			], Http::STATUS_NOT_FOUND);
 		}
+
+		$this->language = $this->l10nFactory->getUserLanguage($this->userSession->getUser());
+
+		// Ignore apps that are deployed from git
+		$installedApps = array_filter($installedApps, function (string $appId) {
+			try {
+				return !file_exists($this->appManager->getAppPath($appId) . '/.git');
+			} catch (AppPathNotFoundException $e) {
+				return true;
+			}
+		});
 
 		$missing = array_diff($installedApps, $availableApps);
 		$missing = array_map([$this, 'getAppDetails'], $missing);
@@ -127,13 +167,15 @@ class APIController extends OCSController {
 	 * Get translated app name
 	 *
 	 * @param string $appId
-	 * @return string[]
+	 * @return UpdateNotificationApp
 	 */
-	protected function getAppDetails($appId): array {
-		$app = $this->appManager->getAppInfo($appId);
+	protected function getAppDetails(string $appId): array {
+		$app = $this->appManager->getAppInfo($appId, false, $this->language);
+		/** @var ?string $name */
+		$name = $app['name'];
 		return [
 			'appId' => $appId,
-			'appName' => $app['name'] ?? $appId,
+			'appName' => $name ?? $appId,
 		];
 	}
 }

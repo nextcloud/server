@@ -19,7 +19,7 @@
  */
 
 (function( $ ) {
- 
+
     // ocFederationAddServer
     $.fn.ocFederationAddServer = function() {
 
@@ -27,14 +27,13 @@
         ========================================================================== */
 
         var $wrapper = $(this),
-            
+
             // Buttons
             $btnAddServer   = $wrapper.find("#ocFederationAddServerButton"),
             $btnSubmit      = $wrapper.find("#ocFederationSubmit"),
-            
+
             // Inputs
             $inpServerUrl   = $wrapper.find("#serverUrl"),
-            $inpAutoAddServers = $wrapper.find("#autoAddServers"),
 
             // misc
             $msgBox         = $wrapper.find("#ocFederationAddServer .msg"),
@@ -46,8 +45,8 @@
 
         $btnAddServer.on('click', function() {
             $btnAddServer.addClass('hidden');
+            $wrapper.find(".serverUrl").removeClass('hidden');
             $inpServerUrl
-                .removeClass('hidden')
                 .focus();
         });
 
@@ -55,17 +54,8 @@
         $srvList.on('click', 'li > .icon-delete', function() {
             var $this = $(this).parent();
             var id = $this.attr('id');
-            
-            removeServer( id );
-        });
 
-        $inpAutoAddServers.on("change", function() {
-            $.post(
-                OC.generateUrl('/apps/federation/auto-add-servers'),
-                {
-                    autoAddServers: $(this).is(":checked")
-                }
-            );
+            removeServer( id );
         });
 
         $btnSubmit.on("click", function()
@@ -79,7 +69,7 @@
 
             var url = $(this).val();
 
-            // toggle add-button visiblity based on input length
+            // toggle add-button visibility based on input length
             if ( url.length > 0 )
                 $btnSubmit.removeClass("hidden")
             else
@@ -94,7 +84,7 @@
             }
         });
     };
-    
+
     /* private Functions
     ========================================================================== */
 
@@ -132,11 +122,11 @@
         });
     }
 
- 
+
 })( jQuery );
 
 window.addEventListener('DOMContentLoaded', function () {
 
     $('#ocFederationSettings').ocFederationAddServer();
-    
+
 });

@@ -15,14 +15,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
 use OCA\DAV\Connector\Sabre\BearerAuth;
@@ -61,19 +60,18 @@ class BearerAuthTest extends TestCase {
 		);
 	}
 
-	public function testValidateBearerTokenNotLoggedIn() {
+	public function testValidateBearerTokenNotLoggedIn(): void {
 		$this->assertFalse($this->bearerAuth->validateBearerToken('Token'));
 	}
 
-	public function testValidateBearerToken() {
+	public function testValidateBearerToken(): void {
 		$this->userSession
-			->expects($this->at(0))
+			->expects($this->exactly(2))
 			->method('isLoggedIn')
-			->willReturn(false);
-		$this->userSession
-			->expects($this->at(2))
-			->method('isLoggedIn')
-			->willReturn(true);
+			->willReturnOnConsecutiveCalls(
+				false,
+				true,
+			);
 		$user = $this->createMock(IUser::class);
 		$user
 			->expects($this->once())
@@ -87,7 +85,7 @@ class BearerAuthTest extends TestCase {
 		$this->assertSame('principals/users/admin', $this->bearerAuth->validateBearerToken('Token'));
 	}
 
-	public function testChallenge() {
+	public function testChallenge(): void {
 		/** @var \PHPUnit\Framework\MockObject\MockObject|RequestInterface $request */
 		$request = $this->createMock(RequestInterface::class);
 		/** @var \PHPUnit\Framework\MockObject\MockObject|ResponseInterface $response */

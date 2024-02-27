@@ -33,7 +33,7 @@ import { CollectionList } from 'nextcloud-vue-collections'
 export default {
 	name: 'CollaborationView',
 	components: {
-		CollectionList
+		CollectionList,
 	},
 	computed: {
 		fileId() {
@@ -47,7 +47,7 @@ export default {
 				return '' + this.$root.model.name
 			}
 			return ''
-		}
-	}
+		},
+	},
 }
 </script>

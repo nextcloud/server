@@ -23,6 +23,8 @@ $directories = [
 	__DIR__ . '/../core/l10n',
 ];
 
+$isDebug = in_array('--debug', $argv, true) || in_array('-d', $argv, true);
+
 $apps = new \DirectoryIterator(__DIR__ . '/../apps');
 foreach ($apps as $app) {
 	if (!file_exists($app->getPathname() . '/l10n')) {
@@ -48,10 +50,25 @@ foreach ($directories as $dir) {
 		$content = file_get_contents($file->getPathname());
 		$json = json_decode($content, true);
 
+		$translations = json_encode($json['translations']);
+		if (strpos($translations, '|') !== false) {
+			$errors[] = $file->getPathname() . "\n" . '  ' . 'Contains a | in the translations.' . "\n";
+		}
+
 		if (json_last_error() !== JSON_ERROR_NONE) {
 			$errors[] = $file->getPathname() . "\n" . '  ' . json_last_error_msg() . "\n";
 		} else {
 			$valid++;
+		}
+
+		if ($isDebug && $file->getFilename() === 'en_GB.json') {
+			$sourceStrings = json_encode(array_keys($json['translations']));
+
+			if (strpos($sourceStrings, '\u2019') !== false) {
+				$errors[] = $file->getPathname() . "\n"
+					. '  ' . 'Contains a unicode single quote "’" in the english source string, please replace with normal single quotes.' . "\n"
+					. '  ' . 'Please note that this only updates after a sync to transifex.' . "\n";
+			}
 		}
 	}
 }

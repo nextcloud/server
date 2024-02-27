@@ -36,12 +36,13 @@ use OCP\IL10N;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IURLGenerator;
+use OCP\IUser;
+use OCP\IUserSession;
 use OCP\Security\ISecureRandom;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class ClientFlowLoginV2ControllerTest extends TestCase {
-
 	/** @var IRequest|MockObject */
 	private $request;
 	/** @var LoginFlowV2Service|MockObject */
@@ -50,6 +51,8 @@ class ClientFlowLoginV2ControllerTest extends TestCase {
 	private $urlGenerator;
 	/** @var ISession|MockObject */
 	private $session;
+	/** @var IUserSession|MockObject */
+	private $userSession;
 	/** @var ISecureRandom|MockObject */
 	private $random;
 	/** @var Defaults|MockObject */
@@ -66,6 +69,7 @@ class ClientFlowLoginV2ControllerTest extends TestCase {
 		$this->loginFlowV2Service = $this->createMock(LoginFlowV2Service::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->session = $this->createMock(ISession::class);
+		$this->userSession = $this->createMock(IUserSession::class);
 		$this->random = $this->createMock(ISecureRandom::class);
 		$this->defaults = $this->createMock(Defaults::class);
 		$this->l = $this->createMock(IL10N::class);
@@ -75,6 +79,7 @@ class ClientFlowLoginV2ControllerTest extends TestCase {
 			$this->loginFlowV2Service,
 			$this->urlGenerator,
 			$this->session,
+			$this->userSession,
 			$this->random,
 			$this->defaults,
 			'user',
@@ -101,7 +106,7 @@ class ClientFlowLoginV2ControllerTest extends TestCase {
 
 		$result = $this->controller->poll('token');
 
-		$this->assertSame($creds, $result->getData());
+		$this->assertSame($creds->jsonSerialize(), $result->getData());
 		$this->assertSame(Http::STATUS_OK, $result->getStatus());
 	}
 
@@ -182,6 +187,12 @@ class ClientFlowLoginV2ControllerTest extends TestCase {
 		$this->controller->showAuthPickerPage();
 	}
 
+	public function testGrantPageNoStateToken(): void {
+		$result = $this->controller->grantPage(null);
+
+		$this->assertSame(Http::STATUS_FORBIDDEN, $result->getStatus());
+	}
+
 	public function testGrantPageInvalidStateToken() {
 		$this->session->method('get')
 			->willReturnCallback(function ($name) {
@@ -223,6 +234,14 @@ class ClientFlowLoginV2ControllerTest extends TestCase {
 				}
 				return null;
 			});
+
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')
+			->willReturn('uid');
+		$user->method('getDisplayName')
+			->willReturn('display name');
+		$this->userSession->method('getUser')
+			->willReturn($user);
 
 		$flow = new LoginFlowV2();
 		$this->loginFlowV2Service->method('getByLoginToken')

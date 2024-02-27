@@ -23,7 +23,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP\Comments;
 
 /**
@@ -34,6 +33,9 @@ namespace OCP\Comments;
  * @since 9.0.0
  */
 interface IComment {
+	/**
+	 * @since 9.0.0
+	 */
 	public const MAX_MESSAGE_LENGTH = 1000;
 
 	/**
@@ -231,11 +233,11 @@ interface IComment {
 	/**
 	 * sets the date of the most recent child
 	 *
-	 * @param \DateTime $dateTime
+	 * @param \DateTime|null $dateTime
 	 * @return IComment
 	 * @since 9.0.0
 	 */
-	public function setLatestChildDateTime(\DateTime $dateTime);
+	public function setLatestChildDateTime(?\DateTime $dateTime = null);
 
 	/**
 	 * returns the object type the comment is attached to
@@ -279,4 +281,61 @@ interface IComment {
 	 * @since 19.0.0
 	 */
 	public function setReferenceId(?string $referenceId): IComment;
+
+	/**
+	 * Returns the metadata of the comment
+	 *
+	 * @return array|null
+	 * @since 29.0.0
+	 */
+	public function getMetaData(): ?array;
+
+	/**
+	 * Sets (overwrites) the metadata of the comment
+	 * Data as a json encoded array
+	 *
+	 * @param array|null $metaData
+	 * @return IComment
+	 * @throws \JsonException When the metadata can not be converted to a json encoded string
+	 * @since 29.0.0
+	 */
+	public function setMetaData(?array $metaData): IComment;
+
+	/**
+	 * Returns the reactions array if exists
+	 *
+	 * The keys is the emoji of reaction and the value is the total.
+	 *
+	 * @return array<string, integer> e.g. ["👍":1]
+	 * @since 24.0.0
+	 */
+	public function getReactions(): array;
+
+	/**
+	 * Set summarized array of reactions by reaction type
+	 *
+	 * The keys is the emoji of reaction and the value is the total.
+	 *
+	 * @param array<string, integer>|null $reactions e.g. ["👍":1]
+	 * @return IComment
+	 * @since 24.0.0
+	 */
+	public function setReactions(?array $reactions): IComment;
+
+	/**
+	 * Set message expire date
+	 *
+	 * @param \DateTime|null $dateTime
+	 * @return IComment
+	 * @since 25.0.0
+	 */
+	public function setExpireDate(?\DateTime $dateTime): IComment;
+
+	/**
+	 * Get message expire date
+	 *
+	 * @return ?\DateTime
+	 * @since 25.0.0
+	 */
+	public function getExpireDate(): ?\DateTime;
 }

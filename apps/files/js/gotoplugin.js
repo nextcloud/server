@@ -29,6 +29,11 @@
 			if (this.disallowedLists.indexOf(fileList.id) !== -1) {
 				return;
 			}
+			// lists where the "Open" default action is disabled should
+			// also have the goto action disabled
+			if (fileList._defaultFileActionsDisabled) {
+				return
+			}
 			var fileActions = fileList.fileActions;
 
 			fileActions.registerAction({
@@ -40,8 +45,8 @@
 				type: OCA.Files.FileActions.TYPE_DROPDOWN,
 				actionHandler: function (fileName, context) {
 					var fileModel = context.fileInfoModel;
-					OC.Apps.hideAppSidebar($('.detailsView'));
-					OCA.Files.App.setActiveView('files', {silent: true});
+					OCA.Files.Sidebar.close();
+					OCA.Files.App.setActiveView('files', { silent: true });
 					OCA.Files.App.fileList.changeDirectory(fileModel.get('path'), true, true).then(function() {
 						OCA.Files.App.fileList.scrollTo(fileModel.get('name'));
 					});

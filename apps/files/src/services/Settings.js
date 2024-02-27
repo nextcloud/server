@@ -1,9 +1,9 @@
 /**
  * @copyright Copyright (c) 2019 Gary Kim <gary@garykim.dev>
  *
- * @author Gary Kim <gary@garykim.dev>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -12,7 +12,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -22,10 +22,10 @@
 
 export default class Settings {
 
-	#settings
+	_settings
 
 	constructor() {
-		this.#settings = []
+		this._settings = []
 		console.debug('OCA.Files.Settings initialized')
 	}
 
@@ -34,23 +34,24 @@ export default class Settings {
 	 *
 	 * @since 19.0.0
 	 * @param {OCA.Files.Settings.Setting} view element to add to settings
-	 * @returns {boolean} whether registering was successful
+	 * @return {boolean} whether registering was successful
 	 */
 	register(view) {
-		if (this.#settings.filter(e => e.name === view.name).length > 0) {
+		if (this._settings.filter(e => e.name === view.name).length > 0) {
 			console.error('A setting with the same name is already registered')
 			return false
 		}
-		this.#settings.push(view)
+		this._settings.push(view)
 		return true
 	}
 
 	/**
 	 * All settings elements
-	 * @returns {OCA.Files.Settings.Setting[]} All currently registered settings
+	 *
+	 * @return {OCA.Files.Settings.Setting[]} All currently registered settings
 	 */
 	get settings() {
-		return this.#settings
+		return this._settings
 	}
 
 }

@@ -16,14 +16,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Preview;
 
 use OCP\Files\File;
@@ -39,7 +38,6 @@ use OCP\Preview\IProviderV2;
  * Very small wrapper class to make the generator fully unit testable
  */
 class GeneratorHelper {
-
 	/** @var IRootFolder */
 	private $rootFolder;
 
@@ -59,8 +57,11 @@ class GeneratorHelper {
 	 *
 	 * @return bool|IImage
 	 */
-	public function getThumbnail(IProviderV2 $provider, File $file, $maxWidth, $maxHeight) {
-		return $provider->getThumbnail($file, $maxWidth, $maxHeight);
+	public function getThumbnail(IProviderV2 $provider, File $file, $maxWidth, $maxHeight, bool $crop = false) {
+		if ($provider instanceof Imaginary) {
+			return $provider->getCroppedThumbnail($file, $maxWidth, $maxHeight, $crop) ?? false;
+		}
+		return $provider->getThumbnail($file, $maxWidth, $maxHeight) ?? false;
 	}
 
 	/**

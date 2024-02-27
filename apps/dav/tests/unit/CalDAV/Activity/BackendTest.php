@@ -16,14 +16,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\Tests\unit\CalDAV\Activity;
 
 use OCA\DAV\CalDAV\Activity\Backend;
@@ -34,6 +33,7 @@ use OCP\App\IAppManager;
 use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IUser;
+use OCP\IUserManager;
 use OCP\IUserSession;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
@@ -52,12 +52,16 @@ class BackendTest extends TestCase {
 	/** @var IAppManager|MockObject */
 	protected $appManager;
 
+	/** @var IUserManager|MockObject */
+	protected $userManager;
+
 	protected function setUp(): void {
 		parent::setUp();
 		$this->activityManager = $this->createMock(IManager::class);
 		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->appManager = $this->createMock(IAppManager::class);
+		$this->userManager = $this->createMock(IUserManager::class);
 	}
 
 	/**
@@ -70,7 +74,8 @@ class BackendTest extends TestCase {
 				$this->activityManager,
 				$this->groupManager,
 				$this->userSession,
-				$this->appManager
+				$this->appManager,
+				$this->userManager
 			);
 		} else {
 			return $this->getMockBuilder(Backend::class)
@@ -79,8 +84,9 @@ class BackendTest extends TestCase {
 					$this->groupManager,
 					$this->userSession,
 					$this->appManager,
+					$this->userManager
 				])
-				->setMethods($methods)
+				->onlyMethods($methods)
 				->getMock();
 		}
 	}
@@ -102,11 +108,11 @@ class BackendTest extends TestCase {
 	 * @param string $expectedSubject
 	 * @param array $expectedPayload
 	 */
-	public function testCallTriggerCalendarActivity($method, array $payload, $expectedSubject, array $expectedPayload) {
+	public function testCallTriggerCalendarActivity($method, array $payload, $expectedSubject, array $expectedPayload): void {
 		$backend = $this->getBackend(['triggerCalendarActivity']);
 		$backend->expects($this->once())
 			->method('triggerCalendarActivity')
-			->willReturnCallback(function () use ($expectedPayload, $expectedSubject) {
+			->willReturnCallback(function () use ($expectedPayload, $expectedSubject): void {
 				$arguments = func_get_args();
 				$this->assertSame($expectedSubject, array_shift($arguments));
 				$this->assertEquals($expectedPayload, $arguments);
@@ -207,7 +213,7 @@ class BackendTest extends TestCase {
 	 * @param string[]|null $shareUsers
 	 * @param string[] $users
 	 */
-	public function testTriggerCalendarActivity($action, array $data, array $shares, array $changedProperties, $currentUser, $author, $shareUsers, array $users) {
+	public function testTriggerCalendarActivity($action, array $data, array $shares, array $changedProperties, $currentUser, $author, $shareUsers, array $users): void {
 		$backend = $this->getBackend(['getUsersForShares']);
 
 		if ($shareUsers === null) {
@@ -253,6 +259,10 @@ class BackendTest extends TestCase {
 				->with($author)
 				->willReturnSelf();
 
+			$this->userManager->expects($action === Calendar::SUBJECT_DELETE ? $this->exactly(sizeof($users)) : $this->never())
+				->method('userExists')
+				->willReturn(true);
+
 			$event->expects($this->exactly(sizeof($users)))
 				->method('setAffectedUser')
 				->willReturnSelf();
@@ -268,6 +278,24 @@ class BackendTest extends TestCase {
 		}
 
 		$this->invokePrivate($backend, 'triggerCalendarActivity', [$action, $data, $shares, $changedProperties]);
+	}
+
+	public function testUserDeletionDoesNotCreateActivity(): void {
+		$backend = $this->getBackend();
+
+		$this->userManager->expects($this->once())
+			->method('userExists')
+			->willReturn(false);
+
+		$this->activityManager->expects($this->never())
+			->method('publish');
+
+		$this->invokePrivate($backend, 'triggerCalendarActivity', [Calendar::SUBJECT_DELETE, [
+			'principaluri' => 'principal/user/admin',
+			'id' => 42,
+			'uri' => 'this-uri',
+			'{DAV:}displayname' => 'Name of calendar',
+		], [], []]);
 	}
 
 	public function dataGetUsersForShares() {
@@ -319,7 +347,7 @@ class BackendTest extends TestCase {
 	 * @param array $groups
 	 * @param array $expected
 	 */
-	public function testGetUsersForShares(array $shares, array $groups, array $expected) {
+	public function testGetUsersForShares(array $shares, array $groups, array $expected): void {
 		$backend = $this->getBackend();
 
 		$getGroups = [];

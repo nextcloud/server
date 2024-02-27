@@ -1,6 +1,8 @@
 <?php
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
+ * @copyright 2014 Vincent Petry <pvince81@owncloud.com>
+ * @copyright 2014 Vincent Petry <pvince81@owncloud.com>
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Morris Jobke <hey@morrisjobke.de>
@@ -25,7 +27,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\Connector\Sabre;
 
 /**
@@ -221,7 +222,7 @@ class TagsPlugin extends \Sabre\DAV\ServerPlugin {
 			&& $propFind->getDepth() !== 0
 			&& (!is_null($propFind->getStatus(self::TAGS_PROPERTYNAME))
 			|| !is_null($propFind->getStatus(self::FAVORITE_PROPERTYNAME))
-		)) {
+			)) {
 			// note: pre-fetching only supported for depth <= 1
 			$folderContent = $node->getChildren();
 			$fileIds[] = (int)$node->getId();

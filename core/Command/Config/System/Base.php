@@ -13,23 +13,24 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Core\Command\Config\System;
 
 use OC\SystemConfig;
 use Stecman\Component\Symfony\Console\BashCompletion\CompletionContext;
 
 abstract class Base extends \OC\Core\Command\Base {
-
-	/** @var SystemConfig */
-	protected $systemConfig;
+	public function __construct(
+		protected SystemConfig $systemConfig,
+	) {
+		parent::__construct();
+	}
 
 	/**
 	 * @param string $argumentName

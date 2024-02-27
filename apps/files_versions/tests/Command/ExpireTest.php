@@ -21,7 +21,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_Versions\Tests\Command;
 
 use OCA\Files_Versions\Command\Expire;

@@ -27,17 +27,19 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Session;
 
 use OCP\ISession;
 use OCP\Security\ICrypto;
 use OCP\Session\Exceptions\SessionNotAvailableException;
+use function json_decode;
+use function OCP\Log\logger;
 
 /**
  * Class CryptoSessionData
  *
  * @package OC\Session
+ * @template-implements \ArrayAccess<string,mixed>
  */
 class CryptoSessionData implements \ArrayAccess, ISession {
 	/** @var ISession */
@@ -58,8 +60,8 @@ class CryptoSessionData implements \ArrayAccess, ISession {
 	 * @param string $passphrase
 	 */
 	public function __construct(ISession $session,
-								ICrypto $crypto,
-								string $passphrase) {
+		ICrypto $crypto,
+		string $passphrase) {
 		$this->crypto = $crypto;
 		$this->session = $session;
 		$this->passphrase = $passphrase;
@@ -80,14 +82,24 @@ class CryptoSessionData implements \ArrayAccess, ISession {
 
 	protected function initializeSession() {
 		$encryptedSessionData = $this->session->get(self::encryptedSessionName) ?: '';
-		try {
-			$this->sessionValues = json_decode(
-				$this->crypto->decrypt($encryptedSessionData, $this->passphrase),
-				true
-			);
-		} catch (\Exception $e) {
+		if ($encryptedSessionData === '') {
+			// Nothing to decrypt
 			$this->sessionValues = [];
-			$this->regenerateId(true, false);
+		} else {
+			try {
+				$this->sessionValues = json_decode(
+					$this->crypto->decrypt($encryptedSessionData, $this->passphrase),
+					true,
+					512,
+					JSON_THROW_ON_ERROR,
+				);
+			} catch (\Exception $e) {
+				logger('core')->critical('Could not decrypt or decode encrypted session data', [
+					'exception' => $e,
+				]);
+				$this->sessionValues = [];
+				$this->regenerateId(true, false);
+			}
 		}
 	}
 
@@ -98,8 +110,17 @@ class CryptoSessionData implements \ArrayAccess, ISession {
 	 * @param mixed $value
 	 */
 	public function set(string $key, $value) {
+		if ($this->get($key) === $value) {
+			// Do not write the session if the value hasn't changed to avoid reopening
+			return;
+		}
+
+		$reopened = $this->reopen();
 		$this->sessionValues[$key] = $value;
 		$this->isModified = true;
+		if ($reopened) {
+			$this->close();
+		}
 	}
 
 	/**
@@ -132,15 +153,19 @@ class CryptoSessionData implements \ArrayAccess, ISession {
 	 * @param string $key
 	 */
 	public function remove(string $key) {
+		$reopened = $this->reopen();
 		$this->isModified = true;
 		unset($this->sessionValues[$key]);
-		$this->session->remove(self::encryptedSessionName);
+		if ($reopened) {
+			$this->close();
+		}
 	}
 
 	/**
 	 * Reset and recreate the session
 	 */
 	public function clear() {
+		$reopened = $this->reopen();
 		$requesttoken = $this->get('requesttoken');
 		$this->sessionValues = [];
 		if ($requesttoken !== null) {
@@ -148,6 +173,17 @@ class CryptoSessionData implements \ArrayAccess, ISession {
 		}
 		$this->isModified = true;
 		$this->session->clear();
+		if ($reopened) {
+			$this->close();
+		}
+	}
+
+	public function reopen(): bool {
+		$reopened = $this->session->reopen();
+		if ($reopened) {
+			$this->initializeSession();
+		}
+		return $reopened;
 	}
 
 	/**
@@ -196,6 +232,7 @@ class CryptoSessionData implements \ArrayAccess, ISession {
 	 * @param mixed $offset
 	 * @return mixed
 	 */
+	#[\ReturnTypeWillChange]
 	public function offsetGet($offset) {
 		return $this->get($offset);
 	}
@@ -204,14 +241,14 @@ class CryptoSessionData implements \ArrayAccess, ISession {
 	 * @param mixed $offset
 	 * @param mixed $value
 	 */
-	public function offsetSet($offset, $value) {
+	public function offsetSet($offset, $value): void {
 		$this->set($offset, $value);
 	}
 
 	/**
 	 * @param mixed $offset
 	 */
-	public function offsetUnset($offset) {
+	public function offsetUnset($offset): void {
 		$this->remove($offset);
 	}
 }

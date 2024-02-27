@@ -37,21 +37,18 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_External;
 
-use OCA\Files_External\AppInfo\Application;
 use OCA\Files_External\Config\IConfigHandler;
 use OCA\Files_External\Config\UserContext;
 use OCA\Files_External\Lib\Backend\Backend;
-use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\Service\BackendService;
 use OCA\Files_External\Service\GlobalStoragesService;
 use OCA\Files_External\Service\UserGlobalStoragesService;
 use OCA\Files_External\Service\UserStoragesService;
 use OCP\Files\StorageNotAvailableException;
-use OCP\IUserManager;
 use phpseclib\Crypt\AES;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class to configure mount.json globally and for users
@@ -67,102 +64,21 @@ class MountConfig {
 	// whether to skip backend test (for unit tests, as this static class is not mockable)
 	public static $skipTest = false;
 
-	/** @var Application */
-	public static $app;
+	/** @var UserGlobalStoragesService */
+	private $userGlobalStorageService;
+	/** @var UserStoragesService */
+	private $userStorageService;
+	/** @var GlobalStoragesService */
+	private $globalStorageService;
 
-	/**
-	 * Returns the mount points for the given user.
-	 * The mount point is relative to the data directory.
-	 *
-	 * @param string $uid user
-	 * @return array of mount point string as key, mountpoint config as value
-	 *
-	 * @deprecated 8.2.0 use UserGlobalStoragesService::getStorages() and UserStoragesService::getStorages()
-	 */
-	public static function getAbsoluteMountPoints($uid) {
-		$mountPoints = [];
-
-		$userGlobalStoragesService = self::$app->getContainer()->query(UserGlobalStoragesService::class);
-		$userStoragesService = self::$app->getContainer()->query(UserStoragesService::class);
-		$user = self::$app->getContainer()->query(IUserManager::class)->get($uid);
-
-		$userGlobalStoragesService->setUser($user);
-		$userStoragesService->setUser($user);
-
-		foreach ($userGlobalStoragesService->getStorages() as $storage) {
-			/** @var \OCA\Files_External\Lib\StorageConfig $storage */
-			$mountPoint = '/'.$uid.'/files'.$storage->getMountPoint();
-			$mountEntry = self::prepareMountPointEntry($storage, false);
-			foreach ($mountEntry['options'] as &$option) {
-				$option = self::substitutePlaceholdersInConfig($option, $uid);
-			}
-			$mountPoints[$mountPoint] = $mountEntry;
-		}
-
-		foreach ($userStoragesService->getStorages() as $storage) {
-			$mountPoint = '/'.$uid.'/files'.$storage->getMountPoint();
-			$mountEntry = self::prepareMountPointEntry($storage, true);
-			foreach ($mountEntry['options'] as &$option) {
-				$option = self::substitutePlaceholdersInConfig($option, $uid);
-			}
-			$mountPoints[$mountPoint] = $mountEntry;
-		}
-
-		$userGlobalStoragesService->resetUser();
-		$userStoragesService->resetUser();
-
-		return $mountPoints;
-	}
-
-	/**
-	 * Get the system mount points
-	 *
-	 * @return array
-	 *
-	 * @deprecated 8.2.0 use GlobalStoragesService::getStorages()
-	 */
-	public static function getSystemMountPoints() {
-		$mountPoints = [];
-		$service = self::$app->getContainer()->query(GlobalStoragesService::class);
-
-		foreach ($service->getStorages() as $storage) {
-			$mountPoints[] = self::prepareMountPointEntry($storage, false);
-		}
-
-		return $mountPoints;
-	}
-
-	/**
-	 * Convert a StorageConfig to the legacy mountPoints array format
-	 * There's a lot of extra information in here, to satisfy all of the legacy functions
-	 *
-	 * @param StorageConfig $storage
-	 * @param bool $isPersonal
-	 * @return array
-	 */
-	private static function prepareMountPointEntry(StorageConfig $storage, $isPersonal) {
-		$mountEntry = [];
-
-		$mountEntry['mountpoint'] = substr($storage->getMountPoint(), 1); // remove leading slash
-		$mountEntry['class'] = $storage->getBackend()->getIdentifier();
-		$mountEntry['backend'] = $storage->getBackend()->getText();
-		$mountEntry['authMechanism'] = $storage->getAuthMechanism()->getIdentifier();
-		$mountEntry['personal'] = $isPersonal;
-		$mountEntry['options'] = self::decryptPasswords($storage->getBackendOptions());
-		$mountEntry['mountOptions'] = $storage->getMountOptions();
-		$mountEntry['priority'] = $storage->getPriority();
-		$mountEntry['applicable'] = [
-			'groups' => $storage->getApplicableGroups(),
-			'users' => $storage->getApplicableUsers(),
-		];
-		// if mountpoint is applicable to all users the old API expects ['all']
-		if (empty($mountEntry['applicable']['groups']) && empty($mountEntry['applicable']['users'])) {
-			$mountEntry['applicable']['users'] = ['all'];
-		}
-
-		$mountEntry['id'] = $storage->getId();
-
-		return $mountEntry;
+	public function __construct(
+		UserGlobalStoragesService $userGlobalStorageService,
+		UserStoragesService $userStorageService,
+		GlobalStoragesService $globalStorageService
+	) {
+		$this->userGlobalStorageService = $userGlobalStorageService;
+		$this->userStorageService = $userStorageService;
+		$this->globalStorageService = $globalStorageService;
 	}
 
 	/**
@@ -174,7 +90,7 @@ class MountConfig {
 	 */
 	public static function substitutePlaceholdersInConfig($input, string $userId = null) {
 		/** @var BackendService $backendService */
-		$backendService = self::$app->getContainer()->query(BackendService::class);
+		$backendService = \OC::$server->get(BackendService::class);
 		/** @var IConfigHandler[] $handlers */
 		$handlers = $backendService->getConfigHandlers();
 		foreach ($handlers as $handler) {
@@ -193,7 +109,7 @@ class MountConfig {
 	 * @param array $options backend configuration options
 	 * @param boolean $isPersonal
 	 * @return int see self::STATUS_*
-	 * @throws Exception
+	 * @throws \Exception
 	 */
 	public static function getBackendStatus($class, $options, $isPersonal, $testOnly = true) {
 		if (self::$skipTest) {
@@ -221,8 +137,8 @@ class MountConfig {
 					$storage->setAvailability(false);
 					throw $e;
 				}
-			} catch (Exception $exception) {
-				\OC::$server->getLogger()->logException($exception, ['app' => 'files_external']);
+			} catch (\Exception $exception) {
+				\OC::$server->get(LoggerInterface::class)->error($exception->getMessage(), ['exception' => $exception, 'app' => 'files_external']);
 				throw $exception;
 			}
 		}
@@ -230,44 +146,21 @@ class MountConfig {
 	}
 
 	/**
-	 * Read the mount points in the config file into an array
-	 *
-	 * @param string|null $user If not null, personal for $user, otherwise system
-	 * @return array
-	 */
-	public static function readData($user = null) {
-		if (isset($user)) {
-			$jsonFile = \OC::$server->getUserManager()->get($user)->getHome() . '/mount.json';
-		} else {
-			$config = \OC::$server->getConfig();
-			$datadir = $config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data/');
-			$jsonFile = $config->getSystemValue('mount_file', $datadir . '/mount.json');
-		}
-		if (is_file($jsonFile)) {
-			$mountPoints = json_decode(file_get_contents($jsonFile), true);
-			if (is_array($mountPoints)) {
-				return $mountPoints;
-			}
-		}
-		return [];
-	}
-
-	/**
 	 * Get backend dependency message
 	 * TODO: move into AppFramework along with templates
 	 *
 	 * @param Backend[] $backends
-	 * @return string
 	 */
-	public static function dependencyMessage($backends) {
-		$l = \OC::$server->getL10N('files_external');
+	public static function dependencyMessage(array $backends): string {
+		$l = \OCP\Util::getL10N('files_external');
 		$message = '';
 		$dependencyGroups = [];
 
 		foreach ($backends as $backend) {
 			foreach ($backend->checkDependencies() as $dependency) {
-				if ($message = $dependency->getMessage()) {
-					$message .= '<p>' . $message . '</p>';
+				$dependencyMessage = $dependency->getMessage();
+				if ($dependencyMessage !== null) {
+					$message .= '<p>' . $dependencyMessage . '</p>';
 				} else {
 					$dependencyGroups[$dependency->getDependency()][] = $backend;
 				}
@@ -275,7 +168,7 @@ class MountConfig {
 		}
 
 		foreach ($dependencyGroups as $module => $dependants) {
-			$backends = implode(', ', array_map(function ($backend) {
+			$backends = implode(', ', array_map(function (Backend $backend): string {
 				return '"' . $backend->getText() . '"';
 			}, $dependants));
 			$message .= '<p>' . MountConfig::getSingleDependencyMessage($l, $module, $backends) . '</p>';
@@ -286,13 +179,8 @@ class MountConfig {
 
 	/**
 	 * Returns a dependency missing message
-	 *
-	 * @param \OCP\IL10N $l
-	 * @param string $module
-	 * @param string $backend
-	 * @return string
 	 */
-	private static function getSingleDependencyMessage(\OCP\IL10N $l, $module, $backend) {
+	private static function getSingleDependencyMessage(\OCP\IL10N $l, string $module, string $backend): string {
 		switch (strtolower($module)) {
 			case 'curl':
 				return $l->t('The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it.', [$backend]);
@@ -388,8 +276,8 @@ class MountConfig {
 				'a' => $config['authMechanism'],
 				'm' => $config['mountpoint'],
 				'o' => $config['options'],
-				'p' => isset($config['priority']) ? $config['priority'] : -1,
-				'mo' => isset($config['mountOptions']) ? $config['mountOptions'] : [],
+				'p' => $config['priority'] ?? -1,
+				'mo' => $config['mountOptions'] ?? [],
 			]
 		);
 		return hash('md5', $data);

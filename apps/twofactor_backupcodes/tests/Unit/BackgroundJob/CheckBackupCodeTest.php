@@ -17,14 +17,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\TwoFactorBackupCodes\Tests\Unit\BackgroundJob;
 
 use OC\Authentication\TwoFactorAuth\Manager;
@@ -83,6 +82,9 @@ class CheckBackupCodeTest extends TestCase {
 	}
 
 	public function testRunAlreadyGenerated() {
+		$this->user->method('isEnabled')
+			->willReturn(true);
+
 		$this->registry->method('getProviderStates')
 			->with($this->user)
 			->willReturn(['backup_codes' => true]);
@@ -98,6 +100,8 @@ class CheckBackupCodeTest extends TestCase {
 	public function testRun() {
 		$this->user->method('getUID')
 			->willReturn('myUID');
+		$this->user->method('isEnabled')
+			->willReturn(true);
 
 		$this->registry->expects($this->once())
 			->method('getProviderStates')
@@ -118,7 +122,26 @@ class CheckBackupCodeTest extends TestCase {
 		$this->invokePrivate($this->checkBackupCodes, 'run', [[]]);
 	}
 
+	public function testRunDisabledUser() {
+		$this->user->method('getUID')
+			->willReturn('myUID');
+		$this->user->method('isEnabled')
+			->willReturn(false);
+
+		$this->registry->expects($this->never())
+			->method('getProviderStates')
+			->with($this->user);
+
+		$this->jobList->expects($this->never())
+			->method('add');
+
+		$this->invokePrivate($this->checkBackupCodes, 'run', [[]]);
+	}
+
 	public function testRunNoProviders() {
+		$this->user->method('isEnabled')
+			->willReturn(true);
+
 		$this->registry->expects($this->once())
 			->method('getProviderStates')
 			->with($this->user)

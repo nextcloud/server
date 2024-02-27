@@ -15,14 +15,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Files_Versions\Tests\Controller;
 
 use OCA\Files_Versions\Controller\PreviewController;
@@ -74,7 +73,6 @@ class PreviewControllerTest extends TestCase {
 		$user->expects($this->any())
 			->method('getUID')
 			->willReturn($this->userId);
-		$this->mimeTypeDetector = $this->createMock(IMimeTypeDetector::class);
 		$this->previewManager = $this->createMock(IPreview::class);
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->userSession->expects($this->any())
@@ -87,7 +85,6 @@ class PreviewControllerTest extends TestCase {
 			$this->createMock(IRequest::class),
 			$this->rootFolder,
 			$this->userSession,
-			$this->mimeTypeDetector,
 			$this->versionManager,
 			$this->previewManager
 		);
@@ -144,6 +141,8 @@ class PreviewControllerTest extends TestCase {
 			->willReturn($file);
 
 		$preview = $this->createMock(ISimpleFile::class);
+		$preview->method('getName')->willReturn('name');
+		$preview->method('getMTime')->willReturn(42);
 		$this->previewManager->method('getPreview')
 			->with($this->equalTo($file), 10, 10, true, IPreview::MODE_FILL, 'myMime')
 			->willReturn($preview);
@@ -170,10 +169,6 @@ class PreviewControllerTest extends TestCase {
 		$userFolder->method('get')
 			->with('file')
 			->willReturn($sourceFile);
-
-		$this->mimeTypeDetector->method('detectPath')
-			->with($this->equalTo('file'))
-			->willReturn('myMime');
 
 		$this->versionManager->method('getVersionFile')
 			->willThrowException(new NotFoundException());

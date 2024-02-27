@@ -19,7 +19,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Command;
 
 use OCP\Command\IBus;
@@ -83,7 +82,7 @@ abstract class AsyncBus implements IBus {
 	private function canRunAsync($command) {
 		$traits = $this->getTraits($command);
 		foreach ($traits as $trait) {
-			if (array_search($trait, $this->syncTraits) !== false) {
+			if (in_array($trait, $this->syncTraits)) {
 				return false;
 			}
 		}

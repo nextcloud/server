@@ -12,7 +12,9 @@ namespace Test;
 use OC\App\AppManager;
 use OC\App\InfoParser;
 use OC\AppConfig;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IAppConfig;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class AppTest
@@ -345,6 +347,7 @@ class AppTest extends \Test\TestCase {
 					'oauth2',
 					'provisioning_api',
 					'settings',
+					'theming',
 					'twofactor_backupcodes',
 					'viewer',
 					'workflowengine',
@@ -367,6 +370,7 @@ class AppTest extends \Test\TestCase {
 					'oauth2',
 					'provisioning_api',
 					'settings',
+					'theming',
 					'twofactor_backupcodes',
 					'viewer',
 					'workflowengine',
@@ -390,6 +394,7 @@ class AppTest extends \Test\TestCase {
 					'oauth2',
 					'provisioning_api',
 					'settings',
+					'theming',
 					'twofactor_backupcodes',
 					'viewer',
 					'workflowengine',
@@ -413,6 +418,7 @@ class AppTest extends \Test\TestCase {
 					'oauth2',
 					'provisioning_api',
 					'settings',
+					'theming',
 					'twofactor_backupcodes',
 					'viewer',
 					'workflowengine',
@@ -436,6 +442,7 @@ class AppTest extends \Test\TestCase {
 					'oauth2',
 					'provisioning_api',
 					'settings',
+					'theming',
 					'twofactor_backupcodes',
 					'viewer',
 					'workflowengine',
@@ -477,7 +484,7 @@ class AppTest extends \Test\TestCase {
 					'appforgroup2' => '["group2"]',
 					'appforgroup12' => '["group2","group1"]',
 				]
-			
+
 			);
 
 		$apps = \OC_App::getEnabledApps(false, $forceAll);
@@ -512,15 +519,15 @@ class AppTest extends \Test\TestCase {
 					'app3' => 'yes',
 					'app2' => 'no',
 				]
-			
+
 			);
 
 		$apps = \OC_App::getEnabledApps();
-		$this->assertEquals(['files', 'app3', 'cloud_federation_api', 'dav', 'federatedfilesharing', 'lookup_server_connector', 'oauth2', 'provisioning_api', 'settings', 'twofactor_backupcodes', 'viewer', 'workflowengine'], $apps);
+		$this->assertEquals(['files', 'app3', 'cloud_federation_api', 'dav', 'federatedfilesharing', 'lookup_server_connector', 'oauth2', 'provisioning_api', 'settings', 'theming', 'twofactor_backupcodes', 'viewer', 'workflowengine'], $apps);
 
 		// mock should not be called again here
 		$apps = \OC_App::getEnabledApps();
-		$this->assertEquals(['files', 'app3', 'cloud_federation_api', 'dav', 'federatedfilesharing', 'lookup_server_connector', 'oauth2', 'provisioning_api', 'settings', 'twofactor_backupcodes', 'viewer', 'workflowengine'], $apps);
+		$this->assertEquals(['files', 'app3', 'cloud_federation_api', 'dav', 'federatedfilesharing', 'lookup_server_connector', 'oauth2', 'provisioning_api', 'settings', 'theming', 'twofactor_backupcodes', 'viewer', 'workflowengine'], $apps);
 
 		$this->restoreAppConfig();
 		\OC_User::setUserId(null);
@@ -547,14 +554,14 @@ class AppTest extends \Test\TestCase {
 	 */
 	private function registerAppConfig(AppConfig $appConfig) {
 		$this->overwriteService(AppConfig::class, $appConfig);
-		$this->overwriteService(AppManager::class, new \OC\App\AppManager(
+		$this->overwriteService(AppManager::class, new AppManager(
 			\OC::$server->getUserSession(),
 			\OC::$server->getConfig(),
 			$appConfig,
 			\OC::$server->getGroupManager(),
 			\OC::$server->getMemCacheFactory(),
-			\OC::$server->getEventDispatcher(),
-			\OC::$server->getLogger()
+			\OC::$server->get(IEventDispatcher::class),
+			\OC::$server->get(LoggerInterface::class)
 		));
 	}
 

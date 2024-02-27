@@ -25,10 +25,11 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP\DB\QueryBuilder;
 
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 use OCP\DB\Exception;
 use OCP\DB\IResult;
 
@@ -39,41 +40,50 @@ use OCP\DB\IResult;
  * @psalm-taint-specialize
  */
 interface IQueryBuilder {
-
 	/**
 	 * @since 9.0.0
 	 */
-	public const PARAM_NULL = \PDO::PARAM_NULL;
+	public const PARAM_NULL = ParameterType::NULL;
 	/**
 	 * @since 9.0.0
 	 */
-	public const PARAM_BOOL = \PDO::PARAM_BOOL;
+	public const PARAM_BOOL = ParameterType::BOOLEAN;
 	/**
 	 * @since 9.0.0
 	 */
-	public const PARAM_INT = \PDO::PARAM_INT;
+	public const PARAM_INT = ParameterType::INTEGER;
 	/**
 	 * @since 9.0.0
 	 */
-	public const PARAM_STR = \PDO::PARAM_STR;
+	public const PARAM_STR = ParameterType::STRING;
 	/**
 	 * @since 9.0.0
 	 */
-	public const PARAM_LOB = \PDO::PARAM_LOB;
+	public const PARAM_LOB = ParameterType::LARGE_OBJECT;
 	/**
 	 * @since 9.0.0
 	 */
 	public const PARAM_DATE = 'datetime';
 
 	/**
-	 * @since 9.0.0
+	 * @since 24.0.0
 	 */
-	public const PARAM_INT_ARRAY = Connection::PARAM_INT_ARRAY;
+	public const PARAM_JSON = 'json';
+
 	/**
 	 * @since 9.0.0
 	 */
-	public const PARAM_STR_ARRAY = Connection::PARAM_STR_ARRAY;
+	public const PARAM_INT_ARRAY = ArrayParameterType::INTEGER;
+	/**
+	 * @since 9.0.0
+	 */
+	public const PARAM_STR_ARRAY = ArrayParameterType::STRING;
 
+	/**
+	 * @since 24.0.0 Indicates how many rows can be deleted at once with MySQL
+	 * database server.
+	 */
+	public const MAX_ROW_DELETION = 100000;
 
 	/**
 	 * Enable/disable automatic prefixing of table names with the oc_ prefix
@@ -149,7 +159,7 @@ interface IQueryBuilder {
 	/**
 	 * Executes this query using the bound parameters and their types.
 	 *
-	 * Uses {@see Connection::executeQuery} for select statements and {@see Connection::executeUpdate}
+	 * Uses {@see Connection::executeQuery} for select statements and {@see Connection::executeStatement}
 	 * for insert, update and delete statements.
 	 *
 	 * Warning: until Nextcloud 20, this method could return a \Doctrine\DBAL\Driver\Statement but since
@@ -159,8 +169,31 @@ interface IQueryBuilder {
 	 * @return IResult|int
 	 * @throws Exception since 21.0.0
 	 * @since 8.2.0
+	 * @deprecated 22.0.0 Use executeQuery or executeStatement
 	 */
 	public function execute();
+
+	/**
+	 * Execute for select statements
+	 *
+	 * @return IResult
+	 * @since 22.0.0
+	 *
+	 * @throws Exception
+	 * @throws \RuntimeException in case of usage with non select query
+	 */
+	public function executeQuery(): IResult;
+
+	/**
+	 * Execute insert, update and delete statements
+	 *
+	 * @return int the number of affected rows
+	 * @since 22.0.0
+	 *
+	 * @throws Exception
+	 * @throws \RuntimeException in case of usage with select query
+	 */
+	public function executeStatement(): int;
 
 	/**
 	 * Gets the complete SQL string formed by the current specifications of this QueryBuilder.
@@ -258,7 +291,7 @@ interface IQueryBuilder {
 	/**
 	 * Sets the position of the first result to retrieve (the "offset").
 	 *
-	 * @param integer $firstResult The first result to return.
+	 * @param int $firstResult The first result to return.
 	 *
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
@@ -267,9 +300,9 @@ interface IQueryBuilder {
 
 	/**
 	 * Gets the position of the first result the query object was set to retrieve (the "offset").
-	 * Returns NULL if {@link setFirstResult} was not applied to this QueryBuilder.
+	 * Returns 0 if {@link setFirstResult} was not applied to this QueryBuilder.
 	 *
-	 * @return integer The position of the first result.
+	 * @return int The position of the first result.
 	 * @since 8.2.0
 	 */
 	public function getFirstResult();
@@ -277,7 +310,7 @@ interface IQueryBuilder {
 	/**
 	 * Sets the maximum number of results to retrieve (the "limit").
 	 *
-	 * @param integer $maxResults The maximum number of results to retrieve.
+	 * @param int|null $maxResults The maximum number of results to retrieve.
 	 *
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
@@ -448,7 +481,7 @@ interface IQueryBuilder {
 	 *         ->from('users', 'u')
 	 * </code>
 	 *
-	 * @param string $from The table.
+	 * @param string|IQueryFunction $from The table.
 	 * @param string|null $alias The alias of the table.
 	 *
 	 * @return $this This QueryBuilder instance.
@@ -471,7 +504,7 @@ interface IQueryBuilder {
 	 * @param string $fromAlias The alias that points to a from clause.
 	 * @param string $join The table name to join.
 	 * @param string $alias The alias of the join table.
-	 * @param string $condition The condition for the join.
+	 * @param string|ICompositeExpression|null $condition The condition for the join.
 	 *
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
@@ -496,7 +529,7 @@ interface IQueryBuilder {
 	 * @param string $fromAlias The alias that points to a from clause.
 	 * @param string $join The table name to join.
 	 * @param string $alias The alias of the join table.
-	 * @param string $condition The condition for the join.
+	 * @param string|ICompositeExpression|null $condition The condition for the join.
 	 *
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
@@ -521,7 +554,7 @@ interface IQueryBuilder {
 	 * @param string $fromAlias The alias that points to a from clause.
 	 * @param string $join The table name to join.
 	 * @param string $alias The alias of the join table.
-	 * @param string $condition The condition for the join.
+	 * @param string|ICompositeExpression|null $condition The condition for the join.
 	 *
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
@@ -546,7 +579,7 @@ interface IQueryBuilder {
 	 * @param string $fromAlias The alias that points to a from clause.
 	 * @param string $join The table name to join.
 	 * @param string $alias The alias of the join table.
-	 * @param string $condition The condition for the join.
+	 * @param string|ICompositeExpression|null $condition The condition for the join.
 	 *
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
@@ -589,7 +622,7 @@ interface IQueryBuilder {
 	 *         ->from('users', 'u')
 	 *         ->where('u.id = ?');
 	 *
-	 *     // You can optionally programatically build and/or expressions
+	 *     // You can optionally programmatically build and/or expressions
 	 *     $qb = $conn->getQueryBuilder();
 	 *
 	 *     $or = $qb->expr()->orx();
@@ -788,7 +821,7 @@ interface IQueryBuilder {
 	 * Specifies an ordering for the query results.
 	 * Replaces any previously specified orderings, if any.
 	 *
-	 * @param string $sort The ordering expression.
+	 * @param string|IQueryFunction|ILiteral|IParameter $sort The ordering expression.
 	 * @param string $order The ordering direction.
 	 *
 	 * @return $this This QueryBuilder instance.
@@ -802,7 +835,7 @@ interface IQueryBuilder {
 	/**
 	 * Adds an ordering to the query results.
 	 *
-	 * @param string $sort The ordering expression.
+	 * @param string|ILiteral|IParameter|IQueryFunction $sort The ordering expression.
 	 * @param string $order The ordering direction.
 	 *
 	 * @return $this This QueryBuilder instance.
@@ -875,7 +908,7 @@ interface IQueryBuilder {
 	 * @link http://www.zetacomponents.org
 	 *
 	 * @param mixed $value
-	 * @param mixed $type
+	 * @param self::PARAM_* $type
 	 * @param string $placeHolder The name to bind with. The string must start with a colon ':'.
 	 *
 	 * @return IParameter
@@ -903,7 +936,7 @@ interface IQueryBuilder {
 	 * </code>
 	 *
 	 * @param mixed $value
-	 * @param integer $type
+	 * @param self::PARAM_* $type
 	 *
 	 * @return IParameter
 	 * @since 8.2.0
@@ -967,12 +1000,12 @@ interface IQueryBuilder {
 	 * @throws \BadMethodCallException When being called before an insert query has been run.
 	 * @since 9.0.0
 	 */
-	public function getLastInsertId();
+	public function getLastInsertId(): int;
 
 	/**
 	 * Returns the table name quoted and with database prefix as needed by the implementation
 	 *
-	 * @param string $table
+	 * @param string|IQueryFunction $table
 	 * @return string
 	 * @since 9.0.0
 	 */

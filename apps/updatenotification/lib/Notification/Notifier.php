@@ -24,9 +24,9 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\UpdateNotification\Notification;
 
+use OCP\App\IAppManager;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IURLGenerator;
@@ -40,7 +40,6 @@ use OCP\Notification\INotifier;
 use OCP\Util;
 
 class Notifier implements INotifier {
-
 	/** @var IURLGenerator */
 	protected $url;
 
@@ -117,7 +116,7 @@ class Notifier implements INotifier {
 
 		$l = $this->l10NFactory->get('updatenotification', $languageCode);
 		if ($notification->getSubject() === 'connection_error') {
-			$errors = (int) $this->config->getAppValue('updatenotification', 'update_check_errors', 0);
+			$errors = (int) $this->config->getAppValue('updatenotification', 'update_check_errors', '0');
 			if ($errors === 0) {
 				$this->notificationManager->markProcessed($notification);
 				throw new \InvalidArgumentException('Update checked worked again');
@@ -129,27 +128,33 @@ class Notifier implements INotifier {
 			$this->updateAlreadyInstalledCheck($notification, $this->getCoreVersions());
 
 			$parameters = $notification->getSubjectParameters();
-			$notification->setParsedSubject($l->t('Update to %1$s is available.', [$parameters['version']]));
+			$notification->setParsedSubject($l->t('Update to %1$s is available.', [$parameters['version']]))
+				->setRichSubject($l->t('Update to {serverAndVersion} is available.'), [
+					'serverAndVersion' => [
+						'type' => 'highlight',
+						'id' => $notification->getObjectType(),
+						'name' => $parameters['version'],
+					]
+				]);
 
 			if ($this->isAdmin()) {
 				$notification->setLink($this->url->linkToRouteAbsolute('settings.AdminSettings.index', ['section' => 'overview']) . '#version');
 			}
 		} else {
-			$appInfo = $this->getAppInfo($notification->getObjectType());
+			$appInfo = $this->getAppInfo($notification->getObjectType(), $languageCode);
 			$appName = ($appInfo === null) ? $notification->getObjectType() : $appInfo['name'];
 
 			if (isset($this->appVersions[$notification->getObjectType()])) {
 				$this->updateAlreadyInstalledCheck($notification, $this->appVersions[$notification->getObjectType()]);
 			}
 
-			$notification->setParsedSubject($l->t('Update for %1$s to version %2$s is available.', [$appName, $notification->getObjectId()]))
-				->setRichSubject($l->t('Update for {app} to version %s is available.', [$notification->getObjectId()]), [
-					'app' => [
-						'type' => 'app',
-						'id' => $notification->getObjectType(),
-						'name' => $appName,
-					]
-				]);
+			$notification->setRichSubject($l->t('Update for {app} to version %s is available.', [$notification->getObjectId()]), [
+				'app' => [
+					'type' => 'app',
+					'id' => $notification->getObjectType(),
+					'name' => $appName,
+				]
+			]);
 
 			if ($this->isAdmin()) {
 				$notification->setLink($this->url->linkToRouteAbsolute('settings.AppSettings.viewApps', ['category' => 'updates']) . '#app-' . $notification->getObjectType());
@@ -195,7 +200,7 @@ class Notifier implements INotifier {
 		return \OC_App::getAppVersions();
 	}
 
-	protected function getAppInfo($appId) {
-		return \OC_App::getAppInfo($appId);
+	protected function getAppInfo($appId, $languageCode) {
+		return \OCP\Server::get(IAppManager::class)->getAppInfo($appId, false, $languageCode);
 	}
 }

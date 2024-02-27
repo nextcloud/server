@@ -1,6 +1,6 @@
 <?php
 /**
- *
+ * @copyright Copyright (c) 2016 Robin Appelman <robin@icewind.nl>
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
@@ -15,7 +15,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -107,7 +107,7 @@ class S3Signature implements SignatureInterface {
 		// Move X-Amz-* headers to the query string
 		foreach ($request->getHeaders() as $name => $header) {
 			$name = strtolower($name);
-			if (strpos($name, 'x-amz-') === 0) {
+			if (str_starts_with($name, 'x-amz-')) {
 				$query[$name] = implode(',', $header);
 			}
 		}
@@ -129,7 +129,7 @@ class S3Signature implements SignatureInterface {
 	) {
 		$modify = [
 			'remove_headers' => ['X-Amz-Date'],
-			'set_headers' => ['Date' => gmdate(\DateTime::RFC2822)]
+			'set_headers' => ['Date' => gmdate(\DateTimeInterface::RFC2822)]
 		];
 
 		// Add the security token header if one is being used by the credentials
@@ -137,7 +137,7 @@ class S3Signature implements SignatureInterface {
 			$modify['set_headers']['X-Amz-Security-Token'] = $token;
 		}
 
-		return Psr7\modify_request($request, $modify);
+		return Psr7\Utils::modifyRequest($request, $modify);
 	}
 
 	private function signString($string, CredentialsInterface $credentials) {
@@ -169,7 +169,7 @@ class S3Signature implements SignatureInterface {
 		$headers = [];
 		foreach ($request->getHeaders() as $name => $header) {
 			$name = strtolower($name);
-			if (strpos($name, 'x-amz-') === 0) {
+			if (str_starts_with($name, 'x-amz-')) {
 				$value = implode(',', $header);
 				if (strlen($value) > 0) {
 					$headers[$name] = $name . ':' . $value;
@@ -201,7 +201,7 @@ class S3Signature implements SignatureInterface {
 		$query = $request->getUri()->getQuery();
 
 		if ($query) {
-			$params = Psr7\parse_query($query);
+			$params = Psr7\Query::parse($query);
 			$first = true;
 			foreach ($this->signableQueryString as $key) {
 				if (array_key_exists($key, $params)) {

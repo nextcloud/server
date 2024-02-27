@@ -24,13 +24,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Preview;
 
 use Imagick;
 use OCP\Files\File;
 use OCP\IImage;
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 
 /**
  * Creates a PNG preview using ImageMagick via the PECL extension
@@ -38,30 +37,38 @@ use OCP\ILogger;
  * @package OC\Preview
  */
 abstract class Bitmap extends ProviderV2 {
-
 	/**
 	 * {@inheritDoc}
 	 */
 	public function getThumbnail(File $file, int $maxX, int $maxY): ?IImage {
 		$tmpPath = $this->getLocalFile($file);
+		if ($tmpPath === false) {
+			\OC::$server->get(LoggerInterface::class)->error(
+				'Failed to get thumbnail for: ' . $file->getPath(),
+				['app' => 'core']
+			);
+			return null;
+		}
 
 		// Creates \Imagick object from bitmap or vector file
 		try {
 			$bp = $this->getResizedPreview($tmpPath, $maxX, $maxY);
 		} catch (\Exception $e) {
-			\OC::$server->getLogger()->logException($e, [
-				'message' => 'File: ' . $file->getPath() . ' Imagick says:',
-				'level' => ILogger::ERROR,
-				'app' => 'core',
-			]);
+			\OC::$server->get(LoggerInterface::class)->info(
+				'File: ' . $file->getPath() . ' Imagick says:',
+				[
+					'exception' => $e,
+					'app' => 'core',
+				]
+			);
 			return null;
 		}
 
 		$this->cleanTmpFiles();
 
 		//new bitmap image object
-		$image = new \OC_Image();
-		$image->loadFromData($bp);
+		$image = new \OCP\Image();
+		$image->loadFromData((string) $bp);
 		//check if image object is valid
 		return $image->valid() ? $image : null;
 	}

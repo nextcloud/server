@@ -5,7 +5,8 @@ declare(strict_types=1);
 /**
  * @copyright 2020 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
- * @author 2020 Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Georg Ehrke <oc.list@georgehrke.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -16,13 +17,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
  */
-
 namespace OCA\ContactsInteraction\Db;
 
 use OCP\AppFramework\Db\DoesNotExistException;
@@ -55,10 +56,6 @@ class RecentContactMapper extends QBMapper {
 	}
 
 	/**
-	 * @param string $uid
-	 * @param int $id
-	 *
-	 * @return RecentContact
 	 * @throws DoesNotExistException
 	 */
 	public function find(string $uid, int $id): RecentContact {
@@ -74,17 +71,12 @@ class RecentContactMapper extends QBMapper {
 	}
 
 	/**
-	 * @param IUser $user
-	 * @param string|null $uid
-	 * @param string|null $email
-	 * @param string|null $cloudId
-	 *
 	 * @return RecentContact[]
 	 */
 	public function findMatch(IUser $user,
-							  ?string $uid,
-							  ?string $email,
-							  ?string $cloudId): array {
+		?string $uid,
+		?string $email,
+		?string $cloudId): array {
 		$qb = $this->db->getQueryBuilder();
 
 		$or = $qb->expr()->orX();
@@ -107,11 +99,7 @@ class RecentContactMapper extends QBMapper {
 		return $this->findEntities($select);
 	}
 
-	/**
-	 * @param string $uid
-	 * @return int|null
-	 */
-	public function findLastUpdatedForUserId(string $uid):?int {
+	public function findLastUpdatedForUserId(string $uid): ?int {
 		$qb = $this->db->getQueryBuilder();
 
 		$select = $qb
@@ -121,7 +109,7 @@ class RecentContactMapper extends QBMapper {
 			->orderBy('last_contact', 'DESC')
 			->setMaxResults(1);
 
-		$cursor = $select->execute();
+		$cursor = $select->executeQuery();
 		$row = $cursor->fetch();
 
 		if ($row === false) {
@@ -138,6 +126,6 @@ class RecentContactMapper extends QBMapper {
 			->delete($this->getTableName())
 			->where($qb->expr()->lt('last_contact', $qb->createNamedParameter($olderThan)));
 
-		$delete->execute();
+		$delete->executeStatement();
 	}
 }

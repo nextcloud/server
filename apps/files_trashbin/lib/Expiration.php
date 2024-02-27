@@ -24,7 +24,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_Trashbin;
 
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -51,7 +50,7 @@ class Expiration {
 	/** @var bool */
 	private $canPurgeToSaveSpace;
 
-	public function __construct(IConfig $config,ITimeFactory $timeFactory) {
+	public function __construct(IConfig $config, ITimeFactory $timeFactory) {
 		$this->timeFactory = $timeFactory;
 		$this->setRetentionObligation($config->getSystemValue('trashbin_retention_obligation', 'auto'));
 	}

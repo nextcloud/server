@@ -16,58 +16,41 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Contacts\ContactsMenu;
 
+use Exception;
 use OCP\App\IAppManager;
 use OCP\Constants;
+use OCP\Contacts\ContactsMenu\IBulkProvider;
 use OCP\Contacts\ContactsMenu\IEntry;
+use OCP\Contacts\ContactsMenu\IProvider;
 use OCP\IConfig;
 use OCP\IUser;
 
 class Manager {
-
-	/** @var ContactsStore */
-	private $store;
-
-	/** @var ActionProviderStore */
-	private $actionProviderStore;
-
-	/** @var IAppManager */
-	private $appManager;
-
-	/** @var IConfig */
-	private $config;
-
-	/**
-	 * @param ContactsStore $store
-	 * @param ActionProviderStore $actionProviderStore
-	 * @param IAppManager $appManager
-	 */
-	public function __construct(ContactsStore $store, ActionProviderStore $actionProviderStore, IAppManager $appManager, IConfig $config) {
-		$this->store = $store;
-		$this->actionProviderStore = $actionProviderStore;
-		$this->appManager = $appManager;
-		$this->config = $config;
+	public function __construct(
+		private ContactsStore $store,
+		private ActionProviderStore $actionProviderStore,
+		private IAppManager $appManager,
+		private IConfig $config,
+	) {
 	}
 
 	/**
-	 * @param IUser $user
-	 * @param string $filter
-	 * @return array
+	 * @throws Exception
 	 */
-	public function getEntries(IUser $user, $filter) {
+	public function getEntries(IUser $user, ?string $filter): array {
 		$maxAutocompleteResults = max(0, $this->config->getSystemValueInt('sharing.maxAutocompleteResults', Constants::SHARING_MAX_AUTOCOMPLETE_RESULTS_DEFAULT));
-		$minSearchStringLength = $this->config->getSystemValueInt('sharing.minSearchStringLength', 0);
+		$minSearchStringLength = $this->config->getSystemValueInt('sharing.minSearchStringLength');
 		$topEntries = [];
-		if (strlen($filter) >= $minSearchStringLength) {
+		if (strlen($filter ?? '') >= $minSearchStringLength) {
 			$entries = $this->store->getContacts($user, $filter, $maxAutocompleteResults);
 
 			$sortedEntries = $this->sortEntries($entries);
@@ -83,12 +66,9 @@ class Manager {
 	}
 
 	/**
-	 * @param IUser $user
-	 * @param integer $shareType
-	 * @param string $shareWith
-	 * @return IEntry
+	 * @throws Exception
 	 */
-	public function findOne(IUser $user, $shareType, $shareWith) {
+	public function findOne(IUser $user, int $shareType, string $shareWith): ?IEntry {
 		$entry = $this->store->findOne($user, $shareType, $shareWith);
 		if ($entry) {
 			$this->processEntries([$entry], $user);
@@ -101,22 +81,38 @@ class Manager {
 	 * @param IEntry[] $entries
 	 * @return IEntry[]
 	 */
-	private function sortEntries(array $entries) {
-		usort($entries, function (IEntry $entryA, IEntry $entryB) {
-			return strcasecmp($entryA->getFullName(), $entryB->getFullName());
+	private function sortEntries(array $entries): array {
+		usort($entries, function (Entry $entryA, Entry $entryB) {
+			$aStatusTimestamp = $entryA->getProperty(Entry::PROPERTY_STATUS_MESSAGE_TIMESTAMP);
+			$bStatusTimestamp = $entryB->getProperty(Entry::PROPERTY_STATUS_MESSAGE_TIMESTAMP);
+			if (!$aStatusTimestamp && !$bStatusTimestamp) {
+				return strcasecmp($entryA->getFullName(), $entryB->getFullName());
+			}
+			if ($aStatusTimestamp === null) {
+				return 1;
+			}
+			if ($bStatusTimestamp === null) {
+				return -1;
+			}
+			return $bStatusTimestamp - $aStatusTimestamp;
 		});
 		return $entries;
 	}
 
 	/**
 	 * @param IEntry[] $entries
-	 * @param IUser $user
+	 * @throws Exception
 	 */
-	private function processEntries(array $entries, IUser $user) {
+	private function processEntries(array $entries, IUser $user): void {
 		$providers = $this->actionProviderStore->getProviders($user);
-		foreach ($entries as $entry) {
-			foreach ($providers as $provider) {
-				$provider->process($entry);
+
+		foreach ($providers as $provider) {
+			if ($provider instanceof IBulkProvider && !($provider instanceof IProvider)) {
+				$provider->process($entries);
+			} elseif ($provider instanceof IProvider && !($provider instanceof IBulkProvider)) {
+				foreach ($entries as $entry) {
+					$provider->process($entry);
+				}
 			}
 		}
 	}

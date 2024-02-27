@@ -16,18 +16,17 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Log;
 
-use OC\HintException;
 use OC\SystemConfig;
+use OCP\HintException;
 use OCP\ILogger;
 use OCP\Log\IWriter;
 
@@ -47,7 +46,7 @@ use OCP\Log\IWriter;
 //     Syslog compatibility fields
 
 class Systemdlog extends LogDetails implements IWriter {
-	protected $levels = [
+	protected array $levels = [
 		ILogger::DEBUG => 7,
 		ILogger::INFO => 6,
 		ILogger::WARN => 4,
@@ -55,28 +54,32 @@ class Systemdlog extends LogDetails implements IWriter {
 		ILogger::FATAL => 2,
 	];
 
-	protected $syslogId;
+	protected string $syslogId;
 
-	public function __construct(SystemConfig $config) {
+	public function __construct(
+		SystemConfig $config,
+		?string $tag = null,
+	) {
 		parent::__construct($config);
 		if (!function_exists('sd_journal_send')) {
 			throw new HintException(
 				'PHP extension php-systemd is not available.',
 				'Please install and enable PHP extension systemd if you wish to log to the Systemd journal.');
 		}
-		$this->syslogId = $config->getValue('syslog_tag', 'Nextcloud');
+		if ($tag === null) {
+			$tag = $config->getValue('syslog_tag', 'Nextcloud');
+		}
+		$this->syslogId = $tag;
 	}
 
 	/**
 	 * Write a message to the log.
-	 * @param string $app
-	 * @param string $message
-	 * @param int $level
+	 * @param string|array $message
 	 */
-	public function write(string $app, $message, int $level) {
+	public function write(string $app, $message, int $level): void {
 		$journal_level = $this->levels[$level];
 		sd_journal_send('PRIORITY='.$journal_level,
-				'SYSLOG_IDENTIFIER='.$this->syslogId,
-				'MESSAGE=' . $this->logDetailsAsJSON($app, $message, $level));
+			'SYSLOG_IDENTIFIER='.$this->syslogId,
+			'MESSAGE=' . $this->logDetailsAsJSON($app, $message, $level));
 	}
 }

@@ -19,26 +19,26 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\User_LDAP\Tests;
 
 use OC\User\Manager;
 use OCA\User_LDAP\Access;
 use OCA\User_LDAP\Connection;
+use OCA\User_LDAP\Group_LDAP;
 use OCA\User_LDAP\IGroupLDAP;
 use OCA\User_LDAP\IUserLDAP;
+use OCA\User_LDAP\User_LDAP;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IServerContainer;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Class LDAPProviderTest
@@ -57,9 +57,6 @@ class LDAPProviderTest extends \Test\TestCase {
 			 ->setMethods(['getUserManager', 'getBackends', 'getGroupManager'])
 			 ->setConstructorArgs(['', new \OC\Config(\OC::$configDir)])
 			 ->getMock();
-		$server->expects($this->at(1))
-			->method('getBackends')
-			->willReturn([$userBackend]);
 		$server->expects($this->any())
 			->method('getUserManager')
 			->willReturn($this->getUserManagerMock($userBackend));
@@ -78,7 +75,6 @@ class LDAPProviderTest extends \Test\TestCase {
 			->setMethods(['getBackends'])
 			->setConstructorArgs([
 				$this->createMock(IConfig::class),
-				$this->createMock(EventDispatcherInterface::class),
 				$this->createMock(ICacheFactory::class),
 				$this->createMock(IEventDispatcher::class),
 			])
@@ -135,10 +131,10 @@ class LDAPProviderTest extends \Test\TestCase {
 			 ->setMethods(['userExists', 'getLDAPAccess', 'username2dn'])
 			 ->disableOriginalConstructor()
 			 ->getMock();
-		$userBackend->expects($this->at(0))
+		$userBackend->expects($this->once())
 			->method('userExists')
 			->willReturn(true);
-		$userBackend->expects($this->at(2))
+		$userBackend->expects($this->once())
 			->method('username2dn')
 			->willReturn('cn=existing_user,ou=Are Sufficient To,ou=Test,dc=example,dc=org');
 		$userBackend->expects($this->any())
@@ -185,10 +181,10 @@ class LDAPProviderTest extends \Test\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-		$groupBackend->expects($this->at(0))
+		$groupBackend->expects($this->once())
 			->method('groupExists')
 			->willReturn(true);
-		$groupBackend->expects($this->at(2))
+		$groupBackend->expects($this->once())
 			->method('groupname2dn')
 			->willReturn('cn=existing_group,ou=Are Sufficient To,ou=Test,dc=example,dc=org');
 		$groupBackend->expects($this->any())
@@ -472,10 +468,10 @@ class LDAPProviderTest extends \Test\TestCase {
 			 ->setMethods(['userExists', 'getLDAPAccess', 'getConnection', 'clearCache'])
 			 ->disableOriginalConstructor()
 			 ->getMock();
-		$userBackend->expects($this->at(0))
+		$userBackend->expects($this->once())
 			->method('userExists')
 			->willReturn(true);
-		$userBackend->expects($this->at(3))
+		$userBackend->expects($this->once())
 			->method('clearCache')
 			->willReturn(true);
 		$userBackend->expects($this->any())
@@ -517,10 +513,10 @@ class LDAPProviderTest extends \Test\TestCase {
 			->setMethods(['groupExists', 'getLDAPAccess', 'getConnection', 'clearCache'])
 			->disableOriginalConstructor()
 			->getMock();
-		$groupBackend->expects($this->at(0))
+		$groupBackend->expects($this->once())
 			->method('groupExists')
 			->willReturn(true);
-		$groupBackend->expects($this->at(3))
+		$groupBackend->expects($this->once())
 			->method('clearCache')
 			->willReturn(true);
 		$groupBackend->expects($this->any())
@@ -597,10 +593,10 @@ class LDAPProviderTest extends \Test\TestCase {
 			->setMethods(['userExists', 'getLDAPAccess', 'getConnection', 'getConfiguration'])
 			->disableOriginalConstructor()
 			->getMock();
-		$userBackend->expects($this->at(0))
+		$userBackend->expects($this->once())
 			->method('userExists')
 			->willReturn(true);
-		$userBackend->expects($this->at(3))
+		$userBackend->expects($this->once())
 			->method('getConfiguration')
 			->willReturn(['ldap_display_name' => 'displayName']);
 		$userBackend->expects($this->any())
@@ -635,10 +631,10 @@ class LDAPProviderTest extends \Test\TestCase {
 			->setMethods(['userExists', 'getLDAPAccess', 'getConnection', 'getConfiguration'])
 			->disableOriginalConstructor()
 			->getMock();
-		$userBackend->expects($this->at(0))
+		$userBackend->expects($this->once())
 			->method('userExists')
 			->willReturn(true);
-		$userBackend->expects($this->at(3))
+		$userBackend->expects($this->once())
 			->method('getConfiguration')
 			->willReturn(['ldap_email_attr' => 'mail']);
 		$userBackend->expects($this->any())
@@ -683,7 +679,7 @@ class LDAPProviderTest extends \Test\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-		$groupBackend->expects($this->at(0))
+		$groupBackend->expects($this->once())
 			->method('groupExists')
 			->willReturn(true);
 		$groupBackend->expects($this->any())
@@ -697,5 +693,194 @@ class LDAPProviderTest extends \Test\TestCase {
 
 		$ldapProvider = $this->getLDAPProvider($server);
 		$this->assertEquals('assoc_type', $ldapProvider->getLDAPGroupMemberAssoc('existing_group'));
+	}
+
+	public function testGetMultiValueUserAttributeUserNotFound() {
+		$this->expectException(\Exception::class);
+		$this->expectExceptionMessage('User id not found in LDAP');
+
+		$userBackend = $this->createMock(User_LDAP::class);
+		$userBackend->expects(self::once())
+			->method('userExists')
+			->with('admin')
+			->willReturn(false);
+		$groupBackend = $this->createMock(Group_LDAP::class);
+		$server = $this->getServerMock($userBackend, $groupBackend);
+
+		$ldapProvider = $this->getLDAPProvider($server);
+		$ldapProvider->getMultiValueUserAttribute('admin', 'mailAlias');
+	}
+
+	public function testGetMultiValueUserAttributeCacheHit() {
+		$connection = $this->createMock(Connection::class);
+		$connection->expects(self::once())
+			->method('getFromCache')
+			->with('admin-mailAlias')
+			->willReturn(['aliasA@test.local', 'aliasB@test.local']);
+		$access = $this->createMock(Access::class);
+		$access->expects(self::once())
+			->method('getConnection')
+			->willReturn($connection);
+		$userBackend = $this->createMock(User_LDAP::class);
+		$userBackend->expects(self::once())
+			->method('userExists')
+			->with('admin')
+			->willReturn(true);
+		$userBackend->expects(self::once())
+			->method('getLDAPAccess')
+			->willReturn($access);
+		$groupBackend = $this->createMock(Group_LDAP::class);
+		$server = $this->getServerMock($userBackend, $groupBackend);
+
+		$ldapProvider = $this->getLDAPProvider($server);
+		$ldapProvider->getMultiValueUserAttribute('admin', 'mailAlias');
+	}
+
+	public function testGetMultiValueUserAttributeLdapError() {
+		$connection = $this->createMock(Connection::class);
+		$connection->expects(self::once())
+			->method('getFromCache')
+			->with('admin-mailAlias')
+			->willReturn(null);
+		$access = $this->createMock(Access::class);
+		$access->expects(self::once())
+			->method('getConnection')
+			->willReturn($connection);
+		$access->expects(self::once())
+			->method('username2dn')
+			->with('admin')
+			->willReturn('admin');
+		$access->expects(self::once())
+			->method('readAttribute')
+			->with('admin', 'mailAlias')
+			->willReturn(false);
+		$userBackend = $this->getMockBuilder(User_LDAP::class)
+			->disableOriginalConstructor()
+			->getMock();
+		$userBackend->method('userExists')
+			->with('admin')
+			->willReturn(true);
+		$userBackend->method('getLDAPAccess')
+			->willReturn($access);
+		$groupBackend = $this->getMockBuilder(Group_LDAP::class)
+			->disableOriginalConstructor()
+			->getMock();
+		$server = $this->getServerMock($userBackend, $groupBackend);
+
+		$ldapProvider = $this->getLDAPProvider($server);
+		$values = $ldapProvider->getMultiValueUserAttribute('admin', 'mailAlias');
+
+		self::assertCount(0, $values);
+	}
+
+	public function testGetMultiValueUserAttribute() {
+		$connection = $this->createMock(Connection::class);
+		$connection->expects(self::once())
+			->method('getFromCache')
+			->with('admin-mailAlias')
+			->willReturn(null);
+		$access = $this->createMock(Access::class);
+		$access->expects(self::once())
+			->method('getConnection')
+			->willReturn($connection);
+		$access->expects(self::once())
+			->method('username2dn')
+			->with('admin')
+			->willReturn('admin');
+		$access->expects(self::once())
+			->method('readAttribute')
+			->with('admin', 'mailAlias')
+			->willReturn(['aliasA@test.local', 'aliasB@test.local']);
+		$userBackend = $this->getMockBuilder(User_LDAP::class)
+			->disableOriginalConstructor()
+			->getMock();
+		$userBackend->method('userExists')
+			->with('admin')
+			->willReturn(true);
+		$userBackend->method('getLDAPAccess')
+			->willReturn($access);
+		$groupBackend = $this->getMockBuilder(Group_LDAP::class)
+			->disableOriginalConstructor()
+			->getMock();
+		$server = $this->getServerMock($userBackend, $groupBackend);
+
+		$ldapProvider = $this->getLDAPProvider($server);
+		$values = $ldapProvider->getMultiValueUserAttribute('admin', 'mailAlias');
+
+		self::assertCount(2, $values);
+	}
+
+	public function testGetUserAttributeLdapError() {
+		$connection = $this->createMock(Connection::class);
+		$connection->expects(self::once())
+			->method('getFromCache')
+			->with('admin-mailAlias')
+			->willReturn(null);
+		$access = $this->createMock(Access::class);
+		$access->expects(self::once())
+			->method('getConnection')
+			->willReturn($connection);
+		$access->expects(self::once())
+			->method('username2dn')
+			->with('admin')
+			->willReturn('admin');
+		$access->expects(self::once())
+			->method('readAttribute')
+			->with('admin', 'mailAlias')
+			->willReturn(false);
+		$userBackend = $this->getMockBuilder(User_LDAP::class)
+			->disableOriginalConstructor()
+			->getMock();
+		$userBackend->method('userExists')
+			->with('admin')
+			->willReturn(true);
+		$userBackend->method('getLDAPAccess')
+			->willReturn($access);
+		$groupBackend = $this->getMockBuilder(Group_LDAP::class)
+			->disableOriginalConstructor()
+			->getMock();
+		$server = $this->getServerMock($userBackend, $groupBackend);
+
+		$ldapProvider = $this->getLDAPProvider($server);
+		$value = $ldapProvider->getUserAttribute('admin', 'mailAlias');
+
+		self::assertNull($value);
+	}
+
+	public function testGetUserAttribute() {
+		$connection = $this->createMock(Connection::class);
+		$connection->expects(self::once())
+			->method('getFromCache')
+			->with('admin-mailAlias')
+			->willReturn(null);
+		$access = $this->createMock(Access::class);
+		$access->expects(self::once())
+			->method('getConnection')
+			->willReturn($connection);
+		$access->expects(self::once())
+			->method('username2dn')
+			->with('admin')
+			->willReturn('admin');
+		$access->expects(self::once())
+			->method('readAttribute')
+			->with('admin', 'mailAlias')
+			->willReturn(['aliasA@test.local', 'aliasB@test.local']);
+		$userBackend = $this->getMockBuilder(User_LDAP::class)
+			->disableOriginalConstructor()
+			->getMock();
+		$userBackend->method('userExists')
+			->with('admin')
+			->willReturn(true);
+		$userBackend->method('getLDAPAccess')
+			->willReturn($access);
+		$groupBackend = $this->getMockBuilder(Group_LDAP::class)
+			->disableOriginalConstructor()
+			->getMock();
+		$server = $this->getServerMock($userBackend, $groupBackend);
+
+		$ldapProvider = $this->getLDAPProvider($server);
+		$value = $ldapProvider->getUserAttribute('admin', 'mailAlias');
+
+		self::assertEquals('aliasA@test.local', $value);
 	}
 }

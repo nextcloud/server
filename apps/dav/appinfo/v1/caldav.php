@@ -25,15 +25,18 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 // Backends
+use OC\KnownUser\KnownUserService;
 use OCA\DAV\CalDAV\CalDavBackend;
-use OCA\DAV\Connector\LegacyDAVACL;
 use OCA\DAV\CalDAV\CalendarRoot;
+use OCA\DAV\CalDAV\Security\RateLimitingPlugin;
+use OCA\DAV\Connector\LegacyDAVACL;
 use OCA\DAV\Connector\Sabre\Auth;
 use OCA\DAV\Connector\Sabre\ExceptionLoggerPlugin;
 use OCA\DAV\Connector\Sabre\MaintenancePlugin;
 use OCA\DAV\Connector\Sabre\Principal;
+use OCP\Accounts\IAccountManager;
+use Psr\Log\LoggerInterface;
 
 $authBackend = new Auth(
 	\OC::$server->getSession(),
@@ -46,21 +49,34 @@ $authBackend = new Auth(
 $principalBackend = new Principal(
 	\OC::$server->getUserManager(),
 	\OC::$server->getGroupManager(),
+	\OC::$server->get(IAccountManager::class),
 	\OC::$server->getShareManager(),
 	\OC::$server->getUserSession(),
 	\OC::$server->getAppManager(),
 	\OC::$server->query(\OCA\DAV\CalDAV\Proxy\ProxyMapper::class),
+	\OC::$server->get(KnownUserService::class),
 	\OC::$server->getConfig(),
+	\OC::$server->getL10NFactory(),
 	'principals/'
 );
 $db = \OC::$server->getDatabaseConnection();
 $userManager = \OC::$server->getUserManager();
 $random = \OC::$server->getSecureRandom();
-$logger = \OC::$server->getLogger();
+$logger = \OC::$server->get(LoggerInterface::class);
 $dispatcher = \OC::$server->get(\OCP\EventDispatcher\IEventDispatcher::class);
-$legacyDispatcher = \OC::$server->getEventDispatcher();
+$config = \OC::$server->get(\OCP\IConfig::class);
 
-$calDavBackend = new CalDavBackend($db, $principalBackend, $userManager, \OC::$server->getGroupManager(), $random, $logger, $dispatcher, $legacyDispatcher, true);
+$calDavBackend = new CalDavBackend(
+	$db,
+	$principalBackend,
+	$userManager,
+	$random,
+	$logger,
+	$dispatcher,
+	$config,
+	OC::$server->get(\OCA\DAV\CalDAV\Sharing\Backend::class),
+	true
+);
 
 $debugging = \OC::$server->getConfig()->getSystemValue('debug', false);
 $sendInvitations = \OC::$server->getConfig()->getAppValue('dav', 'sendInvitations', 'yes') === 'yes';
@@ -69,7 +85,7 @@ $sendInvitations = \OC::$server->getConfig()->getAppValue('dav', 'sendInvitation
 $principalCollection = new \Sabre\CalDAV\Principal\Collection($principalBackend);
 $principalCollection->disableListing = !$debugging; // Disable listing
 
-$addressBookRoot = new CalendarRoot($principalBackend, $calDavBackend);
+$addressBookRoot = new CalendarRoot($principalBackend, $calDavBackend, 'principals', $logger);
 $addressBookRoot->disableListing = !$debugging; // Disable listing
 
 $nodes = [
@@ -85,7 +101,7 @@ $server->setBaseUri($baseuri);
 
 // Add plugins
 $server->addPlugin(new MaintenancePlugin(\OC::$server->getConfig(), \OC::$server->getL10N('dav')));
-$server->addPlugin(new \Sabre\DAV\Auth\Plugin($authBackend, 'ownCloud'));
+$server->addPlugin(new \Sabre\DAV\Auth\Plugin($authBackend));
 $server->addPlugin(new \Sabre\CalDAV\Plugin());
 
 $server->addPlugin(new LegacyDAVACL());
@@ -95,12 +111,13 @@ if ($debugging) {
 
 $server->addPlugin(new \Sabre\DAV\Sync\Plugin());
 $server->addPlugin(new \Sabre\CalDAV\ICSExportPlugin());
-$server->addPlugin(new \OCA\DAV\CalDAV\Schedule\Plugin(\OC::$server->getConfig()));
+$server->addPlugin(new \OCA\DAV\CalDAV\Schedule\Plugin(\OC::$server->getConfig(), \OC::$server->get(LoggerInterface::class)));
 
 if ($sendInvitations) {
 	$server->addPlugin(\OC::$server->query(\OCA\DAV\CalDAV\Schedule\IMipPlugin::class));
 }
-$server->addPlugin(new ExceptionLoggerPlugin('caldav', \OC::$server->getLogger()));
+$server->addPlugin(new ExceptionLoggerPlugin('caldav', $logger));
+$server->addPlugin(\OCP\Server::get(RateLimitingPlugin::class));
 
 // And off we go!
 $server->exec();

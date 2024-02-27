@@ -23,16 +23,16 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Files\ObjectStore;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\BadResponseException;
-use function GuzzleHttp\Psr7\stream_for;
+use GuzzleHttp\Psr7\Utils;
 use Icewind\Streams\RetryWrapper;
 use OCP\Files\NotFoundException;
 use OCP\Files\ObjectStore\IObjectStore;
 use OCP\Files\StorageAuthException;
+use Psr\Log\LoggerInterface;
 
 const SWIFT_SEGMENT_SIZE = 1073741824; // 1GB
 
@@ -49,7 +49,7 @@ class Swift implements IObjectStore {
 		$this->swiftFactory = $connectionFactory ?: new SwiftFactory(
 			\OC::$server->getMemCacheFactory()->createDistributed('swift::'),
 			$params,
-			\OC::$server->getLogger()
+			\OC::$server->get(LoggerInterface::class)
 		);
 		$this->params = $params;
 	}
@@ -74,12 +74,7 @@ class Swift implements IObjectStore {
 		return $this->params['container'];
 	}
 
-	/**
-	 * @param string $urn the unified resource name used to identify the object
-	 * @param resource $stream stream with the data to write
-	 * @throws \Exception from openstack lib when something goes wrong
-	 */
-	public function writeObject($urn, $stream) {
+	public function writeObject($urn, $stream, string $mimetype = null) {
 		$tmpFile = \OC::$server->getTempManager()->getTemporaryFile('swiftwrite');
 		file_put_contents($tmpFile, $stream);
 		$handle = fopen($tmpFile, 'rb');
@@ -87,13 +82,15 @@ class Swift implements IObjectStore {
 		if (filesize($tmpFile) < SWIFT_SEGMENT_SIZE) {
 			$this->getContainer()->createObject([
 				'name' => $urn,
-				'stream' => stream_for($handle),
+				'stream' => Utils::streamFor($handle),
+				'contentType' => $mimetype,
 			]);
 		} else {
 			$this->getContainer()->createLargeObject([
 				'name' => $urn,
-				'stream' => stream_for($handle),
+				'stream' => Utils::streamFor($handle),
 				'segmentSize' => SWIFT_SEGMENT_SIZE,
+				'contentType' => $mimetype,
 			]);
 		}
 	}

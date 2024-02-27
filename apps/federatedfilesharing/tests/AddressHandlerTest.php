@@ -25,14 +25,16 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\FederatedFileSharing\Tests;
 
 use OC\Federation\CloudIdManager;
 use OCA\FederatedFileSharing\AddressHandler;
 use OCP\Contacts\IManager;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\ICacheFactory;
 use OCP\IL10N;
 use OCP\IURLGenerator;
+use OCP\IUserManager;
 
 class AddressHandlerTest extends \Test\TestCase {
 	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
@@ -60,7 +62,13 @@ class AddressHandlerTest extends \Test\TestCase {
 
 		$this->contactsManager = $this->createMock(IManager::class);
 
-		$this->cloudIdManager = new CloudIdManager($this->contactsManager);
+		$this->cloudIdManager = new CloudIdManager(
+			$this->contactsManager,
+			$this->urlGenerator,
+			$this->createMock(IUserManager::class),
+			$this->createMock(ICacheFactory::class),
+			$this->createMock(IEventDispatcher::class)
+		);
 
 		$this->addressHandler = new AddressHandler($this->urlGenerator, $this->il10n, $this->cloudIdManager);
 	}
@@ -137,7 +145,7 @@ class AddressHandlerTest extends \Test\TestCase {
 	 * @param string $id
 	 */
 	public function testSplitUserRemoteError($id) {
-		$this->expectException(\OC\HintException::class);
+		$this->expectException(\OCP\HintException::class);
 
 		$this->addressHandler->splitUserRemote($id);
 	}

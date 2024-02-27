@@ -1,4 +1,7 @@
 <?php
+
+use OCP\IRequest;
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -26,13 +29,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
-/**
- * wrapper for server side events (https://en.wikipedia.org/wiki/Server-sent_events)
- * includes a fallback for older browsers and IE
- *
- * use server side events with caution, to many open requests can hang the server
- */
 class OC_EventSource implements \OCP\IEventSource {
 	/**
 	 * @var bool
@@ -48,6 +44,12 @@ class OC_EventSource implements \OCP\IEventSource {
 	 * @var bool
 	 */
 	private $started = false;
+
+	private IRequest $request;
+
+	public function __construct(IRequest $request) {
+		$this->request = $request;
+	}
 
 	protected function init() {
 		if ($this->started) {
@@ -78,11 +80,11 @@ class OC_EventSource implements \OCP\IEventSource {
 		} else {
 			header("Content-Type: text/event-stream");
 		}
-		if (!\OC::$server->getRequest()->passesStrictCookieCheck()) {
+		if (!$this->request->passesStrictCookieCheck()) {
 			header('Location: '.\OC::$WEBROOT);
 			exit();
 		}
-		if (!\OC::$server->getRequest()->passesCSRFCheck()) {
+		if (!$this->request->passesCSRFCheck()) {
 			$this->send('error', 'Possible CSRF attack. Connection will be closed.');
 			$this->close();
 			exit();

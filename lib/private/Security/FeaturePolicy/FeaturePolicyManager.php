@@ -17,14 +17,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Security\FeaturePolicy;
 
 use OCP\AppFramework\Http\EmptyFeaturePolicy;
@@ -33,13 +32,11 @@ use OCP\Security\FeaturePolicy\AddFeaturePolicyEvent;
 
 class FeaturePolicyManager {
 	/** @var EmptyFeaturePolicy[] */
-	private $policies = [];
+	private array $policies = [];
 
-	/** @var IEventDispatcher */
-	private $dispatcher;
-
-	public function __construct(IEventDispatcher $dispatcher) {
-		$this->dispatcher = $dispatcher;
+	public function __construct(
+		private IEventDispatcher $dispatcher,
+	) {
 	}
 
 	public function addDefaultPolicy(EmptyFeaturePolicy $policy): void {
@@ -61,8 +58,10 @@ class FeaturePolicyManager {
 	 * Merges the first given policy with the second one
 	 *
 	 */
-	public function mergePolicies(FeaturePolicy $defaultPolicy,
-								  EmptyFeaturePolicy $originalPolicy): FeaturePolicy {
+	public function mergePolicies(
+		FeaturePolicy $defaultPolicy,
+		EmptyFeaturePolicy $originalPolicy,
+	): FeaturePolicy {
 		foreach ((object)(array)$originalPolicy as $name => $value) {
 			$setter = 'set' . ucfirst($name);
 			if (\is_array($value)) {

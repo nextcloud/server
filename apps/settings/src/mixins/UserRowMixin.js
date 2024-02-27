@@ -1,9 +1,11 @@
 /**
  * @copyright Copyright (c) 2019 John Molakvoæ <skjnldsv@protonmail.com>
  *
+ * @author Greta Doci <gretadoci@gmail.com>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -19,8 +21,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
-import { generateUrl } from '@nextcloud/router'
 
 export default {
 	props: {
@@ -44,10 +44,6 @@ export default {
 			type: Array,
 			default: () => [],
 		},
-		showConfig: {
-			type: Object,
-			default: () => ({}),
-		},
 		languages: {
 			type: Array,
 			required: true,
@@ -58,6 +54,10 @@ export default {
 		},
 	},
 	computed: {
+		showConfig() {
+			return this.$store.getters.getShowConfig
+		},
+
 		/* GROUPS MANAGEMENT */
 		userGroups() {
 			const userGroups = this.groups.filter(group => this.user.groups.includes(group.id))
@@ -149,25 +149,6 @@ export default {
 				return OC.Util.relativeModifiedDate(this.user.lastLogin)
 			}
 			return t('settings', 'Never')
-		},
-	},
-	methods: {
-		/**
-		 * Generate avatar url
-		 *
-		 * @param {string} user The user name
-		 * @param {int} size Size integer, default 32
-		 * @returns {string}
-		 */
-		generateAvatar(user, size = 32) {
-			return generateUrl(
-				'/avatar/{user}/{size}?v={version}',
-				{
-					user,
-					size,
-					version: oc_userconfig.avatar.version,
-				}
-			)
 		},
 	},
 }

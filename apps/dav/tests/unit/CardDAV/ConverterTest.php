@@ -1,7 +1,11 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
@@ -24,68 +28,75 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\Tests\unit\CardDAV;
 
-use OC\Accounts\AccountManager;
 use OCA\DAV\CardDAV\Converter;
+use OCP\Accounts\IAccount;
 use OCP\Accounts\IAccountManager;
+use OCP\Accounts\IAccountProperty;
 use OCP\IImage;
+use OCP\IURLGenerator;
 use OCP\IUser;
+use OCP\IUserManager;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class ConverterTest extends TestCase {
 
-	/** @var AccountManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IAccountManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $accountManager;
+	/** @var IUserManager|(IUserManager&MockObject)|MockObject */
+	private IUserManager|MockObject $userManager;
+
+	/** @var IURLGenerator */
+	private $urlGenerator;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->accountManager = $this->createMock(AccountManager::class);
+		$this->accountManager = $this->createMock(IAccountManager::class);
+		$this->userManager = $this->createMock(IUserManager::class);
+		$this->urlGenerator = $this->createMock(IURLGenerator::class);
+	}
+
+	/**
+	 * @return IAccountProperty|MockObject
+	 */
+	protected function getAccountPropertyMock(string $name, ?string $value, string $scope) {
+		$property = $this->createMock(IAccountProperty::class);
+		$property->expects($this->any())
+			->method('getName')
+			->willReturn($name);
+		$property->expects($this->any())
+			->method('getValue')
+			->willReturn((string)$value);
+		$property->expects($this->any())
+			->method('getScope')
+			->willReturn($scope);
+		$property->expects($this->any())
+			->method('getVerified')
+			->willReturn(IAccountManager::NOT_VERIFIED);
+		return $property;
 	}
 
 	public function getAccountManager(IUser $user) {
-		$accountManager = $this->getMockBuilder(AccountManager::class)
+		$account = $this->createMock(IAccount::class);
+		$account->expects($this->any())
+			->method('getAllProperties')
+			->willReturnCallback(function () use ($user) {
+				yield $this->getAccountPropertyMock(IAccountManager::PROPERTY_DISPLAYNAME, $user->getDisplayName(), IAccountManager::SCOPE_FEDERATED);
+				yield $this->getAccountPropertyMock(IAccountManager::PROPERTY_ADDRESS, '', IAccountManager::SCOPE_LOCAL);
+				yield $this->getAccountPropertyMock(IAccountManager::PROPERTY_WEBSITE, '', IAccountManager::SCOPE_LOCAL);
+				yield $this->getAccountPropertyMock(IAccountManager::PROPERTY_EMAIL, $user->getEMailAddress(), IAccountManager::SCOPE_FEDERATED);
+				yield $this->getAccountPropertyMock(IAccountManager::PROPERTY_AVATAR, $user->getAvatarImage(-1)->data(), IAccountManager::SCOPE_FEDERATED);
+				yield $this->getAccountPropertyMock(IAccountManager::PROPERTY_PHONE, '', IAccountManager::SCOPE_LOCAL);
+				yield $this->getAccountPropertyMock(IAccountManager::PROPERTY_TWITTER, '', IAccountManager::SCOPE_LOCAL);
+			});
+
+		$accountManager = $this->getMockBuilder(IAccountManager::class)
 			->disableOriginalConstructor()->getMock();
-		$accountManager->expects($this->any())->method('getUser')->willReturn(
-			[
-				IAccountManager::PROPERTY_DISPLAYNAME =>
-					[
-						'value' => $user->getDisplayName(),
-						'scope' => AccountManager::VISIBILITY_CONTACTS_ONLY,
-					],
-				IAccountManager::PROPERTY_ADDRESS =>
-					[
-						'value' => '',
-						'scope' => AccountManager::VISIBILITY_PRIVATE,
-					],
-				IAccountManager::PROPERTY_WEBSITE =>
-					[
-						'value' => '',
-						'scope' => AccountManager::VISIBILITY_PRIVATE,
-					],
-				IAccountManager::PROPERTY_EMAIL =>
-					[
-						'value' => $user->getEMailAddress(),
-						'scope' => AccountManager::VISIBILITY_CONTACTS_ONLY,
-					],
-				IAccountManager::PROPERTY_AVATAR =>
-					[
-						'scope' => AccountManager::VISIBILITY_CONTACTS_ONLY
-					],
-				IAccountManager::PROPERTY_PHONE =>
-					[
-						'value' => '',
-						'scope' => AccountManager::VISIBILITY_PRIVATE,
-					],
-				IAccountManager::PROPERTY_TWITTER =>
-					[
-						'value' => '',
-						'scope' => AccountManager::VISIBILITY_PRIVATE,
-					],
-			]
-		);
+
+		$accountManager->expects($this->any())->method('getAccount')->willReturn($account);
 
 		return $accountManager;
 	}
@@ -93,11 +104,11 @@ class ConverterTest extends TestCase {
 	/**
 	 * @dataProvider providesNewUsers
 	 */
-	public function testCreation($expectedVCard, $displayName = null, $eMailAddress = null, $cloudId = null) {
-		$user = $this->getUserMock($displayName, $eMailAddress, $cloudId);
+	public function testCreation($expectedVCard, $displayName = null, $eMailAddress = null, $cloudId = null): void {
+		$user = $this->getUserMock((string)$displayName, $eMailAddress, $cloudId);
 		$accountManager = $this->getAccountManager($user);
 
-		$converter = new Converter($accountManager);
+		$converter = new Converter($accountManager, $this->userManager, $this->urlGenerator);
 		$vCard = $converter->createCardFromUser($user);
 		if ($expectedVCard !== null) {
 			$this->assertInstanceOf('Sabre\VObject\Component\VCard', $vCard);
@@ -106,6 +117,29 @@ class ConverterTest extends TestCase {
 		} else {
 			$this->assertSame($expectedVCard, $vCard);
 		}
+	}
+
+	public function testManagerProp(): void {
+		$user = $this->getUserMock("user", "user@domain.tld", "user@cloud.domain.tld");
+		$user->method('getManagerUids')
+			->willReturn(['mgr']);
+		$this->userManager->expects(self::once())
+			->method('getDisplayName')
+			->with('mgr')
+			->willReturn('Manager');
+		$accountManager = $this->getAccountManager($user);
+
+		$converter = new Converter($accountManager, $this->userManager, $this->urlGenerator);
+		$vCard = $converter->createCardFromUser($user);
+
+		$this->compareData(
+			[
+				'cloud' => 'user@cloud.domain.tld',
+				'email' => 'user@domain.tld',
+				'x-managersname' => 'Manager',
+			],
+			$vCard->jsonSerialize()
+		);
 	}
 
 	protected function compareData($expected, $data) {
@@ -182,8 +216,8 @@ class ConverterTest extends TestCase {
 	 * @param $expected
 	 * @param $fullName
 	 */
-	public function testNameSplitter($expected, $fullName) {
-		$converter = new Converter($this->accountManager);
+	public function testNameSplitter($expected, $fullName): void {
+		$converter = new Converter($this->accountManager, $this->userManager, $this->urlGenerator);
 		$r = $converter->splitFullName($fullName);
 		$r = implode(';', $r);
 		$this->assertEquals($expected, $r);
@@ -203,7 +237,7 @@ class ConverterTest extends TestCase {
 	 * @param $cloudId
 	 * @return IUser | \PHPUnit\Framework\MockObject\MockObject
 	 */
-	protected function getUserMock($displayName, $eMailAddress, $cloudId) {
+	protected function getUserMock(string $displayName, ?string $eMailAddress, ?string $cloudId) {
 		$image0 = $this->getMockBuilder(IImage::class)->disableOriginalConstructor()->getMock();
 		$image0->method('mimeType')->willReturn('image/jpeg');
 		$image0->method('data')->willReturn('123456789');

@@ -2,6 +2,12 @@
 /**
  * @copyright Copyright (c) 2016 Morris Jobke <hey@morrisjobke.de>
  *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Julius Härtl <jus@bitgrid.net>
+ * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ *
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -11,18 +17,16 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\WorkflowEngine\AppInfo;
 
 use Closure;
-use OCA\WorkflowEngine\Controller\RequestTime;
 use OCA\WorkflowEngine\Helper\LogContext;
 use OCA\WorkflowEngine\Listener\LoadAdditionalSettingsScriptsListener;
 use OCA\WorkflowEngine\Manager;
@@ -31,16 +35,14 @@ use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
-use OCP\AppFramework\QueryException;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\ILogger;
-use OCP\IServerContainer;
 use OCP\WorkflowEngine\Events\LoadSettingsScriptsEvent;
 use OCP\WorkflowEngine\IEntity;
-use OCP\WorkflowEngine\IEntityCompat;
 use OCP\WorkflowEngine\IOperation;
-use OCP\WorkflowEngine\IOperationCompat;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\ContainerInterface;
+use Psr\Log\LoggerInterface;
 
 class Application extends App implements IBootstrap {
 	public const APP_ID = 'workflowengine';
@@ -50,7 +52,6 @@ class Application extends App implements IBootstrap {
 	}
 
 	public function register(IRegistrationContext $context): void {
-		$context->registerServiceAlias('RequestTimeController', RequestTime::class);
 		$context->registerEventListener(
 			LoadSettingsScriptsEvent::class,
 			LoadAdditionalSettingsScriptsListener::class,
@@ -63,10 +64,10 @@ class Application extends App implements IBootstrap {
 	}
 
 	private function registerRuleListeners(IEventDispatcher $dispatcher,
-										   IServerContainer $container,
-										   ILogger $logger): void {
+		ContainerInterface $container,
+		LoggerInterface $logger): void {
 		/** @var Manager $manager */
-		$manager = $container->query(Manager::class);
+		$manager = $container->get(Manager::class);
 		$configuredEvents = $manager->getAllConfiguredEvents();
 
 		foreach ($configuredEvents as $operationClass => $events) {
@@ -78,9 +79,9 @@ class Application extends App implements IBootstrap {
 							$ruleMatcher = $manager->getRuleMatcher();
 							try {
 								/** @var IEntity $entity */
-								$entity = $container->query($entityClass);
+								$entity = $container->get($entityClass);
 								/** @var IOperation $operation */
-								$operation = $container->query($operationClass);
+								$operation = $container->get($operationClass);
 
 								$ruleMatcher->setEventName($eventName);
 								$ruleMatcher->setEntity($entity);
@@ -93,16 +94,12 @@ class Application extends App implements IBootstrap {
 									->setEventName($eventName);
 
 								/** @var Logger $flowLogger */
-								$flowLogger = $container->query(Logger::class);
+								$flowLogger = $container->get(Logger::class);
 								$flowLogger->logEventInit($ctx);
 
 								if ($event instanceof Event) {
 									$entity->prepareRuleMatcher($ruleMatcher, $eventName, $event);
 									$operation->onEvent($eventName, $event, $ruleMatcher);
-								} elseif ($entity instanceof IEntityCompat && $operation instanceof IOperationCompat) {
-									// TODO: Remove this block (and the compat classes) in the first major release in 2023
-									$entity->prepareRuleMatcherCompat($ruleMatcher, $eventName, $event);
-									$operation->onEventCompat($eventName, $event, $ruleMatcher);
 								} else {
 									$logger->debug(
 										'Cannot handle event {name} of {event} against entity {entity} and operation {operation}',
@@ -116,8 +113,8 @@ class Application extends App implements IBootstrap {
 									);
 								}
 								$flowLogger->logEventDone($ctx);
-							} catch (QueryException $e) {
-								// Ignore query exceptions since they might occur when an entity/operation were setup before by an app that is disabled now
+							} catch (ContainerExceptionInterface $e) {
+								// Ignore query exceptions since they might occur when an entity/operation were set up before by an app that is disabled now
 							}
 						}
 					);

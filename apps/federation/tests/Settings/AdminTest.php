@@ -14,19 +14,19 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Federation\Tests\Settings;
 
 use OCA\Federation\Settings\Admin;
 use OCA\Federation\TrustedServers;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\IL10N;
 use Test\TestCase;
 
 class AdminTest extends TestCase {
@@ -39,7 +39,8 @@ class AdminTest extends TestCase {
 		parent::setUp();
 		$this->trustedServers = $this->getMockBuilder('\OCA\Federation\TrustedServers')->disableOriginalConstructor()->getMock();
 		$this->admin = new Admin(
-			$this->trustedServers
+			$this->trustedServers,
+			$this->createMock(IL10N::class)
 		);
 	}
 
@@ -48,14 +49,9 @@ class AdminTest extends TestCase {
 			->expects($this->once())
 			->method('getServers')
 			->willReturn(['myserver', 'secondserver']);
-		$this->trustedServers
-			->expects($this->once())
-			->method('getAutoAddServers')
-			->willReturn(['autoserver1', 'autoserver2']);
 
 		$params = [
 			'trustedServers' => ['myserver', 'secondserver'],
-			'autoAddServers' => ['autoserver1', 'autoserver2'],
 		];
 		$expected = new TemplateResponse('federation', 'settings-admin', $params, '');
 		$this->assertEquals($expected, $this->admin->getForm());

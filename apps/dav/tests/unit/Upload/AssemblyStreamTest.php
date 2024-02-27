@@ -8,7 +8,6 @@
  * @author Markus Goetz <markus@woboq.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <vincent@nextcloud.com>
  *
@@ -27,7 +26,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\Tests\unit\Upload;
 
 use Sabre\DAV\File;
@@ -37,7 +35,7 @@ class AssemblyStreamTest extends \Test\TestCase {
 	/**
 	 * @dataProvider providesNodes()
 	 */
-	public function testGetContents($expected, $nodes) {
+	public function testGetContents($expected, $nodes): void {
 		$stream = \OCA\DAV\Upload\AssemblyStream::wrap($nodes);
 		$content = stream_get_contents($stream);
 
@@ -47,7 +45,7 @@ class AssemblyStreamTest extends \Test\TestCase {
 	/**
 	 * @dataProvider providesNodes()
 	 */
-	public function testGetContentsFread($expected, $nodes) {
+	public function testGetContentsFread($expected, $nodes): void {
 		$stream = \OCA\DAV\Upload\AssemblyStream::wrap($nodes);
 
 		$content = '';
@@ -61,7 +59,7 @@ class AssemblyStreamTest extends \Test\TestCase {
 	/**
 	 * @dataProvider providesNodes()
 	 */
-	public function testSeek($expected, $nodes) {
+	public function testSeek($expected, $nodes): void {
 		$stream = \OCA\DAV\Upload\AssemblyStream::wrap($nodes);
 
 		$offset = floor(strlen($expected) * 0.6);
@@ -80,9 +78,9 @@ class AssemblyStreamTest extends \Test\TestCase {
 		$tonofnodes = [];
 		$tonofdata = "";
 		for ($i = 0; $i < 101; $i++) {
-			$thisdata = rand(0,100); // variable length and content
+			$thisdata = rand(0, 100); // variable length and content
 			$tonofdata .= $thisdata;
-			array_push($tonofnodes, $this->buildNode($i,$thisdata));
+			array_push($tonofnodes, $this->buildNode($i, $thisdata));
 		}
 
 		return[

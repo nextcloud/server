@@ -27,12 +27,12 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Preview;
 
 use OCP\Files\File;
+use OCP\Files\FileInfo;
 use OCP\IImage;
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 
 /**
  * Creates a JPG preview using ImageMagick via the PECL extension
@@ -50,7 +50,7 @@ class HEIC extends ProviderV2 {
 	/**
 	 * {@inheritDoc}
 	 */
-	public function isAvailable(\OCP\Files\FileInfo $file): bool {
+	public function isAvailable(FileInfo $file): bool {
 		return in_array('HEIC', \Imagick::queryFormats("HEI*"));
 	}
 
@@ -58,26 +58,39 @@ class HEIC extends ProviderV2 {
 	 * {@inheritDoc}
 	 */
 	public function getThumbnail(File $file, int $maxX, int $maxY): ?IImage {
+		if (!$this->isAvailable($file)) {
+			return null;
+		}
+
 		$tmpPath = $this->getLocalFile($file);
+		if ($tmpPath === false) {
+			\OC::$server->get(LoggerInterface::class)->error(
+				'Failed to get thumbnail for: ' . $file->getPath(),
+				['app' => 'core']
+			);
+			return null;
+		}
 
 		// Creates \Imagick object from the heic file
 		try {
 			$bp = $this->getResizedPreview($tmpPath, $maxX, $maxY);
 			$bp->setFormat('jpg');
 		} catch (\Exception $e) {
-			\OC::$server->getLogger()->logException($e, [
-				'message' => 'File: ' . $file->getPath() . ' Imagick says:',
-				'level' => ILogger::ERROR,
-				'app' => 'core',
-			]);
+			\OC::$server->get(LoggerInterface::class)->error(
+				'File: ' . $file->getPath() . ' Imagick says:',
+				[
+					'exception' => $e,
+					'app' => 'core',
+				]
+			);
 			return null;
 		}
 
 		$this->cleanTmpFiles();
 
 		//new bitmap image object
-		$image = new \OC_Image();
-		$image->loadFromData($bp);
+		$image = new \OCP\Image();
+		$image->loadFromData((string) $bp);
 		//check if image object is valid
 		return $image->valid() ? $image : null;
 	}
@@ -102,10 +115,13 @@ class HEIC extends ProviderV2 {
 		// Layer 0 contains either the bitmap or a flat representation of all vector layers
 		$bp->readImage($tmpPath . '[0]');
 
+		// Fix orientation from EXIF
+		$bp->autoOrient();
+
 		$bp->setImageFormat('jpg');
 
 		$bp = $this->resize($bp, $maxX, $maxY);
-		
+
 		return $bp;
 	}
 

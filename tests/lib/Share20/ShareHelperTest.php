@@ -30,7 +30,6 @@ use OCP\Share\IManager;
 use Test\TestCase;
 
 class ShareHelperTest extends TestCase {
-
 	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $manager;
 

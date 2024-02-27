@@ -23,13 +23,13 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_Versions\Tests;
 
 use OCA\Files_Versions\Expiration;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
 
 class ExpirationTest extends \Test\TestCase {
 	public const SECONDS_PER_DAY = 86400; //60*60*24
@@ -110,8 +110,9 @@ class ExpirationTest extends \Test\TestCase {
 	public function testExpiration($retentionObligation, $timeNow, $timestamp, $quotaExceeded, $expectedResult) {
 		$mockedConfig = $this->getMockedConfig($retentionObligation);
 		$mockedTimeFactory = $this->getMockedTimeFactory($timeNow);
+		$mockedLogger = $this->createMock(LoggerInterface::class);
 
-		$expiration = new Expiration($mockedConfig, $mockedTimeFactory);
+		$expiration = new Expiration($mockedConfig, $mockedTimeFactory, $mockedLogger);
 		$actualResult = $expiration->isExpired($timestamp, $quotaExceeded);
 
 		$this->assertEquals($expectedResult, $actualResult);

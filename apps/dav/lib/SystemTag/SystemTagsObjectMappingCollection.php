@@ -23,7 +23,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\SystemTag;
 
 use OCP\IUser;
@@ -93,6 +92,9 @@ class SystemTagsObjectMappingCollection implements ICollection {
 		$this->user = $user;
 	}
 
+	/**
+	 * @return void
+	 */
 	public function createFile($name, $data = null) {
 		$tagId = $name;
 		try {
@@ -111,27 +113,38 @@ class SystemTagsObjectMappingCollection implements ICollection {
 		}
 	}
 
+	/**
+	 * @return never
+	 */
 	public function createDirectory($name) {
 		throw new Forbidden('Permission denied to create collections');
 	}
 
-	public function getChild($tagId) {
+	/**
+	 * @return SystemTagMappingNode
+	 */
+	public function getChild($tagName) {
 		try {
-			if ($this->tagMapper->haveTag([$this->objectId], $this->objectType, $tagId, true)) {
-				$tag = $this->tagManager->getTagsByIds([$tagId]);
+			if ($this->tagMapper->haveTag([$this->objectId], $this->objectType, $tagName, true)) {
+				$tag = $this->tagManager->getTagsByIds([$tagName]);
 				$tag = current($tag);
 				if ($this->tagManager->canUserSeeTag($tag, $this->user)) {
 					return $this->makeNode($tag);
 				}
 			}
-			throw new NotFound('Tag with id ' . $tagId . ' not present for object ' . $this->objectId);
+			throw new NotFound('Tag with id ' . $tagName . ' not present for object ' . $this->objectId);
 		} catch (\InvalidArgumentException $e) {
 			throw new BadRequest('Invalid tag id', 0, $e);
 		} catch (TagNotFoundException $e) {
-			throw new NotFound('Tag with id ' . $tagId . ' not found', 0, $e);
+			throw new NotFound('Tag with id ' . $tagName . ' not found', 0, $e);
 		}
 	}
 
+	/**
+	 * @return SystemTagMappingNode[]
+	 *
+	 * @psalm-return list<SystemTagMappingNode>
+	 */
 	public function getChildren() {
 		$tagIds = current($this->tagMapper->getTagIdsForObjects([$this->objectId], $this->objectType));
 		if (empty($tagIds)) {
@@ -169,6 +182,9 @@ class SystemTagsObjectMappingCollection implements ICollection {
 		}
 	}
 
+	/**
+	 * @return never
+	 */
 	public function delete() {
 		throw new Forbidden('Permission denied to delete this collection');
 	}
@@ -177,6 +193,9 @@ class SystemTagsObjectMappingCollection implements ICollection {
 		return $this->objectId;
 	}
 
+	/**
+	 * @return never
+	 */
 	public function setName($name) {
 		throw new Forbidden('Permission denied to rename this collection');
 	}
@@ -184,7 +203,7 @@ class SystemTagsObjectMappingCollection implements ICollection {
 	/**
 	 * Returns the last modification time, as a unix timestamp
 	 *
-	 * @return int
+	 * @return null
 	 */
 	public function getLastModified() {
 		return null;

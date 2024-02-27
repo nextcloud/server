@@ -16,24 +16,24 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Files_External\BackgroundJob;
 
 use OCA\Files_External\Lib\Auth\Password\LoginCredentials;
 use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\Service\UserGlobalStoragesService;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\BackgroundJob\IJob;
 use OCP\BackgroundJob\TimedJob;
-use OCP\Security\ICredentialsManager;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\Security\ICredentialsManager;
 
 class CredentialsCleanup extends TimedJob {
 	private $credentialsManager;
@@ -54,6 +54,7 @@ class CredentialsCleanup extends TimedJob {
 
 		// run every day
 		$this->setInterval(24 * 60 * 60);
+		$this->setTimeSensitivity(IJob::TIME_INSENSITIVE);
 	}
 
 	protected function run($argument) {

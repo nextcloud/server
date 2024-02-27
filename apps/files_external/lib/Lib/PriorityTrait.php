@@ -20,7 +20,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_External\Lib;
 
 use OCA\Files_External\Service\BackendService;
@@ -47,14 +46,5 @@ trait PriorityTrait {
 	public function setPriority($priority) {
 		$this->priority = $priority;
 		return $this;
-	}
-
-	/**
-	 * @param PriorityTrait $a
-	 * @param PriorityTrait $b
-	 * @return int
-	 */
-	public static function priorityCompare(PriorityTrait $a, PriorityTrait $b) {
-		return ($a->getPriority() - $b->getPriority());
 	}
 }

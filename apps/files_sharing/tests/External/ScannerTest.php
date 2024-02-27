@@ -21,15 +21,16 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_Sharing\Tests\External;
 
 use OCA\Files_Sharing\External\Scanner;
 use Test\TestCase;
 
+/**
+ * @group DB
+ */
 class ScannerTest extends TestCase {
-	/** @var \OCA\Files_Sharing\External\Scanner */
-	protected $scanner;
+	protected Scanner $scanner;
 	/** @var \OCA\Files_Sharing\External\Storage|\PHPUnit\Framework\MockObject\MockObject */
 	protected $storage;
 	/** @var \OC\Files\Cache\Cache|\PHPUnit\Framework\MockObject\MockObject */
@@ -49,18 +50,6 @@ class ScannerTest extends TestCase {
 			->willReturn($this->cache);
 
 		$this->scanner = new Scanner($this->storage);
-	}
-
-	public function testScanAll() {
-		$this->storage->expects($this->any())
-			->method('getShareInfo')
-			->willReturn(['status' => 'success', 'data' => []]);
-
-		// FIXME add real tests, we are currently only checking for
-		// Declaration of OCA\Files_Sharing\External\Scanner::*() should be
-		// compatible with OC\Files\Cache\Scanner::*()
-		$this->scanner->scanAll();
-		$this->addToAssertionCount(1);
 	}
 
 	public function testScan() {

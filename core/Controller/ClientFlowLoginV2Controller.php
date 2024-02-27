@@ -18,74 +18,74 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Core\Controller;
 
 use OC\Core\Db\LoginFlowV2;
 use OC\Core\Exception\LoginFlowV2NotFoundException;
 use OC\Core\Service\LoginFlowV2Service;
+use OCA\Core\ResponseDefinitions;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\FrontpageRoute;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
+use OCP\AppFramework\Http\Attribute\UseSession;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\StandaloneTemplateResponse;
+use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\Defaults;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IURLGenerator;
+use OCP\IUser;
+use OCP\IUserSession;
 use OCP\Security\ISecureRandom;
 
+/**
+ * @psalm-import-type CoreLoginFlowV2Credentials from ResponseDefinitions
+ * @psalm-import-type CoreLoginFlowV2 from ResponseDefinitions
+ */
 class ClientFlowLoginV2Controller extends Controller {
 	public const TOKEN_NAME = 'client.flow.v2.login.token';
 	public const STATE_NAME = 'client.flow.v2.state.token';
 
-	/** @var LoginFlowV2Service */
-	private $loginFlowV2Service;
-	/** @var IURLGenerator */
-	private $urlGenerator;
-	/** @var ISession */
-	private $session;
-	/** @var ISecureRandom */
-	private $random;
-	/** @var Defaults */
-	private $defaults;
-	/** @var string */
-	private $userId;
-	/** @var IL10N */
-	private $l10n;
-
-	public function __construct(string $appName,
-								IRequest $request,
-								LoginFlowV2Service $loginFlowV2Service,
-								IURLGenerator $urlGenerator,
-								ISession $session,
-								ISecureRandom $random,
-								Defaults $defaults,
-								?string $userId,
-								IL10N $l10n) {
+	public function __construct(
+		string $appName,
+		IRequest $request,
+		private LoginFlowV2Service $loginFlowV2Service,
+		private IURLGenerator $urlGenerator,
+		private ISession $session,
+		private IUserSession $userSession,
+		private ISecureRandom $random,
+		private Defaults $defaults,
+		private ?string $userId,
+		private IL10N $l10n,
+	) {
 		parent::__construct($appName, $request);
-		$this->loginFlowV2Service = $loginFlowV2Service;
-		$this->urlGenerator = $urlGenerator;
-		$this->session = $session;
-		$this->random = $random;
-		$this->defaults = $defaults;
-		$this->userId = $userId;
-		$this->l10n = $l10n;
 	}
 
 	/**
 	 * @NoCSRFRequired
 	 * @PublicPage
+	 *
+	 * Poll the login flow credentials
+	 *
+	 * @param string $token Token of the flow
+	 * @return JSONResponse<Http::STATUS_OK, CoreLoginFlowV2Credentials, array{}>|JSONResponse<Http::STATUS_NOT_FOUND, array<empty>, array{}>
+	 *
+	 * 200: Login flow credentials returned
+	 * 404: Login flow not found or completed
 	 */
+	#[FrontpageRoute(verb: 'POST', url: '/login/v2/poll')]
 	public function poll(string $token): JSONResponse {
 		try {
 			$creds = $this->loginFlowV2Service->poll($token);
@@ -93,15 +93,17 @@ class ClientFlowLoginV2Controller extends Controller {
 			return new JSONResponse([], Http::STATUS_NOT_FOUND);
 		}
 
-		return new JSONResponse($creds);
+		return new JSONResponse($creds->jsonSerialize());
 	}
 
 	/**
 	 * @NoCSRFRequired
 	 * @PublicPage
-	 * @UseSession
 	 */
-	public function landing(string $token): Response {
+	#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
+	#[UseSession]
+	#[FrontpageRoute(verb: 'GET', url: '/login/v2/flow/{token}')]
+	public function landing(string $token, $user = ''): Response {
 		if (!$this->loginFlowV2Service->startLoginFlow($token)) {
 			return $this->loginTokenForbiddenResponse();
 		}
@@ -109,16 +111,18 @@ class ClientFlowLoginV2Controller extends Controller {
 		$this->session->set(self::TOKEN_NAME, $token);
 
 		return new RedirectResponse(
-			$this->urlGenerator->linkToRouteAbsolute('core.ClientFlowLoginV2.showAuthPickerPage')
+			$this->urlGenerator->linkToRouteAbsolute('core.ClientFlowLoginV2.showAuthPickerPage', ['user' => $user])
 		);
 	}
 
 	/**
 	 * @NoCSRFRequired
 	 * @PublicPage
-	 * @UseSession
 	 */
-	public function showAuthPickerPage(): StandaloneTemplateResponse {
+	#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
+	#[UseSession]
+	#[FrontpageRoute(verb: 'GET', url: '/login/v2/flow')]
+	public function showAuthPickerPage($user = ''): StandaloneTemplateResponse {
 		try {
 			$flow = $this->getFlowByLoginToken();
 		} catch (LoginFlowV2NotFoundException $e) {
@@ -139,6 +143,7 @@ class ClientFlowLoginV2Controller extends Controller {
 				'instanceName' => $this->defaults->getName(),
 				'urlGenerator' => $this->urlGenerator,
 				'stateToken' => $stateToken,
+				'user' => $user,
 			],
 			'guest'
 		);
@@ -146,11 +151,16 @@ class ClientFlowLoginV2Controller extends Controller {
 
 	/**
 	 * @NoAdminRequired
-	 * @UseSession
 	 * @NoCSRFRequired
 	 * @NoSameSiteCookieRequired
 	 */
-	public function grantPage(string $stateToken): StandaloneTemplateResponse {
+	#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
+	#[UseSession]
+	#[FrontpageRoute(verb: 'GET', url: '/login/v2/grant')]
+	public function grantPage(?string $stateToken): StandaloneTemplateResponse {
+		if ($stateToken === null) {
+			return $this->stateTokenMissingResponse();
+		}
 		if (!$this->isValidStateToken($stateToken)) {
 			return $this->stateTokenForbiddenResponse();
 		}
@@ -161,10 +171,15 @@ class ClientFlowLoginV2Controller extends Controller {
 			return $this->loginTokenForbiddenResponse();
 		}
 
+		/** @var IUser $user */
+		$user = $this->userSession->getUser();
+
 		return new StandaloneTemplateResponse(
 			$this->appName,
 			'loginflowv2/grant',
 			[
+				'userId' => $user->getUID(),
+				'userDisplayName' => $user->getDisplayName(),
 				'client' => $flow->getClientName(),
 				'instanceName' => $this->defaults->getName(),
 				'urlGenerator' => $this->urlGenerator,
@@ -175,10 +190,61 @@ class ClientFlowLoginV2Controller extends Controller {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 * @UseSession
+	 * @PublicPage
 	 */
-	public function generateAppPassword(string $stateToken): Response {
+	#[FrontpageRoute(verb: 'POST', url: '/login/v2/apptoken')]
+	public function apptokenRedirect(?string $stateToken, string $user, string $password) {
+		if ($stateToken === null) {
+			return $this->stateTokenMissingResponse();
+		}
+
+		if (!$this->isValidStateToken($stateToken)) {
+			return $this->stateTokenForbiddenResponse();
+		}
+
+		try {
+			$this->getFlowByLoginToken();
+		} catch (LoginFlowV2NotFoundException $e) {
+			return $this->loginTokenForbiddenResponse();
+		}
+
+		$loginToken = $this->session->get(self::TOKEN_NAME);
+
+		// Clear session variables
+		$this->session->remove(self::TOKEN_NAME);
+		$this->session->remove(self::STATE_NAME);
+
+		try {
+			$token = \OC::$server->get(\OC\Authentication\Token\IProvider::class)->getToken($password);
+			if ($token->getLoginName() !== $user) {
+				throw new InvalidTokenException('login name does not match');
+			}
+		} catch (InvalidTokenException $e) {
+			$response = new StandaloneTemplateResponse(
+				$this->appName,
+				'403',
+				[
+					'message' => $this->l10n->t('Invalid app password'),
+				],
+				'guest'
+			);
+			$response->setStatus(Http::STATUS_FORBIDDEN);
+			return $response;
+		}
+
+		$result = $this->loginFlowV2Service->flowDoneWithAppPassword($loginToken, $this->getServerPath(), $token->getLoginName(), $password);
+		return $this->handleFlowDone($result);
+	}
+
+	/**
+	 * @NoAdminRequired
+	 */
+	#[UseSession]
+	#[FrontpageRoute(verb: 'POST', url: '/login/v2/grant')]
+	public function generateAppPassword(?string $stateToken): Response {
+		if ($stateToken === null) {
+			return $this->stateTokenMissingResponse();
+		}
 		if (!$this->isValidStateToken($stateToken)) {
 			return $this->stateTokenForbiddenResponse();
 		}
@@ -197,7 +263,10 @@ class ClientFlowLoginV2Controller extends Controller {
 		$sessionId = $this->session->getId();
 
 		$result = $this->loginFlowV2Service->flowDone($loginToken, $sessionId, $this->getServerPath(), $this->userId);
+		return $this->handleFlowDone($result);
+	}
 
+	private function handleFlowDone(bool $result): StandaloneTemplateResponse {
 		if ($result) {
 			return new StandaloneTemplateResponse(
 				$this->appName,
@@ -222,7 +291,14 @@ class ClientFlowLoginV2Controller extends Controller {
 	/**
 	 * @NoCSRFRequired
 	 * @PublicPage
+	 *
+	 * Init a login flow
+	 *
+	 * @return JSONResponse<Http::STATUS_OK, CoreLoginFlowV2, array{}>
+	 *
+	 * 200: Login flow init returned
 	 */
+	#[FrontpageRoute(verb: 'POST', url: '/login/v2')]
 	public function init(): JSONResponse {
 		// Get client user agent
 		$userAgent = $this->request->getHeader('USER_AGENT');
@@ -246,6 +322,19 @@ class ClientFlowLoginV2Controller extends Controller {
 			return false;
 		}
 		return hash_equals($currentToken, $stateToken);
+	}
+
+	private function stateTokenMissingResponse(): StandaloneTemplateResponse {
+		$response = new StandaloneTemplateResponse(
+			$this->appName,
+			'403',
+			[
+				'message' => $this->l10n->t('State token missing'),
+			],
+			'guest'
+		);
+		$response->setStatus(Http::STATUS_FORBIDDEN);
+		return $response;
 	}
 
 	private function stateTokenForbiddenResponse(): StandaloneTemplateResponse {
@@ -290,9 +379,9 @@ class ClientFlowLoginV2Controller extends Controller {
 	private function getServerPath(): string {
 		$serverPostfix = '';
 
-		if (strpos($this->request->getRequestUri(), '/index.php') !== false) {
+		if (str_contains($this->request->getRequestUri(), '/index.php')) {
 			$serverPostfix = substr($this->request->getRequestUri(), 0, strpos($this->request->getRequestUri(), '/index.php'));
-		} elseif (strpos($this->request->getRequestUri(), '/login/v2') !== false) {
+		} elseif (str_contains($this->request->getRequestUri(), '/login/v2')) {
 			$serverPostfix = substr($this->request->getRequestUri(), 0, strpos($this->request->getRequestUri(), '/login/v2'));
 		}
 

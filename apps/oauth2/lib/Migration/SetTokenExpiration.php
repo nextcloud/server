@@ -17,20 +17,19 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\OAuth2\Migration;
 
-use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Token\IProvider as TokenProvider;
 use OCA\OAuth2\Db\AccessToken;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\IDBConnection;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
@@ -47,8 +46,8 @@ class SetTokenExpiration implements IRepairStep {
 	private $tokenProvider;
 
 	public function __construct(IDBConnection $connection,
-								ITimeFactory $timeFactory,
-								TokenProvider $tokenProvider) {
+		ITimeFactory $timeFactory,
+		TokenProvider $tokenProvider) {
 		$this->connection = $connection;
 		$this->time = $timeFactory;
 		$this->tokenProvider = $tokenProvider;

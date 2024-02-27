@@ -4,8 +4,8 @@
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
  * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
@@ -24,72 +24,90 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\User_LDAP\Command;
 
+use OCA\User_LDAP\AccessFactory;
 use OCA\User_LDAP\Connection;
 use OCA\User_LDAP\Helper;
+use OCA\User_LDAP\ILDAPWrapper;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class TestConfig extends Command {
-	protected function configure() {
+	protected const ESTABLISHED = 0;
+	protected const CONF_INVALID = 1;
+	protected const BINDFAILURE = 2;
+	protected const SEARCHFAILURE = 3;
+
+	public function __construct(
+		protected AccessFactory $accessFactory,
+		protected Helper $helper,
+		protected ILDAPWrapper $ldap,
+	) {
+		parent::__construct();
+	}
+
+	protected function configure(): void {
 		$this
 			->setName('ldap:test-config')
 			->setDescription('tests an LDAP configuration')
 			->addArgument(
-					'configID',
-					InputArgument::REQUIRED,
-					'the configuration ID'
-					 )
+				'configID',
+				InputArgument::REQUIRED,
+				'the configuration ID'
+			)
 		;
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
-		$helper = new Helper(\OC::$server->getConfig(), \OC::$server->getDatabaseConnection());
-		$availableConfigs = $helper->getServerConfigurationPrefixes();
+		$availableConfigs = $this->helper->getServerConfigurationPrefixes();
 		$configID = $input->getArgument('configID');
 		if (!in_array($configID, $availableConfigs)) {
-			$output->writeln("Invalid configID");
-			return 1;
+			$output->writeln('Invalid configID');
+			return self::FAILURE;
 		}
 
 		$result = $this->testConfig($configID);
-		if ($result === 0) {
-			$output->writeln('The configuration is valid and the connection could be established!');
-		} elseif ($result === 1) {
-			$output->writeln('The configuration is invalid. Please have a look at the logs for further details.');
-			return 1;
-		} elseif ($result === 2) {
-			$output->writeln('The configuration is valid, but the Bind failed. Please check the server settings and credentials.');
-		} else {
-			$output->writeln('Your LDAP server was kidnapped by aliens.');
-		}
-		return 0;
+
+		$message = match ($result) {
+			static::ESTABLISHED => 'The configuration is valid and the connection could be established!',
+			static::CONF_INVALID => 'The configuration is invalid. Please have a look at the logs for further details.',
+			static::BINDFAILURE => 'The configuration is valid, but the bind failed. Please check the server settings and credentials.',
+			static::SEARCHFAILURE => 'The configuration is valid and the bind passed, but a simple search on the base fails. Please check the server base setting.',
+			default => 'Your LDAP server was kidnapped by aliens.',
+		};
+
+		$output->writeln($message);
+
+		return $result === static::ESTABLISHED
+			? self::SUCCESS
+			: self::FAILURE;
 	}
 
 	/**
-	 * tests the specified connection
-	 * @param string $configID
-	 * @return int
+	 * Tests the specified connection
 	 */
-	protected function testConfig($configID) {
-		$lw = new \OCA\User_LDAP\LDAP();
-		$connection = new Connection($lw, $configID);
+	protected function testConfig(string $configID): int {
+		$connection = new Connection($this->ldap, $configID);
 
-		//ensure validation is run before we attempt the bind
+		// Ensure validation is run before we attempt the bind
 		$connection->getConfiguration();
 
 		if (!$connection->setConfiguration([
 			'ldap_configuration_active' => 1,
 		])) {
-			return 1;
+			return static::CONF_INVALID;
 		}
-		if ($connection->bind()) {
-			return 0;
+		if (!$connection->bind()) {
+			return static::BINDFAILURE;
 		}
-		return 2;
+		$access = $this->accessFactory->get($connection);
+		$result = $access->countObjects(1);
+		if (!is_int($result) || ($result <= 0)) {
+			return static::SEARCHFAILURE;
+		}
+		return static::ESTABLISHED;
 	}
 }

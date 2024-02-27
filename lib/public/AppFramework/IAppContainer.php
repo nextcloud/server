@@ -26,7 +26,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP\AppFramework;
 
 use OCP\IContainer;
@@ -39,10 +38,10 @@ use Psr\Container\ContainerInterface;
  * thus this interface won't extend it anymore once that was removed. So migrate to the ContainerInterface
  * only.
  *
+ * @deprecated 20.0.0
  * @since 6.0.0
  */
 interface IAppContainer extends ContainerInterface, IContainer {
-
 	/**
 	 * used to return the appname of the set application
 	 * @return string the name of your application

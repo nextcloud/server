@@ -25,7 +25,6 @@ namespace Test\Core\Controller;
 use OC\Authentication\TwoFactorAuth\Manager;
 use OC\Authentication\TwoFactorAuth\ProviderSet;
 use OC\Core\Controller\TwoFactorChallengeController;
-use OC_Util;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\StandaloneTemplateResponse;
 use OCP\Authentication\TwoFactorAuth\IActivatableAtLogin;
@@ -38,10 +37,10 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Template;
+use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class TwoFactorChallengeControllerTest extends TestCase {
-
 	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
 	private $request;
 
@@ -57,6 +56,9 @@ class TwoFactorChallengeControllerTest extends TestCase {
 	/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
 	private $urlGenerator;
 
+	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
+	private $logger;
+
 	/** @var TwoFactorChallengeController|\PHPUnit\Framework\MockObject\MockObject */
 	private $controller;
 
@@ -68,6 +70,7 @@ class TwoFactorChallengeControllerTest extends TestCase {
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->session = $this->createMock(ISession::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 
 		$this->controller = $this->getMockBuilder(TwoFactorChallengeController::class)
 			->setConstructorArgs([
@@ -77,6 +80,7 @@ class TwoFactorChallengeControllerTest extends TestCase {
 				$this->userSession,
 				$this->session,
 				$this->urlGenerator,
+				$this->logger,
 			])
 			->setMethods(['getLogoutUrl'])
 			->getMock();
@@ -207,8 +211,12 @@ class TwoFactorChallengeControllerTest extends TestCase {
 			->method('verifyChallenge')
 			->with('myprovider', $user, 'token')
 			->willReturn(true);
+		$this->urlGenerator
+			->expects($this->once())
+			->method('linkToDefaultPageUrl')
+			->willReturn('/default/foo');
 
-		$expected = new RedirectResponse(OC_Util::getDefaultPageUrl());
+		$expected = new RedirectResponse('/default/foo');
 		$this->assertEquals($expected, $this->controller->solveChallenge('myprovider', 'token'));
 	}
 
@@ -308,12 +316,12 @@ class TwoFactorChallengeControllerTest extends TestCase {
 			->method('verifyChallenge')
 			->with('myprovider', $user, 'token')
 			->will($this->throwException($exception));
-		$this->session->expects($this->at(0))
+		$this->session->expects($this->exactly(2))
 			->method('set')
-			->with('two_factor_auth_error_message', "2FA failed");
-		$this->session->expects($this->at(1))
-			->method('set')
-			->with('two_factor_auth_error', true);
+			->withConsecutive(
+				['two_factor_auth_error_message', '2FA failed'],
+				['two_factor_auth_error', true]
+			);
 		$this->urlGenerator->expects($this->once())
 			->method('linkToRoute')
 			->with('core.TwoFactorChallenge.showChallenge', [

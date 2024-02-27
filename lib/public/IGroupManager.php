@@ -9,6 +9,7 @@
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vinicius Cubas Brand <vinicius@eita.org.br>
  *
@@ -27,7 +28,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP;
 
 /**
@@ -96,12 +96,12 @@ interface IGroupManager {
 
 	/**
 	 * @param string $search
-	 * @param int $limit
-	 * @param int $offset
+	 * @param ?int $limit
+	 * @param ?int $offset
 	 * @return \OCP\IGroup[]
 	 * @since 8.0.0
 	 */
-	public function search($search, $limit = null, $offset = null);
+	public function search(string $search, ?int $limit = null, ?int $offset = 0);
 
 	/**
 	 * @param \OCP\IUser|null $user
@@ -112,10 +112,10 @@ interface IGroupManager {
 
 	/**
 	 * @param \OCP\IUser $user
-	 * @return array with group names
+	 * @return string[] with group names
 	 * @since 8.0.0
 	 */
-	public function getUserGroupIds(IUser $user);
+	public function getUserGroupIds(IUser $user): array;
 
 	/**
 	 * get a list of all display names in a group
@@ -145,4 +145,14 @@ interface IGroupManager {
 	 * @since 8.0.0
 	 */
 	public function isInGroup($userId, $group);
+
+	/**
+	 * Get the display name of a Nextcloud group
+	 *
+	 * @param string $groupId
+	 * @return ?string display name, if any
+	 *
+	 * @since 26.0.0
+	 */
+	public function getDisplayName(string $groupId): ?string;
 }

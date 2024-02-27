@@ -14,53 +14,51 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\User_LDAP;
 
 use OCA\User_LDAP\User\Manager;
 use OCP\IConfig;
 use OCP\IUserManager;
+use OCP\Server;
+use Psr\Log\LoggerInterface;
 
 class AccessFactory {
-	/** @var ILDAPWrapper */
-	protected $ldap;
-	/** @var Manager */
-	protected $userManager;
-	/** @var Helper */
-	protected $helper;
-	/** @var IConfig */
-	protected $config;
-	/** @var IUserManager */
-	private $ncUserManager;
+	private ILDAPWrapper $ldap;
+	private Helper $helper;
+	private IConfig $config;
+	private IUserManager $ncUserManager;
+	private LoggerInterface $logger;
 
 	public function __construct(
 		ILDAPWrapper $ldap,
-		Manager $userManager,
 		Helper $helper,
 		IConfig $config,
-		IUserManager $ncUserManager) {
+		IUserManager $ncUserManager,
+		LoggerInterface $logger) {
 		$this->ldap = $ldap;
-		$this->userManager = $userManager;
 		$this->helper = $helper;
 		$this->config = $config;
 		$this->ncUserManager = $ncUserManager;
+		$this->logger = $logger;
 	}
 
-	public function get(Connection $connection) {
+	public function get(Connection $connection): Access {
+		/* Each Access instance gets its own Manager instance, see OCA\User_LDAP\AppInfo\Application::register() */
 		return new Access(
 			$connection,
 			$this->ldap,
-			$this->userManager,
+			Server::get(Manager::class),
 			$this->helper,
 			$this->config,
-			$this->ncUserManager
+			$this->ncUserManager,
+			$this->logger
 		);
 	}
 }

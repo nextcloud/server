@@ -4,8 +4,8 @@
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Anna Larch <anna.larch@gmx.net>
  *
  * @license AGPL-3.0
  *
@@ -22,15 +22,18 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\CardDAV;
 
 use OCA\DAV\AppInfo\PluginManager;
+use OCP\IGroupManager;
+use OCP\IUser;
 
 class AddressBookRoot extends \Sabre\CardDAV\AddressBookRoot {
 
 	/** @var PluginManager */
 	private $pluginManager;
+	private ?IUser $user;
+	private ?IGroupManager $groupManager;
 
 	/**
 	 * @param \Sabre\DAVACL\PrincipalBackend\BackendInterface $principalBackend
@@ -38,11 +41,15 @@ class AddressBookRoot extends \Sabre\CardDAV\AddressBookRoot {
 	 * @param string $principalPrefix
 	 */
 	public function __construct(\Sabre\DAVACL\PrincipalBackend\BackendInterface $principalBackend,
-								\Sabre\CardDAV\Backend\BackendInterface $carddavBackend,
-								PluginManager $pluginManager,
-								$principalPrefix = 'principals') {
+		\Sabre\CardDAV\Backend\BackendInterface $carddavBackend,
+		PluginManager $pluginManager,
+		?IUser $user,
+		?IGroupManager $groupManager,
+		string $principalPrefix = 'principals') {
 		parent::__construct($principalBackend, $carddavBackend, $principalPrefix);
 		$this->pluginManager = $pluginManager;
+		$this->user = $user;
+		$this->groupManager = $groupManager;
 	}
 
 	/**
@@ -57,7 +64,7 @@ class AddressBookRoot extends \Sabre\CardDAV\AddressBookRoot {
 	 * @return \Sabre\DAV\INode
 	 */
 	public function getChildForPrincipal(array $principal) {
-		return new UserAddressBooks($this->carddavBackend, $principal['uri'], $this->pluginManager);
+		return new UserAddressBooks($this->carddavBackend, $principal['uri'], $this->pluginManager, $this->user, $this->groupManager);
 	}
 
 	public function getName() {

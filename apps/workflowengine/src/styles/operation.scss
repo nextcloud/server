@@ -24,6 +24,7 @@
 	flex-grow: 1;
 	display: flex;
 	flex-direction: column;
+	align-items: center;
 }
 .actions__item_options {
 	width: 100%;
@@ -47,7 +48,7 @@ small {
 .colored:not(.more) {
 	background-color: var(--color-primary-element);
 	h3, small {
-		color: var(--color-primary-text)
+		color: var(--color-primary-element-text)
 	}
 }
 
@@ -67,11 +68,11 @@ small {
 		margin: 0;
 		margin-right: 10px;
 		&:not(.icon-invert) {
-			filter: invert(1);
+			filter: var(--background-invert-if-bright);
 		}
 	}
 }
 
 .colored .icon-invert {
-	filter: invert(1);
+	filter: var(--background-invert-if-bright);
 }

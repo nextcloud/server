@@ -1,9 +1,10 @@
-/*
+/**
  * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
- * @author 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Christopher Ng <chrng8@gmail.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -16,38 +17,21 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 
-import OC from '../OC'
+import Vue from 'vue'
 
-import $ from 'jquery'
+import UserMenu from '../views/UserMenu.vue'
 
 export const setUp = () => {
-	const $menu = $('#header #settings')
-
-	// show loading feedback
-	$menu.delegate('a', 'click', event => {
-		let $page = $(event.target)
-		if (!$page.is('a')) {
-			$page = $page.closest('a')
-		}
-		if (event.which === 1 && !event.ctrlKey && !event.metaKey) {
-			$page.find('img').remove()
-			$page.find('div').remove() // prevent odd double-clicks
-			$page.prepend($('<div/>').addClass('icon-loading-small'))
-		} else {
-			// Close navigation when opening menu entry in
-			// a new tab
-			OC.hideMenus(() => false)
-		}
-	})
-
-	$menu.delegate('a', 'mouseup', event => {
-		if (event.which === 2) {
-			// Close navigation when opening app in
-			// a new tab via middle click
-			OC.hideMenus(() => false)
-		}
-	})
+	const mountPoint = document.getElementById('user-menu')
+	if (mountPoint) {
+		// eslint-disable-next-line no-new
+		new Vue({
+			el: mountPoint,
+			render: h => h(UserMenu),
+		})
+	}
 }

@@ -12,6 +12,12 @@ function get_swift_token() {
     fi
 }
 
+if [ "$OBJECT_STORE" == "s3" ]; then
+	echo "Waiting for minio to be ready"
+	timeout 60 bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' http://minio:9000)" != "403" ]]; do sleep 5; done' || (
+		echo "Failed to wait for minio to be ready" && exit 1
+	)
+fi
 if [ "$OBJECT_STORE" == "swift" ]; then
     echo "waiting for keystone"
     until get_swift_token

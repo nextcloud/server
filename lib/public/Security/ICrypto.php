@@ -24,7 +24,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP\Security;
 
 /**
@@ -38,7 +37,6 @@ namespace OCP\Security;
  * @since 8.0.0
  */
 interface ICrypto {
-
 	/**
 	 * @param string $message The message to authenticate
 	 * @param string $password Password to use (defaults to `secret` in config.php)

@@ -10,7 +10,6 @@
  * @author Ole Ostergaard <ole.c.ostergaard@gmail.com>
  * @author Ole Ostergaard <ole.ostergaard@knime.com>
  * @author Robin Appelman <robin@icewind.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @license AGPL-3.0
  *
@@ -27,18 +26,17 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\DB;
 
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
+use OC\DB\Exceptions\DbalException;
 
 /**
  * This handles the way we use to write queries, into something that can be
  * handled by the database abstraction layer.
  */
 class Adapter {
-
 	/**
 	 * @var \OC\DB\Connection $conn
 	 */
@@ -138,16 +136,19 @@ class Adapter {
 	/**
 	 * @throws \OCP\DB\Exception
 	 */
-	public function insertIgnoreConflict(string $table,array $values) : int {
+	public function insertIgnoreConflict(string $table, array $values) : int {
 		try {
 			$builder = $this->conn->getQueryBuilder();
 			$builder->insert($table);
 			foreach ($values as $key => $value) {
 				$builder->setValue($key, $builder->createNamedParameter($value));
 			}
-			return $builder->execute();
-		} catch (UniqueConstraintViolationException $e) {
-			return 0;
+			return $builder->executeStatement();
+		} catch (DbalException $e) {
+			if ($e->getReason() === \OCP\DB\Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
+				return 0;
+			}
+			throw $e;
 		}
 	}
 }

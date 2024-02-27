@@ -20,14 +20,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\CalDAV\Reminder;
 
 use DateTime;
@@ -67,8 +66,8 @@ class Notifier implements INotifier {
 	 * @param ITimeFactory $timeFactory
 	 */
 	public function __construct(IFactory $factory,
-								IURLGenerator $urlGenerator,
-								ITimeFactory $timeFactory) {
+		IURLGenerator $urlGenerator,
+		ITimeFactory $timeFactory) {
 		$this->l10nFactory = $factory;
 		$this->urlGenerator = $urlGenerator;
 		$this->timeFactory = $timeFactory;
@@ -103,7 +102,7 @@ class Notifier implements INotifier {
 	 * @throws \Exception
 	 */
 	public function prepare(INotification $notification,
-							string $languageCode):INotification {
+		string $languageCode):INotification {
 		if ($notification->getApp() !== Application::APP_ID) {
 			throw new \InvalidArgumentException('Notification not from this app');
 		}
@@ -145,7 +144,7 @@ class Notifier implements INotifier {
 	private function prepareNotificationSubject(INotification $notification): void {
 		$parameters = $notification->getSubjectParameters();
 
-		$startTime = \DateTime::createFromFormat(\DateTime::ATOM, $parameters['start_atom']);
+		$startTime = \DateTime::createFromFormat(\DateTimeInterface::ATOM, $parameters['start_atom']);
 		$now = $this->timeFactory->getDateTime();
 		$title = $this->getTitleFromParameters($parameters);
 
@@ -171,18 +170,32 @@ class Notifier implements INotifier {
 			$components[] = $this->l10n->n('%n minute', '%n minutes', $diff->i);
 		}
 
-		// Limiting to the first three components to prevent
-		// the string from getting too long
-		$firstThreeComponents = array_slice($components, 0, 2);
-		$diffLabel = implode(', ', $firstThreeComponents);
+		if (count($components) > 0 && !$this->hasPhpDatetimeDiffBug()) {
+			// Limiting to the first three components to prevent
+			// the string from getting too long
+			$firstThreeComponents = array_slice($components, 0, 2);
+			$diffLabel = implode(', ', $firstThreeComponents);
 
-		if ($diff->invert) {
-			$title = $this->l10n->t('%s (in %s)', [$title, $diffLabel]);
-		} else {
-			$title = $this->l10n->t('%s (%s ago)', [$title, $diffLabel]);
+			if ($diff->invert) {
+				$title = $this->l10n->t('%s (in %s)', [$title, $diffLabel]);
+			} else {
+				$title = $this->l10n->t('%s (%s ago)', [$title, $diffLabel]);
+			}
 		}
 
 		$notification->setParsedSubject($title);
+	}
+
+	/**
+	 * @see https://github.com/nextcloud/server/issues/41615
+	 * @see https://github.com/php/php-src/issues/9699
+	 */
+	private function hasPhpDatetimeDiffBug(): bool {
+		$d1 = DateTime::createFromFormat(\DateTimeInterface::ATOM, '2023-11-22T11:52:00+01:00');
+		$d2 = new DateTime('2023-11-22T10:52:03', new \DateTimeZone('UTC'));
+
+		// The difference is 3 seconds, not -1year+11months+…
+		return $d1->diff($d2)->y < 0;
 	}
 
 	/**
@@ -222,8 +235,8 @@ class Notifier implements INotifier {
 	 * @throws \Exception
 	 */
 	private function generateDateString(array $parameters):string {
-		$startDateTime = DateTime::createFromFormat(\DateTime::ATOM, $parameters['start_atom']);
-		$endDateTime = DateTime::createFromFormat(\DateTime::ATOM, $parameters['end_atom']);
+		$startDateTime = DateTime::createFromFormat(\DateTimeInterface::ATOM, $parameters['start_atom']);
+		$endDateTime = DateTime::createFromFormat(\DateTimeInterface::ATOM, $parameters['end_atom']);
 
 		// If the event has already ended, dismiss the notification
 		if ($endDateTime < $this->timeFactory->getDateTime()) {
@@ -290,7 +303,7 @@ class Notifier implements INotifier {
 	 * @return bool
 	 */
 	private function isDayEqual(DateTime $dtStart,
-								DateTime $dtEnd):bool {
+		DateTime $dtEnd):bool {
 		return $dtStart->format('Y-m-d') === $dtEnd->format('Y-m-d');
 	}
 
@@ -299,7 +312,7 @@ class Notifier implements INotifier {
 	 * @return string
 	 */
 	private function getWeekDayName(DateTime $dt):string {
-		return $this->l10n->l('weekdayName', $dt, ['width' => 'abbreviated']);
+		return (string)$this->l10n->l('weekdayName', $dt, ['width' => 'abbreviated']);
 	}
 
 	/**
@@ -307,7 +320,7 @@ class Notifier implements INotifier {
 	 * @return string
 	 */
 	private function getDateString(DateTime $dt):string {
-		return $this->l10n->l('date', $dt, ['width' => 'medium']);
+		return (string)$this->l10n->l('date', $dt, ['width' => 'medium']);
 	}
 
 	/**
@@ -315,7 +328,7 @@ class Notifier implements INotifier {
 	 * @return string
 	 */
 	private function getDateTimeString(DateTime $dt):string {
-		return $this->l10n->l('datetime', $dt, ['width' => 'medium|short']);
+		return (string)$this->l10n->l('datetime', $dt, ['width' => 'medium|short']);
 	}
 
 	/**
@@ -323,6 +336,6 @@ class Notifier implements INotifier {
 	 * @return string
 	 */
 	private function getTimeString(DateTime $dt):string {
-		return $this->l10n->l('time', $dt, ['width' => 'short']);
+		return (string)$this->l10n->l('time', $dt, ['width' => 'short']);
 	}
 }

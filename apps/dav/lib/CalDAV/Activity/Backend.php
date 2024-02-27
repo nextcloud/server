@@ -16,14 +16,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\CalDAV\Activity;
 
 use OCA\DAV\CalDAV\Activity\Provider\Calendar;
@@ -35,6 +34,7 @@ use OCP\App\IAppManager;
 use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IUser;
+use OCP\IUserManager;
 use OCP\IUserSession;
 use Sabre\VObject\Reader;
 
@@ -57,11 +57,15 @@ class Backend {
 	/** @var IAppManager */
 	protected $appManager;
 
-	public function __construct(IActivityManager $activityManager, IGroupManager $groupManager, IUserSession $userSession, IAppManager $appManager) {
+	/** @var IUserManager */
+	protected $userManager;
+
+	public function __construct(IActivityManager $activityManager, IGroupManager $groupManager, IUserSession $userSession, IAppManager $appManager, IUserManager $userManager) {
 		$this->activityManager = $activityManager;
 		$this->groupManager = $groupManager;
 		$this->userSession = $userSession;
 		$this->appManager = $appManager;
+		$this->userManager = $userManager;
 	}
 
 	/**
@@ -85,12 +89,32 @@ class Backend {
 	}
 
 	/**
+	 * Creates activities when a calendar was moved to trash
+	 *
+	 * @param array $calendarData
+	 * @param array $shares
+	 */
+	public function onCalendarMovedToTrash(array $calendarData, array $shares): void {
+		$this->triggerCalendarActivity(Calendar::SUBJECT_MOVE_TO_TRASH, $calendarData, $shares);
+	}
+
+	/**
+	 * Creates activities when a calendar was restored
+	 *
+	 * @param array $calendarData
+	 * @param array $shares
+	 */
+	public function onCalendarRestored(array $calendarData, array $shares): void {
+		$this->triggerCalendarActivity(Calendar::SUBJECT_RESTORE, $calendarData, $shares);
+	}
+
+	/**
 	 * Creates activities when a calendar was deleted
 	 *
 	 * @param array $calendarData
 	 * @param array $shares
 	 */
-	public function onCalendarDelete(array $calendarData, array $shares) {
+	public function onCalendarDelete(array $calendarData, array $shares): void {
 		$this->triggerCalendarActivity(Calendar::SUBJECT_DELETE, $calendarData, $shares);
 	}
 
@@ -100,7 +124,7 @@ class Backend {
 	 * @param array $calendarData
 	 * @param bool $publishStatus
 	 */
-	public function onCalendarPublication(array $calendarData, $publishStatus) {
+	public function onCalendarPublication(array $calendarData, bool $publishStatus): void {
 		$this->triggerCalendarActivity($publishStatus ? Calendar::SUBJECT_PUBLISH : Calendar::SUBJECT_UNPUBLISH, $calendarData);
 	}
 
@@ -146,6 +170,11 @@ class Backend {
 		}
 
 		foreach ($users as $user) {
+			if ($action === Calendar::SUBJECT_DELETE && !$this->userManager->userExists($user)) {
+				// Avoid creating calendar_delete activities for deleted users
+				continue;
+			}
+
 			$event->setAffectedUser($user)
 				->setSubject(
 					$user === $currentUser ? $action . '_self' : $action,
@@ -419,11 +448,16 @@ class Backend {
 
 		$classification = $objectData['classification'] ?? CalDavBackend::CLASSIFICATION_PUBLIC;
 		$object = $this->getObjectNameAndType($objectData);
+
+		if (!$object) {
+			return;
+		}
+
 		$action = $action . '_' . $object['type'];
 
-		if ($object['type'] === 'todo' && strpos($action, Event::SUBJECT_OBJECT_UPDATE) === 0 && $object['status'] === 'COMPLETED') {
+		if ($object['type'] === 'todo' && str_starts_with($action, Event::SUBJECT_OBJECT_UPDATE) && $object['status'] === 'COMPLETED') {
 			$action .= '_completed';
-		} elseif ($object['type'] === 'todo' && strpos($action, Event::SUBJECT_OBJECT_UPDATE) === 0 && $object['status'] === 'NEEDS-ACTION') {
+		} elseif ($object['type'] === 'todo' && str_starts_with($action, Event::SUBJECT_OBJECT_UPDATE) && $object['status'] === 'NEEDS-ACTION') {
 			$action .= '_needs_action';
 		}
 
@@ -457,7 +491,7 @@ class Backend {
 				],
 			];
 
-			if ($object['type'] === 'event' && strpos($action, Event::SUBJECT_OBJECT_DELETE) === false && $this->appManager->isEnabledForUser('calendar')) {
+			if ($object['type'] === 'event' && !str_contains($action, Event::SUBJECT_OBJECT_DELETE) && $this->appManager->isEnabledForUser('calendar')) {
 				$params['object']['link']['object_uri'] = $objectData['uri'];
 				$params['object']['link']['calendar_uri'] = $calendarData['uri'];
 				$params['object']['link']['owner'] = $owner;
@@ -475,8 +509,103 @@ class Backend {
 	}
 
 	/**
+	 * Creates activities when a calendar object was moved
+	 */
+	public function onMovedCalendarObject(array $sourceCalendarData, array $targetCalendarData, array $sourceShares, array $targetShares, array $objectData): void {
+		if (!isset($targetCalendarData['principaluri'])) {
+			return;
+		}
+
+		$sourcePrincipal = explode('/', $sourceCalendarData['principaluri']);
+		$sourceOwner = array_pop($sourcePrincipal);
+
+		$targetPrincipal = explode('/', $targetCalendarData['principaluri']);
+		$targetOwner = array_pop($targetPrincipal);
+
+		if ($sourceOwner !== $targetOwner) {
+			$this->onTouchCalendarObject(
+				Event::SUBJECT_OBJECT_DELETE,
+				$sourceCalendarData,
+				$sourceShares,
+				$objectData
+			);
+			$this->onTouchCalendarObject(
+				Event::SUBJECT_OBJECT_ADD,
+				$targetCalendarData,
+				$targetShares,
+				$objectData
+			);
+			return;
+		}
+
+		$currentUser = $this->userSession->getUser();
+		if ($currentUser instanceof IUser) {
+			$currentUser = $currentUser->getUID();
+		} else {
+			$currentUser = $targetOwner;
+		}
+
+		$classification = $objectData['classification'] ?? CalDavBackend::CLASSIFICATION_PUBLIC;
+		$object = $this->getObjectNameAndType($objectData);
+
+		if (!$object) {
+			return;
+		}
+
+		$event = $this->activityManager->generateEvent();
+		$event->setApp('dav')
+			->setObject('calendar', (int) $targetCalendarData['id'])
+			->setType($object['type'] === 'event' ? 'calendar_event' : 'calendar_todo')
+			->setAuthor($currentUser);
+
+		$users = $this->getUsersForShares(array_intersect($sourceShares, $targetShares));
+		$users[] = $targetOwner;
+
+		// Users for share can return the owner itself if the calendar is published
+		foreach (array_unique($users) as $user) {
+			if ($classification === CalDavBackend::CLASSIFICATION_PRIVATE && $user !== $targetOwner) {
+				// Private events are only shown to the owner
+				continue;
+			}
+
+			$params = [
+				'actor' => $event->getAuthor(),
+				'sourceCalendar' => [
+					'id' => (int) $sourceCalendarData['id'],
+					'uri' => $sourceCalendarData['uri'],
+					'name' => $sourceCalendarData['{DAV:}displayname'],
+				],
+				'targetCalendar' => [
+					'id' => (int) $targetCalendarData['id'],
+					'uri' => $targetCalendarData['uri'],
+					'name' => $targetCalendarData['{DAV:}displayname'],
+				],
+				'object' => [
+					'id' => $object['id'],
+					'name' => $classification === CalDavBackend::CLASSIFICATION_CONFIDENTIAL && $user !== $targetOwner ? 'Busy' : $object['name'],
+					'classified' => $classification === CalDavBackend::CLASSIFICATION_CONFIDENTIAL && $user !== $targetOwner,
+				],
+			];
+
+			if ($object['type'] === 'event' && $this->appManager->isEnabledForUser('calendar')) {
+				$params['object']['link']['object_uri'] = $objectData['uri'];
+				$params['object']['link']['calendar_uri'] = $targetCalendarData['uri'];
+				$params['object']['link']['owner'] = $targetOwner;
+			}
+
+			$event->setAffectedUser($user)
+				->setSubject(
+					$user === $currentUser ? Event::SUBJECT_OBJECT_MOVE . '_' . $object['type'] . '_self' : Event::SUBJECT_OBJECT_MOVE . '_' . $object['type'],
+					$params
+				);
+
+			$this->activityManager->publish($event);
+		}
+	}
+
+	/**
 	 * @param array $objectData
-	 * @return string[]|bool
+	 * @return string[]|false
 	 */
 	protected function getObjectNameAndType(array $objectData) {
 		$vObject = Reader::read($objectData['calendardata']);

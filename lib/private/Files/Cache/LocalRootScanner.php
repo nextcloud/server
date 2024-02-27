@@ -16,14 +16,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Files\Cache;
 
 class LocalRootScanner extends Scanner {
@@ -45,6 +44,6 @@ class LocalRootScanner extends Scanner {
 
 	private function shouldScanPath(string $path): bool {
 		$path = trim($path, '/');
-		return $path === '' || strpos($path, 'appdata_') === 0 || strpos($path, '__groupfolders') === 0;
+		return $path === '' || str_starts_with($path, 'appdata_') || str_starts_with($path, '__groupfolders');
 	}
 }

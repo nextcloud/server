@@ -32,7 +32,6 @@ use OCP\IURLGenerator;
 use Test\TestCase;
 
 class NavigationControllerTest extends TestCase {
-
 	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
 	private $request;
 
@@ -75,14 +74,13 @@ class NavigationControllerTest extends TestCase {
 			$this->urlGenerator->expects($this->any())
 				->method('getBaseURL')
 				->willReturn('http://localhost/');
-			$this->urlGenerator->expects($this->at(1))
+			$this->urlGenerator->expects($this->exactly(2))
 				->method('getAbsoluteURL')
-				->with('/index.php/apps/files')
-				->willReturn('http://localhost/index.php/apps/files');
-			$this->urlGenerator->expects($this->at(3))
-				->method('getAbsoluteURL')
-				->with('icon')
-				->willReturn('http://localhost/icon');
+				->withConsecutive(['/index.php/apps/files'], ['icon'])
+				->willReturnOnConsecutiveCalls(
+					'http://localhost/index.php/apps/files',
+					'http://localhost/icon'
+				);
 			$actual = $this->controller->getAppsNavigation($absolute);
 			$this->assertInstanceOf(DataResponse::class, $actual);
 			$this->assertEquals('http://localhost/index.php/apps/files', $actual->getData()[0]['href']);
@@ -105,14 +103,16 @@ class NavigationControllerTest extends TestCase {
 			$this->urlGenerator->expects($this->any())
 				->method('getBaseURL')
 				->willReturn('http://localhost/');
-			$this->urlGenerator->expects($this->at(1))
+			$this->urlGenerator->expects($this->exactly(2))
 				->method('getAbsoluteURL')
-				->with('/index.php/settings/user')
-				->willReturn('http://localhost/index.php/settings/user');
-			$this->urlGenerator->expects($this->at(3))
-				->method('getAbsoluteURL')
-				->with('/core/img/settings.svg')
-				->willReturn('http://localhost/core/img/settings.svg');
+				->withConsecutive(
+					['/index.php/settings/user'],
+					['/core/img/settings.svg']
+				)
+				->willReturnOnConsecutiveCalls(
+					'http://localhost/index.php/settings/user',
+					'http://localhost/core/img/settings.svg'
+				);
 			$actual = $this->controller->getSettingsNavigation($absolute);
 			$this->assertInstanceOf(DataResponse::class, $actual);
 			$this->assertEquals('http://localhost/index.php/settings/user', $actual->getData()[0]['href']);

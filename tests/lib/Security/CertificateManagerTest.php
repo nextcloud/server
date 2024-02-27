@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Copyright (c) 2014 Lukas Reschke <lukas@owncloud.com>
  * This file is licensed under the Affero General Public License version 3 or
@@ -11,8 +14,8 @@ namespace Test\Security;
 use OC\Files\View;
 use OC\Security\CertificateManager;
 use OCP\IConfig;
-use OCP\ILogger;
 use OCP\Security\ISecureRandom;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class CertificateManagerTest
@@ -45,7 +48,7 @@ class CertificateManagerTest extends \Test\TestCase {
 		\OC_Util::setupFS($this->username);
 
 		$config = $this->createMock(IConfig::class);
-		$config->expects($this->any())->method('getSystemValue')
+		$config->expects($this->any())->method('getSystemValueBool')
 			->with('installed', false)->willReturn(true);
 
 		$this->random = $this->createMock(ISecureRandom::class);
@@ -55,7 +58,7 @@ class CertificateManagerTest extends \Test\TestCase {
 		$this->certificateManager = new CertificateManager(
 			new \OC\Files\View(),
 			$config,
-			$this->createMock(ILogger::class),
+			$this->createMock(LoggerInterface::class),
 			$this->random
 		);
 	}
@@ -143,9 +146,9 @@ class CertificateManagerTest extends \Test\TestCase {
 	 * @param bool $expected
 	 */
 	public function testNeedRebundling($CaBundleMtime,
-								$targetBundleMtime,
-								$targetBundleExists,
-								$expected
+		$targetBundleMtime,
+		$targetBundleExists,
+		$expected
 	) {
 		$view = $this->getMockBuilder(View::class)
 			->disableOriginalConstructor()->getMock();
@@ -153,14 +156,14 @@ class CertificateManagerTest extends \Test\TestCase {
 
 		/** @var CertificateManager | \PHPUnit\Framework\MockObject\MockObject $certificateManager */
 		$certificateManager = $this->getMockBuilder('OC\Security\CertificateManager')
-			->setConstructorArgs([$view, $config, $this->createMock(ILogger::class), $this->random])
+			->setConstructorArgs([$view, $config, $this->createMock(LoggerInterface::class), $this->random])
 			->setMethods(['getFilemtimeOfCaBundle', 'getCertificateBundle'])
 			->getMock();
 
 		$certificateManager->expects($this->any())->method('getFilemtimeOfCaBundle')
 			->willReturn($CaBundleMtime);
 
-		$certificateManager->expects($this->at(0))->method('getCertificateBundle')
+		$certificateManager->expects($this->once())->method('getCertificateBundle')
 			->willReturn('targetBundlePath');
 
 		$view->expects($this->any())->method('file_exists')

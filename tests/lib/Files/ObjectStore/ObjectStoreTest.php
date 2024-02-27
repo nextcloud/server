@@ -25,11 +25,26 @@ namespace Test\Files\ObjectStore;
 use Test\TestCase;
 
 abstract class ObjectStoreTest extends TestCase {
+	/** @var string[] */
+	private $cleanup = [];
 
 	/**
 	 * @return \OCP\Files\ObjectStore\IObjectStore
 	 */
 	abstract protected function getInstance();
+
+	protected function cleanupAfter(string $urn) {
+		$this->cleanup[] = $urn;
+	}
+
+	public function tearDown(): void {
+		parent::tearDown();
+
+		$instance = $this->getInstance();
+		foreach ($this->cleanup as $urn) {
+			$instance->deleteObject($urn);
+		}
+	}
 
 	protected function stringToStream($data) {
 		$stream = fopen('php://temp', 'w+');
@@ -110,6 +125,9 @@ abstract class ObjectStoreTest extends TestCase {
 	}
 
 	public function testCopy() {
+		$this->cleanupAfter('source');
+		$this->cleanupAfter('target');
+
 		$stream = $this->stringToStream('foobar');
 
 		$instance = $this->getInstance();
@@ -123,5 +141,20 @@ abstract class ObjectStoreTest extends TestCase {
 		$this->assertTrue($instance->objectExists('target'));
 
 		$this->assertEquals('foobar', stream_get_contents($instance->readObject('target')));
+	}
+
+	public function testFseekSize() {
+		$instance = $this->getInstance();
+
+		$textFile = \OC::$SERVERROOT . '/tests/data/lorem.txt';
+		$size = filesize($textFile);
+		$instance->writeObject('source', fopen($textFile, 'r'));
+
+		$fh = $instance->readObject('source');
+
+		fseek($fh, 0, SEEK_END);
+		$pos = ftell($fh);
+
+		$this->assertEquals($size, $pos);
 	}
 }

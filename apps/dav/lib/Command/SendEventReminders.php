@@ -4,7 +4,6 @@
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -15,14 +14,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\Command;
 
 use OCA\DAV\CalDAV\Reminder\ReminderService;
@@ -37,22 +35,11 @@ use Symfony\Component\Console\Output\OutputInterface;
  * @package OCA\DAV\Command
  */
 class SendEventReminders extends Command {
-
-	/** @var ReminderService */
-	protected $reminderService;
-
-	/** @var IConfig */
-	protected $config;
-
-	/**
-	 * @param ReminderService $reminderService
-	 * @param IConfig $config
-	 */
-	public function __construct(ReminderService $reminderService,
-								IConfig $config) {
+	public function __construct(
+		protected ReminderService $reminderService,
+		protected IConfig $config,
+	) {
 		parent::__construct();
-		$this->reminderService = $reminderService;
-		$this->config = $config;
 	}
 
 	/**
@@ -64,24 +51,20 @@ class SendEventReminders extends Command {
 			->setDescription('Sends event reminders');
 	}
 
-	/**
-	 * @param InputInterface $input
-	 * @param OutputInterface $output
-	 */
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		if ($this->config->getAppValue('dav', 'sendEventReminders', 'yes') !== 'yes') {
 			$output->writeln('<error>Sending event reminders disabled!</error>');
 			$output->writeln('<info>Please run "php occ config:app:set dav sendEventReminders --value yes"');
-			return 1;
+			return self::FAILURE;
 		}
 
 		if ($this->config->getAppValue('dav', 'sendEventRemindersMode', 'backgroundjob') !== 'occ') {
 			$output->writeln('<error>Sending event reminders mode set to background-job!</error>');
 			$output->writeln('<info>Please run "php occ config:app:set dav sendEventRemindersMode --value occ"');
-			return 1;
+			return self::FAILURE;
 		}
 
 		$this->reminderService->processReminders();
-		return 0;
+		return self::SUCCESS;
 	}
 }

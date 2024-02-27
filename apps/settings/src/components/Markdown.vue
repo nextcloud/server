@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import marked from 'marked'
+import { marked } from 'marked'
 import dompurify from 'dompurify'
 
 export default {
@@ -100,7 +100,7 @@ export default {
 						'del',
 						'blockquote',
 					],
-				}
+				},
 			)
 		},
 	},

@@ -22,8 +22,8 @@ OCA = OCA || {};
 		/**
 		 * initializes the instance. Always call it after initialization.
 		 *
-		 * @param tabIndex
-		 * @param tabID
+		 * @param {any} tabIndex -
+		 * @param {any} tabID -
 		 */
 		init: function (tabIndex, tabID) {
 			tabIndex = 0;
@@ -245,8 +245,8 @@ OCA = OCA || {};
 		 * updates the configuration chooser upon the deletion of a
 		 * configuration and, if necessary, loads an existing one.
 		 *
-		 * @param view
-		 * @param result
+		 * @param {any} view -
+		 * @param {any} result -
 		 */
 		onDeleteConfiguration: function(view, result) {
 			if(result.isSuccess === true) {

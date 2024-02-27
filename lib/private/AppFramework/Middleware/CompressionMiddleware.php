@@ -17,14 +17,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\AppFramework\Middleware;
 
 use OC\AppFramework\OCS\BaseResponse;
@@ -36,7 +35,6 @@ use OCP\AppFramework\Middleware;
 use OCP\IRequest;
 
 class CompressionMiddleware extends Middleware {
-
 	/** @var bool */
 	private $useGZip;
 
@@ -59,7 +57,7 @@ class CompressionMiddleware extends Middleware {
 
 		// Check if we are even asked for gzip
 		$header = $this->request->getHeader('Accept-Encoding');
-		if (strpos($header, 'gzip') === false) {
+		if (!str_contains($header, 'gzip')) {
 			return $response;
 		}
 

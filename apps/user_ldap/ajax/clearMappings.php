@@ -6,7 +6,6 @@
  * @author Christopher Schäpers <kondou@ts.unde.re>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
@@ -24,9 +23,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
-use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\User_LDAP\Mapping\GroupMapping;
+use OCA\User_LDAP\Mapping\UserMapping;
 
 // Check user and app status
 \OC_JSON::checkAdminUser();
@@ -37,7 +35,7 @@ $subject = (string)$_POST['ldap_clear_mapping'];
 $mapping = null;
 try {
 	if ($subject === 'user') {
-		$mapping = new UserMapping(\OC::$server->getDatabaseConnection());
+		$mapping = \OCP\Server::get(UserMapping::class);
 		$result = $mapping->clearCb(
 			function ($uid) {
 				\OC::$server->getUserManager()->emit('\OC\User', 'preUnassignedUserId', [$uid]);
@@ -52,7 +50,7 @@ try {
 	}
 
 	if ($mapping === null || !$result) {
-		$l = \OC::$server->getL10N('user_ldap');
+		$l = \OCP\Util::getL10N('user_ldap');
 		throw new \Exception($l->t('Failed to clear the mappings.'));
 	}
 	\OC_JSON::success();

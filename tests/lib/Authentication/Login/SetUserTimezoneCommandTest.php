@@ -23,7 +23,7 @@
 
 declare(strict_types=1);
 
-namespace lib\Authentication\Login;
+namespace Test\Authentication\Login;
 
 use OC\Authentication\Login\SetUserTimezoneCommand;
 use OCP\IConfig;
@@ -31,7 +31,6 @@ use OCP\ISession;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class SetUserTimezoneCommandTest extends ALoginCommandTest {
-
 	/** @var IConfig|MockObject */
 	private $config;
 

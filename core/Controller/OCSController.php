@@ -1,6 +1,6 @@
 <?php
 /**
- *
+ * @copyright Copyright (c) 2016 Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
@@ -8,6 +8,7 @@
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -18,63 +19,43 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Core\Controller;
 
 use OC\CapabilitiesManager;
 use OC\Security\IdentityProof\Manager;
+use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\ApiRoute;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\IRequest;
 use OCP\IUserManager;
 use OCP\IUserSession;
 
 class OCSController extends \OCP\AppFramework\OCSController {
-
-	/** @var CapabilitiesManager */
-	private $capabilitiesManager;
-	/** @var IUserSession */
-	private $userSession;
-	/** @var IUserManager */
-	private $userManager;
-	/** @var Manager */
-	private $keyManager;
-
-	/**
-	 * OCSController constructor.
-	 *
-	 * @param string $appName
-	 * @param IRequest $request
-	 * @param CapabilitiesManager $capabilitiesManager
-	 * @param IUserSession $userSession
-	 * @param IUserManager $userManager
-	 * @param Manager $keyManager
-	 */
-	public function __construct($appName,
-								IRequest $request,
-								CapabilitiesManager $capabilitiesManager,
-								IUserSession $userSession,
-								IUserManager $userManager,
-								Manager $keyManager) {
+	public function __construct(
+		string $appName,
+		IRequest $request,
+		private CapabilitiesManager $capabilitiesManager,
+		private IUserSession $userSession,
+		private IUserManager $userManager,
+		private Manager $keyManager,
+	) {
 		parent::__construct($appName, $request);
-		$this->capabilitiesManager = $capabilitiesManager;
-		$this->userSession = $userSession;
-		$this->userManager = $userManager;
-		$this->keyManager = $keyManager;
 	}
 
 	/**
 	 * @PublicPage
-	 *
-	 * @return DataResponse
 	 */
-	public function getConfig() {
+	#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
+	#[ApiRoute(verb: 'GET', url: '/config', root: '')]
+	public function getConfig(): DataResponse {
 		$data = [
 			'version' => '1.7',
 			'website' => 'Nextcloud',
@@ -89,15 +70,20 @@ class OCSController extends \OCP\AppFramework\OCSController {
 	/**
 	 * @PublicPage
 	 *
-	 * @return DataResponse
+	 * Get the capabilities
+	 *
+	 * @return DataResponse<Http::STATUS_OK, array{version: array{major: int, minor: int, micro: int, string: string, edition: '', extendedSupport: bool}, capabilities: array<string, mixed>}, array{}>
+	 *
+	 * 200: Capabilities returned
 	 */
-	public function getCapabilities() {
+	#[ApiRoute(verb: 'GET', url: '/capabilities', root: '/cloud')]
+	public function getCapabilities(): DataResponse {
 		$result = [];
 		[$major, $minor, $micro] = \OCP\Util::getVersion();
 		$result['version'] = [
-			'major' => $major,
-			'minor' => $minor,
-			'micro' => $micro,
+			'major' => (int)$major,
+			'minor' => (int)$minor,
+			'micro' => (int)$micro,
 			'string' => \OC_Util::getVersionString(),
 			'edition' => '',
 			'extendedSupport' => \OCP\Util::hasExtendedSupport()
@@ -117,12 +103,10 @@ class OCSController extends \OCP\AppFramework\OCSController {
 	/**
 	 * @PublicPage
 	 * @BruteForceProtection(action=login)
-	 *
-	 * @param string $login
-	 * @param string $password
-	 * @return DataResponse
 	 */
-	public function personCheck($login = '', $password = '') {
+	#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
+	#[ApiRoute(verb: 'POST', url: '/check', root: '/person')]
+	public function personCheck(string $login = '', string $password = ''): DataResponse {
 		if ($login !== '' && $password !== '') {
 			if ($this->userManager->checkPassword($login, $password)) {
 				return new DataResponse([
@@ -141,11 +125,10 @@ class OCSController extends \OCP\AppFramework\OCSController {
 
 	/**
 	 * @PublicPage
-	 *
-	 * @param string $cloudId
-	 * @return DataResponse
 	 */
-	public function getIdentityProof($cloudId) {
+	#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
+	#[ApiRoute(verb: 'GET', url: '/key/{cloudId}', root: '/identityproof')]
+	public function getIdentityProof(string $cloudId): DataResponse {
 		$userObject = $this->userManager->get($cloudId);
 
 		if ($userObject !== null) {
@@ -156,6 +139,6 @@ class OCSController extends \OCP\AppFramework\OCSController {
 			return new DataResponse($data);
 		}
 
-		return new DataResponse(['User not found'], 404);
+		return new DataResponse(['Account not found'], 404);
 	}
 }

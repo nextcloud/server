@@ -21,7 +21,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\Tests\unit\Connector\Sabre\RequestTest;
 
 class ExceptionPlugin extends \OCA\DAV\Connector\Sabre\ExceptionLoggerPlugin {
@@ -30,7 +29,7 @@ class ExceptionPlugin extends \OCA\DAV\Connector\Sabre\ExceptionLoggerPlugin {
 	 */
 	protected $exceptions = [];
 
-	public function logException(\Throwable $ex) {
+	public function logException(\Throwable $ex): void {
 		$exceptionClass = get_class($ex);
 		if (!isset($this->nonFatalExceptions[$exceptionClass])) {
 			$this->exceptions[] = $ex;

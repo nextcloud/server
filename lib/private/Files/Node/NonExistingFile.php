@@ -20,7 +20,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Files\Node;
 
 use OCP\Files\NotFoundException;
@@ -38,7 +37,7 @@ class NonExistingFile extends File {
 		throw new NotFoundException();
 	}
 
-	public function copy($newPath) {
+	public function copy($targetPath) {
 		throw new NotFoundException();
 	}
 
@@ -66,7 +65,7 @@ class NonExistingFile extends File {
 		}
 	}
 
-	public function getSize($includeMounts = true) {
+	public function getSize($includeMounts = true): int|float {
 		if ($this->fileInfo) {
 			return parent::getSize($includeMounts);
 		} else {

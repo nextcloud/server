@@ -25,7 +25,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_External\Tests\Controller;
 
 use OCA\Files_External\Controller\GlobalStoragesController;
@@ -35,7 +34,9 @@ use OCA\Files_External\Lib\Backend\Backend;
 use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\NotFoundException;
 use OCA\Files_External\Service\GlobalStoragesService;
+use OCA\Files_External\Service\UserStoragesService;
 use OCP\AppFramework\Http;
+use PHPUnit\Framework\MockObject\MockObject;
 
 abstract class StoragesControllerTest extends \Test\TestCase {
 
@@ -45,7 +46,7 @@ abstract class StoragesControllerTest extends \Test\TestCase {
 	protected $controller;
 
 	/**
-	 * @var GlobalStoragesService
+	 * @var GlobalStoragesService|UserStoragesService|MockObject
 	 */
 	protected $service;
 
@@ -58,7 +59,7 @@ abstract class StoragesControllerTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @return \OCA\Files_External\Lib\Backend\Backend
+	 * @return \OCA\Files_External\Lib\Backend\Backend|MockObject
 	 */
 	protected function getBackendMock($class = '\OCA\Files_External\Lib\Backend\SMB', $storageClass = '\OCA\Files_External\Lib\Storage\SMB') {
 		$backend = $this->getMockBuilder(Backend::class)
@@ -74,7 +75,7 @@ abstract class StoragesControllerTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @return \OCA\Files_External\Lib\Auth\AuthMechanism
+	 * @return \OCA\Files_External\Lib\Auth\AuthMechanism|MockObject
 	 */
 	protected function getAuthMechMock($scheme = 'null', $class = '\OCA\Files_External\Lib\Auth\NullMechanism') {
 		$authMech = $this->getMockBuilder(AuthMechanism::class)
@@ -128,7 +129,37 @@ abstract class StoragesControllerTest extends \Test\TestCase {
 
 		$data = $response->getData();
 		$this->assertEquals(Http::STATUS_CREATED, $response->getStatus());
-		$this->assertEquals($storageConfig, $data);
+		$this->assertEquals($storageConfig->jsonSerialize(), $data);
+	}
+
+	public function testAddLocalStorageWhenDisabled() {
+		$authMech = $this->getAuthMechMock();
+		$backend = $this->getBackendMock();
+
+		$storageConfig = new StorageConfig(1);
+		$storageConfig->setMountPoint('mount');
+		$storageConfig->setBackend($backend);
+		$storageConfig->setAuthMechanism($authMech);
+		$storageConfig->setBackendOptions([]);
+
+		$this->service->expects($this->never())
+			->method('createStorage');
+		$this->service->expects($this->never())
+			->method('addStorage');
+
+		$response = $this->controller->create(
+			'mount',
+			'local',
+			'\OCA\Files_External\Lib\Auth\NullMechanism',
+			[],
+			[],
+			[],
+			[],
+			null
+		);
+
+		$data = $response->getData();
+		$this->assertEquals(Http::STATUS_FORBIDDEN, $response->getStatus());
 	}
 
 	public function testUpdateStorage() {
@@ -170,7 +201,7 @@ abstract class StoragesControllerTest extends \Test\TestCase {
 
 		$data = $response->getData();
 		$this->assertEquals(Http::STATUS_OK, $response->getStatus());
-		$this->assertEquals($storageConfig, $data);
+		$this->assertEquals($storageConfig->jsonSerialize(), $data);
 	}
 
 	public function mountPointNamesProvider() {

@@ -4,6 +4,7 @@ namespace Test\Comments;
 
 use OC\Comments\Comment;
 use OC\Comments\Manager;
+use OC\EmojiHelper;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Comments\IComment;
 use OCP\Comments\ICommentsEventHandler;
@@ -13,6 +14,7 @@ use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IInitialStateService;
 use OCP\IUser;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
@@ -32,9 +34,11 @@ class ManagerTest extends TestCase {
 
 		$sql = $this->connection->getDatabasePlatform()->getTruncateTableSQL('`*PREFIX*comments`');
 		$this->connection->prepare($sql)->execute();
+		$sql = $this->connection->getDatabasePlatform()->getTruncateTableSQL('`*PREFIX*reactions`');
+		$this->connection->prepare($sql)->execute();
 	}
 
-	protected function addDatabaseEntry($parentId, $topmostParentId, $creationDT = null, $latestChildDT = null, $objectId = null) {
+	protected function addDatabaseEntry($parentId, $topmostParentId, $creationDT = null, $latestChildDT = null, $objectId = null, $expireDate = null) {
 		if (is_null($creationDT)) {
 			$creationDT = new \DateTime();
 		}
@@ -60,6 +64,9 @@ class ManagerTest extends TestCase {
 				'latest_child_timestamp' => $qb->createNamedParameter($latestChildDT, 'datetime'),
 				'object_type' => $qb->createNamedParameter('files'),
 				'object_id' => $qb->createNamedParameter($objectId),
+				'expire_date' => $qb->createNamedParameter($expireDate, 'datetime'),
+				'reference_id' => $qb->createNamedParameter('referenceId'),
+				'meta_data' => $qb->createNamedParameter(json_encode(['last_edit_actor_id' => 'admin'])),
 			])
 			->execute();
 
@@ -72,6 +79,7 @@ class ManagerTest extends TestCase {
 			$this->createMock(LoggerInterface::class),
 			$this->createMock(IConfig::class),
 			$this->createMock(ITimeFactory::class),
+			new EmojiHelper($this->connection),
 			$this->createMock(IInitialStateService::class)
 		);
 	}
@@ -113,6 +121,8 @@ class ManagerTest extends TestCase {
 				'latest_child_timestamp' => $qb->createNamedParameter($latestChildDT, 'datetime'),
 				'object_type' => $qb->createNamedParameter('files'),
 				'object_id' => $qb->createNamedParameter('file64'),
+				'reference_id' => $qb->createNamedParameter('referenceId'),
+				'meta_data' => $qb->createNamedParameter(json_encode(['last_edit_actor_id' => 'admin'])),
 			])
 			->execute();
 
@@ -132,6 +142,8 @@ class ManagerTest extends TestCase {
 		$this->assertSame($comment->getObjectId(), 'file64');
 		$this->assertEquals($comment->getCreationDateTime()->getTimestamp(), $creationDT->getTimestamp());
 		$this->assertEquals($comment->getLatestChildDateTime(), $latestChildDT);
+		$this->assertEquals($comment->getReferenceId(), 'referenceId');
+		$this->assertEquals($comment->getMetaData(), ['last_edit_actor_id' => 'admin']);
 	}
 
 
@@ -469,14 +481,21 @@ class ManagerTest extends TestCase {
 		$manager->get($id);
 	}
 
-	public function testSaveNew() {
+	/**
+	 * @dataProvider providerTestSave
+	 */
+	public function testSave(string $message, string $actorId, string $verb, ?string $parentId, ?string $id = ''): IComment {
 		$manager = $this->getManager();
 		$comment = new Comment();
 		$comment
-			->setActor('users', 'alice')
+			->setId($id)
+			->setActor('users', $actorId)
 			->setObject('files', 'file64')
-			->setMessage('very beautiful, I am impressed!')
-			->setVerb('comment');
+			->setMessage($message)
+			->setVerb($verb);
+		if ($parentId) {
+			$comment->setParentId($parentId);
+		}
 
 		$saveSuccessful = $manager->save($comment);
 		$this->assertTrue($saveSuccessful);
@@ -487,6 +506,13 @@ class ManagerTest extends TestCase {
 		$loadedComment = $manager->get($comment->getId());
 		$this->assertSame($comment->getMessage(), $loadedComment->getMessage());
 		$this->assertEquals($comment->getCreationDateTime()->getTimestamp(), $loadedComment->getCreationDateTime()->getTimestamp());
+		return $comment;
+	}
+
+	public function providerTestSave(): array {
+		return [
+			['very beautiful, I am impressed!', 'alice', 'comment', null]
+		];
 	}
 
 	public function testSaveUpdate() {
@@ -496,15 +522,41 @@ class ManagerTest extends TestCase {
 			->setActor('users', 'alice')
 			->setObject('files', 'file64')
 			->setMessage('very beautiful, I am impressed!')
-			->setVerb('comment');
+			->setVerb('comment')
+			->setExpireDate(new \DateTime('+2 hours'));
 
-		$manager->save($comment);
-
-		$comment->setMessage('very beautiful, I am really so much impressed!');
 		$manager->save($comment);
 
 		$loadedComment = $manager->get($comment->getId());
+		// Compare current object with database values
 		$this->assertSame($comment->getMessage(), $loadedComment->getMessage());
+		$this->assertSame(
+			$comment->getExpireDate()->format('Y-m-d H:i:s'),
+			$loadedComment->getExpireDate()->format('Y-m-d H:i:s')
+		);
+
+		// Preserve the original comment to compare after update
+		$original = clone $comment;
+
+		// Update values
+		$comment->setMessage('very beautiful, I am really so much impressed!')
+			->setExpireDate(new \DateTime('+1 hours'));
+		$manager->save($comment);
+
+		$loadedComment = $manager->get($comment->getId());
+		// Compare current object with database values
+		$this->assertSame($comment->getMessage(), $loadedComment->getMessage());
+		$this->assertSame(
+			$comment->getExpireDate()->format('Y-m-d H:i:s'),
+			$loadedComment->getExpireDate()->format('Y-m-d H:i:s')
+		);
+
+		// Compare original object with database values
+		$this->assertNotSame($original->getMessage(), $loadedComment->getMessage());
+		$this->assertNotSame(
+			$original->getExpireDate()->format('Y-m-d H:i:s'),
+			$loadedComment->getExpireDate()->format('Y-m-d H:i:s')
+		);
 	}
 
 
@@ -683,6 +735,91 @@ class ManagerTest extends TestCase {
 		$this->assertTrue($wasSuccessful);
 	}
 
+	public function testDeleteCommentsExpiredAtObjectTypeAndId(): void {
+		$ids = [];
+		$ids[] = $this->addDatabaseEntry(0, 0, null, null, null, new \DateTime('+2 hours'));
+		$ids[] = $this->addDatabaseEntry(0, 0, null, null, null, new \DateTime('+2 hours'));
+		$ids[] = $this->addDatabaseEntry(0, 0, null, null, null, new \DateTime('+2 hours'));
+		$ids[] = $this->addDatabaseEntry(0, 0, null, null, null, new \DateTime('-2 hours'));
+		$ids[] = $this->addDatabaseEntry(0, 0, null, null, null, new \DateTime('-2 hours'));
+		$ids[] = $this->addDatabaseEntry(0, 0, null, null, null, new \DateTime('-2 hours'));
+
+		$manager = new Manager(
+			$this->connection,
+			$this->createMock(LoggerInterface::class),
+			$this->createMock(IConfig::class),
+			Server::get(ITimeFactory::class),
+			new EmojiHelper($this->connection),
+			$this->createMock(IInitialStateService::class)
+		);
+
+		// just to make sure they are really set, with correct actor data
+		$comment = $manager->get((string) $ids[1]);
+		$this->assertSame($comment->getObjectType(), 'files');
+		$this->assertSame($comment->getObjectId(), 'file64');
+
+		$deleted = $manager->deleteCommentsExpiredAtObject('files', 'file64');
+		$this->assertTrue($deleted);
+
+		$deleted = 0;
+		$exists = 0;
+		foreach ($ids as $id) {
+			try {
+				$manager->get((string) $id);
+				$exists++;
+			} catch (NotFoundException $e) {
+				$deleted++;
+			}
+		}
+		$this->assertSame($exists, 3);
+		$this->assertSame($deleted, 3);
+
+		// actor info is gone from DB, but when database interaction is alright,
+		// we still expect to get true back
+		$deleted = $manager->deleteCommentsExpiredAtObject('files', 'file64');
+		$this->assertFalse($deleted);
+	}
+
+	public function testDeleteCommentsExpiredAtObjectType(): void {
+		$ids = [];
+		$ids[] = $this->addDatabaseEntry(0, 0, null, null, 'file1', new \DateTime('-2 hours'));
+		$ids[] = $this->addDatabaseEntry(0, 0, null, null, 'file2', new \DateTime('-2 hours'));
+		$ids[] = $this->addDatabaseEntry(0, 0, null, null, 'file3', new \DateTime('-2 hours'));
+		$ids[] = $this->addDatabaseEntry(0, 0, null, null, 'file3', new \DateTime());
+		$ids[] = $this->addDatabaseEntry(0, 0, null, null, 'file3', new \DateTime());
+		$ids[] = $this->addDatabaseEntry(0, 0, null, null, 'file3', new \DateTime());
+
+		$manager = new Manager(
+			$this->connection,
+			$this->createMock(LoggerInterface::class),
+			$this->createMock(IConfig::class),
+			Server::get(ITimeFactory::class),
+			new EmojiHelper($this->connection),
+			$this->createMock(IInitialStateService::class)
+		);
+
+		$deleted = $manager->deleteCommentsExpiredAtObject('files');
+		$this->assertTrue($deleted);
+
+		$deleted = 0;
+		$exists = 0;
+		foreach ($ids as $id) {
+			try {
+				$manager->get((string) $id);
+				$exists++;
+			} catch (NotFoundException $e) {
+				$deleted++;
+			}
+		}
+		$this->assertSame($exists, 0);
+		$this->assertSame($deleted, 6);
+
+		// actor info is gone from DB, but when database interaction is alright,
+		// we still expect to get true back
+		$deleted = $manager->deleteCommentsExpiredAtObject('files');
+		$this->assertFalse($deleted);
+	}
+
 	public function testSetMarkRead() {
 		/** @var IUser|\PHPUnit\Framework\MockObject\MockObject $user */
 		$user = $this->createMock(IUser::class);
@@ -859,6 +996,77 @@ class ManagerTest extends TestCase {
 		$this->assertTrue(is_string($manager->resolveDisplayName('planet', 'neptune')));
 	}
 
+	private function skipIfNotSupport4ByteUTF() {
+		if (!$this->getManager()->supportReactions()) {
+			$this->markTestSkipped('MySQL doesn\'t support 4 byte UTF-8');
+		}
+	}
+
+	/**
+	 * @dataProvider providerTestReactionAddAndDelete
+	 *
+	 * @param IComment[] $comments
+	 * @param array $reactionsExpected
+	 * @return void
+	 */
+	public function testReactionAddAndDelete(array $comments, array $reactionsExpected) {
+		$this->skipIfNotSupport4ByteUTF();
+		$manager = $this->getManager();
+
+		$processedComments = $this->proccessComments($comments);
+		$comment = end($processedComments);
+		if ($comment->getParentId()) {
+			$parent = $manager->get($comment->getParentId());
+			$this->assertEqualsCanonicalizing($reactionsExpected, $parent->getReactions());
+		}
+	}
+
+	public function providerTestReactionAddAndDelete(): array {
+		return[
+			[
+				[
+					['message', 'alice', 'comment', null],
+				], [],
+			],
+			[
+				[
+					['message', 'alice', 'comment', null],
+					['👍', 'alice', 'reaction', 'message#alice'],
+				], ['👍' => 1],
+			],
+			[
+				[
+					['message', 'alice', 'comment', null],
+					['👍', 'alice', 'reaction', 'message#alice'],
+					['👍', 'alice', 'reaction', 'message#alice'],
+				], ['👍' => 1],
+			],
+			[
+				[
+					['message', 'alice', 'comment', null],
+					['👍', 'alice', 'reaction', 'message#alice'],
+					['👍', 'frank', 'reaction', 'message#alice'],
+				], ['👍' => 2],
+			],
+			[
+				[
+					['message', 'alice', 'comment', null],
+					['👍', 'alice', 'reaction', 'message#alice'],
+					['👍', 'frank', 'reaction', 'message#alice'],
+					['👍', 'frank', 'reaction_deleted', 'message#alice'],
+				], ['👍' => 1],
+			],
+			[
+				[
+					['message', 'alice', 'comment', null],
+					['👍', 'alice', 'reaction', 'message#alice'],
+					['👍', 'frank', 'reaction', 'message#alice'],
+					['👍', 'alice', 'reaction_deleted', 'message#alice'],
+					['👍', 'frank', 'reaction_deleted', 'message#alice'],
+				], [],
+			],
+		];
+	}
 
 	public function testResolveDisplayNameInvalidType() {
 		$this->expectException(\InvalidArgumentException::class);
@@ -871,5 +1079,1511 @@ class ManagerTest extends TestCase {
 
 		$manager->registerDisplayNameResolver('planet', $planetClosure);
 		$this->assertTrue(is_string($manager->resolveDisplayName(1337, 'neptune')));
+	}
+
+	/**
+	 * @param array $data
+	 * @return IComment[]
+	 */
+	private function proccessComments(array $data): array {
+		/** @var IComment[] */
+		$comments = [];
+		foreach ($data as $comment) {
+			[$message, $actorId, $verb, $parentText] = $comment;
+			$parentId = null;
+			if ($parentText) {
+				$parentId = (string) $comments[$parentText]->getId();
+			}
+			$id = '';
+			if ($verb === 'reaction_deleted') {
+				$id = $comments[$message . '#' . $actorId]->getId();
+			}
+			$comment = $this->testSave($message, $actorId, $verb, $parentId, $id);
+			$comments[$comment->getMessage() . '#' . $comment->getActorId()] = $comment;
+		}
+		return $comments;
+	}
+
+	/**
+	 * @dataProvider providerTestRetrieveAllReactions
+	 */
+	public function testRetrieveAllReactions(array $comments, array $expected) {
+		$this->skipIfNotSupport4ByteUTF();
+		$manager = $this->getManager();
+
+		$processedComments = $this->proccessComments($comments);
+		$comment = reset($processedComments);
+		$all = $manager->retrieveAllReactions($comment->getId());
+		$actual = array_map(function ($row) {
+			return [
+				'message' => $row->getMessage(),
+				'actorId' => $row->getActorId(),
+			];
+		}, $all);
+		$this->assertEqualsCanonicalizing($expected, $actual);
+	}
+
+	public function providerTestRetrieveAllReactions(): array {
+		return [
+			[
+				[
+					['message', 'alice', 'comment', null],
+				],
+				[],
+			],
+			[
+				[
+					['message', 'alice', 'comment', null],
+					['👍', 'alice', 'reaction', 'message#alice'],
+					['👍', 'frank', 'reaction', 'message#alice'],
+				],
+				[
+					['👍', 'alice'],
+					['👍', 'frank'],
+				],
+			],
+			[
+				[
+					['message', 'alice', 'comment', null],
+					['👍', 'alice', 'reaction', 'message#alice'],
+					['👍', 'alice', 'reaction', 'message#alice'],
+					['👍', 'frank', 'reaction', 'message#alice'],
+				],
+				[
+					['👍', 'alice'],
+					['👍', 'frank'],
+				],
+			],
+			[# 600 reactions to cover chunk size when retrieve comments of reactions.
+				[
+					['message', 'alice', 'comment', null],
+					['😀', 'alice', 'reaction', 'message#alice'],
+					['😃', 'alice', 'reaction', 'message#alice'],
+					['😄', 'alice', 'reaction', 'message#alice'],
+					['😁', 'alice', 'reaction', 'message#alice'],
+					['😆', 'alice', 'reaction', 'message#alice'],
+					['😅', 'alice', 'reaction', 'message#alice'],
+					['😂', 'alice', 'reaction', 'message#alice'],
+					['🤣', 'alice', 'reaction', 'message#alice'],
+					['🥲', 'alice', 'reaction', 'message#alice'],
+					['🥹', 'alice', 'reaction', 'message#alice'],
+					['☺️', 'alice', 'reaction', 'message#alice'],
+					['😊', 'alice', 'reaction', 'message#alice'],
+					['😇', 'alice', 'reaction', 'message#alice'],
+					['🙂', 'alice', 'reaction', 'message#alice'],
+					['🙃', 'alice', 'reaction', 'message#alice'],
+					['😉', 'alice', 'reaction', 'message#alice'],
+					['😌', 'alice', 'reaction', 'message#alice'],
+					['😍', 'alice', 'reaction', 'message#alice'],
+					['🥰', 'alice', 'reaction', 'message#alice'],
+					['😘', 'alice', 'reaction', 'message#alice'],
+					['😗', 'alice', 'reaction', 'message#alice'],
+					['😙', 'alice', 'reaction', 'message#alice'],
+					['😚', 'alice', 'reaction', 'message#alice'],
+					['😋', 'alice', 'reaction', 'message#alice'],
+					['😛', 'alice', 'reaction', 'message#alice'],
+					['😝', 'alice', 'reaction', 'message#alice'],
+					['😜', 'alice', 'reaction', 'message#alice'],
+					['🤪', 'alice', 'reaction', 'message#alice'],
+					['🤨', 'alice', 'reaction', 'message#alice'],
+					['🧐', 'alice', 'reaction', 'message#alice'],
+					['🤓', 'alice', 'reaction', 'message#alice'],
+					['😎', 'alice', 'reaction', 'message#alice'],
+					['🥸', 'alice', 'reaction', 'message#alice'],
+					['🤩', 'alice', 'reaction', 'message#alice'],
+					['🥳', 'alice', 'reaction', 'message#alice'],
+					['😏', 'alice', 'reaction', 'message#alice'],
+					['😒', 'alice', 'reaction', 'message#alice'],
+					['😞', 'alice', 'reaction', 'message#alice'],
+					['😔', 'alice', 'reaction', 'message#alice'],
+					['😟', 'alice', 'reaction', 'message#alice'],
+					['😕', 'alice', 'reaction', 'message#alice'],
+					['🙁', 'alice', 'reaction', 'message#alice'],
+					['☹️', 'alice', 'reaction', 'message#alice'],
+					['😣', 'alice', 'reaction', 'message#alice'],
+					['😖', 'alice', 'reaction', 'message#alice'],
+					['😫', 'alice', 'reaction', 'message#alice'],
+					['😩', 'alice', 'reaction', 'message#alice'],
+					['🥺', 'alice', 'reaction', 'message#alice'],
+					['😢', 'alice', 'reaction', 'message#alice'],
+					['😭', 'alice', 'reaction', 'message#alice'],
+					['😮‍💨', 'alice', 'reaction', 'message#alice'],
+					['😤', 'alice', 'reaction', 'message#alice'],
+					['😠', 'alice', 'reaction', 'message#alice'],
+					['😡', 'alice', 'reaction', 'message#alice'],
+					['🤬', 'alice', 'reaction', 'message#alice'],
+					['🤯', 'alice', 'reaction', 'message#alice'],
+					['😳', 'alice', 'reaction', 'message#alice'],
+					['🥵', 'alice', 'reaction', 'message#alice'],
+					['🥶', 'alice', 'reaction', 'message#alice'],
+					['😱', 'alice', 'reaction', 'message#alice'],
+					['😨', 'alice', 'reaction', 'message#alice'],
+					['😰', 'alice', 'reaction', 'message#alice'],
+					['😥', 'alice', 'reaction', 'message#alice'],
+					['😓', 'alice', 'reaction', 'message#alice'],
+					['🫣', 'alice', 'reaction', 'message#alice'],
+					['🤗', 'alice', 'reaction', 'message#alice'],
+					['🫡', 'alice', 'reaction', 'message#alice'],
+					['🤔', 'alice', 'reaction', 'message#alice'],
+					['🫢', 'alice', 'reaction', 'message#alice'],
+					['🤭', 'alice', 'reaction', 'message#alice'],
+					['🤫', 'alice', 'reaction', 'message#alice'],
+					['🤥', 'alice', 'reaction', 'message#alice'],
+					['😶', 'alice', 'reaction', 'message#alice'],
+					['😶‍🌫️', 'alice', 'reaction', 'message#alice'],
+					['😐', 'alice', 'reaction', 'message#alice'],
+					['😑', 'alice', 'reaction', 'message#alice'],
+					['😬', 'alice', 'reaction', 'message#alice'],
+					['🫠', 'alice', 'reaction', 'message#alice'],
+					['🙄', 'alice', 'reaction', 'message#alice'],
+					['😯', 'alice', 'reaction', 'message#alice'],
+					['😦', 'alice', 'reaction', 'message#alice'],
+					['😧', 'alice', 'reaction', 'message#alice'],
+					['😮', 'alice', 'reaction', 'message#alice'],
+					['😲', 'alice', 'reaction', 'message#alice'],
+					['🥱', 'alice', 'reaction', 'message#alice'],
+					['😴', 'alice', 'reaction', 'message#alice'],
+					['🤤', 'alice', 'reaction', 'message#alice'],
+					['😪', 'alice', 'reaction', 'message#alice'],
+					['😵', 'alice', 'reaction', 'message#alice'],
+					['😵‍💫', 'alice', 'reaction', 'message#alice'],
+					['🫥', 'alice', 'reaction', 'message#alice'],
+					['🤐', 'alice', 'reaction', 'message#alice'],
+					['🥴', 'alice', 'reaction', 'message#alice'],
+					['🤢', 'alice', 'reaction', 'message#alice'],
+					['🤮', 'alice', 'reaction', 'message#alice'],
+					['🤧', 'alice', 'reaction', 'message#alice'],
+					['😷', 'alice', 'reaction', 'message#alice'],
+					['🤒', 'alice', 'reaction', 'message#alice'],
+					['🤕', 'alice', 'reaction', 'message#alice'],
+					['🤑', 'alice', 'reaction', 'message#alice'],
+					['🤠', 'alice', 'reaction', 'message#alice'],
+					['😈', 'alice', 'reaction', 'message#alice'],
+					['👿', 'alice', 'reaction', 'message#alice'],
+					['👹', 'alice', 'reaction', 'message#alice'],
+					['👺', 'alice', 'reaction', 'message#alice'],
+					['🤡', 'alice', 'reaction', 'message#alice'],
+					['💩', 'alice', 'reaction', 'message#alice'],
+					['👻', 'alice', 'reaction', 'message#alice'],
+					['💀', 'alice', 'reaction', 'message#alice'],
+					['☠️', 'alice', 'reaction', 'message#alice'],
+					['👽', 'alice', 'reaction', 'message#alice'],
+					['👾', 'alice', 'reaction', 'message#alice'],
+					['🤖', 'alice', 'reaction', 'message#alice'],
+					['🎃', 'alice', 'reaction', 'message#alice'],
+					['😺', 'alice', 'reaction', 'message#alice'],
+					['😸', 'alice', 'reaction', 'message#alice'],
+					['😹', 'alice', 'reaction', 'message#alice'],
+					['😻', 'alice', 'reaction', 'message#alice'],
+					['😼', 'alice', 'reaction', 'message#alice'],
+					['😽', 'alice', 'reaction', 'message#alice'],
+					['🙀', 'alice', 'reaction', 'message#alice'],
+					['😿', 'alice', 'reaction', 'message#alice'],
+					['😾', 'alice', 'reaction', 'message#alice'],
+					['👶', 'alice', 'reaction', 'message#alice'],
+					['👧', 'alice', 'reaction', 'message#alice'],
+					['🧒', 'alice', 'reaction', 'message#alice'],
+					['👦', 'alice', 'reaction', 'message#alice'],
+					['👩', 'alice', 'reaction', 'message#alice'],
+					['🧑', 'alice', 'reaction', 'message#alice'],
+					['👨', 'alice', 'reaction', 'message#alice'],
+					['👩‍🦱', 'alice', 'reaction', 'message#alice'],
+					['🧑‍🦱', 'alice', 'reaction', 'message#alice'],
+					['👨‍🦱', 'alice', 'reaction', 'message#alice'],
+					['👩‍🦰', 'alice', 'reaction', 'message#alice'],
+					['🧑‍🦰', 'alice', 'reaction', 'message#alice'],
+					['👨‍🦰', 'alice', 'reaction', 'message#alice'],
+					['👱‍♀️', 'alice', 'reaction', 'message#alice'],
+					['👱', 'alice', 'reaction', 'message#alice'],
+					['👱‍♂️', 'alice', 'reaction', 'message#alice'],
+					['👩‍🦳', 'alice', 'reaction', 'message#alice'],
+					['🧑‍🦳', 'alice', 'reaction', 'message#alice'],
+					['👨‍🦳', 'alice', 'reaction', 'message#alice'],
+					['👩‍🦲', 'alice', 'reaction', 'message#alice'],
+					['🧑‍🦲', 'alice', 'reaction', 'message#alice'],
+					['👨‍🦲', 'alice', 'reaction', 'message#alice'],
+					['🧔‍♀️', 'alice', 'reaction', 'message#alice'],
+					['🧔', 'alice', 'reaction', 'message#alice'],
+					['🧔‍♂️', 'alice', 'reaction', 'message#alice'],
+					['👵', 'alice', 'reaction', 'message#alice'],
+					['🧓', 'alice', 'reaction', 'message#alice'],
+					['👴', 'alice', 'reaction', 'message#alice'],
+					['👲', 'alice', 'reaction', 'message#alice'],
+					['👳‍♀️', 'alice', 'reaction', 'message#alice'],
+					['👳', 'alice', 'reaction', 'message#alice'],
+					['👳‍♂️', 'alice', 'reaction', 'message#alice'],
+					['🧕', 'alice', 'reaction', 'message#alice'],
+					['👮‍♀️', 'alice', 'reaction', 'message#alice'],
+					['👮', 'alice', 'reaction', 'message#alice'],
+					['👮‍♂️', 'alice', 'reaction', 'message#alice'],
+					['👷‍♀️', 'alice', 'reaction', 'message#alice'],
+					['👷', 'alice', 'reaction', 'message#alice'],
+					['👷‍♂️', 'alice', 'reaction', 'message#alice'],
+					['💂‍♀️', 'alice', 'reaction', 'message#alice'],
+					['💂', 'alice', 'reaction', 'message#alice'],
+					['💂‍♂️', 'alice', 'reaction', 'message#alice'],
+					['🕵️‍♀️', 'alice', 'reaction', 'message#alice'],
+					['🕵️', 'alice', 'reaction', 'message#alice'],
+					['🕵️‍♂️', 'alice', 'reaction', 'message#alice'],
+					['👩‍⚕️', 'alice', 'reaction', 'message#alice'],
+					['🧑‍⚕️', 'alice', 'reaction', 'message#alice'],
+					['👨‍⚕️', 'alice', 'reaction', 'message#alice'],
+					['👩‍🌾', 'alice', 'reaction', 'message#alice'],
+					['🧑‍🌾', 'alice', 'reaction', 'message#alice'],
+					['👨‍🌾', 'alice', 'reaction', 'message#alice'],
+					['👩‍🍳', 'alice', 'reaction', 'message#alice'],
+					['🧑‍🍳', 'alice', 'reaction', 'message#alice'],
+					['👨‍🍳', 'alice', 'reaction', 'message#alice'],
+					['👩‍🎓', 'alice', 'reaction', 'message#alice'],
+					['🧑‍🎓', 'alice', 'reaction', 'message#alice'],
+					['👨‍🎓', 'alice', 'reaction', 'message#alice'],
+					['👩‍🎤', 'alice', 'reaction', 'message#alice'],
+					['🧑‍🎤', 'alice', 'reaction', 'message#alice'],
+					['👨‍🎤', 'alice', 'reaction', 'message#alice'],
+					['👩‍🏫', 'alice', 'reaction', 'message#alice'],
+					['🧑‍🏫', 'alice', 'reaction', 'message#alice'],
+					['👨‍🏫', 'alice', 'reaction', 'message#alice'],
+					['👩‍🏭', 'alice', 'reaction', 'message#alice'],
+					['🧑‍🏭', 'alice', 'reaction', 'message#alice'],
+					['👨‍🏭', 'alice', 'reaction', 'message#alice'],
+					['👩‍💻', 'alice', 'reaction', 'message#alice'],
+					['🧑‍💻', 'alice', 'reaction', 'message#alice'],
+					['👨‍💻', 'alice', 'reaction', 'message#alice'],
+					['👩‍💼', 'alice', 'reaction', 'message#alice'],
+					['🧑‍💼', 'alice', 'reaction', 'message#alice'],
+					['👨‍💼', 'alice', 'reaction', 'message#alice'],
+					['👩‍🔧', 'alice', 'reaction', 'message#alice'],
+					['🧑‍🔧', 'alice', 'reaction', 'message#alice'],
+					['👨‍🔧', 'alice', 'reaction', 'message#alice'],
+					['👩‍🔬', 'alice', 'reaction', 'message#alice'],
+					['🧑‍🔬', 'alice', 'reaction', 'message#alice'],
+					['👨‍🔬', 'alice', 'reaction', 'message#alice'],
+					['👩‍🎨', 'alice', 'reaction', 'message#alice'],
+					['🧑‍🎨', 'alice', 'reaction', 'message#alice'],
+					['👨‍🎨', 'alice', 'reaction', 'message#alice'],
+					['👩‍🚒', 'alice', 'reaction', 'message#alice'],
+					['🧑‍🚒', 'alice', 'reaction', 'message#alice'],
+					['👨‍🚒', 'alice', 'reaction', 'message#alice'],
+					['👩‍✈️', 'alice', 'reaction', 'message#alice'],
+					['🧑‍✈️', 'alice', 'reaction', 'message#alice'],
+					['👨‍✈️', 'alice', 'reaction', 'message#alice'],
+					['👩‍🚀', 'alice', 'reaction', 'message#alice'],
+					['🧑‍🚀', 'alice', 'reaction', 'message#alice'],
+					['👨‍🚀', 'alice', 'reaction', 'message#alice'],
+					['👩‍⚖️', 'alice', 'reaction', 'message#alice'],
+					['🧑‍⚖️', 'alice', 'reaction', 'message#alice'],
+					['👨‍⚖️', 'alice', 'reaction', 'message#alice'],
+					['👰‍♀️', 'alice', 'reaction', 'message#alice'],
+					['👰', 'alice', 'reaction', 'message#alice'],
+					['👰‍♂️', 'alice', 'reaction', 'message#alice'],
+					['🤵‍♀️', 'alice', 'reaction', 'message#alice'],
+					['🤵', 'alice', 'reaction', 'message#alice'],
+					['🤵‍♂️', 'alice', 'reaction', 'message#alice'],
+					['👸', 'alice', 'reaction', 'message#alice'],
+					['🫅', 'alice', 'reaction', 'message#alice'],
+					['🤴', 'alice', 'reaction', 'message#alice'],
+					['🥷', 'alice', 'reaction', 'message#alice'],
+					['🦸‍♀️', 'alice', 'reaction', 'message#alice'],
+					['🦸', 'alice', 'reaction', 'message#alice'],
+					['🦸‍♂️', 'alice', 'reaction', 'message#alice'],
+					['🦹‍♀️', 'alice', 'reaction', 'message#alice'],
+					['🦹', 'alice', 'reaction', 'message#alice'],
+					['🦹‍♂️', 'alice', 'reaction', 'message#alice'],
+					['🤶', 'alice', 'reaction', 'message#alice'],
+					['🧑‍🎄', 'alice', 'reaction', 'message#alice'],
+					['🎅', 'alice', 'reaction', 'message#alice'],
+					['🧙‍♀️', 'alice', 'reaction', 'message#alice'],
+					['🧙', 'alice', 'reaction', 'message#alice'],
+					['🧙‍♂️', 'alice', 'reaction', 'message#alice'],
+					['🧝‍♀️', 'alice', 'reaction', 'message#alice'],
+					['🧝', 'alice', 'reaction', 'message#alice'],
+					['🧝‍♂️', 'alice', 'reaction', 'message#alice'],
+					['🧛‍♀️', 'alice', 'reaction', 'message#alice'],
+					['🧛', 'alice', 'reaction', 'message#alice'],
+					['🧛‍♂️', 'alice', 'reaction', 'message#alice'],
+					['🧟‍♀️', 'alice', 'reaction', 'message#alice'],
+					['🧟', 'alice', 'reaction', 'message#alice'],
+					['🧟‍♂️', 'alice', 'reaction', 'message#alice'],
+					['🧞‍♀️', 'alice', 'reaction', 'message#alice'],
+					['🧞', 'alice', 'reaction', 'message#alice'],
+					['🧞‍♂️', 'alice', 'reaction', 'message#alice'],
+					['🧜‍♀️', 'alice', 'reaction', 'message#alice'],
+					['🧜', 'alice', 'reaction', 'message#alice'],
+					['🧜‍♂️', 'alice', 'reaction', 'message#alice'],
+					['🧚‍♀️', 'alice', 'reaction', 'message#alice'],
+					['🧚', 'alice', 'reaction', 'message#alice'],
+					['🧚‍♂️', 'alice', 'reaction', 'message#alice'],
+					['🧌', 'alice', 'reaction', 'message#alice'],
+					['👼', 'alice', 'reaction', 'message#alice'],
+					['🤰', 'alice', 'reaction', 'message#alice'],
+					['🫄', 'alice', 'reaction', 'message#alice'],
+					['🫃', 'alice', 'reaction', 'message#alice'],
+					['🤱', 'alice', 'reaction', 'message#alice'],
+					['👩‍🍼', 'alice', 'reaction', 'message#alice'],
+					['🧑‍🍼', 'alice', 'reaction', 'message#alice'],
+					['👨‍🍼', 'alice', 'reaction', 'message#alice'],
+					['🙇‍♀️', 'alice', 'reaction', 'message#alice'],
+					['🙇', 'alice', 'reaction', 'message#alice'],
+					['🙇‍♂️', 'alice', 'reaction', 'message#alice'],
+					['💁‍♀️', 'alice', 'reaction', 'message#alice'],
+					['💁', 'alice', 'reaction', 'message#alice'],
+					['💁‍♂️', 'alice', 'reaction', 'message#alice'],
+					['🙅‍♀️', 'alice', 'reaction', 'message#alice'],
+					['🙅', 'alice', 'reaction', 'message#alice'],
+					['🙅‍♂️', 'alice', 'reaction', 'message#alice'],
+					['🙆‍♀️', 'alice', 'reaction', 'message#alice'],
+					['🙆', 'alice', 'reaction', 'message#alice'],
+					['🙆‍♂️', 'alice', 'reaction', 'message#alice'],
+					['🙋‍♀️', 'alice', 'reaction', 'message#alice'],
+					['🙋', 'alice', 'reaction', 'message#alice'],
+					['🙋‍♂️', 'alice', 'reaction', 'message#alice'],
+					['🧏‍♀️', 'alice', 'reaction', 'message#alice'],
+					['🧏', 'alice', 'reaction', 'message#alice'],
+					['🧏‍♂️', 'alice', 'reaction', 'message#alice'],
+					['🤦‍♀️', 'alice', 'reaction', 'message#alice'],
+					['🤦', 'alice', 'reaction', 'message#alice'],
+					['🤦‍♂️', 'alice', 'reaction', 'message#alice'],
+					['🤷‍♀️', 'alice', 'reaction', 'message#alice'],
+					['🤷', 'alice', 'reaction', 'message#alice'],
+					['🤷‍♂️', 'alice', 'reaction', 'message#alice'],
+					['🙎‍♀️', 'alice', 'reaction', 'message#alice'],
+					['🙎', 'alice', 'reaction', 'message#alice'],
+					['🙎‍♂️', 'alice', 'reaction', 'message#alice'],
+					['🙍‍♀️', 'alice', 'reaction', 'message#alice'],
+					['🙍', 'alice', 'reaction', 'message#alice'],
+					['🙍‍♂️', 'alice', 'reaction', 'message#alice'],
+					['💇‍♀️', 'alice', 'reaction', 'message#alice'],
+					['💇', 'alice', 'reaction', 'message#alice'],
+					['💇‍♂️', 'alice', 'reaction', 'message#alice'],
+					['💆‍♀️', 'alice', 'reaction', 'message#alice'],
+					['💆', 'alice', 'reaction', 'message#alice'],
+					['💆‍♂️', 'alice', 'reaction', 'message#alice'],
+					['🧖‍♀️', 'alice', 'reaction', 'message#alice'],
+					['🧖', 'alice', 'reaction', 'message#alice'],
+					['🧖‍♂️', 'alice', 'reaction', 'message#alice'],
+					['💅', 'alice', 'reaction', 'message#alice'],
+					['🤳', 'alice', 'reaction', 'message#alice'],
+					['💃', 'alice', 'reaction', 'message#alice'],
+					['🕺', 'alice', 'reaction', 'message#alice'],
+					['👯‍♀️', 'alice', 'reaction', 'message#alice'],
+					['👯', 'alice', 'reaction', 'message#alice'],
+					['👯‍♂️', 'alice', 'reaction', 'message#alice'],
+					['🕴', 'alice', 'reaction', 'message#alice'],
+					['👩‍🦽', 'alice', 'reaction', 'message#alice'],
+					['🧑‍🦽', 'alice', 'reaction', 'message#alice'],
+					['👨‍🦽', 'alice', 'reaction', 'message#alice'],
+					['👩‍🦼', 'alice', 'reaction', 'message#alice'],
+					['🧑‍🦼', 'alice', 'reaction', 'message#alice'],
+					['👨‍🦼', 'alice', 'reaction', 'message#alice'],
+					['🚶‍♀️', 'alice', 'reaction', 'message#alice'],
+					['🚶', 'alice', 'reaction', 'message#alice'],
+					['🚶‍♂️', 'alice', 'reaction', 'message#alice'],
+					['👩‍🦯', 'alice', 'reaction', 'message#alice'],
+					['🧑‍🦯', 'alice', 'reaction', 'message#alice'],
+					['👨‍🦯', 'alice', 'reaction', 'message#alice'],
+					['🧎‍♀️', 'alice', 'reaction', 'message#alice'],
+					['🧎', 'alice', 'reaction', 'message#alice'],
+					['🧎‍♂️', 'alice', 'reaction', 'message#alice'],
+					['🏃‍♀️', 'alice', 'reaction', 'message#alice'],
+					['🏃', 'alice', 'reaction', 'message#alice'],
+					['🏃‍♂️', 'alice', 'reaction', 'message#alice'],
+					['🧍‍♀️', 'alice', 'reaction', 'message#alice'],
+					['🧍', 'alice', 'reaction', 'message#alice'],
+					['🧍‍♂️', 'alice', 'reaction', 'message#alice'],
+					['👭', 'alice', 'reaction', 'message#alice'],
+					['🧑‍🤝‍🧑', 'alice', 'reaction', 'message#alice'],
+					['👬', 'alice', 'reaction', 'message#alice'],
+					['👫', 'alice', 'reaction', 'message#alice'],
+					['👩‍❤️‍👩', 'alice', 'reaction', 'message#alice'],
+					['💑', 'alice', 'reaction', 'message#alice'],
+					['👨‍❤️‍👨', 'alice', 'reaction', 'message#alice'],
+					['👩‍❤️‍👨', 'alice', 'reaction', 'message#alice'],
+					['👩‍❤️‍💋‍👩', 'alice', 'reaction', 'message#alice'],
+					['💏', 'alice', 'reaction', 'message#alice'],
+					['👨‍❤️‍💋‍👨', 'alice', 'reaction', 'message#alice'],
+					['👩‍❤️‍💋‍👨', 'alice', 'reaction', 'message#alice'],
+					['👪', 'alice', 'reaction', 'message#alice'],
+					['👨‍👩‍👦', 'alice', 'reaction', 'message#alice'],
+					['👨‍👩‍👧', 'alice', 'reaction', 'message#alice'],
+					['👨‍👩‍👧‍👦', 'alice', 'reaction', 'message#alice'],
+					['👨‍👩‍👦‍👦', 'alice', 'reaction', 'message#alice'],
+					['👨‍👩‍👧‍👧', 'alice', 'reaction', 'message#alice'],
+					['👨‍👨‍👦', 'alice', 'reaction', 'message#alice'],
+					['👨‍👨‍👧', 'alice', 'reaction', 'message#alice'],
+					['👨‍👨‍👧‍👦', 'alice', 'reaction', 'message#alice'],
+					['👨‍👨‍👦‍👦', 'alice', 'reaction', 'message#alice'],
+					['👨‍👨‍👧‍👧', 'alice', 'reaction', 'message#alice'],
+					['👩‍👩‍👦', 'alice', 'reaction', 'message#alice'],
+					['👩‍👩‍👧', 'alice', 'reaction', 'message#alice'],
+					['👩‍👩‍👧‍👦', 'alice', 'reaction', 'message#alice'],
+					['👩‍👩‍👦‍👦', 'alice', 'reaction', 'message#alice'],
+					['👩‍👩‍👧‍👧', 'alice', 'reaction', 'message#alice'],
+					['👨‍👦', 'alice', 'reaction', 'message#alice'],
+					['👨‍👦‍👦', 'alice', 'reaction', 'message#alice'],
+					['👨‍👧', 'alice', 'reaction', 'message#alice'],
+					['👨‍👧‍👦', 'alice', 'reaction', 'message#alice'],
+					['👨‍👧‍👧', 'alice', 'reaction', 'message#alice'],
+					['👩‍👦', 'alice', 'reaction', 'message#alice'],
+					['👩‍👦‍👦', 'alice', 'reaction', 'message#alice'],
+					['👩‍👧', 'alice', 'reaction', 'message#alice'],
+					['👩‍👧‍👦', 'alice', 'reaction', 'message#alice'],
+					['👩‍👧‍👧', 'alice', 'reaction', 'message#alice'],
+					['🗣', 'alice', 'reaction', 'message#alice'],
+					['👤', 'alice', 'reaction', 'message#alice'],
+					['👥', 'alice', 'reaction', 'message#alice'],
+					['🫂', 'alice', 'reaction', 'message#alice'],
+					['👋🏽', 'alice', 'reaction', 'message#alice'],
+					['🤚🏽', 'alice', 'reaction', 'message#alice'],
+					['🖐🏽', 'alice', 'reaction', 'message#alice'],
+					['✋🏽', 'alice', 'reaction', 'message#alice'],
+					['🖖🏽', 'alice', 'reaction', 'message#alice'],
+					['👌🏽', 'alice', 'reaction', 'message#alice'],
+					['🤌🏽', 'alice', 'reaction', 'message#alice'],
+					['🤏🏽', 'alice', 'reaction', 'message#alice'],
+					['✌🏽', 'alice', 'reaction', 'message#alice'],
+					['🤞🏽', 'alice', 'reaction', 'message#alice'],
+					['🫰🏽', 'alice', 'reaction', 'message#alice'],
+					['🤟🏽', 'alice', 'reaction', 'message#alice'],
+					['🤘🏽', 'alice', 'reaction', 'message#alice'],
+					['🤙🏽', 'alice', 'reaction', 'message#alice'],
+					['🫵🏽', 'alice', 'reaction', 'message#alice'],
+					['🫱🏽', 'alice', 'reaction', 'message#alice'],
+					['🫲🏽', 'alice', 'reaction', 'message#alice'],
+					['🫳🏽', 'alice', 'reaction', 'message#alice'],
+					['🫴🏽', 'alice', 'reaction', 'message#alice'],
+					['👈🏽', 'alice', 'reaction', 'message#alice'],
+					['👉🏽', 'alice', 'reaction', 'message#alice'],
+					['👆🏽', 'alice', 'reaction', 'message#alice'],
+					['🖕🏽', 'alice', 'reaction', 'message#alice'],
+					['👇🏽', 'alice', 'reaction', 'message#alice'],
+					['☝🏽', 'alice', 'reaction', 'message#alice'],
+					['👍🏽', 'alice', 'reaction', 'message#alice'],
+					['👎🏽', 'alice', 'reaction', 'message#alice'],
+					['✊🏽', 'alice', 'reaction', 'message#alice'],
+					['👊🏽', 'alice', 'reaction', 'message#alice'],
+					['🤛🏽', 'alice', 'reaction', 'message#alice'],
+					['🤜🏽', 'alice', 'reaction', 'message#alice'],
+					['👏🏽', 'alice', 'reaction', 'message#alice'],
+					['🫶🏽', 'alice', 'reaction', 'message#alice'],
+					['🙌🏽', 'alice', 'reaction', 'message#alice'],
+					['👐🏽', 'alice', 'reaction', 'message#alice'],
+					['🤲🏽', 'alice', 'reaction', 'message#alice'],
+					['🙏🏽', 'alice', 'reaction', 'message#alice'],
+					['✍🏽', 'alice', 'reaction', 'message#alice'],
+					['💅🏽', 'alice', 'reaction', 'message#alice'],
+					['🤳🏽', 'alice', 'reaction', 'message#alice'],
+					['💪🏽', 'alice', 'reaction', 'message#alice'],
+					['🦵🏽', 'alice', 'reaction', 'message#alice'],
+					['🦶🏽', 'alice', 'reaction', 'message#alice'],
+					['👂🏽', 'alice', 'reaction', 'message#alice'],
+					['🦻🏽', 'alice', 'reaction', 'message#alice'],
+					['👃🏽', 'alice', 'reaction', 'message#alice'],
+					['👶🏽', 'alice', 'reaction', 'message#alice'],
+					['👧🏽', 'alice', 'reaction', 'message#alice'],
+					['🧒🏽', 'alice', 'reaction', 'message#alice'],
+					['👦🏽', 'alice', 'reaction', 'message#alice'],
+					['👩🏽', 'alice', 'reaction', 'message#alice'],
+					['🧑🏽', 'alice', 'reaction', 'message#alice'],
+					['👨🏽', 'alice', 'reaction', 'message#alice'],
+					['👩🏽‍🦱', 'alice', 'reaction', 'message#alice'],
+					['🧑🏽‍🦱', 'alice', 'reaction', 'message#alice'],
+					['👨🏽‍🦱', 'alice', 'reaction', 'message#alice'],
+					['👩🏽‍🦰', 'alice', 'reaction', 'message#alice'],
+					['🧑🏽‍🦰', 'alice', 'reaction', 'message#alice'],
+					['👨🏽‍🦰', 'alice', 'reaction', 'message#alice'],
+					['👱🏽‍♀️', 'alice', 'reaction', 'message#alice'],
+					['👱🏽', 'alice', 'reaction', 'message#alice'],
+					['👱🏽‍♂️', 'alice', 'reaction', 'message#alice'],
+					['👩🏽‍🦳', 'alice', 'reaction', 'message#alice'],
+					['🧑🏽‍🦳', 'alice', 'reaction', 'message#alice'],
+					['👨🏽‍🦳', 'alice', 'reaction', 'message#alice'],
+					['👩🏽‍🦲', 'alice', 'reaction', 'message#alice'],
+					['🧑🏽‍🦲', 'alice', 'reaction', 'message#alice'],
+					['👨🏽‍🦲', 'alice', 'reaction', 'message#alice'],
+					['🧔🏽‍♀️', 'alice', 'reaction', 'message#alice'],
+					['🧔🏽', 'alice', 'reaction', 'message#alice'],
+					['🧔🏽‍♂️', 'alice', 'reaction', 'message#alice'],
+					['👵🏽', 'alice', 'reaction', 'message#alice'],
+					['🧓🏽', 'alice', 'reaction', 'message#alice'],
+					['👴🏽', 'alice', 'reaction', 'message#alice'],
+					['👲🏽', 'alice', 'reaction', 'message#alice'],
+					['👳🏽‍♀️', 'alice', 'reaction', 'message#alice'],
+					['👳🏽', 'alice', 'reaction', 'message#alice'],
+					['👳🏽‍♂️', 'alice', 'reaction', 'message#alice'],
+					['🧕🏽', 'alice', 'reaction', 'message#alice'],
+					['👮🏽‍♀️', 'alice', 'reaction', 'message#alice'],
+					['👮🏽', 'alice', 'reaction', 'message#alice'],
+					['👮🏽‍♂️', 'alice', 'reaction', 'message#alice'],
+					['👷🏽‍♀️', 'alice', 'reaction', 'message#alice'],
+					['👷🏽', 'alice', 'reaction', 'message#alice'],
+					['👷🏽‍♂️', 'alice', 'reaction', 'message#alice'],
+					['💂🏽‍♀️', 'alice', 'reaction', 'message#alice'],
+					['💂🏽', 'alice', 'reaction', 'message#alice'],
+					['💂🏽‍♂️', 'alice', 'reaction', 'message#alice'],
+					['🕵🏽‍♀️', 'alice', 'reaction', 'message#alice'],
+					['🕵🏽', 'alice', 'reaction', 'message#alice'],
+					['🕵🏽‍♂️', 'alice', 'reaction', 'message#alice'],
+					['👩🏽‍⚕️', 'alice', 'reaction', 'message#alice'],
+					['🧑🏽‍⚕️', 'alice', 'reaction', 'message#alice'],
+					['👨🏽‍⚕️', 'alice', 'reaction', 'message#alice'],
+					['👩🏽‍🌾', 'alice', 'reaction', 'message#alice'],
+					['🧑🏽‍🌾', 'alice', 'reaction', 'message#alice'],
+					['👨🏽‍🌾', 'alice', 'reaction', 'message#alice'],
+					['👩🏽‍🍳', 'alice', 'reaction', 'message#alice'],
+					['🧑🏽‍🍳', 'alice', 'reaction', 'message#alice'],
+					['👨🏽‍🍳', 'alice', 'reaction', 'message#alice'],
+					['👩🏽‍🎓', 'alice', 'reaction', 'message#alice'],
+					['🧑🏽‍🎓', 'alice', 'reaction', 'message#alice'],
+					['👨🏽‍🎓', 'alice', 'reaction', 'message#alice'],
+					['👩🏽‍🎤', 'alice', 'reaction', 'message#alice'],
+					['🧑🏽‍🎤', 'alice', 'reaction', 'message#alice'],
+					['👨🏽‍🎤', 'alice', 'reaction', 'message#alice'],
+					['👩🏽‍🏫', 'alice', 'reaction', 'message#alice'],
+					['🧑🏽‍🏫', 'alice', 'reaction', 'message#alice'],
+					['👨🏽‍🏫', 'alice', 'reaction', 'message#alice'],
+					['👩🏽‍🏭', 'alice', 'reaction', 'message#alice'],
+					['🧑🏽‍🏭', 'alice', 'reaction', 'message#alice'],
+					['👨🏽‍🏭', 'alice', 'reaction', 'message#alice'],
+					['👩🏽‍💻', 'alice', 'reaction', 'message#alice'],
+					['🧑🏽‍💻', 'alice', 'reaction', 'message#alice'],
+					['👨🏽‍💻', 'alice', 'reaction', 'message#alice'],
+					['👩🏽‍💼', 'alice', 'reaction', 'message#alice'],
+					['🧑🏽‍💼', 'alice', 'reaction', 'message#alice'],
+					['👨🏽‍💼', 'alice', 'reaction', 'message#alice'],
+					['👩🏽‍🔧', 'alice', 'reaction', 'message#alice'],
+					['🧑🏽‍🔧', 'alice', 'reaction', 'message#alice'],
+					['👨🏽‍🔧', 'alice', 'reaction', 'message#alice'],
+					['👩🏽‍🔬', 'alice', 'reaction', 'message#alice'],
+					['🧑🏽‍🔬', 'alice', 'reaction', 'message#alice'],
+					['👨🏽‍🔬', 'alice', 'reaction', 'message#alice'],
+					['👩🏽‍🎨', 'alice', 'reaction', 'message#alice'],
+					['🧑🏽‍🎨', 'alice', 'reaction', 'message#alice'],
+					['👨🏽‍🎨', 'alice', 'reaction', 'message#alice'],
+					['👩🏽‍🚒', 'alice', 'reaction', 'message#alice'],
+					['🧑🏽‍🚒', 'alice', 'reaction', 'message#alice'],
+					['👨🏽‍🚒', 'alice', 'reaction', 'message#alice'],
+					['👩🏽‍✈️', 'alice', 'reaction', 'message#alice'],
+					['🧑🏽‍✈️', 'alice', 'reaction', 'message#alice'],
+					['👨🏽‍✈️', 'alice', 'reaction', 'message#alice'],
+					['👩🏽‍🚀', 'alice', 'reaction', 'message#alice'],
+					['🧑🏽‍🚀', 'alice', 'reaction', 'message#alice'],
+					['👨🏽‍🚀', 'alice', 'reaction', 'message#alice'],
+					['👩🏽‍⚖️', 'alice', 'reaction', 'message#alice'],
+					['🧑🏽‍⚖️', 'alice', 'reaction', 'message#alice'],
+					['👨🏽‍⚖️', 'alice', 'reaction', 'message#alice'],
+					['👰🏽‍♀️', 'alice', 'reaction', 'message#alice'],
+					['👰🏽', 'alice', 'reaction', 'message#alice'],
+					['👰🏽‍♂️', 'alice', 'reaction', 'message#alice'],
+					['🤵🏽‍♀️', 'alice', 'reaction', 'message#alice'],
+					['🤵🏽', 'alice', 'reaction', 'message#alice'],
+					['🤵🏽‍♂️', 'alice', 'reaction', 'message#alice'],
+					['👸🏽', 'alice', 'reaction', 'message#alice'],
+					['🫅🏽', 'alice', 'reaction', 'message#alice'],
+					['🤴🏽', 'alice', 'reaction', 'message#alice'],
+					['🥷🏽', 'alice', 'reaction', 'message#alice'],
+					['🦸🏽‍♀️', 'alice', 'reaction', 'message#alice'],
+					['🦸🏽', 'alice', 'reaction', 'message#alice'],
+					['🦸🏽‍♂️', 'alice', 'reaction', 'message#alice'],
+					['🦹🏽‍♀️', 'alice', 'reaction', 'message#alice'],
+					['🦹🏽', 'alice', 'reaction', 'message#alice'],
+					['🦹🏽‍♂️', 'alice', 'reaction', 'message#alice'],
+					['🤶🏽', 'alice', 'reaction', 'message#alice'],
+					['🧑🏽‍🎄', 'alice', 'reaction', 'message#alice'],
+					['🎅🏽', 'alice', 'reaction', 'message#alice'],
+					['🧙🏽‍♀️', 'alice', 'reaction', 'message#alice'],
+					['🧙🏽', 'alice', 'reaction', 'message#alice'],
+					['🧙🏽‍♂️', 'alice', 'reaction', 'message#alice'],
+					['🧝🏽‍♀️', 'alice', 'reaction', 'message#alice'],
+					['🧝🏽', 'alice', 'reaction', 'message#alice'],
+					['🧝🏽‍♂️', 'alice', 'reaction', 'message#alice'],
+					['🧛🏽‍♀️', 'alice', 'reaction', 'message#alice'],
+					['🧛🏽', 'alice', 'reaction', 'message#alice'],
+					['🧛🏽‍♂️', 'alice', 'reaction', 'message#alice'],
+					['🧜🏽‍♀️', 'alice', 'reaction', 'message#alice'],
+					['🧜🏽', 'alice', 'reaction', 'message#alice'],
+					['🧜🏽‍♂️', 'alice', 'reaction', 'message#alice'],
+					['🧚🏽‍♀️', 'alice', 'reaction', 'message#alice'],
+					['🧚🏽', 'alice', 'reaction', 'message#alice'],
+					['🧚🏽‍♂️', 'alice', 'reaction', 'message#alice'],
+					['👼🏽', 'alice', 'reaction', 'message#alice'],
+					['🤰🏽', 'alice', 'reaction', 'message#alice'],
+					['🫄🏽', 'alice', 'reaction', 'message#alice'],
+					['🫃🏽', 'alice', 'reaction', 'message#alice'],
+					['🤱🏽', 'alice', 'reaction', 'message#alice'],
+					['👩🏽‍🍼', 'alice', 'reaction', 'message#alice'],
+					['🧑🏽‍🍼', 'alice', 'reaction', 'message#alice'],
+					['👨🏽‍🍼', 'alice', 'reaction', 'message#alice'],
+					['🙇🏽‍♀️', 'alice', 'reaction', 'message#alice'],
+					['🙇🏽', 'alice', 'reaction', 'message#alice'],
+					['🙇🏽‍♂️', 'alice', 'reaction', 'message#alice'],
+					['💁🏽‍♀️', 'alice', 'reaction', 'message#alice'],
+					['💁🏽', 'alice', 'reaction', 'message#alice'],
+					['💁🏽‍♂️', 'alice', 'reaction', 'message#alice'],
+					['🙅🏽‍♀️', 'alice', 'reaction', 'message#alice'],
+					['🙅🏽', 'alice', 'reaction', 'message#alice'],
+					['🙅🏽‍♂️', 'alice', 'reaction', 'message#alice'],
+					['🙆🏽‍♀️', 'alice', 'reaction', 'message#alice'],
+					['🙆🏽', 'alice', 'reaction', 'message#alice'],
+					['🙆🏽‍♂️', 'alice', 'reaction', 'message#alice'],
+					['🙋🏽‍♀️', 'alice', 'reaction', 'message#alice'],
+					['🙋🏽', 'alice', 'reaction', 'message#alice'],
+					['🙋🏽‍♂️', 'alice', 'reaction', 'message#alice'],
+					['🧏🏽‍♀️', 'alice', 'reaction', 'message#alice'],
+					['🧏🏽', 'alice', 'reaction', 'message#alice'],
+					['🧏🏽‍♂️', 'alice', 'reaction', 'message#alice'],
+					['🤦🏽‍♀️', 'alice', 'reaction', 'message#alice'],
+					['🤦🏽', 'alice', 'reaction', 'message#alice'],
+					['🤦🏽‍♂️', 'alice', 'reaction', 'message#alice'],
+					['🤷🏽‍♀️', 'alice', 'reaction', 'message#alice'],
+					['🤷🏽', 'alice', 'reaction', 'message#alice'],
+					['🤷🏽‍♂️', 'alice', 'reaction', 'message#alice'],
+					['🙎🏽‍♀️', 'alice', 'reaction', 'message#alice'],
+					['🙎🏽', 'alice', 'reaction', 'message#alice'],
+					['🙎🏽‍♂️', 'alice', 'reaction', 'message#alice'],
+					['🙍🏽‍♀️', 'alice', 'reaction', 'message#alice'],
+					['🙍🏽', 'alice', 'reaction', 'message#alice'],
+					['🙍🏽‍♂️', 'alice', 'reaction', 'message#alice'],
+					['💇🏽‍♀️', 'alice', 'reaction', 'message#alice'],
+					['💇🏽', 'alice', 'reaction', 'message#alice'],
+					['💇🏽‍♂️', 'alice', 'reaction', 'message#alice'],
+					['💆🏽‍♀️', 'alice', 'reaction', 'message#alice'],
+					['💆🏽', 'alice', 'reaction', 'message#alice'],
+					['💆🏽‍♂️', 'alice', 'reaction', 'message#alice'],
+					['🧖🏽‍♀️', 'alice', 'reaction', 'message#alice'],
+					['🧖🏽', 'alice', 'reaction', 'message#alice'],
+					['🧖🏽‍♂️', 'alice', 'reaction', 'message#alice'],
+					['💃🏽', 'alice', 'reaction', 'message#alice'],
+					['🕺🏽', 'alice', 'reaction', 'message#alice'],
+					['🕴🏽', 'alice', 'reaction', 'message#alice'],
+					['👩🏽‍🦽', 'alice', 'reaction', 'message#alice'],
+					['🧑🏽‍🦽', 'alice', 'reaction', 'message#alice'],
+				],
+				[
+					['😀', 'alice'],
+					['😃', 'alice'],
+					['😄', 'alice'],
+					['😁', 'alice'],
+					['😆', 'alice'],
+					['😅', 'alice'],
+					['😂', 'alice'],
+					['🤣', 'alice'],
+					['🥲', 'alice'],
+					['🥹', 'alice'],
+					['☺️', 'alice'],
+					['😊', 'alice'],
+					['😇', 'alice'],
+					['🙂', 'alice'],
+					['🙃', 'alice'],
+					['😉', 'alice'],
+					['😌', 'alice'],
+					['😍', 'alice'],
+					['🥰', 'alice'],
+					['😘', 'alice'],
+					['😗', 'alice'],
+					['😙', 'alice'],
+					['😚', 'alice'],
+					['😋', 'alice'],
+					['😛', 'alice'],
+					['😝', 'alice'],
+					['😜', 'alice'],
+					['🤪', 'alice'],
+					['🤨', 'alice'],
+					['🧐', 'alice'],
+					['🤓', 'alice'],
+					['😎', 'alice'],
+					['🥸', 'alice'],
+					['🤩', 'alice'],
+					['🥳', 'alice'],
+					['😏', 'alice'],
+					['😒', 'alice'],
+					['😞', 'alice'],
+					['😔', 'alice'],
+					['😟', 'alice'],
+					['😕', 'alice'],
+					['🙁', 'alice'],
+					['☹️', 'alice'],
+					['😣', 'alice'],
+					['😖', 'alice'],
+					['😫', 'alice'],
+					['😩', 'alice'],
+					['🥺', 'alice'],
+					['😢', 'alice'],
+					['😭', 'alice'],
+					['😮‍💨', 'alice'],
+					['😤', 'alice'],
+					['😠', 'alice'],
+					['😡', 'alice'],
+					['🤬', 'alice'],
+					['🤯', 'alice'],
+					['😳', 'alice'],
+					['🥵', 'alice'],
+					['🥶', 'alice'],
+					['😱', 'alice'],
+					['😨', 'alice'],
+					['😰', 'alice'],
+					['😥', 'alice'],
+					['😓', 'alice'],
+					['🫣', 'alice'],
+					['🤗', 'alice'],
+					['🫡', 'alice'],
+					['🤔', 'alice'],
+					['🫢', 'alice'],
+					['🤭', 'alice'],
+					['🤫', 'alice'],
+					['🤥', 'alice'],
+					['😶', 'alice'],
+					['😶‍🌫️', 'alice'],
+					['😐', 'alice'],
+					['😑', 'alice'],
+					['😬', 'alice'],
+					['🫠', 'alice'],
+					['🙄', 'alice'],
+					['😯', 'alice'],
+					['😦', 'alice'],
+					['😧', 'alice'],
+					['😮', 'alice'],
+					['😲', 'alice'],
+					['🥱', 'alice'],
+					['😴', 'alice'],
+					['🤤', 'alice'],
+					['😪', 'alice'],
+					['😵', 'alice'],
+					['😵‍💫', 'alice'],
+					['🫥', 'alice'],
+					['🤐', 'alice'],
+					['🥴', 'alice'],
+					['🤢', 'alice'],
+					['🤮', 'alice'],
+					['🤧', 'alice'],
+					['😷', 'alice'],
+					['🤒', 'alice'],
+					['🤕', 'alice'],
+					['🤑', 'alice'],
+					['🤠', 'alice'],
+					['😈', 'alice'],
+					['👿', 'alice'],
+					['👹', 'alice'],
+					['👺', 'alice'],
+					['🤡', 'alice'],
+					['💩', 'alice'],
+					['👻', 'alice'],
+					['💀', 'alice'],
+					['☠️', 'alice'],
+					['👽', 'alice'],
+					['👾', 'alice'],
+					['🤖', 'alice'],
+					['🎃', 'alice'],
+					['😺', 'alice'],
+					['😸', 'alice'],
+					['😹', 'alice'],
+					['😻', 'alice'],
+					['😼', 'alice'],
+					['😽', 'alice'],
+					['🙀', 'alice'],
+					['😿', 'alice'],
+					['😾', 'alice'],
+					['👶', 'alice'],
+					['👧', 'alice'],
+					['🧒', 'alice'],
+					['👦', 'alice'],
+					['👩', 'alice'],
+					['🧑', 'alice'],
+					['👨', 'alice'],
+					['👩‍🦱', 'alice'],
+					['🧑‍🦱', 'alice'],
+					['👨‍🦱', 'alice'],
+					['👩‍🦰', 'alice'],
+					['🧑‍🦰', 'alice'],
+					['👨‍🦰', 'alice'],
+					['👱‍♀️', 'alice'],
+					['👱', 'alice'],
+					['👱‍♂️', 'alice'],
+					['👩‍🦳', 'alice'],
+					['🧑‍🦳', 'alice'],
+					['👨‍🦳', 'alice'],
+					['👩‍🦲', 'alice'],
+					['🧑‍🦲', 'alice'],
+					['👨‍🦲', 'alice'],
+					['🧔‍♀️', 'alice'],
+					['🧔', 'alice'],
+					['🧔‍♂️', 'alice'],
+					['👵', 'alice'],
+					['🧓', 'alice'],
+					['👴', 'alice'],
+					['👲', 'alice'],
+					['👳‍♀️', 'alice'],
+					['👳', 'alice'],
+					['👳‍♂️', 'alice'],
+					['🧕', 'alice'],
+					['👮‍♀️', 'alice'],
+					['👮', 'alice'],
+					['👮‍♂️', 'alice'],
+					['👷‍♀️', 'alice'],
+					['👷', 'alice'],
+					['👷‍♂️', 'alice'],
+					['💂‍♀️', 'alice'],
+					['💂', 'alice'],
+					['💂‍♂️', 'alice'],
+					['🕵️‍♀️', 'alice'],
+					['🕵️', 'alice'],
+					['🕵️‍♂️', 'alice'],
+					['👩‍⚕️', 'alice'],
+					['🧑‍⚕️', 'alice'],
+					['👨‍⚕️', 'alice'],
+					['👩‍🌾', 'alice'],
+					['🧑‍🌾', 'alice'],
+					['👨‍🌾', 'alice'],
+					['👩‍🍳', 'alice'],
+					['🧑‍🍳', 'alice'],
+					['👨‍🍳', 'alice'],
+					['👩‍🎓', 'alice'],
+					['🧑‍🎓', 'alice'],
+					['👨‍🎓', 'alice'],
+					['👩‍🎤', 'alice'],
+					['🧑‍🎤', 'alice'],
+					['👨‍🎤', 'alice'],
+					['👩‍🏫', 'alice'],
+					['🧑‍🏫', 'alice'],
+					['👨‍🏫', 'alice'],
+					['👩‍🏭', 'alice'],
+					['🧑‍🏭', 'alice'],
+					['👨‍🏭', 'alice'],
+					['👩‍💻', 'alice'],
+					['🧑‍💻', 'alice'],
+					['👨‍💻', 'alice'],
+					['👩‍💼', 'alice'],
+					['🧑‍💼', 'alice'],
+					['👨‍💼', 'alice'],
+					['👩‍🔧', 'alice'],
+					['🧑‍🔧', 'alice'],
+					['👨‍🔧', 'alice'],
+					['👩‍🔬', 'alice'],
+					['🧑‍🔬', 'alice'],
+					['👨‍🔬', 'alice'],
+					['👩‍🎨', 'alice'],
+					['🧑‍🎨', 'alice'],
+					['👨‍🎨', 'alice'],
+					['👩‍🚒', 'alice'],
+					['🧑‍🚒', 'alice'],
+					['👨‍🚒', 'alice'],
+					['👩‍✈️', 'alice'],
+					['🧑‍✈️', 'alice'],
+					['👨‍✈️', 'alice'],
+					['👩‍🚀', 'alice'],
+					['🧑‍🚀', 'alice'],
+					['👨‍🚀', 'alice'],
+					['👩‍⚖️', 'alice'],
+					['🧑‍⚖️', 'alice'],
+					['👨‍⚖️', 'alice'],
+					['👰‍♀️', 'alice'],
+					['👰', 'alice'],
+					['👰‍♂️', 'alice'],
+					['🤵‍♀️', 'alice'],
+					['🤵', 'alice'],
+					['🤵‍♂️', 'alice'],
+					['👸', 'alice'],
+					['🫅', 'alice'],
+					['🤴', 'alice'],
+					['🥷', 'alice'],
+					['🦸‍♀️', 'alice'],
+					['🦸', 'alice'],
+					['🦸‍♂️', 'alice'],
+					['🦹‍♀️', 'alice'],
+					['🦹', 'alice'],
+					['🦹‍♂️', 'alice'],
+					['🤶', 'alice'],
+					['🧑‍🎄', 'alice'],
+					['🎅', 'alice'],
+					['🧙‍♀️', 'alice'],
+					['🧙', 'alice'],
+					['🧙‍♂️', 'alice'],
+					['🧝‍♀️', 'alice'],
+					['🧝', 'alice'],
+					['🧝‍♂️', 'alice'],
+					['🧛‍♀️', 'alice'],
+					['🧛', 'alice'],
+					['🧛‍♂️', 'alice'],
+					['🧟‍♀️', 'alice'],
+					['🧟', 'alice'],
+					['🧟‍♂️', 'alice'],
+					['🧞‍♀️', 'alice'],
+					['🧞', 'alice'],
+					['🧞‍♂️', 'alice'],
+					['🧜‍♀️', 'alice'],
+					['🧜', 'alice'],
+					['🧜‍♂️', 'alice'],
+					['🧚‍♀️', 'alice'],
+					['🧚', 'alice'],
+					['🧚‍♂️', 'alice'],
+					['🧌', 'alice'],
+					['👼', 'alice'],
+					['🤰', 'alice'],
+					['🫄', 'alice'],
+					['🫃', 'alice'],
+					['🤱', 'alice'],
+					['👩‍🍼', 'alice'],
+					['🧑‍🍼', 'alice'],
+					['👨‍🍼', 'alice'],
+					['🙇‍♀️', 'alice'],
+					['🙇', 'alice'],
+					['🙇‍♂️', 'alice'],
+					['💁‍♀️', 'alice'],
+					['💁', 'alice'],
+					['💁‍♂️', 'alice'],
+					['🙅‍♀️', 'alice'],
+					['🙅', 'alice'],
+					['🙅‍♂️', 'alice'],
+					['🙆‍♀️', 'alice'],
+					['🙆', 'alice'],
+					['🙆‍♂️', 'alice'],
+					['🙋‍♀️', 'alice'],
+					['🙋', 'alice'],
+					['🙋‍♂️', 'alice'],
+					['🧏‍♀️', 'alice'],
+					['🧏', 'alice'],
+					['🧏‍♂️', 'alice'],
+					['🤦‍♀️', 'alice'],
+					['🤦', 'alice'],
+					['🤦‍♂️', 'alice'],
+					['🤷‍♀️', 'alice'],
+					['🤷', 'alice'],
+					['🤷‍♂️', 'alice'],
+					['🙎‍♀️', 'alice'],
+					['🙎', 'alice'],
+					['🙎‍♂️', 'alice'],
+					['🙍‍♀️', 'alice'],
+					['🙍', 'alice'],
+					['🙍‍♂️', 'alice'],
+					['💇‍♀️', 'alice'],
+					['💇', 'alice'],
+					['💇‍♂️', 'alice'],
+					['💆‍♀️', 'alice'],
+					['💆', 'alice'],
+					['💆‍♂️', 'alice'],
+					['🧖‍♀️', 'alice'],
+					['🧖', 'alice'],
+					['🧖‍♂️', 'alice'],
+					['💅', 'alice'],
+					['🤳', 'alice'],
+					['💃', 'alice'],
+					['🕺', 'alice'],
+					['👯‍♀️', 'alice'],
+					['👯', 'alice'],
+					['👯‍♂️', 'alice'],
+					['🕴', 'alice'],
+					['👩‍🦽', 'alice'],
+					['🧑‍🦽', 'alice'],
+					['👨‍🦽', 'alice'],
+					['👩‍🦼', 'alice'],
+					['🧑‍🦼', 'alice'],
+					['👨‍🦼', 'alice'],
+					['🚶‍♀️', 'alice'],
+					['🚶', 'alice'],
+					['🚶‍♂️', 'alice'],
+					['👩‍🦯', 'alice'],
+					['🧑‍🦯', 'alice'],
+					['👨‍🦯', 'alice'],
+					['🧎‍♀️', 'alice'],
+					['🧎', 'alice'],
+					['🧎‍♂️', 'alice'],
+					['🏃‍♀️', 'alice'],
+					['🏃', 'alice'],
+					['🏃‍♂️', 'alice'],
+					['🧍‍♀️', 'alice'],
+					['🧍', 'alice'],
+					['🧍‍♂️', 'alice'],
+					['👭', 'alice'],
+					['🧑‍🤝‍🧑', 'alice'],
+					['👬', 'alice'],
+					['👫', 'alice'],
+					['👩‍❤️‍👩', 'alice'],
+					['💑', 'alice'],
+					['👨‍❤️‍👨', 'alice'],
+					['👩‍❤️‍👨', 'alice'],
+					['👩‍❤️‍💋‍👩', 'alice'],
+					['💏', 'alice'],
+					['👨‍❤️‍💋‍👨', 'alice'],
+					['👩‍❤️‍💋‍👨', 'alice'],
+					['👪', 'alice'],
+					['👨‍👩‍👦', 'alice'],
+					['👨‍👩‍👧', 'alice'],
+					['👨‍👩‍👧‍👦', 'alice'],
+					['👨‍👩‍👦‍👦', 'alice'],
+					['👨‍👩‍👧‍👧', 'alice'],
+					['👨‍👨‍👦', 'alice'],
+					['👨‍👨‍👧', 'alice'],
+					['👨‍👨‍👧‍👦', 'alice'],
+					['👨‍👨‍👦‍👦', 'alice'],
+					['👨‍👨‍👧‍👧', 'alice'],
+					['👩‍👩‍👦', 'alice'],
+					['👩‍👩‍👧', 'alice'],
+					['👩‍👩‍👧‍👦', 'alice'],
+					['👩‍👩‍👦‍👦', 'alice'],
+					['👩‍👩‍👧‍👧', 'alice'],
+					['👨‍👦', 'alice'],
+					['👨‍👦‍👦', 'alice'],
+					['👨‍👧', 'alice'],
+					['👨‍👧‍👦', 'alice'],
+					['👨‍👧‍👧', 'alice'],
+					['👩‍👦', 'alice'],
+					['👩‍👦‍👦', 'alice'],
+					['👩‍👧', 'alice'],
+					['👩‍👧‍👦', 'alice'],
+					['👩‍👧‍👧', 'alice'],
+					['🗣', 'alice'],
+					['👤', 'alice'],
+					['👥', 'alice'],
+					['🫂', 'alice'],
+					['👋🏽', 'alice'],
+					['🤚🏽', 'alice'],
+					['🖐🏽', 'alice'],
+					['✋🏽', 'alice'],
+					['🖖🏽', 'alice'],
+					['👌🏽', 'alice'],
+					['🤌🏽', 'alice'],
+					['🤏🏽', 'alice'],
+					['✌🏽', 'alice'],
+					['🤞🏽', 'alice'],
+					['🫰🏽', 'alice'],
+					['🤟🏽', 'alice'],
+					['🤘🏽', 'alice'],
+					['🤙🏽', 'alice'],
+					['🫵🏽', 'alice'],
+					['🫱🏽', 'alice'],
+					['🫲🏽', 'alice'],
+					['🫳🏽', 'alice'],
+					['🫴🏽', 'alice'],
+					['👈🏽', 'alice'],
+					['👉🏽', 'alice'],
+					['👆🏽', 'alice'],
+					['🖕🏽', 'alice'],
+					['👇🏽', 'alice'],
+					['☝🏽', 'alice'],
+					['👍🏽', 'alice'],
+					['👎🏽', 'alice'],
+					['✊🏽', 'alice'],
+					['👊🏽', 'alice'],
+					['🤛🏽', 'alice'],
+					['🤜🏽', 'alice'],
+					['👏🏽', 'alice'],
+					['🫶🏽', 'alice'],
+					['🙌🏽', 'alice'],
+					['👐🏽', 'alice'],
+					['🤲🏽', 'alice'],
+					['🙏🏽', 'alice'],
+					['✍🏽', 'alice'],
+					['💅🏽', 'alice'],
+					['🤳🏽', 'alice'],
+					['💪🏽', 'alice'],
+					['🦵🏽', 'alice'],
+					['🦶🏽', 'alice'],
+					['👂🏽', 'alice'],
+					['🦻🏽', 'alice'],
+					['👃🏽', 'alice'],
+					['👶🏽', 'alice'],
+					['👧🏽', 'alice'],
+					['🧒🏽', 'alice'],
+					['👦🏽', 'alice'],
+					['👩🏽', 'alice'],
+					['🧑🏽', 'alice'],
+					['👨🏽', 'alice'],
+					['👩🏽‍🦱', 'alice'],
+					['🧑🏽‍🦱', 'alice'],
+					['👨🏽‍🦱', 'alice'],
+					['👩🏽‍🦰', 'alice'],
+					['🧑🏽‍🦰', 'alice'],
+					['👨🏽‍🦰', 'alice'],
+					['👱🏽‍♀️', 'alice'],
+					['👱🏽', 'alice'],
+					['👱🏽‍♂️', 'alice'],
+					['👩🏽‍🦳', 'alice'],
+					['🧑🏽‍🦳', 'alice'],
+					['👨🏽‍🦳', 'alice'],
+					['👩🏽‍🦲', 'alice'],
+					['🧑🏽‍🦲', 'alice'],
+					['👨🏽‍🦲', 'alice'],
+					['🧔🏽‍♀️', 'alice'],
+					['🧔🏽', 'alice'],
+					['🧔🏽‍♂️', 'alice'],
+					['👵🏽', 'alice'],
+					['🧓🏽', 'alice'],
+					['👴🏽', 'alice'],
+					['👲🏽', 'alice'],
+					['👳🏽‍♀️', 'alice'],
+					['👳🏽', 'alice'],
+					['👳🏽‍♂️', 'alice'],
+					['🧕🏽', 'alice'],
+					['👮🏽‍♀️', 'alice'],
+					['👮🏽', 'alice'],
+					['👮🏽‍♂️', 'alice'],
+					['👷🏽‍♀️', 'alice'],
+					['👷🏽', 'alice'],
+					['👷🏽‍♂️', 'alice'],
+					['💂🏽‍♀️', 'alice'],
+					['💂🏽', 'alice'],
+					['💂🏽‍♂️', 'alice'],
+					['🕵🏽‍♀️', 'alice'],
+					['🕵🏽', 'alice'],
+					['🕵🏽‍♂️', 'alice'],
+					['👩🏽‍⚕️', 'alice'],
+					['🧑🏽‍⚕️', 'alice'],
+					['👨🏽‍⚕️', 'alice'],
+					['👩🏽‍🌾', 'alice'],
+					['🧑🏽‍🌾', 'alice'],
+					['👨🏽‍🌾', 'alice'],
+					['👩🏽‍🍳', 'alice'],
+					['🧑🏽‍🍳', 'alice'],
+					['👨🏽‍🍳', 'alice'],
+					['👩🏽‍🎓', 'alice'],
+					['🧑🏽‍🎓', 'alice'],
+					['👨🏽‍🎓', 'alice'],
+					['👩🏽‍🎤', 'alice'],
+					['🧑🏽‍🎤', 'alice'],
+					['👨🏽‍🎤', 'alice'],
+					['👩🏽‍🏫', 'alice'],
+					['🧑🏽‍🏫', 'alice'],
+					['👨🏽‍🏫', 'alice'],
+					['👩🏽‍🏭', 'alice'],
+					['🧑🏽‍🏭', 'alice'],
+					['👨🏽‍🏭', 'alice'],
+					['👩🏽‍💻', 'alice'],
+					['🧑🏽‍💻', 'alice'],
+					['👨🏽‍💻', 'alice'],
+					['👩🏽‍💼', 'alice'],
+					['🧑🏽‍💼', 'alice'],
+					['👨🏽‍💼', 'alice'],
+					['👩🏽‍🔧', 'alice'],
+					['🧑🏽‍🔧', 'alice'],
+					['👨🏽‍🔧', 'alice'],
+					['👩🏽‍🔬', 'alice'],
+					['🧑🏽‍🔬', 'alice'],
+					['👨🏽‍🔬', 'alice'],
+					['👩🏽‍🎨', 'alice'],
+					['🧑🏽‍🎨', 'alice'],
+					['👨🏽‍🎨', 'alice'],
+					['👩🏽‍🚒', 'alice'],
+					['🧑🏽‍🚒', 'alice'],
+					['👨🏽‍🚒', 'alice'],
+					['👩🏽‍✈️', 'alice'],
+					['🧑🏽‍✈️', 'alice'],
+					['👨🏽‍✈️', 'alice'],
+					['👩🏽‍🚀', 'alice'],
+					['🧑🏽‍🚀', 'alice'],
+					['👨🏽‍🚀', 'alice'],
+					['👩🏽‍⚖️', 'alice'],
+					['🧑🏽‍⚖️', 'alice'],
+					['👨🏽‍⚖️', 'alice'],
+					['👰🏽‍♀️', 'alice'],
+					['👰🏽', 'alice'],
+					['👰🏽‍♂️', 'alice'],
+					['🤵🏽‍♀️', 'alice'],
+					['🤵🏽', 'alice'],
+					['🤵🏽‍♂️', 'alice'],
+					['👸🏽', 'alice'],
+					['🫅🏽', 'alice'],
+					['🤴🏽', 'alice'],
+					['🥷🏽', 'alice'],
+					['🦸🏽‍♀️', 'alice'],
+					['🦸🏽', 'alice'],
+					['🦸🏽‍♂️', 'alice'],
+					['🦹🏽‍♀️', 'alice'],
+					['🦹🏽', 'alice'],
+					['🦹🏽‍♂️', 'alice'],
+					['🤶🏽', 'alice'],
+					['🧑🏽‍🎄', 'alice'],
+					['🎅🏽', 'alice'],
+					['🧙🏽‍♀️', 'alice'],
+					['🧙🏽', 'alice'],
+					['🧙🏽‍♂️', 'alice'],
+					['🧝🏽‍♀️', 'alice'],
+					['🧝🏽', 'alice'],
+					['🧝🏽‍♂️', 'alice'],
+					['🧛🏽‍♀️', 'alice'],
+					['🧛🏽', 'alice'],
+					['🧛🏽‍♂️', 'alice'],
+					['🧜🏽‍♀️', 'alice'],
+					['🧜🏽', 'alice'],
+					['🧜🏽‍♂️', 'alice'],
+					['🧚🏽‍♀️', 'alice'],
+					['🧚🏽', 'alice'],
+					['🧚🏽‍♂️', 'alice'],
+					['👼🏽', 'alice'],
+					['🤰🏽', 'alice'],
+					['🫄🏽', 'alice'],
+					['🫃🏽', 'alice'],
+					['🤱🏽', 'alice'],
+					['👩🏽‍🍼', 'alice'],
+					['🧑🏽‍🍼', 'alice'],
+					['👨🏽‍🍼', 'alice'],
+					['🙇🏽‍♀️', 'alice'],
+					['🙇🏽', 'alice'],
+					['🙇🏽‍♂️', 'alice'],
+					['💁🏽‍♀️', 'alice'],
+					['💁🏽', 'alice'],
+					['💁🏽‍♂️', 'alice'],
+					['🙅🏽‍♀️', 'alice'],
+					['🙅🏽', 'alice'],
+					['🙅🏽‍♂️', 'alice'],
+					['🙆🏽‍♀️', 'alice'],
+					['🙆🏽', 'alice'],
+					['🙆🏽‍♂️', 'alice'],
+					['🙋🏽‍♀️', 'alice'],
+					['🙋🏽', 'alice'],
+					['🙋🏽‍♂️', 'alice'],
+					['🧏🏽‍♀️', 'alice'],
+					['🧏🏽', 'alice'],
+					['🧏🏽‍♂️', 'alice'],
+					['🤦🏽‍♀️', 'alice'],
+					['🤦🏽', 'alice'],
+					['🤦🏽‍♂️', 'alice'],
+					['🤷🏽‍♀️', 'alice'],
+					['🤷🏽', 'alice'],
+					['🤷🏽‍♂️', 'alice'],
+					['🙎🏽‍♀️', 'alice'],
+					['🙎🏽', 'alice'],
+					['🙎🏽‍♂️', 'alice'],
+					['🙍🏽‍♀️', 'alice'],
+					['🙍🏽', 'alice'],
+					['🙍🏽‍♂️', 'alice'],
+					['💇🏽‍♀️', 'alice'],
+					['💇🏽', 'alice'],
+					['💇🏽‍♂️', 'alice'],
+					['💆🏽‍♀️', 'alice'],
+					['💆🏽', 'alice'],
+					['💆🏽‍♂️', 'alice'],
+					['🧖🏽‍♀️', 'alice'],
+					['🧖🏽', 'alice'],
+					['🧖🏽‍♂️', 'alice'],
+					['💃🏽', 'alice'],
+					['🕺🏽', 'alice'],
+					['🕴🏽', 'alice'],
+					['👩🏽‍🦽', 'alice'],
+					['🧑🏽‍🦽', 'alice'],
+				],
+			],
+		];
+	}
+
+	/**
+	 * @dataProvider providerTestRetrieveAllReactionsWithSpecificReaction
+	 */
+	public function testRetrieveAllReactionsWithSpecificReaction(array $comments, string $reaction, array $expected) {
+		$this->skipIfNotSupport4ByteUTF();
+		$manager = $this->getManager();
+
+		$processedComments = $this->proccessComments($comments);
+		$comment = reset($processedComments);
+		$all = $manager->retrieveAllReactionsWithSpecificReaction($comment->getId(), $reaction);
+		$actual = array_map(function ($row) {
+			return [
+				'message' => $row->getMessage(),
+				'actorId' => $row->getActorId(),
+			];
+		}, $all);
+		$this->assertEqualsCanonicalizing($expected, $actual);
+	}
+
+	public function providerTestRetrieveAllReactionsWithSpecificReaction(): array {
+		return [
+			[
+				[
+					['message', 'alice', 'comment', null],
+				],
+				'👎',
+				[],
+			],
+			[
+				[
+					['message', 'alice', 'comment', null],
+					['👍', 'alice', 'reaction', 'message#alice'],
+					['👍', 'frank', 'reaction', 'message#alice'],
+				],
+				'👍',
+				[
+					['👍', 'alice'],
+					['👍', 'frank'],
+				],
+			],
+			[
+				[
+					['message', 'alice', 'comment', null],
+					['👍', 'alice', 'reaction', 'message#alice'],
+					['👎', 'alice', 'reaction', 'message#alice'],
+					['👍', 'frank', 'reaction', 'message#alice'],
+				],
+				'👎',
+				[
+					['👎', 'alice'],
+				],
+			],
+		];
+	}
+
+	/**
+	 * @dataProvider providerTestGetReactionComment
+	 */
+	public function testGetReactionComment(array $comments, array $expected, bool $notFound) {
+		$this->skipIfNotSupport4ByteUTF();
+		$manager = $this->getManager();
+
+		$processedComments = $this->proccessComments($comments);
+
+		$keys = ['message', 'actorId', 'verb', 'parent'];
+		$expected = array_combine($keys, $expected);
+
+		if ($notFound) {
+			$this->expectException(\OCP\Comments\NotFoundException::class);
+		}
+		$comment = $processedComments[$expected['message'] . '#' . $expected['actorId']];
+		$actual = $manager->getReactionComment($comment->getParentId(), $comment->getActorType(), $comment->getActorId(), $comment->getMessage());
+		if (!$notFound) {
+			$this->assertEquals($expected['message'], $actual->getMessage());
+			$this->assertEquals($expected['actorId'], $actual->getActorId());
+			$this->assertEquals($expected['verb'], $actual->getVerb());
+			$this->assertEquals($processedComments[$expected['parent']]->getId(), $actual->getParentId());
+		}
+	}
+
+	public function providerTestGetReactionComment(): array {
+		return [
+			[
+				[
+					['message', 'Matthew', 'comment', null],
+					['👍', 'Matthew', 'reaction', 'message#Matthew'],
+					['👍', 'Mark', 'reaction', 'message#Matthew'],
+					['👍', 'Luke', 'reaction', 'message#Matthew'],
+					['👍', 'John', 'reaction', 'message#Matthew'],
+				],
+				['👍', 'Matthew', 'reaction', 'message#Matthew'],
+				false,
+			],
+			[
+				[
+					['message', 'Matthew', 'comment', null],
+					['👍', 'Matthew', 'reaction', 'message#Matthew'],
+					['👍', 'Mark', 'reaction', 'message#Matthew'],
+					['👍', 'Luke', 'reaction', 'message#Matthew'],
+					['👍', 'John', 'reaction', 'message#Matthew'],
+				],
+				['👍', 'Mark', 'reaction', 'message#Matthew'],
+				false,
+			],
+			[
+				[
+					['message', 'Matthew', 'comment', null],
+					['👎', 'Matthew', 'reaction', 'message#Matthew'],
+				],
+				['👎', 'Matthew', 'reaction', 'message#Matthew'],
+				false,
+			],
+			[
+				[
+					['message', 'Matthew', 'comment', null],
+					['👎', 'Matthew', 'reaction', 'message#Matthew'],
+					['👎', 'Matthew', 'reaction_deleted', 'message#Matthew'],
+				],
+				['👎', 'Matthew', 'reaction', 'message#Matthew'],
+				true,
+			],
+		];
+	}
+
+	/**
+	 * @dataProvider providerTestReactionMessageSize
+	 */
+	public function testReactionMessageSize($reactionString, $valid) {
+		$this->skipIfNotSupport4ByteUTF();
+		if (!$valid) {
+			$this->expectException(\UnexpectedValueException::class);
+		}
+
+		$manager = $this->getManager();
+		$comment = new Comment();
+		$comment->setMessage($reactionString)
+			->setVerb('reaction')
+			->setActor('users', 'alice')
+			->setObject('files', 'file64');
+		$status = $manager->save($comment);
+		$this->assertTrue($status);
+	}
+
+	public function providerTestReactionMessageSize(): array {
+		return [
+			['a', false],
+			['1', false],
+			['👍', true],
+			['👍👍', false],
+			['👍🏽', true],
+			['👨🏽‍💻', true],
+			['👨🏽‍💻👍', false],
+		];
+	}
+
+	/**
+	 * @dataProvider providerTestReactionsSummarizeOrdered
+	 */
+	public function testReactionsSummarizeOrdered(array $comments, array $expected, bool $isFullMatch) {
+		$this->skipIfNotSupport4ByteUTF();
+		$manager = $this->getManager();
+
+
+		$processedComments = $this->proccessComments($comments);
+		$comment = end($processedComments);
+		$actual = $manager->get($comment->getParentId());
+
+		if ($isFullMatch) {
+			$this->assertSame($expected, $actual->getReactions());
+		} else {
+			$subResult = array_slice($actual->getReactions(), 0, count($expected));
+			$this->assertSame($expected, $subResult);
+		}
+	}
+
+	public function providerTestReactionsSummarizeOrdered(): array {
+		return [
+			[
+				[
+					['message', 'alice', 'comment', null],
+					['👍', 'alice', 'reaction', 'message#alice'],
+				],
+				['👍' => 1],
+				true,
+			],
+			[
+				[
+					['message', 'alice', 'comment', null],
+					['👎', 'John', 'reaction', 'message#alice'],
+					['💼', 'Luke', 'reaction', 'message#alice'],
+					['📋', 'Luke', 'reaction', 'message#alice'],
+					['🚀', 'Luke', 'reaction', 'message#alice'],
+					['🖤', 'Luke', 'reaction', 'message#alice'],
+					['😜', 'Luke', 'reaction', 'message#alice'],
+					['🌖', 'Luke', 'reaction', 'message#alice'],
+					['💖', 'Luke', 'reaction', 'message#alice'],
+					['📥', 'Luke', 'reaction', 'message#alice'],
+					['🐉', 'Luke', 'reaction', 'message#alice'],
+					['☕', 'Luke', 'reaction', 'message#alice'],
+					['🐄', 'Luke', 'reaction', 'message#alice'],
+					['🐕', 'Luke', 'reaction', 'message#alice'],
+					['🐈', 'Luke', 'reaction', 'message#alice'],
+					['🛂', 'Luke', 'reaction', 'message#alice'],
+					['🕸', 'Luke', 'reaction', 'message#alice'],
+					['🏰', 'Luke', 'reaction', 'message#alice'],
+					['⚙️', 'Luke', 'reaction', 'message#alice'],
+					['🚨', 'Luke', 'reaction', 'message#alice'],
+					['👥', 'Luke', 'reaction', 'message#alice'],
+					['👍', 'Paul', 'reaction', 'message#alice'],
+					['👍', 'Peter', 'reaction', 'message#alice'],
+					['💜', 'Matthew', 'reaction', 'message#alice'],
+					['💜', 'Mark', 'reaction', 'message#alice'],
+					['💜', 'Luke', 'reaction', 'message#alice'],
+				],
+				[
+					'💜' => 3,
+					'👍' => 2,
+				],
+				false,
+			],
+		];
 	}
 }

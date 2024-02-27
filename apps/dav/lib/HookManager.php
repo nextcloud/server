@@ -6,9 +6,8 @@
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Citharel <nextcloud@tcit.fr>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
@@ -27,16 +26,16 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV;
 
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CardDAV\CardDavBackend;
 use OCA\DAV\CardDAV\SyncService;
+use OCP\Defaults;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Util;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Psr\Log\LoggerInterface;
 
 class HookManager {
 
@@ -59,21 +58,24 @@ class HookManager {
 	private $calendarsToDelete = [];
 
 	/** @var array */
+	private $subscriptionsToDelete = [];
+
+	/** @var array */
 	private $addressBooksToDelete = [];
 
-	/** @var EventDispatcherInterface */
-	private $eventDispatcher;
+	/** @var Defaults */
+	private $themingDefaults;
 
 	public function __construct(IUserManager $userManager,
-								SyncService $syncService,
-								CalDavBackend $calDav,
-								CardDavBackend $cardDav,
-								EventDispatcherInterface $eventDispatcher) {
+		SyncService $syncService,
+		CalDavBackend $calDav,
+		CardDavBackend $cardDav,
+		Defaults $themingDefaults) {
 		$this->userManager = $userManager;
 		$this->syncService = $syncService;
 		$this->calDav = $calDav;
 		$this->cardDav = $cardDav;
-		$this->eventDispatcher = $eventDispatcher;
+		$this->themingDefaults = $themingDefaults;
 	}
 
 	public function setup() {
@@ -97,10 +99,7 @@ class HookManager {
 			$this->postDeleteUser(['uid' => $uid]);
 		});
 		\OC::$server->getUserManager()->listen('\OC\User', 'postUnassignedUserId', [$this, 'postUnassignedUserId']);
-		Util::connectHook('OC_User',
-			'changeUser',
-			$this,
-			'changeUser');
+		Util::connectHook('OC_User', 'changeUser', $this, 'changeUser');
 	}
 
 	public function postCreateUser($params) {
@@ -112,9 +111,11 @@ class HookManager {
 
 	public function preDeleteUser($params) {
 		$uid = $params['uid'];
+		$userPrincipalUri = 'principals/users/' . $uid;
 		$this->usersToDelete[$uid] = $this->userManager->get($uid);
-		$this->calendarsToDelete = $this->calDav->getUsersOwnCalendars('principals/users/' . $uid);
-		$this->addressBooksToDelete = $this->cardDav->getUsersOwnAddressBooks('principals/users/' . $uid);
+		$this->calendarsToDelete = $this->calDav->getUsersOwnCalendars($userPrincipalUri);
+		$this->subscriptionsToDelete = $this->calDav->getSubscriptionsForUser($userPrincipalUri);
+		$this->addressBooksToDelete = $this->cardDav->getUsersOwnAddressBooks($userPrincipalUri);
 	}
 
 	public function preUnassignedUserId($uid) {
@@ -128,7 +129,16 @@ class HookManager {
 		}
 
 		foreach ($this->calendarsToDelete as $calendar) {
-			$this->calDav->deleteCalendar($calendar['id']);
+			$this->calDav->deleteCalendar(
+				$calendar['id'],
+				true // Make sure the data doesn't go into the trashbin, a new user with the same UID would later see it otherwise
+			);
+		}
+
+		foreach ($this->subscriptionsToDelete as $subscription) {
+			$this->calDav->deleteSubscription(
+				$subscription['id'],
+			);
 		}
 		$this->calDav->deleteAllSharesByUser('principals/users/' . $uid);
 
@@ -145,7 +155,12 @@ class HookManager {
 
 	public function changeUser($params) {
 		$user = $params['user'];
-		$this->syncService->updateUser($user);
+		$feature = $params['feature'];
+		// This case is already covered by the account manager firing up a signal
+		// later on
+		if ($feature !== 'eMailAddress' && $feature !== 'displayName') {
+			$this->syncService->updateUser($user);
+		}
 	}
 
 	public function firstLogin(IUser $user = null) {
@@ -155,9 +170,11 @@ class HookManager {
 				try {
 					$this->calDav->createCalendar($principal, CalDavBackend::PERSONAL_CALENDAR_URI, [
 						'{DAV:}displayname' => CalDavBackend::PERSONAL_CALENDAR_NAME,
+						'{http://apple.com/ns/ical/}calendar-color' => $this->themingDefaults->getColorPrimary(),
+						'components' => 'VEVENT'
 					]);
-				} catch (\Exception $ex) {
-					\OC::$server->getLogger()->logException($ex);
+				} catch (\Exception $e) {
+					\OC::$server->get(LoggerInterface::class)->error($e->getMessage(), ['exception' => $e]);
 				}
 			}
 			if ($this->cardDav->getAddressBooksForUserCount($principal) === 0) {
@@ -165,8 +182,8 @@ class HookManager {
 					$this->cardDav->createAddressBook($principal, CardDavBackend::PERSONAL_ADDRESSBOOK_URI, [
 						'{DAV:}displayname' => CardDavBackend::PERSONAL_ADDRESSBOOK_NAME,
 					]);
-				} catch (\Exception $ex) {
-					\OC::$server->getLogger()->logException($ex);
+				} catch (\Exception $e) {
+					\OC::$server->get(LoggerInterface::class)->error($e->getMessage(), ['exception' => $e]);
 				}
 			}
 		}

@@ -20,7 +20,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Core\Command\TwoFactorAuth;
 
 use OC\Authentication\TwoFactorAuth\ProviderManager;
@@ -30,17 +29,14 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Enable extends Base {
-
-	/** @var ProviderManager */
-	private $manager;
-
-	/** @var IUserManager */
-	protected $userManager;
-
-	public function __construct(ProviderManager $manager, IUserManager $userManager) {
-		parent::__construct('twofactorauth:enable');
-		$this->manager = $manager;
-		$this->userManager = $userManager;
+	public function __construct(
+		private ProviderManager $manager,
+		IUserManager $userManager,
+	) {
+		parent::__construct(
+			'twofactorauth:enable',
+			$userManager,
+		);
 	}
 
 	protected function configure() {

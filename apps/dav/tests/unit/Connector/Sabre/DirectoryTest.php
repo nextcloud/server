@@ -26,14 +26,18 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\Tests\Unit\Connector\Sabre;
 
 use OC\Files\FileInfo;
+use OC\Files\Filesystem;
+use OC\Files\Node\Node;
 use OC\Files\Storage\Wrapper\Quota;
+use OC\Files\View;
 use OCA\DAV\Connector\Sabre\Directory;
+use OCP\Constants;
 use OCP\Files\ForbiddenException;
 use OCP\Files\Mount\IMountPoint;
+use Test\Traits\UserTrait;
 
 class TestViewDirectory extends \OC\Files\View {
 	private $updatables;
@@ -62,7 +66,7 @@ class TestViewDirectory extends \OC\Files\View {
 		return $this->canRename;
 	}
 
-	public function getRelativePath($path) {
+	public function getRelativePath($path): ?string {
 		return $path;
 	}
 }
@@ -72,6 +76,7 @@ class TestViewDirectory extends \OC\Files\View {
  * @group DB
  */
 class DirectoryTest extends \Test\TestCase {
+	use UserTrait;
 
 	/** @var \OC\Files\View | \PHPUnit\Framework\MockObject\MockObject */
 	private $view;
@@ -83,9 +88,16 @@ class DirectoryTest extends \Test\TestCase {
 
 		$this->view = $this->createMock('OC\Files\View');
 		$this->info = $this->createMock('OC\Files\FileInfo');
-		$this->info->expects($this->any())
-			->method('isReadable')
+		$this->info->method('isReadable')
 			->willReturn(true);
+		$this->info->method('getType')
+			->willReturn(Node::TYPE_FOLDER);
+		$this->info->method('getName')
+			->willReturn("folder");
+		$this->info->method('getPath')
+			->willReturn("/admin/files/folder");
+		$this->info->method('getPermissions')
+			->willReturn(Constants::PERMISSION_READ);
 	}
 
 	private function getDir($path = '/') {
@@ -101,7 +113,7 @@ class DirectoryTest extends \Test\TestCase {
 	}
 
 
-	public function testDeleteRootFolderFails() {
+	public function testDeleteRootFolderFails(): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
 		$this->info->expects($this->any())
@@ -114,7 +126,7 @@ class DirectoryTest extends \Test\TestCase {
 	}
 
 
-	public function testDeleteForbidden() {
+	public function testDeleteForbidden(): void {
 		$this->expectException(\OCA\DAV\Connector\Sabre\Exception\Forbidden::class);
 
 		// deletion allowed
@@ -133,7 +145,7 @@ class DirectoryTest extends \Test\TestCase {
 	}
 
 
-	public function testDeleteFolderWhenAllowed() {
+	public function testDeleteFolderWhenAllowed(): void {
 		// deletion allowed
 		$this->info->expects($this->once())
 			->method('isDeletable')
@@ -150,7 +162,7 @@ class DirectoryTest extends \Test\TestCase {
 	}
 
 
-	public function testDeleteFolderFailsWhenNotAllowed() {
+	public function testDeleteFolderFailsWhenNotAllowed(): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
 		$this->info->expects($this->once())
@@ -162,7 +174,7 @@ class DirectoryTest extends \Test\TestCase {
 	}
 
 
-	public function testDeleteFolderThrowsWhenDeletionFailed() {
+	public function testDeleteFolderThrowsWhenDeletionFailed(): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
 		// deletion allowed
@@ -180,34 +192,43 @@ class DirectoryTest extends \Test\TestCase {
 		$dir->delete();
 	}
 
-	public function testGetChildren() {
+	public function testGetChildren(): void {
 		$info1 = $this->getMockBuilder(FileInfo::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$info2 = $this->getMockBuilder(FileInfo::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$info1->expects($this->any())
-			->method('getName')
+		$info1->method('getName')
 			->willReturn('first');
-		$info1->expects($this->any())
-			->method('getEtag')
+		$info1->method('getPath')
+			->willReturn('folder/first');
+		$info1->method('getEtag')
 			->willReturn('abc');
-		$info2->expects($this->any())
-			->method('getName')
+		$info2->method('getName')
 			->willReturn('second');
-		$info2->expects($this->any())
-			->method('getEtag')
+		$info2->method('getPath')
+			->willReturn('folder/second');
+		$info2->method('getEtag')
 			->willReturn('def');
 
 		$this->view->expects($this->once())
 			->method('getDirectoryContent')
-			->with('')
 			->willReturn([$info1, $info2]);
 
 		$this->view->expects($this->any())
 			->method('getRelativePath')
-			->willReturn('');
+			->willReturnCallback(function ($path) {
+				return str_replace('/admin/files/', '', $path);
+			});
+
+		$this->view->expects($this->any())
+			->method('getAbsolutePath')
+			->willReturnCallback(function ($path) {
+				return Filesystem::normalizePath('/admin/files' . $path);
+			});
+
+		$this->overwriteService(View::class, $this->view);
 
 		$dir = new Directory($this->view, $this->info);
 		$nodes = $dir->getChildren();
@@ -220,7 +241,7 @@ class DirectoryTest extends \Test\TestCase {
 	}
 
 
-	public function testGetChildrenNoPermission() {
+	public function testGetChildrenNoPermission(): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
 		$info = $this->createMock(FileInfo::class);
@@ -233,7 +254,7 @@ class DirectoryTest extends \Test\TestCase {
 	}
 
 
-	public function testGetChildNoPermission() {
+	public function testGetChildNoPermission(): void {
 		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
 
 		$this->info->expects($this->any())
@@ -245,7 +266,7 @@ class DirectoryTest extends \Test\TestCase {
 	}
 
 
-	public function testGetChildThrowStorageNotAvailableException() {
+	public function testGetChildThrowStorageNotAvailableException(): void {
 		$this->expectException(\Sabre\DAV\Exception\ServiceUnavailable::class);
 
 		$this->view->expects($this->once())
@@ -257,7 +278,7 @@ class DirectoryTest extends \Test\TestCase {
 	}
 
 
-	public function testGetChildThrowInvalidPath() {
+	public function testGetChildThrowInvalidPath(): void {
 		$this->expectException(\OCA\DAV\Connector\Sabre\Exception\InvalidPath::class);
 
 		$this->view->expects($this->once())
@@ -270,7 +291,9 @@ class DirectoryTest extends \Test\TestCase {
 		$dir->getChild('.');
 	}
 
-	public function testGetQuotaInfoUnlimited() {
+	public function testGetQuotaInfoUnlimited(): void {
+		self::createUser('user', 'password');
+		self::loginAsUser('user');
 		$mountPoint = $this->createMock(IMountPoint::class);
 		$storage = $this->getMockBuilder(Quota::class)
 			->disableOriginalConstructor()
@@ -285,12 +308,20 @@ class DirectoryTest extends \Test\TestCase {
 				'\OC\Files\Storage\Wrapper\Quota' => false,
 			]);
 
+		$storage->expects($this->once())
+			->method('getOwner')
+			->willReturn('user');
+
 		$storage->expects($this->never())
 			->method('getQuota');
 
 		$storage->expects($this->once())
 			->method('free_space')
 			->willReturn(800);
+
+		$this->info->expects($this->any())
+			->method('getPath')
+			->willReturn('/admin/files/foo');
 
 		$this->info->expects($this->once())
 			->method('getSize')
@@ -300,9 +331,9 @@ class DirectoryTest extends \Test\TestCase {
 			->method('getMountPoint')
 			->willReturn($mountPoint);
 
-		$this->view->expects($this->once())
-			->method('getFileInfo')
-			->willReturn($this->info);
+		$this->view->expects($this->any())
+			->method('getRelativePath')
+			->willReturn('/foo');
 
 		$mountPoint->method('getMountPoint')
 			->willReturn('/user/files/mymountpoint');
@@ -311,7 +342,9 @@ class DirectoryTest extends \Test\TestCase {
 		$this->assertEquals([200, -3], $dir->getQuotaInfo()); //200 used, unlimited
 	}
 
-	public function testGetQuotaInfoSpecific() {
+	public function testGetQuotaInfoSpecific(): void {
+		self::createUser('user', 'password');
+		self::loginAsUser('user');
 		$mountPoint = $this->createMock(IMountPoint::class);
 		$storage = $this->getMockBuilder(Quota::class)
 			->disableOriginalConstructor()
@@ -325,6 +358,10 @@ class DirectoryTest extends \Test\TestCase {
 				['\OCA\Files_Sharing\SharedStorage', false],
 				['\OC\Files\Storage\Wrapper\Quota', true],
 			]);
+
+		$storage->expects($this->once())
+			->method('getOwner')
+			->willReturn('user');
 
 		$storage->expects($this->once())
 			->method('getQuota')
@@ -345,9 +382,9 @@ class DirectoryTest extends \Test\TestCase {
 		$mountPoint->method('getMountPoint')
 			->willReturn('/user/files/mymountpoint');
 
-		$this->view->expects($this->once())
-			->method('getFileInfo')
-			->willReturn($this->info);
+		$this->view->expects($this->any())
+			->method('getRelativePath')
+			->willReturn('/foo');
 
 		$dir = new Directory($this->view, $this->info);
 		$this->assertEquals([200, 800], $dir->getQuotaInfo()); //200 used, 800 free
@@ -356,7 +393,7 @@ class DirectoryTest extends \Test\TestCase {
 	/**
 	 * @dataProvider moveFailedProvider
 	 */
-	public function testMoveFailed($source, $destination, $updatables, $deletables) {
+	public function testMoveFailed($source, $destination, $updatables, $deletables): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
 		$this->moveTest($source, $destination, $updatables, $deletables);
@@ -365,7 +402,7 @@ class DirectoryTest extends \Test\TestCase {
 	/**
 	 * @dataProvider moveSuccessProvider
 	 */
-	public function testMoveSuccess($source, $destination, $updatables, $deletables) {
+	public function testMoveSuccess($source, $destination, $updatables, $deletables): void {
 		$this->moveTest($source, $destination, $updatables, $deletables);
 		$this->addToAssertionCount(1);
 	}
@@ -373,7 +410,7 @@ class DirectoryTest extends \Test\TestCase {
 	/**
 	 * @dataProvider moveFailedInvalidCharsProvider
 	 */
-	public function testMoveFailedInvalidChars($source, $destination, $updatables, $deletables) {
+	public function testMoveFailedInvalidChars($source, $destination, $updatables, $deletables): void {
 		$this->expectException(\OCA\DAV\Connector\Sabre\Exception\InvalidPath::class);
 
 		$this->moveTest($source, $destination, $updatables, $deletables);
@@ -409,11 +446,15 @@ class DirectoryTest extends \Test\TestCase {
 	 * @param $destination
 	 * @param $updatables
 	 */
-	private function moveTest($source, $destination, $updatables, $deletables) {
+	private function moveTest($source, $destination, $updatables, $deletables): void {
 		$view = new TestViewDirectory($updatables, $deletables);
 
-		$sourceInfo = new FileInfo($source, null, null, [], null);
-		$targetInfo = new FileInfo(dirname($destination), null, null, [], null);
+		$sourceInfo = new FileInfo($source, null, null, [
+			'type' => FileInfo::TYPE_FOLDER,
+		], null);
+		$targetInfo = new FileInfo(dirname($destination), null, null, [
+			'type' => FileInfo::TYPE_FOLDER,
+		], null);
 
 		$sourceNode = new Directory($view, $sourceInfo);
 		$targetNode = $this->getMockBuilder(Directory::class)
@@ -427,7 +468,7 @@ class DirectoryTest extends \Test\TestCase {
 	}
 
 
-	public function testFailingMove() {
+	public function testFailingMove(): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 		$this->expectExceptionMessage('Could not copy directory b, target exists');
 
@@ -438,8 +479,8 @@ class DirectoryTest extends \Test\TestCase {
 
 		$view = new TestViewDirectory($updatables, $deletables);
 
-		$sourceInfo = new FileInfo($source, null, null, [], null);
-		$targetInfo = new FileInfo(dirname($destination), null, null, [], null);
+		$sourceInfo = new FileInfo($source, null, null, ['type' => FileInfo::TYPE_FOLDER], null);
+		$targetInfo = new FileInfo(dirname($destination), null, null, ['type' => FileInfo::TYPE_FOLDER], null);
 
 		$sourceNode = new Directory($view, $sourceInfo);
 		$targetNode = $this->getMockBuilder(Directory::class)

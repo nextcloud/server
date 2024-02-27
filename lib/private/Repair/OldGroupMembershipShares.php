@@ -20,7 +20,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Repair;
 
 use OCP\IDBConnection;
@@ -30,7 +29,6 @@ use OCP\Migration\IRepairStep;
 use OCP\Share\IShare;
 
 class OldGroupMembershipShares implements IRepairStep {
-
 	/** @var \OCP\IDBConnection */
 	protected $connection;
 

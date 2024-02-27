@@ -23,7 +23,7 @@
 
 declare(strict_types=1);
 
-namespace lib\Authentication\Login;
+namespace Test\Authentication\Login;
 
 use OC\Authentication\Login\PreLoginHookCommand;
 use OC\User\Manager;
@@ -31,7 +31,6 @@ use OCP\IUserManager;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class PreLoginHookCommandTest extends ALoginCommandTest {
-
 	/** @var IUserManager|MockObject */
 	private $userManager;
 

@@ -3,7 +3,7 @@
  * @copyright Copyright (c) 2017, ownCloud GmbH.
  *
  * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Vincent Petry <vincent@nextcloud.com>
  *
@@ -22,7 +22,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
+use DMS\PHPUnitExtensions\ArraySubset\Assert as AssertArraySubset;
 use PHPUnit\Framework\Assert;
 
 require __DIR__ . '/../../vendor/autoload.php';
@@ -31,7 +31,6 @@ require __DIR__ . '/../../vendor/autoload.php';
  * Trashbin functions
  */
 trait Trashbin {
-
 	// WebDav trait is expected to be used in the class that uses this trait.
 
 	/**
@@ -139,7 +138,7 @@ trait Trashbin {
 			return $item['{http://nextcloud.org/ns}trashbin-filename'];
 		}, $elementList));
 
-		Assert::assertArraySubset([$name], array_values($trashContent));
+		AssertArraySubset::assertArraySubset([$name], array_values($trashContent));
 	}
 
 	/**

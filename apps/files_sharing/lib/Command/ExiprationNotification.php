@@ -17,14 +17,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Files_Sharing\Command;
 
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -47,9 +46,9 @@ class ExiprationNotification extends Command {
 	private $shareManager;
 
 	public function __construct(ITimeFactory $time,
-								NotificationManager $notificationManager,
-								IDBConnection $connection,
-								ShareManager $shareManager) {
+		NotificationManager $notificationManager,
+		IDBConnection $connection,
+		ShareManager $shareManager) {
 		parent::__construct();
 
 		$this->notificationManager = $notificationManager;
@@ -68,7 +67,7 @@ class ExiprationNotification extends Command {
 		//Current time
 		$minTime = $this->time->getDateTime();
 		$minTime->add(new \DateInterval('P1D'));
-		$minTime->setTime(0,0,0);
+		$minTime->setTime(0, 0, 0);
 
 		$maxTime = clone $minTime;
 		$maxTime->setTime(23, 59, 59);

@@ -9,7 +9,6 @@
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
@@ -28,22 +27,19 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\App;
 
 use OCP\ICache;
 use function libxml_disable_entity_loader;
-use function simplexml_load_file;
+use function simplexml_load_string;
 
 class InfoParser {
-	/** @var \OCP\ICache|null */
-	private $cache;
-
 	/**
 	 * @param ICache|null $cache
 	 */
-	public function __construct(ICache $cache = null) {
-		$this->cache = $cache;
+	public function __construct(
+		private ?ICache $cache = null,
+	) {
 	}
 
 	/**
@@ -65,10 +61,10 @@ class InfoParser {
 		libxml_use_internal_errors(true);
 		if ((PHP_VERSION_ID < 80000)) {
 			$loadEntities = libxml_disable_entity_loader(false);
-			$xml = simplexml_load_file($file);
+			$xml = simplexml_load_string(file_get_contents($file));
 			libxml_disable_entity_loader($loadEntities);
 		} else {
-			$xml = simplexml_load_file($file);
+			$xml = simplexml_load_string(file_get_contents($file));
 		}
 
 		if ($xml === false) {
@@ -227,6 +223,11 @@ class InfoParser {
 	 * @return bool
 	 */
 	private function isNavigationItem($data): bool {
+		// Allow settings navigation items with no route entry
+		$type = $data['type'] ?? 'link';
+		if ($type === 'settings') {
+			return isset($data['name']);
+		}
 		return isset($data['name'], $data['route']);
 	}
 
@@ -255,7 +256,7 @@ class InfoParser {
 				if (!count($node->children())) {
 					$value = (string)$node;
 					if (!empty($value)) {
-						$data['@value'] = (string)$node;
+						$data['@value'] = $value;
 					}
 				} else {
 					$data = array_merge($data, $this->xmlToArray($node));
@@ -269,7 +270,7 @@ class InfoParser {
 				} else {
 					$array[$element] = $data;
 				}
-				// Just a value
+			// Just a value
 			} else {
 				if ($totalElement > 1) {
 					$array[$element][] = $this->xmlToArray($node);

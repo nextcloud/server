@@ -3,7 +3,7 @@
  *
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -12,7 +12,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -20,15 +20,14 @@
  *
  */
 
-import { getLoggerBuilder } from '@nextcloud/logger'
 import { translate as t, translatePlural as n } from '@nextcloud/l10n'
-import CommentsApp from '../views/Comments'
+import { getRequestToken } from '@nextcloud/auth'
 import Vue from 'vue'
+import CommentsApp from '../views/Comments.vue'
+import logger from '../logger.js'
 
-const logger = getLoggerBuilder()
-	.setApp('comments')
-	.detectUser()
-	.build()
+// eslint-disable-next-line camelcase
+__webpack_nonce__ = btoa(getRequestToken())
 
 // Add translates functions
 Vue.mixin({
@@ -48,19 +47,18 @@ export default class CommentInstance {
 	/**
 	 * Initialize a new Comments instance for the desired type
 	 *
-	 * @param {string} commentsType the comments endpoint type
-	 * @param  {Object} options the vue options (propsData, parent, el...)
+	 * @param {string} resourceType the comments endpoint type
+	 * @param  {object} options the vue options (propsData, parent, el...)
 	 */
-	constructor(commentsType = 'files', options) {
-		// Add comments type as a global mixin
-		Vue.mixin({
-			data() {
-				return {
-					commentsType,
-				}
+	constructor(resourceType = 'files', options = {}) {
+		// Merge options and set `resourceType` property
+		options = {
+			...options,
+			propsData: {
+				...(options.propsData ?? {}),
+				resourceType,
 			},
-		})
-
+		}
 		// Init Comments component
 		const View = Vue.extend(CommentsApp)
 		return new View(options)

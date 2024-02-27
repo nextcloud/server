@@ -5,6 +5,7 @@ declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2020 Joas Schilling <coding@schilljs.com>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Julius Härtl <jus@bitgrid.net>
  *
@@ -17,7 +18,7 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -27,8 +28,8 @@ declare(strict_types=1);
 namespace OCA\FederatedFileSharing\Migration;
 
 use Closure;
-use OCP\DB\Types;
 use OCP\DB\ISchemaWrapper;
+use OCP\DB\Types;
 use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
 
@@ -54,7 +55,7 @@ class Version1010Date20200630191755 extends SimpleMigrationStep {
 				'default' => '',
 			]);
 			$table->setPrimaryKey(['share_id'], 'federated_res_pk');
-//			$table->addUniqueIndex(['share_id'], 'share_id_index');
+			//			$table->addUniqueIndex(['share_id'], 'share_id_index');
 		}
 		return $schema;
 	}

@@ -20,7 +20,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 return [
 	'routes' => [
 		['name' => 'Notifications#view', 'url' => '/notifications/view/{id}', 'verb' => 'GET'],

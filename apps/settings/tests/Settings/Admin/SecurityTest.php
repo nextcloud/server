@@ -18,21 +18,21 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Settings\Tests\Settings\Admin;
 
 use OC\Authentication\TwoFactorAuth\MandatoryTwoFactor;
 use OC\Encryption\Manager;
 use OCA\Settings\Settings\Admin\Security;
 use OCP\AppFramework\Http\TemplateResponse;
-use OCP\IInitialStateService;
+use OCP\AppFramework\Services\IInitialState;
+use OCP\IURLGenerator;
 use OCP\IUserManager;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
@@ -46,7 +46,7 @@ class SecurityTest extends TestCase {
 	private $userManager;
 	/** @var MandatoryTwoFactor|MockObject */
 	private $mandatoryTwoFactor;
-	/** @var IInitialStateService|MockObject */
+	/** @var IInitialState|MockObject */
 	private $initialState;
 
 	protected function setUp(): void {
@@ -54,13 +54,14 @@ class SecurityTest extends TestCase {
 		$this->manager = $this->getMockBuilder(Manager::class)->disableOriginalConstructor()->getMock();
 		$this->userManager = $this->getMockBuilder(IUserManager::class)->getMock();
 		$this->mandatoryTwoFactor = $this->createMock(MandatoryTwoFactor::class);
-		$this->initialState = $this->createMock(IInitialStateService::class);
+		$this->initialState = $this->createMock(IInitialState::class);
 
 		$this->admin = new Security(
 			$this->manager,
 			$this->userManager,
 			$this->mandatoryTwoFactor,
-			$this->initialState
+			$this->initialState,
+			$this->createMock(IURLGenerator::class)
 		);
 	}
 
@@ -98,12 +99,7 @@ class SecurityTest extends TestCase {
 		$expected = new TemplateResponse(
 			'settings',
 			'settings/admin/security',
-			[
-				'encryptionEnabled' => $enabled,
-				'encryptionReady' => $enabled,
-				'externalBackendsEnabled' => false,
-				'encryptionModules' => []
-			],
+			[],
 			''
 		);
 		$this->assertEquals($expected, $this->admin->getForm());
@@ -133,12 +129,7 @@ class SecurityTest extends TestCase {
 		$expected = new TemplateResponse(
 			'settings',
 			'settings/admin/security',
-			[
-				'encryptionEnabled' => $enabled,
-				'encryptionReady' => $enabled,
-				'externalBackendsEnabled' => true,
-				'encryptionModules' => []
-			],
+			[ ],
 			''
 		);
 		$this->assertEquals($expected, $this->admin->getForm());

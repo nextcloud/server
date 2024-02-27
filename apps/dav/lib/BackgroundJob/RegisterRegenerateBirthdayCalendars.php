@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright 2019 Georg Ehrke <oc.list@georgehrke.com>
  *
@@ -15,14 +18,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\BackgroundJob;
 
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -47,8 +49,8 @@ class RegisterRegenerateBirthdayCalendars extends QueuedJob {
 	 * @param IJobList $jobList
 	 */
 	public function __construct(ITimeFactory $time,
-								IUserManager $userManager,
-								IJobList $jobList) {
+		IUserManager $userManager,
+		IJobList $jobList) {
 		parent::__construct($time);
 		$this->userManager = $userManager;
 		$this->jobList = $jobList;

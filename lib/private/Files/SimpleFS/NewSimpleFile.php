@@ -17,14 +17,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Files\SimpleFS;
 
 use Icewind\Streams\CallbackWrapper;
@@ -35,15 +34,12 @@ use OCP\Files\NotPermittedException;
 use OCP\Files\SimpleFS\ISimpleFile;
 
 class NewSimpleFile implements ISimpleFile {
-	private $parentFolder;
-	private $name;
-	/** @var File|null */
-	private $file = null;
+	private Folder $parentFolder;
+	private string $name;
+	private ?File $file = null;
 
 	/**
 	 * File constructor.
-	 *
-	 * @param File $file
 	 */
 	public function __construct(Folder $parentFolder, string $name) {
 		$this->parentFolder = $parentFolder;
@@ -52,19 +48,15 @@ class NewSimpleFile implements ISimpleFile {
 
 	/**
 	 * Get the name
-	 *
-	 * @return string
 	 */
-	public function getName() {
+	public function getName(): string {
 		return $this->name;
 	}
 
 	/**
 	 * Get the size in bytes
-	 *
-	 * @return int
 	 */
-	public function getSize() {
+	public function getSize(): int|float {
 		if ($this->file) {
 			return $this->file->getSize();
 		} else {
@@ -74,10 +66,8 @@ class NewSimpleFile implements ISimpleFile {
 
 	/**
 	 * Get the ETag
-	 *
-	 * @return string
 	 */
-	public function getETag() {
+	public function getETag(): string {
 		if ($this->file) {
 			return $this->file->getEtag();
 		} else {
@@ -87,10 +77,8 @@ class NewSimpleFile implements ISimpleFile {
 
 	/**
 	 * Get the last modification time
-	 *
-	 * @return int
 	 */
-	public function getMTime() {
+	public function getMTime(): int {
 		if ($this->file) {
 			return $this->file->getMTime();
 		} else {
@@ -101,11 +89,10 @@ class NewSimpleFile implements ISimpleFile {
 	/**
 	 * Get the content
 	 *
-	 * @return string
 	 * @throws NotFoundException
 	 * @throws NotPermittedException
 	 */
-	public function getContent() {
+	public function getContent(): string {
 		if ($this->file) {
 			$result = $this->file->getContent();
 
@@ -126,7 +113,7 @@ class NewSimpleFile implements ISimpleFile {
 	 * @throws NotPermittedException
 	 * @throws NotFoundException
 	 */
-	public function putContent($data) {
+	public function putContent($data): void {
 		try {
 			if ($this->file) {
 				$this->file->putContent($data);
@@ -140,7 +127,7 @@ class NewSimpleFile implements ISimpleFile {
 
 	/**
 	 * Sometimes there are some issues with the AppData. Most of them are from
-	 * user error. But we should handle them gracefull anyway.
+	 * user error. But we should handle them gracefully anyway.
 	 *
 	 * If for some reason the current file can't be found. We remove it.
 	 * Then traverse up and check all folders if they exists. This so that the
@@ -148,7 +135,11 @@ class NewSimpleFile implements ISimpleFile {
 	 *
 	 * @throws NotFoundException
 	 */
-	private function checkFile() {
+	private function checkFile(): void {
+		if (!$this->file) {
+			throw new NotFoundException('File not set');
+		}
+
 		$cur = $this->file;
 
 		while ($cur->stat() === false) {
@@ -172,7 +163,7 @@ class NewSimpleFile implements ISimpleFile {
 	 *
 	 * @throws NotPermittedException
 	 */
-	public function delete() {
+	public function delete(): void {
 		if ($this->file) {
 			$this->file->delete();
 		}
@@ -183,7 +174,7 @@ class NewSimpleFile implements ISimpleFile {
 	 *
 	 * @return string
 	 */
-	public function getMimeType() {
+	public function getMimeType(): string {
 		if ($this->file) {
 			return $this->file->getMimeType();
 		} else {
@@ -192,9 +183,20 @@ class NewSimpleFile implements ISimpleFile {
 	}
 
 	/**
+	 * {@inheritDoc}
+	 */
+	public function getExtension(): string {
+		if ($this->file) {
+			return $this->file->getExtension();
+		} else {
+			return \pathinfo($this->name, PATHINFO_EXTENSION);
+		}
+	}
+
+	/**
 	 * Open the file as stream for reading, resulting resource can be operated as stream like the result from php's own fopen
 	 *
-	 * @return resource
+	 * @return resource|false
 	 * @throws \OCP\Files\NotPermittedException
 	 * @since 14.0.0
 	 */

@@ -5,6 +5,7 @@
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author J0WI <J0WI@users.noreply.github.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
@@ -17,14 +18,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Collaboration\Collaborators;
 
 use OCP\Collaboration\Collaborators\ISearchPlugin;
@@ -33,47 +33,36 @@ use OCP\Collaboration\Collaborators\SearchResultType;
 use OCP\Federation\ICloudIdManager;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
-use OCP\ILogger;
 use OCP\IUserSession;
 use OCP\Share\IShare;
+use Psr\Log\LoggerInterface;
 
 class LookupPlugin implements ISearchPlugin {
-
-	/** @var IConfig */
-	private $config;
-	/** @var IClientService */
-	private $clientService;
 	/** @var string remote part of the current user's cloud id */
-	private $currentUserRemote;
-	/** @var ICloudIdManager */
-	private $cloudIdManager;
-	/** @var ILogger */
-	private $logger;
+	private string $currentUserRemote;
 
-	public function __construct(IConfig $config,
-								IClientService $clientService,
-								IUserSession $userSession,
-								ICloudIdManager $cloudIdManager,
-								ILogger $logger) {
-		$this->config = $config;
-		$this->clientService = $clientService;
-		$this->cloudIdManager = $cloudIdManager;
+	public function __construct(
+		private IConfig $config,
+		private IClientService $clientService,
+		IUserSession $userSession,
+		private ICloudIdManager $cloudIdManager,
+		private LoggerInterface $logger,
+	) {
 		$currentUserCloudId = $userSession->getUser()->getCloudId();
 		$this->currentUserRemote = $cloudIdManager->resolveCloudId($currentUserCloudId)->getRemote();
-		$this->logger = $logger;
 	}
 
-	public function search($search, $limit, $offset, ISearchResult $searchResult) {
-		$isGlobalScaleEnabled = $this->config->getSystemValue('gs.enabled', false);
+	public function search($search, $limit, $offset, ISearchResult $searchResult): bool {
+		$isGlobalScaleEnabled = $this->config->getSystemValueBool('gs.enabled', false);
 		$isLookupServerEnabled = $this->config->getAppValue('files_sharing', 'lookupServerEnabled', 'yes') === 'yes';
-		$hasInternetConnection = (bool)$this->config->getSystemValue('has_internet_connection', true);
+		$hasInternetConnection = $this->config->getSystemValueBool('has_internet_connection', true);
 
 		// if case of Global Scale we always search the lookup server
 		if (!$isGlobalScaleEnabled && (!$isLookupServerEnabled || !$hasInternetConnection)) {
 			return false;
 		}
 
-		$lookupServerUrl = $this->config->getSystemValue('lookup_server', 'https://lookup.nextcloud.com');
+		$lookupServerUrl = $this->config->getSystemValueString('lookup_server', 'https://lookup.nextcloud.com');
 		if (empty($lookupServerUrl)) {
 			return false;
 		}
@@ -96,19 +85,21 @@ class LookupPlugin implements ISearchPlugin {
 				try {
 					$remote = $this->cloudIdManager->resolveCloudId($lookup['federationId'])->getRemote();
 				} catch (\Exception $e) {
-					$this->logger->error('Can not parse federated cloud ID "' .  $lookup['federationId'] . '"');
-					$this->logger->error($e->getMessage());
+					$this->logger->error('Can not parse federated cloud ID "' .  $lookup['federationId'] . '"', [
+						'exception' => $e,
+					]);
 					continue;
 				}
 				if ($this->currentUserRemote === $remote) {
 					continue;
 				}
-				$name = isset($lookup['name']['value']) ? $lookup['name']['value'] : '';
+				$name = $lookup['name']['value'] ?? '';
 				$label = empty($name) ? $lookup['federationId'] : $name . ' (' . $lookup['federationId'] . ')';
 				$result[] = [
 					'label' => $label,
 					'value' => [
 						'shareType' => IShare::TYPE_REMOTE,
+						'globalScale' => $isGlobalScaleEnabled,
 						'shareWith' => $lookup['federationId'],
 					],
 					'extra' => $lookup,

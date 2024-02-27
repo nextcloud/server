@@ -34,13 +34,14 @@ class CategoryFetcherTest extends FetcherBase {
 			$this->clientService,
 			$this->timeFactory,
 			$this->config,
-			$this->logger
+			$this->logger,
+			$this->registry
 		);
 	}
 
 	public function testAppstoreDisabled() {
 		$this->config
-			->method('getSystemValue')
+			->method('getSystemValueBool')
 			->willReturnCallback(function ($var, $default) {
 				if ($var === 'appstoreenabled') {
 					return false;
@@ -56,7 +57,7 @@ class CategoryFetcherTest extends FetcherBase {
 
 	public function testNoInternet() {
 		$this->config
-			->method('getSystemValue')
+			->method('getSystemValueBool')
 			->willReturnCallback(function ($var, $default) {
 				if ($var === 'has_internet_connection') {
 					return false;

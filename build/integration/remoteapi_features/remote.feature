@@ -34,4 +34,5 @@ Feature: remote
     Given using remote server "REMOTE"
     And user "user0" exists
     And using credentials "user0", "invalid"
-    Then the capability "theming.name" is "Nextcloud"
+    Then the capability "theming.name" is "OC\ForbiddenException"
+    Then the request should throw a "OC\ForbiddenException"

@@ -2,11 +2,11 @@
 /**
  * @copyright Copyright (c) 2016 Lukas Reschke <lukas@statuscode.ch>
  *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author Jakub Onderka <ahoj@jakubonderka.cz>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -20,14 +20,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\App\AppStore\Fetcher;
 
 use OC\App\AppStore\Version\VersionParser;
@@ -36,41 +35,32 @@ use OC\Files\AppData\Factory;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
-use OCP\ILogger;
+use OCP\Support\Subscription\IRegistry;
+use Psr\Log\LoggerInterface;
 
 class AppFetcher extends Fetcher {
-
-	/** @var CompareVersion */
-	private $compareVersion;
-
 	/** @var bool */
 	private $ignoreMaxVersion;
 
-	/**
-	 * @param Factory $appDataFactory
-	 * @param IClientService $clientService
-	 * @param ITimeFactory $timeFactory
-	 * @param IConfig $config
-	 * @param CompareVersion $compareVersion
-	 * @param ILogger $logger
-	 */
 	public function __construct(Factory $appDataFactory,
-								IClientService $clientService,
-								ITimeFactory $timeFactory,
-								IConfig $config,
-								CompareVersion $compareVersion,
-								ILogger $logger) {
+		IClientService $clientService,
+		ITimeFactory $timeFactory,
+		IConfig $config,
+		private CompareVersion $compareVersion,
+		LoggerInterface $logger,
+		protected IRegistry $registry,
+	) {
 		parent::__construct(
 			$appDataFactory,
 			$clientService,
 			$timeFactory,
 			$config,
-			$logger
+			$logger,
+			$registry
 		);
 
 		$this->fileName = 'apps.json';
 		$this->endpointName = 'apps.json';
-		$this->compareVersion = $compareVersion;
 		$this->ignoreMaxVersion = true;
 	}
 
@@ -87,8 +77,12 @@ class AppFetcher extends Fetcher {
 		/** @var mixed[] $response */
 		$response = parent::fetch($ETag, $content);
 
-		$allowPreReleases = $allowUnstable || $this->getChannel() === 'beta' || $this->getChannel() === 'daily';
-		$allowNightly = $allowUnstable || $this->getChannel() === 'daily';
+		if (empty($response)) {
+			return [];
+		}
+
+		$allowPreReleases = $allowUnstable || $this->getChannel() === 'beta' || $this->getChannel() === 'daily' || $this->getChannel() === 'git';
+		$allowNightly = $allowUnstable || $this->getChannel() === 'daily' || $this->getChannel() === 'git';
 
 		foreach ($response['data'] as $dataKey => $app) {
 			$releases = [];
@@ -97,7 +91,7 @@ class AppFetcher extends Fetcher {
 			foreach ($app['releases'] as $release) {
 				// Exclude all nightly and pre-releases if required
 				if (($allowNightly || $release['isNightly'] === false)
-					&& ($allowPreReleases || strpos($release['version'], '-') === false)) {
+					&& ($allowPreReleases || !str_contains($release['version'], '-'))) {
 					// Exclude all versions not compatible with the current version
 					try {
 						$versionParser = new VersionParser();
@@ -114,15 +108,15 @@ class AppFetcher extends Fetcher {
 							$minPhpVersion = $phpVersion->getMinimumVersion();
 							$maxPhpVersion = $phpVersion->getMaximumVersion();
 							$minPhpFulfilled = $minPhpVersion === '' || $this->compareVersion->isCompatible(
-									PHP_VERSION,
-									$minPhpVersion,
-									'>='
-								);
+								PHP_VERSION,
+								$minPhpVersion,
+								'>='
+							);
 							$maxPhpFulfilled = $maxPhpVersion === '' || $this->compareVersion->isCompatible(
-									PHP_VERSION,
-									$maxPhpVersion,
-									'<='
-								);
+								PHP_VERSION,
+								$maxPhpVersion,
+								'<='
+							);
 
 							$isPhpCompatible = $minPhpFulfilled && $maxPhpFulfilled;
 						}
@@ -130,7 +124,9 @@ class AppFetcher extends Fetcher {
 							$releases[] = $release;
 						}
 					} catch (\InvalidArgumentException $e) {
-						$this->logger->logException($e, ['app' => 'appstoreFetcher', 'level' => ILogger::WARN]);
+						$this->logger->warning($e->getMessage(), [
+							'exception' => $e,
+						]);
 					}
 				}
 			}
@@ -146,7 +142,9 @@ class AppFetcher extends Fetcher {
 			foreach ($releases as $release) {
 				$versions[] = $release['version'];
 			}
-			usort($versions, 'version_compare');
+			usort($versions, function ($version1, $version2) {
+				return version_compare($version1, $version2);
+			});
 			$versions = array_reverse($versions);
 			if (isset($versions[0])) {
 				$highestVersion = $versions[0];
@@ -172,5 +170,22 @@ class AppFetcher extends Fetcher {
 		parent::setVersion($version);
 		$this->fileName = $fileName;
 		$this->ignoreMaxVersion = $ignoreMaxVersion;
+	}
+
+
+	public function get($allowUnstable = false) {
+		$allowPreReleases = $allowUnstable || $this->getChannel() === 'beta' || $this->getChannel() === 'daily' || $this->getChannel() === 'git';
+
+		$apps = parent::get($allowPreReleases);
+		$allowList = $this->config->getSystemValue('appsallowlist');
+
+		// If the admin specified a allow list, filter apps from the appstore
+		if (is_array($allowList) && $this->registry->delegateHasValidSubscription()) {
+			return array_filter($apps, function ($app) use ($allowList) {
+				return in_array($app['id'], $allowList);
+			});
+		}
+
+		return $apps;
 	}
 }

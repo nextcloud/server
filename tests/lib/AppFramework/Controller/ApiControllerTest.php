@@ -26,6 +26,7 @@ namespace Test\AppFramework\Controller;
 use OC\AppFramework\Http\Request;
 use OCP\AppFramework\ApiController;
 use OCP\IConfig;
+use OCP\IRequestId;
 
 class ChildApiController extends ApiController {
 };
@@ -38,12 +39,8 @@ class ApiControllerTest extends \Test\TestCase {
 	public function testCors() {
 		$request = new Request(
 			['server' => ['HTTP_ORIGIN' => 'test']],
-			$this->getMockBuilder('\OCP\Security\ISecureRandom')
-				->disableOriginalConstructor()
-				->getMock(),
-			$this->getMockBuilder(IConfig::class)
-				->disableOriginalConstructor()
-				->getMock()
+			$this->createMock(IRequestId::class),
+			$this->createMock(IConfig::class)
 		);
 		$this->controller = new ChildApiController('app', $request, 'verbs',
 			'headers', 100);

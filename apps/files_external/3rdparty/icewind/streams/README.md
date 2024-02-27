@@ -1,8 +1,7 @@
 # Streams #
 
-[![Build Status](https://travis-ci.org/icewind1991/Streams.svg?branch=master)](https://travis-ci.org/icewind1991/Streams)
-[![Coverage Status](https://img.shields.io/coveralls/icewind1991/Streams.svg)](https://coveralls.io/r/icewind1991/Streams?branch=master)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/icewind1991/Streams/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/icewind1991/Streams/?branch=master)
+[![CI](https://github.com/icewind1991/Streams/actions/workflows/ci.yaml/badge.svg)](https://github.com/icewind1991/Streams/actions/workflows/ci.yaml)
+[![codecov](https://codecov.io/gh/icewind1991/Streams/branch/master/graph/badge.svg?token=bfPcAdGAaq)](https://codecov.io/gh/icewind1991/Streams)
 
 Generic stream wrappers for php.
 
@@ -14,7 +13,7 @@ it wraps an existing stream and can thus be used for any stream in php
 The callbacks are passed in the stream context along with the source stream
 and can be any valid [php callable](http://php.net/manual/en/language.types.callable.php)
 
-###Example###
+### Example ###
 ```php
 <?php
 

@@ -13,17 +13,16 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCP\Federation\Exceptions;
 
-use OC\HintException;
+use OCP\HintException;
 
 /**
  * Class ProviderDoesNotExistsException
@@ -32,7 +31,6 @@ use OC\HintException;
  * @since 14.0.0
  */
 class ProviderDoesNotExistsException extends HintException {
-
 	/**
 	 * ProviderDoesNotExistsException constructor.
 	 *
@@ -41,7 +39,7 @@ class ProviderDoesNotExistsException extends HintException {
 	 * @param string $providerId cloud federation provider ID
 	 */
 	public function __construct($providerId) {
-		$l = \OC::$server->getL10N('federation');
+		$l = \OCP\Util::getL10N('federation');
 		$message = 'Cloud Federation Provider with ID: "' . $providerId . '" does not exist.';
 		$hint = $l->t('Cloud Federation Provider with ID: "%s" does not exist.', [$providerId]);
 		parent::__construct($message, $hint);

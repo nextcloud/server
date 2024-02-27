@@ -17,14 +17,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCP\FullTextSearch\Model;
 
 /**
@@ -44,24 +43,84 @@ namespace OCP\FullTextSearch\Model;
  *
  */
 interface IIndex {
+	/**
+	 * @since 15.0.0
+	 */
 	public const INDEX_OK = 1;
+
+	/**
+	 * @since 15.0.0
+	 */
 	public const INDEX_IGNORE = 2;
 
+	/**
+	 * @since 15.0.0
+	 */
 	public const INDEX_META = 4;
+
+	/**
+	 * @since 15.0.0
+	 */
 	public const INDEX_CONTENT = 8;
+
+	/**
+	 * @since 16.0.0
+	 */
 	public const INDEX_PARTS = 16;
+
+	/**
+	 * @since 15.0.0
+	 */
 	public const INDEX_FULL = 28;
+
+	/**
+	 * @since 15.0.0
+	 */
 	public const INDEX_REMOVE = 32;
+
+	/**
+	 * @since 15.0.0
+	 */
 	public const INDEX_DONE = 64;
+
+	/**
+	 * @since 15.0.0
+	 */
 	public const INDEX_FAILED = 128;
 
+	/**
+	 * @since 15.0.0
+	 */
 	public const ERROR_FAILED = 1;
+
+	/**
+	 * @since 15.0.0
+	 */
 	public const ERROR_FAILED2 = 2;
+
+	/**
+	 * @since 15.0.0
+	 */
 	public const ERROR_FAILED3 = 4;
 
+	/**
+	 * @since 15.0.0
+	 */
 	public const ERROR_SEV_1 = 1;
+
+	/**
+	 * @since 15.0.0
+	 */
 	public const ERROR_SEV_2 = 2;
+
+	/**
+	 * @since 15.0.0
+	 */
 	public const ERROR_SEV_3 = 3;
+
+	/**
+	 * @since 15.0.0
+	 */
 	public const ERROR_SEV_4 = 4;
 
 
@@ -83,6 +142,17 @@ interface IIndex {
 	 * @return string
 	 */
 	public function getDocumentId(): string;
+
+
+	/**
+	 * Get the collection of the index.
+	 * If empty (''), means collection is the default one used by the internal framework
+	 *
+	 * @since 24.0.0
+	 *
+	 * @return string
+	 */
+	public function getCollection(): string;
 
 
 	/**

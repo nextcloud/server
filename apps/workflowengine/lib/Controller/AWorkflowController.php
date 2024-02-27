@@ -1,10 +1,13 @@
 <?php
 
 declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2019 Arthur Schiwon <blizzz@arthur-schiwon.de>
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author blizzz <blizzz@arthur-schiwon.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -15,39 +18,45 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\WorkflowEngine\Controller;
 
 use Doctrine\DBAL\Exception;
 use OCA\WorkflowEngine\Helper\ScopeContext;
 use OCA\WorkflowEngine\Manager;
+use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\AppFramework\OCSController;
 use OCP\IRequest;
+use Psr\Log\LoggerInterface;
 
 abstract class AWorkflowController extends OCSController {
 
 	/** @var Manager */
 	protected $manager;
 
+	/** @var LoggerInterface */
+	private $logger;
+
 	public function __construct(
 		$appName,
 		IRequest $request,
-		Manager $manager
+		Manager $manager,
+		LoggerInterface $logger
 	) {
 		parent::__construct($appName, $request);
 
 		$this->manager = $manager;
+		$this->logger = $logger;
 	}
 
 	/**
@@ -95,6 +104,7 @@ abstract class AWorkflowController extends OCSController {
 	 * @throws OCSForbiddenException
 	 * @throws OCSException
 	 */
+	#[PasswordConfirmationRequired]
 	public function create(
 		string $class,
 		string $name,
@@ -113,6 +123,7 @@ abstract class AWorkflowController extends OCSController {
 		} catch (\DomainException $e) {
 			throw new OCSForbiddenException($e->getMessage(), $e);
 		} catch (Exception $e) {
+			$this->logger->error('Error when inserting flow', ['exception' => $e]);
 			throw new OCSException('An internal error occurred', $e->getCode(), $e);
 		}
 	}
@@ -122,6 +133,7 @@ abstract class AWorkflowController extends OCSController {
 	 * @throws OCSForbiddenException
 	 * @throws OCSException
 	 */
+	#[PasswordConfirmationRequired]
 	public function update(
 		int $id,
 		string $name,
@@ -140,6 +152,7 @@ abstract class AWorkflowController extends OCSController {
 		} catch (\DomainException $e) {
 			throw new OCSForbiddenException($e->getMessage(), $e);
 		} catch (Exception $e) {
+			$this->logger->error('Error when updating flow with id ' . $id, ['exception' => $e]);
 			throw new OCSException('An internal error occurred', $e->getCode(), $e);
 		}
 	}
@@ -149,6 +162,7 @@ abstract class AWorkflowController extends OCSController {
 	 * @throws OCSForbiddenException
 	 * @throws OCSException
 	 */
+	#[PasswordConfirmationRequired]
 	public function destroy(int $id): DataResponse {
 		try {
 			$deleted = $this->manager->deleteOperation($id, $this->getScopeContext());
@@ -158,6 +172,7 @@ abstract class AWorkflowController extends OCSController {
 		} catch (\DomainException $e) {
 			throw new OCSForbiddenException($e->getMessage(), $e);
 		} catch (Exception $e) {
+			$this->logger->error('Error when deleting flow with id ' . $id, ['exception' => $e]);
 			throw new OCSException('An internal error occurred', $e->getCode(), $e);
 		}
 	}

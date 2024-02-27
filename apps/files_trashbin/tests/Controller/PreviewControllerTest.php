@@ -15,14 +15,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Files_Trashbin\Tests\Controller;
 
 use OCA\Files_Trashbin\Controller\PreviewController;
@@ -145,6 +144,8 @@ class PreviewControllerTest extends TestCase {
 			->willReturn($file);
 
 		$preview = $this->createMock(ISimpleFile::class);
+		$preview->method('getName')->willReturn('name');
+		$preview->method('getMTime')->willReturn(42);
 		$this->previewManager->method('getPreview')
 			->with($this->equalTo($file), 10, 10, true, IPreview::MODE_FILL, 'myMime')
 			->willReturn($preview);
@@ -156,7 +157,7 @@ class PreviewControllerTest extends TestCase {
 
 		$this->overwriteService(ITimeFactory::class, $this->time);
 
-		$res = $this->controller->getPreview(42, 10, 10);
+		$res = $this->controller->getPreview(42, 10, 10, false);
 		$expected = new FileDisplayResponse($preview, Http::STATUS_OK, ['Content-Type' => 'previewMime']);
 		$expected->cacheFor(3600 * 24);
 

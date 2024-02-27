@@ -13,21 +13,19 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 use Behat\Gherkin\Node\TableNode;
 use PHPUnit\Framework\Assert;
 
 require __DIR__ . '/../../vendor/autoload.php';
 
 trait Avatar {
-
 	/** @var string **/
 	private $lastAvatar;
 
@@ -110,7 +108,7 @@ trait Avatar {
 	 * @param string $source
 	 */
 	public function loggedInUserPostsTemporaryAvatarFromFile(string $source) {
-		$file = \GuzzleHttp\Psr7\stream_for(fopen($source, 'r'));
+		$file = \GuzzleHttp\Psr7\Utils::streamFor(fopen($source, 'r'));
 
 		$this->sendingAToWithRequesttoken('POST', '/index.php/avatar',
 			[
@@ -175,8 +173,17 @@ trait Avatar {
 	public function lastAvatarIsASquareOfSize(string $size) {
 		[$width, $height] = getimagesizefromstring($this->lastAvatar);
 
-		Assert::assertEquals($width, $height, 'Avatar is not a square');
+		Assert::assertEquals($width, $height, 'Expected avatar to be a square');
 		Assert::assertEquals($size, $width);
+	}
+
+	/**
+	 * @Then last avatar is not a square
+	 */
+	public function lastAvatarIsNotASquare() {
+		[$width, $height] = getimagesizefromstring($this->lastAvatar);
+
+		Assert::assertNotEquals($width, $height, 'Expected avatar to not be a square');
 	}
 
 	/**

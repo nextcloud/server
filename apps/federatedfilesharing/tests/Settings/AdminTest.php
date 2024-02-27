@@ -16,20 +16,22 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\FederatedFileSharing\Tests\Settings;
 
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\FederatedFileSharing\Settings\Admin;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Services\IInitialState;
 use OCP\GlobalScale\IConfig;
+use OCP\IL10N;
+use OCP\IURLGenerator;
 use Test\TestCase;
 
 class AdminTest extends TestCase {
@@ -37,16 +39,27 @@ class AdminTest extends TestCase {
 	private $admin;
 	/** @var \OCA\FederatedFileSharing\FederatedShareProvider */
 	private $federatedShareProvider;
-	/** @var  IConfig|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $gsConfig;
+	/** @var IInitialState|\PHPUnit\Framework\MockObject\MockObject */
+	private $initialState;
 
 	protected function setUp(): void {
 		parent::setUp();
 		$this->federatedShareProvider = $this->createMock(FederatedShareProvider::class);
 		$this->gsConfig = $this->createMock(IConfig::class);
+		$this->initialState = $this->createMock(IInitialState::class);
+		$urlGenerator = $this->createMock(IURLGenerator::class);
+		$urlGenerator->expects($this->any())
+			->method('linkToDocs')
+			->willReturn('doc-link');
+
 		$this->admin = new Admin(
 			$this->federatedShareProvider,
-			$this->gsConfig
+			$this->gsConfig,
+			$this->createMock(IL10N::class),
+			$urlGenerator,
+			$this->initialState
 		);
 	}
 
@@ -101,17 +114,21 @@ class AdminTest extends TestCase {
 		$this->gsConfig->expects($this->once())->method('onlyInternalFederation')
 			->willReturn($state);
 
-		$params = [
-			'internalOnly' => $state,
-			'outgoingServer2serverShareEnabled' => $state,
-			'incomingServer2serverShareEnabled' => $state,
-			'lookupServerEnabled' => $state,
-			'lookupServerUploadEnabled' => $state,
-			'federatedGroupSharingSupported' => $state,
-			'outgoingServer2serverGroupShareEnabled' => $state,
-			'incomingServer2serverGroupShareEnabled' => $state,
-		];
-		$expected = new TemplateResponse('federatedfilesharing', 'settings-admin', $params, '');
+		$this->initialState->expects($this->exactly(9))
+			->method('provideInitialState')
+			->withConsecutive(
+				['internalOnly', $state],
+				['sharingFederatedDocUrl', 'doc-link'],
+				['outgoingServer2serverShareEnabled', $state],
+				['incomingServer2serverShareEnabled', $state],
+				['federatedGroupSharingSupported', $state],
+				['outgoingServer2serverGroupShareEnabled', $state],
+				['incomingServer2serverGroupShareEnabled', $state],
+				['lookupServerEnabled', $state],
+				['lookupServerUploadEnabled', $state],
+			);
+
+		$expected = new TemplateResponse('federatedfilesharing', 'settings-admin', [], '');
 		$this->assertEquals($expected, $this->admin->getForm());
 	}
 

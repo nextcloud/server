@@ -21,7 +21,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Core\Command\Security;
 
 use OC\Core\Command\Base;
@@ -31,12 +30,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class ImportCertificate extends Base {
-
-	/** @var ICertificateManager */
-	protected $certificateManager;
-
-	public function __construct(ICertificateManager $certificateManager) {
-		$this->certificateManager = $certificateManager;
+	public function __construct(
+		protected ICertificateManager $certificateManager,
+	) {
 		parent::__construct();
 	}
 

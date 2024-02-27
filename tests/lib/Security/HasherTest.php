@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Copyright (c) 2014 Lukas Reschke <lukas@owncloud.com>
  * This file is licensed under the Affero General Public License version 3 or
@@ -15,7 +18,6 @@ use OCP\IConfig;
  * Class HasherTest
  */
 class HasherTest extends \Test\TestCase {
-
 	/**
 	 * @return array
 	 */
@@ -194,7 +196,7 @@ class HasherTest extends \Test\TestCase {
 		}
 
 
-		$this->assertTrue($this->hasher->verify($message, $blowfish,$newHash));
+		$this->assertTrue($this->hasher->verify($message, $blowfish, $newHash));
 		$this->assertTrue($this->hasher->verify($message, $argon2));
 
 		$relativePath = self::invokePrivate($this->hasher, 'splitHash', [$newHash]);
@@ -207,7 +209,7 @@ class HasherTest extends \Test\TestCase {
 			$this->markTestSkipped('Need ARGON2 support to test ARGON2 hashes');
 		}
 
-		$this->config->method('getSystemValue')
+		$this->config->method('getSystemValueBool')
 			->with('hashing_default_password')
 			->willReturn(true);
 
@@ -231,7 +233,7 @@ class HasherTest extends \Test\TestCase {
 			$this->markTestSkipped('Need ARGON2ID support to test ARGON2ID hashes');
 		}
 
-		$this->config->method('getSystemValue')
+		$this->config->method('getSystemValueBool')
 			->with('hashing_default_password')
 			->willReturn(false);
 
@@ -249,7 +251,7 @@ class HasherTest extends \Test\TestCase {
 			$this->markTestSkipped('Need ARGON2 support to test ARGON2 hashes');
 		}
 
-		$this->config->method('getSystemValue')
+		$this->config->method('getSystemValueBool')
 			->with('hashing_default_password')
 			->willReturn(true);
 

@@ -1,0 +1,26 @@
+OC.L10N.register(
+    "dashboard",
+    {
+    "Dashboard" : "Dasbor",
+    "Dashboard app" : "Aplikasi dasbor",
+    "Customize" : "Sesuaikan",
+    "Edit widgets" : "Edit widget",
+    "Get more widgets from the App Store" : "Dapatkan lebih banyak widget dari App Store",
+    "Weather service" : "Layanan cuaca",
+    "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "Untuk privasi Anda, data cuaca diminta oleh server Nextcloud Anda atas nama Anda sehingga layanan cuaca tidak menerima informasi pribadi.",
+    "Weather data from Met.no" : "Data cuaca dari Met.no",
+    "geocoding with Nominatim" : "Secara khusus, dengan geocoding",
+    "elevation data from OpenTopoData" : "data ketinggian dari OpenTopoData",
+    "Weather" : "Cuaca",
+    "Status" : "Status",
+    "Good morning" : "Selamat pagi",
+    "Good morning, {name}" : "Selamat pagi, {name}",
+    "Good afternoon" : "Selamat siang",
+    "Good afternoon, {name}" : "Selamat siang, {name}",
+    "Good evening" : "Selamat malam",
+    "Good evening, {name}" : "Selamat malam, {name}",
+    "Hello" : "Halo",
+    "Hello, {name}" : "Halo, {name}",
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an\noverview of your upcoming appointments, urgent emails, chat messages,\nincoming tickets, latest tweets and much more! Users can add the widgets\nthey like and change the background to their liking." : "Mulai hari Anda sama berita\n\nDasbor Nextcloud memberi Anda ikhtisar janji temu Anda yang akan datang, surel mendesak, pesan obrolan, tiket masuk, tweet terbaru, dan lebih banyak! Pengguna bisa tambahkan widget-widget yang mereka suka dan berubah mereka dapat mengubah latar belakang sesuai keinginan mereka."
+},
+"nplurals=1; plural=0;");

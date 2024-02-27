@@ -4,6 +4,7 @@
  *
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
+ * @author szaimen <szaimen@e.mail.de>
  *
  * @license AGPL-3.0
  *
@@ -20,7 +21,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP\Files\Mount;
 
 /**
@@ -28,7 +28,6 @@ namespace OCP\Files\Mount;
  * @since 8.0.0
  */
 interface IMountPoint {
-
 	/**
 	 * get complete path to the mount point
 	 *
@@ -48,7 +47,7 @@ interface IMountPoint {
 	/**
 	 * Get the storage that is mounted
 	 *
-	 * @return \OC\Files\Storage\Storage
+	 * @return \OCP\Files\Storage\IStorage|null
 	 * @since 8.0.0
 	 */
 	public function getStorage();
@@ -56,7 +55,7 @@ interface IMountPoint {
 	/**
 	 * Get the id of the storages
 	 *
-	 * @return string
+	 * @return string|null
 	 * @since 8.0.0
 	 */
 	public function getStorageId();
@@ -64,7 +63,7 @@ interface IMountPoint {
 	/**
 	 * Get the id of the storages
 	 *
-	 * @return int
+	 * @return int|null
 	 * @since 9.1.0
 	 */
 	public function getNumericStorageId();
@@ -121,11 +120,19 @@ interface IMountPoint {
 	public function getMountId();
 
 	/**
-	 * Get the type of mount point, used to distinguish things like shares and external storages
+	 * Get the type of mount point, used to distinguish things like shares and external storage
 	 * in the web interface
 	 *
 	 * @return string
 	 * @since 12.0.0
 	 */
 	public function getMountType();
+
+	/**
+	 * Get the class of the mount provider that this mount originates from
+	 *
+	 * @return string
+	 * @since 24.0.0
+	 */
+	public function getMountProvider(): string;
 }

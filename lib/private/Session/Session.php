@@ -25,13 +25,14 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Session;
 
 use OCP\ISession;
 
+/**
+ * @template-implements \ArrayAccess<string,mixed>
+ */
 abstract class Session implements \ArrayAccess, ISession {
-
 	/**
 	 * @var bool
 	 */
@@ -56,6 +57,7 @@ abstract class Session implements \ArrayAccess, ISession {
 	 * @param mixed $offset
 	 * @return mixed
 	 */
+	#[\ReturnTypeWillChange]
 	public function offsetGet($offset) {
 		return $this->get($offset);
 	}
@@ -64,14 +66,14 @@ abstract class Session implements \ArrayAccess, ISession {
 	 * @param mixed $offset
 	 * @param mixed $value
 	 */
-	public function offsetSet($offset, $value) {
+	public function offsetSet($offset, $value): void {
 		$this->set($offset, $value);
 	}
 
 	/**
 	 * @param mixed $offset
 	 */
-	public function offsetUnset($offset) {
+	public function offsetUnset($offset): void {
 		$this->remove($offset);
 	}
 

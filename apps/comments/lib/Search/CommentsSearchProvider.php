@@ -7,7 +7,7 @@ declare(strict_types=1);
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -18,14 +18,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Comments\Search;
 
 use OCP\IL10N;
@@ -40,46 +39,22 @@ use function array_map;
 use function pathinfo;
 
 class CommentsSearchProvider implements IProvider {
-
-	/** @var IUserManager */
-	private $userManager;
-
-	/** @var IL10N */
-	private $l10n;
-
-	/** @var IURLGenerator */
-	private $urlGenerator;
-
-	/** @var LegacyProvider */
-	private $legacyProvider;
-
-	public function __construct(IUserManager $userManager,
-								IL10N $l10n,
-								IURLGenerator $urlGenerator,
-								LegacyProvider $legacyProvider) {
-		$this->userManager = $userManager;
-		$this->l10n = $l10n;
-		$this->urlGenerator = $urlGenerator;
-		$this->legacyProvider = $legacyProvider;
+	public function __construct(
+		private IUserManager $userManager,
+		private IL10N $l10n,
+		private IURLGenerator $urlGenerator,
+		private LegacyProvider $legacyProvider,
+	) {
 	}
 
-	/**
-	 * @inheritDoc
-	 */
 	public function getId(): string {
 		return 'comments';
 	}
 
-	/**
-	 * @inheritDoc
-	 */
 	public function getName(): string {
 		return $this->l10n->t('Comments');
 	}
 
-	/**
-	 * @inheritDoc
-	 */
 	public function getOrder(string $route, array $routeParameters): int {
 		if ($route === 'files.View.index') {
 			// Files first
@@ -88,9 +63,6 @@ class CommentsSearchProvider implements IProvider {
 		return 10;
 	}
 
-	/**
-	 * @inheritDoc
-	 */
 	public function search(IUser $user, ISearchQuery $query): SearchResult {
 		return SearchResult::complete(
 			$this->l10n->t('Comments'),
@@ -105,7 +77,7 @@ class CommentsSearchProvider implements IProvider {
 					$avatarUrl,
 					$result->name,
 					$path,
-					$this->urlGenerator->linkToRouteAbsolute('files.view.index',[
+					$this->urlGenerator->linkToRouteAbsolute('files.view.index', [
 						'dir' => $pathInfo['dirname'],
 						'scrollto' => $pathInfo['basename'],
 					]),

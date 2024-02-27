@@ -14,14 +14,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCP\Files\Storage;
 
 use OCP\Files\Notify\INotifyHandler;
@@ -32,9 +31,24 @@ use OCP\Files\Notify\INotifyHandler;
  * @since 9.1.0
  */
 interface INotifyStorage {
+	/**
+	 * @since 9.1.0
+	 */
 	public const NOTIFY_ADDED = 1;
+
+	/**
+	 * @since 9.1.0
+	 */
 	public const NOTIFY_REMOVED = 2;
+
+	/**
+	 * @since 9.1.0
+	 */
 	public const NOTIFY_MODIFIED = 3;
+
+	/**
+	 * @since 9.1.0
+	 */
 	public const NOTIFY_RENAMED = 4;
 
 	/**

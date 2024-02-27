@@ -2,10 +2,11 @@
 
 declare(strict_types=1);
 
-/*
+/**
  * @copyright 2021 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
- * @author 2021 Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -16,13 +17,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
  */
-
 namespace OC\DB\Exceptions;
 
 use Doctrine\DBAL\ConnectionException;
@@ -36,6 +37,7 @@ use Doctrine\DBAL\Exception\InvalidArgumentException;
 use Doctrine\DBAL\Exception\InvalidFieldNameException;
 use Doctrine\DBAL\Exception\NonUniqueFieldNameException;
 use Doctrine\DBAL\Exception\NotNullConstraintViolationException;
+use Doctrine\DBAL\Exception\RetryableException;
 use Doctrine\DBAL\Exception\ServerException;
 use Doctrine\DBAL\Exception\SyntaxErrorException;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
@@ -48,7 +50,6 @@ use OCP\DB\Exception;
  * @psalm-immutable
  */
 class DbalException extends Exception {
-
 	/** @var \Doctrine\DBAL\Exception */
 	private $original;
 
@@ -72,6 +73,10 @@ class DbalException extends Exception {
 			is_int($original->getCode()) ? $original->getCode() : 0,
 			empty($message) ? $original->getMessage() : $message
 		);
+	}
+
+	public function isRetryable(): bool {
+		return $this->original instanceof RetryableException;
 	}
 
 	public function getReason(): ?int {

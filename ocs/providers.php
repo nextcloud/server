@@ -23,7 +23,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 require_once __DIR__ . '/../lib/versioncheck.php';
 require_once __DIR__ . '/../lib/base.php';
 
@@ -35,7 +34,7 @@ $url = $request->getServerProtocol() . '://' . substr($request->getServerHost() 
 
 $writer = new XMLWriter();
 $writer->openURI('php://output');
-$writer->startDocument('1.0','UTF-8');
+$writer->startDocument('1.0', 'UTF-8');
 $writer->setIndent(true);
 $writer->startElement('providers');
 $writer->startElement('provider');

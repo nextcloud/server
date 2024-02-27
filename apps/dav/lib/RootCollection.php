@@ -7,6 +7,7 @@
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <vincent@nextcloud.com>
  *
@@ -25,9 +26,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV;
 
+use OC\KnownUser\KnownUserService;
 use OCA\DAV\AppInfo\PluginManager;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\CalendarRoot;
@@ -36,6 +37,7 @@ use OCA\DAV\CalDAV\Proxy\ProxyMapper;
 use OCA\DAV\CalDAV\PublicCalendarRoot;
 use OCA\DAV\CalDAV\ResourceBooking\ResourcePrincipalBackend;
 use OCA\DAV\CalDAV\ResourceBooking\RoomPrincipalBackend;
+use OCA\DAV\CalDAV\Sharing\Backend;
 use OCA\DAV\CardDAV\AddressBookRoot;
 use OCA\DAV\CardDAV\CardDavBackend;
 use OCA\DAV\Connector\Sabre\Principal;
@@ -43,35 +45,43 @@ use OCA\DAV\DAV\GroupPrincipalBackend;
 use OCA\DAV\DAV\SystemPrincipalBackend;
 use OCA\DAV\Provisioning\Apple\AppleProvisioningNode;
 use OCA\DAV\Upload\CleanupService;
+use OCP\Accounts\IAccountManager;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\IRootFolder;
+use OCP\IConfig;
+use Psr\Log\LoggerInterface;
 use Sabre\DAV\SimpleCollection;
 
 class RootCollection extends SimpleCollection {
 	public function __construct() {
-		$config = \OC::$server->getConfig();
 		$l10n = \OC::$server->getL10N('dav');
 		$random = \OC::$server->getSecureRandom();
-		$logger = \OC::$server->getLogger();
+		$logger = \OC::$server->get(LoggerInterface::class);
 		$userManager = \OC::$server->getUserManager();
 		$userSession = \OC::$server->getUserSession();
 		$groupManager = \OC::$server->getGroupManager();
 		$shareManager = \OC::$server->getShareManager();
 		$db = \OC::$server->getDatabaseConnection();
 		$dispatcher = \OC::$server->get(IEventDispatcher::class);
-		$legacyDispatcher = \OC::$server->getEventDispatcher();
+		$config = \OC::$server->get(IConfig::class);
 		$proxyMapper = \OC::$server->query(ProxyMapper::class);
+		$rootFolder = \OCP\Server::get(IRootFolder::class);
 
 		$userPrincipalBackend = new Principal(
 			$userManager,
 			$groupManager,
+			\OC::$server->get(IAccountManager::class),
 			$shareManager,
 			\OC::$server->getUserSession(),
 			\OC::$server->getAppManager(),
 			$proxyMapper,
-			\OC::$server->getConfig()
+			\OC::$server->get(KnownUserService::class),
+			\OC::$server->getConfig(),
+			\OC::$server->getL10NFactory()
 		);
+
 		$groupPrincipalBackend = new GroupPrincipalBackend($groupManager, $userSession, $shareManager, $config);
 		$calendarResourcePrincipalBackend = new ResourcePrincipalBackend($db, $userSession, $groupManager, $logger, $proxyMapper);
 		$calendarRoomPrincipalBackend = new RoomPrincipalBackend($db, $userSession, $groupManager, $logger, $proxyMapper);
@@ -89,23 +99,30 @@ class RootCollection extends SimpleCollection {
 		$calendarResourcePrincipals->disableListing = $disableListing;
 		$calendarRoomPrincipals = new Collection($calendarRoomPrincipalBackend, 'principals/calendar-rooms');
 		$calendarRoomPrincipals->disableListing = $disableListing;
-
+		$calendarSharingBackend = \OC::$server->get(Backend::class);
 
 		$filesCollection = new Files\RootCollection($userPrincipalBackend, 'principals/users');
 		$filesCollection->disableListing = $disableListing;
-		$caldavBackend = new CalDavBackend($db, $userPrincipalBackend, $userManager, $groupManager, $random, $logger, $dispatcher, $legacyDispatcher);
-		$userCalendarRoot = new CalendarRoot($userPrincipalBackend, $caldavBackend, 'principals/users');
+		$caldavBackend = new CalDavBackend(
+			$db,
+			$userPrincipalBackend,
+			$userManager,
+			$random,
+			$logger,
+			$dispatcher,
+			$config,
+			$calendarSharingBackend,
+			false,
+		);
+		$userCalendarRoot = new CalendarRoot($userPrincipalBackend, $caldavBackend, 'principals/users', $logger);
 		$userCalendarRoot->disableListing = $disableListing;
 
-		$resourceCalendarCaldavBackend = new CalDavBackend($db, $userPrincipalBackend, $userManager, $groupManager, $random, $logger, $dispatcher, $legacyDispatcher);
-		$resourceCalendarRoot = new CalendarRoot($calendarResourcePrincipalBackend, $caldavBackend, 'principals/calendar-resources');
+		$resourceCalendarRoot = new CalendarRoot($calendarResourcePrincipalBackend, $caldavBackend, 'principals/calendar-resources', $logger);
 		$resourceCalendarRoot->disableListing = $disableListing;
-		$roomCalendarCaldavBackend = new CalDavBackend($db, $userPrincipalBackend, $userManager, $groupManager, $random, $logger, $dispatcher, $legacyDispatcher);
-		$roomCalendarRoot = new CalendarRoot($calendarRoomPrincipalBackend, $roomCalendarCaldavBackend, 'principals/calendar-rooms');
+		$roomCalendarRoot = new CalendarRoot($calendarRoomPrincipalBackend, $caldavBackend, 'principals/calendar-rooms', $logger);
 		$roomCalendarRoot->disableListing = $disableListing;
 
-		$publicCalendarRoot = new PublicCalendarRoot($caldavBackend, $l10n, $config);
-		$publicCalendarRoot->disableListing = $disableListing;
+		$publicCalendarRoot = new PublicCalendarRoot($caldavBackend, $l10n, $config, $logger);
 
 		$systemTagCollection = new SystemTag\SystemTagsByIdCollection(
 			\OC::$server->getSystemTagManager(),
@@ -117,23 +134,38 @@ class RootCollection extends SimpleCollection {
 			\OC::$server->getSystemTagObjectMapper(),
 			\OC::$server->getUserSession(),
 			$groupManager,
-			\OC::$server->getEventDispatcher()
+			$dispatcher
 		);
+		$systemTagInUseCollection = \OCP\Server::get(SystemTag\SystemTagsInUseCollection::class);
 		$commentsCollection = new Comments\RootCollection(
 			\OC::$server->getCommentsManager(),
 			$userManager,
 			\OC::$server->getUserSession(),
-			\OC::$server->getEventDispatcher(),
-			\OC::$server->getLogger()
+			$dispatcher,
+			$logger
 		);
 
+		$contactsSharingBackend = \OC::$server->get(\OCA\DAV\CardDAV\Sharing\Backend::class);
+
 		$pluginManager = new PluginManager(\OC::$server, \OC::$server->query(IAppManager::class));
-		$usersCardDavBackend = new CardDavBackend($db, $userPrincipalBackend, $userManager, $groupManager, $dispatcher, $legacyDispatcher);
-		$usersAddressBookRoot = new AddressBookRoot($userPrincipalBackend, $usersCardDavBackend, $pluginManager, 'principals/users');
+		$usersCardDavBackend = new CardDavBackend(
+			$db,
+			$userPrincipalBackend,
+			$userManager,
+			$dispatcher,
+			$contactsSharingBackend,
+		);
+		$usersAddressBookRoot = new AddressBookRoot($userPrincipalBackend, $usersCardDavBackend, $pluginManager, $userSession->getUser(), $groupManager, 'principals/users');
 		$usersAddressBookRoot->disableListing = $disableListing;
 
-		$systemCardDavBackend = new CardDavBackend($db, $userPrincipalBackend, $userManager, $groupManager, $dispatcher, $legacyDispatcher);
-		$systemAddressBookRoot = new AddressBookRoot(new SystemPrincipalBackend(), $systemCardDavBackend, $pluginManager, 'principals/system');
+		$systemCardDavBackend = new CardDavBackend(
+			$db,
+			$userPrincipalBackend,
+			$userManager,
+			$dispatcher,
+			$contactsSharingBackend,
+		);
+		$systemAddressBookRoot = new AddressBookRoot(new SystemPrincipalBackend(), $systemCardDavBackend, $pluginManager, $userSession->getUser(), $groupManager, 'principals/system');
 		$systemAddressBookRoot->disableListing = $disableListing;
 
 		$uploadCollection = new Upload\RootCollection(
@@ -167,6 +199,7 @@ class RootCollection extends SimpleCollection {
 				$systemAddressBookRoot]),
 			$systemTagCollection,
 			$systemTagRelationsCollection,
+			$systemTagInUseCollection,
 			$commentsCollection,
 			$uploadCollection,
 			$avatarCollection,

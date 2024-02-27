@@ -14,14 +14,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCP\Calendar\Room;
 
 use OCP\Calendar\BackendTemporarilyUnavailableException;
@@ -32,7 +31,6 @@ use OCP\Calendar\BackendTemporarilyUnavailableException;
  * @since 14.0.0
  */
 interface IBackend {
-
 	/**
 	 * get a list of all rooms in this backend
 	 *

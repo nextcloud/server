@@ -16,14 +16,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCP\Authentication\TwoFactorAuth;
 
 /**
@@ -33,7 +32,6 @@ namespace OCP\Authentication\TwoFactorAuth;
  * @since 15.0.0
  */
 interface IProvidesIcons extends IProvider {
-
 	/**
 	 * Get the path to the light (white) icon of this provider
 	 *

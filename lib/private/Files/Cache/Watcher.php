@@ -24,7 +24,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Files\Cache;
 
 use OCP\Files\Cache\ICacheEntry;
@@ -89,7 +88,14 @@ class Watcher implements IWatcher {
 		}
 		if ($cachedEntry === false || $this->needsUpdate($path, $cachedEntry)) {
 			$this->update($path, $cachedEntry);
-			return true;
+
+			if ($cachedEntry === false) {
+				return true;
+			} else {
+				// storage backends can sometimes return false positives, only return true if the scanner actually found a change
+				$newEntry = $this->cache->get($path);
+				return $newEntry->getStorageMTime() > $cachedEntry->getStorageMTime();
+			}
 		} else {
 			return false;
 		}
@@ -123,7 +129,7 @@ class Watcher implements IWatcher {
 	 * @return bool
 	 */
 	public function needsUpdate($path, $cachedData) {
-		if ($this->watchPolicy === self::CHECK_ALWAYS or ($this->watchPolicy === self::CHECK_ONCE and array_search($path, $this->checkedPaths) === false)) {
+		if ($this->watchPolicy === self::CHECK_ALWAYS or ($this->watchPolicy === self::CHECK_ONCE and !in_array($path, $this->checkedPaths))) {
 			$this->checkedPaths[] = $path;
 			return $this->storage->hasUpdated($path, $cachedData['storage_mtime']);
 		}

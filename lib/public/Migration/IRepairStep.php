@@ -21,7 +21,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP\Migration;
 
 /**
@@ -29,7 +28,6 @@ namespace OCP\Migration;
  * @since 9.1.0
  */
 interface IRepairStep {
-
 	/**
 	 * Returns the step's name
 	 *

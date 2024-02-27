@@ -20,7 +20,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\Connector\Sabre;
 
 use Sabre\Xml\Writer;
@@ -36,17 +35,14 @@ class ChecksumList implements XmlSerializable {
 	public const NS_OWNCLOUD = 'http://owncloud.org/ns';
 
 	/** @var string[] of TYPE:CHECKSUM */
-	private $checksums;
+	private array $checksums;
 
-	/**
-	 * @param string $checksum
-	 */
-	public function __construct($checksum) {
-		$this->checksums = explode(',', $checksum);
+	public function __construct(string $checksum) {
+		$this->checksums = explode(' ', $checksum);
 	}
 
 	/**
-	 * The xmlSerialize metod is called during xml writing.
+	 * The xmlSerialize method is called during xml writing.
 	 *
 	 * Use the $writer argument to write its own xml serialization.
 	 *

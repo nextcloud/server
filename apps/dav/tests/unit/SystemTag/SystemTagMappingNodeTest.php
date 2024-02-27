@@ -23,7 +23,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\Tests\unit\SystemTag;
 
 use OC\SystemTag\SystemTag;
@@ -75,7 +74,7 @@ class SystemTagMappingNodeTest extends \Test\TestCase {
 		);
 	}
 
-	public function testGetters() {
+	public function testGetters(): void {
 		$tag = new SystemTag(1, 'Test', true, false);
 		$node = $this->getMappingNode($tag);
 		$this->assertEquals('1', $node->getName());
@@ -84,7 +83,7 @@ class SystemTagMappingNodeTest extends \Test\TestCase {
 		$this->assertEquals('files', $node->getObjectType());
 	}
 
-	public function testDeleteTag() {
+	public function testDeleteTag(): void {
 		$node = $this->getMappingNode();
 		$this->tagManager->expects($this->once())
 			->method('canUserSeeTag')
@@ -121,7 +120,7 @@ class SystemTagMappingNodeTest extends \Test\TestCase {
 	/**
 	 * @dataProvider tagNodeDeleteProviderPermissionException
 	 */
-	public function testDeleteTagExpectedException(ISystemTag $tag, $expectedException) {
+	public function testDeleteTagExpectedException(ISystemTag $tag, $expectedException): void {
 		$this->tagManager->expects($this->any())
 			->method('canUserSeeTag')
 			->with($tag)
@@ -146,7 +145,7 @@ class SystemTagMappingNodeTest extends \Test\TestCase {
 	}
 
 	
-	public function testDeleteTagNotFound() {
+	public function testDeleteTagNotFound(): void {
 		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
 
 		// assuming the tag existed at the time the node was created,

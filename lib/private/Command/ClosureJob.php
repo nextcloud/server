@@ -20,14 +20,15 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Command;
 
-use OC\BackgroundJob\QueuedJob;
+use Laravel\SerializableClosure\SerializableClosure as LaravelClosure;
+use OCP\BackgroundJob\QueuedJob;
 
 class ClosureJob extends QueuedJob {
-	protected function run($serializedCallable) {
-		$callable = \Opis\Closure\unserialize($serializedCallable);
+	protected function run($argument) {
+		$callable = unserialize($argument, [LaravelClosure::class]);
+		$callable = $callable->getClosure();
 		if (is_callable($callable)) {
 			$callable();
 		} else {

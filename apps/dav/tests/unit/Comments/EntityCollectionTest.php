@@ -23,15 +23,14 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\Tests\unit\Comments;
 
 use OCA\DAV\Comments\EntityCollection;
 use OCP\Comments\IComment;
 use OCP\Comments\ICommentsManager;
-use OCP\ILogger;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use Psr\Log\LoggerInterface;
 
 class EntityCollectionTest extends \Test\TestCase {
 
@@ -39,7 +38,7 @@ class EntityCollectionTest extends \Test\TestCase {
 	protected $commentsManager;
 	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $userManager;
-	/** @var ILogger|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
 	protected $logger;
 	/** @var EntityCollection */
 	protected $collection;
@@ -58,7 +57,7 @@ class EntityCollectionTest extends \Test\TestCase {
 		$this->userSession = $this->getMockBuilder(IUserSession::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$this->logger = $this->getMockBuilder(ILogger::class)
+		$this->logger = $this->getMockBuilder(LoggerInterface::class)
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -72,11 +71,11 @@ class EntityCollectionTest extends \Test\TestCase {
 		);
 	}
 
-	public function testGetId() {
+	public function testGetId(): void {
 		$this->assertSame($this->collection->getId(), '19');
 	}
 
-	public function testGetChild() {
+	public function testGetChild(): void {
 		$this->commentsManager->expects($this->once())
 			->method('get')
 			->with('55')
@@ -91,7 +90,7 @@ class EntityCollectionTest extends \Test\TestCase {
 	}
 
 
-	public function testGetChildException() {
+	public function testGetChildException(): void {
 		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
 
 		$this->commentsManager->expects($this->once())
@@ -102,7 +101,7 @@ class EntityCollectionTest extends \Test\TestCase {
 		$this->collection->getChild('55');
 	}
 
-	public function testGetChildren() {
+	public function testGetChildren(): void {
 		$this->commentsManager->expects($this->once())
 			->method('getForObject')
 			->with('files', '19')
@@ -118,7 +117,7 @@ class EntityCollectionTest extends \Test\TestCase {
 		$this->assertTrue($result[0] instanceof \OCA\DAV\Comments\CommentNode);
 	}
 
-	public function testFindChildren() {
+	public function testFindChildren(): void {
 		$dt = new \DateTime('2016-01-10 18:48:00');
 		$this->commentsManager->expects($this->once())
 			->method('getForObject')
@@ -135,11 +134,11 @@ class EntityCollectionTest extends \Test\TestCase {
 		$this->assertTrue($result[0] instanceof \OCA\DAV\Comments\CommentNode);
 	}
 
-	public function testChildExistsTrue() {
+	public function testChildExistsTrue(): void {
 		$this->assertTrue($this->collection->childExists('44'));
 	}
 
-	public function testChildExistsFalse() {
+	public function testChildExistsFalse(): void {
 		$this->commentsManager->expects($this->once())
 			->method('get')
 			->with('44')

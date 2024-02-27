@@ -1,0 +1,5 @@
+{ "translations": {
+    "Lookup Server Connector" : "ルックアップサーバーコネクタ",
+    "Sync public user information with the lookup server" : "公開されたユーザー情報をルックアップサーバーに同期"
+},"pluralForm" :"nplurals=1; plural=0;"
+}

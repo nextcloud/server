@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
@@ -14,23 +17,19 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
-declare(strict_types=1);
-
 namespace OC\Authentication\Login;
 
 use OC\User\Session;
 use OCP\IConfig;
 
 class FinishRememberedLoginCommand extends ALoginCommand {
-
 	/** @var Session */
 	private $userSession;
 	/** @var IConfig */
@@ -42,7 +41,7 @@ class FinishRememberedLoginCommand extends ALoginCommand {
 	}
 
 	public function process(LoginData $loginData): LoginResult {
-		if ($loginData->isRememberLogin() && $this->config->getSystemValue('auto_logout', false) === false) {
+		if ($loginData->isRememberLogin() && !$this->config->getSystemValueBool('auto_logout', false)) {
 			$this->userSession->createRememberMeToken($loginData->getUser());
 		}
 

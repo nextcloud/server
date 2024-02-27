@@ -18,14 +18,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\BackgroundJob;
 
 use OCA\DAV\CalDAV\Reminder\ReminderService;
@@ -33,7 +32,7 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
 use OCP\BackgroundJob\QueuedJob;
 use OCP\IDBConnection;
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class BuildReminderIndexBackgroundJob
@@ -48,8 +47,7 @@ class BuildReminderIndexBackgroundJob extends QueuedJob {
 	/** @var ReminderService */
 	private $reminderService;
 
-	/** @var ILogger */
-	private $logger;
+	private LoggerInterface $logger;
 
 	/** @var IJobList */
 	private $jobList;
@@ -59,18 +57,12 @@ class BuildReminderIndexBackgroundJob extends QueuedJob {
 
 	/**
 	 * BuildReminderIndexBackgroundJob constructor.
-	 *
-	 * @param IDBConnection $db
-	 * @param ReminderService $reminderService
-	 * @param ILogger $logger
-	 * @param IJobList $jobList
-	 * @param ITimeFactory $timeFactory
 	 */
 	public function __construct(IDBConnection $db,
-								ReminderService $reminderService,
-								ILogger $logger,
-								IJobList $jobList,
-								ITimeFactory $timeFactory) {
+		ReminderService $reminderService,
+		LoggerInterface $logger,
+		IJobList $jobList,
+		ITimeFactory $timeFactory) {
 		parent::__construct($timeFactory);
 		$this->db = $db;
 		$this->reminderService = $reminderService;
@@ -79,12 +71,9 @@ class BuildReminderIndexBackgroundJob extends QueuedJob {
 		$this->timeFactory = $timeFactory;
 	}
 
-	/**
-	 * @param $arguments
-	 */
-	public function run($arguments) {
-		$offset = (int) $arguments['offset'];
-		$stopAt = (int) $arguments['stopAt'];
+	public function run($argument) {
+		$offset = (int) $argument['offset'];
+		$stopAt = (int) $argument['stopAt'];
 
 		$this->logger->info('Building calendar reminder index (' . $offset .'/' . $stopAt . ')');
 
@@ -116,25 +105,27 @@ class BuildReminderIndexBackgroundJob extends QueuedJob {
 			->andWhere($query->expr()->gt('id', $query->createNamedParameter($offset)))
 			->orderBy('id', 'ASC');
 
-		$stmt = $query->execute();
-		while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
-			$offset = $row['id'];
+		$result = $query->executeQuery();
+		while ($row = $result->fetch(\PDO::FETCH_ASSOC)) {
+			$offset = (int) $row['id'];
 			if (is_resource($row['calendardata'])) {
 				$row['calendardata'] = stream_get_contents($row['calendardata']);
 			}
 			$row['component'] = $row['componenttype'];
 
 			try {
-				$this->reminderService->onTouchCalendarObject('\OCA\DAV\CalDAV\CalDavBackend::createCalendarObject', $row);
+				$this->reminderService->onCalendarObjectCreate($row);
 			} catch (\Exception $ex) {
-				$this->logger->logException($ex);
+				$this->logger->error($ex->getMessage(), ['exception' => $ex]);
 			}
 
 			if (($this->timeFactory->getTime() - $startTime) > 15) {
+				$result->closeCursor();
 				return $offset;
 			}
 		}
 
+		$result->closeCursor();
 		return $stopAt;
 	}
 }

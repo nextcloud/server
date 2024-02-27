@@ -3,11 +3,9 @@ OC.L10N.register(
     {
     "Dashboard" : "Πίνακας ελέγχου",
     "Dashboard app" : "Εφαρμογή Πίνακα Ελέγχου",
-    "Show something" : "Δείξε οτιδήποτε",
     "Customize" : "Προσαρμογή",
     "Edit widgets" : "Επεξεργασία μικροεφαρμογών",
-    "Get more widgets from the app store" : "Λάβετε περισσότερες μικροεφαρμογές από το App Store",
-    "Change background image" : "Αλλαγή φωτογραφίας παρασκηνίου",
+    "Get more widgets from the App Store" : "Λάβετε περισσότερες μικροεφαρμογές από το App Store",
     "Weather service" : "Υπηρεσία καιρού",
     "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "Για το απόρρητό σας, τα δεδομένα καιρού ζητούνται από τον διακομιστή Nextcloud για λογαριασμό σας, ώστε η υπηρεσία καιρού να μην λαμβάνει προσωπικά στοιχεία.",
     "Weather data from Met.no" : "Δεδομένα καιρού από το Met.no",
@@ -22,13 +20,7 @@ OC.L10N.register(
     "Good evening" : "Καλό βράδυ",
     "Good evening, {name}" : "Καλό βράδυ, {name}",
     "Hello" : "Γειά",
-    "Hello, {name}" : "Γειά, {όνομα}",
-    "Pick from Files" : "Επιλέξτε από αρχεία",
-    "Default images" : "Προεπιλεγμένες εικόνες",
-    "Plain background" : "Απλό παρασκήνιο",
-    "Insert from {productName}" : "Εισαγωγή από {productName}",
-    "Good night, {name}" : "Καληνύχτα, {name}",
-    "Good night" : "Καληνύχτα",
-    "Pick from files" : "Επιλογή από τα αρχεία"
+    "Hello, {name}" : "Γειά, {name}",
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an\noverview of your upcoming appointments, urgent emails, chat messages,\nincoming tickets, latest tweets and much more! Users can add the widgets\nthey like and change the background to their liking." : "Ξεκινήστε τη μέρα σας ενημερωμένοι\n\nΤο Nextcloud Dashboard είναι το σημείο εκκίνησης της ημέρας, δίνοντάς σας μια επισκόπηση των επερχόμενων ραντεβού, των επειγόντων email, των μηνυμάτων συνομιλίας, και πολλά άλλα!\nΟι χρήστες μπορούν να προσθέσουν μικροεφαρμογές και να αλλάζουν το φόντο σύμφωνα με τις προτιμήσεις τους."
 },
 "nplurals=2; plural=(n != 1);");

@@ -1,0 +1,33 @@
+# This workflow is provided via the organization template repository
+#
+# https://github.com/nextcloud/.github
+# https://docs.github.com/en/actions/learn-github-actions/sharing-workflows-with-your-organization
+
+name: Block fixup and squash commits
+
+on:
+  pull_request:
+    types: [opened, ready_for_review, reopened, synchronize]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: fixup-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  commit-message-check:
+    if: github.event.pull_request.draft == false
+
+    permissions:
+      pull-requests: write
+    name: Block fixup and squash commits
+
+    runs-on: ubuntu-latest-low
+
+    steps:
+      - name: Run check
+        uses: skjnldsv/block-fixup-merge-action@42d26e1b536ce61e5cf467d65fb76caf4aa85acf # v1
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}

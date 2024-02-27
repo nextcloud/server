@@ -15,33 +15,27 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\App\AppStore\Bundles;
 
 use OCP\IL10N;
 
 class BundleFetcher {
-	/** @var IL10N */
-	private $l10n;
-
-	/**
-	 * @param IL10N $l10n
-	 */
-	public function __construct(IL10N $l10n) {
-		$this->l10n = $l10n;
+	public function __construct(
+		private IL10N $l10n,
+	) {
 	}
 
 	/**
 	 * @return Bundle[]
 	 */
-	public function getBundles() {
+	public function getBundles(): array {
 		return [
 			new EnterpriseBundle($this->l10n),
 			new HubBundle($this->l10n),
@@ -52,30 +46,14 @@ class BundleFetcher {
 	}
 
 	/**
-	 * Bundles that should be installed by default after installation
-	 *
-	 * @return Bundle[]
-	 */
-	public function getDefaultInstallationBundle() {
-		return [
-			new CoreBundle($this->l10n),
-		];
-	}
-
-	/**
 	 * Get the bundle with the specified identifier
 	 *
 	 * @param string $identifier
 	 * @return Bundle
 	 * @throws \BadMethodCallException If the bundle does not exist
 	 */
-	public function getBundleByIdentifier($identifier) {
-		/** @var Bundle[] $bundles */
-		$bundles = array_merge(
-			$this->getBundles(),
-			$this->getDefaultInstallationBundle()
-		);
-		foreach ($bundles as $bundle) {
+	public function getBundleByIdentifier(string $identifier): Bundle {
+		foreach ($this->getBundles() as $bundle) {
 			if ($bundle->getIdentifier() === $identifier) {
 				return $bundle;
 			}

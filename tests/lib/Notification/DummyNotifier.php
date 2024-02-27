@@ -28,7 +28,6 @@ use OCP\Notification\INotification;
 use OCP\Notification\INotifier;
 
 class DummyNotifier implements INotifier {
-
 	/**
 	 * Identifier of the notifier, only use [a-z0-9_]
 	 *

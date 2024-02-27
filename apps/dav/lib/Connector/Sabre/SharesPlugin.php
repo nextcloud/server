@@ -26,12 +26,18 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\Connector\Sabre;
 
+use OCA\DAV\Connector\Sabre\Node as DavNode;
+use OCP\Files\Folder;
+use OCP\Files\Node;
+use OCP\Files\NotFoundException;
 use OCP\IUserSession;
+use OCP\Share\IManager;
 use OCP\Share\IShare;
 use Sabre\DAV\PropFind;
+use Sabre\DAV\Server;
+use Sabre\DAV\Tree;
 
 /**
  * Sabre Plugin to provide share-related properties
@@ -48,43 +54,20 @@ class SharesPlugin extends \Sabre\DAV\ServerPlugin {
 	 * @var \Sabre\DAV\Server
 	 */
 	private $server;
+	private IManager $shareManager;
+	private Tree $tree;
+	private string $userId;
+	private Folder $userFolder;
+	/** @var IShare[][] */
+	private array $cachedShares = [];
+	/** @var string[] */
+	private array $cachedFolders = [];
 
-	/**
-	 * @var \OCP\Share\IManager
-	 */
-	private $shareManager;
-
-	/**
-	 * @var \Sabre\DAV\Tree
-	 */
-	private $tree;
-
-	/**
-	 * @var string
-	 */
-	private $userId;
-
-	/**
-	 * @var \OCP\Files\Folder
-	 */
-	private $userFolder;
-
-	/** @var IShare[] */
-	private $cachedShares = [];
-
-	private $cachedFolders = [];
-
-	/**
-	 * @param \Sabre\DAV\Tree $tree tree
-	 * @param IUserSession $userSession user session
-	 * @param \OCP\Files\Folder $userFolder user home folder
-	 * @param \OCP\Share\IManager $shareManager share manager
-	 */
 	public function __construct(
-		\Sabre\DAV\Tree $tree,
+		Tree $tree,
 		IUserSession $userSession,
-		\OCP\Files\Folder $userFolder,
-		\OCP\Share\IManager $shareManager
+		Folder $userFolder,
+		IManager $shareManager
 	) {
 		$this->tree = $tree;
 		$this->shareManager = $shareManager;
@@ -100,10 +83,10 @@ class SharesPlugin extends \Sabre\DAV\ServerPlugin {
 	 *
 	 * This method should set up the required event subscriptions.
 	 *
-	 * @param \Sabre\DAV\Server $server
+	 * @return void
 	 */
-	public function initialize(\Sabre\DAV\Server $server) {
-		$server->xml->namespacesMap[self::NS_OWNCLOUD] = 'oc';
+	public function initialize(Server $server) {
+		$server->xml->namespaceMap[self::NS_OWNCLOUD] = 'oc';
 		$server->xml->elementMap[self::SHARETYPES_PROPERTYNAME] = ShareTypeList::class;
 		$server->protectedProperties[] = self::SHARETYPES_PROPERTYNAME;
 		$server->protectedProperties[] = self::SHAREES_PROPERTYNAME;
@@ -112,7 +95,11 @@ class SharesPlugin extends \Sabre\DAV\ServerPlugin {
 		$this->server->on('propFind', [$this, 'handleGetProperties']);
 	}
 
-	private function getShare(\OCP\Files\Node $node): array {
+	/**
+	 * @param Node $node
+	 * @return IShare[]
+	 */
+	private function getShare(Node $node): array {
 		$result = [];
 		$requestedShareTypes = [
 			IShare::TYPE_USER,
@@ -123,6 +110,7 @@ class SharesPlugin extends \Sabre\DAV\ServerPlugin {
 			IShare::TYPE_ROOM,
 			IShare::TYPE_CIRCLE,
 			IShare::TYPE_DECK,
+			IShare::TYPE_SCIENCEMESH,
 		];
 		foreach ($requestedShareTypes as $requestedShareType) {
 			$shares = $this->shareManager->getSharesBy(
@@ -139,7 +127,11 @@ class SharesPlugin extends \Sabre\DAV\ServerPlugin {
 		return $result;
 	}
 
-	private function getSharesFolder(\OCP\Files\Folder $node): array {
+	/**
+	 * @param Folder $node
+	 * @return IShare[][]
+	 */
+	private function getSharesFolder(Folder $node): array {
 		return $this->shareManager->getSharesInFolder(
 			$this->userId,
 			$node,
@@ -147,7 +139,11 @@ class SharesPlugin extends \Sabre\DAV\ServerPlugin {
 		);
 	}
 
-	private function getShares(\Sabre\DAV\INode $sabreNode): array {
+	/**
+	 * @param DavNode $sabreNode
+	 * @return IShare[]
+	 */
+	private function getShares(DavNode $sabreNode): array {
 		if (isset($this->cachedShares[$sabreNode->getId()])) {
 			$shares = $this->cachedShares[$sabreNode->getId()];
 		} else {
@@ -157,7 +153,11 @@ class SharesPlugin extends \Sabre\DAV\ServerPlugin {
 			}
 			// if we already cached the folder this file is in we know there are no shares for this file
 			if (array_search($parentPath, $this->cachedFolders) === false) {
-				$node = $this->userFolder->get($sabreNode->getPath());
+				try {
+					$node = $sabreNode->getNode();
+				} catch (NotFoundException $e) {
+					return [];
+				}
 				$shares = $this->getShare($node);
 				$this->cachedShares[$sabreNode->getId()] = $shares;
 			} else {
@@ -178,20 +178,19 @@ class SharesPlugin extends \Sabre\DAV\ServerPlugin {
 		PropFind $propFind,
 		\Sabre\DAV\INode $sabreNode
 	) {
-		if (!($sabreNode instanceof \OCA\DAV\Connector\Sabre\Node)) {
+		if (!($sabreNode instanceof DavNode)) {
 			return;
 		}
 
 		// need prefetch ?
-		if ($sabreNode instanceof \OCA\DAV\Connector\Sabre\Directory
+		if ($sabreNode instanceof Directory
 			&& $propFind->getDepth() !== 0
 			&& (
 				!is_null($propFind->getStatus(self::SHARETYPES_PROPERTYNAME)) ||
 				!is_null($propFind->getStatus(self::SHAREES_PROPERTYNAME))
 			)
 		) {
-			$folderNode = $this->userFolder->get($sabreNode->getPath());
-
+			$folderNode = $sabreNode->getNode();
 			$this->cachedFolders[] = $sabreNode->getPath();
 			$childShares = $this->getSharesFolder($folderNode);
 			foreach ($childShares as $id => $shares) {
@@ -199,7 +198,7 @@ class SharesPlugin extends \Sabre\DAV\ServerPlugin {
 			}
 		}
 
-		$propFind->handle(self::SHARETYPES_PROPERTYNAME, function () use ($sabreNode) {
+		$propFind->handle(self::SHARETYPES_PROPERTYNAME, function () use ($sabreNode): ShareTypeList {
 			$shares = $this->getShares($sabreNode);
 
 			$shareTypes = array_unique(array_map(function (IShare $share) {
@@ -209,7 +208,7 @@ class SharesPlugin extends \Sabre\DAV\ServerPlugin {
 			return new ShareTypeList($shareTypes);
 		});
 
-		$propFind->handle(self::SHAREES_PROPERTYNAME, function () use ($sabreNode) {
+		$propFind->handle(self::SHAREES_PROPERTYNAME, function () use ($sabreNode): ShareeList {
 			$shares = $this->getShares($sabreNode);
 
 			return new ShareeList($shares);

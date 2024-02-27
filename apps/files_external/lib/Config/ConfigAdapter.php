@@ -5,6 +5,7 @@
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
@@ -26,14 +27,13 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_External\Config;
 
 use OC\Files\Storage\FailedStorage;
 use OC\Files\Storage\Wrapper\Availability;
+use OC\Files\Storage\Wrapper\KnownMtime;
 use OCA\Files_External\Lib\PersonalMount;
 use OCA\Files_External\Lib\StorageConfig;
-use OCA\Files_External\Migration\StorageMigrator;
 use OCA\Files_External\Service\UserGlobalStoragesService;
 use OCA\Files_External\Service\UserStoragesService;
 use OCP\Files\Config\IMountProvider;
@@ -41,33 +41,17 @@ use OCP\Files\Storage;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\Files\StorageNotAvailableException;
 use OCP\IUser;
+use Psr\Clock\ClockInterface;
 
 /**
  * Make the old files_external config work with the new public mount config api
  */
 class ConfigAdapter implements IMountProvider {
-
-	/** @var UserStoragesService */
-	private $userStoragesService;
-
-	/** @var UserGlobalStoragesService */
-	private $userGlobalStoragesService;
-	/** @var StorageMigrator  */
-	private $migrator;
-
-	/**
-	 * @param UserStoragesService $userStoragesService
-	 * @param UserGlobalStoragesService $userGlobalStoragesService
-	 * @param StorageMigrator $migrator
-	 */
 	public function __construct(
-		UserStoragesService $userStoragesService,
-		UserGlobalStoragesService $userGlobalStoragesService,
-		StorageMigrator $migrator
+		private UserStoragesService $userStoragesService,
+		private UserGlobalStoragesService $userGlobalStoragesService,
+		private ClockInterface $clock,
 	) {
-		$this->userStoragesService = $userStoragesService;
-		$this->userGlobalStoragesService = $userGlobalStoragesService;
-		$this->migrator = $migrator;
 	}
 
 	/**
@@ -120,8 +104,6 @@ class ConfigAdapter implements IMountProvider {
 	 * @return \OCP\Files\Mount\IMountPoint[]
 	 */
 	public function getMountsForUser(IUser $user, IStorageFactory $loader) {
-		$this->migrator->migrateUser($user);
-
 		$this->userStoragesService->setUser($user);
 		$this->userGlobalStoragesService->setUser($user);
 
@@ -158,12 +140,15 @@ class ConfigAdapter implements IMountProvider {
 		}, $storages, $storageConfigs);
 
 		$mounts = array_map(function (StorageConfig $storageConfig, Storage\IStorage $storage) use ($user, $loader) {
-			if ($storageConfig->getType() === StorageConfig::MOUNT_TYPE_PERSONAl) {
+			if ($storageConfig->getType() === StorageConfig::MOUNT_TYPE_PERSONAL) {
 				return new PersonalMount(
 					$this->userStoragesService,
 					$storageConfig,
 					$storageConfig->getId(),
-					$storage,
+					new KnownMtime([
+						'storage' => $storage,
+						'clock' => $this->clock,
+					]),
 					'/' . $user->getUID() . '/files' . $storageConfig->getMountPoint(),
 					null,
 					$loader,
@@ -171,7 +156,7 @@ class ConfigAdapter implements IMountProvider {
 					$storageConfig->getId()
 				);
 			} else {
-				return new ExternalMountPoint(
+				return new SystemMountPoint(
 					$storageConfig,
 					$storage,
 					'/' . $user->getUID() . '/files' . $storageConfig->getMountPoint(),

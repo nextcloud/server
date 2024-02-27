@@ -23,7 +23,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Encryption\Tests\Controller;
 
 use OCA\Encryption\Controller\SettingsController;
@@ -193,15 +192,16 @@ class SettingsControllerTest extends TestCase {
 			->method('get')->with('loginname')->willReturn('testUser');
 
 		$this->userManagerMock
-			->expects($this->at(0))
+			->expects($this->exactly(2))
 			->method('checkPassword')
-			->with('testUserUid', 'new')
-			->willReturn(false);
-		$this->userManagerMock
-			->expects($this->at(1))
-			->method('checkPassword')
-			->with('testUser', 'new')
-			->willReturn(true);
+			->withConsecutive(
+				['testUserUid', 'new'],
+				['testUser', 'new'],
+			)
+			->willReturnOnConsecutiveCalls(
+				false,
+				true,
+			);
 
 
 

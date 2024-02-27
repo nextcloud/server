@@ -20,7 +20,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Diagnostics;
 
 use OCP\Diagnostics\IEvent;
@@ -100,5 +99,9 @@ class Event implements IEvent {
 			$this->end = microtime(true);
 		}
 		return $this->end - $this->start;
+	}
+
+	public function __toString() {
+		return $this->getId() . ' ' . $this->getDescription() . ' ' . $this->getDuration();
 	}
 }

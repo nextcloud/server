@@ -24,7 +24,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\Tests\unit\DAV\Sharing;
 
 use OCA\DAV\Connector\Sabre\Auth;
@@ -70,7 +69,7 @@ class PluginTest extends TestCase {
 		$this->plugin->initialize($this->server);
 	}
 
-	public function testSharing() {
+	public function testSharing(): void {
 		$this->book->expects($this->once())->method('updateShares')->with([[
 			'href' => 'principal:principals/admin',
 			'commonName' => null,

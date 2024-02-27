@@ -14,17 +14,19 @@ namespace Test\App;
 use OC\App\AppManager;
 use OC\AppConfig;
 use OCP\App\AppPathNotFoundException;
+use OCP\App\Events\AppDisableEvent;
+use OCP\App\Events\AppEnableEvent;
 use OCP\App\IAppManager;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IGroupManager;
-use OCP\ILogger;
 use OCP\IUser;
 use OCP\IUserSession;
 use PHPUnit\Framework\MockObject\MockObject;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 /**
@@ -90,10 +92,10 @@ class AppManagerTest extends TestCase {
 	/** @var ICacheFactory|MockObject */
 	protected $cacheFactory;
 
-	/** @var EventDispatcherInterface|MockObject */
+	/** @var IEventDispatcher|MockObject */
 	protected $eventDispatcher;
 
-	/** @var ILogger|MockObject */
+	/** @var LoggerInterface|MockObject */
 	protected $logger;
 
 	/** @var IAppManager */
@@ -108,8 +110,8 @@ class AppManagerTest extends TestCase {
 		$this->appConfig = $this->getAppConfig();
 		$this->cacheFactory = $this->createMock(ICacheFactory::class);
 		$this->cache = $this->createMock(ICache::class);
-		$this->eventDispatcher = $this->createMock(EventDispatcherInterface::class);
-		$this->logger = $this->createMock(ILogger::class);
+		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->cacheFactory->expects($this->any())
 			->method('createDistributed')
 			->with('settings')
@@ -125,24 +127,18 @@ class AppManagerTest extends TestCase {
 		);
 	}
 
-	protected function expectClearCache() {
-		$this->cache->expects($this->once())
-			->method('clear')
-			->with('listApps');
-	}
-
 	public function testEnableApp() {
-		$this->expectClearCache();
 		// making sure "files_trashbin" is disabled
 		if ($this->manager->isEnabledForUser('files_trashbin')) {
 			$this->manager->disableApp('files_trashbin');
 		}
+		$this->eventDispatcher->expects($this->once())->method('dispatchTyped')->with(new AppEnableEvent('files_trashbin'));
 		$this->manager->enableApp('files_trashbin');
 		$this->assertEquals('yes', $this->appConfig->getValue('files_trashbin', 'enabled', 'no'));
 	}
 
 	public function testDisableApp() {
-		$this->expectClearCache();
+		$this->eventDispatcher->expects($this->once())->method('dispatchTyped')->with(new AppDisableEvent('files_trashbin'));
 		$this->manager->disableApp('files_trashbin');
 		$this->assertEquals('no', $this->appConfig->getValue('files_trashbin', 'enabled', 'no'));
 	}
@@ -170,7 +166,6 @@ class AppManagerTest extends TestCase {
 			->willReturn('group2');
 
 		$groups = [$group1, $group2];
-		$this->expectClearCache();
 
 		/** @var AppManager|MockObject $manager */
 		$manager = $this->getMockBuilder(AppManager::class)
@@ -186,6 +181,8 @@ class AppManagerTest extends TestCase {
 			->method('getAppPath')
 			->with('test')
 			->willReturn('apps/test');
+
+		$this->eventDispatcher->expects($this->once())->method('dispatchTyped')->with(new AppEnableEvent('test', ['group1', 'group2']));
 
 		$manager->enableAppForGroups('test', $groups);
 		$this->assertEquals('["group1","group2"]', $this->appConfig->getValue('test', 'enabled', 'no'));
@@ -217,7 +214,6 @@ class AppManagerTest extends TestCase {
 			->willReturn('group2');
 
 		$groups = [$group1, $group2];
-		$this->expectClearCache();
 
 		/** @var AppManager|MockObject $manager */
 		$manager = $this->getMockBuilder(AppManager::class)
@@ -239,6 +235,8 @@ class AppManagerTest extends TestCase {
 			->method('getAppInfo')
 			->with('test')
 			->willReturn($appInfo);
+
+		$this->eventDispatcher->expects($this->once())->method('dispatchTyped')->with(new AppEnableEvent('test', ['group1', 'group2']));
 
 		$manager->enableAppForGroups('test', $groups);
 		$this->assertEquals('["group1","group2"]', $this->appConfig->getValue('test', 'enabled', 'no'));
@@ -295,6 +293,8 @@ class AppManagerTest extends TestCase {
 			->willReturn([
 				'types' => [$type],
 			]);
+
+		$this->eventDispatcher->expects($this->never())->method('dispatchTyped')->with(new AppEnableEvent('test', ['group1', 'group2']));
 
 		$manager->enableAppForGroups('test', $groups);
 	}
@@ -429,6 +429,7 @@ class AppManagerTest extends TestCase {
 			'settings',
 			'test1',
 			'test3',
+			'theming',
 			'twofactor_backupcodes',
 			'viewer',
 			'workflowengine',
@@ -458,6 +459,7 @@ class AppManagerTest extends TestCase {
 			'settings',
 			'test1',
 			'test3',
+			'theming',
 			'twofactor_backupcodes',
 			'viewer',
 			'workflowengine',
@@ -485,6 +487,7 @@ class AppManagerTest extends TestCase {
 			'test4' => ['id' => 'test4', 'version' => '3.0.0', 'requiremin' => '8.1.0'],
 			'testnoversion' => ['id' => 'testnoversion', 'requiremin' => '8.2.0'],
 			'settings' => ['id' => 'settings'],
+			'theming' => ['id' => 'theming'],
 			'twofactor_backupcodes' => ['id' => 'twofactor_backupcodes'],
 			'viewer' => ['id' => 'viewer'],
 			'workflowengine' => ['id' => 'workflowengine'],
@@ -534,6 +537,7 @@ class AppManagerTest extends TestCase {
 			'test3' => ['id' => 'test3', 'version' => '1.2.4', 'requiremin' => '9.0.0'],
 			'settings' => ['id' => 'settings'],
 			'testnoversion' => ['id' => 'testnoversion', 'requiremin' => '8.2.0'],
+			'theming' => ['id' => 'theming'],
 			'twofactor_backupcodes' => ['id' => 'twofactor_backupcodes'],
 			'workflowengine' => ['id' => 'workflowengine'],
 			'oauth2' => ['id' => 'oauth2'],
@@ -580,6 +584,7 @@ class AppManagerTest extends TestCase {
 			'settings',
 			'test1',
 			'test3',
+			'theming',
 			'twofactor_backupcodes',
 			'viewer',
 			'workflowengine',
@@ -595,5 +600,158 @@ class AppManagerTest extends TestCase {
 		$this->assertEquals([], $this->manager->getAppRestriction('test1'));
 		$this->assertEquals([], $this->manager->getAppRestriction('test2'));
 		$this->assertEquals(['foo'], $this->manager->getAppRestriction('test3'));
+	}
+
+	public function provideDefaultApps(): array {
+		return [
+			// none specified, default to files
+			[
+				'',
+				'',
+				'{}',
+				true,
+				'files',
+			],
+			// none specified, without fallback
+			[
+				'',
+				'',
+				'{}',
+				false,
+				'',
+			],
+			// unexisting or inaccessible app specified, default to files
+			[
+				'unexist',
+				'',
+				'{}',
+				true,
+				'files',
+			],
+			// unexisting or inaccessible app specified, without fallbacks
+			[
+				'unexist',
+				'',
+				'{}',
+				false,
+				'',
+			],
+			// non-standard app
+			[
+				'settings',
+				'',
+				'{}',
+				true,
+				'settings',
+			],
+			// non-standard app, without fallback
+			[
+				'settings',
+				'',
+				'{}',
+				false,
+				'settings',
+			],
+			// non-standard app with fallback
+			[
+				'unexist,settings',
+				'',
+				'{}',
+				true,
+				'settings',
+			],
+			// system default app and user apporder
+			[
+				// system default is settings
+				'unexist,settings',
+				'',
+				// apporder says default app is files (order is lower)
+				'{"files_id":{"app":"files","order":1},"settings_id":{"app":"settings","order":2}}',
+				true,
+				// system default should override apporder
+				'settings'
+			],
+			// user-customized defaultapp
+			[
+				'',
+				'files',
+				'',
+				true,
+				'files',
+			],
+			// user-customized defaultapp with systemwide
+			[
+				'unexist,settings',
+				'files',
+				'',
+				true,
+				'files',
+			],
+			// user-customized defaultapp with system wide and apporder
+			[
+				'unexist,settings',
+				'files',
+				'{"settings_id":{"app":"settings","order":1},"files_id":{"app":"files","order":2}}',
+				true,
+				'files',
+			],
+			// user-customized apporder fallback
+			[
+				'',
+				'',
+				'{"settings_id":{"app":"settings","order":1},"files":{"app":"files","order":2}}',
+				true,
+				'settings',
+			],
+			// user-customized apporder fallback with missing app key (entries added by closures does not always have an app key set (Nextcloud 27 spreed app for example))
+			[
+				'',
+				'',
+				'{"spreed":{"order":1},"files":{"app":"files","order":2}}',
+				true,
+				'files',
+			],
+			// user-customized apporder, but called without fallback
+			[
+				'',
+				'',
+				'{"settings":{"app":"settings","order":1},"files":{"app":"files","order":2}}',
+				false,
+				'',
+			],
+			// user-customized apporder with an app that has multiple routes
+			[
+				'',
+				'',
+				'{"settings_id":{"app":"settings","order":1},"settings_id_2":{"app":"settings","order":3},"id_files":{"app":"files","order":2}}',
+				true,
+				'settings',
+			],
+		];
+	}
+
+	/**
+	 * @dataProvider provideDefaultApps
+	 */
+	public function testGetDefaultAppForUser($defaultApps, $userDefaultApps, $userApporder, $withFallbacks, $expectedApp) {
+		$user = $this->newUser('user1');
+
+		$this->userSession->expects($this->once())
+			->method('getUser')
+			->willReturn($user);
+
+		$this->config->expects($this->once())
+			->method('getSystemValueString')
+			->with('defaultapp', $this->anything())
+			->willReturn($defaultApps);
+
+		$this->config->expects($this->atLeastOnce())
+			->method('getUserValue')
+			->willReturnMap([
+				['user1', 'core', 'defaultapp', '', $userDefaultApps],
+				['user1', 'core', 'apporder', '[]', $userApporder],
+			]);
+
+		$this->assertEquals($expectedApp, $this->manager->getDefaultAppForUser(null, $withFallbacks));
 	}
 }

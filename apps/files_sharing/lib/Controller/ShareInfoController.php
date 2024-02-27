@@ -1,9 +1,10 @@
 <?php
 /**
- *
+ * @copyright Copyright (c) 2016 Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -14,17 +15,17 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Files_Sharing\Controller;
 
 use OCA\Files_External\NotFoundException;
+use OCA\Files_Sharing\ResponseDefinitions;
 use OCP\AppFramework\ApiController;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
@@ -36,6 +37,9 @@ use OCP\IRequest;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
 
+/**
+ * @psalm-import-type Files_SharingShareInfo from ResponseDefinitions
+ */
 class ShareInfoController extends ApiController {
 
 	/** @var IManager */
@@ -48,9 +52,9 @@ class ShareInfoController extends ApiController {
 	 * @param IRequest $request
 	 * @param IManager $shareManager
 	 */
-	public function __construct($appName,
-								IRequest $request,
-								IManager $shareManager) {
+	public function __construct(string $appName,
+		IRequest $request,
+		IManager $shareManager) {
 		parent::__construct($appName, $request);
 
 		$this->shareManager = $shareManager;
@@ -59,26 +63,39 @@ class ShareInfoController extends ApiController {
 	/**
 	 * @PublicPage
 	 * @NoCSRFRequired
+	 * @BruteForceProtection(action=shareinfo)
 	 *
-	 * @param string $t
-	 * @param null $password
-	 * @param null $dir
-	 * @return JSONResponse
-	 * @throws ShareNotFound
+	 * Get the info about a share
+	 *
+	 * @param string $t Token of the share
+	 * @param string|null $password Password of the share
+	 * @param string|null $dir Subdirectory to get info about
+	 * @param int $depth Maximum depth to get info about
+	 * @return JSONResponse<Http::STATUS_OK, Files_SharingShareInfo, array{}>|JSONResponse<Http::STATUS_FORBIDDEN|Http::STATUS_NOT_FOUND, array<empty>, array{}>
+	 *
+	 * 200: Share info returned
+	 * 403: Getting share info is not allowed
+	 * 404: Share not found
 	 */
-	public function info($t, $password = null, $dir = null) {
+	public function info(string $t, ?string $password = null, ?string $dir = null, int $depth = -1): JSONResponse {
 		try {
 			$share = $this->shareManager->getShareByToken($t);
 		} catch (ShareNotFound $e) {
-			return new JSONResponse([], Http::STATUS_NOT_FOUND);
+			$response = new JSONResponse([], Http::STATUS_NOT_FOUND);
+			$response->throttle(['token' => $t]);
+			return $response;
 		}
 
 		if ($share->getPassword() && !$this->shareManager->checkPassword($share, $password)) {
-			return new JSONResponse([], Http::STATUS_FORBIDDEN);
+			$response = new JSONResponse([], Http::STATUS_FORBIDDEN);
+			$response->throttle(['token' => $t]);
+			return $response;
 		}
 
 		if (!($share->getPermissions() & Constants::PERMISSION_READ)) {
-			return new JSONResponse([], Http::STATUS_FORBIDDEN);
+			$response = new JSONResponse([], Http::STATUS_FORBIDDEN);
+			$response->throttle(['token' => $t]);
+			return $response;
 		}
 
 		$permissionMask = $share->getPermissions();
@@ -91,34 +108,51 @@ class ShareInfoController extends ApiController {
 			}
 		}
 
-		return new JSONResponse($this->parseNode($node, $permissionMask));
+		return new JSONResponse($this->parseNode($node, $permissionMask, $depth));
 	}
 
-	private function parseNode(Node $node, int $permissionMask) {
+	/**
+	 * @return Files_SharingShareInfo
+	 */
+	private function parseNode(Node $node, int $permissionMask, int $depth): array {
 		if ($node instanceof File) {
 			return $this->parseFile($node, $permissionMask);
 		}
-		return $this->parseFolder($node, $permissionMask);
+		/** @var Folder $node */
+		return $this->parseFolder($node, $permissionMask, $depth);
 	}
 
-	private function parseFile(File $file, int $permissionMask) {
+	/**
+	 * @return Files_SharingShareInfo
+	 */
+	private function parseFile(File $file, int $permissionMask): array {
 		return $this->format($file, $permissionMask);
 	}
 
-	private function parseFolder(Folder $folder, int $permissionMask) {
+	/**
+	 * @return Files_SharingShareInfo
+	 */
+	private function parseFolder(Folder $folder, int $permissionMask, int $depth): array {
 		$data = $this->format($folder, $permissionMask);
+
+		if ($depth === 0) {
+			return $data;
+		}
 
 		$data['children'] = [];
 
 		$nodes = $folder->getDirectoryListing();
 		foreach ($nodes as $node) {
-			$data['children'][] = $this->parseNode($node, $permissionMask);
+			$data['children'][] = $this->parseNode($node, $permissionMask, $depth <= -1 ? -1 : $depth - 1);
 		}
 
 		return $data;
 	}
 
-	private function format(Node $node, int $permissionMask) {
+	/**
+	 * @return Files_SharingShareInfo
+	 */
+	private function format(Node $node, int $permissionMask): array {
 		$entry = [];
 
 		$entry['id'] = $node->getId();

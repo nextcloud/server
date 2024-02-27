@@ -24,13 +24,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
-/**
- * Public interface of ownCloud for apps to use.
- * Preview interface
- *
- */
-
 // use OCP namespace for all classes that are considered public.
 // This means that they should be used by apps instead of the internal ownCloud classes
 
@@ -45,14 +38,14 @@ use OCP\Files\SimpleFS\ISimpleFile;
  * @since 6.0.0
  */
 interface IPreview {
+	/**
+	 * @since 11.0.0
+	 */
+	public const MODE_FILL = 'fill';
 
 	/**
-	 * @since 9.2.0
-	 * @deprecated 22.0.0
+	 * @since 11.0.0
 	 */
-	public const EVENT = self::class . ':' . 'PreviewRequested';
-
-	public const MODE_FILL = 'fill';
 	public const MODE_COVER = 'cover';
 
 	/**
@@ -65,6 +58,9 @@ interface IPreview {
 	 * @param \Closure $callable
 	 * @return void
 	 * @since 8.1.0
+	 * @see \OCP\AppFramework\Bootstrap\IRegistrationContext::registerPreviewProvider
+	 *
+	 * @deprecated 23.0.0 Register your provider via the IRegistrationContext when booting the app
 	 */
 	public function registerProvider($mimeTypeRegex, \Closure $callable);
 

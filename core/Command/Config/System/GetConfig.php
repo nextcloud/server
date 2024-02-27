@@ -20,7 +20,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Core\Command\Config\System;
 
 use OC\SystemConfig;
@@ -30,15 +29,10 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class GetConfig extends Base {
-	/** * @var SystemConfig */
-	protected $systemConfig;
-
-	/**
-	 * @param SystemConfig $systemConfig
-	 */
-	public function __construct(SystemConfig $systemConfig) {
-		parent::__construct();
-		$this->systemConfig = $systemConfig;
+	public function __construct(
+		SystemConfig $systemConfig,
+	) {
+		parent::__construct($systemConfig);
 	}
 
 	protected function configure() {
@@ -66,7 +60,7 @@ class GetConfig extends Base {
 	 *
 	 * @param InputInterface  $input  An InputInterface instance
 	 * @param OutputInterface $output An OutputInterface instance
-	 * @return null|int null or 0 if everything went fine, or an error code
+	 * @return int 0 if everything went fine, or an error code
 	 */
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$configNames = $input->getArgument('name');

@@ -1,23 +1,30 @@
 /**
-* ownCloud
-*
-* @author Vincent Petry
 * @copyright 2014 Vincent Petry <pvince81@owncloud.com>
-*
-* This library is free software; you can redistribute it and/or
-* modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
-* License as published by the Free Software Foundation; either
-* version 3 of the License, or any later version.
-*
-* This library is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-* GNU AFFERO GENERAL PUBLIC LICENSE for more details.
-*
-* You should have received a copy of the GNU Affero General Public
-* License along with this library.  If not, see <http://www.gnu.org/licenses/>.
-*
-*/
+ *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
+ * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
+ * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Vincent Chan <plus.vincchan@gmail.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
+ *
+ * @license AGPL-3.0-or-later
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
 
 describe('OCA.Files.FileActions tests', function() {
 	var fileList, fileActions, clock;
@@ -26,9 +33,8 @@ describe('OCA.Files.FileActions tests', function() {
 		clock = sinon.useFakeTimers();
 		// init horrible parameters
 		var $body = $('#testArea');
-		$body.append('<input type="hidden" id="dir" value="/subdir"></input>');
 		$body.append('<input type="hidden" id="permissions" value="31"></input>');
-		$body.append('<table id="filestable" class="list-container view-grid"><tbody id="fileList"></tbody></table>');
+		$body.append('<table class="files-filestable list-container view-grid"><tbody class="files-fileList"></tbody></table>');
 		// dummy files table
 		fileActions = new OCA.Files.FileActions();
 		fileActions.registerAction({
@@ -59,13 +65,14 @@ describe('OCA.Files.FileActions tests', function() {
 		fileList = new OCA.Files.FileList($body, {
 			fileActions: fileActions
 		});
+		fileList.changeDirectory('/subdir', false, true);
 	});
 	afterEach(function() {
 		fileActions = null;
 		fileList.destroy();
 		fileList = undefined;
 		clock.restore();
-		$('#dir, #permissions, #filestable').remove();
+		$('#permissions, .files-filestable').remove();
 	});
 	it('calling clear() clears file actions', function() {
 		fileActions.clear();
@@ -300,6 +307,8 @@ describe('OCA.Files.FileActions tests', function() {
 		});
 		it('passes context to action handler', function() {
 			var notifyUpdateListenersSpy = sinon.spy(fileList.fileActions, '_notifyUpdateListeners');
+			expect($tr.length).toEqual(1);
+			expect($tr.find('.action-test').length).toEqual(1);
 			$tr.find('.action-test').click();
 			expect(actionStub.calledOnce).toEqual(true);
 			expect(actionStub.getCall(0).args[0]).toEqual('testName.txt');

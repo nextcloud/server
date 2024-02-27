@@ -6,7 +6,7 @@ declare(strict_types=1);
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Christopher Schäpers <kondou@ts.unde.re>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Michael Weimann <mail@michael-weimann.eu>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
@@ -27,7 +27,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP;
 
 /**
@@ -36,17 +35,15 @@ namespace OCP;
  */
 
 interface IAvatarManager {
-
 	/**
-	 * return a user specific instance of \OCP\IAvatar
+	 * Return a user specific instance of \OCP\IAvatar
 	 * @see IAvatar
-	 * @param string $user the ownCloud user id
-	 * @return IAvatar
+	 * @param string $userId the Nextcloud user id
 	 * @throws \Exception In case the username is potentially dangerous
 	 * @throws \OCP\Files\NotFoundException In case there is no user folder yet
 	 * @since 6.0.0
 	 */
-	public function getAvatar(string $user) : IAvatar;
+	public function getAvatar(string $userId): IAvatar;
 
 	/**
 	 * Returns a guest user avatar instance.

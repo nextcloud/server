@@ -12,6 +12,7 @@
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Stefan Weil <sw@weilnetz.de>
+ * @author szaimen <szaimen@e.mail.de>
  * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
@@ -29,7 +30,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_External\Service;
 
 use OC\Files\Filesystem;
@@ -40,12 +40,14 @@ use OCA\Files_External\Lib\Backend\InvalidBackend;
 use OCA\Files_External\Lib\DefinitionParameter;
 use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\NotFoundException;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Config\IUserMountCache;
+use OCP\Files\Events\InvalidateMountCacheEvent;
 use OCP\Files\StorageNotAvailableException;
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 
 /**
- * Service class to manage external storages
+ * Service class to manage external storage
  */
 abstract class StoragesService {
 
@@ -62,15 +64,24 @@ abstract class StoragesService {
 	 */
 	protected $userMountCache;
 
+	protected IEventDispatcher $eventDispatcher;
+
 	/**
 	 * @param BackendService $backendService
 	 * @param DBConfigService $dbConfigService
 	 * @param IUserMountCache $userMountCache
+	 * @param IEventDispatcher $eventDispatcher
 	 */
-	public function __construct(BackendService $backendService, DBConfigService $dbConfigService, IUserMountCache $userMountCache) {
+	public function __construct(
+		BackendService $backendService,
+		DBConfigService $dbConfigService,
+		IUserMountCache $userMountCache,
+		IEventDispatcher $eventDispatcher
+	) {
 		$this->backendService = $backendService;
 		$this->dbConfig = $dbConfigService;
 		$this->userMountCache = $userMountCache;
+		$this->eventDispatcher = $eventDispatcher;
 	}
 
 	protected function readDBConfig() {
@@ -108,24 +119,22 @@ abstract class StoragesService {
 			return $config;
 		} catch (\UnexpectedValueException $e) {
 			// don't die if a storage backend doesn't exist
-			\OC::$server->getLogger()->logException($e, [
-				'message' => 'Could not load storage.',
-				'level' => ILogger::ERROR,
+			\OC::$server->get(LoggerInterface::class)->error('Could not load storage.', [
 				'app' => 'files_external',
+				'exception' => $e,
 			]);
 			return null;
 		} catch (\InvalidArgumentException $e) {
-			\OC::$server->getLogger()->logException($e, [
-				'message' => 'Could not load storage.',
-				'level' => ILogger::ERROR,
+			\OC::$server->get(LoggerInterface::class)->error('Could not load storage.', [
 				'app' => 'files_external',
+				'exception' => $e,
 			]);
 			return null;
 		}
 	}
 
 	/**
-	 * Read the external storages config
+	 * Read the external storage config
 	 *
 	 * @return array map of storage id to storage config
 	 */
@@ -220,7 +229,7 @@ abstract class StoragesService {
 	/**
 	 * Get the visibility type for this controller, used in validation
 	 *
-	 * @return string BackendService::VISIBILITY_* constants
+	 * @return int BackendService::VISIBILITY_* constants
 	 */
 	abstract public function getVisibilityType();
 
@@ -334,11 +343,12 @@ abstract class StoragesService {
 	 * Triggers the given hook signal for all the applicables given
 	 *
 	 * @param string $signal signal
-	 * @param string $mountPoint hook mount pount param
+	 * @param string $mountPoint hook mount point param
 	 * @param string $mountType hook mount type param
 	 * @param array $applicableArray array of applicable users/groups for which to trigger the hook
 	 */
-	protected function triggerApplicableHooks($signal, $mountPoint, $mountType, $applicableArray) {
+	protected function triggerApplicableHooks($signal, $mountPoint, $mountType, $applicableArray): void {
+		$this->eventDispatcher->dispatchTyped(new InvalidateMountCacheEvent(null));
 		foreach ($applicableArray as $applicable) {
 			\OCP\Util::emitHook(
 				Filesystem::CLASSNAME,
@@ -479,44 +489,7 @@ abstract class StoragesService {
 		$this->triggerHooks($deletedStorage, Filesystem::signal_delete_mount);
 
 		// delete oc_storages entries and oc_filecache
-		try {
-			$rustyStorageId = $this->getRustyStorageIdFromConfig($deletedStorage);
-			\OC\Files\Cache\Storage::remove($rustyStorageId);
-		} catch (\Exception $e) {
-			// can happen either for invalid configs where the storage could not
-			// be instantiated or whenever $user vars where used, in which case
-			// the storage id could not be computed
-			\OC::$server->getLogger()->logException($e, [
-				'level' => ILogger::ERROR,
-				'app' => 'files_external',
-			]);
-		}
-	}
-
-	/**
-	 * Returns the rusty storage id from oc_storages from the given storage config.
-	 *
-	 * @param StorageConfig $storageConfig
-	 * @return string rusty storage id
-	 */
-	private function getRustyStorageIdFromConfig(StorageConfig $storageConfig) {
-		// if any of the storage options contains $user, it is not possible
-		// to compute the possible storage id as we don't know which users
-		// mounted it already (and we certainly don't want to iterate over ALL users)
-		foreach ($storageConfig->getBackendOptions() as $value) {
-			if (strpos($value, '$user') !== false) {
-				throw new \Exception('Cannot compute storage id for deletion due to $user vars in the configuration');
-			}
-		}
-
-		// note: similar to ConfigAdapter->prepateStorageConfig()
-		$storageConfig->getAuthMechanism()->manipulateStorageConfig($storageConfig);
-		$storageConfig->getBackend()->manipulateStorageConfig($storageConfig);
-
-		$class = $storageConfig->getBackend()->getStorageClass();
-		$storageImpl = new $class($storageConfig->getBackendOptions());
-
-		return $storageImpl->getId();
+		\OC\Files\Cache\Storage::cleanByMountId($id);
 	}
 
 	/**
@@ -535,6 +508,7 @@ abstract class StoragesService {
 			$storage = $storageConfig->getBackend()->wrapStorage($storage);
 			$storage = $storageConfig->getAuthMechanism()->wrapStorage($storage);
 
+			/** @var \OC\Files\Storage\Storage $storage */
 			return $storage->getStorageCache()->getNumericId();
 		} catch (\Exception $e) {
 			return -1;

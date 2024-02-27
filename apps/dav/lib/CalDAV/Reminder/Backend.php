@@ -19,14 +19,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\CalDAV\Reminder;
 
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -52,7 +51,7 @@ class Backend {
 	 * @param ITimeFactory $timeFactory
 	 */
 	public function __construct(IDBConnection $db,
-								ITimeFactory $timeFactory) {
+		ITimeFactory $timeFactory) {
 		$this->db = $db;
 		$this->timeFactory = $timeFactory;
 	}
@@ -68,8 +67,8 @@ class Backend {
 		$query->select(['cr.*', 'co.calendardata', 'c.displayname', 'c.principaluri'])
 			->from('calendar_reminders', 'cr')
 			->where($query->expr()->lte('cr.notification_date', $query->createNamedParameter($this->timeFactory->getTime())))
-			->leftJoin('cr', 'calendarobjects', 'co', $query->expr()->eq('cr.object_id', 'co.id'))
-			->leftJoin('cr', 'calendars', 'c', $query->expr()->eq('cr.calendar_id', 'c.id'));
+			->join('cr', 'calendarobjects', 'co', $query->expr()->eq('cr.object_id', 'co.id'))
+			->join('cr', 'calendars', 'c', $query->expr()->eq('cr.calendar_id', 'c.id'));
 		$stmt = $query->execute();
 
 		return array_map(
@@ -115,17 +114,17 @@ class Backend {
 	 * @return int The insert id
 	 */
 	public function insertReminder(int $calendarId,
-								   int $objectId,
-								   string $uid,
-								   bool $isRecurring,
-								   int $recurrenceId,
-								   bool $isRecurrenceException,
-								   string $eventHash,
-								   string $alarmHash,
-								   string $type,
-								   bool $isRelative,
-								   int $notificationDate,
-								   bool $isRepeatBased):int {
+		int $objectId,
+		string $uid,
+		bool $isRecurring,
+		int $recurrenceId,
+		bool $isRecurrenceException,
+		string $eventHash,
+		string $alarmHash,
+		string $type,
+		bool $isRelative,
+		int $notificationDate,
+		bool $isRepeatBased):int {
 		$query = $this->db->getQueryBuilder();
 		$query->insert('calendar_reminders')
 			->values([
@@ -154,7 +153,7 @@ class Backend {
 	 * @param int $newNotificationDate
 	 */
 	public function updateReminder(int $reminderId,
-								   int $newNotificationDate):void {
+		int $newNotificationDate):void {
 		$query = $this->db->getQueryBuilder();
 		$query->update('calendar_reminders')
 			->set('notification_date', $query->createNamedParameter($newNotificationDate))

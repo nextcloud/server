@@ -3,14 +3,16 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Arne Hamann <kontakt+github@arne.email>
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Björn Schießle <bjoern@schiessle.org>
  * @author call-me-matt <nextcloud@matthiasheinisch.de>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Julius Härtl <jus@bitgrid.net>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @license AGPL-3.0
@@ -28,7 +30,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\CardDAV;
 
 use OCP\Constants;
@@ -62,10 +63,10 @@ class AddressBookImpl implements IAddressBook {
 	 * @param IUrlGenerator $urlGenerator
 	 */
 	public function __construct(
-			AddressBook $addressBook,
-			array $addressBookInfo,
-			CardDavBackend $backend,
-			IURLGenerator $urlGenerator) {
+		AddressBook $addressBook,
+		array $addressBookInfo,
+		CardDavBackend $backend,
+		IURLGenerator $urlGenerator) {
 		$this->addressBook = $addressBook;
 		$this->addressBookInfo = $addressBookInfo;
 		$this->backend = $backend;
@@ -107,6 +108,8 @@ class AddressBookImpl implements IAddressBook {
 	 * 	- 'escape_like_param' - If set to false wildcards _ and % are not escaped
 	 * 	- 'limit' - Set a numeric limit for the search results
 	 * 	- 'offset' - Set the offset for the limited search results
+	 * 	- 'wildcard' - Whether the search should use wildcards
+	 * @psalm-param array{types?: bool, escape_like_param?: bool, limit?: int, offset?: int, wildcard?: bool} $options
 	 * @return array an array of contacts which are arrays of key-value-pairs
 	 *  example result:
 	 *  [
@@ -150,13 +153,17 @@ class AddressBookImpl implements IAddressBook {
 			if (is_array($value)) {
 				$vCard->remove($key);
 				foreach ($value as $entry) {
-					if (($key === "ADR" || $key === "PHOTO") && is_string($entry["value"])) {
-						$entry["value"] = stripslashes($entry["value"]);
-						$entry["value"] = explode(';', $entry["value"]);
-					}
-					$property = $vCard->createProperty($key, $entry["value"]);
-					if (isset($entry["type"])) {
-						$property->add('TYPE', $entry["type"]);
+					if (is_string($entry)) {
+						$property = $vCard->createProperty($key, $entry);
+					} else {
+						if (($key === "ADR" || $key === "PHOTO") && is_string($entry["value"])) {
+							$entry["value"] = stripslashes($entry["value"]);
+							$entry["value"] = explode(';', $entry["value"]);
+						}
+						$property = $vCard->createProperty($key, $entry["value"]);
+						if (isset($entry["type"])) {
+							$property->add('TYPE', $entry["type"]);
+						}
 					}
 					$vCard->add($property);
 				}
@@ -200,7 +207,7 @@ class AddressBookImpl implements IAddressBook {
 	}
 
 	/**
-	 * @param object $id the unique identifier to a contact
+	 * @param int $id the unique identifier to a contact
 	 * @return bool successful or not
 	 * @since 5.0.0
 	 */
@@ -266,7 +273,7 @@ class AddressBookImpl implements IAddressBook {
 		];
 
 		foreach ($vCard->children() as $property) {
-			if ($property->name === 'PHOTO' && $property->getValueType() === 'BINARY') {
+			if ($property->name === 'PHOTO' && in_array($property->getValueType(), ['BINARY', 'URI'])) {
 				$url = $this->urlGenerator->getAbsoluteURL(
 					$this->urlGenerator->linkTo('', 'remote.php') . '/dav/');
 				$url .= implode('/', [

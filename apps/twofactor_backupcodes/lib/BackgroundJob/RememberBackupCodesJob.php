@@ -17,18 +17,18 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\TwoFactorBackupCodes\BackgroundJob;
 
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Authentication\TwoFactorAuth\IRegistry;
+use OCP\BackgroundJob\IJob;
 use OCP\BackgroundJob\IJobList;
 use OCP\BackgroundJob\TimedJob;
 use OCP\IUserManager;
@@ -49,10 +49,10 @@ class RememberBackupCodesJob extends TimedJob {
 	private $jobList;
 
 	public function __construct(IRegistry $registry,
-								IUserManager $userManager,
-								ITimeFactory $timeFactory,
-								IManager $notificationManager,
-								IJobList $jobList) {
+		IUserManager $userManager,
+		ITimeFactory $timeFactory,
+		IManager $notificationManager,
+		IJobList $jobList) {
 		parent::__construct($timeFactory);
 		$this->registry = $registry;
 		$this->userManager = $userManager;
@@ -61,6 +61,7 @@ class RememberBackupCodesJob extends TimedJob {
 		$this->jobList = $jobList;
 
 		$this->setInterval(60 * 60 * 24 * 14);
+		$this->setTimeSensitivity(IJob::TIME_INSENSITIVE);
 	}
 
 	protected function run($argument) {
@@ -69,6 +70,7 @@ class RememberBackupCodesJob extends TimedJob {
 
 		if ($user === null) {
 			// We can't run with an invalid user
+			$this->jobList->remove(self::class, $argument);
 			return;
 		}
 
@@ -93,9 +95,16 @@ class RememberBackupCodesJob extends TimedJob {
 		$notification = $this->notificationManager->createNotification();
 		$notification->setApp('twofactor_backupcodes')
 			->setUser($user->getUID())
-			->setDateTime($date)
 			->setObject('create', 'codes')
 			->setSubject('create_backupcodes');
+		$this->notificationManager->markProcessed($notification);
+
+		if (!$user->isEnabled()) {
+			// Don't recreate a notification for a user that can not read it
+			$this->jobList->remove(self::class, $argument);
+			return;
+		}
+		$notification->setDateTime($date);
 		$this->notificationManager->notify($notification);
 	}
 }

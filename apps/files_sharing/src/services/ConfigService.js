@@ -1,9 +1,11 @@
 /**
  * @copyright Copyright (c) 2019 John Molakvoæ <skjnldsv@protonmail.com>
  *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Julius Härtl <jus@bitgrid.net>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -11,7 +13,7 @@
  * License, or (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY without even the implied warranty of
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
  *
@@ -19,25 +21,40 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+import { getCapabilities } from '@nextcloud/capabilities'
 
 export default class Config {
+
+	constructor() {
+		this._capabilities = getCapabilities()
+	}
+
+	/**
+	 * Get default share permissions, if any
+	 *
+	 * @return {boolean}
+	 * @readonly
+	 * @memberof Config
+	 */
+	 get defaultPermissions() {
+		return this._capabilities.files_sharing?.default_permissions
+	}
 
 	/**
 	 * Is public upload allowed on link shares ?
 	 *
-	 * @returns {boolean}
+	 * @return {boolean}
 	 * @readonly
 	 * @memberof Config
 	 */
 	get isPublicUploadEnabled() {
-		return document.getElementById('filestable')
-			&& document.getElementById('filestable').dataset.allowPublicUpload === 'yes'
+		return this._capabilities.files_sharing?.public.upload
 	}
 
 	/**
 	 * Are link share allowed ?
 	 *
-	 * @returns {boolean}
+	 * @return {boolean}
 	 * @readonly
 	 * @memberof Config
 	 */
@@ -49,7 +66,7 @@ export default class Config {
 	/**
 	 * Get the federated sharing documentation link
 	 *
-	 * @returns {string}
+	 * @return {string}
 	 * @readonly
 	 * @memberof Config
 	 */
@@ -58,45 +75,51 @@ export default class Config {
 	}
 
 	/**
-	 * Get the default link share expiration date as string
+	 * Get the default link share expiration date
 	 *
-	 * @returns {string}
+	 * @return {Date|null}
 	 * @readonly
 	 * @memberof Config
 	 */
-	get defaultExpirationDateString() {
-		let expireDateString = ''
+	get defaultExpirationDate() {
 		if (this.isDefaultExpireDateEnabled) {
-			const date = window.moment.utc()
-			const expireAfterDays = this.defaultExpireDate
-			date.add(expireAfterDays, 'days')
-			expireDateString = date.format('YYYY-MM-DD')
+			return new Date(new Date().setDate(new Date().getDate() + this.defaultExpireDate))
 		}
-		return expireDateString
+		return null
 	}
 
 	/**
-	 * Get the default internal expiration date as string
+	 * Get the default internal expiration date
 	 *
-	 * @returns {string}
+	 * @return {Date|null}
 	 * @readonly
 	 * @memberof Config
 	 */
-	get defaultInternalExpirationDateString() {
-		let expireDateString = ''
+	get defaultInternalExpirationDate() {
 		if (this.isDefaultInternalExpireDateEnabled) {
-			const date = window.moment.utc()
-			const expireAfterDays = this.defaultInternalExpireDate
-			date.add(expireAfterDays, 'days')
-			expireDateString = date.format('YYYY-MM-DD')
+			return new Date(new Date().setDate(new Date().getDate() + this.defaultInternalExpireDate))
 		}
-		return expireDateString
+		return null
+	}
+
+	/**
+	 * Get the default remote expiration date
+	 *
+	 * @return {Date|null}
+	 * @readonly
+	 * @memberof Config
+	 */
+	get defaultRemoteExpirationDateString() {
+		if (this.isDefaultRemoteExpireDateEnabled) {
+			return new Date(new Date().setDate(new Date().getDate() + this.defaultRemoteExpireDate))
+		}
+		return null
 	}
 
 	/**
 	 * Are link shares password-enforced ?
 	 *
-	 * @returns {boolean}
+	 * @return {boolean}
 	 * @readonly
 	 * @memberof Config
 	 */
@@ -107,7 +130,7 @@ export default class Config {
 	/**
 	 * Is password asked by default on link shares ?
 	 *
-	 * @returns {boolean}
+	 * @return {boolean}
 	 * @readonly
 	 * @memberof Config
 	 */
@@ -118,7 +141,7 @@ export default class Config {
 	/**
 	 * Is link shares expiration enforced ?
 	 *
-	 * @returns {boolean}
+	 * @return {boolean}
 	 * @readonly
 	 * @memberof Config
 	 */
@@ -129,7 +152,7 @@ export default class Config {
 	/**
 	 * Is there a default expiration date for new link shares ?
 	 *
-	 * @returns {boolean}
+	 * @return {boolean}
 	 * @readonly
 	 * @memberof Config
 	 */
@@ -140,7 +163,7 @@ export default class Config {
 	/**
 	 * Is internal shares expiration enforced ?
 	 *
-	 * @returns {boolean}
+	 * @return {boolean}
 	 * @readonly
 	 * @memberof Config
 	 */
@@ -149,9 +172,20 @@ export default class Config {
 	}
 
 	/**
+	 * Is remote shares expiration enforced ?
+	 *
+	 * @return {boolean}
+	 * @readonly
+	 * @memberof Config
+	 */
+	get isDefaultRemoteExpireDateEnforced() {
+		return OC.appConfig.core.defaultRemoteExpireDateEnforced === true
+	}
+
+	/**
 	 * Is there a default expiration date for new internal shares ?
 	 *
-	 * @returns {boolean}
+	 * @return {boolean}
 	 * @readonly
 	 * @memberof Config
 	 */
@@ -160,9 +194,20 @@ export default class Config {
 	}
 
 	/**
+	 * Is there a default expiration date for new remote shares ?
+	 *
+	 * @return {boolean}
+	 * @readonly
+	 * @memberof Config
+	 */
+	get isDefaultRemoteExpireDateEnabled() {
+		return OC.appConfig.core.defaultRemoteExpireDateEnabled === true
+	}
+
+	/**
 	 * Are users on this server allowed to send shares to other servers ?
 	 *
-	 * @returns {boolean}
+	 * @return {boolean}
 	 * @readonly
 	 * @memberof Config
 	 */
@@ -173,22 +218,21 @@ export default class Config {
 	/**
 	 * Is sharing my mail (link share) enabled ?
 	 *
-	 * @returns {boolean}
+	 * @return {boolean}
 	 * @readonly
 	 * @memberof Config
 	 */
 	get isMailShareAllowed() {
-		const capabilities = OC.getCapabilities()
 		// eslint-disable-next-line camelcase
-		return capabilities?.files_sharing?.sharebymail !== undefined
+		return this._capabilities?.files_sharing?.sharebymail !== undefined
 			// eslint-disable-next-line camelcase
-			&& capabilities?.files_sharing?.public?.enabled === true
+			&& this._capabilities?.files_sharing?.public?.enabled === true
 	}
 
 	/**
 	 * Get the default days to link shares expiration
 	 *
-	 * @returns {int}
+	 * @return {number}
 	 * @readonly
 	 * @memberof Config
 	 */
@@ -199,7 +243,7 @@ export default class Config {
 	/**
 	 * Get the default days to internal shares expiration
 	 *
-	 * @returns {int}
+	 * @return {number}
 	 * @readonly
 	 * @memberof Config
 	 */
@@ -208,9 +252,20 @@ export default class Config {
 	}
 
 	/**
+	 * Get the default days to remote shares expiration
+	 *
+	 * @return {number}
+	 * @readonly
+	 * @memberof Config
+	 */
+	get defaultRemoteExpireDate() {
+		return OC.appConfig.core.defaultRemoteExpireDate
+	}
+
+	/**
 	 * Is resharing allowed ?
 	 *
-	 * @returns {boolean}
+	 * @return {boolean}
 	 * @readonly
 	 * @memberof Config
 	 */
@@ -221,18 +276,27 @@ export default class Config {
 	/**
 	 * Is password enforced for mail shares ?
 	 *
-	 * @returns {boolean}
+	 * @return {boolean}
 	 * @readonly
 	 * @memberof Config
 	 */
 	get isPasswordForMailSharesRequired() {
-		return (OC.getCapabilities().files_sharing.sharebymail === undefined) ? false : OC.getCapabilities().files_sharing.sharebymail.password.enforced
+		return (this._capabilities.files_sharing.sharebymail === undefined) ? false : this._capabilities.files_sharing.sharebymail.password.enforced
+	}
+
+	/**
+	 * @return {boolean}
+	 * @readonly
+	 * @memberof Config
+	 */
+	get shouldAlwaysShowUnique() {
+		return (this._capabilities.files_sharing?.sharee?.always_show_unique === true)
 	}
 
 	/**
 	 * Is sharing with groups allowed ?
 	 *
-	 * @returns {boolean}
+	 * @return {boolean}
 	 * @readonly
 	 * @memberof Config
 	 */
@@ -243,7 +307,7 @@ export default class Config {
 	/**
 	 * Get the maximum results of a share search
 	 *
-	 * @returns {int}
+	 * @return {number}
 	 * @readonly
 	 * @memberof Config
 	 */
@@ -255,7 +319,7 @@ export default class Config {
 	 * Get the minimal string length
 	 * to initiate a share search
 	 *
-	 * @returns {int}
+	 * @return {number}
 	 * @readonly
 	 * @memberof Config
 	 */
@@ -266,13 +330,12 @@ export default class Config {
 	/**
 	 * Get the password policy config
 	 *
-	 * @returns {Object}
+	 * @return {object}
 	 * @readonly
 	 * @memberof Config
 	 */
 	get passwordPolicy() {
-		const capabilities = OC.getCapabilities()
-		return capabilities.password_policy ? capabilities.password_policy : {}
+		return this._capabilities.password_policy ? this._capabilities.password_policy : {}
 	}
 
 }

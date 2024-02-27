@@ -8,6 +8,7 @@
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Samuel <faust64@gmail.com>
  *
  * @license AGPL-3.0
  *
@@ -24,7 +25,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\FederatedFileSharing;
 
 use OCA\FederatedFileSharing\Events\FederatedShareAddedEvent;
@@ -35,47 +35,21 @@ use OCP\Federation\ICloudFederationFactory;
 use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Http\Client\IClientService;
 use OCP\OCS\IDiscoveryService;
+use Psr\Log\LoggerInterface;
 
 class Notifications {
 	public const RESPONSE_FORMAT = 'json'; // default response format for ocs calls
 
-	/** @var AddressHandler */
-	private $addressHandler;
-
-	/** @var IClientService */
-	private $httpClientService;
-
-	/** @var IDiscoveryService */
-	private $discoveryService;
-
-	/** @var IJobList  */
-	private $jobList;
-
-	/** @var ICloudFederationProviderManager */
-	private $federationProviderManager;
-
-	/** @var ICloudFederationFactory */
-	private $cloudFederationFactory;
-
-	/** @var IEventDispatcher */
-	private $eventDispatcher;
-
 	public function __construct(
-		AddressHandler $addressHandler,
-		IClientService $httpClientService,
-		IDiscoveryService $discoveryService,
-		IJobList $jobList,
-		ICloudFederationProviderManager $federationProviderManager,
-		ICloudFederationFactory $cloudFederationFactory,
-		IEventDispatcher $eventDispatcher
+		private AddressHandler $addressHandler,
+		private IClientService $httpClientService,
+		private IDiscoveryService $discoveryService,
+		private IJobList $jobList,
+		private ICloudFederationProviderManager $federationProviderManager,
+		private ICloudFederationFactory $cloudFederationFactory,
+		private IEventDispatcher $eventDispatcher,
+		private LoggerInterface $logger,
 	) {
-		$this->addressHandler = $addressHandler;
-		$this->httpClientService = $httpClientService;
-		$this->discoveryService = $discoveryService;
-		$this->jobList = $jobList;
-		$this->federationProviderManager = $federationProviderManager;
-		$this->cloudFederationFactory = $cloudFederationFactory;
-		$this->eventDispatcher = $eventDispatcher;
 	}
 
 	/**
@@ -91,7 +65,7 @@ class Notifications {
 	 * @param string $sharedByFederatedId
 	 * @param int $shareType (can be a remote user or group share)
 	 * @return bool
-	 * @throws \OC\HintException
+	 * @throws \OCP\HintException
 	 * @throws \OC\ServerNotAvailableException
 	 */
 	public function sendRemoteShare($token, $shareWith, $name, $remoteId, $owner, $ownerFederatedId, $sharedBy, $sharedByFederatedId, $shareType) {
@@ -123,7 +97,17 @@ class Notifications {
 				$event = new FederatedShareAddedEvent($remote);
 				$this->eventDispatcher->dispatchTyped($event);
 				return true;
+			} else {
+				$this->logger->info(
+					"failed sharing $name with $shareWith",
+					['app' => 'federatedfilesharing']
+				);
 			}
+		} else {
+			$this->logger->info(
+				"could not share $name, invalid contact $shareWith",
+				['app' => 'federatedfilesharing']
+			);
 		}
 
 		return false;
@@ -140,7 +124,7 @@ class Notifications {
 	 * @param int $permission
 	 * @param string $filename
 	 * @return array|false
-	 * @throws \OC\HintException
+	 * @throws \OCP\HintException
 	 * @throws \OC\ServerNotAvailableException
 	 */
 	public function requestReShare($token, $id, $shareId, $remote, $shareWith, $permission, $filename) {
@@ -174,6 +158,21 @@ class Notifications {
 				$status['ocs']['data']['token'],
 				$status['ocs']['data']['remoteId']
 			];
+		} elseif (!$validToken) {
+			$this->logger->info(
+				"invalid or missing token requesting re-share for $filename to $remote",
+				['app' => 'federatedfilesharing']
+			);
+		} elseif (!$validRemoteId) {
+			$this->logger->info(
+				"missing remote id requesting re-share for $filename to $remote",
+				['app' => 'federatedfilesharing']
+			);
+		} else {
+			$this->logger->info(
+				"failed requesting re-share for $filename to $remote",
+				['app' => 'federatedfilesharing']
+			);
 		}
 
 		return false;
@@ -262,6 +261,7 @@ class Notifications {
 		$status = json_decode($result['result'], true);
 
 		if ($result['success'] &&
+			isset($status['ocs']['meta']['statuscode']) &&
 			($status['ocs']['meta']['statuscode'] === 100 ||
 				$status['ocs']['meta']['statuscode'] === 200
 			)
@@ -346,7 +346,7 @@ class Notifications {
 		// Fall back to old API
 		$client = $this->httpClientService->newClient();
 		$federationEndpoints = $this->discoveryService->discover($remoteDomain, 'FEDERATED_SHARING');
-		$endpoint = isset($federationEndpoints['share']) ? $federationEndpoints['share'] : '/ocs/v2.php/cloud/shares';
+		$endpoint = $federationEndpoints['share'] ?? '/ocs/v2.php/cloud/shares';
 		try {
 			$response = $client->post($remoteDomain . $endpoint . $urlSuffix . '?format=' . self::RESPONSE_FORMAT, [
 				'body' => $fields,
@@ -374,7 +374,7 @@ class Notifications {
 	 * @param $fields
 	 * @param $action
 	 *
-	 * @return bool
+	 * @return array|false
 	 */
 	protected function tryOCMEndPoint($remoteDomain, $fields, $action) {
 		switch ($action) {

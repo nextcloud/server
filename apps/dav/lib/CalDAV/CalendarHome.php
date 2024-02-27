@@ -24,12 +24,13 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\CalDAV;
 
 use OCA\DAV\AppInfo\PluginManager;
 use OCA\DAV\CalDAV\Integration\ExternalCalendar;
 use OCA\DAV\CalDAV\Integration\ICalendarProvider;
+use OCA\DAV\CalDAV\Trashbin\TrashbinHome;
+use Psr\Log\LoggerInterface;
 use Sabre\CalDAV\Backend\BackendInterface;
 use Sabre\CalDAV\Backend\NotificationSupport;
 use Sabre\CalDAV\Backend\SchedulingSupport;
@@ -38,6 +39,7 @@ use Sabre\CalDAV\Schedule\Inbox;
 use Sabre\CalDAV\Subscriptions\Subscription;
 use Sabre\DAV\Exception\MethodNotAllowed;
 use Sabre\DAV\Exception\NotFound;
+use Sabre\DAV\INode;
 use Sabre\DAV\MkCol;
 
 class CalendarHome extends \Sabre\CalDAV\CalendarHome {
@@ -54,7 +56,11 @@ class CalendarHome extends \Sabre\CalDAV\CalendarHome {
 	/** @var bool */
 	private $returnCachedSubscriptions = false;
 
-	public function __construct(BackendInterface $caldavBackend, $principalInfo) {
+	/** @var LoggerInterface */
+	private $logger;
+	private ?array $cachedChildren = null;
+
+	public function __construct(BackendInterface $caldavBackend, $principalInfo, LoggerInterface $logger) {
 		parent::__construct($caldavBackend, $principalInfo);
 		$this->l10n = \OC::$server->getL10N('dav');
 		$this->config = \OC::$server->getConfig();
@@ -62,6 +68,7 @@ class CalendarHome extends \Sabre\CalDAV\CalendarHome {
 			\OC::$server,
 			\OC::$server->getAppManager()
 		);
+		$this->logger = $logger;
 	}
 
 	/**
@@ -74,8 +81,11 @@ class CalendarHome extends \Sabre\CalDAV\CalendarHome {
 	/**
 	 * @inheritdoc
 	 */
-	public function createExtendedCollection($name, MkCol $mkCol) {
-		$reservedNames = [BirthdayService::BIRTHDAY_CALENDAR_URI];
+	public function createExtendedCollection($name, MkCol $mkCol): void {
+		$reservedNames = [
+			BirthdayService::BIRTHDAY_CALENDAR_URI,
+			TrashbinHome::NAME,
+		];
 
 		if (\in_array($name, $reservedNames, true) || ExternalCalendar::doesViolateReservedName($name)) {
 			throw new MethodNotAllowed('The resource you tried to create has a reserved name');
@@ -88,10 +98,13 @@ class CalendarHome extends \Sabre\CalDAV\CalendarHome {
 	 * @inheritdoc
 	 */
 	public function getChildren() {
+		if ($this->cachedChildren) {
+			return $this->cachedChildren;
+		}
 		$calendars = $this->caldavBackend->getCalendarsForUser($this->principalInfo['uri']);
 		$objects = [];
 		foreach ($calendars as $calendar) {
-			$objects[] = new Calendar($this->caldavBackend, $calendar, $this->l10n, $this->config);
+			$objects[] = new Calendar($this->caldavBackend, $calendar, $this->l10n, $this->config, $this->logger);
 		}
 
 		if ($this->caldavBackend instanceof SchedulingSupport) {
@@ -102,6 +115,10 @@ class CalendarHome extends \Sabre\CalDAV\CalendarHome {
 		// We're adding a notifications node, if it's supported by the backend.
 		if ($this->caldavBackend instanceof NotificationSupport) {
 			$objects[] = new \Sabre\CalDAV\Notifications\Collection($this->caldavBackend, $this->principalInfo['uri']);
+		}
+
+		if ($this->caldavBackend instanceof CalDavBackend) {
+			$objects[] = new TrashbinHome($this->caldavBackend, $this->principalInfo);
 		}
 
 		// If the backend supports subscriptions, we'll add those as well,
@@ -123,11 +140,14 @@ class CalendarHome extends \Sabre\CalDAV\CalendarHome {
 			}
 		}
 
+		$this->cachedChildren = $objects;
 		return $objects;
 	}
 
 	/**
-	 * @inheritdoc
+	 * @param string $name
+	 *
+	 * @return INode
 	 */
 	public function getChild($name) {
 		// Special nodes
@@ -140,11 +160,23 @@ class CalendarHome extends \Sabre\CalDAV\CalendarHome {
 		if ($name === 'notifications' && $this->caldavBackend instanceof NotificationSupport) {
 			return new \Sabre\CalDAV\Notifications\Collection($this->caldavBackend, $this->principalInfo['uri']);
 		}
+		if ($name === TrashbinHome::NAME && $this->caldavBackend instanceof CalDavBackend) {
+			return new TrashbinHome($this->caldavBackend, $this->principalInfo);
+		}
 
-		// Calendars
+		// Calendar - this covers all "regular" calendars, but not shared
+		// only check if the method is available
+		if($this->caldavBackend instanceof CalDavBackend) {
+			$calendar = $this->caldavBackend->getCalendarByUri($this->principalInfo['uri'], $name);
+			if(!empty($calendar)) {
+				return new Calendar($this->caldavBackend, $calendar, $this->l10n, $this->config, $this->logger);
+			}
+		}
+
+		// Fallback to cover shared calendars
 		foreach ($this->caldavBackend->getCalendarsForUser($this->principalInfo['uri']) as $calendar) {
 			if ($calendar['uri'] === $name) {
-				return new Calendar($this->caldavBackend, $calendar, $this->l10n, $this->config);
+				return new Calendar($this->caldavBackend, $calendar, $this->l10n, $this->config, $this->logger);
 			}
 		}
 
@@ -187,7 +219,6 @@ class CalendarHome extends \Sabre\CalDAV\CalendarHome {
 		$principalUri = $this->principalInfo['uri'];
 		return $this->caldavBackend->calendarSearch($principalUri, $filters, $limit, $offset);
 	}
-
 
 	public function enableCachedSubscriptionsForThisRequest() {
 		$this->returnCachedSubscriptions = true;

@@ -1,6 +1,6 @@
 <?php
 /**
- *
+ * @copyright Copyright (c) 2016 Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
@@ -22,14 +22,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 // FIXME: disabled for now to be able to inject IGroupManager and also use
 // getSubAdmin()
 //declare(strict_types=1);
@@ -37,11 +36,11 @@
 namespace OCA\Settings\Controller;
 
 use OC\Group\Manager as GroupManager;
-use OC\HintException;
 use OC\User\Session;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\JSONResponse;
+use OCP\HintException;
 use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IRequest;
@@ -50,33 +49,21 @@ use OCP\IUserManager;
 use OCP\IUserSession;
 
 class ChangePasswordController extends Controller {
-
-	/** @var string */
-	private $userId;
-
-	/** @var IUserManager */
-	private $userManager;
-
-	/** @var IL10N */
-	private $l;
-
-	/** @var GroupManager */
-	private $groupManager;
-
-	/** @var Session */
-	private $userSession;
-
-	/** @var IAppManager */
-	private $appManager;
+	private ?string $userId;
+	private IUserManager $userManager;
+	private IL10N $l;
+	private GroupManager $groupManager;
+	private Session $userSession;
+	private IAppManager $appManager;
 
 	public function __construct(string $appName,
-								IRequest $request,
-								string $userId,
-								IUserManager $userManager,
-								IUserSession $userSession,
-								IGroupManager $groupManager,
-								IAppManager $appManager,
-								IL10N $l) {
+		IRequest $request,
+		?string $userId,
+		IUserManager $userManager,
+		IUserSession $userSession,
+		IGroupManager $groupManager,
+		IAppManager $appManager,
+		IL10N $l) {
 		parent::__construct($appName, $request);
 
 		$this->userId = $userId;
@@ -108,9 +95,12 @@ class ChangePasswordController extends Controller {
 		}
 
 		try {
-			if ($newpassword === null || $user->setPassword($newpassword) === false) {
+			if ($newpassword === null || strlen($newpassword) > IUserManager::MAX_PASSWORD_LENGTH || $user->setPassword($newpassword) === false) {
 				return new JSONResponse([
-					'status' => 'error'
+					'status' => 'error',
+					'data' => [
+						'message' => $this->l->t('Unable to change personal password'),
+					],
 				]);
 			}
 			// password policy app throws exception
@@ -142,7 +132,7 @@ class ChangePasswordController extends Controller {
 			return new JSONResponse([
 				'status' => 'error',
 				'data' => [
-					'message' => $this->l->t('No user supplied'),
+					'message' => $this->l->t('No Login supplied'),
 				],
 			]);
 		}
@@ -152,6 +142,15 @@ class ChangePasswordController extends Controller {
 				'status' => 'error',
 				'data' => [
 					'message' => $this->l->t('Unable to change password'),
+				],
+			]);
+		}
+
+		if (strlen($password) > IUserManager::MAX_PASSWORD_LENGTH) {
+			return new JSONResponse([
+				'status' => 'error',
+				'data' => [
+					'message' => $this->l->t('Unable to change password. Password too long.'),
 				],
 			]);
 		}
@@ -172,36 +171,8 @@ class ChangePasswordController extends Controller {
 
 		if ($this->appManager->isEnabledForUser('encryption')) {
 			//handle the recovery case
-			$crypt = new \OCA\Encryption\Crypto\Crypt(
-				\OC::$server->getLogger(),
-				\OC::$server->getUserSession(),
-				\OC::$server->getConfig(),
-				\OC::$server->getL10N('encryption'));
-			$keyStorage = \OC::$server->getEncryptionKeyStorage();
-			$util = new \OCA\Encryption\Util(
-				new \OC\Files\View(),
-				$crypt,
-				\OC::$server->getLogger(),
-				\OC::$server->getUserSession(),
-				\OC::$server->getConfig(),
-				\OC::$server->getUserManager());
-			$keyManager = new \OCA\Encryption\KeyManager(
-				$keyStorage,
-				$crypt,
-				\OC::$server->getConfig(),
-				\OC::$server->getUserSession(),
-				new \OCA\Encryption\Session(\OC::$server->getSession()),
-				\OC::$server->getLogger(),
-				$util,
-				\OC::$server->getLockingProvider()
-			);
-			$recovery = new \OCA\Encryption\Recovery(
-				\OC::$server->getUserSession(),
-				$crypt,
-				$keyManager,
-				\OC::$server->getConfig(),
-				\OC::$server->getEncryptionFilesHelper(),
-				new \OC\Files\View());
+			$keyManager = \OCP\Server::get(\OCA\Encryption\KeyManager::class);
+			$recovery = \OCP\Server::get(\OCA\Encryption\Recovery::class);
 			$recoveryAdminEnabled = $recovery->isRecoveryKeyEnabled();
 
 			$validRecoveryPassword = false;
@@ -215,7 +186,7 @@ class ChangePasswordController extends Controller {
 				return new JSONResponse([
 					'status' => 'error',
 					'data' => [
-						'message' => $this->l->t('Please provide an admin recovery password; otherwise, all user data will be lost.'),
+						'message' => $this->l->t('Please provide an admin recovery password; otherwise, all account data will be lost.'),
 					]
 				]);
 			} elseif ($recoveryEnabledForUser && ! $validRecoveryPassword) {
@@ -241,7 +212,7 @@ class ChangePasswordController extends Controller {
 					return new JSONResponse([
 						'status' => 'error',
 						'data' => [
-							'message' => $this->l->t('Backend doesn\'t support password change, but the user\'s encryption key was updated.'),
+							'message' => $this->l->t('Backend does not support password change, but the encryption of the account key was updated.'),
 						]
 					]);
 				} elseif (!$result && !$recoveryEnabledForUser) {

@@ -35,7 +35,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Files\Storage;
 
 use Exception;
@@ -45,19 +44,23 @@ use OC\Files\Filesystem;
 use OC\MemCache\ArrayCache;
 use OCP\AppFramework\Http;
 use OCP\Constants;
+use OCP\Diagnostics\IEventLogger;
 use OCP\Files\FileInfo;
 use OCP\Files\ForbiddenException;
+use OCP\Files\IMimeTypeDetector;
 use OCP\Files\StorageInvalidException;
 use OCP\Files\StorageNotAvailableException;
 use OCP\Http\Client\IClientService;
 use OCP\ICertificateManager;
-use OCP\ILogger;
+use OCP\IConfig;
 use OCP\Util;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Log\LoggerInterface;
 use Sabre\DAV\Client;
 use Sabre\DAV\Xml\Property\ResourceType;
 use Sabre\HTTP\ClientException;
 use Sabre\HTTP\ClientHttpException;
+use Sabre\HTTP\RequestInterface;
 
 /**
  * Class DAV
@@ -69,7 +72,7 @@ class DAV extends Common {
 	protected $password;
 	/** @var string */
 	protected $user;
-	/** @var string */
+	/** @var string|null */
 	protected $authType;
 	/** @var string */
 	protected $host;
@@ -89,6 +92,23 @@ class DAV extends Common {
 	protected $httpClientService;
 	/** @var ICertificateManager */
 	protected $certManager;
+	protected LoggerInterface $logger;
+	protected IEventLogger $eventLogger;
+	protected IMimeTypeDetector $mimeTypeDetector;
+
+	/** @var int */
+	private $timeout;
+
+	protected const PROPFIND_PROPS = [
+		'{DAV:}getlastmodified',
+		'{DAV:}getcontentlength',
+		'{DAV:}getcontenttype',
+		'{http://owncloud.org/ns}permissions',
+		'{http://open-collaboration-services.org/ns}share-permissions',
+		'{DAV:}resourcetype',
+		'{DAV:}getetag',
+		'{DAV:}quota-available-bytes',
+	];
 
 	/**
 	 * @param array $params
@@ -100,9 +120,9 @@ class DAV extends Common {
 		if (isset($params['host']) && isset($params['user']) && isset($params['password'])) {
 			$host = $params['host'];
 			//remove leading http[s], will be generated in createBaseUri()
-			if (substr($host, 0, 8) == "https://") {
+			if (str_starts_with($host, "https://")) {
 				$host = substr($host, 8);
-			} elseif (substr($host, 0, 7) == "http://") {
+			} elseif (str_starts_with($host, "http://")) {
 				$host = substr($host, 7);
 			}
 			$this->host = $host;
@@ -130,6 +150,11 @@ class DAV extends Common {
 		} else {
 			throw new \Exception('Invalid webdav storage configuration');
 		}
+		$this->logger = \OC::$server->get(LoggerInterface::class);
+		$this->eventLogger = \OC::$server->get(IEventLogger::class);
+		// This timeout value will be used for the download and upload of files
+		$this->timeout = \OC::$server->get(IConfig::class)->getSystemValueInt('davstorage.request_timeout', 30);
+		$this->mimeTypeDetector = \OC::$server->getMimeTypeDetector();
 	}
 
 	protected function init() {
@@ -143,11 +168,11 @@ class DAV extends Common {
 			'userName' => $this->user,
 			'password' => $this->password,
 		];
-		if (isset($this->authType)) {
+		if ($this->authType !== null) {
 			$settings['authType'] = $this->authType;
 		}
 
-		$proxy = \OC::$server->getConfig()->getSystemValue('proxy', '');
+		$proxy = \OC::$server->getConfig()->getSystemValueString('proxy', '');
 		if ($proxy !== '') {
 			$settings['proxy'] = $proxy;
 		}
@@ -164,6 +189,18 @@ class DAV extends Common {
 				$this->client->addCurlSetting(CURLOPT_CAINFO, $this->certPath);
 			}
 		}
+
+		$lastRequestStart = 0;
+		$this->client->on('beforeRequest', function (RequestInterface $request) use (&$lastRequestStart) {
+			$this->logger->debug("sending dav " . $request->getMethod() .  " request to external storage: " . $request->getAbsoluteUrl(), ['app' => 'dav']);
+			$lastRequestStart = microtime(true);
+			$this->eventLogger->start('fs:storage:dav:request', "Sending dav request to external storage");
+		});
+		$this->client->on('afterRequest', function (RequestInterface $request) use (&$lastRequestStart) {
+			$elapsed = microtime(true) - $lastRequestStart;
+			$this->logger->debug("dav " . $request->getMethod() .  " request to external storage: " . $request->getAbsoluteUrl() . " took " . round($elapsed * 1000, 1) . "ms", ['app' => 'dav']);
+			$this->eventLogger->end('fs:storage:dav:request');
+		});
 	}
 
 	/**
@@ -216,31 +253,12 @@ class DAV extends Common {
 		$this->init();
 		$path = $this->cleanPath($path);
 		try {
-			$response = $this->client->propFind(
-				$this->encodePath($path),
-				['{DAV:}getetag'],
-				1
-			);
-			if ($response === false) {
-				return false;
+			$content = $this->getDirectoryContent($path);
+			$files = [];
+			foreach ($content as $child) {
+				$files[] = $child['name'];
 			}
-			$content = [];
-			$files = array_keys($response);
-			array_shift($files); //the first entry is the current directory
-
-			if (!$this->statCache->hasKey($path)) {
-				$this->statCache->set($path, true);
-			}
-			foreach ($files as $file) {
-				$file = urldecode($file);
-				// do not store the real entry, we might not have all properties
-				if (!$this->statCache->hasKey($path)) {
-					$this->statCache->set($file, true);
-				}
-				$file = basename($file);
-				$content[] = $file;
-			}
-			return IteratorDirectory::wrap($content);
+			return IteratorDirectory::wrap($files);
 		} catch (\Exception $e) {
 			$this->convertException($e, $path);
 		}
@@ -268,15 +286,7 @@ class DAV extends Common {
 			try {
 				$response = $this->client->propFind(
 					$this->encodePath($path),
-					[
-						'{DAV:}getlastmodified',
-						'{DAV:}getcontentlength',
-						'{DAV:}getcontenttype',
-						'{http://owncloud.org/ns}permissions',
-						'{http://open-collaboration-services.org/ns}share-permissions',
-						'{DAV:}resourcetype',
-						'{DAV:}getetag',
-					]
+					self::PROPFIND_PROPS
 				);
 				$this->statCache->set($path, $response);
 			} catch (ClientHttpException $e) {
@@ -355,7 +365,9 @@ class DAV extends Common {
 						->newClient()
 						->get($this->createBaseUri() . $this->encodePath($path), [
 							'auth' => [$this->user, $this->password],
-							'stream' => true
+							'stream' => true,
+							// set download timeout for users with slow connections or large files
+							'timeout' => $this->timeout
 						]);
 				} catch (\GuzzleHttp\Exception\ClientException $e) {
 					if ($e->getResponse() instanceof ResponseInterface
@@ -370,7 +382,7 @@ class DAV extends Common {
 					if ($response->getStatusCode() === Http::STATUS_LOCKED) {
 						throw new \OCP\Lock\LockedException($path);
 					} else {
-						Util::writeLog("webdav client", 'Guzzle get returned status code ' . $response->getStatusCode(), ILogger::ERROR);
+						\OC::$server->get(LoggerInterface::class)->error('Guzzle get returned status code ' . $response->getStatusCode(), ['app' => 'webdav client']);
 					}
 				}
 
@@ -429,13 +441,12 @@ class DAV extends Common {
 		$this->init();
 		$path = $this->cleanPath($path);
 		try {
-			// TODO: cacheable ?
-			$response = $this->client->propfind($this->encodePath($path), ['{DAV:}quota-available-bytes']);
+			$response = $this->propfind($path);
 			if ($response === false) {
 				return FileInfo::SPACE_UNKNOWN;
 			}
 			if (isset($response['{DAV:}quota-available-bytes'])) {
-				return (int)$response['{DAV:}quota-available-bytes'];
+				return Util::numericToNumber($response['{DAV:}quota-available-bytes']);
 			} else {
 				return FileInfo::SPACE_UNKNOWN;
 			}
@@ -488,7 +499,7 @@ class DAV extends Common {
 	/**
 	 * @param string $path
 	 * @param mixed $data
-	 * @return int|false
+	 * @return int|float|false
 	 */
 	public function file_put_contents($path, $data) {
 		$path = $this->cleanPath($path);
@@ -513,37 +524,39 @@ class DAV extends Common {
 			->newClient()
 			->put($this->createBaseUri() . $this->encodePath($target), [
 				'body' => $source,
-				'auth' => [$this->user, $this->password]
+				'auth' => [$this->user, $this->password],
+				// set upload timeout for users with slow connections or large files
+				'timeout' => $this->timeout
 			]);
 
 		$this->removeCachedFile($target);
 	}
 
 	/** {@inheritdoc} */
-	public function rename($path1, $path2) {
+	public function rename($source, $target) {
 		$this->init();
-		$path1 = $this->cleanPath($path1);
-		$path2 = $this->cleanPath($path2);
+		$source = $this->cleanPath($source);
+		$target = $this->cleanPath($target);
 		try {
 			// overwrite directory ?
-			if ($this->is_dir($path2)) {
+			if ($this->is_dir($target)) {
 				// needs trailing slash in destination
-				$path2 = rtrim($path2, '/') . '/';
+				$target = rtrim($target, '/') . '/';
 			}
 			$this->client->request(
 				'MOVE',
-				$this->encodePath($path1),
+				$this->encodePath($source),
 				null,
 				[
-					'Destination' => $this->createBaseUri() . $this->encodePath($path2),
+					'Destination' => $this->createBaseUri() . $this->encodePath($target),
 				]
 			);
-			$this->statCache->clear($path1 . '/');
-			$this->statCache->clear($path2 . '/');
-			$this->statCache->set($path1, false);
-			$this->statCache->set($path2, true);
-			$this->removeCachedFile($path1);
-			$this->removeCachedFile($path2);
+			$this->statCache->clear($source . '/');
+			$this->statCache->clear($target . '/');
+			$this->statCache->set($source, false);
+			$this->statCache->set($target, true);
+			$this->removeCachedFile($source);
+			$this->removeCachedFile($target);
 			return true;
 		} catch (\Exception $e) {
 			$this->convertException($e);
@@ -552,81 +565,112 @@ class DAV extends Common {
 	}
 
 	/** {@inheritdoc} */
-	public function copy($path1, $path2) {
+	public function copy($source, $target) {
 		$this->init();
-		$path1 = $this->cleanPath($path1);
-		$path2 = $this->cleanPath($path2);
+		$source = $this->cleanPath($source);
+		$target = $this->cleanPath($target);
 		try {
 			// overwrite directory ?
-			if ($this->is_dir($path2)) {
+			if ($this->is_dir($target)) {
 				// needs trailing slash in destination
-				$path2 = rtrim($path2, '/') . '/';
+				$target = rtrim($target, '/') . '/';
 			}
 			$this->client->request(
 				'COPY',
-				$this->encodePath($path1),
+				$this->encodePath($source),
 				null,
 				[
-					'Destination' => $this->createBaseUri() . $this->encodePath($path2),
+					'Destination' => $this->createBaseUri() . $this->encodePath($target),
 				]
 			);
-			$this->statCache->clear($path2 . '/');
-			$this->statCache->set($path2, true);
-			$this->removeCachedFile($path2);
+			$this->statCache->clear($target . '/');
+			$this->statCache->set($target, true);
+			$this->removeCachedFile($target);
 			return true;
 		} catch (\Exception $e) {
 			$this->convertException($e);
 		}
 		return false;
+	}
+
+	public function getMetaData($path) {
+		if (Filesystem::isFileBlacklisted($path)) {
+			throw new ForbiddenException('Invalid path: ' . $path, false);
+		}
+		$response = $this->propfind($path);
+		if (!$response) {
+			return null;
+		} else {
+			return $this->getMetaFromPropfind($path, $response);
+		}
+	}
+	private function getMetaFromPropfind(string $path, array $response): array {
+		if (isset($response['{DAV:}getetag'])) {
+			$etag = trim($response['{DAV:}getetag'], '"');
+			if (strlen($etag) > 40) {
+				$etag = md5($etag);
+			}
+		} else {
+			$etag = parent::getETag($path);
+		}
+
+		$responseType = [];
+		if (isset($response["{DAV:}resourcetype"])) {
+			/** @var ResourceType[] $response */
+			$responseType = $response["{DAV:}resourcetype"]->getValue();
+		}
+		$type = (count($responseType) > 0 and $responseType[0] == "{DAV:}collection") ? 'dir' : 'file';
+		if ($type === 'dir') {
+			$mimeType = 'httpd/unix-directory';
+		} elseif (isset($response['{DAV:}getcontenttype'])) {
+			$mimeType = $response['{DAV:}getcontenttype'];
+		} else {
+			$mimeType = $this->mimeTypeDetector->detectPath($path);
+		}
+
+		if (isset($response['{http://owncloud.org/ns}permissions'])) {
+			$permissions = $this->parsePermissions($response['{http://owncloud.org/ns}permissions']);
+		} elseif ($type === 'dir') {
+			$permissions = Constants::PERMISSION_ALL;
+		} else {
+			$permissions = Constants::PERMISSION_ALL - Constants::PERMISSION_CREATE;
+		}
+
+		$mtime = isset($response['{DAV:}getlastmodified']) ? strtotime($response['{DAV:}getlastmodified']) : null;
+
+		if ($type === 'dir') {
+			$size = -1;
+		} else {
+			$size = Util::numericToNumber($response['{DAV:}getcontentlength'] ?? 0);
+		}
+
+		return [
+			'name' => basename($path),
+			'mtime' => $mtime,
+			'storage_mtime' => $mtime,
+			'size' => $size,
+			'permissions' => $permissions,
+			'etag' => $etag,
+			'mimetype' => $mimeType,
+		];
 	}
 
 	/** {@inheritdoc} */
 	public function stat($path) {
-		try {
-			$response = $this->propfind($path);
-			if (!$response) {
-				return false;
-			}
-			return [
-				'mtime' => strtotime($response['{DAV:}getlastmodified']),
-				'size' => (int)isset($response['{DAV:}getcontentlength']) ? $response['{DAV:}getcontentlength'] : 0,
-			];
-		} catch (\Exception $e) {
-			$this->convertException($e, $path);
+		$meta = $this->getMetaData($path);
+		if (!$meta) {
+			return false;
+		} else {
+			return $meta;
 		}
-		return [];
 	}
 
 	/** {@inheritdoc} */
 	public function getMimeType($path) {
-		$remoteMimetype = $this->getMimeTypeFromRemote($path);
-		if ($remoteMimetype === 'application/octet-stream') {
-			return \OC::$server->getMimeTypeDetector()->detectPath($path);
+		$meta = $this->getMetaData($path);
+		if ($meta) {
+			return $meta['mimetype'];
 		} else {
-			return $remoteMimetype;
-		}
-	}
-
-	public function getMimeTypeFromRemote($path) {
-		try {
-			$response = $this->propfind($path);
-			if ($response === false) {
-				return false;
-			}
-			$responseType = [];
-			if (isset($response["{DAV:}resourcetype"])) {
-				/** @var ResourceType[] $response */
-				$responseType = $response["{DAV:}resourcetype"]->getValue();
-			}
-			$type = (count($responseType) > 0 and $responseType[0] == "{DAV:}collection") ? 'dir' : 'file';
-			if ($type == 'dir') {
-				return 'httpd/unix-directory';
-			} elseif (isset($response['{DAV:}getcontenttype'])) {
-				return $response['{DAV:}getcontenttype'];
-			} else {
-				return 'application/octet-stream';
-			}
-		} catch (\Exception $e) {
 			return false;
 		}
 	}
@@ -712,18 +756,9 @@ class DAV extends Common {
 
 	/** {@inheritdoc} */
 	public function getPermissions($path) {
-		$this->init();
-		$path = $this->cleanPath($path);
-		$response = $this->propfind($path);
-		if ($response === false) {
-			return 0;
-		}
-		if (isset($response['{http://owncloud.org/ns}permissions'])) {
-			return $this->parsePermissions($response['{http://owncloud.org/ns}permissions']);
-		} elseif ($this->is_dir($path)) {
-			return Constants::PERMISSION_ALL;
-		} elseif ($this->file_exists($path)) {
-			return Constants::PERMISSION_ALL - Constants::PERMISSION_CREATE;
+		$stat = $this->getMetaData($path);
+		if ($stat) {
+			return $stat['permissions'];
 		} else {
 			return 0;
 		}
@@ -731,20 +766,12 @@ class DAV extends Common {
 
 	/** {@inheritdoc} */
 	public function getETag($path) {
-		$this->init();
-		$path = $this->cleanPath($path);
-		$response = $this->propfind($path);
-		if ($response === false) {
+		$meta = $this->getMetaData($path);
+		if ($meta) {
+			return $meta['etag'];
+		} else {
 			return null;
 		}
-		if (isset($response['{DAV:}getetag'])) {
-			$etag = trim($response['{DAV:}getetag'], '"');
-			if (strlen($etag) > 40) {
-				$etag = md5($etag);
-			}
-			return $etag;
-		}
-		return parent::getEtag($path);
 	}
 
 	/**
@@ -753,16 +780,16 @@ class DAV extends Common {
 	 */
 	protected function parsePermissions($permissionsString) {
 		$permissions = Constants::PERMISSION_READ;
-		if (strpos($permissionsString, 'R') !== false) {
+		if (str_contains($permissionsString, 'R')) {
 			$permissions |= Constants::PERMISSION_SHARE;
 		}
-		if (strpos($permissionsString, 'D') !== false) {
+		if (str_contains($permissionsString, 'D')) {
 			$permissions |= Constants::PERMISSION_DELETE;
 		}
-		if (strpos($permissionsString, 'W') !== false) {
+		if (str_contains($permissionsString, 'W')) {
 			$permissions |= Constants::PERMISSION_UPDATE;
 		}
-		if (strpos($permissionsString, 'CK') !== false) {
+		if (str_contains($permissionsString, 'CK')) {
 			$permissions |= Constants::PERMISSION_CREATE;
 			$permissions |= Constants::PERMISSION_UPDATE;
 		}
@@ -793,11 +820,8 @@ class DAV extends Common {
 			}
 			if (isset($response['{DAV:}getetag'])) {
 				$cachedData = $this->getCache()->get($path);
-				$etag = null;
-				if (isset($response['{DAV:}getetag'])) {
-					$etag = trim($response['{DAV:}getetag'], '"');
-				}
-				if (!empty($etag) && $cachedData['etag'] !== $etag) {
+				$etag = trim($response['{DAV:}getetag'], '"');
+				if (($cachedData === false) || (!empty($etag) && ($cachedData['etag'] !== $etag))) {
 					return true;
 				} elseif (isset($response['{http://open-collaboration-services.org/ns}share-permissions'])) {
 					$sharePermissions = (int)$response['{http://open-collaboration-services.org/ns}share-permissions'];
@@ -808,9 +832,12 @@ class DAV extends Common {
 				} else {
 					return false;
 				}
-			} else {
+			} elseif (isset($response['{DAV:}getlastmodified'])) {
 				$remoteMtime = strtotime($response['{DAV:}getlastmodified']);
 				return $remoteMtime > $time;
+			} else {
+				// neither `getetag` nor `getlastmodified` is set
+				return false;
 			}
 		} catch (ClientHttpException $e) {
 			if ($e->getHttpStatus() === 405) {
@@ -844,7 +871,7 @@ class DAV extends Common {
 	 * @throws ForbiddenException if the action is not allowed
 	 */
 	protected function convertException(Exception $e, $path = '') {
-		\OC::$server->getLogger()->logException($e, ['app' => 'files_external', 'level' => ILogger::DEBUG]);
+		\OC::$server->get(LoggerInterface::class)->debug($e->getMessage(), ['app' => 'files_external', 'exception' => $e]);
 		if ($e instanceof ClientHttpException) {
 			if ($e->getHttpStatus() === Http::STATUS_LOCKED) {
 				throw new \OCP\Lock\LockedException($path);
@@ -873,5 +900,35 @@ class DAV extends Common {
 		}
 
 		// TODO: only log for now, but in the future need to wrap/rethrow exception
+	}
+
+	public function getDirectoryContent($directory): \Traversable {
+		$this->init();
+		$directory = $this->cleanPath($directory);
+		try {
+			$responses = $this->client->propFind(
+				$this->encodePath($directory),
+				self::PROPFIND_PROPS,
+				1
+			);
+			if ($responses === false) {
+				return;
+			}
+
+			array_shift($responses); //the first entry is the current directory
+			if (!$this->statCache->hasKey($directory)) {
+				$this->statCache->set($directory, true);
+			}
+
+			foreach ($responses as $file => $response) {
+				$file = rawurldecode($file);
+				$file = substr($file, strlen($this->root));
+				$file = $this->cleanPath($file);
+				$this->statCache->set($file, $response);
+				yield $this->getMetaFromPropfind($file, $response);
+			}
+		} catch (\Exception $e) {
+			$this->convertException($e, $directory);
+		}
 	}
 }

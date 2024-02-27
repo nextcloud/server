@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright 2018, Roeland Jago Douma <roeland@famdouma.nl>
  *
@@ -16,17 +19,19 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-declare(strict_types=1);
-
 namespace OCP\AppFramework;
 
+use OCP\AppFramework\Http\Attribute\BruteForceProtection;
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
+use OCP\AppFramework\Http\Attribute\PublicPage;
+use OCP\AppFramework\Http\Attribute\UseSession;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IRequest;
@@ -45,7 +50,6 @@ use OCP\IURLGenerator;
  * @since 14.0.0
  */
 abstract class AuthPublicShareController extends PublicShareController {
-
 	/** @var IURLGenerator */
 	protected $urlGenerator;
 
@@ -53,9 +57,9 @@ abstract class AuthPublicShareController extends PublicShareController {
 	 * @since 14.0.0
 	 */
 	public function __construct(string $appName,
-								IRequest $request,
-								ISession $session,
-								IURLGenerator $urlGenerator) {
+		IRequest $request,
+		ISession $session,
+		IURLGenerator $urlGenerator) {
 		parent::__construct($appName, $request, $session);
 
 		$this->urlGenerator = $urlGenerator;
@@ -70,6 +74,8 @@ abstract class AuthPublicShareController extends PublicShareController {
 	 *
 	 * @since 14.0.0
 	 */
+	#[NoCSRFRequired]
+	#[PublicPage]
 	public function showAuthenticate(): TemplateResponse {
 		return new TemplateResponse('core', 'publicshareauth', [], 'guest');
 	}
@@ -84,11 +90,39 @@ abstract class AuthPublicShareController extends PublicShareController {
 	}
 
 	/**
+	 * The template to show after user identification
+	 *
+	 * @since 24.0.0
+	 */
+	protected function showIdentificationResult(bool $success): TemplateResponse {
+		return new TemplateResponse('core', 'publicshareauth', ['identityOk' => $success], 'guest');
+	}
+
+	/**
+	 * Validates that the provided identity is allowed to receive a temporary password
+	 *
+	 * @since 24.0.0
+	 */
+	protected function validateIdentity(?string $identityToken = null): bool {
+		return false;
+	}
+
+	/**
+	 * Generates a password
+	 *
+	 * @since 24.0.0
+	 */
+	protected function generatePassword(): void {
+	}
+
+	/**
 	 * Verify the password
 	 *
-	 * @since 14.0.0
+	 * @since 24.0.0
 	 */
-	abstract protected function verifyPassword(string $password): bool;
+	protected function verifyPassword(string $password): bool {
+		return false;
+	}
 
 	/**
 	 * Function called after failed authentication
@@ -101,7 +135,7 @@ abstract class AuthPublicShareController extends PublicShareController {
 	}
 
 	/**
-	 * Function called after successfull authentication
+	 * Function called after successful authentication
 	 *
 	 * You can use this to do some logging for example
 	 *
@@ -119,10 +153,26 @@ abstract class AuthPublicShareController extends PublicShareController {
 	 *
 	 * @since 14.0.0
 	 */
-	final public function authenticate(string $password = '') {
+	#[BruteForceProtection(action: 'publicLinkAuth')]
+	#[PublicPage]
+	#[UseSession]
+	final public function authenticate(string $password = '', string $passwordRequest = 'no', string $identityToken = '') {
 		// Already authenticated
 		if ($this->isAuthenticated()) {
 			return $this->getRedirect();
+		}
+
+		// Is user requesting a temporary password?
+		if ($passwordRequest == '') {
+			if ($this->validateIdentity($identityToken)) {
+				$this->generatePassword();
+				$response = $this->showIdentificationResult(true);
+				return $response;
+			} else {
+				$response = $this->showIdentificationResult(false);
+				$response->throttle();
+				return $response;
+			}
 		}
 
 		if (!$this->verifyPassword($password)) {

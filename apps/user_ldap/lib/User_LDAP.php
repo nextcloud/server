@@ -36,42 +36,47 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\User_LDAP;
 
 use OC\ServerNotAvailableException;
 use OC\User\Backend;
 use OC\User\NoUserException;
 use OCA\User_LDAP\Exceptions\NotOnLDAP;
+use OCA\User_LDAP\User\DeletedUsersIndex;
 use OCA\User_LDAP\User\OfflineUser;
 use OCA\User_LDAP\User\User;
 use OCP\IConfig;
-use OCP\ILogger;
+use OCP\IUserBackend;
 use OCP\IUserSession;
 use OCP\Notification\IManager as INotificationManager;
-use OCP\Util;
+use OCP\User\Backend\ICountMappedUsersBackend;
+use OCP\User\Backend\ICountUsersBackend;
+use OCP\User\Backend\IProvideEnabledStateBackend;
+use OCP\UserInterface;
+use Psr\Log\LoggerInterface;
 
-class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserInterface, IUserLDAP {
-	/** @var \OCP\IConfig */
-	protected $ocConfig;
+class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, IUserLDAP, ICountUsersBackend, ICountMappedUsersBackend, IProvideEnabledStateBackend {
+	protected IConfig $ocConfig;
+	protected INotificationManager $notificationManager;
+	protected UserPluginManager $userPluginManager;
+	protected LoggerInterface $logger;
+	protected DeletedUsersIndex $deletedUsersIndex;
 
-	/** @var INotificationManager */
-	protected $notificationManager;
-
-	/** @var UserPluginManager */
-	protected $userPluginManager;
-
-	/**
-	 * @param Access $access
-	 * @param \OCP\IConfig $ocConfig
-	 * @param \OCP\Notification\IManager $notificationManager
-	 * @param IUserSession $userSession
-	 */
-	public function __construct(Access $access, IConfig $ocConfig, INotificationManager $notificationManager, IUserSession $userSession, UserPluginManager $userPluginManager) {
+	public function __construct(
+		Access $access,
+		IConfig $ocConfig,
+		INotificationManager $notificationManager,
+		IUserSession $userSession,
+		UserPluginManager $userPluginManager,
+		LoggerInterface $logger,
+		DeletedUsersIndex $deletedUsersIndex,
+	) {
 		parent::__construct($access);
 		$this->ocConfig = $ocConfig;
 		$this->notificationManager = $notificationManager;
 		$this->userPluginManager = $userPluginManager;
+		$this->logger = $logger;
+		$this->deletedUsersIndex = $deletedUsersIndex;
 	}
 
 	/**
@@ -133,7 +138,7 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 			return false;
 		}
 	}
-	
+
 	/**
 	 * returns the username for the given LDAP DN, if available
 	 *
@@ -173,17 +178,21 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 		try {
 			$ldapRecord = $this->getLDAPUserByLoginName($uid);
 		} catch (NotOnLDAP $e) {
-			\OC::$server->getLogger()->logException($e, ['app' => 'user_ldap', 'level' => ILogger::DEBUG]);
+			$this->logger->debug(
+				$e->getMessage(),
+				['app' => 'user_ldap', 'exception' => $e]
+			);
 			return false;
 		}
 		$dn = $ldapRecord['dn'][0];
 		$user = $this->access->userManager->get($dn);
 
 		if (!$user instanceof User) {
-			Util::writeLog('user_ldap',
+			$this->logger->warning(
 				'LDAP Login: Could not get user object for DN ' . $dn .
 				'. Maybe the LDAP entry has no set display name attribute?',
-				ILogger::WARN);
+				['app' => 'user_ldap']
+			);
 			return false;
 		}
 		if ($user->getUsername() !== false) {
@@ -266,16 +275,20 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 			$this->access->getFilterPartForUserSearch($search)
 		]);
 
-		Util::writeLog('user_ldap',
+		$this->logger->debug(
 			'getUsers: Options: search '.$search.' limit '.$limit.' offset '.$offset.' Filter: '.$filter,
-			ILogger::DEBUG);
+			['app' => 'user_ldap']
+		);
 		//do the search and translate results to Nextcloud names
 		$ldap_users = $this->access->fetchListOfUsers(
 			$filter,
 			$this->access->userManager->getAttributes(true),
 			$limit, $offset);
 		$ldap_users = $this->access->nextcloudUserNames($ldap_users);
-		Util::writeLog('user_ldap', 'getUsers: '.count($ldap_users). ' Users found', ILogger::DEBUG);
+		$this->logger->debug(
+			'getUsers: '.count($ldap_users). ' Users found',
+			['app' => 'user_ldap']
+		);
 
 		$this->access->connection->writeToCache($cachekey, $ldap_users);
 		return $ldap_users;
@@ -286,11 +299,10 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 	 *
 	 * @param string|\OCA\User_LDAP\User\User $user either the Nextcloud user
 	 * name or an instance of that user
-	 * @return bool
 	 * @throws \Exception
 	 * @throws \OC\ServerNotAvailableException
 	 */
-	public function userExistsOnLDAP($user) {
+	public function userExistsOnLDAP($user, bool $ignoreCache = false): bool {
 		if (is_string($user)) {
 			$user = $this->access->userManager->get($user);
 		}
@@ -299,9 +311,11 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 		}
 		$uid = $user instanceof User ? $user->getUsername() : $user->getOCName();
 		$cacheKey = 'userExistsOnLDAP' . $uid;
-		$userExists = $this->access->connection->getFromCache($cacheKey);
-		if (!is_null($userExists)) {
-			return (bool)$userExists;
+		if (!$ignoreCache) {
+			$userExists = $this->access->connection->getFromCache($cacheKey);
+			if (!is_null($userExists)) {
+				return (bool)$userExists;
+			}
 		}
 
 		$dn = $user->getDN();
@@ -320,8 +334,6 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 					return false;
 				}
 				$this->access->getUserMapper()->setDNbyUUID($newDn, $uuid);
-				$this->access->connection->writeToCache($cacheKey, true);
-				return true;
 			} catch (ServerNotAvailableException $e) {
 				throw $e;
 			} catch (\Exception $e) {
@@ -353,8 +365,10 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 		$user = $this->access->userManager->get($uid);
 
 		if (is_null($user)) {
-			Util::writeLog('user_ldap', 'No DN found for '.$uid.' on '.
-				$this->access->connection->ldapHost, ILogger::DEBUG);
+			$this->logger->debug(
+				'No DN found for '.$uid.' on '.$this->access->connection->ldapHost,
+				['app' => 'user_ldap']
+			);
 			$this->access->connection->writeToCache('userExists'.$uid, false);
 			return false;
 		}
@@ -377,14 +391,29 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 			}
 		}
 
-		$marked = $this->ocConfig->getUserValue($uid, 'user_ldap', 'isDeleted', 0);
-		if ((int)$marked === 0) {
-			\OC::$server->getLogger()->notice(
-				'User '.$uid . ' is not marked as deleted, not cleaning up.',
-				['app' => 'user_ldap']);
-			return false;
+		$marked = $this->deletedUsersIndex->isUserMarked($uid);
+		if (!$marked) {
+			try {
+				$user = $this->access->userManager->get($uid);
+				if (($user instanceof User) && !$this->userExistsOnLDAP($uid, true)) {
+					$user->markUser();
+					$marked = true;
+				}
+			} catch (\Exception $e) {
+				$this->logger->debug(
+					$e->getMessage(),
+					['app' => 'user_ldap', 'exception' => $e]
+				);
+			}
+			if (!$marked) {
+				$this->logger->notice(
+					'User '.$uid . ' is not marked as deleted, not cleaning up.',
+					['app' => 'user_ldap']
+				);
+				return false;
+			}
 		}
-		\OC::$server->getLogger()->info('Cleaning up after user ' . $uid,
+		$this->logger->info('Cleaning up after user ' . $uid,
 			['app' => 'user_ldap']);
 
 		$this->access->getUserMapper()->unmap($uid); // we don't emit unassign signals here, since it is implicit to delete signals fired from core
@@ -502,8 +531,8 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 	 * Get a list of all display names
 	 *
 	 * @param string $search
-	 * @param string|null $limit
-	 * @param string|null $offset
+	 * @param int|null $limit
+	 * @param int|null $offset
 	 * @return array an array of all displayNames (value) and the corresponding uids (key)
 	 */
 	public function getDisplayNames($search = '', $limit = null, $offset = null) {
@@ -550,7 +579,7 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 	/**
 	 * counts the users in LDAP
 	 *
-	 * @return int|bool
+	 * @return int|false
 	 */
 	public function countUsers() {
 		if ($this->userPluginManager->implementsActions(Backend::COUNT_USERS)) {
@@ -567,6 +596,10 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 		return $entries;
 	}
 
+	public function countMappedUsers(): int {
+		return $this->access->getUserMapper()->count();
+	}
+
 	/**
 	 * Backend name to be shown in user management
 	 * @return string the name of the backend to be shown
@@ -574,7 +607,7 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 	public function getBackendName() {
 		return 'LDAP';
 	}
-	
+
 	/**
 	 * Return access for LDAP interaction.
 	 * @param string $uid
@@ -583,13 +616,13 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 	public function getLDAPAccess($uid) {
 		return $this->access;
 	}
-	
+
 	/**
 	 * Return LDAP connection resource from a cloned connection.
 	 * The cloned connection needs to be closed manually.
 	 * of the current access.
 	 * @param string $uid
-	 * @return resource of the LDAP connection
+	 * @return resource|\LDAP\Connection The LDAP connection
 	 */
 	public function getNewLDAPConnection($uid) {
 		$connection = clone $this->access->getConnection();
@@ -619,7 +652,7 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 						);
 						$this->access->cacheUserExists($username);
 					} else {
-						\OC::$server->getLogger()->warning(
+						$this->logger->warning(
 							'Failed to map created LDAP user with userid {userid}, because UUID could not be determined',
 							[
 								'app' => 'user_ldap',
@@ -634,5 +667,22 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 			return (bool) $dn;
 		}
 		return false;
+	}
+
+	public function isUserEnabled(string $uid, callable $queryDatabaseValue): bool {
+		if ($this->deletedUsersIndex->isUserMarked($uid) && ((int)$this->access->connection->markRemnantsAsDisabled === 1)) {
+			return false;
+		} else {
+			return $queryDatabaseValue();
+		}
+	}
+
+	public function setUserEnabled(string $uid, bool $enabled, callable $queryDatabaseValue, callable $setDatabaseValue): bool {
+		$setDatabaseValue($enabled);
+		return $enabled;
+	}
+
+	public function getDisabledUserList(?int $limit = null, int $offset = 0): array {
+		throw new \Exception('This is implemented directly in User_Proxy');
 	}
 }

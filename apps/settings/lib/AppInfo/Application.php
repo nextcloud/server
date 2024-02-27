@@ -8,7 +8,6 @@ declare(strict_types=1);
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Björn Schießle <bjoern@schiessle.org>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
@@ -16,6 +15,7 @@ declare(strict_types=1);
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author zulan <git@zulan.net>
+ * @author Stephan Orbaugh <stephan.orbaugh@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -32,37 +32,76 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Settings\AppInfo;
 
-use BadMethodCallException;
 use OC\AppFramework\Utility\TimeFactory;
+use OC\Authentication\Events\AppPasswordCreatedEvent;
 use OC\Authentication\Token\IProvider;
-use OC\Authentication\Token\IToken;
-use OC\Group\Manager;
 use OC\Server;
-use OCA\Settings\Activity\Provider;
 use OCA\Settings\Hooks;
+use OCA\Settings\Listener\AppPasswordCreatedActivityListener;
+use OCA\Settings\Listener\GroupRemovedListener;
+use OCA\Settings\Listener\UserAddedToGroupActivityListener;
+use OCA\Settings\Listener\UserRemovedFromGroupActivityListener;
 use OCA\Settings\Mailer\NewUserMailHelper;
 use OCA\Settings\Middleware\SubadminMiddleware;
 use OCA\Settings\Search\AppSearch;
 use OCA\Settings\Search\SectionSearch;
-use OCP\Activity\IManager as IActivityManager;
+use OCA\Settings\Search\UserSearch;
+use OCA\Settings\SetupChecks\AppDirsWithDifferentOwner;
+use OCA\Settings\SetupChecks\BruteForceThrottler;
+use OCA\Settings\SetupChecks\CheckUserCertificates;
+use OCA\Settings\SetupChecks\CodeIntegrity;
+use OCA\Settings\SetupChecks\CronErrors;
+use OCA\Settings\SetupChecks\CronInfo;
+use OCA\Settings\SetupChecks\DatabaseHasMissingColumns;
+use OCA\Settings\SetupChecks\DatabaseHasMissingIndices;
+use OCA\Settings\SetupChecks\DatabaseHasMissingPrimaryKeys;
+use OCA\Settings\SetupChecks\DatabasePendingBigIntConversions;
+use OCA\Settings\SetupChecks\DebugMode;
+use OCA\Settings\SetupChecks\DefaultPhoneRegionSet;
+use OCA\Settings\SetupChecks\EmailTestSuccessful;
+use OCA\Settings\SetupChecks\FileLocking;
+use OCA\Settings\SetupChecks\ForwardedForHeaders;
+use OCA\Settings\SetupChecks\InternetConnectivity;
+use OCA\Settings\SetupChecks\JavaScriptModules;
+use OCA\Settings\SetupChecks\LegacySSEKeyFormat;
+use OCA\Settings\SetupChecks\MaintenanceWindowStart;
+use OCA\Settings\SetupChecks\MemcacheConfigured;
+use OCA\Settings\SetupChecks\MysqlUnicodeSupport;
+use OCA\Settings\SetupChecks\OverwriteCliUrl;
+use OCA\Settings\SetupChecks\PhpDefaultCharset;
+use OCA\Settings\SetupChecks\PhpDisabledFunctions;
+use OCA\Settings\SetupChecks\PhpFreetypeSupport;
+use OCA\Settings\SetupChecks\PhpGetEnv;
+use OCA\Settings\SetupChecks\PhpMemoryLimit;
+use OCA\Settings\SetupChecks\PhpModules;
+use OCA\Settings\SetupChecks\PhpOpcacheSetup;
+use OCA\Settings\SetupChecks\PhpOutdated;
+use OCA\Settings\SetupChecks\PhpOutputBuffering;
+use OCA\Settings\SetupChecks\PushService;
+use OCA\Settings\SetupChecks\RandomnessSecure;
+use OCA\Settings\SetupChecks\ReadOnlyConfig;
+use OCA\Settings\SetupChecks\SupportedDatabase;
+use OCA\Settings\SetupChecks\SystemIs64bit;
+use OCA\Settings\SetupChecks\TempSpaceAvailable;
+use OCA\Settings\SetupChecks\TransactionIsolation;
+use OCA\Settings\SetupChecks\Woff2Loading;
+use OCA\Settings\UserMigration\AccountMigrator;
+use OCA\Settings\WellKnown\ChangePasswordHandler;
+use OCA\Settings\WellKnown\SecurityTxtHandler;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\AppFramework\IAppContainer;
 use OCP\Defaults;
-use OCP\IGroup;
-use OCP\IGroupManager;
-use OCP\ILogger;
+use OCP\Group\Events\GroupDeletedEvent;
+use OCP\Group\Events\UserAddedEvent;
+use OCP\Group\Events\UserRemovedEvent;
 use OCP\IServerContainer;
-use OCP\IUser;
 use OCP\Settings\IManager;
 use OCP\Util;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
 
 class Application extends App implements IBootstrap {
 	public const APP_ID = 'settings';
@@ -80,14 +119,21 @@ class Application extends App implements IBootstrap {
 		$context->registerMiddleware(SubadminMiddleware::class);
 		$context->registerSearchProvider(SectionSearch::class);
 		$context->registerSearchProvider(AppSearch::class);
+		$context->registerSearchProvider(UserSearch::class);
+
+		// Register listeners
+		$context->registerEventListener(AppPasswordCreatedEvent::class, AppPasswordCreatedActivityListener::class);
+		$context->registerEventListener(UserAddedEvent::class, UserAddedToGroupActivityListener::class);
+		$context->registerEventListener(UserRemovedEvent::class, UserRemovedFromGroupActivityListener::class);
+		$context->registerEventListener(GroupDeletedEvent::class, GroupRemovedListener::class);
+
+		// Register well-known handlers
+		$context->registerWellKnownHandler(SecurityTxtHandler::class);
+		$context->registerWellKnownHandler(ChangePasswordHandler::class);
 
 		/**
 		 * Core class wrappers
 		 */
-		/** FIXME: Remove once OC_User is non-static and mockable */
-		$context->registerService('isAdmin', function () {
-			return \OC_User::isAdminUser(\OC_User::getUser());
-		});
 		/** FIXME: Remove once OC_SubAdmin is non-static and mockable */
 		$context->registerService('isSubAdmin', function () {
 			$userObject = \OC::$server->getUserSession()->getUser();
@@ -126,56 +172,53 @@ class Application extends App implements IBootstrap {
 				Util::getDefaultEmailAddress('no-reply')
 			);
 		});
+		$context->registerSetupCheck(AppDirsWithDifferentOwner::class);
+		$context->registerSetupCheck(BruteForceThrottler::class);
+		$context->registerSetupCheck(CheckUserCertificates::class);
+		$context->registerSetupCheck(CodeIntegrity::class);
+		$context->registerSetupCheck(CronErrors::class);
+		$context->registerSetupCheck(CronInfo::class);
+		$context->registerSetupCheck(DatabaseHasMissingColumns::class);
+		$context->registerSetupCheck(DatabaseHasMissingIndices::class);
+		$context->registerSetupCheck(DatabaseHasMissingPrimaryKeys::class);
+		$context->registerSetupCheck(DatabasePendingBigIntConversions::class);
+		$context->registerSetupCheck(DebugMode::class);
+		$context->registerSetupCheck(DefaultPhoneRegionSet::class);
+		$context->registerSetupCheck(EmailTestSuccessful::class);
+		$context->registerSetupCheck(FileLocking::class);
+		$context->registerSetupCheck(ForwardedForHeaders::class);
+		$context->registerSetupCheck(InternetConnectivity::class);
+		$context->registerSetupCheck(JavaScriptModules::class);
+		$context->registerSetupCheck(LegacySSEKeyFormat::class);
+		$context->registerSetupCheck(MaintenanceWindowStart::class);
+		$context->registerSetupCheck(MemcacheConfigured::class);
+		$context->registerSetupCheck(MysqlUnicodeSupport::class);
+		$context->registerSetupCheck(OverwriteCliUrl::class);
+		$context->registerSetupCheck(PhpDefaultCharset::class);
+		$context->registerSetupCheck(PhpDisabledFunctions::class);
+		$context->registerSetupCheck(PhpFreetypeSupport::class);
+		$context->registerSetupCheck(PhpGetEnv::class);
+		$context->registerSetupCheck(PhpMemoryLimit::class);
+		$context->registerSetupCheck(PhpModules::class);
+		$context->registerSetupCheck(PhpOpcacheSetup::class);
+		$context->registerSetupCheck(PhpOutdated::class);
+		$context->registerSetupCheck(PhpOutputBuffering::class);
+		$context->registerSetupCheck(RandomnessSecure::class);
+		$context->registerSetupCheck(ReadOnlyConfig::class);
+		$context->registerSetupCheck(SupportedDatabase::class);
+		$context->registerSetupCheck(SystemIs64bit::class);
+		$context->registerSetupCheck(TempSpaceAvailable::class);
+		$context->registerSetupCheck(TransactionIsolation::class);
+		$context->registerSetupCheck(PushService::class);
+		$context->registerSetupCheck(Woff2Loading::class);
+
+		$context->registerUserMigrator(AccountMigrator::class);
 	}
 
 	public function boot(IBootContext $context): void {
-		$context->injectFn(function (EventDispatcherInterface $dispatcher, IAppContainer $appContainer) {
-			$dispatcher->addListener('app_password_created', function (GenericEvent $event) use ($appContainer) {
-				if (($token = $event->getSubject()) instanceof IToken) {
-					/** @var IActivityManager $activityManager */
-					$activityManager = $appContainer->get(IActivityManager::class);
-					/** @var ILogger $logger */
-					$logger = $appContainer->get(ILogger::class);
-
-					$activity = $activityManager->generateEvent();
-					$activity->setApp('settings')
-						->setType('security')
-						->setAffectedUser($token->getUID())
-						->setAuthor($token->getUID())
-						->setSubject(Provider::APP_TOKEN_CREATED, ['name' => $token->getName()])
-						->setObject('app_token', $token->getId());
-
-					try {
-						$activityManager->publish($activity);
-					} catch (BadMethodCallException $e) {
-						$logger->logException($e, ['message' => 'could not publish activity', 'level' => ILogger::WARN]);
-					}
-				}
-			});
-		});
-
 		Util::connectHook('OC_User', 'post_setPassword', $this, 'onChangePassword');
 		Util::connectHook('OC_User', 'changeUser', $this, 'onChangeInfo');
-
-		$context->injectFn(function (IGroupManager $groupManager) {
-			/** @var IGroupManager|Manager $groupManager */
-			$groupManager->listen('\OC\Group', 'postRemoveUser',  [$this, 'removeUserFromGroup']);
-			$groupManager->listen('\OC\Group', 'postAddUser',  [$this, 'addUserToGroup']);
-		});
 	}
-
-	public function addUserToGroup(IGroup $group, IUser $user): void {
-		/** @var Hooks $hooks */
-		$hooks = $this->getContainer()->query(Hooks::class);
-		$hooks->addUserToGroup($group, $user);
-	}
-
-	public function removeUserFromGroup(IGroup $group, IUser $user): void {
-		/** @var Hooks $hooks */
-		$hooks = $this->getContainer()->query(Hooks::class);
-		$hooks->removeUserFromGroup($group, $user);
-	}
-
 
 	/**
 	 * @param array $parameters

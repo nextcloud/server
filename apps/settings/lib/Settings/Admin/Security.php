@@ -17,51 +17,46 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Settings\Settings\Admin;
 
 use OC\Authentication\TwoFactorAuth\MandatoryTwoFactor;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Services\IInitialState;
 use OCP\Encryption\IManager;
-use OCP\IInitialStateService;
+use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\Settings\ISettings;
 
 class Security implements ISettings {
-
-	/** @var IManager */
-	private $manager;
-
-	/** @var IUserManager */
-	private $userManager;
-
-	/** @var MandatoryTwoFactor */
-	private $mandatoryTwoFactor;
-
-	/** @var IInitialStateService */
-	private $initialState;
+	private IManager $manager;
+	private IUserManager $userManager;
+	private MandatoryTwoFactor $mandatoryTwoFactor;
+	private IInitialState $initialState;
+	private IURLGenerator $urlGenerator;
 
 	public function __construct(IManager $manager,
-								IUserManager $userManager,
-								MandatoryTwoFactor $mandatoryTwoFactor,
-								IInitialStateService $initialState) {
+		IUserManager $userManager,
+		MandatoryTwoFactor $mandatoryTwoFactor,
+		IInitialState $initialState,
+		IURLGenerator $urlGenerator) {
 		$this->manager = $manager;
 		$this->userManager = $userManager;
 		$this->mandatoryTwoFactor = $mandatoryTwoFactor;
 		$this->initialState = $initialState;
+		$this->urlGenerator = $urlGenerator;
 	}
 
 	/**
 	 * @return TemplateResponse
 	 */
-	public function getForm() {
+	public function getForm(): TemplateResponse {
 		$encryptionModules = $this->manager->getEncryptionModules();
 		$defaultEncryptionModuleId = $this->manager->getDefaultEncryptionModuleId();
 		$encryptionModuleList = [];
@@ -73,28 +68,21 @@ class Security implements ISettings {
 			}
 		}
 
-		$this->initialState->provideInitialState(
-			'settings',
-			'mandatory2FAState',
-			$this->mandatoryTwoFactor->getState()
-		);
+		$this->initialState->provideInitialState('mandatory2FAState', $this->mandatoryTwoFactor->getState());
+		$this->initialState->provideInitialState('two-factor-admin-doc', $this->urlGenerator->linkToDocs('admin-2fa'));
+		$this->initialState->provideInitialState('encryption-enabled', $this->manager->isEnabled());
+		$this->initialState->provideInitialState('encryption-ready', $this->manager->isReady());
+		$this->initialState->provideInitialState('external-backends-enabled', count($this->userManager->getBackends()) > 1);
+		$this->initialState->provideInitialState('encryption-modules', $encryptionModuleList);
+		$this->initialState->provideInitialState('encryption-admin-doc', $this->urlGenerator->linkToDocs('admin-encryption'));
 
-		$parameters = [
-			// Encryption API
-			'encryptionEnabled' => $this->manager->isEnabled(),
-			'encryptionReady' => $this->manager->isReady(),
-			'externalBackendsEnabled' => count($this->userManager->getBackends()) > 1,
-			// Modules
-			'encryptionModules' => $encryptionModuleList,
-		];
-
-		return new TemplateResponse('settings', 'settings/admin/security', $parameters, '');
+		return new TemplateResponse('settings', 'settings/admin/security', [], '');
 	}
 
 	/**
 	 * @return string the section ID, e.g. 'sharing'
 	 */
-	public function getSection() {
+	public function getSection(): string {
 		return 'security';
 	}
 
@@ -105,7 +93,7 @@ class Security implements ISettings {
 	 *
 	 * E.g.: 70
 	 */
-	public function getPriority() {
+	public function getPriority(): int {
 		return 10;
 	}
 }

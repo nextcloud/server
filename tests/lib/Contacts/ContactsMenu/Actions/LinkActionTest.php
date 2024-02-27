@@ -28,7 +28,7 @@ use OC\Contacts\ContactsMenu\Actions\LinkAction;
 use Test\TestCase;
 
 class LinkActionTest extends TestCase {
-	private $action;
+	private LinkAction $action;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -49,7 +49,7 @@ class LinkActionTest extends TestCase {
 	public function testGetSetName() {
 		$name = 'Jane Doe';
 
-		$this->assertNull($this->action->getName());
+		$this->assertEmpty($this->action->getName());
 		$this->action->setName($name);
 		$this->assertEquals($name, $this->action->getName());
 	}
@@ -67,10 +67,28 @@ class LinkActionTest extends TestCase {
 
 		$json = $this->action->jsonSerialize();
 		$this->assertArrayHasKey('hyperlink', $json);
-		$this->assertEquals($json['hyperlink'], '/some/url');
+		$this->assertEquals('/some/url', $json['hyperlink']);
 	}
 
 	public function testJsonSerialize() {
+		$this->action->setIcon('icon-contacts');
+		$this->action->setName('Nickie Works');
+		$this->action->setPriority(33);
+		$this->action->setHref('example.com');
+		$this->action->setAppId('contacts');
+		$expected = [
+			'title' => 'Nickie Works',
+			'icon' => 'icon-contacts',
+			'hyperlink' => 'example.com',
+			'appId' => 'contacts',
+		];
+
+		$json = $this->action->jsonSerialize();
+
+		$this->assertEquals($expected, $json);
+	}
+
+	public function testJsonSerializeNoAppName() {
 		$this->action->setIcon('icon-contacts');
 		$this->action->setName('Nickie Works');
 		$this->action->setPriority(33);
@@ -79,6 +97,7 @@ class LinkActionTest extends TestCase {
 			'title' => 'Nickie Works',
 			'icon' => 'icon-contacts',
 			'hyperlink' => 'example.com',
+			'appId' => '',
 		];
 
 		$json = $this->action->jsonSerialize();

@@ -1,7 +1,11 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2021 Julius Härtl <jus@bitgrid.net>
  *
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Julius Härtl <jus@bitgrid.net>
  *
  * @license GNU AGPL version 3 or any later version
@@ -20,18 +24,22 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
-declare(strict_types=1);
-
 namespace OCA\Files\Controller;
 
+use OCA\Files\ResponseDefinitions;
+use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\AppFramework\OCSController;
 use OCP\Files\GenericFileException;
 use OCP\Files\Template\ITemplateManager;
+use OCP\Files\Template\TemplateFileCreator;
 use OCP\IRequest;
 
+/**
+ * @psalm-import-type FilesTemplateFile from ResponseDefinitions
+ * @psalm-import-type FilesTemplateFileCreator from ResponseDefinitions
+ */
 class TemplateController extends OCSController {
 	protected $templateManager;
 
@@ -42,6 +50,12 @@ class TemplateController extends OCSController {
 
 	/**
 	 * @NoAdminRequired
+	 *
+	 * List the available templates
+	 *
+	 * @return DataResponse<Http::STATUS_OK, array<FilesTemplateFileCreator>, array{}>
+	 *
+	 * 200: Available templates returned
 	 */
 	public function list(): DataResponse {
 		return new DataResponse($this->templateManager->listTemplates());
@@ -49,7 +63,17 @@ class TemplateController extends OCSController {
 
 	/**
 	 * @NoAdminRequired
-	 * @throws OCSForbiddenException
+	 *
+	 * Create a template
+	 *
+	 * @param string $filePath Path of the file
+	 * @param string $templatePath Name of the template
+	 * @param string $templateType Type of the template
+	 *
+	 * @return DataResponse<Http::STATUS_OK, FilesTemplateFile, array{}>
+	 * @throws OCSForbiddenException Creating template is not allowed
+	 *
+	 * 200: Template created successfully
 	 */
 	public function create(string $filePath, string $templatePath = '', string $templateType = 'user'): DataResponse {
 		try {
@@ -61,13 +85,24 @@ class TemplateController extends OCSController {
 
 	/**
 	 * @NoAdminRequired
+	 *
+	 * Initialize the template directory
+	 *
+	 * @param string $templatePath Path of the template directory
+	 * @param bool $copySystemTemplates Whether to copy the system templates to the template directory
+	 *
+	 * @return DataResponse<Http::STATUS_OK, array{template_path: string, templates: FilesTemplateFileCreator[]}, array{}>
+	 * @throws OCSForbiddenException Initializing the template directory is not allowed
+	 *
+	 * 200: Template directory initialized successfully
 	 */
 	public function path(string $templatePath = '', bool $copySystemTemplates = false) {
 		try {
+			/** @var string $templatePath */
 			$templatePath = $this->templateManager->initializeTemplateDirectory($templatePath, null, $copySystemTemplates);
 			return new DataResponse([
 				'template_path' => $templatePath,
-				'templates' => $this->templateManager->listCreators()
+				'templates' => array_map(fn (TemplateFileCreator $creator) => $creator->jsonSerialize(), $this->templateManager->listCreators()),
 			]);
 		} catch (\Exception $e) {
 			throw new OCSForbiddenException($e->getMessage());

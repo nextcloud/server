@@ -1,6 +1,9 @@
 /* Copyright (c) 2011, Jan-Christoph Borchardt, http://jancborchardt.net
  This file is licensed under the Affero General Public License version 3 or later.
  See the COPYING-README file. */
+@use 'variables';
+@use 'sass:math';
+@import 'functions';
 
 input {
 	&#openid, &#webdav {
@@ -15,119 +18,69 @@ input {
 
 /* icons for sidebar */
 .nav-icon-personal-settings {
-	@include icon-color('personal', 'settings', $color-black);
+	@include icon-color('personal', 'settings', variables.$color-black);
 }
 
 .nav-icon-security {
-	@include icon-color('toggle-filelist', 'settings', $color-black);
+	@include icon-color('toggle-filelist', 'settings', variables.$color-black);
 }
 
 .nav-icon-clientsbox {
-	@include icon-color('change', 'settings', $color-black);
+	@include icon-color('change', 'settings', variables.$color-black);
 }
 
 .nav-icon-federated-cloud {
-	@include icon-color('share', 'settings', $color-black);
+	@include icon-color('share', 'settings', variables.$color-black);
 }
 
 .nav-icon-second-factor-backup-codes, .nav-icon-ssl-root-certificate {
-	@include icon-color('password', 'settings', $color-black);
-}
-
-#avatarform {
-	.avatardiv {
-		margin: 10px auto;
-	}
-
-	.warning {
-		width: 100%;
-	}
-
-	.jcrop-keymgr {
-		display: none !important;
-	}
-}
-
-#displayavatar {
-	text-align: center;
-}
-
-#uploadavatarbutton, #selectavatar, #removeavatar {
-	padding: 21px;
-}
-
-.jcrop-holder {
-	z-index: 500;
-}
-
-#cropper {
-	float: left;
-	z-index: 500;
-	/* float cropper above settings page to prevent unexpected flowing from dynamically sized element */
-	position: fixed;
-	background-color: rgba(0, 0, 0, 0.2);
-	box-sizing: border-box;
-	top: 45px;
-	left: 0;
-	width: 100%;
-	height: calc(100% - 45px);
-
-	.inner-container {
-		z-index: 2001;
-		/* above the top bar if needed */
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		transform: translate(-50%, -50%);
-		background: #fff;
-		color: #333;
-		border-radius: var(--border-radius-large);
-		box-shadow: 0 0 10px var(--color-box-shadow);
-		padding: 15px;
-
-		.jcrop-holder,
-		.jcrop-holder img,
-		img.jcrop-preview {
-			border-radius: var(--border-radius);
-		}
-
-		.button {
-			margin-top: 15px;
-		}
-
-		.primary {
-			float: right;
-		}
-	}
+	@include icon-color('password', 'settings', variables.$color-black);
 }
 
 #personal-settings-avatar-container {
 	display: inline-grid;
 	grid-template-columns: 1fr;
-	grid-template-rows: 2fr 1fr;
+	grid-template-rows: 2fr 1fr 2fr;
 	vertical-align: top;
 }
 
 .profile-settings-container {
 	display: inline-grid;
-	grid-template-columns: 1fr;
-	grid-template-rows: 1fr 2fr 1fr;
+	grid-template-columns: 1fr 1fr 1fr;
 }
 
 .personal-show-container {
 	width: 100%;
 }
 
-.personal-settings-setting-box input {
-	&[type='text'], &[type='email'], &[type='tel'], &[type='url'] {
-		width: 100%;
+.personal-settings-setting-box {
+	.section {
+		padding: 10px 30px;
+		.headerbar-label {
+			margin-bottom: 0;
+		}
+
+		input {
+			&[type='text'], &[type='email'], &[type='tel'], &[type='url'] {
+				width: 100%;
+			}
+		}
+	}
+
+	&-profile {
+		grid-row: 3/5;
+	}
+
+	&-detail {
+		grid-row: 5;
+	}
+	&-detail--without-profile {
+		grid-row: 3;
 	}
 }
 
 select {
-	&#timezone,
-	&#languageinput,
-	&#localeinput {
+	&#timezone {
 		width: 100%;
 	}
 }
@@ -135,8 +88,9 @@ select {
 #personal-settings {
 	display: grid;
 	padding: 20px;
-	max-width: 1500px;
-	grid-template-columns: 1fr 2fr 1fr;
+	max-width: 1700px;
+	grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+	grid-column-gap: 10px;
 
 	.section {
 		padding: 10px 10px;
@@ -144,6 +98,12 @@ select {
 
 		h2 {
 			margin-bottom: 12px;
+		}
+
+		h3 {
+			> label {
+				font-weight: bold;
+			}
 		}
 	}
 
@@ -164,24 +124,27 @@ select {
 // Button for 'Reasons to use Nextcloud in your organization'
 .development-notice {
 	text-align: center;
+	a:not(.link-button) {
+		text-decoration: underline;
+	}
 }
 
 .link-button {
 	display: inline-block;
 	margin: 16px;
 	padding: 14px 20px;
-	background-color: var(--color-primary);
-	color: #fff;
+	background-color: var(--color-primary-element);
+	color: var(--color-primary-element-text);
 	border-radius: var(--border-radius-pill);
-	border: 1px solid var(--color-primary);
+	border: 1px solid var(--color-primary-element);
 	box-shadow: 0 2px 9px var(--color-box-shadow);
 
 	&:active,
 	&:hover,
-	&:focus {
-		color: var(--color-primary);
-		background-color: var(--color-primary-text);
-		border-color: var(--color-primary) !important;
+	&:focus,
+	&:focus-visible {
+		box-shadow: 0 0 0 4px var(--color-main-background) !important;
+		outline: 2px solid var(--color-main-text) !important;
 	}
 
 	&.icon-file {
@@ -190,77 +153,9 @@ select {
 	}
 }
 
-
-
-@media (min-width: 1200px) and (max-width: 1400px) {
-	#personal-settings {
-		display: grid;
-		grid-template-columns: 1fr 2fr;
-
-		#personal-settings-avatar-container {
-			grid-template-columns: 1fr;
-			grid-template-rows: 1fr;
-		}
-
-		.personal-settings-container {
-			grid-template-columns: 1fr 1fr;
-			grid-template-rows: 1fr 1fr 1fr;
-		}
-
-		.profile-settings-container {
-			grid-template-columns: 1fr 1fr;
-			grid-template-rows: 1fr;
-			grid-column: 2;
-		}
-	}
-}
-
-@media (max-width: 1200px) {
-	#personal-settings {
-		display: grid;
-		grid-template-columns: 1fr;
-
-		#personal-settings-avatar-container {
-			grid-template-rows: 1fr;
-		}
-
-		.personal-settings-container {
-			grid-template-columns: 1fr 1fr;
-			grid-template-rows: 1fr 1fr 1fr;
-		}
-
-		.profile-settings-container {
-			grid-template-columns: 1fr 1fr;
-			grid-template-rows: 1fr;
-		}
-	}
-}
-
-@media (max-width: 560px) {
-	#personal-settings {
-		display: grid;
-		grid-template-columns: 1fr;
-
-		#personal-settings-avatar-container {
-			grid-template-rows: 1fr;
-		}
-
-		.personal-settings-container {
-			grid-template-columns: 1fr;
-			grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
-		}
-
-		.profile-settings-container {
-			grid-template-columns: 1fr;
-			grid-template-rows: 1fr 1fr;
-		}
-	}
-}
-
 .personal-settings-container {
 	display: inline-grid;
-	grid-template-columns: 1fr 1fr;
-	grid-template-rows: 1fr 1fr 2fr;
+	grid-template-columns: 1fr 1fr 1fr;
 
 	&:after {
 		clear: both;
@@ -273,6 +168,8 @@ select {
 			flex-wrap: nowrap;
 			justify-content: flex-start;
 			width: 100%;
+			align-items: center;
+			gap: 8px;
 
 			> label {
 				white-space: nowrap;
@@ -315,30 +212,6 @@ select {
 	}
 }
 
-
-#body-settings #quota {
-	cursor: default;
-	position: relative;
-
-	progress {
-		height: 6px;
-
-		&::-moz-progress-bar {
-			border-radius: 3px 0 0 3px;
-		}
-
-		&::-webkit-progress-value {
-			border-radius: 3px 0 0 3px;
-		}
-	}
-
-	div {
-		font-weight: normal;
-		white-space: nowrap;
-	}
-}
-
-
 /* verify accounts */
 /* only show pointer cursor when popup will be there */
 .verification-dialog {
@@ -361,11 +234,20 @@ select {
 .federation-menu {
 	position: relative;
 	cursor: pointer;
-	margin-left: 10px;
+	width: 44px;
+	height: 44px;
+	padding: 10px;
+	margin: 0;
+	background: none;
+	border: none;
 
+	&:hover,
 	&:focus {
+		background-color: var(--color-background-hover);
+		border-radius: var(--border-radius-pill);
+
 		.icon-federation-menu {
-			opacity: 0.7;
+			opacity: 0.8;
 		}
 	}
 
@@ -397,19 +279,25 @@ select {
 				}
 
 				&.active {
-					box-shadow: inset 2px 0 var(--color-primary);
+					box-shadow: inset 2px 0 var(--color-primary-element);
 
 					.menuitem-text {
 						font-weight: bold;
 					}
 				}
+
+				&.disabled {
+					opacity: .5;
+
+					cursor: default;
+
+					* {
+						cursor: default;
+					}
+				}
 			}
 		}
 	}
-}
-
-#groups-groups {
-	padding-top: 5px;
 }
 
 .clientsbox img {
@@ -468,11 +356,35 @@ table.nostyle {
 	#passwordform {
 		display: flex;
 		flex-wrap: wrap;
+		flex-direction: column;
+		gap: 1rem;
+		.input-control {
+			display: flex;
+			flex-wrap: wrap;
+			flex-direction: column;
+			label {
+				margin-bottom: 0.5rem;
+			}
+		}
 
-		#pass1, .personal-show-container, #passwordbutton {
+		#pass1, .personal-show-container {
 			flex-shrink: 1;
-			width: 200px;
+			width: 300px;
 			min-width: 150px;
+		}
+
+		// Extremely fragile code, to be replaced by PasswordField component soon
+		.personal-show-container {
+			#pass2 {
+				position: relative;
+				top: 0.5rem;
+			}
+			.personal-show-label {
+				top: 34px !important;
+				margin-right: 0;
+				margin-top: 0 !important;
+				right: 3px;
+			}
 		}
 
 		#pass2 {
@@ -488,7 +400,7 @@ table.nostyle {
 			left: 0;
 			width: 100%;
 			border-radius: 0 0 2px 2px;
-			margin-top: -6px;
+			margin-top: 5px;
 			overflow: hidden;
 			height: 3px;
 		}
@@ -510,15 +422,7 @@ table.nostyle {
 		width: 16px;
 		height: 16px;
 		vertical-align: sub;
-	}
-}
-
-.social-button {
-	padding-left: 0 !important;
-	margin-left: -10px;
-
-	img {
-		padding: 10px;
+		filter: var(--background-invert-if-dark);
 	}
 }
 
@@ -571,18 +475,15 @@ table.grid {
 
 	th {
 		height: 2em;
-		color: #999;
+		padding: 0 1em 0 0;
 		border-bottom: 1px solid var(--color-border);
-		padding: 0 .5em;
-		padding-left: .8em;
 		text-align: left;
 		font-weight: normal;
 	}
 
 	td {
 		border-bottom: 1px solid var(--color-border);
-		padding: 0 .5em;
-		padding-left: .8em;
+		padding: 0 1em 0 0;
 		text-align: left;
 		font-weight: normal;
 	}
@@ -746,14 +647,6 @@ span.version {
 		margin: 5px 0;
 	}
 
-	.app-name, .app-image * {
-		cursor: pointer;
-	}
-
-	.app-summary {
-		opacity: .7;
-	}
-
 	.app-image-icon .icon-settings-dark {
 		width: 100%;
 		height: 150px;
@@ -767,6 +660,10 @@ span.version {
 
 	.actions {
 		margin-top: 10px;
+
+		button {
+			margin: 10px 0;
+		}
 	}
 }
 
@@ -878,7 +775,7 @@ span.version {
 	}
 }
 
-@media only screen and (max-width: $breakpoint-mobile) {
+@media only screen and (max-width: variables.$breakpoint-mobile) {
 	.store .section {
 		width: 50%;
 	}
@@ -905,10 +802,6 @@ span.version {
 	}
 }
 
-#version.section {
-	border-bottom: none;
-}
-
 .section {
 	margin-bottom: 0;
 	/* section divider lines, none needed for last one */
@@ -928,14 +821,9 @@ span.version {
 	}
 }
 
-.personal-settings-setting-box .section {
-	padding: 10px 30px;
-}
-
 .followupsection {
 	display: block;
 	padding: 0 30px 30px 30px;
-	color: #555;
 }
 
 .app-image {
@@ -943,10 +831,6 @@ span.version {
 	height: 150px;
 	opacity: 1;
 	overflow: hidden;
-}
-
-.app-name, .app-version, .app-score, .app-level {
-	display: inline-block;
 }
 
 .app-description-toggle-show, .app-description-toggle-hide {
@@ -987,9 +871,8 @@ span.version {
 }
 
 .apps-list {
-	.section {
-		cursor: pointer;
-	}
+	$toolbar-padding: 8px;
+	$toolbar-height: 44px + $toolbar-padding * 2;
 
 	.app-list-move {
 		transition: transform 1s;
@@ -999,9 +882,18 @@ span.version {
 		margin-left: 10px;
 	}
 
-	.counter {
-		padding-left: $header-height - 10px;
-		margin: 10px;
+	.toolbar {
+		height: $toolbar-height;
+		padding: $toolbar-padding;
+		// Leave room for app-navigation-toggle
+		padding-left: $toolbar-height;
+		width: 100%;
+		background-color: var(--color-main-background);
+		position: sticky;
+		top: 0;
+		z-index: 1;
+		display: flex;
+		align-items: center;
 	}
 
 	&.installed {
@@ -1009,6 +901,7 @@ span.version {
 			display: table;
 			width: 100%;
 			height: auto;
+			white-space: normal;
 		}
 
 		margin-bottom: 100px;
@@ -1026,6 +919,13 @@ span.version {
 				border-bottom: 1px solid var(--color-border);
 				padding: 6px;
 				box-sizing: border-box;
+			}
+
+			> .actions {
+				display: flex;
+				gap: 8px;
+				flex-wrap: wrap;
+				justify-content: end;
 			}
 
 			&.selected {
@@ -1132,7 +1032,6 @@ span.version {
 
 	/* Bundle header */
 	.apps-header {
-		display: table-row;
 		position: relative;
 
 		div {
@@ -1141,11 +1040,9 @@ span.version {
 		}
 
 		h2 {
-			display: table-cell;
-			position: absolute;
 			padding-left: 6px;
 			padding-top: 15px;
-
+			margin-bottom: 12px;
 			.enable {
 				position: relative;
 				top: -1px;
@@ -1156,6 +1053,13 @@ span.version {
 				margin-top: 50px;
 			}
 		}
+	}
+}
+
+// Display buttons above each other on mobile
+@media (max-width: math.div(variables.$breakpoint-mobile, 2)) {
+	.apps-list.installed .section > .actions {
+		display: table-cell;
 	}
 }
 
@@ -1219,12 +1123,12 @@ table.grid td.date {
 }
 
 #shareAPI {
-	p {
-		padding-bottom: 0.8em;
+	&.loading > div {
+		display: none;
 	}
 
-	input#shareapiExpireAfterNDays {
-		width: 40px;
+	p {
+		padding-bottom: 0.8em;
 	}
 
 	.indent {
@@ -1237,6 +1141,10 @@ table.grid td.date {
 
 	.nocheckbox {
 		padding-left: 20px;
+	}
+
+	#s2id_linksExcludedGroups {
+		width: 200px !important;
 	}
 }
 
@@ -1267,15 +1175,8 @@ table.grid td.date {
 
 #two-factor-auth h2,
 #shareAPI h2,
-#encryptionAPI h2,
 #mail_general_settings h2 {
 	display: inline-block;
-}
-
-#encryptionAPI li {
-	list-style-type: initial;
-	margin-left: 20px;
-	padding: 5px 0;
 }
 
 .mail_settings p {
@@ -1291,8 +1192,17 @@ table.grid td.date {
 	}
 }
 
+@media (max-width: calc(variables.$breakpoint-mobile * 0.75)) {
+	.mail_settings p label:first-child {
+		width: unset;
+		text-align: left;
+		display: block;
+		margin-top: calc(var(--default-grid-baseline) * 2);
+	}
+}
+
 #mail_smtpport {
-	width: 40px;
+	width: 60px;
 }
 
 .cronlog {
@@ -1395,6 +1305,20 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 	}
 }
 
+.security-warning__heading {
+	display: flex;
+	flex-wrap: wrap;
+	margin-bottom: calc(var(--default-grid-baseline) * 8);
+
+	> h2 {
+		margin-bottom: 0px;
+	}
+
+	> a {
+		width: 44px;
+	}
+}
+
 #admin-tips li {
 	list-style: initial;
 
@@ -1402,15 +1326,6 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 		display: inline-block;
 		padding: 3px 0;
 	}
-}
-
-#selectEncryptionModules {
-	margin-left: 30px;
-	padding: 10px;
-}
-
-#encryptionModules {
-	padding: 10px;
 }
 
 #warning {
@@ -1423,315 +1338,17 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 	opacity: .7;
 }
 
+.animated {
+    animation: blink-animation 1s steps(5, start) 4;
+}
 
-/* USERS LIST -------------------------------------------------------------- */
-#body-settings {
-	$grid-row-height: 60px;
-	$grid-col-min-width: 160px;
-	overflow-x: scroll;
-	min-height: 100%;
-	height: auto;
-
-	#app-content.user-list-grid {
-		display: grid;
-		grid-column-gap: 20px;
-		grid-auto-rows: minmax(60px, max-content);
-
-		.row {
-			// TODO replace with css4 subgrid when available
-			// fallback for ie11 no grid
-			display: flex;
-			display: grid;
-			min-height: $grid-row-height;
-			grid-row-start: span 1;
-			grid-gap: 3px;
-			align-items: center;
-			/* let's define the column until storage path,
-			   what follows will be manually defined  */
-			grid-template-columns:
-					44px
-					minmax($grid-col-min-width + 30px, 1fr) // username, displayname
-					minmax($grid-col-min-width, 1fr) // password
-					minmax($grid-col-min-width, 1fr) // email
-					minmax(1.5*$grid-col-min-width, 1fr) // groups
-					minmax(1.5*$grid-col-min-width, 1fr) // group admins
-					repeat(auto-fit, minmax($grid-col-min-width, 1fr));
-			border-bottom: var(--color-border) 1px solid;
-
-			&.disabled {
-				opacity: .5;
-			}
-
-			/* grid col width */
-			.name,
-			.password,
-			.mailAddress,
-			.languages,
-			.storageLocation,
-			.userBackend,
-			.lastLogin {
-				min-width: $grid-col-min-width;
-
-				doesnotexist:-o-prefocus, .strengthify-wrapper {
-					color: var(--color-text-dark);
-					vertical-align: baseline;
-					text-overflow: ellipsis;
-				}
-			}
-			&:not(.row--editable) {
-				&.name,
-				&.password,
-				&.displayName,
-				&.mailAddress,
-				&.userBackend,
-				&.languages {
-					overflow: hidden;
-				}
-			}
-
-			.groups,
-			.subadmins,
-			.quota {
-				min-width: $grid-col-min-width;
-
-				.multiselect {
-					width: 100%;
-					color: var(--color-text-dark);
-					vertical-align: baseline;
-				}
-			}
-
-			.obfuscated {
-				width: 400px;
-				opacity: .7;
-			}
-
-			.userActions {
-				display: flex;
-				justify-content: flex-end;
-				position: sticky;
-				right: 0px;
-				min-width: 88px;
-				background-color: var(--color-main-background);
-			}
-
-			.subtitle {
-				color: var(--color-text-maxcontrast);
-				vertical-align: baseline;
-			}
-
-			/* various */
-			&#grid-header,
-			&#new-user {
-				@include position('sticky');
-				align-self: normal;
-				background-color: var(--color-main-background);
-				z-index: 100; /* above multiselect */
-				top: $header-height;
-
-				&.sticky {
-					box-shadow: 0 -2px 10px 1px var(--color-box-shadow);
-				}
-
-				/* fake input for groups validation */
-				input#newgroups {
-					position: absolute;
-					opacity: 0;
-					width: 80% !important;
-					margin: 0 10%;
-					z-index: 0;
-				}
-			}
-
-			// separate prop to set initial value to top: 50px
-			&#new-user {
-				height: 120px;
-
-				.row {
-					padding-top: 50px;
-				}
-			}
-
-			&#grid-header {
-				color: var(--color-text-maxcontrast);
-				z-index: 60; /* above new-user */
-				border-bottom-width: thin;
-
-				#headerDisplayName,
-				#headerPassword,
-				#headerAddress,
-				#headerGroups,
-				#headerSubAdmins,
-				#theHeaderUserBackend,
-				#theHeaderLastLogin,
-				#headerQuota,
-				#theHeaderStorageLocation,
-				#headerLanguages {
-					/* Line up header text with column content for when there’s inputs */
-					padding-left: 7px;
-					text-transform: none;
-					color: var(--color-text-maxcontrast);
-					vertical-align: baseline;
-				}
-			}
-
-			&:hover {
-				input:not([type='submit']):not(:focus):not(:active) {
-					border-color: var(--color-border) !important;
-				}
-
-				&:not(#grid-header) {
-					box-shadow: 5px 0 0 var(--color-primary-element) inset;
-				}
-			}
-
-			> form {
-				width: 100%;
-			}
-
-			> div,
-			> .displayName > form,
-			> form {
-				grid-row: 1;
-				display: inline-flex;
-				color: var(--color-text-lighter);
-				flex-grow: 1;
-
-				> input:not(:focus):not(:active) {
-					border-color: transparent;
-					cursor: pointer;
-				}
-
-				> input:focus, > input:active {
-					+ .icon-confirm {
-						display: block !important;
-					}
-				}
-
-				/* inputs like mail, username, password */
-				&:not(.userActions) > input:not([type='submit']) {
-					width: 100%;
-					min-width: 0;
-				}
-
-				&.name {
-					word-break: break-all;
-				}
-
-				&.displayName,
-				&.mailAddress {
-					> input {
-						text-overflow: ellipsis;
-						flex-grow: 1;
-					}
-				}
-
-				&.name,
-				&.userBackend {
-					/* better multi-line visual */
-					line-height: 1.3em;
-					max-height: 100%;
-					overflow: hidden;
-					/* not supported by all browsers
-					   so we keep the overflow hidden
-					   as a fallback */
-					text-overflow: ellipsis;
-					display: -webkit-box;
-					-webkit-line-clamp: 2;
-					-webkit-box-orient: vertical;
-				}
-
-				&.quota {
-					display: flex;;
-					justify-content: left;
-					white-space: nowrap;
-					position: relative;
-
-					progress {
-						width: 150px;
-						margin-top: 35px;
-						height: 3px;
-					}
-				}
-
-				.icon-confirm {
-					flex: 0 0 auto;
-					cursor: pointer;
-
-					&:not(:active) {
-						display: none;
-					}
-				}
-
-				&.avatar {
-					height: 32px;
-					width: 32px;
-					margin: 6px;
-
-					img {
-						display: block;
-					}
-				}
-
-				&.userActions {
-					display: flex;
-					justify-content: flex-end;
-
-					#newsubmit {
-						width: 100%;
-					}
-
-					.toggleUserActions {
-						position: relative;
-						display: flex;
-						align-items: center;
-						background-color: var(--color-main-background);
-
-						.icon-more {
-							width: 44px;
-							height: 44px;
-							opacity: .5;
-							cursor: pointer;
-
-							&:focus,
-							&:hover,
-							&:active {
-								opacity: .7;
-								background-color: var(--color-background-dark)
-							}
-						}
-					}
-
-					.feedback {
-						display: flex;
-						align-items: center;
-						white-space: nowrap;
-						transition: opacity 200ms ease-in-out;
-
-						.icon-checkmark {
-							opacity: .5;
-							margin-right: 5px;
-						}
-					}
-				}
-
-				/* Fill the grid cell */
-				.multiselect.multiselect-vue {
-					width: 100%;
-				}
-			}
-		}
-
-		.infinite-loading-container {
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			grid-row-start: span 4;
-		}
-
-		.users-list-end {
-			opacity: .5;
-			user-select: none;
-		}
-	}
+@keyframes blink-animation {
+  to {
+    opacity: 0.6;
+  }
+}
+@-webkit-keyframes blink-animation {
+  to {
+    opacity: 1;
+  }
 }

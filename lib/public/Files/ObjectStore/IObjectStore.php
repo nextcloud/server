@@ -22,7 +22,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP\Files\ObjectStore;
 
 use OCP\Files\NotFoundException;
@@ -33,7 +32,6 @@ use OCP\Files\NotFoundException;
  * @since 7.0.0
  */
 interface IObjectStore {
-
 	/**
 	 * @return string the container or bucket name where objects are stored
 	 * @since 7.0.0
@@ -52,10 +50,11 @@ interface IObjectStore {
 	/**
 	 * @param string $urn the unified resource name used to identify the object
 	 * @param resource $stream stream with the data to write
+	 * @param string|null $mimetype the mimetype to set for the remove object @since 22.0.0
 	 * @throws \Exception when something goes wrong, message will be logged
 	 * @since 7.0.0
 	 */
-	public function writeObject($urn, $stream);
+	public function writeObject($urn, $stream, string $mimetype = null);
 
 	/**
 	 * @param string $urn the unified resource name used to identify the object

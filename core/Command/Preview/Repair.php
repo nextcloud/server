@@ -17,14 +17,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Core\Command\Preview;
 
 use bantu\IniGetWrapper\IniGetWrapper;
@@ -33,9 +32,9 @@ use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\IConfig;
-use OCP\ILogger;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
@@ -43,30 +42,21 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 
+use function pcntl_signal;
+
 class Repair extends Command {
-	/** @var IConfig */
-	protected $config;
-	/** @var IRootFolder */
-	private $rootFolder;
-	/** @var ILogger */
-	private $logger;
+	private bool $stopSignalReceived = false;
+	private int $memoryLimit;
+	private int $memoryTreshold;
 
-	/** @var bool */
-	private $stopSignalReceived = false;
-	/** @var int */
-	private $memoryLimit;
-	/** @var int */
-	private $memoryTreshold;
-	/** @var ILockingProvider */
-	private $lockingProvider;
-
-	public function __construct(IConfig $config, IRootFolder $rootFolder, ILogger $logger, IniGetWrapper $phpIni, ILockingProvider $lockingProvider) {
-		$this->config = $config;
-		$this->rootFolder = $rootFolder;
-		$this->logger = $logger;
-		$this->lockingProvider = $lockingProvider;
-
-		$this->memoryLimit = $phpIni->getBytes('memory_limit');
+	public function __construct(
+		protected IConfig $config,
+		private IRootFolder $rootFolder,
+		private LoggerInterface $logger,
+		IniGetWrapper $phpIni,
+		private ILockingProvider $lockingProvider,
+	) {
+		$this->memoryLimit = (int)$phpIni->getBytes('memory_limit');
 		$this->memoryTreshold = $this->memoryLimit - 25 * 1024 * 1024;
 
 		parent::__construct();
@@ -77,7 +67,8 @@ class Repair extends Command {
 			->setName('preview:repair')
 			->setDescription('distributes the existing previews into subfolders')
 			->addOption('batch', 'b', InputOption::VALUE_NONE, 'Batch mode - will not ask to start the migration and start it right away.')
-			->addOption('dry', 'd', InputOption::VALUE_NONE, 'Dry mode - will not create, move or delete any files - in combination with the verbose mode one could check the operations.');
+			->addOption('dry', 'd', InputOption::VALUE_NONE, 'Dry mode - will not create, move or delete any files - in combination with the verbose mode one could check the operations.')
+			->addOption('delete', null, InputOption::VALUE_NONE, 'Delete instead of migrating them. Usefull if too many entries to migrate.');
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
@@ -95,9 +86,14 @@ class Repair extends Command {
 		}
 
 		$dryMode = $input->getOption('dry');
+		$deleteMode = $input->getOption('delete');
+
 
 		if ($dryMode) {
 			$output->writeln("INFO: The migration is run in dry mode and will not modify anything.");
+			$output->writeln("");
+		} elseif ($deleteMode) {
+			$output->writeln("WARN: The migration will _DELETE_ old previews.");
 			$output->writeln("");
 		}
 
@@ -150,7 +146,7 @@ class Repair extends Command {
 
 		$output->writeln("A total of $total preview files need to be migrated.");
 		$output->writeln("");
-		$output->writeln("The migration will always migrate all previews of a single file in a batch. After each batch the process can be canceled by pressing CTRL-C. This fill finish the current batch and then stop the migration. This migration can then just be started and it will continue.");
+		$output->writeln("The migration will always migrate all previews of a single file in a batch. After each batch the process can be canceled by pressing CTRL-C. This will finish the current batch and then stop the migration. This migration can then just be started and it will continue.");
 
 		if ($input->getOption('batch')) {
 			$output->writeln('Batch mode active: migration is started right away.');
@@ -251,23 +247,45 @@ class Repair extends Command {
 						$progressBar->advance();
 						continue;
 					}
-					$section1->writeln("         Move preview/$name/$previewName to preview/$newFoldername", OutputInterface::VERBOSITY_VERBOSE);
+
+					// Execute process
 					if (!$dryMode) {
-						try {
-							$preview->move("appdata_$instanceId/preview/$newFoldername/$previewName");
-						} catch (\Exception $e) {
-							$this->logger->logException($e, ['app' => 'core', 'message' => "Failed to move preview from preview/$name/$previewName to preview/$newFoldername"]);
+						// Delete preview instead of moving
+						if ($deleteMode) {
+							try {
+								$section1->writeln("         Delete preview/$name/$previewName", OutputInterface::VERBOSITY_VERBOSE);
+								$preview->delete();
+							} catch (\Exception $e) {
+								$this->logger->error("Failed to delete preview at preview/$name/$previewName", [
+									'app' => 'core',
+									'exception' => $e,
+								]);
+							}
+						} else {
+							try {
+								$section1->writeln("         Move preview/$name/$previewName to preview/$newFoldername", OutputInterface::VERBOSITY_VERBOSE);
+								$preview->move("appdata_$instanceId/preview/$newFoldername/$previewName");
+							} catch (\Exception $e) {
+								$this->logger->error("Failed to move preview from preview/$name/$previewName to preview/$newFoldername", [
+									'app' => 'core',
+									'exception' => $e,
+								]);
+							}
 						}
 					}
 				}
 			}
+
 			if ($oldPreviewFolder->getDirectoryListing() === []) {
 				$section1->writeln("         Delete empty folder preview/$name", OutputInterface::VERBOSITY_VERBOSE);
 				if (!$dryMode) {
 					try {
 						$oldPreviewFolder->delete();
 					} catch (\Exception $e) {
-						$this->logger->logException($e, ['app' => 'core', 'message' => "Failed to delete empty folder preview/$name"]);
+						$this->logger->error("Failed to delete empty folder preview/$name", [
+							'app' => 'core',
+							'exception' => $e,
+						]);
 					}
 				}
 			}

@@ -24,18 +24,13 @@
 namespace Test\Repair;
 
 use OC\Template\JSCombiner;
-use OC\Template\SCSSCacher;
 use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\Migration\IOutput;
 
 class ClearFrontendCachesTest extends \Test\TestCase {
-
 	/** @var ICacheFactory */
 	private $cacheFactory;
-
-	/** @var SCSSCacher */
-	private $scssCacher;
 
 	/** @var JSCombiner */
 	private $jsCombiner;
@@ -52,10 +47,9 @@ class ClearFrontendCachesTest extends \Test\TestCase {
 		$this->outputMock = $this->createMock(IOutput::class);
 
 		$this->cacheFactory = $this->createMock(ICacheFactory::class);
-		$this->scssCacher = $this->createMock(SCSSCacher::class);
 		$this->jsCombiner = $this->createMock(JSCombiner::class);
 
-		$this->repair = new \OC\Repair\ClearFrontendCaches($this->cacheFactory, $this->scssCacher, $this->jsCombiner);
+		$this->repair = new \OC\Repair\ClearFrontendCaches($this->cacheFactory, $this->jsCombiner);
 	}
 
 
@@ -66,9 +60,7 @@ class ClearFrontendCachesTest extends \Test\TestCase {
 			->with('');
 		$this->jsCombiner->expects($this->once())
 			->method('resetCache');
-		$this->scssCacher->expects($this->once())
-			->method('resetCache');
-		$this->cacheFactory->expects($this->at(0))
+		$this->cacheFactory->expects($this->once())
 			->method('createDistributed')
 			->with('imagePath')
 			->willReturn($imagePathCache);

@@ -27,9 +27,11 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_Sharing\Tests;
 
+use OC\Memcache\ArrayCache;
+use OCA\Files_Sharing\MountProvider;
+use OCP\ICacheFactory;
 use OCP\IGroupManager;
 use OCP\IUserManager;
 use OCP\Share\IShare;
@@ -47,19 +49,24 @@ class SharedMountTest extends TestCase {
 	/** @var IUserManager */
 	private $userManager;
 
+	private $folder2;
+
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->folder = '/folder_share_storage_test';
+		$this->folder2 = '/folder_share_storage_test2';
 
 		$this->filename = '/share-api-storage.txt';
 
 
 		$this->view->mkdir($this->folder);
+		$this->view->mkdir($this->folder2);
 
 		// save file with content
 		$this->view->file_put_contents($this->filename, 'root file');
 		$this->view->file_put_contents($this->folder . $this->filename, 'file in subfolder');
+		$this->view->file_put_contents($this->folder2 . $this->filename, 'file in subfolder2');
 
 		$this->groupManager = \OC::$server->getGroupManager();
 		$this->userManager = \OC::$server->getUserManager();
@@ -248,7 +255,7 @@ class SharedMountTest extends TestCase {
 			if ($exception) {
 				$this->assertSame(10, $e->getCode());
 			} else {
-				$this->assertTrue(false, 'Exception catched, but expected: ' . $expectedResult);
+				$this->assertTrue(false, 'Exception caught, but expected: ' . $expectedResult);
 			}
 		}
 	}
@@ -262,141 +269,6 @@ class SharedMountTest extends TestCase {
 			['/files/foo.txt', null, true],
 			['/foo.txt', null, true],
 		];
-	}
-
-	public function dataPermissionMovedGroupShare() {
-		$data = [];
-
-		$powerset = function ($permissions) {
-			$results = [\OCP\Constants::PERMISSION_READ];
-
-			foreach ($permissions as $permission) {
-				foreach ($results as $combination) {
-					$results[] = $permission | $combination;
-				}
-			}
-			return $results;
-		};
-
-		//Generate file permissions
-		$permissions = [
-			\OCP\Constants::PERMISSION_UPDATE,
-			\OCP\Constants::PERMISSION_SHARE,
-		];
-
-		$allPermissions = $powerset($permissions);
-
-		foreach ($allPermissions as $before) {
-			foreach ($allPermissions as $after) {
-				if ($before === $after) {
-					continue;
-				}
-
-				$data[] = [
-					'file',
-					$before,
-					$after,
-				];
-			}
-		}
-
-		//Generate folder permissions
-		$permissions = [
-			\OCP\Constants::PERMISSION_UPDATE,
-			\OCP\Constants::PERMISSION_CREATE,
-			\OCP\Constants::PERMISSION_SHARE,
-			\OCP\Constants::PERMISSION_DELETE,
-		];
-
-		$allPermissions = $powerset($permissions);
-
-		foreach ($allPermissions as $before) {
-			foreach ($allPermissions as $after) {
-				if ($before === $after) {
-					continue;
-				}
-
-				$data[] = [
-					'folder',
-					$before,
-					$after,
-				];
-			}
-		}
-
-		return $data;
-	}
-
-
-
-	/**
-	 * moved mountpoints of a group share should keep the same permission as their parent group share.
-	 * See #15253
-	 *
-	 * @dataProvider dataPermissionMovedGroupShare
-	 */
-	public function testPermissionMovedGroupShare($type, $beforePerm, $afterPerm) {
-		$this->markTestSkipped('Unreliable test');
-		if ($type === 'file') {
-			$path = $this->filename;
-		} elseif ($type === 'folder') {
-			$path = $this->folder;
-		}
-
-		$testGroup = $this->groupManager->createGroup('testGroup');
-		$user1 = $this->userManager->get(self::TEST_FILES_SHARING_API_USER1);
-		$user2 = $this->userManager->get(self::TEST_FILES_SHARING_API_USER2);
-		$user3 = $this->userManager->get(self::TEST_FILES_SHARING_API_USER3);
-		$testGroup->addUser($user1);
-		$testGroup->addUser($user2);
-		$testGroup->addUser($user3);
-
-		// Share item with group
-		$share = $this->share(
-			IShare::TYPE_GROUP,
-			$path,
-			self::TEST_FILES_SHARING_API_USER1,
-			'testGroup',
-			$beforePerm
-		);
-		$this->shareManager->acceptShare($share, $user1->getUID());
-		$this->shareManager->acceptShare($share, $user2->getUID());
-		$this->shareManager->acceptShare($share, $user3->getUID());
-
-		// Login as user 2 and verify the item exists
-		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
-		$this->assertTrue(\OC\Files\Filesystem::file_exists($path)); // TODO: unreliable - this is sometimes false
-		$result = $this->shareManager->getShareById($share->getFullId(), self::TEST_FILES_SHARING_API_USER2);
-		$this->assertEquals($beforePerm, $result->getPermissions());
-
-		// Now move the item forcing a new entry in the share table
-		\OC\Files\Filesystem::rename($path, 'newPath');
-		$this->assertTrue(\OC\Files\Filesystem::file_exists('newPath'));
-		$this->assertFalse(\OC\Files\Filesystem::file_exists($path));
-
-		// change permissions
-		$share->setPermissions($afterPerm);
-		$this->shareManager->updateShare($share);
-
-		// Login as user 3 and verify that the permissions are changed
-		self::loginHelper(self::TEST_FILES_SHARING_API_USER3);
-		$result = $this->shareManager->getShareById($share->getFullId(), self::TEST_FILES_SHARING_API_USER3);
-		$this->assertNotEmpty($result);
-		$this->assertEquals($afterPerm, $result->getPermissions());
-
-		// Login as user 2 and verify that the permissions are changed
-		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
-		$result = $this->shareManager->getShareById($share->getFullId(), self::TEST_FILES_SHARING_API_USER2);
-		$this->assertNotEmpty($result);
-		$this->assertEquals($afterPerm, $result->getPermissions());
-		$this->assertEquals('/newPath', $result->getTarget());
-
-		//cleanup
-		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
-		$this->shareManager->deleteShare($share);
-		$testGroup->removeUser($user1);
-		$testGroup->removeUser($user2);
-		$testGroup->removeUser($user3);
 	}
 
 	/**
@@ -460,6 +332,112 @@ class SharedMountTest extends TestCase {
 		$testGroup->removeUser($user1);
 		$testGroup->removeUser($user2);
 		$testGroup->removeUser($user3);
+	}
+
+	/**
+	 * test if the mount point gets renamed if a folder exists at the target
+	 */
+	public function testShareMountOverFolder() {
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
+		$this->view2->mkdir('bar');
+
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
+
+		// share to user
+		$share = $this->share(
+			IShare::TYPE_USER,
+			$this->folder,
+			self::TEST_FILES_SHARING_API_USER1,
+			self::TEST_FILES_SHARING_API_USER2,
+			\OCP\Constants::PERMISSION_ALL);
+		$this->shareManager->acceptShare($share, self::TEST_FILES_SHARING_API_USER2);
+
+		$share->setTarget('/bar');
+		$this->shareManager->moveShare($share, self::TEST_FILES_SHARING_API_USER2);
+
+		$share = $this->shareManager->getShareById($share->getFullId());
+
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
+		// share should have been moved
+
+		$share = $this->shareManager->getShareById($share->getFullId());
+		$this->assertSame('/bar (2)', $share->getTarget());
+
+		//cleanup
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
+		$this->shareManager->deleteShare($share);
+		$this->view->unlink($this->folder);
+	}
+
+	/**
+	 * test if the mount point gets renamed if another share exists at the target
+	 */
+	public function testShareMountOverShare() {
+		// create a shared cache
+		$caches = [];
+		$cacheFactory = $this->createMock(ICacheFactory::class);
+		$cacheFactory->method('createLocal')
+			->willReturnCallback(function (string $prefix) use (&$caches) {
+				if (!isset($caches[$prefix])) {
+					$caches[$prefix] = new ArrayCache($prefix);
+				}
+				return $caches[$prefix];
+			});
+		$cacheFactory->method('createDistributed')
+			->willReturnCallback(function (string $prefix) use (&$caches) {
+				if (!isset($caches[$prefix])) {
+					$caches[$prefix] = new ArrayCache($prefix);
+				}
+				return $caches[$prefix];
+			});
+
+		// hack to overwrite the cache factory, we can't use the proper "overwriteService" since the mount provider is created before this test is called
+		$mountProvider = \OCP\Server::get(MountProvider::class);
+		$reflectionClass = new \ReflectionClass($mountProvider);
+		$reflectionCacheFactory = $reflectionClass->getProperty("cacheFactory");
+		$reflectionCacheFactory->setAccessible(true);
+		$reflectionCacheFactory->setValue($mountProvider, $cacheFactory);
+
+		// share to user
+		$share = $this->share(
+			IShare::TYPE_USER,
+			$this->folder,
+			self::TEST_FILES_SHARING_API_USER1,
+			self::TEST_FILES_SHARING_API_USER2,
+			\OCP\Constants::PERMISSION_ALL);
+		$this->shareManager->acceptShare($share, self::TEST_FILES_SHARING_API_USER2);
+
+		$share->setTarget('/foobar');
+		$this->shareManager->moveShare($share, self::TEST_FILES_SHARING_API_USER2);
+
+
+		// share to user
+		$share2 = $this->share(
+			IShare::TYPE_USER,
+			$this->folder2,
+			self::TEST_FILES_SHARING_API_USER1,
+			self::TEST_FILES_SHARING_API_USER2,
+			\OCP\Constants::PERMISSION_ALL);
+		$this->shareManager->acceptShare($share2, self::TEST_FILES_SHARING_API_USER2);
+
+		$share2->setTarget('/foobar');
+		$this->shareManager->moveShare($share2, self::TEST_FILES_SHARING_API_USER2);
+
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
+		// one of the shares should have been moved
+
+		$share = $this->shareManager->getShareById($share->getFullId());
+		$share2 = $this->shareManager->getShareById($share2->getFullId());
+
+		// we don't know or care which share got the "(2)" just that one of them did
+		$this->assertNotEquals($share->getTarget(), $share2->getTarget());
+		$this->assertSame('/foobar', min($share->getTarget(), $share2->getTarget()));
+		$this->assertSame('/foobar (2)', max($share->getTarget(), $share2->getTarget()));
+
+		//cleanup
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
+		$this->shareManager->deleteShare($share);
+		$this->view->unlink($this->folder);
 	}
 }
 

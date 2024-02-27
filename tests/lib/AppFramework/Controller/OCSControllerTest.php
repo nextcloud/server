@@ -28,7 +28,7 @@ use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\EmptyContentSecurityPolicy;
 use OCP\AppFramework\OCSController;
 use OCP\IConfig;
-use OCP\Security\ISecureRandom;
+use OCP\IRequestId;
 
 class ChildOCSController extends OCSController {
 }
@@ -42,12 +42,8 @@ class OCSControllerTest extends \Test\TestCase {
 					'HTTP_ORIGIN' => 'test',
 				],
 			],
-			$this->getMockBuilder(ISecureRandom::class)
-				->disableOriginalConstructor()
-				->getMock(),
-			$this->getMockBuilder(IConfig::class)
-				->disableOriginalConstructor()
-				->getMock()
+			$this->createMock(IRequestId::class),
+			$this->createMock(IConfig::class)
 		);
 		$controller = new ChildOCSController('app', $request, 'verbs',
 			'headers', 100);
@@ -67,12 +63,8 @@ class OCSControllerTest extends \Test\TestCase {
 	public function testXML() {
 		$controller = new ChildOCSController('app', new Request(
 			[],
-			$this->getMockBuilder(ISecureRandom::class)
-				->disableOriginalConstructor()
-				->getMock(),
-			$this->getMockBuilder(IConfig::class)
-				->disableOriginalConstructor()
-				->getMock()
+			$this->createMock(IRequestId::class),
+			$this->createMock(IConfig::class)
 		));
 		$controller->setOCSVersion(1);
 
@@ -100,12 +92,8 @@ class OCSControllerTest extends \Test\TestCase {
 	public function testJSON() {
 		$controller = new ChildOCSController('app', new Request(
 			[],
-			$this->getMockBuilder(ISecureRandom::class)
-				->disableOriginalConstructor()
-				->getMock(),
-			$this->getMockBuilder(IConfig::class)
-				->disableOriginalConstructor()
-				->getMock()
+			$this->createMock(IRequestId::class),
+			$this->createMock(IConfig::class)
 		));
 		$controller->setOCSVersion(1);
 		$expected = '{"ocs":{"meta":{"status":"ok","statuscode":100,"message":"OK",' .
@@ -121,12 +109,8 @@ class OCSControllerTest extends \Test\TestCase {
 	public function testXMLV2() {
 		$controller = new ChildOCSController('app', new Request(
 			[],
-			$this->getMockBuilder(ISecureRandom::class)
-				->disableOriginalConstructor()
-				->getMock(),
-			$this->getMockBuilder(IConfig::class)
-				->disableOriginalConstructor()
-				->getMock()
+			$this->createMock(IRequestId::class),
+			$this->createMock(IConfig::class)
 		));
 		$controller->setOCSVersion(2);
 
@@ -152,12 +136,8 @@ class OCSControllerTest extends \Test\TestCase {
 	public function testJSONV2() {
 		$controller = new ChildOCSController('app', new Request(
 			[],
-			$this->getMockBuilder(ISecureRandom::class)
-				->disableOriginalConstructor()
-				->getMock(),
-			$this->getMockBuilder(IConfig::class)
-				->disableOriginalConstructor()
-				->getMock()
+			$this->createMock(IRequestId::class),
+			$this->createMock(IConfig::class)
 		));
 		$controller->setOCSVersion(2);
 		$expected = '{"ocs":{"meta":{"status":"ok","statuscode":200,"message":"OK"},"data":{"test":"hi"}}}';

@@ -5,7 +5,7 @@
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
@@ -21,14 +21,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\App\AppStore\Fetcher;
 
 use GuzzleHttp\Exception\ConnectException;
@@ -39,7 +38,8 @@ use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
-use OCP\ILogger;
+use OCP\Support\Subscription\IRegistry;
+use Psr\Log\LoggerInterface;
 
 abstract class Fetcher {
 	public const INVALIDATE_AFTER_SECONDS = 3600;
@@ -47,40 +47,25 @@ abstract class Fetcher {
 
 	/** @var IAppData */
 	protected $appData;
-	/** @var IClientService */
-	protected $clientService;
-	/** @var ITimeFactory */
-	protected $timeFactory;
-	/** @var IConfig */
-	protected $config;
-	/** @var Ilogger */
-	protected $logger;
+
 	/** @var string */
 	protected $fileName;
 	/** @var string */
 	protected $endpointName;
-	/** @var string */
-	protected $version;
-	/** @var string */
-	protected $channel;
+	/** @var ?string */
+	protected $version = null;
+	/** @var ?string */
+	protected $channel = null;
 
-	/**
-	 * @param Factory $appDataFactory
-	 * @param IClientService $clientService
-	 * @param ITimeFactory $timeFactory
-	 * @param IConfig $config
-	 * @param ILogger $logger
-	 */
-	public function __construct(Factory $appDataFactory,
-								IClientService $clientService,
-								ITimeFactory $timeFactory,
-								IConfig $config,
-								ILogger $logger) {
+	public function __construct(
+		Factory $appDataFactory,
+		protected IClientService $clientService,
+		protected ITimeFactory $timeFactory,
+		protected IConfig $config,
+		protected LoggerInterface $logger,
+		protected IRegistry $registry,
+	) {
 		$this->appData = $appDataFactory->get('appstore');
-		$this->clientService = $clientService;
-		$this->timeFactory = $timeFactory;
-		$this->config = $config;
-		$this->logger = $logger;
 	}
 
 	/**
@@ -92,7 +77,7 @@ abstract class Fetcher {
 	 * @return array
 	 */
 	protected function fetch($ETag, $content) {
-		$appstoreenabled = $this->config->getSystemValue('appstoreenabled', true);
+		$appstoreenabled = $this->config->getSystemValueBool('appstoreenabled', true);
 		if ((int)$this->config->getAppValue('settings', 'appstore-fetcher-lastFailure', '0') > time() - self::RETRY_AFTER_FAILURE_SECONDS) {
 			return [];
 		}
@@ -109,6 +94,15 @@ abstract class Fetcher {
 			$options['headers'] = [
 				'If-None-Match' => $ETag,
 			];
+		}
+
+		if ($this->config->getSystemValueString('appstoreurl', 'https://apps.nextcloud.com/api/v1') === 'https://apps.nextcloud.com/api/v1') {
+			// If we have a valid subscription key, send it to the appstore
+			$subscriptionKey = $this->config->getAppValue('support', 'subscription_key');
+			if ($this->registry->delegateHasValidSubscription() && $subscriptionKey) {
+				$options['headers'] ??= [];
+				$options['headers']['X-NC-Subscription-Key'] = $subscriptionKey;
+			}
 		}
 
 		$client = $this->clientService->newClient();
@@ -144,8 +138,8 @@ abstract class Fetcher {
 	 * @return array
 	 */
 	public function get($allowUnstable = false) {
-		$appstoreenabled = $this->config->getSystemValue('appstoreenabled', true);
-		$internetavailable = $this->config->getSystemValue('has_internet_connection', true);
+		$appstoreenabled = $this->config->getSystemValueBool('appstoreenabled', true);
+		$internetavailable = $this->config->getSystemValueBool('has_internet_connection', true);
 
 		if (!$appstoreenabled || !$internetavailable) {
 			return [];
@@ -163,10 +157,8 @@ abstract class Fetcher {
 
 			// Always get latests apps info if $allowUnstable
 			if (!$allowUnstable && is_array($jsonBlob)) {
-
 				// No caching when the version has been updated
 				if (isset($jsonBlob['ncversion']) && $jsonBlob['ncversion'] === $this->getVersion()) {
-
 					// If the timestamp is older than 3600 seconds request the files new
 					if ((int)$jsonBlob['timestamp'] > ($this->timeFactory->getTime() - self::INVALIDATE_AFTER_SECONDS)) {
 						return $jsonBlob['data'];
@@ -202,7 +194,10 @@ abstract class Fetcher {
 			$this->logger->warning('Could not connect to appstore: ' . $e->getMessage(), ['app' => 'appstoreFetcher']);
 			return [];
 		} catch (\Exception $e) {
-			$this->logger->logException($e, ['app' => 'appstoreFetcher', 'level' => ILogger::WARN]);
+			$this->logger->warning($e->getMessage(), [
+				'exception' => $e,
+				'app' => 'appstoreFetcher',
+			]);
 			return [];
 		}
 	}
@@ -213,7 +208,7 @@ abstract class Fetcher {
 	 */
 	protected function getVersion() {
 		if ($this->version === null) {
-			$this->version = $this->config->getSystemValue('version', '0.0.0');
+			$this->version = $this->config->getSystemValueString('version', '0.0.0');
 		}
 		return $this->version;
 	}
@@ -246,6 +241,6 @@ abstract class Fetcher {
 	}
 
 	protected function getEndpoint(): string {
-		return $this->config->getSystemValue('appstoreurl', 'https://apps.nextcloud.com/api/v1') . '/' . $this->endpointName;
+		return $this->config->getSystemValueString('appstoreurl', 'https://apps.nextcloud.com/api/v1') . '/' . $this->endpointName;
 	}
 }

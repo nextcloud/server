@@ -23,7 +23,7 @@
 
 declare(strict_types=1);
 
-namespace lib\Authentication\Login;
+namespace Test\Authentication\Login;
 
 use OC\Authentication\Login\CreateSessionTokenCommand;
 use OC\Authentication\Token\IToken;
@@ -32,7 +32,6 @@ use OCP\IConfig;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class CreateSessionTokenCommandTest extends ALoginCommandTest {
-
 	/** @var IConfig|MockObject */
 	private $config;
 
@@ -54,7 +53,7 @@ class CreateSessionTokenCommandTest extends ALoginCommandTest {
 	public function testProcess() {
 		$data = $this->getLoggedInLoginData();
 		$this->config->expects($this->once())
-			->method('getSystemValue')
+			->method('getSystemValueInt')
 			->with(
 				'remember_login_cookie_lifetime',
 				60 * 60 * 24 * 15
@@ -87,7 +86,7 @@ class CreateSessionTokenCommandTest extends ALoginCommandTest {
 	public function testProcessDoNotRemember() {
 		$data = $this->getLoggedInLoginData();
 		$this->config->expects($this->once())
-			->method('getSystemValue')
+			->method('getSystemValueInt')
 			->with(
 				'remember_login_cookie_lifetime',
 				60 * 60 * 24 * 15

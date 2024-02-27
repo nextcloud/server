@@ -17,14 +17,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCP\Authentication\TwoFactorAuth;
 
 use OCP\IUser;
@@ -40,11 +39,13 @@ use OCP\IUser;
  */
 interface IRegistry {
 	/**
+	 * @since 15.0.0
 	 * @deprecated 22.0.0
 	 */
 	public const EVENT_PROVIDER_ENABLED = self::class . '::enable';
 
 	/**
+	 * @since 15.0.0
 	 * @deprecated 22.0.0
 	 */
 	public const EVENT_PROVIDER_DISABLED = self::class . '::disable';
@@ -54,7 +55,7 @@ interface IRegistry {
 	 * the given user.
 	 *
 	 * @since 14.0.0
-	 * @return string[] where the array key is the provider ID (string) and the
+	 * @return array<string, bool> where the array key is the provider ID (string) and the
 	 *                  value is the enabled state (bool)
 	 */
 	public function getProviderStates(IUser $user): array;

@@ -16,17 +16,17 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Comments\Search;
 
 use OCP\Comments\IComment;
+use OCP\Comments\ICommentsManager;
 use OCP\Files\Folder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
@@ -35,7 +35,6 @@ use OCP\Search\Provider;
 use function count;
 
 class LegacyProvider extends Provider {
-
 	/**
 	 * Search for $query
 	 *
@@ -44,7 +43,7 @@ class LegacyProvider extends Provider {
 	 * @since 7.0.0
 	 */
 	public function search($query): array {
-		$cm = \OC::$server->getCommentsManager();
+		$cm = \OC::$server->get(ICommentsManager::class);
 		$us = \OC::$server->getUserSession();
 
 		$user = $us->getUser();

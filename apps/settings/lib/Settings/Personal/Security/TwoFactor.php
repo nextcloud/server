@@ -5,6 +5,7 @@ declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2019, Roeland Jago Douma <roeland@famdouma.nl>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
@@ -16,29 +17,28 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Settings\Settings\Personal\Security;
 
 use Exception;
 use OC\Authentication\TwoFactorAuth\MandatoryTwoFactor;
-use OCA\TwoFactorBackupCodes\Provider\BackupCodesProvider;
-use function array_filter;
-use function array_map;
-use function is_null;
 use OC\Authentication\TwoFactorAuth\ProviderLoader;
+use OCA\TwoFactorBackupCodes\Provider\BackupCodesProvider;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Authentication\TwoFactorAuth\IProvider;
 use OCP\Authentication\TwoFactorAuth\IProvidesPersonalSettings;
 use OCP\IConfig;
 use OCP\IUserSession;
 use OCP\Settings\ISettings;
+use function array_filter;
+use function array_map;
+use function is_null;
 
 class TwoFactor implements ISettings {
 
@@ -58,10 +58,10 @@ class TwoFactor implements ISettings {
 	private $config;
 
 	public function __construct(ProviderLoader $providerLoader,
-								MandatoryTwoFactor $mandatoryTwoFactor,
-								IUserSession $userSession,
-								IConfig $config,
-								?string $UserId) {
+		MandatoryTwoFactor $mandatoryTwoFactor,
+		IUserSession $userSession,
+		IConfig $config,
+		?string $UserId) {
 		$this->providerLoader = $providerLoader;
 		$this->mandatoryTwoFactor = $mandatoryTwoFactor;
 		$this->userSession = $userSession;
@@ -72,7 +72,6 @@ class TwoFactor implements ISettings {
 	public function getForm(): TemplateResponse {
 		return new TemplateResponse('settings', 'settings/personal/security/twofactor', [
 			'twoFactorProviderData' => $this->getTwoFactorProviderData(),
-			'themedark' => $this->config->getUserValue($this->uid, 'accessibility', 'theme', false)
 		]);
 	}
 

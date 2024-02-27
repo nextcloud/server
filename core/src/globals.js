@@ -1,10 +1,12 @@
-/* eslint-disable @nextcloud/no-deprecations */
 /**
  * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
- * @author 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Julius Härtl <jus@bitgrid.net>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -17,46 +19,41 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 
-import { initCore } from './init'
+/* eslint-disable @nextcloud/no-deprecations */
+import { initCore } from './init.js'
 
 import _ from 'underscore'
 import $ from 'jquery'
-import 'jquery-migrate/dist/jquery-migrate.min'
 // TODO: switch to `jquery-ui` package and import widgets and effects individually
 //       `jquery-ui-dist` is used as a workaround for the issue of missing effects
-import 'jquery-ui-dist/jquery-ui'
+import 'jquery-ui-dist/jquery-ui.js'
 import 'jquery-ui-dist/jquery-ui.css'
 import 'jquery-ui-dist/jquery-ui.theme.css'
 // END TODO
-import autosize from 'autosize'
 import Backbone from 'backbone'
-import 'bootstrap/js/dist/tooltip'
-import './Polyfill/tooltip'
 import ClipboardJS from 'clipboard'
 import { dav } from 'davclient.js'
 import Handlebars from 'handlebars'
-import 'jcrop/js/jquery.Jcrop'
-import 'jcrop/css/jquery.Jcrop.css'
-import jstimezonedetect from 'jstimezonedetect'
 import md5 from 'blueimp-md5'
 import moment from 'moment'
 import 'select2'
 import 'select2/select2.css'
-import 'snap.js/dist/snap'
+import 'snap.js/dist/snap.js'
 import 'strengthify'
 import 'strengthify/strengthify.css'
 
-import OC from './OC/index'
-import OCP from './OCP/index'
-import OCA from './OCA/index'
-import { getToken as getRequestToken } from './OC/requesttoken'
+import OC from './OC/index.js'
+import OCP from './OCP/index.js'
+import OCA from './OCA/index.js'
+import { getToken as getRequestToken } from './OC/requesttoken.js'
 
 const warnIfNotTesting = function() {
 	if (window.TESTING === undefined) {
-		console.warn.apply(console, arguments)
+		OC.debug && console.warn.apply(console, arguments)
 	}
 }
 
@@ -65,9 +62,9 @@ const warnIfNotTesting = function() {
  * warn if used!
  *
  * @param {Function} func the library to deprecate
- * @param {String} funcName the name of the library
- * @param {Int} version the version this gets removed
- * @returns {function}
+ * @param {string} funcName the name of the library
+ * @param {number} version the version this gets removed
+ * @return {Function}
  */
 const deprecate = (func, funcName, version) => {
 	const oldFunc = func
@@ -80,7 +77,7 @@ const deprecate = (func, funcName, version) => {
 }
 
 const setDeprecatedProp = (global, cb, msg) => {
-	(Array.isArray(global) ? global : [global]).map(global => {
+	(Array.isArray(global) ? global : [global]).forEach(global => {
 		if (window[global] !== undefined) {
 			delete window[global]
 		}
@@ -99,13 +96,12 @@ const setDeprecatedProp = (global, cb, msg) => {
 }
 
 window._ = _
-setDeprecatedProp(['$', 'jQuery'], () => $, 'The global jQuery is deprecated. It will be updated to v3.x in Nextcloud 21. In later versions of Nextcloud it might be removed completely. Please ship your own.')
-setDeprecatedProp('autosize', () => autosize, 'please ship your own, this will be removed in Nextcloud 20')
+setDeprecatedProp(['$', 'jQuery'], () => $, 'The global jQuery is deprecated. It will be removed in a later versions without another warning. Please ship your own.')
 setDeprecatedProp('Backbone', () => Backbone, 'please ship your own, this will be removed in Nextcloud 20')
 setDeprecatedProp(['Clipboard', 'ClipboardJS'], () => ClipboardJS, 'please ship your own, this will be removed in Nextcloud 20')
 window.dav = dav
 setDeprecatedProp('Handlebars', () => Handlebars, 'please ship your own, this will be removed in Nextcloud 20')
-setDeprecatedProp(['jstz', 'jstimezonedetect'], () => jstimezonedetect, 'please ship your own, this will be removed in Nextcloud 20')
+// Global md5 only required for: apps/files/js/file-upload.js
 setDeprecatedProp('md5', () => md5, 'please ship your own, this will be removed in Nextcloud 20')
 setDeprecatedProp('moment', () => moment, 'please ship your own, this will be removed in Nextcloud 20')
 
@@ -126,6 +122,7 @@ $.fn.select2 = deprecate($.fn.select2, 'select2', 19)
 
 /**
  * translate a string
+ *
  * @param {string} app the id of the app for which to translate the string
  * @param {string} text the string to translate
  * @param [vars] map of placeholder key to value
@@ -136,6 +133,7 @@ window.t = _.bind(OC.L10N.translate, OC.L10N)
 
 /**
  * translate a string
+ *
  * @param {string} app the id of the app for which to translate the string
  * @param {string} text_singular the string to translate for exactly one object
  * @param {string} text_plural the string to translate for n objects

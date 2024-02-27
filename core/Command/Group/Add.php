@@ -18,14 +18,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Core\Command\Group;
 
 use OC\Core\Command\Base;
@@ -37,14 +36,9 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Add extends Base {
-	/** @var IGroupManager */
-	protected $groupManager;
-
-	/**
-	 * @param IGroupManager $groupManager
-	 */
-	public function __construct(IGroupManager $groupManager) {
-		$this->groupManager = $groupManager;
+	public function __construct(
+		protected IGroupManager $groupManager,
+	) {
 		parent::__construct();
 	}
 

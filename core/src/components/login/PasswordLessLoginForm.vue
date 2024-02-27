@@ -1,39 +1,38 @@
 <template>
-	<form v-if="isHttps && hasPublicKeyCredential"
+	<form v-if="(isHttps || isLocalhost) && hasPublicKeyCredential"
 		ref="loginForm"
 		method="post"
 		name="login"
 		@submit.prevent="submit">
+		<h2>{{ t('core', 'Log in with a device') }}</h2>
 		<fieldset>
-			<p class="grouptop groupbottom">
-				<input id="user"
-					ref="user"
-					v-model="user"
-					type="text"
-					name="user"
-					:autocomplete="autoCompleteAllowed ? 'on' : 'off'"
-					:placeholder="t('core', 'Username or email')"
-					:aria-label="t('core', 'Username or email')"
-					required
-					@change="$emit('update:username', user)">
-				<label for="user" class="infield">{{ t('core', 'Username or	email') }}</label>
-			</p>
-
-			<div v-if="!validCredentials">
-				{{ t('core', 'Your account is not setup for passwordless login.') }}
-			</div>
+			<NcTextField required
+				:value="user"
+				:autocomplete="autoCompleteAllowed ? 'on' : 'off'"
+				:error="!validCredentials"
+				:label="t('core', 'Login or email')"
+				:placeholder="t('core', 'Login or email')"
+				:helper-text="!validCredentials ? t('core', 'Your account is not setup for passwordless login.') : ''"
+				@update:value="changeUsername" />
 
 			<LoginButton v-if="validCredentials"
 				:loading="loading"
-				:inverted-colors="invertedColors"
 				@click="authenticate" />
 		</fieldset>
 	</form>
-	<div v-else-if="!hasPublicKeyCredential">
-		{{ t('core', 'Passwordless authentication is not supported in your browser.') }}
+	<div v-else-if="!hasPublicKeyCredential" class="update">
+		<InformationIcon size="70" />
+		<h2>{{ t('core', 'Browser not supported') }}</h2>
+		<p class="infogroup">
+			{{ t('core', 'Passwordless authentication is not supported in your browser.') }}
+		</p>
 	</div>
-	<div v-else-if="!isHttps">
-		{{ t('core', 'Passwordless authentication is only available over a secure connection.') }}
+	<div v-else-if="!isHttps && !isLocalhost" class="update">
+		<LockOpenIcon size="70" />
+		<h2>{{ t('core', 'Your connection is not secure') }}</h2>
+		<p class="infogroup">
+			{{ t('core', 'Passwordless authentication is only available over a secure connection.') }}
+		</p>
 	</div>
 </template>
 
@@ -41,8 +40,11 @@
 import {
 	startAuthentication,
 	finishAuthentication,
-} from '../../services/WebAuthnAuthenticationService'
-import LoginButton from './LoginButton'
+} from '../../services/WebAuthnAuthenticationService.js'
+import LoginButton from './LoginButton.vue'
+import InformationIcon from 'vue-material-design-icons/Information.vue'
+import LockOpenIcon from 'vue-material-design-icons/LockOpen.vue'
+import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
 
 class NoValidCredentials extends Error {
 
@@ -52,6 +54,9 @@ export default {
 	name: 'PasswordLessLoginForm',
 	components: {
 		LoginButton,
+		InformationIcon,
+		LockOpenIcon,
+		NcTextField,
 	},
 	props: {
 		username: {
@@ -59,10 +64,7 @@ export default {
 			default: '',
 		},
 		redirectUrl: {
-			type: String,
-		},
-		invertedColors: {
-			type: Boolean,
+			type: [String, Boolean],
 			default: false,
 		},
 		autoCompleteAllowed: {
@@ -70,6 +72,10 @@ export default {
 			default: true,
 		},
 		isHttps: {
+			type: Boolean,
+			default: false,
+		},
+		isLocalhost: {
 			type: Boolean,
 			default: false,
 		},
@@ -87,6 +93,11 @@ export default {
 	},
 	methods: {
 		authenticate() {
+			// check required fields
+			if (!this.$refs.loginForm.checkValidity()) {
+				return
+			}
+
 			console.debug('passwordless login initiated')
 
 			this.getAuthenticationData(this.user)
@@ -103,6 +114,10 @@ export default {
 					}
 					console.debug(error)
 				})
+		},
+		changeUsername(username) {
+			this.user = username
+			this.$emit('update:username', this.user)
 		},
 		getAuthenticationData(uid) {
 			const base64urlDecode = function(input) {
@@ -188,12 +203,13 @@ export default {
 		completeAuthentication(challenge) {
 			console.debug('TIME TO COMPLETE')
 
-			const location = this.redirectUrl
+			const redirectUrl = this.redirectUrl
 
 			return finishAuthentication(JSON.stringify(challenge))
-				.then(data => {
+				.then(({ defaultRedirectUrl }) => {
 					console.debug('Logged in redirecting')
-					window.location.href = location
+					// Redirect url might be false so || should be used instead of ??.
+					window.location.href = redirectUrl || defaultRedirectUrl
 				})
 				.catch(error => {
 					console.debug('GOT AN ERROR WHILE SUBMITTING CHALLENGE!')
@@ -207,6 +223,18 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+	fieldset {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
 
+		:deep(label) {
+			text-align: initial;
+		}
+	}
+
+	.update {
+		margin: 0 auto;
+	}
 </style>

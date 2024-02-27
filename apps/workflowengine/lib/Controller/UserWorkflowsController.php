@@ -1,10 +1,13 @@
 <?php
 
 declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2019 Arthur Schiwon <blizzz@arthur-schiwon.de>
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Julius Härtl <jus@bitgrid.net>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -15,24 +18,25 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\WorkflowEngine\Controller;
 
 use OCA\WorkflowEngine\Helper\ScopeContext;
 use OCA\WorkflowEngine\Manager;
+use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\IRequest;
 use OCP\IUserSession;
 use OCP\WorkflowEngine\IManager;
+use Psr\Log\LoggerInterface;
 
 class UserWorkflowsController extends AWorkflowController {
 
@@ -46,9 +50,10 @@ class UserWorkflowsController extends AWorkflowController {
 		$appName,
 		IRequest $request,
 		Manager $manager,
-		IUserSession $session
+		IUserSession $session,
+		LoggerInterface $logger
 	) {
-		parent::__construct($appName, $request, $manager);
+		parent::__construct($appName, $request, $manager, $logger);
 
 		$this->session = $session;
 	}
@@ -80,6 +85,7 @@ class UserWorkflowsController extends AWorkflowController {
 	 * @throws OCSBadRequestException
 	 * @throws OCSForbiddenException
 	 */
+	#[PasswordConfirmationRequired]
 	public function create(string $class, string $name, array $checks, string $operation, string $entity, array $events): DataResponse {
 		return parent::create($class, $name, $checks, $operation, $entity, $events);
 	}
@@ -89,6 +95,7 @@ class UserWorkflowsController extends AWorkflowController {
 	 * @throws OCSBadRequestException
 	 * @throws OCSForbiddenException
 	 */
+	#[PasswordConfirmationRequired]
 	public function update(int $id, string $name, array $checks, string $operation, string $entity, array $events): DataResponse {
 		return parent::update($id, $name, $checks, $operation, $entity, $events);
 	}
@@ -97,6 +104,7 @@ class UserWorkflowsController extends AWorkflowController {
 	 * @NoAdminRequired
 	 * @throws OCSForbiddenException
 	 */
+	#[PasswordConfirmationRequired]
 	public function destroy(int $id): DataResponse {
 		return parent::destroy($id);
 	}

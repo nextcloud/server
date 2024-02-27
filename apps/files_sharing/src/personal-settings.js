@@ -1,11 +1,10 @@
-// global t
-
-/*
+/**
+ * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
  * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
- * @author 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -18,19 +17,17 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 
 import Vue from 'vue'
 import { getRequestToken } from '@nextcloud/auth'
-import { generateFilePath } from '@nextcloud/router'
 
-import PersonalSettings from './components/PersonalSettings'
+import PersonalSettings from './components/PersonalSettings.vue'
 
 // eslint-disable-next-line camelcase
 __webpack_nonce__ = btoa(getRequestToken())
-// eslint-disable-next-line camelcase
-__webpack_public_path__ = generateFilePath('files', '', 'js/')
 
 Vue.prototype.t = t
 

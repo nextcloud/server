@@ -4,8 +4,7 @@
  *
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
- * @author Morris Jobke <hey@morrisjobke.de>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Robin Appelman <robin@icewind.nl>
  *
  * @license AGPL-3.0
@@ -23,7 +22,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Core\Command\App;
 
 use OCP\App\IAppManager;
@@ -35,19 +33,12 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Disable extends Command implements CompletionAwareInterface {
+	protected int $exitCode = 0;
 
-	/** @var IAppManager */
-	protected $appManager;
-
-	/** @var int */
-	protected $exitCode = 0;
-
-	/**
-	 * @param IAppManager $appManager
-	 */
-	public function __construct(IAppManager $appManager) {
+	public function __construct(
+		protected IAppManager $appManager,
+	) {
 		parent::__construct();
-		$this->appManager = $appManager;
 	}
 
 	protected function configure(): void {
@@ -79,7 +70,7 @@ class Disable extends Command implements CompletionAwareInterface {
 
 		try {
 			$this->appManager->disableApp($appId);
-			$appVersion = \OC_App::getAppVersion($appId);
+			$appVersion = $this->appManager->getAppVersion($appId);
 			$output->writeln($appId . ' ' . $appVersion . ' disabled');
 		} catch (\Exception $e) {
 			$output->writeln($e->getMessage());
@@ -92,7 +83,7 @@ class Disable extends Command implements CompletionAwareInterface {
 	 * @param CompletionContext $context
 	 * @return string[]
 	 */
-	public function completeOptionValues($optionName, CompletionContext $context) {
+	public function completeOptionValues($optionName, CompletionContext $context): array {
 		return [];
 	}
 
@@ -101,7 +92,7 @@ class Disable extends Command implements CompletionAwareInterface {
 	 * @param CompletionContext $context
 	 * @return string[]
 	 */
-	public function completeArgumentValues($argumentName, CompletionContext $context) {
+	public function completeArgumentValues($argumentName, CompletionContext $context): array {
 		if ($argumentName === 'app-id') {
 			return array_diff(\OC_App::getEnabledApps(true, true), $this->appManager->getAlwaysEnabledApps());
 		}

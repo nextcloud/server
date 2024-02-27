@@ -10,6 +10,7 @@ declare(strict_types=1);
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Citharel <nextcloud@tcit.fr>
+ * @author Richard Steinmetz <richard@steinmetz.cloud>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -20,44 +21,22 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\Tests\unit\CalDAV\Reminder\NotificationProvider;
 
 use OCA\DAV\CalDAV\Reminder\NotificationProvider\PushProvider;
 use OCP\AppFramework\Utility\ITimeFactory;
-use OCP\IConfig;
-use OCP\IL10N;
-use OCP\ILogger;
-use OCP\IURLGenerator;
 use OCP\IUser;
-use OCP\L10N\IFactory as L10NFactory;
 use OCP\Notification\IManager;
 use OCP\Notification\INotification;
 
 class PushProviderTest extends AbstractNotificationProviderTest {
-
-	/** @var ILogger|\PHPUnit\Framework\MockObject\MockObject */
-	protected $logger;
-
-	/** @var L10NFactory|\PHPUnit\Framework\MockObject\MockObject */
-	protected $l10nFactory;
-
-	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
-	protected $l10n;
-
-	/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
-	protected $urlGenerator;
-
-	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
-	protected $config;
-
 	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $manager;
 
@@ -67,7 +46,6 @@ class PushProviderTest extends AbstractNotificationProviderTest {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->config = $this->createMock(IConfig::class);
 		$this->manager = $this->createMock(IManager::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
 
@@ -88,7 +66,7 @@ class PushProviderTest extends AbstractNotificationProviderTest {
 	public function testNotSend(): void {
 		$this->config->expects($this->once())
 			->method('getAppValue')
-			->with('dav', 'sendEventRemindersPush', 'no')
+			->with('dav', 'sendEventRemindersPush', 'yes')
 			->willReturn('no');
 
 		$this->manager->expects($this->never())
@@ -108,13 +86,13 @@ class PushProviderTest extends AbstractNotificationProviderTest {
 
 		$users = [$user1, $user2, $user3];
 
-		$this->provider->send($this->vcalendar->VEVENT, $this->calendarDisplayName, $users);
+		$this->provider->send($this->vcalendar->VEVENT, $this->calendarDisplayName, [], $users);
 	}
 
 	public function testSend(): void {
 		$this->config->expects($this->once())
 			->method('getAppValue')
-			->with('dav', 'sendEventRemindersPush', 'no')
+			->with('dav', 'sendEventRemindersPush', 'yes')
 			->willReturn('yes');
 
 		$user1 = $this->createMock(IUser::class);
@@ -138,30 +116,24 @@ class PushProviderTest extends AbstractNotificationProviderTest {
 		$notification2 = $this->createNotificationMock('uid2', $dateTime);
 		$notification3 = $this->createNotificationMock('uid3', $dateTime);
 
-		$this->manager->expects($this->at(0))
+		$this->manager->expects($this->exactly(3))
 			->method('createNotification')
 			->with()
-			->willReturn($notification1);
-		$this->manager->expects($this->at(2))
-			->method('createNotification')
-			->with()
-			->willReturn($notification2);
-		$this->manager->expects($this->at(4))
-			->method('createNotification')
-			->with()
-			->willReturn($notification3);
+			->willReturnOnConsecutiveCalls(
+				$notification1,
+				$notification2,
+				$notification3
+			);
 
-		$this->manager->expects($this->at(1))
+		$this->manager->expects($this->exactly(3))
 			->method('notify')
-			->with($notification1);
-		$this->manager->expects($this->at(3))
-			->method('notify')
-			->with($notification2);
-		$this->manager->expects($this->at(5))
-			->method('notify')
-			->with($notification3);
+			->withConsecutive(
+				[$notification1],
+				[$notification2],
+				[$notification3],
+			);
 
-		$this->provider->send($this->vcalendar->VEVENT, $this->calendarDisplayName, $users);
+		$this->provider->send($this->vcalendar->VEVENT, $this->calendarDisplayName, [], $users);
 	}
 
 	/**

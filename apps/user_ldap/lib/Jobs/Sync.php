@@ -15,17 +15,15 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\User_LDAP\Jobs;
 
-use OC\BackgroundJob\TimedJob;
 use OC\ServerNotAvailableException;
 use OCA\User_LDAP\AccessFactory;
 use OCA\User_LDAP\Configuration;
@@ -33,12 +31,14 @@ use OCA\User_LDAP\ConnectionFactory;
 use OCA\User_LDAP\Helper;
 use OCA\User_LDAP\LDAP;
 use OCA\User_LDAP\Mapping\UserMapping;
-use OCA\User_LDAP\User\Manager;
+use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\BackgroundJob\TimedJob;
 use OCP\IAvatarManager;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IUserManager;
 use OCP\Notification\IManager;
+use Psr\Log\LoggerInterface;
 
 class Sync extends TimedJob {
 	public const MAX_INTERVAL = 12 * 60 * 60; // 12h
@@ -47,8 +47,6 @@ class Sync extends TimedJob {
 	protected $ldapHelper;
 	/** @var  LDAP */
 	protected $ldap;
-	/** @var  Manager */
-	protected $userManager;
 	/** @var UserMapping */
 	protected $mapper;
 	/** @var  IConfig */
@@ -59,6 +57,8 @@ class Sync extends TimedJob {
 	protected $dbc;
 	/** @var  IUserManager */
 	protected $ncUserManager;
+	/** @var  LoggerInterface */
+	protected $logger;
 	/** @var  IManager */
 	protected $notificationManager;
 	/** @var ConnectionFactory */
@@ -66,13 +66,13 @@ class Sync extends TimedJob {
 	/** @var AccessFactory */
 	protected $accessFactory;
 
-	public function __construct(Manager  $userManager) {
-		$this->userManager = $userManager;
+	public function __construct(ITimeFactory $time) {
+		parent::__construct($time);
 		$this->setInterval(
-			\OC::$server->getConfig()->getAppValue(
+			(int)\OC::$server->getConfig()->getAppValue(
 				'user_ldap',
 				'background_sync_interval',
-				self::MIN_INTERVAL
+				(string)self::MIN_INTERVAL
 			)
 		);
 	}
@@ -93,7 +93,7 @@ class Sync extends TimedJob {
 		$interval = floor(24 * 60 * 60 / $runsPerDay);
 		$interval = min(max($interval, self::MIN_INTERVAL), self::MAX_INTERVAL);
 
-		$this->config->setAppValue('user_ldap', 'background_sync_interval', $interval);
+		$this->config->setAppValue('user_ldap', 'background_sync_interval', (string)$interval);
 	}
 
 	/**
@@ -103,7 +103,7 @@ class Sync extends TimedJob {
 	protected function getMinPagingSize() {
 		$configKeys = $this->config->getAppKeys('user_ldap');
 		$configKeys = array_filter($configKeys, function ($key) {
-			return strpos($key, 'ldap_paging_size') !== false;
+			return str_contains($key, 'ldap_paging_size');
 		});
 		$minPagingSize = null;
 		foreach ($configKeys as $configKey) {
@@ -194,7 +194,7 @@ class Sync extends TimedJob {
 
 		$cycleData = [
 			'prefix' => $this->config->getAppValue('user_ldap', 'background_sync_prefix', null),
-			'offset' => (int)$this->config->getAppValue('user_ldap', 'background_sync_offset', 0),
+			'offset' => (int)$this->config->getAppValue('user_ldap', 'background_sync_offset', '0'),
 		];
 
 		if (
@@ -251,7 +251,7 @@ class Sync extends TimedJob {
 	 * @return bool
 	 */
 	public function qualifiesToRun($cycleData) {
-		$lastChange = $this->config->getAppValue('user_ldap', $cycleData['prefix'] . '_lastChange', 0);
+		$lastChange = (int)$this->config->getAppValue('user_ldap', $cycleData['prefix'] . '_lastChange', '0');
 		if ((time() - $lastChange) > 60 * 30) {
 			return true;
 		}
@@ -296,8 +296,6 @@ class Sync extends TimedJob {
 
 	/**
 	 * "fixes" DI
-	 *
-	 * @param array $argument
 	 */
 	public function setArgument($argument) {
 		if (isset($argument['config'])) {
@@ -315,7 +313,7 @@ class Sync extends TimedJob {
 		if (isset($argument['ldapWrapper'])) {
 			$this->ldap = $argument['ldapWrapper'];
 		} else {
-			$this->ldap = new LDAP();
+			$this->ldap = new LDAP($this->config->getSystemValueString('ldap_log_file'));
 		}
 
 		if (isset($argument['avatarManager'])) {
@@ -336,20 +334,22 @@ class Sync extends TimedJob {
 			$this->ncUserManager = \OC::$server->getUserManager();
 		}
 
+		if (isset($argument['logger'])) {
+			$this->logger = $argument['logger'];
+		} else {
+			$this->logger = \OC::$server->get(LoggerInterface::class);
+		}
+
 		if (isset($argument['notificationManager'])) {
 			$this->notificationManager = $argument['notificationManager'];
 		} else {
 			$this->notificationManager = \OC::$server->getNotificationManager();
 		}
 
-		if (isset($argument['userManager'])) {
-			$this->userManager = $argument['userManager'];
-		}
-
 		if (isset($argument['mapper'])) {
 			$this->mapper = $argument['mapper'];
 		} else {
-			$this->mapper = new UserMapping($this->dbc);
+			$this->mapper = \OCP\Server::get(UserMapping::class);
 		}
 
 		if (isset($argument['connectionFactory'])) {
@@ -361,13 +361,7 @@ class Sync extends TimedJob {
 		if (isset($argument['accessFactory'])) {
 			$this->accessFactory = $argument['accessFactory'];
 		} else {
-			$this->accessFactory = new AccessFactory(
-				$this->ldap,
-				$this->userManager,
-				$this->ldapHelper,
-				$this->config,
-				$this->ncUserManager
-			);
+			$this->accessFactory = \OCP\Server::get(AccessFactory::class);
 		}
 	}
 }

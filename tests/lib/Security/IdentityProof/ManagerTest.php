@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016 Lukas Reschke <lukas@statuscode.ch>
  *
@@ -29,10 +32,10 @@ use OCP\Files\IAppData;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\IConfig;
-use OCP\ILogger;
 use OCP\IUser;
 use OCP\Security\ICrypto;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class ManagerTest extends TestCase {
@@ -46,7 +49,7 @@ class ManagerTest extends TestCase {
 	private $manager;
 	/** @var IConfig|MockObject */
 	private $config;
-	/** @var ILogger|MockObject */
+	/** @var LoggerInterface|MockObject */
 	private $logger;
 
 	protected function setUp(): void {
@@ -60,7 +63,7 @@ class ManagerTest extends TestCase {
 			->method('get')
 			->with('identityproof')
 			->willReturn($this->appData);
-		$this->logger = $this->createMock(ILogger::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 
 		$this->crypto = $this->createMock(ICrypto::class);
 		$this->manager = $this->getManager(['generateKeyPair']);
@@ -114,15 +117,16 @@ class ManagerTest extends TestCase {
 			->with('EncryptedPrivateKey')
 			->willReturn('MyPrivateKey');
 		$folder
-			->expects($this->at(0))
+			->expects($this->exactly(2))
 			->method('getFile')
-			->with('private')
-			->willReturn($privateFile);
-		$folder
-			->expects($this->at(1))
-			->method('getFile')
-			->with('public')
-			->willReturn($publicFile);
+			->withConsecutive(
+				['private'],
+				['public']
+			)
+			->willReturnOnConsecutiveCalls(
+				$privateFile,
+				$publicFile
+			);
 		$this->appData
 			->expects($this->once())
 			->method('getFolder')
@@ -139,17 +143,12 @@ class ManagerTest extends TestCase {
 			->expects($this->once())
 			->method('getUID')
 			->willReturn('MyUid');
-		$this->appData
-			->expects($this->at(0))
-			->method('getFolder')
-			->with('user-MyUid')
-			->willThrowException(new \Exception());
 		$this->manager
 			->expects($this->once())
 			->method('generateKeyPair')
 			->willReturn(['MyNewPublicKey', 'MyNewPrivateKey']);
 		$this->appData
-			->expects($this->at(1))
+			->expects($this->once())
 			->method('newFolder')
 			->with('user-MyUid');
 		$folder = $this->createMock(ISimpleFolder::class);
@@ -169,20 +168,24 @@ class ManagerTest extends TestCase {
 			->method('putContent')
 			->with('MyNewPublicKey');
 		$folder
-			->expects($this->at(0))
+			->expects($this->exactly(2))
 			->method('newFile')
-			->with('private')
-			->willReturn($privateFile);
-		$folder
-			->expects($this->at(1))
-			->method('newFile')
-			->with('public')
-			->willReturn($publicFile);
+			->withConsecutive(
+				['private'],
+				['public']
+			)
+			->willReturnOnConsecutiveCalls(
+				$privateFile,
+				$publicFile
+			);
 		$this->appData
-			->expects($this->at(2))
+			->expects($this->exactly(2))
 			->method('getFolder')
 			->with('user-MyUid')
-			->willReturn($folder);
+			->willReturnOnConsecutiveCalls(
+				$this->throwException(new \Exception()),
+				$folder
+			);
 
 
 		$expected = new Key('MyNewPublicKey', 'MyNewPrivateKey');

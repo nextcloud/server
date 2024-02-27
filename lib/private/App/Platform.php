@@ -23,9 +23,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\App;
 
+use OCP\IBinaryFinder;
 use OCP\IConfig;
 
 /**
@@ -36,41 +36,26 @@ use OCP\IConfig;
  * @package OC\App
  */
 class Platform {
-
-	/**
-	 * @param IConfig $config
-	 */
-	public function __construct(IConfig $config) {
-		$this->config = $config;
+	public function __construct(
+		private IConfig $config,
+	) {
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getPhpVersion() {
+	public function getPhpVersion(): string {
 		return phpversion();
 	}
 
-	/**
-	 * @return int
-	 */
-	public function getIntSize() {
+	public function getIntSize(): int {
 		return PHP_INT_SIZE;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getOcVersion() {
+	public function getOcVersion(): string {
 		$v = \OCP\Util::getVersion();
 		return implode('.', $v);
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getDatabase() {
-		$dbType = $this->config->getSystemValue('dbtype', 'sqlite');
+	public function getDatabase(): string {
+		$dbType = $this->config->getSystemValueString('dbtype', 'sqlite');
 		if ($dbType === 'sqlite3') {
 			$dbType = 'sqlite';
 		}
@@ -78,23 +63,18 @@ class Platform {
 		return $dbType;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getOS() {
+	public function getOS(): string {
 		return php_uname('s');
 	}
 
 	/**
 	 * @param $command
-	 * @return bool
 	 */
-	public function isCommandKnown($command) {
-		$path = \OC_Helper::findBinaryPath($command);
-		return ($path !== null);
+	public function isCommandKnown(string $command): bool {
+		return \OCP\Server::get(IBinaryFinder::class)->findBinaryPath($command) !== false;
 	}
 
-	public function getLibraryVersion($name) {
+	public function getLibraryVersion(string $name): ?string {
 		$repo = new PlatformRepository();
 		return $repo->findLibrary($name);
 	}

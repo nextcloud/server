@@ -25,7 +25,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_External\Tests\Service;
 
 use OC\Files\Filesystem;
@@ -55,7 +54,7 @@ class UserStoragesServiceTest extends StoragesServiceTest {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->globalStoragesService = new GlobalStoragesService($this->backendService, $this->dbConfig, $this->mountCache);
+		$this->globalStoragesService = new GlobalStoragesService($this->backendService, $this->dbConfig, $this->mountCache, $this->eventDispatcher);
 
 		$this->userId = $this->getUniqueID('user_');
 		$this->createUser($this->userId, $this->userId);
@@ -68,7 +67,7 @@ class UserStoragesServiceTest extends StoragesServiceTest {
 			->method('getUser')
 			->willReturn($this->user);
 
-		$this->service = new UserStoragesService($this->backendService, $this->dbConfig, $userSession, $this->mountCache);
+		$this->service = new UserStoragesService($this->backendService, $this->dbConfig, $userSession, $this->mountCache, $this->eventDispatcher);
 	}
 
 	private function makeTestStorageData() {
@@ -150,8 +149,8 @@ class UserStoragesServiceTest extends StoragesServiceTest {
 	/**
 	 * @dataProvider deleteStorageDataProvider
 	 */
-	public function testDeleteStorage($backendOptions, $rustyStorageId, $expectedCountAfterDeletion) {
-		parent::testDeleteStorage($backendOptions, $rustyStorageId, $expectedCountAfterDeletion);
+	public function testDeleteStorage($backendOptions, $rustyStorageId) {
+		parent::testDeleteStorage($backendOptions, $rustyStorageId);
 
 		// hook called once for user (first one was during test creation)
 		$this->assertHookCall(

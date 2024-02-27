@@ -29,30 +29,23 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Core\Controller;
 
 use OC\Setup;
-use OCP\ILogger;
+use OCP\Util;
+use Psr\Log\LoggerInterface;
 
 class SetupController {
-	/** @var Setup */
-	protected $setupHelper;
-	/** @var string */
-	private $autoConfigFile;
+	private string $autoConfigFile;
 
-	/**
-	 * @param Setup $setupHelper
-	 */
-	public function __construct(Setup $setupHelper) {
+	public function __construct(
+		protected Setup $setupHelper,
+		protected LoggerInterface $logger,
+	) {
 		$this->autoConfigFile = \OC::$configDir.'autoconfig.php';
-		$this->setupHelper = $setupHelper;
 	}
 
-	/**
-	 * @param $post
-	 */
-	public function run($post) {
+	public function run(array $post): void {
 		// Check for autosetup:
 		$post = $this->loadAutoConfig($post);
 		$opts = $this->setupHelper->getSystemInfo();
@@ -65,7 +58,7 @@ class SetupController {
 			$post['dbpass'] = $post['dbpassword'];
 		}
 
-		if (!is_file(\OC::$configDir.'/CAN_INSTALL')) {
+		if (!$this->setupHelper->canInstallFileExists()) {
 			$this->displaySetupForbidden();
 			return;
 		}
@@ -79,7 +72,7 @@ class SetupController {
 				$options = array_merge($opts, $post, $errors);
 				$this->display($options);
 			} else {
-				$this->finishSetup(isset($post['install-recommended-apps']));
+				$this->finishSetup();
 			}
 		} else {
 			$options = array_merge($opts, $post);
@@ -87,11 +80,11 @@ class SetupController {
 		}
 	}
 
-	private function displaySetupForbidden() {
+	private function displaySetupForbidden(): void {
 		\OC_Template::printGuestPage('', 'installation_forbidden');
 	}
 
-	public function display($post) {
+	public function display($post): void {
 		$defaults = [
 			'adminlogin' => '',
 			'adminpass' => '',
@@ -104,33 +97,33 @@ class SetupController {
 		];
 		$parameters = array_merge($defaults, $post);
 
+		Util::addStyle('server', null);
+
+		// include common nextcloud webpack bundle
+		Util::addScript('core', 'common');
+		Util::addScript('core', 'main');
+		Util::addTranslations('core');
+
 		\OC_Template::printGuestPage('', 'installation', $parameters);
 	}
 
-	private function finishSetup(bool $installRecommended) {
+	private function finishSetup(): void {
 		if (file_exists($this->autoConfigFile)) {
 			unlink($this->autoConfigFile);
 		}
 		\OC::$server->getIntegrityCodeChecker()->runInstanceVerification();
 
-		if (\OC_Util::getChannel() !== 'git' && is_file(\OC::$configDir.'/CAN_INSTALL')) {
-			if (!unlink(\OC::$configDir.'/CAN_INSTALL')) {
-				\OC_Template::printGuestPage('', 'installation_incomplete');
-			}
+		if ($this->setupHelper->shouldRemoveCanInstallFile()) {
+			\OC_Template::printGuestPage('', 'installation_incomplete');
 		}
 
-		if ($installRecommended) {
-			$urlGenerator = \OC::$server->getURLGenerator();
-			$location = $urlGenerator->getAbsoluteURL('index.php/core/apps/recommended');
-			header('Location: ' . $location);
-			exit();
-		}
-		\OC_Util::redirectToDefaultPage();
+		header('Location: ' . \OC::$server->getURLGenerator()->getAbsoluteURL('index.php/core/apps/recommended'));
+		exit();
 	}
 
-	public function loadAutoConfig($post) {
+	public function loadAutoConfig(array $post): array {
 		if (file_exists($this->autoConfigFile)) {
-			\OCP\Util::writeLog('core', 'Autoconfig file found, setting up Nextcloud…', ILogger::INFO);
+			$this->logger->info('Autoconfig file found, setting up Nextcloud…');
 			$AUTOCONFIG = [];
 			include $this->autoConfigFile;
 			$post = array_merge($post, $AUTOCONFIG);

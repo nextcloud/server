@@ -22,14 +22,13 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Files\Mount;
 
 use OCP\Files\Config\IHomeMountProvider;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\IConfig;
-use OCP\ILogger;
 use OCP\IUser;
+use Psr\Log\LoggerInterface;
 
 /**
  * Mount provider for object store home storages
@@ -66,7 +65,7 @@ class ObjectHomeMountProvider implements IHomeMountProvider {
 			return null;
 		}
 
-		return new MountPoint('\OC\Files\ObjectStore\HomeObjectStoreStorage', '/' . $user->getUID(), $config['arguments'], $loader);
+		return new HomeMountPoint($user, '\OC\Files\ObjectStore\HomeObjectStoreStorage', '/' . $user->getUID(), $config['arguments'], $loader, null, null, self::class);
 	}
 
 	/**
@@ -81,7 +80,7 @@ class ObjectHomeMountProvider implements IHomeMountProvider {
 
 		// sanity checks
 		if (empty($config['class'])) {
-			\OCP\Util::writeLog('files', 'No class given for objectstore', ILogger::ERROR);
+			\OC::$server->get(LoggerInterface::class)->error('No class given for objectstore', ['app' => 'files']);
 		}
 		if (!isset($config['arguments'])) {
 			$config['arguments'] = [];
@@ -106,7 +105,7 @@ class ObjectHomeMountProvider implements IHomeMountProvider {
 
 		// sanity checks
 		if (empty($config['class'])) {
-			\OCP\Util::writeLog('files', 'No class given for objectstore', ILogger::ERROR);
+			\OC::$server->get(LoggerInterface::class)->error('No class given for objectstore', ['app' => 'files']);
 		}
 		if (!isset($config['arguments'])) {
 			$config['arguments'] = [];
@@ -122,8 +121,8 @@ class ObjectHomeMountProvider implements IHomeMountProvider {
 			if (!isset($config['arguments']['bucket'])) {
 				$config['arguments']['bucket'] = '';
 			}
-			$mapper = new \OC\Files\ObjectStore\Mapper($user);
-			$numBuckets = isset($config['arguments']['num_buckets']) ? $config['arguments']['num_buckets'] : 64;
+			$mapper = new \OC\Files\ObjectStore\Mapper($user, $this->config);
+			$numBuckets = $config['arguments']['num_buckets'] ?? 64;
 			$config['arguments']['bucket'] .= $mapper->getBucket($numBuckets);
 
 			$this->config->setUserValue($user->getUID(), 'homeobjectstore', 'bucket', $config['arguments']['bucket']);

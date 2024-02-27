@@ -16,14 +16,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Preview;
 
 use OC\SystemConfig;
@@ -31,7 +30,6 @@ use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 
 class WatcherConnector {
-
 	/** @var IRootFolder */
 	private $root;
 
@@ -45,7 +43,7 @@ class WatcherConnector {
 	 * @param SystemConfig $config
 	 */
 	public function __construct(IRootFolder $root,
-								SystemConfig $config) {
+		SystemConfig $config) {
 		$this->root = $root;
 		$this->config = $config;
 	}
@@ -54,7 +52,7 @@ class WatcherConnector {
 	 * @return Watcher
 	 */
 	private function getWatcher(): Watcher {
-		return \OC::$server->query(Watcher::class);
+		return \OCP\Server::get(Watcher::class);
 	}
 
 	public function connectWatcher() {

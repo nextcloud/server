@@ -22,7 +22,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Memcache;
 
 use OCP\IMemcache;
@@ -76,7 +75,7 @@ class ArrayCache extends Cache implements IMemcache {
 		}
 
 		foreach ($this->cachedData as $key => $value) {
-			if (strpos($key, $prefix) === 0) {
+			if (str_starts_with($key, $prefix)) {
 				$this->remove($key);
 			}
 		}
@@ -154,7 +153,7 @@ class ArrayCache extends Cache implements IMemcache {
 	/**
 	 * {@inheritDoc}
 	 */
-	public static function isAvailable() {
+	public static function isAvailable(): bool {
 		return true;
 	}
 }

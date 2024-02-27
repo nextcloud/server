@@ -1,10 +1,13 @@
-/* globals Snap */
 /**
  * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
- * @author 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author nacho <nacho@ownyourbits.com>
+ * @author Vincent Petry <vincent@nextcloud.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -17,119 +20,65 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 
+/* globals Snap */
 import _ from 'underscore'
 import $ from 'jquery'
 import moment from 'moment'
-import cssVars from 'css-vars-ponyfill'
 
-import { initSessionHeartBeat } from './session-heartbeat'
-import OC from './OC/index'
-import { setUp as setUpContactsMenu } from './components/ContactsMenu'
-import { setUp as setUpMainMenu } from './components/MainMenu'
-import { setUp as setUpUserMenu } from './components/UserMenu'
-import PasswordConfirmation from './OC/password-confirmation'
+import { initSessionHeartBeat } from './session-heartbeat.js'
+import OC from './OC/index.js'
+import { setUp as setUpContactsMenu } from './components/ContactsMenu.js'
+import { setUp as setUpMainMenu } from './components/MainMenu.js'
+import { setUp as setUpUserMenu } from './components/UserMenu.js'
+import { interceptRequests } from './utils/xhr-request.js'
 
 // keep in sync with core/css/variables.scss
 const breakpointMobileWidth = 1024
-
-const resizeMenu = () => {
-	const appList = $('#appmenu li')
-	const rightHeaderWidth = $('.header-right').outerWidth()
-	const headerWidth = $('header').outerWidth()
-	const usePercentualAppMenuLimit = 0.67
-	const minAppsDesktop = 12
-	let availableWidth = headerWidth - $('#nextcloud').outerWidth() - (rightHeaderWidth > 210 ? rightHeaderWidth : 210)
-	const isMobile = $(window).width() < breakpointMobileWidth
-	if (!isMobile) {
-		availableWidth = availableWidth * usePercentualAppMenuLimit
-	}
-	let appCount = Math.floor((availableWidth / $(appList).width()))
-	if (isMobile && appCount > minAppsDesktop) {
-		appCount = minAppsDesktop
-	}
-	if (!isMobile && appCount < minAppsDesktop) {
-		appCount = minAppsDesktop
-	}
-
-	// show at least 2 apps in the popover
-	if (appList.length - 1 - appCount >= 1) {
-		appCount--
-	}
-
-	$('#more-apps a').removeClass('active')
-	let lastShownApp
-	for (let k = 0; k < appList.length - 1; k++) {
-		const name = $(appList[k]).data('id')
-		if (k < appCount) {
-			$(appList[k]).removeClass('hidden')
-			$('#apps li[data-id=' + name + ']').addClass('in-header')
-			lastShownApp = appList[k]
-		} else {
-			$(appList[k]).addClass('hidden')
-			$('#apps li[data-id=' + name + ']').removeClass('in-header')
-			// move active app to last position if it is active
-			if (appCount > 0 && $(appList[k]).children('a').hasClass('active')) {
-				$(lastShownApp).addClass('hidden')
-				$('#apps li[data-id=' + $(lastShownApp).data('id') + ']').removeClass('in-header')
-				$(appList[k]).removeClass('hidden')
-				$('#apps li[data-id=' + name + ']').addClass('in-header')
-			}
-		}
-	}
-
-	// show/hide more apps icon
-	if ($('#apps li:not(.in-header)').length === 0) {
-		$('#more-apps').hide()
-		$('#navigation').hide()
-	} else {
-		$('#more-apps').show()
-	}
-}
 
 const initLiveTimestamps = () => {
 	// Update live timestamps every 30 seconds
 	setInterval(() => {
 		$('.live-relative-timestamp').each(function() {
-			$(this).text(OC.Util.relativeModifiedDate(parseInt($(this).attr('data-timestamp'), 10)))
+			const timestamp = parseInt($(this).attr('data-timestamp'), 10)
+			$(this).text(moment(timestamp).fromNow())
 		})
 	}, 30 * 1000)
 }
 
 /**
+ * Moment doesn't have aliases for every locale and doesn't parse some locale IDs correctly so we need to alias them
+ */
+const localeAliases = {
+	zh: 'zh-cn',
+	zh_Hans: 'zh-cn',
+	zh_Hans_CN: 'zh-cn',
+	zh_Hans_HK: 'zh-cn',
+	zh_Hans_MO: 'zh-cn',
+	zh_Hans_SG: 'zh-cn',
+	zh_Hant: 'zh-hk',
+	zh_Hant_HK: 'zh-hk',
+	zh_Hant_MO: 'zh-mo',
+	zh_Hant_TW: 'zh-tw',
+}
+let locale = OC.getLocale()
+if (Object.prototype.hasOwnProperty.call(localeAliases, locale)) {
+	locale = localeAliases[locale]
+}
+
+/**
  * Set users locale to moment.js as soon as possible
  */
-moment.locale(OC.getLocale())
+moment.locale(locale)
 
 /**
  * Initializes core
  */
 export const initCore = () => {
-	const userAgent = window.navigator.userAgent
-	const msie = userAgent.indexOf('MSIE ')
-	const trident = userAgent.indexOf('Trident/')
-	const edge = userAgent.indexOf('Edge/')
-
-	if (msie > 0 || trident > 0) {
-		// (IE 10 or older) || IE 11
-		$('html').addClass('ie')
-	} else if (edge > 0) {
-		// for edge
-		$('html').addClass('edge')
-	}
-
-	// css variables fallback for IE
-	if (msie > 0 || trident > 0 || edge > 0) {
-		console.info('Legacy browser detected, applying css vars polyfill')
-		cssVars({
-			watch: true,
-			//  set edge < 16 as incompatible
-			onlyLegacy: !(/Edge\/([0-9]{2})\./i.test(navigator.userAgent)
-				&& parseInt(/Edge\/([0-9]{2})\./i.exec(navigator.userAgent)[1]) < 16),
-		})
-	}
+	interceptRequests()
 
 	$(window).on('unload.main', () => { OC._unloadCalled = true })
 	$(window).on('beforeunload.main', () => {
@@ -178,30 +127,6 @@ export const initCore = () => {
 	setUpUserMenu()
 	setUpContactsMenu()
 
-	// move triangle of apps dropdown to align with app name triangle
-	// 2 is the additional offset between the triangles
-	if ($('#navigation').length) {
-		$('#header #nextcloud + .menutoggle').on('click', () => {
-			$('#menu-css-helper').remove()
-			const caretPosition = $('.header-appname + .icon-caret').offset().left - 2
-			if (caretPosition > 255) {
-				// if the app name is longer than the menu, just put the triangle in the middle
-
-			} else {
-				$('head').append('<style id="menu-css-helper">#navigation:after { left: ' + caretPosition + 'px }</style>')
-			}
-		})
-		$('#header #appmenu .menutoggle').on('click', () => {
-			$('#appmenu').toggleClass('menu-open')
-			if ($('#appmenu').is(':visible')) {
-				$('#menu-css-helper').remove()
-			}
-		})
-	}
-
-	$(window).resize(resizeMenu)
-	setTimeout(resizeMenu, 0)
-
 	// just add snapper for logged in users
 	// and if the app doesn't handle the nav slider itself
 	if ($('#app-navigation').length && !$('html').hasClass('lte9')
@@ -236,6 +161,12 @@ export const initCore = () => {
 		snapper.on('end', () => {
 			// we need this because dragging stop triggers that
 			animating = false
+		})
+		snapper.on('open', () => {
+			$appNavigation.attr('aria-hidden', 'false')
+		})
+		snapper.on('close', () => {
+			$appNavigation.attr('aria-hidden', 'true')
 		})
 
 		// These are necessary because calling open or close
@@ -290,6 +221,7 @@ export const initCore = () => {
 
 		// close sidebar when switching navigation entry
 		const $appNavigation = $('#app-navigation')
+		$appNavigation.attr('aria-hidden', 'true')
 		$appNavigation.delegate('a, :button', 'click', event => {
 			const $target = $(event.target)
 			// don't hide navigation when changing settings or adding things
@@ -341,6 +273,7 @@ export const initCore = () => {
 
 		const toggleSnapperOnSize = () => {
 			if ($(window).width() > breakpointMobileWidth) {
+				$appNavigation.attr('aria-hidden', 'false')
 				snapper.close()
 				snapper.disable()
 
@@ -364,5 +297,4 @@ export const initCore = () => {
 	}
 
 	initLiveTimestamps()
-	PasswordConfirmation.init()
 }

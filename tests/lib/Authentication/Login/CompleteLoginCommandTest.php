@@ -23,14 +23,13 @@
 
 declare(strict_types=1);
 
-namespace lib\Authentication\Login;
+namespace Test\Authentication\Login;
 
 use OC\Authentication\Login\CompleteLoginCommand;
 use OC\User\Session;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class CompleteLoginCommandTest extends ALoginCommandTest {
-
 	/** @var Session|MockObject */
 	private $session;
 

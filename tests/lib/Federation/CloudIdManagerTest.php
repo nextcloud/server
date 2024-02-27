@@ -22,21 +22,45 @@
 namespace Test\Federation;
 
 use OC\Federation\CloudIdManager;
+use OC\Memcache\ArrayCache;
 use OCP\Contacts\IManager;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\ICacheFactory;
+use OCP\IURLGenerator;
+use OCP\IUserManager;
 use Test\TestCase;
 
 class CloudIdManagerTest extends TestCase {
 	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $contactsManager;
+	/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
+	private $urlGenerator;
+	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
+	private $userManager;
 	/** @var CloudIdManager */
 	private $cloudIdManager;
+	/** @var ICacheFactory|\PHPUnit\Framework\MockObject\MockObject */
+	private $cacheFactory;
+
 
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->contactsManager = $this->createMock(IManager::class);
+		$this->urlGenerator = $this->createMock(IURLGenerator::class);
+		$this->userManager = $this->createMock(IUserManager::class);
 
-		$this->cloudIdManager = new CloudIdManager($this->contactsManager);
+		$this->cacheFactory = $this->createMock(ICacheFactory::class);
+		$this->cacheFactory->method('createLocal')
+			->willReturn(new ArrayCache(''));
+
+		$this->cloudIdManager = new CloudIdManager(
+			$this->contactsManager,
+			$this->urlGenerator,
+			$this->userManager,
+			$this->cacheFactory,
+			$this->createMock(IEventDispatcher::class)
+		);
 	}
 
 	public function cloudIdProvider() {
@@ -104,6 +128,7 @@ class CloudIdManagerTest extends TestCase {
 		return [
 			['test', 'example.com', 'test@example.com'],
 			['test@example.com', 'example.com', 'test@example.com@example.com'],
+			['test@example.com', null, 'test@example.com@example.com'],
 		];
 	}
 
@@ -115,15 +140,21 @@ class CloudIdManagerTest extends TestCase {
 	 * @param string $id
 	 */
 	public function testGetCloudId($user, $remote, $id) {
-		$this->contactsManager->expects($this->any())
-			->method('search')
-			->with($id, ['CLOUD'])
-			->willReturn([
-				[
-					'CLOUD' => [$id],
-					'FN' => 'Ample Ex',
-				]
-			]);
+		if ($remote !== null) {
+			$this->contactsManager->expects($this->any())
+				->method('search')
+				->with($id, ['CLOUD'])
+				->willReturn([
+					[
+						'CLOUD' => [$id],
+						'FN' => 'Ample Ex',
+					]
+				]);
+		} else {
+			$this->urlGenerator->expects(self::once())
+				->method('getAbsoluteUrl')
+				->willReturn('https://example.com');
+		}
 
 		$cloudId = $this->cloudIdManager->getCloudId($user, $remote);
 

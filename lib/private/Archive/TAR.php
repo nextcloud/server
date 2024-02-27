@@ -30,7 +30,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Archive;
 
 use Icewind\Streams\CallbackWrapper;
@@ -40,19 +39,26 @@ class TAR extends Archive {
 	public const GZIP = 1;
 	public const BZIP = 2;
 
-	private $fileList;
-	private $cachedHeaders;
+	/**
+	 * @var string[]|false
+	 */
+	private $fileList = false;
+	/**
+	 * @var array|false
+	 */
+	private $cachedHeaders = false;
 
 	/**
-	 * @var \Archive_Tar tar
+	 * @var \Archive_Tar
 	 */
 	private $tar = null;
-	private $path;
 
 	/**
-	 * @param string $source
+	 * @var string
 	 */
-	public function __construct($source) {
+	private $path;
+
+	public function __construct(string $source) {
 		$types = [null, 'gz', 'bz2'];
 		$this->path = $source;
 		$this->tar = new \Archive_Tar($source, $types[self::getTarType($source)]);
@@ -60,11 +66,8 @@ class TAR extends Archive {
 
 	/**
 	 * try to detect the type of tar compression
-	 *
-	 * @param string $file
-	 * @return integer
 	 */
-	public static function getTarType($file) {
+	public static function getTarType(string $file): int {
 		if (strpos($file, '.')) {
 			$extension = substr($file, strrpos($file, '.'));
 			switch ($extension) {
@@ -86,11 +89,8 @@ class TAR extends Archive {
 
 	/**
 	 * add an empty folder to the archive
-	 *
-	 * @param string $path
-	 * @return bool
 	 */
-	public function addFolder($path) {
+	public function addFolder(string $path): bool {
 		$tmpBase = \OC::$server->getTempManager()->getTemporaryFolder();
 		$path = rtrim($path, '/') . '/';
 		if ($this->fileExists($path)) {
@@ -114,11 +114,9 @@ class TAR extends Archive {
 	/**
 	 * add a file to the archive
 	 *
-	 * @param string $path
 	 * @param string $source either a local file or string data
-	 * @return bool
 	 */
-	public function addFile($path, $source = '') {
+	public function addFile(string $path, string $source = ''): bool {
 		if ($this->fileExists($path)) {
 			$this->remove($path);
 		}
@@ -133,12 +131,8 @@ class TAR extends Archive {
 
 	/**
 	 * rename a file or folder in the archive
-	 *
-	 * @param string $source
-	 * @param string $dest
-	 * @return bool
 	 */
-	public function rename($source, $dest) {
+	public function rename(string $source, string $dest): bool {
 		//no proper way to delete, rename entire archive, rename file and remake archive
 		$tmp = \OC::$server->getTempManager()->getTemporaryFolder();
 		$this->tar->extract($tmp);
@@ -153,10 +147,7 @@ class TAR extends Archive {
 		return true;
 	}
 
-	/**
-	 * @param string $file
-	 */
-	private function getHeader($file) {
+	private function getHeader(string $file): ?array {
 		if (!$this->cachedHeaders) {
 			$this->cachedHeaders = $this->tar->listContent();
 		}
@@ -174,33 +165,26 @@ class TAR extends Archive {
 
 	/**
 	 * get the uncompressed size of a file in the archive
-	 *
-	 * @param string $path
-	 * @return int
 	 */
-	public function filesize($path) {
+	public function filesize(string $path): false|int|float {
 		$stat = $this->getHeader($path);
-		return $stat['size'];
+		return $stat['size'] ?? false;
 	}
 
 	/**
 	 * get the last modified time of a file in the archive
 	 *
-	 * @param string $path
-	 * @return int
+	 * @return int|false
 	 */
-	public function mtime($path) {
+	public function mtime(string $path) {
 		$stat = $this->getHeader($path);
-		return $stat['mtime'];
+		return $stat['mtime'] ?? false;
 	}
 
 	/**
 	 * get the files in a folder
-	 *
-	 * @param string $path
-	 * @return array
 	 */
-	public function getFolder($path) {
+	public function getFolder(string $path): array {
 		$files = $this->getFiles();
 		$folderContent = [];
 		$pathLength = strlen($path);
@@ -213,7 +197,7 @@ class TAR extends Archive {
 				if ($pos = strpos($result, '/')) {
 					$result = substr($result, 0, $pos + 1);
 				}
-				if (array_search($result, $folderContent) === false) {
+				if (!in_array($result, $folderContent)) {
 					$folderContent[] = $result;
 				}
 			}
@@ -223,10 +207,8 @@ class TAR extends Archive {
 
 	/**
 	 * get all files in the archive
-	 *
-	 * @return array
 	 */
-	public function getFiles() {
+	public function getFiles(): array {
 		if ($this->fileList) {
 			return $this->fileList;
 		}
@@ -244,21 +226,21 @@ class TAR extends Archive {
 	/**
 	 * get the content of a file
 	 *
-	 * @param string $path
-	 * @return string
+	 * @return string|false
 	 */
-	public function getFile($path) {
-		return $this->tar->extractInString($path);
+	public function getFile(string $path) {
+		$string = $this->tar->extractInString($path);
+		if (is_string($string)) {
+			return $string;
+		} else {
+			return false;
+		}
 	}
 
 	/**
 	 * extract a single file from the archive
-	 *
-	 * @param string $path
-	 * @param string $dest
-	 * @return bool
 	 */
-	public function extractFile($path, $dest) {
+	public function extractFile(string $path, string $dest): bool {
 		$tmp = \OC::$server->getTempManager()->getTemporaryFolder();
 		if (!$this->fileExists($path)) {
 			return false;
@@ -277,23 +259,17 @@ class TAR extends Archive {
 
 	/**
 	 * extract the archive
-	 *
-	 * @param string $dest
-	 * @return bool
 	 */
-	public function extract($dest) {
+	public function extract(string $dest): bool {
 		return $this->tar->extract($dest);
 	}
 
 	/**
 	 * check if a file or folder exists in the archive
-	 *
-	 * @param string $path
-	 * @return bool
 	 */
-	public function fileExists($path) {
+	public function fileExists(string $path): bool {
 		$files = $this->getFiles();
-		if ((array_search($path, $files) !== false) or (array_search($path . '/', $files) !== false)) {
+		if ((in_array($path, $files)) or (in_array($path . '/', $files))) {
 			return true;
 		} else {
 			$folderPath = rtrim($path, '/') . '/';
@@ -313,11 +289,8 @@ class TAR extends Archive {
 
 	/**
 	 * remove a file or folder from the archive
-	 *
-	 * @param string $path
-	 * @return bool
 	 */
-	public function remove($path) {
+	public function remove(string $path): bool {
 		if (!$this->fileExists($path)) {
 			return false;
 		}
@@ -337,13 +310,12 @@ class TAR extends Archive {
 	/**
 	 * get a file handler
 	 *
-	 * @param string $path
-	 * @param string $mode
 	 * @return bool|resource
 	 */
-	public function getStream($path, $mode) {
-		if (strrpos($path, '.') !== false) {
-			$ext = substr($path, strrpos($path, '.'));
+	public function getStream(string $path, string $mode) {
+		$lastPoint = strrpos($path, '.');
+		if ($lastPoint !== false) {
+			$ext = substr($path, $lastPoint);
 		} else {
 			$ext = '';
 		}
@@ -366,7 +338,7 @@ class TAR extends Archive {
 	/**
 	 * write back temporary files
 	 */
-	public function writeBack($tmpFile, $path) {
+	public function writeBack(string $tmpFile, string $path): void {
 		$this->addFile($path, $tmpFile);
 		unlink($tmpFile);
 	}
@@ -374,7 +346,7 @@ class TAR extends Archive {
 	/**
 	 * reopen the archive to ensure everything is written
 	 */
-	private function reopen() {
+	private function reopen(): void {
 		if ($this->tar) {
 			$this->tar->_close();
 			$this->tar = null;

@@ -1,8 +1,10 @@
 <?php
 /**
  * @author Lukas Reschke <lukas@owncloud.com>
+ * @author Joshua Trees <me@jtrees.io>
  *
  * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2023, Joshua Trees <me@jtrees.io>
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -23,65 +25,68 @@ namespace Tests\Core\Controller;
 
 use OC\Authentication\TwoFactorAuth\Manager;
 use OC\Core\Controller\LostController;
+use OC\Core\Events\BeforePasswordResetEvent;
+use OC\Core\Events\PasswordResetEvent;
 use OC\Mail\Message;
+use OC\Security\RateLimiting\Limiter;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\TemplateResponse;
-use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\AppFramework\Services\IInitialState;
 use OCP\Defaults;
 use OCP\Encryption\IEncryptionModule;
 use OCP\Encryption\IManager;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
-use OCP\IInitialStateService;
 use OCP\IL10N;
-use OCP\ILogger;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
-use OCP\Security\ICrypto;
-use OCP\Security\ISecureRandom;
+use OCP\Security\VerificationToken\InvalidTokenException;
+use OCP\Security\VerificationToken\IVerificationToken;
+use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
+use Test\TestCase;
 
 /**
  * Class LostControllerTest
  *
  * @package OC\Core\Controller
  */
-class LostControllerTest extends \Test\TestCase {
-
-	/** @var LostController */
-	private $lostController;
+class LostControllerTest extends TestCase {
+	private LostController $lostController;
 	/** @var IUser */
 	private $existingUser;
-	/** @var IURLGenerator | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var IURLGenerator | MockObject */
 	private $urlGenerator;
 	/** @var IL10N */
 	private $l10n;
-	/** @var IUserManager | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var IUserManager | MockObject */
 	private $userManager;
 	/** @var Defaults */
 	private $defaults;
-	/** @var IConfig | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var IConfig | MockObject */
 	private $config;
-	/** @var IMailer | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var IMailer | MockObject */
 	private $mailer;
-	/** @var ISecureRandom | \PHPUnit\Framework\MockObject\MockObject */
-	private $secureRandom;
-	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IManager|MockObject */
 	private $encryptionManager;
-	/** @var ITimeFactory | \PHPUnit\Framework\MockObject\MockObject */
-	private $timeFactory;
-	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IRequest|MockObject */
 	private $request;
-	/** @var ICrypto|\PHPUnit\Framework\MockObject\MockObject */
-	private $crypto;
-	/** @var ILogger|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var LoggerInterface|MockObject */
 	private $logger;
-	/** @var Manager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var Manager|MockObject */
 	private $twofactorManager;
-	/** @var IInitialStateService|\PHPUnit\Framework\MockObject\MockObject */
-	private $initialStateService;
+	/** @var IInitialState|MockObject */
+	private $initialState;
+	/** @var IVerificationToken|MockObject */
+	private $verificationToken;
+	/** @var IEventDispatcher|MockObject */
+	private $eventDispatcher;
+	/** @var Limiter|MockObject */
+	private $limiter;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -115,29 +120,21 @@ class LostControllerTest extends \Test\TestCase {
 			->willReturnCallback(function ($text, $parameters = []) {
 				return vsprintf($text, $parameters);
 			});
-		$this->defaults = $this->getMockBuilder('\OCP\Defaults')
-			->disableOriginalConstructor()->getMock();
-		$this->userManager = $this->getMockBuilder(IUserManager::class)
-			->disableOriginalConstructor()->getMock();
-		$this->urlGenerator = $this->getMockBuilder(IURLGenerator::class)
-			->disableOriginalConstructor()->getMock();
-		$this->mailer = $this->getMockBuilder('\OCP\Mail\IMailer')
-			->disableOriginalConstructor()->getMock();
-		$this->secureRandom = $this->getMockBuilder('\OCP\Security\ISecureRandom')
-			->disableOriginalConstructor()->getMock();
-		$this->timeFactory = $this->getMockBuilder('\OCP\AppFramework\Utility\ITimeFactory')
-			->disableOriginalConstructor()->getMock();
-		$this->request = $this->getMockBuilder(IRequest::class)
-			->disableOriginalConstructor()->getMock();
-		$this->encryptionManager = $this->getMockBuilder(IManager::class)
-			->disableOriginalConstructor()->getMock();
+		$this->defaults = $this->createMock(Defaults::class);
+		$this->userManager = $this->createMock(IUserManager::class);
+		$this->urlGenerator = $this->createMock(IURLGenerator::class);
+		$this->mailer = $this->createMock(IMailer::class);
+		$this->request = $this->createMock(IRequest::class);
+		$this->encryptionManager = $this->createMock(IManager::class);
 		$this->encryptionManager->expects($this->any())
 			->method('isEnabled')
 			->willReturn(true);
-		$this->crypto = $this->createMock(ICrypto::class);
-		$this->logger = $this->createMock(ILogger::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->twofactorManager = $this->createMock(Manager::class);
-		$this->initialStateService = $this->createMock(IInitialStateService::class);
+		$this->initialState = $this->createMock(IInitialState::class);
+		$this->verificationToken = $this->createMock(IVerificationToken::class);
+		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
+		$this->limiter = $this->createMock(Limiter::class);
 		$this->lostController = new LostController(
 			'Core',
 			$this->request,
@@ -146,129 +143,61 @@ class LostControllerTest extends \Test\TestCase {
 			$this->defaults,
 			$this->l10n,
 			$this->config,
-			$this->secureRandom,
 			'lostpassword-noreply@localhost',
 			$this->encryptionManager,
 			$this->mailer,
-			$this->timeFactory,
-			$this->crypto,
 			$this->logger,
 			$this->twofactorManager,
-			$this->initialStateService
+			$this->initialState,
+			$this->verificationToken,
+			$this->eventDispatcher,
+			$this->limiter
 		);
 	}
 
-	public function testResetFormWithNotExistingUser() {
-		$this->userManager->method('get')
-			->with('NotExistingUser')
-			->willReturn(null);
-
-		$expectedResponse = new TemplateResponse(
-			'core',
-			'error',
-			[
-				'errors' => [
-					['error' => 'Couldn\'t reset password because the token is invalid'],
-				]
-			],
-			'guest'
-		);
-		$this->assertEquals($expectedResponse, $this->lostController->resetform('MySecretToken', 'NotExistingUser'));
-	}
-
-	public function testResetFormInvalidTokenMatch() {
-		$this->config->method('getUserValue')
-			->with('ValidTokenUser', 'core', 'lostpassword', null)
-			->willReturn('encryptedToken');
-		$this->existingUser->method('getLastLogin')
-			->willReturn(12344);
+	public function testResetFormTokenError() {
 		$this->userManager->method('get')
 			->with('ValidTokenUser')
 			->willReturn($this->existingUser);
-		$this->crypto->method('decrypt')
-			->with(
-				$this->equalTo('encryptedToken'),
-				$this->equalTo('test@example.comSECRET')
-			)->willReturn('12345:TheOnlyAndOnlyOneTokenToResetThePassword');
+		$this->verificationToken->expects($this->once())
+			->method('check')
+			->with('12345:MySecretToken', $this->existingUser, 'lostpassword', 'test@example.com')
+			->willThrowException(new InvalidTokenException(InvalidTokenException::TOKEN_DECRYPTION_ERROR));
 
 		$response = $this->lostController->resetform('12345:MySecretToken', 'ValidTokenUser');
 		$expectedResponse = new TemplateResponse('core',
 			'error',
 			[
 				'errors' => [
-					['error' => 'Couldn\'t reset password because the token is invalid'],
+					['error' => 'Could not reset password because the token is invalid'],
 				]
 			],
 			'guest');
-		$this->assertEquals($expectedResponse, $response);
-	}
-
-
-	public function testResetFormExpiredToken() {
-		$this->userManager->method('get')
-			->with('ValidTokenUser')
-			->willReturn($this->existingUser);
-		$this->config
-			->expects($this->once())
-			->method('getUserValue')
-			->with('ValidTokenUser', 'core', 'lostpassword', null)
-			->willReturn('encryptedToken');
-		$this->crypto->method('decrypt')
-			->with(
-				$this->equalTo('encryptedToken'),
-				$this->equalTo('test@example.comSECRET')
-			)->willReturn('12345:TheOnlyAndOnlyOneTokenToResetThePassword');
-		$this->timeFactory
-			->expects($this->once())
-			->method('getTime')
-			->willReturn(999999);
-
-		$response = $this->lostController->resetform('TheOnlyAndOnlyOneTokenToResetThePassword', 'ValidTokenUser');
-		$expectedResponse = new TemplateResponse('core',
-			'error',
-			[
-				'errors' => [
-					['error' => 'Couldn\'t reset password because the token is expired'],
-				]
-			],
-			'guest');
+		$expectedResponse->throttle();
 		$this->assertEquals($expectedResponse, $response);
 	}
 
 	public function testResetFormValidToken() {
-		$this->existingUser->method('getLastLogin')
-			->willReturn(12344);
 		$this->userManager->method('get')
 			->with('ValidTokenUser')
 			->willReturn($this->existingUser);
-		$this->timeFactory
-			->expects($this->once())
-			->method('getTime')
-			->willReturn(12348);
-
-		$this->config->method('getUserValue')
-			->with('ValidTokenUser', 'core', 'lostpassword', null)
-			->willReturn('encryptedToken');
-
-		$this->crypto->method('decrypt')
-			->with(
-				$this->equalTo('encryptedToken'),
-				$this->equalTo('test@example.comSECRET')
-			)->willReturn('12345:TheOnlyAndOnlyOneTokenToResetThePassword');
+		$this->verificationToken->expects($this->once())
+			->method('check')
+			->with('MySecretToken', $this->existingUser, 'lostpassword', 'test@example.com');
 		$this->urlGenerator
 			->expects($this->once())
 			->method('linkToRouteAbsolute')
-			->with('core.lost.setPassword', ['userId' => 'ValidTokenUser', 'token' => 'TheOnlyAndOnlyOneTokenToResetThePassword'])
-			->willReturn('https://example.tld/index.php/lostpassword/');
-
-		$this->initialStateService->expects($this->at(0))
+			->with('core.lost.setPassword', ['userId' => 'ValidTokenUser', 'token' => 'MySecretToken'])
+			->willReturn('https://example.tld/index.php/lostpassword/set/sometoken/someuser');
+		$this->initialState
+			->expects($this->exactly(2))
 			->method('provideInitialState')
-			->with('core', 'resetPasswordUser', 'ValidTokenUser');
-		$this->initialStateService->expects($this->at(1))
-			->method('provideInitialState')
-			->with('core', 'resetPasswordTarget', 'https://example.tld/index.php/lostpassword/');
+			->withConsecutive(
+				['resetPasswordUser', 'ValidTokenUser'],
+				['resetPasswordTarget', 'https://example.tld/index.php/lostpassword/set/sometoken/someuser']
+			);
 
-		$response = $this->lostController->resetform('TheOnlyAndOnlyOneTokenToResetThePassword', 'ValidTokenUser');
+		$response = $this->lostController->resetform('MySecretToken', 'ValidTokenUser');
 		$expectedResponse = new TemplateResponse('core',
 			'login',
 			[],
@@ -288,7 +217,7 @@ class LostControllerTest extends \Test\TestCase {
 			]);
 
 		$this->logger->expects($this->exactly(0))
-			->method('logException');
+			->method('error');
 		$this->logger->expects($this->exactly(2))
 			->method('warning');
 
@@ -319,24 +248,14 @@ class LostControllerTest extends \Test\TestCase {
 	}
 
 	public function testEmailSuccessful() {
-		$this->secureRandom
-			->expects($this->once())
-			->method('generate')
-			->with('21')
-			->willReturn('ThisIsMaybeANotSoSecretToken!');
 		$this->userManager
 				->expects($this->any())
 				->method('get')
 				->with('ExistingUser')
 				->willReturn($this->existingUser);
-		$this->timeFactory
-			->expects($this->once())
-			->method('getTime')
-			->willReturn(12348);
-		$this->config
-			->expects($this->once())
-			->method('setUserValue')
-			->with('ExistingUser', 'core', 'lostpassword', 'encryptedToken');
+		$this->verificationToken->expects($this->once())
+			->method('create')
+			->willReturn('ThisIsMaybeANotSoSecretToken!');
 		$this->urlGenerator
 			->expects($this->once())
 			->method('linkToRouteAbsolute')
@@ -345,11 +264,11 @@ class LostControllerTest extends \Test\TestCase {
 		$message = $this->getMockBuilder('\OC\Mail\Message')
 			->disableOriginalConstructor()->getMock();
 		$message
-			->expects($this->at(0))
+			->expects($this->once())
 			->method('setTo')
 			->with(['test@example.com' => 'Existing User']);
 		$message
-			->expects($this->at(1))
+			->expects($this->once())
 			->method('setFrom')
 			->with(['lostpassword-noreply@localhost' => null]);
 
@@ -362,28 +281,22 @@ class LostControllerTest extends \Test\TestCase {
 			->willReturn('text body');
 
 		$message
-			->expects($this->at(2))
+			->expects($this->once())
 			->method('useTemplate')
 			->with($emailTemplate);
 
 		$this->mailer
-			->expects($this->at(0))
+			->expects($this->once())
 			->method('createEMailTemplate')
 			->willReturn($emailTemplate);
 		$this->mailer
-			->expects($this->at(1))
+			->expects($this->once())
 			->method('createMessage')
 			->willReturn($message);
 		$this->mailer
-			->expects($this->at(2))
+			->expects($this->once())
 			->method('send')
 			->with($message);
-
-		$this->crypto->method('encrypt')
-			->with(
-				$this->equalTo('12348:ThisIsMaybeANotSoSecretToken!'),
-				$this->equalTo('test@example.comSECRET')
-			)->willReturn('encryptedToken');
 
 		$response = $this->lostController->email('ExistingUser');
 		$expectedResponse = new JSONResponse(['status' => 'success']);
@@ -392,11 +305,6 @@ class LostControllerTest extends \Test\TestCase {
 	}
 
 	public function testEmailWithMailSuccessful() {
-		$this->secureRandom
-			->expects($this->once())
-			->method('generate')
-			->with('21')
-			->willReturn('ThisIsMaybeANotSoSecretToken!');
 		$this->userManager
 				->expects($this->any())
 				->method('get')
@@ -407,14 +315,9 @@ class LostControllerTest extends \Test\TestCase {
 				->method('getByEmail')
 				->with('test@example.com')
 				->willReturn([$this->existingUser]);
-		$this->timeFactory
-			->expects($this->once())
-			->method('getTime')
-			->willReturn(12348);
-		$this->config
-			->expects($this->once())
-			->method('setUserValue')
-			->with('ExistingUser', 'core', 'lostpassword', 'encryptedToken');
+		$this->verificationToken->expects($this->once())
+			->method('create')
+			->willReturn('ThisIsMaybeANotSoSecretToken!');
 		$this->urlGenerator
 			->expects($this->once())
 			->method('linkToRouteAbsolute')
@@ -423,11 +326,11 @@ class LostControllerTest extends \Test\TestCase {
 		$message = $this->getMockBuilder('\OC\Mail\Message')
 			->disableOriginalConstructor()->getMock();
 		$message
-			->expects($this->at(0))
+			->expects($this->once())
 			->method('setTo')
 			->with(['test@example.com' => 'Existing User']);
 		$message
-			->expects($this->at(1))
+			->expects($this->once())
 			->method('setFrom')
 			->with(['lostpassword-noreply@localhost' => null]);
 
@@ -440,28 +343,22 @@ class LostControllerTest extends \Test\TestCase {
 			->willReturn('text body');
 
 		$message
-			->expects($this->at(2))
+			->expects($this->once())
 			->method('useTemplate')
 			->with($emailTemplate);
 
 		$this->mailer
-			->expects($this->at(0))
+			->expects($this->once())
 			->method('createEMailTemplate')
 			->willReturn($emailTemplate);
 		$this->mailer
-			->expects($this->at(1))
+			->expects($this->once())
 			->method('createMessage')
 			->willReturn($message);
 		$this->mailer
-			->expects($this->at(2))
+			->expects($this->once())
 			->method('send')
 			->with($message);
-
-		$this->crypto->method('encrypt')
-			->with(
-				$this->equalTo('12348:ThisIsMaybeANotSoSecretToken!'),
-				$this->equalTo('test@example.comSECRET')
-			)->willReturn('encryptedToken');
 
 		$response = $this->lostController->email('test@example.com');
 		$expectedResponse = new JSONResponse(['status' => 'success']);
@@ -470,24 +367,14 @@ class LostControllerTest extends \Test\TestCase {
 	}
 
 	public function testEmailCantSendException() {
-		$this->secureRandom
-			->expects($this->once())
-			->method('generate')
-			->with('21')
-			->willReturn('ThisIsMaybeANotSoSecretToken!');
 		$this->userManager
 				->expects($this->any())
 				->method('get')
 				->with('ExistingUser')
 				->willReturn($this->existingUser);
-		$this->config
-			->expects($this->once())
-			->method('setUserValue')
-			->with('ExistingUser', 'core', 'lostpassword', 'encryptedToken');
-		$this->timeFactory
-			->expects($this->once())
-			->method('getTime')
-			->willReturn(12348);
+		$this->verificationToken->expects($this->once())
+			->method('create')
+			->willReturn('ThisIsMaybeANotSoSecretToken!');
 		$this->urlGenerator
 			->expects($this->once())
 			->method('linkToRouteAbsolute')
@@ -495,11 +382,11 @@ class LostControllerTest extends \Test\TestCase {
 			->willReturn('https://example.tld/index.php/lostpassword/');
 		$message = $this->createMock(Message::class);
 		$message
-			->expects($this->at(0))
+			->expects($this->once())
 			->method('setTo')
 			->with(['test@example.com' => 'Existing User']);
 		$message
-			->expects($this->at(1))
+			->expects($this->once())
 			->method('setFrom')
 			->with(['lostpassword-noreply@localhost' => null]);
 
@@ -512,32 +399,26 @@ class LostControllerTest extends \Test\TestCase {
 			->willReturn('text body');
 
 		$message
-			->expects($this->at(2))
+			->expects($this->once())
 			->method('useTemplate')
 			->with($emailTemplate);
 
 		$this->mailer
-			->expects($this->at(0))
+			->expects($this->once())
 			->method('createEMailTemplate')
 			->willReturn($emailTemplate);
 		$this->mailer
-			->expects($this->at(1))
+			->expects($this->once())
 			->method('createMessage')
 			->willReturn($message);
 		$this->mailer
-			->expects($this->at(2))
+			->expects($this->once())
 			->method('send')
 			->with($message)
 			->will($this->throwException(new \Exception()));
 
-		$this->crypto->method('encrypt')
-			->with(
-				$this->equalTo('12348:ThisIsMaybeANotSoSecretToken!'),
-				$this->equalTo('test@example.comSECRET')
-			)->willReturn('encryptedToken');
-
 		$this->logger->expects($this->exactly(1))
-			->method('logException');
+			->method('error');
 
 		$response = $this->lostController->email('ExistingUser');
 		$expectedResponse = new JSONResponse(['status' => 'success']);
@@ -558,20 +439,17 @@ class LostControllerTest extends \Test\TestCase {
 		$this->userManager->method('get')
 			->with('ValidTokenUser')
 			->willReturn($this->existingUser);
+		$beforePasswordResetEvent = new BeforePasswordResetEvent($this->existingUser, 'NewPassword');
+		$this->eventDispatcher
+			->expects($this->once())
+			->method('dispatchTyped')
+			->with($beforePasswordResetEvent);
 		$this->config->expects($this->never())
 			->method('deleteUserValue');
-		$this->timeFactory->method('getTime')
-			->willReturn(12348);
-
-		$this->crypto->method('decrypt')
-			->with(
-				$this->equalTo('encryptedData'),
-				$this->equalTo('test@example.comSECRET')
-			)->willReturn('12345:TheOnlyAndOnlyOneTokenToResetThePassword');
 
 		$response = $this->lostController->setPassword('TheOnlyAndOnlyOneTokenToResetThePassword', 'ValidTokenUser', 'NewPassword', true);
 		$expectedResponse = ['status' => 'error', 'msg' => ''];
-		$this->assertSame($expectedResponse, $response);
+		$this->assertSame($expectedResponse, $response->getData());
 	}
 
 	public function testSetPasswordSuccessful() {
@@ -587,21 +465,19 @@ class LostControllerTest extends \Test\TestCase {
 		$this->userManager->method('get')
 			->with('ValidTokenUser')
 			->willReturn($this->existingUser);
+		$beforePasswordResetEvent = new BeforePasswordResetEvent($this->existingUser, 'NewPassword');
+		$passwordResetEvent = new PasswordResetEvent($this->existingUser, 'NewPassword');
+		$this->eventDispatcher
+			->expects($this->exactly(2))
+			->method('dispatchTyped')
+			->withConsecutive([$beforePasswordResetEvent], [$passwordResetEvent]);
 		$this->config->expects($this->once())
 			->method('deleteUserValue')
 			->with('ValidTokenUser', 'core', 'lostpassword');
-		$this->timeFactory->method('getTime')
-			->willReturn(12348);
-
-		$this->crypto->method('decrypt')
-			->with(
-				$this->equalTo('encryptedData'),
-				$this->equalTo('test@example.comSECRET')
-			)->willReturn('12345:TheOnlyAndOnlyOneTokenToResetThePassword');
 
 		$response = $this->lostController->setPassword('TheOnlyAndOnlyOneTokenToResetThePassword', 'ValidTokenUser', 'NewPassword', true);
 		$expectedResponse = ['user' => 'ValidTokenUser', 'status' => 'success'];
-		$this->assertSame($expectedResponse, $response);
+		$this->assertSame($expectedResponse, $response->getData());
 	}
 
 	public function testSetPasswordExpiredToken() {
@@ -611,21 +487,16 @@ class LostControllerTest extends \Test\TestCase {
 		$this->userManager->method('get')
 			->with('ValidTokenUser')
 			->willReturn($this->existingUser);
-		$this->timeFactory->method('getTime')
-			->willReturn(617146);
-
-		$this->crypto->method('decrypt')
-			->with(
-				$this->equalTo('encryptedData'),
-				$this->equalTo('test@example.comSECRET')
-			)->willReturn('12345:TheOnlyAndOnlyOneTokenToResetThePassword');
+		$this->verificationToken->expects($this->atLeastOnce())
+			->method('check')
+			->willThrowException(new InvalidTokenException(InvalidTokenException::TOKEN_EXPIRED));
 
 		$response = $this->lostController->setPassword('TheOnlyAndOnlyOneTokenToResetThePassword', 'ValidTokenUser', 'NewPassword', true);
 		$expectedResponse = [
 			'status' => 'error',
-			'msg' => 'Couldn\'t reset password because the token is expired',
+			'msg' => 'Could not reset password because the token is expired',
 		];
-		$this->assertSame($expectedResponse, $response);
+		$this->assertSame($expectedResponse, $response->getData());
 	}
 
 	public function testSetPasswordInvalidDataInDb() {
@@ -636,47 +507,16 @@ class LostControllerTest extends \Test\TestCase {
 			->method('get')
 			->with('ValidTokenUser')
 			->willReturn($this->existingUser);
-
-		$this->crypto->method('decrypt')
-			->with(
-				$this->equalTo('invalidEncryptedData'),
-				$this->equalTo('test@example.comSECRET')
-			)->willReturn('TheOnlyAndOnlyOneTokenToResetThePassword');
+		$this->verificationToken->expects($this->atLeastOnce())
+			->method('check')
+			->willThrowException(new InvalidTokenException(InvalidTokenException::TOKEN_INVALID_FORMAT));
 
 		$response = $this->lostController->setPassword('TheOnlyAndOnlyOneTokenToResetThePassword', 'ValidTokenUser', 'NewPassword', true);
 		$expectedResponse = [
 			'status' => 'error',
-			'msg' => 'Couldn\'t reset password because the token is invalid',
+			'msg' => 'Could not reset password because the token is invalid',
 		];
-		$this->assertSame($expectedResponse, $response);
-	}
-
-	public function testSetPasswordExpiredTokenDueToLogin() {
-		$this->config->method('getUserValue')
-			->with('ValidTokenUser', 'core', 'lostpassword', null)
-			->willReturn('encryptedData');
-		$this->existingUser->method('getLastLogin')
-			->willReturn(12346);
-		$this->userManager
-			->method('get')
-			->with('ValidTokenUser')
-			->willReturn($this->existingUser);
-		$this->timeFactory
-			->method('getTime')
-			->willReturn(12345);
-
-		$this->crypto->method('decrypt')
-			->with(
-				$this->equalTo('encryptedData'),
-				$this->equalTo('test@example.comSECRET')
-			)->willReturn('12345:TheOnlyAndOnlyOneTokenToResetThePassword');
-
-		$response = $this->lostController->setPassword('TheOnlyAndOnlyOneTokenToResetThePassword', 'ValidTokenUser', 'NewPassword', true);
-		$expectedResponse = [
-			'status' => 'error',
-			'msg' => 'Couldn\'t reset password because the token is expired',
-		];
-		$this->assertSame($expectedResponse, $response);
+		$this->assertSame($expectedResponse, $response->getData());
 	}
 
 	public function testIsSetPasswordWithoutTokenFailing() {
@@ -686,35 +526,16 @@ class LostControllerTest extends \Test\TestCase {
 		$this->userManager->method('get')
 			->with('ValidTokenUser')
 			->willReturn($this->existingUser);
-
-		$this->crypto->method('decrypt')
-			->with(
-				$this->equalTo('aValidtoken'),
-				$this->equalTo('test@example.comSECRET')
-			)->willThrowException(new \Exception());
+		$this->verificationToken->expects($this->atLeastOnce())
+			->method('check')
+			->willThrowException(new InvalidTokenException(InvalidTokenException::TOKEN_MISMATCH));
 
 		$response = $this->lostController->setPassword('', 'ValidTokenUser', 'NewPassword', true);
 		$expectedResponse = [
 			'status' => 'error',
-			'msg' => 'Couldn\'t reset password because the token is invalid'
+			'msg' => 'Could not reset password because the token is invalid'
 		];
-		$this->assertSame($expectedResponse, $response);
-	}
-
-	public function testIsSetPasswordTokenNullFailing() {
-		$this->config->method('getUserValue')
-			->with('ValidTokenUser', 'core', 'lostpassword', null)
-			->willReturn(null);
-		$this->userManager->method('get')
-			->with('ValidTokenUser')
-			->willReturn($this->existingUser);
-
-		$response = $this->lostController->setPassword('', 'ValidTokenUser', 'NewPassword', true);
-		$expectedResponse = [
-			'status' => 'error',
-			'msg' => 'Couldn\'t reset password because the token is invalid'
-		];
-		$this->assertSame($expectedResponse, $response);
+		$this->assertSame($expectedResponse, $response->getData());
 	}
 
 	public function testSetPasswordForDisabledUser() {
@@ -724,6 +545,9 @@ class LostControllerTest extends \Test\TestCase {
 			->willReturn(false);
 		$user->expects($this->never())
 			->method('setPassword');
+		$user->expects($this->any())
+			->method('getEMailAddress')
+			->willReturn('random@example.org');
 
 		$this->config->method('getUserValue')
 			->with('ValidTokenUser', 'core', 'lostpassword', null)
@@ -732,12 +556,16 @@ class LostControllerTest extends \Test\TestCase {
 			->with('DisabledUser')
 			->willReturn($user);
 
+		$this->verificationToken->expects($this->atLeastOnce())
+			->method('check')
+			->willThrowException(new InvalidTokenException(InvalidTokenException::USER_UNKNOWN));
+
 		$response = $this->lostController->setPassword('TheOnlyAndOnlyOneTokenToResetThePassword', 'DisabledUser', 'NewPassword', true);
 		$expectedResponse = [
 			'status' => 'error',
-			'msg' => 'Couldn\'t reset password because the token is invalid'
+			'msg' => 'Could not reset password because the token is invalid'
 		];
-		$this->assertSame($expectedResponse, $response);
+		$this->assertSame($expectedResponse, $response->getData());
 	}
 
 	public function testSendEmailNoEmail() {
@@ -753,7 +581,7 @@ class LostControllerTest extends \Test\TestCase {
 			->willReturn($user);
 
 		$this->logger->expects($this->exactly(0))
-			->method('logException');
+			->method('error');
 		$this->logger->expects($this->once())
 			->method('warning');
 
@@ -764,7 +592,7 @@ class LostControllerTest extends \Test\TestCase {
 	}
 
 	public function testSetPasswordEncryptionDontProceedPerUserKey() {
-		/** @var IEncryptionModule|\PHPUnit\Framework\MockObject\MockObject $encryptionModule */
+		/** @var IEncryptionModule|MockObject $encryptionModule */
 		$encryptionModule = $this->createMock(IEncryptionModule::class);
 		$encryptionModule->expects($this->once())->method('needDetailedAccessList')->willReturn(true);
 		$this->encryptionManager->expects($this->once())->method('getEncryptionModules')
@@ -773,7 +601,7 @@ class LostControllerTest extends \Test\TestCase {
 			}]]);
 		$response = $this->lostController->setPassword('myToken', 'user', 'newpass', false);
 		$expectedResponse = ['status' => 'error', 'msg' => '', 'encryption' => true];
-		$this->assertSame($expectedResponse, $response);
+		$this->assertSame($expectedResponse, $response->getData());
 	}
 
 	public function testSetPasswordDontProceedMasterKey() {
@@ -798,18 +626,10 @@ class LostControllerTest extends \Test\TestCase {
 		$this->config->expects($this->once())
 			->method('deleteUserValue')
 			->with('ValidTokenUser', 'core', 'lostpassword');
-		$this->timeFactory->method('getTime')
-			->willReturn(12348);
-
-		$this->crypto->method('decrypt')
-			->with(
-				$this->equalTo('encryptedData'),
-				$this->equalTo('test@example.comSECRET')
-			)->willReturn('12345:TheOnlyAndOnlyOneTokenToResetThePassword');
 
 		$response = $this->lostController->setPassword('TheOnlyAndOnlyOneTokenToResetThePassword', 'ValidTokenUser', 'NewPassword', false);
 		$expectedResponse = ['user' => 'ValidTokenUser', 'status' => 'success'];
-		$this->assertSame($expectedResponse, $response);
+		$this->assertSame($expectedResponse, $response->getData());
 	}
 
 	public function testTwoUsersWithSameEmail() {
@@ -844,7 +664,7 @@ class LostControllerTest extends \Test\TestCase {
 			->willReturn([$user1, $user2]);
 
 		$this->logger->expects($this->exactly(0))
-			->method('logException');
+			->method('error');
 		$this->logger->expects($this->once())
 			->method('warning');
 
@@ -902,5 +722,39 @@ class LostControllerTest extends \Test\TestCase {
 
 		$result = self::invokePrivate($this->lostController, 'findUserByIdOrMail', ['test@example.com']);
 		$this->assertInstanceOf(IUser::class, $result);
+	}
+
+	public function testTrimEmailInput() {
+		$this->userManager
+				->expects($this->once())
+				->method('getByEmail')
+				->with('test@example.com')
+				->willReturn([$this->existingUser]);
+
+		$this->mailer
+			->expects($this->once())
+			->method('send');
+
+		$response = $this->lostController->email('  test@example.com  ');
+		$expectedResponse = new JSONResponse(['status' => 'success']);
+		$expectedResponse->throttle();
+		$this->assertEquals($expectedResponse, $response);
+	}
+
+	public function testUsernameInput() {
+		$this->userManager
+				->expects($this->once())
+				->method('get')
+				->with('ExistingUser')
+				->willReturn($this->existingUser);
+
+		$this->mailer
+			->expects($this->once())
+			->method('send');
+
+		$response = $this->lostController->email('  ExistingUser  ');
+		$expectedResponse = new JSONResponse(['status' => 'success']);
+		$expectedResponse->throttle();
+		$this->assertEquals($expectedResponse, $response);
 	}
 }

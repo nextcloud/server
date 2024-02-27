@@ -5,6 +5,7 @@
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Nina Pypchenko <22447785+nina-py@users.noreply.github.com>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Vincent Petry <vincent@nextcloud.com>
@@ -24,10 +25,11 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files\Controller;
 
 use OCA\Files\Service\TagService;
+use OCA\Files\Service\UserConfig;
+use OCA\Files\Service\ViewConfig;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\Files\File;
@@ -67,6 +69,10 @@ class ApiControllerTest extends TestCase {
 	private $config;
 	/** @var Folder|\PHPUnit\Framework\MockObject\MockObject */
 	private $userFolder;
+	/** @var UserConfig|\PHPUnit\Framework\MockObject\MockObject */
+	private $userConfig;
+	/** @var ViewConfig|\PHPUnit\Framework\MockObject\MockObject */
+	private $viewConfig;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -95,6 +101,8 @@ class ApiControllerTest extends TestCase {
 		$this->userFolder = $this->getMockBuilder(Folder::class)
 			->disableOriginalConstructor()
 			->getMock();
+		$this->userConfig = $this->createMock(UserConfig::class);
+		$this->viewConfig = $this->createMock(ViewConfig::class);
 
 		$this->apiController = new ApiController(
 			$this->appName,
@@ -104,7 +112,9 @@ class ApiControllerTest extends TestCase {
 			$this->preview,
 			$this->shareManager,
 			$this->config,
-			$this->userFolder
+			$this->userFolder,
+			$this->userConfig,
+			$this->viewConfig
 		);
 	}
 
@@ -165,7 +175,7 @@ class ApiControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->apiController->getThumbnail(0, 0, ''));
 	}
 
-	public function testGetThumbnailInvaidImage() {
+	public function testGetThumbnailInvalidImage() {
 		$file = $this->createMock(File::class);
 		$this->userFolder->method('get')
 			->with($this->equalTo('unknown.jpg'))
@@ -184,6 +194,8 @@ class ApiControllerTest extends TestCase {
 			->with($this->equalTo('known.jpg'))
 			->willReturn($file);
 		$preview = $this->createMock(ISimpleFile::class);
+		$preview->method('getName')->willReturn('my name');
+		$preview->method('getMTime')->willReturn(42);
 		$this->preview->expects($this->once())
 			->method('getPreview')
 			->with($this->equalTo($file), 10, 10, true)
@@ -195,51 +207,12 @@ class ApiControllerTest extends TestCase {
 		$this->assertInstanceOf(Http\FileDisplayResponse::class, $ret);
 	}
 
-	public function testUpdateFileSorting() {
-		$mode = 'mtime';
-		$direction = 'desc';
-
-		$this->config->expects($this->at(0))
-			->method('setUserValue')
-			->with($this->user->getUID(), 'files', 'file_sorting', $mode);
-		$this->config->expects($this->at(1))
-			->method('setUserValue')
-			->with($this->user->getUID(), 'files', 'file_sorting_direction', $direction);
-
-		$expected = new HTTP\Response();
-		$actual = $this->apiController->updateFileSorting($mode, $direction);
-		$this->assertEquals($expected, $actual);
-	}
-
-	public function invalidSortingModeData() {
-		return [
-			['color', 'asc'],
-			['name', 'size'],
-			['foo', 'bar']
-		];
-	}
-
-	/**
-	 * @dataProvider invalidSortingModeData
-	 */
-	public function testUpdateInvalidFileSorting($mode, $direction) {
-		$this->config->expects($this->never())
-			->method('setUserValue');
-
-		$expected = new Http\Response(null);
-		$expected->setStatus(Http::STATUS_UNPROCESSABLE_ENTITY);
-
-		$result = $this->apiController->updateFileSorting($mode, $direction);
-
-		$this->assertEquals($expected, $result);
-	}
-
 	public function testShowHiddenFiles() {
 		$show = false;
 
 		$this->config->expects($this->once())
 			->method('setUserValue')
-			->with($this->user->getUID(), 'files', 'show_hidden', $show);
+			->with($this->user->getUID(), 'files', 'show_hidden', '0');
 
 		$expected = new Http\Response();
 		$actual = $this->apiController->showHiddenFiles($show);
@@ -252,7 +225,7 @@ class ApiControllerTest extends TestCase {
 
 		$this->config->expects($this->once())
 			->method('setUserValue')
-			->with($this->user->getUID(), 'files', 'crop_image_previews', $crop);
+			->with($this->user->getUID(), 'files', 'crop_image_previews', '1');
 
 		$expected = new Http\Response();
 		$actual = $this->apiController->cropImagePreviews($crop);

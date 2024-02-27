@@ -17,20 +17,19 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Authentication\LoginCredentials;
 
-use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Exceptions\PasswordlessTokenException;
 use OC\Authentication\Token\IProvider;
 use OCP\Authentication\Exceptions\CredentialsUnavailableException;
+use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\Authentication\LoginCredentials\ICredentials;
 use OCP\Authentication\LoginCredentials\IStore;
 use OCP\ISession;
@@ -39,7 +38,6 @@ use OCP\Util;
 use Psr\Log\LoggerInterface;
 
 class Store implements IStore {
-
 	/** @var ISession */
 	private $session;
 
@@ -50,8 +48,8 @@ class Store implements IStore {
 	private $tokenProvider;
 
 	public function __construct(ISession $session,
-								LoggerInterface $logger,
-								IProvider $tokenProvider = null) {
+		LoggerInterface $logger,
+		IProvider $tokenProvider = null) {
 		$this->session = $session;
 		$this->logger = $logger;
 		$this->tokenProvider = $tokenProvider;
@@ -99,12 +97,12 @@ class Store implements IStore {
 
 			return new Credentials($uid, $user, $password);
 		} catch (SessionNotAvailableException $ex) {
-			$this->logger->debug('could not get login credentials because session is unavailable', ['app' => 'core']);
+			$this->logger->debug('could not get login credentials because session is unavailable', ['app' => 'core', 'exception' => $ex]);
 		} catch (InvalidTokenException $ex) {
-			$this->logger->debug('could not get login credentials because the token is invalid', ['app' => 'core']);
+			$this->logger->debug('could not get login credentials because the token is invalid: ' . $ex->getMessage(), ['app' => 'core']);
 			$trySession = true;
 		} catch (PasswordlessTokenException $ex) {
-			$this->logger->debug('could not get login credentials because the token has no password', ['app' => 'core']);
+			$this->logger->debug('could not get login credentials because the token has no password', ['app' => 'core', 'exception' => $ex]);
 			$trySession = true;
 		}
 

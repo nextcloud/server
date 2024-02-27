@@ -21,7 +21,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_External\Lib\Backend;
 
 use OCA\Files_External\Lib\Auth\AuthMechanism;
@@ -44,7 +43,8 @@ class FTP extends Backend {
 				(new DefinitionParameter('root', $l->t('Remote subfolder')))
 					->setFlag(DefinitionParameter::FLAG_OPTIONAL),
 				(new DefinitionParameter('secure', $l->t('Secure ftps://')))
-					->setType(DefinitionParameter::VALUE_BOOLEAN),
+					->setType(DefinitionParameter::VALUE_BOOLEAN)
+					->setDefaultValue(true),
 			])
 			->addAuthScheme(AuthMechanism::SCHEME_PASSWORD)
 			->setLegacyAuthMechanism($legacyAuth)

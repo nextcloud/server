@@ -1,10 +1,13 @@
 <?php
 
 declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2020 Arthur Schiwon <blizzz@arthur-schiwon.de>
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Julius Härtl <jus@bitgrid.net>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -15,14 +18,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\WorkflowEngine\Service;
 
 use OCA\WorkflowEngine\AppInfo\Application;
@@ -31,30 +33,24 @@ use OCP\IConfig;
 use OCP\ILogger;
 use OCP\Log\IDataLogger;
 use OCP\Log\ILogFactory;
+use Psr\Log\LoggerInterface;
 
 class Logger {
-	/** @var ILogger */
-	protected $generalLogger;
-	/** @var ILogger */
-	protected $flowLogger;
-	/** @var IConfig */
-	private $config;
-	/** @var ILogFactory */
-	private $logFactory;
+	protected ?LoggerInterface $flowLogger = null;
 
-	public function __construct(ILogger $generalLogger, IConfig $config, ILogFactory $logFactory) {
-		$this->generalLogger = $generalLogger;
-		$this->config = $config;
-		$this->logFactory = $logFactory;
-
+	public function __construct(
+		protected LoggerInterface $generalLogger,
+		private IConfig $config,
+		private ILogFactory $logFactory,
+	) {
 		$this->initLogger();
 	}
 
-	protected function initLogger() {
+	protected function initLogger(): void {
 		$default = $this->config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data') . '/flow.log';
 		$logFile = trim((string)$this->config->getAppValue(Application::APP_ID, 'logfile', $default));
 		if ($logFile !== '') {
-			$this->flowLogger = $this->logFactory->getCustomLogger($logFile);
+			$this->flowLogger = $this->logFactory->getCustomPsrLogger($logFile);
 		}
 	}
 

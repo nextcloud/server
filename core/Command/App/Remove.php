@@ -4,7 +4,7 @@
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Patrik Kernstock <info@pkern.at>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
@@ -17,19 +17,18 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Core\Command\App;
 
 use OC\Installer;
 use OCP\App\IAppManager;
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 use Stecman\Component\Symfony\Console\BashCompletion\Completion\CompletionAwareInterface;
 use Stecman\Component\Symfony\Console\BashCompletion\CompletionContext;
 use Symfony\Component\Console\Command\Command;
@@ -40,27 +39,15 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Throwable;
 
 class Remove extends Command implements CompletionAwareInterface {
-
-	/** @var IAppManager */
-	protected $manager;
-	/** @var Installer */
-	private $installer;
-	/** @var ILogger */
-	private $logger;
-
-	/**
-	 * @param IAppManager $manager
-	 * @param Installer $installer
-	 * @param ILogger $logger
-	 */
-	public function __construct(IAppManager $manager, Installer $installer, ILogger $logger) {
+	public function __construct(
+		protected IAppManager $manager,
+		private Installer $installer,
+		private LoggerInterface $logger,
+	) {
 		parent::__construct();
-		$this->manager = $manager;
-		$this->installer = $installer;
-		$this->logger = $logger;
 	}
 
-	protected function configure() {
+	protected function configure(): void {
 		$this
 			->setName('app:remove')
 			->setDescription('remove an app')
@@ -101,9 +88,9 @@ class Remove extends Command implements CompletionAwareInterface {
 				$output->writeln($appId . ' disabled');
 			} catch (Throwable $e) {
 				$output->writeln('<error>Error: ' . $e->getMessage() . '</error>');
-				$this->logger->logException($e, [
+				$this->logger->error($e->getMessage(), [
 					'app' => 'CLI',
-					'level' => ILogger::ERROR
+					'exception' => $e,
 				]);
 				return 1;
 			}
@@ -114,9 +101,9 @@ class Remove extends Command implements CompletionAwareInterface {
 			$result = $this->installer->removeApp($appId);
 		} catch (Throwable $e) {
 			$output->writeln('<error>Error: ' . $e->getMessage() . '</error>');
-			$this->logger->logException($e, [
+			$this->logger->error($e->getMessage(), [
 				'app' => 'CLI',
-				'level' => ILogger::ERROR
+				'exception' => $e,
 			]);
 			return 1;
 		}
@@ -126,7 +113,7 @@ class Remove extends Command implements CompletionAwareInterface {
 			return 1;
 		}
 
-		$appVersion = \OC_App::getAppVersion($appId);
+		$appVersion = $this->manager->getAppVersion($appId);
 		$output->writeln($appId . ' ' . $appVersion . ' removed');
 
 		return 0;
@@ -137,7 +124,7 @@ class Remove extends Command implements CompletionAwareInterface {
 	 * @param CompletionContext $context
 	 * @return string[]
 	 */
-	public function completeOptionValues($optionName, CompletionContext $context) {
+	public function completeOptionValues($optionName, CompletionContext $context): array {
 		return [];
 	}
 
@@ -146,7 +133,7 @@ class Remove extends Command implements CompletionAwareInterface {
 	 * @param CompletionContext $context
 	 * @return string[]
 	 */
-	public function completeArgumentValues($argumentName, CompletionContext $context) {
+	public function completeArgumentValues($argumentName, CompletionContext $context): array {
 		if ($argumentName === 'app-id') {
 			return \OC_App::getAllApps();
 		}

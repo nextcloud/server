@@ -13,14 +13,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Repair\Owncloud;
 
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -41,7 +40,7 @@ class UpdateLanguageCodes implements IRepairStep {
 	 * @param IConfig $config
 	 */
 	public function __construct(IDBConnection $connection,
-								IConfig $config) {
+		IConfig $config) {
 		$this->connection = $connection;
 		$this->config = $config;
 	}
@@ -57,7 +56,7 @@ class UpdateLanguageCodes implements IRepairStep {
 	 * {@inheritdoc}
 	 */
 	public function run(IOutput $output) {
-		$versionFromBeforeUpdate = $this->config->getSystemValue('version', '0.0.0');
+		$versionFromBeforeUpdate = $this->config->getSystemValueString('version', '0.0.0');
 
 		if (version_compare($versionFromBeforeUpdate, '12.0.0.13', '>')) {
 			return;

@@ -27,7 +27,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\User_LDAP\Tests;
 
 use OCA\User_LDAP\Connection;
@@ -122,7 +121,7 @@ class ConnectionTest extends \Test\TestCase {
 			->willReturn(0);
 
 		// Not called often enough? Then, the fallback to the backup server is broken.
-		$this->connection->expects($this->exactly(4))
+		$this->connection->expects($this->exactly(2))
 			->method('getFromCache')
 			->with('overrideMainServer')
 			->will($this->onConsecutiveCalls(false, false, true, true));

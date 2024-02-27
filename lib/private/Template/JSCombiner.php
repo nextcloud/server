@@ -17,14 +17,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Template;
 
 use OC\SystemConfig;
@@ -34,11 +33,10 @@ use OCP\Files\NotPermittedException;
 use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\ICache;
 use OCP\ICacheFactory;
-use OCP\ILogger;
 use OCP\IURLGenerator;
+use Psr\Log\LoggerInterface;
 
 class JSCombiner {
-
 	/** @var IAppData */
 	protected $appData;
 
@@ -51,24 +49,16 @@ class JSCombiner {
 	/** @var SystemConfig */
 	protected $config;
 
-	/** @var ILogger */
-	protected $logger;
+	protected LoggerInterface $logger;
 
 	/** @var ICacheFactory */
 	private $cacheFactory;
 
-	/**
-	 * @param IAppData $appData
-	 * @param IURLGenerator $urlGenerator
-	 * @param ICacheFactory $cacheFactory
-	 * @param SystemConfig $config
-	 * @param ILogger $logger
-	 */
 	public function __construct(IAppData $appData,
-								IURLGenerator $urlGenerator,
-								ICacheFactory $cacheFactory,
-								SystemConfig $config,
-								ILogger $logger) {
+		IURLGenerator $urlGenerator,
+		ICacheFactory $cacheFactory,
+		SystemConfig $config,
+		LoggerInterface $logger) {
 		$this->appData = $appData;
 		$this->urlGenerator = $urlGenerator;
 		$this->cacheFactory = $cacheFactory;
@@ -207,7 +197,7 @@ class JSCombiner {
 			$gzipFile->putContent(gzencode($res, 9));
 			$this->logger->debug('JSCombiner: successfully cached: ' . $fileName);
 			return true;
-		} catch (NotPermittedException $e) {
+		} catch (NotPermittedException|NotFoundException $e) {
 			$this->logger->error('JSCombiner: unable to cache: ' . $fileName);
 			return false;
 		}

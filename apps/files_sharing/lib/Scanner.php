@@ -3,7 +3,6 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Vincent Petry <vincent@nextcloud.com>
@@ -26,7 +25,7 @@
 
 namespace OCA\Files_Sharing;
 
-use OC\Files\ObjectStore\NoopScanner;
+use OC\Files\ObjectStore\ObjectStoreScanner;
 
 /**
  * Scanner for SharedStorage
@@ -45,7 +44,7 @@ class Scanner extends \OC\Files\Cache\Scanner {
 	 *
 	 * @param string $path path of the file for which to retrieve metadata
 	 *
-	 * @return array an array of metadata of the file
+	 * @return array|null an array of metadata of the file
 	 */
 	public function getData($path) {
 		$data = parent::getData($path);
@@ -73,7 +72,8 @@ class Scanner extends \OC\Files\Cache\Scanner {
 
 	public function scanFile($file, $reuseExisting = 0, $parentId = -1, $cacheData = null, $lock = true, $data = null) {
 		$sourceScanner = $this->getSourceScanner();
-		if ($sourceScanner instanceof NoopScanner) {
+		if ($sourceScanner instanceof ObjectStoreScanner) {
+			// ObjectStoreScanner doesn't scan
 			return [];
 		} else {
 			return parent::scanFile($file, $reuseExisting, $parentId, $cacheData, $lock);

@@ -5,7 +5,7 @@
  * @author Björn Schießle <bjoern@schiessle.org>
  * @author brumsel <brumsel@losecatcher.de>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Michael Jobst <mjobst+github@tecratech.de>
@@ -31,7 +31,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files;
 
 use OCP\Files\FileInfo;
@@ -49,7 +48,7 @@ class Helper {
 	public static function buildFileStorageStatistics($dir) {
 		// information about storage capacities
 		$storageInfo = \OC_Helper::getStorageInfo($dir);
-		$l = \OC::$server->getL10N('files');
+		$l = \OCP\Util::getL10N('files');
 		$maxUploadFileSize = \OCP\Util::maxUploadFilesize($dir, $storageInfo['free']);
 		$maxHumanFileSize = \OCP\Util::humanFileSize($maxUploadFileSize);
 		$maxHumanFileSize = $l->t('Upload (max. %s)', [$maxHumanFileSize]);
@@ -59,8 +58,9 @@ class Helper {
 			'maxHumanFilesize' => $maxHumanFileSize,
 			'freeSpace' => $storageInfo['free'],
 			'quota' => $storageInfo['quota'],
+			'total' => $storageInfo['total'],
 			'used' => $storageInfo['used'],
-			'usedSpacePercent' => (int)$storageInfo['relative'],
+			'usedSpacePercent' => $storageInfo['relative'],
 			'owner' => $storageInfo['owner'],
 			'ownerDisplayName' => $storageInfo['ownerDisplayName'],
 			'mountType' => $storageInfo['mountType'],
@@ -217,7 +217,7 @@ class Helper {
 	 * @param ITagManager $tagManager
 	 * @return array file list populated with tags
 	 */
-	public static function populateTags(array $fileList, $fileIdentifier = 'fileid', ITagManager $tagManager) {
+	public static function populateTags(array $fileList, $fileIdentifier, ITagManager $tagManager) {
 		$ids = [];
 		foreach ($fileList as $fileData) {
 			$ids[] = $fileData[$fileIdentifier];

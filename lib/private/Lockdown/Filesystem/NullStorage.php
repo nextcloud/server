@@ -14,14 +14,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Lockdown\Filesystem;
 
 use Icewind\Streams\IteratorDirectory;
@@ -66,7 +65,7 @@ class NullStorage extends Common {
 		return ($path === '') ? 'dir' : false;
 	}
 
-	public function filesize($path) {
+	public function filesize($path): false|int|float {
 		throw new \OC\ForbiddenException('This request is not allowed to access the filesystem');
 	}
 
@@ -114,11 +113,11 @@ class NullStorage extends Common {
 		throw new \OC\ForbiddenException('This request is not allowed to access the filesystem');
 	}
 
-	public function rename($path1, $path2) {
+	public function rename($source, $target) {
 		throw new \OC\ForbiddenException('This request is not allowed to access the filesystem');
 	}
 
-	public function copy($path1, $path2) {
+	public function copy($source, $target) {
 		throw new \OC\ForbiddenException('This request is not allowed to access the filesystem');
 	}
 

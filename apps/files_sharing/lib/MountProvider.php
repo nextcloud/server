@@ -26,46 +26,35 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_Sharing;
 
-use OC\Cache\CappedMemoryCache;
 use OC\Files\View;
+use OCA\Files_Sharing\Event\ShareMountedEvent;
+use OCP\Cache\CappedMemoryCache;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Config\IMountProvider;
 use OCP\Files\Storage\IStorageFactory;
+use OCP\ICacheFactory;
 use OCP\IConfig;
-use OCP\ILogger;
 use OCP\IUser;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
+use Psr\Log\LoggerInterface;
 
 class MountProvider implements IMountProvider {
 	/**
-	 * @var \OCP\IConfig
-	 */
-	protected $config;
-
-	/**
-	 * @var IManager
-	 */
-	protected $shareManager;
-
-	/**
-	 * @var ILogger
-	 */
-	protected $logger;
-
-	/**
 	 * @param \OCP\IConfig $config
 	 * @param IManager $shareManager
-	 * @param ILogger $logger
+	 * @param LoggerInterface $logger
 	 */
-	public function __construct(IConfig $config, IManager $shareManager, ILogger $logger) {
-		$this->config = $config;
-		$this->shareManager = $shareManager;
-		$this->logger = $logger;
+	public function __construct(
+		protected IConfig $config,
+		protected IManager $shareManager,
+		protected LoggerInterface $logger,
+		protected IEventDispatcher $eventDispatcher,
+		protected ICacheFactory $cacheFactory
+	) {
 	}
-
 
 	/**
 	 * Get all mountpoints applicable for the user and check for shares where we need to update the etags
@@ -80,6 +69,7 @@ class MountProvider implements IMountProvider {
 		$shares = array_merge($shares, $this->shareManager->getSharedWith($user->getUID(), IShare::TYPE_CIRCLE, null, -1));
 		$shares = array_merge($shares, $this->shareManager->getSharedWith($user->getUID(), IShare::TYPE_ROOM, null, -1));
 		$shares = array_merge($shares, $this->shareManager->getSharedWith($user->getUID(), IShare::TYPE_DECK, null, -1));
+		$shares = array_merge($shares, $this->shareManager->getSharedWith($user->getUID(), IShare::TYPE_SCIENCEMESH, null, -1));
 
 
 		// filter out excluded shares and group shares that includes self
@@ -93,6 +83,7 @@ class MountProvider implements IMountProvider {
 		$view = new View('/' . $user->getUID() . '/files');
 		$ownerViews = [];
 		$sharingDisabledForUser = $this->shareManager->sharingDisabledForUser($user->getUID());
+		/** @var CappedMemoryCache<bool> $folderExistCache */
 		$foldersExistCache = new CappedMemoryCache();
 		foreach ($superShares as $share) {
 			try {
@@ -124,12 +115,27 @@ class MountProvider implements IMountProvider {
 					],
 					$loader,
 					$view,
-					$foldersExistCache
+					$foldersExistCache,
+					$this->eventDispatcher,
+					$user,
+					$this->cacheFactory->createLocal('share-valid-mountpoint')
 				);
+
+				$event = new ShareMountedEvent($mount);
+				$this->eventDispatcher->dispatchTyped($event);
+
 				$mounts[$mount->getMountPoint()] = $mount;
+				foreach ($event->getAdditionalMounts() as $additionalMount) {
+					$mounts[$additionalMount->getMountPoint()] = $additionalMount;
+				}
 			} catch (\Exception $e) {
-				$this->logger->logException($e);
-				$this->logger->error('Error while trying to create shared mount');
+				$this->logger->error(
+					'Error while trying to create shared mount',
+					[
+						'app' => 'files_sharing',
+						'exception' => $e,
+					],
+				);
 			}
 		}
 
@@ -201,15 +207,42 @@ class MountProvider implements IMountProvider {
 				->setShareType($shares[0]->getShareType())
 				->setTarget($shares[0]->getTarget());
 
+			// Gather notes from all the shares.
+			// Since these are readly available here, storing them
+			// enables the DAV FilesPlugin to avoid executing many
+			// DB queries to retrieve the same information.
+			$allNotes = implode("\n", array_map(function ($sh) {
+				return $sh->getNote();
+			}, $shares));
+			$superShare->setNote($allNotes);
+
 			// use most permissive permissions
-			$permissions = 0;
+			// this covers the case where there are multiple shares for the same
+			// file e.g. from different groups and different permissions
+			$superPermissions = 0;
+			$superAttributes = $this->shareManager->newShare()->newAttributes();
 			$status = IShare::STATUS_PENDING;
 			foreach ($shares as $share) {
-				$permissions |= $share->getPermissions();
+				$superPermissions |= $share->getPermissions();
 				$status = max($status, $share->getStatus());
+				// update permissions
+				$superPermissions |= $share->getPermissions();
 
+				// update share permission attributes
+				$attributes = $share->getAttributes();
+				if ($attributes !== null) {
+					foreach ($attributes->toArray() as $attribute) {
+						if ($superAttributes->getAttribute($attribute['scope'], $attribute['key']) === true) {
+							// if super share attribute is already enabled, it is most permissive
+							continue;
+						}
+						// update supershare attributes with subshare attribute
+						$superAttributes->setAttribute($attribute['scope'], $attribute['key'], $attribute['enabled']);
+					}
+				}
+
+				// adjust target, for database consistency if needed
 				if ($share->getTarget() !== $superShare->getTarget()) {
-					// adjust target, for database consistency
 					$share->setTarget($superShare->getTarget());
 					try {
 						$this->shareManager->moveShare($share, $user->getUID());
@@ -234,8 +267,9 @@ class MountProvider implements IMountProvider {
 				}
 			}
 
-			$superShare->setPermissions($permissions)
-				->setStatus($status);
+			$superShare->setPermissions($superPermissions);
+			$superShare->setStatus($status);
+			$superShare->setAttributes($superAttributes);
 
 			$result[] = [$superShare, $shares];
 		}

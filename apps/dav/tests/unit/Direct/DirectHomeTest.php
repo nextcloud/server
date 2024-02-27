@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @copyright 2018, Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
@@ -17,17 +18,15 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\Tests\Unit\Direct;
 
-use OC\Security\Bruteforce\Throttler;
 use OCA\DAV\Db\Direct;
 use OCA\DAV\Db\DirectMapper;
 use OCA\DAV\Direct\DirectFile;
@@ -37,6 +36,7 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\IRootFolder;
 use OCP\IRequest;
+use OCP\Security\Bruteforce\IThrottler;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\MethodNotAllowed;
 use Sabre\DAV\Exception\NotFound;
@@ -53,7 +53,7 @@ class DirectHomeTest extends TestCase {
 	/** @var ITimeFactory|\PHPUnit\Framework\MockObject\MockObject */
 	private $timeFactory;
 
-	/** @var Throttler|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IThrottler|\PHPUnit\Framework\MockObject\MockObject */
 	private $throttler;
 
 	/** @var IRequest */
@@ -71,7 +71,7 @@ class DirectHomeTest extends TestCase {
 		$this->directMapper = $this->createMock(DirectMapper::class);
 		$this->rootFolder = $this->createMock(IRootFolder::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
-		$this->throttler = $this->createMock(Throttler::class);
+		$this->throttler = $this->createMock(IThrottler::class);
 		$this->request = $this->createMock(IRequest::class);
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 
@@ -92,49 +92,49 @@ class DirectHomeTest extends TestCase {
 		);
 	}
 
-	public function testCreateFile() {
+	public function testCreateFile(): void {
 		$this->expectException(Forbidden::class);
 
 		$this->directHome->createFile('foo', 'bar');
 	}
 
-	public function testCreateDirectory() {
+	public function testCreateDirectory(): void {
 		$this->expectException(Forbidden::class);
 
 		$this->directHome->createDirectory('foo');
 	}
 
-	public function testGetChildren() {
+	public function testGetChildren(): void {
 		$this->expectException(MethodNotAllowed::class);
 
 		$this->directHome->getChildren();
 	}
 
-	public function testChildExists() {
+	public function testChildExists(): void {
 		$this->assertFalse($this->directHome->childExists('foo'));
 	}
 
-	public function testDelete() {
+	public function testDelete(): void {
 		$this->expectException(Forbidden::class);
 
 		$this->directHome->delete();
 	}
 
-	public function testGetName() {
+	public function testGetName(): void {
 		$this->assertSame('direct', $this->directHome->getName());
 	}
 
-	public function testSetName() {
+	public function testSetName(): void {
 		$this->expectException(Forbidden::class);
 
 		$this->directHome->setName('foo');
 	}
 
-	public function testGetLastModified() {
+	public function testGetLastModified(): void {
 		$this->assertSame(0, $this->directHome->getLastModified());
 	}
 
-	public function testGetChildValid() {
+	public function testGetChildValid(): void {
 		$direct = Direct::fromParams([
 			'expiration' => 100,
 		]);
@@ -150,7 +150,7 @@ class DirectHomeTest extends TestCase {
 		$this->assertInstanceOf(DirectFile::class, $result);
 	}
 
-	public function testGetChildExpired() {
+	public function testGetChildExpired(): void {
 		$direct = Direct::fromParams([
 			'expiration' => 41,
 		]);
@@ -167,7 +167,7 @@ class DirectHomeTest extends TestCase {
 		$this->directHome->getChild('longtoken');
 	}
 
-	public function testGetChildInvalid() {
+	public function testGetChildInvalid(): void {
 		$this->directMapper->method('getByToken')
 			->with('longtoken')
 			->willThrowException(new DoesNotExistException('not found'));

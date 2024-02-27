@@ -16,21 +16,19 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\Upload;
 
 use OCA\DAV\Connector\Sabre\File;
 use Sabre\DAV\IFile;
 
 class UploadFile implements IFile {
-
 	/**  @var File */
 	private $file;
 
@@ -46,6 +44,10 @@ class UploadFile implements IFile {
 		return $this->file->get();
 	}
 
+	public function getId() {
+		return $this->file->getId();
+	}
+
 	public function getContentType() {
 		return $this->file->getContentType();
 	}
@@ -54,6 +56,10 @@ class UploadFile implements IFile {
 		return $this->file->getETag();
 	}
 
+	/**
+	 * @psalm-suppress ImplementedReturnTypeMismatch \Sabre\DAV\IFile::getSize signature does not support 32bit
+	 * @return int|float
+	 */
 	public function getSize() {
 		return $this->file->getSize();
 	}
@@ -72,5 +78,17 @@ class UploadFile implements IFile {
 
 	public function getLastModified() {
 		return $this->file->getLastModified();
+	}
+
+	public function getInternalPath(): string {
+		return $this->file->getInternalPath();
+	}
+
+	public function getFile(): File {
+		return $this->file;
+	}
+
+	public function getNode() {
+		return $this->file->getNode();
 	}
 }

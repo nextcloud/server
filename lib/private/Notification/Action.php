@@ -22,30 +22,22 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Notification;
 
 use OCP\Notification\IAction;
 
 class Action implements IAction {
+	protected string $label;
 
-	/** @var string */
-	protected $label;
+	protected string $labelParsed;
 
-	/** @var string */
-	protected $labelParsed;
+	protected string $link;
 
-	/** @var string */
-	protected $link;
+	protected string $requestType;
 
-	/** @var string */
-	protected $requestType;
+	protected string $icon;
 
-	/** @var string */
-	protected $icon;
-
-	/** @var bool */
-	protected $primary;
+	protected bool $primary;
 
 	public function __construct() {
 		$this->label = '';

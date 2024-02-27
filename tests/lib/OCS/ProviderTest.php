@@ -41,24 +41,14 @@ class ProviderTest extends \Test\TestCase {
 
 	public function testBuildProviderListWithoutAnythingEnabled() {
 		$this->appManager
-			->expects($this->at(0))
+			->expects($this->exactly(4))
 			->method('isEnabledForUser')
-			->with('files_sharing')
-			->willReturn(false);
-		$this->appManager
-			->expects($this->at(1))
-			->method('isEnabledForUser')
-			->with('federation')
-			->willReturn(false);
-		$this->appManager
-			->expects($this->at(2))
-			->method('isEnabledForUser')
-			->with('activity')
-			->willReturn(false);
-		$this->appManager
-			->expects($this->at(3))
-			->method('isEnabledForUser')
-			->with('provisioning_api')
+			->withConsecutive(
+				['files_sharing'],
+				['federation'],
+				['activity'],
+				['provisioning_api']
+			)
 			->willReturn(false);
 
 		$expected = new \OCP\AppFramework\Http\JSONResponse(
@@ -82,25 +72,20 @@ class ProviderTest extends \Test\TestCase {
 
 	public function testBuildProviderListWithSharingEnabled() {
 		$this->appManager
-			->expects($this->at(0))
+			->expects($this->exactly(4))
 			->method('isEnabledForUser')
-			->with('files_sharing')
-			->willReturn(true);
-		$this->appManager
-			->expects($this->at(1))
-			->method('isEnabledForUser')
-			->with('federation')
-			->willReturn(false);
-		$this->appManager
-			->expects($this->at(2))
-			->method('isEnabledForUser')
-			->with('activity')
-			->willReturn(false);
-		$this->appManager
-			->expects($this->at(3))
-			->method('isEnabledForUser')
-			->with('provisioning_api')
-			->willReturn(false);
+			->withConsecutive(
+				['files_sharing'],
+				['federation'],
+				['activity'],
+				['provisioning_api']
+			)
+			->willReturnOnConsecutiveCalls(
+				true,
+				false,
+				false,
+				false
+			);
 
 		$expected = new \OCP\AppFramework\Http\JSONResponse(
 			[
@@ -136,25 +121,20 @@ class ProviderTest extends \Test\TestCase {
 
 	public function testBuildProviderListWithFederationEnabled() {
 		$this->appManager
-			->expects($this->at(0))
+			->expects($this->exactly(4))
 			->method('isEnabledForUser')
-			->with('files_sharing')
-			->willReturn(false);
-		$this->appManager
-			->expects($this->at(1))
-			->method('isEnabledForUser')
-			->with('federation')
-			->willReturn(true);
-		$this->appManager
-			->expects($this->at(2))
-			->method('isEnabledForUser')
-			->with('activity')
-			->willReturn(false);
-		$this->appManager
-			->expects($this->at(3))
-			->method('isEnabledForUser')
-			->with('provisioning_api')
-			->willReturn(false);
+			->withConsecutive(
+				['files_sharing'],
+				['federation'],
+				['activity'],
+				['provisioning_api']
+			)
+			->willReturnOnConsecutiveCalls(
+				false,
+				true,
+				false,
+				false
+			);
 
 		$expected = new \OCP\AppFramework\Http\JSONResponse(
 			[

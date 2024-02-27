@@ -24,7 +24,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP\AppFramework;
 
 use Exception;
@@ -33,7 +32,7 @@ use Psr\Container\ContainerExceptionInterface;
 /**
  * Class QueryException
  *
- * The class extends `NotFoundExceptionInterface` since 20.0.0
+ * The class extends `ContainerExceptionInterface` since 20.0.0
  *
  * @since 8.1.0
  * @deprecated 20.0.0 catch \Psr\Container\ContainerExceptionInterface

@@ -31,7 +31,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 require_once __DIR__ . '/lib/versioncheck.php';
 
 use OC\Console\Application;
@@ -85,15 +84,16 @@ try {
 		exit(1);
 	}
 
-	if (!function_exists('pcntl_signal') && !in_array('--no-warnings', $argv)) {
+	if (!(function_exists('pcntl_signal') && function_exists('pcntl_signal_dispatch')) && !in_array('--no-warnings', $argv)) {
 		echo "The process control (PCNTL) extensions are required in case you want to interrupt long running commands - see https://www.php.net/manual/en/book.pcntl.php" . PHP_EOL;
+		echo "Additionally the function 'pcntl_signal' and 'pcntl_signal_dispatch' need to be enabled in your php.ini." . PHP_EOL;
 	}
 
 	$application = new Application(
 		\OC::$server->getConfig(),
-		\OC::$server->getEventDispatcher(),
+		\OC::$server->get(\OCP\EventDispatcher\IEventDispatcher::class),
 		\OC::$server->getRequest(),
-		\OC::$server->getLogger(),
+		\OC::$server->get(\Psr\Log\LoggerInterface::class),
 		\OC::$server->query(\OC\MemoryInfo::class)
 	);
 	$application->loadCommands(new ArgvInput(), new ConsoleOutput());

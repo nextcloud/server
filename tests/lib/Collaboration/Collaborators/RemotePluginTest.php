@@ -28,8 +28,11 @@ use OC\Collaboration\Collaborators\SearchResult;
 use OC\Federation\CloudIdManager;
 use OCP\Collaboration\Collaborators\SearchResultType;
 use OCP\Contacts\IManager;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\ICloudIdManager;
+use OCP\ICacheFactory;
 use OCP\IConfig;
+use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
@@ -37,7 +40,6 @@ use OCP\Share\IShare;
 use Test\TestCase;
 
 class RemotePluginTest extends TestCase {
-
 	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $userManager;
 
@@ -62,7 +64,13 @@ class RemotePluginTest extends TestCase {
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->config = $this->createMock(IConfig::class);
 		$this->contactsManager = $this->createMock(IManager::class);
-		$this->cloudIdManager = new CloudIdManager($this->contactsManager);
+		$this->cloudIdManager = new CloudIdManager(
+			$this->contactsManager,
+			$this->createMock(IURLGenerator::class),
+			$this->createMock(IUserManager::class),
+			$this->createMock(ICacheFactory::class),
+			$this->createMock(IEventDispatcher::class)
+		);
 		$this->searchResult = new SearchResult();
 	}
 

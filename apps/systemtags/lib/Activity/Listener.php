@@ -23,7 +23,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\SystemTags\Activity;
 
 use OCP\Activity\IManager;
@@ -77,14 +76,14 @@ class Listener {
 	 * @param IShareHelper $shareHelper
 	 */
 	public function __construct(IGroupManager $groupManager,
-								IManager $activityManager,
-								IUserSession $session,
-								IConfig $config,
-								ISystemTagManager $tagManager,
-								IAppManager $appManager,
-								IMountProviderCollection $mountCollection,
-								IRootFolder $rootFolder,
-								IShareHelper $shareHelper) {
+		IManager $activityManager,
+		IUserSession $session,
+		IConfig $config,
+		ISystemTagManager $tagManager,
+		IAppManager $appManager,
+		IMountProviderCollection $mountCollection,
+		IRootFolder $rootFolder,
+		IShareHelper $shareHelper) {
 		$this->groupManager = $groupManager;
 		$this->activityManager = $activityManager;
 		$this->session = $session;
@@ -246,7 +245,7 @@ class Listener {
 		$lastUsedTags = json_decode($lastUsedTags, true);
 
 		array_unshift($lastUsedTags, $tag->getId());
-		array_unique($lastUsedTags);
+		$lastUsedTags = array_unique($lastUsedTags);
 		$lastUsedTags = array_slice($lastUsedTags, 0, 10);
 
 		$this->config->setUserValue($actor, 'systemtags', 'last_used', json_encode($lastUsedTags));

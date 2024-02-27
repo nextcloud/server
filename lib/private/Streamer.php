@@ -7,6 +7,7 @@
  * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author szaimen <szaimen@e.mail.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Victor Dubiniuk <dubiniuk@owncloud.com>
  *
@@ -25,7 +26,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC;
 
 use OC\Files\Filesystem;
@@ -36,11 +36,12 @@ use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\IRequest;
 use ownCloud\TarStreamer\TarStreamer;
+use Psr\Log\LoggerInterface;
 use ZipStreamer\ZipStreamer;
 
 class Streamer {
 	// array of regexp. Matching user agents will get tar instead of zip
-	private $preferTarFor = [ '/macintosh|mac os x/i' ];
+	private array $preferTarFor = [ '/macintosh|mac os x/i' ];
 
 	// streamer instance
 	private $streamerInstance;
@@ -49,12 +50,11 @@ class Streamer {
 	 * Streamer constructor.
 	 *
 	 * @param IRequest $request
-	 * @param int $size The size of the files in bytes
+	 * @param int|float $size The size of the files in bytes
 	 * @param int $numberOfFiles The number of files (and directories) that will
 	 *        be included in the streamed file
 	 */
-	public function __construct(IRequest $request, int $size, int $numberOfFiles) {
-
+	public function __construct(IRequest $request, int|float $size, int $numberOfFiles) {
 		/**
 		 * zip32 constraints for a basic (without compression, volumes nor
 		 * encryption) zip file according to the Zip specification:
@@ -78,7 +78,7 @@ class Streamer {
 		 * larger than 4GiB), but it should not happen in the real world.
 		 *
 		 * We also have to check for a size above 0. As negative sizes could be
-		 * from not fully scanned external storages. And then things fall apart
+		 * from not fully scanned external storage. And then things fall apart
 		 * if somebody tries to package to much.
 		 */
 		if ($size > 0 && $size < 4 * 1000 * 1000 * 1000 && $numberOfFiles < 65536) {
@@ -95,6 +95,7 @@ class Streamer {
 	 * @param string $name
 	 */
 	public function sendHeaders($name) {
+		header('X-Accel-Buffering: no');
 		$extension = $this->streamerInstance instanceof ZipStreamer ? '.zip' : '.tar';
 		$fullName = $name . $extension;
 		$this->streamerInstance->sendHeaders($fullName);
@@ -122,10 +123,16 @@ class Streamer {
 		$dirNode = $userFolder->get($dir);
 		$files = $dirNode->getDirectoryListing();
 
+		/** @var LoggerInterface $logger */
+		$logger = \OC::$server->query(LoggerInterface::class);
 		foreach ($files as $file) {
 			if ($file instanceof File) {
 				try {
 					$fh = $file->fopen('r');
+					if ($fh === false) {
+						$logger->error('Unable to open file for stream: ' . print_r($file, true));
+						continue;
+					}
 				} catch (NotPermittedException $e) {
 					continue;
 				}
@@ -147,13 +154,13 @@ class Streamer {
 	/**
 	 * Add a file to the archive at the specified location and file name.
 	 *
-	 * @param string $stream Stream to read data from
+	 * @param resource $stream Stream to read data from
 	 * @param string $internalName Filepath and name to be used in the archive.
-	 * @param int $size Filesize
-	 * @param int|bool $time File mtime as int, or false
+	 * @param int|float $size Filesize
+	 * @param int|false $time File mtime as int, or false
 	 * @return bool $success
 	 */
-	public function addFileFromStream($stream, $internalName, $size, $time) {
+	public function addFileFromStream($stream, string $internalName, int|float $size, $time): bool {
 		$options = [];
 		if ($time) {
 			$options = [

@@ -22,7 +22,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Core\Command\Integrity;
 
 use OC\IntegrityCheck\Checker;
@@ -41,25 +40,12 @@ use Symfony\Component\Console\Output\OutputInterface;
  * @package OC\Core\Command\Integrity
  */
 class SignApp extends Command {
-	/** @var Checker */
-	private $checker;
-	/** @var FileAccessHelper */
-	private $fileAccessHelper;
-	/** @var IURLGenerator */
-	private $urlGenerator;
-
-	/**
-	 * @param Checker $checker
-	 * @param FileAccessHelper $fileAccessHelper
-	 * @param IURLGenerator $urlGenerator
-	 */
-	public function __construct(Checker $checker,
-								FileAccessHelper $fileAccessHelper,
-								IURLGenerator $urlGenerator) {
+	public function __construct(
+		private Checker $checker,
+		private FileAccessHelper $fileAccessHelper,
+		private IURLGenerator $urlGenerator,
+	) {
 		parent::__construct(null);
-		$this->checker = $checker;
-		$this->fileAccessHelper = $fileAccessHelper;
-		$this->urlGenerator = $urlGenerator;
 	}
 
 	protected function configure() {

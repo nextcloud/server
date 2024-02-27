@@ -33,27 +33,33 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\DB;
 
 use Doctrine\Common\EventManager;
 use Doctrine\DBAL\Cache\QueryCacheProfile;
 use Doctrine\DBAL\Configuration;
+use Doctrine\DBAL\Connections\PrimaryReadReplicaConnection;
 use Doctrine\DBAL\Driver;
 use Doctrine\DBAL\Exception;
-use Doctrine\DBAL\Exception\ConstraintViolationException;
-use Doctrine\DBAL\Exception\NotNullConstraintViolationException;
+use Doctrine\DBAL\Exception\ConnectionLost;
 use Doctrine\DBAL\Platforms\MySQLPlatform;
+use Doctrine\DBAL\Platforms\OraclePlatform;
+use Doctrine\DBAL\Platforms\SqlitePlatform;
 use Doctrine\DBAL\Result;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Statement;
 use OC\DB\QueryBuilder\QueryBuilder;
 use OC\SystemConfig;
 use OCP\DB\QueryBuilder\IQueryBuilder;
-use OCP\ILogger;
+use OCP\Diagnostics\IEventLogger;
+use OCP\IRequestId;
 use OCP\PreConditionNotMetException;
+use OCP\Profiler\IProfiler;
+use Psr\Clock\ClockInterface;
+use Psr\Log\LoggerInterface;
+use function in_array;
 
-class Connection extends \Doctrine\DBAL\Connection {
+class Connection extends PrimaryReadReplicaConnection {
 	/** @var string */
 	protected $tablePrefix;
 
@@ -63,8 +69,9 @@ class Connection extends \Doctrine\DBAL\Connection {
 	/** @var SystemConfig */
 	private $systemConfig;
 
-	/** @var ILogger */
-	private $logger;
+	private ClockInterface $clock;
+
+	private LoggerInterface $logger;
 
 	protected $lockedTable = null;
 
@@ -74,12 +81,75 @@ class Connection extends \Doctrine\DBAL\Connection {
 	/** @var int */
 	protected $queriesExecuted = 0;
 
+	/** @var DbDataCollector|null */
+	protected $dbDataCollector = null;
+	private array $lastConnectionCheck = [];
+
+	protected ?float $transactionActiveSince = null;
+
+	/** @var array<string, int> */
+	protected $tableDirtyWrites = [];
+
+	/**
+	 * Initializes a new instance of the Connection class.
+	 *
+	 * @throws \Exception
+	 */
+	public function __construct(
+		array $params,
+		Driver $driver,
+		?Configuration $config = null,
+		?EventManager $eventManager = null
+	) {
+		if (!isset($params['adapter'])) {
+			throw new \Exception('adapter not set');
+		}
+		if (!isset($params['tablePrefix'])) {
+			throw new \Exception('tablePrefix not set');
+		}
+		/**
+		 * @psalm-suppress InternalMethod
+		 */
+		parent::__construct($params, $driver, $config, $eventManager);
+		$this->adapter = new $params['adapter']($this);
+		$this->tablePrefix = $params['tablePrefix'];
+
+		$this->systemConfig = \OC::$server->getSystemConfig();
+		$this->clock = \OCP\Server::get(ClockInterface::class);
+		$this->logger = \OC::$server->get(LoggerInterface::class);
+
+		/** @var \OCP\Profiler\IProfiler */
+		$profiler = \OC::$server->get(IProfiler::class);
+		if ($profiler->isEnabled()) {
+			$this->dbDataCollector = new DbDataCollector($this);
+			$profiler->add($this->dbDataCollector);
+			$debugStack = new BacktraceDebugStack();
+			$this->dbDataCollector->setDebugStack($debugStack);
+			$this->_config->setSQLLogger($debugStack);
+		}
+	}
+
 	/**
 	 * @throws Exception
 	 */
-	public function connect() {
+	public function connect($connectionName = null) {
 		try {
-			return parent::connect();
+			if ($this->_conn) {
+				$this->reconnectIfNeeded();
+				/** @psalm-suppress InternalMethod */
+				return parent::connect();
+			}
+
+			$this->lastConnectionCheck[$this->getConnectionName()] = time();
+
+			// Only trigger the event logger for the initial connect call
+			$eventLogger = \OC::$server->get(IEventLogger::class);
+			$eventLogger->start('connect:db', 'db connection opened');
+			/** @psalm-suppress InternalMethod */
+			$status = parent::connect();
+			$eventLogger->end('connect:db');
+
+			return $status;
 		} catch (Exception $e) {
 			// throw a new exception to prevent leaking info from the stacktrace
 			throw new Exception('Failed to connect to the database: ' . $e->getMessage(), $e->getCode());
@@ -113,7 +183,7 @@ class Connection extends \Doctrine\DBAL\Connection {
 	 */
 	public function createQueryBuilder() {
 		$backtrace = $this->getCallerBacktrace();
-		\OC::$server->getLogger()->debug('Doctrine QueryBuilder retrieved in {backtrace}', ['app' => 'core', 'backtrace' => $backtrace]);
+		$this->logger->debug('Doctrine QueryBuilder retrieved in {backtrace}', ['app' => 'core', 'backtrace' => $backtrace]);
 		$this->queriesBuilt++;
 		return parent::createQueryBuilder();
 	}
@@ -126,7 +196,7 @@ class Connection extends \Doctrine\DBAL\Connection {
 	 */
 	public function getExpressionBuilder() {
 		$backtrace = $this->getCallerBacktrace();
-		\OC::$server->getLogger()->debug('Doctrine ExpressionBuilder retrieved in {backtrace}', ['app' => 'core', 'backtrace' => $backtrace]);
+		$this->logger->debug('Doctrine ExpressionBuilder retrieved in {backtrace}', ['app' => 'core', 'backtrace' => $backtrace]);
 		$this->queriesBuilt++;
 		return parent::getExpressionBuilder();
 	}
@@ -156,52 +226,29 @@ class Connection extends \Doctrine\DBAL\Connection {
 	}
 
 	/**
-	 * Initializes a new instance of the Connection class.
-	 *
-	 * @param array $params  The connection parameters.
-	 * @param \Doctrine\DBAL\Driver $driver
-	 * @param \Doctrine\DBAL\Configuration $config
-	 * @param \Doctrine\Common\EventManager $eventManager
-	 * @throws \Exception
-	 */
-	public function __construct(array $params, Driver $driver, Configuration $config = null,
-		EventManager $eventManager = null) {
-		if (!isset($params['adapter'])) {
-			throw new \Exception('adapter not set');
-		}
-		if (!isset($params['tablePrefix'])) {
-			throw new \Exception('tablePrefix not set');
-		}
-		/**
-		 * @psalm-suppress InternalMethod
-		 */
-		parent::__construct($params, $driver, $config, $eventManager);
-		$this->adapter = new $params['adapter']($this);
-		$this->tablePrefix = $params['tablePrefix'];
-
-		$this->systemConfig = \OC::$server->getSystemConfig();
-		$this->logger = \OC::$server->getLogger();
-	}
-
-	/**
 	 * Prepares an SQL statement.
 	 *
 	 * @param string $statement The SQL statement to prepare.
-	 * @param int $limit
-	 * @param int $offset
+	 * @param int|null $limit
+	 * @param int|null $offset
 	 *
 	 * @return Statement The prepared statement.
 	 * @throws Exception
 	 */
-	public function prepare($statement, $limit = null, $offset = null): Statement {
-		if ($limit === -1) {
+	public function prepare($sql, $limit = null, $offset = null): Statement {
+		if ($limit === -1 || $limit === null) {
 			$limit = null;
+		} else {
+			$limit = (int) $limit;
+		}
+		if ($offset !== null) {
+			$offset = (int) $offset;
 		}
 		if (!is_null($limit)) {
 			$platform = $this->getDatabasePlatform();
-			$statement = $platform->modifyLimitQuery($statement, $limit, $offset);
+			$sql = $platform->modifyLimitQuery($sql, $limit, $offset);
 		}
-		$statement = $this->replaceTablePrefix($statement);
+		$statement = $this->replaceTablePrefix($sql);
 		$statement = $this->adapter->fixupStatement($statement);
 
 		return parent::prepare($statement);
@@ -223,10 +270,57 @@ class Connection extends \Doctrine\DBAL\Connection {
 	 * @throws \Doctrine\DBAL\Exception
 	 */
 	public function executeQuery(string $sql, array $params = [], $types = [], QueryCacheProfile $qcp = null): Result {
+		$tables = $this->getQueriedTables($sql);
+		$now = $this->clock->now()->getTimestamp();
+		$dirtyTableWrites = [];
+		foreach ($tables as $table) {
+			$lastAccess = $this->tableDirtyWrites[$table] ?? 0;
+			// Only very recent writes are considered dirty
+			if ($lastAccess >= ($now - 3)) {
+				$dirtyTableWrites[] = $table;
+			}
+		}
+		if ($this->isTransactionActive()) {
+			// Transacted queries go to the primary. The consistency of the primary guarantees that we can not run
+			// into a dirty read.
+		} elseif (count($dirtyTableWrites) === 0) {
+			// No tables read that could have been written already in the same request and no transaction active
+			// so we can switch back to the replica for reading as long as no writes happen that switch back to the primary
+			// We cannot log here as this would log too early in the server boot process
+			$this->ensureConnectedToReplica();
+		} else {
+			// Read to a table that has been written to previously
+			// While this might not necessarily mean that we did a read after write it is an indication for a code path to check
+			$this->logger->log(
+				(int) ($this->systemConfig->getValue('loglevel_dirty_database_queries', null) ?? 0),
+				'dirty table reads: ' . $sql,
+				[
+					'tables' => array_keys($this->tableDirtyWrites),
+					'reads' => $tables,
+					'exception' => new \Exception('dirty table reads: ' . $sql),
+				],
+			);
+			// To prevent a dirty read on a replica that is slightly out of sync, we
+			// switch back to the primary. This is detrimental for performance but
+			// safer for consistency.
+			$this->ensureConnectedToPrimary();
+		}
+
 		$sql = $this->replaceTablePrefix($sql);
 		$sql = $this->adapter->fixupStatement($sql);
 		$this->queriesExecuted++;
+		$this->logQueryToFile($sql);
 		return parent::executeQuery($sql, $params, $types, $qcp);
+	}
+
+	/**
+	 * Helper function to get the list of tables affected by a given query
+	 * used to track dirty tables that received a write with the current request
+	 */
+	private function getQueriedTables(string $sql): array {
+		$re = '/(\*PREFIX\*\w+)/mi';
+		preg_match_all($re, $sql, $matches);
+		return array_map([$this, 'replaceTablePrefix'], $matches[0] ?? []);
 	}
 
 	/**
@@ -236,6 +330,7 @@ class Connection extends \Doctrine\DBAL\Connection {
 		$sql = $this->replaceTablePrefix($sql);
 		$sql = $this->adapter->fixupStatement($sql);
 		$this->queriesExecuted++;
+		$this->logQueryToFile($sql);
 		return parent::executeUpdate($sql, $params, $types);
 	}
 
@@ -254,10 +349,36 @@ class Connection extends \Doctrine\DBAL\Connection {
 	 * @throws \Doctrine\DBAL\Exception
 	 */
 	public function executeStatement($sql, array $params = [], array $types = []): int {
+		$tables = $this->getQueriedTables($sql);
+		foreach ($tables as $table) {
+			$this->tableDirtyWrites[$table] = $this->clock->now()->getTimestamp();
+		}
 		$sql = $this->replaceTablePrefix($sql);
 		$sql = $this->adapter->fixupStatement($sql);
 		$this->queriesExecuted++;
-		return parent::executeStatement($sql, $params, $types);
+		$this->logQueryToFile($sql);
+		return (int)parent::executeStatement($sql, $params, $types);
+	}
+
+	protected function logQueryToFile(string $sql): void {
+		$logFile = $this->systemConfig->getValue('query_log_file');
+		if ($logFile !== '' && is_writable(dirname($logFile)) && (!file_exists($logFile) || is_writable($logFile))) {
+			$prefix = '';
+			if ($this->systemConfig->getValue('query_log_file_requestid') === 'yes') {
+				$prefix .= \OC::$server->get(IRequestId::class)->getId() . "\t";
+			}
+
+			// FIXME:  Improve to log the actual target db host
+			$isPrimary = $this->connections['primary'] === $this->_conn;
+			$prefix .= ' ' . ($isPrimary === true ? 'primary' : 'replica') . ' ';
+			$prefix .= ' ' . $this->getTransactionNestingLevel() . ' ';
+
+			file_put_contents(
+				$this->systemConfig->getValue('query_log_file', ''),
+				$prefix . $sql . "\n",
+				FILE_APPEND
+			);
+		}
 	}
 
 	/**
@@ -270,14 +391,14 @@ class Connection extends \Doctrine\DBAL\Connection {
 	 *
 	 * @param string $seqName Name of the sequence object from which the ID should be returned.
 	 *
-	 * @return string the last inserted ID.
+	 * @return int the last inserted ID.
 	 * @throws Exception
 	 */
-	public function lastInsertId($seqName = null) {
-		if ($seqName) {
-			$seqName = $this->replaceTablePrefix($seqName);
+	public function lastInsertId($name = null): int {
+		if ($name) {
+			$name = $this->replaceTablePrefix($name);
 		}
-		return $this->adapter->lastInsertId($seqName);
+		return $this->adapter->lastInsertId($name);
 	}
 
 	/**
@@ -328,10 +449,10 @@ class Connection extends \Doctrine\DBAL\Connection {
 	 * @param array $values (column name => value)
 	 * @param array $updatePreconditionValues ensure values match preconditions (column name => value)
 	 * @return int number of new rows
-	 * @throws \Doctrine\DBAL\Exception
+	 * @throws \OCP\DB\Exception
 	 * @throws PreConditionNotMetException
 	 */
-	public function setValues($table, array $keys, array $values, array $updatePreconditionValues = []) {
+	public function setValues(string $table, array $keys, array $values, array $updatePreconditionValues = []): int {
 		try {
 			$insertQb = $this->getQueryBuilder();
 			$insertQb->insert($table)
@@ -340,10 +461,16 @@ class Connection extends \Doctrine\DBAL\Connection {
 						return $insertQb->createNamedParameter($value, $this->getType($value));
 					}, array_merge($keys, $values))
 				);
-			return $insertQb->execute();
-		} catch (NotNullConstraintViolationException $e) {
-			throw $e;
-		} catch (ConstraintViolationException $e) {
+			return $insertQb->executeStatement();
+		} catch (\OCP\DB\Exception $e) {
+			if (!in_array($e->getReason(), [
+				\OCP\DB\Exception::REASON_CONSTRAINT_VIOLATION,
+				\OCP\DB\Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION,
+			])
+			) {
+				throw $e;
+			}
+
 			// value already exists, try update
 			$updateQb = $this->getQueryBuilder();
 			$updateQb->update($table);
@@ -366,7 +493,7 @@ class Connection extends \Doctrine\DBAL\Connection {
 				}
 			}
 			$updateQb->where($where);
-			$affected = $updateQb->execute();
+			$affected = $updateQb->executeStatement();
 
 			if ($affected === 0 && !empty($updatePreconditionValues)) {
 				throw new PreConditionNotMetException();
@@ -509,8 +636,7 @@ class Connection extends \Doctrine\DBAL\Connection {
 	 * @throws Exception
 	 */
 	public function createSchema() {
-		$schemaManager = new MDB2SchemaManager($this);
-		$migrator = $schemaManager->getMigrator();
+		$migrator = $this->getMigrator();
 		return $migrator->createSchema();
 	}
 
@@ -518,12 +644,87 @@ class Connection extends \Doctrine\DBAL\Connection {
 	 * Migrate the database to the given schema
 	 *
 	 * @param Schema $toSchema
+	 * @param bool $dryRun If true, will return the sql queries instead of running them.
 	 *
 	 * @throws Exception
+	 *
+	 * @return string|null Returns a string only if $dryRun is true.
 	 */
-	public function migrateToSchema(Schema $toSchema) {
-		$schemaManager = new MDB2SchemaManager($this);
-		$migrator = $schemaManager->getMigrator();
-		$migrator->migrate($toSchema);
+	public function migrateToSchema(Schema $toSchema, bool $dryRun = false) {
+		$migrator = $this->getMigrator();
+
+		if ($dryRun) {
+			return $migrator->generateChangeScript($toSchema);
+		} else {
+			$migrator->migrate($toSchema);
+		}
+	}
+
+	private function getMigrator() {
+		// TODO properly inject those dependencies
+		$random = \OC::$server->getSecureRandom();
+		$platform = $this->getDatabasePlatform();
+		$config = \OC::$server->getConfig();
+		$dispatcher = \OC::$server->get(\OCP\EventDispatcher\IEventDispatcher::class);
+		if ($platform instanceof SqlitePlatform) {
+			return new SQLiteMigrator($this, $config, $dispatcher);
+		} elseif ($platform instanceof OraclePlatform) {
+			return new OracleMigrator($this, $config, $dispatcher);
+		} else {
+			return new Migrator($this, $config, $dispatcher);
+		}
+	}
+
+	public function beginTransaction() {
+		if (!$this->inTransaction()) {
+			$this->transactionActiveSince = microtime(true);
+		}
+		return parent::beginTransaction();
+	}
+
+	public function commit() {
+		$result = parent::commit();
+		if ($this->getTransactionNestingLevel() === 0) {
+			$timeTook = microtime(true) - $this->transactionActiveSince;
+			$this->transactionActiveSince = null;
+			if ($timeTook > 1) {
+				$this->logger->warning('Transaction took ' . $timeTook . 's', ['exception' => new \Exception('Transaction took ' . $timeTook . 's')]);
+			}
+		}
+		return $result;
+	}
+
+	public function rollBack() {
+		$result = parent::rollBack();
+		if ($this->getTransactionNestingLevel() === 0) {
+			$timeTook = microtime(true) - $this->transactionActiveSince;
+			$this->transactionActiveSince = null;
+			if ($timeTook > 1) {
+				$this->logger->warning('Transaction rollback took longer than 1s: ' . $timeTook, ['exception' => new \Exception('Long running transaction rollback')]);
+			}
+		}
+		return $result;
+	}
+
+	private function reconnectIfNeeded(): void {
+		if (
+			!isset($this->lastConnectionCheck[$this->getConnectionName()]) ||
+			$this->lastConnectionCheck[$this->getConnectionName()] + 30 >= time() ||
+			$this->isTransactionActive()
+		) {
+			return;
+		}
+
+		try {
+			$this->_conn->query($this->getDriver()->getDatabasePlatform()->getDummySelectSQL());
+			$this->lastConnectionCheck[$this->getConnectionName()] = time();
+		} catch (ConnectionLost|\Exception $e) {
+			$this->logger->warning('Exception during connectivity check, closing and reconnecting', ['exception' => $e]);
+			$this->close();
+		}
+	}
+
+	private function getConnectionName(): string {
+		return $this->isConnectedToPrimary() ? 'primary' : 'replica';
 	}
 }

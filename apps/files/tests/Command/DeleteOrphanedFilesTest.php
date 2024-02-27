@@ -24,7 +24,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files\Tests\Command;
 
 use OC\Files\View;
@@ -133,14 +132,12 @@ class DeleteOrphanedFilesTest extends TestCase {
 
 		// parent folder, `files`, ´test` and `welcome.txt` => 4 elements
 		$output
-			->expects($this->at(0))
+			->expects($this->exactly(2))
 			->method('writeln')
-			->with('3 orphaned file cache entries deleted');
-
-		$output
-			->expects($this->at(1))
-			->method('writeln')
-			->with('1 orphaned mount entries deleted');
+			->withConsecutive(
+				['3 orphaned file cache entries deleted'],
+				['1 orphaned mount entries deleted'],
+			);
 
 		$this->command->execute($input, $output);
 

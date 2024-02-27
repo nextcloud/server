@@ -16,14 +16,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCP\Files\Events;
 
 use OCP\EventDispatcher\Event;
@@ -33,7 +32,6 @@ use OCP\Files\Storage\IStorage;
  * @since 18.0.0
  */
 class FileCacheUpdated extends Event {
-
 	/** @var IStorage */
 	private $storage;
 
@@ -46,7 +44,7 @@ class FileCacheUpdated extends Event {
 	 * @since 18.0.0
 	 */
 	public function __construct(IStorage $storage,
-								string $path) {
+		string $path) {
 		parent::__construct();
 		$this->storage = $storage;
 		$this->path = $path;

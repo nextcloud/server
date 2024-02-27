@@ -26,16 +26,17 @@ declare(strict_types=1);
 namespace lib\AppFramework\Bootstrap;
 
 use OC\AppFramework\Bootstrap\RegistrationContext;
+use OC\AppFramework\Bootstrap\ServiceRegistration;
+use OC\Core\Middleware\TwoFactorMiddleware;
 use OCP\AppFramework\App;
 use OCP\AppFramework\IAppContainer;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\ILogger;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class RegistrationContextTest extends TestCase {
-
-	/** @var ILogger|MockObject */
+	/** @var LoggerInterface|MockObject */
 	private $logger;
 
 	/** @var RegistrationContext */
@@ -44,7 +45,7 @@ class RegistrationContextTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->logger = $this->createMock(ILogger::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 
 		$this->context = new RegistrationContext(
 			$this->logger
@@ -61,7 +62,7 @@ class RegistrationContextTest extends TestCase {
 			->method('registerCapability')
 			->with($name);
 		$this->logger->expects($this->never())
-			->method('logException');
+			->method('error');
 
 		$this->context->for('myapp')->registerCapability($name);
 		$this->context->delegateCapabilityRegistrations([
@@ -77,7 +78,7 @@ class RegistrationContextTest extends TestCase {
 			->method('addServiceListener')
 			->with($event, $service, 0);
 		$this->logger->expects($this->never())
-			->method('logException');
+			->method('error');
 
 		$this->context->for('myapp')->registerEventListener($event, $service);
 		$this->context->delegateEventListenerRegistrations($dispatcher);
@@ -99,7 +100,7 @@ class RegistrationContextTest extends TestCase {
 			->method('registerService')
 			->with($service, $factory, $shared);
 		$this->logger->expects($this->never())
-			->method('logException');
+			->method('error');
 
 		$this->context->for('myapp')->registerService($service, $factory, $shared);
 		$this->context->delegateContainerRegistrations([
@@ -118,7 +119,7 @@ class RegistrationContextTest extends TestCase {
 			->method('registerAlias')
 			->with($alias, $target);
 		$this->logger->expects($this->never())
-			->method('logException');
+			->method('error');
 
 		$this->context->for('myapp')->registerServiceAlias($alias, $target);
 		$this->context->delegateContainerRegistrations([
@@ -137,7 +138,7 @@ class RegistrationContextTest extends TestCase {
 			->method('registerParameter')
 			->with($name, $value);
 		$this->logger->expects($this->never())
-			->method('logException');
+			->method('error');
 
 		$this->context->for('myapp')->registerParameter($name, $value);
 		$this->context->delegateContainerRegistrations([
@@ -145,22 +146,30 @@ class RegistrationContextTest extends TestCase {
 		]);
 	}
 
-	public function testRegisterMiddleware(): void {
-		$app = $this->createMock(App::class);
-		$name = 'abc';
-		$container = $this->createMock(IAppContainer::class);
-		$app->method('getContainer')
-			->willReturn($container);
-		$container->expects($this->once())
-			->method('registerMiddleware')
-			->with($name);
-		$this->logger->expects($this->never())
-			->method('logException');
+	public function testRegisterUserMigrator(): void {
+		$appIdA = 'myapp';
+		$migratorClassA = 'OCA\App\UserMigration\AppMigrator';
 
-		$this->context->for('myapp')->registerMiddleware($name);
-		$this->context->delegateMiddlewareRegistrations([
-			'myapp' => $app,
-		]);
+		$appIdB = 'otherapp';
+		$migratorClassB = 'OCA\OtherApp\UserMigration\OtherAppMigrator';
+
+		$serviceRegistrationA = new ServiceRegistration($appIdA, $migratorClassA);
+		$serviceRegistrationB = new ServiceRegistration($appIdB, $migratorClassB);
+
+		$this->context
+			->for($appIdA)
+			->registerUserMigrator($migratorClassA);
+		$this->context
+			->for($appIdB)
+			->registerUserMigrator($migratorClassB);
+
+		$this->assertEquals(
+			[
+				$serviceRegistrationA,
+				$serviceRegistrationB,
+			],
+			$this->context->getUserMigrators(),
+		);
 	}
 
 	public function dataProvider_TrueFalse() {
@@ -168,5 +177,15 @@ class RegistrationContextTest extends TestCase {
 			[true],
 			[false]
 		];
+	}
+
+	public function testGetMiddlewareRegistrations(): void {
+		$this->context->registerMiddleware('core', TwoFactorMiddleware::class, false);
+
+		$registrations = $this->context->getMiddlewareRegistrations();
+
+		self::assertNotEmpty($registrations);
+		self::assertSame('core', $registrations[0]->getAppId());
+		self::assertSame(TwoFactorMiddleware::class, $registrations[0]->getService());
 	}
 }

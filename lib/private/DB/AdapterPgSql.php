@@ -24,7 +24,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\DB;
 
 class AdapterPgSql extends Adapter {
@@ -44,7 +43,7 @@ class AdapterPgSql extends Adapter {
 		return $statement;
 	}
 
-	public function insertIgnoreConflict(string $table,array $values) : int {
+	public function insertIgnoreConflict(string $table, array $values) : int {
 		if ($this->isPre9_5CompatMode() === true) {
 			return parent::insertIgnoreConflict($table, $values);
 		}

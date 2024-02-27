@@ -19,21 +19,26 @@ class DummyJobList extends \OC\BackgroundJob\JobList {
 	/**
 	 * @var IJob[]
 	 */
-	private $jobs = [];
+	private array $jobs = [];
 
-	private $last = 0;
+	/**
+	 * @var bool[]
+	 */
+	private array $reserved = [];
+
+	private int $last = 0;
 
 	public function __construct() {
 	}
 
 	/**
-	 * @param IJob|string $job
+	 * @param IJob|class-string<IJob> $job
 	 * @param mixed $argument
 	 */
-	public function add($job, $argument = null) {
+	public function add($job, $argument = null, int $firstCheck = null): void {
 		if (is_string($job)) {
-			/** @var \OC\BackgroundJob\Job $job */
-			$job = new $job;
+			/** @var IJob $job */
+			$job = \OCP\Server::get($job);
 		}
 		$job->setArgument($argument);
 		if (!$this->has($job, null)) {
@@ -41,11 +46,15 @@ class DummyJobList extends \OC\BackgroundJob\JobList {
 		}
 	}
 
+	public function scheduleAfter(string $job, int $runAfter, $argument = null): void {
+		$this->add($job, $argument, $runAfter);
+	}
+
 	/**
 	 * @param IJob|string $job
 	 * @param mixed $argument
 	 */
-	public function remove($job, $argument = null) {
+	public function remove($job, $argument = null): void {
 		$index = array_search($job, $this->jobs);
 		if ($index !== false) {
 			unset($this->jobs[$index]);
@@ -59,7 +68,7 @@ class DummyJobList extends \OC\BackgroundJob\JobList {
 	 * @param mixed $argument
 	 * @return bool
 	 */
-	public function has($job, $argument) {
+	public function has($job, $argument): bool {
 		return array_search($job, $this->jobs) !== false;
 	}
 
@@ -68,16 +77,30 @@ class DummyJobList extends \OC\BackgroundJob\JobList {
 	 *
 	 * @return IJob[]
 	 */
-	public function getAll() {
+	public function getAll(): array {
 		return $this->jobs;
+	}
+
+	public function getJobsIterator($job, ?int $limit, int $offset): array {
+		if ($job instanceof IJob) {
+			$jobClass = get_class($job);
+		} else {
+			$jobClass = $job;
+		}
+		return array_slice(
+			array_filter(
+				$this->jobs,
+				fn ($job) => ($jobClass === null) || (get_class($job) == $jobClass)
+			),
+			$offset,
+			$limit
+		);
 	}
 
 	/**
 	 * get the next job in the list
-	 *
-	 * @return IJob|null
 	 */
-	public function getNext() {
+	public function getNext(bool $onlyTimeSensitive = false): ?IJob {
 		if (count($this->jobs) > 0) {
 			if ($this->last < (count($this->jobs) - 1)) {
 				$i = $this->last + 1;
@@ -93,9 +116,9 @@ class DummyJobList extends \OC\BackgroundJob\JobList {
 	/**
 	 * set the job that was last ran
 	 *
-	 * @param \OC\BackgroundJob\Job $job
+	 * @param \OCP\BackgroundJob\Job $job
 	 */
-	public function setLastJob(IJob $job) {
+	public function setLastJob(IJob $job): void {
 		$i = array_search($job, $this->jobs);
 		if ($i !== false) {
 			$this->last = $i;
@@ -104,11 +127,7 @@ class DummyJobList extends \OC\BackgroundJob\JobList {
 		}
 	}
 
-	/**
-	 * @param int $id
-	 * @return IJob
-	 */
-	public function getById($id) {
+	public function getById(int $id): IJob {
 		foreach ($this->jobs as $job) {
 			if ($job->getId() === $id) {
 				return $job;
@@ -117,15 +136,25 @@ class DummyJobList extends \OC\BackgroundJob\JobList {
 		return null;
 	}
 
-	/**
-	 * set the lastRun of $job to now
-	 *
-	 * @param IJob $job
-	 */
-	public function setLastRun(IJob $job) {
+	public function getDetailsById(int $id): ?array {
+		return null;
+	}
+
+	public function setLastRun(IJob $job): void {
 		$job->setLastRun(time());
 	}
 
-	public function setExecutionTime(IJob $job, $timeTaken) {
+	public function hasReservedJob(?string $className = null): bool {
+		return isset($this->reserved[$className ?? '']) && $this->reserved[$className ?? ''];
+	}
+
+	public function setHasReservedJob(?string $className, bool $hasReserved): void {
+		$this->reserved[$className ?? ''] = $hasReserved;
+	}
+
+	public function setExecutionTime(IJob $job, $timeTaken): void {
+	}
+
+	public function resetBackgroundJob(IJob $job): void {
 	}
 }

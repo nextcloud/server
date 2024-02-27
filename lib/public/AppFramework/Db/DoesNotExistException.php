@@ -25,7 +25,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP\AppFramework\Db;
 
 /**
@@ -34,7 +33,6 @@ namespace OCP\AppFramework\Db;
  * @since 7.0.0
  */
 class DoesNotExistException extends \Exception implements IMapperException {
-
 	/**
 	 * Constructor
 	 * @param string $msg the error message

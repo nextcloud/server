@@ -17,14 +17,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Repair\NC20;
 
 use OCP\Encryption\IManager;
@@ -33,14 +32,13 @@ use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 
 class EncryptionMigration implements IRepairStep {
-
 	/** @var IConfig */
 	private $config;
 	/** @var IManager */
 	private $manager;
 
 	public function __construct(IConfig $config,
-								IManager $manager) {
+		IManager $manager) {
 		$this->config = $config;
 		$this->manager = $manager;
 	}
@@ -50,7 +48,7 @@ class EncryptionMigration implements IRepairStep {
 	}
 
 	private function shouldRun(): bool {
-		$versionFromBeforeUpdate = $this->config->getSystemValue('version', '0.0.0.0');
+		$versionFromBeforeUpdate = $this->config->getSystemValueString('version', '0.0.0.0');
 		return version_compare($versionFromBeforeUpdate, '20.0.0.1', '<=');
 	}
 

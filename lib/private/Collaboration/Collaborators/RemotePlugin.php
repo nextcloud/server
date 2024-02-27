@@ -5,7 +5,7 @@
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Julius Härtl <jus@bitgrid.net>
  *
  * @license GNU AGPL version 3 or any later version
@@ -17,14 +17,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Collaboration\Collaborators;
 
 use OCP\Collaboration\Collaborators\ISearchPlugin;
@@ -38,37 +37,32 @@ use OCP\IUserSession;
 use OCP\Share\IShare;
 
 class RemotePlugin implements ISearchPlugin {
-	protected $shareeEnumeration;
+	protected bool $shareeEnumeration;
 
-	/** @var IManager */
-	private $contactsManager;
-	/** @var ICloudIdManager */
-	private $cloudIdManager;
-	/** @var IConfig */
-	private $config;
-	/** @var IUserManager */
-	private $userManager;
-	/** @var string */
-	private $userId = '';
+	private string $userId;
 
-	public function __construct(IManager $contactsManager, ICloudIdManager $cloudIdManager, IConfig $config, IUserManager $userManager, IUserSession $userSession) {
-		$this->contactsManager = $contactsManager;
-		$this->cloudIdManager = $cloudIdManager;
-		$this->config = $config;
-		$this->userManager = $userManager;
-		$user = $userSession->getUser();
-		if ($user !== null) {
-			$this->userId = $user->getUID();
-		}
+	public function __construct(
+		private IManager $contactsManager,
+		private ICloudIdManager $cloudIdManager,
+		private IConfig $config,
+		private IUserManager $userManager,
+		IUserSession $userSession,
+	) {
+		$this->userId = $userSession->getUser()?->getUID() ?? '';
 		$this->shareeEnumeration = $this->config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') === 'yes';
 	}
 
-	public function search($search, $limit, $offset, ISearchResult $searchResult) {
+	public function search($search, $limit, $offset, ISearchResult $searchResult): bool {
 		$result = ['wide' => [], 'exact' => []];
 		$resultType = new SearchResultType('remotes');
 
 		// Search in contacts
-		$addressBookContacts = $this->contactsManager->search($search, ['CLOUD', 'FN'], ['limit' => $limit, 'offset' => $offset]);
+		$addressBookContacts = $this->contactsManager->search($search, ['CLOUD', 'FN'], [
+			'limit' => $limit,
+			'offset' => $offset,
+			'enumeration' => false,
+			'fullmatch' => false,
+		]);
 		foreach ($addressBookContacts as $contact) {
 			if (isset($contact['isLocalSystemBook'])) {
 				continue;
@@ -181,7 +175,7 @@ class RemotePlugin implements ISearchPlugin {
 	 * @return array [user, remoteURL]
 	 * @throws \InvalidArgumentException
 	 */
-	public function splitUserRemote($address) {
+	public function splitUserRemote(string $address): array {
 		try {
 			$cloudId = $this->cloudIdManager->resolveCloudId($address);
 			return [$cloudId->getUser(), $cloudId->getRemote()];

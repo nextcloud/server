@@ -5,6 +5,7 @@
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Julius Härtl <jus@bitgrid.net>
+ * @author Morris Jobke <hey@morrisjobke.de>
  * @author Thomas Citharel <nextcloud@tcit.fr>
  *
  * @license GNU AGPL version 3 or any later version
@@ -16,14 +17,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\CalDAV\Activity\Provider;
 
 use OC_App;
@@ -40,6 +40,9 @@ use OCP\L10N\IFactory;
 class Event extends Base {
 	public const SUBJECT_OBJECT_ADD = 'object_add';
 	public const SUBJECT_OBJECT_UPDATE = 'object_update';
+	public const SUBJECT_OBJECT_MOVE = 'object_move';
+	public const SUBJECT_OBJECT_MOVE_TO_TRASH = 'object_move_to_trash';
+	public const SUBJECT_OBJECT_RESTORE = 'object_restore';
 	public const SUBJECT_OBJECT_DELETE = 'object_delete';
 
 	/** @var IFactory */
@@ -86,15 +89,15 @@ class Event extends Base {
 		$params = [
 			'type' => 'calendar-event',
 			'id' => $eventData['id'],
-			'name' => $eventData['name'],
-
+			'name' => trim($eventData['name']) !== '' ? $eventData['name'] : $this->l->t('Untitled event'),
 		];
+
 		if (isset($eventData['link']) && is_array($eventData['link']) && $this->appManager->isEnabledForUser('calendar')) {
 			try {
 				// The calendar app needs to be manually loaded for the routes to be loaded
 				OC_App::loadApp('calendar');
 				$linkData = $eventData['link'];
-				$objectId = base64_encode('/remote.php/dav/calendars/' . $linkData['owner'] . '/' . $linkData['calendar_uri'] . '/' . $linkData['object_uri']);
+				$objectId = base64_encode($this->url->getWebroot() . '/remote.php/dav/calendars/' . $linkData['owner'] . '/' . $linkData['calendar_uri'] . '/' . $linkData['object_uri']);
 				$link = [
 					'view' => 'dayGridMonth',
 					'timeRange' => 'now',
@@ -143,6 +146,18 @@ class Event extends Base {
 			$subject = $this->l->t('{actor} updated event {event} in calendar {calendar}');
 		} elseif ($event->getSubject() === self::SUBJECT_OBJECT_UPDATE . '_event_self') {
 			$subject = $this->l->t('You updated event {event} in calendar {calendar}');
+		} elseif ($event->getSubject() === self::SUBJECT_OBJECT_MOVE . '_event') {
+			$subject = $this->l->t('{actor} moved event {event} from calendar {sourceCalendar} to calendar {targetCalendar}');
+		} elseif ($event->getSubject() === self::SUBJECT_OBJECT_MOVE . '_event_self') {
+			$subject = $this->l->t('You moved event {event} from calendar {sourceCalendar} to calendar {targetCalendar}');
+		} elseif ($event->getSubject() === self::SUBJECT_OBJECT_MOVE_TO_TRASH . '_event') {
+			$subject = $this->l->t('{actor} deleted event {event} from calendar {calendar}');
+		} elseif ($event->getSubject() === self::SUBJECT_OBJECT_MOVE_TO_TRASH . '_event_self') {
+			$subject = $this->l->t('You deleted event {event} from calendar {calendar}');
+		} elseif ($event->getSubject() === self::SUBJECT_OBJECT_RESTORE . '_event') {
+			$subject = $this->l->t('{actor} restored event {event} of calendar {calendar}');
+		} elseif ($event->getSubject() === self::SUBJECT_OBJECT_RESTORE . '_event_self') {
+			$subject = $this->l->t('You restored event {event} of calendar {calendar}');
 		} else {
 			throw new \InvalidArgumentException();
 		}
@@ -169,6 +184,8 @@ class Event extends Base {
 				case self::SUBJECT_OBJECT_ADD . '_event':
 				case self::SUBJECT_OBJECT_DELETE . '_event':
 				case self::SUBJECT_OBJECT_UPDATE . '_event':
+				case self::SUBJECT_OBJECT_MOVE_TO_TRASH . '_event':
+				case self::SUBJECT_OBJECT_RESTORE . '_event':
 					return [
 						'actor' => $this->generateUserParameter($parameters['actor']),
 						'calendar' => $this->generateCalendarParameter($parameters['calendar'], $this->l),
@@ -177,8 +194,28 @@ class Event extends Base {
 				case self::SUBJECT_OBJECT_ADD . '_event_self':
 				case self::SUBJECT_OBJECT_DELETE . '_event_self':
 				case self::SUBJECT_OBJECT_UPDATE . '_event_self':
+				case self::SUBJECT_OBJECT_MOVE_TO_TRASH . '_event_self':
+				case self::SUBJECT_OBJECT_RESTORE . '_event_self':
 					return [
 						'calendar' => $this->generateCalendarParameter($parameters['calendar'], $this->l),
+						'event' => $this->generateClassifiedObjectParameter($parameters['object']),
+					];
+			}
+		}
+
+		if (isset($parameters['sourceCalendar']) && isset($parameters['targetCalendar'])) {
+			switch ($subject) {
+				case self::SUBJECT_OBJECT_MOVE . '_event':
+					return [
+						'actor' => $this->generateUserParameter($parameters['actor']),
+						'sourceCalendar' => $this->generateCalendarParameter($parameters['sourceCalendar'], $this->l),
+						'targetCalendar' => $this->generateCalendarParameter($parameters['targetCalendar'], $this->l),
+						'event' => $this->generateClassifiedObjectParameter($parameters['object']),
+					];
+				case self::SUBJECT_OBJECT_MOVE . '_event_self':
+					return [
+						'sourceCalendar' => $this->generateCalendarParameter($parameters['sourceCalendar'], $this->l),
+						'targetCalendar' => $this->generateCalendarParameter($parameters['targetCalendar'], $this->l),
 						'event' => $this->generateClassifiedObjectParameter($parameters['object']),
 					];
 			}

@@ -19,7 +19,6 @@ use OCP\Files\InvalidPathException;
  * @package Test\Files
  */
 class PathVerificationTest extends \Test\TestCase {
-
 	/**
 	 * @var \OC\Files\View
 	 */
@@ -30,7 +29,7 @@ class PathVerificationTest extends \Test\TestCase {
 		$this->view = new View();
 	}
 
-	
+
 	public function testPathVerificationFileNameTooLong() {
 		$this->expectException(\OCP\Files\InvalidPathException::class);
 		$this->expectExceptionMessage('File name is too long');

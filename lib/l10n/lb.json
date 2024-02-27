@@ -6,6 +6,7 @@
     "PHP with a version lower than %s is required." : "PHP mat enger Versioun %s oder méi kleng ass néideg.",
     "Unknown filetype" : "Onbekannten Fichier Typ",
     "Invalid image" : "Ongülteg d'Bild",
+    "Files" : "Fichieren",
     "today" : "haut",
     "yesterday" : "gëschter",
     "_%n day ago_::_%n days ago_" : ["%n Dag hier","%n Deeg hier"],
@@ -21,6 +22,10 @@
     "Settings" : "Astellungen",
     "Log out" : "Ofmellen",
     "Users" : "Benotzer",
+    "Email" : "Email",
+    "Phone" : "Telefon",
+    "Address" : "Adress",
+    "About" : "Iwwer",
     "Set an admin password." : "Admin Passwuert setzen",
     "Sunday" : "Sonndeg",
     "Monday" : "Méindeg",
@@ -61,7 +66,6 @@
     "Nov." : "Nov.",
     "Dec." : "Dez.",
     "Authentication error" : "Authentifikatioun's Fehler",
-    "Storage is temporarily not available" : "Späicherplaatz temporär net erreeschbar",
-    "Following databases are supported: %s" : "Dës Datebanke ginn ënnerstëtzt: %s"
+    "Storage is temporarily not available" : "Späicherplaatz temporär net erreeschbar"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

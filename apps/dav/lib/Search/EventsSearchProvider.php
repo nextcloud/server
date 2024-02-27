@@ -7,7 +7,7 @@ declare(strict_types=1);
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -18,7 +18,7 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -29,20 +29,24 @@ namespace OCA\DAV\Search;
 
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCP\IUser;
+use OCP\Search\IFilteringProvider;
 use OCP\Search\ISearchQuery;
 use OCP\Search\SearchResult;
 use OCP\Search\SearchResultEntry;
 use Sabre\VObject\Component;
 use Sabre\VObject\DateTimeParser;
 use Sabre\VObject\Property;
+use function array_combine;
+use function array_fill;
+use function array_key_exists;
+use function array_map;
 
 /**
  * Class EventsSearchProvider
  *
  * @package OCA\DAV\Search
  */
-class EventsSearchProvider extends ACalendarSearchProvider {
-
+class EventsSearchProvider extends ACalendarSearchProvider implements IFilteringProvider {
 	/**
 	 * @var string[]
 	 */
@@ -85,18 +89,21 @@ class EventsSearchProvider extends ACalendarSearchProvider {
 	/**
 	 * @inheritDoc
 	 */
-	public function getOrder(string $route, array $routeParameters): int {
-		if ($route === 'calendar.View.index') {
-			return -1;
+	public function getOrder(string $route, array $routeParameters): ?int {
+		if ($this->appManager->isEnabledForUser('calendar')) {
+			return $route === 'calendar.View.index' ? -1 : 30;
 		}
-		return 30;
+
+		return null;
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	public function search(IUser $user,
-						   ISearchQuery $query): SearchResult {
+	public function search(
+		IUser $user,
+		ISearchQuery $query,
+	): SearchResult {
 		if (!$this->appManager->isEnabledForUser('calendar', $user)) {
 			return SearchResult::complete($this->getName(), []);
 		}
@@ -105,18 +112,60 @@ class EventsSearchProvider extends ACalendarSearchProvider {
 		$calendarsById = $this->getSortedCalendars($principalUri);
 		$subscriptionsById = $this->getSortedSubscriptions($principalUri);
 
-		$searchResults = $this->backend->searchPrincipalUri(
-			$principalUri,
-			$query->getTerm(),
-			[self::$componentType],
-			self::$searchProperties,
-			self::$searchParameters,
-			[
-				'limit' => $query->getLimit(),
-				'offset' => $query->getCursor(),
-			]
-		);
-		$formattedResults = \array_map(function (array $eventRow) use ($calendarsById, $subscriptionsById):SearchResultEntry {
+		/** @var string|null $term */
+		$term = $query->getFilter('term')?->get();
+		if ($term === null) {
+			$searchResults = [];
+		} else {
+			$searchResults = $this->backend->searchPrincipalUri(
+				$principalUri,
+				$term,
+				[self::$componentType],
+				self::$searchProperties,
+				self::$searchParameters,
+				[
+					'limit' => $query->getLimit(),
+					'offset' => $query->getCursor(),
+					'timerange' => [
+						'start' => $query->getFilter('since')?->get(),
+						'end' => $query->getFilter('until')?->get(),
+					],
+				]
+			);
+		}
+		/** @var IUser|null $person */
+		$person = $query->getFilter('person')?->get();
+		$personDisplayName = $person?->getDisplayName();
+		if ($personDisplayName !== null) {
+			$attendeeSearchResults = $this->backend->searchPrincipalUri(
+				$principalUri,
+				$personDisplayName,
+				[self::$componentType],
+				['ATTENDEE'],
+				self::$searchParameters,
+				[
+					'limit' => $query->getLimit(),
+					'offset' => $query->getCursor(),
+					'timerange' => [
+						'start' => $query->getFilter('since')?->get(),
+						'end' => $query->getFilter('until')?->get(),
+					],
+				],
+			);
+
+			$searchResultIndex = array_combine(
+				array_map(fn ($event) => $event['calendarid'] . '-' . $event['uri'], $searchResults),
+				array_fill(0, count($searchResults), null),
+			);
+			foreach ($attendeeSearchResults as $attendeeResult) {
+				if (array_key_exists($attendeeResult['calendarid'] . '-' . $attendeeResult['uri'], $searchResultIndex)) {
+					// Duplicate
+					continue;
+				}
+				$searchResults[] = $attendeeResult;
+			}
+		}
+		$formattedResults = \array_map(function (array $eventRow) use ($calendarsById, $subscriptionsById): SearchResultEntry {
 			$component = $this->getPrimaryComponent($eventRow['calendardata'], self::$componentType);
 			$title = (string)($component->SUMMARY ?? $this->l10n->t('Untitled event'));
 			$subline = $this->generateSubline($component);
@@ -138,15 +187,11 @@ class EventsSearchProvider extends ACalendarSearchProvider {
 		);
 	}
 
-	/**
-	 * @param string $principalUri
-	 * @param string $calendarUri
-	 * @param string $calendarObjectUri
-	 * @return string
-	 */
-	protected function getDeepLinkToCalendarApp(string $principalUri,
-												string $calendarUri,
-												string $calendarObjectUri): string {
+	protected function getDeepLinkToCalendarApp(
+		string $principalUri,
+		string $calendarUri,
+		string $calendarObjectUri,
+	): string {
 		$davUrl = $this->getDavUrlForCalendarObject($principalUri, $calendarUri, $calendarObjectUri);
 		// This route will automatically figure out what recurrence-id to open
 		return $this->urlGenerator->getAbsoluteURL(
@@ -156,15 +201,11 @@ class EventsSearchProvider extends ACalendarSearchProvider {
 		);
 	}
 
-	/**
-	 * @param string $principalUri
-	 * @param string $calendarUri
-	 * @param string $calendarObjectUri
-	 * @return string
-	 */
-	protected function getDavUrlForCalendarObject(string $principalUri,
-												  string $calendarUri,
-												  string $calendarObjectUri): string {
+	protected function getDavUrlForCalendarObject(
+		string $principalUri,
+		string $calendarUri,
+		string $calendarObjectUri
+	): string {
 		[,, $principalId] = explode('/', $principalUri, 3);
 
 		return $this->urlGenerator->linkTo('', 'remote.php') . '/dav/calendars/'
@@ -173,16 +214,12 @@ class EventsSearchProvider extends ACalendarSearchProvider {
 			. $calendarObjectUri;
 	}
 
-	/**
-	 * @param Component $eventComponent
-	 * @return string
-	 */
 	protected function generateSubline(Component $eventComponent): string {
 		$dtStart = $eventComponent->DTSTART;
 		$dtEnd = $this->getDTEndForEvent($eventComponent);
 		$isAllDayEvent = $dtStart instanceof Property\ICalendar\Date;
-		$startDateTime = new \DateTime($dtStart->getDateTime()->format(\DateTime::ATOM));
-		$endDateTime = new \DateTime($dtEnd->getDateTime()->format(\DateTime::ATOM));
+		$startDateTime = new \DateTime($dtStart->getDateTime()->format(\DateTimeInterface::ATOM));
+		$endDateTime = new \DateTime($dtEnd->getDateTime()->format(\DateTimeInterface::ATOM));
 
 		if ($isAllDayEvent) {
 			$endDateTime->modify('-1 day');
@@ -207,10 +244,6 @@ class EventsSearchProvider extends ACalendarSearchProvider {
 		return "$formattedStartDate $formattedStartTime - $formattedEndDate $formattedEndTime";
 	}
 
-	/**
-	 * @param Component $eventComponent
-	 * @return Property
-	 */
 	protected function getDTEndForEvent(Component $eventComponent):Property {
 		if (isset($eventComponent->DTEND)) {
 			$end = $eventComponent->DTEND;
@@ -233,13 +266,27 @@ class EventsSearchProvider extends ACalendarSearchProvider {
 		return $end;
 	}
 
-	/**
-	 * @param \DateTime $dtStart
-	 * @param \DateTime $dtEnd
-	 * @return bool
-	 */
-	protected function isDayEqual(\DateTime $dtStart,
-								  \DateTime $dtEnd) {
+	protected function isDayEqual(
+		\DateTime $dtStart,
+		\DateTime $dtEnd,
+	): bool {
 		return $dtStart->format('Y-m-d') === $dtEnd->format('Y-m-d');
+	}
+
+	public function getSupportedFilters(): array {
+		return [
+			'term',
+			'person',
+			'since',
+			'until',
+		];
+	}
+
+	public function getAlternateIds(): array {
+		return [];
+	}
+
+	public function getCustomFilters(): array {
+		return [];
 	}
 }

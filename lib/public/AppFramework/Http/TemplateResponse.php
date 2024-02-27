@@ -10,6 +10,7 @@
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Thomas Tanghus <thomas@tanghus.net>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -26,17 +27,17 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
-/**
- * Public interface of ownCloud for apps to use.
- * AppFramework\HTTP\TemplateResponse class
- */
-
 namespace OCP\AppFramework\Http;
+
+use OCP\AppFramework\Http;
 
 /**
  * Response for a normal template
  * @since 6.0.0
+ *
+ * @template S of int
+ * @template H of array<string, mixed>
+ * @template-extends Response<int, array<string, mixed>>
  */
 class TemplateResponse extends Response {
 	/**
@@ -63,15 +64,6 @@ class TemplateResponse extends Response {
 	 * @since 20.0.0
 	 */
 	public const RENDER_AS_PUBLIC = 'public';
-
-	/**
-	 * @deprecated 20.0.0 use OCP\AppFramework\Http\Events\BeforeTemplateRenderedEvent
-	 */
-	public const EVENT_LOAD_ADDITIONAL_SCRIPTS = self::class . '::loadAdditionalScripts';
-	/**
-	 * @deprecated 20.0.0 use OCP\AppFramework\Http\Events\BeforeTemplateRenderedEvent
-	 */
-	public const EVENT_LOAD_ADDITIONAL_SCRIPTS_LOGGEDIN = self::class . '::loadAdditionalScriptsLoggedIn';
 
 	/**
 	 * name of the template
@@ -104,11 +96,12 @@ class TemplateResponse extends Response {
 	 * @param array $params an array of parameters which should be passed to the
 	 * template
 	 * @param string $renderAs how the page should be rendered, defaults to user
+	 * @param S $status
+	 * @param H $headers
 	 * @since 6.0.0 - parameters $params and $renderAs were added in 7.0.0
 	 */
-	public function __construct($appName, $templateName, array $params = [],
-								$renderAs = self::RENDER_AS_USER) {
-		parent::__construct();
+	public function __construct(string $appName, string $templateName, array $params = [], string $renderAs = self::RENDER_AS_USER, int $status = Http::STATUS_OK, array $headers = []) {
+		parent::__construct($status, $headers);
 
 		$this->templateName = $templateName;
 		$this->appName = $appName;
@@ -141,6 +134,15 @@ class TemplateResponse extends Response {
 	 */
 	public function getParams() {
 		return $this->params;
+	}
+
+
+	/**
+	 * @return string the app id of the used template
+	 * @since 25.0.0
+	 */
+	public function getApp(): string {
+		return $this->appName;
 	}
 
 
@@ -200,7 +202,6 @@ class TemplateResponse extends Response {
 			$renderAs = $this->renderAs;
 		}
 
-		\OCP\Util::addHeader('meta', ['name' => 'robots', 'content' => 'noindex, nofollow']);
 		$template = new \OCP\Template($this->appName, $this->templateName, $renderAs);
 
 		foreach ($this->params as $key => $value) {

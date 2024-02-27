@@ -24,13 +24,12 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\IntegrityCheck\Helpers;
 
 /**
  * Class AppLocator provides a non-static helper for OC_App::getPath($appId)
  * it is not possible to use IAppManager at this point as IAppManager has a
- * dependency on a running ownCloud.
+ * dependency on a running Nextcloud.
  *
  * @package OC\IntegrityCheck\Helpers
  */

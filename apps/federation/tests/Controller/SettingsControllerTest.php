@@ -5,6 +5,7 @@
  * @author Björn Schießle <bjoern@schiessle.org>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Carl Schwan <carl@carlschwan.eu>
  *
  * @license AGPL-3.0
  *
@@ -21,7 +22,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Federation\Tests\Controller;
 
 use OCA\Federation\Controller\SettingsController;
@@ -32,9 +32,7 @@ use OCP\IRequest;
 use Test\TestCase;
 
 class SettingsControllerTest extends TestCase {
-
-	/** @var SettingsController  */
-	private $controller;
+	private SettingsController $controller;
 
 	/** @var \PHPUnit\Framework\MockObject\MockObject | \OCP\IRequest */
 	private $request;
@@ -61,7 +59,7 @@ class SettingsControllerTest extends TestCase {
 		);
 	}
 
-	public function testAddServer() {
+	public function testAddServer(): void {
 		$this->trustedServers
 			->expects($this->once())
 			->method('isTrustedServer')
@@ -69,7 +67,7 @@ class SettingsControllerTest extends TestCase {
 			->willReturn(false);
 		$this->trustedServers
 			->expects($this->once())
-			->method('isOwnCloudServer')
+			->method('isNextcloudServer')
 			->with('url')
 			->willReturn(true);
 
@@ -84,12 +82,9 @@ class SettingsControllerTest extends TestCase {
 
 	/**
 	 * @dataProvider checkServerFails
-	 *
-	 * @param bool $isTrustedServer
-	 * @param bool $isOwnCloud
 	 */
-	public function testAddServerFail($isTrustedServer, $isOwnCloud) {
-		$this->expectException(\OC\HintException::class);
+	public function testAddServerFail(bool $isTrustedServer, bool $isNextcloud): void {
+		$this->expectException(\OCP\HintException::class);
 
 		$this->trustedServers
 			->expects($this->any())
@@ -98,22 +93,23 @@ class SettingsControllerTest extends TestCase {
 			->willReturn($isTrustedServer);
 		$this->trustedServers
 			->expects($this->any())
-			->method('isOwnCloudServer')
+			->method('isNextcloudServer')
 			->with('url')
-			->willReturn($isOwnCloud);
+			->willReturn($isNextcloud);
 
 		$this->controller->addServer('url');
 	}
 
-	public function testRemoveServer() {
-		$this->trustedServers->expects($this->once())->method('removeServer')
-		->with('url');
-		$result = $this->controller->removeServer('url');
+	public function testRemoveServer(): void {
+		$this->trustedServers->expects($this->once())
+			->method('removeServer')
+			->with(1);
+		$result = $this->controller->removeServer(1);
 		$this->assertTrue($result instanceof DataResponse);
 		$this->assertSame(200, $result->getStatus());
 	}
 
-	public function testCheckServer() {
+	public function testCheckServer(): void {
 		$this->trustedServers
 			->expects($this->once())
 			->method('isTrustedServer')
@@ -121,7 +117,7 @@ class SettingsControllerTest extends TestCase {
 			->willReturn(false);
 		$this->trustedServers
 			->expects($this->once())
-			->method('isOwnCloudServer')
+			->method('isNextcloudServer')
 			->with('url')
 			->willReturn(true);
 
@@ -132,12 +128,9 @@ class SettingsControllerTest extends TestCase {
 
 	/**
 	 * @dataProvider checkServerFails
-	 *
-	 * @param bool $isTrustedServer
-	 * @param bool $isOwnCloud
 	 */
-	public function testCheckServerFail($isTrustedServer, $isOwnCloud) {
-		$this->expectException(\OC\HintException::class);
+	public function testCheckServerFail(bool $isTrustedServer, bool $isNextcloud): void {
+		$this->expectException(\OCP\HintException::class);
 
 		$this->trustedServers
 			->expects($this->any())
@@ -146,9 +139,9 @@ class SettingsControllerTest extends TestCase {
 			->willReturn($isTrustedServer);
 		$this->trustedServers
 			->expects($this->any())
-			->method('isOwnCloudServer')
+			->method('isNextcloudServer')
 			->with('url')
-			->willReturn($isOwnCloud);
+			->willReturn($isNextcloud);
 
 		$this->assertTrue(
 			$this->invokePrivate($this->controller, 'checkServer', ['url'])
@@ -156,11 +149,9 @@ class SettingsControllerTest extends TestCase {
 	}
 
 	/**
-	 * data to simulate checkServer fails
-	 *
-	 * @return array
+	 * Data to simulate checkServer fails
 	 */
-	public function checkServerFails() {
+	public function checkServerFails(): array {
 		return [
 			[true, true],
 			[false, false]

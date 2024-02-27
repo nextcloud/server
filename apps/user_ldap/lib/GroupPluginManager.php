@@ -14,22 +14,23 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\User_LDAP;
 
 use OCP\GroupInterface;
+use Psr\Log\LoggerInterface;
 
 class GroupPluginManager {
-	private $respondToActions = 0;
+	private int $respondToActions = 0;
 
-	private $which = [
+	/** @var array<int, ?ILDAPGroupPlugin> */
+	private array $which = [
 		GroupInterface::CREATE_GROUP => null,
 		GroupInterface::DELETE_GROUP => null,
 		GroupInterface::ADD_TO_GROUP => null,
@@ -37,6 +38,8 @@ class GroupPluginManager {
 		GroupInterface::COUNT_USERS => null,
 		GroupInterface::GROUP_DETAILS => null
 	];
+
+	private bool $suppressDeletion = false;
 
 	/**
 	 * @return int All implemented actions
@@ -56,7 +59,7 @@ class GroupPluginManager {
 		foreach ($this->which as $action => $v) {
 			if ((bool)($respondToActions & $action)) {
 				$this->which[$action] = $plugin;
-				\OC::$server->getLogger()->debug("Registered action ".$action." to plugin ".get_class($plugin), ['app' => 'user_ldap']);
+				\OCP\Server::get(LoggerInterface::class)->debug("Registered action ".$action." to plugin ".get_class($plugin), ['app' => 'user_ldap']);
 			}
 		}
 	}
@@ -85,16 +88,31 @@ class GroupPluginManager {
 		throw new \Exception('No plugin implements createGroup in this LDAP Backend.');
 	}
 
+	public function canDeleteGroup(): bool {
+		return !$this->suppressDeletion && $this->implementsActions(GroupInterface::DELETE_GROUP);
+	}
+
+	/**
+	 * @return bool – the value before the change
+	 */
+	public function setSuppressDeletion(bool $value): bool {
+		$old = $this->suppressDeletion;
+		$this->suppressDeletion = $value;
+		return $old;
+	}
+
 	/**
 	 * Delete a group
-	 * @param string $gid Group Id of the group to delete
-	 * @return bool
+	 *
 	 * @throws \Exception
 	 */
-	public function deleteGroup($gid) {
+	public function deleteGroup(string $gid): bool {
 		$plugin = $this->which[GroupInterface::DELETE_GROUP];
 
 		if ($plugin) {
+			if ($this->suppressDeletion) {
+				return false;
+			}
 			return $plugin->deleteGroup($gid);
 		}
 		throw new \Exception('No plugin implements deleteGroup in this LDAP Backend.');
@@ -147,7 +165,7 @@ class GroupPluginManager {
 		$plugin = $this->which[GroupInterface::COUNT_USERS];
 
 		if ($plugin) {
-			return $plugin->countUsersInGroup($gid,$search);
+			return $plugin->countUsersInGroup($gid, $search);
 		}
 		throw new \Exception('No plugin implements countUsersInGroup in this LDAP Backend.');
 	}

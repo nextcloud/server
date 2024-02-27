@@ -13,14 +13,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\Tests\unit\CalDAV\Activity\Provider;
 
 use InvalidArgumentException;
@@ -108,7 +107,7 @@ class EventTest extends TestCase {
 	 * @param array|null $link
 	 * @param bool $calendarAppEnabled
 	 */
-	public function testGenerateObjectParameter(int $id, string $name, ?array $link, bool $calendarAppEnabled = true) {
+	public function testGenerateObjectParameter(int $id, string $name, ?array $link, bool $calendarAppEnabled = true): void {
 		if ($link) {
 			$generatedLink = [
 				'view' => 'dayGridMonth',
@@ -122,6 +121,8 @@ class EventTest extends TestCase {
 				->with('calendar')
 				->willReturn($calendarAppEnabled);
 			if ($calendarAppEnabled) {
+				$this->url->expects($this->once())
+					->method('getWebroot');
 				$this->url->expects($this->once())
 					->method('linkToRouteAbsolute')
 					->with('calendar.view.indexview.timerange.edit', $generatedLink)
@@ -156,7 +157,7 @@ class EventTest extends TestCase {
 	 * @param mixed $eventData
 	 * @param string $exception
 	 */
-	public function testGenerateObjectParameterThrows($eventData, string $exception = InvalidArgumentException::class) {
+	public function testGenerateObjectParameterThrows($eventData, string $exception = InvalidArgumentException::class): void {
 		$this->expectException($exception);
 
 		$this->invokePrivate($this->provider, 'generateObjectParameter', [$eventData]);

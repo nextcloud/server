@@ -22,7 +22,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_External\Lib\Auth\OpenStack;
 
 use OCA\Files_External\Lib\Auth\AuthMechanism;
@@ -39,7 +38,7 @@ class OpenStackV2 extends AuthMechanism {
 			->setScheme(self::SCHEME_OPENSTACK)
 			->setText($l->t('OpenStack v2'))
 			->addParameters([
-				new DefinitionParameter('user', $l->t('Username')),
+				new DefinitionParameter('user', $l->t('Login')),
 				(new DefinitionParameter('password', $l->t('Password')))
 					->setType(DefinitionParameter::VALUE_PASSWORD),
 				new DefinitionParameter('tenant', $l->t('Tenant name')),

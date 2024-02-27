@@ -26,68 +26,72 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\FederatedFileSharing\Tests\Controller;
 
 use OC\Federation\CloudIdManager;
-use OC\HintException;
 use OCA\FederatedFileSharing\AddressHandler;
 use OCA\FederatedFileSharing\Controller\MountPublicLinkController;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCP\AppFramework\Http;
 use OCP\Contacts\IManager as IContactsManager;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\ICloudIdManager;
 use OCP\Files\IRootFolder;
+use OCP\HintException;
 use OCP\Http\Client\IClientService;
+use OCP\ICacheFactory;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\ISession;
+use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
+use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
 
 class MountPublicLinkControllerTest extends \Test\TestCase {
-	/** @var IContactsManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IContactsManager|MockObject */
 	protected $contactsManager;
 
-	/** @var  MountPublicLinkController */
+	/** @var MountPublicLinkController */
 	private $controller;
 
-	/** @var  \OCP\IRequest | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var IRequest|MockObject */
 	private $request;
 
-	/** @var  FederatedShareProvider | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var FederatedShareProvider|MockObject */
 	private $federatedShareProvider;
 
-	/** @var  IManager | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var IManager|MockObject */
 	private $shareManager;
 
-	/** @var  AddressHandler | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var AddressHandler|MockObject */
 	private $addressHandler;
 
-	/** @var  IRootFolder | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var IRootFolder|MockObject */
 	private $rootFolder;
 
-	/** @var  IUserManager | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var IUserManager|MockObject */
 	private $userManager;
 
-	/** @var  ISession | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var ISession|MockObject */
 	private $session;
 
-	/** @var  IL10N | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var IL10N|MockObject */
 	private $l10n;
 
-	/** @var  IUserSession | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var IUserSession|MockObject */
 	private $userSession;
 
-	/** @var  IClientService | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var IClientService|MockObject */
 	private $clientService;
 
-	/** @var  IShare */
+	/** @var IShare */
 	private $share;
 
-	/** @var  ICloudIdManager */
+	/** @var ICloudIdManager */
 	private $cloudIdManager;
 
 	protected function setUp(): void {
@@ -107,7 +111,13 @@ class MountPublicLinkControllerTest extends \Test\TestCase {
 		$this->userSession = $this->getMockBuilder(IUserSession::class)->disableOriginalConstructor()->getMock();
 		$this->clientService = $this->getMockBuilder('OCP\Http\Client\IClientService')->disableOriginalConstructor()->getMock();
 		$this->contactsManager = $this->createMock(IContactsManager::class);
-		$this->cloudIdManager = new CloudIdManager($this->contactsManager);
+		$this->cloudIdManager = new CloudIdManager(
+			$this->contactsManager,
+			$this->createMock(IURLGenerator::class),
+			$this->userManager,
+			$this->createMock(ICacheFactory::class),
+			$this->createMock(IEventDispatcher::class)
+		);
 
 		$this->controller = new MountPublicLinkController(
 			'federatedfilesharing', $this->request,
@@ -118,7 +128,8 @@ class MountPublicLinkControllerTest extends \Test\TestCase {
 			$this->l10n,
 			$this->userSession,
 			$this->clientService,
-			$this->cloudIdManager
+			$this->cloudIdManager,
+			$this->createMock(LoggerInterface::class),
 		);
 	}
 
@@ -134,12 +145,13 @@ class MountPublicLinkControllerTest extends \Test\TestCase {
 	 * @param string $expectedReturnData
 	 */
 	public function testCreateFederatedShare($shareWith,
-											 $outgoingSharesAllowed,
-											 $validShareWith,
-											 $token,
-											 $validToken,
-											 $createSuccessful,
-											 $expectedReturnData
+		$outgoingSharesAllowed,
+		$validShareWith,
+		$token,
+		$validToken,
+		$createSuccessful,
+		$expectedReturnData,
+		$permissions
 	) {
 		$this->federatedShareProvider->expects($this->any())
 			->method('isOutgoingServer2serverShareEnabled')
@@ -157,6 +169,7 @@ class MountPublicLinkControllerTest extends \Test\TestCase {
 			);
 
 		$share = $this->share;
+		$share->setPermissions($permissions);
 
 		$this->shareManager->expects($this->any())->method('getShareByToken')
 			->with($token)
@@ -199,15 +212,16 @@ class MountPublicLinkControllerTest extends \Test\TestCase {
 	public function dataTestCreateFederatedShare() {
 		return [
 			//shareWith, outgoingSharesAllowed, validShareWith, token, validToken, createSuccessful, expectedReturnData
-			['user@server', true, true, 'token', true, true, 'server'],
-			['user@server', true, false, 'token', true, true, 'invalid federated cloud id'],
-			['user@server', true, false, 'token', false, true, 'invalid federated cloud id'],
-			['user@server', true, false, 'token', false, false, 'invalid federated cloud id'],
-			['user@server', true, false, 'token', true, false, 'invalid federated cloud id'],
-			['user@server', true, true, 'token', false, true, 'invalid token'],
-			['user@server', true, true, 'token', false, false, 'invalid token'],
-			['user@server', true, true, 'token', true, false, 'can not create share'],
-			['user@server', false, true, 'token', true, true, 'This server doesn\'t support outgoing federated shares'],
+			['user@server', true, true, 'token', true, true, 'server', 31],
+			['user@server', true, true, 'token', false, false, 'server', 4],
+			['user@server', true, false, 'token', true, true, 'invalid federated cloud id', 31],
+			['user@server', true, false, 'token', false, true, 'invalid federated cloud id', 31],
+			['user@server', true, false, 'token', false, false, 'invalid federated cloud id', 31],
+			['user@server', true, false, 'token', true, false, 'invalid federated cloud id', 31],
+			['user@server', true, true, 'token', false, true, 'invalid token', 31],
+			['user@server', true, true, 'token', false, false, 'invalid token', 31],
+			['user@server', true, true, 'token', true, false, 'can not create share', 31],
+			['user@server', false, true, 'token', true, true, 'This server doesn\'t support outgoing federated shares', 31],
 		];
 	}
 }

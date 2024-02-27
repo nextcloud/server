@@ -4,6 +4,7 @@
  *
  * @author Christian <16852529+cviereck@users.noreply.github.com>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Maxence Lange <maxence@artificial-owl.com>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
@@ -16,14 +17,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\Files;
 
 use OC\Files\Search\SearchBinaryOperator;
@@ -42,9 +42,13 @@ use OCP\Files\Node;
 use OCP\Files\Search\ISearchOperator;
 use OCP\Files\Search\ISearchOrder;
 use OCP\Files\Search\ISearchQuery;
+use OCP\FilesMetadata\IFilesMetadataManager;
+use OCP\FilesMetadata\IMetadataQuery;
+use OCP\FilesMetadata\Model\IMetadataValueWrapper;
 use OCP\IUser;
 use OCP\Share\IManager;
 use Sabre\DAV\Exception\NotFound;
+use Sabre\DAV\INode;
 use SearchDAV\Backend\ISearchBackend;
 use SearchDAV\Backend\SearchPropertyDefinition;
 use SearchDAV\Backend\SearchResult;
@@ -54,49 +58,26 @@ use SearchDAV\Query\Order;
 use SearchDAV\Query\Query;
 
 class FileSearchBackend implements ISearchBackend {
-	/** @var CachingTree */
-	private $tree;
+	public const OPERATOR_LIMIT = 100;
 
-	/** @var IUser */
-	private $user;
-
-	/** @var IRootFolder */
-	private $rootFolder;
-
-	/** @var IManager */
-	private $shareManager;
-
-	/** @var View */
-	private $view;
-
-	/**
-	 * FileSearchBackend constructor.
-	 *
-	 * @param CachingTree $tree
-	 * @param IUser $user
-	 * @param IRootFolder $rootFolder
-	 * @param IManager $shareManager
-	 * @param View $view
-	 * @internal param IRootFolder $rootFolder
-	 */
-	public function __construct(CachingTree $tree, IUser $user, IRootFolder $rootFolder, IManager $shareManager, View $view) {
-		$this->tree = $tree;
-		$this->user = $user;
-		$this->rootFolder = $rootFolder;
-		$this->shareManager = $shareManager;
-		$this->view = $view;
+	public function __construct(
+		private CachingTree $tree,
+		private IUser $user,
+		private IRootFolder $rootFolder,
+		private IManager $shareManager,
+		private View $view,
+		private IFilesMetadataManager $filesMetadataManager,
+	) {
 	}
 
 	/**
 	 * Search endpoint will be remote.php/dav
-	 *
-	 * @return string
 	 */
-	public function getArbiterPath() {
+	public function getArbiterPath(): string {
 		return '';
 	}
 
-	public function isValidScope($href, $depth, $path) {
+	public function isValidScope(string $href, $depth, ?string $path): bool {
 		// only allow scopes inside the dav server
 		if (is_null($path)) {
 			return false;
@@ -110,11 +91,11 @@ class FileSearchBackend implements ISearchBackend {
 		}
 	}
 
-	public function getPropertyDefinitionsForScope($href, $path) {
+	public function getPropertyDefinitionsForScope(string $href, ?string $path): array {
 		// all valid scopes support the same schema
 
 		//todo dynamically load all propfind properties that are supported
-		return [
+		$props = [
 			// queryable properties
 			new SearchPropertyDefinition('{DAV:}displayname', true, true, true),
 			new SearchPropertyDefinition('{DAV:}getcontenttype', true, true, true),
@@ -125,23 +106,57 @@ class FileSearchBackend implements ISearchBackend {
 			new SearchPropertyDefinition(FilesPlugin::OWNER_ID_PROPERTYNAME, true, true, false),
 
 			// select only properties
-			new SearchPropertyDefinition('{DAV:}resourcetype', false, true, false),
-			new SearchPropertyDefinition('{DAV:}getcontentlength', false, true, false),
-			new SearchPropertyDefinition(FilesPlugin::CHECKSUMS_PROPERTYNAME, false, true, false),
-			new SearchPropertyDefinition(FilesPlugin::PERMISSIONS_PROPERTYNAME, false, true, false),
-			new SearchPropertyDefinition(FilesPlugin::GETETAG_PROPERTYNAME, false, true, false),
-			new SearchPropertyDefinition(FilesPlugin::OWNER_DISPLAY_NAME_PROPERTYNAME, false, true, false),
-			new SearchPropertyDefinition(FilesPlugin::DATA_FINGERPRINT_PROPERTYNAME, false, true, false),
-			new SearchPropertyDefinition(FilesPlugin::HAS_PREVIEW_PROPERTYNAME, false, true, false, SearchPropertyDefinition::DATATYPE_BOOLEAN),
-			new SearchPropertyDefinition(FilesPlugin::FILEID_PROPERTYNAME, false, true, false, SearchPropertyDefinition::DATATYPE_NONNEGATIVE_INTEGER),
+			new SearchPropertyDefinition('{DAV:}resourcetype', true, false, false),
+			new SearchPropertyDefinition('{DAV:}getcontentlength', true, false, false),
+			new SearchPropertyDefinition(FilesPlugin::CHECKSUMS_PROPERTYNAME, true, false, false),
+			new SearchPropertyDefinition(FilesPlugin::PERMISSIONS_PROPERTYNAME, true, false, false),
+			new SearchPropertyDefinition(FilesPlugin::GETETAG_PROPERTYNAME, true, false, false),
+			new SearchPropertyDefinition(FilesPlugin::OWNER_DISPLAY_NAME_PROPERTYNAME, true, false, false),
+			new SearchPropertyDefinition(FilesPlugin::DATA_FINGERPRINT_PROPERTYNAME, true, false, false),
+			new SearchPropertyDefinition(FilesPlugin::HAS_PREVIEW_PROPERTYNAME, true, false, false, SearchPropertyDefinition::DATATYPE_BOOLEAN),
+			new SearchPropertyDefinition(FilesPlugin::FILEID_PROPERTYNAME, true, false, false, SearchPropertyDefinition::DATATYPE_NONNEGATIVE_INTEGER),
 		];
+
+		return array_merge($props, $this->getPropertyDefinitionsForMetadata());
+	}
+
+
+	private function getPropertyDefinitionsForMetadata(): array {
+		$metadataProps = [];
+		$metadata = $this->filesMetadataManager->getKnownMetadata();
+		$indexes = $metadata->getIndexes();
+		foreach ($metadata->getKeys() as $key) {
+			$isIndex = in_array($key, $indexes);
+			$type = match ($metadata->getType($key)) {
+				IMetadataValueWrapper::TYPE_INT => SearchPropertyDefinition::DATATYPE_INTEGER,
+				IMetadataValueWrapper::TYPE_FLOAT => SearchPropertyDefinition::DATATYPE_DECIMAL,
+				IMetadataValueWrapper::TYPE_BOOL => SearchPropertyDefinition::DATATYPE_BOOLEAN,
+				default => SearchPropertyDefinition::DATATYPE_STRING
+			};
+			$metadataProps[] = new SearchPropertyDefinition(
+				FilesPlugin::FILE_METADATA_PREFIX . $key,
+				true,
+				$isIndex,
+				$isIndex,
+				$type
+			);
+		}
+
+		return $metadataProps;
+	}
+
+	/**
+	 * @param INode[] $nodes
+	 * @param string[] $requestProperties
+	 */
+	public function preloadPropertyFor(array $nodes, array $requestProperties): void {
 	}
 
 	/**
 	 * @param Query $search
 	 * @return SearchResult[]
 	 */
-	public function search(Query $search) {
+	public function search(Query $search): array {
 		if (count($search->from) !== 1) {
 			throw new \InvalidArgumentException('Searching more than one folder is not supported');
 		}
@@ -270,13 +285,21 @@ class FileSearchBackend implements ISearchBackend {
 
 	/**
 	 * @param Query $query
+	 *
 	 * @return ISearchQuery
 	 */
 	private function transformQuery(Query $query): ISearchQuery {
-		// TODO offset
+		$orders = array_map(function (Order $order): ISearchOrder {
+			$direction = $order->order === Order::ASC ? ISearchOrder::DIRECTION_ASCENDING : ISearchOrder::DIRECTION_DESCENDING;
+			if (str_starts_with($order->property->name, FilesPlugin::FILE_METADATA_PREFIX)) {
+				return new SearchOrder($direction, substr($order->property->name, strlen(FilesPlugin::FILE_METADATA_PREFIX)), IMetadataQuery::EXTRA);
+			} else {
+				return new SearchOrder($direction, $this->mapPropertyNameToColumn($order->property));
+			}
+		}, $query->orderBy);
+
 		$limit = $query->limit;
-		$orders = array_map([$this, 'mapSearchOrder'], $query->orderBy);
-		$offset = 0;
+		$offset = $limit->firstResult;
 
 		$limitHome = false;
 		$ownerProp = $this->extractWhereValue($query->where, FilesPlugin::OWNER_ID_PROPERTYNAME, Operator::OPERATION_EQUAL);
@@ -286,7 +309,11 @@ class FileSearchBackend implements ISearchBackend {
 			} else {
 				throw new \InvalidArgumentException("Invalid search value for '{http://owncloud.org/ns}owner-id', only the current user id is allowed");
 			}
-			$offset = $limit->firstResult;
+		}
+
+		$operatorCount = $this->countSearchOperators($query->where);
+		if ($operatorCount > self::OPERATOR_LIMIT) {
+			throw new \InvalidArgumentException('Invalid search query, maximum operator limit of ' . self::OPERATOR_LIMIT . ' exceeded, got ' . $operatorCount . ' operators');
 		}
 
 		return new SearchQuery(
@@ -299,12 +326,24 @@ class FileSearchBackend implements ISearchBackend {
 		);
 	}
 
-	/**
-	 * @param Order $order
-	 * @return ISearchOrder
-	 */
-	private function mapSearchOrder(Order $order) {
-		return new SearchOrder($order->order === Order::ASC ? ISearchOrder::DIRECTION_ASCENDING : ISearchOrder::DIRECTION_DESCENDING, $this->mapPropertyNameToColumn($order->property));
+	private function countSearchOperators(Operator $operator): int {
+		switch ($operator->type) {
+			case Operator::OPERATION_AND:
+			case Operator::OPERATION_OR:
+			case Operator::OPERATION_NOT:
+				/** @var Operator[] $arguments */
+				$arguments = $operator->arguments;
+				return array_sum(array_map([$this, 'countSearchOperators'], $arguments));
+			case Operator::OPERATION_EQUAL:
+			case Operator::OPERATION_GREATER_OR_EQUAL_THAN:
+			case Operator::OPERATION_GREATER_THAN:
+			case Operator::OPERATION_LESS_OR_EQUAL_THAN:
+			case Operator::OPERATION_LESS_THAN:
+			case Operator::OPERATION_IS_LIKE:
+			case Operator::OPERATION_IS_COLLECTION:
+			default:
+				return 1;
+		}
 	}
 
 	/**
@@ -328,13 +367,31 @@ class FileSearchBackend implements ISearchBackend {
 				if (count($operator->arguments) !== 2) {
 					throw new \InvalidArgumentException('Invalid number of arguments for ' . $trimmedType . ' operation');
 				}
-				if (!($operator->arguments[0] instanceof SearchPropertyDefinition)) {
-					throw new \InvalidArgumentException('Invalid argument 1 for ' . $trimmedType . ' operation, expected property');
-				}
 				if (!($operator->arguments[1] instanceof Literal)) {
 					throw new \InvalidArgumentException('Invalid argument 2 for ' . $trimmedType . ' operation, expected literal');
 				}
-				return new SearchComparison($trimmedType, $this->mapPropertyNameToColumn($operator->arguments[0]), $this->castValue($operator->arguments[0], $operator->arguments[1]->value));
+				$value = $operator->arguments[1]->value;
+				// no break
+			case Operator::OPERATION_IS_DEFINED:
+				if (!($operator->arguments[0] instanceof SearchPropertyDefinition)) {
+					throw new \InvalidArgumentException('Invalid argument 1 for ' . $trimmedType . ' operation, expected property');
+				}
+				$property = $operator->arguments[0];
+
+				if (str_starts_with($property->name, FilesPlugin::FILE_METADATA_PREFIX)) {
+					$field = substr($property->name, strlen(FilesPlugin::FILE_METADATA_PREFIX));
+					$extra = IMetadataQuery::EXTRA;
+				} else {
+					$field = $this->mapPropertyNameToColumn($property);
+				}
+
+				return new SearchComparison(
+					$trimmedType,
+					$field,
+					$this->castValue($property, $value ?? ''),
+					$extra ?? ''
+				);
+
 			case Operator::OPERATION_IS_COLLECTION:
 				return new SearchComparison('eq', 'mimetype', ICacheEntry::DIRECTORY_MIMETYPE);
 			default:
@@ -368,6 +425,10 @@ class FileSearchBackend implements ISearchBackend {
 	}
 
 	private function castValue(SearchPropertyDefinition $property, $value) {
+		if ($value === '') {
+			return '';
+		}
+
 		switch ($property->dataType) {
 			case SearchPropertyDefinition::DATATYPE_BOOLEAN:
 				return $value === 'yes';
@@ -379,7 +440,7 @@ class FileSearchBackend implements ISearchBackend {
 				if (is_numeric($value)) {
 					return max(0, 0 + $value);
 				}
-				$date = \DateTime::createFromFormat(\DateTime::ATOM, $value);
+				$date = \DateTime::createFromFormat(\DateTimeInterface::ATOM, (string)$value);
 				return ($date instanceof \DateTime && $date->getTimestamp() !== false) ? $date->getTimestamp() : 0;
 			default:
 				return $value;

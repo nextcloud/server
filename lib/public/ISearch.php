@@ -23,7 +23,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP;
 
 /**
@@ -32,7 +31,6 @@ namespace OCP;
  * @deprecated 20.0.0
  */
 interface ISearch {
-
 	/**
 	 * Search all providers for $query
 	 * @param string $query

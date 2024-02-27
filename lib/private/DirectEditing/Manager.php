@@ -16,24 +16,25 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\DirectEditing;
 
+use \OCP\DirectEditing\IManager;
+use \OCP\Files\Folder;
 use Doctrine\DBAL\FetchMode;
 use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\Constants;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\DirectEditing\ACreateFromTemplate;
 use OCP\DirectEditing\IEditor;
-use \OCP\DirectEditing\IManager;
 use OCP\DirectEditing\IToken;
 use OCP\Encryption\IManager as EncryptionManager;
 use OCP\Files\File;
@@ -59,6 +60,8 @@ class Manager implements IManager {
 	private $editors = [];
 	/** @var IDBConnection */
 	private $connection;
+	/** @var IUserSession */
+	private $userSession;
 	/** @var ISecureRandom */
 	private $random;
 	/** @var string|null */
@@ -80,9 +83,10 @@ class Manager implements IManager {
 	) {
 		$this->random = $random;
 		$this->connection = $connection;
+		$this->userSession = $userSession;
 		$this->userId = $userSession->getUser() ? $userSession->getUser()->getUID() : null;
 		$this->rootFolder = $rootFolder;
-		$this->l10n = $l10nFactory->get('core');
+		$this->l10n = $l10nFactory->get('lib');
 		$this->encryptionManager = $encryptionManager;
 	}
 
@@ -130,7 +134,12 @@ class Manager implements IManager {
 		if ($userFolder->nodeExists($path)) {
 			throw new \RuntimeException('File already exists');
 		} else {
-			$file = $userFolder->newFile($path);
+			if (!$userFolder->nodeExists(dirname($path))) {
+				throw new \RuntimeException('Invalid path');
+			}
+			/** @var Folder $folder */
+			$folder = $userFolder->get(dirname($path));
+			$file = $folder->newFile(basename($path));
 			$editor = $this->getEditor($editorId);
 			$creators = $editor->getCreators();
 			foreach ($creators as $creator) {
@@ -144,9 +153,25 @@ class Manager implements IManager {
 		throw new \RuntimeException('No creator found');
 	}
 
-	public function open(string $filePath, string $editorId = null): string {
-		/** @var File $file */
-		$file = $this->rootFolder->getUserFolder($this->userId)->get($filePath);
+	public function open(string $filePath, string $editorId = null, ?int $fileId = null): string {
+		$userFolder = $this->rootFolder->getUserFolder($this->userId);
+		$file = $userFolder->get($filePath);
+		if ($fileId !== null && $file instanceof Folder) {
+			$files = $file->getById($fileId);
+
+			// Workaround to always open files with edit permissions if multiple occurences of
+			// the same file id are in the user home, ideally we should also track the path of the file when opening
+			usort($files, function (Node $a, Node $b) {
+				return ($b->getPermissions() & Constants::PERMISSION_UPDATE) <=> ($a->getPermissions() & Constants::PERMISSION_UPDATE);
+			});
+			$file = array_shift($files);
+		}
+
+		if (!$file instanceof File) {
+			throw new NotFoundException();
+		}
+
+		$filePath = $userFolder->getRelativePath($file->getPath());
 
 		if ($editorId === null) {
 			$editorId = $this->findEditorForFile($file);
@@ -180,7 +205,13 @@ class Manager implements IManager {
 			$this->invalidateToken($token);
 			return new NotFoundResponse();
 		}
-		return $editor->open($tokenObject);
+
+		try {
+			$this->invokeTokenScope($tokenObject->getUser());
+			return $editor->open($tokenObject);
+		} finally {
+			$this->revertTokenScope();
+		}
 	}
 
 	public function editSecure(File $file, string $editorId): TemplateResponse {
@@ -243,6 +274,11 @@ class Manager implements IManager {
 	public function invokeTokenScope($userId): void {
 		\OC_User::setIncognitoMode(true);
 		\OC_User::setUserId($userId);
+	}
+
+	public function revertTokenScope(): void {
+		$this->userSession->setUser(null);
+		\OC_User::setIncognitoMode(false);
 	}
 
 	public function createToken($editorId, File $file, string $filePath, IShare $share = null): string {

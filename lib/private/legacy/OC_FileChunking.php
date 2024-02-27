@@ -28,8 +28,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
-
 class OC_FileChunking {
 	protected $info;
 	protected $cache;
@@ -51,7 +49,7 @@ class OC_FileChunking {
 	 */
 	public function __construct($info) {
 		$this->info = $info;
-		$this->ttl = \OC::$server->getConfig()->getSystemValue('cache_chunk_gc_ttl', 86400);
+		$this->ttl = \OC::$server->getConfig()->getSystemValueInt('cache_chunk_gc_ttl', 86400);
 	}
 
 	public function getPrefix() {

@@ -22,7 +22,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP;
 
 use OCP\AppFramework\Http;
@@ -33,7 +32,6 @@ use Sabre\DAV\Server;
  * @since 8.2.0
  */
 class SabrePluginEvent extends Event {
-
 	/** @var int */
 	protected $statusCode;
 

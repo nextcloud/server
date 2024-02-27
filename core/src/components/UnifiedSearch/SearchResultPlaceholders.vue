@@ -22,8 +22,7 @@
 
 		<!-- Placeholders -->
 		<li v-for="placeholder in [1, 2, 3]" :key="placeholder">
-			<svg
-				class="unified-search__result-placeholder"
+			<svg class="unified-search__result-placeholder"
 				xmlns="http://www.w3.org/2000/svg"
 				fill="url(#unified-search__result-placeholder-gradient)">
 				<rect class="unified-search__result-placeholder-icon" />

@@ -420,7 +420,7 @@
         _initProgressListener: function (options) {
             var that = this,
                 xhr = options.xhr ? options.xhr() : $.ajaxSettings.xhr();
-            // Accesss to the native XHR object is required to add event listeners
+            // Access to the native XHR object is required to add event listeners
             // for the upload progress event:
             if (xhr.upload) {
                 $(xhr.upload).bind('progress', function (e) {
@@ -733,6 +733,12 @@
                 promise = dfd.promise(),
                 jqXHR,
                 upload;
+
+            // Dynamically adjust the chunk size for Chunking V2 to fit into the 10000 chunk limit
+            if (file.size/mcs > 10000) {
+                mcs = Math.ceil(file.size/10000)
+            }
+
             if (!(this._isXHRUpload(options) && slice && (ub || mcs < fs)) ||
                     options.data) {
                 return false;
@@ -1029,7 +1035,12 @@
             } else {
                 paramNameSet = paramName;
             }
-            data.originalFiles = files;
+            data.originalFiles = [];
+            $.each(files, function (file) {
+                if (!file.isDirectory) {
+                    data.originalFiles.push(file);
+                }
+            });
             $.each(fileSet || files, function (index, element) {
                 var newData = $.extend({}, data);
                 newData.files = fileSet ? element : [element];
@@ -1055,7 +1066,7 @@
             data.fileInputClone = inputClone;
             $('<form></form>').append(inputClone)[0].reset();
             // Detaching allows to insert the fileInput on another form
-            // without loosing the file input value:
+            // without losing the file input value:
             input.after(inputClone).detach();
             // If the fileInput had focus before it was detached,
             // restore focus to the inputClone.
@@ -1098,7 +1109,12 @@
                         entries,
                         path + entry.name + '/'
                     ).done(function (files) {
-                        dfd.resolve(files);
+                        // empty folder
+                        if (!files.length && entry.isDirectory) {
+                            dfd.resolve(entry);
+                        } else {
+                            dfd.resolve(files);
+                        }
                     }).fail(errorHandler);
                 },
                 readEntries = function () {
@@ -1128,7 +1144,7 @@
                 dirReader = entry.createReader();
                 readEntries();
             } else {
-                // Return an empy list for file system items
+                // Return an empty list for file system items
                 // other than files or directories:
                 dfd.resolve([]);
             }

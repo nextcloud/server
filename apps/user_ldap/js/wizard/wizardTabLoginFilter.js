@@ -16,8 +16,8 @@ OCA = OCA || {};
 		/**
 		 * initializes the instance. Always call it after initialization.
 		 *
-		 * @param tabIndex
-		 * @param tabID
+		 * @param {any} tabIndex -
+		 * @param {any} tabID -
 		 */
 		init: function (tabIndex, tabID) {
 			this._super(tabIndex, tabID);
@@ -134,7 +134,7 @@ OCA = OCA || {};
 		/**
 		 * presents the result of the login name test
 		 *
-		 * @param result
+		 * @param {any} result -
 		 */
 		handleLoginTestResult: function(result) {
 			var message;
@@ -159,9 +159,9 @@ OCA = OCA || {};
 				if(message === 'Bad search filter') {
 					message = t('user_ldap', 'The search filter is invalid, probably due to syntax issues like uneven number of opened and closed brackets. Please revise.');
 				} else if(message === 'connection error') {
-					message = t('user_ldap', 'A connection error to LDAP / AD occurred, please check host, port and credentials.');
+					message = t('user_ldap', 'A connection error to LDAP/AD occurred. Please check host, port and credentials.');
 				} else if(message === 'missing placeholder') {
-					message = t('user_ldap', 'The "%uid" placeholder is missing. It will be replaced with the login name when querying LDAP / AD.');
+					message = t('user_ldap', 'The "%uid" placeholder is missing. It will be replaced with the login name when querying LDAP/AD.');
 				}
 			}
 			OC.Notification.showTemporary(message, {isHTML: isHtml});

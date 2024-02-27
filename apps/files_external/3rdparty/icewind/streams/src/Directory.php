@@ -19,7 +19,7 @@ interface Directory {
 	public function dir_opendir($path, $options);
 
 	/**
-	 * @return string
+	 * @return string|bool
 	 */
 	public function dir_readdir();
 

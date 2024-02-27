@@ -6,7 +6,6 @@
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Juan Pablo Villafáñez <jvillafanez@solidgear.es>
- * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
@@ -26,13 +25,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 // Check user and app status
 \OC_JSON::checkAdminUser();
 \OC_JSON::checkAppEnabled('user_ldap');
 \OC_JSON::callCheck();
 
-$l = \OC::$server->getL10N('user_ldap');
+$l = \OCP\Util::getL10N('user_ldap');
 
 $ldapWrapper = new OCA\User_LDAP\LDAP();
 $connection = new \OCA\User_LDAP\Connection($ldapWrapper, $_POST['ldap_serverconfig_chooser']);
@@ -49,7 +47,7 @@ try {
 	if ($configurationOk) {
 		//Configuration is okay
 		/*
-		 * Clossing the session since it won't be used from this point on. There might be a potential
+		 * Closing the session since it won't be used from this point on. There might be a potential
 		 * race condition if a second request is made: either this request or the other might not
 		 * contact the LDAP backup server the first time when it should, but there shouldn't be any
 		 * problem with that other than the extra connection.

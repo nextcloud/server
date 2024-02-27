@@ -25,7 +25,9 @@
 				state.call.abort();
 			}
 			state.dir = currentDir;
-			state.call = $.getJSON(OC.filePath('files','ajax','getstoragestats.php') + '?dir=' + encodeURIComponent(currentDir),function(response) {
+			state.call = $.getJSON(OC.generateUrl('apps/files/api/v1/stats?dir={dir}', {
+				dir: currentDir,
+			}), function(response) {
 				state.dir = null;
 				state.call = null;
 				Files.updateMaxUploadFilesize(response);
@@ -37,7 +39,7 @@
 		},
 		_updateStorageQuotas: function() {
 			var state = Files.updateStorageQuotas;
-			state.call = $.getJSON(OC.filePath('files','ajax','getstoragestats.php'),function(response) {
+			state.call = $.getJSON(OC.generateUrl('apps/files/api/v1/stats'), function(response) {
 				Files.updateQuota(response);
 			});
 		},
@@ -70,7 +72,7 @@
 			}
 			if (response.data !== undefined && response.data.uploadMaxFilesize !== undefined) {
 				$('#free_space').val(response.data.freeSpace);
-				$('#upload.button').attr('data-original-title', response.data.maxHumanFilesize);
+				$('#upload.button').attr('title', response.data.maxHumanFilesize);
 				$('#usedSpacePercent').val(response.data.usedSpacePercent);
 				$('#usedSpacePercent').data('mount-type', response.data.mountType);
 				$('#usedSpacePercent').data('mount-point', response.data.mountPoint);
@@ -83,7 +85,7 @@
 				return;
 			}
 			if (response[0].uploadMaxFilesize !== undefined) {
-				$('#upload.button').attr('data-original-title', response[0].maxHumanFilesize);
+				$('#upload.button').attr('title', response[0].maxHumanFilesize);
 				$('#usedSpacePercent').val(response[0].usedSpacePercent);
 				Files.displayStorageWarnings();
 			}
@@ -96,16 +98,17 @@
 			}
 			if (response.data !== undefined
 			 && response.data.quota !== undefined
+			 && response.data.total !== undefined
 			 && response.data.used !== undefined
 			 && response.data.usedSpacePercent !== undefined) {
-				var humanUsed = OC.Util.humanFileSize(response.data.used, true);
-				var humanQuota = OC.Util.humanFileSize(response.data.quota, true);
+				var humanUsed = OC.Util.humanFileSize(response.data.used, true, false);
+				var humanTotal = OC.Util.humanFileSize(response.data.total, true, false);
 				if (response.data.quota > 0) {
-					$('#quota').attr('data-original-title', Math.floor(response.data.used/response.data.quota*1000)/10 + '%');
+					$('#quota').attr('title', t('files', '{used}%', {used: Math.round(response.data.usedSpacePercent)}));
 					$('#quota progress').val(response.data.usedSpacePercent);
-					$('#quotatext').text(t('files', '{used} of {quota} used', {used: humanUsed, quota: humanQuota}));
+					$('#quotatext').html(t('files', '{used} of {quota} used', {used: humanUsed, quota: humanTotal}));
 				} else {
-					$('#quotatext').text(t('files', '{used} used', {used: humanUsed}));
+					$('#quotatext').html(t('files', '{used} used', {used: humanUsed}));
 				}
 				if (response.data.usedSpacePercent > 80) {
 					$('#quota progress').addClass('warn');
@@ -162,24 +165,24 @@
 				mountPoint = $('#usedSpacePercent').data('mount-point');
 			if (usedSpacePercent > 98) {
 				if (owner !== OC.getCurrentUser().uid) {
-					OC.Notification.show(t('files', 'Storage of {owner} is full, files can not be updated or synced anymore!',
+					OC.Notification.show(t('files', 'Storage of {owner} is full, files cannot be updated or synced anymore!',
 						{owner: ownerDisplayName}), {type: 'error'}
 					);
 				} else if (mountType === 'group') {
 					OC.Notification.show(t('files',
-						'Group folder "{mountPoint}" is full, files can not be updated or synced anymore!',
+						'Group folder "{mountPoint}" is full, files cannot be updated or synced anymore!',
 						{mountPoint: mountPoint}),
 						{type: 'error'}
 					);
 				} else if (mountType === 'external') {
 					OC.Notification.show(t('files',
-						'External storage "{mountPoint}" is full, files can not be updated or synced anymore!',
+						'External storage "{mountPoint}" is full, files cannot be updated or synced anymore!',
 						{mountPoint: mountPoint}),
 						{type : 'error'}
 					);
 				} else {
 					OC.Notification.show(t('files',
-						'Your storage is full, files can not be updated or synced anymore!'),
+						'Your storage is full, files cannot be updated or synced anymore!'),
 						{type: 'error'}
 					);
 				}
@@ -219,7 +222,7 @@
 		 * Returns the download URL of the given file(s)
 		 * @param {string} filename string or array of file names to download
 		 * @param {string} [dir] optional directory in which the file name is, defaults to the current directory
-		 * @param {bool} [isDir=false] whether the given filename is a directory and might need a special URL
+		 * @param {boolean} [isDir=false] whether the given filename is a directory and might need a special URL
 		 */
 		getDownloadUrl: function(filename, dir, isDir) {
 			if (!_.isArray(filename) && !isDir) {
@@ -271,14 +274,14 @@
 		/**
 		 * Generates a preview URL based on the URL space.
 		 * @param urlSpec attributes for the URL
-		 * @param {int} urlSpec.x width
-		 * @param {int} urlSpec.y height
+		 * @param {number} urlSpec.x width
+		 * @param {number} urlSpec.y height
 		 * @param {String} urlSpec.file path to the file
 		 * @return preview URL
 		 * @deprecated used OCA.Files.FileList.generatePreviewUrl instead
 		 */
 		generatePreviewUrl: function(urlSpec) {
-			console.warn('DEPRECATED: please use generatePreviewUrl() from an OCA.Files.FileList instance');
+			OC.debug && console.warn('DEPRECATED: please use generatePreviewUrl() from an OCA.Files.FileList instance');
 			return OCA.Files.App.fileList.generatePreviewUrl(urlSpec);
 		},
 
@@ -287,7 +290,7 @@
 		 * @deprecated used OCA.Files.FileList.lazyLoadPreview instead
 		 */
 		lazyLoadPreview : function(path, mime, ready, width, height, etag) {
-			console.warn('DEPRECATED: please use lazyLoadPreview() from an OCA.Files.FileList instance');
+			OC.debug && console.warn('DEPRECATED: please use lazyLoadPreview() from an OCA.Files.FileList instance');
 			return FileList.lazyLoadPreview({
 				path: path,
 				mime: mime,
@@ -303,9 +306,6 @@
 		 */
 		initialize: function() {
 			Files.bindKeyboardShortcuts(document, $);
-
-			// TODO: move file list related code (upload) to OCA.Files.FileList
-			$('#file_action_panel').attr('activeAction', false);
 
 			// drag&drop support using jquery.fileupload
 			// TODO use OC.dialogs
@@ -345,8 +345,6 @@
 				this.focus();
 				this.setSelectionRange(0, this.value.length);
 			});
-
-			$('#upload').tooltip({placement:'right'});
 
 			//FIXME scroll to and highlight preselected file
 			/*
@@ -422,12 +420,12 @@ var createDragShadow = function(event) {
 
 	$(selectedFiles).each(function(i,elem) {
 		// TODO: refactor this with the table row creation code
-		var newtr = $('<tr/>')
+		var newtr = $('<tr></tr>')
 			.attr('data-dir', dir)
 			.attr('data-file', elem.name)
 			.attr('data-origin', elem.origin);
-		newtr.append($('<td class="filename" />').text(elem.name).css('background-size', 32));
-		newtr.append($('<td class="size" />').text(OC.Util.humanFileSize(elem.size)));
+		newtr.append($('<td class="filename"></td>').text(elem.name).css('background-size', 32));
+		newtr.append($('<td class="size"></td>').text(OC.Util.humanFileSize(elem.size, false, false)));
 		tbody.append(newtr);
 		if (elem.type === 'dir') {
 			newtr.find('td.filename')
@@ -451,7 +449,6 @@ var dragOptions={
 	revert: 'invalid',
 	revertDuration: 300,
 	opacity: 0.7,
-	appendTo: 'body',
 	cursorAt: { left: 24, top: 18 },
 	helper: createDragShadow,
 	cursor: 'move',
@@ -484,23 +481,31 @@ var dragOptions={
 		$('.crumbmenu').removeClass('canDropChildren');
 	},
 	drag: function(event, ui) {
-		var scrollingArea = window;
-		var currentScrollTop = $(scrollingArea).scrollTop();
-		var scrollArea = Math.min(Math.floor($(window).innerHeight() / 2), 100);
-
-		var bottom = $(window).innerHeight() - scrollArea;
-		var top = $(window).scrollTop() + scrollArea;
-		if (event.pageY < top) {
-			$(scrollingArea).animate({
-				scrollTop: currentScrollTop - 10
-			}, 400);
-
-		} else if (event.pageY > bottom) {
-			$(scrollingArea).animate({
-				scrollTop: currentScrollTop + 10
-			}, 400);
+		// Prevent scrolling when hovering .files-controls
+		if ($(event.originalEvent.target).parents('.files-controls').length > 0) {
+			return
 		}
 
+		/** @type {JQuery<HTMLDivElement>} */
+		const scrollingArea = FileList.$container;
+
+		// Get the top and bottom scroll trigger y positions
+		const containerHeight = scrollingArea.innerHeight() ?? 0
+		const scrollTriggerArea = Math.min(Math.floor(containerHeight / 2), 100);
+		const bottomTriggerY = containerHeight - scrollTriggerArea;
+		const topTriggerY = scrollTriggerArea;
+
+		// Get the cursor position relative to the container
+		const containerOffset = scrollingArea.offset() ?? {left: 0, top: 0}
+		const cursorPositionY = event.pageY - containerOffset.top
+
+		const currentScrollTop = scrollingArea.scrollTop() ?? 0
+
+		if (cursorPositionY < topTriggerY) {
+			scrollingArea.scrollTop(currentScrollTop - 10)
+		} else if (cursorPositionY > bottomTriggerY) {
+			scrollingArea.scrollTop(currentScrollTop + 10)
+		}
 	}
 };
 // sane browsers support using the distance option

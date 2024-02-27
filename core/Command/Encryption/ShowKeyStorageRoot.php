@@ -21,7 +21,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Core\Command\Encryption;
 
 use OC\Encryption\Util;
@@ -30,16 +29,10 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class ShowKeyStorageRoot extends Command {
-
-	/** @var Util  */
-	protected $util;
-
-	/**
-	 * @param Util $util
-	 */
-	public function __construct(Util $util) {
+	public function __construct(
+		protected Util $util,
+	) {
 		parent::__construct();
-		$this->util = $util;
 	}
 
 	protected function configure() {

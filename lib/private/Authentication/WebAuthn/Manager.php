@@ -18,14 +18,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Authentication\WebAuthn;
 
 use Cose\Algorithm\Signature\ECDSA\ES256;
@@ -57,7 +56,6 @@ use Webauthn\PublicKeyCredentialUserEntity;
 use Webauthn\TokenBinding\TokenBindingNotSupportedHandler;
 
 class Manager {
-
 	/** @var CredentialRepository */
 	private $repository;
 
@@ -93,7 +91,7 @@ class Manager {
 			$user->getUID(),                              //Name
 			$user->getUID(),                              //ID
 			$user->getDisplayName()                      //Display name
-//            'https://foo.example.co/avatar/123e4567-e89b-12d3-a456-426655440000' //Icon
+			//            'https://foo.example.co/avatar/123e4567-e89b-12d3-a456-426655440000' //Icon
 		);
 
 		$challenge = random_bytes(32);
@@ -146,6 +144,7 @@ class Manager {
 			$tokenBindingHandler,
 			$extensionOutputCheckerHandler
 		);
+		$authenticatorAttestationResponseValidator->setLogger($this->logger);
 
 		try {
 			// Load the data
@@ -213,7 +212,9 @@ class Manager {
 			$this->repository,
 			$tokenBindingHandler,
 			$extensionOutputCheckerHandler,
-			$algorithmManager
+			$algorithmManager,
+			null,
+			$this->logger,
 		);
 
 		try {

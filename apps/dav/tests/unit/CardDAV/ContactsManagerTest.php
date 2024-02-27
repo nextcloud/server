@@ -23,7 +23,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\Tests\unit\CardDAV;
 
 use OCA\DAV\CardDAV\CardDavBackend;
@@ -34,7 +33,7 @@ use OCP\IURLGenerator;
 use Test\TestCase;
 
 class ContactsManagerTest extends TestCase {
-	public function test() {
+	public function test(): void {
 		/** @var IManager | \PHPUnit\Framework\MockObject\MockObject $cm */
 		$cm = $this->getMockBuilder(IManager::class)->disableOriginalConstructor()->getMock();
 		$cm->expects($this->exactly(2))->method('registerAddressBook');

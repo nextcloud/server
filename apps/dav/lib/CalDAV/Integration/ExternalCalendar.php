@@ -13,7 +13,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -98,7 +98,7 @@ abstract class ExternalCalendar implements CalDAV\ICalendar, DAV\IProperties {
 	 * @return bool
 	 */
 	public static function isAppGeneratedCalendar(string $calendarUri):bool {
-		return strpos($calendarUri, self::PREFIX) === 0 && substr_count($calendarUri, self::DELIMITER) >= 2;
+		return str_starts_with($calendarUri, self::PREFIX) && substr_count($calendarUri, self::DELIMITER) >= 2;
 	}
 
 	/**
@@ -126,6 +126,6 @@ abstract class ExternalCalendar implements CalDAV\ICalendar, DAV\IProperties {
 	 * @return bool
 	 */
 	public static function doesViolateReservedName(string $calendarUri):bool {
-		return strpos($calendarUri, self::PREFIX) === 0;
+		return str_starts_with($calendarUri, self::PREFIX);
 	}
 }

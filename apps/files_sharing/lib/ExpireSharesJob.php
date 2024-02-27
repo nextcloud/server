@@ -4,7 +4,7 @@
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
@@ -22,10 +22,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_Sharing;
 
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\BackgroundJob\IJob;
 use OCP\BackgroundJob\TimedJob;
 use OCP\IDBConnection;
 use OCP\Share\Exceptions\ShareNotFound;
@@ -51,6 +51,7 @@ class ExpireSharesJob extends TimedJob {
 
 		// Run once a day
 		$this->setInterval(24 * 60 * 60);
+		$this->setTimeSensitivity(IJob::TIME_INSENSITIVE);
 	}
 
 
@@ -84,7 +85,7 @@ class ExpireSharesJob extends TimedJob {
 				)
 			);
 
-		$shares = $qb->execute();
+		$shares = $qb->executeQuery();
 		while ($share = $shares->fetch()) {
 			if ((int)$share['share_type'] === IShare::TYPE_LINK) {
 				$id = 'ocinternal';

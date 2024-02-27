@@ -1,10 +1,9 @@
 /**
  * @copyright Copyright (c) 2019 Julius Härtl <jus@bitgrid.net>
  *
- * @author Julius Härtl <jus@bitgrid.net>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -20,6 +19,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
+import { showError } from '@nextcloud/dialogs'
+import rebuildNavigation from '../service/rebuild-navigation.js'
 
 export default {
 	computed: {
@@ -40,20 +42,20 @@ export default {
 		},
 		forceEnableButtonText() {
 			if (this.app.needsDownload) {
-				return t('settings', 'Enable untested app')
+				return t('settings', 'Allow untested app')
 			}
-			return t('settings', 'Enable untested app')
+			return t('settings', 'Allow untested app')
 		},
 		enableButtonTooltip() {
 			if (this.app.needsDownload) {
-				return t('settings', 'The app will be downloaded from the app store')
+				return t('settings', 'The app will be downloaded from the App Store')
 			}
-			return false
+			return null
 		},
 		forceEnableButtonTooltip() {
 			const base = t('settings', 'This app is not marked as compatible with your Nextcloud version. If you continue you will still be able to install the app. Note that the app might not work as expected.')
 			if (this.app.needsDownload) {
-				return base + ' ' + t('settings', 'The app will be downloaded from the app store')
+				return base + ' ' + t('settings', 'The app will be downloaded from the App Store')
 			}
 			return base
 		},
@@ -96,7 +98,8 @@ export default {
 			}
 			return true
 		},
-		addGroupLimitation(group) {
+		addGroupLimitation(groupArray) {
+			const group = groupArray.pop()
 			const groups = this.app.groups.concat([]).concat([group.id])
 			this.$store.dispatch('enableApp', { appId: this.app.id, groups })
 		},
@@ -110,33 +113,33 @@ export default {
 		},
 		forceEnable(appId) {
 			this.$store.dispatch('forceEnableApp', { appId, groups: [] })
-				.then((response) => { OC.Settings.Apps.rebuildNavigation() })
-				.catch((error) => { OC.Notification.show(error) })
+				.then((response) => { rebuildNavigation() })
+				.catch((error) => { showError(error) })
 		},
 		enable(appId) {
 			this.$store.dispatch('enableApp', { appId, groups: [] })
-				.then((response) => { OC.Settings.Apps.rebuildNavigation() })
-				.catch((error) => { OC.Notification.show(error) })
+				.then((response) => { rebuildNavigation() })
+				.catch((error) => { showError(error) })
 		},
 		disable(appId) {
 			this.$store.dispatch('disableApp', { appId })
-				.then((response) => { OC.Settings.Apps.rebuildNavigation() })
-				.catch((error) => { OC.Notification.show(error) })
+				.then((response) => { rebuildNavigation() })
+				.catch((error) => { showError(error) })
 		},
 		remove(appId) {
 			this.$store.dispatch('uninstallApp', { appId })
-				.then((response) => { OC.Settings.Apps.rebuildNavigation() })
-				.catch((error) => { OC.Notification.show(error) })
+				.then((response) => { rebuildNavigation() })
+				.catch((error) => { showError(error) })
 		},
 		install(appId) {
 			this.$store.dispatch('enableApp', { appId })
-				.then((response) => { OC.Settings.Apps.rebuildNavigation() })
-				.catch((error) => { OC.Notification.show(error) })
+				.then((response) => { rebuildNavigation() })
+				.catch((error) => { showError(error) })
 		},
 		update(appId) {
 			this.$store.dispatch('updateApp', { appId })
-				.then((response) => { OC.Settings.Apps.rebuildNavigation() })
-				.catch((error) => { OC.Notification.show(error) })
+				.then((response) => { rebuildNavigation() })
+				.catch((error) => { showError(error) })
 		},
 	},
 }

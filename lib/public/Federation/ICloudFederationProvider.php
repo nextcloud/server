@@ -14,14 +14,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCP\Federation;
 
 use OCP\Federation\Exceptions\ActionNotSupportedException;
@@ -40,7 +39,6 @@ use OCP\Share\Exceptions\ShareNotFound;
  */
 
 interface ICloudFederationProvider {
-
 	/**
 	 * get the name of the share type, handled by this provider
 	 *
@@ -68,7 +66,7 @@ interface ICloudFederationProvider {
 	 * @param string $notificationType (e.g SHARE_ACCEPTED)
 	 * @param string $providerId share ID
 	 * @param array $notification provider specific notification
-	 * @return array $data send back to sender
+	 * @return array<string> $data send back to sender
 	 *
 	 * @throws ShareNotFound
 	 * @throws ActionNotSupportedException

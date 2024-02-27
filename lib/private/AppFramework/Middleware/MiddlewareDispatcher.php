@@ -29,7 +29,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\AppFramework\Middleware;
 
 use OCP\AppFramework\Controller;
@@ -40,17 +39,16 @@ use OCP\AppFramework\Middleware;
  * This class is used to store and run all the middleware in correct order
  */
 class MiddlewareDispatcher {
-
 	/**
-	 * @var array array containing all the middlewares
+	 * @var Middleware[] array containing all the middlewares
 	 */
-	private $middlewares;
+	private array $middlewares;
 
 	/**
-	 * @var int counter which tells us what middlware was executed once an
+	 * @var int counter which tells us what middleware was executed once an
 	 *                  exception occurs
 	 */
-	private $middlewareCounter;
+	private int $middlewareCounter;
 
 
 	/**
@@ -66,14 +64,14 @@ class MiddlewareDispatcher {
 	 * Adds a new middleware
 	 * @param Middleware $middleWare the middleware which will be added
 	 */
-	public function registerMiddleware(Middleware $middleWare) {
+	public function registerMiddleware(Middleware $middleWare): void {
 		$this->middlewares[] = $middleWare;
 	}
 
 
 	/**
 	 * returns an array with all middleware elements
-	 * @return array the middlewares
+	 * @return Middleware[] the middlewares
 	 */
 	public function getMiddlewares(): array {
 		return $this->middlewares;
@@ -88,7 +86,7 @@ class MiddlewareDispatcher {
 	 * @param string $methodName the name of the method that will be called on
 	 *                           the controller
 	 */
-	public function beforeController(Controller $controller, string $methodName) {
+	public function beforeController(Controller $controller, string $methodName): void {
 		// we need to count so that we know which middlewares we have to ask in
 		// case there is an exception
 		$middlewareCount = \count($this->middlewares);

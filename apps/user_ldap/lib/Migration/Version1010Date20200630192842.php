@@ -5,6 +5,7 @@ declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2020 Joas Schilling <coding@schilljs.com>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  *
  * @license GNU AGPL version 3 or any later version
@@ -16,19 +17,18 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\User_LDAP\Migration;
 
 use Closure;
-use OCP\DB\Types;
 use OCP\DB\ISchemaWrapper;
+use OCP\DB\Types;
 use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
 
@@ -47,12 +47,12 @@ class Version1010Date20200630192842 extends SimpleMigrationStep {
 			$table = $schema->createTable('ldap_user_mapping');
 			$table->addColumn('ldap_dn', Types::STRING, [
 				'notnull' => true,
-				'length' => 255,
+				'length' => 4000,
 				'default' => '',
 			]);
 			$table->addColumn('owncloud_name', Types::STRING, [
 				'notnull' => true,
-				'length' => 255,
+				'length' => 64,
 				'default' => '',
 			]);
 			$table->addColumn('directory_uuid', Types::STRING, [
@@ -60,20 +60,25 @@ class Version1010Date20200630192842 extends SimpleMigrationStep {
 				'length' => 255,
 				'default' => '',
 			]);
+			$table->addColumn('ldap_dn_hash', Types::STRING, [
+				'notnull' => false,
+				'length' => 64,
+			]);
 			$table->setPrimaryKey(['owncloud_name']);
-			$table->addUniqueIndex(['ldap_dn'], 'ldap_dn_users');
+			$table->addUniqueIndex(['ldap_dn_hash'], 'ldap_user_dn_hashes');
+			$table->addUniqueIndex(['directory_uuid'], 'ldap_user_directory_uuid');
 		}
 
 		if (!$schema->hasTable('ldap_group_mapping')) {
 			$table = $schema->createTable('ldap_group_mapping');
 			$table->addColumn('ldap_dn', Types::STRING, [
 				'notnull' => true,
-				'length' => 255,
+				'length' => 4000,
 				'default' => '',
 			]);
 			$table->addColumn('owncloud_name', Types::STRING, [
 				'notnull' => true,
-				'length' => 255,
+				'length' => 64,
 				'default' => '',
 			]);
 			$table->addColumn('directory_uuid', Types::STRING, [
@@ -81,8 +86,13 @@ class Version1010Date20200630192842 extends SimpleMigrationStep {
 				'length' => 255,
 				'default' => '',
 			]);
-			$table->setPrimaryKey(['ldap_dn']);
-			$table->addUniqueIndex(['owncloud_name'], 'owncloud_name_groups');
+			$table->addColumn('ldap_dn_hash', Types::STRING, [
+				'notnull' => false,
+				'length' => 64,
+			]);
+			$table->setPrimaryKey(['owncloud_name']);
+			$table->addUniqueIndex(['ldap_dn_hash'], 'ldap_group_dn_hashes');
+			$table->addUniqueIndex(['directory_uuid'], 'ldap_group_directory_uuid');
 		}
 
 		if (!$schema->hasTable('ldap_group_members')) {

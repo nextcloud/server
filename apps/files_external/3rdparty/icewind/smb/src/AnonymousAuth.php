@@ -21,24 +21,28 @@
 
 namespace Icewind\SMB;
 
+use Icewind\SMB\Exception\Exception;
+
 class AnonymousAuth implements IAuth {
-	public function getUsername() {
+	public function getUsername(): ?string {
 		return null;
 	}
 
-	public function getWorkgroup() {
+	public function getWorkgroup(): ?string {
 		return 'dummy';
 	}
 
-	public function getPassword() {
+	public function getPassword(): ?string {
 		return null;
 	}
 
-	public function getExtraCommandLineArguments() {
+	public function getExtraCommandLineArguments(): string {
 		return '-N';
 	}
 
-	public function setExtraSmbClientOptions($smbClientState) {
-		smbclient_option_set($smbClientState, SMBCLIENT_OPT_AUTO_ANONYMOUS_LOGIN, true);
+	public function setExtraSmbClientOptions($smbClientState): void {
+		if (smbclient_option_set($smbClientState, SMBCLIENT_OPT_AUTO_ANONYMOUS_LOGIN, true) === false) {
+			throw new Exception("Failed to set smbclient options for anonymous auth");
+		}
 	}
 }

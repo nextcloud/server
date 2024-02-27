@@ -15,14 +15,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\Tests\unit\CalDAV;
 
 use OCA\DAV\CalDAV\Outbox;
@@ -44,7 +43,7 @@ class OutboxTest extends TestCase {
 		$this->outbox = new Outbox($this->config, 'user-principal-123');
 	}
 
-	public function testGetACLFreeBusyEnabled() {
+	public function testGetACLFreeBusyEnabled(): void {
 		$this->config->expects($this->once())
 			->method('getAppValue')
 			->with('dav', 'disableFreeBusy', 'no')
@@ -79,7 +78,7 @@ class OutboxTest extends TestCase {
 		], $this->outbox->getACL());
 	}
 
-	public function testGetACLFreeBusyDisabled() {
+	public function testGetACLFreeBusyDisabled(): void {
 		$this->config->expects($this->once())
 			->method('getAppValue')
 			->with('dav', 'disableFreeBusy', 'no')

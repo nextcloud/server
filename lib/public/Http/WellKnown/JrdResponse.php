@@ -16,14 +16,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCP\Http\WellKnown;
 
 use OCP\AppFramework\Http\JSONResponse;
@@ -39,7 +38,6 @@ use function array_filter;
  * @since 21.0.0
  */
 final class JrdResponse implements IResponse {
-
 	/** @var string */
 	private $subject;
 
@@ -129,10 +127,10 @@ final class JrdResponse implements IResponse {
 	 * @since 21.0.0
 	 */
 	public function addLink(string $rel,
-							?string $type,
-							?string $href,
-							?array $titles = [],
-							?array $properties = []): self {
+		?string $type,
+		?string $href,
+		?array $titles = [],
+		?array $properties = []): self {
 		$this->links[] = array_filter([
 			'rel' => $rel,
 			'type' => $type,

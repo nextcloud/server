@@ -33,17 +33,16 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Authentication\TwoFactorAuth\IActivatableAtLogin;
 use OCP\Authentication\TwoFactorAuth\IProvider;
 use OCP\Authentication\TwoFactorAuth\IRegistry;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\ISession;
 use OCP\IUser;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
-use function reset;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Test\TestCase;
+use function reset;
 
 class ManagerTest extends TestCase {
-
 	/** @var IUser|MockObject */
 	private $user;
 
@@ -83,8 +82,8 @@ class ManagerTest extends TestCase {
 	/** @var ITimeFactory|MockObject */
 	private $timeFactory;
 
-	/** @var EventDispatcherInterface|MockObject */
-	private $eventDispatcher;
+	/** @var IEventDispatcher|MockObject */
+	private $dispatcher;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -99,7 +98,7 @@ class ManagerTest extends TestCase {
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->tokenProvider = $this->createMock(TokenProvider::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
-		$this->eventDispatcher = $this->createMock(EventDispatcherInterface::class);
+		$this->dispatcher = $this->createMock(IEventDispatcher::class);
 
 		$this->manager = new Manager(
 			$this->providerLoader,
@@ -111,7 +110,7 @@ class ManagerTest extends TestCase {
 			$this->logger,
 			$this->tokenProvider,
 			$this->timeFactory,
-			$this->eventDispatcher
+			$this->dispatcher,
 		);
 
 		$this->fakeProvider = $this->createMock(IProvider::class);
@@ -370,13 +369,13 @@ class ManagerTest extends TestCase {
 			->method('get')
 			->with('two_factor_remember_login')
 			->willReturn(false);
-		$this->session->expects($this->at(1))
+		$this->session->expects($this->exactly(2))
 			->method('remove')
-			->with('two_factor_auth_uid');
-		$this->session->expects($this->at(2))
-			->method('remove')
-			->with('two_factor_remember_login');
-		$this->session->expects($this->at(3))
+			->withConsecutive(
+				['two_factor_auth_uid'],
+				['two_factor_remember_login']
+			);
+		$this->session->expects($this->once())
 			->method('set')
 			->with(Manager::SESSION_UID_DONE, 'jos');
 		$this->session->method('getId')
@@ -488,17 +487,13 @@ class ManagerTest extends TestCase {
 
 	public function testNeedsSecondFactor() {
 		$user = $this->createMock(IUser::class);
-		$this->session->expects($this->at(0))
+		$this->session->expects($this->exactly(3))
 			->method('exists')
-			->with('app_password')
-			->willReturn(false);
-		$this->session->expects($this->at(1))
-			->method('exists')
-			->with('two_factor_auth_uid')
-			->willReturn(false);
-		$this->session->expects($this->at(2))
-			->method('exists')
-			->with(Manager::SESSION_UID_DONE)
+			->withConsecutive(
+				['app_password'],
+				['two_factor_auth_uid'],
+				[Manager::SESSION_UID_DONE],
+			)
 			->willReturn(false);
 
 		$this->session->method('getId')
@@ -529,7 +524,7 @@ class ManagerTest extends TestCase {
 				$this->logger,
 				$this->tokenProvider,
 				$this->timeFactory,
-				$this->eventDispatcher
+				$this->dispatcher,
 			])
 			->setMethods(['loadTwoFactorApp', 'isTwoFactorAuthenticated'])// Do not actually load the apps
 			->getMock();
@@ -568,12 +563,12 @@ class ManagerTest extends TestCase {
 		$this->user->method('getUID')
 			->willReturn('ferdinand');
 
-		$this->session->expects($this->at(0))
+		$this->session->expects($this->exactly(2))
 			->method('set')
-			->with('two_factor_auth_uid', 'ferdinand');
-		$this->session->expects($this->at(1))
-			->method('set')
-			->with('two_factor_remember_login', true);
+			->withConsecutive(
+				['two_factor_auth_uid', 'ferdinand'],
+				['two_factor_remember_login', true]
+			);
 
 		$this->session->method('getId')
 			->willReturn('mysessionid');
@@ -598,12 +593,12 @@ class ManagerTest extends TestCase {
 		$this->user->method('getUID')
 			->willReturn('ferdinand');
 
-		$this->session->expects($this->at(0))
+		$this->session->expects($this->exactly(2))
 			->method('set')
-			->with('two_factor_auth_uid', 'ferdinand');
-		$this->session->expects($this->at(1))
-			->method('set')
-			->with('two_factor_remember_login', false);
+			->withConsecutive(
+				['two_factor_auth_uid', 'ferdinand'],
+				['two_factor_remember_login', false]
+			);
 
 		$this->session->method('getId')
 			->willReturn('mysessionid');
@@ -634,13 +629,26 @@ class ManagerTest extends TestCase {
 					return false;
 				} elseif ($var === 'app_password') {
 					return false;
+				} elseif ($var === 'app_api') {
+					return false;
 				}
 				return true;
 			});
+		$this->session->method('get')
+			->willReturnCallback(function ($var) {
+				if ($var === Manager::SESSION_UID_KEY) {
+					return 'user';
+				} elseif ($var === 'app_api') {
+					return true;
+				}
+				return null;
+			});
 		$this->session->expects($this->once())
 			->method('get')
-			->with(Manager::SESSION_UID_DONE)
-			->willReturn('user');
+			->willReturnMap([
+				[Manager::SESSION_UID_DONE, 'user'],
+				['app_api', true]
+			]);
 
 		$this->assertFalse($this->manager->needsSecondFactor($user));
 	}
@@ -700,8 +708,10 @@ class ManagerTest extends TestCase {
 	public function testNeedsSecondFactorAppPassword() {
 		$user = $this->createMock(IUser::class);
 		$this->session->method('exists')
-			->with('app_password')
-			->willReturn(true);
+			->willReturnMap([
+				['app_password', true],
+				['app_api', true]
+			]);
 
 		$this->assertFalse($this->manager->needsSecondFactor($user));
 	}

@@ -4,7 +4,6 @@
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @license AGPL-3.0
@@ -22,7 +21,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\Upload;
 
 use OCA\DAV\Connector\Sabre\Directory;
@@ -38,7 +36,6 @@ use Sabre\DAV\IFile;
  * @package OCA\DAV\Upload
  */
 class FutureFile implements \Sabre\DAV\IFile {
-
 	/** @var Directory */
 	private $root;
 	/** @var string */
@@ -66,6 +63,10 @@ class FutureFile implements \Sabre\DAV\IFile {
 	public function get() {
 		$nodes = $this->root->getChildren();
 		return AssemblyStream::wrap($nodes);
+	}
+
+	public function getPath() {
+		return $this->root->getFileInfo()->getInternalPath() . '/.file';
 	}
 
 	/**

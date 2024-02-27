@@ -13,14 +13,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Comments\Activity;
 
 use OCP\Activity\IFilter;
@@ -28,64 +27,40 @@ use OCP\IL10N;
 use OCP\IURLGenerator;
 
 class Filter implements IFilter {
-
-	/** @var IL10N */
-	protected $l;
-
-	/** @var IURLGenerator */
-	protected $url;
-
-	public function __construct(IL10N $l, IURLGenerator $url) {
-		$this->l = $l;
-		$this->url = $url;
+	public function __construct(
+		protected IL10N $l,
+		protected IURLGenerator $url,
+	) {
 	}
 
-	/**
-	 * @return string Lowercase a-z only identifier
-	 * @since 11.0.0
-	 */
-	public function getIdentifier() {
+	public function getIdentifier(): string {
 		return 'comments';
 	}
 
-	/**
-	 * @return string A translated string
-	 * @since 11.0.0
-	 */
-	public function getName() {
+	public function getName(): string {
 		return $this->l->t('Comments');
 	}
 
-	/**
-	 * @return int
-	 * @since 11.0.0
-	 */
-	public function getPriority() {
+	public function getPriority(): int {
 		return 40;
 	}
 
-	/**
-	 * @return string Full URL to an icon, empty string when none is given
-	 * @since 11.0.0
-	 */
-	public function getIcon() {
+	public function getIcon(): string {
 		return $this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/comment.svg'));
 	}
 
 	/**
 	 * @param string[] $types
 	 * @return string[] An array of allowed apps from which activities should be displayed
-	 * @since 11.0.0
 	 */
-	public function filterTypes(array $types) {
+	public function filterTypes(array $types): array {
 		return $types;
 	}
 
 	/**
 	 * @return string[] An array of allowed apps from which activities should be displayed
-	 * @since 11.0.0
 	 */
-	public function allowedApps() {
+	public function allowedApps(): array {
 		return ['comments'];
 	}
 }

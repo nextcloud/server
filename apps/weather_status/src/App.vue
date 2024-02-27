@@ -20,151 +20,197 @@
   -->
 
 <template>
-	<li :class="{ inline }">
-		<div id="weather-status-menu-item">
-			<Actions
-				class="weather-status-menu-item__subheader"
-				:default-icon="weatherIcon"
-				:menu-title="visibleMessage">
-				<ActionLink v-if="gotWeather"
-					icon="icon-address"
-					target="_blank"
-					:href="weatherLinkTarget"
-					:close-after-click="true">
-					{{ locationText }}
-				</ActionLink>
-				<ActionButton v-if="gotWeather"
-					:icon="addRemoveFavoriteIcon"
-					@click="onAddRemoveFavoriteClick">
-					{{ addRemoveFavoriteText }}
-				</ActionButton>
-				<ActionSeparator v-if="address && !errorMessage" />
-				<ActionButton
-					icon="icon-crosshair"
-					:close-after-click="true"
-					@click="onBrowserLocationClick">
-					{{ t('weather_status', 'Detect location') }}
-				</ActionButton>
-				<ActionInput
-					ref="addressInput"
-					:disabled="false"
-					icon="icon-rename"
-					type="text"
-					value=""
-					@submit="onAddressSubmit">
-					{{ t('weather_status', 'Set custom address') }}
-				</ActionInput>
-				<ActionButton
-					v-show="favorites.length > 0"
-					:icon="toggleFavoritesIcon"
-					@click="showFavorites = !showFavorites">
-					{{ t('weather_status', 'Favorites') }}
-				</ActionButton>
-				<ActionButton v-for="f in displayedFavorites"
-					:key="f"
-					icon="icon-starred"
-					@click="onFavoriteClick($event, f)">
-					{{ f }}
-				</ActionButton>
-			</Actions>
-		</div>
-	</li>
+	<div id="weather-status-menu-item">
+		<NcActions class="weather-status-menu-item__subheader"
+			:default-icon="weatherIcon"
+			:aria-hidden="true"
+			:aria-label="currentWeatherMessage"
+			:menu-name="currentWeatherMessage">
+			<NcActionText v-if="gotWeather"
+				:aria-hidden="true"
+				:icon="futureWeatherIcon">
+				{{ forecastMessage }}
+			</NcActionText>
+			<NcActionLink v-if="gotWeather"
+				icon="icon-address"
+				target="_blank"
+				:aria-hidden="true"
+				:href="weatherLinkTarget"
+				:close-after-click="true">
+				{{ locationText }}
+			</NcActionLink>
+			<NcActionButton v-if="gotWeather"
+				:aria-hidden="true"
+				@click="onAddRemoveFavoriteClick">
+				<template #icon>
+					<component :is="addRemoveFavoriteIcon" :size="20" class="favorite-color" />
+				</template>
+				{{ addRemoveFavoriteText }}
+			</NcActionButton>
+			<NcActionSeparator v-if="address && !errorMessage" />
+			<NcActionButton icon="icon-crosshair"
+				:close-after-click="true"
+				:aria-hidden="true"
+				@click="onBrowserLocationClick">
+				{{ t('weather_status', 'Detect location') }}
+			</NcActionButton>
+			<NcActionInput ref="addressInput"
+				:label="t('weather_status', 'Set custom address')"
+				:disabled="false"
+				icon="icon-rename"
+				:aria-hidden="true"
+				type="text"
+				value=""
+				@submit="onAddressSubmit" />
+			<template v-if="favorites.length > 0">
+				<NcActionCaption :name="t('weather_status', 'Favorites')" />
+				<NcActionButton v-for="favorite in favorites"
+					:key="favorite"
+					:aria-hidden="true"
+					@click="onFavoriteClick($event, favorite)">
+					<template #icon>
+						<IconStar :size="20" :class="{'favorite-color': address === favorite}" />
+					</template>
+					{{ favorite }}
+				</NcActionButton>
+			</template>
+		</NcActions>
+	</div>
 </template>
 
 <script>
 import { showError } from '@nextcloud/dialogs'
 import moment from '@nextcloud/moment'
 import { getLocale } from '@nextcloud/l10n'
-import Actions from '@nextcloud/vue/dist/Components/Actions'
-import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
-import ActionInput from '@nextcloud/vue/dist/Components/ActionInput'
-import ActionLink from '@nextcloud/vue/dist/Components/ActionLink'
-import ActionSeparator from '@nextcloud/vue/dist/Components/ActionSeparator'
-import * as network from './services/weatherStatusService'
+import IconStar from 'vue-material-design-icons/Star.vue'
+import IconStarOutline from 'vue-material-design-icons/StarOutline.vue'
+import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
+import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
+import NcActionCaption from '@nextcloud/vue/dist/Components/NcActionCaption.js'
+import NcActionInput from '@nextcloud/vue/dist/Components/NcActionInput.js'
+import NcActionLink from '@nextcloud/vue/dist/Components/NcActionLink.js'
+import NcActionSeparator from '@nextcloud/vue/dist/Components/NcActionSeparator.js'
+import NcActionText from '@nextcloud/vue/dist/Components/NcActionText.js'
+import * as network from './services/weatherStatusService.js'
 
 const MODE_BROWSER_LOCATION = 1
 const MODE_MANUAL_LOCATION = 2
 const weatherOptions = {
 	clearsky_day: {
 		icon: 'icon-clearsky-day',
-		text: (temperature, unit, time) => t('weather_status', '{temperature} {unit} Clear sky at {time}', { temperature, unit, time }),
+		text: (temperature, unit, later = false) => later
+			? t('weather_status', '{temperature} {unit} clear sky later today', { temperature, unit })
+			: t('weather_status', '{temperature} {unit} clear sky', { temperature, unit }),
 	},
 	clearsky_night: {
 		icon: 'icon-clearsky-night',
-		text: (temperature, unit, time) => t('weather_status', '{temperature} {unit} Clear sky at {time}', { temperature, unit, time }),
+		text: (temperature, unit, later = false) => later
+			? t('weather_status', '{temperature} {unit} clear sky later today', { temperature, unit })
+			: t('weather_status', '{temperature} {unit} clear sky', { temperature, unit }),
 	},
 	cloudy: {
 		icon: 'icon-cloudy',
-		text: (temperature, unit, time) => t('weather_status', '{temperature} {unit} Cloudy at {time}', { temperature, unit, time }),
+		text: (temperature, unit, later = false) => later
+			? t('weather_status', '{temperature} {unit} cloudy later today', { temperature, unit })
+			: t('weather_status', '{temperature} {unit} cloudy', { temperature, unit }),
 	},
 	fair_day: {
 		icon: 'icon-fair-day',
-		text: (temperature, unit, time) => t('weather_status', '{temperature} {unit} Fair day at {time}', { temperature, unit, time }),
+		text: (temperature, unit, later = false) => later
+			? t('weather_status', '{temperature} {unit} fair weather later today', { temperature, unit })
+			: t('weather_status', '{temperature} {unit} fair weather', { temperature, unit }),
 	},
 	fair_night: {
 		icon: 'icon-fair-night',
-		text: (temperature, unit, time) => t('weather_status', '{temperature} {unit} Fair night at {time}', { temperature, unit, time }),
+		text: (temperature, unit, later = false) => later
+			? t('weather_status', '{temperature} {unit} fair weather later today', { temperature, unit })
+			: t('weather_status', '{temperature} {unit} fair weather', { temperature, unit }),
 	},
 	partlycloudy_day: {
 		icon: 'icon-partlycloudy-day',
-		text: (temperature, unit, time) => t('weather_status', '{temperature} {unit} Partly cloudy at {time}', { temperature, unit, time }),
+		text: (temperature, unit, later = false) => later
+			? t('weather_status', '{temperature} {unit} partly cloudy later today', { temperature, unit })
+			: t('weather_status', '{temperature} {unit} partly cloudy', { temperature, unit }),
 	},
 	partlycloudy_night: {
 		icon: 'icon-partlycloudy-night',
-		text: (temperature, unit, time) => t('weather_status', '{temperature} {unit} Partly cloudy at {time}', { temperature, unit, time }),
+		text: (temperature, unit, later = false) => later
+			? t('weather_status', '{temperature} {unit} partly cloudy later today', { temperature, unit })
+			: t('weather_status', '{temperature} {unit} partly cloudy', { temperature, unit }),
 	},
 	fog: {
 		icon: 'icon-fog',
-		text: (temperature, unit, time) => t('weather_status', '{temperature} {unit} Foggy at {time}', { temperature, unit, time }),
+		text: (temperature, unit, later = false) => later
+			? t('weather_status', '{temperature} {unit} foggy later today', { temperature, unit })
+			: t('weather_status', '{temperature} {unit} foggy', { temperature, unit }),
 	},
 	lightrain: {
 		icon: 'icon-lightrain',
-		text: (temperature, unit, time) => t('weather_status', '{temperature} {unit} Light rain at {time}', { temperature, unit, time }),
+		text: (temperature, unit, later = false) => later
+			? t('weather_status', '{temperature} {unit} light rainfall later today', { temperature, unit })
+			: t('weather_status', '{temperature} {unit} light rainfall', { temperature, unit }),
 	},
 	rain: {
 		icon: 'icon-rain',
-		text: (temperature, unit, time) => t('weather_status', '{temperature} {unit} Rain at {time}', { temperature, unit, time }),
+		text: (temperature, unit, later = false) => later
+			? t('weather_status', '{temperature} {unit} rainfall later today', { temperature, unit })
+			: t('weather_status', '{temperature} {unit} rainfall', { temperature, unit }),
 	},
 	heavyrain: {
 		icon: 'icon-heavyrain',
-		text: (temperature, unit, time) => t('weather_status', '{temperature} {unit} Heavy rain at {time}', { temperature, unit, time }),
+		text: (temperature, unit, later = false) => later
+			? t('weather_status', '{temperature} {unit} heavy rainfall later today', { temperature, unit })
+			: t('weather_status', '{temperature} {unit} heavy rainfall', { temperature, unit }),
 	},
 	rainshowers_day: {
 		icon: 'icon-rainshowers-day',
-		text: (temperature, unit, time) => t('weather_status', '{temperature} {unit} Rain showers at {time}', { temperature, unit, time }),
+		text: (temperature, unit, later = false) => later
+			? t('weather_status', '{temperature} {unit} rainfall showers later today', { temperature, unit })
+			: t('weather_status', '{temperature} {unit} rainfall showers', { temperature, unit }),
 	},
 	rainshowers_night: {
 		icon: 'icon-rainshowers-night',
-		text: (temperature, unit, time) => t('weather_status', '{temperature} {unit} Rain showers at {time}', { temperature, unit, time }),
+		text: (temperature, unit, later = false) => later
+			? t('weather_status', '{temperature} {unit} rainfall showers later today', { temperature, unit })
+			: t('weather_status', '{temperature} {unit} rainfall showers', { temperature, unit }),
 	},
 	lightrainshowers_day: {
 		icon: 'icon-light-rainshowers-day',
-		text: (temperature, unit, time) => t('weather_status', '{temperature} {unit} Light rain showers at {time}', { temperature, unit, time }),
+		text: (temperature, unit, later = false) => later
+			? t('weather_status', '{temperature} {unit} light rainfall showers later today', { temperature, unit })
+			: t('weather_status', '{temperature} {unit} light rainfall showers', { temperature, unit }),
 	},
 	lightrainshowers_night: {
 		icon: 'icon-light-rainshowers-night',
-		text: (temperature, unit, time) => t('weather_status', '{temperature} {unit} Light rain showers at {time}', { temperature, unit, time }),
+		text: (temperature, unit, later = false) => later
+			? t('weather_status', '{temperature} {unit} light rainfall showers later today', { temperature, unit })
+			: t('weather_status', '{temperature} {unit} light rainfall showers', { temperature, unit }),
 	},
 	heavyrainshowers_day: {
 		icon: 'icon-heavy-rainshowers-day',
-		text: (temperature, unit, time) => t('weather_status', '{temperature} {unit} Heavy rain showers at {time}', { temperature, unit, time }),
+		text: (temperature, unit, later = false) => later
+			? t('weather_status', '{temperature} {unit} heavy rainfall showers later today', { temperature, unit })
+			: t('weather_status', '{temperature} {unit} heavy rainfall showers', { temperature, unit }),
 	},
 	heavyrainshowers_night: {
 		icon: 'icon-heavy-rainshowers-night',
-		text: (temperature, unit, time) => t('weather_status', '{temperature} {unit} Heavy rain showers at {time}', { temperature, unit, time }),
+		text: (temperature, unit, later = false) => later
+			? t('weather_status', '{temperature} {unit} heavy rainfall showers later today', { temperature, unit })
+			: t('weather_status', '{temperature} {unit} heavy rainfall showers', { temperature, unit }),
 	},
 }
 
 export default {
 	name: 'App',
 	components: {
-		Actions, ActionButton, ActionInput, ActionLink, ActionSeparator,
-	},
-	props: {
-		inline: {
-			type: Boolean,
-			default: false,
-		},
+		IconStar,
+		NcActions,
+		NcActionButton,
+		NcActionCaption,
+		NcActionInput,
+		NcActionLink,
+		NcActionSeparator,
+		NcActionText,
 	},
 	data() {
 		return {
@@ -175,10 +221,11 @@ export default {
 			address: null,
 			lat: null,
 			lon: null,
+			// how many hours ahead do we want to see the forecast?
+			offset: 5,
 			forecasts: [],
 			loop: null,
 			favorites: [],
-			showFavorites: false,
 		}
 	},
 	computed: {
@@ -191,46 +238,43 @@ export default {
 		locationText() {
 			return t('weather_status', 'More weather for {adr}', { adr: this.address })
 		},
-		sixHoursTempForecast() {
-			return this.forecasts.length > 5 ? this.forecasts[5].data.instant.details.air_temperature : ''
+		temperature() {
+			return this.getTemperature(this.forecasts, 0)
 		},
-		sixHoursWeatherForecast() {
-			return this.forecasts.length > 5 ? this.forecasts[5].data.next_1_hours.summary.symbol_code : ''
+		futureTemperature() {
+			return this.getTemperature(this.forecasts, this.offset)
 		},
-		sixHoursFormattedTime() {
-			if (this.forecasts.length > 5) {
-				const date = moment(this.forecasts[5].time)
-				return date.format('LT')
-			}
-			return ''
+		weatherCode() {
+			return this.getWeatherCode(this.forecasts, 0)
+		},
+		futureWeatherCode() {
+			return this.getWeatherCode(this.forecasts, this.offset)
 		},
 		weatherIcon() {
-			if (this.loading) {
-				return 'icon-loading-small'
-			} else {
-				return this.sixHoursWeatherForecast && this.sixHoursWeatherForecast in weatherOptions
-					? weatherOptions[this.sixHoursWeatherForecast].icon
-					: 'icon-fair-day'
-			}
+			return this.getWeatherIcon(this.weatherCode, this.loading)
+		},
+		futureWeatherIcon() {
+			return this.getWeatherIcon(this.futureWeatherCode, this.loading)
 		},
 		/**
 		 * The message displayed in the top right corner
 		 *
-		 * @returns {String}
+		 * @return {string}
 		 */
-		visibleMessage() {
+		currentWeatherMessage() {
 			if (this.loading) {
 				return t('weather_status', 'Loading weather')
 			} else if (this.errorMessage) {
 				return this.errorMessage
 			} else {
-				return this.sixHoursWeatherForecast && this.sixHoursWeatherForecast in weatherOptions
-					? weatherOptions[this.sixHoursWeatherForecast].text(
-						this.getLocalizedTemperature(this.sixHoursTempForecast),
-						this.temperatureUnit,
-						this.sixHoursFormattedTime,
-					)
-					: t('weather_status', 'Set location for weather')
+				return this.getWeatherMessage(this.weatherCode, this.temperature)
+			}
+		},
+		forecastMessage() {
+			if (this.loading) {
+				return t('weather_status', 'Loading weather')
+			} else {
+				return this.getWeatherMessage(this.futureWeatherCode, this.futureTemperature, true)
 			}
 		},
 		weatherLinkTarget() {
@@ -241,8 +285,8 @@ export default {
 		},
 		addRemoveFavoriteIcon() {
 			return this.currentAddressIsFavorite
-				? 'icon-starred'
-				: 'icon-star'
+				? IconStar
+				: IconStarOutline
 		},
 		addRemoveFavoriteText() {
 			return this.currentAddressIsFavorite
@@ -253,16 +297,6 @@ export default {
 			return this.favorites.find((f) => {
 				return f === this.address
 			})
-		},
-		toggleFavoritesIcon() {
-			return this.showFavorites
-				? 'icon-triangle-s'
-				: 'icon-triangle-e'
-		},
-		displayedFavorites() {
-			return this.showFavorites
-				? this.favorites
-				: []
 		},
 	},
 	mounted() {
@@ -424,7 +458,7 @@ export default {
 		},
 		getLocalizedTemperature(celcius) {
 			return this.useFahrenheitLocale
-				? ((celcius * (9 / 5)) + 32).toFixed(1)
+				? (celcius * (9 / 5)) + 32
 				: celcius
 		},
 		onAddRemoveFavoriteClick() {
@@ -452,16 +486,43 @@ export default {
 				this.setAddress(favAddress)
 			}
 		},
+		formatTime(time) {
+			return moment(time).format('LT')
+		},
+		getTemperature(forecasts, offset = 0) {
+			return forecasts.length > offset ? forecasts[offset].data.instant.details.air_temperature : ''
+		},
+		getWeatherCode(forecasts, offset = 0) {
+			return forecasts.length > offset ? forecasts[offset].data.next_1_hours.summary.symbol_code : ''
+		},
+		getWeatherIcon(weatherCode, loading) {
+			if (loading) {
+				return 'icon-loading-small'
+			} else {
+				return 'icon-weather ' + (weatherCode && weatherCode in weatherOptions
+					? weatherOptions[weatherCode].icon
+					: 'icon-fair-day')
+			}
+		},
+		getWeatherMessage(weatherCode, temperature, later = false) {
+			return weatherCode && weatherCode in weatherOptions
+				? weatherOptions[weatherCode].text(
+					Math.round(this.getLocalizedTemperature(temperature)),
+					this.temperatureUnit,
+					later,
+				)
+				: t('weather_status', 'Set location for weather')
+		},
 	},
 }
 </script>
 
 <style lang="scss">
+.icon-weather {
+	background-size: 16px;
+}
 .icon-weather-status {
 	background-image: url('./../img/app-dark.svg');
-}
-body.theme--dark .icon-weather-status {
-	background-image: url('./../img/app.svg');
 }
 .icon-clearsky-day {
 	background-image: url('./../img/sun.svg');
@@ -527,42 +588,12 @@ body.theme--dark .icon-weather-status {
     min-height: 44px !important;
 }
 
-li:not(.inline) .weather-status-menu-item {
-	&__header {
-		display: block;
-		align-items: center;
-		color: var(--color-main-text);
-		padding: 10px 12px 5px 12px;
-		box-sizing: border-box;
-		opacity: 1;
-		white-space: nowrap;
-		width: 100%;
-		text-align: center;
-		max-width: 250px;
-		text-overflow: ellipsis;
-		min-width: 175px;
-	}
-
-	&__subheader {
-		width: 100%;
-
-		.trigger > .icon {
-			background-color: var(--color-main-background);
-			background-size: 16px;
-			border: 0;
-			border-radius: 0;
-			font-weight: normal;
-			padding-left: 40px;
-
-			&:hover,
-			&:focus {
-				box-shadow: inset 4px 0 var(--color-primary-element);
-			}
-		}
-	}
+// Set color to primary element for current / active favorite address
+.favorite-color {
+	color: #a08b00;
 }
 
-.inline .weather-status-menu-item__subheader {
+.weather-status-menu-item__subheader {
 	width: 100%;
 
 	.trigger > .icon {
@@ -578,9 +609,5 @@ li:not(.inline) .weather-status-menu-item {
 			}
 		}
 	}
-}
-
-li {
-	list-style-type: none;
 }
 </style>

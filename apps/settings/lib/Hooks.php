@@ -17,21 +17,19 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Settings;
 
-use OCA\Settings\Activity\GroupProvider;
 use OCA\Settings\Activity\Provider;
 use OCP\Activity\IManager as IActivityManager;
+use OCP\Defaults;
 use OCP\IConfig;
-use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IURLGenerator;
 use OCP\IUser;
@@ -58,15 +56,18 @@ class Hooks {
 	protected $config;
 	/** @var IFactory */
 	protected $languageFactory;
+	/** @var Defaults */
+	protected $defaults;
 
 	public function __construct(IActivityManager $activityManager,
-								IGroupManager $groupManager,
-								IUserManager $userManager,
-								IUserSession $userSession,
-								IURLGenerator $urlGenerator,
-								IMailer $mailer,
-								IConfig $config,
-								IFactory $languageFactory) {
+		IGroupManager $groupManager,
+		IUserManager $userManager,
+		IUserSession $userSession,
+		IURLGenerator $urlGenerator,
+		IMailer $mailer,
+		IConfig $config,
+		IFactory $languageFactory,
+		Defaults $defaults) {
 		$this->activityManager = $activityManager;
 		$this->groupManager = $groupManager;
 		$this->userManager = $userManager;
@@ -75,6 +76,7 @@ class Hooks {
 		$this->mailer = $mailer;
 		$this->config = $config;
 		$this->languageFactory = $languageFactory;
+		$this->defaults = $defaults;
 	}
 
 	/**
@@ -96,6 +98,7 @@ class Hooks {
 			->setType('personal_settings')
 			->setAffectedUser($user->getUID());
 
+		$instanceName = $this->defaults->getName();
 		$instanceUrl = $this->urlGenerator->getAbsoluteURL('/');
 		$language = $this->languageFactory->getUserLanguage($user);
 		$l = $this->languageFactory->get('settings', $language);
@@ -134,7 +137,7 @@ class Hooks {
 				'instanceUrl' => $instanceUrl,
 			]);
 
-			$template->setSubject($l->t('Password for %1$s changed on %2$s', [$user->getDisplayName(), $instanceUrl]));
+			$template->setSubject($l->t('Password for %1$s changed on %2$s', [$user->getDisplayName(), $instanceName]));
 			$template->addHeader();
 			$template->addHeading($l->t('Password changed for %s', [$user->getDisplayName()]), false);
 			$template->addBodyText($text . ' ' . $l->t('If you did not request this, please contact an administrator.'));
@@ -175,12 +178,17 @@ class Hooks {
 		if ($actor instanceof IUser) {
 			$subject = Provider::EMAIL_CHANGED_SELF;
 			if ($actor->getUID() !== $user->getUID()) {
+				// set via the OCS API
+				if ($this->config->getAppValue('settings', 'disable_activity.email_address_changed_by_admin', 'no') === 'yes') {
+					return;
+				}
 				$subject = Provider::EMAIL_CHANGED;
 			}
 			$text = $l->t('Your email address on %s was changed.', [$instanceUrl]);
 			$event->setAuthor($actor->getUID())
 				->setSubject($subject);
 		} else {
+			// set with occ
 			if ($this->config->getAppValue('settings', 'disable_activity.email_address_changed_by_admin', 'no') === 'yes') {
 				return;
 			}
@@ -212,80 +220,6 @@ class Hooks {
 			$message->setTo([$oldMailAddress => $user->getDisplayName()]);
 			$message->useTemplate($template);
 			$this->mailer->send($message);
-		}
-	}
-
-	/**
-	 * @param IGroup $group
-	 * @param IUser $user
-	 * @throws \InvalidArgumentException
-	 * @throws \BadMethodCallException
-	 */
-	public function addUserToGroup(IGroup $group, IUser $user): void {
-		$subAdminManager = $this->groupManager->getSubAdmin();
-		$usersToNotify = $subAdminManager->getGroupsSubAdmins($group);
-		$usersToNotify[] = $user;
-
-
-		$event = $this->activityManager->generateEvent();
-		$event->setApp('settings')
-			->setType('group_settings');
-
-		$actor = $this->userSession->getUser();
-		if ($actor instanceof IUser) {
-			$event->setAuthor($actor->getUID())
-				->setSubject(GroupProvider::ADDED_TO_GROUP, [
-					'user' => $user->getUID(),
-					'group' => $group->getGID(),
-					'actor' => $actor->getUID(),
-				]);
-		} else {
-			$event->setSubject(GroupProvider::ADDED_TO_GROUP, [
-				'user' => $user->getUID(),
-				'group' => $group->getGID(),
-			]);
-		}
-
-		foreach ($usersToNotify as $userToNotify) {
-			$event->setAffectedUser($userToNotify->getUID());
-			$this->activityManager->publish($event);
-		}
-	}
-
-	/**
-	 * @param IGroup $group
-	 * @param IUser $user
-	 * @throws \InvalidArgumentException
-	 * @throws \BadMethodCallException
-	 */
-	public function removeUserFromGroup(IGroup $group, IUser $user): void {
-		$subAdminManager = $this->groupManager->getSubAdmin();
-		$usersToNotify = $subAdminManager->getGroupsSubAdmins($group);
-		$usersToNotify[] = $user;
-
-
-		$event = $this->activityManager->generateEvent();
-		$event->setApp('settings')
-			->setType('group_settings');
-
-		$actor = $this->userSession->getUser();
-		if ($actor instanceof IUser) {
-			$event->setAuthor($actor->getUID())
-				->setSubject(GroupProvider::REMOVED_FROM_GROUP, [
-					'user' => $user->getUID(),
-					'group' => $group->getGID(),
-					'actor' => $actor->getUID(),
-				]);
-		} else {
-			$event->setSubject(GroupProvider::REMOVED_FROM_GROUP, [
-				'user' => $user->getUID(),
-				'group' => $group->getGID(),
-			]);
-		}
-
-		foreach ($usersToNotify as $userToNotify) {
-			$event->setAffectedUser($userToNotify->getUID());
-			$this->activityManager->publish($event);
 		}
 	}
 }

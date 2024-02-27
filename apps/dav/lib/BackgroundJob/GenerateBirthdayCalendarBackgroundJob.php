@@ -1,9 +1,11 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright 2017 Georg Ehrke <oc.list@georgehrke.com>
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -14,18 +16,18 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\BackgroundJob;
 
-use OC\BackgroundJob\QueuedJob;
 use OCA\DAV\CalDAV\BirthdayService;
+use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\BackgroundJob\QueuedJob;
 use OCP\IConfig;
 
 class GenerateBirthdayCalendarBackgroundJob extends QueuedJob {
@@ -36,24 +38,18 @@ class GenerateBirthdayCalendarBackgroundJob extends QueuedJob {
 	/** @var IConfig */
 	private $config;
 
-	/**
-	 * GenerateAllBirthdayCalendarsBackgroundJob constructor.
-	 *
-	 * @param BirthdayService $birthdayService
-	 * @param IConfig $config
-	 */
-	public function __construct(BirthdayService $birthdayService,
-								IConfig $config) {
+	public function __construct(ITimeFactory $time,
+		BirthdayService $birthdayService,
+		IConfig $config) {
+		parent::__construct($time);
+
 		$this->birthdayService = $birthdayService;
 		$this->config = $config;
 	}
 
-	/**
-	 * @param array $arguments
-	 */
-	public function run($arguments) {
-		$userId = $arguments['userId'];
-		$purgeBeforeGenerating = $arguments['purgeBeforeGenerating'] ?? false;
+	public function run($argument) {
+		$userId = $argument['userId'];
+		$purgeBeforeGenerating = $argument['purgeBeforeGenerating'] ?? false;
 
 		// make sure admin didn't change his mind
 		$isGloballyEnabled = $this->config->getAppValue('dav', 'generateBirthdayCalendar', 'yes');

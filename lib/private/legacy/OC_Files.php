@@ -21,6 +21,7 @@
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thibaut GRIDEL <tgridel@free.fr>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Valdnet <47037905+Valdnet@users.noreply.github.com>
  * @author Victor Dubiniuk <dubiniuk@owncloud.com>
  * @author Vincent Petry <vincent@nextcloud.com>
  *
@@ -39,15 +40,16 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 use bantu\IniGetWrapper\IniGetWrapper;
 use OC\Files\View;
 use OC\Streamer;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\Events\BeforeDirectFileDownloadEvent;
+use OCP\Files\Events\BeforeZipCreatedEvent;
 use OCP\Lock\ILockingProvider;
 
 /**
  * Class for file server access
- *
  */
 class OC_Files {
 	public const FILE = 1;
@@ -57,14 +59,11 @@ class OC_Files {
 	public const UPLOAD_MIN_LIMIT_BYTES = 1048576; // 1 MiB
 
 
-	private static $multipartBoundary = '';
+	private static string $multipartBoundary = '';
 
-	/**
-	 * @return string
-	 */
-	private static function getBoundary() {
+	private static function getBoundary(): string {
 		if (empty(self::$multipartBoundary)) {
-			self::$multipartBoundary = md5(mt_rand());
+			self::$multipartBoundary = md5((string)mt_rand());
 		}
 		return self::$multipartBoundary;
 	}
@@ -74,10 +73,9 @@ class OC_Files {
 	 * @param string $name
 	 * @param array $rangeArray ('from'=>int,'to'=>int), ...
 	 */
-	private static function sendHeaders($filename, $name, array $rangeArray) {
+	private static function sendHeaders($filename, $name, array $rangeArray): void {
 		OC_Response::setContentDispositionHeader($name, 'attachment');
 		header('Content-Transfer-Encoding: binary', true);
-		header('Pragma: public');// enable caching in IE
 		header('Expires: 0');
 		header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 		$fileSize = \OC\Files\Filesystem::filesize($filename);
@@ -98,6 +96,7 @@ class OC_Files {
 			}
 		}
 		header('Content-Type: '.$type, true);
+		header('X-Accel-Buffering: no');
 	}
 
 	/**
@@ -144,21 +143,34 @@ class OC_Files {
 			}
 
 			self::lockFiles($view, $dir, $files);
+			$numberOfFiles = 0;
+			$fileSize = 0;
 
 			/* Calculate filesize and number of files */
 			if ($getType === self::ZIP_FILES) {
 				$fileInfos = [];
-				$fileSize = 0;
 				foreach ($files as $file) {
 					$fileInfo = \OC\Files\Filesystem::getFileInfo($dir . '/' . $file);
-					$fileSize += $fileInfo->getSize();
-					$fileInfos[] = $fileInfo;
+					if ($fileInfo) {
+						$fileSize += $fileInfo->getSize();
+						$fileInfos[] = $fileInfo;
+					}
 				}
 				$numberOfFiles = self::getNumberOfFiles($fileInfos);
 			} elseif ($getType === self::ZIP_DIR) {
 				$fileInfo = \OC\Files\Filesystem::getFileInfo($dir . '/' . $files);
-				$fileSize = $fileInfo->getSize();
-				$numberOfFiles = self::getNumberOfFiles([$fileInfo]);
+				if ($fileInfo) {
+					$fileSize = $fileInfo->getSize();
+					$numberOfFiles = self::getNumberOfFiles([$fileInfo]);
+				}
+			}
+
+			//Dispatch an event to see if any apps have problem with download
+			$event = new BeforeZipCreatedEvent($dir, is_array($files) ? $files : [$files]);
+			$dispatcher = \OCP\Server::get(IEventDispatcher::class);
+			$dispatcher->dispatchTyped($event);
+			if ((!$event->isSuccessful()) || $event->getErrorMessage() !== null) {
+				throw new \OC\ForbiddenException($event->getErrorMessage());
 			}
 
 			$streamer = new Streamer(\OC::$server->getRequest(), $fileSize, $numberOfFiles);
@@ -166,7 +178,7 @@ class OC_Files {
 
 			$streamer->sendHeaders($name);
 			$executionTime = (int)OC::$server->get(IniGetWrapper::class)->getNumeric('max_execution_time');
-			if (strpos(@ini_get('disable_functions'), 'set_time_limit') === false) {
+			if (!str_contains(@ini_get('disable_functions'), 'set_time_limit')) {
 				@set_time_limit(0);
 			}
 			ignore_user_abort(true);
@@ -216,22 +228,29 @@ class OC_Files {
 			self::unlockAllTheFiles($dir, $files, $getType, $view, $filename);
 			OC::$server->getLogger()->logException($ex);
 			$l = \OC::$server->getL10N('lib');
-			\OC_Template::printErrorPage($l->t('Can\'t read file'), $ex->getMessage(), 200);
+			\OC_Template::printErrorPage($l->t('Cannot download file'), $ex->getMessage(), 200);
+		} catch (\OCP\Files\ConnectionLostException $ex) {
+			self::unlockAllTheFiles($dir, $files, $getType, $view, $filename);
+			OC::$server->getLogger()->logException($ex, ['level' => \OCP\ILogger::DEBUG]);
+			\OC_Template::printErrorPage('Connection lost', $ex->getMessage(), 200);
 		} catch (\Exception $ex) {
 			self::unlockAllTheFiles($dir, $files, $getType, $view, $filename);
 			OC::$server->getLogger()->logException($ex);
 			$l = \OC::$server->getL10N('lib');
 			$hint = method_exists($ex, 'getHint') ? $ex->getHint() : '';
-			\OC_Template::printErrorPage($l->t('Can\'t read file'), $hint, 200);
+			if ($event && $event->getErrorMessage() !== null) {
+				$hint .= ' ' . $event->getErrorMessage();
+			}
+			\OC_Template::printErrorPage($l->t('Cannot download file'), $hint, 200);
 		}
 	}
 
 	/**
 	 * @param string $rangeHeaderPos
-	 * @param int $fileSize
+	 * @param int|float $fileSize
 	 * @return array $rangeArray ('from'=>int,'to'=>int), ...
 	 */
-	private static function parseHttpRangeHeader($rangeHeaderPos, $fileSize) {
+	private static function parseHttpRangeHeader($rangeHeaderPos, $fileSize): array {
 		$rArray = explode(',', $rangeHeaderPos);
 		$minOffset = 0;
 		$ind = 0;
@@ -281,6 +300,7 @@ class OC_Files {
 	 * @param string $name
 	 * @param string $dir
 	 * @param array $params ; 'head' boolean to only send header of the request ; 'range' http range header
+	 * @throws \OC\ForbiddenException
 	 */
 	private static function getSingleFile($view, $dir, $name, $params) {
 		$filename = $dir . '/' . $name;
@@ -314,6 +334,19 @@ class OC_Files {
 
 		if (isset($params['range']) && substr($params['range'], 0, 6) === 'bytes=') {
 			$rangeArray = self::parseHttpRangeHeader(substr($params['range'], 6), $fileSize);
+		}
+
+		$dispatcher = \OCP\Server::get(IEventDispatcher::class);
+		$event = new BeforeDirectFileDownloadEvent($filename);
+		$dispatcher->dispatchTyped($event);
+
+		if (!\OC\Files\Filesystem::isReadable($filename) || $event->getErrorMessage()) {
+			if ($event->getErrorMessage()) {
+				$msg = $event->getErrorMessage();
+			} else {
+				$msg = 'Access denied';
+			}
+			throw new \OC\ForbiddenException($msg);
 		}
 
 		self::sendHeaders($filename, $name, $rangeArray);

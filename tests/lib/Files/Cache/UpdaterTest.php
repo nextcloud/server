@@ -50,8 +50,6 @@ class UpdaterTest extends \Test\TestCase {
 	}
 
 	protected function tearDown(): void {
-		Filesystem::clearMounts();
-
 		$this->logout();
 		parent::tearDown();
 	}

@@ -22,12 +22,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
-/**
- * Public interface of ownCloud for apps to use.
- * Files/File interface
- */
-
 // use OCP namespace for all classes that are considered public.
 // This means that they should be used by apps instead of the internal ownCloud classes
 
@@ -46,6 +40,7 @@ interface File extends Node {
 	 *
 	 * @return string
 	 * @throws NotPermittedException
+	 * @throws GenericFileException
 	 * @throws LockedException
 	 * @since 6.0.0
 	 */
@@ -74,7 +69,7 @@ interface File extends Node {
 	 * Open the file as stream, resulting resource can be operated as stream like the result from php's own fopen
 	 *
 	 * @param string $mode
-	 * @return resource
+	 * @return resource|false
 	 * @throws NotPermittedException
 	 * @throws LockedException
 	 * @since 6.0.0

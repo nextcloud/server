@@ -22,8 +22,8 @@
 namespace Test\Files\Type;
 
 use OC\Files\Type\Detection;
-use OCP\ILogger;
 use OCP\IURLGenerator;
+use Psr\Log\LoggerInterface;
 
 class DetectionTest extends \Test\TestCase {
 	/** @var Detection */
@@ -33,7 +33,7 @@ class DetectionTest extends \Test\TestCase {
 		parent::setUp();
 		$this->detection = new Detection(
 			\OC::$server->getURLGenerator(),
-			\OC::$server->getLogger(),
+			\OC::$server->get(LoggerInterface::class),
 			\OC::$SERVERROOT . '/config/',
 			\OC::$SERVERROOT . '/resources/config/'
 		);
@@ -71,7 +71,7 @@ class DetectionTest extends \Test\TestCase {
 	public function dataDetectContent(): array {
 		return [
 			['/', 'httpd/unix-directory'],
-			//			['/data.tar.gz', 'application/x-gzip'], TODO: fix as it fails hard on php7.4 now
+			['/data.tar.gz', 'application/gzip'],
 			['/data.zip', 'application/zip'],
 			['/testimage.mp3', 'audio/mpeg'],
 			['/testimage.png', 'image/png'],
@@ -91,7 +91,7 @@ class DetectionTest extends \Test\TestCase {
 	public function dataDetect(): array {
 		return [
 			['/', 'httpd/unix-directory'],
-			['/data.tar.gz', 'application/x-gzip'],
+			['/data.tar.gz', 'application/gzip'],
 			['/data.zip', 'application/zip'],
 			['/testimagelarge.svg', 'image/svg+xml'],
 			['/testimage.png', 'image/png'],
@@ -151,8 +151,8 @@ class DetectionTest extends \Test\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-		/** @var ILogger $logger */
-		$logger = $this->createMock(ILogger::class);
+		/** @var LoggerInterface $logger */
+		$logger = $this->createMock(LoggerInterface::class);
 
 		//Only call the url generator once
 		$urlGenerator->expects($this->once())

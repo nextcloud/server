@@ -23,7 +23,7 @@
 
 declare(strict_types=1);
 
-namespace lib\Authentication\Login;
+namespace Test\Authentication\Login;
 
 use OC\Authentication\Login\LoggedInCheckCommand;
 use OC\Core\Controller\LoginController;
@@ -32,7 +32,6 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
 class LoggedInCheckCommandTest extends ALoginCommandTest {
-
 	/** @var LoggerInterface|MockObject */
 	private $logger;
 

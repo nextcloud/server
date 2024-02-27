@@ -26,18 +26,22 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_External\Lib;
 
 use OCA\Files_External\Lib\Auth\AuthMechanism;
 use OCA\Files_External\Lib\Auth\IUserProvided;
 use OCA\Files_External\Lib\Backend\Backend;
+use OCA\Files_External\ResponseDefinitions;
 
 /**
  * External storage configuration
+ *
+ * @psalm-import-type Files_ExternalStorageConfig from ResponseDefinitions
  */
 class StorageConfig implements \JsonSerializable {
 	public const MOUNT_TYPE_ADMIN = 1;
+	public const MOUNT_TYPE_PERSONAL = 2;
+	/** @deprecated use MOUNT_TYPE_PERSONAL (full uppercase) instead */
 	public const MOUNT_TYPE_PERSONAl = 2;
 
 	/**
@@ -64,7 +68,7 @@ class StorageConfig implements \JsonSerializable {
 	/**
 	 * Backend options
 	 *
-	 * @var array
+	 * @var array<string, mixed>
 	 */
 	private $backendOptions = [];
 
@@ -99,21 +103,21 @@ class StorageConfig implements \JsonSerializable {
 	/**
 	 * List of users who have access to this storage
 	 *
-	 * @var array
+	 * @var string[]
 	 */
 	private $applicableUsers = [];
 
 	/**
 	 * List of groups that have access to this storage
 	 *
-	 * @var array
+	 * @var string[]
 	 */
 	private $applicableGroups = [];
 
 	/**
 	 * Mount-specific options
 	 *
-	 * @var array
+	 * @var array<string, mixed>
 	 */
 	private $mountOptions = [];
 
@@ -127,10 +131,10 @@ class StorageConfig implements \JsonSerializable {
 	/**
 	 * Creates a storage config
 	 *
-	 * @param int|null $id config id or null for a new config
+	 * @param int|string $id config id or null for a new config
 	 */
 	public function __construct($id = null) {
-		$this->id = $id;
+		$this->id = $id ?? -1;
 		$this->mountOptions['enable_sharing'] = false;
 	}
 
@@ -148,7 +152,7 @@ class StorageConfig implements \JsonSerializable {
 	 *
 	 * @param int $id configuration id
 	 */
-	public function setId($id) {
+	public function setId(int $id): void {
 		$this->id = $id;
 	}
 
@@ -262,7 +266,7 @@ class StorageConfig implements \JsonSerializable {
 	}
 
 	/**
-	 * Sets the mount priotity
+	 * Sets the mount priority
 	 *
 	 * @param int $priority priority
 	 */
@@ -273,7 +277,7 @@ class StorageConfig implements \JsonSerializable {
 	/**
 	 * Returns the users for which to mount this storage
 	 *
-	 * @return array applicable users
+	 * @return string[] applicable users
 	 */
 	public function getApplicableUsers() {
 		return $this->applicableUsers;
@@ -282,7 +286,7 @@ class StorageConfig implements \JsonSerializable {
 	/**
 	 * Sets the users for which to mount this storage
 	 *
-	 * @param array|null $applicableUsers applicable users
+	 * @param string[]|null $applicableUsers applicable users
 	 */
 	public function setApplicableUsers($applicableUsers) {
 		if (is_null($applicableUsers)) {
@@ -294,7 +298,7 @@ class StorageConfig implements \JsonSerializable {
 	/**
 	 * Returns the groups for which to mount this storage
 	 *
-	 * @return array applicable groups
+	 * @return string[] applicable groups
 	 */
 	public function getApplicableGroups() {
 		return $this->applicableGroups;
@@ -303,7 +307,7 @@ class StorageConfig implements \JsonSerializable {
 	/**
 	 * Sets the groups for which to mount this storage
 	 *
-	 * @param array|null $applicableGroups applicable groups
+	 * @param string[]|null $applicableGroups applicable groups
 	 */
 	public function setApplicableGroups($applicableGroups) {
 		if (is_null($applicableGroups)) {
@@ -382,14 +386,14 @@ class StorageConfig implements \JsonSerializable {
 	}
 
 	/**
-	 * @return int self::MOUNT_TYPE_ADMIN or self::MOUNT_TYPE_PERSONAl
+	 * @return int self::MOUNT_TYPE_ADMIN or self::MOUNT_TYPE_PERSONAL
 	 */
 	public function getType() {
 		return $this->type;
 	}
 
 	/**
-	 * @param int $type self::MOUNT_TYPE_ADMIN or self::MOUNT_TYPE_PERSONAl
+	 * @param int $type self::MOUNT_TYPE_ADMIN or self::MOUNT_TYPE_PERSONAL
 	 */
 	public function setType($type) {
 		$this->type = $type;
@@ -397,14 +401,19 @@ class StorageConfig implements \JsonSerializable {
 
 	/**
 	 * Serialize config to JSON
-	 *
-	 * @return array
+	 * @return Files_ExternalStorageConfig
 	 */
-	public function jsonSerialize() {
+	public function jsonSerialize(bool $obfuscate = false): array {
 		$result = [];
 		if (!is_null($this->id)) {
 			$result['id'] = $this->id;
 		}
+
+		// obfuscate sensitive data if requested
+		if ($obfuscate) {
+			$this->formatStorageForUI();
+		}
+
 		$result['mountPoint'] = $this->mountPoint;
 		$result['backend'] = $this->backend->getIdentifier();
 		$result['authMechanism'] = $this->authMechanism->getIdentifier();
@@ -428,7 +437,22 @@ class StorageConfig implements \JsonSerializable {
 			$result['statusMessage'] = $this->statusMessage;
 		}
 		$result['userProvided'] = $this->authMechanism instanceof IUserProvided;
-		$result['type'] = ($this->getType() === self::MOUNT_TYPE_PERSONAl) ? 'personal': 'system';
+		$result['type'] = ($this->getType() === self::MOUNT_TYPE_PERSONAL) ? 'personal': 'system';
 		return $result;
+	}
+
+	protected function formatStorageForUI(): void {
+		/** @var DefinitionParameter[] $parameters */
+		$parameters = array_merge($this->getBackend()->getParameters(), $this->getAuthMechanism()->getParameters());
+
+		$options = $this->getBackendOptions();
+		foreach ($options as $key => $value) {
+			foreach ($parameters as $parameter) {
+				if ($parameter->getName() === $key && $parameter->getType() === DefinitionParameter::VALUE_PASSWORD) {
+					$this->setBackendOption($key, DefinitionParameter::UNMODIFIED_PLACEHOLDER);
+					break;
+				}
+			}
+		}
 	}
 }

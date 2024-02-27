@@ -23,13 +23,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
-/**
- * Public interface of ownCloud for apps to use.
- * Cache interface
- *
- */
-
 // use OCP namespace for all classes that are considered public.
 // This means that they should be used by apps instead of the internal ownCloud classes
 
@@ -40,7 +33,6 @@ namespace OCP;
  * @since 6.0.0
  */
 interface ICache {
-
 	/**
 	 * Get a value from the user cache
 	 * @param string $key
@@ -83,4 +75,10 @@ interface ICache {
 	 * @since 6.0.0
 	 */
 	public function clear($prefix = '');
+
+	/**
+	 * Check if the cache implementation is available
+	 * @since 24.0.0
+	 */
+	public static function isAvailable(): bool;
 }

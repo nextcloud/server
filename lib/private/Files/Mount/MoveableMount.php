@@ -20,13 +20,14 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Files\Mount;
+
+use OCP\Files\Mount\IMovableMount;
 
 /**
  * Defines the mount point to be (re)moved by the user
  */
-interface MoveableMount {
+interface MoveableMount extends IMovableMount {
 	/**
 	 * Move the mount point to $target
 	 *
@@ -38,7 +39,6 @@ interface MoveableMount {
 	/**
 	 * Remove the mount points
 	 *
-	 * @return mixed
 	 * @return bool
 	 */
 	public function removeMount();

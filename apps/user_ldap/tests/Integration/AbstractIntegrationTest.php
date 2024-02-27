@@ -25,7 +25,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\User_LDAP\Tests\Integration;
 
 use OCA\User_LDAP\Access;
@@ -34,10 +33,10 @@ use OCA\User_LDAP\FilesystemHelper;
 use OCA\User_LDAP\GroupPluginManager;
 use OCA\User_LDAP\Helper;
 use OCA\User_LDAP\LDAP;
-use OCA\User_LDAP\LogWrapper;
 use OCA\User_LDAP\User\Manager;
 use OCA\User_LDAP\UserPluginManager;
 use OCP\Share\IManager;
+use Psr\Log\LoggerInterface;
 
 abstract class AbstractIntegrationTest {
 	/** @var  LDAP */
@@ -124,7 +123,7 @@ abstract class AbstractIntegrationTest {
 		$this->userManager = new Manager(
 			\OC::$server->getConfig(),
 			new FilesystemHelper(),
-			new LogWrapper(),
+			\OC::$server->get(LoggerInterface::class),
 			\OC::$server->getAvatarManager(),
 			new \OCP\Image(),
 			\OC::$server->getUserManager(),
@@ -144,7 +143,7 @@ abstract class AbstractIntegrationTest {
 	 * initializes the Access test instance
 	 */
 	protected function initAccess() {
-		$this->access = new Access($this->connection, $this->ldap, $this->userManager, $this->helper, \OC::$server->getConfig());
+		$this->access = new Access($this->connection, $this->ldap, $this->userManager, $this->helper, \OC::$server->getConfig(), \OCP\Server::get(LoggerInterface::class));
 	}
 
 	/**
@@ -156,7 +155,7 @@ abstract class AbstractIntegrationTest {
 		$methods = get_class_methods($this);
 		$atLeastOneCaseRan = false;
 		foreach ($methods as $method) {
-			if (strpos($method, 'case') === 0) {
+			if (str_starts_with($method, 'case')) {
 				print("running $method " . PHP_EOL);
 				try {
 					if (!$this->$method()) {

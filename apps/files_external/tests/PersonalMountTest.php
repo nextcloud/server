@@ -4,6 +4,7 @@
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Robin Appelman <robin@icewind.nl>
  *
  * @license AGPL-3.0
@@ -21,10 +22,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_External\Tests;
 
 use OC\Files\Mount\Manager;
+use OC\Files\SetupManagerFactory;
 use OCA\Files_External\Lib\PersonalMount;
 use OCA\Files_External\Lib\StorageConfig;
 use Test\TestCase;
@@ -47,7 +48,7 @@ class PersonalMountTest extends TestCase {
 
 		$mount = new PersonalMount($storageService, $storageConfig, 10, $storage, '/foo');
 
-		$mountManager = new Manager();
+		$mountManager = new Manager($this->createMock(SetupManagerFactory::class));
 		$mountManager->addMount($mount);
 
 		$this->assertEquals([$mount], $mountManager->findByStorageId('dummy'));

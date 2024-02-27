@@ -1,9 +1,16 @@
 /**
  * @copyright Copyright (c) 2018 John Molakvoæ <skjnldsv@protonmail.com>
  *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Julius Härtl <jus@bitgrid.net>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Vincent Petry <vincent@nextcloud.com>
+ * @author Stephan Orbaugh <stephan.orbaugh@nextcloud.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -20,9 +27,12 @@
  *
  */
 
-import api from './api'
+import api from './api.js'
 import axios from '@nextcloud/axios'
 import { generateOcsUrl } from '@nextcloud/router'
+import { getCapabilities } from '@nextcloud/capabilities'
+import logger from '../logger.js'
+import { parseFileSize } from '@nextcloud/files'
 
 const orderGroups = function(groups, orderBy) {
 	/* const SORT_USERCOUNT = 1;
@@ -54,15 +64,30 @@ const state = {
 	minPasswordLength: 0,
 	usersOffset: 0,
 	usersLimit: 25,
+	disabledUsersOffset: 0,
+	disabledUsersLimit: 25,
 	userCount: 0,
+	showConfig: {
+		showStoragePath: false,
+		showUserBackend: false,
+		showLastLogin: false,
+		showNewUserForm: false,
+		showLanguages: false,
+	},
 }
 
 const mutations = {
 	appendUsers(state, usersObj) {
-		// convert obj to array
-		const users = state.users.concat(Object.keys(usersObj).map(userid => usersObj[userid]))
+		const existingUsers = state.users.map(({ id }) => id)
+		const newUsers = Object.values(usersObj)
+			.filter(({ id }) => !existingUsers.includes(id))
+
+		const users = state.users.concat(newUsers)
 		state.usersOffset += state.usersLimit
 		state.users = users
+	},
+	updateDisabledUsers(state, _usersObj) {
+		state.disabledUsersOffset += state.disabledUsersLimit
 	},
 	setPasswordPolicyMinLength(state, length) {
 		state.minPasswordLength = length !== '' ? length : 0
@@ -84,10 +109,19 @@ const mutations = {
 				id: gid,
 				name: displayName,
 			})
-			state.groups.push(group)
+			state.groups.unshift(group)
 			state.groups = orderGroups(state.groups, state.orderBy)
 		} catch (e) {
 			console.error('Can\'t create group', e)
+		}
+	},
+	renameGroup(state, { gid, displayName }) {
+		const groupIndex = state.groups.findIndex(groupSearch => groupSearch.id === gid)
+		if (groupIndex >= 0) {
+			const updatedGroup = state.groups[groupIndex]
+			updatedGroup.name = displayName
+			state.groups.splice(groupIndex, 1, updatedGroup)
+			state.groups = orderGroups(state.groups, state.orderBy)
 		}
 	},
 	removeGroup(state, gid) {
@@ -128,27 +162,73 @@ const mutations = {
 	},
 	deleteUser(state, userid) {
 		const userIndex = state.users.findIndex(user => user.id === userid)
+		this.commit('updateUserCounts', { user: state.users[userIndex], actionType: 'remove' })
 		state.users.splice(userIndex, 1)
 	},
 	addUserData(state, response) {
-		state.users.push(response.data.ocs.data)
+		const user = response.data.ocs.data
+		state.users.unshift(user)
+		this.commit('updateUserCounts', { user, actionType: 'create' })
 	},
 	enableDisableUser(state, { userid, enabled }) {
 		const user = state.users.find(user => user.id === userid)
 		user.enabled = enabled
-		// increment or not
-		if (state.userCount > 0) {
-			state.groups.find(group => group.id === 'disabled').usercount += enabled ? -1 : 1
-			state.userCount += enabled ? 1 : -1
-			user.groups.forEach(group => {
-				// Increment disabled count
-				state.groups.find(groupSearch => groupSearch.id === group).disabled += enabled ? -1 : 1
+		this.commit('updateUserCounts', { user, actionType: enabled ? 'enable' : 'disable' })
+	},
+	// update active/disabled counts, groups counts
+	updateUserCounts(state, { user, actionType }) {
+		// 0 is a special value
+		if (state.userCount === 0) {
+			return
+		}
+
+		const disabledGroup = state.groups.find(group => group.id === 'disabled')
+		switch (actionType) {
+		case 'enable':
+		case 'disable':
+			disabledGroup.usercount += user.enabled ? -1 : 1 // update Disabled Users count
+			state.userCount += user.enabled ? 1 : -1 // update Active Users count
+			user.groups.forEach(userGroup => {
+				const group = state.groups.find(groupSearch => groupSearch.id === userGroup)
+				group.disabled += user.enabled ? -1 : 1 // update group disabled count
 			})
+			break
+		case 'create':
+			state.userCount++ // increment Active Users count
+
+			user.groups.forEach(userGroup => {
+				state.groups
+					.find(groupSearch => groupSearch.id === userGroup)
+				    .usercount++ // increment group total count
+			})
+			break
+		case 'remove':
+			if (user.enabled) {
+				state.userCount-- // decrement Active Users count
+				user.groups.forEach(userGroup => {
+					const group = state.groups.find(groupSearch => groupSearch.id === userGroup)
+					if (!group) {
+						console.warn('User group ' + userGroup + ' does not exist during user removal')
+						return
+					}
+					group.usercount-- // decrement group total count
+				})
+			} else {
+				disabledGroup.usercount-- // decrement Disabled Users count
+				user.groups.forEach(userGroup => {
+					const group = state.groups.find(groupSearch => groupSearch.id === userGroup)
+					group.disabled-- // decrement group disabled count
+				})
+			}
+			break
+		default:
+			logger.error(`Unknown action type in updateUserCounts: '${actionType}'`)
+			// not throwing error to interrupt execution as this is not fatal
 		}
 	},
 	setUserData(state, { userid, key, value }) {
 		if (key === 'quota') {
-			const humanValue = OC.Util.computerFileSize(value)
+			const humanValue = parseFileSize(value, true)
 			state.users.find(user => user.id === userid)[key][key] = humanValue !== null ? humanValue : value
 		} else {
 			state.users.find(user => user.id === userid)[key] = value
@@ -157,11 +237,17 @@ const mutations = {
 
 	/**
 	 * Reset users list
-	 * @param {Object} state the store state
+	 *
+	 * @param {object} state the store state
 	 */
 	resetUsers(state) {
 		state.users = []
 		state.usersOffset = 0
+		state.disabledUsersOffset = 0
+	},
+
+	setShowConfig(state, { key, value }) {
+		state.showConfig[key] = value
 	},
 }
 
@@ -185,8 +271,17 @@ const getters = {
 	getUsersLimit(state) {
 		return state.usersLimit
 	},
+	getDisabledUsersOffset(state) {
+		return state.disabledUsersOffset
+	},
+	getDisabledUsersLimit(state) {
+		return state.disabledUsersLimit
+	},
 	getUserCount(state) {
 		return state.userCount
+	},
+	getShowConfig(state) {
+		return state.showConfig
 	},
 }
 
@@ -196,15 +291,50 @@ let searchRequestCancelSource = null
 const actions = {
 
 	/**
+	 * search users
+	 *
+	 * @param {object} context store context
+	 * @param {object} options destructuring object
+	 * @param {number} options.offset List offset to request
+	 * @param {number} options.limit List number to return from offset
+	 * @param {string} options.search Search amongst users
+	 * @return {Promise}
+	 */
+	searchUsers(context, { offset, limit, search }) {
+		search = typeof search === 'string' ? search : ''
+
+		return api.get(generateOcsUrl('cloud/users/details?offset={offset}&limit={limit}&search={search}', { offset, limit, search })).catch((error) => {
+			if (!axios.isCancel(error)) {
+				context.commit('API_FAILURE', error)
+			}
+		})
+	},
+
+	/**
+	 * Get user details
+	 *
+	 * @param {object} context store context
+	 * @param {string} userId user id
+	 * @return {Promise}
+	 */
+	getUser(context, userId) {
+		return api.get(generateOcsUrl(`cloud/users/${userId}`)).catch((error) => {
+			if (!axios.isCancel(error)) {
+				context.commit('API_FAILURE', error)
+			}
+		})
+	},
+
+	/**
 	 * Get all users with full details
 	 *
-	 * @param {Object} context store context
-	 * @param {Object} options destructuring object
-	 * @param {int} options.offset List offset to request
-	 * @param {int} options.limit List number to return from offset
+	 * @param {object} context store context
+	 * @param {object} options destructuring object
+	 * @param {number} options.offset List offset to request
+	 * @param {number} options.limit List number to return from offset
 	 * @param {string} options.search Search amongst users
 	 * @param {string} options.group Get users from group
-	 * @returns {Promise}
+	 * @return {Promise}
 	 */
 	getUsers(context, { offset, limit, search, group }) {
 		if (searchRequestCancelSource) {
@@ -212,17 +342,25 @@ const actions = {
 		}
 		searchRequestCancelSource = CancelToken.source()
 		search = typeof search === 'string' ? search : ''
+
+		/**
+		 * Adding filters in the search bar such as in:files, in:users, etc.
+		 * collides with this particular search, so we need to remove them
+		 * here and leave only the original search query
+		 */
+		search = search.replace(/in:[^\s]+/g, '').trim()
+
 		group = typeof group === 'string' ? group : ''
 		if (group !== '') {
-			return api.get(generateOcsUrl(`cloud/groups/${encodeURIComponent(encodeURIComponent(group))}/users/details?offset=${offset}&limit=${limit}&search=${search}`, 2), {
+			return api.get(generateOcsUrl('cloud/groups/{group}/users/details?offset={offset}&limit={limit}&search={search}', { group: encodeURIComponent(group), offset, limit, search }), {
 				cancelToken: searchRequestCancelSource.token,
 			})
 				.then((response) => {
-					if (Object.keys(response.data.ocs.data.users).length > 0) {
+					const usersCount = Object.keys(response.data.ocs.data.users).length
+					if (usersCount > 0) {
 						context.commit('appendUsers', response.data.ocs.data.users)
-						return Object.keys(response.data.ocs.data.users).length >= limit
 					}
-					return false
+					return usersCount
 				})
 				.catch((error) => {
 					if (!axios.isCancel(error)) {
@@ -231,15 +369,15 @@ const actions = {
 				})
 		}
 
-		return api.get(generateOcsUrl(`cloud/users/details?offset=${offset}&limit=${limit}&search=${search}`, 2), {
+		return api.get(generateOcsUrl('cloud/users/details?offset={offset}&limit={limit}&search={search}', { offset, limit, search }), {
 			cancelToken: searchRequestCancelSource.token,
 		})
 			.then((response) => {
-				if (Object.keys(response.data.ocs.data.users).length > 0) {
+				const usersCount = Object.keys(response.data.ocs.data.users).length
+				if (usersCount > 0) {
 					context.commit('appendUsers', response.data.ocs.data.users)
-					return Object.keys(response.data.ocs.data.users).length >= limit
 				}
-				return false
+				return usersCount
 			})
 			.catch((error) => {
 				if (!axios.isCancel(error)) {
@@ -248,10 +386,34 @@ const actions = {
 			})
 	},
 
+	/**
+	 * Get disabled users with full details
+	 *
+	 * @param {object} context store context
+	 * @param {object} options destructuring object
+	 * @param {number} options.offset List offset to request
+	 * @param {number} options.limit List number to return from offset
+	 * @return {Promise<number>}
+	 */
+	async getDisabledUsers(context, { offset, limit }) {
+		const url = generateOcsUrl('cloud/users/disabled?offset={offset}&limit={limit}', { offset, limit })
+		try {
+			const response = await api.get(url)
+			const usersCount = Object.keys(response.data.ocs.data.users).length
+			if (usersCount > 0) {
+				context.commit('appendUsers', response.data.ocs.data.users)
+				context.commit('updateDisabledUsers', response.data.ocs.data.users)
+			}
+			return usersCount
+		} catch (error) {
+			context.commit('API_FAILURE', error)
+		}
+	},
+
 	getGroups(context, { offset, limit, search }) {
 		search = typeof search === 'string' ? search : ''
 		const limitParam = limit === -1 ? '' : `&limit=${limit}`
-		return api.get(generateOcsUrl(`cloud/groups?offset=${offset}&search=${search}${limitParam}`, 2))
+		return api.get(generateOcsUrl('cloud/groups?offset={offset}&search={search}', { offset, search }) + limitParam)
 			.then((response) => {
 				if (Object.keys(response.data.ocs.data.groups).length > 0) {
 					response.data.ocs.data.groups.forEach(function(group) {
@@ -267,15 +429,16 @@ const actions = {
 	/**
 	 * Get all users with full details
 	 *
-	 * @param {Object} context store context
-	 * @param {Object} options destructuring object
-	 * @param {int} options.offset List offset to request
-	 * @param {int} options.limit List number to return from offset
-	 * @returns {Promise}
+	 * @param {object} context store context
+	 * @param {object} options destructuring object
+	 * @param {number} options.offset List offset to request
+	 * @param {number} options.limit List number to return from offset
+	 * @param {string} options.search -
+	 * @return {Promise}
 	 */
 	getUsersFromList(context, { offset, limit, search }) {
 		search = typeof search === 'string' ? search : ''
-		return api.get(generateOcsUrl(`cloud/users/details?offset=${offset}&limit=${limit}&search=${search}`, 2))
+		return api.get(generateOcsUrl('cloud/users/details?offset={offset}&limit={limit}&search={search}', { offset, limit, search }))
 			.then((response) => {
 				if (Object.keys(response.data.ocs.data.users).length > 0) {
 					context.commit('appendUsers', response.data.ocs.data.users)
@@ -289,22 +452,23 @@ const actions = {
 	/**
 	 * Get all users with full details from a groupid
 	 *
-	 * @param {Object} context store context
-	 * @param {Object} options destructuring object
-	 * @param {int} options.offset List offset to request
-	 * @param {int} options.limit List number to return from offset
-	 * @returns {Promise}
+	 * @param {object} context store context
+	 * @param {object} options destructuring object
+	 * @param {number} options.offset List offset to request
+	 * @param {number} options.limit List number to return from offset
+	 * @param {string} options.groupid -
+	 * @return {Promise}
 	 */
 	getUsersFromGroup(context, { groupid, offset, limit }) {
-		return api.get(generateOcsUrl(`cloud/users/${encodeURIComponent(encodeURIComponent(groupid))}/details?offset=${offset}&limit=${limit}`, 2))
+		return api.get(generateOcsUrl('cloud/users/{groupId}/details?offset={offset}&limit={limit}', { groupId: encodeURIComponent(groupid), offset, limit }))
 			.then((response) => context.commit('getUsersFromList', response.data.ocs.data.users))
 			.catch((error) => context.commit('API_FAILURE', error))
 	},
 
 	getPasswordPolicyMinLength(context) {
-		if (OC.getCapabilities().password_policy && OC.getCapabilities().password_policy.minLength) {
-			context.commit('setPasswordPolicyMinLength', OC.getCapabilities().password_policy.minLength)
-			return OC.getCapabilities().password_policy.minLength
+		if (getCapabilities().password_policy && getCapabilities().password_policy.minLength) {
+			context.commit('setPasswordPolicyMinLength', getCapabilities().password_policy.minLength)
+			return getCapabilities().password_policy.minLength
 		}
 		return false
 	},
@@ -312,13 +476,13 @@ const actions = {
 	/**
 	 * Add group
 	 *
-	 * @param {Object} context store context
+	 * @param {object} context store context
 	 * @param {string} gid Group id
-	 * @returns {Promise}
+	 * @return {Promise}
 	 */
 	addGroup(context, gid) {
 		return api.requireAdmin().then((response) => {
-			return api.post(generateOcsUrl('cloud/groups', 2), { groupid: gid })
+			return api.post(generateOcsUrl('cloud/groups'), { groupid: gid })
 				.then((response) => {
 					context.commit('addGroup', { gid, displayName: gid })
 					return { gid, displayName: gid }
@@ -333,15 +497,39 @@ const actions = {
 	},
 
 	/**
+	 * Rename group
+	 *
+	 * @param {object} context store context
+	 * @param {string} groupid Group id
+	 * @param {string} displayName Group display name
+	 * @return {Promise}
+	 */
+	renameGroup(context, { groupid, displayName }) {
+		return api.requireAdmin().then((response) => {
+			return api.put(generateOcsUrl('cloud/groups/{groupId}', { groupId: encodeURIComponent(groupid) }), { key: 'displayname', value: displayName })
+				.then((response) => {
+					context.commit('renameGroup', { gid: groupid, displayName })
+					return { groupid, displayName }
+				})
+				.catch((error) => { throw error })
+		}).catch((error) => {
+			context.commit('API_FAILURE', { groupid, error })
+			// let's throw one more time to prevent the view
+			// from renaming the group
+			throw error
+		})
+	},
+
+	/**
 	 * Remove group
 	 *
-	 * @param {Object} context store context
+	 * @param {object} context store context
 	 * @param {string} gid Group id
-	 * @returns {Promise}
+	 * @return {Promise}
 	 */
 	removeGroup(context, gid) {
 		return api.requireAdmin().then((response) => {
-			return api.delete(generateOcsUrl(`cloud/groups/${encodeURIComponent(encodeURIComponent(gid))}`, 2))
+			return api.delete(generateOcsUrl('cloud/groups/{groupId}', { groupId: encodeURIComponent(gid) }))
 				.then((response) => context.commit('removeGroup', gid))
 				.catch((error) => { throw error })
 		}).catch((error) => context.commit('API_FAILURE', { gid, error }))
@@ -350,15 +538,15 @@ const actions = {
 	/**
 	 * Add user to group
 	 *
-	 * @param {Object} context store context
-	 * @param {Object} options destructuring object
+	 * @param {object} context store context
+	 * @param {object} options destructuring object
 	 * @param {string} options.userid User id
 	 * @param {string} options.gid Group id
-	 * @returns {Promise}
+	 * @return {Promise}
 	 */
 	addUserGroup(context, { userid, gid }) {
 		return api.requireAdmin().then((response) => {
-			return api.post(generateOcsUrl(`cloud/users/${userid}/groups`, 2), { groupid: gid })
+			return api.post(generateOcsUrl('cloud/users/{userid}/groups', { userid }), { groupid: gid })
 				.then((response) => context.commit('addUserGroup', { userid, gid }))
 				.catch((error) => { throw error })
 		}).catch((error) => context.commit('API_FAILURE', { userid, error }))
@@ -367,15 +555,15 @@ const actions = {
 	/**
 	 * Remove user from group
 	 *
-	 * @param {Object} context store context
-	 * @param {Object} options destructuring object
+	 * @param {object} context store context
+	 * @param {object} options destructuring object
 	 * @param {string} options.userid User id
 	 * @param {string} options.gid Group id
-	 * @returns {Promise}
+	 * @return {Promise}
 	 */
 	removeUserGroup(context, { userid, gid }) {
 		return api.requireAdmin().then((response) => {
-			return api.delete(generateOcsUrl(`cloud/users/${userid}/groups`, 2), { groupid: gid })
+			return api.delete(generateOcsUrl('cloud/users/{userid}/groups', { userid }), { groupid: gid })
 				.then((response) => context.commit('removeUserGroup', { userid, gid }))
 				.catch((error) => { throw error })
 		}).catch((error) => {
@@ -389,15 +577,15 @@ const actions = {
 	/**
 	 * Add user to group admin
 	 *
-	 * @param {Object} context store context
-	 * @param {Object} options destructuring object
+	 * @param {object} context store context
+	 * @param {object} options destructuring object
 	 * @param {string} options.userid User id
 	 * @param {string} options.gid Group id
-	 * @returns {Promise}
+	 * @return {Promise}
 	 */
 	addUserSubAdmin(context, { userid, gid }) {
 		return api.requireAdmin().then((response) => {
-			return api.post(generateOcsUrl(`cloud/users/${userid}/subadmins`, 2), { groupid: gid })
+			return api.post(generateOcsUrl('cloud/users/{userid}/subadmins', { userid }), { groupid: gid })
 				.then((response) => context.commit('addUserSubAdmin', { userid, gid }))
 				.catch((error) => { throw error })
 		}).catch((error) => context.commit('API_FAILURE', { userid, error }))
@@ -406,15 +594,15 @@ const actions = {
 	/**
 	 * Remove user from group admin
 	 *
-	 * @param {Object} context store context
-	 * @param {Object} options destructuring object
+	 * @param {object} context store context
+	 * @param {object} options destructuring object
 	 * @param {string} options.userid User id
 	 * @param {string} options.gid Group id
-	 * @returns {Promise}
+	 * @return {Promise}
 	 */
 	removeUserSubAdmin(context, { userid, gid }) {
 		return api.requireAdmin().then((response) => {
-			return api.delete(generateOcsUrl(`cloud/users/${userid}/subadmins`, 2), { groupid: gid })
+			return api.delete(generateOcsUrl('cloud/users/{userid}/subadmins', { userid }), { groupid: gid })
 				.then((response) => context.commit('removeUserSubAdmin', { userid, gid }))
 				.catch((error) => { throw error })
 		}).catch((error) => context.commit('API_FAILURE', { userid, error }))
@@ -423,13 +611,13 @@ const actions = {
 	/**
 	 * Mark all user devices for remote wipe
 	 *
-	 * @param {Object} context store context
+	 * @param {object} context store context
 	 * @param {string} userid User id
-	 * @returns {Promise}
+	 * @return {Promise}
 	 */
 	wipeUserDevices(context, userid) {
 		return api.requireAdmin().then((response) => {
-			return api.post(generateOcsUrl(`cloud/users/${userid}/wipe`, 2))
+			return api.post(generateOcsUrl('cloud/users/{userid}/wipe', { userid }))
 				.catch((error) => { throw error })
 		}).catch((error) => context.commit('API_FAILURE', { userid, error }))
 	},
@@ -437,13 +625,13 @@ const actions = {
 	/**
 	 * Delete a user
 	 *
-	 * @param {Object} context store context
+	 * @param {object} context store context
 	 * @param {string} userid User id
-	 * @returns {Promise}
+	 * @return {Promise}
 	 */
 	deleteUser(context, userid) {
 		return api.requireAdmin().then((response) => {
-			return api.delete(generateOcsUrl(`cloud/users/${userid}`, 2))
+			return api.delete(generateOcsUrl('cloud/users/{userid}', { userid }))
 				.then((response) => context.commit('deleteUser', userid))
 				.catch((error) => { throw error })
 		}).catch((error) => context.commit('API_FAILURE', { userid, error }))
@@ -452,8 +640,10 @@ const actions = {
 	/**
 	 * Add a user
 	 *
-	 * @param {Object} context store context
-	 * @param {Object} options destructuring object
+	 * @param {object} context store context
+	 * @param {Function} context.commit -
+	 * @param {Function} context.dispatch -
+	 * @param {object} options destructuring object
 	 * @param {string} options.userid User id
 	 * @param {string} options.password User password
 	 * @param {string} options.displayName User display name
@@ -461,11 +651,13 @@ const actions = {
 	 * @param {string} options.groups User groups
 	 * @param {string} options.subadmin User subadmin groups
 	 * @param {string} options.quota User email
-	 * @returns {Promise}
+	 * @param {string} options.language User language
+	 * @param {string} options.manager User manager
+	 * @return {Promise}
 	 */
-	addUser({ commit, dispatch }, { userid, password, displayName, email, groups, subadmin, quota, language }) {
+	addUser({ commit, dispatch }, { userid, password, displayName, email, groups, subadmin, quota, language, manager }) {
 		return api.requireAdmin().then((response) => {
-			return api.post(generateOcsUrl('cloud/users', 2), { userid, password, displayName, email, groups, subadmin, quota, language })
+			return api.post(generateOcsUrl('cloud/users'), { userid, password, displayName, email, groups, subadmin, quota, language, manager })
 				.then((response) => dispatch('addUserData', userid || response.data.ocs.data.id))
 				.catch((error) => { throw error })
 		}).catch((error) => {
@@ -477,30 +669,31 @@ const actions = {
 	/**
 	 * Get user data and commit addition
 	 *
-	 * @param {Object} context store context
+	 * @param {object} context store context
 	 * @param {string} userid User id
-	 * @returns {Promise}
+	 * @return {Promise}
 	 */
 	addUserData(context, userid) {
 		return api.requireAdmin().then((response) => {
-			return api.get(generateOcsUrl(`cloud/users/${userid}`, 2))
+			return api.get(generateOcsUrl('cloud/users/{userid}', { userid }))
 				.then((response) => context.commit('addUserData', response))
 				.catch((error) => { throw error })
 		}).catch((error) => context.commit('API_FAILURE', { userid, error }))
 	},
 
-	/** Enable or disable user
+	/**
+	 * Enable or disable user
 	 *
-	 * @param {Object} context store context
-	 * @param {Object} options destructuring object
+	 * @param {object} context store context
+	 * @param {object} options destructuring object
 	 * @param {string} options.userid User id
 	 * @param {boolean} options.enabled User enablement status
-	 * @returns {Promise}
+	 * @return {Promise}
 	 */
 	enableDisableUser(context, { userid, enabled = true }) {
 		const userStatus = enabled ? 'enable' : 'disable'
 		return api.requireAdmin().then((response) => {
-			return api.put(generateOcsUrl(`cloud/users/${userid}/${userStatus}`, 2))
+			return api.put(generateOcsUrl('cloud/users/{userid}/{userStatus}', { userid, userStatus }))
 				.then((response) => context.commit('enableDisableUser', { userid, enabled }))
 				.catch((error) => { throw error })
 		}).catch((error) => context.commit('API_FAILURE', { userid, error }))
@@ -509,16 +702,16 @@ const actions = {
 	/**
 	 * Edit user data
 	 *
-	 * @param {Object} context store context
-	 * @param {Object} options destructuring object
+	 * @param {object} context store context
+	 * @param {object} options destructuring object
 	 * @param {string} options.userid User id
 	 * @param {string} options.key User field to edit
 	 * @param {string} options.value Value of the change
-	 * @returns {Promise}
+	 * @return {Promise}
 	 */
 	setUserData(context, { userid, key, value }) {
-		const allowedEmpty = ['email', 'displayname']
-		if (['email', 'language', 'quota', 'displayname', 'password'].indexOf(key) !== -1) {
+		const allowedEmpty = ['email', 'displayname', 'manager']
+		if (['email', 'language', 'quota', 'displayname', 'password', 'manager'].indexOf(key) !== -1) {
 			// We allow empty email or displayname
 			if (typeof value === 'string'
 				&& (
@@ -527,7 +720,7 @@ const actions = {
 				)
 			) {
 				return api.requireAdmin().then((response) => {
-					return api.put(generateOcsUrl(`cloud/users/${userid}`, 2), { key, value })
+					return api.put(generateOcsUrl('cloud/users/{userid}', { userid }), { key, value })
 						.then((response) => context.commit('setUserData', { userid, key, value }))
 						.catch((error) => { throw error })
 				}).catch((error) => context.commit('API_FAILURE', { userid, error }))
@@ -539,13 +732,13 @@ const actions = {
 	/**
 	 * Send welcome mail
 	 *
-	 * @param {Object} context store context
+	 * @param {object} context store context
 	 * @param {string} userid User id
-	 * @returns {Promise}
+	 * @return {Promise}
 	 */
 	sendWelcomeMail(context, userid) {
 		return api.requireAdmin().then((response) => {
-			return api.post(generateOcsUrl(`cloud/users/${userid}/welcome`, 2))
+			return api.post(generateOcsUrl('cloud/users/{userid}/welcome', { userid }))
 				.then(response => true)
 				.catch((error) => { throw error })
 		}).catch((error) => context.commit('API_FAILURE', { userid, error }))

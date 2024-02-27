@@ -26,90 +26,84 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Preview;
 
 use OCP\Files\File;
+use OCP\Files\FileInfo;
 use OCP\IImage;
-use OCP\ILogger;
+use OCP\ITempManager;
+use OCP\Server;
 
 abstract class Office extends ProviderV2 {
-	private $cmd;
+	/**
+	 * {@inheritDoc}
+	 */
+	public function isAvailable(FileInfo $file): bool {
+		return is_string($this->options['officeBinary']);
+	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	public function getThumbnail(File $file, int $maxX, int $maxY): ?IImage {
-		$this->initCmd();
-		if (is_null($this->cmd)) {
+		if (!$this->isAvailable($file)) {
 			return null;
 		}
 
+		$tempManager = Server::get(ITempManager::class);
+
+		// The file to generate the preview for.
 		$absPath = $this->getLocalFile($file);
 
-		$tmpDir = \OC::$server->getTempManager()->getTempBaseDir();
+		// The destination for the LibreOffice user profile.
+		// LibreOffice can rune once per user profile and therefore instance id and file id are included.
+		$profile = $tempManager->getTemporaryFolder(
+			'nextcloud-office-profile-' . \OC_Util::getInstanceId() . '-' . $file->getId()
+		);
 
-		$defaultParameters = ' -env:UserInstallation=file://' . escapeshellarg($tmpDir . '/owncloud-' . \OC_Util::getInstanceId() . '/') . ' --headless --nologo --nofirststartwizard --invisible --norestore --convert-to png --outdir ';
-		$clParameters = \OC::$server->getConfig()->getSystemValue('preview_office_cl_parameters', $defaultParameters);
+		// The destination for the LibreOffice convert result.
+		$outdir = $tempManager->getTemporaryFolder(
+			'nextcloud-office-preview-' . \OC_Util::getInstanceId() . '-' . $file->getId()
+		);
 
-		$exec = $this->cmd . $clParameters . escapeshellarg($tmpDir) . ' ' . escapeshellarg($absPath);
-
-		shell_exec($exec);
-
-		//create imagick object from png
-		$pngPreview = null;
-		try {
-			[$dirname, , , $filename] = array_values(pathinfo($absPath));
-			$pngPreview = $tmpDir . '/' . $filename . '.png';
-
-			$png = new \imagick($pngPreview . '[0]');
-			$png->setImageFormat('jpg');
-		} catch (\Exception $e) {
+		if ($profile === false || $outdir === false) {
 			$this->cleanTmpFiles();
-			unlink($pngPreview);
-			\OC::$server->getLogger()->logException($e, [
-				'level' => ILogger::ERROR,
-				'app' => 'core',
-			]);
 			return null;
 		}
 
-		$image = new \OC_Image();
-		$image->loadFromData($png);
+		$parameters = [
+			$this->options['officeBinary'],
+			'-env:UserInstallation=file://' . escapeshellarg($profile),
+			'--headless',
+			'--nologo',
+			'--nofirststartwizard',
+			'--invisible',
+			'--norestore',
+			'--convert-to png',
+			'--outdir ' . escapeshellarg($outdir),
+			escapeshellarg($absPath),
+		];
+
+		$cmd = implode(' ', $parameters);
+		exec($cmd, $output, $returnCode);
+
+		if ($returnCode !== 0) {
+			$this->cleanTmpFiles();
+			return null;
+		}
+
+		$preview = $outdir . pathinfo($absPath, PATHINFO_FILENAME) . '.png';
+
+		$image = new \OCP\Image();
+		$image->loadFromFile($preview);
 
 		$this->cleanTmpFiles();
-		unlink($pngPreview);
 
 		if ($image->valid()) {
 			$image->scaleDownToFit($maxX, $maxY);
-
 			return $image;
 		}
+
 		return null;
-	}
-
-	private function initCmd() {
-		$cmd = '';
-
-		$libreOfficePath = \OC::$server->getConfig()->getSystemValue('preview_libreoffice_path', null);
-		if (is_string($libreOfficePath)) {
-			$cmd = $libreOfficePath;
-		}
-
-		$whichLibreOffice = shell_exec('command -v libreoffice');
-		if ($cmd === '' && !empty($whichLibreOffice)) {
-			$cmd = 'libreoffice';
-		}
-
-		$whichOpenOffice = shell_exec('command -v openoffice');
-		if ($cmd === '' && !empty($whichOpenOffice)) {
-			$cmd = 'openoffice';
-		}
-
-		if ($cmd === '') {
-			$cmd = null;
-		}
-
-		$this->cmd = $cmd;
 	}
 }

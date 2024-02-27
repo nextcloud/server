@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Copyright (c) 2014 Lukas Reschke <lukas@owncloud.com>
  * This file is licensed under the Affero General Public License version 3 or
@@ -13,7 +16,6 @@ use OC\Security\SecureRandom;
 class SecureRandomTest extends \Test\TestCase {
 	public function stringGenerationProvider() {
 		return [
-			[0, 0],
 			[1, 1],
 			[128, 128],
 			[256, 256],
@@ -73,5 +75,21 @@ class SecureRandomTest extends \Test\TestCase {
 		$randomString = $generator->generate(100, $scheme);
 		$matchesRegex = preg_match('/^'.$chars.'+$/', $randomString);
 		$this->assertSame(1, $matchesRegex);
+	}
+
+	public static function invalidLengths() {
+		return [
+			[0],
+			[-1],
+		];
+	}
+
+	/**
+	 * @dataProvider invalidLengths
+	 */
+	public function testInvalidLengths($length) {
+		$this->expectException(\LengthException::class);
+		$generator = $this->rng;
+		$generator->generate($length);
 	}
 }

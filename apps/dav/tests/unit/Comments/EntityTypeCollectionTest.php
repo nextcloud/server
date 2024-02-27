@@ -22,14 +22,13 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\Tests\unit\Comments;
 
 use OCA\DAV\Comments\EntityCollection as EntityCollectionImplemantation;
 use OCP\Comments\ICommentsManager;
-use OCP\ILogger;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use Psr\Log\LoggerInterface;
 
 class EntityTypeCollectionTest extends \Test\TestCase {
 
@@ -37,7 +36,7 @@ class EntityTypeCollectionTest extends \Test\TestCase {
 	protected $commentsManager;
 	/** @var \OCP\IUserManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $userManager;
-	/** @var \OCP\ILogger|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
 	protected $logger;
 	/** @var \OCA\DAV\Comments\EntityTypeCollection */
 	protected $collection;
@@ -58,7 +57,7 @@ class EntityTypeCollectionTest extends \Test\TestCase {
 		$this->userSession = $this->getMockBuilder(IUserSession::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$this->logger = $this->getMockBuilder(ILogger::class)
+		$this->logger = $this->getMockBuilder(LoggerInterface::class)
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -76,16 +75,16 @@ class EntityTypeCollectionTest extends \Test\TestCase {
 		);
 	}
 
-	public function testChildExistsYes() {
+	public function testChildExistsYes(): void {
 		$this->childMap[17] = true;
 		$this->assertTrue($this->collection->childExists('17'));
 	}
 
-	public function testChildExistsNo() {
+	public function testChildExistsNo(): void {
 		$this->assertFalse($this->collection->childExists('17'));
 	}
 
-	public function testGetChild() {
+	public function testGetChild(): void {
 		$this->childMap[17] = true;
 
 		$ec = $this->collection->getChild('17');
@@ -93,14 +92,14 @@ class EntityTypeCollectionTest extends \Test\TestCase {
 	}
 
 
-	public function testGetChildException() {
+	public function testGetChildException(): void {
 		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
 
 		$this->collection->getChild('17');
 	}
 
 
-	public function testGetChildren() {
+	public function testGetChildren(): void {
 		$this->expectException(\Sabre\DAV\Exception\MethodNotAllowed::class);
 
 		$this->collection->getChildren();

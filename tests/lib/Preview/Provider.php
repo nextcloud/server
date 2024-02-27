@@ -24,7 +24,6 @@ namespace Test\Preview;
 use OC\Files\Node\File;
 
 abstract class Provider extends \Test\TestCase {
-
 	/** @var string */
 	protected $imgPath;
 	/** @var int */

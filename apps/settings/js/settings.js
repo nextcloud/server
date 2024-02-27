@@ -51,7 +51,7 @@ OC.Settings = _.extend(OC.Settings, {
 						// note: settings are saved through a "change" event registered
 						// on all input fields
 						$elements.select2(_.extend({
-							placeholder: t('core', 'Groups'),
+							placeholder: t('settings', 'Groups'),
 							allowClear: true,
 							multiple: true,
 							toggleSelect: true,

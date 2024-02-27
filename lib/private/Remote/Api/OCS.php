@@ -4,6 +4,7 @@
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Robin Appelman <robin@icewind.nl>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -14,20 +15,19 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Remote\Api;
 
 use GuzzleHttp\Exception\ClientException;
 use OC\ForbiddenException;
 use OC\Remote\User;
-use OCP\API;
+use OCP\AppFramework\OCSController;
 use OCP\Remote\Api\ICapabilitiesApi;
 use OCP\Remote\Api\IUserApi;
 
@@ -58,10 +58,10 @@ class OCS extends ApiBase implements ICapabilitiesApi, IUserApi {
 		if (!isset($response['ocs']) || !isset($response['ocs']['meta'])) {
 			throw new \Exception('Invalid ocs response');
 		}
-		if ($response['ocs']['meta']['statuscode'] === API::RESPOND_UNAUTHORISED) {
+		if ($response['ocs']['meta']['statuscode'] === OCSController::RESPOND_UNAUTHORISED) {
 			throw new ForbiddenException();
 		}
-		if ($response['ocs']['meta']['statuscode'] === API::RESPOND_NOT_FOUND) {
+		if ($response['ocs']['meta']['statuscode'] === OCSController::RESPOND_NOT_FOUND) {
 			throw new NotFoundException();
 		}
 		if ($response['ocs']['meta']['status'] !== 'ok') {

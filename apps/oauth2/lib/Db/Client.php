@@ -13,14 +13,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\OAuth2\Db;
 
 use OCP\AppFramework\Db\Entity;
@@ -48,8 +47,8 @@ class Client extends Entity {
 	public function __construct() {
 		$this->addType('id', 'int');
 		$this->addType('name', 'string');
-		$this->addType('redirect_uri', 'string');
-		$this->addType('client_identifier', 'string');
+		$this->addType('redirectUri', 'string');
+		$this->addType('clientIdentifier', 'string');
 		$this->addType('secret', 'string');
 	}
 }

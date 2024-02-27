@@ -5,6 +5,7 @@
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author szaimen <szaimen@e.mail.de>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -15,14 +16,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Files_External\Tests\Settings;
 
 use OCA\Files_External\Settings\Section;
@@ -57,10 +57,10 @@ class SectionTest extends TestCase {
 		$this->l
 			->expects($this->once())
 			->method('t')
-			->with('External storages')
-			->willReturn('External storages');
+			->with('External storage')
+			->willReturn('External storage');
 
-		$this->assertSame('External storages', $this->section->getName());
+		$this->assertSame('External storage', $this->section->getName());
 	}
 
 	public function testGetPriority() {

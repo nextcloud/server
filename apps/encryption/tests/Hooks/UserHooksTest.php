@@ -25,7 +25,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Encryption\Tests\Hooks;
 
 use OCA\Encryption\Crypto\Crypt;
@@ -35,11 +34,11 @@ use OCA\Encryption\Recovery;
 use OCA\Encryption\Session;
 use OCA\Encryption\Users\Setup;
 use OCA\Encryption\Util;
-use OCP\ILogger;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 /**
@@ -161,7 +160,6 @@ class UserHooksTest extends TestCase {
 	 * @dataProvider dataTestPreSetPassphrase
 	 */
 	public function testPreSetPassphrase($canChange) {
-
 		/** @var UserHooks | \PHPUnit\Framework\MockObject\MockObject  $instance */
 		$instance = $this->getMockBuilder(UserHooks::class)
 			->setConstructorArgs(
@@ -333,7 +331,7 @@ class UserHooksTest extends TestCase {
 
 	protected function setUp(): void {
 		parent::setUp();
-		$this->loggerMock = $this->createMock(ILogger::class);
+		$this->loggerMock = $this->createMock(LoggerInterface::class);
 		$this->keyManagerMock = $this->getMockBuilder(KeyManager::class)
 			->disableOriginalConstructor()
 			->getMock();

@@ -3,7 +3,7 @@
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -19,20 +19,22 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 import HttpClient from '@nextcloud/axios'
-import { generateUrl } from '@nextcloud/router'
+import { generateOcsUrl } from '@nextcloud/router'
 
 /**
  * Sends a heartbeat
  *
- * @param {Boolean} isAway Whether or not the user is active
- * @returns {Promise<void>}
+ * @param {boolean} isAway Whether or not the user is active
+ * @return {Promise<void>}
  */
-const sendHeartbeat = async(isAway) => {
-	const url = generateUrl('/apps/user_status/heartbeat')
-	await HttpClient.put(url, {
+const sendHeartbeat = async (isAway) => {
+	const url = generateOcsUrl('apps/user_status/api/v1/heartbeat?format=json')
+	const response = await HttpClient.put(url, {
 		status: isAway ? 'away' : 'online',
 	})
+	return response.data.ocs.data
 }
 
 export {

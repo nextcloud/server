@@ -11,8 +11,8 @@ namespace Test\Repair;
 use Doctrine\DBAL\Platforms\MySqlPlatform;
 use OC\Repair\Collation;
 use OCP\IDBConnection;
-use OCP\ILogger;
 use OCP\Migration\IOutput;
+use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class TestCollationRepair extends Collation {
@@ -33,7 +33,6 @@ class TestCollationRepair extends Collation {
  * @see \OC\Repair\RepairMimeTypes
  */
 class RepairCollationTest extends TestCase {
-
 	/**
 	 * @var TestCollationRepair
 	 */
@@ -54,20 +53,20 @@ class RepairCollationTest extends TestCase {
 	 */
 	private $config;
 
-	/** @var ILogger */
+	/** @var LoggerInterface */
 	private $logger;
 
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->connection = \OC::$server->get(IDBConnection::class);
-		$this->logger = $this->createMock(ILogger::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->config = \OC::$server->getConfig();
 		if (!$this->connection->getDatabasePlatform() instanceof MySqlPlatform) {
 			$this->markTestSkipped("Test only relevant on MySql");
 		}
 
-		$dbPrefix = $this->config->getSystemValue("dbtableprefix");
+		$dbPrefix = $this->config->getSystemValueString("dbtableprefix");
 		$this->tableName = $this->getUniqueID($dbPrefix . "_collation_test");
 		$this->connection->prepare("CREATE TABLE $this->tableName(text VARCHAR(16)) COLLATE utf8_unicode_ci")->execute();
 

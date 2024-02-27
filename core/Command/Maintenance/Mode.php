@@ -23,7 +23,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Core\Command\Maintenance;
 
 use OCP\IConfig;
@@ -34,12 +33,9 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Mode extends Command {
-
-	/** @var IConfig */
-	protected $config;
-
-	public function __construct(IConfig $config) {
-		$this->config = $config;
+	public function __construct(
+		protected IConfig $config,
+	) {
 		parent::__construct();
 	}
 

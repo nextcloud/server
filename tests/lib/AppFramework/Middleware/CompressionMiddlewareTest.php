@@ -35,7 +35,6 @@ use OCP\AppFramework\Http\JSONResponse;
 use OCP\IRequest;
 
 class CompressionMiddlewareTest extends \Test\TestCase {
-
 	/** @var IRequest */
 	private $request;
 	/** @var Controller */
@@ -68,7 +67,7 @@ class CompressionMiddlewareTest extends \Test\TestCase {
 			->willReturn(Http::STATUS_OK);
 
 		$this->middleWare->beforeController($this->controller, 'myMethod');
-		$this->middleWare->afterController($this->controller,'myMethod', $response);
+		$this->middleWare->afterController($this->controller, 'myMethod', $response);
 
 		$output = 'myoutput';
 		$result = $this->middleWare->beforeOutput($this->controller, 'myMethod', $output);
@@ -90,7 +89,7 @@ class CompressionMiddlewareTest extends \Test\TestCase {
 			->willReturn(Http::STATUS_OK);
 
 		$this->middleWare->beforeController($this->controller, 'myMethod');
-		$this->middleWare->afterController($this->controller,'myMethod', $response);
+		$this->middleWare->afterController($this->controller, 'myMethod', $response);
 
 		$output = 'myoutput';
 		$result = $this->middleWare->beforeOutput($this->controller, 'myMethod', $output);
@@ -112,7 +111,7 @@ class CompressionMiddlewareTest extends \Test\TestCase {
 			->willReturn(Http::STATUS_OK);
 
 		$this->middleWare->beforeController($this->controller, 'myMethod');
-		$this->middleWare->afterController($this->controller,'myMethod', $response);
+		$this->middleWare->afterController($this->controller, 'myMethod', $response);
 
 		$output = 'myoutput';
 		$result = $this->middleWare->beforeOutput($this->controller, 'myMethod', $output);
@@ -132,7 +131,7 @@ class CompressionMiddlewareTest extends \Test\TestCase {
 		$response->method('getStatus')
 			->willReturn(Http::STATUS_OK);
 		$this->middleWare->beforeController($this->controller, 'myMethod');
-		$this->middleWare->afterController($this->controller,'myMethod', $response);
+		$this->middleWare->afterController($this->controller, 'myMethod', $response);
 
 		$output = 'myoutput';
 		$result = $this->middleWare->beforeOutput($this->controller, 'myMethod', $output);
@@ -153,7 +152,7 @@ class CompressionMiddlewareTest extends \Test\TestCase {
 			->willReturn(Http::STATUS_NOT_FOUND);
 
 		$this->middleWare->beforeController($this->controller, 'myMethod');
-		$this->middleWare->afterController($this->controller,'myMethod', $response);
+		$this->middleWare->afterController($this->controller, 'myMethod', $response);
 
 		$output = 'myoutput';
 		$result = $this->middleWare->beforeOutput($this->controller, 'myMethod', $output);

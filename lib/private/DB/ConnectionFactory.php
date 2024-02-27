@@ -26,14 +26,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\DB;
 
 use Doctrine\Common\EventManager;
 use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\DriverManager;
 use Doctrine\DBAL\Event\Listeners\OracleSessionInit;
-use Doctrine\DBAL\Event\Listeners\SQLSessionInit;
 use OC\SystemConfig;
 
 /**
@@ -90,6 +88,10 @@ class ConnectionFactory {
 		if ($this->config->getValue('mysql.utf8mb4', false)) {
 			$this->defaultConnectionParams['mysql']['charset'] = 'utf8mb4';
 		}
+		$collationOverride = $this->config->getValue('mysql.collation', null);
+		if ($collationOverride) {
+			$this->defaultConnectionParams['mysql']['collation'] = $collationOverride;
+		}
 	}
 
 	/**
@@ -124,11 +126,8 @@ class ConnectionFactory {
 		$normalizedType = $this->normalizeType($type);
 		$eventManager = new EventManager();
 		$eventManager->addEventSubscriber(new SetTransactionIsolationLevel());
+		$additionalConnectionParams = array_merge($this->createConnectionParams(), $additionalConnectionParams);
 		switch ($normalizedType) {
-			case 'mysql':
-				$eventManager->addEventSubscriber(
-					new SQLSessionInit("SET SESSION AUTOCOMMIT=1"));
-				break;
 			case 'oci':
 				$eventManager->addEventSubscriber(new OracleSessionInit);
 				// the driverOptions are unused in dbal and need to be mapped to the parameters
@@ -136,7 +135,7 @@ class ConnectionFactory {
 					$additionalConnectionParams = array_merge($additionalConnectionParams, $additionalConnectionParams['driverOptions']);
 				}
 				$host = $additionalConnectionParams['host'];
-				$port = isset($additionalConnectionParams['port']) ? $additionalConnectionParams['port'] : null;
+				$port = $additionalConnectionParams['port'] ?? null;
 				$dbName = $additionalConnectionParams['dbname'];
 
 				// we set the connect string as dbname and unset the host to coerce doctrine into using it as connect string
@@ -156,7 +155,7 @@ class ConnectionFactory {
 		}
 		/** @var Connection $connection */
 		$connection = DriverManager::getConnection(
-			array_merge($this->getDefaultConnectionParams($type), $additionalConnectionParams),
+			$additionalConnectionParams,
 			new Configuration(),
 			$eventManager
 		);
@@ -186,22 +185,23 @@ class ConnectionFactory {
 	/**
 	 * Create the connection parameters for the config
 	 *
+	 * @param string $configPrefix
 	 * @return array
 	 */
-	public function createConnectionParams() {
+	public function createConnectionParams(string $configPrefix = '') {
 		$type = $this->config->getValue('dbtype', 'sqlite');
 
-		$connectionParams = [
-			'user' => $this->config->getValue('dbuser', ''),
-			'password' => $this->config->getValue('dbpassword', ''),
-		];
-		$name = $this->config->getValue('dbname', self::DEFAULT_DBNAME);
+		$connectionParams = array_merge($this->getDefaultConnectionParams($type), [
+			'user' => $this->config->getValue($configPrefix . 'dbuser', $this->config->getValue('dbuser', '')),
+			'password' => $this->config->getValue($configPrefix . 'dbpassword', $this->config->getValue('dbpassword', '')),
+		]);
+		$name = $this->config->getValue($configPrefix . 'dbname', $this->config->getValue('dbname', self::DEFAULT_DBNAME));
 
 		if ($this->normalizeType($type) === 'sqlite3') {
 			$dataDir = $this->config->getValue("datadirectory", \OC::$SERVERROOT . '/data');
 			$connectionParams['path'] = $dataDir . '/' . $name . '.db';
 		} else {
-			$host = $this->config->getValue('dbhost', '');
+			$host = $this->config->getValue($configPrefix . 'dbhost', $this->config->getValue('dbhost', ''));
 			$connectionParams = array_merge($connectionParams, $this->splitHostFromPortAndSocket($host));
 			$connectionParams['dbname'] = $name;
 		}
@@ -210,7 +210,7 @@ class ConnectionFactory {
 		$connectionParams['sqlite.journal_mode'] = $this->config->getValue('sqlite.journal_mode', 'WAL');
 
 		//additional driver options, eg. for mysql ssl
-		$driverOptions = $this->config->getValue('dbdriveroptions', null);
+		$driverOptions = $this->config->getValue($configPrefix . 'dbdriveroptions', $this->config->getValue('dbdriveroptions', null));
 		if ($driverOptions) {
 			$connectionParams['driverOptions'] = $driverOptions;
 		}
@@ -225,12 +225,19 @@ class ConnectionFactory {
 			$connectionParams['defaultTableOptions'] = [
 				'collate' => 'utf8mb4_bin',
 				'charset' => 'utf8mb4',
-				'row_format' => 'compressed',
 				'tablePrefix' => $connectionParams['tablePrefix']
 			];
 		}
 
-		return $connectionParams;
+		if ($this->config->getValue('dbpersistent', false)) {
+			$connectionParams['persistent'] = true;
+		}
+
+		$replica = $this->config->getValue('dbreplica', []) ?: [$connectionParams];
+		return array_merge($connectionParams, [
+			'primary' => $connectionParams,
+			'replica' => $replica,
+		]);
 	}
 
 	/**

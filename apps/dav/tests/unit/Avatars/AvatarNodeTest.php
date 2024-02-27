@@ -20,7 +20,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\Tests\Unit\Avatars;
 
 use OCA\DAV\Avatars\AvatarNode;
@@ -28,14 +27,14 @@ use OCP\IAvatar;
 use Test\TestCase;
 
 class AvatarNodeTest extends TestCase {
-	public function testGetName() {
+	public function testGetName(): void {
 		/** @var IAvatar | \PHPUnit\Framework\MockObject\MockObject $a */
 		$a = $this->createMock(IAvatar::class);
 		$n = new AvatarNode(1024, 'png', $a);
 		$this->assertEquals('1024.png', $n->getName());
 	}
 
-	public function testGetContentType() {
+	public function testGetContentType(): void {
 		/** @var IAvatar | \PHPUnit\Framework\MockObject\MockObject $a */
 		$a = $this->createMock(IAvatar::class);
 		$n = new AvatarNode(1024, 'png', $a);

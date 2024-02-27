@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Comments" : "අදහස්",
     "You commented" : "ඔබ අදහස් දැක්වා ඇත ",
-    "%1$s commented" : "%1$s අදහස් දැක්වා ඇත",
     "{author} commented" : "{author} අදහස් දැක්වා ඇත",
     "You commented on {file}" : "ඔබ {file} හි අදහස් දැක්වා ඇත",
     "<strong>Comments</strong> for files" : "ගොනු සඳහා <strong>අදහස්</strong>",
@@ -16,14 +15,6 @@ OC.L10N.register(
     "Comment" : "අදහස",
     "An error occurred while trying to edit the comment" : "අදහස සංස්කරණය කිරීමට උත්සාහ කිරීමේදී දෝෂයක් ඇතිවිය",
     "An error occurred while trying to create the comment" : "අදහස සෑදීමට උත්සාහ කිරීමේදී දෝෂයක් ඇතිවිය",
-    "New comment …" : "නව අදහසක්…",
-    "Post" : "පළ කරන්න",
-    "Cancel" : "අවලංගු කරන්න",
-    "More comments …" : "තවත් අදහස්…",
-    "Save" : "සුරකින්න",
-    "Allowed characters {count} of {max}" : "අවසර ලත් අක්ෂර {max} න් {count}",
-    "Error occurred while retrieving comment with ID {id}" : "{id} සමඟ අදහස් ලබා ගැනීමේදී දෝෂයක් ඇතිවිය",
-    "Error occurred while updating comment with id {id}" : "{id} සමඟ අදහස් යාවත්කාලීන කිරීමේදී දෝෂයක් ඇතිවිය",
-    "Error occurred while posting comment" : "අදහස් පළ කිරීමේදී දෝෂයක් ඇතිවිය"
+    "%1$s commented" : "%1$s අදහස් දැක්වා ඇත"
 },
 "nplurals=2; plural=(n != 1);");

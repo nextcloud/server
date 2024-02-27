@@ -23,7 +23,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 use PHPUnit\Framework\Assert;
 
 require __DIR__ . '/../../vendor/autoload.php';
@@ -142,13 +141,13 @@ trait CommandLine {
 	 * @Then /^the command output contains the text "([^"]*)"$/
 	 */
 	public function theCommandOutputContainsTheText($text) {
-		Assert::assertContains($text, $this->lastStdOut, 'The command did not output the expected text on stdout');
+		Assert::assertStringContainsString($text, $this->lastStdOut, 'The command did not output the expected text on stdout');
 	}
 
 	/**
 	 * @Then /^the command error output contains the text "([^"]*)"$/
 	 */
 	public function theCommandErrorOutputContainsTheText($text) {
-		Assert::assertContains($text, $this->lastStdErr, 'The command did not output the expected text on stderr');
+		Assert::assertStringContainsString($text, $this->lastStdErr, 'The command did not output the expected text on stderr');
 	}
 }

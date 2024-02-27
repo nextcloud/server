@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
@@ -14,27 +17,23 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
-declare(strict_types=1);
-
 namespace OC\Authentication\Login;
 
-use function array_pop;
-use function count;
 use OC\Authentication\TwoFactorAuth\Manager;
 use OC\Authentication\TwoFactorAuth\MandatoryTwoFactor;
 use OCP\Authentication\TwoFactorAuth\IProvider;
 use OCP\IURLGenerator;
+use function array_pop;
+use function count;
 
 class TwoFactorCommand extends ALoginCommand {
-
 	/** @var Manager */
 	private $twoFactorManager;
 
@@ -45,8 +44,8 @@ class TwoFactorCommand extends ALoginCommand {
 	private $urlGenerator;
 
 	public function __construct(Manager $twoFactorManager,
-								MandatoryTwoFactor $mandatoryTwoFactor,
-								IURLGenerator $urlGenerator) {
+		MandatoryTwoFactor $mandatoryTwoFactor,
+		IURLGenerator $urlGenerator) {
 		$this->twoFactorManager = $twoFactorManager;
 		$this->mandatoryTwoFactor = $mandatoryTwoFactor;
 		$this->urlGenerator = $urlGenerator;

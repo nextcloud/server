@@ -19,7 +19,7 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -30,10 +30,19 @@ declare(strict_types=1);
 namespace OCP\AppFramework\Bootstrap;
 
 use OCP\AppFramework\IAppContainer;
+use OCP\Authentication\TwoFactorAuth\IProvider;
+use OCP\Calendar\ICalendarProvider;
 use OCP\Capabilities\ICapability;
+use OCP\Collaboration\Reference\IReferenceProvider;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Template\ICustomTemplateProvider;
 use OCP\IContainer;
+use OCP\Notification\INotifier;
+use OCP\Preview\IProviderV2;
+use OCP\SpeechToText\ISpeechToTextProvider;
+use OCP\TextProcessing\IProvider as ITextProcessingProvider;
+use OCP\TextToImage\IProvider as ITextToImageProvider;
+use OCP\Translation\ITranslationProvider;
 
 /**
  * The context object passed to IBootstrap::register
@@ -42,7 +51,6 @@ use OCP\IContainer;
  * @see IBootstrap::register()
  */
 interface IRegistrationContext {
-
 	/**
 	 * @param string $capability
 	 * @psalm-param class-string<ICapability> $capability
@@ -73,6 +81,7 @@ interface IRegistrationContext {
 	 * @since 20.0.0
 	 */
 	public function registerDashboardWidget(string $widgetClass): void;
+
 	/**
 	 * Register a service
 	 *
@@ -117,7 +126,7 @@ interface IRegistrationContext {
 	 *
 	 * This is equivalent to calling IEventDispatcher::addServiceListener
 	 *
-	 * @template T of \OCP\EventDispatcher\Event
+	 * @psalm-template T of \OCP\EventDispatcher\Event
 	 * @param string $event preferably the fully-qualified class name of the Event sub class to listen for
 	 * @psalm-param string|class-string<T> $event preferably the fully-qualified class name of the Event sub class to listen for
 	 * @param string $listener fully qualified class name (or ::class notation) of a \OCP\EventDispatcher\IEventListener that can be built by the DI container
@@ -133,14 +142,16 @@ interface IRegistrationContext {
 
 	/**
 	 * @param string $class
+	 * @param bool $global load this middleware also for requests of other apps? Added in Nextcloud 26
 	 * @psalm-param class-string<\OCP\AppFramework\Middleware> $class
 	 *
 	 * @return void
 	 * @see IAppContainer::registerMiddleWare()
 	 *
 	 * @since 20.0.0
+	 * @since 26.0.0 Added optional argument $global
 	 */
-	public function registerMiddleware(string $class): void;
+	public function registerMiddleware(string $class, bool $global = false): void;
 
 	/**
 	 * Register a search provider for the unified search
@@ -201,6 +212,36 @@ interface IRegistrationContext {
 	public function registerWellKnownHandler(string $class): void;
 
 	/**
+	 * Register a custom SpeechToText provider class that can provide transcription
+	 * of audio through the OCP\SpeechToText APIs
+	 *
+	 * @param string $providerClass
+	 * @psalm-param class-string<ISpeechToTextProvider> $providerClass
+	 * @since 27.0.0
+	 */
+	public function registerSpeechToTextProvider(string $providerClass): void;
+
+	/**
+	 * Register a custom text processing provider class that provides a promptable language model
+	 * through the OCP\TextProcessing APIs
+	 *
+	 * @param string $providerClass
+	 * @psalm-param class-string<ITextProcessingProvider> $providerClass
+	 * @since 27.1.0
+	 */
+	public function registerTextProcessingProvider(string $providerClass): void;
+
+	/**
+	 * Register a custom text2image provider class that provides the possibility to generate images
+	 * through the OCP\TextToImage APIs
+	 *
+	 * @param string $providerClass
+	 * @psalm-param class-string<ITextToImageProvider> $providerClass
+	 * @since 28.0.0
+	 */
+	public function registerTextToImageProvider(string $providerClass): void;
+
+	/**
 	 * Register a custom template provider class that is able to inject custom templates
 	 * in addition to the user defined ones
 	 *
@@ -209,4 +250,145 @@ interface IRegistrationContext {
 	 * @since 21.0.0
 	 */
 	public function registerTemplateProvider(string $providerClass): void;
+
+	/**
+	 * Register a custom translation provider class that can provide translation
+	 * between languages through the OCP\Translation APIs
+	 *
+	 * @param string $providerClass
+	 * @psalm-param class-string<ITranslationProvider> $providerClass
+	 * @since 21.0.0
+	 */
+	public function registerTranslationProvider(string $providerClass): void;
+
+	/**
+	 * Register an INotifier class
+	 *
+	 * @param string $notifierClass
+	 * @psalm-param class-string<INotifier> $notifierClass
+	 * @since 22.0.0
+	 */
+	public function registerNotifierService(string $notifierClass): void;
+
+	/**
+	 * Register a two-factor provider
+	 *
+	 * @param string $twoFactorProviderClass
+	 * @psalm-param class-string<IProvider> $twoFactorProviderClass
+	 * @since 22.0.0
+	 */
+	public function registerTwoFactorProvider(string $twoFactorProviderClass): void;
+
+	/**
+	 * Register a preview provider
+	 *
+	 * It is allowed to register more than one provider per app.
+	 *
+	 * @param string $previewProviderClass
+	 * @param string $mimeTypeRegex
+	 * @psalm-param class-string<IProviderV2> $previewProviderClass
+	 * @since 23.0.0
+	 */
+	public function registerPreviewProvider(string $previewProviderClass, string $mimeTypeRegex): void;
+
+	/**
+	 * Register a calendar provider
+	 *
+	 * @param string $class
+	 * @psalm-param class-string<ICalendarProvider> $class
+	 * @since 23.0.0
+	 */
+	public function registerCalendarProvider(string $class): void;
+
+	/**
+	 * Register a reference provider
+	 *
+	 * @param string $class
+	 * @psalm-param class-string<IReferenceProvider> $class
+	 * @since 25.0.0
+	 */
+	public function registerReferenceProvider(string $class): void;
+
+	/**
+	 * Register an implementation of \OCP\Profile\ILinkAction that
+	 * will handle the implementation of a profile link action
+	 *
+	 * @param string $actionClass
+	 * @psalm-param class-string<\OCP\Profile\ILinkAction> $actionClass
+	 * @return void
+	 * @since 23.0.0
+	 */
+	public function registerProfileLinkAction(string $actionClass): void;
+
+	/**
+	 * Register the backend of the Talk app
+	 *
+	 * This service must only be used by the Talk app
+	 *
+	 * @param string $backend
+	 * @return void
+	 * @since 24.0.0
+	 */
+	public function registerTalkBackend(string $backend): void;
+
+	/**
+	 * Register a resource backend for the DAV server
+	 *
+	 * @param string $actionClass
+	 * @psalm-param class-string<\OCP\Calendar\Resource\IBackend> $actionClass
+	 * @return void
+	 * @since 24.0.0
+	 */
+	public function registerCalendarResourceBackend(string $class): void;
+
+	/**
+	 * Register a room backend for the DAV server
+	 *
+	 * @param string $actionClass
+	 * @psalm-param class-string<\OCP\Calendar\Room\IBackend> $actionClass
+	 * @return void
+	 * @since 24.0.0
+	 */
+	public function registerCalendarRoomBackend(string $class): void;
+
+	/**
+	 * Register an implementation of \OCP\UserMigration\IMigrator that
+	 * will handle the implementation of a migrator
+	 *
+	 * @param string $migratorClass
+	 * @psalm-param class-string<\OCP\UserMigration\IMigrator> $migratorClass
+	 * @return void
+	 * @since 24.0.0
+	 */
+	public function registerUserMigrator(string $migratorClass): void;
+
+	/**
+	 * Announce methods of classes that may contain sensitive values, which
+	 * should be obfuscated before being logged.
+	 *
+	 * @param string $class
+	 * @param string[] $methods
+	 * @return void
+	 * @since 25.0.0
+	 */
+	public function registerSensitiveMethods(string $class, array $methods): void;
+
+	/**
+	 * Register an implementation of IPublicShareTemplateProvider.
+	 *
+	 * @param string $class
+	 * @psalm-param class-string<\OCP\Share\IPublicShareTemplateProvider> $class
+	 * @return void
+	 * @since 26.0.0
+	 */
+	public function registerPublicShareTemplateProvider(string $class): void;
+
+	/**
+	 * Register an implementation of \OCP\SetupCheck\ISetupCheck that
+	 * will handle the implementation of a setup check
+	 *
+	 * @param class-string<\OCP\SetupCheck\ISetupCheck> $setupCheckClass
+	 * @since 28.0.0
+	 */
+	public function registerSetupCheck(string $setupCheckClass): void;
 }

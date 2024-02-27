@@ -7,7 +7,7 @@ declare(strict_types=1);
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -18,14 +18,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCP\Search;
 
 use OCP\IUser;
@@ -41,7 +40,6 @@ use OCP\IUser;
  * @since 20.0.0
  */
 interface IProvider {
-
 	/**
 	 * Get the unique ID of this search provider
 	 *
@@ -70,15 +68,17 @@ interface IProvider {
 	/**
 	 * Get the search provider order
 	 * The lower the int, the higher it will be sorted (0 will be before 10)
+	 * If null, the search provider will be hidden in the UI and the API not called
 	 *
 	 * @param string $route the route the user is currently at, e.g. files.view.index
 	 * @param array $routeParameters the parameters of the route the user is currently at, e.g. [fileId = 982, dir = "/"]
 	 *
-	 * @return int
+	 * @return int|null
 	 *
 	 * @since 20.0.0
+	 * @since 28.0.0 Can return null
 	 */
-	public function getOrder(string $route, array $routeParameters): int;
+	public function getOrder(string $route, array $routeParameters): ?int;
 
 	/**
 	 * Find matching search entries in an app

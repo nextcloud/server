@@ -16,18 +16,18 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Preview;
 
-use OC\BackgroundJob\TimedJob;
 use OC\Preview\Storage\Root;
+use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\BackgroundJob\TimedJob;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\IMimeTypeLoader;
 use OCP\Files\NotFoundException;
@@ -35,7 +35,6 @@ use OCP\Files\NotPermittedException;
 use OCP\IDBConnection;
 
 class BackgroundCleanupJob extends TimedJob {
-
 	/** @var IDBConnection */
 	private $connection;
 
@@ -48,10 +47,12 @@ class BackgroundCleanupJob extends TimedJob {
 	/** @var IMimeTypeLoader */
 	private $mimeTypeLoader;
 
-	public function __construct(IDBConnection $connection,
-								Root $previewFolder,
-								IMimeTypeLoader $mimeTypeLoader,
-								bool $isCLI) {
+	public function __construct(ITimeFactory $timeFactory,
+		IDBConnection $connection,
+		Root $previewFolder,
+		IMimeTypeLoader $mimeTypeLoader,
+		bool $isCLI) {
+		parent::__construct($timeFactory);
 		// Run at most once an hour
 		$this->setInterval(3600);
 
@@ -127,6 +128,21 @@ class BackgroundCleanupJob extends TimedJob {
 		 */
 		$like = $this->connection->escapeLikeParameter($data['path']) . '/_/_/_/_/_/_/_/%';
 
+		/*
+		 * Deleting a file will not delete related previews right away.
+		 *
+		 * A delete request is usually an HTTP request.
+		 * The preview deleting is done by a background job to avoid timeouts.
+		 *
+		 * Previews for a file are stored within a folder in appdata_/preview using the fileid as folder name.
+		 * Preview folders in oc_filecache are identified by a.storage, a.path (cf. $like) and a.mimetype.
+		 *
+		 * To find preview folders to delete, we query oc_filecache for a preview folder in app data, matching the preview folder structure
+		 * and use the name to left join oc_filecache on a.name = b.fileid. A left join returns all rows from the left table (a),
+		 * even if there are no matches in the right table (b).
+		 *
+		 * If the related file is deleted, b.fileid will be null and the preview folder can be deleted.
+		 */
 		$qb = $this->connection->getQueryBuilder();
 		$qb->select('a.name')
 			->from('filecache', 'a')
@@ -135,6 +151,7 @@ class BackgroundCleanupJob extends TimedJob {
 			))
 			->where(
 				$qb->expr()->andX(
+					$qb->expr()->eq('a.storage', $qb->createNamedParameter($this->previewFolder->getStorageId())),
 					$qb->expr()->isNull('b.fileid'),
 					$qb->expr()->like('a.path', $qb->createNamedParameter($like)),
 					$qb->expr()->eq('a.mimetype', $qb->createNamedParameter($this->mimeTypeLoader->getId('httpd/unix-directory')))

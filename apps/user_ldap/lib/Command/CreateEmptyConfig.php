@@ -6,7 +6,6 @@
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Martin Konrad <konrad@frib.msu.edu>
- * @author Morris Jobke <hey@morrisjobke.de>
  *
  * @license AGPL-3.0
  *
@@ -23,7 +22,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\User_LDAP\Command;
 
 use OCA\User_LDAP\Configuration;
@@ -34,18 +32,13 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class CreateEmptyConfig extends Command {
-	/** @var \OCA\User_LDAP\Helper */
-	protected $helper;
-
-	/**
-	 * @param Helper $helper
-	 */
-	public function __construct(Helper $helper) {
-		$this->helper = $helper;
+	public function __construct(
+		protected Helper $helper,
+	) {
 		parent::__construct();
 	}
 
-	protected function configure() {
+	protected function configure(): void {
 		$this
 			->setName('ldap:create-empty-config')
 			->setDescription('creates an empty LDAP configuration')
@@ -61,6 +54,7 @@ class CreateEmptyConfig extends Command {
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$configPrefix = $this->helper->getNextServerConfigurationPrefix();
 		$configHolder = new Configuration($configPrefix);
+		$configHolder->ldapConfigurationActive = false;
 		$configHolder->saveConfiguration();
 
 		$prose = '';
@@ -68,6 +62,6 @@ class CreateEmptyConfig extends Command {
 			$prose = 'Created new configuration with configID ';
 		}
 		$output->writeln($prose . "{$configPrefix}");
-		return 0;
+		return self::SUCCESS;
 	}
 }

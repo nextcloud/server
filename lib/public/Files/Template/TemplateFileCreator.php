@@ -1,7 +1,11 @@
 <?php
-/*
+
+declare(strict_types=1);
+
+/**
  * @copyright Copyright (c) 2021 Julius Härtl <jus@bitgrid.net>
  *
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Julius Härtl <jus@bitgrid.net>
  *
  * @license GNU AGPL version 3 or any later version
@@ -20,9 +24,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
-declare(strict_types=1);
-
 namespace OCP\Files\Template;
 
 /**
@@ -30,12 +31,20 @@ namespace OCP\Files\Template;
  */
 final class TemplateFileCreator implements \JsonSerializable {
 	protected $appId;
+	/** @var string[] $mimetypes */
 	protected $mimetypes = [];
 	protected $actionName;
 	protected $fileExtension;
+	/** @var ?string $iconClass */
 	protected $iconClass;
+	/** @var ?float $ratio */
 	protected $ratio = null;
 	protected $order = 100;
+	/**
+	 * @since 27.0.0
+	 * @deprecated 28.0.0
+	 */
+	protected string $actionLabel = '';
 
 	/**
 	 * @since 21.0.0
@@ -103,16 +112,33 @@ final class TemplateFileCreator implements \JsonSerializable {
 	}
 
 	/**
-	 * @since 21.0.0
+	 * @since 27.0.0
 	 */
-	public function jsonSerialize() {
+	public function setActionLabel(string $actionLabel): TemplateFileCreator {
+		$this->actionLabel = $actionLabel;
+		return $this;
+	}
+
+	/**
+	 * @since 27.0.0
+	 */
+	public function getActionLabel(): string {
+		return $this->actionLabel;
+	}
+
+	/**
+	 * @since 21.0.0
+	 * @return array{app: string, label: string, extension: string, iconClass: ?string, mimetypes: string[], ratio: ?float, actionLabel: string}
+	 */
+	public function jsonSerialize(): array {
 		return [
 			'app' => $this->appId,
 			'label' => $this->actionName,
 			'extension' => $this->fileExtension,
 			'iconClass' => $this->iconClass,
 			'mimetypes' => $this->mimetypes,
-			'ratio' => $this->ratio
+			'ratio' => $this->ratio,
+			'actionLabel' => $this->actionLabel,
 		];
 	}
 }

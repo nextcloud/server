@@ -26,14 +26,16 @@ class TempManagerTest extends \Test\TestCase {
 	}
 
 	protected function tearDown(): void {
-		\OC_Helper::rmdirr($this->baseDir);
+		if ($this->baseDir !== null) {
+			\OC_Helper::rmdirr($this->baseDir);
+		}
 		$this->baseDir = null;
 		parent::tearDown();
 	}
 
 	/**
-	 * @param  \OCP\ILogger $logger
-	 * @param  \OCP\IConfig $config
+	 * @param  ?LoggerInterface $logger
+	 * @param  ?IConfig $config
 	 * @return \OC\TempManager
 	 */
 	protected function getManager($logger = null, $config = null) {
@@ -168,7 +170,7 @@ class TempManagerTest extends \Test\TestCase {
 		$logger = $this->createMock(LoggerInterface::class);
 		$tmpManager = self::invokePrivate(
 			$this->getManager($logger),
-					'buildFileNameWithSuffix',
+			'buildFileNameWithSuffix',
 			['/tmp/myTemporaryFile', '']
 		);
 

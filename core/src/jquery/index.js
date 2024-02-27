@@ -1,9 +1,11 @@
 /**
  * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
- * @author 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -16,22 +18,23 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 
 import $ from 'jquery'
 
-import './avatar'
-import './contactsmenu'
-import './exists'
-import './filterattr'
-import './ocdialog'
-import './octemplate'
-import './placeholder'
-import './requesttoken'
-import './selectrange'
-import './showpassword'
-import './ui-fixes'
+import './avatar.js'
+import './contactsmenu.js'
+import './exists.js'
+import './filterattr.js'
+import './ocdialog.js'
+import './octemplate.js'
+import './placeholder.js'
+import './requesttoken.js'
+import './selectrange.js'
+import './showpassword.js'
+import './ui-fixes.js'
 
 import './css/jquery-ui-fixes.scss'
 import './css/jquery.ocdialog.scss'

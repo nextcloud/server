@@ -23,40 +23,42 @@
 <template>
 	<ul id="sharing-inherited-shares">
 		<!-- Main collapsible entry -->
-		<SharingEntrySimple
-			class="sharing-entry__inherited"
+		<SharingEntrySimple class="sharing-entry__inherited"
 			:title="mainTitle"
-			:subtitle="subTitle">
+			:subtitle="subTitle"
+			:aria-expanded="showInheritedShares">
 			<template #avatar>
 				<div class="avatar-shared icon-more-white" />
 			</template>
-			<ActionButton :icon="showInheritedSharesIcon" @click.prevent.stop="toggleInheritedShares">
-				{{ toggleTooltip }}
-			</ActionButton>
+			<NcActionButton :icon="showInheritedSharesIcon"
+				:aria-label="toggleTooltip"
+				:title="toggleTooltip"
+				@click.prevent.stop="toggleInheritedShares" />
 		</SharingEntrySimple>
 
 		<!-- Inherited shares list -->
 		<SharingEntryInherited v-for="share in shares"
 			:key="share.id"
 			:file-info="fileInfo"
-			:share="share" />
+			:share="share"
+			@remove:share="removeShare" />
 	</ul>
 </template>
 
 <script>
 import { generateOcsUrl } from '@nextcloud/router'
-import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
+import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
 import axios from '@nextcloud/axios'
 
-import Share from '../models/Share'
-import SharingEntryInherited from '../components/SharingEntryInherited'
-import SharingEntrySimple from '../components/SharingEntrySimple'
+import Share from '../models/Share.js'
+import SharingEntryInherited from '../components/SharingEntryInherited.vue'
+import SharingEntrySimple from '../components/SharingEntrySimple.vue'
 
 export default {
 	name: 'SharingInherited',
 
 	components: {
-		ActionButton,
+		NcActionButton,
 		SharingEntryInherited,
 		SharingEntrySimple,
 	},
@@ -92,7 +94,7 @@ export default {
 		},
 		subTitle() {
 			return (this.showInheritedShares && this.shares.length === 0)
-				? t('files_sharing', 'No other users with access found')
+				? t('files_sharing', 'No other accounts with access found')
 				: ''
 		},
 		toggleTooltip() {
@@ -128,8 +130,8 @@ export default {
 		async fetchInheritedShares() {
 			this.loading = true
 			try {
-				const url = generateOcsUrl(`apps/files_sharing/api/v1/shares/inherited?format=json&path=${encodeURIComponent(this.fullPath)}`, 2)
-				const shares = await axios.get(url.replace(/\/$/, ''))
+				const url = generateOcsUrl('apps/files_sharing/api/v1/shares/inherited?format=json&path={path}', { path: this.fullPath })
+				const shares = await axios.get(url)
 				this.shares = shares.data.ocs.data
 					.map(share => new Share(share))
 					.sort((a, b) => b.createdTime - a.createdTime)
@@ -149,6 +151,16 @@ export default {
 			this.loading = false
 			this.showInheritedShares = false
 			this.shares = []
+		},
+		/**
+		 * Remove a share from the shares list
+		 *
+		 * @param {Share} share the share to remove
+		 */
+		removeShare(share) {
+			const index = this.shares.findIndex(item => item === share)
+			// eslint-disable-next-line vue/no-mutating-props
+			this.shares.splice(index, 1)
 		},
 	},
 }

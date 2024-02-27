@@ -5,7 +5,6 @@
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
  * @author Pierre Ozoux <pierre@ozoux.net>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
@@ -24,24 +23,20 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Core\Command\User;
 
+use OC\Core\Command\Base;
+use OCP\IUser;
 use OCP\IUserManager;
-use Symfony\Component\Console\Command\Command;
+use Stecman\Component\Symfony\Console\BashCompletion\CompletionContext;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class LastSeen extends Command {
-	/** @var IUserManager */
-	protected $userManager;
-
-	/**
-	 * @param IUserManager $userManager
-	 */
-	public function __construct(IUserManager $userManager) {
-		$this->userManager = $userManager;
+class LastSeen extends Base {
+	public function __construct(
+		protected IUserManager $userManager,
+	) {
 		parent::__construct();
 	}
 
@@ -65,7 +60,7 @@ class LastSeen extends Command {
 
 		$lastLogin = $user->getLastLogin();
 		if ($lastLogin === 0) {
-			$output->writeln('User ' . $user->getUID() .
+			$output->writeln('Account ' . $user->getUID() .
 				' has never logged in, yet.');
 		} else {
 			$date = new \DateTime();
@@ -74,5 +69,17 @@ class LastSeen extends Command {
 				'`s last login: ' . $date->format('d.m.Y H:i'));
 		}
 		return 0;
+	}
+
+	/**
+	 * @param string $argumentName
+	 * @param CompletionContext $context
+	 * @return string[]
+	 */
+	public function completeArgumentValues($argumentName, CompletionContext $context) {
+		if ($argumentName === 'uid') {
+			return array_map(static fn (IUser $user) => $user->getUID(), $this->userManager->search($context->getCurrentWord()));
+		}
+		return [];
 	}
 }

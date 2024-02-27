@@ -1,5 +1,8 @@
 <?php
-/*
+
+declare(strict_types=1);
+
+/**
  * @copyright Copyright (c) 2021 Julius Härtl <jus@bitgrid.net>
  *
  * @author Julius Härtl <jus@bitgrid.net>
@@ -20,10 +23,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
-declare(strict_types=1);
-
-
 namespace OCP\Files\Template;
 
 use OCP\Files\File;
@@ -32,7 +31,6 @@ use OCP\Files\File;
  * @since 21.0.0
  */
 final class Template implements \JsonSerializable {
-
 	/** @var string */
 	private $templateType;
 	/** @var string */
@@ -70,7 +68,7 @@ final class Template implements \JsonSerializable {
 	/**
 	 * @since 21.0.0
 	 */
-	public function jsonSerialize() {
+	public function jsonSerialize(): array {
 		return [
 			'templateType' => $this->templateType,
 			'templateId' => $this->templateId,

@@ -23,10 +23,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Files\Storage;
 
 use OC\Files\Cache\HomePropagator;
+use OCP\IUser;
 
 /**
  * Specialized version of Local storage for home directory usage
@@ -68,7 +68,7 @@ class Home extends Local implements \OCP\Files\IHomeStorage {
 			$storage = $this;
 		}
 		if (!isset($this->cache)) {
-			$this->cache = new \OC\Files\Cache\HomeCache($storage);
+			$this->cache = new \OC\Files\Cache\HomeCache($storage, $this->getCacheDependencies());
 		}
 		return $this->cache;
 	}
@@ -95,7 +95,7 @@ class Home extends Local implements \OCP\Files\IHomeStorage {
 	 *
 	 * @return \OC\User\User owner of this home storage
 	 */
-	public function getUser() {
+	public function getUser(): IUser {
 		return $this->user;
 	}
 

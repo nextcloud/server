@@ -25,42 +25,35 @@
 		<form @submit.prevent="submit">
 			<p class="transfer-select-row">
 				<span>{{ readableDirectory }}</span>
-				<button v-if="directory === undefined" @click.prevent="start">
+				<NcButton v-if="directory === undefined" 
+					class="transfer-select-row__choose_button"
+					@click.prevent="start">
 					{{ t('files', 'Choose file or folder to transfer') }}
-				</button>
-				<button v-else @click.prevent="start">
+				</NcButton>
+				<NcButton v-else @click.prevent="start">
 					{{ t('files', 'Change') }}
-				</button>
-				<span class="error">{{ directoryPickerError }}</span>
+				</NcButton>
 			</p>
 			<p class="new-owner-row">
 				<label for="targetUser">
 					<span>{{ t('files', 'New owner') }}</span>
 				</label>
-				<Multiselect
-					id="targetUser"
+				<NcSelect input-id="targetUser"
 					v-model="selectedUser"
 					:options="formatedUserSuggestions"
 					:multiple="false"
-					:searchable="true"
-					:placeholder="t('files', 'Search users')"
-					:preselect-first="true"
-					:preserve-search="true"
 					:loading="loadingUsers"
-					track-by="user"
 					label="displayName"
-					:internal-search="false"
-					:clear-on-select="false"
 					:user-select="true"
 					class="middle-align"
-					@search-change="findUserDebounced" />
+					@search="findUserDebounced" />
 			</p>
 			<p>
-				<input type="submit"
-					class="primary"
-					:value="submitButtonText"
+				<NcButton native-type="submit"
+					type="primary"
 					:disabled="!canSubmit">
-				<span class="error">{{ submitError }}</span>
+					{{ submitButtonText }}
+				</NcButton>
 			</p>
 		</form>
 	</div>
@@ -70,15 +63,15 @@
 import axios from '@nextcloud/axios'
 import debounce from 'debounce'
 import { generateOcsUrl } from '@nextcloud/router'
-import { getFilePickerBuilder, showSuccess } from '@nextcloud/dialogs'
-import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
+import { getFilePickerBuilder, showSuccess, showError } from '@nextcloud/dialogs'
+import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
 import Vue from 'vue'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 
-import logger from '../logger'
+import logger from '../logger.js'
 
 const picker = getFilePickerBuilder(t('files', 'Choose a file or folder to transfer'))
 	.setMultiSelect(false)
-	.setModal(true)
 	.setType(1)
 	.allowDirectories()
 	.build()
@@ -86,7 +79,8 @@ const picker = getFilePickerBuilder(t('files', 'Choose a file or folder to trans
 export default {
 	name: 'TransferOwnershipDialogue',
 	components: {
-		Multiselect,
+		NcSelect,
+		NcButton,
 	},
 	data() {
 		return {
@@ -151,6 +145,7 @@ export default {
 					logger.error(`Selecting object for transfer aborted: ${error.message || 'Unknown error'}`, { error })
 
 					this.directoryPickerError = error.message || t('files', 'Unknown error')
+					showError(this.directoryPickerError)
 				})
 		},
 		async findUser(query) {
@@ -162,7 +157,7 @@ export default {
 
 			this.loadingUsers = true
 			try {
-				const response = await axios.get(generateOcsUrl('apps/files_sharing/api/v1') + 'sharees', {
+				const response = await axios.get(generateOcsUrl('apps/files_sharing/api/v1/sharees'), {
 					params: {
 						format: 'json',
 						itemType: 'file',
@@ -171,10 +166,6 @@ export default {
 						lookup: false,
 					},
 				})
-
-				if (response.data.ocs.meta.statuscode !== 100) {
-					logger.error('Error fetching suggestions', { response })
-				}
 
 				this.userSuggestions = {}
 				response.data.ocs.data.exact.users.concat(response.data.ocs.data.users).forEach(user => {
@@ -201,7 +192,7 @@ export default {
 			}
 			logger.debug('submit transfer ownership form', data)
 
-			const url = generateOcsUrl('apps/files/api/v1/', 2) + 'transferownership'
+			const url = generateOcsUrl('apps/files/api/v1/transferownership')
 
 			axios.post(url, data)
 				.then(resp => resp.data)
@@ -216,10 +207,11 @@ export default {
 					logger.error('Could not send ownership transfer request', { error })
 
 					if (error?.response?.status === 403) {
-						this.submitError = t('files', 'Cannot transfer ownership of a file or folder you don\'t own')
+						this.submitError = t('files', 'Cannot transfer ownership of a file or folder you do not own')
 					} else {
 						this.submitError = error.message || t('files', 'Unknown error')
 					}
+					showError(this.submitError)
 				})
 		},
 	},
@@ -236,10 +228,12 @@ p {
 }
 .new-owner-row {
 	display: flex;
+	flex-wrap: wrap;
 
 	label {
 		display: flex;
 		align-items: center;
+		margin-bottom: calc(var(--default-grid-baseline) * 2);
 
 		span {
 			margin-right: 8px;
@@ -254,6 +248,10 @@ p {
 .transfer-select-row {
 	span {
 		margin-right: 8px;
+	}
+
+	&__choose_button {
+		width: min(100%, 400px) !important;
 	}
 }
 </style>

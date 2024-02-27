@@ -21,7 +21,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-script('core', 'dist/recommendedapps');
+script('core', 'recommendedapps');
 
 ?>
 

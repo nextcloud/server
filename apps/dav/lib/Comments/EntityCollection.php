@@ -21,14 +21,13 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\Comments;
 
 use OCP\Comments\ICommentsManager;
 use OCP\Comments\NotFoundException;
-use OCP\ILogger;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use Psr\Log\LoggerInterface;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\IProperties;
 use Sabre\DAV\PropPatch;
@@ -47,8 +46,7 @@ class EntityCollection extends RootCollection implements IProperties {
 	/** @var  string */
 	protected $id;
 
-	/** @var  ILogger */
-	protected $logger;
+	protected LoggerInterface $logger;
 
 	/**
 	 * @param string $id
@@ -56,7 +54,7 @@ class EntityCollection extends RootCollection implements IProperties {
 	 * @param ICommentsManager $commentsManager
 	 * @param IUserManager $userManager
 	 * @param IUserSession $userSession
-	 * @param ILogger $logger
+	 * @param LoggerInterface $logger
 	 */
 	public function __construct(
 		$id,
@@ -64,7 +62,7 @@ class EntityCollection extends RootCollection implements IProperties {
 		ICommentsManager $commentsManager,
 		IUserManager $userManager,
 		IUserSession $userSession,
-		ILogger $logger
+		LoggerInterface $logger
 	) {
 		foreach (['id', 'name'] as $property) {
 			$$property = trim($$property);
@@ -164,12 +162,9 @@ class EntityCollection extends RootCollection implements IProperties {
 
 	/**
 	 * Sets the read marker to the specified date for the logged in user
-	 *
-	 * @param \DateTime $value
-	 * @return bool
 	 */
-	public function setReadMarker($value) {
-		$dateTime = new \DateTime($value);
+	public function setReadMarker(?string $value): bool {
+		$dateTime = new \DateTime($value ?? 'now');
 		$user = $this->userSession->getUser();
 		$this->commentsManager->setReadMark($this->name, $this->id, $dateTime, $user);
 		return true;

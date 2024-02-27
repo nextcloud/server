@@ -6,25 +6,28 @@ declare(strict_types=1);
  * @copyright Copyright (c) 2020, Georg Ehrke
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author Joas Schilling <coding@schilljs.com>
  *
- * @license AGPL-3.0
+ * @license GNU AGPL version 3 or any later version
  *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\UserStatus\Tests\Service;
 
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
+use OC\DB\Exceptions\DbalException;
 use OCA\UserStatus\Db\UserStatus;
 use OCA\UserStatus\Db\UserStatusMapper;
 use OCA\UserStatus\Exception\InvalidClearAtException;
@@ -32,29 +35,39 @@ use OCA\UserStatus\Exception\InvalidMessageIdException;
 use OCA\UserStatus\Exception\InvalidStatusIconException;
 use OCA\UserStatus\Exception\InvalidStatusTypeException;
 use OCA\UserStatus\Exception\StatusMessageTooLongException;
-use OCA\UserStatus\Service\EmojiService;
 use OCA\UserStatus\Service\PredefinedStatusService;
 use OCA\UserStatus\Service\StatusService;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\DB\Exception;
+use OCP\IConfig;
+use OCP\IEmojiHelper;
+use OCP\IUserManager;
+use OCP\UserStatus\IUserStatus;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class StatusServiceTest extends TestCase {
 
-	/** @var UserStatusMapper|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var UserStatusMapper|MockObject */
 	private $mapper;
 
-	/** @var ITimeFactory|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var ITimeFactory|MockObject */
 	private $timeFactory;
 
-	/** @var PredefinedStatusService|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var PredefinedStatusService|MockObject */
 	private $predefinedStatusService;
 
-	/** @var EmojiService|\PHPUnit\Framework\MockObject\MockObject */
-	private $emojiService;
+	/** @var IEmojiHelper|MockObject */
+	private $emojiHelper;
 
-	/** @var StatusService */
-	private $service;
+	/** @var IConfig|MockObject */
+	private $config;
+
+	/** @var IUserManager|MockObject  */
+	private $userManager;
+
+	private StatusService $service;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -62,11 +75,23 @@ class StatusServiceTest extends TestCase {
 		$this->mapper = $this->createMock(UserStatusMapper::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
 		$this->predefinedStatusService = $this->createMock(PredefinedStatusService::class);
-		$this->emojiService = $this->createMock(EmojiService::class);
+		$this->emojiHelper = $this->createMock(IEmojiHelper::class);
+		$this->userManager = $this->createMock(IUserManager::class);
+		$this->config = $this->createMock(IConfig::class);
+
+		$this->config->method('getAppValue')
+			->willReturnMap([
+				['core', 'shareapi_allow_share_dialog_user_enumeration', 'yes', 'yes'],
+				['core', 'shareapi_restrict_user_enumeration_to_group', 'no', 'no']
+			]);
+
 		$this->service = new StatusService($this->mapper,
 			$this->timeFactory,
 			$this->predefinedStatusService,
-			$this->emojiService);
+			$this->emojiHelper,
+			$this->config,
+			$this->userManager
+		);
 	}
 
 	public function testFindAll(): void {
@@ -99,14 +124,51 @@ class StatusServiceTest extends TestCase {
 		], $this->service->findAllRecentStatusChanges(20, 50));
 	}
 
-	public function testFindByUserId(): void {
-		$status = $this->createMock(UserStatus::class);
-		$this->mapper->expects($this->once())
-			->method('findByUserId')
-			->with('john.doe')
-			->willReturn($status);
+	public function testFindAllRecentStatusChangesNoEnumeration(): void {
+		$status1 = $this->createMock(UserStatus::class);
+		$status2 = $this->createMock(UserStatus::class);
 
-		$this->assertEquals($status, $this->service->findByUserId('john.doe'));
+		$this->mapper->method('findAllRecent')
+			->with(20, 50)
+			->willReturn([$status1, $status2]);
+
+		// Rebuild $this->service with user enumeration turned off
+		$this->config = $this->createMock(IConfig::class);
+
+		$this->config->method('getAppValue')
+			->willReturnMap([
+				['core', 'shareapi_allow_share_dialog_user_enumeration', 'yes', 'no'],
+				['core', 'shareapi_restrict_user_enumeration_to_group', 'no', 'no']
+			]);
+
+		$this->service = new StatusService($this->mapper,
+			$this->timeFactory,
+			$this->predefinedStatusService,
+			$this->emojiHelper,
+			$this->config,
+			$this->userManager
+		);
+
+		$this->assertEquals([], $this->service->findAllRecentStatusChanges(20, 50));
+
+		// Rebuild $this->service with user enumeration limited to common groups
+		$this->config = $this->createMock(IConfig::class);
+
+		$this->config->method('getAppValue')
+			->willReturnMap([
+				['core', 'shareapi_allow_share_dialog_user_enumeration', 'yes', 'yes'],
+				['core', 'shareapi_restrict_user_enumeration_to_group', 'no', 'yes']
+			]);
+
+		$this->service = new StatusService($this->mapper,
+			$this->timeFactory,
+			$this->predefinedStatusService,
+			$this->emojiHelper,
+			$this->config,
+			$this->userManager
+		);
+
+		$this->assertEquals([], $this->service->findAllRecentStatusChanges(20, 50));
 	}
 
 	public function testFindByUserIdDoesNotExist(): void {
@@ -198,15 +260,15 @@ class StatusServiceTest extends TestCase {
 	 * @dataProvider setStatusDataProvider
 	 */
 	public function testSetStatus(string $userId,
-								  string $status,
-								  ?int $statusTimestamp,
-								  bool $isUserDefined,
-								  bool $expectExisting,
-								  bool $expectSuccess,
-								  bool $expectTimeFactory,
-								  bool $expectException,
-								  ?string $expectedExceptionClass,
-								  ?string $expectedExceptionMessage): void {
+		string $status,
+		?int $statusTimestamp,
+		bool $isUserDefined,
+		bool $expectExisting,
+		bool $expectSuccess,
+		bool $expectTimeFactory,
+		bool $expectException,
+		?string $expectedExceptionClass,
+		?string $expectedExceptionMessage): void {
 		$userStatus = new UserStatus();
 
 		if ($expectExisting) {
@@ -329,14 +391,14 @@ class StatusServiceTest extends TestCase {
 	 * @dataProvider setPredefinedMessageDataProvider
 	 */
 	public function testSetPredefinedMessage(string $userId,
-											 string $messageId,
-											 bool $isValidMessageId,
-											 ?int $clearAt,
-											 bool $expectExisting,
-											 bool $expectSuccess,
-											 bool $expectException,
-											 ?string $expectedExceptionClass,
-											 ?string $expectedExceptionMessage): void {
+		string $messageId,
+		bool $isValidMessageId,
+		?int $clearAt,
+		bool $expectExisting,
+		bool $expectSuccess,
+		bool $expectException,
+		?string $expectedExceptionClass,
+		?string $expectedExceptionMessage): void {
 		$userStatus = new UserStatus();
 
 		if ($expectExisting) {
@@ -427,15 +489,15 @@ class StatusServiceTest extends TestCase {
 	 * @dataProvider setCustomMessageDataProvider
 	 */
 	public function testSetCustomMessage(string $userId,
-										 ?string $statusIcon,
-										 bool $supportsEmoji,
-										 string $message,
-										 ?int $clearAt,
-										 bool $expectExisting,
-										 bool $expectSuccess,
-										 bool $expectException,
-										 ?string $expectedExceptionClass,
-										 ?string $expectedExceptionMessage): void {
+		?string $statusIcon,
+		bool $supportsEmoji,
+		string $message,
+		?int $clearAt,
+		bool $expectExisting,
+		bool $expectSuccess,
+		bool $expectException,
+		?string $expectedExceptionClass,
+		?string $expectedExceptionMessage): void {
 		$userStatus = new UserStatus();
 
 		if ($expectExisting) {
@@ -457,7 +519,7 @@ class StatusServiceTest extends TestCase {
 				->willThrowException(new DoesNotExistException(''));
 		}
 
-		$this->emojiService->method('isValidEmoji')
+		$this->emojiHelper->method('isValidSingleEmoji')
 			->with($statusIcon)
 			->willReturn($supportsEmoji);
 
@@ -622,5 +684,145 @@ class StatusServiceTest extends TestCase {
 
 		$actual = $this->service->removeUserStatus('john.doe');
 		$this->assertFalse($actual);
+	}
+
+	public function testCleanStatusAutomaticOnline(): void {
+		$status = new UserStatus();
+		$status->setStatus(IUserStatus::ONLINE);
+		$status->setStatusTimestamp(1337);
+		$status->setIsUserDefined(false);
+
+		$this->mapper->expects(self::once())
+			->method('update')
+			->with($status);
+
+		parent::invokePrivate($this->service, 'cleanStatus', [$status]);
+	}
+
+	public function testCleanStatusCustomOffline(): void {
+		$status = new UserStatus();
+		$status->setStatus(IUserStatus::OFFLINE);
+		$status->setStatusTimestamp(1337);
+		$status->setIsUserDefined(true);
+
+		$this->mapper->expects(self::once())
+			->method('update')
+			->with($status);
+
+		parent::invokePrivate($this->service, 'cleanStatus', [$status]);
+	}
+
+	public function testCleanStatusCleanedAlready(): void {
+		$status = new UserStatus();
+		$status->setStatus(IUserStatus::OFFLINE);
+		$status->setStatusTimestamp(1337);
+		$status->setIsUserDefined(false);
+
+		// Don't update the status again and again when no value changed
+		$this->mapper->expects(self::never())
+			->method('update')
+			->with($status);
+
+		parent::invokePrivate($this->service, 'cleanStatus', [$status]);
+	}
+
+	public function testBackupWorkingHasBackupAlready(): void {
+		$p = $this->createMock(UniqueConstraintViolationException::class);
+		$e = DbalException::wrap($p);
+		$this->mapper->expects($this->once())
+			->method('createBackupStatus')
+			->with('john')
+			->willThrowException($e);
+
+		$this->assertFalse($this->service->backupCurrentStatus('john'));
+	}
+
+	public function testBackupThrowsOther(): void {
+		$e = new Exception('', Exception::REASON_CONNECTION_LOST);
+		$this->mapper->expects($this->once())
+			->method('createBackupStatus')
+			->with('john')
+			->willThrowException($e);
+
+		$this->expectException(Exception::class);
+		$this->service->backupCurrentStatus('john');
+	}
+
+	public function testBackup(): void {
+		$e = new Exception('', Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION);
+		$this->mapper->expects($this->once())
+			->method('createBackupStatus')
+			->with('john')
+			->willReturn(true);
+
+		$this->assertTrue($this->service->backupCurrentStatus('john'));
+	}
+
+	public function testRevertMultipleUserStatus(): void {
+		$john = new UserStatus();
+		$john->setId(1);
+		$john->setStatus(IUserStatus::AWAY);
+		$john->setStatusTimestamp(1337);
+		$john->setIsUserDefined(false);
+		$john->setMessageId('call');
+		$john->setUserId('john');
+		$john->setIsBackup(false);
+
+		$johnBackup = new UserStatus();
+		$johnBackup->setId(2);
+		$johnBackup->setStatus(IUserStatus::ONLINE);
+		$johnBackup->setStatusTimestamp(1337);
+		$johnBackup->setIsUserDefined(true);
+		$johnBackup->setMessageId('hello');
+		$johnBackup->setUserId('_john');
+		$johnBackup->setIsBackup(true);
+
+		$noBackup = new UserStatus();
+		$noBackup->setId(3);
+		$noBackup->setStatus(IUserStatus::AWAY);
+		$noBackup->setStatusTimestamp(1337);
+		$noBackup->setIsUserDefined(false);
+		$noBackup->setMessageId('call');
+		$noBackup->setUserId('nobackup');
+		$noBackup->setIsBackup(false);
+
+		$backupOnly = new UserStatus();
+		$backupOnly->setId(4);
+		$backupOnly->setStatus(IUserStatus::ONLINE);
+		$backupOnly->setStatusTimestamp(1337);
+		$backupOnly->setIsUserDefined(true);
+		$backupOnly->setMessageId('hello');
+		$backupOnly->setUserId('_backuponly');
+		$backupOnly->setIsBackup(true);
+
+		$noBackupDND = new UserStatus();
+		$noBackupDND->setId(5);
+		$noBackupDND->setStatus(IUserStatus::DND);
+		$noBackupDND->setStatusTimestamp(1337);
+		$noBackupDND->setIsUserDefined(false);
+		$noBackupDND->setMessageId('call');
+		$noBackupDND->setUserId('nobackupanddnd');
+		$noBackupDND->setIsBackup(false);
+
+		$this->mapper->expects($this->once())
+			->method('findByUserIds')
+			->with(['john', 'nobackup', 'backuponly', 'nobackupanddnd', '_john', '_nobackup', '_backuponly', '_nobackupanddnd'])
+			->willReturn([
+				$john,
+				$johnBackup,
+				$noBackup,
+				$backupOnly,
+				$noBackupDND,
+			]);
+
+		$this->mapper->expects($this->once())
+			->method('deleteByIds')
+			->with([1, 3, 5]);
+
+		$this->mapper->expects($this->once())
+			->method('restoreBackupStatuses')
+			->with([2]);
+
+		$this->service->revertMultipleUserStatus(['john', 'nobackup', 'backuponly', 'nobackupanddnd'], 'call');
 	}
 }

@@ -1,8 +1,12 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author J0WI <J0WI@users.noreply.github.com>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  *
  * @license AGPL-3.0
@@ -20,7 +24,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP\Security;
 
 /**
@@ -29,7 +32,6 @@ namespace OCP\Security;
  * @since 8.2.0
  */
 interface ICredentialsManager {
-
 	/**
 	 * Store a set of credentials
 	 *
@@ -38,7 +40,7 @@ interface ICredentialsManager {
 	 * @param mixed $credentials
 	 * @since 8.2.0
 	 */
-	public function store($userId, $identifier, $credentials);
+	public function store(string $userId, string $identifier, $credentials): void;
 
 	/**
 	 * Retrieve a set of credentials
@@ -48,7 +50,7 @@ interface ICredentialsManager {
 	 * @return mixed
 	 * @since 8.2.0
 	 */
-	public function retrieve($userId, $identifier);
+	public function retrieve(string $userId, string $identifier);
 
 	/**
 	 * Delete a set of credentials
@@ -58,7 +60,7 @@ interface ICredentialsManager {
 	 * @return int rows removed
 	 * @since 8.2.0
 	 */
-	public function delete($userId, $identifier);
+	public function delete(string $userId, string $identifier): int;
 
 	/**
 	 * Erase all credentials stored for a user
@@ -67,5 +69,5 @@ interface ICredentialsManager {
 	 * @return int rows removed
 	 * @since 8.2.0
 	 */
-	public function erase($userId);
+	public function erase(string $userId): int;
 }

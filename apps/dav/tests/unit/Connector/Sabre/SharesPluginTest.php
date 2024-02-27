@@ -27,7 +27,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
 use OCA\DAV\Connector\Sabre\Directory;
@@ -96,7 +95,7 @@ class SharesPluginTest extends \Test\TestCase {
 	/**
 	 * @dataProvider sharesGetPropertiesDataProvider
 	 */
-	public function testGetProperties($shareTypes) {
+	public function testGetProperties($shareTypes): void {
 		$sabreNode = $this->getMockBuilder(Node::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -112,9 +111,7 @@ class SharesPluginTest extends \Test\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-		$this->userFolder->expects($this->once())
-			->method('get')
-			->with('/subdir')
+		$sabreNode->method('getNode')
 			->willReturn($node);
 
 		$this->shareManager->expects($this->any())
@@ -157,7 +154,7 @@ class SharesPluginTest extends \Test\TestCase {
 	/**
 	 * @dataProvider sharesGetPropertiesDataProvider
 	 */
-	public function testPreloadThenGetProperties($shareTypes) {
+	public function testPreloadThenGetProperties($shareTypes): void {
 		$sabreNode1 = $this->createMock(File::class);
 		$sabreNode1->method('getId')
 			->willReturn(111);
@@ -181,16 +178,19 @@ class SharesPluginTest extends \Test\TestCase {
 		$node = $this->createMock(Folder::class);
 		$node->method('getId')
 			->willReturn(123);
-		$node1 = $this->createMock(File::class);
+		$node1 = $this->createMock(\OC\Files\Node\File::class);
 		$node1->method('getId')
 			->willReturn(111);
-		$node2 = $this->createMock(File::class);
+		$node2 = $this->createMock(\OC\Files\Node\File::class);
 		$node2->method('getId')
 			->willReturn(222);
 
-		$this->userFolder->method('get')
-			->with('/subdir')
+		$sabreNode->method('getNode')
 			->willReturn($node);
+		$sabreNode1->method('getNode')
+			->willReturn($node1);
+		$sabreNode2->method('getNode')
+			->willReturn($node2);
 
 		$dummyShares = array_map(function ($type) {
 			$share = $this->getMockBuilder(IShare::class)->getMock();
@@ -278,6 +278,7 @@ class SharesPluginTest extends \Test\TestCase {
 			[[IShare::TYPE_REMOTE]],
 			[[IShare::TYPE_ROOM]],
 			[[IShare::TYPE_DECK]],
+			[[IShare::TYPE_SCIENCEMESH]],
 			[[IShare::TYPE_USER, IShare::TYPE_GROUP]],
 			[[IShare::TYPE_USER, IShare::TYPE_GROUP, IShare::TYPE_LINK]],
 			[[IShare::TYPE_USER, IShare::TYPE_LINK]],

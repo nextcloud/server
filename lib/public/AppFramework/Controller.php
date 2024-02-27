@@ -26,12 +26,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
-/**
- * Public interface of ownCloud for apps to use.
- * AppFramework\Controller class
- */
-
 namespace OCP\AppFramework;
 
 use OCP\AppFramework\Http\DataResponse;
@@ -44,7 +38,6 @@ use OCP\IRequest;
  * @since 6.0.0
  */
 abstract class Controller {
-
 	/**
 	 * app name
 	 * @var string
@@ -72,7 +65,7 @@ abstract class Controller {
 	 * @since 6.0.0 - parameter $appName was added in 7.0.0 - parameter $app was removed in 7.0.0
 	 */
 	public function __construct($appName,
-								IRequest $request) {
+		IRequest $request) {
 		$this->appName = $appName;
 		$this->request = $request;
 
@@ -97,6 +90,9 @@ abstract class Controller {
 					}
 					if ($data->getLastModified() !== null) {
 						$response->setLastModified($data->getLastModified());
+					}
+					if ($data->isThrottled()) {
+						$response->throttle($data->getThrottleMetadata());
 					}
 
 					return $response;

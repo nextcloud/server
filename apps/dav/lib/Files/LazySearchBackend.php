@@ -13,14 +13,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\Files;
 
 use SearchDAV\Backend\ISearchBackend;
@@ -36,7 +35,7 @@ class LazySearchBackend implements ISearchBackend {
 		$this->backend = $backend;
 	}
 
-	public function getArbiterPath() {
+	public function getArbiterPath(): string {
 		if ($this->backend) {
 			return $this->backend->getArbiterPath();
 		} else {
@@ -44,27 +43,30 @@ class LazySearchBackend implements ISearchBackend {
 		}
 	}
 
-	public function isValidScope($href, $depth, $path) {
+	public function isValidScope(string $href, $depth, ?string $path): bool {
 		if ($this->backend) {
 			return $this->backend->getArbiterPath();
-		} else {
-			return false;
 		}
+		return false;
 	}
 
-	public function getPropertyDefinitionsForScope($href, $path) {
+	public function getPropertyDefinitionsForScope(string $href, ?String $path): array {
 		if ($this->backend) {
 			return $this->backend->getPropertyDefinitionsForScope($href, $path);
-		} else {
-			return [];
 		}
+		return [];
 	}
 
-	public function search(Query $query) {
+	public function search(Query $query): array {
 		if ($this->backend) {
 			return $this->backend->search($query);
-		} else {
-			return [];
+		}
+		return [];
+	}
+
+	public function preloadPropertyFor(array $nodes, array $requestProperties): void {
+		if ($this->backend) {
+			$this->backend->preloadPropertyFor($nodes, $requestProperties);
 		}
 	}
 }

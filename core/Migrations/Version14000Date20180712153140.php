@@ -13,14 +13,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Core\Migrations;
 
 use OCP\DB\ISchemaWrapper;
@@ -33,7 +32,6 @@ use OCP\Migration\SimpleMigrationStep;
  */
 class Version14000Date20180712153140 extends SimpleMigrationStep {
 	public function changeSchema(\OCP\Migration\IOutput $output, \Closure $schemaClosure, array $options) {
-
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
 

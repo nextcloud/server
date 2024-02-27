@@ -32,7 +32,6 @@ use OCP\API;
 use OCP\AppFramework\Http;
 
 class OC_API {
-
 	/**
 	 * api actions
 	 */
@@ -48,7 +47,7 @@ class OC_API {
 		$request = \OC::$server->getRequest();
 
 		// Send 401 headers if unauthorised
-		if ($result->getStatusCode() === API::RESPOND_UNAUTHORISED) {
+		if ($result->getStatusCode() === \OCP\AppFramework\OCSController::RESPOND_UNAUTHORISED) {
 			// If request comes from JS return dummy auth request
 			if ($request->getHeader('X-Requested-With') === 'XMLHttpRequest') {
 				header('WWW-Authenticate: DummyBasic realm="Authorisation Required"');
@@ -98,13 +97,10 @@ class OC_API {
 		}
 	}
 
-	/**
-	 * @return string
-	 */
-	public static function requestedFormat() {
+	public static function requestedFormat(): string {
 		$formats = ['json', 'xml'];
 
-		$format = !empty($_GET['format']) && in_array($_GET['format'], $formats) ? $_GET['format'] : 'xml';
+		$format = (isset($_GET['format']) && is_string($_GET['format']) && in_array($_GET['format'], $formats)) ? $_GET['format'] : 'xml';
 		return $format;
 	}
 
@@ -134,7 +130,7 @@ class OC_API {
 	protected static function isV2(\OCP\IRequest $request) {
 		$script = $request->getScriptName();
 
-		return substr($script, -11) === '/ocs/v2.php';
+		return str_ends_with($script, '/ocs/v2.php');
 	}
 
 	/**
@@ -143,13 +139,13 @@ class OC_API {
 	 */
 	public static function mapStatusCodes($sc) {
 		switch ($sc) {
-			case API::RESPOND_NOT_FOUND:
+			case \OCP\AppFramework\OCSController::RESPOND_NOT_FOUND:
 				return Http::STATUS_NOT_FOUND;
-			case API::RESPOND_SERVER_ERROR:
+			case \OCP\AppFramework\OCSController::RESPOND_SERVER_ERROR:
 				return Http::STATUS_INTERNAL_SERVER_ERROR;
-			case API::RESPOND_UNKNOWN_ERROR:
+			case \OCP\AppFramework\OCSController::RESPOND_UNKNOWN_ERROR:
 				return Http::STATUS_INTERNAL_SERVER_ERROR;
-			case API::RESPOND_UNAUTHORISED:
+			case \OCP\AppFramework\OCSController::RESPOND_UNAUTHORISED:
 				// already handled for v1
 				return null;
 			case 100:

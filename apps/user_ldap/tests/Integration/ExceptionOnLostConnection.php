@@ -23,7 +23,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\User_LDAP\Tests\Integration;
 
 use OC\ServerNotAvailableException;
@@ -147,7 +146,7 @@ class ExceptionOnLostConnection {
 	 * tests whether a curl operation ran successfully. If not, an exception
 	 * is thrown
 	 *
-	 * @param resource $ch
+	 * @param resource|\CurlHandle $ch
 	 * @param mixed $result
 	 * @throws \Exception
 	 */
@@ -183,7 +182,7 @@ class ExceptionOnLostConnection {
 
 	/**
 	 * initializes a curl handler towards the toxiproxy LDAP proxy service
-	 * @return resource
+	 * @return resource|\CurlHandle
 	 */
 	private function getCurl() {
 		$ch = curl_init();

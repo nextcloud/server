@@ -13,7 +13,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -30,7 +30,6 @@ use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 
 class CleanPreviews implements IRepairStep {
-
 	/** @var IJobList */
 	private $jobList;
 
@@ -48,8 +47,8 @@ class CleanPreviews implements IRepairStep {
 	 * @param IConfig $config
 	 */
 	public function __construct(IJobList $jobList,
-								IUserManager $userManager,
-								IConfig $config) {
+		IUserManager $userManager,
+		IConfig $config) {
 		$this->jobList = $jobList;
 		$this->userManager = $userManager;
 		$this->config = $config;

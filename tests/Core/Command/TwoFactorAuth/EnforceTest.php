@@ -34,7 +34,6 @@ use Symfony\Component\Console\Tester\CommandTester;
 use Test\TestCase;
 
 class EnforceTest extends TestCase {
-
 	/** @var MandatoryTwoFactor|MockObject */
 	private $mandatoryTwoFactor;
 

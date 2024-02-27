@@ -22,7 +22,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Preview;
 
 //.odt, .ott, .oth, .odm, .odg, .otg, .odp, .otp, .ods, .ots, .odc, .odf, .odb, .odi, .oxt
@@ -43,7 +42,7 @@ class OpenDocument extends Bundled {
 	 */
 	public function getThumbnail(File $file, int $maxX, int $maxY): ?IImage {
 		$image = $this->extractThumbnail($file, 'Thumbnails/thumbnail.png');
-		if ($image->valid()) {
+		if (($image !== null) && $image->valid()) {
 			return $image;
 		}
 		return null;

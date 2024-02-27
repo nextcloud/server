@@ -18,14 +18,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Theming\Tests\Controller;
 
 use OC\Files\SimpleFS\SimpleFile;
@@ -34,6 +33,7 @@ use OCA\Theming\Controller\IconController;
 use OCA\Theming\IconBuilder;
 use OCA\Theming\ImageManager;
 use OCA\Theming\ThemingDefaults;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\FileDisplayResponse;
@@ -58,6 +58,8 @@ class IconControllerTest extends TestCase {
 	private $iconBuilder;
 	/** @var FileAccessHelper|\PHPUnit\Framework\MockObject\MockObject */
 	private $fileAccessHelper;
+	/** @var IAppManager|\PHPUnit\Framework\MockObject\MockObject */
+	private $appManager;
 	/** @var ImageManager */
 	private $imageManager;
 
@@ -67,6 +69,7 @@ class IconControllerTest extends TestCase {
 		$this->iconBuilder = $this->createMock(IconBuilder::class);
 		$this->imageManager = $this->createMock(ImageManager::class);
 		$this->fileAccessHelper = $this->createMock(FileAccessHelper::class);
+		$this->appManager = $this->createMock(IAppManager::class);
 
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
 		$this->timeFactory->expects($this->any())
@@ -81,7 +84,8 @@ class IconControllerTest extends TestCase {
 			$this->themingDefaults,
 			$this->iconBuilder,
 			$this->imageManager,
-			$this->fileAccessHelper
+			$this->fileAccessHelper,
+			$this->appManager,
 		);
 
 		parent::setUp();
@@ -92,6 +96,8 @@ class IconControllerTest extends TestCase {
 		$icon->expects($this->any())->method('getContent')->willReturn($data);
 		$icon->expects($this->any())->method('getMimeType')->willReturn('image type');
 		$icon->expects($this->any())->method('getEtag')->willReturn('my etag');
+		$icon->expects($this->any())->method('getName')->willReturn('my name');
+		$icon->expects($this->any())->method('getMTime')->willReturn(42);
 		$icon->method('getName')->willReturn($filename);
 		return new SimpleFile($icon);
 	}
@@ -103,7 +109,7 @@ class IconControllerTest extends TestCase {
 			->with('icon-core-filetypes_folder.svg')
 			->willReturn($file);
 		$expected = new FileDisplayResponse($file, Http::STATUS_OK, ['Content-Type' => 'image/svg+xml']);
-		$expected->cacheFor(86400);
+		$expected->cacheFor(86400, false, true);
 		$this->assertEquals($expected, $this->iconController->getThemedIcon('core', 'filetypes/folder.svg'));
 	}
 

@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -16,39 +17,42 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Core\Controller;
 
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\Attribute\FrontpageRoute;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\StandaloneTemplateResponse;
 use OCP\IInitialStateService;
 use OCP\IRequest;
+use OCP\IURLGenerator;
 
+#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class RecommendedAppsController extends Controller {
-
-	/** @var IInitialStateService */
-	private $initialStateService;
-
-	public function __construct(IRequest $request,
-								IInitialStateService $initialStateService) {
+	public function __construct(
+		IRequest $request,
+		public IURLGenerator $urlGenerator,
+		private IInitialStateService $initialStateService,
+	) {
 		parent::__construct('core', $request);
-		$this->initialStateService = $initialStateService;
 	}
 
 	/**
 	 * @NoCSRFRequired
 	 * @return Response
 	 */
+	#[FrontpageRoute(verb: 'GET', url: '/core/apps/recommended')]
 	public function index(): Response {
-		$this->initialStateService->provideInitialState('core', 'defaultPageUrl', \OC_Util::getDefaultPageUrl());
+		$defaultPageUrl = $this->urlGenerator->linkToDefaultPageUrl();
+		$this->initialStateService->provideInitialState('core', 'defaultPageUrl', $defaultPageUrl);
 		return new StandaloneTemplateResponse($this->appName, 'recommendedapps', [], 'guest');
 	}
 }

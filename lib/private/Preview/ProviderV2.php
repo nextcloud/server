@@ -16,14 +16,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Preview;
 
 use OCP\Files\File;
@@ -32,9 +31,11 @@ use OCP\IImage;
 use OCP\Preview\IProviderV2;
 
 abstract class ProviderV2 implements IProviderV2 {
-	private $options;
+	/** @var array */
+	protected $options;
 
-	private $tmpFiles = [];
+	/** @var array */
+	protected $tmpFiles = [];
 
 	/**
 	 * Constructor
@@ -71,16 +72,19 @@ abstract class ProviderV2 implements IProviderV2 {
 	 */
 	abstract public function getThumbnail(File $file, int $maxX, int $maxY): ?IImage;
 
+	protected function useTempFile(File $file): bool {
+		return $file->isEncrypted() || !$file->getStorage()->isLocal();
+	}
+
 	/**
 	 * Get a path to either the local file or temporary file
 	 *
 	 * @param File $file
 	 * @param int $maxSize maximum size for temporary files
-	 * @return string
+	 * @return string|false
 	 */
-	protected function getLocalFile(File $file, int $maxSize = null): string {
-		$useTempFile = $file->isEncrypted() || !$file->getStorage()->isLocal();
-		if ($useTempFile) {
+	protected function getLocalFile(File $file, int $maxSize = null) {
+		if ($this->useTempFile($file)) {
 			$absPath = \OC::$server->getTempManager()->getTemporaryFile();
 
 			$content = $file->fopen('r');
@@ -93,14 +97,19 @@ abstract class ProviderV2 implements IProviderV2 {
 			$this->tmpFiles[] = $absPath;
 			return $absPath;
 		} else {
-			return $file->getStorage()->getLocalFile($file->getInternalPath());
+			$path = $file->getStorage()->getLocalFile($file->getInternalPath());
+			if (is_string($path)) {
+				return $path;
+			} else {
+				return false;
+			}
 		}
 	}
 
 	/**
 	 * Clean any generated temporary files
 	 */
-	protected function cleanTmpFiles() {
+	protected function cleanTmpFiles(): void {
 		foreach ($this->tmpFiles as $tmpFile) {
 			unlink($tmpFile);
 		}

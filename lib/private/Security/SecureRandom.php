@@ -25,7 +25,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Security;
 
 use OCP\Security\ISecureRandom;
@@ -41,14 +40,20 @@ use OCP\Security\ISecureRandom;
  */
 class SecureRandom implements ISecureRandom {
 	/**
-	 * Generate a random string of specified length.
+	 * Generate a secure random string of specified length.
 	 * @param int $length The length of the generated string
 	 * @param string $characters An optional list of characters to use if no character list is
 	 * 							specified all valid base64 characters are used.
-	 * @return string
+	 * @throws \LengthException if an invalid length is requested
 	 */
-	public function generate(int $length,
-							 string $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'): string {
+	public function generate(
+		int $length,
+		string $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/',
+	): string {
+		if ($length <= 0) {
+			throw new \LengthException('Invalid length specified: ' . $length . ' must be bigger than 0');
+		}
+
 		$maxCharIndex = \strlen($characters) - 1;
 		$randomString = '';
 

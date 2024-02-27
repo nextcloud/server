@@ -13,7 +13,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -23,7 +23,7 @@
 namespace OCA\DAV\CalDAV\ICSExportPlugin;
 
 use OCP\IConfig;
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 use Sabre\HTTP\ResponseInterface;
 use Sabre\VObject\DateTimeParser;
 use Sabre\VObject\InvalidDataException;
@@ -35,22 +35,16 @@ use Sabre\VObject\Property\ICalendar\Duration;
  * @package OCA\DAV\CalDAV\ICSExportPlugin
  */
 class ICSExportPlugin extends \Sabre\CalDAV\ICSExportPlugin {
-
-	/** @var IConfig */
-	private $config;
-
-	/** @var ILogger */
-	private $logger;
+	private IConfig $config;
+	private LoggerInterface $logger;
 
 	/** @var string */
 	private const DEFAULT_REFRESH_INTERVAL = 'PT4H';
 
 	/**
 	 * ICSExportPlugin constructor.
-	 *
-	 * @param IConfig $config
 	 */
-	public function __construct(IConfig $config, ILogger $logger) {
+	public function __construct(IConfig $config, LoggerInterface $logger) {
 		$this->config = $config;
 		$this->logger = $logger;
 	}

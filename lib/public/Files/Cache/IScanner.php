@@ -20,7 +20,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP\Files\Cache;
 
 /**
@@ -29,12 +28,34 @@ namespace OCP\Files\Cache;
  * @since 9.0.0
  */
 interface IScanner {
+	/**
+	 * @since 9.0.0
+	 */
 	public const SCAN_RECURSIVE_INCOMPLETE = 2; // only recursive into not fully scanned folders
+
+	/**
+	 * @since 9.0.0
+	 */
 	public const SCAN_RECURSIVE = true;
+
+	/**
+	 * @since 9.0.0
+	 */
 	public const SCAN_SHALLOW = false;
 
+	/**
+	 * @since 12.0.0
+	 */
 	public const REUSE_NONE = 0;
+
+	/**
+	 * @since 9.0.0
+	 */
 	public const REUSE_ETAG = 1;
+
+	/**
+	 * @since 9.0.0
+	 */
 	public const REUSE_SIZE = 2;
 
 	/**
@@ -45,7 +66,7 @@ interface IScanner {
 	 * @param int $parentId
 	 * @param array | null $cacheData existing data in the cache for the file to be scanned
 	 * @param bool $lock set to false to disable getting an additional read lock during scanning
-	 * @return array an array of metadata of the scanned file
+	 * @return array | null an array of metadata of the scanned file
 	 * @throws \OC\ServerNotAvailableException
 	 * @throws \OCP\Lock\LockedException
 	 * @since 9.0.0
@@ -59,7 +80,7 @@ interface IScanner {
 	 * @param bool $recursive
 	 * @param int $reuse
 	 * @param bool $lock set to false to disable getting an additional read lock during scanning
-	 * @return array an array of the meta data of the scanned file or folder
+	 * @return array | null an array of the meta data of the scanned file or folder
 	 * @since 9.0.0
 	 */
 	public function scan($path, $recursive = self::SCAN_RECURSIVE, $reuse = -1, $lock = true);

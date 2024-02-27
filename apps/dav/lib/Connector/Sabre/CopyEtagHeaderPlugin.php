@@ -22,9 +22,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\Connector\Sabre;
 
+use Sabre\DAV\Exception\NotFound;
+use Sabre\DAV\Server;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
 
@@ -34,9 +35,8 @@ use Sabre\HTTP\ResponseInterface;
  * or mangle Etag headers.
  */
 class CopyEtagHeaderPlugin extends \Sabre\DAV\ServerPlugin {
+	private ?Server $server = null;
 
-	/** @var \Sabre\DAV\Server */
-	private $server;
 	/**
 	 * This initializes the plugin.
 	 *
@@ -74,7 +74,13 @@ class CopyEtagHeaderPlugin extends \Sabre\DAV\ServerPlugin {
 	 * @return void
 	 */
 	public function afterMove($source, $destination) {
-		$node = $this->server->tree->getNodeForPath($destination);
+		try {
+			$node = $this->server->tree->getNodeForPath($destination);
+		} catch (NotFound $e) {
+			// Don't care
+			return;
+		}
+
 		if ($node instanceof File) {
 			$eTag = $node->getETag();
 			$this->server->httpResponse->setHeader('OC-ETag', $eTag);

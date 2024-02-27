@@ -6,7 +6,7 @@ declare(strict_types=1);
  * @copyright 2020 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -17,14 +17,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCP\Search;
 
 use JsonSerializable;
@@ -34,7 +33,6 @@ use function array_values;
  * @since 20.0.0
  */
 final class SearchResult implements JsonSerializable {
-
 	/** @var string */
 	private $name;
 
@@ -51,14 +49,14 @@ final class SearchResult implements JsonSerializable {
 	 * @param string $name the translated name of the result section or group, e.g. "Mail"
 	 * @param bool $isPaginated
 	 * @param SearchResultEntry[] $entries
-	 * @param null $cursor
+	 * @param ?int|?string $cursor
 	 *
 	 * @since 20.0.0
 	 */
 	private function __construct(string $name,
-								 bool $isPaginated,
-								 array $entries,
-								 $cursor = null) {
+		bool $isPaginated,
+		array $entries,
+		$cursor = null) {
 		$this->name = $name;
 		$this->isPaginated = $isPaginated;
 		$this->entries = $entries;
@@ -89,8 +87,8 @@ final class SearchResult implements JsonSerializable {
 	 * @since 20.0.0
 	 */
 	public static function paginated(string $name,
-									array $entries,
-									 $cursor): self {
+		array $entries,
+		$cursor): self {
 		return new self(
 			$name,
 			true,

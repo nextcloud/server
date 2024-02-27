@@ -24,7 +24,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\IntegrityCheck\Iterator;
 
 /**
@@ -60,10 +59,7 @@ class ExcludeFileByNameFilterIterator extends \RecursiveFilterIterator {
 		'/^\.webapp-nextcloud-(\d+\.){2}(\d+)(-r\d+)?$/', // Gentoo/Funtoo & derivatives use a tool known as webapp-config to manage wep-apps.
 	];
 
-	/**
-	 * @return bool
-	 */
-	public function accept() {
+	public function accept(): bool {
 		/** @var \SplFileInfo $current */
 		$current = $this->current();
 

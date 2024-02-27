@@ -24,7 +24,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC;
 
 use OCP\IConfig;
@@ -35,7 +34,6 @@ use OCP\IConfig;
  * fixes cyclic DI: AllConfig needs AppConfig needs Database needs AllConfig
  */
 class SystemConfig {
-
 	/** @var array */
 	protected $sensitiveValues = [
 		'instanceid' => true,
@@ -44,6 +42,10 @@ class SystemConfig {
 		'dbhost' => true,
 		'dbpassword' => true,
 		'dbuser' => true,
+		'activity_dbname' => true,
+		'activity_dbhost' => true,
+		'activity_dbpassword' => true,
+		'activity_dbuser' => true,
 		'mail_from_address' => true,
 		'mail_domain' => true,
 		'mail_smtphost' => true,
@@ -53,13 +55,25 @@ class SystemConfig {
 		'secret' => true,
 		'updater.secret' => true,
 		'trusted_proxies' => true,
+		'preview_imaginary_url' => true,
 		'proxyuserpwd' => true,
+		'sentry.dsn' => true,
+		'sentry.public-dsn' => true,
+		'zammad.download.secret' => true,
+		'zammad.portal.secret' => true,
+		'zammad.secret' => true,
+		'github.client_id' => true,
+		'github.client_secret' => true,
 		'log.condition' => [
 			'shared_secret' => true,
 		],
 		'license-key' => true,
 		'redis' => [
 			'host' => true,
+			'password' => true,
+		],
+		'redis.cluster' => [
+			'seeds' => true,
 			'password' => true,
 		],
 		'objectstore' => [
@@ -84,13 +98,35 @@ class SystemConfig {
 				],
 			],
 		],
+		'objectstore_multibucket' => [
+			'arguments' => [
+				'options' => [
+					'credentials' => [
+						'key' => true,
+						'secret' => true,
+					]
+				],
+				// S3
+				'key' => true,
+				'secret' => true,
+				// Swift v2
+				'username' => true,
+				'password' => true,
+				// Swift v3
+				'user' => [
+					'name' => true,
+					'password' => true,
+				],
+			],
+		],
+		'onlyoffice' => [
+			'jwt_secret' => true,
+		],
 	];
 
-	/** @var Config */
-	private $config;
-
-	public function __construct(Config $config) {
-		$this->config = $config;
+	public function __construct(
+		private Config $config,
+	) {
 	}
 
 	/**

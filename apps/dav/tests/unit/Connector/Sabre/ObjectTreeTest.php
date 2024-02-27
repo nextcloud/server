@@ -25,7 +25,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
 use OC\Files\FileInfo;
@@ -35,6 +34,7 @@ use OC\Files\Storage\Temporary;
 use OC\Files\View;
 use OCA\DAV\Connector\Sabre\Directory;
 use OCA\DAV\Connector\Sabre\ObjectTree;
+use OCP\Files\Mount\IMountManager;
 
 /**
  * Class ObjectTreeTest
@@ -58,12 +58,11 @@ class ObjectTreeTest extends \Test\TestCase {
 	/**
 	 * @dataProvider copyDataProvider
 	 */
-	public function testCopy($sourcePath, $targetPath, $targetParent) {
+	public function testCopy($sourcePath, $targetPath, $targetParent): void {
 		$view = $this->createMock(View::class);
 		$view->expects($this->once())
 			->method('verifyPath')
-			->with($targetParent)
-			->willReturn(true);
+			->with($targetParent);
 		$view->expects($this->once())
 			->method('file_exists')
 			->with($targetPath)
@@ -103,7 +102,7 @@ class ObjectTreeTest extends \Test\TestCase {
 	/**
 	 * @dataProvider copyDataProvider
 	 */
-	public function testCopyFailNotCreatable($sourcePath, $targetPath, $targetParent) {
+	public function testCopyFailNotCreatable($sourcePath, $targetPath, $targetParent): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
 		$view = $this->createMock(View::class);
@@ -150,7 +149,7 @@ class ObjectTreeTest extends \Test\TestCase {
 		$outputFileName,
 		$type,
 		$enableChunkingHeader
-	) {
+	): void {
 		if ($enableChunkingHeader) {
 			$_SERVER['HTTP_OC_CHUNKED'] = true;
 		}
@@ -167,17 +166,14 @@ class ObjectTreeTest extends \Test\TestCase {
 		$fileInfo = $this->getMockBuilder(FileInfo::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$fileInfo->expects($this->once())
-			->method('getType')
+		$fileInfo->method('getType')
 			->willReturn($type);
-		$fileInfo->expects($this->once())
-			->method('getName')
+		$fileInfo->method('getName')
 			->willReturn($outputFileName);
 		$fileInfo->method('getStorage')
 			->willReturn($this->createMock(\OC\Files\Storage\Common::class));
 
-		$view->expects($this->once())
-			->method('getFileInfo')
+		$view->method('getFileInfo')
 			->with($fileInfoQueryPath)
 			->willReturn($fileInfo);
 
@@ -267,8 +263,8 @@ class ObjectTreeTest extends \Test\TestCase {
 		];
 	}
 
-	
-	public function testGetNodeForPathInvalidPath() {
+
+	public function testGetNodeForPathInvalidPath(): void {
 		$this->expectException(\OCA\DAV\Connector\Sabre\Exception\InvalidPath::class);
 
 		$path = '/foo\bar';
@@ -288,8 +284,7 @@ class ObjectTreeTest extends \Test\TestCase {
 		$rootNode = $this->getMockBuilder(Directory::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$mountManager = $this->getMockBuilder(Manager::class)
-			->getMock();
+		$mountManager = $this->createMock(IMountManager::class);
 
 		$tree = new \OCA\DAV\Connector\Sabre\ObjectTree();
 		$tree->init($rootNode, $view, $mountManager);
@@ -297,7 +292,7 @@ class ObjectTreeTest extends \Test\TestCase {
 		$tree->getNodeForPath($path);
 	}
 
-	public function testGetNodeForPathRoot() {
+	public function testGetNodeForPathRoot(): void {
 		$path = '/';
 
 
@@ -315,8 +310,7 @@ class ObjectTreeTest extends \Test\TestCase {
 		$rootNode = $this->getMockBuilder(Directory::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$mountManager = $this->getMockBuilder(Manager::class)
-			->getMock();
+		$mountManager = $this->createMock(IMountManager::class);
 
 		$tree = new \OCA\DAV\Connector\Sabre\ObjectTree();
 		$tree->init($rootNode, $view, $mountManager);

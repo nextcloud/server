@@ -16,47 +16,41 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Settings\SetupChecks;
 
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IURLGenerator;
+use OCP\SetupCheck\ISetupCheck;
+use OCP\SetupCheck\SetupResult;
 
-class LegacySSEKeyFormat {
-	/** @var IL10N */
-	private $l10n;
-	/** @var IConfig */
-	private $config;
-	/** @var IURLGenerator */
-	private $urlGenerator;
-
-	public function __construct(IL10N $l10n, IConfig $config, IURLGenerator $urlGenerator) {
-		$this->l10n = $l10n;
-		$this->config = $config;
-		$this->urlGenerator = $urlGenerator;
+class LegacySSEKeyFormat implements ISetupCheck {
+	public function __construct(
+		private IL10N $l10n,
+		private IConfig $config,
+		private IURLGenerator $urlGenerator,
+	) {
 	}
 
-	public function description(): string {
-		return $this->l10n->t('The old server-side-encryption format is enabled. We recommend disabling this.');
+	public function getCategory(): string {
+		return 'security';
 	}
 
-	public function severity(): string {
-		return 'warning';
+	public function getName(): string {
+		return $this->l10n->t('Old server-side-encryption');
 	}
 
-	public function run(): bool {
-		return $this->config->getSystemValueBool('encryption.legacy_format_support', false) === false;
-	}
-
-	public function linkToDocumentation(): string {
-		return $this->urlGenerator->linkToDocs('admin-sse-legacy-format');
+	public function run(): SetupResult {
+		if ($this->config->getSystemValueBool('encryption.legacy_format_support', false) === false) {
+			return SetupResult::success($this->l10n->t('Disabled'));
+		}
+		return SetupResult::warning($this->l10n->t('The old server-side-encryption format is enabled. We recommend disabling this.'), $this->urlGenerator->linkToDocs('admin-sse-legacy-format'));
 	}
 }

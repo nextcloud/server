@@ -22,7 +22,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP\Notification;
 
 /**
@@ -31,7 +30,6 @@ namespace OCP\Notification;
  * @since 9.0.0
  */
 interface IAction {
-
 	/**
 	 * @since 17.0.0
 	 */

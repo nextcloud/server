@@ -5,7 +5,6 @@
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @license AGPL-3.0
@@ -23,7 +22,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Core\Command;
 
 use OC\SystemConfig;
@@ -31,14 +29,10 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Check extends Base {
-	/**
-	 * @var SystemConfig
-	 */
-	private $config;
-
-	public function __construct(SystemConfig $config) {
+	public function __construct(
+		private SystemConfig $config,
+	) {
 		parent::__construct();
-		$this->config = $config;
 	}
 
 	protected function configure() {

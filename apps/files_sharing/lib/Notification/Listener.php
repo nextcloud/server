@@ -17,14 +17,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Files_Sharing\Notification;
 
 use OCP\IGroup;
@@ -32,6 +31,7 @@ use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\Notification\IManager as INotificationManager;
 use OCP\Notification\INotification;
+use OCP\Share\Events\ShareCreatedEvent;
 use OCP\Share\IManager as IShareManager;
 use OCP\Share\IShare;
 use Symfony\Component\EventDispatcher\GenericEvent;
@@ -55,12 +55,8 @@ class Listener {
 		$this->groupManager = $groupManager;
 	}
 
-	/**
-	 * @param GenericEvent $event
-	 */
-	public function shareNotification(GenericEvent $event): void {
-		/** @var IShare $share */
-		$share = $event->getSubject();
+	public function shareNotification(ShareCreatedEvent $event): void {
+		$share = $event->getShare();
 		$notification = $this->instantiateNotification($share);
 
 		if ($share->getShareType() === IShare::TYPE_USER) {

@@ -2,8 +2,10 @@
  * @copyright Copyright (c) 2018 John Molakvoæ <skjnldsv@protonmail.com>
  *
  * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author rakekniven <mark.ziegler@rakekniven.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -25,22 +27,16 @@ import VTooltip from 'v-tooltip'
 import { sync } from 'vuex-router-sync'
 
 import App from './App.vue'
-import router from './router'
-import store from './store'
+import router from './router.js'
+import store from './store/index.js'
 
 Vue.use(VTooltip, { defaultHtml: false })
 
 sync(store, router)
 
 // CSP config for webpack dynamic chunk loading
-// eslint-disable-next-line
+// eslint-disable-next-line camelcase
 __webpack_nonce__ = btoa(OC.requestToken)
-
-// Correct the root of the app for chunk loading
-// OC.linkTo matches the apps folders
-// OC.generateUrl ensure the index.php (or not)
-// eslint-disable-next-line
-__webpack_public_path__ = OC.linkTo('settings', 'js/')
 
 // bind to window
 Vue.prototype.t = t

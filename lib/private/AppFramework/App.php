@@ -29,18 +29,21 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\AppFramework;
 
 use OC\AppFramework\DependencyInjection\DIContainer;
 use OC\AppFramework\Http\Dispatcher;
 use OC\AppFramework\Http\Request;
-use OC\HintException;
+use OC\Profiler\RoutingDataCollector;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\ICallbackResponse;
 use OCP\AppFramework\Http\IOutput;
 use OCP\AppFramework\QueryException;
+use OCP\Diagnostics\IEventLogger;
+use OCP\HintException;
 use OCP\IRequest;
+use OCP\Profiler\IProfiler;
 
 /**
  * Entry point for every request in your app. You can consider this as your
@@ -49,7 +52,6 @@ use OCP\IRequest;
  * Handles all the dependency injection, controllers and output flow
  */
 class App {
-
 	/** @var string[] */
 	private static $nameSpaceCache = [];
 
@@ -67,7 +69,7 @@ class App {
 			return $topNamespace . self::$nameSpaceCache[$appId];
 		}
 
-		$appInfo = \OC_App::getAppInfo($appId);
+		$appInfo = \OCP\Server::get(IAppManager::class)->getAppInfo($appId);
 		if (isset($appInfo['namespace'])) {
 			self::$nameSpaceCache[$appId] = trim($appInfo['namespace']);
 		} else {
@@ -90,12 +92,12 @@ class App {
 	}
 
 	public static function getAppIdForClass(string $className, string $topNamespace = 'OCA\\'): ?string {
-		if (strpos($className, $topNamespace) !== 0) {
+		if (!str_starts_with($className, $topNamespace)) {
 			return null;
 		}
 
 		foreach (self::$nameSpaceCache as $appId => $namespace) {
-			if (strpos($className, $topNamespace . $namespace . '\\') === 0) {
+			if (str_starts_with($className, $topNamespace . $namespace . '\\')) {
 				return $appId;
 			}
 		}
@@ -106,6 +108,7 @@ class App {
 
 	/**
 	 * Shortcut for calling a controller method and printing the result
+	 *
 	 * @param string $controllerName the name of the controller under which it is
 	 *                               stored in the DI container
 	 * @param string $methodName the method that you want to call
@@ -114,22 +117,38 @@ class App {
 	 * @throws HintException
 	 */
 	public static function main(string $controllerName, string $methodName, DIContainer $container, array $urlParams = null) {
+		/** @var IProfiler $profiler */
+		$profiler = $container->get(IProfiler::class);
+		$eventLogger = $container->get(IEventLogger::class);
+		// Disable profiler on the profiler UI
+		$profiler->setEnabled($profiler->isEnabled() && !is_null($urlParams) && isset($urlParams['_route']) && !str_starts_with($urlParams['_route'], 'profiler.'));
+		if ($profiler->isEnabled()) {
+			\OC::$server->get(IEventLogger::class)->activate();
+			$profiler->add(new RoutingDataCollector($container['AppName'], $controllerName, $methodName));
+		}
+
+		$eventLogger->start('app:controller:params', 'Gather controller parameters');
+
 		if (!is_null($urlParams)) {
 			/** @var Request $request */
-			$request = $container->query(IRequest::class);
+			$request = $container->get(IRequest::class);
 			$request->setUrlParameters($urlParams);
 		} elseif (isset($container['urlParams']) && !is_null($container['urlParams'])) {
 			/** @var Request $request */
-			$request = $container->query(IRequest::class);
+			$request = $container->get(IRequest::class);
 			$request->setUrlParameters($container['urlParams']);
 		}
 		$appName = $container['AppName'];
 
+		$eventLogger->end('app:controller:params');
+
+		$eventLogger->start('app:controller:load', 'Load app controller');
+
 		// first try $controllerName then go for \OCA\AppName\Controller\$controllerName
 		try {
-			$controller = $container->query($controllerName);
+			$controller = $container->get($controllerName);
 		} catch (QueryException $e) {
-			if (strpos($controllerName, '\\Controller\\') !== false) {
+			if (str_contains($controllerName, '\\Controller\\')) {
 				// This is from a global registered app route that is not enabled.
 				[/*OC(A)*/, $app, /* Controller/Name*/] = explode('\\', $controllerName, 3);
 				throw new HintException('App ' . strtolower($app) . ' is not enabled');
@@ -144,9 +163,17 @@ class App {
 			$controller = $container->query($controllerName);
 		}
 
+		$eventLogger->end('app:controller:load');
+
+		$eventLogger->start('app:controller:dispatcher', 'Initialize dispatcher and pre-middleware');
+
 		// initialize the dispatcher and run all the middleware before the controller
 		/** @var Dispatcher $dispatcher */
 		$dispatcher = $container['Dispatcher'];
+
+		$eventLogger->end('app:controller:dispatcher');
+
+		$eventLogger->start('app:controller:run', 'Run app controller');
 
 		[
 			$httpHeaders,
@@ -156,7 +183,17 @@ class App {
 			$response
 		] = $dispatcher->dispatch($controller, $methodName);
 
+		$eventLogger->end('app:controller:run');
+
 		$io = $container[IOutput::class];
+
+		if ($profiler->isEnabled()) {
+			$eventLogger->end('runtime');
+			$profile = $profiler->collect($container->get(IRequest::class), $response);
+			$profiler->saveProfile($profile);
+			$io->setHeader('X-Debug-Token:' . $profile->getToken());
+			$io->setHeader('Server-Timing: token;desc="' . $profile->getToken() . '"');
+		}
 
 		if (!is_null($httpHeaders)) {
 			$io->setHeader($httpHeaders);
@@ -212,8 +249,6 @@ class App {
 	/**
 	 * Shortcut for calling a controller method and printing the result.
 	 * Similar to App:main except that no headers will be sent.
-	 * This should be used for example when registering sections via
-	 * \OC\AppFramework\Core\API::registerAdmin()
 	 *
 	 * @param string $controllerName the name of the controller under which it is
 	 *                               stored in the DI container
@@ -222,7 +257,7 @@ class App {
 	 * @param DIContainer $container an instance of a pimple container.
 	 */
 	public static function part(string $controllerName, string $methodName, array $urlParams,
-								DIContainer $container) {
+		DIContainer $container) {
 		$container['urlParams'] = $urlParams;
 		$controller = $container[$controllerName];
 

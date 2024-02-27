@@ -23,7 +23,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP\AppFramework\Http;
 
 /**
@@ -45,6 +44,12 @@ class ContentSecurityPolicy extends EmptyContentSecurityPolicy {
 	protected $inlineScriptAllowed = false;
 	/** @var bool Whether eval in JS scripts is allowed */
 	protected $evalScriptAllowed = false;
+	/** @var bool Whether WebAssembly compilation is allowed */
+	protected ?bool $evalWasmAllowed = false;
+	/** @var bool Whether strict-dynamic should be set */
+	protected $strictDynamicAllowed = false;
+	/** @var bool Whether strict-dynamic should be set for 'script-src-elem' */
+	protected $strictDynamicAllowedOnScripts = true;
 	/** @var array Domains from which scripts can get loaded */
 	protected $allowedScriptDomains = [
 		'\'self\'',

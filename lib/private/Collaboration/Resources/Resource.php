@@ -17,14 +17,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Collaboration\Resources;
 
 use OCP\Collaboration\Resources\ICollection;
@@ -34,46 +33,19 @@ use OCP\IDBConnection;
 use OCP\IUser;
 
 class Resource implements IResource {
-
-	/** @var IManager */
-	protected $manager;
-
-	/** @var IDBConnection */
-	protected $connection;
-
-	/** @var string */
-	protected $type;
-
-	/** @var string */
-	protected $id;
-
-	/** @var IUser|null */
-	protected $userForAccess;
-
-	/** @var bool|null */
-	protected $access;
-
-	/** @var array|null */
-	protected $data;
+	protected ?array $data = null;
 
 	public function __construct(
-		IManager $manager,
-		IDBConnection $connection,
-		string $type,
-		string $id,
-		?IUser $userForAccess = null,
-		?bool $access = null
+		protected IManager $manager,
+		protected IDBConnection $connection,
+		protected string $type,
+		protected string $id,
+		protected ?IUser $userForAccess = null,
+		protected ?bool $access = null
 	) {
-		$this->manager = $manager;
-		$this->connection = $connection;
-		$this->type = $type;
-		$this->id = $id;
-		$this->userForAccess = $userForAccess;
-		$this->access = $access;
 	}
 
 	/**
-	 * @return string
 	 * @since 16.0.0
 	 */
 	public function getType(): string {
@@ -81,7 +53,6 @@ class Resource implements IResource {
 	}
 
 	/**
-	 * @return string
 	 * @since 16.0.0
 	 */
 	public function getId(): string {
@@ -89,7 +60,6 @@ class Resource implements IResource {
 	}
 
 	/**
-	 * @return array
 	 * @since 16.0.0
 	 */
 	public function getRichObject(): array {
@@ -103,8 +73,6 @@ class Resource implements IResource {
 	/**
 	 * Can a user/guest access the resource
 	 *
-	 * @param IUser|null $user
-	 * @return bool
 	 * @since 16.0.0
 	 */
 	public function canAccess(?IUser $user): bool {

@@ -15,14 +15,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Repair\Owncloud;
 
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -80,7 +79,7 @@ class SaveAccountsTableData implements IRepairStep {
 		}
 
 		// oc_persistent_locks will be removed later on anyways so we can just drop and ignore any foreign key constraints here
-		$tableName = $this->config->getSystemValue('dbtableprefix', 'oc_') . 'persistent_locks';
+		$tableName = $this->config->getSystemValueString('dbtableprefix', 'oc_') . 'persistent_locks';
 		$schema = $this->db->createSchema();
 		$table = $schema->getTable($tableName);
 		foreach ($table->getForeignKeys() as $foreignKey) {
@@ -100,7 +99,7 @@ class SaveAccountsTableData implements IRepairStep {
 	 */
 	protected function shouldRun() {
 		$schema = $this->db->createSchema();
-		$prefix = $this->config->getSystemValue('dbtableprefix', 'oc_');
+		$prefix = $this->config->getSystemValueString('dbtableprefix', 'oc_');
 
 		$tableName = $prefix . 'accounts';
 		if (!$schema->hasTable($tableName)) {

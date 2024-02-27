@@ -22,7 +22,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\CardDAV;
 
 use OCP\Files\NotFoundException;
@@ -99,7 +98,6 @@ class ImageExportPlugin extends ServerPlugin {
 
 		$response->setHeader('Cache-Control', 'private, max-age=3600, must-revalidate');
 		$response->setHeader('Etag', $node->getETag());
-		$response->setHeader('Pragma', 'public');
 
 		try {
 			$file = $this->cache->get($addressbook->getResourceId(), $node->getName(), $size, $node);

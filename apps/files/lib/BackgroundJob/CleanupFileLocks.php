@@ -21,17 +21,16 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files\BackgroundJob;
 
-use OC\BackgroundJob\TimedJob;
 use OC\Lock\DBLockingProvider;
+use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\BackgroundJob\TimedJob;
 
 /**
  * Clean up all file locks that are expired for the DB file locking provider
  */
 class CleanupFileLocks extends TimedJob {
-
 	/**
 	 * Default interval in minutes
 	 *
@@ -42,7 +41,9 @@ class CleanupFileLocks extends TimedJob {
 	/**
 	 * sets the correct interval for this timed job
 	 */
-	public function __construct() {
+	public function __construct(ITimeFactory $time) {
+		parent::__construct($time);
+
 		$this->interval = $this->defaultIntervalMin * 60;
 	}
 

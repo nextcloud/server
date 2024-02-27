@@ -19,7 +19,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Core\Command\Encryption;
 
 use OC\Core\Command\Base;
@@ -28,15 +27,10 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Status extends Base {
-	/** @var IManager */
-	protected $encryptionManager;
-
-	/**
-	 * @param IManager $encryptionManager
-	 */
-	public function __construct(IManager $encryptionManager) {
+	public function __construct(
+		protected IManager $encryptionManager,
+	) {
 		parent::__construct();
-		$this->encryptionManager = $encryptionManager;
 	}
 
 	protected function configure() {

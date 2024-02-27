@@ -17,14 +17,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Settings\Tests\Middleware;
 
 use OC\AppFramework\Middleware\Security\Exceptions\NotAdminException;
@@ -69,10 +68,12 @@ class SubadminMiddlewareTest extends \Test\TestCase {
 		$this->expectException(\OC\AppFramework\Middleware\Security\Exceptions\NotAdminException::class);
 
 		$this->reflector
-			->expects($this->once())
+			->expects($this->exactly(2))
 			->method('hasAnnotation')
-			->with('NoSubAdminRequired')
-			->willReturn(false);
+			->withConsecutive(
+				['NoSubAdminRequired'],
+				['AuthorizedAdminSetting'],
+			)->willReturn(false);
 		$this->subadminMiddleware->beforeController($this->controller, 'foo');
 	}
 
@@ -88,10 +89,12 @@ class SubadminMiddlewareTest extends \Test\TestCase {
 
 	public function testBeforeControllerAsSubAdminWithoutExemption() {
 		$this->reflector
-			->expects($this->once())
+			->expects($this->exactly(2))
 			->method('hasAnnotation')
-			->with('NoSubAdminRequired')
-			->willReturn(false);
+			->withConsecutive(
+				['NoSubAdminRequired'],
+				['AuthorizedAdminSetting'],
+			)->willReturn(false);
 		$this->subadminMiddlewareAsSubAdmin->beforeController($this->controller, 'foo');
 	}
 

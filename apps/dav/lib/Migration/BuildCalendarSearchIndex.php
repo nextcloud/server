@@ -2,6 +2,7 @@
 /**
  * @copyright 2017 Georg Ehrke <oc.list@georgehrke.com>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
@@ -16,14 +17,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\Migration;
 
 use OCP\BackgroundJob\IJobList;
@@ -49,8 +49,8 @@ class BuildCalendarSearchIndex implements IRepairStep {
 	 * @param IConfig $config
 	 */
 	public function __construct(IDBConnection $db,
-								IJobList $jobList,
-								IConfig $config) {
+		IJobList $jobList,
+		IConfig $config) {
 		$this->db = $db;
 		$this->jobList = $jobList;
 		$this->config = $config;

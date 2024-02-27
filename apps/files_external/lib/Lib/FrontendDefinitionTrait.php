@@ -21,7 +21,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_External\Lib;
 
 /**
@@ -30,62 +29,45 @@ namespace OCA\Files_External\Lib;
 trait FrontendDefinitionTrait {
 
 	/** @var string human-readable mechanism name */
-	private $text;
+	private string $text = "";
 
-	/** @var DefinitionParameter[] parameters for mechanism */
-	private $parameters = [];
+	/** @var array<string, DefinitionParameter> parameters for mechanism */
+	private array $parameters = [];
 
 	/** @var string[] custom JS */
-	private $customJs = [];
+	private array $customJs = [];
 
-	/**
-	 * @return string
-	 */
-	public function getText() {
+	public function getText(): string {
 		return $this->text;
 	}
 
-	/**
-	 * @param string $text
-	 * @return $this
-	 */
-	public function setText($text) {
+	public function setText(string $text): self {
 		$this->text = $text;
 		return $this;
 	}
 
-	/**
-	 * @param FrontendDefinitionTrait $a
-	 * @param FrontendDefinitionTrait $b
-	 * @return int
-	 */
-	public static function lexicalCompare(FrontendDefinitionTrait $a, FrontendDefinitionTrait $b) {
+	public static function lexicalCompare(IFrontendDefinition $a, IFrontendDefinition $b): int {
 		return strcmp($a->getText(), $b->getText());
 	}
 
 	/**
-	 * @return DefinitionParameter[]
+	 * @return array<string, DefinitionParameter>
 	 */
-	public function getParameters() {
+	public function getParameters(): array {
 		return $this->parameters;
 	}
 
 	/**
-	 * @param DefinitionParameter[] $parameters
-	 * @return self
+	 * @param list<DefinitionParameter> $parameters
 	 */
-	public function addParameters(array $parameters) {
+	public function addParameters(array $parameters): self {
 		foreach ($parameters as $parameter) {
 			$this->addParameter($parameter);
 		}
 		return $this;
 	}
 
-	/**
-	 * @param DefinitionParameter $parameter
-	 * @return self
-	 */
-	public function addParameter(DefinitionParameter $parameter) {
+	public function addParameter(DefinitionParameter $parameter): self {
 		$this->parameters[$parameter->getName()] = $parameter;
 		return $this;
 	}
@@ -93,7 +75,7 @@ trait FrontendDefinitionTrait {
 	/**
 	 * @return string[]
 	 */
-	public function getCustomJs() {
+	public function getCustomJs(): array {
 		return $this->customJs;
 	}
 
@@ -101,17 +83,15 @@ trait FrontendDefinitionTrait {
 	 * @param string $custom
 	 * @return self
 	 */
-	public function addCustomJs($custom) {
+	public function addCustomJs(string $custom): self {
 		$this->customJs[] = $custom;
 		return $this;
 	}
 
 	/**
 	 * Serialize into JSON for client-side JS
-	 *
-	 * @return array
 	 */
-	public function jsonSerializeDefinition() {
+	public function jsonSerializeDefinition(): array {
 		$configuration = [];
 		foreach ($this->getParameters() as $parameter) {
 			$configuration[$parameter->getName()] = $parameter;
@@ -127,11 +107,8 @@ trait FrontendDefinitionTrait {
 
 	/**
 	 * Check if parameters are satisfied in a StorageConfig
-	 *
-	 * @param StorageConfig $storage
-	 * @return bool
 	 */
-	public function validateStorageDefinition(StorageConfig $storage) {
+	public function validateStorageDefinition(StorageConfig $storage): bool {
 		foreach ($this->getParameters() as $name => $parameter) {
 			$value = $storage->getBackendOption($name);
 			if (!is_null($value) || !$parameter->isOptional()) {

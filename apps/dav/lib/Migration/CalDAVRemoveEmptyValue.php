@@ -2,6 +2,7 @@
 /**
  * @copyright 2017 Joas Schilling <coding@schilljs.com>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Julius Härtl <jus@bitgrid.net>
  *
@@ -14,23 +15,22 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\Migration;
 
 use Doctrine\DBAL\Platforms\OraclePlatform;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
-use OCP\ILogger;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
+use Psr\Log\LoggerInterface;
 use Sabre\VObject\InvalidDataException;
 
 class CalDAVRemoveEmptyValue implements IRepairStep {
@@ -41,15 +41,9 @@ class CalDAVRemoveEmptyValue implements IRepairStep {
 	/** @var CalDavBackend */
 	private $calDavBackend;
 
-	/** @var ILogger */
-	private $logger;
+	private LoggerInterface $logger;
 
-	/**
-	 * @param IDBConnection $db
-	 * @param CalDavBackend $calDavBackend
-	 * @param ILogger $logger
-	 */
-	public function __construct(IDBConnection $db, CalDavBackend $calDavBackend, ILogger $logger) {
+	public function __construct(IDBConnection $db, CalDavBackend $calDavBackend, LoggerInterface $logger) {
 		$this->db = $db;
 		$this->calDavBackend = $calDavBackend;
 		$this->logger = $logger;

@@ -34,14 +34,14 @@ use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\AppFramework\QueryException;
 use OCP\Dashboard\IManager;
+use OCP\Diagnostics\IEventLogger;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\ILogger;
 use OCP\IServerContainer;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class CoordinatorTest extends TestCase {
-
 	/** @var IAppManager|MockObject */
 	private $appManager;
 
@@ -57,7 +57,10 @@ class CoordinatorTest extends TestCase {
 	/** @var IEventDispatcher|MockObject */
 	private $eventDispatcher;
 
-	/** @var ILogger|MockObject */
+	/** @var IEventLogger|MockObject */
+	private $eventLogger;
+
+	/** @var LoggerInterface|MockObject */
 	private $logger;
 
 	/** @var Coordinator */
@@ -71,13 +74,15 @@ class CoordinatorTest extends TestCase {
 		$this->crashReporterRegistry = $this->createMock(Registry::class);
 		$this->dashboardManager = $this->createMock(IManager::class);
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
-		$this->logger = $this->createMock(ILogger::class);
+		$this->eventLogger = $this->createMock(IEventLogger::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 
 		$this->coordinator = new Coordinator(
 			$this->serverContainer,
 			$this->crashReporterRegistry,
 			$this->dashboardManager,
 			$this->eventDispatcher,
+			$this->eventLogger,
 			$this->logger
 		);
 	}
@@ -89,7 +94,7 @@ class CoordinatorTest extends TestCase {
 			->with(\OCA\Settings\AppInfo\Application::class)
 			->willThrowException(new QueryException(""));
 		$this->logger->expects($this->once())
-			->method('logException');
+			->method('error');
 
 		$this->coordinator->bootApp($appId);
 	}

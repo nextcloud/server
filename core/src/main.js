@@ -1,9 +1,12 @@
 /**
  * @copyright 2018 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
- * @author 2018 Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Julius Härtl <jus@bitgrid.net>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -16,22 +19,25 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 
-import $ from 'jquery'
-import 'core-js/stable'
-import 'regenerator-runtime/runtime'
-import './Polyfill/index'
+import 'core-js/stable/index.js'
+import 'regenerator-runtime/runtime.js'
 
 // If you remove the line below, tests won't pass
 // eslint-disable-next-line no-unused-vars
-import OC from './OC/index'
+import OC from './OC/index.js'
 
-import './globals'
-import './jquery/index'
-import { initCore } from './init'
-import { registerAppsSlideToggle } from './OC/apps'
+import './globals.js'
+import './jquery/index.js'
+import { initCore } from './init.js'
+import { registerAppsSlideToggle } from './OC/apps.js'
+import { getRequestToken } from '@nextcloud/auth'
+
+// eslint-disable-next-line camelcase
+__webpack_nonce__ = btoa(getRequestToken())
 
 window.addEventListener('DOMContentLoaded', function() {
 	initCore()
@@ -41,6 +47,6 @@ window.addEventListener('DOMContentLoaded', function() {
 	if (window.history.pushState) {
 		window.onpopstate = _.bind(OC.Util.History._onPopState, OC.Util.History)
 	} else {
-		$(window).on('hashchange', _.bind(OC.Util.History._onPopState, OC.Util.History))
+		window.onhashchange = _.bind(OC.Util.History._onPopState, OC.Util.History)
 	}
 })

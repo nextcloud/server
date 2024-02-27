@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author J0WI <J0WI@users.noreply.github.com>
@@ -27,7 +28,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\DB\QueryBuilder;
 
 use Doctrine\DBAL\Platforms\MySQLPlatform;
@@ -48,22 +48,21 @@ use OC\DB\QueryBuilder\FunctionBuilder\SqliteFunctionBuilder;
 use OC\DB\ResultAdapter;
 use OC\SystemConfig;
 use OCP\DB\IResult;
+use OCP\DB\QueryBuilder\ICompositeExpression;
 use OCP\DB\QueryBuilder\ILiteral;
 use OCP\DB\QueryBuilder\IParameter;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\DB\QueryBuilder\IQueryFunction;
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 
 class QueryBuilder implements IQueryBuilder {
-
 	/** @var ConnectionAdapter */
 	private $connection;
 
 	/** @var SystemConfig */
 	private $systemConfig;
 
-	/** @var ILogger */
-	private $logger;
+	private LoggerInterface $logger;
 
 	/** @var \Doctrine\DBAL\Query\QueryBuilder */
 	private $queryBuilder;
@@ -82,9 +81,8 @@ class QueryBuilder implements IQueryBuilder {
 	 *
 	 * @param ConnectionAdapter $connection
 	 * @param SystemConfig $systemConfig
-	 * @param ILogger $logger
 	 */
-	public function __construct(ConnectionAdapter $connection, SystemConfig $systemConfig, ILogger $logger) {
+	public function __construct(ConnectionAdapter $connection, SystemConfig $systemConfig, LoggerInterface $logger) {
 		$this->connection = $connection;
 		$this->systemConfig = $systemConfig;
 		$this->logger = $logger;
@@ -154,16 +152,16 @@ class QueryBuilder implements IQueryBuilder {
 	 */
 	public function func() {
 		if ($this->connection->getDatabasePlatform() instanceof OraclePlatform) {
-			return new OCIFunctionBuilder($this->helper);
+			return new OCIFunctionBuilder($this->connection, $this, $this->helper);
 		}
 		if ($this->connection->getDatabasePlatform() instanceof SqlitePlatform) {
-			return new SqliteFunctionBuilder($this->helper);
+			return new SqliteFunctionBuilder($this->connection, $this, $this->helper);
 		}
 		if ($this->connection->getDatabasePlatform() instanceof PostgreSQL94Platform) {
-			return new PgSqlFunctionBuilder($this->helper);
+			return new PgSqlFunctionBuilder($this->connection, $this, $this->helper);
 		}
 
-		return new FunctionBuilder($this->helper);
+		return new FunctionBuilder($this->connection, $this, $this->helper);
 	}
 
 	/**
@@ -228,8 +226,7 @@ class QueryBuilder implements IQueryBuilder {
 				}
 			} catch (\Error $e) {
 				// likely an error during conversion of $value to string
-				$this->logger->debug('DB QueryBuilder: error trying to log SQL query');
-				$this->logger->logException($e);
+				$this->logger->error('DB QueryBuilder: error trying to log SQL query', ['exception' => $e]);
 			}
 		}
 
@@ -244,11 +241,10 @@ class QueryBuilder implements IQueryBuilder {
 
 			if (empty($hasSelectAll) === empty($hasSelectSpecific)) {
 				$exception = new QueryException('Query is selecting * and specific values in the same query. This is not supported in Oracle.');
-				$this->logger->logException($exception, [
-					'message' => 'Query is selecting * and specific values in the same query. This is not supported in Oracle.',
+				$this->logger->error($exception->getMessage(), [
 					'query' => $this->getSQL(),
-					'level' => ILogger::ERROR,
 					'app' => 'core',
+					'exception' => $exception,
 				]);
 			}
 		}
@@ -265,30 +261,80 @@ class QueryBuilder implements IQueryBuilder {
 
 		if ($hasTooLargeArrayParameter) {
 			$exception = new QueryException('More than 1000 expressions in a list are not allowed on Oracle.');
-			$this->logger->logException($exception, [
-				'message' => 'More than 1000 expressions in a list are not allowed on Oracle.',
+			$this->logger->error($exception->getMessage(), [
 				'query' => $this->getSQL(),
-				'level' => ILogger::ERROR,
 				'app' => 'core',
+				'exception' => $exception,
 			]);
 		}
 
 		if ($numberOfParameters > 65535) {
 			$exception = new QueryException('The number of parameters must not exceed 65535. Restriction by PostgreSQL.');
-			$this->logger->logException($exception, [
-				'message' => 'The number of parameters must not exceed 65535. Restriction by PostgreSQL.',
+			$this->logger->error($exception->getMessage(), [
 				'query' => $this->getSQL(),
-				'level' => ILogger::ERROR,
 				'app' => 'core',
+				'exception' => $exception,
 			]);
 		}
-		
+
 		$result = $this->queryBuilder->execute();
 		if (is_int($result)) {
 			return $result;
 		}
 		return new ResultAdapter($result);
 	}
+
+	public function executeQuery(): IResult {
+		if ($this->getType() !== \Doctrine\DBAL\Query\QueryBuilder::SELECT) {
+			throw new \RuntimeException('Invalid query type, expected SELECT query');
+		}
+
+		try {
+			$result = $this->execute();
+		} catch (\Doctrine\DBAL\Exception $e) {
+			throw \OC\DB\Exceptions\DbalException::wrap($e);
+		}
+
+		if ($result instanceof IResult) {
+			return $result;
+		}
+
+		throw new \RuntimeException('Invalid return type for query');
+	}
+
+	/**
+	 * Monkey-patched compatibility layer for apps that were adapted for Nextcloud 22 before
+	 * the first beta, where executeStatement was named executeUpdate.
+	 *
+	 * Static analysis should catch those misuses, but until then let's try to keep things
+	 * running.
+	 *
+	 * @internal
+	 * @deprecated
+	 * @todo drop ASAP
+	 */
+	public function executeUpdate(): int {
+		return $this->executeStatement();
+	}
+
+	public function executeStatement(): int {
+		if ($this->getType() === \Doctrine\DBAL\Query\QueryBuilder::SELECT) {
+			throw new \RuntimeException('Invalid query type, expected INSERT, DELETE or UPDATE statement');
+		}
+
+		try {
+			$result = $this->execute();
+		} catch (\Doctrine\DBAL\Exception $e) {
+			throw \OC\DB\Exceptions\DbalException::wrap($e);
+		}
+
+		if (!is_int($result)) {
+			throw new \RuntimeException('Invalid return type for statement');
+		}
+
+		return $result;
+	}
+
 
 	/**
 	 * Gets the complete SQL string formed by the current specifications of this QueryBuilder.
@@ -397,21 +443,21 @@ class QueryBuilder implements IQueryBuilder {
 	/**
 	 * Sets the position of the first result to retrieve (the "offset").
 	 *
-	 * @param integer $firstResult The first result to return.
+	 * @param int $firstResult The first result to return.
 	 *
 	 * @return $this This QueryBuilder instance.
 	 */
 	public function setFirstResult($firstResult) {
-		$this->queryBuilder->setFirstResult($firstResult);
+		$this->queryBuilder->setFirstResult((int) $firstResult);
 
 		return $this;
 	}
 
 	/**
 	 * Gets the position of the first result the query object was set to retrieve (the "offset").
-	 * Returns NULL if {@link setFirstResult} was not applied to this QueryBuilder.
+	 * Returns 0 if {@link setFirstResult} was not applied to this QueryBuilder.
 	 *
-	 * @return integer The position of the first result.
+	 * @return int The position of the first result.
 	 */
 	public function getFirstResult() {
 		return $this->queryBuilder->getFirstResult();
@@ -424,12 +470,16 @@ class QueryBuilder implements IQueryBuilder {
 	 * of the databases will just return an empty result set, Oracle will return
 	 * all entries.
 	 *
-	 * @param integer $maxResults The maximum number of results to retrieve.
+	 * @param int|null $maxResults The maximum number of results to retrieve.
 	 *
 	 * @return $this This QueryBuilder instance.
 	 */
 	public function setMaxResults($maxResults) {
-		$this->queryBuilder->setMaxResults($maxResults);
+		if ($maxResults === null) {
+			$this->queryBuilder->setMaxResults($maxResults);
+		} else {
+			$this->queryBuilder->setMaxResults((int) $maxResults);
+		}
 
 		return $this;
 	}
@@ -637,7 +687,7 @@ class QueryBuilder implements IQueryBuilder {
 	 *         ->from('users', 'u')
 	 * </code>
 	 *
-	 * @param string $from The table.
+	 * @param string|IQueryFunction $from The table.
 	 * @param string|null $alias The alias of the table.
 	 *
 	 * @return $this This QueryBuilder instance.
@@ -664,7 +714,7 @@ class QueryBuilder implements IQueryBuilder {
 	 * @param string $fromAlias The alias that points to a from clause.
 	 * @param string $join The table name to join.
 	 * @param string $alias The alias of the join table.
-	 * @param string $condition The condition for the join.
+	 * @param string|ICompositeExpression|null $condition The condition for the join.
 	 *
 	 * @return $this This QueryBuilder instance.
 	 */
@@ -692,7 +742,7 @@ class QueryBuilder implements IQueryBuilder {
 	 * @param string $fromAlias The alias that points to a from clause.
 	 * @param string $join The table name to join.
 	 * @param string $alias The alias of the join table.
-	 * @param string $condition The condition for the join.
+	 * @param string|ICompositeExpression|null $condition The condition for the join.
 	 *
 	 * @return $this This QueryBuilder instance.
 	 */
@@ -720,7 +770,7 @@ class QueryBuilder implements IQueryBuilder {
 	 * @param string $fromAlias The alias that points to a from clause.
 	 * @param string $join The table name to join.
 	 * @param string $alias The alias of the join table.
-	 * @param string $condition The condition for the join.
+	 * @param string|ICompositeExpression|null $condition The condition for the join.
 	 *
 	 * @return $this This QueryBuilder instance.
 	 */
@@ -748,7 +798,7 @@ class QueryBuilder implements IQueryBuilder {
 	 * @param string $fromAlias The alias that points to a from clause.
 	 * @param string $join The table name to join.
 	 * @param string $alias The alias of the join table.
-	 * @param string $condition The condition for the join.
+	 * @param string|ICompositeExpression|null $condition The condition for the join.
 	 *
 	 * @return $this This QueryBuilder instance.
 	 */
@@ -797,7 +847,7 @@ class QueryBuilder implements IQueryBuilder {
 	 *         ->from('users', 'u')
 	 *         ->where('u.id = ?');
 	 *
-	 *     // You can optionally programatically build and/or expressions
+	 *     // You can optionally programmatically build and/or expressions
 	 *     $qb = $conn->getQueryBuilder();
 	 *
 	 *     $or = $qb->expr()->orx();
@@ -814,6 +864,12 @@ class QueryBuilder implements IQueryBuilder {
 	 * @return $this This QueryBuilder instance.
 	 */
 	public function where(...$predicates) {
+		if ($this->getQueryPart('where') !== null && $this->systemConfig->getValue('debug', false)) {
+			// Only logging a warning, not throwing for now.
+			$e = new QueryException('Using where() on non-empty WHERE part, please verify it is intentional to not call andWhere() or orWhere() instead. Otherwise consider creating a new query builder object or call resetQueryPart(\'where\') first.');
+			$this->logger->warning($e->getMessage(), ['exception' => $e]);
+		}
+
 		call_user_func_array(
 			[$this->queryBuilder, 'where'],
 			$predicates
@@ -1045,7 +1101,7 @@ class QueryBuilder implements IQueryBuilder {
 	 * Specifies an ordering for the query results.
 	 * Replaces any previously specified orderings, if any.
 	 *
-	 * @param string $sort The ordering expression.
+	 * @param string|IQueryFunction|ILiteral|IParameter $sort The ordering expression.
 	 * @param string $order The ordering direction.
 	 *
 	 * @return $this This QueryBuilder instance.
@@ -1062,7 +1118,7 @@ class QueryBuilder implements IQueryBuilder {
 	/**
 	 * Adds an ordering to the query results.
 	 *
-	 * @param string $sort The ordering expression.
+	 * @param string|ILiteral|IParameter|IQueryFunction $sort The ordering expression.
 	 * @param string $order The ordering direction.
 	 *
 	 * @return $this This QueryBuilder instance.
@@ -1146,7 +1202,7 @@ class QueryBuilder implements IQueryBuilder {
 	 * @link http://www.zetacomponents.org
 	 *
 	 * @param mixed $value
-	 * @param mixed $type
+	 * @param IQueryBuilder::PARAM_* $type
 	 * @param string $placeHolder The name to bind with. The string must start with a colon ':'.
 	 *
 	 * @return IParameter the placeholder name used.
@@ -1173,7 +1229,7 @@ class QueryBuilder implements IQueryBuilder {
 	 * </code>
 	 *
 	 * @param mixed $value
-	 * @param integer $type
+	 * @param IQueryBuilder::PARAM_* $type
 	 *
 	 * @return IParameter
 	 */
@@ -1233,11 +1289,11 @@ class QueryBuilder implements IQueryBuilder {
 	 * @return int
 	 * @throws \BadMethodCallException When being called before an insert query has been run.
 	 */
-	public function getLastInsertId() {
+	public function getLastInsertId(): int {
 		if ($this->getType() === \Doctrine\DBAL\Query\QueryBuilder::INSERT && $this->lastInsertedTable) {
 			// lastInsertId() needs the prefix but no quotes
 			$table = $this->prefixTableName($this->lastInsertedTable);
-			return (int) $this->connection->lastInsertId($table);
+			return $this->connection->lastInsertId($table);
 		}
 
 		throw new \BadMethodCallException('Invalid call to getLastInsertId without using insert() before.');
@@ -1246,7 +1302,7 @@ class QueryBuilder implements IQueryBuilder {
 	/**
 	 * Returns the table name quoted and with database prefix as needed by the implementation
 	 *
-	 * @param string $table
+	 * @param string|IQueryFunction $table
 	 * @return string
 	 */
 	public function getTableName($table) {
@@ -1265,7 +1321,7 @@ class QueryBuilder implements IQueryBuilder {
 	 * @return string
 	 */
 	protected function prefixTableName($table) {
-		if ($this->automaticTablePrefix === false || strpos($table, '*PREFIX*') === 0) {
+		if ($this->automaticTablePrefix === false || str_starts_with($table, '*PREFIX*')) {
 			return $table;
 		}
 

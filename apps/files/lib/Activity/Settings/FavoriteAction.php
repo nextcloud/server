@@ -14,14 +14,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Files\Activity\Settings;
 
 class FavoriteAction extends FileActivitySettings {
@@ -56,7 +55,7 @@ class FavoriteAction extends FileActivitySettings {
 	 * @since 11.0.0
 	 */
 	public function canChangeStream() {
-		return true;
+		return false;
 	}
 
 	/**
@@ -72,7 +71,7 @@ class FavoriteAction extends FileActivitySettings {
 	 * @since 11.0.0
 	 */
 	public function canChangeMail() {
-		return true;
+		return false;
 	}
 
 	/**
@@ -80,6 +79,14 @@ class FavoriteAction extends FileActivitySettings {
 	 * @since 11.0.0
 	 */
 	public function isDefaultEnabledMail() {
+		return false;
+	}
+
+	/**
+	 * @return bool True when the option can be changed for the notification
+	 * @since 20.0.0
+	 */
+	public function canChangeNotification() {
 		return false;
 	}
 }

@@ -20,7 +20,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Core\Command\Maintenance;
 
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -30,16 +29,10 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class DataFingerprint extends Command {
-
-	/** @var IConfig */
-	protected $config;
-	/** @var ITimeFactory */
-	protected $timeFactory;
-
-	public function __construct(IConfig $config,
-								ITimeFactory $timeFactory) {
-		$this->config = $config;
-		$this->timeFactory = $timeFactory;
+	public function __construct(
+		protected IConfig $config,
+		protected ITimeFactory $timeFactory,
+	) {
 		parent::__construct();
 	}
 

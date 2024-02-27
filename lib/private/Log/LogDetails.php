@@ -5,6 +5,7 @@
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Julius Härtl <jus@bitgrid.net>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -15,30 +16,26 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Log;
 
 use OC\SystemConfig;
 
 abstract class LogDetails {
-
-	/** @var SystemConfig */
-	private $config;
-
-	public function __construct(SystemConfig $config) {
-		$this->config = $config;
+	public function __construct(
+		private SystemConfig $config,
+	) {
 	}
 
 	public function logDetails(string $app, $message, int $level): array {
 		// default to ISO8601
-		$format = $this->config->getValue('logdateformat', \DateTime::ATOM);
+		$format = $this->config->getValue('logdateformat', \DateTimeInterface::ATOM);
 		$logTimeZone = $this->config->getValue('logtimezone', 'UTC');
 		try {
 			$timezone = new \DateTimeZone($logTimeZone);
@@ -47,7 +44,7 @@ abstract class LogDetails {
 		}
 		$time = \DateTime::createFromFormat("U.u", number_format(microtime(true), 4, ".", ""));
 		if ($time === false) {
-			$time = new \DateTime(null, $timezone);
+			$time = new \DateTime('now', $timezone);
 		} else {
 			// apply timezone if $time is created from UNIX timestamp
 			$time->setTimezone($timezone);
@@ -83,13 +80,18 @@ abstract class LogDetails {
 			'version'
 		);
 
-		if (is_array($message) && !array_key_exists('Exception', $message)) {
-			// Exception messages should stay as they are,
+		if (is_array($message)) {
+			// Exception messages are extracted and the exception is put into a separate field
 			// anything else modern is split to 'message' (string) and
 			// data (array) fields
-			$shortMessage = $message['message'] ?? '(no message provided)';
-			$entry['data'] = $message;
-			$entry['message'] = $shortMessage;
+			if (array_key_exists('Exception', $message)) {
+				$entry['exception'] = $message;
+				$entry['message'] = $message['CustomMessage'] !== '--' ? $message['CustomMessage'] : $message['Message'];
+			} else {
+				$entry['message'] = $message['message'] ?? '(no message provided)';
+				unset($message['message']);
+				$entry['data'] = $message;
+			}
 		}
 
 		return $entry;
@@ -104,7 +106,7 @@ abstract class LogDetails {
 			if (is_string($value)) {
 				$testEncode = json_encode($value, JSON_UNESCAPED_SLASHES);
 				if ($testEncode === false) {
-					$entry[$key] = utf8_encode($value);
+					$entry[$key] = mb_convert_encoding($value, 'UTF-8', mb_detect_encoding($value));
 				}
 			}
 		}

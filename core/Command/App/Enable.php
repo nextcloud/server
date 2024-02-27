@@ -4,8 +4,7 @@
  *
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
- * @author Morris Jobke <hey@morrisjobke.de>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Sander Ruitenbeek <s.ruitenbeek@getgoing.nl>
  *
@@ -24,7 +23,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Core\Command\App;
 
 use OC\Installer;
@@ -41,24 +39,13 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Enable extends Command implements CompletionAwareInterface {
+	protected int $exitCode = 0;
 
-	/** @var IAppManager */
-	protected $appManager;
-
-	/** @var IGroupManager */
-	protected $groupManager;
-
-	/** @var int */
-	protected $exitCode = 0;
-
-	/**
-	 * @param IAppManager $appManager
-	 * @param IGroupManager $groupManager
-	 */
-	public function __construct(IAppManager $appManager, IGroupManager $groupManager) {
+	public function __construct(
+		protected IAppManager $appManager,
+		protected IGroupManager $groupManager,
+	) {
 		parent::__construct();
-		$this->appManager = $appManager;
-		$this->groupManager = $groupManager;
 	}
 
 	protected function configure(): void {
@@ -121,7 +108,7 @@ class Enable extends Command implements CompletionAwareInterface {
 			}
 
 			$installer->installApp($appId, $forceEnable);
-			$appVersion = \OC_App::getAppVersion($appId);
+			$appVersion = $this->appManager->getAppVersion($appId);
 
 			if ($groupIds === []) {
 				$this->appManager->enableApp($appId, $forceEnable);
@@ -159,7 +146,7 @@ class Enable extends Command implements CompletionAwareInterface {
 	 * @param CompletionContext $context
 	 * @return string[]
 	 */
-	public function completeOptionValues($optionName, CompletionContext $context) {
+	public function completeOptionValues($optionName, CompletionContext $context): array {
 		if ($optionName === 'groups') {
 			return array_map(function (IGroup $group) {
 				return $group->getGID();
@@ -173,7 +160,7 @@ class Enable extends Command implements CompletionAwareInterface {
 	 * @param CompletionContext $context
 	 * @return string[]
 	 */
-	public function completeArgumentValues($argumentName, CompletionContext $context) {
+	public function completeArgumentValues($argumentName, CompletionContext $context): array {
 		if ($argumentName === 'app-id') {
 			$allApps = \OC_App::getAllApps();
 			return array_diff($allApps, \OC_App::getEnabledApps(true, true));

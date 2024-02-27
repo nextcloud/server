@@ -21,7 +21,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\DB;
 
 use OCP\IDBConnection;
@@ -30,7 +29,6 @@ use OCP\IDBConnection;
  * Various MySQL specific helper functions.
  */
 class MySqlTools {
-
 	/**
 	 * @param IDBConnection $connection
 	 * @return bool
@@ -65,7 +63,7 @@ class MySqlTools {
 			return false;
 		}
 
-		return strpos($row, 'maria') && version_compare($row, '10.3', '>=') ||
-			strpos($row, 'maria') === false && version_compare($row, '8.0', '>=');
+		return str_contains($row, 'maria') && version_compare($row, '10.3', '>=') ||
+			!str_contains($row, 'maria') && version_compare($row, '8.0', '>=');
 	}
 }

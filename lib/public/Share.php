@@ -27,13 +27,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
-/**
- * Public interface of ownCloud for apps to use.
- * Share Class
- *
- */
-
 // use OCP namespace for all classes that are considered public.
 // This means that they should be used by apps instead of the internal ownCloud classes
 
@@ -49,7 +42,6 @@ namespace OCP;
  * @deprecated 17.0.0
  */
 class Share extends \OC\Share\Constants {
-
 	/**
 	 * Get the item of item type shared with a given user by source
 	 * @param string $itemType
@@ -71,7 +63,7 @@ class Share extends \OC\Share\Constants {
 	 * @param int $format (optional) Format type must be defined by the backend
 	 * @param mixed $parameters
 	 * @param bool $includeCollections
-	 * @return array
+	 * @return void
 	 * @since 5.0.0
 	 * @deprecated 17.0.0
 	 */
@@ -84,7 +76,7 @@ class Share extends \OC\Share\Constants {
 	 * Based on the given token the share information will be returned - password protected shares will be verified
 	 * @param string $token
 	 * @param bool $checkPasswordProtection
-	 * @return array|bool false will be returned in case the token is unknown or unauthorized
+	 * @return void
 	 * @since 5.0.0 - parameter $checkPasswordProtection was added in 7.0.0
 	 * @deprecated 17.0.0
 	 */
@@ -100,13 +92,12 @@ class Share extends \OC\Share\Constants {
 	 * @param mixed $parameters
 	 * @param int $limit Number of items to return (optional) Returns all by default
 	 * @param bool $includeCollections
-	 * @return mixed Return depends on format
+	 * @return void
 	 * @since 5.0.0
 	 * @deprecated 17.0.0
 	 */
 	public static function getItemsShared($itemType, $format = self::FORMAT_NONE, $parameters = null,
 		$limit = -1, $includeCollections = false) {
-
 		// only used by AppVNCSafe app (https://github.com/vnc-biz/nextcloud-appvncsafe/issues/2) - only here to not break apps syntax
 	}
 
@@ -125,7 +116,7 @@ class Share extends \OC\Share\Constants {
 	 *   * defacto $parameters and $format is always the default and therefore is removed in the subsequent call
 	 */
 	public static function getItemShared($itemType, $itemSource, $format = self::FORMAT_NONE,
-										 $parameters = null, $includeCollections = false) {
+		$parameters = null, $includeCollections = false) {
 		return \OC\Share\Share::getItemShared($itemType, $itemSource, self::FORMAT_NONE, null, $includeCollections);
 	}
 

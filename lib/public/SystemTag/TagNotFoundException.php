@@ -25,7 +25,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP\SystemTag;
 
 /**
@@ -34,7 +33,6 @@ namespace OCP\SystemTag;
  * @since 9.0.0
  */
 class TagNotFoundException extends \RuntimeException {
-
 	/** @var string[] */
 	protected $tags;
 

@@ -7,26 +7,27 @@ declare(strict_types=1);
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
  *
- * @license AGPL-3.0
+ * @license GNU AGPL version 3 or any later version
  *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 namespace OCA\UserStatus\Connector;
 
 use DateTimeImmutable;
-use OCP\UserStatus\IUserStatus;
 use OCA\UserStatus\Db;
+use OCP\UserStatus\IUserStatus;
 
 class UserStatus implements IUserStatus {
 
@@ -45,12 +46,11 @@ class UserStatus implements IUserStatus {
 	/** @var DateTimeImmutable|null */
 	private $clearAt;
 
-	/**
-	 * UserStatus constructor.
-	 *
-	 * @param Db\UserStatus $status
-	 */
+	/** @var Db\UserStatus */
+	private $internalStatus;
+
 	public function __construct(Db\UserStatus $status) {
+		$this->internalStatus = $status;
 		$this->userId = $status->getUserId();
 		$this->status = $status->getStatus();
 		$this->message = $status->getCustomMessage();
@@ -97,5 +97,9 @@ class UserStatus implements IUserStatus {
 	 */
 	public function getClearAt(): ?DateTimeImmutable {
 		return $this->clearAt;
+	}
+
+	public function getInternal(): Db\UserStatus {
+		return $this->internalStatus;
 	}
 }

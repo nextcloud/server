@@ -22,7 +22,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP\Encryption;
 
 use OC\Encryption\Exceptions\ModuleAlreadyExistsException;
@@ -34,7 +33,6 @@ use OC\Encryption\Exceptions\ModuleDoesNotExistsException;
  * @since 8.1.0
  */
 interface IManager {
-
 	/**
 	 * Check if encryption is available (at least one encryption module needs to be enabled)
 	 *

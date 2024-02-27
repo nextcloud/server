@@ -2,13 +2,13 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Frank Karlitschek <frank@karlitschek.de>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0
@@ -26,22 +26,22 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-// We only can count up. The 4. digit is only for the internal patchlevel to trigger DB upgrades
-// between betas, final and RCs. This is _not_ the public version number. Reset minor/patchlevel
+// We only can count up. The 4. digit is only for the internal patch level to trigger DB upgrades
+// between betas, final and RCs. This is _not_ the public version number. Reset minor/patch level
 // when updating major/minor version number.
 
-$OC_Version = [22, 0, 0, 1];
+$OC_Version = [29, 0, 0, 5];
 
-// The human readable string
-$OC_VersionString = '22.0.0 alpha';
+// The human-readable string
+$OC_VersionString = '29.0.0 dev';
 
 $OC_VersionCanBeUpgradedFrom = [
 	'nextcloud' => [
-		'21.0' => true,
-		'22.0' => true,
+		'28.0' => true,
+		'29.0' => true,
 	],
 	'owncloud' => [
-		'10.5' => true,
+		'10.13' => true,
 	],
 ];
 

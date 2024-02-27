@@ -13,14 +13,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Theming\Command;
 
 use OCA\Theming\ImageManager;
@@ -34,11 +33,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class UpdateConfig extends Command {
 	public const SUPPORTED_KEYS = [
-		'name', 'url', 'imprintUrl', 'privacyUrl', 'slogan', 'color'
-	];
-
-	public const SUPPORTED_IMAGE_KEYS = [
-		'background', 'logo', 'favicon', 'logoheader'
+		'name', 'url', 'imprintUrl', 'privacyUrl', 'slogan', 'color', 'disable-user-theming'
 	];
 
 	private $themingDefaults;
@@ -80,6 +75,7 @@ class UpdateConfig extends Command {
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$key = $input->getArgument('key');
 		$value = $input->getArgument('value');
+		assert(is_string($value) || $value === null, 'At most one value should be provided.');
 
 		if ($key === null) {
 			$output->writeln('Current theming config:');
@@ -87,14 +83,14 @@ class UpdateConfig extends Command {
 				$value = $this->config->getAppValue('theming', $key, '');
 				$output->writeln('- ' . $key . ': ' . $value . '');
 			}
-			foreach (self::SUPPORTED_IMAGE_KEYS as $key) {
+			foreach (ImageManager::SUPPORTED_IMAGE_KEYS as $key) {
 				$value = $this->config->getAppValue('theming', $key . 'Mime', '');
 				$output->writeln('- ' . $key . ': ' . $value . '');
 			}
 			return 0;
 		}
 
-		if (!in_array($key, self::SUPPORTED_KEYS, true) && !in_array($key, self::SUPPORTED_IMAGE_KEYS, true)) {
+		if (!in_array($key, self::SUPPORTED_KEYS, true) && !in_array($key, ImageManager::SUPPORTED_IMAGE_KEYS, true)) {
 			$output->writeln('<error>Invalid config key provided</error>');
 			return 1;
 		}
@@ -115,8 +111,13 @@ class UpdateConfig extends Command {
 			return 0;
 		}
 
-		if (in_array($key, self::SUPPORTED_IMAGE_KEYS, true)) {
-			if (strpos($value, '/') !== 0) {
+		if ($key === 'background' && $value === 'backgroundColor') {
+			$this->themingDefaults->undo($key);
+			$key = $key . 'Mime';
+		}
+
+		if (in_array($key, ImageManager::SUPPORTED_IMAGE_KEYS, true)) {
+			if (!str_starts_with($value, '/')) {
 				$output->writeln('<error>The image file needs to be provided as an absolute path: ' . $value . '.</error>');
 				return 1;
 			}
@@ -126,6 +127,11 @@ class UpdateConfig extends Command {
 			}
 			$value = $this->imageManager->updateImage($key, $value);
 			$key = $key . 'Mime';
+		}
+
+		if ($key === 'color' && !preg_match('/^\#([0-9a-f]{3}|[0-9a-f]{6})$/i', $value)) {
+			$output->writeln('<error>The given color is invalid: ' . $value . '</error>');
+			return 1;
 		}
 
 		$this->themingDefaults->set($key, $value);

@@ -1,27 +1,30 @@
-/* eslint-disable */
 /**
- * ownCloud
- *
- * @author John Molakvoæ
  * @copyright 2016-2018 John Molakvoæ <skjnldsv@protonmail.com>
- * @author Morris Jobke
  * @copyright 2013 Morris Jobke <morris.jobke@gmail.com>
  *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
- * License as published by the Free Software Foundation; either
- * version 3 of the License, or any later version.
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Julius Härtl <jus@bitgrid.net>
+ * @author Sergey Shliakhov <husband.sergey@gmail.com>
  *
- * This library is distributed in the hope that it will be useful,
+ * @license AGPL-3.0-or-later
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
+ * GNU Affero General Public License for more details.
  *
- * You should have received a copy of the GNU Affero General Public
- * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
+/* eslint-disable */
 import $ from 'jquery'
 import md5 from 'blueimp-md5'
 
@@ -137,7 +140,7 @@ const toRgb = (s) => {
 }
 
 String.prototype.toRgb = function() {
-	console.warn('String.prototype.toRgb is deprecated! It will be removed in Nextcloud 22.')
+	OC.debug && console.warn('String.prototype.toRgb is deprecated! It will be removed in Nextcloud 22.')
 
 	return toRgb(this)
 }

@@ -21,7 +21,7 @@
   -->
 
 <template>
-	<Modal v-if="opened"
+	<NcModal v-if="opened"
 		:clear-view-delay="-1"
 		class="templates-picker"
 		size="large"
@@ -33,13 +33,11 @@
 
 			<!-- Templates list -->
 			<ul class="templates-picker__list">
-				<TemplatePreview
-					v-bind="emptyTemplate"
+				<TemplatePreview v-bind="emptyTemplate"
 					:checked="checked === emptyTemplate.fileid"
 					@check="onCheck" />
 
-				<TemplatePreview
-					v-for="template in provider.templates"
+				<TemplatePreview v-for="template in provider.templates"
 					:key="template.fileid"
 					v-bind="template"
 					:checked="checked === template.fileid"
@@ -49,9 +47,6 @@
 
 			<!-- Cancel and submit -->
 			<div class="templates-picker__buttons">
-				<button @click="close">
-					{{ t('files', 'Cancel') }}
-				</button>
 				<input type="submit"
 					class="primary"
 					:value="t('files', 'Create')"
@@ -59,41 +54,40 @@
 			</div>
 		</form>
 
-		<EmptyContent v-if="loading" class="templates-picker__loading" icon="icon-loading">
+		<NcEmptyContent v-if="loading" class="templates-picker__loading" icon="icon-loading">
 			{{ t('files', 'Creating file') }}
-		</EmptyContent>
-	</Modal>
+		</NcEmptyContent>
+	</NcModal>
 </template>
 
-<script>
-import { generateOcsUrl } from '@nextcloud/router'
-import { showError } from '@nextcloud/dialogs'
-import axios from '@nextcloud/axios'
-import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
-import Modal from '@nextcloud/vue/dist/Components/Modal'
+<script lang="ts">
+import type { TemplateFile } from '../types.ts'
 
-import { getCurrentDirectory } from '../utils/davUtils'
-import { getTemplates } from '../services/Templates'
-import TemplatePreview from '../components/TemplatePreview'
+import { getCurrentUser } from '@nextcloud/auth'
+import { showError } from '@nextcloud/dialogs'
+import { emit } from '@nextcloud/event-bus'
+import { File } from '@nextcloud/files'
+import { translate as t } from '@nextcloud/l10n'
+import { generateRemoteUrl } from '@nextcloud/router'
+import { normalize, extname, join } from 'path'
+import { defineComponent } from 'vue'
+import { createFromTemplate, getTemplates } from '../services/Templates.js'
+
+import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
+import NcModal from '@nextcloud/vue/dist/Components/NcModal.js'
+import TemplatePreview from '../components/TemplatePreview.vue'
+import logger from '../logger.js'
 
 const border = 2
 const margin = 8
-const width = margin * 20
 
-export default {
+export default defineComponent({
 	name: 'TemplatePicker',
 
 	components: {
-		EmptyContent,
-		Modal,
+		NcEmptyContent,
+		NcModal,
 		TemplatePreview,
-	},
-
-	props: {
-		logger: {
-			type: Object,
-			required: true,
-		},
 	},
 
 	data() {
@@ -101,40 +95,57 @@ export default {
 			// Check empty template by default
 			checked: -1,
 			loading: false,
-			name: null,
+			name: null as string|null,
 			opened: false,
-			provider: null,
+			provider: null as TemplateFile|null,
 		}
 	},
 
 	computed: {
-		/**
-		 * Strip away extension from name
-		 * @returns {string}
-		 */
+		extension() {
+			return extname(this.name ?? '')
+		},
+
 		nameWithoutExt() {
-			return this.name.indexOf('.') > -1 ? this.name.split('.').slice(0, -1).join('.') : this.name
+			// Strip extension from name if defined
+			return !this.extension
+				? this.name
+				: this.name!.slice(0, 0 - this.extension.length)
 		},
 
 		emptyTemplate() {
 			return {
 				basename: t('files', 'Blank'),
 				fileid: -1,
-				filename: this.t('files', 'Blank'),
+				filename: t('files', 'Blank'),
 				hasPreview: false,
 				mime: this.provider?.mimetypes[0] || this.provider?.mimetypes,
 			}
 		},
 
 		selectedTemplate() {
-			return this.provider.templates.find(template => template.fileid === this.checked)
+			if (!this.provider) {
+				return null
+			}
+
+			return this.provider.templates!.find((template) => template.fileid === this.checked)
 		},
 
 		/**
-		 * Style css vars bin,d
-		 * @returns {Object}
+		 * Style css vars bind
+		 *
+		 * @return {object}
 		 */
 		style() {
+			if (!this.provider) {
+				return {}
+			}
+
+			// Fallback to 16:9 landscape ratio
+			const ratio = this.provider.ratio ? this.provider.ratio : 1.77
+			// Landscape templates should be wider than tall ones
+			// We fit 3 templates per row at max for landscape and 4 for portrait
+			const width = ratio > 1 ? margin * 30 : margin * 20
 			return {
 				'--margin': margin + 'px',
 				'--width': width + 'px',
@@ -146,13 +157,15 @@ export default {
 	},
 
 	methods: {
+		t,
+
 		/**
 		 * Open the picker
+		 *
 		 * @param {string} name the file name to create
 		 * @param {object} provider the template provider picked
 		 */
-		async open(name, provider) {
-
+		async open(name: string, provider) {
 			this.checked = this.emptyTemplate.fileid
 			this.name = name
 			this.provider = provider
@@ -187,50 +200,62 @@ export default {
 
 		/**
 		 * Manages the radio template picker change
-		 * @param {number} fileid the selected template file id
+		 *
+		 * @param fileid the selected template file id
 		 */
-		onCheck(fileid) {
+		onCheck(fileid: number) {
 			this.checked = fileid
 		},
 
 		async onSubmit() {
 			this.loading = true
-			const currentDirectory = getCurrentDirectory()
-			const fileList = OCA?.Files?.App?.currentFileList
+			const currentDirectory = new URL(window.location.href).searchParams.get('dir') || '/'
+
+			// If the file doesn't have an extension, add the default one
+			if (this.nameWithoutExt === this.name) {
+				logger.warn('Fixed invalid filename', { name: this.name, extension: this.provider?.extension })
+				this.name = `${this.name}${this.provider?.extension ?? ''}`
+			}
 
 			try {
-				const response = await axios.post(generateOcsUrl('apps/files/api/v1/templates', 2) + 'create', {
-					filePath: `${currentDirectory}/${this.name}`,
-					templatePath: this.selectedTemplate?.filename,
-					templateType: this.selectedTemplate?.templateType,
+				const fileInfo = await createFromTemplate(
+					normalize(`${currentDirectory}/${this.name}`),
+					this.selectedTemplate?.filename as string ?? '',
+					this.selectedTemplate?.templateType as string ?? '',
+				)
+				logger.debug('Created new file', fileInfo)
+
+				const owner = getCurrentUser()?.uid || null
+				const node = new File({
+					id: fileInfo.fileid,
+					source: generateRemoteUrl(join(`dav/files/${owner}`, fileInfo.filename)),
+					root: `/files/${owner}`,
+					mime: fileInfo.mime,
+					mtime: new Date(fileInfo.lastmod * 1000),
+					owner,
+					size: fileInfo.size,
+					permissions: fileInfo.permissions,
+					attributes: {
+						...fileInfo,
+						'has-preview': fileInfo.hasPreview,
+					},
 				})
 
-				const fileInfo = response.data.ocs.data
-				this.logger.debug('Created new file', fileInfo)
+				// Update files list
+				emit('files:node:created', node)
+				emit('files:node:focus', node)
 
-				// Run default action
-				const fileAction = OCA.Files.fileActions.getDefaultFileAction(fileInfo.mime, 'file', OC.PERMISSION_ALL)
-				fileAction.action(fileInfo.basename, {
-					$file: null,
-					dir: currentDirectory,
-					fileList,
-					fileActions: fileList?.fileActions,
-				})
-
-				// Reload files list
-				fileList?.reload?.() || window.location.reload()
-
+				// Close the picker
 				this.close()
 			} catch (error) {
-				this.logger.error('Error while creating the new file from template')
-				console.error(error)
-				showError(this.t('files', 'Unable to create new file from template'))
+				logger.error('Error while creating the new file from template', { error })
+				showError(t('files', 'Unable to create new file from template'))
 			} finally {
 				this.loading = false
 			}
 		},
 	},
-}
+})
 </script>
 
 <style lang="scss" scoped>
@@ -262,7 +287,7 @@ export default {
 
 	&__buttons {
 		display: flex;
-		justify-content: space-between;
+		justify-content: end;
 		padding: calc(var(--margin) * 2) var(--margin);
 		position: sticky;
 		bottom: 0;
@@ -274,9 +299,8 @@ export default {
 	}
 
 	// Make sure we're relative for the loading emptycontent on top
-	/deep/ .modal-container {
+	::v-deep .modal-container {
 		position: relative;
-		overflow-y: auto !important;
 	}
 
 	&__loading {

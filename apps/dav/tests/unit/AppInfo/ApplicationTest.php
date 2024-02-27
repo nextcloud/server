@@ -20,7 +20,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\Tests\unit\AppInfo;
 
 use OCA\DAV\AppInfo\Application;
@@ -36,7 +35,7 @@ use Test\TestCase;
  * @package OCA\DAV\Tests\Unit\AppInfo
  */
 class ApplicationTest extends TestCase {
-	public function test() {
+	public function test(): void {
 		$app = new Application();
 		$c = $app->getContainer();
 

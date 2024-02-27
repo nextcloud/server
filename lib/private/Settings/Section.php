@@ -15,14 +15,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Settings;
 
 use OCP\Settings\IIconSection;
@@ -51,20 +50,16 @@ class Section implements IIconSection {
 	}
 
 	/**
-	 * returns the ID of the section. It is supposed to be a lower case string,
+	 * @return string The ID of the section. It is supposed to be a lower case string,
 	 * e.g. 'ldap'
-	 *
-	 * @returns string
 	 */
 	public function getID() {
 		return $this->id;
 	}
 
 	/**
-	 * returns the translated name as it should be displayed, e.g. 'LDAP / AD
+	 * @return string The translated name as it should be displayed, e.g. 'LDAP / AD
 	 * integration'. Use the L10N service to translate it.
-	 *
-	 * @return string
 	 */
 	public function getName() {
 		return $this->name;
@@ -82,10 +77,9 @@ class Section implements IIconSection {
 	}
 
 	/**
-	 * returns the relative path to an 16*16 icon describing the section.
+	 * @return string The relative path to an 16*16 icon describing the section.
 	 * e.g. '/core/img/places/files.svg'
 	 *
-	 * @returns string
 	 * @since 12
 	 */
 	public function getIcon() {

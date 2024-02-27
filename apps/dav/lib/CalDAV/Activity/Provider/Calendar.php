@@ -17,14 +17,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\CalDAV\Activity\Provider;
 
 use OCP\Activity\IEvent;
@@ -39,6 +38,8 @@ use OCP\L10N\IFactory;
 class Calendar extends Base {
 	public const SUBJECT_ADD = 'calendar_add';
 	public const SUBJECT_UPDATE = 'calendar_update';
+	public const SUBJECT_MOVE_TO_TRASH = 'calendar_move_to_trash';
+	public const SUBJECT_RESTORE = 'calendar_restore';
 	public const SUBJECT_DELETE = 'calendar_delete';
 	public const SUBJECT_PUBLISH = 'calendar_publish';
 	public const SUBJECT_UNPUBLISH = 'calendar_unpublish';
@@ -107,6 +108,14 @@ class Calendar extends Base {
 			$subject = $this->l->t('{actor} updated calendar {calendar}');
 		} elseif ($event->getSubject() === self::SUBJECT_UPDATE . '_self') {
 			$subject = $this->l->t('You updated calendar {calendar}');
+		} elseif ($event->getSubject() === self::SUBJECT_MOVE_TO_TRASH) {
+			$subject = $this->l->t('{actor} deleted calendar {calendar}');
+		} elseif ($event->getSubject() === self::SUBJECT_MOVE_TO_TRASH . '_self') {
+			$subject = $this->l->t('You deleted calendar {calendar}');
+		} elseif ($event->getSubject() === self::SUBJECT_RESTORE) {
+			$subject = $this->l->t('{actor} restored calendar {calendar}');
+		} elseif ($event->getSubject() === self::SUBJECT_RESTORE . '_self') {
+			$subject = $this->l->t('You restored calendar {calendar}');
 		} elseif ($event->getSubject() === self::SUBJECT_PUBLISH . '_self') {
 			$subject = $this->l->t('You shared calendar {calendar} as public link');
 		} elseif ($event->getSubject() === self::SUBJECT_UNPUBLISH . '_self') {
@@ -172,6 +181,10 @@ class Calendar extends Base {
 				case self::SUBJECT_DELETE . '_self':
 				case self::SUBJECT_UPDATE:
 				case self::SUBJECT_UPDATE . '_self':
+				case self::SUBJECT_MOVE_TO_TRASH:
+				case self::SUBJECT_MOVE_TO_TRASH . '_self':
+				case self::SUBJECT_RESTORE:
+				case self::SUBJECT_RESTORE . '_self':
 				case self::SUBJECT_PUBLISH . '_self':
 				case self::SUBJECT_UNPUBLISH . '_self':
 				case self::SUBJECT_SHARE_USER:

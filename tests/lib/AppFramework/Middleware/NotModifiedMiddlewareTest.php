@@ -31,7 +31,6 @@ use OCP\AppFramework\Http;
 use OCP\IRequest;
 
 class NotModifiedMiddlewareTest extends \Test\TestCase {
-
 	/** @var IRequest */
 	private $request;
 	/** @var Controller */
@@ -61,13 +60,13 @@ class NotModifiedMiddlewareTest extends \Test\TestCase {
 			[null, '"etag"', null, '', false],
 			['etag', '"etag"', null, '', true],
 
-			[null, '', $now, $now->format(\DateTime::RFC2822), true],
-			[null, '', $now, $now->format(\DateTime::ATOM), false],
-			[null, '', null, $now->format(\DateTime::RFC2822), false],
+			[null, '', $now, $now->format(\DateTimeInterface::RFC2822), true],
+			[null, '', $now, $now->format(\DateTimeInterface::ATOM), false],
+			[null, '', null, $now->format(\DateTimeInterface::RFC2822), false],
 			[null, '', $now, '', false],
 
-			['etag', '"etag"', $now, $now->format(\DateTime::ATOM), true],
-			['etag', '"etag"', $now, $now->format(\DateTime::RFC2822), true],
+			['etag', '"etag"', $now, $now->format(\DateTimeInterface::ATOM), true],
+			['etag', '"etag"', $now, $now->format(\DateTimeInterface::RFC2822), true],
 		];
 	}
 

@@ -16,14 +16,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCP\BackgroundJob;
 
 use OCP\ILogger;
@@ -34,17 +33,27 @@ use OCP\ILogger;
  * @since 15.0.0
  */
 abstract class QueuedJob extends Job {
-
 	/**
-	 * run the job, then remove it from the joblist
+	 * Run the job, then remove it from the joblist
 	 *
 	 * @param IJobList $jobList
 	 * @param ILogger|null $logger
 	 *
 	 * @since 15.0.0
+	 * @deprecated since 25.0.0 Use start() instead. This method will be removed
+	 * with the ILogger interface
 	 */
 	final public function execute($jobList, ILogger $logger = null) {
+		$this->start($jobList);
+	}
+
+	/**
+	 * Run the job, then remove it from the joblist
+	 *
+	 * @since 25.0.0
+	 */
+	final public function start(IJobList $jobList): void {
 		$jobList->remove($this, $this->argument);
-		parent::execute($jobList, $logger);
+		parent::start($jobList);
 	}
 }

@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Johannes Leuker <j.leuker@hosting.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Vincent Petry <vincent@nextcloud.com>
  *
@@ -24,46 +25,17 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\SystemTag;
 
 use OCP\SystemTag\ISystemTag;
 
 class SystemTag implements ISystemTag {
-
-	/**
-	 * @var string
-	 */
-	private $id;
-
-	/**
-	 * @var string
-	 */
-	private $name;
-
-	/**
-	 * @var bool
-	 */
-	private $userVisible;
-
-	/**
-	 * @var bool
-	 */
-	private $userAssignable;
-
-	/**
-	 * Constructor.
-	 *
-	 * @param string $id tag id
-	 * @param string $name tag name
-	 * @param bool $userVisible whether the tag is user visible
-	 * @param bool $userAssignable whether the tag is user assignable
-	 */
-	public function __construct(string $id, string $name, bool $userVisible, bool $userAssignable) {
-		$this->id = $id;
-		$this->name = $name;
-		$this->userVisible = $userVisible;
-		$this->userAssignable = $userAssignable;
+	public function __construct(
+		private string $id,
+		private string $name,
+		private bool $userVisible,
+		private bool $userAssignable,
+	) {
 	}
 
 	/**
@@ -92,5 +64,20 @@ class SystemTag implements ISystemTag {
 	 */
 	public function isUserAssignable(): bool {
 		return $this->userAssignable;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getAccessLevel(): int {
+		if (!$this->userVisible) {
+			return self::ACCESS_LEVEL_INVISIBLE;
+		}
+
+		if (!$this->userAssignable) {
+			return self::ACCESS_LEVEL_RESTRICTED;
+		}
+
+		return self::ACCESS_LEVEL_PUBLIC;
 	}
 }

@@ -32,18 +32,13 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
-/**
- * Public interface of ownCloud for apps to use.
- * AppFramework/App class
- */
-
 namespace OCP\AppFramework;
 
 use OC\AppFramework\Routing\RouteConfig;
 use OC\Route\Router;
 use OC\ServerContainer;
 use OCP\Route\IRouter;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class App
@@ -53,7 +48,6 @@ use OCP\Route\IRouter;
  * @since 6.0.0
  */
 class App {
-
 	/** @var IAppContainer */
 	private $container;
 
@@ -105,8 +99,9 @@ class App {
 			}
 
 			if (!$setUpViaQuery && $applicationClassName !== \OCP\AppFramework\App::class) {
-				\OC::$server->getLogger()->logException($e, [
+				\OCP\Server::get(LoggerInterface::class)->error($e->getMessage(), [
 					'app' => $appName,
+					'exception' => $e,
 				]);
 			}
 		}

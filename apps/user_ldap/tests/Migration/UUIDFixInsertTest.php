@@ -15,14 +15,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\User_LDAP\Tests\Migration;
 
 use OCA\User_LDAP\Mapping\GroupMapping;
@@ -79,7 +78,7 @@ class UUIDFixInsertTest extends TestCase {
 		$userBatches = [
 			0 => array_fill(0, 50, $record),
 			1 => array_fill(0, 50, $record),
-			2 => array_fill(0,  13, $record),
+			2 => array_fill(0, 13, $record),
 		];
 
 		$groupBatches = [
@@ -153,25 +152,22 @@ class UUIDFixInsertTest extends TestCase {
 		$this->userMapper->expects($this->exactly(5))
 			->method('getList')
 			->withConsecutive([0, 50], [0, 40], [0, 32], [32, 32], [64, 32])
-			->willReturnOnConsecutiveCalls($userBatches[0], $userBatches[1], $userBatches[2],  $userBatches[3],  $userBatches[4]);
+			->willReturnOnConsecutiveCalls($userBatches[0], $userBatches[1], $userBatches[2], $userBatches[3], $userBatches[4]);
 
 		$this->groupMapper->expects($this->once())
 			->method('getList')
 			->with(0, 50)
 			->willReturn($groupBatches[0]);
 
-		$this->jobList->expects($this->at(0))
+		$this->jobList->expects($this->exactly(5))
 			->method('add')
-			->willThrowException(new \InvalidArgumentException('Background job arguments can\'t exceed 4000 etc'));
-		$this->jobList->expects($this->at(1))
-			->method('add')
-			->willThrowException(new \InvalidArgumentException('Background job arguments can\'t exceed 4000 etc'));
-		$this->jobList->expects($this->at(2))
-			->method('add');
-		$this->jobList->expects($this->at(3))
-			->method('add');
-		$this->jobList->expects($this->at(4))
-			->method('add');
+			->willReturnOnConsecutiveCalls(
+				$this->throwException(new \InvalidArgumentException('Background job arguments can\'t exceed 4000 etc')),
+				$this->throwException(new \InvalidArgumentException('Background job arguments can\'t exceed 4000 etc')),
+				null,
+				null,
+				null,
+			);
 
 		/** @var IOutput $out */
 		$out = $this->createMock(IOutput::class);

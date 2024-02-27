@@ -19,14 +19,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Files_External\Lib\Auth\Password;
 
 use OCA\Files_External\Lib\Auth\AuthMechanism;
@@ -53,7 +52,7 @@ class UserGlobalAuth extends AuthMechanism {
 			->setIdentifier('password::global::user')
 			->setVisibility(BackendService::VISIBILITY_DEFAULT)
 			->setScheme(self::SCHEME_PASSWORD)
-			->setText($l->t('Global credentials, user entered'));
+			->setText($l->t('Global credentials, manually entered'));
 	}
 
 	public function saveBackendOptions(IUser $user, $id, $backendOptions) {

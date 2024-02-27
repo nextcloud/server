@@ -16,14 +16,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Core\Command\Maintenance;
 
 use OC\Core\Command\Maintenance\Mimetype\UpdateJS;
@@ -34,19 +33,11 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class UpdateTheme extends UpdateJS {
-
-	/** @var IMimeTypeDetector */
-	protected $mimetypeDetector;
-
-	/** @var ICacheFactory */
-	protected $cacheFactory;
-
 	public function __construct(
 		IMimeTypeDetector $mimetypeDetector,
-		ICacheFactory $cacheFactory
+		protected ICacheFactory $cacheFactory,
 	) {
 		parent::__construct($mimetypeDetector);
-		$this->cacheFactory = $cacheFactory;
 	}
 
 	protected function configure() {

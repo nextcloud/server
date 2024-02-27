@@ -1,6 +1,8 @@
 <?php
 /**
  *
+ * @author Thomas Citharel <nextcloud@tcit.fr>
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
  * License as published by the Free Software Foundation; either
@@ -18,6 +20,7 @@
 namespace Test\Log;
 
 use OC\Log\File;
+use OCP\IConfig;
 use OCP\ILogger;
 use Test\TestCase;
 
@@ -36,7 +39,7 @@ class FileTest extends TestCase {
 		$config = \OC::$server->getSystemConfig();
 		$this->restore_logfile = $config->getValue("logfile");
 		$this->restore_logdateformat = $config->getValue('logdateformat');
-		
+
 		$config->setValue("logfile", $config->getValue('datadirectory') . "/logtest.log");
 		$this->logFile = new File($config->getValue('datadirectory') . '/logtest.log', '', $config);
 	}
@@ -55,7 +58,28 @@ class FileTest extends TestCase {
 		$this->logFile = new File($this->restore_logfile, '', $config);
 		parent::tearDown();
 	}
-	
+
+	public function testLogging() {
+		$config = \OC::$server->get(IConfig::class);
+		# delete old logfile
+		unlink($config->getSystemValue('logfile'));
+
+		# set format & write log line
+		$config->setSystemValue('logdateformat', 'u');
+		$this->logFile->write('code', ['something' => 'extra', 'message' => 'Testing logging'], ILogger::ERROR);
+
+		# read log line
+		$handle = @fopen($config->getSystemValue('logfile'), 'r');
+		$line = fread($handle, 1000);
+		fclose($handle);
+
+		# check log has data content
+		$values = (array) json_decode($line, true);
+		$this->assertArrayNotHasKey('message', $values['data']);
+		$this->assertEquals('extra', $values['data']['something']);
+		$this->assertEquals('Testing logging', $values['message']);
+	}
+
 	public function testMicrosecondsLogTimestamp() {
 		$config = \OC::$server->getConfig();
 		# delete old logfile
@@ -69,7 +93,7 @@ class FileTest extends TestCase {
 		$handle = @fopen($config->getSystemValue('logfile'), 'r');
 		$line = fread($handle, 1000);
 		fclose($handle);
-		
+
 		# check timestamp has microseconds part
 		$values = (array) json_decode($line);
 		$microseconds = $values['time'];

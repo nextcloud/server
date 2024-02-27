@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author J0WI <J0WI@users.noreply.github.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author josh4trunks <joshruehlig@gmail.com>
  * @author Olivier Paroz <github@oparoz.com>
@@ -26,26 +27,24 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Preview;
 
 use OCP\Files\File;
 use OCP\IImage;
 
 abstract class Image extends ProviderV2 {
-
 	/**
 	 * {@inheritDoc}
 	 */
 	public function getThumbnail(File $file, int $maxX, int $maxY): ?IImage {
-		$maxSizeForImages = \OC::$server->getConfig()->getSystemValue('preview_max_filesize_image', 50);
+		$maxSizeForImages = \OC::$server->getConfig()->getSystemValueInt('preview_max_filesize_image', 50);
 		$size = $file->getSize();
 
 		if ($maxSizeForImages !== -1 && $size > ($maxSizeForImages * 1024 * 1024)) {
 			return null;
 		}
 
-		$image = new \OC_Image();
+		$image = new \OCP\Image();
 
 		$fileName = $this->getLocalFile($file);
 

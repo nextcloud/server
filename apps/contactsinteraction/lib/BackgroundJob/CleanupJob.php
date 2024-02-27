@@ -5,7 +5,7 @@ declare(strict_types=1);
 /**
  * @copyright 2020 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
- * @author 2020 Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -16,34 +16,34 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
  */
-
 namespace OCA\ContactsInteraction\BackgroundJob;
 
 use OCA\ContactsInteraction\Db\RecentContactMapper;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\BackgroundJob\IJob;
 use OCP\BackgroundJob\TimedJob;
 
 class CleanupJob extends TimedJob {
 
-	/** @var RecentContactMapper */
-	private $mapper;
-
-	public function __construct(ITimeFactory $time,
-								RecentContactMapper $mapper) {
+	public function __construct(
+		ITimeFactory $time,
+		private RecentContactMapper $mapper,
+	) {
 		parent::__construct($time);
 
-		$this->setInterval(12 * 60 * 60);
+		$this->setInterval(24 * 60 * 60);
+		$this->setTimeSensitivity(IJob::TIME_INSENSITIVE);
 
-		$this->mapper = $mapper;
 	}
 
-	protected function run($argument) {
+	protected function run(mixed $argument): void {
 		$time = $this->time->getDateTime();
 		$time->modify('-7days');
 		$this->mapper->cleanUp($time->getTimestamp());

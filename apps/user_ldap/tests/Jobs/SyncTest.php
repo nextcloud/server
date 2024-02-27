@@ -16,14 +16,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\User_LDAP\Tests\Jobs;
 
 use OCA\User_LDAP\Access;
@@ -35,6 +34,7 @@ use OCA\User_LDAP\Jobs\Sync;
 use OCA\User_LDAP\LDAP;
 use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\User_LDAP\User\Manager;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IAvatarManager;
 use OCP\IConfig;
 use OCP\IDBConnection;
@@ -43,7 +43,6 @@ use OCP\Notification\IManager;
 use Test\TestCase;
 
 class SyncTest extends TestCase {
-
 	/** @var  array */
 	protected $arguments;
 	/** @var  Helper|\PHPUnit\Framework\MockObject\MockObject */
@@ -99,7 +98,7 @@ class SyncTest extends TestCase {
 			'accessFactory' => $this->accessFactory,
 		];
 
-		$this->sync = new Sync($this->userManager);
+		$this->sync = new Sync($this->createMock(ITimeFactory::class));
 	}
 
 	public function intervalDataProvider() {

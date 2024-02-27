@@ -3,7 +3,7 @@
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -19,16 +19,30 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 import HttpClient from '@nextcloud/axios'
 import { generateOcsUrl } from '@nextcloud/router'
 
 /**
  * Fetches the current user-status
  *
- * @returns {Promise<Object>}
+ * @return {Promise<object>}
  */
-const fetchCurrentStatus = async() => {
-	const url = generateOcsUrl('apps/user_status/api/v1', 2) + 'user_status'
+const fetchCurrentStatus = async () => {
+	const url = generateOcsUrl('apps/user_status/api/v1/user_status')
+	const response = await HttpClient.get(url)
+
+	return response.data.ocs.data
+}
+
+/**
+ * Fetches the current user-status
+ *
+ * @param {string} userId
+ * @return {Promise<object>}
+ */
+const fetchBackupStatus = async (userId) => {
+	const url = generateOcsUrl('apps/user_status/api/v1/statuses/{userId}', { userId: '_' + userId })
 	const response = await HttpClient.get(url)
 
 	return response.data.ocs.data
@@ -37,11 +51,11 @@ const fetchCurrentStatus = async() => {
 /**
  * Sets the status
  *
- * @param {String} statusType The status (online / away / dnd / invisible)
- * @returns {Promise<void>}
+ * @param {string} statusType The status (online / away / dnd / invisible)
+ * @return {Promise<void>}
  */
-const setStatus = async(statusType) => {
-	const url = generateOcsUrl('apps/user_status/api/v1', 2) + 'user_status/status'
+const setStatus = async (statusType) => {
+	const url = generateOcsUrl('apps/user_status/api/v1/user_status/status')
 	await HttpClient.put(url, {
 		statusType,
 	})
@@ -50,12 +64,12 @@ const setStatus = async(statusType) => {
 /**
  * Sets a message based on our predefined statuses
  *
- * @param {String} messageId The id of the message, taken from predefined status service
- * @param {Number|null} clearAt When to automatically clean the status
- * @returns {Promise<void>}
+ * @param {string} messageId The id of the message, taken from predefined status service
+ * @param {number | null} clearAt When to automatically clean the status
+ * @return {Promise<void>}
  */
-const setPredefinedMessage = async(messageId, clearAt = null) => {
-	const url = generateOcsUrl('apps/user_status/api/v1', 2) + 'user_status/message/predefined?format=json'
+const setPredefinedMessage = async (messageId, clearAt = null) => {
+	const url = generateOcsUrl('apps/user_status/api/v1/user_status/message/predefined?format=json')
 	await HttpClient.put(url, {
 		messageId,
 		clearAt,
@@ -65,13 +79,13 @@ const setPredefinedMessage = async(messageId, clearAt = null) => {
 /**
  * Sets a custom message
  *
- * @param {String} message The user-defined message
- * @param {String|null} statusIcon The user-defined icon
- * @param {Number|null} clearAt When to automatically clean the status
- * @returns {Promise<void>}
+ * @param {string} message The user-defined message
+ * @param {string | null} statusIcon The user-defined icon
+ * @param {number | null} clearAt When to automatically clean the status
+ * @return {Promise<void>}
  */
-const setCustomMessage = async(message, statusIcon = null, clearAt = null) => {
-	const url = generateOcsUrl('apps/user_status/api/v1', 2) + 'user_status/message/custom?format=json'
+const setCustomMessage = async (message, statusIcon = null, clearAt = null) => {
+	const url = generateOcsUrl('apps/user_status/api/v1/user_status/message/custom?format=json')
 	await HttpClient.put(url, {
 		message,
 		statusIcon,
@@ -82,17 +96,32 @@ const setCustomMessage = async(message, statusIcon = null, clearAt = null) => {
 /**
  * Clears the current status of the user
  *
- * @returns {Promise<void>}
+ * @return {Promise<void>}
  */
-const clearMessage = async() => {
-	const url = generateOcsUrl('apps/user_status/api/v1', 2) + 'user_status/message?format=json'
+const clearMessage = async () => {
+	const url = generateOcsUrl('apps/user_status/api/v1/user_status/message?format=json')
 	await HttpClient.delete(url)
+}
+
+/**
+ * Revert the automated status
+ *
+ * @param {string} messageId
+ * @return {Promise<object>}
+ */
+const revertToBackupStatus = async (messageId) => {
+	const url = generateOcsUrl('apps/user_status/api/v1/user_status/revert/{messageId}', { messageId })
+	const response = await HttpClient.delete(url)
+
+	return response.data.ocs.data
 }
 
 export {
 	fetchCurrentStatus,
+	fetchBackupStatus,
 	setStatus,
 	setCustomMessage,
 	setPredefinedMessage,
 	clearMessage,
+	revertToBackupStatus,
 }

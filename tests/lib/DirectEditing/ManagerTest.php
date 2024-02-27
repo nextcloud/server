@@ -15,6 +15,7 @@ use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\IDBConnection;
 use OCP\IL10N;
+use OCP\IUser;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\Security\ISecureRandom;
@@ -106,6 +107,10 @@ class ManagerTest extends TestCase {
 	 */
 	private $userFolder;
 	/**
+	 * @var MockObject|IL10N
+	 */
+	private $l10n;
+	/**
 	 * @var MockObject|IManager
 	 */
 	private $encryptionManager;
@@ -133,6 +138,14 @@ class ManagerTest extends TestCase {
 			->method('getUserFolder')
 			->willReturn($this->userFolder);
 
+		$user = $this->createMock(IUser::class);
+		$user->expects(self::any())
+			->method('getUID')
+			->willReturn('admin');
+		$this->userSession->expects(self::any())
+			->method('getUser')
+			->willReturn($user);
+
 		$this->manager = new Manager(
 			$this->random, $this->connection, $this->userSession, $this->rootFolder, $l10nFactory, $this->encryptionManager
 		);
@@ -154,11 +167,16 @@ class ManagerTest extends TestCase {
 		$this->random->expects($this->once())
 			->method('generate')
 			->willReturn($expectedToken);
+		$folder = $this->createMock(Folder::class);
 		$this->userFolder
 			->method('nodeExists')
-			->with('/File.txt')
-			->willReturn(false);
-		$this->userFolder->expects($this->once())
+			->withConsecutive(['/File.txt'], ['/'])
+			->willReturnOnConsecutiveCalls(false, true);
+		$this->userFolder
+			->method('get')
+			->with('/')
+			->willReturn($folder);
+		$folder->expects($this->once())
 			->method('newFile')
 			->willReturn($file);
 		$token = $this->manager->create('/File.txt', 'testeditor', 'createEmpty');
@@ -174,14 +192,99 @@ class ManagerTest extends TestCase {
 		$this->random->expects($this->once())
 			->method('generate')
 			->willReturn($expectedToken);
+		$folder = $this->createMock(Folder::class);
 		$this->userFolder
 			->method('nodeExists')
-			->with('/File.txt')
-			->willReturn(false);
-		$this->userFolder->expects($this->once())
+			->withConsecutive(['/File.txt'], ['/'])
+			->willReturnOnConsecutiveCalls(false, true);
+		$this->userFolder
+			->method('get')
+			->with('/')
+			->willReturn($folder);
+		$folder->expects($this->once())
 			->method('newFile')
 			->willReturn($file);
 		$this->manager->create('/File.txt', 'testeditor', 'createEmpty');
+		$firstResult = $this->manager->edit($expectedToken);
+		$secondResult = $this->manager->edit($expectedToken);
+		$this->assertInstanceOf(DataResponse::class, $firstResult);
+		$this->assertInstanceOf(NotFoundResponse::class, $secondResult);
+	}
+
+	public function testOpenByPath() {
+		$expectedToken = 'TOKEN' . time();
+		$file = $this->createMock(File::class);
+		$file->expects($this->any())
+			->method('getId')
+			->willReturn(123);
+		$file->expects($this->any())
+			->method('getPath')
+			->willReturn('/admin/files/File.txt');
+		$this->random->expects($this->once())
+			->method('generate')
+			->willReturn($expectedToken);
+		$folder = $this->createMock(Folder::class);
+		$this->userFolder
+			->method('nodeExists')
+			->withConsecutive(['/File.txt'], ['/'])
+			->willReturnOnConsecutiveCalls(false, true);
+		$this->userFolder
+			->method('get')
+			->with('/File.txt')
+			->willReturn($file);
+		$this->userFolder
+			->method('getRelativePath')
+			->willReturn('/File.txt');
+		$this->manager->open('/File.txt', 'testeditor');
+		$firstResult = $this->manager->edit($expectedToken);
+		$secondResult = $this->manager->edit($expectedToken);
+		$this->assertInstanceOf(DataResponse::class, $firstResult);
+		$this->assertInstanceOf(NotFoundResponse::class, $secondResult);
+	}
+
+	public function testOpenById() {
+		$expectedToken = 'TOKEN' . time();
+		$fileRead = $this->createMock(File::class);
+		$fileRead->method('getPermissions')
+			->willReturn(1);
+		$fileRead->expects($this->any())
+			->method('getId')
+			->willReturn(123);
+		$fileRead->expects($this->any())
+			->method('getPath')
+			->willReturn('/admin/files/shared_file.txt');
+		$file = $this->createMock(File::class);
+		$file->method('getPermissions')
+			->willReturn(1);
+		$file->expects($this->any())
+			->method('getId')
+			->willReturn(123);
+		$file->expects($this->any())
+			->method('getPath')
+			->willReturn('/admin/files/File.txt');
+		$this->random->expects($this->once())
+			->method('generate')
+			->willReturn($expectedToken);
+		$folder = $this->createMock(Folder::class);
+		$folder->expects($this->any())
+			->method('getById')
+			->willReturn([
+				$fileRead,
+				$file
+			]);
+		$this->userFolder
+			->method('nodeExists')
+			->withConsecutive(['/File.txt'], ['/'])
+			->willReturnOnConsecutiveCalls(false, true);
+		$this->userFolder
+			->method('get')
+			->with('/')
+			->willReturn($folder);
+		$this->userFolder
+			->method('getRelativePath')
+			->willReturn('/File.txt');
+
+		$this->manager->open('/', 'testeditor', 123);
 		$firstResult = $this->manager->edit($expectedToken);
 		$secondResult = $this->manager->edit($expectedToken);
 		$this->assertInstanceOf(DataResponse::class, $firstResult);

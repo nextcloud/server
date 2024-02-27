@@ -27,7 +27,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Preview;
 
 use OCP\Files\File;
@@ -53,13 +52,17 @@ class TXT extends ProviderV2 {
 	 * {@inheritDoc}
 	 */
 	public function getThumbnail(File $file, int $maxX, int $maxY): ?IImage {
+		if (!$this->isAvailable($file)) {
+			return null;
+		}
+
 		$content = $file->fopen('r');
 
 		if ($content === false) {
 			return null;
 		}
 
-		$content = stream_get_contents($content,3000);
+		$content = stream_get_contents($content, 3000);
 
 		//don't create previews of empty text files
 		if (trim($content) === '') {
@@ -100,7 +103,7 @@ class TXT extends ProviderV2 {
 			}
 		}
 
-		$imageObject = new \OC_Image();
+		$imageObject = new \OCP\Image();
 		$imageObject->setResource($image);
 
 		return $imageObject->valid() ? $imageObject : null;

@@ -3,7 +3,7 @@
  *
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -12,7 +12,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -24,8 +24,8 @@ import Vue from 'vue'
 import { translate as t } from '@nextcloud/l10n'
 
 import SidebarView from './views/Sidebar.vue'
-import Sidebar from './services/Sidebar'
-import Tab from './models/Tab'
+import Sidebar from './services/Sidebar.js'
+import Tab from './models/Tab.js'
 
 Vue.prototype.t = t
 
@@ -58,4 +58,6 @@ window.addEventListener('DOMContentLoaded', function() {
 	AppSidebar.$mount('#app-sidebar')
 	window.OCA.Files.Sidebar.open = AppSidebar.open
 	window.OCA.Files.Sidebar.close = AppSidebar.close
+	window.OCA.Files.Sidebar.setFullScreenMode = AppSidebar.setFullScreenMode
+	window.OCA.Files.Sidebar.setShowTagsDefault = AppSidebar.setShowTagsDefault
 })

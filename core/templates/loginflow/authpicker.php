@@ -36,33 +36,39 @@ $urlGenerator = $_['urlGenerator'];
 		])) ?>
 	</p>
 
-	<p class="info">
-		<?php print_unescaped($l->t('If you are not trying to set up a new device or app, someone is trying to trick you into granting them access to your data. In this case do not proceed and instead contact your system administrator.')) ?>
-	</p>
+	<div class="notecard warning">
+		<h3><?php p($l->t('Security warning')) ?></h3>
+		<p>
+			<?php p($l->t('If you are not trying to set up a new device or app, someone is trying to trick you into granting them access to your data. In this case do not proceed and instead contact your system administrator.')) ?>
+		</p>
+	</div>
 
 	<br/>
 
 	<p id="redirect-link">
-		<a href="<?php p($urlGenerator->linkToRoute('core.ClientFlowLogin.grantPage', ['stateToken' => $_['stateToken'], 'clientIdentifier' => $_['clientIdentifier'], 'oauthState' => $_['oauthState']])) ?>">
-			<input type="submit" class="login primary icon-confirm-white" value="<?php p($l->t('Log in')) ?>">
-		</a>
+		<form id="login-form" action="<?php p($urlGenerator->linkToRoute('core.ClientFlowLogin.grantPage', ['stateToken' => $_['stateToken'], 'clientIdentifier' => $_['clientIdentifier'], 'oauthState' => $_['oauthState'], 'user' => $_['user'], 'direct' => $_['direct']])) ?>" method="get">
+			<input type="submit" class="login primary icon-confirm-white" value="<?php p($l->t('Log in')) ?>" disabled>
+		</form>
 	</p>
 
 	<form action="<?php p($urlGenerator->linkToRouteAbsolute('core.ClientFlowLogin.apptokenRedirect')); ?>" method="post" id="app-token-login-field" class="hidden">
 		<p class="grouptop">
-			<input type="text" name="user" id="user" placeholder="<?php p($l->t('Username')) ?>">
-			<label for="user" class="infield"><?php p($l->t('Username')) ?></label>
+			<input type="text" name="user" id="user" placeholder="<?php p($l->t('Login')) ?>">
+			<label for="user" class="infield"><?php p($l->t('Login')) ?></label>
 		</p>
 		<p class="groupbottom">
-			<input type="password" name="password" id="password" placeholder="<?php p($l->t('App token')) ?>">
+			<input type="password" name="password" id="password" placeholder="<?php p($l->t('App password')) ?>">
 			<label for="password" class="infield"><?php p($l->t('Password')) ?></label>
 		</p>
 		<input type="hidden" name="stateToken" value="<?php p($_['stateToken']) ?>" />
 		<input type="hidden" name="requesttoken" value="<?php p($_['requesttoken']) ?>">
+		<?php if ($_['direct'] !== 0) { ?>
+			<input type="hidden" name="direct" value="<?php p($_['direct']) ?>">
+		<?php } ?>
 		<input id="submit-app-token-login" type="submit" class="login primary icon-confirm-white" value="<?php p($l->t('Grant access')) ?>">
 	</form>
-</div>
 
-<?php if (empty($_['oauthState'])): ?>
-<a id="app-token-login" class="warning" href="#"><?php p($l->t('Alternative log in using app token')) ?></a>
-<?php endif; ?>
+	<?php if (empty($_['oauthState'])): ?>
+		<a id="app-token-login" class="apptoken-link" href="#"><?php p($l->t('Alternative log in using app password')) ?></a>
+	<?php endif; ?>
+</div>

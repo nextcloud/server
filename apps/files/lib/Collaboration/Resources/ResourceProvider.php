@@ -17,14 +17,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Files\Collaboration\Resources;
 
 use OCP\Collaboration\Resources\IProvider;
@@ -50,8 +49,8 @@ class ResourceProvider implements IProvider {
 	protected $nodes = [];
 
 	public function __construct(IRootFolder $rootFolder,
-								IPreview $preview,
-								IURLGenerator $urlGenerator) {
+		IPreview $preview,
+		IURLGenerator $urlGenerator) {
 		$this->rootFolder = $rootFolder;
 		$this->preview = $preview;
 		$this->urlGenerator = $urlGenerator;

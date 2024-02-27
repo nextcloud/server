@@ -39,7 +39,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP;
 
 use OCP\Federation\ICloudFederationFactory;
@@ -47,7 +46,6 @@ use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Log\ILogFactory;
 use OCP\Security\IContentSecurityPolicyManager;
 use Psr\Container\ContainerInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * This is a tagging interface for the server container
@@ -56,10 +54,11 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  * thus this interface won't extend it anymore once that was removed. So migrate to the ContainerInterface
  * only.
  *
+ * @deprecated 20.0.0
+ *
  * @since 6.0.0
  */
 interface IServerContainer extends ContainerInterface, IContainer {
-
 	/**
 	 * The calendar manager will act as a broker between consumers for calendar information and
 	 * providers which actual deliver the calendar information.
@@ -396,15 +395,6 @@ interface IServerContainer extends ContainerInterface, IContainer {
 	public function getCertificateManager();
 
 	/**
-	 * Create a new event source
-	 *
-	 * @return \OCP\IEventSource
-	 * @since 8.0.0
-	 * @deprecated 20.0.0 have it injected or fetch it through \Psr\Container\ContainerInterface::get
-	 */
-	public function createEventSource();
-
-	/**
 	 * Returns an instance of the HTTP client service
 	 *
 	 * @return \OCP\Http\Client\IClientService
@@ -524,15 +514,6 @@ interface IServerContainer extends ContainerInterface, IContainer {
 	 * @deprecated 20.0.0 have it injected or fetch it through \Psr\Container\ContainerInterface::get
 	 */
 	public function getMimeTypeLoader();
-
-	/**
-	 * Get the EventDispatcher
-	 *
-	 * @return EventDispatcherInterface
-	 * @deprecated 20.0.0 use \OCP\EventDispatcher\IEventDispatcher
-	 * @since 8.2.0
-	 */
-	public function getEventDispatcher();
 
 	/**
 	 * Get the Notification Manager

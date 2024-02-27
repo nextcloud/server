@@ -1,9 +1,11 @@
 <?php
+
+declare(strict_types=1);
+
 /**
- *
+ * @copyright Copyright (c) 2016 Thomas Citharel <nextcloud@tcit.fr>
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Citharel <nextcloud@tcit.fr>
  *
  * @license GNU AGPL version 3 or any later version
@@ -15,18 +17,18 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\BackgroundJob;
 
-use OC\BackgroundJob\TimedJob;
 use OCA\DAV\CalDAV\Reminder\ReminderService;
+use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\BackgroundJob\TimedJob;
 use OCP\IConfig;
 
 class EventReminderJob extends TimedJob {
@@ -37,26 +39,24 @@ class EventReminderJob extends TimedJob {
 	/** @var IConfig */
 	private $config;
 
-	/**
-	 * EventReminderJob constructor.
-	 *
-	 * @param ReminderService $reminderService
-	 * @param IConfig $config
-	 */
-	public function __construct(ReminderService $reminderService, IConfig $config) {
+	public function __construct(ITimeFactory $time,
+		ReminderService $reminderService,
+		IConfig $config) {
+		parent::__construct($time);
 		$this->reminderService = $reminderService;
 		$this->config = $config;
-		/** Run every 5 minutes */
-		$this->setInterval(5);
+
+		// Run every 5 minutes
+		$this->setInterval(5 * 60);
+		$this->setTimeSensitivity(self::TIME_SENSITIVE);
 	}
 
 	/**
-	 * @param $arg
 	 * @throws \OCA\DAV\CalDAV\Reminder\NotificationProvider\ProviderNotAvailableException
 	 * @throws \OCA\DAV\CalDAV\Reminder\NotificationTypeDoesNotExistException
 	 * @throws \OC\User\NoUserException
 	 */
-	public function run($arg):void {
+	public function run($argument):void {
 		if ($this->config->getAppValue('dav', 'sendEventReminders', 'yes') !== 'yes') {
 			return;
 		}

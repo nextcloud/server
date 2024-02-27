@@ -24,50 +24,35 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_Trashbin\BackgroundJob;
 
-use OCA\Files_Trashbin\AppInfo\Application;
 use OCA\Files_Trashbin\Expiration;
 use OCA\Files_Trashbin\Helper;
 use OCA\Files_Trashbin\Trashbin;
+use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\BackgroundJob\TimedJob;
+use OCP\IConfig;
 use OCP\IUser;
 use OCP\IUserManager;
 
-class ExpireTrash extends \OC\BackgroundJob\TimedJob {
+class ExpireTrash extends TimedJob {
+	private IConfig $config;
+	private Expiration $expiration;
+	private IUserManager $userManager;
 
-	/**
-	 * @var Expiration
-	 */
-	private $expiration;
-	
-	/**
-	 * @var IUserManager
-	 */
-	private $userManager;
-
-	/**
-	 * @param IUserManager|null $userManager
-	 * @param Expiration|null $expiration
-	 */
-	public function __construct(IUserManager $userManager = null,
-								Expiration $expiration = null) {
+	public function __construct(
+		IConfig $config,
+		IUserManager $userManager,
+		Expiration $expiration,
+		ITimeFactory $time
+	) {
+		parent::__construct($time);
 		// Run once per 30 minutes
 		$this->setInterval(60 * 30);
 
-		if (is_null($expiration) || is_null($userManager)) {
-			$this->fixDIForJobs();
-		} else {
-			$this->userManager = $userManager;
-			$this->expiration = $expiration;
-		}
-	}
-
-	protected function fixDIForJobs() {
-		/** @var Application $application */
-		$application = \OC::$server->query(Application::class);
-		$this->userManager = \OC::$server->getUserManager();
-		$this->expiration = $application->getContainer()->query('Expiration');
+		$this->config = $config;
+		$this->userManager = $userManager;
+		$this->expiration = $expiration;
 	}
 
 	/**
@@ -75,6 +60,11 @@ class ExpireTrash extends \OC\BackgroundJob\TimedJob {
 	 * @throws \Exception
 	 */
 	protected function run($argument) {
+		$backgroundJob = $this->config->getAppValue('files_trashbin', 'background_job_expire_trash', 'yes');
+		if ($backgroundJob === 'no') {
+			return;
+		}
+
 		$maxAge = $this->expiration->getMaxAgeAsTimestamp();
 		if (!$maxAge) {
 			return;
@@ -88,16 +78,14 @@ class ExpireTrash extends \OC\BackgroundJob\TimedJob {
 			$dirContent = Helper::getTrashFiles('/', $uid, 'mtime');
 			Trashbin::deleteExpiredFiles($dirContent, $uid);
 		});
-		
+
 		\OC_Util::tearDownFS();
 	}
 
 	/**
 	 * Act on behalf on trash item owner
-	 * @param string $user
-	 * @return boolean
 	 */
-	protected function setupFS($user) {
+	protected function setupFS(string $user): bool {
 		\OC_Util::tearDownFS();
 		\OC_Util::setupFS($user);
 

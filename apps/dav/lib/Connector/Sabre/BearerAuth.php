@@ -14,14 +14,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\Connector\Sabre;
 
 use OCP\IRequest;
@@ -32,25 +31,15 @@ use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
 
 class BearerAuth extends AbstractBearer {
-	/** @var IUserSession */
-	private $userSession;
-	/** @var ISession */
-	private $session;
-	/** @var IRequest */
-	private $request;
-	/** @var string */
-	private $principalPrefix;
+	private IUserSession $userSession;
+	private ISession $session;
+	private IRequest $request;
+	private string $principalPrefix;
 
-	/**
-	 * @param IUserSession $userSession
-	 * @param ISession $session
-	 * @param string $principalPrefix
-	 * @param IRequest $request
-	 */
 	public function __construct(IUserSession $userSession,
-								ISession $session,
-								IRequest $request,
-								$principalPrefix = 'principals/users/') {
+		ISession $session,
+		IRequest $request,
+		$principalPrefix = 'principals/users/') {
 		$this->userSession = $userSession;
 		$this->session = $session;
 		$this->request = $request;
@@ -58,7 +47,7 @@ class BearerAuth extends AbstractBearer {
 
 		// setup realm
 		$defaults = new \OCP\Defaults();
-		$this->realm = $defaults->getName();
+		$this->realm = $defaults->getName() ?: 'Nextcloud';
 	}
 
 	private function setupUserFs($userId) {
@@ -91,7 +80,7 @@ class BearerAuth extends AbstractBearer {
 	 * @param RequestInterface $request
 	 * @param ResponseInterface $response
 	 */
-	public function challenge(RequestInterface $request, ResponseInterface $response) {
+	public function challenge(RequestInterface $request, ResponseInterface $response): void {
 		$response->setStatus(401);
 	}
 }

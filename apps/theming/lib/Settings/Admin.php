@@ -18,46 +18,38 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Theming\Settings;
 
+use OCA\Theming\AppInfo\Application;
+use OCA\Theming\Controller\ThemingController;
 use OCA\Theming\ImageManager;
 use OCA\Theming\ThemingDefaults;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Services\IInitialState;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IURLGenerator;
-use OCP\Settings\ISettings;
+use OCP\Settings\IDelegatedSettings;
+use OCP\Util;
 
-class Admin implements ISettings {
-	/** @var IConfig */
-	private $config;
-	/** @var IL10N */
-	private $l;
-	/** @var ThemingDefaults */
-	private $themingDefaults;
-	/** @var IURLGenerator */
-	private $urlGenerator;
-	/** @var ImageManager */
-	private $imageManager;
+class Admin implements IDelegatedSettings {
 
-	public function __construct(IConfig $config,
-								IL10N $l,
-								ThemingDefaults $themingDefaults,
-								IURLGenerator $urlGenerator,
-								ImageManager $imageManager) {
-		$this->config = $config;
-		$this->l = $l;
-		$this->themingDefaults = $themingDefaults;
-		$this->urlGenerator = $urlGenerator;
-		$this->imageManager = $imageManager;
+	public function __construct(
+		private string $appName,
+		private IConfig $config,
+		private IL10N $l,
+		private ThemingDefaults $themingDefaults,
+		private IInitialState $initialState,
+		private IURLGenerator $urlGenerator,
+		private ImageManager $imageManager,
+	) {
 	}
 
 	/**
@@ -72,29 +64,42 @@ class Admin implements ISettings {
 			$errorMessage = $this->l->t('You are already using a custom theme. Theming app settings might be overwritten by that.');
 		}
 
-		$parameters = [
-			'themable' => $themable,
-			'errorMessage' => $errorMessage,
+		$allowedMimeTypes = array_reduce(ThemingController::VALID_UPLOAD_KEYS, function ($carry, $key) {
+			$carry[$key] = $this->imageManager->getSupportedUploadImageFormats($key);
+			return $carry;
+		}, []);
+
+		$this->initialState->provideInitialState('adminThemingParameters', [
+			'isThemable' => $themable,
+			'notThemableErrorMessage' => $errorMessage,
 			'name' => $this->themingDefaults->getEntity(),
 			'url' => $this->themingDefaults->getBaseUrl(),
 			'slogan' => $this->themingDefaults->getSlogan(),
-			'color' => $this->themingDefaults->getColorPrimary(),
-			'uploadLogoRoute' => $this->urlGenerator->linkToRoute('theming.Theming.uploadImage'),
+			'color' => $this->themingDefaults->getDefaultColorPrimary(),
+			'logoMime' => $this->config->getAppValue(Application::APP_ID, 'logoMime', ''),
+			'allowedMimeTypes' => $allowedMimeTypes,
+			'backgroundMime' => $this->config->getAppValue(Application::APP_ID, 'backgroundMime', ''),
+			'logoheaderMime' => $this->config->getAppValue(Application::APP_ID, 'logoheaderMime', ''),
+			'faviconMime' => $this->config->getAppValue(Application::APP_ID, 'faviconMime', ''),
+			'legalNoticeUrl' => $this->themingDefaults->getImprintUrl(),
+			'privacyPolicyUrl' => $this->themingDefaults->getPrivacyUrl(),
+			'docUrl' => $this->urlGenerator->linkToDocs('admin-theming'),
+			'docUrlIcons' => $this->urlGenerator->linkToDocs('admin-theming-icons'),
 			'canThemeIcons' => $this->imageManager->shouldReplaceIcons(),
-			'iconDocs' => $this->urlGenerator->linkToDocs('admin-theming-icons'),
-			'images' => $this->imageManager->getCustomImages(),
-			'imprintUrl' => $this->themingDefaults->getImprintUrl(),
-			'privacyUrl' => $this->themingDefaults->getPrivacyUrl(),
-		];
+			'userThemingDisabled' => $this->themingDefaults->isUserThemingDisabled(),
+			'defaultApps' => array_filter(explode(',', $this->config->getSystemValueString('defaultapp', ''))),
+		]);
 
-		return new TemplateResponse('theming', 'settings-admin', $parameters, '');
+		Util::addScript($this->appName, 'admin-theming');
+
+		return new TemplateResponse($this->appName, 'settings-admin');
 	}
 
 	/**
 	 * @return string the section ID, e.g. 'sharing'
 	 */
 	public function getSection(): string {
-		return 'theming';
+		return $this->appName;
 	}
 
 	/**
@@ -106,5 +111,15 @@ class Admin implements ISettings {
 	 */
 	public function getPriority(): int {
 		return 5;
+	}
+
+	public function getName(): ?string {
+		return null; // Only one setting in this section
+	}
+
+	public function getAuthorizedAppConfig(): array {
+		return [
+			$this->appName => '/.*/',
+		];
 	}
 }

@@ -11,7 +11,7 @@
     # Add security and privacy related headers
     Header set X-Content-Type-Options "nosniff"
     Header set X-XSS-Protection "1; mode=block"
-    Header set X-Robots-Tag "none"
+    Header set X-Robots-Tag "noindex, nofollow"
     Header set X-Frame-Options "SAMEORIGIN"
     SetEnv modHeadersAvailable true
   </IfModule>

@@ -33,21 +33,26 @@
 			<!-- using shares[index] to work with .sync -->
 			<SharingEntryLink v-for="(share, index) in shares"
 				:key="share.id"
+				:index="shares.length > 1 ? index + 1 : null"
 				:can-reshare="canReshare"
 				:share.sync="shares[index]"
 				:file-info="fileInfo"
 				@add:share="addShare(...arguments)"
 				@update:share="awaitForShare(...arguments)"
-				@remove:share="removeShare" />
+				@remove:share="removeShare"
+				@open-sharing-details="openSharingDetails(share)" />
 		</template>
 	</ul>
 </template>
 
 <script>
+import { getCapabilities } from '@nextcloud/capabilities'
+
 // eslint-disable-next-line no-unused-vars
-import Share from '../models/Share'
-import ShareTypes from '../mixins/ShareTypes'
-import SharingEntryLink from '../components/SharingEntryLink'
+import Share from '../models/Share.js'
+import ShareTypes from '../mixins/ShareTypes.js'
+import SharingEntryLink from '../components/SharingEntryLink.vue'
+import ShareDetails from '../mixins/ShareDetails.js'
 
 export default {
 	name: 'SharingLinkList',
@@ -56,7 +61,7 @@ export default {
 		SharingEntryLink,
 	},
 
-	mixins: [ShareTypes],
+	mixins: [ShareTypes, ShareDetails],
 
 	props: {
 		fileInfo: {
@@ -77,7 +82,7 @@ export default {
 
 	data() {
 		return {
-			canLinkShare: OC.getCapabilities().files_sharing.public.enabled,
+			canLinkShare: getCapabilities().files_sharing.public.enabled,
 		}
 	},
 
@@ -87,7 +92,7 @@ export default {
 		 * Using this to still show the `new link share`
 		 * button regardless of mail shares
 		 *
-		 * @returns {Array}
+		 * @return {Array}
 		 */
 		hasLinkShares() {
 			return this.shares.filter(share => share.type === this.SHARE_TYPES.SHARE_TYPE_LINK).length > 0
@@ -96,7 +101,7 @@ export default {
 		/**
 		 * Do we have any link or email shares?
 		 *
-		 * @returns {boolean}
+		 * @return {boolean}
 		 */
 		hasShares() {
 			return this.shares.length > 0
@@ -112,6 +117,7 @@ export default {
 		 * @param {Function} resolve a function to run after the share is added and its component initialized
 		 */
 		addShare(share, resolve) {
+			// eslint-disable-next-line vue/no-mutating-props
 			this.shares.unshift(share)
 			this.awaitForShare(share, resolve)
 		},
@@ -140,6 +146,7 @@ export default {
 		 */
 		removeShare(share) {
 			const index = this.shares.findIndex(item => item === share)
+			// eslint-disable-next-line vue/no-mutating-props
 			this.shares.splice(index, 1)
 		},
 	},

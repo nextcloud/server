@@ -15,38 +15,30 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Repair;
 
 use OC\Template\JSCombiner;
-use OC\Template\SCSSCacher;
 use OCP\ICacheFactory;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 
 class ClearFrontendCaches implements IRepairStep {
-
 	/** @var ICacheFactory */
 	protected $cacheFactory;
-
-	/** @var SCSSCacher */
-	protected $scssCacher;
 
 	/** @var JSCombiner */
 	protected $jsCombiner;
 
 	public function __construct(ICacheFactory $cacheFactory,
-								SCSSCacher $SCSSCacher,
-								JSCombiner $JSCombiner) {
+		JSCombiner $JSCombiner) {
 		$this->cacheFactory = $cacheFactory;
-		$this->scssCacher = $SCSSCacher;
 		$this->jsCombiner = $JSCombiner;
 	}
 
@@ -59,9 +51,6 @@ class ClearFrontendCaches implements IRepairStep {
 			$c = $this->cacheFactory->createDistributed('imagePath');
 			$c->clear();
 			$output->info('Image cache cleared');
-
-			$this->scssCacher->resetCache();
-			$output->info('SCSS cache cleared');
 
 			$this->jsCombiner->resetCache();
 			$output->info('JS cache cleared');

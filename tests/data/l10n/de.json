@@ -1,6 +1,9 @@
 {
 	"translations" : {
-		"_%n file_::_%n files_": ["%n Datei", "%n Dateien"]
+		"_%n file_::_%n files_": ["%n Datei", "%n Dateien"],
+		"Ordered placeholders one %s two %s": "Placeholder one %s two %s",
+		"Reordered placeholders one %s two %s": "Placeholder two %2$s one %1$s",
+		"Reordered placeholders one %1$s two %2$s": "Placeholder two %2$s one %1$s"
 	},
 	"pluralForm" :	"nplurals=2; plural=(n != 1);"
 }

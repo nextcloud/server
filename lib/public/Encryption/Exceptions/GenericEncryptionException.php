@@ -24,10 +24,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP\Encryption\Exceptions;
 
-use OC\HintException;
+use OCP\HintException;
 
 /**
  * Class GenericEncryptionException
@@ -35,7 +34,6 @@ use OC\HintException;
  * @since 8.1.0
  */
 class GenericEncryptionException extends HintException {
-
 	/**
 	 * @param string $message
 	 * @param string $hint

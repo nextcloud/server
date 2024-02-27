@@ -23,7 +23,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
 use OCA\DAV\Connector\Sabre\DummyGetResponsePlugin;
@@ -47,7 +46,7 @@ class DummyGetResponsePluginTest extends TestCase {
 		$this->dummyGetResponsePlugin = new DummyGetResponsePlugin();
 	}
 
-	public function testInitialize() {
+	public function testInitialize(): void {
 		/** @var Server $server */
 		$server = $this->getMockBuilder(Server::class)
 			->disableOriginalConstructor()
@@ -61,7 +60,7 @@ class DummyGetResponsePluginTest extends TestCase {
 	}
 
 
-	public function testHttpGet() {
+	public function testHttpGet(): void {
 		/** @var \Sabre\HTTP\RequestInterface $request */
 		$request = $this->getMockBuilder(RequestInterface::class)
 			->disableOriginalConstructor()

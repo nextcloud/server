@@ -14,18 +14,16 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Files_Sharing\Collaboration;
 
 use OCP\Collaboration\AutoComplete\ISorter;
-use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\IUserSession;
@@ -33,12 +31,9 @@ use OCP\Share\IManager;
 
 class ShareRecipientSorter implements ISorter {
 
-	/** @var IManager */
-	private $shareManager;
-	/** @var Folder */
-	private $rootFolder;
-	/** @var IUserSession */
-	private $userSession;
+	private IManager $shareManager;
+	private IRootFolder $rootFolder;
+	private IUserSession $userSession;
 
 	public function __construct(IManager $shareManager, IRootFolder $rootFolder, IUserSession $userSession) {
 		$this->shareManager = $shareManager;
@@ -46,7 +41,7 @@ class ShareRecipientSorter implements ISorter {
 		$this->userSession = $userSession;
 	}
 
-	public function getId() {
+	public function getId(): string {
 		return 'share-recipients';
 	}
 

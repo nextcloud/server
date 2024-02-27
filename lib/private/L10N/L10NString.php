@@ -4,12 +4,9 @@
  *
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Bernhard Posselt <dev@bernhard-posselt.com>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Jakob Sack <mail@jakobsack.de>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
@@ -28,11 +25,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\L10N;
 
 class L10NString implements \JsonSerializable {
-	/** @var \OC\L10N\L10N */
+	/** @var L10N */
 	protected $l10n;
 
 	/** @var string */
@@ -45,45 +41,54 @@ class L10NString implements \JsonSerializable {
 	protected $count;
 
 	/**
-	 * @param \OC\L10N\L10N $l10n
+	 * @param L10N $l10n
 	 * @param string|string[] $text
 	 * @param array $parameters
 	 * @param int $count
 	 */
-	public function __construct(\OC\L10N\L10N $l10n, $text, $parameters, $count = 1) {
+	public function __construct(L10N $l10n, $text, array $parameters, int $count = 1) {
 		$this->l10n = $l10n;
 		$this->text = $text;
 		$this->parameters = $parameters;
 		$this->count = $count;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function __toString() {
+	public function __toString(): string {
 		$translations = $this->l10n->getTranslations();
+		$identityTranslator = $this->l10n->getIdentityTranslator();
 
-		$text = $this->text;
+		// Use the indexed version as per \Symfony\Contracts\Translation\TranslatorInterface
+		$identity = $this->text;
 		if (array_key_exists($this->text, $translations)) {
-			if (is_array($translations[$this->text])) {
-				$fn = $this->l10n->getPluralFormFunction();
-				$id = $fn($this->count);
-				$text = $translations[$this->text][$id];
-			} else {
-				$text = $translations[$this->text];
-			}
+			$identity = $translations[$this->text];
 		}
 
-		// Replace %n first (won't interfere with vsprintf)
-		$text = str_replace('%n', (string)$this->count, $text);
+		if (is_array($identity)) {
+			$pipeCheck = implode('', $identity);
+			if (str_contains($pipeCheck, '|')) {
+				return 'Can not use pipe character in translations';
+			}
+
+			$identity = implode('|', $identity);
+		} elseif (str_contains($identity, '|')) {
+			return 'Can not use pipe character in translations';
+		}
+
+		$beforeIdentity = $identity;
+		$identity = str_replace('%n', '%count%', $identity);
+
+		$parameters = [];
+		if ($beforeIdentity !== $identity) {
+			$parameters = ['%count%' => $this->count];
+		}
+
+		// $count as %count% as per \Symfony\Contracts\Translation\TranslatorInterface
+		$text = $identityTranslator->trans($identity, $parameters);
+
 		return vsprintf($text, $this->parameters);
 	}
 
-
-	/**
-	 * @return string
-	 */
-	public function jsonSerialize() {
+	public function jsonSerialize(): string {
 		return $this->__toString();
 	}
 }

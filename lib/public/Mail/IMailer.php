@@ -25,7 +25,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP\Mail;
 
 /**
@@ -97,8 +96,6 @@ interface IMailer {
 	public function send(IMessage $message): array;
 
 	/**
-	 * Checks if an e-mail address is valid
-	 *
 	 * @param string $email Email address to be validated
 	 * @return bool True if the mail address is valid, false otherwise
 	 * @since 8.1.0

@@ -23,7 +23,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Core\Command\Encryption;
 
 use OC\Encryption\Keys\Storage;
@@ -41,36 +40,14 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 class ChangeKeyStorageRoot extends Command {
-
-	/** @var View  */
-	protected $rootView;
-
-	/** @var IUserManager */
-	protected $userManager;
-
-	/** @var IConfig  */
-	protected $config;
-
-	/** @var Util  */
-	protected $util;
-
-	/** @var QuestionHelper */
-	protected $questionHelper;
-
-	/**
-	 * @param View $view
-	 * @param IUserManager $userManager
-	 * @param IConfig $config
-	 * @param Util $util
-	 * @param QuestionHelper $questionHelper
-	 */
-	public function __construct(View $view, IUserManager $userManager, IConfig $config, Util $util, QuestionHelper $questionHelper) {
+	public function __construct(
+		protected View $rootView,
+		protected IUserManager $userManager,
+		protected IConfig $config,
+		protected Util $util,
+		protected QuestionHelper $questionHelper,
+	) {
 		parent::__construct();
-		$this->rootView = $view;
-		$this->userManager = $userManager;
-		$this->config = $config;
-		$this->util = $util;
-		$this->questionHelper = $questionHelper;
 	}
 
 	protected function configure() {

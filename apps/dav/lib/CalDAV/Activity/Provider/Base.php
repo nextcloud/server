@@ -14,14 +14,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\CalDAV\Activity\Provider;
 
 use OCA\DAV\CalDAV\CalDavBackend;
@@ -31,16 +30,11 @@ use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IURLGenerator;
-use OCP\IUser;
 use OCP\IUserManager;
 
 abstract class Base implements IProvider {
-
 	/** @var IUserManager */
 	protected $userManager;
-
-	/** @var string[]  */
-	protected $userDisplayNames = [];
 
 	/** @var IGroupManager */
 	protected $groupManager;
@@ -62,20 +56,8 @@ abstract class Base implements IProvider {
 		$this->url = $urlGenerator;
 	}
 
-	/**
-	 * @param IEvent $event
-	 * @param string $subject
-	 * @param array $parameters
-	 */
-	protected function setSubjects(IEvent $event, $subject, array $parameters) {
-		$placeholders = $replacements = [];
-		foreach ($parameters as $placeholder => $parameter) {
-			$placeholders[] = '{' . $placeholder . '}';
-			$replacements[] = $parameter['name'];
-		}
-
-		$event->setParsedSubject(str_replace($placeholders, $replacements, $subject))
-			->setRichSubject($subject, $parameters);
+	protected function setSubjects(IEvent $event, string $subject, array $parameters): void {
+		$event->setRichSubject($subject, $parameters);
 	}
 
 	/**
@@ -113,32 +95,12 @@ abstract class Base implements IProvider {
 		];
 	}
 
-	/**
-	 * @param string $uid
-	 * @return array
-	 */
-	protected function generateUserParameter($uid) {
-		if (!isset($this->userDisplayNames[$uid])) {
-			$this->userDisplayNames[$uid] = $this->getUserDisplayName($uid);
-		}
-
+	protected function generateUserParameter(string $uid): array {
 		return [
 			'type' => 'user',
 			'id' => $uid,
-			'name' => $this->userDisplayNames[$uid],
+			'name' => $this->userManager->getDisplayName($uid) ?? $uid,
 		];
-	}
-
-	/**
-	 * @param string $uid
-	 * @return string
-	 */
-	protected function getUserDisplayName($uid) {
-		$user = $this->userManager->get($uid);
-		if ($user instanceof IUser) {
-			return $user->getDisplayName();
-		}
-		return $uid;
 	}
 
 	/**

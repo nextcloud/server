@@ -19,19 +19,19 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Settings\Tests\Settings\Admin;
 
 use OCA\Settings\Settings\Admin\Mail;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
+use OCP\IL10N;
 use Test\TestCase;
 
 class MailTest extends TestCase {
@@ -39,72 +39,36 @@ class MailTest extends TestCase {
 	private $admin;
 	/** @var IConfig */
 	private $config;
+	/** @var IL10N */
+	private $l10n;
 
 	protected function setUp(): void {
 		parent::setUp();
 		$this->config = $this->getMockBuilder(IConfig::class)->getMock();
+		$this->l10n = $this->getMockBuilder(IL10N::class)->getMock();
 
 		$this->admin = new Mail(
-			$this->config
+			$this->config,
+			$this->l10n
 		);
 	}
 
 	public function testGetForm() {
 		$this->config
-			->expects($this->at(0))
+			->expects($this->any())
 			->method('getSystemValue')
-			->with('mail_domain', '')
-			->willReturn('mx.nextcloud.com');
-		$this->config
-			->expects($this->at(1))
-			->method('getSystemValue')
-			->with('mail_from_address', '')
-			->willReturn('no-reply@nextcloud.com');
-		$this->config
-			->expects($this->at(2))
-			->method('getSystemValue')
-			->with('mail_smtpmode', '')
-			->willReturn('smtp');
-		$this->config
-			->expects($this->at(3))
-			->method('getSystemValue')
-			->with('mail_smtpsecure', '')
-			->willReturn(true);
-		$this->config
-			->expects($this->at(4))
-			->method('getSystemValue')
-			->with('mail_smtphost', '')
-			->willReturn('smtp.nextcloud.com');
-		$this->config
-			->expects($this->at(5))
-			->method('getSystemValue')
-			->with('mail_smtpport', '')
-			->willReturn(25);
-		$this->config
-			->expects($this->at(6))
-			->method('getSystemValue')
-			->with('mail_smtpauthtype', '')
-			->willReturn('login');
-		$this->config
-			->expects($this->at(7))
-			->method('getSystemValue')
-			->with('mail_smtpauth', false)
-			->willReturn(true);
-		$this->config
-			->expects($this->at(8))
-			->method('getSystemValue')
-			->with('mail_smtpname', '')
-			->willReturn('smtp.sender.com');
-		$this->config
-			->expects($this->at(9))
-			->method('getSystemValue')
-			->with('mail_smtppassword', '')
-			->willReturn('mypassword');
-		$this->config
-			->expects($this->at(10))
-			->method('getSystemValue')
-			->with('mail_sendmailmode', 'smtp')
-			->willReturn('smtp');
+			->willReturnMap([
+				['mail_domain', '', 'mx.nextcloud.com'],
+				['mail_from_address', '', 'no-reply@nextcloud.com'],
+				['mail_smtpmode', '', 'smtp'],
+				['mail_smtpsecure', '', true],
+				['mail_smtphost', '', 'smtp.nextcloud.com'],
+				['mail_smtpport', '', 25],
+				['mail_smtpauth', false, true],
+				['mail_smtpname', '', 'smtp.sender.com'],
+				['mail_smtppassword', '', 'mypassword'],
+				['mail_sendmailmode', 'smtp', 'smtp'],
+			]);
 
 		$expected = new TemplateResponse(
 			'settings',
@@ -117,7 +81,6 @@ class MailTest extends TestCase {
 				'mail_smtpsecure' => true,
 				'mail_smtphost' => 'smtp.nextcloud.com',
 				'mail_smtpport' => 25,
-				'mail_smtpauthtype' => 'login',
 				'mail_smtpauth' => true,
 				'mail_smtpname' => 'smtp.sender.com',
 				'mail_smtppassword' => '********',

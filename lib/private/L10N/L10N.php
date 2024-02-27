@@ -26,16 +26,15 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\L10N;
 
 use OCP\IL10N;
 use OCP\L10N\IFactory;
+use Psr\Log\LoggerInterface;
 use Punic\Calendar;
-use Symfony\Component\Translation\PluralizationRules;
+use Symfony\Component\Translation\IdentityTranslator;
 
 class L10N implements IL10N {
-
 	/** @var IFactory */
 	protected $factory;
 
@@ -48,11 +47,8 @@ class L10N implements IL10N {
 	/** @var string Locale of this object */
 	protected $locale;
 
-	/** @var string Plural forms (string) */
-	private $pluralFormString = 'nplurals=2; plural=(n != 1);';
-
-	/** @var string Plural forms (function) */
-	private $pluralFormFunction = null;
+	/** @var IdentityTranslator */
+	private $identityTranslator;
 
 	/** @var string[] */
 	private $translations = [];
@@ -126,7 +122,7 @@ class L10N implements IL10N {
 	 *
 	 */
 	public function n(string $text_singular, string $text_plural, int $count, array $parameters = []): string {
-		$identifier = "_${text_singular}_::_${text_plural}_";
+		$identifier = "_{$text_singular}_::_{$text_plural}_";
 		if (isset($this->translations[$identifier])) {
 			return (string) new L10NString($this, $identifier, $parameters, $count);
 		}
@@ -214,20 +210,21 @@ class L10N implements IL10N {
 	}
 
 	/**
-	 * Returnsed function accepts the argument $n
-	 *
-	 * Called by \OC_L10N_String
-	 * @return \Closure the plural form function
+	 * @internal
+	 * @return IdentityTranslator
 	 */
-	public function getPluralFormFunction(): \Closure {
-		if (\is_null($this->pluralFormFunction)) {
-			$lang = $this->getLanguageCode();
-			$this->pluralFormFunction = function ($n) use ($lang) {
-				return PluralizationRules::get($n, $lang);
-			};
+	public function getIdentityTranslator(): IdentityTranslator {
+		if (\is_null($this->identityTranslator)) {
+			$this->identityTranslator = new IdentityTranslator();
+			// We need to use the language code here instead of the locale,
+			// because Symfony does not distinguish between the two and would
+			// otherwise e.g. with locale "Czech" and language "German" try to
+			// pick a non-existing plural rule, because Czech has 4 plural forms
+			// and German only 2.
+			$this->identityTranslator->setLocale($this->getLanguageCode());
 		}
 
-		return $this->pluralFormFunction;
+		return $this->identityTranslator;
 	}
 
 	/**
@@ -238,13 +235,10 @@ class L10N implements IL10N {
 		$json = json_decode(file_get_contents($translationFile), true);
 		if (!\is_array($json)) {
 			$jsonError = json_last_error();
-			\OC::$server->getLogger()->warning("Failed to load $translationFile - json error code: $jsonError", ['app' => 'l10n']);
+			\OCP\Server::get(LoggerInterface::class)->warning("Failed to load $translationFile - json error code: $jsonError", ['app' => 'l10n']);
 			return false;
 		}
 
-		if (!empty($json['pluralForm'])) {
-			$this->pluralFormString = $json['pluralForm'];
-		}
 		$this->translations = array_merge($this->translations, $json['translations']);
 		return true;
 	}

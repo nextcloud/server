@@ -22,10 +22,6 @@ OC.L10N.register(
     "Check %s is invalid or does not exist" : "Kontrolli %s është i pavlefshëm ose nuk ekziston",
     "Folder" : "Skedari",
     "Images" : "Imazhe ",
-    "No results" : "Asnjë rezultat",
-    "%s (invisible)" : "%s (e padukshme)",
-    "%s (restricted)" : "%s (e kufizuar)",
-    "Predefined URLs" : "URL të paracaktuara",
     "Files WebDAV" : "Skedarët WebDAV ",
     "Android client" : "Klient Android",
     "iOS client" : "Klient IOS",
@@ -60,6 +56,7 @@ OC.L10N.register(
     "Request user agent" : "Kërko agjentin përdorues",
     "User group membership" : "Anëtarësia në grupet e përdoruesit",
     "is member of" : "është anëtarë i",
-    "is not member of" : "nuk është anëtarë i"
+    "is not member of" : "nuk është anëtarë i",
+    "Predefined URLs" : "URL të paracaktuara"
 },
 "nplurals=2; plural=(n != 1);");

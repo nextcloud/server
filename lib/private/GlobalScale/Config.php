@@ -13,20 +13,18 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\GlobalScale;
 
 use OCP\IConfig;
 
 class Config implements \OCP\GlobalScale\IConfig {
-
 	/** @var IConfig */
 	private $config;
 
@@ -46,8 +44,7 @@ class Config implements \OCP\GlobalScale\IConfig {
 	 * @return bool
 	 */
 	public function isGlobalScaleEnabled() {
-		$enabled = $this->config->getSystemValue('gs.enabled', false);
-		return $enabled !== false;
+		return $this->config->getSystemValueBool('gs.enabled', false);
 	}
 
 	/**
@@ -63,7 +60,7 @@ class Config implements \OCP\GlobalScale\IConfig {
 			return false;
 		}
 
-		$enabled = $this->config->getSystemValue('gs.federation', 'internal');
+		$enabled = $this->config->getSystemValueString('gs.federation', 'internal');
 
 		return $enabled === 'internal';
 	}

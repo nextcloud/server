@@ -17,14 +17,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCP\Search;
 
 /**
@@ -39,7 +38,6 @@ namespace OCP\Search;
  * @since 20.0.0
  */
 interface ISearchQuery {
-
 	/**
 	 * @since 20.0.0
 	 */
@@ -52,6 +50,20 @@ interface ISearchQuery {
 	 * @since 20.0.0
 	 */
 	public function getTerm(): string;
+
+	/**
+	 * Get a single request filter
+	 *
+	 * @since 28.0.0
+	 */
+	public function getFilter(string $name): ?IFilter;
+
+	/**
+	 * Get request filters
+	 *
+	 * @since 28.0.0
+	 */
+	public function getFilters(): IFilterCollection;
 
 	/**
 	 * Get the sort order of results as defined as SORT_* constants on this interface

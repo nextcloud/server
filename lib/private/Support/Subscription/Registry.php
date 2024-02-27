@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- *
+ * @copyright Copyright (c) 2016 Morris Jobke <hey@morrisjobke.de>
  *
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Morris Jobke <hey@morrisjobke.de>
@@ -18,14 +18,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Support\Subscription;
 
 use OC\User\Backend;
@@ -39,10 +38,11 @@ use OCP\Support\Subscription\Exception\AlreadyRegisteredException;
 use OCP\Support\Subscription\IRegistry;
 use OCP\Support\Subscription\ISubscription;
 use OCP\Support\Subscription\ISupportedApps;
+use OCP\User\Backend\ICountMappedUsersBackend;
+use OCP\User\Backend\ICountUsersBackend;
 use Psr\Log\LoggerInterface;
 
 class Registry implements IRegistry {
-
 	/** @var ISubscription */
 	private $subscription = null;
 
@@ -60,21 +60,17 @@ class Registry implements IRegistry {
 	private $groupManager;
 	/** @var LoggerInterface */
 	private $logger;
-	/** @var IManager */
-	private $notificationManager;
 
 	public function __construct(IConfig $config,
-								IServerContainer $container,
-								IUserManager $userManager,
-								IGroupManager $groupManager,
-								LoggerInterface $logger,
-								IManager $notificationManager) {
+		IServerContainer $container,
+		IUserManager $userManager,
+		IGroupManager $groupManager,
+		LoggerInterface $logger) {
 		$this->config = $config;
 		$this->container = $container;
 		$this->userManager = $userManager;
 		$this->groupManager = $groupManager;
 		$this->logger = $logger;
-		$this->notificationManager = $notificationManager;
 	}
 
 	private function getSubscription(): ?ISubscription {
@@ -159,15 +155,16 @@ class Registry implements IRegistry {
 	/**
 	 * Indicates if a hard user limit is reached and no new users should be created
 	 *
+	 * @param IManager|null $notificationManager
 	 * @since 21.0.0
 	 */
-	public function delegateIsHardUserLimitReached(): bool {
+	public function delegateIsHardUserLimitReached(?IManager $notificationManager = null): bool {
 		$subscription = $this->getSubscription();
 		if ($subscription instanceof ISubscription &&
 			$subscription->hasValidSubscription()) {
 			$userLimitReached = $subscription->isHardUserLimitReached();
-			if ($userLimitReached) {
-				$this->notifyAboutReachedUserLimit();
+			if ($userLimitReached && $notificationManager instanceof IManager) {
+				$this->notifyAboutReachedUserLimit($notificationManager);
 			}
 			return $userLimitReached;
 		}
@@ -179,11 +176,11 @@ class Registry implements IRegistry {
 		}
 
 		$userCount = $this->getUserCount();
-		$hardUserLimit = $this->config->getSystemValue('one-click-instance.user-limit', 50);
+		$hardUserLimit = $this->config->getSystemValueInt('one-click-instance.user-limit', 50);
 
 		$userLimitReached = $userCount >= $hardUserLimit;
-		if ($userLimitReached) {
-			$this->notifyAboutReachedUserLimit();
+		if ($userLimitReached && $notificationManager instanceof IManager) {
+			$this->notifyAboutReachedUserLimit($notificationManager);
 		}
 		return $userLimitReached;
 	}
@@ -192,7 +189,10 @@ class Registry implements IRegistry {
 		$userCount = 0;
 		$backends = $this->userManager->getBackends();
 		foreach ($backends as $backend) {
-			if ($backend->implementsActions(Backend::COUNT_USERS)) {
+			if ($backend instanceof ICountMappedUsersBackend) {
+				$userCount += $backend->countMappedUsers();
+			} elseif ($backend->implementsActions(Backend::COUNT_USERS)) {
+				/** @var ICountUsersBackend $backend */
 				$backendUsers = $backend->countUsers();
 				if ($backendUsers !== false) {
 					$userCount += $backendUsers;
@@ -217,19 +217,38 @@ class Registry implements IRegistry {
 		return $userCount;
 	}
 
-	private function notifyAboutReachedUserLimit() {
+	private function notifyAboutReachedUserLimit(IManager $notificationManager): void {
 		$admins = $this->groupManager->get('admin')->getUsers();
-		foreach ($admins as $admin) {
-			$notification = $this->notificationManager->createNotification();
 
-			$notification->setApp('core')
-				->setUser($admin->getUID())
-				->setDateTime(new \DateTime())
-				->setObject('user_limit_reached', '1')
-				->setSubject('user_limit_reached');
-			$this->notificationManager->notify($notification);
+		$notification = $notificationManager->createNotification();
+		$notification->setApp('core')
+			->setObject('user_limit_reached', '1')
+			->setSubject('user_limit_reached');
+
+		if ($notificationManager->getCount($notification) > 0
+			&& !$this->reIssue()
+		) {
+			return;
 		}
 
-		$this->logger->warning('The user limit was reached and the new user was not created', ['app' => 'lib']);
+		$notificationManager->markProcessed($notification);
+		$notification->setDateTime(new \DateTime());
+
+		foreach ($admins as $admin) {
+			$notification->setUser($admin->getUID());
+			$notificationManager->notify($notification);
+		}
+
+		$this->logger->warning('The account limit was reached and the new account was not created', ['app' => 'lib']);
+	}
+
+	protected function reIssue(): bool {
+		$lastNotification = (int)$this->config->getAppValue('lib', 'last_subscription_reminder', '0');
+
+		if ((time() - $lastNotification) >= 86400) {
+			$this->config->setAppValue('lib', 'last_subscription_reminder', (string)time());
+			return true;
+		}
+		return false;
 	}
 }

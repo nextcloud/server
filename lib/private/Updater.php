@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @copyright Copyright (c) 2016, Lukas Reschke <lukas@statuscode.ch>
@@ -8,6 +11,7 @@
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Frank Karlitschek <frank@karlitschek.de>
  * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author J0WI <J0WI@users.noreply.github.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
@@ -34,18 +38,31 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC;
 
+use OC\App\AppManager;
+use OC\App\AppStore\Fetcher\AppFetcher;
 use OC\DB\Connection;
 use OC\DB\MigrationService;
+use OC\DB\MigratorExecuteSqlEvent;
 use OC\Hooks\BasicEmitter;
 use OC\IntegrityCheck\Checker;
+use OC\Repair\Events\RepairAdvanceEvent;
+use OC\Repair\Events\RepairErrorEvent;
+use OC\Repair\Events\RepairFinishEvent;
+use OC\Repair\Events\RepairInfoEvent;
+use OC\Repair\Events\RepairStartEvent;
+use OC\Repair\Events\RepairStepEvent;
+use OC\Repair\Events\RepairWarningEvent;
 use OC_App;
+use OCP\App\IAppManager;
+use OCP\EventDispatcher\Event;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\HintException;
 use OCP\IConfig;
 use OCP\ILogger;
 use OCP\Util;
-use Symfony\Component\EventDispatcher\GenericEvent;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class that handles autoupdating of ownCloud
@@ -57,8 +74,7 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  *  - failure(string $message)
  */
 class Updater extends BasicEmitter {
-
-	/** @var ILogger $log */
+	/** @var LoggerInterface */
 	private $log;
 
 	/** @var IConfig */
@@ -78,16 +94,10 @@ class Updater extends BasicEmitter {
 		4 => 'Fatal',
 	];
 
-	/**
-	 * @param IConfig $config
-	 * @param Checker $checker
-	 * @param ILogger $log
-	 * @param Installer $installer
-	 */
 	public function __construct(IConfig $config,
-								Checker $checker,
-								ILogger $log = null,
-								Installer $installer) {
+		Checker $checker,
+		?LoggerInterface $log,
+		Installer $installer) {
 		$this->log = $log;
 		$this->config = $config;
 		$this->checker = $checker;
@@ -100,8 +110,7 @@ class Updater extends BasicEmitter {
 	 *
 	 * @return bool true if the operation succeeded, false otherwise
 	 */
-	public function upgrade() {
-		$this->emitRepairEvents();
+	public function upgrade(): bool {
 		$this->logAllEvents();
 
 		$logLevel = $this->config->getSystemValue('loglevel', ILogger::WARN);
@@ -122,7 +131,7 @@ class Updater extends BasicEmitter {
 			}
 		}
 
-		$installedVersion = $this->config->getSystemValue('version', '0.0.0');
+		$installedVersion = $this->config->getSystemValueString('version', '0.0.0');
 		$currentVersion = implode('.', \OCP\Util::getVersion());
 
 		$this->log->debug('starting upgrade from ' . $installedVersion . ' to ' . $currentVersion, ['app' => 'core']);
@@ -131,11 +140,15 @@ class Updater extends BasicEmitter {
 		try {
 			$this->doUpgrade($currentVersion, $installedVersion);
 		} catch (HintException $exception) {
-			$this->log->logException($exception, ['app' => 'core']);
+			$this->log->error($exception->getMessage(), [
+				'exception' => $exception,
+			]);
 			$this->emit('\OC\Updater', 'failure', [$exception->getMessage() . ': ' .$exception->getHint()]);
 			$success = false;
 		} catch (\Exception $exception) {
-			$this->log->logException($exception, ['app' => 'core']);
+			$this->log->error($exception->getMessage(), [
+				'exception' => $exception,
+			]);
 			$this->emit('\OC\Updater', 'failure', [get_class($exception) . ': ' .$exception->getMessage()]);
 			$success = false;
 		}
@@ -161,7 +174,7 @@ class Updater extends BasicEmitter {
 	 *
 	 * @return array allowed previous versions per vendor
 	 */
-	private function getAllowedPreviousVersions() {
+	private function getAllowedPreviousVersions(): array {
 		// this should really be a JSON file
 		require \OC::$SERVERROOT . '/version.php';
 		/** @var array $OC_VersionCanBeUpgradedFrom */
@@ -173,7 +186,7 @@ class Updater extends BasicEmitter {
 	 *
 	 * @return string Get the vendor
 	 */
-	private function getVendor() {
+	private function getVendor(): string {
 		// this should really be a JSON file
 		require \OC::$SERVERROOT . '/version.php';
 		/** @var string $vendor */
@@ -187,7 +200,7 @@ class Updater extends BasicEmitter {
 	 * @param array $allowedPreviousVersions
 	 * @return bool
 	 */
-	public function isUpgradePossible($oldVersion, $newVersion, array $allowedPreviousVersions) {
+	public function isUpgradePossible(string $oldVersion, string $newVersion, array $allowedPreviousVersions): bool {
 		$version = explode('.', $oldVersion);
 		$majorMinor = $version[0] . '.' . $version[1];
 
@@ -205,7 +218,7 @@ class Updater extends BasicEmitter {
 		if ($currentVendor === 'nextcloud') {
 			return isset($allowedPreviousVersions[$currentVendor][$majorMinor])
 				&& (version_compare($oldVersion, $newVersion, '<=') ||
-					$this->config->getSystemValue('debug', false));
+					$this->config->getSystemValueBool('debug', false));
 		}
 
 		// Check if the instance can be migrated
@@ -222,7 +235,7 @@ class Updater extends BasicEmitter {
 	 *
 	 * @throws \Exception
 	 */
-	private function doUpgrade($currentVersion, $installedVersion) {
+	private function doUpgrade(string $currentVersion, string $installedVersion): void {
 		// Stop update if the update is over several major versions
 		$allowedPreviousVersions = $this->getAllowedPreviousVersions();
 		if (!$this->isUpgradePossible($installedVersion, $currentVersion, $allowedPreviousVersions)) {
@@ -240,10 +253,11 @@ class Updater extends BasicEmitter {
 		// create empty file in data dir, so we can later find
 		// out that this is indeed an ownCloud data directory
 		// (in case it didn't exist before)
-		file_put_contents($this->config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data') . '/.ocdata', '');
+		file_put_contents($this->config->getSystemValueString('datadirectory', \OC::$SERVERROOT . '/data') . '/.ocdata', '');
 
 		// pre-upgrade repairs
-		$repair = new Repair(Repair::getBeforeUpgradeRepairSteps(), \OC::$server->getEventDispatcher());
+		$repair = \OCP\Server::get(Repair::class);
+		$repair->setRepairSteps(Repair::getBeforeUpgradeRepairSteps());
 		$repair->run();
 
 		$this->doCoreUpgrade();
@@ -260,27 +274,36 @@ class Updater extends BasicEmitter {
 		$this->doAppUpgrade();
 
 		// Update the appfetchers version so it downloads the correct list from the appstore
-		\OC::$server->getAppFetcher()->setVersion($currentVersion);
+		\OC::$server->get(AppFetcher::class)->setVersion($currentVersion);
+
+		/** @var AppManager $appManager */
+		$appManager = \OC::$server->getAppManager();
 
 		// upgrade appstore apps
-		$this->upgradeAppStoreApps(\OC::$server->getAppManager()->getInstalledApps());
-		$autoDisabledApps = \OC::$server->getAppManager()->getAutoDisabledApps();
-		$this->upgradeAppStoreApps($autoDisabledApps, true);
+		$this->upgradeAppStoreApps($appManager->getInstalledApps());
+		$autoDisabledApps = $appManager->getAutoDisabledApps();
+		if (!empty($autoDisabledApps)) {
+			$this->upgradeAppStoreApps(array_keys($autoDisabledApps), $autoDisabledApps);
+		}
 
 		// install new shipped apps on upgrade
 		$errors = Installer::installShippedApps(true);
 		foreach ($errors as $appId => $exception) {
 			/** @var \Exception $exception */
-			$this->log->logException($exception, ['app' => $appId]);
+			$this->log->error($exception->getMessage(), [
+				'exception' => $exception,
+				'app' => $appId,
+			]);
 			$this->emit('\OC\Updater', 'failure', [$appId . ': ' . $exception->getMessage()]);
 		}
 
 		// post-upgrade repairs
-		$repair = new Repair(Repair::getRepairSteps(), \OC::$server->getEventDispatcher());
+		$repair = \OCP\Server::get(Repair::class);
+		$repair->setRepairSteps(Repair::getRepairSteps());
 		$repair->run();
 
 		//Invalidate update feed
-		$this->config->setAppValue('core', 'lastupdatedat', 0);
+		$this->config->setAppValue('core', 'lastupdatedat', '0');
 
 		// Check for code integrity if not disabled
 		if (\OC::$server->getIntegrityCodeChecker()->isCodeCheckEnforced()) {
@@ -294,7 +317,7 @@ class Updater extends BasicEmitter {
 		$this->config->setAppValue('core', 'vendor', $this->getVendor());
 	}
 
-	protected function doCoreUpgrade() {
+	protected function doCoreUpgrade(): void {
 		$this->emit('\OC\Updater', 'dbUpgradeBefore');
 
 		// execute core migrations
@@ -310,9 +333,9 @@ class Updater extends BasicEmitter {
 	 *
 	 * @throws NeedsUpdateException
 	 */
-	protected function doAppUpgrade() {
+	protected function doAppUpgrade(): void {
 		$apps = \OC_App::getEnabledApps();
-		$priorityTypes = ['authentication', 'filesystem', 'logging'];
+		$priorityTypes = ['authentication', 'extended_authentication', 'filesystem', 'logging'];
 		$pseudoOtherType = 'other';
 		$stacks = [$pseudoOtherType => []];
 
@@ -336,9 +359,9 @@ class Updater extends BasicEmitter {
 			$stack = $stacks[$type];
 			foreach ($stack as $appId) {
 				if (\OC_App::shouldUpgrade($appId)) {
-					$this->emit('\OC\Updater', 'appUpgradeStarted', [$appId, \OC_App::getAppVersion($appId)]);
+					$this->emit('\OC\Updater', 'appUpgradeStarted', [$appId, \OCP\Server::get(IAppManager::class)->getAppVersion($appId)]);
 					\OC_App::updateApp($appId);
-					$this->emit('\OC\Updater', 'appUpgrade', [$appId, \OC_App::getAppVersion($appId)]);
+					$this->emit('\OC\Updater', 'appUpgrade', [$appId, \OCP\Server::get(IAppManager::class)->getAppVersion($appId)]);
 				}
 				if ($type !== $pseudoOtherType) {
 					// load authentication, filesystem and logging apps after
@@ -356,46 +379,31 @@ class Updater extends BasicEmitter {
 	 * This is important if you upgrade ownCloud and have non ported 3rd
 	 * party apps installed.
 	 *
-	 * @return array
 	 * @throws \Exception
 	 */
-	private function checkAppsRequirements() {
+	private function checkAppsRequirements(): void {
 		$isCoreUpgrade = $this->isCodeUpgrade();
 		$apps = OC_App::getEnabledApps();
 		$version = implode('.', Util::getVersion());
-		$disabledApps = [];
 		$appManager = \OC::$server->getAppManager();
 		foreach ($apps as $app) {
 			// check if the app is compatible with this version of Nextcloud
-			$info = OC_App::getAppInfo($app);
+			$info = $appManager->getAppInfo($app);
 			if ($info === null || !OC_App::isAppCompatible($version, $info)) {
 				if ($appManager->isShipped($app)) {
 					throw new \UnexpectedValueException('The files of the app "' . $app . '" were not correctly replaced before running the update');
 				}
-				\OC::$server->getAppManager()->disableApp($app, true);
+				$appManager->disableApp($app, true);
 				$this->emit('\OC\Updater', 'incompatibleAppDisabled', [$app]);
 			}
-			// no need to disable any app in case this is a non-core upgrade
-			if (!$isCoreUpgrade) {
-				continue;
-			}
-			// shipped apps will remain enabled
-			if ($appManager->isShipped($app)) {
-				continue;
-			}
-			// authentication and session apps will remain enabled as well
-			if (OC_App::isType($app, ['session', 'authentication'])) {
-				continue;
-			}
 		}
-		return $disabledApps;
 	}
 
 	/**
 	 * @return bool
 	 */
-	private function isCodeUpgrade() {
-		$installedVersion = $this->config->getSystemValue('version', '0.0.0');
+	private function isCodeUpgrade(): bool {
+		$installedVersion = $this->config->getSystemValueString('version', '0.0.0');
 		$currentVersion = implode('.', Util::getVersion());
 		if (version_compare($currentVersion, $installedVersion, '>')) {
 			return true;
@@ -404,12 +412,12 @@ class Updater extends BasicEmitter {
 	}
 
 	/**
-	 * @param array $disabledApps
-	 * @param bool $reenable
+	 * @param array $apps
+	 * @param array $previousEnableStates
 	 * @throws \Exception
 	 */
-	private function upgradeAppStoreApps(array $disabledApps, $reenable = false) {
-		foreach ($disabledApps as $app) {
+	private function upgradeAppStoreApps(array $apps, array $previousEnableStates = []): void {
+		foreach ($apps as $app) {
 			try {
 				$this->emit('\OC\Updater', 'checkAppStoreAppBefore', [$app]);
 				if ($this->installer->isUpdateAvailable($app)) {
@@ -418,101 +426,63 @@ class Updater extends BasicEmitter {
 				}
 				$this->emit('\OC\Updater', 'checkAppStoreApp', [$app]);
 
-				if ($reenable) {
+				if (!empty($previousEnableStates)) {
 					$ocApp = new \OC_App();
-					$ocApp->enable($app);
+					if (!empty($previousEnableStates[$app]) && is_array($previousEnableStates[$app])) {
+						$ocApp->enable($app, $previousEnableStates[$app]);
+					} else {
+						$ocApp->enable($app);
+					}
 				}
 			} catch (\Exception $ex) {
-				$this->log->logException($ex, ['app' => 'core']);
+				$this->log->error($ex->getMessage(), [
+					'exception' => $ex,
+				]);
 			}
 		}
 	}
 
-	/**
-	 * Forward messages emitted by the repair routine
-	 */
-	private function emitRepairEvents() {
-		$dispatcher = \OC::$server->getEventDispatcher();
-		$dispatcher->addListener('\OC\Repair::warning', function ($event) {
-			if ($event instanceof GenericEvent) {
-				$this->emit('\OC\Updater', 'repairWarning', $event->getArguments());
-			}
-		});
-		$dispatcher->addListener('\OC\Repair::error', function ($event) {
-			if ($event instanceof GenericEvent) {
-				$this->emit('\OC\Updater', 'repairError', $event->getArguments());
-			}
-		});
-		$dispatcher->addListener('\OC\Repair::info', function ($event) {
-			if ($event instanceof GenericEvent) {
-				$this->emit('\OC\Updater', 'repairInfo', $event->getArguments());
-			}
-		});
-		$dispatcher->addListener('\OC\Repair::step', function ($event) {
-			if ($event instanceof GenericEvent) {
-				$this->emit('\OC\Updater', 'repairStep', $event->getArguments());
-			}
-		});
-	}
-
-	private function logAllEvents() {
+	private function logAllEvents(): void {
 		$log = $this->log;
 
-		$dispatcher = \OC::$server->getEventDispatcher();
-		$dispatcher->addListener('\OC\DB\Migrator::executeSql', function ($event) use ($log) {
-			if (!$event instanceof GenericEvent) {
-				return;
+		/** @var IEventDispatcher $dispatcher */
+		$dispatcher = \OC::$server->get(IEventDispatcher::class);
+		$dispatcher->addListener(
+			MigratorExecuteSqlEvent::class,
+			function (MigratorExecuteSqlEvent $event) use ($log): void {
+				$log->info(get_class($event).': ' . $event->getSql() . ' (' . $event->getCurrentStep() . ' of ' . $event->getMaxStep() . ')', ['app' => 'updater']);
 			}
-			$log->info('\OC\DB\Migrator::executeSql: ' . $event->getSubject() . ' (' . $event->getArgument(0) . ' of ' . $event->getArgument(1) . ')', ['app' => 'updater']);
-		});
-		$dispatcher->addListener('\OC\DB\Migrator::checkTable', function ($event) use ($log) {
-			if (!$event instanceof GenericEvent) {
-				return;
-			}
-			$log->info('\OC\DB\Migrator::checkTable: ' . $event->getSubject() . ' (' . $event->getArgument(0) . ' of ' . $event->getArgument(1) . ')', ['app' => 'updater']);
-		});
+		);
 
-		$repairListener = function ($event) use ($log) {
-			if (!$event instanceof GenericEvent) {
-				return;
-			}
-			switch ($event->getSubject()) {
-				case '\OC\Repair::startProgress':
-					$log->info('\OC\Repair::startProgress: Starting ... ' . $event->getArgument(1) .  ' (' . $event->getArgument(0) . ')', ['app' => 'updater']);
-					break;
-				case '\OC\Repair::advance':
-					$desc = $event->getArgument(1);
-					if (empty($desc)) {
-						$desc = '';
-					}
-					$log->info('\OC\Repair::advance: ' . $desc . ' (' . $event->getArgument(0) . ')', ['app' => 'updater']);
-
-					break;
-				case '\OC\Repair::finishProgress':
-					$log->info('\OC\Repair::finishProgress', ['app' => 'updater']);
-					break;
-				case '\OC\Repair::step':
-					$log->info('\OC\Repair::step: Repair step: ' . $event->getArgument(0), ['app' => 'updater']);
-					break;
-				case '\OC\Repair::info':
-					$log->info('\OC\Repair::info: Repair info: ' . $event->getArgument(0), ['app' => 'updater']);
-					break;
-				case '\OC\Repair::warning':
-					$log->warning('\OC\Repair::warning: Repair warning: ' . $event->getArgument(0), ['app' => 'updater']);
-					break;
-				case '\OC\Repair::error':
-					$log->error('\OC\Repair::error: Repair error: ' . $event->getArgument(0), ['app' => 'updater']);
-					break;
+		$repairListener = function (Event $event) use ($log): void {
+			if ($event instanceof RepairStartEvent) {
+				$log->info(get_class($event).': Starting ... ' . $event->getMaxStep() .  ' (' . $event->getCurrentStepName() . ')', ['app' => 'updater']);
+			} elseif ($event instanceof RepairAdvanceEvent) {
+				$desc = $event->getDescription();
+				if (empty($desc)) {
+					$desc = '';
+				}
+				$log->info(get_class($event).': ' . $desc . ' (' . $event->getIncrement() . ')', ['app' => 'updater']);
+			} elseif ($event instanceof RepairFinishEvent) {
+				$log->info(get_class($event), ['app' => 'updater']);
+			} elseif ($event instanceof RepairStepEvent) {
+				$log->info(get_class($event).': Repair step: ' . $event->getStepName(), ['app' => 'updater']);
+			} elseif ($event instanceof RepairInfoEvent) {
+				$log->info(get_class($event).': Repair info: ' . $event->getMessage(), ['app' => 'updater']);
+			} elseif ($event instanceof RepairWarningEvent) {
+				$log->warning(get_class($event).': Repair warning: ' . $event->getMessage(), ['app' => 'updater']);
+			} elseif ($event instanceof RepairErrorEvent) {
+				$log->error(get_class($event).': Repair error: ' . $event->getMessage(), ['app' => 'updater']);
 			}
 		};
 
-		$dispatcher->addListener('\OC\Repair::startProgress', $repairListener);
-		$dispatcher->addListener('\OC\Repair::advance', $repairListener);
-		$dispatcher->addListener('\OC\Repair::finishProgress', $repairListener);
-		$dispatcher->addListener('\OC\Repair::step', $repairListener);
-		$dispatcher->addListener('\OC\Repair::info', $repairListener);
-		$dispatcher->addListener('\OC\Repair::warning', $repairListener);
-		$dispatcher->addListener('\OC\Repair::error', $repairListener);
+		$dispatcher->addListener(RepairStartEvent::class, $repairListener);
+		$dispatcher->addListener(RepairAdvanceEvent::class, $repairListener);
+		$dispatcher->addListener(RepairFinishEvent::class, $repairListener);
+		$dispatcher->addListener(RepairStepEvent::class, $repairListener);
+		$dispatcher->addListener(RepairInfoEvent::class, $repairListener);
+		$dispatcher->addListener(RepairWarningEvent::class, $repairListener);
+		$dispatcher->addListener(RepairErrorEvent::class, $repairListener);
 
 
 		$this->listen('\OC\Updater', 'maintenanceEnabled', function () use ($log) {
@@ -537,32 +507,20 @@ class Updater extends BasicEmitter {
 		$this->listen('\OC\Updater', 'dbUpgrade', function () use ($log) {
 			$log->info('\OC\Updater::dbUpgrade: Updated database', ['app' => 'updater']);
 		});
-		$this->listen('\OC\Updater', 'dbSimulateUpgradeBefore', function () use ($log) {
-			$log->info('\OC\Updater::dbSimulateUpgradeBefore: Checking whether the database schema can be updated (this can take a long time depending on the database size)', ['app' => 'updater']);
-		});
-		$this->listen('\OC\Updater', 'dbSimulateUpgrade', function () use ($log) {
-			$log->info('\OC\Updater::dbSimulateUpgrade: Checked database schema update', ['app' => 'updater']);
-		});
 		$this->listen('\OC\Updater', 'incompatibleAppDisabled', function ($app) use ($log) {
 			$log->info('\OC\Updater::incompatibleAppDisabled: Disabled incompatible app: ' . $app, ['app' => 'updater']);
 		});
 		$this->listen('\OC\Updater', 'checkAppStoreAppBefore', function ($app) use ($log) {
-			$log->info('\OC\Updater::checkAppStoreAppBefore: Checking for update of app "' . $app . '" in appstore', ['app' => 'updater']);
+			$log->debug('\OC\Updater::checkAppStoreAppBefore: Checking for update of app "' . $app . '" in appstore', ['app' => 'updater']);
 		});
 		$this->listen('\OC\Updater', 'upgradeAppStoreApp', function ($app) use ($log) {
 			$log->info('\OC\Updater::upgradeAppStoreApp: Update app "' . $app . '" from appstore', ['app' => 'updater']);
 		});
 		$this->listen('\OC\Updater', 'checkAppStoreApp', function ($app) use ($log) {
-			$log->info('\OC\Updater::checkAppStoreApp: Checked for update of app "' . $app . '" in appstore', ['app' => 'updater']);
-		});
-		$this->listen('\OC\Updater', 'appUpgradeCheckBefore', function () use ($log) {
-			$log->info('\OC\Updater::appUpgradeCheckBefore: Checking updates of apps', ['app' => 'updater']);
+			$log->debug('\OC\Updater::checkAppStoreApp: Checked for update of app "' . $app . '" in appstore', ['app' => 'updater']);
 		});
 		$this->listen('\OC\Updater', 'appSimulateUpdate', function ($app) use ($log) {
 			$log->info('\OC\Updater::appSimulateUpdate: Checking whether the database schema for <' . $app . '> can be updated (this can take a long time depending on the database size)', ['app' => 'updater']);
-		});
-		$this->listen('\OC\Updater', 'appUpgradeCheck', function () use ($log) {
-			$log->info('\OC\Updater::appUpgradeCheck: Checked database schema update for apps', ['app' => 'updater']);
 		});
 		$this->listen('\OC\Updater', 'appUpgradeStarted', function ($app) use ($log) {
 			$log->info('\OC\Updater::appUpgradeStarted: Updating <' . $app . '> ...', ['app' => 'updater']);

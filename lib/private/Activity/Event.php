@@ -26,7 +26,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Activity;
 
 use OCP\Activity\IEvent;
@@ -34,7 +33,6 @@ use OCP\RichObjectStrings\InvalidObjectExeption;
 use OCP\RichObjectStrings\IValidator;
 
 class Event implements IEvent {
-
 	/** @var string */
 	protected $app = '';
 	/** @var string */
@@ -270,7 +268,35 @@ class Event implements IEvent {
 		$this->subjectRich = $subject;
 		$this->subjectRichParameters = $parameters;
 
+		if ($this->subjectParsed === '') {
+			$this->subjectParsed = $this->richToParsed($subject, $parameters);
+		}
+
 		return $this;
+	}
+
+	/**
+	 * @throws \InvalidArgumentException if a parameter has no name or no type
+	 */
+	private function richToParsed(string $message, array $parameters): string {
+		$placeholders = [];
+		$replacements = [];
+		foreach ($parameters as $placeholder => $parameter) {
+			$placeholders[] = '{' . $placeholder . '}';
+			foreach (['name','type'] as $requiredField) {
+				if (!isset($parameter[$requiredField]) || !is_string($parameter[$requiredField])) {
+					throw new \InvalidArgumentException("Invalid rich object, {$requiredField} field is missing");
+				}
+			}
+			if ($parameter['type'] === 'user') {
+				$replacements[] = '@' . $parameter['name'];
+			} elseif ($parameter['type'] === 'file') {
+				$replacements[] = $parameter['path'] ?? $parameter['name'];
+			} else {
+				$replacements[] = $parameter['name'];
+			}
+		}
+		return str_replace($placeholders, $replacements, $message);
 	}
 
 	/**
@@ -350,6 +376,10 @@ class Event implements IEvent {
 	public function setRichMessage(string $message, array $parameters = []): IEvent {
 		$this->messageRich = $message;
 		$this->messageRichParameters = $parameters;
+
+		if ($this->messageParsed === '') {
+			$this->messageParsed = $this->richToParsed($message, $parameters);
+		}
 
 		return $this;
 	}

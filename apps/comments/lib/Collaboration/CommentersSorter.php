@@ -14,29 +14,25 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Comments\Collaboration;
 
 use OCP\Collaboration\AutoComplete\ISorter;
 use OCP\Comments\ICommentsManager;
 
 class CommentersSorter implements ISorter {
-
-	/** @var ICommentsManager */
-	private $commentsManager;
-
-	public function __construct(ICommentsManager $commentsManager) {
-		$this->commentsManager = $commentsManager;
+	public function __construct(
+		private ICommentsManager $commentsManager,
+	) {
 	}
 
-	public function getId() {
+	public function getId(): string {
 		return 'commenters';
 	}
 
@@ -44,10 +40,10 @@ class CommentersSorter implements ISorter {
 	 * Sorts people who commented on the given item atop (descelating) of the
 	 * others
 	 *
-	 * @param array $sortArray
+	 * @param array &$sortArray
 	 * @param array $context
 	 */
-	public function sort(array &$sortArray, array $context) {
+	public function sort(array &$sortArray, array $context): void {
 		$commenters = $this->retrieveCommentsInformation($context['itemType'], $context['itemId']);
 		if (count($commenters) === 0) {
 			return;
@@ -79,11 +75,9 @@ class CommentersSorter implements ISorter {
 	}
 
 	/**
-	 * @param $type
-	 * @param $id
-	 * @return array
+	 * @return array<string, array<string, int>>
 	 */
-	protected function retrieveCommentsInformation($type, $id) {
+	protected function retrieveCommentsInformation(string $type, string $id): array {
 		$comments = $this->commentsManager->getForObject($type, $id);
 		if (count($comments) === 0) {
 			return [];
@@ -103,12 +97,12 @@ class CommentersSorter implements ISorter {
 		return $actors;
 	}
 
-	protected function compare(array $a, array $b, array $commenters) {
+	protected function compare(array $a, array $b, array $commenters): int {
 		$a = $a['value']['shareWith'];
 		$b = $b['value']['shareWith'];
 
-		$valueA = isset($commenters[$a]) ? $commenters[$a] : 0;
-		$valueB = isset($commenters[$b]) ? $commenters[$b] : 0;
+		$valueA = $commenters[$a] ?? 0;
+		$valueB = $commenters[$b] ?? 0;
 
 		return $valueB - $valueA;
 	}

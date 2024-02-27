@@ -23,7 +23,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP\Route;
 
 /**
@@ -33,7 +32,6 @@ namespace OCP\Route;
  * @deprecated 9.0.0
  */
 interface IRouter {
-
 	/**
 	 * Create a \OCP\Route\IRoute.
 	 *

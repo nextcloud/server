@@ -3,7 +3,6 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Morris Jobke <hey@morrisjobke.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @license AGPL-3.0
@@ -21,7 +20,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\DAV;
 
 use Sabre\DAVACL\PrincipalBackend\AbstractBackend;
@@ -62,7 +60,7 @@ class SystemPrincipalBackend extends AbstractBackend {
 	}
 
 	/**
-	 * Returns a specific principal, specified by it's path.
+	 * Returns a specific principal, specified by its path.
 	 * The returned structure should be the exact same as from
 	 * getPrincipalsByPrefix.
 	 *
@@ -89,7 +87,7 @@ class SystemPrincipalBackend extends AbstractBackend {
 	}
 
 	/**
-	 * Updates one ore more webdav properties on a principal.
+	 * Updates one or more webdav properties on a principal.
 	 *
 	 * The list of mutations is stored in a Sabre\DAV\PropPatch object.
 	 * To do the actual updates, you must tell this object which properties

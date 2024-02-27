@@ -51,6 +51,7 @@ class FileTest extends TestCase {
 	}
 
 	public function testEnable() {
+		$this->config->method('getSystemValue')->willReturnArgument(1);
 		$this->consoleInput->method('getOption')
 			->willReturnMap([
 				['enable', 'true']
@@ -63,6 +64,7 @@ class FileTest extends TestCase {
 	}
 
 	public function testChangeFile() {
+		$this->config->method('getSystemValue')->willReturnArgument(1);
 		$this->consoleInput->method('getOption')
 			->willReturnMap([
 				['file', '/foo/bar/file.log']
@@ -87,6 +89,7 @@ class FileTest extends TestCase {
 	 * @dataProvider changeRotateSizeProvider
 	 */
 	public function testChangeRotateSize($optionValue, $configValue) {
+		$this->config->method('getSystemValue')->willReturnArgument(1);
 		$this->consoleInput->method('getOption')
 			->willReturnMap([
 				['rotate-size', $optionValue]
@@ -107,15 +110,13 @@ class FileTest extends TestCase {
 				['log_rotate_size', 100 * 1024 * 1024, 5 * 1024 * 1024],
 			]);
 
-		$this->consoleOutput->expects($this->at(0))
+		$this->consoleOutput->expects($this->exactly(3))
 			->method('writeln')
-			->with('Log backend file: disabled');
-		$this->consoleOutput->expects($this->at(1))
-			->method('writeln')
-			->with('Log file: /var/log/nextcloud.log');
-		$this->consoleOutput->expects($this->at(2))
-			->method('writeln')
-			->with('Rotate at: 5 MB');
+			->withConsecutive(
+				['Log backend file: disabled'],
+				['Log file: /var/log/nextcloud.log'],
+				['Rotate at: 5 MB'],
+			);
 
 		self::invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]);
 	}

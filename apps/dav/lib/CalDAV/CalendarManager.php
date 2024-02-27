@@ -15,19 +15,19 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\CalDAV;
 
 use OCP\Calendar\IManager;
 use OCP\IConfig;
 use OCP\IL10N;
+use Psr\Log\LoggerInterface;
 
 class CalendarManager {
 
@@ -40,6 +40,9 @@ class CalendarManager {
 	/** @var IConfig */
 	private $config;
 
+	/** @var LoggerInterface */
+	private $logger;
+
 	/**
 	 * CalendarManager constructor.
 	 *
@@ -47,10 +50,11 @@ class CalendarManager {
 	 * @param IL10N $l10n
 	 * @param IConfig $config
 	 */
-	public function __construct(CalDavBackend $backend, IL10N $l10n, IConfig $config) {
+	public function __construct(CalDavBackend $backend, IL10N $l10n, IConfig $config, LoggerInterface $logger) {
 		$this->backend = $backend;
 		$this->l10n = $l10n;
 		$this->config = $config;
+		$this->logger = $logger;
 	}
 
 	/**
@@ -68,7 +72,7 @@ class CalendarManager {
 	 */
 	private function register(IManager $cm, array $calendars) {
 		foreach ($calendars as $calendarInfo) {
-			$calendar = new Calendar($this->backend, $calendarInfo, $this->l10n, $this->config);
+			$calendar = new Calendar($this->backend, $calendarInfo, $this->l10n, $this->config, $this->logger);
 			$cm->registerCalendar(new CalendarImpl(
 				$calendar,
 				$calendarInfo,

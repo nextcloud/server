@@ -14,17 +14,16 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCP\Federation\Exceptions;
 
-use OC\HintException;
+use OCP\HintException;
 
 /**
  * Class BadRequestException
@@ -33,6 +32,9 @@ use OC\HintException;
  * @since 14.0.0
  */
 class BadRequestException extends HintException {
+	/**
+	 * @var string[] $parameterList
+	 */
 	private $parameterList;
 
 	/**
@@ -43,7 +45,7 @@ class BadRequestException extends HintException {
 	 * @param array $missingParameters
 	 */
 	public function __construct(array $missingParameters) {
-		$l = \OC::$server->getL10N('federation');
+		$l = \OCP\Util::getL10N('federation');
 		$this->parameterList = $missingParameters;
 		$parameterList = implode(',', $missingParameters);
 		$message = 'Parameters missing in order to complete the request. Missing Parameters: ' . $parameterList;
@@ -56,7 +58,7 @@ class BadRequestException extends HintException {
 	 *
 	 * @since 14.0.0
 	 *
-	 * @return array
+	 * @return array{message: string, validationErrors: array{message: string, name: string}[]}
 	 */
 	public function getReturnMessage() {
 		$result = [
@@ -66,7 +68,7 @@ class BadRequestException extends HintException {
 		];
 
 		foreach ($this->parameterList as $missingParameter) {
-			$result['validationErrors'] = [
+			$result['validationErrors'][] = [
 				'name' => $missingParameter,
 				'message' => 'NOT_FOUND'
 			];

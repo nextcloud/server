@@ -1,9 +1,9 @@
 /**
- * @copyright 2020, John Molakvoæ <skjnldsv@protonmail.com>
+ * @copyright 2023, Fon E. Noel NFEBE <fenn25.fn@gmail.com>
  *
- * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Fon E. Noel NFEBE <fenn25.fn@gmail.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -16,32 +16,29 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 
-import { generateOcsUrl } from '@nextcloud/router'
-import { loadState } from '@nextcloud/initial-state'
+import { generateOcsUrl, generateUrl } from '@nextcloud/router'
 import axios from '@nextcloud/axios'
-
-export const defaultLimit = loadState('unified-search', 'limit-default')
-export const minSearchLength = 2
-export const regexFilterIn = /[^-]in:([a-z_-]+)/ig
-export const regexFilterNot = /-in:([a-z_-]+)/ig
+import { getCurrentUser } from '@nextcloud/auth'
 
 /**
  * Create a cancel token
- * @returns {CancelTokenSource}
+ *
+ * @return {import('axios').CancelTokenSource}
  */
 const createCancelToken = () => axios.CancelToken.source()
 
 /**
  * Get the list of available search providers
  *
- * @returns {Array}
+ * @return {Promise<Array>}
  */
-export async function getTypes() {
+export async function getProviders() {
 	try {
-		const { data } = await axios.get(generateOcsUrl('search', 2) + 'providers', {
+		const { data } = await axios.get(generateOcsUrl('search/providers'), {
 			params: {
 				// Sending which location we're currently at
 				from: window.location.pathname.replace('/index.php', '') + window.location.search,
@@ -60,23 +57,31 @@ export async function getTypes() {
 /**
  * Get the list of available search providers
  *
- * @param {Object} options destructuring object
+ * @param {object} options destructuring object
  * @param {string} options.type the type to search
  * @param {string} options.query the search
- * @param {int|string|undefined} options.cursor the offset for paginated searches
- * @returns {Object} {request: Promise, cancel: Promise}
+ * @param {number|string|undefined} options.cursor the offset for paginated searches
+ * @param {string} options.since the search
+ * @param {string} options.until the search
+ * @param {string} options.limit the search
+ * @param {string} options.person the search
+ * @return {object} {request: Promise, cancel: Promise}
  */
-export function search({ type, query, cursor }) {
+export function search({ type, query, cursor, since, until, limit, person }) {
 	/**
 	 * Generate an axios cancel token
 	 */
 	const cancelToken = createCancelToken()
 
-	const request = async() => axios.get(generateOcsUrl('search', 2) + `providers/${type}/search`, {
+	const request = async () => axios.get(generateOcsUrl('search/providers/{type}/search', { type }), {
 		cancelToken: cancelToken.token,
 		params: {
 			term: query,
 			cursor,
+			since,
+			until,
+			limit,
+			person,
 			// Sending which location we're currently at
 			from: window.location.pathname.replace('/index.php', '') + window.location.search,
 		},
@@ -86,4 +91,33 @@ export function search({ type, query, cursor }) {
 		request,
 		cancel: cancelToken.cancel,
 	}
+}
+
+/**
+ * Get the list of active contacts
+ *
+ * @param {object} filter filter contacts by string
+ * @param filter.searchTerm
+ * @return {object} {request: Promise}
+ */
+export async function getContacts({ searchTerm }) {
+	const { data: { contacts } } = await axios.post(generateUrl('/contactsmenu/contacts'), {
+		filter: searchTerm,
+	})
+	/*
+	 * Add authenticated user to list of contacts for search filter
+	 * If authtenicated user is searching/filtering, do not add them to the list
+	 */
+	if (!searchTerm) {
+		let authenticatedUser = getCurrentUser()
+		authenticatedUser = {
+			id: authenticatedUser.uid,
+			fullName: authenticatedUser.displayName,
+			emailAddresses: [],
+		  }
+		contacts.unshift(authenticatedUser)
+		return contacts
+	  }
+
+	return contacts
 }

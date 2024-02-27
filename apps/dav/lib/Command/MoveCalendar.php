@@ -1,12 +1,11 @@
 <?php
 /**
- *
+ * @copyright Copyright (c) 2016 Thomas Citharel <nextcloud@tcit.fr>
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Thomas Citharel <nextcloud@tcit.fr>
  *
  * @license GNU AGPL version 3 or any later version
@@ -18,14 +17,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\Command;
 
 use OCA\DAV\CalDAV\CalDavBackend;
@@ -35,6 +33,7 @@ use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IUserManager;
 use OCP\Share\IManager as IShareManager;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -43,56 +42,23 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 class MoveCalendar extends Command {
-
-	/** @var IUserManager */
-	private $userManager;
-
-	/** @var IGroupManager */
-	private $groupManager;
-
-	/** @var IShareManager */
-	private $shareManager;
-
-	/** @var IConfig $config */
-	private $config;
-
-	/** @var IL10N */
-	private $l10n;
-
-	/** @var SymfonyStyle */
-	private $io;
-
-	/** @var CalDavBackend */
-	private $calDav;
+	private ?SymfonyStyle $io = null;
 
 	public const URI_USERS = 'principals/users/';
 
-	/**
-	 * @param IUserManager $userManager
-	 * @param IGroupManager $groupManager
-	 * @param IShareManager $shareManager
-	 * @param IConfig $config
-	 * @param IL10N $l10n
-	 * @param CalDavBackend $calDav
-	 */
 	public function __construct(
-		IUserManager $userManager,
-		IGroupManager $groupManager,
-		IShareManager $shareManager,
-		IConfig $config,
-		IL10N $l10n,
-		CalDavBackend $calDav
+		private IUserManager $userManager,
+		private IGroupManager $groupManager,
+		private IShareManager $shareManager,
+		private IConfig $config,
+		private IL10N $l10n,
+		private CalDavBackend $calDav,
+		private LoggerInterface $logger,
 	) {
 		parent::__construct();
-		$this->userManager = $userManager;
-		$this->groupManager = $groupManager;
-		$this->shareManager = $shareManager;
-		$this->config = $config;
-		$this->l10n = $l10n;
-		$this->calDav = $calDav;
 	}
 
-	protected function configure() {
+	protected function configure(): void {
 		$this
 			->setName('dav:move-calendar')
 			->setDescription('Move a calendar from an user to another')
@@ -160,15 +126,11 @@ class MoveCalendar extends Command {
 		$this->calDav->moveCalendar($name, self::URI_USERS . $userOrigin, self::URI_USERS . $userDestination, $newName);
 
 		$this->io->success("Calendar <$name> was moved from user <$userOrigin> to <$userDestination>" . ($newName ? " as <$newName>" : ''));
-		return 0;
+		return self::SUCCESS;
 	}
 
 	/**
 	 * Check if the calendar exists for user
-	 *
-	 * @param string $userDestination
-	 * @param string $name
-	 * @return bool
 	 */
 	protected function calendarExists(string $userDestination, string $name): bool {
 		return null !== $this->calDav->getCalendarByUri(self::URI_USERS . $userDestination, $name);
@@ -176,11 +138,7 @@ class MoveCalendar extends Command {
 
 	/**
 	 * Try to find a suitable new calendar name that
-	 * doesn't exists for the provided user
-	 *
-	 * @param string $userDestination
-	 * @param string $name
-	 * @return string
+	 * doesn't exist for the provided user
 	 */
 	protected function getNewCalendarName(string $userDestination, string $name): string {
 		$increment = 1;
@@ -202,10 +160,6 @@ class MoveCalendar extends Command {
 	/**
 	 * Check that moving the calendar won't break shares
 	 *
-	 * @param array $calendar
-	 * @param string $userOrigin
-	 * @param string $userDestination
-	 * @param bool $force
 	 * @return bool had any shares or not
 	 * @throws \InvalidArgumentException
 	 */
@@ -220,7 +174,7 @@ class MoveCalendar extends Command {
 			 */
 			if ($this->shareManager->shareWithGroupMembersOnly() === true && 'groups' === $prefix && !$this->groupManager->isInGroup($userDestination, $userOrGroup)) {
 				if ($force) {
-					$this->calDav->updateShares(new Calendar($this->calDav, $calendar, $this->l10n, $this->config), [], ['href' => 'principal:principals/groups/' . $userOrGroup]);
+					$this->calDav->updateShares(new Calendar($this->calDav, $calendar, $this->l10n, $this->config, $this->logger), [], ['principal:principals/groups/' . $userOrGroup]);
 				} else {
 					throw new \InvalidArgumentException("User <$userDestination> is not part of the group <$userOrGroup> with whom the calendar <" . $calendar['uri'] . "> was shared. You may use -f to move the calendar while deleting this share.");
 				}
@@ -231,7 +185,7 @@ class MoveCalendar extends Command {
 			 */
 			if ($userOrGroup === $userDestination) {
 				if ($force) {
-					$this->calDav->updateShares(new Calendar($this->calDav, $calendar, $this->l10n, $this->config), [], ['href' => 'principal:principals/users/' . $userOrGroup]);
+					$this->calDav->updateShares(new Calendar($this->calDav, $calendar, $this->l10n, $this->config, $this->logger), [], ['principal:principals/users/' . $userOrGroup]);
 				} else {
 					throw new \InvalidArgumentException("The calendar <" . $calendar['uri'] . "> is already shared to user <$userDestination>.You may use -f to move the calendar while deleting this share.");
 				}

@@ -28,79 +28,74 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC;
 
+use OC\AppFramework\Bootstrap\Coordinator;
 use OC\Preview\Generator;
 use OC\Preview\GeneratorHelper;
+use OC\Preview\IMagickSupport;
+use OCP\AppFramework\QueryException;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
 use OCP\Files\IAppData;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
+use OCP\IBinaryFinder;
 use OCP\IConfig;
 use OCP\IPreview;
+use OCP\IServerContainer;
 use OCP\Preview\IProviderV2;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use function array_key_exists;
 
 class PreviewManager implements IPreview {
-	/** @var IConfig */
-	protected $config;
-
-	/** @var IRootFolder */
-	protected $rootFolder;
-
-	/** @var IAppData */
-	protected $appData;
-
-	/** @var EventDispatcherInterface */
-	protected $eventDispatcher;
-
-	/** @var Generator */
-	private $generator;
-
-	/** @var GeneratorHelper */
-	private $helper;
-
-	/** @var bool */
-	protected $providerListDirty = false;
-
-	/** @var bool */
-	protected $registeredCoreProviders = false;
-
-	/** @var array */
-	protected $providers = [];
+	protected IConfig $config;
+	protected IRootFolder $rootFolder;
+	protected IAppData $appData;
+	protected IEventDispatcher $eventDispatcher;
+	private ?Generator $generator = null;
+	private GeneratorHelper $helper;
+	protected bool $providerListDirty = false;
+	protected bool $registeredCoreProviders = false;
+	protected array $providers = [];
 
 	/** @var array mime type => support status */
-	protected $mimeTypeSupportMap = [];
-
-	/** @var array */
-	protected $defaultProviders;
-
-	/** @var string */
-	protected $userId;
+	protected array $mimeTypeSupportMap = [];
+	protected ?array $defaultProviders = null;
+	protected ?string $userId;
+	private Coordinator $bootstrapCoordinator;
 
 	/**
-	 * PreviewManager constructor.
-	 *
-	 * @param IConfig $config
-	 * @param IRootFolder $rootFolder
-	 * @param IAppData $appData
-	 * @param EventDispatcherInterface $eventDispatcher
-	 * @param string $userId
+	 * Hash map (without value) of loaded bootstrap providers
+	 * @psalm-var array<string, null>
 	 */
-	public function __construct(IConfig $config,
-								IRootFolder $rootFolder,
-								IAppData $appData,
-								EventDispatcherInterface $eventDispatcher,
-								GeneratorHelper $helper,
-								$userId) {
+	private array $loadedBootstrapProviders = [];
+	private IServerContainer $container;
+	private IBinaryFinder $binaryFinder;
+	private IMagickSupport $imagickSupport;
+
+	public function __construct(
+		IConfig                  $config,
+		IRootFolder              $rootFolder,
+		IAppData                 $appData,
+		IEventDispatcher 		 $eventDispatcher,
+		GeneratorHelper          $helper,
+		?string                  $userId,
+		Coordinator              $bootstrapCoordinator,
+		IServerContainer         $container,
+		IBinaryFinder            $binaryFinder,
+		IMagickSupport           $imagickSupport
+	) {
 		$this->config = $config;
 		$this->rootFolder = $rootFolder;
 		$this->appData = $appData;
 		$this->eventDispatcher = $eventDispatcher;
 		$this->helper = $helper;
 		$this->userId = $userId;
+		$this->bootstrapCoordinator = $bootstrapCoordinator;
+		$this->container = $container;
+		$this->binaryFinder = $binaryFinder;
+		$this->imagickSupport = $imagickSupport;
 	}
 
 	/**
@@ -113,8 +108,8 @@ class PreviewManager implements IPreview {
 	 * @param \Closure $callable
 	 * @return void
 	 */
-	public function registerProvider($mimeTypeRegex, \Closure $callable) {
-		if (!$this->config->getSystemValue('enable_previews', true)) {
+	public function registerProvider($mimeTypeRegex, \Closure $callable): void {
+		if (!$this->config->getSystemValueBool('enable_previews', true)) {
 			return;
 		}
 
@@ -127,14 +122,14 @@ class PreviewManager implements IPreview {
 
 	/**
 	 * Get all providers
-	 * @return array
 	 */
-	public function getProviders() {
-		if (!$this->config->getSystemValue('enable_previews', true)) {
+	public function getProviders(): array {
+		if (!$this->config->getSystemValueBool('enable_previews', true)) {
 			return [];
 		}
 
 		$this->registerCoreProviders();
+		$this->registerBootstrapProviders();
 		if ($this->providerListDirty) {
 			$keys = array_map('strlen', array_keys($this->providers));
 			array_multisort($keys, SORT_DESC, $this->providers);
@@ -146,9 +141,8 @@ class PreviewManager implements IPreview {
 
 	/**
 	 * Does the manager have any providers
-	 * @return bool
 	 */
-	public function hasProviders() {
+	public function hasProviders(): bool {
 		$this->registerCoreProviders();
 		return !empty($this->providers);
 	}
@@ -187,7 +181,15 @@ class PreviewManager implements IPreview {
 	 * @since 11.0.0 - \InvalidArgumentException was added in 12.0.0
 	 */
 	public function getPreview(File $file, $width = -1, $height = -1, $crop = false, $mode = IPreview::MODE_FILL, $mimeType = null) {
-		return $this->getGenerator()->getPreview($file, $width, $height, $crop, $mode, $mimeType);
+		$previewConcurrency = $this->getGenerator()->getNumConcurrentPreviews('preview_concurrency_all');
+		$sem = Generator::guardWithSemaphore(Generator::SEMAPHORE_ID_ALL, $previewConcurrency);
+		try {
+			$preview = $this->getGenerator()->getPreview($file, $width, $height, $crop, $mode, $mimeType);
+		} finally {
+			Generator::unguardWithSemaphore($sem);
+		}
+
+		return $preview;
 	}
 
 	/**
@@ -212,7 +214,7 @@ class PreviewManager implements IPreview {
 	 * @return boolean
 	 */
 	public function isMimeSupported($mimeType = '*') {
-		if (!$this->config->getSystemValue('enable_previews', true)) {
+		if (!$this->config->getSystemValueBool('enable_previews', true)) {
 			return false;
 		}
 
@@ -221,6 +223,7 @@ class PreviewManager implements IPreview {
 		}
 
 		$this->registerCoreProviders();
+		$this->registerBootstrapProviders();
 		$providerMimeTypes = array_keys($this->providers);
 		foreach ($providerMimeTypes as $supportedMimeType) {
 			if (preg_match($supportedMimeType, $mimeType)) {
@@ -234,12 +237,9 @@ class PreviewManager implements IPreview {
 
 	/**
 	 * Check if a preview can be generated for a file
-	 *
-	 * @param \OCP\Files\FileInfo $file
-	 * @return bool
 	 */
-	public function isAvailable(\OCP\Files\FileInfo $file) {
-		if (!$this->config->getSystemValue('enable_previews', true)) {
+	public function isAvailable(\OCP\Files\FileInfo $file): bool {
+		if (!$this->config->getSystemValueBool('enable_previews', true)) {
 			return false;
 		}
 
@@ -278,7 +278,6 @@ class PreviewManager implements IPreview {
 	 *  - OC\Preview\JPEG
 	 *  - OC\Preview\GIF
 	 *  - OC\Preview\BMP
-	 *  - OC\Preview\HEIC
 	 *  - OC\Preview\XBitmap
 	 *  - OC\Preview\MarkDown
 	 *  - OC\Preview\MP3
@@ -286,6 +285,7 @@ class PreviewManager implements IPreview {
 	 *
 	 * The following providers are disabled by default due to performance or privacy concerns:
 	 *  - OC\Preview\Font
+	 *  - OC\Preview\HEIC
 	 *  - OC\Preview\Illustrator
 	 *  - OC\Preview\Movie
 	 *  - OC\Preview\MSOfficeDoc
@@ -311,7 +311,6 @@ class PreviewManager implements IPreview {
 			Preview\JPEG::class,
 			Preview\GIF::class,
 			Preview\BMP::class,
-			Preview\HEIC::class,
 			Preview\XBitmap::class,
 			Preview\Krita::class,
 			Preview\WebP::class,
@@ -365,11 +364,10 @@ class PreviewManager implements IPreview {
 		$this->registerCoreProvider(Preview\Krita::class, '/application\/x-krita/');
 		$this->registerCoreProvider(Preview\MP3::class, '/audio\/mpeg/');
 		$this->registerCoreProvider(Preview\OpenDocument::class, '/application\/vnd.oasis.opendocument.*/');
+		$this->registerCoreProvider(Preview\Imaginary::class, Preview\Imaginary::supportedMimeTypes());
 
-		// SVG, Office and Bitmap require imagick
-		if (extension_loaded('imagick')) {
-			$checkImagick = new \Imagick();
-
+		// SVG and Bitmap require imagick
+		if ($this->imagickSupport->hasExtension()) {
 			$imagickProviders = [
 				'SVG' => ['mimetype' => '/image\/svg\+xml/', 'class' => Preview\SVG::class],
 				'TIFF' => ['mimetype' => '/image\/tiff/', 'class' => Preview\TIFF::class],
@@ -389,48 +387,92 @@ class PreviewManager implements IPreview {
 					continue;
 				}
 
-				if (count($checkImagick->queryFormats($queryFormat)) === 1) {
+				if ($this->imagickSupport->supportsFormat($queryFormat)) {
 					$this->registerCoreProvider($class, $provider['mimetype']);
-				}
-			}
-
-			if (count($checkImagick->queryFormats('PDF')) === 1) {
-				if (\OC_Helper::is_function_enabled('shell_exec')) {
-					$officeFound = is_string($this->config->getSystemValue('preview_libreoffice_path', null));
-
-					if (!$officeFound) {
-						//let's see if there is libreoffice or openoffice on this machine
-						$whichLibreOffice = shell_exec('command -v libreoffice');
-						$officeFound = !empty($whichLibreOffice);
-						if (!$officeFound) {
-							$whichOpenOffice = shell_exec('command -v openoffice');
-							$officeFound = !empty($whichOpenOffice);
-						}
-					}
-
-					if ($officeFound) {
-						$this->registerCoreProvider(Preview\MSOfficeDoc::class, '/application\/msword/');
-						$this->registerCoreProvider(Preview\MSOffice2003::class, '/application\/vnd.ms-.*/');
-						$this->registerCoreProvider(Preview\MSOffice2007::class, '/application\/vnd.openxmlformats-officedocument.*/');
-						$this->registerCoreProvider(Preview\OpenDocument::class, '/application\/vnd.oasis.opendocument.*/');
-						$this->registerCoreProvider(Preview\StarOffice::class, '/application\/vnd.sun.xml.*/');
-					}
 				}
 			}
 		}
 
+		$this->registerCoreProvidersOffice();
+
 		// Video requires avconv or ffmpeg
 		if (in_array(Preview\Movie::class, $this->getEnabledDefaultProvider())) {
-			$avconvBinary = \OC_Helper::findBinaryPath('avconv');
-			$ffmpegBinary = $avconvBinary ? null : \OC_Helper::findBinaryPath('ffmpeg');
-
-			if ($avconvBinary || $ffmpegBinary) {
-				// FIXME // a bit hacky but didn't want to use subclasses
-				\OC\Preview\Movie::$avconvBinary = $avconvBinary;
-				\OC\Preview\Movie::$ffmpegBinary = $ffmpegBinary;
-
-				$this->registerCoreProvider(Preview\Movie::class, '/video\/.*/');
+			$movieBinary = $this->config->getSystemValue('preview_ffmpeg_path', null);
+			if (!is_string($movieBinary)) {
+				$movieBinary = $this->binaryFinder->findBinaryPath('avconv');
+				if (!is_string($movieBinary)) {
+					$movieBinary = $this->binaryFinder->findBinaryPath('ffmpeg');
+				}
 			}
+
+
+			if (is_string($movieBinary)) {
+				$this->registerCoreProvider(Preview\Movie::class, '/video\/.*/', ["movieBinary" => $movieBinary]);
+			}
+		}
+	}
+
+	private function registerCoreProvidersOffice(): void {
+		$officeProviders = [
+			['mimetype' => '/application\/msword/', 'class' => Preview\MSOfficeDoc::class],
+			['mimetype' => '/application\/vnd.ms-.*/', 'class' => Preview\MSOffice2003::class],
+			['mimetype' => '/application\/vnd.openxmlformats-officedocument.*/', 'class' => Preview\MSOffice2007::class],
+			['mimetype' => '/application\/vnd.oasis.opendocument.*/', 'class' => Preview\OpenDocument::class],
+			['mimetype' => '/application\/vnd.sun.xml.*/', 'class' => Preview\StarOffice::class],
+			['mimetype' => '/image\/emf/', 'class' => Preview\EMF::class],
+		];
+
+		$findBinary = true;
+		$officeBinary = false;
+
+		foreach ($officeProviders as $provider) {
+			$class = $provider['class'];
+			if (!in_array(trim($class, '\\'), $this->getEnabledDefaultProvider())) {
+				continue;
+			}
+
+			if ($findBinary) {
+				// Office requires openoffice or libreoffice
+				$officeBinary = $this->config->getSystemValue('preview_libreoffice_path', false);
+				if ($officeBinary === false) {
+					$officeBinary = $this->binaryFinder->findBinaryPath('libreoffice');
+				}
+				if ($officeBinary === false) {
+					$officeBinary = $this->binaryFinder->findBinaryPath('openoffice');
+				}
+				$findBinary = false;
+			}
+
+			if ($officeBinary) {
+				$this->registerCoreProvider($class, $provider['mimetype'], ['officeBinary' => $officeBinary]);
+			}
+		}
+	}
+
+	private function registerBootstrapProviders(): void {
+		$context = $this->bootstrapCoordinator->getRegistrationContext();
+
+		if ($context === null) {
+			// Just ignore for now
+			return;
+		}
+
+		$providers = $context->getPreviewProviders();
+		foreach ($providers as $provider) {
+			$key = $provider->getMimeTypeRegex() . '-' . $provider->getService();
+			if (array_key_exists($key, $this->loadedBootstrapProviders)) {
+				// Do not load the provider more than once
+				continue;
+			}
+			$this->loadedBootstrapProviders[$key] = null;
+
+			$this->registerProvider($provider->getMimeTypeRegex(), function () use ($provider) {
+				try {
+					return $this->container->get($provider->getService());
+				} catch (QueryException $e) {
+					return null;
+				}
+			});
 		}
 	}
 }

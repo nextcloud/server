@@ -16,24 +16,26 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\SystemTags\AppInfo;
 
+use OCA\Files\Event\LoadAdditionalScriptsEvent;
 use OCA\SystemTags\Activity\Listener;
+use OCA\SystemTags\Capabilities;
+use OCA\SystemTags\Search\TagSearchProvider;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\SystemTag\ManagerEvent;
 use OCP\SystemTag\MapperEvent;
-use Symfony\Component\EventDispatcher\EventDispatcher;
 
 class Application extends App implements IBootstrap {
 	public const APP_ID = 'systemtags';
@@ -43,19 +45,20 @@ class Application extends App implements IBootstrap {
 	}
 
 	public function register(IRegistrationContext $context): void {
+		$context->registerSearchProvider(TagSearchProvider::class);
+		$context->registerCapability(Capabilities::class);
 	}
 
 	public function boot(IBootContext $context): void {
-		$context->injectFn(function (EventDispatcher $dispatcher) use ($context) {
+		$context->injectFn(function (IEventDispatcher $dispatcher) use ($context) {
 			/*
 			 * @todo move the OCP events and then move the registration to `register`
 			 */
 			$dispatcher->addListener(
-				'OCA\Files::loadAdditionalScripts',
+				LoadAdditionalScriptsEvent::class,
 				function () {
-					// FIXME: no public API for these ?
-					\OCP\Util::addScript('dist/systemtags');
-					\OCP\Util::addScript(self::APP_ID, 'systemtags');
+					\OCP\Util::addScript('core', 'systemtags');
+					\OCP\Util::addInitScript(self::APP_ID, 'init');
 				}
 			);
 
@@ -75,17 +78,6 @@ class Application extends App implements IBootstrap {
 			};
 			$dispatcher->addListener(MapperEvent::EVENT_ASSIGN, $mapperListener);
 			$dispatcher->addListener(MapperEvent::EVENT_UNASSIGN, $mapperListener);
-		});
-
-		\OCA\Files\App::getNavigationManager()->add(function () {
-			$l = \OC::$server->getL10N(self::APP_ID);
-			return [
-				'id' => 'systemtagsfilter',
-				'appname' => self::APP_ID,
-				'script' => 'list.php',
-				'order' => 25,
-				'name' => $l->t('Tags'),
-			];
 		});
 	}
 }

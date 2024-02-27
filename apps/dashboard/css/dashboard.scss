@@ -1,12 +1,3 @@
-// Suppress "Skip to navigation of app" link since the app does not have a navigation
-.skip-navigation:not(.skip-content) {
-	display: none;
-}
-// Fix position of "Skip to main content" link since the other link is gone
-.skip-navigation.skip-content {
-	left: 3px;
-}
-
 #header {
 	background: transparent !important;
 	--color-header: rgba(24, 24, 24, 1);
@@ -53,56 +44,4 @@
 #appmenu li:hover a.active::before,
 #appmenu li a:focus::before {
 	display: none !important;
-}
-
-$has-custom-logo: variable_exists('theming-logo-mime') and $theming-logo-mime != '';
-
-body.dashboard--inverted:not(.dashboard--dark) {
-	// Do not invert the default logo
-	@if ($has-custom-logo == false) {
-		$image-logo: url(icon-color-path('logo', 'logo', #ffffff, 1, true));
-		#header .logo {
-			background-image: $image-logo !important;
-			opacity: 1;
-		}
-	}
-
-	#app-dashboard > h2 {
-		color: #fff;
-	}
-	#appmenu li span {
-		color: #fff;
-	}
-	#appmenu svg image {
-		filter: invert(0);
-	}
-	#appmenu .icon-more-white,
-	.header-right > div:not(#settings) > *:first-child {
-		filter: invert(1) hue-rotate(180deg);
-	}
-}
-
-body.dashboard--dark:not(.dashboard--inverted) {
-	// invert the default logo
-	@if ($has-custom-logo == false) {
-		$image-logo: url(icon-color-path('logo', 'logo', #000000, 1, true));
-		#header .logo {
-			background-image: $image-logo !important;
-			opacity: 1;
-		}
-	}
-
-	#app-dashboard > h2 {
-		color: #000;
-	}
-	#appmenu li span {
-		color: #000;
-	}
-	#appmenu svg {
-		filter: invert(1) hue-rotate(180deg) !important;
-	}
-	#appmenu .icon-more-white,
-	.header-right > div:not(#settings) > *:first-child {
-		filter: invert(1) hue-rotate(180deg) !important;
-	}
 }

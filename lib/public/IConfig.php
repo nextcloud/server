@@ -27,20 +27,13 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
-/**
- * Public interface of ownCloud for apps to use.
- * Config interface
- *
- */
-
 // use OCP namespace for all classes that are considered public.
-// This means that they should be used by apps instead of the internal ownCloud classes
+// This means that they should be used by apps instead of the internal Nextcloud classes
 
 namespace OCP;
 
 /**
- * Access to all the configuration options ownCloud offers
+ * Access to all the configuration options Nextcloud offers.
  * @since 6.0.0
  */
 interface IConfig {
@@ -54,6 +47,7 @@ interface IConfig {
 	 *
 	 * @param array $configs Associative array with `key => value` pairs
 	 *                       If value is null, the config key will be deleted
+	 * @throws HintException if config file is read-only
 	 * @since 8.0.0
 	 */
 	public function setSystemValues(array $configs);
@@ -63,6 +57,7 @@ interface IConfig {
 	 *
 	 * @param string $key the key of the value, under which will be saved
 	 * @param mixed $value the value that should be stored
+	 * @throws HintException if config file is read-only
 	 * @since 8.0.0
 	 */
 	public function setSystemValue($key, $value);
@@ -131,6 +126,7 @@ interface IConfig {
 	 * @param string $appName the appName that we stored the value under
 	 * @return string[] the keys stored for the app
 	 * @since 8.0.0
+	 * @deprecated 29.0.0 Use {@see IAppConfig} directly
 	 */
 	public function getAppKeys($appName);
 
@@ -142,6 +138,7 @@ interface IConfig {
 	 * @param string $value the value that should be stored
 	 * @return void
 	 * @since 6.0.0
+	 * @deprecated 29.0.0 Use {@see IAppConfig} directly
 	 */
 	public function setAppValue($appName, $key, $value);
 
@@ -151,8 +148,10 @@ interface IConfig {
 	 * @param string $appName the appName that we stored the value under
 	 * @param string $key the key of the value, under which it was saved
 	 * @param string $default the default value to be returned if the value isn't set
+	 *
 	 * @return string the saved value
 	 * @since 6.0.0 - parameter $default was added in 7.0.0
+	 * @deprecated 29.0.0 Use {@see IAppConfig} directly
 	 */
 	public function getAppValue($appName, $key, $default = '');
 
@@ -162,6 +161,7 @@ interface IConfig {
 	 * @param string $appName the appName that we stored the value under
 	 * @param string $key the key of the value, under which it was saved
 	 * @since 8.0.0
+	 * @deprecated 29.0.0 Use {@see IAppConfig} directly
 	 */
 	public function deleteAppValue($appName, $key);
 
@@ -170,6 +170,7 @@ interface IConfig {
 	 *
 	 * @param string $appName the appName the configs are stored under
 	 * @since 8.0.0
+	 * @deprecated 29.0.0 Use {@see IAppConfig} directly
 	 */
 	public function deleteAppValues($appName);
 
@@ -191,7 +192,7 @@ interface IConfig {
 	/**
 	 * Shortcut for getting a user defined value
 	 *
-	 * @param string $userId the userId of the user that we want to store the value under
+	 * @param ?string $userId the userId of the user that we want to store the value under
 	 * @param string $appName the appName that we stored the value under
 	 * @param string $key the key under which the value is being stored
 	 * @param mixed $default the default value to be returned if the value isn't set
@@ -220,6 +221,19 @@ interface IConfig {
 	 * @since 8.0.0
 	 */
 	public function getUserKeys($userId, $appName);
+
+	/**
+	 * Get all user configs sorted by app of one user
+	 *
+	 * @param string $userId the userId of the user that we want to get all values from
+	 * @psalm-return array<string, array<string, string>>
+	 * @return array[] - 2 dimensional array with the following structure:
+	 *     [ $appId =>
+	 *         [ $key => $value ]
+	 *     ]
+	 * @since 24.0.0
+	 */
+	public function getAllUserValues(string $userId): array;
 
 	/**
 	 * Delete a user value

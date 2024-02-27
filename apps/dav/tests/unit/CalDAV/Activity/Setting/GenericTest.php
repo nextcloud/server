@@ -14,14 +14,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\Tests\unit\CalDAV\Activity\Setting;
 
 use OCA\DAV\CalDAV\Activity\Setting\Calendar;
@@ -43,7 +42,7 @@ class GenericTest extends TestCase {
 	 * @dataProvider dataSettings
 	 * @param string $settingClass
 	 */
-	public function testImplementsInterface($settingClass) {
+	public function testImplementsInterface($settingClass): void {
 		$setting = \OC::$server->query($settingClass);
 		$this->assertInstanceOf(ISetting::class, $setting);
 	}
@@ -52,7 +51,7 @@ class GenericTest extends TestCase {
 	 * @dataProvider dataSettings
 	 * @param string $settingClass
 	 */
-	public function testGetIdentifier($settingClass) {
+	public function testGetIdentifier($settingClass): void {
 		/** @var ISetting $setting */
 		$setting = \OC::$server->query($settingClass);
 		$this->assertIsString($setting->getIdentifier());
@@ -62,7 +61,7 @@ class GenericTest extends TestCase {
 	 * @dataProvider dataSettings
 	 * @param string $settingClass
 	 */
-	public function testGetName($settingClass) {
+	public function testGetName($settingClass): void {
 		/** @var ISetting $setting */
 		$setting = \OC::$server->query($settingClass);
 		$this->assertIsString($setting->getName());
@@ -72,7 +71,7 @@ class GenericTest extends TestCase {
 	 * @dataProvider dataSettings
 	 * @param string $settingClass
 	 */
-	public function testGetPriority($settingClass) {
+	public function testGetPriority($settingClass): void {
 		/** @var ISetting $setting */
 		$setting = \OC::$server->query($settingClass);
 		$priority = $setting->getPriority();
@@ -85,7 +84,7 @@ class GenericTest extends TestCase {
 	 * @dataProvider dataSettings
 	 * @param string $settingClass
 	 */
-	public function testCanChangeStream($settingClass) {
+	public function testCanChangeStream($settingClass): void {
 		/** @var ISetting $setting */
 		$setting = \OC::$server->query($settingClass);
 		$this->assertIsBool($setting->canChangeStream());
@@ -95,7 +94,7 @@ class GenericTest extends TestCase {
 	 * @dataProvider dataSettings
 	 * @param string $settingClass
 	 */
-	public function testIsDefaultEnabledStream($settingClass) {
+	public function testIsDefaultEnabledStream($settingClass): void {
 		/** @var ISetting $setting */
 		$setting = \OC::$server->query($settingClass);
 		$this->assertIsBool($setting->isDefaultEnabledStream());
@@ -105,7 +104,7 @@ class GenericTest extends TestCase {
 	 * @dataProvider dataSettings
 	 * @param string $settingClass
 	 */
-	public function testCanChangeMail($settingClass) {
+	public function testCanChangeMail($settingClass): void {
 		/** @var ISetting $setting */
 		$setting = \OC::$server->query($settingClass);
 		$this->assertIsBool($setting->canChangeMail());
@@ -115,7 +114,7 @@ class GenericTest extends TestCase {
 	 * @dataProvider dataSettings
 	 * @param string $settingClass
 	 */
-	public function testIsDefaultEnabledMail($settingClass) {
+	public function testIsDefaultEnabledMail($settingClass): void {
 		/** @var ISetting $setting */
 		$setting = \OC::$server->query($settingClass);
 		$this->assertIsBool($setting->isDefaultEnabledMail());

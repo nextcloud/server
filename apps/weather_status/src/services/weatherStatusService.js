@@ -3,7 +3,7 @@
  *
  * @author Julien Veyssier <eneiluj@posteo.net>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -19,18 +19,19 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 import HttpClient from '@nextcloud/axios'
 import { generateOcsUrl } from '@nextcloud/router'
 
 /**
  *
  *
- * @param {String} lat the latitude
- * @param {String} lon the longitude
- * @returns {Promise<Object>}
+ * @param {string} lat the latitude
+ * @param {string} lon the longitude
+ * @return {Promise<object>}
  */
-const setLocation = async(lat, lon) => {
-	const url = generateOcsUrl('apps/weather_status/api/v1', 2) + 'location'
+const setLocation = async (lat, lon) => {
+	const url = generateOcsUrl('apps/weather_status/api/v1/location')
 	const response = await HttpClient.put(url, {
 		address: '',
 		lat,
@@ -42,11 +43,11 @@ const setLocation = async(lat, lon) => {
 
 /**
  *
- * @param {String} address The location
- * @returns {Promise<Object>}
+ * @param {string} address The location
+ * @return {Promise<object>}
  */
-const setAddress = async(address) => {
-	const url = generateOcsUrl('apps/weather_status/api/v1', 2) + 'location'
+const setAddress = async (address) => {
+	const url = generateOcsUrl('apps/weather_status/api/v1/location')
 	const response = await HttpClient.put(url, {
 		address,
 		lat: null,
@@ -58,11 +59,11 @@ const setAddress = async(address) => {
 
 /**
  *
- * @param {String} mode can be 1 browser or 2 custom
- * @returns {Promise<Object>}
+ * @param {string} mode can be 1 browser or 2 custom
+ * @return {Promise<object>}
  */
-const setMode = async(mode) => {
-	const url = generateOcsUrl('apps/weather_status/api/v1', 2) + 'mode'
+const setMode = async (mode) => {
+	const url = generateOcsUrl('apps/weather_status/api/v1/mode')
 	const response = await HttpClient.put(url, {
 		mode,
 	})
@@ -72,10 +73,10 @@ const setMode = async(mode) => {
 
 /**
  *
- * @returns {Promise<Object>}
+ * @return {Promise<object>}
  */
-const usePersonalAddress = async() => {
-	const url = generateOcsUrl('apps/weather_status/api/v1', 2) + 'use-personal'
+const usePersonalAddress = async () => {
+	const url = generateOcsUrl('apps/weather_status/api/v1/use-personal')
 	const response = await HttpClient.put(url)
 
 	return response.data.ocs.data
@@ -84,10 +85,10 @@ const usePersonalAddress = async() => {
 /**
  * Fetches the location information for current user
  *
- * @returns {Promise<Object>}
+ * @return {Promise<object>}
  */
-const getLocation = async() => {
-	const url = generateOcsUrl('apps/weather_status/api/v1', 2) + 'location'
+const getLocation = async () => {
+	const url = generateOcsUrl('apps/weather_status/api/v1/location')
 	const response = await HttpClient.get(url)
 
 	return response.data.ocs.data
@@ -96,11 +97,10 @@ const getLocation = async() => {
 /**
  * Fetches the weather forecast
  *
- * @param {String} address The location
- * @returns {Promise<Object>}
+ * @return {Promise<object>}
  */
-const fetchForecast = async() => {
-	const url = generateOcsUrl('apps/weather_status/api/v1', 2) + 'forecast'
+const fetchForecast = async () => {
+	const url = generateOcsUrl('apps/weather_status/api/v1/forecast')
 	const response = await HttpClient.get(url)
 
 	return response.data.ocs.data
@@ -109,11 +109,10 @@ const fetchForecast = async() => {
 /**
  * Fetches the location favorites
  *
- * @param {String} address The location
- * @returns {Promise<Object>}
+ * @return {Promise<object>}
  */
-const getFavorites = async() => {
-	const url = generateOcsUrl('apps/weather_status/api/v1', 2) + 'favorites'
+const getFavorites = async () => {
+	const url = generateOcsUrl('apps/weather_status/api/v1/favorites')
 	const response = await HttpClient.get(url)
 
 	return response.data.ocs.data
@@ -122,10 +121,10 @@ const getFavorites = async() => {
 /**
  *
  * @param {Array} favorites List of favorite addresses
- * @returns {Promise<Object>}
+ * @return {Promise<object>}
  */
-const saveFavorites = async(favorites) => {
-	const url = generateOcsUrl('apps/weather_status/api/v1', 2) + 'favorites'
+const saveFavorites = async (favorites) => {
+	const url = generateOcsUrl('apps/weather_status/api/v1/favorites')
 	const response = await HttpClient.put(url, {
 		favorites,
 	})

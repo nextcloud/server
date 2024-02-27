@@ -15,14 +15,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Comments\Search;
 
 use OCP\Comments\IComment;
@@ -48,7 +47,7 @@ class Result extends BaseResult {
 	/**
 	 * @deprecated 20.0.0
 	 */
-	public $authorName;
+	public string $authorName;
 	/**
 	 * @deprecated 20.0.0
 	 */
@@ -59,21 +58,19 @@ class Result extends BaseResult {
 	public $fileName;
 
 	/**
-	 * @param string $search
-	 * @param IComment $comment
-	 * @param string $authorName
-	 * @param string $path
 	 * @throws NotFoundException
 	 * @deprecated 20.0.0
 	 */
-	public function __construct(string $search,
-								IComment $comment,
-								string $authorName,
-								string $path) {
+	public function __construct(
+		string $search,
+		IComment $comment,
+		string $authorName,
+		string $path,
+	) {
 		parent::__construct(
-			(int) $comment->getId(),
+			$comment->getId(),
 			$comment->getMessage()
-		/* @todo , [link to file] */
+			/* @todo , [link to file] */
 		);
 
 		$this->comment = $this->getRelevantMessagePart($comment->getMessage(), $search);
@@ -84,8 +81,6 @@ class Result extends BaseResult {
 	}
 
 	/**
-	 * @param string $path
-	 * @return string
 	 * @throws NotFoundException
 	 */
 	protected function getVisiblePath(string $path): string {
@@ -99,9 +94,6 @@ class Result extends BaseResult {
 	}
 
 	/**
-	 * @param string $message
-	 * @param string $search
-	 * @return string
 	 * @throws NotFoundException
 	 */
 	protected function getRelevantMessagePart(string $message, string $search): string {

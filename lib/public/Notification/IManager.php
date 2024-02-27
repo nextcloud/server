@@ -23,7 +23,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP\Notification;
 
 /**
@@ -53,6 +52,7 @@ interface IManager extends IApp, INotifier {
 	 * @param string $notifierService The service must implement INotifier, otherwise a
 	 *                          \InvalidArgumentException is thrown later
 	 * @since 17.0.0
+	 * @deprecated 22.0.0 use the IBootStrap registration context
 	 */
 	public function registerNotifierService(string $notifierService): void;
 
@@ -107,4 +107,15 @@ interface IManager extends IApp, INotifier {
 	 * @since 20.0.0
 	 */
 	public function flush(): void;
+
+	/**
+	 * Whether the server can use the hosted push notification service
+	 *
+	 * We want to keep offering our push notification service for free, but large
+	 * users overload our infrastructure. For this reason we have to rate-limit the
+	 * use of push notifications. If you need this feature, consider using Nextcloud Enterprise.
+	 *
+	 * @since 23.0.0
+	 */
+	public function isFairUseOfFreePushService(): bool;
 }

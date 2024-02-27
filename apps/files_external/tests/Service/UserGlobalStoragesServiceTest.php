@@ -25,13 +25,13 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_External\Tests\Service;
 
 use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\NotFoundException;
 use OCA\Files_External\Service\StoragesService;
 use OCA\Files_External\Service\UserGlobalStoragesService;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserSession;
@@ -67,7 +67,7 @@ class UserGlobalStoragesServiceTest extends GlobalStoragesServiceTest {
 
 		$this->globalStoragesService = $this->service;
 
-		$this->user = new \OC\User\User(self::USER_ID, null, \OC::$server->getEventDispatcher());
+		$this->user = new \OC\User\User(self::USER_ID, null, \OC::$server->get(IEventDispatcher::class));
 		/** @var \OCP\IUserSession|\PHPUnit\Framework\MockObject\MockObject $userSession */
 		$userSession = $this->createMock(IUserSession::class);
 		$userSession
@@ -101,7 +101,8 @@ class UserGlobalStoragesServiceTest extends GlobalStoragesServiceTest {
 			$this->dbConfig,
 			$userSession,
 			$this->groupManager,
-			$this->mountCache
+			$this->mountCache,
+			$this->eventDispatcher,
 		);
 	}
 
@@ -204,7 +205,7 @@ class UserGlobalStoragesServiceTest extends GlobalStoragesServiceTest {
 	/**
 	 * @dataProvider deleteStorageDataProvider
 	 */
-	public function testDeleteStorage($backendOptions, $rustyStorageId, $expectedCountAfterDeletion) {
+	public function testDeleteStorage($backendOptions, $rustyStorageId) {
 		$this->expectException(\DomainException::class);
 
 		$backend = $this->backendService->getBackend('identifier:\OCA\Files_External\Lib\Backend\SMB');

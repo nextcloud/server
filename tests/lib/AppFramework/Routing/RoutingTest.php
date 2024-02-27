@@ -6,9 +6,13 @@ use OC\AppFramework\DependencyInjection\DIContainer;
 use OC\AppFramework\Routing\RouteConfig;
 use OC\Route\Route;
 use OC\Route\Router;
-use OCP\ILogger;
+use OCP\Diagnostics\IEventLogger;
+use OCP\IConfig;
+use OCP\IRequest;
 use OCP\Route\IRouter;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Container\ContainerInterface;
+use Psr\Log\LoggerInterface;
 
 class RoutingTest extends \Test\TestCase {
 	public function testSimpleRoute() {
@@ -133,7 +137,13 @@ class RoutingTest extends \Test\TestCase {
 		/** @var IRouter|MockObject $router */
 		$router = $this->getMockBuilder(Router::class)
 			->onlyMethods(['create'])
-			->setConstructorArgs([$this->createMock(ILogger::class)])
+			->setConstructorArgs([
+				$this->createMock(LoggerInterface::class),
+				$this->createMock(IRequest::class),
+				$this->createMock(IConfig::class),
+				$this->createMock(IEventLogger::class),
+				$this->createMock(ContainerInterface::class)
+			])
 			->getMock();
 
 		// load route configuration
@@ -154,7 +164,13 @@ class RoutingTest extends \Test\TestCase {
 		/** @var IRouter|MockObject $router */
 		$router = $this->getMockBuilder(Router::class)
 			->onlyMethods(['create'])
-			->setConstructorArgs([$this->createMock(ILogger::class)])
+			->setConstructorArgs([
+				$this->createMock(LoggerInterface::class),
+				$this->createMock(IRequest::class),
+				$this->createMock(IConfig::class),
+				$this->createMock(IEventLogger::class),
+				$this->createMock(ContainerInterface::class)
+			])
 			->getMock();
 
 		// load route configuration
@@ -214,7 +230,13 @@ class RoutingTest extends \Test\TestCase {
 		/** @var IRouter|MockObject $router */
 		$router = $this->getMockBuilder(Router::class)
 			->onlyMethods(['create'])
-			->setConstructorArgs([$this->createMock(ILogger::class)])
+			->setConstructorArgs([
+				$this->createMock(LoggerInterface::class),
+				$this->createMock(IRequest::class),
+				$this->createMock(IConfig::class),
+				$this->createMock(IEventLogger::class),
+				$this->createMock(ContainerInterface::class)
+			])
 			->getMock();
 
 		// we expect create to be called once:
@@ -245,14 +267,14 @@ class RoutingTest extends \Test\TestCase {
 	 * @param string $postfix
 	 */
 	private function assertSimpleOCSRoute($routes,
-										  $name,
-										  $verb,
-										  $url,
-										  $controllerName,
-										  $actionName,
-										  array $requirements = [],
-										  array $defaults = [],
-										  $postfix = '') {
+		$name,
+		$verb,
+		$url,
+		$controllerName,
+		$actionName,
+		array $requirements = [],
+		array $defaults = [],
+		$postfix = '') {
 		if ($postfix) {
 			$name .= $postfix;
 		}
@@ -264,7 +286,13 @@ class RoutingTest extends \Test\TestCase {
 		/** @var IRouter|MockObject $router */
 		$router = $this->getMockBuilder(Router::class)
 			->onlyMethods(['create'])
-			->setConstructorArgs([$this->createMock(ILogger::class)])
+			->setConstructorArgs([
+				$this->createMock(LoggerInterface::class),
+				$this->createMock(IRequest::class),
+				$this->createMock(IConfig::class),
+				$this->createMock(IEventLogger::class),
+				$this->createMock(ContainerInterface::class)
+			])
 			->getMock();
 
 		// we expect create to be called once:
@@ -291,7 +319,13 @@ class RoutingTest extends \Test\TestCase {
 		/** @var IRouter|MockObject $router */
 		$router = $this->getMockBuilder(Router::class)
 			->onlyMethods(['create'])
-			->setConstructorArgs([$this->createMock(ILogger::class)])
+			->setConstructorArgs([
+				$this->createMock(LoggerInterface::class),
+				$this->createMock(IRequest::class),
+				$this->createMock(IConfig::class),
+				$this->createMock(IEventLogger::class),
+				$this->createMock(ContainerInterface::class)
+			])
 			->getMock();
 
 		// route mocks
@@ -304,36 +338,23 @@ class RoutingTest extends \Test\TestCase {
 
 		$urlWithParam = $url . '/{' . $paramName . '}';
 
-		// we expect create to be called once:
+		// we expect create to be called five times:
 		$router
-			->expects($this->at(0))
+			->expects($this->exactly(5))
 			->method('create')
-			->with($this->equalTo('ocs.app1.' . $resourceName . '.index'), $this->equalTo($url))
-			->willReturn($indexRoute);
-
-		$router
-			->expects($this->at(1))
-			->method('create')
-			->with($this->equalTo('ocs.app1.' . $resourceName . '.show'), $this->equalTo($urlWithParam))
-			->willReturn($showRoute);
-
-		$router
-			->expects($this->at(2))
-			->method('create')
-			->with($this->equalTo('ocs.app1.' . $resourceName . '.create'), $this->equalTo($url))
-			->willReturn($createRoute);
-
-		$router
-			->expects($this->at(3))
-			->method('create')
-			->with($this->equalTo('ocs.app1.' . $resourceName . '.update'), $this->equalTo($urlWithParam))
-			->willReturn($updateRoute);
-
-		$router
-			->expects($this->at(4))
-			->method('create')
-			->with($this->equalTo('ocs.app1.' . $resourceName . '.destroy'), $this->equalTo($urlWithParam))
-			->willReturn($destroyRoute);
+			->withConsecutive(
+				[$this->equalTo('ocs.app1.' . $resourceName . '.index'), $this->equalTo($url)],
+				[$this->equalTo('ocs.app1.' . $resourceName . '.show'), $this->equalTo($urlWithParam)],
+				[$this->equalTo('ocs.app1.' . $resourceName . '.create'), $this->equalTo($url)],
+				[$this->equalTo('ocs.app1.' . $resourceName . '.update'), $this->equalTo($urlWithParam)],
+				[$this->equalTo('ocs.app1.' . $resourceName . '.destroy'), $this->equalTo($urlWithParam)],
+			)->willReturnOnConsecutiveCalls(
+				$indexRoute,
+				$showRoute,
+				$createRoute,
+				$updateRoute,
+				$destroyRoute,
+			);
 
 		// load route configuration
 		$config = new RouteConfig($container, $router, $yaml);
@@ -351,7 +372,13 @@ class RoutingTest extends \Test\TestCase {
 		/** @var IRouter|MockObject $router */
 		$router = $this->getMockBuilder(Router::class)
 			->onlyMethods(['create'])
-			->setConstructorArgs([$this->createMock(ILogger::class)])
+			->setConstructorArgs([
+				$this->createMock(LoggerInterface::class),
+				$this->createMock(IRequest::class),
+				$this->createMock(IConfig::class),
+				$this->createMock(IEventLogger::class),
+				$this->createMock(ContainerInterface::class)
+			])
 			->getMock();
 
 		// route mocks
@@ -364,36 +391,23 @@ class RoutingTest extends \Test\TestCase {
 
 		$urlWithParam = $url . '/{' . $paramName . '}';
 
-		// we expect create to be called once:
+		// we expect create to be called five times:
 		$router
-			->expects($this->at(0))
+			->expects($this->exactly(5))
 			->method('create')
-			->with($this->equalTo('app1.' . $resourceName . '.index'), $this->equalTo($url))
-			->willReturn($indexRoute);
-
-		$router
-			->expects($this->at(1))
-			->method('create')
-			->with($this->equalTo('app1.' . $resourceName . '.show'), $this->equalTo($urlWithParam))
-			->willReturn($showRoute);
-
-		$router
-			->expects($this->at(2))
-			->method('create')
-			->with($this->equalTo('app1.' . $resourceName . '.create'), $this->equalTo($url))
-			->willReturn($createRoute);
-
-		$router
-			->expects($this->at(3))
-			->method('create')
-			->with($this->equalTo('app1.' . $resourceName . '.update'), $this->equalTo($urlWithParam))
-			->willReturn($updateRoute);
-
-		$router
-			->expects($this->at(4))
-			->method('create')
-			->with($this->equalTo('app1.' . $resourceName . '.destroy'), $this->equalTo($urlWithParam))
-			->willReturn($destroyRoute);
+			->withConsecutive(
+				[$this->equalTo('app1.' . $resourceName . '.index'), $this->equalTo($url)],
+				[$this->equalTo('app1.' . $resourceName . '.show'), $this->equalTo($urlWithParam)],
+				[$this->equalTo('app1.' . $resourceName . '.create'), $this->equalTo($url)],
+				[$this->equalTo('app1.' . $resourceName . '.update'), $this->equalTo($urlWithParam)],
+				[$this->equalTo('app1.' . $resourceName . '.destroy'), $this->equalTo($urlWithParam)],
+			)->willReturnOnConsecutiveCalls(
+				$indexRoute,
+				$showRoute,
+				$createRoute,
+				$updateRoute,
+				$destroyRoute,
+			);
 
 		// load route configuration
 		$config = new RouteConfig($container, $router, $yaml);

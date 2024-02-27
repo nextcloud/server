@@ -35,59 +35,32 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
-/**
- * Class for abstraction of filesystem functions
- * This class won't call any filesystem functions for itself but will pass them to the correct OC_Filestorage object
- * this class should also handle all the file permission related stuff
- *
- * Hooks provided:
- *   read(path)
- *   write(path, &run)
- *   post_write(path)
- *   create(path, &run) (when a file is created, both create and write will be emitted in that order)
- *   post_create(path)
- *   delete(path, &run)
- *   post_delete(path)
- *   rename(oldpath,newpath, &run)
- *   post_rename(oldpath,newpath)
- *   copy(oldpath,newpath, &run) (if the newpath doesn't exists yes, copy, create and write will be emitted in that order)
- *   post_rename(oldpath,newpath)
- *   post_initMountPoints(user, user_dir)
- *
- *   the &run parameter can be set to false to prevent the operation from occurring
- */
-
 namespace OC\Files;
 
-use OC\Cache\CappedMemoryCache;
-use OC\Files\Config\MountProviderCollection;
 use OC\Files\Mount\MountPoint;
-use OC\Lockdown\Filesystem\NullStorage;
-use OCP\Files\Config\IMountProvider;
+use OC\User\NoUserException;
+use OCP\Cache\CappedMemoryCache;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\Events\Node\FilesystemTornDownEvent;
+use OCP\Files\Mount\IMountManager;
 use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IStorageFactory;
-use OCP\ILogger;
+use OCP\IUser;
 use OCP\IUserManager;
+use OCP\IUserSession;
+use Psr\Log\LoggerInterface;
 
 class Filesystem {
+	private static ?Mount\Manager $mounts = null;
 
-	/**
-	 * @var Mount\Manager $mounts
-	 */
-	private static $mounts;
+	public static bool $loaded = false;
 
-	public static $loaded = false;
-	/**
-	 * @var \OC\Files\View $defaultInstance
-	 */
-	private static $defaultInstance;
+	private static ?View $defaultInstance = null;
 
-	private static $usersSetup = [];
+	private static ?CappedMemoryCache $normalizedPathCache = null;
 
-	private static $normalizedPathCache = null;
-
-	private static $listeningForProviders = false;
+	/** @var string[]|null */
+	private static ?array $blacklist = null;
 
 	/**
 	 * classname which used for hooks handling
@@ -206,22 +179,18 @@ class Filesystem {
 	public const signal_param_mount_type = 'mounttype';
 	public const signal_param_users = 'users';
 
-	/**
-	 * @var \OC\Files\Storage\StorageFactory $loader
-	 */
-	private static $loader;
+	private static ?\OC\Files\Storage\StorageFactory $loader = null;
 
-	/** @var bool */
-	private static $logWarningWhenAddingStorageWrapper = true;
+	private static bool $logWarningWhenAddingStorageWrapper = true;
 
 	/**
 	 * @param bool $shouldLog
 	 * @return bool previous value
 	 * @internal
 	 */
-	public static function logWarningWhenAddingStorageWrapper($shouldLog) {
+	public static function logWarningWhenAddingStorageWrapper(bool $shouldLog): bool {
 		$previousValue = self::$logWarningWhenAddingStorageWrapper;
-		self::$logWarningWhenAddingStorageWrapper = (bool) $shouldLog;
+		self::$logWarningWhenAddingStorageWrapper = $shouldLog;
 		return $previousValue;
 	}
 
@@ -232,7 +201,7 @@ class Filesystem {
 	 */
 	public static function addStorageWrapper($wrapperName, $wrapper, $priority = 50) {
 		if (self::$logWarningWhenAddingStorageWrapper) {
-			\OC::$server->getLogger()->warning("Storage wrapper '{wrapper}' was not registered via the 'OC_Filesystem - preSetup' hook which could cause potential problems.", [
+			\OCP\Server::get(LoggerInterface::class)->warning("Storage wrapper '{wrapper}' was not registered via the 'OC_Filesystem - preSetup' hook which could cause potential problems.", [
 				'wrapper' => $wrapperName,
 				'app' => 'filesystem',
 			]);
@@ -252,20 +221,17 @@ class Filesystem {
 	 */
 	public static function getLoader() {
 		if (!self::$loader) {
-			self::$loader = \OC::$server->query(IStorageFactory::class);
+			self::$loader = \OC::$server->get(IStorageFactory::class);
 		}
 		return self::$loader;
 	}
 
 	/**
 	 * Returns the mount manager
-	 *
-	 * @return \OC\Files\Mount\Manager
 	 */
-	public static function getMountManager($user = '') {
-		if (!self::$mounts) {
-			\OC_Util::setupFS($user);
-		}
+	public static function getMountManager(): Mount\Manager {
+		self::initMountManager();
+		assert(self::$mounts !== null);
 		return self::$mounts;
 	}
 
@@ -283,11 +249,7 @@ class Filesystem {
 			\OC_Util::setupFS();
 		}
 		$mount = self::$mounts->find($path);
-		if ($mount) {
-			return $mount->getMountPoint();
-		} else {
-			return '';
-		}
+		return $mount->getMountPoint();
 	}
 
 	/**
@@ -312,13 +274,10 @@ class Filesystem {
 	 * get the storage mounted at $mountPoint
 	 *
 	 * @param string $mountPoint
-	 * @return \OC\Files\Storage\Storage
+	 * @return \OC\Files\Storage\Storage|null
 	 */
 	public static function getStorage($mountPoint) {
-		if (!self::$mounts) {
-			\OC_Util::setupFS();
-		}
-		$mount = self::$mounts->find($mountPoint);
+		$mount = self::getMountManager()->find($mountPoint);
 		return $mount->getStorage();
 	}
 
@@ -327,10 +286,7 @@ class Filesystem {
 	 * @return Mount\MountPoint[]
 	 */
 	public static function getMountByStorageId($id) {
-		if (!self::$mounts) {
-			\OC_Util::setupFS();
-		}
-		return self::$mounts->findByStorageId($id);
+		return self::getMountManager()->findByStorageId($id);
 	}
 
 	/**
@@ -338,163 +294,90 @@ class Filesystem {
 	 * @return Mount\MountPoint[]
 	 */
 	public static function getMountByNumericId($id) {
-		if (!self::$mounts) {
-			\OC_Util::setupFS();
-		}
-		return self::$mounts->findByNumericId($id);
+		return self::getMountManager()->findByNumericId($id);
 	}
 
 	/**
 	 * resolve a path to a storage and internal path
 	 *
 	 * @param string $path
-	 * @return array an array consisting of the storage and the internal path
+	 * @return array{?\OCP\Files\Storage\IStorage, string} an array consisting of the storage and the internal path
 	 */
-	public static function resolvePath($path) {
-		if (!self::$mounts) {
-			\OC_Util::setupFS();
-		}
-		$mount = self::$mounts->find($path);
-		if ($mount) {
-			return [$mount->getStorage(), rtrim($mount->getInternalPath($path), '/')];
-		} else {
-			return [null, null];
-		}
+	public static function resolvePath($path): array {
+		$mount = self::getMountManager()->find($path);
+		return [$mount->getStorage(), rtrim($mount->getInternalPath($path), '/')];
 	}
 
-	public static function init($user, $root) {
+	public static function init(string|IUser|null $user, string $root): bool {
+		if (self::$defaultInstance) {
+			return false;
+		}
+		self::initInternal($root);
+
+		//load custom mount config
+		self::initMountPoints($user);
+
+		return true;
+	}
+
+	public static function initInternal(string $root): bool {
 		if (self::$defaultInstance) {
 			return false;
 		}
 		self::getLoader();
 		self::$defaultInstance = new View($root);
+		/** @var IEventDispatcher $eventDispatcher */
+		$eventDispatcher = \OC::$server->get(IEventDispatcher::class);
+		$eventDispatcher->addListener(FilesystemTornDownEvent::class, function () {
+			self::$defaultInstance = null;
+			self::$loaded = false;
+		});
 
-		if (!self::$mounts) {
-			self::$mounts = \OC::$server->getMountManager();
-		}
-
-		//load custom mount config
-		self::initMountPoints($user);
+		self::initMountManager();
 
 		self::$loaded = true;
 
 		return true;
 	}
 
-	public static function initMountManager() {
+	public static function initMountManager(): void {
 		if (!self::$mounts) {
-			self::$mounts = \OC::$server->getMountManager();
+			self::$mounts = \OC::$server->get(IMountManager::class);
 		}
 	}
 
 	/**
 	 * Initialize system and personal mount points for a user
 	 *
-	 * @param string $user
 	 * @throws \OC\User\NoUserException if the user is not available
 	 */
-	public static function initMountPoints($user = '') {
-		if ($user == '') {
-			$user = \OC_User::getUser();
-		}
-		if ($user === null || $user === false || $user === '') {
-			throw new \OC\User\NoUserException('Attempted to initialize mount points for null user and no user in session');
-		}
+	public static function initMountPoints(string|IUser|null $user = ''): void {
+		/** @var IUserManager $userManager */
+		$userManager = \OC::$server->get(IUserManager::class);
 
-		if (isset(self::$usersSetup[$user])) {
-			return;
-		}
-
-		self::$usersSetup[$user] = true;
-
-		$userManager = \OC::$server->getUserManager();
-		$userObject = $userManager->get($user);
-
-		if (is_null($userObject)) {
-			\OCP\Util::writeLog('files', ' Backends provided no user object for ' . $user, ILogger::ERROR);
-			// reset flag, this will make it possible to rethrow the exception if called again
-			unset(self::$usersSetup[$user]);
-			throw new \OC\User\NoUserException('Backends provided no user object for ' . $user);
-		}
-
-		$realUid = $userObject->getUID();
-		// workaround in case of different casings
-		if ($user !== $realUid) {
-			$stack = json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 50));
-			\OCP\Util::writeLog('files', 'initMountPoints() called with wrong user casing. This could be a bug. Expected: "' . $realUid . '" got "' . $user . '". Stack: ' . $stack, ILogger::WARN);
-			$user = $realUid;
-
-			// again with the correct casing
-			if (isset(self::$usersSetup[$user])) {
-				return;
-			}
-
-			self::$usersSetup[$user] = true;
-		}
-
-		if (\OC::$server->getLockdownManager()->canAccessFilesystem()) {
-			/** @var \OC\Files\Config\MountProviderCollection $mountConfigManager */
-			$mountConfigManager = \OC::$server->getMountProviderCollection();
-
-			// home mounts are handled seperate since we need to ensure this is mounted before we call the other mount providers
-			$homeMount = $mountConfigManager->getHomeMountForUser($userObject);
-			self::getMountManager()->addMount($homeMount);
-
-			if ($homeMount->getStorageRootId() === -1) {
-				$homeMount->getStorage()->mkdir('');
-				$homeMount->getStorage()->getScanner()->scan('');
-			}
-
-			\OC\Files\Filesystem::getStorage($user);
-
-			// Chance to mount for other storages
-			if ($userObject) {
-				$mounts = $mountConfigManager->addMountForUser($userObject, self::getMountManager());
-				$mounts[] = $homeMount;
-				$mountConfigManager->registerMounts($userObject, $mounts);
-			}
-
-			self::listenForNewMountProviders($mountConfigManager, $userManager);
+		$userObject = ($user instanceof IUser) ? $user : $userManager->get($user);
+		if ($userObject) {
+			/** @var SetupManager $setupManager */
+			$setupManager = \OC::$server->get(SetupManager::class);
+			$setupManager->setupForUser($userObject);
 		} else {
-			self::getMountManager()->addMount(new MountPoint(
-				new NullStorage([]),
-				'/' . $user
-			));
-			self::getMountManager()->addMount(new MountPoint(
-				new NullStorage([]),
-				'/' . $user . '/files'
-			));
-		}
-		\OC_Hook::emit('OC_Filesystem', 'post_initMountPoints', ['user' => $user]);
-	}
-
-	/**
-	 * Get mounts from mount providers that are registered after setup
-	 *
-	 * @param MountProviderCollection $mountConfigManager
-	 * @param IUserManager $userManager
-	 */
-	private static function listenForNewMountProviders(MountProviderCollection $mountConfigManager, IUserManager $userManager) {
-		if (!self::$listeningForProviders) {
-			self::$listeningForProviders = true;
-			$mountConfigManager->listen('\OC\Files\Config', 'registerMountProvider', function (IMountProvider $provider) use ($userManager) {
-				foreach (Filesystem::$usersSetup as $user => $setup) {
-					$userObject = $userManager->get($user);
-					if ($userObject) {
-						$mounts = $provider->getMountsForUser($userObject, Filesystem::getLoader());
-						array_walk($mounts, [self::$mounts, 'addMount']);
-					}
-				}
-			});
+			throw new NoUserException();
 		}
 	}
 
 	/**
-	 * get the default filesystem view
-	 *
-	 * @return View
+	 * Get the default filesystem view
 	 */
-	public static function getView() {
+	public static function getView(): ?View {
+		if (!self::$defaultInstance) {
+			/** @var IUserSession $session */
+			$session = \OC::$server->get(IUserSession::class);
+			$user = $session->getUser();
+			if ($user) {
+				$userDir = '/' . $user->getUID() . '/files';
+				self::initInternal($userDir);
+			}
+		}
 		return self::$defaultInstance;
 	}
 
@@ -502,14 +385,13 @@ class Filesystem {
 	 * tear down the filesystem, removing all storage providers
 	 */
 	public static function tearDown() {
-		self::clearMounts();
-		self::$defaultInstance = null;
+		\OC_Util::tearDownFS();
 	}
 
 	/**
 	 * get the relative path of the root data directory for the current user
 	 *
-	 * @return string
+	 * @return ?string
 	 *
 	 * Returns path like /admin/files
 	 */
@@ -518,16 +400,6 @@ class Filesystem {
 			return null;
 		}
 		return self::$defaultInstance->getRoot();
-	}
-
-	/**
-	 * clear all mounts and storage backends
-	 */
-	public static function clearMounts() {
-		if (self::$mounts) {
-			self::$usersSetup = [];
-			self::$mounts->clear();
-		}
 	}
 
 	/**
@@ -549,20 +421,9 @@ class Filesystem {
 	 * return the path to a local version of the file
 	 * we need this because we can't know if a file is stored local or not from
 	 * outside the filestorage and for some purposes a local file is needed
-	 *
-	 * @param string $path
-	 * @return string
 	 */
-	public static function getLocalFile($path) {
+	public static function getLocalFile(string $path): string|false {
 		return self::$defaultInstance->getLocalFile($path);
-	}
-
-	/**
-	 * @param string $path
-	 * @return string
-	 */
-	public static function getLocalFolder($path) {
-		return self::$defaultInstance->getLocalFolder($path);
 	}
 
 	/**
@@ -591,29 +452,10 @@ class Filesystem {
 		if (!$path || $path[0] !== '/') {
 			$path = '/' . $path;
 		}
-		if (strpos($path, '/../') !== false || strrchr($path, '/') === '/..') {
+		if (str_contains($path, '/../') || strrchr($path, '/') === '/..') {
 			return false;
 		}
 		return true;
-	}
-
-	/**
-	 * checks if a file is blacklisted for storage in the filesystem
-	 * Listens to write and rename hooks
-	 *
-	 * @param array $data from hook
-	 */
-	public static function isBlacklisted($data) {
-		if (isset($data['path'])) {
-			$path = $data['path'];
-		} elseif (isset($data['newpath'])) {
-			$path = $data['newpath'];
-		}
-		if (isset($path)) {
-			if (self::isFileBlacklisted($path)) {
-				$data['run'] = false;
-			}
-		}
 	}
 
 	/**
@@ -623,9 +465,12 @@ class Filesystem {
 	public static function isFileBlacklisted($filename) {
 		$filename = self::normalizePath($filename);
 
-		$blacklist = \OC::$server->getConfig()->getSystemValue('blacklisted_files', ['.htaccess']);
+		if (self::$blacklist === null) {
+			self::$blacklist = \OC::$server->getConfig()->getSystemValue('blacklisted_files', ['.htaccess']);
+		}
+
 		$filename = strtolower(basename($filename));
-		return in_array($filename, $blacklist);
+		return in_array($filename, self::$blacklist);
 	}
 
 	/**
@@ -710,7 +555,7 @@ class Filesystem {
 	}
 
 	/**
-	 * @return string
+	 * @return string|false
 	 */
 	public static function file_get_contents($path) {
 		return self::$defaultInstance->file_get_contents($path);
@@ -724,12 +569,12 @@ class Filesystem {
 		return self::$defaultInstance->unlink($path);
 	}
 
-	public static function rename($path1, $path2) {
-		return self::$defaultInstance->rename($path1, $path2);
+	public static function rename($source, $target) {
+		return self::$defaultInstance->rename($source, $target);
 	}
 
-	public static function copy($path1, $path2) {
-		return self::$defaultInstance->copy($path1, $path2);
+	public static function copy($source, $target) {
+		return self::$defaultInstance->copy($source, $target);
 	}
 
 	public static function fopen($path, $mode) {
@@ -737,9 +582,10 @@ class Filesystem {
 	}
 
 	/**
-	 * @return string
+	 * @param string $path
+	 * @throws \OCP\Files\InvalidPathException
 	 */
-	public static function toTmpFile($path) {
+	public static function toTmpFile($path): string|false {
 		return self::$defaultInstance->toTmpFile($path);
 	}
 
@@ -797,13 +643,10 @@ class Filesystem {
 	 * @param bool $stripTrailingSlash whether to strip the trailing slash
 	 * @param bool $isAbsolutePath whether the given path is absolute
 	 * @param bool $keepUnicode true to disable unicode normalization
+	 * @psalm-taint-escape file
 	 * @return string
 	 */
 	public static function normalizePath($path, $stripTrailingSlash = true, $isAbsolutePath = false, $keepUnicode = false) {
-		if (is_null(self::$normalizedPathCache)) {
-			self::$normalizedPathCache = new CappedMemoryCache(2048);
-		}
-
 		/**
 		 * FIXME: This is a workaround for existing classes and files which call
 		 *        this function with another type than a valid string. This
@@ -812,14 +655,18 @@ class Filesystem {
 		 */
 		$path = (string)$path;
 
+		if ($path === '') {
+			return '/';
+		}
+
+		if (is_null(self::$normalizedPathCache)) {
+			self::$normalizedPathCache = new CappedMemoryCache(2048);
+		}
+
 		$cacheKey = json_encode([$path, $stripTrailingSlash, $isAbsolutePath, $keepUnicode]);
 
 		if ($cacheKey && isset(self::$normalizedPathCache[$cacheKey])) {
 			return self::$normalizedPathCache[$cacheKey];
-		}
-
-		if ($path === '') {
-			return '/';
 		}
 
 		//normalize unicode if possible
@@ -831,10 +678,10 @@ class Filesystem {
 		$path = '/' . $path;
 
 		$patterns = [
-			'/\\\\/s',          // no windows style slashes
-			'/\/\.(\/\.)?\//s', // remove '/./'
-			'/\/{2,}/s',        // remove sequence of slashes
-			'/\/\.$/s',         // remove trailing /.
+			'#\\\\#s',       // no windows style '\\' slashes
+			'#/\.(/\.)*/#s', // remove '/./'
+			'#\//+#s',       // remove sequence of slashes
+			'#/\.$#s',       // remove trailing '/.'
 		];
 
 		do {
@@ -856,12 +703,12 @@ class Filesystem {
 	 * get the filesystem info
 	 *
 	 * @param string $path
-	 * @param boolean $includeMountPoints whether to add mountpoint sizes,
+	 * @param bool|string $includeMountPoints whether to add mountpoint sizes,
 	 * defaults to true
-	 * @return \OC\Files\FileInfo|bool False if file does not exist
+	 * @return \OC\Files\FileInfo|false False if file does not exist
 	 */
 	public static function getFileInfo($path, $includeMountPoints = true) {
-		return self::$defaultInstance->getFileInfo($path, $includeMountPoints);
+		return self::getView()->getFileInfo($path, $includeMountPoints);
 	}
 
 	/**
@@ -913,11 +760,8 @@ class Filesystem {
 
 	/**
 	 * get the ETag for a file or folder
-	 *
-	 * @param string $path
-	 * @return string
 	 */
-	public static function getETag($path) {
+	public static function getETag(string $path): string|false {
 		return self::$defaultInstance->getETag($path);
 	}
 }

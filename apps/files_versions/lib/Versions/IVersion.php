@@ -16,14 +16,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Files_Versions\Versions;
 
 use OCP\Files\FileInfo;
@@ -66,10 +65,10 @@ interface IVersion {
 	/**
 	 * Get the size of this version
 	 *
-	 * @return int
+	 * @return int|float
 	 * @since 15.0.0
 	 */
-	public function getSize(): int;
+	public function getSize(): int|float;
 
 	/**
 	 * Get the name of the source file at the time of making this version

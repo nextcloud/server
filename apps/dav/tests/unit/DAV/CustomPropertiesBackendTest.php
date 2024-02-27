@@ -18,14 +18,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\Tests\DAV;
 
 use OCA\DAV\DAV\CustomPropertiesBackend;
@@ -40,7 +39,6 @@ use Test\TestCase;
  * @group DB
  */
 class CustomPropertiesBackendTest extends TestCase {
-
 	/** @var Tree | \PHPUnit\Framework\MockObject\MockObject */
 	private $tree;
 
@@ -109,7 +107,7 @@ class CustomPropertiesBackendTest extends TestCase {
 		$query->select('propertyname', 'propertyvalue')
 			->from('properties')
 			->where($query->expr()->eq('userid', $query->createNamedParameter($user)))
-			->where($query->expr()->eq('propertypath', $query->createNamedParameter($this->formatPath($path))));
+			->andWhere($query->expr()->eq('propertypath', $query->createNamedParameter($this->formatPath($path))));
 
 		$result = $query->execute();
 		$data = [];
@@ -121,7 +119,7 @@ class CustomPropertiesBackendTest extends TestCase {
 		return $data;
 	}
 
-	public function testPropFindNoDbCalls() {
+	public function testPropFindNoDbCalls(): void {
 		$db = $this->createMock(IDBConnection::class);
 		$backend = new CustomPropertiesBackend(
 			$this->tree,
@@ -130,7 +128,7 @@ class CustomPropertiesBackendTest extends TestCase {
 		);
 
 		$propFind = $this->createMock(PropFind::class);
-		$propFind->expects($this->at(0))
+		$propFind->expects($this->once())
 			->method('get404Properties')
 			->with()
 			->willReturn([
@@ -146,7 +144,7 @@ class CustomPropertiesBackendTest extends TestCase {
 		$backend->propFind('foo_bar_path_1337_0', $propFind);
 	}
 
-	public function testPropFindCalendarCall() {
+	public function testPropFindCalendarCall(): void {
 		$propFind = $this->createMock(PropFind::class);
 		$propFind->method('get404Properties')
 			->with()
@@ -180,7 +178,7 @@ class CustomPropertiesBackendTest extends TestCase {
 
 		$setProps = [];
 		$propFind->method('set')
-			->willReturnCallback(function ($name, $value, $status) use (&$setProps) {
+			->willReturnCallback(function ($name, $value, $status) use (&$setProps): void {
 				$setProps[$name] = $value;
 			});
 
@@ -191,7 +189,7 @@ class CustomPropertiesBackendTest extends TestCase {
 	/**
 	 * @dataProvider propPatchProvider
 	 */
-	public function testPropPatch(string $path, array $existing, array $props, array $result) {
+	public function testPropPatch(string $path, array $existing, array $props, array $result): void {
 		$this->insertProps($this->user->getUID(), $path, $existing);
 		$propPatch = new PropPatch($props);
 
@@ -215,7 +213,7 @@ class CustomPropertiesBackendTest extends TestCase {
 	/**
 	 * @dataProvider deleteProvider
 	 */
-	public function testDelete(string $path) {
+	public function testDelete(string $path): void {
 		$this->insertProps('dummy_user_42', $path, ['foo' => 'bar']);
 		$this->backend->delete($path);
 		$this->assertEquals([], $this->getProps('dummy_user_42', $path));
@@ -231,7 +229,7 @@ class CustomPropertiesBackendTest extends TestCase {
 	/**
 	 * @dataProvider moveProvider
 	 */
-	public function testMove(string $source, string $target) {
+	public function testMove(string $source, string $target): void {
 		$this->insertProps('dummy_user_42', $source, ['foo' => 'bar']);
 		$this->backend->move($source, $target);
 		$this->assertEquals([], $this->getProps('dummy_user_42', $source));

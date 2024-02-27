@@ -9,6 +9,7 @@ declare(strict_types=1);
  * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -19,14 +20,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\UpdateNotification\AppInfo;
 
 use OCA\UpdateNotification\Notification\Notifier;
@@ -40,11 +40,10 @@ use OCP\AppFramework\IAppContainer;
 use OCP\AppFramework\QueryException;
 use OCP\IConfig;
 use OCP\IGroupManager;
-use OCP\ILogger;
 use OCP\IUser;
 use OCP\IUserSession;
-use OCP\Notification\IManager as INotificationManager;
 use OCP\Util;
+use Psr\Log\LoggerInterface;
 
 class Application extends App implements IBootstrap {
 	public function __construct() {
@@ -52,23 +51,20 @@ class Application extends App implements IBootstrap {
 	}
 
 	public function register(IRegistrationContext $context): void {
+		$context->registerNotifierService(Notifier::class);
 	}
 
 	public function boot(IBootContext $context): void {
 		$context->injectFn(function (IConfig $config,
-									 INotificationManager $notificationsManager,
-									 IUserSession $userSession,
-									 IAppManager $appManager,
-									 IGroupManager $groupManager,
-									 IAppContainer $appContainer,
-									 ILogger $logger) {
+			IUserSession $userSession,
+			IAppManager $appManager,
+			IGroupManager $groupManager,
+			IAppContainer $appContainer,
+			LoggerInterface $logger) {
 			if ($config->getSystemValue('updatechecker', true) !== true) {
 				// Updater check is disabled
 				return;
 			}
-
-			// Always register the notifier, so background jobs (without a user) can send push notifications
-			$notificationsManager->registerNotifierService(Notifier::class);
 
 			$user = $userSession->getUser();
 			if (!$user instanceof IUser) {
@@ -81,7 +77,7 @@ class Application extends App implements IBootstrap {
 				try {
 					$updateChecker = $appContainer->get(UpdateChecker::class);
 				} catch (QueryException $e) {
-					$logger->logException($e);
+					$logger->error($e->getMessage(), ['exception' => $e]);
 					return;
 				}
 

@@ -7,6 +7,7 @@
  * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @license AGPL-3.0
@@ -24,24 +25,30 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\Tests\unit\CalDAV;
 
+use OC\KnownUser\KnownUserService;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\Proxy\ProxyMapper;
+use OCA\DAV\CalDAV\Sharing\Backend as SharingBackend;
+use OCA\DAV\CalDAV\Sharing\Service;
 use OCA\DAV\Connector\Sabre\Principal;
+use OCA\DAV\DAV\Sharing\SharingMapper;
+use OCP\Accounts\IAccountManager;
 use OCP\App\IAppManager;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IGroupManager;
-use OCP\ILogger;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\L10N\IFactory;
 use OCP\Security\ISecureRandom;
 use OCP\Share\IManager as ShareManager;
+use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
 use Sabre\CalDAV\Xml\Property\SupportedCalendarComponentSet;
 use Sabre\DAV\Xml\Property\Href;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Test\TestCase;
 
 /**
@@ -53,25 +60,16 @@ use Test\TestCase;
  */
 abstract class AbstractCalDavBackend extends TestCase {
 
-	/** @var CalDavBackend */
-	protected $backend;
 
-	/** @var Principal | \PHPUnit\Framework\MockObject\MockObject */
-	protected $principal;
-	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
-	protected $userManager;
-	/** @var IGroupManager|\PHPUnit\Framework\MockObject\MockObject */
-	protected $groupManager;
-	/** @var EventDispatcherInterface|\PHPUnit\Framework\MockObject\MockObject */
-	protected $dispatcher;
-	/** @var IEventDispatcher|\PHPUnit\Framework\MockObject\MockObject */
-	protected $legacyDispatcher;
-
-	/** @var ISecureRandom */
-	private $random;
-	/** @var ILogger */
-	private $logger;
-
+	protected CalDavBackend $backend;
+	protected Principal|MockObject $principal;
+	protected IUserManager|MockObject $userManager;
+	protected IGroupManager|MockObject $groupManager;
+	protected IEventDispatcher|MockObject $dispatcher;
+	private LoggerInterface|MockObject $logger;
+	private IConfig|MockObject $config;
+	private ISecureRandom $random;
+	protected SharingBackend $sharingBackend;
 	public const UNIT_TEST_USER = 'principals/users/caldav-unit-test';
 	public const UNIT_TEST_USER1 = 'principals/users/caldav-unit-test1';
 	public const UNIT_TEST_GROUP = 'principals/groups/caldav-unit-test-group';
@@ -83,18 +81,20 @@ abstract class AbstractCalDavBackend extends TestCase {
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->dispatcher = $this->createMock(IEventDispatcher::class);
-		$this->legacyDispatcher = $this->createMock(EventDispatcherInterface::class);
 		$this->principal = $this->getMockBuilder(Principal::class)
 			->setConstructorArgs([
 				$this->userManager,
 				$this->groupManager,
+				$this->createMock(IAccountManager::class),
 				$this->createMock(ShareManager::class),
 				$this->createMock(IUserSession::class),
 				$this->createMock(IAppManager::class),
 				$this->createMock(ProxyMapper::class),
+				$this->createMock(KnownUserService::class),
 				$this->createMock(IConfig::class),
+				$this->createMock(IFactory::class)
 			])
-			->setMethods(['getPrincipalByPath', 'getGroupMembership'])
+			->setMethods(['getPrincipalByPath', 'getGroupMembership', 'findByUri'])
 			->getMock();
 		$this->principal->expects($this->any())->method('getPrincipalByPath')
 			->willReturn([
@@ -107,8 +107,26 @@ abstract class AbstractCalDavBackend extends TestCase {
 
 		$db = \OC::$server->getDatabaseConnection();
 		$this->random = \OC::$server->getSecureRandom();
-		$this->logger = $this->createMock(ILogger::class);
-		$this->backend = new CalDavBackend($db, $this->principal, $this->userManager, $this->groupManager, $this->random, $this->logger, $this->dispatcher, $this->legacyDispatcher);
+		$this->logger = $this->createMock(LoggerInterface::class);
+		$this->config = $this->createMock(IConfig::class);
+		$this->sharingBackend = new SharingBackend(
+			$this->userManager,
+			$this->groupManager,
+			$this->principal,
+			$this->createMock(ICacheFactory::class),
+			new Service(new SharingMapper($db)),
+			$this->logger);
+		$this->backend = new CalDavBackend(
+			$db,
+			$this->principal,
+			$this->userManager,
+			$this->random,
+			$this->logger,
+			$this->dispatcher,
+			$this->config,
+			$this->sharingBackend,
+			false,
+		);
 
 		$this->cleanUpBackend();
 	}
@@ -118,7 +136,7 @@ abstract class AbstractCalDavBackend extends TestCase {
 		parent::tearDown();
 	}
 
-	public function cleanUpBackend() {
+	public function cleanUpBackend(): void {
 		if (is_null($this->backend)) {
 			return;
 		}
@@ -131,12 +149,10 @@ abstract class AbstractCalDavBackend extends TestCase {
 
 	private function cleanupForPrincipal($principal): void {
 		$calendars = $this->backend->getCalendarsForUser($principal);
+		$this->dispatcher->expects(self::any())
+			->method('dispatchTyped');
 		foreach ($calendars as $calendar) {
-			$this->legacyDispatcher->expects($this->at(0))
-				->method('dispatch')
-				->with('\OCA\DAV\CalDAV\CalDavBackend::deleteCalendar');
-
-			$this->backend->deleteCalendar($calendar['id']);
+			$this->backend->deleteCalendar($calendar['id'], true);
 		}
 		$subscriptions = $this->backend->getSubscriptionsForUser($principal);
 		foreach ($subscriptions as $subscription) {
@@ -145,9 +161,8 @@ abstract class AbstractCalDavBackend extends TestCase {
 	}
 
 	protected function createTestCalendar() {
-		$this->legacyDispatcher->expects($this->at(0))
-			->method('dispatch')
-			->with('\OCA\DAV\CalDAV\CalDavBackend::createCalendar');
+		$this->dispatcher->expects(self::any())
+			->method('dispatchTyped');
 
 		$this->backend->createCalendar(self::UNIT_TEST_USER, 'Example', [
 			'{http://apple.com/ns/ical/}calendar-color' => '#1C4587FF'
@@ -202,9 +217,8 @@ END:VCALENDAR
 EOD;
 		$uri0 = $this->getUniqueID('event');
 
-		$this->legacyDispatcher->expects($this->at(0))
-			->method('dispatch')
-			->with('\OCA\DAV\CalDAV\CalDavBackend::createCalendarObject');
+		$this->dispatcher->expects(self::atLeastOnce())
+			->method('dispatchTyped');
 
 		$this->backend->createCalendarObject($calendarId, $uri0, $calData);
 

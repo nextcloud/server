@@ -6,6 +6,7 @@
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Robin Appelman <robin@icewind.nl>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -16,17 +17,18 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Settings\Controller;
 
+use OC\AppFramework\Middleware\Security\Exceptions\NotAdminException;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Group\ISubAdmin;
 use OCP\IGroupManager;
@@ -37,6 +39,7 @@ use OCP\IUserSession;
 use OCP\Settings\IManager as ISettingsManager;
 use OCP\Template;
 
+#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class AdminSettingsController extends Controller {
 	use CommonSettingsTrait;
 
@@ -58,13 +61,13 @@ class AdminSettingsController extends Controller {
 	}
 
 	/**
-	 * @param string $section
-	 * @return TemplateResponse
-	 *
 	 * @NoCSRFRequired
-	 * @SubAdminRequired
+	 * @NoAdminRequired
+	 * @NoSubAdminRequired
+	 * We are checking the permissions in the getSettings method. If there is no allowed
+	 * settings for the given section. The user will be gretted by an error message.
 	 */
-	public function index($section) {
+	public function index(string $section): TemplateResponse {
 		return $this->getIndexResponse('admin', $section);
 	}
 
@@ -76,10 +79,10 @@ class AdminSettingsController extends Controller {
 		/** @var IUser $user */
 		$user = $this->userSession->getUser();
 		$isSubAdmin = !$this->groupManager->isAdmin($user->getUID()) && $this->subAdmin->isSubAdmin($user);
-		$settings = $this->settingsManager->getAdminSettings(
-			$section,
-			$isSubAdmin
-		);
+		$settings = $this->settingsManager->getAllowedAdminSettings($section, $user);
+		if (empty($settings)) {
+			throw new NotAdminException("Logged in user doesn't have permission to access these settings.");
+		}
 		$formatted = $this->formatSettings($settings);
 		// Do not show legacy forms for sub admins
 		if ($section === 'additional' && !$isSubAdmin) {

@@ -20,15 +20,15 @@
  *
  */
 
-div.crumb span.icon-shared,
-div.crumb span.icon-public {
+li.crumb span.icon-shared,
+li.crumb span.icon-public {
 	display: inline-block;
 	cursor: pointer;
 	opacity: 0.2;
 	margin-right: 6px;
 }
 
-div.crumb span.icon-shared.shared,
-div.crumb span.icon-public.shared {
+li.crumb span.icon-shared.shared,
+li.crumb span.icon-public.shared {
 	opacity: 0.7;
 }

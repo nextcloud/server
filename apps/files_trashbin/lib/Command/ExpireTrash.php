@@ -23,7 +23,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_Trashbin\Command;
 
 use OCA\Files_Trashbin\Expiration;
@@ -54,7 +53,7 @@ class ExpireTrash extends Command {
 	 * @param Expiration|null $expiration
 	 */
 	public function __construct(IUserManager $userManager = null,
-								Expiration $expiration = null) {
+		Expiration $expiration = null) {
 		parent::__construct();
 
 		$this->userManager = $userManager;
@@ -75,7 +74,7 @@ class ExpireTrash extends Command {
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$maxAge = $this->expiration->getMaxAgeAsTimestamp();
 		if (!$maxAge) {
-			$output->writeln("No expiry configured.");
+			$output->writeln("Auto expiration is configured - keeps files and folders in the trash bin for 30 days and automatically deletes anytime after that if space is needed (note: files may not be deleted if space is not needed)");
 			return 1;
 		}
 

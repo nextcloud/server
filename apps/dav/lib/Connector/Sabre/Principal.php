@@ -10,8 +10,10 @@
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Jakob Sack <mail@jakobsack.de>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Maxence Lange <maxence@artificial-owl.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
@@ -33,12 +35,15 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\Connector\Sabre;
 
-use OCA\Circles\Exceptions\CircleDoesNotExistException;
+use OC\KnownUser\KnownUserService;
+use OCA\Circles\Exceptions\CircleNotFoundException;
 use OCA\DAV\CalDAV\Proxy\ProxyMapper;
 use OCA\DAV\Traits\PrincipalProxyTrait;
+use OCP\Accounts\IAccountManager;
+use OCP\Accounts\IAccountProperty;
+use OCP\Accounts\PropertyDoesNotExistException;
 use OCP\App\IAppManager;
 use OCP\AppFramework\QueryException;
 use OCP\Constants;
@@ -48,6 +53,7 @@ use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\L10N\IFactory;
 use OCP\Share\IManager as IShareManager;
 use Sabre\DAV\Exception;
 use Sabre\DAV\PropPatch;
@@ -60,6 +66,9 @@ class Principal implements BackendInterface {
 
 	/** @var IGroupManager */
 	private $groupManager;
+
+	/** @var IAccountManager */
+	private $accountManager;
 
 	/** @var IShareManager */
 	private $shareManager;
@@ -82,38 +91,37 @@ class Principal implements BackendInterface {
 	/** @var ProxyMapper */
 	private $proxyMapper;
 
+	/** @var KnownUserService */
+	private $knownUserService;
+
 	/** @var IConfig */
 	private $config;
+	/** @var IFactory */
+	private $languageFactory;
 
-	/**
-	 * Principal constructor.
-	 *
-	 * @param IUserManager $userManager
-	 * @param IGroupManager $groupManager
-	 * @param IShareManager $shareManager
-	 * @param IUserSession $userSession
-	 * @param IAppManager $appManager
-	 * @param ProxyMapper $proxyMapper
-	 * @param IConfig $config
-	 * @param string $principalPrefix
-	 */
 	public function __construct(IUserManager $userManager,
-								IGroupManager $groupManager,
-								IShareManager $shareManager,
-								IUserSession $userSession,
-								IAppManager $appManager,
-								ProxyMapper $proxyMapper,
-								IConfig $config,
-								string $principalPrefix = 'principals/users/') {
+		IGroupManager $groupManager,
+		IAccountManager $accountManager,
+		IShareManager $shareManager,
+		IUserSession $userSession,
+		IAppManager $appManager,
+		ProxyMapper $proxyMapper,
+		KnownUserService $knownUserService,
+		IConfig $config,
+		IFactory $languageFactory,
+		string $principalPrefix = 'principals/users/') {
 		$this->userManager = $userManager;
 		$this->groupManager = $groupManager;
+		$this->accountManager = $accountManager;
 		$this->shareManager = $shareManager;
 		$this->userSession = $userSession;
 		$this->appManager = $appManager;
 		$this->principalPrefix = trim($principalPrefix, '/');
 		$this->hasGroups = $this->hasCircles = ($principalPrefix === 'principals/users/');
 		$this->proxyMapper = $proxyMapper;
+		$this->knownUserService = $knownUserService;
 		$this->config = $config;
+		$this->languageFactory = $languageFactory;
 	}
 
 	use PrincipalProxyTrait {
@@ -200,6 +208,11 @@ class Principal implements BackendInterface {
 					'{DAV:}displayname' => $group->getDisplayName(),
 				];
 			}
+		} elseif ($prefix === 'principals/system') {
+			return [
+				'uri' => 'principals/system/' . $name,
+				'{DAV:}displayname' => $this->languageFactory->get('dav')->t("Accounts"),
+			];
 		}
 		return null;
 	}
@@ -267,24 +280,27 @@ class Principal implements BackendInterface {
 		}
 
 		$allowEnumeration = $this->shareManager->allowEnumeration();
-		$limitEnumeration = $this->shareManager->limitEnumerationToGroups();
+		$limitEnumerationGroup = $this->shareManager->limitEnumerationToGroups();
+		$limitEnumerationPhone = $this->shareManager->limitEnumerationToPhone();
+		$allowEnumerationFullMatch = $this->shareManager->allowEnumerationFullMatch();
+		$ignoreSecondDisplayName = $this->shareManager->ignoreSecondDisplayName();
+		$matchEmail = $this->shareManager->matchEmail();
 
 		// If sharing is restricted to group members only,
 		// return only members that have groups in common
 		$restrictGroups = false;
+		$currentUser = $this->userSession->getUser();
 		if ($this->shareManager->shareWithGroupMembersOnly()) {
-			$user = $this->userSession->getUser();
-			if (!$user) {
+			if (!$currentUser instanceof IUser) {
 				return [];
 			}
 
-			$restrictGroups = $this->groupManager->getUserGroupIds($user);
+			$restrictGroups = $this->groupManager->getUserGroupIds($currentUser);
 		}
 
 		$currentUserGroups = [];
-		if ($limitEnumeration) {
-			$currentUser = $this->userSession->getUser();
-			if ($currentUser) {
+		if ($limitEnumerationGroup) {
+			if ($currentUser instanceof IUser) {
 				$currentUserGroups = $this->groupManager->getUserGroupIds($currentUser);
 			}
 		}
@@ -296,20 +312,35 @@ class Principal implements BackendInterface {
 		foreach ($searchProperties as $prop => $value) {
 			switch ($prop) {
 				case '{http://sabredav.org/ns}email-address':
-					$users = $this->userManager->getByEmail($value);
-
 					if (!$allowEnumeration) {
-						$users = \array_filter($users, static function (IUser $user) use ($value) {
-							return $user->getEMailAddress() === $value;
-						});
-					}
+						if ($allowEnumerationFullMatch && $matchEmail) {
+							$users = $this->userManager->getByEmail($value);
+						} else {
+							$users = [];
+						}
+					} else {
+						$users = $this->userManager->getByEmail($value);
+						$users = \array_filter($users, function (IUser $user) use ($currentUser, $value, $limitEnumerationPhone, $limitEnumerationGroup, $allowEnumerationFullMatch, $currentUserGroups) {
+							if ($allowEnumerationFullMatch && $user->getSystemEMailAddress() === $value) {
+								return true;
+							}
 
-					if ($limitEnumeration) {
-						$users = \array_filter($users, function (IUser $user) use ($currentUserGroups, $value) {
-							return !empty(array_intersect(
-									$this->groupManager->getUserGroupIds($user),
-									$currentUserGroups
-								)) || $user->getEMailAddress() === $value;
+							if ($limitEnumerationPhone
+								&& $currentUser instanceof IUser
+								&& $this->knownUserService->isKnownToUser($currentUser->getUID(), $user->getUID())) {
+								// Synced phonebook match
+								return true;
+							}
+
+							if (!$limitEnumerationGroup) {
+								// No limitation on enumeration, all allowed
+								return true;
+							}
+
+							return !empty($currentUserGroups) && !empty(array_intersect(
+								$this->groupManager->getUserGroupIds($user),
+								$currentUserGroups
+							));
 						});
 					}
 
@@ -328,20 +359,41 @@ class Principal implements BackendInterface {
 					break;
 
 				case '{DAV:}displayname':
-					$users = $this->userManager->searchDisplayName($value, $searchLimit);
 
 					if (!$allowEnumeration) {
-						$users = \array_filter($users, static function (IUser $user) use ($value) {
-							return $user->getDisplayName() === $value;
-						});
-					}
+						if ($allowEnumerationFullMatch) {
+							$lowerSearch = strtolower($value);
+							$users = $this->userManager->searchDisplayName($value, $searchLimit);
+							$users = \array_filter($users, static function (IUser $user) use ($lowerSearch, $ignoreSecondDisplayName) {
+								$lowerDisplayName = strtolower($user->getDisplayName());
+								return $lowerDisplayName === $lowerSearch || ($ignoreSecondDisplayName && trim(preg_replace('/ \(.*\)$/', '', $lowerDisplayName)) === $lowerSearch);
+							});
+						} else {
+							$users = [];
+						}
+					} else {
+						$users = $this->userManager->searchDisplayName($value, $searchLimit);
+						$users = \array_filter($users, function (IUser $user) use ($currentUser, $value, $limitEnumerationPhone, $limitEnumerationGroup, $allowEnumerationFullMatch, $currentUserGroups) {
+							if ($allowEnumerationFullMatch && $user->getDisplayName() === $value) {
+								return true;
+							}
 
-					if ($limitEnumeration) {
-						$users = \array_filter($users, function (IUser $user) use ($currentUserGroups, $value) {
-							return !empty(array_intersect(
-									$this->groupManager->getUserGroupIds($user),
-									$currentUserGroups
-								)) || $user->getDisplayName() === $value;
+							if ($limitEnumerationPhone
+								&& $currentUser instanceof IUser
+								&& $this->knownUserService->isKnownToUser($currentUser->getUID(), $user->getUID())) {
+								// Synced phonebook match
+								return true;
+							}
+
+							if (!$limitEnumerationGroup) {
+								// No limitation on enumeration, all allowed
+								return true;
+							}
+
+							return !empty($currentUserGroups) && !empty(array_intersect(
+								$this->groupManager->getUserGroupIds($user),
+								$currentUserGroups
+							));
 						});
 					}
 
@@ -435,7 +487,7 @@ class Principal implements BackendInterface {
 			$restrictGroups = $this->groupManager->getUserGroupIds($user);
 		}
 
-		if (strpos($uri, 'mailto:') === 0) {
+		if (str_starts_with($uri, 'mailto:')) {
 			if ($principalPrefix === 'principals/users') {
 				$users = $this->userManager->getByEmail(substr($uri, 7));
 				if (count($users) !== 1) {
@@ -453,7 +505,7 @@ class Principal implements BackendInterface {
 				return $this->principalPrefix . '/' . $user->getUID();
 			}
 		}
-		if (substr($uri, 0, 10) === 'principal:') {
+		if (str_starts_with($uri, 'principal:')) {
 			$principal = substr($uri, 10);
 			$principal = $this->getPrincipalByPath($principal);
 			if ($principal !== null) {
@@ -467,6 +519,7 @@ class Principal implements BackendInterface {
 	/**
 	 * @param IUser $user
 	 * @return array
+	 * @throws PropertyDoesNotExistException
 	 */
 	protected function userToPrincipal($user) {
 		$userId = $user->getUID();
@@ -475,11 +528,19 @@ class Principal implements BackendInterface {
 			'uri' => $this->principalPrefix . '/' . $userId,
 			'{DAV:}displayname' => is_null($displayName) ? $userId : $displayName,
 			'{urn:ietf:params:xml:ns:caldav}calendar-user-type' => 'INDIVIDUAL',
+			'{http://nextcloud.com/ns}language' => $this->languageFactory->getUserLanguage($user),
 		];
 
-		$email = $user->getEMailAddress();
+		$account = $this->accountManager->getAccount($user);
+		$alternativeEmails = array_map(fn (IAccountProperty $property) => 'mailto:' . $property->getValue(), $account->getPropertyCollection(IAccountManager::COLLECTION_EMAIL)->getProperties());
+
+		$email = $user->getSystemEMailAddress();
 		if (!empty($email)) {
 			$principal['{http://sabredav.org/ns}email-address'] = $email;
+		}
+
+		if (!empty($alternativeEmails)) {
+			$principal['{DAV:}alternate-URI-set'] = $alternativeEmails;
 		}
 
 		return $principal;
@@ -502,7 +563,7 @@ class Principal implements BackendInterface {
 			$circle = \OCA\Circles\Api\v1\Circles::detailsCircle($circleUniqueId, true);
 		} catch (QueryException $ex) {
 			return null;
-		} catch (CircleDoesNotExistException $ex) {
+		} catch (CircleNotFoundException $ex) {
 			return null;
 		}
 
@@ -512,7 +573,7 @@ class Principal implements BackendInterface {
 
 		$principal = [
 			'uri' => 'principals/circles/' . $circleUniqueId,
-			'{DAV:}displayname' => $circle->getName(),
+			'{DAV:}displayname' => $circle->getDisplayName(),
 		];
 
 		return $principal;
@@ -543,12 +604,52 @@ class Principal implements BackendInterface {
 
 			$circles = array_map(function ($circle) {
 				/** @var \OCA\Circles\Model\Circle $circle */
-				return 'principals/circles/' . urlencode($circle->getUniqueId());
+				return 'principals/circles/' . urlencode($circle->getSingleId());
 			}, $circles);
 
 			return $circles;
 		}
 
 		return [];
+	}
+
+	/**
+	 * Get all email addresses associated to a principal.
+	 *
+	 * @param array $principal Data from getPrincipal*()
+	 * @return string[] All email addresses without the mailto: prefix
+	 */
+	public function getEmailAddressesOfPrincipal(array $principal): array {
+		$emailAddresses = [];
+
+		if (isset($principal['{http://sabredav.org/ns}email-address'])) {
+			$emailAddresses[] = $principal['{http://sabredav.org/ns}email-address'];
+		}
+
+		if (isset($principal['{DAV:}alternate-URI-set'])) {
+			foreach ($principal['{DAV:}alternate-URI-set'] as $address) {
+				if (str_starts_with($address, 'mailto:')) {
+					$emailAddresses[] = substr($address, 7);
+				}
+			}
+		}
+
+		if (isset($principal['{urn:ietf:params:xml:ns:caldav}calendar-user-address-set'])) {
+			foreach ($principal['{urn:ietf:params:xml:ns:caldav}calendar-user-address-set'] as $address) {
+				if (str_starts_with($address, 'mailto:')) {
+					$emailAddresses[] = substr($address, 7);
+				}
+			}
+		}
+
+		if (isset($principal['{http://calendarserver.org/ns/}email-address-set'])) {
+			foreach ($principal['{http://calendarserver.org/ns/}email-address-set'] as $address) {
+				if (str_starts_with($address, 'mailto:')) {
+					$emailAddresses[] = substr($address, 7);
+				}
+			}
+		}
+
+		return array_values(array_unique($emailAddresses));
 	}
 }

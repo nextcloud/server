@@ -2,9 +2,9 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Juan Pablo Villafáñez <jvillafanez@solidgear.es>
+ * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -25,18 +25,18 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_External\Controller;
 
 use OCA\Files_External\NotFoundException;
 use OCA\Files_External\Service\GlobalStoragesService;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IL10N;
-use OCP\ILogger;
 use OCP\IRequest;
 use OCP\IUserSession;
+use Psr\Log\LoggerInterface;
 
 /**
  * Global storages controller
@@ -49,18 +49,20 @@ class GlobalStoragesController extends StoragesController {
 	 * @param IRequest $request request object
 	 * @param IL10N $l10n l10n service
 	 * @param GlobalStoragesService $globalStoragesService storage service
-	 * @param ILogger $logger
+	 * @param LoggerInterface $logger
 	 * @param IUserSession $userSession
 	 * @param IGroupManager $groupManager
+	 * @param IConfig $config
 	 */
 	public function __construct(
 		$AppName,
 		IRequest $request,
 		IL10N $l10n,
 		GlobalStoragesService $globalStoragesService,
-		ILogger $logger,
+		LoggerInterface $logger,
 		IUserSession $userSession,
-		IGroupManager $groupManager
+		IGroupManager $groupManager,
+		IConfig $config
 	) {
 		parent::__construct(
 			$AppName,
@@ -69,7 +71,8 @@ class GlobalStoragesController extends StoragesController {
 			$globalStoragesService,
 			$logger,
 			$userSession,
-			$groupManager
+			$groupManager,
+			$config
 		);
 	}
 
@@ -97,6 +100,16 @@ class GlobalStoragesController extends StoragesController {
 		$applicableGroups,
 		$priority
 	) {
+		$canCreateNewLocalStorage = $this->config->getSystemValue('files_external_allow_create_new_local', true);
+		if (!$canCreateNewLocalStorage && $backend === 'local') {
+			return new DataResponse(
+				[
+					'message' => $this->l10n->t('Forbidden to manage local mounts')
+				],
+				Http::STATUS_FORBIDDEN
+			);
+		}
+
 		$newStorage = $this->createStorage(
 			$mountPoint,
 			$backend,
@@ -121,7 +134,7 @@ class GlobalStoragesController extends StoragesController {
 		$this->updateStorageStatus($newStorage);
 
 		return new DataResponse(
-			$this->formatStorageForUI($newStorage),
+			$newStorage->jsonSerialize(true),
 			Http::STATUS_CREATED
 		);
 	}
@@ -132,7 +145,7 @@ class GlobalStoragesController extends StoragesController {
 	 * @param int $id storage id
 	 * @param string $mountPoint storage mount point
 	 * @param string $backend backend identifier
-	 * @param string $authMechanism authentication mechansim identifier
+	 * @param string $authMechanism authentication mechanism identifier
 	 * @param array $backendOptions backend-specific options
 	 * @param array $mountOptions mount-specific options
 	 * @param array $applicableUsers users for which to mount the storage
@@ -188,7 +201,7 @@ class GlobalStoragesController extends StoragesController {
 		$this->updateStorageStatus($storage, $testOnly);
 
 		return new DataResponse(
-			$this->formatStorageForUI($storage),
+			$storage->jsonSerialize(true),
 			Http::STATUS_OK
 		);
 	}

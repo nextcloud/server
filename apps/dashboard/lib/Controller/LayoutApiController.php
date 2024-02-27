@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2020 Julius Härtl <jus@bitgrid.net>
  *
@@ -20,10 +23,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
-declare(strict_types=1);
-
-
 namespace OCA\Dashboard\Controller;
 
 use OCP\AppFramework\Http\JSONResponse;
@@ -32,7 +31,6 @@ use OCP\IConfig;
 use OCP\IRequest;
 
 class LayoutApiController extends OCSController {
-
 	/** @var IConfig */
 	private $config;
 	/** @var string */
@@ -57,6 +55,7 @@ class LayoutApiController extends OCSController {
 	 * @return JSONResponse
 	 */
 	public function create(string $layout): JSONResponse {
+		$layout = htmlspecialchars($layout);
 		$this->config->setUserValue($this->userId, 'dashboard', 'layout', $layout);
 		return new JSONResponse(['layout' => $layout]);
 	}

@@ -8,6 +8,7 @@
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -24,7 +25,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP\AppFramework\Http;
 
 use OCP\AppFramework\Http;
@@ -33,6 +33,9 @@ use OCP\AppFramework\Http;
  * Class StreamResponse
  *
  * @since 8.1.0
+ * @template S of int
+ * @template H of array<string, mixed>
+ * @template-extends Response<int, array<string, mixed>>
  */
 class StreamResponse extends Response implements ICallbackResponse {
 	/** @var string */
@@ -40,10 +43,12 @@ class StreamResponse extends Response implements ICallbackResponse {
 
 	/**
 	 * @param string|resource $filePath the path to the file or a file handle which should be streamed
+	 * @param S $status
+	 * @param H $headers
 	 * @since 8.1.0
 	 */
-	public function __construct($filePath) {
-		parent::__construct();
+	public function __construct(mixed $filePath, int $status = Http::STATUS_OK, array $headers = []) {
+		parent::__construct($status, $headers);
 
 		$this->filePath = $filePath;
 	}

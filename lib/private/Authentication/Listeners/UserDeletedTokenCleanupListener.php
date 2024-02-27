@@ -17,14 +17,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Authentication\Listeners;
 
 use OC\Authentication\Token\Manager;
@@ -38,7 +37,6 @@ use Throwable;
  * @template-implements IEventListener<\OCP\User\Events\UserDeletedEvent>
  */
 class UserDeletedTokenCleanupListener implements IEventListener {
-
 	/** @var Manager */
 	private $manager;
 
@@ -46,7 +44,7 @@ class UserDeletedTokenCleanupListener implements IEventListener {
 	private $logger;
 
 	public function __construct(Manager $manager,
-								LoggerInterface $logger) {
+		LoggerInterface $logger) {
 		$this->manager = $manager;
 		$this->logger = $logger;
 	}

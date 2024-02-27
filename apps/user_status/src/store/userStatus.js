@@ -3,7 +3,7 @@
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -19,22 +19,23 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 import {
 	fetchCurrentStatus,
 	setStatus,
 	setPredefinedMessage,
 	setCustomMessage,
 	clearMessage,
-} from '../services/statusService'
+} from '../services/statusService.js'
 import { loadState } from '@nextcloud/initial-state'
 import { getCurrentUser } from '@nextcloud/auth'
-import { getTimestampForClearAt } from '../services/clearAtService'
+import { getTimestampForClearAt } from '../services/clearAtService.js'
 import { emit } from '@nextcloud/event-bus'
 
 const state = {
 	// Status (online / away / dnd / invisible / offline)
 	status: null,
-	// Whether or not the status is user-defined
+	// Whether the status is user-defined
 	statusIsUserDefined: null,
 	// A custom message set by the user
 	message: null,
@@ -42,7 +43,7 @@ const state = {
 	icon: null,
 	// When to automatically clean the status
 	clearAt: null,
-	// Whether or not the message is predefined
+	// Whether the message is predefined
 	// (and can automatically be translated by Nextcloud)
 	messageIsPredefined: null,
 	// The id of the message in case it's predefined
@@ -54,9 +55,9 @@ const mutations = {
 	/**
 	 * Sets a new status
 	 *
-	 * @param {Object} state The Vuex state
-	 * @param {Object} data The destructuring object
-	 * @param {String} data.statusType The new status type
+	 * @param {object} state The Vuex state
+	 * @param {object} data The destructuring object
+	 * @param {string} data.statusType The new status type
 	 */
 	setStatus(state, { statusType }) {
 		state.status = statusType
@@ -66,12 +67,12 @@ const mutations = {
 	/**
 	 * Sets a message using a predefined message
 	 *
-	 * @param {Object} state The Vuex state
-	 * @param {Object} data The destructuring object
-	 * @param {String} data.messageId The messageId
-	 * @param {Number|null} data.clearAt When to automatically clear the status
-	 * @param {String} data.message The message
-	 * @param {String} data.icon The icon
+	 * @param {object} state The Vuex state
+	 * @param {object} data The destructuring object
+	 * @param {string} data.messageId The messageId
+	 * @param {number | null} data.clearAt When to automatically clear the status
+	 * @param {string} data.message The message
+	 * @param {string} data.icon The icon
 	 */
 	setPredefinedMessage(state, { messageId, clearAt, message, icon }) {
 		state.messageId = messageId
@@ -85,11 +86,11 @@ const mutations = {
 	/**
 	 * Sets a custom message
 	 *
-	 * @param {Object} state The Vuex state
-	 * @param {Object} data The destructuring object
-	 * @param {String} data.message The message
-	 * @param {String} data.icon The icon
-	 * @param {Number} data.clearAt When to automatically clear the status
+	 * @param {object} state The Vuex state
+	 * @param {object} data The destructuring object
+	 * @param {string} data.message The message
+	 * @param {string} data.icon The icon
+	 * @param {number} data.clearAt When to automatically clear the status
 	 */
 	setCustomMessage(state, { message, icon, clearAt }) {
 		state.messageId = null
@@ -103,7 +104,7 @@ const mutations = {
 	/**
 	 * Clears the status
 	 *
-	 * @param {Object} state The Vuex state
+	 * @param {object} state The Vuex state
 	 */
 	clearMessage(state) {
 		state.messageId = null
@@ -117,24 +118,35 @@ const mutations = {
 	/**
 	 * Loads the status from initial state
 	 *
-	 * @param {Object} state The Vuex state
-	 * @param {Object} data The destructuring object
-	 * @param {String} data.status The status type
-	 * @param {Boolean} data.statusIsUserDefined Whether or not this status is user-defined
-	 * @param {String} data.message The message
-	 * @param {String} data.icon The icon
-	 * @param {Number} data.clearAt When to automatically clear the status
-	 * @param {Boolean} data.messageIsPredefined Whether or not the message is predefined
+	 * @param {object} state The Vuex state
+	 * @param {object} data The destructuring object
+	 * @param {string} data.status The status type
+	 * @param {boolean} data.statusIsUserDefined Whether or not this status is user-defined
+	 * @param {string} data.message The message
+	 * @param {string} data.icon The icon
+	 * @param {number} data.clearAt When to automatically clear the status
+	 * @param {boolean} data.messageIsPredefined Whether or not the message is predefined
 	 * @param {string} data.messageId The id of the predefined message
 	 */
 	loadStatusFromServer(state, { status, statusIsUserDefined, message, icon, clearAt, messageIsPredefined, messageId }) {
 		state.status = status
-		state.statusIsUserDefined = statusIsUserDefined
 		state.message = message
 		state.icon = icon
-		state.clearAt = clearAt
-		state.messageIsPredefined = messageIsPredefined
-		state.messageId = messageId
+
+		// Don't overwrite certain values if the refreshing comes in via short updates
+		// E.g. from talk participant list which only has the status, message and icon
+		if (typeof statusIsUserDefined !== 'undefined') {
+			state.statusIsUserDefined = statusIsUserDefined
+		}
+		if (typeof clearAt !== 'undefined') {
+			state.clearAt = clearAt
+		}
+		if (typeof messageIsPredefined !== 'undefined') {
+			state.messageIsPredefined = messageIsPredefined
+		}
+		if (typeof messageId !== 'undefined') {
+			state.messageId = messageId
+		}
 	},
 }
 
@@ -145,12 +157,12 @@ const actions = {
 	/**
 	 * Sets a new status
 	 *
-	 * @param {Object} vuex The Vuex destructuring object
+	 * @param {object} vuex The Vuex destructuring object
 	 * @param {Function} vuex.commit The Vuex commit function
-	 * @param {Object} vuex.state The Vuex state object
-	 * @param {Object} data The data destructuring object
-	 * @param {String} data.statusType The new status type
-	 * @returns {Promise<void>}
+	 * @param {object} vuex.state The Vuex state object
+	 * @param {object} data The data destructuring object
+	 * @param {string} data.statusType The new status type
+	 * @return {Promise<void>}
 	 */
 	async setStatus({ commit, state }, { statusType }) {
 		await setStatus(statusType)
@@ -165,16 +177,31 @@ const actions = {
 	},
 
 	/**
+	 * Update status from 'user_status:status.updated' update.
+	 * This doesn't trigger another 'user_status:status.updated'
+	 * event.
+	 *
+	 * @param {object} vuex The Vuex destructuring object
+	 * @param {Function} vuex.commit The Vuex commit function
+	 * @param {object} vuex.state The Vuex state object
+	 * @param {string} status The new status
+	 * @return {Promise<void>}
+	 */
+	async setStatusFromObject({ commit, state }, status) {
+		commit('loadStatusFromServer', status)
+	},
+
+	/**
 	 * Sets a message using a predefined message
 	 *
-	 * @param {Object} vuex The Vuex destructuring object
+	 * @param {object} vuex The Vuex destructuring object
 	 * @param {Function} vuex.commit The Vuex commit function
-	 * @param {Object} vuex.state The Vuex state object
-	 * @param {Object} vuex.rootState The Vuex root state
-	 * @param {Object} data The data destructuring object
-	 * @param {String} data.messageId The messageId
-	 * @param {Object|null} data.clearAt When to automatically clear the status
-	 * @returns {Promise<void>}
+	 * @param {object} vuex.state The Vuex state object
+	 * @param {object} vuex.rootState The Vuex root state
+	 * @param {object} data The data destructuring object
+	 * @param {string} data.messageId The messageId
+	 * @param {object | null} data.clearAt When to automatically clear the status
+	 * @return {Promise<void>}
 	 */
 	async setPredefinedMessage({ commit, rootState, state }, { messageId, clearAt }) {
 		const resolvedClearAt = getTimestampForClearAt(clearAt)
@@ -196,14 +223,14 @@ const actions = {
 	/**
 	 * Sets a custom message
 	 *
-	 * @param {Object} vuex The Vuex destructuring object
+	 * @param {object} vuex The Vuex destructuring object
 	 * @param {Function} vuex.commit The Vuex commit function
-	 * @param {Object} vuex.state The Vuex state object
-	 * @param {Object} data The data destructuring object
-	 * @param {String} data.message The message
-	 * @param {String} data.icon The icon
-	 * @param {Object|null} data.clearAt When to automatically clear the status
-	 * @returns {Promise<void>}
+	 * @param {object} vuex.state The Vuex state object
+	 * @param {object} data The data destructuring object
+	 * @param {string} data.message The message
+	 * @param {string} data.icon The icon
+	 * @param {object | null} data.clearAt When to automatically clear the status
+	 * @return {Promise<void>}
 	 */
 	async setCustomMessage({ commit, state }, { message, icon, clearAt }) {
 		const resolvedClearAt = getTimestampForClearAt(clearAt)
@@ -222,10 +249,10 @@ const actions = {
 	/**
 	 * Clears the status
 	 *
-	 * @param {Object} vuex The Vuex destructuring object
+	 * @param {object} vuex The Vuex destructuring object
 	 * @param {Function} vuex.commit The Vuex commit function
-	 * @param {Object} vuex.state The Vuex state object
-	 * @returns {Promise<void>}
+	 * @param {object} vuex.state The Vuex state object
+	 * @return {Promise<void>}
 	 */
 	async clearMessage({ commit, state }) {
 		await clearMessage()
@@ -242,9 +269,9 @@ const actions = {
 	/**
 	 * Re-fetches the status from the server
 	 *
-	 * @param {Object} vuex The Vuex destructuring object
+	 * @param {object} vuex The Vuex destructuring object
 	 * @param {Function} vuex.commit The Vuex commit function
-	 * @returns {Promise<void>}
+	 * @return {Promise<void>}
 	 */
 	async reFetchStatusFromServer({ commit }) {
 		const status = await fetchCurrentStatus()
@@ -252,9 +279,28 @@ const actions = {
 	},
 
 	/**
+	 * Stores the status we got in the reply of the heartbeat
+	 *
+	 * @param {object} vuex The Vuex destructuring object
+	 * @param {Function} vuex.commit The Vuex commit function
+	 * @param {object} status The data destructuring object
+	 * @param {string} status.status The status type
+	 * @param {boolean} status.statusIsUserDefined Whether or not this status is user-defined
+	 * @param {string} status.message The message
+	 * @param {string} status.icon The icon
+	 * @param {number} status.clearAt When to automatically clear the status
+	 * @param {boolean} status.messageIsPredefined Whether or not the message is predefined
+	 * @param {string} status.messageId The id of the predefined message
+	 * @return {Promise<void>}
+	 */
+	async setStatusFromHeartbeat({ commit }, status) {
+		commit('loadStatusFromServer', status)
+	},
+
+	/**
 	 * Loads the server from the initial state
 	 *
-	 * @param {Object} vuex The Vuex destructuring object
+	 * @param {object} vuex The Vuex destructuring object
 	 * @param {Function} vuex.commit The Vuex commit function
 	 */
 	loadStatusFromInitialState({ commit }) {

@@ -4,7 +4,7 @@
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
@@ -23,10 +23,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Comments\Tests\Unit\Controller;
 
-use OCA\Comments\Controller\Notifications;
+use OCA\Comments\Controller\NotificationsController;
 use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\Comments\IComment;
@@ -44,7 +43,7 @@ use OCP\Notification\INotification;
 use Test\TestCase;
 
 class NotificationsTest extends TestCase {
-	/** @var Notifications */
+	/** @var NotificationsController */
 	protected $notificationsController;
 
 	/** @var ICommentsManager|\PHPUnit\Framework\MockObject\MockObject */
@@ -71,7 +70,7 @@ class NotificationsTest extends TestCase {
 		$this->notificationManager = $this->createMock(IManager::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 
-		$this->notificationsController = new Notifications(
+		$this->notificationsController = new NotificationsController(
 			'comments',
 			$this->createMock(IRequest::class),
 			$this->commentsManager,

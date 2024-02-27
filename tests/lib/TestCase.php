@@ -25,14 +25,53 @@ namespace Test;
 use DOMDocument;
 use DOMNode;
 use OC\Command\QueueBus;
+use OC\Files\Config\MountProviderCollection;
 use OC\Files\Filesystem;
+use OC\Files\Mount\CacheMountProvider;
+use OC\Files\Mount\LocalHomeMountProvider;
+use OC\Files\Mount\RootMountProvider;
+use OC\Files\SetupManager;
 use OC\Template\Base;
 use OCP\Command\IBus;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Defaults;
+use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\Security\ISecureRandom;
+use Psr\Log\LoggerInterface;
+
+if (version_compare(\PHPUnit\Runner\Version::id(), 10, '>=')) {
+	trait OnNotSuccessfulTestTrait {
+		protected function onNotSuccessfulTest(\Throwable $t): never {
+			$this->restoreAllServices();
+
+			// restore database connection
+			if (!$this->IsDatabaseAccessAllowed()) {
+				\OC::$server->registerService(IDBConnection::class, function () {
+					return self::$realDatabase;
+				});
+			}
+
+			parent::onNotSuccessfulTest($t);
+		}
+	}
+} else {
+	trait OnNotSuccessfulTestTrait {
+		protected function onNotSuccessfulTest(\Throwable $t): void {
+			$this->restoreAllServices();
+
+			// restore database connection
+			if (!$this->IsDatabaseAccessAllowed()) {
+				\OC::$server->registerService(IDBConnection::class, function () {
+					return self::$realDatabase;
+				});
+			}
+
+			parent::onNotSuccessfulTest($t);
+		}
+	}
+}
 
 abstract class TestCase extends \PHPUnit\Framework\TestCase {
 	/** @var \OC\Command\QueueBus */
@@ -46,6 +85,8 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 
 	/** @var array */
 	protected $services = [];
+
+	use OnNotSuccessfulTestTrait;
 
 	/**
 	 * @param string $name
@@ -143,19 +184,6 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 		}
 	}
 
-	protected function onNotSuccessfulTest(\Throwable $t): void {
-		$this->restoreAllServices();
-
-		// restore database connection
-		if (!$this->IsDatabaseAccessAllowed()) {
-			\OC::$server->registerService(IDBConnection::class, function () {
-				return self::$realDatabase;
-			});
-		}
-
-		parent::onNotSuccessfulTest($t);
-	}
-
 	protected function tearDown(): void {
 		$this->restoreAllServices();
 
@@ -223,7 +251,11 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 			$property->setAccessible(true);
 
 			if (!empty($parameters)) {
-				$property->setValue($object, array_pop($parameters));
+				if ($property->isStatic()) {
+					$property->setValue(null, array_pop($parameters));
+				} else {
+					$property->setValue($object, array_pop($parameters));
+				}
 			}
 
 			if (is_object($object)) {
@@ -259,7 +291,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 				return self::$realDatabase;
 			});
 		}
-		$dataDir = \OC::$server->getConfig()->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data-autotest');
+		$dataDir = \OC::$server->getConfig()->getSystemValueString('datadirectory', \OC::$SERVERROOT . '/data-autotest');
 		if (self::$wasDatabaseAllowed && \OC::$server->getDatabaseConnection()) {
 			$db = \OC::$server->getDatabaseConnection();
 			if ($db->inTransaction()) {
@@ -275,6 +307,22 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 		self::tearDownAfterClassCleanStrayDataFiles($dataDir);
 		self::tearDownAfterClassCleanStrayHooks();
 		self::tearDownAfterClassCleanStrayLocks();
+
+		/** @var SetupManager $setupManager */
+		$setupManager = \OC::$server->get(SetupManager::class);
+		$setupManager->tearDown();
+
+		/** @var MountProviderCollection $mountProviderCollection */
+		$mountProviderCollection = \OC::$server->get(MountProviderCollection::class);
+		$mountProviderCollection->clearProviders();
+
+		/** @var IConfig $config */
+		$config = \OC::$server->get(IConfig::class);
+		$mountProviderCollection->registerProvider(new CacheMountProvider($config));
+		$mountProviderCollection->registerHomeProvider(new LocalHomeMountProvider());
+		$mountProviderCollection->registerRootProvider(new RootMountProvider($config, \OC::$server->get(LoggerInterface::class)));
+
+		$setupManager->setupRoot();
 
 		parent::tearDownAfterClass();
 	}
@@ -459,15 +507,27 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 		}
 	}
 
+	protected function getGroupAnnotations(): array {
+		if (method_exists($this, 'getAnnotations')) {
+			$annotations = $this->getAnnotations();
+			return $annotations['class']['group'] ?? [];
+		}
+
+		$r = new \ReflectionClass($this);
+		$doc = $r->getDocComment();
+		preg_match_all('#@group\s+(.*?)\n#s', $doc, $annotations);
+		return $annotations[1] ?? [];
+	}
+
 	protected function IsDatabaseAccessAllowed() {
 		// on travis-ci.org we allow database access in any case - otherwise
 		// this will break all apps right away
 		if (true == getenv('TRAVIS')) {
 			return true;
 		}
-		$annotations = $this->getAnnotations();
-		if (isset($annotations['class']['group'])) {
-			if (in_array('DB', $annotations['class']['group']) || in_array('SLOWDB', $annotations['class']['group'])) {
+		$annotations = $this->getGroupAnnotations();
+		if (isset($annotations)) {
+			if (in_array('DB', $annotations) || in_array('SLOWDB', $annotations)) {
 				return true;
 			}
 		}

@@ -20,7 +20,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP\Files\Cache;
 
 /**
@@ -29,8 +28,19 @@ namespace OCP\Files\Cache;
  * @since 9.0.0
  */
 interface IWatcher {
+	/**
+	 * @since 9.0.0
+	 */
 	public const CHECK_NEVER = 0; // never check the underlying filesystem for updates
+
+	/**
+	 * @since 9.0.0
+	 */
 	public const CHECK_ONCE = 1; // check the underlying filesystem for updates once every request for each file
+
+	/**
+	 * @since 9.0.0
+	 */
 	public const CHECK_ALWAYS = 2; // always check the underlying filesystem for updates
 
 	/**

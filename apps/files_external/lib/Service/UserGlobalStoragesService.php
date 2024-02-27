@@ -21,10 +21,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_External\Service;
 
 use OCA\Files_External\Lib\StorageConfig;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Config\IUserMountCache;
 use OCP\IGroupManager;
 use OCP\IUser;
@@ -46,15 +46,17 @@ class UserGlobalStoragesService extends GlobalStoragesService {
 	 * @param IUserSession $userSession
 	 * @param IGroupManager $groupManager
 	 * @param IUserMountCache $userMountCache
+	 * @param IEventDispatcher $eventDispatcher
 	 */
 	public function __construct(
 		BackendService $backendService,
 		DBConfigService $dbConfig,
 		IUserSession $userSession,
 		IGroupManager $groupManager,
-		IUserMountCache $userMountCache
+		IUserMountCache $userMountCache,
+		IEventDispatcher $eventDispatcher
 	) {
-		parent::__construct($backendService, $dbConfig, $userMountCache);
+		parent::__construct($backendService, $dbConfig, $userMountCache, $eventDispatcher);
 		$this->userSession = $userSession;
 		$this->groupManager = $groupManager;
 	}
@@ -76,7 +78,7 @@ class UserGlobalStoragesService extends GlobalStoragesService {
 		$userMounts = $this->dbConfig->getAdminMountsFor(DBConfigService::APPLICABLE_TYPE_USER, $this->getUser()->getUID());
 		$globalMounts = $this->dbConfig->getAdminMountsFor(DBConfigService::APPLICABLE_TYPE_GLOBAL, null);
 		$groups = $this->groupManager->getUserGroupIds($this->getUser());
-		if (is_array($groups) && count($groups) !== 0) {
+		if (count($groups) !== 0) {
 			$groupMounts = $this->dbConfig->getAdminMountsForMultiple(DBConfigService::APPLICABLE_TYPE_GROUP, $groups);
 		} else {
 			$groupMounts = [];

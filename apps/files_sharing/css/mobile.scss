@@ -1,4 +1,6 @@
-@media only screen and (max-width: $breakpoint-mobile) {
+@use 'variables';
+
+@media only screen and (max-width: variables.$breakpoint-mobile) {
 
 /* make header scroll up for single shares, more view of content on small screens */
 #header.share-file {
@@ -6,9 +8,9 @@
 }
 
 /* hide size and date columns */
-table th#headerSize,
+table th.column-size,
 table td.filesize,
-table th#headerDate,
+table th.column-mtime,
 table td.date {
 	display: none;
 }
@@ -22,7 +24,6 @@ table td.filename .nametext {
 #imgframe {
 	width: 100%;
 	padding: 0;
-	margin-bottom: 35px;
 }
 /* some margin for the file type icon */
 #imgframe .publicpreview {
@@ -30,11 +31,11 @@ table td.filename .nametext {
 }
 
 /* some padding for better clickability */
-#fileList a.action img {
+.files-fileList a.action img {
 	padding: 0 6px 0 12px;
 }
 /* hide text of the actions on mobile */
-#fileList a.action:not(.menuitem) span {
+.files-fileList a.action:not(.menuitem) span {
 	display: none;
 }
 
@@ -54,7 +55,7 @@ table td.filename .nametext {
 	padding: 0 20px;
 }
 
-#emptycontent {
+.emptycontent {
 	margin-top: 10vh;
 }
 }

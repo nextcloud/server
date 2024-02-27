@@ -28,22 +28,23 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Files\Mount;
 
 use OC\Files\Filesystem;
 use OC\Files\Storage\Storage;
 use OC\Files\Storage\StorageFactory;
 use OCP\Files\Mount\IMountPoint;
-use OCP\ILogger;
+use OCP\Files\Storage\IStorageFactory;
+use Psr\Log\LoggerInterface;
 
 class MountPoint implements IMountPoint {
 	/**
-	 * @var \OC\Files\Storage\Storage $storage
+	 * @var \OC\Files\Storage\Storage|null $storage
 	 */
 	protected $storage = null;
 	protected $class;
 	protected $storageId;
+	protected $numericStorageId = null;
 	protected $rootId = null;
 
 	/**
@@ -77,6 +78,9 @@ class MountPoint implements IMountPoint {
 	/** @var int|null */
 	protected $mountId;
 
+	/** @var string */
+	protected $mountProvider;
+
 	/**
 	 * @param string|\OC\Files\Storage\Storage $storage
 	 * @param string $mountpoint
@@ -84,9 +88,18 @@ class MountPoint implements IMountPoint {
 	 * @param \OCP\Files\Storage\IStorageFactory $loader
 	 * @param array $mountOptions mount specific options
 	 * @param int|null $mountId
+	 * @param string|null $mountProvider
 	 * @throws \Exception
 	 */
-	public function __construct($storage, $mountpoint, $arguments = null, $loader = null, $mountOptions = null, $mountId = null) {
+	public function __construct(
+		$storage,
+		string $mountpoint,
+		array $arguments = null,
+		IStorageFactory $loader = null,
+		array $mountOptions = null,
+		int $mountId = null,
+		string $mountProvider = null
+	) {
 		if (is_null($arguments)) {
 			$arguments = [];
 		}
@@ -108,12 +121,18 @@ class MountPoint implements IMountPoint {
 			$this->storage = $this->loader->wrap($this, $storage);
 		} else {
 			// Update old classes to new namespace
-			if (strpos($storage, 'OC_Filestorage_') !== false) {
+			if (str_contains($storage, 'OC_Filestorage_')) {
 				$storage = '\OC\Files\Storage\\' . substr($storage, 15);
 			}
 			$this->class = $storage;
 			$this->arguments = $arguments;
 		}
+		if ($mountProvider) {
+			if (strlen($mountProvider) > 128) {
+				throw new \Exception("Mount provider $mountProvider name exceeds the limit of 128 characters");
+			}
+		}
+		$this->mountProvider = $mountProvider ?? '';
 	}
 
 	/**
@@ -155,19 +174,19 @@ class MountPoint implements IMountPoint {
 					// the root storage could not be initialized, show the user!
 					throw new \Exception('The root storage could not be initialized. Please contact your local administrator.', $exception->getCode(), $exception);
 				} else {
-					\OC::$server->getLogger()->logException($exception, ['level' => ILogger::ERROR]);
+					\OC::$server->get(LoggerInterface::class)->error($exception->getMessage(), ['exception' => $exception]);
 				}
 				return;
 			}
 		} else {
-			\OCP\Util::writeLog('core', 'storage backend ' . $this->class . ' not found', ILogger::ERROR);
+			\OC::$server->get(LoggerInterface::class)->error('Storage backend ' . $this->class . ' not found', ['app' => 'core']);
 			$this->invalidStorage = true;
 			return;
 		}
 	}
 
 	/**
-	 * @return \OC\Files\Storage\Storage
+	 * @return \OC\Files\Storage\Storage|null
 	 */
 	public function getStorage() {
 		if (is_null($this->storage)) {
@@ -177,19 +196,15 @@ class MountPoint implements IMountPoint {
 	}
 
 	/**
-	 * @return string
+	 * @return string|null
 	 */
 	public function getStorageId() {
 		if (!$this->storageId) {
-			if (is_null($this->storage)) {
-				$storage = $this->createStorage(); //FIXME: start using exceptions
-				if (is_null($storage)) {
-					return null;
-				}
-
-				$this->storage = $storage;
+			$storage = $this->getStorage();
+			if (is_null($storage)) {
+				return null;
 			}
-			$this->storageId = $this->storage->getId();
+			$this->storageId = $storage->getId();
 			if (strlen($this->storageId) > 64) {
 				$this->storageId = md5($this->storageId);
 			}
@@ -201,7 +216,14 @@ class MountPoint implements IMountPoint {
 	 * @return int
 	 */
 	public function getNumericStorageId() {
-		return $this->getStorage()->getStorageCache()->getNumericId();
+		if (is_null($this->numericStorageId)) {
+			$storage = $this->getStorage();
+			if (is_null($storage)) {
+				return -1;
+			}
+			$this->numericStorageId = $storage->getStorageCache()->getNumericId();
+		}
+		return $this->numericStorageId;
 	}
 
 	/**
@@ -250,7 +272,7 @@ class MountPoint implements IMountPoint {
 	 * @return mixed
 	 */
 	public function getOption($name, $default) {
-		return isset($this->mountOptions[$name]) ? $this->mountOptions[$name] : $default;
+		return $this->mountOptions[$name] ?? $default;
 	}
 
 	/**
@@ -269,7 +291,13 @@ class MountPoint implements IMountPoint {
 	 */
 	public function getStorageRootId() {
 		if (is_null($this->rootId) || $this->rootId === -1) {
-			$this->rootId = (int)$this->getStorage()->getCache()->getId('');
+			$storage = $this->getStorage();
+			// if we can't create the storage return -1 as root id, this is then handled the same as if the root isn't scanned yet
+			if ($storage === null) {
+				$this->rootId = -1;
+			} else {
+				$this->rootId = (int)$storage->getCache()->getId('');
+			}
 		}
 		return $this->rootId;
 	}
@@ -280,5 +308,9 @@ class MountPoint implements IMountPoint {
 
 	public function getMountType() {
 		return '';
+	}
+
+	public function getMountProvider(): string {
+		return $this->mountProvider;
 	}
 }

@@ -17,29 +17,20 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Security\IdentityProof;
 
 class Key {
-	/** @var string */
-	private $publicKey;
-	/** @var string */
-	private $privateKey;
-
-	/**
-	 * @param string $publicKey
-	 * @param string $privateKey
-	 */
-	public function __construct(string $publicKey, string $privateKey) {
-		$this->publicKey = $publicKey;
-		$this->privateKey = $privateKey;
+	public function __construct(
+		private string $publicKey,
+		private string $privateKey,
+	) {
 	}
 
 	public function getPrivate(): string {

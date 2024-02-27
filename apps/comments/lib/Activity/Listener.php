@@ -22,7 +22,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Comments\Activity;
 
 use OCP\Activity\IManager;
@@ -36,47 +35,17 @@ use OCP\IUserSession;
 use OCP\Share\IShareHelper;
 
 class Listener {
-	/** @var IManager */
-	protected $activityManager;
-	/** @var IUserSession */
-	protected $session;
-	/** @var \OCP\App\IAppManager */
-	protected $appManager;
-	/** @var \OCP\Files\Config\IMountProviderCollection */
-	protected $mountCollection;
-	/** @var \OCP\Files\IRootFolder */
-	protected $rootFolder;
-	/** @var IShareHelper */
-	protected $shareHelper;
-
-	/**
-	 * Listener constructor.
-	 *
-	 * @param IManager $activityManager
-	 * @param IUserSession $session
-	 * @param IAppManager $appManager
-	 * @param IMountProviderCollection $mountCollection
-	 * @param IRootFolder $rootFolder
-	 * @param IShareHelper $shareHelper
-	 */
-	public function __construct(IManager $activityManager,
-								IUserSession $session,
-								IAppManager $appManager,
-								IMountProviderCollection $mountCollection,
-								IRootFolder $rootFolder,
-								IShareHelper $shareHelper) {
-		$this->activityManager = $activityManager;
-		$this->session = $session;
-		$this->appManager = $appManager;
-		$this->mountCollection = $mountCollection;
-		$this->rootFolder = $rootFolder;
-		$this->shareHelper = $shareHelper;
+	public function __construct(
+		protected IManager $activityManager,
+		protected IUserSession $session,
+		protected IAppManager $appManager,
+		protected IMountProviderCollection $mountCollection,
+		protected IRootFolder $rootFolder,
+		protected IShareHelper $shareHelper,
+	) {
 	}
 
-	/**
-	 * @param CommentsEvent $event
-	 */
-	public function commentEvent(CommentsEvent $event) {
+	public function commentEvent(CommentsEvent $event): void {
 		if ($event->getComment()->getObjectType() !== 'files'
 			|| $event->getEvent() !== CommentsEvent::EVENT_ADD
 			|| !$this->appManager->isInstalled('activity')) {

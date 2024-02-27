@@ -49,7 +49,8 @@
 			var actions = fileActions.getActions(
 				fileActions.getCurrentMimeType(),
 				fileActions.getCurrentType(),
-				fileActions.getCurrentPermissions()
+				fileActions.getCurrentPermissions(),
+				fileActions.getCurrentFile()
 			);
 			var actionSpec = actions[actionName];
 			var fileName = this._context.$file.attr('data-file');
@@ -74,7 +75,8 @@
 			var actions = fileActions.getActions(
 				fileActions.getCurrentMimeType(),
 				fileActions.getCurrentType(),
-				fileActions.getCurrentPermissions()
+				fileActions.getCurrentPermissions(),
+				fileActions.getCurrentFile()
 			);
 
 			var defaultAction = fileActions.getCurrentDefaultFileAction();
@@ -131,6 +133,11 @@
 			this.render();
 			this.$el.removeClass('hidden');
 
+			window._nc_event_bus.emit('files:action-menu:opened', {
+				el: this.$el[0],
+				context,
+			})
+
 			OC.showMenu(null, this.$el);
 		}
 	});
@@ -138,4 +145,3 @@
 	OCA.Files.FileActionsMenu = FileActionsMenu;
 
 })();
-

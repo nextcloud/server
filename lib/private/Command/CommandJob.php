@@ -20,18 +20,17 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Command;
 
-use OC\BackgroundJob\QueuedJob;
+use OCP\BackgroundJob\QueuedJob;
 use OCP\Command\ICommand;
 
 /**
  * Wrap a command in the background job interface
  */
 class CommandJob extends QueuedJob {
-	protected function run($serializedCommand) {
-		$command = \Opis\Closure\unserialize($serializedCommand);
+	protected function run($argument) {
+		$command = unserialize($argument);
 		if ($command instanceof ICommand) {
 			$command->handle();
 		} else {

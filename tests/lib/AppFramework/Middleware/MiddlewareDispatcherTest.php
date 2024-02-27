@@ -28,6 +28,7 @@ use OC\AppFramework\Middleware\MiddlewareDispatcher;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Middleware;
 use OCP\IConfig;
+use OCP\IRequestId;
 
 // needed to test ordering
 class TestMiddleware extends Middleware {
@@ -129,8 +130,8 @@ class MiddlewareDispatcherTest extends \Test\TestCase {
 			->setConstructorArgs(['app',
 				new Request(
 					['method' => 'GET'],
-					$this->getMockBuilder('\OCP\Security\ISecureRandom')->getMock(),
-					$this->getMockBuilder(IConfig::class)->getMock()
+					$this->createMock(IRequestId::class),
+					$this->createMock(IConfig::class)
 				)
 			])->getMock();
 	}
@@ -272,7 +273,7 @@ class MiddlewareDispatcherTest extends \Test\TestCase {
 	public function testExceptionShouldRunAfterExceptionOfOnlyPreviouslyExecutedMiddlewares() {
 		$m1 = $this->getMiddleware();
 		$m2 = $this->getMiddleware(true);
-		$m3 = $this->getMockBuilder('\OCP\AppFramework\Middleware')->getMock();
+		$m3 = $this->createMock(Middleware::class);
 		$m3->expects($this->never())
 				->method('afterException');
 		$m3->expects($this->never())

@@ -26,7 +26,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Activity;
 
 use OCP\Activity\ActivitySettings;
@@ -71,11 +70,11 @@ class Manager implements IManager {
 	protected $l10n;
 
 	public function __construct(
-			IRequest $request,
-			IUserSession $session,
-			IConfig $config,
-			IValidator $validator,
-			IL10N $l10n
+		IRequest $request,
+		IUserSession $session,
+		IConfig $config,
+		IValidator $validator,
+		IL10N $l10n
 	) {
 		$this->request = $request;
 		$this->session = $session;
@@ -193,7 +192,7 @@ class Manager implements IManager {
 	public function getFilters(): array {
 		foreach ($this->filterClasses as $class => $false) {
 			/** @var IFilter $filter */
-			$filter = \OC::$server->query($class);
+			$filter = \OCP\Server::get($class);
 
 			if (!$filter instanceof IFilter) {
 				throw new \InvalidArgumentException('Invalid activity filter registered');
@@ -243,7 +242,7 @@ class Manager implements IManager {
 	public function getProviders(): array {
 		foreach ($this->providerClasses as $class => $false) {
 			/** @var IProvider $provider */
-			$provider = \OC::$server->query($class);
+			$provider = \OCP\Server::get($class);
 
 			if (!$provider instanceof IProvider) {
 				throw new \InvalidArgumentException('Invalid activity provider registered');
@@ -277,7 +276,7 @@ class Manager implements IManager {
 	public function getSettings(): array {
 		foreach ($this->settingsClasses as $class => $false) {
 			/** @var ISetting $setting */
-			$setting = \OC::$server->query($class);
+			$setting = \OCP\Server::get($class);
 
 			if ($setting instanceof ISetting) {
 				if (!$setting instanceof ActivitySettings) {

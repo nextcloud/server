@@ -7,7 +7,7 @@
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Mikael Hammarin <mikael@try2.se>
  * @author Morris Jobke <hey@morrisjobke.de>
@@ -28,7 +28,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC;
 
 use OC\Hooks\PublicEmitter;
@@ -43,7 +42,6 @@ use OCP\IUser;
 use OCP\IUserManager;
 
 class SubAdmin extends PublicEmitter implements ISubAdmin {
-
 	/** @var IUserManager */
 	private $userManager;
 
@@ -62,9 +60,9 @@ class SubAdmin extends PublicEmitter implements ISubAdmin {
 	 * @param IDBConnection $dbConn
 	 */
 	public function __construct(IUserManager $userManager,
-								IGroupManager $groupManager,
-								IDBConnection $dbConn,
-								IEventDispatcher $eventDispatcher) {
+		IGroupManager $groupManager,
+		IDBConnection $dbConn,
+		IEventDispatcher $eventDispatcher) {
 		$this->userManager = $userManager;
 		$this->groupManager = $groupManager;
 		$this->dbConn = $dbConn;

@@ -14,24 +14,25 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\AppFramework\Middleware\Security;
 
 use OC\AppFramework\Middleware\Security\Exceptions\NotConfirmedException;
 use OC\AppFramework\Utility\ControllerMethodReflector;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
 use OCP\AppFramework\Middleware;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\ISession;
 use OCP\IUserSession;
 use OCP\User\Backend\IPasswordConfirmationBackend;
+use ReflectionMethod;
 
 class PasswordConfirmationMiddleware extends Middleware {
 	/** @var ControllerMethodReflector */
@@ -54,9 +55,9 @@ class PasswordConfirmationMiddleware extends Middleware {
 	 * @param ITimeFactory $timeFactory
 	 */
 	public function __construct(ControllerMethodReflector $reflector,
-								ISession $session,
-								IUserSession $userSession,
-								ITimeFactory $timeFactory) {
+		ISession $session,
+		IUserSession $userSession,
+		ITimeFactory $timeFactory) {
 		$this->reflector = $reflector;
 		$this->session = $session;
 		$this->userSession = $userSession;
@@ -69,7 +70,9 @@ class PasswordConfirmationMiddleware extends Middleware {
 	 * @throws NotConfirmedException
 	 */
 	public function beforeController($controller, $methodName) {
-		if ($this->reflector->hasAnnotation('PasswordConfirmationRequired')) {
+		$reflectionMethod = new ReflectionMethod($controller, $methodName);
+
+		if ($this->hasAnnotationOrAttribute($reflectionMethod, 'PasswordConfirmationRequired', PasswordConfirmationRequired::class)) {
 			$user = $this->userSession->getUser();
 			$backendClassName = '';
 			if ($user !== null) {
@@ -89,5 +92,25 @@ class PasswordConfirmationMiddleware extends Middleware {
 				throw new NotConfirmedException();
 			}
 		}
+	}
+
+	/**
+	 * @template T
+	 *
+	 * @param ReflectionMethod $reflectionMethod
+	 * @param string $annotationName
+	 * @param class-string<T> $attributeClass
+	 * @return boolean
+	 */
+	protected function hasAnnotationOrAttribute(ReflectionMethod $reflectionMethod, string $annotationName, string $attributeClass): bool {
+		if (!empty($reflectionMethod->getAttributes($attributeClass))) {
+			return true;
+		}
+
+		if ($this->reflector->hasAnnotation($annotationName)) {
+			return true;
+		}
+
+		return false;
 	}
 }

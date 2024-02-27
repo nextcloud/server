@@ -5,6 +5,7 @@ declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2020 Robin Appelman <robin@icewind.nl>
  *
+ * @author Maxence Lange <maxence@artificial-owl.com>
  * @author Robin Appelman <robin@icewind.nl>
  *
  * @license GNU AGPL version 3 or any later version
@@ -16,7 +17,7 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -26,6 +27,14 @@ declare(strict_types=1);
 
 namespace OC\Files\Node;
 
+use OC\Files\Filesystem;
+use OC\Files\Utils\PathHelper;
+use OCP\Constants;
+use OCP\Files\Folder;
+use OCP\Files\IRootFolder;
+use OCP\Files\Mount\IMountPoint;
+use OCP\Files\NotPermittedException;
+
 /**
  * Class LazyFolder
  *
@@ -34,20 +43,33 @@ namespace OC\Files\Node;
  *
  * @package OC\Files\Node
  */
-class LazyFolder implements \OCP\Files\Folder {
-	/** @var \Closure */
-	private $folderClosure;
-
-	/** @var LazyFolder | null */
-	private $folder = null;
+class LazyFolder implements Folder {
+	/** @var \Closure(): Folder */
+	private \Closure $folderClosure;
+	protected ?Folder $folder = null;
+	protected IRootFolder $rootFolder;
+	protected array $data;
 
 	/**
-	 * LazyFolder constructor.
-	 *
-	 * @param \Closure $folderClosure
+	 * @param IRootFolder $rootFolder
+	 * @param \Closure(): Folder $folderClosure
+	 * @param array $data
 	 */
-	public function __construct(\Closure $folderClosure) {
+	public function __construct(IRootFolder $rootFolder, \Closure $folderClosure, array $data = []) {
+		$this->rootFolder = $rootFolder;
 		$this->folderClosure = $folderClosure;
+		$this->data = $data;
+	}
+
+	protected function getRootFolder(): IRootFolder {
+		return $this->rootFolder;
+	}
+
+	protected function getRealFolder(): Folder {
+		if ($this->folder === null) {
+			$this->folder = call_user_func($this->folderClosure);
+		}
+		return $this->folder;
 	}
 
 	/**
@@ -59,11 +81,7 @@ class LazyFolder implements \OCP\Files\Folder {
 	 * @return mixed
 	 */
 	public function __call($method, $args) {
-		if ($this->folder === null) {
-			$this->folder = call_user_func($this->folderClosure);
-		}
-
-		return call_user_func_array([$this->folder, $method], $args);
+		return call_user_func_array([$this->getRealFolder(), $method], $args);
 	}
 
 	/**
@@ -104,14 +122,14 @@ class LazyFolder implements \OCP\Files\Folder {
 	/**
 	 * @inheritDoc
 	 */
-	public function getMount($mountPoint) {
+	public function getMount(string $mountPoint): IMountPoint {
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
 
 	/**
-	 * @inheritDoc
+	 * @return IMountPoint[]
 	 */
-	public function getMountsIn($mountPoint) {
+	public function getMountsIn(string $mountPoint): array {
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
 
@@ -140,7 +158,7 @@ class LazyFolder implements \OCP\Files\Folder {
 	 * @inheritDoc
 	 */
 	public function get($path) {
-		return $this->__call(__FUNCTION__, func_get_args());
+		return $this->getRootFolder()->get($this->getFullPath($path));
 	}
 
 	/**
@@ -182,6 +200,9 @@ class LazyFolder implements \OCP\Files\Folder {
 	 * @inheritDoc
 	 */
 	public function getPath() {
+		if (isset($this->data['path'])) {
+			return $this->data['path'];
+		}
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
 
@@ -196,6 +217,9 @@ class LazyFolder implements \OCP\Files\Folder {
 	 * @inheritDoc
 	 */
 	public function getId() {
+		if (isset($this->data['fileid'])) {
+			return $this->data['fileid'];
+		}
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
 
@@ -210,13 +234,19 @@ class LazyFolder implements \OCP\Files\Folder {
 	 * @inheritDoc
 	 */
 	public function getMTime() {
+		if (isset($this->data['mtime'])) {
+			return $this->data['mtime'];
+		}
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	public function getSize($includeMounts = true) {
+	public function getSize($includeMounts = true): int|float {
+		if (isset($this->data['size'])) {
+			return $this->data['size'];
+		}
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
 
@@ -224,6 +254,9 @@ class LazyFolder implements \OCP\Files\Folder {
 	 * @inheritDoc
 	 */
 	public function getEtag() {
+		if (isset($this->data['etag'])) {
+			return $this->data['etag'];
+		}
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
 
@@ -231,6 +264,9 @@ class LazyFolder implements \OCP\Files\Folder {
 	 * @inheritDoc
 	 */
 	public function getPermissions() {
+		if (isset($this->data['permissions'])) {
+			return $this->data['permissions'];
+		}
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
 
@@ -238,6 +274,9 @@ class LazyFolder implements \OCP\Files\Folder {
 	 * @inheritDoc
 	 */
 	public function isReadable() {
+		if (isset($this->data['permissions'])) {
+			return ($this->data['permissions'] & Constants::PERMISSION_READ) == Constants::PERMISSION_READ;
+		}
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
 
@@ -245,6 +284,9 @@ class LazyFolder implements \OCP\Files\Folder {
 	 * @inheritDoc
 	 */
 	public function isUpdateable() {
+		if (isset($this->data['permissions'])) {
+			return ($this->data['permissions'] & Constants::PERMISSION_UPDATE) == Constants::PERMISSION_UPDATE;
+		}
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
 
@@ -252,6 +294,9 @@ class LazyFolder implements \OCP\Files\Folder {
 	 * @inheritDoc
 	 */
 	public function isDeletable() {
+		if (isset($this->data['permissions'])) {
+			return ($this->data['permissions'] & Constants::PERMISSION_DELETE) == Constants::PERMISSION_DELETE;
+		}
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
 
@@ -259,6 +304,9 @@ class LazyFolder implements \OCP\Files\Folder {
 	 * @inheritDoc
 	 */
 	public function isShareable() {
+		if (isset($this->data['permissions'])) {
+			return ($this->data['permissions'] & Constants::PERMISSION_SHARE) == Constants::PERMISSION_SHARE;
+		}
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
 
@@ -273,6 +321,12 @@ class LazyFolder implements \OCP\Files\Folder {
 	 * @inheritDoc
 	 */
 	public function getName() {
+		if (isset($this->data['path'])) {
+			return basename($this->data['path']);
+		}
+		if (isset($this->data['name'])) {
+			return $this->data['name'];
+		}
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
 
@@ -287,6 +341,9 @@ class LazyFolder implements \OCP\Files\Folder {
 	 * @inheritDoc
 	 */
 	public function getMimetype() {
+		if (isset($this->data['mimetype'])) {
+			return $this->data['mimetype'];
+		}
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
 
@@ -294,6 +351,10 @@ class LazyFolder implements \OCP\Files\Folder {
 	 * @inheritDoc
 	 */
 	public function getMimePart() {
+		if (isset($this->data['mimetype'])) {
+			[$part,] = explode('/', $this->data['mimetype']);
+			return $part;
+		}
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
 
@@ -308,6 +369,9 @@ class LazyFolder implements \OCP\Files\Folder {
 	 * @inheritDoc
 	 */
 	public function getType() {
+		if (isset($this->data['type'])) {
+			return $this->data['type'];
+		}
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
 
@@ -354,13 +418,13 @@ class LazyFolder implements \OCP\Files\Folder {
 	 * @inheritDoc
 	 */
 	public function getFullPath($path) {
-		return $this->__call(__FUNCTION__, func_get_args());
-	}
-
-	/**
-	 * @inheritDoc
-	 */
-	public function getRelativePath($path) {
+		if (isset($this->data['path'])) {
+			$path = PathHelper::normalizePath($path);
+			if (!Filesystem::isValidPath($path)) {
+				throw new NotPermittedException('Invalid path "' . $path . '"');
+			}
+			return $this->data['path'] . $path;
+		}
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
 
@@ -417,6 +481,10 @@ class LazyFolder implements \OCP\Files\Folder {
 	 * @inheritDoc
 	 */
 	public function searchByTag($tag, $userId) {
+		return $this->__call(__FUNCTION__, func_get_args());
+	}
+
+	public function searchBySystemTag(string $tagName, string $userId, int $limit = 0, int $offset = 0) {
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
 
@@ -495,5 +563,24 @@ class LazyFolder implements \OCP\Files\Folder {
 	 */
 	public function getUploadTime(): int {
 		return $this->__call(__FUNCTION__, func_get_args());
+	}
+
+	public function getRelativePath($path) {
+		return PathHelper::getRelativePath($this->getPath(), $path);
+	}
+
+	public function getParentId(): int {
+		if (isset($this->data['parent'])) {
+			return $this->data['parent'];
+		}
+		return $this->__call(__FUNCTION__, func_get_args());
+	}
+
+	/**
+	 * @inheritDoc
+	 * @return array<string, int|string|bool|float|string[]|int[]>
+	 */
+	public function getMetadata(): array {
+		return $this->data['metadata'] ?? $this->__call(__FUNCTION__, func_get_args());
 	}
 }

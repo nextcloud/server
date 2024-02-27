@@ -1,9 +1,11 @@
-/*
+/**
  * @copyright Copyright (c) 2018 Julius Härtl <jus@bitgrid.net>
  *
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Julius Härtl <jus@bitgrid.net>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -20,28 +22,36 @@
  *
  */
 
-import api from './api'
+import api from './api.js'
 import Vue from 'vue'
 import { generateUrl } from '@nextcloud/router'
+import { showError, showInfo } from '@nextcloud/dialogs'
+import { loadState } from '@nextcloud/initial-state'
 
 const state = {
 	apps: [],
+	bundles: loadState('settings', 'appstoreBundles', []),
 	categories: [],
-	updateCount: 0,
+	updateCount: loadState('settings', 'appstoreUpdateCount', 0),
 	loading: {},
 	loadingList: false,
+	gettingCategoriesPromise: null,
 }
 
 const mutations = {
 
 	APPS_API_FAILURE(state, error) {
-		OC.Notification.showHtml(t('settings', 'An error occured during the request. Unable to proceed.') + '<br>' + error.error.response.data.data.message, { timeout: 7 })
+		showError(t('settings', 'An error occurred during the request. Unable to proceed.') + '<br>' + error.error.response.data.data.message, { isHTML: true })
 		console.error(state, error)
 	},
 
 	initCategories(state, { categories, updateCount }) {
 		state.categories = categories
 		state.updateCount = updateCount
+	},
+
+	updateCategories(state, categoriesPromise) {
+		state.gettingCategoriesPromise = categoriesPromise
 	},
 
 	setUpdateCount(state, updateCount) {
@@ -80,6 +90,13 @@ const mutations = {
 		const app = state.apps.find(app => app.id === appId)
 		app.active = true
 		app.groups = groups
+	},
+
+	setInstallState(state, { appId, canInstall }) {
+		const app = state.apps.find(app => app.id === appId)
+		if (app) {
+			app.canInstall = canInstall === true
+		}
 	},
 
 	disableApp(state, appId) {
@@ -149,8 +166,14 @@ const getters = {
 	getAllApps(state) {
 		return state.apps
 	},
+	getAppBundles(state) {
+		return state.bundles
+	},
 	getUpdateCount(state) {
 		return state.updateCount
+	},
+	getCategoryById: (state) => (selectedCategoryId) => {
+		return state.categories.find((category) => category.id === selectedCategoryId)
 	},
 }
 
@@ -178,16 +201,16 @@ const actions = {
 					return api.get(generateUrl('apps/files'))
 						.then(() => {
 							if (response.data.update_required) {
-								OC.dialogs.info(
+								showInfo(
 									t(
 										'settings',
 										'The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds.'
 									),
-									t('settings', 'App update'),
-									function() {
-										window.location.reload()
-									},
-									true
+									{
+										onClick: () => window.location.reload(),
+										close: false,
+
+									}
 								)
 								setTimeout(function() {
 									location.reload()
@@ -198,7 +221,7 @@ const actions = {
 							if (!Array.isArray(appId)) {
 								context.commit('setError', {
 									appId: apps,
-									error: t('settings', 'Error: This app can not be enabled because it makes the server unstable'),
+									error: t('settings', 'Error: This app cannot be enabled because it makes the server unstable'),
 								})
 							}
 						})
@@ -226,8 +249,7 @@ const actions = {
 			context.commit('startLoading', 'install')
 			return api.post(generateUrl('settings/apps/force'), { appId })
 				.then((response) => {
-					// TODO: find a cleaner solution
-					location.reload()
+					context.commit('setInstallState', { appId, canInstall: true })
 				})
 				.catch((error) => {
 					context.commit('stopLoading', apps)
@@ -237,6 +259,10 @@ const actions = {
 						error: error.response.data.data.message,
 					})
 					context.commit('APPS_API_FAILURE', { appId, error })
+				})
+				.finally(() => {
+					context.commit('stopLoading', apps)
+					context.commit('stopLoading', 'install')
 				})
 		}).catch((error) => context.commit('API_FAILURE', { appId, error }))
 	},
@@ -309,18 +335,25 @@ const actions = {
 			.catch((error) => context.commit('API_FAILURE', error))
 	},
 
-	getCategories(context) {
-		context.commit('startLoading', 'categories')
-		return api.get(generateUrl('settings/apps/categories'))
-			.then((response) => {
-				if (response.data.length > 0) {
-					context.commit('appendCategories', response.data)
+	async getCategories(context, { shouldRefetchCategories = false } = {}) {
+		if (shouldRefetchCategories || !context.state.gettingCategoriesPromise) {
+			context.commit('startLoading', 'categories')
+			try {
+				const categoriesPromise = api.get(generateUrl('settings/apps/categories'))
+				context.commit('updateCategories', categoriesPromise)
+				const categoriesPromiseResponse = await categoriesPromise
+				if (categoriesPromiseResponse.data.length > 0) {
+					context.commit('appendCategories', categoriesPromiseResponse.data)
 					context.commit('stopLoading', 'categories')
 					return true
 				}
+				context.commit('stopLoading', 'categories')
 				return false
-			})
-			.catch((error) => context.commit('API_FAILURE', error))
+			} catch (error) {
+				context.commit('API_FAILURE', error)
+			}
+		}
+		return context.state.gettingCategoriesPromise
 	},
 
 }

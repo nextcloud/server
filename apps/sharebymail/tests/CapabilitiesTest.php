@@ -1,8 +1,9 @@
 <?php
 /**
- *
+ * @copyright Copyright (c) 2016 MasterOfDeath <rinat.gumirov@mail.ru>
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author MasterOfDeath <rinat.gumirov@mail.ru>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
@@ -15,38 +16,55 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\ShareByMail\Tests;
 
 use OCA\ShareByMail\Capabilities;
 use OCA\ShareByMail\Settings\SettingsManager;
+use OCP\App\IAppManager;
+use OCP\Share\IManager;
 use Test\TestCase;
 
 class CapabilitiesTest extends TestCase {
 	/** @var Capabilities */
 	private $capabilities;
 
-	/** @var SettingsManager */
+	/** @var IManager | \PHPUnit\Framework\MockObject\MockObject */
+	private $manager;
+
+	/** @var IManager | \PHPUnit\Framework\MockObject\MockObject */
 	private $settingsManager;
+
+	/** @var IAppManager | \PHPUnit\Framework\MockObject\MockObject */
+	private $appManager;
 
 	protected function setUp(): void {
 		parent::setUp();
 
 
+		$this->manager = $this::createMock(IManager::class);
 		$this->settingsManager = $this::createMock(SettingsManager::class);
-		$this->capabilities = new Capabilities($this->settingsManager);
+		$this->appManager = $this::createMock(IAppManager::class);
+		$this->capabilities = new Capabilities($this->manager, $this->settingsManager, $this->appManager);
 	}
 
 	public function testGetCapabilities() {
-		$this->settingsManager->method('enforcePasswordProtection')
+		$this->manager->method('shareApiAllowLinks')
+			->willReturn(true);
+		$this->manager->method('shareApiLinkEnforcePassword')
 			->willReturn(false);
+		$this->manager->method('shareApiLinkDefaultExpireDateEnforced')
+			->willReturn(false);
+		$this->settingsManager->method('sendPasswordByMail')
+			->willReturn(true);
+		$this->appManager->method('isEnabledForUser')
+			->willReturn(true);
 
 		$capabilities = [
 			'files_sharing' =>
@@ -54,9 +72,18 @@ class CapabilitiesTest extends TestCase {
 					'sharebymail' =>
 						[
 							'enabled' => true,
-							'upload_files_drop' => ['enabled' => true],
-							'password' => ['enabled' => true, 'enforced' => false],
-							'expire_date' => ['enabled' => true]
+							'send_password_by_mail' => true,
+							'upload_files_drop' => [
+								'enabled' => true,
+							],
+							'password' => [
+								'enabled' => true,
+								'enforced' => false,
+							],
+							'expire_date' => [
+								'enabled' => true,
+								'enforced' => false,
+							],
 						]
 				]
 		];

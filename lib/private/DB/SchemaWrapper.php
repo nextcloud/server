@@ -14,21 +14,21 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\DB;
 
+use Doctrine\DBAL\Exception;
+use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Schema\Schema;
 use OCP\DB\ISchemaWrapper;
 
 class SchemaWrapper implements ISchemaWrapper {
-
 	/** @var Connection */
 	protected $connection;
 
@@ -62,7 +62,7 @@ class SchemaWrapper implements ISchemaWrapper {
 	public function getTableNamesWithoutPrefix() {
 		$tableNames = $this->schema->getTableNames();
 		return array_map(function ($tableName) {
-			if (strpos($tableName, $this->connection->getPrefix()) === 0) {
+			if (str_starts_with($tableName, $this->connection->getPrefix())) {
 				return substr($tableName, strlen($this->connection->getPrefix()));
 			}
 
@@ -129,5 +129,16 @@ class SchemaWrapper implements ISchemaWrapper {
 	 */
 	public function getTables() {
 		return $this->schema->getTables();
+	}
+
+	/**
+	 * Gets the DatabasePlatform for the database.
+	 *
+	 * @return AbstractPlatform
+	 *
+	 * @throws Exception
+	 */
+	public function getDatabasePlatform() {
+		return $this->connection->getDatabasePlatform();
 	}
 }

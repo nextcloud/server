@@ -29,7 +29,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\IntegrityCheck;
 
 use OC\Core\Command\Maintenance\Mimetype\GenerateMimetypeFileBuilder;
@@ -84,12 +83,12 @@ class Checker {
 	 * @param IMimeTypeDetector $mimeTypeDetector
 	 */
 	public function __construct(EnvironmentHelper $environmentHelper,
-								FileAccessHelper $fileAccessHelper,
-								AppLocator $appLocator,
-								?IConfig $config,
-								ICacheFactory $cacheFactory,
-								?IAppManager $appManager,
-								IMimeTypeDetector $mimeTypeDetector) {
+		FileAccessHelper $fileAccessHelper,
+		AppLocator $appLocator,
+		?IConfig $config,
+		ICacheFactory $cacheFactory,
+		?IAppManager $appManager,
+		IMimeTypeDetector $mimeTypeDetector) {
 		$this->environmentHelper = $environmentHelper;
 		$this->fileAccessHelper = $fileAccessHelper;
 		$this->appLocator = $appLocator;
@@ -117,9 +116,9 @@ class Checker {
 		 */
 		$isIntegrityCheckDisabled = false;
 		if ($this->config !== null) {
-			$isIntegrityCheckDisabled = $this->config->getSystemValue('integrity.check.disabled', false);
+			$isIntegrityCheckDisabled = $this->config->getSystemValueBool('integrity.check.disabled', false);
 		}
-		if ($isIntegrityCheckDisabled === true) {
+		if ($isIntegrityCheckDisabled) {
 			return false;
 		}
 
@@ -162,7 +161,7 @@ class Checker {
 	 * @return array Array of hashes.
 	 */
 	private function generateHashes(\RecursiveIteratorIterator $iterator,
-									string $path): array {
+		string $path): array {
 		$hashes = [];
 
 		$baseDirectoryLength = \strlen($path);
@@ -202,7 +201,8 @@ class Checker {
 			if ($filename === $this->environmentHelper->getServerRoot() . '/core/js/mimetypelist.js') {
 				$oldMimetypeList = new GenerateMimetypeFileBuilder();
 				$newFile = $oldMimetypeList->generateFile($this->mimeTypeDetector->getAllAliases());
-				if ($newFile === file_get_contents($filename)) {
+				$oldFile = $this->fileAccessHelper->file_get_contents($filename);
+				if ($newFile === $oldFile) {
 					$hashes[$relativeFileName] = hash('sha512', $oldMimetypeList->generateFile($this->mimeTypeDetector->getOnlyDefaultAliases()));
 					continue;
 				}
@@ -223,8 +223,8 @@ class Checker {
 	 * @return array
 	 */
 	private function createSignatureData(array $hashes,
-										 X509 $certificate,
-										 RSA $privateKey): array {
+		X509 $certificate,
+		RSA $privateKey): array {
 		ksort($hashes);
 
 		$privateKey->setSignatureMode(RSA::SIGNATURE_PSS);
@@ -249,8 +249,8 @@ class Checker {
 	 * @throws \Exception
 	 */
 	public function writeAppSignature($path,
-									  X509 $certificate,
-									  RSA $privateKey) {
+		X509 $certificate,
+		RSA $privateKey) {
 		$appInfoDir = $path . '/appinfo';
 		try {
 			$this->fileAccessHelper->assertDirectoryExists($appInfoDir);
@@ -259,7 +259,7 @@ class Checker {
 			$hashes = $this->generateHashes($iterator, $path);
 			$signature = $this->createSignatureData($hashes, $certificate, $privateKey);
 			$this->fileAccessHelper->file_put_contents(
-					$appInfoDir . '/signature.json',
+				$appInfoDir . '/signature.json',
 				json_encode($signature, JSON_PRETTY_PRINT)
 			);
 		} catch (\Exception $e) {
@@ -279,8 +279,8 @@ class Checker {
 	 * @throws \Exception
 	 */
 	public function writeCoreSignature(X509 $certificate,
-									   RSA $rsa,
-									   $path) {
+		RSA $rsa,
+		$path) {
 		$coreDir = $path . '/core';
 		try {
 			$this->fileAccessHelper->assertDirectoryExists($coreDir);
@@ -357,7 +357,7 @@ class Checker {
 		// Verify if certificate has proper CN. "core" CN is always trusted.
 		if ($x509->getDN(X509::DN_OPENSSL)['CN'] !== $certificateCN && $x509->getDN(X509::DN_OPENSSL)['CN'] !== 'core') {
 			throw new InvalidSignatureException(
-					sprintf('Certificate is not valid for required scope. (Requested: %s, current: CN=%s)', $certificateCN, $x509->getDN(true)['CN'])
+				sprintf('Certificate is not valid for required scope. (Requested: %s, current: CN=%s)', $certificateCN, $x509->getDN(true)['CN'])
 			);
 		}
 
@@ -379,7 +379,7 @@ class Checker {
 		// integrity check.
 		if ($basePath === $this->environmentHelper->getServerRoot()) {
 			foreach ($expectedHashes as $fileName => $hash) {
-				if (strpos($fileName, 'updater/') === 0) {
+				if (str_starts_with($fileName, 'updater/')) {
 					unset($expectedHashes[$fileName]);
 				}
 			}
@@ -439,7 +439,7 @@ class Checker {
 	 */
 	public function getResults(): array {
 		$cachedResults = $this->cache->get(self::CACHE_KEY);
-		if (!\is_null($cachedResults)) {
+		if (!\is_null($cachedResults) and $cachedResults !== false) {
 			return json_decode($cachedResults, true);
 		}
 
@@ -515,10 +515,10 @@ class Checker {
 				$path = $this->appLocator->getAppPath($appId);
 			}
 			$result = $this->verify(
-					$path . '/appinfo/signature.json',
-					$path,
-					$appId,
-					$forceVerify
+				$path . '/appinfo/signature.json',
+				$path,
+				$appId,
+				$forceVerify
 			);
 		} catch (\Exception $e) {
 			$result = [
@@ -566,9 +566,9 @@ class Checker {
 	public function verifyCoreSignature(): array {
 		try {
 			$result = $this->verify(
-					$this->environmentHelper->getServerRoot() . '/core/signature.json',
-					$this->environmentHelper->getServerRoot(),
-					'core'
+				$this->environmentHelper->getServerRoot() . '/core/signature.json',
+				$this->environmentHelper->getServerRoot(),
+				'core'
 			);
 		} catch (\Exception $e) {
 			$result = [

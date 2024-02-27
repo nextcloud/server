@@ -31,8 +31,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 require_once __DIR__ . '/lib/versioncheck.php';
+
+use Psr\Log\LoggerInterface;
 
 try {
 	require_once __DIR__ . '/lib/base.php';
@@ -51,7 +52,7 @@ try {
 		'version' => implode('.', \OCP\Util::getVersion()),
 		'versionstring' => OC_Util::getVersionString(),
 		'edition' => '',
-		'productname' => $defaults->getName(),
+		'productname' => $defaults->getProductName(),
 		'extendedSupport' => \OCP\Util::hasExtendedSupport()
 	];
 	if (OC::$CLI) {
@@ -63,5 +64,5 @@ try {
 	}
 } catch (Exception $ex) {
 	http_response_code(500);
-	\OC::$server->getLogger()->logException($ex, ['app' => 'remote']);
+	\OCP\Server::get(LoggerInterface::class)->error($ex->getMessage(), ['app' => 'remote','exception' => $ex]);
 }

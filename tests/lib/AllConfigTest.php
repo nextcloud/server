@@ -15,10 +15,11 @@ namespace Test;
  *
  * @package Test
  */
+
+use OC\SystemConfig;
 use OCP\IDBConnection;
 
 class AllConfigTest extends \Test\TestCase {
-
 	/** @var  \OCP\IDBConnection */
 	protected $connection;
 
@@ -50,9 +51,9 @@ class AllConfigTest extends \Test\TestCase {
 		$config->deleteUserValue('userDelete', 'appDelete', 'keyDelete');
 
 		$result = $this->connection->executeQuery(
-				'SELECT COUNT(*) AS `count` FROM `*PREFIX*preferences` WHERE `userid` = ?',
-				['userDelete']
-			)->fetch();
+			'SELECT COUNT(*) AS `count` FROM `*PREFIX*preferences` WHERE `userid` = ?',
+			['userDelete']
+		)->fetch();
 		$actualCount = $result['count'];
 
 		$this->assertEquals(0, $actualCount, 'There was one value in the database and after the tests there should be no entry left.');
@@ -145,7 +146,7 @@ class AllConfigTest extends \Test\TestCase {
 		$config->setUserValue('userSetBool', 'appSetBool', 'keySetBool', $value);
 	}
 
-	
+
 	public function testSetUserValueWithPreConditionFailure() {
 		$this->expectException(\OCP\PreConditionNotMetException::class);
 
@@ -407,11 +408,6 @@ class AllConfigTest extends \Test\TestCase {
 		$systemConfig = $this->getMockBuilder('\OC\SystemConfig')
 			->disableOriginalConstructor()
 			->getMock();
-		$systemConfig->expects($this->once())
-			->method('getValue')
-			->with($this->equalTo('dbtype'),
-				$this->equalTo('sqlite'))
-			->willReturn(\OC::$server->getConfig()->getSystemValue('dbtype', 'sqlite'));
 		$config = $this->getConfig($systemConfig);
 
 		// preparation - add something to the database
@@ -436,5 +432,19 @@ class AllConfigTest extends \Test\TestCase {
 
 		// cleanup
 		$this->connection->executeUpdate('DELETE FROM `*PREFIX*preferences`');
+	}
+
+	public function testGetUsersForUserValueCaseInsensitive() {
+		// mock the check for the database to run the correct SQL statements for each database type
+		$systemConfig = $this->createMock(SystemConfig::class);
+		$config = $this->getConfig($systemConfig);
+
+		$config->setUserValue('user1', 'myApp', 'myKey', 'test123');
+		$config->setUserValue('user2', 'myApp', 'myKey', 'TEST123');
+		$config->setUserValue('user3', 'myApp', 'myKey', 'test12345');
+
+		$users = $config->getUsersForUserValueCaseInsensitive('myApp', 'myKey', 'test123');
+		$this->assertSame(2, count($users));
+		$this->assertSame(['user1', 'user2'], $users);
 	}
 }

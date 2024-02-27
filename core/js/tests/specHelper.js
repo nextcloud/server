@@ -86,9 +86,17 @@ window.firstDay = 0;
 // setup dummy webroots
 /* jshint camelcase: false */
 window.oc_debug = true;
+
+// Mock @nextcloud/capabilities
+window._oc_capabilities = {
+	files_sharing: {
+		api_enabled: true
+	}
+}
+
 // FIXME: OC.webroot is supposed to be only the path!!!
-OC.webroot = location.href + '/';
-OC.appswebroots = {
+window._oc_webroot = location.href + '/';
+window._oc_appswebroots = {
 	"files": window.webroot + '/apps/files/',
 	"files_sharing": window.webroot + '/apps/files_sharing/'
 };

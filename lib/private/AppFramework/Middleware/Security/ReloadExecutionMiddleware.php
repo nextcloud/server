@@ -16,14 +16,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\AppFramework\Middleware\Security;
 
 use OC\AppFramework\Middleware\Security\Exceptions\ReloadExecutionException;
@@ -59,7 +58,7 @@ class ReloadExecutionMiddleware extends Middleware {
 
 			return new RedirectResponse($this->urlGenerator->linkToRouteAbsolute(
 				'core.login.showLoginForm',
-				['clear' => true] // this param the the code in login.js may be removed when the "Clear-Site-Data" is working in the browsers
+				['clear' => true] // this param the code in login.js may be removed when the "Clear-Site-Data" is working in the browsers
 			));
 		}
 

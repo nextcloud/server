@@ -5,6 +5,7 @@
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
+ * @author szaimen <szaimen@e.mail.de>
  *
  * @license AGPL-3.0
  *
@@ -21,10 +22,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP\Files\Config;
 
 use OCP\Files\Mount\IMountPoint;
+use OCP\Files\NotFoundException;
 use OCP\IUser;
 
 /**
@@ -38,9 +39,10 @@ interface IUserMountCache {
 	 *
 	 * @param IUser $user
 	 * @param IMountPoint[] $mounts
+	 * @param array|null $mountProviderClasses
 	 * @since 9.0.0
 	 */
-	public function registerMounts(IUser $user, array $mounts);
+	public function registerMounts(IUser $user, array $mounts, array $mountProviderClasses = null);
 
 	/**
 	 * Get all cached mounts for a user
@@ -111,7 +113,7 @@ interface IUserMountCache {
 	 * Get the used space for users
 	 *
 	 * Note that this only includes the space in their home directory,
-	 * not any incoming shares or external storages.
+	 * not any incoming shares or external storage.
 	 *
 	 * @param IUser[] $users
 	 * @return int[] [$userId => $userSpace]
@@ -125,4 +127,26 @@ interface IUserMountCache {
 	 * @since 20.0.0
 	 */
 	public function clear(): void;
+
+	/**
+	 * Get all cached mounts for a user
+	 *
+	 * @param IUser $user
+	 * @param string $path
+	 * @return ICachedMountInfo
+	 * @throws NotFoundException
+	 * @since 24.0.0
+	 */
+	public function getMountForPath(IUser $user, string $path): ICachedMountInfo;
+
+	/**
+	 * Get all cached mounts for a user inside a path
+	 *
+	 * @param IUser $user
+	 * @param string $path
+	 * @return ICachedMountInfo[]
+	 * @throws NotFoundException
+	 * @since 24.0.0
+	 */
+	public function getMountsInPath(IUser $user, string $path): array;
 }

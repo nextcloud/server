@@ -25,7 +25,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Memcache;
 
 use bantu\IniGetWrapper\IniGetWrapper;
@@ -149,20 +148,14 @@ class APCu extends Cache implements IMemcache {
 		}
 	}
 
-	/**
-	 * @return bool
-	 */
-	public static function isAvailable() {
+	public static function isAvailable(): bool {
 		if (!extension_loaded('apcu')) {
 			return false;
 		} elseif (!\OC::$server->get(IniGetWrapper::class)->getBool('apc.enabled')) {
 			return false;
 		} elseif (!\OC::$server->get(IniGetWrapper::class)->getBool('apc.enable_cli') && \OC::$CLI) {
 			return false;
-		} elseif (
-				version_compare(phpversion('apc') ?: '0.0.0', '4.0.6') === -1 &&
-				version_compare(phpversion('apcu') ?: '0.0.0', '5.1.0') === -1
-		) {
+		} elseif (version_compare(phpversion('apcu') ?: '0.0.0', '5.1.0') === -1) {
 			return false;
 		} else {
 			return true;

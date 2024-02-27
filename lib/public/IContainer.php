@@ -24,13 +24,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
-/**
- * Public interface of ownCloud for apps to use.
- * Container interface
- *
- */
-
 // use OCP namespace for all classes that are considered public.
 // This means that they should be used by apps instead of the internal ownCloud classes
 
@@ -40,6 +33,7 @@ use Closure;
 use OCP\AppFramework\QueryException;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 /**
  * Class IContainer
@@ -50,7 +44,6 @@ use Psr\Container\ContainerInterface;
  * @deprecated 20.0.0 use \Psr\Container\ContainerInterface
  */
 interface IContainer extends ContainerInterface {
-
 	/**
 	 * @template T
 	 *
@@ -78,6 +71,7 @@ interface IContainer extends ContainerInterface {
 	 * @return mixed
 	 * @psalm-return ($name is class-string ? T : mixed)
 	 * @throws ContainerExceptionInterface if the query could not be resolved
+	 * @throws NotFoundExceptionInterface if the name could not be found within the container
 	 * @throws QueryException if the query could not be resolved
 	 * @since 6.0.0
 	 * @deprecated 20.0.0 use \Psr\Container\ContainerInterface::get

@@ -23,7 +23,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP\SystemTag;
 
 use OCP\IServerContainer;
@@ -36,7 +35,6 @@ use OCP\IServerContainer;
  * @since 9.0.0
  */
 interface ISystemTagManagerFactory {
-
 	/**
 	 * Constructor for the system tag manager factory
 	 *

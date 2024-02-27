@@ -14,14 +14,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\CalDAV\Activity\Setting;
 
 class Todo extends CalDAVSetting {
@@ -39,7 +38,7 @@ class Todo extends CalDAVSetting {
 	 * @since 11.0.0
 	 */
 	public function getName() {
-		return $this->l->t('A calendar <strong>todo</strong> was modified');
+		return $this->l->t('A calendar <strong>to-do</strong> was modified');
 	}
 
 	/**

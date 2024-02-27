@@ -3,7 +3,7 @@
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -19,15 +19,16 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 import { translate as t } from '@nextcloud/l10n'
 import moment from '@nextcloud/moment'
-import { dateFactory } from '../services/dateService'
+import { dateFactory } from '../services/dateService.js'
 
 /**
  * Formats a clearAt object to be human readable
  *
- * @param {Object} clearAt The clearAt object
- * @returns {string|null}
+ * @param {object} clearAt The clearAt object
+ * @return {string|null}
  */
 const clearAtFilter = (clearAt) => {
 	if (clearAt === null) {

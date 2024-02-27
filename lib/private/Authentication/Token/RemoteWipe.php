@@ -18,27 +18,25 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Authentication\Token;
 
-use Psr\Log\LoggerInterface;
-use function array_filter;
 use OC\Authentication\Events\RemoteWipeFinished;
 use OC\Authentication\Events\RemoteWipeStarted;
-use OC\Authentication\Exceptions\InvalidTokenException;
-use OC\Authentication\Exceptions\WipeTokenException;
+use OCP\Authentication\Exceptions\InvalidTokenException;
+use OCP\Authentication\Exceptions\WipeTokenException;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IUser;
+use Psr\Log\LoggerInterface;
+use function array_filter;
 
 class RemoteWipe {
-
 	/** @var IProvider */
 	private $tokenProvider;
 
@@ -49,8 +47,8 @@ class RemoteWipe {
 	private $logger;
 
 	public function __construct(IProvider $tokenProvider,
-								IEventDispatcher $eventDispatcher,
-								LoggerInterface $logger) {
+		IEventDispatcher $eventDispatcher,
+		LoggerInterface $logger) {
 		$this->tokenProvider = $tokenProvider;
 		$this->eventDispatcher = $eventDispatcher;
 		$this->logger = $logger;

@@ -5,7 +5,6 @@
  * @author Björn Schießle <bjoern@schiessle.org>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
@@ -24,13 +23,13 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_Sharing\Controller;
 
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\Http\Client\IClientService;
+use OCP\IConfig;
 use OCP\IRequest;
 
 /**
@@ -39,25 +38,14 @@ use OCP\IRequest;
  * @package OCA\Files_Sharing\Controller
  */
 class ExternalSharesController extends Controller {
-
-	/** @var \OCA\Files_Sharing\External\Manager */
-	private $externalManager;
-	/** @var IClientService */
-	private $clientService;
-
-	/**
-	 * @param string $appName
-	 * @param IRequest $request
-	 * @param \OCA\Files_Sharing\External\Manager $externalManager
-	 * @param IClientService $clientService
-	 */
-	public function __construct($appName,
-								IRequest $request,
-								\OCA\Files_Sharing\External\Manager $externalManager,
-								IClientService $clientService) {
+	public function __construct(
+		string $appName,
+		IRequest $request,
+		private \OCA\Files_Sharing\External\Manager $externalManager,
+		private IClientService $clientService,
+		private IConfig $config,
+	) {
 		parent::__construct($appName, $request);
-		$this->externalManager = $externalManager;
-		$this->clientService = $clientService;
 	}
 
 	/**
@@ -109,6 +97,7 @@ class ExternalSharesController extends Controller {
 				[
 					'timeout' => 3,
 					'connect_timeout' => 3,
+					'verify' => !$this->config->getSystemValueBool('sharing.federation.allowSelfSignedCertificates', false),
 				]
 			)->getBody());
 
@@ -131,19 +120,19 @@ class ExternalSharesController extends Controller {
 	 * @return DataResponse
 	 */
 	public function testRemote($remote) {
-		if (strpos($remote, '#') !== false || strpos($remote, '?') !== false || strpos($remote, ';') !== false) {
+		if (str_contains($remote, '#') || str_contains($remote, '?') || str_contains($remote, ';')) {
 			return new DataResponse(false);
 		}
 
 		if (
-			$this->testUrl('https://' . $remote . '/ocs-provider/') ||
-			$this->testUrl('https://' . $remote . '/ocs-provider/index.php') ||
+			$this->testUrl('https://' . $remote . '/ocm-provider/') ||
+			$this->testUrl('https://' . $remote . '/ocm-provider/index.php') ||
 			$this->testUrl('https://' . $remote . '/status.php', true)
 		) {
 			return new DataResponse('https');
 		} elseif (
-			$this->testUrl('http://' . $remote . '/ocs-provider/') ||
-			$this->testUrl('http://' . $remote . '/ocs-provider/index.php') ||
+			$this->testUrl('http://' . $remote . '/ocm-provider/') ||
+			$this->testUrl('http://' . $remote . '/ocm-provider/index.php') ||
 			$this->testUrl('http://' . $remote . '/status.php', true)
 		) {
 			return new DataResponse('http');

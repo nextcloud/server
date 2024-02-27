@@ -15,14 +15,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\DAV\Tests\unit\CalDAV\Search\Xml\Request;
 
 use OCA\DAV\CalDAV\Search\Xml\Request\CalendarSearchReport;
@@ -35,7 +34,7 @@ class CalendarSearchReportTest extends TestCase {
 			'OCA\\DAV\\CalDAV\\Search\\Xml\\Request\\CalendarSearchReport',
 	];
 
-	public function testFoo() {
+	public function testFoo(): void {
 		$xml = <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <nc:calendar-search xmlns:nc="http://nextcloud.com/ns" xmlns:c="urn:ietf:params:xml:ns:caldav" xmlns:d="DAV:">
@@ -91,7 +90,7 @@ XML;
 		);
 	}
 
-	public function testNoLimitOffset() {
+	public function testNoLimitOffset(): void {
 		$xml = <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <nc:calendar-search xmlns:nc="http://nextcloud.com/ns" xmlns:c="urn:ietf:params:xml:ns:caldav" xmlns:d="DAV:">
@@ -133,7 +132,7 @@ XML;
 	}
 
 	
-	public function testRequiresCompFilter() {
+	public function testRequiresCompFilter(): void {
 		$this->expectException(\Sabre\DAV\Exception\BadRequest::class);
 		$this->expectExceptionMessage('{http://nextcloud.com/ns}prop-filter or {http://nextcloud.com/ns}param-filter given without any {http://nextcloud.com/ns}comp-filter');
 
@@ -160,7 +159,7 @@ XML;
 	}
 
 	
-	public function testRequiresFilter() {
+	public function testRequiresFilter(): void {
 		$this->expectException(\Sabre\DAV\Exception\BadRequest::class);
 		$this->expectExceptionMessage('The {http://nextcloud.com/ns}filter element is required for this request');
 
@@ -178,7 +177,7 @@ XML;
 	}
 
 	
-	public function testNoSearchTerm() {
+	public function testNoSearchTerm(): void {
 		$this->expectException(\Sabre\DAV\Exception\BadRequest::class);
 		$this->expectExceptionMessage('{http://nextcloud.com/ns}search-term is required for this request');
 
@@ -206,7 +205,7 @@ XML;
 	}
 
 	
-	public function testCompOnly() {
+	public function testCompOnly(): void {
 		$this->expectException(\Sabre\DAV\Exception\BadRequest::class);
 		$this->expectExceptionMessage('At least one{http://nextcloud.com/ns}prop-filter or {http://nextcloud.com/ns}param-filter is required for this request');
 
@@ -248,7 +247,7 @@ XML;
 		);
 	}
 
-	public function testPropOnly() {
+	public function testPropOnly(): void {
 		$xml = <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <nc:calendar-search xmlns:nc="http://nextcloud.com/ns" xmlns:c="urn:ietf:params:xml:ns:caldav" xmlns:d="DAV:">
@@ -289,7 +288,7 @@ XML;
 		);
 	}
 
-	public function testParamOnly() {
+	public function testParamOnly(): void {
 		$xml = <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <nc:calendar-search xmlns:nc="http://nextcloud.com/ns" xmlns:c="urn:ietf:params:xml:ns:caldav" xmlns:d="DAV:">

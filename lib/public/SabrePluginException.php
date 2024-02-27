@@ -19,7 +19,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP;
 
 use Sabre\DAV\Exception;
@@ -28,7 +27,6 @@ use Sabre\DAV\Exception;
  * @since 8.2.0
  */
 class SabrePluginException extends Exception {
-
 	/**
 	 * Returns the HTTP statuscode for this exception
 	 *

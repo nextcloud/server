@@ -1,6 +1,8 @@
 <?php
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
+ * Copyright (c) 2013 Thomas Müller <thomas.mueller@tmit.eu>
+ * Copyright (c) 2013 Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
@@ -26,7 +28,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
 use OC\Files\View;
@@ -48,7 +49,7 @@ class QuotaPluginTest extends TestCase {
 	/** @var \OCA\DAV\Connector\Sabre\QuotaPlugin | \PHPUnit\Framework\MockObject\MockObject */
 	private $plugin;
 
-	private function init($quota, $checkedPath = '') {
+	private function init($quota, $checkedPath = ''): void {
 		$view = $this->buildFileViewMock($quota, $checkedPath);
 		$this->server = new \Sabre\DAV\Server();
 		$this->plugin = $this->getMockBuilder(QuotaPlugin::class)
@@ -61,7 +62,7 @@ class QuotaPluginTest extends TestCase {
 	/**
 	 * @dataProvider lengthProvider
 	 */
-	public function testLength($expected, $headers) {
+	public function testLength($expected, $headers): void {
 		$this->init(0);
 		$this->plugin->expects($this->never())
 			->method('getFileChunking');
@@ -73,7 +74,7 @@ class QuotaPluginTest extends TestCase {
 	/**
 	 * @dataProvider quotaOkayProvider
 	 */
-	public function testCheckQuota($quota, $headers) {
+	public function testCheckQuota($quota, $headers): void {
 		$this->init($quota);
 		$this->plugin->expects($this->never())
 			->method('getFileChunking');
@@ -86,7 +87,7 @@ class QuotaPluginTest extends TestCase {
 	/**
 	 * @dataProvider quotaExceededProvider
 	 */
-	public function testCheckExceededQuota($quota, $headers) {
+	public function testCheckExceededQuota($quota, $headers): void {
 		$this->expectException(\Sabre\DAV\Exception\InsufficientStorage::class);
 
 		$this->init($quota);
@@ -100,7 +101,7 @@ class QuotaPluginTest extends TestCase {
 	/**
 	 * @dataProvider quotaOkayProvider
 	 */
-	public function testCheckQuotaOnPath($quota, $headers) {
+	public function testCheckQuotaOnPath($quota, $headers): void {
 		$this->init($quota, 'sub/test.txt');
 		$this->plugin->expects($this->never())
 			->method('getFileChunking');
@@ -175,7 +176,7 @@ class QuotaPluginTest extends TestCase {
 	/**
 	 * @dataProvider quotaChunkedOkProvider
 	 */
-	public function testCheckQuotaChunkedOk($quota, $chunkTotalSize, $headers) {
+	public function testCheckQuotaChunkedOk($quota, $chunkTotalSize, $headers): void {
 		$this->init($quota, 'sub/test.txt');
 
 		$mockChunking = $this->getMockBuilder(\OC_FileChunking::class)
@@ -210,7 +211,7 @@ class QuotaPluginTest extends TestCase {
 	/**
 	 * @dataProvider quotaChunkedFailProvider
 	 */
-	public function testCheckQuotaChunkedFail($quota, $chunkTotalSize, $headers) {
+	public function testCheckQuotaChunkedFail($quota, $chunkTotalSize, $headers): void {
 		$this->expectException(\Sabre\DAV\Exception\InsufficientStorage::class);
 
 		$this->init($quota, 'sub/test.txt');

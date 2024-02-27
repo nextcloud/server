@@ -19,27 +19,22 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\AdminAudit\Actions;
 
-use OCP\ILogger;
+use OCA\AdminAudit\IAuditLogger;
 
 class Action {
-	/** @var ILogger */
-	private $logger;
 
-	/**
-	 * @param ILogger $logger
-	 */
-	public function __construct(ILogger $logger) {
-		$this->logger = $logger;
+	public function __construct(
+		private IAuditLogger $logger,
+	) {
 	}
 
 	/**
@@ -51,9 +46,9 @@ class Action {
 	 * @param bool $obfuscateParameters
 	 */
 	public function log(string $text,
-						array $params,
-						array $elements,
-						bool $obfuscateParameters = false) {
+		array $params,
+		array $elements,
+		bool $obfuscateParameters = false): void {
 		foreach ($elements as $element) {
 			if (!isset($params[$element])) {
 				if ($obfuscateParameters) {

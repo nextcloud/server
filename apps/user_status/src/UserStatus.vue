@@ -20,50 +20,60 @@
   -->
 
 <template>
-	<li>
-		<div class="user-status-menu-item">
-			<!-- Username display -->
-			<span
-				v-if="!inline"
-				class="user-status-menu-item__header"
-				:title="displayName">
-				{{ displayName }}
-			</span>
+	<component :is="inline ? 'div' : 'li'">
+		<!-- User Status = Status modal toggle -->
+		<button v-if="!inline"
+			class="user-status-menu-item"
+			@click.stop="openModal">
+			<NcUserStatusIcon class="user-status-icon"
+				:status="statusType"
+				aria-hidden="true" />
+			{{ visibleMessage }}
+		</button>
 
-			<!-- Status modal toggle -->
-			<toggle :is="inline ? 'button' : 'a'"
-				:class="{'user-status-menu-item__toggle--inline': inline}"
-				class="user-status-menu-item__toggle"
-				href="#"
-				@click.prevent.stop="openModal">
-				<span :class="statusIcon" class="user-status-menu-item__toggle-icon" />
-				{{ visibleMessage }}
-			</toggle>
-		</div>
+		<!-- Dashboard Status -->
+		<NcButton v-else
+			@click.stop="openModal">
+			<template #icon>
+				<NcUserStatusIcon class="user-status-icon"
+					:status="statusType"
+					aria-hidden="true" />
+			</template>
+			{{ visibleMessage }}
+		</NcButton>
 
 		<!-- Status management modal -->
-		<SetStatusModal
-			v-if="isModalOpen"
+		<SetStatusModal v-if="isModalOpen"
+			:inline="inline"
 			@close="closeModal" />
-	</li>
+	</component>
 </template>
 
 <script>
-import { getCurrentUser } from '@nextcloud/auth'
+import { subscribe, unsubscribe } from '@nextcloud/event-bus'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import NcUserStatusIcon from '@nextcloud/vue/dist/Components/NcUserStatusIcon.js'
 import debounce from 'debounce'
 
-import { sendHeartbeat } from './services/heartbeatService'
-import OnlineStatusMixin from './mixins/OnlineStatusMixin'
+import { sendHeartbeat } from './services/heartbeatService.js'
+import OnlineStatusMixin from './mixins/OnlineStatusMixin.js'
 
 export default {
 	name: 'UserStatus',
 
 	components: {
-		SetStatusModal: () => import(/* webpackChunkName: 'user-status-modal' */'./components/SetStatusModal'),
+		NcButton,
+		NcUserStatusIcon,
+		SetStatusModal: () => import(/* webpackChunkName: 'user-status-modal' */'./components/SetStatusModal.vue'),
 	},
 	mixins: [OnlineStatusMixin],
 
 	props: {
+		/**
+		 * Whether the component should be rendered as a Dashboard Status or a User Menu Entries
+		 * true = Dashboard Status
+		 * false = User Menu Entries
+		 */
 		inline: {
 			type: Boolean,
 			default: false,
@@ -72,22 +82,12 @@ export default {
 
 	data() {
 		return {
-			isModalOpen: false,
 			heartbeatInterval: null,
-			setAwayTimeout: null,
-			mouseMoveListener: null,
 			isAway: false,
+			isModalOpen: false,
+			mouseMoveListener: null,
+			setAwayTimeout: null,
 		}
-	},
-	computed: {
-		/**
-		 * The display-name of the current user
-		 *
-		 * @returns {String}
-		 */
-		displayName() {
-			return getCurrentUser().displayName
-		},
 	},
 
 	/**
@@ -124,6 +124,7 @@ export default {
 
 			this._backgroundHeartbeat()
 		}
+		subscribe('user_status:status.updated', this.handleUserStatusUpdated)
 	},
 
 	/**
@@ -132,6 +133,7 @@ export default {
 	beforeDestroy() {
 		window.removeEventListener('mouseMove', this.mouseMoveListener)
 		clearInterval(this.heartbeatInterval)
+		unsubscribe('user_status:status.updated', this.handleUserStatusUpdated)
 	},
 
 	methods: {
@@ -151,74 +153,69 @@ export default {
 		/**
 		 * Sends the status heartbeat to the server
 		 *
-		 * @returns {Promise<void>}
+		 * @return {Promise<void>}
 		 * @private
 		 */
 		async _backgroundHeartbeat() {
 			try {
-				await sendHeartbeat(this.isAway)
+				const status = await sendHeartbeat(this.isAway)
+				if (status?.userId) {
+					this.$store.dispatch('setStatusFromHeartbeat', status)
+				} else {
+					await this.$store.dispatch('reFetchStatusFromServer')
+				}
 			} catch (error) {
-				console.debug('Failed sending heartbeat, got: ' + error.response.status)
-				return
+				console.debug('Failed sending heartbeat, got: ' + error.response?.status)
 			}
-			await this.$store.dispatch('reFetchStatusFromServer')
+		},
+		handleUserStatusUpdated(state) {
+			if (OC.getCurrentUser().uid === state.userId) {
+				this.$store.dispatch('setStatusFromObject', {
+					status: state.status,
+					icon: state.icon,
+					message: state.message,
+				})
+			}
 		},
 	},
 }
 </script>
 
 <style lang="scss" scoped>
-$max-width-user-status: 200px;
-
 .user-status-menu-item {
-	&__header {
-		display: block;
-		overflow: hidden;
-		box-sizing: border-box;
-		max-width: $max-width-user-status;
-		padding: 10px 12px 5px 38px;
-		text-align: left;
-		white-space: nowrap;
-		text-overflow: ellipsis;
-		opacity: 1;
-		color: var(--color-text-maxcontrast);
+	// Ensure the maxcontrast color is set for the background
+	--color-text-maxcontrast: var(--color-text-maxcontrast-background-blur, var(--color-main-text));
+
+	width: auto;
+	min-width: 44px;
+	height: 44px;
+	margin: 0;
+	border: 0;
+	border-radius: var(--border-radius-pill);
+	background-color: var(--color-main-background-blur);
+	font-size: inherit;
+	font-weight: normal;
+
+	-webkit-backdrop-filter: var(--background-blur);
+	backdrop-filter: var(--background-blur);
+
+	&:active,
+	&:hover,
+	&:focus-visible {
+		background-color: var(--color-background-hover);
 	}
-
-	&__toggle {
-		&-icon {
-			width: 16px;
-			height: 16px;
-			margin-right: 10px;
-			opacity: 1 !important;
-			background-size: 16px;
-		}
-
-		// In dashboard
-		&--inline {
-			width: auto;
-			min-width: 44px;
-			height: 44px;
-			margin: 0;
-			border: 0;
-			border-radius: var(--border-radius-pill);
-			background-color: var(--color-background-translucent);
-			font-size: inherit;
-			font-weight: normal;
-
-			-webkit-backdrop-filter: var(--background-blur);
-			backdrop-filter: var(--background-blur);
-
-			&:active,
-			&:hover,
-			&:focus {
-				background-color: var(--color-background-hover);
-			}
-		}
+	&:focus-visible {
+		box-shadow: 0 0 0 4px var(--color-main-background) !important;
+		outline: 2px solid var(--color-main-text) !important;
 	}
 }
 
-li {
-	list-style-type: none;
+.user-status-icon {
+	width: 16px;
+	height: 16px;
+	margin-right: 10px;
+	opacity: 1 !important;
+	background-size: 16px;
+	vertical-align: middle !important;
 }
-
 </style>

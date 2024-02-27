@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -22,7 +25,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC\Core\Middleware;
 
 use Exception;
@@ -32,6 +34,7 @@ use OC\Authentication\TwoFactorAuth\Manager;
 use OC\Core\Controller\LoginController;
 use OC\Core\Controller\TwoFactorChallengeController;
 use OC\User\Session;
+use OCA\TwoFactorNextcloudNotification\Controller\APIController;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Middleware;
@@ -43,39 +46,14 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 
 class TwoFactorMiddleware extends Middleware {
-
-	/** @var Manager */
-	private $twoFactorManager;
-
-	/** @var Session */
-	private $userSession;
-
-	/** @var ISession */
-	private $session;
-
-	/** @var IURLGenerator */
-	private $urlGenerator;
-
-	/** @var IControllerMethodReflector */
-	private $reflector;
-
-	/** @var IRequest */
-	private $request;
-
-	/**
-	 * @param Manager $twoFactorManager
-	 * @param Session $userSession
-	 * @param ISession $session
-	 * @param IURLGenerator $urlGenerator
-	 */
-	public function __construct(Manager $twoFactorManager, Session $userSession, ISession $session,
-		IURLGenerator $urlGenerator, IControllerMethodReflector $reflector, IRequest $request) {
-		$this->twoFactorManager = $twoFactorManager;
-		$this->userSession = $userSession;
-		$this->session = $session;
-		$this->urlGenerator = $urlGenerator;
-		$this->reflector = $reflector;
-		$this->request = $request;
+	public function __construct(
+		private Manager $twoFactorManager,
+		private Session $userSession,
+		private ISession $session,
+		private IURLGenerator $urlGenerator,
+		private IControllerMethodReflector $reflector,
+		private IRequest $request,
+	) {
 	}
 
 	/**
@@ -83,8 +61,14 @@ class TwoFactorMiddleware extends Middleware {
 	 * @param string $methodName
 	 */
 	public function beforeController($controller, $methodName) {
-		if ($this->reflector->hasAnnotation('PublicPage')) {
-			// Don't block public pages
+		if ($this->reflector->hasAnnotation('NoTwoFactorRequired')) {
+			// Route handler explicitly marked to work without finished 2FA are
+			// not blocked
+			return;
+		}
+
+		if ($controller instanceof APIController && $methodName === 'poll') {
+			// Allow polling the twofactor nextcloud notifications state
 			return;
 		}
 
@@ -93,7 +77,7 @@ class TwoFactorMiddleware extends Middleware {
 			&& !$this->reflector->hasAnnotation('TwoFactorSetUpDoneRequired')) {
 			$providers = $this->twoFactorManager->getProviderSet($this->userSession->getUser());
 
-			if (!($providers->getProviders() === [] && !$providers->isProviderMissing())) {
+			if (!($providers->getPrimaryProviders() === [] && !$providers->isProviderMissing())) {
 				throw new TwoFactorAuthRequiredException();
 			}
 		}
@@ -101,7 +85,11 @@ class TwoFactorMiddleware extends Middleware {
 		if ($controller instanceof ALoginSetupController
 			&& $this->userSession->getUser() !== null
 			&& $this->twoFactorManager->needsSecondFactor($this->userSession->getUser())) {
-			return;
+			$providers = $this->twoFactorManager->getProviderSet($this->userSession->getUser());
+
+			if ($providers->getPrimaryProviders() === [] && !$providers->isProviderMissing()) {
+				return;
+			}
 		}
 
 		if ($controller instanceof LoginController && $methodName === 'logout') {
@@ -112,7 +100,10 @@ class TwoFactorMiddleware extends Middleware {
 		if ($this->userSession->isLoggedIn()) {
 			$user = $this->userSession->getUser();
 
-			if ($this->session->exists('app_password') || $this->twoFactorManager->isTwoFactorAuthenticated($user)) {
+			if ($this->session->exists('app_password')  // authenticated using an app password
+				|| $this->session->exists('app_api')  // authenticated using an AppAPI Auth
+				|| $this->twoFactorManager->isTwoFactorAuthenticated($user)) {
+
 				$this->checkTwoFactor($controller, $methodName, $user);
 			} elseif ($controller instanceof TwoFactorChallengeController) {
 				// Allow access to the two-factor controllers only if two-factor authentication

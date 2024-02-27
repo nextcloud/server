@@ -16,23 +16,23 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCP\Authentication\TwoFactorAuth;
 
 use OCP\EventDispatcher\Event;
 
 /**
  * @since 20.0.0
+ * @deprecated 28.0.0 Use \OCP\Authentication\TwoFactorAuth\TwoFactorProviderUserDeleted instead
+ * @see \OCP\Authentication\TwoFactorAuth\TwoFactorProviderUserDeleted
  */
 final class TwoFactorProviderDisabled extends Event {
-
 	/** @var string */
 	private $providerId;
 

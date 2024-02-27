@@ -20,54 +20,32 @@
   -->
 
 <template>
-	<form @submit.prevent="submit">
-		<fieldset>
-			<p>
-				<input id="user"
-					v-model="user"
-					type="text"
-					name="user"
-					autocapitalize="off"
-					:placeholder="t('core', 'Username or email')"
-					:aria-label="t('core', 'Username or email')"
-					required
-					@change="updateUsername">
-				<!--<?php p($_['user_autofocus'] ? 'autofocus' : ''); ?>
-				autocomplete="<?php p($_['login_form_autocomplete']); ?>" autocapitalize="none" autocorrect="off"-->
-				<label for="user" class="infield">{{ t('core', 'Username or email') }}</label>
-			</p>
-			<div id="reset-password-wrapper">
-				<input id="reset-password-submit"
-					type="submit"
-					class="login primary"
-					title=""
-					:value="t('core', 'Reset password')">
-				<div class="submit-icon"
-					:class="{
-						'icon-confirm-white': !loading,
-						'icon-loading-small': loading && invertedColors,
-						'icon-loading-small-dark': loading && !invertedColors,
-					}" />
-			</div>
-			<p v-if="message === 'send-success'"
-				class="update">
-				{{ t('core', 'A password reset message has been sent to the e-mail address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help.') }}
-				<br>
-				{{ t('core', 'If it is not there ask your local administrator.') }}
-			</p>
-			<p v-else-if="message === 'send-error'"
-				class="update warning">
-				{{ t('core', 'Couldn\'t send reset email. Please contact your administrator.') }}
-			</p>
-			<p v-else-if="message === 'reset-error'"
-				class="update warning">
-				{{ t('core', 'Password can not be changed. Please contact your administrator.') }}
-			</p>
-			<p v-else-if="message"
-				class="update"
-				:class="{warning: error}" />
+	<form class="login-form" @submit.prevent="submit">
+		<fieldset class="login-form__fieldset">
+			<NcTextField id="user"
+				:value.sync="user"
+				name="user"
+				autocapitalize="off"
+				:label="t('core', 'Login or email')"
+				required
+				@change="updateUsername" />
+			<LoginButton :value="t('core', 'Reset password')" />
 
-			<a href="#"
+			<NcNoteCard v-if="message === 'send-success'"
+				type="success">
+				{{ t('core', 'If this account exists, a password reset message has been sent to its email address. If you do not receive it, verify your email address and/or Login, check your spam/junk folders or ask your local administration for help.') }}
+			</NcNoteCard>
+			<NcNoteCard v-else-if="message === 'send-error'"
+				type="error">
+				{{ t('core', 'Couldn\'t send reset email. Please contact your administrator.') }}
+			</NcNoteCard>
+			<NcNoteCard v-else-if="message === 'reset-error'"
+				type="error">
+				{{ t('core', 'Password cannot be changed. Please contact your administrator.') }}
+			</NcNoteCard>
+
+			<a class="login-form__link"
+				href="#"
 				@click.prevent="$emit('abort')">
 				{{ t('core', 'Back to login') }}
 			</a>
@@ -77,11 +55,18 @@
 
 <script>
 import axios from '@nextcloud/axios'
-
 import { generateUrl } from '@nextcloud/router'
+import LoginButton from './LoginButton.vue'
+import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
+import NcNoteCard from '@nextcloud/vue/dist/Components/NcNoteCard.js'
 
 export default {
 	name: 'ResetPassword',
+	components: {
+		LoginButton,
+		NcNoteCard,
+		NcTextField,
+	},
 	props: {
 		username: {
 			type: String,
@@ -90,10 +75,6 @@ export default {
 		resetPasswordLink: {
 			type: String,
 			required: true,
-		},
-		invertedColors: {
-			type: Boolean,
-			default: false,
 		},
 	},
 	data() {
@@ -133,7 +114,7 @@ export default {
 					this.message = 'send-success'
 				})
 				.catch(e => {
-					console.error('could not send reset e-mail request', e)
+					console.error('could not send reset email request', e)
 
 					this.error = true
 					this.message = 'send-error'
@@ -144,8 +125,26 @@ export default {
 }
 </script>
 
-<style scoped>
-	.update {
-		width: auto;
+<style lang="scss" scoped>
+.login-form {
+	text-align: left;
+	font-size: 1rem;
+
+	&__fieldset {
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		gap: .5rem;
 	}
+
+	&__link {
+		display: block;
+		font-weight: normal !important;
+		padding-bottom: 1rem;
+		cursor: pointer;
+		font-size: var(--default-font-size);
+		text-align: center;
+		padding: .5rem 1rem 1rem 1rem;
+	}
+}
 </style>

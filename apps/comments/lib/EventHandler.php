@@ -14,14 +14,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Comments;
 
 use OCA\Comments\Activity\Listener as ActivityListener;
@@ -35,21 +34,13 @@ use OCP\Comments\ICommentsEventHandler;
  * @package OCA\Comments
  */
 class EventHandler implements ICommentsEventHandler {
-	/** @var ActivityListener */
-	private $activityListener;
-
-	/** @var NotificationListener */
-	private $notificationListener;
-
-	public function __construct(ActivityListener $activityListener, NotificationListener $notificationListener) {
-		$this->activityListener = $activityListener;
-		$this->notificationListener = $notificationListener;
+	public function __construct(
+		private ActivityListener $activityListener,
+		private NotificationListener $notificationListener,
+	) {
 	}
 
-	/**
-	 * @param CommentsEvent $event
-	 */
-	public function handle(CommentsEvent $event) {
+	public function handle(CommentsEvent $event): void {
 		if ($event->getComment()->getObjectType() !== 'files') {
 			// this is a 'files'-specific Handler
 			return;
@@ -74,17 +65,11 @@ class EventHandler implements ICommentsEventHandler {
 		}
 	}
 
-	/**
-	 * @param CommentsEvent $event
-	 */
-	private function activityHandler(CommentsEvent $event) {
+	private function activityHandler(CommentsEvent $event): void {
 		$this->activityListener->commentEvent($event);
 	}
 
-	/**
-	 * @param CommentsEvent $event
-	 */
-	private function notificationHandler(CommentsEvent $event) {
+	private function notificationHandler(CommentsEvent $event): void {
 		$this->notificationListener->evaluate($event);
 	}
 }

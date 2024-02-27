@@ -38,7 +38,6 @@ use OCP\IRequest;
 use Test\TestCase;
 
 class CssControllerTest extends TestCase {
-
 	/** @var IAppData|\PHPUnit\Framework\MockObject\MockObject */
 	private $appData;
 
@@ -102,6 +101,8 @@ class CssControllerTest extends TestCase {
 	public function testGetFile() {
 		$folder = $this->createMock(ISimpleFolder::class);
 		$file = $this->createMock(ISimpleFile::class);
+		$file->method('getName')->willReturn('my name');
+		$file->method('getMTime')->willReturn(42);
 		$this->appData->method('getFolder')
 			->with('myapp')
 			->willReturn($folder);
@@ -116,7 +117,6 @@ class CssControllerTest extends TestCase {
 		$expires->setTimestamp(1337);
 		$expires->add(new \DateInterval('PT31536000S'));
 		$expected->addHeader('Expires', $expires->format(\DateTime::RFC1123));
-		$expected->addHeader('Pragma', 'cache');
 
 		$result = $this->controller->getCss('file.css', 'myapp');
 		$this->assertEquals($expected, $result);
@@ -125,6 +125,8 @@ class CssControllerTest extends TestCase {
 	public function testGetGzipFile() {
 		$folder = $this->createMock(ISimpleFolder::class);
 		$gzipFile = $this->createMock(ISimpleFile::class);
+		$gzipFile->method('getName')->willReturn('my name');
+		$gzipFile->method('getMTime')->willReturn(42);
 		$this->appData->method('getFolder')
 			->with('myapp')
 			->willReturn($folder);
@@ -144,7 +146,6 @@ class CssControllerTest extends TestCase {
 		$expires->setTimestamp(1337);
 		$expires->add(new \DateInterval('PT31536000S'));
 		$expected->addHeader('Expires', $expires->format(\DateTime::RFC1123));
-		$expected->addHeader('Pragma', 'cache');
 
 		$result = $this->controller->getCss('file.css', 'myapp');
 		$this->assertEquals($expected, $result);
@@ -153,6 +154,8 @@ class CssControllerTest extends TestCase {
 	public function testGetGzipFileNotFound() {
 		$folder = $this->createMock(ISimpleFolder::class);
 		$file = $this->createMock(ISimpleFile::class);
+		$file->method('getName')->willReturn('my name');
+		$file->method('getMTime')->willReturn(42);
 		$this->appData->method('getFolder')
 			->with('myapp')
 			->willReturn($folder);
@@ -177,7 +180,6 @@ class CssControllerTest extends TestCase {
 		$expires->setTimestamp(1337);
 		$expires->add(new \DateInterval('PT31536000S'));
 		$expected->addHeader('Expires', $expires->format(\DateTime::RFC1123));
-		$expected->addHeader('Pragma', 'cache');
 
 		$result = $this->controller->getCss('file.css', 'myapp');
 		$this->assertEquals($expected, $result);

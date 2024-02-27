@@ -8,13 +8,15 @@ declare(strict_types=1);
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author GretaD <gretadoci@gmail.com>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Vincent Petry <vincent@nextcloud.com>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -32,29 +34,28 @@ declare(strict_types=1);
  *
  */
 
-// FIXME: disabled for now to be able to inject IGroupManager and also use
-// getSubAdmin()
-
 namespace OCA\Settings\Controller;
 
-use OC\Accounts\AccountManager;
+use InvalidArgumentException;
 use OC\AppFramework\Http;
 use OC\Encryption\Exceptions\ModuleDoesNotExistsException;
 use OC\ForbiddenException;
-use OC\Group\Manager as GroupManager;
-use OC\L10N\Factory;
+use OC\KnownUser\KnownUserService;
 use OC\Security\IdentityProof\Manager;
 use OC\User\Manager as UserManager;
-use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\Settings\BackgroundJobs\VerifyUserData;
 use OCA\Settings\Events\BeforeTemplateRenderedEvent;
 use OCA\User_LDAP\User_Proxy;
+use OCP\Accounts\IAccount;
 use OCP\Accounts\IAccountManager;
+use OCP\Accounts\PropertyDoesNotExistException;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Services\IInitialState;
 use OCP\BackgroundJob\IJobList;
 use OCP\Encryption\IManager;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -63,76 +64,34 @@ use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IUser;
-use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\Mail\IMailer;
 use function in_array;
 
+#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class UsersController extends Controller {
-	/** @var UserManager */
-	private $userManager;
-	/** @var GroupManager */
-	private $groupManager;
-	/** @var IUserSession */
-	private $userSession;
-	/** @var IConfig */
-	private $config;
-	/** @var bool */
-	private $isAdmin;
-	/** @var IL10N */
-	private $l10n;
-	/** @var IMailer */
-	private $mailer;
-	/** @var Factory */
-	private $l10nFactory;
-	/** @var IAppManager */
-	private $appManager;
-	/** @var AccountManager */
-	private $accountManager;
-	/** @var Manager */
-	private $keyManager;
-	/** @var IJobList */
-	private $jobList;
-	/** @var IManager */
-	private $encryptionManager;
-	/** @var IEventDispatcher */
-	private $dispatcher;
-
 
 	public function __construct(
 		string $appName,
 		IRequest $request,
-		IUserManager $userManager,
-		IGroupManager $groupManager,
-		IUserSession $userSession,
-		IConfig $config,
-		bool $isAdmin,
-		IL10N $l10n,
-		IMailer $mailer,
-		IFactory $l10nFactory,
-		IAppManager $appManager,
-		AccountManager $accountManager,
-		Manager $keyManager,
-		IJobList $jobList,
-		IManager $encryptionManager,
-		IEventDispatcher $dispatcher
+		private UserManager $userManager,
+		private IGroupManager $groupManager,
+		private IUserSession $userSession,
+		private IConfig $config,
+		private IL10N $l10n,
+		private IMailer $mailer,
+		private IFactory $l10nFactory,
+		private IAppManager $appManager,
+		private IAccountManager $accountManager,
+		private Manager $keyManager,
+		private IJobList $jobList,
+		private IManager $encryptionManager,
+		private KnownUserService $knownUserService,
+		private IEventDispatcher $dispatcher,
+		private IInitialState $initialState,
 	) {
 		parent::__construct($appName, $request);
-		$this->userManager = $userManager;
-		$this->groupManager = $groupManager;
-		$this->userSession = $userSession;
-		$this->config = $config;
-		$this->isAdmin = $isAdmin;
-		$this->l10n = $l10n;
-		$this->mailer = $mailer;
-		$this->l10nFactory = $l10nFactory;
-		$this->appManager = $appManager;
-		$this->accountManager = $accountManager;
-		$this->keyManager = $keyManager;
-		$this->jobList = $jobList;
-		$this->encryptionManager = $encryptionManager;
-		$this->dispatcher = $dispatcher;
 	}
 
 
@@ -159,6 +118,7 @@ class UsersController extends Controller {
 	public function usersList(): TemplateResponse {
 		$user = $this->userSession->getUser();
 		$uid = $user->getUID();
+		$isAdmin = $this->groupManager->isAdmin($uid);
 
 		\OC::$server->getNavigationManager()->setActiveEntry('core_users');
 
@@ -183,7 +143,7 @@ class UsersController extends Controller {
 		/* GROUPS */
 		$groupsInfo = new \OC\Group\MetaData(
 			$uid,
-			$this->isAdmin,
+			$isAdmin,
 			$this->groupManager,
 			$this->userSession
 		);
@@ -201,7 +161,7 @@ class UsersController extends Controller {
 		$userCount = 0;
 
 		if (!$isLDAPUsed) {
-			if ($this->isAdmin) {
+			if ($isAdmin) {
 				$disabledUsers = $this->userManager->countDisabledUsers();
 				$userCount = array_reduce($this->userManager->countUsers(), function ($v, $w) {
 					return $v + (int)$w;
@@ -214,7 +174,7 @@ class UsersController extends Controller {
 
 				foreach ($groups as $key => $group) {
 					// $userCount += (int)$group['usercount'];
-					array_push($groupsNames, $group['name']);
+					$groupsNames[] = $group['name'];
 					// we prevent subadmins from looking up themselves
 					// so we lower the count of the groups he belongs to
 					if (array_key_exists($group['id'], $userGroups)) {
@@ -222,6 +182,7 @@ class UsersController extends Controller {
 						$userCount -= 1; // we also lower from one the total count
 					}
 				}
+
 				$userCount += $this->userManager->countUsersOfGroups($groupsInfo->getGroups());
 				$disabledUsers = $this->userManager->countDisabledUsersOfGroups($groupsNames);
 			}
@@ -231,13 +192,18 @@ class UsersController extends Controller {
 
 		$disabledUsersGroup = [
 			'id' => 'disabled',
-			'name' => 'Disabled users',
+			'name' => 'Disabled accounts',
 			'usercount' => $disabledUsers
 		];
 
 		/* QUOTAS PRESETS */
 		$quotaPreset = $this->parseQuotaPreset($this->config->getAppValue('files', 'quota_preset', '1 GB, 5 GB, 10 GB'));
-		$defaultQuota = $this->config->getAppValue('files', 'default_quota', 'none');
+		$allowUnlimitedQuota = $this->config->getAppValue('files', 'allow_unlimited_quota', '1') === '1';
+		if (!$allowUnlimitedQuota && count($quotaPreset) > 0) {
+			$defaultQuota = $this->config->getAppValue('files', 'default_quota', $quotaPreset[0]);
+		} else {
+			$defaultQuota = $this->config->getAppValue('files', 'default_quota', 'none');
+		}
 
 		$event = new BeforeTemplateRenderedEvent();
 		$this->dispatcher->dispatch('OC\Settings\Users::loadAdditionalScripts', $event);
@@ -251,9 +217,10 @@ class UsersController extends Controller {
 		// groups
 		$serverData['groups'] = array_merge_recursive($adminGroup, [$disabledUsersGroup], $groups);
 		// Various data
-		$serverData['isAdmin'] = $this->isAdmin;
+		$serverData['isAdmin'] = $isAdmin;
 		$serverData['sortGroups'] = $sortGroupsBy;
 		$serverData['quotaPreset'] = $quotaPreset;
+		$serverData['allowUnlimitedQuota'] = $allowUnlimitedQuota;
 		$serverData['userCount'] = $userCount;
 		$serverData['languages'] = $languages;
 		$serverData['defaultLanguage'] = $this->config->getSystemValue('default_language', 'en');
@@ -265,7 +232,12 @@ class UsersController extends Controller {
 		$serverData['newUserRequireEmail'] = $this->config->getAppValue('core', 'newUser.requireEmail', 'no') === 'yes';
 		$serverData['newUserSendEmail'] = $this->config->getAppValue('core', 'newUser.sendEmail', 'yes') === 'yes';
 
-		return new TemplateResponse('settings', 'settings-vue', ['serverData' => $serverData]);
+		$this->initialState->provideInitialState('usersSettings', $serverData);
+
+		\OCP\Util::addStyle('settings', 'settings');
+		\OCP\Util::addScript('settings', 'vue-settings-apps-users-management');
+
+		return new TemplateResponse('settings', 'settings/empty', ['pageTitle' => $this->l10n->t('Settings')]);
 	}
 
 	/**
@@ -346,24 +318,41 @@ class UsersController extends Controller {
 	 * @param string|null $addressScope
 	 * @param string|null $twitter
 	 * @param string|null $twitterScope
+	 * @param string|null $fediverse
+	 * @param string|null $fediverseScope
 	 *
 	 * @return DataResponse
 	 */
 	public function setUserSettings(?string $avatarScope = null,
-									?string $displayname = null,
-									?string $displaynameScope = null,
-									?string $phone = null,
-									?string $phoneScope = null,
-									?string $email = null,
-									?string $emailScope = null,
-									?string $website = null,
-									?string $websiteScope = null,
-									?string $address = null,
-									?string $addressScope = null,
-									?string $twitter = null,
-									?string $twitterScope = null
+		?string $displayname = null,
+		?string $displaynameScope = null,
+		?string $phone = null,
+		?string $phoneScope = null,
+		?string $email = null,
+		?string $emailScope = null,
+		?string $website = null,
+		?string $websiteScope = null,
+		?string $address = null,
+		?string $addressScope = null,
+		?string $twitter = null,
+		?string $twitterScope = null,
+		?string $fediverse = null,
+		?string $fediverseScope = null
 	) {
-		$email = strtolower($email);
+		$user = $this->userSession->getUser();
+		if (!$user instanceof IUser) {
+			return new DataResponse(
+				[
+					'status' => 'error',
+					'data' => [
+						'message' => $this->l10n->t('Invalid account')
+					]
+				],
+				Http::STATUS_UNAUTHORIZED
+			);
+		}
+
+		$email = !is_null($email) ? strtolower($email) : $email;
 		if (!empty($email) && !$this->mailer->validateMailAddress($email)) {
 			return new DataResponse(
 				[
@@ -375,55 +364,66 @@ class UsersController extends Controller {
 				Http::STATUS_UNPROCESSABLE_ENTITY
 			);
 		}
-		$user = $this->userSession->getUser();
-		$data = $this->accountManager->getUser($user);
-		$data[IAccountManager::PROPERTY_AVATAR] = ['scope' => $avatarScope];
-		if ($this->config->getSystemValue('allow_user_to_change_display_name', true) !== false) {
-			$data[IAccountManager::PROPERTY_DISPLAYNAME] = ['value' => $displayname, 'scope' => $displaynameScope];
-			$data[IAccountManager::PROPERTY_EMAIL] = ['value' => $email, 'scope' => $emailScope];
-		}
-		if ($this->appManager->isEnabledForUser('federatedfilesharing')) {
-			$shareProvider = \OC::$server->query(FederatedShareProvider::class);
-			if ($shareProvider->isLookupServerUploadEnabled()) {
-				$data[IAccountManager::PROPERTY_WEBSITE] = ['value' => $website, 'scope' => $websiteScope];
-				$data[IAccountManager::PROPERTY_ADDRESS] = ['value' => $address, 'scope' => $addressScope];
-				$data[IAccountManager::PROPERTY_PHONE] = ['value' => $phone, 'scope' => $phoneScope];
-				$data[IAccountManager::PROPERTY_TWITTER] = ['value' => $twitter, 'scope' => $twitterScope];
+
+		$userAccount = $this->accountManager->getAccount($user);
+		$oldPhoneValue = $userAccount->getProperty(IAccountManager::PROPERTY_PHONE)->getValue();
+
+		$updatable = [
+			IAccountManager::PROPERTY_AVATAR => ['value' => null, 'scope' => $avatarScope],
+			IAccountManager::PROPERTY_DISPLAYNAME => ['value' => $displayname, 'scope' => $displaynameScope],
+			IAccountManager::PROPERTY_EMAIL => ['value' => $email, 'scope' => $emailScope],
+			IAccountManager::PROPERTY_WEBSITE => ['value' => $website, 'scope' => $websiteScope],
+			IAccountManager::PROPERTY_ADDRESS => ['value' => $address, 'scope' => $addressScope],
+			IAccountManager::PROPERTY_PHONE => ['value' => $phone, 'scope' => $phoneScope],
+			IAccountManager::PROPERTY_TWITTER => ['value' => $twitter, 'scope' => $twitterScope],
+			IAccountManager::PROPERTY_FEDIVERSE => ['value' => $fediverse, 'scope' => $fediverseScope],
+		];
+		$allowUserToChangeDisplayName = $this->config->getSystemValueBool('allow_user_to_change_display_name', true);
+		foreach ($updatable as $property => $data) {
+			if ($allowUserToChangeDisplayName === false
+				&& in_array($property, [IAccountManager::PROPERTY_DISPLAYNAME, IAccountManager::PROPERTY_EMAIL], true)) {
+				continue;
+			}
+			$property = $userAccount->getProperty($property);
+			if (null !== $data['value']) {
+				$property->setValue($data['value']);
+			}
+			if (null !== $data['scope']) {
+				$property->setScope($data['scope']);
 			}
 		}
+
 		try {
-			$data = $this->saveUserSettings($user, $data);
+			$this->saveUserSettings($userAccount);
+			if ($oldPhoneValue !== $userAccount->getProperty(IAccountManager::PROPERTY_PHONE)->getValue()) {
+				$this->knownUserService->deleteByContactUserId($user->getUID());
+			}
 			return new DataResponse(
 				[
 					'status' => 'success',
 					'data' => [
 						'userId' => $user->getUID(),
-						'avatarScope' => $data[IAccountManager::PROPERTY_AVATAR]['scope'],
-						'displayname' => $data[IAccountManager::PROPERTY_DISPLAYNAME]['value'],
-						'displaynameScope' => $data[IAccountManager::PROPERTY_DISPLAYNAME]['scope'],
-						'phone' => $data[IAccountManager::PROPERTY_PHONE]['value'],
-						'phoneScope' => $data[IAccountManager::PROPERTY_PHONE]['scope'],
-						'email' => $data[IAccountManager::PROPERTY_EMAIL]['value'],
-						'emailScope' => $data[IAccountManager::PROPERTY_EMAIL]['scope'],
-						'website' => $data[IAccountManager::PROPERTY_WEBSITE]['value'],
-						'websiteScope' => $data[IAccountManager::PROPERTY_WEBSITE]['scope'],
-						'address' => $data[IAccountManager::PROPERTY_ADDRESS]['value'],
-						'addressScope' => $data[IAccountManager::PROPERTY_ADDRESS]['scope'],
-						'twitter' => $data[IAccountManager::PROPERTY_TWITTER]['value'],
-						'twitterScope' => $data[IAccountManager::PROPERTY_TWITTER]['scope'],
-						'message' => $this->l10n->t('Settings saved')
-					]
+						'avatarScope' => $userAccount->getProperty(IAccountManager::PROPERTY_AVATAR)->getScope(),
+						'displayname' => $userAccount->getProperty(IAccountManager::PROPERTY_DISPLAYNAME)->getValue(),
+						'displaynameScope' => $userAccount->getProperty(IAccountManager::PROPERTY_DISPLAYNAME)->getScope(),
+						'phone' => $userAccount->getProperty(IAccountManager::PROPERTY_PHONE)->getValue(),
+						'phoneScope' => $userAccount->getProperty(IAccountManager::PROPERTY_PHONE)->getScope(),
+						'email' => $userAccount->getProperty(IAccountManager::PROPERTY_EMAIL)->getValue(),
+						'emailScope' => $userAccount->getProperty(IAccountManager::PROPERTY_EMAIL)->getScope(),
+						'website' => $userAccount->getProperty(IAccountManager::PROPERTY_WEBSITE)->getValue(),
+						'websiteScope' => $userAccount->getProperty(IAccountManager::PROPERTY_WEBSITE)->getScope(),
+						'address' => $userAccount->getProperty(IAccountManager::PROPERTY_ADDRESS)->getValue(),
+						'addressScope' => $userAccount->getProperty(IAccountManager::PROPERTY_ADDRESS)->getScope(),
+						'twitter' => $userAccount->getProperty(IAccountManager::PROPERTY_TWITTER)->getValue(),
+						'twitterScope' => $userAccount->getProperty(IAccountManager::PROPERTY_TWITTER)->getScope(),
+						'fediverse' => $userAccount->getProperty(IAccountManager::PROPERTY_FEDIVERSE)->getValue(),
+						'fediverseScope' => $userAccount->getProperty(IAccountManager::PROPERTY_FEDIVERSE)->getScope(),
+						'message' => $this->l10n->t('Settings saved'),
+					],
 				],
 				Http::STATUS_OK
 			);
-		} catch (ForbiddenException $e) {
-			return new DataResponse([
-				'status' => 'error',
-				'data' => [
-					'message' => $e->getMessage()
-				],
-			]);
-		} catch (\InvalidArgumentException $e) {
+		} catch (ForbiddenException | InvalidArgumentException | PropertyDoesNotExistException $e) {
 			return new DataResponse([
 				'status' => 'error',
 				'data' => [
@@ -435,46 +435,41 @@ class UsersController extends Controller {
 	/**
 	 * update account manager with new user data
 	 *
-	 * @param IUser $user
-	 * @param array $data
-	 * @return array
 	 * @throws ForbiddenException
-	 * @throws \InvalidArgumentException
+	 * @throws InvalidArgumentException
 	 */
-	protected function saveUserSettings(IUser $user, array $data): array {
+	protected function saveUserSettings(IAccount $userAccount): void {
 		// keep the user back-end up-to-date with the latest display name and email
 		// address
-		$oldDisplayName = $user->getDisplayName();
-		$oldDisplayName = is_null($oldDisplayName) ? '' : $oldDisplayName;
-		if (isset($data[IAccountManager::PROPERTY_DISPLAYNAME]['value'])
-			&& $oldDisplayName !== $data[IAccountManager::PROPERTY_DISPLAYNAME]['value']
-		) {
-			$result = $user->setDisplayName($data[IAccountManager::PROPERTY_DISPLAYNAME]['value']);
+		$oldDisplayName = $userAccount->getUser()->getDisplayName();
+		if ($oldDisplayName !== $userAccount->getProperty(IAccountManager::PROPERTY_DISPLAYNAME)->getValue()) {
+			$result = $userAccount->getUser()->setDisplayName($userAccount->getProperty(IAccountManager::PROPERTY_DISPLAYNAME)->getValue());
 			if ($result === false) {
 				throw new ForbiddenException($this->l10n->t('Unable to change full name'));
 			}
 		}
 
-		$oldEmailAddress = $user->getEMailAddress();
-		$oldEmailAddress = is_null($oldEmailAddress) ? '' : strtolower($oldEmailAddress);
-		if (isset($data[IAccountManager::PROPERTY_EMAIL]['value'])
-			&& $oldEmailAddress !== $data[IAccountManager::PROPERTY_EMAIL]['value']
-		) {
+		$oldEmailAddress = $userAccount->getUser()->getSystemEMailAddress();
+		$oldEmailAddress = strtolower((string)$oldEmailAddress);
+		if ($oldEmailAddress !== strtolower($userAccount->getProperty(IAccountManager::PROPERTY_EMAIL)->getValue())) {
 			// this is the only permission a backend provides and is also used
 			// for the permission of setting a email address
-			if (!$user->canChangeDisplayName()) {
+			if (!$userAccount->getUser()->canChangeDisplayName()) {
 				throw new ForbiddenException($this->l10n->t('Unable to change email address'));
 			}
-			$user->setEMailAddress($data[IAccountManager::PROPERTY_EMAIL]['value']);
+			$userAccount->getUser()->setSystemEMailAddress($userAccount->getProperty(IAccountManager::PROPERTY_EMAIL)->getValue());
 		}
 
 		try {
-			return $this->accountManager->updateUser($user, $data, true);
-		} catch (\InvalidArgumentException $e) {
+			$this->accountManager->updateAccount($userAccount);
+		} catch (InvalidArgumentException $e) {
 			if ($e->getMessage() === IAccountManager::PROPERTY_PHONE) {
-				throw new \InvalidArgumentException($this->l10n->t('Unable to set invalid phone number'));
+				throw new InvalidArgumentException($this->l10n->t('Unable to set invalid phone number'));
 			}
-			throw new \InvalidArgumentException($this->l10n->t('Some account data was invalid'));
+			if ($e->getMessage() === IAccountManager::PROPERTY_WEBSITE) {
+				throw new InvalidArgumentException($this->l10n->t('Unable to set invalid website'));
+			}
+			throw new InvalidArgumentException($this->l10n->t('Some account data was invalid'));
 		}
 	}
 
@@ -496,7 +491,7 @@ class UsersController extends Controller {
 			return new DataResponse([], Http::STATUS_BAD_REQUEST);
 		}
 
-		$accountData = $this->accountManager->getUser($user);
+		$userAccount = $this->accountManager->getAccount($user);
 		$cloudId = $user->getCloudId();
 		$message = 'Use my Federated Cloud ID to share with me: ' . $cloudId;
 		$signature = $this->signMessage($user, $message);
@@ -506,30 +501,30 @@ class UsersController extends Controller {
 
 		switch ($account) {
 			case 'verify-twitter':
-				$accountData[IAccountManager::PROPERTY_TWITTER]['verified'] = AccountManager::VERIFICATION_IN_PROGRESS;
 				$msg = $this->l10n->t('In order to verify your Twitter account, post the following tweet on Twitter (please make sure to post it without any line breaks):');
 				$code = $codeMd5;
 				$type = IAccountManager::PROPERTY_TWITTER;
-				$accountData[IAccountManager::PROPERTY_TWITTER]['signature'] = $signature;
 				break;
 			case 'verify-website':
-				$accountData[IAccountManager::PROPERTY_WEBSITE]['verified'] = AccountManager::VERIFICATION_IN_PROGRESS;
 				$msg = $this->l10n->t('In order to verify your Website, store the following content in your web-root at \'.well-known/CloudIdVerificationCode.txt\' (please make sure that the complete text is in one line):');
 				$type = IAccountManager::PROPERTY_WEBSITE;
-				$accountData[IAccountManager::PROPERTY_WEBSITE]['signature'] = $signature;
 				break;
 			default:
 				return new DataResponse([], Http::STATUS_BAD_REQUEST);
 		}
 
+		$userProperty = $userAccount->getProperty($type);
+		$userProperty
+			->setVerified(IAccountManager::VERIFICATION_IN_PROGRESS)
+			->setVerificationData($signature);
+
 		if ($onlyVerificationCode === false) {
-			$accountData = $this->accountManager->updateUser($user, $accountData);
-			$data = $accountData[$type]['value'];
+			$this->accountManager->updateAccount($userAccount);
 
 			$this->jobList->add(VerifyUserData::class,
 				[
 					'verificationCode' => $code,
-					'data' => $data,
+					'data' => $userProperty->getValue(),
 					'type' => $type,
 					'uid' => $user->getUID(),
 					'try' => 0,

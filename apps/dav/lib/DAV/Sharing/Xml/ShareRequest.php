@@ -3,7 +3,6 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @license AGPL-3.0
@@ -21,7 +20,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\DAV\DAV\Sharing\Xml;
 
 use OCA\DAV\DAV\Sharing\Plugin;
@@ -64,8 +62,8 @@ class ShareRequest implements XmlDeserializable {
 
 					$set[] = [
 						'href' => $sharee['{DAV:}href'],
-						'commonName' => isset($sharee[$commonName]) ? $sharee[$commonName] : null,
-						'summary' => isset($sharee[$sumElem]) ? $sharee[$sumElem] : null,
+						'commonName' => $sharee[$commonName] ?? null,
+						'summary' => $sharee[$sumElem] ?? null,
 						'readOnly' => !array_key_exists('{' . Plugin::NS_OWNCLOUD . '}read-write', $sharee),
 					];
 					break;

@@ -22,7 +22,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_External\Tests\Auth\Password;
 
 use OCA\Files_External\Lib\Auth\Password\GlobalAuth;
@@ -114,7 +113,7 @@ class GlobalAuthTest extends TestCase {
 		$this->credentialsManager->expects($this->never())
 			->method('retrieve');
 
-		$storage = $this->getStorageConfig(StorageConfig::MOUNT_TYPE_PERSONAl);
+		$storage = $this->getStorageConfig(StorageConfig::MOUNT_TYPE_PERSONAL);
 
 		$this->instance->manipulateStorageConfig($storage);
 		$this->assertEquals([], $storage->getBackendOptions());

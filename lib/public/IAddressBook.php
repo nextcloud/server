@@ -5,11 +5,12 @@
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @license AGPL-3.0
@@ -27,12 +28,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
-/**
- * Public interface of ownCloud for apps to use.
- * IAddressBook interface
- */
-
 // use OCP namespace for all classes that are considered public.
 // This means that they should be used by apps instead of the internal ownCloud classes
 
@@ -43,7 +38,6 @@ namespace OCP {
 	 * @since 5.0.0
 	 */
 	interface IAddressBook {
-
 		/**
 		 * @return string defining the technical unique key
 		 * @since 5.0.0
@@ -53,7 +47,6 @@ namespace OCP {
 		/**
 		 * @return string defining the unique uri
 		 * @since 16.0.0
-		 * @return string
 		 */
 		public function getUri(): string;
 
@@ -73,6 +66,8 @@ namespace OCP {
 		 * 	- 'escape_like_param' - If set to false wildcards _ and % are not escaped
 		 * 	- 'limit' - Set a numeric limit for the search results
 		 * 	- 'offset' - Set the offset for the limited search results
+		 * 	- 'wildcard' - (since 23.0.0) Whether the search should use wildcards
+		 * @psalm-param array{types?: bool, escape_like_param?: bool, limit?: int, offset?: int, wildcard?: bool} $options
 		 * @return array an array of contacts which are arrays of key-value-pairs
 		 *  example result:
 		 *  [
@@ -102,7 +97,7 @@ namespace OCP {
 		public function getPermissions();
 
 		/**
-		 * @param object $id the unique identifier to a contact
+		 * @param int $id the unique identifier to a contact
 		 * @return bool successful or not
 		 * @since 5.0.0
 		 */

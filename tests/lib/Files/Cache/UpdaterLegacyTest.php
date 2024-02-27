@@ -10,6 +10,7 @@ namespace Test\Files\Cache;
 
 use OC\Files\Filesystem as Filesystem;
 use OC\Files\View;
+use OCP\Files\Mount\IMountManager;
 
 /**
  * Class UpdaterLegacyTest
@@ -61,7 +62,10 @@ class UpdaterLegacyTest extends \Test\TestCase {
 
 		Filesystem::init(self::$user, '/' . self::$user . '/files');
 
-		Filesystem::clearMounts();
+		/** @var IMountManager $manager */
+		$manager = \OC::$server->get(IMountManager::class);
+		$manager->removeMount('/' . self::$user);
+
 		Filesystem::mount($this->storage, [], '/' . self::$user . '/files');
 
 		\OC_Hook::clear('OC_Filesystem');
@@ -258,14 +262,14 @@ class UpdaterLegacyTest extends \Test\TestCase {
 		$this->assertIsString($cachedData['etag']);
 		$this->assertNotSame($oldEtag, $cachedData['etag']);
 		// rename can cause mtime change - invalid assert
-//		$this->assertEquals($mtime, $cachedData['mtime']);
+		//		$this->assertEquals($mtime, $cachedData['mtime']);
 
 		$cachedData = $view->getFileInfo('folder');
 		$this->assertIsString($folderCachedData['etag']);
 		$this->assertIsString($cachedData['etag']);
 		$this->assertNotSame($oldEtag, $cachedData['etag']);
 		// rename can cause mtime change - invalid assert
-//		$this->assertEquals($mtime, $cachedData['mtime']);
+		//		$this->assertEquals($mtime, $cachedData['mtime']);
 	}
 
 	public function testTouch() {

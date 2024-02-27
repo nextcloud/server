@@ -5,7 +5,6 @@
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Michael Gapczynski <GapczynskiM@gmail.com>
- * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -26,7 +25,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\Files_External\Tests\Storage;
 
 use OCA\Files_External\Lib\Storage\AmazonS3;
@@ -40,6 +38,8 @@ use OCA\Files_External\Lib\Storage\AmazonS3;
  */
 class Amazons3Test extends \Test\Files\Storage\Storage {
 	private $config;
+	/** @var AmazonS3 */
+	protected $instance;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -61,5 +61,9 @@ class Amazons3Test extends \Test\Files\Storage\Storage {
 
 	public function testStat() {
 		$this->markTestSkipped('S3 doesn\'t update the parents folder mtime');
+	}
+
+	public function testHashInFileName() {
+		$this->markTestSkipped('Localstack has a bug with hashes in filename');
 	}
 }

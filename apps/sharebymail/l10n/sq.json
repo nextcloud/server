@@ -14,16 +14,16 @@
     "Password to access {file} was sent to {email}" : "Fjalëkalimi për akses {file} dërguar tek {email}",
     "Password to access %1$s was sent to you" : "Fjalëkalimi për të aksesuar %1$s ju është dërguar",
     "Password to access {file} was sent to you" : "Fjalëkalimi për akses {file} tu dërgua ",
-    "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "S'mund t'jua dergojmë fjalëkalimin e gjeneruar automatikisht. Ju lutem vendosni një adresë emaili të vlefshme ne mjedisin tuaj personal dhe provoni përseri. ",
+    "Share by mail" : "Shpërnda me mail",
     "Failed to send share by email" : "Ndarja e dërguar me anë të email dështoi ",
     "Click the button below to open it." : "Klikoni butonin poshtë për ta hapur.",
     "Open »%s«" : "Hap »%s«",
     "Password to access »%s«" : "Fjalëkalimi për akses »%s«",
     "You can choose a different password at any time in the share dialog." : "Ju mund të zgjidhni një fjalëkalim tjetër në çdo kohë në dialogun e ndarjes.",
     "Could not find share" : "Nuk mund të gjej shpërndarje",
-    "Share by mail" : "Shpërnda me mail",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Lejo përdoruesit të ndajnë një lidhje të personalizuar me një skedar ose dosje duke e vendosur në një adresë e-mail.",
     "Send password by mail" : "Dërgo fjalëkalimin me mail",
+    "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "S'mund t'jua dergojmë fjalëkalimin e gjeneruar automatikisht. Ju lutem vendosni një adresë emaili të vlefshme ne mjedisin tuaj personal dhe provoni përseri. ",
     "Enforce password protection" : "Forco mbrojtjen e fjalëkalimit"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

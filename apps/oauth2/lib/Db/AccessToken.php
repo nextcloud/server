@@ -14,14 +14,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\OAuth2\Db;
 
 use OCP\AppFramework\Db\Entity;
@@ -35,6 +34,10 @@ use OCP\AppFramework\Db\Entity;
  * @method void setEncryptedToken(string $token)
  * @method string getHashedCode()
  * @method void setHashedCode(string $token)
+ * @method int getCodeCreatedAt()
+ * @method void setCodeCreatedAt(int $createdAt)
+ * @method int getTokenCount()
+ * @method void setTokenCount(int $tokenCount)
  */
 class AccessToken extends Entity {
 	/** @var int */
@@ -45,6 +48,10 @@ class AccessToken extends Entity {
 	protected $hashedCode;
 	/** @var string */
 	protected $encryptedToken;
+	/** @var int */
+	protected $codeCreatedAt;
+	/** @var int */
+	protected $tokenCount;
 
 	public function __construct() {
 		$this->addType('id', 'int');
@@ -52,5 +59,7 @@ class AccessToken extends Entity {
 		$this->addType('clientId', 'int');
 		$this->addType('hashedCode', 'string');
 		$this->addType('encryptedToken', 'string');
+		$this->addType('codeCreatedAt', 'int');
+		$this->addType('tokenCount', 'int');
 	}
 }

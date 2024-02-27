@@ -13,14 +13,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Repair\NC21;
 
 use OC\Core\BackgroundJobs\CheckForUserCertificates;
@@ -30,7 +29,6 @@ use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 
 class AddCheckForUserCertificatesJob implements IRepairStep {
-
 	/** @var IJobList */
 	protected $jobList;
 	/** @var IConfig */
@@ -46,7 +44,7 @@ class AddCheckForUserCertificatesJob implements IRepairStep {
 	}
 
 	private function shouldRun() {
-		$versionFromBeforeUpdate = $this->config->getSystemValue('version', '0.0.0.0');
+		$versionFromBeforeUpdate = $this->config->getSystemValueString('version', '0.0.0.0');
 
 		// was added to 21.0.0.2
 		return version_compare($versionFromBeforeUpdate, '21.0.0.2', '<');

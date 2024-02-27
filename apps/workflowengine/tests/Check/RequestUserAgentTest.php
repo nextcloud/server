@@ -2,6 +2,11 @@
 /**
  * @copyright Copyright (c) 2018 Joas Schilling <coding@schilljs.com>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ *
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -11,14 +16,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\WorkflowEngine\Tests\Check;
 
 use OCA\WorkflowEngine\Check\RequestUserAgent;
@@ -53,46 +57,46 @@ class RequestUserAgentTest extends TestCase {
 
 	public function dataExecuteCheck() {
 		return [
-			['is', 'android', 'Mozilla/5.0 (Android) Nextcloud-android v2.2.0', true],
-			['is', 'android', 'Mozilla/5.0 (iOS) Nextcloud-iOS v2.2.0', false],
+			['is', 'android', 'Mozilla/5.0 (Android) Nextcloud-android/2.2.0', true],
+			['is', 'android', 'Mozilla/5.0 (iOS) Nextcloud-iOS/2.2.0', false],
 			['is', 'android', 'Mozilla/5.0 (Linux) mirall/2.2.0', false],
 			['is', 'android', 'Mozilla/5.0 (Windows) Nextcloud-Outlook v2.2.0', false],
 			['is', 'android', 'Mozilla/5.0 (Linux) Nextcloud-Thunderbird v2.2.0', false],
-			['!is', 'android', 'Mozilla/5.0 (Android) Nextcloud-android v2.2.0', false],
-			['!is', 'android', 'Mozilla/5.0 (iOS) Nextcloud-iOS v2.2.0', true],
+			['!is', 'android', 'Mozilla/5.0 (Android) Nextcloud-android/2.2.0', false],
+			['!is', 'android', 'Mozilla/5.0 (iOS) Nextcloud-iOS/2.2.0', true],
 			['!is', 'android', 'Mozilla/5.0 (Linux) mirall/2.2.0', true],
 			['!is', 'android', 'Mozilla/5.0 (Windows) Nextcloud-Outlook v2.2.0', true],
 			['!is', 'android', 'Mozilla/5.0 (Linux) Nextcloud-Thunderbird v2.2.0', true],
 
-			['is', 'ios', 'Mozilla/5.0 (Android) Nextcloud-android v2.2.0', false],
-			['is', 'ios', 'Mozilla/5.0 (iOS) Nextcloud-iOS v2.2.0', true],
+			['is', 'ios', 'Mozilla/5.0 (Android) Nextcloud-android/2.2.0', false],
+			['is', 'ios', 'Mozilla/5.0 (iOS) Nextcloud-iOS/2.2.0', true],
 			['is', 'ios', 'Mozilla/5.0 (Linux) mirall/2.2.0', false],
 			['is', 'ios', 'Mozilla/5.0 (Windows) Nextcloud-Outlook v2.2.0', false],
 			['is', 'ios', 'Mozilla/5.0 (Linux) Nextcloud-Thunderbird v2.2.0', false],
-			['!is', 'ios', 'Mozilla/5.0 (Android) Nextcloud-android v2.2.0', true],
-			['!is', 'ios', 'Mozilla/5.0 (iOS) Nextcloud-iOS v2.2.0', false],
+			['!is', 'ios', 'Mozilla/5.0 (Android) Nextcloud-android/2.2.0', true],
+			['!is', 'ios', 'Mozilla/5.0 (iOS) Nextcloud-iOS/2.2.0', false],
 			['!is', 'ios', 'Mozilla/5.0 (Linux) mirall/2.2.0', true],
 			['!is', 'ios', 'Mozilla/5.0 (Windows) Nextcloud-Outlook v2.2.0', true],
 			['!is', 'ios', 'Mozilla/5.0 (Linux) Nextcloud-Thunderbird v2.2.0', true],
 
-			['is', 'desktop', 'Mozilla/5.0 (Android) Nextcloud-android v2.2.0', false],
-			['is', 'desktop', 'Mozilla/5.0 (iOS) Nextcloud-iOS v2.2.0', false],
+			['is', 'desktop', 'Mozilla/5.0 (Android) Nextcloud-android/2.2.0', false],
+			['is', 'desktop', 'Mozilla/5.0 (iOS) Nextcloud-iOS/2.2.0', false],
 			['is', 'desktop', 'Mozilla/5.0 (Linux) mirall/2.2.0', true],
 			['is', 'desktop', 'Mozilla/5.0 (Windows) Nextcloud-Outlook v2.2.0', false],
 			['is', 'desktop', 'Mozilla/5.0 (Linux) Nextcloud-Thunderbird v2.2.0', false],
-			['!is', 'desktop', 'Mozilla/5.0 (Android) Nextcloud-android v2.2.0', true],
-			['!is', 'desktop', 'Mozilla/5.0 (iOS) Nextcloud-iOS v2.2.0', true],
+			['!is', 'desktop', 'Mozilla/5.0 (Android) Nextcloud-android/2.2.0', true],
+			['!is', 'desktop', 'Mozilla/5.0 (iOS) Nextcloud-iOS/2.2.0', true],
 			['!is', 'desktop', 'Mozilla/5.0 (Linux) mirall/2.2.0', false],
 			['!is', 'desktop', 'Mozilla/5.0 (Windows) Nextcloud-Outlook v2.2.0', true],
 			['!is', 'desktop', 'Mozilla/5.0 (Linux) Nextcloud-Thunderbird v2.2.0', true],
 
-			['is', 'mail', 'Mozilla/5.0 (Android) Nextcloud-android v2.2.0', false],
-			['is', 'mail', 'Mozilla/5.0 (iOS) Nextcloud-iOS v2.2.0', false],
+			['is', 'mail', 'Mozilla/5.0 (Android) Nextcloud-android/2.2.0', false],
+			['is', 'mail', 'Mozilla/5.0 (iOS) Nextcloud-iOS/2.2.0', false],
 			['is', 'mail', 'Mozilla/5.0 (Linux) mirall/2.2.0', false],
 			['is', 'mail', 'Mozilla/5.0 (Windows) Nextcloud-Outlook v2.2.0', true],
 			['is', 'mail', 'Mozilla/5.0 (Linux) Nextcloud-Thunderbird v2.2.0', true],
-			['!is', 'mail', 'Mozilla/5.0 (Android) Nextcloud-android v2.2.0', true],
-			['!is', 'mail', 'Mozilla/5.0 (iOS) Nextcloud-iOS v2.2.0', true],
+			['!is', 'mail', 'Mozilla/5.0 (Android) Nextcloud-android/2.2.0', true],
+			['!is', 'mail', 'Mozilla/5.0 (iOS) Nextcloud-iOS/2.2.0', true],
 			['!is', 'mail', 'Mozilla/5.0 (Linux) mirall/2.2.0', true],
 			['!is', 'mail', 'Mozilla/5.0 (Windows) Nextcloud-Outlook v2.2.0', false],
 			['!is', 'mail', 'Mozilla/5.0 (Linux) Nextcloud-Thunderbird v2.2.0', false],

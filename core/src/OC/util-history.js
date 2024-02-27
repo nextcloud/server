@@ -1,9 +1,10 @@
 /**
  * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
- * @author 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -16,11 +17,12 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 
 import _ from 'underscore'
-import OC from './index'
+import OC from './index.js'
 
 /**
  * Utility class for the history API,
@@ -39,7 +41,7 @@ export default {
 	 * Note: this includes a workaround for IE8/IE9 that uses
 	 * the hash part instead of the search part.
 	 *
-	 * @param {Object|string} params to append to the URL, can be either a string
+	 * @param {object | string} params to append to the URL, can be either a string
 	 * or a map
 	 * @param {string} [url] URL to be used, otherwise the current URL will be used,
 	 * using the params as query string
@@ -90,7 +92,7 @@ export default {
 	 * Note: this includes a workaround for IE8/IE9 that uses
 	 * the hash part instead of the search part.
 	 *
-	 * @param {Object|string} params to append to the URL, can be either a string or a map
+	 * @param {object | string} params to append to the URL, can be either a string or a map
 	 * @param {string} [url] URL to be used, otherwise the current URL will be used, using the params as query string
 	 */
 	pushState(params, url) {
@@ -103,7 +105,7 @@ export default {
 	 * Note: this includes a workaround for IE8/IE9 that uses
 	 * the hash part instead of the search part.
 	 *
-	 * @param {Object|string} params to append to the URL, can be either a string
+	 * @param {object | string} params to append to the URL, can be either a string
 	 * or a map
 	 * @param {string} [url] URL to be used, otherwise the current URL will be used,
 	 * using the params as query string
@@ -124,7 +126,8 @@ export default {
 	/**
 	 * Parse a query string from the hash part of the URL.
 	 * (workaround for IE8 / IE9)
-	 * @returns {string}
+	 *
+	 * @return {string}
 	 */
 	_parseHashQuery() {
 		const hash = window.location.hash
@@ -147,7 +150,7 @@ export default {
 	 * Parse the query/search part of the URL.
 	 * Also try and parse it from the URL hash (for IE8)
 	 *
-	 * @returns {Object} map of parameters
+	 * @return {object} map of parameters
 	 */
 	parseUrlQuery() {
 		const query = this._parseHashQuery()

@@ -24,16 +24,14 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCP\Search;
 
 /**
- * Provides a template for search functionality throughout ownCloud;
+ * Provides a template for search functionality throughout Nextcloud;
  * @since 7.0.0
  * @deprecated 20.0.0
  */
 abstract class Provider {
-
 	/**
 	 * @since 8.0.0
 	 * @deprecated 20.0.0

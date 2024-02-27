@@ -20,7 +20,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OCA\FederatedFileSharing;
 
 use OCP\Security\ISecureRandom;
@@ -53,7 +52,7 @@ class TokenHandler {
 	public function generateToken() {
 		$token = $this->secureRandom->generate(
 			self::TOKEN_LENGTH,
-			ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_UPPER . ISecureRandom::CHAR_DIGITS);
+			ISecureRandom::CHAR_ALPHANUMERIC);
 		return $token;
 	}
 }

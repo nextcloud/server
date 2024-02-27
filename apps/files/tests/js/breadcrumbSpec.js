@@ -1,23 +1,27 @@
 /**
-* ownCloud
-*
-* @author Vincent Petry
 * @copyright 2014 Vincent Petry <pvince81@owncloud.com>
-*
-* This library is free software; you can redistribute it and/or
-* modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
-* License as published by the Free Software Foundation; either
-* version 3 of the License, or any later version.
-*
-* This library is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-* GNU AFFERO GENERAL PUBLIC LICENSE for more details.
-*
-* You should have received a copy of the GNU Affero General Public
-* License along with this library.  If not, see <http://www.gnu.org/licenses/>.
-*
-*/
+ *
+ * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Vincent Petry <vincent@nextcloud.com>
+ *
+ * @license AGPL-3.0-or-later
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
 
 describe('OCA.Files.BreadCrumb tests', function() {
 	var BreadCrumb = OCA.Files.BreadCrumb;
@@ -37,7 +41,7 @@ describe('OCA.Files.BreadCrumb tests', function() {
 		});
 		it('Renders its own container', function() {
 			bc.render();
-			expect(bc.$el.hasClass('breadcrumb')).toEqual(true);
+			expect(bc.$el.find("ul").hasClass('breadcrumb')).toEqual(true);
 		});
 		it('Renders root by default', function() {
 			var $crumbs;
@@ -179,13 +183,13 @@ describe('OCA.Files.BreadCrumb tests', function() {
 			// append dummy navigation and controls
 			// as they are currently used for measurements
 			$('#testArea').append(
-				'<div id="controls"></div>'
+				'<div class="files-controls"></div>'
 			);
-			$('#controls').append(bc.$el);
+			$('.files-controls').append(bc.$el);
 
 			bc.setDirectory(dummyDir);
 
-			$('div.crumb').each(function(index){
+			$('li.crumb').each(function(index){
 				$(this).css('width', 50);
 				$(this).css('padding', 0);
 				$(this).css('margin', 0);
@@ -193,11 +197,11 @@ describe('OCA.Files.BreadCrumb tests', function() {
 			$('div.crumbhome').css('width', 51);
 			$('div.crumbmenu').css('width', 51);
 
-			$('#controls').width(1000);
+			$('.files-controls').width(1000);
 			bc._resize();
 
 			// Shrink to show popovermenu
-			$('#controls').width(300);
+			$('.files-controls').width(300);
 			bc._resize();
 
 			$crumbmenuLink = bc.$el.find('.crumbmenu > a');
@@ -228,9 +232,9 @@ describe('OCA.Files.BreadCrumb tests', function() {
 			// append dummy navigation and controls
 			// as they are currently used for measurements
 			$('#testArea').append(
-				'<div id="controls"></div>'
+				'<div class="files-controls"></div>'
 			);
-			$('#controls').append(bc.$el);
+			$('.files-controls').append(bc.$el);
 
 			// triggers resize implicitly
 			bc.setDirectory(dummyDir);
@@ -244,7 +248,7 @@ describe('OCA.Files.BreadCrumb tests', function() {
 			paddings = [0, 0, 0, 0, 0, 0, 0, 0];
 			margins = [0, 0, 0, 0, 0, 0, 0, 0];
 
-			$('div.crumb').each(function(index){
+			$('li.crumb').each(function(index){
 				$(this).css('width', widths[index]);
 				$(this).css('padding', paddings[index]);
 				$(this).css('margin', margins[index]);
@@ -256,7 +260,7 @@ describe('OCA.Files.BreadCrumb tests', function() {
 		it('Hides breadcrumbs to fit available width', function() {
 			var $crumbs;
 
-			$('#controls').width(500);
+			$('.files-controls').width(500);
 			bc._resize();
 
 			$crumbs = bc.$el.find('.crumb');
@@ -276,7 +280,7 @@ describe('OCA.Files.BreadCrumb tests', function() {
 		it('Hides breadcrumbs to fit available width', function() {
 			var $crumbs;
 
-			$('#controls').width(700);
+			$('.files-controls').width(700);
 			bc._resize();
 
 			$crumbs = bc.$el.find('.crumb');
@@ -298,11 +302,11 @@ describe('OCA.Files.BreadCrumb tests', function() {
 			// Each element is 20px wider
 			paddings = [10, 10, 10, 10, 10, 10, 10, 10];
 
-			$('div.crumb').each(function(index){
+			$('li.crumb').each(function(index){
 				$(this).css('padding', paddings[index]);
 			});
 
-			$('#controls').width(700);
+			$('.files-controls').width(700);
 			bc._resize();
 
 			$crumbs = bc.$el.find('.crumb');
@@ -325,11 +329,11 @@ describe('OCA.Files.BreadCrumb tests', function() {
 			// Each element is 20px wider
 			margins = [10, 10, 10, 10, 10, 10, 10, 10];
 
-			$('div.crumb').each(function(index){
+			$('li.crumb').each(function(index){
 				$(this).css('margin', margins[index]);
 			});
 
-			$('#controls').width(700);
+			$('.files-controls').width(700);
 			bc._resize();
 
 			$crumbs = bc.$el.find('.crumb');
@@ -349,7 +353,7 @@ describe('OCA.Files.BreadCrumb tests', function() {
 		it('Hides breadcrumbs to fit available width left by siblings', function() {
 			var $crumbs;
 
-			$('#controls').width(700);
+			$('.files-controls').width(700);
 			bc._resize();
 
 			$crumbs = bc.$el.find('.crumb');
@@ -371,28 +375,28 @@ describe('OCA.Files.BreadCrumb tests', function() {
 			// handling in the browsers used to run the tests.
 			$previousSibling.css('width', '50px');
 			$previousSibling.css('min-width', '50px');
-			$('#controls').prepend($previousSibling);
+			$('.files-controls').prepend($previousSibling);
 
 			var $creatableActions = $('<div class="actions creatable"></div>');
 			// Set both the width and the min-width to even differences in width
 			// handling in the browsers used to run the tests.
 			$creatableActions.css('width', '100px');
 			$creatableActions.css('min-width', '100px');
-			$('#controls').append($creatableActions);
+			$('.files-controls').append($creatableActions);
 
 			var $nextHiddenSibling = $('<div class="otherSibling hidden"></div>');
 			// Set both the width and the min-width to even differences in width
 			// handling in the browsers used to run the tests.
 			$nextHiddenSibling.css('width', '200px');
 			$nextHiddenSibling.css('min-width', '200px');
-			$('#controls').append($nextHiddenSibling);
+			$('.files-controls').append($nextHiddenSibling);
 
 			var $nextSibling = $('<div class="otherSibling"></div>');
 			// Set both the width and the min-width to even differences in width
 			// handling in the browsers used to run the tests.
 			$nextSibling.css('width', '50px');
 			$nextSibling.css('min-width', '50px');
-			$('#controls').append($nextSibling);
+			$('.files-controls').append($nextSibling);
 
 			bc._resize();
 
@@ -411,7 +415,7 @@ describe('OCA.Files.BreadCrumb tests', function() {
 		it('Hides breadcrumbs to fit available width left by siblings with paddings and margins', function() {
 			var $crumbs;
 
-			$('#controls').width(700);
+			$('.files-controls').width(700);
 			bc._resize();
 
 			$crumbs = bc.$el.find('.crumb');
@@ -434,7 +438,7 @@ describe('OCA.Files.BreadCrumb tests', function() {
 			$previousSibling.css('width', '10px');
 			$previousSibling.css('min-width', '10px');
 			$previousSibling.css('margin', '20px');
-			$('#controls').prepend($previousSibling);
+			$('.files-controls').prepend($previousSibling);
 
 			var $creatableActions = $('<div class="actions creatable"></div>');
 			// Set both the width and the min-width to even differences in width
@@ -443,14 +447,14 @@ describe('OCA.Files.BreadCrumb tests', function() {
 			$creatableActions.css('min-width', '20px');
 			$creatableActions.css('margin-left', '40px');
 			$creatableActions.css('padding-right', '40px');
-			$('#controls').append($creatableActions);
+			$('.files-controls').append($creatableActions);
 
 			var $nextHiddenSibling = $('<div class="otherSibling hidden"></div>');
 			// Set both the width and the min-width to even differences in width
 			// handling in the browsers used to run the tests.
 			$nextHiddenSibling.css('width', '200px');
 			$nextHiddenSibling.css('min-width', '200px');
-			$('#controls').append($nextHiddenSibling);
+			$('.files-controls').append($nextHiddenSibling);
 
 			var $nextSibling = $('<div class="otherSibling"></div>');
 			// Set both the width and the min-width to even differences in width
@@ -458,7 +462,7 @@ describe('OCA.Files.BreadCrumb tests', function() {
 			$nextSibling.css('width', '10px');
 			$nextSibling.css('min-width', '10px');
 			$nextSibling.css('padding', '20px');
-			$('#controls').append($nextSibling);
+			$('.files-controls').append($nextSibling);
 
 			bc._resize();
 
@@ -478,7 +482,7 @@ describe('OCA.Files.BreadCrumb tests', function() {
 			var $crumbs;
 
 			// enough space
-			$('#controls').width(1800);
+			$('.files-controls').width(1800);
 			bc._resize();
 
 			$crumbs = bc.$el.find('.crumb');
@@ -487,7 +491,7 @@ describe('OCA.Files.BreadCrumb tests', function() {
 			expect($crumbs.eq(0).hasClass('hidden')).toEqual(true);
 
 			// simulate decrease
-			$('#controls').width(950);
+			$('.files-controls').width(950);
 			bc._resize();
 
 			// Third crumb is hidden and everything else is visible
@@ -505,7 +509,7 @@ describe('OCA.Files.BreadCrumb tests', function() {
 			var $crumbs;
 
 			// enough space
-			$('#controls').width(1800);
+			$('.files-controls').width(1800);
 			bc._resize();
 
 			$crumbs = bc.$el.find('.crumb');
@@ -525,7 +529,7 @@ describe('OCA.Files.BreadCrumb tests', function() {
 			// 650 is enough for all the crumbs except the third and fourth
 			// ones, but not enough for the menu and all the crumbs except the
 			// third and fourth ones; the second one has to be hidden too.
-			$('#controls').width(650);
+			$('.files-controls').width(650);
 			bc._resize();
 
 			// Second, third and fourth crumb are hidden and everything else is
@@ -544,7 +548,7 @@ describe('OCA.Files.BreadCrumb tests', function() {
 			var $crumbs;
 
 			// limited space
-			$('#controls').width(850);
+			$('.files-controls').width(850);
 			bc._resize();
 
 			$crumbs = bc.$el.find('.crumb');
@@ -561,7 +565,7 @@ describe('OCA.Files.BreadCrumb tests', function() {
 			expect($crumbs.eq(7).hasClass('hidden')).toEqual(false);
 
 			// simulate increase
-			$('#controls').width(1000);
+			$('.files-controls').width(1000);
 			bc._resize();
 
 			// Third crumb is hidden and everything else is visible
@@ -579,7 +583,7 @@ describe('OCA.Files.BreadCrumb tests', function() {
 			var $crumbs;
 
 			// limited space
-			$('#controls').width(850);
+			$('.files-controls').width(850);
 			bc._resize();
 
 			$crumbs = bc.$el.find('.crumb');
@@ -597,7 +601,7 @@ describe('OCA.Files.BreadCrumb tests', function() {
 
 			// simulate increase
 			// 1030 is enough for all the crumbs if the menu is hidden.
-			$('#controls').width(1030);
+			$('.files-controls').width(1030);
 			bc._resize();
 
 			// Menu is hidden and everything else is visible
@@ -625,10 +629,10 @@ describe('OCA.Files.BreadCrumb tests', function() {
 			var $nextSiblingChild = $('<div class="siblingChild"></div>');
 			$nextSiblingChild.css('margin-left', 'auto');
 			$nextSibling.append($nextSiblingChild);
-			$('#controls').append($nextSibling);
+			$('.files-controls').append($nextSibling);
 
 			// limited space
-			$('#controls').width(850);
+			$('.files-controls').width(850);
 			bc._resize();
 
 			$crumbs = bc.$el.find('.crumb');
@@ -645,7 +649,7 @@ describe('OCA.Files.BreadCrumb tests', function() {
 			expect($crumbs.eq(7).hasClass('hidden')).toEqual(false);
 
 			// simulate increase
-			$('#controls').width(1000);
+			$('.files-controls').width(1000);
 			bc._resize();
 
 			// Third crumb is hidden and everything else is visible

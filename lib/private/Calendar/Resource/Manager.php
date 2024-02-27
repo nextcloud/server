@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright 2018, Georg Ehrke <oc.list@georgehrke.com>
  *
@@ -15,59 +18,70 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Calendar\Resource;
 
+use OC\AppFramework\Bootstrap\Coordinator;
 use OCP\Calendar\Resource\IBackend;
+use OCP\Calendar\Resource\IManager;
 use OCP\IServerContainer;
 
-class Manager implements \OCP\Calendar\Resource\IManager {
-
-	/** @var IServerContainer */
-	private $server;
-
-	/** @var string[] holds all registered resource backends */
-	private $backends = [];
-
-	/** @var IBackend[] holds all backends that have been initialized already */
-	private $initializedBackends = [];
+class Manager implements IManager {
+	private bool $bootstrapBackendsLoaded = false;
 
 	/**
-	 * Manager constructor.
-	 *
-	 * @param IServerContainer $server
+	 * @var string[] holds all registered resource backends
+	 * @psalm-var class-string<IBackend>[]
 	 */
-	public function __construct(IServerContainer $server) {
-		$this->server = $server;
+	private array $backends = [];
+
+	/** @var IBackend[] holds all backends that have been initialized already */
+	private array $initializedBackends = [];
+
+	public function __construct(
+		private Coordinator $bootstrapCoordinator,
+		private IServerContainer $server,
+	) {
 	}
 
 	/**
 	 * Registers a resource backend
 	 *
-	 * @param string $backendClass
-	 * @return void
 	 * @since 14.0.0
 	 */
-	public function registerBackend(string $backendClass) {
+	public function registerBackend(string $backendClass): void {
 		$this->backends[$backendClass] = $backendClass;
 	}
 
 	/**
 	 * Unregisters a resource backend
 	 *
-	 * @param string $backendClass
-	 * @return void
 	 * @since 14.0.0
 	 */
-	public function unregisterBackend(string $backendClass) {
+	public function unregisterBackend(string $backendClass): void {
 		unset($this->backends[$backendClass], $this->initializedBackends[$backendClass]);
+	}
+
+	private function fetchBootstrapBackends(): void {
+		if ($this->bootstrapBackendsLoaded) {
+			return;
+		}
+
+		$context = $this->bootstrapCoordinator->getRegistrationContext();
+		if ($context === null) {
+			// Too soon
+			return;
+		}
+
+		foreach ($context->getCalendarResourceBackendRegistrations() as $registration) {
+			$this->backends[] = $registration->getService();
+		}
 	}
 
 	/**
@@ -76,6 +90,8 @@ class Manager implements \OCP\Calendar\Resource\IManager {
 	 * @since 14.0.0
 	 */
 	public function getBackends():array {
+		$this->fetchBootstrapBackends();
+
 		foreach ($this->backends as $backend) {
 			if (isset($this->initializedBackends[$backend])) {
 				continue;
@@ -90,9 +106,8 @@ class Manager implements \OCP\Calendar\Resource\IManager {
 	/**
 	 * @param string $backendId
 	 * @throws \OCP\AppFramework\QueryException
-	 * @return IBackend|null
 	 */
-	public function getBackend($backendId) {
+	public function getBackend($backendId): ?IBackend {
 		$backends = $this->getBackends();
 		foreach ($backends as $backend) {
 			if ($backend->getBackendIdentifier() === $backendId) {
@@ -105,10 +120,10 @@ class Manager implements \OCP\Calendar\Resource\IManager {
 
 	/**
 	 * removes all registered backend instances
-	 * @return void
+	 *
 	 * @since 14.0.0
 	 */
-	public function clear() {
+	public function clear(): void {
 		$this->backends = [];
 		$this->initializedBackends = [];
 	}

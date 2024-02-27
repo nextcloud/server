@@ -43,23 +43,10 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
-/*
- *
- * The following SQL statement is just a help for developers and will not be
- * executed!
- *
- * CREATE TABLE `users` (
- *   `uid` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
- *   `password` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
- *   PRIMARY KEY (`uid`)
- * ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
- *
- */
-
 namespace OC\User;
 
-use OC\Cache\CappedMemoryCache;
+use OCP\AppFramework\Db\TTransactional;
+use OCP\Cache\CappedMemoryCache;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IDBConnection;
 use OCP\Security\Events\ValidatePasswordPolicyEvent;
@@ -70,6 +57,7 @@ use OCP\User\Backend\ICreateUserBackend;
 use OCP\User\Backend\IGetDisplayNameBackend;
 use OCP\User\Backend\IGetHomeBackend;
 use OCP\User\Backend\IGetRealUIDBackend;
+use OCP\User\Backend\ISearchKnownUsersBackend;
 use OCP\User\Backend\ISetDisplayNameBackend;
 use OCP\User\Backend\ISetPasswordBackend;
 
@@ -78,13 +66,14 @@ use OCP\User\Backend\ISetPasswordBackend;
  */
 class Database extends ABackend implements
 	ICreateUserBackend,
-			   ISetPasswordBackend,
-			   ISetDisplayNameBackend,
-			   IGetDisplayNameBackend,
-			   ICheckPasswordBackend,
-			   IGetHomeBackend,
-			   ICountUsersBackend,
-			   IGetRealUIDBackend {
+	ISetPasswordBackend,
+	ISetDisplayNameBackend,
+	IGetDisplayNameBackend,
+	ICheckPasswordBackend,
+	IGetHomeBackend,
+	ICountUsersBackend,
+	ISearchKnownUsersBackend,
+	IGetRealUIDBackend {
 	/** @var CappedMemoryCache */
 	private $cache;
 
@@ -97,6 +86,8 @@ class Database extends ABackend implements
 	/** @var string */
 	private $table;
 
+	use TTransactional;
+
 	/**
 	 * \OC\User\Database constructor.
 	 *
@@ -106,7 +97,7 @@ class Database extends ABackend implements
 	public function __construct($eventDispatcher = null, $table = 'users') {
 		$this->cache = new CappedMemoryCache();
 		$this->table = $table;
-		$this->eventDispatcher = $eventDispatcher ? $eventDispatcher : \OC::$server->query(IEventDispatcher::class);
+		$this->eventDispatcher = $eventDispatcher ? $eventDispatcher : \OCP\Server::get(IEventDispatcher::class);
 	}
 
 	/**
@@ -134,20 +125,24 @@ class Database extends ABackend implements
 		if (!$this->userExists($uid)) {
 			$this->eventDispatcher->dispatchTyped(new ValidatePasswordPolicyEvent($password));
 
-			$qb = $this->dbConn->getQueryBuilder();
-			$qb->insert($this->table)
-				->values([
-					'uid' => $qb->createNamedParameter($uid),
-					'password' => $qb->createNamedParameter(\OC::$server->getHasher()->hash($password)),
-					'uid_lower' => $qb->createNamedParameter(mb_strtolower($uid)),
-				]);
+			return $this->atomic(function () use ($uid, $password) {
+				$qb = $this->dbConn->getQueryBuilder();
+				$qb->insert($this->table)
+					->values([
+						'uid' => $qb->createNamedParameter($uid),
+						'password' => $qb->createNamedParameter(\OC::$server->getHasher()->hash($password)),
+						'uid_lower' => $qb->createNamedParameter(mb_strtolower($uid)),
+					]);
 
-			$result = $qb->execute();
+				$result = $qb->executeStatement();
 
-			// Clear cache
-			unset($this->cache[$uid]);
+				// Clear cache
+				unset($this->cache[$uid]);
+				// Repopulate the cache
+				$this->loadUser($uid);
 
-			return $result ? true : false;
+				return (bool) $result;
+			}, $this->dbConn);
 		}
 
 		return false;
@@ -205,7 +200,13 @@ class Database extends ABackend implements
 			$hasher = \OC::$server->getHasher();
 			$hashedPassword = $hasher->hash($password);
 
-			return $this->updatePassword($uid, $hashedPassword);
+			$return = $this->updatePassword($uid, $hashedPassword);
+
+			if ($return) {
+				$this->cache[$uid]['password'] = $hashedPassword;
+			}
+
+			return $return;
 		}
 
 		return false;
@@ -218,9 +219,15 @@ class Database extends ABackend implements
 	 * @param string $displayName The new display name
 	 * @return bool
 	 *
+	 * @throws \InvalidArgumentException
+	 *
 	 * Change the display name of a user
 	 */
 	public function setDisplayName(string $uid, string $displayName): bool {
+		if (mb_strlen($displayName) > 64) {
+			throw new \InvalidArgumentException('Invalid displayname');
+		}
+
 		$this->fixDI();
 
 		if ($this->userExists($uid)) {
@@ -254,8 +261,8 @@ class Database extends ABackend implements
 	 * Get a list of all display names and user ids.
 	 *
 	 * @param string $search
-	 * @param string|null $limit
-	 * @param string|null $offset
+	 * @param int|null $limit
+	 * @param int|null $offset
 	 * @return array an array of all displayNames (value) and the corresponding uids (key)
 	 */
 	public function getDisplayNames($search = '', $limit = null, $offset = null) {
@@ -277,7 +284,47 @@ class Database extends ABackend implements
 			->orWhere($query->expr()->iLike('displayname', $query->createPositionalParameter('%' . $this->dbConn->escapeLikeParameter($search) . '%')))
 			->orWhere($query->expr()->iLike('configvalue', $query->createPositionalParameter('%' . $this->dbConn->escapeLikeParameter($search) . '%')))
 			->orderBy($query->func()->lower('displayname'), 'ASC')
-			->orderBy('uid_lower', 'ASC')
+			->addOrderBy('uid_lower', 'ASC')
+			->setMaxResults($limit)
+			->setFirstResult($offset);
+
+		$result = $query->executeQuery();
+		$displayNames = [];
+		while ($row = $result->fetch()) {
+			$displayNames[(string)$row['uid']] = (string)$row['displayname'];
+		}
+
+		return $displayNames;
+	}
+
+	/**
+	 * @param string $searcher
+	 * @param string $pattern
+	 * @param int|null $limit
+	 * @param int|null $offset
+	 * @return array
+	 * @since 21.0.1
+	 */
+	public function searchKnownUsersByDisplayName(string $searcher, string $pattern, ?int $limit = null, ?int $offset = null): array {
+		$limit = $this->fixLimit($limit);
+
+		$this->fixDI();
+
+		$query = $this->dbConn->getQueryBuilder();
+
+		$query->select('u.uid', 'u.displayname')
+			->from($this->table, 'u')
+			->leftJoin('u', 'known_users', 'k', $query->expr()->andX(
+				$query->expr()->eq('k.known_user', 'u.uid'),
+				$query->expr()->eq('k.known_to', $query->createNamedParameter($searcher))
+			))
+			->where($query->expr()->eq('k.known_to', $query->createNamedParameter($searcher)))
+			->andWhere($query->expr()->orX(
+				$query->expr()->iLike('u.uid', $query->createNamedParameter('%' . $this->dbConn->escapeLikeParameter($pattern) . '%')),
+				$query->expr()->iLike('u.displayname', $query->createNamedParameter('%' . $this->dbConn->escapeLikeParameter($pattern) . '%'))
+			))
+			->orderBy('u.displayname', 'ASC')
+			->addOrderBy('u.uid_lower', 'ASC')
 			->setMaxResults($limit)
 			->setFirstResult($offset);
 
@@ -301,28 +348,16 @@ class Database extends ABackend implements
 	 * returns the user id or false
 	 */
 	public function checkPassword(string $loginName, string $password) {
-		$this->fixDI();
+		$found = $this->loadUser($loginName);
 
-		$qb = $this->dbConn->getQueryBuilder();
-		$qb->select('uid', 'password')
-			->from($this->table)
-			->where(
-				$qb->expr()->eq(
-					'uid_lower', $qb->createNamedParameter(mb_strtolower($loginName))
-				)
-			);
-		$result = $qb->execute();
-		$row = $result->fetch();
-		$result->closeCursor();
-
-		if ($row) {
-			$storedHash = $row['password'];
+		if ($found && is_array($this->cache[$loginName])) {
+			$storedHash = $this->cache[$loginName]['password'];
 			$newHash = '';
 			if (\OC::$server->getHasher()->verify($password, $storedHash, $newHash)) {
 				if (!empty($newHash)) {
 					$this->updatePassword($loginName, $newHash);
 				}
-				return (string)$row['uid'];
+				return (string)$this->cache[$loginName]['uid'];
 			}
 		}
 
@@ -347,7 +382,7 @@ class Database extends ABackend implements
 			}
 
 			$qb = $this->dbConn->getQueryBuilder();
-			$qb->select('uid', 'displayname')
+			$qb->select('uid', 'displayname', 'password')
 				->from($this->table)
 				->where(
 					$qb->expr()->eq(
@@ -358,13 +393,15 @@ class Database extends ABackend implements
 			$row = $result->fetch();
 			$result->closeCursor();
 
-			$this->cache[$uid] = false;
-
 			// "uid" is primary key, so there can only be a single result
 			if ($row !== false) {
-				$this->cache[$uid]['uid'] = (string)$row['uid'];
-				$this->cache[$uid]['displayname'] = (string)$row['displayname'];
+				$this->cache[$uid] = [
+					'uid' => (string)$row['uid'],
+					'displayname' => (string)$row['displayname'],
+					'password' => (string)$row['password'],
+				];
 			} else {
+				$this->cache[$uid] = false;
 				return false;
 			}
 		}
@@ -410,7 +447,7 @@ class Database extends ABackend implements
 	 */
 	public function getHome(string $uid) {
 		if ($this->userExists($uid)) {
-			return \OC::$server->getConfig()->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data') . '/' . $uid;
+			return \OC::$server->getConfig()->getSystemValueString('datadirectory', \OC::$SERVERROOT . '/data') . '/' . $uid;
 		}
 
 		return false;
@@ -426,7 +463,7 @@ class Database extends ABackend implements
 	/**
 	 * counts the users in the database
 	 *
-	 * @return int|bool
+	 * @return int|false
 	 */
 	public function countUsers() {
 		$this->fixDI();
@@ -434,7 +471,7 @@ class Database extends ABackend implements
 		$query = $this->dbConn->getQueryBuilder();
 		$query->select($query->func()->count('uid'))
 			->from($this->table);
-		$result = $query->execute();
+		$result = $query->executeQuery();
 
 		return $result->fetchOne();
 	}

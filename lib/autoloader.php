@@ -9,6 +9,7 @@ declare(strict_types=1);
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author J0WI <J0WI@users.noreply.github.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Markus Goetz <markus@woboq.com>
@@ -33,11 +34,11 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 namespace OC;
 
 use \OCP\AutoloadNotAllowedException;
-use OCP\ILogger;
+use OCP\ICache;
+use Psr\Log\LoggerInterface;
 
 class Autoloader {
 	/** @var bool */
@@ -68,7 +69,7 @@ class Autoloader {
 	 *
 	 * @param string $root
 	 */
-	public function addValidRoot(string $root) {
+	public function addValidRoot(string $root): void {
 		$root = stream_resolve_include_path($root);
 		$this->validRoots[$root] = true;
 	}
@@ -76,14 +77,14 @@ class Autoloader {
 	/**
 	 * disable the usage of the global classpath \OC::$CLASSPATH
 	 */
-	public function disableGlobalClassPath() {
+	public function disableGlobalClassPath(): void {
 		$this->useGlobalClassPath = false;
 	}
 
 	/**
 	 * enable the usage of the global classpath \OC::$CLASSPATH
 	 */
-	public function enableGlobalClassPath() {
+	public function enableGlobalClassPath(): void {
 		$this->useGlobalClassPath = true;
 	}
 
@@ -104,7 +105,7 @@ class Autoloader {
 			 * Remove "apps/" from inclusion path for smooth migration to multi app dir
 			 */
 			if (strpos(\OC::$CLASSPATH[$class], 'apps/') === 0) {
-				\OCP\Util::writeLog('core', 'include path for class "' . $class . '" starts with "apps/"', ILogger::DEBUG);
+				\OCP\Server::get(LoggerInterface::class)->debug('include path for class "' . $class . '" starts with "apps/"', ['app' => 'core']);
 				$paths[] = str_replace('apps/', '', \OC::$CLASSPATH[$class]);
 			}
 		} elseif (strpos($class, 'OC_') === 0) {
@@ -182,9 +183,9 @@ class Autoloader {
 	/**
 	 * Sets the optional low-latency cache for class to path mapping.
 	 *
-	 * @param \OC\Memcache\Cache $memoryCache Instance of memory cache.
+	 * @param ICache $memoryCache Instance of memory cache.
 	 */
-	public function setMemoryCache(\OC\Memcache\Cache $memoryCache = null) {
+	public function setMemoryCache(ICache $memoryCache = null): void {
 		$this->memoryCache = $memoryCache;
 	}
 }

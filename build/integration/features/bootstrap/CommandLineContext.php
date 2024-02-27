@@ -24,7 +24,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 require __DIR__ . '/../../vendor/autoload.php';
 
 use Behat\Behat\Hook\Scope\BeforeScenarioScope;
@@ -36,6 +35,8 @@ class CommandLineContext implements \Behat\Behat\Context\Context {
 	private $lastTransferPath;
 
 	private $featureContext;
+	private $localBaseUrl;
+	private $remoteBaseUrl;
 
 	public function __construct($ocPath, $baseUrl) {
 		$this->ocPath = rtrim($ocPath, '/') . '/';
@@ -98,7 +99,7 @@ class CommandLineContext implements \Behat\Behat\Context\Context {
 	}
 
 	/**
-	 * @When /^transferring ownership from "([^"]+)" to "([^"]+)"/
+	 * @When /^transferring ownership from "([^"]+)" to "([^"]+)"$/
 	 */
 	public function transferringOwnership($user1, $user2) {
 		if ($this->runOcc(['files:transfer-ownership', $user1, $user2]) === 0) {
@@ -110,7 +111,7 @@ class CommandLineContext implements \Behat\Behat\Context\Context {
 	}
 
 	/**
-	 * @When /^transferring ownership of path "([^"]+)" from "([^"]+)" to "([^"]+)"/
+	 * @When /^transferring ownership of path "([^"]+)" from "([^"]+)" to "([^"]+)"$/
 	 */
 	public function transferringOwnershipPath($path, $user1, $user2) {
 		$path = '--path=' . $path;
@@ -122,6 +123,18 @@ class CommandLineContext implements \Behat\Behat\Context\Context {
 		}
 	}
 
+	/**
+	 * @When /^transferring ownership of path "([^"]+)" from "([^"]+)" to "([^"]+)" with received shares$/
+	 */
+	public function transferringOwnershipPathWithIncomingShares($path, $user1, $user2) {
+		$path = '--path=' . $path;
+		if ($this->runOcc(['files:transfer-ownership', $path, $user1, $user2, '--transfer-incoming-shares=1']) === 0) {
+			$this->lastTransferPath = $this->findLastTransferFolderForUser($user1, $user2);
+		} else {
+			// failure
+			$this->lastTransferPath = null;
+		}
+	}
 
 	/**
 	 * @When /^using received transfer folder of "([^"]+)" as dav path$/
@@ -136,6 +149,6 @@ class CommandLineContext implements \Behat\Behat\Context\Context {
 	 * @Then /^transfer folder name contains "([^"]+)"$/
 	 */
 	public function transferFolderNameContains($text) {
-		Assert::assertContains($text, $this->lastTransferPath);
+		Assert::assertStringContainsString($text, $this->lastTransferPath);
 	}
 }

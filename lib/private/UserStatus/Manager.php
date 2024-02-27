@@ -16,31 +16,29 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\UserStatus;
 
-use OCP\ILogger;
 use OCP\IServerContainer;
 use OCP\UserStatus\IManager;
 use OCP\UserStatus\IProvider;
 use Psr\Container\ContainerExceptionInterface;
+use Psr\Log\LoggerInterface;
 
 class Manager implements IManager {
-
 	/** @var IServerContainer */
 	private $container;
 
-	/** @var ILogger */
+	/** @var LoggerInterface */
 	private $logger;
 
-	/** @var null */
+	/** @var class-string */
 	private $providerClass;
 
 	/** @var IProvider */
@@ -50,10 +48,10 @@ class Manager implements IManager {
 	 * Manager constructor.
 	 *
 	 * @param IServerContainer $container
-	 * @param ILogger $logger
+	 * @param LoggerInterface $logger
 	 */
 	public function __construct(IServerContainer $container,
-								ILogger $logger) {
+		LoggerInterface $logger) {
 		$this->container = $container;
 		$this->logger = $logger;
 	}
@@ -91,16 +89,43 @@ class Manager implements IManager {
 			return;
 		}
 
+		/**
+		 * @psalm-suppress InvalidCatch
+		 */
 		try {
 			$provider = $this->container->get($this->providerClass);
 		} catch (ContainerExceptionInterface $e) {
-			$this->logger->logException($e, [
-				'message' => 'Could not load user-status provider dynamically: ' . $e->getMessage(),
-				'level' => ILogger::ERROR,
+			$this->logger->error('Could not load user-status "' . $this->providerClass . '" provider dynamically: ' . $e->getMessage(), [
+				'exception' => $e,
 			]);
 			return;
 		}
 
 		$this->provider = $provider;
+	}
+
+	public function setUserStatus(string $userId, string $messageId, string $status, bool $createBackup = false, ?string $customMessage = null): void {
+		$this->setupProvider();
+		if (!$this->provider || !($this->provider instanceof ISettableProvider)) {
+			return;
+		}
+
+		$this->provider->setUserStatus($userId, $messageId, $status, $createBackup, $customMessage);
+	}
+
+	public function revertUserStatus(string $userId, string $messageId, string $status): void {
+		$this->setupProvider();
+		if (!$this->provider || !($this->provider instanceof ISettableProvider)) {
+			return;
+		}
+		$this->provider->revertUserStatus($userId, $messageId, $status);
+	}
+
+	public function revertMultipleUserStatus(array $userIds, string $messageId, string $status): void {
+		$this->setupProvider();
+		if (!$this->provider || !($this->provider instanceof ISettableProvider)) {
+			return;
+		}
+		$this->provider->revertMultipleUserStatus($userIds, $messageId, $status);
 	}
 }

@@ -13,14 +13,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Contacts\ContactsMenu\Providers;
 
 use OCP\Contacts\ContactsMenu\IActionFactory;
@@ -29,33 +28,20 @@ use OCP\Contacts\ContactsMenu\IProvider;
 use OCP\IURLGenerator;
 
 class EMailProvider implements IProvider {
-
-	/** @var IActionFactory */
-	private $actionFactory;
-
-	/** @var IURLGenerator */
-	private $urlGenerator;
-
-	/**
-	 * @param IActionFactory $actionFactory
-	 * @param IURLGenerator $urlGenerator
-	 */
-	public function __construct(IActionFactory $actionFactory, IURLGenerator $urlGenerator) {
-		$this->actionFactory = $actionFactory;
-		$this->urlGenerator = $urlGenerator;
+	public function __construct(
+		private IActionFactory $actionFactory,
+		private IURLGenerator $urlGenerator,
+	) {
 	}
 
-	/**
-	 * @param IEntry $entry
-	 */
-	public function process(IEntry $entry) {
+	public function process(IEntry $entry): void {
 		$iconUrl = $this->urlGenerator->getAbsoluteURL($this->urlGenerator->imagePath('core', 'actions/mail.svg'));
 		foreach ($entry->getEMailAddresses() as $address) {
 			if (empty($address)) {
 				// Skip
 				continue;
 			}
-			$action = $this->actionFactory->newEMailAction($iconUrl, $address, $address);
+			$action = $this->actionFactory->newEMailAction($iconUrl, $address, $address, 'email');
 			$entry->addAction($action);
 		}
 	}

@@ -17,22 +17,23 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Files_Trashbin\Sabre;
+
+use OCA\Files_Trashbin\Trashbin;
 
 class TrashFile extends AbstractTrashFile {
 	public function get() {
-		return $this->data->getStorage()->fopen($this->data->getInternalPath() . '.d' . $this->getLastModified(), 'rb');
+		return $this->data->getStorage()->fopen(Trashbin::getTrashFilename($this->data->getInternalPath(), $this->getDeletionTime()), 'rb');
 	}
 
 	public function getName(): string {
-		return $this->data->getName() . '.d' . $this->getLastModified();
+		return Trashbin::getTrashFilename($this->data->getName(), $this->getDeletionTime());
 	}
 }

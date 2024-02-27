@@ -16,14 +16,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\OAuth2\Migration;
 
 use Closure;
@@ -43,9 +42,12 @@ class Version010402Date20190107124745 extends SimpleMigrationStep {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
 
-		$table = $schema->getTable('oauth2_clients');
-		$table->dropIndex('oauth2_client_id_idx');
-		$table->addUniqueIndex(['client_identifier'], 'oauth2_client_id_idx');
-		return $schema;
+		// During an ownCloud migration, the client_identifier column identifier might not exist yet.
+		if ($schema->getTable('oauth2_clients')->hasColumn('client_identifier')) {
+			$table = $schema->getTable('oauth2_clients');
+			$table->dropIndex('oauth2_client_id_idx');
+			$table->addUniqueIndex(['client_identifier'], 'oauth2_client_id_idx');
+			return $schema;
+		}
 	}
 }

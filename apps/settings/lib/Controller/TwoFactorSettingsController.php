@@ -16,14 +16,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\Settings\Controller;
 
 use OC\Authentication\TwoFactorAuth\EnforcementState;
@@ -38,8 +37,8 @@ class TwoFactorSettingsController extends Controller {
 	private $mandatoryTwoFactor;
 
 	public function __construct(string $appName,
-								IRequest $request,
-								MandatoryTwoFactor $mandatoryTwoFactor) {
+		IRequest $request,
+		MandatoryTwoFactor $mandatoryTwoFactor) {
 		parent::__construct($appName, $request);
 
 		$this->mandatoryTwoFactor = $mandatoryTwoFactor;

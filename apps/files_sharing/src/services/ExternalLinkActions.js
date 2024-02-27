@@ -3,7 +3,7 @@
  *
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -12,7 +12,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
@@ -22,14 +22,14 @@
 
 export default class ExternalLinkActions {
 
-	#state;
+	_state
 
 	constructor() {
 		// init empty state
-		this.#state = {}
+		this._state = {}
 
 		// init default values
-		this.#state.actions = []
+		this._state.actions = []
 		console.debug('OCA.Sharing.ExternalLinkActions initialized')
 	}
 
@@ -38,22 +38,24 @@ export default class ExternalLinkActions {
 	 *
 	 * @readonly
 	 * @memberof ExternalLinkActions
-	 * @returns {Object} the data state
+	 * @return {object} the data state
 	 */
 	get state() {
-		return this.#state
+		return this._state
 	}
 
 	/**
 	 * Register a new action for the link share
 	 * Mostly used by the social sharing app.
 	 *
-	 * @param {Object} action new action component to register
-	 * @returns {boolean}
+	 * @param {object} action new action component to register
+	 * @return {boolean}
 	 */
 	registerAction(action) {
+		OC.debug && console.warn('OCA.Sharing.ExternalLinkActions is deprecated, use OCA.Sharing.ExternalShareAction instead')
+
 		if (typeof action === 'object' && action.icon && action.name && action.url) {
-			this.#state.actions.push(action)
+			this._state.actions.push(action)
 			return true
 		}
 		console.error('Invalid action provided', action)

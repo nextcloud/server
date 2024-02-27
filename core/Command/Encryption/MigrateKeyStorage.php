@@ -16,15 +16,13 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
-
 namespace OC\Core\Command\Encryption;
 
 use OC\Encryption\Keys\Storage;
@@ -35,38 +33,18 @@ use OCP\IUserManager;
 use OCP\Security\ICrypto;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
-use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class MigrateKeyStorage extends Command {
-
-	/** @var View */
-	protected $rootView;
-
-	/** @var IUserManager */
-	protected $userManager;
-
-	/** @var IConfig */
-	protected $config;
-
-	/** @var Util */
-	protected $util;
-
-	/** @var QuestionHelper */
-	protected $questionHelper;
-	/**
-	 * @var ICrypto
-	 */
-	private $crypto;
-
-	public function __construct(View $view, IUserManager $userManager, IConfig $config, Util $util, ICrypto $crypto) {
+	public function __construct(
+		protected View $rootView,
+		protected IUserManager $userManager,
+		protected IConfig $config,
+		protected Util $util,
+		private ICrypto $crypto,
+	) {
 		parent::__construct();
-		$this->rootView = $view;
-		$this->userManager = $userManager;
-		$this->config = $config;
-		$this->util = $util;
-		$this->crypto = $crypto;
 	}
 
 	protected function configure() {
@@ -87,14 +65,14 @@ class MigrateKeyStorage extends Command {
 	}
 
 	/**
-	 * move keys to new key storage root
+	 * Move keys to new key storage root
 	 *
 	 * @param string $root
 	 * @param OutputInterface $output
 	 * @return bool
 	 * @throws \Exception
 	 */
-	protected function updateKeys(string $root, OutputInterface $output) {
+	protected function updateKeys(string $root, OutputInterface $output): bool {
 		$output->writeln("Start to update the keys:");
 
 		$this->updateSystemKeys($root);
@@ -104,11 +82,9 @@ class MigrateKeyStorage extends Command {
 	}
 
 	/**
-	 * move system key folder
-	 *
-	 * @param string $root
+	 * Move system key folder
 	 */
-	protected function updateSystemKeys($root) {
+	protected function updateSystemKeys(string $root): void {
 		if (!$this->rootView->is_dir($root . '/files_encryption')) {
 			return;
 		}
@@ -121,40 +97,31 @@ class MigrateKeyStorage extends Command {
 
 		foreach ($listing as $node) {
 			if ($node['mimetype'] === 'httpd/unix-directory') {
-				//ignore
-			} else {
-				$endsWith = function ($haystack, $needle) {
-					$length = strlen($needle);
-					if ($length === 0) {
-						return true;
-					}
+				continue;
+			}
 
-					return (substr($haystack, -$length) === $needle);
-				};
+			if ($node['name'] === 'fileKey' ||
+				str_ends_with($node['name'], '.privateKey') ||
+				str_ends_with($node['name'], '.publicKey') ||
+				str_ends_with($node['name'], '.shareKey')) {
+				$path = $folder . '/' . $node['name'];
 
-				if ($node['name'] === 'fileKey' ||
-					$endsWith($node['name'], '.privateKey') ||
-					$endsWith($node['name'], '.publicKey') ||
-					$endsWith($node['name'], '.shareKey')) {
-					$path = $folder . '/' . $node['name'];
+				$content = $this->rootView->file_get_contents($path);
 
-					$content = $this->rootView->file_get_contents($path);
-
-					try {
-						$this->crypto->decrypt($content);
-						continue;
-					} catch (\Exception $e) {
-						// Ignore we now update the data.
-					}
-
-					$data = [
-						'key' => base64_encode($content),
-						'uid' => $uid,
-					];
-
-					$enc = $this->crypto->encrypt(json_encode($data));
-					$this->rootView->file_put_contents($path, $enc);
+				try {
+					$this->crypto->decrypt($content);
+					continue;
+				} catch (\Exception $e) {
+					// Ignore we now update the data.
 				}
+
+				$data = [
+					'key' => base64_encode($content),
+					'uid' => $uid,
+				];
+
+				$enc = $this->crypto->encrypt(json_encode($data));
+				$this->rootView->file_put_contents($path, $enc);
 			}
 		}
 	}

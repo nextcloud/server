@@ -14,14 +14,13 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OCA\SystemTags\Activity;
 
 use OCP\Activity\IEvent;
@@ -29,7 +28,6 @@ use OCP\Activity\IManager;
 use OCP\Activity\IProvider;
 use OCP\IL10N;
 use OCP\IURLGenerator;
-use OCP\IUser;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
 
@@ -55,9 +53,6 @@ class Provider implements IProvider {
 
 	/** @var IUserManager */
 	protected $userManager;
-
-	/** @var string[] */
-	protected $displayNames = [];
 
 	/**
 	 * @param IFactory $languageFactory
@@ -335,15 +330,11 @@ class Provider implements IProvider {
 		];
 	}
 
-	protected function getUserParameter($uid) {
-		if (!isset($this->displayNames[$uid])) {
-			$this->displayNames[$uid] = $this->getDisplayName($uid);
-		}
-
+	protected function getUserParameter(string $uid): array {
 		return [
 			'type' => 'user',
 			'id' => $uid,
-			'name' => $this->displayNames[$uid],
+			'name' => $this->userManager->getDisplayName($uid) ?? $uid,
 		];
 	}
 
@@ -354,19 +345,6 @@ class Provider implements IProvider {
 			return $this->l->t('%s (restricted)', $parameter['name']);
 		} else {
 			return $this->l->t('%s (invisible)', $parameter['name']);
-		}
-	}
-
-	/**
-	 * @param string $uid
-	 * @return string
-	 */
-	protected function getDisplayName($uid) {
-		$user = $this->userManager->get($uid);
-		if ($user instanceof IUser) {
-			return $user->getDisplayName();
-		} else {
-			return $uid;
 		}
 	}
 }

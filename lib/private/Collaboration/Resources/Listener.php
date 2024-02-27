@@ -17,49 +17,51 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 namespace OC\Collaboration\Resources;
 
 use OCP\Collaboration\Resources\IManager;
-use OCP\IGroup;
-use OCP\IUser;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Group\Events\BeforeGroupDeletedEvent;
+use OCP\Group\Events\UserAddedEvent;
+use OCP\Group\Events\UserRemovedEvent;
+use OCP\User\Events\UserDeletedEvent;
 
 class Listener {
-	public static function register(EventDispatcherInterface $dispatcher): void {
-		$listener = function (GenericEvent $event) {
-			/** @var IUser $user */
-			$user = $event->getArgument('user');
+	public static function register(IEventDispatcher $eventDispatcher): void {
+		$eventDispatcher->addListener(UserAddedEvent::class, function (UserAddedEvent $event) {
+			$user = $event->getUser();
 			/** @var IManager $resourceManager */
-			$resourceManager = \OC::$server->query(IManager::class);
+			$resourceManager = \OCP\Server::get(IManager::class);
 
 			$resourceManager->invalidateAccessCacheForUser($user);
-		};
-		$dispatcher->addListener(IGroup::class . '::postAddUser', $listener);
-		$dispatcher->addListener(IGroup::class . '::postRemoveUser', $listener);
-
-		$dispatcher->addListener(IUser::class . '::postDelete', function (GenericEvent $event) {
-			/** @var IUser $user */
-			$user = $event->getSubject();
+		});
+		$eventDispatcher->addListener(UserRemovedEvent::class, function (UserRemovedEvent $event) {
+			$user = $event->getUser();
 			/** @var IManager $resourceManager */
-			$resourceManager = \OC::$server->query(IManager::class);
+			$resourceManager = \OCP\Server::get(IManager::class);
 
 			$resourceManager->invalidateAccessCacheForUser($user);
 		});
 
-		$dispatcher->addListener(IGroup::class . '::preDelete', function (GenericEvent $event) {
-			/** @var IGroup $group */
-			$group = $event->getSubject();
+		$eventDispatcher->addListener(UserDeletedEvent::class, function (UserDeletedEvent $event) {
+			$user = $event->getUser();
 			/** @var IManager $resourceManager */
-			$resourceManager = \OC::$server->query(IManager::class);
+			$resourceManager = \OCP\Server::get(IManager::class);
+
+			$resourceManager->invalidateAccessCacheForUser($user);
+		});
+
+		$eventDispatcher->addListener(BeforeGroupDeletedEvent::class, function (BeforeGroupDeletedEvent $event) {
+			$group = $event->getGroup();
+			/** @var IManager $resourceManager */
+			$resourceManager = \OCP\Server::get(IManager::class);
 
 			foreach ($group->getUsers() as $user) {
 				$resourceManager->invalidateAccessCacheForUser($user);

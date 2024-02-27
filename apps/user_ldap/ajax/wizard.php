@@ -7,7 +7,6 @@
  * @author Joas Schilling <coding@schilljs.com>
  * @author Juan Pablo Villafáñez <jvillafanez@solidgear.es>
  * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Roger Szabo <roger.szabo@web.de>
@@ -27,19 +26,17 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 // Check user and app status
 \OC_JSON::checkAdminUser();
 \OC_JSON::checkAppEnabled('user_ldap');
 \OC_JSON::callCheck();
 
-$l = \OC::$server->getL10N('user_ldap');
+$l = \OCP\Util::getL10N('user_ldap');
 
 if (!isset($_POST['action'])) {
 	\OC_JSON::error(['message' => $l->t('No action specified')]);
 }
 $action = (string)$_POST['action'];
-
 
 if (!isset($_POST['ldap_serverconfig_chooser'])) {
 	\OC_JSON::error(['message' => $l->t('No configuration specified')]);
@@ -54,25 +51,8 @@ $con->setConfiguration($configuration->getConfiguration());
 $con->ldapConfigurationActive = true;
 $con->setIgnoreValidation(true);
 
-$userManager = new \OCA\User_LDAP\User\Manager(
-	\OC::$server->getConfig(),
-	new \OCA\User_LDAP\FilesystemHelper(),
-	new \OCA\User_LDAP\LogWrapper(),
-	\OC::$server->getAvatarManager(),
-	new \OCP\Image(),
-	\OC::$server->getUserManager(),
-	\OC::$server->getNotificationManager(),
-	\OC::$server->get(\OCP\Share\IManager::class)
-);
-
-$access = new \OCA\User_LDAP\Access(
-	$con,
-	$ldapWrapper,
-	$userManager,
-	new \OCA\User_LDAP\Helper(\OC::$server->getConfig(), \OC::$server->getDatabaseConnection()),
-	\OC::$server->getConfig(),
-	\OC::$server->getUserManager()
-);
+$factory = \OC::$server->get(\OCA\User_LDAP\AccessFactory::class);
+$access = $factory->get($con);
 
 $wizard = new \OCA\User_LDAP\Wizard($configuration, $ldapWrapper, $access);
 
@@ -125,10 +105,14 @@ switch ($action) {
 	}
 
 	case 'save':
-		$key = isset($_POST['cfgkey']) ? $_POST['cfgkey'] : false;
-		$val = isset($_POST['cfgval']) ? $_POST['cfgval'] : null;
+		$key = $_POST['cfgkey'] ?? false;
+		$val = $_POST['cfgval'] ?? null;
 		if ($key === false || is_null($val)) {
 			\OC_JSON::error(['message' => $l->t('No data specified')]);
+			exit;
+		}
+		if (is_array($key)) {
+			\OC_JSON::error(['message' => $l->t('Invalid data specified')]);
 			exit;
 		}
 		$cfg = [$key => $val];
