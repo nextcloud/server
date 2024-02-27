@@ -87,6 +87,15 @@ class SystemTagsObjectTypeCollectionTest extends \Test\TestCase {
 			$nodes = $userFolder->getById(intval($name));
 			return !empty($nodes);
 		};
+		$writeAccessClosure = function ($name) use ($userFolder) {
+			$nodes = $userFolder->getById((int)$name);
+			foreach ($nodes as $node) {
+				if (($node->getPermissions() & Constants::PERMISSION_UPDATE) === Constants::PERMISSION_UPDATE) {
+					return true;
+				}
+			}
+			return false;
+		};
 
 		$this->node = new \OCA\DAV\SystemTag\SystemTagsObjectTypeCollection(
 			'files',
@@ -94,7 +103,8 @@ class SystemTagsObjectTypeCollectionTest extends \Test\TestCase {
 			$this->tagMapper,
 			$userSession,
 			$groupManager,
-			$closure
+			$closure,
+			$writeAccessClosure,
 		);
 	}
 
