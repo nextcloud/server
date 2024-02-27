@@ -37,62 +37,15 @@ use Sabre\DAV\Exception\NotFound;
  * Mapping node for system tag to object id
  */
 class SystemTagMappingNode implements \Sabre\DAV\INode {
-	/**
-	 * @var ISystemTag
-	 */
-	protected $tag;
-
-	/**
-	 * @var string
-	 */
-	private $objectId;
-
-	/**
-	 * @var string
-	 */
-	private $objectType;
-
-	/**
-	 * User
-	 *
-	 * @var IUser
-	 */
-	protected $user;
-
-	/**
-	 * @var ISystemTagManager
-	 */
-	protected $tagManager;
-
-	/**
-	 * @var ISystemTagObjectMapper
-	 */
-	private $tagMapper;
-
-	/**
-	 * Sets up the node, expects a full path name
-	 *
-	 * @param ISystemTag $tag system tag
-	 * @param string $objectId
-	 * @param string $objectType
-	 * @param IUser $user user
-	 * @param ISystemTagManager $tagManager
-	 * @param ISystemTagObjectMapper $tagMapper
-	 */
 	public function __construct(
-		ISystemTag $tag,
-		$objectId,
-		$objectType,
-		IUser $user,
-		ISystemTagManager $tagManager,
-		ISystemTagObjectMapper $tagMapper
+		private ISystemTag $tag,
+		private string $objectId,
+		private string $objectType,
+		private IUser $user,
+		private ISystemTagManager $tagManager,
+		private ISystemTagObjectMapper $tagMapper,
+		private \Closure $childWriteAccessFunction,
 	) {
-		$this->tag = $tag;
-		$this->objectId = $objectId;
-		$this->objectType = $objectType;
-		$this->user = $user;
-		$this->tagManager = $tagManager;
-		$this->tagMapper = $tagMapper;
 	}
 
 	/**
@@ -165,6 +118,9 @@ class SystemTagMappingNode implements \Sabre\DAV\INode {
 			}
 			if (!$this->tagManager->canUserAssignTag($this->tag, $this->user)) {
 				throw new Forbidden('No permission to unassign tag ' . $this->tag->getId());
+			}
+			if (!($this->childWriteAccessFunction)($this->objectId)) {
+				throw new Forbidden('No permission to unassign tag to ' . $this->objectId);
 			}
 			$this->tagMapper->unassignTags($this->objectId, $this->objectType, $this->tag->getId());
 		} catch (TagNotFoundException $e) {
