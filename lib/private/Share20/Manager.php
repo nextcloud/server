@@ -82,7 +82,6 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  * This class is the communication hub for all sharing related operations.
  */
 class Manager implements IManager {
-
 	/** @var IProviderFactory */
 	private $factory;
 	/** @var ILogger */
@@ -669,7 +668,6 @@ class Manager implements IManager {
 	 * @param IShare $share
 	 */
 	protected function setLinkParent(IShare $share) {
-
 		// No sense in checking if the method is not there.
 		if (method_exists($share, 'setParent')) {
 			$storage = $share->getNode()->getStorage();
@@ -1318,7 +1316,7 @@ class Manager implements IManager {
 			$added = 0;
 			foreach ($shares as $share) {
 				try {
-					$this->checkExpireDate($share);
+					$this->checkShare($share);
 				} catch (ShareNotFound $e) {
 					//Ignore since this basically means the share is deleted
 					continue;
@@ -1377,7 +1375,7 @@ class Manager implements IManager {
 		// remove all shares which are already expired
 		foreach ($shares as $key => $share) {
 			try {
-				$this->checkExpireDate($share);
+				$this->checkShare($share);
 			} catch (ShareNotFound $e) {
 				unset($shares[$key]);
 			}
@@ -1423,7 +1421,7 @@ class Manager implements IManager {
 
 		$share = $provider->getShareById($id, $recipient);
 
-		$this->checkExpireDate($share);
+		$this->checkShare($share);
 
 		return $share;
 	}
@@ -1507,7 +1505,7 @@ class Manager implements IManager {
 			throw new ShareNotFound($this->l->t('The requested share does not exist anymore'));
 		}
 
-		$this->checkExpireDate($share);
+		$this->checkShare($share);
 
 		/*
 		 * Reduce the permissions for link or email shares if public upload is not enabled
@@ -1520,10 +1518,24 @@ class Manager implements IManager {
 		return $share;
 	}
 
-	protected function checkExpireDate($share) {
+	/**
+	 * Check expire date and disabled owner
+	 *
+	 * @throws ShareNotFound
+	 */
+	protected function checkShare(IShare $share): void {
 		if ($share->isExpired()) {
 			$this->deleteShare($share);
 			throw new ShareNotFound($this->l->t('The requested share does not exist anymore'));
+		}
+		if ($this->config->getAppValue('files_sharing', 'hide_disabled_user_shares', 'no') === 'yes') {
+			$uids = array_unique([$share->getShareOwner(),$share->getSharedBy()]);
+			foreach ($uids as $uid) {
+				$user = $this->userManager->get($uid);
+				if (($user !== null) && ($user->isEnabled() === false)) {
+					throw new ShareNotFound($this->l->t('The requested share comes from a disabled user'));
+				}
+			}
 		}
 	}
 
