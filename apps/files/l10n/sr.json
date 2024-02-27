@@ -271,6 +271,7 @@
     "You cannot move a file/folder onto itself or into a subfolder of itself" : "Фајл/фолдер не можете да преместите у самог себе или у његов подфолдер",
     "(copy)" : "(копиран)",
     "(copy %n)" : "(копирано %n)",
+    "Move cancelled" : "Премештање је отказано",
     "A file or folder with that name already exists in this folder" : "У овом фолдеру већ постоји фајл или фолдер са тим именом",
     "The files is locked" : "Фајл је закључан",
     "The file does not exist anymore" : "Фајл више не постоји",

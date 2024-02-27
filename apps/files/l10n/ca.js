@@ -273,6 +273,7 @@ OC.L10N.register(
     "You cannot move a file/folder onto itself or into a subfolder of itself" : "No podeu moure un fitxer o carpeta a la mateixa carpeta o a una subcarpeta de la mateixa carpeta",
     "(copy)" : "(còpia)",
     "(copy %n)" : "(còpia %n)",
+    "Move cancelled" : "S'ha cancel·lat el desplaçament",
     "A file or folder with that name already exists in this folder" : "Ja existeix un fitxer o carpeta amb aquest nom en aquesta carpeta",
     "The files is locked" : "El fitxer està blocat",
     "The file does not exist anymore" : "El fitxer ja no existeix",

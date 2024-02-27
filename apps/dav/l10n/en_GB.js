@@ -170,6 +170,7 @@ OC.L10N.register(
     "Delete slot" : "Delete slot",
     "No working hours set" : "No working hours set",
     "Add slot" : "Add slot",
+    "Weekdays" : "Weekdays",
     "Monday" : "Monday",
     "Tuesday" : "Tuesday",
     "Wednesday" : "Wednesday",
