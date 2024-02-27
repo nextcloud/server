@@ -27,6 +27,7 @@ declare(strict_types=1);
 namespace OCA\Files_Versions\Versions;
 
 use OC\Files\View;
+use OCA\DAV\Connector\Sabre\Exception\Forbidden;
 use OCA\Files_Sharing\SharedStorage;
 use OCA\Files_Versions\Storage;
 use OCP\Files\File;
@@ -37,16 +38,20 @@ use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IStorage;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\IUserSession;
 
 class LegacyVersionsBackend implements IVersionBackend {
 	/** @var IRootFolder */
 	private $rootFolder;
 	/** @var IUserManager */
 	private $userManager;
+	/** @var IUserSession */
+	private $userSession;
 
-	public function __construct(IRootFolder $rootFolder, IUserManager $userManager) {
+	public function __construct(IRootFolder $rootFolder, IUserManager $userManager, IUserSession $userSession) {
 		$this->rootFolder = $rootFolder;
 		$this->userManager = $userManager;
+		$this->userSession = $userSession;
 	}
 
 	public function useBackendForStorage(IStorage $storage): bool {
@@ -96,6 +101,10 @@ class LegacyVersionsBackend implements IVersionBackend {
 	}
 
 	public function rollback(IVersion $version) {
+		if (!$this->currentUserHasPermissions($version, \OCP\Constants::PERMISSION_UPDATE)) {
+			throw new Forbidden('You cannot restore this version because you do not have update permissions on the source file.');
+		}
+
 		return Storage::rollback($version->getVersionPath(), $version->getRevisionId(), $version->getUser());
 	}
 
@@ -124,5 +133,24 @@ class LegacyVersionsBackend implements IVersionBackend {
 		/** @var File $file */
 		$file = $versionFolder->get($userFolder->getRelativePath($sourceFile->getPath()) . '.v' . $revision);
 		return $file;
+	}
+
+	private function currentUserHasPermissions(IVersion $version, int $permissions): bool {
+		$sourceFile = $version->getSourceFile();
+		$currentUserId = $this->userSession->getUser()->getUID();
+
+		if ($currentUserId === null) {
+			throw new NotFoundException("No user logged in");
+		}
+
+		if ($sourceFile->getOwner()->getUID() !== $currentUserId) {
+			$nodes = $this->rootFolder->getUserFolder($currentUserId)->getById($sourceFile->getId());
+			$sourceFile = array_pop($nodes);
+			if (!$sourceFile) {
+				throw new NotFoundException("Version file not accessible by current user");
+			}
+		}
+
+		return ($sourceFile->getPermissions() & $permissions) === $permissions;
 	}
 }
