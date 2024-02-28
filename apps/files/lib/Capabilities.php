@@ -39,13 +39,14 @@ class Capabilities implements ICapability {
 	/**
 	 * Return this classes capabilities
 	 *
-	 * @return array{files: array{bigfilechunking: bool, blacklisted_files: array<mixed>}}
+	 * @return array{files: array{bigfilechunking: bool, blacklisted_files: array<mixed>, forbidden_filename_characters: array<string>}}
 	 */
 	public function getCapabilities() {
 		return [
 			'files' => [
 				'bigfilechunking' => true,
-				'blacklisted_files' => (array)$this->config->getSystemValue('blacklisted_files', ['.htaccess'])
+				'blacklisted_files' => (array)$this->config->getSystemValue('blacklisted_files', ['.htaccess']),
+				'forbidden_filename_characters' => \OCP\Util::getForbiddenFileNameChars(),
 			],
 		];
 	}
