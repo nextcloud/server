@@ -204,7 +204,6 @@ OC.L10N.register(
     "Select file or folder to link to" : "Valitse tiedosto tai kansio, johon linkitetään",
     "Choose file" : "Valitse tiedosto",
     "Choose {file}" : "Valitse {file}",
-    "Add" : "Lisää",
     "Loading current folder" : "Ladataan nykyistä kansiota",
     "No files in here" : "Täällä ei ole tiedostoja",
     "Upload some content or sync with your devices!" : "Lähetä tiedostoja tai synkronoi sisältö laitteidesi kanssa!",
@@ -300,6 +299,7 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Tätä luetteloa ei ole esitetty täysin suorituskykyyn liittyvistä syistä. Tiedostot esitetään sitä mukaa, kun selaat luetteloa.",
     "Search for an account" : "Etsi tiliä",
     "Choose" : "Valitse",
-    "No files or folders have been deleted yet" : "Tiedostoja tai kansioita ei ole vielä poistettu"
+    "No files or folders have been deleted yet" : "Tiedostoja tai kansioita ei ole vielä poistettu",
+    "Add" : "Lisää"
 },
 "nplurals=2; plural=(n != 1);");

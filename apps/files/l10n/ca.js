@@ -224,7 +224,6 @@ OC.L10N.register(
     "Select file or folder to link to" : "Seleccioneu el fitxer o la carpeta que voleu enllaçar",
     "Choose file" : "Tria el fitxer",
     "Choose {file}" : "Tria {file}",
-    "Add" : "Afegeix",
     "Loading current folder" : "S'està carregant la carpeta actual",
     "No files in here" : "No hi ha cap fitxer aquí",
     "Upload some content or sync with your devices!" : "Pugeu contingut o sincronitzeu els vostres dispositius!",
@@ -345,6 +344,7 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Aquesta llista no es mostra completament per raons de rendiment. Es mostraran els fitxers a mesura que navegueu per la llista.",
     "Search for an account" : "Cerqueu un compte",
     "Choose" : "Tria",
-    "No files or folders have been deleted yet" : "Encara no s'ha suprimit cap fitxer o carpeta"
+    "No files or folders have been deleted yet" : "Encara no s'ha suprimit cap fitxer o carpeta",
+    "Add" : "Afegeix"
 },
 "nplurals=2; plural=(n != 1);");

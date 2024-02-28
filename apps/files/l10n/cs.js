@@ -212,7 +212,6 @@ OC.L10N.register(
     "Select file or folder to link to" : "Vyberte soubor nebo složku na kterou odkazovat",
     "Choose file" : "Vyberte soubor",
     "Choose {file}" : "Zvolit {file}",
-    "Add" : "Přidat",
     "Loading current folder" : "Načítá se stávající složka",
     "No files in here" : "Žádné soubory",
     "Upload some content or sync with your devices!" : "Nahrajte nějaký obsah nebo proveďte synchronizaci se svými zařízeními!",
@@ -319,6 +318,7 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Seznam není vykreslen celý z důvodu nároků na výkon. Soubory budou dokreslovány, jak se budete posouvat seznamem.",
     "Search for an account" : "Hledat účet",
     "Choose" : "Vybrat",
-    "No files or folders have been deleted yet" : "Zatím nebyly smazány žádné soubory či složky"
+    "No files or folders have been deleted yet" : "Zatím nebyly smazány žádné soubory či složky",
+    "Add" : "Přidat"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

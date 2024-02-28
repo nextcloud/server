@@ -224,7 +224,6 @@ OC.L10N.register(
     "Select file or folder to link to" : "リンク先のファイルまたはフォルダを選択",
     "Choose file" : "ファイルを選択",
     "Choose {file}" : "{file}を選択",
-    "Add" : "追加",
     "Loading current folder" : "現在のフォルダの読み込み中",
     "No files in here" : "ファイルがありません",
     "Upload some content or sync with your devices!" : "何かコンテンツをアップロードするか、デバイスからファイルを同期してください。",
@@ -344,6 +343,7 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "このリストはパフォーマンスの都合上、すべてレンダリングされているわけではありません。リスト内を移動すると、ファイルが次々と表示されていきます。",
     "Search for an account" : "アカウントを検索",
     "Choose" : "選択",
-    "No files or folders have been deleted yet" : "まだ削除されたファイルやフォルダはありません"
+    "No files or folders have been deleted yet" : "まだ削除されたファイルやフォルダはありません",
+    "Add" : "追加"
 },
 "nplurals=1; plural=0;");

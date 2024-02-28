@@ -211,7 +211,6 @@ OC.L10N.register(
     "Select file or folder to link to" : "Datei oder Ordner zum Verknüpfen auswählen",
     "Choose file" : "Datei auswählen",
     "Choose {file}" : "{file} auswählen",
-    "Add" : "Hinzufügen",
     "Loading current folder" : "Lade aktuellen Ordner",
     "No files in here" : "Keine Dateien vorhanden",
     "Upload some content or sync with your devices!" : "Lade Inhalte hoch oder synchronisiere sie mit deinen Geräten!",
@@ -314,6 +313,7 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Diese Liste wird aus Performance-Gründen nicht vollständig angezeigt. Die Dateien werden gerendert, wenn du durch die Liste navigierst.",
     "Search for an account" : "Nach einem Konto suchen",
     "Choose" : "Auswählen",
-    "No files or folders have been deleted yet" : "Es wurden noch keine Dateien oder Ordner gelöscht"
+    "No files or folders have been deleted yet" : "Es wurden noch keine Dateien oder Ordner gelöscht",
+    "Add" : "Hinzufügen"
 },
 "nplurals=2; plural=(n != 1);");

@@ -224,7 +224,6 @@ OC.L10N.register(
     "Select file or folder to link to" : "Välj fil eller mapp att länka till",
     "Choose file" : "Välj fil",
     "Choose {file}" : "Välj {file}",
-    "Add" : "Lägg till",
     "Loading current folder" : "Laddar aktuell mapp",
     "No files in here" : "Inga filer kunde hittas",
     "Upload some content or sync with your devices!" : "Ladda upp innehåll eller synkronisera med dina enheter!",
@@ -345,6 +344,7 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Denna lista är inte helt återgiven av prestandaskäl. Filerna kommer att renderas när du navigerar genom listan.",
     "Search for an account" : "Sök efter ett konto",
     "Choose" : "Välj",
-    "No files or folders have been deleted yet" : "Inga filer eller mappar har tagits bort än"
+    "No files or folders have been deleted yet" : "Inga filer eller mappar har tagits bort än",
+    "Add" : "Lägg till"
 },
 "nplurals=2; plural=(n != 1);");
