@@ -206,7 +206,6 @@
     "Cannot transfer ownership of a file or folder you do not own" : "Nie je možné preniesť vlastníctvo súboru alebo priečinka, ktorý nevlastníte",
     "Select file or folder to link to" : "Vyberte súbor alebo priečinok na ktorý odkazovať",
     "Choose {file}" : "Vyberte {file}",
-    "Add" : "Pridať",
     "Loading current folder" : "Načítavanie súčasného priečinka",
     "No files in here" : "Nie sú tu žiadne súbory",
     "Upload some content or sync with your devices!" : "Nahrajte nejaký obsah alebo synchronizujte dáta so svojimi zariadeniami!",
@@ -308,6 +307,7 @@
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Tento zoznam nie je úplne vykreslený z dôvodov výkonu. Súbory budú vykreslené, keď budete prechádzat zoznamom.",
     "Search for an account" : "Vyhľadať účet",
     "Choose" : "Vybrať",
-    "No files or folders have been deleted yet" : "Žiadne súbory alebo priečinky neboli ešte vymazané"
+    "No files or folders have been deleted yet" : "Žiadne súbory alebo priečinky neboli ešte vymazané",
+    "Add" : "Pridať"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);"
 }

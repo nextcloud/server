@@ -224,7 +224,6 @@ OC.L10N.register(
     "Select file or folder to link to" : "Выберите файл или папку для создания ссылки",
     "Choose file" : "Выберите файл",
     "Choose {file}" : "Выберан {file}",
-    "Add" : "Добавить",
     "Loading current folder" : "Загрузка текущей папки",
     "No files in here" : "Здесь нет файлов",
     "Upload some content or sync with your devices!" : "Загрузите что-нибудь или синхронизируйте со своими устройствами!",
@@ -344,6 +343,7 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Этот список отображается не полностью из соображений производительности. Файлы будут отображаться по мере перемещения по списку.",
     "Search for an account" : "Поиск по учетной записи",
     "Choose" : "Выберите",
-    "No files or folders have been deleted yet" : "Файлы или папки еще не удалены"
+    "No files or folders have been deleted yet" : "Файлы или папки еще не удалены",
+    "Add" : "Добавить"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

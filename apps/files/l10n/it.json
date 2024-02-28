@@ -209,7 +209,6 @@
     "Select file or folder to link to" : "Seleziona un file o una cartella da collegare",
     "Choose file" : "Scegli file",
     "Choose {file}" : "Scegli {file}",
-    "Add" : "Aggiungi",
     "Loading current folder" : "Sto caricando la cartella corrente",
     "No files in here" : "Qui non c'è alcun file",
     "Upload some content or sync with your devices!" : "Carica dei contenuti o sincronizza con i tuoi dispositivi!",
@@ -317,6 +316,7 @@
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Questo elenco non è stata mostrato completamente per ragioni di prestazioni. I file saranno mostrati durante la navigazione dell'elenco.",
     "Search for an account" : "Cerca un account",
     "Choose" : "Scegli",
-    "No files or folders have been deleted yet" : "Nessun file o cartella è stato ancora eliminato"
+    "No files or folders have been deleted yet" : "Nessun file o cartella è stato ancora eliminato",
+    "Add" : "Aggiungi"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }
