@@ -224,7 +224,6 @@ OC.L10N.register(
     "Select file or folder to link to" : "Bağlantı verilecek dosya ya da klasörü seçin",
     "Choose file" : "Dosya seçin",
     "Choose {file}" : "{file} seçin",
-    "Add" : "Ekle",
     "Loading current folder" : "Geçerli klasör yükleniyor",
     "No files in here" : "Burada herhangi bir dosya yok",
     "Upload some content or sync with your devices!" : "Bir şeyler yükleyin ya da aygıtlarınızla eşitleyin!",
@@ -344,6 +343,7 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Başarımı olumsuz etkilememek için listenin tümü görüntülenmiyor. Listede ilerledikçe dosyalar görüntülenecek.",
     "Search for an account" : "Hesap ara",
     "Choose" : "Seçin",
-    "No files or folders have been deleted yet" : "Henüz silinmiş bir dosya ya da klasör yok"
+    "No files or folders have been deleted yet" : "Henüz silinmiş bir dosya ya da klasör yok",
+    "Add" : "Ekle"
 },
 "nplurals=2; plural=(n > 1);");

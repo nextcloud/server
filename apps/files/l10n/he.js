@@ -154,7 +154,6 @@ OC.L10N.register(
     "Invalid path selected" : "הנתיב שנבחר שגוי",
     "Unknown error" : "שגיאה בלתי ידועה",
     "Ownership transfer request sent" : "נשלחה בקשת העברת בעלות",
-    "Add" : "הוספה",
     "No files in here" : "אין כאן קבצים",
     "Upload some content or sync with your devices!" : "יש להעלות קצת תוכן או לסנכרן עם ההתקנים שלך!",
     "Go back" : "חזרה",
@@ -194,6 +193,7 @@ OC.L10N.register(
     "Shared with you" : "משותף אתך",
     "Deleted shares" : "שיתופים שנמחקו",
     "Pending shares" : "שיתופים ממתינים",
-    "Choose" : "בחר"
+    "Choose" : "בחר",
+    "Add" : "הוספה"
 },
-"nplurals=3; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");
+"nplurals=3; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: 2;");

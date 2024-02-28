@@ -222,7 +222,6 @@
     "Select file or folder to link to" : "選擇要連結的檔案或資料夾",
     "Choose file" : "選擇檔案",
     "Choose {file}" : "選擇 {file}",
-    "Add" : "添加",
     "Loading current folder" : "目前資料夾加載中",
     "No files in here" : "沒有任何檔案",
     "Upload some content or sync with your devices!" : "在您的裝置同步或上傳一些內容！",
@@ -343,6 +342,7 @@
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "出於性能考慮，此清單未完全呈現。檔案將在您瀏覽清單時呈現。",
     "Search for an account" : "搜尋賬號",
     "Choose" : "選擇",
-    "No files or folders have been deleted yet" : "尚未刪除任何檔案或資料夾"
+    "No files or folders have been deleted yet" : "尚未刪除任何檔案或資料夾",
+    "Add" : "添加"
 },"pluralForm" :"nplurals=1; plural=0;"
 }
