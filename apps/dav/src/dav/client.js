@@ -19,21 +19,29 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import * as webdav from 'webdav'
-import axios from '@nextcloud/axios'
+import { createClient } from 'webdav'
 import memoize from 'lodash/fp/memoize.js'
 import { generateRemoteUrl } from '@nextcloud/router'
-import { getCurrentUser } from '@nextcloud/auth'
+import { getCurrentUser, getRequestToken, onRequestTokenUpdate } from '@nextcloud/auth'
 
 export const getClient = memoize((service) => {
-	// Add this so the server knows it is an request from the browser
-	axios.defaults.headers['X-Requested-With'] = 'XMLHttpRequest'
+	// init webdav client
+	const remote = generateRemoteUrl(`dav/${service}/${getCurrentUser().uid}`)
+	const client = createClient(remote)
 
-	// force our axios
-	const patcher = webdav.getPatcher()
-	patcher.patch('request', axios)
+	// set CSRF token header
+	const setHeaders = (token) => {
+		client.setHeaders({
+			// Add this so the server knows it is an request from the browser
+			'X-Requested-With': 'XMLHttpRequest',
+			// Inject user auth
+			requesttoken: token ?? '',
+		})
+	}
 
-	return webdav.createClient(
-		generateRemoteUrl(`dav/${service}/${getCurrentUser().uid}`)
-	)
+	// refresh headers when request token changes
+	onRequestTokenUpdate(setHeaders)
+	setHeaders(getRequestToken())
+
+	return client;
 })

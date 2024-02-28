@@ -22,12 +22,22 @@
 
 import { createClient } from 'webdav'
 import { generateRemoteUrl } from '@nextcloud/router'
-import { getRequestToken } from '@nextcloud/auth'
+import { getRequestToken, onRequestTokenUpdate } from '@nextcloud/auth'
 
+// init webdav client
 const rootUrl = generateRemoteUrl('dav')
+export const davClient = createClient(rootUrl)
 
-export const davClient = createClient(rootUrl, {
-	headers: {
-		requesttoken: getRequestToken() ?? '',
-	},
-})
+// set CSRF token header
+const setHeaders = (token: string | null) => {
+  davClient.setHeaders({
+    // Add this so the server knows it is an request from the browser
+    'X-Requested-With': 'XMLHttpRequest',
+    // Inject user auth
+    requesttoken: token ?? '',
+  })
+}
+
+// refresh headers when request token changes
+onRequestTokenUpdate(setHeaders)
+setHeaders(getRequestToken())
