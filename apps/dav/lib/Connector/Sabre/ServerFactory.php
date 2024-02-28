@@ -188,6 +188,7 @@ class ServerFactory {
 				$server->addPlugin(
 					new \Sabre\DAV\PropertyStorage\Plugin(
 						new \OCA\DAV\DAV\CustomPropertiesBackend(
+							$server,
 							$objectTree,
 							$this->databaseConnection,
 							$this->userSession->getUser()

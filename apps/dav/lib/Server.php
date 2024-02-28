@@ -276,6 +276,7 @@ class Server {
 				$this->server->addPlugin(
 					new \Sabre\DAV\PropertyStorage\Plugin(
 						new CustomPropertiesBackend(
+							$this->server,
 							$this->server->tree,
 							\OC::$server->getDatabaseConnection(),
 							\OC::$server->getUserSession()->getUser()
