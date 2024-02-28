@@ -211,7 +211,6 @@ OC.L10N.register(
     "Select file or folder to link to" : "Επιλέξτε αρχείο ή φάκελο για σύνδεση",
     "Choose file" : "Επιλέξτε αρχείο",
     "Choose {file}" : "Επιλέξτε {file}",
-    "Add" : "Προσθήκη",
     "Loading current folder" : "Φόρτωση τρέχοντος φακέλου",
     "No files in here" : "Δεν υπάρχουν αρχεία εδώ",
     "Upload some content or sync with your devices!" : "Μεταφόρτωση περιεχομένου ή συγχρονισμός με τις συσκευές σας!",
@@ -312,6 +311,7 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Η λίστα αυτή δεν εμφανίζεται πλήρως για λόγους απόδοσης. Τα αρχεία θα εμφανίζονται καθώς πλοηγείστε στη λίστα.",
     "Search for an account" : "Αναζήτηση για λογαριασμό",
     "Choose" : "Επιλογή",
-    "No files or folders have been deleted yet" : "Κανένα αρχείο ή φάκελος δεν έχει διαγραφεί ακόμα"
+    "No files or folders have been deleted yet" : "Κανένα αρχείο ή φάκελος δεν έχει διαγραφεί ακόμα",
+    "Add" : "Προσθήκη"
 },
 "nplurals=2; plural=(n != 1);");

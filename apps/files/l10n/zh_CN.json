@@ -207,7 +207,6 @@
     "Cannot transfer ownership of a file or folder you do not own" : "无法转让您未拥有的文件或文件夹的所有权",
     "Select file or folder to link to" : "选择需要链接的文件或文件夹",
     "Choose {file}" : "选择 {file}",
-    "Add" : "添加",
     "Loading current folder" : "正在载入当前文件夹",
     "No files in here" : "这里没有文件",
     "Upload some content or sync with your devices!" : "上传一些内容或与您的设备同步！",
@@ -307,6 +306,7 @@
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "因为性能原因，该列表没有完全加载。这些文件将会在您浏览列表的时候加载。",
     "Search for an account" : "搜索一个账户",
     "Choose" : "选择",
-    "No files or folders have been deleted yet" : "尚未删除任何文件或文件夹"
+    "No files or folders have been deleted yet" : "尚未删除任何文件或文件夹",
+    "Add" : "添加"
 },"pluralForm" :"nplurals=1; plural=0;"
 }
