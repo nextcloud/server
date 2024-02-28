@@ -408,6 +408,22 @@ class Client implements IClient {
 		return new Response($response);
 	}
 
+	/**
+	 * Get the response of a Throwable thrown by the request methods when possible
+	 *
+	 * @param \Throwable $e
+	 * @return IResponse
+	 * @throws \Throwable When $e did not have a response
+	 * @since 29.0.0
+	 */
+	public function getResponseFromThrowable(\Throwable $e): IResponse {
+		if (method_exists($e, 'hasResponse') && method_exists($e, 'getResponse') && $e->hasResponse()) {
+			return new Response($e->getResponse());
+		}
+
+		throw $e;
+	}
+
 	protected function wrapGuzzlePromise(PromiseInterface $promise): IPromise {
 		return new GuzzlePromiseAdapter(
 			$promise,
