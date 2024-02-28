@@ -218,7 +218,6 @@
     "Select file or folder to link to" : "Hautatu estekatzeko fitxategia edo karpeta",
     "Choose file" : "Aukeratu fitxategia",
     "Choose {file}" : "Aukeratu {file}",
-    "Add" : "Gehitu",
     "Loading current folder" : "Uneko karpeta kargatzen",
     "No files in here" : "Ez dago fitxategirik hemen",
     "Upload some content or sync with your devices!" : "Igo edukiren bat edo sinkronizatu zure gailuekin!",
@@ -332,6 +331,7 @@
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Zerrenda hau ez da guztiz ikusten errendimendu arrazoiengatik. Fitxategiak zerrendan zehar nabigatzen duten heinean bistaratuko dira.",
     "Search for an account" : "Bilatu kontu bat",
     "Choose" : "Aukeratu",
-    "No files or folders have been deleted yet" : "Oraindik ez da ezabatu fitxategirik edo karpetarik"
+    "No files or folders have been deleted yet" : "Oraindik ez da ezabatu fitxategirik edo karpetarik",
+    "Add" : "Gehitu"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -142,7 +142,6 @@ OC.L10N.register(
     "Change" : "Mudar",
     "Transfer" : "Transfere",
     "Unknown error" : "Erro desconhecido",
-    "Add" : "Adicionar",
     "No files in here" : "Nenhuns ficheiros aqui",
     "Upload some content or sync with your devices!" : "Envie algum conteúdo ou sincronize com os seus dispositivos!",
     "Go back" : "Voltar",
@@ -173,6 +172,7 @@ OC.L10N.register(
     "Shares" : "Partilhas",
     "Shared with others" : "Partilhado com terceiros",
     "Shared with you" : "Partilhado consigo ",
-    "Choose" : "Escolher"
+    "Choose" : "Escolher",
+    "Add" : "Adicionar"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

@@ -164,7 +164,6 @@ OC.L10N.register(
     "Invalid path selected" : "Odabran nevažeći put",
     "Unknown error" : "Nepoznata pogreška",
     "Ownership transfer request sent" : "Zahtjev za prijenos vlasništva je poslan",
-    "Add" : "Dodaj",
     "No files in here" : "Nema datoteka",
     "Upload some content or sync with your devices!" : "Otpremite neki sadržaj ili sinkronizirajte sa svojim uređajima!",
     "Go back" : "Natrag",
@@ -213,6 +212,7 @@ OC.L10N.register(
     "Shared with you" : "Podijeljeno s vama",
     "Deleted shares" : "Izbrisana dijeljenja",
     "Pending shares" : "Dijeljenja na čekanju",
-    "Choose" : "Odaberite"
+    "Choose" : "Odaberite",
+    "Add" : "Dodaj"
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

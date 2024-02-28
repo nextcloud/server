@@ -210,7 +210,6 @@ OC.L10N.register(
     "Select file or folder to link to" : "Veldu skrá eða möppu til að tengja í",
     "Choose file" : "Veldu skrá",
     "Choose {file}" : "Veldu {file}",
-    "Add" : "Bæta við",
     "Loading current folder" : "Hleð inn núverandi möppu",
     "No files in here" : "Engar skrár hér",
     "Upload some content or sync with your devices!" : "Sendu inn eitthvað efni eða samstilltu við tækin þín!",
@@ -313,6 +312,7 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Til að halda sem bestum afköstum er þessi listi ekki myndgerður að fullu. Skrárnar munu birtast eftir því sem farið er í gegnum listann.",
     "Search for an account" : "Leita að notandaaðgangi",
     "Choose" : "Velja",
-    "No files or folders have been deleted yet" : "Engum skrám eða möppum hefur enn verið eytt"
+    "No files or folders have been deleted yet" : "Engum skrám eða möppum hefur enn verið eytt",
+    "Add" : "Bæta við"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");
