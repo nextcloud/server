@@ -211,7 +211,7 @@ class NotifierTest extends TestCase {
 
 	public function testPrepareSuccessDeletedUser() {
 		$fileName = 'Gre\'thor.odp';
-		$message = 'You were mentioned on "Gre\'thor.odp", in a comment by a user that has since been deleted';
+		$message = 'You were mentioned on "Gre\'thor.odp", in a comment by an account that has since been deleted';
 
 		/** @var Node|MockObject $node */
 		$node = $this->createMock(Node::class);
@@ -255,7 +255,7 @@ class NotifierTest extends TestCase {
 		$this->notification
 			->expects($this->once())
 			->method('setRichSubject')
-			->with('You were mentioned on "{file}", in a comment by a user that has since been deleted', $this->anything())
+			->with('You were mentioned on "{file}", in a comment by an account that has since been deleted', $this->anything())
 			->willReturnSelf();
 		$this->notification
 			->expects($this->once())

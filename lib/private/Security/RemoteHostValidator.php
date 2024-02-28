@@ -38,19 +38,12 @@ use function urldecode;
  * @internal
  */
 final class RemoteHostValidator implements IRemoteHostValidator {
-	private IConfig $config;
-	private HostnameClassifier $hostnameClassifier;
-	private IpAddressClassifier $ipAddressClassifier;
-	private LoggerInterface $logger;
-
-	public function __construct(IConfig $config,
-								HostnameClassifier $hostnameClassifier,
-								IpAddressClassifier $ipAddressClassifier,
-								LoggerInterface $logger) {
-		$this->config = $config;
-		$this->hostnameClassifier = $hostnameClassifier;
-		$this->ipAddressClassifier = $ipAddressClassifier;
-		$this->logger = $logger;
+	public function __construct(
+		private IConfig $config,
+		private HostnameClassifier $hostnameClassifier,
+		private IpAddressClassifier $ipAddressClassifier,
+		private LoggerInterface $logger,
+	) {
 	}
 
 	public function isValid(string $host): bool {
@@ -59,6 +52,10 @@ final class RemoteHostValidator implements IRemoteHostValidator {
 		}
 
 		$host = idn_to_utf8(strtolower(urldecode($host)));
+		if ($host === false) {
+			return false;
+		}
+
 		// Remove brackets from IPv6 addresses
 		if (str_starts_with($host, '[') && str_ends_with($host, ']')) {
 			$host = substr($host, 1, -1);

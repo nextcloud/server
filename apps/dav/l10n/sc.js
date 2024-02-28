@@ -2,6 +2,7 @@ OC.L10N.register(
     "dav",
     {
     "Calendar" : "Calendàriu",
+    "Tasks" : "Fainas",
     "Personal" : "Personale",
     "{actor} created calendar {calendar}" : "{actor} at creadu su calendàriu {calendar}",
     "You created calendar {calendar}" : "As creadu su calendàriu {calendar}",
@@ -100,13 +101,13 @@ OC.L10N.register(
     "Configures a CalDAV account" : "Cunfigurat unu contu CalDAV",
     "Configures a CardDAV account" : "Configurat unu contu CardDAV ",
     "Events" : "Eventos",
-    "Tasks" : "Fainas",
     "Untitled task" : "Faina sena tìtulu",
     "Completed on %s" : "Cumpletada su %s",
     "Due on %s by %s" : "Iscadet su %s pro su %s",
     "Due on %s" : "iscadet su %s",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "puntu finale WebDAV ",
+    "Save" : "Sarva",
     "to" : "a",
     "Monday" : "Lunis",
     "Tuesday" : "Martis",
@@ -115,7 +116,6 @@ OC.L10N.register(
     "Friday" : "Chenàbura",
     "Saturday" : "Sàbudu",
     "Sunday" : "Domìnigu",
-    "Save" : "Sarva",
     "Calendar server" : "Serbidore calendàriu",
     "Send invitations to attendees" : "Imbia invitos de partetzipatziones",
     "Automatically generate a birthday calendar" : "Gènera in automàticu su calendàriu de cumpleannos",
@@ -130,9 +130,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Pro praghere, cuntata deretu a s'organizadore.",
     "Are you accepting the invitation?" : "Cheres atzetare s'invitu?",
     "Tentative" : "Intentu",
-    "Your attendance was updated successfully." : "Sa partetzipatzione tua est istada agiornada in manera curreta.",
-    "Invitation canceled" : "Invitu annulladu",
-    "Invitation updated" : "Invitu agiornadu",
-    "Invitation" : "Invitu"
+    "Your attendance was updated successfully." : "Sa partetzipatzione tua est istada agiornada in manera curreta."
 },
 "nplurals=2; plural=(n != 1);");

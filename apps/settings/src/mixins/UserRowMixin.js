@@ -22,8 +22,6 @@
  *
  */
 
-import { generateUrl } from '@nextcloud/router'
-
 export default {
 	props: {
 		user: {
@@ -46,10 +44,6 @@ export default {
 			type: Array,
 			default: () => [],
 		},
-		showConfig: {
-			type: Object,
-			default: () => ({}),
-		},
 		languages: {
 			type: Array,
 			required: true,
@@ -60,6 +54,10 @@ export default {
 		},
 	},
 	computed: {
+		showConfig() {
+			return this.$store.getters.getShowConfig
+		},
+
 		/* GROUPS MANAGEMENT */
 		userGroups() {
 			const userGroups = this.groups.filter(group => this.user.groups.includes(group.id))
@@ -151,34 +149,6 @@ export default {
 				return OC.Util.relativeModifiedDate(this.user.lastLogin)
 			}
 			return t('settings', 'Never')
-		},
-	},
-	methods: {
-		/**
-		 * Generate avatar url
-		 *
-		 * @param {string} user The user name
-		 * @param {bool} isDarkTheme Whether the avatar should be the dark version
-		 * @return {string}
-		 */
-		generateAvatar(user, isDarkTheme) {
-			if (isDarkTheme) {
-				return generateUrl(
-					'/avatar/{user}/64/dark?v={version}',
-					{
-						user,
-						version: oc_userconfig.avatar.version,
-					}
-				)
-			} else {
-				return generateUrl(
-					'/avatar/{user}/64?v={version}',
-					{
-						user,
-						version: oc_userconfig.avatar.version,
-					}
-				)
-			}
 		},
 	},
 }

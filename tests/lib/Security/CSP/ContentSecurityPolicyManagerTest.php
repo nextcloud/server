@@ -27,11 +27,10 @@ namespace Test\Security\CSP;
 use OC\Security\CSP\ContentSecurityPolicyManager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Security\CSP\AddContentSecurityPolicyEvent;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Test\TestCase;
 
 class ContentSecurityPolicyManagerTest extends TestCase {
-	/** @var EventDispatcherInterface */
+	/** @var IEventDispatcher */
 	private $dispatcher;
 
 	/** @var ContentSecurityPolicyManager */

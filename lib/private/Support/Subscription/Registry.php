@@ -62,10 +62,10 @@ class Registry implements IRegistry {
 	private $logger;
 
 	public function __construct(IConfig $config,
-								IServerContainer $container,
-								IUserManager $userManager,
-								IGroupManager $groupManager,
-								LoggerInterface $logger) {
+		IServerContainer $container,
+		IUserManager $userManager,
+		IGroupManager $groupManager,
+		LoggerInterface $logger) {
 		$this->config = $config;
 		$this->container = $container;
 		$this->userManager = $userManager;
@@ -239,7 +239,7 @@ class Registry implements IRegistry {
 			$notificationManager->notify($notification);
 		}
 
-		$this->logger->warning('The user limit was reached and the new user was not created', ['app' => 'lib']);
+		$this->logger->warning('The account limit was reached and the new account was not created', ['app' => 'lib']);
 	}
 
 	protected function reIssue(): bool {

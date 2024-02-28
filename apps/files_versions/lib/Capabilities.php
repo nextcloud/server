@@ -42,6 +42,8 @@ class Capabilities implements ICapability {
 
 	/**
 	 * Return this classes capabilities
+	 *
+	 * @return array{files: array{versioning: bool, version_labeling: bool, version_deletion: bool}}
 	 */
 	public function getCapabilities() {
 		return [

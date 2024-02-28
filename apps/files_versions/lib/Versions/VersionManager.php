@@ -35,7 +35,7 @@ use OCP\Files\Storage\IStorage;
 use OCP\IUser;
 use OCP\Lock\ManuallyLockedException;
 
-class VersionManager implements IVersionManager, INameableVersionBackend, IDeletableVersionBackend {
+class VersionManager implements IVersionManager, INameableVersionBackend, IDeletableVersionBackend, INeedSyncVersionBackend {
 	/** @var (IVersionBackend[])[] */
 	private $backends = [];
 
@@ -99,7 +99,7 @@ class VersionManager implements IVersionManager, INameableVersionBackend, IDelet
 
 	public function rollback(IVersion $version) {
 		$backend = $version->getBackend();
-		$result = self::handleAppLocks(fn(): ?bool => $backend->rollback($version));
+		$result = self::handleAppLocks(fn (): ?bool => $backend->rollback($version));
 		// rollback doesn't have a return type yet and some implementations don't return anything
 		if ($result === null || $result === true) {
 			\OC_Hook::emit('\OCP\Versions', 'rollback', [
@@ -139,6 +139,27 @@ class VersionManager implements IVersionManager, INameableVersionBackend, IDelet
 		}
 	}
 
+	public function createVersionEntity(File $file): void {
+		$backend = $this->getBackendForStorage($file->getStorage());
+		if ($backend instanceof INeedSyncVersionBackend) {
+			$backend->createVersionEntity($file);
+		}
+	}
+
+	public function updateVersionEntity(File $sourceFile, int $revision, array $properties): void {
+		$backend = $this->getBackendForStorage($sourceFile->getStorage());
+		if ($backend instanceof INeedSyncVersionBackend) {
+			$backend->updateVersionEntity($sourceFile, $revision, $properties);
+		}
+	}
+
+	public function deleteVersionsEntity(File $file): void {
+		$backend = $this->getBackendForStorage($file->getStorage());
+		if ($backend instanceof INeedSyncVersionBackend) {
+			$backend->deleteVersionsEntity($file);
+		}
+	}
+
 	/**
 	 * Catch ManuallyLockedException and retry in app context if possible.
 	 *
@@ -175,7 +196,7 @@ class VersionManager implements IVersionManager, INameableVersionBackend, IDelet
 			$lockContext = new LockContext($root, ILock::TYPE_APP, $owner);
 			$lockManager = \OC::$server->get(ILockManager::class);
 			$result = null;
-			$lockManager->runInScope($lockContext, function() use ($callback, &$result) {
+			$lockManager->runInScope($lockContext, function () use ($callback, &$result) {
 				$result = $callback();
 			});
 			return $result;

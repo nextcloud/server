@@ -28,7 +28,7 @@
 		</h2>
 
 		<p class="settings-hint">
-			{{ t('settings', 'Enable or disable profile by default for new users.') }}
+			{{ t('settings', 'Enable or disable profile by default for new accounts.') }}
 		</p>
 
 		<NcCheckboxRadioSwitch type="switch"

@@ -37,16 +37,20 @@ namespace OCP\AppFramework\Http;
  * @since 9.0.0
  */
 class EmptyContentSecurityPolicy {
-	/** @var string Whether JS nonces should be used */
-	protected $useJsNonce = null;
+	/** @var string JS nonce to be used */
+	protected $jsNonce = null;
 	/** @var bool Whether strict-dynamic should be used */
 	protected $strictDynamicAllowed = null;
+	/** @var bool Whether strict-dynamic should be used on script-src-elem */
+	protected $strictDynamicAllowedOnScripts = null;
 	/**
 	 * @var bool Whether eval in JS scripts is allowed
 	 * TODO: Disallow per default
 	 * @link https://github.com/owncloud/core/issues/11925
 	 */
 	protected $evalScriptAllowed = null;
+	/** @var bool Whether WebAssembly compilation is allowed */
+	protected ?bool $evalWasmAllowed = null;
 	/** @var array Domains from which scripts can get loaded */
 	protected $allowedScriptDomains = null;
 	/**
@@ -92,6 +96,18 @@ class EmptyContentSecurityPolicy {
 	}
 
 	/**
+	 * In contrast to `useStrictDynamic` this only sets strict-dynamic on script-src-elem
+	 * Meaning only grants trust to all imports of scripts that were loaded in `<script>` tags, and thus weakens less the CSP.
+	 * @param bool $state
+	 * @return EmptyContentSecurityPolicy
+	 * @since 28.0.0
+	 */
+	public function useStrictDynamicOnScripts(bool $state = false): self {
+		$this->strictDynamicAllowedOnScripts = $state;
+		return $this;
+	}
+
+	/**
 	 * Use the according JS nonce
 	 * This method is only for CSPMiddleware, custom values are ignored in mergePolicies of ContentSecurityPolicyManager
 	 *
@@ -100,7 +116,7 @@ class EmptyContentSecurityPolicy {
 	 * @since 11.0.0
 	 */
 	public function useJsNonce($nonce) {
-		$this->useJsNonce = $nonce;
+		$this->jsNonce = $nonce;
 		return $this;
 	}
 
@@ -113,6 +129,17 @@ class EmptyContentSecurityPolicy {
 	 */
 	public function allowEvalScript($state = true) {
 		$this->evalScriptAllowed = $state;
+		return $this;
+	}
+
+	/**
+	 * Whether WebAssembly compilation is allowed or forbidden
+	 * @param bool $state
+	 * @return $this
+	 * @since 28.0.0
+	 */
+	public function allowEvalWasm(bool $state = true) {
+		$this->evalWasmAllowed = $state;
 		return $this;
 	}
 
@@ -433,26 +460,37 @@ class EmptyContentSecurityPolicy {
 		$policy .= "base-uri 'none';";
 		$policy .= "manifest-src 'self';";
 
-		if (!empty($this->allowedScriptDomains) || $this->evalScriptAllowed) {
+		if (!empty($this->allowedScriptDomains) || $this->evalScriptAllowed || $this->evalWasmAllowed) {
 			$policy .= 'script-src ';
-			if (is_string($this->useJsNonce)) {
+			$scriptSrc = '';
+			if (is_string($this->jsNonce)) {
 				if ($this->strictDynamicAllowed) {
-					$policy .= '\'strict-dynamic\' ';
+					$scriptSrc .= '\'strict-dynamic\' ';
 				}
-				$policy .= '\'nonce-'.base64_encode($this->useJsNonce).'\'';
+				$scriptSrc .= '\'nonce-'.base64_encode($this->jsNonce).'\'';
 				$allowedScriptDomains = array_flip($this->allowedScriptDomains);
 				unset($allowedScriptDomains['\'self\'']);
 				$this->allowedScriptDomains = array_flip($allowedScriptDomains);
 				if (count($allowedScriptDomains) !== 0) {
-					$policy .= ' ';
+					$scriptSrc .= ' ';
 				}
 			}
 			if (is_array($this->allowedScriptDomains)) {
-				$policy .= implode(' ', $this->allowedScriptDomains);
+				$scriptSrc .= implode(' ', $this->allowedScriptDomains);
 			}
 			if ($this->evalScriptAllowed) {
-				$policy .= ' \'unsafe-eval\'';
+				$scriptSrc .= ' \'unsafe-eval\'';
 			}
+			if ($this->evalWasmAllowed) {
+				$scriptSrc .= ' \'wasm-unsafe-eval\'';
+			}
+			$policy .= $scriptSrc . ';';
+		}
+
+		// We only need to set this if 'strictDynamicAllowed' is not set because otherwise we can simply fall back to script-src
+		if ($this->strictDynamicAllowedOnScripts && is_string($this->jsNonce) && !$this->strictDynamicAllowed) {
+			$policy .= 'script-src-elem \'strict-dynamic\' ';
+			$policy .= $scriptSrc ?? '';
 			$policy .= ';';
 		}
 

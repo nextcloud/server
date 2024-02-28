@@ -57,13 +57,13 @@ class ChangePasswordController extends Controller {
 	private IAppManager $appManager;
 
 	public function __construct(string $appName,
-								IRequest $request,
-								?string $userId,
-								IUserManager $userManager,
-								IUserSession $userSession,
-								IGroupManager $groupManager,
-								IAppManager $appManager,
-								IL10N $l) {
+		IRequest $request,
+		?string $userId,
+		IUserManager $userManager,
+		IUserSession $userSession,
+		IGroupManager $groupManager,
+		IAppManager $appManager,
+		IL10N $l) {
 		parent::__construct($appName, $request);
 
 		$this->userId = $userId;
@@ -132,7 +132,7 @@ class ChangePasswordController extends Controller {
 			return new JSONResponse([
 				'status' => 'error',
 				'data' => [
-					'message' => $this->l->t('No user supplied'),
+					'message' => $this->l->t('No Login supplied'),
 				],
 			]);
 		}
@@ -171,36 +171,8 @@ class ChangePasswordController extends Controller {
 
 		if ($this->appManager->isEnabledForUser('encryption')) {
 			//handle the recovery case
-			$crypt = new \OCA\Encryption\Crypto\Crypt(
-				\OC::$server->getLogger(),
-				\OC::$server->getUserSession(),
-				\OC::$server->getConfig(),
-				\OC::$server->getL10N('encryption'));
-			$keyStorage = \OC::$server->getEncryptionKeyStorage();
-			$util = new \OCA\Encryption\Util(
-				new \OC\Files\View(),
-				$crypt,
-				\OC::$server->getLogger(),
-				\OC::$server->getUserSession(),
-				\OC::$server->getConfig(),
-				\OC::$server->getUserManager());
-			$keyManager = new \OCA\Encryption\KeyManager(
-				$keyStorage,
-				$crypt,
-				\OC::$server->getConfig(),
-				\OC::$server->getUserSession(),
-				new \OCA\Encryption\Session(\OC::$server->getSession()),
-				\OC::$server->getLogger(),
-				$util,
-				\OC::$server->getLockingProvider()
-			);
-			$recovery = new \OCA\Encryption\Recovery(
-				\OC::$server->getUserSession(),
-				$crypt,
-				$keyManager,
-				\OC::$server->getConfig(),
-				\OC::$server->getEncryptionFilesHelper(),
-				new \OC\Files\View());
+			$keyManager = \OCP\Server::get(\OCA\Encryption\KeyManager::class);
+			$recovery = \OCP\Server::get(\OCA\Encryption\Recovery::class);
 			$recoveryAdminEnabled = $recovery->isRecoveryKeyEnabled();
 
 			$validRecoveryPassword = false;
@@ -214,7 +186,7 @@ class ChangePasswordController extends Controller {
 				return new JSONResponse([
 					'status' => 'error',
 					'data' => [
-						'message' => $this->l->t('Please provide an admin recovery password; otherwise, all user data will be lost.'),
+						'message' => $this->l->t('Please provide an admin recovery password; otherwise, all account data will be lost.'),
 					]
 				]);
 			} elseif ($recoveryEnabledForUser && ! $validRecoveryPassword) {
@@ -240,7 +212,7 @@ class ChangePasswordController extends Controller {
 					return new JSONResponse([
 						'status' => 'error',
 						'data' => [
-							'message' => $this->l->t('Backend does not support password change, but the user\'s encryption key was updated.'),
+							'message' => $this->l->t('Backend does not support password change, but the encryption of the account key was updated.'),
 						]
 					]);
 				} elseif (!$result && !$recoveryEnabledForUser) {

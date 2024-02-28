@@ -30,10 +30,12 @@ use OCA\WorkflowEngine\AppInfo\Application;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\Template;
+use OCP\Util;
+use OCP\WorkflowEngine\Events\LoadSettingsScriptsEvent;
 use function class_exists;
 use function function_exists;
-use OCP\Util;
 
+/** @template-implements IEventListener<LoadSettingsScriptsEvent> */
 class LoadAdditionalSettingsScriptsListener implements IEventListener {
 	public function handle(Event $event): void {
 		if (!function_exists('style')) {

@@ -36,6 +36,7 @@ use OC\Group\Manager;
 use OC\User\Backend;
 use OC\User\NoUserException;
 use OC_Helper;
+use OCA\Provisioning_API\ResponseDefinitions;
 use OCP\Accounts\IAccountManager;
 use OCP\Accounts\PropertyDoesNotExistException;
 use OCP\AppFramework\Http;
@@ -52,6 +53,10 @@ use OCP\L10N\IFactory;
 use OCP\User\Backend\ISetDisplayNameBackend;
 use OCP\User\Backend\ISetPasswordBackend;
 
+/**
+ * @psalm-import-type Provisioning_APIUserDetails from ResponseDefinitions
+ * @psalm-import-type Provisioning_APIUserDetailsQuota from ResponseDefinitions
+ */
 abstract class AUserData extends OCSController {
 	public const SCOPE_SUFFIX = 'Scope';
 
@@ -77,13 +82,13 @@ abstract class AUserData extends OCSController {
 	protected $l10nFactory;
 
 	public function __construct(string $appName,
-								IRequest $request,
-								IUserManager $userManager,
-								IConfig $config,
-								IGroupManager $groupManager,
-								IUserSession $userSession,
-								IAccountManager $accountManager,
-								IFactory $l10nFactory) {
+		IRequest $request,
+		IUserManager $userManager,
+		IConfig $config,
+		IGroupManager $groupManager,
+		IUserSession $userSession,
+		IAccountManager $accountManager,
+		IFactory $l10nFactory) {
 		parent::__construct($appName, $request);
 
 		$this->userManager = $userManager;
@@ -99,12 +104,12 @@ abstract class AUserData extends OCSController {
 	 *
 	 * @param string $userId
 	 * @param bool $includeScopes
-	 * @return array
+	 * @return Provisioning_APIUserDetails|null
 	 * @throws NotFoundException
 	 * @throws OCSException
 	 * @throws OCSNotFoundException
 	 */
-	protected function getUserData(string $userId, bool $includeScopes = false): array {
+	protected function getUserData(string $userId, bool $includeScopes = false): ?array {
 		$currentLoggedInUser = $this->userSession->getUser();
 		assert($currentLoggedInUser !== null, 'No user logged in');
 
@@ -123,7 +128,7 @@ abstract class AUserData extends OCSController {
 		} else {
 			// Check they are looking up themselves
 			if ($currentLoggedInUser->getUID() !== $targetUserObject->getUID()) {
-				return $data;
+				return null;
 			}
 		}
 
@@ -225,7 +230,7 @@ abstract class AUserData extends OCSController {
 	 * Get the groups a user is a subadmin of
 	 *
 	 * @param string $userId
-	 * @return array
+	 * @return string[]
 	 * @throws OCSException
 	 */
 	protected function getUserSubAdminGroupsData(string $userId): array {
@@ -247,7 +252,7 @@ abstract class AUserData extends OCSController {
 
 	/**
 	 * @param string $userId
-	 * @return array
+	 * @return Provisioning_APIUserDetailsQuota
 	 * @throws OCSException
 	 */
 	protected function fillStorageInfo(string $userId): array {

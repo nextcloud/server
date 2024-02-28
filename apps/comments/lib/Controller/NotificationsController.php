@@ -25,9 +25,10 @@
 namespace OCA\Comments\Controller;
 
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Http\RedirectResponse;
-use OCP\AppFramework\Http\Response;
 use OCP\Comments\IComment;
 use OCP\Comments\ICommentsManager;
 use OCP\Files\IRootFolder;
@@ -38,43 +39,36 @@ use OCP\IUserSession;
 use OCP\Notification\IManager;
 
 /**
- * Class NotificationsController
- *
  * @package OCA\Comments\Controller
  */
+#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class NotificationsController extends Controller {
-
-	protected IRootFolder $rootFolder;
-	protected ICommentsManager $commentsManager;
-	protected IURLGenerator $urlGenerator;
-	protected IManager $notificationManager;
-	protected IUserSession $userSession;
-
-	/**
-	 * NotificationsController constructor.
-	 */
 	public function __construct(
 		string $appName,
 		IRequest $request,
-		ICommentsManager $commentsManager,
-		IRootFolder $rootFolder,
-		IURLGenerator $urlGenerator,
-		IManager $notificationManager,
-		IUserSession $userSession
+		protected ICommentsManager $commentsManager,
+		protected IRootFolder $rootFolder,
+		protected IURLGenerator $urlGenerator,
+		protected IManager $notificationManager,
+		protected IUserSession $userSession
 	) {
 		parent::__construct($appName, $request);
-		$this->commentsManager = $commentsManager;
-		$this->rootFolder = $rootFolder;
-		$this->urlGenerator = $urlGenerator;
-		$this->notificationManager = $notificationManager;
-		$this->userSession = $userSession;
 	}
 
 	/**
 	 * @PublicPage
 	 * @NoCSRFRequired
+	 *
+	 * View a notification
+	 *
+	 * @param string $id ID of the notification
+	 *
+	 * @return RedirectResponse<Http::STATUS_SEE_OTHER, array{}>|NotFoundResponse<Http::STATUS_NOT_FOUND, array{}>
+	 *
+	 * 303: Redirected to notification
+	 * 404: Notification not found
 	 */
-	public function view(string $id): Response {
+	public function view(string $id): RedirectResponse|NotFoundResponse {
 		$currentUser = $this->userSession->getUser();
 		if (!$currentUser instanceof IUser) {
 			return new RedirectResponse(

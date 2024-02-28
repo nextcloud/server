@@ -38,7 +38,9 @@ use OCA\User_LDAP\Handler\ExtStorageConfigHandler;
 use OCA\User_LDAP\Helper;
 use OCA\User_LDAP\ILDAPWrapper;
 use OCA\User_LDAP\LDAP;
+use OCA\User_LDAP\LoginListener;
 use OCA\User_LDAP\Notification\Notifier;
+use OCA\User_LDAP\SetupChecks\LdapInvalidUuids;
 use OCA\User_LDAP\User\Manager;
 use OCA\User_LDAP\User_Proxy;
 use OCA\User_LDAP\UserPluginManager;
@@ -57,9 +59,9 @@ use OCP\IServerContainer;
 use OCP\IUserManager;
 use OCP\Notification\IManager as INotificationManager;
 use OCP\Share\IManager as IShareManager;
+use OCP\User\Events\PostLoginEvent;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class Application extends App implements IBootstrap {
 	public function __construct() {
@@ -114,13 +116,14 @@ class Application extends App implements IBootstrap {
 			// the instance is specific to a lazy bound Access instance, thus cannot be shared.
 			false
 		);
+		$context->registerEventListener(PostLoginEvent::class, LoginListener::class);
+		$context->registerSetupCheck(LdapInvalidUuids::class);
 	}
 
 	public function boot(IBootContext $context): void {
 		$context->injectFn(function (
 			INotificationManager $notificationManager,
 			IAppContainer $appContainer,
-			EventDispatcherInterface $legacyDispatcher,
 			IEventDispatcher $dispatcher,
 			IGroupManager $groupManager,
 			User_Proxy $userBackend,
@@ -136,7 +139,7 @@ class Application extends App implements IBootstrap {
 				$groupManager->addBackend($groupBackend);
 
 				$userBackendRegisteredEvent = new UserBackendRegistered($userBackend, $userPluginManager);
-				$legacyDispatcher->dispatch('OCA\\User_LDAP\\User\\User::postLDAPBackendAdded', $userBackendRegisteredEvent);
+				$dispatcher->dispatch('OCA\\User_LDAP\\User\\User::postLDAPBackendAdded', $userBackendRegisteredEvent);
 				$dispatcher->dispatchTyped($userBackendRegisteredEvent);
 				$groupBackendRegisteredEvent = new GroupBackendRegistered($groupBackend, $groupPluginManager);
 				$dispatcher->dispatchTyped($groupBackendRegisteredEvent);
@@ -153,7 +156,7 @@ class Application extends App implements IBootstrap {
 		);
 	}
 
-	private function registerBackendDependents(IAppContainer $appContainer, EventDispatcherInterface $dispatcher) {
+	private function registerBackendDependents(IAppContainer $appContainer, IEventDispatcher $dispatcher): void {
 		$dispatcher->addListener(
 			'OCA\\Files_External::loadAdditionalBackends',
 			function () use ($appContainer) {

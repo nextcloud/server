@@ -19,17 +19,16 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import { action } from './sidebarAction'
 import { expect } from '@jest/globals'
-import { File } from '@nextcloud/files'
-import { FileAction } from '../services/FileAction'
-import type { Navigation } from '../services/Navigation'
+import { File, Permission, View, FileAction } from '@nextcloud/files'
+
+import { action } from './sidebarAction'
 import logger from '../logger'
 
 const view = {
 	id: 'files',
 	name: 'Files',
-} as Navigation
+} as View
 
 describe('Open sidebar action conditions tests', () => {
 	test('Default values', () => {
@@ -51,10 +50,27 @@ describe('Open sidebar action enabled tests', () => {
 			source: 'https://cloud.domain.com/remote.php/dav/files/admin/foobar.txt',
 			owner: 'admin',
 			mime: 'text/plain',
+			permissions: Permission.ALL,
 		})
 
 		expect(action.enabled).toBeDefined()
 		expect(action.enabled!([file], view)).toBe(true)
+	})
+
+	test('Disabled without permissions', () => {
+		window.OCA = { Files: { Sidebar: {} } }
+
+		const file = new File({
+			id: 1,
+			source: 'https://cloud.domain.com/remote.php/dav/files/admin/foobar.txt',
+			owner: 'admin',
+			mime: 'text/plain',
+			permissions: Permission.NONE,
+		})
+
+		expect(action.enabled).toBeDefined()
+		expect(action.enabled!([file], view)).toBe(false)
+
 	})
 
 	test('Disabled if more than one node', () => {
@@ -110,6 +126,8 @@ describe('Open sidebar action exec tests', () => {
 	test('Open sidebar', async () => {
 		const openMock = jest.fn()
 		window.OCA = { Files: { Sidebar: { open: openMock } } }
+		const goToRouteMock = jest.fn()
+		window.OCP = { Files: { Router: { goToRoute: goToRouteMock } } }
 
 		const file = new File({
 			id: 1,
@@ -122,6 +140,12 @@ describe('Open sidebar action exec tests', () => {
 		// Silent action
 		expect(exec).toBe(null)
 		expect(openMock).toBeCalledWith('/foobar.txt')
+		expect(goToRouteMock).toBeCalledWith(
+			null,
+			{ view: view.id, fileid: 1 },
+			{ dir: '/' },
+			true,
+		)
 	})
 
 	test('Open sidebar fails', async () => {

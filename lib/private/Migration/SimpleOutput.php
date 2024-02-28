@@ -33,19 +33,21 @@ use Psr\Log\LoggerInterface;
  * @package OC\Migration
  */
 class SimpleOutput implements IOutput {
-	private LoggerInterface $logger;
-	private $appName;
+	public function __construct(
+		private LoggerInterface $logger,
+		private $appName,
+	) {
+	}
 
-	public function __construct(LoggerInterface $logger, $appName) {
-		$this->logger = $logger;
-		$this->appName = $appName;
+	public function debug(string $message): void {
+		$this->logger->debug($message, ['app' => $this->appName]);
 	}
 
 	/**
 	 * @param string $message
 	 * @since 9.1.0
 	 */
-	public function info($message) {
+	public function info($message): void {
 		$this->logger->info($message, ['app' => $this->appName]);
 	}
 
@@ -53,7 +55,7 @@ class SimpleOutput implements IOutput {
 	 * @param string $message
 	 * @since 9.1.0
 	 */
-	public function warning($message) {
+	public function warning($message): void {
 		$this->logger->warning($message, ['app' => $this->appName]);
 	}
 
@@ -61,7 +63,7 @@ class SimpleOutput implements IOutput {
 	 * @param int $max
 	 * @since 9.1.0
 	 */
-	public function startProgress($max = 0) {
+	public function startProgress($max = 0): void {
 	}
 
 	/**
@@ -69,12 +71,12 @@ class SimpleOutput implements IOutput {
 	 * @param string $description
 	 * @since 9.1.0
 	 */
-	public function advance($step = 1, $description = '') {
+	public function advance($step = 1, $description = ''): void {
 	}
 
 	/**
 	 * @since 9.1.0
 	 */
-	public function finishProgress() {
+	public function finishProgress(): void {
 	}
 }

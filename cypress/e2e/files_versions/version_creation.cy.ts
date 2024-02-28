@@ -38,6 +38,7 @@ describe('Versions creation', () => {
 	})
 
 	it('Opens the versions panel and sees the versions', () => {
+		cy.visit('/apps/files')
 		openVersionsPanel(randomFileName)
 
 		cy.get('#tab-version_vue').within(() => {

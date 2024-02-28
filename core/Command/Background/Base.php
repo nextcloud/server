@@ -45,7 +45,7 @@ abstract class Base extends Command {
 		parent::__construct();
 	}
 
-	protected function configure() {
+	protected function configure(): void {
 		$mode = $this->getMode();
 		$this
 			->setName("background:$mode")
@@ -59,6 +59,7 @@ abstract class Base extends Command {
 	 *
 	 * @param InputInterface $input
 	 * @param OutputInterface $output
+	 * @return int
 	 */
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$mode = $this->getMode();

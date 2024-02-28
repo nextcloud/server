@@ -38,15 +38,44 @@ namespace OCP;
 interface GroupInterface {
 	/**
 	 * actions that user backends can define
+	 *
+	 * @since 12.0.0
 	 */
 	public const CREATE_GROUP = 0x00000001;
+
+	/**
+	 * @since 12.0.0
+	 */
 	public const DELETE_GROUP = 0x00000010;
+
+	/**
+	 * @since 12.0.0
+	 */
 	public const ADD_TO_GROUP = 0x00000100;
+
+	/**
+	 * @since 12.0.0
+	 * @deprecated  29.0.0
+	 */
 	public const REMOVE_FROM_GOUP = 0x00001000; // oops
+
+	/**
+	 * @since 12.0.0
+	 */
 	public const REMOVE_FROM_GROUP = 0x00001000;
+
 	//OBSOLETE const GET_DISPLAYNAME	= 0x00010000;
+
+	/**
+	 * @since 12.0.0
+	 */
 	public const COUNT_USERS = 0x00100000;
+
+	/**
+	 * @since 12.0.0
+	 */
 	public const GROUP_DETAILS = 0x01000000;
+
 	/**
 	 * @since 13.0.0
 	 */
@@ -86,7 +115,8 @@ interface GroupInterface {
 	public function getUserGroups($uid);
 
 	/**
-	 * get a list of all groups
+	 * @brief Get a list of all groups
+	 *
 	 * @param string $search
 	 * @param int $limit
 	 * @param int $offset
@@ -98,7 +128,8 @@ interface GroupInterface {
 	public function getGroups(string $search = '', int $limit = -1, int $offset = 0);
 
 	/**
-	 * check if a group exists
+	 * @brief Check if a group exists
+	 *
 	 * @param string $gid
 	 * @return bool
 	 * @since 4.5.0

@@ -21,8 +21,8 @@
 -->
 
 <template>
-	<NcSettingsSection :title="t('sharebymail', 'Share by mail')"
-		:description="t('sharebymail', 'Allows users to share a personalized link to a file or folder by putting in an email address.')">
+	<NcSettingsSection :name="t('sharebymail', 'Share by mail')"
+		:description="t('sharebymail', 'Allows people to share a personalized link to a file or folder by putting in an email address.')">
 		<NcCheckboxRadioSwitch type="switch"
 			:checked.sync="sendPasswordMail"
 			@update:checked="update('sendpasswordmail', sendPasswordMail)">

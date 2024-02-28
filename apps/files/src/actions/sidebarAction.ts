@@ -19,11 +19,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+import { Permission, type Node, View, FileAction, FileType } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 import InformationSvg from '@mdi/svg/svg/information-variant.svg?raw'
-import type { Node } from '@nextcloud/files'
 
-import { registerFileAction, FileAction, DefaultType } from '../services/FileAction'
 import logger from '../logger.js'
 
 export const ACTION_DETAILS = 'details'
@@ -40,18 +39,30 @@ export const action = new FileAction({
 			return false
 		}
 
+		if (!nodes[0]) {
+			return false
+		}
+
 		// Only work if the sidebar is available
 		if (!window?.OCA?.Files?.Sidebar) {
 			return false
 		}
 
-		return nodes[0].root?.startsWith('/files/') ?? false
+		return (nodes[0].root?.startsWith('/files/') && nodes[0].permissions !== Permission.NONE) ?? false
 	},
 
-	async exec(node: Node) {
+	async exec(node: Node, view: View, dir: string) {
 		try {
 			// TODO: migrate Sidebar to use a Node instead
-			window?.OCA?.Files?.Sidebar?.open?.(node.path)
+			await window.OCA.Files.Sidebar.open(node.path)
+
+			// Silently update current fileid
+			window.OCP.Files.Router.goToRoute(
+				null,
+				{ view: view.id, fileid: node.fileid },
+				{ dir },
+				true,
+			)
 
 			return null
 		} catch (error) {
@@ -62,5 +73,3 @@ export const action = new FileAction({
 
 	order: -50,
 })
-
-registerFileAction(action)

@@ -54,9 +54,9 @@ class VersionParser {
 		// Count the amount of =, if it is one then it's either maximum or minimum
 		// version. If it is two then it is maximum and minimum.
 		$versionElements = explode(' ', $versionSpec);
-		$firstVersion = isset($versionElements[0]) ? $versionElements[0] : '';
+		$firstVersion = $versionElements[0] ?? '';
 		$firstVersionNumber = substr($firstVersion, 2);
-		$secondVersion = isset($versionElements[1]) ? $versionElements[1] : '';
+		$secondVersion = $versionElements[1] ?? '';
 		$secondVersionNumber = substr($secondVersion, 2);
 
 		switch (count($versionElements)) {

@@ -31,19 +31,19 @@ use OCP\BackgroundJob\IJob;
 use OCP\BackgroundJob\TimedJob;
 
 class CleanupJob extends TimedJob {
-	private RecentContactMapper $mapper;
 
-	public function __construct(ITimeFactory $time,
-								RecentContactMapper $mapper) {
+	public function __construct(
+		ITimeFactory $time,
+		private RecentContactMapper $mapper,
+	) {
 		parent::__construct($time);
 
 		$this->setInterval(24 * 60 * 60);
 		$this->setTimeSensitivity(IJob::TIME_INSENSITIVE);
 
-		$this->mapper = $mapper;
 	}
 
-	protected function run($argument) {
+	protected function run(mixed $argument): void {
 		$time = $this->time->getDateTime();
 		$time->modify('-7days');
 		$this->mapper->cleanUp($time->getTimestamp());

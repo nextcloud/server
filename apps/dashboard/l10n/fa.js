@@ -10,6 +10,7 @@ OC.L10N.register(
     "Weather service" : "خدمت هواشناسی",
     "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "برای محرمانگیتان، داده‌های آب و هوا از طرف کارساز نکست‌کلودتان درخواست می‌شود تا خدمت آب و هوا هیچ اطّلاعات شخصی‌ای دریافت نکند.",
     "Weather data from Met.no" : "اطلاعات هواشناسی از Met.no",
+    "geocoding with Nominatim" : "geocoding with Nominatim",
     "elevation data from OpenTopoData" : "داده‌های ارتفاع از OpenTopoData",
     "Weather" : "آب و هوا",
     "Status" : "وضعیت",
@@ -20,6 +21,8 @@ OC.L10N.register(
     "Good evening" : "عصر به خیر",
     "Good evening, {name}" : "{name} عصر به خیر",
     "Hello" : "درود",
-    "Hello, {name}" : "درود {name}"
+    "Hello, {name}" : "درود {name}",
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an\noverview of your upcoming appointments, urgent emails, chat messages,\nincoming tickets, latest tweets and much more! Users can add the widgets\nthey like and change the background to their liking." : "روز خود را آگاهانه شروع کنید\n\nداشبورد Nextcloud نقطه شروع روز شماست که به شما این امکان را می دهد\nمروری بر قرارهای آینده، ایمیل‌های فوری، پیام‌های چت،\nبلیط های ورودی، آخرین توییت ها و خیلی بیشتر! کاربران می توانند ویجت ها را اضافه کنند\nدوست دارند و پس زمینه را به دلخواه تغییر می دهند.",
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! Users can add the widgets they like and change the background to their liking." : "روز خود را آگاهانه شروع کنید\n\nداشبورد Nextcloud نقطه شروع روز شماست و به شما یک نمای کلی از قرارهای ملاقات آینده، ایمیل‌های فوری، پیام‌های چت، بلیط‌های دریافتی، آخرین توییت‌ها و موارد دیگر را در اختیار شما قرار می‌دهد. کاربران می توانند ویجت هایی را که دوست دارند اضافه کنند و پس زمینه را به دلخواه خود تغییر دهند."
 },
 "nplurals=2; plural=(n > 1);");

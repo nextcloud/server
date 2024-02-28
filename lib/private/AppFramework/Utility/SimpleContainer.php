@@ -37,8 +37,8 @@ use Pimple\Container;
 use Psr\Container\ContainerInterface;
 use ReflectionClass;
 use ReflectionException;
-use ReflectionParameter;
 use ReflectionNamedType;
+use ReflectionParameter;
 use function class_exists;
 
 /**
@@ -59,7 +59,6 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 	 * @psalm-template S as class-string<T>|string
 	 * @psalm-param S $id
 	 * @psalm-return (S is class-string<T> ? T : mixed)
-	 * @throws QueryException
 	 */
 	public function get(string $id) {
 		return $this->query($id);
@@ -106,6 +105,11 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 					try {
 						return $this->query($resolveName);
 					} catch (QueryException $e2) {
+						// Pass null if typed and nullable
+						if ($parameter->allowsNull() && ($parameterType instanceof ReflectionNamedType)) {
+							return null;
+						}
+
 						// don't lose the error we got while trying to query by type
 						throw new QueryException($e->getMessage(), (int) $e->getCode(), $e);
 					}

@@ -31,17 +31,15 @@ namespace OC\App;
 
 use OCP\ICache;
 use function libxml_disable_entity_loader;
-use function simplexml_load_file;
+use function simplexml_load_string;
 
 class InfoParser {
-	/** @var \OCP\ICache|null */
-	private $cache;
-
 	/**
 	 * @param ICache|null $cache
 	 */
-	public function __construct(ICache $cache = null) {
-		$this->cache = $cache;
+	public function __construct(
+		private ?ICache $cache = null,
+	) {
 	}
 
 	/**
@@ -63,10 +61,10 @@ class InfoParser {
 		libxml_use_internal_errors(true);
 		if ((PHP_VERSION_ID < 80000)) {
 			$loadEntities = libxml_disable_entity_loader(false);
-			$xml = simplexml_load_file($file);
+			$xml = simplexml_load_string(file_get_contents($file));
 			libxml_disable_entity_loader($loadEntities);
 		} else {
-			$xml = simplexml_load_file($file);
+			$xml = simplexml_load_string(file_get_contents($file));
 		}
 
 		if ($xml === false) {

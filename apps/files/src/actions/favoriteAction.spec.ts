@@ -19,25 +19,23 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import * as favoriteAction from './favoriteAction'
 import { action } from './favoriteAction'
 import { expect } from '@jest/globals'
-import { File, Folder, Permission } from '@nextcloud/files'
-import { FileAction } from '../services/FileAction'
+import { File, Permission, View, FileAction } from '@nextcloud/files'
 import * as eventBus from '@nextcloud/event-bus'
+import * as favoriteAction from './favoriteAction'
 import axios from '@nextcloud/axios'
-import type { Navigation } from '../services/Navigation'
 import logger from '../logger'
 
 const view = {
 	id: 'files',
 	name: 'Files',
-} as Navigation
+} as View
 
 const favoriteView = {
 	id: 'favorites',
 	name: 'Favorites',
-} as Navigation
+} as View
 
 global.window.OC = {
 	TAG_FAVORITE: '_$!<Favorite>!$_',
@@ -120,6 +118,7 @@ describe('Favorite action enabled tests', () => {
 			source: 'https://cloud.domain.com/remote.php/dav/files/admin/foobar.txt',
 			owner: 'admin',
 			mime: 'text/plain',
+			permissions: Permission.ALL,
 		})
 
 		expect(action.enabled).toBeDefined()

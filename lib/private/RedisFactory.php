@@ -59,17 +59,8 @@ class RedisFactory {
 			throw new \Exception('Redis Cluster support is not available');
 		}
 
-		if (isset($config['timeout'])) {
-			$timeout = $config['timeout'];
-		} else {
-			$timeout = 0.0;
-		}
-
-		if (isset($config['read_timeout'])) {
-			$readTimeout = $config['read_timeout'];
-		} else {
-			$readTimeout = 0.0;
-		}
+		$timeout = $config['timeout'] ?? 0.0;
+		$readTimeout = $config['read_timeout'] ?? 0.0;
 
 		$auth = null;
 		if (isset($config['password']) && (string)$config['password'] !== '') {
@@ -103,19 +94,8 @@ class RedisFactory {
 		} else {
 			$this->instance = new \Redis();
 
-			if (isset($config['host'])) {
-				$host = $config['host'];
-			} else {
-				$host = '127.0.0.1';
-			}
-
-			if (isset($config['port'])) {
-				$port = $config['port'];
-			} elseif ($host[0] !== '/') {
-				$port = 6379;
-			} else {
-				$port = null;
-			}
+			$host = $config['host'] ?? '127.0.0.1';
+			$port = $config['port'] ?? ($host[0] !== '/' ? 6379 : null);
 
 			$this->eventLogger->start('connect:redis', 'Connect to redis and send AUTH, SELECT');
 			// Support for older phpredis versions not supporting connectionParameters

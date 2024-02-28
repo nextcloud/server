@@ -8,6 +8,7 @@
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -29,6 +30,9 @@ namespace OC\Core\Controller;
 
 use OC\CapabilitiesManager;
 use OC\Security\IdentityProof\Manager;
+use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\ApiRoute;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\IRequest;
 use OCP\IUserManager;
@@ -49,6 +53,8 @@ class OCSController extends \OCP\AppFramework\OCSController {
 	/**
 	 * @PublicPage
 	 */
+	#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
+	#[ApiRoute(verb: 'GET', url: '/config', root: '')]
 	public function getConfig(): DataResponse {
 		$data = [
 			'version' => '1.7',
@@ -63,14 +69,21 @@ class OCSController extends \OCP\AppFramework\OCSController {
 
 	/**
 	 * @PublicPage
+	 *
+	 * Get the capabilities
+	 *
+	 * @return DataResponse<Http::STATUS_OK, array{version: array{major: int, minor: int, micro: int, string: string, edition: '', extendedSupport: bool}, capabilities: array<string, mixed>}, array{}>
+	 *
+	 * 200: Capabilities returned
 	 */
+	#[ApiRoute(verb: 'GET', url: '/capabilities', root: '/cloud')]
 	public function getCapabilities(): DataResponse {
 		$result = [];
 		[$major, $minor, $micro] = \OCP\Util::getVersion();
 		$result['version'] = [
-			'major' => $major,
-			'minor' => $minor,
-			'micro' => $micro,
+			'major' => (int)$major,
+			'minor' => (int)$minor,
+			'micro' => (int)$micro,
 			'string' => \OC_Util::getVersionString(),
 			'edition' => '',
 			'extendedSupport' => \OCP\Util::hasExtendedSupport()
@@ -91,6 +104,8 @@ class OCSController extends \OCP\AppFramework\OCSController {
 	 * @PublicPage
 	 * @BruteForceProtection(action=login)
 	 */
+	#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
+	#[ApiRoute(verb: 'POST', url: '/check', root: '/person')]
 	public function personCheck(string $login = '', string $password = ''): DataResponse {
 		if ($login !== '' && $password !== '') {
 			if ($this->userManager->checkPassword($login, $password)) {
@@ -111,6 +126,8 @@ class OCSController extends \OCP\AppFramework\OCSController {
 	/**
 	 * @PublicPage
 	 */
+	#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
+	#[ApiRoute(verb: 'GET', url: '/key/{cloudId}', root: '/identityproof')]
 	public function getIdentityProof(string $cloudId): DataResponse {
 		$userObject = $this->userManager->get($cloudId);
 
@@ -122,6 +139,6 @@ class OCSController extends \OCP\AppFramework\OCSController {
 			return new DataResponse($data);
 		}
 
-		return new DataResponse(['User not found'], 404);
+		return new DataResponse(['Account not found'], 404);
 	}
 }

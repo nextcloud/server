@@ -70,10 +70,10 @@ class URLGenerator implements IURLGenerator {
 	private ?IAppManager $appManager = null;
 
 	public function __construct(IConfig $config,
-								IUserSession $userSession,
-								ICacheFactory $cacheFactory,
-								IRequest $request,
-								Router $router
+		IUserSession $userSession,
+		ICacheFactory $cacheFactory,
+		IRequest $request,
+		Router $router
 	) {
 		$this->config = $config;
 		$this->userSession = $userSession;
@@ -116,16 +116,25 @@ class URLGenerator implements IURLGenerator {
 	}
 
 	public function linkToOCSRouteAbsolute(string $routeName, array $arguments = []): string {
+		// Returns `/subfolder/index.php/ocsapp/…` with `'htaccess.IgnoreFrontController' => false` in config.php
+		// And `/subfolder/ocsapp/…` with `'htaccess.IgnoreFrontController' => true` in config.php
 		$route = $this->router->generate('ocs.'.$routeName, $arguments, false);
 
-		$indexPhpPos = strpos($route, '/index.php/');
-		if ($indexPhpPos !== false) {
-			$route = substr($route, $indexPhpPos + 10);
+		// Cut off `/subfolder`
+		if (\OC::$WEBROOT !== '' && str_starts_with($route, \OC::$WEBROOT)) {
+			$route = substr($route, \strlen(\OC::$WEBROOT));
 		}
 
+		if (str_starts_with($route, '/index.php/')) {
+			$route = substr($route, 10);
+		}
+
+		// Remove `ocsapp/` bit
 		$route = substr($route, 7);
+		// Prefix with ocs/v2.php endpoint
 		$route = '/ocs/v2.php' . $route;
 
+		// Turn into an absolute URL
 		return $this->getAbsoluteURL($route);
 	}
 
@@ -147,7 +156,7 @@ class URLGenerator implements IURLGenerator {
 			$app_path = $this->getAppManager()->getAppPath($appName);
 			// Check if the app is in the app folder
 			if (file_exists($app_path . '/' . $file)) {
-				if (substr($file, -3) === 'php') {
+				if (str_ends_with($file, 'php')) {
 					$urlLinkTo = \OC::$WEBROOT . '/index.php/apps/' . $appName;
 					if ($frontControllerActive) {
 						$urlLinkTo = \OC::$WEBROOT . '/apps/' . $appName;

@@ -61,6 +61,9 @@ OC.L10N.register(
     "Your password will expire today." : "Ваша лозинка ће истећи данас.",
     "_Your password will expire within %n day._::_Your password will expire within %n days._" : ["Ваша лозинка ће истећи за %n дан.","Ваша лозинка ће истећи за %n дана.","Ваша лозинка ће истећи за %n дана."],
     "LDAP/AD integration" : "LDAP/AD интеграција",
+    "Invalid LDAP UUIDs" : "Неисправни LDAP UUID идентификатори",
+    "None found" : "Није пронађен ниједан",
+    "Invalid UUIDs of LDAP accounts or groups have been found. Please review your \"Override UUID detection\" settings in the Expert part of the LDAP configuration and use \"occ ldap:update-uuid\" to update them." : "Пронађени су неисправни UUID бројеви LDAP налога или група. Молимо вас да ревидирате своја „Премости UUID детекцију\" подешавања у Експерт делу LDAP конфигурације и употребите „occ ldap:update-uuid” да их ажурирате.",
     "_%n group found_::_%n groups found_" : ["пронађена је %n група","пронађене су %n групе","пронађено је %n група"],
     "> 1000 groups found" : "пронађено је >1000 група",
     "> 1000 users found" : "пронаћено је > 1000 корисника",
@@ -214,6 +217,7 @@ OC.L10N.register(
     "Username-LDAP User Mapping" : "Username-LDAP мапирање корисника",
     "Usernames are used to store and assign metadata. In order to precisely identify and recognize users, each LDAP user will have an internal username. This requires a mapping from username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found. The internal username is used all over. Clearing the mappings will have leftovers everywhere. Clearing the mappings is not configuration sensitive, it affects all LDAP configurations! Never clear the mappings in a production environment, only in a testing or experimental stage." : "Корисничка имена се користи за чување и додељивање метаподатака. Да би се прецизно идентификовали и препознавали кориснике, сваки LDAP корисник ће имати локално корисничко име. Ово захтева мапирање од корисничког имена до LDAP корисника. Креирано корисничко име се мапира у UUID LDAP корисника. Поред тога, DN се кешира да смањи LDAP интеракцију, али се не користи за идентификацију. Ако се DN мења, промене се могу наћи. Локално корисничко име се користи свуда. Чишћење мапирања оставља свуда остатке. Чишћење мапирања није осетљиво на конфигурацију, оно утиче на све LDAP конфигурације!  Никада не користит чишћење мапирања у радном окружењу, већ само у тестирању или експерименталној фази.",
     "Clear Username-LDAP User Mapping" : "Очисти Username-LDAP мапирање корисника",
-    "Clear Groupname-LDAP Group Mapping" : "Очисти Groupname-LDAP мапирање група"
+    "Clear Groupname-LDAP Group Mapping" : "Очисти Groupname-LDAP мапирање група",
+    "Invalid UUIDs of LDAP users or groups have been found. Please review your \"Override UUID detection\" settings in the Expert part of the LDAP configuration and use \"occ ldap:update-uuid\" to update them." : "Пронађени су неисправни UUID бројеви LDAP корисника или група. Молимо вас да ревидирате своја „Премости UUID детекцију\" подешавања у Експерт делу LDAP конфигурације и употребите „occ ldap:update-uuid” да их ажурирате."
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

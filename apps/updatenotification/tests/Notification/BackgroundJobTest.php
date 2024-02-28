@@ -32,7 +32,6 @@ use OC\Updater\VersionCheck;
 use OCA\UpdateNotification\Notification\BackgroundJob;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Utility\ITimeFactory;
-use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IGroupManager;
@@ -51,12 +50,12 @@ class BackgroundJobTest extends TestCase {
 	protected $groupManager;
 	/** @var IAppManager|MockObject */
 	protected $appManager;
-	/** @var IClientService|MockObject */
-	protected $client;
-	/** @var Installer|MockObject */
-	protected $installer;
 	/** @var ITimeFactory|MockObject */
 	protected $timeFactory;
+	/** @var Installer|MockObject */
+	protected $installer;
+	/** @var VersionCheck|MockObject */
+	protected $versionCheck;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -65,9 +64,9 @@ class BackgroundJobTest extends TestCase {
 		$this->notificationManager = $this->createMock(IManager::class);
 		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->appManager = $this->createMock(IAppManager::class);
-		$this->client = $this->createMock(IClientService::class);
-		$this->installer = $this->createMock(Installer::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
+		$this->installer = $this->createMock(Installer::class);
+		$this->versionCheck = $this->createMock(VersionCheck::class);
 	}
 
 	/**
@@ -82,8 +81,8 @@ class BackgroundJobTest extends TestCase {
 				$this->notificationManager,
 				$this->groupManager,
 				$this->appManager,
-				$this->client,
-				$this->installer
+				$this->installer,
+				$this->versionCheck,
 			);
 		}
 		{
@@ -94,8 +93,8 @@ class BackgroundJobTest extends TestCase {
 					$this->notificationManager,
 					$this->groupManager,
 					$this->appManager,
-					$this->client,
 					$this->installer,
+					$this->versionCheck,
 				])
 				->setMethods($methods)
 				->getMock();
@@ -113,9 +112,34 @@ class BackgroundJobTest extends TestCase {
 		$job->expects($this->once())
 			->method('checkAppUpdates');
 
+		$this->config->expects($this->exactly(2))
+			->method('getSystemValueBool')
+			->withConsecutive(
+				['has_internet_connection', true],
+				['debug', false],
+			)
+			->willReturnOnConsecutiveCalls(
+				true,
+				true,
+			);
+
+		self::invokePrivate($job, 'run', [null]);
+	}
+
+	public function testRunNoInternet() {
+		$job = $this->getJob([
+			'checkCoreUpdate',
+			'checkAppUpdates',
+		]);
+
+		$job->expects($this->never())
+			->method('checkCoreUpdate');
+		$job->expects($this->never())
+			->method('checkAppUpdates');
+
 		$this->config->method('getSystemValueBool')
-			->with('debug', false)
-			->willReturn(true);
+			->with('has_internet_connection', true)
+			->willReturn(false);
 
 		self::invokePrivate($job, 'run', [null]);
 	}
@@ -160,7 +184,6 @@ class BackgroundJobTest extends TestCase {
 	public function testCheckCoreUpdate(string $channel, $versionCheck, $version, $readableVersion, $errorDays) {
 		$job = $this->getJob([
 			'getChannel',
-			'createVersionCheck',
 			'createNotifications',
 			'clearErrorNotifications',
 			'sendErrorNotifications',
@@ -171,17 +194,12 @@ class BackgroundJobTest extends TestCase {
 			->willReturn($channel);
 
 		if ($versionCheck === null) {
-			$job->expects($this->never())
-				->method('createVersionCheck');
+			$this->versionCheck->expects($this->never())
+				->method('check');
 		} else {
-			$check = $this->createMock(VersionCheck::class);
-			$check->expects($this->once())
+			$this->versionCheck->expects($this->once())
 				->method('check')
 				->willReturn($versionCheck);
-
-			$job->expects($this->once())
-				->method('createVersionCheck')
-				->willReturn($check);
 		}
 
 		if ($version === null) {

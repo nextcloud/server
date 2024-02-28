@@ -27,37 +27,23 @@ namespace OCA\User_LDAP\Tests\Migration;
 use OCA\User_LDAP\Access;
 use OCA\User_LDAP\Helper;
 use OCA\User_LDAP\LDAP;
-use OCA\User_LDAP\Mapping\GroupMapping;
-use OCA\User_LDAP\Mapping\UserMapping;
-use OCA\User_LDAP\Migration\UUIDFixUser;
-use OCA\User_LDAP\User_Proxy;
+use OCA\User_LDAP\Mapping\AbstractMapping;
+use OCA\User_LDAP\Migration\UUIDFix;
+use OCA\User_LDAP\Proxy;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
 use Test\TestCase;
 
 abstract class AbstractUUIDFixTest extends TestCase {
-	/** @var  Helper|\PHPUnit\Framework\MockObject\MockObject */
-	protected $helper;
-
-	/** @var  IConfig|\PHPUnit\Framework\MockObject\MockObject */
-	protected $config;
-
-	/** @var  LDAP|\PHPUnit\Framework\MockObject\MockObject */
-	protected $ldap;
-
-	/** @var  UserMapping|GroupMapping|\PHPUnit\Framework\MockObject\MockObject */
-	protected $mapper;
-
-	/** @var  UUIDFixUser */
-	protected $job;
-
-	/** @var  User_Proxy|\PHPUnit\Framework\MockObject\MockObject */
-	protected $proxy;
-
-	/** @var  Access|\PHPUnit\Framework\MockObject\MockObject */
-	protected $access;
-
-	/** @var bool */
-	protected $isUser = true;
+	protected Helper $helper;
+	protected IConfig $config;
+	protected LDAP $ldap;
+	protected AbstractMapping $mapper;
+	protected UUIDFix $job;
+	protected Proxy $proxy;
+	protected Access $access;
+	protected ITimeFactory $time;
+	protected bool $isUser = true;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -65,6 +51,7 @@ abstract class AbstractUUIDFixTest extends TestCase {
 		$this->ldap = $this->createMock(LDAP::class);
 		$this->config = $this->createMock(IConfig::class);
 		$this->access = $this->createMock(Access::class);
+		$this->time = $this->createMock(ITimeFactory::class);
 
 		$this->helper = $this->createMock(Helper::class);
 		$this->helper->expects($this->any())
@@ -74,7 +61,7 @@ abstract class AbstractUUIDFixTest extends TestCase {
 	}
 
 	protected function instantiateJob($className) {
-		$this->job = new $className($this->mapper, $this->proxy);
+		$this->job = new $className($this->time, $this->mapper, $this->proxy);
 		$this->proxy->expects($this->any())
 			->method('getLDAPAccess')
 			->willReturn($this->access);

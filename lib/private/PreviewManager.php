@@ -46,7 +46,6 @@ use OCP\IConfig;
 use OCP\IPreview;
 use OCP\IServerContainer;
 use OCP\Preview\IProviderV2;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use function array_key_exists;
 
 class PreviewManager implements IPreview {
@@ -54,7 +53,6 @@ class PreviewManager implements IPreview {
 	protected IRootFolder $rootFolder;
 	protected IAppData $appData;
 	protected IEventDispatcher $eventDispatcher;
-	protected EventDispatcherInterface $legacyEventDispatcher;
 	private ?Generator $generator = null;
 	private GeneratorHelper $helper;
 	protected bool $providerListDirty = false;
@@ -81,7 +79,6 @@ class PreviewManager implements IPreview {
 		IRootFolder              $rootFolder,
 		IAppData                 $appData,
 		IEventDispatcher 		 $eventDispatcher,
-		EventDispatcherInterface $legacyEventDispatcher,
 		GeneratorHelper          $helper,
 		?string                  $userId,
 		Coordinator              $bootstrapCoordinator,
@@ -93,7 +90,6 @@ class PreviewManager implements IPreview {
 		$this->rootFolder = $rootFolder;
 		$this->appData = $appData;
 		$this->eventDispatcher = $eventDispatcher;
-		$this->legacyEventDispatcher = $legacyEventDispatcher;
 		$this->helper = $helper;
 		$this->userId = $userId;
 		$this->bootstrapCoordinator = $bootstrapCoordinator;
@@ -161,7 +157,6 @@ class PreviewManager implements IPreview {
 					$this->rootFolder,
 					$this->config
 				),
-				$this->legacyEventDispatcher,
 				$this->eventDispatcher
 			);
 		}
@@ -371,7 +366,7 @@ class PreviewManager implements IPreview {
 		$this->registerCoreProvider(Preview\OpenDocument::class, '/application\/vnd.oasis.opendocument.*/');
 		$this->registerCoreProvider(Preview\Imaginary::class, Preview\Imaginary::supportedMimeTypes());
 
-		// SVG, Office and Bitmap require imagick
+		// SVG and Bitmap require imagick
 		if ($this->imagickSupport->hasExtension()) {
 			$imagickProviders = [
 				'SVG' => ['mimetype' => '/image\/svg\+xml/', 'class' => Preview\SVG::class],
@@ -396,26 +391,9 @@ class PreviewManager implements IPreview {
 					$this->registerCoreProvider($class, $provider['mimetype']);
 				}
 			}
-
-			if ($this->imagickSupport->supportsFormat('PDF')) {
-				// Office requires openoffice or libreoffice
-				$officeBinary = $this->config->getSystemValue('preview_libreoffice_path', null);
-				if (!is_string($officeBinary)) {
-					$officeBinary = $this->binaryFinder->findBinaryPath('libreoffice');
-				}
-				if (!is_string($officeBinary)) {
-					$officeBinary = $this->binaryFinder->findBinaryPath('openoffice');
-				}
-
-				if (is_string($officeBinary)) {
-					$this->registerCoreProvider(Preview\MSOfficeDoc::class, '/application\/msword/', ["officeBinary" => $officeBinary]);
-					$this->registerCoreProvider(Preview\MSOffice2003::class, '/application\/vnd.ms-.*/', ["officeBinary" => $officeBinary]);
-					$this->registerCoreProvider(Preview\MSOffice2007::class, '/application\/vnd.openxmlformats-officedocument.*/', ["officeBinary" => $officeBinary]);
-					$this->registerCoreProvider(Preview\OpenDocument::class, '/application\/vnd.oasis.opendocument.*/', ["officeBinary" => $officeBinary]);
-					$this->registerCoreProvider(Preview\StarOffice::class, '/application\/vnd.sun.xml.*/', ["officeBinary" => $officeBinary]);
-				}
-			}
 		}
+
+		$this->registerCoreProvidersOffice();
 
 		// Video requires avconv or ffmpeg
 		if (in_array(Preview\Movie::class, $this->getEnabledDefaultProvider())) {
@@ -430,6 +408,43 @@ class PreviewManager implements IPreview {
 
 			if (is_string($movieBinary)) {
 				$this->registerCoreProvider(Preview\Movie::class, '/video\/.*/', ["movieBinary" => $movieBinary]);
+			}
+		}
+	}
+
+	private function registerCoreProvidersOffice(): void {
+		$officeProviders = [
+			['mimetype' => '/application\/msword/', 'class' => Preview\MSOfficeDoc::class],
+			['mimetype' => '/application\/vnd.ms-.*/', 'class' => Preview\MSOffice2003::class],
+			['mimetype' => '/application\/vnd.openxmlformats-officedocument.*/', 'class' => Preview\MSOffice2007::class],
+			['mimetype' => '/application\/vnd.oasis.opendocument.*/', 'class' => Preview\OpenDocument::class],
+			['mimetype' => '/application\/vnd.sun.xml.*/', 'class' => Preview\StarOffice::class],
+			['mimetype' => '/image\/emf/', 'class' => Preview\EMF::class],
+		];
+
+		$findBinary = true;
+		$officeBinary = false;
+
+		foreach ($officeProviders as $provider) {
+			$class = $provider['class'];
+			if (!in_array(trim($class, '\\'), $this->getEnabledDefaultProvider())) {
+				continue;
+			}
+
+			if ($findBinary) {
+				// Office requires openoffice or libreoffice
+				$officeBinary = $this->config->getSystemValue('preview_libreoffice_path', false);
+				if ($officeBinary === false) {
+					$officeBinary = $this->binaryFinder->findBinaryPath('libreoffice');
+				}
+				if ($officeBinary === false) {
+					$officeBinary = $this->binaryFinder->findBinaryPath('openoffice');
+				}
+				$findBinary = false;
+			}
+
+			if ($officeBinary) {
+				$this->registerCoreProvider($class, $provider['mimetype'], ['officeBinary' => $officeBinary]);
 			}
 		}
 	}

@@ -43,6 +43,7 @@
 namespace OC\Files\Storage;
 
 use OC\Files\Cache\Cache;
+use OC\Files\Cache\CacheDependencies;
 use OC\Files\Cache\Propagator;
 use OC\Files\Cache\Scanner;
 use OC\Files\Cache\Updater;
@@ -61,8 +62,10 @@ use OCP\Files\ReservedWordException;
 use OCP\Files\Storage\ILockingStorage;
 use OCP\Files\Storage\IStorage;
 use OCP\Files\Storage\IWriteStreamStorage;
+use OCP\Files\StorageNotAvailableException;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -338,12 +341,20 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 		return $this->filemtime($path) > $time;
 	}
 
+	protected function getCacheDependencies(): CacheDependencies {
+		static $dependencies = null;
+		if (!$dependencies) {
+			$dependencies = Server::get(CacheDependencies::class);
+		}
+		return $dependencies;
+	}
+
 	public function getCache($path = '', $storage = null) {
 		if (!$storage) {
 			$storage = $this;
 		}
 		if (!isset($storage->cache)) {
-			$storage->cache = new Cache($storage);
+			$storage->cache = new Cache($storage, $this->getCacheDependencies());
 		}
 		return $storage->cache;
 	}
@@ -398,13 +409,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 	}
 
 	public function getStorageCache($storage = null) {
-		if (!$storage) {
-			$storage = $this;
-		}
-		if (!isset($this->storageCache)) {
-			$this->storageCache = new \OC\Files\Cache\Storage($storage);
-		}
-		return $this->storageCache;
+		return $this->getCache($storage)->getStorageCache();
 	}
 
 	/**
@@ -601,7 +606,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 	 * @return mixed
 	 */
 	public function getMountOption($name, $default = null) {
-		return isset($this->mountOptions[$name]) ? $this->mountOptions[$name] : $default;
+		return $this->mountOptions[$name] ?? $default;
 	}
 
 	/**
@@ -894,6 +899,11 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 
 	public function getDirectoryContent($directory): \Traversable {
 		$dh = $this->opendir($directory);
+
+		if ($dh === false) {
+			throw new StorageNotAvailableException('Directory listing failed');
+		}
+
 		if (is_resource($dh)) {
 			$basePath = rtrim($directory, '/');
 			while (($file = readdir($dh)) !== false) {

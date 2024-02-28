@@ -95,7 +95,7 @@ export default {
 	display: flex;
 	flex-direction: column;
 	position: relative;
-	width: 290px;
+	width: min(100%, 290px);
 	height: 116px;
 	margin: 14px auto;
 	border-radius: var(--border-radius-large);
@@ -162,7 +162,6 @@ export default {
 		height: 70px;
 		border-radius: var(--border-radius-large) var(--border-radius-large) 0 0;
 		background-color: var(--color-primary-element);
-		background-image: var(--gradient-primary-background);
 
 		span {
 			bottom: 0;

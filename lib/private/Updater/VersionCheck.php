@@ -28,23 +28,19 @@ namespace OC\Updater;
 
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
+use OCP\IUserManager;
+use OCP\Support\Subscription\IRegistry;
 use OCP\Util;
+use Psr\Log\LoggerInterface;
 
 class VersionCheck {
-	/** @var IClientService */
-	private $clientService;
-
-	/** @var IConfig */
-	private $config;
-
-	/**
-	 * @param IClientService $clientService
-	 * @param IConfig $config
-	 */
-	public function __construct(IClientService $clientService,
-								IConfig $config) {
-		$this->clientService = $clientService;
-		$this->config = $config;
+	public function __construct(
+		private IClientService $clientService,
+		private IConfig $config,
+		private IUserManager $userManager,
+		private IRegistry $registry,
+		private LoggerInterface $logger,
+	) {
 	}
 
 
@@ -81,6 +77,8 @@ class VersionCheck {
 		$version['php_major'] = PHP_MAJOR_VERSION;
 		$version['php_minor'] = PHP_MINOR_VERSION;
 		$version['php_release'] = PHP_RELEASE_VERSION;
+		$version['category'] = $this->computeCategory();
+		$version['isSubscriber'] = (int) $this->registry->delegateHasValidSubscription();
 		$versionString = implode('x', $version);
 
 		//fetch xml data from updater
@@ -90,6 +88,8 @@ class VersionCheck {
 		try {
 			$xml = $this->getUrlContent($url);
 		} catch (\Exception $e) {
+			$this->logger->info('Version could not be fetched from updater server: ' . $url, ['exception' => $e]);
+
 			return false;
 		}
 
@@ -127,7 +127,30 @@ class VersionCheck {
 	 */
 	protected function getUrlContent($url) {
 		$client = $this->clientService->newClient();
-		$response = $client->get($url);
+		$response = $client->get($url, [
+			'timeout' => 5,
+		]);
 		return $response->getBody();
+	}
+
+	private function computeCategory(): int {
+		$categoryBoundaries = [
+			100,
+			500,
+			1000,
+			5000,
+			10000,
+			100000,
+			1000000,
+		];
+
+		$nbUsers = $this->userManager->countSeenUsers();
+		foreach ($categoryBoundaries as $categoryId => $boundary) {
+			if ($nbUsers <= $boundary) {
+				return $categoryId;
+			}
+		}
+
+		return count($categoryBoundaries);
 	}
 }

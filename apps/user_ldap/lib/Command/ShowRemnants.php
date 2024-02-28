@@ -36,23 +36,14 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class ShowRemnants extends Command {
-	/** @var \OCA\User_LDAP\User\DeletedUsersIndex */
-	protected $dui;
-
-	/** @var \OCP\IDateTimeFormatter */
-	protected $dateFormatter;
-
-	/**
-	 * @param DeletedUsersIndex $dui
-	 * @param IDateTimeFormatter $dateFormatter
-	 */
-	public function __construct(DeletedUsersIndex $dui, IDateTimeFormatter $dateFormatter) {
-		$this->dui = $dui;
-		$this->dateFormatter = $dateFormatter;
+	public function __construct(
+		protected DeletedUsersIndex $dui,
+		protected IDateTimeFormatter $dateFormatter,
+	) {
 		parent::__construct();
 	}
 
-	protected function configure() {
+	protected function configure(): void {
 		$this
 			->setName('ldap:show-remnants')
 			->setDescription('shows which users are not available on LDAP anymore, but have remnants in Nextcloud.')
@@ -60,7 +51,7 @@ class ShowRemnants extends Command {
 			->addOption('short-date', null, InputOption::VALUE_NONE, 'show dates in Y-m-d format');
 	}
 
-	protected function formatDate(int $timestamp, string $default, bool $showShortDate) {
+	protected function formatDate(int $timestamp, string $default, bool $showShortDate): string {
 		if (!($timestamp > 0)) {
 			return $default;
 		}
@@ -103,6 +94,6 @@ class ShowRemnants extends Command {
 			$table->setRows($rows);
 			$table->render();
 		}
-		return 0;
+		return self::SUCCESS;
 	}
 }

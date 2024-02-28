@@ -36,8 +36,8 @@ use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IUserSession;
-use Sabre\CardDAV\Backend\SyncSupport;
 use Sabre\CardDAV\Backend\BackendInterface;
+use Sabre\CardDAV\Backend\SyncSupport;
 use Sabre\CardDAV\Card;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\NotFound;
@@ -122,7 +122,7 @@ class SystemAddressbook extends AddressBook {
 		$children = parent::getChildren();
 		return array_filter($children, function (Card $child) {
 			// check only for URIs that begin with Guests:
-			return strpos($child->getName(), 'Guests:') !== 0;
+			return !str_starts_with($child->getName(), 'Guests:');
 		});
 	}
 

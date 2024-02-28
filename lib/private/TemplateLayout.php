@@ -47,11 +47,13 @@ use OC\Search\SearchQuery;
 use OC\Template\CSSResourceLocator;
 use OC\Template\JSConfigHelper;
 use OC\Template\JSResourceLocator;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Defaults;
 use OCP\IConfig;
 use OCP\IInitialStateService;
 use OCP\INavigationManager;
+use OCP\IURLGenerator;
 use OCP\IUserSession;
 use OCP\Support\Subscription\IRegistry;
 use OCP\Util;
@@ -106,11 +108,15 @@ class TemplateLayout extends \OC_Template {
 
 			$this->initialState->provideInitialState('core', 'active-app', $this->navigationManager->getActiveEntry());
 			$this->initialState->provideInitialState('core', 'apps', $this->navigationManager->getAll());
-			$this->initialState->provideInitialState('unified-search', 'limit-default', (int)$this->config->getAppValue('core', 'unified-search.limit-default', (string)SearchQuery::LIMIT_DEFAULT));
-			$this->initialState->provideInitialState('unified-search', 'min-search-length', (int)$this->config->getAppValue('core', 'unified-search.min-search-length', (string)1));
-			$this->initialState->provideInitialState('unified-search', 'live-search', $this->config->getAppValue('core', 'unified-search.live-search', 'yes') === 'yes');
-			Util::addScript('core', 'unified-search', 'core');
 
+			if ($this->config->getSystemValueBool('unified_search.enabled', false) || !$this->config->getSystemValueBool('enable_non-accessible_features', true)) {
+				$this->initialState->provideInitialState('unified-search', 'limit-default', (int)$this->config->getAppValue('core', 'unified-search.limit-default', (string)SearchQuery::LIMIT_DEFAULT));
+				$this->initialState->provideInitialState('unified-search', 'min-search-length', (int)$this->config->getAppValue('core', 'unified-search.min-search-length', (string)1));
+				$this->initialState->provideInitialState('unified-search', 'live-search', $this->config->getAppValue('core', 'unified-search.live-search', 'yes') === 'yes');
+				Util::addScript('core', 'legacy-unified-search', 'core');
+			} else {
+				Util::addScript('core', 'unified-search', 'core');
+			}
 			// Set body data-theme
 			$this->assign('enabledThemes', []);
 			if (\OC::$server->getAppManager()->isEnabledForUser('theming') && class_exists('\OCA\Theming\Service\ThemesService')) {
@@ -189,13 +195,31 @@ class TemplateLayout extends \OC_Template {
 			$this->assign('appid', $appId);
 			$this->assign('bodyid', 'body-public');
 
+			// Set logo link target
+			$logoUrl = $this->config->getSystemValueString('logo_url', '');
+			$this->assign('logoUrl', $logoUrl);
+
 			/** @var IRegistry $subscription */
 			$subscription = \OCP\Server::get(IRegistry::class);
 			$showSimpleSignup = $this->config->getSystemValueBool('simpleSignUpLink.shown', true);
 			if ($showSimpleSignup && $subscription->delegateHasValidSubscription()) {
 				$showSimpleSignup = false;
 			}
+
+			$defaultSignUpLink = 'https://nextcloud.com/signup/';
+			$signUpLink = $this->config->getSystemValueString('registration_link', $defaultSignUpLink);
+			if ($signUpLink !== $defaultSignUpLink) {
+				$showSimpleSignup = true;
+			}
+
+			$appManager = \OCP\Server::get(IAppManager::class);
+			if ($appManager->isEnabledForUser('registration')) {
+				$urlGenerator = \OCP\Server::get(IURLGenerator::class);
+				$signUpLink = $urlGenerator->getAbsoluteURL('/index.php/apps/registration/');
+			}
+
 			$this->assign('showSimpleSignUpLink', $showSimpleSignup);
+			$this->assign('signUpLink', $signUpLink);
 		} else {
 			parent::__construct('core', 'layout.base');
 		}
@@ -225,7 +249,7 @@ class TemplateLayout extends \OC_Template {
 			// this is on purpose outside of the if statement below so that the initial state is prefilled (done in the getConfig() call)
 			// see https://github.com/nextcloud/server/pull/22636 for details
 			$jsConfigHelper = new JSConfigHelper(
-				\OC::$server->getL10N('lib'),
+				\OCP\Util::getL10N('lib'),
 				\OCP\Server::get(Defaults::class),
 				\OC::$server->getAppManager(),
 				\OC::$server->getSession(),
@@ -279,7 +303,7 @@ class TemplateLayout extends \OC_Template {
 			$web = $info[1];
 			$file = $info[2];
 
-			if (substr($file, -strlen('print.css')) === 'print.css') {
+			if (str_ends_with($file, 'print.css')) {
 				$this->append('printcssfiles', $web.'/'.$file . $this->getVersionHashSuffix());
 			} else {
 				$suffix = $this->getVersionHashSuffix($web, $file);

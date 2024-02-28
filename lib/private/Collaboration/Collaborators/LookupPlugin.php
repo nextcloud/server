@@ -38,31 +38,21 @@ use OCP\Share\IShare;
 use Psr\Log\LoggerInterface;
 
 class LookupPlugin implements ISearchPlugin {
-	/** @var IConfig */
-	private $config;
-	/** @var IClientService */
-	private $clientService;
 	/** @var string remote part of the current user's cloud id */
-	private $currentUserRemote;
-	/** @var ICloudIdManager */
-	private $cloudIdManager;
-	/** @var LoggerInterface */
-	private $logger;
+	private string $currentUserRemote;
 
-	public function __construct(IConfig $config,
-								IClientService $clientService,
-								IUserSession $userSession,
-								ICloudIdManager $cloudIdManager,
-								LoggerInterface $logger) {
-		$this->config = $config;
-		$this->clientService = $clientService;
-		$this->cloudIdManager = $cloudIdManager;
+	public function __construct(
+		private IConfig $config,
+		private IClientService $clientService,
+		IUserSession $userSession,
+		private ICloudIdManager $cloudIdManager,
+		private LoggerInterface $logger,
+	) {
 		$currentUserCloudId = $userSession->getUser()->getCloudId();
 		$this->currentUserRemote = $cloudIdManager->resolveCloudId($currentUserCloudId)->getRemote();
-		$this->logger = $logger;
 	}
 
-	public function search($search, $limit, $offset, ISearchResult $searchResult) {
+	public function search($search, $limit, $offset, ISearchResult $searchResult): bool {
 		$isGlobalScaleEnabled = $this->config->getSystemValueBool('gs.enabled', false);
 		$isLookupServerEnabled = $this->config->getAppValue('files_sharing', 'lookupServerEnabled', 'yes') === 'yes';
 		$hasInternetConnection = $this->config->getSystemValueBool('has_internet_connection', true);
@@ -103,7 +93,7 @@ class LookupPlugin implements ISearchPlugin {
 				if ($this->currentUserRemote === $remote) {
 					continue;
 				}
-				$name = isset($lookup['name']['value']) ? $lookup['name']['value'] : '';
+				$name = $lookup['name']['value'] ?? '';
 				$label = empty($name) ? $lookup['federationId'] : $name . ' (' . $lookup['federationId'] . ')';
 				$result[] = [
 					'label' => $label,

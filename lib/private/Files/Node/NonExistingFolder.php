@@ -154,6 +154,10 @@ class NonExistingFolder extends Folder {
 		throw new NotFoundException();
 	}
 
+	public function searchBySystemTag(string $tagName, string $userId, int $limit = 0, int $offset = 0): array {
+		throw new NotFoundException();
+	}
+
 	public function getById($id) {
 		throw new NotFoundException();
 	}

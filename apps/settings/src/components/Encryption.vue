@@ -21,7 +21,7 @@
 -->
 
 <template>
-	<NcSettingsSection :title="t('settings', 'Server-side encryption')"
+	<NcSettingsSection :name="t('settings', 'Server-side encryption')"
 		:description="t('settings', 'Server-side encryption makes it possible to encrypt files which are uploaded to this server. This comes with limitations like a performance penalty, so enable this only if needed.')"
 		:doc-url="encryptionAdminDoc">
 		<NcCheckboxRadioSwitch :checked="encryptionEnabled || shouldDisplayWarning"

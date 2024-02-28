@@ -35,6 +35,7 @@ class CachedMountInfo implements ICachedMountInfo {
 	protected ?int $mountId;
 	protected string $rootInternalPath;
 	protected string $mountProvider;
+	protected string $key;
 
 	/**
 	 * CachedMountInfo constructor.
@@ -65,6 +66,7 @@ class CachedMountInfo implements ICachedMountInfo {
 			throw new \Exception("Mount provider $mountProvider name exceeds the limit of 128 characters");
 		}
 		$this->mountProvider = $mountProvider;
+		$this->key = $rootId . '::' . $mountPoint;
 	}
 
 	/**
@@ -131,5 +133,9 @@ class CachedMountInfo implements ICachedMountInfo {
 
 	public function getMountProvider(): string {
 		return $this->mountProvider;
+	}
+
+	public function getKey(): string {
+		return $this->key;
 	}
 }

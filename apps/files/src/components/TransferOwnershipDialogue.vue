@@ -25,13 +25,14 @@
 		<form @submit.prevent="submit">
 			<p class="transfer-select-row">
 				<span>{{ readableDirectory }}</span>
-				<NcButton v-if="directory === undefined" @click.prevent="start">
+				<NcButton v-if="directory === undefined" 
+					class="transfer-select-row__choose_button"
+					@click.prevent="start">
 					{{ t('files', 'Choose file or folder to transfer') }}
 				</NcButton>
 				<NcButton v-else @click.prevent="start">
 					{{ t('files', 'Change') }}
 				</NcButton>
-				<span class="error">{{ directoryPickerError }}</span>
 			</p>
 			<p class="new-owner-row">
 				<label for="targetUser">
@@ -48,11 +49,11 @@
 					@search="findUserDebounced" />
 			</p>
 			<p>
-				<input type="submit"
-					class="primary"
-					:value="submitButtonText"
+				<NcButton native-type="submit"
+					type="primary"
 					:disabled="!canSubmit">
-				<span class="error">{{ submitError }}</span>
+					{{ submitButtonText }}
+				</NcButton>
 			</p>
 		</form>
 	</div>
@@ -62,7 +63,7 @@
 import axios from '@nextcloud/axios'
 import debounce from 'debounce'
 import { generateOcsUrl } from '@nextcloud/router'
-import { getFilePickerBuilder, showSuccess } from '@nextcloud/dialogs'
+import { getFilePickerBuilder, showSuccess, showError } from '@nextcloud/dialogs'
 import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
 import Vue from 'vue'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
@@ -71,7 +72,6 @@ import logger from '../logger.js'
 
 const picker = getFilePickerBuilder(t('files', 'Choose a file or folder to transfer'))
 	.setMultiSelect(false)
-	.setModal(true)
 	.setType(1)
 	.allowDirectories()
 	.build()
@@ -145,6 +145,7 @@ export default {
 					logger.error(`Selecting object for transfer aborted: ${error.message || 'Unknown error'}`, { error })
 
 					this.directoryPickerError = error.message || t('files', 'Unknown error')
+					showError(this.directoryPickerError)
 				})
 		},
 		async findUser(query) {
@@ -210,6 +211,7 @@ export default {
 					} else {
 						this.submitError = error.message || t('files', 'Unknown error')
 					}
+					showError(this.submitError)
 				})
 		},
 	},
@@ -226,10 +228,12 @@ p {
 }
 .new-owner-row {
 	display: flex;
+	flex-wrap: wrap;
 
 	label {
 		display: flex;
 		align-items: center;
+		margin-bottom: calc(var(--default-grid-baseline) * 2);
 
 		span {
 			margin-right: 8px;
@@ -244,6 +248,10 @@ p {
 .transfer-select-row {
 	span {
 		margin-right: 8px;
+	}
+
+	&__choose_button {
+		width: min(100%, 400px) !important;
 	}
 }
 </style>

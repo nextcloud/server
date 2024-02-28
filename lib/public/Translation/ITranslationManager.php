@@ -39,6 +39,12 @@ interface ITranslationManager {
 	public function hasProviders(): bool;
 
 	/**
+	 * @return ITranslationProvider[]
+	 * @since 27.1.0
+	 */
+	public function getProviders(): array;
+
+	/**
 	 * @since 26.0.0
 	 */
 	public function canDetectLanguage(): bool;

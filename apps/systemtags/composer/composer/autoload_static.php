@@ -26,6 +26,7 @@ class ComposerStaticInitSystemTags
         'OCA\\SystemTags\\Activity\\Provider' => __DIR__ . '/..' . '/../lib/Activity/Provider.php',
         'OCA\\SystemTags\\Activity\\Setting' => __DIR__ . '/..' . '/../lib/Activity/Setting.php',
         'OCA\\SystemTags\\AppInfo\\Application' => __DIR__ . '/..' . '/../lib/AppInfo/Application.php',
+        'OCA\\SystemTags\\Capabilities' => __DIR__ . '/..' . '/../lib/Capabilities.php',
         'OCA\\SystemTags\\Controller\\LastUsedController' => __DIR__ . '/..' . '/../lib/Controller/LastUsedController.php',
         'OCA\\SystemTags\\Search\\TagSearchProvider' => __DIR__ . '/..' . '/../lib/Search/TagSearchProvider.php',
         'OCA\\SystemTags\\Settings\\Admin' => __DIR__ . '/..' . '/../lib/Settings/Admin.php',

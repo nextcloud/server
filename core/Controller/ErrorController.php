@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @copyright Copyright (c) 2022 Julius Härtl <jus@bitgrid.net>
  *
  * @author Julius Härtl <jus@bitgrid.net>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -27,13 +28,17 @@ declare(strict_types=1);
 namespace OC\Core\Controller;
 
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\FrontpageRoute;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\TemplateResponse;
 
+#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class ErrorController extends \OCP\AppFramework\Controller {
 	/**
 	 * @PublicPage
 	 * @NoCSRFRequired
 	 */
+	#[FrontpageRoute(verb: 'GET', url: 'error/403')]
 	public function error403(): TemplateResponse {
 		$response = new TemplateResponse(
 			'core',
@@ -49,6 +54,7 @@ class ErrorController extends \OCP\AppFramework\Controller {
 	 * @PublicPage
 	 * @NoCSRFRequired
 	 */
+	#[FrontpageRoute(verb: 'GET', url: 'error/404')]
 	public function error404(): TemplateResponse {
 		$response = new TemplateResponse(
 			'core',

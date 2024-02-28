@@ -29,6 +29,7 @@ declare(strict_types=1);
 namespace OCA\Files_Sharing\Notification;
 
 use OCP\Files\IRootFolder;
+use OCP\Files\NotFoundException;
 use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IURLGenerator;
@@ -60,11 +61,11 @@ class Notifier implements INotifier {
 	protected $url;
 
 	public function __construct(IFactory $l10nFactory,
-								IManager $shareManager,
-								IRootFolder $rootFolder,
-								IGroupManager $groupManager,
-								IUserManager $userManager,
-								IURLGenerator $url) {
+		IManager $shareManager,
+		IRootFolder $rootFolder,
+		IGroupManager $groupManager,
+		IUserManager $userManager,
+		IURLGenerator $url) {
 		$this->l10nFactory = $l10nFactory;
 		$this->shareManager = $shareManager;
 		$this->rootFolder = $rootFolder;
@@ -114,6 +115,13 @@ class Notifier implements INotifier {
 		try {
 			$share = $this->shareManager->getShareById($attemptId, $notification->getUser());
 		} catch (ShareNotFound $e) {
+			throw new AlreadyProcessedException();
+		}
+
+		try {
+			$share->getNode();
+		} catch (NotFoundException $e) {
+			// Node is already deleted, so discard the notification
 			throw new AlreadyProcessedException();
 		}
 

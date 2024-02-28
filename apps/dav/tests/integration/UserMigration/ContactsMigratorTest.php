@@ -26,7 +26,6 @@ declare(strict_types=1);
 
 namespace OCA\DAV\Tests\integration\UserMigration;
 
-use function Safe\scandir;
 use OCA\DAV\AppInfo\Application;
 use OCA\DAV\UserMigration\ContactsMigrator;
 use OCP\AppFramework\App;
@@ -38,6 +37,7 @@ use Sabre\VObject\Splitter\VCard as VCardSplitter;
 use Sabre\VObject\UUIDUtil;
 use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
+use function scandir;
 
 /**
  * @group DB

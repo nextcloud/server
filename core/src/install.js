@@ -33,8 +33,6 @@ import 'jquery-ui/ui/widgets/button.js'
 import 'jquery-ui/themes/base/theme.css'
 import 'jquery-ui/themes/base/button.css'
 
-import './Polyfill/tooltip.js'
-
 import 'strengthify'
 import 'strengthify/strengthify.css'
 

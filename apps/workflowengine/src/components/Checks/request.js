@@ -38,7 +38,7 @@ const RequestChecks = [
 		component: RequestURL,
 	},
 	{
-		class: 'OCA\\WorkflowEngine\\Check\\RequestTimeController',
+		class: 'OCA\\WorkflowEngine\\Check\\RequestTime',
 		name: t('workflowengine', 'Request time'),
 		operators: [
 			{ operator: 'in', name: t('workflowengine', 'between') },
@@ -59,7 +59,7 @@ const RequestChecks = [
 	},
 	{
 		class: 'OCA\\WorkflowEngine\\Check\\UserGroupMembership',
-		name: t('workflowengine', 'User group membership'),
+		name: t('workflowengine', 'Group membership'),
 		operators: [
 			{ operator: 'is', name: t('workflowengine', 'is member of') },
 			{ operator: '!is', name: t('workflowengine', 'is not member of') },

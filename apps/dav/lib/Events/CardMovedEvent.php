@@ -46,12 +46,12 @@ class CardMovedEvent extends Event {
 	 * @since 27.0.0
 	 */
 	public function __construct(int $sourceAddressBookId,
-								array $sourceAddressBookData,
-								int $targetAddressBookId,
-								array $targetAddressBookData,
-								array $sourceShares,
-								array $targetShares,
-								array $objectData) {
+		array $sourceAddressBookData,
+		int $targetAddressBookId,
+		array $targetAddressBookData,
+		array $sourceShares,
+		array $targetShares,
+		array $objectData) {
 		parent::__construct();
 		$this->sourceAddressBookId = $sourceAddressBookId;
 		$this->sourceAddressBookData = $sourceAddressBookData;

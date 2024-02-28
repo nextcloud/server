@@ -32,12 +32,13 @@ use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use Psr\Log\LoggerInterface;
 
+/** @template-implements IEventListener<CalendarPublishedEvent|CalendarUnpublishedEvent> */
 class CalendarPublicationListener implements IEventListener {
 	private Backend $activityBackend;
 	private LoggerInterface $logger;
 
 	public function __construct(Backend $activityBackend,
-								LoggerInterface $logger) {
+		LoggerInterface $logger) {
 		$this->activityBackend = $activityBackend;
 		$this->logger = $logger;
 	}

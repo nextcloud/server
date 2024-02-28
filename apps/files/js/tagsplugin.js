@@ -111,6 +111,7 @@
 					var fileInfo = context.fileList.files[$file.index()];
 					var dir = context.dir || context.fileList.getCurrentDirectory();
 					var tags = $file.attr('data-tags');
+					var isFile = $file.attr('data-type') === 'file';
 
 					if (_.isUndefined(tags)) {
 						tags = '';
@@ -121,7 +122,7 @@
 
 					// Fake Node object for vue compatibility
 					const node = {
-						type: 'folder',
+						type: isFile ? 'file' : 'folder',
 						path: (dir + '/' + fileName).replace(/\/\/+/g, '/'),
 						root: '/files/' + OC.getCurrentUser().uid
 					}

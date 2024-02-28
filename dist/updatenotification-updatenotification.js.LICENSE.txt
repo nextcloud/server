@@ -1,5 +1,3 @@
-/*! For license information please see NcPopoverMenu.js.LICENSE.txt */
-
 /**
  * @copyright Copyright (c) 2018 Joas Schilling <coding@schilljs.com>
  *

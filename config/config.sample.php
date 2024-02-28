@@ -152,6 +152,14 @@ $CONFIG = [
 'dbpersistent' => '',
 
 /**
+ * Specify read only replicas to be used by Nextcloud when querying the database
+ */
+'dbreplica' => [
+	['user' => 'nextcloud', 'password' => 'password1', 'host' => 'replica1', 'dbname' => ''],
+	['user' => 'nextcloud', 'password' => 'password2', 'host' => 'replica2', 'dbname' => ''],
+],
+
+/**
  * Indicates whether the Nextcloud instance was installed successfully; ``true``
  * indicates a successful installation, and ``false`` indicates an unsuccessful
  * installation.
@@ -229,10 +237,26 @@ $CONFIG = [
 'force_locale' => 'en_US',
 
 /**
+ * This sets the default timezone on your Nextcloud server, using IANA
+ * identifiers like ``Europe/Berlin`` or ``Pacific/Auckland``. The default
+ * timezone parameter is only used when the timezone of the user can't be
+ * determined.
+ *
+ * Defaults to ``UTC``
+ */
+'default_timezone' => 'Europe/Berlin',
+
+/**
  * ``true`` enables the Help menu item in the user menu (top right of the
  * Nextcloud Web interface). ``false`` removes the Help item.
  */
 'knowledgebaseenabled' => true,
+
+/**
+ * ``true`` embeds the documentation in an iframe inside Nextcloud.
+ * ``false`` only shows buttons to the online documentation.
+ */
+'knowledgebase.embedded' => false,
 
 /**
  * ``true`` allows users to change their display names (on their Personal
@@ -351,6 +375,19 @@ $CONFIG = [
  * Defaults to ``true``
  */
 'auth.bruteforce.protection.enabled' => true,
+
+/**
+ * Whether the bruteforce protection shipped with Nextcloud should be set to testing mode.
+ *
+ * In testing mode bruteforce attempts are still recorded, but the requests do
+ * not sleep/wait for the specified time. They will still abort with
+ * "429 Too Many Requests" when the maximum delay is reached.
+ * Enabling this is discouraged for security reasons
+ * and should only be done for debugging and on CI when running tests.
+ *
+ * Defaults to ``false``
+ */
+'auth.bruteforce.protection.testing' => false,
 
 /**
  * Whether the rate limit protection shipped with Nextcloud should be enabled or not.
@@ -958,6 +995,15 @@ $CONFIG = [
 'loglevel_frontend' => 2,
 
 /**
+ * Loglevel used by the dirty database query detection. Useful to identify
+ * potential database bugs in production. Set this to loglevel or higher to
+ * see dirty queries in the logs.
+ *
+ * Defaults to ``0`` (debug)
+ */
+'loglevel_dirty_database_queries' => 0,
+
+/**
  * If you maintain different instances and aggregate the logs, you may want
  * to distinguish between them. ``syslog_tag`` can be set per instance
  * with a unique id. Only available if ``log_type`` is set to ``syslog`` or
@@ -997,6 +1043,16 @@ $CONFIG = [
 	'users' => ['sample-user'],
 	'apps' => ['files'],
 ],
+
+/**
+ * Enables logging a backtrace with each log line. Normally, only Exceptions
+ * are carrying backtrace information which are logged automatically. This
+ * switch turns them on for any log message. Enabling this option will lead
+ * to increased log data size.
+ *
+ * Defaults to ``false``.
+ */
+'log.backtrace' => false,
 
 /**
  * This uses PHP.date formatting; see https://www.php.net/manual/en/function.date.php
@@ -1208,14 +1264,6 @@ $CONFIG = [
  * Defaults to ``''`` (empty string)
  */
 'preview_libreoffice_path' => '/usr/bin/libreoffice',
-/**
- * Use this if LibreOffice/OpenOffice requires additional arguments.
- *
- * Defaults to ``''`` (empty string)
- */
-'preview_office_cl_parameters' =>
-	' --headless --nologo --nofirststartwizard --invisible --norestore '.
-	'--convert-to png --outdir ',
 
 /**
  * custom path for ffmpeg binary
@@ -1256,6 +1304,7 @@ $CONFIG = [
  *  - ``OC\Preview\StarOffice``
  *  - ``OC\Preview\SVG``
  *  - ``OC\Preview\TIFF``
+ *  - ``OC\Preview\EMF``
  *
  *
  * Defaults to the following providers:
@@ -1568,7 +1617,6 @@ $CONFIG = [
  * filesystem and encryption will cause severe overhead because key files need
  * to be fetched in addition to any requested file.
  *
- * One way to test is applying for a trystack account at http://trystack.org/
  */
 'objectstore' => [
 	'class' => 'OC\\Files\\ObjectStore\\Swift',
@@ -1912,6 +1960,17 @@ $CONFIG = [
 'blacklisted_files' => ['.htaccess'],
 
 /**
+ * Blacklist characters from being used in filenames. This is useful if you
+ * have a filesystem or OS which does not support certain characters like windows.
+ *
+ * Example for windows systems: ``array('?', '<', '>', ':', '*', '|', '"', chr(0), "\n", "\r")``
+ * see https://en.wikipedia.org/wiki/Comparison_of_file_systems#Limits
+ *
+ * Defaults to ``array()``
+ */
+'forbidden_chars' => [],
+
+/**
  * If you are applying a theme to Nextcloud, enter the name of the theme here.
  * The default location for themes is ``nextcloud/themes/``.
  *
@@ -1922,7 +1981,7 @@ $CONFIG = [
 /**
  * Enforce the user theme. This will disable the user theming settings
  * This must be a valid ITheme ID.
- * E.g. light, dark, highcontrast, dark-highcontrast...
+ * E.g. dark, dark-highcontrast, default, light, light-highcontrast, opendyslexic
  */
 'enforce_theme' => '',
 
@@ -2356,4 +2415,18 @@ $CONFIG = [
  * Defaults to ``true``
  */
 'reference_opengraph' => true,
+
+/**
+ * Enable use of old unified search
+ *
+ * Defaults to ``false``
+ */
+'unified_search.enabled' => false,
+
+/**
+ * Enable features that are do respect accessibility standards yet.
+ *
+ * Defaults to ``true``
+ */
+'enable_non-accessible_features' => true,
 ];

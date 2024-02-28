@@ -36,10 +36,9 @@ use Psr\Log\LoggerInterface;
 use Throwable;
 
 class ErrorHandler {
-	private LoggerInterface $logger;
-
-	public function __construct(LoggerInterface $logger) {
-		$this->logger = $logger;
+	public function __construct(
+		private LoggerInterface $logger,
+	) {
 	}
 
 	/**
@@ -94,20 +93,11 @@ class ErrorHandler {
 	}
 
 	private static function errnoToLogLevel(int $errno): int {
-		switch ($errno) {
-			case E_USER_WARNING:
-				return ILogger::WARN;
-
-			case E_DEPRECATED:
-			case E_USER_DEPRECATED:
-				return ILogger::DEBUG;
-
-			case E_USER_NOTICE:
-				return ILogger::INFO;
-
-			case E_USER_ERROR:
-			default:
-				return ILogger::ERROR;
-		}
+		return match ($errno) {
+			E_USER_WARNING => ILogger::WARN,
+			E_DEPRECATED, E_USER_DEPRECATED => ILogger::DEBUG,
+			E_USER_NOTICE => ILogger::INFO,
+			default => ILogger::ERROR,
+		};
 	}
 }

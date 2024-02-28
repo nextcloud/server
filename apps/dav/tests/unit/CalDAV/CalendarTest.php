@@ -83,11 +83,9 @@ class CalendarTest extends TestCase {
 
 
 	public function testDeleteFromGroup(): void {
-		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
-
 		/** @var MockObject | CalDavBackend $backend */
 		$backend = $this->getMockBuilder(CalDavBackend::class)->disableOriginalConstructor()->getMock();
-		$backend->expects($this->never())->method('updateShares');
+		$backend->expects($this->once())->method('updateShares');
 		$backend->expects($this->any())->method('getShares')->willReturn([
 			['href' => 'principal:group2']
 		]);

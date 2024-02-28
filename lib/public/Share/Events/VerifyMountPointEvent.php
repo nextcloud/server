@@ -44,8 +44,8 @@ class VerifyMountPointEvent extends Event {
 	 * @since 19.0.0
 	 */
 	public function __construct(IShare $share,
-								View $view,
-								string $parent) {
+		View $view,
+		string $parent) {
 		parent::__construct();
 
 		$this->share = $share;

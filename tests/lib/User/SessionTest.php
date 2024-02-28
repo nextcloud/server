@@ -14,7 +14,7 @@ use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Exceptions\PasswordLoginForbiddenException;
 use OC\Authentication\Token\IProvider;
 use OC\Authentication\Token\IToken;
-use OC\Security\Bruteforce\Throttler;
+use OC\Security\CSRF\CsrfTokenManager;
 use OC\Session\Memory;
 use OC\User\LoginException;
 use OC\User\Manager;
@@ -30,12 +30,11 @@ use OCP\IRequestId;
 use OCP\ISession;
 use OCP\IUser;
 use OCP\Lockdown\ILockdownManager;
+use OCP\Security\Bruteforce\IThrottler;
 use OCP\Security\ISecureRandom;
 use OCP\User\Events\PostLoginEvent;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use OC\Security\CSRF\CsrfTokenManager;
 
 /**
  * @group DB
@@ -48,7 +47,7 @@ class SessionTest extends \Test\TestCase {
 	private $tokenProvider;
 	/** @var IConfig|MockObject */
 	private $config;
-	/** @var Throttler|MockObject */
+	/** @var IThrottler|MockObject */
 	private $throttler;
 	/** @var ISecureRandom|MockObject */
 	private $random;
@@ -74,7 +73,7 @@ class SessionTest extends \Test\TestCase {
 			->willReturn(10000);
 		$this->tokenProvider = $this->createMock(IProvider::class);
 		$this->config = $this->createMock(IConfig::class);
-		$this->throttler = $this->createMock(Throttler::class);
+		$this->throttler = $this->createMock(IThrottler::class);
 		$this->random = $this->createMock(ISecureRandom::class);
 		$this->manager = $this->createMock(Manager::class);
 		$this->session = $this->createMock(ISession::class);
@@ -122,7 +121,7 @@ class SessionTest extends \Test\TestCase {
 				'getUser'
 			])
 			->getMock();
-		$user = new User('sepp', null, $this->createMock(EventDispatcherInterface::class));
+		$user = new User('sepp', null, $this->createMock(IEventDispatcher::class));
 		$userSession->expects($this->once())
 			->method('getUser')
 			->willReturn($isLoggedIn ? $user : null);
@@ -177,7 +176,6 @@ class SessionTest extends \Test\TestCase {
 			->setMethods($mockedManagerMethods)
 			->setConstructorArgs([
 				$this->config,
-				$this->createMock(EventDispatcherInterface::class),
 				$this->createMock(ICacheFactory::class),
 				$this->createMock(IEventDispatcher::class),
 			])
@@ -244,7 +242,6 @@ class SessionTest extends \Test\TestCase {
 			->setMethods($mockedManagerMethods)
 			->setConstructorArgs([
 				$this->config,
-				$this->createMock(EventDispatcherInterface::class),
 				$this->createMock(ICacheFactory::class),
 				$this->createMock(IEventDispatcher::class),
 			])
@@ -278,7 +275,6 @@ class SessionTest extends \Test\TestCase {
 			->setMethods($mockedManagerMethods)
 			->setConstructorArgs([
 				$this->config,
-				$this->createMock(EventDispatcherInterface::class),
 				$this->createMock(ICacheFactory::class),
 				$this->createMock(IEventDispatcher::class),
 			])
@@ -483,6 +479,56 @@ class SessionTest extends \Test\TestCase {
 		$userSession->logClientIn('john', 'doe', $request, $this->throttler);
 	}
 
+	public function testTryTokenLoginNoHeaderNoSessionCookie(): void {
+		$request = $this->createMock(IRequest::class);
+		$this->config->expects(self::once())
+			->method('getSystemValueString')
+			->with('instanceid')
+			->willReturn('abc123');
+		$request->method('getHeader')->with('Authorization')->willReturn('');
+		$request->method('getCookie')->with('abc123')->willReturn(null);
+		$this->tokenProvider->expects(self::never())
+			->method('getToken');
+
+		$loginResult = $this->userSession->tryTokenLogin($request);
+
+		self::assertFalse($loginResult);
+	}
+
+	public function testTryTokenLoginAuthorizationHeaderTokenNotFound(): void {
+		$request = $this->createMock(IRequest::class);
+		$request->method('getHeader')->with('Authorization')->willReturn('Bearer abcde-12345');
+		$this->tokenProvider->expects(self::once())
+			->method('getToken')
+			->with('abcde-12345')
+			->willThrowException(new InvalidTokenException());
+
+		$loginResult = $this->userSession->tryTokenLogin($request);
+
+		self::assertFalse($loginResult);
+	}
+
+	public function testTryTokenLoginSessionIdTokenNotFound(): void {
+		$request = $this->createMock(IRequest::class);
+		$this->config->expects(self::once())
+			->method('getSystemValueString')
+			->with('instanceid')
+			->willReturn('abc123');
+		$request->method('getHeader')->with('Authorization')->willReturn('');
+		$request->method('getCookie')->with('abc123')->willReturn('abcde12345');
+		$this->session->expects(self::once())
+			->method('getId')
+			->willReturn('abcde12345');
+		$this->tokenProvider->expects(self::once())
+			->method('getToken')
+			->with('abcde12345')
+			->willThrowException(new InvalidTokenException());
+
+		$loginResult = $this->userSession->tryTokenLogin($request);
+
+		self::assertFalse($loginResult);
+	}
+
 	public function testRememberLoginValidToken() {
 		$session = $this->getMockBuilder(Memory::class)->setConstructorArgs([''])->getMock();
 		$managerMethods = get_class_methods(Manager::class);
@@ -492,7 +538,6 @@ class SessionTest extends \Test\TestCase {
 			->setMethods($mockedManagerMethods)
 			->setConstructorArgs([
 				$this->config,
-				$this->createMock(EventDispatcherInterface::class),
 				$this->createMock(ICacheFactory::class),
 				$this->createMock(IEventDispatcher::class),
 			])
@@ -582,7 +627,6 @@ class SessionTest extends \Test\TestCase {
 			->setMethods($mockedManagerMethods)
 			->setConstructorArgs([
 				$this->config,
-				$this->createMock(EventDispatcherInterface::class),
 				$this->createMock(ICacheFactory::class),
 				$this->createMock(IEventDispatcher::class),
 			])
@@ -647,7 +691,6 @@ class SessionTest extends \Test\TestCase {
 			->setMethods($mockedManagerMethods)
 			->setConstructorArgs([
 				$this->config,
-				$this->createMock(EventDispatcherInterface::class),
 				$this->createMock(ICacheFactory::class),
 				$this->createMock(IEventDispatcher::class),
 			])
@@ -700,7 +743,6 @@ class SessionTest extends \Test\TestCase {
 			->setMethods($mockedManagerMethods)
 			->setConstructorArgs([
 				$this->config,
-				$this->createMock(EventDispatcherInterface::class),
 				$this->createMock(ICacheFactory::class),
 				$this->createMock(IEventDispatcher::class),
 			])
@@ -739,8 +781,8 @@ class SessionTest extends \Test\TestCase {
 
 	public function testActiveUserAfterSetSession() {
 		$users = [
-			'foo' => new User('foo', null, $this->createMock(EventDispatcherInterface::class)),
-			'bar' => new User('bar', null, $this->createMock(EventDispatcherInterface::class))
+			'foo' => new User('foo', null, $this->createMock(IEventDispatcher::class)),
+			'bar' => new User('bar', null, $this->createMock(IEventDispatcher::class))
 		];
 
 		$manager = $this->getMockBuilder(Manager::class)
@@ -1118,7 +1160,7 @@ class SessionTest extends \Test\TestCase {
 
 		$userSession->expects($this->once())
 			->method('isTokenPassword')
-			->willReturn(true);
+			->willReturn(false);
 		$userSession->expects($this->once())
 			->method('login')
 			->with('john@foo.bar', 'I-AM-AN-PASSWORD')

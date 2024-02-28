@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @copyright 2021 Christopher Ng <chrng8@gmail.com>
  *
  * @author Christopher Ng <chrng8@gmail.com>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -27,18 +28,22 @@ declare(strict_types=1);
 namespace OC\Core\Controller;
 
 use OC\Profile\ProfileManager;
-use OCP\Profile\BeforeTemplateRenderedEvent;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\Attribute\FrontpageRoute;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\INavigationManager;
 use OCP\IRequest;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\Profile\BeforeTemplateRenderedEvent;
 use OCP\Share\IManager as IShareManager;
 use OCP\UserStatus\IManager as IUserStatusManager;
-use OCP\EventDispatcher\IEventDispatcher;
 
+#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class ProfilePageController extends Controller {
 	public function __construct(
 		string $appName,
@@ -49,6 +54,7 @@ class ProfilePageController extends Controller {
 		private IUserManager $userManager,
 		private IUserSession $userSession,
 		private IUserStatusManager $userStatusManager,
+		private INavigationManager $navigationManager,
 		private IEventDispatcher $eventDispatcher,
 	) {
 		parent::__construct($appName, $request);
@@ -60,6 +66,7 @@ class ProfilePageController extends Controller {
 	 * @NoAdminRequired
 	 * @NoSubAdminRequired
 	 */
+	#[FrontpageRoute(verb: 'GET', url: '/u/{targetUserId}')]
 	public function index(string $targetUserId): TemplateResponse {
 		$profileNotFoundTemplate = new TemplateResponse(
 			'core',
@@ -98,8 +105,12 @@ class ProfilePageController extends Controller {
 
 		$this->initialStateService->provideInitialState(
 			'profileParameters',
-			$this->profileManager->getProfileParams($targetUser, $visitingUser),
+			$this->profileManager->getProfileFields($targetUser, $visitingUser),
 		);
+
+		if ($targetUser === $visitingUser) {
+			$this->navigationManager->setActiveEntry('profile');
+		}
 
 		$this->eventDispatcher->dispatchTyped(new BeforeTemplateRenderedEvent($targetUserId));
 

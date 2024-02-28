@@ -24,6 +24,7 @@
 !/apps/sharebymail
 !/apps/encryption
 !/apps/files_external
+!/apps/files_reminders
 !/apps/files_sharing
 !/apps/files_trashbin
 !/apps/files_versions
@@ -128,6 +129,8 @@ nbproject
 /build/bin
 /build/lib/
 /build/jsdocs/
+/build/integration/output/
+/build/integration/phpserver.log
 /npm-debug.log
 /PhantomJS_*
 
@@ -161,6 +164,7 @@ tests/acceptance/vendor/
 
 composer.phar
 /lib/composer/bin
+/lib/composer/bamarni
 /vendor-bin/**/vendor
 
 ./.htaccess
@@ -169,3 +173,4 @@ core/js/mimetypelist.js
 # Tests - cypress
 cypress/snapshots
 cypress/videos
+cypress/downloads

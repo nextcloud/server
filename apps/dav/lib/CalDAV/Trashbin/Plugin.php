@@ -56,7 +56,7 @@ class Plugin extends ServerPlugin {
 	private $server;
 
 	public function __construct(IRequest $request,
-								RetentionService $retentionService) {
+		RetentionService $retentionService) {
 		$this->disableTrashbin = $request->getHeader('X-NC-CalDAV-No-Trashbin') === '1';
 		$this->retentionService = $retentionService;
 	}

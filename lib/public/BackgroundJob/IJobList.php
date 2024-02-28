@@ -32,8 +32,8 @@ namespace OCP\BackgroundJob;
  * This interface provides functions to register background jobs
  *
  * To create a new background job create a new class that inherits from either
- * \OC\BackgroundJob\Job, \OC\BackgroundJob\QueuedJob or
- * \OC\BackgroundJob\TimedJob and register it using ->add($job, $argument),
+ * \OCP\BackgroundJob\Job, \OCP\BackgroundJob\QueuedJob or
+ * \OCP\BackgroundJob\TimedJob and register it using ->add($job, $argument),
  * $argument will be passed to the run() function of the job when the job is
  * executed.
  *
@@ -56,6 +56,19 @@ interface IJobList {
 	 * @since 7.0.0
 	 */
 	public function add($job, $argument = null): void;
+
+	/**
+	 * Add a job to the list but only run it after the given timestamp
+	 *
+	 * For cron background jobs this means the job will likely run shortly after the timestamp
+	 * has been reached. For ajax background jobs the job might only run when users are active
+	 * on the instance again.
+	 *
+	 * @param class-string<IJob> $job
+	 * @param mixed $argument The serializable argument to be passed to $job->run() when the job is executed
+	 * @since 28.0.0
+	 */
+	public function scheduleAfter(string $job, int $runAfter, $argument = null): void;
 
 	/**
 	 * Remove a job from the list
@@ -147,7 +160,8 @@ interface IJobList {
 	public function resetBackgroundJob(IJob $job): void;
 
 	/**
-	 * Checks whether a job of the passed class is reserved to run
+	 * Checks whether a job of the passed class was reserved to run
+	 * in the last 6h
 	 *
 	 * @param string|null $className
 	 * @return bool

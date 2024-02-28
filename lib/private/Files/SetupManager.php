@@ -24,8 +24,8 @@ declare(strict_types=1);
 namespace OC\Files;
 
 use OC\Files\Config\MountProviderCollection;
+use OC\Files\Mount\HomeMountPoint;
 use OC\Files\Mount\MountPoint;
-use OC\Files\ObjectStore\HomeObjectStoreStorage;
 use OC\Files\Storage\Common;
 use OC\Files\Storage\Home;
 use OC\Files\Storage\Storage;
@@ -34,9 +34,15 @@ use OC\Files\Storage\Wrapper\Encoding;
 use OC\Files\Storage\Wrapper\PermissionsMask;
 use OC\Files\Storage\Wrapper\Quota;
 use OC\Lockdown\Filesystem\NullStorage;
+use OC\Share\Share;
+use OC\Share20\ShareDisableChecker;
 use OC_App;
 use OC_Hook;
 use OC_Util;
+use OCA\Files_External\Config\ConfigAdapter;
+use OCA\Files_Sharing\External\Mount;
+use OCA\Files_Sharing\ISharedMountPoint;
+use OCA\Files_Sharing\SharedMount;
 use OCP\Constants;
 use OCP\Diagnostics\IEventLogger;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -64,52 +70,35 @@ use Psr\Log\LoggerInterface;
 
 class SetupManager {
 	private bool $rootSetup = false;
-	private IEventLogger $eventLogger;
-	private MountProviderCollection $mountProviderCollection;
-	private IMountManager $mountManager;
-	private IUserManager $userManager;
 	// List of users for which at least one mount is setup
 	private array $setupUsers = [];
 	// List of users for which all mounts are setup
 	private array $setupUsersComplete = [];
 	/** @var array<string, string[]> */
 	private array $setupUserMountProviders = [];
-	private IEventDispatcher $eventDispatcher;
-	private IUserMountCache $userMountCache;
-	private ILockdownManager $lockdownManager;
-	private IUserSession $userSession;
 	private ICache $cache;
-	private LoggerInterface $logger;
-	private IConfig $config;
 	private bool $listeningForProviders;
 	private array $fullSetupRequired = [];
 	private bool $setupBuiltinWrappersDone = false;
+	private bool $forceFullSetup = false;
 
 	public function __construct(
-		IEventLogger $eventLogger,
-		MountProviderCollection $mountProviderCollection,
-		IMountManager $mountManager,
-		IUserManager $userManager,
-		IEventDispatcher $eventDispatcher,
-		IUserMountCache $userMountCache,
-		ILockdownManager $lockdownManager,
-		IUserSession $userSession,
+		private IEventLogger $eventLogger,
+		private MountProviderCollection $mountProviderCollection,
+		private IMountManager $mountManager,
+		private IUserManager $userManager,
+		private IEventDispatcher $eventDispatcher,
+		private IUserMountCache $userMountCache,
+		private ILockdownManager $lockdownManager,
+		private IUserSession $userSession,
 		ICacheFactory $cacheFactory,
-		LoggerInterface $logger,
-		IConfig $config
+		private LoggerInterface $logger,
+		private IConfig $config,
+		private ShareDisableChecker $shareDisableChecker,
 	) {
-		$this->eventLogger = $eventLogger;
-		$this->mountProviderCollection = $mountProviderCollection;
-		$this->mountManager = $mountManager;
-		$this->userManager = $userManager;
-		$this->eventDispatcher = $eventDispatcher;
-		$this->userMountCache = $userMountCache;
-		$this->lockdownManager = $lockdownManager;
-		$this->logger = $logger;
-		$this->userSession = $userSession;
 		$this->cache = $cacheFactory->createDistributed('setupmanager::');
 		$this->listeningForProviders = false;
-		$this->config = $config;
+		$this->forceFullSetup = $this->config->getSystemValueBool('debug.force-full-fs-setup');
 
 		$this->setupListeners();
 	}
@@ -133,51 +122,55 @@ class SetupManager {
 		$prevLogging = Filesystem::logWarningWhenAddingStorageWrapper(false);
 
 		Filesystem::addStorageWrapper('mount_options', function ($mountPoint, IStorage $storage, IMountPoint $mount) {
-			if ($storage->instanceOfStorage(Common::class)) {
+			if ($mount->getOptions() && $storage->instanceOfStorage(Common::class)) {
 				$storage->setMountOptions($mount->getOptions());
 			}
 			return $storage;
 		});
 
-		Filesystem::addStorageWrapper('enable_sharing', function ($mountPoint, IStorage $storage, IMountPoint $mount) {
-			if (!$mount->getOption('enable_sharing', true)) {
-				return new PermissionsMask([
-					'storage' => $storage,
-					'mask' => Constants::PERMISSION_ALL - Constants::PERMISSION_SHARE,
-				]);
+		$reSharingEnabled = Share::isResharingAllowed();
+		$user = $this->userSession->getUser();
+		$sharingEnabledForUser = $user ? !$this->shareDisableChecker->sharingDisabledForUser($user->getUID()) : true;
+		Filesystem::addStorageWrapper(
+			'sharing_mask',
+			function ($mountPoint, IStorage $storage, IMountPoint $mount) use ($reSharingEnabled, $sharingEnabledForUser) {
+				$sharingEnabledForMount = $mount->getOption('enable_sharing', true);
+				$isShared = $mount instanceof ISharedMountPoint;
+				if (!$sharingEnabledForMount || !$sharingEnabledForUser || (!$reSharingEnabled && $isShared)) {
+					return new PermissionsMask([
+						'storage' => $storage,
+						'mask' => Constants::PERMISSION_ALL - Constants::PERMISSION_SHARE,
+					]);
+				}
+				return $storage;
 			}
-			return $storage;
-		});
+		);
 
 		// install storage availability wrapper, before most other wrappers
-		Filesystem::addStorageWrapper('oc_availability', function ($mountPoint, IStorage $storage) {
-			if (!$storage->instanceOfStorage('\OCA\Files_Sharing\SharedStorage') && !$storage->isLocal()) {
+		Filesystem::addStorageWrapper('oc_availability', function ($mountPoint, IStorage $storage, IMountPoint $mount) {
+			$externalMount = $mount instanceof ConfigAdapter || $mount instanceof Mount;
+			if ($externalMount && !$storage->isLocal()) {
 				return new Availability(['storage' => $storage]);
 			}
 			return $storage;
 		});
 
 		Filesystem::addStorageWrapper('oc_encoding', function ($mountPoint, IStorage $storage, IMountPoint $mount) {
-			if ($mount->getOption('encoding_compatibility', false) && !$storage->instanceOfStorage('\OCA\Files_Sharing\SharedStorage')) {
+			if ($mount->getOption('encoding_compatibility', false) && !$mount instanceof SharedMount) {
 				return new Encoding(['storage' => $storage]);
 			}
 			return $storage;
 		});
 
-		Filesystem::addStorageWrapper('oc_quota', function ($mountPoint, $storage) {
+		$quotaIncludeExternal = $this->config->getSystemValue('quota_include_external_storage', false);
+		Filesystem::addStorageWrapper('oc_quota', function ($mountPoint, $storage, IMountPoint $mount) use ($quotaIncludeExternal) {
 			// set up quota for home storages, even for other users
 			// which can happen when using sharing
-
-			/**
-			 * @var Storage $storage
-			 */
-			if ($storage->instanceOfStorage(HomeObjectStoreStorage::class) || $storage->instanceOfStorage(Home::class)) {
-				if (is_object($storage->getUser())) {
-					$user = $storage->getUser();
-					return new Quota(['storage' => $storage, 'quotaCallback' => function () use ($user) {
-						return OC_Util::getUserQuota($user);
-					}, 'root' => 'files']);
-				}
+			if ($mount instanceof HomeMountPoint) {
+				$user = $mount->getUser();
+				return new Quota(['storage' => $storage, 'quotaCallback' => function () use ($user) {
+					return OC_Util::getUserQuota($user);
+				}, 'root' => 'files', 'include_external_storage' => $quotaIncludeExternal]);
 			}
 
 			return $storage;
@@ -344,11 +337,12 @@ class SetupManager {
 		if ($this->rootSetup) {
 			return;
 		}
+
+		$this->setupBuiltinWrappers();
+
 		$this->rootSetup = true;
 
 		$this->eventLogger->start('fs:setup:root', 'Setup root filesystem');
-
-		$this->setupBuiltinWrappers();
 
 		$rootMounts = $this->mountProviderCollection->getRootMounts();
 		foreach ($rootMounts as $rootMountProvider) {
@@ -478,6 +472,10 @@ class SetupManager {
 	}
 
 	private function fullSetupRequired(IUser $user): bool {
+		if ($this->forceFullSetup) {
+			return true;
+		}
+
 		// we perform a "cached" setup only after having done the full setup recently
 		// this is also used to trigger a full setup after handling events that are likely
 		// to change the available mounts

@@ -7,6 +7,7 @@ declare(strict_types=1);
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -29,9 +30,12 @@ namespace OC\Core\Controller;
 use OC\Security\CSRF\CsrfTokenManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\FrontpageRoute;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\IRequest;
 
+#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class CSRFTokenController extends Controller {
 	public function __construct(
 		string $appName,
@@ -46,6 +50,7 @@ class CSRFTokenController extends Controller {
 	 * @NoCSRFRequired
 	 * @PublicPage
 	 */
+	#[FrontpageRoute(verb: 'GET', url: '/csrftoken')]
 	public function index(): JSONResponse {
 		if (!$this->request->passesStrictCookieCheck()) {
 			return new JSONResponse([], Http::STATUS_FORBIDDEN);

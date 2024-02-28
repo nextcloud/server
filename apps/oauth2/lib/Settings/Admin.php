@@ -29,9 +29,9 @@ namespace OCA\OAuth2\Settings;
 use OCA\OAuth2\Db\ClientMapper;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
+use OCP\IURLGenerator;
 use OCP\Security\ICrypto;
 use OCP\Settings\ISettings;
-use OCP\IURLGenerator;
 use Psr\Log\LoggerInterface;
 
 class Admin implements ISettings {

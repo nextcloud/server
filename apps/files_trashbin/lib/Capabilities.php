@@ -33,6 +33,8 @@ class Capabilities implements ICapability {
 
 	/**
 	 * Return this classes capabilities
+	 *
+	 * @return array{files: array{undelete: bool}}
 	 */
 	public function getCapabilities() {
 		return [

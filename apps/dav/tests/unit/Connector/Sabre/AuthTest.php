@@ -30,11 +30,11 @@
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
 use OC\Authentication\TwoFactorAuth\Manager;
-use OC\Security\Bruteforce\Throttler;
 use OC\User\Session;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IUser;
+use OCP\Security\Bruteforce\IThrottler;
 use Sabre\DAV\Server;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
@@ -57,7 +57,7 @@ class AuthTest extends TestCase {
 	private $request;
 	/** @var Manager */
 	private $twoFactorManager;
-	/** @var Throttler */
+	/** @var IThrottler */
 	private $throttler;
 
 	protected function setUp(): void {
@@ -71,7 +71,7 @@ class AuthTest extends TestCase {
 		$this->twoFactorManager = $this->getMockBuilder(Manager::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$this->throttler = $this->getMockBuilder(Throttler::class)
+		$this->throttler = $this->getMockBuilder(IThrottler::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$this->auth = new \OCA\DAV\Connector\Sabre\Auth(
@@ -301,11 +301,6 @@ class AuthTest extends TestCase {
 		$this->request
 			->expects($this->any())
 			->method('isUserAgent')
-			->with([
-				'/^Mozilla\/5\.0 \([A-Za-z ]+\) (mirall|csyncoC)\/.*$/',
-				'/^Mozilla\/5\.0 \(Android\) (ownCloud|Nextcloud)\-android.*$/',
-				'/^Mozilla\/5\.0 \(iOS\) (ownCloud|Nextcloud)\-iOS.*$/',
-			])
 			->willReturn(false);
 		$this->session
 			->expects($this->any())
@@ -351,11 +346,6 @@ class AuthTest extends TestCase {
 		$this->request
 			->expects($this->any())
 			->method('isUserAgent')
-			->with([
-				'/^Mozilla\/5\.0 \([A-Za-z ]+\) (mirall|csyncoC)\/.*$/',
-				'/^Mozilla\/5\.0 \(Android\) ownCloud\-android.*$/',
-				'/^Mozilla\/5\.0 \(iOS\) (ownCloud|Nextcloud)\-iOS.*$/',
-			])
 			->willReturn(false);
 		$this->session
 			->expects($this->any())
@@ -405,11 +395,6 @@ class AuthTest extends TestCase {
 		$this->request
 			->expects($this->any())
 			->method('isUserAgent')
-			->with([
-				'/^Mozilla\/5\.0 \([A-Za-z ]+\) (mirall|csyncoC)\/.*$/',
-				'/^Mozilla\/5\.0 \(Android\) (ownCloud|Nextcloud)\-android.*$/',
-				'/^Mozilla\/5\.0 \(iOS\) (ownCloud|Nextcloud)\-iOS.*$/',
-			])
 			->willReturn(false);
 		$this->session
 			->expects($this->any())
@@ -451,11 +436,6 @@ class AuthTest extends TestCase {
 		$this->request
 			->expects($this->any())
 			->method('isUserAgent')
-			->with([
-				'/^Mozilla\/5\.0 \([A-Za-z ]+\) (mirall|csyncoC)\/.*$/',
-				'/^Mozilla\/5\.0 \(Android\) (ownCloud|Nextcloud)\-android.*$/',
-				'/^Mozilla\/5\.0 \(iOS\) (ownCloud|Nextcloud)\-iOS.*$/',
-			])
 			->willReturn(true);
 		$this->session
 			->expects($this->any())

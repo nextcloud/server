@@ -29,9 +29,9 @@ use OCA\Encryption\Util;
 use OCP\Files\IRootFolder;
 use OCP\HintException;
 use OCP\IConfig;
-use OCP\ILogger;
 use OCP\IUser;
 use OCP\IUserManager;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -39,41 +39,16 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class FixEncryptedVersion extends Command {
-	/** @var IConfig */
-	private $config;
-
-	/** @var ILogger */
-	private $logger;
-
-	/** @var IRootFolder  */
-	private $rootFolder;
-
-	/** @var IUserManager  */
-	private $userManager;
-
-	/** @var Util */
-	private $util;
-
-	/** @var View  */
-	private $view;
-
-	/** @var bool */
-	private $supportLegacy;
+	private bool $supportLegacy;
 
 	public function __construct(
-		IConfig $config,
-		ILogger $logger,
-		IRootFolder $rootFolder,
-		IUserManager $userManager,
-		Util $util,
-		View $view
+		private IConfig $config,
+		private LoggerInterface $logger,
+		private IRootFolder $rootFolder,
+		private IUserManager $userManager,
+		private Util $util,
+		private View $view,
 	) {
-		$this->config = $config;
-		$this->logger = $logger;
-		$this->rootFolder = $rootFolder;
-		$this->userManager = $userManager;
-		$this->util = $util;
-		$this->view = $view;
 		$this->supportLegacy = false;
 
 		parent::__construct();
@@ -134,7 +109,7 @@ class FixEncryptedVersion extends Command {
 			return $this->runForUser($user, $pathOption, $output);
 		} elseif ($all) {
 			$result = 0;
-			$this->userManager->callForSeenUsers(function(IUser $user) use ($pathOption, $output, &$result) {
+			$this->userManager->callForSeenUsers(function (IUser $user) use ($pathOption, $output, &$result) {
 				$output->writeln("Processing files for " . $user->getUID());
 				$result = $this->runForUser($user->getUID(), $pathOption, $output);
 				return $result === 0;

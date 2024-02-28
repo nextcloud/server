@@ -38,16 +38,3 @@ export const isPublic = function() {
 export const getToken = function() {
 	return document.getElementById('sharingToken') && document.getElementById('sharingToken').value
 }
-
-/**
- * Return the current directory, fallback to root
- *
- * @return {string}
- */
-export const getCurrentDirectory = function() {
-	const currentDirInfo = OCA?.Files?.App?.currentFileList?.dirInfo
-		|| { path: '/', name: '' }
-
-	// Make sure we don't have double slashes
-	return `${currentDirInfo.path}/${currentDirInfo.name}`.replace(/\/\//gi, '/')
-}

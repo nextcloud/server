@@ -44,31 +44,14 @@ use Psr\Log\LoggerInterface;
  * This class represents a registered user's avatar.
  */
 class UserAvatar extends Avatar {
-	private IConfig $config;
-	private ISimpleFolder $folder;
-	private IL10N $l;
-	private User $user;
-
-	/**
-	 * UserAvatar constructor.
-	 *
-	 * @param IConfig $config The configuration
-	 * @param ISimpleFolder $folder The avatar files folder
-	 * @param IL10N $l The localization helper
-	 * @param User $user The user this class manages the avatar for
-	 * @param LoggerInterface $logger The logger
-	 */
 	public function __construct(
-		ISimpleFolder $folder,
-		IL10N $l,
-		User $user,
+		private ISimpleFolder $folder,
+		private IL10N $l,
+		private User $user,
 		LoggerInterface $logger,
-		IConfig $config) {
+		private IConfig $config,
+	) {
 		parent::__construct($logger);
-		$this->folder = $folder;
-		$this->l = $l;
-		$this->user = $user;
-		$this->config = $config;
 	}
 
 	/**
@@ -85,7 +68,6 @@ class UserAvatar extends Avatar {
 	 * @throws \Exception if the provided file is not a jpg or png image
 	 * @throws \Exception if the provided image is not valid
 	 * @throws NotSquareException if the image is not square
-	 * @return void
 	 */
 	public function set($data): void {
 		$img = $this->getAvatarImage($data);
@@ -113,7 +95,6 @@ class UserAvatar extends Avatar {
 	 * Returns an image from several sources.
 	 *
 	 * @param IImage|resource|string|\GdImage $data An image object, imagedata or path to the avatar
-	 * @return IImage
 	 */
 	private function getAvatarImage($data): IImage {
 		if ($data instanceof IImage) {
@@ -229,8 +210,6 @@ class UserAvatar extends Avatar {
 	 *
 	 * If there is no avatar file yet, one is generated.
 	 *
-	 * @param int $size
-	 * @return ISimpleFile
 	 * @throws NotFoundException
 	 * @throws \OCP\Files\NotPermittedException
 	 * @throws \OCP\PreConditionNotMetException

@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @copyright Copyright (c) 2022 Julius Härtl <jus@bitgrid.net>
  *
  * @author Julius Härtl <jus@bitgrid.net>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -28,6 +29,7 @@ namespace OC\Core\Controller;
 
 use InvalidArgumentException;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\ApiRoute;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\IL10N;
 use OCP\IRequest;
@@ -47,10 +49,17 @@ class TranslationApiController extends \OCP\AppFramework\OCSController {
 
 	/**
 	 * @PublicPage
+	 *
+	 * Get the list of supported languages
+	 *
+	 * @return DataResponse<Http::STATUS_OK, array{languages: array{from: string, fromLabel: string, to: string, toLabel: string}[], languageDetection: bool}, array{}>
+	 *
+	 * 200: Supported languages returned
 	 */
+	#[ApiRoute(verb: 'GET', url: '/languages', root: '/translation')]
 	public function languages(): DataResponse {
 		return new DataResponse([
-			'languages' => $this->translationManager->getLanguages(),
+			'languages' => array_map(fn ($lang) => $lang->jsonSerialize(), $this->translationManager->getLanguages()),
 			'languageDetection' => $this->translationManager->canDetectLanguage(),
 		]);
 	}
@@ -59,7 +68,19 @@ class TranslationApiController extends \OCP\AppFramework\OCSController {
 	 * @PublicPage
 	 * @UserRateThrottle(limit=25, period=120)
 	 * @AnonRateThrottle(limit=10, period=120)
+	 *
+	 * Translate a text
+	 *
+	 * @param string $text Text to be translated
+	 * @param string|null $fromLanguage Language to translate from
+	 * @param string $toLanguage Language to translate to
+	 * @return DataResponse<Http::STATUS_OK, array{text: string, from: ?string}, array{}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_PRECONDITION_FAILED|Http::STATUS_INTERNAL_SERVER_ERROR, array{message: string, from?: ?string}, array{}>
+	 *
+	 * 200: Translated text returned
+	 * 400: Language not detected or unable to translate
+	 * 412: Translating is not possible
 	 */
+	#[ApiRoute(verb: 'POST', url: '/translate', root: '/translation')]
 	public function translate(string $text, ?string $fromLanguage, string $toLanguage): DataResponse {
 		try {
 			$translation = $this->translationManager->translate($text, $fromLanguage, $toLanguage);

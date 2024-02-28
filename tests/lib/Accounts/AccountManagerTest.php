@@ -26,12 +26,16 @@ namespace Test\Accounts;
 
 use OC\Accounts\Account;
 use OC\Accounts\AccountManager;
+use OC\PhoneNumberUtil;
 use OCA\Settings\BackgroundJobs\VerifyUserData;
 use OCP\Accounts\IAccountManager;
+use OCP\Accounts\UserUpdatedEvent;
 use OCP\BackgroundJob\IJobList;
 use OCP\Defaults;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IDBConnection;
+use OCP\IPhoneNumberUtil;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\L10N\IFactory;
@@ -40,8 +44,6 @@ use OCP\Security\ICrypto;
 use OCP\Security\VerificationToken\IVerificationToken;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
 use Test\TestCase;
 
 /**
@@ -70,11 +72,13 @@ class AccountManagerTest extends TestCase {
 	/** @var IConfig|MockObject */
 	private $config;
 
-	/** @var  EventDispatcherInterface|MockObject */
+	/** @var  IEventDispatcher|MockObject */
 	private $eventDispatcher;
 
 	/** @var IJobList|MockObject */
 	private $jobList;
+	/** @var IPhoneNumberUtil */
+	private $phoneNumberUtil;
 
 	/** accounts table name */
 	private string $table = 'accounts';
@@ -86,7 +90,7 @@ class AccountManagerTest extends TestCase {
 
 	protected function setUp(): void {
 		parent::setUp();
-		$this->eventDispatcher = $this->createMock(EventDispatcherInterface::class);
+		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 		$this->connection = \OC::$server->get(IDBConnection::class);
 		$this->config = $this->createMock(IConfig::class);
 		$this->jobList = $this->createMock(IJobList::class);
@@ -97,6 +101,7 @@ class AccountManagerTest extends TestCase {
 		$this->l10nFactory = $this->createMock(IFactory::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->crypto = $this->createMock(ICrypto::class);
+		$this->phoneNumberUtil = new PhoneNumberUtil();
 
 		$this->accountManager = new AccountManager(
 			$this->connection,
@@ -109,7 +114,8 @@ class AccountManagerTest extends TestCase {
 			$this->defaults,
 			$this->l10nFactory,
 			$this->urlGenerator,
-			$this->crypto
+			$this->crypto,
+			$this->phoneNumberUtil,
 		);
 	}
 
@@ -473,7 +479,8 @@ class AccountManagerTest extends TestCase {
 				$this->defaults,
 				$this->l10nFactory,
 				$this->urlGenerator,
-				$this->crypto
+				$this->crypto,
+				$this->phoneNumberUtil,
 			])
 			->onlyMethods($mockedMethods)
 			->getMock();
@@ -502,15 +509,14 @@ class AccountManagerTest extends TestCase {
 		if (!$insertNew && !$updateExisting) {
 			$accountManager->expects($this->never())->method('updateExistingUser');
 			$accountManager->expects($this->never())->method('insertNewUser');
-			$this->eventDispatcher->expects($this->never())->method('dispatch');
+			$this->eventDispatcher->expects($this->never())->method('dispatchTyped');
 		} else {
-			$this->eventDispatcher->expects($this->once())->method('dispatch')
+			$this->eventDispatcher->expects($this->once())->method('dispatchTyped')
 				->willReturnCallback(
-					function ($eventName, $event) use ($user, $newData) {
-						$this->assertSame('OC\AccountManager::userUpdated', $eventName);
-						$this->assertInstanceOf(GenericEvent::class, $event);
-						$this->assertSame($user, $event->getSubject());
-						$this->assertSame($newData, $event->getArguments());
+					function ($event) use ($user, $newData) {
+						$this->assertInstanceOf(UserUpdatedEvent::class, $event);
+						$this->assertSame($user, $event->getUser());
+						$this->assertSame($newData, $event->getData());
 					}
 				);
 		}

@@ -106,7 +106,7 @@ class ClientFlowLoginV2ControllerTest extends TestCase {
 
 		$result = $this->controller->poll('token');
 
-		$this->assertSame($creds, $result->getData());
+		$this->assertSame($creds->jsonSerialize(), $result->getData());
 		$this->assertSame(Http::STATUS_OK, $result->getStatus());
 	}
 

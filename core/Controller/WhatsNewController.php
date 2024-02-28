@@ -4,6 +4,7 @@
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -28,6 +29,7 @@ use OC\Security\IdentityProof\Manager;
 use OC\Updater\ChangesCheck;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\ApiRoute;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\Defaults;
 use OCP\IConfig;
@@ -54,7 +56,15 @@ class WhatsNewController extends OCSController {
 
 	/**
 	 * @NoAdminRequired
+	 *
+	 * Get the changes
+	 *
+	 * @return DataResponse<Http::STATUS_OK, array{changelogURL: string, product: string, version: string, whatsNew?: array{regular: string[], admin: string[]}}, array{}>|DataResponse<Http::STATUS_NO_CONTENT, array<empty>, array{}>
+	 *
+	 * 200: Changes returned
+	 * 204: No changes
 	 */
+	#[ApiRoute(verb: 'GET', url: '/whatsnew', root: '/core')]
 	public function get():DataResponse {
 		$user = $this->userSession->getUser();
 		if ($user === null) {
@@ -92,9 +102,17 @@ class WhatsNewController extends OCSController {
 	/**
 	 * @NoAdminRequired
 	 *
+	 * Dismiss the changes
+	 *
+	 * @param string $version Version to dismiss the changes for
+	 *
+	 * @return DataResponse<Http::STATUS_OK, array<empty>, array{}>
 	 * @throws \OCP\PreConditionNotMetException
 	 * @throws DoesNotExistException
+	 *
+	 * 200: Changes dismissed
 	 */
+	#[ApiRoute(verb: 'POST', url: '/whatsnew', root: '/core')]
 	public function dismiss(string $version):DataResponse {
 		$user = $this->userSession->getUser();
 		if ($user === null) {

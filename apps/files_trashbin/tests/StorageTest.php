@@ -41,16 +41,16 @@ use OCA\Files_Trashbin\Storage;
 use OCA\Files_Trashbin\Trash\ITrashManager;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Cache\ICache;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\Files\Storage\IStorage;
-use OCP\ILogger;
 use OCP\IUserManager;
 use OCP\Lock\ILockingProvider;
 use OCP\Share\IShare;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Psr\Log\LoggerInterface;
 use Test\Traits\MountProviderTrait;
 
 class TemporaryNoCross extends Temporary {
@@ -606,8 +606,8 @@ class StorageTest extends \Test\TestCase {
 			->disableOriginalConstructor()->getMock();
 		$userManager->expects($this->any())
 			->method('userExists')->willReturn($userExists);
-		$logger = $this->getMockBuilder(ILogger::class)->getMock();
-		$eventDispatcher = $this->createMock(EventDispatcherInterface::class);
+		$logger = $this->getMockBuilder(LoggerInterface::class)->getMock();
+		$eventDispatcher = $this->createMock(IEventDispatcher::class);
 		$rootFolder = $this->createMock(IRootFolder::class);
 		$userFolder = $this->createMock(Folder::class);
 		$node = $this->getMockBuilder(Node::class)->disableOriginalConstructor()->getMock();

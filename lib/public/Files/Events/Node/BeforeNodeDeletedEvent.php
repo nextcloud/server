@@ -25,8 +25,31 @@ declare(strict_types=1);
  */
 namespace OCP\Files\Events\Node;
 
+use Exception;
+use OCP\Files\Node;
+
 /**
  * @since 20.0.0
  */
 class BeforeNodeDeletedEvent extends AbstractNodeEvent {
+	/**
+	 * @since 20.0.0
+	 */
+	public function __construct(Node $node, private bool &$run) {
+		parent::__construct($node);
+	}
+
+	/**
+	 * @since 28.0.0
+	 * @return never
+	 */
+	public function abortOperation(\Throwable $ex = null) {
+		$this->stopPropagation();
+		$this->run = false;
+		if ($ex !== null) {
+			throw $ex;
+		} else {
+			throw new Exception('Operation aborted');
+		}
+	}
 }

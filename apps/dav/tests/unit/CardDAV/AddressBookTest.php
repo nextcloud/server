@@ -101,11 +101,10 @@ class AddressBookTest extends TestCase {
 	}
 
 
-	public function testPropPatch(): void {
-		$this->expectException(Forbidden::class);
-
+	public function testPropPatchShared(): void {
 		/** @var MockObject | CardDavBackend $backend */
 		$backend = $this->getMockBuilder(CardDavBackend::class)->disableOriginalConstructor()->getMock();
+		$backend->expects($this->never())->method('updateAddressBook');
 		$addressBookInfo = [
 			'{http://owncloud.org/ns}owner-principal' => 'user1',
 			'{DAV:}displayname' => 'Test address book',
@@ -116,7 +115,23 @@ class AddressBookTest extends TestCase {
 		$l10n = $this->createMock(IL10N::class);
 		$logger = $this->createMock(LoggerInterface::class);
 		$addressBook = new AddressBook($backend, $addressBookInfo, $l10n, $logger);
-		$addressBook->propPatch(new PropPatch([]));
+		$addressBook->propPatch(new PropPatch(['{DAV:}displayname' => 'Test address book']));
+	}
+
+	public function testPropPatchNotShared(): void {
+		/** @var MockObject | CardDavBackend $backend */
+		$backend = $this->getMockBuilder(CardDavBackend::class)->disableOriginalConstructor()->getMock();
+		$backend->expects($this->atLeast(1))->method('updateAddressBook');
+		$addressBookInfo = [
+			'{DAV:}displayname' => 'Test address book',
+			'principaluri' => 'user1',
+			'id' => 666,
+			'uri' => 'default',
+		];
+		$l10n = $this->createMock(IL10N::class);
+		$logger = $this->createMock(LoggerInterface::class);
+		$addressBook = new AddressBook($backend, $addressBookInfo, $l10n, $logger);
+		$addressBook->propPatch(new PropPatch(['{DAV:}displayname' => 'Test address book']));
 	}
 
 	/**
@@ -151,6 +166,10 @@ class AddressBookTest extends TestCase {
 		], [
 			'privilege' => '{DAV:}write',
 			'principal' => $hasOwnerSet ? 'user1' : 'user2',
+			'protected' => true
+		], [
+			'privilege' => '{DAV:}write-properties',
+			'principal' => '{DAV:}authenticated',
 			'protected' => true
 		]];
 		if ($hasOwnerSet) {

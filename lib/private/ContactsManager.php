@@ -58,15 +58,18 @@ class ContactsManager implements IManager {
 			$strictSearch = array_key_exists('strict_search', $options) && $options['strict_search'] === true;
 
 			if ($addressBook->isSystemAddressBook()) {
+				$enumeration = !\array_key_exists('enumeration', $options) || $options['enumeration'] !== false;
 				$fullMatch = !\array_key_exists('fullmatch', $options) || $options['fullmatch'] !== false;
-				if (!$fullMatch) {
-					// Neither full match is allowed, so skip the system address book
+
+				if (!$enumeration && !$fullMatch) {
+					// No access to system address book AND no full match allowed
 					continue;
 				}
+
 				if ($strictSearch) {
 					$searchOptions['wildcard'] = false;
 				} else {
-					$searchOptions['wildcard'] = !\array_key_exists('enumeration', $options) || $options['enumeration'] !== false;
+					$searchOptions['wildcard'] = $enumeration;
 				}
 			} else {
 				$searchOptions['wildcard'] = !$strictSearch;
@@ -88,20 +91,20 @@ class ContactsManager implements IManager {
 	 * This function can be used to delete the contact identified by the given id
 	 *
 	 * @param int $id the unique identifier to a contact
-	 * @param string $address_book_key identifier of the address book in which the contact shall be deleted
+	 * @param string $addressBookKey identifier of the address book in which the contact shall be deleted
 	 * @return bool successful or not
 	 */
-	public function delete($id, $address_book_key) {
-		$addressBook = $this->getAddressBook($address_book_key);
+	public function delete($id, $addressBookKey) {
+		$addressBook = $this->getAddressBook($addressBookKey);
 		if (!$addressBook) {
-			return null;
+			return false;
 		}
 
 		if ($addressBook->getPermissions() & Constants::PERMISSION_DELETE) {
 			return $addressBook->delete($id);
 		}
 
-		return null;
+		return false;
 	}
 
 	/**
@@ -109,11 +112,11 @@ class ContactsManager implements IManager {
 	 * Otherwise the contact will be updated by replacing the entire data set.
 	 *
 	 * @param array $properties this array if key-value-pairs defines a contact
-	 * @param string $address_book_key identifier of the address book in which the contact shall be created or updated
-	 * @return array representing the contact just created or updated
+	 * @param string $addressBookKey identifier of the address book in which the contact shall be created or updated
+	 * @return ?array representing the contact just created or updated
 	 */
-	public function createOrUpdate($properties, $address_book_key) {
-		$addressBook = $this->getAddressBook($address_book_key);
+	public function createOrUpdate($properties, $addressBookKey) {
+		$addressBook = $this->getAddressBook($addressBookKey);
 		if (!$addressBook) {
 			return null;
 		}
@@ -130,7 +133,7 @@ class ContactsManager implements IManager {
 	 *
 	 * @return bool true if enabled, false if not
 	 */
-	public function isEnabled() {
+	public function isEnabled(): bool {
 		return !empty($this->addressBooks) || !empty($this->addressBookLoaders);
 	}
 
@@ -189,11 +192,8 @@ class ContactsManager implements IManager {
 
 	/**
 	 * Get (and load when needed) the address book for $key
-	 *
-	 * @param string $addressBookKey
-	 * @return IAddressBook
 	 */
-	protected function getAddressBook($addressBookKey) {
+	protected function getAddressBook(string $addressBookKey): ?IAddressBook {
 		$this->loadAddressBooks();
 		if (!array_key_exists($addressBookKey, $this->addressBooks)) {
 			return null;

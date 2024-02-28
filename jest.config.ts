@@ -23,17 +23,21 @@ import type { Config } from 'jest'
 
 // TODO: find a way to consolidate this in one place, with webpack.common.js
 const ignorePatterns = [
+	'@buttercup/fetch',
 	'@juliushaertl',
 	'@mdi/svg',
 	'@nextcloud/vue',
 	'ansi-regex',
+	'camelcase',
 	'char-regex',
+	'hot-patcher',
 	'is-svg',
 	'splitpanes',
 	'string-length',
 	'strip-ansi',
 	'tributejs',
 	'vue-material-design-icons',
+	'webdav',
 ]
 
 const config: Config = {
@@ -68,6 +72,7 @@ const config: Config = {
 	// Allow mocking svg files
 	moduleNameMapper: {
 		'^.+\\.svg(\\?raw)?$': '<rootDir>/__mocks__/svg.js',
+		'\\.s?css$': '<rootDir>/__mocks__/css.js',
 	},
 	modulePathIgnorePatterns: [
 		'<rootDir>/apps2/',

@@ -2,6 +2,7 @@ OC.L10N.register(
     "dav",
     {
     "Calendar" : "Kalenteri",
+    "Tasks" : "Tehtävät",
     "Personal" : "Henkilökohtainen",
     "{actor} created calendar {calendar}" : "{actor} loi kalenterin {calendar}",
     "You created calendar {calendar}" : "Loit kalenterin {calendar}",
@@ -110,12 +111,12 @@ OC.L10N.register(
     "Configures a CalDAV account" : "Määrittää CalDAV-tilin",
     "Configures a CardDAV account" : "Määrittää CardDAV-tilin",
     "Events" : "Tapahtumat",
-    "Tasks" : "Tehtävät",
     "Untitled task" : "Nimetön tehtävä",
     "Contacts and groups" : "Yhteystiedot ja ryhmät",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "WebDAV-päätepiste",
-    "Availability" : "Saatavuus",
+    "First day" : "Ensimmäinen päivä",
+    "Save" : "Tallenna",
     "Time zone:" : "Aikavyöhyke:",
     "to" : "Vastaanottaja",
     "Delete slot" : "Poista aikarako",
@@ -128,8 +129,8 @@ OC.L10N.register(
     "Friday" : "Perjantai",
     "Saturday" : "Lauantai",
     "Sunday" : "Sunnuntai",
-    "Save" : "Tallenna",
     "Failed to load availability" : "Saatavuuden lataaminen epäonnistui",
+    "Availability" : "Saatavuus",
     "Calendar server" : "Kalenteripalvelin",
     "Send invitations to attendees" : "Lähetä kutsut osallistujille",
     "Automatically generate a birthday calendar" : "Luo syntymäpäiväkalenteri automaattisesti",
@@ -143,8 +144,6 @@ OC.L10N.register(
     "Are you accepting the invitation?" : "Hyväksytkö kutsun?",
     "Tentative" : "Alustava",
     "Your attendance was updated successfully." : "Osallistumisesi päivitettiin onnistuneesti.",
-    "Invitation canceled" : "Kutsu peruttu",
-    "Invitation updated" : "Kutsu päivitetty",
-    "Invitation" : "Kutsu"
+    "To-dos" : "Tehtävät"
 },
 "nplurals=2; plural=(n != 1);");

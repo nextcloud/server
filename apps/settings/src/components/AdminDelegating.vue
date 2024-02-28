@@ -1,5 +1,5 @@
 <template>
-	<NcSettingsSection :title="t('settings', 'Administration privileges')"
+	<NcSettingsSection :name="t('settings', 'Administration privileges')"
 		:description="t('settings', 'Here you can decide which group can access certain sections of the administration settings.')"
 		:doc-url="authorizedSettingsDocLink">
 		<div class="setting-list">

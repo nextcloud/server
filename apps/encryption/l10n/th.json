@@ -26,7 +26,6 @@
     "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "การเปิดใช้งานตัวเลือกนี้จะเข้ารหัสไฟล์ทั้งหมดที่เก็บไว้ในพื้นที่จัดเก็บข้อมูลหลัก มิฉะนั้นจะเข้ารหัสเฉพาะไฟล์บนพื้นที่จัดเก็บข้อมูลภายนอก",
     "Enable recovery key" : "เปิดใช้งานคีย์การกู้คืน",
     "Disable recovery key" : "ปิดใช้งานคีย์การกู้คืน",
-    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "คีย์การกู้คืนเป็นคีย์เข้ารหัสเพิ่มเติมที่ใช้ในการเข้ารหัสไฟล์ ซึ่งจะทำให้สามารถกู้คืนไฟล์ของผู้ใช้ที่ลืมรหัสผ่านได้",
     "Recovery key password" : "รหัสผ่านสำหรับรหัสกู้คืน",
     "Repeat recovery key password" : "ใส่รหัสผ่านของคีย์การกู้คืนอีกครั้ง",
     "Change recovery key password:" : "เปลี่ยนรหัสผ่านของคีย์การกู้คืน:",
@@ -44,7 +43,6 @@
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "การเปิดใช้งานตัวเลือกนี้จะช่วยให้คุณสามารถเข้าถึงไฟล์ของคุณที่เข้ารหัสไว้ ในกรณีที่คุณลืมรหัสผ่าน",
     "Enabled" : "เปิดใช้งาน",
     "Disabled" : "ปิดใช้งาน",
-    "The share will expire on %s." : "การแชร์จะหมดอายุในวันที่ %s",
-    "Cheers!" : "ไชโย!"
+    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "คีย์การกู้คืนเป็นคีย์เข้ารหัสเพิ่มเติมที่ใช้ในการเข้ารหัสไฟล์ ซึ่งจะทำให้สามารถกู้คืนไฟล์ของผู้ใช้ที่ลืมรหัสผ่านได้"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

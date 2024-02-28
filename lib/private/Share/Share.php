@@ -243,7 +243,7 @@ class Share extends Constants {
 	 *   * defacto $parameters and $format is always the default and therefore is removed in the subsequent call
 	 */
 	public static function getItemShared($itemType, $itemSource, $format = self::FORMAT_NONE,
-										 $parameters = null, $includeCollections = false) {
+		$parameters = null, $includeCollections = false) {
 		return self::getItems($itemType, $itemSource, null, null, \OC_User::getUser(), self::FORMAT_NONE,
 			null, -1, $includeCollections);
 	}
@@ -256,8 +256,8 @@ class Share extends Constants {
 	 * @throws \Exception
 	 */
 	public static function getBackend($itemType) {
-		$l = \OC::$server->getL10N('lib');
-		$logger = \OC::$server->get(LoggerInterface::class);
+		$l = \OCP\Util::getL10N('lib');
+		$logger = \OCP\Server::get(LoggerInterface::class);
 		if (isset(self::$backends[$itemType])) {
 			return self::$backends[$itemType];
 		} elseif (isset(self::$backendTypes[$itemType]['class'])) {
@@ -349,8 +349,8 @@ class Share extends Constants {
 	 *   * defacto $limit, $itemsShareWithBySource, $checkExpireDate, $parameters and $format is always the default and therefore is removed in the subsequent call
 	 */
 	public static function getItems($itemType, ?string $item = null, ?int $shareType = null, $shareWith = null,
-									$uidOwner = null, $format = self::FORMAT_NONE, $parameters = null, $limit = -1,
-									$includeCollections = false, $itemShareWithBySource = false, $checkExpireDate = true) {
+		$uidOwner = null, $format = self::FORMAT_NONE, $parameters = null, $limit = -1,
+		$includeCollections = false, $itemShareWithBySource = false, $checkExpireDate = true) {
 		if (\OC::$server->getConfig()->getAppValue('core', 'shareapi_enabled', 'yes') != 'yes') {
 			return [];
 		}

@@ -46,7 +46,6 @@ use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Log\ILogFactory;
 use OCP\Security\IContentSecurityPolicyManager;
 use Psr\Container\ContainerInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * This is a tagging interface for the server container
@@ -515,15 +514,6 @@ interface IServerContainer extends ContainerInterface, IContainer {
 	 * @deprecated 20.0.0 have it injected or fetch it through \Psr\Container\ContainerInterface::get
 	 */
 	public function getMimeTypeLoader();
-
-	/**
-	 * Get the EventDispatcher
-	 *
-	 * @return EventDispatcherInterface
-	 * @deprecated 20.0.0 use \OCP\EventDispatcher\IEventDispatcher
-	 * @since 8.2.0
-	 */
-	public function getEventDispatcher();
 
 	/**
 	 * Get the Notification Manager

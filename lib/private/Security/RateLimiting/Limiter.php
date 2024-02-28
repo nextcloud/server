@@ -30,8 +30,9 @@ use OC\Security\Normalizer\IpAddress;
 use OC\Security\RateLimiting\Backend\IBackend;
 use OC\Security\RateLimiting\Exception\RateLimitExceededException;
 use OCP\IUser;
+use OCP\Security\RateLimiting\ILimiter;
 
-class Limiter {
+class Limiter implements ILimiter {
 	public function __construct(
 		private IBackend $backend,
 	) {

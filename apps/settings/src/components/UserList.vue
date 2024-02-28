@@ -21,120 +21,83 @@
   -->
 
 <template>
-	<div id="app-content"
-		role="grid"
-		:aria-label="t('settings', 'User\'s table')"
-		class="user-list-grid"
-		@scroll.passive="onScroll">
+	<Fragment>
 		<NewUserModal v-if="showConfig.showNewUserForm"
 			:loading="loading"
 			:new-user="newUser"
-			:show-config="showConfig"
-			@reset="resetForm"
-			@close="showConfig.showNewUserForm = false" />
-		<div id="grid-header"
-			:class="{'sticky': scrolled && !showConfig.showNewUserForm}"
-			class="row">
-			<div id="headerAvatar" class="avatar" />
-			<div id="headerName" class="name">
-				<div class="subtitle">
-					<strong>
-						{{ t('settings', 'Display name') }}
-					</strong>
-				</div>
-				{{ t('settings', 'Username') }}
-			</div>
-			<div id="headerPassword" class="password">
-				{{ t('settings', 'Password') }}
-			</div>
-			<div id="headerAddress" class="mailAddress">
-				{{ t('settings', 'Email') }}
-			</div>
-			<div id="headerGroups" class="groups">
-				{{ t('settings', 'Groups') }}
-			</div>
-			<div v-if="subAdminsGroups.length>0 && settings.isAdmin"
-				id="headerSubAdmins"
-				class="subadmins">
-				{{ t('settings', 'Group admin for') }}
-			</div>
-			<div id="headerQuota" class="quota">
-				{{ t('settings', 'Quota') }}
-			</div>
-			<div v-if="showConfig.showLanguages"
-				id="headerLanguages"
-				class="languages">
-				{{ t('settings', 'Language') }}
-			</div>
-
-			<div v-if="showConfig.showUserBackend || showConfig.showStoragePath"
-				class="headerUserBackend userBackend">
-				<div v-if="showConfig.showUserBackend" class="userBackend">
-					{{ t('settings', 'User backend') }}
-				</div>
-				<div v-if="showConfig.showStoragePath"
-					class="subtitle storageLocation">
-					{{ t('settings', 'Storage location') }}
-				</div>
-			</div>
-			<div v-if="showConfig.showLastLogin"
-				class="headerLastLogin lastLogin">
-				{{ t('settings', 'Last login') }}
-			</div>
-			<div id="headerManager" class="manager">
-				{{ t('settings', 'Manager') }}
-			</div>
-			<div class="userActions" />
-		</div>
-
-		<UserRow v-for="user in filteredUsers"
-			:key="user.id"
-			:external-actions="externalActions"
-			:groups="groups"
-			:languages="languages"
 			:quota-options="quotaOptions"
-			:settings="settings"
-			:show-config="showConfig"
-			:sub-admins-groups="subAdminsGroups"
-			:user="user"
-			:users="users"
-			:is-dark-theme="isDarkTheme" />
+			@reset="resetForm"
+			@close="closeModal" />
 
-		<InfiniteLoading ref="infiniteLoading" @infinite="infiniteHandler">
-			<div slot="spinner">
-				<div class="users-icon-loading icon-loading" />
-			</div>
-			<div slot="no-more">
-				<div class="users-list-end" />
-			</div>
-			<div slot="no-results">
-				<div id="emptycontent">
-					<div class="icon-contacts-dark" />
-					<h2>{{ t('settings', 'No users in here') }}</h2>
-				</div>
-			</div>
-		</InfiniteLoading>
-	</div>
+		<NcEmptyContent v-if="filteredUsers.length === 0"
+			class="empty"
+			:name="isInitialLoad && loading.users ? null : t('settings', 'No accounts')">
+			<template #icon>
+				<NcLoadingIcon v-if="isInitialLoad && loading.users"
+					:name="t('settings', 'Loading accounts …')"
+					:size="64" />
+				<NcIconSvgWrapper v-else
+					:svg="usersSvg" />
+			</template>
+		</NcEmptyContent>
+
+		<VirtualList v-else
+			:data-component="UserRow"
+			:data-sources="filteredUsers"
+			data-key="id"
+			data-cy-user-list
+			:item-height="rowHeight"
+			:style="style"
+			:extra-props="{
+				users,
+				settings,
+				hasObfuscated,
+				groups,
+				subAdminsGroups,
+				quotaOptions,
+				languages,
+				externalActions,
+			}"
+			@scroll-end="handleScrollEnd">
+			<template #before>
+				<caption class="hidden-visually">
+					{{ t('settings', 'List of accounts. This list is not fully rendered for performance reasons. The accounts will be rendered as you navigate through the list.') }}
+				</caption>
+			</template>
+
+			<template #header>
+				<UserListHeader :has-obfuscated="hasObfuscated" />
+			</template>
+
+			<template #footer>
+				<UserListFooter :loading="loading.users"
+					:filtered-users="filteredUsers" />
+			</template>
+		</VirtualList>
+	</Fragment>
 </template>
 
 <script>
 import Vue from 'vue'
-import InfiniteLoading from 'vue-infinite-loading'
+import { Fragment } from 'vue-frag'
+
+import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
+import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
+import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
 
 import { subscribe, unsubscribe } from '@nextcloud/event-bus'
+import { showError } from '@nextcloud/dialogs'
 
-import UserRow from './Users/UserRow.vue'
+import VirtualList from './Users/VirtualList.vue'
 import NewUserModal from './Users/NewUserModal.vue'
+import UserListFooter from './Users/UserListFooter.vue'
+import UserListHeader from './Users/UserListHeader.vue'
+import UserRow from './Users/UserRow.vue'
 
-const unlimitedQuota = {
-	id: 'none',
-	label: t('settings', 'Unlimited'),
-}
+import { defaultQuota, isObfuscated, unlimitedQuota } from '../utils/userUtils.ts'
+import logger from '../logger.js'
 
-const defaultQuota = {
-	id: 'default',
-	label: t('settings', 'Default quota'),
-}
+import usersSvg from '../../img/users.svg?raw'
 
 const newUser = {
 	id: '',
@@ -155,20 +118,17 @@ export default {
 	name: 'UserList',
 
 	components: {
-		InfiniteLoading,
+		Fragment,
+		NcEmptyContent,
+		NcIconSvgWrapper,
+		NcLoadingIcon,
 		NewUserModal,
-		UserRow,
+		UserListFooter,
+		UserListHeader,
+		VirtualList,
 	},
 
 	props: {
-		users: {
-			type: Array,
-			default: () => [],
-		},
-		showConfig: {
-			type: Object,
-			required: true,
-		},
 		selectedGroup: {
 			type: String,
 			default: null,
@@ -181,23 +141,43 @@ export default {
 
 	data() {
 		return {
+			UserRow,
 			loading: {
 				all: false,
 				groups: false,
+				users: false,
 			},
-			scrolled: false,
+			isInitialLoad: true,
+			rowHeight: 55,
+			usersSvg,
 			searchQuery: '',
 			newUser: Object.assign({}, newUser),
 		}
 	},
 
 	computed: {
+		showConfig() {
+			return this.$store.getters.getShowConfig
+		},
+
 		settings() {
 			return this.$store.getters.getServerData
 		},
-		selectedGroupDecoded() {
-			return decodeURIComponent(this.selectedGroup)
+
+		style() {
+			return {
+				'--row-height': `${this.rowHeight}px`,
+			}
 		},
+
+		hasObfuscated() {
+			return this.filteredUsers.some(user => isObfuscated(user))
+		},
+
+		users() {
+			return this.$store.getters.getUsers
+		},
+
 		filteredUsers() {
 			if (this.selectedGroup === 'disabled') {
 				return this.users.filter(user => user.enabled === false)
@@ -208,16 +188,19 @@ export default {
 			}
 			return this.users.filter(user => user.enabled !== false)
 		},
+
 		groups() {
 			// data provided php side + remove the disabled group
 			return this.$store.getters.getGroups
 				.filter(group => group.id !== 'disabled')
 				.sort((a, b) => a.name.localeCompare(b.name))
 		},
+
 		subAdminsGroups() {
 			// data provided php side
 			return this.$store.getters.getSubadminGroups
 		},
+
 		quotaOptions() {
 			// convert the preset array into objects
 			const quotaPreset = this.settings.quotaPreset.reduce((acc, cur) => acc.concat({
@@ -231,12 +214,23 @@ export default {
 			quotaPreset.unshift(defaultQuota)
 			return quotaPreset
 		},
+
 		usersOffset() {
 			return this.$store.getters.getUsersOffset
 		},
+
 		usersLimit() {
 			return this.$store.getters.getUsersLimit
 		},
+
+		disabledUsersOffset() {
+			return this.$store.getters.getDisabledUsersOffset
+		},
+
+		disabledUsersLimit() {
+			return this.$store.getters.getDisabledUsersLimit
+		},
+
 		usersCount() {
 			return this.users.length
 		},
@@ -254,37 +248,29 @@ export default {
 				},
 			]
 		},
-		isDarkTheme() {
-			return window.getComputedStyle(this.$el)
-				.getPropertyValue('--background-invert-if-dark') === 'invert(100%)'
-		},
 	},
+
 	watch: {
 		// watch url change and group select
-		selectedGroup(val, old) {
+		async selectedGroup(val, old) {
+			this.isInitialLoad = true
 			// if selected is the disabled group but it's empty
-			this.redirectIfDisabled()
+			await this.redirectIfDisabled()
 			this.$store.commit('resetUsers')
-			this.$refs.infiniteLoading.stateChanger.reset()
+			await this.loadUsers()
 			this.setNewUserDefaultGroup(val)
 		},
 
-		// make sure the infiniteLoading state is changed if we manually
-		// add/remove data from the store
-		usersCount(val, old) {
-			// deleting the last user, reset the list
-			if (val === 0 && old === 1) {
-				this.$refs.infiniteLoading.stateChanger.reset()
-				// adding the first user, warn the infiniteLoader that
-				// the list is not empty anymore (we don't fetch the newly
-				// added user as we already have all the info we need)
-			} else if (val === 1 && old === 0) {
-				this.$refs.infiniteLoading.stateChanger.loaded()
-			}
+		filteredUsers(filteredUsers) {
+			logger.debug(`${filteredUsers.length} filtered user(s)`)
 		},
 	},
 
-	mounted() {
+	async created() {
+		await this.loadUsers()
+	},
+
+	async mounted() {
 		if (!this.settings.canChangePassword) {
 			OC.Notification.showTemporary(t('settings', 'Password change is disabled because the master key is disabled'))
 		}
@@ -303,40 +289,55 @@ export default {
 		/**
 		 * If disabled group but empty, redirect
 		 */
-		this.redirectIfDisabled()
+		await this.redirectIfDisabled()
 	},
+
 	beforeDestroy() {
 		unsubscribe('nextcloud:unified-search.search', this.search)
 		unsubscribe('nextcloud:unified-search.reset', this.resetSearch)
 	},
 
 	methods: {
-		onScroll(event) {
-			this.scrolled = event.target.scrollTo > 0
+		async handleScrollEnd() {
+			await this.loadUsers()
 		},
 
-		infiniteHandler($state) {
-			this.$store.dispatch('getUsers', {
-				offset: this.usersOffset,
-				limit: this.usersLimit,
-				group: this.selectedGroup !== 'disabled' ? this.selectedGroup : '',
-				search: this.searchQuery,
+		async loadUsers() {
+			this.loading.users = true
+			try {
+				if (this.selectedGroup === 'disabled') {
+					await this.$store.dispatch('getDisabledUsers', {
+						offset: this.disabledUsersOffset,
+						limit: this.disabledUsersLimit,
+					})
+				} else {
+					await this.$store.dispatch('getUsers', {
+						offset: this.usersOffset,
+						limit: this.usersLimit,
+						group: this.selectedGroup,
+						search: this.searchQuery,
+					})
+				}
+				logger.debug(`${this.users.length} total user(s) loaded`)
+			} catch (error) {
+				logger.error('Failed to load accounts', { error })
+				showError('Failed to load accounts')
+			}
+			this.loading.users = false
+			this.isInitialLoad = false
+		},
+
+		closeModal() {
+			this.$store.commit('setShowConfig', {
+				key: 'showNewUserForm',
+				value: false,
 			})
-				.then((usersCount) => {
-					if (usersCount > 0) {
-						$state.loaded()
-					}
-					if (usersCount < this.usersLimit) {
-						$state.complete()
-					}
-				})
 		},
 
-		/* SEARCH */
-		search({ query }) {
+		async search({ query }) {
 			this.searchQuery = query
 			this.$store.commit('resetUsers')
-			this.$refs.infiniteLoading.stateChanger.reset()
+			await this.loadUsers()
 		},
 
 		resetSearch() {
@@ -367,7 +368,7 @@ export default {
 
 		setNewUserDefaultGroup(value) {
 			if (value && value.length > 0) {
-				// setting new user default group to the current selected one
+				// setting new account default group to the current selected one
 				const currentGroup = this.groups.find(group => group.id === value)
 				if (currentGroup) {
 					this.newUser.groups = [currentGroup]
@@ -384,15 +385,33 @@ export default {
 		 * we only check for 0 because we don't have the count on ldap
 		 * and we therefore set the usercount to -1 in this specific case
 		 */
-		redirectIfDisabled() {
+		async redirectIfDisabled() {
 			const allGroups = this.$store.getters.getGroups
 			if (this.selectedGroup === 'disabled'
 						&& allGroups.findIndex(group => group.id === 'disabled' && group.usercount === 0) > -1) {
 				// disabled group is empty, redirection to all users
 				this.$router.push({ name: 'users' })
-				this.$refs.infiniteLoading.stateChanger.reset()
+				await this.loadUsers()
 			}
 		},
 	},
 }
 </script>
+
+<style lang="scss" scoped>
+@import './Users/shared/styles.scss';
+
+.empty {
+	:deep {
+		.icon-vue {
+			width: 64px;
+			height: 64px;
+
+			svg {
+				max-width: 64px;
+				max-height: 64px;
+			}
+		}
+	}
+}
+</style>
