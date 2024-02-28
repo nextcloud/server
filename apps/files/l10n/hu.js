@@ -211,7 +211,6 @@ OC.L10N.register(
     "Select file or folder to link to" : "Válassza ki a hivatkozandó fájlt vagy mappát",
     "Choose file" : "Válasszon fájlt",
     "Choose {file}" : "{file} kiválasztása",
-    "Add" : "Hozzáadás",
     "Loading current folder" : "Jelenlegi mappa betöltése",
     "No files in here" : "Itt nincsenek fájlok",
     "Upload some content or sync with your devices!" : "Töltsön fel néhány tartalmat, vagy szinkronizáljon az eszközeivel.",
@@ -314,6 +313,7 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Ez a lista teljesítménybeli okokból nincs teljes egészében megjelenítve. A fájlok a listában navigálás során jelennek meg, ",
     "Search for an account" : "Fiók keresése",
     "Choose" : "Válasszon",
-    "No files or folders have been deleted yet" : "Még nem lettek fájlok vagy mappák törölve"
+    "No files or folders have been deleted yet" : "Még nem lettek fájlok vagy mappák törölve",
+    "Add" : "Hozzáadás"
 },
 "nplurals=2; plural=(n != 1);");

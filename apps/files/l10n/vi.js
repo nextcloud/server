@@ -207,7 +207,6 @@ OC.L10N.register(
     "Cannot transfer ownership of a file or folder you do not own" : "Không thể chuyển quyền sở hữu tệp hoặc thư mục mà bạn không sở hữu",
     "Select file or folder to link to" : "Chọn tập tin hoặc thư mục để liên kết đến",
     "Choose {file}" : "Chọn {tập tin}",
-    "Add" : "Thêm",
     "Loading current folder" : "Đang tải thư mục hiện tại",
     "No files in here" : "Không có tệp nào",
     "Upload some content or sync with your devices!" : "Tải lên một số nội dung hoặc đồng bộ với thiết bị của bạn!",
@@ -305,6 +304,7 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "anh sách này không được hiển thị đầy đủ vì lý do hiệu suất. Các tập tin sẽ được hiển thị khi bạn điều hướng qua danh sách.",
     "Search for an account" : "Tìm kiếm tài khoản",
     "Choose" : "Chọn",
-    "No files or folders have been deleted yet" : "Chưa có tập tin hoặc thư mục nào bị xóa"
+    "No files or folders have been deleted yet" : "Chưa có tập tin hoặc thư mục nào bị xóa",
+    "Add" : "Thêm"
 },
 "nplurals=1; plural=0;");

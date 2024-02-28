@@ -209,7 +209,6 @@
     "Select file or folder to link to" : "Seleccione o ficheiro ou cartafol ao que ligar",
     "Choose file" : "Escoller o ficheiro",
     "Choose {file}" : "Escoller  {file}",
-    "Add" : "Engadir",
     "Loading current folder" : "Cargando o cartafol actual",
     "No files in here" : "Aquí non hai ficheiros",
     "Upload some content or sync with your devices!" : "Envíe algún contido ou sincronice cos seus dispositivos!",
@@ -313,6 +312,7 @@
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Esta lista non se representa de xeito completo por mor do rendemento. Os ficheiros represéntanse se despraza pola lista.",
     "Search for an account" : "Buscar por unha conta",
     "Choose" : "Escoller",
-    "No files or folders have been deleted yet" : "Aínda non se eliminou ningún ficheiro nin cartafol"
+    "No files or folders have been deleted yet" : "Aínda non se eliminou ningún ficheiro nin cartafol",
+    "Add" : "Engadir"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

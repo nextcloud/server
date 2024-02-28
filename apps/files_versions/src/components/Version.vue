@@ -19,7 +19,7 @@
 	<NcListItem class="version"
 		:name="versionLabel"
 		:force-display-actions="true"
-		data-files-versions-version
+		:data-files-versions-version="version.fileVersion"
 		@click="click">
 		<!-- Icon -->
 		<template #icon>
@@ -52,6 +52,7 @@
 		<!-- Actions -->
 		<template #actions>
 			<NcActionButton v-if="enableLabeling && hasUpdatePermissions"
+				data-cy-files-versions-version-action="label"
 				:close-after-click="true"
 				@click="labelUpdate">
 				<template #icon>
@@ -60,6 +61,7 @@
 				{{ version.label === '' ? t('files_versions', 'Name this version') : t('files_versions', 'Edit version name') }}
 			</NcActionButton>
 			<NcActionButton v-if="!isCurrent && canView && canCompare"
+				data-cy-files-versions-version-action="compare"
 				:close-after-click="true"
 				@click="compareVersion">
 				<template #icon>
@@ -68,6 +70,7 @@
 				{{ t('files_versions', 'Compare to current version') }}
 			</NcActionButton>
 			<NcActionButton v-if="!isCurrent && hasUpdatePermissions"
+				data-cy-files-versions-version-action="restore"
 				:close-after-click="true"
 				@click="restoreVersion">
 				<template #icon>
@@ -76,6 +79,7 @@
 				{{ t('files_versions', 'Restore version') }}
 			</NcActionButton>
 			<NcActionLink v-if="isDownloadable"
+				data-cy-files-versions-version-action="download"
 				:href="downloadURL"
 				:close-after-click="true"
 				:download="downloadURL">
@@ -85,6 +89,7 @@
 				{{ t('files_versions', 'Download version') }}
 			</NcActionLink>
 			<NcActionButton v-if="!isCurrent && enableDeletion && hasDeletePermissions"
+				data-cy-files-versions-version-action="delete"
 				:close-after-click="true"
 				@click="deleteVersion">
 				<template #icon>
@@ -266,7 +271,11 @@ export default defineComponent({
 			this.$emit('restore', this.version)
 		},
 
-		deleteVersion() {
+		async deleteVersion() {
+			// Let @nc-vue properly remove the popover before we delete the version.
+			// This prevents @nc-vue from throwing a error.
+			await this.$nextTick()
+			await this.$nextTick()
 			this.$emit('delete', this.version)
 		},
 

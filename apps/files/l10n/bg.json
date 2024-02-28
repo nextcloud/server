@@ -189,7 +189,6 @@
     "Ownership transfer request sent" : "Изпратена заявка за прехвърляне на собствеността",
     "Cannot transfer ownership of a file or folder you do not own" : "Не можете да прехвърляте собственост върху файл или папка, които не притежавате",
     "Select file or folder to link to" : "Избор на файл или папка, към които да поставите връзка",
-    "Add" : "Добавяне",
     "Loading current folder" : "Зареждане на текущата папка",
     "No files in here" : "Няма файлове",
     "Upload some content or sync with your devices!" : "Качете съдържание или синхронизирайте с вашите устройства!",
@@ -258,6 +257,7 @@
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Този списък не е напълно рендиран поради причини, свързани с производителността. Файловете ще бъдат рендирани, докато навигирате из списъка.",
     "Search for an account" : "Търсене на профил",
     "Choose" : "Изберете",
-    "No files or folders have been deleted yet" : "Все още няма изтрити файлове или папки"
+    "No files or folders have been deleted yet" : "Все още няма изтрити файлове или папки",
+    "Add" : "Добавяне"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

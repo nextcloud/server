@@ -224,7 +224,6 @@ OC.L10N.register(
     "Select file or folder to link to" : "Velg fil eller mappe å koble til",
     "Choose file" : "Velg fil",
     "Choose {file}" : "Choose {file}",
-    "Add" : "Legg til",
     "Loading current folder" : "Laster gjeldende mappe",
     "No files in here" : "Ingen filer",
     "Upload some content or sync with your devices!" : "Last opp innhold eller synkroniser med enhetene dine!",
@@ -345,6 +344,7 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Denne listen er ikke fullstendig gjengitt av ytelsesgrunner. Filene gjengis når du navigerer gjennom listen.",
     "Search for an account" : "Søk etter en konto",
     "Choose" : "Velg",
-    "No files or folders have been deleted yet" : "Ingen filer eller mapper er slettet enda"
+    "No files or folders have been deleted yet" : "Ingen filer eller mapper er slettet enda",
+    "Add" : "Legg til"
 },
 "nplurals=2; plural=(n != 1);");
