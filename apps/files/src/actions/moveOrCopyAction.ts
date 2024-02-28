@@ -166,7 +166,7 @@ export const handleCopyMoveNodeTo = async (node: Node, destination: Folder, meth
 				if (error?.response?.status === 412) {
 					throw new Error(t('files', 'A file or folder with that name already exists in this folder'))
 				} else if (error?.response?.status === 423) {
-					throw new Error(t('files', 'The file is locked'))
+					throw new Error(t('files', 'The files are locked'))
 				} else if (error?.response?.status === 404) {
 					throw new Error(t('files', 'The file does not exist anymore'))
 				} else if (error.message) {
