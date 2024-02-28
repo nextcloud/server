@@ -242,32 +242,31 @@ class OauthApiController extends Controller {
 	public function getUserInfo(): JSONResponse {
 		$user = $this->userSession->getUser();
 		if ($user === null) {
-		    return new JSONResponse([
+			return new JSONResponse([
 				'error' => 'user_not_found',
 			], Http::STATUS_NOT_FOUND);
-		} else {
-			$displayName = $user->getDisplayName();
-			$partedName = explode(' ', $displayName);
-			$userId = $user->getUID();
-			$locale = $this->l10nFactory->findLocale();
-
-			$userInfo = [
-				'sub' => $userId,
-				'name' => $displayName,
-				'email' => $user->getEMailAddress(),
-				'picture' => $this->urlGenerator->getAbsoluteURL(
-					$this->urlGenerator->linkToRoute('core.avatar.getAvatar', [
-						'userId' => $userId,
-						'size' => 512
-					]))
-			];
-
-			if ($locale === 'ru') {
-				$userInfo['given_name'] = $partedName[0];
-				$userInfo['family_name'] = $partedName[1] ?? $partedName[0];
-			}
-			$response = new JSONResponse($userInfo);
 		}
+		$displayName = $user->getDisplayName();
+		$partedName = explode(' ', $displayName);
+		$userId = $user->getUID();
+		$locale = $this->l10nFactory->findLocale();
+
+		$userInfo = [
+			'sub' => $userId,
+			'name' => $displayName,
+			'email' => $user->getEMailAddress(),
+			'picture' => $this->urlGenerator->getAbsoluteURL(
+				$this->urlGenerator->linkToRoute('core.avatar.getAvatar', [
+					'userId' => $userId,
+					'size' => 512
+				]))
+		];
+
+		if ($locale === 'ru') {
+			$userInfo['given_name'] = $partedName[0];
+			$userInfo['family_name'] = $partedName[1] ?? $partedName[0];
+		}
+		$response = new JSONResponse($userInfo);
 		return $response;
 	}
 }
