@@ -239,32 +239,6 @@
 			return deferred.promise();
 		},
 
-		checkDataProtected: function() {
-			var deferred = $.Deferred();
-			if(oc_dataURL === false){
-				return deferred.resolve([]);
-			}
-			var afterCall = function(xhr) {
-				var messages = [];
-				// .ocdata is an empty file in the data directory - if this is readable then the data dir is not protected
-				if (xhr.status === 200 && xhr.responseText === '') {
-					messages.push({
-						msg: t('core', 'Your data directory and files are probably accessible from the internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root.'),
-						type: OC.SetupChecks.MESSAGE_TYPE_ERROR
-					});
-				}
-				deferred.resolve(messages);
-			};
-
-			$.ajax({
-				type: 'GET',
-				url: OC.linkTo('', oc_dataURL+'/.ocdata?t=' + (new Date()).getTime()),
-				complete: afterCall,
-				allowAuthErrors: true
-			});
-			return deferred.promise();
-		},
-
 		/**
 		 * Runs check for some generic security headers on the server side
 		 *
