@@ -63,6 +63,7 @@ use OCA\Settings\SetupChecks\DefaultPhoneRegionSet;
 use OCA\Settings\SetupChecks\EmailTestSuccessful;
 use OCA\Settings\SetupChecks\FileLocking;
 use OCA\Settings\SetupChecks\ForwardedForHeaders;
+use OCA\Settings\SetupChecks\HttpsUrlGeneration;
 use OCA\Settings\SetupChecks\InternetConnectivity;
 use OCA\Settings\SetupChecks\JavaScriptModules;
 use OCA\Settings\SetupChecks\LegacySSEKeyFormat;
@@ -188,6 +189,7 @@ class Application extends App implements IBootstrap {
 		$context->registerSetupCheck(EmailTestSuccessful::class);
 		$context->registerSetupCheck(FileLocking::class);
 		$context->registerSetupCheck(ForwardedForHeaders::class);
+		$context->registerSetupCheck(HttpsUrlGeneration::class);
 		$context->registerSetupCheck(InternetConnectivity::class);
 		$context->registerSetupCheck(JavaScriptModules::class);
 		$context->registerSetupCheck(LegacySSEKeyFormat::class);

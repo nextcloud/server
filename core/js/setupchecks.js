@@ -105,14 +105,6 @@
 			var afterCall = function(data, statusText, xhr) {
 				var messages = [];
 				if (xhr.status === 200 && data) {
-					if (window.location.protocol === 'https:' && data.reverseProxyGeneratedURL.split('/')[0] !== 'https:') {
-						messages.push({
-							msg: t('core', 'You are accessing your instance over a secure connection, however your instance is generating insecure URLs. This most likely means that you are behind a reverse proxy and the overwrite config variables are not set correctly. Please read {linkstart}the documentation page about this ↗{linkend}.')
-								.replace('{linkstart}', '<a target="_blank" rel="noreferrer noopener" class="external" href="' + data.reverseProxyDocs + '">')
-								.replace('{linkend}', '</a>'),
-							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
-						})
-					}
 					if (Object.keys(data.generic).length > 0) {
 						Object.keys(data.generic).forEach(function(key){
 							Object.keys(data.generic[key]).forEach(function(title){
@@ -366,13 +358,6 @@
 							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 						});
 					}
-				} else if (!/(?:^(?:localhost|127\.0\.0\.1|::1)|\.onion)$/.exec(window.location.hostname)) {
-					messages.push({
-						msg: t('core', 'Accessing site insecurely via HTTP. You are strongly advised to set up your server to require HTTPS instead, as described in the {linkstart}security tips ↗{linkend}. Without it some important web functionality like "copy to clipboard" or "service workers" will not work!')
-							.replace('{linkstart}', '<a target="_blank" rel="noreferrer noopener" class="external" href="' + tipsUrl + '">')
-							.replace('{linkend}', '</a>'),
-						type: OC.SetupChecks.MESSAGE_TYPE_ERROR
-					});
 				}
 			} else {
 				messages.push({
