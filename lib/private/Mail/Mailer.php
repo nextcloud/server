@@ -350,14 +350,10 @@ class Mailer implements IMailer {
 				break;
 		}
 
-		switch ($this->config->getSystemValueString('mail_sendmailmode', 'smtp')) {
-			case 'pipe':
-				$binaryParam = ' -t';
-				break;
-			default:
-				$binaryParam = ' -bs';
-				break;
-		}
+		$binaryParam = match ($this->config->getSystemValueString('mail_sendmailmode', 'smtp')) {
+			'pipe' => ' -t -i',
+			default => ' -bs',
+		};
 
 		return new SendmailTransport($binaryPath . $binaryParam, null, $this->logger);
 	}
