@@ -42,6 +42,7 @@ use OCP\AppFramework\Http\Response;
 use Psr\Log\LoggerInterface;
 use OCA\DAV\AppInfo\PluginManager;
 use OCA\DAV\CalDAV\BirthdayService;
+use OCA\DAV\CalDAV\Security\RateLimitingPlugin;
 use OCA\DAV\CardDAV\HasPhotoPlugin;
 use OCA\DAV\CardDAV\ImageExportPlugin;
 use OCA\DAV\CardDAV\MultiGetExportPlugin;
@@ -185,6 +186,8 @@ class Server {
 				\OC::$server->getConfig(),
 				\OC::$server->getURLGenerator()
 			));
+
+			$this->server->addPlugin(\OC::$server->get(RateLimitingPlugin::class));
 		}
 
 		// addressbook plugins
