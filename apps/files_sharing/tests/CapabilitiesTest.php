@@ -36,6 +36,7 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountManager;
 use OCP\IConfig;
+use OCP\IDateTimeZone;
 use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IURLGenerator;
@@ -98,7 +99,8 @@ class CapabilitiesTest extends \Test\TestCase {
 			$this->createMock(IEventDispatcher::class),
 			$this->createMock(IUserSession::class),
 			$this->createMock(KnownUserService::class),
-			$this->createMock(ShareDisableChecker::class)
+			$this->createMock(ShareDisableChecker::class),
+			$this->createMock(IDateTimeZone::class),
 		);
 		$cap = new Capabilities($config, $shareManager);
 		$result = $this->getFilesSharingPart($cap->getCapabilities());
