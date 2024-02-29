@@ -239,11 +239,6 @@ class Server {
 			$this->server->addPlugin(new FakeLockerPlugin());
 		}
 
-		// Allow view-only plugin for webdav requests
-		$this->server->addPlugin(new ViewOnlyPlugin(
-			\OC::$server->getUserFolder(),
-		));
-
 		if (BrowserErrorPagePlugin::isBrowserRequest($request)) {
 			$this->server->addPlugin(new BrowserErrorPagePlugin());
 		}
@@ -253,6 +248,11 @@ class Server {
 
 		// wait with registering these until auth is handled and the filesystem is setup
 		$this->server->on('beforeMethod:*', function () use ($root, $lazySearchBackend, $logger) {
+			// Allow view-only plugin for webdav requests
+			$this->server->addPlugin(new ViewOnlyPlugin(
+				\OC::$server->getUserFolder(),
+			));
+
 			// custom properties plugin must be the last one
 			$userSession = \OC::$server->getUserSession();
 			$user = $userSession->getUser();
