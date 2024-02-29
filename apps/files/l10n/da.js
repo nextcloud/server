@@ -244,7 +244,6 @@ OC.L10N.register(
     "This file/folder is already in that directory" : "Filen/mappen er allerede i denne mappe",
     "You cannot move a file/folder onto itself or into a subfolder of itself" : "Du kan ikke flytte en fil/mappe ind i sig selv, eller til en mappe inden i sig selv",
     "A file or folder with that name already exists in this folder" : "En fil eller mappe med det navn findes allerede i denne mappe",
-    "The files is locked" : "Filerne er låste",
     "The file does not exist anymore" : "Filen findes ikke længere",
     "Copy to {target}" : "Kopiér til {target}",
     "Move to {target}" : "Flyt til {target}",
@@ -305,6 +304,7 @@ OC.L10N.register(
     "Search for an account" : "Søg efter en konto",
     "Choose" : "Vælg",
     "No files or folders have been deleted yet" : "Ingen filer eller mappe er slettet endnu",
-    "Add" : "Tilføj"
+    "Add" : "Tilføj",
+    "The files is locked" : "Filerne er låste"
 },
 "nplurals=2; plural=(n != 1);");

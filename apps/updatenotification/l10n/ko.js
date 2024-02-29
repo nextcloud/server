@@ -17,6 +17,7 @@ OC.L10N.register(
     "Apps missing compatible version" : "호환되지 않는 앱",
     "View in store" : "스토어에서 보기",
     "Apps with compatible version" : "호환되는 앱",
+    "Please note that the web updater is not recommended with more than 100 accounts! Please use the command line updater instead!" : "계정이 100개 이상 존재하는 경우 웹 업데이터 사용을 권장하지 않습니다. 대신 명령행 업데이터를 사용하십시오. ",
     "Open updater" : "업데이터 열기",
     "Download now" : "지금 다운로드",
     "Web updater is disabled. Please use the command line updater or the appropriate update mechanism for your installation method (e.g. Docker pull) to update." : "웹 업데이터가 비활성화 되었습니다. 명령행 업데이터 또는 이 인스턴스의 설치 방식(예: Docker)에 적합한 업데이트 방법을 이용하십시오.",

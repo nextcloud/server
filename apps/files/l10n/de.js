@@ -251,7 +251,6 @@ OC.L10N.register(
     "This file/folder is already in that directory" : "Diese Datei oder Ordner ist bereits in diesem Verzeichnis vorhanden",
     "You cannot move a file/folder onto itself or into a subfolder of itself" : "Eine Datei oder ein Ordner kann nicht auf sich selbst oder in einen Unterordner von sich selbst verschoben werden.",
     "A file or folder with that name already exists in this folder" : "In diesem Ordner ist bereits eine Datei oder ein Ordner mit diesem Namen vorhanden",
-    "The files is locked" : "Die Datei ist gesperrt",
     "The file does not exist anymore" : "Die Datei existiert nicht mehr",
     "Copy to {target}" : "Nach {target} kopieren",
     "Move to {target}" : "Nach {target} verschieben",
@@ -314,6 +313,7 @@ OC.L10N.register(
     "Search for an account" : "Nach einem Konto suchen",
     "Choose" : "Auswählen",
     "No files or folders have been deleted yet" : "Es wurden noch keine Dateien oder Ordner gelöscht",
-    "Add" : "Hinzufügen"
+    "Add" : "Hinzufügen",
+    "The files is locked" : "Die Datei ist gesperrt"
 },
 "nplurals=2; plural=(n != 1);");

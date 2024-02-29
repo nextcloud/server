@@ -251,7 +251,6 @@ OC.L10N.register(
     "This file/folder is already in that directory" : "Оваа папка/датотека се наоѓа веќе во таа папка",
     "You cannot move a file/folder onto itself or into a subfolder of itself" : "Неможете да преместите датотека/папка во себеси или во подпапка во себеси",
     "A file or folder with that name already exists in this folder" : "Датотека или папка со тоа име веќе постои во оваа папка",
-    "The files is locked" : "Датотекатите се заклучени",
     "The file does not exist anymore" : "Датотеката не постои",
     "Choose destination" : "Избери дестинација",
     "Copy to {target}" : "Копирај во {target}",
@@ -315,6 +314,7 @@ OC.L10N.register(
     "Search for an account" : "Пребарај сметка",
     "Choose" : "Избери",
     "No files or folders have been deleted yet" : "Нема датотеки или папки што се избришани",
-    "Add" : "Додади"
+    "Add" : "Додади",
+    "The files is locked" : "Датотекатите се заклучени"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

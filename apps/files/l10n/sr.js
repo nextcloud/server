@@ -274,7 +274,6 @@ OC.L10N.register(
     "(copy %n)" : "(копирано %n)",
     "Move cancelled" : "Премештање је отказано",
     "A file or folder with that name already exists in this folder" : "У овом фолдеру већ постоји фајл или фолдер са тим именом",
-    "The files is locked" : "Фајл је закључан",
     "The file does not exist anymore" : "Фајл више не постоји",
     "Choose destination" : "Изаберите одредиште",
     "Copy to {target}" : "Копирај у {target}",
@@ -345,6 +344,7 @@ OC.L10N.register(
     "Search for an account" : "Претражите налог",
     "Choose" : "Изаберите",
     "No files or folders have been deleted yet" : "Још увек није обрисан ниједан фајл или фолдер",
-    "Add" : "Додај"
+    "Add" : "Додај",
+    "The files is locked" : "Фајл је закључан"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

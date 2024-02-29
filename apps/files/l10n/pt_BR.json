@@ -259,7 +259,6 @@
     "(copy)" : "(cópia)",
     "(copy %n)" : "(copiar %n)",
     "A file or folder with that name already exists in this folder" : "Já existe um arquivo ou pasta com esse nome nesta pasta",
-    "The files is locked" : "Os arquivos estão bloqueados",
     "The file does not exist anymore" : "O arquivo não existe mais",
     "Choose destination" : "Escolha o destino",
     "Copy to {target}" : "Copiar para {target}",
@@ -324,6 +323,7 @@
     "Search for an account" : "Pesquisar uma conta",
     "Choose" : "Escolher",
     "No files or folders have been deleted yet" : "Nenhum arquivo ou pasta foi excluído ainda",
-    "Add" : "Adicionar"
+    "Add" : "Adicionar",
+    "The files is locked" : "Os arquivos estão bloqueados"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }
