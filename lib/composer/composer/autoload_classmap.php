@@ -1640,6 +1640,7 @@ return array(
     'OC\\Remote\\User' => $baseDir . '/lib/private/Remote/User.php',
     'OC\\Repair' => $baseDir . '/lib/private/Repair.php',
     'OC\\RepairException' => $baseDir . '/lib/private/RepairException.php',
+    'OC\\Repair\\AddAppConfigLazyMigration' => $baseDir . '/lib/private/Repair/AddAppConfigLazyMigration.php',
     'OC\\Repair\\AddBruteForceCleanupJob' => $baseDir . '/lib/private/Repair/AddBruteForceCleanupJob.php',
     'OC\\Repair\\AddCleanupUpdaterBackupsJob' => $baseDir . '/lib/private/Repair/AddCleanupUpdaterBackupsJob.php',
     'OC\\Repair\\AddMetadataGenerationJob' => $baseDir . '/lib/private/Repair/AddMetadataGenerationJob.php',
