@@ -253,7 +253,6 @@
     "This file/folder is already in that directory" : "V oné složce se už daný soubor/složka nachází",
     "You cannot move a file/folder onto itself or into a subfolder of itself" : "Není možné přesunout soubor/složku do sebe samé nebo do své vlastní podložky",
     "A file or folder with that name already exists in this folder" : "V této složce už existuje stejnojmenný soubor či složka",
-    "The files is locked" : "Soubory jsou uzamčené",
     "The file does not exist anymore" : "Soubor už neexistuje",
     "Choose destination" : "Vyberte cíl",
     "Copy to {target}" : "Zkopírovat do {target}",
@@ -317,6 +316,7 @@
     "Search for an account" : "Hledat účet",
     "Choose" : "Vybrat",
     "No files or folders have been deleted yet" : "Zatím nebyly smazány žádné soubory či složky",
-    "Add" : "Přidat"
+    "Add" : "Přidat",
+    "The files is locked" : "Soubory jsou uzamčené"
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;"
 }

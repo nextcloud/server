@@ -250,7 +250,6 @@
     "This file/folder is already in that directory" : "Este ficheiro/cartafol xa está nese directorio",
     "You cannot move a file/folder onto itself or into a subfolder of itself" : "Non é posíbel mover un ficheiro/cartafol sobre si mesmo ou a un subcartafol de si mesmo",
     "A file or folder with that name already exists in this folder" : "Neste cartafol xa existe un ficheiro ou cartafol con ese nome",
-    "The files is locked" : "Os ficheiros están bloqueados",
     "The file does not exist anymore" : "O ficheiro xa non existe",
     "Copy to {target}" : "Copiar en {target}",
     "Move to {target}" : "Mover a {target}",
@@ -313,6 +312,7 @@
     "Search for an account" : "Buscar por unha conta",
     "Choose" : "Escoller",
     "No files or folders have been deleted yet" : "Aínda non se eliminou ningún ficheiro nin cartafol",
-    "Add" : "Engadir"
+    "Add" : "Engadir",
+    "The files is locked" : "Os ficheiros están bloqueados"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

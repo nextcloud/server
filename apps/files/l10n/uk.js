@@ -274,7 +274,6 @@ OC.L10N.register(
     "(copy %n)" : "(копія %n)",
     "Move cancelled" : "Переміщення скасовано",
     "A file or folder with that name already exists in this folder" : "Файл чи каталог з таким ім'ям вже присутній в цьому каталозі",
-    "The files is locked" : "Файл заблоковано",
     "The file does not exist anymore" : "Цей файл більше недоступний",
     "Choose destination" : "Виберіть каталог призначення",
     "Copy to {target}" : "Копіювати до {target}",
@@ -345,6 +344,7 @@ OC.L10N.register(
     "Search for an account" : "Пошук облікового запису",
     "Choose" : "Вибрати",
     "No files or folders have been deleted yet" : "Поки жодного каталогу чи файлу не було вилучено",
-    "Add" : "Додати"
+    "Add" : "Додати",
+    "The files is locked" : "Файл заблоковано"
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");
