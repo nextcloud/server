@@ -272,7 +272,6 @@
     "(copy %n)" : "(kopia %n)",
     "Move cancelled" : "Flytt avbruten",
     "A file or folder with that name already exists in this folder" : "En fil eller mapp med det namnet finns redan i den här mappen",
-    "The files is locked" : "Filerna är låsta",
     "The file does not exist anymore" : "Filen finns inte längre",
     "Choose destination" : "Välj destination",
     "Copy to {target}" : "Kopiera till {target}",
@@ -343,6 +342,7 @@
     "Search for an account" : "Sök efter ett konto",
     "Choose" : "Välj",
     "No files or folders have been deleted yet" : "Inga filer eller mappar har tagits bort än",
-    "Add" : "Lägg till"
+    "Add" : "Lägg till",
+    "The files is locked" : "Filerna är låsta"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

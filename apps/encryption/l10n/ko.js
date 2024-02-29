@@ -42,6 +42,7 @@ OC.L10N.register(
     "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "이 옵션을 사용하면 주 저장소에 있는 모드 파일을 암호화하며, 사용하지 않으면 외부 저장소의 파일만 암호화합니다",
     "Enable recovery key" : "복구 키 활성화",
     "Disable recovery key" : "복구 키 비활성화",
+    "The recovery key is an additional encryption key used to encrypt files. It is used to recover files from an account if the password is forgotten." : "복구 키는 암호화된 파일에 대한 추가적 키 입니다. 암호를 잊은 상황에서 파일을 복구할 때 사용됩니다.",
     "Recovery key password" : "복구 키 암호",
     "Repeat recovery key password" : "복구 키 암호 확인",
     "Change recovery key password:" : "복구 키 암호 변경:",

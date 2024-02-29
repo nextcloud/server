@@ -389,4 +389,4 @@ OC.L10N.register(
     "Allow username autocompletion in share dialog" : "לאפשר השלמה אוטומטית של שם משתמש בחלונית השיתוף",
     "Allow username autocompletion to users within the same groups" : "לאפשר השלמה אוטומטית של שם משתמש למשתמשים בתוך אותן הקבוצות"
 },
-"nplurals=3; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");
+"nplurals=3; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: 2;");

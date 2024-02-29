@@ -13,6 +13,7 @@ OC.L10N.register(
     "Federated Share request sent, you will receive an invitation. Check your notifications." : "クラウド共有リクエストが送信されました。招待が受信できます。通知を確認してください。",
     "Couldn't establish a federated share, it looks like the server to federate with is too old (Nextcloud <= 9)." : "フェデレーション共有を確立できませんでした。連合するサーバーが古すぎます（Nextcloud <= 9）。",
     "It is not allowed to send federated group shares from this server." : "このサーバーからフェデレーショングループ共有を送信することはできません。",
+    "Sharing %1$s failed, because this item is already shared with the account %2$s" : "このアイテム %1$sはすでにアカウント %2$sと共有されているため、共有に失敗しました",
     "Federated shares require read permissions" : "フェデレーション共有には読み取り権限が必要です",
     "File is already shared with %s" : "ファイルはすでに %s と共有されています。",
     "Sharing %1$s failed, could not find %2$s, maybe the server is currently unreachable or uses a self-signed certificate." : "%1$s の共有に失敗しました。%2$s が見つかりませんでした。おそらくサーバーに接続できないか、自己証明書を使用しています。",

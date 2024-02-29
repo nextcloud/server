@@ -255,7 +255,6 @@ OC.L10N.register(
     "(copy)" : "(copia)",
     "(copy %n)" : "(copia %n)",
     "A file or folder with that name already exists in this folder" : "Esiste già un file o una cartella con quel nome in questa cartella",
-    "The files is locked" : "Il file è bloccato",
     "The file does not exist anymore" : "Il file non esiste più",
     "Choose destination" : "Scegli la destinazione",
     "Copy to {target}" : "Copia in {target}",
@@ -319,6 +318,7 @@ OC.L10N.register(
     "Search for an account" : "Cerca un account",
     "Choose" : "Scegli",
     "No files or folders have been deleted yet" : "Nessun file o cartella è stato ancora eliminato",
-    "Add" : "Aggiungi"
+    "Add" : "Aggiungi",
+    "The files is locked" : "Il file è bloccato"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
