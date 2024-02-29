@@ -128,10 +128,6 @@ class Application extends App implements IBootstrap {
 		/**
 		 * Core class wrappers
 		 */
-		/** FIXME: Remove once OC_User is non-static and mockable */
-		$context->registerService('isAdmin', function () {
-			return \OC_User::isAdminUser(\OC_User::getUser());
-		});
 		/** FIXME: Remove once OC_SubAdmin is non-static and mockable */
 		$context->registerService('isSubAdmin', function () {
 			$userObject = \OC::$server->getUserSession()->getUser();

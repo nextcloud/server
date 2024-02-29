@@ -83,8 +83,6 @@ class UsersController extends Controller {
 	private $userSession;
 	/** @var IConfig */
 	private $config;
-	/** @var bool */
-	private $isAdmin;
 	/** @var IL10N */
 	private $l10n;
 	/** @var IMailer */
@@ -114,7 +112,6 @@ class UsersController extends Controller {
 		IGroupManager $groupManager,
 		IUserSession $userSession,
 		IConfig $config,
-		bool $isAdmin,
 		IL10N $l10n,
 		IMailer $mailer,
 		IFactory $l10nFactory,
@@ -131,7 +128,6 @@ class UsersController extends Controller {
 		$this->groupManager = $groupManager;
 		$this->userSession = $userSession;
 		$this->config = $config;
-		$this->isAdmin = $isAdmin;
 		$this->l10n = $l10n;
 		$this->mailer = $mailer;
 		$this->l10nFactory = $l10nFactory;
@@ -168,6 +164,7 @@ class UsersController extends Controller {
 	public function usersList(): TemplateResponse {
 		$user = $this->userSession->getUser();
 		$uid = $user->getUID();
+		$isAdmin = $this->groupManager->isAdmin($uid);
 
 		\OC::$server->getNavigationManager()->setActiveEntry('core_users');
 
@@ -192,7 +189,7 @@ class UsersController extends Controller {
 		/* GROUPS */
 		$groupsInfo = new \OC\Group\MetaData(
 			$uid,
-			$this->isAdmin,
+			$isAdmin,
 			$this->groupManager,
 			$this->userSession
 		);
@@ -210,7 +207,7 @@ class UsersController extends Controller {
 		$userCount = 0;
 
 		if (!$isLDAPUsed) {
-			if ($this->isAdmin) {
+			if ($isAdmin) {
 				$disabledUsers = $this->userManager->countDisabledUsers();
 				$userCount = array_reduce($this->userManager->countUsers(), function ($v, $w) {
 					return $v + (int)$w;
@@ -265,7 +262,7 @@ class UsersController extends Controller {
 		// groups
 		$serverData['groups'] = array_merge_recursive($adminGroup, [$disabledUsersGroup], $groups);
 		// Various data
-		$serverData['isAdmin'] = $this->isAdmin;
+		$serverData['isAdmin'] = $isAdmin;
 		$serverData['sortGroups'] = $sortGroupsBy;
 		$serverData['quotaPreset'] = $quotaPreset;
 		$serverData['allowUnlimitedQuota'] = $allowUnlimitedQuota;
