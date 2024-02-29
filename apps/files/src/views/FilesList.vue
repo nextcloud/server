@@ -20,7 +20,7 @@
   -
   -->
 <template>
-	<NcAppContent data-cy-files-content>
+	<NcAppContent :page-heading="pageHeading" data-cy-files-content>
 		<div class="files-list__header">
 			<!-- Current folder breadcrumbs -->
 			<BreadCrumbs :path="dir" @reload="fetchContent">
@@ -223,6 +223,10 @@ export default defineComponent({
 
 		currentView(): View {
 			return this.$navigation.active || this.$navigation.views.find((view) => view.id === (this.$route.params?.view ?? 'files'))
+		},
+
+		pageHeading(): string {
+			return this.currentView?.name ?? this.t('files', 'Files')
 		},
 
 		/**
@@ -567,7 +571,7 @@ export default defineComponent({
 		 * Refreshes the current folder on update.
 		 *
 		 * @param node is the file/folder being updated.
- 		 */
+		 */
 		onUpdatedNode(node?: Node) {
 			if (node?.fileid === this.currentFolder?.fileid) {
 				this.fetchContent()
