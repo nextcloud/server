@@ -164,6 +164,13 @@
 						</label>
 						<textarea id="share-note-textarea" :value="share.note" @input="share.note = $event.target.value" />
 					</template>
+					<ExternalShareAction v-for="action in externalLinkActions"
+						:id="action.id"
+						ref="externalLinkActions"
+						:key="action.id"
+						:action="action"
+						:file-info="fileInfo"
+						:share="share" />
 					<NcCheckboxRadioSwitch :checked.sync="setCustomPermissions">
 						{{ t('files_sharing', 'Custom permissions') }}
 					</NcCheckboxRadioSwitch>
@@ -234,6 +241,7 @@
 
 <script>
 import { getLanguage } from '@nextcloud/l10n'
+import { Type as ShareType } from '@nextcloud/sharing'
 
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import NcInputField from '@nextcloud/vue/dist/Components/NcInputField.js'
@@ -255,6 +263,8 @@ import UploadIcon from 'vue-material-design-icons/Upload.vue'
 import MenuDownIcon from 'vue-material-design-icons/MenuDown.vue'
 import MenuUpIcon from 'vue-material-design-icons/MenuUp.vue'
 import DotsHorizontalIcon from 'vue-material-design-icons/DotsHorizontal.vue'
+
+import ExternalShareAction from '../components/ExternalShareAction.vue'
 
 import GeneratePassword from '../utils/GeneratePassword.js'
 import Share from '../models/Share.js'
@@ -281,6 +291,7 @@ export default {
 		CloseIcon,
 		CircleIcon,
 		EditIcon,
+		ExternalShareAction,
 		LinkIcon,
 		GroupIcon,
 		ShareIcon,
@@ -318,6 +329,8 @@ export default {
 			isFirstComponentLoad: true,
 			test: false,
 			creating: false,
+
+			ExternalShareActions: OCA.Sharing.ExternalShareActions.state,
 		}
 	},
 
@@ -670,6 +683,18 @@ export default {
 			}
 			return undefined
 		},
+
+		/**
+		 * Additional actions for the menu
+		 *
+		 * @return {Array}
+		 */
+		externalLinkActions() {
+			const filterValidAction = (action) => (action.shareType.includes(ShareType.SHARE_TYPE_LINK) || action.shareType.includes(ShareType.SHARE_TYPE_EMAIL)) && action.advanced
+			// filter only the advanced registered actions for said link
+			return this.ExternalShareActions.actions
+				.filter(filterValidAction)
+		},
 	},
 	watch: {
 		setCustomPermissions(isChecked) {
@@ -858,6 +883,15 @@ export default {
 				this.$emit('add:share', this.share)
 			} else {
 				this.queueUpdate(...permissionsAndAttributes)
+			}
+
+			if (this.$refs.externalLinkActions?.length > 0) {
+				await Promise.allSettled(this.$refs.externalLinkActions.map((action) => {
+					if (typeof action.$children.at(0)?.onSave !== 'function') {
+						return Promise.resolve()
+					}
+					return action.$children.at(0)?.onSave?.()
+				}))
 			}
 
 			this.$emit('close-sharing-details')
