@@ -269,7 +269,6 @@ OC.L10N.register(
     "(copy)" : "(kopiatu)",
     "(copy %n)" : "(kopiatu %n)",
     "A file or folder with that name already exists in this folder" : "Izen hori duen fitxategi edo karpeta bat dago karpena honetan",
-    "The files is locked" : "Fixategiak blokeatuta dago",
     "The file does not exist anymore" : "Fitxategia ez da existizen dagoeneko",
     "Choose destination" : "Aukeratu helburua",
     "Copy to {target}" : "Kopiatu hona: {target}",
@@ -334,6 +333,7 @@ OC.L10N.register(
     "Search for an account" : "Bilatu kontu bat",
     "Choose" : "Aukeratu",
     "No files or folders have been deleted yet" : "Oraindik ez da ezabatu fitxategirik edo karpetarik",
-    "Add" : "Gehitu"
+    "Add" : "Gehitu",
+    "The files is locked" : "Fixategiak blokeatuta dago"
 },
 "nplurals=2; plural=(n != 1);");

@@ -242,7 +242,6 @@ OC.L10N.register(
     "This file/folder is already in that directory" : "Acest fișier/folder există în acel dosar",
     "You cannot move a file/folder onto itself or into a subfolder of itself" : "Nu se poate muta/redenumi un fișier/folder în el însuși sau într-un subfolder al său",
     "A file or folder with that name already exists in this folder" : "Un fișier sau folder cu acest nume există deja în acest folder",
-    "The files is locked" : "Fișierul este blocat",
     "The file does not exist anymore" : "Fișierul nu mai există",
     "Copy to {target}" : "Copiază la {target}",
     "Move to {target}" : "Mută la {target}",
@@ -303,6 +302,7 @@ OC.L10N.register(
     "Search for an account" : "Căutați un cont",
     "Choose" : "Alege",
     "No files or folders have been deleted yet" : "Niciun fișier sau folder nu a fost șters încă",
-    "Add" : "Adaugă"
+    "Add" : "Adaugă",
+    "The files is locked" : "Fișierul este blocat"
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

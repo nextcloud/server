@@ -247,7 +247,6 @@ OC.L10N.register(
     "This file/folder is already in that directory" : "该文件/文件夹已经存在与该目录中",
     "You cannot move a file/folder onto itself or into a subfolder of itself" : "你无法将文件/文件夹移动至其自身或子文件夹中",
     "A file or folder with that name already exists in this folder" : "相同的文件/文件夹已存在于该文件夹中",
-    "The files is locked" : "文件已锁定",
     "The file does not exist anymore" : "文件不存在",
     "Copy to {target}" : "复制到 {target}",
     "Move to {target}" : "移动到 {target}",
@@ -309,6 +308,7 @@ OC.L10N.register(
     "Search for an account" : "搜索一个账户",
     "Choose" : "选择",
     "No files or folders have been deleted yet" : "尚未删除任何文件或文件夹",
-    "Add" : "添加"
+    "Add" : "添加",
+    "The files is locked" : "文件已锁定"
 },
 "nplurals=1; plural=0;");
