@@ -248,7 +248,6 @@
     "This file/folder is already in that directory" : "Αυτό το αρχείο/φάκελος βρίσκεται ήδη σε αυτόν τον κατάλογο",
     "You cannot move a file/folder onto itself or into a subfolder of itself" : "Δεν μπορείτε να μετακινήσετε ένα αρχείο/φάκελο στον εαυτό του ή σε έναν υποφάκελο του ίδιου του φακέλου.",
     "A file or folder with that name already exists in this folder" : "Ένα αρχείο ή ένας φάκελος με αυτό το όνομα υπάρχει ήδη σε αυτόν το φάκελο",
-    "The files is locked" : "Το αρχείο είναι κλειδωμένο",
     "The file does not exist anymore" : "Το αρχείο δεν υπάρχει πλέον",
     "Choose destination" : "Επιλέξτε προορισμό",
     "Copy to {target}" : "Αντιγραφή σε {target}",
@@ -310,6 +309,7 @@
     "Search for an account" : "Αναζήτηση για λογαριασμό",
     "Choose" : "Επιλογή",
     "No files or folders have been deleted yet" : "Κανένα αρχείο ή φάκελος δεν έχει διαγραφεί ακόμα",
-    "Add" : "Προσθήκη"
+    "Add" : "Προσθήκη",
+    "The files is locked" : "Το αρχείο είναι κλειδωμένο"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -161,6 +161,7 @@ if ($config->getSystemValueBool('installed', false)) {
 	$application->add(Server::get(Command\User\AuthTokens\Add::class));
 	$application->add(Server::get(Command\User\AuthTokens\ListCommand::class));
 	$application->add(Server::get(Command\User\AuthTokens\Delete::class));
+	$application->add(Server::get(Command\User\Keys\Verify::class));
 
 	$application->add(Server::get(Command\Group\Add::class));
 	$application->add(Server::get(Command\Group\Delete::class));

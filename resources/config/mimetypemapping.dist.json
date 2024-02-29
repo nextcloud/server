@@ -9,6 +9,7 @@
 
 	"3gp": ["video/3gpp"],
 	"7z": ["application/x-7z-compressed"],
+	"aac": ["audio/aac"],
 	"accdb": ["application/msaccess"],
 	"adoc": ["text/asciidoc", "text/plain"],
 	"ai": ["application/illustrator"],

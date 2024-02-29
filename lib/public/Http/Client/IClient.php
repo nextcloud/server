@@ -208,6 +208,16 @@ interface IClient {
 	public function options(string $uri, array $options = []): IResponse;
 
 	/**
+	 * Get the response of a Throwable thrown by the request methods when possible
+	 *
+	 * @param \Throwable $e
+	 * @return IResponse
+	 * @throws \Throwable When $e did not have a response
+	 * @since 29.0.0
+	 */
+	public function getResponseFromThrowable(\Throwable $e): IResponse;
+
+	/**
 	 * Sends an asynchronous GET request
 	 * @param string $uri
 	 * @param array $options Array such as

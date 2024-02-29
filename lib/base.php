@@ -35,6 +35,7 @@ declare(strict_types=1);
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author MartB <mart.b@outlook.de>
  * @author Michael Gapczynski <GapczynskiM@gmail.com>
+ * @author MichaIng <micha@dietpi.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Owen Winkler <a_github@midnightcircus.com>
  * @author Phil Davis <phil.davis@inf.org>
@@ -388,10 +389,15 @@ class OC {
 		$ocVersion = \OCP\Util::getVersion();
 		$ocVersion = implode('.', $ocVersion);
 		$incompatibleApps = $appManager->getIncompatibleApps($ocVersion);
+		$incompatibleOverwrites = $systemConfig->getValue('app_install_overwrite', []);
 		$incompatibleShippedApps = [];
+		$incompatibleDisabledApps = [];
 		foreach ($incompatibleApps as $appInfo) {
 			if ($appManager->isShipped($appInfo['id'])) {
 				$incompatibleShippedApps[] = $appInfo['name'] . ' (' . $appInfo['id'] . ')';
+			}
+			if (!in_array($appInfo['id'], $incompatibleOverwrites)) {
+				$incompatibleDisabledApps[] = $appInfo;
 			}
 		}
 
@@ -402,7 +408,7 @@ class OC {
 		}
 
 		$tmpl->assign('appsToUpgrade', $appManager->getAppsNeedingUpgrade($ocVersion));
-		$tmpl->assign('incompatibleAppsList', $incompatibleApps);
+		$tmpl->assign('incompatibleAppsList', $incompatibleDisabledApps);
 		try {
 			$defaults = new \OC_Defaults();
 			$tmpl->assign('productName', $defaults->getName());

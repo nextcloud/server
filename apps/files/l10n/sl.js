@@ -245,7 +245,6 @@ OC.L10N.register(
     "This file/folder is already in that directory" : "Ta datoteka oziroma mapa je že v določeni mapi",
     "You cannot move a file/folder onto itself or into a subfolder of itself" : "Mape ali datoteke ni mogoče premakniti samo vase oziroma v podmapo same sebe",
     "A file or folder with that name already exists in this folder" : "Datoteka oziroma mapa s tem imenom v tej mapi že obstaja",
-    "The files is locked" : "Datoteka je zaklenjena",
     "The file does not exist anymore" : "Datoteka ne obstaja več",
     "Copy to {target}" : "Kopiraj na {target}",
     "Move to {target}" : "Premakni na {target}",
@@ -306,6 +305,7 @@ OC.L10N.register(
     "Search for an account" : "Poišči račun",
     "Choose" : "Izbor",
     "No files or folders have been deleted yet" : "Ni še izbrisanih datotek in map",
-    "Add" : "Dodaj"
+    "Add" : "Dodaj",
+    "The files is locked" : "Datoteka je zaklenjena"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

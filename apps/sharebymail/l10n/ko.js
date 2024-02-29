@@ -10,6 +10,7 @@ OC.L10N.register(
     "Password to access {file} was sent to {email}" : "{file}에 접근할 수 있는 암호를 {email}(으)로 보냄",
     "Password to access {file} was sent to you" : "{file}에 접근할 수 있는 암호를 내게 보냄",
     "Share by mail" : "이메일로 공유",
+    "Sharing %1$s failed, because this item is already shared with the account %2$s" : "%1$s을(를) 공유할 수 없습니다. 이 항목을 이미 %2$s 계정과 공유하고 있습니다",
     "Failed to send share by email" : "이메일로 공유를 보낼 수 없음",
     "%1$s shared »%2$s« with you" : "%1$s 님이 \"%2$s\" 항목을 공유했습니다",
     "%1$s shared »%2$s« with you." : "%1$s 님이 »%2$s« 항목을 공유했습니다",

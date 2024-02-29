@@ -567,7 +567,9 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 	 * @throws InvalidPathException
 	 */
 	protected function verifyPosixPath($fileName) {
-		$this->scanForInvalidCharacters($fileName, "\\/");
+		$invalidChars = \OCP\Util::getForbiddenFileNameChars();
+		$this->scanForInvalidCharacters($fileName, $invalidChars);
+
 		$fileName = trim($fileName);
 		$reservedNames = ['*'];
 		if (in_array($fileName, $reservedNames)) {
@@ -577,11 +579,11 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 
 	/**
 	 * @param string $fileName
-	 * @param string $invalidChars
+	 * @param string[] $invalidChars
 	 * @throws InvalidPathException
 	 */
-	private function scanForInvalidCharacters($fileName, $invalidChars) {
-		foreach (str_split($invalidChars) as $char) {
+	private function scanForInvalidCharacters(string $fileName, array $invalidChars) {
+		foreach ($invalidChars as $char) {
 			if (str_contains($fileName, $char)) {
 				throw new InvalidCharacterInPathException();
 			}
@@ -668,7 +670,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 	private function isSameStorage(IStorage $storage): bool {
 		while ($storage->instanceOfStorage(Wrapper::class)) {
 			/**
-			 * @var Wrapper $sourceStorage
+			 * @var Wrapper $storage
 			 */
 			$storage = $storage->getWrapperStorage();
 		}

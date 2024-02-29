@@ -272,8 +272,8 @@ OC.L10N.register(
     "You cannot move a file/folder onto itself or into a subfolder of itself" : "파일/폴더를 그 안이나 그 안의 폴더로 이동할 수 없습니다.",
     "(copy)" : "(복사)",
     "(copy %n)" : "(%n 복사)",
+    "Move cancelled" : "이동이 취소됨",
     "A file or folder with that name already exists in this folder" : "같은 이름을 사용하는 파일 또는 폴더가 이미 이 폴더에 있습니다.",
-    "The files is locked" : "이 파일은 잠겼습니다.",
     "The file does not exist anymore" : "파일이 더이상 존재하지 않습니다.",
     "Choose destination" : "목적지 선택",
     "Copy to {target}" : "{target}에 복사",
@@ -344,6 +344,7 @@ OC.L10N.register(
     "Search for an account" : "계정 검색",
     "Choose" : "선택",
     "No files or folders have been deleted yet" : "아직 삭제된 파일이나 폴더가 없습니다.",
-    "Add" : "추가"
+    "Add" : "추가",
+    "The files is locked" : "이 파일은 잠겼습니다."
 },
 "nplurals=1; plural=0;");

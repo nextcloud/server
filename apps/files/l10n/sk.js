@@ -248,7 +248,6 @@ OC.L10N.register(
     "This file/folder is already in that directory" : "Tento súbor/priečinok sa už v danom adresári nachádza",
     "You cannot move a file/folder onto itself or into a subfolder of itself" : "Nemôžete presunúť súbor/priečinok do seba alebo do jeho podpriečinka.",
     "A file or folder with that name already exists in this folder" : "Súbor alebo priečinok s týmto názvom už existuje v tomto priečinku",
-    "The files is locked" : "Súbory sú uzamknuté",
     "The file does not exist anymore" : "Súbor už neexistuje",
     "Copy to {target}" : "Kopírovať do {target}",
     "Move to {target}" : "Presunúť do {target}",
@@ -310,6 +309,7 @@ OC.L10N.register(
     "Search for an account" : "Vyhľadať účet",
     "Choose" : "Vybrať",
     "No files or folders have been deleted yet" : "Žiadne súbory alebo priečinky neboli ešte vymazané",
-    "Add" : "Pridať"
+    "Add" : "Pridať",
+    "The files is locked" : "Súbory sú uzamknuté"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

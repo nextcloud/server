@@ -251,7 +251,6 @@ OC.L10N.register(
     "This file/folder is already in that directory" : "Ez a fájl/mappa már létezik a mappában",
     "You cannot move a file/folder onto itself or into a subfolder of itself" : "A fájl/mappa önmagába, vagy saját almappájába áthelyezése nem lehetséges",
     "A file or folder with that name already exists in this folder" : "Már létezik ilyen nevű fájl vagy mappa ebben a mappában",
-    "The files is locked" : "Ez a fájl zárolva van",
     "The file does not exist anymore" : "Ez a fájl már nem létezik",
     "Copy to {target}" : "Másolás ide: {target}",
     "Move to {target}" : "Áthelyezés ide: {target}",
@@ -314,6 +313,7 @@ OC.L10N.register(
     "Search for an account" : "Fiók keresése",
     "Choose" : "Válasszon",
     "No files or folders have been deleted yet" : "Még nem lettek fájlok vagy mappák törölve",
-    "Add" : "Hozzáadás"
+    "Add" : "Hozzáadás",
+    "The files is locked" : "Ez a fájl zárolva van"
 },
 "nplurals=2; plural=(n != 1);");

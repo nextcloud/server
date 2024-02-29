@@ -149,7 +149,7 @@ class MailPlugin implements ISearchPlugin {
 						}
 						if ($exactEmailMatch && $this->shareeEnumerationFullMatch) {
 							try {
-								$cloud = $this->cloudIdManager->resolveCloudId($contact['CLOUD'][0]);
+								$cloud = $this->cloudIdManager->resolveCloudId($contact['CLOUD'][0] ?? '');
 							} catch (\InvalidArgumentException $e) {
 								continue;
 							}
@@ -174,7 +174,7 @@ class MailPlugin implements ISearchPlugin {
 
 						if ($this->shareeEnumeration) {
 							try {
-								$cloud = $this->cloudIdManager->resolveCloudId($contact['CLOUD'][0]);
+								$cloud = $this->cloudIdManager->resolveCloudId($contact['CLOUD'][0] ?? '');
 							} catch (\InvalidArgumentException $e) {
 								continue;
 							}

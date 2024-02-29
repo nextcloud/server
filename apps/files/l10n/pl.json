@@ -242,7 +242,6 @@
     "This file/folder is already in that directory" : "Ten plik/katalog znajduje się już w tym katalogu",
     "You cannot move a file/folder onto itself or into a subfolder of itself" : "Nie można przenieść pliku/katalogu do tego samego katalogu lub do własnego podkatalogu",
     "A file or folder with that name already exists in this folder" : "Plik lub katalog o tej nazwie już istnieje w tym katalogu",
-    "The files is locked" : "Pliki są zablokowane",
     "The file does not exist anymore" : "Plik już nie istnieje",
     "Copy to {target}" : "Skopiuj do {target}",
     "Move to {target}" : "Przenieś do {target}",
@@ -303,6 +302,7 @@
     "Search for an account" : "Wyszukaj konto",
     "Choose" : "Wybierz",
     "No files or folders have been deleted yet" : "Żadne pliki ani katalogi nie zostały jeszcze usunięte",
-    "Add" : "Dodaj"
+    "Add" : "Dodaj",
+    "The files is locked" : "Pliki są zablokowane"
 },"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"
 }
