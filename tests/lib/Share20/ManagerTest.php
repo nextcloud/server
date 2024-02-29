@@ -21,6 +21,7 @@
 
 namespace Test\Share20;
 
+use DateTimeZone;
 use OC\Files\Mount\MoveableMount;
 use OC\KnownUser\KnownUserService;
 use OC\Share20\DefaultShareProvider;
@@ -39,6 +40,7 @@ use OCP\Files\Node;
 use OCP\Files\Storage;
 use OCP\HintException;
 use OCP\IConfig;
+use OCP\IDateTimeZone;
 use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IL10N;
@@ -114,6 +116,9 @@ class ManagerTest extends \Test\TestCase {
 	protected $knownUserService;
 	/** @var ShareDisableChecker|MockObject  */
 	protected $shareDisabledChecker;
+	private DateTimeZone $timezone;
+	/** @var IDateTimeZone|MockObject  */
+	protected $dateTimeZone;
 
 	protected function setUp(): void {
 		$this->logger = $this->createMock(LoggerInterface::class);
@@ -132,6 +137,9 @@ class ManagerTest extends \Test\TestCase {
 		$this->knownUserService = $this->createMock(KnownUserService::class);
 
 		$this->shareDisabledChecker = new ShareDisableChecker($this->config, $this->userManager, $this->groupManager);
+		$this->dateTimeZone = $this->createMock(IDateTimeZone::class);
+		$this->timezone = new \DateTimeZone('Pacific/Auckland');
+		$this->dateTimeZone->method('getTimeZone')->willReturnCallback(fn () => $this->timezone);
 
 		$this->l10nFactory = $this->createMock(IFactory::class);
 		$this->l = $this->createMock(IL10N::class);
@@ -164,7 +172,8 @@ class ManagerTest extends \Test\TestCase {
 			$this->dispatcher,
 			$this->userSession,
 			$this->knownUserService,
-			$this->shareDisabledChecker
+			$this->shareDisabledChecker,
+			$this->dateTimeZone,
 		);
 
 		$this->defaultProvider = $this->createMock(DefaultShareProvider::class);
@@ -196,6 +205,7 @@ class ManagerTest extends \Test\TestCase {
 				$this->userSession,
 				$this->knownUserService,
 				$this->shareDisabledChecker,
+				$this->dateTimeZone,
 			]);
 	}
 
@@ -933,7 +943,7 @@ class ManagerTest extends \Test\TestCase {
 				]);
 		}
 
-		$expected = new \DateTime();
+		$expected = new \DateTime('now', $this->timezone);
 		$expected->setTime(0, 0, 0);
 		$expected->add(new \DateInterval('P3D'));
 
@@ -968,7 +978,7 @@ class ManagerTest extends \Test\TestCase {
 				]);
 		}
 
-		$expected = new \DateTime();
+		$expected = new \DateTime('now', $this->timezone);
 		$expected->setTime(0, 0, 0);
 		$expected->add(new \DateInterval('P1D'));
 
@@ -1015,7 +1025,7 @@ class ManagerTest extends \Test\TestCase {
 	 * @dataProvider validateExpirationDateInternalProvider
 	 */
 	public function testValidateExpirationDateInternalEnforceValid($shareType) {
-		$future = new \DateTime();
+		$future = new \DateTime('now', $this->dateTimeZone->getTimeZone());
 		$future->add(new \DateInterval('P2D'));
 		$future->setTime(1, 2, 3);
 
@@ -1057,7 +1067,7 @@ class ManagerTest extends \Test\TestCase {
 	 * @dataProvider validateExpirationDateInternalProvider
 	 */
 	public function testValidateExpirationDateInternalNoDefault($shareType) {
-		$date = new \DateTime();
+		$date = new \DateTime('now', $this->dateTimeZone->getTimeZone());
 		$date->add(new \DateInterval('P5D'));
 		$date->setTime(1, 2, 3);
 
@@ -1105,9 +1115,10 @@ class ManagerTest extends \Test\TestCase {
 		$share = $this->manager->newShare();
 		$share->setShareType($shareType);
 
-		$expected = new \DateTime();
+		$expected = new \DateTime('now', $this->timezone);
+		$expected->setTime(0, 0);
 		$expected->add(new \DateInterval('P3D'));
-		$expected->setTime(0, 0, 0);
+		$expected->setTimezone(new \DateTimeZone(date_default_timezone_get()));
 
 		if ($shareType === IShare::TYPE_USER) {
 			$this->config->method('getAppValue')
@@ -1140,12 +1151,12 @@ class ManagerTest extends \Test\TestCase {
 	 * @dataProvider validateExpirationDateInternalProvider
 	 */
 	public function testValidateExpirationDateInternalDefault($shareType) {
-		$future = new \DateTime();
+		$future = new \DateTime('now', $this->timezone);
 		$future->add(new \DateInterval('P5D'));
 		$future->setTime(1, 2, 3);
 
 		$expected = clone $future;
-		$expected->setTime(0, 0, 0);
+		$expected->setTime(0, 0);
 
 		$share = $this->manager->newShare();
 		$share->setShareType($shareType);
@@ -1182,7 +1193,7 @@ class ManagerTest extends \Test\TestCase {
 	 * @dataProvider validateExpirationDateInternalProvider
 	 */
 	public function testValidateExpirationDateInternalHookModification($shareType) {
-		$nextWeek = new \DateTime();
+		$nextWeek = new \DateTime('now', $this->timezone);
 		$nextWeek->add(new \DateInterval('P7D'));
 		$nextWeek->setTime(0, 0, 0);
 
@@ -1311,7 +1322,7 @@ class ManagerTest extends \Test\TestCase {
 				['core', 'link_defaultExpDays', '3', '3'],
 			]);
 
-		$expected = new \DateTime();
+		$expected = new \DateTime('now', $this->timezone);
 		$expected->setTime(0, 0, 0);
 		$expected->add(new \DateInterval('P3D'));
 
@@ -1332,7 +1343,7 @@ class ManagerTest extends \Test\TestCase {
 				['core', 'link_defaultExpDays', '3', '1'],
 			]);
 
-		$expected = new \DateTime();
+		$expected = new \DateTime('now', $this->timezone);
 		$expected->setTime(0, 0, 0);
 		$expected->add(new \DateInterval('P1D'));
 
@@ -1363,7 +1374,7 @@ class ManagerTest extends \Test\TestCase {
 	}
 
 	public function testValidateExpirationDateEnforceValid() {
-		$future = new \DateTime();
+		$future = new \DateTime('now', $this->timezone);
 		$future->add(new \DateInterval('P2D'));
 		$future->setTime(1, 2, 3);
 
@@ -1392,12 +1403,13 @@ class ManagerTest extends \Test\TestCase {
 	}
 
 	public function testValidateExpirationDateNoDefault() {
-		$date = new \DateTime();
+		$date = new \DateTime('now', $this->timezone);
 		$date->add(new \DateInterval('P5D'));
 		$date->setTime(1, 2, 3);
 
 		$expected = clone $date;
-		$expected->setTime(0, 0, 0);
+		$expected->setTime(0, 0);
+		$expected->setTimezone(new \DateTimeZone(date_default_timezone_get()));
 
 		$share = $this->manager->newShare();
 		$share->setExpirationDate($date);
@@ -1431,9 +1443,10 @@ class ManagerTest extends \Test\TestCase {
 	public function testValidateExpirationDateNoDateDefault() {
 		$share = $this->manager->newShare();
 
-		$expected = new \DateTime();
+		$expected = new \DateTime('now', $this->timezone);
 		$expected->add(new \DateInterval('P3D'));
-		$expected->setTime(0, 0, 0);
+		$expected->setTime(0, 0);
+		$expected->setTimezone(new \DateTimeZone(date_default_timezone_get()));
 
 		$this->config->method('getAppValue')
 			->willReturnMap([
@@ -1454,12 +1467,44 @@ class ManagerTest extends \Test\TestCase {
 	}
 
 	public function testValidateExpirationDateDefault() {
-		$future = new \DateTime();
+		$future = new \DateTime('now', $this->timezone);
 		$future->add(new \DateInterval('P5D'));
 		$future->setTime(1, 2, 3);
 
 		$expected = clone $future;
-		$expected->setTime(0, 0, 0);
+		$expected->setTime(0, 0);
+		$expected->setTimezone(new \DateTimeZone(date_default_timezone_get()));
+
+		$share = $this->manager->newShare();
+		$share->setExpirationDate($future);
+
+		$this->config->method('getAppValue')
+			->willReturnMap([
+				['core', 'shareapi_default_expire_date', 'no', 'yes'],
+				['core', 'shareapi_expire_after_n_days', '7', '3'],
+				['core', 'link_defaultExpDays', '3', '1'],
+			]);
+
+		$hookListener = $this->getMockBuilder('Dummy')->setMethods(['listener'])->getMock();
+		\OCP\Util::connectHook('\OC\Share', 'verifyExpirationDate', $hookListener, 'listener');
+		$hookListener->expects($this->once())->method('listener')->with($this->callback(function ($data) use ($expected) {
+			return $data['expirationDate'] == $expected;
+		}));
+
+		self::invokePrivate($this->manager, 'validateExpirationDateLink', [$share]);
+
+		$this->assertEquals($expected, $share->getExpirationDate());
+	}
+
+	public function testValidateExpirationNegativeOffsetTimezone() {
+		$this->timezone = new \DateTimeZone('Pacific/Tahiti');
+		$future = new \DateTime();
+		$future->add(new \DateInterval('P5D'));
+
+		$expected = clone $future;
+		$expected->setTimezone($this->timezone);
+		$expected->setTime(0, 0);
+		$expected->setTimezone(new \DateTimeZone(date_default_timezone_get()));
 
 		$share = $this->manager->newShare();
 		$share->setExpirationDate($future);
@@ -1483,11 +1528,12 @@ class ManagerTest extends \Test\TestCase {
 	}
 
 	public function testValidateExpirationDateHookModification() {
-		$nextWeek = new \DateTime();
+		$nextWeek = new \DateTime('now', $this->timezone);
 		$nextWeek->add(new \DateInterval('P7D'));
-		$nextWeek->setTime(0, 0, 0);
 
 		$save = clone $nextWeek;
+		$save->setTime(0, 0);
+		$save->setTimezone(new \DateTimeZone(date_default_timezone_get()));
 
 		$hookListener = $this->getMockBuilder('Dummy')->setMethods(['listener'])->getMock();
 		\OCP\Util::connectHook('\OC\Share', 'verifyExpirationDate', $hookListener, 'listener');
@@ -2764,6 +2810,7 @@ class ManagerTest extends \Test\TestCase {
 			$this->userSession,
 			$this->knownUserService,
 			$this->shareDisabledChecker,
+			$this->dateTimeZone,
 		);
 
 		$share = $this->createMock(IShare::class);
@@ -2812,6 +2859,7 @@ class ManagerTest extends \Test\TestCase {
 			$this->userSession,
 			$this->knownUserService,
 			$this->shareDisabledChecker,
+			$this->dateTimeZone,
 		);
 
 		$share = $this->createMock(IShare::class);
@@ -2867,6 +2915,7 @@ class ManagerTest extends \Test\TestCase {
 			$this->userSession,
 			$this->knownUserService,
 			$this->shareDisabledChecker,
+			$this->dateTimeZone,
 		);
 
 		$share = $this->createMock(IShare::class);
@@ -4267,6 +4316,7 @@ class ManagerTest extends \Test\TestCase {
 			$this->userSession,
 			$this->knownUserService,
 			$this->shareDisabledChecker,
+			$this->dateTimeZone,
 		);
 		$this->assertSame($expected,
 			$manager->shareProviderExists($shareType)
@@ -4302,6 +4352,7 @@ class ManagerTest extends \Test\TestCase {
 			$this->userSession,
 			$this->knownUserService,
 			$this->shareDisabledChecker,
+			$this->dateTimeZone,
 		);
 
 		$factory->setProvider($this->defaultProvider);
@@ -4368,6 +4419,7 @@ class ManagerTest extends \Test\TestCase {
 			$this->userSession,
 			$this->knownUserService,
 			$this->shareDisabledChecker,
+			$this->dateTimeZone,
 		);
 
 		$factory->setProvider($this->defaultProvider);
@@ -4486,6 +4538,7 @@ class ManagerTest extends \Test\TestCase {
 			$this->userSession,
 			$this->knownUserService,
 			$this->shareDisabledChecker,
+			$this->dateTimeZone,
 		);
 
 		$factory->setProvider($this->defaultProvider);
@@ -4612,7 +4665,8 @@ class ManagerTest extends \Test\TestCase {
 			$this->dispatcher,
 			$this->userSession,
 			$this->knownUserService,
-			$this->shareDisabledChecker
+			$this->shareDisabledChecker,
+			$this->dateTimeZone,
 		);
 
 		$factory->setProvider($this->defaultProvider);
