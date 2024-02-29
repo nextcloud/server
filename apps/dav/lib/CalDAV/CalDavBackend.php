@@ -2341,11 +2341,13 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * @return array
 	 */
 	public function getChangesForCalendar($calendarId, $syncToken, $syncLevel, $limit = null, $calendarType = self::CALENDAR_TYPE_CALENDAR) {
-		return $this->atomic(function () use ($calendarId, $syncToken, $syncLevel, $limit, $calendarType) {
+		$table = $calendarType === self::CALENDAR_TYPE_CALENDAR ? 'calendars': 'calendarsubscriptions';
+
+		return $this->atomic(function () use ($calendarId, $syncToken, $syncLevel, $limit, $calendarType, $table) {
 			// Current synctoken
 			$qb = $this->db->getQueryBuilder();
 			$qb->select('synctoken')
-				->from('calendars')
+				->from($table)
 				->where(
 					$qb->expr()->eq('id', $qb->createNamedParameter($calendarId))
 				);
