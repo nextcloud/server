@@ -93,7 +93,8 @@ class DeleteOrphanedSharesJobTest extends \Test\TestCase {
 
 		\OC::registerShareHooks(\OC::$server->getSystemConfig());
 
-		$this->job = \OCP\Server::get(DeleteOrphanedSharesJob::class);	}
+		$this->job = \OCP\Server::get(DeleteOrphanedSharesJob::class);	
+	}
 
 	protected function tearDown(): void {
 		$this->connection->executeUpdate('DELETE FROM `*PREFIX*share`');
