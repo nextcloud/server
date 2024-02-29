@@ -274,7 +274,6 @@ OC.L10N.register(
     "(copy %n)" : "（複本 %n）",
     "Move cancelled" : "移動已取消",
     "A file or folder with that name already exists in this folder" : "此資料夾中已存在同名的檔案或資料夾",
-    "The files is locked" : "檔案已被上鎖",
     "The file does not exist anymore" : "檔案已不存在",
     "Choose destination" : "選擇目標地",
     "Copy to {target}" : "複製到 {target}",
@@ -345,6 +344,7 @@ OC.L10N.register(
     "Search for an account" : "搜尋賬號",
     "Choose" : "選擇",
     "No files or folders have been deleted yet" : "尚未刪除任何檔案或資料夾",
-    "Add" : "添加"
+    "Add" : "添加",
+    "The files is locked" : "檔案已被上鎖"
 },
 "nplurals=1; plural=0;");

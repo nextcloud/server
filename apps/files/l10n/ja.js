@@ -273,7 +273,6 @@ OC.L10N.register(
     "(copy)" : "(copy)",
     "(copy %n)" : "(copy %n)",
     "A file or folder with that name already exists in this folder" : "その名前のファイルまたはフォルダが、このフォルダに既に存在します",
-    "The files is locked" : "ファイルはロックされています",
     "The file does not exist anymore" : "ファイルはもう存在しません",
     "Choose destination" : "移動先を選択",
     "Copy to {target}" : "{target} にコピー",
@@ -344,6 +343,7 @@ OC.L10N.register(
     "Search for an account" : "アカウントを検索",
     "Choose" : "選択",
     "No files or folders have been deleted yet" : "まだ削除されたファイルやフォルダはありません",
-    "Add" : "追加"
+    "Add" : "追加",
+    "The files is locked" : "ファイルはロックされています"
 },
 "nplurals=1; plural=0;");

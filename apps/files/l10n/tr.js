@@ -273,7 +273,6 @@ OC.L10N.register(
     "(copy)" : "(kopya)",
     "(copy %n)" : "(%n kopyası)",
     "A file or folder with that name already exists in this folder" : "Bu klasörde aynı adlı bir dosya ya da klasör zaten var",
-    "The files is locked" : "Dosyalar kilitli",
     "The file does not exist anymore" : "Dosya artık yok",
     "Choose destination" : "Hedefi seçin",
     "Copy to {target}" : "{target} içine kopyala",
@@ -344,6 +343,7 @@ OC.L10N.register(
     "Search for an account" : "Hesap ara",
     "Choose" : "Seçin",
     "No files or folders have been deleted yet" : "Henüz silinmiş bir dosya ya da klasör yok",
-    "Add" : "Ekle"
+    "Add" : "Ekle",
+    "The files is locked" : "Dosyalar kilitli"
 },
 "nplurals=2; plural=(n > 1);");

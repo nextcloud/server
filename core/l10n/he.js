@@ -330,4 +330,4 @@ OC.L10N.register(
     "Alternative log in using app token" : "כניסה חלופית באמצעות אסימון יישומון",
     "Please use the command line updater because you have a big instance with more than 50 users." : "נא להשתמש בתכנית העדכון משורת הפקודה כיוון שיש לך עותק גדול עם למעלה מ־50 משתמשים."
 },
-"nplurals=3; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");
+"nplurals=3; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: 2;");

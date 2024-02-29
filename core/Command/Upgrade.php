@@ -88,6 +88,7 @@ class Upgrade extends Command {
 
 			$self = $this;
 			$updater = \OCP\Server::get(Updater::class);
+			$incompatibleOverwrites = $this->config->getSystemValue('app_install_overwrite', []);
 
 			/** @var IEventDispatcher $dispatcher */
 			$dispatcher = \OC::$server->get(IEventDispatcher::class);
@@ -179,8 +180,10 @@ class Upgrade extends Command {
 			$updater->listen('\OC\Updater', 'dbUpgrade', function () use ($output) {
 				$output->writeln('<info>Updated database</info>');
 			});
-			$updater->listen('\OC\Updater', 'incompatibleAppDisabled', function ($app) use ($output) {
-				$output->writeln('<comment>Disabled incompatible app: ' . $app . '</comment>');
+			$updater->listen('\OC\Updater', 'incompatibleAppDisabled', function ($app) use ($output, &$incompatibleOverwrites) {
+				if (!in_array($app, $incompatibleOverwrites)) {
+					$output->writeln('<comment>Disabled incompatible app: ' . $app . '</comment>');
+				}
 			});
 			$updater->listen('\OC\Updater', 'upgradeAppStoreApp', function ($app) use ($output) {
 				$output->writeln('<info>Update app ' . $app . ' from App Store</info>');
