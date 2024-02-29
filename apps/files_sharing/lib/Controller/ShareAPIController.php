@@ -223,6 +223,7 @@ class ShareAPIController extends OCSController {
 
 		$expiration = $share->getExpirationDate();
 		if ($expiration !== null) {
+			$expiration->setTimezone($this->dateTimeZone->getTimeZone());
 			$result['expiration'] = $expiration->format('Y-m-d 00:00:00');
 		}
 
@@ -1662,12 +1663,14 @@ class ShareAPIController extends OCSController {
 	private function parseDate(string $expireDate): \DateTime {
 		try {
 			$date = new \DateTime(trim($expireDate, "\""), $this->dateTimeZone->getTimeZone());
+			// Make sure it expires at midnight in owner timezone
+			$date->setTime(0, 0, 0);
 		} catch (\Exception $e) {
 			throw new \Exception('Invalid date. Format must be YYYY-MM-DD');
 		}
 
+		// Use server timezone to store the date
 		$date->setTimezone(new \DateTimeZone(date_default_timezone_get()));
-		$date->setTime(0, 0, 0);
 
 		return $date;
 	}

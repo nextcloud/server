@@ -835,6 +835,7 @@ class ShareAPIControllerTest extends TestCase {
 		$this->groupManager->method('get')->willReturnMap([
 			['group', $group],
 		]);
+		$this->dateTimeZone->method('getTimezone')->willReturn(new \DateTimeZone('UTC'));
 
 		$d = $ocs->getShare($share->getId())->getData()[0];
 
@@ -4603,6 +4604,7 @@ class ShareAPIControllerTest extends TestCase {
 		$this->rootFolder->method('getUserFolder')
 			->with($this->currentUser)
 			->willReturnSelf();
+		$this->dateTimeZone->method('getTimezone')->willReturn(new \DateTimeZone('UTC'));
 
 		if (!$exception) {
 			$this->rootFolder->method('getById')
