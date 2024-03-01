@@ -28,6 +28,7 @@
 namespace OC\Core\Controller;
 
 use bantu\IniGetWrapper\IniGetWrapper;
+use OC\Authentication\Token\IProvider;
 use OC\CapabilitiesManager;
 use OC\Template\JSConfigHelper;
 use OCP\App\IAppManager;
@@ -59,7 +60,10 @@ class OCJSController extends Controller {
 								IniGetWrapper $iniWrapper,
 								IURLGenerator $urlGenerator,
 								CapabilitiesManager $capabilitiesManager,
-								IInitialStateService $initialStateService) {
+								IInitialStateService $initialStateService,
+								IProvider $tokenProvider,
+	) {
+
 		parent::__construct($appName, $request);
 
 		$this->helper = new JSConfigHelper(
@@ -73,7 +77,8 @@ class OCJSController extends Controller {
 			$iniWrapper,
 			$urlGenerator,
 			$capabilitiesManager,
-			$initialStateService
+			$initialStateService,
+			$tokenProvider
 		);
 	}
 
