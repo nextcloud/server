@@ -24,11 +24,17 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace OC\Files\Cache;
 
 use OC\Files\Cache\Wrapper\CacheJail;
+use OC\Files\Search\QueryOptimizer\DavTagToFileIds;
+use OC\Files\Search\QueryOptimizer\FavoriteToTag;
 use OC\Files\Search\QueryOptimizer\QueryOptimizer;
+use OC\Files\Search\QueryOptimizer\SystemTagToFileIds;
 use OC\Files\Search\SearchBinaryOperator;
+use OC\Files\Search\SearchComparison;
+use OC\Files\Search\SearchQuery;
 use OC\SystemConfig;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\Cache\ICache;
@@ -47,13 +53,13 @@ use Psr\Log\LoggerInterface;
 
 class QuerySearchHelper {
 	public function __construct(
-		private IMimeTypeLoader $mimetypeLoader,
-		private IDBConnection $connection,
-		private SystemConfig $systemConfig,
-		private LoggerInterface $logger,
-		private SearchBuilder $searchBuilder,
-		private QueryOptimizer $queryOptimizer,
-		private IGroupManager $groupManager,
+		private IMimeTypeLoader       $mimetypeLoader,
+		private IDBConnection         $connection,
+		private SystemConfig          $systemConfig,
+		private LoggerInterface       $logger,
+		private SearchBuilder         $searchBuilder,
+		private QueryOptimizer        $queryOptimizer,
+		private IGroupManager         $groupManager,
 		private IFilesMetadataManager $filesMetadataManager,
 		private CacheDatabase $cacheDatabase,
 	) {
@@ -76,9 +82,9 @@ class QuerySearchHelper {
 	 */
 	protected function applySearchConstraints(
 		CacheQueryBuilder $query,
-		ISearchQuery $searchQuery,
-		array $caches,
-		?IMetadataQuery $metadataQuery = null
+		ISearchQuery      $searchQuery,
+		array             $caches,
+		?IMetadataQuery   $metadataQuery = null
 	): void {
 		$storageFilters = array_values(array_map(function (ICache $cache) {
 			return $cache->getQueryFilterForStorage();
@@ -132,18 +138,6 @@ class QuerySearchHelper {
 		$query->leftJoin('systemtagmap', 'systemtag', 'systemtag', $on);
 	}
 
-	protected function equipQueryForDavTags(CacheQueryBuilder $query, IUser $user): void {
-		$query
-			->leftJoin('file', 'vcategory_to_object', 'tagmap', $query->expr()->eq('file.fileid', 'tagmap.objid'))
-			->leftJoin('tagmap', 'vcategory', 'tag', $query->expr()->andX(
-				$query->expr()->eq('tagmap.type', 'tag.type'),
-				$query->expr()->eq('tagmap.categoryid', 'tag.id'),
-				$query->expr()->eq('tag.type', $query->createNamedParameter('files')),
-				$query->expr()->eq('tag.uid', $query->createNamedParameter($user->getUID()))
-			));
-	}
-
-
 	protected function equipQueryForShares(CacheQueryBuilder $query): void {
 		$query->join('file', 'share', 's', $query->expr()->eq('file.fileid', 's.file_source'));
 	}
@@ -174,20 +168,32 @@ class QuerySearchHelper {
 		// while the resulting rows don't have a way to tell what storage they came from (multiple storages/caches can share storage_id)
 		// we can just ask every cache if the row belongs to them and give them the cache to do any post processing on the result.
 
-		$storageIds = array_map(fn (ICache $cache) => $cache->getNumericStorageId(), $caches);
-		$cachesByStorage = array_combine($storageIds, $caches);
+		$operation = $searchQuery->getSearchOperation();
 
 		$requestedFields = $this->searchBuilder->extractRequestedFields($searchQuery->getSearchOperation());
+
+		if (in_array('favorite', $requestedFields)) {
+			$favoriteHandler = new FavoriteToTag();
+			$favoriteHandler->processOperator($operation);
+		}
+
+		if (in_array('systemtag', $requestedFields)) {
+			$systemTagHandler = new SystemTagToFileIds($this->connection, $this->requireUser($searchQuery), $this->groupManager);
+			$systemTagHandler->processOperator($operation);
+		}
+		if (in_array('tagname', $requestedFields)) {
+			$davTagHandler = new DavTagToFileIds($this->connection, $this->requireUser($searchQuery));
+			$davTagHandler->processOperator($operation);
+		}
+
+		$searchQuery->setSearchOperation($operation);
+
+		$storageIds = array_map(fn (ICache $cache) => $cache->getNumericStorageId(), $caches);
+		$cachesByStorage = array_combine($storageIds, $caches);
 
 		$rawEntries = $this->cacheDatabase->queryStorages($storageIds, function(CacheQueryBuilder $builder, $storages) use ($requestedFields, $searchQuery, $cachesByStorage) {
 			$cachesForShard = array_map(fn (int $storage) => $cachesByStorage[$storage], $storages);
 			$query = $builder->selectFileCache('file', false);
-			if (in_array('systemtag', $requestedFields)) {
-				$this->equipQueryForSystemTags($query, $this->requireUser($searchQuery));
-			}
-			if (in_array('tagname', $requestedFields) || in_array('favorite', $requestedFields)) {
-				$this->equipQueryForDavTags($query, $this->requireUser($searchQuery));
-			}
 			if (in_array('owner', $requestedFields) || in_array('share_with', $requestedFields) || in_array('share_type', $requestedFields)) {
 				$this->equipQueryForShares($query);
 			}

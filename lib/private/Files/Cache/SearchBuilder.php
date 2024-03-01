@@ -75,9 +75,6 @@ class SearchBuilder {
 		'name' => 'string',
 		'path' => 'string',
 		'size' => 'integer',
-		'tagname' => 'string',
-		'systemtag' => 'string',
-		'favorite' => 'boolean',
 		'fileid' => 'integer',
 		'storage' => 'integer',
 		'share_with' => 'string',
@@ -98,8 +95,6 @@ class SearchBuilder {
 		'integer' => IQueryBuilder::PARAM_INT_ARRAY,
 		'boolean' => IQueryBuilder::PARAM_INT_ARRAY,
 	];
-
-	public const TAG_FAVORITE = '_$!<Favorite>!$_';
 
 	/** @var IMimeTypeLoader */
 	private $mimetypeLoader;
@@ -243,16 +238,8 @@ class SearchBuilder {
 					$type = ISearchComparison::COMPARE_EQUAL;
 				}
 			}
-		} elseif ($field === 'favorite') {
-			$field = 'tag.category';
-			$value = self::TAG_FAVORITE;
-			$paramType = 'string';
 		} elseif ($field === 'name') {
 			$field = 'file.name';
-		} elseif ($field === 'tagname') {
-			$field = 'tag.category';
-		} elseif ($field === 'systemtag') {
-			$field = 'systemtag.name';
 		} elseif ($field === 'fileid') {
 			$field = 'file.fileid';
 		} elseif ($field === 'path' && $type === ISearchComparison::COMPARE_EQUAL && $pathEqHash) {
@@ -271,9 +258,6 @@ class SearchBuilder {
 			'name' => ['eq', 'like', 'clike', 'in'],
 			'path' => ['eq', 'like', 'clike', 'in'],
 			'size' => ['eq', 'gt', 'lt', 'gte', 'lte'],
-			'tagname' => ['eq', 'like'],
-			'systemtag' => ['eq', 'like'],
-			'favorite' => ['eq'],
 			'fileid' => ['eq', 'in'],
 			'storage' => ['eq', 'in'],
 			'share_with' => ['eq'],
