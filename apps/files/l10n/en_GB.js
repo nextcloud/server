@@ -274,6 +274,7 @@ OC.L10N.register(
     "(copy %n)" : "(copy %n)",
     "Move cancelled" : "Move cancelled",
     "A file or folder with that name already exists in this folder" : "A file or folder with that name already exists in this folder",
+    "The file is locked" : "The file is locked",
     "The file does not exist anymore" : "The file does not exist anymore",
     "Choose destination" : "Choose destination",
     "Copy to {target}" : "Copy to {target}",
