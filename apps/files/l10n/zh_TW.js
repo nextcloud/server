@@ -274,6 +274,7 @@ OC.L10N.register(
     "(copy %n)" : "（副本 %n）",
     "Move cancelled" : "移動已取消",
     "A file or folder with that name already exists in this folder" : "此資料夾中已存在同名的檔案或資料夾",
+    "The file is locked" : "檔案已鎖定",
     "The file does not exist anymore" : "檔案已不存在",
     "Choose destination" : "選擇目的地",
     "Copy to {target}" : "複製到 {target}",
