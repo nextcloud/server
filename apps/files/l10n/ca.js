@@ -274,6 +274,7 @@ OC.L10N.register(
     "(copy %n)" : "(còpia %n)",
     "Move cancelled" : "S'ha cancel·lat el desplaçament",
     "A file or folder with that name already exists in this folder" : "Ja existeix un fitxer o carpeta amb aquest nom en aquesta carpeta",
+    "The file is locked" : "El fitxer està blocat",
     "The file does not exist anymore" : "El fitxer ja no existeix",
     "Choose destination" : "Trieu una destinació",
     "Copy to {target}" : "Copia a {target}",
