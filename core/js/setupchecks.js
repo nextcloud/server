@@ -48,54 +48,6 @@
 		},
 
 		/**
-		 * Check whether the .well-known URLs works.
-		 *
-		 * @param url the URL to test
-		 * @param placeholderUrl the placeholder URL - can be found at OC.theme.docPlaceholderUrl
-		 * @param {boolean} runCheck if this is set to false the check is skipped and no error is returned
-		 * @param {int|int[]} expectedStatus the expected HTTP status to be returned by the URL, 207 by default
-		 * @return $.Deferred object resolved with an array of error messages
-		 */
-		checkWellKnownUrl: function(verb, url, placeholderUrl, runCheck, expectedStatus, checkCustomHeader) {
-			if (expectedStatus === undefined) {
-				expectedStatus = [207];
-			}
-
-			if (!Array.isArray(expectedStatus)) {
-				expectedStatus = [expectedStatus];
-			}
-
-			var deferred = $.Deferred();
-
-			if(runCheck === false) {
-				deferred.resolve([]);
-				return deferred.promise();
-			}
-			var afterCall = function(xhr) {
-				var messages = [];
-				var customWellKnown = xhr.getResponseHeader('X-NEXTCLOUD-WELL-KNOWN')
-				if (expectedStatus.indexOf(xhr.status) === -1 || (checkCustomHeader && !customWellKnown)) {
-					var docUrl = placeholderUrl.replace('PLACEHOLDER', 'admin-setup-well-known-URL');
-					messages.push({
-						msg: t('core', 'Your web server is not properly set up to resolve "{url}". Further information can be found in the {linkstart}documentation ↗{linkend}.', { url: url })
-							.replace('{linkstart}', '<a target="_blank" rel="noreferrer noopener" class="external" href="' + docUrl + '">')
-							.replace('{linkend}', '</a>'),
-						type: OC.SetupChecks.MESSAGE_TYPE_INFO
-					});
-				}
-				deferred.resolve(messages);
-			};
-
-			$.ajax({
-				type: verb,
-				url: url,
-				complete: afterCall,
-				allowAuthErrors: true
-			});
-			return deferred.promise();
-		},
-
-		/**
 		 * Runs setup checks on the server side
 		 *
 		 * @return $.Deferred object resolved with an array of error messages
