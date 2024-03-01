@@ -262,6 +262,7 @@ class PublicKeyTokenProvider implements IProvider {
 				IToken::TEMPORARY_TOKEN,
 				$token->getRemember()
 			);
+			$newToken->setScope($token->getScopeAsArray());
 			$this->cacheToken($newToken);
 
 			$this->cacheInvalidHash($token->getToken());
