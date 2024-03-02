@@ -550,6 +550,7 @@ OC.L10N.register(
     "Welcome mail sent!" : "¡Correo de bienvenida enviado!",
     "Done" : "Hecho",
     "Edit" : "Editar",
+    "Account management settings" : "Ajustes de administración de cuentas",
     "Visibility" : "Visibilidad",
     "Show language" : "Mostrar lenguaje",
     "Show storage path" : "Mostrar ruta de almacenamiento",
