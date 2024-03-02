@@ -593,7 +593,7 @@ OC.L10N.register(
     "Website" : "Вебсайт",
     "Profile visibility" : "Видимість профілю",
     "Locale" : "Локаль",
-    "Not available as this property is required for core functionality including file sharing and calendar invitations" : "Недоступно, оскільки ця властивість необхідна для основних функцій, включаючи спільний доступ до файлів і запрошення в календарі",
+    "Not available as this property is required for core functionality including file sharing and calendar invitations" : "Недоступно, оскільки ця властивість необхідна для основних функцій, включно спільний доступ до файлів та запрошення в календарі",
     "Your apps" : "Ваші застосунки",
     "Active apps" : "Активні застосунки",
     "Disabled apps" : "Неактивні застосунки",
