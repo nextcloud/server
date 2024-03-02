@@ -8,6 +8,7 @@ declare(strict_types=1);
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Ferdinand Thiessen <opensource@fthiessen.de>
  *
  * @license AGPL-3.0
  *
@@ -24,11 +25,12 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-namespace OCA\UpdateNotification\Notification;
+namespace OCA\UpdateNotification\BackgroundJob;
 
 use OC\Installer;
 use OC\Updater\VersionCheck;
 use OCP\App\IAppManager;
+use OCP\AppFramework\Services\IAppConfig;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\TimedJob;
 use OCP\IConfig;
@@ -36,7 +38,7 @@ use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\Notification\IManager;
 
-class BackgroundJob extends TimedJob {
+class UpdateAvailableNotifications extends TimedJob {
 	protected $connectionNotifications = [3, 7, 14, 30];
 
 	/** @var string[] */
@@ -45,6 +47,7 @@ class BackgroundJob extends TimedJob {
 	public function __construct(
 		ITimeFactory $timeFactory,
 		protected IConfig $config,
+		protected IAppConfig $appConfig,
 		protected IManager $notificationManager,
 		protected IGroupManager $groupManager,
 		protected IAppManager $appManager,
@@ -87,14 +90,14 @@ class BackgroundJob extends TimedJob {
 
 		$status = $this->versionCheck->check();
 		if ($status === false) {
-			$errors = 1 + (int) $this->config->getAppValue('updatenotification', 'update_check_errors', '0');
-			$this->config->setAppValue('updatenotification', 'update_check_errors', (string) $errors);
+			$errors = 1 + $this->appConfig->getAppValueInt('update_check_errors', 0);
+			$this->appConfig->setAppValueInt('update_check_errors', $errors);
 
 			if (\in_array($errors, $this->connectionNotifications, true)) {
 				$this->sendErrorNotifications($errors);
 			}
 		} elseif (\is_array($status)) {
-			$this->config->setAppValue('updatenotification', 'update_check_errors', '0');
+			$this->appConfig->setAppValueInt('update_check_errors', 0);
 			$this->clearErrorNotifications();
 
 			if (isset($status['version'])) {
@@ -162,7 +165,7 @@ class BackgroundJob extends TimedJob {
 	 * @param string $visibleVersion
 	 */
 	protected function createNotifications($app, $version, $visibleVersion = '') {
-		$lastNotification = $this->config->getAppValue('updatenotification', $app, false);
+		$lastNotification = $this->appConfig->getAppValueString($app, '');
 		if ($lastNotification === $version) {
 			// We already notified about this update
 			return;
@@ -193,7 +196,7 @@ class BackgroundJob extends TimedJob {
 			return;
 		}
 
-		$this->config->setAppValue('updatenotification', $app, $version);
+		$this->appConfig->setAppValueString($app, $version);
 	}
 
 	/**
@@ -204,7 +207,7 @@ class BackgroundJob extends TimedJob {
 			return $this->users;
 		}
 
-		$notifyGroups = (array) json_decode($this->config->getAppValue('updatenotification', 'notify_groups', '["admin"]'), true);
+		$notifyGroups = $this->appConfig->getAppValueArray('notify_groups', ['admin']);
 		$this->users = [];
 		foreach ($notifyGroups as $group) {
 			$groupToNotify = $this->groupManager->get($group);

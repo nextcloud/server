@@ -8,6 +8,7 @@ declare(strict_types=1);
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Ferdinand Thiessen <opensource@fthiessen.de>
  *
  * @license AGPL-3.0
  *
@@ -24,43 +25,43 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-namespace OCA\UpdateNotification;
+namespace OCA\UpdateNotification\BackgroundJob;
 
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\TimedJob;
+use OCP\IAppConfig;
 use OCP\IConfig;
 
 /**
- * Class ResetTokenBackgroundJob deletes any configured token all 24 hours for
- *
- *
- * @package OCA\UpdateNotification
+ * Deletes the updater secret after if it is older than 48h
  */
-class ResetTokenBackgroundJob extends TimedJob {
-	/** @var IConfig */
-	private $config;
-	/** @var ITimeFactory */
-	private $timeFactory;
+class ResetToken extends TimedJob {
 
 	/**
 	 * @param IConfig $config
 	 * @param ITimeFactory $timeFactory
 	 */
-	public function __construct(IConfig $config,
-		ITimeFactory $timeFactory) {
-		parent::__construct($timeFactory);
+	public function __construct(
+		ITimeFactory $time,
+		private IConfig $config,
+		private IAppConfig $appConfig,
+	) {
+		parent::__construct($time);
 		// Run all 10 minutes
 		parent::setInterval(60 * 10);
-		$this->config = $config;
-		$this->timeFactory = $timeFactory;
 	}
 
 	/**
 	 * @param $argument
 	 */
 	protected function run($argument) {
+		if ($this->config->getSystemValueBool('config_is_read_only') !== false) {
+			return;
+		}
+
+		$secretCreated = $this->appConfig->getValueInt('core', 'updater.secret.created', $this->time->getTime());
 		// Delete old tokens after 2 days
-		if ($this->config->getSystemValueBool('config_is_read_only') === false && $this->timeFactory->getTime() - (int) $this->config->getAppValue('core', 'updater.secret.created', (string) $this->timeFactory->getTime()) >= 172800) {
+		if ($secretCreated >= 172800) {
 			$this->config->deleteSystemValue('updater.secret');
 		}
 	}

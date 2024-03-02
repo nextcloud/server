@@ -16,7 +16,7 @@
 	</dependencies>
 
 	<background-jobs>
-		<job>OCA\UpdateNotification\Notification\BackgroundJob</job>
+		<job>OCA\UpdateNotification\BackgroundJob\UpdateAvailableNotifications</job>
 	</background-jobs>
 
 	<settings>
