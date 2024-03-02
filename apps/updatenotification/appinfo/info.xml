@@ -3,8 +3,8 @@
 	  xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
 	<id>updatenotification</id>
 	<name>Update notification</name>
-	<summary>Displays update notifications for Nextcloud and provides the SSO for the updater.</summary>
-	<description>Displays update notifications for Nextcloud and provides the SSO for the updater.</description>
+	<summary>Displays update notifications for Nextcloud, app updates, and provides the SSO for the updater.</summary>
+	<description>Displays update notifications for Nextcloud, app updates, and provides the SSO for the updater.</description>
 	<version>1.19.0</version>
 	<licence>agpl</licence>
 	<author>Lukas Reschke</author>

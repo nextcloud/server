@@ -114,6 +114,10 @@ class Notifier implements INotifier {
 			throw new \InvalidArgumentException('Unknown app id');
 		}
 
+		if ($notification->getSubject() !== 'update_available' && $notification->getSubject() !== 'connection_error') {
+			throw new \InvalidArgumentException('Unknown subject');
+		}
+
 		$l = $this->l10NFactory->get('updatenotification', $languageCode);
 		if ($notification->getSubject() === 'connection_error') {
 			$errors = (int) $this->config->getAppValue('updatenotification', 'update_check_errors', '0');
@@ -124,40 +128,42 @@ class Notifier implements INotifier {
 
 			$notification->setParsedSubject($l->t('The update server could not be reached since %d days to check for new updates.', [$errors]))
 				->setParsedMessage($l->t('Please check the Nextcloud and server log files for errors.'));
-		} elseif ($notification->getObjectType() === 'core') {
-			$this->updateAlreadyInstalledCheck($notification, $this->getCoreVersions());
+		} else {
+			if ($notification->getObjectType() === 'core') {
+				$this->updateAlreadyInstalledCheck($notification, $this->getCoreVersions());
 
-			$parameters = $notification->getSubjectParameters();
-			$notification->setParsedSubject($l->t('Update to %1$s is available.', [$parameters['version']]))
-				->setRichSubject($l->t('Update to {serverAndVersion} is available.'), [
-					'serverAndVersion' => [
-						'type' => 'highlight',
+				$parameters = $notification->getSubjectParameters();
+				$notification->setParsedSubject($l->t('Update to %1$s is available.', [$parameters['version']]))
+					->setRichSubject($l->t('Update to {serverAndVersion} is available.'), [
+						'serverAndVersion' => [
+							'type' => 'highlight',
+							'id' => $notification->getObjectType(),
+							'name' => $parameters['version'],
+						]
+					]);
+
+				if ($this->isAdmin()) {
+					$notification->setLink($this->url->linkToRouteAbsolute('settings.AdminSettings.index', ['section' => 'overview']) . '#version');
+				}
+			} else {
+				$appInfo = $this->getAppInfo($notification->getObjectType(), $languageCode);
+				$appName = ($appInfo === null) ? $notification->getObjectType() : $appInfo['name'];
+
+				if (isset($this->appVersions[$notification->getObjectType()])) {
+					$this->updateAlreadyInstalledCheck($notification, $this->appVersions[$notification->getObjectType()]);
+				}
+
+				$notification->setRichSubject($l->t('Update for {app} to version %s is available.', [$notification->getObjectId()]), [
+					'app' => [
+						'type' => 'app',
 						'id' => $notification->getObjectType(),
-						'name' => $parameters['version'],
+						'name' => $appName,
 					]
 				]);
 
-			if ($this->isAdmin()) {
-				$notification->setLink($this->url->linkToRouteAbsolute('settings.AdminSettings.index', ['section' => 'overview']) . '#version');
-			}
-		} else {
-			$appInfo = $this->getAppInfo($notification->getObjectType(), $languageCode);
-			$appName = ($appInfo === null) ? $notification->getObjectType() : $appInfo['name'];
-
-			if (isset($this->appVersions[$notification->getObjectType()])) {
-				$this->updateAlreadyInstalledCheck($notification, $this->appVersions[$notification->getObjectType()]);
-			}
-
-			$notification->setRichSubject($l->t('Update for {app} to version %s is available.', [$notification->getObjectId()]), [
-				'app' => [
-					'type' => 'app',
-					'id' => $notification->getObjectType(),
-					'name' => $appName,
-				]
-			]);
-
-			if ($this->isAdmin()) {
-				$notification->setLink($this->url->linkToRouteAbsolute('settings.AppSettings.viewApps', ['category' => 'updates']) . '#app-' . $notification->getObjectType());
+				if ($this->isAdmin()) {
+					$notification->setLink($this->url->linkToRouteAbsolute('settings.AppSettings.viewApps', ['category' => 'updates']) . '#app-' . $notification->getObjectType());
+				}
 			}
 		}
 

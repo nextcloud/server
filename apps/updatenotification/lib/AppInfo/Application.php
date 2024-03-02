@@ -10,6 +10,7 @@ declare(strict_types=1);
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Ferdinand Thiessen <opensource@fthiessen.de>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -29,13 +30,18 @@ declare(strict_types=1);
  */
 namespace OCA\UpdateNotification\AppInfo;
 
+use OCA\UpdateNotification\Listener\AppUpdateEventListener;
+use OCA\UpdateNotification\Listener\BeforeTemplateRenderedEventListener;
+use OCA\UpdateNotification\Notification\AppUpdateNotifier;
 use OCA\UpdateNotification\Notification\Notifier;
 use OCA\UpdateNotification\UpdateChecker;
+use OCP\App\Events\AppUpdateEvent;
 use OCP\App\IAppManager;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
+use OCP\AppFramework\Http\Events\BeforeTemplateRenderedEvent;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IUser;
@@ -46,12 +52,18 @@ use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
 class Application extends App implements IBootstrap {
+	public const APP_NAME = 'updatenotification';
+
 	public function __construct() {
-		parent::__construct('updatenotification', []);
+		parent::__construct(self::APP_NAME, []);
 	}
 
 	public function register(IRegistrationContext $context): void {
 		$context->registerNotifierService(Notifier::class);
+		$context->registerNotifierService(AppUpdateNotifier::class);
+
+		$context->registerEventListener(AppUpdateEvent::class, AppUpdateEventListener::class);
+		$context->registerEventListener(BeforeTemplateRenderedEvent::class, BeforeTemplateRenderedEventListener::class);
 	}
 
 	public function boot(IBootContext $context): void {
