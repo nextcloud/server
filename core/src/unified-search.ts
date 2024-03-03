@@ -49,10 +49,19 @@ Vue.mixin({
 	},
 })
 
+// Define type structure for unified searc action
+interface UnifiedSearchAction {
+    id: string;
+    appId: string;
+    label: string;
+    icon: string;
+    callback: () => void;
+}
+
 // Register the add/register filter action API globally
 window.OCA = window.OCA || {}
 window.OCA.UnifiedSearch = {
-	registerFilterAction: ({ id, appId, label, callback, icon }) => {
+	registerFilterAction: ({ id, appId, label, callback, icon }: UnifiedSearchAction) => {
 		const searchStore = useSearchStore()
 		searchStore.registerExternalFilter({ id, appId, label, callback, icon })
 	},
