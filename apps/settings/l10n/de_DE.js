@@ -109,7 +109,7 @@ OC.L10N.register(
     "Users" : "Benutzer",
     "Additional settings" : "Zusätzliche Einstellungen",
     "Artificial Intelligence" : "Künstliche Intelligenz",
-    "Administration privileges" : "Administratorrechte",
+    "Administration privileges" : "Administrationsrechte",
     "Groupware" : "Groupware",
     "Overview" : "Übersicht",
     "Basic settings" : "Grundeinstellungen",
