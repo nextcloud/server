@@ -50,6 +50,7 @@ OC.L10N.register(
     "Nextcloud Server" : "Server Nextcloud",
     "Some of your link shares have been removed" : "Některá vaše sdílení odkazem byla odstraněna",
     "Due to a security bug we had to remove some of your link shares. Please see the link for more information." : "Kvůli chybě v zabezpečení bylo třeba odstranit některé z sdílení odkazem. Další informace viz odkaz.",
+    "The account limit of this instance is reached." : "Bylo dosaženo limitu počtu účtů této instance.",
     "Learn more ↗" : "Zjistit víc ↗",
     "Preparing update" : "Příprava pro aktualizaci",
     "[%d / %d]: %s" : "[%d / %d]: %s",
