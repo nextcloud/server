@@ -117,7 +117,6 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json'
 				},
 				JSON.stringify({
-					reverseProxyGeneratedURL: 'https://server',
 					generic: {
 						network: {
 							"Internet connectivity": {
@@ -150,7 +149,6 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json'
 				},
 				JSON.stringify({
-					reverseProxyGeneratedURL: 'https://server',
 					generic: {
 						network: {
 							"Internet connectivity": {
@@ -183,7 +181,6 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
-					reverseProxyGeneratedURL: 'https://server',
 					generic: {
 						network: {
 							"Internet connectivity": {
@@ -216,8 +213,6 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
-					reverseProxyDocs: 'https://docs.nextcloud.com/foo/bar.html',
-					reverseProxyGeneratedURL: 'https://server',
 					generic: {
 						network: {
 							"Internet connectivity": {
@@ -280,7 +275,6 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
-					reverseProxyGeneratedURL: 'https://server',
 					generic: {
 						network: {
 							"Internet connectivity": {
@@ -322,8 +316,6 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
-					reverseProxyDocs: 'https://docs.nextcloud.com/foo/bar.html',
-					reverseProxyGeneratedURL: 'http://server',
 					generic: {
 						network: {
 							"Internet connectivity": {
@@ -354,8 +346,6 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
-					reverseProxyDocs: 'https://docs.nextcloud.com/foo/bar.html',
-					reverseProxyGeneratedURL: 'http://server',
 					generic: {
 						network: {
 							"Internet connectivity": {
@@ -383,7 +373,6 @@ describe('OC.SetupChecks tests', function() {
 					'Content-Type': 'application/json',
 				},
 				JSON.stringify({
-					reverseProxyGeneratedURL: 'https://server',
 					generic: {
 						network: {
 							"Internet connectivity": {

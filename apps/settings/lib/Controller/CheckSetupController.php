@@ -176,8 +176,6 @@ Raw output
 	public function check() {
 		return new DataResponse(
 			[
-				'reverseProxyDocs' => $this->urlGenerator->linkToDocs('admin-reverse-proxy'),
-				'reverseProxyGeneratedURL' => $this->urlGenerator->getAbsoluteURL('index.php'),
 				'generic' => $this->setupCheckManager->runAll(),
 			]
 		);

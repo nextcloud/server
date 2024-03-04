@@ -93,6 +93,7 @@ return array(
     'OCA\\Settings\\SetupChecks\\EmailTestSuccessful' => $baseDir . '/../lib/SetupChecks/EmailTestSuccessful.php',
     'OCA\\Settings\\SetupChecks\\FileLocking' => $baseDir . '/../lib/SetupChecks/FileLocking.php',
     'OCA\\Settings\\SetupChecks\\ForwardedForHeaders' => $baseDir . '/../lib/SetupChecks/ForwardedForHeaders.php',
+    'OCA\\Settings\\SetupChecks\\HttpsUrlGeneration' => $baseDir . '/../lib/SetupChecks/HttpsUrlGeneration.php',
     'OCA\\Settings\\SetupChecks\\InternetConnectivity' => $baseDir . '/../lib/SetupChecks/InternetConnectivity.php',
     'OCA\\Settings\\SetupChecks\\JavaScriptModules' => $baseDir . '/../lib/SetupChecks/JavaScriptModules.php',
     'OCA\\Settings\\SetupChecks\\LegacySSEKeyFormat' => $baseDir . '/../lib/SetupChecks/LegacySSEKeyFormat.php',
