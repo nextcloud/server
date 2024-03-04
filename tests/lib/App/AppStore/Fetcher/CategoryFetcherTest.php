@@ -64,6 +64,11 @@ class CategoryFetcherTest extends FetcherBase {
 				}
 				return $default;
 			});
+		$this->config
+			->method('getSystemValueString')
+			->willReturnCallback(function ($var, $default) {
+				return $default;
+			});
 		$this->appData
 			->expects($this->never())
 			->method('getFolder');
