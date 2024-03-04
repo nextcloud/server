@@ -25,12 +25,13 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-namespace OCA\UpdateNotification\Tests\Notification;
+namespace OCA\UpdateNotification\Tests\BackgroundJob;
 
 use OC\Installer;
 use OC\Updater\VersionCheck;
-use OCA\UpdateNotification\Notification\BackgroundJob;
+use OCA\UpdateNotification\BackgroundJob\UpdateAvailableNotifications;
 use OCP\App\IAppManager;
+use OCP\AppFramework\Services\IAppConfig;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
 use OCP\IGroup;
@@ -41,26 +42,21 @@ use OCP\Notification\INotification;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
-class BackgroundJobTest extends TestCase {
-	/** @var IConfig|MockObject */
-	protected $config;
-	/** @var IManager|MockObject */
-	protected $notificationManager;
-	/** @var IGroupManager|MockObject */
-	protected $groupManager;
-	/** @var IAppManager|MockObject */
-	protected $appManager;
-	/** @var ITimeFactory|MockObject */
-	protected $timeFactory;
-	/** @var Installer|MockObject */
-	protected $installer;
-	/** @var VersionCheck|MockObject */
-	protected $versionCheck;
+class UpdateAvailableNotificationsTest extends TestCase {
+	private IConfig|MockObject $config;
+	private IManager|MockObject $notificationManager;
+	private IGroupManager|MockObject $groupManager;
+	private IAppManager|MockObject $appManager;
+	private IAppConfig|MockObject $appConfig;
+	private ITimeFactory|MockObject $timeFactory;
+	private Installer|MockObject $installer;
+	private VersionCheck|MockObject $versionCheck;
 
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->config = $this->createMock(IConfig::class);
+		$this->appConfig = $this->createMock(IAppConfig::class);
 		$this->notificationManager = $this->createMock(IManager::class);
 		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->appManager = $this->createMock(IAppManager::class);
@@ -71,13 +67,14 @@ class BackgroundJobTest extends TestCase {
 
 	/**
 	 * @param array $methods
-	 * @return BackgroundJob|MockObject
+	 * @return UpdateAvailableNotifications|MockObject
 	 */
 	protected function getJob(array $methods = []) {
 		if (empty($methods)) {
-			return new BackgroundJob(
+			return new UpdateAvailableNotifications(
 				$this->timeFactory,
 				$this->config,
+				$this->appConfig,
 				$this->notificationManager,
 				$this->groupManager,
 				$this->appManager,
@@ -86,17 +83,18 @@ class BackgroundJobTest extends TestCase {
 			);
 		}
 		{
-			return $this->getMockBuilder(BackgroundJob::class)
+			return $this->getMockBuilder(UpdateAvailableNotifications::class)
 				->setConstructorArgs([
 					$this->timeFactory,
 					$this->config,
+					$this->appConfig,
 					$this->notificationManager,
 					$this->groupManager,
 					$this->appManager,
 					$this->installer,
 					$this->versionCheck,
 				])
-				->setMethods($methods)
+				->onlyMethods($methods)
 				->getMock();
 		}
 	}

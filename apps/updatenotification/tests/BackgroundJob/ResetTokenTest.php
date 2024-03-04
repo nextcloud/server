@@ -27,24 +27,29 @@ declare(strict_types=1);
  */
 namespace OCA\UpdateNotification\Tests;
 
-use OCA\UpdateNotification\ResetTokenBackgroundJob;
+use OCA\UpdateNotification\BackgroundJob\ResetToken as BackgroundJobResetToken;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\IAppConfig;
 use OCP\IConfig;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
-class ResetTokenBackgroundJobTest extends TestCase {
-	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
-	private $config;
-	/** @var ITimeFactory|\PHPUnit\Framework\MockObject\MockObject */
-	private $timeFactory;
-	/** @var ResetTokenBackgroundJob */
-	private $resetTokenBackgroundJob;
+class ResetTokenTest extends TestCase {
+	private IConfig|MockObject $config;
+	private IAppConfig|MockObject $appConfig;
+	private ITimeFactory|MockObject $timeFactory;
+	private BackgroundJobResetToken $resetTokenBackgroundJob;
 
 	protected function setUp(): void {
 		parent::setUp();
+		$this->appConfig = $this->createMock(IAppConfig::class);
 		$this->config = $this->createMock(IConfig::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
-		$this->resetTokenBackgroundJob = new ResetTokenBackgroundJob($this->config, $this->timeFactory);
+		$this->resetTokenBackgroundJob = new BackgroundJobResetToken(
+			$this->timeFactory,
+			$this->config,
+			$this->appConfig,
+		);
 	}
 
 	public function testRunWithNotExpiredToken() {
