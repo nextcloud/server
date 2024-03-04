@@ -154,6 +154,7 @@ OC.L10N.register(
     "Help" : "Ayuda",
     "Profile not found" : "Nun s'atopó'l perfil",
     "The profile does not exist." : "El perfil nun esiste.",
+    "Back to %s" : "Volver a «%s»",
     "Page not found" : "Nun s'atopó la páxina",
     "The page could not be found on the server or you may not be allowed to view it." : "Nun se pudo atopar la páxina nel sirvidor o ye posible que nun tengas permisu pa vela.",
     "Too many requests" : "Milenta solicitúes",

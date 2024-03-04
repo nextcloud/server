@@ -97,6 +97,7 @@ OC.L10N.register(
     "Set your password" : "设置您的密码",
     "Go to %s" : "访问 %s",
     "Install Client" : "安装客户端",
+    "Logged in account must be a subadmin" : "登录的账号必须是子管理员",
     "Apps" : "应用",
     "Personal" : "个人",
     "Administration" : "管理",
