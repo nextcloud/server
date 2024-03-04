@@ -22,9 +22,6 @@
 
 <template>
 	<section id="vue-avatar-section">
-		<h3 class="hidden-visually">
-			{{ t('settings', 'Your profile information') }}
-		</h3>
 		<HeaderBar :is-heading="true"
 			:readable="avatar.readable"
 			:scope.sync="avatar.scope" />
@@ -275,6 +272,7 @@ export default {
 <style lang="scss" scoped>
 section {
 	grid-row: 1/3;
+	padding: 10px 10px;
 }
 .avatar {
 	&__container {
