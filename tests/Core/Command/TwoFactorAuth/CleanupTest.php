@@ -27,6 +27,7 @@ declare(strict_types=1);
 namespace Core\Command\TwoFactorAuth;
 
 use OC\Core\Command\TwoFactorAuth\Cleanup;
+use OCA\Files_Versions\Db\VersionsMapper;
 use OCP\Authentication\TwoFactorAuth\IRegistry;
 use OCP\IUserManager;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -40,6 +41,9 @@ class CleanupTest extends TestCase {
 	/** @var IUserManager|MockObject */
 	private $userManager;
 
+	/** @var VersionsMapper|MockObject */
+	private $versionMapper;
+
 	/** @var CommandTester */
 	private $cmd;
 
@@ -48,8 +52,9 @@ class CleanupTest extends TestCase {
 
 		$this->registry = $this->createMock(IRegistry::class);
 		$this->userManager = $this->createMock(IUserManager::class);
+		$this->versionMapper = $this->createMock(VersionsMapper::class);
 
-		$cmd = new Cleanup($this->registry, $this->userManager);
+		$cmd = new Cleanup($this->registry, $this->userManager, $this->versionMapper);
 		$this->cmd = new CommandTester($cmd);
 	}
 

@@ -24,6 +24,7 @@
  */
 namespace OCA\Files_Versions\Command;
 
+use OCA\Files_Versions\Db\VersionsMapper;
 use OCP\Files\IRootFolder;
 use OCP\IUserBackend;
 use OCP\IUserManager;
@@ -37,6 +38,7 @@ class CleanUp extends Command {
 	public function __construct(
 		protected IRootFolder $rootFolder,
 		protected IUserManager $userManager,
+		protected VersionsMapper $versionMapper,
 	) {
 		parent::__construct();
 	}
@@ -118,6 +120,9 @@ class CleanUp extends Command {
 	protected function deleteVersions(string $user, ?string $path = null): void {
 		\OC_Util::tearDownFS();
 		\OC_Util::setupFS($user);
+
+		$userHomeStorageId = $this->rootFolder->getUserFolder($user)->getStorage()->getCache()->getNumericStorageId();
+		$this->versionMapper->deleteAllVersionsForUser($userHomeStorageId, $path);
 
 		$fullPath = '/' . $user . '/files_versions' . ($path ? '/' . $path : '');
 		if ($this->rootFolder->nodeExists($fullPath)) {
