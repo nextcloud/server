@@ -25,6 +25,7 @@
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Tigran Mkrtchyan <tigran.mkrtchyan@desy.de>
  * @author Vincent Petry <vincent@nextcloud.com>
+ * @author Richard Steinmetz <richard@steinmetz.cloud>
  *
  * @license AGPL-3.0
  *
@@ -229,6 +230,14 @@ class Local extends \OC\Files\Storage\Common {
 			$parent = dirname($stat['full_path']);
 			if (is_writable($parent)) {
 				$permissions += Constants::PERMISSION_DELETE;
+			} else {
+				// is_writable() is not reliable on NFS mounts -> try creating a random file
+				$testFile = implode('/', [$parent, bin2hex(random_bytes(16))]);
+				$writtenBytes = @file_put_contents($testFile, "TEST");
+				if ($writtenBytes !== false) {
+					$permissions += Constants::PERMISSION_DELETE;
+				}
+				@unlink($testFile);
 			}
 		}
 
