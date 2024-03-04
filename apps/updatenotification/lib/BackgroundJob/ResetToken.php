@@ -55,7 +55,7 @@ class ResetToken extends TimedJob {
 	 * @param $argument
 	 */
 	protected function run($argument) {
-		if ($this->config->getSystemValueBool('config_is_read_only') !== false) {
+		if ($this->config->getSystemValueBool('config_is_read_only')) {
 			return;
 		}
 
