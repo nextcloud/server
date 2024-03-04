@@ -156,6 +156,12 @@ export default {
 			type: Boolean,
 			default: false,
 		},
+		emailStates: {
+			type: Array,
+			default() {
+				return []
+			}
+		},
 	},
 
 	data() {
@@ -206,6 +212,15 @@ export default {
 		},
 		loginActionUrl() {
 			return generateUrl('login')
+		},
+		emailEnabled() {
+			return this.emailStates ? this.emailStates.every((state) => state === '1') : 1
+		},
+		loginText() {
+			if (this.emailEnabled) {
+				return t('core', 'Login with username or email')
+			}
+			return t('core', 'Login with username')
 		},
 	},
 
