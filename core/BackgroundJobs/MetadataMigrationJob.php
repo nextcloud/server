@@ -29,6 +29,7 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
 use OCP\BackgroundJob\TimedJob;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\IConfig;
 use OCP\IDBConnection;
 
 // Migrate oc_file_metadata.metadata to oc_file_metadata.value.
@@ -40,6 +41,7 @@ class MetadataMigrationJob extends TimedJob {
 		ITimeFactory $time,
 		private IDBConnection $db,
 		private IJobList $jobList,
+		private IConfig $config,
 	) {
 		parent::__construct($time);
 
@@ -48,7 +50,8 @@ class MetadataMigrationJob extends TimedJob {
 	}
 
 	protected function run(mixed $argument): void {
-		if (!$this->db->createSchema()->getTable('oc_file_metadata')->hasColumn('metadata')) {
+		$prefix = $this->config->getSystemValueString('dbtableprefix', 'oc_');
+		if (!$this->db->createSchema()->getTable($prefix.'file_metadata')->hasColumn('metadata')) {
 			return;
 		}
 
