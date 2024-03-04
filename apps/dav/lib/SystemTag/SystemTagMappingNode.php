@@ -114,7 +114,8 @@ class SystemTagMappingNode implements \Sabre\DAV\INode {
 			if (!$this->tagManager->canUserAssignTag($this->tag, $this->user)) {
 				throw new Forbidden('No permission to unassign tag ' . $this->tag->getId());
 			}
-			if (!($this->childWriteAccessFunction)($this->objectId)) {
+			$writeAccessFunction = $this->childWriteAccessFunction;
+			if (!$writeAccessFunction($this->objectId)) {
 				throw new Forbidden('No permission to unassign tag to ' . $this->objectId);
 			}
 			$this->tagMapper->unassignTags($this->objectId, $this->objectType, $this->tag->getId());
