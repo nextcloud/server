@@ -64,7 +64,8 @@ class SystemTagsObjectMappingCollection implements ICollection {
 			if (!$this->tagManager->canUserAssignTag($tag, $this->user)) {
 				throw new Forbidden('No permission to assign tag ' . $tagId);
 			}
-			if (!($this->childWriteAccessFunction)($this->objectId)) {
+			$writeAccessFunction = $this->childWriteAccessFunction;
+			if (!$writeAccessFunction($this->objectId)) {
 				throw new Forbidden('No permission to assign tag to ' . $this->objectId);
 			}
 			$this->tagMapper->assignTags($this->objectId, $this->objectType, $tagId);
