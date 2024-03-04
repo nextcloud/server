@@ -24,6 +24,7 @@ namespace OC\Repair;
 
 use OC\Core\BackgroundJobs\MetadataMigrationJob;
 use OCP\BackgroundJob\IJobList;
+use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
@@ -32,6 +33,7 @@ class AddMetadataMigrationJob implements IRepairStep {
 	public function __construct(
 		private IJobList $jobList,
 		private IDBConnection $db,
+		private IConfig $config,
 	) {
 	}
 
@@ -41,7 +43,9 @@ class AddMetadataMigrationJob implements IRepairStep {
 
 	public function run(IOutput $output) {
 		$schema = $this->db->createSchema();
-		$metadataTable = $schema->getTable('oc_file_metadata');
+
+		$prefix = $this->config->getSystemValueString('dbtableprefix', 'oc_');
+		$metadataTable = $schema->getTable($prefix.'file_metadata');
 
 		if (!$metadataTable->hasColumn('metadata')) {
 			return;
