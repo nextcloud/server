@@ -83,6 +83,7 @@ return array(
     'OCA\\Settings\\SetupChecks\\CodeIntegrity' => $baseDir . '/../lib/SetupChecks/CodeIntegrity.php',
     'OCA\\Settings\\SetupChecks\\CronErrors' => $baseDir . '/../lib/SetupChecks/CronErrors.php',
     'OCA\\Settings\\SetupChecks\\CronInfo' => $baseDir . '/../lib/SetupChecks/CronInfo.php',
+    'OCA\\Settings\\SetupChecks\\DataDirectoryProtected' => $baseDir . '/../lib/SetupChecks/DataDirectoryProtected.php',
     'OCA\\Settings\\SetupChecks\\DatabaseHasMissingColumns' => $baseDir . '/../lib/SetupChecks/DatabaseHasMissingColumns.php',
     'OCA\\Settings\\SetupChecks\\DatabaseHasMissingIndices' => $baseDir . '/../lib/SetupChecks/DatabaseHasMissingIndices.php',
     'OCA\\Settings\\SetupChecks\\DatabaseHasMissingPrimaryKeys' => $baseDir . '/../lib/SetupChecks/DatabaseHasMissingPrimaryKeys.php',

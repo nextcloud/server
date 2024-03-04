@@ -274,6 +274,7 @@ OC.L10N.register(
     "(copy %n)" : "(копирано %n)",
     "Move cancelled" : "Премештање је отказано",
     "A file or folder with that name already exists in this folder" : "У овом фолдеру већ постоји фајл или фолдер са тим именом",
+    "The file is locked" : "Фајл је закључан",
     "The file does not exist anymore" : "Фајл више не постоји",
     "Choose destination" : "Изаберите одредиште",
     "Copy to {target}" : "Копирај у {target}",
