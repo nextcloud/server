@@ -107,49 +107,6 @@ describe('OC.SetupChecks tests', function() {
 		});
 	});
 
-	describe('checkDataProtected', function() {
-
-		oc_dataURL = "data";
-
-		it('should return an error if data directory is not protected', function(done) {
-			var async = OC.SetupChecks.checkDataProtected();
-
-			suite.server.requests[0].respond(200, {'Content-Type': 'text/plain'}, '');
-
-			async.done(function( data, s, x ){
-				expect(data).toEqual([
-					{
-						msg: 'Your data directory and files are probably accessible from the internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root.',
-						type: OC.SetupChecks.MESSAGE_TYPE_ERROR
-					}]);
-				done();
-			});
-		});
-
-		it('should not return an error if data directory is protected', function(done) {
-			var async = OC.SetupChecks.checkDataProtected();
-
-			suite.server.requests[0].respond(403);
-
-			async.done(function( data, s, x ){
-				expect(data).toEqual([]);
-				done();
-			});
-		});
-
-		it('should return an error if data directory is a boolean', function(done) {
-
-			oc_dataURL = false;
-
-			var async = OC.SetupChecks.checkDataProtected();
-
-			async.done(function( data, s, x ){
-				expect(data).toEqual([]);
-				done();
-			});
-		});
-	});
-
 	describe('checkSetup', function() {
 		it('should return an error if server has no internet connection', function(done) {
 			var async = OC.SetupChecks.checkSetup();

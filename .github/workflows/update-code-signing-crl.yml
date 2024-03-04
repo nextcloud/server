@@ -29,7 +29,7 @@ jobs:
         run: openssl crl -verify -in resources/codesigning/root.crl -CAfile resources/codesigning/root.crt -noout
 
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@153407881ec5c347639a548ade7d8ad1d6740e38
+        uses: peter-evans/create-pull-request@a4f52f8033a6168103c2538976c07b467e8163bc
         with:
           token: ${{ secrets.COMMAND_BOT_PAT }}
           commit-message: "fix(security): Update code signing revocation list"

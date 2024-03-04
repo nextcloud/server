@@ -274,6 +274,7 @@ OC.L10N.register(
     "(copy %n)" : "(kopia %n)",
     "Move cancelled" : "Flytt avbruten",
     "A file or folder with that name already exists in this folder" : "En fil eller mapp med det namnet finns redan i den här mappen",
+    "The file is locked" : "Filen är låst",
     "The file does not exist anymore" : "Filen finns inte längre",
     "Choose destination" : "Välj destination",
     "Copy to {target}" : "Kopiera till {target}",

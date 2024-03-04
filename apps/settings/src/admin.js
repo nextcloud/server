@@ -108,9 +108,8 @@ window.addEventListener('DOMContentLoaded', () => {
 			OC.SetupChecks.checkWellKnownUrl('PROPFIND', '/.well-known/carddav', OC.theme.docPlaceholderUrl, $('#postsetupchecks').data('check-wellknown') === true),
 			OC.SetupChecks.checkSetup(),
 			OC.SetupChecks.checkGeneric(),
-			OC.SetupChecks.checkDataProtected(),
-		).then((check1, check2, check3, check4, check5, check6, check7, check8) => {
-			const messages = [].concat(check1, check2, check3, check4, check5, check6, check7, check8)
+		).then((check1, check2, check3, check4, check5, check6, check7) => {
+			const messages = [].concat(check1, check2, check3, check4, check5, check6, check7)
 			const $el = $('#postsetupchecks')
 			$('#security-warning-state-loading').addClass('hidden')
 

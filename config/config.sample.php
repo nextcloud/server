@@ -368,7 +368,7 @@ $CONFIG = [
 'token_auth_activity_update' => 60,
 
 /**
- * Whether the bruteforce protection shipped with Nextcloud should be enabled or not.
+ * Whether the brute force protection shipped with Nextcloud should be enabled or not.
  *
  * Disabling this is discouraged for security reasons.
  *
@@ -377,9 +377,9 @@ $CONFIG = [
 'auth.bruteforce.protection.enabled' => true,
 
 /**
- * Whether the bruteforce protection shipped with Nextcloud should be set to testing mode.
+ * Whether the brute force protection shipped with Nextcloud should be set to testing mode.
  *
- * In testing mode bruteforce attempts are still recorded, but the requests do
+ * In testing mode brute force attempts are still recorded, but the requests do
  * not sleep/wait for the specified time. They will still abort with
  * "429 Too Many Requests" when the maximum delay is reached.
  * Enabling this is discouraged for security reasons

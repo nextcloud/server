@@ -274,6 +274,7 @@ OC.L10N.register(
     "(copy %n)" : "(نسخ %n)",
     "Move cancelled" : "تمّ إلغاء النقل",
     "A file or folder with that name already exists in this folder" : "ملف أو مجلد بنفس ذاك الاسم موجود سلفاً في هذا المجلد",
+    "The file is locked" : "الملف مقفول",
     "The file does not exist anymore" : "الملف لم يعد موجوداً",
     "Choose destination" : "إختَر المَقصِد",
     "Copy to {target}" : "أُنسُخ إلى {target}",

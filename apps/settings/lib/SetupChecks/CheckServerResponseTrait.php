@@ -74,11 +74,12 @@ trait CheckServerResponseTrait {
 	 * Run a HEAD request to check header
 	 * @param string $url The relative URL to check
 	 * @param bool $ignoreSSL Ignore SSL certificates
+	 * @param bool $httpErrors Ignore requests with HTTP errors (will not yield if request has a 4xx or 5xx response)
 	 * @return Generator<int, IResponse>
 	 */
-	protected function runHEAD(string $url, bool $ignoreSSL = true): Generator {
+	protected function runHEAD(string $url, bool $ignoreSSL = true, bool $httpErrors = true): Generator {
 		$client = $this->clientService->newClient();
-		$requestOptions = $this->getRequestOptions($ignoreSSL);
+		$requestOptions = $this->getRequestOptions($ignoreSSL, $httpErrors);
 
 		foreach ($this->getTestUrls($url) as $testURL) {
 			try {
@@ -89,9 +90,10 @@ trait CheckServerResponseTrait {
 		}
 	}
 
-	protected function getRequestOptions(bool $ignoreSSL): array {
+	protected function getRequestOptions(bool $ignoreSSL, bool $httpErrors): array {
 		$requestOptions = [
 			'connect_timeout' => 10,
+			'http_errors' => $httpErrors,
 			'nextcloud' => [
 				'allow_local_address' => true,
 			],
