@@ -76,10 +76,13 @@ abstract class FetcherBase extends TestCase {
 
 	public function testGetWithAlreadyExistingFileAndUpToDateTimestampAndVersion() {
 		$this->config
-			->expects($this->exactly(1))
 			->method('getSystemValueString')
-			->with($this->equalTo('version'), $this->anything())
-			->willReturn('11.0.0.2');
+			->willReturnCallback(function ($var, $default) {
+				if ($var === 'version') {
+					return '11.0.0.2';
+				}
+				return $default;
+			});
 		$this->config->method('getSystemValueBool')
 			->willReturnArgument(1);
 
