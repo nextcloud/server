@@ -10,6 +10,7 @@ OC.L10N.register(
     "Error saving image" : "Chyba pri ukladaní obrázku",
     "Unsaved changes" : "Neuložené zmeny",
     "Drop changes" : "Zrušiť zmeny",
+    "LIVE" : "ŽIVÉ",
     "Your browser does not support videos." : "Váš prehliadač nepodporuje videá.",
     "Edit" : "Upraviť",
     "Exit full screen" : "Ukončiť režim celej obrazovky",
