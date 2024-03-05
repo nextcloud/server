@@ -128,7 +128,7 @@ export default defineComponent({
 
 		// Hide breadcrumbs if an upload is ongoing on arrow screens
 		shouldShowBreadcrumbs(): boolean {
-			return this.filesListWidth < 768 && !this.isUploadInProgress
+			return this.filesListWidth > 768 && !this.isUploadInProgress
 		},
 
 		// used to show the views icon for the first breadcrumb
