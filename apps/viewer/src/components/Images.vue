@@ -334,6 +334,10 @@ export default {
 			}
 		},
 		onDblclick() {
+			if (!this.canZoom) {
+				return
+			}
+
 			if (this.zoomRatio > 1) {
 				this.resetZoom()
 			} else {
