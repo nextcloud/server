@@ -11,8 +11,10 @@ namespace Test\Files\Node;
 use OC\Files\Node\Root;
 use OC\Files\Storage\Temporary;
 use OC\Files\View;
+use OC\Memcache\ArrayCache;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Mount\IMountManager;
+use OCP\ICacheFactory;
 use OCP\IUserManager;
 use Psr\Log\LoggerInterface;
 use Test\Traits\UserTrait;
@@ -52,6 +54,11 @@ class IntegrationTest extends \Test\TestCase {
 
 		$user = $this->createUser($this->getUniqueID('user'), '');
 		$this->loginAsUser($user->getUID());
+		$cacheFactory = $this->createMock(ICacheFactory::class);
+		$cacheFactory->method('createLocal')
+			->willReturnCallback(function () {
+				return new ArrayCache();
+			});
 
 		$this->view = new View();
 		$this->root = new Root(
@@ -61,7 +68,8 @@ class IntegrationTest extends \Test\TestCase {
 			\OC::$server->getUserMountCache(),
 			$this->createMock(LoggerInterface::class),
 			$this->createMock(IUserManager::class),
-			$this->createMock(IEventDispatcher::class)
+			$this->createMock(IEventDispatcher::class),
+			$cacheFactory,
 		);
 		$storage = new Temporary([]);
 		$subStorage = new Temporary([]);

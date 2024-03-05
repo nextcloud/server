@@ -233,9 +233,9 @@ class SyncLivePhotosListener implements IEventListener {
 		$peerFileId = (int)$metadata->getString('files-live-photo');
 
 		// Check the user's folder.
-		$nodes = $this->userFolder->getById($peerFileId);
-		if (count($nodes) !== 0) {
-			return $nodes[0];
+		$node = $this->userFolder->getFirstNodeById($peerFileId);
+		if ($node) {
+			return $node;
 		}
 
 		// Check the user's trashbin.

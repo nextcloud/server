@@ -142,9 +142,7 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 			$rootFolder = \OC::$server->get(IRootFolder::class);
 			$this->ownerUserFolder = $rootFolder->getUserFolder($this->superShare->getShareOwner());
 			$sourceId = $this->superShare->getNodeId();
-			$ownerNodes = $this->ownerUserFolder->getById($sourceId);
-			/** @var Node|false $ownerNode */
-			$ownerNode = current($ownerNodes);
+			$ownerNode = $this->ownerUserFolder->getFirstNodeById($sourceId);
 			if (!$ownerNode) {
 				$this->storage = new FailedStorage(['exception' => new NotFoundException("File by id $sourceId not found")]);
 				$this->cache = new FailedCache();

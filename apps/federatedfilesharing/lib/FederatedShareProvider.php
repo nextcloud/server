@@ -880,7 +880,7 @@ class FederatedShareProvider implements IShareProvider {
 	 *
 	 * @param string $userId
 	 * @param int $id
-	 * @return \OCP\Files\File|\OCP\Files\Folder
+	 * @return \OCP\Files\Node
 	 * @throws InvalidShare
 	 */
 	private function getNode($userId, $id) {
@@ -890,13 +890,13 @@ class FederatedShareProvider implements IShareProvider {
 			throw new InvalidShare();
 		}
 
-		$nodes = $userFolder->getById($id);
+		$node = $userFolder->getFirstNodeById($id);
 
-		if (empty($nodes)) {
+		if (!$node) {
 			throw new InvalidShare();
 		}
 
-		return $nodes[0];
+		return $node;
 	}
 
 	/**

@@ -795,9 +795,9 @@ class ManagerTest extends \Test\TestCase {
 			->willReturn(42);
 		// Id 108 is used in the data to refer to the node of the share.
 		$userFolder->expects($this->any())
-			->method('getById')
+			->method('getFirstNodeById')
 			->with(108)
-			->willReturn([$share->getNode()]);
+			->willReturn($share->getNode());
 		$userFolder->expects($this->any())
 			->method('getRelativePath')
 			->willReturnArgument(0);
@@ -4464,9 +4464,9 @@ class ManagerTest extends \Test\TestCase {
 			->willReturn($userFolder);
 		$folder->method('getPath')
 			->willReturn('/owner/files/folder');
-		$userFolder->method('getById')
+		$userFolder->method('getFirstNodeById')
 			->with($this->equalTo(42))
-			->willReturn([12 => $file]);
+			->willReturn($file);
 		$userFolder->method('getPath')
 			->willReturn('/user1/files');
 
@@ -4583,9 +4583,9 @@ class ManagerTest extends \Test\TestCase {
 			->willReturn($userFolder);
 		$folder->method('getPath')
 			->willReturn('/owner/files/folder');
-		$userFolder->method('getById')
+		$userFolder->method('getFirstNodeById')
 			->with($this->equalTo(42))
-			->willReturn([42 => $file]);
+			->willReturn($file);
 		$userFolder->method('getPath')
 			->willReturn('/user1/files');
 
