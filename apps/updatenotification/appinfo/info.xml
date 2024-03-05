@@ -5,7 +5,7 @@
 	<name>Update notification</name>
 	<summary>Displays update notifications for Nextcloud, app updates, and provides the SSO for the updater.</summary>
 	<description>Displays update notifications for Nextcloud, app updates, and provides the SSO for the updater.</description>
-	<version>1.19.0</version>
+	<version>1.19.1</version>
 	<licence>agpl</licence>
 	<author>Lukas Reschke</author>
 	<namespace>UpdateNotification</namespace>
