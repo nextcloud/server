@@ -67,15 +67,11 @@ class Log implements ILogger, IDataLogger {
 
 	public function __construct(
 		private IWriter $logger,
-		private ?SystemConfig $config = null,
+		private SystemConfig $config,
 		private ?Normalizer $normalizer = null,
 		private ?IRegistry $crashReporters = null
 	) {
-		// FIXME: Add this for backwards compatibility, should be fixed at some point probably
-		if ($config === null) {
-			$this->config = \OCP\Server::get(SystemConfig::class);
-		}
-
+		// FIXME: php8.1 allows "private Normalizer $normalizer = new Normalizer()," in initializer
 		if ($normalizer === null) {
 			$this->normalizer = new Normalizer();
 		}
