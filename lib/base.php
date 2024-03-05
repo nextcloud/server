@@ -1018,21 +1018,6 @@ class OC {
 			}
 		}
 
-		// emergency app disabling
-		if ($requestPath === '/disableapp'
-			&& $request->getMethod() === 'POST'
-		) {
-			\OC_JSON::callCheck();
-			\OC_JSON::checkAdminUser();
-			$appIds = (array)$request->getParam('appid');
-			foreach ($appIds as $appId) {
-				$appId = \OC_App::cleanAppId($appId);
-				Server::get(\OCP\App\IAppManager::class)->disableApp($appId);
-			}
-			\OC_JSON::success();
-			exit();
-		}
-
 		// Always load authentication apps
 		OC_App::loadApps(['authentication']);
 		OC_App::loadApps(['extended_authentication']);
