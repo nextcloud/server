@@ -885,6 +885,7 @@ return array(
     'OC\\App\\AppStore\\Bundles\\EnterpriseBundle' => $baseDir . '/lib/private/App/AppStore/Bundles/EnterpriseBundle.php',
     'OC\\App\\AppStore\\Bundles\\GroupwareBundle' => $baseDir . '/lib/private/App/AppStore/Bundles/GroupwareBundle.php',
     'OC\\App\\AppStore\\Bundles\\HubBundle' => $baseDir . '/lib/private/App/AppStore/Bundles/HubBundle.php',
+    'OC\\App\\AppStore\\Bundles\\PublicSectorBundle' => $baseDir . '/lib/private/App/AppStore/Bundles/PublicSectorBundle.php',
     'OC\\App\\AppStore\\Bundles\\SocialSharingBundle' => $baseDir . '/lib/private/App/AppStore/Bundles/SocialSharingBundle.php',
     'OC\\App\\AppStore\\Fetcher\\AppFetcher' => $baseDir . '/lib/private/App/AppStore/Fetcher/AppFetcher.php',
     'OC\\App\\AppStore\\Fetcher\\CategoryFetcher' => $baseDir . '/lib/private/App/AppStore/Fetcher/CategoryFetcher.php',
