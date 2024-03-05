@@ -170,6 +170,7 @@ OC.L10N.register(
     "Delete slot" : "删除插槽",
     "No working hours set" : "尚未设置工作时间",
     "Add slot" : "添加插槽",
+    "Weekdays" : "工作日",
     "Monday" : "周一",
     "Tuesday" : "周二",
     "Wednesday" : "周三",
