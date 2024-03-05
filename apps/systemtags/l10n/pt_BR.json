@@ -40,6 +40,8 @@
     "All tagged %s …" : "Todos os %s marcados …",
     "tagged %s" : "marcado %s",
     "Collaborative tags" : "Etiquetas colaborativas",
+    "Collaborative tagging functionality which shares tags among people." : "Funcionalidade de marcação colaborativa que compartilha etiquetas entre pessoas.",
+    "Collaborative tagging functionality which shares tags among people. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Funcionalidade de marcação colaborativa que compartilha etiquetas entre pessoas. Ótimo para equipes. \n\t(Se você for um provedor com instalação multilocatária, é aconselhável desativar este aplicativo, pois as etiquetas são compartilhadas.)",
     "Create or edit tags" : "Criar ou editar etiquetas",
     "Search for a tag to edit" : "Procure uma etiqueta para editar",
     "Collaborative tags …" : "Etiquetas colaborativas…",

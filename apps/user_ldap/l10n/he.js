@@ -52,7 +52,7 @@ OC.L10N.register(
     "Please login with the new password" : "נא להיכנס עם הססמה החדשה",
     "Your password will expire tomorrow." : "הססמה שלך תפוג מחר.",
     "Your password will expire today." : "הססמה שלך תפוג היום.",
-    "_Your password will expire within %n day._::_Your password will expire within %n days._" : ["הססמה שלך תפוג בעוד יום.","הססמה שלך תפוג בעוד יומיים.","הססמה שלך תפוג בעוד %n ימים.","הססמה שלך תפוג בעוד %n ימים."],
+    "_Your password will expire within %n day._::_Your password will expire within %n days._" : ["הססמה שלך תפוג בעוד יום.","הססמה שלך תפוג בעוד יומיים.","הססמה שלך תפוג בעוד %n ימים."],
     "Could not detect user display name attribute. Please specify it yourself in advanced LDAP settings." : "לא ניתן לאתר את מאפיין שם תצוגת המשתמש. נא לציין אותו בעצמך בהגדרות ה־LDAP המתקדמות.",
     "Could not find the desired feature" : "לא אותרה התכונה הרצויה",
     "Invalid Host" : "מארח לא חוקי",
@@ -160,4 +160,4 @@ OC.L10N.register(
     "Clear Username-LDAP User Mapping" : "ניקוי מיפוי שם משתמש LDAP:",
     "Clear Groupname-LDAP Group Mapping" : "ניקוי מיפוי שם משתמש קבוצה LDAP:"
 },
-"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");
+"nplurals=3; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: 2;");

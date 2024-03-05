@@ -2,9 +2,18 @@ OC.L10N.register(
     "files_versions",
     {
     "Versions" : "Versiones",
-    "Failed to revert {file} to revision {timestamp}." : "Fallu al revertir {file} a la revisión {timestamp}.",
-    "_%n byte_::_%n bytes_" : ["%n byte","%n bytes"],
-    "Restore" : "Restaurar",
-    "No other versions available" : "Nun hai otres versiones disponibles"
+    "Edit version name" : "Editar el nome de la versión",
+    "Restore version" : "Restaurar la versión",
+    "Download version" : "Baxar la versión",
+    "Delete version" : "Desaniciar la versión",
+    "Current version" : "Versión actual",
+    "Initial version" : "Versión inicial",
+    "Version name" : "Nome de la versión",
+    "Remove version name" : "Quitar el nome de la versión",
+    "Save version name" : "Guardar el nome de la versiones",
+    "Initial version restored" : "Restauróse la versión inicial",
+    "Version restored" : "Restauróse la versión",
+    "Could not restore version" : "Nun se pudo restaurar la versión",
+    "Could not delete version" : "Nun se pudo desaniciar la versión"
 },
 "nplurals=2; plural=(n != 1);");
