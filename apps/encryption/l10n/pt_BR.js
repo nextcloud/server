@@ -42,6 +42,7 @@ OC.L10N.register(
     "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "Ativar essa opção irá criptografar todos os arquivos do armazenamento principal, caso contrário, apenas arquivos no armazenamento externo serão criptografados",
     "Enable recovery key" : "Ativar chave de recuperação",
     "Disable recovery key" : "Dasabilitar chave de recuperação",
+    "The recovery key is an additional encryption key used to encrypt files. It is used to recover files from an account if the password is forgotten." : "A chave de recuperação é uma chave de criptografia adicional usada para criptografar arquivos. É usado para recuperar arquivos de uma conta caso a senha seja esquecida.",
     "Recovery key password" : "Senha da chave de recuperação",
     "Repeat recovery key password" : "Repita a senha da chave de recuperação",
     "Change recovery key password:" : "Mudar a senha da chave de recuperação:",
