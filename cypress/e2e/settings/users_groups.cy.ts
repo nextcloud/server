@@ -54,7 +54,7 @@ describe('Settings: Create groups', () => {
 		handlePasswordConfirmation(admin.password)
 
 		// see that the created group is in the list
-		cy.get('ul.app-navigation__list').within(() => {
+		cy.get('ul.app-navigation-list').within(() => {
 			// see that the list of groups contains the group foo
 			cy.contains(groupName).should('exist')
 		})
@@ -76,8 +76,8 @@ describe('Settings: Assign user to a group', { testIsolation: false }, () => {
 	})
 
 	it('see that the group is in the list', () => {
-		cy.get('ul.app-navigation__list').contains('li', groupName).should('exist')
-		cy.get('ul.app-navigation__list').contains('li', groupName).within(() => {
+		cy.get('ul.app-navigation-list').contains('li', groupName).should('exist')
+		cy.get('ul.app-navigation-list').contains('li', groupName).within(() => {
 			cy.get('.counter-bubble__counter')
 				.should('not.exist') // is hidden when 0
 		})
@@ -118,7 +118,7 @@ describe('Settings: Assign user to a group', { testIsolation: false }, () => {
 
 	it('see the group was successfully assigned', () => {
 		// see a new memeber
-		cy.get('ul.app-navigation__list')
+		cy.get('ul.app-navigation-list')
 			.contains('li', groupName)
 			.find('.counter-bubble__counter')
 			.should('contain', '1')
@@ -142,7 +142,7 @@ describe('Settings: Delete an empty group', { testIsolation: false }, () => {
 	})
 
 	it('see that the group is in the list', () => {
-		cy.get('ul.app-navigation__list').within(() => {
+		cy.get('ul.app-navigation-list').within(() => {
 			// see that the list of groups contains the group foo
 			cy.contains(groupName).should('exist').scrollIntoView()
 			// open the actions menu for the group
@@ -163,7 +163,7 @@ describe('Settings: Delete an empty group', { testIsolation: false }, () => {
 	})
 
 	it('deleted group is not shown anymore', () => {
-		cy.get('ul.app-navigation__list').within(() => {
+		cy.get('ul.app-navigation-list').within(() => {
 			// see that the list of groups does not contain the group
 			cy.contains(groupName).should('not.exist')
 		})
@@ -192,12 +192,12 @@ describe('Settings: Delete a non empty group', () => {
 
 	it('see that the group is in the list', () => {
 		// see that the list of groups contains the group
-		cy.get('ul.app-navigation__list').contains('li', groupName).should('exist').scrollIntoView()
+		cy.get('ul.app-navigation-list').contains('li', groupName).should('exist').scrollIntoView()
 	})
 
 	it('can delete the group', () => {
 		// open the menu
-		cy.get('ul.app-navigation__list')
+		cy.get('ul.app-navigation-list')
 			.contains('li', groupName)
 			.find('button.action-item__menutoggle')
 			.click({ force: true })
@@ -212,7 +212,7 @@ describe('Settings: Delete a non empty group', () => {
 	})
 
 	it('deleted group is not shown anymore', () => {
-		cy.get('ul.app-navigation__list').within(() => {
+		cy.get('ul.app-navigation-list').within(() => {
 			// see that the list of groups does not contain the group foo
 			cy.contains(groupName).should('not.exist')
 		})
