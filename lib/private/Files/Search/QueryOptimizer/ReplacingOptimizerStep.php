@@ -20,7 +20,9 @@ class ReplacingOptimizerStep extends QueryOptimizerStep {
 			$modified = false;
 			$arguments = $operator->getArguments();
 			foreach ($arguments as &$argument) {
-				$modified = $modified || $this->processOperator($argument);
+				if ($this->processOperator($argument)) {
+					$modified = true;
+				}
 			}
 			if ($modified) {
 				$operator->setArguments($arguments);
