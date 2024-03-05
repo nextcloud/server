@@ -125,6 +125,7 @@ OC.L10N.register(
     "{productName} Android app" : "แอป {productName} สำหรับ Android",
     "{productName} Talk for iOS" : "{productName} Talk สำหรับ iOS",
     "{productName} Talk for Android" : "{productName} Talk สำหรับ Android",
+    "Sync client" : "ไคลเอ็นต์ซิงค์",
     "This session" : "เซสชันนี้",
     "Device" : "อุปกรณ์",
     "Last activity" : "กิจกรรมล่าสุด",
