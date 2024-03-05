@@ -1,7 +1,7 @@
 /**
  * @copyright 2020 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
- * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  *
  * @license AGPL-3.0-or-later
  *

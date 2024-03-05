@@ -95,7 +95,7 @@ import UserListHeader from './Users/UserListHeader.vue'
 import UserRow from './Users/UserRow.vue'
 
 import { defaultQuota, isObfuscated, unlimitedQuota } from '../utils/userUtils.ts'
-import logger from '../logger.js'
+import logger from '../logger.ts'
 
 import usersSvg from '../../img/users.svg?raw'
 
