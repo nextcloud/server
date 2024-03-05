@@ -31,6 +31,22 @@
 			</p>
 		</div>
 	</div>
+
+	<!-- Live preview if a handler is available -->
+	<component :is="viewerHandler.component"
+		v-else-if="viewerHandler && !failedViewer"
+		:active="true"
+		:can-swipe="false"
+		:can-zoom="false"
+		:is-embedded="true"
+		v-bind="viewerFile"
+		:file-list="[viewerFile]"
+		:is-full-screen="false"
+		:is-sidebar-shown="false"
+		class="widget-file"
+		@error="failedViewer = true" />
+
+	<!-- The file is accessible -->
 	<a v-else
 		class="widget-file"
 		:href="richObject.link"
@@ -43,28 +59,100 @@
 		</div>
 	</a>
 </template>
-<script>
-import { generateUrl } from '@nextcloud/router'
-import path from 'path'
 
-export default {
+<script lang="ts">
+import { defineComponent, type Component, type PropType } from 'vue'
+import { generateRemoteUrl, generateUrl } from '@nextcloud/router'
+import path from 'path'
+import { getCurrentUser } from '@nextcloud/auth'
+
+// see lib/private/Collaboration/Reference/File/FileReferenceProvider.php
+type Ressource = {
+	id: number
+	name: string
+	size: number
+	path: string
+	link: string
+	mimetype: string
+	mtime: number // as unix timestamp
+	'preview-available': boolean
+}
+
+type ViewerHandler = {
+	id: string
+	group: string
+	mimes: string[]
+	component: Component
+}
+
+/**
+ * Minimal mock of the legacy Viewer FileInfo
+ * TODO: replace by Node object
+ */
+type ViewerFile = {
+	filename: string // the path to the root folder
+	basename: string // the file name
+	lastmod: Date // the last modification date
+	size: number // the file size in bytes
+	type: string
+	mime: string
+	fileid: number
+	failed: boolean
+	loaded: boolean
+	davPath: string
+	source: string
+}
+
+export default defineComponent({
 	name: 'ReferenceFileWidget',
 	props: {
 		richObject: {
-			type: Object,
+			type: Object as PropType<Ressource>,
 			required: true,
 		},
 		accessible: {
 			type: Boolean,
 			default: true,
 		},
+		interactive: {
+			type: Bool,
+			default: true,
+		}
 	},
+
 	data() {
 		return {
 			previewUrl: window.OC.MimeType.getIconUrl(this.richObject.mimetype),
+			failedViewer: false,
 		}
 	},
+
 	computed: {
+		availableViewerHandlers(): ViewerHandler[] {
+			return (window?.OCA?.Viewer?.availableHandlers || []) as ViewerHandler[]
+		},
+		viewerHandler(): ViewerHandler | undefined {
+			return this.availableViewerHandlers
+				.find(handler => handler.mimes.includes(this.richObject.mimetype))
+		},
+		viewerFile(): ViewerFile {
+			const davSource = generateRemoteUrl(`dav/files/${getCurrentUser()?.uid}/${this.richObject.path}`)
+				.replace(/\/\/$/, '/')
+			return {
+				filename: this.richObject.path,
+				basename: this.richObject.name,
+				lastmod: new Date(this.richObject.mtime * 1000),
+				size: this.richObject.size,
+				type: 'file',
+				mime: this.richObject.mimetype,
+				fileid: this.richObject.id,
+				failed: false,
+				loaded: true,
+				davPath: davSource,
+				source: davSource,
+			}
+		},
+
 		fileSize() {
 			return window.OC.Util.humanFileSize(this.richObject.size)
 		},
@@ -94,6 +182,7 @@ export default {
 
 		},
 	},
+
 	mounted() {
 		if (this.richObject['preview-available']) {
 			const previewUrl = generateUrl('/core/preview?fileId={fileId}&x=250&y=250', {
@@ -108,6 +197,8 @@ export default {
 			}
 			img.src = previewUrl
 		}
+
+		console.debug('ReferenceFileWidget', this.richObject)
 	},
 	methods: {
 		navigate() {
@@ -118,8 +209,9 @@ export default {
 			window.location = this.richObject.link
 		},
 	},
-}
+})
 </script>
+
 <style lang="scss" scoped>
 .widget-file {
 	display: flex;

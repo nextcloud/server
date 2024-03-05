@@ -42,7 +42,7 @@ registerWidget('file', (el, { richObjectType, richObject, accessible }) => {
 			accessible,
 		},
 	}).$mount(el)
-})
+}, { hasInteractiveView: true })
 
 registerCustomPickerElement('files', (el, { providerId, accessible }) => {
 	const Element = Vue.extend(FileReferencePickerElement)
