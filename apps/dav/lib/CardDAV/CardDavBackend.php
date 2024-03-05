@@ -331,24 +331,24 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 * @return void
 	 */
 	public function updateAddressBook($addressBookId, \Sabre\DAV\PropPatch $propPatch) {
-		$this->atomic(function () use ($addressBookId, $propPatch) {
-			$supportedProperties = [
-				'{DAV:}displayname',
-				'{' . Plugin::NS_CARDDAV . '}addressbook-description',
-			];
+		$supportedProperties = [
+			'{DAV:}displayname',
+			'{' . Plugin::NS_CARDDAV . '}addressbook-description',
+		];
 
-			$propPatch->handle($supportedProperties, function ($mutations) use ($addressBookId) {
-				$updates = [];
-				foreach ($mutations as $property => $newValue) {
-					switch ($property) {
-						case '{DAV:}displayname':
-							$updates['displayname'] = $newValue;
-							break;
-						case '{' . Plugin::NS_CARDDAV . '}addressbook-description':
-							$updates['description'] = $newValue;
-							break;
-					}
+		$propPatch->handle($supportedProperties, function ($mutations) use ($addressBookId) {
+			$updates = [];
+			foreach ($mutations as $property => $newValue) {
+				switch ($property) {
+					case '{DAV:}displayname':
+						$updates['displayname'] = $newValue;
+						break;
+					case '{' . Plugin::NS_CARDDAV . '}addressbook-description':
+						$updates['description'] = $newValue;
+						break;
 				}
+			}
+			[$addressBookRow, $shares] = $this->atomic(function () use ($addressBookId, $updates) {
 				$query = $this->db->getQueryBuilder();
 				$query->update('addressbooks');
 
@@ -362,11 +362,13 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 
 				$addressBookRow = $this->getAddressBookById((int)$addressBookId);
 				$shares = $this->getShares((int)$addressBookId);
-				$this->dispatcher->dispatchTyped(new AddressBookUpdatedEvent((int)$addressBookId, $addressBookRow, $shares, $mutations));
+				return [$addressBookRow, $shares];
+			}, $this->db);
 
-				return true;
-			});
-		}, $this->db);
+			$this->dispatcher->dispatchTyped(new AddressBookUpdatedEvent((int)$addressBookId, $addressBookRow, $shares, $mutations));
+
+			return true;
+		});
 	}
 
 	/**
