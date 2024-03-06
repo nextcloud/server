@@ -877,6 +877,9 @@ class AppConfigTest extends TestCase {
 		$config->setValueString('feed', 'string', 'value-1', sensitive: false);
 		$config->setValueString('feed', 'string', 'value-1', sensitive: true);
 		$this->assertSame(true, $config->isSensitive('feed', 'string'));
+
+		$this->assertConfigValueNotEquals('feed', 'string', 'value-1');
+		$this->assertConfigValueNotEquals('feed', 'string', 'value-2');
 	}
 
 	public function testSetSensitiveValueStringAsNonSensitiveStaysSensitive(): void {
@@ -884,6 +887,9 @@ class AppConfigTest extends TestCase {
 		$config->setValueString('feed', 'string', 'value-1', sensitive: true);
 		$config->setValueString('feed', 'string', 'value-2', sensitive: false);
 		$this->assertSame(true, $config->isSensitive('feed', 'string'));
+
+		$this->assertConfigValueNotEquals('feed', 'string', 'value-1');
+		$this->assertConfigValueNotEquals('feed', 'string', 'value-2');
 	}
 
 	public function testSetSensitiveValueStringAsNonSensitiveAreStillUpdated(): void {
@@ -891,6 +897,9 @@ class AppConfigTest extends TestCase {
 		$config->setValueString('feed', 'string', 'value-1', sensitive: true);
 		$config->setValueString('feed', 'string', 'value-2', sensitive: false);
 		$this->assertSame('value-2', $config->getValueString('feed', 'string', ''));
+
+		$this->assertConfigValueNotEquals('feed', 'string', 'value-1');
+		$this->assertConfigValueNotEquals('feed', 'string', 'value-2');
 	}
 
 	public function testSetLazyValueInt(): void {
