@@ -65,7 +65,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .favorite-marker-icon {
-	color: #a08b00;
+	color: var(--color-favorite);
 	// Override NcIconSvgWrapper defaults (clickable area)
 	min-width: unset !important;
     min-height: unset !important;
