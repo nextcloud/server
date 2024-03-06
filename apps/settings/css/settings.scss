@@ -594,36 +594,6 @@ span.version {
 	color: var(--color-text-maxcontrast);
 }
 
-.app-level {
-	span {
-		color: var(--color-text-maxcontrast);
-		background-color: transparent;
-		border: 1px solid var(--color-text-maxcontrast);
-		border-radius: var(--border-radius);
-		padding: 3px 6px;
-	}
-
-	a {
-		padding: 10px;
-		margin: -6px;
-		white-space: nowrap;
-	}
-
-	.official {
-		background-position: left center;
-		background-position: 5px center;
-		padding-left: 25px;
-	}
-
-	.supported {
-		border-color: var(--color-success);
-		background-position: left center;
-		background-position: 5px center;
-		padding-left: 25px;
-		color: var(--color-success);
-	}
-}
-
 .app-score {
 	position: relative;
 	top: 4px;
@@ -676,20 +646,6 @@ span.version {
 			height: 16px;
 			margin-right: 10px;
 			opacity: .7;
-		}
-	}
-
-	.app-level {
-		clear: right;
-		width: 100%;
-
-		.supported,
-		.official {
-			vertical-align: top;
-		}
-
-		.app-score-image {
-			float: right;
 		}
 	}
 
