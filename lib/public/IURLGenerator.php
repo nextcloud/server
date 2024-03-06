@@ -51,7 +51,7 @@ interface IURLGenerator {
 	 *
 	 * @since 25.0.0
 	 */
-	public const URL_REGEX_NO_MODIFIERS = '(\s|\n|^)(https?:\/\/)((?:[-A-Z0-9+_]+\.)+[-A-Z]+(?:\/[-A-Z0-9+&@#%?=~_|!:,.;()]*)*)(\s|\n|$)';
+	public const URL_REGEX_NO_MODIFIERS = '(\s|\n|^)(https?:\/\/)([-A-Z0-9+_.]+(?::[0-9]+)?(?:\/[-A-Z0-9+&@#%?=~_|!:,.;()]*)*)(\s|\n|$)';
 
 	/**
 	 * Returns the URL for a route
