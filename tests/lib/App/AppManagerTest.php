@@ -116,14 +116,22 @@ class AppManagerTest extends TestCase {
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
+
+		$this->overwriteService(AppConfig::class, $this->appConfig);
+
 		$this->cacheFactory->expects($this->any())
 			->method('createDistributed')
 			->with('settings')
 			->willReturn($this->cache);
+
+		$this->config
+			->method('getSystemValueBool')
+			->with('installed', false)
+			->willReturn(true);
+
 		$this->manager = new AppManager(
 			$this->userSession,
 			$this->config,
-			$this->appConfig,
 			$this->groupManager,
 			$this->cacheFactory,
 			$this->eventDispatcher,
@@ -267,7 +275,6 @@ class AppManagerTest extends TestCase {
 			->setConstructorArgs([
 				$this->userSession,
 				$this->config,
-				$this->appConfig,
 				$this->groupManager,
 				$this->cacheFactory,
 				$this->eventDispatcher,
@@ -322,7 +329,6 @@ class AppManagerTest extends TestCase {
 			->setConstructorArgs([
 				$this->userSession,
 				$this->config,
-				$this->appConfig,
 				$this->groupManager,
 				$this->cacheFactory,
 				$this->eventDispatcher,
@@ -385,7 +391,6 @@ class AppManagerTest extends TestCase {
 			->setConstructorArgs([
 				$this->userSession,
 				$this->config,
-				$this->appConfig,
 				$this->groupManager,
 				$this->cacheFactory,
 				$this->eventDispatcher,
@@ -589,7 +594,6 @@ class AppManagerTest extends TestCase {
 			->setConstructorArgs([
 				$this->userSession,
 				$this->config,
-				$this->appConfig,
 				$this->groupManager,
 				$this->cacheFactory,
 				$this->eventDispatcher,
@@ -649,7 +653,6 @@ class AppManagerTest extends TestCase {
 			->setConstructorArgs([
 				$this->userSession,
 				$this->config,
-				$this->appConfig,
 				$this->groupManager,
 				$this->cacheFactory,
 				$this->eventDispatcher,

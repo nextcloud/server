@@ -539,11 +539,9 @@ class Factory implements IFactory {
 	/**
 	 * Get a list of language files that should be loaded
 	 *
-	 * @param string $app
-	 * @param string $lang
 	 * @return string[]
 	 */
-	private function getL10nFilesForApp($app, $lang) {
+	private function getL10nFilesForApp(string $app, string $lang): array {
 		$languageFiles = [];
 
 		$i18nDir = $this->findL10nDir($app);
