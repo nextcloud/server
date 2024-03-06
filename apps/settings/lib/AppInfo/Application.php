@@ -67,6 +67,7 @@ use OCA\Settings\SetupChecks\ForwardedForHeaders;
 use OCA\Settings\SetupChecks\HttpsUrlGeneration;
 use OCA\Settings\SetupChecks\InternetConnectivity;
 use OCA\Settings\SetupChecks\JavaScriptModules;
+use OCA\Settings\SetupChecks\JavaScriptSourceMaps;
 use OCA\Settings\SetupChecks\LegacySSEKeyFormat;
 use OCA\Settings\SetupChecks\MaintenanceWindowStart;
 use OCA\Settings\SetupChecks\MemcacheConfigured;
@@ -193,6 +194,7 @@ class Application extends App implements IBootstrap {
 		$context->registerSetupCheck(ForwardedForHeaders::class);
 		$context->registerSetupCheck(HttpsUrlGeneration::class);
 		$context->registerSetupCheck(InternetConnectivity::class);
+		$context->registerSetupCheck(JavaScriptSourceMaps::class);
 		$context->registerSetupCheck(JavaScriptModules::class);
 		$context->registerSetupCheck(LegacySSEKeyFormat::class);
 		$context->registerSetupCheck(MaintenanceWindowStart::class);
