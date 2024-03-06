@@ -24,6 +24,7 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace OCA\Files_Versions\Versions;
 
 use OC\Files\View;
@@ -102,62 +103,70 @@ class LegacyVersionsBackend implements IVersionBackend, INameableVersionBackend,
 			throw new NotFoundException("File not found ($fileId)");
 		}
 
-		$versions = $this->getVersionsForFileFromDB($file, $user);
-
-		if (count($versions) > 0) {
-			return $versions;
-		}
-
-		// Insert the entry in the DB for the current version.
-		$versionEntity = new VersionEntity();
-		$versionEntity->setFileId($fileId);
-		$versionEntity->setTimestamp($file->getMTime());
-		$versionEntity->setSize($file->getSize());
-		$versionEntity->setMimetype($this->mimeTypeLoader->getId($file->getMimetype()));
-		$versionEntity->setMetadata([]);
-		$this->versionsMapper->insert($versionEntity);
-
 		// Insert entries in the DB for existing versions.
 		$relativePath = $userFolder->getRelativePath($file->getPath());
 		if ($relativePath === null) {
 			throw new NotFoundException("Relative path not found for file $fileId (" . $file->getPath() . ')');
 		}
 
-		$versionsOnFS = Storage::getVersions($user->getUID(), $relativePath);
-		foreach ($versionsOnFS as $version) {
-			$versionEntity = new VersionEntity();
-			$versionEntity->setFileId($fileId);
-			$versionEntity->setTimestamp((int)$version['version']);
-			$versionEntity->setSize((int)$version['size']);
-			$versionEntity->setMimetype($this->mimeTypeLoader->getId($version['mimetype']));
-			$versionEntity->setMetadata([]);
-			$this->versionsMapper->insert($versionEntity);
+		$currentVersion = [
+			'version' => (string)$file->getMtime(),
+			'size' => $file->getSize(),
+			'mimetype' => $file->getMimetype(),
+		];
+
+		$versionsInDB = $this->versionsMapper->findAllVersionsForFileId($file->getId());
+		/** @var array<int, array> */
+		$versionsInFS = array_values(Storage::getVersions($user->getUID(), $relativePath));
+
+		/** @var array<int, array{db: ?VersionEntity, fs: ?mixed}> */
+		$groupedVersions = [];
+		$davVersions = [];
+
+		foreach ($versionsInDB as $version) {
+			$revisionId = $version->getTimestamp();
+			$groupedVersions[$revisionId] = $groupedVersions[$revisionId] ?? [];
+			$groupedVersions[$revisionId]['db'] = $version;
 		}
 
-		return $this->getVersionsForFileFromDB($file, $user);
-	}
+		foreach ([$currentVersion, ...$versionsInFS] as $version) {
+			$revisionId = $version['version'];
+			$groupedVersions[$revisionId] = $groupedVersions[$revisionId] ?? [];
+			$groupedVersions[$revisionId]['fs'] = $version;
+		}
 
-	/**
-	 * @return IVersion[]
-	 */
-	private function getVersionsForFileFromDB(FileInfo $file, IUser $user): array {
-		$userFolder = $this->rootFolder->getUserFolder($user->getUID());
+		/** @var array<string, array{db: ?VersionEntity, fs: ?mixed}> $groupedVersions */
+		foreach ($groupedVersions as $versions) {
+			if (empty($versions['db']) && !empty($versions['fs'])) {
+				$versions['db'] = new VersionEntity();
+				$versions['db']->setFileId($fileId);
+				$versions['db']->setTimestamp((int)$versions['fs']['version']);
+				$versions['db']->setSize((int)$versions['fs']['size']);
+				$versions['db']->setMimetype($this->mimeTypeLoader->getId($versions['fs']['mimetype']));
+				$versions['db']->setMetadata([]);
+				$this->versionsMapper->insert($versions['db']);
+			} elseif (!empty($versions['db']) && empty($versions['fs'])) {
+				$this->versionsMapper->delete($versions['db']);
+				continue;
+			}
 
-		return array_map(
-			fn (VersionEntity $versionEntity) => new Version(
-				$versionEntity->getTimestamp(),
-				$versionEntity->getTimestamp(),
+			$version = new Version(
+				$versions['db']->getTimestamp(),
+				$versions['db']->getTimestamp(),
 				$file->getName(),
-				$versionEntity->getSize(),
-				$this->mimeTypeLoader->getMimetypeById($versionEntity->getMimetype()),
+				$versions['db']->getSize(),
+				$this->mimeTypeLoader->getMimetypeById($versions['db']->getMimetype()),
 				$userFolder->getRelativePath($file->getPath()),
 				$file,
 				$this,
 				$user,
-				$versionEntity->getLabel(),
-			),
-			$this->versionsMapper->findAllVersionsForFileId($file->getId())
-		);
+				$versions['db']->getLabel(),
+			);
+
+			array_push($davVersions, $version);
+		}
+
+		return $davVersions;
 	}
 
 	public function createVersion(IUser $user, FileInfo $file) {
