@@ -36,6 +36,8 @@ declare(strict_types=1);
  */
 namespace OC;
 
+use OCP\App\AppPathNotFoundException;
+use OCP\App\IAppManager;
 use OCP\AutoloadNotAllowedException;
 use OCP\ICache;
 use Psr\Log\LoggerInterface;
@@ -113,11 +115,15 @@ class Autoloader {
 		} elseif (strpos($class, 'OCA\\') === 0) {
 			[, $app, $rest] = explode('\\', $class, 3);
 			$app = strtolower($app);
-			$appPath = \OC_App::getAppPath($app);
-			if ($appPath && stream_resolve_include_path($appPath)) {
-				$paths[] = $appPath . '/' . strtolower(str_replace('\\', '/', $rest) . '.php');
-				// If not found in the root of the app directory, insert '/lib' after app id and try again.
-				$paths[] = $appPath . '/lib/' . strtolower(str_replace('\\', '/', $rest) . '.php');
+			try {
+				$appPath = \OCP\Server::get(IAppManager::class)->getAppPath($app);
+				if (stream_resolve_include_path($appPath)) {
+					$paths[] = $appPath . '/' . strtolower(str_replace('\\', '/', $rest) . '.php');
+					// If not found in the root of the app directory, insert '/lib' after app id and try again.
+					$paths[] = $appPath . '/lib/' . strtolower(str_replace('\\', '/', $rest) . '.php');
+				}
+			} catch (AppPathNotFoundException) {
+				// App not found, ignore
 			}
 		} elseif ($class === 'Test\\TestCase') {
 			// This File is considered public API, so we make sure that the class

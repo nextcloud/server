@@ -107,7 +107,8 @@ try {
 		\OC::$server->get(\OCP\EventDispatcher\IEventDispatcher::class),
 		\OC::$server->getRequest(),
 		\OC::$server->get(\Psr\Log\LoggerInterface::class),
-		\OC::$server->query(\OC\MemoryInfo::class)
+		\OC::$server->query(\OC\MemoryInfo::class),
+		\OCP\Server::get(\OCP\App\IAppManager::class),
 	);
 	$application->loadCommands(new ArgvInput(), new ConsoleOutput());
 	$application->run();
