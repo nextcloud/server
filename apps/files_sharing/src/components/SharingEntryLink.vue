@@ -525,10 +525,10 @@ export default {
 		 * @return {Array}
 		 */
 		externalLinkActions() {
+			const filterValidAction = (action) => (action.shareType.includes(ShareTypes.SHARE_TYPE_LINK) || action.shareType.includes(ShareTypes.SHARE_TYPE_EMAIL)) && !action.advanced
 			// filter only the registered actions for said link
 			return this.ExternalShareActions.actions
-				.filter(action => action.shareType.includes(ShareTypes.SHARE_TYPE_LINK)
-					|| action.shareType.includes(ShareTypes.SHARE_TYPE_EMAIL))
+				.filter(filterValidAction)
 		},
 
 		isPasswordPolicyEnabled() {
