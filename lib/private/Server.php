@@ -892,7 +892,6 @@ class Server extends ServerContainer implements IServerContainer {
 			return new \OC\App\AppManager(
 				$c->get(IUserSession::class),
 				$c->get(\OCP\IConfig::class),
-				$c->get(\OC\AppConfig::class),
 				$c->get(IGroupManager::class),
 				$c->get(ICacheFactory::class),
 				$c->get(IEventDispatcher::class),
