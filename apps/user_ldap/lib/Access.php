@@ -1574,17 +1574,15 @@ class Access extends LDAPUtility {
 		return $filter;
 	}
 
-	/**
-	 * @param string $name
-	 * @param string $password
-	 * @return bool
-	 */
-	public function areCredentialsValid($name, $password) {
+	public function areCredentialsValid(string $name, string $password): bool {
+		if ($name === '' || $password === '') {
+			return false;
+		}
 		$name = $this->helper->DNasBaseParameter($name);
 		$testConnection = clone $this->connection;
 		$credentials = [
 			'ldapAgentName' => $name,
-			'ldapAgentPassword' => $password
+			'ldapAgentPassword' => $password,
 		];
 		if (!$testConnection->setConfiguration($credentials)) {
 			return false;
