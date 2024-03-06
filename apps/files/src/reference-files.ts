@@ -33,13 +33,14 @@ Vue.mixin({
 	},
 })
 
-registerWidget('file', (el, { richObjectType, richObject, accessible }) => {
+registerWidget('file', (el, { richObjectType, richObject, accessible, interactive }) => {
 	const Widget = Vue.extend(FileWidget)
 	new Widget({
 		propsData: {
 			richObjectType,
 			richObject,
 			accessible,
+			interactive,
 		},
 	}).$mount(el)
 }, { hasInteractiveView: true })
