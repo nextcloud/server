@@ -142,7 +142,7 @@
 				target="_blank"
 				rel="noreferrer noopener">{{ t('settings', 'Developer documentation') }} ↗</a>
 		</p>
-		<Markdown class="app-details__description" :text="app.description" />
+		<Markdown class="app-details__description" :min-heading="2" :text="app.description" />
 	</div>
 </template>
 
