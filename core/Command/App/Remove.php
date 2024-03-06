@@ -138,7 +138,7 @@ class Remove extends Command implements CompletionAwareInterface {
 	 */
 	public function completeArgumentValues($argumentName, CompletionContext $context): array {
 		if ($argumentName === 'app-id') {
-			return $this->appManager->getInstalledApps();
+			return $this->manager->getInstalledApps();
 		}
 		return [];
 	}
