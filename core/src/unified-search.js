@@ -1,7 +1,7 @@
 /**
- * @copyright Copyright (c) 2020 Fon E. Noel NFEBE <fenn25.fn@gmail.com>
+ * @copyright Copyright (c) 2024 Fon E. Noel NFEBE <opensource@nfebe.com>
  *
- * @author Fon E. Noel NFEBE <fenn25.fn@gmail.com>
+ * @author Fon E. Noel NFEBE <opensource@nfebe.com>
  *
  * @license AGPL-3.0-or-later
  *
@@ -23,9 +23,11 @@
 import { getLoggerBuilder } from '@nextcloud/logger'
 import { getRequestToken } from '@nextcloud/auth'
 import { translate as t, translatePlural as n } from '@nextcloud/l10n'
+import { createPinia, PiniaVuePlugin } from 'pinia'
 import Vue from 'vue'
 
 import UnifiedSearch from './views/UnifiedSearch.vue'
+import { useSearchStore } from '../src/store/unified-search-external-filters.js'
 
 // eslint-disable-next-line camelcase
 __webpack_nonce__ = btoa(getRequestToken())
@@ -47,8 +49,21 @@ Vue.mixin({
 	},
 })
 
+// Register the add/register filter action API globally
+window.OCA = window.OCA || {}
+window.OCA.UnifiedSearch = {
+	registerFilterAction: ({ id, appId, label, callback, icon }) => {
+		const searchStore = useSearchStore()
+		searchStore.registerExternalFilter({ id, appId, label, callback, icon })
+	},
+}
+
+Vue.use(PiniaVuePlugin)
+const pinia = createPinia()
+
 export default new Vue({
 	el: '#unified-search',
+	pinia,
 	// eslint-disable-next-line vue/match-component-file-name
 	name: 'UnifiedSearchRoot',
 	render: h => h(UnifiedSearch),
