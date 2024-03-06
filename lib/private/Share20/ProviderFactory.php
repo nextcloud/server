@@ -15,14 +15,12 @@ use OCA\FederatedFileSharing\TokenHandler;
 use OCA\ShareByMail\Settings\SettingsManager;
 use OCA\ShareByMail\ShareByMailProvider;
 use OCA\Talk\Share\RoomShareProvider;
-use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Defaults;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\ICloudFederationFactory;
 use OCP\Files\IRootFolder;
 use OCP\Http\Client\IClientService;
 use OCP\IServerContainer;
-use OCP\L10N\IFactory;
 use OCP\Mail\IMailer;
 use OCP\Security\IHasher;
 use OCP\Security\ISecureRandom;
@@ -77,17 +75,7 @@ class ProviderFactory implements IProviderFactory {
 	 */
 	protected function defaultShareProvider() {
 		if ($this->defaultProvider === null) {
-			$this->defaultProvider = new DefaultShareProvider(
-				$this->serverContainer->getDatabaseConnection(),
-				$this->serverContainer->getUserManager(),
-				$this->serverContainer->getGroupManager(),
-				$this->serverContainer->get(IRootFolder::class),
-				$this->serverContainer->get(IMailer::class),
-				$this->serverContainer->query(Defaults::class),
-				$this->serverContainer->get(IFactory::class),
-				$this->serverContainer->getURLGenerator(),
-				$this->serverContainer->query(ITimeFactory::class),
-			);
+			$this->defaultProvider = $this->serverContainer->get(DefaultShareProvider::class);
 		}
 
 		return $this->defaultProvider;
