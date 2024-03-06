@@ -38,7 +38,6 @@ use OCP\Files\Mount\IMountManager;
 use OCP\IConfig;
 use OCP\IDateTimeZone;
 use OCP\IGroupManager;
-use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\IUserSession;
@@ -86,7 +85,6 @@ class CapabilitiesTest extends \Test\TestCase {
 			$this->createMock(IHasher::class),
 			$this->createMock(IMountManager::class),
 			$this->createMock(IGroupManager::class),
-			$this->createMock(IL10N::class),
 			$this->createMock(IFactory::class),
 			$this->createMock(IProviderFactory::class),
 			$this->createMock(IUserManager::class),
