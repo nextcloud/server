@@ -151,19 +151,27 @@ class ManagerTest extends \Test\TestCase {
 			->willReturnCallback(function ($singular, $plural, $count, $parameters = []) {
 				return vsprintf(str_replace('%n', $count, ($count === 1) ? $singular : $plural), $parameters);
 			});
+		$this->l10nFactory->method('get')->willReturn($this->l);
 
 		$this->factory = new DummyFactory(\OC::$server);
 
-		$this->manager = new Manager(
+		$this->manager = $this->createManager($this->factory);
+
+		$this->defaultProvider = $this->createMock(DefaultShareProvider::class);
+		$this->defaultProvider->method('identifier')->willReturn('default');
+		$this->factory->setProvider($this->defaultProvider);
+	}
+
+	private function createManager(IProviderFactory $factory): Manager {
+		return new Manager(
 			$this->logger,
 			$this->config,
 			$this->secureRandom,
 			$this->hasher,
 			$this->mountManager,
 			$this->groupManager,
-			$this->l,
 			$this->l10nFactory,
-			$this->factory,
+			$factory,
 			$this->userManager,
 			$this->rootFolder,
 			$this->mailer,
@@ -175,10 +183,6 @@ class ManagerTest extends \Test\TestCase {
 			$this->shareDisabledChecker,
 			$this->dateTimeZone,
 		);
-
-		$this->defaultProvider = $this->createMock(DefaultShareProvider::class);
-		$this->defaultProvider->method('identifier')->willReturn('default');
-		$this->factory->setProvider($this->defaultProvider);
 	}
 
 	/**
@@ -193,7 +197,6 @@ class ManagerTest extends \Test\TestCase {
 				$this->hasher,
 				$this->mountManager,
 				$this->groupManager,
-				$this->l,
 				$this->l10nFactory,
 				$this->factory,
 				$this->userManager,
@@ -2796,27 +2799,7 @@ class ManagerTest extends \Test\TestCase {
 
 		$factory = $this->createMock(IProviderFactory::class);
 
-		$manager = new Manager(
-			$this->logger,
-			$this->config,
-			$this->secureRandom,
-			$this->hasher,
-			$this->mountManager,
-			$this->groupManager,
-			$this->l,
-			$this->l10nFactory,
-			$factory,
-			$this->userManager,
-			$this->rootFolder,
-			$this->mailer,
-			$this->urlGenerator,
-			$this->defaults,
-			$this->dispatcher,
-			$this->userSession,
-			$this->knownUserService,
-			$this->shareDisabledChecker,
-			$this->dateTimeZone,
-		);
+		$manager = $this->createManager($factory);
 
 		$share = $this->createMock(IShare::class);
 
@@ -2845,27 +2828,7 @@ class ManagerTest extends \Test\TestCase {
 
 		$factory = $this->createMock(IProviderFactory::class);
 
-		$manager = new Manager(
-			$this->logger,
-			$this->config,
-			$this->secureRandom,
-			$this->hasher,
-			$this->mountManager,
-			$this->groupManager,
-			$this->l,
-			$this->l10nFactory,
-			$factory,
-			$this->userManager,
-			$this->rootFolder,
-			$this->mailer,
-			$this->urlGenerator,
-			$this->defaults,
-			$this->dispatcher,
-			$this->userSession,
-			$this->knownUserService,
-			$this->shareDisabledChecker,
-			$this->dateTimeZone,
-		);
+		$manager = $this->createManager($factory);
 
 		$share = $this->createMock(IShare::class);
 
@@ -2901,27 +2864,7 @@ class ManagerTest extends \Test\TestCase {
 
 		$factory = $this->createMock(IProviderFactory::class);
 
-		$manager = new Manager(
-			$this->logger,
-			$this->config,
-			$this->secureRandom,
-			$this->hasher,
-			$this->mountManager,
-			$this->groupManager,
-			$this->l,
-			$this->l10nFactory,
-			$factory,
-			$this->userManager,
-			$this->rootFolder,
-			$this->mailer,
-			$this->urlGenerator,
-			$this->defaults,
-			$this->dispatcher,
-			$this->userSession,
-			$this->knownUserService,
-			$this->shareDisabledChecker,
-			$this->dateTimeZone,
-		);
+		$manager = $this->createManager($factory);
 
 		$share = $this->createMock(IShare::class);
 
@@ -4302,27 +4245,7 @@ class ManagerTest extends \Test\TestCase {
 				throw new Exception\ProviderException();
 			});
 
-		$manager = new Manager(
-			$this->logger,
-			$this->config,
-			$this->secureRandom,
-			$this->hasher,
-			$this->mountManager,
-			$this->groupManager,
-			$this->l,
-			$this->l10nFactory,
-			$factory,
-			$this->userManager,
-			$this->rootFolder,
-			$this->mailer,
-			$this->urlGenerator,
-			$this->defaults,
-			$this->dispatcher,
-			$this->userSession,
-			$this->knownUserService,
-			$this->shareDisabledChecker,
-			$this->dateTimeZone,
-		);
+		$manager = $this->createManager($factory);
 		$this->assertSame($expected,
 			$manager->shareProviderExists($shareType)
 		);
@@ -4338,27 +4261,7 @@ class ManagerTest extends \Test\TestCase {
 	public function testGetSharesInFolder() {
 		$factory = new DummyFactory2($this->createMock(IServerContainer::class));
 
-		$manager = new Manager(
-			$this->logger,
-			$this->config,
-			$this->secureRandom,
-			$this->hasher,
-			$this->mountManager,
-			$this->groupManager,
-			$this->l,
-			$this->l10nFactory,
-			$factory,
-			$this->userManager,
-			$this->rootFolder,
-			$this->mailer,
-			$this->urlGenerator,
-			$this->defaults,
-			$this->dispatcher,
-			$this->userSession,
-			$this->knownUserService,
-			$this->shareDisabledChecker,
-			$this->dateTimeZone,
-		);
+		$manager = $this->createManager($factory);
 
 		$factory->setProvider($this->defaultProvider);
 		$extraProvider = $this->createMock(IShareProvider::class);
@@ -4405,27 +4308,7 @@ class ManagerTest extends \Test\TestCase {
 	public function testGetAccessList() {
 		$factory = new DummyFactory2($this->createMock(IServerContainer::class));
 
-		$manager = new Manager(
-			$this->logger,
-			$this->config,
-			$this->secureRandom,
-			$this->hasher,
-			$this->mountManager,
-			$this->groupManager,
-			$this->l,
-			$this->l10nFactory,
-			$factory,
-			$this->userManager,
-			$this->rootFolder,
-			$this->mailer,
-			$this->urlGenerator,
-			$this->defaults,
-			$this->dispatcher,
-			$this->userSession,
-			$this->knownUserService,
-			$this->shareDisabledChecker,
-			$this->dateTimeZone,
-		);
+		$manager = $this->createManager($factory);
 
 		$factory->setProvider($this->defaultProvider);
 		$extraProvider = $this->createMock(IShareProvider::class);
@@ -4524,27 +4407,7 @@ class ManagerTest extends \Test\TestCase {
 	public function testGetAccessListWithCurrentAccess() {
 		$factory = new DummyFactory2($this->createMock(IServerContainer::class));
 
-		$manager = new Manager(
-			$this->logger,
-			$this->config,
-			$this->secureRandom,
-			$this->hasher,
-			$this->mountManager,
-			$this->groupManager,
-			$this->l,
-			$this->l10nFactory,
-			$factory,
-			$this->userManager,
-			$this->rootFolder,
-			$this->mailer,
-			$this->urlGenerator,
-			$this->defaults,
-			$this->dispatcher,
-			$this->userSession,
-			$this->knownUserService,
-			$this->shareDisabledChecker,
-			$this->dateTimeZone,
-		);
+		$manager = $this->createManager($factory);
 
 		$factory->setProvider($this->defaultProvider);
 		$extraProvider = $this->createMock(IShareProvider::class);
@@ -4652,27 +4515,7 @@ class ManagerTest extends \Test\TestCase {
 	public function testGetAllShares() {
 		$factory = new DummyFactory2($this->createMock(IServerContainer::class));
 
-		$manager = new Manager(
-			$this->logger,
-			$this->config,
-			$this->secureRandom,
-			$this->hasher,
-			$this->mountManager,
-			$this->groupManager,
-			$this->l,
-			$this->l10nFactory,
-			$factory,
-			$this->userManager,
-			$this->rootFolder,
-			$this->mailer,
-			$this->urlGenerator,
-			$this->defaults,
-			$this->dispatcher,
-			$this->userSession,
-			$this->knownUserService,
-			$this->shareDisabledChecker,
-			$this->dateTimeZone,
-		);
+		$manager = $this->createManager($factory);
 
 		$factory->setProvider($this->defaultProvider);
 		$extraProvider = $this->createMock(IShareProvider::class);

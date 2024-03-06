@@ -130,7 +130,6 @@ class Manager implements IManager {
 		IHasher $hasher,
 		IMountManager $mountManager,
 		IGroupManager $groupManager,
-		IL10N $l,
 		IFactory $l10nFactory,
 		IProviderFactory $factory,
 		IUserManager $userManager,
@@ -150,7 +149,7 @@ class Manager implements IManager {
 		$this->hasher = $hasher;
 		$this->mountManager = $mountManager;
 		$this->groupManager = $groupManager;
-		$this->l = $l;
+		$this->l = $l10nFactory->get('lib');
 		$this->l10nFactory = $l10nFactory;
 		$this->factory = $factory;
 		$this->userManager = $userManager;
