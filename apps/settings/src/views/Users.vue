@@ -34,7 +34,7 @@
 					</template>
 				</NcAppNavigationNew>
 
-				<template #list>
+				<NcAppNavigationList>
 					<NcAppNavigationItem id="everyone"
 						:exact="true"
 						:name="t('settings', 'Active accounts')"
@@ -79,41 +79,44 @@
 							</NcCounterBubble>
 						</template>
 					</NcAppNavigationItem>
+				</NcAppNavigationList>
 
-					<NcAppNavigationCaption :name="t('settings', 'Groups')"
-						:disabled="loadingAddGroup"
-						:aria-label="loadingAddGroup ? t('settings', 'Creating group …') : t('settings', 'Create group')"
-						force-menu
-						:open.sync="isAddGroupOpen">
-						<template #actionsTriggerIcon>
-							<NcLoadingIcon v-if="loadingAddGroup" />
-							<Plus v-else :size="20" />
-						</template>
-						<template #actions>
-							<NcActionText>
-								<template #icon>
-									<AccountGroup :size="20" />
-								</template>
-								{{ t('settings', 'Create group') }}
-							</NcActionText>
-							<NcActionInput :label="t('settings', 'Group name')"
-								data-cy-settings-new-group-name
-								:label-outside="false"
-								:disabled="loadingAddGroup"
-								:value.sync="newGroupName"
-								:error="hasAddGroupError"
-								:helper-text="hasAddGroupError ? t('settings', 'Please enter a valid group name') : ''"
-								@submit="createGroup" />
-						</template>
-					</NcAppNavigationCaption>
+				<NcAppNavigationCaption :name="t('settings', 'Groups')"
+					:disabled="loadingAddGroup"
+					:aria-label="loadingAddGroup ? t('settings', 'Creating group …') : t('settings', 'Create group')"
+					force-menu
+					is-heading
+					:open.sync="isAddGroupOpen">
+					<template #actionsTriggerIcon>
+						<NcLoadingIcon v-if="loadingAddGroup" />
+						<Plus v-else :size="20" />
+					</template>
+					<template #actions>
+						<NcActionText>
+							<template #icon>
+								<AccountGroup :size="20" />
+							</template>
+							{{ t('settings', 'Create group') }}
+						</NcActionText>
+						<NcActionInput :label="t('settings', 'Group name')"
+							data-cy-settings-new-group-name
+							:label-outside="false"
+							:disabled="loadingAddGroup"
+							:value.sync="newGroupName"
+							:error="hasAddGroupError"
+							:helper-text="hasAddGroupError ? t('settings', 'Please enter a valid group name') : ''"
+							@submit="createGroup" />
+					</template>
+				</NcAppNavigationCaption>
 
+				<NcAppNavigationList>
 					<GroupListItem v-for="group in groupList"
 						:id="group.id"
 						:key="group.id"
 						:active="selectedGroupDecoded === group.id"
 						:name="group.title"
 						:count="group.count" />
-				</template>
+				</NcAppNavigationList>
 
 				<template #footer>
 					<ul class="app-navigation-entry__settings">
@@ -150,6 +153,7 @@ import NcAppContent from '@nextcloud/vue/dist/Components/NcAppContent.js'
 import NcAppNavigation from '@nextcloud/vue/dist/Components/NcAppNavigation.js'
 import NcAppNavigationCaption from '@nextcloud/vue/dist/Components/NcAppNavigationCaption.js'
 import NcAppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem.js'
+import NcAppNavigationList from '@nextcloud/vue/dist/Components/NcAppNavigationList.js'
 import NcAppNavigationNew from '@nextcloud/vue/dist/Components/NcAppNavigationNew.js'
 import NcContent from '@nextcloud/vue/dist/Components/NcContent.js'
 import NcCounterBubble from '@nextcloud/vue/dist/Components/NcCounterBubble.js'
@@ -182,6 +186,7 @@ export default {
 		NcAppNavigation,
 		NcAppNavigationCaption,
 		NcAppNavigationItem,
+		NcAppNavigationList,
 		NcAppNavigationNew,
 		NcContent,
 		NcCounterBubble,
