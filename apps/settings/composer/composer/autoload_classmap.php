@@ -96,6 +96,7 @@ return array(
     'OCA\\Settings\\SetupChecks\\HttpsUrlGeneration' => $baseDir . '/../lib/SetupChecks/HttpsUrlGeneration.php',
     'OCA\\Settings\\SetupChecks\\InternetConnectivity' => $baseDir . '/../lib/SetupChecks/InternetConnectivity.php',
     'OCA\\Settings\\SetupChecks\\JavaScriptModules' => $baseDir . '/../lib/SetupChecks/JavaScriptModules.php',
+    'OCA\\Settings\\SetupChecks\\JavaScriptSourceMaps' => $baseDir . '/../lib/SetupChecks/JavaScriptSourceMaps.php',
     'OCA\\Settings\\SetupChecks\\LegacySSEKeyFormat' => $baseDir . '/../lib/SetupChecks/LegacySSEKeyFormat.php',
     'OCA\\Settings\\SetupChecks\\MaintenanceWindowStart' => $baseDir . '/../lib/SetupChecks/MaintenanceWindowStart.php',
     'OCA\\Settings\\SetupChecks\\MemcacheConfigured' => $baseDir . '/../lib/SetupChecks/MemcacheConfigured.php',
