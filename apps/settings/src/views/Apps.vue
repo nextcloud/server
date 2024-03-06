@@ -136,7 +136,7 @@
 				:order="1">
 				<div v-for="release in app.releases" :key="release.version" class="app-sidebar-tabs__release">
 					<h2>{{ release.version }}</h2>
-					<Markdown v-if="changelog(release)" :text="changelog(release)" />
+					<Markdown v-if="changelog(release)" :min-heading="3" :text="changelog(release)" />
 				</div>
 			</NcAppSidebarTab>
 		</NcAppSidebar>
