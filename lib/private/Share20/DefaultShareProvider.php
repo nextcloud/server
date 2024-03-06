@@ -35,6 +35,8 @@
 namespace OC\Share20;
 
 use OC\Files\Cache\Cache;
+use OC\Files\Cache\FileAccess;
+use OC\Files\Cache\CacheEntry;
 use OC\Share20\Exception\BackendError;
 use OC\Share20\Exception\InvalidShare;
 use OC\Share20\Exception\ProviderException;
@@ -67,52 +69,21 @@ class DefaultShareProvider implements IShareProvider {
 	// Special share type for user modified group shares
 	public const SHARE_TYPE_USERGROUP = 2;
 
-	/** @var IDBConnection */
-	private $dbConn;
-
-	/** @var IUserManager */
-	private $userManager;
-
-	/** @var IGroupManager */
-	private $groupManager;
-
-	/** @var IRootFolder */
-	private $rootFolder;
-
-	/** @var IMailer */
-	private $mailer;
-
-	/** @var Defaults */
-	private $defaults;
-
-	/** @var IFactory */
-	private $l10nFactory;
-
-	/** @var IURLGenerator */
-	private $urlGenerator;
-
-	private ITimeFactory $timeFactory;
+	private IDBConnection $dbConn;
 
 	public function __construct(
-		IDBConnection $connection,
-		IUserManager $userManager,
-		IGroupManager $groupManager,
-		IRootFolder $rootFolder,
-		IMailer $mailer,
-		Defaults $defaults,
-		IFactory $l10nFactory,
-		IURLGenerator $urlGenerator,
-		ITimeFactory $timeFactory,
+		IDBConnection         $connection,
+		private IUserManager  $userManager,
+		private IGroupManager $groupManager,
+		private IRootFolder   $rootFolder,
+		private IMailer       $mailer,
+		private Defaults      $defaults,
+		private IFactory      $l10nFactory,
+		private IURLGenerator $urlGenerator,
+		private ITimeFactory  $timeFactory,
+		private FileAccess    $cacheAccess,
 	) {
 		$this->dbConn = $connection;
-		$this->userManager = $userManager;
-		$this->groupManager = $groupManager;
-		$this->rootFolder = $rootFolder;
-		$this->mailer = $mailer;
-		$this->defaults = $defaults;
-		$this->l10nFactory = $l10nFactory;
-		$this->urlGenerator = $urlGenerator;
-		$this->timeFactory = $timeFactory;
 	}
 
 	/**
@@ -653,10 +624,7 @@ class DefaultShareProvider implements IShareProvider {
 
 	public function getSharesInFolder($userId, Folder $node, $reshares, $shallow = true) {
 		$qb = $this->dbConn->getQueryBuilder();
-		$qb->select('s.*',
-			'f.fileid', 'f.path', 'f.permissions AS f_permissions', 'f.storage', 'f.path_hash',
-			'f.parent AS f_parent', 'f.name', 'f.mimetype', 'f.mimepart', 'f.size', 'f.mtime', 'f.storage_mtime',
-			'f.encrypted', 'f.unencrypted_size', 'f.etag', 'f.checksum')
+		$qb->select('s.*')
 			->from('share', 's')
 			->andWhere($qb->expr()->orX(
 				$qb->expr()->eq('item_type', $qb->createNamedParameter('file')),
@@ -683,27 +651,17 @@ class DefaultShareProvider implements IShareProvider {
 			);
 		}
 
-		// todo? maybe get these from the oc_mounts table
-		$childMountNodes = array_filter($node->getDirectoryListing(), function (Node $node): bool {
-			return $node->getInternalPath() === '';
-		});
-		$childMountRootIds = array_map(function (Node $node): int {
+		$childFileIds = array_map(function (Node $node): int {
 			return $node->getId();
-		}, $childMountNodes);
+		}, $node->getDirectoryListing());
 
-		$qb->innerJoin('s', 'filecache', 'f', $qb->expr()->eq('s.file_source', 'f.fileid'));
-		$qb->andWhere(
-			$qb->expr()->orX(
-				$qb->expr()->eq('f.parent', $qb->createNamedParameter($node->getId())),
-				$qb->expr()->in('f.fileid', $qb->createParameter('chunk'))
-			)
-		);
+		$qb->andWhere($qb->expr()->in('s.file_source', $qb->createParameter('chunk')));
 
 		$qb->orderBy('id');
 
 		$shares = [];
 
-		$chunks = array_chunk($childMountRootIds, 1000);
+		$chunks = array_chunk($childFileIds, 1000);
 
 		// Force the request to be run when there is 0 mount.
 		if (count($chunks) === 0) {
@@ -714,7 +672,7 @@ class DefaultShareProvider implements IShareProvider {
 			$qb->setParameter('chunk', $chunk, IQueryBuilder::PARAM_INT_ARRAY);
 			$cursor = $qb->executeQuery();
 			while ($data = $cursor->fetch()) {
-				$shares[$data['fileid']][] = $this->createShare($data);
+				$shares[$data['file_source']][] = $this->createShare($data);
 			}
 			$cursor->closeCursor();
 		}
@@ -856,25 +814,9 @@ class DefaultShareProvider implements IShareProvider {
 	 * Returns whether the given database result can be interpreted as
 	 * a share with accessible file (not trashed, not deleted)
 	 */
-	private function isAccessibleResult($data) {
-		// exclude shares leading to deleted file entries
-		if ($data['fileid'] === null || $data['path'] === null) {
-			return false;
-		}
-
-		// exclude shares leading to trashbin on home storages
-		$pathSections = explode('/', $data['path'], 2);
-		// FIXME: would not detect rare md5'd home storage case properly
-		if ($pathSections[0] !== 'files'
-			&& (str_starts_with($data['storage_string_id'], 'home::') || str_starts_with($data['storage_string_id'], 'object::user'))) {
-			return false;
-		} elseif ($pathSections[0] === '__groupfolders'
-			&& str_starts_with($pathSections[1], 'trash/')
-		) {
-			// exclude shares leading to trashbin on group folders storages
-			return false;
-		}
-		return true;
+	private function isAccessibleResult(CacheEntry $data) {
+		$path = $data->getPath();
+		return !(str_starts_with($path, 'files_trashbin/') || str_starts_with($path, '__groupfolders/trash/'));
 	}
 
 	/**
@@ -887,15 +829,8 @@ class DefaultShareProvider implements IShareProvider {
 		if ($shareType === IShare::TYPE_USER) {
 			//Get shares directly with this user
 			$qb = $this->dbConn->getQueryBuilder();
-			$qb->select('s.*',
-				'f.fileid', 'f.path', 'f.permissions AS f_permissions', 'f.storage', 'f.path_hash',
-				'f.parent AS f_parent', 'f.name', 'f.mimetype', 'f.mimepart', 'f.size', 'f.mtime', 'f.storage_mtime',
-				'f.encrypted', 'f.unencrypted_size', 'f.etag', 'f.checksum'
-			)
-				->selectAlias('st.id', 'storage_string_id')
-				->from('share', 's')
-				->leftJoin('s', 'filecache', 'f', $qb->expr()->eq('s.file_source', 'f.fileid'))
-				->leftJoin('f', 'storages', 'st', $qb->expr()->eq('f.storage', 'st.numeric_id'));
+			$qb->select('s.*')
+				->from('share', 's');
 
 			// Order by id
 			$qb->orderBy('s.id');
@@ -921,14 +856,7 @@ class DefaultShareProvider implements IShareProvider {
 			$cursor = $qb->execute();
 
 			while ($data = $cursor->fetch()) {
-				if ($data['fileid'] && $data['path'] === null) {
-					$data['path'] = (string) $data['path'];
-					$data['name'] = (string) $data['name'];
-					$data['checksum'] = (string) $data['checksum'];
-				}
-				if ($this->isAccessibleResult($data)) {
-					$shares[] = $this->createShare($data);
-				}
+				$shares[] = $this->createShare($data);
 			}
 			$cursor->closeCursor();
 		} elseif ($shareType === IShare::TYPE_GROUP) {
@@ -948,15 +876,8 @@ class DefaultShareProvider implements IShareProvider {
 				}
 
 				$qb = $this->dbConn->getQueryBuilder();
-				$qb->select('s.*',
-					'f.fileid', 'f.path', 'f.permissions AS f_permissions', 'f.storage', 'f.path_hash',
-					'f.parent AS f_parent', 'f.name', 'f.mimetype', 'f.mimepart', 'f.size', 'f.mtime', 'f.storage_mtime',
-					'f.encrypted', 'f.unencrypted_size', 'f.etag', 'f.checksum'
-				)
-					->selectAlias('st.id', 'storage_string_id')
+				$qb->select('s.*')
 					->from('share', 's')
-					->leftJoin('s', 'filecache', 'f', $qb->expr()->eq('s.file_source', 'f.fileid'))
-					->leftJoin('f', 'storages', 'st', $qb->expr()->eq('f.storage', 'st.numeric_id'))
 					->orderBy('s.id')
 					->setFirstResult(0);
 
@@ -989,10 +910,8 @@ class DefaultShareProvider implements IShareProvider {
 						continue;
 					}
 
-					if ($this->isAccessibleResult($data)) {
-						$share = $this->createShare($data);
-						$shares2[$share->getId()] = $share;
-					}
+					$share = $this->createShare($data);
+					$shares2[$share->getId()] = $share;
 				}
 				$cursor->closeCursor();
 			}
@@ -1006,7 +925,31 @@ class DefaultShareProvider implements IShareProvider {
 		}
 
 
-		return $shares;
+		return $this->setNodes($shares);
+	}
+
+	/**
+	 * @param IShare[] $shares
+	 * @return IShare[]
+	 */
+	private function setNodes(array $shares): array {
+		$fileIds = array_map(function (IShare $share): int {
+			return $share->getNodeId();
+		}, $shares);
+		$files = $this->cacheAccess->getByFileIds($fileIds);
+
+		$sharesWithFiles = [];
+		foreach ($shares as $share) {
+			if (isset($files[$share->getNodeId()])) {
+				$cacheItem = $files[$share->getNodeId()];
+				if ($this->isAccessibleResult($cacheItem)) {
+					$share->setNodeCacheEntry($cacheItem);
+					$sharesWithFiles[] = $share;
+				}
+			}
+		}
+
+		return $sharesWithFiles;
 	}
 
 	/**
