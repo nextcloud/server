@@ -124,37 +124,7 @@ class CheckSetupController extends Controller {
 		$completeResults = $this->checker->getResults();
 
 		if (!empty($completeResults)) {
-			$formattedTextResponse = 'Technical information
-=====================
-The following list covers which files have failed the integrity check. Please read
-the previous linked documentation to learn more about the errors and how to fix
-them.
-
-Results
-=======
-';
-			foreach ($completeResults as $context => $contextResult) {
-				$formattedTextResponse .= "- $context\n";
-
-				foreach ($contextResult as $category => $result) {
-					$formattedTextResponse .= "\t- $category\n";
-					if ($category !== 'EXCEPTION') {
-						foreach ($result as $key => $results) {
-							$formattedTextResponse .= "\t\t- $key\n";
-						}
-					} else {
-						foreach ($result as $key => $results) {
-							$formattedTextResponse .= "\t\t- $results\n";
-						}
-					}
-				}
-			}
-
-			$formattedTextResponse .= '
-Raw output
-==========
-';
-			$formattedTextResponse .= print_r($completeResults, true);
+			$formattedTextResponse = json_encode($completeResults, JSON_PRETTY_PRINT);
 		} else {
 			$formattedTextResponse = 'No errors have been found.';
 		}
