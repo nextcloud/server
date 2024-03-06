@@ -53,7 +53,7 @@ class JavaScriptSourceMaps implements ISetupCheck {
 	}
 
 	public function getName(): string {
-		return $this->l10n->t('JavaScript Source Maps support');
+		return $this->l10n->t('JavaScript source map support');
 	}
 
 	public function run(): SetupResult {
@@ -63,6 +63,6 @@ class JavaScriptSourceMaps implements ISetupCheck {
 			return SetupResult::success();
 		}
 
-		return SetupResult::error($this->l10n->t('Your webserver is not set up to serve `.js.map` files. Without these files, JavaScript Source Maps won\'t function properly, making it more challenging to troubleshoot and debug any issues that may arise.'));
+		return SetupResult::warning($this->l10n->t('Your webserver is not set up to serve `.js.map` files. Without these files, JavaScript Source Maps won\'t function properly, making it more challenging to troubleshoot and debug any issues that may arise.'));
 	}
 }
