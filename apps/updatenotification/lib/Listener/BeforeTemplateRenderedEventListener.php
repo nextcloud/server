@@ -30,6 +30,7 @@ use OCP\App\IAppManager;
 use OCP\AppFramework\Http\Events\BeforeTemplateRenderedEvent;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
+use OCP\IAppConfig;
 use Psr\Log\LoggerInterface;
 
 /** @template-implements IEventListener<BeforeTemplateRenderedEvent> */
@@ -38,6 +39,7 @@ class BeforeTemplateRenderedEventListener implements IEventListener {
 	public function __construct(
 		private IAppManager $appManager,
 		private LoggerInterface $logger,
+		private IAppConfig $appConfig,
 	) {
 	}
 
@@ -46,6 +48,10 @@ class BeforeTemplateRenderedEventListener implements IEventListener {
 	 */
 	public function handle(Event $event): void {
 		if (!($event instanceof BeforeTemplateRenderedEvent)) {
+			return;
+		}
+
+		if (!$this->appConfig->getValueBool(Application::APP_NAME, 'app_updated.enabled', true)) {
 			return;
 		}
 

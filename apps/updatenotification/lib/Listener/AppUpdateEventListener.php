@@ -31,6 +31,7 @@ use OCP\App\Events\AppUpdateEvent;
 use OCP\BackgroundJob\IJobList;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
+use OCP\IAppConfig;
 use Psr\Log\LoggerInterface;
 
 /** @template-implements IEventListener<AppUpdateEvent> */
@@ -39,6 +40,7 @@ class AppUpdateEventListener implements IEventListener {
 	public function __construct(
 		private IJobList $jobList,
 		private LoggerInterface $logger,
+		private IAppConfig $appConfig,
 	) {
 	}
 
@@ -47,6 +49,10 @@ class AppUpdateEventListener implements IEventListener {
 	 */
 	public function handle(Event $event): void {
 		if (!($event instanceof AppUpdateEvent)) {
+			return;
+		}
+
+		if (!$this->appConfig->getValueBool(Application::APP_NAME, 'app_updated.enabled', true)) {
 			return;
 		}
 
