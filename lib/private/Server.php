@@ -893,7 +893,8 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->get(IGroupManager::class),
 				$c->get(ICacheFactory::class),
 				$c->get(IEventDispatcher::class),
-				$c->get(LoggerInterface::class)
+				$c->get(LoggerInterface::class),
+				$c->get(IURLGenerator::class),
 			);
 		});
 		/** @deprecated 19.0.0 */

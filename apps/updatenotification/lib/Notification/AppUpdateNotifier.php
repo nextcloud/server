@@ -84,16 +84,7 @@ class AppUpdateNotifier implements INotifier {
 		// Prepare translation factory for requested language
 		$l = $this->l10nFactory->get(Application::APP_NAME, $languageCode);
 		
-		// See if we can find the app icon - if not fall back to default icon
-		$possibleIcons = [$appId . '-dark.svg', 'app-dark.svg', $appId . '.svg', 'app.svg'];
-		$icon = null;
-		foreach ($possibleIcons as $iconName) {
-			try {
-				$icon = $this->urlGenerator->imagePath($appId, $iconName);
-			} catch (\RuntimeException $e) {
-				// ignore
-			}
-		}
+		$icon = $this->appManager->getAppIcon($appId);
 		if ($icon === null) {
 			$icon = $this->urlGenerator->imagePath('core', 'default-app-icon');
 		}

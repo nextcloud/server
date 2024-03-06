@@ -62,6 +62,15 @@ interface IAppManager {
 	public function getAppVersion(string $appId, bool $useCache = true): string;
 
 	/**
+	 * Returns the app icon or null if none is found
+	 *
+	 * @param string $appId
+	 * @return string|null
+	 * @since 29.0.0
+	 */
+	public function getAppIcon(string $appId): string|null;
+
+	/**
 	 * Check if an app is enabled for user
 	 *
 	 * @param string $appId
