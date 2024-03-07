@@ -70,7 +70,7 @@ class SecurityHeaders implements ISetupCheck {
 
 		foreach ($urls as [$verb,$url,$validStatuses]) {
 			$works = null;
-			foreach ($this->runRequest($url, $verb) as $response) {
+			foreach ($this->runRequest($url, $verb, ['httpErrors' => false]) as $response) {
 				// Check that the response status matches
 				if (!in_array($response->getStatusCode(), $validStatuses)) {
 					$works = false;
@@ -95,7 +95,7 @@ class SecurityHeaders implements ISetupCheck {
 				}
 
 				$referrerPolicy = $response->getHeader('Referrer-Policy');
-				if ($referrerPolicy === null || !preg_match('/(no-referrer(-when-downgrade)?|strict-origin(-when-cross-origin)?|same-origin)(,|$)/', $referrerPolicy)) {
+				if (!preg_match('/(no-referrer(-when-downgrade)?|strict-origin(-when-cross-origin)?|same-origin)(,|$)/', $referrerPolicy)) {
 					$msg .= $this->l10n->t(
 						'- The `%1` HTTP header is not set to `%2`, `%3`, `%4`, `%5` or `%6`. This can leak referer information. See the {w3c-recommendation}.',
 						[
@@ -118,6 +118,7 @@ class SecurityHeaders implements ISetupCheck {
 					return SetupResult::warning($this->l10n->t('Some headers are not set correctly on your instance')."\n".$msg, descriptionParameters:$msgParameters);
 				}
 				// Skip the other requests if one works
+				$works = true;
 				break;
 			}
 			// If 'works' is null then we could not connect to the server

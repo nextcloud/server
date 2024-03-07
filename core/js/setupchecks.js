@@ -169,7 +169,6 @@
 			var deferred = $.Deferred();
 			var afterCall = function(data, statusText, xhr) {
 				var messages = [];
-				messages = messages.concat(self._checkSecurityHeaders(xhr));
 				messages = messages.concat(self._checkSSL(xhr));
 				deferred.resolve(messages);
 			};
@@ -181,75 +180,6 @@
 			}).then(afterCall, afterCall);
 
 			return deferred.promise();
-		},
-
-		/**
-		 * Runs check for some generic security headers on the server side
-		 *
-		 * @param {Object} xhr
-		 * @return {Array} Array with error messages
-		 */
-		_checkSecurityHeaders: function(xhr) {
-			var messages = [];
-
-			if (xhr.status === 200) {
-				var securityHeaders = {
-					'X-Content-Type-Options': ['nosniff'],
-					'X-Robots-Tag': ['noindex, nofollow'],
-					'X-Frame-Options': ['SAMEORIGIN', 'DENY'],
-					'X-Permitted-Cross-Domain-Policies': ['none'],
-				};
-				for (var header in securityHeaders) {
-					var option = securityHeaders[header][0];
-					if(!xhr.getResponseHeader(header) || xhr.getResponseHeader(header).replace(/, /, ',').toLowerCase() !== option.replace(/, /, ',').toLowerCase()) {
-						var msg = t('core', 'The "{header}" HTTP header is not set to "{expected}". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly.', {header: header, expected: option});
-						if(xhr.getResponseHeader(header) && securityHeaders[header].length > 1 && xhr.getResponseHeader(header).toLowerCase() === securityHeaders[header][1].toLowerCase()) {
-							msg = t('core', 'The "{header}" HTTP header is not set to "{expected}". Some features might not work correctly, as it is recommended to adjust this setting accordingly.', {header: header, expected: option});
-						}
-						messages.push({
-							msg: msg,
-							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
-						});
-					}
-				}
-
-				var xssfields = xhr.getResponseHeader('X-XSS-Protection') ? xhr.getResponseHeader('X-XSS-Protection').split(';').map(function(item) { return item.trim(); }) : [];
-				if (xssfields.length === 0 || xssfields.indexOf('1') === -1 || xssfields.indexOf('mode=block') === -1) {
-					messages.push({
-						msg: t('core', 'The "{header}" HTTP header does not contain "{expected}". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly.',
-							{
-								header: 'X-XSS-Protection',
-								expected: '1; mode=block'
-							}),
-						type: OC.SetupChecks.MESSAGE_TYPE_WARNING
-					});
-				}
-
-				const referrerPolicy = xhr.getResponseHeader('Referrer-Policy')
-				if (referrerPolicy === null || !/(no-referrer(-when-downgrade)?|strict-origin(-when-cross-origin)?|same-origin)(,|$)/.test(referrerPolicy)) {
-					messages.push({
-						msg: t('core', 'The "{header}" HTTP header is not set to "{val1}", "{val2}", "{val3}", "{val4}" or "{val5}". This can leak referer information. See the {linkstart}W3C Recommendation ↗{linkend}.',
-							{
-								header: 'Referrer-Policy',
-								val1: 'no-referrer',
-								val2: 'no-referrer-when-downgrade',
-								val3: 'strict-origin',
-								val4: 'strict-origin-when-cross-origin',
-								val5: 'same-origin'
-							})
-							.replace('{linkstart}', '<a target="_blank" rel="noreferrer noopener" class="external" href="https://www.w3.org/TR/referrer-policy/">')
-							.replace('{linkend}', '</a>'),
-						type: OC.SetupChecks.MESSAGE_TYPE_INFO
-					})
-				}
-			} else {
-				messages.push({
-					msg: t('core', 'Error occurred while checking server setup'),
-					type: OC.SetupChecks.MESSAGE_TYPE_ERROR
-				});
-			}
-
-			return messages;
 		},
 
 		/**
