@@ -29,6 +29,7 @@ use OCP\Exceptions\AppConfigTypeConflictException;
 use OCP\Exceptions\AppConfigUnknownKeyException;
 use OCP\IAppConfig;
 use OCP\IDBConnection;
+use OCP\Security\ICrypto;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -42,65 +43,67 @@ class AppConfigTest extends TestCase {
 	protected IAppConfig $appConfig;
 	protected IDBConnection $connection;
 	private LoggerInterface $logger;
+	private ICrypto $crypto;
 	private array $originalConfig;
 
 	/**
 	 * @var array<string, array<array<string, string, int, bool, bool>>>
 	 *     [appId => [configKey, configValue, valueType, lazy, sensitive]]
 	 */
-	private static array $baseStruct =
+	private array $baseStruct =
 		[
 			'testapp' => [
-				['enabled', 'true'],
-				['installed_version', '1.2.3'],
-				['depends_on', 'someapp'],
-				['deletethis', 'deletethis'],
-				['key', 'value']
+				'enabled' => ['enabled', 'true'],
+				'installed_version' => ['installed_version', '1.2.3'],
+				'depends_on' => ['depends_on', 'someapp'],
+				'deletethis' => ['deletethis', 'deletethis'],
+				'key' => ['key', 'value']
 			],
 			'someapp' => [
-				['key', 'value'],
-				['otherkey', 'othervalue']
+				'key' => ['key', 'value'],
+				'otherkey' => ['otherkey', 'othervalue']
 			],
 			'123456' => [
-				['enabled', 'true'],
-				['key', 'value']
+				'enabled' => ['enabled', 'true'],
+				'key' => ['key', 'value']
 			],
 			'anotherapp' => [
-				['enabled', 'false'],
-				['key', 'value']
+				'enabled' => ['enabled', 'false'],
+				'key' => ['key', 'value']
 			],
 			'non-sensitive-app' => [
-				['lazy-key', 'value', IAppConfig::VALUE_STRING, true, false],
-				['non-lazy-key', 'value', IAppConfig::VALUE_STRING, false, false],
+				'lazy-key' => ['lazy-key', 'value', IAppConfig::VALUE_STRING, true, false],
+				'non-lazy-key' => ['non-lazy-key', 'value', IAppConfig::VALUE_STRING, false, false],
 			],
 			'sensitive-app' => [
-				['lazy-key', 'value', IAppConfig::VALUE_STRING, true, true],
-				['non-lazy-key', 'value', IAppConfig::VALUE_STRING, false, true],
+				'lazy-key' => ['lazy-key', 'value', IAppConfig::VALUE_STRING, true, true],
+				'non-lazy-key' => ['non-lazy-key', 'value', IAppConfig::VALUE_STRING, false, true],
 			],
 			'only-lazy' => [
-				['lazy-key', 'value', IAppConfig::VALUE_STRING, true]
+				'lazy-key' => ['lazy-key', 'value', IAppConfig::VALUE_STRING, true]
 			],
 			'typed' => [
-				['mixed', 'mix', IAppConfig::VALUE_MIXED],
-				['string', 'value', IAppConfig::VALUE_STRING],
-				['int', '42', IAppConfig::VALUE_INT],
-				['float', '3.14', IAppConfig::VALUE_FLOAT],
-				['bool', '1', IAppConfig::VALUE_BOOL],
-				['array', '{"test": 1}', IAppConfig::VALUE_ARRAY],
+				'mixed' => ['mixed', 'mix', IAppConfig::VALUE_MIXED],
+				'string' => ['string', 'value', IAppConfig::VALUE_STRING],
+				'int' => ['int', '42', IAppConfig::VALUE_INT],
+				'float' => ['float', '3.14', IAppConfig::VALUE_FLOAT],
+				'bool' => ['bool', '1', IAppConfig::VALUE_BOOL],
+				'array' => ['array', '{"test": 1}', IAppConfig::VALUE_ARRAY],
 			],
 			'prefix-app' => [
-				['key1', 'value'],
-				['prefix1', 'value'],
-				['prefix-2', 'value'],
-				['key-2', 'value'],
+				'key1' => ['key1', 'value'],
+				'prefix1' => ['prefix1', 'value'],
+				'prefix-2' => ['prefix-2', 'value'],
+				'key-2' => ['key-2', 'value'],
 			]
 		];
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->connection = \OC::$server->get(IDBConnection::class);
-		$this->logger = \OC::$server->get(LoggerInterface::class);
+		$this->connection = \OCP\Server::get(IDBConnection::class);
+		$this->logger = \OCP\Server::get(LoggerInterface::class);
+		$this->crypto = \OCP\Server::get(ICrypto::class);
 
 		// storing current config and emptying the data table
 		$sql = $this->connection->getQueryBuilder();
@@ -114,8 +117,6 @@ class AppConfigTest extends TestCase {
 		$sql->delete('appconfig');
 		$sql->executeStatement();
 
-		//		$this->overwriteService(AppConfig::class, new \OC\AppConfig($this->connection, $this->logger));
-
 		$sql = $this->connection->getQueryBuilder();
 		$sql->insert('appconfig')
 			->values(
@@ -128,18 +129,21 @@ class AppConfigTest extends TestCase {
 				]
 			);
 
-		foreach (self::$baseStruct as $appId => $appData) {
-			foreach ($appData as $row) {
+		foreach ($this->baseStruct as $appId => $appData) {
+			foreach ($appData as $key => $row) {
+				$value = $row[1];
 				$type = $row[2] ?? IAppConfig::VALUE_MIXED;
 				if (($row[4] ?? false) === true) {
-					$type = $type | IAppConfig::VALUE_SENSITIVE;
+					$type |= IAppConfig::VALUE_SENSITIVE;
+					$value = self::invokePrivate(AppConfig::class, 'ENCRYPTION_PREFIX') . $this->crypto->encrypt($value);
+					$this->baseStruct[$appId][$key]['encrypted'] = $value;
 				}
 
 				$sql->setParameters(
 					[
 						'appid' => $appId,
 						'configkey' => $row[0],
-						'configvalue' => $row[1],
+						'configvalue' => $value,
 						'type' => $type,
 						'lazy' => (($row[3] ?? false) === true) ? 1 : 0
 					]
@@ -165,7 +169,7 @@ class AppConfigTest extends TestCase {
 				]
 			);
 
-		foreach ($this->originalConfig as $configs) {
+		foreach ($this->originalConfig as $key => $configs) {
 			$sql->setParameter('appid', $configs['appid'])
 				->setParameter('configkey', $configs['configkey'])
 				->setParameter('configvalue', $configs['configvalue'])
@@ -186,7 +190,11 @@ class AppConfigTest extends TestCase {
 	 */
 	private function generateAppConfig(bool $preLoading = true): IAppConfig {
 		/** @var AppConfig $config */
-		$config = new \OC\AppConfig($this->connection, $this->logger);
+		$config = new \OC\AppConfig(
+			$this->connection,
+			$this->logger,
+			$this->crypto,
+		);
 		$msg = ' generateAppConfig() failed to confirm cache status';
 
 		// confirm cache status
@@ -204,7 +212,7 @@ class AppConfigTest extends TestCase {
 			$this->assertSame(true, $status['fastLoaded'], $msg);
 			$this->assertSame(false, $status['lazyLoaded'], $msg);
 
-			$apps = array_values(array_diff(array_keys(self::$baseStruct), ['only-lazy']));
+			$apps = array_values(array_diff(array_keys($this->baseStruct), ['only-lazy']));
 			$this->assertEqualsCanonicalizing($apps, array_keys($status['fastCache']), $msg);
 			$this->assertSame([], array_keys($status['lazyCache']), $msg);
 		}
@@ -215,7 +223,7 @@ class AppConfigTest extends TestCase {
 	public function testGetApps(): void {
 		$config = $this->generateAppConfig(false);
 
-		$this->assertEqualsCanonicalizing(array_keys(self::$baseStruct), $config->getApps());
+		$this->assertEqualsCanonicalizing(array_keys($this->baseStruct), $config->getApps());
 	}
 
 	/**
@@ -226,7 +234,7 @@ class AppConfigTest extends TestCase {
 	 */
 	public function providerGetAppKeys(): array {
 		$appKeys = [];
-		foreach (self::$baseStruct as $appId => $appData) {
+		foreach ($this->baseStruct as $appId => $appData) {
 			$keys = [];
 			foreach ($appData as $row) {
 				$keys[] = $row[0];
@@ -247,7 +255,7 @@ class AppConfigTest extends TestCase {
 	 */
 	public function providerGetKeys(): array {
 		$appKeys = [];
-		foreach (self::$baseStruct as $appId => $appData) {
+		foreach ($this->baseStruct as $appId => $appData) {
 			foreach ($appData as $row) {
 				$appKeys[] = [
 					(string)$appId, $row[0], $row[1], $row[2] ?? IAppConfig::VALUE_MIXED, $row[3] ?? false,
@@ -290,7 +298,7 @@ class AppConfigTest extends TestCase {
 
 	public function testHasKeyOnNonExistentKeyReturnsFalse(): void {
 		$config = $this->generateAppConfig();
-		$this->assertEquals(false, $config->hasKey(array_keys(self::$baseStruct)[0], 'inexistant-key'));
+		$this->assertEquals(false, $config->hasKey(array_keys($this->baseStruct)[0], 'inexistant-key'));
 	}
 
 	public function testHasKeyOnUnknownAppReturnsFalse(): void {
@@ -326,7 +334,7 @@ class AppConfigTest extends TestCase {
 	public function testIsSensitiveOnNonExistentKeyThrowsException(): void {
 		$config = $this->generateAppConfig();
 		$this->expectException(AppConfigUnknownKeyException::class);
-		$config->isSensitive(array_keys(self::$baseStruct)[0], 'inexistant-key');
+		$config->isSensitive(array_keys($this->baseStruct)[0], 'inexistant-key');
 	}
 
 	public function testIsSensitiveOnUnknownAppThrowsException(): void {
@@ -369,7 +377,7 @@ class AppConfigTest extends TestCase {
 	public function testIsLazyOnNonExistentKeyThrowsException(): void {
 		$config = $this->generateAppConfig();
 		$this->expectException(AppConfigUnknownKeyException::class);
-		$config->isLazy(array_keys(self::$baseStruct)[0], 'inexistant-key');
+		$config->isLazy(array_keys($this->baseStruct)[0], 'inexistant-key');
 	}
 
 	public function testIsLazyOnUnknownAppThrowsException(): void {
@@ -854,8 +862,7 @@ class AppConfigTest extends TestCase {
 		$config = $this->generateAppConfig();
 		$config->setValueString('feed', 'string', 'value-1', sensitive: true);
 		$status = $config->statusCache();
-		// TODO: this value will be encrypted with #43114
-		$this->assertSame('value-1', $status['fastCache']['feed']['string']);
+		$this->assertStringStartsWith(self::invokePrivate(AppConfig::class, 'ENCRYPTION_PREFIX'), $status['fastCache']['feed']['string']);
 	}
 
 	public function testSetSensitiveValueStringDatabase(): void {
@@ -870,6 +877,9 @@ class AppConfigTest extends TestCase {
 		$config->setValueString('feed', 'string', 'value-1', sensitive: false);
 		$config->setValueString('feed', 'string', 'value-1', sensitive: true);
 		$this->assertSame(true, $config->isSensitive('feed', 'string'));
+
+		$this->assertConfigValueNotEquals('feed', 'string', 'value-1');
+		$this->assertConfigValueNotEquals('feed', 'string', 'value-2');
 	}
 
 	public function testSetSensitiveValueStringAsNonSensitiveStaysSensitive(): void {
@@ -877,6 +887,9 @@ class AppConfigTest extends TestCase {
 		$config->setValueString('feed', 'string', 'value-1', sensitive: true);
 		$config->setValueString('feed', 'string', 'value-2', sensitive: false);
 		$this->assertSame(true, $config->isSensitive('feed', 'string'));
+
+		$this->assertConfigValueNotEquals('feed', 'string', 'value-1');
+		$this->assertConfigValueNotEquals('feed', 'string', 'value-2');
 	}
 
 	public function testSetSensitiveValueStringAsNonSensitiveAreStillUpdated(): void {
@@ -884,12 +897,9 @@ class AppConfigTest extends TestCase {
 		$config->setValueString('feed', 'string', 'value-1', sensitive: true);
 		$config->setValueString('feed', 'string', 'value-2', sensitive: false);
 		$this->assertSame('value-2', $config->getValueString('feed', 'string', ''));
-	}
 
-	public function testSetSensitiveValueStringAsNonSensitiveWouldFailForSameValue(): void {
-		$config = $this->generateAppConfig();
-		$config->setValueString('feed', 'string', 'value-1', sensitive: true);
-		$this->assertSame(false, $config->setValueString('feed', 'string', 'value-1'));
+		$this->assertConfigValueNotEquals('feed', 'string', 'value-1');
+		$this->assertConfigValueNotEquals('feed', 'string', 'value-2');
 	}
 
 	public function testSetLazyValueInt(): void {
@@ -936,8 +946,7 @@ class AppConfigTest extends TestCase {
 		$config = $this->generateAppConfig();
 		$config->setValueInt('feed', 'int', 42, sensitive: true);
 		$status = $config->statusCache();
-		// TODO: this value will be encrypted with #43114
-		$this->assertSame('42', $status['fastCache']['feed']['int']);
+		$this->assertStringStartsWith(self::invokePrivate(AppConfig::class, 'ENCRYPTION_PREFIX'), $status['fastCache']['feed']['int']);
 	}
 
 	public function testSetSensitiveValueIntDatabase(): void {
@@ -966,12 +975,6 @@ class AppConfigTest extends TestCase {
 		$config->setValueInt('feed', 'int', 42, sensitive: true);
 		$config->setValueInt('feed', 'int', 17);
 		$this->assertSame(17, $config->getValueInt('feed', 'int', 0));
-	}
-
-	public function testSetSensitiveValueIntAsNonSensitiveWouldFailForSameValue(): void {
-		$config = $this->generateAppConfig();
-		$config->setValueInt('feed', 'int', 42, sensitive: true);
-		$this->assertSame(false, $config->setValueInt('feed', 'int', 42));
 	}
 
 	public function testSetLazyValueFloat(): void {
@@ -1018,8 +1021,7 @@ class AppConfigTest extends TestCase {
 		$config = $this->generateAppConfig();
 		$config->setValueFloat('feed', 'float', 3.14, sensitive: true);
 		$status = $config->statusCache();
-		// TODO: this value will be encrypted with #43114
-		$this->assertSame('3.14', $status['fastCache']['feed']['float']);
+		$this->assertStringStartsWith(self::invokePrivate(AppConfig::class, 'ENCRYPTION_PREFIX'), $status['fastCache']['feed']['float']);
 	}
 
 	public function testSetSensitiveValueFloatDatabase(): void {
@@ -1048,12 +1050,6 @@ class AppConfigTest extends TestCase {
 		$config->setValueFloat('feed', 'float', 3.14, sensitive: true);
 		$config->setValueFloat('feed', 'float', 1.23);
 		$this->assertSame(1.23, $config->getValueFloat('feed', 'float', 0));
-	}
-
-	public function testSetSensitiveValueFloatAsNonSensitiveWouldFailForSameValue(): void {
-		$config = $this->generateAppConfig();
-		$config->setValueFloat('feed', 'float', 3.14, sensitive: true);
-		$this->assertSame(false, $config->setValueFloat('feed', 'float', 3.14));
 	}
 
 	public function testSetLazyValueBool(): void {
@@ -1135,8 +1131,7 @@ class AppConfigTest extends TestCase {
 		$config = $this->generateAppConfig();
 		$config->setValueArray('feed', 'array', ['test' => 1], sensitive: true);
 		$status = $config->statusCache();
-		// TODO: this value will be encrypted with #43114
-		$this->assertSame('{"test":1}', $status['fastCache']['feed']['array']);
+		$this->assertStringStartsWith(self::invokePrivate(AppConfig::class, 'ENCRYPTION_PREFIX'), $status['fastCache']['feed']['array']);
 	}
 
 	public function testSetSensitiveValueArrayDatabase(): void {
@@ -1165,12 +1160,6 @@ class AppConfigTest extends TestCase {
 		$config->setValueArray('feed', 'array', ['test' => 1], sensitive: true);
 		$config->setValueArray('feed', 'array', ['test' => 2]);
 		$this->assertEqualsCanonicalizing(['test' => 2], $config->getValueArray('feed', 'array', []));
-	}
-
-	public function testSetSensitiveValueArrayAsNonSensitiveWouldFailForSameValue(): void {
-		$config = $this->generateAppConfig();
-		$config->setValueArray('feed', 'array', ['test' => 1], sensitive: true);
-		$this->assertSame(false, $config->setValueArray('feed', 'array', ['test' => 1]));
 	}
 
 	public function testUpdateNotSensitiveToSensitive(): void {
@@ -1229,15 +1218,31 @@ class AppConfigTest extends TestCase {
 
 	public function testGetDetails(): void {
 		$config = $this->generateAppConfig();
-		$this->assertEqualsCanonicalizing(
+		$this->assertEquals(
 			[
-				'app' => 'sensitive-app',
+				'app' => 'non-sensitive-app',
 				'key' => 'lazy-key',
 				'value' => 'value',
 				'type' => 4,
 				'lazy' => true,
 				'typeString' => 'string',
-				'sensitive' => true
+				'sensitive' => false,
+			],
+			$config->getDetails('non-sensitive-app', 'lazy-key')
+		);
+	}
+
+	public function testGetDetailsSensitive(): void {
+		$config = $this->generateAppConfig();
+		$this->assertEquals(
+			[
+				'app' => 'sensitive-app',
+				'key' => 'lazy-key',
+				'value' => $this->baseStruct['sensitive-app']['lazy-key']['encrypted'],
+				'type' => 4,
+				'lazy' => true,
+				'typeString' => 'string',
+				'sensitive' => true,
 			],
 			$config->getDetails('sensitive-app', 'lazy-key')
 		);
@@ -1245,7 +1250,7 @@ class AppConfigTest extends TestCase {
 
 	public function testGetDetailsInt(): void {
 		$config = $this->generateAppConfig();
-		$this->assertEqualsCanonicalizing(
+		$this->assertEquals(
 			[
 				'app' => 'typed',
 				'key' => 'int',
@@ -1261,7 +1266,7 @@ class AppConfigTest extends TestCase {
 
 	public function testGetDetailsFloat(): void {
 		$config = $this->generateAppConfig();
-		$this->assertEqualsCanonicalizing(
+		$this->assertEquals(
 			[
 				'app' => 'typed',
 				'key' => 'float',
@@ -1277,7 +1282,7 @@ class AppConfigTest extends TestCase {
 
 	public function testGetDetailsBool(): void {
 		$config = $this->generateAppConfig();
-		$this->assertEqualsCanonicalizing(
+		$this->assertEquals(
 			[
 				'app' => 'typed',
 				'key' => 'bool',
@@ -1293,7 +1298,7 @@ class AppConfigTest extends TestCase {
 
 	public function testGetDetailsArray(): void {
 		$config = $this->generateAppConfig();
-		$this->assertEqualsCanonicalizing(
+		$this->assertEquals(
 			[
 				'app' => 'typed',
 				'key' => 'array',
@@ -1357,5 +1362,103 @@ class AppConfigTest extends TestCase {
 		$config->clearCache();
 		$status = $config->statusCache();
 		$this->assertSame([], $status['fastCache']);
+	}
+
+	public function testSensitiveValuesAreEncrypted(): void {
+		$key = self::getUniqueID('secret');
+
+		$appConfig = $this->generateAppConfig();
+		$secret = md5((string) time());
+		$appConfig->setValueString('testapp', $key, $secret, sensitive: true);
+
+		$this->assertConfigValueNotEquals('testapp', $key, $secret);
+
+		// Can get in same run
+		$actualSecret = $appConfig->getValueString('testapp', $key);
+		$this->assertEquals($secret, $actualSecret);
+
+		// Can get freshly decrypted from DB
+		$newAppConfig = $this->generateAppConfig();
+		$actualSecret = $newAppConfig->getValueString('testapp', $key);
+		$this->assertEquals($secret, $actualSecret);
+	}
+
+	public function testMigratingNonSensitiveValueToSensitiveWithSetValue(): void {
+		$key = self::getUniqueID('secret');
+		$appConfig = $this->generateAppConfig();
+		$secret = sha1((string) time());
+
+		// Unencrypted
+		$appConfig->setValueString('testapp', $key, $secret);
+		$this->assertConfigKey('testapp', $key, $secret);
+
+		// Can get freshly decrypted from DB
+		$newAppConfig = $this->generateAppConfig();
+		$actualSecret = $newAppConfig->getValueString('testapp', $key);
+		$this->assertEquals($secret, $actualSecret);
+
+		// Encrypting on change
+		$appConfig->setValueString('testapp', $key, $secret, sensitive: true);
+		$this->assertConfigValueNotEquals('testapp', $key, $secret);
+
+		// Can get in same run
+		$actualSecret = $appConfig->getValueString('testapp', $key);
+		$this->assertEquals($secret, $actualSecret);
+
+		// Can get freshly decrypted from DB
+		$newAppConfig = $this->generateAppConfig();
+		$actualSecret = $newAppConfig->getValueString('testapp', $key);
+		$this->assertEquals($secret, $actualSecret);
+	}
+
+	public function testUpdateSensitiveValueToNonSensitiveWithUpdateSensitive(): void {
+		$key = self::getUniqueID('secret');
+		$appConfig = $this->generateAppConfig();
+		$secret = sha1((string) time());
+
+		// Encrypted
+		$appConfig->setValueString('testapp', $key, $secret, sensitive: true);
+		$this->assertConfigValueNotEquals('testapp', $key, $secret);
+
+		// Migrate to non-sensitive / non-encrypted
+		$appConfig->updateSensitive('testapp', $key, false);
+		$this->assertConfigKey('testapp', $key, $secret);
+	}
+
+	public function testUpdateNonSensitiveValueToSensitiveWithUpdateSensitive(): void {
+		$key = self::getUniqueID('secret');
+		$appConfig = $this->generateAppConfig();
+		$secret = sha1((string) time());
+
+		// Unencrypted
+		$appConfig->setValueString('testapp', $key, $secret);
+		$this->assertConfigKey('testapp', $key, $secret);
+
+		// Migrate to sensitive / encrypted
+		$appConfig->updateSensitive('testapp', $key, true);
+		$this->assertConfigValueNotEquals('testapp', $key, $secret);
+	}
+
+	protected function loadConfigValueFromDatabase(string $app, string $key): string|false {
+		$sql = $this->connection->getQueryBuilder();
+		$sql->select('configvalue')
+			->from('appconfig')
+			->where($sql->expr()->eq('appid', $sql->createParameter('appid')))
+			->andWhere($sql->expr()->eq('configkey', $sql->createParameter('configkey')))
+			->setParameter('appid', $app)
+			->setParameter('configkey', $key);
+		$query = $sql->executeQuery();
+		$actual = $query->fetchOne();
+		$query->closeCursor();
+
+		return $actual;
+	}
+
+	protected function assertConfigKey(string $app, string $key, string|false $expected): void {
+		$this->assertEquals($expected, $this->loadConfigValueFromDatabase($app, $key));
+	}
+
+	protected function assertConfigValueNotEquals(string $app, string $key, string|false $expected): void {
+		$this->assertNotEquals($expected, $this->loadConfigValueFromDatabase($app, $key));
 	}
 }
