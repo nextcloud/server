@@ -82,6 +82,7 @@
     "@types/dockerode": "^3.3.21",
     "@vue/tsconfig": "^0.4.0",
     "cypress": "^13.6.4",
+    "cypress-split": "^1.21.0",
     "cypress-visual-regression": "^3.0.0",
     "dockerode": "^4.0.0",
     "eslint-plugin-cypress": "^2.15.1",
