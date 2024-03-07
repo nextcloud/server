@@ -37,8 +37,8 @@
 
 	<!-- Live preview if a handler is available -->
 	<component :is="viewerHandler.component"
-		v-else-if="viewerHandler && !failedViewer"
-		:active="false"
+		v-else-if="interactive && viewerHandler && !failedViewer"
+		:active="false /* prevent video from autoplaying */"
 		:can-swipe="false"
 		:can-zoom="false"
 		:is-embedded="true"
@@ -46,7 +46,7 @@
 		:file-list="[viewerFile]"
 		:is-full-screen="false"
 		:is-sidebar-shown="false"
-		class="widget-file widget-file--preview"
+		class="widget-file widget-file--interactive"
 		@error="failedViewer = true" />
 
 	<!-- The file is accessible -->
@@ -306,6 +306,13 @@ export default defineComponent({
 	// No preview, standard link to ressource
 	&--link {
 		color: var(--color-text-maxcontrast);
+	}
+
+	&--interactive {
+		position: relative;
+		height: 400px;
+		max-height: 50vh;
+		margin: 0;
 	}
 }
 </style>
