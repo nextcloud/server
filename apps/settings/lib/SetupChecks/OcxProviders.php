@@ -68,7 +68,7 @@ class OcxProviders implements ISetupCheck {
 		];
 
 		foreach ($providers as $provider) {
-			foreach ($this->runHEAD($this->urlGenerator->getWebroot() . $provider) as $response) {
+			foreach ($this->runRequest('HEAD', $this->urlGenerator->getWebroot() . $provider, ['httpErrors' => false]) as $response) {
 				$testedProviders[$provider] = true;
 				if ($response->getStatusCode() === 200) {
 					$workingProviders[] = $provider;

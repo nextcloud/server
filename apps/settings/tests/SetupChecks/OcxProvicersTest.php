@@ -62,7 +62,7 @@ class OcxProvicersTest extends TestCase {
 		$this->logger = $this->createMock(LoggerInterface::class);
 
 		$this->setupcheck = $this->getMockBuilder(OcxProviders::class)
-			->onlyMethods(['runHEAD'])
+			->onlyMethods(['runRequest'])
 			->setConstructorArgs([
 				$this->l10n,
 				$this->config,
@@ -79,7 +79,7 @@ class OcxProvicersTest extends TestCase {
 
 		$this->setupcheck
 			->expects($this->exactly(2))
-			->method('runHEAD')
+			->method('runRequest')
 			->willReturnOnConsecutiveCalls($this->generate([$response]), $this->generate([$response]));
 
 		$result = $this->setupcheck->run();
@@ -94,7 +94,7 @@ class OcxProvicersTest extends TestCase {
 
 		$this->setupcheck
 			->expects($this->exactly(2))
-			->method('runHEAD')
+			->method('runRequest')
 			->willReturnOnConsecutiveCalls($this->generate([$response1, $response1, $response1]), $this->generate([$response2])); // only one response out of two
 
 		$result = $this->setupcheck->run();
@@ -107,7 +107,7 @@ class OcxProvicersTest extends TestCase {
 
 		$this->setupcheck
 			->expects($this->exactly(2))
-			->method('runHEAD')
+			->method('runRequest')
 			->willReturnOnConsecutiveCalls($this->generate([]), $this->generate([])); // No responses
 
 		$result = $this->setupcheck->run();
@@ -121,7 +121,7 @@ class OcxProvicersTest extends TestCase {
 
 		$this->setupcheck
 			->expects($this->exactly(2))
-			->method('runHEAD')
+			->method('runRequest')
 			->willReturnOnConsecutiveCalls($this->generate([$response]), $this->generate([])); // only one response out of two
 
 		$result = $this->setupcheck->run();
@@ -135,7 +135,7 @@ class OcxProvicersTest extends TestCase {
 
 		$this->setupcheck
 			->expects($this->exactly(2))
-			->method('runHEAD')
+			->method('runRequest')
 			->willReturnOnConsecutiveCalls($this->generate([$response]), $this->generate([$response])); // only one response out of two
 
 		$result = $this->setupcheck->run();
@@ -151,7 +151,7 @@ class OcxProvicersTest extends TestCase {
 
 		$this->setupcheck
 			->expects($this->exactly(2))
-			->method('runHEAD')
+			->method('runRequest')
 			->willReturnOnConsecutiveCalls($this->generate([$response1]), $this->generate([$response2]));
 
 		$result = $this->setupcheck->run();
