@@ -30,9 +30,6 @@ declare(strict_types=1);
 namespace OCA\Files_External\Command;
 
 use Doctrine\DBAL\Exception\DriverException;
-use OC\Core\Command\Base;
-use OCA\Files_External\Lib\InsufficientDataForMeaningfulAnswerException;
-use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\Service\GlobalStoragesService;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\Notify\IChange;
@@ -40,7 +37,6 @@ use OCP\Files\Notify\INotifyHandler;
 use OCP\Files\Notify\IRenameChange;
 use OCP\Files\Storage\INotifyStorage;
 use OCP\Files\Storage\IStorage;
-use OCP\Files\StorageNotAvailableException;
 use OCP\IDBConnection;
 use OCP\IUserManager;
 use Psr\Log\LoggerInterface;
@@ -49,14 +45,14 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class Notify extends Base {
+class Notify extends StorageAuthBase {
 	public function __construct(
-		private GlobalStoragesService $globalService,
 		private IDBConnection $connection,
 		private LoggerInterface $logger,
-		private IUserManager $userManager
+		GlobalStoragesService $globalService,
+		IUserManager $userManager,
 	) {
-		parent::__construct();
+		parent::__construct($globalService, $userManager);
 	}
 
 	protected function configure(): void {
@@ -97,71 +93,12 @@ class Notify extends Base {
 		parent::configure();
 	}
 
-	private function getUserOption(InputInterface $input): ?string {
-		if ($input->getOption('user')) {
-			return (string)$input->getOption('user');
-		}
-
-		return $_ENV['NOTIFY_USER'] ?? $_SERVER['NOTIFY_USER'] ?? null;
-	}
-
-	private function getPasswordOption(InputInterface $input): ?string {
-		if ($input->getOption('password')) {
-			return (string)$input->getOption('password');
-		}
-
-		return $_ENV['NOTIFY_PASSWORD'] ?? $_SERVER['NOTIFY_PASSWORD'] ?? null;
-	}
-
 	protected function execute(InputInterface $input, OutputInterface $output): int {
-		$mount = $this->globalService->getStorage($input->getArgument('mount_id'));
-		if (is_null($mount)) {
-			$output->writeln('<error>Mount not found</error>');
+		[$mount, $storage] = $this->createStorage($input, $output);
+		if ($storage === null) {
 			return self::FAILURE;
 		}
-		$noAuth = false;
 
-		$userOption = $this->getUserOption($input);
-		$passwordOption = $this->getPasswordOption($input);
-
-		// if only the user is provided, we get the user object to pass along to the auth backend
-		// this allows using saved user credentials
-		$user = ($userOption && !$passwordOption) ? $this->userManager->get($userOption) : null;
-
-		try {
-			$authBackend = $mount->getAuthMechanism();
-			$authBackend->manipulateStorageConfig($mount, $user);
-		} catch (InsufficientDataForMeaningfulAnswerException $e) {
-			$noAuth = true;
-		} catch (StorageNotAvailableException $e) {
-			$noAuth = true;
-		}
-
-		if ($userOption) {
-			$mount->setBackendOption('user', $userOption);
-		}
-		if ($passwordOption) {
-			$mount->setBackendOption('password', $passwordOption);
-		}
-
-		try {
-			$backend = $mount->getBackend();
-			$backend->manipulateStorageConfig($mount, $user);
-		} catch (InsufficientDataForMeaningfulAnswerException $e) {
-			$noAuth = true;
-		} catch (StorageNotAvailableException $e) {
-			$noAuth = true;
-		}
-
-		try {
-			$storage = $this->createStorage($mount);
-		} catch (\Exception $e) {
-			$output->writeln('<error>Error while trying to create storage</error>');
-			if ($noAuth) {
-				$output->writeln('<error>Login and/or password required</error>');
-			}
-			return self::FAILURE;
-		}
 		if (!$storage instanceof INotifyStorage) {
 			$output->writeln('<error>Mount of type "' . $mount->getBackend()->getText() . '" does not support active update notifications</error>');
 			return self::FAILURE;
@@ -187,11 +124,6 @@ class Notify extends Base {
 			$this->markParentAsOutdated($mount->getId(), $change->getPath(), $output, $dryRun);
 		});
 		return self::SUCCESS;
-	}
-
-	private function createStorage(StorageConfig $mount): IStorage {
-		$class = $mount->getBackend()->getStorageClass();
-		return new $class($mount->getBackendOptions());
 	}
 
 	private function markParentAsOutdated($mountId, $path, OutputInterface $output, bool $dryRun): void {
