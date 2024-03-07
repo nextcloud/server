@@ -64,6 +64,7 @@ class AccessibleThemeTestCase extends TestCase {
 					'--color-info-hover',
 					'--color-success',
 					'--color-success-hover',
+					'--color-favorite',
 				],
 				[
 					'--color-main-background',
