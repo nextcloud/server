@@ -112,6 +112,10 @@ Cypress.Commands.add('deleteFile', fileName => {
 	cy.getFile(fileName).clickAction('delete')
 })
 
+Cypress.Commands.add('reloadCurrentFilesList', () => {
+	cy.get('[data-cy-files-content-breadcrumbs] a[title="Reload current directory"]').click()
+})
+
 Cypress.Commands.add(
 	'clickAction',
 	{ prevSubject: 'element' },
