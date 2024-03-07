@@ -60,7 +60,7 @@
 			<h2 class="login-form__headline" data-login-form-headline v-html="headline" />
 			<NcTextField id="user"
 				ref="user"
-				:label="t('core', 'Account name or email')"
+				:label="loginText"
 				name="user"
 				:value.sync="user"
 				:class="{shake: invalidPassword}"
