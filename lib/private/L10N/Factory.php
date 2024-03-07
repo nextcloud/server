@@ -40,6 +40,8 @@ declare(strict_types=1);
 
 namespace OC\L10N;
 
+use OCP\App\AppPathNotFoundException;
+use OCP\App\IAppManager;
 use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IConfig;
@@ -88,38 +90,17 @@ class Factory implements IFactory {
 		'pt_BR', 'pt_PT', 'da', 'fi_FI', 'nb_NO', 'sv', 'tr', 'zh_CN', 'ko'
 	];
 
-	/** @var IConfig */
-	protected $config;
-
-	/** @var IRequest */
-	protected $request;
-
-	/** @var IUserSession */
-	protected IUserSession $userSession;
-
 	private ICache $cache;
 
-	/** @var string */
-	protected $serverRoot;
-
-	/**
-	 * @param IConfig $config
-	 * @param IRequest $request
-	 * @param IUserSession $userSession
-	 * @param string $serverRoot
-	 */
 	public function __construct(
-		IConfig $config,
-		IRequest $request,
-		IUserSession $userSession,
+		protected IConfig $config,
+		protected IRequest $request,
+		protected IUserSession $userSession,
 		ICacheFactory $cacheFactory,
-		$serverRoot
+		protected string $serverRoot,
+		protected IAppManager $appManager,
 	) {
-		$this->config = $config;
-		$this->request = $request;
-		$this->userSession = $userSession;
 		$this->cache = $cacheFactory->createLocal('L10NFactory');
-		$this->serverRoot = $serverRoot;
 	}
 
 	/**
@@ -558,13 +539,9 @@ class Factory implements IFactory {
 	/**
 	 * Get a list of language files that should be loaded
 	 *
-	 * @param string $app
-	 * @param string $lang
 	 * @return string[]
 	 */
-	// FIXME This method is only public, until OC_L10N does not need it anymore,
-	// FIXME This is also the reason, why it is not in the public interface
-	public function getL10nFilesForApp($app, $lang) {
+	private function getL10nFilesForApp(string $app, string $lang): array {
 		$languageFiles = [];
 
 		$i18nDir = $this->findL10nDir($app);
@@ -572,7 +549,7 @@ class Factory implements IFactory {
 
 		if (($this->isSubDirectory($transFile, $this->serverRoot . '/core/l10n/')
 				|| $this->isSubDirectory($transFile, $this->serverRoot . '/lib/l10n/')
-				|| $this->isSubDirectory($transFile, \OC_App::getAppPath($app) . '/l10n/'))
+				|| $this->isSubDirectory($transFile, $this->appManager->getAppPath($app) . '/l10n/'))
 			&& file_exists($transFile)
 		) {
 			// load the translations file
@@ -602,9 +579,12 @@ class Factory implements IFactory {
 			if (file_exists($this->serverRoot . '/' . $app . '/l10n/')) {
 				return $this->serverRoot . '/' . $app . '/l10n/';
 			}
-		} elseif ($app && \OC_App::getAppPath($app) !== false) {
-			// Check if the app is in the app folder
-			return \OC_App::getAppPath($app) . '/l10n/';
+		} elseif ($app) {
+			try {
+				return $this->appManager->getAppPath($app) . '/l10n/';
+			} catch (AppPathNotFoundException) {
+				/* App not found, continue */
+			}
 		}
 		return $this->serverRoot . '/core/l10n/';
 	}

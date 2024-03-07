@@ -32,6 +32,8 @@ namespace OC\AppFramework\Bootstrap;
 
 use OC\Support\CrashReport\Registry;
 use OC_App;
+use OCP\App\AppPathNotFoundException;
+use OCP\App\IAppManager;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\QueryException;
@@ -46,24 +48,6 @@ use function class_implements;
 use function in_array;
 
 class Coordinator {
-	/** @var IServerContainer */
-	private $serverContainer;
-
-	/** @var Registry */
-	private $registry;
-
-	/** @var IManager */
-	private $dashboardManager;
-
-	/** @var IEventDispatcher */
-	private $eventDispatcher;
-
-	/** @var IEventLogger */
-	private $eventLogger;
-
-	/** @var LoggerInterface */
-	private $logger;
-
 	/** @var RegistrationContext|null */
 	private $registrationContext;
 
@@ -71,19 +55,14 @@ class Coordinator {
 	private $bootedApps = [];
 
 	public function __construct(
-		IServerContainer $container,
-		Registry $registry,
-		IManager $dashboardManager,
-		IEventDispatcher $eventListener,
-		IEventLogger $eventLogger,
-		LoggerInterface $logger
+		private IServerContainer $serverContainer,
+		private Registry $registry,
+		private IManager $dashboardManager,
+		private IEventDispatcher $eventDispatcher,
+		private IEventLogger $eventLogger,
+		private IAppManager $appManager,
+		private LoggerInterface $logger,
 	) {
-		$this->serverContainer = $container;
-		$this->registry = $registry;
-		$this->dashboardManager = $dashboardManager;
-		$this->eventDispatcher = $eventListener;
-		$this->eventLogger = $eventLogger;
-		$this->logger = $logger;
 	}
 
 	public function runInitialRegistration(): void {
@@ -108,11 +87,10 @@ class Coordinator {
 			$this->eventLogger->start("bootstrap:register_app:$appId:autoloader", "Setup autoloader for $appId");
 			/*
 			 * First, we have to enable the app's autoloader
-			 *
-			 * @todo use $this->appManager->getAppPath($appId) here
 			 */
-			$path = OC_App::getAppPath($appId);
-			if ($path === false) {
+			try {
+				$path = $this->appManager->getAppPath($appId);
+			} catch (AppPathNotFoundException) {
 				// Ignore
 				continue;
 			}

@@ -112,14 +112,22 @@ class AppManagerTest extends TestCase {
 		$this->cache = $this->createMock(ICache::class);
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
+
+		$this->overwriteService(AppConfig::class, $this->appConfig);
+
 		$this->cacheFactory->expects($this->any())
 			->method('createDistributed')
 			->with('settings')
 			->willReturn($this->cache);
+
+		$this->config
+			->method('getSystemValueBool')
+			->with('installed', false)
+			->willReturn(true);
+
 		$this->manager = new AppManager(
 			$this->userSession,
 			$this->config,
-			$this->appConfig,
 			$this->groupManager,
 			$this->cacheFactory,
 			$this->eventDispatcher,
@@ -170,7 +178,7 @@ class AppManagerTest extends TestCase {
 		/** @var AppManager|MockObject $manager */
 		$manager = $this->getMockBuilder(AppManager::class)
 			->setConstructorArgs([
-				$this->userSession, $this->config, $this->appConfig, $this->groupManager, $this->cacheFactory, $this->eventDispatcher, $this->logger
+				$this->userSession, $this->config, $this->groupManager, $this->cacheFactory, $this->eventDispatcher, $this->logger
 			])
 			->setMethods([
 				'getAppPath',
@@ -218,7 +226,7 @@ class AppManagerTest extends TestCase {
 		/** @var AppManager|MockObject $manager */
 		$manager = $this->getMockBuilder(AppManager::class)
 			->setConstructorArgs([
-				$this->userSession, $this->config, $this->appConfig, $this->groupManager, $this->cacheFactory, $this->eventDispatcher, $this->logger
+				$this->userSession, $this->config, $this->groupManager, $this->cacheFactory, $this->eventDispatcher, $this->logger
 			])
 			->setMethods([
 				'getAppPath',
@@ -274,7 +282,7 @@ class AppManagerTest extends TestCase {
 		/** @var AppManager|MockObject $manager */
 		$manager = $this->getMockBuilder(AppManager::class)
 			->setConstructorArgs([
-				$this->userSession, $this->config, $this->appConfig, $this->groupManager, $this->cacheFactory, $this->eventDispatcher, $this->logger
+				$this->userSession, $this->config, $this->groupManager, $this->cacheFactory, $this->eventDispatcher, $this->logger
 			])
 			->setMethods([
 				'getAppPath',
@@ -470,7 +478,7 @@ class AppManagerTest extends TestCase {
 	public function testGetAppsNeedingUpgrade() {
 		/** @var AppManager|MockObject $manager */
 		$manager = $this->getMockBuilder(AppManager::class)
-			->setConstructorArgs([$this->userSession, $this->config, $this->appConfig, $this->groupManager, $this->cacheFactory, $this->eventDispatcher, $this->logger])
+			->setConstructorArgs([$this->userSession, $this->config, $this->groupManager, $this->cacheFactory, $this->eventDispatcher, $this->logger])
 			->setMethods(['getAppInfo'])
 			->getMock();
 
@@ -521,7 +529,7 @@ class AppManagerTest extends TestCase {
 	public function testGetIncompatibleApps() {
 		/** @var AppManager|MockObject $manager */
 		$manager = $this->getMockBuilder(AppManager::class)
-			->setConstructorArgs([$this->userSession, $this->config, $this->appConfig, $this->groupManager, $this->cacheFactory, $this->eventDispatcher, $this->logger])
+			->setConstructorArgs([$this->userSession, $this->config, $this->groupManager, $this->cacheFactory, $this->eventDispatcher, $this->logger])
 			->setMethods(['getAppInfo'])
 			->getMock();
 

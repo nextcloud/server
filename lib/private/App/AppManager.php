@@ -96,10 +96,11 @@ class AppManager implements IAppManager {
 	/** @var array<string, true> */
 	private array $loadedApps = [];
 
+	private ?AppConfig $appConfig = null;
+
 	public function __construct(
 		private IUserSession $userSession,
 		private IConfig $config,
-		private AppConfig $appConfig,
 		private IGroupManager $groupManager,
 		private ICacheFactory $memCacheFactory,
 		private IEventDispatcher $dispatcher,
@@ -107,12 +108,23 @@ class AppManager implements IAppManager {
 	) {
 	}
 
+	private function getAppConfig(): AppConfig {
+		if ($this->appConfig !== null) {
+			return $this->appConfig;
+		}
+		if (!$this->config->getSystemValueBool('installed', false)) {
+			throw new \Exception('Nextcloud is not installed yet, AppConfig is not available');
+		}
+		$this->appConfig = \OCP\Server::get(AppConfig::class);
+		return $this->appConfig;
+	}
+
 	/**
 	 * @return string[] $appId => $enabled
 	 */
 	private function getInstalledAppsValues(): array {
 		if (!$this->installedAppsCache) {
-			$values = $this->appConfig->getValues(false, 'enabled');
+			$values = $this->getAppConfig()->getValues(false, 'enabled');
 
 			$alwaysEnabledApps = $this->getAlwaysEnabledApps();
 			foreach ($alwaysEnabledApps as $appId) {
@@ -237,7 +249,7 @@ class AppManager implements IAppManager {
 	private function getAppTypes(string $app): array {
 		//load the cache
 		if (count($this->appTypes) === 0) {
-			$this->appTypes = $this->appConfig->getValues(false, 'types') ?: [];
+			$this->appTypes = $this->getAppConfig()->getValues(false, 'types') ?: [];
 		}
 
 		if (isset($this->appTypes[$app])) {
@@ -525,7 +537,7 @@ class AppManager implements IAppManager {
 		}
 
 		$this->installedAppsCache[$appId] = 'yes';
-		$this->appConfig->setValue($appId, 'enabled', 'yes');
+		$this->getAppConfig()->setValue($appId, 'enabled', 'yes');
 		$this->dispatcher->dispatchTyped(new AppEnableEvent($appId));
 		$this->dispatcher->dispatch(ManagerEvent::EVENT_APP_ENABLE, new ManagerEvent(
 			ManagerEvent::EVENT_APP_ENABLE, $appId
@@ -579,7 +591,7 @@ class AppManager implements IAppManager {
 		}, $groups);
 
 		$this->installedAppsCache[$appId] = json_encode($groupIds);
-		$this->appConfig->setValue($appId, 'enabled', json_encode($groupIds));
+		$this->getAppConfig()->setValue($appId, 'enabled', json_encode($groupIds));
 		$this->dispatcher->dispatchTyped(new AppEnableEvent($appId, $groupIds));
 		$this->dispatcher->dispatch(ManagerEvent::EVENT_APP_ENABLE_FOR_GROUPS, new ManagerEvent(
 			ManagerEvent::EVENT_APP_ENABLE_FOR_GROUPS, $appId, $groups
@@ -600,7 +612,7 @@ class AppManager implements IAppManager {
 		}
 
 		if ($automaticDisabled) {
-			$previousSetting = $this->appConfig->getValue($appId, 'enabled', 'yes');
+			$previousSetting = $this->getAppConfig()->getValue($appId, 'enabled', 'yes');
 			if ($previousSetting !== 'yes' && $previousSetting !== 'no') {
 				$previousSetting = json_decode($previousSetting, true);
 			}
@@ -608,7 +620,7 @@ class AppManager implements IAppManager {
 		}
 
 		unset($this->installedAppsCache[$appId]);
-		$this->appConfig->setValue($appId, 'enabled', 'no');
+		$this->getAppConfig()->setValue($appId, 'enabled', 'no');
 
 		// run uninstall steps
 		$appData = $this->getAppInfo($appId);
@@ -673,7 +685,7 @@ class AppManager implements IAppManager {
 		$apps = $this->getInstalledApps();
 		foreach ($apps as $appId) {
 			$appInfo = $this->getAppInfo($appId);
-			$appDbVersion = $this->appConfig->getValue($appId, 'installed_version');
+			$appDbVersion = $this->getAppConfig()->getValue($appId, 'installed_version');
 			if ($appDbVersion
 				&& isset($appInfo['version'])
 				&& version_compare($appInfo['version'], $appDbVersion, '>')

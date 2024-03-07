@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2018, michag86 (michag86@arcor.de)
  *
@@ -88,7 +91,7 @@ class Update extends Command {
 				return 1;
 			}
 		} elseif ($input->getOption('all') || $input->getOption('showonly')) {
-			$apps = \OC_App::getAllApps();
+			$apps = $this->manager->getInstalledApps();
 		} else {
 			$output->writeln("<error>Please specify an app to update or \"--all\" to update all updatable apps\"</error>");
 			return 1;
@@ -117,7 +120,7 @@ class Update extends Command {
 					if ($result === false) {
 						$output->writeln($appId . ' couldn\'t be updated');
 						$return = 1;
-					} elseif ($result === true) {
+					} else {
 						$output->writeln($appId . ' updated');
 					}
 				}

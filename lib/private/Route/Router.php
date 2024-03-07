@@ -35,6 +35,8 @@ namespace OC\Route;
 
 use DirectoryIterator;
 use OC\AppFramework\Routing\RouteParser;
+use OCP\App\AppPathNotFoundException;
+use OCP\App\IAppManager;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Http\Attribute\Route as RouteAttribute;
 use OCP\Diagnostics\IEventLogger;
@@ -71,22 +73,17 @@ class Router implements IRouter {
 	protected $loaded = false;
 	/** @var array */
 	protected $loadedApps = [];
-	protected LoggerInterface $logger;
 	/** @var RequestContext */
 	protected $context;
-	private IEventLogger $eventLogger;
-	private IConfig $config;
-	private ContainerInterface $container;
 
 	public function __construct(
-		LoggerInterface $logger,
+		protected LoggerInterface $logger,
 		IRequest $request,
-		IConfig $config,
-		IEventLogger $eventLogger,
-		ContainerInterface $container
+		private IConfig $config,
+		private IEventLogger $eventLogger,
+		private ContainerInterface $container,
+		private IAppManager $appManager,
 	) {
-		$this->logger = $logger;
-		$this->config = $config;
 		$baseUrl = \OC::$WEBROOT;
 		if (!($config->getSystemValue('htaccess.IgnoreFrontController', false) === true || getenv('front_controller_active') === 'true')) {
 			$baseUrl .= '/index.php';
@@ -101,8 +98,6 @@ class Router implements IRouter {
 		$this->context = new RequestContext($baseUrl, $method, $host, $schema);
 		// TODO cache
 		$this->root = $this->getCollection('root');
-		$this->eventLogger = $eventLogger;
-		$this->container = $container;
 	}
 
 	/**
@@ -114,12 +109,14 @@ class Router implements IRouter {
 		if ($this->routingFiles === null) {
 			$this->routingFiles = [];
 			foreach (\OC_APP::getEnabledApps() as $app) {
-				$appPath = \OC_App::getAppPath($app);
-				if ($appPath !== false) {
+				try {
+					$appPath = $this->appManager->getAppPath($app);
 					$file = $appPath . '/appinfo/routes.php';
 					if (file_exists($file)) {
 						$this->routingFiles[$app] = $file;
 					}
+				} catch (AppPathNotFoundException) {
+					/* ignore */
 				}
 			}
 		}

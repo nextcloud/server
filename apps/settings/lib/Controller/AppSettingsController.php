@@ -40,6 +40,7 @@ use OC\App\DependencyAnalyzer;
 use OC\App\Platform;
 use OC\Installer;
 use OC_App;
+use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
@@ -291,7 +292,13 @@ class AppSettingsController extends Controller {
 				$nextCloudVersionDependencies['nextcloud']['@attributes']['max-version'] = $nextCloudVersion->getMaximumVersion();
 			}
 			$phpVersion = $versionParser->getVersion($app['releases'][0]['rawPhpVersionSpec']);
-			$existsLocally = \OC_App::getAppPath($app['id']) !== false;
+
+			try {
+				$this->appManager->getAppPath($app['id']);
+				$existsLocally = true;
+			} catch (AppPathNotFoundException) {
+				$existsLocally = false;
+			}
 			$phpDependencies = [];
 			if ($phpVersion->getMinimumVersion() !== '') {
 				$phpDependencies['php']['@attributes']['min-version'] = $phpVersion->getMinimumVersion();

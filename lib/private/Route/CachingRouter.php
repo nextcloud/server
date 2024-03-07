@@ -24,6 +24,7 @@
  */
 namespace OC\Route;
 
+use OCP\App\IAppManager;
 use OCP\Diagnostics\IEventLogger;
 use OCP\ICache;
 use OCP\ICacheFactory;
@@ -41,10 +42,11 @@ class CachingRouter extends Router {
 		IRequest $request,
 		IConfig $config,
 		IEventLogger $eventLogger,
-		ContainerInterface $container
+		ContainerInterface $container,
+		IAppManager $appManager,
 	) {
 		$this->cache = $cacheFactory->createLocal('route');
-		parent::__construct($logger, $request, $config, $eventLogger, $container);
+		parent::__construct($logger, $request, $config, $eventLogger, $container, $appManager);
 	}
 
 	/**

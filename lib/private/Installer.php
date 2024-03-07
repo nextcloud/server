@@ -560,11 +560,12 @@ class Installer {
 		if ($output instanceof IOutput) {
 			$output->debug('Installing ' . $app);
 		}
-		//install the database
-		$appPath = OC_App::getAppPath($app);
-		\OC_App::registerAutoloading($app, $appPath);
 
+		$appManager = \OCP\Server::get(IAppManager::class);
 		$config = \OCP\Server::get(IConfig::class);
+
+		$appPath = $appManager->getAppPath($app);
+		\OC_App::registerAutoloading($app, $appPath);
 
 		$ms = new MigrationService($app, \OCP\Server::get(Connection::class));
 		if ($output instanceof IOutput) {

@@ -24,6 +24,7 @@ declare(strict_types=1);
 namespace Test\Route;
 
 use OC\Route\Router;
+use OCP\App\IAppManager;
 use OCP\Diagnostics\IEventLogger;
 use OCP\IConfig;
 use OCP\IRequest;
@@ -54,6 +55,7 @@ class RouterTest extends TestCase {
 			$this->createMock(IConfig::class),
 			$this->createMock(IEventLogger::class),
 			$this->createMock(ContainerInterface::class),
+			$this->createMock(IAppManager::class),
 		);
 
 		$this->assertEquals('/index.php/apps/files/', $router->generate('files.view.index'));
