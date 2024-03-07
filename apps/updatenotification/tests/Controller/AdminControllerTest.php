@@ -27,32 +27,29 @@ declare(strict_types=1);
  */
 namespace OCA\UpdateNotification\Tests\Controller;
 
+use OCA\UpdateNotification\BackgroundJob\ResetToken;
 use OCA\UpdateNotification\Controller\AdminController;
-use OCA\UpdateNotification\ResetTokenBackgroundJob;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\Security\ISecureRandom;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class AdminControllerTest extends TestCase {
-	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
-	private $request;
-	/** @var IJobList|\PHPUnit\Framework\MockObject\MockObject */
-	private $jobList;
-	/** @var ISecureRandom|\PHPUnit\Framework\MockObject\MockObject */
-	private $secureRandom;
-	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
-	private $config;
-	/** @var AdminController */
-	private $adminController;
-	/** @var ITimeFactory|\PHPUnit\Framework\MockObject\MockObject */
-	private $timeFactory;
-	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
-	private $l10n;
+	private IRequest|MockObject $request;
+	private IJobList|MockObject $jobList;
+	private ISecureRandom|MockObject $secureRandom;
+	private IConfig|MockObject $config;
+	private ITimeFactory|MockObject $timeFactory;
+	private IL10N|MockObject $l10n;
+	private IAppConfig|MockObject $appConfig;
+
+	private AdminController $adminController;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -61,6 +58,7 @@ class AdminControllerTest extends TestCase {
 		$this->jobList = $this->createMock(IJobList::class);
 		$this->secureRandom = $this->createMock(ISecureRandom::class);
 		$this->config = $this->createMock(IConfig::class);
+		$this->appConfig = $this->createMock(IAppConfig::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
 		$this->l10n = $this->createMock(IL10N::class);
 
@@ -70,6 +68,7 @@ class AdminControllerTest extends TestCase {
 			$this->jobList,
 			$this->secureRandom,
 			$this->config,
+			$this->appConfig,
 			$this->timeFactory,
 			$this->l10n
 		);
@@ -79,7 +78,7 @@ class AdminControllerTest extends TestCase {
 		$this->jobList
 			->expects($this->once())
 			->method('add')
-			->with(ResetTokenBackgroundJob::class);
+			->with(ResetToken::class);
 		$this->secureRandom
 			->expects($this->once())
 			->method('generate')

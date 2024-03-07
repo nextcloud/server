@@ -56,6 +56,7 @@ use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IGroupManager;
+use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Settings\IManager as ISettingsManager;
@@ -104,7 +105,22 @@ class AppManager implements IAppManager {
 		private ICacheFactory $memCacheFactory,
 		private IEventDispatcher $dispatcher,
 		private LoggerInterface $logger,
+		private IURLGenerator $urlGenerator,
 	) {
+	}
+
+	public function getAppIcon(string $appId): ?string {
+		$possibleIcons = [$appId . '.svg', 'app.svg', $appId . '-dark.svg', 'app-dark.svg'];
+		$icon = null;
+		foreach ($possibleIcons as $iconName) {
+			try {
+				$icon = $this->urlGenerator->imagePath($appId, $iconName);
+				break;
+			} catch (\RuntimeException $e) {
+				// ignore
+			}
+		}
+		return $icon;
 	}
 
 	/**
