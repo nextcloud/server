@@ -194,6 +194,11 @@ class FileEventsListener implements IEventListener {
 		}
 
 		$path = $this->getPathForNode($node);
+
+		if ($path === null) {
+			return;
+		}
+
 		$result = Storage::store($path);
 
 		// Store the result of the version creation so it can be used in post_write_hook.
