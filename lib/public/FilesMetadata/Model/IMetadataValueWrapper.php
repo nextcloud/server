@@ -286,6 +286,24 @@ interface IMetadataValueWrapper extends JsonSerializable {
 	public function getValueAny(): mixed;
 
 	/**
+	 * get stored etag value
+	 *
+	 * @return string stored etag
+	 * @since 29.0.0
+	 */
+	public function getEtag(): string;
+
+	/**
+	 * set etag value
+	 *
+	 * @param string $etag etag value
+	 *
+	 * @return self
+	 * @since 29.0.0
+	 */
+	public function setEtag(string $etag): self;
+
+	/**
 	 * @param bool $indexed TRUE to set the stored value as an indexed value
 	 *
 	 * @return self

@@ -72,6 +72,12 @@ class GenerateBlurhashMetadata implements IEventListener {
 			return;
 		}
 
+		$currentEtag = $file->getEtag();
+		$metadata = $event->getMetadata();
+		if ($metadata->getEtag('blurhash') === $currentEtag) {
+			return;
+		}
+
 		// too heavy to run on the live thread, request a rerun as a background job
 		if ($event instanceof MetadataLiveEvent) {
 			$event->requestBackgroundJob();
@@ -95,8 +101,8 @@ class GenerateBlurhashMetadata implements IEventListener {
 			return;
 		}
 
-		$metadata = $event->getMetadata();
-		$metadata->setString('blurhash', $this->generateBlurHash($image));
+		$metadata->setString('blurhash', $this->generateBlurHash($image))
+				 ->setEtag('blurhash', $currentEtag);
 	}
 
 	/**
