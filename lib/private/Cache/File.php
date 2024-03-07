@@ -29,7 +29,6 @@
  */
 namespace OC\Cache;
 
-use OC\Files\Filesystem;
 use OC\Files\View;
 use OCP\ICache;
 use OCP\Security\ISecureRandom;
@@ -53,7 +52,6 @@ class File implements ICache {
 		if (\OC::$server->getUserSession()->isLoggedIn()) {
 			$rootView = new View();
 			$user = \OC::$server->getUserSession()->getUser();
-			Filesystem::initMountPoints($user->getUID());
 			if (!$rootView->file_exists('/' . $user->getUID() . '/cache')) {
 				$rootView->mkdir('/' . $user->getUID() . '/cache');
 			}

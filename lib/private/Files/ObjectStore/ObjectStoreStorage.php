@@ -82,6 +82,14 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		if (isset($params['validateWrites'])) {
 			$this->validateWrites = (bool)$params['validateWrites'];
 		}
+
+		// home storage is setup in the SetupManager
+		if (!$this instanceof HomeObjectStoreStorage) {
+			//initialize cache with root directory in cache
+			if (!$this->is_dir('/')) {
+				$this->mkdir('/');
+			}
+		}
 		$this->handleCopiesAsOwned = (bool)($params['handleCopiesAsOwned'] ?? false);
 
 		$this->logger = \OCP\Server::get(LoggerInterface::class);
