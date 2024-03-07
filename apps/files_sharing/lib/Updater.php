@@ -26,9 +26,11 @@
  */
 namespace OCA\Files_Sharing;
 
+use OC\Files\Cache\FileAccess;
 use OC\Files\Mount\MountPoint;
 use OCP\Constants;
 use OCP\Files\Folder;
+use OCP\Server;
 use OCP\Share\IShare;
 
 class Updater {
@@ -58,20 +60,40 @@ class Updater {
 		if ($userFolder === null) {
 			return;
 		}
+		$user = $userFolder->getOwner();
+		if (!$user) {
+			throw new \Exception("user folder has no owner");
+		}
 
 		$src = $userFolder->get($path);
 
 		$shareManager = \OC::$server->getShareManager();
 
 		// FIXME: should CIRCLES be included here ??
-		$shares = $shareManager->getSharesBy($userFolder->getOwner()->getUID(), IShare::TYPE_USER, $src, false, -1);
-		$shares = array_merge($shares, $shareManager->getSharesBy($userFolder->getOwner()->getUID(), IShare::TYPE_GROUP, $src, false, -1));
-		$shares = array_merge($shares, $shareManager->getSharesBy($userFolder->getOwner()->getUID(), IShare::TYPE_ROOM, $src, false, -1));
+		$shares = $shareManager->getSharesBy($user->getUID(), IShare::TYPE_USER, $src, false, -1);
+		$shares = array_merge($shares, $shareManager->getSharesBy($user->getUID(), IShare::TYPE_GROUP, $src, false, -1));
+		$shares = array_merge($shares, $shareManager->getSharesBy($user->getUID(), IShare::TYPE_ROOM, $src, false, -1));
 
 		if ($src instanceof Folder) {
-			$subShares = $shareManager->getSharesInFolder($userFolder->getOwner()->getUID(), $src, false, false);
+			$cacheAccess = Server::get(FileAccess::class);
+
+			$sourceStorageId = $src->getStorage()->getCache()->getNumericStorageId();
+			$sourceInternalPath = $src->getInternalPath();
+			$subShares = array_merge(
+				$shareManager->getSharesBy($user->getUID(), IShare::TYPE_USER),
+				$shareManager->getSharesBy($user->getUID(), IShare::TYPE_GROUP),
+				$shareManager->getSharesBy($user->getUID(), IShare::TYPE_ROOM),
+			);
+			$shareSourceIds = array_map(fn (IShare $share) => $share->getNodeId(), $subShares);
+			$shareSources = $cacheAccess->getByFileIdsInStorage($shareSourceIds, $sourceStorageId);
 			foreach ($subShares as $subShare) {
-				$shares = array_merge($shares, array_values($subShare));
+				$shareCacheEntry = $shareSources[$subShare->getNodeId()] ?? null;
+				if (
+					$shareCacheEntry &&
+					str_starts_with($shareCacheEntry->getPath(), $sourceInternalPath . '/')
+				) {
+					$shares[] = $subShare;
+				}
 			}
 		}
 
