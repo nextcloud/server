@@ -27,7 +27,10 @@ namespace OCA\Files_Versions\Tests\Command;
 
 use OC\User\Manager;
 use OCA\Files_Versions\Command\CleanUp;
+use OCP\Files\Cache\ICache;
+use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
+use OCP\Files\Storage\IStorage;
 use Test\TestCase;
 
 /**
@@ -48,6 +51,9 @@ class CleanupTest extends TestCase {
 	/** @var \PHPUnit\Framework\MockObject\MockObject | IRootFolder */
 	protected $rootFolder;
 
+	/** @var \PHPUnit\Framework\MockObject\MockObject | VersionsMapper */
+	protected $versionMapper;
+
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -55,9 +61,10 @@ class CleanupTest extends TestCase {
 			->disableOriginalConstructor()->getMock();
 		$this->userManager = $this->getMockBuilder('OC\User\Manager')
 			->disableOriginalConstructor()->getMock();
+		$this->versionMapper = $this->getMockBuilder('OCA\Files_Versions\Db\VersionsMapper')
+			->disableOriginalConstructor()->getMock();
 
-
-		$this->cleanup = new CleanUp($this->rootFolder, $this->userManager);
+		$this->cleanup = new CleanUp($this->rootFolder, $this->userManager, $this->versionMapper);
 	}
 
 	/**
@@ -70,6 +77,21 @@ class CleanupTest extends TestCase {
 			->with('/testUser/files_versions')
 			->willReturn($nodeExists);
 
+		$userFolder = $this->createMock(Folder::class);
+		$userHomeStorage = $this->createMock(IStorage::class);
+		$userHomeStorageCache = $this->createMock(ICache::class);
+		$this->rootFolder->expects($this->once())
+			->method('getUserFolder')
+			->willReturn($userFolder);
+		$userFolder->expects($this->once())
+			->method('getStorage')
+			->willReturn($userHomeStorage);
+		$userHomeStorage->expects($this->once())
+			->method('getCache')
+			->willReturn($userHomeStorageCache);
+		$userHomeStorageCache->expects($this->once())
+			->method('getNumericStorageId')
+			->willReturn(1);
 
 		if ($nodeExists) {
 			$this->rootFolder->expects($this->once())
@@ -104,7 +126,7 @@ class CleanupTest extends TestCase {
 
 		$instance = $this->getMockBuilder('OCA\Files_Versions\Command\CleanUp')
 			->setMethods(['deleteVersions'])
-			->setConstructorArgs([$this->rootFolder, $this->userManager])
+			->setConstructorArgs([$this->rootFolder, $this->userManager, $this->versionMapper])
 			->getMock();
 		$instance->expects($this->exactly(count($userIds)))
 			->method('deleteVersions')
@@ -136,7 +158,7 @@ class CleanupTest extends TestCase {
 
 		$instance = $this->getMockBuilder('OCA\Files_Versions\Command\CleanUp')
 			->setMethods(['deleteVersions'])
-			->setConstructorArgs([$this->rootFolder, $this->userManager])
+			->setConstructorArgs([$this->rootFolder, $this->userManager, $this->versionMapper])
 			->getMock();
 
 		$backend = $this->getMockBuilder(\OCP\UserInterface::class)
