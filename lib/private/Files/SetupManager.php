@@ -257,20 +257,9 @@ class SetupManager {
 
 			if ($homeMount->getStorageRootId() === -1) {
 				$this->eventLogger->start('fs:setup:user:home:scan', 'Scan home filesystem for user');
-				$homeStorage = $homeMount->getStorage();
-				$homeStorage->mkdir('');
-				$homeStorage->mkdir('files');
-				$homeStorage->getScanner()->scan('');
+				$homeMount->getStorage()->mkdir('');
+				$homeMount->getStorage()->getScanner()->scan('');
 				$this->eventLogger->end('fs:setup:user:home:scan');
-			}
-
-			$provider = $homeMount->getMountProvider();
-			$this->userMountCache->registerMounts($user, [$homeMount], [$provider]);
-			if (!isset($this->setupUserMountProviders[$user->getUID()])) {
-				$this->setupUserMountProviders[$user->getUID()] = [];
-			}
-			if (!in_array($provider, $this->setupUserMountProviders[$user->getUID()])) {
-				$this->setupUserMountProviders[$user->getUID()][] = $provider;
 			}
 			$this->eventLogger->end('fs:setup:user:home');
 		} else {
