@@ -31,6 +31,7 @@ use OCP\Http\Client\IResponse;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IURLGenerator;
+use Psr\Log\LoggerInterface;
 
 /**
  * Common trait for setup checks that need to use requests to the same server and check the response
@@ -40,6 +41,7 @@ trait CheckServerResponseTrait {
 	protected IURLGenerator $urlGenerator;
 	protected IClientService $clientService;
 	protected IL10N $l10n;
+	protected LoggerInterface $logger;
 
 	/**
 	 * Common helper string in case a check could not fetch any results
@@ -71,6 +73,36 @@ trait CheckServerResponseTrait {
 	}
 
 	/**
+	 * Run a HTTP request to check header
+	 * @param string $url The relative URL to check
+	 * @param string $method The HTTP method to use
+	 * @param array{ignoreSSL?: bool, httpErrors?: bool, options?: array} $options Additional options, like
+	 *                                                 [
+	 *                                                  // Ignore invalid SSL certificates (e.g. self signed)
+	 *                                                  'ignoreSSL' => true,
+	 *                                                  // Ignore requests with HTTP errors (will not yield if request has a 4xx or 5xx response)
+	 *                                                  'httpErrors' => true,
+	 *                                                 ]
+	 *
+	 * @return Generator<int, IResponse>
+	 */
+	protected function runRequest(string $url, string $method, array $options = []): Generator {
+		$options = array_merge(['ignoreSSL' => true, 'httpErrors' => true], $options);
+
+		$client = $this->clientService->newClient();
+		$requestOptions = $this->getRequestOptions($options['ignoreSSL'], $options['httpErrors']);
+		$requestOptions = array_merge($requestOptions, $options['options'] ?? []);
+
+		foreach ($this->getTestUrls($url) as $testURL) {
+			try {
+				yield $client->request($testURL, $method, $requestOptions);
+			} catch (\Throwable $e) {
+				$this->logger->debug('Can not connect to local server for running setup checks', ['exception' => $e, 'url' => $testURL]);
+			}
+		}
+	}
+
+	/**
 	 * Run a HEAD request to check header
 	 * @param string $url The relative URL to check
 	 * @param bool $ignoreSSL Ignore SSL certificates
@@ -78,16 +110,7 @@ trait CheckServerResponseTrait {
 	 * @return Generator<int, IResponse>
 	 */
 	protected function runHEAD(string $url, bool $ignoreSSL = true, bool $httpErrors = true): Generator {
-		$client = $this->clientService->newClient();
-		$requestOptions = $this->getRequestOptions($ignoreSSL, $httpErrors);
-
-		foreach ($this->getTestUrls($url) as $testURL) {
-			try {
-				yield $client->head($testURL, $requestOptions);
-			} catch (\Throwable $e) {
-				$this->logger->debug('Can not connect to local server for running setup checks', ['exception' => $e, 'url' => $testURL]);
-			}
-		}
+		return $this->runRequest($url, 'HEAD', ['ignoreSSL' => $ignoreSSL, 'httpErrors' => $httpErrors]);
 	}
 
 	protected function getRequestOptions(bool $ignoreSSL, bool $httpErrors): array {

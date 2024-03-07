@@ -60,53 +60,6 @@ describe('OC.SetupChecks tests', function() {
 		});
 	});
 
-	describe('checkWellKnownUrl', function() {
-		it('should fail with another response status code than the expected one', function(done) {
-			var async = OC.SetupChecks.checkWellKnownUrl('PROPFIND', '/.well-known/caldav', 'http://example.org/PLACEHOLDER', true, 207);
-
-			suite.server.requests[0].respond(200);
-
-			async.done(function( data, s, x ){
-				expect(data).toEqual([{
-					msg: 'Your web server is not properly set up to resolve "/.well-known/caldav". Further information can be found in the <a target="_blank" rel="noreferrer noopener" class="external" href="http://example.org/admin-setup-well-known-URL">documentation ↗</a>.',
-					type: OC.SetupChecks.MESSAGE_TYPE_INFO
-				}]);
-				done();
-			});
-		});
-
-		it('should return no error with the expected response status code', function(done) {
-			var async = OC.SetupChecks.checkWellKnownUrl('PROPFIND', '/.well-known/caldav', 'http://example.org/PLACEHOLDER', true, 207);
-
-			suite.server.requests[0].respond(207);
-
-			async.done(function( data, s, x ){
-				expect(data).toEqual([]);
-				done();
-			});
-		});
-
-		it('should return no error with the default expected response status code', function(done) {
-			var async = OC.SetupChecks.checkWellKnownUrl('PROPFIND', '/.well-known/caldav', 'http://example.org/PLACEHOLDER', true);
-
-			suite.server.requests[0].respond(207);
-
-			async.done(function( data, s, x ){
-				expect(data).toEqual([]);
-				done();
-			});
-		});
-
-		it('should return no error when no check should be run', function(done) {
-			var async = OC.SetupChecks.checkWellKnownUrl('PROPFIND', '/.well-known/caldav', 'http://example.org/PLACEHOLDER', false);
-
-			async.done(function( data, s, x ){
-				expect(data).toEqual([]);
-				done();
-			});
-		});
-	});
-
 	describe('checkSetup', function() {
 		it('should return an error if server has no internet connection', function(done) {
 			var async = OC.SetupChecks.checkSetup();
@@ -303,40 +256,6 @@ describe('OC.SetupChecks tests', function() {
 			});
 		});
 
-    // THe following test is invalid as the code in core/js/setupchecks.js is calling
-    // window.location.protocol which always return http during tests
-    // if there is a way to trick window.location.protocol during test, then we could re-activate it
-    /*
-		it('should return an error if the protocol is https but the server generates http links', function(done) {
-			var async = OC.SetupChecks.checkSetup();
-
-			suite.server.requests[0].respond(
-				200,
-				{
-					'Content-Type': 'application/json',
-				},
-				JSON.stringify({
-					generic: {
-						network: {
-							"Internet connectivity": {
-								severity: "success",
-								description: null,
-								linkToDoc: null
-							}
-						},
-					},
-				})
-			);
-
-			async.done(function( data, s, x ){
-				expect(data).toEqual([{
-					msg: 'You are accessing your instance over a secure connection, however your instance is generating insecure URLs. This most likely means that you are behind a reverse proxy and the overwrite config variables are not set correctly. Please read <a target="_blank" rel="noreferrer noopener" class="external" href="https://docs.nextcloud.com/foo/bar.html">the documentation page about this ↗</a>.',
-					type: OC.SetupChecks.MESSAGE_TYPE_WARNING
-				}]);
-				done();
-			});
-		});
-    */
 		it('should not return an error if the protocol is http and the server generates http links', function(done) {
 			var async = OC.SetupChecks.checkSetup();
 
