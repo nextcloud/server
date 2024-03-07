@@ -24,7 +24,7 @@
 		class="app-level-badge"
 		:class="{ 'app-level-badge--supported': isSupported }"
 		:title="badgeTitle">
-		<NcIconSvgWrapper :path="badgeIcon" :size="20" />
+		<NcIconSvgWrapper :path="badgeIcon" :size="20" inline />
 		{{ badgeText }}
 	</span>
 </template>
@@ -68,12 +68,6 @@ const badgeTitle = computed(() => isSupported.value
 	&--supported {
 		border-color: var(--color-success);
 		color: var(--color-success);
-	}
-
-	// Fix the svg wrapper TODO: Remove with @nextcloud/vue 8.8.0 release
-	:deep(.icon-vue) {
-		min-width: unset;
-		min-height: unset;
 	}
 }
 </style>
