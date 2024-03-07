@@ -38,6 +38,7 @@ namespace OCA\Files\Controller;
 use OCA\Files\Activity\Helper;
 use OCA\Files\AppInfo\Application;
 use OCA\Files\Event\LoadAdditionalScriptsEvent;
+use OCA\Files\Event\LoadSearchPlugins;
 use OCA\Files\Event\LoadSidebar;
 use OCA\Files\Service\UserConfig;
 use OCA\Files\Service\ViewConfig;
@@ -260,6 +261,7 @@ class ViewController extends Controller {
 		$this->eventDispatcher->dispatchTyped($event);
 		$this->eventDispatcher->dispatchTyped(new ResourcesLoadAdditionalScriptsEvent());
 		$this->eventDispatcher->dispatchTyped(new LoadSidebar());
+		$this->eventDispatcher->dispatchTyped(new LoadSearchPlugins());
 		// Load Viewer scripts
 		if (class_exists(LoadViewer::class)) {
 			$this->eventDispatcher->dispatchTyped(new LoadViewer());
