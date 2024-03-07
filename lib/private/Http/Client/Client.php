@@ -427,8 +427,8 @@ class Client implements IClient {
 	/**
 	 * Sends a HTTP request
 	 *
-	 * @param string $uri
 	 * @param string $method The HTTP method to use
+	 * @param string $uri
 	 * @param array $options Array such as
 	 *              'query' => [
 	 *                  'field' => 'abc',
@@ -454,7 +454,7 @@ class Client implements IClient {
 	 * @return IResponse
 	 * @throws \Exception If the request could not get completed
 	 */
-	public function request(string $uri, string $method, array $options = []): IResponse {
+	public function request(string $method, string $uri, array $options = []): IResponse {
 		$this->preventLocalAddress($uri, $options);
 		$response = $this->client->request($method, $uri, $this->buildRequestOptions($options));
 		$isStream = isset($options['stream']) && $options['stream'];

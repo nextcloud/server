@@ -219,8 +219,8 @@ interface IClient {
 
 	/**
 	 * Sends a HTTP request
-	 * @param string $uri
 	 * @param string $method The HTTP method to use
+	 * @param string $uri
 	 * @param array $options Array such as
 	 *              'query' => [
 	 *                  'field' => 'abc',
@@ -246,7 +246,7 @@ interface IClient {
 	 * @throws \Exception If the request could not get completed
 	 * @since 29.0.0
 	 */
-	public function request(string $uri, string $method, array $options = []): IResponse;
+	public function request(string $method, string $uri, array $options = []): IResponse;
 
 	/**
 	 * Sends an asynchronous GET request
