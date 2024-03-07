@@ -175,8 +175,10 @@ export default defineComponent({
 		 * When the source changes, reset the preview
 		 * and fetch the new one.
 		 */
-		source() {
-			this.resetState()
+		source(a: Node, b: Node) {
+			if (a.source !== b.source) {
+				this.resetState()
+			}
 		},
 	},
 
@@ -189,7 +191,8 @@ export default defineComponent({
 			// Reset loading state
 			this.loading = ''
 
-			this.$refs.preview.reset()
+			// Reset the preview state
+			this.$refs?.preview?.reset?.()
 
 			// Close menu
 			this.openedMenu = false
