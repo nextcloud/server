@@ -220,6 +220,10 @@ export default defineComponent({
 				event.stopPropagation()
 				event.preventDefault()
 				this.openFilePicker()
+			} else if (window?.OCA?.Viewer?.mimetypes.indexOf(this.richObject.mimetype) !== -1 && !window?.OCA?.Viewer?.file) {
+				event.stopPropagation()
+				event.preventDefault()
+				window?.OCA?.Viewer?.open({ path: this.richObject.path })
 			}
 		},
 
