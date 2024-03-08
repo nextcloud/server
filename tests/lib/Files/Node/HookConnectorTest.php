@@ -53,6 +53,8 @@ class HookConnectorTest extends TestCase {
 	/** @var IEventDispatcher  */
 	protected $eventDispatcher;
 
+	private LoggerInterface $logger;
+
 	/** @var View */
 	private $view;
 
@@ -86,6 +88,7 @@ class HookConnectorTest extends TestCase {
 			$cacheFactory,
 		);
 		$this->eventDispatcher = \OC::$server->query(IEventDispatcher::class);
+		$this->logger = \OC::$server->query(LoggerInterface::class);
 	}
 
 	protected function tearDown(): void {
@@ -151,7 +154,7 @@ class HookConnectorTest extends TestCase {
 	 * @dataProvider viewToNodeProvider
 	 */
 	public function testViewToNode(callable $operation, $expectedHook, $expectedLegacyEvent, $expectedEvent) {
-		$connector = new HookConnector($this->root, $this->view, $this->eventDispatcher);
+		$connector = new HookConnector($this->root, $this->view, $this->eventDispatcher, $this->logger);
 		$connector->viewToNode();
 		$hookCalled = false;
 		/** @var Node $hookNode */
@@ -220,7 +223,7 @@ class HookConnectorTest extends TestCase {
 	 * @dataProvider viewToNodeProviderCopyRename
 	 */
 	public function testViewToNodeCopyRename(callable $operation, $expectedHook, $expectedLegacyEvent, $expectedEvent) {
-		$connector = new HookConnector($this->root, $this->view, $this->eventDispatcher);
+		$connector = new HookConnector($this->root, $this->view, $this->eventDispatcher, $this->logger);
 		$connector->viewToNode();
 		$hookCalled = false;
 		/** @var Node $hookSourceNode */
@@ -275,7 +278,7 @@ class HookConnectorTest extends TestCase {
 	}
 
 	public function testPostDeleteMeta() {
-		$connector = new HookConnector($this->root, $this->view, $this->eventDispatcher);
+		$connector = new HookConnector($this->root, $this->view, $this->eventDispatcher, $this->logger);
 		$connector->viewToNode();
 		$hookCalled = false;
 		/** @var Node $hookNode */
