@@ -2,6 +2,7 @@ OC.L10N.register(
     "dav",
     {
     "Calendar" : "Kalendar",
+    "Tasks" : "Zadaci",
     "Personal" : "Osobno",
     "{actor} created calendar {calendar}" : "{actor} je stvorio kalendar {calendar}",
     "You created calendar {calendar}" : "Stvorili ste kalendar {calendar}",
@@ -101,7 +102,6 @@ OC.L10N.register(
     "Configures a CalDAV account" : "Konfigurira CalDAV račun",
     "Configures a CardDAV account" : "Konfigurira CardDAV račun",
     "Events" : "Događaji",
-    "Tasks" : "Zadaci",
     "Untitled task" : "Zadatak bez naslova",
     "Completed on %s" : "Završeno na %s",
     "Due on %s by %s" : "%s treba završiti do %s",
@@ -121,7 +121,6 @@ OC.L10N.register(
     "Saturday" : "Subota",
     "Sunday" : "Nedjelja",
     "Availability" : "Raspoloživost",
-    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Ako konfigurirate svoje radno vrijeme, drugi korisnici moći će vidjeti jeste li izvan ureda kada rezerviraju sastanak.",
     "Calendar server" : "Poslužitelj kalendara",
     "Send invitations to attendees" : "Pošaljite pozive sudionicima",
     "Automatically generate a birthday calendar" : "Automatski generiraj kalendar rođendana",
@@ -136,6 +135,7 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Izravno se obratite organizatoru.",
     "Are you accepting the invitation?" : "Prihvaćate li poziv?",
     "Tentative" : "Uvjetno",
-    "Your attendance was updated successfully." : "Vaša je prisutnost uspješno ažurirana."
+    "Your attendance was updated successfully." : "Vaša je prisutnost uspješno ažurirana.",
+    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Ako konfigurirate svoje radno vrijeme, drugi korisnici moći će vidjeti jeste li izvan ureda kada rezerviraju sastanak."
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

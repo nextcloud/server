@@ -60,7 +60,7 @@ class LastSeen extends Base {
 
 		$lastLogin = $user->getLastLogin();
 		if ($lastLogin === 0) {
-			$output->writeln('User ' . $user->getUID() .
+			$output->writeln('Account ' . $user->getUID() .
 				' has never logged in, yet.');
 		} else {
 			$date = new \DateTime();

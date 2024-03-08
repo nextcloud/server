@@ -14,7 +14,7 @@ OC.L10N.register(
     "Password to access {file} was sent to {email}" : "Passwort für den Zugriff auf {file} wurde an {email} versandt ",
     "Password to access {file} was sent to you" : "Passwort für den Zugriff auf {file} wurde an Sie versandt ",
     "Share by mail" : "Geteilt über eine E-Mail",
-    "Sharing %1$s failed, because this item is already shared with user %2$s" : "Freigabe von %1$s fehlgeschlagen, da dieses Element schon mit dem Benutzer %2$s geteilt wird.",
+    "Sharing %1$s failed, because this item is already shared with the account %2$s" : "Freigeben von %1$s ist fehlgeschlagen, da dieses Element schon mit dem Konto %2$s geteilt wurde",
     "We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Automatisch erzeugtes Passwort kann nicht versandt werden. Bitte geben Sie in Ihren persönlichen Einstellungen eine gültige E-Mail-Adresse ein und versuche Sie es erneut.",
     "Failed to send share by email. Got an invalid email address" : "Die Freigabe per E-Mail konnte nicht gesendet werden. Habe eine ungültige E-Mail-Adresse erhalten.",
     "Failed to send share by email" : "Fehler beim Senden der Freigabe per E-Mail",
@@ -38,9 +38,11 @@ OC.L10N.register(
     "You can choose a different password at any time in the share dialog." : "Im Teilen-Dialog können Sie jederzeit ein anderes Passwort wählen.",
     "Could not find share" : "Freigabe konnte nicht gefunden werden",
     "Share provider which allows you to share files by mail" : "Anbieter zum Teilen. Ermöglicht das Teilen von Dateien per E-Mail.",
-    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Ermöglicht Benutzern, einen personalisierten Link zu einer Datei oder einem Ordner durch Eingabe einer E-Mail-Adresse zu teilen.",
+    "Allows people to share a personalized link to a file or folder by putting in an email address." : "Ermöglicht Personen, einen personalisierten Link zu einer Datei oder einem Ordner durch Eingabe einer E-Mail-Adresse zu teilen.",
     "Send password by mail" : "Passwort per Mail senden",
     "Reply to initiator" : "Antwort an Initiator",
-    "Unable to update share by mail config" : "Einstellungen zum Teilen via E-Mail konnten nicht aktualisiert werden"
+    "Unable to update share by mail config" : "Einstellungen zum Teilen via E-Mail konnten nicht aktualisiert werden",
+    "Sharing %1$s failed, because this item is already shared with user %2$s" : "Freigabe von %1$s fehlgeschlagen, da dieses Element schon mit dem Benutzer %2$s geteilt wird.",
+    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Ermöglicht Benutzern, einen personalisierten Link zu einer Datei oder einem Ordner durch Eingabe einer E-Mail-Adresse zu teilen."
 },
 "nplurals=2; plural=(n != 1);");

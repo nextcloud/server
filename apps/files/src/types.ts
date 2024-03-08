@@ -119,4 +119,5 @@ export interface TemplateFile {
 	iconClass?: string
 	mimetypes: string[]
 	ratio?: number
+	templates?: Record<string, unknown>[]
 }

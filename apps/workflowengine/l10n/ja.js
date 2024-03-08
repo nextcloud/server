@@ -106,8 +106,8 @@ OC.L10N.register(
     "between" : "間",
     "not between" : "間ではない",
     "Request user agent" : "リクエスト時のユーザーエージェント",
-    "User group membership" : "ユーザーがグループのメンバーかどうか",
     "is member of" : "が次のグループのメンバーである",
-    "is not member of" : "が次のグループのメンバーではない"
+    "is not member of" : "が次のグループのメンバーではない",
+    "User group membership" : "ユーザーがグループのメンバーかどうか"
 },
 "nplurals=1; plural=0;");

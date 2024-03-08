@@ -43,8 +43,8 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IEventSource;
 use OCP\IEventSourceFactory;
 use OCP\IL10N;
-use OCP\ILogger;
 use OCP\L10N\IFactory;
+use Psr\Log\LoggerInterface;
 
 if (!str_contains(@ini_get('disable_functions'), 'set_time_limit')) {
 	@set_time_limit(0);
@@ -120,6 +120,7 @@ if (\OCP\Util::needUpgrade()) {
 		\OC::$server->query(\OC\Installer::class)
 	);
 	$incompatibleApps = [];
+	$incompatibleOverwrites = $config->getSystemValue('app_install_overwrite', []);
 
 	/** @var IEventDispatcher $dispatcher */
 	$dispatcher = \OC::$server->get(IEventDispatcher::class);
@@ -162,8 +163,10 @@ if (\OCP\Util::needUpgrade()) {
 	$updater->listen('\OC\Updater', 'appUpgrade', function ($app, $version) use ($eventSource, $l) {
 		$eventSource->send('success', $l->t('Updated "%1$s" to %2$s', [$app, $version]));
 	});
-	$updater->listen('\OC\Updater', 'incompatibleAppDisabled', function ($app) use (&$incompatibleApps) {
-		$incompatibleApps[] = $app;
+	$updater->listen('\OC\Updater', 'incompatibleAppDisabled', function ($app) use (&$incompatibleApps, &$incompatibleOverwrites) {
+		if (!in_array($app, $incompatibleOverwrites)) {
+			$incompatibleApps[] = $app;
+		}
 	});
 	$updater->listen('\OC\Updater', 'failure', function ($message) use ($eventSource, $config) {
 		$eventSource->send('failure', $message);
@@ -186,10 +189,12 @@ if (\OCP\Util::needUpgrade()) {
 	try {
 		$updater->upgrade();
 	} catch (\Exception $e) {
-		\OC::$server->getLogger()->logException($e, [
-			'level' => ILogger::ERROR,
-			'app' => 'update',
-		]);
+		\OCP\Server::get(LoggerInterface::class)->error(
+			$e->getMessage(),
+			[
+				'exception' => $e,
+				'app' => 'update',
+			]);
 		$eventSource->send('failure', get_class($e) . ': ' . $e->getMessage());
 		$eventSource->close();
 		exit();

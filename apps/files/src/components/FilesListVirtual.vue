@@ -139,6 +139,7 @@ export default defineComponent({
 			FileEntryGrid,
 			headers: getFileListHeaders(),
 			scrollToIndex: 0,
+			openFileId: null as number|null,
 		}
 	},
 
@@ -149,6 +150,14 @@ export default defineComponent({
 
 		fileId() {
 			return parseInt(this.$route.params.fileid) || null
+		},
+
+		/**
+		 * If the current `fileId` should be opened
+		 * The state of the `openfile` query param
+		 */
+		openFile() {
+			return !!this.$route.query.openfile
 		},
 
 		summary() {
@@ -199,6 +208,12 @@ export default defineComponent({
 		fileId(fileId) {
 			this.scrollToFile(fileId, false)
 		},
+
+		openFile(open: boolean) {
+			if (open) {
+				this.$nextTick(() => this.handleOpenFile(this.fileId))
+			}
+		},
 	},
 
 	mounted() {
@@ -206,9 +221,11 @@ export default defineComponent({
 		const mainContent = window.document.querySelector('main.app-content') as HTMLElement
 		mainContent.addEventListener('dragover', this.onDragOver)
 
-		this.scrollToFile(this.fileId)
-		this.openSidebarForFile(this.fileId)
-		this.handleOpenFile()
+		// handle initially opening a given file
+		const { id } = loadState<{ id?: number }>('files', 'openFileInfo', {})
+		this.scrollToFile(id ?? this.fileId)
+		this.openSidebarForFile(id ?? this.fileId)
+		this.handleOpenFile(id ?? null)
 	},
 
 	beforeDestroy() {
@@ -241,18 +258,22 @@ export default defineComponent({
 			}
 		},
 
-		handleOpenFile() {
-			const openFileInfo = loadState('files', 'openFileInfo', {}) as ({ id?: number })
-			if (openFileInfo === undefined) {
+		/**
+		 * Handle opening a file (e.g. by ?openfile=true)
+		 * @param fileId File to open
+		 */
+		handleOpenFile(fileId: number|null) {
+			if (fileId === null || this.openFileId === fileId) {
 				return
 			}
 
-			const node = this.nodes.find(n => n.fileid === openFileInfo.id) as NcNode
+			const node = this.nodes.find(n => n.fileid === fileId) as NcNode
 			if (node === undefined || node.type === FileType.Folder) {
 				return
 			}
 
 			logger.debug('Opening file ' + node.path, { node })
+			this.openFileId = fileId
 			getFileActions()
 				.filter(action => !action.enabled || action.enabled([node], this.currentView))
 				.sort((a, b) => (a.order || 0) - (b.order || 0))

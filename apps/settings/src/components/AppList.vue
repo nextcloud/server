@@ -204,7 +204,7 @@ export default {
 			})
 		},
 		bundles() {
-			return this.$store.getters.getServerData.bundles.filter(bundle => this.bundleApps(bundle.id).length > 0)
+			return this.$store.getters.getAppBundles.filter(bundle => this.bundleApps(bundle.id).length > 0)
 		},
 		bundleApps() {
 			return function(bundle) {

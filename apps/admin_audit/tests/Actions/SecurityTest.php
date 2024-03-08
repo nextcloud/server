@@ -30,17 +30,15 @@ use OCA\AdminAudit\Actions\Security;
 use OCA\AdminAudit\AuditLogger;
 use OCP\Authentication\TwoFactorAuth\IProvider;
 use OCP\IUser;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class SecurityTest extends TestCase {
-	/** @var AuditLogger|\PHPUnit\Framework\MockObject\MockObject */
-	private $logger;
+	private AuditLogger|MockObject $logger;
 
-	/** @var Security */
-	private $security;
+	private Security $security;
 
-	/** @var IUser|\PHPUnit\Framework\MockObject\MockObject */
-	private $user;
+	private MockObject|IUser $user;
 
 	protected function setUp(): void {
 		parent::setUp();

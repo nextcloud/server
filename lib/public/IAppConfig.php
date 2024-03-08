@@ -137,13 +137,13 @@ interface IAppConfig {
 	 * **WARNING:** ignore lazy filtering, all config values are loaded from database
 	 *
 	 * @param string $app id of the app
-	 * @param string $key config keys prefix to search, can be empty.
+	 * @param string $prefix config keys prefix to search, can be empty.
 	 * @param bool $filtered filter sensitive config values
 	 *
 	 * @return array<string, string> [configKey => configValue]
 	 * @since 29.0.0
 	 */
-	public function getAllValues(string $app, string $key = '', bool $filtered = false): array;
+	public function getAllValues(string $app, string $prefix = '', bool $filtered = false): array;
 
 	/**
 	 * List all apps storing a specific config key and its stored value.
@@ -152,7 +152,7 @@ interface IAppConfig {
 	 * @param string $key config key
 	 * @param bool $lazy search within lazy loaded config
 	 *
-	 * @return array<string, string> [appId => configValue]
+	 * @return array<string, string|int|float|bool|array> [appId => configValue]
 	 * @since 29.0.0
 	 */
 	public function searchValues(string $key, bool $lazy = false): array;

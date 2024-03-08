@@ -37,7 +37,7 @@ module.exports = {
 		profile: path.join(__dirname, 'core/src', 'profile.ts'),
 		recommendedapps: path.join(__dirname, 'core/src', 'recommendedapps.js'),
 		systemtags: path.resolve(__dirname, 'core/src', 'systemtags/merged-systemtags.js'),
-		'unified-search': path.join(__dirname, 'core/src', 'unified-search.js'),
+		'unified-search': path.join(__dirname, 'core/src', 'unified-search.ts'),
 		'legacy-unified-search': path.join(__dirname, 'core/src', 'legacy-unified-search.js'),
 		'unsupported-browser': path.join(__dirname, 'core/src', 'unsupported-browser.js'),
 		'unsupported-browser-redirect': path.join(__dirname, 'core/src', 'unsupported-browser-redirect.js'),
@@ -53,8 +53,9 @@ module.exports = {
 		sidebar: path.join(__dirname, 'apps/files/src', 'sidebar.js'),
 		main: path.join(__dirname, 'apps/files/src', 'main.ts'),
 		init: path.join(__dirname, 'apps/files/src', 'init.ts'),
+		search: path.join(__dirname, 'apps/files/src/plugins/search', 'folderSearch.ts'),
 		'personal-settings': path.join(__dirname, 'apps/files/src', 'main-personal-settings.js'),
-		'reference-files': path.join(__dirname, 'apps/files/src', 'reference-files.js'),
+		'reference-files': path.join(__dirname, 'apps/files/src', 'reference-files.ts'),
 	},
 	files_external: {
 		init: path.join(__dirname, 'apps/files_external/src', 'init.ts'),
@@ -113,7 +114,9 @@ module.exports = {
 		settings: path.join(__dirname, 'apps/twofactor_backupcodes/src', 'settings.js'),
 	},
 	updatenotification: {
-		updatenotification: path.join(__dirname, 'apps/updatenotification/src', 'init.js'),
+		init: path.join(__dirname, 'apps/updatenotification/src', 'init.ts'),
+		'view-changelog-page': path.join(__dirname, 'apps/updatenotification/src', 'view-changelog-page.ts'),
+		updatenotification: path.join(__dirname, 'apps/updatenotification/src', 'updatenotification.js'),
 	},
 	user_status: {
 		menu: path.join(__dirname, 'apps/user_status/src', 'menu.js'),

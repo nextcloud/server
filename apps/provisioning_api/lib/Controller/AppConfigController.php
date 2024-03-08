@@ -133,7 +133,7 @@ class AppConfigController extends OCSController {
 		}
 
 		if (!$this->isAllowedToChangedKey($user, $app, $key)) {
-			throw new NotAdminException($this->l10n->t('Logged in user must be an administrator or have authorization to edit this setting.'));
+			throw new NotAdminException($this->l10n->t('Logged in account must be an administrator or have authorization to edit this setting.'));
 		}
 
 		try {

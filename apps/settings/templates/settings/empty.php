@@ -4,7 +4,7 @@
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -21,4 +21,4 @@
  *
  */
 
-# used for Personal/Additional settings as fallback for legacy settings
+// Empty template as Vue will take over the `id="conent"` of the base template element

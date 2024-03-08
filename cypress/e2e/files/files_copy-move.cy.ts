@@ -20,13 +20,7 @@
  *
  */
 
-const getRowForFile = (filename: string) => cy.get(`[data-cy-files-list-row-name="${filename}"]`)
-const getActionsForFile = (filename: string) => getRowForFile(filename).find('[data-cy-files-list-row-actions]')
-const getActionButtonForFile = (filename: string) => getActionsForFile(filename).find('button[aria-label="Actions"]')
-const triggerActionForFile = (filename: string, actionId: string) => {
-	getActionButtonForFile(filename).click()
-	cy.get(`[data-cy-files-list-row-action="${actionId}"] > button`).should('exist').click()
-}
+import { getRowForFile, moveFile, copyFile, navigateToFolder } from './FilesUtils.ts'
 
 describe('Files: Move or copy files', { testIsolation: true }, () => {
 	let currentUser
@@ -48,22 +42,9 @@ describe('Files: Move or copy files', { testIsolation: true }, () => {
 		cy.login(currentUser)
 		cy.visit('/apps/files')
 
-		// intercept the copy so we can wait for it
-		cy.intercept('COPY', /\/remote.php\/dav\/files\//).as('copyFile')
+		copyFile('original.txt', 'new-folder')
 
-		// Open actions and trigger copy-move action
-		getRowForFile('original.txt').should('be.visible')
-		triggerActionForFile('original.txt', 'move-copy')
-
-		// select new folder
-		cy.get('.file-picker [data-filename="new-folder"]').should('be.visible').click()
-		// click copy
-		cy.get('.file-picker').contains('button', 'Copy to new-folder').should('be.visible').click()
-
-		// wait for copy to finish
-		cy.wait('@copyFile')
-
-		getRowForFile('new-folder').find('[data-cy-files-list-row-name-link]').click()
+		navigateToFolder('new-folder')
 
 		cy.url().should('contain', 'dir=/new-folder')
 		getRowForFile('original.txt').should('be.visible')
@@ -76,24 +57,14 @@ describe('Files: Move or copy files', { testIsolation: true }, () => {
 		cy.login(currentUser)
 		cy.visit('/apps/files')
 
-		// intercept the copy so we can wait for it
-		cy.intercept('MOVE', /\/remote.php\/dav\/files\//).as('moveFile')
+		moveFile('original.txt', 'new-folder')
 
-		getRowForFile('original.txt').should('be.visible')
-		triggerActionForFile('original.txt', 'move-copy')
-
-		// select new folder
-		cy.get('.file-picker [data-filename="new-folder"]').should('be.visible').click()
-		// click copy
-		cy.get('.file-picker').contains('button', 'Move to new-folder').should('be.visible').click()
-
-		cy.wait('@moveFile')
 		// wait until visible again
 		getRowForFile('new-folder').should('be.visible')
 
 		// original should be moved -> not exist anymore
 		getRowForFile('original.txt').should('not.exist')
-		getRowForFile('new-folder').should('be.visible').find('[data-cy-files-list-row-name-link]').click()
+		navigateToFolder('new-folder')
 
 		cy.url().should('contain', 'dir=/new-folder')
 		getRowForFile('original.txt').should('be.visible')
@@ -107,24 +78,14 @@ describe('Files: Move or copy files', { testIsolation: true }, () => {
 		cy.login(currentUser)
 		cy.visit('/apps/files')
 
-		// intercept the copy so we can wait for it
-		cy.intercept('MOVE', /\/remote.php\/dav\/files\//).as('moveFile')
+		moveFile('original', 'original folder')
 
-		getRowForFile('original').should('be.visible')
-		triggerActionForFile('original', 'move-copy')
-
-		// select new folder
-		cy.get('.file-picker [data-filename="original folder"]').should('be.visible').click()
-		// click copy
-		cy.get('.file-picker').contains('button', 'Move to original folder').should('be.visible').click()
-
-		cy.wait('@moveFile')
 		// wait until visible again
 		getRowForFile('original folder').should('be.visible')
 
 		// original should be moved -> not exist anymore
 		getRowForFile('original').should('not.exist')
-		getRowForFile('original folder').should('be.visible').find('[data-cy-files-list-row-name-link]').click()
+		navigateToFolder('original folder')
 
 		cy.url().should('contain', 'dir=/original%20folder')
 		getRowForFile('original').should('be.visible')
@@ -137,21 +98,11 @@ describe('Files: Move or copy files', { testIsolation: true }, () => {
 		cy.login(currentUser)
 		cy.visit('/apps/files')
 
-		// intercept the copy so we can wait for it
-		cy.intercept('MOVE', /\/remote.php\/dav\/files\//).as('moveFile')
-
-		getRowForFile('new-folder').should('be.visible').find('[data-cy-files-list-row-name-link]').click()
+		navigateToFolder('new-folder')
 		cy.url().should('contain', 'dir=/new-folder')
 
-		getRowForFile('original.txt').should('be.visible')
-		triggerActionForFile('original.txt', 'move-copy')
+		moveFile('original.txt', '/')
 
-		// select new folder
-		cy.get('.file-picker button[title="Home"]').should('be.visible').click()
-		// click move
-		cy.get('.file-picker').contains('button', 'Move').should('be.visible').click()
-
-		cy.wait('@moveFile')
 		// wait until visible again
 		cy.get('main').contains('No files in here').should('be.visible')
 
@@ -168,16 +119,8 @@ describe('Files: Move or copy files', { testIsolation: true }, () => {
 		cy.login(currentUser)
 		cy.visit('/apps/files')
 
-		// intercept the copy so we can wait for it
-		cy.intercept('COPY', /\/remote.php\/dav\/files\//).as('copyFile')
+		copyFile('original.txt', '.')
 
-		getRowForFile('original.txt').should('be.visible')
-		triggerActionForFile('original.txt', 'move-copy')
-
-		// click copy
-		cy.get('.file-picker').contains('button', 'Copy').should('be.visible').click()
-
-		cy.wait('@copyFile')
 		getRowForFile('original.txt').should('be.visible')
 		getRowForFile('original (copy).txt').should('be.visible')
 	})
@@ -188,16 +131,8 @@ describe('Files: Move or copy files', { testIsolation: true }, () => {
 		cy.login(currentUser)
 		cy.visit('/apps/files')
 
-		// intercept the copy so we can wait for it
-		cy.intercept('COPY', /\/remote.php\/dav\/files\//).as('copyFile')
+		copyFile('original.txt', '.')
 
-		getRowForFile('original.txt').should('be.visible')
-		triggerActionForFile('original.txt', 'move-copy')
-
-		// click copy
-		cy.get('.file-picker').contains('button', 'Copy').should('be.visible').click()
-
-		cy.wait('@copyFile')
 		getRowForFile('original.txt').should('be.visible')
 		getRowForFile('original (copy 2).txt').should('be.visible')
 	})

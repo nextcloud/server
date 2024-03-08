@@ -12,7 +12,6 @@
     "Password to access {file} was sent to {email}" : "A(z) {file} eléréséhez szükséges jelszó elküldve a következőhöz: {email}",
     "Password to access {file} was sent to you" : "A(z) {file} eléréséhez szükséges jelszó elküldve Önnek",
     "Share by mail" : "Megosztás e-mailben",
-    "Sharing %1$s failed, because this item is already shared with user %2$s" : "A(z) %1$s megosztása sikertelen, mert már meg van osztva %2$s felhasználóval",
     "We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Nem lehet az automatikusan előállított jelszót elküldeni. Állítson be érvényes e-mail-címet a személyes beállításokban, és próbálja újra.",
     "Failed to send share by email. Got an invalid email address" : "Az e-mailben történő megosztás sikertelen. Érvénytelen e-mail-cím.",
     "Failed to send share by email" : "Az e-mailben történő megosztás sikertelen",
@@ -36,9 +35,10 @@
     "You can choose a different password at any time in the share dialog." : "Bármikor másik jelszót választhat a megosztási párbeszédablakon.",
     "Could not find share" : "Nem található a megosztás",
     "Share provider which allows you to share files by mail" : "Megosztási szolgáltató, amely lehetővé teszi fájlok e-mailben történő megosztását",
-    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Lehetővé teszi, hogy a felhasználók személyre szabott megosztási hivatkozásokat hozzanak létre egy fájlhoz vagy mappához az e-mail-cím megadásával.",
     "Send password by mail" : "Jelszó kiküldése e-mailben",
     "Reply to initiator" : "Válasz a kezdeményezőnek",
-    "Unable to update share by mail config" : "Az e-mailes megosztás beállításai nem frissíthetők"
+    "Unable to update share by mail config" : "Az e-mailes megosztás beállításai nem frissíthetők",
+    "Sharing %1$s failed, because this item is already shared with user %2$s" : "A(z) %1$s megosztása sikertelen, mert már meg van osztva %2$s felhasználóval",
+    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Lehetővé teszi, hogy a felhasználók személyre szabott megosztási hivatkozásokat hozzanak létre egy fájlhoz vagy mappához az e-mail-cím megadásával."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

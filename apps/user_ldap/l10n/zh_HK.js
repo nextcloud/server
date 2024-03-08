@@ -63,7 +63,7 @@ OC.L10N.register(
     "LDAP/AD integration" : "LDAP /AD 整合",
     "Invalid LDAP UUIDs" : "無效的 LDAP UUID",
     "None found" : "未找到",
-    "Invalid UUIDs of LDAP users or groups have been found. Please review your \"Override UUID detection\" settings in the Expert part of the LDAP configuration and use \"occ ldap:update-uuid\" to update them." : "LDAP 用戶或群組的 UUID 無效。請查看 LDAP 配置專家部分中的“覆蓋 UUID 檢測”設置，並使用“occ ldap:update-uuid”更新它們。",
+    "Invalid UUIDs of LDAP accounts or groups have been found. Please review your \"Override UUID detection\" settings in the Expert part of the LDAP configuration and use \"occ ldap:update-uuid\" to update them." : "LDAP 賬戶或群組的 UUID 無效。請查看 LDAP 配置專家部分中的“覆蓋 UUID 檢測”設置，並使用“occ ldap:update-uuid”更新它們。",
     "_%n group found_::_%n groups found_" : ["找到 %n 個群組"],
     "> 1000 groups found" : "找到 > 1000 個群組",
     "> 1000 users found" : "找到 > 1000 位用戶",
@@ -217,6 +217,7 @@ OC.L10N.register(
     "Username-LDAP User Mapping" : "用戶名-LDAP 用戶 Mapping",
     "Usernames are used to store and assign metadata. In order to precisely identify and recognize users, each LDAP user will have an internal username. This requires a mapping from username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found. The internal username is used all over. Clearing the mappings will have leftovers everywhere. Clearing the mappings is not configuration sensitive, it affects all LDAP configurations! Never clear the mappings in a production environment, only in a testing or experimental stage." : "用戶名用於存儲和分配元數據。為了精確地區分和識別用戶，每個LDAP用戶都會有一個內部的用戶名。這要求建立一個用戶名到LDAP用戶的映射。創建的用戶名會被映射到 LDAP用戶的UUID。另外為了節省LDAP連接開銷，DN會被緩存，但不會使用識別。如果DN變了，這些變化會被識別到。在Nextcloud各個頁面會使用內部用戶名。清除映射會造成 系統裡面有大量的殘留信息。清除映射會影響所有的LDAP配置，同時進行雙向配置。不要在生產環境裡面應用可變映射，請僅用於測試環境或早期驗證步驟。",
     "Clear Username-LDAP User Mapping" : "清除 用戶名-LDAP 用戶 Mapping",
-    "Clear Groupname-LDAP Group Mapping" : "清除 群組名稱-LDAP 群組 Mapping"
+    "Clear Groupname-LDAP Group Mapping" : "清除 群組名稱-LDAP 群組 Mapping",
+    "Invalid UUIDs of LDAP users or groups have been found. Please review your \"Override UUID detection\" settings in the Expert part of the LDAP configuration and use \"occ ldap:update-uuid\" to update them." : "LDAP 用戶或群組的 UUID 無效。請查看 LDAP 配置專家部分中的“覆蓋 UUID 檢測”設置，並使用“occ ldap:update-uuid”更新它們。"
 },
 "nplurals=1; plural=0;");

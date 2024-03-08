@@ -24,8 +24,6 @@ OC.L10N.register(
     "Could not write file to disk" : "Tókst ekki að skrifa skrá á disk.",
     "A PHP extension stopped the file upload" : "PHP-viðbót stöðvaði innsendingu skráar",
     "No file uploaded" : "Engin skrá var send inn",
-    "Failed to clean up the old administration theming images folder" : "Mistókst að hreinsa upp gamla þemamyndamöppu kerfisstjórnunar",
-    "Failed to clean up the old administration image folder" : "Mistókst að hreinsa upp gamla myndamöppu kerfisstjórnunar",
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "Þú ert nú þegar að nota sérsniðið þema. Mögulega gæti það skrifað yfir stillingar í þemaforriti.",
     "Theming" : "Þemu",
     "Appearance and accessibility" : "Útlit og aðgengi",
@@ -104,6 +102,8 @@ OC.L10N.register(
     "Reset to default" : "Endurstilla á sjálfgefið",
     "Upload" : "Senda inn",
     "Remove background image" : "Fjarlægja bakgrunnsmynd",
+    "Failed to clean up the old administration theming images folder" : "Mistókst að hreinsa upp gamla þemamyndamöppu kerfisstjórnunar",
+    "Failed to clean up the old administration image folder" : "Mistókst að hreinsa upp gamla myndamöppu kerfisstjórnunar",
     "Select a custom color" : "Veldu sérsniðinn lit"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

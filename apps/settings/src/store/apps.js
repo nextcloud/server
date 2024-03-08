@@ -26,11 +26,13 @@ import api from './api.js'
 import Vue from 'vue'
 import { generateUrl } from '@nextcloud/router'
 import { showError, showInfo } from '@nextcloud/dialogs'
+import { loadState } from '@nextcloud/initial-state'
 
 const state = {
 	apps: [],
+	bundles: loadState('settings', 'appstoreBundles', []),
 	categories: [],
-	updateCount: 0,
+	updateCount: loadState('settings', 'appstoreUpdateCount', 0),
 	loading: {},
 	loadingList: false,
 	gettingCategoriesPromise: null,
@@ -164,6 +166,9 @@ const getters = {
 	getAllApps(state) {
 		return state.apps
 	},
+	getAppBundles(state) {
+		return state.bundles
+	},
 	getUpdateCount(state) {
 		return state.updateCount
 	},
@@ -205,7 +210,7 @@ const actions = {
 										onClick: () => window.location.reload(),
 										close: false,
 
-									}
+									},
 								)
 								setTimeout(function() {
 									location.reload()
@@ -214,10 +219,12 @@ const actions = {
 						})
 						.catch(() => {
 							if (!Array.isArray(appId)) {
+								showError(t('settings', 'Error: This app cannot be enabled because it makes the server unstable'))
 								context.commit('setError', {
 									appId: apps,
 									error: t('settings', 'Error: This app cannot be enabled because it makes the server unstable'),
 								})
+								context.dispatch('disableApp', { appId })
 							}
 						})
 				})

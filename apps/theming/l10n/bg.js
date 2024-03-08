@@ -21,8 +21,6 @@ OC.L10N.register(
     "Could not write file to disk" : " Файлът не можа да бъде записан на диск",
     "A PHP extension stopped the file upload" : "PHP разширение спря качването на файла",
     "No file uploaded" : "Няма качен файл",
-    "Failed to clean up the old administration theming images folder" : "Неуспешно почистване на папка със стари изображения на администраторски теми",
-    "Failed to clean up the old administration image folder" : "Неуспешно почистване на старата папка с изображения на администратора",
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "Вече използвате персонализирана тема. Настройките на приложението за теми могат да бъдат презаписани от това.",
     "Theming" : "Теми",
     "Appearance and accessibility" : "Изглед и достъпност",
@@ -88,6 +86,8 @@ OC.L10N.register(
     "Reset to default" : "Настройки по подразбиране",
     "Upload" : "Качване",
     "Remove background image" : "Премахни фоновото изображение",
+    "Failed to clean up the old administration theming images folder" : "Неуспешно почистване на папка със стари изображения на администраторски теми",
+    "Failed to clean up the old administration image folder" : "Неуспешно почистване на старата папка с изображения на администратора",
     "Select a custom color" : "Избор на персонализиран цвят"
 },
 "nplurals=2; plural=(n != 1);");

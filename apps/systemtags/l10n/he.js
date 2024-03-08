@@ -42,8 +42,6 @@ OC.L10N.register(
     "All tagged %s …" : "כל ה־%s המתויגים…",
     "tagged %s" : "%s מתויג",
     "Collaborative tags" : "תגיות שיתופיות",
-    "Collaborative tagging functionality which shares tags among users." : "תכונת תיוג שיתופים שמשתפת תגיות בין המשתמשים.",
-    "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "תכונת התיוג השיתופי שמשתפת תגיות בין משתמשים. מעולה לעבודת צוות.\n\t(אם בבעלותך התקנה עם מגוון מערכות נפרדות, מוטב להשבית את היישומון הזה כיוון שהתגיות משותפות.)",
     "Create" : "יצירה",
     "Update" : "עדכון",
     "Delete" : "מחיקה",
@@ -57,6 +55,8 @@ OC.L10N.register(
     "No tags found" : "לא נמצאו תגיות",
     "Tag name is empty" : "שם התגית ריק",
     "Select tag …" : "מחיקת תגית…",
+    "Collaborative tagging functionality which shares tags among users." : "תכונת תיוג שיתופים שמשתפת תגיות בין המשתמשים.",
+    "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "תכונת התיוג השיתופי שמשתפת תגיות בין משתמשים. מעולה לעבודת צוות.\n\t(אם בבעלותך התקנה עם מגוון מערכות נפרדות, מוטב להשבית את היישומון הזה כיוון שהתגיות משותפות.)",
     "Tagged files" : "קבצים שתויגו",
     "Select tags to filter by" : "תגיות נבחרות מסוננות על ידי",
     "Please select tags to filter by" : "יש לבחור תגיות שיסוננו על ידי",
@@ -68,4 +68,4 @@ OC.L10N.register(
     "Size" : "גודל",
     "Modified" : "זמן שינוי"
 },
-"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");
+"nplurals=3; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: 2;");

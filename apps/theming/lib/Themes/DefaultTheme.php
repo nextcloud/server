@@ -101,6 +101,10 @@ class DefaultTheme implements ITheme {
 		return '';
 	}
 
+	public function getMeta(): array {
+		return [];
+	}
+
 	public function getCSSVariables(): array {
 		$colorMainText = '#222222';
 		$colorMainTextRgb = join(',', $this->util->hexToRGB($colorMainText));
@@ -161,6 +165,7 @@ class DefaultTheme implements ITheme {
 			'--color-info-rgb' => join(',', $this->util->hexToRGB($colorInfo)),
 			'--color-info-hover' => $this->util->mix($colorInfo, $colorMainBackground, 80),
 			'--color-info-text' => $this->util->darken($colorInfo, 4),
+			'--color-favorite' => '#A37200',
 
 			// used for the icon loading animation
 			'--color-loading-light' => '#cccccc',

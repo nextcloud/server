@@ -24,8 +24,6 @@ OC.L10N.register(
     "Could not write file to disk" : "Неможливо записати файл на диск",
     "A PHP extension stopped the file upload" : "Розширення PHP призупинило завантаження файлу",
     "No file uploaded" : "Файл не завантажено",
-    "Failed to clean up the old administration theming images folder" : "Не вдалося очистити каталог зображень старої адміністративної теми",
-    "Failed to clean up the old administration image folder" : "Не вдалося очистити старий каталог образу адміністрування",
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "Ви уже використовуєте власну тему. Таким чином налаштування застосунку Оформлення може бути перезаписано.",
     "Theming" : "Оформлення",
     "Appearance and accessibility" : "Тема та вигляд",
@@ -112,6 +110,8 @@ OC.L10N.register(
     "Reset to default" : "Скинути до типового",
     "Upload" : "Завантажити",
     "Remove background image" : "Вилучити зображення тла",
+    "Failed to clean up the old administration theming images folder" : "Не вдалося очистити каталог зображень старої адміністративної теми",
+    "Failed to clean up the old administration image folder" : "Не вдалося очистити старий каталог образу адміністрування",
     "Select a custom color" : "Виберіть власний колір"
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

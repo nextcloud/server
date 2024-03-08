@@ -5,7 +5,7 @@
 	<name>Weather status</name>
 	<summary>Weather status in your dashboard</summary>
 	<description><![CDATA[Weather status integrated in the Dashboard app.
-    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.
+    The geographic location can be automatically determined or manually defined. A 6 hours forecast is then displayed.
     This status can also be integrated in other places like the Calendar app.]]></description>
 	<version>1.9.0</version>
 	<licence>agpl</licence>

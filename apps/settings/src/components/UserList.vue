@@ -31,10 +31,10 @@
 
 		<NcEmptyContent v-if="filteredUsers.length === 0"
 			class="empty"
-			:name="isInitialLoad && loading.users ? null : t('settings', 'No users')">
+			:name="isInitialLoad && loading.users ? null : t('settings', 'No accounts')">
 			<template #icon>
 				<NcLoadingIcon v-if="isInitialLoad && loading.users"
-					:name="t('settings', 'Loading users …')"
+					:name="t('settings', 'Loading accounts …')"
 					:size="64" />
 				<NcIconSvgWrapper v-else
 					:svg="usersSvg" />
@@ -61,7 +61,7 @@
 			@scroll-end="handleScrollEnd">
 			<template #before>
 				<caption class="hidden-visually">
-					{{ t('settings', 'List of users. This list is not fully rendered for performance reasons. The users will be rendered as you navigate through the list.') }}
+					{{ t('settings', 'List of accounts. This list is not fully rendered for performance reasons. The accounts will be rendered as you navigate through the list.') }}
 				</caption>
 			</template>
 
@@ -95,7 +95,7 @@ import UserListHeader from './Users/UserListHeader.vue'
 import UserRow from './Users/UserRow.vue'
 
 import { defaultQuota, isObfuscated, unlimitedQuota } from '../utils/userUtils.ts'
-import logger from '../logger.js'
+import logger from '../logger.ts'
 
 import usersSvg from '../../img/users.svg?raw'
 
@@ -320,8 +320,8 @@ export default {
 				}
 				logger.debug(`${this.users.length} total user(s) loaded`)
 			} catch (error) {
-				logger.error('Failed to load users', { error })
-				showError('Failed to load users')
+				logger.error('Failed to load accounts', { error })
+				showError('Failed to load accounts')
 			}
 			this.loading.users = false
 			this.isInitialLoad = false
@@ -368,7 +368,7 @@ export default {
 
 		setNewUserDefaultGroup(value) {
 			if (value && value.length > 0) {
-				// setting new user default group to the current selected one
+				// setting new account default group to the current selected one
 				const currentGroup = this.groups.find(group => group.id === value)
 				if (currentGroup) {
 					this.newUser.groups = [currentGroup]

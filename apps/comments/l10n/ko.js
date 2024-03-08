@@ -9,7 +9,7 @@ OC.L10N.register(
     "%1$s commented on %2$s" : "%2$s에 %1$s 님이 댓글 남김",
     "{author} commented on {file}" : "{author} 님이 {file}에 댓글 남김",
     "<strong>Comments</strong> for files" : "파일의 <strong>댓글</strong>",
-    "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "삭제된 사용자가 남긴 “{file}”의 댓글에서 나를 언급함",
+    "You were mentioned on \"{file}\", in a comment by an account that has since been deleted" : "삭제된 계정이 게시한 “{file}”의 댓글에서 나를 언급함",
     "{user} mentioned you in a comment on \"{file}\"" : "{user} 님이 “{file}”에 남긴 댓글에서 나를 언급함",
     "Files app plugin to add comments to files" : "파일에 댓글을 남기는 파일 앱 플러그인",
     "Edit comment" : "댓글 편집",
@@ -31,6 +31,7 @@ OC.L10N.register(
     "Comment deleted" : "댓글이 삭제됨",
     "An error occurred while trying to delete the comment" : "댓글을 삭제하는 중 오류 발생",
     "An error occurred while trying to create the comment" : "댓글을 작성하는 중 오류 발생",
+    "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "삭제된 사용자가 남긴 “{file}”의 댓글에서 나를 언급함",
     "_%n unread comment_::_%n unread comments_" : ["읽지 않은 댓글 %n개"]
 },
 "nplurals=1; plural=0;");

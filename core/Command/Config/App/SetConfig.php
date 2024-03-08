@@ -207,9 +207,9 @@ class SetConfig extends Base {
 					break;
 
 				case IAppConfig::VALUE_BOOL:
-					if (strtolower($value) === 'true') {
+					if (in_array(strtolower($value), ['true', '1', 'on', 'yes'])) {
 						$valueBool = true;
-					} elseif (strtolower($value) === 'false') {
+					} elseif (in_array(strtolower($value), ['false', '0', 'off', 'no'])) {
 						$valueBool = false;
 					} else {
 						throw new AppConfigIncorrectTypeException('Value is not a boolean, please use \'true\' or \'false\'');

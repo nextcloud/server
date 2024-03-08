@@ -40,7 +40,9 @@ use OCA\Files\Collaboration\Resources\Listener;
 use OCA\Files\Collaboration\Resources\ResourceProvider;
 use OCA\Files\Controller\ApiController;
 use OCA\Files\DirectEditingCapabilities;
+use OCA\Files\Event\LoadSearchPlugins;
 use OCA\Files\Event\LoadSidebar;
+use OCA\Files\Listener\LoadSearchPluginsListener;
 use OCA\Files\Listener\LoadSidebarListener;
 use OCA\Files\Listener\RenderReferenceEventListener;
 use OCA\Files\Listener\SyncLivePhotosListener;
@@ -129,6 +131,7 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(BeforeNodeDeletedEvent::class, SyncLivePhotosListener::class);
 		$context->registerEventListener(BeforeNodeRestoredEvent::class, SyncLivePhotosListener::class);
 		$context->registerEventListener(CacheEntryRemovedEvent::class, SyncLivePhotosListener::class);
+		$context->registerEventListener(LoadSearchPlugins::class, LoadSearchPluginsListener::class);
 
 		$context->registerSearchProvider(FilesSearchProvider::class);
 

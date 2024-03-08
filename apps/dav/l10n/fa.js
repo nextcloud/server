@@ -2,7 +2,7 @@ OC.L10N.register(
     "dav",
     {
     "Calendar" : "تقویم",
-    "To-dos" : "To-dos",
+    "Tasks" : "وظایف",
     "Personal" : "شخصی",
     "{actor} created calendar {calendar}" : "{actor} created calendar {calendar}",
     "You created calendar {calendar}" : "You created calendar {calendar}",
@@ -143,7 +143,6 @@ OC.L10N.register(
     "Configures a CalDAV account" : "Configures a CalDAV account",
     "Configures a CardDAV account" : "Configures a CardDAV account",
     "Events" : "Events",
-    "Tasks" : "وظایف",
     "Untitled task" : "کار بدون عنوان",
     "Completed on %s" : "Completed on %s",
     "Due on %s by %s" : "Due on %s by %s",
@@ -172,7 +171,6 @@ OC.L10N.register(
     "Saved availability" : "Saved availability",
     "Failed to save availability" : "Failed to save availability",
     "Availability" : "موجود بودن",
-    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "If you configure your working hours, other users will see when you are out of office when they book a meeting.",
     "Calendar server" : "Calendar server",
     "Send invitations to attendees" : "Send invitations to attendees",
     "Automatically generate a birthday calendar" : "Automatically generate a birthday calendar",
@@ -189,6 +187,8 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Please contact the organizer directly.",
     "Are you accepting the invitation?" : "Are you accepting the invitation?",
     "Tentative" : "آزمایشی",
-    "Your attendance was updated successfully." : "Your attendance was updated successfully."
+    "Your attendance was updated successfully." : "Your attendance was updated successfully.",
+    "To-dos" : "To-dos",
+    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "If you configure your working hours, other users will see when you are out of office when they book a meeting."
 },
 "nplurals=2; plural=(n > 1);");

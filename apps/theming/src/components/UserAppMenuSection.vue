@@ -28,6 +28,8 @@
 </template>
 
 <script lang="ts">
+import type { IApp } from './AppOrderSelector.vue'
+
 import { showError } from '@nextcloud/dialogs'
 import { loadState } from '@nextcloud/initial-state'
 import { translate as t } from '@nextcloud/l10n'
@@ -35,7 +37,7 @@ import { generateOcsUrl } from '@nextcloud/router'
 import { computed, defineComponent, ref } from 'vue'
 
 import axios from '@nextcloud/axios'
-import AppOrderSelector, { IApp } from './AppOrderSelector.vue'
+import AppOrderSelector from './AppOrderSelector.vue'
 import IconUndo from 'vue-material-design-icons/Undo.vue'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import NcNoteCard from '@nextcloud/vue/dist/Components/NcNoteCard.js'

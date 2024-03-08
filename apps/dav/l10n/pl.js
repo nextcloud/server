@@ -2,7 +2,7 @@ OC.L10N.register(
     "dav",
     {
     "Calendar" : "Kalendarz",
-    "To-dos" : "Do zrobienia",
+    "Tasks" : "Zadania",
     "Personal" : "Osobiste",
     "{actor} created calendar {calendar}" : "{actor} utworzył kalendarz {calendar}",
     "You created calendar {calendar}" : "Utworzyłeś kalendarz {calendar}",
@@ -143,7 +143,6 @@ OC.L10N.register(
     "Configures a CalDAV account" : "Konfiguruje konto CalDAV",
     "Configures a CardDAV account" : "Konfiguruje konto CardDAV",
     "Events" : "Wydarzenia",
-    "Tasks" : "Zadania",
     "Untitled task" : "Zadanie bez tytułu",
     "Completed on %s" : "Ukończono %s",
     "Due on %s by %s" : "Na dzień %s w %s",
@@ -183,7 +182,6 @@ OC.L10N.register(
     "Saved availability" : "Zapisana dostępność",
     "Failed to save availability" : "Nie udało się zapisać dostępności",
     "Availability" : "Dostępność",
-    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Jeśli skonfigurujesz godziny pracy, inni użytkownicy będą widzieć, kiedy jesteś poza biurem, gdy będą rezerwować spotkanie.",
     "Absence" : "Nieobecność",
     "Configure your next absence period." : "Ustaw czas swojej nieobecności ",
     "Calendar server" : "Serwer kalendarza",
@@ -202,6 +200,8 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Skontaktuj się bezpośrednio z orgnizatorem.",
     "Are you accepting the invitation?" : "Czy akceptujesz zaproszenie?",
     "Tentative" : "Niepewne",
-    "Your attendance was updated successfully." : "Twoja obecność została pomyślnie zaktualizowana."
+    "Your attendance was updated successfully." : "Twoja obecność została pomyślnie zaktualizowana.",
+    "To-dos" : "Do zrobienia",
+    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Jeśli skonfigurujesz godziny pracy, inni użytkownicy będą widzieć, kiedy jesteś poza biurem, gdy będą rezerwować spotkanie."
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

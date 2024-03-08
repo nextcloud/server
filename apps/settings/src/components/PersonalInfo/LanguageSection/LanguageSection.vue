@@ -25,12 +25,11 @@
 		<HeaderBar :input-id="inputId"
 			:readable="propertyReadable" />
 
-		<template v-if="isEditable">
-			<Language :input-id="inputId"
-				:common-languages="commonLanguages"
-				:other-languages="otherLanguages"
-				:language.sync="language" />
-		</template>
+		<Language v-if="isEditable"
+			:input-id="inputId"
+			:common-languages="commonLanguages"
+			:other-languages="otherLanguages"
+			:language.sync="language" />
 
 		<span v-else>
 			{{ t('settings', 'No language set') }}
@@ -56,11 +55,17 @@ export default {
 		HeaderBar,
 	},
 
-	data() {
+	setup() {
+		// Non reactive instance properties
 		return {
-			propertyReadable: ACCOUNT_SETTING_PROPERTY_READABLE_ENUM.LANGUAGE,
 			commonLanguages,
 			otherLanguages,
+			propertyReadable: ACCOUNT_SETTING_PROPERTY_READABLE_ENUM.LANGUAGE,
+		}
+	},
+
+	data() {
+		return {
 			language: activeLanguage,
 		}
 	},
@@ -80,9 +85,5 @@ export default {
 <style lang="scss" scoped>
 section {
 	padding: 10px 10px;
-
-	&::v-deep button:disabled {
-		cursor: default;
-	}
 }
 </style>

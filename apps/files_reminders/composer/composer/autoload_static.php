@@ -27,6 +27,7 @@ class ComposerStaticInitFilesReminders
         'OCA\\FilesReminders\\BackgroundJob\\ScheduledNotifications' => __DIR__ . '/..' . '/../lib/BackgroundJob/ScheduledNotifications.php',
         'OCA\\FilesReminders\\Command\\ListCommand' => __DIR__ . '/..' . '/../lib/Command/ListCommand.php',
         'OCA\\FilesReminders\\Controller\\ApiController' => __DIR__ . '/..' . '/../lib/Controller/ApiController.php',
+        'OCA\\FilesReminders\\Dav\\PropFindPlugin' => __DIR__ . '/..' . '/../lib/Dav/PropFindPlugin.php',
         'OCA\\FilesReminders\\Db\\Reminder' => __DIR__ . '/..' . '/../lib/Db/Reminder.php',
         'OCA\\FilesReminders\\Db\\ReminderMapper' => __DIR__ . '/..' . '/../lib/Db/ReminderMapper.php',
         'OCA\\FilesReminders\\Exception\\NodeNotFoundException' => __DIR__ . '/..' . '/../lib/Exception/NodeNotFoundException.php',

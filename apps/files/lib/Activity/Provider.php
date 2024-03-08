@@ -163,7 +163,7 @@ class Provider implements IProvider {
 
 		if (!isset($parsedParameters['user'])) {
 			// External user via public link share
-			$subject = str_replace('{user}', $this->activityLang->t('"remote user"'), $subject);
+			$subject = str_replace('{user}', $this->activityLang->t('"remote account"'), $subject);
 		}
 
 		$this->setSubjects($event, $subject, $parsedParameters);
@@ -281,7 +281,7 @@ class Provider implements IProvider {
 
 		if (!isset($parsedParameters['user'])) {
 			// External user via public link share
-			$subject = str_replace('{user}', $this->activityLang->t('"remote user"'), $subject);
+			$subject = str_replace('{user}', $this->activityLang->t('"remote account"'), $subject);
 		}
 
 		$this->setSubjects($event, $subject, $parsedParameters);
@@ -433,8 +433,8 @@ class Provider implements IProvider {
 		}
 
 		$userFolder = $this->rootFolder->getUserFolder($this->activityManager->getCurrentUserId());
-		$files = $userFolder->getById($fileId);
-		if (empty($files)) {
+		$file = $userFolder->getFirstNodeById($fileId);
+		if (!$file) {
 			try {
 				// Deleted, try with parent
 				$file = $this->findExistingParent($userFolder, dirname($path));
@@ -449,8 +449,6 @@ class Provider implements IProvider {
 			$this->fileEncrypted[$fileId] = $file;
 			return $file;
 		}
-
-		$file = array_shift($files);
 
 		if ($file instanceof Folder && $file->isEncrypted()) {
 			// If the folder is encrypted, it is the Container,

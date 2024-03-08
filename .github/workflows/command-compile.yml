@@ -32,7 +32,7 @@ jobs:
           reactions: "+1"
 
       - name: Parse command
-        uses: skjnldsv/parse-command-comment@d8c0034c481b791dd6348fcacd9c510dc3a4cb4f # v2
+        uses: skjnldsv/parse-command-comment@5c955203c52424151e6d0e58fb9de8a9f6a605a1 # v2
         id: command
 
       # Init path depending on which command is run
@@ -80,7 +80,7 @@ jobs:
           fallbackNpm: '^10'
 
       - name: Set up node ${{ steps.package-engines-versions.outputs.nodeVersion }}
-        uses: actions/setup-node@b39b52d1213e96004bfcb1c61a8a6fa8ab84f3e8 # v3
+        uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v3
         with:
           node-version: ${{ steps.package-engines-versions.outputs.nodeVersion }}
           cache: npm

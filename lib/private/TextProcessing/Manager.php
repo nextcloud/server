@@ -287,7 +287,7 @@ class Manager implements IManager {
 					if ($provider instanceof IProviderWithId) {
 						return $provider->getId() === $preferences[$task->getType()];
 					}
-					$provider::class === $preferences[$task->getType()];
+					return $provider::class === $preferences[$task->getType()];
 				})));
 				if ($provider !== false) {
 					$providers = array_filter($providers, fn ($p) => $p !== $provider);
@@ -295,7 +295,6 @@ class Manager implements IManager {
 				}
 			}
 		}
-		$providers = array_values(array_filter($providers, fn (IProvider $provider) => $task->canUseProvider($provider)));
-		return $providers;
+		return array_values(array_filter($providers, fn (IProvider $provider) => $task->canUseProvider($provider)));
 	}
 }

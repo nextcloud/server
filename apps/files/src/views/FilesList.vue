@@ -20,7 +20,7 @@
   -
   -->
 <template>
-	<NcAppContent data-cy-files-content>
+	<NcAppContent :page-heading="pageHeading" data-cy-files-content>
 		<div class="files-list__header">
 			<!-- Current folder breadcrumbs -->
 			<BreadCrumbs :path="dir" @reload="fetchContent">
@@ -35,7 +35,7 @@
 						@click="openSharingSidebar">
 						<template #icon>
 							<LinkIcon v-if="shareButtonType === Type.SHARE_TYPE_LINK" />
-							<ShareVariantIcon v-else :size="20" />
+							<AccountPlusIcon v-else :size="20" />
 						</template>
 					</NcButton>
 
@@ -49,7 +49,7 @@
 						<template #icon>
 							<PlusIcon :size="20" />
 						</template>
-						{{ t('files', 'Add') }}
+						{{ t('files', 'New') }}
 					</NcButton>
 
 					<!-- Uploader -->
@@ -80,8 +80,7 @@
 		</div>
 
 		<!-- Drag and drop notice -->
-		<DragAndDropNotice v-if="!loading && canUpload"
-			:current-folder="currentFolder" />
+		<DragAndDropNotice v-if="!loading && canUpload" :current-folder="currentFolder" />
 
 		<!-- Initial loading -->
 		<NcLoadingIcon v-if="loading && !isRefreshing"
@@ -143,7 +142,7 @@ import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
 import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
 import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
 import PlusIcon from 'vue-material-design-icons/Plus.vue'
-import ShareVariantIcon from 'vue-material-design-icons/ShareVariant.vue'
+import AccountPlusIcon from 'vue-material-design-icons/AccountPlus.vue'
 import ViewGridIcon from 'vue-material-design-icons/ViewGrid.vue'
 
 import { action as sidebarAction } from '../actions/sidebarAction.ts'
@@ -159,6 +158,7 @@ import filesListWidthMixin from '../mixins/filesListWidth.ts'
 import filesSortingMixin from '../mixins/filesSorting.ts'
 import logger from '../logger.js'
 import DragAndDropNotice from '../components/DragAndDropNotice.vue'
+import debounce from 'debounce'
 
 const isSharingEnabled = (getCapabilities() as { files_sharing?: boolean })?.files_sharing !== undefined
 
@@ -177,7 +177,7 @@ export default defineComponent({
 		NcIconSvgWrapper,
 		NcLoadingIcon,
 		PlusIcon,
-		ShareVariantIcon,
+		AccountPlusIcon,
 		UploadPicker,
 		ViewGridIcon,
 	},
@@ -210,6 +210,7 @@ export default defineComponent({
 
 	data() {
 		return {
+			filterText: '',
 			loading: true,
 			promise: null,
 			Type,
@@ -225,6 +226,10 @@ export default defineComponent({
 			return this.$navigation.active || this.$navigation.views.find((view) => view.id === (this.$route.params?.view ?? 'files'))
 		},
 
+		pageHeading(): string {
+			return this.currentView?.name ?? this.t('files', 'Files')
+		},
+
 		/**
 		 * The current directory query.
 		 */
@@ -236,7 +241,7 @@ export default defineComponent({
 		/**
 		 * The current folder.
 		 */
-		currentFolder(): Folder|undefined {
+		currentFolder(): Folder | undefined {
 			if (!this.currentView?.id) {
 				return
 			}
@@ -290,6 +295,15 @@ export default defineComponent({
 				return []
 			}
 
+			let filteredDirContent = [...this.dirContents]
+			// Filter based on the filterText obtained from nextcloud:unified-search.search event.
+			if (this.filterText) {
+				filteredDirContent = filteredDirContent.filter(node => {
+					return node.attributes.basename.toLowerCase().includes(this.filterText.toLowerCase())
+				})
+				console.debug('Files view filtered', filteredDirContent)
+			}
+
 			const customColumn = (this.currentView?.columns || [])
 				.find(column => column.id === this.sortingMode)
 
@@ -300,7 +314,7 @@ export default defineComponent({
 			}
 
 			return orderBy(
-				[...this.dirContents],
+				filteredDirContent,
 				...this.sortingParameters,
 			)
 		},
@@ -344,7 +358,7 @@ export default defineComponent({
 			return { ...this.$route, query: { dir } }
 		},
 
-		shareAttributes(): number[]|undefined {
+		shareAttributes(): number[] | undefined {
 			if (!this.currentFolder?.attributes?.['share-types']) {
 				return undefined
 			}
@@ -360,7 +374,7 @@ export default defineComponent({
 			}
 			return this.t('files', 'Shared')
 		},
-		shareButtonType(): Type|null {
+		shareButtonType(): Type | null {
 			if (!this.shareAttributes) {
 				return null
 			}
@@ -436,6 +450,8 @@ export default defineComponent({
 	mounted() {
 		this.fetchContent()
 		subscribe('files:node:updated', this.onUpdatedNode)
+		subscribe('nextcloud:unified-search.search', this.onSearch)
+		subscribe('nextcloud:unified-search.reset', this.onSearch)
 	},
 
 	unmounted() {
@@ -552,7 +568,9 @@ export default defineComponent({
 					showError(this.t('files', 'Error during upload: {message}', { message }))
 					return
 				}
-			} catch (error) {}
+			} catch (error) {
+				logger.error('Error while parsing', { error })
+			}
 
 			// Finally, check the status code if we have one
 			if (status !== 0) {
@@ -566,21 +584,33 @@ export default defineComponent({
 		/**
 		 * Refreshes the current folder on update.
 		 *
-		 * @param {Node} node is the file/folder being updated.
- 		 */
-		onUpdatedNode(node) {
+		 * @param node is the file/folder being updated.
+		 */
+		onUpdatedNode(node?: Node) {
 			if (node?.fileid === this.currentFolder?.fileid) {
 				this.fetchContent()
 			}
 		},
-
+		/**
+		 * Handle search event from unified search.
+		 *
+		 * @param searchEvent is event object.
+		 */
+		onSearch: debounce(function(searchEvent) {
+			console.debug('Files app handling search event from unified search...', searchEvent)
+			this.filterText = searchEvent.query
+		}, 500),
 		openSharingSidebar() {
+			if (!this.currentFolder) {
+				logger.debug('No current folder found for opening sharing sidebar')
+				return
+			}
+
 			if (window?.OCA?.Files?.Sidebar?.setActiveTab) {
 				window.OCA.Files.Sidebar.setActiveTab('sharing')
 			}
 			sidebarAction.exec(this.currentFolder, this.currentView, this.currentFolder.path)
 		},
-
 		toggleGridView() {
 			this.userConfigStore.update('grid_view', !this.userConfig.grid_view)
 		},
@@ -613,16 +643,18 @@ $navigationToggleSize: 50px;
 		// Align with the navigation toggle icon
 		margin: $margin $margin $margin $navigationToggleSize;
 		max-width: 100%;
-		> * {
+
+		>* {
 			// Do not grow or shrink (horizontally)
 			// Only the breadcrumbs shrinks
 			flex: 0 0;
 		}
 
 		&-share-button {
-			opacity: .3;
+			color: var(--color-text-maxcontrast) !important;
+
 			&--shared {
-				opacity: 1;
+				color: var(--color-main-text) !important;
 			}
 		}
 	}
@@ -637,5 +669,4 @@ $navigationToggleSize: 50px;
 		margin: auto;
 	}
 }
-
 </style>

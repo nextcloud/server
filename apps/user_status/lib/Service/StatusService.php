@@ -297,7 +297,13 @@ class StatusService {
 		$userStatus->setCustomIcon(null);
 		$userStatus->setCustomMessage($customMessage);
 		$userStatus->setClearAt(null);
-		$userStatus->setStatusMessageTimestamp($this->timeFactory->now()->getTimestamp());
+		if ($this->predefinedStatusService->getTranslatedStatusForId($messageId) !== null
+			|| ($customMessage !== null && $customMessage !== '')) {
+			// Only track status message ID if there is one
+			$userStatus->setStatusMessageTimestamp($this->timeFactory->now()->getTimestamp());
+		} else {
+			$userStatus->setStatusMessageTimestamp(0);
+		}
 
 		if ($userStatus->getId() !== null) {
 			return $this->mapper->update($userStatus);

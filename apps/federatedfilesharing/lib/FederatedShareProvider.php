@@ -132,7 +132,7 @@ class FederatedShareProvider implements IShareProvider {
 		$alreadySharedGroup = $this->getSharedWith($shareWith, IShare::TYPE_REMOTE_GROUP, $share->getNode(), 1, 0);
 		if (!empty($alreadyShared) || !empty($alreadySharedGroup)) {
 			$message = 'Sharing %1$s failed, because this item is already shared with %2$s';
-			$message_t = $this->l->t('Sharing %1$s failed, because this item is already shared with user %2$s', [$share->getNode()->getName(), $shareWith]);
+			$message_t = $this->l->t('Sharing %1$s failed, because this item is already shared with the account %2$s', [$share->getNode()->getName(), $shareWith]);
 			$this->logger->debug(sprintf($message, $share->getNode()->getName(), $shareWith), ['app' => 'Federated File Sharing']);
 			throw new \Exception($message_t);
 		}
@@ -143,8 +143,8 @@ class FederatedShareProvider implements IShareProvider {
 		$currentServer = $this->addressHandler->generateRemoteURL();
 		$currentUser = $sharedBy;
 		if ($this->addressHandler->compareAddresses($cloudId->getUser(), $cloudId->getRemote(), $currentUser, $currentServer)) {
-			$message = 'Not allowed to create a federated share with the same user.';
-			$message_t = $this->l->t('Not allowed to create a federated share with the same user');
+			$message = 'Not allowed to create a federated share to the same account.';
+			$message_t = $this->l->t('Not allowed to create a federated share to the same account');
 			$this->logger->debug($message, ['app' => 'Federated File Sharing']);
 			throw new \Exception($message_t);
 		}
@@ -605,8 +605,9 @@ class FederatedShareProvider implements IShareProvider {
 
 		$qb->innerJoin('s', 'filecache', 'f', $qb->expr()->eq('s.file_source', 'f.fileid'));
 
+		$qb->andWhere($qb->expr()->eq('f.storage', $qb->createNamedParameter($node->getMountPoint()->getNumericStorageId(), IQueryBuilder::PARAM_INT)));
 		if ($shallow) {
-			$qb->andWhere($qb->expr()->eq('f.parent', $qb->createNamedParameter($node->getId())));
+			$qb->andWhere($qb->expr()->eq('f.parent', $qb->createNamedParameter($node->getId(), IQueryBuilder::PARAM_INT)));
 		} else {
 			$qb->andWhere($qb->expr()->like('f.path', $qb->createNamedParameter($this->dbConnection->escapeLikeParameter($node->getInternalPath()) . '/%')));
 		}
@@ -880,7 +881,7 @@ class FederatedShareProvider implements IShareProvider {
 	 *
 	 * @param string $userId
 	 * @param int $id
-	 * @return \OCP\Files\File|\OCP\Files\Folder
+	 * @return \OCP\Files\Node
 	 * @throws InvalidShare
 	 */
 	private function getNode($userId, $id) {
@@ -890,13 +891,13 @@ class FederatedShareProvider implements IShareProvider {
 			throw new InvalidShare();
 		}
 
-		$nodes = $userFolder->getById($id);
+		$node = $userFolder->getFirstNodeById($id);
 
-		if (empty($nodes)) {
+		if (!$node) {
 			throw new InvalidShare();
 		}
 
-		return $nodes[0];
+		return $node;
 	}
 
 	/**

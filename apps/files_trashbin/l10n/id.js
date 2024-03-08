@@ -3,10 +3,10 @@ OC.L10N.register(
     {
     "restored" : "dipulihkan",
     "Deleted files" : "Berkas yang dihapus",
-    "This application enables users to restore files that were deleted from the system." : "Aplikasi ini memungkinkan pengguna untuk memulihkan berkas terhapus dari sistem.",
     "Restore" : "Pulihkan",
     "No deleted files" : "Tidak ada berkas yang dihapus",
     "Deleted" : "Dihapus",
+    "This application enables users to restore files that were deleted from the system." : "Aplikasi ini memungkinkan pengguna untuk memulihkan berkas terhapus dari sistem.",
     "Delete permanently" : "Hapus secara permanen",
     "This operation is forbidden" : "Operasi ini dilarang",
     "This directory is unavailable, please check the logs or contact the administrator" : "Direktori ini tidak tersedia, silakan periksa log atau hubungi kontak",

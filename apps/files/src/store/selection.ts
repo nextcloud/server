@@ -19,9 +19,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+import type { FileId, SelectionStore } from '../types'
 import { defineStore } from 'pinia'
 import Vue from 'vue'
-import { FileId, SelectionStore } from '../types'
 
 export const useSelectionStore = defineStore('selection', {
 	state: () => ({

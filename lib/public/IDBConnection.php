@@ -45,16 +45,24 @@ use OCP\DB\QueryBuilder\IQueryBuilder;
  * @since 6.0.0
  */
 interface IDBConnection {
-	/* @since 28.0.0 */
+	/**
+	 * @since 28.0.0
+	 */
 	public const PLATFORM_MYSQL = 'mysql';
 
-	/* @since 28.0.0 */
+	/**
+	 * @since 28.0.0
+	 */
 	public const PLATFORM_ORACLE = 'oracle';
 
-	/* @since 28.0.0 */
+	/**
+	 * @since 28.0.0
+	 */
 	public const PLATFORM_POSTGRES = 'postgres';
 
-	/* @since 28.0.0 */
+	/**
+	 * @since 28.0.0
+	 */
 	public const PLATFORM_SQLITE = 'sqlite';
 
 	/**

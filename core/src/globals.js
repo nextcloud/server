@@ -28,16 +28,13 @@ import { initCore } from './init.js'
 
 import _ from 'underscore'
 import $ from 'jquery'
-import 'jquery-migrate/dist/jquery-migrate.min.js'
 // TODO: switch to `jquery-ui` package and import widgets and effects individually
 //       `jquery-ui-dist` is used as a workaround for the issue of missing effects
 import 'jquery-ui-dist/jquery-ui.js'
 import 'jquery-ui-dist/jquery-ui.css'
 import 'jquery-ui-dist/jquery-ui.theme.css'
 // END TODO
-import autosize from 'autosize'
 import Backbone from 'backbone'
-import './Polyfill/tooltip.js'
 import ClipboardJS from 'clipboard'
 import { dav } from 'davclient.js'
 import Handlebars from 'handlebars'
@@ -100,11 +97,11 @@ const setDeprecatedProp = (global, cb, msg) => {
 
 window._ = _
 setDeprecatedProp(['$', 'jQuery'], () => $, 'The global jQuery is deprecated. It will be removed in a later versions without another warning. Please ship your own.')
-setDeprecatedProp('autosize', () => autosize, 'please ship your own, this will be removed in Nextcloud 20')
 setDeprecatedProp('Backbone', () => Backbone, 'please ship your own, this will be removed in Nextcloud 20')
 setDeprecatedProp(['Clipboard', 'ClipboardJS'], () => ClipboardJS, 'please ship your own, this will be removed in Nextcloud 20')
 window.dav = dav
 setDeprecatedProp('Handlebars', () => Handlebars, 'please ship your own, this will be removed in Nextcloud 20')
+// Global md5 only required for: apps/files/js/file-upload.js
 setDeprecatedProp('md5', () => md5, 'please ship your own, this will be removed in Nextcloud 20')
 setDeprecatedProp('moment', () => moment, 'please ship your own, this will be removed in Nextcloud 20')
 

@@ -34,6 +34,7 @@ use OC\Template\JSConfigHelper;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\FrontpageRoute;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\Defaults;
@@ -87,6 +88,7 @@ class OCJSController extends Controller {
 	 * @NoTwoFactorRequired
 	 * @PublicPage
 	 */
+	#[FrontpageRoute(verb: 'GET', url: '/core/js/oc.js')]
 	public function getConfig(): DataDisplayResponse {
 		$data = $this->helper->getConfig();
 

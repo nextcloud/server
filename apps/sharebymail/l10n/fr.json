@@ -12,7 +12,7 @@
     "Password to access {file} was sent to {email}" : "Le mot de passe pour accèder à {file} a été envoyé à {email}",
     "Password to access {file} was sent to you" : "Le mot de passe pour accèder à {file} vous a été envoyé",
     "Share by mail" : "Partage par e-mail",
-    "Sharing %1$s failed, because this item is already shared with user %2$s" : "Le partage de %1$s a échoué, parce que cet élément est déjà partagé avec l'utilisateur %2$s",
+    "Sharing %1$s failed, because this item is already shared with the account %2$s" : "Impossible de partager %1$s car il est déjà partagé avec le compte %2$s",
     "We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Nous ne pouvons pas vous envoyer le mot de passe généré automatiquement. Merci de définir une adresse e-mail valide dans vos paramètres personnels et essayez à nouveau.",
     "Failed to send share by email. Got an invalid email address" : "Échec lors de l'envoi du partage par e-mail. L'adresse e-mail est invalide",
     "Failed to send share by email" : "Échec lors de l'envoi du partage par e-mail",
@@ -36,9 +36,11 @@
     "You can choose a different password at any time in the share dialog." : "Vous pouvez choisir un mot de passe différent à n'importe quel moment dans la boîte de dialogue de partage.",
     "Could not find share" : "Impossible de trouver le partage",
     "Share provider which allows you to share files by mail" : "Fournisseur de partage qui vous permet de partager des fichiers par courrier électronique.",
-    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Autoriser les utilisateurs de partager un lien personnalisé vers un fichier ou un dossier en renseignant une adresse e-mail.",
+    "Allows people to share a personalized link to a file or folder by putting in an email address." : "Autoriser les personnes à partager un lien personnalisé vers un fichier ou un dossier en renseignant une adresse électronique.",
     "Send password by mail" : "Envoyer le mot de passe par e-mail",
     "Reply to initiator" : "Répondre à l'initiateur",
-    "Unable to update share by mail config" : "Impossible de mettre à jour la configuration du partage par e-mail"
+    "Unable to update share by mail config" : "Impossible de mettre à jour la configuration du partage par e-mail",
+    "Sharing %1$s failed, because this item is already shared with user %2$s" : "Le partage de %1$s a échoué, parce que cet élément est déjà partagé avec l'utilisateur %2$s",
+    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Autoriser les utilisateurs de partager un lien personnalisé vers un fichier ou un dossier en renseignant une adresse e-mail."
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

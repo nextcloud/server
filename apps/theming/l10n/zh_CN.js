@@ -21,8 +21,6 @@ OC.L10N.register(
     "Could not write file to disk" : "无法写入文件到磁盘",
     "A PHP extension stopped the file upload" : "PHP 扩展停止了文件上传。",
     "No file uploaded" : "文件没有上传",
-    "Failed to clean up the old administration theming images folder" : "无法清除旧的管理主题图片文件夹",
-    "Failed to clean up the old administration image folder" : "无法清除旧的管理图片文件夹",
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "你已经在使用一个自定义的主题。主题应用的设置可能会被其覆盖。",
     "Theming" : "主题",
     "Appearance and accessibility" : "外观和可访问性",
@@ -87,6 +85,8 @@ OC.L10N.register(
     "Reset to default" : "重置为默认设置",
     "Upload" : "上传",
     "Remove background image" : "删除背景图片",
+    "Failed to clean up the old administration theming images folder" : "无法清除旧的管理主题图片文件夹",
+    "Failed to clean up the old administration image folder" : "无法清除旧的管理图片文件夹",
     "Select a custom color" : "自定义颜色"
 },
 "nplurals=1; plural=0;");

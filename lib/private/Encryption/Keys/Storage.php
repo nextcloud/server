@@ -98,14 +98,14 @@ class Storage implements IStorage {
 	 */
 	public function getFileKey($path, $keyId, $encryptionModuleId) {
 		$realFile = $this->util->stripPartialFileExtension($path);
-		$keyDir = $this->getFileKeyDir($encryptionModuleId, $realFile);
+		$keyDir = $this->util->getFileKeyDir($encryptionModuleId, $realFile);
 		$key = $this->getKey($keyDir . $keyId)['key'];
 
 		if ($key === '' && $realFile !== $path) {
 			// Check if the part file has keys and use them, if no normal keys
 			// exist. This is required to fix copyBetweenStorage() when we
 			// rename a .part file over storage borders.
-			$keyDir = $this->getFileKeyDir($encryptionModuleId, $path);
+			$keyDir = $this->util->getFileKeyDir($encryptionModuleId, $path);
 			$key = $this->getKey($keyDir . $keyId)['key'];
 		}
 
@@ -135,7 +135,7 @@ class Storage implements IStorage {
 	 * @inheritdoc
 	 */
 	public function setFileKey($path, $keyId, $key, $encryptionModuleId) {
-		$keyDir = $this->getFileKeyDir($encryptionModuleId, $path);
+		$keyDir = $this->util->getFileKeyDir($encryptionModuleId, $path);
 		return $this->setKey($keyDir . $keyId, [
 			'key' => base64_encode($key),
 		]);
@@ -177,7 +177,7 @@ class Storage implements IStorage {
 	 * @inheritdoc
 	 */
 	public function deleteFileKey($path, $keyId, $encryptionModuleId) {
-		$keyDir = $this->getFileKeyDir($encryptionModuleId, $path);
+		$keyDir = $this->util->getFileKeyDir($encryptionModuleId, $path);
 		return !$this->view->file_exists($keyDir . $keyId) || $this->view->unlink($keyDir . $keyId);
 	}
 
@@ -185,7 +185,7 @@ class Storage implements IStorage {
 	 * @inheritdoc
 	 */
 	public function deleteAllFileKeys($path) {
-		$keyDir = $this->getFileKeyDir('', $path);
+		$keyDir = $this->util->getFileKeyDir('', $path);
 		return !$this->view->file_exists($keyDir) || $this->view->deleteAll($keyDir);
 	}
 
@@ -353,26 +353,6 @@ class Storage implements IStorage {
 		}
 
 		return false;
-	}
-
-	/**
-	 * get path to key folder for a given file
-	 *
-	 * @param string $encryptionModuleId
-	 * @param string $path path to the file, relative to data/
-	 * @return string
-	 */
-	private function getFileKeyDir($encryptionModuleId, $path) {
-		[$owner, $filename] = $this->util->getUidAndFilename($path);
-
-		// in case of system wide mount points the keys are stored directly in the data directory
-		if ($this->util->isSystemWideMountPoint($filename, $owner)) {
-			$keyPath = $this->root_dir . '/' . $this->keys_base_dir . $filename . '/';
-		} else {
-			$keyPath = $this->root_dir . '/' . $owner . $this->keys_base_dir . $filename . '/';
-		}
-
-		return Filesystem::normalizePath($keyPath . $encryptionModuleId . '/', false);
 	}
 
 	/**

@@ -1670,9 +1670,6 @@
     </InvalidReturnType>
   </file>
   <file src="lib/private/AppFramework/Http/Request.php">
-    <MissingTemplateParam>
-      <code>\ArrayAccess</code>
-    </MissingTemplateParam>
     <NullableReturnStatement>
       <code>$name</code>
       <code>$remoteAddress</code>
@@ -1837,12 +1834,6 @@
     <UndefinedInterfaceMethod>
       <code><![CDATA[$this->providers]]></code>
     </UndefinedInterfaceMethod>
-  </file>
-  <file src="lib/private/BackgroundJob/QueuedJob.php">
-    <MoreSpecificImplementedParamType>
-      <code>$jobList</code>
-      <code>$jobList</code>
-    </MoreSpecificImplementedParamType>
   </file>
   <file src="lib/private/Blurhash/Listener/GenerateBlurhashMetadata.php">
     <InvalidArgument>
@@ -2206,11 +2197,6 @@
     <MoreSpecificReturnType>
       <code>array{int, string, int}</code>
     </MoreSpecificReturnType>
-  </file>
-  <file src="lib/private/Files/FileInfo.php">
-    <MissingTemplateParam>
-      <code>\ArrayAccess</code>
-    </MissingTemplateParam>
   </file>
   <file src="lib/private/Files/Filesystem.php">
     <LessSpecificReturnStatement>
@@ -2718,11 +2704,6 @@
       <code><![CDATA[is_string($request->getMethod())]]></code>
     </RedundantCondition>
   </file>
-  <file src="lib/private/Log/Rotate.php">
-    <ParamNameMismatch>
-      <code>$dummy</code>
-    </ParamNameMismatch>
-  </file>
   <file src="lib/private/Log/Systemdlog.php">
     <UndefinedFunction>
       <code><![CDATA[sd_journal_send('PRIORITY='.$journal_level,
@@ -2745,14 +2726,6 @@
       <code>mixed</code>
       <code>mixed</code>
     </LessSpecificImplementedReturnType>
-    <MissingTemplateParam>
-      <code>\ArrayAccess</code>
-    </MissingTemplateParam>
-  </file>
-  <file src="lib/private/Memcache/ProfilerWrapperCache.php">
-    <MissingTemplateParam>
-      <code>\ArrayAccess</code>
-    </MissingTemplateParam>
   </file>
   <file src="lib/private/Preview/BackgroundCleanupJob.php">
     <InvalidReturnStatement>
@@ -2822,9 +2795,6 @@
     <ParamNameMismatch>
       <code>$arguments</code>
     </ParamNameMismatch>
-    <TypeDoesNotContainType>
-      <code>$counter % 100 === 0</code>
-    </TypeDoesNotContainType>
   </file>
   <file src="lib/private/Repair/RemoveLinkShares.php">
     <InvalidPropertyAssignmentValue>
@@ -2934,11 +2904,6 @@
       <code><![CDATA[return $this->appContainers[$namespace];]]></code>
     </NoValue>
   </file>
-  <file src="lib/private/Session/CryptoSessionData.php">
-    <MissingTemplateParam>
-      <code>\ArrayAccess</code>
-    </MissingTemplateParam>
-  </file>
   <file src="lib/private/Session/Internal.php">
     <MoreSpecificImplementedParamType>
       <code>$value</code>
@@ -2948,11 +2913,6 @@
     <MoreSpecificImplementedParamType>
       <code>$value</code>
     </MoreSpecificImplementedParamType>
-  </file>
-  <file src="lib/private/Session/Session.php">
-    <MissingTemplateParam>
-      <code>\ArrayAccess</code>
-    </MissingTemplateParam>
   </file>
   <file src="lib/private/Setup.php">
     <RedundantCondition>
@@ -3272,11 +3232,6 @@
       <code>WIPE_TOKEN</code>
     </AmbiguousConstantInheritance>
   </file>
-  <file src="lib/public/Cache/CappedMemoryCache.php">
-    <MissingTemplateParam>
-      <code>\ArrayAccess</code>
-    </MissingTemplateParam>
-  </file>
   <file src="lib/public/Color.php">
     <LessSpecificReturnStatement>
       <code>$step</code>
@@ -3300,11 +3255,6 @@
     <FalsableReturnStatement>
       <code>\OC_App::getStorage($app)</code>
     </FalsableReturnStatement>
-  </file>
-  <file src="lib/public/Files/Cache/ICacheEntry.php">
-    <MissingTemplateParam>
-      <code>ArrayAccess</code>
-    </MissingTemplateParam>
   </file>
   <file src="lib/public/Files/Storage.php">
     <InvalidParamDefault>

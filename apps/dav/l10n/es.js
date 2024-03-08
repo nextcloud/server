@@ -2,7 +2,7 @@ OC.L10N.register(
     "dav",
     {
     "Calendar" : "Calendario",
-    "To-dos" : "Tareas",
+    "Tasks" : "Tareas",
     "Personal" : "Personal",
     "{actor} created calendar {calendar}" : "{actor} creó el calendario {calendar}",
     "You created calendar {calendar}" : "Usted creó el calendario {calendar}",
@@ -143,7 +143,6 @@ OC.L10N.register(
     "Configures a CalDAV account" : "Configura una cuenta CalDAV",
     "Configures a CardDAV account" : "Configura una cuenta CardDAV",
     "Events" : "Eventos",
-    "Tasks" : "Tareas",
     "Untitled task" : "Tarea sin título",
     "Completed on %s" : "Completado el %s",
     "Due on %s by %s" : "Finaliza el %s por %s",
@@ -185,7 +184,6 @@ OC.L10N.register(
     "Saved availability" : "Disponibilidad guardada",
     "Failed to save availability" : "No se ha podido guardar la disponibilidad",
     "Availability" : "Disponibilidad",
-    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Si configura su horario de trabajo, otros usuarios verán cuándo está fuera de la oficina cuando planifiquen una reunión.",
     "Absence" : "Ausencia",
     "Configure your next absence period." : "Configura el siguiente periodo en que estarás ausente",
     "Calendar server" : "Servidor de calendario",
@@ -204,6 +202,8 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Por favor, contacta directamente con el organizador.",
     "Are you accepting the invitation?" : "¿Aceptas la invitación?",
     "Tentative" : "Provisional",
-    "Your attendance was updated successfully." : "Tu asistencia se ha actualizado con éxito."
+    "Your attendance was updated successfully." : "Tu asistencia se ha actualizado con éxito.",
+    "To-dos" : "Tareas",
+    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Si configura su horario de trabajo, otros usuarios verán cuándo está fuera de la oficina cuando planifiquen una reunión."
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

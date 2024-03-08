@@ -31,7 +31,7 @@ import axios from '@nextcloud/axios'
 
 import FolderPlusSvg from '@mdi/svg/svg/folder-plus.svg?raw'
 
-import { getUniqueName } from '../utils/fileUtils.ts'
+import { newNodeName } from '../utils/newNodeDialog'
 import logger from '../logger'
 
 type createFolderResponse = {
@@ -63,23 +63,27 @@ export const entry = {
 	iconSvgInline: FolderPlusSvg,
 	order: 0,
 	async handler(context: Folder, content: Node[]) {
-		const contentNames = content.map((node: Node) => node.basename)
-		const name = getUniqueName(t('files', 'New folder'), contentNames)
-		const { fileid, source } = await createNewFolder(context, name)
+		const name = await newNodeName(t('files', 'New folder'), content)
+		if (name !== null) {
+			const { fileid, source } = await createNewFolder(context, name)
+			// Create the folder in the store
+			const folder = new Folder({
+				source,
+				id: fileid,
+				mtime: new Date(),
+				owner: getCurrentUser()?.uid || null,
+				permissions: Permission.ALL,
+				root: context?.root || '/files/' + getCurrentUser()?.uid,
+			})
 
-		// Create the folder in the store
-		const folder = new Folder({
-			source,
-			id: fileid,
-			mtime: new Date(),
-			owner: getCurrentUser()?.uid || null,
-			permissions: Permission.ALL,
-			root: context?.root || '/files/' + getCurrentUser()?.uid,
-		})
-
-		showSuccess(t('files', 'Created new folder "{name}"', { name: basename(source) }))
-		logger.debug('Created new folder', { folder, source })
-		emit('files:node:created', folder)
-		emit('files:node:rename', folder)
+			showSuccess(t('files', 'Created new folder "{name}"', { name: basename(source) }))
+			logger.debug('Created new folder', { folder, source })
+			emit('files:node:created', folder)
+			window.OCP.Files.Router.goToRoute(
+				null, // use default route
+				{ view: 'files', fileid: folder.fileid },
+				{ dir: context.path },
+			)
+		}
 	},
 } as Entry

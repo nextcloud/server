@@ -130,7 +130,7 @@
 				class="appslink"
 				:href="app.documentation.user"
 				target="_blank"
-				rel="noreferrer noopener">{{ t('settings', 'User documentation') }} ↗</a>
+				rel="noreferrer noopener">{{ t('settings', 'Usage documentation') }} ↗</a>
 			<a v-if="app.documentation && app.documentation.admin"
 				class="appslink"
 				:href="app.documentation.admin"
@@ -142,7 +142,7 @@
 				target="_blank"
 				rel="noreferrer noopener">{{ t('settings', 'Developer documentation') }} ↗</a>
 		</p>
-		<Markdown class="app-details__description" :text="app.description" />
+		<Markdown class="app-details__description" :min-heading="2" :text="app.description" />
 	</div>
 </template>
 

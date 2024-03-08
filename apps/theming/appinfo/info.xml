@@ -28,10 +28,6 @@
 	</settings>
 
 	<repair-steps>
-		<pre-migration>
-			<step>OCA\Theming\Migration\MigrateAdminConfig</step>
-			<step>OCA\Theming\Migration\MigrateUserConfig</step>
-		</pre-migration>
 		<post-migration>
 			<step>OCA\Theming\Migration\InitBackgroundImagesMigration</step>
 		</post-migration>

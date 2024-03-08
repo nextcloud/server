@@ -221,7 +221,7 @@ export default {
 		 *
 		 * @param {Date} date
 		 */
-		onExpirationChange: debounce((date) => {
+		onExpirationChange: debounce(function(date) {
 			this.share.expireDate = this.formatDateToString(new Date(date))
 		}, 500),
 		/**

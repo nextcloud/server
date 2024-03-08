@@ -352,6 +352,14 @@ interface IRegistrationContext {
 	public function registerCalendarRoomBackend(string $class): void;
 
 	/**
+	 * @param string $class
+	 * @psalm-param class-string<\OCP\Calendar\Room\IBackend> $actionClass
+	 * @return void
+	 * @since 29.0.0
+	 */
+	public function registerTeamResourceProvider(string $class): void;
+
+	/**
 	 * Register an implementation of \OCP\UserMigration\IMigrator that
 	 * will handle the implementation of a migrator
 	 *

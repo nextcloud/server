@@ -38,7 +38,10 @@
 
 use OC\User\LoginException;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\IGroupManager;
+use OCP\IUser;
 use OCP\IUserManager;
+use OCP\Server;
 use OCP\User\Events\BeforeUserLoggedInEvent;
 use OCP\User\Events\UserLoggedInEvent;
 use Psr\Log\LoggerInterface;
@@ -93,7 +96,7 @@ class OC_User {
 				case 'database':
 				case 'mysql':
 				case 'sqlite':
-					\OCP\Server::get(LoggerInterface::class)->debug('Adding user backend ' . $backend . '.', ['app' => 'core']);
+					Server::get(LoggerInterface::class)->debug('Adding user backend ' . $backend . '.', ['app' => 'core']);
 					self::$_usedBackends[$backend] = new \OC\User\Database();
 					\OC::$server->getUserManager()->registerBackend(self::$_usedBackends[$backend]);
 					break;
@@ -102,7 +105,7 @@ class OC_User {
 					\OC::$server->getUserManager()->registerBackend(self::$_usedBackends[$backend]);
 					break;
 				default:
-					\OCP\Server::get(LoggerInterface::class)->debug('Adding default user backend ' . $backend . '.', ['app' => 'core']);
+					Server::get(LoggerInterface::class)->debug('Adding default user backend ' . $backend . '.', ['app' => 'core']);
 					$className = 'OC_USER_' . strtoupper($backend);
 					self::$_usedBackends[$backend] = new $className();
 					\OC::$server->getUserManager()->registerBackend(self::$_usedBackends[$backend]);
@@ -147,10 +150,10 @@ class OC_User {
 					self::useBackend($backend);
 					self::$_setupedBackends[] = $i;
 				} else {
-					\OCP\Server::get(LoggerInterface::class)->debug('User backend ' . $class . ' already initialized.', ['app' => 'core']);
+					Server::get(LoggerInterface::class)->debug('User backend ' . $class . ' already initialized.', ['app' => 'core']);
 				}
 			} else {
-				\OCP\Server::get(LoggerInterface::class)->error('User backend ' . $class . ' not found.', ['app' => 'core']);
+				Server::get(LoggerInterface::class)->error('User backend ' . $class . ' not found.', ['app' => 'core']);
 			}
 		}
 	}
@@ -178,7 +181,7 @@ class OC_User {
 				$dispatcher = \OC::$server->get(IEventDispatcher::class);
 
 				if ($userSession->getUser() && !$userSession->getUser()->isEnabled()) {
-					$message = \OC::$server->getL10N('lib')->t('User disabled');
+					$message = \OC::$server->getL10N('lib')->t('Account disabled');
 					throw new LoginException($message);
 				}
 				$userSession->setLoginName($uid);
@@ -303,7 +306,7 @@ class OC_User {
 		}
 
 		$user = \OC::$server->getUserSession()->getUser();
-		if ($user instanceof \OCP\IUser) {
+		if ($user instanceof IUser) {
 			$backend = $user->getBackend();
 			if ($backend instanceof \OCP\User\Backend\ICustomLogout) {
 				return $backend->getLogoutUrl();
@@ -323,12 +326,9 @@ class OC_User {
 	 * @return bool
 	 */
 	public static function isAdminUser($uid) {
-		$group = \OC::$server->getGroupManager()->get('admin');
-		$user = \OC::$server->getUserManager()->get($uid);
-		if ($group && $user && $group->inGroup($user) && self::$incognitoMode === false) {
-			return true;
-		}
-		return false;
+		$user = Server::get(IUserManager::class)->get($uid);
+		$isAdmin = $user && Server::get(IGroupManager::class)->isAdmin($user->getUID());
+		return $isAdmin && self::$incognitoMode === false;
 	}
 
 

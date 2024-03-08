@@ -732,8 +732,8 @@ class OC_Util {
 			if ($perms[2] !== '0') {
 				$l = \OC::$server->getL10N('lib');
 				return [[
-					'error' => $l->t('Your data directory is readable by other users.'),
-					'hint' => $l->t('Please change the permissions to 0770 so that the directory cannot be listed by other users.'),
+					'error' => $l->t('Your data directory is readable by other people.'),
+					'hint' => $l->t('Please change the permissions to 0770 so that the directory cannot be listed by other people.'),
 				]];
 			}
 		}
@@ -1112,8 +1112,8 @@ class OC_Util {
 			return false;
 		}
 
-		foreach (str_split($trimmed) as $char) {
-			if (str_contains(\OCP\Constants::FILENAME_INVALID_CHARS, $char)) {
+		foreach (\OCP\Util::getForbiddenFileNameChars() as $char) {
+			if (str_contains($trimmed, $char)) {
 				return false;
 			}
 		}

@@ -26,15 +26,18 @@
 		:aria-label="t('files', 'Current directory path')">
 		<!-- Current path sections -->
 		<NcBreadcrumb v-for="(section, index) in sections"
+			v-show="shouldShowBreadcrumbs"
 			:key="section.dir"
 			v-bind="section"
 			dir="auto"
 			:to="section.to"
+			:force-icon-text="true"
 			:title="titleForSection(index, section)"
 			:aria-description="ariaForSection(section)"
 			@click.native="onClick(section.to)">
 			<template v-if="index === 0" #icon>
-				<Home :size="20"/>
+				<NcIconSvgWrapper :size="20"
+					:svg="viewIcon" />
 			</template>
 		</NcBreadcrumb>
 
@@ -50,21 +53,24 @@ import type { Node } from '@nextcloud/files'
 
 import { translate as t} from '@nextcloud/l10n'
 import { basename } from 'path'
-import Home from 'vue-material-design-icons/Home.vue'
+import homeSvg from '@mdi/svg/svg/home.svg?raw'
 import NcBreadcrumb from '@nextcloud/vue/dist/Components/NcBreadcrumb.js'
 import NcBreadcrumbs from '@nextcloud/vue/dist/Components/NcBreadcrumbs.js'
+import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
 import { defineComponent } from 'vue'
 
 import { useFilesStore } from '../store/files.ts'
 import { usePathsStore } from '../store/paths.ts'
+import { useUploaderStore } from '../store/uploader.ts'
+import filesListWidthMixin from '../mixins/filesListWidth.ts'
 
 export default defineComponent({
 	name: 'BreadCrumbs',
 
 	components: {
-		Home,
 		NcBreadcrumbs,
 		NcBreadcrumb,
+		NcIconSvgWrapper,
 	},
 
 	props: {
@@ -74,12 +80,19 @@ export default defineComponent({
 		},
 	},
 
+	mixins: [
+		filesListWidthMixin,
+	],
+
 	setup() {
 		const filesStore = useFilesStore()
 		const pathsStore = usePathsStore()
+		const uploaderStore = useUploaderStore()
+
 		return {
 			filesStore,
 			pathsStore,
+			uploaderStore,
 		}
 	},
 
@@ -108,6 +121,20 @@ export default defineComponent({
 				}
 			})
 		},
+
+		isUploadInProgress(): boolean {
+			return this.uploaderStore.queue.length !== 0
+		},
+
+		// Hide breadcrumbs if an upload is ongoing on arrow screens
+		shouldShowBreadcrumbs(): boolean {
+			return this.filesListWidth > 768 && !this.isUploadInProgress
+		},
+
+		// used to show the views icon for the first breadcrumb
+		viewIcon(): string {
+			return this.currentView?.icon ?? homeSvg
+		}
 	},
 
 	methods: {
@@ -119,7 +146,7 @@ export default defineComponent({
 		},
 		getDirDisplayName(path: string): string {
 			if (path === '/') {
-				return t('files', 'Home')
+				return this.$navigation?.active?.name || t('files', 'Home')
 			}
 
 			const fileId: number | undefined = this.getFileIdFromPath(path)

@@ -7,9 +7,9 @@ OC.L10N.register(
     "Could not add server" : "Impossibile adder le servitor",
     "Trusted servers" : "Servitores fiduciari",
     "Federation" : "Federation",
-    "Federation allows you to connect with other trusted servers to exchange the user directory. For example this will be used to auto-complete external users for federated sharing." : "Le federation permitte te connecter con altere servitores fiduciari pro excambiar le directorio del usator. Per exemplo, iste attributo essera usate pro completar automaticamente usatores externe pro le compartimento federate.",
     "+ Add trusted server" : "+ Adder servitor fiduciari",
     "Trusted server" : "Servitor fiduciari",
-    "Add" : "Adder"
+    "Add" : "Adder",
+    "Federation allows you to connect with other trusted servers to exchange the user directory. For example this will be used to auto-complete external users for federated sharing." : "Le federation permitte te connecter con altere servitores fiduciari pro excambiar le directorio del usator. Per exemplo, iste attributo essera usate pro completar automaticamente usatores externe pro le compartimento federate."
 },
 "nplurals=2; plural=(n != 1);");

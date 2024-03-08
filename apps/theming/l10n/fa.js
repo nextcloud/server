@@ -21,8 +21,6 @@ OC.L10N.register(
     "Could not write file to disk" : "نتوانست پرونده را روی دیسک بنویسد",
     "A PHP extension stopped the file upload" : "یک افزونهٔ پی‌اچ‌پی بارگذاری پرونده را متوقّف کرد",
     "No file uploaded" : "هیچ پرونده‌ای بارگذاری نشد",
-    "Failed to clean up the old administration theming images folder" : "Failed to clean up the old administration theming images folder",
-    "Failed to clean up the old administration image folder" : "Failed to clean up the old administration image folder",
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "هم‌اکنون در حال استفاده از یک زمینهٔ شخصی هستید. ممکن است تنظمیات کارهٔ زمینش به دستش پایکال شوند.",
     "Theming" : "زمینش",
     "Appearance and accessibility" : "ظاهر و دسترسی‌پذیری",
@@ -88,6 +86,8 @@ OC.L10N.register(
     "Reset to default" : "بازنشانی به پیش‌گزیده",
     "Upload" : "بارگذاری",
     "Remove background image" : "برداشتن تصویر پس‌زمینه",
+    "Failed to clean up the old administration theming images folder" : "Failed to clean up the old administration theming images folder",
+    "Failed to clean up the old administration image folder" : "Failed to clean up the old administration image folder",
     "Select a custom color" : "گزینش رنگی شخصی"
 },
 "nplurals=2; plural=(n > 1);");

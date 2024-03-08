@@ -30,10 +30,14 @@ namespace OCA\DAV\Tests\unit\CalDAV;
 use OC\KnownUser\KnownUserService;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\Proxy\ProxyMapper;
+use OCA\DAV\CalDAV\Sharing\Backend as SharingBackend;
+use OCA\DAV\CalDAV\Sharing\Service;
 use OCA\DAV\Connector\Sabre\Principal;
+use OCA\DAV\DAV\Sharing\SharingMapper;
 use OCP\Accounts\IAccountManager;
 use OCP\App\IAppManager;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IUserManager;
@@ -56,26 +60,16 @@ use Test\TestCase;
  */
 abstract class AbstractCalDavBackend extends TestCase {
 
-	/** @var CalDavBackend */
-	protected $backend;
 
-	/** @var Principal | MockObject */
-	protected $principal;
-	/** @var IUserManager|MockObject */
-	protected $userManager;
-	/** @var IGroupManager|MockObject */
-	protected $groupManager;
-	/** @var IEventDispatcher|MockObject */
-	protected $dispatcher;
-
-
-	/** @var IConfig | MockObject */
-	private $config;
-	/** @var ISecureRandom */
-	private $random;
-	/** @var LoggerInterface*/
-	private $logger;
-
+	protected CalDavBackend $backend;
+	protected Principal|MockObject $principal;
+	protected IUserManager|MockObject $userManager;
+	protected IGroupManager|MockObject $groupManager;
+	protected IEventDispatcher|MockObject $dispatcher;
+	private LoggerInterface|MockObject $logger;
+	private IConfig|MockObject $config;
+	private ISecureRandom $random;
+	protected SharingBackend $sharingBackend;
 	public const UNIT_TEST_USER = 'principals/users/caldav-unit-test';
 	public const UNIT_TEST_USER1 = 'principals/users/caldav-unit-test1';
 	public const UNIT_TEST_GROUP = 'principals/groups/caldav-unit-test-group';
@@ -100,7 +94,7 @@ abstract class AbstractCalDavBackend extends TestCase {
 				$this->createMock(IConfig::class),
 				$this->createMock(IFactory::class)
 			])
-			->setMethods(['getPrincipalByPath', 'getGroupMembership'])
+			->setMethods(['getPrincipalByPath', 'getGroupMembership', 'findByUri'])
 			->getMock();
 		$this->principal->expects($this->any())->method('getPrincipalByPath')
 			->willReturn([
@@ -115,15 +109,23 @@ abstract class AbstractCalDavBackend extends TestCase {
 		$this->random = \OC::$server->getSecureRandom();
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->config = $this->createMock(IConfig::class);
+		$this->sharingBackend = new SharingBackend(
+			$this->userManager,
+			$this->groupManager,
+			$this->principal,
+			$this->createMock(ICacheFactory::class),
+			new Service(new SharingMapper($db)),
+			$this->logger);
 		$this->backend = new CalDavBackend(
 			$db,
 			$this->principal,
 			$this->userManager,
-			$this->groupManager,
 			$this->random,
 			$this->logger,
 			$this->dispatcher,
-			$this->config
+			$this->config,
+			$this->sharingBackend,
+			false,
 		);
 
 		$this->cleanUpBackend();

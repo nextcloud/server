@@ -80,7 +80,7 @@ export default () => {
 		emptyCaption: t('files', 'Files and folders you mark as favorite will show up here'),
 
 		icon: StarSvg,
-		order: 5,
+		order: 15,
 
 		columns: [],
 

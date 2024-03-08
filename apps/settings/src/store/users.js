@@ -27,12 +27,13 @@
  *
  */
 
-import api from './api.js'
-import axios from '@nextcloud/axios'
-import { generateOcsUrl } from '@nextcloud/router'
 import { getCapabilities } from '@nextcloud/capabilities'
-import logger from '../logger.js'
-import { parseFileSize } from "@nextcloud/files"
+import { parseFileSize } from '@nextcloud/files'
+import { generateOcsUrl } from '@nextcloud/router'
+import axios from '@nextcloud/axios'
+
+import api from './api.js'
+import logger from '../logger.ts'
 
 const orderGroups = function(groups, orderBy) {
 	/* const SORT_USERCOUNT = 1;

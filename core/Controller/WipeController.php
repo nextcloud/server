@@ -29,6 +29,7 @@ namespace OC\Core\Controller;
 use OC\Authentication\Token\RemoteWipe;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\FrontpageRoute;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\IRequest;
@@ -58,6 +59,7 @@ class WipeController extends Controller {
 	 * 200: Device should be wiped
 	 * 404: Device should not be wiped
 	 */
+	#[FrontpageRoute(verb: 'POST', url: '/core/wipe/check')]
 	public function checkWipe(string $token): JSONResponse {
 		try {
 			if ($this->remoteWipe->start($token)) {
@@ -89,6 +91,7 @@ class WipeController extends Controller {
 	 * 200: Wipe finished successfully
 	 * 404: Device should not be wiped
 	 */
+	#[FrontpageRoute(verb: 'POST', url: '/core/wipe/success')]
 	public function wipeDone(string $token): JSONResponse {
 		try {
 			if ($this->remoteWipe->finish($token)) {

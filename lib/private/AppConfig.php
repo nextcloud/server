@@ -46,6 +46,7 @@ use OCP\Exceptions\AppConfigUnknownKeyException;
 use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IDBConnection;
+use OCP\Security\ICrypto;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -70,6 +71,8 @@ use Psr\Log\LoggerInterface;
 class AppConfig implements IAppConfig {
 	private const APP_MAX_LENGTH = 32;
 	private const KEY_MAX_LENGTH = 64;
+	private const ENCRYPTION_PREFIX = '$AppConfigEncryption$';
+	private const ENCRYPTION_PREFIX_LENGTH = 21; // strlen(self::ENCRYPTION_PREFIX)
 
 	/** @var array<string, array<string, mixed>> ['app_id' => ['config_key' => 'config_value']] */
 	private array $fastCache = [];   // cache for normal config keys
@@ -92,7 +95,8 @@ class AppConfig implements IAppConfig {
 
 	public function __construct(
 		protected IDBConnection $connection,
-		private LoggerInterface $logger,
+		protected LoggerInterface $logger,
+		protected ICrypto $crypto,
 	) {
 	}
 
@@ -204,18 +208,23 @@ class AppConfig implements IAppConfig {
 	 * @inheritDoc
 	 *
 	 * @param string $app id of the app
-	 * @param string $key config keys prefix to search
+	 * @param string $prefix config keys prefix to search
 	 * @param bool $filtered TRUE to hide sensitive config values. Value are replaced by {@see IConfig::SENSITIVE_VALUE}
 	 *
 	 * @return array<string, string> [configKey => configValue]
 	 * @since 29.0.0
 	 */
-	public function getAllValues(string $app, string $key = '', bool $filtered = false): array {
-		$this->assertParams($app, $key);
+	public function getAllValues(string $app, string $prefix = '', bool $filtered = false): array {
+		$this->assertParams($app, $prefix);
 		// if we want to filter values, we need to get sensitivity
 		$this->loadConfigAll();
 		// array_merge() will remove numeric keys (here config keys), so addition arrays instead
-		$values = ($this->fastCache[$app] ?? []) + ($this->lazyCache[$app] ?? []);
+		$values = array_filter(
+			(($this->fastCache[$app] ?? []) + ($this->lazyCache[$app] ?? [])),
+			function (string $key) use ($prefix): bool {
+				return str_starts_with($key, $prefix); // filter values based on $prefix
+			}, ARRAY_FILTER_USE_KEY
+		);
 
 		if (!$filtered) {
 			return $values;
@@ -464,12 +473,26 @@ class AppConfig implements IAppConfig {
 
 		/**
 		 * - the pair $app/$key cannot exist in both array,
-		 * - we should still returns an existing non-lazy value even if current method
+		 * - we should still return an existing non-lazy value even if current method
 		 *   is called with $lazy is true
 		 *
 		 * This way, lazyCache will be empty until the load for lazy config value is requested.
 		 */
-		return $this->lazyCache[$app][$key] ?? $this->fastCache[$app][$key] ?? $default;
+		if (isset($this->lazyCache[$app][$key])) {
+			$value = $this->lazyCache[$app][$key];
+		} elseif (isset($this->fastCache[$app][$key])) {
+			$value = $this->fastCache[$app][$key];
+		} else {
+			return $default;
+		}
+
+		$sensitive = $this->isTyped(self::VALUE_SENSITIVE, $knownType);
+		if ($sensitive && str_starts_with($value, self::ENCRYPTION_PREFIX)) {
+			// Only decrypt values that are stored encrypted
+			$value = $this->crypto->decrypt(substr($value, self::ENCRYPTION_PREFIX_LENGTH));
+		}
+
+		return $value;
 	}
 
 	/**
@@ -737,6 +760,10 @@ class AppConfig implements IAppConfig {
 			return false;
 		}
 
+		if ($sensitive || ($this->hasKey($app, $key, $lazy) && $this->isSensitive($app, $key, $lazy))) {
+			$value = self::ENCRYPTION_PREFIX . $this->crypto->encrypt($value);
+		}
+
 		$refreshCache = false;
 		$insert = $this->connection->getQueryBuilder();
 		$insert->insert('appconfig')
@@ -784,7 +811,7 @@ class AppConfig implements IAppConfig {
 
 			// we fix $type if the stored value, or the new value as it might be changed, is set as sensitive
 			if ($sensitive || $this->isTyped(self::VALUE_SENSITIVE, $currType)) {
-				$type = $type | self::VALUE_SENSITIVE;
+				$type |= self::VALUE_SENSITIVE;
 			}
 
 			if ($lazy !== $this->isLazy($app, $key)) {
@@ -839,10 +866,6 @@ class AppConfig implements IAppConfig {
 		$this->loadConfigAll();
 		$lazy = $this->isLazy($app, $key);
 
-		if (!$this->hasKey($app, $key, $lazy)) {
-			throw new AppConfigUnknownKeyException('Unknown config key');
-		}
-
 		// type can only be one type
 		if (!in_array($type, [self::VALUE_MIXED, self::VALUE_STRING, self::VALUE_INT, self::VALUE_FLOAT, self::VALUE_BOOL, self::VALUE_ARRAY])) {
 			throw new AppConfigIncorrectTypeException('Unknown value type');
@@ -892,18 +915,34 @@ class AppConfig implements IAppConfig {
 			return false;
 		}
 
+		$lazy = $this->isLazy($app, $key);
+		if ($lazy) {
+			$cache = $this->lazyCache;
+		} else {
+			$cache = $this->fastCache;
+		}
+
+		if (!isset($cache[$app][$key])) {
+			throw new AppConfigUnknownKeyException('unknown config key');
+		}
+
 		/**
 		 * type returned by getValueType() is already cleaned from sensitive flag
 		 * we just need to update it based on $sensitive and store it in database
 		 */
 		$type = $this->getValueType($app, $key);
+		$value = $cache[$app][$key];
 		if ($sensitive) {
-			$type = $type | self::VALUE_SENSITIVE;
+			$type |= self::VALUE_SENSITIVE;
+			$value = self::ENCRYPTION_PREFIX . $this->crypto->encrypt($value);
+		} else {
+			$value = $this->crypto->decrypt(substr($value, self::ENCRYPTION_PREFIX_LENGTH));
 		}
 
 		$update = $this->connection->getQueryBuilder();
 		$update->update('appconfig')
 			   ->set('type', $update->createNamedParameter($type, IQueryBuilder::PARAM_INT))
+			   ->set('configvalue', $update->createNamedParameter($value))
 			   ->where($update->expr()->eq('appid', $update->createNamedParameter($app)))
 			   ->andWhere($update->expr()->eq('configkey', $update->createNamedParameter($key)));
 		$update->executeStatement();
@@ -1159,6 +1198,10 @@ class AppConfig implements IAppConfig {
 			return;
 		}
 
+		if (($lazy ?? true) !== false) { // if lazy is null or true, we debug log
+			$this->logger->debug('The loading of lazy AppConfig values have been requested', ['exception' => new \RuntimeException('ignorable exception')]);
+		}
+
 		$qb = $this->connection->getQueryBuilder();
 		$qb->from('appconfig');
 
@@ -1305,7 +1348,7 @@ class AppConfig implements IAppConfig {
 	 * @param string|false $key
 	 *
 	 * @return array|false
-	 * @deprecated 29.0.0 use getAllValues()
+	 * @deprecated 29.0.0 use {@see getAllValues()}
 	 */
 	public function getValues($app, $key) {
 		if (($app !== false) === ($key !== false)) {
@@ -1326,7 +1369,7 @@ class AppConfig implements IAppConfig {
 	 * @param string $app
 	 *
 	 * @return array
-	 * @deprecated 29.0.0 use getAllValues()
+	 * @deprecated 29.0.0 use {@see getAllValues()}
 	 */
 	public function getFilteredValues($app) {
 		return $this->getAllValues($app, filtered: true);

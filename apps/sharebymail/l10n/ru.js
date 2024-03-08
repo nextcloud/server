@@ -14,7 +14,7 @@ OC.L10N.register(
     "Password to access {file} was sent to {email}" : "Пароль для доступа к «{file}» был отправлен на адрес {email}",
     "Password to access {file} was sent to you" : "Вам был отправлен пароль для доступа к «{file}»",
     "Share by mail" : "Поделиться по почте",
-    "Sharing %1$s failed, because this item is already shared with user %2$s" : "Не удалось предоставить доступ к %1$s, так как этот ресурс уже доступен пользователю %2$s",
+    "Sharing %1$s failed, because this item is already shared with the account %2$s" : "Не удалось предоставить доступ к %1$s, так как этот ресурс уже доступен пользователю %2$s",
     "We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Мы не можем отправить вам автоматически сгенерированный пароль. Укажите действующий адрес электронной почты в личных настройках и повторите попытку.",
     "Failed to send share by email. Got an invalid email address" : "Не удалось отправить ссылку общего доступа по электронной почте. Получен неверный адрес электронной почты",
     "Failed to send share by email" : "Не удалось предоставить общий доступ по адресу электронной почты",
@@ -38,9 +38,10 @@ OC.L10N.register(
     "You can choose a different password at any time in the share dialog." : "В любой момент можно выбрать другой пароль в диалоге «Общий доступ».",
     "Could not find share" : "Не удалось найти общий ресурс",
     "Share provider which allows you to share files by mail" : "Приложение для обмена файлами с помощью электронной почты",
-    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Позволяет пользователям делиться персонализированной ссылкой на файл или каталог, указав адрес электронной почты.",
     "Send password by mail" : "Отправлять пароль по электронной почте",
     "Reply to initiator" : "Направлять ответ инициатору",
-    "Unable to update share by mail config" : "Невозможно обновить конфигурацию общего доступа по почте"
+    "Unable to update share by mail config" : "Невозможно обновить конфигурацию общего доступа по почте",
+    "Sharing %1$s failed, because this item is already shared with user %2$s" : "Не удалось предоставить доступ к %1$s, так как этот ресурс уже доступен пользователю %2$s",
+    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Позволяет пользователям делиться персонализированной ссылкой на файл или каталог, указав адрес электронной почты."
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

@@ -26,17 +26,59 @@ namespace OCP\Files\Search;
 
 /**
  * @since 12.0.0
+ *
+ * @psalm-type ParamSingleValue = \DateTime|int|string|bool
+ * @psalm-type ParamValue = ParamSingleValue|list<ParamSingleValue>
  */
 interface ISearchComparison extends ISearchOperator {
+	/**
+	 * @since 12.0.0
+	 */
 	public const COMPARE_EQUAL = 'eq';
-	public const COMPARE_GREATER_THAN = 'gt';
-	public const COMPARE_GREATER_THAN_EQUAL = 'gte';
-	public const COMPARE_LESS_THAN = 'lt';
-	public const COMPARE_LESS_THAN_EQUAL = 'lte';
-	public const COMPARE_LIKE = 'like';
-	public const COMPARE_LIKE_CASE_SENSITIVE = 'clike';
-	public const COMPARE_DEFINED = 'is-defined';
 
+	/**
+	 * @since 12.0.0
+	 */
+	public const COMPARE_GREATER_THAN = 'gt';
+
+	/**
+	 * @since 12.0.0
+	 */
+	public const COMPARE_GREATER_THAN_EQUAL = 'gte';
+
+	/**
+	 * @since 12.0.0
+	 */
+	public const COMPARE_LESS_THAN = 'lt';
+
+	/**
+	 * @since 12.0.0
+	 */
+	public const COMPARE_LESS_THAN_EQUAL = 'lte';
+
+	/**
+	 * @since 12.0.0
+	 */
+	public const COMPARE_LIKE = 'like';
+
+	/**
+	 * @since 23.0.0
+	 */
+	public const COMPARE_LIKE_CASE_SENSITIVE = 'clike';
+
+	/**
+	 * @since 28.0.0
+	 */
+	public const COMPARE_DEFINED = 'is-defined';
+	
+	/**
+	 * @since 29.0.0
+	 */
+	public const COMPARE_IN = 'in';
+
+	/**
+	 * @since 23.0.0
+	 */
 	public const HINT_PATH_EQ_HASH = 'path_eq_hash'; // transform `path = "$path"` into `path_hash = md5("$path")`, on by default
 
 	/**
@@ -68,8 +110,8 @@ interface ISearchComparison extends ISearchOperator {
 	/**
 	 * Get the value to compare the field with
 	 *
-	 * @return string|integer|bool|\DateTime
+	 * @return ParamValue
 	 * @since 12.0.0
 	 */
-	public function getValue(): string|int|bool|\DateTime;
+	public function getValue(): string|int|bool|\DateTime|array;
 }

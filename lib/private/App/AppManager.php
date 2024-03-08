@@ -56,6 +56,7 @@ use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IGroupManager;
+use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Settings\IManager as ISettingsManager;
@@ -73,14 +74,6 @@ class AppManager implements IAppManager {
 		'logging',
 		'prevent_group_restriction',
 	];
-
-	private IUserSession $userSession;
-	private IConfig $config;
-	private AppConfig $appConfig;
-	private IGroupManager $groupManager;
-	private ICacheFactory $memCacheFactory;
-	private IEventDispatcher $dispatcher;
-	private LoggerInterface $logger;
 
 	/** @var string[] $appId => $enabled */
 	private array $installedAppsCache = [];
@@ -104,20 +97,30 @@ class AppManager implements IAppManager {
 	/** @var array<string, true> */
 	private array $loadedApps = [];
 
-	public function __construct(IUserSession $userSession,
-		IConfig $config,
-		AppConfig $appConfig,
-		IGroupManager $groupManager,
-		ICacheFactory $memCacheFactory,
-		IEventDispatcher $dispatcher,
-		LoggerInterface $logger) {
-		$this->userSession = $userSession;
-		$this->config = $config;
-		$this->appConfig = $appConfig;
-		$this->groupManager = $groupManager;
-		$this->memCacheFactory = $memCacheFactory;
-		$this->dispatcher = $dispatcher;
-		$this->logger = $logger;
+	public function __construct(
+		private IUserSession $userSession,
+		private IConfig $config,
+		private AppConfig $appConfig,
+		private IGroupManager $groupManager,
+		private ICacheFactory $memCacheFactory,
+		private IEventDispatcher $dispatcher,
+		private LoggerInterface $logger,
+		private IURLGenerator $urlGenerator,
+	) {
+	}
+
+	public function getAppIcon(string $appId): ?string {
+		$possibleIcons = [$appId . '.svg', 'app.svg', $appId . '-dark.svg', 'app-dark.svg'];
+		$icon = null;
+		foreach ($possibleIcons as $iconName) {
+			try {
+				$icon = $this->urlGenerator->imagePath($appId, $iconName);
+				break;
+			} catch (\RuntimeException $e) {
+				// ignore
+			}
+		}
+		return $icon;
 	}
 
 	/**

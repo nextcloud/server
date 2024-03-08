@@ -20,10 +20,7 @@
     "Address" : "អាសយដ្ឋាន",
     "Profile picture" : "រូបភាព​ប្រវត្តិរូប",
     "About" : "អំពី",
-    "Unknown user" : "មិនស្គាល់អ្នកប្រើប្រាស់",
     "Oracle connection could not be established" : "មិន​អាច​បង្កើត​ការ​តភ្ជាប់ Oracle",
-    "PostgreSQL username and/or password not valid" : "ឈ្មោះ​អ្នក​ប្រើ និង/ឬ ពាក្យ​សម្ងាត់ PostgreSQL គឺ​មិន​ត្រូវ​ទេ",
-    "Set an admin username." : "កំណត់​ឈ្មោះ​អ្នក​គ្រប់គ្រង។",
     "Set an admin password." : "កំណត់​ពាក្យ​សម្ងាត់​អ្នក​គ្រប់គ្រង។",
     "Could not find category \"%s\"" : "រក​មិន​ឃើញ​ចំណាត់​ក្រុម \"%s\"",
     "Sunday" : "ថ្ងៃអាទិត្យ",
@@ -65,8 +62,11 @@
     "Nov." : "វិច្ឆិកា",
     "Dec." : "ធ្នូ",
     "A valid password must be provided" : "ត្រូវ​ផ្ដល់​ពាក្យ​សម្ងាត់​ឲ្យ​បាន​ត្រឹម​ត្រូវ",
-    "A valid username must be provided" : "ត្រូវ​ផ្ដល់​ឈ្មោះ​អ្នក​ប្រើ​ឲ្យ​បាន​ត្រឹម​ត្រូវ",
     "Application is not enabled" : "មិន​បាន​បើក​កម្មវិធី",
-    "Authentication error" : "កំហុស​ការ​ផ្ទៀង​ផ្ទាត់​ភាព​ត្រឹម​ត្រូវ"
+    "Authentication error" : "កំហុស​ការ​ផ្ទៀង​ផ្ទាត់​ភាព​ត្រឹម​ត្រូវ",
+    "Unknown user" : "មិនស្គាល់អ្នកប្រើប្រាស់",
+    "PostgreSQL username and/or password not valid" : "ឈ្មោះ​អ្នក​ប្រើ និង/ឬ ពាក្យ​សម្ងាត់ PostgreSQL គឺ​មិន​ត្រូវ​ទេ",
+    "Set an admin username." : "កំណត់​ឈ្មោះ​អ្នក​គ្រប់គ្រង។",
+    "A valid username must be provided" : "ត្រូវ​ផ្ដល់​ឈ្មោះ​អ្នក​ប្រើ​ឲ្យ​បាន​ត្រឹម​ត្រូវ"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

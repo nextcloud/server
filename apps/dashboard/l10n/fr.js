@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Dashboard" : "Tableau de bord",
     "Dashboard app" : "App Tableau de bord",
-    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! Users can add the widgets they like and change the background to their liking." : "Commencez votre journée en étant informé\n\nLe tableau de bord Nextcloud est votre point de départ de la journée, vous donnant un aperçu de vos rendez-vous à venir, des emails urgents, des messages de discussion, des tickets entrants, des derniers tweets et bien plus encore ! Les utilisateurs peuvent ajouter les widgets qu'ils souhaitent et changer l'arrière-plan à leur guise.",
     "\"{title} icon\"" : "\"Icône {title}\"",
     "Customize" : "Personnaliser",
     "Edit widgets" : "Modifier les widgets",
@@ -23,6 +22,7 @@ OC.L10N.register(
     "Good evening, {name}" : "Bonsoir {name}",
     "Hello" : "Bonjour",
     "Hello, {name}" : "Bonjour {name}",
-    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an\noverview of your upcoming appointments, urgent emails, chat messages,\nincoming tickets, latest tweets and much more! Users can add the widgets\nthey like and change the background to their liking." : "Commencez votre journée en étant informé\n\nLe tableau de bord Nextcloud est votre point de départ de la journée, vous donnant un\naperçu de vos rendez-vous à venir, des e-mails urgents, des messages de tchat,\ndes tickets entrants, des derniers tweets et bien plus encore ! Les utilisateurs peuvent ajouter les widgets\nqu'ils souhaitent et modifier l'arrière-plan à leur guise."
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an\noverview of your upcoming appointments, urgent emails, chat messages,\nincoming tickets, latest tweets and much more! Users can add the widgets\nthey like and change the background to their liking." : "Commencez votre journée en étant informé\n\nLe tableau de bord Nextcloud est votre point de départ de la journée, vous donnant un\naperçu de vos rendez-vous à venir, des e-mails urgents, des messages de tchat,\ndes tickets entrants, des derniers tweets et bien plus encore ! Les utilisateurs peuvent ajouter les widgets\nqu'ils souhaitent et modifier l'arrière-plan à leur guise.",
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! Users can add the widgets they like and change the background to their liking." : "Commencez votre journée en étant informé\n\nLe tableau de bord Nextcloud est votre point de départ de la journée, vous donnant un aperçu de vos rendez-vous à venir, des emails urgents, des messages de discussion, des tickets entrants, des derniers tweets et bien plus encore ! Les utilisateurs peuvent ajouter les widgets qu'ils souhaitent et changer l'arrière-plan à leur guise."
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

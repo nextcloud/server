@@ -2,7 +2,7 @@ OC.L10N.register(
     "dav",
     {
     "Calendar" : "Egutegia",
-    "To-dos" : "Egitekoak",
+    "Tasks" : "Zereginak",
     "Personal" : "Pertsonala",
     "{actor} created calendar {calendar}" : "{actor}-(e)k sortutako egutegia: {calendar}",
     "You created calendar {calendar}" : "{calendar} egutegia sortu duzu",
@@ -143,7 +143,6 @@ OC.L10N.register(
     "Configures a CalDAV account" : "CalDAV kontu bat konfiguratzen du",
     "Configures a CardDAV account" : "CardDAV kontu bat konfiguratzen du",
     "Events" : "Gertaerak",
-    "Tasks" : "Zereginak",
     "Untitled task" : "Izenik gabeko zeregina",
     "Completed on %s" : "%s-an osatua",
     "Due on %s by %s" : "%s-(e)an epemuga %s-(e)k",
@@ -182,7 +181,6 @@ OC.L10N.register(
     "Saved availability" : "Eskuragarritasuna gorde da",
     "Failed to save availability" : "Ezin izan da eskuragarritasuna gorde",
     "Availability" : "Eskuragarritasuna",
-    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Zure lan orduak konfiguratzen badituzu, beste erabiltzaileek bulegotik kanpo zaudela ikusiko dute bilera bat erreserbatzen dutenean.",
     "Calendar server" : "Egutegi-zerbitzaria",
     "Send invitations to attendees" : "Parte-hartzaileei gonbidapenak bidali",
     "Automatically generate a birthday calendar" : "Automatikoki sortu urtebetetzeen egutegia",
@@ -199,6 +197,8 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Mesedez jarri harremanetan antolatzailearekin zuzenean.",
     "Are you accepting the invitation?" : "Gonbidapena onartzen duzu?",
     "Tentative" : "Behin behinekoa",
-    "Your attendance was updated successfully." : "Zure parte-hartzea ondo eguneratu da."
+    "Your attendance was updated successfully." : "Zure parte-hartzea ondo eguneratu da.",
+    "To-dos" : "Egitekoak",
+    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Zure lan orduak konfiguratzen badituzu, beste erabiltzaileek bulegotik kanpo zaudela ikusiko dute bilera bat erreserbatzen dutenean."
 },
 "nplurals=2; plural=(n != 1);");

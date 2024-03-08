@@ -7,7 +7,6 @@ OC.L10N.register(
     "Error" : "Fout",
     "Weather status" : "Weerstatus",
     "Weather status in your dashboard" : "Weerstatus in je dashboard",
-    "Weather status integrated in the Dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Weerbericht is geïntegreerd in de dashboard app\nDe gebruikerslocatie kan automatisch worden bepaald of handmatig worden ingegeven. Een 6 uurs weersverwachting wordt getoond.\nDeze status kan ook op andere plaatsen worden geïntegreerd zoals in de agenda-app.",
     "Detect location" : "Locatie detecteren",
     "Set custom address" : "Aangepast adres instellen",
     "Favorites" : "Favorieten",
@@ -45,6 +44,7 @@ OC.L10N.register(
     "There was an error setting the location." : "Er is een fout opgetreden bij het vastleggen van de locatie.",
     "There was an error saving the mode." : "Er was een fout in het vastleggen van de modus.",
     "There was an error using personal address." : "Er was een fout bij het gebruiken van je persoonlijke adres.",
-    "Set location for weather" : "Stel je locatie voor het weer in."
+    "Set location for weather" : "Stel je locatie voor het weer in.",
+    "Weather status integrated in the Dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Weerbericht is geïntegreerd in de dashboard app\nDe gebruikerslocatie kan automatisch worden bepaald of handmatig worden ingegeven. Een 6 uurs weersverwachting wordt getoond.\nDeze status kan ook op andere plaatsen worden geïntegreerd zoals in de agenda-app."
 },
 "nplurals=2; plural=(n != 1);");

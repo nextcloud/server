@@ -1,6 +1,6 @@
 { "translations": {
     "Calendar" : "日曆",
-    "To-dos" : "待辦事項",
+    "Tasks" : "工作項目",
     "Personal" : "個人",
     "{actor} created calendar {calendar}" : "{actor} 建立了日曆 {calendar}",
     "You created calendar {calendar}" : "您建立了日曆 {calendar}",
@@ -141,7 +141,6 @@
     "Configures a CalDAV account" : "設定一個 CalDAV 帳號",
     "Configures a CardDAV account" : "設定一個 CardDAV 帳號",
     "Events" : "活動",
-    "Tasks" : "工作項目",
     "Untitled task" : "未命名工作項目",
     "Completed on %s" : "完成於 %s",
     "Due on %s by %s" : "到期於 %s 由 %s",
@@ -169,6 +168,7 @@
     "Delete slot" : "刪除欄位",
     "No working hours set" : "未設定工作時間",
     "Add slot" : "新增欄位",
+    "Weekdays" : "週間",
     "Monday" : "週一",
     "Tuesday" : "週二",
     "Wednesday" : "週三",
@@ -183,7 +183,7 @@
     "Saved availability" : "已儲存可用性",
     "Failed to save availability" : "儲存可用性失敗",
     "Availability" : "可用性",
-    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "若您設定了您的工作時間，其他使用者在預約會議時就會知道您何時不在辦公室。",
+    "If you configure your working hours, other people will see when you are out of office when they book a meeting." : "若您設定了您的工作時間，其他使用者在預約會議時就會知道您何時不在辦公室。",
     "Absence" : "缺席",
     "Configure your next absence period." : "設定您的下一個缺席時段。",
     "Calendar server" : "日曆伺服器",
@@ -202,6 +202,8 @@
     "Please contact the organizer directly." : "請直接聯絡主辦人。",
     "Are you accepting the invitation?" : "您接受邀請嗎？",
     "Tentative" : "暫定",
-    "Your attendance was updated successfully." : "您的參與狀態成功更新。"
+    "Your attendance was updated successfully." : "您的參與狀態成功更新。",
+    "To-dos" : "待辦事項",
+    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "若您設定了您的工作時間，其他使用者在預約會議時就會知道您何時不在辦公室。"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

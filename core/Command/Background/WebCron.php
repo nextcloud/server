@@ -26,7 +26,7 @@
 namespace OC\Core\Command\Background;
 
 class WebCron extends Base {
-	protected function getMode() {
+	protected function getMode(): string {
 		return 'webcron';
 	}
 }

@@ -2,7 +2,7 @@ OC.L10N.register(
     "dav",
     {
     "Calendar" : "التقويم",
-    "To-dos" : "قائمة المهام",
+    "Tasks" : "المهام",
     "Personal" : "شخصي",
     "{actor} created calendar {calendar}" : "{actor} قام بإنشاء تقويم {calendar}",
     "You created calendar {calendar}" : "قمت بإنشاء التقويم {calendar}",
@@ -143,7 +143,6 @@ OC.L10N.register(
     "Configures a CalDAV account" : "تكوين حساب CalDAV",
     "Configures a CardDAV account" : "تكوين حساب CardDAV",
     "Events" : "أحداث",
-    "Tasks" : "المهام",
     "Untitled task" : "مهمة بدون اسم",
     "Completed on %s" : "تمّ الانتهاء منه في %s",
     "Due on %s by %s" : "مطلوبٌ في %s من قِبَل%s",
@@ -171,6 +170,7 @@ OC.L10N.register(
     "Delete slot" : "حذف فُرَضَةٍ slot زمنيّةٍ",
     "No working hours set" : "لم يتم تحديد ساعات العمل",
     "Add slot" : "أضِف فُرَضَةً slot زمنيّةً",
+    "Weekdays" : "أيام الأسبوع",
     "Monday" : "الإثنين",
     "Tuesday" : "الثلاثاء",
     "Wednesday" : "الأربعاء",
@@ -185,7 +185,7 @@ OC.L10N.register(
     "Saved availability" : "تمّ حفظ أوقات التوافر",
     "Failed to save availability" : "إخفاق في حفظ أوقات التواجد",
     "Availability" : "أوقات التواجد availability",
-    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "إذا قمت بتهيئة ساعات العمل الخاصة بك، فسيظهر للمستخدمين الآخرين عندما يحجزون معك موعداً إذا ما كنت في المكتب أو خارجه.",
+    "If you configure your working hours, other people will see when you are out of office when they book a meeting." : "إذا قمت بتعيين إعدادات ساعات عملك، فسيعرف الأشخاص الآخرون متى تكون خارج المكتب عندما يرغبونن في حجز موعد للاجتماع بك.",
     "Absence" : "غياب",
     "Configure your next absence period." : "قٌم بتهيئة فترة غيابك القادمة.",
     "Calendar server" : "خادوم التقويم",
@@ -204,6 +204,8 @@ OC.L10N.register(
     "Please contact the organizer directly." : "رجاءً، تواصل مع المُنظّم أو المُنظّمين مُباشرةً.",
     "Are you accepting the invitation?" : "هل تقبل الدعوة؟",
     "Tentative" : "مبدئي",
-    "Your attendance was updated successfully." : "حضورك تم تحديثه بنجاحٍ"
+    "Your attendance was updated successfully." : "حضورك تم تحديثه بنجاحٍ",
+    "To-dos" : "قائمة المهام",
+    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "إذا قمت بتهيئة ساعات العمل الخاصة بك، فسيظهر للمستخدمين الآخرين عندما يحجزون معك موعداً إذا ما كنت في المكتب أو خارجه."
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

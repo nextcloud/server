@@ -177,6 +177,7 @@
                         "name": "expirationTime",
                         "in": "query",
                         "description": "Duration until the link expires",
+                        "required": true,
                         "schema": {
                             "type": "integer",
                             "format": "int64"
@@ -268,7 +269,7 @@
         "/ocs/v2.php/apps/dav/api/v1/outOfOffice/{userId}/now": {
             "get": {
                 "operationId": "out_of_office-get-current-out-of-office-data",
-                "summary": "Get the currently configured out-of-office data of a user.",
+                "summary": "Get the currently configured out-of-office data of a user",
                 "tags": [
                     "out_of_office"
                 ],

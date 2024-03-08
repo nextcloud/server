@@ -29,6 +29,7 @@ namespace OCA\UserStatus\Controller;
 use OCA\UserStatus\ResponseDefinitions;
 use OCA\UserStatus\Service\PredefinedStatusService;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\ApiRoute;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCSController;
 use OCP\IRequest;
@@ -66,6 +67,7 @@ class PredefinedStatusController extends OCSController {
 	 *
 	 * 200: Predefined statuses returned
 	 */
+	#[ApiRoute(verb: 'GET', url: '/api/v1/predefined_statuses/')]
 	public function findAll():DataResponse {
 		// Filtering out the invisible one, that should only be set by API
 		return new DataResponse(array_filter($this->predefinedStatusService->getDefaultStatuses(), function (array $status) {

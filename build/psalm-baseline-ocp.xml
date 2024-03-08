@@ -37,11 +37,6 @@
       <code>\OC</code>
     </UndefinedClass>
   </file>
-  <file src="lib/public/Cache/CappedMemoryCache.php">
-    <MissingTemplateParam>
-      <code>\ArrayAccess</code>
-    </MissingTemplateParam>
-  </file>
   <file src="lib/public/Defaults.php">
     <UndefinedClass>
       <code>\OC</code>
@@ -65,11 +60,6 @@
     <UndefinedClass>
       <code>\OC</code>
     </UndefinedClass>
-  </file>
-  <file src="lib/public/Files/Cache/ICacheEntry.php">
-    <MissingTemplateParam>
-      <code>ArrayAccess</code>
-    </MissingTemplateParam>
   </file>
   <file src="lib/public/L10N/ILanguageIterator.php">
     <MissingTemplateParam>

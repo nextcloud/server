@@ -48,6 +48,7 @@ OC.L10N.register(
     "Nextcloud workflow engine" : "Služba Nextcloud pre pracovné postupy",
     "Select a filter" : "Vybrať filter",
     "Select a comparator" : "Vybrať porovnávač",
+    "Remove filter" : "Odstrániť filter",
     "Select a file type" : "Vyberte typ súboru",
     "e.g. httpd/unix-directory" : "napr. adresár  httpd/unix",
     "Folder" : "Priečinok",
@@ -66,6 +67,7 @@ OC.L10N.register(
     "Desktop client" : "Desktopový klient",
     "Thunderbird & Outlook addons" : "Doplnky pre Thunderbird a Outlook",
     "Custom user agent" : "Vlastný agent užívateľa",
+    "Select a trigger" : "Vyberte spúšťač",
     "At least one event must be selected" : "Musí byť vybraná aspoň jedna udalosť",
     "Add new flow" : "Pridať nový tok",
     "When" : "Keď",
@@ -108,8 +110,9 @@ OC.L10N.register(
     "between" : "medzi",
     "not between" : "nie je medzi",
     "Request user agent" : "User agent požiadavky",
-    "User group membership" : "Členstvo v skupine používateľov",
+    "Group membership" : "Skupinové členstvo",
     "is member of" : "Je členom",
-    "is not member of" : "Nie je členom"
+    "is not member of" : "Nie je členom",
+    "User group membership" : "Členstvo v skupine používateľov"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

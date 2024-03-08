@@ -22,8 +22,6 @@
     "Could not write file to disk" : "Impossibile scrivere il file su disco",
     "A PHP extension stopped the file upload" : "Un'estensione PHP ha fermato il caricamento del file",
     "No file uploaded" : "Nessun file caricato",
-    "Failed to clean up the old administration theming images folder" : "Impossibile ripulire la vecchia cartella delle immagini dei temi dell'amministrazione",
-    "Failed to clean up the old administration image folder" : "Impossibile ripulire la vecchia cartella delle immagini di amministrazione",
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "Stai già utilizzando un tema personalizzato. Le impostazioni dell'applicazione dei temi potrebbero essere sovrascritte.",
     "Theming" : "Tema",
     "Appearance and accessibility" : "Aspetto e accessibilità",
@@ -107,6 +105,8 @@
     "Reset to default" : "Ripristina valori predefiniti",
     "Upload" : "Carica",
     "Remove background image" : "Rimuovi immagine di sfondo",
+    "Failed to clean up the old administration theming images folder" : "Impossibile ripulire la vecchia cartella delle immagini dei temi dell'amministrazione",
+    "Failed to clean up the old administration image folder" : "Impossibile ripulire la vecchia cartella delle immagini di amministrazione",
     "Select a custom color" : "Seleziona un colore personalizzato"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

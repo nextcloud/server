@@ -55,7 +55,7 @@ import sortBy from 'lodash/fp/sortBy.js'
 
 import AddDevice from './AddDevice.vue'
 import Device from './Device.vue'
-import logger from '../../logger.js'
+import logger from '../../logger.ts'
 import { removeRegistration } from '../../service/WebAuthnRegistrationSerice.js'
 
 const sortByName = sortBy('name')

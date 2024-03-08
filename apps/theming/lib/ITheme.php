@@ -72,6 +72,14 @@ interface ITheme {
 	public function getDescription(): string;
 
 	/**
+	 * Get the meta attribute matching the theme
+	 * e.g. https://html.spec.whatwg.org/multipage/semantics.html#meta-color-scheme
+	 * @return array{name?: string, content?: string}[]
+	 * @since 29.0.0
+	 */
+	public function getMeta(): array;
+
+	/**
 	 * Get the media query triggering this theme
 	 * Optional, ignored if falsy
 	 *

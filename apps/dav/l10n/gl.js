@@ -2,7 +2,7 @@ OC.L10N.register(
     "dav",
     {
     "Calendar" : "Calendario",
-    "To-dos" : "Tarefas pendentes",
+    "Tasks" : "Tarefas",
     "Personal" : "Persoal",
     "{actor} created calendar {calendar}" : "{actor} creou o calendario {calendar}",
     "You created calendar {calendar}" : "Creou o calendario {calendar}",
@@ -143,7 +143,6 @@ OC.L10N.register(
     "Configures a CalDAV account" : "Configurar unha conta de CalDAV",
     "Configures a CardDAV account" : "Configurar unha conta de CardDAV",
     "Events" : "Eventos",
-    "Tasks" : "Tarefas",
     "Untitled task" : "Tarefa sen título",
     "Completed on %s" : "Rematado o %s",
     "Due on %s by %s" : "Caduca o %s por %s",
@@ -185,7 +184,6 @@ OC.L10N.register(
     "Saved availability" : "Dispoñibilidade gardada",
     "Failed to save availability" : "Produciuse un erro ao gardar a dispoñibilidade",
     "Availability" : "Dispoñibilidade",
-    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Se configura o seu horario de traballo, outros usuarios verán cando está fóra da oficina cando reserven unha xuntanza.",
     "Absence" : "Ausencia",
     "Configure your next absence period." : "Configurar o próximo período de ausencia.",
     "Calendar server" : "Servidor do calendario",
@@ -204,6 +202,8 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Contacte directamente co organizador.",
     "Are you accepting the invitation?" : "Acepta Vde. o convite?",
     "Tentative" : "Provisional",
-    "Your attendance was updated successfully." : "A súa asistencia foi actualizada satisfactoriamente."
+    "Your attendance was updated successfully." : "A súa asistencia foi actualizada satisfactoriamente.",
+    "To-dos" : "Tarefas pendentes",
+    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Se configura o seu horario de traballo, outros usuarios verán cando está fóra da oficina cando reserven unha xuntanza."
 },
 "nplurals=2; plural=(n != 1);");

@@ -239,7 +239,7 @@ class Registry implements IRegistry {
 			$notificationManager->notify($notification);
 		}
 
-		$this->logger->warning('The user limit was reached and the new user was not created', ['app' => 'lib']);
+		$this->logger->warning('The account limit was reached and the new account was not created', ['app' => 'lib']);
 	}
 
 	protected function reIssue(): bool {

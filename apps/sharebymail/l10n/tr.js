@@ -14,7 +14,7 @@ OC.L10N.register(
     "Password to access {file} was sent to {email}" : "{file} dosyasına erişim parolası {email} adresine gönderildi",
     "Password to access {file} was sent to you" : "{file} dosyasına erişim parolası size gönderildi",
     "Share by mail" : "E-posta ile paylaşım",
-    "Sharing %1$s failed, because this item is already shared with user %2$s" : "%1$s ögesi %2$s kullanıcısı ile zaten paylaşılmış olduğundan paylaşılamadı",
+    "Sharing %1$s failed, because this item is already shared with the account %2$s" : "%1$s paylaşılamadı. Bu öge zaten %2$s hesabı ile paylaşılmış",
     "We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Otomatik oluşturulan parola size gönderilemedi. Lütfen kişisel ayarlarınızdan geçerli bir e-posta adresi ayarlayın ve yeniden deneyin.",
     "Failed to send share by email. Got an invalid email address" : "Paylaşım e-posta ile gönderilemedi. Bir e-posta adresi geçersiz",
     "Failed to send share by email" : "Paylaşım e-postası gönderilemedi",
@@ -38,9 +38,11 @@ OC.L10N.register(
     "You can choose a different password at any time in the share dialog." : "İstediğiniz zaman paylaşım bölümünden farklı bir parola belirtebilirsiniz.",
     "Could not find share" : "Paylaşım bulunamadı",
     "Share provider which allows you to share files by mail" : "E-posta ile dosya paylaşımı için kullanılacak paylaşım hizmeti sağlayıcısı",
-    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Kullanıcıların bir e-posta adresi yazarak bir dosya ya da klasör için kişisel bir bağlantı paylaşmasını sağlar.",
+    "Allows people to share a personalized link to a file or folder by putting in an email address." : "Kişilerin bir e-posta adresi yazarak bir dosya ya da klasör için kişisel bir bağlantı paylaşmasını sağlar.",
     "Send password by mail" : "Parola e-posta ile gönderilsin",
     "Reply to initiator" : "Başlatan yanıtlansın",
-    "Unable to update share by mail config" : "E-posta ile paylaşım yapılandırması güncellenemedi"
+    "Unable to update share by mail config" : "E-posta ile paylaşım yapılandırması güncellenemedi",
+    "Sharing %1$s failed, because this item is already shared with user %2$s" : "%1$s ögesi %2$s kullanıcısı ile zaten paylaşılmış olduğundan paylaşılamadı",
+    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Kullanıcıların bir e-posta adresi yazarak bir dosya ya da klasör için kişisel bir bağlantı paylaşmasını sağlar."
 },
 "nplurals=2; plural=(n > 1);");

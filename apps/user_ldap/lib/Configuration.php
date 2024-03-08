@@ -35,6 +35,8 @@
  */
 namespace OCA\User_LDAP;
 
+use Psr\Log\LoggerInterface;
+
 /**
  * @property int ldapPagingSize holds an integer
  * @property string ldapUserAvatarRule
@@ -598,7 +600,7 @@ class Configuration {
 			return [strtolower($attribute)];
 		}
 		if ($value !== self::AVATAR_PREFIX_DEFAULT) {
-			\OC::$server->getLogger()->warning('Invalid config value to ldapUserAvatarRule; falling back to default.');
+			\OCP\Server::get(LoggerInterface::class)->warning('Invalid config value to ldapUserAvatarRule; falling back to default.');
 		}
 		return $defaultAttributes;
 	}

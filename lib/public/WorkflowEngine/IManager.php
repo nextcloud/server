@@ -31,7 +31,14 @@ namespace OCP\WorkflowEngine;
  * @since 9.1
  */
 interface IManager {
+	/**
+	 * @since 18.0.0
+	 */
 	public const SCOPE_ADMIN = 0;
+
+	/**
+	 * @since 18.0.0
+	 */
 	public const SCOPE_USER = 1;
 
 	/**

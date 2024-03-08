@@ -2,7 +2,7 @@ OC.L10N.register(
     "dav",
     {
     "Calendar" : "Календар",
-    "To-dos" : "Завдання",
+    "Tasks" : "Завдання",
     "Personal" : "Особисте",
     "{actor} created calendar {calendar}" : "{actor} створив(-ла) календар {calendar}",
     "You created calendar {calendar}" : "Ви створили календар {calendar}",
@@ -143,7 +143,6 @@ OC.L10N.register(
     "Configures a CalDAV account" : "Налаштовує обліковий запис CalDAV",
     "Configures a CardDAV account" : "Налаштовує обліковий запис CardDAV",
     "Events" : "Події",
-    "Tasks" : "Завдання",
     "Untitled task" : "Завдання без назви",
     "Completed on %s" : "Завершено %s",
     "Due on %s by %s" : "До %s з боку %s",
@@ -152,7 +151,7 @@ OC.L10N.register(
     "No outstanding DAV system address book sync." : "Немає незавершеної синхронізації системної адресної книги DAV.",
     "The DAV system address book sync has not run yet as your instance has more than 1000 users or because an error occurred. Please run it manually by calling \"occ dav:sync-system-addressbook\"." : "Синхронізація системної адресної книги DAV ще не запускалася, оскільки, або ваша система вже має понад 1000 користувачів, або сталася помилка. Будь ласка, запустіть синхронізацію вручну за допомогою команди \"occ dav:sync-system-addressbook\".",
     "Migrated calendar (%1$s)" : "Перенесений календар (%1$s)",
-    "Calendars including events, details and attendees" : "Календарі, включаючи події, деталі та відвідувачів",
+    "Calendars including events, details and attendees" : "Календарі, включно з подіями, деталями та відвідувачами",
     "Contacts and groups" : "Контакти та групи",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "Точка доступу WebDAV",
@@ -171,6 +170,7 @@ OC.L10N.register(
     "Delete slot" : "Вилучити діапазон",
     "No working hours set" : "Робочий час не встановлено",
     "Add slot" : "Додати діапазон",
+    "Weekdays" : "Дні тижня",
     "Monday" : "Понеділок",
     "Tuesday" : "Вівторок",
     "Wednesday" : "Середа",
@@ -185,7 +185,7 @@ OC.L10N.register(
     "Saved availability" : "Збережена наявність",
     "Failed to save availability" : "Не вдалося зберегти наявність",
     "Availability" : "Доступність",
-    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Будь ласка, налаштуйте ваш робочий час, щоби інші користувачі могли бачити, коли ви відсутні під час бронювання зустрічей.",
+    "If you configure your working hours, other people will see when you are out of office when they book a meeting." : "Будь ласка, налаштуйте ваші робочі години, щоб інші користувачі могли бачити, коли ви відсутні під час створення зустрічей.",
     "Absence" : "Відсутність",
     "Configure your next absence period." : "Налаштувати проміжки вашої відсутности",
     "Calendar server" : "Календар",
@@ -204,6 +204,8 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Будь-ласка повідомте організатора.",
     "Are you accepting the invitation?" : "Чи приймаєте ви запрошення?",
     "Tentative" : "Попередній",
-    "Your attendance was updated successfully." : "Ваша участь успішно оновлена."
+    "Your attendance was updated successfully." : "Ваша участь успішно оновлена.",
+    "To-dos" : "Завдання",
+    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Будь ласка, налаштуйте ваш робочий час, щоби інші користувачі могли бачити, коли ви відсутні під час бронювання зустрічей."
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

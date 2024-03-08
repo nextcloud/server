@@ -22,8 +22,6 @@
     "Could not write file to disk" : "Không thể ghi tệp lên ổ đĩa",
     "A PHP extension stopped the file upload" : "Một phần mở rộng của PHP đã dừng tải tệp lên",
     "No file uploaded" : "Không có tệp nào được tải lên",
-    "Failed to clean up the old administration theming images folder" : "Không thể dọn sạch thư mục hình ảnh theo chủ đề quản trị cũ",
-    "Failed to clean up the old administration image folder" : "Không thể dọn sạch thư mục hình ảnh quản trị cũ",
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "Bạn đang sử dụng 1 chủ đề riêng. Các thiết lập của ứng dụng Chủ đề có thể bị ghi đè bởi nó.",
     "Theming" : "Điều chỉnh giao diện",
     "Appearance and accessibility" : "Chủ đề",
@@ -106,6 +104,8 @@
     "Reset to default" : "Đặt lại về mặc định",
     "Upload" : "Tải lên",
     "Remove background image" : "Xóa bỏ ảnh nền",
+    "Failed to clean up the old administration theming images folder" : "Không thể dọn sạch thư mục hình ảnh theo chủ đề quản trị cũ",
+    "Failed to clean up the old administration image folder" : "Không thể dọn sạch thư mục hình ảnh quản trị cũ",
     "Select a custom color" : "Chọn màu tùy chỉnh"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

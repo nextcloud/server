@@ -49,23 +49,17 @@ use OCP\FullTextSearch\Model\IDocumentAccess;
  * @package OC\FullTextSearch\Model
  */
 final class DocumentAccess implements IDocumentAccess, JsonSerializable {
-	/** @var string */
-	private $ownerId;
+	private string $ownerId;
 
-	/** @var string */
-	private $viewerId = '';
+	private string $viewerId = '';
 
-	/** @var array */
-	private $users = [];
+	private array $users = [];
 
-	/** @var array */
-	private $groups = [];
+	private array $groups = [];
 
-	/** @var array */
-	private $circles = [];
+	private array $circles = [];
 
-	/** @var array */
-	private $links = [];
+	private array $links = [];
 
 
 	/**
@@ -74,8 +68,6 @@ final class DocumentAccess implements IDocumentAccess, JsonSerializable {
 	 * @since 16.0.0
 	 *
 	 * IDocumentAccess constructor.
-	 *
-	 * @param string $ownerId
 	 */
 	public function __construct(string $ownerId = '') {
 		$this->setOwnerId($ownerId);
@@ -86,10 +78,6 @@ final class DocumentAccess implements IDocumentAccess, JsonSerializable {
 	 * Set the Owner of the document.
 	 *
 	 * @since 16.0.0
-	 *
-	 * @param string $ownerId
-	 *
-	 * @return IDocumentAccess
 	 */
 	public function setOwnerId(string $ownerId): IDocumentAccess {
 		$this->ownerId = $ownerId;
@@ -101,8 +89,6 @@ final class DocumentAccess implements IDocumentAccess, JsonSerializable {
 	 * Get the Owner of the document.
 	 *
 	 * @since 16.0.0
-	 *
-	 * @return string
 	 */
 	public function getOwnerId(): string {
 		return $this->ownerId;
@@ -113,10 +99,6 @@ final class DocumentAccess implements IDocumentAccess, JsonSerializable {
 	 * Set the viewer of the document.
 	 *
 	 * @since 16.0.0
-	 *
-	 * @param string $viewerId
-	 *
-	 * @return IDocumentAccess
 	 */
 	public function setViewerId(string $viewerId): IDocumentAccess {
 		$this->viewerId = $viewerId;
@@ -128,8 +110,6 @@ final class DocumentAccess implements IDocumentAccess, JsonSerializable {
 	 * Get the viewer of the document.
 	 *
 	 * @since 16.0.0
-	 *
-	 * @return string
 	 */
 	public function getViewerId(): string {
 		return $this->viewerId;
@@ -140,10 +120,6 @@ final class DocumentAccess implements IDocumentAccess, JsonSerializable {
 	 * Set the list of users that have read access to the document.
 	 *
 	 * @since 16.0.0
-	 *
-	 * @param array $users
-	 *
-	 * @return IDocumentAccess
 	 */
 	public function setUsers(array $users): IDocumentAccess {
 		$this->users = $users;
@@ -155,10 +131,6 @@ final class DocumentAccess implements IDocumentAccess, JsonSerializable {
 	 * Add an entry to the list of users that have read access to the document.
 	 *
 	 * @since 16.0.0
-	 *
-	 * @param string $user
-	 *
-	 * @return IDocumentAccess
 	 */
 	public function addUser(string $user): IDocumentAccess {
 		$this->users[] = $user;
@@ -171,10 +143,6 @@ final class DocumentAccess implements IDocumentAccess, JsonSerializable {
 	 * document.
 	 *
 	 * @since 16.0.0
-	 *
-	 * @param array $users
-	 *
-	 * @return IDocumentAccess
 	 */
 	public function addUsers($users): IDocumentAccess {
 		$this->users = array_merge($this->users, $users);
@@ -186,8 +154,6 @@ final class DocumentAccess implements IDocumentAccess, JsonSerializable {
 	 * Get the complete list of users that have read access to the document.
 	 *
 	 * @since 16.0.0
-	 *
-	 * @return array
 	 */
 	public function getUsers(): array {
 		return $this->users;
@@ -198,10 +164,6 @@ final class DocumentAccess implements IDocumentAccess, JsonSerializable {
 	 * Set the list of groups that have read access to the document.
 	 *
 	 * @since 16.0.0
-	 *
-	 * @param array $groups
-	 *
-	 * @return IDocumentAccess
 	 */
 	public function setGroups(array $groups): IDocumentAccess {
 		$this->groups = $groups;
@@ -213,10 +175,6 @@ final class DocumentAccess implements IDocumentAccess, JsonSerializable {
 	 * Add an entry to the list of groups that have read access to the document.
 	 *
 	 * @since 16.0.0
-	 *
-	 * @param string $group
-	 *
-	 * @return IDocumentAccess
 	 */
 	public function addGroup(string $group): IDocumentAccess {
 		$this->groups[] = $group;
@@ -229,12 +187,8 @@ final class DocumentAccess implements IDocumentAccess, JsonSerializable {
 	 * document.
 	 *
 	 * @since 16.0.0
-	 *
-	 * @param array $groups
-	 *
-	 * @return IDocumentAccess
 	 */
-	public function addGroups(array $groups) {
+	public function addGroups(array $groups): IDocumentAccess {
 		$this->groups = array_merge($this->groups, $groups);
 
 		return $this;
@@ -244,8 +198,6 @@ final class DocumentAccess implements IDocumentAccess, JsonSerializable {
 	 * Get the complete list of groups that have read access to the document.
 	 *
 	 * @since 16.0.0
-	 *
-	 * @return array
 	 */
 	public function getGroups(): array {
 		return $this->groups;
@@ -256,10 +208,6 @@ final class DocumentAccess implements IDocumentAccess, JsonSerializable {
 	 * Set the list of circles that have read access to the document.
 	 *
 	 * @since 16.0.0
-	 *
-	 * @param array $circles
-	 *
-	 * @return IDocumentAccess
 	 */
 	public function setCircles(array $circles): IDocumentAccess {
 		$this->circles = $circles;
@@ -271,10 +219,6 @@ final class DocumentAccess implements IDocumentAccess, JsonSerializable {
 	 * Add an entry to the list of circles that have read access to the document.
 	 *
 	 * @since 16.0.0
-	 *
-	 * @param string $circle
-	 *
-	 * @return IDocumentAccess
 	 */
 	public function addCircle(string $circle): IDocumentAccess {
 		$this->circles[] = $circle;
@@ -287,10 +231,6 @@ final class DocumentAccess implements IDocumentAccess, JsonSerializable {
 	 * document.
 	 *
 	 * @since 16.0.0
-	 *
-	 * @param array $circles
-	 *
-	 * @return IDocumentAccess
 	 */
 	public function addCircles(array $circles): IDocumentAccess {
 		$this->circles = array_merge($this->circles, $circles);
@@ -302,8 +242,6 @@ final class DocumentAccess implements IDocumentAccess, JsonSerializable {
 	 * Get the complete list of circles that have read access to the document.
 	 *
 	 * @since 16.0.0
-	 *
-	 * @return array
 	 */
 	public function getCircles(): array {
 		return $this->circles;
@@ -314,10 +252,6 @@ final class DocumentAccess implements IDocumentAccess, JsonSerializable {
 	 * Set the list of links that have read access to the document.
 	 *
 	 * @since 16.0.0
-	 *
-	 * @param array $links
-	 *
-	 * @return IDocumentAccess
 	 */
 	public function setLinks(array $links): IDocumentAccess {
 		$this->links = $links;
@@ -329,8 +263,6 @@ final class DocumentAccess implements IDocumentAccess, JsonSerializable {
 	 * Get the list of links that have read access to the document.
 	 *
 	 * @since 16.0.0
-	 *
-	 * @return array
 	 */
 	public function getLinks(): array {
 		return $this->links;
@@ -339,8 +271,6 @@ final class DocumentAccess implements IDocumentAccess, JsonSerializable {
 
 	/**
 	 * @since 16.0.0
-	 *
-	 * @return array
 	 */
 	public function jsonSerialize(): array {
 		return [

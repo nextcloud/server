@@ -14,7 +14,6 @@ OC.L10N.register(
     "Password to access {file} was sent to {email}" : "Envióuselle a {email} un contrasinal para acceder a {file}",
     "Password to access {file} was sent to you" : "Envióuselle a Vde. un correo para acceder a {file}",
     "Share by mail" : "Compartido por correo",
-    "Sharing %1$s failed, because this item is already shared with user %2$s" : "Fallou a compartición de %1$s por mor de que este elemento xa foi compartido co usuario %2$s",
     "We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Non é posíbel enviarlle o contrasinal xerado automaticamente. Estabeleza un enderezo de correo correcto nos seus axustes persoais e ténteo de novo.",
     "Failed to send share by email. Got an invalid email address" : "Produciuse un erro ao enviar a compartición por correo. O enderezo de correo non é válido",
     "Failed to send share by email" : "Produciuse un fallo ao enviar acomparticióno por correo",
@@ -38,9 +37,10 @@ OC.L10N.register(
     "You can choose a different password at any time in the share dialog." : "Pode escoller un contrasinal diferente en calquera momento no diálogo de compartir.",
     "Could not find share" : "Non foi posíbel atopar a compartición",
     "Share provider which allows you to share files by mail" : "Provedor que permite compartirficheiros por correo",
-    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Permite que os usuarios compartan unha ligazón personalizada ou un ficheiro ou cartafol enviándoo a un enderezo de correo.",
     "Send password by mail" : "Enviar contrasinal por correo",
     "Reply to initiator" : "Resposta ao iniciador",
-    "Unable to update share by mail config" : "Non é posíbel actualizar a configuración para compartir por correo"
+    "Unable to update share by mail config" : "Non é posíbel actualizar a configuración para compartir por correo",
+    "Sharing %1$s failed, because this item is already shared with user %2$s" : "Fallou a compartición de %1$s por mor de que este elemento xa foi compartido co usuario %2$s",
+    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Permite que os usuarios compartan unha ligazón personalizada ou un ficheiro ou cartafol enviándoo a un enderezo de correo."
 },
 "nplurals=2; plural=(n != 1);");

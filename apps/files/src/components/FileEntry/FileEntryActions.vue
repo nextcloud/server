@@ -35,7 +35,6 @@
 		<NcActions ref="actionsMenu"
 			:boundaries-element="getBoundariesElement"
 			:container="getBoundariesElement"
-			:disabled="isLoading || loading !== ''"
 			:force-name="true"
 			type="tertiary"
 			:force-menu="enabledInlineActions.length === 0 /* forceMenu only if no inline actions */"
@@ -94,18 +93,20 @@
 </template>
 
 <script lang="ts">
+import type { PropType } from 'vue'
+
 import { DefaultType, FileAction, Node, NodeStatus, View, getFileActions } from '@nextcloud/files'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
-import Vue, { PropType } from 'vue'
 
-import ArrowLeftIcon from 'vue-material-design-icons/ArrowLeft.vue'
-import ChevronRightIcon from 'vue-material-design-icons/ChevronRight.vue'
 import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
 import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
 import NcActionSeparator from '@nextcloud/vue/dist/Components/NcActionSeparator.js'
 import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
 import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
+import ArrowLeftIcon from 'vue-material-design-icons/ArrowLeft.vue'
+import ChevronRightIcon from 'vue-material-design-icons/ChevronRight.vue'
+import Vue from 'vue'
 
 import CustomElementRender from '../CustomElementRender.vue'
 import logger from '../../logger.js'
@@ -272,6 +273,11 @@ export default Vue.extend({
 		},
 
 		async onActionClick(action, isSubmenu = false) {
+			// Skip click on loading
+			if (this.isLoading || this.loading !== '') {
+				return
+			}
+
 			// If the action is a submenu, we open it
 			if (this.enabledSubmenuActions[action.id]) {
 				this.openedSubmenu = action

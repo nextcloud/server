@@ -38,6 +38,7 @@ namespace OCA\Files\Controller;
 use OCA\Files\Activity\Helper;
 use OCA\Files\AppInfo\Application;
 use OCA\Files\Event\LoadAdditionalScriptsEvent;
+use OCA\Files\Event\LoadSearchPlugins;
 use OCA\Files\Event\LoadSidebar;
 use OCA\Files\Service\UserConfig;
 use OCA\Files\Service\ViewConfig;
@@ -113,26 +114,6 @@ class ViewController extends Controller {
 		$this->shareManager = $shareManager;
 		$this->userConfig = $userConfig;
 		$this->viewConfig = $viewConfig;
-	}
-
-	/**
-	 * @param string $appName
-	 * @param string $scriptName
-	 * @return string
-	 */
-	protected function renderScript($appName, $scriptName) {
-		$content = '';
-		$appPath = \OC_App::getAppPath($appName);
-		$scriptPath = $appPath . '/' . $scriptName;
-		if (file_exists($scriptPath)) {
-			// TODO: sanitize path / script name ?
-			ob_start();
-			include $scriptPath;
-			$content = ob_get_contents();
-			@ob_end_clean();
-		}
-
-		return $content;
 	}
 
 	/**
@@ -280,6 +261,7 @@ class ViewController extends Controller {
 		$this->eventDispatcher->dispatchTyped($event);
 		$this->eventDispatcher->dispatchTyped(new ResourcesLoadAdditionalScriptsEvent());
 		$this->eventDispatcher->dispatchTyped(new LoadSidebar());
+		$this->eventDispatcher->dispatchTyped(new LoadSearchPlugins());
 		// Load Viewer scripts
 		if (class_exists(LoadViewer::class)) {
 			$this->eventDispatcher->dispatchTyped(new LoadViewer());
@@ -322,8 +304,7 @@ class ViewController extends Controller {
 
 		$uid = $user->getUID();
 		$userFolder = $this->rootFolder->getUserFolder($uid);
-		$nodes = $userFolder->getById((int) $fileid);
-		$node = array_shift($nodes);
+		$node = $userFolder->getFirstNodeById((int) $fileid);
 
 		if ($node === null) {
 			return;
@@ -363,17 +344,16 @@ class ViewController extends Controller {
 	private function redirectToFileIfInTrashbin($fileId): RedirectResponse {
 		$uid = $this->userSession->getUser()->getUID();
 		$baseFolder = $this->rootFolder->getUserFolder($uid);
-		$nodes = $baseFolder->getById($fileId);
+		$node = $baseFolder->getFirstNodeById($fileId);
 		$params = [];
 
-		if (empty($nodes) && $this->appManager->isEnabledForUser('files_trashbin')) {
+		if (!$node && $this->appManager->isEnabledForUser('files_trashbin')) {
 			/** @var Folder */
 			$baseFolder = $this->rootFolder->get($uid . '/files_trashbin/files/');
-			$nodes = $baseFolder->getById($fileId);
+			$node = $baseFolder->getFirstNodeById($fileId);
 			$params['view'] = 'trashbin';
 
-			if (!empty($nodes)) {
-				$node = current($nodes);
+			if ($node) {
 				$params['fileid'] = $fileId;
 				if ($node instanceof Folder) {
 					// set the full path to enter the folder
@@ -398,7 +378,7 @@ class ViewController extends Controller {
 	private function redirectToFile(int $fileId) {
 		$uid = $this->userSession->getUser()->getUID();
 		$baseFolder = $this->rootFolder->getUserFolder($uid);
-		$nodes = $baseFolder->getById($fileId);
+		$node = $baseFolder->getFirstNodeById($fileId);
 		$params = ['view' => 'files'];
 
 		try {
@@ -406,8 +386,7 @@ class ViewController extends Controller {
 		} catch (NotFoundException $e) {
 		}
 
-		if (!empty($nodes)) {
-			$node = current($nodes);
+		if ($node) {
 			$params['fileid'] = $fileId;
 			if ($node instanceof Folder) {
 				// set the full path to enter the folder

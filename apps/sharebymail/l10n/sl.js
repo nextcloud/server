@@ -14,7 +14,6 @@ OC.L10N.register(
     "Password to access {file} was sent to {email}" : "Geslo za dostop do datoteke {file} je bilo poslano na {email}.",
     "Password to access {file} was sent to you" : "Geslo za dostop do datoteke {file} je bilo poslano vaš elektronski naslov.",
     "Share by mail" : "Souporaba prek elektronske pošte",
-    "Sharing %1$s failed, because this item is already shared with user %2$s" : "Nastavljanje souporabe %1$s je spodletelo, ker je predmet že v souporabi z uporabnikom %2$s.",
     "We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Samodejno ustvarjenega gesla ni mogoče poslati. Najprej je treba nastaviti veljavni elektronski naslov med osebnimi nastavitvami.",
     "Failed to send share by email" : "Pošiljanje povezave po elektronski pošti je spodletelo.",
     "%1$s shared »%2$s« with you" : "%1$s vam omogoča souporabo »%2$s«",
@@ -37,8 +36,9 @@ OC.L10N.register(
     "You can choose a different password at any time in the share dialog." : "Geslo je mogoče kadarkoli spremeniti med nastavitvami souporabe.",
     "Could not find share" : "Mape v souporabi ni mogoče najti",
     "Share provider which allows you to share files by mail" : "Ponudnik souporabe, ki omogoča souporabo datotek prek elektronske pošte",
-    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Dovoli uporabnikom omogočanje souporabe z osebno povezavo na datoteko ali mapo z vpisom elektronskega naslova.",
     "Send password by mail" : "Pošlji geslo po elektronski pošti",
-    "Reply to initiator" : "Odgovori pošiljatelju"
+    "Reply to initiator" : "Odgovori pošiljatelju",
+    "Sharing %1$s failed, because this item is already shared with user %2$s" : "Nastavljanje souporabe %1$s je spodletelo, ker je predmet že v souporabi z uporabnikom %2$s.",
+    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Dovoli uporabnikom omogočanje souporabe z osebno povezavo na datoteko ali mapo z vpisom elektronskega naslova."
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

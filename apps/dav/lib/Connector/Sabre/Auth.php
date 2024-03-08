@@ -75,7 +75,7 @@ class Auth extends AbstractBasic {
 
 		// setup realm
 		$defaults = new \OCP\Defaults();
-		$this->realm = $defaults->getName();
+		$this->realm = $defaults->getName() ?: 'Nextcloud';
 	}
 
 	/**

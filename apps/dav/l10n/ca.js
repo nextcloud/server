@@ -2,7 +2,7 @@ OC.L10N.register(
     "dav",
     {
     "Calendar" : "Calendari",
-    "To-dos" : "Tasques pendents",
+    "Tasks" : "Tasques",
     "Personal" : "Personal",
     "{actor} created calendar {calendar}" : "{actor} ha creat el calendari {calendar}",
     "You created calendar {calendar}" : "Heu creat el calendari {calendar}",
@@ -143,7 +143,6 @@ OC.L10N.register(
     "Configures a CalDAV account" : "Configura un compte CalDAV",
     "Configures a CardDAV account" : "Configura un compte CardDAV",
     "Events" : "Esdeveniments",
-    "Tasks" : "Tasques",
     "Untitled task" : "Tasca sense títol",
     "Completed on %s" : "Completada el %s",
     "Due on %s by %s" : "Venç el %s a les %s",
@@ -171,6 +170,7 @@ OC.L10N.register(
     "Delete slot" : "Suprimeix la franja",
     "No working hours set" : "No s'ha definit cap horari laboral",
     "Add slot" : "Afegeix una franja",
+    "Weekdays" : "Dies de la setmana",
     "Monday" : "Dilluns",
     "Tuesday" : "Dimarts",
     "Wednesday" : "Dimecres",
@@ -185,7 +185,7 @@ OC.L10N.register(
     "Saved availability" : "S'ha desat la disponibilitat",
     "Failed to save availability" : "No s'ha pogut desar la disponibilitat",
     "Availability" : "Disponibilitat",
-    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Si configureu el vostre horari laboral, la resta d'usuaris veuran quan sou fora de l'oficina quan planifiquin una reunió.",
+    "If you configure your working hours, other people will see when you are out of office when they book a meeting." : "Si configureu el vostre horari laboral, la resta de persones veuran quan sou fora de l'oficina quan planifiquin una reunió.",
     "Absence" : "Absència",
     "Configure your next absence period." : "Configureu el pròxim període d'absència.",
     "Calendar server" : "Servidor de calendari",
@@ -204,6 +204,8 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Contacteu amb l'organització directament.",
     "Are you accepting the invitation?" : "Accepteu la invitació?",
     "Tentative" : "Provisional",
-    "Your attendance was updated successfully." : "S'ha actualitzat correctament l'assistència."
+    "Your attendance was updated successfully." : "S'ha actualitzat correctament l'assistència.",
+    "To-dos" : "Tasques pendents",
+    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Si configureu el vostre horari laboral, la resta d'usuaris veuran quan sou fora de l'oficina quan planifiquin una reunió."
 },
 "nplurals=2; plural=(n != 1);");

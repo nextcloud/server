@@ -88,8 +88,17 @@ export default {
 	},
 
 	mounted() {
-		// Warn the user if the available storage is 0 on page load
-		if (this.storageStats?.free <= 0) {
+		// If the user has a quota set, warn if the available account storage is <=0
+		//
+		// NOTE: This doesn't catch situations where actual *server* 
+		// disk (non-quota) space is low, but those should probably
+		// be handled differently anyway since a regular user can't
+		// can't do much about them (If we did want to indicate server disk 
+		// space matters to users, we'd probably want to use a warning
+		// specific to that situation anyhow. So this covers warning covers 
+		// our primary day-to-day concern (individual account quota usage).
+		//
+		if (this.storageStats?.quota > 0 && this.storageStats?.free <= 0) {
 			this.showStorageFullWarning()
 		}
 	},
@@ -122,8 +131,9 @@ export default {
 					throw new Error('Invalid storage stats')
 				}
 
-				// Warn the user if the available storage changed from > 0 to 0
-				if (this.storageStats?.free > 0 && response.data.data?.free <= 0) {
+				// Warn the user if the available account storage changed from > 0 to 0 
+				// (unless only because quota was intentionally set to 0 by admin in the interim)
+				if (this.storageStats?.free > 0 && response.data.data?.free <= 0 && response.data.data?.quota > 0) {
 					this.showStorageFullWarning()
 				}
 

@@ -102,18 +102,10 @@ window.addEventListener('DOMContentLoaded', () => {
 		// run setup checks then gather error messages
 		$.when(
 			OC.SetupChecks.checkWebDAV(),
-			OC.SetupChecks.checkWellKnownUrl('GET', '/.well-known/webfinger', OC.theme.docPlaceholderUrl, $('#postsetupchecks').data('check-wellknown') === true, [200, 404], true),
-			OC.SetupChecks.checkWellKnownUrl('GET', '/.well-known/nodeinfo', OC.theme.docPlaceholderUrl, $('#postsetupchecks').data('check-wellknown') === true, [200, 404], true),
-			OC.SetupChecks.checkWellKnownUrl('PROPFIND', '/.well-known/caldav', OC.theme.docPlaceholderUrl, $('#postsetupchecks').data('check-wellknown') === true),
-			OC.SetupChecks.checkWellKnownUrl('PROPFIND', '/.well-known/carddav', OC.theme.docPlaceholderUrl, $('#postsetupchecks').data('check-wellknown') === true),
-			OC.SetupChecks.checkProviderUrl(OC.getRootPath() + '/ocm-provider/', OC.theme.docPlaceholderUrl, $('#postsetupchecks').data('check-wellknown') === true),
-			OC.SetupChecks.checkProviderUrl(OC.getRootPath() + '/ocs-provider/', OC.theme.docPlaceholderUrl, $('#postsetupchecks').data('check-wellknown') === true),
 			OC.SetupChecks.checkSetup(),
 			OC.SetupChecks.checkGeneric(),
-			OC.SetupChecks.checkWOFF2Loading(OC.filePath('core', '', 'fonts/NotoSans-Regular-latin.woff2'), OC.theme.docPlaceholderUrl),
-			OC.SetupChecks.checkDataProtected(),
-		).then((check1, check2, check3, check4, check5, check6, check7, check8, check9, check10, check11) => {
-			const messages = [].concat(check1, check2, check3, check4, check5, check6, check7, check8, check9, check10, check11)
+		).then((check1, check2, check3) => {
+			const messages = [].concat(check1, check2, check3)
 			const $el = $('#postsetupchecks')
 			$('#security-warning-state-loading').addClass('hidden')
 

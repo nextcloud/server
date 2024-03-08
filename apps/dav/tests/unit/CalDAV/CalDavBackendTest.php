@@ -93,6 +93,9 @@ class CalDavBackendTest extends AbstractCalDavBackend {
 					'href' => 'principal:' . self::UNIT_TEST_GROUP,
 					'readOnly' => true
 				]
+			], [
+				self::UNIT_TEST_USER1,
+				self::UNIT_TEST_GROUP,
 			]],
 			[true, true, true, false, [
 				[
@@ -103,6 +106,9 @@ class CalDavBackendTest extends AbstractCalDavBackend {
 					'href' => 'principal:' . self::UNIT_TEST_GROUP2,
 					'readOnly' => false,
 				],
+			], [
+				self::UNIT_TEST_GROUP,
+				self::UNIT_TEST_GROUP2,
 			]],
 			[true, true, true, true, [
 				[
@@ -113,12 +119,17 @@ class CalDavBackendTest extends AbstractCalDavBackend {
 					'href' => 'principal:' . self::UNIT_TEST_GROUP2,
 					'readOnly' => true,
 				],
+			], [
+				self::UNIT_TEST_GROUP,
+				self::UNIT_TEST_GROUP2,
 			]],
 			[true, false, false, false, [
 				[
 					'href' => 'principal:' . self::UNIT_TEST_USER1,
 					'readOnly' => true
 				],
+			], [
+				self::UNIT_TEST_USER1,
 			]],
 
 		];
@@ -127,27 +138,26 @@ class CalDavBackendTest extends AbstractCalDavBackend {
 	/**
 	 * @dataProvider providesSharingData
 	 */
-	public function testCalendarSharing($userCanRead, $userCanWrite, $groupCanRead, $groupCanWrite, $add): void {
-		/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject $l10n */
+	public function testCalendarSharing($userCanRead, $userCanWrite, $groupCanRead, $groupCanWrite, $add, $principals): void {
+		$logger = $this->createMock(\Psr\Log\LoggerInterface::class);
+		$config = $this->createMock(IConfig::class);
+		/** @var IL10N|MockObject $l10n */
 		$l10n = $this->createMock(IL10N::class);
-		$l10n
-			->expects($this->any())
+		$l10n->expects($this->any())
 			->method('t')
 			->willReturnCallback(function ($text, $parameters = []) {
 				return vsprintf($text, $parameters);
 			});
 
-		$logger = $this->createMock(\Psr\Log\LoggerInterface::class);
-
-		$config = $this->createMock(IConfig::class);
-
 		$this->userManager->expects($this->any())
 			->method('userExists')
 			->willReturn(true);
-
 		$this->groupManager->expects($this->any())
 			->method('groupExists')
 			->willReturn(true);
+		$this->principal->expects(self::atLeastOnce())
+			->method('findByUri')
+			->willReturnOnConsecutiveCalls(...$principals);
 
 		$calendarId = $this->createTestCalendar();
 		$calendars = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER);
@@ -1250,6 +1260,9 @@ EOD;
 		$this->groupManager->expects($this->any())
 			->method('groupExists')
 			->willReturn(true);
+		$this->principal->expects(self::atLeastOnce())
+			->method('findByUri')
+			->willReturn(self::UNIT_TEST_USER);
 
 		$me = self::UNIT_TEST_USER;
 		$sharer = self::UNIT_TEST_USER1;

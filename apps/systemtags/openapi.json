@@ -3,7 +3,7 @@
     "info": {
         "title": "systemtags",
         "version": "0.0.1",
-        "description": "Collaborative tagging functionality which shares tags among users.",
+        "description": "Collaborative tagging functionality which shares tags among people.",
         "license": {
             "name": "agpl"
         }

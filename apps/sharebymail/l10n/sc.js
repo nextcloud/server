@@ -14,8 +14,7 @@ OC.L10N.register(
     "Password to access {file} was sent to {email}" : "Sa crae pro s'atzessu a {file} est istada imbiada a {email}",
     "Password to access {file} was sent to you" : "Sa crae pro s'atzessu a {file} est istada imbiada a tie",
     "Share by mail" : "Cumpartzi tràmite posta eletrònica",
-    "Sharing %1$s failed, because this item is already shared with user %2$s" : "No at fatu a cumpartziree %1$s, ca custu elementu est giai cumpartzidu cun s'utente %2$s",
-    "We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "No faghet a t'imbiare sa crae auto-generada. Imposta un'indiritzu de posta eletrònica bàlidu in is impostatzione personales e torra a proare.",
+    "We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Impossìbile a t'imbiare sa crae auto-generada. Cunfigura un'indiritzu de posta eletrònica bàlidu in sa cunfiguratzione personale e torra a proare.",
     "Failed to send share by email" : "No at fatu a fàghere sa cumpartzidura tràmite posta eletrònica",
     "%1$s shared »%2$s« with you" : "%1$s at cumpartzidu »%2$s cun tegus",
     "%1$s shared »%2$s« with you." : "%1$s at cumpartzidu »%2$s cun tegus.",
@@ -36,8 +35,9 @@ OC.L10N.register(
     "You can choose a different password at any time in the share dialog." : "Podes seberare una crae diferente in ogni momentu in sa ventana de cumpartzidura.",
     "Could not find share" : "No at fatu a agatare sa cumpartzidura",
     "Share provider which allows you to share files by mail" : "Frunidore de cumpartzidura chi ti permitit de cumpartzire archìvios tràmite posta eletrònica",
-    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Permitit a is utentes de cumpartzire unu ligòngiu personalizadu a un'archìviu o cartella insertende un'indiritzu de posta eletrònica.",
     "Send password by mail" : "Imbia crae tràmite posta eletrònica",
-    "Reply to initiator" : "Risponde a chie cumintzat"
+    "Reply to initiator" : "Risponde a chie cumintzat",
+    "Sharing %1$s failed, because this item is already shared with user %2$s" : "No at fatu a cumpartziree %1$s, ca custu elementu est giai cumpartzidu cun s'utente %2$s",
+    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Permitit a is utentes de cumpartzire unu ligòngiu personalizadu a un'archìviu o cartella insertende un'indiritzu de posta eletrònica."
 },
 "nplurals=2; plural=(n != 1);");

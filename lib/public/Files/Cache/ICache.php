@@ -38,9 +38,24 @@ use OCP\Files\Search\ISearchQuery;
  * @since 9.0.0
  */
 interface ICache {
+	/**
+	 * @since 9.0.0
+	 */
 	public const NOT_FOUND = 0;
+
+	/**
+	 * @since 9.0.0
+	 */
 	public const PARTIAL = 1; //only partial data available, file not cached in the database
+
+	/**
+	 * @since 9.0.0
+	 */
 	public const SHALLOW = 2; //folder in cache, but not all child files are completely scanned
+
+	/**
+	 * @since 9.0.0
+	 */
 	public const COMPLETE = 3;
 
 	/**

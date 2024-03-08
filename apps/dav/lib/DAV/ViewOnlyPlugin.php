@@ -24,8 +24,8 @@ namespace OCA\DAV\DAV;
 use OCA\DAV\Connector\Sabre\Exception\Forbidden;
 use OCA\DAV\Connector\Sabre\File as DavFile;
 use OCA\Files_Versions\Sabre\VersionFile;
+use OCP\Files\Folder;
 use OCP\Files\NotFoundException;
-use Psr\Log\LoggerInterface;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\Server;
 use Sabre\DAV\ServerPlugin;
@@ -36,10 +36,12 @@ use Sabre\HTTP\RequestInterface;
  */
 class ViewOnlyPlugin extends ServerPlugin {
 	private ?Server $server = null;
-	private LoggerInterface $logger;
+	private ?Folder $userFolder;
 
-	public function __construct(LoggerInterface $logger) {
-		$this->logger = $logger;
+	public function __construct(
+		?Folder $userFolder,
+	) {
+		$this->userFolder = $userFolder;
 	}
 
 	/**
@@ -76,6 +78,16 @@ class ViewOnlyPlugin extends ServerPlugin {
 				$node = $davNode->getNode();
 			} elseif ($davNode instanceof VersionFile) {
 				$node = $davNode->getVersion()->getSourceFile();
+				$currentUserId = $this->userFolder?->getOwner()?->getUID();
+				// The version source file is relative to the owner storage.
+				// But we need the node from the current user perspective.
+				if ($node->getOwner()->getUID() !== $currentUserId) {
+					$nodes = $this->userFolder->getById($node->getId());
+					$node = array_pop($nodes);
+					if (!$node) {
+						throw new NotFoundException("Version file not accessible by current user");
+					}
+				}
 			} else {
 				return true;
 			}

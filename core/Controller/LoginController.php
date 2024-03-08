@@ -43,6 +43,8 @@ use OC\User\Session;
 use OC_App;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\FrontpageRoute;
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\Attribute\UseSession;
 use OCP\AppFramework\Http\DataResponse;
@@ -61,7 +63,6 @@ use OCP\Notification\IManager;
 use OCP\Security\Bruteforce\IThrottler;
 use OCP\Util;
 
-#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class LoginController extends Controller {
 	public const LOGIN_MSG_INVALIDPASSWORD = 'invalidpassword';
 	public const LOGIN_MSG_USERDISABLED = 'userdisabled';
@@ -91,6 +92,7 @@ class LoginController extends Controller {
 	 * @return RedirectResponse
 	 */
 	#[UseSession]
+	#[FrontpageRoute(verb: 'GET', url: '/logout')]
 	public function logout() {
 		$loginToken = $this->request->getCookie('nc_token');
 		if (!is_null($loginToken)) {
@@ -126,6 +128,8 @@ class LoginController extends Controller {
 	 * @return TemplateResponse|RedirectResponse
 	 */
 	#[UseSession]
+	#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
+	#[FrontpageRoute(verb: 'GET', url: '/login')]
 	public function showLoginForm(string $user = null, string $redirect_url = null): Http\Response {
 		if ($this->userSession->isLoggedIn()) {
 			return new RedirectResponse($this->urlGenerator->linkToDefaultPageUrl());
@@ -274,6 +278,8 @@ class LoginController extends Controller {
 	 * @return RedirectResponse
 	 */
 	#[UseSession]
+	#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
+	#[FrontpageRoute(verb: 'POST', url: '/login')]
 	public function tryLogin(Chain $loginChain,
 		string $user = '',
 		string $password = '',
@@ -352,13 +358,23 @@ class LoginController extends Controller {
 	}
 
 	/**
+	 * Confirm the user password
+	 *
 	 * @NoAdminRequired
 	 * @BruteForceProtection(action=sudo)
 	 *
 	 * @license GNU AGPL version 3 or any later version
 	 *
+	 * @param string $password The password of the user
+	 *
+	 * @return DataResponse<Http::STATUS_OK, array{lastLogin: int}, array{}>|DataResponse<Http::STATUS_FORBIDDEN, array<empty>, array{}>
+	 *
+	 * 200: Password confirmation succeeded
+	 * 403: Password confirmation failed
 	 */
 	#[UseSession]
+	#[NoCSRFRequired]
+	#[FrontpageRoute(verb: 'POST', url: '/login/confirm')]
 	public function confirmPassword(string $password): DataResponse {
 		$loginName = $this->userSession->getLoginName();
 		$loginResult = $this->userManager->checkPassword($loginName, $password);

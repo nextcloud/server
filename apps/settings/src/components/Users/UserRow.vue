@@ -28,7 +28,7 @@
 		:data-cy-user-row="user.id">
 		<td class="row__cell row__cell--avatar" data-cy-user-list-cell-avatar>
 			<NcLoadingIcon v-if="isLoadingUser"
-				:name="t('settings', 'Loading user …')"
+				:name="t('settings', 'Loading account …')"
 				:size="32" />
 			<NcAvatar v-else-if="visible"
 				disable-menu
@@ -87,7 +87,7 @@
 					@trailing-button-click="updatePassword" />
 			</template>
 			<span v-else-if="isObfuscated">
-				{{ t('settings', 'You do not have permissions to see the details of this user') }}
+				{{ t('settings', 'You do not have permissions to see the details of this account') }}
 			</span>
 		</td>
 
@@ -130,7 +130,7 @@
 					:multiple="true"
 					:append-to-body="false"
 					:options="availableGroups"
-					:placeholder="t('settings', 'Add user to group')"
+					:placeholder="t('settings', 'Add account to group')"
 					:taggable="settings.isAdmin"
 					:value="userGroups"
 					label="name"
@@ -152,7 +152,7 @@
 			<template v-if="editing && settings.isAdmin && subAdminsGroups.length > 0">
 				<label class="hidden-visually"
 					:for="'subadmins' + uniqueId">
-					{{ t('settings', 'Set user as admin for') }}
+					{{ t('settings', 'Set account as admin for') }}
 				</label>
 				<NcSelect data-cy-user-list-input-subadmins
 					:data-loading="loading.subadmins || undefined"
@@ -165,7 +165,7 @@
 					:multiple="true"
 					:no-wrap="true"
 					:options="subAdminsGroups"
-					:placeholder="t('settings', 'Set user as admin for')"
+					:placeholder="t('settings', 'Set account as admin for')"
 					:value="userSubAdminsGroups"
 					@option:deselected="removeUserSubAdmin"
 					@option:selected="options => addUserSubAdmin(options.at(-1))" />
@@ -180,7 +180,7 @@
 			<template v-if="editing">
 				<label class="hidden-visually"
 					:for="'quota' + uniqueId">
-					{{ t('settings', 'Select user quota') }}
+					{{ t('settings', 'Select account quota') }}
 				</label>
 				<NcSelect v-model="editedUserQuota"
 					:close-on-select="true"
@@ -193,7 +193,7 @@
 					:clearable="false"
 					:input-id="'quota' + uniqueId"
 					:options="quotaOptions"
-					:placeholder="t('settings', 'Select user quota')"
+					:placeholder="t('settings', 'Select account quota')"
 					:taggable="true"
 					@option:selected="setUserQuota" />
 			</template>
@@ -398,8 +398,8 @@ export default {
 
 	computed: {
 		managerLabel() {
-			// TRANSLATORS This string describes a manager in the context of an organization
-			return t('settings', 'Set user manager')
+			// TRANSLATORS This string describes a person's manager in the context of an organization
+			return t('settings', 'Set line manager')
 		},
 
 		isObfuscated() {
@@ -469,7 +469,7 @@ export default {
 			const actions = [
 				{
 					icon: 'icon-delete',
-					text: t('settings', 'Delete user'),
+					text: t('settings', 'Delete account'),
 					action: this.deleteUser,
 				},
 				{
@@ -479,7 +479,7 @@ export default {
 				},
 				{
 					icon: this.user.enabled ? 'icon-close' : 'icon-add',
-					text: this.user.enabled ? t('settings', 'Disable user') : t('settings', 'Enable user'),
+					text: this.user.enabled ? t('settings', 'Disable account') : t('settings', 'Enable account'),
 					action: this.enableDisableUser,
 				},
 			]
@@ -586,8 +586,8 @@ export default {
 					value: this.currentManager ? this.currentManager.id : '',
 				})
 			} catch (error) {
-				// TRANSLATORS This string describes a manager in the context of an organization
-				showError(t('setting', 'Failed to update user manager'))
+				// TRANSLATORS This string describes a line manager in the context of an organization
+				showError(t('setting', 'Failed to update line manager'))
 				console.error(error)
 			} finally {
 				this.loading.manager = false

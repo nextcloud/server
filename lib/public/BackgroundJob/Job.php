@@ -44,7 +44,6 @@ abstract class Job implements IJob, IParallelAwareJob {
 	protected $argument;
 	protected ITimeFactory $time;
 	protected bool $allowParallelRuns = true;
-	private ?ILogger $logger = null;
 
 	/**
 	 * @since 15.0.0
@@ -56,14 +55,13 @@ abstract class Job implements IJob, IParallelAwareJob {
 	/**
 	 * The function to prepare the execution of the job.
 	 *
-	 *
-	 * @param IJobList $jobList
-	 * @param ILogger|null $logger
+	 * @return void
 	 *
 	 * @since 15.0.0
+	 * @deprecated since 25.0.0 Use start() instead. This method will be removed
+	 * with the ILogger interface
 	 */
-	public function execute(IJobList $jobList, ILogger $logger = null) {
-		$this->logger = $logger;
+	public function execute(IJobList $jobList, ?ILogger $logger = null) {
 		$this->start($jobList);
 	}
 
@@ -73,7 +71,7 @@ abstract class Job implements IJob, IParallelAwareJob {
 	 */
 	public function start(IJobList $jobList): void {
 		$jobList->setLastRun($this);
-		$logger = $this->logger ?? \OCP\Server::get(LoggerInterface::class);
+		$logger = \OCP\Server::get(LoggerInterface::class);
 
 		try {
 			$jobDetails = get_class($this) . ' (id: ' . $this->getId() . ', arguments: ' . json_encode($this->getArgument()) . ')';
@@ -159,6 +157,7 @@ abstract class Job implements IJob, IParallelAwareJob {
 	 * The actual function that is called to run the job
 	 *
 	 * @param $argument
+	 * @return void
 	 *
 	 * @since 15.0.0
 	 */

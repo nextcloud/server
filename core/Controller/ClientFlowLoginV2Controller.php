@@ -33,6 +33,7 @@ use OC\Core\Service\LoginFlowV2Service;
 use OCA\Core\ResponseDefinitions;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\FrontpageRoute;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\Attribute\UseSession;
 use OCP\AppFramework\Http\JSONResponse;
@@ -84,6 +85,7 @@ class ClientFlowLoginV2Controller extends Controller {
 	 * 200: Login flow credentials returned
 	 * 404: Login flow not found or completed
 	 */
+	#[FrontpageRoute(verb: 'POST', url: '/login/v2/poll')]
 	public function poll(string $token): JSONResponse {
 		try {
 			$creds = $this->loginFlowV2Service->poll($token);
@@ -100,6 +102,7 @@ class ClientFlowLoginV2Controller extends Controller {
 	 */
 	#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 	#[UseSession]
+	#[FrontpageRoute(verb: 'GET', url: '/login/v2/flow/{token}')]
 	public function landing(string $token, $user = ''): Response {
 		if (!$this->loginFlowV2Service->startLoginFlow($token)) {
 			return $this->loginTokenForbiddenResponse();
@@ -118,6 +121,7 @@ class ClientFlowLoginV2Controller extends Controller {
 	 */
 	#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 	#[UseSession]
+	#[FrontpageRoute(verb: 'GET', url: '/login/v2/flow')]
 	public function showAuthPickerPage($user = ''): StandaloneTemplateResponse {
 		try {
 			$flow = $this->getFlowByLoginToken();
@@ -152,6 +156,7 @@ class ClientFlowLoginV2Controller extends Controller {
 	 */
 	#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 	#[UseSession]
+	#[FrontpageRoute(verb: 'GET', url: '/login/v2/grant')]
 	public function grantPage(?string $stateToken): StandaloneTemplateResponse {
 		if ($stateToken === null) {
 			return $this->stateTokenMissingResponse();
@@ -187,6 +192,7 @@ class ClientFlowLoginV2Controller extends Controller {
 	/**
 	 * @PublicPage
 	 */
+	#[FrontpageRoute(verb: 'POST', url: '/login/v2/apptoken')]
 	public function apptokenRedirect(?string $stateToken, string $user, string $password) {
 		if ($stateToken === null) {
 			return $this->stateTokenMissingResponse();
@@ -234,6 +240,7 @@ class ClientFlowLoginV2Controller extends Controller {
 	 * @NoAdminRequired
 	 */
 	#[UseSession]
+	#[FrontpageRoute(verb: 'POST', url: '/login/v2/grant')]
 	public function generateAppPassword(?string $stateToken): Response {
 		if ($stateToken === null) {
 			return $this->stateTokenMissingResponse();
@@ -291,6 +298,7 @@ class ClientFlowLoginV2Controller extends Controller {
 	 *
 	 * 200: Login flow init returned
 	 */
+	#[FrontpageRoute(verb: 'POST', url: '/login/v2')]
 	public function init(): JSONResponse {
 		// Get client user agent
 		$userAgent = $this->request->getHeader('USER_AGENT');

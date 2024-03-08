@@ -3,7 +3,7 @@
 		<h2 class="title"><?php p($l->t('Update needed')) ?></h2>
 		<div class="text-left">
 			<?php if ($_['tooBig']) {
-				p($l->t('Please use the command line updater because you have a big instance with more than 50 users.'));
+				p($l->t('Please use the command line updater because you have a big instance with more than 50 accounts.'));
 			} else {
 				p($l->t('Please use the command line updater because updating via browser is disabled in your config.php.'));
 			} ?><br><br>
