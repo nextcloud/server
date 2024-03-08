@@ -92,9 +92,9 @@ class AdminControllerTest extends TestCase {
 			->expects($this->once())
 			->method('getTime')
 			->willReturn(12345);
-		$this->config
+		$this->appConfig
 			->expects($this->once())
-			->method('setAppValue')
+			->method('setValueInt')
 			->with('core', 'updater.secret.created', 12345);
 
 		$expected = new DataResponse('MyGeneratedToken');

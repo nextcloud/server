@@ -57,9 +57,9 @@ class ResetTokenTest extends TestCase {
 			->expects($this->atLeastOnce())
 			->method('getTime')
 			->willReturn(123);
-		$this->config
+		$this->appConfig
 			->expects($this->once())
-			->method('getAppValue')
+			->method('getValueInt')
 			->with('core', 'updater.secret.created', 123);
 		$this->config
 			->expects($this->once())
@@ -75,13 +75,14 @@ class ResetTokenTest extends TestCase {
 
 	public function testRunWithExpiredToken() {
 		$this->timeFactory
-			->expects($this->exactly(2))
-			->method('getTime')
-			->willReturnOnConsecutiveCalls(1455131633, 1455045234);
-		$this->config
 			->expects($this->once())
-			->method('getAppValue')
-			->with('core', 'updater.secret.created', 1455045234);
+			->method('getTime')
+			->willReturn(1455045234);
+		$this->appConfig
+			->expects($this->once())
+			->method('getValueInt')
+			->with('core', 'updater.secret.created', 1455045234)
+			->willReturn(2 * 24 * 60 * 60 + 1); // over 2 days
 		$this->config
 			->expects($this->once())
 			->method('deleteSystemValue')
@@ -94,9 +95,9 @@ class ResetTokenTest extends TestCase {
 		$this->timeFactory
 			->expects($this->never())
 			->method('getTime');
-		$this->config
+		$this->appConfig
 			->expects($this->never())
-			->method('getAppValue');
+			->method('getValueInt');
 		$this->config
 			->expects($this->once())
 			->method('getSystemValueBool')

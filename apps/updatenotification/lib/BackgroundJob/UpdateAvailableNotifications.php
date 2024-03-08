@@ -218,7 +218,8 @@ class UpdateAvailableNotifications extends TimedJob {
 			}
 		}
 
-		return array_unique($this->users);
+		$this->users = array_values(array_unique($this->users));
+		return $this->users;
 	}
 
 	/**
