@@ -46,6 +46,7 @@ use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\PropPatch;
 use Sabre\DAV\Xml\Property\Href;
 use Sabre\DAVACL\IACL;
+use function time;
 
 /**
  * Class CalDavBackendTest
@@ -1344,7 +1345,12 @@ END:VEVENT
 END:VCALENDAR
 EOD;
 		$this->backend->updateCalendarObject($calendarId, $uri, $calData);
-		$deleted = $this->backend->pruneOutdatedSyncTokens(0);
+
+		// Keep everything
+		$deleted = $this->backend->pruneOutdatedSyncTokens(0, 0);
+		self::assertSame(0, $deleted);
+
+		$deleted = $this->backend->pruneOutdatedSyncTokens(0, time());
 		// At least one from the object creation and one from the object update
 		$this->assertGreaterThanOrEqual(2, $deleted);
 		$changes = $this->backend->getChangesForCalendar($calendarId, $syncToken, 1);
@@ -1410,7 +1416,7 @@ EOD;
 		$this->assertEmpty($changes['deleted']);
 
 		// Delete all but last change
-		$deleted = $this->backend->pruneOutdatedSyncTokens(1);
+		$deleted = $this->backend->pruneOutdatedSyncTokens(1, time());
 		$this->assertEquals(1, $deleted); // We had two changes before, now one
 
 		// Only update should remain
@@ -1420,7 +1426,8 @@ EOD;
 		$this->assertEmpty($changes['deleted']);
 
 		// Check that no crash occurs when prune is called without current changes
-		$deleted = $this->backend->pruneOutdatedSyncTokens(1);
+		$deleted = $this->backend->pruneOutdatedSyncTokens(1, time());
+		self::assertSame(0, $deleted);
 	}
 
 	public function testSearchAndExpandRecurrences() {
