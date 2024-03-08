@@ -1,11 +1,10 @@
 <?php
 
 declare(strict_types=1);
-
 /**
- * @copyright Copyright (c) 2020, Roeland Jago Douma <roeland@famdouma.nl>
+ * @copyright 2023 Maxence Lange <maxence@artificial-owl.com>
  *
- * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Maxence Lange <maxence@artificial-owl.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -23,19 +22,13 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-namespace OCP\Files\Events\Node;
 
-use OCP\Exceptions\AbortedEventException;
+namespace OCP\Exceptions;
+
+use Exception;
 
 /**
- * @since 20.0.0
+ * @since 29.0.0
  */
-class BeforeNodeRenamedEvent extends AbstractNodesEvent {
-	/**
-	 * @since 28.0.0
-	 * @deprecated 29.0.0 - use OCP\Exceptions\AbortedEventException instead
-	 */
-	public function abortOperation(\Throwable $ex = null) {
-		throw new AbortedEventException($ex?->getMessage() ?? 'Operation aborted');
-	}
+class AbortedEventException extends Exception {
 }
