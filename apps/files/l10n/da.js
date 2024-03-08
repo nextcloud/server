@@ -220,6 +220,7 @@ OC.L10N.register(
     "Open the files app settings" : "Åbn fil-app indstillinger",
     "Files settings" : "indstillinger for filer",
     "File cannot be accessed" : "Filen kan ikke tilgås",
+    "Open in files" : "Åben i Filer",
     "Sort favorites first" : "Vis favoritter først",
     "Show hidden files" : "Vis skjulte filer",
     "Crop image previews" : "Beskær forhåndsvisninger af billeder",

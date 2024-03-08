@@ -76,7 +76,6 @@ OC.L10N.register(
     "The following apps have been disabled: %s" : "Следеће апликације су искључене: %s",
     "Already up to date" : "Већ је ажурна",
     "Your web server is not yet properly set up to allow file synchronization, because the WebDAV interface seems to be broken." : "Сервер није правилно подешен за синхронизацију фајлова. Изгледа да је ВебДАВ сучеље покварено.",
-    "Your web server is not properly set up to resolve \"{url}\". Further information can be found in the {linkstart}documentation ↗{linkend}." : "Ваш веб сервер није исправно подешен да разреши „{url}”. Више информација можете да пронађете у {linkstart}документацији ↗{linkend}.",
     "Error occurred while checking server setup" : "Дошло је до грешке при провери поставки сервера",
     "For more details see the {linkstart}documentation ↗{linkend}." : "За више детаља погледајте {linkstart}документацију ↗{linkend}.",
     "The \"{header}\" HTTP header is not set to \"{expected}\". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "HTTP заглавље „{header}“ није подешено као „{expected}“. Ово потенцијално угрожава безбедност и приватност и препоручује се да подесите ову поставку.",
@@ -183,7 +182,7 @@ OC.L10N.register(
     "Unified search" : "Обједињена претрага",
     "Search apps, files, tags, messages" : "Претражи апликације, фајлове, ознаке, поруке",
     "Search {types} …" : "Претражи {types}…",
-    "Apps and Settings" : "Апликације и Подешавања",
+    "Places" : "Места",
     "Date" : "Датум",
     "Today" : "Данас",
     "Last 7 days" : "Последњих 7 дана",
@@ -371,6 +370,7 @@ OC.L10N.register(
     "Please try again" : "Молимо вас да покушате поново",
     "The user limit of this instance is reached." : "Достигнута је граница броја корисника ове инстанце.",
     "Enter your subscription key in the support app in order to increase the user limit. This does also grant you all additional benefits that Nextcloud Enterprise offers and is highly recommended for the operation in companies." : "Унестите ваш кључ претплате у апликацију за подршку да бисте увећали границу броја корисника. На овај начин добијате још погодности које нуди Nextcloud Enterprise и топло се препоручује за рад у компанијама.",
+    "Your web server is not properly set up to resolve \"{url}\". Further information can be found in the {linkstart}documentation ↗{linkend}." : "Ваш веб сервер није исправно подешен да разреши „{url}”. Више информација можете да пронађете у {linkstart}документацији ↗{linkend}.",
     "Your web server is not properly set up to resolve \"{url}\". This is most likely related to a web server configuration that was not updated to deliver this folder directly. Please compare your configuration against the shipped rewrite rules in \".htaccess\" for Apache or the provided one in the documentation for Nginx at it's {linkstart}documentation page ↗{linkend}. On Nginx those are typically the lines starting with \"location ~\" that need an update." : "Ваш веб сервер није исправно подешен да разреши „{url}”. Ово је највероватније везано за конфигурацију веб сервера која није ажурирана тако да директно достави овај фолдер. Молимо вас да упоредите своју конфигурацију са оном испорученом уз програм и поново испишите правила у „.htaccess” за Apache, или приложену у документацији за Nginx на његовој {linkstart}страници документације ↗{linkend}. На Nginx су обично линије које почињу са \"location ~\" оне које треба да се преправе.",
     "Your web server is not properly set up to deliver .woff2 files. This is typically an issue with the Nginx configuration. For Nextcloud 15 it needs an adjustement to also deliver .woff2 files. Compare your Nginx configuration to the recommended configuration in our {linkstart}documentation ↗{linkend}." : "Ваш веб сервер није исправно подешен да испоручи .woff2 фајлове. Ово је обично проблем са Nginx конфигурацијом. За Nextcloud 15 је неопходно да се направе измене у конфигурацији како би могли да се испоруче и .woff2 фајлови. Упоредите своју Nginx конфигурацију са препорученом конфигурацијом у нашој {linkstart}документацији ↗{linkend}.",
     "PHP does not seem to be setup properly to query system environment variables. The test with getenv(\"PATH\") only returns an empty response." : "PHP изгледа није исправно подешен да дохвата променљиве окружења. Тест са getenv(\"PATH\") враћа празну листу као одговор.",
@@ -464,6 +464,7 @@ OC.L10N.register(
     "PHP 8.0 is now deprecated in Nextcloud 27. Nextcloud 28 may require at least PHP 8.1. Please upgrade to {linkstart}one of the officially supported PHP versions provided by the PHP Group ↗{linkend} as soon as possible." : "PHP 8.0 је сада застарео у Nextcloud 27. Nextcloud 28 може да захтева барем PHP 8.1. Молимо вас да ажурирате на {linkstart}једну од званично подржаних PHP верзија које обезбеђује PHP Група ↗{linkend} што је пре могуће.",
     "This instance is running in debug mode. Only enable this for local development and not in production environments." : "Ова инстанца се извршава у дибаг режиму. Укључите га само за локални развој, никако у продукционом окружењу.",
     "If this account exists, a password reset message has been sent to its email address. If you do not receive it, verify your email address and/or account name, check your spam/junk folders or ask your local administration for help." : "Ако овај налог постоји, на његову и-мејл адресу је послата порука за ресетовање лозинке. Ако је не примите, потврдите своју и-мејл адресу и/или назив налога, проверите фолдере за нежељену пошту, или потражите помоћ свог локалног администратора.",
-    "Avatar of {fullName}" : "Аватар корисника {fullName}"
+    "Avatar of {fullName}" : "Аватар корисника {fullName}",
+    "Apps and Settings" : "Апликације и Подешавања"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

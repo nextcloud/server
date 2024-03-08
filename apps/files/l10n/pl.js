@@ -220,6 +220,7 @@ OC.L10N.register(
     "Open the files app settings" : "Otwórz ustawienia aplikacji plików",
     "Files settings" : "Ustawienia Plików",
     "File cannot be accessed" : "Nie można uzyskać dostępu do pliku",
+    "Open in files" : "Otwórz w Plikach",
     "Sort favorites first" : "Najpierw sortuj ulubione",
     "Show hidden files" : "Pokaż ukryte pliki",
     "Crop image previews" : "Przytnij podglądy obrazów",

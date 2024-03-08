@@ -72,7 +72,6 @@
     "The following apps have been disabled: %s" : "Eftirfarandi forrit hafa verið gerð óvirk: %s",
     "Already up to date" : "Allt uppfært nú þegar",
     "Your web server is not yet properly set up to allow file synchronization, because the WebDAV interface seems to be broken." : "Vefþjónninn er ekki enn sett upp á réttan hátt til að leyfa skráasamstillingu því WebDAV viðmótið virðist vera skemmt.",
-    "Your web server is not properly set up to resolve \"{url}\". Further information can be found in the {linkstart}documentation ↗{linkend}." : "Vefþjónninn þinn er ekki uppsettur þannig að hann geti leyst \"{url}\". Frekari upplýsingar er að finna í {linkstart}hjálparskjölum ↗{linkend} okkar.",
     "Error occurred while checking server setup" : "Villa kom upp við athugun á uppsetningu þjóns",
     "For more details see the {linkstart}documentation ↗{linkend}." : "Frekari upplýsingar má sjá í {linkstart}hjálparskjölunum ↗{linkend}.",
     "The \"{header}\" HTTP header is not set to \"{expected}\". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "\"{header}\" HTTP-hausinn er ekki stilltur á \"{expected}\". Þetta er möguleg áhætta varðandi  öryggi og gagnaleynd, við mælum með því að laga þessa stillingu.",
@@ -174,7 +173,7 @@
     "Error opening the user status modal, try hard refreshing the page" : "Villa við að opna stöðuglugga notandans, prófaðu að þvinga endurlestur síðunnar",
     "Search apps, files, tags, messages" : "Leita í forritum, skrám, merkjum, skilaboðum",
     "Search {types} …" : "Leita að {types} …",
-    "Apps and Settings" : "Forrit og stillingar",
+    "Places" : "Staðir",
     "Date" : "Dagsetning",
     "Today" : "Í dag",
     "Last 7 days" : "Síðustu 7 daga",
@@ -356,6 +355,7 @@
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Hafðu samband við kerfisstjóra ef þessi skilaboð eru viðvarandi eða birtust óvænt.",
     "Please try again" : "Endilega reyndu aftur",
     "The user limit of this instance is reached." : "Hámarksfjölda notenda á þessu tilviki er náð.",
+    "Your web server is not properly set up to resolve \"{url}\". Further information can be found in the {linkstart}documentation ↗{linkend}." : "Vefþjónninn þinn er ekki uppsettur þannig að hann geti leyst \"{url}\". Frekari upplýsingar er að finna í {linkstart}hjálparskjölum ↗{linkend} okkar.",
     "PHP does not seem to be setup properly to query system environment variables. The test with getenv(\"PATH\") only returns an empty response." : "Það lítur út eins og að PHP sé ekki rétt sett upp varðandi fyrirspurnir um umhverfisbreytur. Prófun með getenv(\"PATH\") skilar auðu svari.",
     "Please check the {linkstart}installation documentation ↗{linkend} for PHP configuration notes and the PHP configuration of your server, especially when using php-fpm." : "Endilega skoðaðu {linkstart}hjálparskjöl uppsetningarinnar ↗{linkend} varðandi athugasemdir vegna uppsetningar PHP og sjálfa uppsetningu PHP-þjónsins, sérstaklega ef þú notar php-fpm.",
     "The read-only config has been enabled. This prevents setting some configurations via the web-interface. Furthermore, the file needs to be made writable manually for every update." : "Skrifvarða stillingaskráin hefur verið virkjuð. Þetta kemur í veg fyrir að hægt sé að sýsla með sumar stillingar í gegnum vefviðmótið. Að auki þarf þessi skrá að vera skrifanleg við hverja uppfærslu.",
@@ -430,6 +430,7 @@
     "Alternative log in using app token" : "Önnur innskráning með forritsteikni",
     "Please use the command line updater because you have a big instance with more than 50 users." : "Endilega notaðu uppfærslutólið af skipanalínu, því þú ert með mjög stóra uppsetningu með fleiri en 50 notendum.",
     "The database is used for transactional file locking. To enhance performance, please configure memcache, if available. See the {linkstart}documentation ↗{linkend} for more information." : "Gagnagrunnurinn er notaður fyrir færslulæsingu skráa. Til að auka afköst ættirðu að setja upp skyndiminni (með memcache) ef það er tiltækt. Skoðaðu {linkstart}hjálparskjölin ↗{linkend} til að sjá nánari upplýsingar.",
-    "Avatar of {fullName}" : "Auðkennismynd fyrir {fullName}"
+    "Avatar of {fullName}" : "Auðkennismynd fyrir {fullName}",
+    "Apps and Settings" : "Forrit og stillingar"
 },"pluralForm" :"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);"
 }

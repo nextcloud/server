@@ -274,7 +274,7 @@ OC.L10N.register(
     "(copy %n)" : "(kopírovať %n)",
     "Move cancelled" : "Presun zrušený",
     "A file or folder with that name already exists in this folder" : "Súbor alebo priečinok s týmto názvom už existuje v tomto priečinku",
-    "The file is locked" : "Súbor je zamknutý.",
+    "The files are locked" : "Súbory sú uzamknuté.",
     "The file does not exist anymore" : "Súbor už neexistuje",
     "Choose destination" : "Vyberte cieľ",
     "Copy to {target}" : "Kopírovať do {target}",

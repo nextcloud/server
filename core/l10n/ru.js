@@ -76,7 +76,6 @@ OC.L10N.register(
     "The following apps have been disabled: %s" : "Были отключены следующие приложения: %s",
     "Already up to date" : "Не нуждается в обновлении",
     "Your web server is not yet properly set up to allow file synchronization, because the WebDAV interface seems to be broken." : "Веб-сервер ещё не настроен должным образом для синхронизации файлов: похоже, что не работоспособен интерфейс WebDAV.",
-    "Your web server is not properly set up to resolve \"{url}\". Further information can be found in the {linkstart}documentation ↗{linkend}." : "Веб-сервер не настроен должным образом для разрешения «{url}». Дополнительная информация представлена в {linkstart}документации ↗{linkend}.",
     "Error occurred while checking server setup" : "Произошла ошибка при проверке настроек сервера",
     "For more details see the {linkstart}documentation ↗{linkend}." : "За дополнительными сведениями обратитесь к {linkstart}документации ↗{linkend}.",
     "The \"{header}\" HTTP header is not set to \"{expected}\". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "Заголовок HTTP «{header}» не настроен на значение «{expected}». Это потенциальная проблема безопасности для устранения которой рекомендуется задать этот параметр.",
@@ -183,7 +182,7 @@ OC.L10N.register(
     "Unified search" : "Объединённый поиск",
     "Search apps, files, tags, messages" : "Поиск приложений, файлов, тегов, сообщений",
     "Search {types} …" : "Поиск {types}…",
-    "Apps and Settings" : "Приложения и настройки",
+    "Places" : "Места",
     "Date" : "Дата",
     "Today" : "Сегодня",
     "Last 7 days" : "Последние 7 дней",
@@ -371,6 +370,7 @@ OC.L10N.register(
     "Please try again" : "Попробуйте ещё раз",
     "The user limit of this instance is reached." : "Достигнут лимит пользователей этого экземпляра",
     "Enter your subscription key in the support app in order to increase the user limit. This does also grant you all additional benefits that Nextcloud Enterprise offers and is highly recommended for the operation in companies." : "Для увеличения лимита пользователей введите код подписки в приложении «Поддержка». Оформление подписки рекомендуется при использовании Nexcloud в бизнесе, а также позволяет получить дополнительные преимущества, предлагаемые Nextcloud для корпоративных пользователей.",
+    "Your web server is not properly set up to resolve \"{url}\". Further information can be found in the {linkstart}documentation ↗{linkend}." : "Веб-сервер не настроен должным образом для разрешения «{url}». Дополнительная информация представлена в {linkstart}документации ↗{linkend}.",
     "Your web server is not properly set up to resolve \"{url}\". This is most likely related to a web server configuration that was not updated to deliver this folder directly. Please compare your configuration against the shipped rewrite rules in \".htaccess\" for Apache or the provided one in the documentation for Nginx at it's {linkstart}documentation page ↗{linkend}. On Nginx those are typically the lines starting with \"location ~\" that need an update." : "Веб-сервер не настроен должным образом для разрешения пути «{url}». Скорее всего, это связано с конфигурацией веб-сервера, которая не была обновлена для непосредственного доступа к этой папке. Сравните свою конфигурацию с поставляемыми правилами перезаписи в файле «.htaccess» для Apache или предоставленными в документации для Nginx на {linkstart}странице документации ↗{linkend}. Для Nginx, как правило, требуется обновить строки, начинающиеся с «location ~».",
     "Your web server is not properly set up to deliver .woff2 files. This is typically an issue with the Nginx configuration. For Nextcloud 15 it needs an adjustement to also deliver .woff2 files. Compare your Nginx configuration to the recommended configuration in our {linkstart}documentation ↗{linkend}." : "Веб-сервер не настроен должным образом для передачи файлов шрифтов в формате .woff2, что необходимо для правильной работы Nextcloud версии 15. Как правило, это  связано с конфигурацией веб-сервера Nginx. Сравните используемую конфигурацию с рекомендуемой конфигурацией из {linkstart}документации ↗{linkend}.",
     "PHP does not seem to be setup properly to query system environment variables. The test with getenv(\"PATH\") only returns an empty response." : "PHP не настроен правильно для получения переменных системного окружения. Запрос getenv(\"PATH\") возвращает пустые результаты.",
@@ -464,6 +464,7 @@ OC.L10N.register(
     "PHP 8.0 is now deprecated in Nextcloud 27. Nextcloud 28 may require at least PHP 8.1. Please upgrade to {linkstart}one of the officially supported PHP versions provided by the PHP Group ↗{linkend} as soon as possible." : "PHP 8.0 теперь устарел в Nextcloud 27. Для Nextcloud 28 может потребоваться как минимум PHP 8.1. Пожалуйста, обновитесь до {linkstart} одной из официально поддерживаемых версий PHP, предоставляемых PHP Group ↗ {linkend} как можно скорее.",
     "This instance is running in debug mode. Only enable this for local development and not in production environments." : "Этот экземпляр запущен в режиме отладки. Включайте его только для локальной разработки, а не в производственных средах.",
     "If this account exists, a password reset message has been sent to its email address. If you do not receive it, verify your email address and/or account name, check your spam/junk folders or ask your local administration for help." : "Если эта учетная запись существует, на ее адрес электронной почты было отправлено сообщение о сбросе пароля. Если вы его не получили, подтвердите свой адрес электронной почты и/или имя учетной записи, проверьте папки со спамом/нежелательной почтой или обратитесь за помощью к Вашему локальному администратору.",
-    "Avatar of {fullName}" : "Изображение профиля {fullName}"
+    "Avatar of {fullName}" : "Изображение профиля {fullName}",
+    "Apps and Settings" : "Приложения и настройки"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

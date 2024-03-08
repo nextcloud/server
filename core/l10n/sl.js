@@ -74,7 +74,6 @@ OC.L10N.register(
     "The following apps have been disabled: %s" : "Zaradi neskladnosti so onemogočeni naslednji programi: %s.",
     "Already up to date" : "Sistem je že posodobljen",
     "Your web server is not yet properly set up to allow file synchronization, because the WebDAV interface seems to be broken." : "Spletni stražnik še ni ustrezno nastavljen in ne omogoča usklajevanja, saj je vmesnik WebDAV videti okvarjen.",
-    "Your web server is not properly set up to resolve \"{url}\". Further information can be found in the {linkstart}documentation ↗{linkend}." : "Spletni strežnik ni ustrezno nastavljen za razreševanje naslova URL »{url}«. Več podrobnosti je zapisanih v {linkstart}dokumentaciji ↗{linkend}.",
     "Error occurred while checking server setup" : "Prišlo je do napake med preverjanjem nastavitev strežnika",
     "For more details see the {linkstart}documentation ↗{linkend}." : "Za več podrobnosti preverite {linkstart}dokumentacijo ↗{linkend}.",
     "The \"{header}\" HTTP header is not set to \"{expected}\". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "Glava HTTP »{header}« ni nastavljena na pričakovano vrednost »{expected}«. To predstavlja potencialno varnostno ali zasebnostno tveganje, zato je priporočljivo prilagoditi nastavitve.",
@@ -176,7 +175,7 @@ OC.L10N.register(
     "Error opening the user status modal, try hard refreshing the page" : "Prišlo je do napake pri odpiranju modalnega okna stanja uporabnika. Napako je mogoče razrešiti z osvežitvijo strani.",
     "Search apps, files, tags, messages" : "Iskanje programov, datotek, nalog in sporočil",
     "Search {types} …" : "Poišči {types} …",
-    "Apps and Settings" : "Programi in nastavive",
+    "Places" : "Mesta",
     "Date" : "Datum",
     "Today" : "enkrat danes",
     "Last 7 days" : "Zadnjih 7 dni",
@@ -360,6 +359,7 @@ OC.L10N.register(
     "Please try again" : "Poskusite znova.",
     "The user limit of this instance is reached." : "Dosežena je količinska omejitev za uporabnika.",
     "Enter your subscription key in the support app in order to increase the user limit. This does also grant you all additional benefits that Nextcloud Enterprise offers and is highly recommended for the operation in companies." : "Vpišite ključ naročila podpornega programa in povečajte omejitev za uporabnika. S tem pridobite tudi vse dodatne ugodnosti, ki jih omogoča Poslovno okolje Nextcloud. Način je zelo priporočljiv za podjatja.",
+    "Your web server is not properly set up to resolve \"{url}\". Further information can be found in the {linkstart}documentation ↗{linkend}." : "Spletni strežnik ni ustrezno nastavljen za razreševanje naslova URL »{url}«. Več podrobnosti je zapisanih v {linkstart}dokumentaciji ↗{linkend}.",
     "Your web server is not properly set up to resolve \"{url}\". This is most likely related to a web server configuration that was not updated to deliver this folder directly. Please compare your configuration against the shipped rewrite rules in \".htaccess\" for Apache or the provided one in the documentation for Nginx at it's {linkstart}documentation page ↗{linkend}. On Nginx those are typically the lines starting with \"location ~\" that need an update." : "Spletni strežnik ni ustrezno nastavljen za razreševanje naslova URL »{url}«. Napaka je najverjetneje povezana z nastavitvami, ki niso bile posodobljene za neposreden dostop do te mape. Primerjajte nastavitve s privzeto različico pravil ».htaccess« za strežnik Apache, ali pa zapis za Nginx, ki je opisan v {linkstart}dokumentaciji ↗{linkend}. Na strežniku Nginx je običajno treba posodobiti vrstice, ki se začnejo z »location ~«.",
     "Your web server is not properly set up to deliver .woff2 files. This is typically an issue with the Nginx configuration. For Nextcloud 15 it needs an adjustement to also deliver .woff2 files. Compare your Nginx configuration to the recommended configuration in our {linkstart}documentation ↗{linkend}." : "Spletni strežnik ni ustrezno nastavljen za obdelavo datotek .wolff2. Običajno je težava v nastavitvah Nginx. Različica Nextcloud 15 zahteva posebno prilagoditev. Primerjajte nastavitve s priporočenimi, kot je to zabeleženo v {linkstart}dokumentaciji ↗{linkend}.",
     "PHP does not seem to be setup properly to query system environment variables. The test with getenv(\"PATH\") only returns an empty response." : "Kaže, da okolje PHP ni ustrezno nastavljeno za poizvedovanje sistemskih spremenljivk. Preizkus z ukazom getegetenv(\"PATH\") vrne le prazen odziv.",
@@ -452,6 +452,7 @@ OC.L10N.register(
     "PHP 8.0 is now deprecated in Nextcloud 27. Nextcloud 28 may require at least PHP 8.1. Please upgrade to {linkstart}one of the officially supported PHP versions provided by the PHP Group ↗{linkend} as soon as possible." : "Podpora PHP 8.0 je z različico programa Nextcloud 27 opuščena. Za okolje Nextcloud 28 bo zahtevana podpora PHP 8.1. Priporočena je nadgradnja na {linkstart}uradno podprte različice PHP, ki jih zagotavlja skupina PHP{linkend}.",
     "This instance is running in debug mode. Only enable this for local development and not in production environments." : "Program je zagnan v načinu za ugotavljanje napak. Možnost je priporočljivo omogočiti le za krajevni razvoj in ne za produkcijska okolja.",
     "If this account exists, a password reset message has been sent to its email address. If you do not receive it, verify your email address and/or account name, check your spam/junk folders or ask your local administration for help." : "Če račun obstaja, bo na elektronski naslov poslano sporočilo za ponastavitev gesla. Če ne prispe, preverite naslov, poglejte med neželeno pošte oziroma stopite v stik s skrbnikom sistema.",
-    "Avatar of {fullName}" : "Podoba osebe {fullName}"
+    "Avatar of {fullName}" : "Podoba osebe {fullName}",
+    "Apps and Settings" : "Programi in nastavive"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");
