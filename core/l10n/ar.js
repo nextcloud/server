@@ -76,7 +76,6 @@ OC.L10N.register(
     "The following apps have been disabled: %s" : "التطبيقات التاليه غير مفعله: %s",
     "Already up to date" : "محدّثة مسبقاً",
     "Your web server is not yet properly set up to allow file synchronization, because the WebDAV interface seems to be broken." : " لم يتم تعيين السماح لخادمك السحابي بتزامن الملف، بسبب واجهة التأليف الموزع على الويب وتعيين الإصدار WebDAV غير متصلة.",
-    "Your web server is not properly set up to resolve \"{url}\". Further information can be found in the {linkstart}documentation ↗{linkend}." : " لم يتم ضبط خادمك السحابي لتعيين الكشف عن \"{url}\". للمزيد من التفاصيل يمكن العثور عليها في  {linkstart}مستند  ↗{linkend}.",
     "Error occurred while checking server setup" : "تم العثور على خطأ  اثناء فحص إعدادات الخادم",
     "For more details see the {linkstart}documentation ↗{linkend}." : "للمزيد من التفاصيل، يرجى الإطلاع على {linkstart} الدليل ↗{linkend}.",
     "The \"{header}\" HTTP header is not set to \"{expected}\". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "لم يتم تعيين رأس HTTP \"{header}\" على \"{expected}\". يعد هذا خطرًا محتملاً على الأمان أو الخصوصية ، حيث يوصى بضبط هذا الإعداد وفقًا لذلك.",
@@ -183,7 +182,7 @@ OC.L10N.register(
     "Unified search" : "بحث مُوحَّد",
     "Search apps, files, tags, messages" : "البحث في التطبيقات و الملفات و السِّمات و الرسائل",
     "Search {types} …" : "بحث {types} …",
-    "Apps and Settings" : "التطبيقات و الإعدادات",
+    "Places" : "أماكن",
     "Date" : "Date",
     "Today" : "اليوم",
     "Last 7 days" : "آخر 7 أيام",
@@ -371,6 +370,7 @@ OC.L10N.register(
     "Please try again" : "يرجى إعادة المحاولة",
     "The user limit of this instance is reached." : "وصل المستخدم إلى الحد من هذه النسخة",
     "Enter your subscription key in the support app in order to increase the user limit. This does also grant you all additional benefits that Nextcloud Enterprise offers and is highly recommended for the operation in companies." : "أدخل مفتاح اشتراكك في تطبيق الدعم حتى يتسنى زيادة حد المستخدم. هذا يمنحك مزيداً من المزايا التي توفرها نسخة نكست كلاود المؤسسية و التي يُنصح بها للشركات.",
+    "Your web server is not properly set up to resolve \"{url}\". Further information can be found in the {linkstart}documentation ↗{linkend}." : " لم يتم ضبط خادمك السحابي لتعيين الكشف عن \"{url}\". للمزيد من التفاصيل يمكن العثور عليها في  {linkstart}مستند  ↗{linkend}.",
     "Your web server is not properly set up to resolve \"{url}\". This is most likely related to a web server configuration that was not updated to deliver this folder directly. Please compare your configuration against the shipped rewrite rules in \".htaccess\" for Apache or the provided one in the documentation for Nginx at it's {linkstart}documentation page ↗{linkend}. On Nginx those are typically the lines starting with \"location ~\" that need an update." : " لم يتم ضبط تعيين الكشف عن \"{url}\"في خادمك السحابي. من الغالب يجب تغيير اعدادات الخادم السحابي لعدم توصيل المجلد بشكل مباشر. الرجاء مقارنة إعداداتك مع الإعدادات الإصلية لملف \".htaccess\" لاباتشي أو نجينكس في {linkstart} صفحة التوثيق ↗ {linkend}. في Nginx ، عادةً ما تكون هذه الأسطر التي تبدأ بـ \"location ~\" والتي تحتاج إلى تحديث.",
     "Your web server is not properly set up to deliver .woff2 files. This is typically an issue with the Nginx configuration. For Nextcloud 15 it needs an adjustement to also deliver .woff2 files. Compare your Nginx configuration to the recommended configuration in our {linkstart}documentation ↗{linkend}." : "خادمك السحابي لم يتم ضبطه لـ تعيين توصيل نوع .woff2 من الملفات. بالغالب هذه المشكلة تخص اعدادات نجينكس. لـ نيكست كلاود الاصدار 15 يتم اعادة تنظيم وضبط إعدادات التوصيل لملفات .woff2 .قارن تهيئة Nginx بالتهيئة الموصى بها في وثائق {linkstart} الخاصة بنا ↗ {linkend}.",
     "PHP does not seem to be setup properly to query system environment variables. The test with getenv(\"PATH\") only returns an empty response." : "يبدو أن PHP لم يتم إعدادها بشكل صحيح للاستعلام عن متغيرات بيئة النظام. يقوم الاختبار باستخدام getenv (\"PATH\") بإرجاع استجابة فارغة فقط.",
@@ -464,6 +464,7 @@ OC.L10N.register(
     "PHP 8.0 is now deprecated in Nextcloud 27. Nextcloud 28 may require at least PHP 8.1. Please upgrade to {linkstart}one of the officially supported PHP versions provided by the PHP Group ↗{linkend} as soon as possible." : "النسخة 8.0 من PHP  تمّ نقضها في نكست كلاود 27. نكست كلاود 28 تتطلب النسخة 8.1 من PHP على الأقل. رجاءً قم بالترقية في  {linkstart} إلى نسخ PHP المدعومة ↗{linkend} في أسرع وقت ممكن.",
     "This instance is running in debug mode. Only enable this for local development and not in production environments." : "هذا التطبيق على الخادوم يعمل في وضعية التنقيح debug mode. هذه الوضعية مخصصة فقط لبيئات التطوير و ليس لبيئات العمل الفعلية.",
     "If this account exists, a password reset message has been sent to its email address. If you do not receive it, verify your email address and/or account name, check your spam/junk folders or ask your local administration for help." : "إذا كان هذا الحساب حقيقياً  فإن رسالةَ لطلب إعادة تعيين كلمة السر قد تمّ إرسالها إلى بريده الإلكتروني. طالِع بريدك و تأكد أيضاً من مجلدات البريد غير المرغوب أو اطلب العون من مشرف النظام عندك.",
-    "Avatar of {fullName}" : "صورة رمزية avatar لـ {fullName}"
+    "Avatar of {fullName}" : "صورة رمزية avatar لـ {fullName}",
+    "Apps and Settings" : "التطبيقات و الإعدادات"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

@@ -143,7 +143,6 @@ OC.L10N.register(
     "Change password" : "Cambiar contraseña",
     "Picture provided by original account" : "Imagen proporcionadoa por la cuenta original ",
     "Details" : "Detalles",
-    "Back" : "Volver",
     "No email address set" : "No se ha establecido la dirección de correo electrónico",
     "Help translate" : "Ayude a traducir",
     "Your phone number" : "Su número telefónico",

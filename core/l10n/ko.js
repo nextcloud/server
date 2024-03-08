@@ -76,7 +76,6 @@ OC.L10N.register(
     "The following apps have been disabled: %s" : "다음 앱이 비활성화되었습니다: %s",
     "Already up to date" : "최신 상태임",
     "Your web server is not yet properly set up to allow file synchronization, because the WebDAV interface seems to be broken." : "WebDAV 인터페이스를 사용할 수 없어서 웹 서버에서 파일 동기화를 사용할 수 있도록 설정할 수 없습니다.",
-    "Your web server is not properly set up to resolve \"{url}\". Further information can be found in the {linkstart}documentation ↗{linkend}." : "웹 서버에서 \"{url}\"을(를) 올바르게 처리할 수 없습니다. 더 많은 정보를 보려면  {linkstart}문서 ↗{linkend}를 참고하십시오.",
     "Error occurred while checking server setup" : "서버 설정을 확인하는 중 오류 발생",
     "For more details see the {linkstart}documentation ↗{linkend}." : "더 자세한 사항은 {linkstart}문서 ↗{linkend}를 참조하십시오.",
     "The \"{header}\" HTTP header is not set to \"{expected}\". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "\"{header}\" HTTP 헤더가 \"{expected}\"(으)로 설정되어 있지 않습니다. 잠재적인 정보 유출 및 보안 위협이 될 수 있으므로 설정을 변경하는 것을 추천합니다.",
@@ -183,7 +182,7 @@ OC.L10N.register(
     "Unified search" : "통합검색",
     "Search apps, files, tags, messages" : "앱 및 파일, 태그, 메시지 검색",
     "Search {types} …" : "{types} 검색 ...",
-    "Apps and Settings" : "앱과 설정",
+    "Places" : "장소",
     "Date" : "날짜",
     "Today" : "오늘",
     "Last 7 days" : "지난 7일",
@@ -371,6 +370,7 @@ OC.L10N.register(
     "Please try again" : "다시 시도하세요.",
     "The user limit of this instance is reached." : "이 인스턴스의 사용자 수가 한계에 도달했습니다.",
     "Enter your subscription key in the support app in order to increase the user limit. This does also grant you all additional benefits that Nextcloud Enterprise offers and is highly recommended for the operation in companies." : "지원 앱에 구독키를 입력하여 사용자 수 제한을 상향하십시오. 이는 또한 Nextcloud Enterprise가 제공하는 다양한 혜택을 활성화하며, 기업에서 운용하는 인스턴스에 권장됩니다.",
+    "Your web server is not properly set up to resolve \"{url}\". Further information can be found in the {linkstart}documentation ↗{linkend}." : "웹 서버에서 \"{url}\"을(를) 올바르게 처리할 수 없습니다. 더 많은 정보를 보려면  {linkstart}문서 ↗{linkend}를 참고하십시오.",
     "Your web server is not properly set up to resolve \"{url}\". This is most likely related to a web server configuration that was not updated to deliver this folder directly. Please compare your configuration against the shipped rewrite rules in \".htaccess\" for Apache or the provided one in the documentation for Nginx at it's {linkstart}documentation page ↗{linkend}. On Nginx those are typically the lines starting with \"location ~\" that need an update." : "이 웹 서버는 “{url}”을(를) 처리하기 위해 적절히 설정되지 않았습니다. 이는 대부분 웹 서버 설정값이 이 폴더를 직접 전달하도록 설정되지 않은 상황입니다. 서버가 Apache일 경우, 서버의 설정값과 “‘htaccess”의 재작성 규칙을 대조해보십시오. Nginx 서버의 경우, 제공되는 {linkstart}문서 페이지 ↗{linkend}를 참조하십시오. Nginx에서는 보통 “location ~”으로 시작하는 부분이 이 문제와 관련이 있으며, 수정과 갱신이 필요합니다.",
     "Your web server is not properly set up to deliver .woff2 files. This is typically an issue with the Nginx configuration. For Nextcloud 15 it needs an adjustement to also deliver .woff2 files. Compare your Nginx configuration to the recommended configuration in our {linkstart}documentation ↗{linkend}." : "이 웹 서버는 .woff2 파일을 전달하기에 적절히 설정되지 않았습니다. 이는 대부분 Nginx 설정과 관련있습니다. Nextcloud 15에서는 .woff2 파일을 전달하기 위해 설정을 수정해야 합니다. 이 서버의 Nginx 설정과 저희가 제공하는 권장 설정 {linkstart}문서 ↗{linkend}를 비교하십시오.",
     "PHP does not seem to be setup properly to query system environment variables. The test with getenv(\"PATH\") only returns an empty response." : "PHP에서 시스템 환경 변수를 올바르게 조회할 수 없는 것 같습니다. getenv(\"PATH\") 시험 결과 빈 값이 반환되었습니다.",
@@ -464,6 +464,7 @@ OC.L10N.register(
     "PHP 8.0 is now deprecated in Nextcloud 27. Nextcloud 28 may require at least PHP 8.1. Please upgrade to {linkstart}one of the officially supported PHP versions provided by the PHP Group ↗{linkend} as soon as possible." : "Nextcloud 27에서 PHP 8.0 지원이 중단되었습니다. Nextcloud 28은 PHP 8.1 이상이 필요합니다.  {linkstart}공식 지원되는 버전의 PHP{linkend}로 업그레이드 하십시오.",
     "This instance is running in debug mode. Only enable this for local development and not in production environments." : "이 인스턴스는 디버그 모드에서 작동 중입니다. 프로덕션 환경이 아닌 로컬 개발을 위해서만 활성화 하세요.",
     "If this account exists, a password reset message has been sent to its email address. If you do not receive it, verify your email address and/or account name, check your spam/junk folders or ask your local administration for help." : "계정이 존재한다면, 암호 초기화 메시지가 해당 계정의 이메일 주소로 전송됩니다. 만일 메일을 수신하지 못했다면, 이메일 주소 및 계정 ID를 확인하고 스팸 메일 폴더를 확인하십시오. 또는, 가까운 관리자에게 도움을 요청하십시오.",
-    "Avatar of {fullName}" : "{fullName}의 아바타"
+    "Avatar of {fullName}" : "{fullName}의 아바타",
+    "Apps and Settings" : "앱과 설정"
 },
 "nplurals=1; plural=0;");

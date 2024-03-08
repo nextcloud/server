@@ -72,7 +72,6 @@
     "The following apps have been disabled: %s" : "Następujące aplikacje zostały wyłączone: %s",
     "Already up to date" : "Już zaktualizowano",
     "Your web server is not yet properly set up to allow file synchronization, because the WebDAV interface seems to be broken." : "Serwer WWW nie jest jeszcze na tyle poprawnie skonfigurowany, aby umożliwić synchronizację plików, ponieważ interfejs WebDAV może być uszkodzony.",
-    "Your web server is not properly set up to resolve \"{url}\". Further information can be found in the {linkstart}documentation ↗{linkend}." : "Serwer WWW nie jest prawidłowo skonfigurowany do rozwiązania problemu z \"{url}\". Więcej informacji można znaleźć w {linkstart}dokumentacji ↗{linkend}.",
     "Error occurred while checking server setup" : "Wystąpił błąd podczas sprawdzania konfiguracji serwera",
     "For more details see the {linkstart}documentation ↗{linkend}." : "Więcej informacji można znaleźć w {linkstart}dokumentacji ↗{linkend}.",
     "The \"{header}\" HTTP header is not set to \"{expected}\". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "Nagłówek HTTP \"{header}\" nie jest ustawiony na \"{expected}\". Jest to potencjalne zagrożenie dla bezpieczeństwa lub prywatności. Dlatego zaleca się odpowiednie dostosowanie tego ustawienia.",
@@ -174,7 +173,7 @@
     "Error opening the user status modal, try hard refreshing the page" : "Błąd podczas otwierania modalnego statusu użytkownika, spróbuj bardziej odświeżyć stronę",
     "Search apps, files, tags, messages" : "Szukaj aplikacji, plików, tagów, wiadomości",
     "Search {types} …" : "Wyszukaj {types}…",
-    "Apps and Settings" : "Aplikacje i ustawienia",
+    "Places" : "Miejsca",
     "Date" : "Data",
     "Today" : "Dzisiaj",
     "Last 7 days" : "Ostatnie 7 dni",
@@ -358,6 +357,7 @@
     "Please try again" : "Spróbuj ponownie",
     "The user limit of this instance is reached." : "Osiągnięto limit użytkowników dla tej instancji.",
     "Enter your subscription key in the support app in order to increase the user limit. This does also grant you all additional benefits that Nextcloud Enterprise offers and is highly recommended for the operation in companies." : "Wprowadź klucz subskrypcji w aplikacji pomocy technicznej, aby zwiększyć limit użytkowników. Zapewnia to również wszystkie dodatkowe korzyści oferowane przez Nextcloud dla firm i jest wysoce zalecane dla działania w firmach.",
+    "Your web server is not properly set up to resolve \"{url}\". Further information can be found in the {linkstart}documentation ↗{linkend}." : "Serwer WWW nie jest prawidłowo skonfigurowany do rozwiązania problemu z \"{url}\". Więcej informacji można znaleźć w {linkstart}dokumentacji ↗{linkend}.",
     "Your web server is not properly set up to resolve \"{url}\". This is most likely related to a web server configuration that was not updated to deliver this folder directly. Please compare your configuration against the shipped rewrite rules in \".htaccess\" for Apache or the provided one in the documentation for Nginx at it's {linkstart}documentation page ↗{linkend}. On Nginx those are typically the lines starting with \"location ~\" that need an update." : "Serwer WWW nie został poprawnie skonfigurowany do rozwiązania problemu z \"{url}\". Jest to najprawdopodobniej związane z konfiguracją serwera, który nie został zaktualizowany do bezpośredniego dostępu tego katalogu. Proszę porównać swoją konfigurację z dostarczonymi regułami przepisywania w \".htaccess\" dla Apache lub podanymi w dokumentacji dla Nginx na {linkstart}stronie dokumentacji ↗{linkend}. W Nginx są to zazwyczaj linie zaczynające się od \"location ~\", które wymagają aktualizacji.",
     "Your web server is not properly set up to deliver .woff2 files. This is typically an issue with the Nginx configuration. For Nextcloud 15 it needs an adjustement to also deliver .woff2 files. Compare your Nginx configuration to the recommended configuration in our {linkstart}documentation ↗{linkend}." : "Serwer WWW nie został poprawnie skonfigurowany do dostarczania plików .woff2. Zazwyczaj jest to problem z konfiguracją Nginx. Dla Nextcloud 15 wymagane jest dostosowanie jej, aby dostarczać pliki .woff2. Porównaj swoją konfigurację Nginx z zalecaną konfiguracją w naszej {linkstart}dokumentacji ↗{linkend}.",
     "PHP does not seem to be setup properly to query system environment variables. The test with getenv(\"PATH\") only returns an empty response." : "Wygląda na to, że PHP nie jest poprawnie skonfigurowany do wysyłania zapytań o zmienne środowiskowe systemu. Test gentenv(\"PATH\") zwraca tylko pustą wartość.",
@@ -450,6 +450,7 @@
     "PHP 8.0 is now deprecated in Nextcloud 27. Nextcloud 28 may require at least PHP 8.1. Please upgrade to {linkstart}one of the officially supported PHP versions provided by the PHP Group ↗{linkend} as soon as possible." : "PHP 8.0 jest teraz przestarzałe w Nextcloud 27. Nextcloud 28 może wymagać co najmniej PHP 8.1. Jak najszybciej zaktualizuj do {linkstart}jednej z oficjalnie obsługiwanych wersji PHP dostarczonych przez PHP Group ↗{linkend}.",
     "This instance is running in debug mode. Only enable this for local development and not in production environments." : "Instancja działa w trybie debugowania. Włącz to tylko dla wersji lokalnej, a nie w środowiskach produkcyjnych.",
     "If this account exists, a password reset message has been sent to its email address. If you do not receive it, verify your email address and/or account name, check your spam/junk folders or ask your local administration for help." : "Jeśli to konto istnieje, wiadomość dotycząca resetowania hasła została wysłana na jego adres e-mail. Jeśli go nie otrzymasz, zweryfikuj swój adres e-mail i/lub nazwę konta, sprawdź katalogi ze spamem/śmieciami lub poproś o pomoc lokalną administrację.",
-    "Avatar of {fullName}" : "Awatar {fullName}"
+    "Avatar of {fullName}" : "Awatar {fullName}",
+    "Apps and Settings" : "Aplikacje i ustawienia"
 },"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"
 }

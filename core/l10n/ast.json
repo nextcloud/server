@@ -79,6 +79,7 @@
     "Cannot install this app because it is not compatible" : "Nun se pue instalar esta aplicación porque nun ye compatible",
     "Cannot install this app" : "Nun se pue instalar esta aplicación",
     "Skip" : "Saltar",
+    "Simple email app nicely integrated with Files, Contacts and Calendar." : "Una aplicación de corréu electrónicu cenciella que s'integra bien con Ficheros, Contautos y Calendariu.",
     "Could not load your contacts" : "Nun se pudieron cargar los contautos",
     "No contacts found" : "Nun s'atopó nengun contautu",
     "Show all contacts" : "Amostar tolos contautos",
@@ -96,7 +97,7 @@
     "{user} has not added any info yet" : "{user} nun amestó nenguna información",
     "Error opening the user status modal, try hard refreshing the page" : "Hebo un error al abrir el diálogu modal del estáu d'usuariu, prueba a anovar la páxina",
     "Unified search" : "Busca unificada",
-    "Apps and Settings" : "Aplicaciones y configuración",
+    "Places" : "Llugares",
     "Date" : "Data",
     "Today" : "Güei",
     "Last 7 days" : "Los últimos 7 díes",
@@ -133,6 +134,9 @@
     "Show details" : "Amosar los detalles",
     "Hide details" : "Anubrir los detalles",
     "Rename project" : "Renomar el proyeutu",
+    "Failed to rename the project" : "Nun se pue renomar el proyeutu",
+    "Failed to create a project" : "Nun se pue crear el proyeutu",
+    "Failed to add the item to the project" : "Nun se pue amestar l'elementu al proyeutu",
     "Type to search for existing projects" : "Escribi pa buscar proyeutos esistentes",
     "View changelog" : "Ver el rexistru de cambeos",
     "Very weak password" : "La contraseña ye mui poco segura",
@@ -228,10 +232,12 @@
     "Pending" : "Pendiente",
     "Home" : "Aniciu",
     "Confirm" : "Confirmar",
+    "Failed to authenticate, try again" : "Nun se pue autenticar, volvi tentalo",
     "Users" : "Usuarios",
     "The page could not be found on the server." : "Nun se pudo atopar la páxina nel sirvidor.",
     "Database user" : "Usuariu de la base de datos",
     "Please use the command line updater because you have a big instance with more than 50 users." : "Usa l'anovador de la llinia de comandos porque tienes una instancia grande con más de 50 usuarios.",
-    "Avatar of {fullName}" : "Avatar de: {fullName}"
+    "Avatar of {fullName}" : "Avatar de: {fullName}",
+    "Apps and Settings" : "Aplicaciones y configuración"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

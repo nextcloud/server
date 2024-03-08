@@ -241,6 +241,7 @@ OC.L10N.register(
     "Files settings" : "Dosyalar ayarları",
     "File cannot be accessed" : "Dosyaya erişilemedi",
     "The file could not be found or you do not have permissions to view it. Ask the sender to share it." : "Dosya bulunamadı ya da görüntüleme izniniz olmayabilir. Gönderenden paylaşmasını isteyin",
+    "Open in files" : "Dosyalar uygulamasında aç",
     "Sort favorites first" : "Sık kullanılanlar üstte sıralansın",
     "Sort folders before files" : "Klasörler dosyaların üzerinde sıralansın",
     "Show hidden files" : "Gizli dosyaları görüntüle",

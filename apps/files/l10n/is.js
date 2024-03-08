@@ -225,6 +225,7 @@ OC.L10N.register(
     "Open the files app settings" : "Opna stillingar skráaforritsins",
     "Files settings" : "Stillingar skráaforritsins",
     "File cannot be accessed" : "Skráin er ekki aðgengileg",
+    "Open in files" : "Opna í skráaforritinu",
     "Sort favorites first" : "Raða eftirlætum fremst",
     "Show hidden files" : "Sýna faldar skrár",
     "Crop image previews" : "Skera utan af forskoðun mynda",

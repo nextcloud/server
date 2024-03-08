@@ -73,7 +73,6 @@
     "The following apps have been disabled: %s" : "Följande appar har inaktiverats: %s",
     "Already up to date" : "Redan uppdaterad",
     "Your web server is not yet properly set up to allow file synchronization, because the WebDAV interface seems to be broken." : "Din webbserver är ännu inte korrekt inställd för att tillåta filsynkronisering, eftersom WebDAV-gränssnittet verkar vara trasigt.",
-    "Your web server is not properly set up to resolve \"{url}\". Further information can be found in the {linkstart}documentation ↗{linkend}." : "Din webbserver är inte korrekt inställd för att lösa \"{url}\". Ytterligare information finns i {linkstart}dokumentationen ↗{linkend}.",
     "Error occurred while checking server setup" : "Ett fel inträffade när en kontroll av serverns konfiguration utfördes",
     "For more details see the {linkstart}documentation ↗{linkend}." : "För mer detaljer se {linkstart}dokumentationen ↗{linkend}.",
     "The \"{header}\" HTTP header is not set to \"{expected}\". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "HTTP-rubriken \"{header}\" är inte inställd till \"{expected}\". Detta är en potentiell säkerhets- eller sekretessrisk, eftersom det rekommenderas att justera denna inställning i enlighet med detta.",
@@ -173,7 +172,7 @@
     "Unified search" : "Enhetlig sökning",
     "Search apps, files, tags, messages" : "Sök efter appar, filer, taggar, meddelanden",
     "Search {types} …" : "Sök {types} …",
-    "Apps and Settings" : "Appar och inställningar",
+    "Places" : "Platser",
     "Date" : "Datum",
     "Today" : "Idag",
     "Last 7 days" : "Senaste 7 dagarna",
@@ -359,6 +358,7 @@
     "Please try again" : "Var vänlig och försök igen",
     "The user limit of this instance is reached." : "Maximala användarantalet för denna instansen har uppnåts",
     "Enter your subscription key in the support app in order to increase the user limit. This does also grant you all additional benefits that Nextcloud Enterprise offers and is highly recommended for the operation in companies." : "Ange din prenumerationsnyckel i supportappen för att öka användargränsen. Detta ger dig också alla ytterligare fördelar som Nextcloud Enterprise erbjuder och rekommenderas starkt för användning i företag.",
+    "Your web server is not properly set up to resolve \"{url}\". Further information can be found in the {linkstart}documentation ↗{linkend}." : "Din webbserver är inte korrekt inställd för att lösa \"{url}\". Ytterligare information finns i {linkstart}dokumentationen ↗{linkend}.",
     "Your web server is not properly set up to resolve \"{url}\". This is most likely related to a web server configuration that was not updated to deliver this folder directly. Please compare your configuration against the shipped rewrite rules in \".htaccess\" for Apache or the provided one in the documentation for Nginx at it's {linkstart}documentation page ↗{linkend}. On Nginx those are typically the lines starting with \"location ~\" that need an update." : "Din webbserver är inte korrekt inställd för att lösa \"{url}\". Detta är troligen relaterat till en webbserverkonfiguration som inte uppdaterades för att leverera den här mappen direkt. Vänligen jämför din konfiguration med de skickade omskrivningsreglerna i \".htaccess\" för Apache eller den som tillhandahålls i dokumentationen för Nginx på dess {linkstart}dokumentationssida ↗{linkend}. På Nginx är det vanligtvis raderna som börjar med \"plats ~\" som behöver en uppdatering.",
     "Your web server is not properly set up to deliver .woff2 files. This is typically an issue with the Nginx configuration. For Nextcloud 15 it needs an adjustement to also deliver .woff2 files. Compare your Nginx configuration to the recommended configuration in our {linkstart}documentation ↗{linkend}." : "Din webbserver är inte korrekt inställd för att leverera .woff2-filer. Detta är vanligtvis ett problem med Nginx-konfigurationen. För Nextcloud 15 behöver det en justering för att även leverera .woff2-filer. Jämför din Nginx-konfiguration med den rekommenderade konfigurationen i vår {linkstart}dokumentation ↗{linkend}.",
     "PHP does not seem to be setup properly to query system environment variables. The test with getenv(\"PATH\") only returns an empty response." : "PHP verkar inte vara korrekt inställd för att fråga efter systemmiljövariabler. Testet med getenv(\"PATH\") ger bara ett tomt svar.",
@@ -439,6 +439,7 @@
     "The database is used for transactional file locking. To enhance performance, please configure memcache, if available. See the {linkstart}documentation ↗{linkend} for more information." : "Databasen används till transaktionsbaserad fillåsning. För att förbättra prestandan, konfigurera memcache om tillgängligt. Se {linkstart}Dokumentationen ↗{linkend} för mer information.",
     "This instance is running in debug mode. Only enable this for local development and not in production environments." : "Den här instansen körs i felsökningsläge. Aktivera detta endast för lokal utveckling och inte i produktionsmiljöer.",
     "If this account exists, a password reset message has been sent to its email address. If you do not receive it, verify your email address and/or account name, check your spam/junk folders or ask your local administration for help." : "Om det här kontot finns har ett meddelande om lösenordsåterställning skickats till dess e-postadress. Om du inte får det, verifiera din e-postadress och/eller kontonamn, kontrollera dina skräppost-/skräpmappar eller be din lokala administration om hjälp.",
-    "Avatar of {fullName}" : "Avatar för {fullName}"
+    "Avatar of {fullName}" : "Avatar för {fullName}",
+    "Apps and Settings" : "Appar och inställningar"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -74,7 +74,6 @@ OC.L10N.register(
     "The following apps have been disabled: %s" : "A következő alkalmazások le lettek tiltva: %s",
     "Already up to date" : "Már naprakész",
     "Your web server is not yet properly set up to allow file synchronization, because the WebDAV interface seems to be broken." : "A webkiszolgáló nincs megfelelően beállítva a fájlok szinkronizálásához, mert a WebDAV interfész hibásnak tűnik.",
-    "Your web server is not properly set up to resolve \"{url}\". Further information can be found in the {linkstart}documentation ↗{linkend}." : "Webkiszolgálója nincs megfelelően beállítva a(z) „{url}” feloldására. További információk a {linkstart}dokumentációban találhatók ↗{linkend}.",
     "Error occurred while checking server setup" : "Hiba történt a kiszolgálóbeállítások ellenőrzésekor",
     "For more details see the {linkstart}documentation ↗{linkend}." : "További részletekért lásd a {linkstart}dokumentációt↗{linkend}.",
     "The \"{header}\" HTTP header is not set to \"{expected}\". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "A(z) „{header}” HTTP-fejléc nem erre van állítva: „{expected}”. Ez egy lehetséges biztonsági és adatvédelmi kockázat, ezért javasolt, hogy módosítsa megfelelően a beállítást.",
@@ -177,7 +176,7 @@ OC.L10N.register(
     "Unified search" : "Egyesített keresés",
     "Search apps, files, tags, messages" : "Alkalmazások, fájlok, címkék és üzenetek keresése",
     "Search {types} …" : "{types} keresése…",
-    "Apps and Settings" : "Alkalmazások és beállítások",
+    "Places" : "Helyek",
     "Date" : "Dátum",
     "Today" : "Ma",
     "Last 7 days" : "Előző 7 nap",
@@ -363,6 +362,7 @@ OC.L10N.register(
     "Please try again" : "Próbálja újra",
     "The user limit of this instance is reached." : "Elérte ennek a példánynak a felhasználói korlátját.",
     "Enter your subscription key in the support app in order to increase the user limit. This does also grant you all additional benefits that Nextcloud Enterprise offers and is highly recommended for the operation in companies." : "Adja meg az előfizetési kulcsát a támogatási alkalmazásban, hogy megnövelje a felhasználókorlátot. Ez a Nextcloud vállalati ajánlatainak további előnyeit is biztosítja, és határozottan ajánlott a céges üzemeltetés esetén.",
+    "Your web server is not properly set up to resolve \"{url}\". Further information can be found in the {linkstart}documentation ↗{linkend}." : "Webkiszolgálója nincs megfelelően beállítva a(z) „{url}” feloldására. További információk a {linkstart}dokumentációban találhatók ↗{linkend}.",
     "Your web server is not properly set up to resolve \"{url}\". This is most likely related to a web server configuration that was not updated to deliver this folder directly. Please compare your configuration against the shipped rewrite rules in \".htaccess\" for Apache or the provided one in the documentation for Nginx at it's {linkstart}documentation page ↗{linkend}. On Nginx those are typically the lines starting with \"location ~\" that need an update." : "Webkiszolgálója nincs megfelelően beállítva a(z) „{url}” feloldására. Ez valószínűleg egy webkiszolgáló konfigurációhoz kapcsolódik, amelyet nem frissítettek, hogy ezt a mappát közvetlenül kézbesítse. Hasonlítsa össze a konfigurációt az Apache „.htaccess” fájljának átírt szabályaival, vagy az Nginx a {linkstart}dokumentációs oldalán ↗ {linkend} megadottak szerint. Nginx esetén jellemzően a „location ~” kezdetű sorokat kell frissíteni.",
     "Your web server is not properly set up to deliver .woff2 files. This is typically an issue with the Nginx configuration. For Nextcloud 15 it needs an adjustement to also deliver .woff2 files. Compare your Nginx configuration to the recommended configuration in our {linkstart}documentation ↗{linkend}." : "A webkiszolgálója nincs megfelelően beállítva a .woff2 fájlok kiszolgálásához. Ezt jellemzőn a Nginx konfiguráció problémája okozza. A Nextcloud 15 esetén módosításokra van szükség a .woff2 fájlok miatt. Hasonlítsa össze az Nginx konfigurációját a <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">dokumentációnkban ↗</a> javasolt konfigurációval.",
     "PHP does not seem to be setup properly to query system environment variables. The test with getenv(\"PATH\") only returns an empty response." : "Úgy tűnik a PHP nincs rendesen beállítva a rendszer környezeti változóinak lekéréséhez. A getenv(\"PATH\") teszt csak üres értéket ad vissza.",
@@ -455,6 +455,7 @@ OC.L10N.register(
     "PHP 8.0 is now deprecated in Nextcloud 27. Nextcloud 28 may require at least PHP 8.1. Please upgrade to {linkstart}one of the officially supported PHP versions provided by the PHP Group ↗{linkend} as soon as possible." : "A PHP 8.0 már elavult a Nextcloud 27-ben. A Nextcloud 28-hoz legalább PHP 8.1 szükséges. Amint csak lehet frissítsen a {linkstart}PHP Group által hivatalosan támogatott PHP-verzió egyikére ↗{linkend}.",
     "This instance is running in debug mode. Only enable this for local development and not in production environments." : "Ez a példány hibakeresési módban fut. Csak helyi fejlesztéshez engedélyezze, éles környezetben ne.",
     "If this account exists, a password reset message has been sent to its email address. If you do not receive it, verify your email address and/or account name, check your spam/junk folders or ask your local administration for help." : "Ha a fiók létezik, akkor egy jelszó-visszaállítási üzenet lett küldve az e-mail-címére. Ha nem kapja meg, akkor ellenőrizze az e-mail-címet és a fióknevet, nézze meg a levélszemét mappáját vagy kérje a helyi rendszergazda segítségét.",
-    "Avatar of {fullName}" : "{fullName} profilképe"
+    "Avatar of {fullName}" : "{fullName} profilképe",
+    "Apps and Settings" : "Alkalmazások és beállítások"
 },
 "nplurals=2; plural=(n != 1);");

@@ -136,7 +136,6 @@ OC.L10N.register(
     "You have not added any info yet" : "Jūs kol kas nesate pridėję jokios informacijos",
     "{user} has not added any info yet" : "Naudotojas {user} kol kas nėra pridėjęs jokios informacijos",
     "Search {types} …" : "Ieškoti {types}…",
-    "Apps and Settings" : "Programėlės ir nustatymai",
     "Date" : "Data",
     "Today" : "Šiandien",
     "Not found" : "Nerasta",
@@ -334,6 +333,7 @@ OC.L10N.register(
     "Confirm your password" : "Patvirtinkite savo slaptažodį",
     "App token" : "Išorinės sistemos įskiepio kodas",
     "Alternative log in using app token" : "Alternatyvus prisijungimas naudojant programėlės atpažinimo raktą",
-    "Please use the command line updater because you have a big instance with more than 50 users." : "Naudokite komandų eilutės atnaujinimo programą, nes turite didelį egzempliorių su daugiau nei 50 naudotojų."
+    "Please use the command line updater because you have a big instance with more than 50 users." : "Naudokite komandų eilutės atnaujinimo programą, nes turite didelį egzempliorių su daugiau nei 50 naudotojų.",
+    "Apps and Settings" : "Programėlės ir nustatymai"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

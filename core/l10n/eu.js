@@ -74,7 +74,6 @@ OC.L10N.register(
     "The following apps have been disabled: %s" : "Hurrengo aplikazioak desgaitu dira: %s",
     "Already up to date" : "Eguneratuta dago dagoeneko",
     "Your web server is not yet properly set up to allow file synchronization, because the WebDAV interface seems to be broken." : "Zure web zerbitzaria ez dago behar bezala konfiguratuta fitxategien sinkronizazioa baimentzeko, WebDAV interfazea puskatuta dagoela dirudi.",
-    "Your web server is not properly set up to resolve \"{url}\". Further information can be found in the {linkstart}documentation ↗{linkend}." : "Zure web zerbitzaria ez dago behar bezala konfiguratuta \"{url}\" ebazteko. Informazio gehiago {linkstart}dokumentazioan ↗{linkend} aurkitu daiteke.",
     "Error occurred while checking server setup" : "Errorea gertatu da zerbitzariaren konfigurazioa egiaztatzean",
     "For more details see the {linkstart}documentation ↗{linkend}." : "Xehetasun gehiago lortzeko, ikusi {linkstart}dokumentazioa ↗{linkedin}.",
     "The \"{header}\" HTTP header is not set to \"{expected}\". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "\"{header}\" HTTP goiburua ez dago \"{expected}\" baliora ezarria. Hau segurtasun edo pribatutasun arrisku bat izan daiteke. Ezarpenean dagokion balioa jartzea gomendatzen da.",
@@ -177,7 +176,7 @@ OC.L10N.register(
     "Unified search" : "Bilaketa bateratua",
     "Search apps, files, tags, messages" : "Bilatu aplikazioak, fitxategiak, etiketak, mezuak",
     "Search {types} …" : "Bilatu  {types} …",
-    "Apps and Settings" : "Aplikazioak eta ezarpenak",
+    "Places" : "Lekuak",
     "Date" : "Data",
     "Today" : "Gaur",
     "Last 7 days" : "Azken 7 egunetan",
@@ -361,6 +360,7 @@ OC.L10N.register(
     "Please try again" : "Mesedez saiatu berriro",
     "The user limit of this instance is reached." : "Instantzia hau bere erabiltzaile mugara iritsi da.",
     "Enter your subscription key in the support app in order to increase the user limit. This does also grant you all additional benefits that Nextcloud Enterprise offers and is highly recommended for the operation in companies." : "Sartu zure harpidetza-gakoa laguntza-aplikazioan erabiltzaileen muga handitzeko. Horrek Nextcloud Enterprise-k eskaintzen dituen abantaila gehigarri guztiak ere ematen dizkizu eta oso gomendagarria da enpresetan funtzionatzeko.",
+    "Your web server is not properly set up to resolve \"{url}\". Further information can be found in the {linkstart}documentation ↗{linkend}." : "Zure web zerbitzaria ez dago behar bezala konfiguratuta \"{url}\" ebazteko. Informazio gehiago {linkstart}dokumentazioan ↗{linkend} aurkitu daiteke.",
     "Your web server is not properly set up to resolve \"{url}\". This is most likely related to a web server configuration that was not updated to deliver this folder directly. Please compare your configuration against the shipped rewrite rules in \".htaccess\" for Apache or the provided one in the documentation for Nginx at it's {linkstart}documentation page ↗{linkend}. On Nginx those are typically the lines starting with \"location ~\" that need an update." : "Zure web zerbitzaria ez dago behar bezala konfiguratuta \"{url}\" ebazteko. Ziur aski web zerbitzariaren konfigurazioa ez dago karpeta hau zuzenean entregatzeko eguneratuta. Konparatu zure konfigurazioa eskaintzen den Apacherako \".htaccess\" fitxategiko berridazketa arauekin edo Nginx-en {linkstart}dokumentazio orria ↗{linkend} dokumentazioarekin. Nginx-en \"location ~\" katearekin hasten diren lerroak izan ohi dira eguneratu beharrekoak.",
     "Your web server is not properly set up to deliver .woff2 files. This is typically an issue with the Nginx configuration. For Nextcloud 15 it needs an adjustement to also deliver .woff2 files. Compare your Nginx configuration to the recommended configuration in our {linkstart}documentation ↗{linkend}." : "Zure web zerbitzaria ez dago behar bezala konfiguratuta .woff2 fitxategiak entregatzeko. Hau Nginx-en konfigurazioaren ohiko arazo bat da. Nextcloud 15ean doikuntza bat beharrezkoa da .woff2 fitxategiak bidaltzeko. Konparatu zure Nginx konfigurazioa gure {linkstart}dokumentazioan ↗{linkend}  gomendatutakoarekin.",
     "PHP does not seem to be setup properly to query system environment variables. The test with getenv(\"PATH\") only returns an empty response." : "Badirudi PHPa sistemaren ingurune aldagaiak kontsultatu ahal izateko behar bezala konfiguratu gabe dagoela. Egindako getenv(\"PATH\") probak erantzun hutsa itzultzen du.",
@@ -453,6 +453,7 @@ OC.L10N.register(
     "PHP 8.0 is now deprecated in Nextcloud 27. Nextcloud 28 may require at least PHP 8.1. Please upgrade to {linkstart}one of the officially supported PHP versions provided by the PHP Group ↗{linkend} as soon as possible." : "PHP 8.0 zaharkituta dago Nextcloud 27-n. Baliteke Nextcloud 28-k gutxienez PHP 8.1 behar izatea. Mesedez, eguneratu {linkstart}PHP Group-ek ofizialki onartzen dituen ↗{linkend} PHP bertsio batera ahalik eta lasterren.",
     "This instance is running in debug mode. Only enable this for local development and not in production environments." : "Instantzia hau arazketa moduan exekutatzen ari da. Gaitu hau garapen lokalerako soilik eta ez produkzio inguruneetarako.",
     "If this account exists, a password reset message has been sent to its email address. If you do not receive it, verify your email address and/or account name, check your spam/junk folders or ask your local administration for help." : "Kontu hau badago, pasahitza berrezartzeko mezua bidali da bere helbide elektronikora. Jasotzen ez baduzu, egiaztatu zure helbide elektronikoa eta/edo kontuaren izena, egiaztatu spam/zabor-karpetak edo eskatu laguntza administrazio lokalari.",
-    "Avatar of {fullName}" : "{fullName}-(r)en avatarra"
+    "Avatar of {fullName}" : "{fullName}-(r)en avatarra",
+    "Apps and Settings" : "Aplikazioak eta ezarpenak"
 },
 "nplurals=2; plural=(n != 1);");

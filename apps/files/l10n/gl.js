@@ -226,6 +226,7 @@ OC.L10N.register(
     "Open the files app settings" : "Abrir os axustes da aplicación de ficheiros",
     "Files settings" : "Axustes de Ficheiros",
     "File cannot be accessed" : "Non é posíbel acceder ao ficheiro",
+    "Open in files" : "Abrir en ficheiros",
     "Sort favorites first" : "Ordene antes os favoritos",
     "Show hidden files" : "Amosar os ficheiros agochados",
     "Crop image previews" : "Recortar a vista previa das imaxes",

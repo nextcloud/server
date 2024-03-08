@@ -75,7 +75,6 @@ OC.L10N.register(
     "The following apps have been disabled: %s" : "De volgende apps zijn uitgeschakeld: %s",
     "Already up to date" : "Al bijgewerkt",
     "Your web server is not yet properly set up to allow file synchronization, because the WebDAV interface seems to be broken." : "Je webserver is nog niet goed ingesteld voor bestandssynchronisatie, omdat de WebDAV interface niet goed lijkt te werken.",
-    "Your web server is not properly set up to resolve \"{url}\". Further information can be found in the {linkstart}documentation ↗{linkend}." : "Je webserver is niet goed ingesteld om \"{url}\" te vinden. Meer informatie is te vinden in onze {linkstart}documentatie↗{linkend}.",
     "Error occurred while checking server setup" : "Een fout trad op bij controleren van serverconfiguratie",
     "For more details see the {linkstart}documentation ↗{linkend}." : "Voor meer informatie word je verwezen naar de {linkstart}documentatie↗{linkend}.",
     "The \"{header}\" HTTP header is not set to \"{expected}\". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "De \"{header}\" HTTP header is niet ingesteld als \"{expected}\". Dit is een potentieel security of privacy risico en we adviseren om deze instelling te wijzigen.",
@@ -182,7 +181,7 @@ OC.L10N.register(
     "Unified search" : "Geünificeerd zoeken",
     "Search apps, files, tags, messages" : "Zoek apps, bestanden, berichten",
     "Search {types} …" : "Zoeken naar {types}…",
-    "Apps and Settings" : "Apps en Instellingen",
+    "Places" : "Locaties",
     "Date" : "Datum",
     "Today" : "Vandaag",
     "Last 7 days" : "Laatste 7 dagen",
@@ -370,6 +369,7 @@ OC.L10N.register(
     "Please try again" : "Probeer a.u.b opnieuw",
     "The user limit of this instance is reached." : "De limiet van het aantal gebruikers op deze server is bereikt.",
     "Enter your subscription key in the support app in order to increase the user limit. This does also grant you all additional benefits that Nextcloud Enterprise offers and is highly recommended for the operation in companies." : "Voer de ondersteuningssleutel in de supportapp in, om de gebruikerslimiet te verhogen. Dit geeft ook toegang tot de extra voordelen die Nextcloud Enterprise te bieden heeft en is sterk aangeraden voor gebruik in bedrijven.",
+    "Your web server is not properly set up to resolve \"{url}\". Further information can be found in the {linkstart}documentation ↗{linkend}." : "Je webserver is niet goed ingesteld om \"{url}\" te vinden. Meer informatie is te vinden in onze {linkstart}documentatie↗{linkend}.",
     "Your web server is not properly set up to resolve \"{url}\". This is most likely related to a web server configuration that was not updated to deliver this folder directly. Please compare your configuration against the shipped rewrite rules in \".htaccess\" for Apache or the provided one in the documentation for Nginx at it's {linkstart}documentation page ↗{linkend}. On Nginx those are typically the lines starting with \"location ~\" that need an update." : "Je webserver is niet juist ingesteld voor het verwerken van \"{url}\". De oorzaak ligt waarschijnlijk bij de webserver configuratie die niet bijgewerkt is om deze map rechtstreeks beschikbaar te stellen. Vergelijk je configuratie tegen de installatieversie van de rewrite regels die je vindt in de \".htaccess\" bestanden voor Apache of met de voorbeelden in de documentatie voor Nginx die je vindt op de {linkstart}documentatie pagina↗{linkend}. Op Nginx beginnen deze regels meestal met \"location ~\" die je moet aanpassen.",
     "Your web server is not properly set up to deliver .woff2 files. This is typically an issue with the Nginx configuration. For Nextcloud 15 it needs an adjustement to also deliver .woff2 files. Compare your Nginx configuration to the recommended configuration in our {linkstart}documentation ↗{linkend}." : "Je webserver is niet goed ingesteld om .woff2 bestanden af te leveren. Dit is meestal een probleem met de Nginx configuratie. Voor Nextcloud 15 moet die worden aangepast om ook .woff2 bestanden aan te kunnen. vergelijk jouw Nginx configuratie met de aanbevolen instellingen in onze {linkstart}documentatie ↗{linkend}.",
     "PHP does not seem to be setup properly to query system environment variables. The test with getenv(\"PATH\") only returns an empty response." : "PHP lijkt niet goed te zijn ingesteld voor opvragen systeemomgevingsvariabelen. De test met getenv(\"PATH\") gaf een leeg resultaat.",
@@ -463,6 +463,7 @@ OC.L10N.register(
     "PHP 8.0 is now deprecated in Nextcloud 27. Nextcloud 28 may require at least PHP 8.1. Please upgrade to {linkstart}one of the officially supported PHP versions provided by the PHP Group ↗{linkend} as soon as possible." : "PHP 8.0 is verouderd binnen Nextcloud 27. Nextcloud 28 vereist mogelijks minstens PHP 8.1. Gelieve zo snel mogelijk te upgraden naar {linkstart} één van de officieel ondersteunde PHP versies voorzien door de PHP Group ↗{linkend}.",
     "This instance is running in debug mode. Only enable this for local development and not in production environments." : "Deze instantie draait in debug modus. Gelieve deze modus enkel te gebruiken voor lokale ontwikkeling, en niet in productie omgevingen.",
     "If this account exists, a password reset message has been sent to its email address. If you do not receive it, verify your email address and/or account name, check your spam/junk folders or ask your local administration for help." : "Als dit account bestaat werd er een bericht voor wachtwoordherstel naar het overeenkomstige email adres gestuurd. Krijg je geen mail, controleer dan je email adres en/of account naam, check je spam folder of vraag hulp aan je lokale beheerder.",
-    "Avatar of {fullName}" : "Avatar van {fullName}"
+    "Avatar of {fullName}" : "Avatar van {fullName}",
+    "Apps and Settings" : "Apps en Instellingen"
 },
 "nplurals=2; plural=(n != 1);");

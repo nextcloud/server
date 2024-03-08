@@ -76,7 +76,6 @@ OC.L10N.register(
     "The following apps have been disabled: %s" : "Şu uygulamalar devre dışı bırakıldı: %s",
     "Already up to date" : "Zaten güncel",
     "Your web server is not yet properly set up to allow file synchronization, because the WebDAV interface seems to be broken." : "Site sunucunuz dosya eşitlemesi için doğru şekilde ayarlanmamış. WebDAV arabirimi sorunlu görünüyor.",
-    "Your web server is not properly set up to resolve \"{url}\". Further information can be found in the {linkstart}documentation ↗{linkend}." : "Site sunucunuz \"{url}\" adresini çözümleyebilmesi için doğru şekilde ayarlanmamış. Ayrıntılı bilgi almak için {linkstart}belgeler ↗{linkend} bölümüne bakabilirsiniz.",
     "Error occurred while checking server setup" : "Sunucu ayarları denetlenirken sorun çıktı",
     "For more details see the {linkstart}documentation ↗{linkend}." : "Ayrıntılı bilgi almak için {linkstart}belgeler ↗{linkend} bölümüne bakabilirsiniz.",
     "The \"{header}\" HTTP header is not set to \"{expected}\". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "\"{header}\" HTTP üst bilgisi \"{expected}\" şeklinde ayarlanmamış. Bu durum olası bir güvenlik ya da gizlilik riski oluşturduğundan bu ayarın belirtildiği gibi yapılması önerilir.",
@@ -183,7 +182,7 @@ OC.L10N.register(
     "Unified search" : "Birleşik arama",
     "Search apps, files, tags, messages" : "Uygulama, dosya, etiket, ileti ara",
     "Search {types} …" : "{types} arama…",
-    "Apps and Settings" : "Uygulamalar ve ayarlar",
+    "Places" : "Yerler",
     "Date" : "Tarih",
     "Today" : "Bugün",
     "Last 7 days" : "Önceki 7 gün",
@@ -371,6 +370,7 @@ OC.L10N.register(
     "Please try again" : "Lütfen yeniden deneyin",
     "The user limit of this instance is reached." : "Bu kopya için kullanıcı sayısı sınırına ulaşıldı.",
     "Enter your subscription key in the support app in order to increase the user limit. This does also grant you all additional benefits that Nextcloud Enterprise offers and is highly recommended for the operation in companies." : "Kullanıcı sayısı sınırını artırmak için destek uygulamasına abonelik kodunuzu yazın. Bu ayrıca size Nextcloud Enterprise sürümünün sunduğu ve kurumsal operasyonlar için önemle önerilen tüm ek faydaları sağlar.",
+    "Your web server is not properly set up to resolve \"{url}\". Further information can be found in the {linkstart}documentation ↗{linkend}." : "Site sunucunuz \"{url}\" adresini çözümleyebilmesi için doğru şekilde ayarlanmamış. Ayrıntılı bilgi almak için {linkstart}belgeler ↗{linkend} bölümüne bakabilirsiniz.",
     "Your web server is not properly set up to resolve \"{url}\". This is most likely related to a web server configuration that was not updated to deliver this folder directly. Please compare your configuration against the shipped rewrite rules in \".htaccess\" for Apache or the provided one in the documentation for Nginx at it's {linkstart}documentation page ↗{linkend}. On Nginx those are typically the lines starting with \"location ~\" that need an update." : "Site sunucunuz \"{url}\" adresini doğru olarak çözümleyecek şekilde yapılandırılmamış. Bu sorun genellikle site sunucusu yapılandırmasının bu klasörü doğrudan aktaracak şekilde güncellenmemiş olmasından kaynaklanır. Lütfen kendi yapılandırmanızı, Apache için uygulama ile gelen \".htaccess\" dosyasındaki rewrite komutları ile ya da Nginx için {linkstart}belgeler ↗{linkend} bölümünde bulunan ayarlar ile karşılaştırın. Nginx üzerinde genellikle \"location ~\" ile başlayan satırların güncellenmesi gerekir.",
     "Your web server is not properly set up to deliver .woff2 files. This is typically an issue with the Nginx configuration. For Nextcloud 15 it needs an adjustement to also deliver .woff2 files. Compare your Nginx configuration to the recommended configuration in our {linkstart}documentation ↗{linkend}." : "Site sunucunuz .woff2 dosyalarını aktaracak şekilde yapılandırılmamış. Bu sık karşılaşılan bir Nginx yapılandırma sorunudur. Nextcloud 15 için .woff2 dosyalarını da aktaracak ek bir ayar yapılması gereklidir. Kullandığınız Nginx yapılandırmasını {linkstart}belgeler ↗{linkend} bölümünde bulunan önerilen yapılandırma dosyası ile karşılaştırın.",
     "PHP does not seem to be setup properly to query system environment variables. The test with getenv(\"PATH\") only returns an empty response." : "PHP yanlış kurulmuş ve sistem ortam değişkenlerini okuyamıyor gibi görünüyor. getenv(\"PATH\") komutu ile yapılan sınama sonucunda boş bir yanıt alındı.",
@@ -464,6 +464,7 @@ OC.L10N.register(
     "PHP 8.0 is now deprecated in Nextcloud 27. Nextcloud 28 may require at least PHP 8.1. Please upgrade to {linkstart}one of the officially supported PHP versions provided by the PHP Group ↗{linkend} as soon as possible." : "PHP 8.0 son olarak Nextcloud 27 sürümünde destekleniyor. Nextcloud 28 için en az PHP 8.1 gerekebilir. Lütfen olabilecek en kısa sürede {linkstart} PHP Group tarafından sağlanan resmi olarak desteklenen PHP sürümlerinden birine↗{linkend}  yükseltin.",
     "This instance is running in debug mode. Only enable this for local development and not in production environments." : "Bu kopya hata ayıklama kipinde çalışıyor. Bu seçeneği yalnızca yerel geliştirme ortamında etkinleştirin, üretim ortamlarında etkinleştirmeyin.",
     "If this account exists, a password reset message has been sent to its email address. If you do not receive it, verify your email address and/or account name, check your spam/junk folders or ask your local administration for help." : "Bu hesap varsa, e-posta adresine bir parola sıfırlama iletisi gönderilmiştir. Bunu almazsanız, e-posta adresinizi ve/veya hesap adınızı doğrulayın, spam/önemsiz klasörlerinizi denetleyin ya da yerel yöneticinizden yardım isteyin.",
-    "Avatar of {fullName}" : "{fullName} avatarı"
+    "Avatar of {fullName}" : "{fullName} avatarı",
+    "Apps and Settings" : "Uygulamalar ve ayarlar"
 },
 "nplurals=2; plural=(n > 1);");
