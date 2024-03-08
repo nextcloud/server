@@ -25,6 +25,7 @@
 	<NcAppSidebar v-if="showSidebar"
 		class="app-sidebar"
 		:class="{ 'app-sidebar--with-screenshot': hasScreenshot }"
+		:active.sync="activeTab"
 		:background="hasScreenshot ? app.screenshot : undefined"
 		:compact="!hasScreenshot"
 		:name="app.name"
@@ -88,13 +89,18 @@ const { appIcon } = useAppIcon(app)
  */
 const licenseText = computed(() => app.value ? t('settings', 'Version {version}, {license}-licensed', { version: app.value.version, license: app.value.licence.toString().toUpperCase() }) : '')
 
+const activeTab = ref('details')
+watch([app], () => { activeTab.value = 'details' })
+
 /**
  * Hide the details sidebar by pushing a new route
  */
-const hideAppDetails = () => router.push({
-	name: 'apps-category',
-	params: { category: route.params.category },
-})
+const hideAppDetails = () => {
+	router.push({
+		name: 'apps-category',
+		params: { category: route.params.category },
+	})
+}
 
 /**
  * Whether the app screenshot is loaded
