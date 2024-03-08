@@ -46,7 +46,7 @@ class MandatoryTwoFactor {
 	 */
 	public function getState(): EnforcementState {
 		return new EnforcementState(
-			$this->config->getSystemValue('twofactor_enforced', 'false') === 'true',
+			$this->config->getSystemValueBool('twofactor_enforced', false),
 			$this->config->getSystemValue('twofactor_enforced_groups', []),
 			$this->config->getSystemValue('twofactor_enforced_excluded_groups', [])
 		);
@@ -56,7 +56,7 @@ class MandatoryTwoFactor {
 	 * Set the state of enforced two-factor auth
 	 */
 	public function setState(EnforcementState $state) {
-		$this->config->setSystemValue('twofactor_enforced', $state->isEnforced() ? 'true' : 'false');
+		$this->config->setSystemValueBool('twofactor_enforced', $state->isEnforced());
 		$this->config->setSystemValue('twofactor_enforced_groups', $state->getEnforcedGroups());
 		$this->config->setSystemValue('twofactor_enforced_excluded_groups', $state->getExcludedGroups());
 	}

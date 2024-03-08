@@ -55,9 +55,13 @@ class MandatoryTwoFactorTest extends TestCase {
 
 	public function testIsNotEnforced() {
 		$this->config
+			->method('getSystemValueBool')
+			->willReturnMap([
+				['twofactor_enforced', false, false],
+			]);
+		$this->config
 			->method('getSystemValue')
 			->willReturnMap([
-				['twofactor_enforced', 'false', 'false'],
 				['twofactor_enforced_groups', [], []],
 				['twofactor_enforced_excluded_groups', [], []],
 			]);
@@ -69,9 +73,13 @@ class MandatoryTwoFactorTest extends TestCase {
 
 	public function testIsEnforced() {
 		$this->config
+			->method('getSystemValueBool')
+			->willReturnMap([
+				['twofactor_enforced', false, true],
+			]);
+		$this->config
 			->method('getSystemValue')
 			->willReturnMap([
-				['twofactor_enforced', 'false', 'true'],
 				['twofactor_enforced_groups', [], []],
 				['twofactor_enforced_excluded_groups', [], []],
 			]);
@@ -85,9 +93,13 @@ class MandatoryTwoFactorTest extends TestCase {
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')->willReturn('user123');
 		$this->config
+			->method('getSystemValueBool')
+			->willReturnMap([
+				['twofactor_enforced', false, false],
+			]);
+		$this->config
 			->method('getSystemValue')
 			->willReturnMap([
-				['twofactor_enforced', 'false', 'false'],
 				['twofactor_enforced_groups', [], []],
 				['twofactor_enforced_excluded_groups', [], []],
 			]);
@@ -101,9 +113,13 @@ class MandatoryTwoFactorTest extends TestCase {
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')->willReturn('user123');
 		$this->config
+			->method('getSystemValueBool')
+			->willReturnMap([
+				['twofactor_enforced', false, true],
+			]);
+		$this->config
 			->method('getSystemValue')
 			->willReturnMap([
-				['twofactor_enforced', 'false', 'true'],
 				['twofactor_enforced_groups', [], ['twofactorers']],
 				['twofactor_enforced_excluded_groups', [], []],
 			]);
@@ -121,9 +137,13 @@ class MandatoryTwoFactorTest extends TestCase {
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')->willReturn('user123');
 		$this->config
+			->method('getSystemValueBool')
+			->willReturnMap([
+				['twofactor_enforced', false, true],
+			]);
+		$this->config
 			->method('getSystemValue')
 			->willReturnMap([
-				['twofactor_enforced', 'false', 'true'],
 				['twofactor_enforced_groups', [], ['twofactorers']],
 				['twofactor_enforced_excluded_groups', [], []],
 			]);
@@ -139,9 +159,13 @@ class MandatoryTwoFactorTest extends TestCase {
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')->willReturn('user123');
 		$this->config
+			->method('getSystemValueBool')
+			->willReturnMap([
+				['twofactor_enforced', false, true],
+			]);
+		$this->config
 			->method('getSystemValue')
 			->willReturnMap([
-				['twofactor_enforced', 'false', 'true'],
 				['twofactor_enforced_groups', [], []],
 				['twofactor_enforced_excluded_groups', [], ['yoloers']],
 			]);
@@ -157,10 +181,15 @@ class MandatoryTwoFactorTest extends TestCase {
 
 	public function testSetEnforced() {
 		$this->config
-			->expects($this->exactly(3))
+			->expects($this->exactly(1))
+			->method('setSystemValueBool')
+			->willReturnMap([
+				['twofactor_enforced', true],
+			]);
+		$this->config
+			->expects($this->exactly(2))
 			->method('setSystemValue')
 			->willReturnMap([
-				['twofactor_enforced', 'true'],
 				['twofactor_enforced_groups', []],
 				['twofactor_enforced_excluded_groups', []],
 			]);
@@ -170,10 +199,15 @@ class MandatoryTwoFactorTest extends TestCase {
 
 	public function testSetEnforcedForGroups() {
 		$this->config
-			->expects($this->exactly(3))
+			->expects($this->exactly(1))
+			->method('setSystemValueBool')
+			->willReturnMap([
+				['twofactor_enforced', true],
+			]);
+		$this->config
+			->expects($this->exactly(2))
 			->method('setSystemValue')
 			->willReturnMap([
-				['twofactor_enforced', 'true'],
 				['twofactor_enforced_groups', ['twofactorers']],
 				['twofactor_enforced_excluded_groups', ['yoloers']],
 			]);
@@ -183,10 +217,15 @@ class MandatoryTwoFactorTest extends TestCase {
 
 	public function testSetNotEnforced() {
 		$this->config
-			->expects($this->exactly(3))
+			->expects($this->exactly(1))
+			->method('setSystemValueBool')
+			->willReturnMap([
+				['twofactor_enforced', false],
+			]);
+		$this->config
+			->expects($this->exactly(2))
 			->method('setSystemValue')
 			->willReturnMap([
-				['twofactor_enforced', 'false'],
 				['twofactor_enforced_groups', []],
 				['twofactor_enforced_excluded_groups', []],
 			]);
