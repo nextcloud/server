@@ -135,12 +135,16 @@ class AppManagerTest extends TestCase {
 	/**
 	 * @dataProvider dataGetAppIcon
 	 */
-	public function testGetAppIcon($callback, string|null $expected) {
+	public function testGetAppIcon($callback, ?bool $dark, string|null $expected) {
 		$this->urlGenerator->expects($this->atLeastOnce())
 			->method('imagePath')
 			->willReturnCallback($callback);
 
-		$this->assertEquals($expected, $this->manager->getAppIcon('test'));
+		if ($dark !== null) {
+			$this->assertEquals($expected, $this->manager->getAppIcon('test', $dark));
+		} else {
+			$this->assertEquals($expected, $this->manager->getAppIcon('test'));
+		}
 	}
 
 	public function dataGetAppIcon(): array {
@@ -162,35 +166,58 @@ class AppManagerTest extends TestCase {
 		return [
 			'does not find anything' => [
 				$nothing,
+				false,
 				null,
 			],
-			'only app.svg' => [
+			'nothing if request dark but only bright available' => [
 				$createCallback(['app.svg']),
+				true,
+				null,
+			],
+			'nothing if request bright but only dark available' => [
+				$createCallback(['app-dark.svg']),
+				false,
+				null,
+			],
+			'bright and only app.svg' => [
+				$createCallback(['app.svg']),
+				false,
 				'/path/app.svg',
 			],
-			'only app-dark.svg' => [
+			'dark and only app-dark.svg' => [
 				$createCallback(['app-dark.svg']),
+				true,
 				'/path/app-dark.svg',
 			],
-			'only appname -dark.svg' => [
+			'dark only appname -dark.svg' => [
 				$createCallback(['test-dark.svg']),
+				true,
 				'/path/test-dark.svg',
 			],
-			'only appname.svg' => [
+			'bright and only appname.svg' => [
 				$createCallback(['test.svg']),
+				false,
 				'/path/test.svg',
 			],
 			'priotize custom over default' => [
 				$createCallback(['app.svg', 'test.svg']),
+				false,
 				'/path/test.svg',
 			],
-			'priotize default over dark' => [
-				$createCallback(['test-dark.svg', 'app-dark.svg', 'app.svg']),
-				'/path/app.svg',
-			],
-			'priotize custom over default' => [
-				$createCallback(['test.svg', 'test-dark.svg', 'app-dark.svg']),
+			'defaults to bright' => [
+				$createCallback(['test-dark.svg', 'test.svg']),
+				null,
 				'/path/test.svg',
+			],
+			'no dark icon on default' => [
+				$createCallback(['test-dark.svg', 'test.svg', 'app-dark.svg', 'app.svg']),
+				false,
+				'/path/test.svg',
+			],
+			'no bright icon on dark' => [
+				$createCallback(['test-dark.svg', 'test.svg', 'app-dark.svg', 'app.svg']),
+				true,
+				'/path/test-dark.svg',
 			],
 		];
 	}

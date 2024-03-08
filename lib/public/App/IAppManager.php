@@ -65,10 +65,11 @@ interface IAppManager {
 	 * Returns the app icon or null if none is found
 	 *
 	 * @param string $appId
+	 * @param bool $dark Enable to request a dark icon variant, default is a white icon
 	 * @return string|null
 	 * @since 29.0.0
 	 */
-	public function getAppIcon(string $appId): string|null;
+	public function getAppIcon(string $appId, bool $dark = false): string|null;
 
 	/**
 	 * Check if an app is enabled for user
