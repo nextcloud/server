@@ -74,8 +74,8 @@ trait CheckServerResponseTrait {
 
 	/**
 	 * Run a HTTP request to check header
-	 * @param string $url The relative URL to check
 	 * @param string $method The HTTP method to use
+	 * @param string $url The relative URL to check
 	 * @param array{ignoreSSL?: bool, httpErrors?: bool, options?: array} $options Additional options, like
 	 *                                                 [
 	 *                                                  // Ignore invalid SSL certificates (e.g. self signed)
@@ -86,7 +86,7 @@ trait CheckServerResponseTrait {
 	 *
 	 * @return Generator<int, IResponse>
 	 */
-	protected function runRequest(string $url, string $method, array $options = []): Generator {
+	protected function runRequest(string $method, string $url, array $options = []): Generator {
 		$options = array_merge(['ignoreSSL' => true, 'httpErrors' => true], $options);
 
 		$client = $this->clientService->newClient();
@@ -95,7 +95,7 @@ trait CheckServerResponseTrait {
 
 		foreach ($this->getTestUrls($url) as $testURL) {
 			try {
-				yield $client->request($testURL, $method, $requestOptions);
+				yield $client->request($method, $testURL, $requestOptions);
 			} catch (\Throwable $e) {
 				$this->logger->debug('Can not connect to local server for running setup checks', ['exception' => $e, 'url' => $testURL]);
 			}
@@ -110,7 +110,7 @@ trait CheckServerResponseTrait {
 	 * @return Generator<int, IResponse>
 	 */
 	protected function runHEAD(string $url, bool $ignoreSSL = true, bool $httpErrors = true): Generator {
-		return $this->runRequest($url, 'HEAD', ['ignoreSSL' => $ignoreSSL, 'httpErrors' => $httpErrors]);
+		return $this->runRequest('HEAD', $url, ['ignoreSSL' => $ignoreSSL, 'httpErrors' => $httpErrors]);
 	}
 
 	protected function getRequestOptions(bool $ignoreSSL, bool $httpErrors): array {
