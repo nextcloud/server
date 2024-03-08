@@ -749,36 +749,47 @@ class AppConfig implements IAppConfig {
 		$this->loadConfig($lazy);
 
 		$sensitive = $this->isTyped(self::VALUE_SENSITIVE, $type);
-
-		/*
-		 * no update if key is already known with set lazy status, or value is
-		 * different, or sensitivity switched from false to true.
-		 */
-		if ($this->hasKey($app, $key, $lazy)
-			&& $value === $this->getTypedValue($app, $key, $value, $lazy, $type)
-			&& (!$sensitive || $this->isSensitive($app, $key, $lazy))) {
-			return false;
-		}
+		$inserted = $refreshCache = false;
 
 		if ($sensitive || ($this->hasKey($app, $key, $lazy) && $this->isSensitive($app, $key, $lazy))) {
 			$value = self::ENCRYPTION_PREFIX . $this->crypto->encrypt($value);
 		}
 
-		$refreshCache = false;
-		$insert = $this->connection->getQueryBuilder();
-		$insert->insert('appconfig')
-			   ->setValue('appid', $insert->createNamedParameter($app))
-			   ->setValue('lazy', $insert->createNamedParameter(($lazy) ? 1 : 0, IQueryBuilder::PARAM_INT))
-			   ->setValue('type', $insert->createNamedParameter($type, IQueryBuilder::PARAM_INT))
-			   ->setValue('configkey', $insert->createNamedParameter($key))
-			   ->setValue('configvalue', $insert->createNamedParameter($value));
-		try {
-			$insert->executeStatement();
-		} catch (DBException $e) {
-			if ($e->getReason() !== DBException::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
-				throw $e; // TODO: throw exception or just log and returns false !?
+		if ($this->hasKey($app, $key, $lazy)) {
+			/**
+			 * no update if key is already known with set lazy status and value is
+			 * not different, unless sensitivity is switched from false to true.
+			 */
+			if ($value === $this->getTypedValue($app, $key, $value, $lazy, $type)
+				&& (!$sensitive || $this->isSensitive($app, $key, $lazy))) {
+				return false;
 			}
+		} else {
+			/**
+			 * if key is not known yet, we try to insert.
+			 * It might fail if the key exists with a different lazy flag.
+			 */
+			try {
+				$insert = $this->connection->getQueryBuilder();
+				$insert->insert('appconfig')
+					   ->setValue('appid', $insert->createNamedParameter($app))
+					   ->setValue('lazy', $insert->createNamedParameter(($lazy) ? 1 : 0, IQueryBuilder::PARAM_INT))
+					   ->setValue('type', $insert->createNamedParameter($type, IQueryBuilder::PARAM_INT))
+					   ->setValue('configkey', $insert->createNamedParameter($key))
+					   ->setValue('configvalue', $insert->createNamedParameter($value));
+				$insert->executeStatement();
+				$inserted = true;
+			} catch (DBException $e) {
+				if ($e->getReason() !== DBException::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
+					throw $e; // TODO: throw exception or just log and returns false !?
+				}
+			}
+		}
 
+		/**
+		 * We cannot insert a new row, meaning we need to update an already existing one
+		 */
+		if (!$inserted) {
 			$currType = $this->valueTypes[$app][$key] ?? 0;
 			if ($currType === 0) { // this might happen when switching lazy loading status
 				$this->loadConfigAll();
