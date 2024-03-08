@@ -109,8 +109,8 @@ class AppManager implements IAppManager {
 	) {
 	}
 
-	public function getAppIcon(string $appId): ?string {
-		$possibleIcons = [$appId . '.svg', 'app.svg', $appId . '-dark.svg', 'app-dark.svg'];
+	public function getAppIcon(string $appId, bool $dark = false): ?string {
+		$possibleIcons = $dark ? [$appId . '-dark.svg', 'app-dark.svg'] : [$appId . '.svg', 'app.svg'];
 		$icon = null;
 		foreach ($possibleIcons as $iconName) {
 			try {
