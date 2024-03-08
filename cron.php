@@ -117,7 +117,7 @@ try {
 		$user = posix_getuid();
 		$dataDirectoryUser = fileowner($config->getSystemValueString('datadirectory', \OC::$SERVERROOT . '/data'));
 		if ($user !== $dataDirectoryUser) {
-			echo "Console has to be executed with the user that owns the data directory" . PHP_EOL;
+			echo "Cron has to be executed with the user that owns the data directory" . PHP_EOL;
 			echo "Current user id: " . $user . PHP_EOL;
 			echo "Owner id of the data directory: " . $dataDirectoryUser . PHP_EOL;
 			exit(1);
