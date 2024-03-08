@@ -29,7 +29,6 @@ namespace OCA\Settings\SetupChecks;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\IL10N;
-use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\SetupCheck\ISetupCheck;
 use OCP\SetupCheck\SetupResult;
@@ -43,7 +42,6 @@ class SecurityHeaders implements ISetupCheck {
 		protected IL10N $l10n,
 		protected IConfig $config,
 		protected IURLGenerator $urlGenerator,
-		protected IRequest $request,
 		protected IClientService $clientService,
 		protected LoggerInterface $logger,
 	) {
@@ -63,14 +61,14 @@ class SecurityHeaders implements ISetupCheck {
 		];
 		$securityHeaders = [
 			'X-Content-Type-Options' => ['nosniff', null],
-			'X-Robots-Tag' => ['noindex, nofollow', null],
+			'X-Robots-Tag' => ['noindex,nofollow', null],
 			'X-Frame-Options' => ['sameorigin', 'deny'],
 			'X-Permitted-Cross-Domain-Policies' => ['none', null],
 		];
 
 		foreach ($urls as [$verb,$url,$validStatuses]) {
 			$works = null;
-			foreach ($this->runRequest($url, $verb, ['httpErrors' => false]) as $response) {
+			foreach ($this->runRequest($verb, $url, ['httpErrors' => false]) as $response) {
 				// Check that the response status matches
 				if (!in_array($response->getStatusCode(), $validStatuses)) {
 					$works = false;
@@ -79,25 +77,26 @@ class SecurityHeaders implements ISetupCheck {
 				$msg = '';
 				$msgParameters = [];
 				foreach ($securityHeaders as $header => [$expected, $accepted]) {
-					$value = strtolower($response->getHeader($header));
+					/* Convert to lowercase and remove spaces after comas */
+					$value = preg_replace('/,\s+/', ',', strtolower($response->getHeader($header)));
 					if ($value !== $expected) {
 						if ($accepted !== null && $value === $accepted) {
-							$msg .= $this->l10n->t('- The `%1` HTTP header is not set to `%2`. Some features might not work correctly, as it is recommended to adjust this setting accordingly.', [$header, $expected]);
+							$msg .= $this->l10n->t('- The `%1$s` HTTP header is not set to `%2$s`. Some features might not work correctly, as it is recommended to adjust this setting accordingly.', [$header, $expected])."\n";
 						} else {
-							$msg .= $this->l10n->t('- The `%1` HTTP header is not set to `%2`. This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly.', [$header, $expected]);
+							$msg .= $this->l10n->t('- The `%1$s` HTTP header is not set to `%2$s`. This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly.', [$header, $expected])."\n";
 						}
 					}
 				}
 
 				$xssfields = array_map('trim', explode(';', $response->getHeader('X-XSS-Protection')));
 				if (!in_array('1', $xssfields) || !in_array('mode=block', $xssfields)) {
-					$msg .= $this->l10n->t('- The `%1` HTTP header does not contain `%2`. This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly.', ['X-XSS-Protection', '1; mode=block']);
+					$msg .= $this->l10n->t('- The `%1$s` HTTP header does not contain `%2$s`. This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly.', ['X-XSS-Protection', '1; mode=block'])."\n";
 				}
 
 				$referrerPolicy = $response->getHeader('Referrer-Policy');
 				if (!preg_match('/(no-referrer(-when-downgrade)?|strict-origin(-when-cross-origin)?|same-origin)(,|$)/', $referrerPolicy)) {
 					$msg .= $this->l10n->t(
-						'- The `%1` HTTP header is not set to `%2`, `%3`, `%4`, `%5` or `%6`. This can leak referer information. See the {w3c-recommendation}.',
+						'- The `%1$s` HTTP header is not set to `%2$s`, `%3$s`, `%4$s`, `%5$s` or `%6$s`. This can leak referer information. See the {w3c-recommendation}.',
 						[
 							'Referrer-Policy',
 							'no-referrer',
@@ -106,7 +105,7 @@ class SecurityHeaders implements ISetupCheck {
 							'strict-origin-when-cross-origin',
 							'same-origin',
 						]
-					);
+					)."\n";
 					$msgParameters['w3c-recommendation'] = [
 						'type' => 'highlight',
 						'id' => 'w3c-recommendation',
@@ -125,6 +124,12 @@ class SecurityHeaders implements ISetupCheck {
 			if ($works === null) {
 				return SetupResult::info(
 					$this->l10n->t('Could not check that your web server serves security headers correctly. Please check manually.'),
+				);
+			}
+			// Otherwise if we fail we can abort here
+			if ($works === false) {
+				return SetupResult::warning(
+					$this->l10n->t("Could not check that your web server serves security headers correctly, unable to query `%s`", [$url]),
 				);
 			}
 		}
