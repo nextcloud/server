@@ -5,8 +5,7 @@
 
 name: Lint php
 
-on:
-  pull_request:
+on: pull_request
 
 permissions:
   contents: read
@@ -16,38 +15,23 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  changes:
+  matrix:
     runs-on: ubuntu-latest-low
-
     outputs:
-      src: ${{ steps.changes.outputs.src}}
-
+      php-versions: ${{ steps.versions.outputs.php-versions }}
     steps:
-      - uses: dorny/paths-filter@ebc4d7e9ebcb0b1eb21480bb8f43113e996ac77a # v3.0.1
-        id: changes
-        continue-on-error: true
-        with:
-          filters: |
-            src:
-              - '.github/workflows/**'
-              - '3rdparty/**'
-              - '**/lib/**'
-              - '**/tests/**'
-              - '**/vendor-bin/**'
-              - '.php-cs-fixer.dist.php'
-              - 'composer.json'
-              - 'composer.lock'
-              - '**.php'
+      - name: Checkout app
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+      - name: Get version matrix
+        id: versions
+        uses: icewind1991/nextcloud-version-matrix@58becf3b4bb6dc6cef677b15e2fd8e7d48c0908f # v1.0.0
 
-  lint:
+  php-lint:
     runs-on: ubuntu-latest
-
-    needs: changes
-    if: needs.changes.outputs.src != 'false'
-
+    needs: matrix
     strategy:
       matrix:
-        php-versions: [ "8.0", "8.1", "8.2", "8.3" ]
+        php-versions: ${{fromJson(needs.matrix.outputs.php-versions)}}
 
     name: php-lint
 
@@ -56,9 +40,10 @@ jobs:
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
 
       - name: Set up php ${{ matrix.php-versions }}
-        uses: shivammathur/setup-php@4bd44f22a98a19e0950cbad5f31095157cc9621b # v2
+        uses: shivammathur/setup-php@a4e22b60bbb9c1021113f2860347b0759f66fe5d # v2
         with:
           php-version: ${{ matrix.php-versions }}
+          extensions: bz2, ctype, curl, dom, fileinfo, gd, iconv, intl, json, libxml, mbstring, openssl, pcntl, posix, session, simplexml, xmlreader, xmlwriter, zip, zlib, sqlite, pdo_sqlite
           coverage: none
           ini-file: development
         env:
@@ -71,7 +56,7 @@ jobs:
     permissions:
       contents: none
     runs-on: ubuntu-latest-low
-    needs: [changes, lint]
+    needs: php-lint
 
     if: always()
 
@@ -79,4 +64,4 @@ jobs:
 
     steps:
       - name: Summary status
-        run: if ${{ needs.changes.outputs.src != 'false' && needs.lint.result != 'success' }}; then exit 1; fi
+        run: if ${{ needs.php-lint.result != 'success' && needs.php-lint.result != 'skipped' }}; then exit 1; fi
