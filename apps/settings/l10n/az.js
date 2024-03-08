@@ -133,7 +133,6 @@ OC.L10N.register(
     "Error saving profile picture" : "Profil şəklini saxlayan vaxtı səhv baş verdi",
     "Error removing profile picture" : "Profil şəklini silən vaxtı səhv baş verdi",
     "Details" : "Detallar",
-    "Back" : "Geri",
     "No email address set" : "Email ünvanı dəsti yoxdur",
     "Help translate" : "Tərcüməyə kömək",
     "Add" : "Əlavə etmək",

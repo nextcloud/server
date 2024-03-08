@@ -186,7 +186,6 @@ OC.L10N.register(
     "New password" : "Noua parolă",
     "Change password" : "Schimbă parola",
     "Details" : "Detalii",
-    "Back" : "Înapoi",
     "No email address set" : "Fără adresă de email setată",
     "Help translate" : "Ajută la traducere",
     "Your phone number" : "Numărul tău de telefon",

@@ -72,7 +72,6 @@
     "The following apps have been disabled: %s" : "Le seguenti applicazioni sono state disabilitate: %s",
     "Already up to date" : "Già aggiornato",
     "Your web server is not yet properly set up to allow file synchronization, because the WebDAV interface seems to be broken." : "Il tuo server web non è configurato correttamente per consentire la sincronizzazione dei file, poiché l'interfaccia WebDAV sembra essere danneggiata.",
-    "Your web server is not properly set up to resolve \"{url}\". Further information can be found in the {linkstart}documentation ↗{linkend}." : "Il tuo server web non è configurato correttamente per risolvere \"{url}\". Ulteriori informazioni sono disponibili nella nostra {linkstart}documentazione ↗{linkend}.",
     "Error occurred while checking server setup" : "Si è verificato un errore durante il controllo della configurazione del server",
     "For more details see the {linkstart}documentation ↗{linkend}." : "Per ulteriori dettagli, leggi la {linkstart}documentazione ↗{linkend}.",
     "The \"{header}\" HTTP header is not set to \"{expected}\". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "L'intestazione HTTP \"{header}\" non è configurata come \"{expected}\". \nQuesto è un potenziale rischio di sicurezza o di riservatezza, e noi consigliamo di modificare questa impostazione.",
@@ -175,7 +174,7 @@
     "Unified search" : "Ricerca unificata",
     "Search apps, files, tags, messages" : "Cerca applicazioni. file, etichette, messaggi",
     "Search {types} …" : "Cerca {types}...",
-    "Apps and Settings" : "Applicazioni e impostazioni",
+    "Places" : "Luoghi",
     "Date" : "Data",
     "Today" : "Ogg",
     "Last 7 days" : "Ultimi 7 giorni",
@@ -361,6 +360,7 @@
     "Please try again" : "Riprova",
     "The user limit of this instance is reached." : "Il limite di utenti di questa istanza è stato raggiunto.",
     "Enter your subscription key in the support app in order to increase the user limit. This does also grant you all additional benefits that Nextcloud Enterprise offers and is highly recommended for the operation in companies." : "Inserisci la tua chiave di abbonamento nell'applicazione di supporto per aumentare il limite di utenti. In questo modo otterrai anche tutti i vantaggi aggiuntivi che Nextcloud Enterprise offre ed è altamente consigliato per l'operatività nelle aziende.",
+    "Your web server is not properly set up to resolve \"{url}\". Further information can be found in the {linkstart}documentation ↗{linkend}." : "Il tuo server web non è configurato correttamente per risolvere \"{url}\". Ulteriori informazioni sono disponibili nella nostra {linkstart}documentazione ↗{linkend}.",
     "Your web server is not properly set up to resolve \"{url}\". This is most likely related to a web server configuration that was not updated to deliver this folder directly. Please compare your configuration against the shipped rewrite rules in \".htaccess\" for Apache or the provided one in the documentation for Nginx at it's {linkstart}documentation page ↗{linkend}. On Nginx those are typically the lines starting with \"location ~\" that need an update." : "Il tuo server non è configurato correttamente per risolvere \"{url}\". Ciò è probabilmente legato a una configurazione del server che non è stata aggiornata per fornire direttamente questa cartella. Confronta la tua configurazione con le regole di rewrite fornite in \".htaccess\" per Apache o quella fornita nella documentazione di Nginx alla sua {linkstart}pagina di documentazione ↗{linkend}. Su Nginx di solito sono le righe che iniziano con \"location ~\" quelle da aggiornare.",
     "Your web server is not properly set up to deliver .woff2 files. This is typically an issue with the Nginx configuration. For Nextcloud 15 it needs an adjustement to also deliver .woff2 files. Compare your Nginx configuration to the recommended configuration in our {linkstart}documentation ↗{linkend}." : "Il tuo server web non è configurato correttamente per fornire file .woff2. Questo è solitamente un problema con la configurazione di Nginx. Per Nextcloud 15 richiede una modifica per fornire anche i file .woff2. Confronta la tua configurazione di Nginx con la configurazione consigliata nella nostra {linkstart}documentazione ↗{linkend}.",
     "PHP does not seem to be setup properly to query system environment variables. The test with getenv(\"PATH\") only returns an empty response." : "PHP non sembra essere configurato correttamente per interrogare le variabili d'ambiente di sistema. Il test con getenv(\"PATH\") restituisce solo una risposta vuota.",
@@ -453,6 +453,7 @@
     "PHP 8.0 is now deprecated in Nextcloud 27. Nextcloud 28 may require at least PHP 8.1. Please upgrade to {linkstart}one of the officially supported PHP versions provided by the PHP Group ↗{linkend} as soon as possible." : "PHP 8.0 è deprecato in Nextcloud 27. Nextcloud 28 potrebbe richiedere almeno PHP 8.1. Aggiorna ad {linkstart}una delle versioni di PHP supportate ufficialmente fornite dal Gruppo PHP ↗{linkend} il prima possibile.",
     "This instance is running in debug mode. Only enable this for local development and not in production environments." : "Questa istanza sta funzionando in modalità debug. Attivala solo per lo sviluppo locale e non in ambienti di produzione.",
     "If this account exists, a password reset message has been sent to its email address. If you do not receive it, verify your email address and/or account name, check your spam/junk folders or ask your local administration for help." : "Se questo account esiste, abbiamo inviato un messaggio di ripristino della password al suo indirizzo di posta. Se non lo ricevi, controlla l'indirizzo e/o il nome utente, le cartelle della posta indesiderata o contatta il tuo amministratore locale.",
-    "Avatar of {fullName}" : "Avatar di {fullName}"
+    "Avatar of {fullName}" : "Avatar di {fullName}",
+    "Apps and Settings" : "Applicazioni e impostazioni"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

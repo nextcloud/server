@@ -76,7 +76,6 @@ OC.L10N.register(
     "The following apps have been disabled: %s" : "Les applications suivantes ont été désactivées : %s",
     "Already up to date" : "Déjà à jour",
     "Your web server is not yet properly set up to allow file synchronization, because the WebDAV interface seems to be broken." : "Votre serveur web n'est pas encore correctement configuré pour la synchronisation de fichiers parce que l'interface WebDAV semble ne pas fonctionner.",
-    "Your web server is not properly set up to resolve \"{url}\". Further information can be found in the {linkstart}documentation ↗{linkend}." : "Votre serveur web nest pas configuré correctement pour résoudre \"{url}\".  Plus d'informations peuvent être trouvées sur notre <a target=\"_blank\" href=\"{docLink}\">documentation</a>.",
     "Error occurred while checking server setup" : "Une erreur s'est produite lors de la vérification de la configuration du serveur",
     "For more details see the {linkstart}documentation ↗{linkend}." : "Pour plus d’information, voir la {linkstart}documentation ↗{linkend}.",
     "The \"{header}\" HTTP header is not set to \"{expected}\". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "L'en-tête HTTP \"{header}\" n'est pas configurée pour être égale à \"{expected}\". Ceci constitue un risque potentiel relatif à la sécurité et à la vie privée étant donné qu'il est recommandé d'ajuster ce paramètre.",
@@ -183,7 +182,7 @@ OC.L10N.register(
     "Unified search" : "Recherche unifiée",
     "Search apps, files, tags, messages" : "Rechercher des applications, des fichiers, des étiquettes, des messages",
     "Search {types} …" : "Rechercher {types}…",
-    "Apps and Settings" : "Applications et paramètres",
+    "Places" : "Lieux",
     "Date" : "Date",
     "Today" : "Aujourd'hui",
     "Last 7 days" : "7 derniers jours",
@@ -371,6 +370,7 @@ OC.L10N.register(
     "Please try again" : "Veuillez réessayer",
     "The user limit of this instance is reached." : "Le nombre maximum d'utilisateurs a été atteint sur cette instance.",
     "Enter your subscription key in the support app in order to increase the user limit. This does also grant you all additional benefits that Nextcloud Enterprise offers and is highly recommended for the operation in companies." : "Saisissez votre clé de licence dans l'application Support afin d'augmenter la limite d'utilisateurs. Cela vous donne également tous les avantages supplémentaires que Nextcloud Enterprise offre et est fortement recommandé pour l'exploitation dans les entreprises.",
+    "Your web server is not properly set up to resolve \"{url}\". Further information can be found in the {linkstart}documentation ↗{linkend}." : "Votre serveur web nest pas configuré correctement pour résoudre \"{url}\".  Plus d'informations peuvent être trouvées sur notre <a target=\"_blank\" href=\"{docLink}\">documentation</a>.",
     "Your web server is not properly set up to resolve \"{url}\". This is most likely related to a web server configuration that was not updated to deliver this folder directly. Please compare your configuration against the shipped rewrite rules in \".htaccess\" for Apache or the provided one in the documentation for Nginx at it's {linkstart}documentation page ↗{linkend}. On Nginx those are typically the lines starting with \"location ~\" that need an update." : "Votre serveur web n'est pas proprement configuré pour résoudre \"{url}\". Ceci est probablement lié à une configuration du serveur web qui n'a pas été mise à jour pour délivrer directement ce dossier. Veuillez comparer votre configuration avec les règles ré-écrites dans \".htaccess\" pour Apache ou celles contenues dans la documentation de Nginx ici {linkstart}documentation page ↗{linkend}. Pour Nginx les lignes nécessitant une mise à jour sont typiquement celles débutant par \"location ~\".",
     "Your web server is not properly set up to deliver .woff2 files. This is typically an issue with the Nginx configuration. For Nextcloud 15 it needs an adjustement to also deliver .woff2 files. Compare your Nginx configuration to the recommended configuration in our {linkstart}documentation ↗{linkend}." : "Votre serveur web n'est pas correctement configuré pour distribuer des fichiers .woff2. C'est une erreur fréquente de configuration Nginx. Pour Nextcloud 15, il est nécessaire de la régler pour les fichiers .woff2. Comparer votre configuration Nginx avec la configuration recommandée dans notre  {linkstart}documentation ↗{linkend}.",
     "PHP does not seem to be setup properly to query system environment variables. The test with getenv(\"PATH\") only returns an empty response." : "PHP ne semble pas être configuré de manière à récupérer les valeurs des variables d’environnement. Le test de la commande getenv(\"PATH\") retourne seulement une réponse vide. ",
@@ -464,6 +464,7 @@ OC.L10N.register(
     "PHP 8.0 is now deprecated in Nextcloud 27. Nextcloud 28 may require at least PHP 8.1. Please upgrade to {linkstart}one of the officially supported PHP versions provided by the PHP Group ↗{linkend} as soon as possible." : "PHP 8.0 est maintenant obsolète pour Nextcloud 27. À partir de Nextcloud 28, la version PHP 8.1 minimum sera requise. Veuillez mettre à jour {linkstart}vers une version supportée officiellement par PHP Group ↗{linkend} dès que possible.",
     "This instance is running in debug mode. Only enable this for local development and not in production environments." : "Le mode débogage est activé sur cette instance. Veillez à n'activer ce mode que sur des instances de développement et non en production.",
     "If this account exists, a password reset message has been sent to its email address. If you do not receive it, verify your email address and/or account name, check your spam/junk folders or ask your local administration for help." : "Si ce compte existe, un message de réinitialisation de mot de passe a été envoyé à l'adresse e-mail correspondante. Si vous ne le recevez pas, veuillez vérifier le nom d'utilisateur/adresse e-mail, vérifiez dans votre dossier d'indésirables ou demander de l'aide à l'administrateur de cette instance.",
-    "Avatar of {fullName}" : "Avatar de {fullName}"
+    "Avatar of {fullName}" : "Avatar de {fullName}",
+    "Apps and Settings" : "Applications et paramètres"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

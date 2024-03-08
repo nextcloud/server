@@ -221,6 +221,7 @@ OC.L10N.register(
     "Open the files app settings" : "Odpri nastavitve programa Datoteke",
     "Files settings" : "Nastavitve datotek",
     "File cannot be accessed" : "Do datoteke dostop ni mogoč",
+    "Open in files" : "Open in Files",
     "Sort favorites first" : "Razvrsti najprej priljubljene",
     "Show hidden files" : "Pokaži skrite datoteke",
     "Crop image previews" : "Obreži slike predogleda",

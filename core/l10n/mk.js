@@ -67,7 +67,6 @@ OC.L10N.register(
     "The following apps have been disabled: %s" : "Следниве апликации се оневозможени: %s",
     "Already up to date" : "Веќе ажурирано",
     "Your web server is not yet properly set up to allow file synchronization, because the WebDAV interface seems to be broken." : "Вашиот веб опслужувач сеуште не е точно подесен да овозможува синхронизација на датотеки бидејќи интерфејсот за WebDAV изгледа дека е расипан. ",
-    "Your web server is not properly set up to resolve \"{url}\". Further information can be found in the {linkstart}documentation ↗{linkend}." : "Вашиот веб сервер не е правилно поставен за разрешаување на \"{url}\".  Повеќе информации можат да се пронајдат во {linkstart}документацијата ↗{linkend}.",
     "Error occurred while checking server setup" : "Се случи грешка при проверката на параметрите на серверот",
     "For more details see the {linkstart}documentation ↗{linkend}." : "За повеќе детали погледнете во {linkstart}документацијата ↗{linkend}.",
     "The \"{header}\" HTTP header is not set to \"{expected}\". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "HTTP заглавието \"{header}\" не е поставено да биде \"{expected}\". Ова потенцијално може да ја загрози приватноста и безбедноста, се препорачува соодветно да ја поставите оваа поставка.",
@@ -161,7 +160,7 @@ OC.L10N.register(
     "{user} has not added any info yet" : "{user} нема додадено никакви информации",
     "Search apps, files, tags, messages" : "Барај апликации, датотеки, ознаки, пораки",
     "Search {types} …" : "Пребарување {types} …",
-    "Apps and Settings" : "Апликации и параметри",
+    "Places" : "Места",
     "Date" : "Датум",
     "Today" : "Денес",
     "Last 7 days" : "Предходни 7 дена",
@@ -343,6 +342,7 @@ OC.L10N.register(
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Контактирајте го вашиот систем администратор до колку оваа порака продолжи да се појавува или пак се појавува ненадејно.",
     "Please try again" : "Ве молиме обидете се повторно",
     "The user limit of this instance is reached." : "Лимитот на корисници на оваа истанца е исполнет.",
+    "Your web server is not properly set up to resolve \"{url}\". Further information can be found in the {linkstart}documentation ↗{linkend}." : "Вашиот веб сервер не е правилно поставен за разрешаување на \"{url}\".  Повеќе информации можат да се пронајдат во {linkstart}документацијата ↗{linkend}.",
     "Your web server is not properly set up to resolve \"{url}\". This is most likely related to a web server configuration that was not updated to deliver this folder directly. Please compare your configuration against the shipped rewrite rules in \".htaccess\" for Apache or the provided one in the documentation for Nginx at it's {linkstart}documentation page ↗{linkend}. On Nginx those are typically the lines starting with \"location ~\" that need an update." : "Вашиот веб сервер не е правилно поставен за разрешаување на \"{url}\". Ова најверојатно е поврзано со конфигурацијата на веб-серверот или не е ажуриран за директен пристап до оваа папка. Ве молиме, споредете ја вашата конфигурација дали е во согласност со правилата за пренасочување во \".htaccess\" за Apache или во документацијата за  Nginx на {linkstart}страната со документација{linkend}. На Nginx тоа се најчето линиите што започнуваат со \"location ~\" што им треба ажурирање.",
     "Your web server is not properly set up to deliver .woff2 files. This is typically an issue with the Nginx configuration. For Nextcloud 15 it needs an adjustement to also deliver .woff2 files. Compare your Nginx configuration to the recommended configuration in our {linkstart}documentation ↗{linkend}." : "Вашиот веб сервер не е правилно поставен за испорака на .woff2 датотеки. Ова обично е проблем со конфигурацијата на Nginx. За Nextcloud 15 исто така е потребно да се испорачуваат .woff2 датотеки. Споредете ја вашата конфигурација на Nginx со препорачаната конфигурација во нашата {linkstart}документација{linkend}.",
     "PHP does not seem to be setup properly to query system environment variables. The test with getenv(\"PATH\") only returns an empty response." : "PHP се чини дека не е правилно поставена за да испраќа барања до променливите на околината на системот. Тестот со getenv(\"PATH\") враќа само празен одговор.",
@@ -415,6 +415,7 @@ OC.L10N.register(
     "App token" : "App token",
     "Alternative log in using app token" : "Алтернативен начин на најава со користење на токен",
     "Please use the command line updater because you have a big instance with more than 50 users." : "Ве молиме користете ја командната линија за ажурирање бидејќи имате голема истанца со повеќе од 50 корисници.",
-    "Avatar of {fullName}" : "Аватар на {fullName}"
+    "Avatar of {fullName}" : "Аватар на {fullName}",
+    "Apps and Settings" : "Апликации и параметри"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

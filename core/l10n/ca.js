@@ -74,7 +74,6 @@ OC.L10N.register(
     "The following apps have been disabled: %s" : "S'han inhabilitat les aplicacions següents: %s",
     "Already up to date" : "Ja teniu la versió més recent",
     "Your web server is not yet properly set up to allow file synchronization, because the WebDAV interface seems to be broken." : "El servidor web no està configurat correctament per a permetre la sincronització de fitxers perquè sembla que la interfície WebDAV no funciona correctament.",
-    "Your web server is not properly set up to resolve \"{url}\". Further information can be found in the {linkstart}documentation ↗{linkend}." : "El servidor web no està configurat correctament per a resoldre «{url}». Podeu trobar més informació en la {linkstart}documentació ↗{linkend}.",
     "Error occurred while checking server setup" : "S'ha produït un error en comprovar la configuració del servidor",
     "For more details see the {linkstart}documentation ↗{linkend}." : "Per a conèixer més detalls, consulteu la {linkstart}documentació ↗{linkend}.",
     "The \"{header}\" HTTP header is not set to \"{expected}\". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "La capçalera HTTP «{header}» no té el valor «{expected}». Això és un risc potencial de seguretat o privadesa, perquè es recomana ajustar aquest paràmetre adequadament.",
@@ -177,7 +176,7 @@ OC.L10N.register(
     "Unified search" : "Cerca unificada",
     "Search apps, files, tags, messages" : "Cerca aplicacions, fitxers, etiquetes, missatges",
     "Search {types} …" : "Cerqueu {types}…",
-    "Apps and Settings" : "Aplicacions i paràmetres",
+    "Places" : "Llocs",
     "Date" : "Data",
     "Today" : "Avui",
     "Last 7 days" : "Últims 7 dies",
@@ -363,6 +362,7 @@ OC.L10N.register(
     "Please try again" : "Torneu-ho a provar",
     "The user limit of this instance is reached." : "S'ha assolit el límit d'usuaris d'aquesta instància.",
     "Enter your subscription key in the support app in order to increase the user limit. This does also grant you all additional benefits that Nextcloud Enterprise offers and is highly recommended for the operation in companies." : "Introduïu la clau de subscripció a l'aplicació d'assistència per a augmentar el límit d'usuaris. Això també us atorga tots els avantatges addicionals que ofereix el Nextcloud Enterprise i és molt recomanable per al funcionament en empreses.",
+    "Your web server is not properly set up to resolve \"{url}\". Further information can be found in the {linkstart}documentation ↗{linkend}." : "El servidor web no està configurat correctament per a resoldre «{url}». Podeu trobar més informació en la {linkstart}documentació ↗{linkend}.",
     "Your web server is not properly set up to resolve \"{url}\". This is most likely related to a web server configuration that was not updated to deliver this folder directly. Please compare your configuration against the shipped rewrite rules in \".htaccess\" for Apache or the provided one in the documentation for Nginx at it's {linkstart}documentation page ↗{linkend}. On Nginx those are typically the lines starting with \"location ~\" that need an update." : "El servidor web no està configurat correctament per a resoldre «{url}». És probable que això estigui relacionat amb una configuració del servidor web que no s'hagi actualitzat per lliurar aquesta carpeta directament. Compareu la vostra configuració amb les regles de reescriptura incloses en el fitxer «.htaccess» per a l'Apache o amb les que es proporcionen en la documentació del Nginx en la {linkstart}pàgina de documentació ↗{linkend}. Al Nginx, normalment són les línies que comencen per «location ~» les que necessiten una actualització.",
     "Your web server is not properly set up to deliver .woff2 files. This is typically an issue with the Nginx configuration. For Nextcloud 15 it needs an adjustement to also deliver .woff2 files. Compare your Nginx configuration to the recommended configuration in our {linkstart}documentation ↗{linkend}." : "El servidor web no està configurat correctament per a lliurar fitxers .woff2. Això sol ser un problema amb la configuració del Nginx. Per al Nextcloud 15, cal un ajust per a lliurar també fitxers .woff2. Compareu la vostra configuració del Nginx amb la configuració recomanada de la nostra {linkstart}documentació ↗{linkend}.",
     "PHP does not seem to be setup properly to query system environment variables. The test with getenv(\"PATH\") only returns an empty response." : "Sembla que el PHP no s'ha configurat correctament per a obtenir les variables d'entorn del sistema. La prova amb getenv(\"PATH\") només retorna una resposta buida.",
@@ -455,6 +455,7 @@ OC.L10N.register(
     "PHP 8.0 is now deprecated in Nextcloud 27. Nextcloud 28 may require at least PHP 8.1. Please upgrade to {linkstart}one of the officially supported PHP versions provided by the PHP Group ↗{linkend} as soon as possible." : "El PHP 8.0 està obsolet en el Nextcloud 27. És possible que el Nextcloud 28 requereixi, com a mínim, el PHP 8.1. Actualitzeu a {linkstart}una de les versions del PHP admeses oficialment proporcionades pel Grup PHP ↗{linkend} tan aviat com sigui possible.",
     "This instance is running in debug mode. Only enable this for local development and not in production environments." : "Aquesta instància s'està executant en mode de depuració. Habiliteu-ho només per a desenvolupament local i no en entorns de producció.",
     "If this account exists, a password reset message has been sent to its email address. If you do not receive it, verify your email address and/or account name, check your spam/junk folders or ask your local administration for help." : "Si aquest compte existeix, s'ha enviat un missatge de reinicialització de la contrasenya a l'adreça electrònica del compte. Si no el rebeu, comproveu l'adreça electrònica o el nom del compte, les carpetes de correu brossa o demaneu ajuda a l'equip d'administració local.",
-    "Avatar of {fullName}" : "Avatar de {fullName}"
+    "Avatar of {fullName}" : "Avatar de {fullName}",
+    "Apps and Settings" : "Aplicacions i paràmetres"
 },
 "nplurals=2; plural=(n != 1);");

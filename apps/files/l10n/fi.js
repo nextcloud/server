@@ -219,6 +219,7 @@ OC.L10N.register(
     "Open the files app settings" : "Avaa tiedostosovelluksen asetukset",
     "Files settings" : "Tiedostojen asetukset",
     "File cannot be accessed" : "Tiedostoa ei voi käyttää",
+    "Open in files" : "Avaa tiedostosovelluksessa",
     "Sort favorites first" : "Järjestä suosikit ensiksi",
     "Show hidden files" : "Näytä piilotetut tiedostot",
     "Crop image previews" : "Rajaa kuvien esikatseluja",
