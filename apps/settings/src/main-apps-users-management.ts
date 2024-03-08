@@ -29,12 +29,13 @@ import { translate as t, translatePlural as n } from '@nextcloud/l10n'
 
 import SettingsApp from './views/SettingsApp.vue'
 import router from './router/index.ts'
-import store from './store/index.js'
+import { useStore } from './store/index.js'
 import { getRequestToken } from '@nextcloud/auth'
 import { PiniaVuePlugin, createPinia } from 'pinia'
 
 Vue.use(VTooltip, { defaultHtml: false })
 
+const store = useStore()
 sync(store, router)
 
 // CSP config for webpack dynamic chunk loading
@@ -44,10 +45,6 @@ __webpack_nonce__ = btoa(getRequestToken() ?? '')
 // bind to window
 Vue.prototype.t = t
 Vue.prototype.n = n
-Vue.prototype.OC = window.OC
-Vue.prototype.OCA = window.OCA
-// @ts-expect-error This is a private property we use
-Vue.prototype.oc_userconfig = window.oc_userconfig
 Vue.use(PiniaVuePlugin)
 
 const pinia = createPinia()

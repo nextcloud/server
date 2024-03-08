@@ -21,192 +21,31 @@
   -->
 
 <template>
-	<Fragment>
-		<NcAppNavigation :aria-label="t('settings', 'Account management')">
-			<NcAppNavigationNew button-id="new-user-button"
-				:text="t('settings','New account')"
-				@click="showNewUserMenu"
-				@keyup.enter="showNewUserMenu"
-				@keyup.space="showNewUserMenu">
-				<template #icon>
-					<Plus :size="20" />
-				</template>
-			</NcAppNavigationNew>
-
-			<NcAppNavigationList data-cy-users-settings-navigation-groups="system">
-				<NcAppNavigationItem id="everyone"
-					:exact="true"
-					:name="t('settings', 'Active accounts')"
-					:to="{ name: 'users' }">
-					<template #icon>
-						<AccountGroup :size="20" />
-					</template>
-					<template #counter>
-						<NcCounterBubble v-if="userCount" :type="!selectedGroupDecoded ? 'highlighted' : undefined">
-							{{ userCount }}
-						</NcCounterBubble>
-					</template>
-				</NcAppNavigationItem>
-
-				<NcAppNavigationItem v-if="settings.isAdmin"
-					id="admin"
-					:exact="true"
-					:name="t('settings', 'Admins')"
-					:to="{ name: 'group', params: { selectedGroup: 'admin' } }">
-					<template #icon>
-						<ShieldAccount :size="20" />
-					</template>
-					<template v-if="adminGroupMenu.count > 0" #counter>
-						<NcCounterBubble :type="selectedGroupDecoded === 'admin' ? 'highlighted' : undefined">
-							{{ adminGroupMenu.count }}
-						</NcCounterBubble>
-					</template>
-				</NcAppNavigationItem>
-
-				<!-- Hide the disabled if none, if we don't have the data (-1) show it -->
-				<NcAppNavigationItem v-if="disabledGroupMenu.usercount > 0 || disabledGroupMenu.usercount === -1"
-					id="disabled"
-					:exact="true"
-					:name="t('settings', 'Disabled users')"
-					:to="{ name: 'group', params: { selectedGroup: 'disabled' } }">
-					<template #icon>
-						<AccountOff :size="20" />
-					</template>
-					<template v-if="disabledGroupMenu.usercount > 0" #counter>
-						<NcCounterBubble :type="selectedGroupDecoded === 'disabled' ? 'highlighted' : undefined">
-							{{ disabledGroupMenu.usercount }}
-						</NcCounterBubble>
-					</template>
-				</NcAppNavigationItem>
-			</NcAppNavigationList>
-
-			<NcAppNavigationCaption :name="t('settings', 'Groups')"
-				:disabled="loadingAddGroup"
-				:aria-label="loadingAddGroup ? t('settings', 'Creating group …') : t('settings', 'Create group')"
-				force-menu
-				is-heading
-				:open.sync="isAddGroupOpen">
-				<template #actionsTriggerIcon>
-					<NcLoadingIcon v-if="loadingAddGroup" />
-					<Plus v-else :size="20" />
-				</template>
-				<template #actions>
-					<NcActionText>
-						<template #icon>
-							<AccountGroup :size="20" />
-						</template>
-						{{ t('settings', 'Create group') }}
-					</NcActionText>
-					<NcActionInput :label="t('settings', 'Group name')"
-						data-cy-users-settings-new-group-name
-						:label-outside="false"
-						:disabled="loadingAddGroup"
-						:value.sync="newGroupName"
-						:error="hasAddGroupError"
-						:helper-text="hasAddGroupError ? t('settings', 'Please enter a valid group name') : ''"
-						@submit="createGroup" />
-				</template>
-			</NcAppNavigationCaption>
-
-			<NcAppNavigationList data-cy-users-settings-navigation-groups="custom">
-				<GroupListItem v-for="group in groupList"
-					:id="group.id"
-					:key="group.id"
-					:active="selectedGroupDecoded === group.id"
-					:name="group.title"
-					:count="group.count" />
-			</NcAppNavigationList>
-
-			<template #footer>
-				<ul class="app-navigation-entry__settings">
-					<NcAppNavigationItem :name="t('settings', 'Account management settings')"
-						@click="isDialogOpen = true">
-						<template #icon>
-							<Cog :size="20" />
-						</template>
-					</NcAppNavigationItem>
-				</ul>
-			</template>
-		</NcAppNavigation>
-
-		<NcAppContent :page-heading="pageHeading">
-			<UserList :selected-group="selectedGroupDecoded"
-				:external-actions="externalActions" />
-		</NcAppContent>
-
-		<UserSettingsDialog :open.sync="isDialogOpen" />
-	</Fragment>
+	<NcAppContent :page-heading="pageHeading">
+		<UserList :selected-group="selectedGroupDecoded"
+			:external-actions="externalActions" />
+	</NcAppContent>
 </template>
 
 <script>
-import Vue from 'vue'
-import VueLocalStorage from 'vue-localstorage'
-import { Fragment } from 'vue-frag'
 import { translate as t } from '@nextcloud/l10n'
-import { showError } from '@nextcloud/dialogs'
+import { defineComponent } from 'vue'
 
-import NcActionInput from '@nextcloud/vue/dist/Components/NcActionInput.js'
-import NcActionText from '@nextcloud/vue/dist/Components/NcActionText.js'
 import NcAppContent from '@nextcloud/vue/dist/Components/NcAppContent.js'
-import NcAppNavigation from '@nextcloud/vue/dist/Components/NcAppNavigation.js'
-import NcAppNavigationCaption from '@nextcloud/vue/dist/Components/NcAppNavigationCaption.js'
-import NcAppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem.js'
-import NcAppNavigationList from '@nextcloud/vue/dist/Components/NcAppNavigationList.js'
-import NcAppNavigationNew from '@nextcloud/vue/dist/Components/NcAppNavigationNew.js'
-import NcCounterBubble from '@nextcloud/vue/dist/Components/NcCounterBubble.js'
-import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
-
-import AccountGroup from 'vue-material-design-icons/AccountGroup.vue'
-import AccountOff from 'vue-material-design-icons/AccountOff.vue'
-import Cog from 'vue-material-design-icons/Cog.vue'
-import Plus from 'vue-material-design-icons/Plus.vue'
-
-import GroupListItem from '../components/GroupListItem.vue'
 import UserList from '../components/UserList.vue'
-import UserSettingsDialog from '../components/Users/UserSettingsDialog.vue'
 
-Vue.use(VueLocalStorage)
-
-export default {
+export default defineComponent({
 	name: 'UserManagement',
 
 	components: {
-		AccountGroup,
-		AccountOff,
-		Cog,
-		Fragment,
-		GroupListItem,
-		NcActionInput,
-		NcActionText,
 		NcAppContent,
-		NcAppNavigation,
-		NcAppNavigationCaption,
-		NcAppNavigationItem,
-		NcAppNavigationList,
-		NcAppNavigationNew,
-		NcCounterBubble,
-		NcLoadingIcon,
-		Plus,
 		UserList,
-		UserSettingsDialog,
-	},
-
-	props: {
-		selectedGroup: {
-			type: String,
-			default: null,
-		},
 	},
 
 	data() {
 		return {
 			// temporary value used for multiselect change
 			externalActions: [],
-			newGroupName: '',
-			isAddGroupOpen: false,
-			loadingAddGroup: false,
-			hasAddGroupError: false,
-			isDialogOpen: false,
 		}
 	},
 
@@ -222,53 +61,12 @@ export default {
 			return matchHeading[this.selectedGroupDecoded] ?? t('settings', 'Account group: {group}', { group: this.selectedGroupDecoded })
 		},
 
-		showConfig() {
-			return this.$store.getters.getShowConfig
+		selectedGroup() {
+			return this.$route.params.selectedGroup
 		},
 
 		selectedGroupDecoded() {
 			return this.selectedGroup ? decodeURIComponent(this.selectedGroup) : null
-		},
-
-		users() {
-			return this.$store.getters.getUsers
-		},
-
-		groups() {
-			return this.$store.getters.getGroups
-		},
-
-		usersOffset() {
-			return this.$store.getters.getUsersOffset
-		},
-
-		usersLimit() {
-			return this.$store.getters.getUsersLimit
-		},
-
-		userCount() {
-			return this.$store.getters.getUserCount
-		},
-
-		settings() {
-			return this.$store.getters.getServerData
-		},
-
-		groupList() {
-			const groups = Array.isArray(this.groups) ? this.groups : []
-
-			return groups
-				// filter out disabled and admin
-				.filter(group => group.id !== 'disabled' && group.id !== 'admin')
-				.map(group => this.formatGroupMenu(group))
-		},
-
-		adminGroupMenu() {
-			return this.formatGroupMenu(this.groups.find(group => group.id === 'admin'))
-		},
-
-		disabledGroupMenu() {
-			return this.formatGroupMenu(this.groups.find(group => group.id === 'disabled'))
 		},
 	},
 
@@ -283,25 +81,15 @@ export default {
 
 	created() {
 		// init the OCA.Settings.UserList object
+		window.OCA = window.OCA ?? {}
+		window.OCA.Settings = window.OCA.Settings ?? {}
+		window.OCA.Settings.UserList = window.OCA.Settings.UserList ?? {}
 		// and add the registerAction method
-		Object.assign(OCA, {
-			Settings: {
-				UserList: {
-					registerAction: this.registerAction,
-				},
-			},
-		})
+		window.OCA.Settings.UserList.registerAction = this.registerAction
 	},
 
 	methods: {
 		t,
-
-		showNewUserMenu() {
-			this.$store.commit('setShowConfig', {
-				key: 'showNewUserForm',
-				value: true,
-			})
-		},
 
 		/**
 		 * Register a new action for the user menu
@@ -319,60 +107,8 @@ export default {
 			})
 			return this.externalActions
 		},
-
-		/**
-		 * Create a new group
-		 */
-		async createGroup() {
-			this.hasAddGroupError = false
-			const groupId = this.newGroupName.trim()
-			if (groupId === '') {
-				this.hasAddGroupError = true
-				return
-			}
-
-			this.isAddGroupOpen = false
-			this.loadingAddGroup = true
-			try {
-				await this.$store.dispatch('addGroup', groupId)
-				await this.$router.push({
-					name: 'group',
-					params: {
-						selectedGroup: encodeURIComponent(groupId),
-					},
-				})
-				this.newGroupName = ''
-			} catch {
-				showError(t('settings', 'Failed to create group'))
-			}
-			this.loadingAddGroup = false
-		},
-
-		/**
-		 * Format a group to a menu entry
-		 *
-		 * @param {object} group the group
-		 * @return {object}
-		 */
-		formatGroupMenu(group) {
-			const item = {}
-			if (typeof group === 'undefined') {
-				return {}
-			}
-
-			item.id = group.id
-			item.title = group.name
-			item.usercount = group.usercount
-
-			// users count for all groups
-			if (group.usercount - group.disabled > 0) {
-				item.count = group.usercount - group.disabled
-			}
-
-			return item
-		},
 	},
-}
+})
 </script>
 
 <style lang="scss" scoped>
@@ -382,11 +118,5 @@ export default {
 	overflow: hidden;
 	flex-direction: column;
 	max-height: 100%;
-}
-
-.app-navigation-entry__settings {
-	height: auto !important;
-	// Prevent shrinking or growing
-	flex: 0 0 auto;
 }
 </style>
