@@ -76,7 +76,6 @@ OC.L10N.register(
     "The following apps have been disabled: %s" : "Følgende apper har blitt deaktivert: %s",
     "Already up to date" : "Allerede oppdatert",
     "Your web server is not yet properly set up to allow file synchronization, because the WebDAV interface seems to be broken." : "Webserveren din er ikke satt opp til å tillate synkronisering av filer ennå, fordi WebDAV-grensesnittet ikke ser ut til å virke.",
-    "Your web server is not properly set up to resolve \"{url}\". Further information can be found in the {linkstart}documentation ↗{linkend}." : "Din web-server er ikke satt opp korrekt for å hente \"{url}\". Mer informasjon finner du i <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">dokumentasjonen</a>.",
     "Error occurred while checking server setup" : "Feil oppsto ved sjekking av server-oppsett",
     "For more details see the {linkstart}documentation ↗{linkend}." : "For mer informasjon se {linkstart}dokumentasjonen ↗{linkend}.",
     "The \"{header}\" HTTP header is not set to \"{expected}\". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "HTTP-hodet \"{header}\" er ikke satt opp likt \"{expected}\". Dette kan være en sikkerhet- eller personvernsrisiko og det anbefales at denne innstillingen endres.",
@@ -183,7 +182,7 @@ OC.L10N.register(
     "Unified search" : "Enhetlig søk",
     "Search apps, files, tags, messages" : "Søk i apper, filer, tagger, meldinger",
     "Search {types} …" : "Søk {types} ...",
-    "Apps and Settings" : "Apper og innstillinger",
+    "Places" : "Steder",
     "Date" : "Dato",
     "Today" : "I dag",
     "Last 7 days" : "Siste 7 dager",
@@ -371,6 +370,7 @@ OC.L10N.register(
     "Please try again" : "Vennligst prøv igjen",
     "The user limit of this instance is reached." : "Brukergrensen på denne installasjonen er nådd.",
     "Enter your subscription key in the support app in order to increase the user limit. This does also grant you all additional benefits that Nextcloud Enterprise offers and is highly recommended for the operation in companies." : "Skriv inn abonnementsnøkkelen din i støtteappen for å øke brukergrensen. Dette gir deg også alle tilleggsfordeler som Nextcloud Enterprise tilbyr og anbefales på det sterkeste for driften i selskaper.",
+    "Your web server is not properly set up to resolve \"{url}\". Further information can be found in the {linkstart}documentation ↗{linkend}." : "Din web-server er ikke satt opp korrekt for å hente \"{url}\". Mer informasjon finner du i <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">dokumentasjonen</a>.",
     "Your web server is not properly set up to resolve \"{url}\". This is most likely related to a web server configuration that was not updated to deliver this folder directly. Please compare your configuration against the shipped rewrite rules in \".htaccess\" for Apache or the provided one in the documentation for Nginx at it's {linkstart}documentation page ↗{linkend}. On Nginx those are typically the lines starting with \"location ~\" that need an update." : "Nettserveren din er ikke riktig konfigurert for å løse \"{url}\". Dette er mest sannsynlig relatert til en webserverkonfigurasjon som ikke ble oppdatert for å levere denne mappen direkte. Sammenlign konfigurasjonen din med de tilsendte omskrivingsreglene i \".htaccess\" for Apache eller den oppgitte i dokumentasjonen for Nginx på sin {linkstart}dokumentasjonsside ↗{linkend}. På Nginx er det vanligvis linjene som starter med \"location ~\" som trenger en oppdatering.",
     "Your web server is not properly set up to deliver .woff2 files. This is typically an issue with the Nginx configuration. For Nextcloud 15 it needs an adjustement to also deliver .woff2 files. Compare your Nginx configuration to the recommended configuration in our {linkstart}documentation ↗{linkend}." : "Nettserveren din er ikke riktig konfigurert til å levere .woff2-filer. Dette er vanligvis et problem med Nginx-konfigurasjonen. For Nextcloud 15 trenger den en justering for også å levere .woff2-filer. Sammenlign Nginx-konfigurasjonen din med den anbefalte konfigurasjonen i {linkstart}dokumentasjonen ↗{linkend}.",
     "PHP does not seem to be setup properly to query system environment variables. The test with getenv(\"PATH\") only returns an empty response." : "PHP er satt opp feil for å nå systemets miljøvariable. Test med getenv(\"PATH\") gir tom respons.",
@@ -464,6 +464,7 @@ OC.L10N.register(
     "PHP 8.0 is now deprecated in Nextcloud 27. Nextcloud 28 may require at least PHP 8.1. Please upgrade to {linkstart}one of the officially supported PHP versions provided by the PHP Group ↗{linkend} as soon as possible." : "PHP 8.0 er nå avviklet i Nextcloud 27. Nextcloud 28 kan kreve minst PHP 8.1. Oppgrader til {linkstart}en av de offisielt støttede PHP-versjonene levert av PHP Group ↗{linkend} så snart som mulig.",
     "This instance is running in debug mode. Only enable this for local development and not in production environments." : "Denne forekomsten kjører i feilsøkingsmodus. Bare aktiver dette for lokal utvikling og ikke i produksjonsmiljøer.",
     "If this account exists, a password reset message has been sent to its email address. If you do not receive it, verify your email address and/or account name, check your spam/junk folders or ask your local administration for help." : "Hvis denne kontoen eksisterer blir en melding om hvordan man resetter passordet sendt til kontoens epost.  Hvis du ikke mottar denne, sjekk epostadressen og/eller ditt brukernavn, sjekk søppelfilteret eller kontakt din lokale administrator for hjelp.",
-    "Avatar of {fullName}" : "Avatar til {fullName}"
+    "Avatar of {fullName}" : "Avatar til {fullName}",
+    "Apps and Settings" : "Apper og innstillinger"
 },
 "nplurals=2; plural=(n != 1);");

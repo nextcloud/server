@@ -76,7 +76,6 @@ OC.L10N.register(
     "The following apps have been disabled: %s" : "以下應用程式已經被停用：%s",
     "Already up to date" : "此版本為最新版本",
     "Your web server is not yet properly set up to allow file synchronization, because the WebDAV interface seems to be broken." : "WebDAV 界面似乎為故障狀態，導致您的網頁伺服器無法提供檔案同步功能。",
-    "Your web server is not properly set up to resolve \"{url}\". Further information can be found in the {linkstart}documentation ↗{linkend}." : "您的網絡伺服器未正確設置為解析“ {url}”。可以在 {linkstart} 說明書↗{linkend} 中找到更多信息。",
     "Error occurred while checking server setup" : "檢查伺服器設定時發生錯誤",
     "For more details see the {linkstart}documentation ↗{linkend}." : "有關更多細節，請參見 {linkstart} 說明書↗{linkedin}。",
     "The \"{header}\" HTTP header is not set to \"{expected}\". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "目前 HTTP 的 {header} 標頭設定並不是 \"{expected}\" ，這是一個潛在的安全性和隱私風險，我們建議調整此項設定。",
@@ -183,7 +182,7 @@ OC.L10N.register(
     "Unified search" : "統一搜尋",
     "Search apps, files, tags, messages" : "搜尋應用程式、檔案、標籤、訊息",
     "Search {types} …" : "搜尋 {types} 中 …",
-    "Apps and Settings" : "應用程式與設定",
+    "Places" : "地點",
     "Date" : "日期",
     "Today" : "今日",
     "Last 7 days" : "過去7日",
@@ -371,6 +370,7 @@ OC.L10N.register(
     "Please try again" : "請再試一次",
     "The user limit of this instance is reached." : "的達此實例的用戶上限。",
     "Enter your subscription key in the support app in order to increase the user limit. This does also grant you all additional benefits that Nextcloud Enterprise offers and is highly recommended for the operation in companies." : "在支援應用程式中輸入您的訂閱金鑰以增加用戶限制。這也確實為您提供了 Nextcloud Enterprise 提供的所有額外好處，並且強烈推薦用於公司的營運。",
+    "Your web server is not properly set up to resolve \"{url}\". Further information can be found in the {linkstart}documentation ↗{linkend}." : "您的網絡伺服器未正確設置為解析“ {url}”。可以在 {linkstart} 說明書↗{linkend} 中找到更多信息。",
     "Your web server is not properly set up to resolve \"{url}\". This is most likely related to a web server configuration that was not updated to deliver this folder directly. Please compare your configuration against the shipped rewrite rules in \".htaccess\" for Apache or the provided one in the documentation for Nginx at it's {linkstart}documentation page ↗{linkend}. On Nginx those are typically the lines starting with \"location ~\" that need an update." : "您的網絡伺服器未正確設置為解析“ {url}”。這很可能與未更新為直接傳送此資料夾的Web伺服器配置有關。請將您的配置與Apache的“。htaccess”中提供的重寫規則或Nginx文檔中提供的重寫規則（位於{linkstart}文檔頁面↗{linkend}）進行比較。在Nginx上，通常以“ location ~”開頭的行需要更新。",
     "Your web server is not properly set up to deliver .woff2 files. This is typically an issue with the Nginx configuration. For Nextcloud 15 it needs an adjustement to also deliver .woff2 files. Compare your Nginx configuration to the recommended configuration in our {linkstart}documentation ↗{linkend}." : "您的 Web 伺服器未正確設置為傳遞 .woff2 檔案。這通常是 Nginx 配置的問題。對於Nextcloud 15，需要進行調整以同時交付 .woff2 檔案。將您的 Nginx 配置與我們的{linkstart}文檔↗{linkend}中的推薦配置進行比較。",
     "PHP does not seem to be setup properly to query system environment variables. The test with getenv(\"PATH\") only returns an empty response." : "PHP 設定似乎不完整，導致無法正確取得系統環境變數，因為偵測到 getenv(\"PATH\") 回傳資料為空值",
@@ -464,6 +464,7 @@ OC.L10N.register(
     "PHP 8.0 is now deprecated in Nextcloud 27. Nextcloud 28 may require at least PHP 8.1. Please upgrade to {linkstart}one of the officially supported PHP versions provided by the PHP Group ↗{linkend} as soon as possible." : "Nextcloud 27 現已棄用 PHP 8.0。Nextcloud 28 需要 PHP 8.1 或更高版本。請盡快升級到 {linkstart} PHP Group ↗{linkend} 提供的官方支持的 PHP 版本之一。",
     "This instance is running in debug mode. Only enable this for local development and not in production environments." : "此實例以除錯模式執行。僅在近端開發且非生產環境時才啟用這個。",
     "If this account exists, a password reset message has been sent to its email address. If you do not receive it, verify your email address and/or account name, check your spam/junk folders or ask your local administration for help." : "如果此賬戶存在，密碼重置郵件已發送到其電郵地址。如果您沒有收到，請驗證您的電郵地址和/或賬戶名，檢查您的垃圾郵件/垃圾資料夾或向您當地的管理員協助。",
-    "Avatar of {fullName}" : "{fullName} 的虛擬化身"
+    "Avatar of {fullName}" : "{fullName} 的虛擬化身",
+    "Apps and Settings" : "應用程式與設定"
 },
 "nplurals=1; plural=0;");

@@ -74,7 +74,6 @@ OC.L10N.register(
     "The following apps have been disabled: %s" : "Următoarele aplicații au fost dezactivate: %s",
     "Already up to date" : "Deja actualizat",
     "Your web server is not yet properly set up to allow file synchronization, because the WebDAV interface seems to be broken." : "Serverul dvs. web nu este încă configurat corespunzător pentru a permite sincronizarea fișierelor, deoarece interfața WebDAV pare să fie defectă.",
-    "Your web server is not properly set up to resolve \"{url}\". Further information can be found in the {linkstart}documentation ↗{linkend}." : "Serverul dvs. web nu este configurat corespunzător pentru a rezolva \"{url}\". Informații suplimentare pot fi găsite în documentația {linkstart} documentația ↗{linkend}.",
     "Error occurred while checking server setup" : "A apărut o eroare la verificarea configurației serverului",
     "For more details see the {linkstart}documentation ↗{linkend}." : "Pentru mai multe detalii vedeți {linkstart}documentația ↗{linkend}.",
     "The \"{header}\" HTTP header is not set to \"{expected}\". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "Headerul HTTP \"{header}\" nu este setat la \"{expected}\". Aceasta este un risc major de confidențialitate și vă recomandăm să o remediați.",
@@ -176,7 +175,6 @@ OC.L10N.register(
     "Error opening the user status modal, try hard refreshing the page" : "Eroare la deschiderea status utilizator, încercați refresh",
     "Search apps, files, tags, messages" : "Caută aplicații, fișiere, etichete, mesaje",
     "Search {types} …" : "Căutare {types} …",
-    "Apps and Settings" : "Aplicații și Setări",
     "Today" : "Azi",
     "Last 7 days" : "Ultimele 7 zile",
     "Last 30 days" : "Ultimele 30 de zile",
@@ -358,6 +356,7 @@ OC.L10N.register(
     "Please try again" : "Vă rugăm încercați din nou",
     "The user limit of this instance is reached." : "A fost atinsă limita de utilizatori a acestei instanțe.",
     "Enter your subscription key in the support app in order to increase the user limit. This does also grant you all additional benefits that Nextcloud Enterprise offers and is highly recommended for the operation in companies." : "Introdu cheia de abonament în aplicația de suport pentru a mări limitarea numărului de utilizatori. Acestă cheie vă oferă toate beneficiile suplimentare oferite Nextcloud Enterprise și este recomandat pentru operațiuni în companii.",
+    "Your web server is not properly set up to resolve \"{url}\". Further information can be found in the {linkstart}documentation ↗{linkend}." : "Serverul dvs. web nu este configurat corespunzător pentru a rezolva \"{url}\". Informații suplimentare pot fi găsite în documentația {linkstart} documentația ↗{linkend}.",
     "Your web server is not properly set up to resolve \"{url}\". This is most likely related to a web server configuration that was not updated to deliver this folder directly. Please compare your configuration against the shipped rewrite rules in \".htaccess\" for Apache or the provided one in the documentation for Nginx at it's {linkstart}documentation page ↗{linkend}. On Nginx those are typically the lines starting with \"location ~\" that need an update." : "Serverul dvs. web nu este configurat corespunzător pentru a rezolva \"{url}\". Cel mai probabil, acest lucru este legat de o configurație a serverului web care nu a fost actualizată pentru a furniza direct acest folder. Vă rugăm să comparați configurația dvs. cu regulile de rescriere livrate în \".htaccess\" pentru Apache sau cu cea furnizată în documentația pentru Nginx la pagina de documentare {linkstart}↗{linkend}. În cazul Nginx, liniile care încep cu \"location ~\" sunt cele care au nevoie de o actualizare.",
     "Your web server is not properly set up to deliver .woff2 files. This is typically an issue with the Nginx configuration. For Nextcloud 15 it needs an adjustement to also deliver .woff2 files. Compare your Nginx configuration to the recommended configuration in our {linkstart}documentation ↗{linkend}." : "Serverul dvs. web nu este configurat corespunzător pentru a furniza fișiere .woff2. Aceasta este de obicei o problemă cu configurația Nginx. Pentru Nextcloud 15 este nevoie de o ajustare pentru a furniza și fișierele .woff2. Comparați configurația Nginx cu configurația recomandată în documentația noastră {linkstart} ↗{linkend}.",
     "PHP does not seem to be setup properly to query system environment variables. The test with getenv(\"PATH\") only returns an empty response." : "PHP nu pare să fie configurat corespunzător pentru a interoga variabilele de mediu ale sistemului. Testul cu getenv(\"PATH\") returnează doar un răspuns gol.",
@@ -450,6 +449,7 @@ OC.L10N.register(
     "PHP 8.0 is now deprecated in Nextcloud 27. Nextcloud 28 may require at least PHP 8.1. Please upgrade to {linkstart}one of the officially supported PHP versions provided by the PHP Group ↗{linkend} as soon as possible." : "PHP 8.0 este abandonat de la Nextcloud 27. Nextcloud 28 necesită cel puțin PHP 8.1. Faceți upgrade la {linkstart} o versiune PHP suportată oficial, furnizată de PHP Group ↗{linkend} cât mai repede.",
     "This instance is running in debug mode. Only enable this for local development and not in production environments." : "Instanța este în modul debug. Folosiți aceasta doar pentru dezvoltare și nu în producție.",
     "If this account exists, a password reset message has been sent to its email address. If you do not receive it, verify your email address and/or account name, check your spam/junk folders or ask your local administration for help." : "Dacă acest cont există, atunci a fost trimis un email de resetare a parolei. Dacă nu-l primiți, verificați adresa de mail și/sau numele contului, verificați folderele spam/junk sau solicitați sprijinul administratorului.",
-    "Avatar of {fullName}" : "Avatarul {fullName}"
+    "Avatar of {fullName}" : "Avatarul {fullName}",
+    "Apps and Settings" : "Aplicații și Setări"
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

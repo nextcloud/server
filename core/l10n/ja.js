@@ -76,7 +76,6 @@ OC.L10N.register(
     "The following apps have been disabled: %s" : "次のアプリが無効になりました: %s ",
     "Already up to date" : "すべて更新済",
     "Your web server is not yet properly set up to allow file synchronization, because the WebDAV interface seems to be broken." : "WebDAVインターフェースが動作していないようです。Webサーバーは、ファイルの同期を許可するよう適切に設定されていません。",
-    "Your web server is not properly set up to resolve \"{url}\". Further information can be found in the {linkstart}documentation ↗{linkend}." : "Webサーバーで \"{url}\" が解決されるように正しく設定されていません。詳細については、{linkstart}ドキュメント↗{linkend}をご覧ください。",
     "Error occurred while checking server setup" : "サーバー設定のチェック中にエラーが発生しました",
     "For more details see the {linkstart}documentation ↗{linkend}." : "詳細については、{linkstart}ドキュメント↗{linkend}を参照してください。",
     "The \"{header}\" HTTP header is not set to \"{expected}\". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "\"{header}\" HTTPヘッダーが \"{expected}\"に設定されていません。 これらは潜在的なセキュリティまたはプライバシーのリスクになります。この設定を調整することをお勧めします",
@@ -183,7 +182,7 @@ OC.L10N.register(
     "Unified search" : "統合検索",
     "Search apps, files, tags, messages" : "アプリ、ファイル、タグ、メッセージを検索",
     "Search {types} …" : "{types} を検索…",
-    "Apps and Settings" : "アプリと設定",
+    "Places" : "場所",
     "Date" : "日付",
     "Today" : "今日",
     "Last 7 days" : "7日以内",
@@ -371,6 +370,7 @@ OC.L10N.register(
     "Please try again" : "再度お試しください",
     "The user limit of this instance is reached." : "このインスタンスのユーザー制限に達しました。",
     "Enter your subscription key in the support app in order to increase the user limit. This does also grant you all additional benefits that Nextcloud Enterprise offers and is highly recommended for the operation in companies." : "サポートappへサブスクリプションキーを入力すると、ユーザー数の上限を増やすことができます。また、Nextcloud Enterpriseが提供するすべての追加特典が付与されますので、企業で運用に必須です",
+    "Your web server is not properly set up to resolve \"{url}\". Further information can be found in the {linkstart}documentation ↗{linkend}." : "Webサーバーで \"{url}\" が解決されるように正しく設定されていません。詳細については、{linkstart}ドキュメント↗{linkend}をご覧ください。",
     "Your web server is not properly set up to resolve \"{url}\". This is most likely related to a web server configuration that was not updated to deliver this folder directly. Please compare your configuration against the shipped rewrite rules in \".htaccess\" for Apache or the provided one in the documentation for Nginx at it's {linkstart}documentation page ↗{linkend}. On Nginx those are typically the lines starting with \"location ~\" that need an update." : "Webサーバーで \"{url}\" が解決されるように正しく設定されていません。これは、このフォルダーを直接配信するように更新されていないWebサーバー構成が影響している可能性があります。構成を、Apacheの \".htaccess\" にある設定済みの書き換えルールまたはNginxのドキュメントの{linkstart}ドキュメントページ↗{linkend}で提供されているルールと比較してください。 Nginxでは、これらは通常、修正が必要な \"location〜\" で始まる行です。",
     "Your web server is not properly set up to deliver .woff2 files. This is typically an issue with the Nginx configuration. For Nextcloud 15 it needs an adjustement to also deliver .woff2 files. Compare your Nginx configuration to the recommended configuration in our {linkstart}documentation ↗{linkend}." : "Webサーバーで.woff2ファイルが配信されるように適切に設定されていません。これは通常、Nginx構成の問題です。 Nextcloud 15の場合、.woff2ファイルも配信するように調整する必要があります。 Nginx構成を{linkstart}ドキュメント↗{linkend}の推奨構成と比較してください。",
     "PHP does not seem to be setup properly to query system environment variables. The test with getenv(\"PATH\") only returns an empty response." : "PHPのシステム環境変数が正しく設定されていないようです。getenv(\"PATH\") コマンドでテストして何も値を返さないことを確認してください。",
@@ -464,6 +464,7 @@ OC.L10N.register(
     "PHP 8.0 is now deprecated in Nextcloud 27. Nextcloud 28 may require at least PHP 8.1. Please upgrade to {linkstart}one of the officially supported PHP versions provided by the PHP Group ↗{linkend} as soon as possible." : "PHP 8.0 は Nextcloud 27 で非推奨になりました。Nextcloud 28 では少なくとも PHP 8.1 が必要になる場合があります。できるだけ早く、{linkstart}PHP グループ が提供する、正式にサポートされている PHP バージョンのいずれか↗{linkend} にアップグレードしてください。",
     "This instance is running in debug mode. Only enable this for local development and not in production environments." : "このインスタンスはデバッグ モードで実行されています。これはローカル開発の場合にのみ有効にし、運用環境では有効にしないでください。",
     "If this account exists, a password reset message has been sent to its email address. If you do not receive it, verify your email address and/or account name, check your spam/junk folders or ask your local administration for help." : "このアカウントが存在したら、パスワード変更のメッセージがそのメールアドレスに送信されます。\nもしメールが届いていない場合は、メールアドレスまたはアカウント名を確認するか、メールが迷惑メールフォルダに入っていないか確認するか、もしくは管理者にお問い合わせください。",
-    "Avatar of {fullName}" : "{fullName} のアバター"
+    "Avatar of {fullName}" : "{fullName} のアバター",
+    "Apps and Settings" : "アプリと設定"
 },
 "nplurals=1; plural=0;");

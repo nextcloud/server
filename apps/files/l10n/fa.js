@@ -220,6 +220,7 @@ OC.L10N.register(
     "Open the files app settings" : "تنظیمات برنامه فایل ها را باز کنید",
     "Files settings" : "تنظیمات پرونده‌ها",
     "File cannot be accessed" : "فایل قابل دسترسی نیست",
+    "Open in files" : "Open in files",
     "Sort favorites first" : "ابتدا موارد دلخواه را مرتب کنید",
     "Show hidden files" : "نمایش پرونده‌های مخفی",
     "Crop image previews" : "پیش نمایش تصویر برش",

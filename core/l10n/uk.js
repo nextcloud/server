@@ -76,7 +76,6 @@ OC.L10N.register(
     "The following apps have been disabled: %s" : "Ці застосунки було вимкнено: %s",
     "Already up to date" : "Вже актуально",
     "Your web server is not yet properly set up to allow file synchronization, because the WebDAV interface seems to be broken." : "Ваш вебсервер не налаштований як треба для синхронізації файлів, схоже інтерфейс WebDAV поламаний.",
-    "Your web server is not properly set up to resolve \"{url}\". Further information can be found in the {linkstart}documentation ↗{linkend}." : "Ваш веб-сервер неправильно налаштовано для вирішення \"{url}\". Додаткову інформацію можна знайти в {linkstart}документації ↗{linkend}.",
     "Error occurred while checking server setup" : "При перевірці налаштувань серверу сталася помилка",
     "For more details see the {linkstart}documentation ↗{linkend}." : "Додаткову інформацію див. у {linkstart}документації ↗{linkend}.",
     "The \"{header}\" HTTP header is not set to \"{expected}\". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "HTTP-заголовок \"{header}\" не має значення \"{expected}\". Це потенційний ризик для безпеки або конфіденційності, тому рекомендується відповідним чином налаштувати цей параметр.",
@@ -183,7 +182,7 @@ OC.L10N.register(
     "Unified search" : "Універсальний пошук",
     "Search apps, files, tags, messages" : "Шукати застосунки, файли, мітки, повідомлення",
     "Search {types} …" : "Пошук {types} …",
-    "Apps and Settings" : "Застосунки та налаштування",
+    "Places" : "Місця",
     "Date" : "Дата",
     "Today" : "Сьогодні",
     "Last 7 days" : "За останні 7 днів",
@@ -371,6 +370,7 @@ OC.L10N.register(
     "Please try again" : "Будь ласка, спробуйте ще раз",
     "The user limit of this instance is reached." : "Досягнуто ліміту користувачів для цього сервера хмари.",
     "Enter your subscription key in the support app in order to increase the user limit. This does also grant you all additional benefits that Nextcloud Enterprise offers and is highly recommended for the operation in companies." : "Будь ласка, зазначте ключ підписки у застосунку підтримки, щоби збільшити ваш ліміт на користування. Після цього ви отримаєте додаткові можливості, які надає Nextcloud Enterprise, яку рекомендовано для бізнесу.",
+    "Your web server is not properly set up to resolve \"{url}\". Further information can be found in the {linkstart}documentation ↗{linkend}." : "Ваш веб-сервер неправильно налаштовано для вирішення \"{url}\". Додаткову інформацію можна знайти в {linkstart}документації ↗{linkend}.",
     "Your web server is not properly set up to resolve \"{url}\". This is most likely related to a web server configuration that was not updated to deliver this folder directly. Please compare your configuration against the shipped rewrite rules in \".htaccess\" for Apache or the provided one in the documentation for Nginx at it's {linkstart}documentation page ↗{linkend}. On Nginx those are typically the lines starting with \"location ~\" that need an update." : "Ваш веб-сервер неправильно налаштовано для вирішення \"{url}\". Швидше за все, це пов’язано з конфігурацією вебсервера, який не було оновлено для безпосередньої доставки цього каталогу. Будь ласка, порівняйте свою конфігурацію з надісланими правилами перезапису в \".htaccess\" для Apache або наданими в документації для Nginx на його {linkstart}сторінці документації ↗{linkend}. У Nginx зазвичай це рядки, що починаються з \"location ~\", які потребують оновлення.",
     "Your web server is not properly set up to deliver .woff2 files. This is typically an issue with the Nginx configuration. For Nextcloud 15 it needs an adjustement to also deliver .woff2 files. Compare your Nginx configuration to the recommended configuration in our {linkstart}documentation ↗{linkend}." : "Ваш веб-сервер неправильно налаштовано для доставки файлів .woff2. Зазвичай це проблема з конфігурацією Nginx. Для Nextcloud 15 потрібно налаштувати, щоб також надавати файли .woff2. Порівняйте свою конфігурацію Nginx із рекомендованою конфігурацією в нашій {linkstart}документації ↗{linkend}.",
     "PHP does not seem to be setup properly to query system environment variables. The test with getenv(\"PATH\") only returns an empty response." : "PHP не налаштований правильно для отримання змінних системного оточення. Запит getenv(\"PATH\") повертає пусті результати.",
@@ -464,6 +464,7 @@ OC.L10N.register(
     "PHP 8.0 is now deprecated in Nextcloud 27. Nextcloud 28 may require at least PHP 8.1. Please upgrade to {linkstart}one of the officially supported PHP versions provided by the PHP Group ↗{linkend} as soon as possible." : "PHP 8.0 вже застаріла в Nextcloud 27. Для роботи Nextcloud 28 може знадобитися щонайменше PHP 8.1. Будь ласка, якнайшвидше оновіть систему до {linkstart}однієї з офіційно підтримуваних версій PHP, наданих групою розробників PHP ↗{linkend}.",
     "This instance is running in debug mode. Only enable this for local development and not in production environments." : "Цей сервер працює у режимі зневадження. Увімкніть це лише для локальної розробки, але не для продуктивного середовища.",
     "If this account exists, a password reset message has been sent to its email address. If you do not receive it, verify your email address and/or account name, check your spam/junk folders or ask your local administration for help." : "Якщо цей обліковий запис існує, на його електронну адресу було надіслано повідомлення про зміну пароля. Якщо ви його не отримали, перевірте адресу електронної пошти та/або назву облікового запису, перевірте каталоги \"Спам\" та \"Небажана пошта\" або зверніться за допомогою до адміністратора.",
-    "Avatar of {fullName}" : "Аватарка {fullName}"
+    "Avatar of {fullName}" : "Аватарка {fullName}",
+    "Apps and Settings" : "Застосунки та налаштування"
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

@@ -239,6 +239,7 @@
     "Files settings" : "Настройки файлов",
     "File cannot be accessed" : "Не удалось получить доступ к файлу",
     "The file could not be found or you do not have permissions to view it. Ask the sender to share it." : "Не удалось найти файл или у вас отсутствуют права на его просмотр.  Попросите отправителя предоставить вам доступ к этому файлу.",
+    "Open in files" : "Открыть в Файлах",
     "Sort favorites first" : "Сначала избранное",
     "Sort folders before files" : "Начинать список с папок",
     "Show hidden files" : "Показывать скрытые файлы",

@@ -74,7 +74,6 @@ OC.L10N.register(
     "The following apps have been disabled: %s" : "Folgende Apps wurden deaktiviert: %s",
     "Already up to date" : "Bereits aktuell",
     "Your web server is not yet properly set up to allow file synchronization, because the WebDAV interface seems to be broken." : "Dein Webserver ist noch nicht hinreichend für Datei-Synchronisierung konfiguriert, da die WebDAV-Schnittstelle vermutlich nicht funktioniert.",
-    "Your web server is not properly set up to resolve \"{url}\". Further information can be found in the {linkstart}documentation ↗{linkend}." : "Dein Webserver ist nicht richtig konfiguriert, um \"{url}\" aufzulösen. Weitere Informationen hierzu findest du in unserer {linkstart}Dokumentation ↗{linkend}.",
     "Error occurred while checking server setup" : "Fehler beim Überprüfen der Servereinrichtung",
     "For more details see the {linkstart}documentation ↗{linkend}." : "Weitere Informationen findest du in der {linkstart}Dokumentation ↗{linkend}.",
     "The \"{header}\" HTTP header is not set to \"{expected}\". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "Der „{header}“-HTTP-Header ist nicht so konfiguriert, dass er „{expected}“ entspricht. Dies ist ein potentielles Sicherheitsrisiko und es wird empfohlen, diese Einstellung zu ändern.",
@@ -177,7 +176,7 @@ OC.L10N.register(
     "Unified search" : "Einheitliche Suche",
     "Search apps, files, tags, messages" : "Nach Apps, Dateien, Schlagworten und Nachrichten suchen",
     "Search {types} …" : "Suche {types} …",
-    "Apps and Settings" : "Apps und Einstellungen",
+    "Places" : "Orte",
     "Date" : "Datum",
     "Today" : "Heute",
     "Last 7 days" : "Die letzten 7 Tage",
@@ -363,6 +362,7 @@ OC.L10N.register(
     "Please try again" : "Bitte erneut versuchen.",
     "The user limit of this instance is reached." : "Die Benutzergrenze dieser Instanz ist erreicht.",
     "Enter your subscription key in the support app in order to increase the user limit. This does also grant you all additional benefits that Nextcloud Enterprise offers and is highly recommended for the operation in companies." : "Gib deinen Abonnementschlüssel in der Support-App ein, um das Benutzerlimit zu erhöhen. Dies gewährt dir auch alle zusätzlichen Vorteile, die Nextcloud Enterprise bietet und für den Betrieb in Unternehmen sehr zu empfehlen ist.",
+    "Your web server is not properly set up to resolve \"{url}\". Further information can be found in the {linkstart}documentation ↗{linkend}." : "Dein Webserver ist nicht richtig konfiguriert, um \"{url}\" aufzulösen. Weitere Informationen hierzu findest du in unserer {linkstart}Dokumentation ↗{linkend}.",
     "Your web server is not properly set up to resolve \"{url}\". This is most likely related to a web server configuration that was not updated to deliver this folder directly. Please compare your configuration against the shipped rewrite rules in \".htaccess\" for Apache or the provided one in the documentation for Nginx at it's {linkstart}documentation page ↗{linkend}. On Nginx those are typically the lines starting with \"location ~\" that need an update." : "Dein Webserver ist nicht ordnungsgemäß für die Auflösung von \"{url}\" eingerichtet. Dies hängt höchstwahrscheinlich mit einer Webserver-Konfiguration zusammen, die nicht aktualisiert wurde, um diesen Ordner direkt zu liefern. Bitte vergleiche deine Konfiguration mit den mitgelieferten Rewrite-Regeln in \".htaccess\" für Apache oder den in der Nginx-Dokumentation bereitgestellten auf dessen {linkstart}Dokumentationsseite ↗{linkend}. Auf Nginx sind das typischerweise die Zeilen, die mit \"location ~\" beginnen und ein Update benötigen.",
     "Your web server is not properly set up to deliver .woff2 files. This is typically an issue with the Nginx configuration. For Nextcloud 15 it needs an adjustement to also deliver .woff2 files. Compare your Nginx configuration to the recommended configuration in our {linkstart}documentation ↗{linkend}." : "Dein Web-Server ist nicht richtig eingerichtet um .woff2-Dateien auszuliefern. Dies liegt meist an der Nginx-Konfiguration. Für Nextcloud 15 wird eine Anpassung für die Auslieferung von .woff2-Dateien benötigt. Vergleiche deine Nginx-Konfiguration mit der empfohlenen Nginx-Konfiguration in unserer {linkstart}Dokumentation ↗{linkend}.",
     "PHP does not seem to be setup properly to query system environment variables. The test with getenv(\"PATH\") only returns an empty response." : "PHP scheint zur Abfrage von Systemumgebungsvariablen nicht richtig eingerichtet zu sein. Der Test mit getenv(\"PATH\") liefert nur eine leere Antwort zurück.",
@@ -455,6 +455,7 @@ OC.L10N.register(
     "PHP 8.0 is now deprecated in Nextcloud 27. Nextcloud 28 may require at least PHP 8.1. Please upgrade to {linkstart}one of the officially supported PHP versions provided by the PHP Group ↗{linkend} as soon as possible." : "PHP 8.0 ist jetzt in Nextcloud 27 veraltet. Nextcloud 28 erfordert möglicherweise mindestens PHP 8.1. Bitte aktualisiere so bald wie möglich auf {linkstart}eine der offiziell unterstützten PHP-Versionen, die von der PHP-Gruppe ↗{linkend} bereitgestellt werden.",
     "This instance is running in debug mode. Only enable this for local development and not in production environments." : "Diese Instanz wird im Debug-Modus ausgeführt. Aktivieren Sie dies nur für die lokale Entwicklung und nicht in Produktionsumgebungen.",
     "If this account exists, a password reset message has been sent to its email address. If you do not receive it, verify your email address and/or account name, check your spam/junk folders or ask your local administration for help." : "Sofern dieses Konto existiert, wurde eine Nachricht zum Zurücksetzen des Passworts die hinterlegte E-Mail-Adresse gesendet. Wenn du diese E-Mail nicht erhältst, überprüfen deine E-Mail-Adresse und/oder deinen Kontonamen sowie deinen Spam-/Junk-Ordner oder bitte deine lokale Administration um Hilfe.",
-    "Avatar of {fullName}" : "Avatar von {fullName}"
+    "Avatar of {fullName}" : "Avatar von {fullName}",
+    "Apps and Settings" : "Apps und Einstellungen"
 },
 "nplurals=2; plural=(n != 1);");

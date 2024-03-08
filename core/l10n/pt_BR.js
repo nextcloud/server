@@ -76,7 +76,6 @@ OC.L10N.register(
     "The following apps have been disabled: %s" : "Os seguintes aplicativos foram desativados: %s",
     "Already up to date" : "Já está atualizado",
     "Your web server is not yet properly set up to allow file synchronization, because the WebDAV interface seems to be broken." : "Seu servidor web ainda não está configurado corretamente para permitir a sincronização de arquivos, porque a interface do WebDAV parece estar quebrada.",
-    "Your web server is not properly set up to resolve \"{url}\". Further information can be found in the {linkstart}documentation ↗{linkend}." : "Seu servidor da web não está configurado corretamente para resolver \"{url}\". Mais informações podem ser encontradas na {linkstart}documentação ↗{linkend}.",
     "Error occurred while checking server setup" : "Erro ao verificar a configuração do servidor",
     "For more details see the {linkstart}documentation ↗{linkend}." : "Para obter mais detalhes, consulte a {linkstart}documentação ↗{linkend}.",
     "The \"{header}\" HTTP header is not set to \"{expected}\". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "O cabeçalho HTTP \"{header}\" não está definido para \"{expected}\". Este é um potencial risco de segurança ou privacidade e é recomendado ajustar esta configuração de acordo.",
@@ -183,7 +182,7 @@ OC.L10N.register(
     "Unified search" : "Pesquisa unificada",
     "Search apps, files, tags, messages" : "Procure por apps, arquivos, etiquetas, mensagens",
     "Search {types} …" : "Pesquisar {types}…",
-    "Apps and Settings" : "Apps e Configurações",
+    "Places" : "Lugares",
     "Date" : "Data",
     "Today" : "Hoje",
     "Last 7 days" : "Últimos 7 dias",
@@ -371,6 +370,7 @@ OC.L10N.register(
     "Please try again" : "Por favor, tente novamente",
     "The user limit of this instance is reached." : "O limite do usuário desta instância foi atingido.",
     "Enter your subscription key in the support app in order to increase the user limit. This does also grant you all additional benefits that Nextcloud Enterprise offers and is highly recommended for the operation in companies." : "Insira sua chave de assinatura no aplicativo de suporte para aumentar o limite de usuários. Isso também garante a você todos os benefícios adicionais que o Nextcloud Enterprise oferece e é altamente recomendado para operação em empresas.",
+    "Your web server is not properly set up to resolve \"{url}\". Further information can be found in the {linkstart}documentation ↗{linkend}." : "Seu servidor da web não está configurado corretamente para resolver \"{url}\". Mais informações podem ser encontradas na {linkstart}documentação ↗{linkend}.",
     "Your web server is not properly set up to resolve \"{url}\". This is most likely related to a web server configuration that was not updated to deliver this folder directly. Please compare your configuration against the shipped rewrite rules in \".htaccess\" for Apache or the provided one in the documentation for Nginx at it's {linkstart}documentation page ↗{linkend}. On Nginx those are typically the lines starting with \"location ~\" that need an update." : "Seu servidor da web não está configurado corretamente para resolver \"{url}\". Provavelmente, isso está relacionado a uma configuração do servidor da web que não foi atualizada para entregar essa pasta diretamente. Compare sua configuração com as regras de reescrita enviadas em \".htaccess\" para Apache ou aquela fornecida na documentação para Nginx em sua {linkstart}página de documentação ↗{linkend}. No Nginx essas são normalmente as linhas que começam com \"location ~\" que precisam de uma atualização. ",
     "Your web server is not properly set up to deliver .woff2 files. This is typically an issue with the Nginx configuration. For Nextcloud 15 it needs an adjustement to also deliver .woff2 files. Compare your Nginx configuration to the recommended configuration in our {linkstart}documentation ↗{linkend}." : "Seu servidor da web não está configurado corretamente para entregar arquivos .woff2. Normalmente, esse é um problema com a configuração do Nginx. Para o Nextcloud 15, é necessário um ajuste para entregar também arquivos .woff2. Compare sua configuração Nginx com a configuração recomendada em nossa {linkstart}documentação ↗{linkend}.",
     "PHP does not seem to be setup properly to query system environment variables. The test with getenv(\"PATH\") only returns an empty response." : "O PHP não parece estar configurado corretamente para consultar variáveis de ambiente do sistema. O teste com getenv(\"PATH\") retorna apenas uma resposta vazia.",
@@ -464,6 +464,7 @@ OC.L10N.register(
     "PHP 8.0 is now deprecated in Nextcloud 27. Nextcloud 28 may require at least PHP 8.1. Please upgrade to {linkstart}one of the officially supported PHP versions provided by the PHP Group ↗{linkend} as soon as possible." : "O PHP 8.0 agora está obsoleto no Nextcloud 27. O Nextcloud 28 pode exigir pelo menos o PHP 8.1. Atualize para {linkstart}uma das versões PHP oficialmente suportadas fornecidas pelo PHP Group ↗{linkend} assim que possível.",
     "This instance is running in debug mode. Only enable this for local development and not in production environments." : "Esta instância está sendo executada no modo de depuração. Habilite isso apenas para desenvolvimento local e não em ambientes de produção.",
     "If this account exists, a password reset message has been sent to its email address. If you do not receive it, verify your email address and/or account name, check your spam/junk folders or ask your local administration for help." : "Se esta conta existir, uma mensagem de redefinição de senha foi enviada para seu endereço de e-mail. Se você não o receber, verifique seu endereço de e-mail e/ou nome da conta, verifique suas pastas de spam/lixo ou peça ajuda à administração local.",
-    "Avatar of {fullName}" : "Avatar of {fullName}"
+    "Avatar of {fullName}" : "Avatar of {fullName}",
+    "Apps and Settings" : "Apps e Configurações"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

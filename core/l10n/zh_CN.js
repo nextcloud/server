@@ -75,7 +75,6 @@ OC.L10N.register(
     "The following apps have been disabled: %s" : "以下应用已被禁用：%s",
     "Already up to date" : "已经是最新版本",
     "Your web server is not yet properly set up to allow file synchronization, because the WebDAV interface seems to be broken." : "您的网页服务器没有正确设置允许文件同步，因为 WebDAV 接口看起来无法正常工作。",
-    "Your web server is not properly set up to resolve \"{url}\". Further information can be found in the {linkstart}documentation ↗{linkend}." : "您的网页服务器未正确设置以解析“{url}”。更多信息请参见{linkstart}文档↗{linkend}。",
     "Error occurred while checking server setup" : "检查服务器设置时出错",
     "For more details see the {linkstart}documentation ↗{linkend}." : "更多细节，请参见{linkstart}文档 ↗{linkend}。",
     "The \"{header}\" HTTP header is not set to \"{expected}\". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "HTTP 请求头“{header}”没有配置为“{expected}”。这是一个潜在的安全或隐私风险，我们建议您调整这项设置。",
@@ -181,7 +180,7 @@ OC.L10N.register(
     "Unified search" : "统一搜索",
     "Search apps, files, tags, messages" : "搜索应用程序、文件、标签，信息",
     "Search {types} …" : "搜索 {类型} …",
-    "Apps and Settings" : "应用程序以及设置",
+    "Places" : "地点",
     "Date" : "日期",
     "Today" : "今日",
     "Last 7 days" : "过去 7 天",
@@ -368,6 +367,7 @@ OC.L10N.register(
     "Please try again" : "请重试",
     "The user limit of this instance is reached." : "已达到这个实例的最大用户数。",
     "Enter your subscription key in the support app in order to increase the user limit. This does also grant you all additional benefits that Nextcloud Enterprise offers and is highly recommended for the operation in companies." : "在支持应用程序输入您的订阅密钥以增加用户限制。这也为您提供了 Nextcloud 企业版提供的所有额外优势，非常推荐用于公司的运营。",
+    "Your web server is not properly set up to resolve \"{url}\". Further information can be found in the {linkstart}documentation ↗{linkend}." : "您的网页服务器未正确设置以解析“{url}”。更多信息请参见{linkstart}文档↗{linkend}。",
     "Your web server is not properly set up to resolve \"{url}\". This is most likely related to a web server configuration that was not updated to deliver this folder directly. Please compare your configuration against the shipped rewrite rules in \".htaccess\" for Apache or the provided one in the documentation for Nginx at it's {linkstart}documentation page ↗{linkend}. On Nginx those are typically the lines starting with \"location ~\" that need an update." : "您的网页服务器没有正确配置以解析“{url}”。这很可能与 web 服务器配置没有更新以发布这个文件夹有关。请将您的配置与 Apache 的“.htaccess”文件中的默认重写规则或与这个{linkstart}文档页面↗{linkend}中提供的 Nginx 配置进行比较。在 Nginx 配置中通常需要修改以“location ~”开头的行。",
     "Your web server is not properly set up to deliver .woff2 files. This is typically an issue with the Nginx configuration. For Nextcloud 15 it needs an adjustement to also deliver .woff2 files. Compare your Nginx configuration to the recommended configuration in our {linkstart}documentation ↗{linkend}." : "您的网页服务器未正确设置以服务 .woff2 文件。这通常是一个 Nginx 配置的问题。对于 Nextcloud 15，需要更改一个设置才能发布 .woff2 文件。请将您的 Nginx 配置与我们{linkstart}文档↗{linkend}中的推荐配置进行比较。",
     "PHP does not seem to be setup properly to query system environment variables. The test with getenv(\"PATH\") only returns an empty response." : "PHP 的安装似乎不正确，无法访问系统环境变量。getenv(\"PATH\") 函数测试返回了一个空值。",
@@ -461,6 +461,7 @@ OC.L10N.register(
     "PHP 8.0 is now deprecated in Nextcloud 27. Nextcloud 28 may require at least PHP 8.1. Please upgrade to {linkstart}one of the officially supported PHP versions provided by the PHP Group ↗{linkend} as soon as possible." : "Nextcloud 27已弃用PHP 8.0。Nextcloud 28可能需要PHP 8.1或更高版本。请尽快升级至一个 {linkstart}PHP Group ↗{linkend}提供官方支持的版本。",
     "This instance is running in debug mode. Only enable this for local development and not in production environments." : "此实例正在调试模式下运行。仅在本地开发而非生产环境时启用该模式。",
     "If this account exists, a password reset message has been sent to its email address. If you do not receive it, verify your email address and/or account name, check your spam/junk folders or ask your local administration for help." : "如果此账户存在，一封密码重置邮件已发送到其电子邮件地址。如果您未收到，请验证您的电子邮件地址和/或账户名称，并检查您的垃圾邮件文件夹，或向您的本地管理员求助。",
-    "Avatar of {fullName}" : "{fullName}的头像"
+    "Avatar of {fullName}" : "{fullName}的头像",
+    "Apps and Settings" : "应用程序以及设置"
 },
 "nplurals=1; plural=0;");

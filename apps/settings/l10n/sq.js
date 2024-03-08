@@ -143,7 +143,6 @@ OC.L10N.register(
     "Change password" : "Ndrysho fjalëkalimin",
     "Picture provided by original account" : "Foto e prurë nga llogaria origjinale",
     "Details" : "Detaje",
-    "Back" : "Mbrapsht",
     "No email address set" : "S’është caktuar adresë email",
     "Help translate" : "Ndihmoni në përkthim",
     "Your phone number" : "Numri juaj i telefonit",

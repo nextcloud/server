@@ -67,7 +67,6 @@ OC.L10N.register(
     "The following apps have been disabled: %s" : "Is aplicatziones in fatu sunt istadas disativadas: %s",
     "Already up to date" : "Giai agiornadu",
     "Your web server is not yet properly set up to allow file synchronization, because the WebDAV interface seems to be broken." : "Su serbidore tuo no est impostadu pro permìtere sa sincronizatzione de is archìvios, ca s'interfache WebDAV paret arrogada.",
-    "Your web server is not properly set up to resolve \"{url}\". Further information can be found in the {linkstart}documentation ↗{linkend}." : "Si serbidore tuo no est impostadu pro risòlvere \"{url}\". Podes agatare àteras informatziones in sa {linkstart} documentatzione ↗{linkend}..",
     "Error occurred while checking server setup" : "Ddoe at àpidu un'errore in su controllu de sa cunfiguratzione de su serbidore",
     "For more details see the {linkstart}documentation ↗{linkend}." : "Pro àteros detàllios controlla sa {linkstart}documentatzione ↗{linkend}.",
     "The \"{header}\" HTTP header is not set to \"{expected}\". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "S'intestatzione HTTP \"{header}\" no est cunfigurada comente \"{expected}\". Custu est un'arriscu possìbile de seguresa o riservadesa, tando est cussigiadu a arrangiare custa cunfiguratzione.",
@@ -162,7 +161,6 @@ OC.L10N.register(
     "Unified search" : "Chirca unificada",
     "Search apps, files, tags, messages" : "Chirca in is aplicatziones, archìvios, etichetas e messàgios",
     "Search {types} …" : "Chirca {types} …",
-    "Apps and Settings" : "Aplicatziones e cunfiguratziones",
     "Date" : "Data",
     "Today" : "Oe ",
     "Last 7 days" : "Ùrtimas 7 dies",
@@ -339,6 +337,7 @@ OC.L10N.register(
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Cuntata s'amministratzione de sistema si custu messàgiu abarrat o torrat a cumpàrrere",
     "Please try again" : "Torra·nce a proare",
     "The user limit of this instance is reached." : "S'est lòmpidu su lìmite de utèntzia pro custa istàntzia.",
+    "Your web server is not properly set up to resolve \"{url}\". Further information can be found in the {linkstart}documentation ↗{linkend}." : "Si serbidore tuo no est impostadu pro risòlvere \"{url}\". Podes agatare àteras informatziones in sa {linkstart} documentatzione ↗{linkend}..",
     "Your web server is not properly set up to resolve \"{url}\". This is most likely related to a web server configuration that was not updated to deliver this folder directly. Please compare your configuration against the shipped rewrite rules in \".htaccess\" for Apache or the provided one in the documentation for Nginx at it's {linkstart}documentation page ↗{linkend}. On Nginx those are typically the lines starting with \"location ~\" that need an update." : "Su serbidore internet tuo no est cunfiguradu comente si depet pro resòlvere \"{url}\". Est probàbile chi custu dipendat dae una cunfiguratzione de su serbidore no agiornada pro cunsignare deretu custa cartella. Cunfronta sa cunfiguratzione tua cun is règulas de re-iscritura imbiadas in \".htaccess\" pro Apache o cussa frunida in sa documentatzione pro Nginx in sa  {linkstart}pàgina de documentatzione ↗{linkend}. In Nginx giai semper sunt is lìneas chi incarrerant cun \"location ~\" chi tenent bisòngiu de un'agiornamentu.",
     "Your web server is not properly set up to deliver .woff2 files. This is typically an issue with the Nginx configuration. For Nextcloud 15 it needs an adjustement to also deliver .woff2 files. Compare your Nginx configuration to the recommended configuration in our {linkstart}documentation ↗{linkend}." : "Su serbidore internet tuo no est cunfiguradu comente si depet pro produire archìvios .woff2. Custu est giai semper unu problema de sa cunfiguratzione Nginx. Pro Nextcloud 15 tocat de dd'adecuare pro produire puru archìvios .woff2. Cunfronta sa cunfiguratzione Nginx tua cun sa cunfiguratzione cussigiada in sa {linkstart}documentation ↗{linkend} nostra.",
     "PHP does not seem to be setup properly to query system environment variables. The test with getenv(\"PATH\") only returns an empty response." : "Paret chi PHP no est cunfigradu comente si depet pro rechèrrere variàbiles de ambiente de sistema. Sa proa cun getenv(\"PATH\") at torradu isceti una isceda bòida.",
@@ -413,6 +412,7 @@ OC.L10N.register(
     "Confirm your password" : "Cunfirma sa crae",
     "App token" : "Autenticadore de s'aplicatzione",
     "Alternative log in using app token" : "Atzessu alternativu cun s'autenticadore de s'aplicatzione",
-    "Please use the command line updater because you have a big instance with more than 50 users." : "Imprea s'atualizadore a lìnia de cummandu ca tenes un'istàntzia manna cun prus de 50 utentes."
+    "Please use the command line updater because you have a big instance with more than 50 users." : "Imprea s'atualizadore a lìnia de cummandu ca tenes un'istàntzia manna cun prus de 50 utentes.",
+    "Apps and Settings" : "Aplicatziones e cunfiguratziones"
 },
 "nplurals=2; plural=(n != 1);");
