@@ -34,7 +34,7 @@
 					</template>
 				</NcAppNavigationNew>
 
-				<NcAppNavigationList>
+				<NcAppNavigationList data-cy-users-settings-navigation-groups="system">
 					<NcAppNavigationItem id="everyone"
 						:exact="true"
 						:name="t('settings', 'Active users')"
@@ -99,7 +99,7 @@
 							{{ t('settings', 'Create group') }}
 						</NcActionText>
 						<NcActionInput :label="t('settings', 'Group name')"
-							data-cy-settings-new-group-name
+							data-cy-users-settings-new-group-name
 							:label-outside="false"
 							:disabled="loadingAddGroup"
 							:value.sync="newGroupName"
@@ -109,7 +109,7 @@
 					</template>
 				</NcAppNavigationCaption>
 
-				<NcAppNavigationList>
+				<NcAppNavigationList data-cy-users-settings-navigation-groups="custom">
 					<GroupListItem v-for="group in groupList"
 						:id="group.id"
 						:key="group.id"
