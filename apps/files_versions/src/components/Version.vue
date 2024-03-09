@@ -39,6 +39,23 @@
 			</div>
 		</template>
 
+		<!-- author -->
+		<template #name>
+			<div class="version__info">
+				<div v-if="versionLabel" class="version__info__label">{{ versionLabel }}</div>
+				<div v-if="versionAuthor" class="version__info version__info__author">
+					<div>•</div>
+					<div>{{ versionAuthor }}</div>
+					<NcAvatar class="avatar"
+						:user="version.author"
+						:size="24"
+						:disable-menu="true"
+						:disable-tooltip="true"
+						:show-user-status="false" />
+				</div>
+			</div>
+		</template>
+
 		<!-- Version file size as subline -->
 		<template #subname>
 			<div class="version__info">
@@ -113,11 +130,13 @@ import Pencil from 'vue-material-design-icons/Pencil.vue'
 
 import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
 import NcActionLink from '@nextcloud/vue/dist/Components/NcActionLink.js'
+import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
 import NcListItem from '@nextcloud/vue/dist/Components/NcListItem.js'
 import Tooltip from '@nextcloud/vue/dist/Directives/Tooltip.js'
 
 import { defineComponent, type PropType } from 'vue'
-import { getRootUrl } from '@nextcloud/router'
+import axios from '@nextcloud/axios'
+import { getRootUrl, generateOcsUrl } from '@nextcloud/router'
 import { joinPaths } from '@nextcloud/paths'
 import { loadState } from '@nextcloud/initial-state'
 import { Permission, formatFileSize } from '@nextcloud/files'
@@ -132,6 +151,7 @@ export default defineComponent({
 	components: {
 		NcActionLink,
 		NcActionButton,
+		NcAvatar,
 		NcListItem,
 		BackupRestore,
 		Download,
@@ -143,6 +163,10 @@ export default defineComponent({
 
 	directives: {
 		tooltip: Tooltip,
+	},
+
+	created() {
+		this.fetchDisplayName()
 	},
 
 	filters: {
@@ -193,6 +217,7 @@ export default defineComponent({
 			previewLoaded: false,
 			previewErrored: false,
 			capabilities: loadState('core', 'capabilities', { files: { version_labeling: false, version_deletion: false } }),
+			versionAuthor: '',
 		}
 	},
 
@@ -279,6 +304,14 @@ export default defineComponent({
 			this.$emit('delete', this.version)
 		},
 
+		async fetchDisplayName() {
+			// check to make sure that we have a valid author - in case database did not migrate, null author, etc.
+			if (this.version.author) {
+				const { data } = await axios.get(generateOcsUrl(`/cloud/users/${this.version.author}`))
+				this.versionAuthor = data.ocs.data.displayname
+			}
+		},
+
 		click() {
 			if (!this.canView) {
 				window.location = this.downloadURL
@@ -310,8 +343,13 @@ export default defineComponent({
 		align-items: center;
 		gap: 0.5rem;
 
-		&__size {
+		&__label {
+			font-weight: 700;
+		}
+
+		&__size, &__author {
 			color: var(--color-text-lighter);
+			font-weight: 500;
 		}
 	}
 
