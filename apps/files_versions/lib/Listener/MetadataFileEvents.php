@@ -54,13 +54,14 @@ class MetadataFileEvents implements IEventListener {
 	 * @param Node $node the node that is currently being written
 	 */
 	public function post_write_hook(Node $node): void {
+		$user = $this->userSession->getUser();
 		// Do not handle folders or users that we cannot get metadata from
-		if ($node instanceof Folder || is_null($this->userSession->getUser())) {
+		if ($node instanceof Folder || is_null($user)) {
 			return;
 		}
 		// check if our version manager supports setting the metadata
 		if ($this->versionManager instanceof IMetadataVersionBackend) {
-			$author = $this->userSession->getUser()->getDisplayName() ?? '';
+			$author = $user->getUID();
 			$this->versionManager->setMetadataValue($node, "author", $author);
 		}
 	}
