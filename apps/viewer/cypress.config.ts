@@ -1,8 +1,8 @@
 import { configureNextcloud, startNextcloud, stopNextcloud, waitOnNextcloud } from '@nextcloud/cypress/docker'
+import { configureVisualRegression } from 'cypress-visual-regression/dist/plugin'
 import { defineConfig } from 'cypress'
 import cypressSplit from 'cypress-split'
 
-import getCompareSnapshotsPlugin from 'cypress-visual-regression/dist/plugin'
 
 export default defineConfig({
 	projectId: 'xysa6x',
@@ -27,7 +27,7 @@ export default defineConfig({
 	// Visual regression testing
 	env: {
 		failSilently: false,
-		type: 'actual',
+		visualRegressionType: 'regression',
 	},
 	screenshotsFolder: 'cypress/snapshots/actual',
 	trashAssetsBeforeRuns: true,
@@ -40,8 +40,7 @@ export default defineConfig({
 		// You may want to clean this up later by importing these.
 		async setupNodeEvents(on, config) {
 			cypressSplit(on, config)
-
-			getCompareSnapshotsPlugin(on, config)
+			configureVisualRegression(on)
 
 			// Disable spell checking to prevent rendering differences
 			on('before:browser:launch', (browser, launchOptions) => {
