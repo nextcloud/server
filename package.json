@@ -81,7 +81,7 @@
     "jquery-ui-dist": "^1.13.2",
     "libphonenumber-js": "^1.10.57",
     "lodash": "^4.17.21",
-    "marked": "^11.2.0",
+    "marked": "^12.0.1",
     "moment": "^2.30.1",
     "moment-timezone": "^0.5.45",
     "natural-orderby": "^3.0.2",
