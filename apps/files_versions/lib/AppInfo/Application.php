@@ -36,6 +36,7 @@ use OCA\Files_Versions\Capabilities;
 use OCA\Files_Versions\Listener\FileEventsListener;
 use OCA\Files_Versions\Listener\LoadAdditionalListener;
 use OCA\Files_Versions\Listener\LoadSidebarListener;
+use OCA\Files_Versions\Listener\MetadataFileEvents;
 use OCA\Files_Versions\Versions\IVersionManager;
 use OCA\Files_Versions\Versions\VersionManager;
 use OCP\Accounts\IAccountManager;
@@ -113,6 +114,7 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(NodeTouchedEvent::class, FileEventsListener::class);
 		$context->registerEventListener(BeforeNodeWrittenEvent::class, FileEventsListener::class);
 		$context->registerEventListener(NodeWrittenEvent::class, FileEventsListener::class);
+		$context->registerEventListener(NodeWrittenEvent::class, MetadataFileEvents::class);
 		$context->registerEventListener(BeforeNodeDeletedEvent::class, FileEventsListener::class);
 		$context->registerEventListener(NodeDeletedEvent::class, FileEventsListener::class);
 		$context->registerEventListener(NodeRenamedEvent::class, FileEventsListener::class);
