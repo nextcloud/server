@@ -26,9 +26,11 @@ declare(strict_types=1);
 
 namespace OCA\FilesReminders\AppInfo;
 
+use OCA\DAV\Events\SabrePluginAddEvent;
 use OCA\Files\Event\LoadAdditionalScriptsEvent;
 use OCA\FilesReminders\Listener\LoadAdditionalScriptsListener;
 use OCA\FilesReminders\Listener\NodeDeletedListener;
+use OCA\FilesReminders\Listener\SabrePluginAddListener;
 use OCA\FilesReminders\Listener\UserDeletedListener;
 use OCA\FilesReminders\Notification\Notifier;
 use OCP\AppFramework\App;
@@ -50,6 +52,8 @@ class Application extends App implements IBootstrap {
 
 	public function register(IRegistrationContext $context): void {
 		$context->registerNotifierService(Notifier::class);
+
+		$context->registerEventListener(SabrePluginAddEvent::class, SabrePluginAddListener::class);
 
 		$context->registerEventListener(NodeDeletedEvent::class, NodeDeletedListener::class);
 		$context->registerEventListener(UserDeletedEvent::class, UserDeletedListener::class);
