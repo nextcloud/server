@@ -19,8 +19,7 @@
   "baseBranches": [
     "master",
     "stable28",
-    "stable27",
-    "stable26"
+    "stable27"
   ],
   "enabledManagers": [
     "npm"
@@ -29,6 +28,10 @@
     "node",
     "npm"
   ],
+  "lockFileMaintenance": {
+    "enabled": true,
+    "automerge": true
+  },
   "packageRules": [
     {
       "groupName": "cypress",
