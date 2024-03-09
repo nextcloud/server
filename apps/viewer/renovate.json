@@ -11,7 +11,8 @@
     "skjnldsv"
   ],
   "labels": [
-    "dependencies"
+    "dependencies",
+	"3. to review"
   ],
   "rangeStrategy": "bump",
   "rebaseWhen": "conflicted",
