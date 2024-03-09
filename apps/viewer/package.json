@@ -37,8 +37,8 @@
     "cypress:e2e": "cypress run --e2e",
     "cypress:gui": "cypress open --e2e",
     "cypress:pre-snapshots": "TESTING=true npm run dev",
-    "cypress:visual-regression": "npm run cypress:pre-snapshots && cypress run --spec cypress/e2e/visual-regression.cy.js",
-    "cypress:update-snapshots": "npm run cypress:pre-snapshots && cypress run --env type=base --spec cypress/e2e/visual-regression.cy.js --config screenshotsFolder=cypress/snapshots/base"
+    "cypress:visual-regression": "npm run cypress:pre-snapshots && cypress run --spec cypress/e2e/visual-regression.cy.ts",
+    "cypress:update-snapshots": "npm run cypress:pre-snapshots && cypress run --env visualRegressionType=base --spec cypress/e2e/visual-regression.cy.ts --config screenshotsFolder=cypress/snapshots/base"
   },
   "dependencies": {
     "@fontsource/roboto": "^5.0.12",
@@ -83,7 +83,7 @@
     "@vue/tsconfig": "^0.5.1",
     "cypress": "^13.6.6",
     "cypress-split": "^1.21.0",
-    "cypress-visual-regression": "^3.0.0",
+    "cypress-visual-regression": "^5.0.0",
     "dockerode": "^4.0.2",
     "eslint-plugin-cypress": "^2.15.1",
     "ts-node": "^10.9.2",

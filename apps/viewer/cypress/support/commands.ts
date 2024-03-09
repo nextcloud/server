@@ -23,10 +23,10 @@
 import { addCommands, User } from '@nextcloud/cypress'
 import { basename } from 'path'
 import axios from '@nextcloud/axios'
-import compareSnapshotCommand from 'cypress-visual-regression/dist/command.js'
+import { addCompareSnapshotCommand } from 'cypress-visual-regression/dist/command'
 
 addCommands()
-compareSnapshotCommand()
+addCompareSnapshotCommand()
 
 const url = Cypress.config('baseUrl').replace(/\/index.php\/?$/g, '')
 Cypress.env('baseUrl', url)
