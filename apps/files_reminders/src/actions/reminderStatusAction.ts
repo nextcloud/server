@@ -20,28 +20,28 @@
  *
  */
 
-import Vue from 'vue'
 import { FileAction, type Node } from '@nextcloud/files'
-import { emit } from '@nextcloud/event-bus'
 import { translate as t } from '@nextcloud/l10n'
 
-import AlarmOffSvg from '@mdi/svg/svg/alarm-off.svg?raw'
+import AlarmSvg from '@mdi/svg/svg/alarm.svg?raw'
 
-import { clearReminder } from '../services/reminderService.ts'
+import { pickCustomDate } from '../services/customPicker.ts'
 import { getVerboseDateString } from '../shared/utils.ts'
 
 export const action = new FileAction({
-	id: 'clear-reminder',
+	id: 'reminder-status',
 
-	displayName: () => t('files_reminders', 'Clear reminder'),
+	inline: () => true,
+
+	displayName: () => '',
 
 	title: (nodes: Node[]) => {
 		const node = nodes.at(0)!
 		const dueDate = new Date(node.attributes['reminder-due-date'])
-		return `${t('files_reminders', 'Clear reminder')} – ${getVerboseDateString(dueDate)}`
+		return `${t('files_reminders', 'Reminder set')} – ${getVerboseDateString(dueDate)}`
 	},
 
-	iconSvgInline: () => AlarmOffSvg,
+	iconSvgInline: () => AlarmSvg,
 
 	enabled: (nodes: Node[]) => {
 		// Only allow on a single node
@@ -54,18 +54,9 @@ export const action = new FileAction({
 	},
 
 	async exec(node: Node) {
-		if (node.fileid) {
-			try {
-				await clearReminder(node.fileid)
-				Vue.set(node.attributes, 'reminder-due-date', '')
-				emit('files:node:updated', node)
-				return true
-			} catch (error) {
-				return false
-			}
-		}
+		pickCustomDate(node)
 		return null
 	},
 
-	order: 19,
+	order: -15,
 })

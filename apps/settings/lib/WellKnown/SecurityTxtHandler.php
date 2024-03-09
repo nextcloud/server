@@ -42,7 +42,8 @@ Expires: 2024-04-30T23:00:00.000Z
 Acknowledgments: https://hackerone.com/nextcloud/thanks
 Acknowledgments: https://github.com/nextcloud/security-advisories/security/advisories
 Policy: https://hackerone.com/nextcloud
-Preferred-Languages: en";
+Preferred-Languages: en
+";
 
 		return new GenericResponse(new TextPlainResponse($response, 200));
 	}
