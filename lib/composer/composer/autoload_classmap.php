@@ -1673,6 +1673,7 @@ return array(
     'OC\\Repair\\NC22\\LookupServerSendCheck' => $baseDir . '/lib/private/Repair/NC22/LookupServerSendCheck.php',
     'OC\\Repair\\NC24\\AddTokenCleanupJob' => $baseDir . '/lib/private/Repair/NC24/AddTokenCleanupJob.php',
     'OC\\Repair\\NC25\\AddMissingSecretJob' => $baseDir . '/lib/private/Repair/NC25/AddMissingSecretJob.php',
+    'OC\\Repair\\NC29\\MoveCertificateBundles' => $baseDir . '/lib/private/Repair/NC29/MoveCertificateBundles.php',
     'OC\\Repair\\OldGroupMembershipShares' => $baseDir . '/lib/private/Repair/OldGroupMembershipShares.php',
     'OC\\Repair\\Owncloud\\CleanPreviews' => $baseDir . '/lib/private/Repair/Owncloud/CleanPreviews.php',
     'OC\\Repair\\Owncloud\\CleanPreviewsBackgroundJob' => $baseDir . '/lib/private/Repair/Owncloud/CleanPreviewsBackgroundJob.php',

@@ -1706,6 +1706,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Repair\\NC22\\LookupServerSendCheck' => __DIR__ . '/../../..' . '/lib/private/Repair/NC22/LookupServerSendCheck.php',
         'OC\\Repair\\NC24\\AddTokenCleanupJob' => __DIR__ . '/../../..' . '/lib/private/Repair/NC24/AddTokenCleanupJob.php',
         'OC\\Repair\\NC25\\AddMissingSecretJob' => __DIR__ . '/../../..' . '/lib/private/Repair/NC25/AddMissingSecretJob.php',
+        'OC\\Repair\\NC29\\MoveCertificateBundles' => __DIR__ . '/../../..' . '/lib/private/Repair/NC29/MoveCertificateBundles.php',
         'OC\\Repair\\OldGroupMembershipShares' => __DIR__ . '/../../..' . '/lib/private/Repair/OldGroupMembershipShares.php',
         'OC\\Repair\\Owncloud\\CleanPreviews' => __DIR__ . '/../../..' . '/lib/private/Repair/Owncloud/CleanPreviews.php',
         'OC\\Repair\\Owncloud\\CleanPreviewsBackgroundJob' => __DIR__ . '/../../..' . '/lib/private/Repair/Owncloud/CleanPreviewsBackgroundJob.php',

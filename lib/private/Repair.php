@@ -68,6 +68,7 @@ use OC\Repair\NC21\ValidatePhoneNumber;
 use OC\Repair\NC22\LookupServerSendCheck;
 use OC\Repair\NC24\AddTokenCleanupJob;
 use OC\Repair\NC25\AddMissingSecretJob;
+use OC\Repair\NC29\MoveCertificateBundles;
 use OC\Repair\OldGroupMembershipShares;
 use OC\Repair\Owncloud\CleanPreviews;
 use OC\Repair\Owncloud\DropAccountTermsTable;
@@ -209,6 +210,7 @@ class Repair implements IOutput {
 			\OCP\Server::get(AddMissingSecretJob::class),
 			\OCP\Server::get(AddRemoveOldTasksBackgroundJob::class),
 			\OCP\Server::get(AddMetadataGenerationJob::class),
+			\OCP\Server::get(MoveCertificateBundles::class),
 		];
 	}
 

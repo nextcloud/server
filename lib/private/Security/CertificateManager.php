@@ -34,6 +34,7 @@ namespace OC\Security;
 
 use OC\Files\Filesystem;
 use OC\Files\View;
+use OCP\App\IAppManager;
 use OCP\ICertificate;
 use OCP\ICertificateManager;
 use OCP\IConfig;
@@ -45,12 +46,14 @@ use Psr\Log\LoggerInterface;
  */
 class CertificateManager implements ICertificateManager {
 	private ?string $bundlePath = null;
+	private ?string $certificatesPath = null;
 
 	public function __construct(
 		protected View $view,
 		protected IConfig $config,
 		protected LoggerInterface $logger,
 		protected ISecureRandom $random,
+		protected IAppManager $appManager
 	) {
 	}
 
@@ -100,7 +103,6 @@ class CertificateManager implements ICertificateManager {
 		if (!$this->view->is_dir($path)) {
 			return false;
 		}
-		$result = [];
 		$handle = $this->view->opendir($path);
 		if (!is_resource($handle)) {
 			return false;
@@ -249,7 +251,7 @@ class CertificateManager implements ICertificateManager {
 	}
 
 	private function getPathToCertificates(): string {
-		return '/files_external/';
+		return $this->config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data') . '/data/certificate_manager/';
 	}
 
 	/**
