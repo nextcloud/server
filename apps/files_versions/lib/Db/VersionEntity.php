@@ -78,4 +78,23 @@ class VersionEntity extends Entity implements JsonSerializable {
 		$this->metadata['label'] = $label;
 		$this->markFieldUpdated('metadata');
 	}
+
+	/**
+	 * @abstract given a key, return the value associated with the key in the metadata column
+	 * if nothing is found, we return an empty string
+	 * @param string $key key associated with the value
+	 */
+	public function getMetadataValue(string $key): string {
+		return $this->metadata[$key] ?? '';
+	}
+
+	/**
+	 * @abstract sets a key value pair in the metadata column
+	 * @param string $key key associated with the value
+	 * @param string $value value associated with the key
+	 */
+	public function setMetadataValue(string $key, $value): void {
+		$this->metadata[$key] = $value;
+		$this->markFieldUpdated('metadata');
+	}
 }

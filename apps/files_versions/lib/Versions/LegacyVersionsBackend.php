@@ -39,13 +39,14 @@ use OCP\Files\FileInfo;
 use OCP\Files\Folder;
 use OCP\Files\IMimeTypeLoader;
 use OCP\Files\IRootFolder;
+use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IStorage;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
 
-class LegacyVersionsBackend implements IVersionBackend, INameableVersionBackend, IDeletableVersionBackend, INeedSyncVersionBackend {
+class LegacyVersionsBackend implements IVersionBackend, INameableVersionBackend, IDeletableVersionBackend, INeedSyncVersionBackend, IMetadataVersionBackend {
 	private IRootFolder $rootFolder;
 	private IUserManager $userManager;
 	private VersionsMapper $versionsMapper;
@@ -311,5 +312,34 @@ class LegacyVersionsBackend implements IVersionBackend, INameableVersionBackend,
 		}
 
 		return ($sourceFile->getPermissions() & $permissions) === $permissions;
+	}
+
+	public function setMetadataValue(Node $node, string $key, string $value): void {
+		// Do not handle folders.
+		if ($node instanceof File) {
+
+			try {
+				$versionEntity = $this->versionsMapper->findVersionForFileId($node->getId(), $node->getMTime());
+			} catch (\Exception $e) {
+				throw $e; // the version does not exist or too many versions exist
+			}
+
+			$currentMetadata = $versionEntity->getMetadata() ?? [];
+	
+			$currentMetadata[$key] = $value;
+			$versionEntity->setMetadata($currentMetadata);
+			$this->versionsMapper->update($versionEntity);
+		}
+
+	}
+
+	public function getMetadataValue(Node $node, string $key): ?string {
+		try {
+			$versionEntity = $this->versionsMapper->findVersionForFileId($node->getId(), $node->getMTime());
+			return $versionEntity->getMetadataValue($key);
+		} catch (\InvalidArgumentException $e) {
+			// we tried to find a version or key that doesn't exist
+			return null;
+		}
 	}
 }

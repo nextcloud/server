@@ -31,11 +31,12 @@ use OCP\Files\IRootFolder;
 use OCP\Files\Lock\ILock;
 use OCP\Files\Lock\ILockManager;
 use OCP\Files\Lock\LockContext;
+use OCP\Files\Node;
 use OCP\Files\Storage\IStorage;
 use OCP\IUser;
 use OCP\Lock\ManuallyLockedException;
 
-class VersionManager implements IVersionManager, INameableVersionBackend, IDeletableVersionBackend, INeedSyncVersionBackend {
+class VersionManager implements IVersionManager, INameableVersionBackend, IDeletableVersionBackend, INeedSyncVersionBackend, IMetadataVersionBackend {
 	/** @var (IVersionBackend[])[] */
 	private $backends = [];
 
@@ -160,6 +161,21 @@ class VersionManager implements IVersionManager, INameableVersionBackend, IDelet
 		}
 	}
 
+	public function setMetadataValue(Node $node, string $key, string $value): void {
+		$backend = $this->getBackendForStorage($node->getStorage());
+		if ($backend instanceof IMetadataVersionBackend) {
+			$backend->setMetadataValue($node, $key, $value);
+		}
+	}
+
+	public function getMetadataValue(Node $node, string $key): ?string {
+		$backend = $this->getBackendForStorage($node->getStorage());
+		if ($backend instanceof IMetadataVersionBackend) {
+			return $backend->getMetadataValue($node, $key);
+		}
+		return null;
+	}
+
 	/**
 	 * Catch ManuallyLockedException and retry in app context if possible.
 	 *
@@ -184,7 +200,7 @@ class VersionManager implements IVersionManager, INameableVersionBackend, IDelet
 			return $callback();
 		} catch (ManuallyLockedException $e) {
 			$owner = (string) $e->getOwner();
-			$appsThatHandleUpdates = array("text", "richdocuments");
+			$appsThatHandleUpdates = ["text", "richdocuments"];
 			if (!in_array($owner, $appsThatHandleUpdates)) {
 				throw $e;
 			}
