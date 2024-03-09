@@ -13,10 +13,6 @@ Set file reminders.
 	<author>Christopher Ng</author>
 	<namespace>FilesReminders</namespace>
 
-	<types>
-		<dav />
-	</types>
-
 	<category>files</category>
 
 	<bugs>https://github.com/nextcloud/server/issues</bugs>
@@ -33,10 +29,4 @@ Set file reminders.
 	<commands>
 		<command>OCA\FilesReminders\Command\ListCommand</command>
 	</commands>
-
-	<sabre>
-		<plugins>
-			<plugin>OCA\FilesReminders\Dav\PropFindPlugin</plugin>
-		</plugins>
-	</sabre>
  </info>

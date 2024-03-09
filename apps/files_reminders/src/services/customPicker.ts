@@ -36,11 +36,11 @@ const CustomReminderModal = new View({
 	el: mount,
 })
 
-export const pickCustomDate = async (node: Node): Promise<void> => {
+export const pickCustomDate = (node: Node): Promise<void> => {
 	CustomReminderModal.open(node)
 
 	// Wait for the modal to close
 	return new Promise((resolve) => {
-		CustomReminderModal.$on('close', resolve)
+		CustomReminderModal.$once('close', resolve)
 	})
 }
