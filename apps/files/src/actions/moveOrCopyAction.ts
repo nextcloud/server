@@ -32,12 +32,14 @@ import { emit } from '@nextcloud/event-bus'
 import { FilePickerClosed, getFilePickerBuilder, showError } from '@nextcloud/dialogs'
 import { Permission, FileAction, FileType, NodeStatus, davGetClient, davRootPath, davResultToNode, davGetDefaultPropfind } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
+import { openConflictPicker, hasConflict } from '@nextcloud/upload'
 import Vue from 'vue'
 
 import CopyIconSvg from '@mdi/svg/svg/folder-multiple.svg?raw'
 import FolderMoveSvg from '@mdi/svg/svg/folder-move.svg?raw'
 
 import { MoveCopyAction, canCopy, canMove, getQueue } from './moveOrCopyActionUtils'
+import { getContents } from '../services/Files'
 import logger from '../logger'
 import { getUniqueName } from '../utils/fileUtils'
 
@@ -133,6 +135,27 @@ export const handleCopyMoveNodeTo = async (node: Node, destination: Folder, meth
 					emit('files:node:created', davResultToNode(data))
 				}
 			} else {
+				// show conflict file popup if we do not allow overwriting
+				const otherNodes = await getContents(destination.path)
+				if (hasConflict([node], otherNodes.contents)) {
+					try {
+						// Let the user choose what to do with the conflicting files
+						const { selected, renamed } = await openConflictPicker(destination.path, [node], otherNodes.contents)
+						// if the user selected to keep the old file, and did not select the new file
+						// that means they opted to delete the current node
+						if (!selected.length && !renamed.length) {
+							await client.deleteFile(currentPath)
+							emit('files:node:deleted', node)
+							return
+						}
+					} catch (error) {
+						// User cancelled
+						showError(t('files','Move cancelled'))
+						return
+					}
+				}
+				// getting here means either no conflict, file was renamed to keep both files
+				// in a conflict, or the selected file was chosen to be kept during the conflict
 				await client.moveFile(currentPath, join(destinationPath, node.basename))
 				// Delete the node as it will be fetched again
 				// when navigating to the destination folder
