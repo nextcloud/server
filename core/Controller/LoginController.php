@@ -41,6 +41,9 @@ use OC\Authentication\Login\LoginData;
 use OC\Authentication\WebAuthn\Manager as WebAuthnManager;
 use OC\User\Session;
 use OC_App;
+use OCA\User_LDAP\Configuration;
+use OCA\User_LDAP\Helper;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\FrontpageRoute;
@@ -82,6 +85,7 @@ class LoginController extends Controller {
 		private WebAuthnManager $webAuthnManager,
 		private IManager $manager,
 		private IL10N $l10n,
+		private IAppManager $appManager,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -176,6 +180,8 @@ class LoginController extends Controller {
 
 		$this->setPasswordResetInitialState($user);
 
+		$this->setEmailStates();
+
 		$this->initialStateService->provideInitialState('core', 'webauthn-available', $this->webAuthnManager->isWebAuthnAvailable());
 
 		$this->initialStateService->provideInitialState('core', 'hideLoginForm', $this->config->getSystemValueBool('hide_login_form', false));
@@ -229,6 +235,31 @@ class LoginController extends Controller {
 			'loginCanResetPassword',
 			$this->canResetPassword($passwordLink, $user)
 		);
+	}
+	
+	/**
+	 * Sets the initial state of whether or not a user is allowed to login with their email
+	 * initial state is passed in the array of 1 for email allowed and 0 for not allowed
+	 */
+	private function setEmailStates(): void {
+		$emailStates = []; // true: can login with email, false otherwise - default to true
+
+		// check if user_ldap is enabled, and the required classes exist
+		if ($this->appManager->isAppLoaded('user_ldap')
+			&& class_exists(Helper::class)) {
+			$helper = \OCP\Server::get(Helper::class);
+			$allPrefixes = $helper->getServerConfigurationPrefixes();
+			// check each LDAP server the user is connected too
+			foreach ($allPrefixes as $prefix) {
+				$emailConfig = new Configuration($prefix);
+				array_push($emailStates, $emailConfig->__get('ldapLoginFilterEmail'));
+			}
+		}
+		$this->initialStateService->
+			provideInitialState(
+				'core',
+				'emailStates',
+				$emailStates);
 	}
 
 	/**

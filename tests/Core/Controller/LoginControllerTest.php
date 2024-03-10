@@ -30,6 +30,7 @@ use OC\Authentication\Login\LoginResult;
 use OC\Authentication\TwoFactorAuth\Manager;
 use OC\Core\Controller\LoginController;
 use OC\User\Session;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Defaults;
@@ -89,6 +90,9 @@ class LoginControllerTest extends TestCase {
 	/** @var IL10N|MockObject */
 	private $l;
 
+	/** @var IAppManager|MockObject */
+	private $appManager;
+
 	protected function setUp(): void {
 		parent::setUp();
 		$this->request = $this->createMock(IRequest::class);
@@ -104,6 +108,8 @@ class LoginControllerTest extends TestCase {
 		$this->webAuthnManager = $this->createMock(\OC\Authentication\WebAuthn\Manager::class);
 		$this->notificationManager = $this->createMock(IManager::class);
 		$this->l = $this->createMock(IL10N::class);
+		$this->appManager = $this->createMock(IAppManager::class);
+
 		$this->l->expects($this->any())
 			->method('t')
 			->willReturnCallback(function ($text, $parameters = []) {
@@ -132,7 +138,8 @@ class LoginControllerTest extends TestCase {
 			$this->initialStateService,
 			$this->webAuthnManager,
 			$this->notificationManager,
-			$this->l
+			$this->l,
+			$this->appManager,
 		);
 	}
 
@@ -258,7 +265,7 @@ class LoginControllerTest extends TestCase {
 					],
 				]
 			);
-		$this->initialStateService->expects($this->exactly(11))
+		$this->initialStateService->expects($this->exactly(12))
 			->method('provideInitialState')
 			->withConsecutive([
 				'core',
@@ -300,7 +307,7 @@ class LoginControllerTest extends TestCase {
 			->expects($this->once())
 			->method('isLoggedIn')
 			->willReturn(false);
-		$this->initialStateService->expects($this->exactly(12))
+		$this->initialStateService->expects($this->exactly(13))
 			->method('provideInitialState')
 			->withConsecutive([], [], [], [
 				'core',
@@ -371,7 +378,7 @@ class LoginControllerTest extends TestCase {
 			->method('get')
 			->with('LdapUser')
 			->willReturn($user);
-		$this->initialStateService->expects($this->exactly(11))
+		$this->initialStateService->expects($this->exactly(12))
 			->method('provideInitialState')
 			->withConsecutive([], [], [
 				'core',
@@ -421,7 +428,7 @@ class LoginControllerTest extends TestCase {
 			->method('get')
 			->with('0')
 			->willReturn($user);
-		$this->initialStateService->expects($this->exactly(11))
+		$this->initialStateService->expects($this->exactly(12))
 			->method('provideInitialState')
 			->withConsecutive([], [], [], [
 				'core',
