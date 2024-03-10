@@ -40,7 +40,7 @@ OC.L10N.register(
     "_Delete file_::_Delete files_" : ["Effacer le fichier ","Effacer les fichiers","Effacer les fichiers"],
     "_Delete folder_::_Delete folders_" : ["Supprimer le dossier","Supprimer les dossiers","Supprimer les dossiers"],
     "_Disconnect storage_::_Disconnect storages_" : ["Déconnecter le support de stockage","Déconnecter les supports de stockage","Déconnecter les supports de stockage"],
-    "_Leave this share_::_Leave these shares_" : ["Laisser ce partage","Laisser ces partages","Laisser ces partages"],
+    "_Leave this share_::_Leave these shares_" : ["Conserver ce partage","Conserver ces partages","Conserver ces partages"],
     "Could not load info for file \"{file}\"" : "Impossible de charger les informations du fichier \"{file}\"",
     "Files" : "Fichiers",
     "Details" : "Détails",
