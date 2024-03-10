@@ -43,9 +43,9 @@
 				@load="updateImgSize"
 				@wheel.stop.prevent="updateZoom"
 				@dblclick.prevent="onDblclick"
-				@pointerdown.prevent="dragStart"
-				@pointerup.prevent="dragEnd"
-				@pointermove.prevent="dragHandler">
+				@pointerdown.prevent="pointerDown"
+				@pointerup.prevent="pointerUp"
+				@pointermove.prevent="pointerMove">
 
 			<template v-if="livePhoto">
 				<video v-show="livePhotoCanBePlayed"
@@ -65,9 +65,9 @@
 					@wheel.stop.prevent="updateZoom"
 					@error.capture.prevent.stop.once="onFail"
 					@dblclick.prevent="onDblclick"
-					@pointerdown.prevent="dragStart"
-					@pointerup.prevent="dragEnd"
-					@pointermove.prevent="dragHandler"
+					@pointerdown.prevent="pointerDown"
+					@pointerup.prevent="pointerUp"
+					@pointermove.prevent="pointerMove"
 					@ended="stopLivePhoto" />
 				<button v-if="width !== 0"
 					class="live-photo_play_button"
@@ -213,11 +213,11 @@ export default {
 				this.resetZoom()
 				// end the dragging if your pointer (mouse or touch) go out of the content
 				// Not sure why ???
-				window.addEventListener('pointerout', this.dragEnd)
+				window.addEventListener('pointerout', this.pointerUp)
 			// the item is not displayed
 			} else if (val === false) {
 				// Not sure why ???
-				window.removeEventListener('pointerout', this.dragEnd)
+				window.removeEventListener('pointerout', this.pointerUp)
 			}
 		},
 	},
@@ -321,11 +321,11 @@ export default {
 		// https://developer.mozilla.org/en-US/docs/Web/API/Pointer_events/Pinch_zoom_gestures
 
 		/**
-		 * Dragging handlers
+		 * Dragging and (pinch) zooming handlers
 		 *
 		 * @param {DragEvent} event the event
 		 */
-		dragStart(event) {
+		pointerDown(event) {
 			// New pointer - mouse down or additional touch --> store client coordinates in the pointer cache
 			this.pointerCache.push({ pointerId: event.pointerId, x: event.clientX, y: event.clientY })
 
@@ -348,7 +348,7 @@ export default {
 		/**
 		 * @param {DragEvent} event the event
 		 */
-		dragEnd(event) {
+		 pointerUp(event) {
 			// Remove pointer from the pointer cache
 			const index = this.pointerCache.findIndex(
 				(cachedEv) => cachedEv.pointerId === event.pointerId,
@@ -360,7 +360,7 @@ export default {
 		/**
 		 * @param {DragEvent} event the event
 		 */
-		dragHandler(event) {
+		 pointerMove(event) {
 
 			if (this.pointerCache.length > 0) {
 				// Update pointer position in the pointer cache
