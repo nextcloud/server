@@ -98,6 +98,7 @@ OC.L10N.register(
     "Cancel" : "Cancelar",
     "Add another link" : "Añadir otro enlace",
     "Share link" : "Compartir liga",
+    "View only" : "Sólo lectura",
     "No recommendations. Start typing." : "Sin recomendaciones. Empiece a escribir.",
     "Resharing is not allowed" : "No está permitido recompartir",
     "Searching …" : "Buscando  …",
