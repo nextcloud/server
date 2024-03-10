@@ -98,9 +98,10 @@ describe(`Download ${fileName} in viewer`, function() {
 			.and('not.have.class', 'icon-loading')
 	})
 
-	it('See the title on the viewer header but not the Download button', function() {
+	it('See the title on the viewer header but not the Download nor the menu button', function() {
 		cy.get('body > .viewer .modal-name').should('contain', 'image1.jpg')
-		cy.get('body > .viewer .modal-header a.action-item .download-icon').should('not.exist')
+		cy.get('body a[download="image1.jpg"]').should('not.exist')
+		cy.get('body > .viewer .modal-header button.action-item__menutoggle').should('not.exist')
 		cy.get('body > .viewer .modal-header button.header-close').should('be.visible')
 	})
 
