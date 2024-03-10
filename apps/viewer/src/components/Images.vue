@@ -378,7 +378,7 @@ export default {
 
 			// Single touch or mouse down --> dragging
 			if (this.pointerCache.length === 1 && this.dragging && !this.zooming && this.zoomRatio > 1) {
-				const {clientX, clientY} = event
+				const { clientX, clientY } = event
 				const newShiftX = this.shiftX + (clientX - this.dragX)
 				const newShiftY = this.shiftY + (clientY - this.dragY)
 
