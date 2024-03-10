@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Image saved" : "Imagen guardada",
     "Unsaved changes" : "Cambios no guardados",
+    "LIVE" : "EN VIVO",
     "Edit" : "Editar",
     "Exit full screen" : "Salir de pantalla completa",
     "Open sidebar" : "Abrir barra lateral",
