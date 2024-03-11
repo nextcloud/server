@@ -43,7 +43,7 @@ use OCP\DB\Exception;
 use OCP\IRequest;
 use OCP\IUserSession;
 use OCP\IURLGenerator;
-use OCP\L10N\IFactory;
+use OCP\IConfig;
 use OCP\Security\Bruteforce\IThrottler;
 use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
@@ -67,7 +67,7 @@ class OauthApiController extends Controller {
 		private ITimeFactory $timeFactory,
 		private IUserSession $userSession,
 		private IURLGenerator $urlGenerator,
-		private IFactory $l10nFactory,
+		private IConfig $config,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -247,9 +247,7 @@ class OauthApiController extends Controller {
 			], Http::STATUS_NOT_FOUND);
 		}
 		$displayName = $user->getDisplayName();
-		$partedName = explode(' ', $displayName);
 		$userId = $user->getUID();
-		$locale = $this->l10nFactory->findLocale();
 
 		$userInfo = [
 			'sub' => $userId,
@@ -262,9 +260,16 @@ class OauthApiController extends Controller {
 				]))
 		];
 
-		if ($locale === 'ru') {
-			$userInfo['given_name'] = $partedName[0];
-			$userInfo['family_name'] = $partedName[1] ?? $partedName[0];
+		$oauth_conf = $this->config->getSystemValue('oauth2', ['process_name' => false]);
+		if ($oauth_conf["process_name"] === true &&
+			key_exists("separator", $oauth_conf) &&
+			key_exists("first_name_position", $oauth_conf) &&
+			key_exists("family_name_position", $oauth_conf) &&
+			$oauth_conf["separator"] !== ""
+		) {
+			$partedName = explode($oauth_conf["separator"], $displayName);
+			$userInfo['given_name'] = $partedName[$oauth_conf["first_name_position"]];
+			$userInfo['family_name'] = $partedName[$oauth_conf["family_name_position"]] ?? $partedName[0];
 		}
 		$response = new JSONResponse($userInfo);
 		return $response;
