@@ -1,10 +1,4 @@
 /*!
- * pinia v2.1.7
- * (c) 2023 Eduardo San Martin Morote
- * @license MIT
- */
-
-/*!
  * vue-qrcode v1.0.2
  * https://fengyuanchen.github.io/vue-qrcode
  *

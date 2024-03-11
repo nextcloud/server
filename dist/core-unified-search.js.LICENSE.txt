@@ -20,12 +20,6 @@
  *
  */
 
-/*!
- * pinia v2.1.7
- * (c) 2023 Eduardo San Martin Morote
- * @license MIT
- */
-
 /**
  * @copyright Copyright (c) 2024 Fon E. Noel NFEBE <opensource@nfebe.com>
  *
