@@ -27,6 +27,7 @@
  *
  */
 
+import { getBuilder } from '@nextcloud/browser-storage'
 import { getCapabilities } from '@nextcloud/capabilities'
 import { parseFileSize } from '@nextcloud/files'
 import { generateOcsUrl } from '@nextcloud/router'
@@ -34,6 +35,8 @@ import axios from '@nextcloud/axios'
 
 import api from './api.js'
 import logger from '../logger.ts'
+
+const localStorage = getBuilder('settings').persist(true).build()
 
 const orderGroups = function(groups, orderBy) {
 	/* const SORT_USERCOUNT = 1;
@@ -69,11 +72,11 @@ const state = {
 	disabledUsersLimit: 25,
 	userCount: 0,
 	showConfig: {
-		showStoragePath: false,
-		showUserBackend: false,
-		showLastLogin: false,
-		showNewUserForm: false,
-		showLanguages: false,
+		showStoragePath: localStorage.getItem('account_settings__showStoragePath') === 'true',
+		showUserBackend: localStorage.getItem('account_settings__showUserBackend') === 'true',
+		showLastLogin: localStorage.getItem('account_settings__showLastLogin') === 'true',
+		showNewUserForm: localStorage.getItem('account_settings__showNewUserForm') === 'true',
+		showLanguages: localStorage.getItem('account_settings__showLanguages') === 'true',
 	},
 }
 
@@ -248,6 +251,7 @@ const mutations = {
 	},
 
 	setShowConfig(state, { key, value }) {
+		localStorage.setItem(`account_settings__${key}`, JSON.stringify(value))
 		state.showConfig[key] = value
 	},
 }

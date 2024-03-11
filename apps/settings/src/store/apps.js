@@ -34,7 +34,6 @@ const state = {
 	categories: [],
 	updateCount: loadState('settings', 'appstoreUpdateCount', 0),
 	loading: {},
-	loadingList: false,
 	gettingCategoriesPromise: null,
 }
 
