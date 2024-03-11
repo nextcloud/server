@@ -95,7 +95,6 @@ export default {
 	display: flex;
 	flex-direction: column;
 	position: relative;
-	width: min(100%, 290px);
 	height: 116px;
 	margin: 14px auto;
 	border-radius: var(--border-radius-large);
