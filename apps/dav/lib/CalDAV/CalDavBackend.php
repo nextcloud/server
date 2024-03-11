@@ -2376,7 +2376,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			if ($syncToken) {
 				$qb = $this->db->getQueryBuilder();
 
-				$qb->select('uri', 'operation')
+				$qb->select('uri', 'operation', 'synctoken')
 					->from('calendarchanges')
 					->where(
 						$qb->expr()->andX(
@@ -2385,7 +2385,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 							$qb->expr()->eq('calendarid', $qb->createNamedParameter($calendarId)),
 							$qb->expr()->eq('calendartype', $qb->createNamedParameter($calendarType))
 						)
-					)->orderBy('synctoken');
+					)->orderBy('synctoken', 'ASC');
 				if (is_int($limit) && $limit > 0) {
 					$qb->setMaxResults($limit);
 				}
@@ -2396,8 +2396,19 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 
 				// This loop ensures that any duplicates are overwritten, only the
 				// last change on a node is relevant.
+				$rowNr = 0;
 				while ($row = $stmt->fetch()) {
+					if ($rowNr === 0 && $row['synctoken'] > $syncToken) {
+						// The oldest change should have a synctoken equal to the
+						// token sent by the client. Only then we have the full
+						// history of changes. Else the data cleanup happened too
+						// fast (or the client was offline for a long time) and
+						// we would return an incomplete diff.
+						// Abort to force a clean and full sync.
+						return null;
+					}
 					$changes[$row['uri']] = $row['operation'];
+					$rowNr++;
 				}
 				$stmt->closeCursor();
 
