@@ -24,14 +24,15 @@
 	<section>
 		<HeaderBar :is-heading="true" :readable="propertyReadable" />
 
-		<ProfileCheckbox :profile-enabled.sync="profileEnabled" />
+		<div class="profile-section_controls-wrapper">
+			<ProfileCheckbox :profile-enabled.sync="profileEnabled" />
+			<EditProfileAnchorLink :profile-enabled="profileEnabled" />
+		</div>
 
 		<ProfilePreviewCard :organisation="organisation"
 			:display-name="displayName"
 			:profile-enabled="profileEnabled"
 			:user-id="userId" />
-
-		<EditProfileAnchorLink :profile-enabled="profileEnabled" />
 	</section>
 </template>
 
@@ -102,5 +103,10 @@ section {
 	&::v-deep button:disabled {
 		cursor: default;
 	}
+}
+
+.profile-section_controls-wrapper {
+	display: flex;
+	align-items: center;
 }
 </style>

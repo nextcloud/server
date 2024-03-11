@@ -86,11 +86,17 @@ select {
 }
 
 #personal-settings {
-	display: grid;
+	display: flex;
 	padding: 20px;
-	max-width: 1700px;
-	grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
-	grid-column-gap: 10px;
+	max-width: 1600px;
+	margin: auto;
+	flex-wrap: wrap-reverse;
+	justify-content: center;
+	gap: 16px;
+
+	label {
+		font-weight: bold;
+	}
 
 	.section {
 		padding: 10px 10px;
@@ -101,6 +107,7 @@ select {
 		}
 
 		h3 {
+			font-weight: bold;
 			> label {
 				font-weight: bold;
 			}

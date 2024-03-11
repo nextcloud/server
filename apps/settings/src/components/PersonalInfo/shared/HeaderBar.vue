@@ -133,7 +133,7 @@ export default {
 
 <style lang="scss" scoped>
 	.headerbar-label {
-		font-weight: normal;
+		font-weight: bold;
 		display: inline-flex;
 		width: 100%;
 		margin: 12px 0 0 0;

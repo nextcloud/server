@@ -69,12 +69,10 @@ html {
 a {
 	display: block;
 	height: 44px;
-	width: min(100%, 290px);
 	overflow: hidden;
 	text-overflow: ellipsis;
 	line-height: 44px;
 	padding: 0 16px;
-	margin: 14px auto;
 	border-radius: var(--border-radius-pill);
 	color: var(--color-text-maxcontrast);
 	background-color: transparent;
