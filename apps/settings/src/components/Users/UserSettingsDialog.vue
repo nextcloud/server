@@ -74,7 +74,6 @@
 </template>
 
 <script>
-import { getBuilder } from '@nextcloud/browser-storage'
 import { formatFileSize, parseFileSize } from '@nextcloud/files'
 import { generateUrl } from '@nextcloud/router'
 
@@ -101,15 +100,6 @@ export default {
 			type: Boolean,
 			required: true,
 		},
-	},
-
-	setup() {
-		const localStorage = getBuilder('settings')
-			.persist(true)
-			.clearOnLogout(true)
-			.build()
-
-		return { localStorage }
 	},
 
 	data() {
@@ -139,37 +129,37 @@ export default {
 
 		showLanguages: {
 			get() {
-				return this.getLocalstorage('showLanguages')
+				return this.showConfig.showLanguages
 			},
 			set(status) {
-				this.setLocalStorage('showLanguages', status)
+				this.setShowConfig('showLanguages', status)
 			},
 		},
 
 		showLastLogin: {
 			get() {
-				return this.getLocalstorage('showLastLogin')
+				return this.showConfig.showLastLogin
 			},
 			set(status) {
-				this.setLocalStorage('showLastLogin', status)
+				this.setShowConfig('showLastLogin', status)
 			},
 		},
 
 		showUserBackend: {
 			get() {
-				return this.getLocalstorage('showUserBackend')
+				return this.showConfig.showUserBackend
 			},
 			set(status) {
-				this.setLocalStorage('showUserBackend', status)
+				this.setShowConfig('showUserBackend', status)
 			},
 		},
 
 		showStoragePath: {
 			get() {
-				return this.getLocalstorage('showStoragePath')
+				return this.showConfig.showStoragePath
 			},
 			set(status) {
-				this.setLocalStorage('showStoragePath', status)
+				this.setShowConfig('showStoragePath', status)
 			},
 		},
 
@@ -221,18 +211,8 @@ export default {
 	},
 
 	methods: {
-		getLocalstorage(key) {
-			// force initialization
-			const localConfig = JSON.parse(this.localStorage.getItem(key) ?? 'null')
-			// if localstorage is null, fallback to original values
-			this.$store.commit('setShowConfig', { key, value: localConfig !== null ? localConfig === 'true' : this.showConfig[key] })
-			return this.showConfig[key]
-		},
-
-		setLocalStorage(key, status) {
+		setShowConfig(key, status) {
 			this.$store.commit('setShowConfig', { key, value: status })
-			this.localStorage.setItem(key, JSON.stringify(status))
-			return status
 		},
 
 		/**
