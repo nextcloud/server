@@ -5,7 +5,7 @@ declare(strict_types=1);
 /**
  * @author Eduardo Morales emoral435@gmail.com>
  *
- * @license AGPL-3.0
+ * @license GNU AGPL-3.0-or-later
  *
  * This code is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License, version 3,
@@ -62,7 +62,7 @@ class MetadataFileEvents implements IEventListener {
 		// check if our version manager supports setting the metadata
 		if ($this->versionManager instanceof IMetadataVersionBackend) {
 			$author = $user->getUID();
-			$this->versionManager->setMetadataValue($node, "author", $author);
+			$this->versionManager->setMetadataValue($node, 'author', $author);
 		}
 	}
 }
