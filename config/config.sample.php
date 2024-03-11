@@ -1962,7 +1962,7 @@ $CONFIG = [
 /**
  * Blacklist characters from being used in filenames. This is useful if you
  * have a filesystem or OS which does not support certain characters like windows.
- * 
+ *
  * The '/' and '\' characters are always forbidden.
  *
  * Example for windows systems: ``array('?', '<', '>', ':', '*', '|', '"', chr(0), "\n", "\r")``
@@ -2420,4 +2420,21 @@ $CONFIG = [
  * Defaults to ``true``
  */
 'enable_non-accessible_features' => true,
+
+/**
+ * Endpoint OAuth2 userinfo settings
+ *
+ * The 'process_name' key defines the need to separate the name into given_name and family_name. If false then given_name and family_name are not passed.
+ * Defaults to ``false``
+ * The 'separator' key is a symbol separating the first and last name.
+ * The key 'first_name_position' is the position of given_name in the name.
+ * The key 'family_name_position' is the position of family_name in the name.
+ */
+'oauth2' =>
+	[
+		'process_name' => false,
+		'separator' => ' ',
+		'first_name_position' => 0,
+		'family_name_position' => 1,
+	],
 ];
