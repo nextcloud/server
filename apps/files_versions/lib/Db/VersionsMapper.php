@@ -85,7 +85,7 @@ class VersionsMapper extends QBMapper {
 			 ->executeStatement();
 	}
 
-	public function deleteAllVersionsForUser(int $storageId, string $path = null): void {
+	public function deleteAllVersionsForUser(int $storageId, ?string $path = null): void {
 		$fileIdsGenerator = $this->getFileIdsGenerator($storageId, $path);
 
 		$versionEntitiesDeleteQuery = $this->db->getQueryBuilder();

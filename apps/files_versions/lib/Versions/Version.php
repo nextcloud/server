@@ -26,9 +26,10 @@ declare(strict_types=1);
 namespace OCA\Files_Versions\Versions;
 
 use OCP\Files\FileInfo;
+use OCP\Files\Node;
 use OCP\IUser;
 
-class Version implements IVersion, INameableVersion {
+class Version implements IVersion, INameableVersion, IMetadataVersion {
 	/** @var int */
 	private $timestamp;
 
@@ -120,5 +121,12 @@ class Version implements IVersion, INameableVersion {
 
 	public function getUser(): IUser {
 		return $this->user;
+	}
+
+	public function getMetadataValue(string $key): ?string {
+		if ($this->backend instanceof IMetadataVersionBackend && $this->sourceFileInfo instanceof Node) {
+			return $this->backend->getMetadataValue($this->sourceFileInfo, "author");
+		}
+		return null;
 	}
 }

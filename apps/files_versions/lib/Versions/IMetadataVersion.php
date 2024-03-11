@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2022 Louis Chmn <louis@chmn.me>
+ * @copyright Copyright (c) 2024 Eduardo Morales <emoral435@gmail.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license GNU AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -24,14 +24,15 @@ declare(strict_types=1);
 namespace OCA\Files_Versions\Versions;
 
 /**
- * @deprecated 29.0.0
- * @since 26.0.0
+ * This interface allows for just direct accessing of the metadata column JSON
+ * @since 29.0.0
  */
-interface INameableVersionBackend {
+interface IMetadataVersion {
 	/**
-	 * Set the label for a version.
-	 * @deprecated 29.0.0
-	 * @since 26.0.0
+	 * retrieves the metadata value from our $key param
+	 *
+	 * @param string $key the key for the json value of the metadata column
+	 * @since 29.0.0
 	 */
-	public function setVersionLabel(IVersion $version, string $label): void;
+	public function getMetadataValue(string $key): ?string;
 }
