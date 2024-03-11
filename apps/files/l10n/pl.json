@@ -205,7 +205,6 @@
     "Cannot transfer ownership of a file or folder you do not own" : "Nie można przenieść prawa własności do pliku lub katalogu, którego nie jesteś właścicielem",
     "Select file or folder to link to" : "Wybierz plik lub katalog do linku",
     "Choose {file}" : "Wybierz {file}",
-    "Add" : "Dodaj",
     "Loading current folder" : "Ładowanie bieżącego katalogu",
     "No files in here" : "Brak plików",
     "Upload some content or sync with your devices!" : "Wyślij lub zsynchronizuj pliki z urządzeniami.",
@@ -219,6 +218,7 @@
     "Open the files app settings" : "Otwórz ustawienia aplikacji plików",
     "Files settings" : "Ustawienia Plików",
     "File cannot be accessed" : "Nie można uzyskać dostępu do pliku",
+    "Open in files" : "Otwórz w Plikach",
     "Sort favorites first" : "Najpierw sortuj ulubione",
     "Show hidden files" : "Pokaż ukryte pliki",
     "Crop image previews" : "Przytnij podglądy obrazów",
@@ -243,7 +243,6 @@
     "This file/folder is already in that directory" : "Ten plik/katalog znajduje się już w tym katalogu",
     "You cannot move a file/folder onto itself or into a subfolder of itself" : "Nie można przenieść pliku/katalogu do tego samego katalogu lub do własnego podkatalogu",
     "A file or folder with that name already exists in this folder" : "Plik lub katalog o tej nazwie już istnieje w tym katalogu",
-    "The files is locked" : "Pliki są zablokowane",
     "The file does not exist anymore" : "Plik już nie istnieje",
     "Copy to {target}" : "Skopiuj do {target}",
     "Move to {target}" : "Przenieś do {target}",
@@ -303,6 +302,8 @@
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Ta lista nie jest w pełni renderowana ze względu na wydajność. Pliki będą renderowane podczas poruszania się po liście.",
     "Search for an account" : "Wyszukaj konto",
     "Choose" : "Wybierz",
-    "No files or folders have been deleted yet" : "Żadne pliki ani katalogi nie zostały jeszcze usunięte"
+    "No files or folders have been deleted yet" : "Żadne pliki ani katalogi nie zostały jeszcze usunięte",
+    "Add" : "Dodaj",
+    "The files is locked" : "Pliki są zablokowane"
 },"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"
 }

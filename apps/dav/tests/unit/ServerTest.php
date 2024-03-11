@@ -45,6 +45,7 @@ class ServerTest extends \Test\TestCase {
 		/** @var IRequest | \PHPUnit\Framework\MockObject\MockObject $r */
 		$r = $this->createMock(IRequest::class);
 		$r->expects($this->any())->method('getRequestUri')->willReturn($uri);
+		$this->loginAsUser('admin');
 		$s = new Server($r, '/');
 		$this->assertNotNull($s->server);
 		foreach ($plugins as $plugin) {

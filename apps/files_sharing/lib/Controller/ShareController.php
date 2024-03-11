@@ -527,8 +527,7 @@ class ShareController extends AuthPublicShareController {
 		$fileId = $node->getId();
 
 		$userFolder = $this->rootFolder->getUserFolder($share->getSharedBy());
-		$userNodeList = $userFolder->getById($fileId);
-		$userNode = $userNodeList[0];
+		$userNode = $userFolder->getFirstNodeById($fileId);
 		$ownerFolder = $this->rootFolder->getUserFolder($share->getShareOwner());
 		$userPath = $userFolder->getRelativePath($userNode->getPath());
 		$ownerPath = $ownerFolder->getRelativePath($node->getPath());

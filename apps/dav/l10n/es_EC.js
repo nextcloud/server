@@ -2,7 +2,7 @@ OC.L10N.register(
     "dav",
     {
     "Calendar" : "Calendario",
-    "To-dos" : "Tareas pendientes",
+    "Tasks" : "Tareas",
     "Personal" : "Personal",
     "{actor} created calendar {calendar}" : "{actor} creó el calendario {calendar}",
     "You created calendar {calendar}" : "Creaste el calendario {calendar}",
@@ -143,7 +143,6 @@ OC.L10N.register(
     "Configures a CalDAV account" : "Configura una cuenta CalDAV",
     "Configures a CardDAV account" : "Configura una cuenta CardDAV",
     "Events" : "Eventos",
-    "Tasks" : "Tareas",
     "Untitled task" : "Tarea sin título",
     "Completed on %s" : "Completada el %s",
     "Due on %s by %s" : "Vence el %s a las %s",
@@ -189,6 +188,7 @@ OC.L10N.register(
     "Are you accepting the invitation?" : "¿Aceptas la invitación?",
     "Tentative" : "Tentativo",
     "Your attendance was updated successfully." : "Tu asistencia se actualizó correctamente.",
+    "To-dos" : "Tareas pendientes",
     "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Si configuras tus horas de trabajo, otros usuarios verán cuando estás fuera de la oficina al reservar una reunión."
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

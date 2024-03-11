@@ -211,7 +211,6 @@ OC.L10N.register(
     "Select file or folder to link to" : "Select file or folder to link to",
     "Choose file" : "Choose file",
     "Choose {file}" : "Choose {file}",
-    "Add" : "Add",
     "Loading current folder" : "Loading current folder",
     "No files in here" : "No files in here",
     "Upload some content or sync with your devices!" : "Upload some content or sync with your devices!",
@@ -252,7 +251,6 @@ OC.L10N.register(
     "This file/folder is already in that directory" : "This file/folder is already in that directory",
     "You cannot move a file/folder onto itself or into a subfolder of itself" : "You cannot move a file/folder onto itself or into a subfolder of itself",
     "A file or folder with that name already exists in this folder" : "A file or folder with that name already exists in this folder",
-    "The files is locked" : "The files is locked",
     "The file does not exist anymore" : "The file does not exist anymore",
     "Choose destination" : "Choose destination",
     "Copy to {target}" : "Copy to {target}",
@@ -315,6 +313,8 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list.",
     "Search for an account" : "Search for an account",
     "Choose" : "Choose",
-    "No files or folders have been deleted yet" : "No files or folders have been deleted yet"
+    "No files or folders have been deleted yet" : "No files or folders have been deleted yet",
+    "Add" : "Add",
+    "The files is locked" : "The files is locked"
 },
 "nplurals=2; plural=(n!=1);");

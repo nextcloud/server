@@ -2,6 +2,7 @@ OC.L10N.register(
     "dav",
     {
     "Calendar" : "Kalendar",
+    "Tasks" : "Zadaci",
     "Personal" : "Osobno",
     "{actor} created calendar {calendar}" : "{actor} je stvorio kalendar {calendar}",
     "You created calendar {calendar}" : "Stvorili ste kalendar {calendar}",
@@ -101,7 +102,6 @@ OC.L10N.register(
     "Configures a CalDAV account" : "Konfigurira CalDAV račun",
     "Configures a CardDAV account" : "Konfigurira CardDAV račun",
     "Events" : "Događaji",
-    "Tasks" : "Zadaci",
     "Untitled task" : "Zadatak bez naslova",
     "Completed on %s" : "Završeno na %s",
     "Due on %s by %s" : "%s treba završiti do %s",

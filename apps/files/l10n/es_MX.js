@@ -224,7 +224,6 @@ OC.L10N.register(
     "Select file or folder to link to" : "Seleccionar archivo o carpeta para enlazar.",
     "Choose file" : "Elegir archivo",
     "Choose {file}" : "Elegir {file}",
-    "Add" : "Guardar",
     "Loading current folder" : "Cargando la carpeta actual",
     "No files in here" : "No hay archivos aquí",
     "Upload some content or sync with your devices!" : "¡Carga algún contenido o sincroniza con tus dispositivos!",
@@ -274,7 +273,6 @@ OC.L10N.register(
     "(copy)" : "(copiar)",
     "(copy %n)" : "(copiar %n)",
     "A file or folder with that name already exists in this folder" : "Un archivo o carpeta con ese nombre ya existe en esta carpeta",
-    "The files is locked" : "El archivo está bloqueado",
     "The file does not exist anymore" : "El archivo ya no existe",
     "Choose destination" : "Elegir destino",
     "Copy to {target}" : "Copiar a {target}",
@@ -344,6 +342,8 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Esta lista no se muestra completamente por motivos de rendimiento. Los archivos se mostrarán a medida que navega por la lista.",
     "Search for an account" : "Buscar una cuenta",
     "Choose" : "Seleccionar",
-    "No files or folders have been deleted yet" : "No se han eliminado archivos o carpetas todavía"
+    "No files or folders have been deleted yet" : "No se han eliminado archivos o carpetas todavía",
+    "Add" : "Guardar",
+    "The files is locked" : "El archivo está bloqueado"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

@@ -211,7 +211,6 @@ OC.L10N.register(
     "Select file or folder to link to" : "Επιλέξτε αρχείο ή φάκελο για σύνδεση",
     "Choose file" : "Επιλέξτε αρχείο",
     "Choose {file}" : "Επιλέξτε {file}",
-    "Add" : "Προσθήκη",
     "Loading current folder" : "Φόρτωση τρέχοντος φακέλου",
     "No files in here" : "Δεν υπάρχουν αρχεία εδώ",
     "Upload some content or sync with your devices!" : "Μεταφόρτωση περιεχομένου ή συγχρονισμός με τις συσκευές σας!",
@@ -251,7 +250,6 @@ OC.L10N.register(
     "This file/folder is already in that directory" : "Αυτό το αρχείο/φάκελος βρίσκεται ήδη σε αυτόν τον κατάλογο",
     "You cannot move a file/folder onto itself or into a subfolder of itself" : "Δεν μπορείτε να μετακινήσετε ένα αρχείο/φάκελο στον εαυτό του ή σε έναν υποφάκελο του ίδιου του φακέλου.",
     "A file or folder with that name already exists in this folder" : "Ένα αρχείο ή ένας φάκελος με αυτό το όνομα υπάρχει ήδη σε αυτόν το φάκελο",
-    "The files is locked" : "Το αρχείο είναι κλειδωμένο",
     "The file does not exist anymore" : "Το αρχείο δεν υπάρχει πλέον",
     "Choose destination" : "Επιλέξτε προορισμό",
     "Copy to {target}" : "Αντιγραφή σε {target}",
@@ -312,6 +310,8 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Η λίστα αυτή δεν εμφανίζεται πλήρως για λόγους απόδοσης. Τα αρχεία θα εμφανίζονται καθώς πλοηγείστε στη λίστα.",
     "Search for an account" : "Αναζήτηση για λογαριασμό",
     "Choose" : "Επιλογή",
-    "No files or folders have been deleted yet" : "Κανένα αρχείο ή φάκελος δεν έχει διαγραφεί ακόμα"
+    "No files or folders have been deleted yet" : "Κανένα αρχείο ή φάκελος δεν έχει διαγραφεί ακόμα",
+    "Add" : "Προσθήκη",
+    "The files is locked" : "Το αρχείο είναι κλειδωμένο"
 },
 "nplurals=2; plural=(n != 1);");

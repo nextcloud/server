@@ -95,6 +95,13 @@ class Plugin extends \Sabre\CalDAV\Schedule\Plugin {
 		$server->on('propFind', [$this, 'propFindDefaultCalendarUrl'], 90);
 		$server->on('afterWriteContent', [$this, 'dispatchSchedulingResponses']);
 		$server->on('afterCreateFile', [$this, 'dispatchSchedulingResponses']);
+
+		// We allow mutating the default calendar URL through the CustomPropertiesBackend
+		// (oc_properties table)
+		$server->protectedProperties = array_filter(
+			$server->protectedProperties,
+			static fn (string $property) => $property !== self::SCHEDULE_DEFAULT_CALENDAR_URL,
+		);
 	}
 
 	/**

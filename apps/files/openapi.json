@@ -31,6 +31,7 @@
                         "required": [
                             "bigfilechunking",
                             "blacklisted_files",
+                            "forbidden_filename_characters",
                             "directEditing"
                         ],
                         "properties": {
@@ -41,6 +42,12 @@
                                 "type": "array",
                                 "items": {
                                     "type": "object"
+                                }
+                            },
+                            "forbidden_filename_characters": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
                                 }
                             },
                             "directEditing": {

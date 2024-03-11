@@ -41,6 +41,7 @@ declare(strict_types=1);
 namespace OC;
 
 use OC\App\AppManager;
+use OC\App\AppStore\Fetcher\AppFetcher;
 use OC\DB\Connection;
 use OC\DB\MigrationService;
 use OC\DB\MigratorExecuteSqlEvent;
@@ -273,7 +274,7 @@ class Updater extends BasicEmitter {
 		$this->doAppUpgrade();
 
 		// Update the appfetchers version so it downloads the correct list from the appstore
-		\OC::$server->getAppFetcher()->setVersion($currentVersion);
+		\OC::$server->get(AppFetcher::class)->setVersion($currentVersion);
 
 		/** @var AppManager $appManager */
 		$appManager = \OC::$server->getAppManager();

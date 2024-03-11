@@ -32,7 +32,7 @@ jobs:
           reactions: "+1"
 
       - name: Parse command
-        uses: skjnldsv/parse-command-comment@d8c0034c481b791dd6348fcacd9c510dc3a4cb4f # v2
+        uses: skjnldsv/parse-command-comment@5c955203c52424151e6d0e58fb9de8a9f6a605a1 # v2
         id: command
 
       # Init path depending on which command is run

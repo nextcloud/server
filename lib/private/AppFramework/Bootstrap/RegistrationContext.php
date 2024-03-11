@@ -54,6 +54,7 @@ use OCP\Share\IPublicShareTemplateProvider;
 use OCP\SpeechToText\ISpeechToTextProvider;
 use OCP\Support\CrashReport\IReporter;
 use OCP\Talk\ITalkBackend;
+use OCP\Teams\ITeamResourceProvider;
 use OCP\TextProcessing\IProvider as ITextProcessingProvider;
 use OCP\Translation\ITranslationProvider;
 use OCP\UserMigration\IMigrator as IUserMigrator;
@@ -157,6 +158,9 @@ class RegistrationContext {
 
 	/** @var PreviewProviderRegistration[] */
 	private array $previewProviders = [];
+
+	/** @var ServiceRegistration<ITeamResourceProvider>[] */
+	private array $teamResourceProviders = [];
 
 	public function __construct(LoggerInterface $logger) {
 		$this->logger = $logger;
@@ -357,6 +361,13 @@ class RegistrationContext {
 				);
 			}
 
+			public function registerTeamResourceProvider(string $class) : void {
+				$this->context->registerTeamResourceProvider(
+					$this->appId,
+					$class
+				);
+			}
+
 			public function registerCalendarRoomBackend(string $class): void {
 				$this->context->registerCalendarRoomBackend(
 					$this->appId,
@@ -528,6 +539,17 @@ class RegistrationContext {
 		$this->calendarRoomBackendRegistrations[] = new ServiceRegistration(
 			$appId,
 			$class,
+		);
+	}
+
+
+	/**
+	 * @psalm-param class-string<ITeamResourceProvider> $class
+	 */
+	public function registerTeamResourceProvider(string $appId, string $class) {
+		$this->teamResourceProviders[] = new ServiceRegistration(
+			$appId,
+			$class
 		);
 	}
 
@@ -869,5 +891,13 @@ class RegistrationContext {
 	 */
 	public function getSetupChecks(): array {
 		return $this->setupChecks;
+	}
+
+
+	/**
+	 * @return ServiceRegistration<ITeamResourceProvider>[]
+	 */
+	public function getTeamResourceProviders(): array {
+		return $this->teamResourceProviders;
 	}
 }

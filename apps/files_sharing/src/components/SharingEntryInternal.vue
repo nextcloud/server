@@ -10,8 +10,14 @@
 
 			<NcActionButton :title="copyLinkTooltip"
 				:aria-label="copyLinkTooltip"
-				:icon="copied && copySuccess ? 'icon-checkmark-color' : 'icon-clippy'"
-				@click="copyLink" />
+				@click="copyLink">
+				<template #icon>
+					<CheckIcon v-if="copied && copySuccess"
+						:size="20"
+						class="icon-checkmark-color" />
+					<ClipboardIcon v-else :size="20" />
+				</template>
+			</NcActionButton>
 		</SharingEntrySimple>
 	</ul>
 </template>
@@ -20,6 +26,10 @@
 import { generateUrl } from '@nextcloud/router'
 import { showSuccess } from '@nextcloud/dialogs'
 import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
+
+import CheckIcon from 'vue-material-design-icons/CheckBold.vue'
+import ClipboardIcon from 'vue-material-design-icons/ClipboardFlow.vue'
+
 import SharingEntrySimple from './SharingEntrySimple.vue'
 
 export default {
@@ -28,6 +38,8 @@ export default {
 	components: {
 		NcActionButton,
 		SharingEntrySimple,
+		CheckIcon,
+		ClipboardIcon,
 	},
 
 	props: {
@@ -114,6 +126,7 @@ export default {
 	}
 	.icon-checkmark-color {
 		opacity: 1;
+		color: var(--color-success);
 	}
 }
 </style>

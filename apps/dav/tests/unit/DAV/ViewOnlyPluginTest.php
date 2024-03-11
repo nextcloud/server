@@ -27,10 +27,11 @@ use OCA\Files_Sharing\SharedStorage;
 use OCA\Files_Versions\Sabre\VersionFile;
 use OCA\Files_Versions\Versions\IVersion;
 use OCP\Files\File;
+use OCP\Files\Folder;
 use OCP\Files\Storage\IStorage;
+use OCP\IUser;
 use OCP\Share\IAttributes;
 use OCP\Share\IShare;
-use Psr\Log\LoggerInterface;
 use Sabre\DAV\Server;
 use Sabre\DAV\Tree;
 use Sabre\HTTP\RequestInterface;
@@ -43,10 +44,13 @@ class ViewOnlyPluginTest extends TestCase {
 	private $tree;
 	/** @var RequestInterface | \PHPUnit\Framework\MockObject\MockObject */
 	private $request;
+	/** @var Folder | \PHPUnit\Framework\MockObject\MockObject */
+	private $userFolder;
 
 	public function setUp(): void {
+		$this->userFolder = $this->createMock(Folder::class);
 		$this->plugin = new ViewOnlyPlugin(
-			$this->createMock(LoggerInterface::class)
+			$this->userFolder,
 		);
 		$this->request = $this->createMock(RequestInterface::class);
 		$this->tree = $this->createMock(Tree::class);
@@ -111,6 +115,26 @@ class ViewOnlyPluginTest extends TestCase {
 			$davNode->expects($this->once())
 				->method('getVersion')
 				->willReturn($version);
+
+			$currentUser = $this->createMock(IUser::class);
+			$currentUser->expects($this->once())
+				->method('getUID')
+				->willReturn('alice');
+			$nodeInfo->expects($this->once())
+				->method('getOwner')
+				->willReturn($currentUser);
+
+			$nodeInfo = $this->createMock(File::class);
+			$owner = $this->createMock(IUser::class);
+			$owner->expects($this->once())
+				->method('getUID')
+				->willReturn('bob');
+			$this->userFolder->expects($this->once())
+				->method('getById')
+				->willReturn([$nodeInfo]);
+			$this->userFolder->expects($this->once())
+				->method('getOwner')
+				->willReturn($owner);
 		} else {
 			$davPath = 'files/path/to/file.odt';
 			$davNode = $this->createMock(DavFile::class);

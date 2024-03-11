@@ -34,7 +34,7 @@ describe('Settings: Show and hide columns', function() {
 
 	beforeEach(function() {
 		// open the settings dialog
-		cy.get('.app-navigation-entry__settings').contains('Account management settings').click()
+		cy.contains('button', 'Account management settings').click()
 		// reset all visibility toggles
 		cy.get('.modal-container #settings-section_visibility-settings input[type="checkbox"]').uncheck({ force: true })
 
@@ -57,7 +57,7 @@ describe('Settings: Show and hide columns', function() {
 		})
 
 		// open the settings dialog
-		cy.get('.app-navigation-entry__settings').contains('Account management settings').click()
+		cy.contains('button', 'Account management settings').click()
 
 		cy.contains('.modal-container', 'Account management settings').within(() => {
 			// enable the language toggle
@@ -88,7 +88,7 @@ describe('Settings: Show and hide columns', function() {
 		})
 
 		// open the settings dialog
-		cy.get('.app-navigation-entry__settings').contains('Account management settings').click()
+		cy.contains('button', 'Account management settings').click()
 
 		cy.contains('.modal-container', 'Account management settings').within(() => {
 			// disable the last login toggle

@@ -161,7 +161,7 @@ class ServerFactory {
 
 			// Allow view-only plugin for webdav requests
 			$server->addPlugin(new ViewOnlyPlugin(
-				$this->logger
+				$userFolder,
 			));
 
 			if ($this->userSession->isLoggedIn()) {
@@ -188,6 +188,7 @@ class ServerFactory {
 				$server->addPlugin(
 					new \Sabre\DAV\PropertyStorage\Plugin(
 						new \OCA\DAV\DAV\CustomPropertiesBackend(
+							$server,
 							$objectTree,
 							$this->databaseConnection,
 							$this->userSession->getUser()

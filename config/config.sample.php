@@ -368,7 +368,7 @@ $CONFIG = [
 'token_auth_activity_update' => 60,
 
 /**
- * Whether the bruteforce protection shipped with Nextcloud should be enabled or not.
+ * Whether the brute force protection shipped with Nextcloud should be enabled or not.
  *
  * Disabling this is discouraged for security reasons.
  *
@@ -377,9 +377,9 @@ $CONFIG = [
 'auth.bruteforce.protection.enabled' => true,
 
 /**
- * Whether the bruteforce protection shipped with Nextcloud should be set to testing mode.
+ * Whether the brute force protection shipped with Nextcloud should be set to testing mode.
  *
- * In testing mode bruteforce attempts are still recorded, but the requests do
+ * In testing mode brute force attempts are still recorded, but the requests do
  * not sleep/wait for the specified time. They will still abort with
  * "429 Too Many Requests" when the maximum delay is reached.
  * Enabling this is discouraged for security reasons
@@ -1962,6 +1962,8 @@ $CONFIG = [
 /**
  * Blacklist characters from being used in filenames. This is useful if you
  * have a filesystem or OS which does not support certain characters like windows.
+ * 
+ * The '/' and '\' characters are always forbidden.
  *
  * Example for windows systems: ``array('?', '<', '>', ':', '*', '|', '"', chr(0), "\n", "\r")``
  * see https://en.wikipedia.org/wiki/Comparison_of_file_systems#Limits
@@ -2364,17 +2366,6 @@ $CONFIG = [
  * Defaults to ``true``
  */
 'profile.enabled' => true,
-
-/**
- * Enable file metadata collection
- *
- * This is helpful for the mobile clients and will enable few optimizations in
- * the future for the preview generation.
- *
- * Note that when enabled, this data will be stored in the database and might increase
- * the database storage.
- */
-'enable_file_metadata' => true,
 
 /**
  * Allows to override the default scopes for Account data.

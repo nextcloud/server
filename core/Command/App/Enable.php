@@ -146,7 +146,7 @@ class Enable extends Command implements CompletionAwareInterface {
 	 * @param CompletionContext $context
 	 * @return string[]
 	 */
-	public function completeOptionValues($optionName, CompletionContext $context) {
+	public function completeOptionValues($optionName, CompletionContext $context): array {
 		if ($optionName === 'groups') {
 			return array_map(function (IGroup $group) {
 				return $group->getGID();
@@ -160,7 +160,7 @@ class Enable extends Command implements CompletionAwareInterface {
 	 * @param CompletionContext $context
 	 * @return string[]
 	 */
-	public function completeArgumentValues($argumentName, CompletionContext $context) {
+	public function completeArgumentValues($argumentName, CompletionContext $context): array {
 		if ($argumentName === 'app-id') {
 			$allApps = \OC_App::getAllApps();
 			return array_diff($allApps, \OC_App::getEnabledApps(true, true));

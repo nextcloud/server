@@ -91,7 +91,7 @@ class Applicable extends Base {
 			return Response::HTTP_NOT_FOUND;
 		}
 
-		if ($mount->getType() === StorageConfig::MOUNT_TYPE_PERSONAl) {
+		if ($mount->getType() === StorageConfig::MOUNT_TYPE_PERSONAL) {
 			$output->writeln('<error>Can\'t change applicables on personal mounts</error>');
 			return self::FAILURE;
 		}

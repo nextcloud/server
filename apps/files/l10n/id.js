@@ -180,7 +180,6 @@ OC.L10N.register(
     "Ownership transfer request sent" : "Permintaan transfer kepemilikan terkirim",
     "Cannot transfer ownership of a file or folder you do not own" : "Tidak dapat mentransfer pemilik berkas atau folder yang Anda tidak miliki",
     "Select file or folder to link to" : "Pilih berkas atau folder untuk ditautkan",
-    "Add" : "Tambah",
     "No files in here" : "Tidak ada berkas di sini",
     "Upload some content or sync with your devices!" : "Unggah beberapa konten dan sinkronisasikan dengan perangkat Anda!",
     "Go back" : "Kembali",
@@ -235,6 +234,7 @@ OC.L10N.register(
     "Deleted shares" : "Berbagi terhapus",
     "Pending shares" : "Berbagi tertunda",
     "Unselect all" : "Batalkan semua pemilihan",
-    "Choose" : "Pilih"
+    "Choose" : "Pilih",
+    "Add" : "Tambah"
 },
 "nplurals=1; plural=0;");

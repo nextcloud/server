@@ -23,8 +23,8 @@
 import { parseXML, type DAVResult, type FileStat, type ResponseDataDetailed } from 'webdav'
 
 // https://github.com/perry-mitchell/webdav-client/issues/339
-import { processResponsePayload } from '../../../../node_modules/webdav/dist/node/response.js'
-import { prepareFileFromProps } from '../../../../node_modules/webdav/dist/node/tools/dav.js'
+import { processResponsePayload } from 'webdav/dist/node/response.js'
+import { prepareFileFromProps } from 'webdav/dist/node/tools/dav.js'
 import client from './DavClient.js'
 
 export const DEFAULT_LIMIT = 20
@@ -77,10 +77,8 @@ const getDirectoryFiles = function(
 	// Map all items to a consistent output structure (results)
 	return responseItems.map(item => {
 		// Each item should contain a stat object
-		const {
-			propstat: { prop: props },
-		} = item
+		const props = item.propstat!.prop!;
 
-		return prepareFileFromProps(props, props.id.toString(), isDetailed)
+		return prepareFileFromProps(props, props.id!.toString(), isDetailed)
 	})
 }

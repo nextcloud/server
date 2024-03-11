@@ -211,7 +211,6 @@ OC.L10N.register(
     "Select file or folder to link to" : "Seleccione o ficheiro ou cartafol ao que ligar",
     "Choose file" : "Escoller o ficheiro",
     "Choose {file}" : "Escoller  {file}",
-    "Add" : "Engadir",
     "Loading current folder" : "Cargando o cartafol actual",
     "No files in here" : "Aquí non hai ficheiros",
     "Upload some content or sync with your devices!" : "Envíe algún contido ou sincronice cos seus dispositivos!",
@@ -227,6 +226,7 @@ OC.L10N.register(
     "Open the files app settings" : "Abrir os axustes da aplicación de ficheiros",
     "Files settings" : "Axustes de Ficheiros",
     "File cannot be accessed" : "Non é posíbel acceder ao ficheiro",
+    "Open in files" : "Abrir en ficheiros",
     "Sort favorites first" : "Ordene antes os favoritos",
     "Show hidden files" : "Amosar os ficheiros agochados",
     "Crop image previews" : "Recortar a vista previa das imaxes",
@@ -253,7 +253,6 @@ OC.L10N.register(
     "This file/folder is already in that directory" : "Este ficheiro/cartafol xa está nese directorio",
     "You cannot move a file/folder onto itself or into a subfolder of itself" : "Non é posíbel mover un ficheiro/cartafol sobre si mesmo ou a un subcartafol de si mesmo",
     "A file or folder with that name already exists in this folder" : "Neste cartafol xa existe un ficheiro ou cartafol con ese nome",
-    "The files is locked" : "Os ficheiros están bloqueados",
     "The file does not exist anymore" : "O ficheiro xa non existe",
     "Copy to {target}" : "Copiar en {target}",
     "Move to {target}" : "Mover a {target}",
@@ -315,6 +314,8 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Esta lista non se representa de xeito completo por mor do rendemento. Os ficheiros represéntanse se despraza pola lista.",
     "Search for an account" : "Buscar por unha conta",
     "Choose" : "Escoller",
-    "No files or folders have been deleted yet" : "Aínda non se eliminou ningún ficheiro nin cartafol"
+    "No files or folders have been deleted yet" : "Aínda non se eliminou ningún ficheiro nin cartafol",
+    "Add" : "Engadir",
+    "The files is locked" : "Os ficheiros están bloqueados"
 },
 "nplurals=2; plural=(n != 1);");

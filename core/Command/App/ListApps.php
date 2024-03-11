@@ -39,7 +39,7 @@ class ListApps extends Base {
 		parent::__construct();
 	}
 
-	protected function configure() {
+	protected function configure(): void {
 		parent::configure();
 
 		$this
@@ -98,7 +98,7 @@ class ListApps extends Base {
 	 * @param OutputInterface $output
 	 * @param array $items
 	 */
-	protected function writeAppList(InputInterface $input, OutputInterface $output, $items) {
+	protected function writeAppList(InputInterface $input, OutputInterface $output, $items): void {
 		switch ($input->getOption('output')) {
 			case self::OUTPUT_FORMAT_PLAIN:
 				$output->writeln('Enabled:');
@@ -119,7 +119,7 @@ class ListApps extends Base {
 	 * @param CompletionContext $context
 	 * @return array
 	 */
-	public function completeOptionValues($optionName, CompletionContext $context) {
+	public function completeOptionValues($optionName, CompletionContext $context): array {
 		if ($optionName === 'shipped') {
 			return ['true', 'false'];
 		}
@@ -131,7 +131,7 @@ class ListApps extends Base {
 	 * @param CompletionContext $context
 	 * @return string[]
 	 */
-	public function completeArgumentValues($argumentName, CompletionContext $context) {
+	public function completeArgumentValues($argumentName, CompletionContext $context): array {
 		return [];
 	}
 }

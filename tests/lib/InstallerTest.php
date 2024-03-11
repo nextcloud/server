@@ -51,7 +51,7 @@ class InstallerTest extends TestCase {
 		$this->appstore = $config->setSystemValue('appstoreenabled', true);
 		$config->setSystemValue('appstoreenabled', true);
 		$installer = new Installer(
-			\OC::$server->getAppFetcher(),
+			\OC::$server->get(AppFetcher::class),
 			\OC::$server->getHTTPClientService(),
 			\OC::$server->getTempManager(),
 			\OC::$server->get(LoggerInterface::class),
@@ -74,7 +74,7 @@ class InstallerTest extends TestCase {
 
 	protected function tearDown(): void {
 		$installer = new Installer(
-			\OC::$server->getAppFetcher(),
+			\OC::$server->get(AppFetcher::class),
 			\OC::$server->getHTTPClientService(),
 			\OC::$server->getTempManager(),
 			\OC::$server->get(LoggerInterface::class),
@@ -98,7 +98,7 @@ class InstallerTest extends TestCase {
 
 		// Install app
 		$installer = new Installer(
-			\OC::$server->getAppFetcher(),
+			\OC::$server->get(AppFetcher::class),
 			\OC::$server->getHTTPClientService(),
 			\OC::$server->getTempManager(),
 			\OC::$server->get(LoggerInterface::class),

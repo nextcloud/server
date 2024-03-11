@@ -32,6 +32,7 @@ use OCA\UserStatus\ResponseDefinitions;
 use OCA\UserStatus\Service\StatusService;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\ApiRoute;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\AppFramework\OCSController;
@@ -72,6 +73,7 @@ class StatusesController extends OCSController {
 	 *
 	 * 200: Statuses returned
 	 */
+	#[ApiRoute(verb: 'GET', url: '/api/v1/statuses')]
 	public function findAll(?int $limit = null, ?int $offset = null): DataResponse {
 		$allStatuses = $this->service->findAll($limit, $offset);
 
@@ -91,6 +93,7 @@ class StatusesController extends OCSController {
 	 *
 	 * 200: Status returned
 	 */
+	#[ApiRoute(verb: 'GET', url: '/api/v1/statuses/{userId}')]
 	public function find(string $userId): DataResponse {
 		try {
 			$userStatus = $this->service->findByUserId($userId);

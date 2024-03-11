@@ -29,65 +29,6 @@
 namespace OCA\Files_Sharing\ShareBackend;
 
 class Folder extends File implements \OCP\Share_Backend_Collection {
-
-	/**
-	 * get shared parents
-	 *
-	 * @param int $itemSource item source ID
-	 * @param string $shareWith with whom should the item be shared
-	 * @param string $owner owner of the item
-	 * @return array with shares
-	 */
-	public function getParents($itemSource, $shareWith = null, $owner = null) {
-		$result = [];
-		$parent = $this->getParentId($itemSource);
-
-		$userManager = \OC::$server->getUserManager();
-
-		while ($parent) {
-			$shares = \OCP\Share::getItemSharedWithUser('folder', $parent, $shareWith, $owner);
-			if ($shares) {
-				foreach ($shares as $share) {
-					$name = basename($share['path']);
-					$share['collection']['path'] = $name;
-					$share['collection']['item_type'] = 'folder';
-					$share['file_path'] = $name;
-
-					$ownerUser = $userManager->get($share['uid_owner']);
-					$displayNameOwner = $ownerUser === null ? $share['uid_owner'] : $ownerUser->getDisplayName();
-					$shareWithUser = $userManager->get($share['share_with']);
-					$displayNameShareWith = $shareWithUser === null ? $share['share_with'] : $shareWithUser->getDisplayName();
-					$share['displayname_owner'] = $displayNameOwner ? $displayNameOwner : $share['uid_owner'];
-					$share['share_with_displayname'] = $displayNameShareWith ? $displayNameShareWith : $share['uid_owner'];
-
-					$result[] = $share;
-				}
-			}
-			$parent = $this->getParentId($parent);
-		}
-
-		return $result;
-	}
-
-	/**
-	 * get file cache ID of parent
-	 *
-	 * @param int $child file cache ID of child
-	 * @return mixed parent ID or null
-	 */
-	private function getParentId($child) {
-		$qb = \OC::$server->getDatabaseConnection()->getQueryBuilder();
-		$qb->select('parent')
-			->from('filecache')
-			->where(
-				$qb->expr()->eq('fileid', $qb->createNamedParameter($child))
-			);
-		$result = $qb->execute();
-		$row = $result->fetch();
-		$result->closeCursor();
-		return $row ? $row['parent'] : null;
-	}
-
 	public function getChildren($itemSource) {
 		$children = [];
 		$parents = [$itemSource];

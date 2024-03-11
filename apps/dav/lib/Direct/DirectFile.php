@@ -108,13 +108,16 @@ class DirectFile implements IFile {
 	private function getFile() {
 		if ($this->file === null) {
 			$userFolder = $this->rootFolder->getUserFolder($this->direct->getUserId());
-			$files = $userFolder->getById($this->direct->getFileId());
+			$file = $userFolder->getFirstNodeById($this->direct->getFileId());
 
-			if ($files === []) {
+			if (!$file) {
 				throw new NotFound();
 			}
+			if (!$file instanceof File) {
+				throw new Forbidden("direct download not allowed on directories");
+			}
 
-			$this->file = array_shift($files);
+			$this->file = $file;
 		}
 
 		return $this->file;

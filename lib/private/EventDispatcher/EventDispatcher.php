@@ -33,29 +33,17 @@ use OCP\Broadcast\Events\IBroadcastEvent;
 use OCP\EventDispatcher\ABroadcastedEvent;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\IContainer;
 use OCP\IServerContainer;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcher as SymfonyDispatcher;
 use function get_class;
 
 class EventDispatcher implements IEventDispatcher {
-	/** @var SymfonyDispatcher */
-	private $dispatcher;
-
-	/** @var IContainer */
-	private $container;
-
-	/** @var LoggerInterface */
-	private $logger;
-
-	public function __construct(SymfonyDispatcher $dispatcher,
-		IServerContainer $container,
-		LoggerInterface $logger) {
-		$this->dispatcher = $dispatcher;
-		$this->container = $container;
-		$this->logger = $logger;
-
+	public function __construct(
+		private SymfonyDispatcher $dispatcher,
+		private IServerContainer $container,
+		private LoggerInterface $logger,
+	) {
 		// inject the event dispatcher into the logger
 		// this is done here because there is a cyclic dependency between the event dispatcher and logger
 		if ($this->logger instanceof Log || $this->logger instanceof Log\PsrLoggerAdapter) {
@@ -84,6 +72,10 @@ class EventDispatcher implements IEventDispatcher {
 		);
 
 		$this->addListener($eventName, $listener, $priority);
+	}
+
+	public function hasListeners(string $eventName): bool {
+		return $this->dispatcher->hasListeners($eventName);
 	}
 
 	/**
