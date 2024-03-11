@@ -210,12 +210,11 @@ export default defineComponent({
 			// The grid mode is compact enough to not care about
 			// the actions menu mouse position
 			if (!this.gridMode) {
-				const root = this.$root.$el as HTMLElement
+				// Actions menu is contained within the files list
+				const root = this.$el?.closest('.files-list') as HTMLElement
 				const contentRect = root.getBoundingClientRect()
-				// Using Math.min/max to prevent the menu from going out of the AppContent
-				// 200 = max width of the menu
-				root.style.setProperty('--mouse-pos-x', Math.max(contentRect.left, Math.min(event.clientX, event.clientX - 200)) + 'px')
-				root.style.setProperty('--mouse-pos-y', Math.max(contentRect.top, event.clientY - contentRect.top) + 'px')
+				root.style.setProperty('--mouse-pos-x', event.clientX - contentRect.left + 'px')
+				root.style.setProperty('--mouse-pos-y', event.clientY - contentRect.top + 'px')
 			}
 
 			// If the clicked row is in the selection, open global menu
