@@ -110,11 +110,11 @@ class VersionFile implements IFile {
 		}
 	}
 
-	public function getMetadataAuthor(): string {
+	public function getMetadataValue(string $key): ?string {
 		if ($this->version instanceof IMetadataVersion) {
-			return $this->version->getMetadataValue("author");
+			return $this->version->getMetadataValue($key);
 		}
-		return '';
+		return null;
 	}
 
 	public function getLastModified(): int {

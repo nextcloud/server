@@ -84,8 +84,8 @@ class VersionEntity extends Entity implements JsonSerializable {
 	 * if nothing is found, we return an empty string
 	 * @param string $key key associated with the value
 	 */
-	public function getMetadataValue(string $key): string {
-		return $this->metadata[$key] ?? '';
+	public function getMetadataValue(string $key): ?string {
+		return $this->metadata[$key] ?? null;
 	}
 
 	/**

@@ -123,10 +123,10 @@ class Version implements IVersion, INameableVersion, IMetadataVersion {
 		return $this->user;
 	}
 
-	public function getMetadataValue(string $key): string {
+	public function getMetadataValue(string $key): ?string {
 		if ($this->backend instanceof IMetadataVersionBackend && $this->sourceFileInfo instanceof Node) {
-			return $this->backend->getMetadataValue($this->sourceFileInfo, "author") ?? '';
+			return $this->backend->getMetadataValue($this->sourceFileInfo, "author");
 		}
-		return '';
+		return null;
 	}
 }

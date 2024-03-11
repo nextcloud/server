@@ -95,7 +95,7 @@ class Plugin extends ServerPlugin {
 	public function propFind(PropFind $propFind, INode $node): void {
 		if ($node instanceof VersionFile) {
 			$propFind->handle(self::VERSION_LABEL, fn () => $node->getLabel());
-			$propFind->handle(self::VERSION_AUTHOR, fn () => $node->getMetadataAuthor());
+			$propFind->handle(self::VERSION_AUTHOR, fn () => $node->getMetadataValue("author"));
 			$propFind->handle(FilesPlugin::HAS_PREVIEW_PROPERTYNAME, fn () => $this->previewManager->isMimeSupported($node->getContentType()));
 		}
 	}

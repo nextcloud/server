@@ -114,13 +114,14 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(NodeTouchedEvent::class, FileEventsListener::class);
 		$context->registerEventListener(BeforeNodeWrittenEvent::class, FileEventsListener::class);
 		$context->registerEventListener(NodeWrittenEvent::class, FileEventsListener::class);
-		$context->registerEventListener(NodeWrittenEvent::class, MetadataFileEvents::class);
 		$context->registerEventListener(BeforeNodeDeletedEvent::class, FileEventsListener::class);
 		$context->registerEventListener(NodeDeletedEvent::class, FileEventsListener::class);
 		$context->registerEventListener(NodeRenamedEvent::class, FileEventsListener::class);
 		$context->registerEventListener(NodeCopiedEvent::class, FileEventsListener::class);
 		$context->registerEventListener(BeforeNodeRenamedEvent::class, FileEventsListener::class);
 		$context->registerEventListener(BeforeNodeCopiedEvent::class, FileEventsListener::class);
+		
+		$context->registerEventListener(NodeWrittenEvent::class, MetadataFileEvents::class);
 	}
 
 	public function boot(IBootContext $context): void {

@@ -34,5 +34,5 @@ interface IMetadataVersion {
 	 * @param string $key the key for the json value of the metadata column
 	 * @since 29.0.0
 	 */
-	public function getMetadataValue(string $key): string;
+	public function getMetadataValue(string $key): ?string;
 }
