@@ -97,6 +97,12 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 
 	private string $sourcePath = '';
 
+	/**
+	 * @psalm-suppress NonInvariantDocblockPropertyType
+	 * @var ?\OC\Files\Storage\Storage $storage
+	 */
+	protected $storage;
+
 	private static int $initDepth = 0;
 
 	public function __construct($arguments) {
@@ -134,6 +140,9 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 		return $this->sourceRootInfo;
 	}
 
+	/**
+	 * @psalm-assert \OC\Files\Storage\Storage $this->storage
+	 */
 	private function init() {
 		if ($this->initialized) {
 			if (!$this->storage) {
