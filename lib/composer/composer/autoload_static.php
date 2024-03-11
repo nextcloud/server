@@ -17,6 +17,10 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
             'OC\\' => 3,
             'OCP\\' => 4,
         ),
+        'B' => 
+        array (
+            'Bamarni\\Composer\\Bin\\' => 21,
+        ),
     );
 
     public static $prefixDirsPsr4 = array (
@@ -31,6 +35,10 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\' => 
         array (
             0 => __DIR__ . '/../../..' . '/lib/public',
+        ),
+        'Bamarni\\Composer\\Bin\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/bamarni/composer-bin-plugin/src',
         ),
     );
 
