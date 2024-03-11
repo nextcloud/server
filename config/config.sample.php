@@ -1929,7 +1929,9 @@ $CONFIG = [
  * where the default `datadirectory` is on network disk like NFS, or is otherwise
  * restricted. Defaults to the value of `datadirectory` if unset.
  *
- * The Web server user must have write access to this directory.
+ * If set, the value MUST be located _outside_ of the installation directory of Nextcloud and
+ * writable by the Web server user.
+ *
  */
 'updatedirectory' => '',
 
