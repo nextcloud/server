@@ -14,6 +14,7 @@
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Kate Döen <kate.doeen@nextcloud.com>
+ * @author Ferdinand Thiessen <opensource@fthiessen.de>
  *
  * @license AGPL-3.0
  *
@@ -33,6 +34,7 @@
 namespace OCA\Settings\Controller;
 
 use OC\App\AppStore\Bundles\BundleFetcher;
+use OC\App\AppStore\Fetcher\AppDiscoverFetcher;
 use OC\App\AppStore\Fetcher\AppFetcher;
 use OC\App\AppStore\Fetcher\CategoryFetcher;
 use OC\App\AppStore\Version\VersionParser;
@@ -77,6 +79,7 @@ class AppSettingsController extends Controller {
 		private IURLGenerator $urlGenerator,
 		private LoggerInterface $logger,
 		private IInitialState $initialState,
+		private AppDiscoverFetcher $discoverFetcher,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -104,6 +107,16 @@ class AppSettingsController extends Controller {
 		\OCP\Util::addScript('settings', 'vue-settings-apps-users-management');
 
 		return $templateResponse;
+	}
+
+	/**
+	 * Get all active entries for the app discover section
+	 *
+	 * @NoCSRFRequired
+	 */
+	public function getAppDiscoverJSON(): JSONResponse {
+		$data = $this->discoverFetcher->get();
+		return new JSONResponse($data);
 	}
 
 	private function getAppsWithUpdates() {
@@ -190,6 +203,7 @@ class AppSettingsController extends Controller {
 	private function getAllApps() {
 		return $this->allApps;
 	}
+
 	/**
 	 * Get all available apps in a category
 	 *
