@@ -54,7 +54,6 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 
 	protected IObjectStore $objectStore;
 	protected string $id;
-	private int $sourceFileId = -1;
 	private string $objectPrefix = 'urn:oid:';
 
 	private LoggerInterface $logger;
@@ -525,11 +524,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 			$fileId = $this->getCache()->put($uploadPath, $stat);
 		}
 
-		$urn = $this->getURN(
-			$this->sourceFileId > - 1
-				? $this->sourceFileId
-				: $fileId
-		);
+		$urn = $this->getURN($fileId);
 		try {
 			//upload to object storage
 			if ($size === null) {
@@ -619,10 +614,27 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 			}
 		}
 
-		$this->sourceFileId = $sourceStorage->getCache()->getId($sourceInternalPath);
-
 		return parent::copyFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
 	}
+
+	public function moveFromStorage(IStorage $sourceStorage, $sourceInternalPath, $targetInternalPath)
+    {
+        $result = parent::moveFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
+
+        if ($result) {
+            $sourceCache = $sourceStorage->getCache();
+            $targetCache = $this->getCache();
+
+            $sourceEntry = $sourceCache->get($sourceInternalPath);
+            $targetEntry = $targetCache->get($targetInternalPath);
+
+            if ($sourceEntry && $targetEntry) {
+                $this->renameAfterMove($sourceEntry, $targetEntry);
+            }
+        }
+
+        return $result;
+    }
 
 	public function copy($source, $target) {
 		$source = $this->normalizePath($source);
@@ -681,6 +693,24 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 			throw $e;
 		}
 	}
+
+	private function renameAfterMove(ICacheEntry $sourceEntry, ICacheEntry $targetEntry): void
+    {
+        $sourceUrn = $this->getURN($sourceEntry->getId());
+        $targetUrn = $this->getURN($targetEntry->getId());
+
+        try {
+            $this->objectStore->copyObject($targetUrn, $sourceUrn);
+        } catch (\Exception $e) {
+            throw $e;
+        }
+
+        try {
+            $this->objectStore->deleteObject($targetUrn);
+        } catch (\Exception $e) {
+            throw $e;
+        }
+    }
 
 	public function startChunkedWrite(string $targetPath): string {
 		if (!$this->objectStore instanceof IObjectStoreMultiPartUpload) {
