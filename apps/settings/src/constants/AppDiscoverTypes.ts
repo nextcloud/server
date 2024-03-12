@@ -123,7 +123,7 @@ export interface IAppDiscoverShowcase extends IAppDiscoverElement {
 export interface IAppDiscoverCarousel extends IAppDiscoverElement {
 	type: 'carousel'
 	text?: ILocalizedValue<string>
-	content: (IAppDiscoverPost | IAppDiscoverApp)[]
+	content: IAppDiscoverPost[]
 }
 
 export type IAppDiscoverElements = IAppDiscoverPost | IAppDiscoverCarousel | IAppDiscoverShowcase

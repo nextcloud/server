@@ -20,14 +20,15 @@
   -
   -->
 <template>
-	<article class="app-discover-post"
+	<article :id="domId"
+		class="app-discover-post"
 		:class="{ 'app-discover-post--reverse': media && media.alignment === 'start' }">
 		<component :is="link ? 'a' : 'div'"
 			v-if="headline || text"
 			:href="link"
 			:target="link ? '_blank' : undefined"
 			class="app-discover-post__text">
-			<h3>{{ translatedHeadline }}</h3>
+			<component :is="inline ? 'h4' : 'h3'">{{ translatedHeadline }}</component>
 			<p>{{ translatedText }}</p>
 		</component>
 		<component :is="mediaLink ? 'a' : 'div'"
@@ -96,6 +97,18 @@ export default defineComponent({
 			type: Object as PropType<IAppDiscoverPost['media']>,
 			required: false,
 			default: () => null,
+		},
+
+		inline: {
+			type: Boolean,
+			required: false,
+			default: false,
+		},
+
+		domId: {
+			type: String,
+			required: false,
+			default: null,
 		},
 	},
 
@@ -178,7 +191,7 @@ export default defineComponent({
 		flex-direction: row-reverse;
 	}
 
-	h3 {
+	h3, h4 {
 		font-size: 24px;
 		font-weight: 600;
 		margin-block: 0 1em;

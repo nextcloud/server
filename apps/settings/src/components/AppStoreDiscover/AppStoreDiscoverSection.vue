@@ -41,6 +41,7 @@ import logger from '../../logger'
 import { apiTypeParser } from '../../utils/appDiscoverTypeParser.ts'
 
 const PostType = defineAsyncComponent(() => import('./PostType.vue'))
+const CarouselType = defineAsyncComponent(() => import('./CarouselType.vue'))
 
 const hasError = ref(false)
 const elements = ref<IAppDiscoverElements[]>([])
@@ -75,6 +76,8 @@ onBeforeMount(async () => {
 const getComponent = (type) => {
 	if (type === 'post') {
 		return PostType
+	} else if (type === 'carousel') {
+		return CarouselType
 	}
 	return defineComponent({
 		mounted: () => logger.error('Unknown component requested ', type),
