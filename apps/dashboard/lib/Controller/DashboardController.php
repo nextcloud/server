@@ -46,37 +46,17 @@ use OCP\IRequest;
 #[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class DashboardController extends Controller {
 
-	/** @var IInitialState */
-	private $initialState;
-	/** @var IEventDispatcher */
-	private $eventDispatcher;
-	/** @var IManager */
-	private $dashboardManager;
-	/** @var IConfig */
-	private $config;
-	/** @var IL10N */
-	private $l10n;
-	/** @var string */
-	private $userId;
-
 	public function __construct(
 		string $appName,
 		IRequest $request,
-		IInitialState $initialState,
-		IEventDispatcher $eventDispatcher,
-		IManager $dashboardManager,
-		IConfig $config,
-		IL10N $l10n,
-		$userId
+		private IInitialState $initialState,
+		private IEventDispatcher $eventDispatcher,
+		private IManager $dashboardManager,
+		private IConfig $config,
+		private IL10N $l10n,
+		private ?string $userId
 	) {
 		parent::__construct($appName, $request);
-
-		$this->initialState = $initialState;
-		$this->eventDispatcher = $eventDispatcher;
-		$this->dashboardManager = $dashboardManager;
-		$this->config = $config;
-		$this->l10n = $l10n;
-		$this->userId = $userId;
 	}
 
 	/**

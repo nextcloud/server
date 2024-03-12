@@ -243,7 +243,13 @@ export default defineComponent({
 
 				// Update files list
 				emit('files:node:created', node)
-				emit('files:node:focus', node)
+
+				// Open the new file
+				window.OCP.Files.Router.goToRoute(
+					null, // use default route
+					{ view: 'files', fileid: node.fileid },
+					{ dir: node.dirname, openfile: 'true' },
+				)
 
 				// Close the picker
 				this.close()

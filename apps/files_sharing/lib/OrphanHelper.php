@@ -46,8 +46,8 @@ class OrphanHelper {
 		} catch (NoUserException $e) {
 			return false;
 		}
-		$nodes = $userFolder->getById($fileId);
-		return count($nodes) > 0;
+		$node = $userFolder->getFirstNodeById($fileId);
+		return $node !== null;
 	}
 
 	/**

@@ -198,7 +198,6 @@ OC.L10N.register(
     "Ownership transfer request sent" : "Solicitud de transferencia de propiedad enviada.",
     "Cannot transfer ownership of a file or folder you do not own" : "No se puede transferir la propiedad de un archivo o carpeta que no posees.",
     "Select file or folder to link to" : "Seleccionar archivo o carpeta para enlazar.",
-    "Add" : "Guardar",
     "Loading current folder" : "Cargando directorio actual.",
     "No files in here" : "No hay archivos aquí",
     "Upload some content or sync with your devices!" : "¡Carga algún contenido o sincroniza con tus dispositivos!",
@@ -210,6 +209,7 @@ OC.L10N.register(
     "Open the files app settings" : "Abrir la configuración de la aplicación de archivos.",
     "Files settings" : "Configuración de archivos.",
     "File cannot be accessed" : "No se puede acceder al archivo.",
+    "Open in files" : "Abrir en archivos",
     "Sort favorites first" : "Ordenar primero los favoritos.",
     "Show hidden files" : "Mostrar archivos ocultos",
     "Crop image previews" : "Recortar vistas previas de imágenes.",
@@ -271,6 +271,7 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Esta lista no se muestra completamente por motivos de rendimiento. Los archivos se mostrarán a medida que navegas por la lista.",
     "Search for an account" : "Buscar una cuenta",
     "Choose" : "Seleccionar",
-    "No files or folders have been deleted yet" : "No se han eliminado archivos o carpetas todavía."
+    "No files or folders have been deleted yet" : "No se han eliminado archivos o carpetas todavía.",
+    "Add" : "Guardar"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

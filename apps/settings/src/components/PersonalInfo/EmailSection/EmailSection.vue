@@ -2,6 +2,7 @@
 	- @copyright 2021, Christopher Ng <chrng8@gmail.com>
 	-
 	- @author Christopher Ng <chrng8@gmail.com>
+	- @author Grigorii K. Shartsev <me@shgk.me>
 	-
 	- @license GNU AGPL version 3 or any later version
 	-
@@ -21,7 +22,7 @@
 -->
 
 <template>
-	<section>
+	<section class="section-emails">
 		<HeaderBar :input-id="inputId"
 			:readable="primaryEmail.readable"
 			:is-editable="true"
@@ -45,10 +46,10 @@
 		</span>
 
 		<template v-if="additionalEmails.length">
-			<em class="additional-emails-label">{{ t('settings', 'Additional emails') }}</em>
 			<!-- TODO use unique key for additional email when uniqueness can be guaranteed, see https://github.com/nextcloud/server/issues/26866 -->
 			<Email v-for="(additionalEmail, index) in additionalEmails"
 				:key="additionalEmail.key"
+				class="section-emails__additional-email"
 				:index="index"
 				:scope.sync="additionalEmail.scope"
 				:email.sync="additionalEmail.value"
@@ -196,12 +197,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-section {
+.section-emails {
 	padding: 10px 10px;
 
-	.additional-emails-label {
-		display: block;
-		margin-top: 16px;
+	&__additional-email {
+		margin-top: calc(var(--default-grid-baseline) * 3);
 	}
 }
 </style>

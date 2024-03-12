@@ -113,6 +113,7 @@ class DarkTheme extends DefaultTheme implements ITheme {
 				'--color-info-rgb' => join(',', $this->util->hexToRGB($colorInfo)),
 				'--color-info-hover' => $this->util->lighten($colorInfo, 10),
 				'--color-info-text' => $colorInfo,
+				'--color-favorite' => '#ffde00',
 
 				// used for the icon loading animation
 				'--color-loading-light' => '#777',

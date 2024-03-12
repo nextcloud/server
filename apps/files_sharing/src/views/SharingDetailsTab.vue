@@ -19,6 +19,7 @@
 			<div ref="quickPermissions" class="sharingTabDetailsView__quick-permissions">
 				<div>
 					<NcCheckboxRadioSwitch :button-variant="true"
+						data-cy-files-sharing-share-permissions-bundle="read-only"
 						:checked.sync="sharingPermission"
 						:value="bundledPermissions.READ_ONLY.toString()"
 						name="sharing_permission_radio"
@@ -31,6 +32,7 @@
 						</template>
 					</NcCheckboxRadioSwitch>
 					<NcCheckboxRadioSwitch :button-variant="true"
+						data-cy-files-sharing-share-permissions-bundle="upload-edit"
 						:checked.sync="sharingPermission"
 						:value="bundledPermissions.ALL.toString()"
 						name="sharing_permission_radio"
@@ -48,6 +50,7 @@
 						</template>
 					</NcCheckboxRadioSwitch>
 					<NcCheckboxRadioSwitch v-if="allowsFileDrop"
+						data-cy-files-sharing-share-permissions-bundle="file-drop"
 						:button-variant="true"
 						:checked.sync="sharingPermission"
 						:value="bundledPermissions.FILE_DROP.toString()"
@@ -62,6 +65,7 @@
 						</template>
 					</NcCheckboxRadioSwitch>
 					<NcCheckboxRadioSwitch :button-variant="true"
+						data-cy-files-sharing-share-permissions-bundle="custom"
 						:checked.sync="sharingPermission"
 						:value="'custom'"
 						name="sharing_permission_radio"
@@ -145,7 +149,10 @@
 						@update:checked="queueUpdate('hideDownload')">
 						{{ t('files_sharing', 'Hide download') }}
 					</NcCheckboxRadioSwitch>
-					<NcCheckboxRadioSwitch v-if="!isPublicShare" :disabled="!canSetDownload" :checked.sync="canDownload">
+					<NcCheckboxRadioSwitch v-if="!isPublicShare"
+						:disabled="!canSetDownload"
+						:checked.sync="canDownload"
+						data-cy-files-sharing-share-permissions-checkbox="download">
 						{{ t('files_sharing', 'Allow download') }}
 					</NcCheckboxRadioSwitch>
 					<NcCheckboxRadioSwitch :checked.sync="writeNoteToRecipientIsChecked">
@@ -157,26 +164,42 @@
 						</label>
 						<textarea id="share-note-textarea" :value="share.note" @input="share.note = $event.target.value" />
 					</template>
+					<ExternalShareAction v-for="action in externalLinkActions"
+						:id="action.id"
+						ref="externalLinkActions"
+						:key="action.id"
+						:action="action"
+						:file-info="fileInfo"
+						:share="share" />
 					<NcCheckboxRadioSwitch :checked.sync="setCustomPermissions">
 						{{ t('files_sharing', 'Custom permissions') }}
 					</NcCheckboxRadioSwitch>
 					<section v-if="setCustomPermissions" class="custom-permissions-group">
 						<NcCheckboxRadioSwitch :disabled="!allowsFileDrop && share.type === SHARE_TYPES.SHARE_TYPE_LINK"
-							:checked.sync="hasRead">
+							:checked.sync="hasRead"
+							data-cy-files-sharing-share-permissions-checkbox="read">
 							{{ t('files_sharing', 'Read') }}
 						</NcCheckboxRadioSwitch>
-						<NcCheckboxRadioSwitch v-if="isFolder" :disabled="!canSetCreate" :checked.sync="canCreate">
+						<NcCheckboxRadioSwitch v-if="isFolder"
+							:disabled="!canSetCreate"
+							:checked.sync="canCreate"
+							data-cy-files-sharing-share-permissions-checkbox="create">
 							{{ t('files_sharing', 'Create') }}
 						</NcCheckboxRadioSwitch>
-						<NcCheckboxRadioSwitch :disabled="!canSetEdit" :checked.sync="canEdit">
+						<NcCheckboxRadioSwitch :disabled="!canSetEdit"
+							:checked.sync="canEdit"
+							data-cy-files-sharing-share-permissions-checkbox="update">
 							{{ t('files_sharing', 'Edit') }}
 						</NcCheckboxRadioSwitch>
 						<NcCheckboxRadioSwitch v-if="config.isResharingAllowed && share.type !== SHARE_TYPES.SHARE_TYPE_LINK"
 							:disabled="!canSetReshare"
-							:checked.sync="canReshare">
+							:checked.sync="canReshare"
+							data-cy-files-sharing-share-permissions-checkbox="share">
 							{{ t('files_sharing', 'Share') }}
 						</NcCheckboxRadioSwitch>
-						<NcCheckboxRadioSwitch :disabled="!canSetDelete" :checked.sync="canDelete">
+						<NcCheckboxRadioSwitch :disabled="!canSetDelete"
+							:checked.sync="canDelete"
+							data-cy-files-sharing-share-permissions-checkbox="delete">
 							{{ t('files_sharing', 'Delete') }}
 						</NcCheckboxRadioSwitch>
 					</section>
@@ -199,10 +222,13 @@
 
 		<div class="sharingTabDetailsView__footer">
 			<div class="button-group">
-				<NcButton @click="$emit('close-sharing-details')">
+				<NcButton data-cy-files-sharing-share-editor-action="cancel"
+					@click="$emit('close-sharing-details')">
 					{{ t('files_sharing', 'Cancel') }}
 				</NcButton>
-				<NcButton type="primary" @click="saveShare">
+				<NcButton type="primary"
+					data-cy-files-sharing-share-editor-action="save"
+					@click="saveShare">
 					{{ shareButtonText }}
 					<template v-if="creating" #icon>
 						<NcLoadingIcon />
@@ -215,6 +241,7 @@
 
 <script>
 import { getLanguage } from '@nextcloud/l10n'
+import { Type as ShareType } from '@nextcloud/sharing'
 
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import NcInputField from '@nextcloud/vue/dist/Components/NcInputField.js'
@@ -236,6 +263,8 @@ import UploadIcon from 'vue-material-design-icons/Upload.vue'
 import MenuDownIcon from 'vue-material-design-icons/MenuDown.vue'
 import MenuUpIcon from 'vue-material-design-icons/MenuUp.vue'
 import DotsHorizontalIcon from 'vue-material-design-icons/DotsHorizontal.vue'
+
+import ExternalShareAction from '../components/ExternalShareAction.vue'
 
 import GeneratePassword from '../utils/GeneratePassword.js'
 import Share from '../models/Share.js'
@@ -262,6 +291,7 @@ export default {
 		CloseIcon,
 		CircleIcon,
 		EditIcon,
+		ExternalShareAction,
 		LinkIcon,
 		GroupIcon,
 		ShareIcon,
@@ -299,6 +329,8 @@ export default {
 			isFirstComponentLoad: true,
 			test: false,
 			creating: false,
+
+			ExternalShareActions: OCA.Sharing.ExternalShareActions.state,
 		}
 	},
 
@@ -651,6 +683,18 @@ export default {
 			}
 			return undefined
 		},
+
+		/**
+		 * Additional actions for the menu
+		 *
+		 * @return {Array}
+		 */
+		externalLinkActions() {
+			const filterValidAction = (action) => (action.shareType.includes(ShareType.SHARE_TYPE_LINK) || action.shareType.includes(ShareType.SHARE_TYPE_EMAIL)) && action.advanced
+			// filter only the advanced registered actions for said link
+			return this.ExternalShareActions.actions
+				.filter(filterValidAction)
+		},
 	},
 	watch: {
 		setCustomPermissions(isChecked) {
@@ -839,6 +883,15 @@ export default {
 				this.$emit('add:share', this.share)
 			} else {
 				this.queueUpdate(...permissionsAndAttributes)
+			}
+
+			if (this.$refs.externalLinkActions?.length > 0) {
+				await Promise.allSettled(this.$refs.externalLinkActions.map((action) => {
+					if (typeof action.$children.at(0)?.onSave !== 'function') {
+						return Promise.resolve()
+					}
+					return action.$children.at(0)?.onSave?.()
+				}))
 			}
 
 			this.$emit('close-sharing-details')

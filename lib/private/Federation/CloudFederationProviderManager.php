@@ -36,6 +36,7 @@ use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Federation\ICloudFederationShare;
 use OCP\Federation\ICloudIdManager;
 use OCP\Http\Client\IClientService;
+use OCP\Http\Client\IResponse;
 use OCP\IConfig;
 use OCP\OCM\Exceptions\OCMProviderException;
 use OCP\OCM\IOCMDiscoveryService;
@@ -111,6 +112,9 @@ class CloudFederationProviderManager implements ICloudFederationProviderManager 
 		}
 	}
 
+	/**
+	 * @deprecated 29.0.0 - Use {@see sendCloudShare()} instead and handle errors manually
+	 */
 	public function sendShare(ICloudFederationShare $share) {
 		$cloudID = $this->cloudIdManager->resolveCloudId($share->getShareWith());
 		try {
@@ -148,9 +152,38 @@ class CloudFederationProviderManager implements ICloudFederationProviderManager 
 	}
 
 	/**
+	 * @param ICloudFederationShare $share
+	 * @return IResponse
+	 * @throws OCMProviderException
+	 */
+	public function sendCloudShare(ICloudFederationShare $share): IResponse {
+		$cloudID = $this->cloudIdManager->resolveCloudId($share->getShareWith());
+		$ocmProvider = $this->discoveryService->discover($cloudID->getRemote());
+
+		$client = $this->httpClientService->newClient();
+		try {
+			return $client->post($ocmProvider->getEndPoint() . '/shares', [
+				'body' => json_encode($share->getShare()),
+				'headers' => ['content-type' => 'application/json'],
+				'verify' => !$this->config->getSystemValueBool('sharing.federation.allowSelfSignedCertificates', false),
+				'timeout' => 10,
+				'connect_timeout' => 10,
+			]);
+		} catch (\Throwable $e) {
+			$this->logger->error('Error while sending share to federation server: ' . $e->getMessage(), ['exception' => $e]);
+			try {
+				return $client->getResponseFromThrowable($e);
+			} catch (\Throwable $e) {
+				throw new OCMProviderException($e->getMessage(), $e->getCode(), $e);
+			}
+		}
+	}
+
+	/**
 	 * @param string $url
 	 * @param ICloudFederationNotification $notification
 	 * @return array|false
+	 * @deprecated 29.0.0 - Use {@see sendCloudNotification()} instead and handle errors manually
 	 */
 	public function sendNotification($url, ICloudFederationNotification $notification) {
 		try {
@@ -178,6 +211,34 @@ class CloudFederationProviderManager implements ICloudFederationProviderManager 
 		}
 
 		return false;
+	}
+
+	/**
+	 * @param string $url
+	 * @param ICloudFederationNotification $notification
+	 * @return IResponse
+	 * @throws OCMProviderException
+	 */
+	public function sendCloudNotification(string $url, ICloudFederationNotification $notification): IResponse {
+		$ocmProvider = $this->discoveryService->discover($url);
+
+		$client = $this->httpClientService->newClient();
+		try {
+			return $client->post($ocmProvider->getEndPoint() . '/notifications', [
+				'body' => json_encode($notification->getMessage()),
+				'headers' => ['content-type' => 'application/json'],
+				'verify' => !$this->config->getSystemValueBool('sharing.federation.allowSelfSignedCertificates', false),
+				'timeout' => 10,
+				'connect_timeout' => 10,
+			]);
+		} catch (\Throwable $e) {
+			$this->logger->error('Error while sending notification to federation server: ' . $e->getMessage(), ['exception' => $e]);
+			try {
+				return $client->getResponseFromThrowable($e);
+			} catch (\Throwable $e) {
+				throw new OCMProviderException($e->getMessage(), $e->getCode(), $e);
+			}
+		}
 	}
 
 	/**

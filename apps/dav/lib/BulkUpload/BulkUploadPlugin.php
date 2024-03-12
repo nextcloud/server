@@ -91,7 +91,7 @@ class BulkUploadPlugin extends ServerPlugin {
 
 				$node = $this->userFolder->newFile($headers['x-file-path'], $content);
 				$node->touch($mtime);
-				$node = $this->userFolder->getById($node->getId())[0];
+				$node = $this->userFolder->getFirstNodeById($node->getId());
 
 				$writtenFiles[$headers['x-file-path']] = [
 					"error" => false,

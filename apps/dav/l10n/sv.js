@@ -2,7 +2,7 @@ OC.L10N.register(
     "dav",
     {
     "Calendar" : "Kalender",
-    "To-dos" : "Uppgifter",
+    "Tasks" : "Uppgifter",
     "Personal" : "Privat",
     "{actor} created calendar {calendar}" : "{actor} skapade kalender {calendar}",
     "You created calendar {calendar}" : "Du skapade kalender {calendar}",
@@ -143,7 +143,6 @@ OC.L10N.register(
     "Configures a CalDAV account" : "Konfigurerar ett CalDAV-konto",
     "Configures a CardDAV account" : "Konfigurerar ett CardDAV-konto",
     "Events" : "Händelser",
-    "Tasks" : "Uppgifter",
     "Untitled task" : "Namnlös uppgift",
     "Completed on %s" : "Slutförd %s",
     "Due on %s by %s" : "Slutar den %s vid %s",
@@ -171,6 +170,7 @@ OC.L10N.register(
     "Delete slot" : "Radera lucka",
     "No working hours set" : "Inga arbetstimmar satta",
     "Add slot" : "Lägg till lucka",
+    "Weekdays" : "Vardagar",
     "Monday" : "Måndag",
     "Tuesday" : "Tisdag",
     "Wednesday" : "Onsdag",
@@ -205,6 +205,7 @@ OC.L10N.register(
     "Are you accepting the invitation?" : "Acceptera inbjudan?",
     "Tentative" : "Preliminärt",
     "Your attendance was updated successfully." : "Dina närvaro uppdaterades.",
+    "To-dos" : "Uppgifter",
     "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Om du konfigurerar dina arbetstimmar kan andra användare se när du inte är på jobbet när de bokar ett möte."
 },
 "nplurals=2; plural=(n != 1);");

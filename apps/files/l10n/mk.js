@@ -211,7 +211,6 @@ OC.L10N.register(
     "Select file or folder to link to" : "Изберете датотека или папка за линк до",
     "Choose file" : "Избери датотека",
     "Choose {file}" : "Избери {file}",
-    "Add" : "Додади",
     "Loading current folder" : "Вчитување на моменталната папка",
     "No files in here" : "Тука нема датотеки",
     "Upload some content or sync with your devices!" : "Прикачете некоја содржина или синхронизирајте со вашите уреди!",
@@ -252,7 +251,6 @@ OC.L10N.register(
     "This file/folder is already in that directory" : "Оваа папка/датотека се наоѓа веќе во таа папка",
     "You cannot move a file/folder onto itself or into a subfolder of itself" : "Неможете да преместите датотека/папка во себеси или во подпапка во себеси",
     "A file or folder with that name already exists in this folder" : "Датотека или папка со тоа име веќе постои во оваа папка",
-    "The files is locked" : "Датотекатите се заклучени",
     "The file does not exist anymore" : "Датотеката не постои",
     "Choose destination" : "Избери дестинација",
     "Copy to {target}" : "Копирај во {target}",
@@ -315,6 +313,8 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Оваа листа не е целосно прикажана поради заштеда на перформанси. Датотеките ќе се прикажуваат додека се движите низ листата.",
     "Search for an account" : "Пребарај сметка",
     "Choose" : "Избери",
-    "No files or folders have been deleted yet" : "Нема датотеки или папки што се избришани"
+    "No files or folders have been deleted yet" : "Нема датотеки или папки што се избришани",
+    "Add" : "Додади",
+    "The files is locked" : "Датотекатите се заклучени"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

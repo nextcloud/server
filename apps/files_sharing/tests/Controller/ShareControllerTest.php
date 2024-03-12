@@ -41,6 +41,7 @@ use OC\Share20\Manager;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\Files_Sharing\Controller\ShareController;
 use OCA\Files_Sharing\DefaultPublicShareTemplateProvider;
+use OCA\Files_Sharing\Event\BeforeTemplateRenderedEvent;
 use OCP\Accounts\IAccount;
 use OCP\Accounts\IAccountManager;
 use OCP\Accounts\IAccountProperty;
@@ -258,6 +259,7 @@ class ShareControllerTest extends \Test\TestCase {
 		$file->method('getSize')->willReturn(33);
 		$file->method('isReadable')->willReturn(true);
 		$file->method('isShareable')->willReturn(true);
+		$file->method('getId')->willReturn(111);
 
 		$accountName = $this->createMock(IAccountProperty::class);
 		$accountName->method('getScope')
@@ -330,13 +332,15 @@ class ShareControllerTest extends \Test\TestCase {
 			return null;
 		});
 
-		$this->eventDispatcher->expects($this->exactly(2))
-			->method('dispatchTyped')
-			->with(
-				$this->callback(function ($event) use ($share) {
+		$this->eventDispatcher->method('dispatchTyped')->with(
+			$this->callback(function ($event) use ($share) {
+				if ($event instanceof BeforeTemplateRenderedEvent) {
 					return $event->getShare() === $share;
-				})
-			);
+				} else {
+					return true;
+				}
+			})
+		);
 
 		$this->l10n->expects($this->any())
 			->method('t')
@@ -416,6 +420,7 @@ class ShareControllerTest extends \Test\TestCase {
 		$file->method('getSize')->willReturn(33);
 		$file->method('isReadable')->willReturn(true);
 		$file->method('isShareable')->willReturn(true);
+		$file->method('getId')->willReturn(111);
 
 		$accountName = $this->createMock(IAccountProperty::class);
 		$accountName->method('getScope')
@@ -488,13 +493,15 @@ class ShareControllerTest extends \Test\TestCase {
 			return null;
 		});
 
-		$this->eventDispatcher->expects($this->exactly(2))
-			->method('dispatchTyped')
-			->with(
-				$this->callback(function ($event) use ($share) {
+		$this->eventDispatcher->method('dispatchTyped')->with(
+			$this->callback(function ($event) use ($share) {
+				if ($event instanceof BeforeTemplateRenderedEvent) {
 					return $event->getShare() === $share;
-				})
-			);
+				} else {
+					return true;
+				}
+			})
+		);
 
 		$this->l10n->expects($this->any())
 			->method('t')
@@ -574,6 +581,7 @@ class ShareControllerTest extends \Test\TestCase {
 		$file->method('getSize')->willReturn(33);
 		$file->method('isReadable')->willReturn(true);
 		$file->method('isShareable')->willReturn(true);
+		$file->method('getId')->willReturn(111);
 
 		$accountName = $this->createMock(IAccountProperty::class);
 		$accountName->method('getScope')
@@ -650,13 +658,15 @@ class ShareControllerTest extends \Test\TestCase {
 			return null;
 		});
 
-		$this->eventDispatcher->expects($this->exactly(2))
-			->method('dispatchTyped')
-			->with(
-				$this->callback(function ($event) use ($share) {
+		$this->eventDispatcher->method('dispatchTyped')->with(
+			$this->callback(function ($event) use ($share) {
+				if ($event instanceof BeforeTemplateRenderedEvent) {
 					return $event->getShare() === $share;
-				})
-			);
+				} else {
+					return true;
+				}
+			})
+		);
 
 		$this->l10n->expects($this->any())
 			->method('t')
@@ -741,6 +751,7 @@ class ShareControllerTest extends \Test\TestCase {
 		$folder->method('getStorage')->willReturn($storage);
 		$folder->method('get')->with('')->willReturn($folder);
 		$folder->method('getSize')->willReturn(1337);
+		$folder->method('getId')->willReturn(111);
 
 		$accountName = $this->createMock(IAccountProperty::class);
 		$accountName->method('getScope')

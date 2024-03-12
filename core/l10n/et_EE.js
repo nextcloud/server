@@ -125,6 +125,7 @@ OC.L10N.register(
     "You have not added any info yet" : "Sa pole veel mingit infot lisanud",
     "{user} has not added any info yet" : "{user} pole veel mingit infot lisanud",
     "Error opening the user status modal, try hard refreshing the page" : "Kasutaja staatuse modaaldialoogi avamine ebaõnnestus, proovi lehte värskendada",
+    "Places" : "Kohad",
     "Date" : "Kuupäev",
     "Today" : "Täna",
     "People" : "Inimesed",

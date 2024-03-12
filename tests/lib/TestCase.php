@@ -263,6 +263,8 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 			}
 
 			return $property->getValue();
+		} elseif ($reflection->hasConstant($methodName)) {
+			return $reflection->getConstant($methodName);
 		}
 
 		return false;

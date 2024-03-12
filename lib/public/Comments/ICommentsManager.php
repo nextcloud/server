@@ -271,6 +271,7 @@ interface ICommentsManager {
 	 * @param IUser $user
 	 * @return array [$fileId => $unreadCount]
 	 * @since 12.0.0
+	 * @deprecated 29.0.0 use getNumberOfUnreadCommentsForObjects instead
 	 */
 	public function getNumberOfUnreadCommentsForFolder($folderId, IUser $user);
 

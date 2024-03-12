@@ -177,7 +177,6 @@ OC.L10N.register(
     "Invalid path selected" : "Pasirinktas neteisingas kelias",
     "Unknown error" : "Nežinoma klaida",
     "Ownership transfer request sent" : "Nuosavybės perdavimo užklausa išsiųsta",
-    "Add" : "Pridėti",
     "No files in here" : "Čia failų nėra",
     "Upload some content or sync with your devices!" : "Įkelkite failus arba sinchronizuokite su savo įrenginiais!",
     "Go back" : "Grįžti",
@@ -231,6 +230,7 @@ OC.L10N.register(
     "Deleted shares" : "Ištrinti viešiniai",
     "Pending shares" : "Laukiantys viešiniai",
     "This file has the tag {tag}" : "Šis failas turi žymą {tag}",
-    "Choose" : "Pasirinkite"
+    "Choose" : "Pasirinkite",
+    "Add" : "Pridėti"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

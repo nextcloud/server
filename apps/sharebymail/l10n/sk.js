@@ -14,6 +14,7 @@ OC.L10N.register(
     "Password to access {file} was sent to {email}" : "Heslo na sprístupnenie {file} bolo zaslané na {email}",
     "Password to access {file} was sent to you" : "Heslo na sprístupnenie {file} Vám bolo zaslané",
     "Share by mail" : "Sprístupniť e-mailom",
+    "Sharing %1$s failed, because this item is already shared with the account %2$s" : "Zdieľanie %1$s zlyhalo, pretože táto položka už je užívateľovi %2$s zozdieľaná.",
     "We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Vygenerované heslo Vám nemôže byť zaslané. Zadajte správnu mailovú adresu vo Vašich osobných nastaveniach a skúste znovu.",
     "Failed to send share by email. Got an invalid email address" : "Odoslanie zdieľania e-mailom zlyhalo. Máte neplatnú e-mailovú adresu",
     "Failed to send share by email" : "Zaslanie sprístupnenia cez e-mail zlyhalo",

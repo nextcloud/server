@@ -211,7 +211,6 @@ OC.L10N.register(
     "Select file or folder to link to" : "Seleziona un file o una cartella da collegare",
     "Choose file" : "Scegli file",
     "Choose {file}" : "Scegli {file}",
-    "Add" : "Aggiungi",
     "Loading current folder" : "Sto caricando la cartella corrente",
     "No files in here" : "Qui non c'è alcun file",
     "Upload some content or sync with your devices!" : "Carica dei contenuti o sincronizza con i tuoi dispositivi!",
@@ -228,6 +227,7 @@ OC.L10N.register(
     "Open the files app settings" : "Apri le impostazioni dell'applicazione File",
     "Files settings" : "Impostazioni File",
     "File cannot be accessed" : "Il file non possono essere acceduti",
+    "Open in files" : "Apri in file",
     "Sort favorites first" : "Ordina prima i preferiti",
     "Show hidden files" : "Mostra i file nascosti",
     "Crop image previews" : "Ritaglia le anteprime delle immagini",
@@ -256,7 +256,6 @@ OC.L10N.register(
     "(copy)" : "(copia)",
     "(copy %n)" : "(copia %n)",
     "A file or folder with that name already exists in this folder" : "Esiste già un file o una cartella con quel nome in questa cartella",
-    "The files is locked" : "Il file è bloccato",
     "The file does not exist anymore" : "Il file non esiste più",
     "Choose destination" : "Scegli la destinazione",
     "Copy to {target}" : "Copia in {target}",
@@ -319,6 +318,8 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Questo elenco non è stata mostrato completamente per ragioni di prestazioni. I file saranno mostrati durante la navigazione dell'elenco.",
     "Search for an account" : "Cerca un account",
     "Choose" : "Scegli",
-    "No files or folders have been deleted yet" : "Nessun file o cartella è stato ancora eliminato"
+    "No files or folders have been deleted yet" : "Nessun file o cartella è stato ancora eliminato",
+    "Add" : "Aggiungi",
+    "The files is locked" : "Il file è bloccato"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

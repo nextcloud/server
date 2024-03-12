@@ -2,7 +2,7 @@ OC.L10N.register(
     "dav",
     {
     "Calendar" : "달력",
-    "To-dos" : "할 일",
+    "Tasks" : "작업",
     "Personal" : "개인",
     "{actor} created calendar {calendar}" : "{actor} 님이 달력 {calendar}을(를) 생성함",
     "You created calendar {calendar}" : "달력 {calendar}을(를) 생성함",
@@ -143,7 +143,6 @@ OC.L10N.register(
     "Configures a CalDAV account" : "CalDAV 계정 설정",
     "Configures a CardDAV account" : "CardDAV 계정 설정",
     "Events" : "일정",
-    "Tasks" : "작업",
     "Untitled task" : "제목없는 작업",
     "Completed on %s" : "%s에 완료됨",
     "Due on %s by %s" : "%s일 %s에 만료됨",
@@ -203,6 +202,7 @@ OC.L10N.register(
     "Are you accepting the invitation?" : "초대를 수락하시겠습니까?",
     "Tentative" : "보류",
     "Your attendance was updated successfully." : "참석 정보를 업데이트했습니다.",
+    "To-dos" : "할 일",
     "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "업무 시간을 설정하면, 회의를 예약할 때 다른 사용자가 부재 중 시간을 볼 수 있습니다."
 },
 "nplurals=1; plural=0;");

@@ -54,6 +54,7 @@ use OCP\Files\Mount\IMountManager;
 use OCP\Files\Node;
 use OCP\HintException;
 use OCP\IConfig;
+use OCP\IDateTimeZone;
 use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IURLGenerator;
@@ -120,6 +121,7 @@ class Manager implements IManager {
 	/** @var KnownUserService */
 	private $knownUserService;
 	private ShareDisableChecker $shareDisableChecker;
+	private IDateTimeZone $dateTimeZone;
 
 	public function __construct(
 		LoggerInterface $logger,
@@ -128,7 +130,6 @@ class Manager implements IManager {
 		IHasher $hasher,
 		IMountManager $mountManager,
 		IGroupManager $groupManager,
-		IL10N $l,
 		IFactory $l10nFactory,
 		IProviderFactory $factory,
 		IUserManager $userManager,
@@ -139,7 +140,8 @@ class Manager implements IManager {
 		IEventDispatcher $dispatcher,
 		IUserSession $userSession,
 		KnownUserService $knownUserService,
-		ShareDisableChecker $shareDisableChecker
+		ShareDisableChecker $shareDisableChecker,
+		IDateTimeZone $dateTimeZone,
 	) {
 		$this->logger = $logger;
 		$this->config = $config;
@@ -147,7 +149,7 @@ class Manager implements IManager {
 		$this->hasher = $hasher;
 		$this->mountManager = $mountManager;
 		$this->groupManager = $groupManager;
-		$this->l = $l;
+		$this->l = $l10nFactory->get('lib');
 		$this->l10nFactory = $l10nFactory;
 		$this->factory = $factory;
 		$this->userManager = $userManager;
@@ -162,6 +164,7 @@ class Manager implements IManager {
 		$this->userSession = $userSession;
 		$this->knownUserService = $knownUserService;
 		$this->shareDisableChecker = $shareDisableChecker;
+		$this->dateTimeZone = $dateTimeZone;
 	}
 
 	/**
@@ -307,8 +310,7 @@ class Manager implements IManager {
 			$mount = $userMount->getMountPoint();
 			// When it's a reshare use the parent share permissions as maximum
 			$userMountPointId = $mount->getStorageRootId();
-			$userMountPoints = $userFolder->getById($userMountPointId);
-			$userMountPoint = array_shift($userMountPoints);
+			$userMountPoint = $userFolder->getFirstNodeById($userMountPointId);
 
 			if ($userMountPoint === null) {
 				throw new GenericShareException('Could not get proper user mount for ' . $userMountPointId . '. Failing since else the next calls are called with null');
@@ -382,10 +384,10 @@ class Manager implements IManager {
 		$expirationDate = $share->getExpirationDate();
 
 		if ($expirationDate !== null) {
-			//Make sure the expiration date is a date
+			$expirationDate->setTimezone($this->dateTimeZone->getTimeZone());
 			$expirationDate->setTime(0, 0, 0);
 
-			$date = new \DateTime();
+			$date = new \DateTime('now', $this->dateTimeZone->getTimeZone());
 			$date->setTime(0, 0, 0);
 			if ($date >= $expirationDate) {
 				$message = $this->l->t('Expiration date is in the past');
@@ -413,9 +415,8 @@ class Manager implements IManager {
 			$isEnforced = $this->shareApiInternalDefaultExpireDateEnforced();
 		}
 		if ($fullId === null && $expirationDate === null && $defaultExpireDate) {
-			$expirationDate = new \DateTime();
+			$expirationDate = new \DateTime('now', $this->dateTimeZone->getTimeZone());
 			$expirationDate->setTime(0, 0, 0);
-
 			$days = (int)$this->config->getAppValue('core', $configProp, (string)$defaultExpireDays);
 			if ($days > $defaultExpireDays) {
 				$days = $defaultExpireDays;
@@ -429,7 +430,7 @@ class Manager implements IManager {
 				throw new \InvalidArgumentException('Expiration date is enforced');
 			}
 
-			$date = new \DateTime();
+			$date = new \DateTime('now', $this->dateTimeZone->getTimeZone());
 			$date->setTime(0, 0, 0);
 			$date->add(new \DateInterval('P' . $defaultExpireDays . 'D'));
 			if ($date < $expirationDate) {
@@ -469,10 +470,10 @@ class Manager implements IManager {
 		$expirationDate = $share->getExpirationDate();
 
 		if ($expirationDate !== null) {
-			//Make sure the expiration date is a date
+			$expirationDate->setTimezone($this->dateTimeZone->getTimeZone());
 			$expirationDate->setTime(0, 0, 0);
 
-			$date = new \DateTime();
+			$date = new \DateTime('now', $this->dateTimeZone->getTimeZone());
 			$date->setTime(0, 0, 0);
 			if ($date >= $expirationDate) {
 				$message = $this->l->t('Expiration date is in the past');
@@ -489,7 +490,7 @@ class Manager implements IManager {
 		}
 
 		if ($fullId === null && $expirationDate === null && $this->shareApiLinkDefaultExpireDate()) {
-			$expirationDate = new \DateTime();
+			$expirationDate = new \DateTime('now', $this->dateTimeZone->getTimeZone());
 			$expirationDate->setTime(0, 0, 0);
 
 			$days = (int)$this->config->getAppValue('core', 'link_defaultExpDays', (string)$this->shareApiLinkDefaultExpireDays());
@@ -505,7 +506,7 @@ class Manager implements IManager {
 				throw new \InvalidArgumentException('Expiration date is enforced');
 			}
 
-			$date = new \DateTime();
+			$date = new \DateTime('now', $this->dateTimeZone->getTimeZone());
 			$date->setTime(0, 0, 0);
 			$date->add(new \DateInterval('P' . $this->shareApiLinkDefaultExpireDays() . 'D'));
 			if ($date < $expirationDate) {
@@ -527,6 +528,9 @@ class Manager implements IManager {
 			throw new \Exception($message);
 		}
 
+		if ($expirationDate instanceof \DateTime) {
+			$expirationDate->setTimezone(new \DateTimeZone(date_default_timezone_get()));
+		}
 		$share->setExpirationDate($expirationDate);
 
 		return $share;
@@ -1717,8 +1721,7 @@ class Manager implements IManager {
 		//Get node for the owner and correct the owner in case of external storage
 		$userFolder = $this->rootFolder->getUserFolder($owner);
 		if ($path->getId() !== $userFolder->getId() && !$userFolder->isSubNode($path)) {
-			$nodes = $userFolder->getById($path->getId());
-			$path = array_shift($nodes);
+			$path = $userFolder->getFirstNodeById($path->getId());
 			if ($path === null || $path->getOwner() === null) {
 				return [];
 			}

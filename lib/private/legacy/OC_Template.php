@@ -21,6 +21,7 @@
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <vincent@nextcloud.com>
+ * @author Richard Steinmetz <richard@steinmetz.cloud>
  *
  * @license AGPL-3.0
  *
@@ -38,7 +39,9 @@
  *
  */
 use OC\TemplateLayout;
+use OCP\AppFramework\Http\Events\BeforeTemplateRenderedEvent;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\EventDispatcher\IEventDispatcher;
 
 require_once __DIR__.'/template/functions.php';
 
@@ -249,20 +252,44 @@ class OC_Template extends \OC\Template\Base {
 			// If the hint is the same as the message there is no need to display it twice.
 			$hint = '';
 		}
+		$errors = [['error' => $error_msg, 'hint' => $hint]];
 
 		http_response_code($statusCode);
 		try {
-			$content = new \OC_Template('', 'error', 'error', false);
-			$errors = [['error' => $error_msg, 'hint' => $hint]];
-			$content->assign('errors', $errors);
-			$content->printPage();
-		} catch (\Exception $e) {
+			// Try rendering themed html error page
+			$response = new TemplateResponse(
+				'',
+				'error',
+				['errors' => $errors],
+				TemplateResponse::RENDER_AS_ERROR,
+				$statusCode,
+			);
+			$event = new BeforeTemplateRenderedEvent(false, $response);
+			\OC::$server->get(IEventDispatcher::class)->dispatchTyped($event);
+			print($response->render());
+		} catch (\Throwable $e1) {
 			$logger = \OC::$server->getLogger();
-			$logger->error("$error_msg $hint", ['app' => 'core']);
-			$logger->logException($e, ['app' => 'core']);
+			$logger->logException($e1, [
+				'app' => 'core',
+				'message' => 'Rendering themed error page failed. Falling back to unthemed error page.'
+			]);
 
-			header('Content-Type: text/plain; charset=utf-8');
-			print("$error_msg $hint");
+			try {
+				// Try rendering unthemed html error page
+				$content = new \OC_Template('', 'error', 'error', false);
+				$content->assign('errors', $errors);
+				$content->printPage();
+			} catch (\Exception $e2) {
+				// If nothing else works, fall back to plain text error page
+				$logger->error("$error_msg $hint", ['app' => 'core']);
+				$logger->logException($e2, [
+					'app' => 'core',
+					'message' => 'Rendering unthemed error page failed. Falling back to plain text error page.'
+				]);
+
+				header('Content-Type: text/plain; charset=utf-8');
+				print("$error_msg $hint");
+			}
 		}
 		die();
 	}

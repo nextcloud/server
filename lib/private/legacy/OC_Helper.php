@@ -596,6 +596,11 @@ class OC_Helper {
 			'mountPoint' => trim($mountPoint, '/'),
 		];
 
+		if ($ownerId && $path === '/') {
+			// If path is root, store this as last known quota usage for this user
+			\OCP\Server::get(\OCP\IConfig::class)->setUserValue($ownerId, 'files', 'lastSeenQuotaUsage', (string)$relative);
+		}
+
 		$memcache->set($cacheKey, $info, 5 * 60);
 
 		return $info;

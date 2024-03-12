@@ -70,7 +70,6 @@ OC.L10N.register(
     "The following apps have been disabled: %s" : "Seuraavat sovellukset on poistettu käytöstä: %s",
     "Already up to date" : "Kaikki on jo ajan tasalla",
     "Your web server is not yet properly set up to allow file synchronization, because the WebDAV interface seems to be broken." : "Palvelintasi ei ole määritetty oikein tiedostojen synkronointia varten, koska WebDAV-liitäntä vaikuttaa olevan rikki.",
-    "Your web server is not properly set up to resolve \"{url}\". Further information can be found in the {linkstart}documentation ↗{linkend}." : "Verkkopalvelintasi ei ole määritelty oikein käsittelemään osoitetta \"{url}\". Lisätietoa löytyy  {linkstart}dokumentaatiosta ↗{linkend}.",
     "Error occurred while checking server setup" : "Virhe palvelimen määrityksiä tarkistaessa",
     "For more details see the {linkstart}documentation ↗{linkend}." : "Lue lisätietoja {linkstart}dokumentaatiosta ↗{linkend}.",
     "The \"{header}\" HTTP header is not set to \"{expected}\". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "HTTP-header \"{header}\" ei ole määritetty vastaamaan arvoa \"{expected}\". Kyseessä on mahdollinen tietoturvaan tai -suojaan liittyvä riski, joten on suositeltavaa muuttaa asetuksen arvoa.",
@@ -165,7 +164,7 @@ OC.L10N.register(
     "{user} has not added any info yet" : "{user} ei ole lisännyt tietoja vielä",
     "Search apps, files, tags, messages" : "Etsi sovelluksia, tiedostoja, tunnisteita, viestejä",
     "Search {types} …" : "Etsi {types}…",
-    "Apps and Settings" : "Sovellukset ja asetukset",
+    "Places" : "Sijainnit",
     "Date" : "Päivä",
     "Today" : "Tänään",
     "Last 7 days" : "Edelliset 7 päivää",
@@ -339,6 +338,7 @@ OC.L10N.register(
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Ota yhteys järjestelmän ylläpitäjään, jos tämä viesti ilmenee uudelleen tai odottamatta.",
     "Please try again" : "Yritä uudelleen",
     "The user limit of this instance is reached." : "Tämän instanssin käyttäjäraja on täynnä.",
+    "Your web server is not properly set up to resolve \"{url}\". Further information can be found in the {linkstart}documentation ↗{linkend}." : "Verkkopalvelintasi ei ole määritelty oikein käsittelemään osoitetta \"{url}\". Lisätietoa löytyy  {linkstart}dokumentaatiosta ↗{linkend}.",
     "Your database does not run with \"READ COMMITTED\" transaction isolation level. This can cause problems when multiple actions are executed in parallel." : "Tietokantaasi ei suoriteta \"READ COMMITTED\"-transaktioeristystasolla. Tämä saattaa aiheuttaa ongelmia, kun useita toimintoja suoritetaan rinnakkaisesti.",
     "The PHP module \"fileinfo\" is missing. It is strongly recommended to enable this module to get the best results with MIME type detection." : "PHP \"fileinfo\" moduuli puuttuu. Moduulin käyttöönottaminen on vahvasti suositeltua paremman MIME tyyppien tunnistuksen saavuttamiseksi.",
     "It was not possible to execute the cron job via CLI. The following technical errors have appeared:" : "Cron-työtä ei voitu suorittaa komentorivin kautta. Seuraavat tekniset virheet havaittiin:",
@@ -400,6 +400,7 @@ OC.L10N.register(
     "Alternative log in using app token" : "Vaihtoehtoinen kirjautuminen käyttäen sovelluspolettia",
     "Please use the command line updater because you have a big instance with more than 50 users." : "Käytä komentorivipäivitintä, koska käyttäjiä on yli 50.",
     "This instance is running in debug mode. Only enable this for local development and not in production environments." : "Tämä instanssi toimii vianjäljitystilassa. Käytä vianjäljitystilaa vain paikalliseen kehitykseen, älä koskaan käytä sitä tuotantoympäristössä.",
-    "Avatar of {fullName}" : "Käyttäjän {fullName} kuva"
+    "Avatar of {fullName}" : "Käyttäjän {fullName} kuva",
+    "Apps and Settings" : "Sovellukset ja asetukset"
 },
 "nplurals=2; plural=(n != 1);");
