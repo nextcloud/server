@@ -256,7 +256,7 @@ class UsersController extends AUserData {
 						fn (IUser $user): string => $user->getUID(),
 						array_filter(
 							$group->searchUsers('', ($tempLimit === null ? null : $tempLimit - count($users))),
-							fn (IUser $user): bool => $user->isEnabled()
+							fn (IUser $user): bool => !$user->isEnabled()
 						)
 					)
 				);
