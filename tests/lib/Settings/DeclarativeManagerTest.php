@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2023 Andrey Borysenko <andrey.borysenko@nextcloud.com>
  *

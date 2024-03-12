@@ -908,6 +908,13 @@ class RegistrationContext {
 	}
 
 	/**
+	 * @return ServiceRegistration<ITeamResourceProvider>[]
+	 */
+	public function getTeamResourceProviders(): array {
+		return $this->teamResourceProviders;
+	}
+
+	/**
 	 * @return ServiceRegistration<IDeclarativeSettingsForm>[]
 	 */
 	public function getDeclarativeSettings(): array {
