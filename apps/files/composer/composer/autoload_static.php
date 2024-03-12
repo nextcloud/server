@@ -83,6 +83,7 @@ class ComposerStaticInitFiles
         'OCA\\Files\\ResponseDefinitions' => __DIR__ . '/..' . '/../lib/ResponseDefinitions.php',
         'OCA\\Files\\Search\\FilesSearchProvider' => __DIR__ . '/..' . '/../lib/Search/FilesSearchProvider.php',
         'OCA\\Files\\Service\\DirectEditingService' => __DIR__ . '/..' . '/../lib/Service/DirectEditingService.php',
+        'OCA\\Files\\Service\\LivePhotosService' => __DIR__ . '/..' . '/../lib/Service/LivePhotosService.php',
         'OCA\\Files\\Service\\OwnershipTransferService' => __DIR__ . '/..' . '/../lib/Service/OwnershipTransferService.php',
         'OCA\\Files\\Service\\TagService' => __DIR__ . '/..' . '/../lib/Service/TagService.php',
         'OCA\\Files\\Service\\UserConfig' => __DIR__ . '/..' . '/../lib/Service/UserConfig.php',
