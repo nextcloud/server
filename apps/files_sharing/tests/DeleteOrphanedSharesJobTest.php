@@ -27,7 +27,6 @@
 namespace OCA\Files_Sharing\Tests;
 
 use OCA\Files_Sharing\DeleteOrphanedSharesJob;
-use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Share\IShare;
 
 /**
@@ -94,7 +93,7 @@ class DeleteOrphanedSharesJobTest extends \Test\TestCase {
 
 		\OC::registerShareHooks(\OC::$server->getSystemConfig());
 
-		$this->job = new DeleteOrphanedSharesJob(\OCP\Server::get(ITimeFactory::class));
+		$this->job = \OCP\Server::get(DeleteOrphanedSharesJob::class);
 	}
 
 	protected function tearDown(): void {

@@ -104,9 +104,9 @@ class DirectController extends OCSController {
 	public function getUrl(int $fileId, int $expirationTime = 60 * 60 * 8): DataResponse {
 		$userFolder = $this->rootFolder->getUserFolder($this->userId);
 
-		$files = $userFolder->getById($fileId);
+		$file = $userFolder->getFirstNodeById($fileId);
 
-		if ($files === []) {
+		if (!$file) {
 			throw new OCSNotFoundException();
 		}
 
@@ -114,7 +114,6 @@ class DirectController extends OCSController {
 			throw new OCSBadRequestException('Expiration time should be greater than 0 and less than or equal to ' . (60 * 60 * 24));
 		}
 
-		$file = array_shift($files);
 		if (!($file instanceof File)) {
 			throw new OCSBadRequestException('Direct download only works for files');
 		}

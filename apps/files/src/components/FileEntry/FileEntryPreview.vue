@@ -39,7 +39,7 @@
 			:class="{'files-list__row-icon-preview--loaded': backgroundFailed === false}"
 			loading="lazy"
 			:src="previewUrl"
-			@error="backgroundFailed = true"
+			@error="onBackgroundError"
 			@load="backgroundFailed = false">
 
 		<FileIcon v-else v-once />
@@ -219,12 +219,21 @@ export default Vue.extend({
 	},
 
 	methods: {
+		// Called from FileEntry
 		reset() {
-			if (this.backgroundFailed === true && this.$refs.previewImg) {
+			// Reset background state to cancel any ongoing requests
+			this.backgroundFailed = undefined
+			if (this.$refs.previewImg) {
 				this.$refs.previewImg.src = ''
 			}
-			// Reset background state
-			this.backgroundFailed = undefined
+		},
+
+		onBackgroundError(event) {
+			// Do not fail if we just reset the background
+			if (event.target?.src === '') {
+				return
+			}
+			this.backgroundFailed = true
 		},
 
 		t,

@@ -848,24 +848,24 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * @return void
 	 */
 	public function updateCalendar($calendarId, PropPatch $propPatch) {
-		$this->atomic(function () use ($calendarId, $propPatch) {
-			$supportedProperties = array_keys($this->propertyMap);
-			$supportedProperties[] = '{' . Plugin::NS_CALDAV . '}schedule-calendar-transp';
+		$supportedProperties = array_keys($this->propertyMap);
+		$supportedProperties[] = '{' . Plugin::NS_CALDAV . '}schedule-calendar-transp';
 
-			$propPatch->handle($supportedProperties, function ($mutations) use ($calendarId) {
-				$newValues = [];
-				foreach ($mutations as $propertyName => $propertyValue) {
-					switch ($propertyName) {
-						case '{' . Plugin::NS_CALDAV . '}schedule-calendar-transp':
-							$fieldName = 'transparent';
-							$newValues[$fieldName] = (int) ($propertyValue->getValue() === 'transparent');
-							break;
-						default:
-							$fieldName = $this->propertyMap[$propertyName][0];
-							$newValues[$fieldName] = $propertyValue;
-							break;
-					}
+		$propPatch->handle($supportedProperties, function ($mutations) use ($calendarId) {
+			$newValues = [];
+			foreach ($mutations as $propertyName => $propertyValue) {
+				switch ($propertyName) {
+					case '{' . Plugin::NS_CALDAV . '}schedule-calendar-transp':
+						$fieldName = 'transparent';
+						$newValues[$fieldName] = (int) ($propertyValue->getValue() === 'transparent');
+						break;
+					default:
+						$fieldName = $this->propertyMap[$propertyName][0];
+						$newValues[$fieldName] = $propertyValue;
+						break;
 				}
+			}
+			[$calendarData, $shares] = $this->atomic(function () use ($calendarId, $newValues) {
 				$query = $this->db->getQueryBuilder();
 				$query->update('calendars');
 				foreach ($newValues as $fieldName => $value) {
@@ -878,11 +878,13 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 
 				$calendarData = $this->getCalendarById($calendarId);
 				$shares = $this->getShares($calendarId);
-				$this->dispatcher->dispatchTyped(new CalendarUpdatedEvent($calendarId, $calendarData, $shares, $mutations));
+				return [$calendarData, $shares];
+			}, $this->db);
 
-				return true;
-			});
-		}, $this->db);
+			$this->dispatcher->dispatchTyped(new CalendarUpdatedEvent($calendarId, $calendarData, $shares, $mutations));
+
+			return true;
+		});
 	}
 
 	/**
@@ -2570,22 +2572,22 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * @return void
 	 */
 	public function updateSubscription($subscriptionId, PropPatch $propPatch) {
-		$this->atomic(function () use ($subscriptionId, $propPatch) {
-			$supportedProperties = array_keys($this->subscriptionPropertyMap);
-			$supportedProperties[] = '{http://calendarserver.org/ns/}source';
+		$supportedProperties = array_keys($this->subscriptionPropertyMap);
+		$supportedProperties[] = '{http://calendarserver.org/ns/}source';
 
-			$propPatch->handle($supportedProperties, function ($mutations) use ($subscriptionId) {
-				$newValues = [];
+		$propPatch->handle($supportedProperties, function ($mutations) use ($subscriptionId) {
+			$newValues = [];
 
-				foreach ($mutations as $propertyName => $propertyValue) {
-					if ($propertyName === '{http://calendarserver.org/ns/}source') {
-						$newValues['source'] = $propertyValue->getHref();
-					} else {
-						$fieldName = $this->subscriptionPropertyMap[$propertyName][0];
-						$newValues[$fieldName] = $propertyValue;
-					}
+			foreach ($mutations as $propertyName => $propertyValue) {
+				if ($propertyName === '{http://calendarserver.org/ns/}source') {
+					$newValues['source'] = $propertyValue->getHref();
+				} else {
+					$fieldName = $this->subscriptionPropertyMap[$propertyName][0];
+					$newValues[$fieldName] = $propertyValue;
 				}
+			}
 
+			$subscriptionRow = $this->atomic(function () use ($subscriptionId, $newValues) {
 				$query = $this->db->getQueryBuilder();
 				$query->update('calendarsubscriptions')
 					->set('lastmodified', $query->createNamedParameter(time()));
@@ -2595,12 +2597,13 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				$query->where($query->expr()->eq('id', $query->createNamedParameter($subscriptionId)))
 					->executeStatement();
 
-				$subscriptionRow = $this->getSubscriptionById($subscriptionId);
-				$this->dispatcher->dispatchTyped(new SubscriptionUpdatedEvent((int)$subscriptionId, $subscriptionRow, [], $mutations));
+				return $this->getSubscriptionById($subscriptionId);
+			}, $this->db);
 
-				return true;
-			});
-		}, $this->db);
+			$this->dispatcher->dispatchTyped(new SubscriptionUpdatedEvent((int)$subscriptionId, $subscriptionRow, [], $mutations));
+
+			return true;
+		});
 	}
 
 	/**

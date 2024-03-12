@@ -408,8 +408,8 @@ export default {
 				}
 			case this.SHARE_TYPES.SHARE_TYPE_CIRCLE:
 				return {
-					icon: 'icon-circle',
-					iconTitle: t('files_sharing', 'Circle'),
+					icon: 'icon-teams',
+					iconTitle: t('files_sharing', 'Team'),
 				}
 			case this.SHARE_TYPES.SHARE_TYPE_ROOM:
 				return {

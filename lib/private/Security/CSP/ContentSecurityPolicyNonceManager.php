@@ -69,6 +69,7 @@ class ContentSecurityPolicyNonceManager {
 			Request::USER_AGENT_CHROME,
 			Request::USER_AGENT_FIREFOX,
 			Request::USER_AGENT_SAFARI,
+			Request::USER_AGENT_MS_EDGE,
 		];
 
 		if ($this->request->isUserAgent($browserWhitelist)) {

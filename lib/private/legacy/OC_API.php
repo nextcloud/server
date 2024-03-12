@@ -171,7 +171,7 @@ class OC_API {
 			],
 		];
 		if ($format == 'json') {
-			return OC_JSON::encode($response);
+			return json_encode($response, JSON_HEX_TAG);
 		}
 
 		$writer = new XMLWriter();

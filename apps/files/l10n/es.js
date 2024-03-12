@@ -241,6 +241,7 @@ OC.L10N.register(
     "Files settings" : "Configuración de archivos",
     "File cannot be accessed" : "El archivo no puede ser accesado",
     "The file could not be found or you do not have permissions to view it. Ask the sender to share it." : "El archivo no fue encontrado o no tiene permisos para verlo. Solicite al remitente que lo comparta.",
+    "Open in files" : "Abrir en archivos",
     "Sort favorites first" : "Ordenar los favoritos primero",
     "Sort folders before files" : "Ordenar carpetas antes que archivos",
     "Show hidden files" : "Mostrar archivos ocultos",

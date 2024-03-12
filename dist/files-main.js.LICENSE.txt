@@ -4,12 +4,6 @@
   * @license MIT
   */
 
-/*!
- * pinia v2.1.7
- * (c) 2023 Eduardo San Martin Morote
- * @license MIT
- */
-
 /*! http://mths.be/fromcodepoint v0.1.0 by @mathias */
 
 /*! safe-buffer. MIT License. Feross Aboukhadijeh <https://feross.org/opensource> */

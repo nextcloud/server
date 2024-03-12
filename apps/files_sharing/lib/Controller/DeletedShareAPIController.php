@@ -117,15 +117,13 @@ class DeletedShareAPIController extends OCSController {
 			'path' => $share->getTarget(),
 		];
 		$userFolder = $this->rootFolder->getUserFolder($share->getSharedBy());
-		$nodes = $userFolder->getById($share->getNodeId());
-		if (empty($nodes)) {
+		$node = $userFolder->getFirstNodeById($share->getNodeId());
+		if (!$node) {
 			// fallback to guessing the path
 			$node = $userFolder->get($share->getTarget());
 			if ($node === null || $share->getTarget() === '') {
 				throw new NotFoundException();
 			}
-		} else {
-			$node = $nodes[0];
 		}
 
 		$result['path'] = $userFolder->getRelativePath($node->getPath());

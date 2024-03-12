@@ -48,54 +48,6 @@
 		},
 
 		/**
-		 * Check whether the .well-known URLs works.
-		 *
-		 * @param url the URL to test
-		 * @param placeholderUrl the placeholder URL - can be found at OC.theme.docPlaceholderUrl
-		 * @param {boolean} runCheck if this is set to false the check is skipped and no error is returned
-		 * @param {int|int[]} expectedStatus the expected HTTP status to be returned by the URL, 207 by default
-		 * @return $.Deferred object resolved with an array of error messages
-		 */
-		checkWellKnownUrl: function(verb, url, placeholderUrl, runCheck, expectedStatus, checkCustomHeader) {
-			if (expectedStatus === undefined) {
-				expectedStatus = [207];
-			}
-
-			if (!Array.isArray(expectedStatus)) {
-				expectedStatus = [expectedStatus];
-			}
-
-			var deferred = $.Deferred();
-
-			if(runCheck === false) {
-				deferred.resolve([]);
-				return deferred.promise();
-			}
-			var afterCall = function(xhr) {
-				var messages = [];
-				var customWellKnown = xhr.getResponseHeader('X-NEXTCLOUD-WELL-KNOWN')
-				if (expectedStatus.indexOf(xhr.status) === -1 || (checkCustomHeader && !customWellKnown)) {
-					var docUrl = placeholderUrl.replace('PLACEHOLDER', 'admin-setup-well-known-URL');
-					messages.push({
-						msg: t('core', 'Your web server is not properly set up to resolve "{url}". Further information can be found in the {linkstart}documentation ↗{linkend}.', { url: url })
-							.replace('{linkstart}', '<a target="_blank" rel="noreferrer noopener" class="external" href="' + docUrl + '">')
-							.replace('{linkend}', '</a>'),
-						type: OC.SetupChecks.MESSAGE_TYPE_INFO
-					});
-				}
-				deferred.resolve(messages);
-			};
-
-			$.ajax({
-				type: verb,
-				url: url,
-				complete: afterCall,
-				allowAuthErrors: true
-			});
-			return deferred.promise();
-		},
-
-		/**
 		 * Runs setup checks on the server side
 		 *
 		 * @return $.Deferred object resolved with an array of error messages
@@ -105,14 +57,6 @@
 			var afterCall = function(data, statusText, xhr) {
 				var messages = [];
 				if (xhr.status === 200 && data) {
-					if (window.location.protocol === 'https:' && data.reverseProxyGeneratedURL.split('/')[0] !== 'https:') {
-						messages.push({
-							msg: t('core', 'You are accessing your instance over a secure connection, however your instance is generating insecure URLs. This most likely means that you are behind a reverse proxy and the overwrite config variables are not set correctly. Please read {linkstart}the documentation page about this ↗{linkend}.')
-								.replace('{linkstart}', '<a target="_blank" rel="noreferrer noopener" class="external" href="' + data.reverseProxyDocs + '">')
-								.replace('{linkend}', '</a>'),
-							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
-						})
-					}
 					if (Object.keys(data.generic).length > 0) {
 						Object.keys(data.generic).forEach(function(key){
 							Object.keys(data.generic[key]).forEach(function(title){
@@ -340,13 +284,6 @@
 							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 						});
 					}
-				} else if (!/(?:^(?:localhost|127\.0\.0\.1|::1)|\.onion)$/.exec(window.location.hostname)) {
-					messages.push({
-						msg: t('core', 'Accessing site insecurely via HTTP. You are strongly advised to set up your server to require HTTPS instead, as described in the {linkstart}security tips ↗{linkend}. Without it some important web functionality like "copy to clipboard" or "service workers" will not work!')
-							.replace('{linkstart}', '<a target="_blank" rel="noreferrer noopener" class="external" href="' + tipsUrl + '">')
-							.replace('{linkend}', '</a>'),
-						type: OC.SetupChecks.MESSAGE_TYPE_ERROR
-					});
 				}
 			} else {
 				messages.push({

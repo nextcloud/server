@@ -41,6 +41,7 @@ interface IURLGenerator {
 	 * This is a copy of the frontend regex in core/src/OCP/comments.js, make sure to adjust both when changing
 	 *
 	 * @since 25.0.0
+	 * @since 29.0.0 changed to match localhost and hostnames with ports
 	 */
 	public const URL_REGEX = '/' . self::URL_REGEX_NO_MODIFIERS . '/mi';
 
@@ -50,8 +51,9 @@ interface IURLGenerator {
 	 * This is a copy of the frontend regex in core/src/OCP/comments.js, make sure to adjust both when changing
 	 *
 	 * @since 25.0.0
+	 * @since 29.0.0 changed to match localhost and hostnames with ports
 	 */
-	public const URL_REGEX_NO_MODIFIERS = '(\s|\n|^)(https?:\/\/)((?:[-A-Z0-9+_]+\.)+[-A-Z]+(?:\/[-A-Z0-9+&@#%?=~_|!:,.;()]*)*)(\s|\n|$)';
+	public const URL_REGEX_NO_MODIFIERS = '(\s|\n|^)(https?:\/\/)([-A-Z0-9+_.]+(?::[0-9]+)?(?:\/[-A-Z0-9+&@#%?=~_|!:,.;()]*)*)(\s|\n|$)';
 
 	/**
 	 * Returns the URL for a route

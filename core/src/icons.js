@@ -99,6 +99,7 @@ const icons = {
 	'tablet': path.join(__dirname, '../img', 'clients', 'tablet.svg'),
 	'tag': path.join(__dirname, '../img', 'actions', 'tag.svg'),
 	'talk': path.join(__dirname, '../img', 'apps', 'spreed.svg'),
+	'teams': path.join(__dirname, '../img', 'apps', 'circles.svg'),
 	'template-add': path.join(__dirname, '../img', 'actions', 'template-add.svg'),
 	'timezone': path.join(__dirname, '../img', 'actions', 'timezone.svg'),
 	'toggle-background': path.join(__dirname, '../img', 'actions', 'toggle-background.svg'),

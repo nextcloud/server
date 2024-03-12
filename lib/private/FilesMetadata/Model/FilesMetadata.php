@@ -156,6 +156,23 @@ class FilesMetadata implements IFilesMetadata {
 		$this->metadata[$key]->setEditPermission($permission);
 	}
 
+
+	public function getEtag(string $key): string {
+		if (!array_key_exists($key, $this->metadata)) {
+			throw new FilesMetadataNotFoundException();
+		}
+
+		return $this->metadata[$key]->getEtag();
+	}
+
+	public function setEtag(string $key, string $etag): void {
+		if (!array_key_exists($key, $this->metadata)) {
+			throw new FilesMetadataNotFoundException();
+		}
+
+		$this->metadata[$key]->setEtag($etag);
+	}
+
 	/**
 	 * @param string $key metadata key
 	 *

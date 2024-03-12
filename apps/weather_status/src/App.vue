@@ -590,7 +590,7 @@ export default {
 
 // Set color to primary element for current / active favorite address
 .favorite-color {
-	color: #a08b00;
+	color: var(--color-favorite);
 }
 
 .weather-status-menu-item__subheader {

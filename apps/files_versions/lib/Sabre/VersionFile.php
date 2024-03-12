@@ -27,6 +27,7 @@ declare(strict_types=1);
 namespace OCA\Files_Versions\Sabre;
 
 use OCA\Files_Versions\Versions\IDeletableVersionBackend;
+use OCA\Files_Versions\Versions\IMetadataVersion;
 use OCA\Files_Versions\Versions\INameableVersion;
 use OCA\Files_Versions\Versions\INameableVersionBackend;
 use OCA\Files_Versions\Versions\IVersion;
@@ -107,6 +108,13 @@ class VersionFile implements IFile {
 		} else {
 			return false;
 		}
+	}
+
+	public function getMetadataValue(string $key): ?string {
+		if ($this->version instanceof IMetadataVersion) {
+			return $this->version->getMetadataValue($key);
+		}
+		return null;
 	}
 
 	public function getLastModified(): int {

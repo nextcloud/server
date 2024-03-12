@@ -21,15 +21,15 @@
 -->
 
 <template>
-	<NcModal v-if="opened"
+	<NcDialog v-if="opened"
+		:name="name"
 		:out-transition="true"
 		size="small"
-		@close="onClose">
-		<form class="custom-reminder-modal" @submit.prevent="setCustom">
-			<h2 class="custom-reminder-modal__title">
-				{{ title }}
-			</h2>
-
+		close-on-click-outside
+		@closing="onClose">
+		<form id="set-custom-reminder-form"
+			class="custom-reminder-modal"
+			@submit.prevent="setCustom">
 			<NcDateTimePickerNative id="set-custom-reminder"
 				v-model="customDueDate"
 				:label="label"
@@ -46,21 +46,27 @@
 			<NcNoteCard v-else type="error">
 				{{ t('files_reminders', 'Please choose a valid date & time') }}
 			</NcNoteCard>
-
-			<!-- Buttons -->
-			<div class="custom-reminder-modal__buttons">
-				<!-- Cancel pick -->
-				<NcButton @click="onClose">
-					{{ t('files_reminders', 'Cancel') }}
-				</NcButton>
-
-				<!-- Set reminder -->
-				<NcButton :disabled="!isValid" native-type="submit" type="primary">
-					{{ t('files_reminders', 'Set reminder') }}
-				</NcButton>
-			</div>
 		</form>
-	</NcModal>
+		<template #actions>
+			<!-- Cancel pick -->
+			<NcButton type="tertiary" @click="onClose">
+				{{ t('files_reminders', 'Cancel') }}
+			</NcButton>
+
+			<!-- Clear reminder -->
+			<NcButton v-if="hasDueDate" @click="clear">
+				{{ t('files_reminders', 'Clear reminder') }}
+			</NcButton>
+
+			<!-- Set reminder -->
+			<NcButton :disabled="!isValid"
+				type="primary"
+				form="set-custom-reminder-form"
+				native-type="submit">
+				{{ t('files_reminders', 'Set reminder') }}
+			</NcButton>
+		</template>
+	</NcDialog>
 </template>
 
 <script lang="ts">
@@ -73,12 +79,12 @@ import { translate as t } from '@nextcloud/l10n'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import NcDateTime from '@nextcloud/vue/dist/Components/NcDateTime.js'
 import NcDateTimePickerNative from '@nextcloud/vue/dist/Components/NcDateTimePickerNative.js'
-import NcModal from '@nextcloud/vue/dist/Components/NcModal.js'
+import NcDialog from '@nextcloud/vue/dist/Components/NcDialog.js'
 import NcNoteCard from '@nextcloud/vue/dist/Components/NcNoteCard.js'
 
 import { getDateString, getInitialCustomDueDate } from '../shared/utils.ts'
 import { logger } from '../shared/logger.ts'
-import { setReminder } from '../services/reminderService.ts'
+import { clearReminder, setReminder } from '../services/reminderService.ts'
 
 export default Vue.extend({
 	name: 'SetCustomReminderModal',
@@ -87,17 +93,18 @@ export default Vue.extend({
 		NcButton,
 		NcDateTime,
 		NcDateTimePickerNative,
-		NcModal,
+		NcDialog,
 		NcNoteCard,
 	},
 
 	data() {
 		return {
 			node: undefined as Node | undefined,
+			hasDueDate: false,
 			opened: false,
 			isValid: true,
 
-			customDueDate: getInitialCustomDueDate() as '' | Date,
+			customDueDate: null as null | Date,
 			nowDate: new Date(),
 		}
 	},
@@ -111,7 +118,7 @@ export default Vue.extend({
 			return this.node.basename
 		},
 
-		title() {
+		name() {
 			return t('files_reminders', 'Set reminder for "{fileName}"', { fileName: this.fileName })
 		},
 
@@ -133,18 +140,23 @@ export default Vue.extend({
 		 * and reset the state.
 		 * @param node The node to set a reminder for
 		 */
-		async open(node: Node): Promise<void> {
+		open(node: Node): void {
+			const dueDate = node.attributes['reminder-due-date'] ? new Date(node.attributes['reminder-due-date']) : null
+
 			this.node = node
+			this.hasDueDate = Boolean(dueDate)
 			this.isValid = true
 			this.opened = true
-			this.customDueDate = getInitialCustomDueDate()
+			this.customDueDate = dueDate ?? getInitialCustomDueDate()
 			this.nowDate = new Date()
 
 			// Focus the input and show the picker after the animation
 			setTimeout(() => {
 				const input = document.getElementById('set-custom-reminder') as HTMLInputElement
 				input.focus()
-				input.showPicker()
+				if (!this.hasDueDate) {
+					input.showPicker()
+				}
 			}, 300)
 		},
 
@@ -167,6 +179,19 @@ export default Vue.extend({
 			}
 		},
 
+		async clear(): Promise<void> {
+			try {
+				await clearReminder(this.fileId)
+				Vue.set(this.node.attributes, 'reminder-due-date', '')
+				emit('files:node:updated', this.node)
+				showSuccess(t('files_reminders', 'Reminder cleared for "{fileName}"', { fileName: this.fileName }))
+				this.onClose()
+			} catch (error) {
+				logger.error('Failed to clear reminder', { error })
+				showError(t('files_reminders', 'Failed to clear reminder'))
+			}
+		},
+
 		onClose(): void {
 			this.opened = false
 			this.$emit('close')
@@ -182,21 +207,6 @@ export default Vue.extend({
 
 <style lang="scss" scoped>
 .custom-reminder-modal {
-	margin: 30px;
-
-	&__title {
-		font-size: 16px;
-		line-height: 2em;
-	}
-
-	&__buttons {
-		display: flex;
-		justify-content: flex-end;
-		margin-top: 30px;
-
-		button {
-			margin-left: 10px;
-		}
-	}
+	margin: 0 12px;
 }
 </style>

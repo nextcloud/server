@@ -2,8 +2,9 @@
   - @copyright Copyright (c) 2018 Julius Härtl <jus@bitgrid.net>
   -
   - @author Julius Härtl <jus@bitgrid.net>
+  - @author Ferdinand Thiessen <opensource@fthiessen.de>
   -
-  - @license GNU AGPL version 3 or any later version
+  - @license AGPL-3.0-or-later
   -
   - This program is free software: you can redistribute it and/or modify
   - it under the terms of the GNU Affero General Public License as
@@ -21,22 +22,69 @@
   -->
 
 <template>
-	<img :src="scoreImage" :alt="t('settings', 'Rating: {score}/10', {score:appScore})" class="app-score-image">
+	<span role="img"
+		:aria-label="title"
+		:title="title"
+		class="app-score__wrapper">
+		<NcIconSvgWrapper v-for="index in fullStars"
+			:key="`full-star-${index}`"
+			:path="mdiStar"
+			inline />
+		<NcIconSvgWrapper v-if="hasHalfStar" :path="mdiStarHalfFull" inline />
+		<NcIconSvgWrapper v-for="index in emptyStars"
+			:key="`empty-star-${index}`"
+			:path="mdiStarOutline"
+			inline />
+	</span>
 </template>
-<script>
-import { imagePath } from '@nextcloud/router'
+<script lang="ts">
+import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
+import { mdiStar, mdiStarHalfFull, mdiStarOutline } from '@mdi/js'
+import { translate as t } from '@nextcloud/l10n'
+import { defineComponent } from 'vue'
 
-export default {
+export default defineComponent({
 	name: 'AppScore',
-	props: ['score'],
-	computed: {
-		appScore() {
-			return Math.round(this.score * 10)
+	components: {
+		NcIconSvgWrapper,
+	},
+	props: {
+		score: {
+			type: Number,
+			required: true,
 		},
-		scoreImage() {
-			const imageName = 'rating/s' + this.appScore + '.svg'
-			return imagePath('core', imageName)
+	},
+	setup() {
+		return {
+			mdiStar,
+			mdiStarHalfFull,
+			mdiStarOutline,
 		}
 	},
-}
+	computed: {
+		title() {
+			const appScore = (this.score * 5).toFixed(1)
+			return t('settings', 'Community rating: {score}/5', { score: appScore })
+		},
+		fullStars() {
+			return Math.floor(this.score * 5 + 0.25)
+		},
+		emptyStars() {
+			return Math.min(Math.floor((1 - this.score) * 5 + 0.25), 5 - this.fullStars)
+		},
+		hasHalfStar() {
+			return (this.fullStars + this.emptyStars) < 5
+		},
+	},
+})
 </script>
+<style scoped>
+.app-score__wrapper {
+	display: inline-flex;
+	color: var(--color-favorite, #a08b00);
+
+	> * {
+		vertical-align: text-bottom;
+	}
+}
+</style>

@@ -68,18 +68,6 @@ class LazyUserFolder extends LazyFolder {
 		]);
 	}
 
-	public function get($path) {
-		return $this->getRootFolder()->get('/' . $this->user->getUID() . '/files/' . ltrim($path, '/'));
-	}
-
-	/**
-	 * @param int $id
-	 * @return \OCP\Files\Node[]
-	 */
-	public function getById($id) {
-		return $this->getRootFolder()->getByIdInPath((int)$id, $this->getPath());
-	}
-
 	public function getMountPoint() {
 		if ($this->folder !== null) {
 			return $this->folder->getMountPoint();

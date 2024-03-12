@@ -74,16 +74,12 @@ class MetadataRequestService {
 		try {
 			$qb = $this->dbConnection->getQueryBuilder();
 			$qb->select('json', 'sync_token')->from(self::TABLE_METADATA);
-			$qb->where(
-				$qb->expr()->eq('file_id', $qb->createNamedParameter($fileId, IQueryBuilder::PARAM_INT))
-			);
+			$qb->where($qb->expr()->eq('file_id', $qb->createNamedParameter($fileId, IQueryBuilder::PARAM_INT)));
 			$result = $qb->executeQuery();
 			$data = $result->fetch();
 			$result->closeCursor();
 		} catch (Exception $e) {
-			$this->logger->warning(
-				'exception while getMetadataFromDatabase()', ['exception' => $e, 'fileId' => $fileId]
-			);
+			$this->logger->warning('exception while getMetadataFromDatabase()', ['exception' => $e, 'fileId' => $fileId]);
 			throw new FilesMetadataNotFoundException();
 		}
 
@@ -100,8 +96,6 @@ class MetadataRequestService {
 	/**
 	 * returns metadata for multiple file ids
 	 *
-	 * If
-	 *
 	 * @param array $fileIds file ids
 	 *
 	 * @return array File ID is the array key, files without metadata are not returned in the array
@@ -110,9 +104,7 @@ class MetadataRequestService {
 	public function getMetadataFromFileIds(array $fileIds): array {
 		$qb = $this->dbConnection->getQueryBuilder();
 		$qb->select('file_id', 'json', 'sync_token')->from(self::TABLE_METADATA);
-		$qb->where(
-			$qb->expr()->in('file_id', $qb->createNamedParameter($fileIds, IQueryBuilder::PARAM_INT_ARRAY))
-		);
+		$qb->where($qb->expr()->in('file_id', $qb->createNamedParameter($fileIds, IQueryBuilder::PARAM_INT_ARRAY)));
 
 		$list = [];
 		$result = $qb->executeQuery();

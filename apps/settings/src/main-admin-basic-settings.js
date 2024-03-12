@@ -25,7 +25,7 @@ import { getRequestToken } from '@nextcloud/auth'
 import { loadState } from '@nextcloud/initial-state'
 import { translate as t } from '@nextcloud/l10n'
 
-import logger from './logger.js'
+import logger from './logger.ts'
 
 import ProfileSettings from './components/BasicSettings/ProfileSettings.vue'
 import BackgroundJob from './components/BasicSettings/BackgroundJob.vue'
