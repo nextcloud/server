@@ -17,10 +17,6 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
             'OC\\' => 3,
             'OCP\\' => 4,
         ),
-        'B' => 
-        array (
-            'Bamarni\\Composer\\Bin\\' => 21,
-        ),
     );
 
     public static $prefixDirsPsr4 = array (
@@ -35,10 +31,6 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\' => 
         array (
             0 => __DIR__ . '/../../..' . '/lib/public',
-        ),
-        'Bamarni\\Composer\\Bin\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/bamarni/composer-bin-plugin/src',
         ),
     );
 
@@ -926,6 +918,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\App\\AppStore\\Bundles\\EnterpriseBundle' => __DIR__ . '/../../..' . '/lib/private/App/AppStore/Bundles/EnterpriseBundle.php',
         'OC\\App\\AppStore\\Bundles\\GroupwareBundle' => __DIR__ . '/../../..' . '/lib/private/App/AppStore/Bundles/GroupwareBundle.php',
         'OC\\App\\AppStore\\Bundles\\HubBundle' => __DIR__ . '/../../..' . '/lib/private/App/AppStore/Bundles/HubBundle.php',
+        'OC\\App\\AppStore\\Bundles\\PublicSectorBundle' => __DIR__ . '/../../..' . '/lib/private/App/AppStore/Bundles/PublicSectorBundle.php',
         'OC\\App\\AppStore\\Bundles\\SocialSharingBundle' => __DIR__ . '/../../..' . '/lib/private/App/AppStore/Bundles/SocialSharingBundle.php',
         'OC\\App\\AppStore\\Fetcher\\AppFetcher' => __DIR__ . '/../../..' . '/lib/private/App/AppStore/Fetcher/AppFetcher.php',
         'OC\\App\\AppStore\\Fetcher\\CategoryFetcher' => __DIR__ . '/../../..' . '/lib/private/App/AppStore/Fetcher/CategoryFetcher.php',
