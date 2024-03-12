@@ -113,8 +113,26 @@ class SecurityHeaders implements ISetupCheck {
 						'link' => 'https://www.w3.org/TR/referrer-policy/',
 					];
 				}
+
+				$transportSecurityValidity = $response->getHeader('Strict-Transport-Security');
+				$minimumSeconds = 15552000;
+				if (preg_match('/^max-age=(\d+)(;.*)?$/', $transportSecurityValidity, $m)) {
+					$transportSecurityValidity = (int)$m[1];
+					if ($transportSecurityValidity < $minimumSeconds) {
+						$msg .= $this->l10n->t('- The `Strict-Transport-Security` HTTP header is not set to at least `%d` seconds (current value: `%d`). For enhanced security, it is recommended to enable HSTS.', [$minimumSeconds, $transportSecurityValidity])."\n";
+					}
+				} elseif (!empty($transportSecurityValidity)) {
+					$msg .= $this->l10n->t('- The `Strict-Transport-Security` HTTP header is malformed: `%s`. For enhanced security, it is recommended to enable HSTS.', [$transportSecurityValidity])."\n";
+				} else {
+					$msg .= $this->l10n->t('- The `Strict-Transport-Security` HTTP header is not set (should be at least `%d` seconds). For enhanced security, it is recommended to enable HSTS.', [$minimumSeconds])."\n";
+				}
+
 				if (!empty($msg)) {
-					return SetupResult::warning($this->l10n->t('Some headers are not set correctly on your instance')."\n".$msg, descriptionParameters:$msgParameters);
+					return SetupResult::warning(
+						$this->l10n->t('Some headers are not set correctly on your instance')."\n".$msg,
+						$this->urlGenerator->linkToDocs('admin-security'),
+						$msgParameters,
+					);
 				}
 				// Skip the other requests if one works
 				$works = true;
@@ -124,12 +142,14 @@ class SecurityHeaders implements ISetupCheck {
 			if ($works === null) {
 				return SetupResult::info(
 					$this->l10n->t('Could not check that your web server serves security headers correctly. Please check manually.'),
+					$this->urlGenerator->linkToDocs('admin-security'),
 				);
 			}
 			// Otherwise if we fail we can abort here
 			if ($works === false) {
 				return SetupResult::warning(
 					$this->l10n->t("Could not check that your web server serves security headers correctly, unable to query `%s`", [$url]),
+					$this->urlGenerator->linkToDocs('admin-security'),
 				);
 			}
 		}
