@@ -140,6 +140,7 @@ export default Vue.extend({
 	// Take as much space as possible
 	flex: 1 1 100% !important;
 	width: 100%;
+	margin-inline: 0px 10px 0px 10px;
 
 	::v-deep a {
 		cursor: pointer !important;
