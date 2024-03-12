@@ -172,7 +172,7 @@ try {
 			$memoryBefore = memory_get_usage();
 			$memoryPeakBefore = memory_get_peak_usage();
 
-			/** Calling execute until it is removed, then will switch to start */
+			/** @psalm-suppress DeprecatedMethod Calling execute until it is removed, then will switch to start */
 			$job->execute($jobList);
 
 			$memoryAfter = memory_get_usage();
@@ -208,7 +208,7 @@ try {
 			$job = $jobList->getNext();
 			if ($job != null) {
 				$logger->debug('WebCron call has selected job with ID ' . strval($job->getId()), ['app' => 'cron']);
-				/** Calling execute until it is removed, then will switch to start */
+				/** @psalm-suppress DeprecatedMethod Calling execute until it is removed, then will switch to start */
 				$job->execute($jobList);
 				$jobList->setLastJob($job);
 			}
