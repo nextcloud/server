@@ -118,6 +118,8 @@
     "Wrong login or password." : "Погрешно име за пријаву или лозинка",
     "This account is disabled" : "Овај налог је искључен",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "Приметили смо више неисправних покушаја пријава са Ваше IP адресе. Следећа пријава ће бити могућа тек за 30 секунди.",
+    "Login with username or email" : "Пријавa са корисничким именом или и-мејлом",
+    "Login with username" : "Пријава са корисничким именом",
     "Log in with a device" : "Пријава са уређајем",
     "Login or email" : "Име за пријаву или и-мејл",
     "Your account is not setup for passwordless login." : "Ваш налог није подешен за пријаву без лозинке.",

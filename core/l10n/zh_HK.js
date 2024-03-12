@@ -120,6 +120,8 @@ OC.L10N.register(
     "Wrong login or password." : "錯誤的賬戶或密碼。",
     "This account is disabled" : "此賬戶已停用",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "您的 IP 多次嘗試登入無效，下一次登入將會被延時 30 秒。",
+    "Login with username or email" : "以用戶名稱或電郵地址登入",
+    "Login with username" : "以用戶名稱登入",
     "Log in with a device" : "使用免密碼裝置登入",
     "Login or email" : "賬戶或電子郵件",
     "Your account is not setup for passwordless login." : "你的賬號尚未設定免密碼登入。",
