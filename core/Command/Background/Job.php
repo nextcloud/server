@@ -84,7 +84,8 @@ class Job extends Command {
 			$output->writeln('<error>Something went wrong when trying to retrieve Job with ID ' . $jobId . ' from database</error>');
 			return 1;
 		}
-		$job->start($this->jobList);
+		/** Calling execute until it is removed, then will switch to start */
+		$job->execute($this->jobList);
 		$job = $this->jobList->getById($jobId);
 
 		if (($job === null) || ($lastRun !== $job->getLastRun())) {
