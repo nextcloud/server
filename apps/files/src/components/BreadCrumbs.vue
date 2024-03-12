@@ -1,3 +1,25 @@
+<!--
+  - @copyright Copyright (c) 2023 John Molakvoæ <skjnldsv@protonmail.com>
+  -
+  - @author John Molakvoæ <skjnldsv@protonmail.com>
+  -
+  - @license AGPL-3.0-or-later
+  -
+  - This program is free software: you can redistribute it and/or modify
+  - it under the terms of the GNU Affero General Public License as
+  - published by the Free Software Foundation, either version 3 of the
+  - License, or (at your option) any later version.
+  -
+  - This program is distributed in the hope that it will be useful,
+  - but WITHOUT ANY WARRANTY; without even the implied warranty of
+  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  - GNU Affero General Public License for more details.
+  -
+  - You should have received a copy of the GNU Affero General Public License
+  - along with this program. If not, see <http://www.gnu.org/licenses/>.
+  -
+  -->
+
 <template>
 	<NcBreadcrumbs 
 		data-cy-files-content-breadcrumbs
@@ -29,11 +51,10 @@
 </template>
 
 <script lang="ts">
-import type { Node } from '@nextcloud/files'
+import { Permission, type Node } from '@nextcloud/files'
 
 import { basename } from 'path'
 import { defineComponent } from 'vue'
-import { Permission } from '@nextcloud/files'
 import { translate as t} from '@nextcloud/l10n'
 import HomeSvg from '@mdi/svg/svg/home.svg?raw'
 import NcBreadcrumb from '@nextcloud/vue/dist/Components/NcBreadcrumb.js'
@@ -91,12 +112,12 @@ export default defineComponent({
 			return this.$navigation.active
 		},
 
-		dirs() {
-			const cumulativePath = (acc) => (value) => (acc += `${value}/`)
+		dirs(): string[] {
+			const cumulativePath = (acc: string) => (value: string) => (acc += `${value}/`)
 			// Generate a cumulative path for each path segment: ['/', '/foo', '/foo/bar', ...] etc
-			const paths = this.path.split('/').filter(Boolean).map(cumulativePath('/'))
+			const paths: string[] = this.path.split('/').filter(Boolean).map(cumulativePath('/'))
 			// Strip away trailing slash
-			return ['/', ...paths.map(path => path.replace(/^(.+)\/$/, '$1'))]
+			return ['/', ...paths.map((path: string) => path.replace(/^(.+)\/$/, '$1'))]
 		},
 
 		sections() {
@@ -114,11 +135,6 @@ export default defineComponent({
 			})
 		},
 
-		// used to show the views icon for the first breadcrumb
-		viewIcon() {
-			return this.currentView?.icon ?? HomeSvg
-		},
-
 		isUploadInProgress(): boolean {
 			return this.uploaderStore.queue.length !== 0
 		},
@@ -134,6 +150,11 @@ export default defineComponent({
 			return this.filesListWidth > 400
 		},
 
+		// used to show the views icon for the first breadcrumb
+		viewIcon(): string {
+			return this.currentView?.icon ?? HomeSvg
+		},
+
 		selectedFiles() {
 			return this.selectionStore.selected
 		},
@@ -144,19 +165,19 @@ export default defineComponent({
 	},
 
 	methods: {
-		getNodeFromId(id) {
+		getNodeFromId(id: number): Node | undefined {
 			return this.filesStore.getNode(id)
 		},
-		getFileIdFromPath(path) {
+		getFileIdFromPath(path: string): number | undefined {
 			return this.pathsStore.getPath(this.currentView?.id, path)
 		},
-		getDirDisplayName(path) {
+		getDirDisplayName(path: string): string {
 			if (path === '/') {
 				return this.$navigation?.active?.name || t('files', 'Home')
 			}
 
-			const fileId = this.getFileIdFromPath(path)
-			const node = this.getNodeFromId(fileId)
+			const fileId: number | undefined = this.getFileIdFromPath(path)
+			const node: Node | undefined = (fileId) ? this.getNodeFromId(fileId) : undefined
 			return node?.attributes?.displayName || basename(path)
 		},
 
@@ -263,6 +284,7 @@ export default defineComponent({
 	// Take as much space as possible
 	flex: 1 1 100% !important;
 	width: 100%;
+	margin-inline: 0px 10px 0px 10px;
 
 	::v-deep a {
 		cursor: pointer !important;
