@@ -126,9 +126,9 @@ export default defineComponent({
 			return this.uploaderStore.queue.length !== 0
 		},
 
-		// Hide breadcrumbs if an upload is ongoing on arrow screens
+		// Hide breadcrumbs if an upload is ongoing
 		shouldShowBreadcrumbs(): boolean {
-			return this.filesListWidth > 768 && !this.isUploadInProgress
+			return this.filesListWidth > 400 && !this.isUploadInProgress
 		},
 
 		// used to show the views icon for the first breadcrumb
@@ -186,6 +186,7 @@ export default defineComponent({
 	// Take as much space as possible
 	flex: 1 1 100% !important;
 	width: 100%;
+	margin-inline: 0px 10px 0px 10px;
 
 	::v-deep a {
 		cursor: pointer !important;
