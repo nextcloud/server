@@ -120,6 +120,8 @@ OC.L10N.register(
     "Wrong login or password." : "مُعرّف دخول أو كلمة مرور خاطئة.",
     "This account is disabled" : "هذا الحساب موقوف",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "لقد اكتشفنا عدة محاولات تسجيل دخول غير صالحة من عنوان IP الخاص بك. لذلك تم تقييد تسجيل الدخول التالي الخاص بك حتى 30 ثانية.",
+    "Login with username or email" : "الدخول باستعمال اسم المستخدِم أو الإيميل",
+    "Login with username" : "الدخول باستعمال اسم المستخدم",
     "Log in with a device" : "سجل دخولك عن طريق جهاز",
     "Login or email" : "تسجيل الدخول أو البريد الإلكتروني",
     "Your account is not setup for passwordless login." : "لم يتم إعداد حسابك لتسجيل الدخول بدون كلمة مرور.",

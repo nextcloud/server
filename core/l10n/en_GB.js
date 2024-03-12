@@ -120,6 +120,8 @@ OC.L10N.register(
     "Wrong login or password." : "Wrong login or password.",
     "This account is disabled" : "This account is disabled",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds.",
+    "Login with username or email" : "Login with username or email",
+    "Login with username" : "Login with username",
     "Log in with a device" : "Log in with a device",
     "Login or email" : "Login or email",
     "Your account is not setup for passwordless login." : "Your account is not setup for passwordless login.",
