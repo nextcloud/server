@@ -49,6 +49,7 @@ use OCP\Http\WellKnown\IHandler;
 use OCP\Notification\INotifier;
 use OCP\Profile\ILinkAction;
 use OCP\Search\IProvider;
+use OCP\Settings\IDeclarativeSettingsForm;
 use OCP\SetupCheck\ISetupCheck;
 use OCP\Share\IPublicShareTemplateProvider;
 use OCP\SpeechToText\ISpeechToTextProvider;
@@ -142,9 +143,6 @@ class RegistrationContext {
 	/** @var ServiceRegistration<\OCP\TextToImage\IProvider>[] */
 	private $textToImageProviders = [];
 
-
-
-
 	/** @var ParameterRegistration[] */
 	private $sensitiveMethods = [];
 
@@ -158,6 +156,9 @@ class RegistrationContext {
 
 	/** @var PreviewProviderRegistration[] */
 	private array $previewProviders = [];
+
+	/** @var ServiceRegistration<IDeclarativeSettingsForm>[] */
+	private array $declarativeSettings = [];
 
 	/** @var ServiceRegistration<ITeamResourceProvider>[] */
 	private array $teamResourceProviders = [];
@@ -403,6 +404,13 @@ class RegistrationContext {
 					$setupCheckClass
 				);
 			}
+
+			public function registerDeclarativeSettings(string $declarativeSettingsClass): void {
+				$this->context->registerDeclarativeSettings(
+					$this->appId,
+					$declarativeSettingsClass
+				);
+			}
 		};
 	}
 
@@ -542,7 +550,6 @@ class RegistrationContext {
 		);
 	}
 
-
 	/**
 	 * @psalm-param class-string<ITeamResourceProvider> $class
 	 */
@@ -574,6 +581,13 @@ class RegistrationContext {
 	 */
 	public function registerSetupCheck(string $appId, string $setupCheckClass): void {
 		$this->setupChecks[] = new ServiceRegistration($appId, $setupCheckClass);
+	}
+
+	/**
+	 * @psalm-param class-string<IDeclarativeSettingsForm> $declarativeSettingsClass
+	 */
+	public function registerDeclarativeSettings(string $appId, string $declarativeSettingsClass): void {
+		$this->declarativeSettings[] = new ServiceRegistration($appId, $declarativeSettingsClass);
 	}
 
 	/**
@@ -893,11 +907,17 @@ class RegistrationContext {
 		return $this->setupChecks;
 	}
 
-
 	/**
 	 * @return ServiceRegistration<ITeamResourceProvider>[]
 	 */
 	public function getTeamResourceProviders(): array {
 		return $this->teamResourceProviders;
+	}
+
+	/**
+	 * @return ServiceRegistration<IDeclarativeSettingsForm>[]
+	 */
+	public function getDeclarativeSettings(): array {
+		return $this->declarativeSettings;
 	}
 }

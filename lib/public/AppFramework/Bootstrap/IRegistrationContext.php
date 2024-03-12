@@ -399,4 +399,15 @@ interface IRegistrationContext {
 	 * @since 28.0.0
 	 */
 	public function registerSetupCheck(string $setupCheckClass): void;
+
+	/**
+	 * Register an implementation of \OCP\Settings\IDeclarativeSettings that
+	 * will handle the implementation of declarative settings
+	 *
+	 * @param string $declarativeSettingsClass
+	 * @psalm-param class-string<\OCP\Settings\IDeclarativeSettingsForm> $declarativeSettingsClass
+	 * @return void
+	 * @since 29.0.0
+	 */
+	public function registerDeclarativeSettings(string $declarativeSettingsClass): void;
 }
