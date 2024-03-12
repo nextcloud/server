@@ -97,4 +97,20 @@ class AppDiscoverFetcher extends Fetcher {
 
 		return $entries;
 	}
+
+	public function getETag(): string|null {
+		$rootFolder = $this->appData->getFolder('/');
+
+		try {
+			$file = $rootFolder->getFile($this->fileName);
+			$jsonBlob = json_decode($file->getContent(), true);
+
+			if (is_array($jsonBlob) && isset($jsonBlob['ETag'])) {
+				return (string)$jsonBlob['ETag'];
+			}
+		} catch (\Throwable $e) {
+			// ignore
+		}
+		return null;
+	}
 }

@@ -29,6 +29,7 @@
 namespace OCA\Settings\Tests\Controller;
 
 use OC\App\AppStore\Bundles\BundleFetcher;
+use OC\App\AppStore\Fetcher\AppDiscoverFetcher;
 use OC\App\AppStore\Fetcher\AppFetcher;
 use OC\App\AppStore\Fetcher\CategoryFetcher;
 use OC\Installer;
@@ -38,6 +39,8 @@ use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
+use OCP\Files\AppData\IAppDataFactory;
+use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\INavigationManager;
@@ -84,11 +87,18 @@ class AppSettingsControllerTest extends TestCase {
 	private $logger;
 	/** @var IInitialState|MockObject */
 	private $initialState;
+	/** @var IAppDataFactory|MockObject */
+	private $appDataFactory;
+	/** @var AppDiscoverFetcher|MockObject */
+	private $discoverFetcher;
+	/** @var IClientService|MockObject */
+	private $clientService;
 
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->request = $this->createMock(IRequest::class);
+		$this->appDataFactory = $this->createMock(IAppDataFactory::class);
 		$this->l10n = $this->createMock(IL10N::class);
 		$this->l10n->expects($this->any())
 			->method('t')
@@ -104,10 +114,13 @@ class AppSettingsControllerTest extends TestCase {
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->initialState = $this->createMock(IInitialState::class);
+		$this->discoverFetcher = $this->createMock(AppDiscoverFetcher::class);
+		$this->clientService = $this->createMock(IClientService::class);
 
 		$this->appSettingsController = new AppSettingsController(
 			'settings',
 			$this->request,
+			$this->appDataFactory,
 			$this->l10n,
 			$this->config,
 			$this->navigationManager,
@@ -120,6 +133,8 @@ class AppSettingsControllerTest extends TestCase {
 			$this->urlGenerator,
 			$this->logger,
 			$this->initialState,
+			$this->discoverFetcher,
+			$this->clientService,
 		);
 	}
 

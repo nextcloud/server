@@ -42,14 +42,25 @@ use OC\App\DependencyAnalyzer;
 use OC\App\Platform;
 use OC\Installer;
 use OC_App;
+use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
+use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Http\JSONResponse;
+use OCP\AppFramework\Http\NotFoundResponse;
+use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
+use OCP\Files\AppData\IAppDataFactory;
+use OCP\Files\IAppData;
+use OCP\Files\NotFoundException;
+use OCP\Files\NotPermittedException;
+use OCP\Files\SimpleFS\ISimpleFile;
+use OCP\Files\SimpleFS\ISimpleFolder;
+use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\INavigationManager;
@@ -64,9 +75,12 @@ class AppSettingsController extends Controller {
 	/** @var array */
 	private $allApps = [];
 
+	private IAppData $appData;
+
 	public function __construct(
 		string $appName,
 		IRequest $request,
+		IAppDataFactory $appDataFactory,
 		private IL10N $l10n,
 		private IConfig $config,
 		private INavigationManager $navigationManager,
@@ -80,8 +94,10 @@ class AppSettingsController extends Controller {
 		private LoggerInterface $logger,
 		private IInitialState $initialState,
 		private AppDiscoverFetcher $discoverFetcher,
+		private IClientService $clientService,
 	) {
 		parent::__construct($appName, $request);
+		$this->appData = $appDataFactory->get('appstore');
 	}
 
 	/**
@@ -117,6 +133,83 @@ class AppSettingsController extends Controller {
 	public function getAppDiscoverJSON(): JSONResponse {
 		$data = $this->discoverFetcher->get();
 		return new JSONResponse($data);
+	}
+
+	/**
+	 * @PublicPage
+	 * @NoCSRFRequired
+	 *
+	 * Get a image for the app discover section - this is proxied for privacy and CSP reasons
+	 *
+	 * @param string $image
+	 * @throws \Exception
+	 */
+	public function getAppDiscoverMedia(string $fileName): Response {
+		$etag = $this->discoverFetcher->getETag() ?? date('Y-m');
+		$folder = null;
+		try {
+			$folder = $this->appData->getFolder('app-discover-cache');
+			$this->cleanUpImageCache($folder, $etag);
+		} catch (\Throwable $e) {
+			$folder = $this->appData->newFolder('app-discover-cache');
+		}
+
+		// Get the current cache folder
+		try {
+			$folder = $folder->getFolder($etag);
+		} catch (NotFoundException $e) {
+			$folder = $folder->newFolder($etag);
+		}
+
+		$info = pathinfo($fileName);
+		$hashName = md5($fileName);
+		$allFiles = $folder->getDirectoryListing();
+		// Try to find the file
+		$file = array_filter($allFiles, function (ISimpleFile $file) use ($hashName) {
+			return str_starts_with($file->getName(), $hashName);
+		});
+		// Get the first entry
+		$file = reset($file);
+		// If not found request from Web
+		if ($file === false) {
+			try {
+				$client = $this->clientService->newClient();
+				$fileResponse = $client->get($fileName);
+				$contentType = $fileResponse->getHeader('Content-Type');
+				$extension = $info['extension'] ?? '';
+				$file = $folder->newFile($hashName . '.' . base64_encode($contentType) . '.' . $extension, $fileResponse->getBody());
+			} catch (\Throwable $e) {
+				$this->logger->warning('Could not load media file for app discover section', ['media_src' => $fileName, 'exception' => $e]);
+				return new NotFoundResponse();
+			}
+		} else {
+			// File was found so we can get the content type from the file name
+			$contentType = base64_decode(explode('.', $file->getName())[1] ?? '');
+		}
+
+		$response = new FileDisplayResponse($file, Http::STATUS_OK, ['Content-Type' => $contentType]);
+		// cache for 7 days
+		$response->cacheFor(604800, false, true);
+		return $response;
+	}
+
+	/**
+	 * Remove orphaned folders from the image cache that do not match the current etag
+	 * @param ISimpleFolder $folder The folder to clear
+	 * @param string $etag The etag (directory name) to keep
+	 */
+	private function cleanUpImageCache(ISimpleFolder $folder, string $etag): void {
+		// Cleanup old cache folders
+		$allFiles = $folder->getDirectoryListing();
+		foreach ($allFiles as $dir) {
+			try {
+				if ($dir->getName() !== $etag) {
+					$dir->delete();
+				}
+			} catch (NotPermittedException $e) {
+				// ignore folder for now
+			}
+		}
 	}
 
 	private function getAppsWithUpdates() {
@@ -305,7 +398,14 @@ class AppSettingsController extends Controller {
 				$nextCloudVersionDependencies['nextcloud']['@attributes']['max-version'] = $nextCloudVersion->getMaximumVersion();
 			}
 			$phpVersion = $versionParser->getVersion($app['releases'][0]['rawPhpVersionSpec']);
-			$existsLocally = \OC_App::getAppPath($app['id']) !== false;
+
+			try {
+				$this->appManager->getAppPath($app['id']);
+				$existsLocally = true;
+			} catch (AppPathNotFoundException $e) {
+				$existsLocally = false;
+			}
+
 			$phpDependencies = [];
 			if ($phpVersion->getMinimumVersion() !== '') {
 				$phpDependencies['php']['@attributes']['min-version'] = $phpVersion->getMinimumVersion();
@@ -324,7 +424,7 @@ class AppSettingsController extends Controller {
 				}
 			}
 
-			$currentLanguage = substr(\OC::$server->getL10NFactory()->findLanguage(), 0, 2);
+			$currentLanguage = substr($this->l10nFactory->findLanguage(), 0, 2);
 			$enabledValue = $this->config->getAppValue($app['id'], 'enabled', 'no');
 			$groups = null;
 			if ($enabledValue !== 'no' && $enabledValue !== 'yes') {
@@ -411,7 +511,7 @@ class AppSettingsController extends Controller {
 
 				// Check if app is already downloaded
 				/** @var Installer $installer */
-				$installer = \OC::$server->query(Installer::class);
+				$installer = \OC::$server->get(Installer::class);
 				$isDownloaded = $installer->isDownloaded($appId);
 
 				if (!$isDownloaded) {
@@ -430,7 +530,7 @@ class AppSettingsController extends Controller {
 				}
 			}
 			return new JSONResponse(['data' => ['update_required' => $updateRequired]]);
-		} catch (\Exception $e) {
+		} catch (\Throwable $e) {
 			$this->logger->error('could not enable apps', ['exception' => $e]);
 			return new JSONResponse(['data' => ['message' => $e->getMessage()]], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}

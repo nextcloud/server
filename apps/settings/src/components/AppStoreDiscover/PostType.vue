@@ -50,11 +50,11 @@
 				@ended="hasPlaybackEnded = true">
 				<source v-for="source of mediaSources"
 					:key="source.src"
-					:src="isImage ? undefined : source.src"
-					:srcset="isImage ? source.src : undefined"
+					:src="isImage ? undefined : generatePrivacyUrl(source.src)"
+					:srcset="isImage ? generatePrivacyUrl(source.src) : undefined"
 					:type="source.mime">
 				<img v-if="isImage"
-					:src="mediaSources[0].src"
+					:src="generatePrivacyUrl(mediaSources[0].src)"
 					:alt="mediaAlt">
 			</component>
 			<div class="app-discover-post__play-icon-wrapper">
@@ -71,11 +71,12 @@
 import type { IAppDiscoverPost } from '../../constants/AppDiscoverTypes.ts'
 import type { PropType } from 'vue'
 
+import { mdiPlayCircleOutline } from '@mdi/js'
+import { generateUrl } from '@nextcloud/router'
+import { useElementVisibility } from '@vueuse/core'
 import { computed, defineComponent, ref, watchEffect } from 'vue'
 import { commonAppDiscoverProps } from './common'
 import { useLocalizedValue } from '../../composables/useGetLocalizedValue'
-import { useElementVisibility } from '@vueuse/core'
-import { mdiPlayCircleOutline } from '@mdi/js'
 
 import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
 
@@ -135,6 +136,12 @@ export default defineComponent({
 		const hasPlaybackEnded = ref(false)
 		const showPlayVideo = computed(() => localizedMedia.value?.link && hasPlaybackEnded.value)
 
+		/**
+		 * Generate URL for cached media to prevent user can be tracked
+		 * @param url The URL to resolve
+		 */
+		const generatePrivacyUrl = (url: string) => url.startsWith('/') ? url : generateUrl('/settings/api/apps/media?fileName={fileName}', { fileName: url })
+
 		const mediaElement = ref<HTMLVideoElement|HTMLPictureElement>()
 		const mediaIsVisible = useElementVisibility(mediaElement, { threshold: 0.3 })
 		watchEffect(() => {
@@ -174,6 +181,8 @@ export default defineComponent({
 
 			isFullWidth,
 			isImage,
+
+			generatePrivacyUrl,
 		}
 	},
 })
