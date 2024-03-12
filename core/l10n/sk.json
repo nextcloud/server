@@ -118,6 +118,8 @@
     "Wrong login or password." : "Nesprávne meno alebo heslo.",
     "This account is disabled" : "Tento účet je deaktivovaný",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "Zaznamenali sme viacnásobné chybné prihlásenie z vašej IP adresy. Vaše nasledujúce prihlásenie bude pozdržané o 30 sekúnd.",
+    "Login with username or email" : "Prihlásiť sa pomocou užívateľského mena alebo e-mailu",
+    "Login with username" : "Prihlásiť sa s užívateľským menom",
     "Log in with a device" : "Prihlásiť sa pomocou zariadenia",
     "Login or email" : "Prihlasovacie meno alebo email",
     "Your account is not setup for passwordless login." : "Váš účet nie je nastavený pre bezheslové overovanie.",
