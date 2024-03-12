@@ -36,8 +36,7 @@
 				<NcLoadingIcon v-if="isInitialLoad && loading.users"
 					:name="t('settings', 'Loading accounts …')"
 					:size="64" />
-				<NcIconSvgWrapper v-else
-					:svg="usersSvg" />
+				<NcIconSvgWrapper v-else :path="mdiAccountGroup" :size="64" />
 			</template>
 		</NcEmptyContent>
 
@@ -78,15 +77,15 @@
 </template>
 
 <script>
-import Vue from 'vue'
+import { mdiAccountGroup } from '@mdi/js'
+import { showError } from '@nextcloud/dialogs'
+import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { Fragment } from 'vue-frag'
 
+import Vue from 'vue'
 import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
 import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
 import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
-
-import { subscribe, unsubscribe } from '@nextcloud/event-bus'
-import { showError } from '@nextcloud/dialogs'
 
 import VirtualList from './Users/VirtualList.vue'
 import NewUserModal from './Users/NewUserModal.vue'
@@ -97,9 +96,7 @@ import UserRow from './Users/UserRow.vue'
 import { defaultQuota, isObfuscated, unlimitedQuota } from '../utils/userUtils.ts'
 import logger from '../logger.ts'
 
-import usersSvg from '../../img/users.svg?raw'
-
-const newUser = {
+const newUser = Object.freeze({
 	id: '',
 	displayName: '',
 	password: '',
@@ -112,7 +109,7 @@ const newUser = {
 		code: 'en',
 		name: t('settings', 'Default language'),
 	},
-}
+})
 
 export default {
 	name: 'UserList',
@@ -139,19 +136,26 @@ export default {
 		},
 	},
 
+	setup() {
+		// non reactive properties
+		return {
+			mdiAccountGroup,
+			rowHeight: 55,
+
+			UserRow,
+		}
+	},
+
 	data() {
 		return {
-			UserRow,
 			loading: {
 				all: false,
 				groups: false,
 				users: false,
 			},
+			newUser: { ...newUser },
 			isInitialLoad: true,
-			rowHeight: 55,
-			usersSvg,
 			searchQuery: '',
-			newUser: Object.assign({}, newUser),
 		}
 	},
 
@@ -252,7 +256,7 @@ export default {
 
 	watch: {
 		// watch url change and group select
-		async selectedGroup(val, old) {
+		async selectedGroup(val) {
 			this.isInitialLoad = true
 			// if selected is the disabled group but it's empty
 			await this.redirectIfDisabled()

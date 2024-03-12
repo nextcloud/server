@@ -611,14 +611,10 @@ class FilesPlugin extends ServerPlugin {
 							$metadata->setArray($metadataKey, $value);
 							break;
 						case IMetadataValueWrapper::TYPE_STRING_LIST:
-							$metadata->setStringList(
-								$metadataKey, $value, $knownMetadata->isIndex($metadataKey)
-							);
+							$metadata->setStringList($metadataKey, $value, $knownMetadata->isIndex($metadataKey));
 							break;
 						case IMetadataValueWrapper::TYPE_INT_LIST:
-							$metadata->setIntList(
-								$metadataKey, $value, $knownMetadata->isIndex($metadataKey)
-							);
+							$metadata->setIntList($metadataKey, $value, $knownMetadata->isIndex($metadataKey));
 							break;
 					}
 

@@ -139,8 +139,8 @@
 </template>
 
 <script>
+import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 import AppItem from './AppList/AppItem.vue'
-import PrefixMixin from './PrefixMixin.vue'
 import pLimit from 'p-limit'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 
@@ -150,8 +150,19 @@ export default {
 		AppItem,
 		NcButton,
 	},
-	mixins: [PrefixMixin],
-	props: ['category', 'app', 'search'],
+
+	props: {
+		category: {
+			type: String,
+			required: true,
+		},
+	},
+
+	data() {
+		return {
+			search: '',
+		}
+	},
 	computed: {
 		counter() {
 			return this.apps.filter(app => app.update).length
@@ -249,7 +260,24 @@ export default {
 			}
 		},
 	},
+
+	beforeDestroy() {
+		unsubscribe('nextcloud:unified-search.search', this.setSearch)
+		unsubscribe('nextcloud:unified-search.reset', this.resetSearch)
+	},
+
+	beforeCreate() {
+		subscribe('nextcloud:unified-search.search', this.setSearch)
+		subscribe('nextcloud:unified-search.reset', this.resetSearch)
+	},
+
 	methods: {
+		setSearch(value) {
+			this.search = value
+		},
+		resetSearch() {
+			this.search = ''
+		},
 		toggleBundle(id) {
 			if (this.allBundlesEnabled(id)) {
 				return this.disableBundle(id)
