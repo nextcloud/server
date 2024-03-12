@@ -38,6 +38,7 @@ import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js
 import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
 
 import logger from '../../logger'
+import { apiTypeParser } from '../../utils/appDiscoverTypeParser.ts'
 
 const PostType = defineAsyncComponent(() => import('./PostType.vue'))
 
@@ -61,8 +62,9 @@ const shuffleArray = (array) => {
  */
 onBeforeMount(async () => {
 	try {
-		const { data } = await axios.get<IAppDiscoverElements[]>(generateUrl('/settings/api/apps/discover'))
-		elements.value = shuffleArray(data)
+		const { data } = await axios.get<Record<string, unknown>[]>(generateUrl('/settings/api/apps/discover'))
+		const parsedData = data.map(apiTypeParser)
+		elements.value = shuffleArray(parsedData)
 	} catch (error) {
 		hasError.value = true
 		logger.error(error as Error)
