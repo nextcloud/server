@@ -32,6 +32,10 @@ export default defineConfig({
 	// faster video processing
 	videoCompression: false,
 
+	// Prevent elements to be scrolled under a top bar during actions (click, clear, type, etc). Default is 'top'.
+	// https://github.com/cypress-io/cypress/issues/871
+	scrollBehavior: 'center',
+
 	// Visual regression testing
 	env: {
 		failSilently: false,
