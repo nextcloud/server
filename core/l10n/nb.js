@@ -120,6 +120,8 @@ OC.L10N.register(
     "Wrong login or password." : "Feil pålogging eller passord.",
     "This account is disabled" : "Denne kontoen er deaktivert",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "Vi har detektert flere ugyldige påloggingsforsøk fra din IP-adresse. Derfor er din neste innlogging forsinket med opptil 30 sekunder.",
+    "Login with username or email" : "Logg inn med brukernavn eller e-post",
+    "Login with username" : "Logg inn med brukernavn",
     "Log in with a device" : "Logg inn med en enhet",
     "Login or email" : "Pålogging eller e-post",
     "Your account is not setup for passwordless login." : "Kontoen din er ikke satt opp med passordløs innlogging.",
