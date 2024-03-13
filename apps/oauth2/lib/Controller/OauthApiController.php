@@ -261,15 +261,15 @@ class OauthApiController extends Controller {
 		];
 
 		$oauthConf = $this->config->getSystemValue('oauth2', ['process_name' => false]);
-		if ($oauth_conf["process_name"] === true &&
-			key_exists("separator", $oauth_conf) &&
-			key_exists("first_name_position", $oauth_conf) &&
-			key_exists("family_name_position", $oauth_conf) &&
-			$oauth_conf["separator"] !== ""
+		if ($oauthConf["process_name"] === true &&
+			key_exists("separator", $oauthConf) &&
+			key_exists("first_name_position", $oauthConf) &&
+			key_exists("family_name_position", $oauthConf) &&
+			$oauthConf["separator"] !== ""
 		) {
-			$partedName = explode($oauth_conf["separator"], $displayName);
-			$userInfo['given_name'] = $partedName[$oauth_conf["first_name_position"]];
-			$userInfo['family_name'] = $partedName[$oauth_conf["family_name_position"]] ?? $partedName[0];
+			$partedName = explode($oauthConf["separator"], $displayName);
+			$userInfo['given_name'] = $partedName[$oauthConf["first_name_position"]];
+			$userInfo['family_name'] = $partedName[$oauthConf["family_name_position"]] ?? $partedName[0];
 		}
 		return new JSONResponse($userInfo);
 	}
