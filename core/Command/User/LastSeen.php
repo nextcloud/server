@@ -59,7 +59,7 @@ class LastSeen extends Base {
 		;
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output): int	{
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$singleUserId = $input->getArgument('uid');
 		if ($singleUserId) {
 			$user = $this->userManager->get($singleUserId);
@@ -67,13 +67,34 @@ class LastSeen extends Base {
 				$output->writeln('<error>User does not exist</error>');
 				return 1;
 			}
-			$users = [$user];
-		} elseif ($input->getOption('all')) {
-			$users = $this->userManager->search('');
-		} else {
+
+			$lastLogin = $user->getLastLogin();
+			if ($lastLogin === 0) {
+				$output->writeln($user->getUID() . ' has never logged in.');
+			} else {
+				$date = new \DateTime();
+				$date->setTimestamp($lastLogin);
+				$output->writeln($user->getUID() . "'s last login: " . $date->format('Y-m-d H:i'));
+			}
+
+			return 0;
+		}
+
+		if (!$input->getOption('all')) {
 			$output->writeln("<error>Please specify a username, or \"--all\" to list all</error>");
 			return 1;
 		}
+
+		$this->userManager->callForAllUsers(static function (IUser $user) use ($output) {
+			$lastLogin = $user->getLastLogin();
+			if ($lastLogin === 0) {
+				$output->writeln($user->getUID() . ' has never logged in.');
+			} else {
+				$date = new \DateTime();
+				$date->setTimestamp($lastLogin);
+				$output->writeln($user->getUID() . "'s last login: " . $date->format('Y-m-d H:i'));
+			}
+		});
 		return 0;
 	}
 
