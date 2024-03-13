@@ -260,7 +260,7 @@ class OauthApiController extends Controller {
 				]))
 		];
 
-		$oauth_conf = $this->config->getSystemValue('oauth2', ['process_name' => false]);
+		$oauthConf = $this->config->getSystemValue('oauth2', ['process_name' => false]);
 		if ($oauth_conf["process_name"] === true &&
 			key_exists("separator", $oauth_conf) &&
 			key_exists("first_name_position", $oauth_conf) &&
