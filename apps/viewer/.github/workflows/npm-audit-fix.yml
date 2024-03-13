@@ -57,7 +57,7 @@ jobs:
 
       - name: Create Pull Request
         if: always()
-        uses: peter-evans/create-pull-request@a4f52f8033a6168103c2538976c07b467e8163bc # v6.0.1
+        uses: peter-evans/create-pull-request@70a41aba780001da0a30141984ae2a0c95d8704e # v6.0.2
         with:
           token: ${{ secrets.COMMAND_BOT_PAT }}
           commit-message: "fix(deps): fix npm audit"
