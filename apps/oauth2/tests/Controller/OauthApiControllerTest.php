@@ -641,4 +641,29 @@ class OauthApiControllerTest extends TestCase {
 		$this->assertEquals('testuser@example.com', $response->getData()['email']);
 		$this->assertEquals('http://localhost/avatar.png', $response->getData()['picture']);
 	}
+
+	public function testGetUserInfoWithSeparate() {
+		$this->user->method('getDisplayName')->willReturn('Test User');
+		$this->user->method('getUID')->willReturn('testuser');
+		$this->user->method('getEMailAddress')->willReturn('testuser@example.com');
+
+		$this->userSession->method('getUser')->willReturn($this->user);
+		$this->urlGenerator->method('getAbsoluteURL')->willReturn('http://localhost/avatar.png');
+
+		$this->config->method('getSystemValue')
+			->willReturn([
+				'process_name' => true,
+				'separator' => ' ',
+				'first_name_position' => 0,
+				'family_name_position' => 1
+			]);
+		$response = $this->oauthApiController->getUserInfo();
+
+		$this->assertInstanceOf(JSONResponse::class, $response);
+		$this->assertEquals('testuser', $response->getData()['sub']);
+		$this->assertEquals('testuser@example.com', $response->getData()['email']);
+		$this->assertEquals('http://localhost/avatar.png', $response->getData()['picture']);
+		$this->assertEquals('Test', $response->getData()['given_name']);
+		$this->assertEquals('User', $response->getData()['family_name']);
+	}
 }
