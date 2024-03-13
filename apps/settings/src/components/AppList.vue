@@ -39,7 +39,7 @@
 				</div>
 
 				<transition-group name="app-list" tag="table" class="apps-list-container">
-					<tr key="app-list-view-header" class="apps-header">
+					<tr key="app-list-view-header">
 						<th>
 							<span class="hidden-visually">{{ t('settings', 'Icon') }}</span>
 						</th>
@@ -65,7 +65,7 @@
 
 			<table v-if="useBundleView"
 				class="apps-list-container">
-				<tr key="app-list-view-header" class="apps-header">
+				<tr key="app-list-view-header">
 					<th id="app-table-col-icon">
 						<span class="hidden-visually">{{ t('settings', 'Icon') }}</span>
 					</th>
@@ -133,8 +133,6 @@
 			<div id="app-list-empty-icon" class="icon-settings-dark" />
 			<h2>{{ t('settings', 'No apps found for your version') }}</h2>
 		</div>
-
-		<div id="searchresults" />
 	</div>
 </template>
 
