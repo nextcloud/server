@@ -39,7 +39,10 @@ use OCA\OAuth2\Exceptions\ClientNotFoundException;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\IConfig;
 use OCP\IRequest;
+use OCP\IURLGenerator;
+use OCP\IUserSession;
 use OCP\Security\Bruteforce\IThrottler;
 use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
@@ -88,6 +91,10 @@ class OauthApiControllerTest extends TestCase {
 		$this->throttler = $this->createMock(IThrottler::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
+		$this->user = $this->createMock(IUser::class);
+		$this->userSession = $this->createMock(IUserSession::class);
+		$this->urlGenerator = $this->createMock(IURLGenerator::class);
+		$this->config = $this->createMock(IConfig::class);
 
 		$this->oauthApiController = new OauthApiController(
 			'oauth2',
@@ -615,5 +622,23 @@ class OauthApiControllerTest extends TestCase {
 			);
 
 		$this->assertEquals($expected, $this->oauthApiController->getToken('refresh_token', null, 'validrefresh', 'clientId', 'clientSecret'));
+	}
+
+	public function testGetUserInfo() {
+		$this->user->method('getDisplayName')->willReturn('Test User');
+		$this->user->method('getUID')->willReturn('testuser');
+		$this->user->method('getEMailAddress')->willReturn('testuser@example.com');
+
+		$this->userSession->method('getUser')->willReturn($this->user);
+		$this->urlGenerator->method('getAbsoluteURL')->willReturn('http://localhost/avatar.png');
+		$this->config->method('getSystemValue')->willReturn(['process_name' => false]);
+
+		$response = $this->oauthApiController->getUserInfo();
+
+		$this->assertInstanceOf(JSONResponse::class, $response);
+		$this->assertEquals('Test User', $response->getData()['name']);
+		$this->assertEquals('testuser', $response->getData()['sub']);
+		$this->assertEquals('testuser@example.com', $response->getData()['email']);
+		$this->assertEquals('http://localhost/avatar.png', $response->getData()['picture']);
 	}
 }
