@@ -2422,7 +2422,7 @@ $CONFIG = [
 'enable_non-accessible_features' => true,
 
 /**
- * Endpoint OAuth2 userinfo settings
+ * OAuth2 userinfo endpoint settings
  *
  * The 'process_name' key defines the need to separate the name into given_name and family_name. If false then given_name and family_name are not passed.
  * Defaults to ``false``
