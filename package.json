@@ -152,7 +152,7 @@
     "dockerode": "^4.0.2",
     "eslint-plugin-cypress": "^2.15.1",
     "eslint-plugin-es": "^4.1.0",
-    "exports-loader": "^4.0.0",
+    "exports-loader": "^5.0.0",
     "file-loader": "^6.2.0",
     "handlebars-loader": "^1.7.3",
     "jasmine-core": "~2.5.2",
