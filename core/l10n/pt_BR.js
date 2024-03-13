@@ -120,6 +120,8 @@ OC.L10N.register(
     "Wrong login or password." : "Login ou senha incorretos.",
     "This account is disabled" : "Essa conta está desativada",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "Detectamos várias tentativas de login inválidas de seu IP. Portanto, seu próximo login será desacelerado em até 30 segundos.",
+    "Login with username or email" : "Faça login com nome de usuário ou e-mail",
+    "Login with username" : "Faça login com nome de usuário",
     "Log in with a device" : "Logar-se com um dispositivo",
     "Login or email" : "Login ou e-mail",
     "Your account is not setup for passwordless login." : "Sua conta não está configurada para login sem senha.",
