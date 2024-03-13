@@ -204,6 +204,13 @@ export default {
 	filter: var(--background-invert-if-bright);
 }
 
+.app-image {
+	position: relative;
+	height: 150px;
+	opacity: 1;
+	overflow: hidden;
+}
+
 .app-image img {
 	width: 100%;
 }
@@ -217,4 +224,7 @@ export default {
   bottom: 0;
 }
 
+.app-version {
+	color: var(--color-text-maxcontrast);
+}
 </style>

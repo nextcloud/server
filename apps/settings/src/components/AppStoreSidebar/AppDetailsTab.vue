@@ -426,4 +426,9 @@ export default {
 	background: var(--color-error);
 }
 
+.missing-dependencies {
+	list-style: initial;
+	list-style-type: initial;
+	list-style-position: inside;
+}
 </style>

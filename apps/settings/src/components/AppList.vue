@@ -312,20 +312,238 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-	.app-bundle-heading {
+@use '../../../../core/css/variables.scss' as variables;
+@use 'sass:math';
+
+$toolbar-padding: 8px;
+$toolbar-height: 44px + $toolbar-padding * 2;
+
+#apps-list.store {
+	.section {
+		border: 0;
+	}
+
+	:deep(.app-name) {
+		display: block;
+		margin: 5px 0;
+	}
+
+	:deep(.app-image-icon .icon-settings-dark) {
+		width: 100%;
+		height: 150px;
+		background-size: 45px;
+		opacity: 0.5;
+	}
+
+	:deep(.actions) {
+		margin-top: 10px;
+
+		button {
+			margin: 10px 0;
+		}
+	}
+}
+
+.apps-list {
+	display: flex;
+	flex-wrap: wrap;
+	align-content: flex-start;
+
+	// For transition group
+	.app-list-move {
+		transition: transform 1s;
+	}
+
+	#app-list-update-all {
+		margin-left: 10px;
+	}
+
+	.toolbar {
+		height: $toolbar-height;
+		padding: $toolbar-padding;
+		// Leave room for app-navigation-toggle
+		padding-left: $toolbar-height;
+		width: 100%;
+		background-color: var(--color-main-background);
+		position: sticky;
+		top: 0;
+		z-index: 1;
 		display: flex;
 		align-items: center;
-		margin: 20px 10px 20px 0;
 	}
-	.app-bundle-header {
-		margin: 0 10px 0 50px;
-		font-weight: bold;
-		font-size: 20px;
-		line-height: 30px;
-		color: var(--color-text-light);
+
+	// Installed = list/bundle view in a table, not cards in store view
+	&.installed {
+		margin-bottom: 100px;
+
+		.apps-list-container {
+			display: table;
+			width: 100%;
+			height: auto;
+			white-space: normal;
+		}
+
+		:deep(.section) {
+			display: table-row;
+			padding: 0;
+			margin: 0;
+
+			> * {
+				display: table-cell;
+				height: initial;
+				vertical-align: middle;
+				float: none;
+				border-bottom: 1px solid var(--color-border);
+				padding: 6px;
+				box-sizing: border-box;
+			}
+
+			> .actions {
+				display: flex;
+				gap: 8px;
+				flex-wrap: wrap;
+				justify-content: end;
+			}
+
+			&.selected {
+				background-color: var(--color-background-dark);
+			}
+		}
+
+		:deep(.app-image) {
+			width: 44px;
+			height: auto;
+			text-align: right;
+		}
+
+		:deep(.app-image-icon svg),
+		:deep(.app-image-icon .icon-settings-dark) {
+			margin-top: 5px;
+			width: 20px;
+			height: 20px;
+			opacity: .5;
+			background-size: cover;
+			display: inline-block;
+		}
+
+		:deep(.actions) {
+			text-align: right;
+
+			.icon-loading-small {
+				display: inline-block;
+				top: 4px;
+				margin-right: 10px;
+			}
+		}
 	}
-	.apps-store-view {
-		display: flex;
-		flex-wrap: wrap;
+
+	&:not(.installed) :deep(.app-image-icon svg) {
+		position: absolute;
+		bottom: 43px;
+		/* position halfway vertically */
+		width: 64px;
+		height: 64px;
+		opacity: .1;
 	}
+
+	:deep(.section) {
+		position: relative;
+		flex: 0 0 auto;
+
+		&:hover {
+			background-color: var(--color-background-dark);
+		}
+	}
+}
+
+#apps-list-search {
+	.section {
+		h2 {
+			margin-bottom: 0;
+		}
+	}
+}
+
+.app-bundle-heading {
+	display: flex;
+	align-items: center;
+	margin: 20px 10px 20px 0;
+}
+
+.app-bundle-header {
+	margin: 0 10px 0 50px;
+	font-weight: bold;
+	font-size: 20px;
+	line-height: 30px;
+	color: var(--color-text-light);
+}
+
+.apps-store-view {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+@media only screen and (min-width: 1601px) {
+	.store .section {
+		width: 25%;
+	}
+	:deep(.with-app-sidebar) .store .section {
+		width: 33%;
+	}
+}
+
+@media only screen and (max-width: 1600px) {
+	.store .section {
+		width: 25%;
+	}
+	:deep(.with-app-sidebar) .store .section {
+		width: 33%;
+	}
+}
+
+@media only screen and (max-width: 1400px) {
+	.store .section {
+		width: 33%;
+	}
+	:deep(.with-app-sidebar) .store .section {
+		width: 50%;
+	}
+}
+
+@media only screen and (max-width: 900px) {
+	.store .section {
+		width: 50%;
+	}
+	:deep(.with-app-sidebar) .store .section {
+		width: 100%;
+	}
+}
+
+@media only screen and (max-width: variables.$breakpoint-mobile) {
+	.store .section {
+		width: 50%;
+	}
+}
+
+@media only screen and (max-width: 480px) {
+	.store .section {
+		width: 100%;
+	}
+}
+
+/* hide app version and level on narrower screens */
+@media only screen and (max-width: 900px) {
+	.apps-list.installed {
+		:deep(.app-version), :deep(.app-level) {
+			display: none !important;
+		}
+	}
+}
+
+// Display buttons above each other on mobile
+@media (max-width: math.div(variables.$breakpoint-mobile, 2)) {
+	.apps-list.installed .section > :deep(.actions) {
+		display: table-cell;
+	}
+}
 </style>
