@@ -36,7 +36,7 @@ use OCP\Files\Storage\IStorage;
 use OCP\IUser;
 use OCP\Lock\ManuallyLockedException;
 
-class VersionManager implements IVersionManager, INameableVersionBackend, IDeletableVersionBackend, INeedSyncVersionBackend, IMetadataVersionBackend {
+class VersionManager implements IVersionManager, IDeletableVersionBackend, INeedSyncVersionBackend, IMetadataVersionBackend {
 	/** @var (IVersionBackend[])[] */
 	private $backends = [];
 
@@ -126,15 +126,8 @@ class VersionManager implements IVersionManager, INameableVersionBackend, IDelet
 		return false;
 	}
 
-	public function setVersionLabel(IVersion $version, string $label): void {
-		$backend = $this->getBackendForStorage($version->getSourceFile()->getStorage());
-		if ($backend instanceof INameableVersionBackend) {
-			$backend->setVersionLabel($version, $label);
-		}
-	}
-
 	public function deleteVersion(IVersion $version): void {
-		$backend = $this->getBackendForStorage($version->getSourceFile()->getStorage());
+		$backend = $version->getBackend();
 		if ($backend instanceof IDeletableVersionBackend) {
 			$backend->deleteVersion($version);
 		}
@@ -161,19 +154,11 @@ class VersionManager implements IVersionManager, INameableVersionBackend, IDelet
 		}
 	}
 
-	public function setMetadataValue(Node $node, string $key, string $value): void {
+	public function setMetadataValue(Node $node, int $revision, string $key, string $value): void {
 		$backend = $this->getBackendForStorage($node->getStorage());
 		if ($backend instanceof IMetadataVersionBackend) {
-			$backend->setMetadataValue($node, $key, $value);
+			$backend->setMetadataValue($node, $revision, $key, $value);
 		}
-	}
-
-	public function getMetadataValue(Node $node, string $key): ?string {
-		$backend = $this->getBackendForStorage($node->getStorage());
-		if ($backend instanceof IMetadataVersionBackend) {
-			return $backend->getMetadataValue($node, $key);
-		}
-		return null;
 	}
 
 	/**

@@ -35,18 +35,10 @@ interface IMetadataVersionBackend {
 	 * Sets a key value pair in the metadata column corresponding to the node's version.
 	 *
 	 * @param Node $node the node that triggered the Metadata event listener, aka, the file version
+	 * @param int $revision the key for the json value of the metadata column
 	 * @param string $key the key for the json value of the metadata column
 	 * @param string $value the value that corresponds to the key in the metadata column
 	 * @since 29.0.0
 	 */
-	public function setMetadataValue(Node $node, string $key, string $value): void;
-
-	/**
-	 * Retrieves a corresponding value from the metadata column using the key.
-	 *
-	 * @param Node $node the node that triggered the Metadata event listener, aka, the file version
-	 * @param string $key the key for the json value of the metadata column
-	 * @since 29.0.0
-	 */
-	public function getMetadataValue(Node $node, string $key): ?string;
+	public function setMetadataValue(Node $node, int $revision, string $key, string $value): void;
 }
