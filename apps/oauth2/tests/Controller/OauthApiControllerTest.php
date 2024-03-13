@@ -624,7 +624,7 @@ class OauthApiControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->oauthApiController->getToken('refresh_token', null, 'validrefresh', 'clientId', 'clientSecret'));
 	}
 
-	public function testGetUserInfo() {
+	public function testGetUserInfo(): void {
 		$this->user->method('getDisplayName')->willReturn('Test User');
 		$this->user->method('getUID')->willReturn('testuser');
 		$this->user->method('getEMailAddress')->willReturn('testuser@example.com');
