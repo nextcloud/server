@@ -40,19 +40,19 @@
 
 				<transition-group name="app-list" tag="table" class="apps-list-container">
 					<tr key="app-list-view-header" class="apps-header">
-						<th class="app-image">
+						<th>
 							<span class="hidden-visually">{{ t('settings', 'Icon') }}</span>
 						</th>
-						<th class="app-name">
+						<th>
 							<span class="hidden-visually">{{ t('settings', 'Name') }}</span>
 						</th>
-						<th class="app-version">
+						<th>
 							<span class="hidden-visually">{{ t('settings', 'Version') }}</span>
 						</th>
-						<th class="app-level">
+						<th>
 							<span class="hidden-visually">{{ t('settings', 'Level') }}</span>
 						</th>
-						<th class="actions">
+						<th>
 							<span class="hidden-visually">{{ t('settings', 'Actions') }}</span>
 						</th>
 					</tr>
@@ -66,19 +66,19 @@
 			<table v-if="useBundleView"
 				class="apps-list-container">
 				<tr key="app-list-view-header" class="apps-header">
-					<th id="app-table-col-icon" class="app-image">
+					<th id="app-table-col-icon">
 						<span class="hidden-visually">{{ t('settings', 'Icon') }}</span>
 					</th>
-					<th id="app-table-col-name" class="app-name">
+					<th id="app-table-col-name">
 						<span class="hidden-visually">{{ t('settings', 'Name') }}</span>
 					</th>
-					<th id="app-table-col-version" class="app-version">
+					<th id="app-table-col-version">
 						<span class="hidden-visually">{{ t('settings', 'Version') }}</span>
 					</th>
-					<th id="app-table-col-level" class="app-level">
+					<th id="app-table-col-level">
 						<span class="hidden-visually">{{ t('settings', 'Level') }}</span>
 					</th>
-					<th id="app-table-col-actions" class="actions">
+					<th id="app-table-col-actions">
 						<span class="hidden-visually">{{ t('settings', 'Actions') }}</span>
 					</th>
 				</tr>
