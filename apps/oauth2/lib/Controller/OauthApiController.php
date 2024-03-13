@@ -271,7 +271,6 @@ class OauthApiController extends Controller {
 			$userInfo['given_name'] = $partedName[$oauth_conf["first_name_position"]];
 			$userInfo['family_name'] = $partedName[$oauth_conf["family_name_position"]] ?? $partedName[0];
 		}
-		$response = new JSONResponse($userInfo);
-		return $response;
+		return new JSONResponse($userInfo);
 	}
 }
