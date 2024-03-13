@@ -642,7 +642,7 @@ class OauthApiControllerTest extends TestCase {
 		$this->assertEquals('http://localhost/avatar.png', $response->getData()['picture']);
 	}
 
-	public function testGetUserInfoWithSeparate() {
+	public function testGetUserInfoWithSeparate(): void {
 		$this->user->method('getDisplayName')->willReturn('Test User');
 		$this->user->method('getUID')->willReturn('testuser');
 		$this->user->method('getEMailAddress')->willReturn('testuser@example.com');
