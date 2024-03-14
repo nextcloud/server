@@ -481,17 +481,12 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	/**
 	 * Whether the cookie checks are required
 	 *
+	 * In case the OCS-APIRequest header is set or the user has no session, we don't to check the cookies because the client is not a browser and thus doesn't need CSRF checks.
+	 *
 	 * @return bool
 	 */
 	private function cookieCheckRequired(): bool {
-		if ($this->getHeader('OCS-APIREQUEST')) {
-			return false;
-		}
-		if ($this->getCookie(session_name()) === null && $this->getCookie('nc_token') === null) {
-			return false;
-		}
-
-		return true;
+		return $this->getHeader('OCS-APIRequest') === '' && ($this->getCookie(session_name()) !== null || $this->getCookie('nc_token') !== null);
 	}
 
 	/**
