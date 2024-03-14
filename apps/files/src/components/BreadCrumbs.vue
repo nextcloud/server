@@ -11,7 +11,9 @@
 			:force-icon-text="true"
 			:title="titleForSection(index, section)"
 			:aria-description="ariaForSection(section)"
-			@click.native="onClick(section.to)">
+			@click.native="onClick(section.to)"
+			@dragover.native="onDragOver($event, section.dir)"
+			@dropped="onDrop($event, section.dir)">
 			<template v-if="index === 0" #icon>
 				<NcIconSvgWrapper :size="20"
 					:svg="viewIcon" />
@@ -34,6 +36,9 @@ import NcBreadcrumbs from '@nextcloud/vue/dist/Components/NcBreadcrumbs.js'
 import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
 import Vue from 'vue'
 
+import { onDropExternalFiles, onDropInternalFiles } from '../services/DropService'
+import { showError } from '@nextcloud/dialogs'
+import { useDragAndDropStore } from '../store/dragging.ts'
 import { useFilesStore } from '../store/files.ts'
 import { usePathsStore } from '../store/paths.ts'
 
@@ -46,6 +51,10 @@ export default Vue.extend({
 		NcIconSvgWrapper,
 	},
 
+	mixins: [
+		filesListWidthMixin,
+	],
+
 	props: {
 		path: {
 			type: String,
@@ -54,9 +63,11 @@ export default Vue.extend({
 	},
 
 	setup() {
+		const draggingStore = useDragAndDropStore()
 		const filesStore = useFilesStore()
 		const pathsStore = usePathsStore()
 		return {
+			draggingStore,
 			filesStore,
 			pathsStore,
 		}
@@ -84,6 +95,8 @@ export default Vue.extend({
 					exact: true,
 					name: this.getDirDisplayName(dir),
 					to,
+					// disable drop on current directory
+					disableDrop: index === this.dirs.length - 1,
 				}
 			})
 		},
@@ -114,6 +127,71 @@ export default Vue.extend({
 		onClick(to) {
 			if (to?.query?.dir === this.$route.query.dir) {
 				this.$emit('reload')
+			}
+		},
+
+		onDragOver(event: DragEvent, path: string) {
+			// Cannot drop on the current directory
+			if (path === this.dirs[this.dirs.length - 1]) {
+				event.dataTransfer.dropEffect = 'none'
+				return
+			}
+
+			// Handle copy/move drag and drop
+			if (event.ctrlKey) {
+				event.dataTransfer.dropEffect = 'copy'
+			} else {
+				event.dataTransfer.dropEffect = 'move'
+			}
+		},
+
+		async onDrop(event: DragEvent, path: string) {
+			// skip if native drop like text drag and drop from files names
+			if (!this.draggingFiles && !event.dataTransfer?.files?.length) {
+				return
+			}
+
+			// Caching the selection
+			const selection = this.draggingFiles
+			const files = event.dataTransfer?.files || new FileList()
+
+			event.preventDefault()
+			event.stopPropagation()
+
+			// We might not have the target directory fetched yet
+			const contents = await this.currentView?.getContents(path)
+			const folder = contents?.folder
+			if (!folder) {
+				showError(this.t('files', 'Target folder does not exist any more'))
+				return
+			}
+
+			const canDrop = (folder.permissions & Permission.CREATE) !== 0
+			const isCopy = event.ctrlKey
+
+			// If another button is pressed, cancel it. This
+			// allows cancelling the drag with the right click.
+			if (!canDrop || event.button !== 0) {
+				return
+			}
+
+			logger.debug('Dropped', { event, folder, selection })
+
+			// Check whether we're uploading files
+			if (files.length > 0) {
+				await onDropExternalFiles(folder, files)
+				return
+			}
+
+			// Else we're moving/copying files
+			const nodes = selection.map(fileid => this.filesStore.getNode(fileid)) as Node[]
+			await onDropInternalFiles(folder, nodes, isCopy)
+
+			// Reset selection after we dropped the files
+			// if the dropped files are within the selection
+			if (selection.some(fileid => this.selectedFiles.includes(fileid))) {
+				logger.debug('Dropped selection, resetting select store...')
+				this.selectionStore.reset()
 			}
 		},
 
