@@ -99,6 +99,7 @@ OC.L10N.register(
     "Add another link" : "Añadir otro enlace",
     "Share link" : "Compartir liga",
     "View only" : "Sólo lectura",
+    "File drop" : "Soltar archivo",
     "No recommendations. Start typing." : "Sin recomendaciones. Empiece a escribir.",
     "Resharing is not allowed" : "No está permitido recompartir",
     "Searching …" : "Buscando  …",
