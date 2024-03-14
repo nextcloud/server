@@ -173,6 +173,7 @@ interface IClient {
 	 *              'debug' => true,
 	 * @return IResponse
 	 * @throws \Exception If the request could not get completed
+	 * @since 29.0.0
 	 */
 	public function patch(string $uri, array $options = []): IResponse;
 
