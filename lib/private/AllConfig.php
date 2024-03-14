@@ -345,19 +345,12 @@ class AllConfig implements IConfig {
 		}
 	}
 
-	/**
-	 * Delete a user value
-	 *
-	 * @param string $userId the userId of the user that we want to store the value under
-	 * @param string $appName the appName that we stored the value under
-	 * @param string $key the key under which the value is being stored
-	 */
-	public function deleteUserValue($userId, $appName, $key) {
+	public function deleteUserValue($userId, $appName, $key): bool {
 		// TODO - FIXME
 		$this->fixDIInit();
 
 		$qb = $this->connection->getQueryBuilder();
-		$qb->delete('preferences')
+		$rowsAffected = $qb->delete('preferences')
 			->where($qb->expr()->eq('userid', $qb->createNamedParameter($userId, IQueryBuilder::PARAM_STR)))
 			->andWhere($qb->expr()->eq('appid', $qb->createNamedParameter($appName, IQueryBuilder::PARAM_STR)))
 			->andWhere($qb->expr()->eq('configkey', $qb->createNamedParameter($key, IQueryBuilder::PARAM_STR)))
@@ -366,6 +359,8 @@ class AllConfig implements IConfig {
 		if (isset($this->userCache[$userId][$appName])) {
 			unset($this->userCache[$userId][$appName][$key]);
 		}
+
+		return $rowsAffected > 0;
 	}
 
 	/**

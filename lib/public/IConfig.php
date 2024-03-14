@@ -241,9 +241,10 @@ interface IConfig {
 	 * @param string $userId the userId of the user that we want to store the value under
 	 * @param string $appName the appName that we stored the value under
 	 * @param string $key the key under which the value is being stored
+	 * @return bool whether a value has been deleted
 	 * @since 8.0.0
 	 */
-	public function deleteUserValue($userId, $appName, $key);
+	public function deleteUserValue($userId, $appName, $key): bool;
 
 	/**
 	 * Delete all user values

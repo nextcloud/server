@@ -48,6 +48,7 @@ use OC\Hooks\PublicEmitter;
 use OC_User;
 use OC_Util;
 use OCA\DAV\Connector\Sabre\Auth;
+use OCP\AppFramework\Db\TTransactional;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Authentication\Exceptions\ExpiredTokenException;
 use OCP\Authentication\Exceptions\InvalidTokenException;
@@ -55,6 +56,7 @@ use OCP\EventDispatcher\GenericEvent;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\NotPermittedException;
 use OCP\IConfig;
+use OCP\IDBConnection;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IUser;
@@ -67,6 +69,7 @@ use OCP\User\Events\PostLoginEvent;
 use OCP\User\Events\UserFirstTimeLoggedInEvent;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
+use function in_array;
 
 /**
  * Class Session
@@ -91,6 +94,9 @@ use Psr\Log\LoggerInterface;
  * @package OC\User
  */
 class Session implements IUserSession, Emitter {
+
+	use TTransactional;
+
 	/** @var Manager $manager */
 	private $manager;
 
@@ -116,6 +122,7 @@ class Session implements IUserSession, Emitter {
 	private $lockdownManager;
 
 	private LoggerInterface $logger;
+	private IDBConnection $dbConnection;
 	/** @var IEventDispatcher */
 	private $dispatcher;
 
@@ -127,6 +134,7 @@ class Session implements IUserSession, Emitter {
 		ISecureRandom $random,
 		ILockdownManager $lockdownManager,
 		LoggerInterface $logger,
+		IDBConnection $dbConnection,
 		IEventDispatcher $dispatcher
 	) {
 		$this->manager = $manager;
@@ -137,6 +145,7 @@ class Session implements IUserSession, Emitter {
 		$this->random = $random;
 		$this->lockdownManager = $lockdownManager;
 		$this->logger = $logger;
+		$this->dbConnection = $dbConnection;
 		$this->dispatcher = $dispatcher;
 	}
 
@@ -905,24 +914,49 @@ class Session implements IUserSession, Emitter {
 			return false;
 		}
 
-		// get stored tokens
-		$tokens = $this->config->getUserKeys($uid, 'login_token');
-		// test cookies token against stored tokens
-		if (!in_array($currentToken, $tokens, true)) {
-			$this->logger->info('Tried to log in but could not verify token', [
+		/*
+		 * Run token lookup and replacement in a transaction
+		 *
+		 * The READ COMMITTED isolation level causes the database to serialize
+		 * the DELETE query, making it possible to detect if two concurrent
+		 * processes try to replace the same login token.
+		 * Replacing more than once doesn't work because the app token behind
+		 * the session can only be replaced once.
+		 */
+		$newToken = $this->atomic(function () use ($uid, $currentToken): ?string {
+			// get stored tokens
+			$tokens = $this->config->getUserKeys($uid, 'login_token');
+			// test cookies token against stored tokens
+			if (!in_array($currentToken, $tokens, true)) {
+				$this->logger->error('Tried to log in {uid} but could not find token {token} in database', [
+					'app' => 'core',
+					'token' => $currentToken,
+					'uid' => $uid,
+					'user' => $uid,
+				]);
+				return false;
+			}
+			// replace successfully used token with a new one
+			if (!$this->config->deleteUserValue($uid, 'login_token', $currentToken)) {
+				$this->logger->error('Tried to log in {uid} but ran into concurrent session revival', [
+					'app' => 'core',
+					'token' => $currentToken,
+					'uid' => $uid,
+					'user' => $uid,
+				]);
+				return null;
+			}
+			$newToken = $this->random->generate(32);
+			$this->config->setUserValue($uid, 'login_token', $newToken, (string)$this->timeFactory->getTime());
+			$this->logger->debug('Remember-me token {token} for {uid} replaced by {newToken}', [
 				'app' => 'core',
+				'token' => $currentToken,
+				'newToken' => $newToken,
+				'uid' => $uid,
 				'user' => $uid,
 			]);
-			return false;
-		}
-		// replace successfully used token with a new one
-		$this->config->deleteUserValue($uid, 'login_token', $currentToken);
-		$newToken = $this->random->generate(32);
-		$this->config->setUserValue($uid, 'login_token', $newToken, (string)$this->timeFactory->getTime());
-		$this->logger->debug('Remember-me token replaced', [
-			'app' => 'core',
-			'user' => $uid,
-		]);
+			return $newToken;
+		}, $this->dbConnection);
 
 		try {
 			$sessionId = $this->session->getId();
