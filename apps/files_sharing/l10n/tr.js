@@ -180,6 +180,7 @@ OC.L10N.register(
     "Guest" : "Konuk",
     "Group" : "Grup",
     "Email" : "E-posta",
+    "Team" : "Team",
     "Talk conversation" : "Talk görüşmesi",
     "Deck board" : "Tahta panosu",
     "ScienceMesh" : "ScienceMesh",

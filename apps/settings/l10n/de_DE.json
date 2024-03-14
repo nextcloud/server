@@ -448,6 +448,8 @@
     "Enable or disable profile by default for new accounts." : "Profil für neue Konten standardmäßig aktivieren oder deaktivieren.",
     "Enable" : "Aktivieren",
     "Unable to update profile default setting" : "Standardeinstellung des Profils kann nicht aktualisiert werden",
+    "{app}'s declarative setting field: {name}" : "Deklaratives Einstellungsfeld von {app}: {name}",
+    "Failed to save setting" : "Einstellung konnte nicht gespeichert werden",
     "Server-side encryption" : "Serverseitige Verschlüsselung",
     "Server-side encryption makes it possible to encrypt files which are uploaded to this server. This comes with limitations like a performance penalty, so enable this only if needed." : "Serverseitige Verschlüsselung ermöglicht es die auf diesen Server hochgeladenen Dateien zu verschlüsseln. Dies führt allerdings auch zu Nachteilen, wie z.B. einem Geschwindigkeitsverlust. Sie sollte deshalb nur eingeschaltet werden, wenn sie wirklich benötigt wird.",
     "Enable server-side encryption" : "Serverseitige Verschlüsselung aktivieren",

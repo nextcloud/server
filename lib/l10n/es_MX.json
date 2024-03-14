@@ -268,9 +268,13 @@
     "Extract topics" : "Extraer temas",
     "Extracts topics from a text and outputs them separated by commas." : "Extrae los temas de un texto y genera una salida separada por comas. ",
     "404" : "404",
+    "Logged in user must be an admin or sub admin" : "El usuario conectado debe ser un administrador o un subadministrador",
     "Logged in user must be an admin" : "El usuario firmado debe ser un administrador",
     "Full name" : "Nombre completo",
     "Unknown user" : "Ususario desconocido",
+    "Enter the database username and name for %s" : "Introduzca el usuario y el nombre para la base de datos %s",
+    "Enter the database username for %s" : "Introduzca el usuario de la base de datos %s",
+    "MySQL username and/or password not valid" : "Usuario y/o contraseña de MySQL inválidos",
     "Oracle username and/or password not valid" : "Usuario y/o contraseña de Oracle inválidos",
     "PostgreSQL username and/or password not valid" : "El Usuario y/o Contraseña de PostgreSQL inválido(s)",
     "Set an admin username." : "Establecer un Usuario administrador",
@@ -280,9 +284,13 @@
     "A valid username must be provided" : "Debes proporcionar un nombre de usuario válido",
     "Username contains whitespace at the beginning or at the end" : "El usuario contiene un espacio en blanco al inicio o al final",
     "Username must not consist of dots only" : "El usuario no debe consistir de solo puntos. ",
+    "Username is invalid because files already exist for this user" : "El nombre de usuario es inválido porque ya existen archivos para éste",
     "User disabled" : "Usuario deshabilitado",
     "libxml2 2.7.0 is at least required. Currently %s is installed." : "Se requiere de por lo menos libxml2 2.7.0. Actualmente %s está instalado. ",
     "To fix this issue update your libxml2 version and restart your web server." : "Para corregir este tema, por favor actualiza la versión de su libxml2 y reinicia tu servidor web. ",
+    "PostgreSQL >= 9 required." : "Se requiere PostgreSQL >= 9.",
+    "Please upgrade your database version." : "Por favor, actualice la versión de la base de datos.",
+    "Your data directory is readable by other users." : "Su directorio de datos puede ser leído por otros usuarios.",
     "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Por favor cambia los permisos a 0770 para que el directorio no pueda ser enlistado por otros usuarios. "
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }
