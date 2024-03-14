@@ -119,7 +119,7 @@ class SecurityHeaders implements ISetupCheck {
 				if (preg_match('/^max-age=(\d+)(;.*)?$/', $transportSecurityValidity, $m)) {
 					$transportSecurityValidity = (int)$m[1];
 					if ($transportSecurityValidity < $minimumSeconds) {
-						$msg .= $this->l10n->t('- The `Strict-Transport-Security` HTTP header is not set to at least `%d` seconds (current value: `%d`). For enhanced security, it is recommended to enable HSTS.', [$minimumSeconds, $transportSecurityValidity])."\n";
+						$msg .= $this->l10n->t('- The `Strict-Transport-Security` HTTP header is not set to at least `%d` seconds (current value: `%d`). For enhanced security, it is recommended to use a long HSTS policy.', [$minimumSeconds, $transportSecurityValidity])."\n";
 					}
 				} elseif (!empty($transportSecurityValidity)) {
 					$msg .= $this->l10n->t('- The `Strict-Transport-Security` HTTP header is malformed: `%s`. For enhanced security, it is recommended to enable HSTS.', [$transportSecurityValidity])."\n";

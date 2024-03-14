@@ -165,7 +165,7 @@ class SecurityHeadersTest extends TestCase {
 			'referrer-origin-when-cross-origin' => [['Referrer-Policy' => 'origin-when-cross-origin'], "- The `Referrer-Policy` HTTP header is not set to `no-referrer`, `no-referrer-when-downgrade`, `strict-origin`, `strict-origin-when-cross-origin` or `same-origin`. This can leak referer information. See the {w3c-recommendation}.\n"],
 			'referrer-unsafe-url' => [['Referrer-Policy' => 'unsafe-url'], "- The `Referrer-Policy` HTTP header is not set to `no-referrer`, `no-referrer-when-downgrade`, `strict-origin`, `strict-origin-when-cross-origin` or `same-origin`. This can leak referer information. See the {w3c-recommendation}.\n"],
 			'hsts-missing' => [['Strict-Transport-Security' => ''], "- The `Strict-Transport-Security` HTTP header is not set (should be at least `15552000` seconds). For enhanced security, it is recommended to enable HSTS.\n"],
-			'hsts-too-low' => [['Strict-Transport-Security' => 'max-age=15551999'], "- The `Strict-Transport-Security` HTTP header is not set to at least `15552000` seconds (current value: `15551999`). For enhanced security, it is recommended to enable HSTS.\n"],
+			'hsts-too-low' => [['Strict-Transport-Security' => 'max-age=15551999'], "- The `Strict-Transport-Security` HTTP header is not set to at least `15552000` seconds (current value: `15551999`). For enhanced security, it is recommended to use a long HSTS policy.\n"],
 			'hsts-malformed' => [['Strict-Transport-Security' => 'iAmABogusHeader342'], "- The `Strict-Transport-Security` HTTP header is malformed: `iAmABogusHeader342`. For enhanced security, it is recommended to enable HSTS.\n"],
 		];
 	}
