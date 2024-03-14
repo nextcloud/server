@@ -463,6 +463,10 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 			return false;
 		}
 
+		if ($this->getHeader('OCS-APIRequest') !== '') {
+			return true;
+		}
+
 		if (isset($this->items['get']['requesttoken'])) {
 			$token = $this->items['get']['requesttoken'];
 		} elseif (isset($this->items['post']['requesttoken'])) {

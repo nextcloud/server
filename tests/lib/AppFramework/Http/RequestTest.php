@@ -2261,4 +2261,24 @@ class RequestTest extends \Test\TestCase {
 
 		$this->assertFalse($request->passesCSRFCheck());
 	}
+
+	public function testPassesCSRFCheckWithOCSAPIRequestHeader() {
+		/** @var Request $request */
+		$request = $this->getMockBuilder('\OC\AppFramework\Http\Request')
+			->setMethods(['getScriptName'])
+			->setConstructorArgs([
+				[
+					'server' => [
+						'HTTP_OCS_APIREQUEST' => 'true',
+					],
+				],
+				$this->requestId,
+				$this->config,
+				$this->csrfTokenManager,
+				$this->stream
+			])
+			->getMock();
+
+		$this->assertTrue($request->passesCSRFCheck());
+	}
 }
