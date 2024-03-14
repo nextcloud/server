@@ -113,7 +113,7 @@ describe('Versions restoration', () => {
 							auth: { user: recipient.userId, pass: recipient.password },
 							headers: {
 								cookie: '',
-								Destination: 'https://nextcloud_server1.test/remote.php/dav/versions/admin/restore/target',
+								Destination: `http://${hostname}/remote.php/dav/versions/${recipient.userId}/restore/target`,
 							},
 							url: `http://${hostname}/remote.php/dav/versions/${recipient.userId}/versions/${fileId}/${versionId}`,
 							failOnStatusCode: false,
