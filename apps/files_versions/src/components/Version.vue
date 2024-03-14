@@ -17,7 +17,6 @@
  -->
 <template>
 	<NcListItem class="version"
-		:name="versionLabel"
 		:force-display-actions="true"
 		:data-files-versions-version="version.fileVersion"
 		@click="click">
@@ -43,26 +42,26 @@
 		<template #name>
 			<div class="version__info">
 				<div v-if="versionLabel" class="version__info__label">{{ versionLabel }}</div>
-				<div v-if="versionAuthor" class="version__info version__info__author">
-					<div>•</div>
-					<div>{{ versionAuthor }}</div>
+				<div v-if="versionAuthor" class="version__info">
+					<div v-if="versionLabel">•</div>
 					<NcAvatar class="avatar"
 						:user="version.author"
-						:size="24"
+						:size="16"
 						:disable-menu="true"
 						:disable-tooltip="true"
 						:show-user-status="false" />
+					<div>{{ versionAuthor }}</div>
 				</div>
 			</div>
 		</template>
 
 		<!-- Version file size as subline -->
 		<template #subname>
-			<div class="version__info">
+			<div class="version__info version__info__subline">
 				<span :title="formattedDate">{{ version.mtime | humanDateFromNow }}</span>
 				<!-- Separate dot to improve alignement -->
-				<span class="version__info__size">•</span>
-				<span class="version__info__size">{{ version.size | humanReadableSize }}</span>
+				<span>•</span>
+				<span>{{ version.size | humanReadableSize }}</span>
 			</div>
 		</template>
 
@@ -307,8 +306,13 @@ export default defineComponent({
 		async fetchDisplayName() {
 			// check to make sure that we have a valid author - in case database did not migrate, null author, etc.
 			if (this.version.author) {
-				const { data } = await axios.get(generateOcsUrl(`/cloud/users/${this.version.author}`))
-				this.versionAuthor = data.ocs.data.displayname
+				try {
+					const { data } = await axios.get(generateOcsUrl(`/cloud/users/${this.version.author}`))
+					this.versionAuthor = data.ocs.data.displayname
+				} catch (e) {
+					// Promise got rejected - default to null author to not try to load author profile
+					this.versionAuthor = null
+				}
 			}
 		},
 
@@ -342,15 +346,16 @@ export default defineComponent({
 		flex-direction: row;
 		align-items: center;
 		gap: 0.5rem;
+		color: var(--color-main-text);
+		font-weight: 500;
 
 		&__label {
 			font-weight: 700;
 		}
 
-		&__size, &__author {
-			color: var(--color-text-lighter);
-			font-weight: 500;
-		}
+		&__subline {
+		color: var(--color-text-maxcontrast)
+	}
 	}
 
 	&__image {
