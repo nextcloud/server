@@ -532,11 +532,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		}
 
 		$cookieName = $this->getProtectedCookieName('nc_sameSiteCookiestrict');
-		if ($this->getCookie($cookieName) === 'true'
-			&& $this->passesLaxCookieCheck()) {
-			return true;
-		}
-		return false;
+		return $this->getCookie($cookieName) === 'true' && $this->passesLaxCookieCheck();
 	}
 
 	/**
@@ -552,10 +548,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		}
 
 		$cookieName = $this->getProtectedCookieName('nc_sameSiteCookielax');
-		if ($this->getCookie($cookieName) === 'true') {
-			return true;
-		}
-		return false;
+		return $this->getCookie($cookieName) === 'true';
 	}
 
 
