@@ -21,6 +21,7 @@
     "Enterprise bundle" : "Pacote Enterprise",
     "Groupware bundle" : "Pacote Groupware",
     "Hub bundle" : "Pacote de hub",
+    "Public sector bundle" : "Pacote do setor público",
     "Social sharing bundle" : "Pacote de compartilhamento social",
     "PHP %s or higher is required." : "PHP %s ou superior é necessário.",
     "PHP with a version lower than %s is required." : "É necessária uma versão PHP mais antiga que a %s.",

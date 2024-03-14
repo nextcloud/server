@@ -448,6 +448,8 @@
     "Enable or disable profile by default for new accounts." : "預設情況下為新帳號啟用或停用個人檔案",
     "Enable" : "啟用",
     "Unable to update profile default setting" : "無法更新個人檔案預設設定",
+    "{app}'s declarative setting field: {name}" : "{app} 的聲明性設定欄位：{name}",
+    "Failed to save setting" : "儲存設定失敗",
     "Server-side encryption" : "伺服器端加密",
     "Server-side encryption makes it possible to encrypt files which are uploaded to this server. This comes with limitations like a performance penalty, so enable this only if needed." : "伺服器端加密可以加密所有上傳到此伺服器的檔案，但這會讓檔案操作時間增加，降低效能，請審慎評估後再啟用。",
     "Enable server-side encryption" : "啟用伺服器端加密",

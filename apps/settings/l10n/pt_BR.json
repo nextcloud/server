@@ -448,6 +448,8 @@
     "Enable or disable profile by default for new accounts." : "Habilite ou desabilite o perfil por padrão para novas contas.",
     "Enable" : "Ativar",
     "Unable to update profile default setting" : "Não foi possível atualizar a configuração padrão do perfil",
+    "{app}'s declarative setting field: {name}" : "Campo de configuração declarativa de {app}: {name}",
+    "Failed to save setting" : "Falha ao salvar a configuração",
     "Server-side encryption" : "Criptografia do lado do servidor",
     "Server-side encryption makes it possible to encrypt files which are uploaded to this server. This comes with limitations like a performance penalty, so enable this only if needed." : "A criptografia do lado do servidor torna possível criptografar arquivos que são carregados para este servidor. Isso diminui um pouco o desempenho portanto habilite apenas se necessário.",
     "Enable server-side encryption" : "Ativar a criptografia do lado do servidor",
