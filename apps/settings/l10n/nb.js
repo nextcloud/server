@@ -450,6 +450,8 @@ OC.L10N.register(
     "Enable or disable profile by default for new accounts." : "Aktiver eller deaktiver profil som standard for nye kontoer.",
     "Enable" : "Aktiver",
     "Unable to update profile default setting" : "Kan ikke oppdatere profilens standardinnstilling",
+    "{app}'s declarative setting field: {name}" : "{app}s deklarative innstillingsfelt: {name}",
+    "Failed to save setting" : "Lagring av innstilling feilet",
     "Server-side encryption" : "Server-side-kryptering",
     "Server-side encryption makes it possible to encrypt files which are uploaded to this server. This comes with limitations like a performance penalty, so enable this only if needed." : "Server-side-kryptering gjør det mulig å kryptere files som er lastet opp til denne serveren. Dette har begrensninger som ytelsesforverring, så bare skru på dette hvis det trengs.",
     "Enable server-side encryption" : "Aktiver server-side-kryptering",

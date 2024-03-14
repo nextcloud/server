@@ -21,6 +21,7 @@
     "Enterprise bundle" : "حزمة المؤسسة",
     "Groupware bundle" : "حزمة أدوات العمل الجماعي",
     "Hub bundle" : "حزمة الـ\"هَبْ\" Hub",
+    "Public sector bundle" : "حزمة القطاع العام",
     "Social sharing bundle" : "حزمة المشاركة الاجتماعية",
     "PHP %s or higher is required." : "إصدار PHP %s أو أحدث منه مطلوب.",
     "PHP with a version lower than %s is required." : "PHP الإصدار %s أو أقل مطلوب.",

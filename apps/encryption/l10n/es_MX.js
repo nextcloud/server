@@ -28,6 +28,7 @@ OC.L10N.register(
     "Bad Signature" : "Firma equivocada",
     "Missing Signature" : "Firma faltante",
     "one-time password for server-side-encryption" : "Contraseña de una-sola-vez para la encripción del lado del servidor",
+    "Encryption password" : "Contraseña de cifrado",
     "Default encryption module" : "Módulo de encripción predeterminado",
     "Default encryption module for server-side encryption" : "Modulo de encripción por defecto para encripción de lado del servidor",
     "Encryption app is enabled but your keys are not initialized, please log-out and log-in again" : "La aplicación de encripción esta habilitada pero tus llaves no han sido inicializadas, por favor sal y vuelve a entrar a tu sesión",

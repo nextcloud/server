@@ -450,6 +450,8 @@ OC.L10N.register(
     "Enable or disable profile by default for new accounts." : "Профил нових налога се подразумевано укључује или искључује.",
     "Enable" : "Укључи",
     "Unable to update profile default setting" : "Подразумевано подешавање профила не може да се ажурира",
+    "{app}'s declarative setting field: {name}" : "поље декларативног подешавања апликације {app}: {name}",
+    "Failed to save setting" : "Није успело чување подешавања",
     "Server-side encryption" : "Шифровање на серверској страни",
     "Server-side encryption makes it possible to encrypt files which are uploaded to this server. This comes with limitations like a performance penalty, so enable this only if needed." : "Шифровање на страни сервера омогућава да фајлови који се стављају на овај сервер буду шифровани. То се може одразити на перформансе па ово укључите само ако вам је потребно.",
     "Enable server-side encryption" : "Укључи шифровање на серверској страни",
