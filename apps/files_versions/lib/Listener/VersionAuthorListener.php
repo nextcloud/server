@@ -32,7 +32,7 @@ use OCP\Files\Node;
 use OCP\IUserSession;
 
 /** @template-implements IEventListener<NodeWrittenEvent> */
-class MetadataFileEvents implements IEventListener {
+class VersionAuthorListener implements IEventListener {
 	public function __construct(
 		private IVersionManager $versionManager,
 		private IUserSession $userSession,
