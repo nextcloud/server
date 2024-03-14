@@ -920,6 +920,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\App\\AppStore\\Bundles\\HubBundle' => __DIR__ . '/../../..' . '/lib/private/App/AppStore/Bundles/HubBundle.php',
         'OC\\App\\AppStore\\Bundles\\PublicSectorBundle' => __DIR__ . '/../../..' . '/lib/private/App/AppStore/Bundles/PublicSectorBundle.php',
         'OC\\App\\AppStore\\Bundles\\SocialSharingBundle' => __DIR__ . '/../../..' . '/lib/private/App/AppStore/Bundles/SocialSharingBundle.php',
+        'OC\\App\\AppStore\\Fetcher\\AppDiscoverFetcher' => __DIR__ . '/../../..' . '/lib/private/App/AppStore/Fetcher/AppDiscoverFetcher.php',
         'OC\\App\\AppStore\\Fetcher\\AppFetcher' => __DIR__ . '/../../..' . '/lib/private/App/AppStore/Fetcher/AppFetcher.php',
         'OC\\App\\AppStore\\Fetcher\\CategoryFetcher' => __DIR__ . '/../../..' . '/lib/private/App/AppStore/Fetcher/CategoryFetcher.php',
         'OC\\App\\AppStore\\Fetcher\\Fetcher' => __DIR__ . '/../../..' . '/lib/private/App/AppStore/Fetcher/Fetcher.php',

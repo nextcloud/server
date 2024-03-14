@@ -133,7 +133,7 @@ abstract class Fetcher {
 	}
 
 	/**
-	 * Returns the array with the categories on the appstore server
+	 * Returns the array with the entries on the appstore server
 	 *
 	 * @param bool [$allowUnstable] Allow unstable releases
 	 * @return array

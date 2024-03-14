@@ -35,7 +35,7 @@ describe('Settings: App management', { testIsolation: true }, () => {
 		// I am logged in as the admin
 		cy.login(admin)
 		// I open the Apps management
-		cy.visit('/settings/apps')
+		cy.visit('/settings/apps/installed')
 	})
 
 	it('Can enable an installed app', () => {
