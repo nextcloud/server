@@ -101,10 +101,8 @@ window.addEventListener('DOMContentLoaded', () => {
 	const setupChecks = () => {
 		// run setup checks then gather error messages
 		$.when(
-			OC.SetupChecks.checkWebDAV(),
 			OC.SetupChecks.checkSetup(),
-		).then((check1, check2) => {
-			const messages = [].concat(check1, check2)
+		).then((messages) => {
 			const $el = $('#postsetupchecks')
 			$('#security-warning-state-loading').addClass('hidden')
 
