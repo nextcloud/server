@@ -103,9 +103,8 @@ window.addEventListener('DOMContentLoaded', () => {
 		$.when(
 			OC.SetupChecks.checkWebDAV(),
 			OC.SetupChecks.checkSetup(),
-			OC.SetupChecks.checkGeneric(),
-		).then((check1, check2, check3) => {
-			const messages = [].concat(check1, check2, check3)
+		).then((check1, check2) => {
+			const messages = [].concat(check1, check2)
 			const $el = $('#postsetupchecks')
 			$('#security-warning-state-loading').addClass('hidden')
 
