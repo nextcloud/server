@@ -94,6 +94,7 @@ class NavigationManager implements INavigationManager {
 			$this->closureEntries[] = $entry;
 			return;
 		}
+		$this->init();
 
 		$id = $entry['id'];
 
@@ -234,10 +235,6 @@ class NavigationManager implements INavigationManager {
 				'name' => $l->t('Help'),
 				'icon' => $this->urlGenerator->imagePath('settings', 'help.svg'),
 			]);
-		}
-
-		if ($this->appManager === 'null') {
-			return;
 		}
 
 		$this->defaultApp = $this->appManager->getDefaultAppForUser($this->userSession->getUser(), false);
