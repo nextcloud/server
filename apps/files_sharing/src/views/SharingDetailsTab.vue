@@ -708,7 +708,7 @@ export default {
 
 			if (this.isNewShare) {
 				if (this.isPasswordEnforced && this.isPublicShare) {
-					this.share.newPassword = await GeneratePassword()
+					this.$set(this.share, 'newPassword', await GeneratePassword())
 					this.advancedSectionAccordionExpanded = true
 				}
 				/* Set default expiration dates if configured */
