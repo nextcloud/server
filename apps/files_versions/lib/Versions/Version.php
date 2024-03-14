@@ -26,61 +26,21 @@ declare(strict_types=1);
 namespace OCA\Files_Versions\Versions;
 
 use OCP\Files\FileInfo;
-use OCP\Files\Node;
 use OCP\IUser;
 
-class Version implements IVersion, INameableVersion, IMetadataVersion {
-	/** @var int */
-	private $timestamp;
-
-	/** @var int|string */
-	private $revisionId;
-
-	/** @var string */
-	private $name;
-
-	private string $label;
-
-	/** @var int|float */
-	private $size;
-
-	/** @var string */
-	private $mimetype;
-
-	/** @var string */
-	private $path;
-
-	/** @var FileInfo */
-	private $sourceFileInfo;
-
-	/** @var IVersionBackend */
-	private $backend;
-
-	/** @var IUser */
-	private $user;
-
+class Version implements IVersion, IMetadataVersion {
 	public function __construct(
-		int $timestamp,
-		$revisionId,
-		string $name,
-		int|float $size,
-		string $mimetype,
-		string $path,
-		FileInfo $sourceFileInfo,
-		IVersionBackend $backend,
-		IUser $user,
-		string $label = ''
+		private int $timestamp,
+		private int|string $revisionId,
+		private string $name,
+		private int|float $size,
+		private string $mimetype,
+		private string $path,
+		private FileInfo $sourceFileInfo,
+		private IVersionBackend $backend,
+		private IUser $user,
+		private array $metadata = [],
 	) {
-		$this->timestamp = $timestamp;
-		$this->revisionId = $revisionId;
-		$this->name = $name;
-		$this->label = $label;
-		$this->size = $size;
-		$this->mimetype = $mimetype;
-		$this->path = $path;
-		$this->sourceFileInfo = $sourceFileInfo;
-		$this->backend = $backend;
-		$this->user = $user;
 	}
 
 	public function getBackend(): IVersionBackend {
@@ -107,10 +67,6 @@ class Version implements IVersion, INameableVersion, IMetadataVersion {
 		return $this->name;
 	}
 
-	public function getLabel(): string {
-		return $this->label;
-	}
-
 	public function getMimeType(): string {
 		return $this->mimetype;
 	}
@@ -124,9 +80,6 @@ class Version implements IVersion, INameableVersion, IMetadataVersion {
 	}
 
 	public function getMetadataValue(string $key): ?string {
-		if ($this->backend instanceof IMetadataVersionBackend && $this->sourceFileInfo instanceof Node) {
-			return $this->backend->getMetadataValue($this->sourceFileInfo, "author");
-		}
-		return null;
+		return $this->metadata[$key] ?? null;
 	}
 }
