@@ -183,7 +183,9 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 	 * @return string
 	 */
 	public function getName() {
-		return isset($this->data['name']) ? $this->data['name'] : basename($this->getPath());
+		return empty($this->data['name'])
+			? basename($this->getPath())
+			: $this->data['name'];
 	}
 
 	/**
