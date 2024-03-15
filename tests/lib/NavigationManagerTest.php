@@ -224,19 +224,19 @@ class NavigationManagerTest extends TestCase {
 		   ->method('isEnabledForUser')
 		   ->with('theming')
 		   ->willReturn(true);
-		$this->appManager->expects($this->once())->method('getAppInfo')->with('test')->willReturn($navigation);
-		/*
+		$this->appManager->expects($this->once())
+			->method('getAppInfo')
+			->with('test')
+			->willReturn($navigation);
+		$this->urlGenerator->expects($this->any())
+			->method('imagePath')
+			->willReturnCallback(function ($appName, $file) {
+				return "/apps/$appName/img/$file";
+			});
 		$this->appManager->expects($this->any())
-				   ->method('getAppInfo')
-				   ->will($this->returnValueMap([
-					   ['test', null, null, $navigation],
-					   ['theming', null, null, null],
-					]));
-		 */
+			->method('getAppIcon')
+			->willReturnCallback(fn (string $appName) => "/apps/$appName/img/app.svg");
 		$this->l10nFac->expects($this->any())->method('get')->willReturn($l);
-		$this->urlGenerator->expects($this->any())->method('imagePath')->willReturnCallback(function ($appName, $file) {
-			return "/apps/$appName/img/$file";
-		});
 		$this->urlGenerator->expects($this->any())->method('linkToRoute')->willReturnCallback(function ($route) {
 			if ($route === 'core.login.logout') {
 				return 'https://example.com/logout';
@@ -365,7 +365,6 @@ class NavigationManagerTest extends TestCase {
 						'unread' => 0,
 						'default' => true,
 						'app' => 'test',
-						'key' => 0,
 					]],
 					['logout' => $defaults['logout']]
 				),
@@ -416,7 +415,6 @@ class NavigationManagerTest extends TestCase {
 						'unread' => 0,
 						'default' => false,
 						'app' => 'test',
-						'key' => 0,
 					],
 						'test1' => [
 							'id' => 'test1',
@@ -430,7 +428,6 @@ class NavigationManagerTest extends TestCase {
 							'unread' => 0,
 							'default' => true, // because of order
 							'app' => 'test',
-							'key' => 1,
 						]],
 					['logout' => $defaults['logout']]
 				),
@@ -458,7 +455,6 @@ class NavigationManagerTest extends TestCase {
 						'unread' => 0,
 						'default' => true,
 						'app' => 'test',
-						'key' => 0,
 					]],
 					['logout' => $defaults['logout']]
 				),
@@ -514,7 +510,6 @@ class NavigationManagerTest extends TestCase {
 				'unread' => 0,
 				'default' => true,
 				'app' => 'test',
-				'key' => 0,
 			],
 		];
 		$navigation = ['navigations' => [
@@ -528,7 +523,7 @@ class NavigationManagerTest extends TestCase {
 				function (string $userId, string $appName, string $key, mixed $default = '') use ($testOrder) {
 					$this->assertEquals('user001', $userId);
 					if ($key === 'apporder') {
-						return json_encode(['test' => [$testOrder]]);
+						return json_encode(['test' => ['app' => 'test', 'order' => $testOrder]]);
 					}
 					return $default;
 				}
@@ -539,6 +534,7 @@ class NavigationManagerTest extends TestCase {
 		   ->with('theming')
 		   ->willReturn(true);
 		$this->appManager->expects($this->once())->method('getAppInfo')->with('test')->willReturn($navigation);
+		$this->appManager->expects($this->once())->method('getAppIcon')->with('test')->willReturn('/apps/test/img/app.svg');
 		$this->l10nFac->expects($this->any())->method('get')->willReturn($l);
 		$this->urlGenerator->expects($this->any())->method('imagePath')->willReturnCallback(function ($appName, $file) {
 			return "/apps/$appName/img/$file";

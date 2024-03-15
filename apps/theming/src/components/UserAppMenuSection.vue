@@ -28,6 +28,8 @@
 </template>
 
 <script lang="ts">
+import type { IApp } from './AppOrderSelector.vue'
+
 import { showError } from '@nextcloud/dialogs'
 import { loadState } from '@nextcloud/initial-state'
 import { translate as t } from '@nextcloud/l10n'
@@ -35,7 +37,7 @@ import { generateOcsUrl } from '@nextcloud/router'
 import { computed, defineComponent, ref } from 'vue'
 
 import axios from '@nextcloud/axios'
-import AppOrderSelector, { IApp } from './AppOrderSelector.vue'
+import AppOrderSelector from './AppOrderSelector.vue'
 import IconUndo from 'vue-material-design-icons/Undo.vue'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import NcNoteCard from '@nextcloud/vue/dist/Components/NcNoteCard.js'
@@ -58,13 +60,11 @@ interface INavigationEntry {
 	/** Whether this is the default app */
 	default?: boolean
 	/** App that registered this navigation entry (not necessarly the same as the id) */
-	app: string
-	/** The key used to identify this entry in the navigations entries */
-	key: number
+	app?: string
 }
 
 /** The app order user setting */
-type IAppOrder = Record<string, Record<number, number>>
+type IAppOrder = Record<string, { order: number, app?: string }>
 
 /** OCS responses */
 interface IOCSResponse<T> {
@@ -131,8 +131,8 @@ export default defineComponent({
 		 */
 		const updateAppOrder = (value: IApp[]) => {
 			const order: IAppOrder = {}
-			value.forEach(({ app, key }, index) => {
-				order[app] = { ...order[app], [key]: index }
+			value.forEach(({ app, id }, index) => {
+				order[id] = { order: index, app }
 			})
 
 			saveSetting('apporder', order)

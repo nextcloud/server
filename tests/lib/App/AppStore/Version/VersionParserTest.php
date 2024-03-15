@@ -77,7 +77,7 @@ class VersionParserTest extends TestCase {
 	 * @param Version $expected
 	 */
 	public function testGetVersion($input,
-								   Version $expected) {
+		Version $expected) {
 		$this->assertEquals($expected, $this->versionParser->getVersion($input));
 	}
 

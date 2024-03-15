@@ -41,7 +41,7 @@ describe('Admin theming settings visibility check', function() {
 	})
 
 	it('See the default settings', function() {
-		cy.get('[data-admin-theming-setting-primary-color-picker]').should('contain.text', defaultPrimary)
+		cy.get('[data-admin-theming-setting-primary-color-picker]').should('exist')
 		cy.get('[data-admin-theming-setting-primary-color-reset]').should('not.exist')
 		cy.get('[data-admin-theming-setting-file-reset]').should('not.exist')
 		cy.get('[data-admin-theming-setting-file-remove]').should('be.visible')
@@ -66,8 +66,7 @@ describe('Change the primary color and reset it', function() {
 	it('Change the primary color', function() {
 		cy.intercept('*/apps/theming/ajax/updateStylesheet').as('setColor')
 
-		pickRandomColor('[data-admin-theming-setting-primary-color-picker]')
-			.then(color => { selectedColor = color })
+		pickRandomColor().then(color => { selectedColor = color })
 
 		cy.wait('@setColor')
 		cy.waitUntil(() => validateBodyThemingCss(selectedColor, defaultBackground))
@@ -151,8 +150,7 @@ describe('Remove the default background with a custom primary color', function()
 	it('Change the primary color', function() {
 		cy.intercept('*/apps/theming/ajax/updateStylesheet').as('setColor')
 
-		pickRandomColor('[data-admin-theming-setting-primary-color-picker]')
-			.then((color) => { selectedColor = color })
+		pickRandomColor().then(color => { selectedColor = color })
 
 		cy.wait('@setColor')
 		cy.waitUntil(() => validateBodyThemingCss(selectedColor, defaultBackground))
@@ -270,19 +268,19 @@ describe('Change the login fields then reset them', function() {
 	})
 
 	it('Ensure undo button presence', function() {
-		cy.get('[data-admin-theming-setting-field="name"] .input-field__clear-button')
+		cy.get('[data-admin-theming-setting-field="name"] .input-field__trailing-button')
 			.scrollIntoView()
-		cy.get('[data-admin-theming-setting-field="name"] .input-field__clear-button')
+		cy.get('[data-admin-theming-setting-field="name"] .input-field__trailing-button')
 			.should('be.visible')
 
-		cy.get('[data-admin-theming-setting-field="url"] .input-field__clear-button')
+		cy.get('[data-admin-theming-setting-field="url"] .input-field__trailing-button')
 			.scrollIntoView()
-		cy.get('[data-admin-theming-setting-field="url"] .input-field__clear-button')
+		cy.get('[data-admin-theming-setting-field="url"] .input-field__trailing-button')
 			.should('be.visible')
 
-		cy.get('[data-admin-theming-setting-field="slogan"] .input-field__clear-button')
+		cy.get('[data-admin-theming-setting-field="slogan"] .input-field__trailing-button')
 			.scrollIntoView()
-		cy.get('[data-admin-theming-setting-field="slogan"] .input-field__clear-button')
+		cy.get('[data-admin-theming-setting-field="slogan"] .input-field__trailing-button')
 			.should('be.visible')
 	})
 
@@ -372,8 +370,7 @@ describe('The user default background settings reflect the admin theming setting
 	it('Change the primary color', function() {
 		cy.intercept('*/apps/theming/ajax/updateStylesheet').as('setColor')
 
-		pickRandomColor('[data-admin-theming-setting-primary-color-picker]')
-			.then(color => { selectedColor = color })
+		pickRandomColor().then(color => { selectedColor = color })
 
 		cy.wait('@setColor')
 		cy.waitUntil(() => cy.window().then(($window) => {

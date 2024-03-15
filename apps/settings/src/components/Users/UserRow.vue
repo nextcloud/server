@@ -2,7 +2,7 @@
   - @copyright Copyright (c) 2019 Gary Kim <gary@garykim.dev>
   - @copyright Copyright (c) 2018 John Molakvoæ <skjnldsv@protonmail.com>
   -
-	- @author Christopher Ng <chrng8@gmail.com>
+  - @author Christopher Ng <chrng8@gmail.com>
   - @author Gary Kim <gary@garykim.dev>
   - @author John Molakvoæ <skjnldsv@protonmail.com>
   -
@@ -28,7 +28,7 @@
 		:data-cy-user-row="user.id">
 		<td class="row__cell row__cell--avatar" data-cy-user-list-cell-avatar>
 			<NcLoadingIcon v-if="isLoadingUser"
-				:name="t('settings', 'Loading user …')"
+				:name="t('settings', 'Loading account …')"
 				:size="32" />
 			<NcAvatar v-else-if="visible"
 				disable-menu
@@ -87,7 +87,7 @@
 					@trailing-button-click="updatePassword" />
 			</template>
 			<span v-else-if="isObfuscated">
-				{{ t('settings', 'You do not have permissions to see the details of this user') }}
+				{{ t('settings', 'You do not have permissions to see the details of this account') }}
 			</span>
 		</td>
 
@@ -130,7 +130,7 @@
 					:multiple="true"
 					:append-to-body="false"
 					:options="availableGroups"
-					:placeholder="t('settings', 'Add user to group')"
+					:placeholder="t('settings', 'Add account to group')"
 					:taggable="settings.isAdmin"
 					:value="userGroups"
 					label="name"
@@ -152,7 +152,7 @@
 			<template v-if="editing && settings.isAdmin && subAdminsGroups.length > 0">
 				<label class="hidden-visually"
 					:for="'subadmins' + uniqueId">
-					{{ t('settings', 'Set user as admin for') }}
+					{{ t('settings', 'Set account as admin for') }}
 				</label>
 				<NcSelect data-cy-user-list-input-subadmins
 					:data-loading="loading.subadmins || undefined"
@@ -165,7 +165,7 @@
 					:multiple="true"
 					:no-wrap="true"
 					:options="subAdminsGroups"
-					:placeholder="t('settings', 'Set user as admin for')"
+					:placeholder="t('settings', 'Set account as admin for')"
 					:value="userSubAdminsGroups"
 					@option:deselected="removeUserSubAdmin"
 					@option:selected="options => addUserSubAdmin(options.at(-1))" />
@@ -180,7 +180,7 @@
 			<template v-if="editing">
 				<label class="hidden-visually"
 					:for="'quota' + uniqueId">
-					{{ t('settings', 'Select user quota') }}
+					{{ t('settings', 'Select account quota') }}
 				</label>
 				<NcSelect v-model="editedUserQuota"
 					:close-on-select="true"
@@ -193,7 +193,7 @@
 					:clearable="false"
 					:input-id="'quota' + uniqueId"
 					:options="quotaOptions"
-					:placeholder="t('settings', 'Select user quota')"
+					:placeholder="t('settings', 'Select account quota')"
 					:taggable="true"
 					@option:selected="setUserQuota" />
 			</template>
@@ -275,8 +275,7 @@
 					:placeholder="managerLabel"
 					@open="searchInitialUserManager"
 					@search="searchUserManager"
-					@option:selected="updateUserManager"
-					@input="updateUserManager" />
+					@option:selected="updateUserManager" />
 			</template>
 			<span v-else-if="!isObfuscated">
 				{{ user.manager }}
@@ -295,6 +294,7 @@
 </template>
 
 <script>
+import { formatFileSize, parseFileSize } from '@nextcloud/files'
 import { getCurrentUser } from '@nextcloud/auth'
 import { showSuccess, showError } from '@nextcloud/dialogs'
 
@@ -307,7 +307,7 @@ import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
 import UserRowActions from './UserRowActions.vue'
 
 import UserRowMixin from '../../mixins/UserRowMixin.js'
-import { isObfuscated, unlimitedQuota } from '../../utils/userUtils.ts'
+import { isObfuscated, unlimitedQuota } from '../../utils/userUtils.ts';
 
 export default {
 	name: 'UserRow',
@@ -398,8 +398,8 @@ export default {
 
 	computed: {
 		managerLabel() {
-			// TRANSLATORS This string describes a manager in the context of an organization
-			return t('settings', 'Set user manager')
+			// TRANSLATORS This string describes a person's manager in the context of an organization
+			return t('settings', 'Set line manager')
 		},
 
 		isObfuscated() {
@@ -436,9 +436,9 @@ export default {
 
 		usedSpace() {
 			if (this.user.quota?.used) {
-				return t('settings', '{size} used', { size: OC.Util.humanFileSize(this.user.quota?.used) })
+				return t('settings', '{size} used', { size: formatFileSize(this.user.quota?.used) })
 			}
-			return t('settings', '{size} used', { size: OC.Util.humanFileSize(0) })
+			return t('settings', '{size} used', { size: formatFileSize(0) })
 		},
 
 		canEdit() {
@@ -452,7 +452,7 @@ export default {
 				quota = this.settings.defaultQuota
 				if (quota !== 'none') {
 					// convert to numeric value to match what the server would usually return
-					quota = OC.Util.computerFileSize(quota)
+					quota = parseFileSize(quota, true)
 				}
 			}
 
@@ -460,16 +460,16 @@ export default {
 			if (quota === 'none' || quota === -3) {
 				return t('settings', 'Unlimited')
 			} else if (quota >= 0) {
-				return OC.Util.humanFileSize(quota)
+				return formatFileSize(quota)
 			}
-			return OC.Util.humanFileSize(0)
+			return formatFileSize(0)
 		},
 
 		userActions() {
 			const actions = [
 				{
 					icon: 'icon-delete',
-					text: t('settings', 'Delete user'),
+					text: t('settings', 'Delete account'),
 					action: this.deleteUser,
 				},
 				{
@@ -479,7 +479,7 @@ export default {
 				},
 				{
 					icon: this.user.enabled ? 'icon-close' : 'icon-add',
-					text: this.user.enabled ? t('settings', 'Disable user') : t('settings', 'Enable user'),
+					text: this.user.enabled ? t('settings', 'Disable account') : t('settings', 'Enable account'),
 					action: this.enableDisableUser,
 				},
 			]
@@ -499,7 +499,7 @@ export default {
 				if (this.selectedQuota !== false) {
 					return this.selectedQuota
 				}
-				if (this.settings.defaultQuota !== unlimitedQuota.id && OC.Util.computerFileSize(this.settings.defaultQuota) >= 0) {
+				if (this.settings.defaultQuota !== unlimitedQuota.id && parseFileSize(this.settings.defaultQuota, true) >= 0) {
 					// if value is valid, let's map the quotaOptions or return custom quota
 					return { id: this.settings.defaultQuota, label: this.settings.defaultQuota }
 				}
@@ -586,8 +586,8 @@ export default {
 					value: this.currentManager ? this.currentManager.id : '',
 				})
 			} catch (error) {
-				// TRANSLATORS This string describes a manager in the context of an organization
-				showError(t('setting', 'Failed to update user manager'))
+				// TRANSLATORS This string describes a line manager in the context of an organization
+				showError(t('setting', 'Failed to update line manager'))
 				console.error(error)
 			} finally {
 				this.loading.manager = false
@@ -828,14 +828,18 @@ export default {
 				quota = unlimitedQuota
 			}
 			this.loading.quota = true
+
 			// ensure we only send the preset id
 			quota = quota.id ? quota.id : quota
 
 			try {
+				// If human readable format, convert to raw float format
+				// Else just send the raw string
+				const value = (parseFileSize(quota, true) || quota).toString()
 				await this.$store.dispatch('setUserData', {
 					userid: this.user.id,
 					key: 'quota',
-					value: quota,
+					value,
 				})
 			} catch (error) {
 				console.error(error)
@@ -856,12 +860,12 @@ export default {
 				quota = quota?.id || quota.label
 			}
 			// only used for new presets sent through @Tag
-			const validQuota = OC.Util.computerFileSize(quota)
+			const validQuota = parseFileSize(quota, true)
 			if (validQuota === null) {
 				return unlimitedQuota
 			} else {
 				// unify format output
-				quota = OC.Util.humanFileSize(OC.Util.computerFileSize(quota))
+				quota = formatFileSize(parseFileSize(quota, true))
 				return { id: quota, label: quota }
 			}
 		},
@@ -943,22 +947,6 @@ export default {
 		border-bottom: 1px solid var(--color-border);
 
 		:deep {
-			.input-field,
-			.input-field__main-wrapper,
-			.input-field__input {
-				height: 48px !important;
-			}
-
-			.input-field__input {
-				&:placeholder-shown:not(:focus) + .input-field__label {
-					inset-block-start: 16px !important;
-				}
-			}
-
-			.button-vue--icon-only {
-				height: 44px !important;
-			}
-
 			.v-select.select {
 				min-width: var(--cell-min-width);
 			}

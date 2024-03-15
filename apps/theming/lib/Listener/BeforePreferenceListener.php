@@ -32,6 +32,7 @@ use OCP\Config\BeforePreferenceSetEvent;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 
+/** @template-implements IEventListener<BeforePreferenceDeletedEvent|BeforePreferenceSetEvent> */
 class BeforePreferenceListener implements IEventListener {
 	public function __construct(
 		private IAppManager $appManager,
@@ -46,8 +47,10 @@ class BeforePreferenceListener implements IEventListener {
 		}
 
 		switch ($event->getAppId()) {
-			case Application::APP_ID: $this->handleThemingValues($event); break;
-			case 'core': $this->handleCoreValues($event); break;
+			case Application::APP_ID: $this->handleThemingValues($event);
+				break;
+			case 'core': $this->handleCoreValues($event);
+				break;
 		}
 	}
 
@@ -77,12 +80,16 @@ class BeforePreferenceListener implements IEventListener {
 		}
 
 		$value = json_decode($event->getConfigValue(), true, flags:JSON_THROW_ON_ERROR);
-		if (is_array(($value))) {
-			foreach ($value as $appName => $order) {
-				if (!$this->appManager->isEnabledForUser($appName) || !is_array($order) || empty($order) || !is_numeric($order[key($order)])) {
-					// Invalid config value, refuse the change
-					return;
-				}
+		if (!is_array(($value))) {
+			// Must be an array
+			return;
+		}
+
+		foreach ($value as $id => $info) {
+			// required format: [ navigation_id: string => [ order: int, app?: string ] ]
+			if (!is_string($id) || !is_array($info) || empty($info) || !isset($info['order']) || !is_numeric($info['order']) || (isset($info['app']) && !$this->appManager->isEnabledForUser($info['app']))) {
+				// Invalid config value, refuse the change
+				return;
 			}
 		}
 		$event->setValid(true);

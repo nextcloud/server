@@ -177,7 +177,7 @@ import templateSelection from './templates/selection.handlebars'
 				var $item = $(ev.target).closest('.systemtags-item')
 				var tagId = $item.attr('data-id')
 				this.collection.get(tagId).destroy()
-				$(ev.target).tooltip('hide')
+				$(ev.target).tooltip('option', 'hide')
 				$item.closest('.select2-result').remove()
 				// TODO: spinner
 				return false

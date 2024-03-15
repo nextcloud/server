@@ -26,13 +26,12 @@
  */
 namespace OC\Migration;
 
-use OCP\AppFramework\Utility\ITimeFactory;
-use OCP\BackgroundJob\IJobList;
-use OCP\BackgroundJob\TimedJob;
-use OCP\EventDispatcher\IEventDispatcher;
 use OC\NeedsUpdateException;
 use OC\Repair;
 use OC_App;
+use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\BackgroundJob\IJobList;
+use OCP\BackgroundJob\TimedJob;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -42,7 +41,7 @@ use Psr\Log\LoggerInterface;
  */
 class BackgroundRepair extends TimedJob {
 	public function __construct(
-		private IEventDispatcher $dispatcher,
+		private Repair $repair,
 		ITimeFactory $time,
 		private LoggerInterface $logger,
 		private IJobList $jobList,
@@ -73,9 +72,9 @@ class BackgroundRepair extends TimedJob {
 		}
 
 		$step = $argument['step'];
-		$repair = new Repair([], $this->dispatcher, \OC::$server->get(LoggerInterface::class));
+		$this->repair->setRepairSteps([]);
 		try {
-			$repair->addStep($step);
+			$this->repair->addStep($step);
 		} catch (\Exception $ex) {
 			$this->logger->error($ex->getMessage(), [
 				'app' => 'migration',
@@ -88,7 +87,7 @@ class BackgroundRepair extends TimedJob {
 		}
 
 		// execute the repair step
-		$repair->run();
+		$this->repair->run();
 
 		// remove the job once executed successfully
 		$this->jobList->remove($this, $this->argument);

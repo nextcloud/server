@@ -32,12 +32,14 @@ namespace OC\Session;
 use OCP\ISession;
 use OCP\Security\ICrypto;
 use OCP\Session\Exceptions\SessionNotAvailableException;
+use function json_decode;
 use function OCP\Log\logger;
 
 /**
  * Class CryptoSessionData
  *
  * @package OC\Session
+ * @template-implements \ArrayAccess<string,mixed>
  */
 class CryptoSessionData implements \ArrayAccess, ISession {
 	/** @var ISession */
@@ -58,8 +60,8 @@ class CryptoSessionData implements \ArrayAccess, ISession {
 	 * @param string $passphrase
 	 */
 	public function __construct(ISession $session,
-								ICrypto $crypto,
-								string $passphrase) {
+		ICrypto $crypto,
+		string $passphrase) {
 		$this->crypto = $crypto;
 		$this->session = $session;
 		$this->passphrase = $passphrase;
@@ -80,19 +82,24 @@ class CryptoSessionData implements \ArrayAccess, ISession {
 
 	protected function initializeSession() {
 		$encryptedSessionData = $this->session->get(self::encryptedSessionName) ?: '';
-		try {
-			$this->sessionValues = json_decode(
-				$this->crypto->decrypt($encryptedSessionData, $this->passphrase),
-				true,
-				512,
-				JSON_THROW_ON_ERROR,
-			);
-		} catch (\Exception $e) {
-			logger('core')->critical('Could not decrypt or decode encrypted session data', [
-				'exception' => $e,
-			]);
+		if ($encryptedSessionData === '') {
+			// Nothing to decrypt
 			$this->sessionValues = [];
-			$this->regenerateId(true, false);
+		} else {
+			try {
+				$this->sessionValues = json_decode(
+					$this->crypto->decrypt($encryptedSessionData, $this->passphrase),
+					true,
+					512,
+					JSON_THROW_ON_ERROR,
+				);
+			} catch (\Exception $e) {
+				logger('core')->critical('Could not decrypt or decode encrypted session data', [
+					'exception' => $e,
+				]);
+				$this->sessionValues = [];
+				$this->regenerateId(true, false);
+			}
 		}
 	}
 

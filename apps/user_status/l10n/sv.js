@@ -7,6 +7,7 @@ OC.L10N.register(
     "Commuting" : "Reser",
     "Out sick" : "Sjuk",
     "Vacationing" : "På semester",
+    "Out of office" : "Ej på plats",
     "Working remotely" : "Arbetar hemifrån",
     "In a call" : "I ett samtal",
     "User status" : "Användarstatus",

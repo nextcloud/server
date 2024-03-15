@@ -267,7 +267,9 @@
                         "schema": {
                             "type": "integer",
                             "format": "int64",
-                            "default": 7
+                            "default": 7,
+                            "minimum": 1,
+                            "maximum": 30
                         }
                     },
                     {
@@ -360,11 +362,13 @@
                     {
                         "name": "limit",
                         "in": "query",
-                        "description": "Limit number of result items per widget",
+                        "description": "Limit number of result items per widget, not more than 30 are allowed",
                         "schema": {
                             "type": "integer",
                             "format": "int64",
-                            "default": 7
+                            "default": 7,
+                            "minimum": 1,
+                            "maximum": 30
                         }
                     },
                     {

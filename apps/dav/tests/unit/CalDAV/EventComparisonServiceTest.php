@@ -28,21 +28,17 @@ namespace OCA\DAV\Tests\unit\CalDAV;
 
 use OCA\DAV\CalDAV\EventComparisonService;
 use Sabre\VObject\Component\VCalendar;
-use Sabre\VObject\Component\VEvent;
 use Test\TestCase;
 
-class EventComparisonServiceTest extends TestCase
-{
+class EventComparisonServiceTest extends TestCase {
 	/** @var EventComparisonService */
 	private $eventComparisonService;
 
-	protected function setUp(): void
-	{
+	protected function setUp(): void {
 		$this->eventComparisonService = new EventComparisonService();
 	}
 
-	public function testNoModifiedEvent(): void
-	{
+	public function testNoModifiedEvent(): void {
 		$vCalendarOld = new VCalendar();
 		$vCalendarNew = new VCalendar();
 
@@ -73,8 +69,7 @@ class EventComparisonServiceTest extends TestCase
 		$this->assertEmpty($result['new']);
 	}
 
-	public function testNewEvent(): void
-	{
+	public function testNewEvent(): void {
 		$vCalendarOld = null;
 		$vCalendarNew = new VCalendar();
 
@@ -94,8 +89,7 @@ class EventComparisonServiceTest extends TestCase
 		$this->assertEquals([$vEventNew], $result['new']);
 	}
 
-	public function testModifiedUnmodifiedEvent(): void
-	{
+	public function testModifiedUnmodifiedEvent(): void {
 		$vCalendarOld = new VCalendar();
 		$vCalendarNew = new VCalendar();
 

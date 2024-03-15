@@ -86,14 +86,14 @@ class IMipPlugin extends SabreIMipPlugin {
 	private EventComparisonService $eventComparisonService;
 
 	public function __construct(IConfig $config,
-								IMailer $mailer,
-								LoggerInterface $logger,
-								ITimeFactory $timeFactory,
-								Defaults $defaults,
-								IUserManager $userManager,
-								$userId,
-								IMipService $imipService,
-								EventComparisonService $eventComparisonService) {
+		IMailer $mailer,
+		LoggerInterface $logger,
+		ITimeFactory $timeFactory,
+		Defaults $defaults,
+		IUserManager $userManager,
+		$userId,
+		IMipService $imipService,
+		EventComparisonService $eventComparisonService) {
 		parent::__construct('');
 		$this->userId = $userId;
 		$this->config = $config;
@@ -305,9 +305,9 @@ class IMipPlugin extends SabreIMipPlugin {
 
 		$itip_msg = $iTipMessage->message->serialize();
 		$message->attachInline(
-				$itip_msg,
+			$itip_msg,
 			'event.ics',
-				'text/calendar; method=' . $iTipMessage->method,
+			'text/calendar; method=' . $iTipMessage->method,
 		);
 
 		try {

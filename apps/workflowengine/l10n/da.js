@@ -57,10 +57,8 @@ OC.L10N.register(
     "between" : "mellem",
     "not between" : "ikke mellem",
     "Request user agent" : "Bruger \"user agent\"",
-    "User group membership" : "Brugers gruppemedlemsskab",
     "is member of" : "er medlem af",
     "is not member of" : "er ikke medlem af",
-    "Predefined URLs" : "Foruddefineret URLer",
-    "Others" : "Andre"
+    "User group membership" : "Brugers gruppemedlemsskab"
 },
 "nplurals=2; plural=(n != 1);");

@@ -53,8 +53,8 @@ class ShareInfoController extends ApiController {
 	 * @param IManager $shareManager
 	 */
 	public function __construct(string $appName,
-								IRequest $request,
-								IManager $shareManager) {
+		IRequest $request,
+		IManager $shareManager) {
 		parent::__construct($appName, $request);
 
 		$this->shareManager = $shareManager;

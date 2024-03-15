@@ -22,7 +22,7 @@
 -->
 
 <template>
-	<NcActions :aria-label="t('settings', 'Toggle user actions menu')"
+	<NcActions :aria-label="t('settings', 'Toggle account actions menu')"
 		:disabled="disabled"
 		:inline="1">
 		<NcActionButton :data-cy-user-list-action-toggle-edit="`${edit}`"
@@ -45,7 +45,8 @@
 </template>
 
 <script lang="ts">
-import { PropType, defineComponent } from 'vue'
+import type { PropType } from 'vue'
+import { defineComponent } from 'vue'
 
 import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
 import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'

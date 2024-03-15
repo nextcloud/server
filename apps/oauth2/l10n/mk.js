@@ -14,8 +14,8 @@ OC.L10N.register(
     "Secret key" : "Таен клуч",
     "Add client" : "Додади клиент",
     "Add" : "Додади",
-    "Show client secret" : "Прикажи тајна на клиент",
     "Delete" : "Избриши",
+    "Show client secret" : "Прикажи тајна на клиент",
     "Secret" : "Тајна"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

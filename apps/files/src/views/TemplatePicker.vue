@@ -61,23 +61,27 @@
 </template>
 
 <script lang="ts">
-import { emit, subscribe } from '@nextcloud/event-bus'
-import { File } from '@nextcloud/files'
-import { generateRemoteUrl } from '@nextcloud/router'
+import type { TemplateFile } from '../types.ts'
+
 import { getCurrentUser } from '@nextcloud/auth'
-import { normalize, extname, join } from 'path'
 import { showError } from '@nextcloud/dialogs'
+import { emit } from '@nextcloud/event-bus'
+import { File } from '@nextcloud/files'
+import { translate as t } from '@nextcloud/l10n'
+import { generateRemoteUrl } from '@nextcloud/router'
+import { normalize, extname, join } from 'path'
+import { defineComponent } from 'vue'
+import { createFromTemplate, getTemplates } from '../services/Templates.js'
+
 import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
 import NcModal from '@nextcloud/vue/dist/Components/NcModal.js'
-import Vue from 'vue'
-
-import { createFromTemplate, getTemplates } from '../services/Templates.js'
 import TemplatePreview from '../components/TemplatePreview.vue'
+import logger from '../logger.js'
 
 const border = 2
 const margin = 8
 
-export default Vue.extend({
+export default defineComponent({
 	name: 'TemplatePicker',
 
 	components: {
@@ -86,40 +90,34 @@ export default Vue.extend({
 		TemplatePreview,
 	},
 
-	props: {
-		logger: {
-			type: Object,
-			required: true,
-		},
-	},
-
 	data() {
 		return {
 			// Check empty template by default
 			checked: -1,
 			loading: false,
-			name: null,
+			name: null as string|null,
 			opened: false,
-			provider: null,
+			provider: null as TemplateFile|null,
 		}
 	},
 
 	computed: {
 		extension() {
-			return extname(this.name)
+			return extname(this.name ?? '')
 		},
+
 		nameWithoutExt() {
 			// Strip extension from name if defined
 			return !this.extension
 				? this.name
-				: this.name.slice(0, 0 - this.extension.length)
+				: this.name!.slice(0, 0 - this.extension.length)
 		},
 
 		emptyTemplate() {
 			return {
 				basename: t('files', 'Blank'),
 				fileid: -1,
-				filename: this.t('files', 'Blank'),
+				filename: t('files', 'Blank'),
 				hasPreview: false,
 				mime: this.provider?.mimetypes[0] || this.provider?.mimetypes,
 			}
@@ -130,7 +128,7 @@ export default Vue.extend({
 				return null
 			}
 
-			return this.provider.templates.find(template => template.fileid === this.checked)
+			return this.provider.templates!.find((template) => template.fileid === this.checked)
 		},
 
 		/**
@@ -159,6 +157,8 @@ export default Vue.extend({
 	},
 
 	methods: {
+		t,
+
 		/**
 		 * Open the picker
 		 *
@@ -201,9 +201,9 @@ export default Vue.extend({
 		/**
 		 * Manages the radio template picker change
 		 *
-		 * @param {number} fileid the selected template file id
+		 * @param fileid the selected template file id
 		 */
-		onCheck(fileid) {
+		onCheck(fileid: number) {
 			this.checked = fileid
 		},
 
@@ -213,22 +213,22 @@ export default Vue.extend({
 
 			// If the file doesn't have an extension, add the default one
 			if (this.nameWithoutExt === this.name) {
-				this.logger.warn('Fixed invalid filename', { name: this.name, extension: this.provider?.extension })
-				this.name = this.name + this.provider?.extension
+				logger.warn('Fixed invalid filename', { name: this.name, extension: this.provider?.extension })
+				this.name = `${this.name}${this.provider?.extension ?? ''}`
 			}
 
 			try {
 				const fileInfo = await createFromTemplate(
 					normalize(`${currentDirectory}/${this.name}`),
-					this.selectedTemplate?.filename,
-					this.selectedTemplate?.templateType,
+					this.selectedTemplate?.filename as string ?? '',
+					this.selectedTemplate?.templateType as string ?? '',
 				)
-				this.logger.debug('Created new file', fileInfo)
+				logger.debug('Created new file', fileInfo)
 
 				const owner = getCurrentUser()?.uid || null
 				const node = new File({
 					id: fileInfo.fileid,
-					source: generateRemoteUrl(join('dav/files', owner, fileInfo.filename)),
+					source: generateRemoteUrl(join(`dav/files/${owner}`, fileInfo.filename)),
 					root: `/files/${owner}`,
 					mime: fileInfo.mime,
 					mtime: new Date(fileInfo.lastmod * 1000),
@@ -248,14 +248,14 @@ export default Vue.extend({
 				window.OCP.Files.Router.goToRoute(
 					null, // use default route
 					{ view: 'files', fileid: node.fileid },
-					{ dir: node.dirname, openfile: true },
+					{ dir: node.dirname, openfile: 'true' },
 				)
 
 				// Close the picker
 				this.close()
 			} catch (error) {
-				this.logger.error('Error while creating the new file from template', { error })
-				showError(this.t('files', 'Unable to create new file from template'))
+				logger.error('Error while creating the new file from template', { error })
+				showError(t('files', 'Unable to create new file from template'))
 			} finally {
 				this.loading = false
 			}

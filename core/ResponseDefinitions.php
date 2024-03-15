@@ -104,6 +104,7 @@ namespace OCA\Core;
  *     order: int,
  *     triggers: string[],
  *     filters: array<string, string>,
+ *     inAppSearch: bool,
  * }
  *
  * @psalm-type CoreUnifiedSearchResultEntry = array{
@@ -147,6 +148,7 @@ namespace OCA\Core;
  *     input: string,
  *     output: ?string,
  *     identifier: string,
+ *     completionExpectedAt: ?int
  * }
  *
  * @psalm-type CoreTextToImageTask = array{
@@ -159,6 +161,21 @@ namespace OCA\Core;
  *      numberOfImages: int,
  *      completionExpectedAt: ?int,
  *  }
+ *
+ * @psalm-type CoreTeam = array{
+ *      id: string,
+ *      name: string,
+ *      icon: string,
+ * }
+ *
+ * @psalm-type CoreTeamResource = array{
+ *       id: int,
+ *       label: string,
+ *       url: string,
+ *       iconSvg: ?string,
+ *       iconURL: ?string,
+ *       iconEmoji: ?string,
+ *   }
  */
 class ResponseDefinitions {
 }

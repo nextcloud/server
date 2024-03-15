@@ -4,7 +4,7 @@ OC.L10N.register(
     "The given operator is invalid" : "Belirtilen işlem geçersiz",
     "The given regular expression is invalid" : "Belirtilen kurallı ifade geçersiz",
     "The given file size is invalid" : "Belirtilen dosya boyutu geçersiz",
-    "The given tag id is invalid" : "Belirtilen etiket kodu geçersiz",
+    "The given tag id is invalid" : "Belirtilen etiket kimliği geçersiz",
     "The given IP range is invalid" : "Belirtilen IP adresi aralığı geçersiz",
     "The given IP range is not valid for IPv4" : "Belirtilen IP adresi aralığı IPv4 için geçersiz",
     "The given IP range is not valid for IPv6" : "Belirtilen IP adresi aralığı IPv6 için geçersiz",
@@ -113,10 +113,9 @@ OC.L10N.register(
     "between" : "şunların arasında olan",
     "not between" : "şunların arasında olmayan",
     "Request user agent" : "Kullanıcı uygulaması istensin",
-    "User group membership" : "Kullanıcı grubu üyeliği",
+    "Group membership" : "Grup üyeliği",
     "is member of" : "şunun üyesi olan",
     "is not member of" : "şunun üyesi olmayan",
-    "Predefined URLs" : "Hazır adresler",
-    "Others" : "Diğerleri"
+    "User group membership" : "Kullanıcı grubu üyeliği"
 },
 "nplurals=2; plural=(n > 1);");

@@ -46,8 +46,8 @@ class BuildSocialSearchIndex implements IRepairStep {
 	 * @param IConfig $config
 	 */
 	public function __construct(IDBConnection $db,
-								IJobList $jobList,
-								IConfig $config) {
+		IJobList $jobList,
+		IConfig $config) {
 		$this->db = $db;
 		$this->jobList = $jobList;
 		$this->config = $config;

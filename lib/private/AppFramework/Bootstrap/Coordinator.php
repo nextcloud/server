@@ -30,20 +30,20 @@ declare(strict_types=1);
 
 namespace OC\AppFramework\Bootstrap;
 
-use OCP\Diagnostics\IEventLogger;
-use function class_exists;
-use function class_implements;
-use function in_array;
-use OC_App;
 use OC\Support\CrashReport\Registry;
+use OC_App;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\QueryException;
 use OCP\Dashboard\IManager;
+use OCP\Diagnostics\IEventLogger;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IServerContainer;
 use Psr\Log\LoggerInterface;
 use Throwable;
+use function class_exists;
+use function class_implements;
+use function in_array;
 
 class Coordinator {
 	/** @var IServerContainer */

@@ -46,6 +46,7 @@ class PredefinedStatusService {
 	 * @deprecated See \OCP\UserStatus\IUserStatus::MESSAGE_CALL
 	 */
 	public const CALL = 'call';
+	public const OUT_OF_OFFICE = 'out-of-office';
 
 	/** @var IL10N */
 	private $l10n;
@@ -113,6 +114,13 @@ class PredefinedStatusService {
 				'clearAt' => null,
 				'visible' => false,
 			],
+			[
+				'id' => self::OUT_OF_OFFICE,
+				'icon' => '🛑',
+				'message' => $this->getTranslatedStatusForId(self::OUT_OF_OFFICE),
+				'clearAt' => null,
+				'visible' => false,
+			],
 		];
 	}
 
@@ -148,6 +156,9 @@ class PredefinedStatusService {
 			case self::VACATIONING:
 				return '🌴';
 
+			case self::OUT_OF_OFFICE:
+				return '🛑';
+
 			case self::REMOTE_WORK:
 				return '🏡';
 
@@ -178,6 +189,9 @@ class PredefinedStatusService {
 			case self::VACATIONING:
 				return $this->l10n->t('Vacationing');
 
+			case self::OUT_OF_OFFICE:
+				return $this->l10n->t('Out of office');
+
 			case self::REMOTE_WORK:
 				return $this->l10n->t('Working remotely');
 
@@ -199,9 +213,11 @@ class PredefinedStatusService {
 			self::COMMUTING,
 			self::SICK_LEAVE,
 			self::VACATIONING,
+			self::OUT_OF_OFFICE,
 			self::REMOTE_WORK,
 			IUserStatus::MESSAGE_CALL,
 			IUserStatus::MESSAGE_AVAILABILITY,
+			IUserStatus::MESSAGE_VACATION,
 			IUserStatus::MESSAGE_CALENDAR_BUSY,
 			IUserStatus::MESSAGE_CALENDAR_BUSY_TENTATIVE,
 		], true);

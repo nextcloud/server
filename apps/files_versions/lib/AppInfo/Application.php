@@ -36,6 +36,7 @@ use OCA\Files_Versions\Capabilities;
 use OCA\Files_Versions\Listener\FileEventsListener;
 use OCA\Files_Versions\Listener\LoadAdditionalListener;
 use OCA\Files_Versions\Listener\LoadSidebarListener;
+use OCA\Files_Versions\Listener\MetadataFileEvents;
 use OCA\Files_Versions\Versions\IVersionManager;
 use OCA\Files_Versions\Versions\VersionManager;
 use OCP\Accounts\IAccountManager;
@@ -48,11 +49,11 @@ use OCP\Files\Events\Node\BeforeNodeCopiedEvent;
 use OCP\Files\Events\Node\BeforeNodeDeletedEvent;
 use OCP\Files\Events\Node\BeforeNodeRenamedEvent;
 use OCP\Files\Events\Node\BeforeNodeTouchedEvent;
+use OCP\Files\Events\Node\BeforeNodeWrittenEvent;
 use OCP\Files\Events\Node\NodeCopiedEvent;
+use OCP\Files\Events\Node\NodeCreatedEvent;
 use OCP\Files\Events\Node\NodeDeletedEvent;
 use OCP\Files\Events\Node\NodeRenamedEvent;
-use OCP\Files\Events\Node\BeforeNodeWrittenEvent;
-use OCP\Files\Events\Node\NodeCreatedEvent;
 use OCP\Files\Events\Node\NodeTouchedEvent;
 use OCP\Files\Events\Node\NodeWrittenEvent;
 use OCP\IConfig;
@@ -119,6 +120,8 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(NodeCopiedEvent::class, FileEventsListener::class);
 		$context->registerEventListener(BeforeNodeRenamedEvent::class, FileEventsListener::class);
 		$context->registerEventListener(BeforeNodeCopiedEvent::class, FileEventsListener::class);
+		
+		$context->registerEventListener(NodeWrittenEvent::class, MetadataFileEvents::class);
 	}
 
 	public function boot(IBootContext $context): void {

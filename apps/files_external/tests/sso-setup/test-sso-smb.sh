@@ -5,8 +5,9 @@ DC_IP="$1"
 SCRIPT_DIR="${0%/*}"
 
 echo -n "Checking that we can authenticate using kerberos: "
-LOGIN_CONTENT=$("$SCRIPT_DIR/client-cmd.sh" $DC_IP curl -i -s --negotiate -u testuser@DOMAIN.TEST: --delegation always http://httpd.domain.test/index.php/apps/user_saml/saml/login?originalUrl=success)
-if [[ "$LOGIN_CONTENT" =~ "Location: success" ]]; then
+LOGIN_CONTENT=$("$SCRIPT_DIR/client-cmd.sh" $DC_IP curl -i -s --negotiate -u testuser@DOMAIN.TEST: --delegation always http://httpd.domain.test/index.php/apps/user_saml/saml/login?originalUrl=http://localhost/success)
+
+if [[ "$LOGIN_CONTENT" =~ "Location: http://localhost/success" ]]; then
   echo "✔️"
 else
   echo "❌"

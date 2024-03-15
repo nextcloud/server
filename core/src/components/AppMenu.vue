@@ -160,7 +160,7 @@ $header-icon-size: 20px;
 				width: 12px;
 				height: 5px;
 				border-radius: 3px;
-				background-color: var(--color-primary-element-text);
+				background-color: var(--color-primary-text);
 				left: 50%;
 				bottom: 6px;
 				display: block;
@@ -177,7 +177,8 @@ $header-icon-size: 20px;
 			width: calc(100% - 4px);
 			height: calc(100% - 4px);
 			margin: 2px;
-			color: var(--color-primary-element-text);
+			// this is shown directly on the background which has `color-primary`, so we need `color-primary-text`
+			color: var(--color-primary-text);
 			position: relative;
 		}
 
@@ -194,7 +195,8 @@ $header-icon-size: 20px;
 			opacity: 0;
 			position: absolute;
 			font-size: 12px;
-			color: var(--color-primary-element-text);
+			// this is shown directly on the background which has `color-primary`, so we need `color-primary-text`
+			color: var(--color-primary-text);
 			text-align: center;
 			left: 50%;
 			top: 45%;
@@ -270,6 +272,10 @@ $header-icon-size: 20px;
 	.app-icon {
 		position: relative;
 		height: 44px;
+		width: 48px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
 		/* Icons are bright so invert them if bright color theme == bright background is used */
 		filter: var(--background-invert-if-bright);
 
@@ -280,7 +286,6 @@ $header-icon-size: 20px;
 		img {
 			width: $header-icon-size;
 			height: $header-icon-size;
-			padding: calc((50px - $header-icon-size) / 2);
 		}
 	}
 }

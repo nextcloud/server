@@ -24,7 +24,7 @@ namespace OCA\Files\Controller;
 
 use Exception;
 use OCP\AppFramework\Controller;
-use OCP\AppFramework\Http\Attribute\IgnoreOpenAPI;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\DirectEditing\IManager;
@@ -33,7 +33,7 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IRequest;
 use Psr\Log\LoggerInterface;
 
-#[IgnoreOpenAPI]
+#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class DirectEditingViewController extends Controller {
 	public function __construct(
 		$appName,

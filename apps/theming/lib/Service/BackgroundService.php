@@ -60,14 +60,14 @@ class BackgroundService {
 			'description' => 'Abstract background picture in yellow and white color whith a flower on it',
 			'attribution_url' => 'https://stocksnap.io/photo/soft-floral-XOYWCCW5PA',
 			'theming' => self::THEMING_MODE_DARK,
-			'primary_color' => '#9f652f',
+			'primary_color' => '#D8A06C',
 		],
 		'ted-moravec-morning-fog.jpg' => [
 			'attribution' => 'Morning fog (Ted Moravec, Public Domain)',
 			'description' => 'Background picture of a forest shrouded in fog',
 			'attribution_url' => 'https://flickr.com/photos/tmoravec/52392410261',
 			'theming' => self::THEMING_MODE_DARK,
-			'primary_color' => '#114c3b',
+			'primary_color' => '#38A084',
 		],
 		'stefanus-martanto-setyo-husodo-underwater-ocean.jpg' => [
 			'attribution' => 'Underwater ocean (Stefanus Martanto Setyo Husodo, CC0)',
@@ -92,7 +92,7 @@ class BackgroundService {
 			'description' => 'Montage of a cetonia aurata bug that takes off with white background',
 			'attribution_url' => 'https://commons.wikimedia.org/wiki/File:Cetonia_aurata_take_off_composition_05172009.jpg',
 			'theming' => self::THEMING_MODE_DARK,
-			'primary_color' => '#56633d',
+			'primary_color' => '#869171',
 		],
 		'dejan-krsmanovic-ribbed-red-metal.jpg' => [
 			'attribution' => 'Ribbed red metal (Dejan Krsmanovic, CC BY)',
@@ -147,7 +147,7 @@ class BackgroundService {
 			'description' => 'Abstract background picture of pink tapioca bubbles',
 			'attribution_url' => 'https://www.flickr.com/photos/byrawpixel/27665140298/in/photostream/',
 			'theming' => self::THEMING_MODE_DARK,
-			'primary_color' => '#7b4e7e',
+			'primary_color' => '#b17ab4',
 		],
 		'nasa-waxing-crescent-moon.jpg' => [
 			'attribution' => 'Waxing crescent moon (NASA, Public Domain)',
@@ -166,14 +166,14 @@ class BackgroundService {
 			'description' => 'Background picture of mountains during sunset or sunrise',
 			'attribution_url' => 'https://www.flickr.com/photos/90975693@N05/17136440246',
 			'theming' => self::THEMING_MODE_DARK,
-			'primary_color' => '#7f4f70',
+			'primary_color' => '#c074a9',
 		],
 		'lali-masriera-yellow-bricks.jpg' => [
 			'attribution' => 'Yellow bricks (Lali Masriera, CC BY)',
 			'description' => 'Background picture of yellow bricks with some yellow tubes',
 			'attribution_url' => 'https://www.flickr.com/photos/visualpanic/3982464447',
 			'theming' => self::THEMING_MODE_DARK,
-			'primary_color' => '#7f5700',
+			'primary_color' => '#bc8210',
 		],
 	];
 
@@ -184,10 +184,10 @@ class BackgroundService {
 	private ThemingDefaults $themingDefaults;
 
 	public function __construct(IRootFolder $rootFolder,
-								IAppData $appData,
-								IConfig $config,
-								?string $userId,
-								ThemingDefaults $themingDefaults) {
+		IAppData $appData,
+		IConfig $config,
+		?string $userId,
+		ThemingDefaults $themingDefaults) {
 		if ($userId === null) {
 			return;
 		}

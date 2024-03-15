@@ -2,8 +2,9 @@
 	- @copyright Copyright (c) 2023 John Molakvoæ <skjnldsv@protonmail.com>
 	-
 	- @author John Molakvoæ <skjnldsv@protonmail.com>
+	- @author Ferdinand Thiessen <opensource@fthiessen.de>
 	-
-	- @license GNU AGPL version 3 or any later version
+	- @license AGPL-3.0-or-later
 	-
 	- This program is free software: you can redistribute it and/or modify
 	- it under the terms of the GNU Affero General Public License as
@@ -20,31 +21,40 @@
 	-
 	-->
 <template>
-	<div class="files-list__drag-drop-notice"
-		:class="{ 'files-list__drag-drop-notice--dragover': dragover }"
+	<div v-show="dragover"
+		class="files-list__drag-drop-notice"
 		@drop="onDrop">
 		<div class="files-list__drag-drop-notice-wrapper">
-			<TrayArrowDownIcon :size="48" />
-			<h3 class="files-list-drag-drop-notice__title">
-				{{ t('files', 'Drag and drop files here to upload') }}
-			</h3>
+			<template v-if="canUpload && !isQuotaExceeded">
+				<TrayArrowDownIcon :size="48" />
+				<h3 class="files-list-drag-drop-notice__title">
+					{{ t('files', 'Drag and drop files here to upload') }}
+				</h3>
+			</template>
+
+			<!-- Not permitted to drop files here -->
+			<template v-else>
+				<h3 class="files-list-drag-drop-notice__title">
+					{{ cantUploadLabel }}
+				</h3>
+			</template>
 		</div>
 	</div>
 </template>
 
 <script lang="ts">
-import type { Upload } from '@nextcloud/upload'
-import { join } from 'path'
-import { showSuccess } from '@nextcloud/dialogs'
+import { defineComponent } from 'vue'
+import { Folder, Permission } from '@nextcloud/files'
+import { showError, showSuccess } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
-import { getUploader } from '@nextcloud/upload'
-import Vue from 'vue'
+import { UploadStatus } from '@nextcloud/upload'
 
 import TrayArrowDownIcon from 'vue-material-design-icons/TrayArrowDown.vue'
 
 import logger from '../logger.js'
+import { handleDrop } from '../services/DropService'
 
-export default Vue.extend({
+export default defineComponent({
 	name: 'DragAndDropNotice',
 
 	components: {
@@ -53,18 +63,95 @@ export default Vue.extend({
 
 	props: {
 		currentFolder: {
-			type: Object,
+			type: Folder,
 			required: true,
-		},
-		dragover: {
-			type: Boolean,
-			default: false,
 		},
 	},
 
+	data() {
+		return {
+			dragover: false,
+		}
+	},
+
+	computed: {
+		/**
+		 * Check if the current folder has create permissions
+		 */
+		canUpload() {
+			return this.currentFolder && (this.currentFolder.permissions & Permission.CREATE) !== 0
+		},
+		isQuotaExceeded() {
+			return this.currentFolder?.attributes?.['quota-available-bytes'] === 0
+		},
+
+		cantUploadLabel() {
+			if (this.isQuotaExceeded) {
+				return this.t('files', 'Your have used your space quota and cannot upload files anymore')
+			} else if (!this.canUpload) {
+				return this.t('files', 'You don’t have permission to upload or create files here')
+			}
+			return null
+		},
+	},
+
+	mounted() {
+		// Add events on parent to cover both the table and DragAndDrop notice
+		const mainContent = window.document.querySelector('main.app-content') as HTMLElement
+		mainContent.addEventListener('dragover', this.onDragOver)
+		mainContent.addEventListener('dragleave', this.onDragLeave)
+		mainContent.addEventListener('drop', this.onContentDrop)
+	},
+
+	beforeDestroy() {
+		const mainContent = window.document.querySelector('main.app-content') as HTMLElement
+		mainContent.removeEventListener('dragover', this.onDragOver)
+		mainContent.removeEventListener('dragleave', this.onDragLeave)
+		mainContent.removeEventListener('drop', this.onContentDrop)
+	},
+
 	methods: {
-		onDrop(event: DragEvent) {
-			this.$emit('update:dragover', false)
+		onDragOver(event: DragEvent) {
+			// Needed to keep the drag/drop events chain working
+			event.preventDefault()
+
+			const isForeignFile = event.dataTransfer?.types.includes('Files')
+			if (isForeignFile) {
+				// Only handle uploading of outside files (not Nextcloud files)
+				this.dragover = true
+			}
+		},
+
+		onDragLeave(event: DragEvent) {
+			// Counter bubbling, make sure we're ending the drag
+			// only when we're leaving the current element
+			// Avoid flickering
+			const currentTarget = event.currentTarget as HTMLElement
+			if (currentTarget?.contains((event.relatedTarget ?? event.target) as HTMLElement)) {
+				return
+			}
+
+			if (this.dragover) {
+				this.dragover = false
+			}
+		},
+
+		onContentDrop(event: DragEvent) {
+			logger.debug('Drag and drop cancelled, dropped on empty space', { event })
+			event.preventDefault()
+			if (this.dragover) {
+				this.dragover = false
+			}
+		},
+
+		async onDrop(event: DragEvent) {
+			logger.debug('Dropped on DragAndDropNotice', { event })
+
+			// cantUploadLabel is null if we can upload
+			if (this.cantUploadLabel) {
+				showError(this.cantUploadLabel)
+				return
+			}
 
 			if (this.$el.querySelector('tbody')?.contains(event.target as Node)) {
 				return
@@ -73,33 +160,37 @@ export default Vue.extend({
 			event.preventDefault()
 			event.stopPropagation()
 
-			if (event.dataTransfer && event.dataTransfer.files?.length > 0) {
-				const uploader = getUploader()
-				uploader.destination = this.currentFolder
-
+			if (event.dataTransfer && event.dataTransfer.items.length > 0) {
 				// Start upload
 				logger.debug(`Uploading files to ${this.currentFolder.path}`)
-				const promises = [...event.dataTransfer.files].map((file: File) => {
-					return uploader.upload(file.name, file) as Promise<Upload>
-				})
-
 				// Process finished uploads
-				Promise.all(promises).then((uploads) => {
-					logger.debug('Upload terminated', { uploads })
-					showSuccess(t('files', 'Upload successful'))
+				const uploads = await handleDrop(event.dataTransfer)
+				logger.debug('Upload terminated', { uploads })
 
-					// Scroll to last upload if terminated
-					const lastUpload = uploads[uploads.length - 1]
-					if (lastUpload?.response?.headers?.['oc-fileid']) {
-						this.$router.push(Object.assign({}, this.$route, {
-							params: {
-								// Remove instanceid from header response
-								fileid: parseInt(lastUpload.response?.headers?.['oc-fileid']),
-							},
-						}))
-					}
-				})
+				if (uploads.some((upload) => upload.status === UploadStatus.FAILED)) {
+					showError(t('files', 'Some files could not be uploaded'))
+					const failedUploads = uploads.filter((upload) => upload.status === UploadStatus.FAILED)
+					logger.debug('Some files could not be uploaded', { failedUploads })
+				} else {
+					showSuccess(t('files', 'Files uploaded successfully'))
+				}
+
+				// Scroll to last successful upload in current directory if terminated
+				const lastUpload = uploads.findLast((upload) => upload.status !== UploadStatus.FAILED
+					&& !upload.file.webkitRelativePath.includes('/')
+					&& upload.response?.headers?.['oc-fileid'])
+
+				if (lastUpload !== undefined) {
+					this.$router.push({
+						...this.$route,
+						params: {
+							view: this.$route.params?.view ?? 'files',
+							fileid: parseInt(lastUpload.response!.headers['oc-fileid']),
+						},
+					})
+				}
 			}
+			this.dragover = false
 		},
 		t,
 	},
@@ -108,12 +199,7 @@ export default Vue.extend({
 
 <style lang="scss" scoped>
 .files-list__drag-drop-notice {
-	position: absolute;
-	z-index: 9999;
-	top: 0;
-	right: 0;
-	left: 0;
-	display: none;
+	display: flex;
 	align-items: center;
 	justify-content: center;
 	width: 100%;
@@ -123,11 +209,7 @@ export default Vue.extend({
 	user-select: none;
 	color: var(--color-text-maxcontrast);
 	background-color: var(--color-main-background);
-
-	&--dragover {
-		display: flex;
-		border-color: black;
-	}
+	border-color: black;
 
 	h3 {
 		margin-left: 16px;
@@ -143,12 +225,6 @@ export default Vue.extend({
 		padding: 0 5vw;
 		border: 2px var(--color-border-dark) dashed;
 		border-radius: var(--border-radius-large);
-	}
-
-	&__close {
-		position: absolute !important;
-		top: 10px;
-		right: 10px;
 	}
 }
 

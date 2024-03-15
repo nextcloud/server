@@ -10,10 +10,12 @@
     "Redirection URI" : "Redirecionamento URI",
     "Client Identifier" : "Identificador do Cliente",
     "Secret key" : "Chave secreta",
+    "Delete client" : "Excluir cliente",
     "Add client" : "Adicionar cliente",
     "Add" : "Adicionar",
-    "Show client secret" : "Mostra senha do cliente",
     "Delete" : "Excluir",
+    "Show client secret" : "Mostra senha do cliente",
+    "Hide client secret" : "Ocultar segredo do cliente",
     "Secret" : "Secreto"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

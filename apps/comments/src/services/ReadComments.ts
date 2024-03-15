@@ -27,19 +27,19 @@ import type { Response } from 'webdav'
 /**
  * Mark comments older than the date timestamp as read
  *
- * @param commentsType the ressource type
- * @param ressourceId the ressource ID
+ * @param resourceType the resource type
+ * @param resourceId the resource ID
  * @param date the date object
  */
 export const markCommentsAsRead = (
-	commentsType: string,
-	ressourceId: number,
+	resourceType: string,
+	resourceId: number,
 	date: Date,
 ): Promise<Response> => {
-	const ressourcePath = ['', commentsType, ressourceId].join('/')
+	const resourcePath = ['', resourceType, resourceId].join('/')
 	const readMarker = date.toUTCString()
 
-	return client.customRequest(ressourcePath, {
+	return client.customRequest(resourcePath, {
 		method: 'PROPPATCH',
 		data: `<?xml version="1.0"?>
 			<d:propertyupdate

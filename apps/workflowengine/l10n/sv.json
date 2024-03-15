@@ -111,10 +111,9 @@
     "between" : "mellan",
     "not between" : "inte mellan",
     "Request user agent" : "Begär användaragent",
-    "User group membership" : "Användargruppsmedlemskap",
+    "Group membership" : "Gruppmedlemskap",
     "is member of" : "är medlem i",
     "is not member of" : "är inte medlem i",
-    "Predefined URLs" : "Förinställda webbadresser",
-    "Others" : "Övriga"
+    "User group membership" : "Användargruppsmedlemskap"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

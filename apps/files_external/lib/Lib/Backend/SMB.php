@@ -63,11 +63,11 @@ class SMB extends Backend {
 					->setType(DefinitionParameter::VALUE_BOOLEAN)
 					->setFlag(DefinitionParameter::FLAG_OPTIONAL)
 					->setDefaultValue(true)
-					->setTooltip($l->t('Disabling it will allow to use a case insentive file system, but comes with a performance penalty')),
+					->setTooltip($l->t('Disabling it will allow to use a case insensitive file system, but comes with a performance penalty')),
 				(new DefinitionParameter('check_acl', $l->t('Verify ACL access when listing files')))
 					->setType(DefinitionParameter::VALUE_BOOLEAN)
 					->setFlag(DefinitionParameter::FLAG_OPTIONAL)
-					->setTooltip($l->t("Check the ACL's of each file or folder inside a directory to filter out items where the user has no read permissions, comes with a performance penalty")),
+					->setTooltip($l->t("Check the ACL's of each file or folder inside a directory to filter out items where the account has no read permissions, comes with a performance penalty")),
 				(new DefinitionParameter('timeout', $l->t('Timeout')))
 					->setType(DefinitionParameter::VALUE_HIDDEN)
 					->setFlag(DefinitionParameter::FLAG_OPTIONAL),

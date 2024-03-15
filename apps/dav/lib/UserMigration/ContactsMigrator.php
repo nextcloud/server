@@ -26,8 +26,6 @@ declare(strict_types=1);
 
 namespace OCA\DAV\UserMigration;
 
-use function sort;
-use function substr;
 use OCA\DAV\AppInfo\Application;
 use OCA\DAV\CardDAV\CardDavBackend;
 use OCA\DAV\CardDAV\Plugin as CardDAVPlugin;
@@ -49,6 +47,8 @@ use Sabre\VObject\UUIDUtil;
 use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 use Throwable;
+use function sort;
+use function substr;
 
 class ContactsMigrator implements IMigrator, ISizeEstimationMigrator {
 
@@ -160,6 +160,9 @@ class ContactsMigrator implements IMigrator, ISizeEstimationMigrator {
 		)));
 	}
 
+	/**
+	 * @throws InvalidAddressBookException
+	 */
 	private function getUniqueAddressBookUri(IUser $user, string $initialAddressBookUri): string {
 		$principalUri = $this->getPrincipalUri($user);
 
@@ -168,7 +171,7 @@ class ContactsMigrator implements IMigrator, ISizeEstimationMigrator {
 			: ContactsMigrator::MIGRATED_URI_PREFIX . $initialAddressBookUri;
 
 		if ($initialAddressBookUri === '') {
-			throw new ContactsMigratorException('Failed to get unique address book URI');
+			throw new InvalidAddressBookException();
 		}
 
 		$existingAddressBookUris = array_map(
@@ -272,6 +275,8 @@ class ContactsMigrator implements IMigrator, ISizeEstimationMigrator {
 	/**
 	 * @param array{displayName: string, description?: string} $metadata
 	 * @param VCard[] $vCards
+	 *
+	 * @throws InvalidAddressBookException
 	 */
 	private function importAddressBook(IUser $user, string $filename, string $initialAddressBookUri, array $metadata, array $vCards, OutputInterface $output): void {
 		$principalUri = $this->getPrincipalUri($user);
@@ -366,24 +371,29 @@ class ContactsMigrator implements IMigrator, ISizeEstimationMigrator {
 
 			$splitFilename = explode('.', $addressBookFilename, 2);
 			if (count($splitFilename) !== 2) {
-				throw new ContactsMigratorException("Invalid filename \"$addressBookFilename\", expected filename of the format \"<address_book_name>." . ContactsMigrator::FILENAME_EXT . '"');
+				$output->writeln("Invalid filename \"$addressBookFilename\", expected filename of the format \"<address_book_name>." . ContactsMigrator::FILENAME_EXT . '", skipping…');
+				continue;
 			}
 			[$initialAddressBookUri, $ext] = $splitFilename;
 
 			/** @var array{displayName: string, description?: string} $metadata */
 			$metadata = json_decode($importSource->getFileContents($metadataImportPath), true, 512, JSON_THROW_ON_ERROR);
 
-			$this->importAddressBook(
-				$user,
-				$addressBookFilename,
-				$initialAddressBookUri,
-				$metadata,
-				$vCards,
-				$output,
-			);
-
-			foreach ($vCards as $vCard) {
-				$vCard->destroy();
+			try {
+				$this->importAddressBook(
+					$user,
+					$addressBookFilename,
+					$initialAddressBookUri,
+					$metadata,
+					$vCards,
+					$output,
+				);
+			} catch (InvalidAddressBookException $e) {
+				// Allow this exception to skip a failed import
+			} finally {
+				foreach ($vCards as $vCard) {
+					$vCard->destroy();
+				}
 			}
 		}
 	}

@@ -33,11 +33,11 @@ use OCP\Files\Folder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\IUserSession;
-use OCP\Share\IShare;
 use OCP\Share\IManager;
+use OCP\Share\IShare;
 use Sabre\DAV\PropFind;
-use Sabre\DAV\Tree;
 use Sabre\DAV\Server;
+use Sabre\DAV\Tree;
 
 /**
  * Sabre Plugin to provide share-related properties

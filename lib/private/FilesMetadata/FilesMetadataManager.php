@@ -30,7 +30,6 @@ use OC\FilesMetadata\Job\UpdateSingleMetadata;
 use OC\FilesMetadata\Listener\MetadataDelete;
 use OC\FilesMetadata\Listener\MetadataUpdate;
 use OC\FilesMetadata\Model\FilesMetadata;
-use OC\FilesMetadata\Model\MetadataQuery;
 use OC\FilesMetadata\Service\IndexRequestService;
 use OC\FilesMetadata\Service\MetadataRequestService;
 use OCP\BackgroundJob\IJobList;
@@ -38,20 +37,22 @@ use OCP\DB\Exception;
 use OCP\DB\Exception as DBException;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\Files\Events\Node\NodeDeletedEvent;
+use OCP\Files\Cache\CacheEntryRemovedEvent;
 use OCP\Files\Events\Node\NodeWrittenEvent;
 use OCP\Files\InvalidPathException;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\FilesMetadata\Event\MetadataBackgroundEvent;
 use OCP\FilesMetadata\Event\MetadataLiveEvent;
+use OCP\FilesMetadata\Event\MetadataNamedEvent;
 use OCP\FilesMetadata\Exceptions\FilesMetadataException;
 use OCP\FilesMetadata\Exceptions\FilesMetadataNotFoundException;
 use OCP\FilesMetadata\IFilesMetadataManager;
+use OCP\FilesMetadata\IMetadataQuery;
 use OCP\FilesMetadata\Model\IFilesMetadata;
-use OCP\FilesMetadata\Model\IMetadataQuery;
 use OCP\FilesMetadata\Model\IMetadataValueWrapper;
 use OCP\IConfig;
+use OCP\IDBConnection;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -60,6 +61,7 @@ use Psr\Log\LoggerInterface;
  */
 class FilesMetadataManager implements IFilesMetadataManager {
 	public const CONFIG_KEY = 'files_metadata';
+	public const MIGRATION_DONE = 'files_metadata_installed';
 	private const JSON_MAXSIZE = 100000;
 
 	private ?IFilesMetadata $all = null;
@@ -90,7 +92,8 @@ class FilesMetadataManager implements IFilesMetadataManager {
 	 */
 	public function refreshMetadata(
 		Node $node,
-		int $process = self::PROCESS_LIVE
+		int $process = self::PROCESS_LIVE,
+		string $namedEvent = ''
 	): IFilesMetadata {
 		try {
 			$metadata = $this->metadataRequestService->getMetadataFromFileId($node->getId());
@@ -99,8 +102,12 @@ class FilesMetadataManager implements IFilesMetadataManager {
 		}
 
 		// if $process is LIVE, we enforce LIVE
+		// if $process is NAMED, we go NAMED
+		// else BACKGROUND
 		if ((self::PROCESS_LIVE & $process) !== 0) {
 			$event = new MetadataLiveEvent($node, $metadata);
+		} elseif ((self::PROCESS_NAMED & $process) !== 0) {
+			$event = new MetadataNamedEvent($node, $metadata, $namedEvent);
 		} else {
 			$event = new MetadataBackgroundEvent($node, $metadata);
 		}
@@ -143,6 +150,19 @@ class FilesMetadataManager implements IFilesMetadataManager {
 	}
 
 	/**
+	 * returns metadata of multiple file ids
+	 *
+	 * @param int[] $fileIds file ids
+	 *
+	 * @return array File ID is the array key, files without metadata are not returned in the array
+	 * @psalm-return array<int, IFilesMetadata>
+	 * @since 28.0.0
+	 */
+	public function getMetadataForFiles(array $fileIds): array {
+		return $this->metadataRequestService->getMetadataFromFileIds($fileIds);
+	}
+
+	/**
 	 * @param IFilesMetadata $filesMetadata metadata
 	 *
 	 * @inheritDoc
@@ -156,7 +176,8 @@ class FilesMetadataManager implements IFilesMetadataManager {
 
 		$json = json_encode($filesMetadata->jsonSerialize());
 		if (strlen($json) > self::JSON_MAXSIZE) {
-			throw new FilesMetadataException('json cannot exceed ' . self::JSON_MAXSIZE . ' characters long');
+			$this->logger->debug('huge metadata content detected: ' . $json);
+			throw new FilesMetadataException('json cannot exceed ' . self::JSON_MAXSIZE . ' characters long; fileId: ' . $filesMetadata->getFileId() . '; size: ' . strlen($json));
 		}
 
 		try {
@@ -214,7 +235,7 @@ class FilesMetadataManager implements IFilesMetadataManager {
 	 * @param string $fileIdField alias of the field that contains file ids
 	 *
 	 * @inheritDoc
-	 * @return IMetadataQuery
+	 * @return IMetadataQuery|null
 	 * @see IMetadataQuery
 	 * @since 28.0.0
 	 */
@@ -222,7 +243,11 @@ class FilesMetadataManager implements IFilesMetadataManager {
 		IQueryBuilder $qb,
 		string $fileTableAlias,
 		string $fileIdField
-	): IMetadataQuery {
+	): ?IMetadataQuery {
+		if (!$this->metadataInitiated()) {
+			return null;
+		}
+
 		return new MetadataQuery($qb, $this->getKnownMetadata(), $fileTableAlias, $fileIdField);
 	}
 
@@ -251,6 +276,7 @@ class FilesMetadataManager implements IFilesMetadataManager {
 	 * @param string $key metadata key
 	 * @param string $type metadata type
 	 * @param bool $indexed TRUE if metadata can be search
+	 * @param int $editPermission remote edit permission via Webdav PROPPATCH
 	 *
 	 * @inheritDoc
 	 * @since 28.0.0
@@ -261,19 +287,31 @@ class FilesMetadataManager implements IFilesMetadataManager {
 	 * @see IMetadataValueWrapper::TYPE_STRING_LIST
 	 * @see IMetadataValueWrapper::TYPE_INT_LIST
 	 * @see IMetadataValueWrapper::TYPE_STRING
+	 * @see IMetadataValueWrapper::EDIT_FORBIDDEN
+	 * @see IMetadataValueWrapper::EDIT_REQ_OWNERSHIP
+	 * @see IMetadataValueWrapper::EDIT_REQ_WRITE_PERMISSION
+	 * @see IMetadataValueWrapper::EDIT_REQ_READ_PERMISSION
 	 */
-	public function initMetadata(string $key, string $type, bool $indexed): void {
+	public function initMetadata(
+		string $key,
+		string $type,
+		bool $indexed = false,
+		int $editPermission = IMetadataValueWrapper::EDIT_FORBIDDEN
+	): void {
 		$current = $this->getKnownMetadata();
 		try {
-			if ($current->getType($key) === $type && $indexed === $current->isIndex($key)) {
+			if ($current->getType($key) === $type
+				&& $indexed === $current->isIndex($key)
+				&& $editPermission === $current->getEditPermission($key)) {
 				return; // if key exists, with same type and indexed, we do nothing.
 			}
 		} catch (FilesMetadataNotFoundException) {
 			// if value does not exist, we keep on the writing of course
 		}
 
-		$current->import([$key => ['type' => $type, 'indexed' => $indexed]]);
+		$current->import([$key => ['type' => $type, 'indexed' => $indexed, 'editPermission' => $editPermission]]);
 		$this->config->setAppValue('core', self::CONFIG_KEY, json_encode($current));
+		$this->all = $current;
 	}
 
 	/**
@@ -283,6 +321,28 @@ class FilesMetadataManager implements IFilesMetadataManager {
 	 */
 	public static function loadListeners(IEventDispatcher $eventDispatcher): void {
 		$eventDispatcher->addServiceListener(NodeWrittenEvent::class, MetadataUpdate::class);
-		$eventDispatcher->addServiceListener(NodeDeletedEvent::class, MetadataDelete::class);
+		$eventDispatcher->addServiceListener(CacheEntryRemovedEvent::class, MetadataDelete::class);
+	}
+
+	/**
+	 * Will confirm that tables were created and store an app value to cache the result.
+	 * Can be removed in 29 as this is to avoid strange situation when Nextcloud files were
+	 * replaced but the upgrade was not triggered yet.
+	 *
+	 * @return bool
+	 */
+	private function metadataInitiated(): bool {
+		if ($this->config->getAppValue('core', self::MIGRATION_DONE, '0') === '1') {
+			return true;
+		}
+
+		$dbConnection = \OCP\Server::get(IDBConnection::class);
+		if ($dbConnection->tableExists(MetadataRequestService::TABLE_METADATA)) {
+			$this->config->setAppValue('core', self::MIGRATION_DONE, '1');
+
+			return true;
+		}
+
+		return false;
 	}
 }

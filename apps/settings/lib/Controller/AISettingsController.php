@@ -23,15 +23,9 @@ declare(strict_types=1);
 namespace OCA\Settings\Controller;
 
 use OCP\AppFramework\Controller;
-use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\IConfig;
-use OCP\IL10N;
 use OCP\IRequest;
-use OCP\IURLGenerator;
-use OCP\IUserSession;
-use OCP\Mail\IMailer;
-use function GuzzleHttp\Promise\queue;
 
 class AISettingsController extends Controller {
 

@@ -117,6 +117,11 @@ class ReferenceManager implements IReferenceManager {
 
 		$reference = $matchedProvider->resolveReference($referenceId);
 		if ($reference) {
+			$cachePrefix = $matchedProvider->getCachePrefix($referenceId);
+			if ($cachePrefix !== '') {
+				// If a prefix is used we set an additional key to know when we need to delete by prefix during invalidateCache()
+				$this->cache->set('hasPrefix-' . md5($cachePrefix), true, self::CACHE_TTL);
+			}
 			$this->cache->set($cacheKey, Reference::toCache($reference), self::CACHE_TTL);
 			return $reference;
 		}
@@ -161,7 +166,11 @@ class ReferenceManager implements IReferenceManager {
 	 */
 	public function invalidateCache(string $cachePrefix, ?string $cacheKey = null): void {
 		if ($cacheKey === null) {
-			$this->cache->clear(md5($cachePrefix));
+			// clear might be a heavy operation, so we only do it if there have actually been keys set
+			if ($this->cache->remove('hasPrefix-' . md5($cachePrefix))) {
+				$this->cache->clear(md5($cachePrefix));
+			}
+
 			return;
 		}
 

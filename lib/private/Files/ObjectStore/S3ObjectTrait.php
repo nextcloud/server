@@ -191,15 +191,30 @@ trait S3ObjectTrait {
 	}
 
 	public function copyObject($from, $to, array $options = []) {
-		$copy = new MultipartCopy($this->getConnection(), [
-			"source_bucket" => $this->getBucket(),
-			"source_key" => $from
-		], array_merge([
-			"bucket" => $this->getBucket(),
-			"key" => $to,
-			"acl" => "private",
-			"params" => $this->getSSECParameters() + $this->getSSECParameters(true)
-		], $options));
-		$copy->copy();
+		$sourceMetadata = $this->getConnection()->headObject([
+			'Bucket' => $this->getBucket(),
+			'Key' => $from,
+		] + $this->getSSECParameters());
+
+		$size = (int)($sourceMetadata->get('Size') ?? $sourceMetadata->get('ContentLength'));
+
+		if ($this->useMultipartCopy && $size > $this->copySizeLimit) {
+			$copy = new MultipartCopy($this->getConnection(), [
+				"source_bucket" => $this->getBucket(),
+				"source_key" => $from
+			], array_merge([
+				"bucket" => $this->getBucket(),
+				"key" => $to,
+				"acl" => "private",
+				"params" => $this->getSSECParameters() + $this->getSSECParameters(true),
+				"source_metadata" => $sourceMetadata
+			], $options));
+			$copy->copy();
+		} else {
+			$this->getConnection()->copy($this->getBucket(), $from, $this->getBucket(), $to, 'private', array_merge([
+				'params' => $this->getSSECParameters() + $this->getSSECParameters(true),
+				'mup_threshold' => PHP_INT_MAX,
+			], $options));
+		}
 	}
 }

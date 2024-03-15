@@ -26,11 +26,11 @@ declare(strict_types=1);
 
 namespace OC\Core\Db;
 
-use function json_decode;
-use function json_encode;
 use \JsonSerializable;
 use OCP\AppFramework\Db\Entity;
 use OCP\Profile\ParameterDoesNotExistException;
+use function json_decode;
+use function json_encode;
 
 /**
  * @method string getUserId()

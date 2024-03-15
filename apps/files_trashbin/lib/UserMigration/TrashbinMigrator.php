@@ -148,7 +148,7 @@ class TrashbinMigrator implements IMigrator, ISizeEstimationMigrator {
 						->setParameter('id', $id)
 						->setParameter('timestamp', $timestamp)
 						->setParameter('location', $location)
-						;
+					;
 
 					$qb->executeStatement();
 				}

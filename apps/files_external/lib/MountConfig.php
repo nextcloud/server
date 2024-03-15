@@ -152,7 +152,7 @@ class MountConfig {
 	 * @param Backend[] $backends
 	 */
 	public static function dependencyMessage(array $backends): string {
-		$l = \OC::$server->getL10N('files_external');
+		$l = \OCP\Util::getL10N('files_external');
 		$message = '';
 		$dependencyGroups = [];
 

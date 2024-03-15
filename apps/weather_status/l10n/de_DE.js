@@ -7,7 +7,7 @@ OC.L10N.register(
     "Error" : "Fehler",
     "Weather status" : "Wetter Status",
     "Weather status in your dashboard" : "Wetter Status in deinem Dashboard",
-    "Weather status integrated in the Dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Wetterstatus wird in die Dashboard-App integriert.\nDie Position des Benutzers kann automatisch bestimmt oder manuell definiert werden. Anschließend wird eine 6-Stunden-Vorhersage angezeigt.\nDieser Status kann auch an anderen Stellen wie in der Kalender-App integriert werden.",
+    "Weather status integrated in the Dashboard app.\n    The geographic location can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "In die Dashboard-App integrierter Wetterstatus.\n  Der geografische Standort kann automatisch ermittelt oder manuell angegeben werden. Es wird dann eine 6-Stunden-Vorhersage angezeigt.\n  Dieser Status kann auch an anderen Stellen, z.B. in der Kalender-App, integriert werden.",
     "Detect location" : "Ort erkennen",
     "Set custom address" : "Benutzerdefinierte Adresse festlegen",
     "Favorites" : "Favoriten",
@@ -45,6 +45,7 @@ OC.L10N.register(
     "There was an error setting the location." : "Beim Festlegen des Standortes ist ein Fehler aufgetreten.",
     "There was an error saving the mode." : "Beim Festlegen des Modus ist ein Fehler aufgetreten.",
     "There was an error using personal address." : "Bei der Verwendung der persönlichen Adresse ist ein Fehler aufgetreten.",
-    "Set location for weather" : "Stelle Standort für Wetterinformation ein."
+    "Set location for weather" : "Stelle Standort für Wetterinformation ein.",
+    "Weather status integrated in the Dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Wetterstatus wird in die Dashboard-App integriert.\nDie Position des Benutzers kann automatisch bestimmt oder manuell definiert werden. Anschließend wird eine 6-Stunden-Vorhersage angezeigt.\nDieser Status kann auch an anderen Stellen wie in der Kalender-App integriert werden."
 },
 "nplurals=2; plural=(n != 1);");

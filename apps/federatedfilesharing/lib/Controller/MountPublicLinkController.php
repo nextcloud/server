@@ -31,10 +31,12 @@
  */
 namespace OCA\FederatedFileSharing\Controller;
 
+use OCA\DAV\Connector\Sabre\PublicAuth;
 use OCA\FederatedFileSharing\AddressHandler;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\Constants;
 use OCP\Federation\ICloudIdManager;
@@ -55,6 +57,7 @@ use Psr\Log\LoggerInterface;
  *
  * @package OCA\FederatedFileSharing\Controller
  */
+#[OpenAPI(scope: OpenAPI::SCOPE_FEDERATION)]
 class MountPublicLinkController extends Controller {
 	/**
 	 * MountPublicLinkController constructor.
@@ -108,7 +111,7 @@ class MountPublicLinkController extends Controller {
 
 		// make sure that user is authenticated in case of a password protected link
 		$storedPassword = $share->getPassword();
-		$authenticated = $this->session->get('public_link_authenticated') === $share->getId() ||
+		$authenticated = $this->session->get(PublicAuth::DAV_AUTHENTICATED) === $share->getId() ||
 			$this->shareManager->checkPassword($share, $password);
 		if (!empty($storedPassword) && !$authenticated) {
 			$response = new JSONResponse(

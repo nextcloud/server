@@ -64,7 +64,7 @@ class Admin implements IDelegatedSettings {
 			$errorMessage = $this->l->t('You are already using a custom theme. Theming app settings might be overwritten by that.');
 		}
 
-		$allowedMimeTypes = array_reduce(ThemingController::VALID_UPLOAD_KEYS, function($carry, $key) {
+		$allowedMimeTypes = array_reduce(ThemingController::VALID_UPLOAD_KEYS, function ($carry, $key) {
 			$carry[$key] = $this->imageManager->getSupportedUploadImageFormats($key);
 			return $carry;
 		}, []);

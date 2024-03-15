@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -49,18 +50,18 @@ namespace OCA\Files_Sharing;
  *     mimetype: string,
  *     note: string,
  *     parent: null,
- *     password?: string,
+ *     password?: null|string,
  *     password_expiration_time?: ?string,
  *     path: ?string,
  *     permissions: int,
  *     send_password_by_talk?: bool,
  *     share_type: int,
- *     share_with?: string,
+ *     share_with?: null|string,
  *     share_with_avatar?: string,
  *     share_with_displayname?: string,
  *     share_with_displayname_unique?: ?string,
  *     share_with_link?: string,
- *     status?: array{clearAt?: int|null, icon?: ?string, message?: ?string, status?: string},
+ *     status?: array{clearAt: int|null, icon: ?string, message: ?string, status: string},
  *     stime: int,
  *     storage: int,
  *     storage_id: string,

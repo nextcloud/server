@@ -48,24 +48,51 @@ use OCA\Settings\Middleware\SubadminMiddleware;
 use OCA\Settings\Search\AppSearch;
 use OCA\Settings\Search\SectionSearch;
 use OCA\Settings\Search\UserSearch;
+use OCA\Settings\SetupChecks\AppDirsWithDifferentOwner;
+use OCA\Settings\SetupChecks\BruteForceThrottler;
 use OCA\Settings\SetupChecks\CheckUserCertificates;
+use OCA\Settings\SetupChecks\CodeIntegrity;
+use OCA\Settings\SetupChecks\CronErrors;
+use OCA\Settings\SetupChecks\CronInfo;
+use OCA\Settings\SetupChecks\DatabaseHasMissingColumns;
+use OCA\Settings\SetupChecks\DatabaseHasMissingIndices;
+use OCA\Settings\SetupChecks\DatabaseHasMissingPrimaryKeys;
+use OCA\Settings\SetupChecks\DatabasePendingBigIntConversions;
+use OCA\Settings\SetupChecks\DataDirectoryProtected;
+use OCA\Settings\SetupChecks\DebugMode;
 use OCA\Settings\SetupChecks\DefaultPhoneRegionSet;
 use OCA\Settings\SetupChecks\EmailTestSuccessful;
 use OCA\Settings\SetupChecks\FileLocking;
+use OCA\Settings\SetupChecks\ForwardedForHeaders;
+use OCA\Settings\SetupChecks\HttpsUrlGeneration;
 use OCA\Settings\SetupChecks\InternetConnectivity;
+use OCA\Settings\SetupChecks\JavaScriptModules;
+use OCA\Settings\SetupChecks\JavaScriptSourceMaps;
 use OCA\Settings\SetupChecks\LegacySSEKeyFormat;
+use OCA\Settings\SetupChecks\MaintenanceWindowStart;
 use OCA\Settings\SetupChecks\MemcacheConfigured;
+use OCA\Settings\SetupChecks\MysqlUnicodeSupport;
+use OCA\Settings\SetupChecks\OcxProviders;
+use OCA\Settings\SetupChecks\OverwriteCliUrl;
 use OCA\Settings\SetupChecks\PhpDefaultCharset;
+use OCA\Settings\SetupChecks\PhpDisabledFunctions;
 use OCA\Settings\SetupChecks\PhpFreetypeSupport;
 use OCA\Settings\SetupChecks\PhpGetEnv;
+use OCA\Settings\SetupChecks\PhpMemoryLimit;
 use OCA\Settings\SetupChecks\PhpModules;
+use OCA\Settings\SetupChecks\PhpOpcacheSetup;
 use OCA\Settings\SetupChecks\PhpOutdated;
 use OCA\Settings\SetupChecks\PhpOutputBuffering;
+use OCA\Settings\SetupChecks\PushService;
 use OCA\Settings\SetupChecks\RandomnessSecure;
 use OCA\Settings\SetupChecks\ReadOnlyConfig;
+use OCA\Settings\SetupChecks\SecurityHeaders;
 use OCA\Settings\SetupChecks\SupportedDatabase;
 use OCA\Settings\SetupChecks\SystemIs64bit;
+use OCA\Settings\SetupChecks\TempSpaceAvailable;
 use OCA\Settings\SetupChecks\TransactionIsolation;
+use OCA\Settings\SetupChecks\WellKnownUrls;
+use OCA\Settings\SetupChecks\Woff2Loading;
 use OCA\Settings\UserMigration\AccountMigrator;
 use OCA\Settings\WellKnown\ChangePasswordHandler;
 use OCA\Settings\WellKnown\SecurityTxtHandler;
@@ -113,10 +140,6 @@ class Application extends App implements IBootstrap {
 		/**
 		 * Core class wrappers
 		 */
-		/** FIXME: Remove once OC_User is non-static and mockable */
-		$context->registerService('isAdmin', function () {
-			return \OC_User::isAdminUser(\OC_User::getUser());
-		});
 		/** FIXME: Remove once OC_SubAdmin is non-static and mockable */
 		$context->registerService('isSubAdmin', function () {
 			$userObject = \OC::$server->getUserSession()->getUser();
@@ -155,24 +178,51 @@ class Application extends App implements IBootstrap {
 				Util::getDefaultEmailAddress('no-reply')
 			);
 		});
+		$context->registerSetupCheck(AppDirsWithDifferentOwner::class);
+		$context->registerSetupCheck(BruteForceThrottler::class);
 		$context->registerSetupCheck(CheckUserCertificates::class);
+		$context->registerSetupCheck(CodeIntegrity::class);
+		$context->registerSetupCheck(CronErrors::class);
+		$context->registerSetupCheck(CronInfo::class);
+		$context->registerSetupCheck(DatabaseHasMissingColumns::class);
+		$context->registerSetupCheck(DatabaseHasMissingIndices::class);
+		$context->registerSetupCheck(DatabaseHasMissingPrimaryKeys::class);
+		$context->registerSetupCheck(DatabasePendingBigIntConversions::class);
+		$context->registerSetupCheck(DataDirectoryProtected::class);
+		$context->registerSetupCheck(DebugMode::class);
 		$context->registerSetupCheck(DefaultPhoneRegionSet::class);
 		$context->registerSetupCheck(EmailTestSuccessful::class);
 		$context->registerSetupCheck(FileLocking::class);
+		$context->registerSetupCheck(ForwardedForHeaders::class);
+		$context->registerSetupCheck(HttpsUrlGeneration::class);
 		$context->registerSetupCheck(InternetConnectivity::class);
+		$context->registerSetupCheck(JavaScriptSourceMaps::class);
+		$context->registerSetupCheck(JavaScriptModules::class);
 		$context->registerSetupCheck(LegacySSEKeyFormat::class);
+		$context->registerSetupCheck(MaintenanceWindowStart::class);
 		$context->registerSetupCheck(MemcacheConfigured::class);
+		$context->registerSetupCheck(MysqlUnicodeSupport::class);
+		$context->registerSetupCheck(OcxProviders::class);
+		$context->registerSetupCheck(OverwriteCliUrl::class);
 		$context->registerSetupCheck(PhpDefaultCharset::class);
-		$context->registerSetupCheck(PhpModules::class);
+		$context->registerSetupCheck(PhpDisabledFunctions::class);
 		$context->registerSetupCheck(PhpFreetypeSupport::class);
 		$context->registerSetupCheck(PhpGetEnv::class);
+		$context->registerSetupCheck(PhpMemoryLimit::class);
+		$context->registerSetupCheck(PhpModules::class);
+		$context->registerSetupCheck(PhpOpcacheSetup::class);
 		$context->registerSetupCheck(PhpOutdated::class);
 		$context->registerSetupCheck(PhpOutputBuffering::class);
 		$context->registerSetupCheck(RandomnessSecure::class);
 		$context->registerSetupCheck(ReadOnlyConfig::class);
+		$context->registerSetupCheck(SecurityHeaders::class);
 		$context->registerSetupCheck(SupportedDatabase::class);
 		$context->registerSetupCheck(SystemIs64bit::class);
+		$context->registerSetupCheck(TempSpaceAvailable::class);
 		$context->registerSetupCheck(TransactionIsolation::class);
+		$context->registerSetupCheck(PushService::class);
+		$context->registerSetupCheck(WellKnownUrls::class);
+		$context->registerSetupCheck(Woff2Loading::class);
 
 		$context->registerUserMigrator(AccountMigrator::class);
 	}

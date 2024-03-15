@@ -60,7 +60,7 @@
 			<h2 class="login-form__headline" data-login-form-headline v-html="headline" />
 			<NcTextField id="user"
 				ref="user"
-				:label="t('core', 'Account name or email')"
+				:label="loginText"
 				name="user"
 				:value.sync="user"
 				:class="{shake: invalidPassword}"
@@ -156,6 +156,12 @@ export default {
 			type: Boolean,
 			default: false,
 		},
+		emailStates: {
+			type: Array,
+			default() {
+				return []
+			}
+		},
 	},
 
 	data() {
@@ -176,10 +182,10 @@ export default {
 		},
 		errorLabel() {
 			if (this.invalidPassword) {
-				return t('core', 'Wrong username or password.')
+				return t('core', 'Wrong login or password.')
 			}
 			if (this.userDisabled) {
-				return t('core', 'User disabled')
+				return t('core', 'This account is disabled')
 			}
 			if (this.throttleDelay > 5000) {
 				return t('core', 'We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds.')
@@ -206,6 +212,15 @@ export default {
 		},
 		loginActionUrl() {
 			return generateUrl('login')
+		},
+		emailEnabled() {
+			return this.emailStates ? this.emailStates.every((state) => state === '1') : 1
+		},
+		loginText() {
+			if (this.emailEnabled) {
+				return t('core', 'Login with username or email')
+			}
+			return t('core', 'Login with username')
 		},
 	},
 

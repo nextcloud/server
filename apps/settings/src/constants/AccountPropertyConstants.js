@@ -24,6 +24,7 @@
  * SYNC to be kept in sync with `lib/public/Accounts/IAccountManager.php`
  */
 
+import { mdiAccountGroup, mdiCellphone, mdiLock, mdiWeb } from '@mdi/js'
 import { translate as t } from '@nextcloud/l10n'
 
 /** Enum of account properties */
@@ -58,7 +59,7 @@ export const ACCOUNT_PROPERTY_READABLE_ENUM = Object.freeze({
 	PHONE: t('settings', 'Phone number'),
 	PROFILE_ENABLED: t('settings', 'Profile'),
 	ROLE: t('settings', 'Role'),
-	TWITTER: t('settings', 'Twitter'),
+	TWITTER: t('settings', 'X (formerly Twitter)'),
 	FEDIVERSE: t('settings', 'Fediverse (e.g. Mastodon)'),
 	WEBSITE: t('settings', 'Website'),
 })
@@ -167,28 +168,28 @@ export const SCOPE_PROPERTY_ENUM = Object.freeze({
 		displayName: t('settings', 'Private'),
 		tooltip: t('settings', 'Only visible to people matched via phone number integration through Talk on mobile'),
 		tooltipDisabled: t('settings', 'Not available as this property is required for core functionality including file sharing and calendar invitations'),
-		iconClass: 'icon-phone',
+		icon: mdiCellphone,
 	},
 	[SCOPE_ENUM.LOCAL]: {
 		name: SCOPE_ENUM.LOCAL,
 		displayName: t('settings', 'Local'),
 		tooltip: t('settings', 'Only visible to people on this instance and guests'),
 		// tooltipDisabled is not required here as this scope is supported by all account properties
-		iconClass: 'icon-password',
+		icon: mdiLock,
 	},
 	[SCOPE_ENUM.FEDERATED]: {
 		name: SCOPE_ENUM.FEDERATED,
 		displayName: t('settings', 'Federated'),
 		tooltip: t('settings', 'Only synchronize to trusted servers'),
-		tooltipDisabled: t('settings', 'Not available as federation has been disabled for your account, contact your system administrator if you have any questions'),
-		iconClass: 'icon-contacts-dark',
+		tooltipDisabled: t('settings', 'Not available as federation has been disabled for your account, contact your system administration if you have any questions'),
+		icon: mdiAccountGroup,
 	},
 	[SCOPE_ENUM.PUBLISHED]: {
 		name: SCOPE_ENUM.PUBLISHED,
 		displayName: t('settings', 'Published'),
 		tooltip: t('settings', 'Synchronize to trusted servers and the global and public address book'),
-		tooltipDisabled: t('settings', 'Not available as publishing user specific data to the lookup server is not allowed, contact your system administrator if you have any questions'),
-		iconClass: 'icon-link',
+		tooltipDisabled: t('settings', 'Not available as publishing account specific data to the lookup server is not allowed, contact your system administration if you have any questions'),
+		icon: mdiWeb,
 	},
 })
 

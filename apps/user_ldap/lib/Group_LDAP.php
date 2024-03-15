@@ -48,17 +48,18 @@ use Exception;
 use OC\ServerNotAvailableException;
 use OCA\User_LDAP\User\OfflineUser;
 use OCP\Cache\CappedMemoryCache;
-use OCP\GroupInterface;
 use OCP\Group\Backend\ABackend;
 use OCP\Group\Backend\IDeleteGroupBackend;
 use OCP\Group\Backend\IGetDisplayNameBackend;
+use OCP\Group\Backend\IIsAdminBackend;
+use OCP\GroupInterface;
 use OCP\IConfig;
 use OCP\IUserManager;
 use OCP\Server;
 use Psr\Log\LoggerInterface;
 use function json_decode;
 
-class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDisplayNameBackend, IDeleteGroupBackend {
+class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDisplayNameBackend, IDeleteGroupBackend, IIsAdminBackend {
 	protected bool $enabled = false;
 
 	/** @var CappedMemoryCache<string[]> $cachedGroupMembers array of user DN with gid as key */
@@ -684,7 +685,7 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 
 	protected function getCachedGroupsForUserId(string $uid): array {
 		$groupStr = $this->config->getUserValue($uid, 'user_ldap', 'cached-group-memberships-' . $this->access->connection->getConfigPrefix(), '[]');
-		return json_decode($groupStr) ?? [];
+		return json_decode($groupStr, true) ?? [];
 	}
 
 	/**
@@ -837,7 +838,7 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 			return $groups;
 		}
 
-		$groups = array_unique($groups, SORT_LOCALE_STRING);
+		$groups = array_values(array_unique($groups, SORT_LOCALE_STRING));
 		$this->access->connection->writeToCache($cacheKey, $groups);
 
 		$groupStr = \json_encode($groups);
@@ -1241,6 +1242,7 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 	public function implementsActions($actions): bool {
 		return (bool)((GroupInterface::COUNT_USERS |
 				GroupInterface::DELETE_GROUP |
+				GroupInterface::IS_ADMIN |
 				$this->groupPluginManager->getImplementedActions()) & $actions);
 	}
 
@@ -1443,5 +1445,19 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 		// $cacheKey = 'usersInGroup-' . $gid . '-' . $search . '-' . $limit . '-' . $offset;
 		// $cacheKey = 'usersInGroup-' . $gid . '-' . $search;
 		// $cacheKey = 'countUsersInGroup-' . $gid . '-' . $search;
+	}
+
+	/**
+	 * @throws ServerNotAvailableException
+	 */
+	public function isAdmin(string $uid): bool {
+		if (!$this->enabled) {
+			return false;
+		}
+		$ldapAdminGroup = $this->access->connection->ldapAdminGroup;
+		if ($ldapAdminGroup === '') {
+			return false;
+		}
+		return $this->inGroup($uid, $ldapAdminGroup);
 	}
 }

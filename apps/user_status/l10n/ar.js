@@ -7,6 +7,7 @@ OC.L10N.register(
     "Commuting" : "تجوال",
     "Out sick" : "إجازة مرضية",
     "Vacationing" : "في اجازة",
+    "Out of office" : "خارج المكتب",
     "Working remotely" : "عمل عن بعد",
     "In a call" : "على الهاتف",
     "User status" : "حالة العضو",

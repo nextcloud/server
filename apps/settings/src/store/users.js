@@ -27,11 +27,16 @@
  *
  */
 
-import api from './api.js'
-import axios from '@nextcloud/axios'
-import { generateOcsUrl } from '@nextcloud/router'
+import { getBuilder } from '@nextcloud/browser-storage'
 import { getCapabilities } from '@nextcloud/capabilities'
-import logger from '../logger.js'
+import { parseFileSize } from '@nextcloud/files'
+import { generateOcsUrl } from '@nextcloud/router'
+import axios from '@nextcloud/axios'
+
+import api from './api.js'
+import logger from '../logger.ts'
+
+const localStorage = getBuilder('settings').persist(true).build()
 
 const orderGroups = function(groups, orderBy) {
 	/* const SORT_USERCOUNT = 1;
@@ -63,13 +68,15 @@ const state = {
 	minPasswordLength: 0,
 	usersOffset: 0,
 	usersLimit: 25,
+	disabledUsersOffset: 0,
+	disabledUsersLimit: 25,
 	userCount: 0,
 	showConfig: {
-		showStoragePath: false,
-		showUserBackend: false,
-		showLastLogin: false,
-		showNewUserForm: false,
-		showLanguages: false,
+		showStoragePath: localStorage.getItem('account_settings__showStoragePath') === 'true',
+		showUserBackend: localStorage.getItem('account_settings__showUserBackend') === 'true',
+		showLastLogin: localStorage.getItem('account_settings__showLastLogin') === 'true',
+		showNewUserForm: localStorage.getItem('account_settings__showNewUserForm') === 'true',
+		showLanguages: localStorage.getItem('account_settings__showLanguages') === 'true',
 	},
 }
 
@@ -82,6 +89,9 @@ const mutations = {
 		const users = state.users.concat(newUsers)
 		state.usersOffset += state.usersLimit
 		state.users = users
+	},
+	updateDisabledUsers(state, _usersObj) {
+		state.disabledUsersOffset += state.disabledUsersLimit
 	},
 	setPasswordPolicyMinLength(state, length) {
 		state.minPasswordLength = length !== '' ? length : 0
@@ -222,7 +232,7 @@ const mutations = {
 	},
 	setUserData(state, { userid, key, value }) {
 		if (key === 'quota') {
-			const humanValue = OC.Util.computerFileSize(value)
+			const humanValue = parseFileSize(value, true)
 			state.users.find(user => user.id === userid)[key][key] = humanValue !== null ? humanValue : value
 		} else {
 			state.users.find(user => user.id === userid)[key] = value
@@ -237,9 +247,11 @@ const mutations = {
 	resetUsers(state) {
 		state.users = []
 		state.usersOffset = 0
+		state.disabledUsersOffset = 0
 	},
 
 	setShowConfig(state, { key, value }) {
+		localStorage.setItem(`account_settings__${key}`, JSON.stringify(value))
 		state.showConfig[key] = value
 	},
 }
@@ -263,6 +275,12 @@ const getters = {
 	},
 	getUsersLimit(state) {
 		return state.usersLimit
+	},
+	getDisabledUsersOffset(state) {
+		return state.disabledUsersOffset
+	},
+	getDisabledUsersLimit(state) {
+		return state.disabledUsersLimit
 	},
 	getUserCount(state) {
 		return state.userCount
@@ -371,6 +389,30 @@ const actions = {
 					context.commit('API_FAILURE', error)
 				}
 			})
+	},
+
+	/**
+	 * Get disabled users with full details
+	 *
+	 * @param {object} context store context
+	 * @param {object} options destructuring object
+	 * @param {number} options.offset List offset to request
+	 * @param {number} options.limit List number to return from offset
+	 * @return {Promise<number>}
+	 */
+	async getDisabledUsers(context, { offset, limit }) {
+		const url = generateOcsUrl('cloud/users/disabled?offset={offset}&limit={limit}', { offset, limit })
+		try {
+			const response = await api.get(url)
+			const usersCount = Object.keys(response.data.ocs.data.users).length
+			if (usersCount > 0) {
+				context.commit('appendUsers', response.data.ocs.data.users)
+				context.commit('updateDisabledUsers', response.data.ocs.data.users)
+			}
+			return usersCount
+		} catch (error) {
+			context.commit('API_FAILURE', error)
+		}
 	},
 
 	getGroups(context, { offset, limit, search }) {

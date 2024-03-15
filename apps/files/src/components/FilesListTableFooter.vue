@@ -22,6 +22,7 @@
 <template>
 	<tr>
 		<th class="files-list__row-checkbox">
+			<!-- TRANSLATORS Label for a table footer which summarizes the columns of the table -->
 			<span class="hidden-visually">{{ t('files', 'Total rows summary') }}</span>
 		</th>
 

@@ -127,9 +127,9 @@ class JSResourceLocatorTest extends \Test\TestCase {
 		$webRoot = $resource[1];
 		$file = $resource[2];
 
-		$expectedRoot = $new_apps_path . '/test-js-app';
-		$expectedWebRoot = \OC::$WEBROOT . '/js-apps-test/test-js-app';
-		$expectedFile = 'test-file.js';
+		$expectedRoot = $new_apps_path;
+		$expectedWebRoot = \OC::$WEBROOT . '/js-apps-test';
+		$expectedFile = $appName . '/test-file.js';
 
 		$this->assertEquals($expectedRoot, $root,
 			'Ensure the app path symlink is resolved into the real path');
@@ -145,7 +145,7 @@ class JSResourceLocatorTest extends \Test\TestCase {
 			->method('getAppPath')
 			->with('core')
 			->willThrowException(new AppPathNotFoundException());
-		$this->appManager->expects($this->once())
+		$this->appManager->expects($this->atMost(1))
 			->method('getAppWebPath')
 			->with('core')
 			->willThrowException(new AppPathNotFoundException());

@@ -25,7 +25,6 @@
 
 import 'core-js/stable/index.js'
 import 'regenerator-runtime/runtime.js'
-import './Polyfill/index.js'
 
 // If you remove the line below, tests won't pass
 // eslint-disable-next-line no-unused-vars

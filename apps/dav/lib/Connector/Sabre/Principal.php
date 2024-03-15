@@ -100,16 +100,16 @@ class Principal implements BackendInterface {
 	private $languageFactory;
 
 	public function __construct(IUserManager $userManager,
-								IGroupManager $groupManager,
-								IAccountManager $accountManager,
-								IShareManager $shareManager,
-								IUserSession $userSession,
-								IAppManager $appManager,
-								ProxyMapper $proxyMapper,
-								KnownUserService $knownUserService,
-								IConfig $config,
-								IFactory $languageFactory,
-								string $principalPrefix = 'principals/users/') {
+		IGroupManager $groupManager,
+		IAccountManager $accountManager,
+		IShareManager $shareManager,
+		IUserSession $userSession,
+		IAppManager $appManager,
+		ProxyMapper $proxyMapper,
+		KnownUserService $knownUserService,
+		IConfig $config,
+		IFactory $languageFactory,
+		string $principalPrefix = 'principals/users/') {
 		$this->userManager = $userManager;
 		$this->groupManager = $groupManager;
 		$this->accountManager = $accountManager;
@@ -260,6 +260,7 @@ class Principal implements BackendInterface {
 	 * @return int
 	 */
 	public function updatePrincipal($path, PropPatch $propPatch) {
+		// Updating schedule-default-calendar-URL is handled in CustomPropertiesBackend
 		return 0;
 	}
 
@@ -505,7 +506,7 @@ class Principal implements BackendInterface {
 				return $this->principalPrefix . '/' . $user->getUID();
 			}
 		}
-		if (substr($uri, 0, 10) === 'principal:') {
+		if (str_starts_with($uri, 'principal:')) {
 			$principal = substr($uri, 10);
 			$principal = $this->getPrincipalByPath($principal);
 			if ($principal !== null) {

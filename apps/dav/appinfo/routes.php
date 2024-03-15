@@ -30,11 +30,12 @@ return [
 		['name' => 'invitation_response#decline', 'url' => '/invitation/decline/{token}', 'verb' => 'GET'],
 		['name' => 'invitation_response#options', 'url' => '/invitation/moreOptions/{token}', 'verb' => 'GET'],
 		['name' => 'invitation_response#processMoreOptionsResult', 'url' => '/invitation/moreOptions/{token}', 'verb' => 'POST'],
-		['name' => 'availability_settings#updateAbsence', 'url' => '/settings/absence', 'verb' => 'POST'],
-		['name' => 'availability_settings#clearAbsence', 'url' => '/settings/absence', 'verb' => 'DELETE'],
 	],
 	'ocs' => [
 		['name' => 'direct#getUrl', 'url' => '/api/v1/direct', 'verb' => 'POST'],
-		['name' => 'out_of_office#getCurrentOutOfOfficeData', 'url' => '/api/v1/outOfOffice/{userId}', 'verb' => 'GET'],
+		['name' => 'out_of_office#getCurrentOutOfOfficeData', 'url' => '/api/v1/outOfOffice/{userId}/now', 'verb' => 'GET'],
+		['name' => 'out_of_office#getOutOfOffice', 'url' => '/api/v1/outOfOffice/{userId}', 'verb' => 'GET'],
+		['name' => 'out_of_office#setOutOfOffice', 'url' => '/api/v1/outOfOffice/{userId}', 'verb' => 'POST'],
+		['name' => 'out_of_office#clearOutOfOffice', 'url' => '/api/v1/outOfOffice/{userId}', 'verb' => 'DELETE'],
 	],
 ];

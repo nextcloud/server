@@ -20,97 +20,89 @@
   -
   -->
 <template>
-	<Fragment>
-		<!-- Drag and drop notice -->
-		<DragAndDropNotice v-if="canUpload && filesListWidth >= 512"
-			:current-folder="currentFolder"
-			:dragover.sync="dragover"
-			:style="{ height: dndNoticeHeight }" />
+	<VirtualList ref="table"
+		:data-component="userConfig.grid_view ? FileEntryGrid : FileEntry"
+		:data-key="'source'"
+		:data-sources="nodes"
+		:grid-mode="userConfig.grid_view"
+		:extra-props="{
+			isMtimeAvailable,
+			isSizeAvailable,
+			nodes,
+			filesListWidth,
+		}"
+		:scroll-to-index="scrollToIndex"
+		:caption="caption">
+		<template v-if="!isNoneSelected" #header-overlay>
+			<FilesListTableHeaderActions :current-view="currentView"
+				:selected-nodes="selectedNodes" />
+		</template>
 
-		<VirtualList ref="table"
-			:data-component="userConfig.grid_view ? FileEntryGrid : FileEntry"
-			:data-key="'source'"
-			:data-sources="nodes"
-			:grid-mode="userConfig.grid_view"
-			:extra-props="{
-				isMtimeAvailable,
-				isSizeAvailable,
-				nodes,
-				filesListWidth,
-			}"
-			:scroll-to-index="scrollToIndex"
-			@scroll="onScroll">
-			<!-- Accessibility description and headers -->
-			<template #before>
-				<!-- Accessibility description -->
-				<caption class="hidden-visually">
-					{{ currentView.caption || t('files', 'List of files and folders.') }}
-					{{ t('files', 'This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list.') }}
-				</caption>
+		<template #before>
+			<!-- Headers -->
+			<FilesListHeader v-for="header in sortedHeaders"
+				:key="header.id"
+				:current-folder="currentFolder"
+				:current-view="currentView"
+				:header="header" />
+		</template>
 
-				<!-- Headers -->
-				<FilesListHeader v-for="header in sortedHeaders"
-					:key="header.id"
-					:current-folder="currentFolder"
-					:current-view="currentView"
-					:header="header" />
-			</template>
+		<!-- Thead-->
+		<template #header>
+			<!-- Table header and sort buttons -->
+			<FilesListTableHeader ref="thead"
+				:files-list-width="filesListWidth"
+				:is-mtime-available="isMtimeAvailable"
+				:is-size-available="isSizeAvailable"
+				:nodes="nodes" />
+		</template>
 
-			<!-- Thead-->
-			<template #header>
-				<!-- Table header and sort buttons -->
-				<FilesListTableHeader ref="thead"
-					:files-list-width="filesListWidth"
-					:is-mtime-available="isMtimeAvailable"
-					:is-size-available="isSizeAvailable"
-					:nodes="nodes" />
-			</template>
-
-			<!-- Tfoot-->
-			<template #footer>
-				<FilesListTableFooter :files-list-width="filesListWidth"
-					:is-mtime-available="isMtimeAvailable"
-					:is-size-available="isSizeAvailable"
-					:nodes="nodes"
-					:summary="summary" />
-			</template>
-		</VirtualList>
-	</Fragment>
+		<!-- Tfoot-->
+		<template #footer>
+			<FilesListTableFooter :files-list-width="filesListWidth"
+				:is-mtime-available="isMtimeAvailable"
+				:is-size-available="isSizeAvailable"
+				:nodes="nodes"
+				:summary="summary" />
+		</template>
+	</VirtualList>
 </template>
 
 <script lang="ts">
 import type { Node as NcNode } from '@nextcloud/files'
 import type { PropType } from 'vue'
-import type { UserConfig } from '../types.ts'
+import type { UserConfig } from '../types'
 
-import { Fragment } from 'vue-frag'
-import { getFileListHeaders, Folder, View, Permission } from '@nextcloud/files'
+import { getFileListHeaders, Folder, View, getFileActions, FileType } from '@nextcloud/files'
 import { showError } from '@nextcloud/dialogs'
+import { loadState } from '@nextcloud/initial-state'
 import { translate as t, translatePlural as n } from '@nextcloud/l10n'
-import Vue from 'vue'
+import { defineComponent } from 'vue'
 
 import { action as sidebarAction } from '../actions/sidebarAction.ts'
+import { getSummaryFor } from '../utils/fileUtils'
+import { useSelectionStore } from '../store/selection.js'
 import { useUserConfigStore } from '../store/userconfig.ts'
-import DragAndDropNotice from './DragAndDropNotice.vue'
+
 import FileEntry from './FileEntry.vue'
 import FileEntryGrid from './FileEntryGrid.vue'
 import FilesListHeader from './FilesListHeader.vue'
 import FilesListTableFooter from './FilesListTableFooter.vue'
 import FilesListTableHeader from './FilesListTableHeader.vue'
 import filesListWidthMixin from '../mixins/filesListWidth.ts'
-import logger from '../logger.js'
 import VirtualList from './VirtualList.vue'
+import logger from '../logger.js'
+import FilesListTableHeaderActions from './FilesListTableHeaderActions.vue'
 
-export default Vue.extend({
+export default defineComponent({
 	name: 'FilesListVirtual',
 
 	components: {
-		DragAndDropNotice,
 		FilesListHeader,
 		FilesListTableFooter,
 		FilesListTableHeader,
-		Fragment,
 		VirtualList,
+		FilesListTableHeaderActions,
 	},
 
 	mixins: [
@@ -134,8 +126,10 @@ export default Vue.extend({
 
 	setup() {
 		const userConfigStore = useUserConfigStore()
+		const selectionStore = useSelectionStore()
 		return {
 			userConfigStore,
+			selectionStore,
 		}
 	},
 
@@ -145,8 +139,7 @@ export default Vue.extend({
 			FileEntryGrid,
 			headers: getFileListHeaders(),
 			scrollToIndex: 0,
-			dragover: false,
-			dndNoticeHeight: 0,
+			openFileId: null as number|null,
 		}
 	},
 
@@ -155,25 +148,22 @@ export default Vue.extend({
 			return this.userConfigStore.userConfig
 		},
 
-		files() {
-			return this.nodes.filter(node => node.type === 'file')
-		},
-
 		fileId() {
 			return parseInt(this.$route.params.fileid) || null
 		},
 
-		summaryFile() {
-			const count = this.files.length
-			return n('files', '{count} file', '{count} files', count, { count })
+		/**
+		 * If the current `fileId` should be opened
+		 * The state of the `openfile` query param
+		 */
+		openFile() {
+			return !!this.$route.query.openfile
 		},
-		summaryFolder() {
-			const count = this.nodes.length - this.files.length
-			return n('files', '{count} folder', '{count} folders', count, { count })
-		},
+
 		summary() {
-			return t('files', '{summaryFile} and {summaryFolder}', this)
+			return getSummaryFor(this.nodes)
 		},
+
 		isMtimeAvailable() {
 			// Hide mtime column on narrow screens
 			if (this.filesListWidth < 768) {
@@ -197,8 +187,20 @@ export default Vue.extend({
 			return [...this.headers].sort((a, b) => a.order - b.order)
 		},
 
-		canUpload() {
-			return this.currentFolder && (this.currentFolder.permissions & Permission.CREATE) !== 0
+		caption() {
+			const defaultCaption = t('files', 'List of files and folders.')
+			const viewCaption = this.currentView.caption || defaultCaption
+			const sortableCaption = t('files', 'Column headers with buttons are sortable.')
+			const virtualListNote = t('files', 'This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list.')
+			return `${viewCaption}\n${sortableCaption}\n${virtualListNote}`
+		},
+
+		selectedNodes() {
+			return this.selectionStore.selected
+		},
+
+		isNoneSelected() {
+			return this.selectedNodes.length === 0
 		},
 	},
 
@@ -206,16 +208,29 @@ export default Vue.extend({
 		fileId(fileId) {
 			this.scrollToFile(fileId, false)
 		},
+
+		openFile(open: boolean) {
+			if (open) {
+				this.$nextTick(() => this.handleOpenFile(this.fileId))
+			}
+		},
 	},
 
 	mounted() {
 		// Add events on parent to cover both the table and DragAndDrop notice
 		const mainContent = window.document.querySelector('main.app-content') as HTMLElement
 		mainContent.addEventListener('dragover', this.onDragOver)
-		mainContent.addEventListener('dragleave', this.onDragLeave)
 
-		this.scrollToFile(this.fileId)
-		this.openSidebarForFile(this.fileId)
+		// handle initially opening a given file
+		const { id } = loadState<{ id?: number }>('files', 'openFileInfo', {})
+		this.scrollToFile(id ?? this.fileId)
+		this.openSidebarForFile(id ?? this.fileId)
+		this.handleOpenFile(id ?? null)
+	},
+
+	beforeDestroy() {
+		const mainContent = window.document.querySelector('main.app-content') as HTMLElement
+		mainContent.removeEventListener('dragover', this.onDragOver)
 	},
 
 	methods: {
@@ -233,7 +248,7 @@ export default Vue.extend({
 			}
 		},
 
-		scrollToFile(fileId: number, warn = true) {
+		scrollToFile(fileId: number|null, warn = true) {
 			if (fileId) {
 				const index = this.nodes.findIndex(node => node.fileid === fileId)
 				if (warn && index === -1 && fileId !== this.currentFolder.fileid) {
@@ -241,6 +256,28 @@ export default Vue.extend({
 				}
 				this.scrollToIndex = Math.max(0, index)
 			}
+		},
+
+		/**
+		 * Handle opening a file (e.g. by ?openfile=true)
+		 * @param fileId File to open
+		 */
+		handleOpenFile(fileId: number|null) {
+			if (fileId === null || this.openFileId === fileId) {
+				return
+			}
+
+			const node = this.nodes.find(n => n.fileid === fileId) as NcNode
+			if (node === undefined || node.type === FileType.Folder) {
+				return
+			}
+
+			logger.debug('Opening file ' + node.path, { node })
+			this.openFileId = fileId
+			getFileActions()
+				.filter(action => !action.enabled || action.enabled([node], this.currentView))
+				.sort((a, b) => (a.order || 0) - (b.order || 0))
+				.filter(action => !!action?.default)[0].exec(node, this.currentView, this.currentFolder.path)
 		},
 
 		getFileId(node) {
@@ -251,9 +288,9 @@ export default Vue.extend({
 			// Detect if we're only dragging existing files or not
 			const isForeignFile = event.dataTransfer?.types.includes('Files')
 			if (isForeignFile) {
-				this.dragover = true
-			} else {
-				this.dragover = false
+				// Only handle uploading of existing Nextcloud files
+				// See DragAndDropNotice for handling of foreign files
+				return
 			}
 
 			event.preventDefault()
@@ -273,21 +310,6 @@ export default Vue.extend({
 				this.$refs.table.$el.scrollTop = this.$refs.table.$el.scrollTop + 25
 			}
 		},
-		onDragLeave(event: DragEvent) {
-			// Counter bubbling, make sure we're ending the drag
-			// only when we're leaving the current element
-			const currentTarget = event.currentTarget as HTMLElement
-			if (currentTarget?.contains(event.relatedTarget as HTMLElement)) {
-				return
-			}
-
-			this.dragover = false
-		},
-
-		onScroll() {
-			// Update the sticky position of the thead to adapt to the scroll
-			this.dndNoticeHeight = (this.$refs.thead.$el?.getBoundingClientRect?.()?.top ?? 0) + 'px'
-		},
 
 		t,
 	},
@@ -304,12 +326,11 @@ export default Vue.extend({
 	--clickable-area: 44px;
 	--icon-preview-size: 32px;
 
-	display: block;
 	overflow: auto;
 	height: 100%;
 	will-change: scroll-position;
 
-	&::v-deep {
+	& :deep() {
 		// Table head, body and footer
 		tbody {
 			will-change: padding;
@@ -334,6 +355,33 @@ export default Vue.extend({
 		.files-list__before {
 			display: flex;
 			flex-direction: column;
+		}
+
+		.files-list__table {
+			display: block;
+
+			&.files-list__table--with-thead-overlay {
+				// Hide the table header below the overlay
+				margin-top: calc(-1 * var(--row-height));
+			}
+		}
+
+		.files-list__thead-overlay {
+			// Pinned on top when scrolling
+			position: sticky;
+			top: 0;
+			// Save space for a row checkbox
+			margin-left: var(--row-height);
+			// More than .files-list__thead
+			z-index: 20;
+
+			display: flex;
+			align-items: center;
+
+			// Reuse row styles
+			background-color: var(--color-main-background);
+			border-bottom: 1px solid var(--color-border);
+			height: var(--row-height);
 		}
 
 		.files-list__thead,
@@ -439,7 +487,7 @@ export default Vue.extend({
 
 				// Hover state of the row should also change the favorite markers background
 				.favorite-marker-icon svg path {
-					stroke: var(--color-background-dark);
+					stroke: var(--color-background-hover);
 				}
 			}
 
@@ -515,20 +563,15 @@ export default Vue.extend({
 				position: absolute;
 				max-height: calc(var(--icon-preview-size) * 0.5);
 				max-width: calc(var(--icon-preview-size) * 0.5);
-				color: var(--color-main-text);
+				color: var(--color-primary-element-text);
 				// better alignment with the folder icon
 				margin-top: 2px;
 
-				svg {
+				// Improve icon contrast with a background for files
+				&--file {
+					color: var(--color-main-text);
+					background: var(--color-main-background);
 					border-radius: 100%;
-
-					// Sow a border around the icon for better contrast
-					path {
-						stroke: var(--color-main-background);
-						stroke-width: 8px;
-						stroke-linejoin: round;
-						paint-order: stroke;
-					}
 				}
 			}
 		}
@@ -555,10 +598,12 @@ export default Vue.extend({
 				}
 
 				// Keyboard indicator a11y
-				&:focus .files-list__row-name-text,
-				&:focus-visible .files-list__row-name-text {
+				&:focus .files-list__row-name-text {
 					outline: 2px solid var(--color-main-text) !important;
 					border-radius: 20px;
+				}
+				&:focus:not(:focus-visible) .files-list__row-name-text {
+					outline: none !important;
 				}
 			}
 

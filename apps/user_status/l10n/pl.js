@@ -7,6 +7,7 @@ OC.L10N.register(
     "Commuting" : "W drodze",
     "Out sick" : "Chory",
     "Vacationing" : "Na wakacjach",
+    "Out of office" : "Biuro nie funkcjonuje",
     "Working remotely" : "Praca zdalna",
     "In a call" : "Rozmawia",
     "User status" : "Status użytkownika",

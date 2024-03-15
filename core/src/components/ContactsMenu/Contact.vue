@@ -21,35 +21,13 @@
 
 <template>
 	<li class="contact">
-		<a v-if="contact.profileUrl && contact.avatar"
-			:href="contact.profileUrl"
-			class="contact__avatar-wrapper">
-			<NcAvatar class="contact__avatar"
-				:size="44"
-				:user="contact.isUser ? contact.uid : undefined"
-				:is-no-user="!contact.isUser"
-				:display-name="contact.avatarLabel"
-				:url="contact.avatar"
-				:preloaded-user-status="preloadedUserStatus" />
-		</a>
-		<a v-else-if="contact.profileUrl"
-			:href="contact.profileUrl">
-			<NcAvatar class="contact__avatar"
-				:size="44"
-				:user="contact.isUser ? contact.uid : undefined"
-				:is-no-user="!contact.isUser"
-				:display-name="contact.avatarLabel"
-				:preloaded-user-status="preloadedUserStatus" />
-		</a>
-		<NcAvatar v-else
+		<NcAvatar class="contact__avatar"
 			:size="44"
-			class="contact__avatar"
 			:user="contact.isUser ? contact.uid : undefined"
 			:is-no-user="!contact.isUser"
+			:disable-menu="true"
 			:display-name="contact.avatarLabel"
-			:url="contact.avatar"
 			:preloaded-user-status="preloadedUserStatus" />
-
 		<a class="contact__body"
 			:href="contact.profileUrl || contact.topAction?.hyperlink">
 			<div class="contact__body__full-name">{{ contact.fullName }}</div>
@@ -65,13 +43,13 @@
 					:href="action.hyperlink"
 					class="other-actions">
 					<template #icon>
-						<img class="contact__action__icon" :src="action.icon">
+						<img aria-hidden="true" class="contact__action__icon" :src="action.icon">
 					</template>
 					{{ action.title }}
 				</NcActionLink>
 				<NcActionText v-else :key="idx" class="other-actions">
 					<template #icon>
-						<img class="contact__action__icon" :src="action.icon">
+						<img aria-hidden="true" class="contact__action__icon" :src="action.icon">
 					</template>
 					{{ action.title }}
 				</NcActionText>
@@ -147,6 +125,7 @@ export default {
 	&__body {
 		flex-grow: 1;
 		padding-left: 10px;
+		margin-left: 10px;
 		min-width: 0;
 
 		div {
@@ -165,6 +144,11 @@ export default {
 
 		&__last-message, &__status-message, &__email-address {
 			color: var(--color-text-maxcontrast);
+		}
+
+		&:focus-visible {
+			box-shadow: 0 0 0 4px var(--color-main-background) !important;
+			outline: 2px solid var(--color-main-text) !important;
 		}
 	}
 

@@ -75,13 +75,13 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 	private $cuType;
 
 	public function __construct(IDBConnection $dbConnection,
-								IUserSession $userSession,
-								IGroupManager $groupManager,
-								LoggerInterface $logger,
-								ProxyMapper $proxyMapper,
-								string $principalPrefix,
-								string $dbPrefix,
-								string $cuType) {
+		IUserSession $userSession,
+		IGroupManager $groupManager,
+		LoggerInterface $logger,
+		ProxyMapper $proxyMapper,
+		string $principalPrefix,
+		string $dbPrefix,
+		string $cuType) {
 		$this->db = $dbConnection;
 		$this->userSession = $userSession;
 		$this->groupManager = $groupManager;
@@ -165,7 +165,7 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 		}
 		[, $name] = \Sabre\Uri\split($path);
 
-		[$backendId, $resourceId] = explode('-',  $name, 2);
+		[$backendId, $resourceId] = explode('-', $name, 2);
 
 		$query = $this->db->getQueryBuilder();
 		$query->select(['id', 'backend_id', 'resource_id', 'email', 'displayname'])
@@ -309,7 +309,7 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 
 				case IRoomMetadata::CAPACITY:
 				case IResourceMetadata::VEHICLE_SEATING_CAPACITY:
-					$results[] = $this->searchPrincipalsByCapacity($prop,$value);
+					$results[] = $this->searchPrincipalsByCapacity($prop, $value);
 					break;
 
 				default:
@@ -470,7 +470,7 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 			}
 
 			[, $name] = \Sabre\Uri\split($path);
-			[$backendId, $resourceId] = explode('-',  $name, 2);
+			[$backendId, $resourceId] = explode('-', $name, 2);
 
 			$query = $this->db->getQueryBuilder();
 			$query->select(['id', 'backend_id', 'resource_id', 'email', 'displayname', 'group_restrictions'])

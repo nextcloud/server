@@ -66,9 +66,9 @@ class Provider implements IProvider {
 	private $activityManager;
 
 	public function __construct(IFactory $languageFactory,
-								IURLGenerator $url,
-								IUserManager $userManager,
-								IManager $activityManager) {
+		IURLGenerator $url,
+		IUserManager $userManager,
+		IManager $activityManager) {
 		$this->languageFactory = $languageFactory;
 		$this->url = $url;
 		$this->userManager = $userManager;

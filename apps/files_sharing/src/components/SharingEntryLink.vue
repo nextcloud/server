@@ -21,34 +21,38 @@
   -->
 
 <template>
-	<li :class="{ 'sharing-entry--share': share }" class="sharing-entry sharing-entry__link">
+	<li :class="{ 'sharing-entry--share': share }"
+		class="sharing-entry sharing-entry__link">
 		<NcAvatar :is-no-user="true"
 			:icon-class="isEmailShareType ? 'avatar-link-share icon-mail-white' : 'avatar-link-share icon-public-white'"
 			class="sharing-entry__avatar" />
 
 		<div class="sharing-entry__summary">
-			<div class="sharing-entry__desc" @click.prevent="toggleQuickShareSelect">
+			<div class="sharing-entry__desc">
 				<span class="sharing-entry__title" :title="title">
 					{{ title }}
 				</span>
 				<p v-if="subtitle">
 					{{ subtitle }}
 				</p>
-				<QuickShareSelect v-if="share && share.permissions !== undefined"
+				<SharingEntryQuickShareSelect v-if="share && share.permissions !== undefined"
 					:share="share"
 					:file-info="fileInfo"
-					:toggle="showDropdown"
 					@open-sharing-details="openShareDetailsForCustomSettings(share)" />
 			</div>
 
 			<!-- clipboard -->
 			<NcActions v-if="share && !isEmailShareType && share.token" ref="copyButton" class="sharing-entry__copy">
-				<NcActionLink :href="shareLink"
-					target="_blank"
-					:title="copyLinkTooltip"
+				<NcActionButton	:title="copyLinkTooltip"
 					:aria-label="copyLinkTooltip"
-					:icon="copied && copySuccess ? 'icon-checkmark-color' : 'icon-clippy'"
-					@click.stop.prevent="copyLink" />
+					@click.prevent="copyLink">
+					<template #icon>
+						<CheckIcon v-if="copied && copySuccess"
+							:size="20"
+							class="icon-checkmark-color" />
+						<ClipboardIcon v-else :size="20" />
+					</template>
+				</NcActionButton>
 			</NcActions>
 		</div>
 
@@ -58,9 +62,13 @@
 			:aria-label="actionsTooltip"
 			menu-align="right"
 			:open.sync="open"
-			@close="onNewLinkShare">
+			@close="onCancel">
 			<!-- pending data menu -->
-			<NcActionText v-if="errors.pending" icon="icon-error" :class="{ error: errors.pending }">
+			<NcActionText v-if="errors.pending"
+				class="error">
+				<template #icon>
+					<ErrorIcon :size="20" />
+				</template>
 				{{ errors.pending }}
 			</NcActionText>
 			<NcActionText v-else icon="icon-info">
@@ -68,7 +76,8 @@
 			</NcActionText>
 
 			<!-- password -->
-			<NcActionText v-if="pendingEnforcedPassword" icon="icon-password">
+			<NcActionText v-if="pendingEnforcedPassword">
+				<LockIcon :size="20" />
 				{{ t('files_sharing', 'Password protection (enforced)') }}
 			</NcActionText>
 			<NcActionCheckbox v-else-if="pendingPassword"
@@ -97,23 +106,29 @@
 			</NcActionText>
 			<NcActionInput v-if="pendingExpirationDate"
 				class="share-link-expire-date"
-				:disabled="saving || isExpiryDateEnforced"
+				:disabled="saving"
 				:is-native-picker="true"
 				:hide-label="true"
 				:value="new Date(share.expireDate)"
 				type="date"
 				:min="dateTomorrow"
-				:max="dateMaxEnforced"
+				:max="maxExpirationDateEnforced"
 				@input="onExpirationChange">
 				<!-- let's not submit when picked, the user
 					might want to still edit or copy the password -->
 				{{ t('files_sharing', 'Enter a date') }}
 			</NcActionInput>
 
-			<NcActionButton icon="icon-checkmark" @click.prevent.stop="onNewLinkShare">
+			<NcActionButton @click.prevent.stop="onNewLinkShare">
+				<template #icon>
+					<CheckIcon :size="20" />
+				</template>
 				{{ t('files_sharing', 'Create share') }}
 			</NcActionButton>
-			<NcActionButton icon="icon-close" @click.prevent.stop="onCancel">
+			<NcActionButton @click.prevent.stop="onCancel">
+				<template #icon>
+					<CloseIcon :size="20" />
+				</template>
 				{{ t('files_sharing', 'Cancel') }}
 			</NcActionButton>
 		</NcActions>
@@ -127,13 +142,23 @@
 			@close="onMenuClose">
 			<template v-if="share">
 				<template v-if="share.canEdit && canReshare">
-					<NcActionButton :disabled="saving" @click.prevent="openSharingDetails">
+					<NcActionButton :disabled="saving"
+						:close-after-click="true"
+						@click.prevent="openSharingDetails">
 						<template #icon>
-							<Tune />
+							<Tune :size="20" />
 						</template>
 						{{ t('files_sharing', 'Customize link') }}
 					</NcActionButton>
 				</template>
+				
+				<NcActionButton :close-after-click="true"
+					@click.prevent="showQRCode = true">
+					<template #icon>
+						<IconQr :size="20" />
+					</template>
+					{{ t('files_sharing', 'Generate QR code') }}
+				</NcActionButton>
 
 				<NcActionSeparator />
 
@@ -156,15 +181,19 @@
 
 				<NcActionButton v-if="!isEmailShareType && canReshare"
 					class="new-share-link"
-					icon="icon-add"
 					@click.prevent.stop="onNewLinkShare">
+					<template #icon>
+						<PlusIcon :size="20" />
+					</template>
 					{{ t('files_sharing', 'Add another link') }}
 				</NcActionButton>
 
 				<NcActionButton v-if="share.canDelete"
-					icon="icon-close"
 					:disabled="saving"
 					@click.prevent="onDelete">
+					<template #icon>
+						<CloseIcon :size="20" />
+					</template>
 					{{ t('files_sharing', 'Unshare') }}
 				</NcActionButton>
 			</template>
@@ -180,6 +209,20 @@
 
 		<!-- loading indicator to replace the menu -->
 		<div v-else class="icon-loading-small sharing-entry__loading" />
+
+		<!-- Modal to open whenever we have a QR code -->
+		<NcDialog v-if="showQRCode"
+			size="normal"
+			:open.sync="showQRCode"
+			:name="title"
+			:close-on-click-outside="true"
+			@close="showQRCode = false">
+			<div class="qr-code-dialog">
+				<VueQrcode tag="img"
+					:value="shareLink"
+					class="qr-code-dialog__img" />
+			</div>
+		</NcDialog>
 	</li>
 </template>
 
@@ -188,6 +231,7 @@ import { generateUrl } from '@nextcloud/router'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { Type as ShareTypes } from '@nextcloud/sharing'
 import Vue from 'vue'
+import VueQrcode from '@chenfengyuan/vue-qrcode';
 
 import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
 import NcActionInput from '@nextcloud/vue/dist/Components/NcActionInput.js'
@@ -196,10 +240,18 @@ import NcActionText from '@nextcloud/vue/dist/Components/NcActionText.js'
 import NcActionSeparator from '@nextcloud/vue/dist/Components/NcActionSeparator.js'
 import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
 import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
+import NcDialog from '@nextcloud/vue/dist/Components/NcDialog.js'
 
 import Tune from 'vue-material-design-icons/Tune.vue'
+import IconQr from 'vue-material-design-icons/Qrcode.vue'
+import ErrorIcon from 'vue-material-design-icons/Exclamation.vue'
+import LockIcon from 'vue-material-design-icons/Lock.vue'
+import CheckIcon from 'vue-material-design-icons/CheckBold.vue'
+import ClipboardIcon from 'vue-material-design-icons/ClipboardFlow.vue'
+import CloseIcon from 'vue-material-design-icons/Close.vue'
+import PlusIcon from 'vue-material-design-icons/Plus.vue'
 
-import QuickShareSelect from './SharingEntryQuickShareSelect.vue'
+import SharingEntryQuickShareSelect from './SharingEntryQuickShareSelect.vue'
 
 import ExternalShareAction from './ExternalShareAction.vue'
 import GeneratePassword from '../utils/GeneratePassword.js'
@@ -219,8 +271,17 @@ export default {
 		NcActionText,
 		NcActionSeparator,
 		NcAvatar,
+		NcDialog,
+		VueQrcode,
 		Tune,
-		QuickShareSelect,
+		IconQr,
+		ErrorIcon,
+		LockIcon,
+		CheckIcon,
+		ClipboardIcon,
+		CloseIcon,
+		PlusIcon,
+		SharingEntryQuickShareSelect,
 	},
 
 	mixins: [SharesMixin, ShareDetails],
@@ -238,7 +299,6 @@ export default {
 
 	data() {
 		return {
-			showDropdown: false,
 			copySuccess: true,
 			copied: false,
 
@@ -247,6 +307,9 @@ export default {
 
 			ExternalLegacyLinkActions: OCA.Sharing.ExternalLinkActions.state,
 			ExternalShareActions: OCA.Sharing.ExternalShareActions.state,
+
+			// tracks whether modal should be opened or not
+			showQRCode: false,
 		}
 	},
 
@@ -299,12 +362,6 @@ export default {
 			if (this.isEmailShareType
 				&& this.title !== this.share.shareWith) {
 				return this.share.shareWith
-			}
-			return null
-		},
-		dateMaxEnforced() {
-			if (this.config.isDefaultExpireDateEnforced) {
-				return new Date(new Date().setDate(new Date().getDate() + this.config.defaultExpireDate))
 			}
 			return null
 		},
@@ -468,10 +525,10 @@ export default {
 		 * @return {Array}
 		 */
 		externalLinkActions() {
+			const filterValidAction = (action) => (action.shareType.includes(ShareTypes.SHARE_TYPE_LINK) || action.shareType.includes(ShareTypes.SHARE_TYPE_EMAIL)) && !action.advanced
 			// filter only the registered actions for said link
 			return this.ExternalShareActions.actions
-				.filter(action => action.shareType.includes(ShareTypes.SHARE_TYPE_LINK)
-					|| action.shareType.includes(ShareTypes.SHARE_TYPE_EMAIL))
+				.filter(filterValidAction)
 		},
 
 		isPasswordPolicyEnabled() {
@@ -736,10 +793,6 @@ export default {
 			// YET. We can safely delete the share :)
 			this.$emit('remove:share', this.share)
 		},
-
-		toggleQuickShareSelect() {
-			this.showDropdown = !this.showDropdown
-		},
 	},
 }
 </script>
@@ -757,6 +810,7 @@ export default {
 		justify-content: space-between;
 		flex: 1 0;
 		min-width: 0;
+	}
 
 	&__desc {
 		display: flex;
@@ -772,11 +826,10 @@ export default {
 			overflow: hidden;
 			white-space: nowrap;
 		}
-	  }
+	}
 
-	  &__copy {
+	&__copy {
 
-	  }
 	}
 
 	&:not(.sharing-entry--share) &__actions {
@@ -813,6 +866,19 @@ export default {
 
 	.icon-checkmark-color {
 		opacity: 1;
+		color: var(--color-success);
+	}
+}
+
+// styling for the qr-code container
+.qr-code-dialog {
+	display: flex;
+	width: 100%;
+	justify-content: center;
+
+	&__img {
+		width: 100%;
+		height: auto;
 	}
 }
 </style>

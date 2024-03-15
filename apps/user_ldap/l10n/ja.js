@@ -61,7 +61,8 @@ OC.L10N.register(
     "Your password will expire today." : "パスワードが今日期限切れになります。",
     "_Your password will expire within %n day._::_Your password will expire within %n days._" : ["パスワードがあと %n日で期限切れになります。"],
     "LDAP/AD integration" : "LDAP/AD統合",
-    "Invalid UUIDs of LDAP users or groups have been found. Please review your \"Override UUID detection\" settings in the Expert part of the LDAP configuration and use \"occ ldap:update-uuid\" to update them." : "無効なLDAPユーザーまたはグループのUUIDが見つかりました。LDAP設定の詳細設定に存在する\"UUID検出の上書き\"設定を再度ご確認いただき、更新するには\"occ ldap:update-uuid\"をご使用ください。",
+    "Invalid LDAP UUIDs" : "無効な LDAP UUID",
+    "None found" : "該当なし",
     "_%n group found_::_%n groups found_" : ["グループ%nが見つかりました "],
     "> 1000 groups found" : "1000 以上のグループが見つかりました",
     "> 1000 users found" : "1000 以上のユーザーが見つかりました",
@@ -215,6 +216,7 @@ OC.L10N.register(
     "Username-LDAP User Mapping" : "ユーザー名とLDAPユーザーのマッピング",
     "Usernames are used to store and assign metadata. In order to precisely identify and recognize users, each LDAP user will have an internal username. This requires a mapping from username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found. The internal username is used all over. Clearing the mappings will have leftovers everywhere. Clearing the mappings is not configuration sensitive, it affects all LDAP configurations! Never clear the mappings in a production environment, only in a testing or experimental stage." : "ユーザー名は、メタデータの保存と割り当てに使用されます。 ユーザーを正確に識別して認識するために、各LDAPユーザーには内部ユーザー名が割り当てられます。 これには、ユーザー名からLDAPユーザーへのマッピングが必要です。 作成されたユーザー名は、LDAPユーザーのUUIDにマップされます。 さらに、DNはLDAPインタラクションを減らすためにキャッシュされますが、識別には使用されません。 DNが変更された場合、変更が検出されます。 内部ユーザー名はいたるところで使用されます。 マッピングをクリアすると、どこに残っているか分かります。 マッピングの消去はコンフィギュレーションセンシティブではなく、すべてのLDAP構成に影響します。 本番環境のマッピングをクリアしないでください。テスト環境または実験段階でのみ実施してください。",
     "Clear Username-LDAP User Mapping" : "ユーザー名とLDAPユーザーのマッピングをクリアする",
-    "Clear Groupname-LDAP Group Mapping" : "グループ名とLDAPグループのマッピングをクリアする"
+    "Clear Groupname-LDAP Group Mapping" : "グループ名とLDAPグループのマッピングをクリアする",
+    "Invalid UUIDs of LDAP users or groups have been found. Please review your \"Override UUID detection\" settings in the Expert part of the LDAP configuration and use \"occ ldap:update-uuid\" to update them." : "無効なLDAPユーザーまたはグループのUUIDが見つかりました。LDAP設定の詳細設定に存在する\"UUID検出の上書き\"設定を再度ご確認いただき、更新するには\"occ ldap:update-uuid\"をご使用ください。"
 },
 "nplurals=1; plural=0;");

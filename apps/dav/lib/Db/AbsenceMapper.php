@@ -44,6 +44,31 @@ class AbsenceMapper extends QBMapper {
 	 * @throws DoesNotExistException
 	 * @throws \OCP\DB\Exception
 	 */
+	public function findById(int $id): Absence {
+		$qb = $this->db->getQueryBuilder();
+		$qb->select('*')
+			->from($this->getTableName())
+			->where($qb->expr()->eq(
+				'id',
+				$qb->createNamedParameter($id, IQueryBuilder::PARAM_INT),
+				IQueryBuilder::PARAM_INT),
+			);
+		try {
+			return $this->findEntity($qb);
+		} catch (MultipleObjectsReturnedException $e) {
+			// Won't happen as id is the primary key
+			throw new \RuntimeException(
+				'The impossible has happened! The query returned multiple absence settings for one user.',
+				0,
+				$e,
+			);
+		}
+	}
+
+	/**
+	 * @throws DoesNotExistException
+	 * @throws \OCP\DB\Exception
+	 */
 	public function findByUserId(string $userId): Absence {
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('*')

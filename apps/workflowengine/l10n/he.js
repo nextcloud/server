@@ -96,10 +96,8 @@ OC.L10N.register(
     "between" : "בין",
     "not between" : "לא בין",
     "Request user agent" : "סוכן משתמש הבקשה",
-    "User group membership" : "חברות בקבוצת משתמשים",
     "is member of" : "חבר בקבוצה",
     "is not member of" : "לא חבר בקבוצה",
-    "Predefined URLs" : "כתובות שמוגדרות מראש",
-    "Others" : "חרים"
+    "User group membership" : "חברות בקבוצת משתמשים"
 },
-"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");
+"nplurals=3; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: 2;");

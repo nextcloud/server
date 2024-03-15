@@ -174,9 +174,6 @@ class CapabilitiesTest extends TestCase {
 		$this->theming->expects($this->exactly(3))
 			->method('getLogo')
 			->willReturn($logo);
-		$this->theming->expects($this->once())
-			->method('getDefaultTextColorPrimary')
-			->willReturn($textColor);
 
 		$util = new Util($this->config, $this->createMock(IAppManager::class), $this->createMock(IAppData::class), $this->createMock(ImageManager::class));
 		$this->util->expects($this->exactly(3))
@@ -186,6 +183,9 @@ class CapabilitiesTest extends TestCase {
 				return $util->elementColor($color, $brightBackground);
 			});
 
+		$this->util->expects($this->any())
+			->method('invertTextColor')
+			->willReturnCallback(fn () => $textColor === '#000000');
 		$this->util->expects($this->once())
 			->method('isBackgroundThemed')
 			->willReturn($backgroundThemed);

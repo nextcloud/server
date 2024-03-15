@@ -37,7 +37,6 @@ use OCP\Files\Template\TemplateFileCreator;
 use OCP\IRequest;
 
 /**
- * @psalm-import-type FilesTemplate from ResponseDefinitions
  * @psalm-import-type FilesTemplateFile from ResponseDefinitions
  * @psalm-import-type FilesTemplateFileCreator from ResponseDefinitions
  */
@@ -103,7 +102,7 @@ class TemplateController extends OCSController {
 			$templatePath = $this->templateManager->initializeTemplateDirectory($templatePath, null, $copySystemTemplates);
 			return new DataResponse([
 				'template_path' => $templatePath,
-				'templates' => array_map(fn(TemplateFileCreator $creator) => $creator->jsonSerialize(), $this->templateManager->listCreators()),
+				'templates' => array_map(fn (TemplateFileCreator $creator) => $creator->jsonSerialize(), $this->templateManager->listCreators()),
 			]);
 		} catch (\Exception $e) {
 			throw new OCSForbiddenException($e->getMessage());

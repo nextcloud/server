@@ -113,10 +113,9 @@ OC.L10N.register(
     "between" : "介於",
     "not between" : "皆非",
     "Request user agent" : "索取 user agent",
-    "User group membership" : "用戶群組成員身分",
+    "Group membership" : "群組成員身分",
     "is member of" : "是以下群組的成員：",
     "is not member of" : "非以下群組的成員：",
-    "Predefined URLs" : "預定義網址",
-    "Others" : "其他"
+    "User group membership" : "用戶群組成員身分"
 },
 "nplurals=1; plural=0;");

@@ -96,12 +96,12 @@ class Get extends Command {
 		}
 
 		if ($input->getOption('refresh')) {
-			$node = $this->rootFolder->getUserFolder($input->getArgument('userId'))->getById($fileId);
-			if (count($node) === 0) {
+			$node = $this->rootFolder->getUserFolder($input->getArgument('userId'))->getFirstNodeById($fileId);
+			if (!$node) {
 				throw new NotFoundException();
 			}
 			$metadata = $this->filesMetadataManager->refreshMetadata(
-				$node[0],
+				$node,
 				IFilesMetadataManager::PROCESS_LIVE | IFilesMetadataManager::PROCESS_BACKGROUND
 			);
 		} else {

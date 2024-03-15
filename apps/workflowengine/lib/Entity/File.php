@@ -135,10 +135,10 @@ class File implements IEntity, IDisplayText, IUrl, IIcon, IContextPortation {
 		}
 	}
 
-	public function isLegitimatedForUserId(string $uid): bool {
+	public function isLegitimatedForUserId(string $userId): bool {
 		try {
 			$node = $this->getNode();
-			if ($node->getOwner()->getUID() === $uid) {
+			if ($node->getOwner()?->getUID() === $userId) {
 				return true;
 			}
 
@@ -149,7 +149,7 @@ class File implements IEntity, IDisplayText, IUrl, IIcon, IContextPortation {
 				$fileId = $node->getId();
 			}
 
-			$mountInfos = $this->userMountCache->getMountsForFileId($fileId, $uid);
+			$mountInfos = $this->userMountCache->getMountsForFileId($fileId, $userId);
 			foreach ($mountInfos as $mountInfo) {
 				$mount = $this->mountManager->getMountFromMountInfo($mountInfo);
 				if ($mount && $mount->getStorage() && !empty($mount->getStorage()->getCache()->get($fileId))) {

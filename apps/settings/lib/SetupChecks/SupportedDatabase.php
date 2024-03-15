@@ -33,12 +33,14 @@ use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
 use Doctrine\DBAL\Platforms\SqlitePlatform;
 use OCP\IDBConnection;
 use OCP\IL10N;
+use OCP\IURLGenerator;
 use OCP\SetupCheck\ISetupCheck;
 use OCP\SetupCheck\SetupResult;
 
 class SupportedDatabase implements ISetupCheck {
 	public function __construct(
 		private IL10N $l10n,
+		private IURLGenerator $urlGenerator,
 		private IDBConnection $connection,
 	) {
 	}
@@ -81,9 +83,12 @@ class SupportedDatabase implements ISetupCheck {
 		} elseif ($databasePlatform instanceof OraclePlatform) {
 			$version = 'Oracle';
 		} elseif ($databasePlatform instanceof SqlitePlatform) {
-			$version = 'Sqlite';
+			return SetupResult::warning(
+				$this->l10n->t('SQLite is currently being used as the backend database. For larger installations we recommend that you switch to a different database backend. This is particularly recommended when using the desktop client for file synchronisation. To migrate to another database use the command line tool: "occ db:convert-type".'),
+				$this->urlGenerator->linkToDocs('admin-db-conversion')
+			);
 		} else {
-			return SetupResult::error($this->l10n->t('Unknown database plaform'));
+			return SetupResult::error($this->l10n->t('Unknown database platform'));
 		}
 		return SetupResult::success($version);
 	}

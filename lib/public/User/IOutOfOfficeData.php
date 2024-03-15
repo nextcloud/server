@@ -25,14 +25,24 @@ declare(strict_types=1);
 
 namespace OCP\User;
 
+use JsonSerializable;
 use OCP\IUser;
 
 /**
  * DTO to hold out-of-office information of a user
  *
+ * @psalm-type OutOfOfficeData = array{
+ *      id: string,
+ *      userId: string,
+ *      startDate: int,
+ *      endDate: int,
+ *      shortMessage: string,
+ *      message: string,
+ * }
+ *
  * @since 28.0.0
  */
-interface IOutOfOfficeData {
+interface IOutOfOfficeData extends JsonSerializable {
 	/**
 	 * Get the unique token assigned to the current out-of-office event
 	 *
@@ -74,4 +84,11 @@ interface IOutOfOfficeData {
 	 * @since 28.0.0
 	 */
 	public function getMessage(): string;
+
+	/**
+	 * @return OutOfOfficeData
+	 *
+	 * @since 28.0.0
+	 */
+	public function jsonSerialize(): array;
 }

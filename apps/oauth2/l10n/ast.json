@@ -1,12 +1,14 @@
 { "translations": {
     "OAuth 2.0" : "OAuth 2.0",
     "OAuth 2.0 clients" : "Veceros d'OAuth 2.0",
-    "Add client" : "Amestar veceru",
     "Name" : "Nome",
-    "Redirection URI" : "URI de redireición",
+    "Secret key" : "Clave del secretu",
+    "Delete client" : "Desaniciar el veceru",
+    "Add client" : "Amestar el veceru",
     "Add" : "Amestar",
-    "Client Identifier" : "Identificador del veceru",
-    "Secret" : "Secretu",
-    "Delete" : "Desaniciar"
+    "Delete" : "Desaniciar",
+    "Show client secret" : "Amosar el secretu del veceru",
+    "Hide client secret" : "Anubrir el secretu del veceru",
+    "Secret" : "Secretu"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

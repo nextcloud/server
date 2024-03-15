@@ -21,6 +21,7 @@
  */
 
 import { User } from '@nextcloud/cypress'
+import { installTestApp, uninstallTestApp } from '../../support/commonUtils'
 
 const admin = new User('admin', 'admin')
 
@@ -34,6 +35,8 @@ describe('Admin theming set default apps', () => {
 	it('See the current default app is the dashboard', () => {
 		cy.visit('/')
 		cy.url().should('match', /apps\/dashboard/)
+
+		// Also check the top logo link
 		cy.get('#nextcloud').click()
 		cy.url().should('match', /apps\/dashboard/)
 	})
@@ -48,14 +51,14 @@ describe('Admin theming set default apps', () => {
 
 	it('Toggle the "use custom default app" switch', () => {
 		cy.get('[data-cy-switch-default-app] input').should('not.be.checked')
-		cy.get('[data-cy-switch-default-app] label').click()
+		cy.get('[data-cy-switch-default-app] .checkbox-content').click()
 		cy.get('[data-cy-switch-default-app] input').should('be.checked')
 	})
 
 	it('See the default app order selector', () => {
-		cy.get('[data-cy-app-order] [data-cy-app-order-element]').each(($el, idx) => {
-			if (idx === 0) cy.wrap($el).should('have.attr', 'data-cy-app-order-element', 'dashboard')
-			else cy.wrap($el).should('have.attr', 'data-cy-app-order-element', 'files')
+		cy.get('[data-cy-app-order] [data-cy-app-order-element]').then(elements => {
+			const appIDs = elements.map((idx, el) => el.getAttribute('data-cy-app-order-element')).get()
+			expect(appIDs).to.deep.eq(['dashboard', 'files'])
 		})
 	})
 
@@ -69,13 +72,17 @@ describe('Admin theming set default apps', () => {
 	})
 
 	it('See the default app is changed', () => {
-		cy.get('[data-cy-app-order] [data-cy-app-order-element]').each(($el, idx) => {
-			if (idx === 0) cy.wrap($el).should('have.attr', 'data-cy-app-order-element', 'files')
-			else cy.wrap($el).should('have.attr', 'data-cy-app-order-element', 'dashboard')
+		cy.get('[data-cy-app-order] [data-cy-app-order-element]').then(elements => {
+			const appIDs = elements.map((idx, el) => el.getAttribute('data-cy-app-order-element')).get()
+			expect(appIDs).to.deep.eq(['files', 'dashboard'])
 		})
 
-		cy.get('#nextcloud').click()
-		cy.url().should('match', /apps\/files/)
+		// Check the redirect to the default app works
+		cy.request({ url: '/', followRedirect: false }).then((response) => {
+			expect(response.status).to.eq(302)
+			expect(response).to.have.property('headers')
+			expect(response.headers.location).to.contain('/apps/files')
+		})
 	})
 
 	it('Toggle the "use custom default app" switch back to reset the default apps', () => {
@@ -83,13 +90,17 @@ describe('Admin theming set default apps', () => {
 		cy.get('[data-cy-switch-default-app]').scrollIntoView()
 
 		cy.get('[data-cy-switch-default-app] input').should('be.checked')
-		cy.get('[data-cy-switch-default-app] label').click()
+		cy.get('[data-cy-switch-default-app] .checkbox-content').click()
 		cy.get('[data-cy-switch-default-app] input').should('be.not.checked')
 	})
 
 	it('See the default app is changed back to default', () => {
-		cy.get('#nextcloud').click()
-		cy.url().should('match', /apps\/dashboard/)
+		// Check the redirect to the default app works
+		cy.request({ url: '/', followRedirect: false }).then((response) => {
+			expect(response.status).to.eq(302)
+			expect(response).to.have.property('headers')
+			expect(response.headers.location).to.contain('/apps/dashboard')
+		})
 	})
 })
 
@@ -115,14 +126,16 @@ describe('User theming set app order', () => {
 	})
 
 	it('See that the dashboard app is the first one', () => {
-		cy.get('[data-cy-app-order] [data-cy-app-order-element]').each(($el, idx) => {
-			if (idx === 0) cy.wrap($el).should('have.attr', 'data-cy-app-order-element', 'dashboard')
-			else cy.wrap($el).should('have.attr', 'data-cy-app-order-element', 'files')
+		// Check the app order settings UI
+		cy.get('[data-cy-app-order] [data-cy-app-order-element]').then(elements => {
+			const appIDs = elements.map((idx, el) => el.getAttribute('data-cy-app-order-element')).get()
+			expect(appIDs).to.deep.eq(['dashboard', 'files'])
 		})
 
-		cy.get('.app-menu-main .app-menu-entry').each(($el, idx) => {
-			if (idx === 0) cy.wrap($el).should('have.attr', 'data-app-id', 'dashboard')
-			else cy.wrap($el).should('have.attr', 'data-app-id', 'files')
+		// Check the top app menu order
+		cy.get('.app-menu-main .app-menu-entry').then(elements => {
+			const appIDs = elements.map((idx, el) => el.getAttribute('data-app-id')).get()
+			expect(appIDs).to.deep.eq(['dashboard', 'files'])
 		})
 	})
 
@@ -131,17 +144,17 @@ describe('User theming set app order', () => {
 		cy.get('[data-cy-app-order] [data-cy-app-order-element="files"] [data-cy-app-order-button="up"]').click()
 		cy.get('[data-cy-app-order] [data-cy-app-order-element="files"] [data-cy-app-order-button="up"]').should('not.be.visible')
 
-		cy.get('[data-cy-app-order] [data-cy-app-order-element]').each(($el, idx) => {
-			if (idx === 0) cy.wrap($el).should('have.attr', 'data-cy-app-order-element', 'files')
-			else cy.wrap($el).should('have.attr', 'data-cy-app-order-element', 'dashboard')
+		cy.get('[data-cy-app-order] [data-cy-app-order-element]').then(elements => {
+			const appIDs = elements.map((idx, el) => el.getAttribute('data-cy-app-order-element')).get()
+			expect(appIDs).to.deep.eq(['files', 'dashboard'])
 		})
 	})
 
 	it('See the app menu order is changed', () => {
 		cy.reload()
-		cy.get('.app-menu-main .app-menu-entry').each(($el, idx) => {
-			if (idx === 0) cy.wrap($el).should('have.attr', 'data-app-id', 'files')
-			else cy.wrap($el).should('have.attr', 'data-app-id', 'dashboard')
+		cy.get('.app-menu-main .app-menu-entry').then(elements => {
+			const appIDs = elements.map((idx, el) => el.getAttribute('data-app-id')).get()
+			expect(appIDs).to.deep.eq(['files', 'dashboard'])
 		})
 	})
 })
@@ -152,9 +165,9 @@ describe('User theming set app order with default app', () => {
 	before(() => {
 		cy.resetAdminTheming()
 		// install a third app
-		cy.runOccCommand('app:install --force --allow-unstable calendar')
-		// set calendar as default app
-		cy.runOccCommand('config:system:set --value "calendar,files" defaultapp')
+		installTestApp()
+		// set files as default app
+		cy.runOccCommand('config:system:set --value "files" defaultapp')
 
 		// Create random user for this test
 		cy.createRandomUser().then(($user) => {
@@ -165,55 +178,65 @@ describe('User theming set app order with default app', () => {
 
 	after(() => {
 		cy.deleteUser(user)
-		cy.runOccCommand('app:remove calendar')
+		uninstallTestApp()
 	})
 
-	it('See calendar is the default app', () => {
-		cy.visit('/')
-		cy.url().should('match', /apps\/calendar/)
-
-		cy.get('.app-menu-main .app-menu-entry').each(($el, idx) => {
-			if (idx === 0) cy.wrap($el).should('have.attr', 'data-app-id', 'calendar')
+	it('See files is the default app', () => {
+		// Check the redirect to the default app works
+		cy.request({ url: '/', followRedirect: false }).then((response) => {
+			expect(response.status).to.eq(302)
+			expect(response).to.have.property('headers')
+			expect(response.headers.location).to.contain('/apps/files')
 		})
 	})
 
-	it('See the app order settings: calendar is the first one', () => {
+	it('See the app order settings: files is the first one', () => {
 		cy.visit('/settings/user/theming')
 		cy.get('[data-cy-app-order]').scrollIntoView()
-		cy.get('[data-cy-app-order] [data-cy-app-order-element]').should('have.length', 3).each(($el, idx) => {
-			if (idx === 0) cy.wrap($el).should('have.attr', 'data-cy-app-order-element', 'calendar')
-			else if (idx === 1) cy.wrap($el).should('have.attr', 'data-cy-app-order-element', 'dashboard')
+		cy.get('[data-cy-app-order] [data-cy-app-order-element]').then(elements => {
+			expect(elements).to.have.length(4)
+			const appIDs = elements.map((idx, el) => el.getAttribute('data-cy-app-order-element')).get()
+			expect(appIDs).to.deep.eq(['files', 'dashboard', 'testapp1', 'testapp'])
 		})
 	})
 
 	it('Can not change the default app', () => {
-		cy.get('[data-cy-app-order] [data-cy-app-order-element="calendar"] [data-cy-app-order-button="up"]').should('not.be.visible')
-		cy.get('[data-cy-app-order] [data-cy-app-order-element="calendar"] [data-cy-app-order-button="down"]').should('not.be.visible')
+		cy.get('[data-cy-app-order] [data-cy-app-order-element="files"] [data-cy-app-order-button="up"]').should('not.be.visible')
+		cy.get('[data-cy-app-order] [data-cy-app-order-element="files"] [data-cy-app-order-button="down"]').should('not.be.visible')
 
 		cy.get('[data-cy-app-order] [data-cy-app-order-element="dashboard"] [data-cy-app-order-button="up"]').should('not.be.visible')
 		cy.get('[data-cy-app-order] [data-cy-app-order-element="dashboard"] [data-cy-app-order-button="down"]').should('be.visible')
 
-		cy.get('[data-cy-app-order] [data-cy-app-order-element="files"] [data-cy-app-order-button="up"]').should('be.visible')
-		cy.get('[data-cy-app-order] [data-cy-app-order-element="files"] [data-cy-app-order-button="down"]').should('not.be.visible')
+		cy.get('[data-cy-app-order] [data-cy-app-order-element="testapp"] [data-cy-app-order-button="up"]').should('be.visible')
+		cy.get('[data-cy-app-order] [data-cy-app-order-element="testapp"] [data-cy-app-order-button="down"]').should('not.be.visible')
 	})
 
 	it('Change the order of the other apps', () => {
-		cy.get('[data-cy-app-order] [data-cy-app-order-element="files"] [data-cy-app-order-button="up"]').click()
-		cy.get('[data-cy-app-order] [data-cy-app-order-element="files"] [data-cy-app-order-button="up"]').should('not.be.visible')
+		cy.intercept('POST', '**/apps/provisioning_api/api/v1/config/users/core/apporder').as('setAppOrder')
 
-		cy.get('[data-cy-app-order] [data-cy-app-order-element]').each(($el, idx) => {
-			if (idx === 0) cy.wrap($el).should('have.attr', 'data-cy-app-order-element', 'calendar')
-			else if (idx === 1) cy.wrap($el).should('have.attr', 'data-cy-app-order-element', 'files')
-			else cy.wrap($el).should('have.attr', 'data-cy-app-order-element', 'dashboard')
+		// Move the testapp up twice, it should be the first one after files
+		cy.get('[data-cy-app-order] [data-cy-app-order-element="testapp"] [data-cy-app-order-button="up"]').click()
+		cy.wait('@setAppOrder')
+		cy.get('[data-cy-app-order] [data-cy-app-order-element="testapp"] [data-cy-app-order-button="up"]').click()
+		cy.wait('@setAppOrder')
+
+		// Can't get up anymore, files is enforced as default app
+		cy.get('[data-cy-app-order] [data-cy-app-order-element="testapp"] [data-cy-app-order-button="up"]').should('not.be.visible')
+
+		// Check the final list order
+		cy.get('[data-cy-app-order] [data-cy-app-order-element]').then(elements => {
+			expect(elements).to.have.length(4)
+			const appIDs = elements.map((idx, el) => el.getAttribute('data-cy-app-order-element')).get()
+			expect(appIDs).to.deep.eq(['files', 'testapp', 'dashboard', 'testapp1'])
 		})
 	})
 
 	it('See the app menu order is changed', () => {
 		cy.reload()
-		cy.get('.app-menu-main .app-menu-entry').each(($el, idx) => {
-			if (idx === 0) cy.wrap($el).should('have.attr', 'data-app-id', 'calendar')
-			else if (idx === 1) cy.wrap($el).should('have.attr', 'data-app-id', 'files')
-			else cy.wrap($el).should('have.attr', 'data-app-id', 'dashboard')
+		cy.get('.app-menu-main .app-menu-entry').then(elements => {
+			expect(elements).to.have.length(4)
+			const appIDs = elements.map((idx, el) => el.getAttribute('data-app-id')).get()
+			expect(appIDs).to.deep.eq(['files', 'testapp', 'dashboard', 'testapp1'])
 		})
 	})
 })
@@ -287,14 +310,16 @@ describe('User theming reset app order', () => {
 	})
 
 	it('See that the dashboard app is the first one', () => {
-		cy.get('[data-cy-app-order] [data-cy-app-order-element]').each(($el, idx) => {
-			if (idx === 0) cy.wrap($el).should('have.attr', 'data-cy-app-order-element', 'dashboard')
-			else cy.wrap($el).should('have.attr', 'data-cy-app-order-element', 'files')
+		// Check the app order settings UI
+		cy.get('[data-cy-app-order] [data-cy-app-order-element]').then(elements => {
+			const appIDs = elements.map((idx, el) => el.getAttribute('data-cy-app-order-element')).get()
+			expect(appIDs).to.deep.eq(['dashboard', 'files'])
 		})
 
-		cy.get('.app-menu-main .app-menu-entry').each(($el, idx) => {
-			if (idx === 0) cy.wrap($el).should('have.attr', 'data-app-id', 'dashboard')
-			else cy.wrap($el).should('have.attr', 'data-app-id', 'files')
+		// Check the top app menu order
+		cy.get('.app-menu-main .app-menu-entry').then(elements => {
+			const appIDs = elements.map((idx, el) => el.getAttribute('data-app-id')).get()
+			expect(appIDs).to.deep.eq(['dashboard', 'files'])
 		})
 	})
 
@@ -308,9 +333,10 @@ describe('User theming reset app order', () => {
 		cy.get('[data-cy-app-order] [data-cy-app-order-element="files"] [data-cy-app-order-button="up"]').click()
 		cy.get('[data-cy-app-order] [data-cy-app-order-element="files"] [data-cy-app-order-button="up"]').should('not.be.visible')
 
-		cy.get('[data-cy-app-order] [data-cy-app-order-element]').each(($el, idx) => {
-			if (idx === 0) cy.wrap($el).should('have.attr', 'data-cy-app-order-element', 'files')
-			else cy.wrap($el).should('have.attr', 'data-cy-app-order-element', 'dashboard')
+		// Check the app order settings UI
+		cy.get('[data-cy-app-order] [data-cy-app-order-element]').then(elements => {
+			const appIDs = elements.map((idx, el) => el.getAttribute('data-cy-app-order-element')).get()
+			expect(appIDs).to.deep.eq(['files', 'dashboard'])
 		})
 	})
 
@@ -324,9 +350,9 @@ describe('User theming reset app order', () => {
 	})
 
 	it('See the app order is restored', () => {
-		cy.get('[data-cy-app-order] [data-cy-app-order-element]').each(($el, idx) => {
-			if (idx === 0) cy.wrap($el).should('have.attr', 'data-cy-app-order-element', 'dashboard')
-			else cy.wrap($el).should('have.attr', 'data-cy-app-order-element', 'files')
+		cy.get('[data-cy-app-order] [data-cy-app-order-element]').then(elements => {
+			const appIDs = elements.map((idx, el) => el.getAttribute('data-cy-app-order-element')).get()
+			expect(appIDs).to.deep.eq(['dashboard', 'files'])
 		})
 	})
 

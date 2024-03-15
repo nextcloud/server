@@ -117,8 +117,8 @@ class ExpressionBuilder implements IExpressionBuilder {
 	 * @return string
 	 */
 	public function comparison($x, string $operator, $y, $type = null): string {
-		$x = $this->helper->quoteColumnName($x);
-		$y = $this->helper->quoteColumnName($y);
+		$x = $this->prepareColumn($x, $type);
+		$y = $this->prepareColumn($y, $type);
 		return $this->expressionBuilder->comparison($x, $operator, $y);
 	}
 
@@ -140,8 +140,8 @@ class ExpressionBuilder implements IExpressionBuilder {
 	 * @return string
 	 */
 	public function eq($x, $y, $type = null): string {
-		$x = $this->helper->quoteColumnName($x);
-		$y = $this->helper->quoteColumnName($y);
+		$x = $this->prepareColumn($x, $type);
+		$y = $this->prepareColumn($y, $type);
 		return $this->expressionBuilder->eq($x, $y);
 	}
 
@@ -162,8 +162,8 @@ class ExpressionBuilder implements IExpressionBuilder {
 	 * @return string
 	 */
 	public function neq($x, $y, $type = null): string {
-		$x = $this->helper->quoteColumnName($x);
-		$y = $this->helper->quoteColumnName($y);
+		$x = $this->prepareColumn($x, $type);
+		$y = $this->prepareColumn($y, $type);
 		return $this->expressionBuilder->neq($x, $y);
 	}
 
@@ -184,8 +184,8 @@ class ExpressionBuilder implements IExpressionBuilder {
 	 * @return string
 	 */
 	public function lt($x, $y, $type = null): string {
-		$x = $this->helper->quoteColumnName($x);
-		$y = $this->helper->quoteColumnName($y);
+		$x = $this->prepareColumn($x, $type);
+		$y = $this->prepareColumn($y, $type);
 		return $this->expressionBuilder->lt($x, $y);
 	}
 
@@ -206,8 +206,8 @@ class ExpressionBuilder implements IExpressionBuilder {
 	 * @return string
 	 */
 	public function lte($x, $y, $type = null): string {
-		$x = $this->helper->quoteColumnName($x);
-		$y = $this->helper->quoteColumnName($y);
+		$x = $this->prepareColumn($x, $type);
+		$y = $this->prepareColumn($y, $type);
 		return $this->expressionBuilder->lte($x, $y);
 	}
 
@@ -228,8 +228,8 @@ class ExpressionBuilder implements IExpressionBuilder {
 	 * @return string
 	 */
 	public function gt($x, $y, $type = null): string {
-		$x = $this->helper->quoteColumnName($x);
-		$y = $this->helper->quoteColumnName($y);
+		$x = $this->prepareColumn($x, $type);
+		$y = $this->prepareColumn($y, $type);
 		return $this->expressionBuilder->gt($x, $y);
 	}
 
@@ -250,8 +250,8 @@ class ExpressionBuilder implements IExpressionBuilder {
 	 * @return string
 	 */
 	public function gte($x, $y, $type = null): string {
-		$x = $this->helper->quoteColumnName($x);
-		$y = $this->helper->quoteColumnName($y);
+		$x = $this->prepareColumn($x, $type);
+		$y = $this->prepareColumn($y, $type);
 		return $this->expressionBuilder->gte($x, $y);
 	}
 
@@ -434,5 +434,14 @@ class ExpressionBuilder implements IExpressionBuilder {
 		return new QueryFunction(
 			$this->helper->quoteColumnName($column)
 		);
+	}
+
+	/**
+	 * @param mixed $column
+	 * @param mixed|null $type
+	 * @return array|IQueryFunction|string
+	 */
+	protected function prepareColumn($column, $type) {
+		return $this->helper->quoteColumnNames($column);
 	}
 }

@@ -110,10 +110,8 @@ OC.L10N.register(
     "between" : "közötte",
     "not between" : "nincs közötte",
     "Request user agent" : "Kérés felhasználói ügynöke",
-    "User group membership" : "Felhasználói csoporttagság",
     "is member of" : "tagja ennek",
     "is not member of" : "nem tagja ennek",
-    "Predefined URLs" : "Előre definiált URL-ek",
-    "Others" : "Egyebek"
+    "User group membership" : "Felhasználói csoporttagság"
 },
 "nplurals=2; plural=(n != 1);");

@@ -33,7 +33,7 @@ use OCP\Migration\SimpleMigrationStep;
 
 class Version14000Date20180522074438 extends SimpleMigrationStep {
 	public function changeSchema(IOutput $output, Closure $schemaClosure,
-								 array $options): ISchemaWrapper {
+		array $options): ISchemaWrapper {
 		$schema = $schemaClosure();
 
 		if (!$schema->hasTable('twofactor_providers')) {

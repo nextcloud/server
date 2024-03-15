@@ -18,8 +18,8 @@ $getUserAvatar = static function (int $size) use ($_): string {
 		<meta charset="utf-8">
 		<title>
 			<?php
-				p(!empty($_['pageTitle'])?$_['pageTitle'].' - ':'');
-p(!empty($_['application'])?$_['application'].' - ':'');
+				p(!empty($_['pageTitle']) && $_['pageTitle'] !== $_['application'] ? $_['pageTitle'].' - ' : '');
+p(!empty($_['application']) ? $_['application'].' - ' : '');
 p($theme->getTitle());
 ?>
 		</title>
@@ -37,7 +37,7 @@ p($theme->getTitle());
 		<link rel="apple-touch-icon" href="<?php print_unescaped(image_path($_['appid'], 'favicon-touch.png')); ?>">
 		<link rel="apple-touch-icon-precomposed" href="<?php print_unescaped(image_path($_['appid'], 'favicon-touch.png')); ?>">
 		<link rel="mask-icon" sizes="any" href="<?php print_unescaped(image_path($_['appid'], 'favicon-mask.svg')); ?>" color="<?php p($theme->getColorPrimary()); ?>">
-		<link rel="manifest" href="<?php print_unescaped(image_path($_['appid'], 'manifest.json')); ?>">
+		<link rel="manifest" href="<?php print_unescaped(image_path($_['appid'], 'manifest.json')); ?>" crossorigin="use-credentials">
 		<?php emit_css_loading_tags($_); ?>
 		<?php emit_script_loading_tags($_); ?>
 		<?php print_unescaped($_['headers']); ?>
@@ -68,7 +68,6 @@ p($theme->getTitle());
 			</div>
 
 			<div class="header-right">
-			    <div id="global-search"></div>
 				<div id="unified-search"></div>
 				<div id="notifications"></div>
 				<div id="contactsmenu"></div>
@@ -76,19 +75,12 @@ p($theme->getTitle());
 			</div>
 		</header>
 
-		<div id="sudo-login-background" class="hidden"></div>
-		<form id="sudo-login-form" class="hidden" method="POST">
-			<label>
-				<?php p($l->t('This action requires you to confirm your password')); ?><br/>
-				<input type="password" class="question" autocomplete="new-password" name="question" value=" <?php /* Hack against browsers ignoring autocomplete="off" */ ?>"
-				placeholder="<?php p($l->t('Confirm your password')); ?>" />
-			</label>
-			<input class="confirm" value="<?php p($l->t('Confirm')); ?>" type="submit">
-		</form>
-
 		<main id="content" class="app-<?php p($_['appid']) ?>">
 			<h1 class="hidden-visually" id="page-heading-level-1">
-				<?php p(!empty($_['pageTitle'])?$_['pageTitle']:$theme->getName()); ?>
+				<?php p((!empty($_['application']) && !empty($_['pageTitle']) && $_['application'] != $_['pageTitle'])
+					? $_['application'].': '.$_['pageTitle']
+					: (!empty($_['pageTitle']) ? $_['pageTitle'] : $theme->getName())
+				); ?>
 			</h1>
 			<?php print_unescaped($_['content']); ?>
 		</main>

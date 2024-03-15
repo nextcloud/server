@@ -48,7 +48,6 @@ interface ISearchQuery {
 	 *
 	 * @return string the search term
 	 * @since 20.0.0
-	 * @deprecated 28.0.0
 	 */
 	public function getTerm(): string;
 

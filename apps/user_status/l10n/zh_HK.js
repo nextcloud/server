@@ -7,6 +7,7 @@ OC.L10N.register(
     "Commuting" : "通勤中",
     "Out sick" : "生病了 ",
     "Vacationing" : "休假中",
+    "Out of office" : "不在辦公室",
     "Working remotely" : "遠程工作中",
     "In a call" : "通話中",
     "User status" : "用戶狀態",

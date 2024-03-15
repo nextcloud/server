@@ -75,16 +75,16 @@ class SettingsController extends Controller {
 	 * @param Util $util
 	 */
 	public function __construct($AppName,
-								IRequest $request,
-								IL10N $l10n,
-								IUserManager $userManager,
-								IUserSession $userSession,
-								KeyManager $keyManager,
-								Crypt $crypt,
-								Session $session,
-								ISession $ocSession,
-								Util $util
-) {
+		IRequest $request,
+		IL10N $l10n,
+		IUserManager $userManager,
+		IUserSession $userSession,
+		KeyManager $keyManager,
+		Crypt $crypt,
+		Session $session,
+		ISession $ocSession,
+		Util $util
+	) {
 		parent::__construct($AppName, $request);
 		$this->l = $l10n;
 		$this->userSession = $userSession;

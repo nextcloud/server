@@ -25,8 +25,8 @@ declare(strict_types=1);
  */
 namespace OCA\DAV\Listener;
 
-use OCA\DAV\CardDAV\Activity\Provider\Card;
 use OCA\DAV\CardDAV\Activity\Backend as ActivityBackend;
+use OCA\DAV\CardDAV\Activity\Provider\Card;
 use OCA\DAV\Events\CardCreatedEvent;
 use OCA\DAV\Events\CardDeletedEvent;
 use OCA\DAV\Events\CardUpdatedEvent;
@@ -36,6 +36,7 @@ use Psr\Log\LoggerInterface;
 use Throwable;
 use function sprintf;
 
+/** @template-implements IEventListener<CardCreatedEvent|CardUpdatedEvent|CardDeletedEvent> */
 class CardListener implements IEventListener {
 	/** @var ActivityBackend */
 	private $activityBackend;
@@ -44,7 +45,7 @@ class CardListener implements IEventListener {
 	private $logger;
 
 	public function __construct(ActivityBackend $activityBackend,
-								LoggerInterface $logger) {
+		LoggerInterface $logger) {
 		$this->activityBackend = $activityBackend;
 		$this->logger = $logger;
 	}

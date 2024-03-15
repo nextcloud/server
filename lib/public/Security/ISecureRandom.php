@@ -41,17 +41,36 @@ namespace OCP\Security;
 interface ISecureRandom {
 	/**
 	 * Flags for characters that can be used for <code>generate($length, $characters)</code>
+	 * @since 8.0.0
 	 */
 	public const CHAR_UPPER = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+	/**
+	 * @since 8.0.0
+	 */
 	public const CHAR_LOWER = 'abcdefghijklmnopqrstuvwxyz';
+
+	/**
+	 * @since 8.0.0
+	 */
 	public const CHAR_DIGITS = '0123456789';
+
+	/**
+	 * @since 8.0.0
+	 */
 	public const CHAR_SYMBOLS = '!\"#$%&\\\'()*+,-./:;<=>?@[\]^_`{|}~';
+
+	/**
+	 * @since 12.0.0
+	 */
 	public const CHAR_ALPHANUMERIC = self::CHAR_UPPER . self::CHAR_LOWER . self::CHAR_DIGITS;
 
 	/**
 	 * Characters that can be used for <code>generate($length, $characters)</code>, to
-	 * generate human readable random strings. Lower- and upper-case characters and digits
+	 * generate human-readable random strings. Lower- and upper-case characters and digits
 	 * are included. Characters which are ambiguous are excluded, such as I, l, and 1 and so on.
+	 *
+	 * @since 23.0.0
 	 */
 	public const CHAR_HUMAN_READABLE = 'abcdefgijkmnopqrstwxyzABCDEFGHJKLMNPQRSTWXYZ23456789';
 
@@ -64,5 +83,5 @@ interface ISecureRandom {
 	 * @since 8.0.0
 	 */
 	public function generate(int $length,
-							 string $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'): string;
+		string $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'): string;
 }

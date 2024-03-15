@@ -51,18 +51,19 @@ declare(strict_types=1);
  *
  */
 
+use OC\App\DependencyAnalyzer;
+use OC\App\Platform;
+use OC\AppFramework\Bootstrap\Coordinator;
+use OC\DB\MigrationService;
+use OC\Installer;
+use OC\Repair;
+use OC\Repair\Events\RepairErrorEvent;
 use OCP\App\Events\AppUpdateEvent;
 use OCP\App\IAppManager;
 use OCP\App\ManagerEvent;
 use OCP\Authentication\IAlternativeLogin;
 use OCP\EventDispatcher\IEventDispatcher;
-use OC\AppFramework\Bootstrap\Coordinator;
-use OC\App\DependencyAnalyzer;
-use OC\App\Platform;
-use OC\DB\MigrationService;
-use OC\Installer;
-use OC\Repair;
-use OC\Repair\Events\RepairErrorEvent;
+use OCP\IAppConfig;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Log\LoggerInterface;
 
@@ -116,6 +117,8 @@ class OC_App {
 	 * exists.
 	 *
 	 * if $types is set to non-empty array, only apps of those types will be loaded
+	 *
+	 * @deprecated 29.0.0 use IAppManager::loadApps instead
 	 */
 	public static function loadApps(array $types = []): bool {
 		if (!\OC::$server->getSystemConfig()->getValue('installed', false)) {
@@ -251,7 +254,7 @@ class OC_App {
 	 * This function set an app as enabled in appconfig.
 	 */
 	public function enable(string $appId,
-						   array $groups = []) {
+		array $groups = []) {
 		// Check if app is already downloaded
 		/** @var Installer $installer */
 		$installer = \OCP\Server::get(Installer::class);
@@ -281,10 +284,8 @@ class OC_App {
 
 	/**
 	 * Get the path where to install apps
-	 *
-	 * @return string|false
 	 */
-	public static function getInstallPath() {
+	public static function getInstallPath(): string|null {
 		foreach (OC::$APPSROOTS as $dir) {
 			if (isset($dir['writable']) && $dir['writable'] === true) {
 				return $dir['path'];
@@ -564,7 +565,7 @@ class OC_App {
 		$supportedApps = $this->getSupportedApps();
 
 		foreach ($installedApps as $app) {
-			if (array_search($app, $blacklist) === false) {
+			if (!in_array($app, $blacklist)) {
 				$info = $appManager->getAppInfo($app, false, $langCode);
 				if (!is_array($info)) {
 					\OCP\Server::get(LoggerInterface::class)->error('Could not read app info file for app "' . $app . '"', ['app' => 'core']);
@@ -730,8 +731,9 @@ class OC_App {
 		static $versions;
 
 		if (!$versions) {
-			$appConfig = \OC::$server->getAppConfig();
-			$versions = $appConfig->getValues(false, 'installed_version');
+			/** @var IAppConfig $appConfig */
+			$appConfig = \OCP\Server::get(IAppConfig::class);
+			$versions = $appConfig->searchValues('installed_version');
 		}
 		return $versions;
 	}
@@ -823,7 +825,7 @@ class OC_App {
 		$dispatcher = \OC::$server->get(IEventDispatcher::class);
 
 		// load the steps
-		$r = new Repair([], $dispatcher, \OC::$server->get(LoggerInterface::class));
+		$r = \OCP\Server::get(Repair::class);
 		foreach ($steps as $step) {
 			try {
 				$r->addStep($step);

@@ -45,8 +45,8 @@ interface IAppManager {
 	/**
 	 * Returns the app information from "appinfo/info.xml".
 	 *
-	 * @param string $appId
-	 * @return mixed
+	 * @param string|null $lang
+	 * @return array|null
 	 * @since 14.0.0
 	 */
 	public function getAppInfo(string $appId, bool $path = false, $lang = null);
@@ -62,10 +62,20 @@ interface IAppManager {
 	public function getAppVersion(string $appId, bool $useCache = true): string;
 
 	/**
+	 * Returns the app icon or null if none is found
+	 *
+	 * @param string $appId
+	 * @param bool $dark Enable to request a dark icon variant, default is a white icon
+	 * @return string|null
+	 * @since 29.0.0
+	 */
+	public function getAppIcon(string $appId, bool $dark = false): string|null;
+
+	/**
 	 * Check if an app is enabled for user
 	 *
 	 * @param string $appId
-	 * @param \OCP\IUser $user (optional) if not defined, the currently loggedin user will be used
+	 * @param \OCP\IUser|null $user (optional) if not defined, the currently loggedin user will be used
 	 * @return bool
 	 * @since 8.0.0
 	 */
@@ -250,6 +260,8 @@ interface IAppManager {
 	 *
 	 * @param ?IUser $user User to query default app for
 	 * @param bool $withFallbacks Include fallback values if no default app was configured manually
+	 *                            Before falling back to predefined default apps,
+	 *                            the user defined app order is considered and the first app would be used as the fallback.
 	 *
 	 * @since 25.0.6
 	 * @since 28.0.0 Added optional $withFallbacks parameter

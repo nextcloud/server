@@ -25,13 +25,15 @@ declare(strict_types=1);
  */
 namespace OC\Search;
 
-use OCP\Search\FilterDefinition;
-use OCP\Search\IFilter;
 use OCP\IGroupManager;
 use OCP\IUserManager;
+use OCP\Search\FilterDefinition;
+use OCP\Search\IFilter;
 use RuntimeException;
 
 final class FilterFactory {
+	private const PERSON_TYPE_SEPARATOR = '/';
+
 	public static function get(string $type, string|array $filter): IFilter {
 		return match ($type) {
 			FilterDefinition::TYPE_BOOL => new Filter\BooleanFilter($filter),
@@ -48,7 +50,7 @@ final class FilterFactory {
 	}
 
 	private static function getPerson(string $person): IFilter {
-		$parts = explode('_', $person, 2);
+		$parts = explode(self::PERSON_TYPE_SEPARATOR, $person, 2);
 
 		return match (count($parts)) {
 			1 => self::get(FilterDefinition::TYPE_NC_USER, $person),

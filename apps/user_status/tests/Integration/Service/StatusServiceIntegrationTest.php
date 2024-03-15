@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-/*
+/**
  * @copyright 2023 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
  * @author 2023 Christoph Wurst <christoph@winzerhof-wurst.at>
@@ -123,6 +123,73 @@ class StatusServiceIntegrationTest extends TestCase {
 		self::assertSame(
 			IUserStatus::ONLINE,
 			$this->service->findByUserId('test123')->getStatus(),
+		);
+	}
+
+	public function testCallOverwritesMeetingStatus(): void {
+		$this->service->setStatus(
+			'test123',
+			IUserStatus::ONLINE,
+			null,
+			false,
+		);
+		$this->service->setUserStatus(
+			'test123',
+			IUserStatus::AWAY,
+			IUserStatus::MESSAGE_CALENDAR_BUSY,
+			true,
+		);
+		self::assertSame(
+			'meeting',
+			$this->service->findByUserId('test123')->getMessageId(),
+		);
+
+		$this->service->setUserStatus(
+			'test123',
+			IUserStatus::AWAY,
+			IUserStatus::MESSAGE_CALL,
+			true,
+		);
+		self::assertSame(
+			IUserStatus::AWAY,
+			$this->service->findByUserId('test123')->getStatus(),
+		);
+
+		self::assertSame(
+			IUserStatus::MESSAGE_CALL,
+			$this->service->findByUserId('test123')->getMessageId(),
+		);
+	}
+
+	public function testOtherAutomationsDoNotOverwriteEachOther(): void {
+		$this->service->setStatus(
+			'test123',
+			IUserStatus::ONLINE,
+			null,
+			false,
+		);
+		$this->service->setUserStatus(
+			'test123',
+			IUserStatus::AWAY,
+			IUserStatus::MESSAGE_CALENDAR_BUSY,
+			true,
+		);
+		self::assertSame(
+			'meeting',
+			$this->service->findByUserId('test123')->getMessageId(),
+		);
+
+		$nostatus = $this->service->setUserStatus(
+			'test123',
+			IUserStatus::AWAY,
+			IUserStatus::MESSAGE_AVAILABILITY,
+			true,
+		);
+
+		self::assertNull($nostatus);
+		self::assertSame(
+			IUserStatus::MESSAGE_CALENDAR_BUSY,
+			$this->service->findByUserId('test123')->getMessageId(),
 		);
 	}
 

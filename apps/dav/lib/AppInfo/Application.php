@@ -69,9 +69,6 @@ use OCA\DAV\Events\CardDeletedEvent;
 use OCA\DAV\Events\CardUpdatedEvent;
 use OCA\DAV\Events\SubscriptionCreatedEvent;
 use OCA\DAV\Events\SubscriptionDeletedEvent;
-use OCP\Accounts\UserUpdatedEvent;
-use OCP\EventDispatcher\IEventDispatcher;
-use OCP\Federation\Events\TrustedServerRemovedEvent;
 use OCA\DAV\HookManager;
 use OCA\DAV\Listener\ActivityUpdaterListener;
 use OCA\DAV\Listener\AddressbookListener;
@@ -83,6 +80,7 @@ use OCA\DAV\Listener\CalendarPublicationListener;
 use OCA\DAV\Listener\CalendarShareUpdateListener;
 use OCA\DAV\Listener\CardListener;
 use OCA\DAV\Listener\ClearPhotoCacheListener;
+use OCA\DAV\Listener\OutOfOfficeListener;
 use OCA\DAV\Listener\SubscriptionListener;
 use OCA\DAV\Listener\TrustedServerRemovedListener;
 use OCA\DAV\Listener\UserPreferenceListener;
@@ -92,6 +90,7 @@ use OCA\DAV\Search\TasksSearchProvider;
 use OCA\DAV\SetupChecks\NeedsSystemAddressBookSync;
 use OCA\DAV\UserMigration\CalendarMigrator;
 use OCA\DAV\UserMigration\ContactsMigrator;
+use OCP\Accounts\UserUpdatedEvent;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
@@ -101,8 +100,13 @@ use OCP\Calendar\IManager as ICalendarManager;
 use OCP\Config\BeforePreferenceDeletedEvent;
 use OCP\Config\BeforePreferenceSetEvent;
 use OCP\Contacts\IManager as IContactsManager;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Federation\Events\TrustedServerRemovedEvent;
 use OCP\Files\AppData\IAppDataFactory;
 use OCP\IUser;
+use OCP\User\Events\OutOfOfficeChangedEvent;
+use OCP\User\Events\OutOfOfficeClearedEvent;
+use OCP\User\Events\OutOfOfficeScheduledEvent;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
@@ -195,6 +199,10 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(BeforePreferenceDeletedEvent::class, UserPreferenceListener::class);
 		$context->registerEventListener(BeforePreferenceSetEvent::class, UserPreferenceListener::class);
 
+		$context->registerEventListener(OutOfOfficeChangedEvent::class, OutOfOfficeListener::class);
+		$context->registerEventListener(OutOfOfficeClearedEvent::class, OutOfOfficeListener::class);
+		$context->registerEventListener(OutOfOfficeScheduledEvent::class, OutOfOfficeListener::class);
+
 		$context->registerNotifierService(Notifier::class);
 
 		$context->registerCalendarProvider(CalendarProvider::class);
@@ -216,8 +224,8 @@ class Application extends App implements IBootstrap {
 	}
 
 	public function registerHooks(HookManager $hm,
-								   IEventDispatcher $dispatcher,
-								   IAppContainer $container) {
+		IEventDispatcher $dispatcher,
+		IAppContainer $container) {
 		$hm->setup();
 
 		// first time login event setup
@@ -260,8 +268,8 @@ class Application extends App implements IBootstrap {
 	}
 
 	private function setupContactsProvider(IContactsManager $contactsManager,
-										   IAppContainer $container,
-										   string $userID): void {
+		IAppContainer $container,
+		string $userID): void {
 		/** @var ContactsManager $cm */
 		$cm = $container->query(ContactsManager::class);
 		$urlGenerator = $container->getServer()->getURLGenerator();
@@ -269,7 +277,7 @@ class Application extends App implements IBootstrap {
 	}
 
 	private function setupSystemContactsProvider(IContactsManager $contactsManager,
-												 IAppContainer $container): void {
+		IAppContainer $container): void {
 		/** @var ContactsManager $cm */
 		$cm = $container->query(ContactsManager::class);
 		$urlGenerator = $container->getServer()->getURLGenerator();
@@ -277,7 +285,7 @@ class Application extends App implements IBootstrap {
 	}
 
 	public function registerCalendarManager(ICalendarManager $calendarManager,
-											 IAppContainer $container): void {
+		IAppContainer $container): void {
 		$calendarManager->register(function () use ($container, $calendarManager) {
 			$user = \OC::$server->getUserSession()->getUser();
 			if ($user !== null) {
@@ -287,14 +295,14 @@ class Application extends App implements IBootstrap {
 	}
 
 	private function setupCalendarProvider(ICalendarManager $calendarManager,
-										   IAppContainer $container,
-										   $userId) {
+		IAppContainer $container,
+		$userId) {
 		$cm = $container->query(CalendarManager::class);
 		$cm->setupCalendarProvider($calendarManager, $userId);
 	}
 
 	public function registerCalendarReminders(NotificationProviderManager $manager,
-											   LoggerInterface $logger): void {
+		LoggerInterface $logger): void {
 		try {
 			$manager->registerProvider(AudioProvider::class);
 			$manager->registerProvider(EmailProvider::class);

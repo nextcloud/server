@@ -31,10 +31,13 @@ use OCP\IConfig;
 use OCP\IL10N;
 use OCP\Settings\IDelegatedSettings;
 use OCP\SpeechToText\ISpeechToTextManager;
+use OCP\SpeechToText\ISpeechToTextProviderWithId;
 use OCP\TextProcessing\IManager;
 use OCP\TextProcessing\IProvider;
+use OCP\TextProcessing\IProviderWithId;
 use OCP\TextProcessing\ITaskType;
 use OCP\Translation\ITranslationManager;
+use OCP\Translation\ITranslationProviderWithId;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
@@ -60,30 +63,30 @@ class ArtificialIntelligence implements IDelegatedSettings {
 		$translationPreferences = [];
 		foreach ($this->translationManager->getProviders() as $provider) {
 			$translationProviders[] = [
-				'class' => $provider::class,
+				'class' => $provider instanceof ITranslationProviderWithId ? $provider->getId() : $provider::class,
 				'name' => $provider->getName(),
 			];
-			$translationPreferences[] = $provider::class;
+			$translationPreferences[] = $provider instanceof ITranslationProviderWithId ? $provider->getId() : $provider::class;
 		}
 
 		$sttProviders = [];
 		foreach ($this->sttManager->getProviders() as $provider) {
 			$sttProviders[] = [
-				'class' => $provider::class,
+				'class' => $provider instanceof ISpeechToTextProviderWithId ? $provider->getId() : $provider::class,
 				'name' => $provider->getName(),
 			];
 		}
 
 		$textProcessingProviders = [];
-		/** @var array<class-string<ITaskType>, class-string<IProvider>> $textProcessingSettings */
+		/** @var array<class-string<ITaskType>, string|class-string<IProvider>> $textProcessingSettings */
 		$textProcessingSettings = [];
 		foreach ($this->textProcessingManager->getProviders() as $provider) {
 			$textProcessingProviders[] = [
-				'class' => $provider::class,
+				'class' => $provider instanceof IProviderWithId ? $provider->getId() : $provider::class,
 				'name' => $provider->getName(),
 				'taskType' => $provider->getTaskType(),
 			];
-			$textProcessingSettings[$provider->getTaskType()] = $provider::class;
+			$textProcessingSettings[$provider->getTaskType()] = $provider instanceof IProviderWithId ? $provider->getId() : $provider::class;
 		}
 		$textProcessingTaskTypes = [];
 		foreach ($textProcessingSettings as $taskTypeClass => $providerClass) {

@@ -7,6 +7,7 @@ OC.L10N.register(
     "Commuting" : "Työmatkalla",
     "Out sick" : "Sairaana",
     "Vacationing" : "Lomailemassa",
+    "Out of office" : "Ulkona toimistolta",
     "Working remotely" : "Etätyössä",
     "In a call" : "Puhelussa",
     "User status" : "Käyttäjän tilatieto",

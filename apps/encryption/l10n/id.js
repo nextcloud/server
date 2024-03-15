@@ -38,7 +38,6 @@ OC.L10N.register(
     "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "Mengaktifkan opsi ini akan mengenkripsi semua berkas yang disimpan pada penyimpanan utama, jika tidak diaktifkan maka hanya berkas pada penyimpanan eksternal saja yang akan dienkripsi.",
     "Enable recovery key" : "Aktifkan kunci pemulihan",
     "Disable recovery key" : "Nonaktifkan kunci pemulihan",
-    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "Kunci pemulihan adalah kunci enkripsi tambahan yang digunakan untuk mengenkripsi berkas. Kunci pemulihan memungkinkan untuk memulihkan berkas pengguna ketika pengguna tersebut melupakan kata sandi mereka.",
     "Recovery key password" : "Kata sandi kunci pemulihan",
     "Repeat recovery key password" : "Ulangi kata sandi kunci pemulihan",
     "Change recovery key password:" : "Ubah kata sandi kunci pemulihan:",
@@ -58,7 +57,6 @@ OC.L10N.register(
     "Enabled" : "Diaktifkan",
     "Disabled" : "Dinonaktifkan",
     "In order to use this encryption module you need to enable server-side\n\t\tencryption in the admin settings. Once enabled this module will encrypt\n\t\tall your files transparently. The encryption is based on AES 256 keys.\n\t\tThe module won't touch existing files, only new files will be encrypted\n\t\tafter server-side encryption was enabled. It is also not possible to\n\t\tdisable the encryption again and switch back to a unencrypted system.\n\t\tPlease read the documentation to know all implications before you decide\n\t\tto enable server-side encryption." : "Dalam penggunaan modul enkripsi data, Anda perlu mengaktifkan enkripsi sisi-peladen melalui setelan admin.\nSaat diaktifkan, modul akan mengenkripsi semua berkas Anda secara transparan.\nEnkripsi data yang digunakan berbasis pada kunci AES 256.\nModul ini tidak akan menyentuh berkas eksis, hanya berkas baru saja yang akan dienkripsi.\nTidak dimungkinkan untuk kembali menonaktifkan enkripsi data dan kembali tanpa menggunakan enkripsi data.\nSilakan baca dokumentasi untuk mengetahui semua implikasi sebelum Anda memutuskan untuk mengaktifkan enkripsi sisi-peladen.",
-    "The share will expire on %s." : "Pembagian akan berakhir pada %s.",
-    "Cheers!" : "Horee!"
+    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "Kunci pemulihan adalah kunci enkripsi tambahan yang digunakan untuk mengenkripsi berkas. Kunci pemulihan memungkinkan untuk memulihkan berkas pengguna ketika pengguna tersebut melupakan kata sandi mereka."
 },
 "nplurals=1; plural=0;");

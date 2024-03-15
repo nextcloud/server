@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-/*
+/**
  * @copyright 2023 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
  * @author 2023 Christoph Wurst <christoph@winzerhof-wurst.at>
@@ -46,7 +46,7 @@ class StatusProvider implements IBulkProvider {
 		$statuses = $this->statusService->findByUserIds($uids);
 		/** @var array<string, UserStatus> $indexed */
 		$indexed = array_combine(
-			array_map(fn(UserStatus $status) => $status->getUserId(), $statuses),
+			array_map(fn (UserStatus $status) => $status->getUserId(), $statuses),
 			$statuses
 		);
 

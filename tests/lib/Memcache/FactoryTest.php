@@ -22,8 +22,8 @@
 namespace Test\Memcache;
 
 use OC\Memcache\NullCache;
-use Psr\Log\LoggerInterface;
 use OCP\Profiler\IProfiler;
+use Psr\Log\LoggerInterface;
 
 class Test_Factory_Available_Cache1 extends NullCache {
 	public function __construct($prefix = '') {

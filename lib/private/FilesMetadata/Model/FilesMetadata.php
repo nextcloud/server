@@ -128,6 +128,55 @@ class FilesMetadata implements IFilesMetadata {
 	 * @param string $key metadata key
 	 *
 	 * @inheritDoc
+	 * @return int edit permission
+	 * @throws FilesMetadataNotFoundException
+	 * @since 28.0.0
+	 */
+	public function getEditPermission(string $key): int {
+		if (!array_key_exists($key, $this->metadata)) {
+			throw new FilesMetadataNotFoundException();
+		}
+
+		return $this->metadata[$key]->getEditPermission();
+	}
+
+	/**
+	 * @param string $key metadata key
+	 * @param int $permission edit permission
+	 *
+	 * @inheritDoc
+	 * @throws FilesMetadataNotFoundException
+	 * @since 28.0.0
+	 */
+	public function setEditPermission(string $key, int $permission): void {
+		if (!array_key_exists($key, $this->metadata)) {
+			throw new FilesMetadataNotFoundException();
+		}
+
+		$this->metadata[$key]->setEditPermission($permission);
+	}
+
+
+	public function getEtag(string $key): string {
+		if (!array_key_exists($key, $this->metadata)) {
+			throw new FilesMetadataNotFoundException();
+		}
+
+		return $this->metadata[$key]->getEtag();
+	}
+
+	public function setEtag(string $key, string $etag): void {
+		if (!array_key_exists($key, $this->metadata)) {
+			throw new FilesMetadataNotFoundException();
+		}
+
+		$this->metadata[$key]->setEtag($etag);
+	}
+
+	/**
+	 * @param string $key metadata key
+	 *
+	 * @inheritDoc
 	 * @return string metadata value
 	 * @throws FilesMetadataNotFoundException
 	 * @throws FilesMetadataTypeException
@@ -448,7 +497,7 @@ class FilesMetadata implements IFilesMetadata {
 			// if value does not exist, or type has changed, we keep on the writing
 		}
 
-		$valueWrapper = new MetadataValueWrapper(IMetadataValueWrapper::TYPE_STRING_LIST);
+		$valueWrapper = new MetadataValueWrapper(IMetadataValueWrapper::TYPE_INT_LIST);
 		$this->metadata[$key] = $valueWrapper->setValueIntList($value)->setIndexed($index);
 		$this->updated = true;
 
@@ -582,7 +631,7 @@ class FilesMetadata implements IFilesMetadata {
 					JSON_THROW_ON_ERROR
 				)
 			);
-		} catch (JsonException $e) {
+		} catch (JsonException) {
 			throw new FilesMetadataNotFoundException();
 		}
 	}

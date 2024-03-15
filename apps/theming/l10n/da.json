@@ -22,6 +22,7 @@
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "Du bruger allerede et brugerdefineret tema. Theming app-indstillinger kan blive overskrevet af det.",
     "Theming" : "Temaer",
     "Appearance and accessibility" : "Udseende og tilgængelighed",
+    "The PHP module \"imagick\" is not enabled although the theming app is. For favicon generation to work correctly, you need to install and enable this module." : "PHP-modulet \"imagick\" er ikke aktiveret, selvom tema-appen er det. For at favicon-generering skal fungere korrekt, skal du installere og aktivere dette modul.",
     "Dark theme with high contrast mode" : "Mørkt tema med høj kontrast",
     "Enable dark high contrast mode" : "Aktiver mørkt høj kontrast tilstand",
     "Similar to the high contrast mode, but with dark colours." : "Som høj kontrast tilstand, men med mørke farver.",
@@ -61,19 +62,6 @@
     "Move down" : "Flyt ned",
     "Reset to default" : "Nulstil",
     "Upload" : "Send",
-    "Remove background image" : "Fjern baggrundsbillede",
-    "Loading preview…" : "Indlæser forhåndsvisning...",
-    "Admin" : "Admin",
-    "Error uploading the file" : "Kunne ikke uploade filen",
-    "Name cannot be empty" : "Navn må ikke være tomt",
-    "Pick from Files" : "Vælg fra Filer",
-    "Default image" : "Standardbillede",
-    "Custom color" : "Brug brugerdefinerede farver",
-    "Plain background" : "Standard baggrund",
-    "Insert from {productName}" : "Indsæt fra {productName}",
-    "Open documentation" : "Åbn dokumentation",
-    "https://…" : "https://…",
-    "Upload new login background" : "Upload nyt login billede",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Installer Imagemagick PHP udvidelsen med SVG support for automatisk at genererer favikoner baseret på the uploadede logo og farver."
+    "Remove background image" : "Fjern baggrundsbillede"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

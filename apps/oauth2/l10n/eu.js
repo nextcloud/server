@@ -14,8 +14,8 @@ OC.L10N.register(
     "Secret key" : "Gako sekretua",
     "Add client" : "Gehitu bezeroa",
     "Add" : "Gehitu",
-    "Show client secret" : "Erakutsi bezeroaren sekretua",
     "Delete" : "Ezabatu",
+    "Show client secret" : "Erakutsi bezeroaren sekretua",
     "Secret" : "Sekretua"
 },
 "nplurals=2; plural=(n != 1);");

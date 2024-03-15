@@ -20,15 +20,24 @@
   -->
 
 <template>
-	<div ref="picker" class="reference-file-picker" />
+	<div :id="containerId">
+		<FilePicker v-bind="filepickerOptions" @close="onClose" />
+	</div>
 </template>
 
-<script>
-import { FilePickerType } from '@nextcloud/dialogs'
+<script lang="ts">
+import type { Node as NcNode } from '@nextcloud/files'
+import type { IFilePickerButton } from '@nextcloud/dialogs'
+
+import { FilePickerVue as FilePicker } from '@nextcloud/dialogs/filepicker.js'
+import { translate as t } from '@nextcloud/l10n'
 import { generateUrl } from '@nextcloud/router'
-export default {
+import { defineComponent } from 'vue'
+
+export default defineComponent({
 	name: 'FileReferencePickerElement',
 	components: {
+		FilePicker,
 	},
 	props: {
 		providerId: {
@@ -40,74 +49,55 @@ export default {
 			default: false,
 		},
 	},
-	mounted() {
-		this.openFilePicker()
-		window.addEventListener('click', this.onWindowClick)
-	},
-	beforeDestroy() {
-		window.removeEventListener('click', this.onWindowClick)
-	},
-	methods: {
-		onWindowClick(e) {
-			if (e.target.tagName === 'A' && e.target.classList.contains('oc-dialog-close')) {
-				this.$emit('cancel')
+	computed: {
+		containerId() {
+			return `filepicker-${Math.random().toString(36).slice(7)}`
+		},
+		filepickerOptions() {
+			return {
+				allowPickDirectory: false,
+				buttons: this.buttonFactory,
+				container: `#${this.containerId}`,
+				multiselect: false,
+				name: t('files', 'Select file or folder to link to'),
 			}
 		},
-		async openFilePicker() {
-			OC.dialogs.filepicker(
-				t('files', 'Select file or folder to link to'),
-				(file) => {
-					const client = OC.Files.getClient()
-					client.getFileInfo(file).then((_status, fileInfo) => {
-						this.submit(fileInfo.id)
-					})
-				},
-				false, // multiselect
-				[], // mime filter
-				false, // modal
-				FilePickerType.Choose, // type
-				'',
-				{
-					target: this.$refs.picker,
-				},
-			)
+	},
+	methods: {
+		t,
+
+		buttonFactory(selected: NcNode[]): IFilePickerButton[] {
+			const buttons = [] as IFilePickerButton[]
+			if (selected.length === 0) {
+				buttons.push({
+					label: t('files', 'Choose file'),
+					type: 'tertiary' as never,
+					callback: this.onClose,
+				})
+			} else {
+				buttons.push({
+					label: t('files', 'Choose {file}', { file: selected[0].basename }),
+					type: 'primary',
+					callback: this.onClose,
+				})
+			}
+			return buttons
 		},
-		submit(fileId) {
-			const fileLink = window.location.protocol + '//' + window.location.host
-				+ generateUrl('/f/{fileId}', { fileId })
-			this.$emit('submit', fileLink)
+
+		onClose(nodes?: NcNode[]) {
+			if (nodes === undefined || nodes.length === 0) {
+				this.$emit('cancel')
+			} else {
+				this.onSubmit(nodes[0])
+			}
+		},
+
+		onSubmit(node: NcNode) {
+			const url = new URL(window.location.href)
+			url.pathname = generateUrl('/f/{fileId}', { fileId: node.fileid! })
+			url.search = ''
+			this.$emit('submit', url.href)
 		},
 	},
-}
+})
 </script>
-
-<style scoped lang="scss">
-.reference-file-picker {
-	flex-grow: 1;
-	padding: 12px 16px 16px 16px;
-
-	&:deep(.oc-dialog) {
-		transform: none !important;
-		box-shadow: none !important;
-		flex-grow: 1 !important;
-		position: static !important;
-		width: 100% !important;
-		height: auto !important;
-		padding: 0 !important;
-		max-width: initial;
-
-		.oc-dialog-close {
-			display: none;
-		}
-
-		.oc-dialog-buttonrow.onebutton.aside {
-			position: absolute;
-			padding: 12px 32px;
-		}
-
-		.oc-dialog-content {
-			max-width: 100% !important;
-		}
-	}
-}
-</style>

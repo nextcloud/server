@@ -36,18 +36,11 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
 
 class ResetGroup extends Command {
-	private IGroupManager $groupManager;
-	private GroupPluginManager $pluginManager;
-	private Group_Proxy $backend;
-
 	public function __construct(
-		IGroupManager $groupManager,
-		GroupPluginManager $pluginManager,
-		Group_Proxy $backend
+		private IGroupManager $groupManager,
+		private GroupPluginManager $pluginManager,
+		private Group_Proxy $backend,
 	) {
-		$this->groupManager = $groupManager;
-		$this->pluginManager = $pluginManager;
-		$this->backend = $backend;
 		parent::__construct();
 	}
 
@@ -96,16 +89,16 @@ class ResetGroup extends Command {
 			echo "calling delete $gid\n";
 			if ($group->delete()) {
 				$this->pluginManager->setSuppressDeletion($pluginManagerSuppressed);
-				return 0;
+				return self::SUCCESS;
 			}
 		} catch (\Throwable $e) {
 			if (isset($pluginManagerSuppressed)) {
 				$this->pluginManager->setSuppressDeletion($pluginManagerSuppressed);
 			}
 			$output->writeln('<error>' . $e->getMessage() . '</error>');
-			return 1;
+			return self::FAILURE;
 		}
 		$output->writeln('<error>Error while resetting group</error>');
-		return 2;
+		return self::INVALID;
 	}
 }

@@ -23,8 +23,8 @@
 
 namespace OC;
 
-use OCP\IStreamImage;
 use OCP\IImage;
+use OCP\IStreamImage;
 
 /**
  * Only useful when dealing with transferring streamed previews from an external

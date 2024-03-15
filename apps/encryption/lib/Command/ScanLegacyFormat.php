@@ -57,9 +57,9 @@ class ScanLegacyFormat extends Command {
 	 * @param QuestionHelper $questionHelper
 	 */
 	public function __construct(Util $util,
-								IConfig $config,
-								QuestionHelper $questionHelper,
-								IUserManager $userManager) {
+		IConfig $config,
+		QuestionHelper $questionHelper,
+		IUserManager $userManager) {
 		parent::__construct();
 
 		$this->util = $util;

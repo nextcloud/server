@@ -29,8 +29,8 @@ declare(strict_types=1);
 namespace OCA\DAV\CardDAV;
 
 use OCA\DAV\AppInfo\PluginManager;
-use OCA\DAV\CardDAV\Integration\IAddressBookProvider;
 use OCA\DAV\CardDAV\Integration\ExternalAddressBook;
+use OCA\DAV\CardDAV\Integration\IAddressBookProvider;
 use OCA\Federation\TrustedServers;
 use OCP\AppFramework\QueryException;
 use OCP\IConfig;
@@ -42,10 +42,10 @@ use OCP\IUserSession;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Sabre\CardDAV\Backend;
-use Sabre\DAV\Exception\MethodNotAllowed;
 use Sabre\CardDAV\IAddressBook;
-use function array_map;
+use Sabre\DAV\Exception\MethodNotAllowed;
 use Sabre\DAV\MkCol;
+use function array_map;
 
 class UserAddressBooks extends \Sabre\CardDAV\AddressBookHome {
 	/** @var IL10N */
@@ -60,10 +60,10 @@ class UserAddressBooks extends \Sabre\CardDAV\AddressBookHome {
 	private ?IGroupManager $groupManager;
 
 	public function __construct(Backend\BackendInterface $carddavBackend,
-								string $principalUri,
-								PluginManager $pluginManager,
-								?IUser $user,
-								?IGroupManager $groupManager) {
+		string $principalUri,
+		PluginManager $pluginManager,
+		?IUser $user,
+		?IGroupManager $groupManager) {
 		parent::__construct($carddavBackend, $principalUri);
 		$this->pluginManager = $pluginManager;
 		$this->user = $user;

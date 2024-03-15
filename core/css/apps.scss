@@ -121,6 +121,8 @@ kbd {
 #app-navigation:not(.vue) {
 	// We use fixed variable for the pill style as we have larger containers around nested list entries
 	--border-radius-pill: calc(var(--default-clickable-area) / 2);
+	// Ensure the maxcontrast color is set for the background
+	--color-text-maxcontrast: var(--color-text-maxcontrast-background-blur, var(--color-main-text));
 
 	width: variables.$navigation-width;
 	z-index: 500;
@@ -237,6 +239,10 @@ kbd {
 				> a {
 					background-color: var(--color-primary-element);
 					color: var(--color-primary-element-text);
+
+					&:first-child > img {
+						filter: var(--primary-invert-if-dark);
+					}
 				}
 			}
 
@@ -281,6 +287,9 @@ kbd {
 						> a {
 							border-radius: var(--border-radius-pill);
 							background-color: var(--color-primary-element-light);
+							&:first-child > img {
+								filter: var(--primary-invert-if-dark);
+							}
 						}
 					}
 
@@ -978,8 +987,8 @@ $popoveritem-height: 44px;
 $popovericon-size: 16px;
 $outter-margin: math.div($popoveritem-height - $popovericon-size, 2);
 
-.contact .popovermenu ul,
-.popover__menu {
+.v-popper__inner div.open > ul {
+	> li > a > span.action-link__icon,
 	> li > a > img {
 		filter: var(--background-invert-if-dark);
 

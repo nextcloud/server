@@ -33,6 +33,7 @@ use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\Search\FilterDefinition;
+use OCP\Search\IFilter;
 use OCP\Search\IFilteringProvider;
 use OCP\Search\ISearchQuery;
 use OCP\Search\SearchResult;
@@ -82,11 +83,12 @@ class ContactsSearchProvider implements IFilteringProvider {
 		return $this->l10n->t('Contacts');
 	}
 
-	public function getOrder(string $route, array $routeParameters): int {
-		if ($route === 'contacts.Page.index') {
-			return -1;
+	public function getOrder(string $route, array $routeParameters): ?int {
+		if ($this->appManager->isEnabledForUser('contacts')) {
+			return $route === 'contacts.Page.index' ? -1 : 25;
 		}
-		return 25;
+
+		return null;
 	}
 
 	public function search(IUser $user, ISearchQuery $query): SearchResult {
@@ -110,7 +112,7 @@ class ContactsSearchProvider implements IFilteringProvider {
 				'offset' => $query->getCursor(),
 				'since' => $query->getFilter('since'),
 				'until' => $query->getFilter('until'),
-				'person' => $query->getFilter('person'),
+				'person' => $this->getPersonDisplayName($query->getFilter('person')),
 				'company' => $query->getFilter('company'),
 			],
 		);
@@ -136,6 +138,13 @@ class ContactsSearchProvider implements IFilteringProvider {
 			$formattedResults,
 			$query->getCursor() + count($formattedResults)
 		);
+	}
+	private function getPersonDisplayName(?IFilter $person): ?string {
+		$user = $person?->get();
+		if ($user instanceof IUser) {
+			return $user->getDisplayName();
+		}
+		return null;
 	}
 
 	protected function getDavUrlForContact(

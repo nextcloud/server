@@ -7,6 +7,7 @@ OC.L10N.register(
     "Commuting" : "Biagende",
     "Out sick" : "In maladia",
     "Vacationing" : "In vacàntzia",
+    "Out of office" : "Foras de serbìtziu",
     "Working remotely" : "Traballende in remotu",
     "User status" : "Istadu de s'utente",
     "Clear status after" : "Lìmpia s'istadu a pustis",

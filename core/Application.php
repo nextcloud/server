@@ -48,10 +48,8 @@ use OC\TagManager;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Http\Events\BeforeLoginTemplateRenderedEvent;
 use OCP\AppFramework\Http\Events\BeforeTemplateRenderedEvent;
-use OCP\DB\Events\AddMissingColumnsEvent;
 use OCP\DB\Events\AddMissingIndicesEvent;
 use OCP\DB\Events\AddMissingPrimaryKeyEvent;
-use OCP\DB\Types;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\User\Events\BeforeUserDeletedEvent;
 use OCP\User\Events\UserDeletedEvent;
@@ -165,13 +163,6 @@ class Application extends App {
 				true
 			);
 
-			$event->addMissingIndex(
-				'cards',
-				'cards_abiduri',
-				['addressbookid', 'uri'],
-				[],
-				true
-			);
 			$event->addMissingIndex(
 				'cards',
 				'cards_abid',
@@ -297,18 +288,6 @@ class Application extends App {
 				'fce_pk',
 				['fileid'],
 				'fce_fileid_idx'
-			);
-		});
-
-		$eventDispatcher->addListener(AddMissingColumnsEvent::class, function (AddMissingColumnsEvent $event) {
-			$event->addMissingColumn(
-				'comments',
-				'reference_id',
-				Types::STRING,
-				[
-					'notnull' => false,
-					'length' => 64,
-				]
 			);
 		});
 

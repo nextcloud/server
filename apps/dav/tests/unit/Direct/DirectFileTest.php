@@ -73,9 +73,9 @@ class DirectFileTest extends TestCase {
 			->willReturn($this->userFolder);
 
 		$this->file = $this->createMock(File::class);
-		$this->userFolder->method('getById')
+		$this->userFolder->method('getFirstNodeById')
 			->with(42)
-			->willReturn([$this->file]);
+			->willReturn($this->file);
 
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 

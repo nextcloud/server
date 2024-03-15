@@ -32,7 +32,6 @@
 
 namespace OC\Files\Node;
 
-use OCP\Cache\CappedMemoryCache;
 use OC\Files\FileInfo;
 use OC\Files\Mount\Manager;
 use OC\Files\Mount\MountPoint;
@@ -40,6 +39,7 @@ use OC\Files\Utils\PathHelper;
 use OC\Files\View;
 use OC\Hooks\PublicEmitter;
 use OC\User\NoUserException;
+use OCP\Cache\CappedMemoryCache;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Config\IUserMountCache;
@@ -49,6 +49,8 @@ use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Node as INode;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
+use OCP\ICache;
+use OCP\ICacheFactory;
 use OCP\IUser;
 use OCP\IUserManager;
 use Psr\Log\LoggerInterface;
@@ -81,6 +83,7 @@ class Root extends Folder implements IRootFolder {
 	private LoggerInterface $logger;
 	private IUserManager $userManager;
 	private IEventDispatcher $eventDispatcher;
+	private ICache $pathByIdCache;
 
 	/**
 	 * @param Manager $manager
@@ -94,7 +97,8 @@ class Root extends Folder implements IRootFolder {
 		IUserMountCache $userMountCache,
 		LoggerInterface $logger,
 		IUserManager $userManager,
-		IEventDispatcher $eventDispatcher
+		IEventDispatcher $eventDispatcher,
+		ICacheFactory $cacheFactory,
 	) {
 		parent::__construct($this, $view, '');
 		$this->mountManager = $manager;
@@ -107,6 +111,7 @@ class Root extends Folder implements IRootFolder {
 		$eventDispatcher->addListener(FilesystemTornDownEvent::class, function () {
 			$this->userFolderCache = new CappedMemoryCache();
 		});
+		$this->pathByIdCache = $cacheFactory->createLocal('path-by-id');
 	}
 
 	/**
@@ -383,7 +388,7 @@ class Root extends Folder implements IRootFolder {
 				try {
 					$folder = $this->get('/' . $userId . '/files');
 					if (!$folder instanceof \OCP\Files\Folder) {
-						throw new \Exception("User folder for $userId exists as a file");
+						throw new \Exception("Account folder for \"$userId\" exists as a file");
 					}
 				} catch (NotFoundException $e) {
 					if (!$this->nodeExists('/' . $userId)) {
@@ -403,6 +408,31 @@ class Root extends Folder implements IRootFolder {
 
 	public function getUserMountCache() {
 		return $this->userMountCache;
+	}
+
+	public function getFirstNodeByIdInPath(int $id, string $path): ?INode {
+		// scope the cache by user, so we don't return nodes for different users
+		if ($this->user) {
+			$cachedPath = $this->pathByIdCache->get($this->user->getUID() . '::' . $id);
+			if ($cachedPath && str_starts_with($path, $cachedPath)) {
+				// getting the node by path is significantly cheaper than finding it by id
+				$node = $this->get($cachedPath);
+				// by validating that the cached path still has the requested fileid we can work around the need to invalidate the cached path
+				// if the cached path is invalid or a different file now we fall back to the uncached logic
+				if ($node && $node->getId() === $id) {
+					return $node;
+				}
+			}
+		}
+		$node = current($this->getByIdInPath($id, $path));
+		if (!$node) {
+			return null;
+		}
+
+		if ($this->user) {
+			$this->pathByIdCache->set($this->user->getUID() . '::' . $id, $node->getPath());
+		}
+		return $node;
 	}
 
 	/**

@@ -6,6 +6,7 @@
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Richard Steinmetz <richard@steinmetz.cloud>
  *
  * @license AGPL-3.0
  *
@@ -27,14 +28,23 @@ namespace OCA\DAV\DAV;
 
 use Exception;
 use OCA\DAV\Connector\Sabre\Directory;
+use OCA\DAV\Connector\Sabre\FilesPlugin;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\IUser;
+use Sabre\CalDAV\ICalendar;
+use Sabre\DAV\Exception as DavException;
 use Sabre\DAV\PropertyStorage\Backend\BackendInterface;
 use Sabre\DAV\PropFind;
 use Sabre\DAV\PropPatch;
+use Sabre\DAV\Server;
 use Sabre\DAV\Tree;
 use Sabre\DAV\Xml\Property\Complex;
+use Sabre\DAV\Xml\Property\Href;
+use Sabre\DAV\Xml\Property\LocalHref;
+use Sabre\Xml\ParseException;
+use Sabre\Xml\Service as XmlService;
+
 use function array_intersect;
 
 class CustomPropertiesBackend implements BackendInterface {
@@ -56,6 +66,11 @@ class CustomPropertiesBackend implements BackendInterface {
 	 * Value is stored as a property object.
 	 */
 	public const PROPERTY_TYPE_OBJECT = 3;
+
+	/**
+	 * Value is stored as a {DAV:}href string.
+	 */
+	public const PROPERTY_TYPE_HREF = 4;
 
 	/**
 	 * Ignored properties
@@ -104,6 +119,15 @@ class CustomPropertiesBackend implements BackendInterface {
 	 */
 	private const PUBLISHED_READ_ONLY_PROPERTIES = [
 		'{urn:ietf:params:xml:ns:caldav}calendar-availability',
+		'{urn:ietf:params:xml:ns:caldav}schedule-default-calendar-URL',
+	];
+
+	/**
+	 * Map of custom XML elements to parse when trying to deserialize an instance of
+	 * \Sabre\DAV\Xml\Property\Complex to find a more specialized PROPERTY_TYPE_*
+	 */
+	private const COMPLEX_XML_ELEMENT_MAP = [
+		'{urn:ietf:params:xml:ns:caldav}schedule-default-calendar-URL' => Href::class,
 	];
 
 	/**
@@ -128,19 +152,29 @@ class CustomPropertiesBackend implements BackendInterface {
 	 */
 	private $userCache = [];
 
+	private Server $server;
+	private XmlService $xmlService;
+
 	/**
 	 * @param Tree $tree node tree
 	 * @param IDBConnection $connection database connection
 	 * @param IUser $user owner of the tree and properties
 	 */
 	public function __construct(
+		Server $server,
 		Tree $tree,
 		IDBConnection $connection,
-		IUser $user
+		IUser $user,
 	) {
+		$this->server = $server;
 		$this->tree = $tree;
 		$this->connection = $connection;
 		$this->user = $user;
+		$this->xmlService = new XmlService();
+		$this->xmlService->elementMap = array_merge(
+			$this->xmlService->elementMap,
+			self::COMPLEX_XML_ELEMENT_MAP,
+		);
 	}
 
 	/**
@@ -156,12 +190,16 @@ class CustomPropertiesBackend implements BackendInterface {
 		// these might appear
 		$requestedProps = array_diff(
 			$requestedProps,
-			self::IGNORED_PROPERTIES
+			self::IGNORED_PROPERTIES,
+		);
+		$requestedProps = array_filter(
+			$requestedProps,
+			fn ($prop) => !str_starts_with($prop, FilesPlugin::FILE_METADATA_PREFIX),
 		);
 
 		// substr of calendars/ => path is inside the CalDAV component
 		// two '/' => this a calendar (no calendar-home nor calendar object)
-		if (substr($path, 0, 10) === 'calendars/' && substr_count($path, '/') === 2) {
+		if (str_starts_with($path, 'calendars/') && substr_count($path, '/') === 2) {
 			$allRequestedProps = $propFind->getRequestedProperties();
 			$customPropertiesForShares = [
 				'{DAV:}displayname',
@@ -194,6 +232,21 @@ class CustomPropertiesBackend implements BackendInterface {
 			}
 		}
 
+		// substr of principals/users/ => path is a user principal
+		// two '/' => this a principal collection (and not some child object)
+		if (str_starts_with($path, 'principals/users/') && substr_count($path, '/') === 2) {
+			$allRequestedProps = $propFind->getRequestedProperties();
+			$customProperties = [
+				'{urn:ietf:params:xml:ns:caldav}schedule-default-calendar-URL',
+			];
+
+			foreach ($customProperties as $customProperty) {
+				if (in_array($customProperty, $allRequestedProps, true)) {
+					$requestedProps[] = $customProperty;
+				}
+			}
+		}
+
 		if (empty($requestedProps)) {
 			return;
 		}
@@ -206,9 +259,19 @@ class CustomPropertiesBackend implements BackendInterface {
 		// First fetch the published properties (set by another user), then get the ones set by
 		// the current user. If both are set then the latter as priority.
 		foreach ($this->getPublishedProperties($path, $requestedProps) as $propName => $propValue) {
+			try {
+				$this->validateProperty($path, $propName, $propValue);
+			} catch (DavException $e) {
+				continue;
+			}
 			$propFind->set($propName, $propValue);
 		}
 		foreach ($this->getUserProperties($path, $requestedProps) as $propName => $propValue) {
+			try {
+				$this->validateProperty($path, $propName, $propValue);
+			} catch (DavException $e) {
+				continue;
+			}
 			$propFind->set($propName, $propValue);
 		}
 	}
@@ -257,6 +320,30 @@ class CustomPropertiesBackend implements BackendInterface {
 		);
 		$statement->execute([$this->formatPath($destination), $this->user->getUID(), $this->formatPath($source)]);
 		$statement->closeCursor();
+	}
+
+	/**
+	 * Validate the value of a property. Will throw if a value is invalid.
+	 *
+	 * @throws DavException The value of the property is invalid
+	 */
+	private function validateProperty(string $path, string $propName, mixed $propValue): void {
+		switch ($propName) {
+			case '{urn:ietf:params:xml:ns:caldav}schedule-default-calendar-URL':
+				/** @var Href $propValue */
+				$href = $propValue->getHref();
+				if ($href === null) {
+					throw new DavException('Href is empty');
+				}
+
+				// $path is the principal here as this prop is only set on principals
+				$node = $this->tree->getNodeForPath($href);
+				if (!($node instanceof ICalendar) || $node->getOwner() !== $path) {
+					throw new DavException('No such calendar');
+				}
+
+				break;
+		}
 	}
 
 	/**
@@ -388,7 +475,11 @@ class CustomPropertiesBackend implements BackendInterface {
 							->executeStatement();
 					}
 				} else {
-					[$value, $valueType] = $this->encodeValueForDatabase($propertyValue);
+					[$value, $valueType] = $this->encodeValueForDatabase(
+						$path,
+						$propertyName,
+						$propertyValue,
+					);
 					$dbParameters['propertyValue'] = $value;
 					$dbParameters['valueType'] = $valueType;
 
@@ -431,15 +522,38 @@ class CustomPropertiesBackend implements BackendInterface {
 	}
 
 	/**
-	 * @param mixed $value
-	 * @return array
+	 * @throws ParseException If parsing a \Sabre\DAV\Xml\Property\Complex value fails
+	 * @throws DavException If the property value is invalid
 	 */
-	private function encodeValueForDatabase($value): array {
+	private function encodeValueForDatabase(string $path, string $name, mixed $value): array {
+		// Try to parse a more specialized property type first
+		if ($value instanceof Complex) {
+			$xml = $this->xmlService->write($name, [$value], $this->server->getBaseUri());
+			$value = $this->xmlService->parse($xml, $this->server->getBaseUri()) ?? $value;
+		}
+
+		if ($name === '{urn:ietf:params:xml:ns:caldav}schedule-default-calendar-URL') {
+			$value = $this->encodeDefaultCalendarUrl($value);
+		}
+
+		try {
+			$this->validateProperty($path, $name, $value);
+		} catch (DavException $e) {
+			throw new DavException(
+				"Property \"$name\" has an invalid value: " . $e->getMessage(),
+				0,
+				$e,
+			);
+		}
+
 		if (is_scalar($value)) {
 			$valueType = self::PROPERTY_TYPE_STRING;
 		} elseif ($value instanceof Complex) {
 			$valueType = self::PROPERTY_TYPE_XML;
 			$value = $value->getXml();
+		} elseif ($value instanceof Href) {
+			$valueType = self::PROPERTY_TYPE_HREF;
+			$value = $value->getHref();
 		} else {
 			$valueType = self::PROPERTY_TYPE_OBJECT;
 			$value = serialize($value);
@@ -454,12 +568,34 @@ class CustomPropertiesBackend implements BackendInterface {
 		switch ($valueType) {
 			case self::PROPERTY_TYPE_XML:
 				return new Complex($value);
+			case self::PROPERTY_TYPE_HREF:
+				return new Href($value);
 			case self::PROPERTY_TYPE_OBJECT:
 				return unserialize($value);
 			case self::PROPERTY_TYPE_STRING:
 			default:
 				return $value;
 		}
+	}
+
+	private function encodeDefaultCalendarUrl(Href $value): Href {
+		$href = $value->getHref();
+		if ($href === null) {
+			return $value;
+		}
+
+		if (!str_starts_with($href, '/')) {
+			return $value;
+		}
+
+		try {
+			// Build path relative to the dav base URI to be used later to find the node
+			$value = new LocalHref($this->server->calculateUri($href) . '/');
+		} catch (DavException\Forbidden) {
+			// Not existing calendars will be handled later when the value is validated
+		}
+
+		return $value;
 	}
 
 	private function createDeleteQuery(): IQueryBuilder {

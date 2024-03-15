@@ -28,14 +28,14 @@ namespace OC\FilesMetadata\Listener;
 use Exception;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
-use OCP\Files\Events\Node\NodeDeletedEvent;
+use OCP\Files\Cache\CacheEntryRemovedEvent;
 use OCP\FilesMetadata\IFilesMetadataManager;
 use Psr\Log\LoggerInterface;
 
 /**
  * Handle file deletion event and remove stored metadata related to the deleted file
  *
- * @template-implements IEventListener<NodeDeletedEvent>
+ * @template-implements IEventListener<CacheEntryRemovedEvent>
  */
 class MetadataDelete implements IEventListener {
 	public function __construct(
@@ -44,16 +44,13 @@ class MetadataDelete implements IEventListener {
 	) {
 	}
 
-	/**
-	 * @param Event $event
-	 */
 	public function handle(Event $event): void {
-		if (!($event instanceof NodeDeletedEvent)) {
+		if (!($event instanceof CacheEntryRemovedEvent)) {
 			return;
 		}
 
 		try {
-			$nodeId = (int)$event->getNode()->getId();
+			$nodeId = $event->getFileId();
 			if ($nodeId > 0) {
 				$this->filesMetadataManager->deleteMetadata($nodeId);
 			}

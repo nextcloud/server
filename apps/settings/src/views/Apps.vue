@@ -24,13 +24,14 @@
 	<NcContent app-name="settings"
 		:class="{ 'with-app-sidebar': app}">
 		<!-- Categories & filters -->
-		<NcAppNavigation :class="{ 'icon-loading': loading }">
+		<NcAppNavigation :class="{ 'icon-loading': loading }"
+			:aria-label="t('settings', 'Apps')">
 			<template #list>
 				<NcAppNavigationItem id="app-category-your-apps"
 					:to="{ name: 'apps' }"
 					:exact="true"
 					icon="icon-category-installed"
-					:name="t('settings', 'Your apps')" />
+					:name="$options.APPS_SECTION_ENUM.installed" />
 				<NcAppNavigationItem id="app-category-enabled"
 					:to="{ name: 'apps-category', params: { category: 'enabled' } }"
 					icon="icon-category-enabled"
@@ -64,18 +65,18 @@
 				<NcAppNavigationSpacer />
 
 				<!-- App store categories -->
-				<template v-if="settings.appstoreEnabled">
+				<template v-if="appstoreEnabled">
 					<NcAppNavigationItem id="app-category-featured"
 						:to="{ name: 'apps-category', params: { category: 'featured' } }"
 						icon="icon-favorite"
 						:name="$options.APPS_SECTION_ENUM.featured" />
 
 					<NcAppNavigationItem v-for="cat in categories"
-						:key="'icon-category-' + cat.ident"
-						:icon="'icon-category-' + cat.ident"
+						:key="'icon-category-' + cat.id"
+						:icon="'icon-category-' + cat.id"
 						:to="{
 							name: 'apps-category',
-							params: { category: cat.ident },
+							params: { category: cat.id },
 						}"
 						:name="cat.displayName" />
 				</template>
@@ -87,7 +88,9 @@
 		</NcAppNavigation>
 
 		<!-- Apps list -->
-		<NcAppContent class="app-settings-content" :class="{ 'icon-loading': loadingList }">
+		<NcAppContent class="app-settings-content"
+			:class="{ 'icon-loading': loadingList }"
+			:page-heading="pageHeading">
 			<AppList :category="category" :app="app" :search="searchQuery" />
 		</NcAppContent>
 
@@ -102,17 +105,9 @@
 
 			<template #description>
 				<!-- Featured/Supported badges -->
-				<div v-if="app.level === 300 || app.level === 200 || hasRating" class="app-level">
-					<span v-if="app.level === 300"
-						:title="t('settings', 'This app is supported via your current Nextcloud subscription.')"
-						class="supported icon-checkmark-color">
-						{{ t('settings', 'Supported') }}</span>
-					<span v-if="app.level === 200"
-						:title="t('settings', 'Featured apps are developed by and within the community. They offer central functionality and are ready for production use.')"
-						class="official icon-checkmark">
-						{{ t('settings', 'Featured') }}</span>
-					<AppScore v-if="hasRating" :score="app.appstoreData.ratingOverall" />
-				</div>
+				<AppLevelBadge :level="app.level" />
+				<AppScore v-if="hasRating" :score="app.appstoreData.ratingOverall" />
+
 				<div class="app-version">
 					<p>{{ app.version }}</p>
 				</div>
@@ -133,7 +128,7 @@
 				:order="1">
 				<div v-for="release in app.releases" :key="release.version" class="app-sidebar-tabs__release">
 					<h2>{{ release.version }}</h2>
-					<Markdown v-if="changelog(release)" :text="changelog(release)" />
+					<Markdown v-if="changelog(release)" :min-heading="3" :text="changelog(release)" />
 				</div>
 			</NcAppSidebarTab>
 		</NcAppSidebar>
@@ -158,12 +153,17 @@ import IconStarShooting from 'vue-material-design-icons/StarShooting.vue'
 import AppList from '../components/AppList.vue'
 import AppDetails from '../components/AppDetails.vue'
 import AppManagement from '../mixins/AppManagement.js'
+import AppLevelBadge from '../components/AppList/AppLevelBadge.vue'
 import AppScore from '../components/AppList/AppScore.vue'
 import Markdown from '../components/Markdown.vue'
 
 import { APPS_SECTION_ENUM } from './../constants/AppsConstants.js'
+import { loadState } from '@nextcloud/initial-state'
 
 Vue.use(VueLocalStorage)
+
+const appstoreEnabled = loadState('settings', 'appstoreEnabled')
+const developerDocumentation = loadState('settings', 'appstoreDeveloperDocs')
 
 export default {
 	name: 'Apps',
@@ -172,6 +172,7 @@ export default {
 		NcAppContent,
 		AppDetails,
 		AppList,
+		AppLevelBadge,
 		IconStarShooting,
 		NcAppNavigation,
 		NcAppNavigationItem,
@@ -205,6 +206,16 @@ export default {
 	},
 
 	computed: {
+		appstoreEnabled() {
+			return appstoreEnabled
+		},
+		pageHeading() {
+			if (this.$options.APPS_SECTION_ENUM[this.category]) {
+				return this.$options.APPS_SECTION_ENUM[this.category]
+			}
+			const category = this.$store.getters.getCategoryById(this.category)
+			return category.displayName
+		},
 		loading() {
 			return this.$store.getters.loading('categories')
 		},
@@ -222,9 +233,6 @@ export default {
 		},
 		updateCount() {
 			return this.$store.getters.getUpdateCount
-		},
-		settings() {
-			return this.$store.getters.getServerData
 		},
 
 		hasRating() {
@@ -280,7 +288,7 @@ export default {
 			this.screenshotLoaded = false
 			if (this.app?.releases && this.app?.screenshot) {
 				const image = new Image()
-				image.onload = (e) => {
+				image.onload = () => {
 					this.screenshotLoaded = true
 				}
 				image.src = this.app.screenshot
@@ -292,7 +300,6 @@ export default {
 		this.$store.dispatch('getCategories', { shouldRefetchCategories: true })
 		this.$store.dispatch('getAllApps')
 		this.$store.dispatch('getGroups', { offset: 0, limit: 5 })
-		this.$store.commit('setUpdateCount', this.$store.getters.getServerData.updateCount)
 	},
 
 	mounted() {
@@ -319,7 +326,7 @@ export default {
 			})
 		},
 		openDeveloperDocumentation() {
-			window.open(this.settings.developerDocumentation)
+			window.open(developerDocumentation)
 		},
 	},
 }

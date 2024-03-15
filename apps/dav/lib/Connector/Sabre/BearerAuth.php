@@ -37,9 +37,9 @@ class BearerAuth extends AbstractBearer {
 	private string $principalPrefix;
 
 	public function __construct(IUserSession $userSession,
-								ISession $session,
-								IRequest $request,
-								$principalPrefix = 'principals/users/') {
+		ISession $session,
+		IRequest $request,
+		$principalPrefix = 'principals/users/') {
 		$this->userSession = $userSession;
 		$this->session = $session;
 		$this->request = $request;
@@ -47,7 +47,7 @@ class BearerAuth extends AbstractBearer {
 
 		// setup realm
 		$defaults = new \OCP\Defaults();
-		$this->realm = $defaults->getName();
+		$this->realm = $defaults->getName() ?: 'Nextcloud';
 	}
 
 	private function setupUserFs($userId) {

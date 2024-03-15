@@ -45,6 +45,7 @@
 		<directory name="lib"/>
 		<directory name="ocs"/>
 		<directory name="ocs-provider"/>
+		<file name="cron.php"/>
 		<file name="index.php"/>
 		<file name="public.php"/>
 		<file name="remote.php"/>
@@ -90,6 +91,10 @@
 		<MoreSpecificReturnType errorLevel="error"/>
 		<UndefinedClass>
 			<errorLevel type="suppress">
+				<referencedClass name="OCA\Circles\CirclesManager"/>
+				<referencedClass name="OCA\Circles\Exceptions\CircleNotFoundException"/>
+				<referencedClass name="OCA\Circles\Model\Circle"/>
+				<referencedClass name="OCA\Circles\Model\Member"/>
 				<referencedClass name="OCA\GroupFolders\Mount\GroupFolderStorage"/>
 				<referencedClass name="OCA\TwoFactorNextcloudNotification\Controller\APIController"/>
 				<referencedClass name="OCA\GlobalSiteSelector\Service\SlaveService"/>

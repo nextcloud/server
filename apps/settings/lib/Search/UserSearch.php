@@ -6,7 +6,7 @@ declare(strict_types=1);
  * @copyright Copyright (c) 2023 Stephan Orbaugh <stephan.orbaugh@nextcloud.com>
  *
  * @author Stephan Orbaugh <stephan.orbaugh@nextcloud.com>
- *
+ * @author Benjamin Gaussorgues <benjamin.gaussorgues@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -33,45 +33,26 @@ use OCP\Search\ISearchQuery;
 use OCP\Search\SearchResult;
 
 class UserSearch implements IProvider {
-
-
-	/** @var IL10N */
-	protected $l;
-
 	public function __construct(
-								IL10N $l) {
-		$this->l = $l;
+		private IL10N $l,
+	) {
 	}
 
-	/**
-	 * @inheritDoc
-	 */
 	public function getId(): string {
 		return 'users';
 	}
 
-	/**
-	 * @inheritDoc
-	 */
 	public function getName(): string {
 		return $this->l->t('Users');
 	}
 
-	/**
-	 * @inheritDoc
-	 */
-	public function getOrder(string $route, array $routeParameters): int {
-		return 300;
+	public function getOrder(string $route, array $routeParameters): ?int {
+		return $route === 'settings.Users.usersList'
+			? 300
+			: null;
 	}
 
-	/**
-	 * @inheritDoc
-	 */
 	public function search(IUser $user, ISearchQuery $query): SearchResult {
-
-		return SearchResult::complete(
-			$this->l->t('Users'),
-			[]
-		);
+		return SearchResult::complete($this->l->t('Users'), []);
 	}
 }

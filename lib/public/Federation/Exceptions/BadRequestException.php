@@ -45,7 +45,7 @@ class BadRequestException extends HintException {
 	 * @param array $missingParameters
 	 */
 	public function __construct(array $missingParameters) {
-		$l = \OC::$server->getL10N('federation');
+		$l = \OCP\Util::getL10N('federation');
 		$this->parameterList = $missingParameters;
 		$parameterList = implode(',', $missingParameters);
 		$message = 'Parameters missing in order to complete the request. Missing Parameters: ' . $parameterList;

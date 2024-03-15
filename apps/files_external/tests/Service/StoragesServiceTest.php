@@ -44,7 +44,9 @@ use OCP\Files\Cache\ICache;
 use OCP\Files\Config\IUserMountCache;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Storage\IStorage;
+use OCP\IDBConnection;
 use OCP\IUser;
+use OCP\Server;
 
 class CleaningDBConfig extends DBConfigService {
 	private $mountIds = [];
@@ -66,7 +68,6 @@ class CleaningDBConfig extends DBConfigService {
  * @group DB
  */
 abstract class StoragesServiceTest extends \Test\TestCase {
-
 	/**
 	 * @var StoragesService
 	 */
@@ -315,7 +316,7 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 
 		// manually trigger storage entry because normally it happens on first
 		// access, which isn't possible within this test
-		$storageCache = new \OC\Files\Cache\Storage($rustyStorageId);
+		$storageCache = new \OC\Files\Cache\Storage($rustyStorageId, true, Server::get(IDBConnection::class));
 
 		/** @var IUserMountCache $mountCache */
 		$mountCache = \OC::$server->get(IUserMountCache::class);

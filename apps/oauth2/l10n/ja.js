@@ -12,10 +12,12 @@ OC.L10N.register(
     "Redirection URI" : "リダイレクトURI",
     "Client Identifier" : "クライアントID",
     "Secret key" : "シークレットキー",
+    "Delete client" : "クライアントを削除",
     "Add client" : "クライアントの追加",
     "Add" : "追加",
-    "Show client secret" : "クライアントシークレットキーを表示",
     "Delete" : "削除",
+    "Show client secret" : "クライアントシークレットキーを表示",
+    "Hide client secret" : "クライアントのシークレットキーを隠す",
     "Secret" : "シークレットキー"
 },
 "nplurals=1; plural=0;");

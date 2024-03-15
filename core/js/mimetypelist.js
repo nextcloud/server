@@ -113,7 +113,8 @@ OC.MimeTypeList={
     "application/vnd.xmind.workbook": "mindmap",
     "image/targa": "image/tga",
     "application/vnd.openxmlformats-officedocument.wordprocessingml.document.oform": "x-office/form",
-    "application/vnd.openxmlformats-officedocument.wordprocessingml.document.docxf": "x-office/form-template"
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document.docxf": "x-office/form-template",
+    "image/x-emf": "image/emf"
 },
 	files: [
     "application",

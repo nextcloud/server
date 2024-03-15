@@ -55,6 +55,7 @@ use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IAttributes;
 use OCP\Share\IShare;
 use OCP\Share\IShareProvider;
+use Psr\Log\LoggerInterface;
 use function str_starts_with;
 
 /**
@@ -691,17 +692,24 @@ class DefaultShareProvider implements IShareProvider {
 		}, $childMountNodes);
 
 		$qb->innerJoin('s', 'filecache', 'f', $qb->expr()->eq('s.file_source', 'f.fileid'));
+		$storageFilter = $qb->expr()->eq('f.storage', $qb->createNamedParameter($node->getMountPoint()->getNumericStorageId(), IQueryBuilder::PARAM_INT));
 		if ($shallow) {
 			$qb->andWhere(
 				$qb->expr()->orX(
-					$qb->expr()->eq('f.parent', $qb->createNamedParameter($node->getId())),
+					$qb->expr()->andX(
+						$storageFilter,
+						$qb->expr()->eq('f.parent', $qb->createNamedParameter($node->getId())),
+					),
 					$qb->expr()->in('f.fileid', $qb->createParameter('chunk'))
 				)
 			);
 		} else {
 			$qb->andWhere(
 				$qb->expr()->orX(
-					$qb->expr()->like('f.path', $qb->createNamedParameter($this->dbConn->escapeLikeParameter($node->getInternalPath()) . '/%')),
+					$qb->expr()->andX(
+						$storageFilter,
+						$qb->expr()->like('f.path', $qb->createNamedParameter($this->dbConn->escapeLikeParameter($node->getInternalPath()) . '/%')),
+					),
 					$qb->expr()->in('f.fileid', $qb->createParameter('chunk'))
 				)
 			);
@@ -1237,7 +1245,8 @@ class DefaultShareProvider implements IShareProvider {
 				)
 			);
 		} else {
-			\OC::$server->getLogger()->logException(new \InvalidArgumentException('Default share provider tried to delete all shares for type: ' . $shareType));
+			$e = new \InvalidArgumentException('Default share provider tried to delete all shares for type: ' . $shareType);
+			\OCP\Server::get(LoggerInterface::class)->error($e->getMessage(), ['exception' => $e]);
 			return;
 		}
 

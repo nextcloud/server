@@ -60,7 +60,7 @@ class File implements ICache {
 			$this->storage = new View('/' . $user->getUID() . '/cache');
 			return $this->storage;
 		} else {
-			\OC::$server->get(LoggerInterface::class)->error('Can\'t get cache storage, user not logged in', ['app' => 'core']);
+			\OCP\Server::get(LoggerInterface::class)->error('Can\'t get cache storage, user not logged in', ['app' => 'core']);
 			throw new \OC\ForbiddenException('Can\t get cache storage, user not logged in');
 		}
 	}
@@ -192,11 +192,11 @@ class File implements ICache {
 						}
 					} catch (\OCP\Lock\LockedException $e) {
 						// ignore locked chunks
-						\OC::$server->getLogger()->debug('Could not cleanup locked chunk "' . $file . '"', ['app' => 'core']);
+						\OCP\Server::get(LoggerInterface::class)->debug('Could not cleanup locked chunk "' . $file . '"', ['app' => 'core']);
 					} catch (\OCP\Files\ForbiddenException $e) {
-						\OC::$server->getLogger()->debug('Could not cleanup forbidden chunk "' . $file . '"', ['app' => 'core']);
+						\OCP\Server::get(LoggerInterface::class)->debug('Could not cleanup forbidden chunk "' . $file . '"', ['app' => 'core']);
 					} catch (\OCP\Files\LockNotAcquiredException $e) {
-						\OC::$server->getLogger()->debug('Could not cleanup locked chunk "' . $file . '"', ['app' => 'core']);
+						\OCP\Server::get(LoggerInterface::class)->debug('Could not cleanup locked chunk "' . $file . '"', ['app' => 'core']);
 					}
 				}
 			}

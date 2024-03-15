@@ -30,6 +30,7 @@ use OC\Files\AppData\AppData;
 use OCA\Core\ResponseDefinitions;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\AnonRateLimit;
+use OCP\AppFramework\Http\Attribute\ApiRoute;
 use OCP\AppFramework\Http\Attribute\BruteForceProtection;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\PublicPage;
@@ -40,11 +41,11 @@ use OCP\DB\Exception;
 use OCP\Files\NotFoundException;
 use OCP\IL10N;
 use OCP\IRequest;
+use OCP\PreConditionNotMetException;
 use OCP\TextToImage\Exception\TaskFailureException;
 use OCP\TextToImage\Exception\TaskNotFoundException;
-use OCP\TextToImage\Task;
 use OCP\TextToImage\IManager;
-use OCP\PreConditionNotMetException;
+use OCP\TextToImage\Task;
 
 /**
  * @psalm-import-type CoreTextToImageTask from ResponseDefinitions
@@ -69,6 +70,7 @@ class TextToImageApiController extends \OCP\AppFramework\OCSController {
 	 * 200: Returns availability status
 	 */
 	#[PublicPage]
+	#[ApiRoute(verb: 'GET', url: '/is_available', root: '/text2image')]
 	public function isAvailable(): DataResponse {
 		return new DataResponse([
 			'isAvailable' => $this->textToImageManager->hasProviders(),
@@ -91,6 +93,7 @@ class TextToImageApiController extends \OCP\AppFramework\OCSController {
 	#[PublicPage]
 	#[UserRateLimit(limit: 20, period: 120)]
 	#[AnonRateLimit(limit: 5, period: 120)]
+	#[ApiRoute(verb: 'POST', url: '/schedule', root: '/text2image')]
 	public function schedule(string $input, string $appId, string $identifier = '', int $numberOfImages = 8): DataResponse {
 		$task = new Task($input, $appId, $numberOfImages, $this->userId, $identifier);
 		try {
@@ -125,6 +128,7 @@ class TextToImageApiController extends \OCP\AppFramework\OCSController {
 	 */
 	#[PublicPage]
 	#[BruteForceProtection(action: 'text2image')]
+	#[ApiRoute(verb: 'GET', url: '/task/{id}', root: '/text2image')]
 	public function getTask(int $id): DataResponse {
 		try {
 			$task = $this->textToImageManager->getUserTask($id, $this->userId);
@@ -156,6 +160,7 @@ class TextToImageApiController extends \OCP\AppFramework\OCSController {
 	 */
 	#[PublicPage]
 	#[BruteForceProtection(action: 'text2image')]
+	#[ApiRoute(verb: 'GET', url: '/task/{id}/image/{index}', root: '/text2image')]
 	public function getImage(int $id, int $index): DataResponse|FileDisplayResponse {
 		try {
 			$task = $this->textToImageManager->getUserTask($id, $this->userId);
@@ -195,6 +200,7 @@ class TextToImageApiController extends \OCP\AppFramework\OCSController {
 	 */
 	#[NoAdminRequired]
 	#[BruteForceProtection(action: 'text2image')]
+	#[ApiRoute(verb: 'DELETE', url: '/task/{id}', root: '/text2image')]
 	public function deleteTask(int $id): DataResponse {
 		try {
 			$task = $this->textToImageManager->getUserTask($id, $this->userId);
@@ -228,6 +234,7 @@ class TextToImageApiController extends \OCP\AppFramework\OCSController {
 	 */
 	#[NoAdminRequired]
 	#[AnonRateLimit(limit: 5, period: 120)]
+	#[ApiRoute(verb: 'GET', url: '/tasks/app/{appId}', root: '/text2image')]
 	public function listTasksByApp(string $appId, ?string $identifier = null): DataResponse {
 		try {
 			$tasks = $this->textToImageManager->getUserTasksByApp($this->userId, $appId, $identifier);

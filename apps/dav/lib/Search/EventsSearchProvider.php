@@ -29,19 +29,24 @@ namespace OCA\DAV\Search;
 
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCP\IUser;
+use OCP\Search\IFilteringProvider;
 use OCP\Search\ISearchQuery;
 use OCP\Search\SearchResult;
 use OCP\Search\SearchResultEntry;
 use Sabre\VObject\Component;
 use Sabre\VObject\DateTimeParser;
 use Sabre\VObject\Property;
+use function array_combine;
+use function array_fill;
+use function array_key_exists;
+use function array_map;
 
 /**
  * Class EventsSearchProvider
  *
  * @package OCA\DAV\Search
  */
-class EventsSearchProvider extends ACalendarSearchProvider {
+class EventsSearchProvider extends ACalendarSearchProvider implements IFilteringProvider {
 	/**
 	 * @var string[]
 	 */
@@ -84,11 +89,12 @@ class EventsSearchProvider extends ACalendarSearchProvider {
 	/**
 	 * @inheritDoc
 	 */
-	public function getOrder(string $route, array $routeParameters): int {
-		if ($route === 'calendar.View.index') {
-			return -1;
+	public function getOrder(string $route, array $routeParameters): ?int {
+		if ($this->appManager->isEnabledForUser('calendar')) {
+			return $route === 'calendar.View.index' ? -1 : 30;
 		}
-		return 30;
+
+		return null;
 	}
 
 	/**
@@ -106,22 +112,60 @@ class EventsSearchProvider extends ACalendarSearchProvider {
 		$calendarsById = $this->getSortedCalendars($principalUri);
 		$subscriptionsById = $this->getSortedSubscriptions($principalUri);
 
-		$searchResults = $this->backend->searchPrincipalUri(
-			$principalUri,
-			$query->getFilter('term')?->get() ?? '',
-			[self::$componentType],
-			self::$searchProperties,
-			self::$searchParameters,
-			[
-				'limit' => $query->getLimit(),
-				'offset' => $query->getCursor(),
-				'timerange' => [
-					'start' => $query->getFilter('since')?->get(),
-					'end' => $query->getFilter('until')?->get(),
+		/** @var string|null $term */
+		$term = $query->getFilter('term')?->get();
+		if ($term === null) {
+			$searchResults = [];
+		} else {
+			$searchResults = $this->backend->searchPrincipalUri(
+				$principalUri,
+				$term,
+				[self::$componentType],
+				self::$searchProperties,
+				self::$searchParameters,
+				[
+					'limit' => $query->getLimit(),
+					'offset' => $query->getCursor(),
+					'timerange' => [
+						'start' => $query->getFilter('since')?->get(),
+						'end' => $query->getFilter('until')?->get(),
+					],
+				]
+			);
+		}
+		/** @var IUser|null $person */
+		$person = $query->getFilter('person')?->get();
+		$personDisplayName = $person?->getDisplayName();
+		if ($personDisplayName !== null) {
+			$attendeeSearchResults = $this->backend->searchPrincipalUri(
+				$principalUri,
+				$personDisplayName,
+				[self::$componentType],
+				['ATTENDEE'],
+				self::$searchParameters,
+				[
+					'limit' => $query->getLimit(),
+					'offset' => $query->getCursor(),
+					'timerange' => [
+						'start' => $query->getFilter('since')?->get(),
+						'end' => $query->getFilter('until')?->get(),
+					],
 				],
-			]
-		);
-		$formattedResults = \array_map(function (array $eventRow) use ($calendarsById, $subscriptionsById):SearchResultEntry {
+			);
+
+			$searchResultIndex = array_combine(
+				array_map(fn ($event) => $event['calendarid'] . '-' . $event['uri'], $searchResults),
+				array_fill(0, count($searchResults), null),
+			);
+			foreach ($attendeeSearchResults as $attendeeResult) {
+				if (array_key_exists($attendeeResult['calendarid'] . '-' . $attendeeResult['uri'], $searchResultIndex)) {
+					// Duplicate
+					continue;
+				}
+				$searchResults[] = $attendeeResult;
+			}
+		}
+		$formattedResults = \array_map(function (array $eventRow) use ($calendarsById, $subscriptionsById): SearchResultEntry {
 			$component = $this->getPrimaryComponent($eventRow['calendardata'], self::$componentType);
 			$title = (string)($component->SUMMARY ?? $this->l10n->t('Untitled event'));
 			$subline = $this->generateSubline($component);
@@ -227,5 +271,22 @@ class EventsSearchProvider extends ACalendarSearchProvider {
 		\DateTime $dtEnd,
 	): bool {
 		return $dtStart->format('Y-m-d') === $dtEnd->format('Y-m-d');
+	}
+
+	public function getSupportedFilters(): array {
+		return [
+			'term',
+			'person',
+			'since',
+			'until',
+		];
+	}
+
+	public function getAlternateIds(): array {
+		return [];
+	}
+
+	public function getCustomFilters(): array {
+		return [];
 	}
 }

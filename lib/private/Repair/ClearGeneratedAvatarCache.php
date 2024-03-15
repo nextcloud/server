@@ -25,8 +25,8 @@
 namespace OC\Repair;
 
 use OC\Avatar\AvatarManager;
-use OCP\IConfig;
 use OCP\BackgroundJob\IJobList;
+use OCP\IConfig;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 

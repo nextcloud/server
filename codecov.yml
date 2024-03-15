@@ -11,3 +11,4 @@ comment: false
 coverage:
   status:
     project: off
+    patch: off

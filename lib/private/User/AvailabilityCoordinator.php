@@ -27,10 +27,12 @@ declare(strict_types=1);
 namespace OC\User;
 
 use JsonException;
-use OCA\DAV\Db\AbsenceMapper;
-use OCP\AppFramework\Db\DoesNotExistException;
+use OCA\DAV\AppInfo\Application;
+use OCA\DAV\CalDAV\TimezoneService;
+use OCA\DAV\Service\AbsenceService;
 use OCP\ICache;
 use OCP\ICacheFactory;
+use OCP\IConfig;
 use OCP\IUser;
 use OCP\User\IAvailabilityCoordinator;
 use OCP\User\IOutOfOfficeData;
@@ -41,10 +43,16 @@ class AvailabilityCoordinator implements IAvailabilityCoordinator {
 
 	public function __construct(
 		ICacheFactory $cacheFactory,
-		private AbsenceMapper $absenceMapper,
+		private IConfig $config,
+		private AbsenceService $absenceService,
 		private LoggerInterface $logger,
+		private TimezoneService $timezoneService,
 	) {
 		$this->cache = $cacheFactory->createLocal('OutOfOfficeData');
+	}
+
+	public function isEnabled(): bool {
+		return $this->config->getAppValue(Application::APP_ID, 'hide_absence_settings', 'no') === 'no';
 	}
 
 	private function getCachedOutOfOfficeData(IUser $user): ?OutOfOfficeData {
@@ -93,19 +101,39 @@ class AvailabilityCoordinator implements IAvailabilityCoordinator {
 	}
 
 	public function getCurrentOutOfOfficeData(IUser $user): ?IOutOfOfficeData {
-		$cachedData = $this->getCachedOutOfOfficeData($user);
-		if ($cachedData !== null) {
-			return $cachedData;
+		$timezone = $this->getCachedTimezone($user->getUID());
+		if ($timezone === null) {
+			$timezone = $this->timezoneService->getUserTimezone($user->getUID()) ?? $this->timezoneService->getDefaultTimezone();
+			$this->setCachedTimezone($user->getUID(), $timezone);
 		}
 
-		try {
-			$absenceData = $this->absenceMapper->findByUserId($user->getUID());
-		} catch (DoesNotExistException $e) {
-			return null;
+		$data = $this->getCachedOutOfOfficeData($user);
+		if ($data === null) {
+			$absenceData = $this->absenceService->getAbsence($user->getUID());
+			if ($absenceData === null) {
+				return null;
+			}
+			$data = $absenceData->toOutOufOfficeData($user, $timezone);
 		}
 
-		$data = $absenceData->toOutOufOfficeData($user);
 		$this->setCachedOutOfOfficeData($data);
 		return $data;
+	}
+
+	private function getCachedTimezone(string $userId): ?string {
+		return $this->cache->get($userId . '_timezone') ?? null;
+	}
+
+	private function setCachedTimezone(string $userId, string $timezone): void {
+		$this->cache->set($userId . '_timezone', $timezone, 3600);
+	}
+
+	public function clearCache(string $userId): void {
+		$this->cache->set($userId, null, 300);
+		$this->cache->set($userId . '_timezone', null, 3600);
+	}
+
+	public function isInEffect(IOutOfOfficeData $data): bool {
+		return $this->absenceService->isInEffect($data);
 	}
 }

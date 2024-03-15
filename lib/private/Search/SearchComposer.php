@@ -28,12 +28,13 @@ declare(strict_types=1);
 namespace OC\Search;
 
 use InvalidArgumentException;
-use OCP\IURLGenerator;
-use OCP\Search\FilterDefinition;
-use OCP\Search\IFilteringProvider;
 use OC\AppFramework\Bootstrap\Coordinator;
+use OCP\IURLGenerator;
 use OCP\IUser;
+use OCP\Search\FilterDefinition;
 use OCP\Search\IFilter;
+use OCP\Search\IFilteringProvider;
+use OCP\Search\IInAppSearch;
 use OCP\Search\IProvider;
 use OCP\Search\ISearchQuery;
 use OCP\Search\SearchResult;
@@ -80,13 +81,13 @@ class SearchComposer {
 		private LoggerInterface $logger
 	) {
 		$this->commonFilters = [
-			'term' => new FilterDefinition('term', FilterDefinition::TYPE_STRING),
-			'since' => new FilterDefinition('since', FilterDefinition::TYPE_DATETIME),
-			'until' => new FilterDefinition('until', FilterDefinition::TYPE_DATETIME),
-			'title-only' => new FilterDefinition('title-only', FilterDefinition::TYPE_BOOL, false),
-			'person' => new FilterDefinition('person', FilterDefinition::TYPE_PERSON),
-			'places' => new FilterDefinition('places', FilterDefinition::TYPE_STRINGS, false),
-			'provider' => new FilterDefinition('provider', FilterDefinition::TYPE_STRING, false),
+			IFilter::BUILTIN_TERM => new FilterDefinition(IFilter::BUILTIN_TERM, FilterDefinition::TYPE_STRING),
+			IFilter::BUILTIN_SINCE => new FilterDefinition(IFilter::BUILTIN_SINCE, FilterDefinition::TYPE_DATETIME),
+			IFilter::BUILTIN_UNTIL => new FilterDefinition(IFilter::BUILTIN_UNTIL, FilterDefinition::TYPE_DATETIME),
+			IFilter::BUILTIN_TITLE_ONLY => new FilterDefinition(IFilter::BUILTIN_TITLE_ONLY, FilterDefinition::TYPE_BOOL, false),
+			IFilter::BUILTIN_PERSON => new FilterDefinition(IFilter::BUILTIN_PERSON, FilterDefinition::TYPE_PERSON),
+			IFilter::BUILTIN_PLACES => new FilterDefinition(IFilter::BUILTIN_PLACES, FilterDefinition::TYPE_STRINGS, false),
+			IFilter::BUILTIN_PROVIDER => new FilterDefinition(IFilter::BUILTIN_PROVIDER, FilterDefinition::TYPE_STRING, false),
 		];
 	}
 
@@ -183,12 +184,16 @@ class SearchComposer {
 			function (array $providerData) use ($route, $routeParameters) {
 				$appId = $providerData['appId'];
 				$provider = $providerData['provider'];
+				$order = $provider->getOrder($route, $routeParameters);
+				if ($order === null) {
+					return;
+				}
 				$triggers = [$provider->getId()];
 				if ($provider instanceof IFilteringProvider) {
 					$triggers += $provider->getAlternateIds();
 					$filters = $provider->getSupportedFilters();
 				} else {
-					$filters = ['term'];
+					$filters = [IFilter::BUILTIN_TERM];
 				}
 
 				return [
@@ -196,13 +201,15 @@ class SearchComposer {
 					'appId' => $appId,
 					'name' => $provider->getName(),
 					'icon' => $this->fetchIcon($appId, $provider->getId()),
-					'order' => $provider->getOrder($route, $routeParameters),
+					'order' => $order,
 					'triggers' => $triggers,
 					'filters' => $this->getFiltersType($filters, $provider->getId()),
+					'inAppSearch' => $provider instanceof IInAppSearch,
 				];
 			},
 			$this->providers,
 		);
+		$providers = array_filter($providers);
 
 		// Sort providers by order and strip associative keys
 		usort($providers, function ($provider1, $provider2) {
@@ -221,6 +228,12 @@ class SearchComposer {
 			[$appId, 'app.svg'],
 			['core', 'places/default-app-icon.svg'],
 		];
+		if ($appId === 'settings' && $providerId === 'users') {
+			// Conflict:
+			// the file /apps/settings/users.svg is already used in black version by top right user menu
+			// Override icon name here
+			$icons = [['settings', 'users-white.svg']];
+		}
 		foreach ($icons as $i => $icon) {
 			try {
 				return $this->urlGenerator->imagePath(... $icon);
@@ -302,7 +315,7 @@ class SearchComposer {
 		$provider = $this->providers[$providerId]['provider'];
 		$supportedFilters = $provider instanceof IFilteringProvider
 			? $provider->getSupportedFilters()
-			: ['term'];
+			: [IFilter::BUILTIN_TERM];
 
 		return in_array($filterDefinition->name(), $supportedFilters, true);
 	}

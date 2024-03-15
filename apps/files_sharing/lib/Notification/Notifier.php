@@ -61,11 +61,11 @@ class Notifier implements INotifier {
 	protected $url;
 
 	public function __construct(IFactory $l10nFactory,
-								IManager $shareManager,
-								IRootFolder $rootFolder,
-								IGroupManager $groupManager,
-								IUserManager $userManager,
-								IURLGenerator $url) {
+		IManager $shareManager,
+		IRootFolder $rootFolder,
+		IGroupManager $groupManager,
+		IUserManager $userManager,
+		IURLGenerator $url) {
 		$this->l10nFactory = $l10nFactory;
 		$this->shareManager = $shareManager;
 		$this->rootFolder = $rootFolder;

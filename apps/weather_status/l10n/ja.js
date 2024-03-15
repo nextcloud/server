@@ -7,7 +7,6 @@ OC.L10N.register(
     "Error" : "エラー",
     "Weather status" : "現在の天気",
     "Weather status in your dashboard" : "ダッシュボードにおける天気の表示",
-    "Weather status integrated in the Dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "天気ウィジットはダッシュボードアプリに統合されています。ユーザーの現在地は自動または手動で設定でき、その地点の6時間予報が表示されます。このウィジットはカレンダーアプリなど他の場所にも統合させることができます。",
     "Detect location" : "地域を検出",
     "Set custom address" : "地域を入力",
     "Favorites" : "お気に入り",
@@ -45,6 +44,7 @@ OC.L10N.register(
     "There was an error setting the location." : "地域設定時にエラーが発生しました",
     "There was an error saving the mode." : "モードの保存時にエラーが発生しました",
     "There was an error using personal address." : "個人の住所使用時にエラーが発生しました",
-    "Set location for weather" : "天気の地域設定"
+    "Set location for weather" : "天気の地域設定",
+    "Weather status integrated in the Dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "天気ウィジットはダッシュボードアプリに統合されています。ユーザーの現在地は自動または手動で設定でき、その地点の6時間予報が表示されます。このウィジットはカレンダーアプリなど他の場所にも統合させることができます。"
 },
 "nplurals=1; plural=0;");

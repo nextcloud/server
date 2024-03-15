@@ -11,6 +11,7 @@
 		}
 	},
 	"autoload": {
+		"exclude-from-classmap": ["**/bamarni/composer-bin-plugin/**"],
 		"files": [
 			"lib/public/Log/functions.php"
 		],
@@ -48,11 +49,11 @@
 	"scripts": {
 		"post-install-cmd": [
 			"[ $COMPOSER_DEV_MODE -eq 0 ] || composer bin all install",
-			"composer dump-autoload"
+			"composer dump-autoload --no-dev"
 		],
 		"post-update-cmd": [
 			"[ $COMPOSER_DEV_MODE -eq 0 ] || composer bin all update --ansi",
-			"composer dump-autoload"
+			"composer dump-autoload --no-dev"
 		],
 		"cs:fix": "php-cs-fixer fix",
 		"cs:check": "php-cs-fixer fix --dry-run --diff",
@@ -67,5 +68,11 @@
 		"test": "phpunit --configuration tests/phpunit-autotest.xml",
 		"test:db": "@composer run test -- --group DB,SLOWDB",
 		"test:files_external": "phpunit --configuration tests/phpunit-autotest-external.xml"
+	},
+	"extra": {
+		"bamarni-bin": {
+			"bin-links": true,
+			"forward-command": false
+		}
 	}
 }

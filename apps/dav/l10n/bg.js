@@ -2,7 +2,7 @@ OC.L10N.register(
     "dav",
     {
     "Calendar" : "Календар",
-    "To-dos" : "Задачи за изпълнение",
+    "Tasks" : "Задачи",
     "Personal" : "Личен",
     "{actor} created calendar {calendar}" : "{actor} направи календар {calendar}",
     "You created calendar {calendar}" : "Създадохте календара {calendar}",
@@ -93,7 +93,6 @@ OC.L10N.register(
     "Decline" : "Отхвърляне",
     "More options …" : "Още опции ...",
     "More options at %s" : "Още опции при %s",
-    "In a meeting" : "В среща",
     "Contacts" : "Контакти",
     "{actor} created address book {addressbook}" : "{actor} създаде адресна книга {addressbook}",
     "You created address book {addressbook}" : "Вие създадохте адресна книга {addressbook}",
@@ -142,7 +141,6 @@ OC.L10N.register(
     "Configures a CalDAV account" : "Конфигурира профил в CalDAV",
     "Configures a CardDAV account" : "Конфигурира профил в CalDAV",
     "Events" : "Събития",
-    "Tasks" : "Задачи",
     "Untitled task" : "Задача без заглавие",
     "Completed on %s" : "Завършен на %s",
     "Due on %s by %s" : "Краен срок на %s от %s",
@@ -171,7 +169,6 @@ OC.L10N.register(
     "Saved availability" : "Запазена наличност",
     "Failed to save availability" : "Неуспешно записване на наличност",
     "Availability" : "Наличност",
-    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Ако конфигурирате работното си време, другите потребители ще виждат кога сте извън офиса, при резервиране на среща.",
     "Calendar server" : "Сървър на календар",
     "Send invitations to attendees" : "Изпращане на покани до участниците",
     "Automatically generate a birthday calendar" : "Автоматично генериране на календар с рождени дни.",
@@ -189,6 +186,7 @@ OC.L10N.register(
     "Are you accepting the invitation?" : "Приемате ли поканата?",
     "Tentative" : "Несигурно",
     "Your attendance was updated successfully." : "Вашето присъствие е актуализирано успешно.",
-    "%1$s has responded your invitation" : "%1$s отговори на вашата покана"
+    "To-dos" : "Задачи за изпълнение",
+    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Ако конфигурирате работното си време, другите потребители ще виждат кога сте извън офиса, при резервиране на среща."
 },
 "nplurals=2; plural=(n != 1);");

@@ -64,10 +64,10 @@ abstract class BaseResponse extends Response {
 	 * @param int|null $itemsPerPage
 	 */
 	public function __construct(DataResponse $dataResponse,
-								$format = 'xml',
-								$statusMessage = null,
-								$itemsCount = null,
-								$itemsPerPage = null) {
+		$format = 'xml',
+		$statusMessage = null,
+		$itemsCount = null,
+		$itemsPerPage = null) {
 		parent::__construct();
 
 		$this->format = $format;
@@ -158,6 +158,10 @@ abstract class BaseResponse extends Response {
 			if (\is_array($v)) {
 				$writer->startElement($k);
 				$this->toXML($v, $writer);
+				$writer->endElement();
+			} elseif ($v instanceof \JsonSerializable) {
+				$writer->startElement($k);
+				$this->toXML($v->jsonSerialize(), $writer);
 				$writer->endElement();
 			} else {
 				$writer->writeElement($k, $v);

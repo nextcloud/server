@@ -43,14 +43,14 @@ class Version27000Date20230309104802 extends SimpleMigrationStep {
 	 * @return null|ISchemaWrapper
 	 */
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options): ?ISchemaWrapper {
-		/** @var ISchemaWrapper $schema */
-		$schema = $schemaClosure();
-		$metadataTable = $schema->getTable('file_metadata');
+		// /** @var ISchemaWrapper $schema */
+		// $schema = $schemaClosure();
+		// $metadataTable = $schema->getTable('file_metadata');
 
-		if ($metadataTable->hasColumn('metadata')) {
-			$metadataTable->dropColumn('metadata');
-			return $schema;
-		}
+		// if ($metadataTable->hasColumn('metadata')) {
+		// 	$metadataTable->dropColumn('metadata');
+		// 	return $schema;
+		// }
 
 		return null;
 	}

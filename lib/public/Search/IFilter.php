@@ -31,6 +31,21 @@ namespace OCP\Search;
  * @since 28.0.0
  */
 interface IFilter {
+	/** @since 28.0.0 */
+	public const BUILTIN_TERM = 'term';
+	/** @since 28.0.0 */
+	public const BUILTIN_SINCE = 'since';
+	/** @since 28.0.0 */
+	public const BUILTIN_UNTIL = 'until';
+	/** @since 28.0.0 */
+	public const BUILTIN_PERSON = 'person';
+	/** @since 28.0.0 */
+	public const BUILTIN_TITLE_ONLY = 'title-only';
+	/** @since 28.0.0 */
+	public const BUILTIN_PLACES = 'places';
+	/** @since 28.0.0 */
+	public const BUILTIN_PROVIDER = 'provider';
+
 	/**
 	 * Get filter value
 	 *

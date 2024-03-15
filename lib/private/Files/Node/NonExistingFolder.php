@@ -162,6 +162,10 @@ class NonExistingFolder extends Folder {
 		throw new NotFoundException();
 	}
 
+	public function getFirstNodeById(int $id): ?\OCP\Files\Node {
+		throw new NotFoundException();
+	}
+
 	public function getFreeSpace() {
 		throw new NotFoundException();
 	}

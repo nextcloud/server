@@ -29,8 +29,8 @@ namespace OC\Files\Node;
 
 use OC\Files\Filesystem;
 use OC\Files\Utils\PathHelper;
-use OCP\Files\Folder;
 use OCP\Constants;
+use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\NotPermittedException;
@@ -492,7 +492,11 @@ class LazyFolder implements Folder {
 	 * @inheritDoc
 	 */
 	public function getById($id) {
-		return $this->__call(__FUNCTION__, func_get_args());
+		return $this->getRootFolder()->getByIdInPath((int)$id, $this->getPath());
+	}
+
+	public function getFirstNodeById(int $id): ?\OCP\Files\Node {
+		return $this->getRootFolder()->getFirstNodeByIdInPath($id, $this->getPath());
 	}
 
 	/**

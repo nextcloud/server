@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -79,48 +80,6 @@ namespace OCA\Provisioning_API;
  *     twitterScope?: string,
  *     website: string,
  *     websiteScope?: string,
- * }
- *
- * @psalm-type Provisioning_APIAppInfo = array{
- *     active: bool|null,
- *     activity: ?mixed,
- *     author: ?mixed,
- *     background-jobs: ?mixed,
- *     bugs: ?mixed,
- *     category: ?mixed,
- *     collaboration: ?mixed,
- *     commands: ?mixed,
- *     default_enable: ?mixed,
- *     dependencies: ?mixed,
- *     description: string,
- *     discussion: ?mixed,
- *     documentation: ?mixed,
- *     groups: ?mixed,
- *     id: string,
- *     info: ?mixed,
- *     internal: bool|null,
- *     level: int|null,
- *     licence: ?mixed,
- *     name: string,
- *     namespace: ?mixed,
- *     navigations: ?mixed,
- *     preview: ?mixed,
- *     previewAsIcon: bool|null,
- *     public: ?mixed,
- *     remote: ?mixed,
- *     removable: bool|null,
- *     repair-steps: ?mixed,
- *     repository: ?mixed,
- *     sabre: ?mixed,
- *     screenshot: ?mixed,
- *     settings: ?mixed,
- *     summary: string,
- *     trash: ?mixed,
- *     two-factor-providers: ?mixed,
- *     types: ?mixed,
- *     version: string,
- *     versions: ?mixed,
- *     website: ?mixed,
  * }
  *
  * @psalm-type Provisioning_APIGroupDetails = array{

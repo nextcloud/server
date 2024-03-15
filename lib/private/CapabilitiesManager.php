@@ -30,8 +30,8 @@ namespace OC;
 
 use OCP\AppFramework\QueryException;
 use OCP\Capabilities\ICapability;
-use OCP\Capabilities\IPublicCapability;
 use OCP\Capabilities\IInitialStateExcludedCapability;
+use OCP\Capabilities\IPublicCapability;
 use Psr\Log\LoggerInterface;
 
 class CapabilitiesManager {

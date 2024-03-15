@@ -25,13 +25,13 @@ import client from './DavClient.js'
 /**
  * Edit an existing comment
  *
- * @param {string} commentsType the ressource type
- * @param {number} ressourceId the ressource ID
+ * @param {string} resourceType the resource type
+ * @param {number} resourceId the resource ID
  * @param {number} commentId the comment iD
  * @param {string} message the message content
  */
-export default async function(commentsType, ressourceId, commentId, message) {
-	const commentPath = ['', commentsType, ressourceId, commentId].join('/')
+export default async function(resourceType, resourceId, commentId, message) {
+	const commentPath = ['', resourceType, resourceId, commentId].join('/')
 
 	return await client.customRequest(commentPath, Object.assign({
 		method: 'PROPPATCH',

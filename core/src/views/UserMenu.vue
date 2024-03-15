@@ -236,19 +236,22 @@ export default {
 						outline: none !important;
 					}
 
-					&:active,
-					&.active {
+					&:active:not(:focus-visible),
+					&.active:not(:focus-visible) {
 						background-color: var(--color-primary-element);
 						color: var(--color-primary-element-text);
+
+						img {
+							filter: var(--primary-invert-if-dark);
+						}
 					}
 
 					span {
 						padding-bottom: 0;
-						color: var(--color-main-text);
 						white-space: nowrap;
 						overflow: hidden;
 						text-overflow: ellipsis;
-						max-width: 110px;
+						max-width: 210px;
 					}
 
 					img {
@@ -257,8 +260,7 @@ export default {
 						margin-right: 10px;
 					}
 
-					img,
-					svg {
+					img {
 						filter: var(--background-invert-if-dark);
 					}
 				}

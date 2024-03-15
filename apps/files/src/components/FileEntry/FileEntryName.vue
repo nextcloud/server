@@ -37,12 +37,13 @@
 			@keyup.esc="stopRenaming" />
 	</form>
 
-	<a v-else
+	<component :is="linkTo.is"
+		v-else
 		ref="basename"
 		:aria-hidden="isRenaming"
 		class="files-list__row-name-link"
 		data-cy-files-list-row-name-link
-		v-bind="linkTo"
+		v-bind="linkTo.params"
 		@click="$emit('click', $event)">
 		<!-- File name -->
 		<span class="files-list__row-name-text">
@@ -50,17 +51,19 @@
 			<span class="files-list__row-name-" v-text="displayName" />
 			<span class="files-list__row-name-ext" v-text="extension" />
 		</span>
-	</a>
+	</component>
 </template>
 
 <script lang="ts">
+import type { PropType } from 'vue'
+
 import { emit } from '@nextcloud/event-bus'
 import { FileType, NodeStatus, Permission } from '@nextcloud/files'
 import { loadState } from '@nextcloud/initial-state'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
 import axios from '@nextcloud/axios'
-import Vue, { PropType } from 'vue'
+import Vue from 'vue'
 
 import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
 
@@ -137,8 +140,10 @@ export default Vue.extend({
 		linkTo() {
 			if (this.source.attributes.failed) {
 				return {
-					title: t('files', 'This node is unavailable'),
 					is: 'span',
+					params: {
+						title: t('files', 'This node is unavailable'),
+					},
 				}
 			}
 
@@ -147,16 +152,24 @@ export default Vue.extend({
 				const action = enabledDefaultActions[0]
 				const displayName = action.displayName([this.source], this.currentView)
 				return {
-					title: displayName,
-					role: 'button',
+					is: 'a',
+					params: {
+						title: displayName,
+						role: 'button',
+						tabindex: '0',
+					},
 				}
 			}
 
 			if (this.source?.permissions & Permission.READ) {
 				return {
-					download: this.source.basename,
-					href: this.source.source,
-					title: t('files', 'Download file {name}', { name: this.displayName }),
+					is: 'a',
+					params: {
+						download: this.source.basename,
+						href: this.source.source,
+						title: t('files', 'Download file {name}', { name: this.displayName }),
+						tabindex: '0',
+					},
 				}
 			}
 
@@ -172,10 +185,13 @@ export default Vue.extend({
 		 * in the input, without the extension.
 		 * @param renaming
 		 */
-		isRenaming(renaming: boolean) {
-			if (renaming) {
-				this.startRenaming()
-			}
+		isRenaming: {
+			immediate: true,
+			handler(renaming: boolean) {
+				if (renaming) {
+					this.startRenaming()
+				}
+			},
 		},
 	},
 
@@ -323,7 +339,6 @@ export default Vue.extend({
 				Vue.set(this.source, 'status', undefined)
 			}
 		},
-
 
 		t,
 	},

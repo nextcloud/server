@@ -51,7 +51,7 @@ class NeedsSystemAddressBookSync implements ISetupCheck {
 		if ($this->config->getAppValue('dav', 'needs_system_address_book_sync', 'no') === 'no') {
 			return SetupResult::success($this->l10n->t('No outstanding DAV system address book sync.'));
 		} else {
-			return SetupResult::warning($this->l10n->t('The DAV system address book sync has not run yet as your instance has more than 1000 users or because an error occurred. Please run it manually by calling occ dav:sync-system-addressbook.'));
+			return SetupResult::warning($this->l10n->t('The DAV system address book sync has not run yet as your instance has more than 1000 users or because an error occurred. Please run it manually by calling "occ dav:sync-system-addressbook".'));
 		}
 	}
 }

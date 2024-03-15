@@ -61,9 +61,9 @@ abstract class ACalendarSearchProvider implements IProvider {
 	 * @param CalDavBackend $backend
 	 */
 	public function __construct(IAppManager $appManager,
-								IL10N $l10n,
-								IURLGenerator $urlGenerator,
-								CalDavBackend $backend) {
+		IL10N $l10n,
+		IURLGenerator $urlGenerator,
+		CalDavBackend $backend) {
 		$this->appManager = $appManager;
 		$this->l10n = $l10n;
 		$this->urlGenerator = $urlGenerator;

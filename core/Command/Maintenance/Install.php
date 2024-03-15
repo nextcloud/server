@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -33,12 +36,9 @@ namespace OC\Core\Command\Maintenance;
 use bantu\IniGetWrapper\IniGetWrapper;
 use InvalidArgumentException;
 use OC\Console\TimestampFormatter;
-use OC\Installer;
 use OC\Migration\ConsoleOutput;
 use OC\Setup;
 use OC\SystemConfig;
-use OCP\Defaults;
-use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
@@ -56,7 +56,7 @@ class Install extends Command {
 		parent::__construct();
 	}
 
-	protected function configure() {
+	protected function configure(): void {
 		$this
 			->setName('maintenance:install')
 			->setDescription('install Nextcloud')
@@ -64,10 +64,10 @@ class Install extends Command {
 			->addOption('database-name', null, InputOption::VALUE_REQUIRED, 'Name of the database')
 			->addOption('database-host', null, InputOption::VALUE_REQUIRED, 'Hostname of the database', 'localhost')
 			->addOption('database-port', null, InputOption::VALUE_REQUIRED, 'Port the database is listening on')
-			->addOption('database-user', null, InputOption::VALUE_REQUIRED, 'User name to connect to the database')
+			->addOption('database-user', null, InputOption::VALUE_REQUIRED, 'Login to connect to the database')
 			->addOption('database-pass', null, InputOption::VALUE_OPTIONAL, 'Password of the database user', null)
 			->addOption('database-table-space', null, InputOption::VALUE_OPTIONAL, 'Table space of the database (oci only)', null)
-			->addOption('admin-user', null, InputOption::VALUE_REQUIRED, 'User name of the admin account', 'admin')
+			->addOption('admin-user', null, InputOption::VALUE_REQUIRED, 'Login of the admin account', 'admin')
 			->addOption('admin-pass', null, InputOption::VALUE_REQUIRED, 'Password of the admin account')
 			->addOption('admin-email', null, InputOption::VALUE_OPTIONAL, 'E-Mail of the admin account')
 			->addOption('data-dir', null, InputOption::VALUE_REQUIRED, 'Path to data directory', \OC::$SERVERROOT."/data");
@@ -75,16 +75,7 @@ class Install extends Command {
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		// validate the environment
-		$server = \OC::$server;
-		$setupHelper = new Setup(
-			$this->config,
-			$this->iniGetWrapper,
-			$server->getL10N('lib'),
-			$server->query(Defaults::class),
-			$server->get(LoggerInterface::class),
-			$server->getSecureRandom(),
-			\OC::$server->query(Installer::class)
-		);
+		$setupHelper = \OCP\Server::get(\OC\Setup::class);
 		$sysInfo = $setupHelper->getSystemInfo(true);
 		$errors = $sysInfo['errors'];
 		if (count($errors) > 0) {
@@ -159,7 +150,7 @@ class Install extends Command {
 
 		if ($db !== 'sqlite') {
 			if (is_null($dbUser)) {
-				throw new InvalidArgumentException("Database user not provided.");
+				throw new InvalidArgumentException("Database account not provided.");
 			}
 			if (is_null($dbName)) {
 				throw new InvalidArgumentException("Database name not provided.");
@@ -206,9 +197,9 @@ class Install extends Command {
 
 	/**
 	 * @param OutputInterface $output
-	 * @param $errors
+	 * @param array<string|array> $errors
 	 */
-	protected function printErrors(OutputInterface $output, $errors) {
+	protected function printErrors(OutputInterface $output, array $errors): void {
 		foreach ($errors as $error) {
 			if (is_array($error)) {
 				$output->writeln('<error>' . $error['error'] . '</error>');

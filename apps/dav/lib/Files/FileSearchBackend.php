@@ -43,7 +43,7 @@ use OCP\Files\Search\ISearchOperator;
 use OCP\Files\Search\ISearchOrder;
 use OCP\Files\Search\ISearchQuery;
 use OCP\FilesMetadata\IFilesMetadataManager;
-use OCP\FilesMetadata\Model\IMetadataQuery;
+use OCP\FilesMetadata\IMetadataQuery;
 use OCP\FilesMetadata\Model\IMetadataValueWrapper;
 use OCP\IUser;
 use OCP\Share\IManager;
@@ -367,22 +367,31 @@ class FileSearchBackend implements ISearchBackend {
 				if (count($operator->arguments) !== 2) {
 					throw new \InvalidArgumentException('Invalid number of arguments for ' . $trimmedType . ' operation');
 				}
-				if (!($operator->arguments[0] instanceof SearchPropertyDefinition)) {
-					throw new \InvalidArgumentException('Invalid argument 1 for ' . $trimmedType . ' operation, expected property');
-				}
 				if (!($operator->arguments[1] instanceof Literal)) {
 					throw new \InvalidArgumentException('Invalid argument 2 for ' . $trimmedType . ' operation, expected literal');
 				}
-
+				$value = $operator->arguments[1]->value;
+				// no break
+			case Operator::OPERATION_IS_DEFINED:
+				if (!($operator->arguments[0] instanceof SearchPropertyDefinition)) {
+					throw new \InvalidArgumentException('Invalid argument 1 for ' . $trimmedType . ' operation, expected property');
+				}
 				$property = $operator->arguments[0];
-				$value = $this->castValue($property, $operator->arguments[1]->value);
+
 				if (str_starts_with($property->name, FilesPlugin::FILE_METADATA_PREFIX)) {
-					return new SearchComparison($trimmedType, substr($property->name, strlen(FilesPlugin::FILE_METADATA_PREFIX)), $value, IMetadataQuery::EXTRA);
+					$field = substr($property->name, strlen(FilesPlugin::FILE_METADATA_PREFIX));
+					$extra = IMetadataQuery::EXTRA;
 				} else {
-					return new SearchComparison($trimmedType, $this->mapPropertyNameToColumn($property), $value);
+					$field = $this->mapPropertyNameToColumn($property);
 				}
 
-				// no break
+				return new SearchComparison(
+					$trimmedType,
+					$field,
+					$this->castValue($property, $value ?? ''),
+					$extra ?? ''
+				);
+
 			case Operator::OPERATION_IS_COLLECTION:
 				return new SearchComparison('eq', 'mimetype', ICacheEntry::DIRECTORY_MIMETYPE);
 			default:
@@ -416,6 +425,10 @@ class FileSearchBackend implements ISearchBackend {
 	}
 
 	private function castValue(SearchPropertyDefinition $property, $value) {
+		if ($value === '') {
+			return '';
+		}
+
 		switch ($property->dataType) {
 			case SearchPropertyDefinition::DATATYPE_BOOLEAN:
 				return $value === 'yes';

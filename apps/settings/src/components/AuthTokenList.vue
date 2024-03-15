@@ -2,6 +2,7 @@
   - @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
   -
   - @author 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
+  - @author Ferdinand Thiessen <opensource@fthiessen.de>
   -
   - @license GNU AGPL version 3 or any later version
   -
@@ -20,115 +21,74 @@
   -->
 
 <template>
-	<table id="app-tokens-table">
-		<thead v-if="tokens.length">
+	<table id="app-tokens-table" class="token-list">
+		<thead>
 			<tr>
-				<th />
-				<th>{{ t('settings', 'Device') }}</th>
-				<th>{{ t('settings', 'Last activity') }}</th>
-				<th />
+				<th class="token-list__header-device">
+					{{ t('settings', 'Device') }}
+				</th>
+				<th class="toke-list__header-activity">
+					{{ t('settings', 'Last activity') }}
+				</th>
+				<th>
+					<span class="hidden-visually">
+						{{ t('settings', 'Actions') }}
+					</span>
+				</th>
 			</tr>
 		</thead>
-		<tbody class="token-list">
+		<tbody class="token-list__body">
 			<AuthToken v-for="token in sortedTokens"
 				:key="token.id"
-				:token="token"
-				@toggle-scope="toggleScope"
-				@rename="rename"
-				@delete="onDelete"
-				@wipe="onWipe" />
+				:token="token" />
 		</tbody>
 	</table>
 </template>
 
-<script>
+<script lang="ts">
+import { translate as t } from '@nextcloud/l10n'
+import { defineComponent } from 'vue'
+import { useAuthTokenStore } from '../store/authtoken'
+
 import AuthToken from './AuthToken.vue'
 
-export default {
+export default defineComponent({
 	name: 'AuthTokenList',
 	components: {
 		AuthToken,
 	},
-	props: {
-		tokens: {
-			type: Array,
-			required: true,
-		},
+	setup() {
+		const authTokenStore = useAuthTokenStore()
+		return { authTokenStore }
 	},
 	computed: {
 		sortedTokens() {
-			return this.tokens.slice().sort((t1, t2) => {
-				const ts1 = parseInt(t1.lastActivity, 10)
-				const ts2 = parseInt(t2.lastActivity, 10)
-				return ts2 - ts1
-			})
+			return [...this.authTokenStore.tokens].sort((t1, t2) => t2.lastActivity - t1.lastActivity)
 		},
 	},
 	methods: {
-		toggleScope(token, scope, value) {
-			// Just pass it on
-			this.$emit('toggle-scope', token, scope, value)
-		},
-		rename(token, newName) {
-			// Just pass it on
-			this.$emit('rename', token, newName)
-		},
-		onDelete(token) {
-			// Just pass it on
-			this.$emit('delete', token)
-		},
-		onWipe(token) {
-			// Just pass it on
-			this.$emit('wipe', token)
-		},
+		t,
 	},
-}
+})
 </script>
 
 <style lang="scss" scoped>
-	table {
-		width: 100%;
-		min-height: 50px;
-		padding-top: 5px;
-		max-width: 580px;
+.token-list {
+	width: 100%;
+	min-height: 50px;
+	padding-top: 5px;
+	max-width: fit-content;
 
-		th {
-			padding: 10px 0;
-		}
+	th {
+		padding-block: 10px;
+		padding-inline-start: 10px;
 	}
 
-	.token-list {
-		td > a.icon-more {
-			transition: opacity var(--animation-quick);
-		}
-
-		a.icon-more {
-			padding: 14px;
-			display: block;
-			width: 44px;
-			height: 44px;
-			opacity: .5;
-		}
-
-		tr {
-			&:hover td > a.icon,
-			td > a.icon:focus,
-			&.active td > a.icon {
-				opacity: 1;
-			}
-		}
+	#{&}__header-device {
+		padding-inline-start: 50px; // 44px icon + 6px padding
 	}
-</style>
-
-<!-- some styles are not scoped to make them work on subcomponents -->
-<style lang="scss">
-	#app-tokens-table {
-		tr > *:nth-child(2) {
-			padding-left: 6px;
-		}
-
-		tr > *:nth-child(3) {
-			text-align: right;
-		}
+	&__header-activity {
+		text-align: end;
 	}
+}
 </style>

@@ -74,10 +74,10 @@ class OwnershipTransferService {
 	private $userManager;
 
 	public function __construct(IEncryptionManager $manager,
-								IShareManager $shareManager,
-								IMountManager $mountManager,
-								IUserMountCache $userMountCache,
-								IUserManager $userManager) {
+		IShareManager $shareManager,
+		IMountManager $mountManager,
+		IUserMountCache $userMountCache,
+		IUserManager $userManager) {
 		$this->encryptionManager = $manager;
 		$this->shareManager = $shareManager;
 		$this->mountManager = $mountManager;
@@ -96,12 +96,12 @@ class OwnershipTransferService {
 	 * @throws \OC\User\NoUserException
 	 */
 	public function transfer(IUser $sourceUser,
-							 IUser $destinationUser,
-							 string $path,
-							 ?OutputInterface $output = null,
-							 bool $move = false,
-							 bool $firstLogin = false,
-							 bool $transferIncomingShares = false): void {
+		IUser $destinationUser,
+		string $path,
+		?OutputInterface $output = null,
+		bool $move = false,
+		bool $firstLogin = false,
+		bool $transferIncomingShares = false): void {
 		$output = $output ?? new NullOutput();
 		$sourceUid = $sourceUser->getUID();
 		$destinationUid = $destinationUser->getUID();
@@ -234,10 +234,10 @@ class OwnershipTransferService {
 	 * @throws \Exception
 	 */
 	protected function analyse(string $sourceUid,
-							   string $destinationUid,
-							   string $sourcePath,
-							   View $view,
-							   OutputInterface $output): void {
+		string $destinationUid,
+		string $sourcePath,
+		View $view,
+		OutputInterface $output): void {
 		$output->writeln('Validating quota');
 		$size = $view->getFileInfo($sourcePath, false)->getSize(false);
 		$freeSpace = $view->free_space($destinationUid . '/files/');
@@ -281,9 +281,9 @@ class OwnershipTransferService {
 	}
 
 	private function collectUsersShares(string $sourceUid,
-										OutputInterface $output,
-										View $view,
-										string $path): array {
+		OutputInterface $output,
+		View $view,
+		string $path): array {
 		$output->writeln("Collecting all share information for files and folders of $sourceUid ...");
 
 		$shares = [];
@@ -325,9 +325,9 @@ class OwnershipTransferService {
 	}
 
 	private function collectIncomingShares(string $sourceUid,
-										OutputInterface $output,
-										View $view,
-										bool $addKeys = false): array {
+		OutputInterface $output,
+		View $view,
+		bool $addKeys = false): array {
 		$output->writeln("Collecting all incoming share information for files and folders of $sourceUid ...");
 
 		$shares = [];
@@ -363,10 +363,10 @@ class OwnershipTransferService {
 	 * @throws TransferOwnershipException
 	 */
 	protected function transferFiles(string $sourceUid,
-									 string $sourcePath,
-									 string $finalTarget,
-									 View $view,
-									 OutputInterface $output): void {
+		string $sourcePath,
+		string $finalTarget,
+		View $view,
+		OutputInterface $output): void {
 		$output->writeln("Transferring files to $finalTarget ...");
 
 		// This change will help user to transfer the folder specified using --path option.
@@ -385,9 +385,9 @@ class OwnershipTransferService {
 	}
 
 	private function restoreShares(string $sourceUid,
-								   string $destinationUid,
-								   array $shares,
-								   OutputInterface $output) {
+		string $destinationUid,
+		array $shares,
+		OutputInterface $output) {
 		$output->writeln("Restoring shares ...");
 		$progress = new ProgressBar($output, count($shares));
 
@@ -436,18 +436,18 @@ class OwnershipTransferService {
 	}
 
 	private function transferIncomingShares(string $sourceUid,
-								   string $destinationUid,
-								   array $sourceShares,
-								   array $destinationShares,
-								   OutputInterface $output,
-								   string $path,
-								   string $finalTarget,
-								   bool $move): void {
+		string $destinationUid,
+		array $sourceShares,
+		array $destinationShares,
+		OutputInterface $output,
+		string $path,
+		string $finalTarget,
+		bool $move): void {
 		$output->writeln("Restoring incoming shares ...");
 		$progress = new ProgressBar($output, count($sourceShares));
 		$prefix = "$destinationUid/files";
 		$finalShareTarget = '';
-		if (substr($finalTarget, 0, strlen($prefix)) === $prefix) {
+		if (str_starts_with($finalTarget, $prefix)) {
 			$finalShareTarget = substr($finalTarget, strlen($prefix));
 		}
 		foreach ($sourceShares as $share) {
@@ -457,7 +457,7 @@ class OwnershipTransferService {
 				if (trim($path, '/') !== '') {
 					$pathToCheck = '/' . trim($path) . '/';
 				}
-				if (substr($share->getTarget(), 0, strlen($pathToCheck)) !== $pathToCheck) {
+				if (!str_starts_with($share->getTarget(), $pathToCheck)) {
 					continue;
 				}
 				$shareTarget = $share->getTarget();

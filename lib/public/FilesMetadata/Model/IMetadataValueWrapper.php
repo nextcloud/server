@@ -37,16 +37,30 @@ use OCP\FilesMetadata\Exceptions\FilesMetadataTypeException;
  * @since 28.0.0
  */
 interface IMetadataValueWrapper extends JsonSerializable {
-	/**
-	 * @since 28.0.0
-	 */
+	/** @since 28.0.0 */
 	public const TYPE_STRING = 'string';
+	/** @since 28.0.0 */
 	public const TYPE_INT = 'int';
+	/** @since 28.0.0 */
 	public const TYPE_FLOAT = 'float';
+	/** @since 28.0.0 */
 	public const TYPE_BOOL = 'bool';
+	/** @since 28.0.0 */
 	public const TYPE_ARRAY = 'array';
+	/** @since 28.0.0 */
 	public const TYPE_STRING_LIST = 'string[]';
+	/** @since 28.0.0 */
 	public const TYPE_INT_LIST = 'int[]';
+
+	/** @since 28.0.0 */
+	public const EDIT_FORBIDDEN = 0;
+	/** @since 28.0.0 */
+	public const EDIT_REQ_OWNERSHIP = 1;
+	/** @since 28.0.0 */
+	public const EDIT_REQ_WRITE_PERMISSION = 2;
+	/** @since 28.0.0 */
+	public const EDIT_REQ_READ_PERMISSION = 3;
+
 
 	/**
 	 * Unless a call of import() to deserialize an object is expected, a valid value type is needed here.
@@ -272,6 +286,24 @@ interface IMetadataValueWrapper extends JsonSerializable {
 	public function getValueAny(): mixed;
 
 	/**
+	 * get stored etag value
+	 *
+	 * @return string stored etag
+	 * @since 29.0.0
+	 */
+	public function getEtag(): string;
+
+	/**
+	 * set etag value
+	 *
+	 * @param string $etag etag value
+	 *
+	 * @return self
+	 * @since 29.0.0
+	 */
+	public function setEtag(string $etag): self;
+
+	/**
 	 * @param bool $indexed TRUE to set the stored value as an indexed value
 	 *
 	 * @return self
@@ -286,6 +318,26 @@ interface IMetadataValueWrapper extends JsonSerializable {
 	 * @since 28.0.0
 	 */
 	public function isIndexed(): bool;
+
+	/**
+	 * set remote edit permission
+	 * (Webdav PROPPATCH)
+	 *
+	 * @param int $permission edit permission
+	 *
+	 * @return self
+	 * @since 28.0.0
+	 */
+	public function setEditPermission(int $permission): self;
+
+	/**
+	 * get remote edit permission
+	 * (Webdav PROPPATCH)
+	 *
+	 * @return int edit permission
+	 * @since 28.0.0
+	 */
+	public function getEditPermission(): int;
 
 	/**
 	 * deserialize the object from a json

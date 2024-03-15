@@ -61,7 +61,8 @@ OC.L10N.register(
     "Your password will expire today." : "Tu contraseña caducará hoy.",
     "_Your password will expire within %n day._::_Your password will expire within %n days._" : ["Tu contraseña caducará dentro de %n día.","Tu contraseña caducará dentro de %n días.","Tu contraseña caducará dentro de %n días."],
     "LDAP/AD integration" : "Integración LDAP/AD",
-    "Invalid UUIDs of LDAP users or groups have been found. Please review your \"Override UUID detection\" settings in the Expert part of the LDAP configuration and use \"occ ldap:update-uuid\" to update them." : "Se han encontrado UUIDs no válidos de usuarios o grupos LDAP. Por favor, compruebe la configuración de \"Anular detección de UUID\" en la sección de Experto de la configuración LDAP y use \"occ ldap:update-uuid\" para actualizarlos.",
+    "Invalid LDAP UUIDs" : "UUIDs LDAP inválidas",
+    "None found" : "Ninguno encontrado",
     "_%n group found_::_%n groups found_" : ["%n grupo encontrado","%n grupos encontrados","%n grupos encontrados"],
     "> 1000 groups found" : "Se encontraron más de 1000 grupos",
     "> 1000 users found" : "Se encontraron más de 1000 usuarios",
@@ -215,6 +216,7 @@ OC.L10N.register(
     "Username-LDAP User Mapping" : "Asignación del Nombre de usuario de un usuario LDAP",
     "Usernames are used to store and assign metadata. In order to precisely identify and recognize users, each LDAP user will have an internal username. This requires a mapping from username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found. The internal username is used all over. Clearing the mappings will have leftovers everywhere. Clearing the mappings is not configuration sensitive, it affects all LDAP configurations! Never clear the mappings in a production environment, only in a testing or experimental stage." : "Los nombres de usuario se usan para almacenar y asignar metadatos. Para identificar y reconocer con precisión a los usuarios, cada usuario de LDAP tendrá un nombre de usuario interno. Esto requiere una asignación de nombre de usuario a usuario de LDAP. El nombre de usuario creado se asigna al UUID del usuario de LDAP. Además, el DN también se almacena en caché para reducir la interacción de LDAP, pero no se utiliza para la identificación. Si el DN cambia, se encontrarán los cambios. El nombre de usuario interno se usa en todas partes. Limpiar las asignaciones tendrá sobras en todas partes. ¡Borrar las asignaciones no es sensible a la configuración, afecta todas las configuraciones de LDAP! Nunca borre las asignaciones en un entorno de producción, solo en una etapa de prueba o experimental.",
     "Clear Username-LDAP User Mapping" : "Borrar la asignación de los Nombres de usuario de los usuarios LDAP",
-    "Clear Groupname-LDAP Group Mapping" : "Borrar la asignación de los Nombres de grupo de los grupos de LDAP"
+    "Clear Groupname-LDAP Group Mapping" : "Borrar la asignación de los Nombres de grupo de los grupos de LDAP",
+    "Invalid UUIDs of LDAP users or groups have been found. Please review your \"Override UUID detection\" settings in the Expert part of the LDAP configuration and use \"occ ldap:update-uuid\" to update them." : "Se han encontrado UUIDs no válidos de usuarios o grupos LDAP. Por favor, compruebe la configuración de \"Anular detección de UUID\" en la sección de Experto de la configuración LDAP y use \"occ ldap:update-uuid\" para actualizarlos."
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

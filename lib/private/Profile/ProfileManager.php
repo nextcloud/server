@@ -26,29 +26,29 @@ declare(strict_types=1);
 
 namespace OC\Profile;
 
-use OCP\Profile\IProfileManager;
-use function array_flip;
-use function usort;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\Core\Db\ProfileConfig;
 use OC\Core\Db\ProfileConfigMapper;
 use OC\KnownUser\KnownUserService;
 use OC\Profile\Actions\EmailAction;
+use OC\Profile\Actions\FediverseAction;
 use OC\Profile\Actions\PhoneAction;
 use OC\Profile\Actions\TwitterAction;
-use OC\Profile\Actions\FediverseAction;
 use OC\Profile\Actions\WebsiteAction;
 use OCP\Accounts\IAccountManager;
 use OCP\Accounts\PropertyDoesNotExistException;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Db\DoesNotExistException;
+use OCP\Cache\CappedMemoryCache;
 use OCP\IConfig;
 use OCP\IUser;
 use OCP\L10N\IFactory;
 use OCP\Profile\ILinkAction;
-use OCP\Cache\CappedMemoryCache;
+use OCP\Profile\IProfileManager;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
+use function array_flip;
+use function usort;
 
 class ProfileManager implements IProfileManager {
 	/** @var ILinkAction[] */

@@ -2,7 +2,7 @@ OC.L10N.register(
     "dav",
     {
     "Calendar" : "Kalender",
-    "To-dos" : "Opgaver",
+    "Tasks" : "Opgaver",
     "Personal" : "Personligt",
     "{actor} created calendar {calendar}" : "{actor} oprettede kalenderen {calendar}",
     "You created calendar {calendar}" : "Du oprettede kalenderen {calendar}",
@@ -93,7 +93,6 @@ OC.L10N.register(
     "Decline" : "Afvis",
     "More options …" : "Flere indstillinger…",
     "More options at %s" : "Flere muligheder på %s",
-    "In a meeting" : "I møde",
     "Contacts" : "Kontakter",
     "{actor} created address book {addressbook}" : "{actor} oprettede adressebog {addressbook}",
     "You created address book {addressbook}" : "Du oprettede adressebog {addressbook}",
@@ -144,7 +143,6 @@ OC.L10N.register(
     "Configures a CalDAV account" : "Konfigurerer en CalDAV-konto",
     "Configures a CardDAV account" : "Konfigurerer en CardDAV-konto",
     "Events" : "Begivenheder",
-    "Tasks" : "Opgaver",
     "Untitled task" : "Unavngivet opgave",
     "Completed on %s" : "Fuldført den %s",
     "Due on %s by %s" : "Forfalder på %s til %s",
@@ -172,7 +170,6 @@ OC.L10N.register(
     "Saved availability" : "Gemt tilgængelighed",
     "Failed to save availability" : "Kunne ikke gemme tilgængelighed",
     "Availability" : "tilgængelighed",
-    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Hvis du konfigurerer din arbejdstid, vil andre brugere se, når du er fraværende, når de booker et møde.",
     "Calendar server" : "Kalenderserver",
     "Send invitations to attendees" : "Send invitation til deltagere",
     "Automatically generate a birthday calendar" : "Generer en fødselsdagskalender automatisk",
@@ -190,6 +187,7 @@ OC.L10N.register(
     "Are you accepting the invitation?" : "Accepter du invitationen?",
     "Tentative" : "Foreløbig",
     "Your attendance was updated successfully." : "Dit tilstedeværelse blev opdateret.",
-    "%1$s has responded your invitation" : "%1$s har besvaret din invitation"
+    "To-dos" : "Opgaver",
+    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Hvis du konfigurerer din arbejdstid, vil andre brugere se, når du er fraværende, når de booker et møde."
 },
 "nplurals=2; plural=(n != 1);");

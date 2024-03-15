@@ -22,7 +22,7 @@
 <template>
 	<span class="files-list__row-icon">
 		<template v-if="source.type === 'folder'">
-			<FolderOpenIcon v-once v-if="dragover" />
+			<FolderOpenIcon v-if="dragover" v-once />
 			<template v-else>
 				<FolderIcon v-once />
 				<OverlayIcon :is="folderOverlay"
@@ -39,33 +39,32 @@
 			:class="{'files-list__row-icon-preview--loaded': backgroundFailed === false}"
 			loading="lazy"
 			:src="previewUrl"
-			@error="backgroundFailed = true"
+			@error="onBackgroundError"
 			@load="backgroundFailed = false">
 
-		<FileIcon v-once v-else />
+		<FileIcon v-else v-once />
 
 		<!-- Favorite icon -->
-		<span v-if="isFavorite"
-			class="files-list__row-icon-favorite"
-			:aria-label="t('files', 'Favorite')">
+		<span v-if="isFavorite" class="files-list__row-icon-favorite">
 			<FavoriteIcon v-once />
 		</span>
 
 		<OverlayIcon :is="fileOverlay"
 			v-if="fileOverlay"
-			class="files-list__row-icon-overlay" />
+			class="files-list__row-icon-overlay files-list__row-icon-overlay--file" />
 	</span>
 </template>
 
 <script lang="ts">
+import type { PropType } from 'vue'
 import type { UserConfig } from '../../types.ts'
 
-import { File, Folder, Node, FileType } from '@nextcloud/files'
+import { Node, FileType } from '@nextcloud/files'
 import { generateUrl } from '@nextcloud/router'
 import { translate as t } from '@nextcloud/l10n'
 import { Type as ShareType } from '@nextcloud/sharing'
-import Vue, { PropType } from 'vue'
 
+import Vue from 'vue'
 import AccountGroupIcon from 'vue-material-design-icons/AccountGroup.vue'
 import AccountPlusIcon from 'vue-material-design-icons/AccountPlus.vue'
 import FileIcon from 'vue-material-design-icons/File.vue'
@@ -78,6 +77,7 @@ import TagIcon from 'vue-material-design-icons/Tag.vue'
 import PlayCircleIcon from 'vue-material-design-icons/PlayCircle.vue'
 
 import { useUserConfigStore } from '../../store/userconfig.ts'
+import CollectivesIcon from './CollectivesIcon.vue'
 import FavoriteIcon from './FavoriteIcon.vue'
 import { isLivePhoto } from '../../services/LivePhotos'
 
@@ -87,6 +87,7 @@ export default Vue.extend({
 	components: {
 		AccountGroupIcon,
 		AccountPlusIcon,
+		CollectivesIcon,
 		FavoriteIcon,
 		FileIcon,
 		FolderIcon,
@@ -209,6 +210,8 @@ export default Vue.extend({
 				return NetworkIcon
 			case 'group':
 				return AccountGroupIcon
+			case 'collective':
+				return CollectivesIcon
 			}
 
 			return null
@@ -216,12 +219,21 @@ export default Vue.extend({
 	},
 
 	methods: {
+		// Called from FileEntry
 		reset() {
-			// Reset background state
+			// Reset background state to cancel any ongoing requests
 			this.backgroundFailed = undefined
 			if (this.$refs.previewImg) {
 				this.$refs.previewImg.src = ''
 			}
+		},
+
+		onBackgroundError(event) {
+			// Do not fail if we just reset the background
+			if (event.target?.src === '') {
+				return
+			}
+			this.backgroundFailed = true
 		},
 
 		t,

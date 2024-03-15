@@ -55,10 +55,10 @@ class Application {
 	private MemoryInfo $memoryInfo;
 
 	public function __construct(IConfig $config,
-								IEventDispatcher $dispatcher,
-								IRequest $request,
-								LoggerInterface $logger,
-								MemoryInfo $memoryInfo) {
+		IEventDispatcher $dispatcher,
+		IRequest $request,
+		LoggerInterface $logger,
+		MemoryInfo $memoryInfo) {
 		$defaults = \OC::$server->getThemingDefaults();
 		$this->config = $config;
 		$this->application = new SymfonyApplication($defaults->getName(), \OC_Util::getVersionString());
@@ -121,7 +121,14 @@ class Application {
 						// load commands using info.xml
 						$info = $appManager->getAppInfo($app);
 						if (isset($info['commands'])) {
-							$this->loadCommandsFromInfoXml($info['commands']);
+							try {
+								$this->loadCommandsFromInfoXml($info['commands']);
+							} catch (\Throwable $e) {
+								$output->writeln("<error>" . $e->getMessage() . "</error>");
+								$this->logger->error($e->getMessage(), [
+									'exception' => $e,
+								]);
+							}
 						}
 						// load from register_command.php
 						\OC_App::registerAutoloading($app, $appPath);

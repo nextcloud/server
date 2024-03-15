@@ -126,9 +126,6 @@ select {
 	text-align: center;
 	a:not(.link-button) {
 		text-decoration: underline;
-		&:hover {
-			background-color: var(--color-primary-element-hover);
-		}
 	}
 }
 
@@ -137,17 +134,17 @@ select {
 	margin: 16px;
 	padding: 14px 20px;
 	background-color: var(--color-primary-element);
-	color: #fff;
+	color: var(--color-primary-element-text);
 	border-radius: var(--border-radius-pill);
 	border: 1px solid var(--color-primary-element);
 	box-shadow: 0 2px 9px var(--color-box-shadow);
 
 	&:active,
 	&:hover,
-	&:focus {
-		color: var(--color-primary-element);
-		background-color: var(--color-primary-element-text);
-		border-color: var(--color-primary-element) !important;
+	&:focus,
+	&:focus-visible {
+		box-shadow: 0 0 0 4px var(--color-main-background) !important;
+		outline: 2px solid var(--color-main-text) !important;
 	}
 
 	&.icon-file {
@@ -597,42 +594,6 @@ span.version {
 	color: var(--color-text-maxcontrast);
 }
 
-.app-level {
-	span {
-		color: var(--color-text-maxcontrast);
-		background-color: transparent;
-		border: 1px solid var(--color-text-maxcontrast);
-		border-radius: var(--border-radius);
-		padding: 3px 6px;
-	}
-
-	a {
-		padding: 10px;
-		margin: -6px;
-		white-space: nowrap;
-	}
-
-	.official {
-		background-position: left center;
-		background-position: 5px center;
-		padding-left: 25px;
-	}
-
-	.supported {
-		border-color: var(--color-success);
-		background-position: left center;
-		background-position: 5px center;
-		padding-left: 25px;
-		color: var(--color-success);
-	}
-}
-
-.app-score {
-	position: relative;
-	top: 4px;
-	opacity: .5;
-}
-
 .app-settings-content {
 	#searchresults {
 		display: none;
@@ -650,14 +611,6 @@ span.version {
 		margin: 5px 0;
 	}
 
-	.app-name, .app-image * {
-		cursor: pointer;
-	}
-
-	.app-summary {
-		opacity: .7;
-	}
-
 	.app-image-icon .icon-settings-dark {
 		width: 100%;
 		height: 150px;
@@ -671,6 +624,10 @@ span.version {
 
 	.actions {
 		margin-top: 10px;
+
+		button {
+			margin: 10px 0;
+		}
 	}
 }
 
@@ -683,20 +640,6 @@ span.version {
 			height: 16px;
 			margin-right: 10px;
 			opacity: .7;
-		}
-	}
-
-	.app-level {
-		clear: right;
-		width: 100%;
-
-		.supported,
-		.official {
-			vertical-align: top;
-		}
-
-		.app-score-image {
-			float: right;
 		}
 	}
 
@@ -880,10 +823,6 @@ span.version {
 .apps-list {
 	$toolbar-padding: 8px;
 	$toolbar-height: 44px + $toolbar-padding * 2;
-
-	.section {
-		cursor: pointer;
-	}
 
 	.app-list-move {
 		transition: transform 1s;

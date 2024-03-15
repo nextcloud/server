@@ -20,11 +20,11 @@
  *
  */
 
-import { parseXML, type DAVResult, type FileStat } from 'webdav'
+import { parseXML, type DAVResult, type FileStat, type ResponseDataDetailed } from 'webdav'
 
 // https://github.com/perry-mitchell/webdav-client/issues/339
-import { processResponsePayload } from '../../../../node_modules/webdav/dist/node/response.js'
-import { prepareFileFromProps } from '../../../../node_modules/webdav/dist/node/tools/dav.js'
+import { processResponsePayload } from 'webdav/dist/node/response.js'
+import { prepareFileFromProps } from 'webdav/dist/node/tools/dav.js'
 import client from './DavClient.js'
 
 export const DEFAULT_LIMIT = 20
@@ -33,16 +33,18 @@ export const DEFAULT_LIMIT = 20
  * Retrieve the comments list
  *
  * @param {object} data destructuring object
- * @param {string} data.commentsType the ressource type
- * @param {number} data.ressourceId the ressource ID
+ * @param {string} data.resourceType the resource type
+ * @param {number} data.resourceId the resource ID
  * @param {object} [options] optional options for axios
  * @param {number} [options.offset] the pagination offset
- * @return {object[]} the comments list
+ * @param {number} [options.limit] the pagination limit, defaults to 20
+ * @param {Date} [options.datetime] optional date to query
+ * @return {{data: object[]}} the comments list
  */
-export const getComments = async function({ commentsType, ressourceId }, options: { offset: number }) {
-	const ressourcePath = ['', commentsType, ressourceId].join('/')
-
-	const response = await client.customRequest(ressourcePath, Object.assign({
+export const getComments = async function({ resourceType, resourceId }, options: { offset: number, limit?: number, datetime?: Date }) {
+	const resourcePath = ['', resourceType, resourceId].join('/')
+	const datetime = options.datetime ? `<oc:datetime>${options.datetime.toISOString()}</oc:datetime>` : ''
+	const response = await client.customRequest(resourcePath, Object.assign({
 		method: 'REPORT',
 		data: `<?xml version="1.0"?>
 			<oc:filter-comments
@@ -50,15 +52,16 @@ export const getComments = async function({ commentsType, ressourceId }, options
 				xmlns:oc="http://owncloud.org/ns"
 				xmlns:nc="http://nextcloud.org/ns"
 				xmlns:ocs="http://open-collaboration-services.org/ns">
-				<oc:limit>${DEFAULT_LIMIT}</oc:limit>
+				<oc:limit>${options.limit ?? DEFAULT_LIMIT}</oc:limit>
 				<oc:offset>${options.offset || 0}</oc:offset>
+				${datetime}
 			</oc:filter-comments>`,
 	}, options))
 
 	const responseData = await response.text()
 	const result = await parseXML(responseData)
 	const stat = getDirectoryFiles(result, true)
-	return processResponsePayload(response, stat, true)
+	return processResponsePayload(response, stat, true) as ResponseDataDetailed<FileStat[]>
 }
 
 // https://github.com/perry-mitchell/webdav-client/blob/8d9694613c978ce7404e26a401c39a41f125f87f/source/operations/directoryContents.ts
@@ -74,10 +77,8 @@ const getDirectoryFiles = function(
 	// Map all items to a consistent output structure (results)
 	return responseItems.map(item => {
 		// Each item should contain a stat object
-		const {
-			propstat: { prop: props },
-		} = item
+		const props = item.propstat!.prop!;
 
-		return prepareFileFromProps(props, props.id.toString(), isDetailed)
+		return prepareFileFromProps(props, props.id!.toString(), isDetailed)
 	})
 }

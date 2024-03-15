@@ -26,8 +26,8 @@ declare(strict_types=1);
  */
 namespace OC\Avatar;
 
-use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\SimpleFS\InMemoryFile;
+use OCP\Files\SimpleFS\ISimpleFile;
 use Psr\Log\LoggerInterface;
 
 /**

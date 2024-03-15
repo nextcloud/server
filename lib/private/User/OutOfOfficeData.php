@@ -60,4 +60,15 @@ class OutOfOfficeData implements IOutOfOfficeData {
 	public function getMessage(): string {
 		return $this->message;
 	}
+
+	public function jsonSerialize(): array {
+		return [
+			'id' => $this->getId(),
+			'userId' => $this->getUser()->getUID(),
+			'startDate' => $this->getStartDate(),
+			'endDate' => $this->getEndDate(),
+			'shortMessage' => $this->getShortMessage(),
+			'message' => $this->getMessage(),
+		];
+	}
 }

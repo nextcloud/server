@@ -26,7 +26,6 @@ declare(strict_types=1);
 
 namespace OCA\UserStatus\Db;
 
-use Sabre\CalDAV\Schedule\Plugin;
 use OCP\AppFramework\Db\QBMapper;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
@@ -103,7 +102,7 @@ class UserStatusMapper extends QBMapper {
 	 * @return UserStatus
 	 * @throws \OCP\AppFramework\Db\DoesNotExistException
 	 */
-	public function findByUserId(string $userId, bool $isBackup = false):UserStatus {
+	public function findByUserId(string $userId, bool $isBackup = false): UserStatus {
 		$qb = $this->db->getQueryBuilder();
 		$qb
 			->select('*')
@@ -210,24 +209,5 @@ class UserStatusMapper extends QBMapper {
 			->where($qb->expr()->in('id', $qb->createNamedParameter($ids, IQueryBuilder::PARAM_INT_ARRAY)));
 
 		$qb->executeStatement();
-	}
-
-	public function getAvailabilityFromPropertiesTable(string $userId): ?string {
-		$propertyPath = 'calendars/' . $userId . '/inbox';
-		$propertyName = '{' . Plugin::NS_CALDAV . '}calendar-availability';
-
-		$query = $this->db->getQueryBuilder();
-		$query->select('propertyvalue')
-			->from('properties')
-			->where($query->expr()->eq('userid', $query->createNamedParameter($userId)))
-			->andWhere($query->expr()->eq('propertypath', $query->createNamedParameter($propertyPath)))
-			->andWhere($query->expr()->eq('propertyname', $query->createNamedParameter($propertyName)))
-			->setMaxResults(1);
-
-		$result = $query->executeQuery();
-		$property = $result->fetchOne();
-		$result->closeCursor();
-
-		return ($property === false ? null : $property);
 	}
 }

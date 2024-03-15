@@ -5,7 +5,7 @@ script('core', 'install');
 <input type='hidden' id='hasSQLite' value='<?php p($_['hasSQLite']) ?>'>
 <input type='hidden' id='hasPostgreSQL' value='<?php p($_['hasPostgreSQL']) ?>'>
 <input type='hidden' id='hasOracle' value='<?php p($_['hasOracle']) ?>'>
-<form action="index.php" method="post" class="guest-box install-form">
+<form method="post" class="guest-box install-form">
 <input type="hidden" name="install" value="true">
 	<?php if (count($_['errors']) > 0): ?>
 	<fieldset class="warning">
@@ -35,7 +35,7 @@ script('core', 'install');
 	<fieldset id="adminaccount">
 		<legend><?php print_unescaped($l->t('Create an <strong>admin account</strong>')); ?></legend>
 		<p>
-			<label for="adminlogin"><?php p($l->t('Username')); ?></label>
+			<label for="adminlogin"><?php p($l->t('Login')); ?></label>
 			<input type="text" name="adminlogin" id="adminlogin"
 				value="<?php p($_['adminlogin']); ?>"
 				autocomplete="off" autocapitalize="none" spellcheck="false" autofocus required>
@@ -100,7 +100,7 @@ script('core', 'install');
 		<fieldset id='databaseField'>
 		<div id="use_other_db">
 			<p class="grouptop">
-				<label for="dbuser"><?php p($l->t('Database user')); ?></label>
+				<label for="dbuser"><?php p($l->t('Database account')); ?></label>
 				<input type="text" name="dbuser" id="dbuser"
 					value="<?php p($_['dbuser']); ?>"
 					autocomplete="off" autocapitalize="none" spellcheck="false">

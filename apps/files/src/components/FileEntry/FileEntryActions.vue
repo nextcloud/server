@@ -35,8 +35,8 @@
 		<NcActions ref="actionsMenu"
 			:boundaries-element="getBoundariesElement"
 			:container="getBoundariesElement"
-			:disabled="isLoading || loading !== ''"
 			:force-name="true"
+			type="tertiary"
 			:force-menu="enabledInlineActions.length === 0 /* forceMenu only if no inline actions */"
 			:inline="enabledInlineActions.length"
 			:open.sync="openedMenu"
@@ -44,6 +44,7 @@
 			<!-- Default actions list-->
 			<NcActionButton v-for="action in enabledMenuActions"
 				:key="action.id"
+				:ref="`action-${action.id}`"
 				:class="{
 					[`files-list__row-action-${action.id}`]: true,
 					[`files-list__row-action--menu`]: isMenu(action.id)
@@ -57,13 +58,13 @@
 					<NcLoadingIcon v-if="loading === action.id" :size="18" />
 					<NcIconSvgWrapper v-else :svg="action.iconSvgInline([source], currentView)" />
 				</template>
-				{{ actionDisplayName(action) }}
+				{{ mountType === 'shared' && action.id === 'sharing-status' ? '' : actionDisplayName(action) }}
 			</NcActionButton>
 
 			<!-- Submenu actions list-->
 			<template v-if="openedSubmenu && enabledSubmenuActions[openedSubmenu?.id]">
 				<!-- Back to top-level button -->
-				<NcActionButton class="files-list__row-action-back" @click="openedSubmenu = null">
+				<NcActionButton class="files-list__row-action-back" @click="onBackToMenuClick(openedSubmenu)">
 					<template #icon>
 						<ArrowLeftIcon />
 					</template>
@@ -76,7 +77,7 @@
 					:key="action.id"
 					:class="`files-list__row-action-${action.id}`"
 					class="files-list__row-action--submenu"
-					:close-after-click="false /* never close submenu, just go back */"
+					close-after-click
 					:data-cy-files-list-row-action="action.id"
 					:title="action.title?.([source], currentView)"
 					@click="onActionClick(action)">
@@ -92,18 +93,20 @@
 </template>
 
 <script lang="ts">
+import type { PropType } from 'vue'
+
 import { DefaultType, FileAction, Node, NodeStatus, View, getFileActions } from '@nextcloud/files'
 import { showError, showSuccess } from '@nextcloud/dialogs'
-import { translate as t } from '@nextcloud/l10n';
-import Vue, { PropType } from 'vue'
+import { translate as t } from '@nextcloud/l10n'
 
-import ArrowLeftIcon from 'vue-material-design-icons/ArrowLeft.vue'
-import ChevronRightIcon from 'vue-material-design-icons/ChevronRight.vue'
 import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
 import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
 import NcActionSeparator from '@nextcloud/vue/dist/Components/NcActionSeparator.js'
 import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
 import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
+import ArrowLeftIcon from 'vue-material-design-icons/ArrowLeft.vue'
+import ChevronRightIcon from 'vue-material-design-icons/ChevronRight.vue'
+import Vue from 'vue'
 
 import CustomElementRender from '../CustomElementRender.vue'
 import logger from '../../logger.js'
@@ -250,7 +253,11 @@ export default Vue.extend({
 		 * sure there is one at the time we call it.
 		 */
 		getBoundariesElement() {
-			return document.querySelector('.app-content > table.files-list')
+			return document.querySelector('.app-content > .files-list')
+		},
+
+		mountType() {
+			return this.source._attributes['mount-type']
 		},
 	},
 
@@ -266,6 +273,11 @@ export default Vue.extend({
 		},
 
 		async onActionClick(action, isSubmenu = false) {
+			// Skip click on loading
+			if (this.isLoading || this.loading !== '') {
+				return
+			}
+
 			// If the action is a submenu, we open it
 			if (this.enabledSubmenuActions[action.id]) {
 				this.openedSubmenu = action
@@ -281,7 +293,7 @@ export default Vue.extend({
 				const success = await action.exec(this.source, this.currentView, this.currentDir)
 
 				// If the action returns null, we stay silent
-				if (success === null) {
+				if (success === null || success === undefined) {
 					return
 				}
 
@@ -317,7 +329,51 @@ export default Vue.extend({
 			return this.enabledSubmenuActions[id]?.length > 0
 		},
 
+		async onBackToMenuClick(action: FileAction) {
+			this.openedSubmenu = null
+			// Wait for first render
+			await this.$nextTick()
+
+			// Focus the previous menu action button
+			this.$nextTick(() => {
+				// Focus the action button
+				const menuAction = this.$refs[`action-${action.id}`][0]
+				if (menuAction) {
+					menuAction.$el.querySelector('button')?.focus()
+				}
+			})
+		},
+
 		t,
 	},
 })
 </script>
+
+<style lang="scss">
+// Allow right click to define the position of the menu
+// only if defined
+main.app-content[style*="mouse-pos-x"] .v-popper__popper {
+	transform: translate3d(var(--mouse-pos-x), var(--mouse-pos-y), 0px) !important;
+
+	// If the menu is too close to the bottom, we move it up
+	&[data-popper-placement="top"] {
+		// 34px added to align with the top of the cursor
+		transform: translate3d(var(--mouse-pos-x), calc(var(--mouse-pos-y) - 50vh + 34px), 0px) !important;
+	}
+	// Hide arrow if floating
+	.v-popper__arrow-container {
+		display: none;
+	}
+}
+</style>
+
+<style lang="scss" scoped>
+:deep(.button-vue--icon-and-text, .files-list__row-action-sharing-status) {
+	.button-vue__text {
+		color: var(--color-primary-element);
+	}
+	.button-vue__icon {
+		color: var(--color-primary-element);
+	}
+}
+</style>

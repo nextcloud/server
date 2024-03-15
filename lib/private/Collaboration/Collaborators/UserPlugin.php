@@ -67,6 +67,7 @@ class UserPlugin implements ISearchPlugin {
 		private IUserSession $userSession,
 		private KnownUserService $knownUserService,
 		private IUserStatusManager $userStatusManager,
+		private mixed $shareWithGroupOnlyExcludeGroupsList = [],
 	) {
 		$this->shareWithGroupOnly = $this->config->getAppValue('core', 'shareapi_only_share_with_group_members', 'no') === 'yes';
 		$this->shareeEnumeration = $this->config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') === 'yes';
@@ -76,6 +77,10 @@ class UserPlugin implements ISearchPlugin {
 		$this->shareeEnumerationFullMatchUserId = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match_userid', 'yes') === 'yes';
 		$this->shareeEnumerationFullMatchEmail = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match_email', 'yes') === 'yes';
 		$this->shareeEnumerationFullMatchIgnoreSecondDisplayName = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match_ignore_second_dn', 'no') === 'yes';
+
+		if ($this->shareWithGroupOnly) {
+			$this->shareWithGroupOnlyExcludeGroupsList = json_decode($this->config->getAppValue('core', 'shareapi_only_share_with_group_members_exclude_group_list', ''), true) ?? [];
+		}
 	}
 
 	public function search($search, $limit, $offset, ISearchResult $searchResult): bool {
@@ -85,6 +90,10 @@ class UserPlugin implements ISearchPlugin {
 
 		$currentUserId = $this->userSession->getUser()->getUID();
 		$currentUserGroups = $this->groupManager->getUserGroupIds($this->userSession->getUser());
+
+		// ShareWithGroupOnly filtering
+		$currentUserGroups = array_diff($currentUserGroups, $this->shareWithGroupOnlyExcludeGroupsList);
+
 		if ($this->shareWithGroupOnly || $this->shareeEnumerationInGroupOnly) {
 			// Search in all the groups this user is part of
 			foreach ($currentUserGroups as $userGroupId) {

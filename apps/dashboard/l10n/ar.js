@@ -3,7 +3,7 @@ OC.L10N.register(
     {
     "Dashboard" : "الرئيسية",
     "Dashboard app" : "تطبيق الصفحة الرئيسية",
-    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! Users can add the widgets they like and change the background to their liking." : "إبدأ يومك بالاطلاع على ما يهمّك\n\nلوحة قيادة نكست كلاود هي نقطة البداية ليومك؛\nتعطيك لمحة عن مواعيدك القادمة و الرسائل المستعجلة و المحادثات الواردة و تذاكر طلب المساعدة المعلقة و آخر التغريدات و الكثير غيرها!\nيمكنك أن تضيف أدوات أخرى ترغبها\nكما يمكنك تغيير مظهر و خلفية اللوحة كما تريد. ",
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! People can add the widgets they like and change the background to their liking." : "ابدأ يومك على اطِّلاع. \n\nتُعدُّ لوحة المعلومات dashboard في نكست كلاود هي نقطة البداية لليوم. إذ هي تُوفِّر لك نظرة عامة على مواعيدك القادمة و رسائل بريدك العاجلة و رسائل الدردشة و التذاكر الواردة و أحدث التغريدات و غير ذلك الكثير! يُمكِن للمستخدِم إضافة الأدوات التي يحبها و تغيير الخلفية حسب رغبته.",
     "\"{title} icon\"" : "\"{title} أيقونة\"",
     "Customize" : "تعديل",
     "Edit widgets" : "تعديل الودجات",
@@ -23,6 +23,7 @@ OC.L10N.register(
     "Good evening, {name}" : "مساء الخير، {name}",
     "Hello" : "مرحبا",
     "Hello, {name}" : "مرحبا، {name} ",
-    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an\noverview of your upcoming appointments, urgent emails, chat messages,\nincoming tickets, latest tweets and much more! Users can add the widgets\nthey like and change the background to their liking." : "إبدأ يومك بالاطلاع على ما يهمّك\n\nلوحة قيادة نكست كلاود هي نقطة البداية ليومك؛\nتعطيك لمحة عن مواعيدك القادمة و الرسائل المستعجلة و المحادثات الواردة و تذاكر طلب المساعدة المعلقة و آخر التغريدات و الكثير غيرها!\nيمكنك أن تضيف أدوات أخرى ترغبها\nكما يمكنك تغيير مظهر و خلفية اللوحة كما تريد. "
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an\noverview of your upcoming appointments, urgent emails, chat messages,\nincoming tickets, latest tweets and much more! Users can add the widgets\nthey like and change the background to their liking." : "إبدأ يومك بالاطلاع على ما يهمّك\n\nلوحة قيادة نكست كلاود هي نقطة البداية ليومك؛\nتعطيك لمحة عن مواعيدك القادمة و الرسائل المستعجلة و المحادثات الواردة و تذاكر طلب المساعدة المعلقة و آخر التغريدات و الكثير غيرها!\nيمكنك أن تضيف أدوات أخرى ترغبها\nكما يمكنك تغيير مظهر و خلفية اللوحة كما تريد. ",
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! Users can add the widgets they like and change the background to their liking." : "إبدأ يومك بالاطلاع على ما يهمّك\n\nلوحة قيادة نكست كلاود هي نقطة البداية ليومك؛\nتعطيك لمحة عن مواعيدك القادمة و الرسائل المستعجلة و المحادثات الواردة و تذاكر طلب المساعدة المعلقة و آخر التغريدات و الكثير غيرها!\nيمكنك أن تضيف أدوات أخرى ترغبها\nكما يمكنك تغيير مظهر و خلفية اللوحة كما تريد. "
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

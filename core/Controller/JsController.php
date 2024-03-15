@@ -34,7 +34,8 @@ namespace OC\Core\Controller;
 use OC\Files\AppData\Factory;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
-use OCP\AppFramework\Http\Attribute\IgnoreOpenAPI;
+use OCP\AppFramework\Http\Attribute\FrontpageRoute;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Http\Response;
@@ -45,7 +46,7 @@ use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\IRequest;
 
-#[IgnoreOpenAPI]
+#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class JsController extends Controller {
 	protected IAppData $appData;
 
@@ -69,6 +70,7 @@ class JsController extends Controller {
 	 * @param string $appName js folder name
 	 * @return FileDisplayResponse|NotFoundResponse
 	 */
+	#[FrontpageRoute(verb: 'GET', url: '/js/{appName}/{fileName}')]
 	public function getJs(string $fileName, string $appName): Response {
 		try {
 			$folder = $this->appData->getFolder($appName);

@@ -32,16 +32,19 @@ use OCP\EventDispatcher\Event;
  */
 class ManagerEvent extends Event {
 	/**
+	 * @since 9.0.0
 	 * @deprecated 22.0.0
 	 */
 	public const EVENT_APP_ENABLE = 'OCP\App\IAppManager::enableApp';
 
 	/**
+	 * @since 9.0.0
 	 * @deprecated 22.0.0
 	 */
 	public const EVENT_APP_ENABLE_FOR_GROUPS = 'OCP\App\IAppManager::enableAppForGroups';
 
 	/**
+	 * @since 9.0.0
 	 * @deprecated 22.0.0
 	 */
 	public const EVENT_APP_DISABLE = 'OCP\App\IAppManager::disableApp';

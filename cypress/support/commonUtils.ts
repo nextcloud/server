@@ -35,3 +35,25 @@ export function clearState() {
 		users.forEach((userID) => cy.runOccCommand(`user:delete '${userID}'`))
 	})
 }
+
+/**
+ * Install the test app
+ */
+export function installTestApp() {
+	const testAppPath = 'cypress/fixtures/testapp'
+	cy.runOccCommand('-V').then((output) => {
+		const version = output.stdout.match(/(\d\d+)\.\d+\.\d+/)?.[1]
+		cy.wrap(version).should('not.be.undefined')
+		cy.exec(`docker cp '${testAppPath}' nextcloud-cypress-tests-server:/var/www/html/apps`, { log: true })
+		cy.exec(`docker exec nextcloud-cypress-tests-server sed -i -e 's|-version="[0-9]\\+|-version="${version}|g' apps/testapp/appinfo/info.xml`)
+		cy.runOccCommand('app:enable --force testapp')
+	})
+}
+
+/**
+ * Remove the test app
+ */
+export function uninstallTestApp() {
+	cy.runOccCommand('app:remove testapp', { failOnNonZeroExit: false })
+	cy.exec('docker exec nextcloud-cypress-tests-server rm -fr apps/testapp/appinfo/info.xml')
+}

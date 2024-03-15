@@ -217,6 +217,7 @@ class ContactsStoreTest extends TestCase {
 				['core', 'shareapi_exclude_groups', 'no', 'yes'],
 				['core', 'shareapi_only_share_with_group_members', 'no', 'yes'],
 				['core', 'shareapi_exclude_groups_list', '', '["group1", "group5", "group6"]'],
+				['core', 'shareapi_only_share_with_group_members_exclude_group_list', '', '[]'],
 			]);
 
 		/** @var IUser|MockObject $currentUser */
@@ -260,6 +261,7 @@ class ContactsStoreTest extends TestCase {
 				['core', 'shareapi_restrict_user_enumeration_to_phone', 'no', 'no'],
 				['core', 'shareapi_exclude_groups', 'no', 'no'],
 				['core', 'shareapi_only_share_with_group_members', 'no', 'yes'],
+				['core', 'shareapi_only_share_with_group_members_exclude_group_list', '', '[]'],
 			]);
 
 		/** @var IUser|MockObject $currentUser */
@@ -334,6 +336,7 @@ class ContactsStoreTest extends TestCase {
 				['core', 'shareapi_restrict_user_enumeration_to_phone', 'no', 'no'],
 				['core', 'shareapi_exclude_groups', 'no', 'no'],
 				['core', 'shareapi_only_share_with_group_members', 'no', 'yes'],
+				['core', 'shareapi_only_share_with_group_members_exclude_group_list', '', '[]'],
 			]);
 
 		/** @var IUser|MockObject $currentUser */
@@ -466,6 +469,7 @@ class ContactsStoreTest extends TestCase {
 				['core', 'shareapi_restrict_user_enumeration_to_phone', 'no', 'yes'],
 				['core', 'shareapi_exclude_groups', 'no', 'no'],
 				['core', 'shareapi_only_share_with_group_members', 'no', 'yes'],
+				['core', 'shareapi_only_share_with_group_members_exclude_group_list', '', '[]'],
 			]);
 
 		/** @var IUser|MockObject $currentUser */
@@ -619,6 +623,7 @@ class ContactsStoreTest extends TestCase {
 				['core', 'shareapi_restrict_user_enumeration_to_phone', 'no', 'yes'],
 				['core', 'shareapi_exclude_groups', 'no', 'no'],
 				['core', 'shareapi_only_share_with_group_members', 'no', 'yes'],
+				['core', 'shareapi_only_share_with_group_members_exclude_group_list', '', '[]'],
 			]);
 
 		/** @var IUser|MockObject $currentUser */

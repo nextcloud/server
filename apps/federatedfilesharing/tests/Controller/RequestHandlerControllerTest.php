@@ -29,12 +29,12 @@ namespace OCA\FederatedFileSharing\Tests;
 
 use OCA\FederatedFileSharing\Controller\RequestHandlerController;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\ICloudFederationFactory;
 use OCP\Federation\ICloudFederationProvider;
 use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Federation\ICloudFederationShare;
 use OCP\Federation\ICloudIdManager;
-use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IDBConnection;
 use OCP\IRequest;
 use OCP\IUserManager;
@@ -153,17 +153,17 @@ class RequestHandlerControllerTest extends \Test\TestCase {
 	public function testCreateShare() {
 		$this->cloudFederationFactory->expects($this->once())->method('getCloudFederationShare')
 			->with(
-					$this->user2,
-					'name',
-					'',
-					1,
-					$this->ownerCloudId,
-					$this->owner,
-					$this->user1CloudId,
-					$this->user1,
-					'token',
-					'user',
-					'file'
+				$this->user2,
+				'name',
+				'',
+				1,
+				$this->ownerCloudId,
+				$this->owner,
+				$this->user1CloudId,
+				$this->user1,
+				'token',
+				'user',
+				'file'
 			)->willReturn($this->cloudFederationShare);
 
 		/** @var ICloudFederationProvider|\PHPUnit\Framework\MockObject\MockObject $provider */

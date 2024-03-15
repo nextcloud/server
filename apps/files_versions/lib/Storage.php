@@ -40,12 +40,12 @@
 
 namespace OCA\Files_Versions;
 
+use OC\Files\Filesystem;
 use OC\Files\Search\SearchBinaryOperator;
 use OC\Files\Search\SearchComparison;
 use OC\Files\Search\SearchQuery;
-use OC_User;
-use OC\Files\Filesystem;
 use OC\Files\View;
+use OC_User;
 use OCA\Files_Sharing\SharedMount;
 use OCA\Files_Versions\AppInfo\Application;
 use OCA\Files_Versions\Command\Expire;
@@ -53,16 +53,17 @@ use OCA\Files_Versions\Db\VersionsMapper;
 use OCA\Files_Versions\Events\CreateVersionEvent;
 use OCA\Files_Versions\Versions\IVersionManager;
 use OCP\AppFramework\Db\DoesNotExistException;
-use OCP\Files\FileInfo;
-use OCP\Files\Folder;
-use OCP\Files\IRootFolder;
-use OCP\Files\Node;
 use OCP\Command\IBus;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\FileInfo;
+use OCP\Files\Folder;
 use OCP\Files\IMimeTypeDetector;
+use OCP\Files\IRootFolder;
+use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\Files\Search\ISearchBinaryOperator;
 use OCP\Files\Search\ISearchComparison;
+use OCP\Files\StorageInvalidException;
 use OCP\Files\StorageNotAvailableException;
 use OCP\IURLGenerator;
 use OCP\IUser;
@@ -208,9 +209,9 @@ class Storage {
 		$mount = $file->getMountPoint();
 		if ($mount instanceof SharedMount) {
 			$ownerFolder = $rootFolder->getUserFolder($mount->getShare()->getShareOwner());
-			$ownerNodes = $ownerFolder->getById($file->getId());
-			if (count($ownerNodes)) {
-				$file = current($ownerNodes);
+			$ownerNode = $ownerFolder->getFirstNodeById($file->getId());
+			if ($ownerNode) {
+				$file = $ownerNode;
 				$uid = $mount->getShare()->getShareOwner();
 			}
 		}
@@ -597,12 +598,16 @@ class Storage {
 				$versionEntity = $versionsMapper->findVersionForFileId($node->getId(), $version);
 				$versionEntities[$info->getId()] = $versionEntity;
 
-				if ($versionEntity->getLabel() !== '') {
+				if ($versionEntity->getMetadataValue('label') !== null && $versionEntity->getMetadataValue('label') !== '') {
 					return false;
 				}
 			} catch (NotFoundException $e) {
 				// Original node not found, delete the version
 				return true;
+			} catch (StorageNotAvailableException | StorageInvalidException $e) {
+				// Storage can't be used, but it might only be temporary so we can't always delete the version
+				// since we can't determine if the version is named we take the safe route and don't expire
+				return false;
 			} catch (DoesNotExistException $ex) {
 				// Version on FS can have no equivalent in the DB if they were created before the version naming feature.
 				// So we ignore DoesNotExistException.
@@ -924,7 +929,7 @@ class Storage {
 					$pathparts = pathinfo($path);
 					$timestamp = (int)substr($pathparts['extension'] ?? '', 1);
 					$versionEntity = $versionsMapper->findVersionForFileId($file->getId(), $timestamp);
-					if ($versionEntity->getLabel() !== '') {
+					if ($versionEntity->getMetadataValue('label') !== '') {
 						continue;
 					}
 					$versionsMapper->delete($versionEntity);

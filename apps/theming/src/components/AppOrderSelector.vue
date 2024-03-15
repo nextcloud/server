@@ -25,9 +25,11 @@
 </template>
 
 <script lang="ts">
+import type { PropType } from 'vue'
+
 import { translate as t } from '@nextcloud/l10n'
 import { useSortable } from '@vueuse/integrations/useSortable'
-import { PropType, computed, defineComponent, onUpdated, ref } from 'vue'
+import { computed, defineComponent, onUpdated, ref } from 'vue'
 import { Fragment } from 'vue-frag'
 
 import AppOrderSelectorElement from './AppOrderSelectorElement.vue'
@@ -37,8 +39,7 @@ export interface IApp {
 	icon: string // path to the icon svg
 	label: string // display name
 	default?: boolean // force app as default app
-	app: string
-	key: number
+	app?: string
 }
 
 export default defineComponent({

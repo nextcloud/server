@@ -81,25 +81,9 @@
     "Select background" : "Избери позадина",
     "No background has been selected" : "Нема избрано позадина",
     "Theme selection is enforced" : "Наметнат е избор на тема",
-    "Select a custom color" : "Избери боја",
     "Reset to default" : "Ресетирај на стандардно",
     "Upload" : "Прикачи",
     "Remove background image" : "Избриши ја позадинската слика",
-    "Loading preview…" : "Се вчитува прегледот...",
-    "Admin" : "Администратор",
-    "Error uploading the file" : "Грешка при прикачување на датотеката",
-    "Name cannot be empty" : "Името неможе да биде празно",
-    "Migrate and clean up admin theming images" : "Мигрирај и исчисти ги сликите со теми од администраторот",
-    "In some cases keyboard shortcuts can interfer with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps." : "Во некои случаи, кратенките на тастатурата може да се мешаат со алатките за пристапност. За да овозможите правилно фокусирање на вашата алатка, можете да ги оневозможите сите кратенки на тастатурата овде. Ова исто така ќе ги оневозможи сите достапни кратенки во апликациите.",
-    "Pick from Files" : "Избери од датотеките",
-    "Default image" : "Стандардна слика",
-    "Custom color" : "Прилагодена боја",
-    "Plain background" : "Обична позадина",
-    "Insert from {productName}" : "Вметнни од {productName}",
-    "Open documentation" : "Отвори ја документацијата",
-    "https://…" : "https://…",
-    "Upload new login background" : "Прикачи нова слика за позадина на најавната страница",
-    "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can check this box." : "Иако можете да изберете и да ја прилагодите вашата истанца, корисниците можат да ја менуваат нивната позадина и бои. Ако сакате да го наметнете вашето прилагодување, можете да го штиклирате ова поле.",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Инсталирај Imagemagick додаток за PHP со што ќе се овозможи поддршка за SVG сликите автоматски да генерираат Фавикон базирано на прикаченото лого и боја."
+    "Select a custom color" : "Избери боја"
 },"pluralForm" :"nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;"
 }

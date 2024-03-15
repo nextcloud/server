@@ -45,7 +45,7 @@ interface IManager {
 
 	/**
 	 * @since 28.0.0
-	 * @return IProvider[]
+	 * @return list<IProvider>
 	 */
 	public function getProviders(): array;
 

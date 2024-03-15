@@ -39,22 +39,19 @@
  */
 namespace OCA\Files_External\Lib\Storage;
 
-use Aws\Result;
 use Aws\S3\Exception\S3Exception;
-use Aws\S3\S3Client;
 use Icewind\Streams\CallbackWrapper;
 use Icewind\Streams\IteratorDirectory;
-use OCP\Cache\CappedMemoryCache;
 use OC\Files\Cache\CacheEntry;
 use OC\Files\ObjectStore\S3ConnectionTrait;
 use OC\Files\ObjectStore\S3ObjectTrait;
+use OCP\Cache\CappedMemoryCache;
 use OCP\Constants;
 use OCP\Files\FileInfo;
 use OCP\Files\IMimeTypeDetector;
-use OCP\ICacheFactory;
-use OCP\IMemcache;
-use OCP\Server;
 use OCP\ICache;
+use OCP\ICacheFactory;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 class AmazonS3 extends \OC\Files\Storage\Common {

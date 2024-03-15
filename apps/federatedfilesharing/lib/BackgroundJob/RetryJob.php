@@ -50,7 +50,7 @@ class RetryJob extends Job {
 	private int $interval = 600;
 
 	public function __construct(Notifications $notifications,
-								ITimeFactory $time) {
+		ITimeFactory $time) {
 		parent::__construct($time);
 		$this->notifications = $notifications;
 	}

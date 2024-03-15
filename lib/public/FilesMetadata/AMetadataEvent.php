@@ -39,8 +39,8 @@ abstract class AMetadataEvent extends Event {
 	 * @since 28.0.0
 	 */
 	public function __construct(
-		private Node $node,
-		private IFilesMetadata $metadata
+		protected Node $node,
+		protected IFilesMetadata $metadata
 	) {
 		parent::__construct();
 	}

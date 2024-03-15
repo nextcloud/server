@@ -25,28 +25,34 @@
 		<button v-if="!inline"
 			class="user-status-menu-item"
 			@click.stop="openModal">
-			<span aria-hidden="true" :class="statusIcon" class="user-status-icon" />
+			<NcUserStatusIcon class="user-status-icon"
+				:status="statusType"
+				aria-hidden="true" />
 			{{ visibleMessage }}
 		</button>
 
 		<!-- Dashboard Status -->
 		<NcButton v-else
-			:icon="statusIcon"
 			@click.stop="openModal">
 			<template #icon>
-				<span aria-hidden="true" :class="statusIcon" class="user-status-icon" />
+				<NcUserStatusIcon class="user-status-icon"
+					:status="statusType"
+					aria-hidden="true" />
 			</template>
 			{{ visibleMessage }}
 		</NcButton>
 
 		<!-- Status management modal -->
-		<SetStatusModal v-if="isModalOpen" @close="closeModal" />
+		<SetStatusModal v-if="isModalOpen"
+			:inline="inline"
+			@close="closeModal" />
 	</component>
 </template>
 
 <script>
 import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import NcUserStatusIcon from '@nextcloud/vue/dist/Components/NcUserStatusIcon.js'
 import debounce from 'debounce'
 
 import { sendHeartbeat } from './services/heartbeatService.js'
@@ -57,6 +63,7 @@ export default {
 
 	components: {
 		NcButton,
+		NcUserStatusIcon,
 		SetStatusModal: () => import(/* webpackChunkName: 'user-status-modal' */'./components/SetStatusModal.vue'),
 	},
 	mixins: [OnlineStatusMixin],
@@ -176,6 +183,9 @@ export default {
 
 <style lang="scss" scoped>
 .user-status-menu-item {
+	// Ensure the maxcontrast color is set for the background
+	--color-text-maxcontrast: var(--color-text-maxcontrast-background-blur, var(--color-main-text));
+
 	width: auto;
 	min-width: 44px;
 	height: 44px;

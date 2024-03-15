@@ -83,10 +83,8 @@ OC.L10N.register(
     "between" : "välillä",
     "not between" : "ei välillä",
     "Request user agent" : "Pyynnön user agent",
-    "User group membership" : "Käyttäjäryhmäjäsenyys",
     "is member of" : "on jäsen",
     "is not member of" : "ei ole jäsen",
-    "Predefined URLs" : "Ennalta määritellyt URL-osoitteet",
-    "Others" : "Muut"
+    "User group membership" : "Käyttäjäryhmäjäsenyys"
 },
 "nplurals=2; plural=(n != 1);");

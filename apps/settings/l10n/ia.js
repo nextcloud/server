@@ -101,7 +101,6 @@ OC.L10N.register(
     "About" : "A proposito",
     "Full name" : "Nomine complete",
     "Phone number" : "Numero de telephono",
-    "Twitter" : "Twitter",
     "Website" : "Sito web",
     "Never" : "Nunquam",
     "Documentation" : "Documentation",
@@ -127,6 +126,7 @@ OC.L10N.register(
     "Your email address" : "Tu adresse de e-posta",
     "Add group" : "Adder gruppo",
     "Send email to new user" : "Inviar message de e-posta a nove usator",
+    "Twitter" : "Twitter",
     "SSL/TLS" : "SSL/TLS",
     "STARTTLS" : "STARTTLS",
     "Authentication method" : "Methodo de authentication"

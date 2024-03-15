@@ -28,8 +28,8 @@ namespace OCA\Settings\Tests;
 use OCA\Settings\SetupChecks\PhpDefaultCharset;
 use OCP\IL10N;
 use OCP\SetupCheck\SetupResult;
-use Test\TestCase;
 use PHPUnit\Framework\MockObject\MockObject;
+use Test\TestCase;
 
 class PhpDefaultCharsetTest extends TestCase {
 	/** @var IL10N|MockObject */

@@ -71,9 +71,9 @@ abstract class AbstractDatabase {
 	public function validate($config) {
 		$errors = [];
 		if (empty($config['dbuser']) && empty($config['dbname'])) {
-			$errors[] = $this->trans->t("Enter the database username and name for %s", [$this->dbprettyname]);
+			$errors[] = $this->trans->t("Enter the database Login and name for %s", [$this->dbprettyname]);
 		} elseif (empty($config['dbuser'])) {
-			$errors[] = $this->trans->t("Enter the database username for %s", [$this->dbprettyname]);
+			$errors[] = $this->trans->t("Enter the database Login for %s", [$this->dbprettyname]);
 		} elseif (empty($config['dbname'])) {
 			$errors[] = $this->trans->t("Enter the database name for %s", [$this->dbprettyname]);
 		}
@@ -140,10 +140,12 @@ abstract class AbstractDatabase {
 			}
 			$connectionParams['host'] = $host;
 		}
-
 		$connectionParams = array_merge($connectionParams, $configOverwrite);
+		$connectionParams = array_merge($connectionParams, ['primary' => $connectionParams, 'replica' => [$connectionParams]]);
 		$cf = new ConnectionFactory($this->config);
-		return $cf->getConnection($this->config->getValue('dbtype', 'sqlite'), $connectionParams);
+		$connection = $cf->getConnection($this->config->getValue('dbtype', 'sqlite'), $connectionParams);
+		$connection->ensureConnectedToPrimary();
+		return $connection;
 	}
 
 	/**

@@ -9,6 +9,7 @@ declare(strict_types=1);
  * @author Björn Schießle <bjoern@schiessle.org>
  * @author Christian Kampka <christian@kampka.net>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
  * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Denis Mosolov <denismosolov@gmail.com>
@@ -49,174 +50,138 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-use Psr\Log\LoggerInterface;
 
-$application->add(new \Stecman\Component\Symfony\Console\BashCompletion\CompletionCommand());
-$application->add(new OC\Core\Command\Status(\OC::$server->get(\OCP\IConfig::class), \OC::$server->get(\OCP\Defaults::class)));
-$application->add(new OC\Core\Command\Check(\OC::$server->getSystemConfig()));
-$application->add(new OC\Core\Command\L10n\CreateJs());
-$application->add(new \OC\Core\Command\Integrity\SignApp(
-	\OC::$server->getIntegrityCodeChecker(),
-	new \OC\IntegrityCheck\Helpers\FileAccessHelper(),
-	\OC::$server->getURLGenerator()
-));
-$application->add(new \OC\Core\Command\Integrity\SignCore(
-	\OC::$server->getIntegrityCodeChecker(),
-	new \OC\IntegrityCheck\Helpers\FileAccessHelper()
-));
-$application->add(new \OC\Core\Command\Integrity\CheckApp(
-	\OC::$server->getIntegrityCodeChecker()
-));
-$application->add(new \OC\Core\Command\Integrity\CheckCore(
-	\OC::$server->getIntegrityCodeChecker()
-));
+use OC\Core\Command;
+use OCP\IConfig;
+use OCP\Server;
+use Stecman\Component\Symfony\Console\BashCompletion\CompletionCommand;
 
+$application->add(new CompletionCommand());
+$application->add(Server::get(Command\Status::class));
+$application->add(Server::get(Command\Check::class));
+$application->add(Server::get(Command\L10n\CreateJs::class));
+$application->add(Server::get(Command\Integrity\SignApp::class));
+$application->add(Server::get(Command\Integrity\SignCore::class));
+$application->add(Server::get(Command\Integrity\CheckApp::class));
+$application->add(Server::get(Command\Integrity\CheckCore::class));
 
-if (\OC::$server->getConfig()->getSystemValue('installed', false)) {
-	$application->add(new OC\Core\Command\App\Disable(\OC::$server->getAppManager()));
-	$application->add(new OC\Core\Command\App\Enable(\OC::$server->getAppManager(), \OC::$server->getGroupManager()));
-	$application->add(new OC\Core\Command\App\Install());
-	$application->add(new OC\Core\Command\App\GetPath());
-	$application->add(new OC\Core\Command\App\ListApps(\OC::$server->getAppManager()));
-	$application->add(new OC\Core\Command\App\Remove(\OC::$server->getAppManager(), \OC::$server->query(\OC\Installer::class), \OC::$server->get(LoggerInterface::class)));
-	$application->add(\OC::$server->query(\OC\Core\Command\App\Update::class));
+$config = Server::get(IConfig::class);
 
-	$application->add(\OC::$server->query(\OC\Core\Command\TwoFactorAuth\Cleanup::class));
-	$application->add(\OC::$server->query(\OC\Core\Command\TwoFactorAuth\Enforce::class));
-	$application->add(\OC::$server->query(\OC\Core\Command\TwoFactorAuth\Enable::class));
-	$application->add(\OC::$server->query(\OC\Core\Command\TwoFactorAuth\Disable::class));
-	$application->add(\OC::$server->query(\OC\Core\Command\TwoFactorAuth\State::class));
+if ($config->getSystemValueBool('installed', false)) {
+	$application->add(Server::get(Command\App\Disable::class));
+	$application->add(Server::get(Command\App\Enable::class));
+	$application->add(Server::get(Command\App\Install::class));
+	$application->add(Server::get(Command\App\GetPath::class));
+	$application->add(Server::get(Command\App\ListApps::class));
+	$application->add(Server::get(Command\App\Remove::class));
+	$application->add(Server::get(Command\App\Update::class));
 
-	$application->add(new OC\Core\Command\Background\Cron(\OC::$server->getConfig()));
-	$application->add(new OC\Core\Command\Background\WebCron(\OC::$server->getConfig()));
-	$application->add(new OC\Core\Command\Background\Ajax(\OC::$server->getConfig()));
-	$application->add(new OC\Core\Command\Background\Job(\OC::$server->getJobList(), \OC::$server->getLogger()));
-	$application->add(new OC\Core\Command\Background\ListCommand(\OC::$server->getJobList()));
+	$application->add(Server::get(Command\TwoFactorAuth\Cleanup::class));
+	$application->add(Server::get(Command\TwoFactorAuth\Enforce::class));
+	$application->add(Server::get(Command\TwoFactorAuth\Enable::class));
+	$application->add(Server::get(Command\TwoFactorAuth\Disable::class));
+	$application->add(Server::get(Command\TwoFactorAuth\State::class));
 
-	$application->add(\OC::$server->query(\OC\Core\Command\Broadcast\Test::class));
+	$application->add(Server::get(Command\Background\Cron::class));
+	$application->add(Server::get(Command\Background\WebCron::class));
+	$application->add(Server::get(Command\Background\Ajax::class));
+	$application->add(Server::get(Command\Background\Job::class));
+	$application->add(Server::get(Command\Background\ListCommand::class));
+	$application->add(Server::get(Command\Background\Delete::class));
 
-	$application->add(new OC\Core\Command\Config\App\DeleteConfig(\OC::$server->getConfig()));
-	$application->add(new OC\Core\Command\Config\App\GetConfig(\OC::$server->getConfig()));
-	$application->add(new OC\Core\Command\Config\App\SetConfig(\OC::$server->getConfig()));
-	$application->add(new OC\Core\Command\Config\Import(\OC::$server->getConfig()));
-	$application->add(new OC\Core\Command\Config\ListConfigs(\OC::$server->getSystemConfig(), \OC::$server->getAppConfig()));
-	$application->add(new OC\Core\Command\Config\System\DeleteConfig(\OC::$server->getSystemConfig()));
-	$application->add(new OC\Core\Command\Config\System\GetConfig(\OC::$server->getSystemConfig()));
-	$application->add(new OC\Core\Command\Config\System\SetConfig(\OC::$server->getSystemConfig()));
+	$application->add(Server::get(Command\Broadcast\Test::class));
 
-	$application->add(\OC::$server->get(OC\Core\Command\Info\File::class));
-	$application->add(\OC::$server->get(OC\Core\Command\Info\Space::class));
+	$application->add(Server::get(Command\Config\App\DeleteConfig::class));
+	$application->add(Server::get(Command\Config\App\GetConfig::class));
+	$application->add(Server::get(Command\Config\App\SetConfig::class));
+	$application->add(Server::get(Command\Config\Import::class));
+	$application->add(Server::get(Command\Config\ListConfigs::class));
+	$application->add(Server::get(Command\Config\System\DeleteConfig::class));
+	$application->add(Server::get(Command\Config\System\GetConfig::class));
+	$application->add(Server::get(Command\Config\System\SetConfig::class));
 
-	$application->add(new OC\Core\Command\Db\ConvertType(\OC::$server->getConfig(), new \OC\DB\ConnectionFactory(\OC::$server->getSystemConfig())));
-	$application->add(new OC\Core\Command\Db\ConvertMysqlToMB4(\OC::$server->getConfig(), \OC::$server->getDatabaseConnection(), \OC::$server->getURLGenerator(), \OC::$server->get(LoggerInterface::class)));
-	$application->add(new OC\Core\Command\Db\ConvertFilecacheBigInt(\OC::$server->get(\OC\DB\Connection::class)));
-	$application->add(\OCP\Server::get(\OC\Core\Command\Db\AddMissingColumns::class));
-	$application->add(\OCP\Server::get(\OC\Core\Command\Db\AddMissingIndices::class));
-	$application->add(\OCP\Server::get(\OC\Core\Command\Db\AddMissingPrimaryKeys::class));
+	$application->add(Server::get(Command\Info\File::class));
+	$application->add(Server::get(Command\Info\Space::class));
 
-	if (\OC::$server->getConfig()->getSystemValueBool('debug', false)) {
-		$application->add(new OC\Core\Command\Db\Migrations\StatusCommand(\OC::$server->get(\OC\DB\Connection::class)));
-		$application->add(new OC\Core\Command\Db\Migrations\MigrateCommand(\OC::$server->get(\OC\DB\Connection::class)));
-		$application->add(new OC\Core\Command\Db\Migrations\GenerateCommand(\OC::$server->get(\OC\DB\Connection::class), \OC::$server->getAppManager()));
-		$application->add(new OC\Core\Command\Db\Migrations\ExecuteCommand(\OC::$server->get(\OC\DB\Connection::class), \OC::$server->getConfig()));
+	$application->add(Server::get(Command\Db\ConvertType::class));
+	$application->add(Server::get(Command\Db\ConvertMysqlToMB4::class));
+	$application->add(Server::get(Command\Db\ConvertFilecacheBigInt::class));
+	$application->add(Server::get(Command\Db\AddMissingColumns::class));
+	$application->add(Server::get(Command\Db\AddMissingIndices::class));
+	$application->add(Server::get(Command\Db\AddMissingPrimaryKeys::class));
+
+	if ($config->getSystemValueBool('debug', false)) {
+		$application->add(Server::get(Command\Db\Migrations\StatusCommand::class));
+		$application->add(Server::get(Command\Db\Migrations\MigrateCommand::class));
+		$application->add(Server::get(Command\Db\Migrations\GenerateCommand::class));
+		$application->add(Server::get(Command\Db\Migrations\ExecuteCommand::class));
 	}
 
-	$application->add(new OC\Core\Command\Encryption\Disable(\OC::$server->getConfig()));
-	$application->add(new OC\Core\Command\Encryption\Enable(\OC::$server->getConfig(), \OC::$server->getEncryptionManager()));
-	$application->add(new OC\Core\Command\Encryption\ListModules(\OC::$server->getEncryptionManager(), \OC::$server->getConfig()));
-	$application->add(new OC\Core\Command\Encryption\SetDefaultModule(\OC::$server->getEncryptionManager(), \OC::$server->getConfig()));
-	$application->add(new OC\Core\Command\Encryption\Status(\OC::$server->getEncryptionManager()));
-	$application->add(new OC\Core\Command\Encryption\EncryptAll(\OC::$server->getEncryptionManager(), \OC::$server->getAppManager(), \OC::$server->getConfig(), new \Symfony\Component\Console\Helper\QuestionHelper()));
-	$application->add(new OC\Core\Command\Encryption\DecryptAll(
-		\OC::$server->getEncryptionManager(),
-		\OC::$server->getAppManager(),
-		\OC::$server->getConfig(),
-		new \OC\Encryption\DecryptAll(\OC::$server->getEncryptionManager(), \OC::$server->getUserManager(), new \OC\Files\View()),
-		new \Symfony\Component\Console\Helper\QuestionHelper())
-	);
+	$application->add(Server::get(Command\Encryption\Disable::class));
+	$application->add(Server::get(Command\Encryption\Enable::class));
+	$application->add(Server::get(Command\Encryption\ListModules::class));
+	$application->add(Server::get(Command\Encryption\SetDefaultModule::class));
+	$application->add(Server::get(Command\Encryption\Status::class));
+	$application->add(Server::get(Command\Encryption\EncryptAll::class));
+	$application->add(Server::get(Command\Encryption\DecryptAll::class));
 
-	$application->add(new OC\Core\Command\Log\Manage(\OC::$server->getConfig()));
-	$application->add(new OC\Core\Command\Log\File(\OC::$server->getConfig()));
+	$application->add(Server::get(Command\Log\Manage::class));
+	$application->add(Server::get(Command\Log\File::class));
 
-	$view = new \OC\Files\View();
-	$util = new \OC\Encryption\Util(
-		$view,
-		\OC::$server->getUserManager(),
-		\OC::$server->getGroupManager(),
-		\OC::$server->getConfig()
-	);
-	$application->add(new OC\Core\Command\Encryption\ChangeKeyStorageRoot(
-		$view,
-		\OC::$server->getUserManager(),
-		\OC::$server->getConfig(),
-		$util,
-		new \Symfony\Component\Console\Helper\QuestionHelper()
-	)
-	);
-	$application->add(new OC\Core\Command\Encryption\ShowKeyStorageRoot($util));
-	$application->add(new OC\Core\Command\Encryption\MigrateKeyStorage(
-		$view,
-		\OC::$server->getUserManager(),
-		\OC::$server->getConfig(),
-		$util,
-		\OC::$server->getCrypto()
-	)
-	);
+	$application->add(Server::get(Command\Encryption\ChangeKeyStorageRoot::class));
+	$application->add(Server::get(Command\Encryption\ShowKeyStorageRoot::class));
+	$application->add(Server::get(Command\Encryption\MigrateKeyStorage::class));
 
-	$application->add(new OC\Core\Command\Maintenance\DataFingerprint(\OC::$server->getConfig(), new \OC\AppFramework\Utility\TimeFactory()));
-	$application->add(new OC\Core\Command\Maintenance\Mimetype\UpdateDB(\OC::$server->getMimeTypeDetector(), \OC::$server->getMimeTypeLoader()));
-	$application->add(new OC\Core\Command\Maintenance\Mimetype\UpdateJS(\OC::$server->getMimeTypeDetector()));
-	$application->add(new OC\Core\Command\Maintenance\Mode(\OC::$server->getConfig()));
-	$application->add(new OC\Core\Command\Maintenance\UpdateHtaccess());
-	$application->add(new OC\Core\Command\Maintenance\UpdateTheme(\OC::$server->getMimeTypeDetector(), \OC::$server->getMemCacheFactory()));
+	$application->add(Server::get(Command\Maintenance\DataFingerprint::class));
+	$application->add(Server::get(Command\Maintenance\Mimetype\UpdateDB::class));
+	$application->add(Server::get(Command\Maintenance\Mimetype\UpdateJS::class));
+	$application->add(Server::get(Command\Maintenance\Mode::class));
+	$application->add(Server::get(Command\Maintenance\UpdateHtaccess::class));
+	$application->add(Server::get(Command\Maintenance\UpdateTheme::class));
 
-	$application->add(new OC\Core\Command\Upgrade(\OC::$server->getConfig(), \OC::$server->get(LoggerInterface::class), \OC::$server->query(\OC\Installer::class)));
-	$application->add(new OC\Core\Command\Maintenance\Repair(
-		new \OC\Repair([], \OC::$server->get(\OCP\EventDispatcher\IEventDispatcher::class), \OC::$server->get(LoggerInterface::class)),
-		\OC::$server->getConfig(),
-		\OC::$server->get(\OCP\EventDispatcher\IEventDispatcher::class),
-		\OC::$server->getAppManager()
-	));
-	$application->add(\OC::$server->query(OC\Core\Command\Maintenance\RepairShareOwnership::class));
+	$application->add(Server::get(Command\Upgrade::class));
+	$application->add(Server::get(Command\Maintenance\Repair::class));
+	$application->add(Server::get(Command\Maintenance\RepairShareOwnership::class));
 
-	$application->add(\OC::$server->get(\OC\Core\Command\Preview\Generate::class));
-	$application->add(\OC::$server->query(\OC\Core\Command\Preview\Repair::class));
-	$application->add(\OC::$server->query(\OC\Core\Command\Preview\ResetRenderedTexts::class));
+	$application->add(Server::get(Command\Preview\Generate::class));
+	$application->add(Server::get(Command\Preview\Repair::class));
+	$application->add(Server::get(Command\Preview\ResetRenderedTexts::class));
 
-	$application->add(new OC\Core\Command\User\Add(\OC::$server->getUserManager(), \OC::$server->getGroupManager()));
-	$application->add(new OC\Core\Command\User\Delete(\OC::$server->getUserManager()));
-	$application->add(new OC\Core\Command\User\Disable(\OC::$server->getUserManager()));
-	$application->add(new OC\Core\Command\User\Enable(\OC::$server->getUserManager()));
-	$application->add(new OC\Core\Command\User\LastSeen(\OC::$server->getUserManager()));
-	$application->add(\OC::$server->get(\OC\Core\Command\User\Report::class));
-	$application->add(new OC\Core\Command\User\ResetPassword(\OC::$server->getUserManager(), \OC::$server->getAppManager()));
-	$application->add(new OC\Core\Command\User\Setting(\OC::$server->getUserManager(), \OC::$server->getConfig()));
-	$application->add(new OC\Core\Command\User\ListCommand(\OC::$server->getUserManager(), \OC::$server->getGroupManager()));
-	$application->add(new OC\Core\Command\User\Info(\OC::$server->getUserManager(), \OC::$server->getGroupManager()));
-	$application->add(new OC\Core\Command\User\SyncAccountDataCommand(\OC::$server->getUserManager(), \OC::$server->get(\OCP\Accounts\IAccountManager::class)));
-	$application->add(\OC::$server->get(\OC\Core\Command\User\AuthTokens\Add::class));
-	$application->add(\OC::$server->get(\OC\Core\Command\User\AuthTokens\ListCommand::class));
-	$application->add(\OC::$server->get(\OC\Core\Command\User\AuthTokens\Delete::class));
+	$application->add(Server::get(Command\User\Add::class));
+	$application->add(Server::get(Command\User\Delete::class));
+	$application->add(Server::get(Command\User\Disable::class));
+	$application->add(Server::get(Command\User\Enable::class));
+	$application->add(Server::get(Command\User\LastSeen::class));
+	$application->add(Server::get(Command\User\Report::class));
+	$application->add(Server::get(Command\User\ResetPassword::class));
+	$application->add(Server::get(Command\User\Setting::class));
+	$application->add(Server::get(Command\User\ListCommand::class));
+	$application->add(Server::get(Command\User\Info::class));
+	$application->add(Server::get(Command\User\SyncAccountDataCommand::class));
+	$application->add(Server::get(Command\User\AuthTokens\Add::class));
+	$application->add(Server::get(Command\User\AuthTokens\ListCommand::class));
+	$application->add(Server::get(Command\User\AuthTokens\Delete::class));
+	$application->add(Server::get(Command\User\Keys\Verify::class));
 
-	$application->add(new OC\Core\Command\Group\Add(\OC::$server->getGroupManager()));
-	$application->add(new OC\Core\Command\Group\Delete(\OC::$server->getGroupManager()));
-	$application->add(new OC\Core\Command\Group\ListCommand(\OC::$server->getGroupManager()));
-	$application->add(new OC\Core\Command\Group\AddUser(\OC::$server->getUserManager(), \OC::$server->getGroupManager()));
-	$application->add(new OC\Core\Command\Group\RemoveUser(\OC::$server->getUserManager(), \OC::$server->getGroupManager()));
-	$application->add(new OC\Core\Command\Group\Info(\OC::$server->get(\OCP\IGroupManager::class)));
+	$application->add(Server::get(Command\Group\Add::class));
+	$application->add(Server::get(Command\Group\Delete::class));
+	$application->add(Server::get(Command\Group\ListCommand::class));
+	$application->add(Server::get(Command\Group\AddUser::class));
+	$application->add(Server::get(Command\Group\RemoveUser::class));
+	$application->add(Server::get(Command\Group\Info::class));
 
-	$application->add(new OC\Core\Command\SystemTag\ListCommand(\OC::$server->get(\OCP\SystemTag\ISystemTagManager::class)));
-	$application->add(new OC\Core\Command\SystemTag\Delete(\OC::$server->get(\OCP\SystemTag\ISystemTagManager::class)));
-	$application->add(new OC\Core\Command\SystemTag\Add(\OC::$server->get(\OCP\SystemTag\ISystemTagManager::class)));
-	$application->add(new OC\Core\Command\SystemTag\Edit(\OC::$server->get(\OCP\SystemTag\ISystemTagManager::class)));
+	$application->add(Server::get(Command\SystemTag\ListCommand::class));
+	$application->add(Server::get(Command\SystemTag\Delete::class));
+	$application->add(Server::get(Command\SystemTag\Add::class));
+	$application->add(Server::get(Command\SystemTag\Edit::class));
 
-	$application->add(new OC\Core\Command\Security\ListCertificates(\OC::$server->getCertificateManager(), \OC::$server->getL10N('core')));
-	$application->add(new OC\Core\Command\Security\ImportCertificate(\OC::$server->getCertificateManager()));
-	$application->add(new OC\Core\Command\Security\RemoveCertificate(\OC::$server->getCertificateManager()));
-	$application->add(\OC::$server->get(\OC\Core\Command\Security\BruteforceAttempts::class));
-	$application->add(\OC::$server->get(\OC\Core\Command\Security\BruteforceResetAttempts::class));
-	$application->add(\OC::$server->get(\OC\Core\Command\SetupChecks::class));
-	$application->add(\OCP\Server::get(\OC\Core\Command\FilesMetadata\Get::class));
+	$application->add(Server::get(Command\Security\ListCertificates::class));
+	$application->add(Server::get(Command\Security\ImportCertificate::class));
+	$application->add(Server::get(Command\Security\RemoveCertificate::class));
+	$application->add(Server::get(Command\Security\BruteforceAttempts::class));
+	$application->add(Server::get(Command\Security\BruteforceResetAttempts::class));
+	$application->add(Server::get(Command\SetupChecks::class));
+	$application->add(Server::get(Command\FilesMetadata\Get::class));
 } else {
-	$application->add(\OC::$server->get(\OC\Core\Command\Maintenance\Install::class));
+	$application->add(Server::get(Command\Maintenance\Install::class));
 }

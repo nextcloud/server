@@ -38,7 +38,9 @@ class MetadataValueWrapper implements IMetadataValueWrapper {
 	private string $type;
 	/** @var string|int|float|bool|array|string[]|int[] */
 	private mixed $value = null;
+	private string $etag = '';
 	private bool $indexed = false;
+	private int $editPermission = self::EDIT_FORBIDDEN;
 
 	/**
 	 * @param string $type value type
@@ -350,6 +352,27 @@ class MetadataValueWrapper implements IMetadataValueWrapper {
 	}
 
 	/**
+	 * @inheritDoc
+	 * @return string stored etag
+	 * @since 29.0.0
+	 */
+	public function getEtag(): string {
+		return $this->etag;
+	}
+
+	/**
+	 * @param string $etag etag value
+	 *
+	 * @inheritDoc
+	 * @return self
+	 * @since 29.0.0
+	 */
+	public function setEtag(string $etag): self {
+		$this->etag = $etag;
+		return $this;
+	}
+
+	/**
 	 * @param bool $indexed TRUE to set the stored value as an indexed value
 	 *
 	 * @inheritDoc
@@ -372,6 +395,28 @@ class MetadataValueWrapper implements IMetadataValueWrapper {
 	}
 
 	/**
+	 * @param int $permission edit permission
+	 *
+	 * @inheritDoc
+	 * @return self
+	 * @since 28.0.0
+	 */
+	public function setEditPermission(int $permission): self {
+		$this->editPermission = $permission;
+
+		return $this;
+	}
+
+	/**
+	 * @inheritDoc
+	 * @return int edit permission
+	 * @since 28.0.0
+	 */
+	public function getEditPermission(): int {
+		return $this->editPermission;
+	}
+
+	/**
 	 * @param array $data serialized version of the object
 	 *
 	 * @inheritDoc
@@ -382,8 +427,9 @@ class MetadataValueWrapper implements IMetadataValueWrapper {
 	public function import(array $data): self {
 		$this->value = $data['value'] ?? null;
 		$this->type = $data['type'] ?? '';
+		$this->setEtag($data['etag'] ?? '');
 		$this->setIndexed($data['indexed'] ?? false);
-
+		$this->setEditPermission($data['editPermission'] ?? self::EDIT_FORBIDDEN);
 		return $this;
 	}
 
@@ -391,7 +437,9 @@ class MetadataValueWrapper implements IMetadataValueWrapper {
 		return [
 			'value' => ($emptyValues) ? null : $this->value,
 			'type' => $this->getType(),
-			'indexed' => $this->isIndexed()
+			'etag' => $this->getEtag(),
+			'indexed' => $this->isIndexed(),
+			'editPermission' => $this->getEditPermission()
 		];
 	}
 }

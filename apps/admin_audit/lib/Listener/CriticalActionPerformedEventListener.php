@@ -30,6 +30,7 @@ use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\Log\Audit\CriticalActionPerformedEvent;
 
+/** @template-implements IEventListener<CriticalActionPerformedEvent> */
 class CriticalActionPerformedEventListener extends Action implements IEventListener {
 	public function handle(Event $event): void {
 		if (!($event instanceof CriticalActionPerformedEvent)) {

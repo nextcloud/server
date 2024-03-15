@@ -30,6 +30,7 @@ use OCA\CloudFederationAPI\Config;
 use OCA\CloudFederationAPI\ResponseDefinitions;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\Federation\Exceptions\ActionNotSupportedException;
 use OCP\Federation\Exceptions\AuthenticationFailedException;
@@ -55,6 +56,7 @@ use Psr\Log\LoggerInterface;
  * @psalm-import-type CloudFederationAPIValidationError from ResponseDefinitions
  * @psalm-import-type CloudFederationAPIError from ResponseDefinitions
  */
+#[OpenAPI(scope: OpenAPI::SCOPE_FEDERATION)]
 class RequestHandlerController extends Controller {
 	public function __construct(
 		string $appName,

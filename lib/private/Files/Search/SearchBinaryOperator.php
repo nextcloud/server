@@ -28,7 +28,7 @@ use OCP\Files\Search\ISearchOperator;
 class SearchBinaryOperator implements ISearchBinaryOperator {
 	/** @var string */
 	private $type;
-	/** @var ISearchOperator[] */
+	/** @var (SearchBinaryOperator|SearchComparison)[] */
 	private $arguments;
 	private $hints = [];
 
@@ -36,7 +36,7 @@ class SearchBinaryOperator implements ISearchBinaryOperator {
 	 * SearchBinaryOperator constructor.
 	 *
 	 * @param string $type
-	 * @param ISearchOperator[] $arguments
+	 * @param (SearchBinaryOperator|SearchComparison)[] $arguments
 	 */
 	public function __construct($type, array $arguments) {
 		$this->type = $type;
@@ -57,11 +57,26 @@ class SearchBinaryOperator implements ISearchBinaryOperator {
 		return $this->arguments;
 	}
 
+	/**
+	 * @param ISearchOperator[] $arguments
+	 * @return void
+	 */
+	public function setArguments(array $arguments): void {
+		$this->arguments = $arguments;
+	}
+
 	public function getQueryHint(string $name, $default) {
 		return $this->hints[$name] ?? $default;
 	}
 
 	public function setQueryHint(string $name, $value): void {
 		$this->hints[$name] = $value;
+	}
+
+	public function __toString(): string {
+		if ($this->type === ISearchBinaryOperator::OPERATOR_NOT) {
+			return '(not ' . $this->arguments[0] . ')';
+		}
+		return '(' . implode(' ' . $this->type . ' ', $this->arguments) . ')';
 	}
 }

@@ -44,8 +44,8 @@ class RetentionService {
 	private $calDavBackend;
 
 	public function __construct(IConfig $config,
-								ITimeFactory $time,
-								CalDavBackend $calDavBackend) {
+		ITimeFactory $time,
+		CalDavBackend $calDavBackend) {
 		$this->config = $config;
 		$this->time = $time;
 		$this->calDavBackend = $calDavBackend;

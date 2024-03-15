@@ -20,16 +20,18 @@
   -
   -->
 <template>
-	<NcAppNavigation data-cy-files-navigation>
+	<NcAppNavigation data-cy-files-navigation
+		:aria-label="t('files', 'Files')">
 		<template #list>
 			<NcAppNavigationItem v-for="view in parentViews"
 				:key="view.id"
 				:allow-collapse="true"
 				:data-cy-files-navigation-item="view.id"
+				:exact="useExactRouteMatching(view)"
 				:icon="view.iconClass"
+				:name="view.name"
 				:open="isExpanded(view)"
 				:pinned="view.sticky"
-				:name="view.name"
 				:to="generateToNavigation(view)"
 				@update:open="onToggleExpand(view)">
 				<!-- Sanitized icon as svg if provided -->
@@ -39,7 +41,7 @@
 				<NcAppNavigationItem v-for="child in childViews[view.id]"
 					:key="child.id"
 					:data-cy-files-navigation-item="child.id"
-					:exact="true"
+					:exact-path="true"
 					:icon="child.iconClass"
 					:name="child.name"
 					:to="generateToNavigation(child)">
@@ -73,17 +75,17 @@
 </template>
 
 <script lang="ts">
-import { emit, subscribe } from '@nextcloud/event-bus'
+import type { View } from '@nextcloud/files'
+
+import { emit } from '@nextcloud/event-bus'
 import { translate } from '@nextcloud/l10n'
 import Cog from 'vue-material-design-icons/Cog.vue'
 import NcAppNavigation from '@nextcloud/vue/dist/Components/NcAppNavigation.js'
 import NcAppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem.js'
 import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
 
-import { setPageHeading } from '../../../../core/src/OCP/accessibility.js'
 import { useViewConfigStore } from '../store/viewConfig.ts'
 import logger from '../logger.js'
-import type { Navigation, View } from '@nextcloud/files'
 import NavigationQuota from '../components/NavigationQuota.vue'
 import SettingsModal from './Settings.vue'
 
@@ -97,14 +99,6 @@ export default {
 		NcAppNavigationItem,
 		NcIconSvgWrapper,
 		SettingsModal,
-	},
-
-	props: {
-		// eslint-disable-next-line vue/prop-name-casing
-		Navigation: {
-			type: Object as Navigation,
-			required: true,
-		},
 	},
 
 	setup() {
@@ -126,11 +120,11 @@ export default {
 		},
 
 		currentView(): View {
-			return this.views.find(view => view.id === this.currentViewId)
+			return this.views.find(view => view.id === this.currentViewId)!
 		},
 
 		views(): View[] {
-			return this.Navigation.views
+			return this.$navigation.views
 		},
 
 		parentViews(): View[] {
@@ -143,27 +137,27 @@ export default {
 				})
 		},
 
-		childViews(): View[] {
+		childViews(): Record<string, View[]> {
 			return this.views
 				// filter parent views
 				.filter(view => !!view.parent)
 				// create a map of parents and their children
 				.reduce((list, view) => {
-					list[view.parent] = [...(list[view.parent] || []), view]
+					list[view.parent!] = [...(list[view.parent!] || []), view]
 					// Sort children by order
-					list[view.parent].sort((a, b) => {
+					list[view.parent!].sort((a, b) => {
 						return a.order - b.order
 					})
 					return list
-				}, {})
+				}, {} as Record<string, View[]>)
 		},
 	},
 
 	watch: {
 		currentView(view, oldView) {
 			if (view.id !== oldView?.id) {
-				this.Navigation.setActive(view)
-				logger.debug('Navigation changed', { id: view.id, view })
+				this.$navigation.setActive(view)
+				logger.debug(`Navigation changed from ${oldView.id} to ${view.id}`, { from: oldView, to: view })
 
 				this.showView(view)
 			}
@@ -178,17 +172,27 @@ export default {
 	},
 
 	methods: {
+		/**
+		 * Only use exact route matching on routes with child views
+		 * Because if a view does not have children (like the files view) then multiple routes might be matched for it
+		 * Like for the 'files' view this does not work because of optional 'fileid' param so /files and /files/1234 are both in the 'files' view
+		 * @param view The view to check
+		 */
+		useExactRouteMatching(view: View): boolean {
+			return this.childViews[view.id]?.length > 0
+		},
+
 		showView(view: View) {
 			// Closing any opened sidebar
 			window?.OCA?.Files?.Sidebar?.close?.()
-			this.Navigation.setActive(view)
-			setPageHeading(view.name)
+			this.$navigation.setActive(view)
 			emit('files:navigation:changed', view)
 		},
 
 		/**
 		 * Expand/collapse a a view with children and permanently
 		 * save this setting in the server.
+		 * @param view View to toggle
 		 */
 		onToggleExpand(view: View) {
 			// Invert state
@@ -201,6 +205,7 @@ export default {
 		/**
 		 * Check if a view is expanded by user config
 		 * or fallback to the default value.
+		 * @param view View to check if expanded
 		 */
 		isExpanded(view: View): boolean {
 			return typeof this.viewConfigStore.getConfig(view.id)?.expanded === 'boolean'
@@ -210,11 +215,12 @@ export default {
 
 		/**
 		 * Generate the route to a view
+		 * @param view View to generate "to" navigation for
 		 */
 		generateToNavigation(view: View) {
 			if (view.params) {
-				const { dir, fileid } = view.params
-				return { name: 'filelist', params: view.params, query: { dir, fileid } }
+				const { dir } = view.params
+				return { name: 'filelist', params: view.params, query: { dir } }
 			}
 			return { name: 'filelist', params: { view: view.id } }
 		},
@@ -243,6 +249,10 @@ export default {
 .app-navigation::v-deep .app-navigation-entry-icon {
 	background-repeat: no-repeat;
 	background-position: center;
+}
+
+.app-navigation::v-deep .app-navigation-entry.active .button-vue.icon-collapse:not(:hover) {
+	color: var(--color-primary-element-text);
 }
 
 .app-navigation > ul.app-navigation__list {

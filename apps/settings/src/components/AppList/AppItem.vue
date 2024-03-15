@@ -23,12 +23,10 @@
 <template>
 	<component :is="listView ? `tr` : `li`"
 		class="section"
-		:class="{ selected: isSelected }"
-		@click="showAppDetails">
+		:class="{ selected: isSelected }">
 		<component :is="dataItemTag"
 			class="app-image app-image-icon"
-			:headers="getDataItemHeaders(`app-table-col-icon`)"
-			@click="showAppDetails">
+			:headers="getDataItemHeaders(`app-table-col-icon`)">
 			<div v-if="(listView && !app.preview) || (!listView && !screenshotLoaded)" class="icon-settings-dark" />
 
 			<svg v-else-if="listView && app.preview"
@@ -48,9 +46,18 @@
 		</component>
 		<component :is="dataItemTag"
 			class="app-name"
-			:headers="getDataItemHeaders(`app-table-col-name`)"
-			@click="showAppDetails">
-			{{ app.name }}
+			:headers="getDataItemHeaders(`app-table-col-name`)">
+			<router-link class="app-name--link"
+				:to="{
+					name: 'apps-details',
+					params: {
+						category: category,
+						id: app.id
+					},
+				}"
+				:aria-label="t('settings', 'Show details for {appName} app', { appName:app.name })">
+				{{ app.name }}
+			</router-link>
 		</component>
 		<component :is="dataItemTag"
 			v-if="!listView"
@@ -66,17 +73,8 @@
 			<span v-else-if="app.appstoreData.releases[0].version">{{ app.appstoreData.releases[0].version }}</span>
 		</component>
 
-		<component :is="dataItemTag" :headers="getDataItemHeaders(`app-table-col-level`)" class="app-level">
-			<span v-if="app.level === 300"
-				:title="t('settings', 'This app is supported via your current Nextcloud subscription.')"
-				:aria-label="t('settings', 'This app is supported via your current Nextcloud subscription.')"
-				class="supported icon-checkmark-color">
-				{{ t('settings', 'Supported') }}</span>
-			<span v-if="app.level === 200"
-				:title="t('settings', 'Featured apps are developed by and within the community. They offer central functionality and are ready for production use.')"
-				:aria-label="t('settings', 'Featured apps are developed by and within the community. They offer central functionality and are ready for production use.')"
-				class="official icon-checkmark">
-				{{ t('settings', 'Featured') }}</span>
+		<component :is="dataItemTag" :headers="getDataItemHeaders(`app-table-col-level`)">
+			<AppLevelBadge :level="app.level" />
 			<AppScore v-if="hasRating && !listView" :score="app.score" />
 		</component>
 		<component :is="dataItemTag" :headers="getDataItemHeaders(`app-table-col-actions`)" class="actions">
@@ -124,6 +122,7 @@
 
 <script>
 import AppScore from './AppScore.vue'
+import AppLevelBadge from './AppLevelBadge.vue'
 import AppManagement from '../../mixins/AppManagement.js'
 import SvgFilterMixin from '../SvgFilterMixin.vue'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
@@ -131,12 +130,16 @@ import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 export default {
 	name: 'AppItem',
 	components: {
+		AppLevelBadge,
 		AppScore,
 		NcButton,
 	},
 	mixins: [AppManagement, SvgFilterMixin],
 	props: {
-		app: {},
+		app: {
+			type: Object,
+			required: true,
+		},
 		category: {},
 		listView: {
 			type: Boolean,
@@ -175,7 +178,7 @@ export default {
 		this.isSelected = (this.app.id === this.$route.params.id)
 		if (this.app.releases && this.app.screenshot) {
 			const image = new Image()
-			image.onload = (e) => {
+			image.onload = () => {
 				this.screenshotLoaded = true
 			}
 			image.src = this.app.screenshot
@@ -185,19 +188,6 @@ export default {
 
 	},
 	methods: {
-		async showAppDetails(event) {
-			if (event.currentTarget.tagName === 'INPUT' || event.currentTarget.tagName === 'A') {
-				return
-			}
-			try {
-				await this.$router.push({
-					name: 'apps-details',
-					params: { category: this.category, id: this.app.id },
-				})
-			} catch (e) {
-				// we already view this app
-			}
-		},
 		prefix(prefix, content) {
 			return prefix + '_' + content
 		},
@@ -217,4 +207,14 @@ export default {
 .app-image img {
 	width: 100%;
 }
+
+.app-name--link::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
 </style>

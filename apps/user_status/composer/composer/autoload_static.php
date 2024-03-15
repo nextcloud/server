@@ -41,6 +41,7 @@ class ComposerStaticInitUserStatus
         'OCA\\UserStatus\\Exception\\InvalidStatusTypeException' => __DIR__ . '/..' . '/../lib/Exception/InvalidStatusTypeException.php',
         'OCA\\UserStatus\\Exception\\StatusMessageTooLongException' => __DIR__ . '/..' . '/../lib/Exception/StatusMessageTooLongException.php',
         'OCA\\UserStatus\\Listener\\BeforeTemplateRenderedListener' => __DIR__ . '/..' . '/../lib/Listener/BeforeTemplateRenderedListener.php',
+        'OCA\\UserStatus\\Listener\\OutOfOfficeStatusListener' => __DIR__ . '/..' . '/../lib/Listener/OutOfOfficeStatusListener.php',
         'OCA\\UserStatus\\Listener\\UserDeletedListener' => __DIR__ . '/..' . '/../lib/Listener/UserDeletedListener.php',
         'OCA\\UserStatus\\Listener\\UserLiveStatusListener' => __DIR__ . '/..' . '/../lib/Listener/UserLiveStatusListener.php',
         'OCA\\UserStatus\\Migration\\Version0001Date20200602134824' => __DIR__ . '/..' . '/../lib/Migration/Version0001Date20200602134824.php',

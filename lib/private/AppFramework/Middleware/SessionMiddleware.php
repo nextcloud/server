@@ -44,7 +44,7 @@ class SessionMiddleware extends Middleware {
 	private $session;
 
 	public function __construct(ControllerMethodReflector $reflector,
-								ISession $session) {
+		ISession $session) {
 		$this->reflector = $reflector;
 		$this->session = $session;
 	}
