@@ -79,10 +79,18 @@ class Application extends App {
 		$notificationManager->registerNotifierService(AuthenticationNotifier::class);
 
 		$eventDispatcher->addListener(AddMissingIndicesEvent::class, function (AddMissingIndicesEvent $event) {
+			/**
+			 * Replaced by the share_type_with index below
+			 * $event->addMissingIndex(
+			 * 'share',
+			 * 'share_with_index',
+			 * ['share_with']
+			 * );
+			 */
 			$event->addMissingIndex(
 				'share',
-				'share_with_index',
-				['share_with']
+				'share_type_with',
+				['share_type', 'share_with']
 			);
 			$event->addMissingIndex(
 				'share',

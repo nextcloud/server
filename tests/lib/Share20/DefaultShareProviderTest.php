@@ -995,6 +995,130 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->assertEquals(IShare::TYPE_USER, $share->getShareType());
 	}
 
+	public function testGetAllSharedWithUser(): void {
+		$storageId = $this->createTestStorageEntry('home::shareOwner');
+		$fileIds = [];
+		for ($i = 0; $i < 50; $i++) {
+			$fileIds[] = $this->createTestFileEntry('files/test-' . $i . '.txt', $storageId);
+		}
+
+		$shareIds = [];
+		foreach ($fileIds as $fileId) {
+			$qb = $this->dbConn->getQueryBuilder();
+			$qb->insert('share')
+				->values([
+					'share_type' => $qb->expr()->literal(IShare::TYPE_USER),
+					'share_with' => $qb->expr()->literal('sharedWith'),
+					'uid_owner' => $qb->expr()->literal('shareOwner'),
+					'uid_initiator' => $qb->expr()->literal('sharedBy'),
+					'item_type' => $qb->expr()->literal('file'),
+					'file_source' => $qb->expr()->literal($fileId),
+					'file_target' => $qb->expr()->literal('myTarget'),
+					'permissions' => $qb->expr()->literal(13),
+				]);
+			$qb->executeStatement();
+			$shareIds[$fileId] = $qb->getLastInsertId();
+		}
+
+		$file = $this->createMock(File::class);
+		$this->rootFolder->method('getUserFolder')->with('shareOwner')->willReturnSelf();
+		$this->rootFolder->method('getById')->willReturn([$file]);
+
+		self::invokePrivate($this->provider, 'chunkSize', [5]);
+		$shares = $this->provider->getSharedWith('sharedWith', IShare::TYPE_USER, null, -1, 0);
+		$this->assertCount(50, $shares);
+
+		foreach ($shares as $share) {
+			$this->assertEquals($shareIds[$share->getNodeId()], $share->getId());
+			$this->assertEquals('sharedWith', $share->getSharedWith());
+			$this->assertEquals('shareOwner', $share->getShareOwner());
+			$this->assertEquals('sharedBy', $share->getSharedBy());
+			$this->assertEquals(IShare::TYPE_USER, $share->getShareType());
+		}
+	}
+	public function testGetAllSharedWithGroup() {
+		$storageId = $this->createTestStorageEntry('home::shareOwner');
+		$fileIds = [];
+		for ($i = 0; $i < 50; $i++) {
+			$fileIds[] = $this->createTestFileEntry('files/test-' . $i . '.txt', $storageId);
+		}
+
+		$shareIdToFileIds = [];
+		$shareIdToGroupId = [];
+		for ($i = 0; $i < 50; $i++) {
+			$qb = $this->dbConn->getQueryBuilder();
+			$qb->insert('share')
+				->values([
+					'share_type' => $qb->expr()->literal(IShare::TYPE_GROUP),
+					'share_with' => $qb->expr()->literal('sharedWith'),
+					'uid_owner' => $qb->expr()->literal('shareOwner'),
+					'uid_initiator' => $qb->expr()->literal('sharedBy'),
+					'item_type' => $qb->expr()->literal('file'),
+					'file_source' => $qb->expr()->literal($fileIds[$i]),
+					'file_target' => $qb->expr()->literal('myTarget' . $i . 'shareWith'),
+					'permissions' => $qb->expr()->literal(13),
+				]);
+			$qb->executeStatement();
+			$shareId = $qb->getLastInsertId();
+			$shareIdToFileIds[$shareId] = $fileIds[$i];
+			$shareIdToGroupId[$shareId] = 'sharedWith';
+
+			$qb = $this->dbConn->getQueryBuilder();
+			$qb->insert('share')
+				->values([
+					'share_type' => $qb->expr()->literal(IShare::TYPE_GROUP),
+					'share_with' => $qb->expr()->literal('group' . $i),
+					'uid_owner' => $qb->expr()->literal('shareOwner'),
+					'uid_initiator' => $qb->expr()->literal('sharedBy'),
+					'item_type' => $qb->expr()->literal('file'),
+					'file_source' => $qb->expr()->literal($fileIds[$i]),
+					'file_target' => $qb->expr()->literal('myTarget' . $i . 'group'),
+					'permissions' => $qb->expr()->literal(13),
+				]);
+			$qb->executeStatement();
+			$shareId = $qb->getLastInsertId();
+			$shareIdToFileIds[$shareId] = $fileIds[$i];
+			$shareIdToGroupId[$shareId] = 'group' . $i;
+		}
+
+		$groups = [];
+		foreach (range(0, 100) as $i) {
+			$groups[] = 'group'.$i;
+		}
+
+		$groups[] = 'sharedWith';
+
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn('sharedWith');
+		$owner = $this->createMock(IUser::class);
+		$owner->method('getUID')->willReturn('shareOwner');
+		$initiator = $this->createMock(IUser::class);
+		$initiator->method('getUID')->willReturn('sharedBy');
+
+		$this->userManager->method('get')->willReturnMap([
+			['sharedWith', $user],
+			['shareOwner', $owner],
+			['sharedBy', $initiator],
+		]);
+		$this->groupManager->method('getUserGroupIds')->with($user)->willReturn($groups);
+
+		$file = $this->createMock(File::class);
+		$this->rootFolder->method('getUserFolder')->with('shareOwner')->willReturnSelf();
+		$this->rootFolder->method('getById')->willReturn([$file]);
+
+		self::invokePrivate($this->provider, 'chunkSize', [5]);
+		$shares = $this->provider->getSharedWith('sharedWith', IShare::TYPE_GROUP, null, -1, 0);
+		$this->assertCount(100, $shares);
+
+		foreach ($shares as $share) {
+			$this->assertEquals($shareIdToFileIds[$share->getId()], $share->getNodeId());
+			$this->assertEquals($shareIdToGroupId[$share->getId()], $share->getSharedWith());
+			$this->assertEquals('shareOwner', $share->getShareOwner());
+			$this->assertEquals('sharedBy', $share->getSharedBy());
+			$this->assertEquals(IShare::TYPE_GROUP, $share->getShareType());
+		}
+	}
+
 	/**
 	 * @dataProvider storageAndFileNameProvider
 	 */

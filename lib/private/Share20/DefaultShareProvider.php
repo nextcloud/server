@@ -64,6 +64,8 @@ use function str_starts_with;
  * @package OC\Share20
  */
 class DefaultShareProvider implements IShareProvider {
+	protected int $chunkSize = 1000;
+
 	// Special share type for user modified group shares
 	public const SHARE_TYPE_USERGROUP = 2;
 
@@ -657,11 +659,7 @@ class DefaultShareProvider implements IShareProvider {
 			'f.fileid', 'f.path', 'f.permissions AS f_permissions', 'f.storage', 'f.path_hash',
 			'f.parent AS f_parent', 'f.name', 'f.mimetype', 'f.mimepart', 'f.size', 'f.mtime', 'f.storage_mtime',
 			'f.encrypted', 'f.unencrypted_size', 'f.etag', 'f.checksum')
-			->from('share', 's')
-			->andWhere($qb->expr()->orX(
-				$qb->expr()->eq('item_type', $qb->createNamedParameter('file')),
-				$qb->expr()->eq('item_type', $qb->createNamedParameter('folder'))
-			));
+			->from('share', 's');
 
 		$qb->andWhere($qb->expr()->orX(
 			$qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_USER)),
@@ -730,6 +728,9 @@ class DefaultShareProvider implements IShareProvider {
 			$qb->setParameter('chunk', $chunk, IQueryBuilder::PARAM_INT_ARRAY);
 			$cursor = $qb->executeQuery();
 			while ($data = $cursor->fetch()) {
+				if ($data['item_type'] !== 'file' && $data['item_type'] !== 'folder') {
+					continue;
+				}
 				$shares[$data['fileid']][] = $this->createShare($data);
 			}
 			$cursor->closeCursor();
@@ -745,12 +746,7 @@ class DefaultShareProvider implements IShareProvider {
 		$qb = $this->dbConn->getQueryBuilder();
 		$qb->select('*')
 			->from('share')
-			->andWhere($qb->expr()->orX(
-				$qb->expr()->eq('item_type', $qb->createNamedParameter('file')),
-				$qb->expr()->eq('item_type', $qb->createNamedParameter('folder'))
-			));
-
-		$qb->andWhere($qb->expr()->eq('share_type', $qb->createNamedParameter($shareType)));
+			->andWhere($qb->expr()->eq('share_type', $qb->createNamedParameter($shareType)));
 
 		/**
 		 * Reshares for this user are shares where they are the owner.
@@ -782,6 +778,9 @@ class DefaultShareProvider implements IShareProvider {
 		$cursor = $qb->execute();
 		$shares = [];
 		while ($data = $cursor->fetch()) {
+			if ($data['item_type'] !== 'file' && $data['item_type'] !== 'folder') {
+				continue;
+			}
 			$shares[] = $this->createShare($data);
 		}
 		$cursor->closeCursor();
@@ -897,11 +896,113 @@ class DefaultShareProvider implements IShareProvider {
 	 * @inheritdoc
 	 */
 	public function getSharedWith($userId, $shareType, $node, $limit, $offset) {
+		if ($shareType === IShare::TYPE_USER) {
+			if ($limit === -1 && $node === null && $offset === 0) {
+				return $this->getAllSharedWithUser((string) $userId);
+			}
+			return $this->getSharedWithUser($userId, $node, $limit, $offset);
+		}
+		if ($shareType === IShare::TYPE_GROUP) {
+			if ($limit === -1 && $node === null && $offset === 0) {
+				return $this->getAllSharedWithGroups((string) $userId);
+			}
+			return $this->getSharedWithGroups($userId, $node, $limit, $offset);
+		}
+		throw new BackendError('Invalid backend');
+	}
+
+	/**
+	 * Get limited user-shares shared with the given user
+	 *
+	 * @param string $userId get shares where this user is the recipient
+	 * @param Node|null $node
+	 * @param int $limit The max number of entries returned, -1 for all
+	 * @param int $offset
+	 * @return IShare[]
+	 */
+	public function getSharedWithUser($userId, $node, $limit, $offset): array {
 		/** @var Share[] $shares */
 		$shares = [];
 
-		if ($shareType === IShare::TYPE_USER) {
-			//Get shares directly with this user
+		//Get shares directly with this user
+		$qb = $this->dbConn->getQueryBuilder();
+		$qb->select('s.*',
+			'f.fileid', 'f.path', 'f.permissions AS f_permissions', 'f.storage', 'f.path_hash',
+			'f.parent AS f_parent', 'f.name', 'f.mimetype', 'f.mimepart', 'f.size', 'f.mtime', 'f.storage_mtime',
+			'f.encrypted', 'f.unencrypted_size', 'f.etag', 'f.checksum'
+		)
+			->selectAlias('st.id', 'storage_string_id')
+			->from('share', 's')
+			->leftJoin('s', 'filecache', 'f', $qb->expr()->eq('s.file_source', 'f.fileid'))
+			->leftJoin('f', 'storages', 'st', $qb->expr()->eq('f.storage', 'st.numeric_id'));
+
+		// Order by id
+		$qb->orderBy('s.id');
+
+		// Set limit and offset
+		if ($limit !== -1) {
+			$qb->setMaxResults($limit);
+		}
+		$qb->setFirstResult($offset);
+
+		$qb->where($qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_USER)))
+			->andWhere($qb->expr()->eq('share_with', $qb->createNamedParameter($userId)))
+			->andWhere($qb->expr()->orX(
+				$qb->expr()->eq('item_type', $qb->createNamedParameter('file')),
+				$qb->expr()->eq('item_type', $qb->createNamedParameter('folder'))
+			));
+
+		// Filter by node if provided
+		if ($node !== null) {
+			$qb->andWhere($qb->expr()->eq('file_source', $qb->createNamedParameter($node->getId())));
+		}
+
+		$cursor = $qb->execute();
+
+		while ($data = $cursor->fetch()) {
+			if ($data['fileid'] && $data['path'] === null) {
+				$data['path'] = (string) $data['path'];
+				$data['name'] = (string) $data['name'];
+				$data['checksum'] = (string) $data['checksum'];
+			}
+			if ($this->isAccessibleResult($data)) {
+				$shares[] = $this->createShare($data);
+			}
+		}
+		$cursor->closeCursor();
+
+		return $shares;
+	}
+
+
+	/**
+	 * Get limited group-shares shared with the groups of a given user
+	 *
+	 * @param string $userId get shares where this user is the recipient
+	 * @param Node|null $node
+	 * @param int $limit The max number of entries returned, -1 for all
+	 * @param int $offset
+	 * @return IShare[]
+	 */
+	public function getSharedWithGroups($userId, $node, $limit, $offset): array {
+		/** @var Share[] $shares */
+		$shares = [];
+
+		$user = $this->userManager->get($userId);
+		$allGroups = ($user instanceof IUser) ? $this->groupManager->getUserGroupIds($user) : [];
+
+		/** @var Share[] $shares2 */
+		$shares2 = [];
+
+		$start = 0;
+		while (true) {
+			$groups = array_slice($allGroups, $start, 1000);
+			$start += 1000;
+
+			if ($groups === []) {
+				break;
+			}
+
 			$qb = $this->dbConn->getQueryBuilder();
 			$qb->select('s.*',
 				'f.fileid', 'f.path', 'f.permissions AS f_permissions', 'f.storage', 'f.path_hash',
@@ -911,117 +1012,207 @@ class DefaultShareProvider implements IShareProvider {
 				->selectAlias('st.id', 'storage_string_id')
 				->from('share', 's')
 				->leftJoin('s', 'filecache', 'f', $qb->expr()->eq('s.file_source', 'f.fileid'))
-				->leftJoin('f', 'storages', 'st', $qb->expr()->eq('f.storage', 'st.numeric_id'));
+				->leftJoin('f', 'storages', 'st', $qb->expr()->eq('f.storage', 'st.numeric_id'))
+				->orderBy('s.id')
+				->setFirstResult(0);
 
-			// Order by id
-			$qb->orderBy('s.id');
-
-			// Set limit and offset
 			if ($limit !== -1) {
-				$qb->setMaxResults($limit);
+				$qb->setMaxResults($limit - count($shares));
 			}
-			$qb->setFirstResult($offset);
-
-			$qb->where($qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_USER)))
-				->andWhere($qb->expr()->eq('share_with', $qb->createNamedParameter($userId)))
-				->andWhere($qb->expr()->orX(
-					$qb->expr()->eq('item_type', $qb->createNamedParameter('file')),
-					$qb->expr()->eq('item_type', $qb->createNamedParameter('folder'))
-				));
 
 			// Filter by node if provided
 			if ($node !== null) {
 				$qb->andWhere($qb->expr()->eq('file_source', $qb->createNamedParameter($node->getId())));
 			}
 
-			$cursor = $qb->execute();
 
+			$groups = array_filter($groups);
+
+			$qb->andWhere($qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_GROUP)))
+				->andWhere($qb->expr()->in('share_with', $qb->createNamedParameter(
+					$groups,
+					IQueryBuilder::PARAM_STR_ARRAY
+				)))
+				->andWhere($qb->expr()->orX(
+					$qb->expr()->eq('item_type', $qb->createNamedParameter('file')),
+					$qb->expr()->eq('item_type', $qb->createNamedParameter('folder'))
+				));
+
+			$cursor = $qb->execute();
 			while ($data = $cursor->fetch()) {
-				if ($data['fileid'] && $data['path'] === null) {
-					$data['path'] = (string) $data['path'];
-					$data['name'] = (string) $data['name'];
-					$data['checksum'] = (string) $data['checksum'];
+				if ($offset > 0) {
+					$offset--;
+					continue;
 				}
+
 				if ($this->isAccessibleResult($data)) {
-					$shares[] = $this->createShare($data);
+					$shares2[] = $this->createShare($data);
 				}
 			}
 			$cursor->closeCursor();
-		} elseif ($shareType === IShare::TYPE_GROUP) {
-			$user = $this->userManager->get($userId);
-			$allGroups = ($user instanceof IUser) ? $this->groupManager->getUserGroupIds($user) : [];
-
-			/** @var Share[] $shares2 */
-			$shares2 = [];
-
-			$start = 0;
-			while (true) {
-				$groups = array_slice($allGroups, $start, 1000);
-				$start += 1000;
-
-				if ($groups === []) {
-					break;
-				}
-
-				$qb = $this->dbConn->getQueryBuilder();
-				$qb->select('s.*',
-					'f.fileid', 'f.path', 'f.permissions AS f_permissions', 'f.storage', 'f.path_hash',
-					'f.parent AS f_parent', 'f.name', 'f.mimetype', 'f.mimepart', 'f.size', 'f.mtime', 'f.storage_mtime',
-					'f.encrypted', 'f.unencrypted_size', 'f.etag', 'f.checksum'
-				)
-					->selectAlias('st.id', 'storage_string_id')
-					->from('share', 's')
-					->leftJoin('s', 'filecache', 'f', $qb->expr()->eq('s.file_source', 'f.fileid'))
-					->leftJoin('f', 'storages', 'st', $qb->expr()->eq('f.storage', 'st.numeric_id'))
-					->orderBy('s.id')
-					->setFirstResult(0);
-
-				if ($limit !== -1) {
-					$qb->setMaxResults($limit - count($shares));
-				}
-
-				// Filter by node if provided
-				if ($node !== null) {
-					$qb->andWhere($qb->expr()->eq('file_source', $qb->createNamedParameter($node->getId())));
-				}
-
-
-				$groups = array_filter($groups);
-
-				$qb->andWhere($qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_GROUP)))
-					->andWhere($qb->expr()->in('share_with', $qb->createNamedParameter(
-						$groups,
-						IQueryBuilder::PARAM_STR_ARRAY
-					)))
-					->andWhere($qb->expr()->orX(
-						$qb->expr()->eq('item_type', $qb->createNamedParameter('file')),
-						$qb->expr()->eq('item_type', $qb->createNamedParameter('folder'))
-					));
-
-				$cursor = $qb->execute();
-				while ($data = $cursor->fetch()) {
-					if ($offset > 0) {
-						$offset--;
-						continue;
-					}
-
-					if ($this->isAccessibleResult($data)) {
-						$shares2[] = $this->createShare($data);
-					}
-				}
-				$cursor->closeCursor();
-			}
-
-			/*
-			 * Resolve all group shares to user specific shares
-			 */
-			$shares = $this->resolveGroupShares($shares2, $userId);
-		} else {
-			throw new BackendError('Invalid backend');
 		}
 
+		/*
+		 * Resolve all group shares to user specific shares
+		 */
+		$shares = $this->resolveGroupShares($shares2, $userId);
 
 		return $shares;
+	}
+
+	/**
+	 * Get all user-shares shared with the given user
+	 *
+	 * @param string $userId get shares where this user is the recipient
+	 * @return IShare[]
+	 */
+	public function getAllSharedWithUser(string $userId): array {
+		//Get shares directly with this user
+		$query = $this->dbConn->getQueryBuilder();
+		$query->select('*')
+			->from('share')
+			->where($query->expr()->eq('share_type', $query->createNamedParameter(IShare::TYPE_USER)))
+			->andWhere($query->expr()->eq('share_with', $query->createNamedParameter($userId)));
+
+		/** @var array<int, array> $shareRows */
+		$shareRows = [];
+
+		/** @var array<int, ?array> $fileData */
+		$fileData = [];
+
+		$result = $query->executeQuery();
+		while ($row = $result->fetch()) {
+			if ($row['item_type'] !== 'file' && $row['item_type'] !== 'folder') {
+				continue;
+			}
+
+			$shareRows[(int)$row['id']] = $row;
+			$fileData[(int)$row['file_source']] = null;
+		}
+		$result->closeCursor();
+
+		if (empty($fileData)) {
+			return [];
+		}
+
+		$queryFileCache = $this->dbConn->getQueryBuilder();
+		$queryFileCache->select('f.fileid', 'f.path', 'f.permissions AS f_permissions', 'f.storage', 'f.path_hash',
+			'f.parent AS f_parent', 'f.name', 'f.mimetype', 'f.mimepart', 'f.size', 'f.mtime', 'f.storage_mtime',
+			'f.encrypted', 'f.unencrypted_size', 'f.etag', 'f.checksum')
+			->selectAlias('st.id', 'storage_string_id')
+			->from('filecache', 'f')
+			->leftJoin('f', 'storages', 'st', $queryFileCache->expr()->eq('f.storage', 'st.numeric_id'))
+			->where($queryFileCache->expr()->in('f.fileid', $queryFileCache->createParameter('fileIds')));
+
+		$allFileIds = array_keys($fileData);
+		foreach (array_chunk($allFileIds, $this->chunkSize) as $fileIds) {
+			// Filecache and storage info
+			$queryFileCache->setParameter('fileIds', $fileIds, IQueryBuilder::PARAM_INT_ARRAY);
+
+			$result = $queryFileCache->executeQuery();
+			while ($row = $result->fetch()) {
+				if (!$this->isAccessibleResult($row)) {
+					continue;
+				}
+
+				$fileData[(int) $row['fileid']] = $row;
+			}
+			$result->closeCursor();
+		}
+
+		/** @var IShare[] $shares */
+		$shares = [];
+		foreach ($shareRows as $row) {
+			if (empty($fileData[(int)$row['file_source']])) {
+				continue;
+			}
+			$shares[] = $this->createShare(array_merge($row, $fileData[(int)$row['file_source']]));
+		}
+
+		return $shares;
+	}
+
+
+	/**
+	 * Get all group-shares shared with the groups of a given user
+	 *
+	 * @param string $userId get shares where this user is the recipient
+	 * @return IShare[]
+	 */
+	public function getAllSharedWithGroups($userId): array {
+		$user = $this->userManager->get($userId);
+		$allGroups = ($user instanceof IUser) ? $this->groupManager->getUserGroupIds($user) : [];
+
+		$query = $this->dbConn->getQueryBuilder();
+		$query->select('s.*')
+			->from('share', 's')
+			->where($query->expr()->eq('s.share_type', $query->createNamedParameter(IShare::TYPE_GROUP)))
+			->andWhere($query->expr()->in('s.share_with', $query->createParameter('groups')));
+
+		/** @var array<int, array> $shareRows */
+		$shareRows = [];
+
+		/** @var array<int, ?array> $fileData */
+		$fileData = [];
+
+		foreach (array_chunk($allGroups, $this->chunkSize) as $groups) {
+			$query->setParameter('groups', $groups, IQueryBuilder::PARAM_STR_ARRAY);
+
+			$result = $query->executeQuery();
+			while ($row = $result->fetch()) {
+				if ($row['item_type'] !== 'file' && $row['item_type'] !== 'folder') {
+					continue;
+				}
+
+				$shareRows[(int)$row['id']] = $row;
+				$fileData[(int)$row['file_source']] = null;
+			}
+			$result->closeCursor();
+
+		}
+
+		if (empty($fileData)) {
+			return [];
+		}
+
+		$queryFileCache = $this->dbConn->getQueryBuilder();
+		$queryFileCache->select('f.fileid', 'f.path', 'f.permissions AS f_permissions', 'f.storage', 'f.path_hash',
+			'f.parent AS f_parent', 'f.name', 'f.mimetype', 'f.mimepart', 'f.size', 'f.mtime', 'f.storage_mtime',
+			'f.encrypted', 'f.unencrypted_size', 'f.etag', 'f.checksum')
+			->selectAlias('st.id', 'storage_string_id')
+			->from('filecache', 'f')
+			->leftJoin('f', 'storages', 'st', $queryFileCache->expr()->eq('f.storage', 'st.numeric_id'))
+			->where($queryFileCache->expr()->in('f.fileid', $queryFileCache->createParameter('fileIds')));
+
+		$allFileIds = array_keys($fileData);
+		foreach (array_chunk($allFileIds, $this->chunkSize) as $fileIds) {
+			// Filecache and storage info
+			$queryFileCache->setParameter('fileIds', $fileIds, IQueryBuilder::PARAM_INT_ARRAY);
+
+			$result = $queryFileCache->executeQuery();
+			while ($row = $result->fetch()) {
+				if (!$this->isAccessibleResult($row)) {
+					continue;
+				}
+
+				$fileData[(int) $row['fileid']] = $row;
+			}
+			$result->closeCursor();
+		}
+
+		/** @var IShare[] $shares */
+		$shares = [];
+		foreach ($shareRows as $row) {
+			if (empty($fileData[(int)$row['file_source']])) {
+				continue;
+			}
+			$shares[] = $this->createShare(array_merge($row, $fileData[(int)$row['file_source']]));
+		}
+
+		/**
+		 * Resolve all group shares to user specific shares
+		 */
+		return $this->resolveGroupShares($shares, $userId);
 	}
 
 	/**
@@ -1038,10 +1229,6 @@ class DefaultShareProvider implements IShareProvider {
 			->from('share')
 			->where($qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_LINK)))
 			->andWhere($qb->expr()->eq('token', $qb->createNamedParameter($token)))
-			->andWhere($qb->expr()->orX(
-				$qb->expr()->eq('item_type', $qb->createNamedParameter('file')),
-				$qb->expr()->eq('item_type', $qb->createNamedParameter('folder'))
-			))
 			->execute();
 
 		$data = $cursor->fetch();
@@ -1051,6 +1238,9 @@ class DefaultShareProvider implements IShareProvider {
 		}
 
 		try {
+			if ($data['item_type'] !== 'file' && $data['item_type'] !== 'folder') {
+				throw new ShareNotFound();
+			}
 			$share = $this->createShare($data);
 		} catch (InvalidShare $e) {
 			throw new ShareNotFound();
@@ -1127,16 +1317,16 @@ class DefaultShareProvider implements IShareProvider {
 	}
 
 	/**
-	 * @param Share[] $shares
+	 * @param IShare[] $shares
 	 * @param $userId
-	 * @return Share[] The updates shares if no update is found for a share return the original
+	 * @return IShare[] The updates shares if no update is found for a share return the original
 	 */
 	private function resolveGroupShares($shares, $userId) {
 		$result = [];
 
 		$start = 0;
 		while (true) {
-			/** @var Share[] $shareSlice */
+			/** @var IShare[] $shareSlice */
 			$shareSlice = array_slice($shares, $start, 100);
 			$start += 100;
 
@@ -1146,7 +1336,7 @@ class DefaultShareProvider implements IShareProvider {
 
 			/** @var int[] $ids */
 			$ids = [];
-			/** @var Share[] $shareMap */
+			/** @var IShare[] $shareMap */
 			$shareMap = [];
 
 			foreach ($shareSlice as $share) {
@@ -1159,15 +1349,14 @@ class DefaultShareProvider implements IShareProvider {
 			$query = $qb->select('*')
 				->from('share')
 				->where($qb->expr()->in('parent', $qb->createNamedParameter($ids, IQueryBuilder::PARAM_INT_ARRAY)))
-				->andWhere($qb->expr()->eq('share_with', $qb->createNamedParameter($userId)))
-				->andWhere($qb->expr()->orX(
-					$qb->expr()->eq('item_type', $qb->createNamedParameter('file')),
-					$qb->expr()->eq('item_type', $qb->createNamedParameter('folder'))
-				));
+				->andWhere($qb->expr()->eq('share_with', $qb->createNamedParameter($userId)));
 
 			$stmt = $query->execute();
 
 			while ($data = $stmt->fetch()) {
+				if ($data['item_type'] !== 'file' && $data['item_type'] !== 'folder') {
+					continue;
+				}
 				$shareMap[$data['parent']]->setPermissions((int)$data['permissions']);
 				$shareMap[$data['parent']]->setStatus((int)$data['accepted']);
 				$shareMap[$data['parent']]->setTarget($data['file_target']);
@@ -1355,21 +1544,20 @@ class DefaultShareProvider implements IShareProvider {
 			$or->add($qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_USERGROUP)));
 		}
 
-		$qb->select('id', 'parent', 'share_type', 'share_with', 'file_source', 'file_target', 'permissions')
+		$qb->select('id', 'parent', 'share_type', 'share_with', 'file_source', 'file_target', 'permissions', 'item_type')
 			->from('share')
 			->where(
 				$or
 			)
-			->andWhere($qb->expr()->in('file_source', $qb->createNamedParameter($ids, IQueryBuilder::PARAM_INT_ARRAY)))
-			->andWhere($qb->expr()->orX(
-				$qb->expr()->eq('item_type', $qb->createNamedParameter('file')),
-				$qb->expr()->eq('item_type', $qb->createNamedParameter('folder'))
-			));
-		$cursor = $qb->execute();
+			->andWhere($qb->expr()->in('file_source', $qb->createNamedParameter($ids, IQueryBuilder::PARAM_INT_ARRAY)));
+		$cursor = $qb->executeQuery();
 
 		$users = [];
 		$link = false;
 		while ($row = $cursor->fetch()) {
+			if ($row['item_type'] !== 'file' && $row['item_type'] !== 'folder') {
+				continue;
+			}
 			$type = (int)$row['share_type'];
 			if ($type === IShare::TYPE_USER) {
 				$uid = $row['share_with'];
