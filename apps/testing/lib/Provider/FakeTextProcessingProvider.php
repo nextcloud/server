@@ -34,7 +34,7 @@ class FakeTextProcessingProvider implements IProvider {
 	}
 
 	public function process(string $prompt): string {
-		return strrev($prompt);
+		return strrev($prompt) . ' (done with FakeTextProcessingProvider)';
 	}
 
 	public function getTaskType(): string {

@@ -36,7 +36,7 @@ class FakeTextProcessingProviderSync implements IProviderWithExpectedRuntime {
 	}
 
 	public function process(string $prompt): string {
-		return strrev($prompt);
+		return strrev($prompt) . ' (done with FakeTextProcessingProviderSync)';
 	}
 
 	public function getTaskType(): string {
