@@ -24,6 +24,7 @@
 namespace OCA\User_LDAP\Controller;
 
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\HintException;
@@ -35,6 +36,7 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
 
+#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class RenewPasswordController extends Controller {
 	/** @var IUserManager */
 	private $userManager;

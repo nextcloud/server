@@ -434,7 +434,7 @@ class ManagerTest extends TestCase {
 
 	public function testCreateUserFromBackendWithBackendError() {
 		$this->expectException(\InvalidArgumentException::class);
-		$this->expectExceptionMessage('Could not create user');
+		$this->expectExceptionMessage('Could not create account');
 
 		/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject $config */
 		$config = $this->createMock(IConfig::class);

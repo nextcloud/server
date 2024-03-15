@@ -24,9 +24,8 @@ import Vue from 'vue'
 import { getRequestToken } from '@nextcloud/auth'
 import { loadState } from '@nextcloud/initial-state'
 import { translate as t } from '@nextcloud/l10n'
-import '@nextcloud/dialogs/dist/index.css'
 
-import logger from './logger.js'
+import logger from './logger.ts'
 
 import ProfileSettings from './components/BasicSettings/ProfileSettings.vue'
 import BackgroundJob from './components/BasicSettings/BackgroundJob.vue'

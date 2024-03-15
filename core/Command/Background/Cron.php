@@ -26,7 +26,7 @@
 namespace OC\Core\Command\Background;
 
 class Cron extends Base {
-	protected function getMode() {
+	protected function getMode(): string {
 		return 'cron';
 	}
 }

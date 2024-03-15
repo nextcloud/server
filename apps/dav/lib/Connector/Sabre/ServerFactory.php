@@ -31,11 +31,11 @@
  */
 namespace OCA\DAV\Connector\Sabre;
 
-use OCP\EventDispatcher\IEventDispatcher;
-use OCP\Files\Folder;
 use OCA\DAV\AppInfo\PluginManager;
 use OCA\DAV\DAV\ViewOnlyPlugin;
 use OCA\DAV\Files\BrowserErrorPagePlugin;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\Folder;
 use OCP\Files\Mount\IMountManager;
 use OCP\IConfig;
 use OCP\IDBConnection;
@@ -88,9 +88,9 @@ class ServerFactory {
 	 * @param callable $viewCallBack callback that should return the view for the dav endpoint
 	 */
 	public function createServer(string $baseUri,
-								 string $requestUri,
-								 Plugin $authPlugin,
-								 callable $viewCallBack): Server {
+		string $requestUri,
+		Plugin $authPlugin,
+		callable $viewCallBack): Server {
 		// Fire up server
 		$objectTree = new \OCA\DAV\Connector\Sabre\ObjectTree();
 		$server = new \OCA\DAV\Connector\Sabre\Server($objectTree);
@@ -161,7 +161,7 @@ class ServerFactory {
 
 			// Allow view-only plugin for webdav requests
 			$server->addPlugin(new ViewOnlyPlugin(
-				$this->logger
+				$userFolder,
 			));
 
 			if ($this->userSession->isLoggedIn()) {
@@ -188,6 +188,7 @@ class ServerFactory {
 				$server->addPlugin(
 					new \Sabre\DAV\PropertyStorage\Plugin(
 						new \OCA\DAV\DAV\CustomPropertiesBackend(
+							$server,
 							$objectTree,
 							$this->databaseConnection,
 							$this->userSession->getUser()

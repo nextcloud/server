@@ -36,7 +36,7 @@ class CleanupDirectEditingTokens extends TimedJob {
 	private IManager $manager;
 
 	public function __construct(ITimeFactory $time,
-								IManager $manager) {
+		IManager $manager) {
 		parent::__construct($time);
 		$this->interval = self::INTERVAL_MINUTES;
 		$this->manager = $manager;

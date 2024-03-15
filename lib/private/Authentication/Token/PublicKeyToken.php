@@ -137,10 +137,8 @@ class PublicKeyToken extends Entity implements INamedToken, IWipeableToken {
 
 	/**
 	 * Get the (encrypted) login password
-	 *
-	 * @return string|null
 	 */
-	public function getPassword() {
+	public function getPassword(): ?string {
 		return parent::getPassword();
 	}
 
@@ -165,10 +163,8 @@ class PublicKeyToken extends Entity implements INamedToken, IWipeableToken {
 
 	/**
 	 * Get the timestamp of the last password check
-	 *
-	 * @param int $time
 	 */
-	public function setLastCheck(int $time) {
+	public function setLastCheck(int $time): void {
 		parent::setLastCheck($time);
 	}
 
@@ -191,7 +187,7 @@ class PublicKeyToken extends Entity implements INamedToken, IWipeableToken {
 		return $scope;
 	}
 
-	public function setScope($scope) {
+	public function setScope(array|string|null $scope): void {
 		if (is_array($scope)) {
 			parent::setScope(json_encode($scope));
 		} else {
@@ -211,15 +207,15 @@ class PublicKeyToken extends Entity implements INamedToken, IWipeableToken {
 		return parent::getRemember();
 	}
 
-	public function setToken(string $token) {
+	public function setToken(string $token): void {
 		parent::setToken($token);
 	}
 
-	public function setPassword(string $password = null) {
+	public function setPassword(string $password = null): void {
 		parent::setPassword($password);
 	}
 
-	public function setExpires($expires) {
+	public function setExpires($expires): void {
 		parent::setExpires($expires);
 	}
 

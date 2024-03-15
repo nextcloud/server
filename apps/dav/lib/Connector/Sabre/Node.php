@@ -303,7 +303,7 @@ abstract class Node implements \Sabre\DAV\INode {
 		$mountpoint = $this->info->getMountPoint();
 		if (!($mountpoint instanceof MoveableMount)) {
 			$mountpointpath = $mountpoint->getMountPoint();
-			if (substr($mountpointpath, -1) === '/') {
+			if (str_ends_with($mountpointpath, '/')) {
 				$mountpointpath = substr($mountpointpath, 0, -1);
 			}
 

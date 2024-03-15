@@ -79,7 +79,6 @@ $expectedFiles = [
 	'jest.config.ts',
 	'lib',
 	'occ',
-	'ocm-provider',
 	'ocs',
 	'ocs-provider',
 	'package-lock.json',

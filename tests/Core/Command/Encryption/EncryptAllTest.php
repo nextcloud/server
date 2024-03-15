@@ -88,8 +88,12 @@ class EncryptAllTest extends TestCase {
 		// enable single user mode to avoid that other user login during encryption
 		// destructor should disable the single user mode again
 		$this->config->expects($this->once())->method('getSystemValueBool')->with('maintenance', false)->willReturn(false);
-		$this->config->expects($this->at(1))->method('setSystemValue')->with('maintenance', true);
-		$this->config->expects($this->at(2))->method('setSystemValue')->with('maintenance', false);
+		$this->config->expects($this->exactly(2))
+			->method('setSystemValue')
+			->withConsecutive(
+				['maintenance', true],
+				['maintenance', false],
+			);
 
 		$instance = new EncryptAll($this->encryptionManager, $this->appManager, $this->config, $this->questionHelper);
 		$this->invokePrivate($instance, 'forceMaintenanceAndTrashbin');

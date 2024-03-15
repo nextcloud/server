@@ -34,14 +34,13 @@ use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\ICacheFactory;
 use OCP\IConfig;
-use OCP\ILogger;
 use OCP\ITempManager;
 use OCP\IURLGenerator;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class ImageManagerTest extends TestCase {
-
 	/** @var IConfig|MockObject */
 	protected $config;
 	/** @var IAppData|MockObject */
@@ -52,7 +51,7 @@ class ImageManagerTest extends TestCase {
 	private $urlGenerator;
 	/** @var ICacheFactory|MockObject */
 	private $cacheFactory;
-	/** @var ILogger|MockObject */
+	/** @var LoggerInterface|MockObject */
 	private $logger;
 	/** @var ITempManager|MockObject */
 	private $tempManager;
@@ -65,7 +64,7 @@ class ImageManagerTest extends TestCase {
 		$this->appData = $this->createMock(IAppData::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->cacheFactory = $this->createMock(ICacheFactory::class);
-		$this->logger = $this->createMock(ILogger::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->tempManager = $this->createMock(ITempManager::class);
 		$this->rootFolder = $this->createMock(ISimpleFolder::class);
 		$this->imageManager = new ImageManager(
@@ -143,7 +142,7 @@ class ImageManagerTest extends TestCase {
 			->withConsecutive(
 				['theming', 'cachebuster', '0'],
 				['theming', 'logoMime', '']
-				)
+			)
 			->willReturn(0);
 		$this->urlGenerator->expects($this->once())
 			->method('linkToRoute')
@@ -322,7 +321,7 @@ class ImageManagerTest extends TestCase {
 		$folders[2]->expects($this->never())->method('delete');
 		$this->config->expects($this->once())
 			->method('getAppValue')
-			->with('theming','cachebuster','0')
+			->with('theming', 'cachebuster', '0')
 			->willReturn('2');
 		$this->rootFolder->expects($this->once())
 			->method('getDirectoryListing')

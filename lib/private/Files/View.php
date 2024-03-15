@@ -49,13 +49,14 @@ namespace OC\Files;
 use Icewind\Streams\CallbackWrapper;
 use OC\Files\Mount\MoveableMount;
 use OC\Files\Storage\Storage;
-use OC\User\LazyUser;
 use OC\Share\Share;
-use OC\User\User;
+use OC\User\LazyUser;
 use OC\User\Manager as UserManager;
+use OC\User\User;
 use OCA\Files_Sharing\SharedMount;
 use OCP\Constants;
 use OCP\Files\Cache\ICacheEntry;
+use OCP\Files\ConnectionLostException;
 use OCP\Files\EmptyFileNameException;
 use OCP\Files\FileNameTooLongException;
 use OCP\Files\InvalidCharacterInPathException;
@@ -64,10 +65,12 @@ use OCP\Files\InvalidPathException;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\NotFoundException;
 use OCP\Files\ReservedWordException;
-use OCP\Files\Storage\IStorage;
 use OCP\IUser;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
+use OCP\Server;
+use OCP\Share\IManager;
+use OCP\Share\IShare;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -286,12 +289,12 @@ class View {
 		$this->updaterEnabled = true;
 	}
 
-	protected function writeUpdate(Storage $storage, string $internalPath, ?int $time = null): void {
+	protected function writeUpdate(Storage $storage, string $internalPath, ?int $time = null, ?int $sizeDifference = null): void {
 		if ($this->updaterEnabled) {
 			if (is_null($time)) {
 				$time = time();
 			}
-			$storage->getUpdater()->update($internalPath, $time);
+			$storage->getUpdater()->update($internalPath, $time, $sizeDifference);
 		}
 	}
 
@@ -397,10 +400,11 @@ class View {
 		}
 		$handle = $this->fopen($path, 'rb');
 		if ($handle) {
-			$chunkSize = 524288; // 512 kB chunks
+			$chunkSize = 524288; // 512 kiB chunks
 			while (!feof($handle)) {
 				echo fread($handle, $chunkSize);
 				flush();
+				$this->checkConnectionStatus();
 			}
 			fclose($handle);
 			return $this->filesize($path);
@@ -423,7 +427,7 @@ class View {
 		}
 		$handle = $this->fopen($path, 'rb');
 		if ($handle) {
-			$chunkSize = 524288; // 512 kB chunks
+			$chunkSize = 524288; // 512 kiB chunks
 			$startReading = true;
 
 			if ($from !== 0 && $from !== '0' && fseek($handle, $from) !== 0) {
@@ -453,6 +457,7 @@ class View {
 					}
 					echo fread($handle, $len);
 					flush();
+					$this->checkConnectionStatus();
 				}
 				return ftell($handle) - $from;
 			}
@@ -460,6 +465,13 @@ class View {
 			throw new \OCP\Files\UnseekableException('fseek error');
 		}
 		return false;
+	}
+
+	private function checkConnectionStatus(): void {
+		$connectionStatus = \connection_status();
+		if ($connectionStatus !== CONNECTION_NORMAL) {
+			throw new ConnectionLostException("Connection lost. Status: $connectionStatus");
+		}
 	}
 
 	/**
@@ -721,6 +733,8 @@ class View {
 	public function rename($source, $target) {
 		$absolutePath1 = Filesystem::normalizePath($this->getAbsolutePath($source));
 		$absolutePath2 = Filesystem::normalizePath($this->getAbsolutePath($target));
+		$targetParts = explode('/', $absolutePath2);
+		$targetUser = $targetParts[1] ?? null;
 		$result = false;
 		if (
 			Filesystem::isValidPath($target)
@@ -775,7 +789,7 @@ class View {
 						if ($internalPath1 === '') {
 							if ($mount1 instanceof MoveableMount) {
 								$sourceParentMount = $this->getMount(dirname($source));
-								if ($sourceParentMount === $mount2 && $this->targetIsNotShared($storage2, $internalPath2)) {
+								if ($sourceParentMount === $mount2 && $this->targetIsNotShared($targetUser, $absolutePath2)) {
 									/**
 									 * @var \OC\Files\Mount\MountPoint | \OC\Files\Mount\MoveableMount $mount1
 									 */
@@ -1163,7 +1177,9 @@ class View {
 					$this->removeUpdate($storage, $internalPath);
 				}
 				if ($result !== false && in_array('write', $hooks, true) && $operation !== 'fopen' && $operation !== 'touch') {
-					$this->writeUpdate($storage, $internalPath);
+					$isCreateOperation = $operation === 'mkdir' || ($operation === 'file_put_contents' && in_array('create', $hooks, true));
+					$sizeDifference = $operation === 'mkdir' ? 0 : $result;
+					$this->writeUpdate($storage, $internalPath, null, $isCreateOperation ? $sizeDifference : null);
 				}
 				if ($result !== false && in_array('touch', $hooks)) {
 					$this->writeUpdate($storage, $internalPath, $extraParam);
@@ -1515,7 +1531,7 @@ class View {
 						$rootEntry['path'] = substr(Filesystem::normalizePath($path . '/' . $rootEntry['name']), strlen($user) + 2); // full path without /$user/
 
 						// if sharing was disabled for the user we remove the share permissions
-						if (\OCP\Util::isSharingDisabledForUser()) {
+						if ($sharingDisabled) {
 							$rootEntry['permissions'] = $rootEntry['permissions'] & ~\OCP\Constants::PERMISSION_SHARE;
 						}
 
@@ -1769,28 +1785,29 @@ class View {
 	 * It is not allowed to move a mount point into a different mount point or
 	 * into an already shared folder
 	 */
-	private function targetIsNotShared(IStorage $targetStorage, string $targetInternalPath): bool {
-		// note: cannot use the view because the target is already locked
-		$fileId = $targetStorage->getCache()->getId($targetInternalPath);
-		if ($fileId === -1) {
-			// target might not exist, need to check parent instead
-			$fileId = $targetStorage->getCache()->getId(dirname($targetInternalPath));
-		}
+	private function targetIsNotShared(string $user, string $targetPath): bool {
+		$providers = [
+			IShare::TYPE_USER,
+			IShare::TYPE_GROUP,
+			IShare::TYPE_EMAIL,
+			IShare::TYPE_CIRCLE,
+			IShare::TYPE_ROOM,
+			IShare::TYPE_DECK,
+			IShare::TYPE_SCIENCEMESH
+		];
+		$shareManager = Server::get(IManager::class);
+		/** @var IShare[] $shares */
+		$shares = array_merge(...array_map(function (int $type) use ($shareManager, $user) {
+			return $shareManager->getSharesBy($user, $type);
+		}, $providers));
 
-		// check if any of the parents were shared by the current owner (include collections)
-		$shares = Share::getItemShared(
-			'folder',
-			(string)$fileId,
-			\OC\Share\Constants::FORMAT_NONE,
-			null,
-			true
-		);
-
-		if (count($shares) > 0) {
-			$this->logger->debug(
-				'It is not allowed to move one mount point into a shared folder',
-				['app' => 'files']);
-			return false;
+		foreach ($shares as $share) {
+			if (str_starts_with($targetPath, $share->getNode()->getPath())) {
+				$this->logger->debug(
+					'It is not allowed to move one mount point into a shared folder',
+					['app' => 'files']);
+				return false;
+			}
 		}
 
 		return true;
@@ -1834,19 +1851,19 @@ class View {
 			[$storage, $internalPath] = $this->resolvePath($path);
 			$storage->verifyPath($internalPath, $fileName);
 		} catch (ReservedWordException $ex) {
-			$l = \OC::$server->getL10N('lib');
+			$l = \OCP\Util::getL10N('lib');
 			throw new InvalidPathException($l->t('File name is a reserved word'));
 		} catch (InvalidCharacterInPathException $ex) {
-			$l = \OC::$server->getL10N('lib');
+			$l = \OCP\Util::getL10N('lib');
 			throw new InvalidPathException($l->t('File name contains at least one invalid character'));
 		} catch (FileNameTooLongException $ex) {
-			$l = \OC::$server->getL10N('lib');
+			$l = \OCP\Util::getL10N('lib');
 			throw new InvalidPathException($l->t('File name is too long'));
 		} catch (InvalidDirectoryException $ex) {
-			$l = \OC::$server->getL10N('lib');
+			$l = \OCP\Util::getL10N('lib');
 			throw new InvalidPathException($l->t('Dot files are not allowed'));
 		} catch (EmptyFileNameException $ex) {
-			$l = \OC::$server->getL10N('lib');
+			$l = \OCP\Util::getL10N('lib');
 			throw new InvalidPathException($l->t('Empty filename is not allowed'));
 		}
 	}

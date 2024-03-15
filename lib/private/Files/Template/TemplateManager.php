@@ -31,8 +31,8 @@ use OC\AppFramework\Bootstrap\Coordinator;
 use OC\Files\Cache\Scanner;
 use OC\Files\Filesystem;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\Files\Folder;
 use OCP\Files\File;
+use OCP\Files\Folder;
 use OCP\Files\GenericFileException;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
@@ -240,7 +240,8 @@ class TemplateManager implements ITemplateManager {
 			'mime' => $file->getMimetype(),
 			'size' => $file->getSize(),
 			'type' => $file->getType(),
-			'hasPreview' => $this->previewManager->isAvailable($file)
+			'hasPreview' => $this->previewManager->isAvailable($file),
+			'permissions' => $file->getPermissions(),
 		];
 	}
 
@@ -273,6 +274,11 @@ class TemplateManager implements ITemplateManager {
 		$isDefaultSkeleton = $skeletonPath === $defaultSkeletonDirectory;
 		$isDefaultTemplates = $skeletonTemplatePath === $defaultTemplateDirectory;
 		$userLang = $this->l10nFactory->getUserLanguage($this->userManager->get($this->userId));
+
+		if ($skeletonTemplatePath === '') {
+			$this->setTemplatePath('');
+			return '';
+		}
 
 		try {
 			$l10n = $this->l10nFactory->get('lib', $userLang);

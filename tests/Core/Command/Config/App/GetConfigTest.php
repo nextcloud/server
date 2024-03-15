@@ -21,8 +21,9 @@
 
 namespace Tests\Core\Command\Config\App;
 
+use OC\AppConfig;
 use OC\Core\Command\Config\App\GetConfig;
-use OCP\IConfig;
+use OCP\Exceptions\AppConfigUnknownKeyException;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
@@ -42,13 +43,13 @@ class GetConfigTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$config = $this->config = $this->getMockBuilder(IConfig::class)
+		$config = $this->config = $this->getMockBuilder(AppConfig::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$this->consoleInput = $this->getMockBuilder(InputInterface::class)->getMock();
 		$this->consoleOutput = $this->getMockBuilder(OutputInterface::class)->getMock();
 
-		/** @var \OCP\IConfig $config */
+		/** @var \OCP\IAppConfig $config */
 		$this->command = new GetConfig($config);
 	}
 
@@ -108,18 +109,20 @@ class GetConfigTest extends TestCase {
 	 * @param string $expectedMessage
 	 */
 	public function testGet($configName, $value, $configExists, $defaultValue, $hasDefault, $outputFormat, $expectedReturn, $expectedMessage) {
-		$this->config->expects($this->atLeastOnce())
-			->method('getAppKeys')
-			->with('app-name')
-			->willReturn($configExists ? [$configName] : []);
-
 		if (!$expectedReturn) {
 			if ($configExists) {
 				$this->config->expects($this->once())
-					->method('getAppValue')
+					->method('getDetails')
 					->with('app-name', $configName)
-					->willReturn($value);
+					->willReturn(['value' => $value]);
 			}
+		}
+
+		if (!$configExists) {
+			$this->config->expects($this->once())
+						 ->method('getDetails')
+						 ->with('app-name', $configName)
+						 ->willThrowException(new AppConfigUnknownKeyException());
 		}
 
 		$this->consoleInput->expects($this->exactly(2))

@@ -44,6 +44,7 @@ use Psr\Log\LoggerInterface;
 use Throwable;
 use function sprintf;
 
+/** @template-implements IEventListener<CalendarCreatedEvent|CalendarUpdatedEvent|CalendarMovedToTrashEvent|CalendarRestoredEvent|CalendarDeletedEvent|CalendarObjectCreatedEvent|CalendarObjectUpdatedEvent|CalendarObjectMovedEvent|CalendarObjectMovedToTrashEvent|CalendarObjectRestoredEvent|CalendarObjectDeletedEvent> */
 class ActivityUpdaterListener implements IEventListener {
 
 	/** @var ActivityBackend */
@@ -53,7 +54,7 @@ class ActivityUpdaterListener implements IEventListener {
 	private $logger;
 
 	public function __construct(ActivityBackend $activityBackend,
-								LoggerInterface $logger) {
+		LoggerInterface $logger) {
 		$this->activityBackend = $activityBackend;
 		$this->logger = $logger;
 	}

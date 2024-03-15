@@ -51,7 +51,6 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Share\IManager;
-use OCP\Template;
 use Test\TestCase;
 
 /**
@@ -72,9 +71,9 @@ class ViewControllerTest extends TestCase {
 	private $eventDispatcher;
 	/** @var ViewController|\PHPUnit\Framework\MockObject\MockObject */
 	private $viewController;
-	/** @var IUser */
+	/** @var IUser|\PHPUnit\Framework\MockObject\MockObject */
 	private $user;
-	/** @var IUserSession */
+	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
 	private $userSession;
 	/** @var IAppManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $appManager;
@@ -136,7 +135,6 @@ class ViewControllerTest extends TestCase {
 			])
 		->setMethods([
 			'getStorageInfo',
-			'renderScript'
 		])
 		->getMock();
 	}
@@ -153,6 +151,12 @@ class ViewControllerTest extends TestCase {
 				'owner' => 'MyName',
 				'ownerDisplayName' => 'MyDisplayName',
 			]);
+
+		$this->config
+		->expects($this->any())
+			->method('getSystemValue')
+			->with('forbidden_chars', [])
+			->willReturn([]);
 		$this->config
 			->method('getUserValue')
 			->willReturnMap([
@@ -163,7 +167,7 @@ class ViewControllerTest extends TestCase {
 				[$this->user->getUID(), 'files', 'crop_image_previews', true, true],
 				[$this->user->getUID(), 'files', 'show_grid', true],
 			]);
-		
+
 		$baseFolderFiles = $this->getMockBuilder(Folder::class)->getMock();
 
 		$this->rootFolder->expects($this->any())
@@ -179,9 +183,6 @@ class ViewControllerTest extends TestCase {
 		$expected = new Http\TemplateResponse(
 			'files',
 			'index',
-			[
-				'fileNotFound' => 0,
-			]
 		);
 		$policy = new Http\ContentSecurityPolicy();
 		$policy->addAllowedWorkerSrcDomain('\'self\'');
@@ -227,9 +228,9 @@ class ViewControllerTest extends TestCase {
 			->willReturn($baseFolderTrash);
 
 		$baseFolderFiles->expects($this->any())
-			->method('getById')
+			->method('getFirstNodeById')
 			->with(123)
-			->willReturn([]);
+			->willReturn(null);
 
 		$node = $this->getMockBuilder(File::class)->getMock();
 		$node->expects($this->once())
@@ -237,9 +238,9 @@ class ViewControllerTest extends TestCase {
 			->willReturn($parentNode);
 
 		$baseFolderTrash->expects($this->once())
-			->method('getById')
+			->method('getFirstNodeById')
 			->with(123)
-			->willReturn([$node]);
+			->willReturn($node);
 		$baseFolderTrash->expects($this->once())
 			->method('getRelativePath')
 			->with('testuser1/files_trashbin/files/test.d1462861890/sub')

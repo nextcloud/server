@@ -36,23 +36,19 @@ namespace OC\Security\CSRF;
  * @package OC\Security\CSRF
  */
 class CsrfToken {
-	/** @var string */
-	private $value;
-	/** @var string */
-	private $encryptedValue = '';
+	private string $encryptedValue = '';
 
 	/**
 	 * @param string $value Value of the token. Can be encrypted or not encrypted.
 	 */
-	public function __construct(string $value) {
-		$this->value = $value;
+	public function __construct(
+		private string $value,
+	) {
 	}
 
 	/**
 	 * Encrypted value of the token. This is used to mitigate BREACH alike
 	 * vulnerabilities. For display measures do use this functionality.
-	 *
-	 * @return string
 	 */
 	public function getEncryptedValue(): string {
 		if ($this->encryptedValue === '') {
@@ -66,8 +62,6 @@ class CsrfToken {
 	/**
 	 * The unencrypted value of the token. Used for decrypting an already
 	 * encrypted token.
-	 *
-	 * @return string
 	 */
 	public function getDecryptedValue(): string {
 		$token = explode(':', $this->value);

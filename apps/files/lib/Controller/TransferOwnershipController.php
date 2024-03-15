@@ -30,13 +30,13 @@ namespace OCA\Files\Controller;
 use OCA\Files\BackgroundJob\TransferOwnership;
 use OCA\Files\Db\TransferOwnership as TransferOwnershipEntity;
 use OCA\Files\Db\TransferOwnershipMapper;
-use OCP\Files\IHomeStorage;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCSController;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
+use OCP\Files\IHomeStorage;
 use OCP\Files\IRootFolder;
 use OCP\IRequest;
 use OCP\IUserManager;
@@ -60,14 +60,14 @@ class TransferOwnershipController extends OCSController {
 	private $rootFolder;
 
 	public function __construct(string $appName,
-								IRequest $request,
-								string $userId,
-								NotificationManager $notificationManager,
-								ITimeFactory $timeFactory,
-								IJobList $jobList,
-								TransferOwnershipMapper $mapper,
-								IUserManager $userManager,
-								IRootFolder $rootFolder) {
+		IRequest $request,
+		string $userId,
+		NotificationManager $notificationManager,
+		ITimeFactory $timeFactory,
+		IJobList $jobList,
+		TransferOwnershipMapper $mapper,
+		IUserManager $userManager,
+		IRootFolder $rootFolder) {
 		parent::__construct($appName, $request);
 
 		$this->userId = $userId;

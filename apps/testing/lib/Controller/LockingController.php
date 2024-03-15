@@ -64,12 +64,12 @@ class LockingController extends OCSController {
 	 * @param IRootFolder $rootFolder
 	 */
 	public function __construct($appName,
-								IRequest $request,
-								ILockingProvider $lockingProvider,
-								FakeDBLockingProvider $fakeDBLockingProvider,
-								IDBConnection $connection,
-								IConfig $config,
-								IRootFolder $rootFolder) {
+		IRequest $request,
+		ILockingProvider $lockingProvider,
+		FakeDBLockingProvider $fakeDBLockingProvider,
+		IDBConnection $connection,
+		IConfig $config,
+		IRootFolder $rootFolder) {
 		parent::__construct($appName, $request);
 
 		$this->lockingProvider = $lockingProvider;

@@ -1,5 +1,6 @@
 /* Copyright (c) 2011, Jan-Christoph Borchardt, http://jancborchardt.net
  * SPDX-FileCopyrightText: 2022 Carl Schwan <carl@carlschwan.eu>
+ * SPDX-FileCopyrightText: Richard Steinmetz <richard@steinmetz.cloud>
  This file is licensed under the Affero General Public License version 3 or later.
  See the COPYING-README file. */
 
@@ -106,7 +107,7 @@ body {
 .wrapper {
 	width: 100%;
 	max-width: 700px;
-	margin-top: 10vh;
+	margin-block: 10vh auto;
 }
 
 /* Default FORM */
@@ -423,8 +424,9 @@ form .warning input[type='checkbox']+label {
 }
 
 .body-login-container.two-factor {
-	max-width: 290px;
-	margin: 15px auto 0;
+	// Same size as login box and dashboard panels
+	width: 320px;
+	box-sizing: border-box;
 }
 .two-factor-provider {
 	display: flex;
@@ -735,10 +737,17 @@ img.icon-loading-small-dark, object.icon-loading-small-dark, video.icon-loading-
 
 /* FOOTER */
 footer {
-	min-height: 70px;
-	margin-top: auto;
 	.info .entity-name {
 		font-weight: bold;
+	}
+
+	&.guest-box {
+		padding: 6px 24px;
+		margin-bottom: 1rem;
+
+		.info {
+			margin: 0;
+		}
 	}
 }
 
@@ -794,12 +803,17 @@ a.legal {
 }
 
 .guest-box, .body-login-container {
+	// Ensure the maxcontrast color is set for the background
+	--color-text-maxcontrast: var(--color-text-maxcontrast-background-blur, var(--color-main-text));
+
 	color: var(--color-main-text);
-	background-color: var(--color-main-background);
+	background-color: var(--color-main-background-blur);
 	padding: $guest-container-padding;
 	border-radius: var(--border-radius-rounded);
 	box-shadow: 0 0 10px var(--color-box-shadow);
 	display: inline-block;
+	-webkit-backdrop-filter: var(--filter-background-blur);
+	backdrop-filter: var(--filter-background-blur);
 }
 
 .guest-box {

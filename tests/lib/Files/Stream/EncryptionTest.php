@@ -78,13 +78,13 @@ class EncryptionTest extends \Test\TestCase {
 	 * @dataProvider dataProviderStreamOpen()
 	 */
 	public function testStreamOpen($isMasterKeyUsed,
-								   $mode,
-								   $fullPath,
-								   $fileExists,
-								   $expectedSharePath,
-								   $expectedSize,
-								   $expectedUnencryptedSize,
-								   $expectedReadOnly) {
+		$mode,
+		$fullPath,
+		$fileExists,
+		$expectedSharePath,
+		$expectedSize,
+		$expectedUnencryptedSize,
+		$expectedReadOnly) {
 		// build mocks
 		$encryptionModuleMock = $this->getMockBuilder('\OCP\Encryption\IEncryptionModule')
 		->disableOriginalConstructor()->getMock();

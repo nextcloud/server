@@ -25,9 +25,9 @@ declare(strict_types=1);
  */
 namespace OCA\Files\Collaboration\Resources;
 
+use OCP\Collaboration\Resources\IManager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Server;
-use OCP\Collaboration\Resources\IManager;
 use OCP\Share\Events\ShareCreatedEvent;
 use OCP\Share\Events\ShareDeletedEvent;
 use OCP\Share\Events\ShareDeletedFromSelfEvent;

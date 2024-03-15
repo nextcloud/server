@@ -2,6 +2,7 @@
  This file is licensed under the Affero General Public License version 3 or later.
  See the COPYING-README file. */
 @use 'variables';
+@use 'sass:math';
 @import 'functions';
 
 input {
@@ -88,7 +89,7 @@ select {
 	display: grid;
 	padding: 20px;
 	max-width: 1700px;
-	grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+	grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
 	grid-column-gap: 10px;
 
 	.section {
@@ -125,9 +126,6 @@ select {
 	text-align: center;
 	a:not(.link-button) {
 		text-decoration: underline;
-		&:hover {
-			background-color: var(--color-primary-element-hover);
-		}
 	}
 }
 
@@ -136,17 +134,17 @@ select {
 	margin: 16px;
 	padding: 14px 20px;
 	background-color: var(--color-primary-element);
-	color: #fff;
+	color: var(--color-primary-element-text);
 	border-radius: var(--border-radius-pill);
 	border: 1px solid var(--color-primary-element);
 	box-shadow: 0 2px 9px var(--color-box-shadow);
 
 	&:active,
 	&:hover,
-	&:focus {
-		color: var(--color-primary-element);
-		background-color: var(--color-primary-element-text);
-		border-color: var(--color-primary-element) !important;
+	&:focus,
+	&:focus-visible {
+		box-shadow: 0 0 0 4px var(--color-main-background) !important;
+		outline: 2px solid var(--color-main-text) !important;
 	}
 
 	&.icon-file {
@@ -477,18 +475,15 @@ table.grid {
 
 	th {
 		height: 2em;
-		color: #999;
+		padding: 0 1em 0 0;
 		border-bottom: 1px solid var(--color-border);
-		padding: 0 .5em;
-		padding-left: .8em;
 		text-align: left;
 		font-weight: normal;
 	}
 
 	td {
 		border-bottom: 1px solid var(--color-border);
-		padding: 0 .5em;
-		padding-left: .8em;
+		padding: 0 1em 0 0;
 		text-align: left;
 		font-weight: normal;
 	}
@@ -599,42 +594,6 @@ span.version {
 	color: var(--color-text-maxcontrast);
 }
 
-.app-level {
-	span {
-		color: var(--color-text-maxcontrast);
-		background-color: transparent;
-		border: 1px solid var(--color-text-maxcontrast);
-		border-radius: var(--border-radius);
-		padding: 3px 6px;
-	}
-
-	a {
-		padding: 10px;
-		margin: -6px;
-		white-space: nowrap;
-	}
-
-	.official {
-		background-position: left center;
-		background-position: 5px center;
-		padding-left: 25px;
-	}
-
-	.supported {
-		border-color: var(--color-success);
-		background-position: left center;
-		background-position: 5px center;
-		padding-left: 25px;
-		color: var(--color-success);
-	}
-}
-
-.app-score {
-	position: relative;
-	top: 4px;
-	opacity: .5;
-}
-
 .app-settings-content {
 	#searchresults {
 		display: none;
@@ -652,14 +611,6 @@ span.version {
 		margin: 5px 0;
 	}
 
-	.app-name, .app-image * {
-		cursor: pointer;
-	}
-
-	.app-summary {
-		opacity: .7;
-	}
-
 	.app-image-icon .icon-settings-dark {
 		width: 100%;
 		height: 150px;
@@ -673,6 +624,10 @@ span.version {
 
 	.actions {
 		margin-top: 10px;
+
+		button {
+			margin: 10px 0;
+		}
 	}
 }
 
@@ -685,20 +640,6 @@ span.version {
 			height: 16px;
 			margin-right: 10px;
 			opacity: .7;
-		}
-	}
-
-	.app-level {
-		clear: right;
-		width: 100%;
-
-		.supported,
-		.official {
-			vertical-align: top;
-		}
-
-		.app-score-image {
-			float: right;
 		}
 	}
 
@@ -842,10 +783,6 @@ span.version {
 	overflow: hidden;
 }
 
-.app-name, .app-version, .app-score, .app-level {
-	display: inline-block;
-}
-
 .app-description-toggle-show, .app-description-toggle-hide {
 	clear: both;
 	padding: 7px 0;
@@ -887,10 +824,6 @@ span.version {
 	$toolbar-padding: 8px;
 	$toolbar-height: 44px + $toolbar-padding * 2;
 
-	.section {
-		cursor: pointer;
-	}
-
 	.app-list-move {
 		transition: transform 1s;
 	}
@@ -918,7 +851,7 @@ span.version {
 			display: table;
 			width: 100%;
 			height: auto;
-			margin-top: $toolbar-height;
+			white-space: normal;
 		}
 
 		margin-bottom: 100px;
@@ -936,6 +869,13 @@ span.version {
 				border-bottom: 1px solid var(--color-border);
 				padding: 6px;
 				box-sizing: border-box;
+			}
+
+			> .actions {
+				display: flex;
+				gap: 8px;
+				flex-wrap: wrap;
+				justify-content: end;
 			}
 
 			&.selected {
@@ -1042,7 +982,6 @@ span.version {
 
 	/* Bundle header */
 	.apps-header {
-		display: table-row;
 		position: relative;
 
 		div {
@@ -1051,11 +990,9 @@ span.version {
 		}
 
 		h2 {
-			display: table-cell;
-			position: absolute;
 			padding-left: 6px;
 			padding-top: 15px;
-
+			margin-bottom: 12px;
 			.enable {
 				position: relative;
 				top: -1px;
@@ -1066,6 +1003,13 @@ span.version {
 				margin-top: 50px;
 			}
 		}
+	}
+}
+
+// Display buttons above each other on mobile
+@media (max-width: math.div(variables.$breakpoint-mobile, 2)) {
+	.apps-list.installed .section > .actions {
+		display: table-cell;
 	}
 }
 
@@ -1148,6 +1092,10 @@ table.grid td.date {
 	.nocheckbox {
 		padding-left: 20px;
 	}
+
+	#s2id_linksExcludedGroups {
+		width: 200px !important;
+	}
 }
 
 #shareApiDefaultPermissionsSection label {
@@ -1191,6 +1139,15 @@ table.grid td.date {
 	select:nth-child(2),
 	input:not([type='button']) {
 		width: 143px;
+	}
+}
+
+@media (max-width: calc(variables.$breakpoint-mobile * 0.75)) {
+	.mail_settings p label:first-child {
+		width: unset;
+		text-align: left;
+		display: block;
+		margin-top: calc(var(--default-grid-baseline) * 2);
 	}
 }
 
@@ -1295,6 +1252,20 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 
 	.extra-top-margin {
 		margin-top: 12px;
+	}
+}
+
+.security-warning__heading {
+	display: flex;
+	flex-wrap: wrap;
+	margin-bottom: calc(var(--default-grid-baseline) * 8);
+
+	> h2 {
+		margin-bottom: 0px;
+	}
+
+	> a {
+		width: 44px;
 	}
 }
 

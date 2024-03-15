@@ -80,12 +80,15 @@ OC.L10N.register(
     "Save" : "Save",
     "Available flows" : "Available flows",
     "For details on how to write your own flow, check out the development documentation." : "For details on how to write your own flow, check out the development documentation.",
+    "No flows installed" : "No flows installed",
+    "Ask your administrator to install new flows." : "Ask your administrator to install new flows.",
     "More flows" : "More flows",
     "Browse the App Store" : "Browse the App Store",
     "Show less" : "Show less",
     "Show more" : "Show more",
     "Configured flows" : "Configured flows",
     "Your flows" : "Your flows",
+    "No flows configured" : "No flows configured",
     "matches" : "matches",
     "does not match" : "does not match",
     "is" : "is",
@@ -110,10 +113,9 @@ OC.L10N.register(
     "between" : "between",
     "not between" : "not between",
     "Request user agent" : "Request user agent",
-    "User group membership" : "User group membership",
+    "Group membership" : "Group membership",
     "is member of" : "is member of",
     "is not member of" : "is not member of",
-    "Predefined URLs" : "Predefined URLs",
-    "Others" : "Others"
+    "User group membership" : "User group membership"
 },
 "nplurals=2; plural=(n != 1);");

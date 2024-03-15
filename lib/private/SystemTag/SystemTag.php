@@ -30,39 +30,12 @@ namespace OC\SystemTag;
 use OCP\SystemTag\ISystemTag;
 
 class SystemTag implements ISystemTag {
-	/**
-	 * @var string
-	 */
-	private $id;
-
-	/**
-	 * @var string
-	 */
-	private $name;
-
-	/**
-	 * @var bool
-	 */
-	private $userVisible;
-
-	/**
-	 * @var bool
-	 */
-	private $userAssignable;
-
-	/**
-	 * Constructor.
-	 *
-	 * @param string $id tag id
-	 * @param string $name tag name
-	 * @param bool $userVisible whether the tag is user visible
-	 * @param bool $userAssignable whether the tag is user assignable
-	 */
-	public function __construct(string $id, string $name, bool $userVisible, bool $userAssignable) {
-		$this->id = $id;
-		$this->name = $name;
-		$this->userVisible = $userVisible;
-		$this->userAssignable = $userAssignable;
+	public function __construct(
+		private string $id,
+		private string $name,
+		private bool $userVisible,
+		private bool $userAssignable,
+	) {
 	}
 
 	/**
@@ -97,14 +70,14 @@ class SystemTag implements ISystemTag {
 	 * {@inheritdoc}
 	 */
 	public function getAccessLevel(): int {
-		if ($this->userVisible) {
-			if ($this->userAssignable) {
-				return self::ACCESS_LEVEL_PUBLIC;
-			} else {
-				return self::ACCESS_LEVEL_RESTRICTED;
-			}
-		} else {
+		if (!$this->userVisible) {
 			return self::ACCESS_LEVEL_INVISIBLE;
 		}
+
+		if (!$this->userAssignable) {
+			return self::ACCESS_LEVEL_RESTRICTED;
+		}
+
+		return self::ACCESS_LEVEL_PUBLIC;
 	}
 }

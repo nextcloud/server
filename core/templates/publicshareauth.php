@@ -1,10 +1,10 @@
 <?php
-	/** @var array $_ */
-	/** @var \OCP\IL10N $l */
-	\OCP\Util::addStyle('core', 'guest');
-	\OCP\Util::addStyle('core', 'publicshareauth');
-	\OCP\Util::addScript('core', 'publicshareauth');
-	?>
+/** @var array $_ */
+/** @var \OCP\IL10N $l */
+\OCP\Util::addStyle('core', 'guest');
+\OCP\Util::addStyle('core', 'publicshareauth');
+\OCP\Util::addScript('core', 'publicshareauth');
+?>
 
 <div class="guest-box">
 	<!-- password prompt form. It should be hidden when we show the email prompt form -->
@@ -25,7 +25,7 @@
 				<input type="hidden" name="requesttoken" value="<?php p($_['requesttoken']) ?>" />
 				<input type="password" name="password" id="password"
 					placeholder="<?php p($l->t('Password')); ?>" value=""
-					autocomplete="new-password" autocapitalize="off" autocorrect="off"
+					autocomplete="new-password" autocapitalize="off" spellcheck="false"
 					autofocus />
 				<input type="hidden" name="sharingToken" value="<?php p($_['share']->getToken()) ?>" id="sharingToken">
 				<input type="hidden" name="sharingType" value="<?php p($_['share']->getShareType()) ?>" id="sharingType">

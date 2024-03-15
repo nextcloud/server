@@ -67,10 +67,10 @@ class HookManager {
 	private $themingDefaults;
 
 	public function __construct(IUserManager $userManager,
-								SyncService $syncService,
-								CalDavBackend $calDav,
-								CardDavBackend $cardDav,
-								Defaults $themingDefaults) {
+		SyncService $syncService,
+		CalDavBackend $calDav,
+		CardDavBackend $cardDav,
+		Defaults $themingDefaults) {
 		$this->userManager = $userManager;
 		$this->syncService = $syncService;
 		$this->calDav = $calDav;

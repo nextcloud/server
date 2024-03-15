@@ -71,6 +71,11 @@ trait S3ConnectionTrait {
 	/** @var int */
 	private $putSizeLimit;
 
+	/** @var int */
+	private $copySizeLimit;
+
+	private bool $useMultipartCopy = true;
+
 	protected $test;
 
 	protected function parseParams($params) {
@@ -87,12 +92,14 @@ trait S3ConnectionTrait {
 		$this->storageClass = !empty($params['storageClass']) ? $params['storageClass'] : 'STANDARD';
 		$this->uploadPartSize = $params['uploadPartSize'] ?? 524288000;
 		$this->putSizeLimit = $params['putSizeLimit'] ?? 104857600;
+		$this->copySizeLimit = $params['copySizeLimit'] ?? 5242880000;
+		$this->useMultipartCopy = (bool)($params['useMultipartCopy'] ?? true);
 		$params['region'] = empty($params['region']) ? 'eu-west-1' : $params['region'];
 		$params['hostname'] = empty($params['hostname']) ? 's3.' . $params['region'] . '.amazonaws.com' : $params['hostname'];
 		if (!isset($params['port']) || $params['port'] === '') {
 			$params['port'] = (isset($params['use_ssl']) && $params['use_ssl'] === false) ? 80 : 443;
 		}
-		$params['verify_bucket_exists'] = empty($params['verify_bucket_exists']) ? true : $params['verify_bucket_exists'];
+		$params['verify_bucket_exists'] = $params['verify_bucket_exists'] ?? true;
 		$this->params = $params;
 	}
 
@@ -128,7 +135,7 @@ trait S3ConnectionTrait {
 		);
 
 		$options = [
-			'version' => isset($this->params['version']) ? $this->params['version'] : 'latest',
+			'version' => $this->params['version'] ?? 'latest',
 			'credentials' => $provider,
 			'endpoint' => $base_url,
 			'region' => $this->params['region'],

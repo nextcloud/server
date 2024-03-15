@@ -425,6 +425,42 @@ class EmptyContentSecurityPolicyTest extends \Test\TestCase {
 		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
 	}
 
+	public function testGetPolicyWithJsNonceAndStrictDynamic() {
+		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';script-src 'strict-dynamic' 'nonce-TXlKc05vbmNl' www.nextcloud.com;frame-ancestors 'none'";
+
+		$this->contentSecurityPolicy->addAllowedScriptDomain('www.nextcloud.com');
+		$this->contentSecurityPolicy->useStrictDynamic(true);
+		$this->contentSecurityPolicy->useJsNonce('MyJsNonce');
+		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
+	}
+
+	public function testGetPolicyWithJsNonceAndStrictDynamicAndStrictDynamicOnScripts() {
+		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';script-src 'strict-dynamic' 'nonce-TXlKc05vbmNl' www.nextcloud.com;frame-ancestors 'none'";
+
+		$this->contentSecurityPolicy->addAllowedScriptDomain('www.nextcloud.com');
+		$this->contentSecurityPolicy->useStrictDynamic(true);
+		$this->contentSecurityPolicy->useStrictDynamicOnScripts(true);
+		$this->contentSecurityPolicy->useJsNonce('MyJsNonce');
+		// Should be same as `testGetPolicyWithJsNonceAndStrictDynamic` because of fallback
+		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
+	}
+
+	public function testGetPolicyWithJsNonceAndStrictDynamicOnScripts() {
+		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';script-src 'nonce-TXlKc05vbmNl' www.nextcloud.com;script-src-elem 'strict-dynamic' 'nonce-TXlKc05vbmNl' www.nextcloud.com;frame-ancestors 'none'";
+
+		$this->contentSecurityPolicy->addAllowedScriptDomain('www.nextcloud.com');
+		$this->contentSecurityPolicy->useStrictDynamicOnScripts(true);
+		$this->contentSecurityPolicy->useJsNonce('MyJsNonce');
+		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
+	}
+
+	public function testGetPolicyWithStrictDynamicOnScripts() {
+		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';frame-ancestors 'none'";
+
+		$this->contentSecurityPolicy->useStrictDynamicOnScripts(true);
+		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
+	}
+
 	public function testGetPolicyWithJsNonceAndSelfScriptDomain() {
 		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';script-src 'nonce-TXlKc05vbmNl';frame-ancestors 'none'";
 

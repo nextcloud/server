@@ -3,7 +3,7 @@
     "info": {
         "title": "provisioning_api",
         "version": "0.0.1",
-        "description": "This application enables a set of APIs that external systems can use to manage users, groups and apps.",
+        "description": "This application enables a set of APIs that external systems can use to manage accounts, groups and apps.",
         "license": {
             "name": "agpl"
         }
@@ -20,204 +20,6 @@
             }
         },
         "schemas": {
-            "AppInfo": {
-                "type": "object",
-                "required": [
-                    "active",
-                    "activity",
-                    "author",
-                    "background-jobs",
-                    "bugs",
-                    "category",
-                    "collaboration",
-                    "commands",
-                    "default_enable",
-                    "dependencies",
-                    "description",
-                    "discussion",
-                    "documentation",
-                    "groups",
-                    "id",
-                    "info",
-                    "internal",
-                    "level",
-                    "licence",
-                    "name",
-                    "namespace",
-                    "navigations",
-                    "preview",
-                    "previewAsIcon",
-                    "public",
-                    "remote",
-                    "removable",
-                    "repair-steps",
-                    "repository",
-                    "sabre",
-                    "screenshot",
-                    "settings",
-                    "summary",
-                    "trash",
-                    "two-factor-providers",
-                    "types",
-                    "version",
-                    "versions",
-                    "website"
-                ],
-                "properties": {
-                    "active": {
-                        "type": "boolean",
-                        "nullable": true
-                    },
-                    "activity": {
-                        "type": "object",
-                        "nullable": true
-                    },
-                    "author": {
-                        "type": "object",
-                        "nullable": true
-                    },
-                    "background-jobs": {
-                        "type": "object",
-                        "nullable": true
-                    },
-                    "bugs": {
-                        "type": "object",
-                        "nullable": true
-                    },
-                    "category": {
-                        "type": "object",
-                        "nullable": true
-                    },
-                    "collaboration": {
-                        "type": "object",
-                        "nullable": true
-                    },
-                    "commands": {
-                        "type": "object",
-                        "nullable": true
-                    },
-                    "default_enable": {
-                        "type": "object",
-                        "nullable": true
-                    },
-                    "dependencies": {
-                        "type": "object",
-                        "nullable": true
-                    },
-                    "description": {
-                        "type": "string"
-                    },
-                    "discussion": {
-                        "type": "object",
-                        "nullable": true
-                    },
-                    "documentation": {
-                        "type": "object",
-                        "nullable": true
-                    },
-                    "groups": {
-                        "type": "object",
-                        "nullable": true
-                    },
-                    "id": {
-                        "type": "string"
-                    },
-                    "info": {
-                        "type": "object",
-                        "nullable": true
-                    },
-                    "internal": {
-                        "type": "boolean",
-                        "nullable": true
-                    },
-                    "level": {
-                        "type": "integer",
-                        "format": "int64",
-                        "nullable": true
-                    },
-                    "licence": {
-                        "type": "object",
-                        "nullable": true
-                    },
-                    "name": {
-                        "type": "string"
-                    },
-                    "namespace": {
-                        "type": "object",
-                        "nullable": true
-                    },
-                    "navigations": {
-                        "type": "object",
-                        "nullable": true
-                    },
-                    "preview": {
-                        "type": "object",
-                        "nullable": true
-                    },
-                    "previewAsIcon": {
-                        "type": "boolean",
-                        "nullable": true
-                    },
-                    "public": {
-                        "type": "object",
-                        "nullable": true
-                    },
-                    "remote": {
-                        "type": "object",
-                        "nullable": true
-                    },
-                    "removable": {
-                        "type": "boolean",
-                        "nullable": true
-                    },
-                    "repair-steps": {
-                        "type": "object",
-                        "nullable": true
-                    },
-                    "repository": {
-                        "type": "object",
-                        "nullable": true
-                    },
-                    "sabre": {
-                        "type": "object",
-                        "nullable": true
-                    },
-                    "screenshot": {
-                        "type": "object",
-                        "nullable": true
-                    },
-                    "settings": {
-                        "type": "object",
-                        "nullable": true
-                    },
-                    "summary": {
-                        "type": "string"
-                    },
-                    "trash": {
-                        "type": "object",
-                        "nullable": true
-                    },
-                    "two-factor-providers": {
-                        "type": "object",
-                        "nullable": true
-                    },
-                    "types": {
-                        "type": "object",
-                        "nullable": true
-                    },
-                    "version": {
-                        "type": "string"
-                    },
-                    "versions": {
-                        "type": "object",
-                        "nullable": true
-                    },
-                    "website": {
-                        "type": "object",
-                        "nullable": true
-                    }
-                }
-            },
             "Capabilities": {
                 "type": "object",
                 "required": [
@@ -507,8 +309,16 @@
                 "type": "object",
                 "properties": {
                     "free": {
-                        "type": "number",
-                        "format": "float"
+                        "oneOf": [
+                            {
+                                "type": "number",
+                                "format": "float"
+                            },
+                            {
+                                "type": "integer",
+                                "format": "int64"
+                            }
+                        ]
                     },
                     "quota": {
                         "oneOf": [
@@ -517,310 +327,55 @@
                                 "format": "float"
                             },
                             {
+                                "type": "integer",
+                                "format": "int64"
+                            },
+                            {
                                 "type": "string"
                             }
                         ]
                     },
                     "relative": {
-                        "type": "number",
-                        "format": "float"
+                        "oneOf": [
+                            {
+                                "type": "number",
+                                "format": "float"
+                            },
+                            {
+                                "type": "integer",
+                                "format": "int64"
+                            }
+                        ]
                     },
                     "total": {
-                        "type": "number",
-                        "format": "float"
+                        "oneOf": [
+                            {
+                                "type": "number",
+                                "format": "float"
+                            },
+                            {
+                                "type": "integer",
+                                "format": "int64"
+                            }
+                        ]
                     },
                     "used": {
-                        "type": "number",
-                        "format": "float"
+                        "oneOf": [
+                            {
+                                "type": "number",
+                                "format": "float"
+                            },
+                            {
+                                "type": "integer",
+                                "format": "int64"
+                            }
+                        ]
                     }
                 }
             }
         }
     },
     "paths": {
-        "/ocs/v2.php/cloud/apps": {
-            "get": {
-                "operationId": "apps-get-apps",
-                "summary": "Get a list of installed apps",
-                "description": "This endpoint requires admin access",
-                "tags": [
-                    "apps"
-                ],
-                "security": [
-                    {
-                        "bearer_auth": []
-                    },
-                    {
-                        "basic_auth": []
-                    }
-                ],
-                "parameters": [
-                    {
-                        "name": "filter",
-                        "in": "query",
-                        "description": "Filter for enabled or disabled apps",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "OCS-APIRequest",
-                        "in": "header",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "default": "true"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "required": [
-                                        "ocs"
-                                    ],
-                                    "properties": {
-                                        "ocs": {
-                                            "type": "object",
-                                            "required": [
-                                                "meta",
-                                                "data"
-                                            ],
-                                            "properties": {
-                                                "meta": {
-                                                    "$ref": "#/components/schemas/OCSMeta"
-                                                },
-                                                "data": {
-                                                    "type": "object",
-                                                    "required": [
-                                                        "apps"
-                                                    ],
-                                                    "properties": {
-                                                        "apps": {
-                                                            "type": "array",
-                                                            "items": {
-                                                                "type": "string"
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/ocs/v2.php/cloud/apps/{app}": {
-            "get": {
-                "operationId": "apps-get-app-info",
-                "summary": "Get the app info for an app",
-                "description": "This endpoint requires admin access",
-                "tags": [
-                    "apps"
-                ],
-                "security": [
-                    {
-                        "bearer_auth": []
-                    },
-                    {
-                        "basic_auth": []
-                    }
-                ],
-                "parameters": [
-                    {
-                        "name": "app",
-                        "in": "path",
-                        "description": "ID of the app",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "OCS-APIRequest",
-                        "in": "header",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "default": "true"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "required": [
-                                        "ocs"
-                                    ],
-                                    "properties": {
-                                        "ocs": {
-                                            "type": "object",
-                                            "required": [
-                                                "meta",
-                                                "data"
-                                            ],
-                                            "properties": {
-                                                "meta": {
-                                                    "$ref": "#/components/schemas/OCSMeta"
-                                                },
-                                                "data": {
-                                                    "$ref": "#/components/schemas/AppInfo"
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "post": {
-                "operationId": "apps-enable",
-                "summary": "Enable an app",
-                "description": "This endpoint requires admin access",
-                "tags": [
-                    "apps"
-                ],
-                "security": [
-                    {
-                        "bearer_auth": []
-                    },
-                    {
-                        "basic_auth": []
-                    }
-                ],
-                "parameters": [
-                    {
-                        "name": "app",
-                        "in": "path",
-                        "description": "ID of the app",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "OCS-APIRequest",
-                        "in": "header",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "default": "true"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "required": [
-                                        "ocs"
-                                    ],
-                                    "properties": {
-                                        "ocs": {
-                                            "type": "object",
-                                            "required": [
-                                                "meta",
-                                                "data"
-                                            ],
-                                            "properties": {
-                                                "meta": {
-                                                    "$ref": "#/components/schemas/OCSMeta"
-                                                },
-                                                "data": {}
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "delete": {
-                "operationId": "apps-disable",
-                "summary": "Disable an app",
-                "description": "This endpoint requires admin access",
-                "tags": [
-                    "apps"
-                ],
-                "security": [
-                    {
-                        "bearer_auth": []
-                    },
-                    {
-                        "basic_auth": []
-                    }
-                ],
-                "parameters": [
-                    {
-                        "name": "app",
-                        "in": "path",
-                        "description": "ID of the app",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "OCS-APIRequest",
-                        "in": "header",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "default": "true"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "required": [
-                                        "ocs"
-                                    ],
-                                    "properties": {
-                                        "ocs": {
-                                            "type": "object",
-                                            "required": [
-                                                "meta",
-                                                "data"
-                                            ],
-                                            "properties": {
-                                                "meta": {
-                                                    "$ref": "#/components/schemas/OCSMeta"
-                                                },
-                                                "data": {}
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
         "/ocs/v2.php/cloud/groups": {
             "get": {
                 "operationId": "groups-get-groups",
@@ -869,16 +424,17 @@
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
+                        "description": "Required to be true for the API request to pass",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "default": "true"
+                            "type": "boolean",
+                            "default": true
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Groups returned",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -911,81 +467,6 @@
                                                         }
                                                     }
                                                 }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "post": {
-                "operationId": "groups-add-group",
-                "summary": "Create a new group",
-                "description": "This endpoint requires admin access",
-                "tags": [
-                    "groups"
-                ],
-                "security": [
-                    {
-                        "bearer_auth": []
-                    },
-                    {
-                        "basic_auth": []
-                    }
-                ],
-                "parameters": [
-                    {
-                        "name": "groupid",
-                        "in": "query",
-                        "description": "ID of the group",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "displayname",
-                        "in": "query",
-                        "description": "Display name of the group",
-                        "schema": {
-                            "type": "string",
-                            "default": ""
-                        }
-                    },
-                    {
-                        "name": "OCS-APIRequest",
-                        "in": "header",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "default": "true"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "required": [
-                                        "ocs"
-                                    ],
-                                    "properties": {
-                                        "ocs": {
-                                            "type": "object",
-                                            "required": [
-                                                "meta",
-                                                "data"
-                                            ],
-                                            "properties": {
-                                                "meta": {
-                                                    "$ref": "#/components/schemas/OCSMeta"
-                                                },
-                                                "data": {}
                                             }
                                         }
                                     }
@@ -1044,16 +525,17 @@
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
+                        "description": "Required to be true for the API request to pass",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "default": "true"
+                            "type": "boolean",
+                            "default": true
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Groups details returned",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1125,10 +607,11 @@
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
+                        "description": "Required to be true for the API request to pass",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "default": "true"
+                            "type": "boolean",
+                            "default": true
                         }
                     }
                 ],
@@ -1255,16 +738,17 @@
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
+                        "description": "Required to be true for the API request to pass",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "default": "true"
+                            "type": "boolean",
+                            "default": true
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Group users details returned",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1322,80 +806,6 @@
                 }
             }
         },
-        "/ocs/v2.php/cloud/groups/{groupId}/subadmins": {
-            "get": {
-                "operationId": "groups-get-sub-admins-of-group",
-                "summary": "Get the list of user IDs that are a subadmin of the group",
-                "description": "This endpoint requires admin access",
-                "tags": [
-                    "groups"
-                ],
-                "security": [
-                    {
-                        "bearer_auth": []
-                    },
-                    {
-                        "basic_auth": []
-                    }
-                ],
-                "parameters": [
-                    {
-                        "name": "groupId",
-                        "in": "path",
-                        "description": "ID of the group",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "pattern": "^.+$"
-                        }
-                    },
-                    {
-                        "name": "OCS-APIRequest",
-                        "in": "header",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "default": "true"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "required": [
-                                        "ocs"
-                                    ],
-                                    "properties": {
-                                        "ocs": {
-                                            "type": "object",
-                                            "required": [
-                                                "meta",
-                                                "data"
-                                            ],
-                                            "properties": {
-                                                "meta": {
-                                                    "$ref": "#/components/schemas/OCSMeta"
-                                                },
-                                                "data": {
-                                                    "type": "array",
-                                                    "items": {
-                                                        "type": "string"
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
         "/ocs/v2.php/cloud/groups/{groupId}": {
             "get": {
                 "operationId": "groups-get-group",
@@ -1426,16 +836,17 @@
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
+                        "description": "Required to be true for the API request to pass",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "default": "true"
+                            "type": "boolean",
+                            "default": true
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Group users returned",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1468,158 +879,6 @@
                                                         }
                                                     }
                                                 }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "put": {
-                "operationId": "groups-update-group",
-                "summary": "Update a group",
-                "description": "This endpoint requires admin access",
-                "tags": [
-                    "groups"
-                ],
-                "security": [
-                    {
-                        "bearer_auth": []
-                    },
-                    {
-                        "basic_auth": []
-                    }
-                ],
-                "parameters": [
-                    {
-                        "name": "key",
-                        "in": "query",
-                        "description": "Key to update, only 'displayname'",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "value",
-                        "in": "query",
-                        "description": "New value for the key",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "groupId",
-                        "in": "path",
-                        "description": "ID of the group",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "pattern": "^.+$"
-                        }
-                    },
-                    {
-                        "name": "OCS-APIRequest",
-                        "in": "header",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "default": "true"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "required": [
-                                        "ocs"
-                                    ],
-                                    "properties": {
-                                        "ocs": {
-                                            "type": "object",
-                                            "required": [
-                                                "meta",
-                                                "data"
-                                            ],
-                                            "properties": {
-                                                "meta": {
-                                                    "$ref": "#/components/schemas/OCSMeta"
-                                                },
-                                                "data": {}
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "delete": {
-                "operationId": "groups-delete-group",
-                "summary": "Delete a group",
-                "description": "This endpoint requires admin access",
-                "tags": [
-                    "groups"
-                ],
-                "security": [
-                    {
-                        "bearer_auth": []
-                    },
-                    {
-                        "basic_auth": []
-                    }
-                ],
-                "parameters": [
-                    {
-                        "name": "groupId",
-                        "in": "path",
-                        "description": "ID of the group",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "pattern": "^.+$"
-                        }
-                    },
-                    {
-                        "name": "OCS-APIRequest",
-                        "in": "header",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "default": "true"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "required": [
-                                        "ocs"
-                                    ],
-                                    "properties": {
-                                        "ocs": {
-                                            "type": "object",
-                                            "required": [
-                                                "meta",
-                                                "data"
-                                            ],
-                                            "properties": {
-                                                "meta": {
-                                                    "$ref": "#/components/schemas/OCSMeta"
-                                                },
-                                                "data": {}
                                             }
                                         }
                                     }
@@ -1678,16 +937,17 @@
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
+                        "description": "Required to be true for the API request to pass",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "default": "true"
+                            "type": "boolean",
+                            "default": true
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Users returned",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1834,10 +1094,11 @@
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
+                        "description": "Required to be true for the API request to pass",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "default": "true"
+                            "type": "boolean",
+                            "default": true
                         }
                     }
                 ],
@@ -1941,16 +1202,124 @@
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
+                        "description": "Required to be true for the API request to pass",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "default": "true"
+                            "type": "boolean",
+                            "default": true
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Users details returned",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "required": [
+                                                        "users"
+                                                    ],
+                                                    "properties": {
+                                                        "users": {
+                                                            "type": "object",
+                                                            "additionalProperties": {
+                                                                "oneOf": [
+                                                                    {
+                                                                        "$ref": "#/components/schemas/UserDetails"
+                                                                    },
+                                                                    {
+                                                                        "type": "object",
+                                                                        "required": [
+                                                                            "id"
+                                                                        ],
+                                                                        "properties": {
+                                                                            "id": {
+                                                                                "type": "string"
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                ]
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ocs/v2.php/cloud/users/disabled": {
+            "get": {
+                "operationId": "users-get-disabled-users-details",
+                "summary": "Get the list of disabled users and their details",
+                "tags": [
+                    "users"
+                ],
+                "security": [
+                    {
+                        "bearer_auth": []
+                    },
+                    {
+                        "basic_auth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Limit the amount of users returned",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "nullable": true
+                        }
+                    },
+                    {
+                        "name": "offset",
+                        "in": "query",
+                        "description": "Offset",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "default": 0
+                        }
+                    },
+                    {
+                        "name": "OCS-APIRequest",
+                        "in": "header",
+                        "description": "Required to be true for the API request to pass",
+                        "required": true,
+                        "schema": {
+                            "type": "boolean",
+                            "default": true
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Disabled users details returned",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -2045,10 +1414,11 @@
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
+                        "description": "Required to be true for the API request to pass",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "default": "true"
+                            "type": "boolean",
+                            "default": true
                         }
                     }
                 ],
@@ -2145,16 +1515,17 @@
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
+                        "description": "Required to be true for the API request to pass",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "default": "true"
+                            "type": "boolean",
+                            "default": true
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "User returned",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -2230,16 +1601,17 @@
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
+                        "description": "Required to be true for the API request to pass",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "default": "true"
+                            "type": "boolean",
+                            "default": true
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "User value edited successfully",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -2295,16 +1667,17 @@
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
+                        "description": "Required to be true for the API request to pass",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "default": "true"
+                            "type": "boolean",
+                            "default": true
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "User deleted successfully",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -2353,16 +1726,17 @@
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
+                        "description": "Required to be true for the API request to pass",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "default": "true"
+                            "type": "boolean",
+                            "default": true
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Current user returned",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -2413,16 +1787,17 @@
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
+                        "description": "Required to be true for the API request to pass",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "default": "true"
+                            "type": "boolean",
+                            "default": true
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Editable fields returned",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -2485,16 +1860,17 @@
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
+                        "description": "Required to be true for the API request to pass",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "default": "true"
+                            "type": "boolean",
+                            "default": true
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Editable fields for user returned",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -2585,16 +1961,17 @@
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
+                        "description": "Required to be true for the API request to pass",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "default": "true"
+                            "type": "boolean",
+                            "default": true
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "User values edited successfully",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -2652,16 +2029,17 @@
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
+                        "description": "Required to be true for the API request to pass",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "default": "true"
+                            "type": "boolean",
+                            "default": true
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Wiped all user devices successfully",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -2719,16 +2097,17 @@
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
+                        "description": "Required to be true for the API request to pass",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "default": "true"
+                            "type": "boolean",
+                            "default": true
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "User enabled successfully",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -2786,16 +2165,17 @@
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
+                        "description": "Required to be true for the API request to pass",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "default": "true"
+                            "type": "boolean",
+                            "default": true
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "User disabled successfully",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -2853,16 +2233,17 @@
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
+                        "description": "Required to be true for the API request to pass",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "default": "true"
+                            "type": "boolean",
+                            "default": true
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Users groups returned",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -2940,16 +2321,17 @@
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
+                        "description": "Required to be true for the API request to pass",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "default": "true"
+                            "type": "boolean",
+                            "default": true
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "User added to group successfully",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -3014,239 +2396,17 @@
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
+                        "description": "Required to be true for the API request to pass",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "default": "true"
+                            "type": "boolean",
+                            "default": true
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "required": [
-                                        "ocs"
-                                    ],
-                                    "properties": {
-                                        "ocs": {
-                                            "type": "object",
-                                            "required": [
-                                                "meta",
-                                                "data"
-                                            ],
-                                            "properties": {
-                                                "meta": {
-                                                    "$ref": "#/components/schemas/OCSMeta"
-                                                },
-                                                "data": {}
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/ocs/v2.php/cloud/users/{userId}/subadmins": {
-            "get": {
-                "operationId": "users-get-user-sub-admin-groups",
-                "summary": "Get the groups a user is a subadmin of",
-                "description": "This endpoint requires admin access",
-                "tags": [
-                    "users"
-                ],
-                "security": [
-                    {
-                        "bearer_auth": []
-                    },
-                    {
-                        "basic_auth": []
-                    }
-                ],
-                "parameters": [
-                    {
-                        "name": "userId",
-                        "in": "path",
-                        "description": "ID if the user",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "OCS-APIRequest",
-                        "in": "header",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "default": "true"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "required": [
-                                        "ocs"
-                                    ],
-                                    "properties": {
-                                        "ocs": {
-                                            "type": "object",
-                                            "required": [
-                                                "meta",
-                                                "data"
-                                            ],
-                                            "properties": {
-                                                "meta": {
-                                                    "$ref": "#/components/schemas/OCSMeta"
-                                                },
-                                                "data": {
-                                                    "type": "array",
-                                                    "items": {
-                                                        "type": "string"
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "post": {
-                "operationId": "users-add-sub-admin",
-                "summary": "Make a user a subadmin of a group",
-                "description": "This endpoint requires admin access",
-                "tags": [
-                    "users"
-                ],
-                "security": [
-                    {
-                        "bearer_auth": []
-                    },
-                    {
-                        "basic_auth": []
-                    }
-                ],
-                "parameters": [
-                    {
-                        "name": "groupid",
-                        "in": "query",
-                        "description": "ID of the group",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "userId",
-                        "in": "path",
-                        "description": "ID of the user",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "OCS-APIRequest",
-                        "in": "header",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "default": "true"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "required": [
-                                        "ocs"
-                                    ],
-                                    "properties": {
-                                        "ocs": {
-                                            "type": "object",
-                                            "required": [
-                                                "meta",
-                                                "data"
-                                            ],
-                                            "properties": {
-                                                "meta": {
-                                                    "$ref": "#/components/schemas/OCSMeta"
-                                                },
-                                                "data": {}
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "delete": {
-                "operationId": "users-remove-sub-admin",
-                "summary": "Remove a user from the subadmins of a group",
-                "description": "This endpoint requires admin access",
-                "tags": [
-                    "users"
-                ],
-                "security": [
-                    {
-                        "bearer_auth": []
-                    },
-                    {
-                        "basic_auth": []
-                    }
-                ],
-                "parameters": [
-                    {
-                        "name": "groupid",
-                        "in": "query",
-                        "description": "ID of the group",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "userId",
-                        "in": "path",
-                        "description": "ID of the user",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "OCS-APIRequest",
-                        "in": "header",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "default": "true"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "",
+                        "description": "User removed from group successfully",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -3304,16 +2464,17 @@
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
+                        "description": "Required to be true for the API request to pass",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "default": "true"
+                            "type": "boolean",
+                            "default": true
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Resent welcome message successfully",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -3343,346 +2504,7 @@
                 }
             }
         },
-        "/ocs/v2.php/apps/provisioning_api/api/v1/config/apps": {
-            "get": {
-                "operationId": "app_config-get-apps",
-                "summary": "Get a list of apps",
-                "description": "This endpoint requires admin access",
-                "tags": [
-                    "app_config"
-                ],
-                "security": [
-                    {
-                        "bearer_auth": []
-                    },
-                    {
-                        "basic_auth": []
-                    }
-                ],
-                "parameters": [
-                    {
-                        "name": "OCS-APIRequest",
-                        "in": "header",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "default": "true"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "required": [
-                                        "ocs"
-                                    ],
-                                    "properties": {
-                                        "ocs": {
-                                            "type": "object",
-                                            "required": [
-                                                "meta",
-                                                "data"
-                                            ],
-                                            "properties": {
-                                                "meta": {
-                                                    "$ref": "#/components/schemas/OCSMeta"
-                                                },
-                                                "data": {
-                                                    "type": "object",
-                                                    "required": [
-                                                        "data"
-                                                    ],
-                                                    "properties": {
-                                                        "data": {
-                                                            "type": "array",
-                                                            "items": {
-                                                                "type": "string"
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/ocs/v2.php/apps/provisioning_api/api/v1/config/apps/{app}": {
-            "get": {
-                "operationId": "app_config-get-keys",
-                "summary": "Get the config keys of an app",
-                "description": "This endpoint requires admin access",
-                "tags": [
-                    "app_config"
-                ],
-                "security": [
-                    {
-                        "bearer_auth": []
-                    },
-                    {
-                        "basic_auth": []
-                    }
-                ],
-                "parameters": [
-                    {
-                        "name": "app",
-                        "in": "path",
-                        "description": "ID of the app",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "OCS-APIRequest",
-                        "in": "header",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "default": "true"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Keys returned",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "required": [
-                                        "ocs"
-                                    ],
-                                    "properties": {
-                                        "ocs": {
-                                            "type": "object",
-                                            "required": [
-                                                "meta",
-                                                "data"
-                                            ],
-                                            "properties": {
-                                                "meta": {
-                                                    "$ref": "#/components/schemas/OCSMeta"
-                                                },
-                                                "data": {
-                                                    "type": "object",
-                                                    "required": [
-                                                        "data"
-                                                    ],
-                                                    "properties": {
-                                                        "data": {
-                                                            "type": "array",
-                                                            "items": {
-                                                                "type": "string"
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "App is not allowed",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "required": [
-                                        "ocs"
-                                    ],
-                                    "properties": {
-                                        "ocs": {
-                                            "type": "object",
-                                            "required": [
-                                                "meta",
-                                                "data"
-                                            ],
-                                            "properties": {
-                                                "meta": {
-                                                    "$ref": "#/components/schemas/OCSMeta"
-                                                },
-                                                "data": {
-                                                    "type": "object",
-                                                    "required": [
-                                                        "data"
-                                                    ],
-                                                    "properties": {
-                                                        "data": {
-                                                            "type": "object",
-                                                            "required": [
-                                                                "message"
-                                                            ],
-                                                            "properties": {
-                                                                "message": {
-                                                                    "type": "string"
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
         "/ocs/v2.php/apps/provisioning_api/api/v1/config/apps/{app}/{key}": {
-            "get": {
-                "operationId": "app_config-get-value",
-                "summary": "Get a the config value of an app",
-                "description": "This endpoint requires admin access",
-                "tags": [
-                    "app_config"
-                ],
-                "security": [
-                    {
-                        "bearer_auth": []
-                    },
-                    {
-                        "basic_auth": []
-                    }
-                ],
-                "parameters": [
-                    {
-                        "name": "defaultValue",
-                        "in": "query",
-                        "description": "Default returned value if the value is empty",
-                        "schema": {
-                            "type": "string",
-                            "default": ""
-                        }
-                    },
-                    {
-                        "name": "app",
-                        "in": "path",
-                        "description": "ID of the app",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "key",
-                        "in": "path",
-                        "description": "Key",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "OCS-APIRequest",
-                        "in": "header",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "default": "true"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Value returned",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "required": [
-                                        "ocs"
-                                    ],
-                                    "properties": {
-                                        "ocs": {
-                                            "type": "object",
-                                            "required": [
-                                                "meta",
-                                                "data"
-                                            ],
-                                            "properties": {
-                                                "meta": {
-                                                    "$ref": "#/components/schemas/OCSMeta"
-                                                },
-                                                "data": {
-                                                    "type": "object",
-                                                    "required": [
-                                                        "data"
-                                                    ],
-                                                    "properties": {
-                                                        "data": {
-                                                            "type": "string"
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "App is not allowed",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "required": [
-                                        "ocs"
-                                    ],
-                                    "properties": {
-                                        "ocs": {
-                                            "type": "object",
-                                            "required": [
-                                                "meta",
-                                                "data"
-                                            ],
-                                            "properties": {
-                                                "meta": {
-                                                    "$ref": "#/components/schemas/OCSMeta"
-                                                },
-                                                "data": {
-                                                    "type": "object",
-                                                    "required": [
-                                                        "data"
-                                                    ],
-                                                    "properties": {
-                                                        "data": {
-                                                            "type": "object",
-                                                            "required": [
-                                                                "message"
-                                                            ],
-                                                            "properties": {
-                                                                "message": {
-                                                                    "type": "string"
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
             "post": {
                 "operationId": "app_config-set-value",
                 "summary": "Update the config value of an app",
@@ -3728,137 +2550,17 @@
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
+                        "description": "Required to be true for the API request to pass",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "default": "true"
+                            "type": "boolean",
+                            "default": true
                         }
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "Value updated successfully",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "required": [
-                                        "ocs"
-                                    ],
-                                    "properties": {
-                                        "ocs": {
-                                            "type": "object",
-                                            "required": [
-                                                "meta",
-                                                "data"
-                                            ],
-                                            "properties": {
-                                                "meta": {
-                                                    "$ref": "#/components/schemas/OCSMeta"
-                                                },
-                                                "data": {}
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "App or key is not allowed",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "required": [
-                                        "ocs"
-                                    ],
-                                    "properties": {
-                                        "ocs": {
-                                            "type": "object",
-                                            "required": [
-                                                "meta",
-                                                "data"
-                                            ],
-                                            "properties": {
-                                                "meta": {
-                                                    "$ref": "#/components/schemas/OCSMeta"
-                                                },
-                                                "data": {
-                                                    "type": "object",
-                                                    "required": [
-                                                        "data"
-                                                    ],
-                                                    "properties": {
-                                                        "data": {
-                                                            "type": "object",
-                                                            "required": [
-                                                                "message"
-                                                            ],
-                                                            "properties": {
-                                                                "message": {
-                                                                    "type": "string"
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "delete": {
-                "operationId": "app_config-delete-key",
-                "summary": "Delete a config key of an app",
-                "description": "This endpoint requires admin access",
-                "tags": [
-                    "app_config"
-                ],
-                "security": [
-                    {
-                        "bearer_auth": []
-                    },
-                    {
-                        "basic_auth": []
-                    }
-                ],
-                "parameters": [
-                    {
-                        "name": "app",
-                        "in": "path",
-                        "description": "ID of the app",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "key",
-                        "in": "path",
-                        "description": "Key to delete",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "OCS-APIRequest",
-                        "in": "header",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "default": "true"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Key deleted successfully",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -3980,10 +2682,11 @@
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
+                        "description": "Required to be true for the API request to pass",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "default": "true"
+                            "type": "boolean",
+                            "default": true
                         }
                     }
                 ],
@@ -4082,10 +2785,11 @@
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
+                        "description": "Required to be true for the API request to pass",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "default": "true"
+                            "type": "boolean",
+                            "default": true
                         }
                     }
                 ],
@@ -4186,10 +2890,11 @@
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
+                        "description": "Required to be true for the API request to pass",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "default": "true"
+                            "type": "boolean",
+                            "default": true
                         }
                     }
                 ],
@@ -4291,10 +2996,11 @@
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
+                        "description": "Required to be true for the API request to pass",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "default": "true"
+                            "type": "boolean",
+                            "default": true
                         }
                     }
                 ],

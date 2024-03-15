@@ -1,8 +1,11 @@
 <?php
+
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Maxence Lange <maxence@artificial-owl.com>
  *
  * @license AGPL-3.0
  *
@@ -21,7 +24,8 @@
  */
 namespace OC\Core\Command\Config\App;
 
-use OCP\IConfig;
+use OCP\Exceptions\AppConfigUnknownKeyException;
+use OCP\IAppConfig;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -29,7 +33,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class GetConfig extends Base {
 	public function __construct(
-		protected IConfig $config,
+		protected IAppConfig $appConfig,
 	) {
 		parent::__construct();
 	}
@@ -49,6 +53,12 @@ class GetConfig extends Base {
 				'name',
 				InputArgument::REQUIRED,
 				'Name of the config to get'
+			)
+			->addOption(
+				'details',
+				null,
+				InputOption::VALUE_NONE,
+				'returns complete details about the app config value'
 			)
 			->addOption(
 				'default-value',
@@ -71,14 +81,21 @@ class GetConfig extends Base {
 		$configName = $input->getArgument('name');
 		$defaultValue = $input->getOption('default-value');
 
-		if (!in_array($configName, $this->config->getAppKeys($appName)) && !$input->hasParameterOption('--default-value')) {
-			return 1;
+		if ($input->getOption('details')) {
+			$details = $this->appConfig->getDetails($appName, $configName);
+			$details['type'] = $details['typeString'];
+			unset($details['typeString']);
+			$this->writeArrayInOutputFormat($input, $output, $details);
+			return 0;
 		}
 
-		if (!in_array($configName, $this->config->getAppKeys($appName))) {
+		try {
+			$configValue = $this->appConfig->getDetails($appName, $configName)['value'];
+		} catch (AppConfigUnknownKeyException $e) {
+			if (!$input->hasParameterOption('--default-value')) {
+				return 1;
+			}
 			$configValue = $defaultValue;
-		} else {
-			$configValue = $this->config->getAppValue($appName, $configName);
 		}
 
 		$this->writeMixedInOutputFormat($input, $output, $configValue);

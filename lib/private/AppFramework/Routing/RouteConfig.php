@@ -136,7 +136,13 @@ class RouteConfig {
 		$controllerName = $this->buildControllerName($controller);
 		$actionName = $this->buildActionName($action);
 
-		$routeName = $routeNamePrefix . $this->appName . '.' . $controller . '.' . $action . $postfix;
+		/*
+		 * The route name has to be lowercase, for symfony to match it correctly.
+		 * This is required because smyfony allows mixed casing for controller names in the routes.
+		 * To avoid breaking all the existing route names, registering and matching will only use the lowercase names.
+		 * This is also safe on the PHP side because class and method names collide regardless of the casing.
+		 */
+		$routeName = strtolower($routeNamePrefix . $this->appName . '.' . $controller . '.' . $action . $postfix);
 
 		$router = $this->router->create($routeName, $url)
 			->method($verb);

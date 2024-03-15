@@ -1,6 +1,6 @@
 { "translations": {
     "Calendar" : "Kalender",
-    "To-dos" : "Opgaver",
+    "Tasks" : "Opgaver",
     "Personal" : "Personligt",
     "{actor} created calendar {calendar}" : "{actor} oprettede kalenderen {calendar}",
     "You created calendar {calendar}" : "Du oprettede kalenderen {calendar}",
@@ -141,7 +141,6 @@
     "Configures a CalDAV account" : "Konfigurerer en CalDAV-konto",
     "Configures a CardDAV account" : "Konfigurerer en CardDAV-konto",
     "Events" : "Begivenheder",
-    "Tasks" : "Opgaver",
     "Untitled task" : "Unavngivet opgave",
     "Completed on %s" : "Fuldført den %s",
     "Due on %s by %s" : "Forfalder på %s til %s",
@@ -151,8 +150,7 @@
     "Contacts and groups" : "Kontakter og grupper",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "WebDAV endpoint",
-    "Availability" : "tilgængelighed",
-    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Hvis du konfigurerer din arbejdstid, vil andre brugere se, når du er fraværende, når de booker et møde.",
+    "Save" : "Gem",
     "Time zone:" : "Tidszone:",
     "to" : "til",
     "Delete slot" : "Slet slot",
@@ -166,10 +164,10 @@
     "Saturday" : "Lørdag",
     "Sunday" : "Søndag",
     "Automatically set user status to \"Do not disturb\" outside of availability to mute all notifications." : "Indstil automatisk brugerstatus til \"Forstyr ikke\" uden for tilgængelighed for at slå alle notifikationer fra.",
-    "Save" : "Gem",
     "Failed to load availability" : "Kunne ikke indlæse tilgængelighed",
     "Saved availability" : "Gemt tilgængelighed",
     "Failed to save availability" : "Kunne ikke gemme tilgængelighed",
+    "Availability" : "tilgængelighed",
     "Calendar server" : "Kalenderserver",
     "Send invitations to attendees" : "Send invitation til deltagere",
     "Automatically generate a birthday calendar" : "Generer en fødselsdagskalender automatisk",
@@ -187,6 +185,7 @@
     "Are you accepting the invitation?" : "Accepter du invitationen?",
     "Tentative" : "Foreløbig",
     "Your attendance was updated successfully." : "Dit tilstedeværelse blev opdateret.",
-    "%1$s has responded your invitation" : "%1$s har besvaret din invitation"
+    "To-dos" : "Opgaver",
+    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Hvis du konfigurerer din arbejdstid, vil andre brugere se, når du er fraværende, når de booker et møde."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

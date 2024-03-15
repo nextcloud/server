@@ -27,14 +27,14 @@ declare(strict_types=1);
  */
 namespace OCA\Files_Trashbin\Sabre;
 
+use OCA\DAV\Connector\Sabre\FilesPlugin;
 use OCP\IPreview;
 use Sabre\DAV\INode;
-use Sabre\DAV\Server;
 use Sabre\DAV\PropFind;
+use Sabre\DAV\Server;
 use Sabre\DAV\ServerPlugin;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
-use OCA\DAV\Connector\Sabre\FilesPlugin;
 
 class TrashbinPlugin extends ServerPlugin {
 	public const TRASHBIN_FILENAME = '{http://nextcloud.org/ns}trashbin-filename';

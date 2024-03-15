@@ -114,7 +114,7 @@ class PublishPlugin extends ServerPlugin {
 		$this->server = $server;
 
 		$this->server->on('method:POST', [$this, 'httpPost']);
-		$this->server->on('propFind',    [$this, 'propFind']);
+		$this->server->on('propFind', [$this, 'propFind']);
 	}
 
 	public function propFind(PropFind $propFind, INode $node) {
@@ -155,8 +155,8 @@ class PublishPlugin extends ServerPlugin {
 		$path = $request->getPath();
 
 		// Only handling xml
-		$contentType = $request->getHeader('Content-Type');
-		if (strpos($contentType, 'application/xml') === false && strpos($contentType, 'text/xml') === false) {
+		$contentType = (string) $request->getHeader('Content-Type');
+		if (!str_contains($contentType, 'application/xml') && !str_contains($contentType, 'text/xml')) {
 			return;
 		}
 
@@ -184,72 +184,72 @@ class PublishPlugin extends ServerPlugin {
 
 			case '{'.self::NS_CALENDARSERVER.'}publish-calendar':
 
-			// We can only deal with IShareableCalendar objects
-			if (!$node instanceof Calendar) {
-				return;
-			}
-			$this->server->transactionType = 'post-publish-calendar';
-
-			// Getting ACL info
-			$acl = $this->server->getPlugin('acl');
-
-			// If there's no ACL support, we allow everything
-			if ($acl) {
-				/** @var \Sabre\DAVACL\Plugin $acl */
-				$acl->checkPrivileges($path, '{DAV:}write');
-
-				$limitSharingToOwner = $this->config->getAppValue('dav', 'limitAddressBookAndCalendarSharingToOwner', 'no') === 'yes';
-				$isOwner = $acl->getCurrentUserPrincipal() === $node->getOwner();
-				if ($limitSharingToOwner && !$isOwner) {
+				// We can only deal with IShareableCalendar objects
+				if (!$node instanceof Calendar) {
 					return;
 				}
-			}
+				$this->server->transactionType = 'post-publish-calendar';
 
-			$node->setPublishStatus(true);
+				// Getting ACL info
+				$acl = $this->server->getPlugin('acl');
 
-			// iCloud sends back the 202, so we will too.
-			$response->setStatus(202);
+				// If there's no ACL support, we allow everything
+				if ($acl) {
+					/** @var \Sabre\DAVACL\Plugin $acl */
+					$acl->checkPrivileges($path, '{DAV:}write');
 
-			// Adding this because sending a response body may cause issues,
-			// and I wanted some type of indicator the response was handled.
-			$response->setHeader('X-Sabre-Status', 'everything-went-well');
+					$limitSharingToOwner = $this->config->getAppValue('dav', 'limitAddressBookAndCalendarSharingToOwner', 'no') === 'yes';
+					$isOwner = $acl->getCurrentUserPrincipal() === $node->getOwner();
+					if ($limitSharingToOwner && !$isOwner) {
+						return;
+					}
+				}
 
-			// Breaking the event chain
-			return false;
+				$node->setPublishStatus(true);
+
+				// iCloud sends back the 202, so we will too.
+				$response->setStatus(202);
+
+				// Adding this because sending a response body may cause issues,
+				// and I wanted some type of indicator the response was handled.
+				$response->setHeader('X-Sabre-Status', 'everything-went-well');
+
+				// Breaking the event chain
+				return false;
 
 			case '{'.self::NS_CALENDARSERVER.'}unpublish-calendar':
 
-			// We can only deal with IShareableCalendar objects
-			if (!$node instanceof Calendar) {
-				return;
-			}
-			$this->server->transactionType = 'post-unpublish-calendar';
-
-			// Getting ACL info
-			$acl = $this->server->getPlugin('acl');
-
-			// If there's no ACL support, we allow everything
-			if ($acl) {
-				/** @var \Sabre\DAVACL\Plugin $acl */
-				$acl->checkPrivileges($path, '{DAV:}write');
-
-				$limitSharingToOwner = $this->config->getAppValue('dav', 'limitAddressBookAndCalendarSharingToOwner', 'no') === 'yes';
-				$isOwner = $acl->getCurrentUserPrincipal() === $node->getOwner();
-				if ($limitSharingToOwner && !$isOwner) {
+				// We can only deal with IShareableCalendar objects
+				if (!$node instanceof Calendar) {
 					return;
 				}
-			}
+				$this->server->transactionType = 'post-unpublish-calendar';
 
-			$node->setPublishStatus(false);
+				// Getting ACL info
+				$acl = $this->server->getPlugin('acl');
 
-			$response->setStatus(200);
+				// If there's no ACL support, we allow everything
+				if ($acl) {
+					/** @var \Sabre\DAVACL\Plugin $acl */
+					$acl->checkPrivileges($path, '{DAV:}write');
 
-			// Adding this because sending a response body may cause issues,
-			// and I wanted some type of indicator the response was handled.
-			$response->setHeader('X-Sabre-Status', 'everything-went-well');
+					$limitSharingToOwner = $this->config->getAppValue('dav', 'limitAddressBookAndCalendarSharingToOwner', 'no') === 'yes';
+					$isOwner = $acl->getCurrentUserPrincipal() === $node->getOwner();
+					if ($limitSharingToOwner && !$isOwner) {
+						return;
+					}
+				}
 
-			// Breaking the event chain
-			return false;
+				$node->setPublishStatus(false);
+
+				$response->setStatus(200);
+
+				// Adding this because sending a response body may cause issues,
+				// and I wanted some type of indicator the response was handled.
+				$response->setHeader('X-Sabre-Status', 'everything-went-well');
+
+				// Breaking the event chain
+				return false;
 
 		}
 	}

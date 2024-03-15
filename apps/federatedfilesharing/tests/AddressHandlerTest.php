@@ -30,11 +30,11 @@ namespace OCA\FederatedFileSharing\Tests;
 use OC\Federation\CloudIdManager;
 use OCA\FederatedFileSharing\AddressHandler;
 use OCP\Contacts\IManager;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\ICacheFactory;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
-use OCP\EventDispatcher\IEventDispatcher;
 
 class AddressHandlerTest extends \Test\TestCase {
 	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */

@@ -41,8 +41,8 @@ use OCP\Encryption\Exceptions\GenericEncryptionException;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IUserSession;
-use Psr\Log\LoggerInterface;
 use phpseclib\Crypt\RC4;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class Crypt provides the encryption implementation of the default Nextcloud

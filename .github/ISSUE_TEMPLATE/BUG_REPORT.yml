@@ -76,9 +76,9 @@ body:
         Select Nextcloud Server version.
         _Versions not listed here are not maintained and not supported anymore_
       options:
-        - "25"
         - "26"
         - "27"
+        - "28"
         - "master"
     validations:
       required: true
@@ -101,10 +101,10 @@ body:
         Select PHP engine version serving Nextcloud Server.
         _Describe in the "Additional info" section if you chose "Other"._
       options:
-        - "PHP 7.4"
         - "PHP 8.0"
         - "PHP 8.1"
         - "PHP 8.2"
+        - "PHP 8.3"
         - "Other"
   - type: dropdown
     id: webserver

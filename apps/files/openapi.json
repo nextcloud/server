@@ -31,6 +31,7 @@
                         "required": [
                             "bigfilechunking",
                             "blacklisted_files",
+                            "forbidden_filename_characters",
                             "directEditing"
                         ],
                         "properties": {
@@ -41,6 +42,12 @@
                                 "type": "array",
                                 "items": {
                                     "type": "object"
+                                }
+                            },
+                            "forbidden_filename_characters": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
                                 }
                             },
                             "directEditing": {
@@ -87,65 +94,6 @@
                     },
                     "itemsperpage": {
                         "type": "string"
-                    }
-                }
-            },
-            "Template": {
-                "type": "object",
-                "required": [
-                    "templateType",
-                    "templateId",
-                    "basename",
-                    "etag",
-                    "fileid",
-                    "filename",
-                    "lastmod",
-                    "mime",
-                    "size",
-                    "type",
-                    "hasPreview",
-                    "previewUrl"
-                ],
-                "properties": {
-                    "templateType": {
-                        "type": "string"
-                    },
-                    "templateId": {
-                        "type": "string"
-                    },
-                    "basename": {
-                        "type": "string"
-                    },
-                    "etag": {
-                        "type": "string"
-                    },
-                    "fileid": {
-                        "type": "integer",
-                        "format": "int64"
-                    },
-                    "filename": {
-                        "type": "string"
-                    },
-                    "lastmod": {
-                        "type": "integer",
-                        "format": "int64"
-                    },
-                    "mime": {
-                        "type": "string"
-                    },
-                    "size": {
-                        "type": "integer",
-                        "format": "int64"
-                    },
-                    "type": {
-                        "type": "string"
-                    },
-                    "hasPreview": {
-                        "type": "boolean"
-                    },
-                    "previewUrl": {
-                        "type": "string",
-                        "nullable": true
                     }
                 }
             },
@@ -332,44 +280,6 @@
                 }
             }
         },
-        "/index.php/apps/files/preview-service-worker.js": {
-            "get": {
-                "operationId": "api-service-worker",
-                "summary": "Get the service-worker Javascript for previews",
-                "tags": [
-                    "api"
-                ],
-                "security": [
-                    {},
-                    {
-                        "bearer_auth": []
-                    },
-                    {
-                        "basic_auth": []
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "headers": {
-                            "Service-Worker-Allowed": {
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        },
-                        "content": {
-                            "application/javascript": {
-                                "schema": {
-                                    "type": "string",
-                                    "format": "binary"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
         "/ocs/v2.php/apps/files/api/v1/directEditing": {
             "get": {
                 "operationId": "direct_editing-info",
@@ -389,16 +299,17 @@
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
+                        "description": "Required to be true for the API request to pass",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "default": "true"
+                            "type": "boolean",
+                            "default": true
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Direct editing capabilities returned",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -546,10 +457,11 @@
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
+                        "description": "Required to be true for the API request to pass",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "default": "true"
+                            "type": "boolean",
+                            "default": true
                         }
                     }
                 ],
@@ -708,10 +620,11 @@
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
+                        "description": "Required to be true for the API request to pass",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "default": "true"
+                            "type": "boolean",
+                            "default": true
                         }
                     }
                 ],
@@ -888,10 +801,11 @@
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
+                        "description": "Required to be true for the API request to pass",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "default": "true"
+                            "type": "boolean",
+                            "default": true
                         }
                     }
                 ],
@@ -1032,16 +946,17 @@
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
+                        "description": "Required to be true for the API request to pass",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "default": "true"
+                            "type": "boolean",
+                            "default": true
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Available templates returned",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1122,10 +1037,11 @@
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
+                        "description": "Required to be true for the API request to pass",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "default": "true"
+                            "type": "boolean",
+                            "default": true
                         }
                     }
                 ],
@@ -1204,16 +1120,21 @@
                         "description": "Whether to copy the system templates to the template directory",
                         "schema": {
                             "type": "integer",
-                            "default": 0
+                            "default": 0,
+                            "enum": [
+                                0,
+                                1
+                            ]
                         }
                     },
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
+                        "description": "Required to be true for the API request to pass",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "default": "true"
+                            "type": "boolean",
+                            "default": true
                         }
                     }
                 ],
@@ -1313,10 +1234,11 @@
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
+                        "description": "Required to be true for the API request to pass",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "default": "true"
+                            "type": "boolean",
+                            "default": true
                         }
                     }
                 ],
@@ -1437,10 +1359,11 @@
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
+                        "description": "Required to be true for the API request to pass",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "default": "true"
+                            "type": "boolean",
+                            "default": true
                         }
                     }
                 ],
@@ -1559,10 +1482,11 @@
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
+                        "description": "Required to be true for the API request to pass",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "default": "true"
+                            "type": "boolean",
+                            "default": true
                         }
                     }
                 ],
@@ -1682,10 +1606,11 @@
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
+                        "description": "Required to be true for the API request to pass",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "default": "true"
+                            "type": "boolean",
+                            "default": true
                         }
                     }
                 ],
@@ -1810,10 +1735,11 @@
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
+                        "description": "Required to be true for the API request to pass",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "default": "true"
+                            "type": "boolean",
+                            "default": true
                         }
                     }
                 ],

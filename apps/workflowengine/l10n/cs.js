@@ -80,12 +80,15 @@ OC.L10N.register(
     "Save" : "Uložit",
     "Available flows" : "Toky k dispozici",
     "For details on how to write your own flow, check out the development documentation." : "Podrobnosti o tom, jak vytvářet toky naleznete v dokumentaci pro vývojáře.",
+    "No flows installed" : "Nenaistalované žádné toky",
+    "Ask your administrator to install new flows." : "Požádejte správce vámi využívané instance o instalaci nových toků.",
     "More flows" : "Další toky",
     "Browse the App Store" : "Procházet katalog aplikací",
     "Show less" : "Zobrazit méně",
     "Show more" : "Zobrazit více",
     "Configured flows" : "Nastavené toky",
     "Your flows" : "Vaše toky",
+    "No flows configured" : "Nenastaveny žádné toky",
     "matches" : "odpovídá",
     "does not match" : "neodpovídá",
     "is" : "je",
@@ -110,10 +113,8 @@ OC.L10N.register(
     "between" : "mezi",
     "not between" : "není mezi",
     "Request user agent" : "User agent požadavku",
-    "User group membership" : "Členství ve skupinách uživatelů",
     "is member of" : "je členem",
     "is not member of" : "není členem",
-    "Predefined URLs" : "Předdefinované URL",
-    "Others" : "Ostatní"
+    "User group membership" : "Členství ve skupinách uživatelů"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

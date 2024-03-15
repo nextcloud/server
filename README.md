@@ -16,12 +16,12 @@
 * 🚀 **Expandable with hundreds of Apps** ...like [Calendar](https://github.com/nextcloud/calendar), [Contacts](https://github.com/nextcloud/contacts), [Mail](https://github.com/nextcloud/mail), [Video Chat](https://github.com/nextcloud/spreed) and all those you can discover in our [App Store](https://apps.nextcloud.com)
 * 🔒 **Security** with our encryption mechanisms, [HackerOne bounty program](https://hackerone.com/nextcloud) and two-factor authentication.
 
-Do you want to learn more about how you can use Nextcloud to access, share and protect your files, calendars, contacts, communication & more at home and in your organization? [**Learn about all our Features**](https://nextcloud.com/athome/).
+Do you want to learn more about how you can use Nextcloud to access, share, and protect your files, calendars, contacts, communication & more at home and in your organization? [**Learn about all our Features**](https://nextcloud.com/athome/).
 
 ## Get your Nextcloud 🚚
 
 - ☑️ [**Simply sign up**](https://nextcloud.com/signup/) at one of our providers either through our website or through the apps directly.
-- 🖥 [**Install** a server by yourself](https://nextcloud.com/install/#instructions-server) on your hardware or by using one of our ready to use **appliances**
+- 🖥 [**Install** a server by yourself](https://nextcloud.com/install/#instructions-server) on your hardware or by using one of our ready-to-use **appliances**
 - 📦 Buy one of the [awesome **devices** coming with a preinstalled Nextcloud](https://nextcloud.com/devices/)
 - 🏢 Find a [service **provider**](https://nextcloud.com/providers/) who hosts Nextcloud for you or your company
 
@@ -57,80 +57,6 @@ Several apps that are included by default in regular releases such as [First run
 
 Otherwise, git checkouts can be handled the same as release archives, by using the `stable*` branches. Note they should never be used on production systems.
 
-### Working with front-end code 🏗
-
-#### Building Vue components and scripts
-
-We are moving more and more toward using Vue.js in the front-end, starting with Settings. For building the code on changes, use these terminal commands in the root folder:
-
-```bash
-# install dependencies
-make dev-setup
-
-# build for development
-make build-js
-
-# build for development and watch edits
-make watch-js
-
-# build for production with minification
-make build-js-production
-```
-
-#### Building styles
-
-Styles are written in SCSS and compiled to css.
-
-```bash
-# install dependencies
-make dev-setup
-
-# compile style sheets
-npm run sass
-
-# compile style sheets and watch edits
-npm run sass:watch
-```
-
-#### Committing changes
-
-**When making changes, also commit the compiled files!**
-
-We still use Handlebars templates in some places in Files and Settings. We will replace these step-by-step with Vue.js, but in the meantime, you need to compile them separately.
-
-If you don’t have Handlebars installed yet, you can do it with this terminal command:
-```bash
-sudo npm install -g handlebars
-```
-
-Then inside the root folder of your local Nextcloud development installation, run this command in the terminal every time you changed a `.handlebars` file to compile it:
-```bash
-./build/compile-handlebars-templates.sh
-```
-
-Before checking in JS changes, make sure to also build for production:
-```bash
-make build-js-production
-```
-Then add the compiled files for committing.
-
-To save some time, to only rebuild for a specific app, use the following and replace the module with the app name:
-```bash
-MODULE=user_status make build-js-production
-```
-
-Please note that if you used `make build-js` or `make watch-js` before, you'll notice that a lot of files were marked as changed, so might need to clear the workspace first.
-
-### Working with back-end code 🏗
-
-When changing back-end PHP code, in general, no additional steps are needed before checking in.
-
-However, if new files were created, you will need to run the following command to update the autoloader files:
-```bash
-build/autoloaderchecker.sh
-```
-
-After that, please also include the autoloader file changes in your commits.
 
 ### Tools we use 🛠
 
@@ -138,7 +64,7 @@ After that, please also include the autoloader file changes in your commits.
 - [🌊 WAVE](https://wave.webaim.org/extension/) for accessibility testing
 - [🚨 Lighthouse](https://developers.google.com/web/tools/lighthouse/) for testing performance, accessibility, and more
 
-#### Helpful bots at github :robot:
+#### Helpful bots at GitHub :robot:
 
 - Comment on a pull request with `/update-3rdparty` to update the 3rd party submodule. It will update to the last commit of the 3rd party branch named like the PR target.
 
@@ -156,8 +82,8 @@ changed it substantially:
 @copyright Copyright (c) <year>, <your name> (<your email address>)
 ```
 
-Please read the [Code of Conduct](https://nextcloud.com/community/code-of-conduct/). This document offers some guidance to ensure Nextcloud participants can cooperate effectively in a positive and inspiring atmosphere, and to explain how together we can strengthen and support each other.
+Please read the [Code of Conduct](https://nextcloud.com/community/code-of-conduct/). This document offers some guidance to ensure Nextcloud participants can cooperate effectively in a positive and inspiring atmosphere and to explain how together we can strengthen and support each other.
 
 Please review the [guidelines for contributing](.github/CONTRIBUTING.md) to this repository.
 
-More information how to contribute: [https://nextcloud.com/contribute/](https://nextcloud.com/contribute/)
+More information on how to contribute: [https://nextcloud.com/contribute/](https://nextcloud.com/contribute/)

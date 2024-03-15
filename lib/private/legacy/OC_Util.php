@@ -325,9 +325,10 @@ class OC_Util {
 			return;
 		}
 
+		$timestamp = filemtime(OC::$SERVERROOT . '/version.php');
 		require OC::$SERVERROOT . '/version.php';
 		/** @var int $timestamp */
-		self::$versionCache['OC_Version_Timestamp'] = \OC::$VERSION_MTIME;
+		self::$versionCache['OC_Version_Timestamp'] = $timestamp;
 		/** @var string $OC_Version */
 		self::$versionCache['OC_Version'] = $OC_Version;
 		/** @var string $OC_VersionString */
@@ -512,15 +513,7 @@ class OC_Util {
 		}
 
 		$webServerRestart = false;
-		$setup = new \OC\Setup(
-			$config,
-			\OC::$server->get(IniGetWrapper::class),
-			\OC::$server->getL10N('lib'),
-			\OC::$server->get(\OCP\Defaults::class),
-			\OC::$server->get(LoggerInterface::class),
-			\OC::$server->getSecureRandom(),
-			\OC::$server->get(\OC\Installer::class)
-		);
+		$setup = \OCP\Server::get(\OC\Setup::class);
 
 		$urlGenerator = \OC::$server->getURLGenerator();
 
@@ -739,8 +732,8 @@ class OC_Util {
 			if ($perms[2] !== '0') {
 				$l = \OC::$server->getL10N('lib');
 				return [[
-					'error' => $l->t('Your data directory is readable by other users.'),
-					'hint' => $l->t('Please change the permissions to 0770 so that the directory cannot be listed by other users.'),
+					'error' => $l->t('Your data directory is readable by other people.'),
+					'hint' => $l->t('Please change the permissions to 0770 so that the directory cannot be listed by other people.'),
 				]];
 			}
 		}
@@ -1119,8 +1112,8 @@ class OC_Util {
 			return false;
 		}
 
-		foreach (str_split($trimmed) as $char) {
-			if (str_contains(\OCP\Constants::FILENAME_INVALID_CHARS, $char)) {
+		foreach (\OCP\Util::getForbiddenFileNameChars() as $char) {
+			if (str_contains($trimmed, $char)) {
 				return false;
 			}
 		}

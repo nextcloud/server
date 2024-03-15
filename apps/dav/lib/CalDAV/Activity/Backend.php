@@ -455,9 +455,9 @@ class Backend {
 
 		$action = $action . '_' . $object['type'];
 
-		if ($object['type'] === 'todo' && strpos($action, Event::SUBJECT_OBJECT_UPDATE) === 0 && $object['status'] === 'COMPLETED') {
+		if ($object['type'] === 'todo' && str_starts_with($action, Event::SUBJECT_OBJECT_UPDATE) && $object['status'] === 'COMPLETED') {
 			$action .= '_completed';
-		} elseif ($object['type'] === 'todo' && strpos($action, Event::SUBJECT_OBJECT_UPDATE) === 0 && $object['status'] === 'NEEDS-ACTION') {
+		} elseif ($object['type'] === 'todo' && str_starts_with($action, Event::SUBJECT_OBJECT_UPDATE) && $object['status'] === 'NEEDS-ACTION') {
 			$action .= '_needs_action';
 		}
 
@@ -491,7 +491,7 @@ class Backend {
 				],
 			];
 
-			if ($object['type'] === 'event' && strpos($action, Event::SUBJECT_OBJECT_DELETE) === false && $this->appManager->isEnabledForUser('calendar')) {
+			if ($object['type'] === 'event' && !str_contains($action, Event::SUBJECT_OBJECT_DELETE) && $this->appManager->isEnabledForUser('calendar')) {
 				$params['object']['link']['object_uri'] = $objectData['uri'];
 				$params['object']['link']['calendar_uri'] = $calendarData['uri'];
 				$params['object']['link']['owner'] = $owner;

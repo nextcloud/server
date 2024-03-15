@@ -30,6 +30,7 @@ use OCA\GroupFolders\Mount\GroupMountPoint;
 use OCP\Constants;
 use OCP\Files\Config\IUserMountCache;
 use OCP\Files\FileInfo;
+use OCP\Files\Folder;
 use OCP\Files\IHomeStorage;
 use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountPoint;
@@ -38,7 +39,6 @@ use OCP\Files\NotFoundException;
 use OCP\Share\IShare;
 use OCP\Util;
 use Symfony\Component\Console\Output\OutputInterface;
-use OCP\Files\Folder;
 
 class FileUtils {
 	public function __construct(
@@ -87,11 +87,7 @@ class FileUtils {
 			}
 			$mount = $mounts[0];
 			$userFolder = $this->rootFolder->getUserFolder($mount->getUser()->getUID());
-			$nodes = $userFolder->getById((int)$fileInput);
-			if (!$nodes) {
-				return null;
-			}
-			return $nodes[0];
+			return $userFolder->getFirstNodeById((int)$fileInput);
 		} else {
 			try {
 				return $this->rootFolder->get($fileInput);

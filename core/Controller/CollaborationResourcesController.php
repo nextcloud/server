@@ -32,6 +32,7 @@ namespace OC\Core\Controller;
 use Exception;
 use OCA\Core\ResponseDefinitions;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\ApiRoute;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCSController;
 use OCP\Collaboration\Resources\CollectionException;
@@ -44,7 +45,7 @@ use OCP\IUserSession;
 use Psr\Log\LoggerInterface;
 
 /**
- * @psalm-import-type CoreOpenGraphObject from ResponseDefinitions
+ * @psalm-import-type CoreResource from ResponseDefinitions
  * @psalm-import-type CoreCollection from ResponseDefinitions
  */
 class CollaborationResourcesController extends OCSController {
@@ -84,6 +85,7 @@ class CollaborationResourcesController extends OCSController {
 	 * 200: Collection returned
 	 * 404: Collection not found
 	 */
+	#[ApiRoute(verb: 'GET', url: '/resources/collections/{collectionId}', root: '/collaboration')]
 	public function listCollection(int $collectionId): DataResponse {
 		try {
 			$collection = $this->getCollection($collectionId);
@@ -105,6 +107,7 @@ class CollaborationResourcesController extends OCSController {
 	 * 200: Collections returned
 	 * 404: Collection not found
 	 */
+	#[ApiRoute(verb: 'GET', url: '/resources/collections/search/{filter}', root: '/collaboration')]
 	public function searchCollections(string $filter): DataResponse {
 		try {
 			$collections = $this->manager->searchCollections($this->userSession->getUser(), $filter);
@@ -128,6 +131,7 @@ class CollaborationResourcesController extends OCSController {
 	 * 200: Collection returned
 	 * 404: Collection not found or resource inaccessible
 	 */
+	#[ApiRoute(verb: 'POST', url: '/resources/collections/{collectionId}', root: '/collaboration')]
 	public function addResource(int $collectionId, string $resourceType, string $resourceId): DataResponse {
 		try {
 			$collection = $this->getCollection($collectionId);
@@ -162,6 +166,7 @@ class CollaborationResourcesController extends OCSController {
 	 * 200: Collection returned
 	 * 404: Collection or resource not found
 	 */
+	#[ApiRoute(verb: 'DELETE', url: '/resources/collections/{collectionId}', root: '/collaboration')]
 	public function removeResource(int $collectionId, string $resourceType, string $resourceId): DataResponse {
 		try {
 			$collection = $this->getCollection($collectionId);
@@ -192,6 +197,7 @@ class CollaborationResourcesController extends OCSController {
 	 * 200: Collections returned
 	 * 404: Resource not accessible
 	 */
+	#[ApiRoute(verb: 'GET', url: '/resources/{resourceType}/{resourceId}', root: '/collaboration')]
 	public function getCollectionsByResource(string $resourceType, string $resourceId): DataResponse {
 		try {
 			$resource = $this->manager->getResourceForUser($resourceType, $resourceId, $this->userSession->getUser());
@@ -220,6 +226,7 @@ class CollaborationResourcesController extends OCSController {
 	 * 400: Creating collection is not possible
 	 * 404: Resource inaccessible
 	 */
+	#[ApiRoute(verb: 'POST', url: '/resources/{baseResourceType}/{baseResourceId}', root: '/collaboration')]
 	public function createCollectionOnResource(string $baseResourceType, string $baseResourceId, string $name): DataResponse {
 		if (!isset($name[0]) || isset($name[64])) {
 			return new DataResponse([], Http::STATUS_BAD_REQUEST);
@@ -253,6 +260,7 @@ class CollaborationResourcesController extends OCSController {
 	 * 200: Collection returned
 	 * 404: Collection not found
 	 */
+	#[ApiRoute(verb: 'PUT', url: '/resources/collections/{collectionId}', root: '/collaboration')]
 	public function renameCollection(int $collectionId, string $collectionName): DataResponse {
 		try {
 			$collection = $this->getCollection($collectionId);
@@ -313,7 +321,7 @@ class CollaborationResourcesController extends OCSController {
 	}
 
 	/**
-	 * @return CoreOpenGraphObject[]
+	 * @return CoreResource[]
 	 */
 	protected function prepareResources(array $resources): array {
 		$result = [];
@@ -331,7 +339,7 @@ class CollaborationResourcesController extends OCSController {
 	}
 
 	/**
-	 * @return CoreOpenGraphObject
+	 * @return CoreResource
 	 */
 	protected function prepareResource(IResource $resource): array {
 		if (!$resource->canAccess($this->userSession->getUser())) {

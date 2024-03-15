@@ -20,7 +20,7 @@
  *
  */
 import { generateUrl } from '@nextcloud/router'
-import { registerFileAction, FileAction, Permission, Node, FileType, View } from '@nextcloud/files'
+import { FileAction, Permission, Node, FileType, View } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 import ArrowDownSvg from '@mdi/svg/svg/arrow-down.svg?raw'
 
@@ -41,15 +41,41 @@ const downloadNodes = function(dir: string, nodes: Node[]) {
 	triggerDownload(url)
 }
 
+const isDownloadable = function(node: Node) {
+	if ((node.permissions & Permission.READ) === 0) {
+		return false
+	}
+
+	// If the mount type is a share, ensure it got download permissions.
+	if (node.attributes['mount-type'] === 'shared') {
+		const downloadAttribute = JSON.parse(node.attributes['share-attributes']).find((attribute: { scope: string; key: string }) => attribute.scope === 'permissions' && attribute.key === 'download')
+		if (downloadAttribute !== undefined && downloadAttribute.enabled === false) {
+			return false
+		}
+	}
+
+	return true
+}
+
 export const action = new FileAction({
 	id: 'download',
 	displayName: () => t('files', 'Download'),
 	iconSvgInline: () => ArrowDownSvg,
 
 	enabled(nodes: Node[]) {
-		return nodes.length > 0 && nodes
-			.map(node => node.permissions)
-			.every(permission => (permission & Permission.READ) !== 0)
+		if (nodes.length === 0) {
+			return false
+		}
+
+		// We can download direct dav files. But if we have
+		// some folders, we need to use the /apps/files/ajax/download.php
+		// endpoint, which only supports user root folder.
+		if (nodes.some(node => node.type === FileType.Folder)
+			&& nodes.some(node => !node.root?.startsWith('/files'))) {
+			return false
+		}
+
+		return nodes.every(isDownloadable)
 	},
 
 	async exec(node: Node, view: View, dir: string) {
@@ -58,7 +84,7 @@ export const action = new FileAction({
 			return null
 		}
 
-		triggerDownload(node.source)
+		triggerDownload(node.encodedSource)
 		return null
 	},
 
@@ -74,5 +100,3 @@ export const action = new FileAction({
 
 	order: 30,
 })
-
-registerFileAction(action)

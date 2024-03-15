@@ -64,8 +64,8 @@ class Application extends App implements IBootstrap {
 	}
 
 	private function registerRuleListeners(IEventDispatcher $dispatcher,
-										   ContainerInterface $container,
-										   LoggerInterface $logger): void {
+		ContainerInterface $container,
+		LoggerInterface $logger): void {
 		/** @var Manager $manager */
 		$manager = $container->get(Manager::class);
 		$configuredEvents = $manager->getAllConfiguredEvents();

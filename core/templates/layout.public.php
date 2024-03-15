@@ -4,7 +4,7 @@
 	<meta charset="utf-8">
 	<title>
 		<?php
-		p(!empty($_['application'])?$_['application'].' - ':'');
+			p(!empty($_['application']) ? $_['application'].' - ' : '');
 p($theme->getTitle());
 ?>
 	</title>
@@ -21,7 +21,7 @@ p($theme->getTitle());
 	<link rel="apple-touch-icon" href="<?php print_unescaped(image_path($_['appid'], 'favicon-touch.png')); ?>">
 	<link rel="apple-touch-icon-precomposed" href="<?php print_unescaped(image_path($_['appid'], 'favicon-touch.png')); ?>">
 	<link rel="mask-icon" sizes="any" href="<?php print_unescaped(image_path($_['appid'], 'favicon-mask.svg')); ?>" color="<?php p($theme->getColorPrimary()); ?>">
-	<link rel="manifest" href="<?php print_unescaped(image_path($_['appid'], 'manifest.json')); ?>">
+	<link rel="manifest" href="<?php print_unescaped(image_path($_['appid'], 'manifest.json')); ?>" crossorigin="use-credentials">
 	<?php emit_css_loading_tags($_); ?>
 	<?php emit_script_loading_tags($_); ?>
 	<?php print_unescaped($_['headers']); ?>
@@ -38,14 +38,22 @@ p($theme->getTitle());
 
 	<header id="header">
 		<div class="header-left">
-			<div class="logo logo-icon svg"></div>
-			<span id="nextcloud" class="header-appname">
+			<div id="nextcloud" class="header-appname">
+				<?php if ($_['logoUrl']): ?>
+					<a href="<?php print_unescaped($_['logoUrl']); ?>"
+					   aria-label="<?php p($l->t('Go to %s', [$_['logoUrl']])); ?>">
+						<div class="logo logo-icon"></div>
+					</a>
+				<?php else: ?>
+					<div class="logo logo-icon"></div>
+				<?php endif; ?>
+
 				<?php if (isset($template) && $template->getHeaderTitle() !== '') { ?>
 					<?php p($template->getHeaderTitle()); ?>
 				<?php } else { ?>
 					<?php	p($theme->getName()); ?>
 				<?php } ?>
-			</span>
+			</div>
 			<?php if (isset($template) && $template->getHeaderDetails() !== '') { ?>
 				<div class="header-shared-by">
 					<?php p($template->getHeaderDetails()); ?>
@@ -95,14 +103,14 @@ if (isset($template) && $template->getActionCount() !== 0) {
 		</h1>
 		<?php print_unescaped($_['content']); ?>
 	</main>
-	<?php if (isset($template) && $template->getFooterVisible()) { ?>
+	<?php if (isset($template) && $template->getFooterVisible() && ($theme->getLongFooter() !== '' || $_['showSimpleSignUpLink'])) { ?>
 	<footer>
 		<p><?php print_unescaped($theme->getLongFooter()); ?></p>
 		<?php
 if ($_['showSimpleSignUpLink']) {
 	?>
 			<p>
-				<a href="https://nextcloud.com/signup/" target="_blank" rel="noreferrer noopener">
+				<a href="<?php p($_['signUpLink']); ?>" target="_blank" rel="noreferrer noopener">
 					<?php p($l->t('Get your own free account')); ?>
 				</a>
 			</p>

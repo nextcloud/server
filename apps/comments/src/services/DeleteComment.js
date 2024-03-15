@@ -25,12 +25,12 @@ import client from './DavClient.js'
 /**
  * Delete a comment
  *
- * @param {string} commentsType the ressource type
- * @param {number} ressourceId the ressource ID
+ * @param {string} resourceType the resource type
+ * @param {number} resourceId the resource ID
  * @param {number} commentId the comment iD
  */
-export default async function(commentsType, ressourceId, commentId) {
-	const commentPath = ['', commentsType, ressourceId, commentId].join('/')
+export default async function(resourceType, resourceId, commentId) {
+	const commentPath = ['', resourceType, resourceId, commentId].join('/')
 
 	// Fetch newly created comment data
 	await client.deleteFile(commentPath)

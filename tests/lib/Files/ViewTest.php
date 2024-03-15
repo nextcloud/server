@@ -7,7 +7,6 @@
 
 namespace Test\Files;
 
-use OCP\Cache\CappedMemoryCache;
 use OC\Files\Cache\Watcher;
 use OC\Files\Filesystem;
 use OC\Files\Mount\MountPoint;
@@ -16,6 +15,8 @@ use OC\Files\Storage\Common;
 use OC\Files\Storage\Storage;
 use OC\Files\Storage\Temporary;
 use OC\Files\View;
+use OC\Share20\ShareDisableChecker;
+use OCP\Cache\CappedMemoryCache;
 use OCP\Constants;
 use OCP\Files\Config\IMountProvider;
 use OCP\Files\FileInfo;
@@ -297,7 +298,7 @@ class ViewTest extends \Test\TestCase {
 	 */
 	public function testRemoveSharePermissionWhenSharingDisabledForUser($excludeGroups, $excludeGroupsList, $expectedShareable) {
 		// Reset sharing disabled for users cache
-		self::invokePrivate(\OC::$server->get(IShareManager::class), 'sharingDisabledForUsersCache', [new CappedMemoryCache()]);
+		self::invokePrivate(\OC::$server->get(ShareDisableChecker::class), 'sharingDisabledForUsersCache', [new CappedMemoryCache()]);
 
 		$config = \OC::$server->getConfig();
 		$oldExcludeGroupsFlag = $config->getAppValue('core', 'shareapi_exclude_groups', 'no');
@@ -322,7 +323,7 @@ class ViewTest extends \Test\TestCase {
 		$config->setAppValue('core', 'shareapi_exclude_groups_list', $oldExcludeGroupsList);
 
 		// Reset sharing disabled for users cache
-		self::invokePrivate(\OC::$server->get(IShareManager::class), 'sharingDisabledForUsersCache', [new CappedMemoryCache()]);
+		self::invokePrivate(\OC::$server->get(ShareDisableChecker::class), 'sharingDisabledForUsersCache', [new CappedMemoryCache()]);
 	}
 
 	public function testCacheIncompleteFolder() {
@@ -1690,8 +1691,6 @@ class ViewTest extends \Test\TestCase {
 			->setSharedBy($this->user)
 			->setShareType(IShare::TYPE_USER)
 			->setPermissions(\OCP\Constants::PERMISSION_READ)
-			->setId(42)
-			->setProviderId('foo')
 			->setNode($shareDir);
 		$shareManager->createShare($share);
 

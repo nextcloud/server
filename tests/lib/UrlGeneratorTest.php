@@ -192,26 +192,34 @@ class UrlGeneratorTest extends \Test\TestCase {
 	/**
 	 * @dataProvider provideOCSRoutes
 	 */
-	public function testLinkToOCSRouteAbsolute(string $route, string $expected) {
+	public function testLinkToOCSRouteAbsolute(string $route, bool $ignoreFrontController, string $expected): void {
 		$this->mockBaseUrl();
 		\OC::$WEBROOT = '/nextcloud';
 		$this->router->expects($this->once())
 			->method('generate')
-			->willReturnCallback(function ($routeName, $parameters) {
+			->willReturnCallback(function (string $routeName, array $parameters) use ($ignoreFrontController) {
 				if ($routeName === 'ocs.core.OCS.getCapabilities') {
-					return '/index.php/ocsapp/cloud/capabilities';
+					if (!$ignoreFrontController) {
+						return '/nextcloud/index.php/ocsapp/cloud/capabilities';
+					}
+					return '/nextcloud/ocsapp/cloud/capabilities';
 				} elseif ($routeName === 'ocs.core.WhatsNew.dismiss') {
-					return '/index.php/ocsapp/core/whatsnew';
+					if (!$ignoreFrontController) {
+						return '/nextcloud/index.php/ocsapp/core/whatsnew';
+					}
+					return '/nextcloud/ocsapp/core/whatsnew';
 				}
 			});
 		$result = $this->urlGenerator->linkToOCSRouteAbsolute($route);
 		$this->assertEquals($expected, $result);
 	}
 
-	public function provideOCSRoutes() {
+	public function provideOCSRoutes(): array {
 		return [
-			['core.OCS.getCapabilities', 'http://localhost/nextcloud/ocs/v2.php/cloud/capabilities'],
-			['core.WhatsNew.dismiss', 'http://localhost/nextcloud/ocs/v2.php/core/whatsnew'],
+			['core.OCS.getCapabilities', false, 'http://localhost/nextcloud/ocs/v2.php/cloud/capabilities'],
+			['core.OCS.getCapabilities', true, 'http://localhost/nextcloud/ocs/v2.php/cloud/capabilities'],
+			['core.WhatsNew.dismiss', false, 'http://localhost/nextcloud/ocs/v2.php/core/whatsnew'],
+			['core.WhatsNew.dismiss', true, 'http://localhost/nextcloud/ocs/v2.php/core/whatsnew'],
 		];
 	}
 

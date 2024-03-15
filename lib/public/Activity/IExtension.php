@@ -31,13 +31,43 @@ namespace OCP\Activity;
  * @since 8.0.0
  */
 interface IExtension {
+	/**
+	 * @since 8.0.0
+	 */
 	public const METHOD_STREAM = 'stream';
+
+	/**
+	 * @since 8.0.0
+	 */
 	public const METHOD_MAIL = 'email';
+
+	/**
+	 * @since 20.0.0
+	 */
 	public const METHOD_NOTIFICATION = 'notification';
 
+	/**
+	 * @since 8.0.0
+	 */
 	public const PRIORITY_VERYLOW = 10;
+
+	/**
+	 * @since 8.0.0
+	 */
 	public const PRIORITY_LOW = 20;
+
+	/**
+	 * @since 8.0.0
+	 */
 	public const PRIORITY_MEDIUM = 30;
+
+	/**
+	 * @since 8.0.0
+	 */
 	public const PRIORITY_HIGH = 40;
+
+	/**
+	 * @since 8.0.0
+	 */
 	public const PRIORITY_VERYHIGH = 50;
 }

@@ -48,9 +48,9 @@ use OCP\HintException;
 use OCP\IConfig;
 use OCP\IUser;
 use OCP\Notification\IManager as INotificationManager;
-use Test\TestCase;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
+use Test\TestCase;
 
 /**
  * Class Test_User_Ldap_Direct

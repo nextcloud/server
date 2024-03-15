@@ -7,11 +7,12 @@ OC.L10N.register(
     "Allows OAuth2 compatible authentication from other web applications." : "වෙනත් වියමන යෙදුම් වලින් OAuth2 අනුකූල සත්‍යාපනය සඳහා ඉඩ ලබා දේ.",
     "OAuth 2.0 clients" : "OAuth 2.0 අනුග්‍රාහකයින්",
     "OAuth 2.0 allows external services to request access to {instanceName}." : "OAuth 2.0 බාහිර සේවාවන්ට {instanceName} වෙත ප්‍රවේශය ඉල්ලීමට ඉඩ දෙයි.",
-    "Add client" : "අනුග්‍රාහකයක් එකතු කරන්න",
     "Name" : "නම",
-    "Add" : "එකතු කරන්න",
     "Client Identifier" : "අනුග්‍රාහක හඳුන්වනය",
-    "Secret" : "රහස",
-    "Show client secret" : "අනුග්‍රාහකයේ රහස්‍යතාව පෙන්වන්න"
+    "Secret key" : "රහස්‍ය යතුර",
+    "Add client" : "අනුග්‍රාහකයක් එකතු කරන්න",
+    "Add" : "එකතු කරන්න",
+    "Show client secret" : "අනුග්‍රාහකයේ රහස්‍යතාව පෙන්වන්න",
+    "Secret" : "රහස"
 },
 "nplurals=2; plural=(n != 1);");

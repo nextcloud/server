@@ -127,10 +127,10 @@ final class JrdResponse implements IResponse {
 	 * @since 21.0.0
 	 */
 	public function addLink(string $rel,
-							?string $type,
-							?string $href,
-							?array $titles = [],
-							?array $properties = []): self {
+		?string $type,
+		?string $href,
+		?array $titles = [],
+		?array $properties = []): self {
 		$this->links[] = array_filter([
 			'rel' => $rel,
 			'type' => $type,

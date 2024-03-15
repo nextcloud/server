@@ -34,21 +34,15 @@ use OCP\Security\ISecureRandom;
  * @package OC\Security\CSRF
  */
 class CsrfTokenGenerator {
-	/** @var ISecureRandom  */
-	private $random;
-
-	/**
-	 * @param ISecureRandom $random
-	 */
-	public function __construct(ISecureRandom $random) {
-		$this->random = $random;
+	public function __construct(
+		private ISecureRandom $random,
+	) {
 	}
 
 	/**
 	 * Generate a new CSRF token.
 	 *
 	 * @param int $length Length of the token in characters.
-	 * @return string
 	 */
 	public function generateToken(int $length = 32): string {
 		return $this->random->generate($length);

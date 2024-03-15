@@ -86,17 +86,16 @@ class DecryptAllTest extends TestCase {
 
 	public function testMaintenanceAndTrashbin() {
 		// on construct we enable single-user-mode and disable the trash bin
-		$this->config->expects($this->at(1))
+		// on destruct we disable single-user-mode again and enable the trash bin
+		$this->config->expects($this->exactly(2))
 			->method('setSystemValue')
-			->with('maintenance', true);
+			->withConsecutive(
+				['maintenance', true],
+				['maintenance', false],
+			);
 		$this->appManager->expects($this->once())
 			->method('disableApp')
 			->with('files_trashbin');
-
-		// on destruct wi disable single-user-mode again and enable the trash bin
-		$this->config->expects($this->at(2))
-			->method('setSystemValue')
-			->with('maintenance', false);
 		$this->appManager->expects($this->once())
 			->method('enableApp')
 			->with('files_trashbin');
@@ -142,9 +141,12 @@ class DecryptAllTest extends TestCase {
 			->willReturn('user1');
 
 		if ($encryptionEnabled) {
-			$this->config->expects($this->at(1))
+			$this->config->expects($this->exactly(2))
 				->method('setAppValue')
-				->with('core', 'encryption_enabled', 'no');
+				->withConsecutive(
+					['core', 'encryption_enabled', 'no'],
+					['core', 'encryption_enabled', 'yes'],
+				);
 			$this->questionHelper->expects($this->once())
 				->method('ask')
 				->willReturn($continue);
@@ -154,9 +156,6 @@ class DecryptAllTest extends TestCase {
 					->with($this->consoleInput, $this->consoleOutput, 'user1');
 			} else {
 				$this->decryptAll->expects($this->never())->method('decryptAll');
-				$this->config->expects($this->at(2))
-					->method('setAppValue')
-					->with('core', 'encryption_enabled', 'yes');
 			}
 		} else {
 			$this->config->expects($this->never())->method('setAppValue');
@@ -188,14 +187,13 @@ class DecryptAllTest extends TestCase {
 			$this->questionHelper
 		);
 
-		$this->config->expects($this->at(1))
-			->method('setAppValue')
-			->with('core', 'encryption_enabled', 'no');
-
 		// make sure that we enable encryption again after a exception was thrown
-		$this->config->expects($this->at(4))
+		$this->config->expects($this->exactly(2))
 			->method('setAppValue')
-			->with('core', 'encryption_enabled', 'yes');
+			->withConsecutive(
+				['core', 'encryption_enabled', 'no'],
+				['core', 'encryption_enabled', 'yes'],
+			);
 
 		$this->encryptionManager->expects($this->once())
 			->method('isEnabled')

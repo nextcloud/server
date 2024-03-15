@@ -36,7 +36,7 @@ class StorageAuthException extends StorageNotAvailableException {
 	 * @since 9.0.0
 	 */
 	public function __construct($message = '', \Exception $previous = null) {
-		$l = \OC::$server->getL10N('core');
+		$l = \OCP\Util::getL10N('core');
 		parent::__construct($l->t('Storage unauthorized. %s', [$message]), self::STATUS_UNAUTHORIZED, $previous);
 	}
 }

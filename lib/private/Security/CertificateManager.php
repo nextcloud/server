@@ -44,21 +44,14 @@ use Psr\Log\LoggerInterface;
  * Manage trusted certificates for users
  */
 class CertificateManager implements ICertificateManager {
-	protected View $view;
-	protected IConfig $config;
-	protected LoggerInterface $logger;
-	protected ISecureRandom $random;
-
 	private ?string $bundlePath = null;
 
-	public function __construct(View $view,
-								IConfig $config,
-								LoggerInterface $logger,
-								ISecureRandom $random) {
-		$this->view = $view;
-		$this->config = $config;
-		$this->logger = $logger;
-		$this->random = $random;
+	public function __construct(
+		protected View $view,
+		protected IConfig $config,
+		protected LoggerInterface $logger,
+		protected ISecureRandom $random,
+	) {
 	}
 
 	/**
@@ -178,7 +171,6 @@ class CertificateManager implements ICertificateManager {
 	 *
 	 * @param string $certificate the certificate data
 	 * @param string $name the filename for the certificate
-	 * @return \OCP\ICertificate
 	 * @throws \Exception If the certificate could not get added
 	 */
 	public function addCertificate(string $certificate, string $name): ICertificate {
@@ -205,9 +197,6 @@ class CertificateManager implements ICertificateManager {
 
 	/**
 	 * Remove the certificate and re-generate the certificate bundle
-	 *
-	 * @param string $name
-	 * @return bool
 	 */
 	public function removeCertificate(string $name): bool {
 		if (!Filesystem::isValidPath($name)) {
@@ -225,8 +214,6 @@ class CertificateManager implements ICertificateManager {
 
 	/**
 	 * Get the path to the certificate bundle
-	 *
-	 * @return string
 	 */
 	public function getCertificateBundle(): string {
 		return $this->getPathToCertificates() . 'rootcerts.crt';
@@ -267,8 +254,6 @@ class CertificateManager implements ICertificateManager {
 
 	/**
 	 * Check if we need to re-bundle the certificates because one of the sources has updated
-	 *
-	 * @return bool
 	 */
 	private function needsRebundling(): bool {
 		$targetBundle = $this->getCertificateBundle();
@@ -282,8 +267,6 @@ class CertificateManager implements ICertificateManager {
 
 	/**
 	 * get mtime of ca-bundle shipped by Nextcloud
-	 *
-	 * @return int
 	 */
 	protected function getFilemtimeOfCaBundle(): int {
 		return filemtime(\OC::$SERVERROOT . '/resources/config/ca-bundle.crt');

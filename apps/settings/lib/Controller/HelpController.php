@@ -31,16 +31,17 @@ declare(strict_types=1);
 namespace OCA\Settings\Controller;
 
 use OCP\AppFramework\Controller;
-use OCP\AppFramework\Http\Attribute\IgnoreOpenAPI;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\INavigationManager;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 
-#[IgnoreOpenAPI]
+#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class HelpController extends Controller {
 
 	/** @var INavigationManager */
@@ -55,6 +56,9 @@ class HelpController extends Controller {
 	/** @var string */
 	private $userId;
 
+	/** @var IConfig */
+	private $config;
+
 	public function __construct(
 		string $appName,
 		IRequest $request,
@@ -62,7 +66,8 @@ class HelpController extends Controller {
 		IURLGenerator $urlGenerator,
 		?string $userId,
 		IGroupManager $groupManager,
-		IL10N $l10n
+		IL10N $l10n,
+		IConfig $config,
 	) {
 		parent::__construct($appName, $request);
 		$this->navigationManager = $navigationManager;
@@ -70,6 +75,7 @@ class HelpController extends Controller {
 		$this->userId = $userId;
 		$this->groupManager = $groupManager;
 		$this->l10n = $l10n;
+		$this->config = $config;
 	}
 
 	/**
@@ -94,6 +100,13 @@ class HelpController extends Controller {
 		$urlUserDocs = $this->urlGenerator->linkToRoute('settings.Help.help', ['mode' => 'user']);
 		$urlAdminDocs = $this->urlGenerator->linkToRoute('settings.Help.help', ['mode' => 'admin']);
 
+		$knowledgebaseEmbedded = $this->config->getSystemValueBool('knowledgebase.embedded', false);
+		if (!$knowledgebaseEmbedded) {
+			$pageTitle = $this->l10n->t('Nextcloud help overview');
+			$urlUserDocs = $this->urlGenerator->linkToDocs('user');
+			$urlAdminDocs = $this->urlGenerator->linkToDocs('admin');
+		}
+
 		$response = new TemplateResponse('settings', 'help', [
 			'admin' => $this->groupManager->isAdmin($this->userId),
 			'url' => $documentationUrl,
@@ -101,6 +114,7 @@ class HelpController extends Controller {
 			'urlAdminDocs' => $urlAdminDocs,
 			'mode' => $mode,
 			'pageTitle' => $pageTitle,
+			'knowledgebaseEmbedded' => $knowledgebaseEmbedded,
 		]);
 		$policy = new ContentSecurityPolicy();
 		$policy->addAllowedFrameDomain('\'self\'');

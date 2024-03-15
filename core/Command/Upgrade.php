@@ -33,13 +33,8 @@
  */
 namespace OC\Core\Command;
 
-use OCP\EventDispatcher\Event;
-use OCP\EventDispatcher\IEventDispatcher;
-use OCP\IConfig;
-use OCP\Util;
 use OC\Console\TimestampFormatter;
 use OC\DB\MigratorExecuteSqlEvent;
-use OC\Installer;
 use OC\Repair\Events\RepairAdvanceEvent;
 use OC\Repair\Events\RepairErrorEvent;
 use OC\Repair\Events\RepairFinishEvent;
@@ -48,7 +43,10 @@ use OC\Repair\Events\RepairStartEvent;
 use OC\Repair\Events\RepairStepEvent;
 use OC\Repair\Events\RepairWarningEvent;
 use OC\Updater;
-use Psr\Log\LoggerInterface;
+use OCP\EventDispatcher\Event;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\IConfig;
+use OCP\Util;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
@@ -63,9 +61,7 @@ class Upgrade extends Command {
 	public const ERROR_FAILURE = 5;
 
 	public function __construct(
-		private IConfig $config,
-		private LoggerInterface $logger,
-		private Installer $installer,
+		private IConfig $config
 	) {
 		parent::__construct();
 	}
@@ -91,12 +87,8 @@ class Upgrade extends Command {
 			}
 
 			$self = $this;
-			$updater = new Updater(
-				$this->config,
-				\OC::$server->getIntegrityCodeChecker(),
-				$this->logger,
-				$this->installer
-			);
+			$updater = \OCP\Server::get(Updater::class);
+			$incompatibleOverwrites = $this->config->getSystemValue('app_install_overwrite', []);
 
 			/** @var IEventDispatcher $dispatcher */
 			$dispatcher = \OC::$server->get(IEventDispatcher::class);
@@ -188,8 +180,10 @@ class Upgrade extends Command {
 			$updater->listen('\OC\Updater', 'dbUpgrade', function () use ($output) {
 				$output->writeln('<info>Updated database</info>');
 			});
-			$updater->listen('\OC\Updater', 'incompatibleAppDisabled', function ($app) use ($output) {
-				$output->writeln('<comment>Disabled incompatible app: ' . $app . '</comment>');
+			$updater->listen('\OC\Updater', 'incompatibleAppDisabled', function ($app) use ($output, &$incompatibleOverwrites) {
+				if (!in_array($app, $incompatibleOverwrites)) {
+					$output->writeln('<comment>Disabled incompatible app: ' . $app . '</comment>');
+				}
 			});
 			$updater->listen('\OC\Updater', 'upgradeAppStoreApp', function ($app) use ($output) {
 				$output->writeln('<info>Update app ' . $app . ' from App Store</info>');

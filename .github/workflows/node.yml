@@ -7,21 +7,6 @@ name: Node
 
 on:
   pull_request:
-    paths:
-      - '.github/workflows/**'
-      - 'src/**'
-      - 'apps/**/appinfo/info.xml'
-      - 'package.json'
-      - 'package-lock.json'
-      - 'tsconfig.json'
-      - '**.js'
-      - '**.ts'
-      - '**.vue'
-  push:
-    branches:
-      - main
-      - master
-      - stable*
 
 permissions:
   contents: read
@@ -31,23 +16,49 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  changes:
+    runs-on: ubuntu-latest-low
+
+    outputs:
+      src: ${{ steps.changes.outputs.src}}
+
+    steps:
+      - uses: dorny/paths-filter@ebc4d7e9ebcb0b1eb21480bb8f43113e996ac77a # v3.0.1
+        id: changes
+        continue-on-error: true
+        with:
+          filters: |
+            src:
+              - '.github/workflows/**'
+              - '**/src/**'
+              - '**/appinfo/info.xml'
+              - 'package.json'
+              - 'package-lock.json'
+              - 'tsconfig.json'
+              - '**.js'
+              - '**.ts'
+              - '**.vue'
+
   build:
     runs-on: ubuntu-latest
 
-    name: node
+    needs: changes
+    if: needs.changes.outputs.src != 'false'
+
+    name: NPM build
     steps:
       - name: Checkout
-        uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v3.6.0
 
       - name: Read package.json node and npm engines version
-        uses: skjnldsv/read-package-engines-version-actions@8205673bab74a63eb9b8093402fd9e0e018663a1 # v2.1
+        uses: skjnldsv/read-package-engines-version-actions@8205673bab74a63eb9b8093402fd9e0e018663a1 # v2.2
         id: versions
         with:
-          fallbackNode: '^16'
-          fallbackNpm: '^7'
+          fallbackNode: '^20'
+          fallbackNpm: '^9'
 
       - name: Set up node ${{ steps.versions.outputs.nodeVersion }}
-        uses: actions/setup-node@64ed1c7eab4cce3362f8c340dee64e5eaeef8f7c # v3
+        uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4.0.2
         with:
           node-version: ${{ steps.versions.outputs.nodeVersion }}
 
@@ -55,6 +66,9 @@ jobs:
         run: npm i -g npm@"${{ steps.versions.outputs.npmVersion }}"
 
       - name: Install dependencies & build
+        env:
+          CYPRESS_INSTALL_BINARY: 0
+          PUPPETEER_SKIP_DOWNLOAD: true
         run: |
           npm ci
           npm run build --if-present
@@ -69,3 +83,18 @@ jobs:
           git status
           git --no-pager diff
           exit 1 # make it red to grab attention
+
+  summary:
+    permissions:
+      contents: none
+    runs-on: ubuntu-latest-low
+    needs: [changes, build]
+
+    if: always()
+
+    # This is the summary, we just avoid to rename it so that branch protection rules still match
+    name: node
+
+    steps:
+      - name: Summary status
+        run: if ${{ needs.changes.outputs.src != 'false' && needs.build.result != 'success' }}; then exit 1; fi

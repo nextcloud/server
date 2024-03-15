@@ -90,7 +90,22 @@
   RewriteRule ^remote/(.*) remote.php [QSA,L]
   RewriteRule ^(?:build|tests|config|lib|3rdparty|templates)/.* - [R=404,L]
   RewriteRule ^\.well-known/(?!acme-challenge|pki-validation) /index.php [QSA,L]
+  RewriteRule ^ocm-provider/?$ index.php [QSA,L]
   RewriteRule ^(?:\.(?!well-known)|autotest|occ|issue|indie|db_|console).* - [R=404,L]
+</IfModule>
+
+# Clients like xDavv5 on Android, or Cyberduck, use chunked requests.
+# When FastCGI or FPM is used with apache, requests arrive to Nextcloud without any content.
+# This leads to the creation of empty files.
+# The following directive will force the problematic requests to be buffered before being forwarded to Nextcloud.
+# This way, the "Transfer-Encoding" header is removed, the "Content-Length" header is set, and the request content is proxied to Nextcloud.
+# Here are more information about the issue:
+#  - https://docs.cyberduck.io/mountainduck/issues/fastcgi/
+#  - https://docs.nextcloud.com/server/latest/admin_manual/issues/general_troubleshooting.html#troubleshooting-webdav
+<IfModule setenvif.c>
+  <Location "/remote.php">
+    SetEnvIf Transfer-Encoding "chunked" proxy-sendcl=1
+  </Location>
 </IfModule>
 
 AddDefaultCharset utf-8

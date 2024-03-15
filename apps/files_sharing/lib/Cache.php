@@ -28,19 +28,19 @@
  */
 namespace OCA\Files_Sharing;
 
+use OC\Files\Cache\CacheDependencies;
 use OC\Files\Cache\FailedCache;
 use OC\Files\Cache\Wrapper\CacheJail;
 use OC\Files\Search\SearchBinaryOperator;
 use OC\Files\Search\SearchComparison;
 use OC\Files\Storage\Wrapper\Jail;
 use OC\User\DisplayNameCache;
+use OCP\Files\Cache\ICache;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Search\ISearchBinaryOperator;
 use OCP\Files\Search\ISearchComparison;
 use OCP\Files\Search\ISearchOperator;
 use OCP\Files\StorageNotAvailableException;
-use OCP\ICacheFactory;
-use OCP\IUserManager;
 use OCP\Share\IShare;
 
 /**
@@ -64,18 +64,19 @@ class Cache extends CacheJail {
 	public function __construct(
 		$storage,
 		ICacheEntry $sourceRootInfo,
-		DisplayNameCache $displayNameCache,
+		CacheDependencies $dependencies,
 		IShare $share
 	) {
 		$this->storage = $storage;
 		$this->sourceRootInfo = $sourceRootInfo;
 		$this->numericId = $sourceRootInfo->getStorageId();
-		$this->displayNameCache = $displayNameCache;
+		$this->displayNameCache = $dependencies->getDisplayNameCache();
 		$this->share = $share;
 
 		parent::__construct(
 			null,
-			''
+			'',
+			$dependencies,
 		);
 	}
 
@@ -100,7 +101,7 @@ class Cache extends CacheJail {
 		return $this->sourceRootInfo->getPath();
 	}
 
-	public function getCache() {
+	public function getCache(): ICache {
 		if (is_null($this->cache)) {
 			$sourceStorage = $this->storage->getSourceStorage();
 			if ($sourceStorage) {
@@ -161,6 +162,10 @@ class Cache extends CacheJail {
 				$entry['permissions'] &= $this->share->getPermissions();
 			} else {
 				$entry['permissions'] = $this->storage->getPermissions($entry['path']);
+			}
+
+			if ($this->share->getNodeId() === $entry['fileid']) {
+				$entry['name'] = basename($this->share->getTarget());
 			}
 		} catch (StorageNotAvailableException $e) {
 			// thrown by FailedStorage e.g. when the sharer does not exist anymore

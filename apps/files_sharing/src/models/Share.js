@@ -579,7 +579,7 @@ export default class Share {
 		for (const i in this._share.attributes) {
 			const attr = this._share.attributes[i]
 			if (attr.scope === attrUpdate.scope && attr.key === attrUpdate.key) {
-				this._share.attributes[i] = attrUpdate
+				this._share.attributes.splice(i, 1, attrUpdate)
 				return
 			}
 		}

@@ -61,22 +61,24 @@ namespace OCA\Core;
  * }
  *
  * @psalm-type CoreOpenGraphObject = array{
+ *     id: string,
+ *     name: string,
+ *     description: ?string,
+ *     thumb: ?string,
+ *     link: string,
+ * }
+ *
+ * @psalm-type CoreResource = array{
  *     richObjectType: string,
  *     richObject: array<string, mixed>,
- *     openGraphObject: array{
- *         id: string,
- *         name: string,
- *         description: ?string,
- *         thumb: ?string,
- *         link: string,
- *     },
+ *     openGraphObject: CoreOpenGraphObject,
  *     accessible: bool,
  * }
  *
  * @psalm-type CoreCollection = array{
  *     id: int,
  *     name: string,
- *     resources: CoreOpenGraphObject[],
+ *     resources: CoreResource[],
  * }
  *
  * @psalm-type CoreReference = array{
@@ -96,8 +98,13 @@ namespace OCA\Core;
  *
  * @psalm-type CoreUnifiedSearchProvider = array{
  *     id: string,
+ *     appId: string,
  *     name: string,
+ *     icon: string,
  *     order: int,
+ *     triggers: string[],
+ *     filters: array<string, string>,
+ *     inAppSearch: bool,
  * }
  *
  * @psalm-type CoreUnifiedSearchResultEntry = array{
@@ -122,7 +129,12 @@ namespace OCA\Core;
  *     label: string,
  *     icon: string,
  *     source: string,
- *     status: string,
+ *     status: array{
+ *       status: string,
+ *       message: ?string,
+ *       icon: ?string,
+ *       clearAt: ?int,
+ *     }|string,
  *     subline: string,
  *     shareWithDisplayNameUnique: string,
  * }
@@ -136,7 +148,34 @@ namespace OCA\Core;
  *     input: string,
  *     output: ?string,
  *     identifier: string,
+ *     completionExpectedAt: ?int
  * }
+ *
+ * @psalm-type CoreTextToImageTask = array{
+ *      id: ?int,
+ *      status: 0|1|2|3|4,
+ *      userId: ?string,
+ *      appId: string,
+ *      input: string,
+ *      identifier: ?string,
+ *      numberOfImages: int,
+ *      completionExpectedAt: ?int,
+ *  }
+ *
+ * @psalm-type CoreTeam = array{
+ *      id: string,
+ *      name: string,
+ *      icon: string,
+ * }
+ *
+ * @psalm-type CoreTeamResource = array{
+ *       id: int,
+ *       label: string,
+ *       url: string,
+ *       iconSvg: ?string,
+ *       iconURL: ?string,
+ *       iconEmoji: ?string,
+ *   }
  */
 class ResponseDefinitions {
 }

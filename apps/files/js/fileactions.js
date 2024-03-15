@@ -721,7 +721,7 @@
 					icon: function(_filename, _context) {
 						return OC.imagePath('files_reminders', 'alarm.svg')
 					},
-					permissions: OC.PERMISSION_READ,
+					permissions: $('#isPublic').val() ? null : OC.PERMISSION_READ,
 					actionHandler: function(_filename, _context) {},
 				});
 			}

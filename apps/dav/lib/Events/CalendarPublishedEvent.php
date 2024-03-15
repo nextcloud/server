@@ -48,8 +48,8 @@ class CalendarPublishedEvent extends Event {
 	 * @since 20.0.0
 	 */
 	public function __construct(int $calendarId,
-								array $calendarData,
-								string $publicUri) {
+		array $calendarData,
+		string $publicUri) {
 		parent::__construct();
 		$this->calendarId = $calendarId;
 		$this->calendarData = $calendarData;

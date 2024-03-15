@@ -397,7 +397,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 			$share = $this->provider->create($share);
 			$this->fail();
 		} catch (\Exception $e) {
-			$this->assertEquals('Not allowed to create a federated share with the same user', $e->getMessage());
+			$this->assertEquals('Not allowed to create a federated share to the same account', $e->getMessage());
 		}
 
 		$qb = $this->connection->getQueryBuilder();
@@ -459,7 +459,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 		try {
 			$this->provider->create($share);
 		} catch (\Exception $e) {
-			$this->assertEquals('Sharing myFile failed, because this item is already shared with user user@server.com', $e->getMessage());
+			$this->assertEquals('Sharing myFile failed, because this item is already shared with the account user@server.com', $e->getMessage());
 		}
 	}
 

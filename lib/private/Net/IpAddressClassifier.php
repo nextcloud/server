@@ -46,10 +46,6 @@ class IpAddressClassifier {
 	 * Check host identifier for local IPv4 and IPv6 address ranges
 	 *
 	 * Hostnames are not considered local. Use the HostnameClassifier for those.
-	 *
-	 * @param string $ip
-	 *
-	 * @return bool
 	 */
 	public function isLocalAddress(string $ip): bool {
 		$parsedIp = Factory::parseAddressString(

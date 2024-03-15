@@ -116,7 +116,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 		[$ownerUid, $remote] = $this->addressHandler->splitUserRemote($share->getOwner());
 		// for backward compatibility make sure that the remote url stored in the
 		// database ends with a trailing slash
-		if (substr($remote, -1) !== '/') {
+		if (!str_ends_with($remote, '/')) {
 			$remote = $remote . '/';
 		}
 

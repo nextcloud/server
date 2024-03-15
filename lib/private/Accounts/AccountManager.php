@@ -37,25 +37,23 @@ namespace OC\Accounts;
 
 use Exception;
 use InvalidArgumentException;
-use libphonenumber\NumberParseException;
-use libphonenumber\PhoneNumberFormat;
-use libphonenumber\PhoneNumberUtil;
 use OC\Profile\TProfileHelper;
-use OCP\Accounts\UserUpdatedEvent;
-use OCP\Cache\CappedMemoryCache;
 use OCA\Settings\BackgroundJobs\VerifyUserData;
 use OCP\Accounts\IAccount;
 use OCP\Accounts\IAccountManager;
 use OCP\Accounts\IAccountProperty;
 use OCP\Accounts\IAccountPropertyCollection;
 use OCP\Accounts\PropertyDoesNotExistException;
+use OCP\Accounts\UserUpdatedEvent;
 use OCP\BackgroundJob\IJobList;
+use OCP\Cache\CappedMemoryCache;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Defaults;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IL10N;
+use OCP\IPhoneNumberUtil;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\L10N\IFactory;
@@ -119,6 +117,7 @@ class AccountManager implements IAccountManager {
 		private IFactory $l10nFactory,
 		private IURLGenerator $urlGenerator,
 		private ICrypto $crypto,
+		private IPhoneNumberUtil $phoneNumberUtil,
 	) {
 		$this->internalCache = new CappedMemoryCache();
 	}
@@ -139,13 +138,9 @@ class AccountManager implements IAccountManager {
 			$defaultRegion = 'EN';
 		}
 
-		$phoneUtil = PhoneNumberUtil::getInstance();
-		try {
-			$phoneNumber = $phoneUtil->parse($input, $defaultRegion);
-			if ($phoneUtil->isValidNumber($phoneNumber)) {
-				return $phoneUtil->format($phoneNumber, PhoneNumberFormat::E164);
-			}
-		} catch (NumberParseException $e) {
+		$phoneNumber = $this->phoneNumberUtil->convertToStandardFormat($input, $defaultRegion);
+		if ($phoneNumber !== null) {
+			return $phoneNumber;
 		}
 
 		throw new InvalidArgumentException(self::PROPERTY_PHONE);

@@ -19,6 +19,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+import 'cypress-axe'
+
 /* eslint-disable */
 import { mount } from '@cypress/vue2'
 

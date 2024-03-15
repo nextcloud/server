@@ -39,8 +39,9 @@ interface ISettableProvider extends IProvider {
 	 * @param string $messageId The new message id.
 	 * @param string $status The new status.
 	 * @param bool $createBackup If true, this will store the old status so that it is possible to revert it later (e.g. after a call).
+	 * @param string|null $customMessage
 	 */
-	public function setUserStatus(string $userId, string $messageId, string $status, bool $createBackup): void;
+	public function setUserStatus(string $userId, string $messageId, string $status, bool $createBackup, ?string $customMessage = null): void;
 
 	/**
 	 * Revert an automatically set user status. For example after leaving a call,

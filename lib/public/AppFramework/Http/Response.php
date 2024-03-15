@@ -112,9 +112,8 @@ class Response {
 	 */
 	public function cacheFor(int $cacheSeconds, bool $public = false, bool $immutable = false) {
 		if ($cacheSeconds > 0) {
-			$pragma = $public ? 'public' : 'private';
-			$this->addHeader('Cache-Control', sprintf('%s, max-age=%s, %s', $pragma, $cacheSeconds, ($immutable ? 'immutable' : 'must-revalidate')));
-			$this->addHeader('Pragma', $pragma);
+			$cacheStore = $public ? 'public' : 'private';
+			$this->addHeader('Cache-Control', sprintf('%s, max-age=%s, %s', $cacheStore, $cacheSeconds, ($immutable ? 'immutable' : 'must-revalidate')));
 
 			// Set expires header
 			$expires = new \DateTime();
@@ -125,7 +124,7 @@ class Response {
 			$this->addHeader('Expires', $expires->format(\DateTimeInterface::RFC2822));
 		} else {
 			$this->addHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
-			unset($this->headers['Expires'], $this->headers['Pragma']);
+			unset($this->headers['Expires']);
 		}
 
 		return $this;

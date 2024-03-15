@@ -26,6 +26,7 @@
  */
 namespace OCA\WorkflowEngine\Tests;
 
+use OC\Files\Config\UserMountCache;
 use OC\L10N\L10N;
 use OCA\WorkflowEngine\Entity\File;
 use OCA\WorkflowEngine\Helper\ScopeContext;
@@ -34,12 +35,12 @@ use OCP\AppFramework\QueryException;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Events\Node\NodeCreatedEvent;
 use OCP\Files\IRootFolder;
+use OCP\Files\Mount\IMountManager;
 use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IL10N;
-use OCP\ILogger;
 use OCP\IServerContainer;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
@@ -52,6 +53,7 @@ use OCP\WorkflowEngine\IEntityEvent;
 use OCP\WorkflowEngine\IManager;
 use OCP\WorkflowEngine\IOperation;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 /**
@@ -65,7 +67,7 @@ class ManagerTest extends TestCase {
 	protected $manager;
 	/** @var MockObject|IDBConnection */
 	protected $db;
-	/** @var \PHPUnit\Framework\MockObject\MockObject|ILogger */
+	/** @var \PHPUnit\Framework\MockObject\MockObject|LoggerInterface */
 	protected $logger;
 	/** @var MockObject|IServerContainer */
 	protected $container;
@@ -92,7 +94,7 @@ class ManagerTest extends TestCase {
 				return vsprintf($text, $parameters);
 			});
 
-		$this->logger = $this->createMock(ILogger::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->session = $this->createMock(IUserSession::class);
 		$this->dispatcher = $this->createMock(IEventDispatcher::class);
 		$this->config = $this->createMock(IConfig::class);
@@ -403,11 +405,11 @@ class ManagerTest extends TestCase {
 							$this->l,
 							$this->createMock(IURLGenerator::class),
 							$this->createMock(IRootFolder::class),
-							$this->createMock(ILogger::class),
-							$this->createMock(\OCP\Share\IManager::class),
 							$this->createMock(IUserSession::class),
 							$this->createMock(ISystemTagManager::class),
 							$this->createMock(IUserManager::class),
+							$this->createMock(UserMountCache::class),
+							$this->createMock(IMountManager::class),
 						])
 						->setMethodsExcept(['getEvents'])
 						->getMock();

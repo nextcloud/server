@@ -37,7 +37,7 @@ class Setup {
 	private $keyManager;
 
 	public function __construct(Crypt $crypt,
-								KeyManager $keyManager) {
+		KeyManager $keyManager) {
 		$this->crypt = $crypt;
 		$this->keyManager = $keyManager;
 	}

@@ -39,9 +39,9 @@ class CardSearchDao {
 	}
 
 	public function findExisting(IUser $user,
-								 ?string $uid,
-								 ?string $email,
-								 ?string $cloudId): ?string {
+		?string $uid,
+		?string $email,
+		?string $cloudId): ?string {
 		$addressbooksQuery = $this->db->getQueryBuilder();
 		$cardQuery = $this->db->getQueryBuilder();
 		$propQuery = $this->db->getQueryBuilder();

@@ -168,7 +168,7 @@ class Dummy extends Backend implements \OCP\IUserBackend {
 	}
 
 	public function getDisplayName($uid) {
-		return isset($this->displayNames[$uid])? $this->displayNames[$uid]: $uid;
+		return $this->displayNames[$uid] ?? $uid;
 	}
 
 	/**

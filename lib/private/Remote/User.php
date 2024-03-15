@@ -92,7 +92,7 @@ class User implements IUser {
 	 * @return string
 	 */
 	public function getTwitter() {
-		return isset($this->data['twitter']) ? $this->data['twitter'] : '';
+		return $this->data['twitter'] ?? '';
 	}
 
 	/**

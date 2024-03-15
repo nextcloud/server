@@ -4,6 +4,9 @@ declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2021 Robin Appelman <robin@icewind.nl>
  *
+ * @author Maxence Lange <maxence@artificial-owl.com>
+ * @author Robin Appelman <robin@icewind.nl>
+ *
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -48,7 +51,7 @@ class PathPrefixOptimizer extends QueryOptimizerStep {
 	}
 
 	public function processOperator(ISearchOperator &$operator) {
-		if (!$this->useHashEq && $operator instanceof ISearchComparison && $operator->getField() === 'path' && $operator->getType() === ISearchComparison::COMPARE_EQUAL) {
+		if (!$this->useHashEq && $operator instanceof ISearchComparison && !$operator->getExtra() && $operator->getField() === 'path' && $operator->getType() === ISearchComparison::COMPARE_EQUAL) {
 			$operator->setQueryHint(ISearchComparison::HINT_PATH_EQ_HASH, false);
 		}
 
@@ -69,7 +72,7 @@ class PathPrefixOptimizer extends QueryOptimizerStep {
 	private function operatorPairIsPathPrefix(ISearchOperator $like, ISearchOperator $equal): bool {
 		return (
 			$like instanceof ISearchComparison && $equal instanceof ISearchComparison &&
-			$like->getField() === 'path' && $equal->getField() === 'path' &&
+			!$like->getExtra() && !$equal->getExtra() && $like->getField() === 'path' && $equal->getField() === 'path' &&
 			$like->getType() === ISearchComparison::COMPARE_LIKE_CASE_SENSITIVE && $equal->getType() === ISearchComparison::COMPARE_EQUAL
 			&& $like->getValue() === SearchComparison::escapeLikeParameter($equal->getValue()) . '/%'
 		);

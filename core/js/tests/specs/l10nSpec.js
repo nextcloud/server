@@ -12,11 +12,11 @@ describe('OC.L10N tests', function() {
 	var TEST_APP = 'jsunittestapp';
 
 	beforeEach(function() {
-		OC.appswebroots[TEST_APP] = OC.getRootPath() + '/apps3/jsunittestapp';
+		window._oc_appswebroots[TEST_APP] = OC.getRootPath() + '/apps3/jsunittestapp';
 	});
 	afterEach(function() {
 		OC.L10N._unregister(TEST_APP);
-		delete OC.appswebroots[TEST_APP];
+		delete window._oc_appswebroots[TEST_APP];
 	});
 
 	describe('text translation', function() {

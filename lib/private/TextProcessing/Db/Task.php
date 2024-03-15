@@ -45,6 +45,8 @@ use OCP\TextProcessing\Task as OCPTask;
  * @method string getAppId()
  * @method setIdentifier(string $identifier)
  * @method string getIdentifier()
+ * @method setCompletionExpectedAt(null|\DateTime $completionExpectedAt)
+ * @method null|\DateTime getCompletionExpectedAt()
  */
 class Task extends Entity {
 	protected $lastUpdated;
@@ -55,16 +57,17 @@ class Task extends Entity {
 	protected $userId;
 	protected $appId;
 	protected $identifier;
+	protected $completionExpectedAt;
 
 	/**
 	 * @var string[]
 	 */
-	public static array $columns = ['id', 'last_updated', 'type', 'input', 'output', 'status', 'user_id', 'app_id', 'identifier'];
+	public static array $columns = ['id', 'last_updated', 'type', 'input', 'output', 'status', 'user_id', 'app_id', 'identifier', 'completion_expected_at'];
 
 	/**
 	 * @var string[]
 	 */
-	public static array $fields = ['id', 'lastUpdated', 'type', 'input', 'output', 'status', 'userId', 'appId', 'identifier'];
+	public static array $fields = ['id', 'lastUpdated', 'type', 'input', 'output', 'status', 'userId', 'appId', 'identifier', 'completionExpectedAt'];
 
 
 	public function __construct() {
@@ -78,6 +81,7 @@ class Task extends Entity {
 		$this->addType('userId', 'string');
 		$this->addType('appId', 'string');
 		$this->addType('identifier', 'string');
+		$this->addType('completionExpectedAt', 'datetime');
 	}
 
 	public function toRow(): array {
@@ -98,6 +102,7 @@ class Task extends Entity {
 			'userId' => $task->getUserId(),
 			'appId' => $task->getAppId(),
 			'identifier' => $task->getIdentifier(),
+			'completionExpectedAt' => $task->getCompletionExpectedAt(),
 		]);
 		return $task;
 	}
@@ -107,6 +112,7 @@ class Task extends Entity {
 		$task->setId($this->getId());
 		$task->setStatus($this->getStatus());
 		$task->setOutput($this->getOutput());
+		$task->setCompletionExpectedAt($this->getCompletionExpectedAt());
 		return $task;
 	}
 }

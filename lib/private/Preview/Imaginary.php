@@ -23,13 +23,13 @@
 
 namespace OC\Preview;
 
+use OC\StreamImage;
 use OCP\Files\File;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\IImage;
-use OCP\Image;
 
-use OC\StreamImage;
+use OCP\Image;
 use Psr\Log\LoggerInterface;
 
 class Imaginary extends ProviderV2 {
@@ -78,6 +78,9 @@ class Imaginary extends ProviderV2 {
 
 		// Object store
 		$stream = $file->fopen('r');
+		if (!$stream || !is_resource($stream) || feof($stream)) {
+			return null;
+		}
 
 		$httpClient = $this->service->newClient();
 
@@ -106,6 +109,15 @@ class Imaginary extends ProviderV2 {
 				$mimeType = 'jpeg';
 		}
 
+		$preview_format = $this->config->getSystemValueString('preview_format', 'jpeg');
+
+		switch ($preview_format) { // Change the format to the correct one
+			case 'webp':
+				$mimeType = 'webp';
+				break;
+			default:
+		}
+
 		$operations = [];
 
 		if ($convert) {
@@ -121,7 +133,16 @@ class Imaginary extends ProviderV2 {
 			];
 		}
 
-		$quality = $this->config->getAppValue('preview', 'jpeg_quality', '80');
+		switch ($mimeType) {
+			case 'jpeg':
+				$quality = $this->config->getAppValue('preview', 'jpeg_quality', '80');
+				break;
+			case 'webp':
+				$quality = $this->config->getAppValue('preview', 'webp_quality', '80');
+				break;
+			default:
+				$quality = $this->config->getAppValue('preview', 'jpeg_quality', '80');
+		}
 
 		$operations[] = [
 			'operation' => ($crop ? 'smartcrop' : 'fit'),
@@ -147,7 +168,7 @@ class Imaginary extends ProviderV2 {
 					'timeout' => 120,
 					'connect_timeout' => 3,
 				]);
-		} catch (\Exception $e) {
+		} catch (\Throwable $e) {
 			$this->logger->info('Imaginary preview generation failed: ' . $e->getMessage(), [
 				'exception' => $e,
 			]);

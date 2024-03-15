@@ -43,9 +43,9 @@ use Sabre\VObject\Property;
 use Sabre\VObject\Reader;
 use Throwable;
 use function strlen;
-use function strpos;
 use function substr;
 
+/** @template-implements IEventListener<CalendarObjectCreatedEvent|CalendarObjectUpdatedEvent|CalendarShareUpdatedEvent> */
 class CalendarContactInteractionListener implements IEventListener {
 	private const URI_USERS = 'principals/users/';
 
@@ -65,10 +65,10 @@ class CalendarContactInteractionListener implements IEventListener {
 	private $logger;
 
 	public function __construct(IEventDispatcher $dispatcher,
-								IUserSession $userSession,
-								Principal $principalConnector,
-								IMailer $mailer,
-								LoggerInterface $logger) {
+		IUserSession $userSession,
+		Principal $principalConnector,
+		IMailer $mailer,
+		LoggerInterface $logger) {
 		$this->dispatcher = $dispatcher;
 		$this->userSession = $userSession;
 		$this->principalConnector = $principalConnector;
@@ -130,7 +130,7 @@ class CalendarContactInteractionListener implements IEventListener {
 			// Invalid principal
 			return;
 		}
-		if (strpos($principal, self::URI_USERS) !== 0) {
+		if (!str_starts_with($principal, self::URI_USERS)) {
 			// Not a user principal
 			return;
 		}
@@ -159,7 +159,7 @@ class CalendarContactInteractionListener implements IEventListener {
 			}
 
 			$mailTo = $attendee->getValue();
-			if (strpos($mailTo, 'mailto:') !== 0) {
+			if (!str_starts_with($mailTo, 'mailto:')) {
 				// Doesn't look like an email
 				continue;
 			}

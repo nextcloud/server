@@ -1,7 +1,10 @@
 <?php
+
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2017 Robin Appelman <robin@icewind.nl>
  *
+ * @author Maxence Lange <maxence@artificial-owl.com>
  * @author Robin Appelman <robin@icewind.nl>
  *
  * @license GNU AGPL version 3 or any later version
@@ -24,47 +27,45 @@ namespace OC\Files\Search;
 
 use OCP\Files\Search\ISearchComparison;
 
+/**
+ * @psalm-import-type ParamValue from ISearchComparison
+ */
 class SearchComparison implements ISearchComparison {
-	/** @var string */
-	private $type;
-	/** @var string */
-	private $field;
-	/** @var string|integer|\DateTime */
-	private $value;
-	private $hints = [];
+	private array $hints = [];
 
-	/**
-	 * SearchComparison constructor.
-	 *
-	 * @param string $type
-	 * @param string $field
-	 * @param \DateTime|int|string $value
-	 */
-	public function __construct($type, $field, $value) {
-		$this->type = $type;
-		$this->field = $field;
-		$this->value = $value;
+	public function __construct(
+		private string $type,
+		private string $field,
+		/** @var ParamValue $value */
+		private \DateTime|int|string|bool|array $value,
+		private string $extra = ''
+	) {
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getType() {
+	public function getType(): string {
 		return $this->type;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getField() {
+	public function getField(): string {
 		return $this->field;
 	}
 
-	/**
-	 * @return \DateTime|int|string
-	 */
-	public function getValue() {
+	public function getValue(): string|int|bool|\DateTime|array {
 		return $this->value;
+	}
+
+	/**
+	 * @return string
+	 * @since 28.0.0
+	 */
+	public function getExtra(): string {
+		return $this->extra;
 	}
 
 	public function getQueryHint(string $name, $default) {
@@ -77,5 +78,9 @@ class SearchComparison implements ISearchComparison {
 
 	public static function escapeLikeParameter(string $param): string {
 		return addcslashes($param, '\\_%');
+	}
+
+	public function __toString(): string {
+		return $this->field . ' ' . $this->type . ' ' . json_encode($this->value);
 	}
 }

@@ -58,11 +58,11 @@ class LoginRedirectorController extends Controller {
 	 * @param IL10N $l
 	 */
 	public function __construct(string $appName,
-								IRequest $request,
-								IURLGenerator $urlGenerator,
-								ClientMapper $clientMapper,
-								ISession $session,
-								IL10N $l) {
+		IRequest $request,
+		IURLGenerator $urlGenerator,
+		ClientMapper $clientMapper,
+		ISession $session,
+		IL10N $l) {
 		parent::__construct($appName, $request);
 		$this->urlGenerator = $urlGenerator;
 		$this->clientMapper = $clientMapper;
@@ -86,8 +86,8 @@ class LoginRedirectorController extends Controller {
 	 * 303: Redirect to login URL
 	 */
 	public function authorize($client_id,
-							  $state,
-							  $response_type): TemplateResponse|RedirectResponse {
+		$state,
+		$response_type): TemplateResponse|RedirectResponse {
 		try {
 			$client = $this->clientMapper->getByIdentifier($client_id);
 		} catch (ClientNotFoundException $e) {

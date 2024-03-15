@@ -64,12 +64,12 @@ class UserThemeController extends OCSController {
 	private BackgroundService $backgroundService;
 
 	public function __construct(string $appName,
-								IRequest $request,
-								IConfig $config,
-								IUserSession $userSession,
-								ThemesService $themesService,
-								ThemingDefaults $themingDefaults,
-								BackgroundService $backgroundService) {
+		IRequest $request,
+		IConfig $config,
+		IUserSession $userSession,
+		ThemesService $themesService,
+		ThemingDefaults $themingDefaults,
+		BackgroundService $backgroundService) {
 		parent::__construct($appName, $request);
 		$this->config = $config;
 		$this->userSession = $userSession;
@@ -178,6 +178,8 @@ class UserThemeController extends OCSController {
 	 * Delete the background
 	 *
 	 * @return JSONResponse<Http::STATUS_OK, ThemingBackground, array{}>
+	 *
+	 * 200: Background deleted successfully
 	 */
 	public function deleteBackground(): JSONResponse {
 		$currentVersion = (int)$this->config->getUserValue($this->userId, Application::APP_ID, 'userCacheBuster', '0');

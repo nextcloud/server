@@ -153,18 +153,18 @@ class Encryption extends Wrapper {
 	 * @throws \BadMethodCallException
 	 */
 	public static function wrap($source, $internalPath, $fullPath, array $header,
-								$uid,
-								\OCP\Encryption\IEncryptionModule $encryptionModule,
-								\OC\Files\Storage\Storage $storage,
-								\OC\Files\Storage\Wrapper\Encryption $encStorage,
-								\OC\Encryption\Util $util,
-								\OC\Encryption\File $file,
-								$mode,
-								$size,
-								$unencryptedSize,
-								$headerSize,
-								$signed,
-								$wrapper = Encryption::class) {
+		$uid,
+		\OCP\Encryption\IEncryptionModule $encryptionModule,
+		\OC\Files\Storage\Storage $storage,
+		\OC\Files\Storage\Wrapper\Encryption $encStorage,
+		\OC\Encryption\Util $util,
+		\OC\Encryption\File $file,
+		$mode,
+		$size,
+		$unencryptedSize,
+		$headerSize,
+		$signed,
+		$wrapper = Encryption::class) {
 		$context = stream_context_create([
 			'ocencryption' => [
 				'source' => $source,

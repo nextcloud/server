@@ -37,6 +37,8 @@ use OCP\Security\ICrypto;
  */
 class DBConfigService {
 	public const MOUNT_TYPE_ADMIN = 1;
+	public const MOUNT_TYPE_PERSONAL = 2;
+	/** @deprecated use MOUNT_TYPE_PERSONAL (full uppercase) instead */
 	public const MOUNT_TYPE_PERSONAl = 2;
 
 	public const APPLICABLE_TYPE_GLOBAL = 1;
@@ -234,7 +236,7 @@ class DBConfigService {
 	public function getUserMountsFor($type, $value) {
 		$builder = $this->connection->getQueryBuilder();
 		$query = $this->getForQuery($builder, $type, $value);
-		$query->andWhere($builder->expr()->eq('m.type', $builder->expr()->literal(self::MOUNT_TYPE_PERSONAl, IQueryBuilder::PARAM_INT)));
+		$query->andWhere($builder->expr()->eq('m.type', $builder->expr()->literal(self::MOUNT_TYPE_PERSONAL, IQueryBuilder::PARAM_INT)));
 
 		return $this->getMountsFromQuery($query);
 	}

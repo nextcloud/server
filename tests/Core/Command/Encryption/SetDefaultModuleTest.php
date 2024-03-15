@@ -127,13 +127,12 @@ class SetDefaultModuleTest extends TestCase {
 			->with('maintenance', false)
 			->willReturn(true);
 
-		$this->consoleOutput->expects($this->at(0))
+		$this->consoleOutput->expects($this->exactly(2))
 			->method('writeln')
-			->with($this->stringContains('Maintenance mode must be disabled when setting default module,'));
-
-		$this->consoleOutput->expects($this->at(1))
-			->method('writeln')
-			->with($this->stringContains('in order to load the relevant encryption modules correctly.'));
+			->withConsecutive(
+				[$this->stringContains('Maintenance mode must be disabled when setting default module,')],
+				[$this->stringContains('in order to load the relevant encryption modules correctly.')],
+			);
 
 		self::invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]);
 	}

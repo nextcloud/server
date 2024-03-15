@@ -37,23 +37,15 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class CheckUser extends Command {
-	/** @var User_Proxy */
-	protected $backend;
+	protected User_Proxy $backend;
 
-	/** @var Helper */
-	protected $helper;
-
-	/** @var DeletedUsersIndex */
-	protected $dui;
-
-	/** @var UserMapping */
-	protected $mapping;
-
-	public function __construct(User_Proxy $uBackend, Helper $helper, DeletedUsersIndex $dui, UserMapping $mapping) {
+	public function __construct(
+		User_Proxy $uBackend,
+		protected Helper $helper,
+		protected DeletedUsersIndex $dui,
+		protected UserMapping $mapping,
+	) {
 		$this->backend = $uBackend;
-		$this->helper = $helper;
-		$this->dui = $dui;
-		$this->mapping = $mapping;
 		parent::__construct();
 	}
 
@@ -62,16 +54,16 @@ class CheckUser extends Command {
 			->setName('ldap:check-user')
 			->setDescription('checks whether a user exists on LDAP.')
 			->addArgument(
-					'ocName',
-					InputArgument::REQUIRED,
-					'the user name as used in Nextcloud, or the LDAP DN'
-					 )
+				'ocName',
+				InputArgument::REQUIRED,
+				'the user name as used in Nextcloud, or the LDAP DN'
+			)
 			->addOption(
-					'force',
-					null,
-					InputOption::VALUE_NONE,
-					'ignores disabled LDAP configuration'
-					 )
+				'force',
+				null,
+				InputOption::VALUE_NONE,
+				'ignores disabled LDAP configuration'
+			)
 			->addOption(
 				'update',
 				null,
@@ -98,19 +90,21 @@ class CheckUser extends Command {
 				if ($input->getOption('update')) {
 					$this->updateUser($uid, $output);
 				}
-				return 0;
-			} elseif ($wasMapped) {
+				return self::SUCCESS;
+			}
+
+			if ($wasMapped) {
 				$this->dui->markUser($uid);
 				$output->writeln('The user does not exists on LDAP anymore.');
 				$output->writeln('Clean up the user\'s remnants by: ./occ user:delete "'
 					. $uid . '"');
-				return 0;
-			} else {
-				throw new \Exception('The given user is not a recognized LDAP user.');
+				return self::SUCCESS;
 			}
+
+			throw new \Exception('The given user is not a recognized LDAP user.');
 		} catch (\Exception $e) {
 			$output->writeln('<error>' . $e->getMessage(). '</error>');
-			return 1;
+			return self::FAILURE;
 		}
 	}
 

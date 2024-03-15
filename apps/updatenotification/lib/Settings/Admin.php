@@ -30,55 +30,38 @@ declare(strict_types=1);
 namespace OCA\UpdateNotification\Settings;
 
 use OC\User\Backend;
-use OCP\User\Backend\ICountUsersBackend;
 use OCA\UpdateNotification\UpdateChecker;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IDateTimeFormatter;
 use OCP\IGroupManager;
+use OCP\IUserManager;
 use OCP\L10N\IFactory;
 use OCP\Settings\ISettings;
 use OCP\Support\Subscription\IRegistry;
+use OCP\User\Backend\ICountUsersBackend;
 use OCP\Util;
-use OCP\IUserManager;
 use Psr\Log\LoggerInterface;
 
 class Admin implements ISettings {
-	private IConfig $config;
-	private UpdateChecker $updateChecker;
-	private IGroupManager $groupManager;
-	private IDateTimeFormatter $dateTimeFormatter;
-	private IFactory $l10nFactory;
-	private IRegistry $subscriptionRegistry;
-	private IUserManager $userManager;
-	private LoggerInterface $logger;
-	private IInitialState $initialState;
-
 	public function __construct(
-		IConfig $config,
-		UpdateChecker $updateChecker,
-		IGroupManager $groupManager,
-		IDateTimeFormatter $dateTimeFormatter,
-		IFactory $l10nFactory,
-		IRegistry $subscriptionRegistry,
-		IUserManager $userManager,
-		LoggerInterface $logger,
-		IInitialState $initialState 
+		private IConfig $config,
+		private IAppConfig $appConfig,
+		private UpdateChecker $updateChecker,
+		private IGroupManager $groupManager,
+		private IDateTimeFormatter $dateTimeFormatter,
+		private IFactory $l10nFactory,
+		private IRegistry $subscriptionRegistry,
+		private IUserManager $userManager,
+		private LoggerInterface $logger,
+		private IInitialState $initialState
 	) {
-		$this->config = $config;
-		$this->updateChecker = $updateChecker;
-		$this->groupManager = $groupManager;
-		$this->dateTimeFormatter = $dateTimeFormatter;
-		$this->l10nFactory = $l10nFactory;
-		$this->subscriptionRegistry = $subscriptionRegistry;
-		$this->userManager = $userManager;
-		$this->logger = $logger;
-		$this->initialState = $initialState;
 	}
 
 	public function getForm(): TemplateResponse {
-		$lastUpdateCheckTimestamp = (int)$this->config->getAppValue('core', 'lastupdatedat');
+		$lastUpdateCheckTimestamp = $this->appConfig->getValueInt('core', 'lastupdatedat');
 		$lastUpdateCheck = $this->dateTimeFormatter->formatDateTime($lastUpdateCheckTimestamp);
 
 		$channels = [

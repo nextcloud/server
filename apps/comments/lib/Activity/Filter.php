@@ -27,12 +27,10 @@ use OCP\IL10N;
 use OCP\IURLGenerator;
 
 class Filter implements IFilter {
-	protected IL10N $l;
-	protected IURLGenerator $url;
-
-	public function __construct(IL10N $l, IURLGenerator $url) {
-		$this->l = $l;
-		$this->url = $url;
+	public function __construct(
+		protected IL10N $l,
+		protected IURLGenerator $url,
+	) {
 	}
 
 	public function getIdentifier(): string {

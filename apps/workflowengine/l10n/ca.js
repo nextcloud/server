@@ -104,10 +104,8 @@ OC.L10N.register(
     "between" : "entre",
     "not between" : "no entre",
     "Request user agent" : "Sol·licita agent d'usuari",
-    "User group membership" : "Pertinença a grup d'usuaris",
     "is member of" : "és membre de",
     "is not member of" : "no és membre de",
-    "Predefined URLs" : "URLs predefinits",
-    "Others" : "Altres"
+    "User group membership" : "Pertinença a grup d'usuaris"
 },
 "nplurals=2; plural=(n != 1);");

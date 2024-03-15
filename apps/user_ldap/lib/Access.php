@@ -354,7 +354,7 @@ class Access extends LDAPUtility {
 			return @$this->invokeLDAPMethod('exopPasswd', $userDN, '', $password) ||
 				@$this->invokeLDAPMethod('modReplace', $userDN, $password);
 		} catch (ConstraintViolationException $e) {
-			throw new HintException('Password change rejected.', \OC::$server->getL10N('user_ldap')->t('Password change rejected. Hint: ') . $e->getMessage(), (int)$e->getCode());
+			throw new HintException('Password change rejected.', \OCP\Util::getL10N('user_ldap')->t('Password change rejected. Hint: ') . $e->getMessage(), (int)$e->getCode());
 		}
 	}
 
@@ -1421,9 +1421,7 @@ class Access extends LDAPUtility {
 			$asterisk = '*';
 			$input = mb_substr($input, 1, null, 'UTF-8');
 		}
-		$search = ['*', '\\', '(', ')'];
-		$replace = ['\\*', '\\\\', '\\(', '\\)'];
-		return $asterisk . str_replace($search, $replace, $input);
+		return $asterisk . ldap_escape($input, '', LDAP_ESCAPE_FILTER);
 	}
 
 	/**
@@ -1595,17 +1593,15 @@ class Access extends LDAPUtility {
 		return $filter;
 	}
 
-	/**
-	 * @param string $name
-	 * @param string $password
-	 * @return bool
-	 */
-	public function areCredentialsValid($name, $password) {
+	public function areCredentialsValid(string $name, string $password): bool {
+		if ($name === '' || $password === '') {
+			return false;
+		}
 		$name = $this->helper->DNasBaseParameter($name);
 		$testConnection = clone $this->connection;
 		$credentials = [
 			'ldapAgentName' => $name,
-			'ldapAgentPassword' => $password
+			'ldapAgentPassword' => $password,
 		];
 		if (!$testConnection->setConfiguration($credentials)) {
 			return false;
@@ -1746,7 +1742,7 @@ class Access extends LDAPUtility {
 		$uuid = false;
 		if ($this->detectUuidAttribute($dn, $isUser, false, $ldapRecord)) {
 			$attr = $this->connection->$uuidAttr;
-			$uuid = isset($ldapRecord[$attr]) ? $ldapRecord[$attr] : $this->readAttribute($dn, $attr);
+			$uuid = $ldapRecord[$attr] ?? $this->readAttribute($dn, $attr);
 			if (!is_array($uuid)
 				&& $uuidOverride !== ''
 				&& $this->detectUuidAttribute($dn, $isUser, true, $ldapRecord)) {
@@ -2018,12 +2014,12 @@ class Access extends LDAPUtility {
 			}
 			$this->logger->debug('Ready for a paged search', ['app' => 'user_ldap']);
 			return [true, $pageSize, $this->lastCookie];
-			/* ++ Fixing RHDS searches with pages with zero results ++
-			 * We couldn't get paged searches working with our RHDS for login ($limit = 0),
-			 * due to pages with zero results.
-			 * So we added "&& !empty($this->lastCookie)" to this test to ignore pagination
-			 * if we don't have a previous paged search.
-			 */
+		/* ++ Fixing RHDS searches with pages with zero results ++
+		 * We couldn't get paged searches working with our RHDS for login ($limit = 0),
+		 * due to pages with zero results.
+		 * So we added "&& !empty($this->lastCookie)" to this test to ignore pagination
+		 * if we don't have a previous paged search.
+		 */
 		} elseif ($this->lastCookie !== '') {
 			// a search without limit was requested. However, if we do use
 			// Paged Search once, we always must do it. This requires us to

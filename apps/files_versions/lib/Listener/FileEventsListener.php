@@ -36,9 +36,9 @@ use OC\Files\Filesystem;
 use OC\Files\Mount\MoveableMount;
 use OC\Files\Node\NonExistingFile;
 use OC\Files\View;
-use OCA\Files_Versions\Db\VersionEntity;
-use OCA\Files_Versions\Db\VersionsMapper;
 use OCA\Files_Versions\Storage;
+use OCA\Files_Versions\Versions\INeedSyncVersionBackend;
+use OCA\Files_Versions\Versions\IVersionManager;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\DB\Exception;
 use OCP\EventDispatcher\Event;
@@ -54,15 +54,16 @@ use OCP\Files\Events\Node\NodeDeletedEvent;
 use OCP\Files\Events\Node\NodeRenamedEvent;
 use OCP\Files\Events\Node\NodeTouchedEvent;
 use OCP\Files\Events\Node\NodeWrittenEvent;
+use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IMimeTypeLoader;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
+use OCP\IUserSession;
 use Psr\Log\LoggerInterface;
 
+/** @template-implements IEventListener<BeforeNodeCopiedEvent|BeforeNodeDeletedEvent|BeforeNodeRenamedEvent|BeforeNodeTouchedEvent|BeforeNodeWrittenEvent|NodeCopiedEvent|NodeCreatedEvent|NodeDeletedEvent|NodeRenamedEvent|NodeTouchedEvent|NodeWrittenEvent> */
 class FileEventsListener implements IEventListener {
-	private IRootFolder $rootFolder;
-	private VersionsMapper $versionsMapper;
 	/**
 	 * @var array<int, array>
 	 */
@@ -75,19 +76,14 @@ class FileEventsListener implements IEventListener {
 	 * @var array<string, Node>
 	 */
 	private array $versionsDeleted = [];
-	private IMimeTypeLoader $mimeTypeLoader;
-	private LoggerInterface $logger;
 
 	public function __construct(
-		IRootFolder $rootFolder,
-		VersionsMapper $versionsMapper,
-		IMimeTypeLoader $mimeTypeLoader,
-		LoggerInterface $logger,
+		private IRootFolder $rootFolder,
+		private IVersionManager $versionManager,
+		private IMimeTypeLoader $mimeTypeLoader,
+		private IUserSession $userSession,
+		private LoggerInterface $logger,
 	) {
-		$this->rootFolder = $rootFolder;
-		$this->versionsMapper = $versionsMapper;
-		$this->mimeTypeLoader = $mimeTypeLoader;
-		$this->logger = $logger;
 	}
 
 	public function handle(Event $event): void {
@@ -160,11 +156,10 @@ class FileEventsListener implements IEventListener {
 		unset($this->nodesTouched[$node->getId()]);
 
 		try {
-			// We update the timestamp of the version entity associated with the previousNode.
-			$versionEntity = $this->versionsMapper->findVersionForFileId($previousNode->getId(), $previousNode->getMTime());
-			// Create a version in the DB for the current content.
-			$versionEntity->setTimestamp($node->getMTime());
-			$this->versionsMapper->update($versionEntity);
+			if ($node instanceof File && $this->versionManager instanceof INeedSyncVersionBackend) {
+				// We update the timestamp of the version entity associated with the previousNode.
+				$this->versionManager->updateVersionEntity($node, $previousNode->getMTime(), ['timestamp' => $node->getMTime()]);
+			}
 		} catch (DbalException $ex) {
 			// Ignore UniqueConstraintViolationException, as we are probably in the middle of a rollback
 			// Where the previous node would temporary have the mtime of the old version, so the rollback touches it to fix it.
@@ -179,17 +174,9 @@ class FileEventsListener implements IEventListener {
 
 	public function created(Node $node): void {
 		// Do not handle folders.
-		if ($node instanceof Folder) {
-			return;
+		if ($node instanceof File && $this->versionManager instanceof INeedSyncVersionBackend) {
+			$this->versionManager->createVersionEntity($node);
 		}
-
-		$versionEntity = new VersionEntity();
-		$versionEntity->setFileId($node->getId());
-		$versionEntity->setTimestamp($node->getMTime());
-		$versionEntity->setSize($node->getSize());
-		$versionEntity->setMimetype($this->mimeTypeLoader->getId($node->getMimetype()));
-		$versionEntity->setMetadata([]);
-		$this->versionsMapper->insert($versionEntity);
 	}
 
 	/**
@@ -232,21 +219,28 @@ class FileEventsListener implements IEventListener {
 		}
 
 		if (
-			($writeHookInfo['versionCreated'] || $writeHookInfo['previousNode']->getSize() === 0) &&
+			$writeHookInfo['versionCreated'] &&
 			$node->getMTime() !== $writeHookInfo['previousNode']->getMTime()
 		) {
 			// If a new version was created, insert a version in the DB for the current content.
-			// Unless both versions have the same mtime.
+			// If both versions have the same mtime, it means the latest version file simply got overrode,
+			// so no need to create a new version.
 			$this->created($node);
 		} else {
 			try {
 				// If no new version was stored in the FS, no new version should be added in the DB.
 				// So we simply update the associated version.
-				$currentVersionEntity = $this->versionsMapper->findVersionForFileId($node->getId(), $writeHookInfo['previousNode']->getMtime());
-				$currentVersionEntity->setTimestamp($node->getMTime());
-				$currentVersionEntity->setSize($node->getSize());
-				$currentVersionEntity->setMimetype($this->mimeTypeLoader->getId($node->getMimetype()));
-				$this->versionsMapper->update($currentVersionEntity);
+				if ($node instanceof File && $this->versionManager instanceof INeedSyncVersionBackend) {
+					$this->versionManager->updateVersionEntity(
+						$node,
+						$writeHookInfo['previousNode']->getMtime(),
+						[
+							'timestamp' => $node->getMTime(),
+							'size' => $node->getSize(),
+							'mimetype' => $this->mimeTypeLoader->getId($node->getMimetype()),
+						],
+					);
+				}
 			} catch (Exception $e) {
 				$this->logger->error('Failed to update existing version for ' . $node->getPath(), [
 					'exception' => $e,
@@ -283,7 +277,11 @@ class FileEventsListener implements IEventListener {
 		$relativePath = $this->getPathForNode($node);
 		unset($this->versionsDeleted[$path]);
 		Storage::delete($relativePath);
-		$this->versionsMapper->deleteAllVersionsForFileId($node->getId());
+		// If no new version was stored in the FS, no new version should be added in the DB.
+		// So we simply update the associated version.
+		if ($node instanceof File && $this->versionManager instanceof INeedSyncVersionBackend) {
+			$this->versionManager->deleteVersionsEntity($node);
+		}
 	}
 
 	/**
@@ -349,17 +347,31 @@ class FileEventsListener implements IEventListener {
 
 	/**
 	 * Retrieve the path relative to the current user root folder.
-	 * If no user is connected, use the node's owner.
+	 * If no user is connected, try to use the node's owner.
 	 */
 	private function getPathForNode(Node $node): ?string {
-		try {
-			return $this->rootFolder
-				->getUserFolder(\OC_User::getUser())
+		$user = $this->userSession->getUser()?->getUID();
+		if ($user) {
+			$path = $this->rootFolder
+				->getUserFolder($user)
 				->getRelativePath($node->getPath());
-		} catch (\Throwable $ex) {
-			return $this->rootFolder
-				->getUserFolder($node->getOwner()->getUid())
-				->getRelativePath($node->getPath());
+
+			if ($path !== null) {
+				return $path;
+			}
 		}
+
+		$owner = $node->getOwner()?->getUid();
+		if ($owner) {
+			$path = $this->rootFolder
+				->getUserFolder($owner)
+				->getRelativePath($node->getPath());
+
+			if ($path !== null) {
+				return $path;
+			}
+		}
+
+		return null;
 	}
 }

@@ -29,6 +29,8 @@ namespace OC\DB;
 class OracleConnection extends Connection {
 	/**
 	 * Quote the keys of the array
+	 * @param array<string, string> $data
+	 * @return array<string, string>
 	 */
 	private function quoteKeys(array $data) {
 		$return = [];

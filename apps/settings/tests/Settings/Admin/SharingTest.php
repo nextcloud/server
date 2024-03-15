@@ -34,9 +34,11 @@ namespace OCA\Settings\Tests\Settings\Admin;
 use OCA\Settings\Settings\Admin\Sharing;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Services\IInitialState;
 use OCP\Constants;
 use OCP\IConfig;
 use OCP\IL10N;
+use OCP\IURLGenerator;
 use OCP\Share\IManager;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
@@ -52,20 +54,35 @@ class SharingTest extends TestCase {
 	private $shareManager;
 	/** @var IAppManager|MockObject */
 	private $appManager;
+	/** @var  IURLGenerator|MockObject */
+	private $urlGenerator;
+	/** @var IInitialState|MockObject */
+	private $initialState;
 
 	protected function setUp(): void {
 		parent::setUp();
+		/** @var IConfig|MockObject */
 		$this->config = $this->getMockBuilder(IConfig::class)->getMock();
+		/** @var IL10N|MockObject */
 		$this->l10n = $this->getMockBuilder(IL10N::class)->getMock();
 
+		/** @var IManager|MockObject */
 		$this->shareManager = $this->getMockBuilder(IManager::class)->getMock();
+		/** @var IAppManager|MockObject */
 		$this->appManager = $this->getMockBuilder(IAppManager::class)->getMock();
+		/** @var IURLGenerator|MockObject */
+		$this->urlGenerator = $this->getMockBuilder(IURLGenerator::class)->getMock();
+		/** @var IInitialState|MockObject */
+		$this->initialState = $this->getMockBuilder(IInitialState::class)->getMock();
 
 		$this->admin = new Sharing(
 			$this->config,
 			$this->l10n,
 			$this->shareManager,
-			$this->appManager
+			$this->appManager,
+			$this->urlGenerator,
+			$this->initialState,
+			"settings",
 		);
 	}
 
@@ -101,50 +118,61 @@ class SharingTest extends TestCase {
 				['core', 'shareapi_remote_expire_after_n_days', '7', '7'],
 				['core', 'shareapi_enforce_remote_expire_date', 'no', 'no'],
 				['core', 'shareapi_enforce_links_password_excluded_groups', '', ''],
+				['core', 'shareapi_only_share_with_group_members_exclude_group_list', '', '[]'],
 			]);
 		$this->shareManager->method('shareWithGroupMembersOnly')
 			->willReturn(false);
 
 		$this->appManager->method('isEnabledForUser')->with('files_sharing')->willReturn(false);
+		$this->initialState
+			->expects($this->exactly(3))
+			->method('provideInitialState')
+			->withConsecutive(
+				['sharingAppEnabled', false],
+				['sharingDocumentation', ''],
+				[
+					'sharingSettings',
+					[
+						'allowGroupSharing' => true,
+						'allowLinks' => true,
+						'allowPublicUpload' => true,
+						'allowResharing' => true,
+						'allowShareDialogUserEnumeration' => true,
+						'restrictUserEnumerationToGroup' => false,
+						'restrictUserEnumerationToPhone' => false,
+						'restrictUserEnumerationFullMatch' => true,
+						'restrictUserEnumerationFullMatchUserId' => true,
+						'restrictUserEnumerationFullMatchEmail' => true,
+						'restrictUserEnumerationFullMatchIgnoreSecondDN' => false,
+						'enforceLinksPassword' => false,
+						'onlyShareWithGroupMembers' => false,
+						'enabled' => true,
+						'defaultExpireDate' => false,
+						'expireAfterNDays' => '7',
+						'enforceExpireDate' => false,
+						'excludeGroups' => false,
+						'excludeGroupsList' => [],
+						'publicShareDisclaimerText' => 'Lorem ipsum',
+						'enableLinkPasswordByDefault' => true,
+						'defaultPermissions' => Constants::PERMISSION_ALL,
+						'defaultInternalExpireDate' => false,
+						'internalExpireAfterNDays' => '7',
+						'enforceInternalExpireDate' => false,
+						'defaultRemoteExpireDate' => false,
+						'remoteExpireAfterNDays' => '7',
+						'enforceRemoteExpireDate' => false,
+						'allowLinksExcludeGroups' => [],
+						'passwordExcludedGroups' => [],
+						'passwordExcludedGroupsFeatureEnabled' => false,
+						'onlyShareWithGroupMembersExcludeGroupList' => [],
+					]
+				],
+			);
 
 		$expected = new TemplateResponse(
 			'settings',
 			'settings/admin/sharing',
-			[
-				'sharingAppEnabled' => false,
-				'allowGroupSharing' => 'yes',
-				'allowLinks' => 'yes',
-				'allowPublicUpload' => 'yes',
-				'allowResharing' => 'yes',
-				'allowShareDialogUserEnumeration' => 'yes',
-				'restrictUserEnumerationToGroup' => 'no',
-				'restrictUserEnumerationToPhone' => 'no',
-				'restrictUserEnumerationFullMatch' => 'yes',
-				'restrictUserEnumerationFullMatchUserId' => 'yes',
-				'restrictUserEnumerationFullMatchEmail' => 'yes',
-				'restrictUserEnumerationFullMatchIgnoreSecondDN' => 'no',
-				'enforceLinkPassword' => false,
-				'onlyShareWithGroupMembers' => false,
-				'shareAPIEnabled' => 'yes',
-				'shareDefaultExpireDateSet' => 'no',
-				'shareExpireAfterNDays' => '7',
-				'shareEnforceExpireDate' => 'no',
-				'shareExcludeGroups' => false,
-				'shareExcludedGroupsList' => '',
-				'publicShareDisclaimerText' => 'Lorem ipsum',
-				'enableLinkPasswordByDefault' => 'yes',
-				'shareApiDefaultPermissions' => Constants::PERMISSION_ALL,
-				'shareApiDefaultPermissionsCheckboxes' => self::invokePrivate($this->admin, 'getSharePermissionList', []),
-				'shareDefaultInternalExpireDateSet' => 'no',
-				'shareInternalExpireAfterNDays' => '7',
-				'shareInternalEnforceExpireDate' => 'no',
-				'shareDefaultRemoteExpireDateSet' => 'no',
-				'shareRemoteExpireAfterNDays' => '7',
-				'shareRemoteEnforceExpireDate' => 'no',
-				'allowLinksExcludeGroups' => '',
-				'passwordExcludedGroups' => '',
-				'passwordExcludedGroupsFeatureEnabled' => false,
-			],
+			[],
 			''
 		);
 
@@ -183,50 +211,61 @@ class SharingTest extends TestCase {
 				['core', 'shareapi_remote_expire_after_n_days', '7', '7'],
 				['core', 'shareapi_enforce_remote_expire_date', 'no', 'no'],
 				['core', 'shareapi_enforce_links_password_excluded_groups', '', ''],
+				['core', 'shareapi_only_share_with_group_members_exclude_group_list', '', '[]'],
 			]);
 		$this->shareManager->method('shareWithGroupMembersOnly')
 			->willReturn(false);
 
 		$this->appManager->method('isEnabledForUser')->with('files_sharing')->willReturn(true);
+		$this->initialState
+			->expects($this->exactly(3))
+			->method('provideInitialState')
+			->withConsecutive(
+				['sharingAppEnabled', true],
+				['sharingDocumentation', ''],
+				[
+					'sharingSettings',
+					[
+						'allowGroupSharing' => true,
+						'allowLinks' => true,
+						'allowPublicUpload' => true,
+						'allowResharing' => true,
+						'allowShareDialogUserEnumeration' => true,
+						'restrictUserEnumerationToGroup' => false,
+						'restrictUserEnumerationToPhone' => false,
+						'restrictUserEnumerationFullMatch' => true,
+						'restrictUserEnumerationFullMatchUserId' => true,
+						'restrictUserEnumerationFullMatchEmail' => true,
+						'restrictUserEnumerationFullMatchIgnoreSecondDN' => false,
+						'enforceLinksPassword' => false,
+						'onlyShareWithGroupMembers' => false,
+						'enabled' => true,
+						'defaultExpireDate' => false,
+						'expireAfterNDays' => '7',
+						'enforceExpireDate' => false,
+						'excludeGroups' => true,
+						'excludeGroupsList' => ['NoSharers','OtherNoSharers'],
+						'publicShareDisclaimerText' => 'Lorem ipsum',
+						'enableLinkPasswordByDefault' => true,
+						'defaultPermissions' => Constants::PERMISSION_ALL,
+						'defaultInternalExpireDate' => false,
+						'internalExpireAfterNDays' => '7',
+						'enforceInternalExpireDate' => false,
+						'defaultRemoteExpireDate' => false,
+						'remoteExpireAfterNDays' => '7',
+						'enforceRemoteExpireDate' => false,
+						'allowLinksExcludeGroups' => [],
+						'passwordExcludedGroups' => [],
+						'passwordExcludedGroupsFeatureEnabled' => false,
+						'onlyShareWithGroupMembersExcludeGroupList' => [],
+					]
+				],
+			);
 
 		$expected = new TemplateResponse(
 			'settings',
 			'settings/admin/sharing',
-			[
-				'sharingAppEnabled' => true,
-				'allowGroupSharing' => 'yes',
-				'allowLinks' => 'yes',
-				'allowPublicUpload' => 'yes',
-				'allowResharing' => 'yes',
-				'allowShareDialogUserEnumeration' => 'yes',
-				'restrictUserEnumerationToGroup' => 'no',
-				'restrictUserEnumerationToPhone' => 'no',
-				'restrictUserEnumerationFullMatch' => 'yes',
-				'restrictUserEnumerationFullMatchUserId' => 'yes',
-				'restrictUserEnumerationFullMatchEmail' => 'yes',
-				'restrictUserEnumerationFullMatchIgnoreSecondDN' => 'no',
-				'enforceLinkPassword' => false,
-				'onlyShareWithGroupMembers' => false,
-				'shareAPIEnabled' => 'yes',
-				'shareDefaultExpireDateSet' => 'no',
-				'shareExpireAfterNDays' => '7',
-				'shareEnforceExpireDate' => 'no',
-				'shareExcludeGroups' => true,
-				'shareExcludedGroupsList' => 'NoSharers|OtherNoSharers',
-				'publicShareDisclaimerText' => 'Lorem ipsum',
-				'enableLinkPasswordByDefault' => 'yes',
-				'shareApiDefaultPermissions' => Constants::PERMISSION_ALL,
-				'shareApiDefaultPermissionsCheckboxes' => self::invokePrivate($this->admin, 'getSharePermissionList', []),
-				'shareDefaultInternalExpireDateSet' => 'no',
-				'shareInternalExpireAfterNDays' => '7',
-				'shareInternalEnforceExpireDate' => 'no',
-				'shareDefaultRemoteExpireDateSet' => 'no',
-				'shareRemoteExpireAfterNDays' => '7',
-				'shareRemoteEnforceExpireDate' => 'no',
-				'allowLinksExcludeGroups' => '',
-				'passwordExcludedGroups' => '',
-				'passwordExcludedGroupsFeatureEnabled' => false,
-			],
+			[],
 			''
 		);
 

@@ -149,6 +149,7 @@ class ClientTest extends \Test\TestCase {
 			['https://service.localhost'],
 			['!@#$', true], // test invalid url
 			['https://normal.host.com'],
+			['https://com.one-.nextcloud-one.com'],
 		];
 	}
 

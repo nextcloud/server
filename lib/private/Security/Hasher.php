@@ -51,19 +51,14 @@ use OCP\Security\IHasher;
  * @package OC\Security
  */
 class Hasher implements IHasher {
-	/** @var IConfig */
-	private $config;
-	/** @var array Options passed to password_hash and password_needs_rehash */
-	private $options = [];
-	/** @var string Salt used for legacy passwords */
-	private $legacySalt = null;
+	/** Options passed to password_hash and password_needs_rehash */
+	private array $options = [];
+	/** Salt used for legacy passwords */
+	private ?string $legacySalt = null;
 
-	/**
-	 * @param IConfig $config
-	 */
-	public function __construct(IConfig $config) {
-		$this->config = $config;
-
+	public function __construct(
+		private IConfig $config,
+	) {
 		if (\defined('PASSWORD_ARGON2ID') || \defined('PASSWORD_ARGON2I')) {
 			// password_hash fails, when the minimum values are undershot.
 			// In this case, apply minimum.
@@ -106,7 +101,7 @@ class Hasher implements IHasher {
 	 * @param string $prefixedHash
 	 * @return null|array Null if the hash is not prefixed, otherwise array('version' => 1, 'hash' => 'foo')
 	 */
-	protected function splitHash(string $prefixedHash) {
+	protected function splitHash(string $prefixedHash): ?array {
 		$explodedString = explode('|', $prefixedHash, 2);
 		if (\count($explodedString) === 2) {
 			if ((int)$explodedString[0] > 0) {
@@ -198,7 +193,7 @@ class Hasher implements IHasher {
 		return password_needs_rehash($hash, $algorithm, $this->options);
 	}
 
-	private function getPrefferedAlgorithm() {
+	private function getPrefferedAlgorithm(): string {
 		$default = PASSWORD_BCRYPT;
 		if (\defined('PASSWORD_ARGON2I')) {
 			$default = PASSWORD_ARGON2I;

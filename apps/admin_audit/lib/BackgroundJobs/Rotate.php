@@ -27,8 +27,8 @@ declare(strict_types=1);
  */
 namespace OCA\AdminAudit\BackgroundJobs;
 
-use OCP\BackgroundJob\TimedJob;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\BackgroundJob\TimedJob;
 use OCP\IConfig;
 use OCP\Log\RotationTrait;
 

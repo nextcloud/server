@@ -89,7 +89,7 @@ class NotifierTest extends TestCase {
 					$this->userSession,
 					$this->groupManager,
 				])
-				->setMethods($methods)
+				->onlyMethods($methods)
 				->getMock();
 		}
 	}

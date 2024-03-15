@@ -42,7 +42,7 @@ OC.L10N.register(
     "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "請啟用這個功能以用來加密主要儲存空間的檔案，否則只有再外部儲存的檔案會加密",
     "Enable recovery key" : "啟用還原密鑰",
     "Disable recovery key" : "關閉還原密鑰",
-    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "加密密鑰是另一種加密檔案方式，當用戶忘記密碼時，可以用還原密鑰來還原檔案",
+    "The recovery key is an additional encryption key used to encrypt files. It is used to recover files from an account if the password is forgotten." : "還原密鑰是用於加密檔案的額外加密密鑰。其用於忘記密碼時從賬戶還原檔案。",
     "Recovery key password" : "還原密鑰密碼",
     "Repeat recovery key password" : "再輸入還原密鑰密碼一次",
     "Change recovery key password:" : "更新還原密鑰密碼：",
@@ -61,11 +61,8 @@ OC.L10N.register(
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "啟用這個選項將會允許您因忘記密碼但需要存取您的加密檔案",
     "Enabled" : "已啓用",
     "Disabled" : "已停用",
+    "Please login to the web interface, go to the \"Security\" section of your personal settings and update your encryption password by entering this password into the \"Old log-in password\" field and your current login-password." : "請登錄到網絡界面，轉到您個人設置的“安全”部分，並通過在“舊登錄密碼”字段中輸入此密碼和您當前的登錄密碼來更新您的登入密碼。",
     "In order to use this encryption module you need to enable server-side\n\t\tencryption in the admin settings. Once enabled this module will encrypt\n\t\tall your files transparently. The encryption is based on AES 256 keys.\n\t\tThe module won't touch existing files, only new files will be encrypted\n\t\tafter server-side encryption was enabled. It is also not possible to\n\t\tdisable the encryption again and switch back to a unencrypted system.\n\t\tPlease read the documentation to know all implications before you decide\n\t\tto enable server-side encryption." : "為了使用此加密模組，您需要啟用伺服器端\n管理員設置中的加密設定。啟用後，該模組將加密您的所有之後傳輸的檔案。此加密方式使用AES 256密鑰。\n該模組不會觸及已存在的檔案，只會加密新處理的檔案\n啟用伺服器端加密後。也不可能\n再次停用加密，然後切換回未加密的系統。\n在決定啟用伺服器端加密之前，請閱讀文檔以了解所有含義。",
-    "Hey there,\n\nThe administration enabled server-side-encryption. Your files were encrypted using the password \"%s\".\n\nPlease login to the web interface, go to the section \"Basic encryption module\" of your personal settings and update your encryption password by entering this password into the \"Old log-in password\" field and your current login-password.\n\n" : "嗨，\n\n系管理員啟用了伺服器端的加密功能，您的檔案已使用密碼 \"%s\" 加密。\n\n請使用網頁介面登入，到您個人設定中的「基本加密模組」，並在「舊登入密碼」欄位輸入此密碼與您目前的登入密碼來更新加密密碼。\n",
-    "The share will expire on %s." : "這個分享將會於 %s 過期。",
-    "Cheers!" : "太棒了！",
-    "Hey there,<br><br>The administration enabled server-side-encryption. Your files were encrypted using the password <strong>%s</strong>.<br><br>Please login to the web interface, go to the section \"Basic encryption module\" of your personal settings and update your encryption password by entering this password into the \"Old log-in password\" field and your current login-password.<br><br>" : "嗨，<br><br>管理員啟用了伺服器端加密的功能，您的檔案已使用密碼<strong>%s</strong>加密。<br><br>請使用網頁界面 登入，到您個人設定中的「基本加密模組」，並在「舊登入密碼」欄位輸入此密碼與您目前的登入密碼來更新加密密碼。<br><br>",
-    "Please login to the web interface, go to the \"Security\" section of your personal settings and update your encryption password by entering this password into the \"Old log-in password\" field and your current login-password." : "請登錄到網絡界面，轉到您個人設置的“安全”部分，並通過在“舊登錄密碼”字段中輸入此密碼和您當前的登錄密碼來更新您的登入密碼。"
+    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "加密密鑰是另一種加密檔案方式，當用戶忘記密碼時，可以用還原密鑰來還原檔案"
 },
 "nplurals=1; plural=0;");

@@ -45,9 +45,9 @@ use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IInitialStateService;
 use OCP\IL10N;
+use OCP\ILogger;
 use OCP\ISession;
 use OCP\IURLGenerator;
-use OCP\ILogger;
 use OCP\IUser;
 use OCP\Share\IManager as IShareManager;
 use OCP\User\Backend\IPasswordConfirmationBackend;
@@ -70,16 +70,16 @@ class JSConfigHelper {
 	private $excludedUserBackEnds = ['user_saml' => true, 'user_globalsiteselector' => true];
 
 	public function __construct(IL10N $l,
-								Defaults $defaults,
-								IAppManager $appManager,
-								ISession $session,
-								?IUser $currentUser,
-								IConfig $config,
-								IGroupManager $groupManager,
-								IniGetWrapper $iniWrapper,
-								IURLGenerator $urlGenerator,
-								CapabilitiesManager $capabilitiesManager,
-								IInitialStateService $initialStateService) {
+		Defaults $defaults,
+		IAppManager $appManager,
+		ISession $session,
+		?IUser $currentUser,
+		IConfig $config,
+		IGroupManager $groupManager,
+		IniGetWrapper $iniWrapper,
+		IURLGenerator $urlGenerator,
+		CapabilitiesManager $capabilitiesManager,
+		IInitialStateService $initialStateService) {
 		$this->l = $l;
 		$this->defaults = $defaults;
 		$this->appManager = $appManager;
@@ -180,7 +180,8 @@ class JSConfigHelper {
 			'sharing.maxAutocompleteResults' => max(0, $this->config->getSystemValueInt('sharing.maxAutocompleteResults', Constants::SHARING_MAX_AUTOCOMPLETE_RESULTS_DEFAULT)),
 			'sharing.minSearchStringLength' => $this->config->getSystemValueInt('sharing.minSearchStringLength', 0),
 			'version' => implode('.', Util::getVersion()),
-			'versionstring' => \OC_Util::getVersionString()
+			'versionstring' => \OC_Util::getVersionString(),
+			'enable_non-accessible_features' => $this->config->getSystemValueBool('enable_non-accessible_features', true),
 		];
 
 		$array = [

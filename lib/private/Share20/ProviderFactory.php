@@ -41,6 +41,7 @@ use OCA\FederatedFileSharing\TokenHandler;
 use OCA\ShareByMail\Settings\SettingsManager;
 use OCA\ShareByMail\ShareByMailProvider;
 use OCA\Talk\Share\RoomShareProvider;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Defaults;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IServerContainer;
@@ -104,7 +105,7 @@ class ProviderFactory implements IProviderFactory {
 				$this->serverContainer->query(Defaults::class),
 				$this->serverContainer->getL10NFactory(),
 				$this->serverContainer->getURLGenerator(),
-				$this->serverContainer->getConfig()
+				$this->serverContainer->query(ITimeFactory::class),
 			);
 		}
 
@@ -192,7 +193,7 @@ class ProviderFactory implements IProviderFactory {
 				$this->serverContainer->getUserManager(),
 				$this->serverContainer->getLazyRootFolder(),
 				$this->serverContainer->getL10N('sharebymail'),
-				$this->serverContainer->getLogger(),
+				$this->serverContainer->get(LoggerInterface::class),
 				$this->serverContainer->getMailer(),
 				$this->serverContainer->getURLGenerator(),
 				$this->serverContainer->getActivityManager(),

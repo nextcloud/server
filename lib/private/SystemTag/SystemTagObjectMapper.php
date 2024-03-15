@@ -81,7 +81,6 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 			$result->closeCursor();
 		}
 
-
 		return $mapping;
 	}
 
@@ -128,7 +127,7 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 	/**
 	 * {@inheritdoc}
 	 */
-	public function assignTags(string $objId, string $objectType, $tagIds) {
+	public function assignTags(string $objId, string $objectType, $tagIds): void {
 		if (!\is_array($tagIds)) {
 			$tagIds = [$tagIds];
 		}
@@ -169,7 +168,7 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 	/**
 	 * {@inheritdoc}
 	 */
-	public function unassignTags(string $objId, string $objectType, $tagIds) {
+	public function unassignTags(string $objId, string $objectType, $tagIds): void {
 		if (!\is_array($tagIds)) {
 			$tagIds = [$tagIds];
 		}
@@ -241,7 +240,7 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 	 *
 	 * @throws \OCP\SystemTag\TagNotFoundException if at least one tag did not exist
 	 */
-	private function assertTagsExist($tagIds) {
+	private function assertTagsExist(array $tagIds): void {
 		$tags = $this->tagManager->getTagsByIds($tagIds);
 		if (\count($tags) !== \count($tagIds)) {
 			// at least one tag missing, bail out

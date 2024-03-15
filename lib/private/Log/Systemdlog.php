@@ -46,7 +46,7 @@ use OCP\Log\IWriter;
 //     Syslog compatibility fields
 
 class Systemdlog extends LogDetails implements IWriter {
-	protected $levels = [
+	protected array $levels = [
 		ILogger::DEBUG => 7,
 		ILogger::INFO => 6,
 		ILogger::WARN => 4,
@@ -54,9 +54,12 @@ class Systemdlog extends LogDetails implements IWriter {
 		ILogger::FATAL => 2,
 	];
 
-	protected $syslogId;
+	protected string $syslogId;
 
-	public function __construct(SystemConfig $config, ?string $tag = null) {
+	public function __construct(
+		SystemConfig $config,
+		?string $tag = null,
+	) {
 		parent::__construct($config);
 		if (!function_exists('sd_journal_send')) {
 			throw new HintException(
@@ -71,11 +74,9 @@ class Systemdlog extends LogDetails implements IWriter {
 
 	/**
 	 * Write a message to the log.
-	 * @param string $app
 	 * @param string|array $message
-	 * @param int $level
 	 */
-	public function write(string $app, $message, int $level) {
+	public function write(string $app, $message, int $level): void {
 		$journal_level = $this->levels[$level];
 		sd_journal_send('PRIORITY='.$journal_level,
 			'SYSLOG_IDENTIFIER='.$this->syslogId,

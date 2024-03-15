@@ -468,6 +468,15 @@ class ContentSecurityPolicyTest extends \Test\TestCase {
 		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';script-src 'nonce-".base64_encode($nonce) . "';style-src 'self' 'unsafe-inline';img-src 'self' data: blob:;font-src 'self' data:;connect-src 'self';media-src 'self';frame-ancestors 'self';form-action 'self'";
 
 		$this->contentSecurityPolicy->useJsNonce($nonce);
+		$this->contentSecurityPolicy->useStrictDynamicOnScripts(false);
+		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
+	}
+
+	public function testGetPolicyNonceDefault() {
+		$nonce = 'my-nonce';
+		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';script-src 'nonce-".base64_encode($nonce) . "';script-src-elem 'strict-dynamic' 'nonce-".base64_encode($nonce) . "';style-src 'self' 'unsafe-inline';img-src 'self' data: blob:;font-src 'self' data:;connect-src 'self';media-src 'self';frame-ancestors 'self';form-action 'self'";
+
+		$this->contentSecurityPolicy->useJsNonce($nonce);
 		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
 	}
 
@@ -477,6 +486,31 @@ class ContentSecurityPolicyTest extends \Test\TestCase {
 
 		$this->contentSecurityPolicy->useJsNonce($nonce);
 		$this->contentSecurityPolicy->useStrictDynamic(true);
+		$this->contentSecurityPolicy->useStrictDynamicOnScripts(false);
+		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
+	}
+
+	public function testGetPolicyNonceStrictDynamicDefault() {
+		$nonce = 'my-nonce';
+		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';script-src 'strict-dynamic' 'nonce-".base64_encode($nonce) . "';style-src 'self' 'unsafe-inline';img-src 'self' data: blob:;font-src 'self' data:;connect-src 'self';media-src 'self';frame-ancestors 'self';form-action 'self'";
+
+		$this->contentSecurityPolicy->useJsNonce($nonce);
+		$this->contentSecurityPolicy->useStrictDynamic(true);
+		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
+	}
+
+	public function testGetPolicyStrictDynamicOnScriptsOff() {
+		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';script-src 'self';style-src 'self' 'unsafe-inline';img-src 'self' data: blob:;font-src 'self' data:;connect-src 'self';media-src 'self';frame-ancestors 'self';form-action 'self'";
+
+		$this->contentSecurityPolicy->useStrictDynamicOnScripts(false);
+		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
+	}
+
+	public function testGetPolicyStrictDynamicAndStrictDynamicOnScripts() {
+		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';script-src 'self';style-src 'self' 'unsafe-inline';img-src 'self' data: blob:;font-src 'self' data:;connect-src 'self';media-src 'self';frame-ancestors 'self';form-action 'self'";
+
+		$this->contentSecurityPolicy->useStrictDynamic(true);
+		$this->contentSecurityPolicy->useStrictDynamicOnScripts(true);
 		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
 	}
 }

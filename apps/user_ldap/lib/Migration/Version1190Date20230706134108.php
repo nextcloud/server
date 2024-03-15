@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2023 Your name <your@email.com>
+ * @copyright Copyright (c) 2023 Côme Chilliet <come.chilliet@nextcloud.com>
  *
- * @author Your name <your@email.com>
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -99,13 +99,25 @@ class Version1190Date20230706134108 extends SimpleMigrationStep {
 		$result = $query->executeQuery();
 		while ($row = $result->fetch()) {
 			$knownUsers = unserialize($row['owncloudusers']);
+			if (!is_array($knownUsers)) {
+				/* Unserialize failed or data was incorrect in database, ignore */
+				continue;
+			}
+			$knownUsers = array_unique($knownUsers);
 			foreach ($knownUsers as $knownUser) {
-				$insert
-					->setParameter('groupid', $row['owncloudname'])
-					->setParameter('userid', $knownUser)
-				;
+				try {
+					$insert
+						->setParameter('groupid', $row['owncloudname'])
+						->setParameter('userid', $knownUser)
+					;
 
-				$insert->executeStatement();
+					$insert->executeStatement();
+				} catch (\OCP\DB\Exception $e) {
+					/*
+					 * If it fails on unique constaint violation it may just be left over value from previous half-migration
+					 * If it fails on something else, ignore as well, data will be filled by background job later anyway
+					 */
+				}
 			}
 		}
 		$result->closeCursor();

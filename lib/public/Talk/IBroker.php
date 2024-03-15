@@ -68,8 +68,8 @@ interface IBroker {
 	 * @since 24.0.0
 	 */
 	public function createConversation(string $name,
-									   array $moderators,
-									   IConversationOptions $options = null): IConversation;
+		array $moderators,
+		IConversationOptions $options = null): IConversation;
 
 	/**
 	 * Delete a conversation by id

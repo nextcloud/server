@@ -34,9 +34,9 @@ export default async function(url) {
 	})
 
 	// TODO: create new parser or use cdav-lib when available
-	const file = OCA.Files.App.fileList.filesClient._client.parseMultiStatus(response.data)
+	const file = OC.Files.getClient()._client.parseMultiStatus(response.data)
 	// TODO: create new parser or use cdav-lib when available
-	const fileInfo = OCA.Files.App.fileList.filesClient._parseFileInfo(file[0])
+	const fileInfo = OC.Files.getClient()._parseFileInfo(file[0])
 
 	// TODO remove when no more legacy backbone is used
 	fileInfo.get = (key) => fileInfo[key]

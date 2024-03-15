@@ -78,12 +78,15 @@
     "Save" : "Speichern",
     "Available flows" : "Verfügbare Abläufe",
     "For details on how to write your own flow, check out the development documentation." : "Informationen zur Erstellung eigener Abläufe findest du in der Entwickler-Dokumentation.",
+    "No flows installed" : "Keine Abläufe installiert",
+    "Ask your administrator to install new flows." : "Bitte deinen Administrator, neue Abläufe zu installieren.",
     "More flows" : "Weitere Abläufe",
     "Browse the App Store" : "App-Store durchsuchen",
     "Show less" : "Weniger anzeigen",
     "Show more" : "Mehr anzeigen",
     "Configured flows" : "Konfigurierte Abläufe",
     "Your flows" : "Deine Abläufe",
+    "No flows configured" : "Keine Abläufe eingerichtet",
     "matches" : "entspricht",
     "does not match" : "entspricht nicht",
     "is" : "ist",
@@ -108,10 +111,8 @@
     "between" : "zwischen",
     "not between" : "nicht zwischen",
     "Request user agent" : "User-Agent",
-    "User group membership" : "Benutzergruppen-Mitgliedschaft",
     "is member of" : "ist Mitglied von",
     "is not member of" : "ist kein Mitglied von",
-    "Predefined URLs" : "Vordefinierte URLs",
-    "Others" : "Andere"
+    "User group membership" : "Benutzergruppen-Mitgliedschaft"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

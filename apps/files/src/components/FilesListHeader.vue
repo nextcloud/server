@@ -60,6 +60,9 @@ export default {
 			}
 			this.header.updated(this.currentFolder, this.currentView)
 		},
+		currentFolder() {
+			this.header.updated(this.currentFolder, this.currentView)
+		},
 	},
 	mounted() {
 		console.debug('Mounted', this.header.id)

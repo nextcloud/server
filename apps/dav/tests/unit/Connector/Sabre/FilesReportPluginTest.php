@@ -320,14 +320,14 @@ class FilesReportPluginTest extends \Test\TestCase {
 			->willReturn('/');
 
 		$this->userFolder->expects($this->exactly(2))
-			->method('getById')
+			->method('getFirstNodeById')
 			->withConsecutive(
 				['111'],
 				['222'],
 			)
 			->willReturnOnConsecutiveCalls(
-				[$filesNode1],
-				[$filesNode2],
+				$filesNode1,
+				$filesNode2,
 			);
 
 		/** @var \OCA\DAV\Connector\Sabre\Directory|MockObject $reportTargetNode */
@@ -373,14 +373,14 @@ class FilesReportPluginTest extends \Test\TestCase {
 			->willReturn($subNode);
 
 		$subNode->expects($this->exactly(2))
-			->method('getById')
+			->method('getFirstNodeById')
 			->withConsecutive(
 				['111'],
 				['222'],
 			)
 			->willReturnOnConsecutiveCalls(
-				[$filesNode1],
-				[$filesNode2],
+				$filesNode1,
+				$filesNode2,
 			);
 
 		/** @var \OCA\DAV\Connector\Sabre\Directory|MockObject $reportTargetNode */
@@ -441,9 +441,6 @@ class FilesReportPluginTest extends \Test\TestCase {
 		$responses = $this->plugin->prepareResponses('/files/username', $requestedProps, [$node1, $node2]);
 
 		$this->assertCount(2, $responses);
-
-		$this->assertEquals(200, $responses[0]->getHttpStatus());
-		$this->assertEquals(200, $responses[1]->getHttpStatus());
 
 		$this->assertEquals('http://example.com/owncloud/remote.php/dav/files/username/node1', $responses[0]->getHref());
 		$this->assertEquals('http://example.com/owncloud/remote.php/dav/files/username/sub/node2', $responses[1]->getHref());

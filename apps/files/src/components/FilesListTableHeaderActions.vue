@@ -20,7 +20,7 @@
   -
   -->
 <template>
-	<th class="files-list__column files-list__row-actions-batch" colspan="2">
+	<div class="files-list__column files-list__row-actions-batch">
 		<NcActions ref="actionsMenu"
 			:disabled="!!loading || areSomeNodesLoading"
 			:force-name="true"
@@ -33,40 +33,41 @@
 				@click="onActionClick(action)">
 				<template #icon>
 					<NcLoadingIcon v-if="loading === action.id" :size="18" />
-					<CustomSvgIconRender v-else :svg="action.iconSvgInline(nodes, currentView)" />
+					<NcIconSvgWrapper v-else :svg="action.iconSvgInline(nodes, currentView)" />
 				</template>
 				{{ action.displayName(nodes, currentView) }}
 			</NcActionButton>
 		</NcActions>
-	</th>
+	</div>
 </template>
 
 <script lang="ts">
-import { getFileActions } from '@nextcloud/files'
+import { Node, NodeStatus, View, getFileActions } from '@nextcloud/files'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { translate } from '@nextcloud/l10n'
 import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
 import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
+import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
 import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
-import Vue from 'vue'
+import Vue, { defineComponent, type PropType } from 'vue'
 
 import { useActionsMenuStore } from '../store/actionsmenu.ts'
 import { useFilesStore } from '../store/files.ts'
 import { useSelectionStore } from '../store/selection.ts'
 import filesListWidthMixin from '../mixins/filesListWidth.ts'
-import CustomSvgIconRender from './CustomSvgIconRender.vue'
 import logger from '../logger.js'
+import type { FileId } from '../types'
 
 // The registered actions list
 const actions = getFileActions()
 
-export default Vue.extend({
+export default defineComponent({
 	name: 'FilesListTableHeaderActions',
 
 	components: {
-		CustomSvgIconRender,
 		NcActions,
 		NcActionButton,
+		NcIconSvgWrapper,
 		NcLoadingIcon,
 	},
 
@@ -76,11 +77,11 @@ export default Vue.extend({
 
 	props: {
 		currentView: {
-			type: Object,
+			type: Object as PropType<View>,
 			required: true,
 		},
 		selectedNodes: {
-			type: Array,
+			type: Array as PropType<FileId[]>,
 			default: () => ([]),
 		},
 	},
@@ -117,11 +118,11 @@ export default Vue.extend({
 		nodes() {
 			return this.selectedNodes
 				.map(fileid => this.getNode(fileid))
-				.filter(node => node)
+				.filter(Boolean) as Node[]
 		},
 
 		areSomeNodesLoading() {
-			return this.nodes.some(node => node._loading)
+			return this.nodes.some(node => node.status === NodeStatus.LOADING)
 		},
 
 		openedMenu: {
@@ -165,7 +166,7 @@ export default Vue.extend({
 				// Set loading markers
 				this.loading = action.id
 				this.nodes.forEach(node => {
-					Vue.set(node, '_loading', true)
+					Vue.set(node, 'status', NodeStatus.LOADING)
 				})
 
 				// Dispatch action execution
@@ -185,6 +186,12 @@ export default Vue.extend({
 						.filter((fileid, index) => results[index] === false)
 					this.selectionStore.set(failedIds)
 
+					if (results.some(result => result === null)) {
+						// If some actions returned null, we assume that the dev
+						// is handling the error messages and we stay silent
+						return
+					}
+
 					showError(this.t('files', '"{displayName}" failed on some elements ', { displayName }))
 					return
 				}
@@ -199,7 +206,7 @@ export default Vue.extend({
 				// Remove loading markers
 				this.loading = null
 				this.nodes.forEach(node => {
-					Vue.set(node, '_loading', false)
+					Vue.set(node, 'status', undefined)
 				})
 			}
 		},
@@ -212,15 +219,6 @@ export default Vue.extend({
 <style scoped lang="scss">
 .files-list__row-actions-batch {
 	flex: 1 1 100% !important;
-
-	// Remove when https://github.com/nextcloud/nextcloud-vue/pull/3936 is merged
-	::v-deep .button-vue__wrapper {
-		width: 100%;
-		span.button-vue__text {
-			overflow: hidden;
-			text-overflow: ellipsis;
-			white-space: nowrap;
-		}
-	}
+	max-width: 100%;
 }
 </style>

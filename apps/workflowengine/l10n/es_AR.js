@@ -56,6 +56,7 @@ OC.L10N.register(
     "User group membership" : "Membresia al grupo de usuarios",
     "is member of" : "es miembro de",
     "is not member of" : "no es miembro de",
-    "Predefined URLs" : "URLs predefinidos"
+    "Predefined URLs" : "URLs predefinidos",
+    "Others" : "Otros"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

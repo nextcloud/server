@@ -61,6 +61,9 @@ OC.L10N.register(
     "Your password will expire today." : "Your password will expire today.",
     "_Your password will expire within %n day._::_Your password will expire within %n days._" : ["Your password will expire within %n day.","Your password will expire within %n days."],
     "LDAP/AD integration" : "LDAP/AD integration",
+    "Invalid LDAP UUIDs" : "Invalid LDAP UUIDs",
+    "None found" : "None found",
+    "Invalid UUIDs of LDAP accounts or groups have been found. Please review your \"Override UUID detection\" settings in the Expert part of the LDAP configuration and use \"occ ldap:update-uuid\" to update them." : "Invalid UUIDs of LDAP accounts or groups have been found. Please review your \"Override UUID detection\" settings in the Expert part of the LDAP configuration and use \"occ ldap:update-uuid\" to update them.",
     "_%n group found_::_%n groups found_" : ["%n group found","%n groups found"],
     "> 1000 groups found" : "> 1000 groups found",
     "> 1000 users found" : "> 1000 users found",
@@ -214,6 +217,7 @@ OC.L10N.register(
     "Username-LDAP User Mapping" : "Username-LDAP User Mapping",
     "Usernames are used to store and assign metadata. In order to precisely identify and recognize users, each LDAP user will have an internal username. This requires a mapping from username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found. The internal username is used all over. Clearing the mappings will have leftovers everywhere. Clearing the mappings is not configuration sensitive, it affects all LDAP configurations! Never clear the mappings in a production environment, only in a testing or experimental stage." : "Usernames are used to store and assign metadata. In order to precisely identify and recognise users, each LDAP user will have an internal username. This requires a mapping from username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found. The internal username is used all over. Clearing the mappings will have leftovers everywhere. Clearing the mappings is not configuration sensitive, it affects all LDAP configurations! Never clear the mappings in a production environment, only in a testing or experimental stage.",
     "Clear Username-LDAP User Mapping" : "Clear Username-LDAP User Mapping",
-    "Clear Groupname-LDAP Group Mapping" : "Clear Groupname-LDAP Group Mapping"
+    "Clear Groupname-LDAP Group Mapping" : "Clear Groupname-LDAP Group Mapping",
+    "Invalid UUIDs of LDAP users or groups have been found. Please review your \"Override UUID detection\" settings in the Expert part of the LDAP configuration and use \"occ ldap:update-uuid\" to update them." : "Invalid UUIDs of LDAP users or groups have been found. Please review your \"Override UUID detection\" settings in the Expert part of the LDAP configuration and use \"occ ldap:update-uuid\" to update them."
 },
 "nplurals=2; plural=(n != 1);");

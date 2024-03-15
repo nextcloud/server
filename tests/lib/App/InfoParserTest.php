@@ -10,8 +10,8 @@ namespace Test\App;
 
 use OC;
 use OC\App\InfoParser;
-use Test\TestCase;
 use OCP\Cache\CappedMemoryCache;
+use Test\TestCase;
 
 class InfoParserTest extends TestCase {
 	/** @var OCP\Cache\CappedMemoryCache */

@@ -2,7 +2,7 @@ OC.L10N.register(
     "dav",
     {
     "Calendar" : "Calendario",
-    "To-dos" : "Tareas pendientes",
+    "Tasks" : "Tareas",
     "Personal" : "Personal",
     "{actor} created calendar {calendar}" : "{actor} creó el calendario {calendar}",
     "You created calendar {calendar}" : "Creaste el calendario {calendar}",
@@ -143,7 +143,6 @@ OC.L10N.register(
     "Configures a CalDAV account" : "Configura una cuenta CalDAV",
     "Configures a CardDAV account" : "Configura una cuenta CardDAV",
     "Events" : "Eventos",
-    "Tasks" : "Tareas",
     "Untitled task" : "Tarea sin título",
     "Completed on %s" : "Completada el %s",
     "Due on %s by %s" : "Vence el %s a las %s",
@@ -153,8 +152,8 @@ OC.L10N.register(
     "Contacts and groups" : "Contactos y grupos",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "Extremo WebDAV",
-    "Availability" : "Disponibilidad",
-    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Si configuras tus horas de trabajo, otros usuarios verán cuando estás fuera de la oficina al reservar una reunión.",
+    "First day" : "Primer día",
+    "Save" : "Guardar",
     "Time zone:" : "Zona horaria:",
     "to" : "para",
     "Delete slot" : "Eliminar ranura",
@@ -168,10 +167,10 @@ OC.L10N.register(
     "Saturday" : "Sábado",
     "Sunday" : "Domingo",
     "Automatically set user status to \"Do not disturb\" outside of availability to mute all notifications." : "Configurar automáticamente el estado del usuario como \"No molestar\" fuera de la disponibilidad para silenciar todas las notificaciones.",
-    "Save" : "Guardar",
     "Failed to load availability" : "Error al cargar la disponibilidad",
     "Saved availability" : "Disponibilidad guardada",
     "Failed to save availability" : "Error al guardar la disponibilidad",
+    "Availability" : "Disponibilidad",
     "Calendar server" : "Servidor de calendario",
     "Send invitations to attendees" : "Enviar invitaciones a los asistentes",
     "Automatically generate a birthday calendar" : "Generar automaticamente un calendario para cumpleaños",
@@ -189,6 +188,7 @@ OC.L10N.register(
     "Are you accepting the invitation?" : "¿Aceptas la invitación?",
     "Tentative" : "Tentativo",
     "Your attendance was updated successfully." : "Tu asistencia se actualizó correctamente.",
-    "%1$s has responded your invitation" : "%1$s ha respondido a tu invitación"
+    "To-dos" : "Tareas pendientes",
+    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Si configuras tus horas de trabajo, otros usuarios verán cuando estás fuera de la oficina al reservar una reunión."
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

@@ -2,7 +2,7 @@ OC.L10N.register(
     "dav",
     {
     "Calendar" : "تقویم",
-    "To-dos" : "To-dos",
+    "Tasks" : "وظایف",
     "Personal" : "شخصی",
     "{actor} created calendar {calendar}" : "{actor} created calendar {calendar}",
     "You created calendar {calendar}" : "You created calendar {calendar}",
@@ -143,7 +143,6 @@ OC.L10N.register(
     "Configures a CalDAV account" : "Configures a CalDAV account",
     "Configures a CardDAV account" : "Configures a CardDAV account",
     "Events" : "Events",
-    "Tasks" : "وظایف",
     "Untitled task" : "کار بدون عنوان",
     "Completed on %s" : "Completed on %s",
     "Due on %s by %s" : "Due on %s by %s",
@@ -153,8 +152,8 @@ OC.L10N.register(
     "Contacts and groups" : "Contacts and groups",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "WebDAV endpoint",
-    "Availability" : "موجود بودن",
-    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "If you configure your working hours, other users will see when you are out of office when they book a meeting.",
+    "First day" : "First day",
+    "Save" : "ذخیره",
     "Time zone:" : "منطقه زمانی:",
     "to" : "به",
     "Delete slot" : "Delete slot",
@@ -168,10 +167,10 @@ OC.L10N.register(
     "Saturday" : "شنبه",
     "Sunday" : "یکشنبه",
     "Automatically set user status to \"Do not disturb\" outside of availability to mute all notifications." : "Automatically set user status to \"Do not disturb\" outside of availability to mute all notifications.",
-    "Save" : "ذخیره",
     "Failed to load availability" : "Failed to load availability",
     "Saved availability" : "Saved availability",
     "Failed to save availability" : "Failed to save availability",
+    "Availability" : "موجود بودن",
     "Calendar server" : "Calendar server",
     "Send invitations to attendees" : "Send invitations to attendees",
     "Automatically generate a birthday calendar" : "Automatically generate a birthday calendar",
@@ -189,6 +188,7 @@ OC.L10N.register(
     "Are you accepting the invitation?" : "Are you accepting the invitation?",
     "Tentative" : "آزمایشی",
     "Your attendance was updated successfully." : "Your attendance was updated successfully.",
-    "%1$s has responded your invitation" : "%1$s has responded your invitation"
+    "To-dos" : "To-dos",
+    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "If you configure your working hours, other users will see when you are out of office when they book a meeting."
 },
 "nplurals=2; plural=(n > 1);");

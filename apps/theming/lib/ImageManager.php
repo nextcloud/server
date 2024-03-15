@@ -42,38 +42,21 @@ use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\ICacheFactory;
 use OCP\IConfig;
-use OCP\ILogger;
 use OCP\ITempManager;
 use OCP\IURLGenerator;
+use Psr\Log\LoggerInterface;
 
 class ImageManager {
 	public const SUPPORTED_IMAGE_KEYS = ['background', 'logo', 'logoheader', 'favicon'];
 
-	/** @var IConfig */
-	private $config;
-	/** @var IAppData */
-	private $appData;
-	/** @var IURLGenerator */
-	private $urlGenerator;
-	/** @var ICacheFactory */
-	private $cacheFactory;
-	/** @var ILogger */
-	private $logger;
-	/** @var ITempManager */
-	private $tempManager;
-
-	public function __construct(IConfig $config,
-								IAppData $appData,
-								IURLGenerator $urlGenerator,
-								ICacheFactory $cacheFactory,
-								ILogger $logger,
-								ITempManager $tempManager) {
-		$this->config = $config;
-		$this->urlGenerator = $urlGenerator;
-		$this->cacheFactory = $cacheFactory;
-		$this->logger = $logger;
-		$this->tempManager = $tempManager;
-		$this->appData = $appData;
+	public function __construct(
+		private IConfig $config,
+		private IAppData $appData,
+		private IURLGenerator $urlGenerator,
+		private ICacheFactory $cacheFactory,
+		private LoggerInterface $logger,
+		private ITempManager $tempManager,
+	) {
 	}
 
 	/**
@@ -114,10 +97,10 @@ class ImageManager {
 	 * @throws NotPermittedException
 	 */
 	public function getImage(string $key, bool $useSvg = true): ISimpleFile {
-		$logo = $this->config->getAppValue('theming', $key . 'Mime', '');
+		$mime = $this->config->getAppValue('theming', $key . 'Mime', '');
 		$folder = $this->getRootFolder()->getFolder('images');
 
-		if ($logo === '' || !$folder->fileExists($key)) {
+		if ($mime === '' || !$folder->fileExists($key)) {
 			throw new NotFoundException();
 		}
 
@@ -144,7 +127,8 @@ class ImageManager {
 
 	public function hasImage(string $key): bool {
 		$mimeSetting = $this->config->getAppValue('theming', $key . 'Mime', '');
-		return $mimeSetting !== '';
+		// Removing the background defines its mime as 'backgroundColor'
+		return $mimeSetting !== '' && $mimeSetting !== 'backgroundColor';
 	}
 
 	/**

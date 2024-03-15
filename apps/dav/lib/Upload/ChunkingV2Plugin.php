@@ -30,6 +30,8 @@ use InvalidArgumentException;
 use OC\Files\Filesystem;
 use OC\Files\ObjectStore\ObjectStoreStorage;
 use OC\Files\View;
+use OC\Memcache\Memcached;
+use OC\Memcache\Redis;
 use OC_Hook;
 use OCA\DAV\Connector\Sabre\Directory;
 use OCA\DAV\Connector\Sabre\File;
@@ -40,6 +42,7 @@ use OCP\Files\Storage\IChunkedFileWrite;
 use OCP\Files\StorageInvalidException;
 use OCP\ICache;
 use OCP\ICacheFactory;
+use OCP\IConfig;
 use OCP\Lock\ILockingProvider;
 use Sabre\DAV\Exception\BadRequest;
 use Sabre\DAV\Exception\InsufficientStorage;
@@ -272,6 +275,11 @@ class ChunkingV2Plugin extends ServerPlugin {
 	 * @throws StorageInvalidException
 	 */
 	private function checkPrerequisites(bool $checkUploadMetadata = true): void {
+		$distributedCacheConfig = \OCP\Server::get(IConfig::class)->getSystemValue('memcache.distributed', null);
+
+		if ($distributedCacheConfig === null || (!$this->cache instanceof Redis && !$this->cache instanceof Memcached)) {
+			throw new BadRequest('Skipping chunking v2 since no proper distributed cache is available');
+		}
 		if (!$this->uploadFolder instanceof UploadFolder || empty($this->server->httpRequest->getHeader(self::DESTINATION_HEADER))) {
 			throw new BadRequest('Skipping chunked file writing as the destination header was not passed');
 		}
@@ -284,7 +292,7 @@ class ChunkingV2Plugin extends ServerPlugin {
 
 		if ($checkUploadMetadata) {
 			if ($this->uploadId === null || $this->uploadPath === null) {
-				throw new PreconditionFailed('Missing metadata for chunked upload');
+				throw new PreconditionFailed('Missing metadata for chunked upload. The distributed cache does not hold the information of previous requests.');
 			}
 		}
 	}
@@ -336,7 +344,7 @@ class ChunkingV2Plugin extends ServerPlugin {
 
 		// If the file was not uploaded to the user storage directly we need to copy/move it
 		try {
-			$uploadFileAbsolutePath = Filesystem::getRoot() . $uploadFile->getPath();
+			$uploadFileAbsolutePath = $uploadFile->getFileInfo()->getPath();
 			if ($uploadFileAbsolutePath !== $targetAbsolutePath) {
 				$uploadFile = $rootFolder->get($uploadFile->getFileInfo()->getPath());
 				if ($exists) {

@@ -2,6 +2,8 @@
 	- @copyright 2021, Christopher Ng <chrng8@gmail.com>
 	-
 	- @author Christopher Ng <chrng8@gmail.com>
+	- @author Ferdinand Thiessen <opensource@fthiessen.de>
+	- @author Grigorii K. Shartsev <me@shgk.me>
 	-
 	- @license GNU AGPL version 3 or any later version
 	-
@@ -21,29 +23,36 @@
 -->
 
 <template>
-	<NcActions :class="{ 'federation-actions': !additional, 'federation-actions--additional': additional }"
+	<NcActions ref="federationActions"
+		class="federation-actions"
 		:aria-label="ariaLabel"
-		:default-icon="scopeIcon"
 		:disabled="disabled">
-		<FederationControlAction v-for="federationScope in federationScopes"
+		<template #icon>
+			<NcIconSvgWrapper :path="scopeIcon" />
+		</template>
+
+		<NcActionButton v-for="federationScope in federationScopes"
 			:key="federationScope.name"
-			:active-scope="scope"
-			:display-name="federationScope.displayName"
-			:handle-scope-change="changeScope"
-			:icon-class="federationScope.iconClass"
-			:is-supported-scope="supportedScopes.includes(federationScope.name)"
-			:name="federationScope.name"
-			:tooltip-disabled="federationScope.tooltipDisabled"
-			:tooltip="federationScope.tooltip"
-			:aria-label="federationScope.tooltip" />
+			:close-after-click="true"
+			:disabled="!supportedScopes.includes(federationScope.name)"
+			:name="federationScope.displayName"
+			type="radio"
+			:value="federationScope.name"
+			:model-value="scope"
+			@update:modelValue="changeScope">
+			<template #icon>
+				<NcIconSvgWrapper :path="federationScope.icon" />
+			</template>
+			{{ supportedScopes.includes(federationScope.name) ? federationScope.tooltip : federationScope.tooltipDisabled }}
+		</NcActionButton>
 	</NcActions>
 </template>
 
 <script>
 import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
+import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
+import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
 import { loadState } from '@nextcloud/initial-state'
-
-import FederationControlAction from './FederationControlAction.vue'
 
 import {
 	ACCOUNT_PROPERTY_READABLE_ENUM,
@@ -51,7 +60,8 @@ import {
 	PROFILE_READABLE_ENUM,
 	PROPERTY_READABLE_KEYS_ENUM,
 	PROPERTY_READABLE_SUPPORTED_SCOPES_ENUM,
-	SCOPE_ENUM, SCOPE_PROPERTY_ENUM,
+	SCOPE_PROPERTY_ENUM,
+	SCOPE_ENUM,
 	UNPUBLISHED_READABLE_PROPERTIES,
 } from '../../../constants/AccountPropertyConstants.js'
 import { savePrimaryAccountPropertyScope } from '../../../service/PersonalInfo/PersonalInfoService.js'
@@ -67,7 +77,8 @@ export default {
 
 	components: {
 		NcActions,
-		FederationControlAction,
+		NcActionButton,
+		NcIconSvgWrapper,
 	},
 
 	props: {
@@ -98,6 +109,8 @@ export default {
 		},
 	},
 
+	emits: ['update:scope'],
+
 	data() {
 		return {
 			readableLowerCase: this.readable.toLocaleLowerCase(),
@@ -115,7 +128,7 @@ export default {
 		},
 
 		scopeIcon() {
-			return SCOPE_PROPERTY_ENUM[this.scope].iconClass
+			return SCOPE_PROPERTY_ENUM[this.scope].icon
 		},
 
 		federationScopes() {
@@ -150,6 +163,9 @@ export default {
 			} else {
 				await this.updateAdditionalScope(scope)
 			}
+
+			// TODO: provide focus method from NcActions
+			this.$refs.federationActions.$refs.menuButton.$el.focus()
 		},
 
 		async updatePrimaryScope(scope) {
@@ -195,14 +211,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-	.federation-actions--additional {
-		&::v-deep button {
+.federation-actions {
+	&--additional {
+		&:deep(button) {
 			// TODO remove this hack
-			padding-bottom: 7px;
 			height: 30px !important;
 			min-height: 30px !important;
 			width: 30px !important;
 			min-width: 30px !important;
 		}
 	}
+}
 </style>

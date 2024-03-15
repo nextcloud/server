@@ -35,6 +35,7 @@ declare(strict_types=1);
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author MartB <mart.b@outlook.de>
  * @author Michael Gapczynski <GapczynskiM@gmail.com>
+ * @author MichaIng <micha@dietpi.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Owen Winkler <a_github@midnightcircus.com>
  * @author Phil Davis <phil.davis@inf.org>
@@ -113,8 +114,6 @@ class OC {
 	public static array $APPSROOTS = [];
 
 	public static string $configDir;
-
-	public static int $VERSION_MTIME = 0;
 
 	/**
 	 * requested app
@@ -390,10 +389,15 @@ class OC {
 		$ocVersion = \OCP\Util::getVersion();
 		$ocVersion = implode('.', $ocVersion);
 		$incompatibleApps = $appManager->getIncompatibleApps($ocVersion);
+		$incompatibleOverwrites = $systemConfig->getValue('app_install_overwrite', []);
 		$incompatibleShippedApps = [];
+		$incompatibleDisabledApps = [];
 		foreach ($incompatibleApps as $appInfo) {
 			if ($appManager->isShipped($appInfo['id'])) {
 				$incompatibleShippedApps[] = $appInfo['name'] . ' (' . $appInfo['id'] . ')';
+			}
+			if (!in_array($appInfo['id'], $incompatibleOverwrites)) {
+				$incompatibleDisabledApps[] = $appInfo;
 			}
 		}
 
@@ -404,7 +408,7 @@ class OC {
 		}
 
 		$tmpl->assign('appsToUpgrade', $appManager->getAppsNeedingUpgrade($ocVersion));
-		$tmpl->assign('incompatibleAppsList', $incompatibleApps);
+		$tmpl->assign('incompatibleAppsList', $incompatibleDisabledApps);
 		try {
 			$defaults = new \OC_Defaults();
 			$tmpl->assign('productName', $defaults->getName());
@@ -610,10 +614,9 @@ class OC {
 
 		self::$CLI = (php_sapi_name() == 'cli');
 
-		// Add default composer PSR-4 autoloader
+		// Add default composer PSR-4 autoloader, ensure apcu to be disabled
 		self::$composerAutoloader = require_once OC::$SERVERROOT . '/lib/composer/autoload.php';
-		OC::$VERSION_MTIME = filemtime(OC::$SERVERROOT . '/version.php');
-		self::$composerAutoloader->setApcuPrefix('composer_autoload_' . md5(OC::$SERVERROOT . '_' . OC::$VERSION_MTIME));
+		self::$composerAutoloader->setApcuPrefix(null);
 
 		try {
 			self::initPaths();
@@ -991,16 +994,7 @@ class OC {
 		// Check if Nextcloud is installed or in maintenance (update) mode
 		if (!$systemConfig->getValue('installed', false)) {
 			\OC::$server->getSession()->clear();
-			$setupHelper = new OC\Setup(
-				$systemConfig,
-				Server::get(\bantu\IniGetWrapper\IniGetWrapper::class),
-				Server::get(\OCP\L10N\IFactory::class)->get('lib'),
-				Server::get(\OCP\Defaults::class),
-				Server::get(\Psr\Log\LoggerInterface::class),
-				Server::get(\OCP\Security\ISecureRandom::class),
-				Server::get(\OC\Installer::class)
-			);
-			$controller = new OC\Core\Controller\SetupController($setupHelper);
+			$controller = Server::get(\OC\Core\Controller\SetupController::class);
 			$controller->run($_POST);
 			exit();
 		}
@@ -1022,21 +1016,6 @@ class OC {
 					exit();
 				}
 			}
-		}
-
-		// emergency app disabling
-		if ($requestPath === '/disableapp'
-			&& $request->getMethod() === 'POST'
-		) {
-			\OC_JSON::callCheck();
-			\OC_JSON::checkAdminUser();
-			$appIds = (array)$request->getParam('appid');
-			foreach ($appIds as $appId) {
-				$appId = \OC_App::cleanAppId($appId);
-				Server::get(\OCP\App\IAppManager::class)->disableApp($appId);
-			}
-			\OC_JSON::success();
-			exit();
 		}
 
 		// Always load authentication apps
@@ -1123,7 +1102,7 @@ class OC {
 			}
 			$l = Server::get(\OCP\L10N\IFactory::class)->get('lib');
 			OC_Template::printErrorPage(
-				$l->t('404'),
+				'404',
 				$l->t('The page could not be found on the server.'),
 				404
 			);
@@ -1134,11 +1113,14 @@ class OC {
 	 * Check login: apache auth, auth token, basic auth
 	 */
 	public static function handleLogin(OCP\IRequest $request): bool {
+		if ($request->getHeader('X-Nextcloud-Federation')) {
+			return false;
+		}
 		$userSession = Server::get(\OC\User\Session::class);
 		if (OC_User::handleApacheAuth()) {
 			return true;
 		}
-		if (self::tryAppEcosystemV2Login($request)) {
+		if (self::tryAppAPILogin($request)) {
 			return true;
 		}
 		if ($userSession->tryTokenLogin($request)) {
@@ -1179,17 +1161,17 @@ class OC {
 		}
 	}
 
-	protected static function tryAppEcosystemV2Login(OCP\IRequest $request): bool {
+	protected static function tryAppAPILogin(OCP\IRequest $request): bool {
 		$appManager = Server::get(OCP\App\IAppManager::class);
-		if (!$request->getHeader('AE-SIGNATURE')) {
+		if (!$request->getHeader('AUTHORIZATION-APP-API')) {
 			return false;
 		}
-		if (!$appManager->isInstalled('app_ecosystem_v2')) {
+		if (!$appManager->isInstalled('app_api')) {
 			return false;
 		}
 		try {
-			$appEcosystemV2Service = Server::get(OCA\AppEcosystemV2\Service\AppEcosystemV2Service::class);
-			return $appEcosystemV2Service->validateExAppRequestToNC($request);
+			$appAPIService = Server::get(OCA\AppAPI\Service\AppAPIService::class);
+			return $appAPIService->validateExAppRequestToNC($request);
 		} catch (\Psr\Container\NotFoundExceptionInterface|\Psr\Container\ContainerExceptionInterface $e) {
 			return false;
 		}

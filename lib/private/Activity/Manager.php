@@ -70,11 +70,11 @@ class Manager implements IManager {
 	protected $l10n;
 
 	public function __construct(
-			IRequest $request,
-			IUserSession $session,
-			IConfig $config,
-			IValidator $validator,
-			IL10N $l10n
+		IRequest $request,
+		IUserSession $session,
+		IConfig $config,
+		IValidator $validator,
+		IL10N $l10n
 	) {
 		$this->request = $request;
 		$this->session = $session;

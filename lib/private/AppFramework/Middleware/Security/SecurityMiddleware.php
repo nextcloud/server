@@ -104,18 +104,18 @@ class SecurityMiddleware extends Middleware {
 	private $userSession;
 
 	public function __construct(IRequest $request,
-								ControllerMethodReflector $reflector,
-								INavigationManager $navigationManager,
-								IURLGenerator $urlGenerator,
-								LoggerInterface $logger,
-								string $appName,
-								bool $isLoggedIn,
-								bool $isAdminUser,
-								bool $isSubAdmin,
-								IAppManager $appManager,
-								IL10N $l10n,
-								AuthorizedGroupMapper $mapper,
-								IUserSession $userSession
+		ControllerMethodReflector $reflector,
+		INavigationManager $navigationManager,
+		IURLGenerator $urlGenerator,
+		LoggerInterface $logger,
+		string $appName,
+		bool $isLoggedIn,
+		bool $isAdminUser,
+		bool $isSubAdmin,
+		IAppManager $appManager,
+		IL10N $l10n,
+		AuthorizedGroupMapper $mapper,
+		IUserSession $userSession
 	) {
 		$this->navigationManager = $navigationManager;
 		$this->request = $request;
@@ -180,20 +180,20 @@ class SecurityMiddleware extends Middleware {
 					}
 				}
 				if (!$authorized) {
-					throw new NotAdminException($this->l10n->t('Logged in user must be an admin, a sub admin or gotten special right to access this setting'));
+					throw new NotAdminException($this->l10n->t('Logged in account must be an admin, a sub admin or gotten special right to access this setting'));
 				}
 			}
 			if ($this->hasAnnotationOrAttribute($reflectionMethod, 'SubAdminRequired', SubAdminRequired::class)
 				&& !$this->isSubAdmin
 				&& !$this->isAdminUser
 				&& !$authorized) {
-				throw new NotAdminException($this->l10n->t('Logged in user must be an admin or sub admin'));
+				throw new NotAdminException($this->l10n->t('Logged in account must be an admin or sub admin'));
 			}
 			if (!$this->hasAnnotationOrAttribute($reflectionMethod, 'SubAdminRequired', SubAdminRequired::class)
 				&& !$this->hasAnnotationOrAttribute($reflectionMethod, 'NoAdminRequired', NoAdminRequired::class)
 				&& !$this->isAdminUser
 				&& !$authorized) {
-				throw new NotAdminException($this->l10n->t('Logged in user must be an admin'));
+				throw new NotAdminException($this->l10n->t('Logged in account must be an admin'));
 			}
 		}
 

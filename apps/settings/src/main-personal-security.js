@@ -3,6 +3,7 @@
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Ferdinand Thiessen <opensource@fthiessen.de>
  *
  * @license AGPL-3.0-or-later
  *
@@ -21,22 +22,23 @@
  *
  */
 
-import { loadState } from '@nextcloud/initial-state'
 import Vue from 'vue'
 import VTooltip from 'v-tooltip'
 
 import AuthTokenSection from './components/AuthTokenSection.vue'
+import { getRequestToken } from '@nextcloud/auth'
+import { PiniaVuePlugin, createPinia } from 'pinia'
+
+import '@nextcloud/password-confirmation/dist/style.css'
 
 // eslint-disable-next-line camelcase
-__webpack_nonce__ = btoa(OC.requestToken)
+__webpack_nonce__ = btoa(getRequestToken())
 
+const pinia = createPinia()
+
+Vue.use(PiniaVuePlugin)
 Vue.use(VTooltip, { defaultHtml: false })
 Vue.prototype.t = t
 
 const View = Vue.extend(AuthTokenSection)
-new View({
-	propsData: {
-		tokens: loadState('settings', 'app_tokens'),
-		canCreateToken: loadState('settings', 'can_create_app_token'),
-	},
-}).$mount('#security-authtokens')
+new View({ pinia }).$mount('#security-authtokens')

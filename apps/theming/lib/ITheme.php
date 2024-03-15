@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2022 John Molakvoæ <skjnldsv@protonmail.com>
@@ -30,8 +31,8 @@ namespace OCA\Theming;
  */
 interface ITheme {
 
-	const TYPE_THEME = 1;
-	const TYPE_FONT = 2;
+	public const TYPE_THEME = 1;
+	public const TYPE_FONT = 2;
 
 	/**
 	 * Unique theme id
@@ -69,6 +70,14 @@ interface ITheme {
 	 * @since 25.0.0
 	 */
 	public function getDescription(): string;
+
+	/**
+	 * Get the meta attribute matching the theme
+	 * e.g. https://html.spec.whatwg.org/multipage/semantics.html#meta-color-scheme
+	 * @return array{name?: string, content?: string}[]
+	 * @since 29.0.0
+	 */
+	public function getMeta(): array;
 
 	/**
 	 * Get the media query triggering this theme

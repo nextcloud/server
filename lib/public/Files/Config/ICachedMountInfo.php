@@ -84,4 +84,12 @@ interface ICachedMountInfo {
 	 * @since 24.0.0
 	 */
 	public function getMountProvider(): string;
+
+	/**
+	 * Get a key that uniquely identifies the mount
+	 *
+	 * @return string
+	 * @since 28.0.0
+	 */
+	public function getKey(): string;
 }

@@ -45,9 +45,8 @@ class FilesDropContext implements Context, SnippetAcceptingContext {
 		}
 
 		$base = substr($this->baseUrl, 0, -4);
-		$fullUrl = $base . '/public.php/webdav' . $path;
+		$fullUrl = $base . "/public.php/dav/files/$token/$path";
 
-		$options['auth'] = [$token, ''];
 		$options['headers'] = [
 			'X-REQUESTED-WITH' => 'XMLHttpRequest'
 		];
@@ -73,9 +72,8 @@ class FilesDropContext implements Context, SnippetAcceptingContext {
 		}
 
 		$base = substr($this->baseUrl, 0, -4);
-		$fullUrl = $base . '/public.php/webdav/' . $folder;
+		$fullUrl = $base . "/public.php/dav/files/$token/$folder";
 
-		$options['auth'] = [$token, ''];
 		$options['headers'] = [
 			'X-REQUESTED-WITH' => 'XMLHttpRequest'
 		];

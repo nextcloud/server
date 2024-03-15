@@ -57,9 +57,9 @@ class CalendarUpdatedEvent extends Event {
 	 * @since 20.0.0
 	 */
 	public function __construct(int $calendarId,
-								array $calendarData,
-								array $shares,
-								array $mutations) {
+		array $calendarData,
+		array $shares,
+		array $mutations) {
 		parent::__construct();
 		$this->calendarId = $calendarId;
 		$this->calendarData = $calendarData;

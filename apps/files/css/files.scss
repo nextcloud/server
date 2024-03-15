@@ -406,40 +406,6 @@ table {
 			z-index: 10;
 			padding: 0 20px 0 0;
 		}
-
-		/* System tags */
-		.system-tags {
-			--min-size: 32px;
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			min-width: calc(var(--min-size) * 2);
-			max-width: 300px;
-
-			.system-tags__tag {
-				padding: 5px 10px;
-				border: 1px solid;
-				border-radius: var(--border-radius-pill);
-				border-color: var(--color-border);
-				color: var(--color-text-maxcontrast);
-				height: var(--min-size);
-				white-space: nowrap;
-				overflow: hidden;
-				text-overflow: ellipsis;
-				line-height: 22px; // min-size - 2 * 5px padding
-				text-align: center;
-
-				&--more {
-					overflow: visible;
-					text-overflow: initial;
-				}
-
-				// Proper spacing if multiple shown
-				& + .system-tags__tag {
-					margin-left: 5px;
-				}
-			}
-		}
 	}
 }
 

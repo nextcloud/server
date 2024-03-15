@@ -29,47 +29,46 @@ use OCP\IServerContainer;
 
 class Manager implements IManager {
 	/** @var string[] */
-	protected $sorters = [];
+	protected array $sorters = [];
 
 	/** @var ISorter[]  */
-	protected $sorterInstances = [];
-	/** @var IServerContainer */
-	private $c;
+	protected array $sorterInstances = [];
 
-	public function __construct(IServerContainer $container) {
-		$this->c = $container;
+	public function __construct(
+		private IServerContainer $container,
+	) {
 	}
 
-	public function runSorters(array $sorters, array &$sortArray, array $context) {
+	public function runSorters(array $sorters, array &$sortArray, array $context): void {
 		$sorterInstances = $this->getSorters();
 		while ($sorter = array_shift($sorters)) {
 			if (isset($sorterInstances[$sorter])) {
 				$sorterInstances[$sorter]->sort($sortArray, $context);
 			} else {
-				$this->c->getLogger()->warning('No sorter for ID "{id}", skipping', [
+				$this->container->getLogger()->warning('No sorter for ID "{id}", skipping', [
 					'app' => 'core', 'id' => $sorter
 				]);
 			}
 		}
 	}
 
-	public function registerSorter($className) {
+	public function registerSorter($className): void {
 		$this->sorters[] = $className;
 	}
 
-	protected function getSorters() {
+	protected function getSorters(): array {
 		if (count($this->sorterInstances) === 0) {
 			foreach ($this->sorters as $sorter) {
 				/** @var ISorter $instance */
-				$instance = $this->c->resolve($sorter);
+				$instance = $this->container->resolve($sorter);
 				if (!$instance instanceof ISorter) {
-					$this->c->getLogger()->notice('Skipping sorter which is not an instance of ISorter. Class name: {class}',
+					$this->container->getLogger()->notice('Skipping sorter which is not an instance of ISorter. Class name: {class}',
 						['app' => 'core', 'class' => $sorter]);
 					continue;
 				}
 				$sorterId = trim($instance->getId());
 				if (trim($sorterId) === '') {
-					$this->c->getLogger()->notice('Skipping sorter with empty ID. Class name: {class}',
+					$this->container->getLogger()->notice('Skipping sorter with empty ID. Class name: {class}',
 						['app' => 'core', 'class' => $sorter]);
 					continue;
 				}

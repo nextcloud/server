@@ -33,13 +33,6 @@ Vue.directive('Tooltip', VTooltip)
 
 Vue.prototype.t = t
 
-// FIXME workaround to make the sidebar work
-if (!window.OCA.Files) {
-	window.OCA.Files = {}
-}
-
-Object.assign(window.OCA.Files, { App: { fileList: { filesClient: OC.Files.getClient() } } }, window.OCA.Files)
-
 const Dashboard = Vue.extend(DashboardApp)
 const Instance = new Dashboard({}).$mount('#app-content-vue')
 

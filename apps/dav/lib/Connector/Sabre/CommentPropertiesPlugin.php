@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
@@ -29,8 +30,8 @@ namespace OCA\DAV\Connector\Sabre;
 use OCP\Comments\ICommentsManager;
 use OCP\IUserSession;
 use Sabre\DAV\PropFind;
-use Sabre\DAV\ServerPlugin;
 use Sabre\DAV\Server;
+use Sabre\DAV\ServerPlugin;
 
 class CommentPropertiesPlugin extends ServerPlugin {
 	public const PROPERTY_NAME_HREF = '{http://owncloud.org/ns}comments-href';

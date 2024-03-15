@@ -33,8 +33,8 @@ use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\Defaults;
-use OCP\IUserSession;
 use OCP\IURLGenerator;
+use OCP\IUserSession;
 use OCP\Settings\ISettings;
 
 class Personal implements ISettings {

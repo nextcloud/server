@@ -69,9 +69,9 @@ abstract class AbstractProvider implements INotificationProvider {
 	protected $config;
 
 	public function __construct(LoggerInterface $logger,
-								L10NFactory $l10nFactory,
-								IURLGenerator $urlGenerator,
-								IConfig $config) {
+		L10NFactory $l10nFactory,
+		IURLGenerator $urlGenerator,
+		IConfig $config) {
 		$this->logger = $logger;
 		$this->l10nFactory = $l10nFactory;
 		$this->urlGenerator = $urlGenerator;
@@ -88,9 +88,9 @@ abstract class AbstractProvider implements INotificationProvider {
 	 * @return void
 	 */
 	abstract public function send(VEvent $vevent,
-						   ?string $calendarDisplayName,
-						   array $principalEmailAddresses,
-						   array $users = []): void;
+		?string $calendarDisplayName,
+		array $principalEmailAddresses,
+		array $users = []): void;
 
 	/**
 	 * @return string

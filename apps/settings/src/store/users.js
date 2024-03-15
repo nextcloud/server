@@ -8,6 +8,7 @@
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Vincent Petry <vincent@nextcloud.com>
+ * @author Stephan Orbaugh <stephan.orbaugh@nextcloud.com>
  *
  * @license AGPL-3.0-or-later
  *
@@ -26,10 +27,16 @@
  *
  */
 
-import api from './api.js'
-import axios from '@nextcloud/axios'
+import { getBuilder } from '@nextcloud/browser-storage'
+import { getCapabilities } from '@nextcloud/capabilities'
+import { parseFileSize } from '@nextcloud/files'
 import { generateOcsUrl } from '@nextcloud/router'
-import logger from '../logger.js'
+import axios from '@nextcloud/axios'
+
+import api from './api.js'
+import logger from '../logger.ts'
+
+const localStorage = getBuilder('settings').persist(true).build()
 
 const orderGroups = function(groups, orderBy) {
 	/* const SORT_USERCOUNT = 1;
@@ -61,13 +68,15 @@ const state = {
 	minPasswordLength: 0,
 	usersOffset: 0,
 	usersLimit: 25,
+	disabledUsersOffset: 0,
+	disabledUsersLimit: 25,
 	userCount: 0,
 	showConfig: {
-		showStoragePath: false,
-		showUserBackend: false,
-		showLastLogin: false,
-		showNewUserForm: false,
-		showLanguages: false,
+		showStoragePath: localStorage.getItem('account_settings__showStoragePath') === 'true',
+		showUserBackend: localStorage.getItem('account_settings__showUserBackend') === 'true',
+		showLastLogin: localStorage.getItem('account_settings__showLastLogin') === 'true',
+		showNewUserForm: localStorage.getItem('account_settings__showNewUserForm') === 'true',
+		showLanguages: localStorage.getItem('account_settings__showLanguages') === 'true',
 	},
 }
 
@@ -80,6 +89,9 @@ const mutations = {
 		const users = state.users.concat(newUsers)
 		state.usersOffset += state.usersLimit
 		state.users = users
+	},
+	updateDisabledUsers(state, _usersObj) {
+		state.disabledUsersOffset += state.disabledUsersLimit
 	},
 	setPasswordPolicyMinLength(state, length) {
 		state.minPasswordLength = length !== '' ? length : 0
@@ -101,7 +113,7 @@ const mutations = {
 				id: gid,
 				name: displayName,
 			})
-			state.groups.push(group)
+			state.groups.unshift(group)
 			state.groups = orderGroups(state.groups, state.orderBy)
 		} catch (e) {
 			console.error('Can\'t create group', e)
@@ -169,6 +181,11 @@ const mutations = {
 	},
 	// update active/disabled counts, groups counts
 	updateUserCounts(state, { user, actionType }) {
+		// 0 is a special value
+		if (state.userCount === 0) {
+			return
+		}
+
 		const disabledGroup = state.groups.find(group => group.id === 'disabled')
 		switch (actionType) {
 		case 'enable':
@@ -215,7 +232,7 @@ const mutations = {
 	},
 	setUserData(state, { userid, key, value }) {
 		if (key === 'quota') {
-			const humanValue = OC.Util.computerFileSize(value)
+			const humanValue = parseFileSize(value, true)
 			state.users.find(user => user.id === userid)[key][key] = humanValue !== null ? humanValue : value
 		} else {
 			state.users.find(user => user.id === userid)[key] = value
@@ -230,9 +247,11 @@ const mutations = {
 	resetUsers(state) {
 		state.users = []
 		state.usersOffset = 0
+		state.disabledUsersOffset = 0
 	},
 
 	setShowConfig(state, { key, value }) {
+		localStorage.setItem(`account_settings__${key}`, JSON.stringify(value))
 		state.showConfig[key] = value
 	},
 }
@@ -256,6 +275,12 @@ const getters = {
 	},
 	getUsersLimit(state) {
 		return state.usersLimit
+	},
+	getDisabledUsersOffset(state) {
+		return state.disabledUsersOffset
+	},
+	getDisabledUsersLimit(state) {
+		return state.disabledUsersLimit
 	},
 	getUserCount(state) {
 		return state.userCount
@@ -322,6 +347,14 @@ const actions = {
 		}
 		searchRequestCancelSource = CancelToken.source()
 		search = typeof search === 'string' ? search : ''
+
+		/**
+		 * Adding filters in the search bar such as in:files, in:users, etc.
+		 * collides with this particular search, so we need to remove them
+		 * here and leave only the original search query
+		 */
+		search = search.replace(/in:[^\s]+/g, '').trim()
+
 		group = typeof group === 'string' ? group : ''
 		if (group !== '') {
 			return api.get(generateOcsUrl('cloud/groups/{group}/users/details?offset={offset}&limit={limit}&search={search}', { group: encodeURIComponent(group), offset, limit, search }), {
@@ -356,6 +389,30 @@ const actions = {
 					context.commit('API_FAILURE', error)
 				}
 			})
+	},
+
+	/**
+	 * Get disabled users with full details
+	 *
+	 * @param {object} context store context
+	 * @param {object} options destructuring object
+	 * @param {number} options.offset List offset to request
+	 * @param {number} options.limit List number to return from offset
+	 * @return {Promise<number>}
+	 */
+	async getDisabledUsers(context, { offset, limit }) {
+		const url = generateOcsUrl('cloud/users/disabled?offset={offset}&limit={limit}', { offset, limit })
+		try {
+			const response = await api.get(url)
+			const usersCount = Object.keys(response.data.ocs.data.users).length
+			if (usersCount > 0) {
+				context.commit('appendUsers', response.data.ocs.data.users)
+				context.commit('updateDisabledUsers', response.data.ocs.data.users)
+			}
+			return usersCount
+		} catch (error) {
+			context.commit('API_FAILURE', error)
+		}
 	},
 
 	getGroups(context, { offset, limit, search }) {
@@ -414,9 +471,9 @@ const actions = {
 	},
 
 	getPasswordPolicyMinLength(context) {
-		if (OC.getCapabilities().password_policy && OC.getCapabilities().password_policy.minLength) {
-			context.commit('setPasswordPolicyMinLength', OC.getCapabilities().password_policy.minLength)
-			return OC.getCapabilities().password_policy.minLength
+		if (getCapabilities().password_policy && getCapabilities().password_policy.minLength) {
+			context.commit('setPasswordPolicyMinLength', getCapabilities().password_policy.minLength)
+			return getCapabilities().password_policy.minLength
 		}
 		return false
 	},

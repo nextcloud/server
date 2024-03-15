@@ -37,46 +37,21 @@ use OCP\IDBConnection;
 use OCP\IUser;
 
 class Collection implements ICollection {
-	/** @var Manager */
-	protected $manager;
-
-	/** @var IDBConnection */
-	protected $connection;
-
-	/** @var int */
-	protected $id;
-
-	/** @var string */
-	protected $name;
-
-	/** @var IUser|null */
-	protected $userForAccess;
-
-	/** @var bool|null */
-	protected $access;
-
 	/** @var IResource[] */
-	protected $resources;
+	protected array $resources = [];
 
 	public function __construct(
-		IManager $manager,
-		IDBConnection $connection,
-		int $id,
-		string $name,
-		?IUser $userForAccess = null,
-		?bool $access = null
+		/** @var Manager $manager */
+		protected IManager $manager,
+		protected IDBConnection $connection,
+		protected int $id,
+		protected string $name,
+		protected ?IUser $userForAccess = null,
+		protected ?bool $access = null
 	) {
-		$this->manager = $manager;
-		$this->connection = $connection;
-		$this->id = $id;
-		$this->name = $name;
-		$this->userForAccess = $userForAccess;
-		$this->access = $access;
-		$this->resources = [];
 	}
 
 	/**
-	 * @return int
 	 * @since 16.0.0
 	 */
 	public function getId(): int {
@@ -84,7 +59,6 @@ class Collection implements ICollection {
 	}
 
 	/**
-	 * @return string
 	 * @since 16.0.0
 	 */
 	public function getName(): string {
@@ -92,7 +66,6 @@ class Collection implements ICollection {
 	}
 
 	/**
-	 * @param string $name
 	 * @since 16.0.0
 	 */
 	public function setName(string $name): void {
@@ -120,7 +93,6 @@ class Collection implements ICollection {
 	/**
 	 * Adds a resource to a collection
 	 *
-	 * @param IResource $resource
 	 * @throws ResourceException when the resource is already part of the collection
 	 * @since 16.0.0
 	 */
@@ -153,7 +125,6 @@ class Collection implements ICollection {
 	/**
 	 * Removes a resource from a collection
 	 *
-	 * @param IResource $resource
 	 * @since 16.0.0
 	 */
 	public function removeResource(IResource $resource): void {
@@ -178,8 +149,6 @@ class Collection implements ICollection {
 	/**
 	 * Can a user/guest access the collection
 	 *
-	 * @param IUser|null $user
-	 * @return bool
 	 * @since 16.0.0
 	 */
 	public function canAccess(?IUser $user): bool {

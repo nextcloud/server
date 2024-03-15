@@ -6,6 +6,7 @@
  * @author Joas Schilling <coding@schilljs.com>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Maxence Lange <maxence@artificial-owl.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Piotr M <mrow4a@yahoo.com>
  * @author Robin Appelman <robin@icewind.nl>
@@ -32,12 +33,16 @@
  */
 namespace OC\Files;
 
-use OCA\Files_Sharing\ISharedStorage;
+use OC\Files\Mount\HomeMountPoint;
+use OCA\Files_Sharing\External\Mount;
+use OCA\Files_Sharing\ISharedMountPoint;
 use OCP\Files\Cache\ICacheEntry;
-use OCP\Files\IHomeStorage;
 use OCP\Files\Mount\IMountPoint;
 use OCP\IUser;
 
+/**
+ * @template-implements \ArrayAccess<string,mixed>
+ */
 class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 	private array|ICacheEntry $data;
 	/**
@@ -121,21 +126,14 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 	 */
 	#[\ReturnTypeWillChange]
 	public function offsetGet($offset) {
-		if ($offset === 'type') {
-			return $this->getType();
-		} elseif ($offset === 'etag') {
-			return $this->getEtag();
-		} elseif ($offset === 'size') {
-			return $this->getSize();
-		} elseif ($offset === 'mtime') {
-			return $this->getMTime();
-		} elseif ($offset === 'permissions') {
-			return $this->getPermissions();
-		} elseif (isset($this->data[$offset])) {
-			return $this->data[$offset];
-		} else {
-			return null;
-		}
+		return match ($offset) {
+			'type' => $this->getType(),
+			'etag' => $this->getEtag(),
+			'size' => $this->getSize(),
+			'mtime' => $this->getMTime(),
+			'permissions' => $this->getPermissions(),
+			default => $this->data[$offset] ?? null,
+		};
 	}
 
 	/**
@@ -183,7 +181,9 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 	 * @return string
 	 */
 	public function getName() {
-		return isset($this->data['name']) ? $this->data['name'] : basename($this->getPath());
+		return empty($this->data['name'])
+			? basename($this->getPath())
+			: $this->data['name'];
 	}
 
 	/**
@@ -207,7 +207,7 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 		if ($includeMounts) {
 			$this->updateEntryfromSubMounts();
 
-			if (isset($this->data['unencrypted_size']) && $this->data['unencrypted_size'] > 0) {
+			if ($this->isEncrypted() && isset($this->data['unencrypted_size']) && $this->data['unencrypted_size'] > 0) {
 				return $this->data['unencrypted_size'];
 			} else {
 				return isset($this->data['size']) ? 0 + $this->data['size'] : 0;
@@ -229,11 +229,11 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 	 * @return bool
 	 */
 	public function isEncrypted() {
-		return $this->data['encrypted'];
+		return $this->data['encrypted'] ?? false;
 	}
 
 	/**
-	 * Return the currently version used for the HMAC in the encryption app
+	 * Return the current version used for the HMAC in the encryption app
 	 */
 	public function getEncryptedVersion(): int {
 		return isset($this->data['encryptedVersion']) ? (int) $this->data['encryptedVersion'] : 1;
@@ -243,11 +243,7 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 	 * @return int
 	 */
 	public function getPermissions() {
-		$perms = (int) $this->data['permissions'];
-		if (\OCP\Util::isSharingDisabledForUser() || ($this->isShared() && !\OC\Share\Share::isResharingAllowed())) {
-			$perms = $perms & ~\OCP\Constants::PERMISSION_SHARE;
-		}
-		return $perms;
+		return (int) $this->data['permissions'];
 	}
 
 	/**
@@ -315,13 +311,12 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 	 * @return bool
 	 */
 	public function isShared() {
-		$storage = $this->getStorage();
-		return $storage->instanceOfStorage(ISharedStorage::class);
+		return $this->mount instanceof ISharedMountPoint;
 	}
 
 	public function isMounted() {
-		$storage = $this->getStorage();
-		return !($storage->instanceOfStorage(IHomeStorage::class) || $storage->instanceOfStorage(ISharedStorage::class));
+		$isHome = $this->mount instanceof HomeMountPoint;
+		return !$isHome && !$this->isShared();
 	}
 
 	/**
@@ -415,5 +410,17 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 
 	public function getUploadTime(): int {
 		return (int) $this->data['upload_time'];
+	}
+
+	public function getParentId(): int {
+		return $this->data['parent'] ?? -1;
+	}
+
+	/**
+	 * @inheritDoc
+	 * @return array<string, int|string|bool|float|string[]|int[]>
+	 */
+	public function getMetadata(): array {
+		return $this->data['metadata'] ?? [];
 	}
 }

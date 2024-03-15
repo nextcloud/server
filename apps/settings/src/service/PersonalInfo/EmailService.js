@@ -132,26 +132,6 @@ export const updateAdditionalEmail = async (prevEmail, newEmail) => {
 }
 
 /**
- * Save the federation scope for the primary email of the user
- *
- * @param {string} scope the federation scope
- * @return {object}
- */
-export const savePrimaryEmailScope = async (scope) => {
-	const userId = getCurrentUser().uid
-	const url = generateOcsUrl('cloud/users/{userId}', { userId })
-
-	await confirmPassword()
-
-	const res = await axios.put(url, {
-		key: `${ACCOUNT_PROPERTY_ENUM.EMAIL}${SCOPE_SUFFIX}`,
-		value: scope,
-	})
-
-	return res.data
-}
-
-/**
  * Save the federation scope for the additional email of the user
  *
  * @param {string} email the additional email

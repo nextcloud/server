@@ -10,6 +10,8 @@ use OCP\Comments\IComment;
 use OCP\Comments\ICommentsEventHandler;
 use OCP\Comments\ICommentsManager;
 use OCP\Comments\NotFoundException;
+use OCP\Files\Folder;
+use OCP\Files\IRootFolder;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IInitialStateService;
@@ -26,11 +28,14 @@ use Test\TestCase;
 class ManagerTest extends TestCase {
 	/** @var IDBConnection */
 	private $connection;
+	/** @var \PHPUnit\Framework\MockObject\MockObject|IRootFolder */
+	private $rootFolder;
 
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->connection = \OC::$server->getDatabaseConnection();
+		$this->rootFolder = $this->createMock(IRootFolder::class);
 
 		$sql = $this->connection->getDatabasePlatform()->getTruncateTableSQL('`*PREFIX*comments`');
 		$this->connection->prepare($sql)->execute();
@@ -65,6 +70,8 @@ class ManagerTest extends TestCase {
 				'object_type' => $qb->createNamedParameter('files'),
 				'object_id' => $qb->createNamedParameter($objectId),
 				'expire_date' => $qb->createNamedParameter($expireDate, 'datetime'),
+				'reference_id' => $qb->createNamedParameter('referenceId'),
+				'meta_data' => $qb->createNamedParameter(json_encode(['last_edit_actor_id' => 'admin'])),
 			])
 			->execute();
 
@@ -78,7 +85,8 @@ class ManagerTest extends TestCase {
 			$this->createMock(IConfig::class),
 			$this->createMock(ITimeFactory::class),
 			new EmojiHelper($this->connection),
-			$this->createMock(IInitialStateService::class)
+			$this->createMock(IInitialStateService::class),
+			$this->rootFolder,
 		);
 	}
 
@@ -119,6 +127,8 @@ class ManagerTest extends TestCase {
 				'latest_child_timestamp' => $qb->createNamedParameter($latestChildDT, 'datetime'),
 				'object_type' => $qb->createNamedParameter('files'),
 				'object_id' => $qb->createNamedParameter('file64'),
+				'reference_id' => $qb->createNamedParameter('referenceId'),
+				'meta_data' => $qb->createNamedParameter(json_encode(['last_edit_actor_id' => 'admin'])),
 			])
 			->execute();
 
@@ -138,6 +148,8 @@ class ManagerTest extends TestCase {
 		$this->assertSame($comment->getObjectId(), 'file64');
 		$this->assertEquals($comment->getCreationDateTime()->getTimestamp(), $creationDT->getTimestamp());
 		$this->assertEquals($comment->getLatestChildDateTime(), $latestChildDT);
+		$this->assertEquals($comment->getReferenceId(), 'referenceId');
+		$this->assertEquals($comment->getMetaData(), ['last_edit_actor_id' => 'admin']);
 	}
 
 
@@ -323,23 +335,19 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testGetNumberOfUnreadCommentsForFolder() {
-		$query = $this->connection->getQueryBuilder();
-		$query->insert('filecache')
-			->values([
-				'parent' => $query->createNamedParameter(1000),
-				'size' => $query->createNamedParameter(10),
-				'mtime' => $query->createNamedParameter(10),
-				'storage_mtime' => $query->createNamedParameter(10),
-				'path' => $query->createParameter('path'),
-				'path_hash' => $query->createParameter('path'),
-			]);
-
-		$fileIds = [];
-		for ($i = 0; $i < 4; $i++) {
-			$query->setParameter('path', 'path_' . $i);
-			$query->execute();
-			$fileIds[] = $query->getLastInsertId();
-		}
+		$folder = $this->createMock(Folder::class);
+		$fileIds = range(1111, 1114);
+		$children = array_map(function (int $id) {
+			$file = $this->createMock(Folder::class);
+			$file->method('getId')
+				->willReturn($id);
+			return $file;
+		}, $fileIds);
+		$folder->method('getId')->willReturn(1000);
+		$folder->method('getDirectoryListing')->willReturn($children);
+		$this->rootFolder->method('getFirstNodeById')
+			->with($folder->getId())
+			->willReturn($folder);
 
 		// 2 comment for 1111 with 1 before read marker
 		// 2 comments for 1112 with no read marker
@@ -361,7 +369,7 @@ class ManagerTest extends TestCase {
 		$manager->setReadMark('files', (string) $fileIds[0], (new \DateTime())->modify('-1 days'), $user);
 		$manager->setReadMark('files', (string) $fileIds[2], (new \DateTime()), $user);
 
-		$amount = $manager->getNumberOfUnreadCommentsForFolder(1000, $user);
+		$amount = $manager->getNumberOfUnreadCommentsForFolder($folder->getId(), $user);
 		$this->assertEquals([
 			$fileIds[0] => 1,
 			$fileIds[1] => 2,
@@ -744,7 +752,8 @@ class ManagerTest extends TestCase {
 			$this->createMock(IConfig::class),
 			Server::get(ITimeFactory::class),
 			new EmojiHelper($this->connection),
-			$this->createMock(IInitialStateService::class)
+			$this->createMock(IInitialStateService::class),
+			$this->rootFolder,
 		);
 
 		// just to make sure they are really set, with correct actor data
@@ -789,7 +798,8 @@ class ManagerTest extends TestCase {
 			$this->createMock(IConfig::class),
 			Server::get(ITimeFactory::class),
 			new EmojiHelper($this->connection),
-			$this->createMock(IInitialStateService::class)
+			$this->createMock(IInitialStateService::class),
+			$this->rootFolder,
 		);
 
 		$deleted = $manager->deleteCommentsExpiredAtObject('files');

@@ -25,6 +25,7 @@ namespace OC\Core\Controller;
 
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\FrontpageRoute;
 use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\IAvatarManager;
@@ -61,6 +62,7 @@ class GuestAvatarController extends Controller {
 	 * 200: Custom avatar returned
 	 * 201: Avatar returned
 	 */
+	#[FrontpageRoute(verb: 'GET', url: '/avatar/guest/{guestName}/{size}')]
 	public function getAvatar(string $guestName, string $size, ?bool $darkTheme = false) {
 		$size = (int) $size;
 		$darkTheme = $darkTheme ?? false;
@@ -113,6 +115,7 @@ class GuestAvatarController extends Controller {
 	 * 200: Custom avatar returned
 	 * 201: Avatar returned
 	 */
+	#[FrontpageRoute(verb: 'GET', url: '/avatar/guest/{guestName}/{size}/dark')]
 	public function getAvatarDark(string $guestName, string $size) {
 		return $this->getAvatar($guestName, $size, true);
 	}

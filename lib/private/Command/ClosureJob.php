@@ -22,13 +22,12 @@
  */
 namespace OC\Command;
 
-use OC\BackgroundJob\QueuedJob;
 use Laravel\SerializableClosure\SerializableClosure as LaravelClosure;
-use Opis\Closure\SerializableClosure as OpisClosure;
+use OCP\BackgroundJob\QueuedJob;
 
 class ClosureJob extends QueuedJob {
-	protected function run($serializedCallable) {
-		$callable = unserialize($serializedCallable, [LaravelClosure::class, OpisClosure::class]);
+	protected function run($argument) {
+		$callable = unserialize($argument, [LaravelClosure::class]);
 		$callable = $callable->getClosure();
 		if (is_callable($callable)) {
 			$callable();

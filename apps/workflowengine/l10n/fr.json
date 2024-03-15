@@ -78,12 +78,15 @@
     "Save" : "Enregistrer",
     "Available flows" : "Flux disponibles",
     "For details on how to write your own flow, check out the development documentation." : "Pour savoir comment rédiger votre propre flux, consultez la documentation sur le développement.",
+    "No flows installed" : "Aucun flux n'est installé",
+    "Ask your administrator to install new flows." : "Demandez à votre administrateur d'installer de nouveaux flux.",
     "More flows" : "Plus de flux",
     "Browse the App Store" : "Parcourir le magasin d'applications",
     "Show less" : "Afficher moins",
     "Show more" : "Afficher plus",
     "Configured flows" : "Flux configurés",
     "Your flows" : "Vos flux",
+    "No flows configured" : "Aucun flux n'est configuré",
     "matches" : "correspond",
     "does not match" : "ne correspond pas",
     "is" : "est",
@@ -108,10 +111,8 @@
     "between" : "entre",
     "not between" : "en dehors de",
     "Request user agent" : "Client utilisé pour la requête",
-    "User group membership" : "Membre du groupe d'utilisateur",
     "is member of" : "est membre de",
     "is not member of" : "n'est pas membre de",
-    "Predefined URLs" : "URL prédéfinis",
-    "Others" : "Autres"
+    "User group membership" : "Membre du groupe d'utilisateur"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }
