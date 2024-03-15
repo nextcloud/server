@@ -229,6 +229,15 @@ $CONFIG = [
 'default_locale' => 'en_US',
 
 /**
+ * With this setting is possible to reduce the languages available in the
+ * language chooser. The languages have to be set as array values using ISO_639-1
+ * language codes such as ``en`` for English, ``de`` for German etc.
+ *
+ * For example: Set to ['de', 'fr'] to only allow German and French languages.
+ */
+'reduce_to_languages' => [],
+
+/**
  * This sets the default region for phone numbers on your Nextcloud server,
  * using ISO 3166-1 country codes such as ``DE`` for Germany, ``FR`` for France, …
  * It is required to allow inserting phone numbers in the user profiles starting
