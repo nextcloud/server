@@ -61,6 +61,7 @@ use OCP\Files\ReservedWordException;
 use OCP\Files\Storage\ILockingStorage;
 use OCP\Files\Storage\IStorage;
 use OCP\Files\Storage\IWriteStreamStorage;
+use OCP\Files\StorageNotAvailableException;
 use OCP\ILogger;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
@@ -881,6 +882,11 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 
 	public function getDirectoryContent($directory): \Traversable {
 		$dh = $this->opendir($directory);
+
+		if ($dh === false) {
+			throw new StorageNotAvailableException('Directory listing failed');
+		}
+
 		if (is_resource($dh)) {
 			$basePath = rtrim($directory, '/');
 			while (($file = readdir($dh)) !== false) {
