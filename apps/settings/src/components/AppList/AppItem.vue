@@ -22,8 +22,12 @@
 
 <template>
 	<component :is="listView ? `tr` : `li`"
-		class="section"
-		:class="{ selected: isSelected }">
+		class="app-item"
+		:class="{
+			'app-item--list-view': listView,
+			'app-item--store-view': !listView,
+			'app-item--selected': isSelected,
+		}">
 		<component :is="dataItemTag"
 			class="app-image app-image-icon"
 			:headers="getDataItemHeaders(`app-table-col-icon`)">
@@ -77,7 +81,7 @@
 			<AppLevelBadge :level="app.level" />
 			<AppScore v-if="hasRating && !listView" :score="app.score" />
 		</component>
-		<component :is="dataItemTag" :headers="getDataItemHeaders(`app-table-col-actions`)" class="actions">
+		<component :is="dataItemTag" :headers="getDataItemHeaders(`app-table-col-actions`)" class="app-actions">
 			<div v-if="app.error" class="warning">
 				{{ app.error }}
 			</div>

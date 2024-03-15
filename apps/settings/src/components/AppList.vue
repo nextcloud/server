@@ -21,10 +21,16 @@
   -->
 
 <template>
-	<div id="app-content-inner" class="{ 'with-app-sidebar': !!selectedApp }">
-		<div id="apps-list" class="apps-list" :class="{installed: (useBundleView || useListView), store: useAppStoreView }">
+	<div id="app-content-inner">
+		<div id="apps-list"
+			class="apps-list"
+			:class="{
+				'apps-list--list-view': (useBundleView || useListView),
+				'apps-list--store-view': useAppStoreView,
+				'apps-list--with-sidebar': !!selectedApp,
+			}">
 			<template v-if="useListView">
-				<div v-if="showUpdateAll" class="toolbar">
+				<div v-if="showUpdateAll" class="apps-list__toolbar">
 					{{ n('settings', '%n app has an update available', '%n apps have an update available', counter) }}
 					<NcButton v-if="showUpdateAll"
 						id="app-list-update-all"
@@ -34,11 +40,11 @@
 					</NcButton>
 				</div>
 
-				<div v-if="!showUpdateAll" class="toolbar">
+				<div v-if="!showUpdateAll" class="apps-list__toolbar">
 					{{ t('settings', 'All apps are up-to-date.') }}
 				</div>
 
-				<transition-group name="app-list" tag="table" class="apps-list-container">
+				<TransitionGroup name="apps-list" tag="table" class="apps-list__list-container">
 					<tr key="app-list-view-header">
 						<th>
 							<span class="hidden-visually">{{ t('settings', 'Icon') }}</span>
@@ -60,11 +66,11 @@
 						:key="app.id"
 						:app="app"
 						:category="category" />
-				</transition-group>
+				</TransitionGroup>
 			</template>
 
 			<table v-if="useBundleView"
-				class="apps-list-container">
+				class="apps-list__list-container">
 				<tr key="app-list-view-header">
 					<th id="app-table-col-icon">
 						<span class="hidden-visually">{{ t('settings', 'Icon') }}</span>
@@ -85,8 +91,8 @@
 				<template v-for="bundle in bundles">
 					<tr :key="bundle.id">
 						<th :id="`app-table-rowgroup-${bundle.id}`" colspan="5" scope="rowgroup">
-							<div class="app-bundle-heading">
-								<span class="app-bundle-header">
+							<div class="apps-list__bundle-heading">
+								<span class="apps-list__bundle-header">
 									{{ bundle.name }}
 								</span>
 								<NcButton type="secondary" @click="toggleBundle(bundle.id)">
@@ -103,7 +109,7 @@
 						:category="category" />
 				</template>
 			</table>
-			<ul v-if="useAppStoreView" class="apps-store-view">
+			<ul v-if="useAppStoreView" class="apps-list__store-container">
 				<AppItem v-for="app in apps"
 					:key="app.id"
 					:app="app"
@@ -112,10 +118,10 @@
 			</ul>
 		</div>
 
-		<div id="apps-list-search" class="apps-list installed">
-			<div class="apps-list-container">
+		<div id="apps-list-search" class="apps-list apps-list--list-view">
+			<div class="apps-list__list-container">
 				<template v-if="search !== '' && searchApps.length > 0">
-					<div class="section">
+					<div class="app-item">
 						<div />
 						<td colspan="5">
 							<h2>{{ t('settings', 'Results from other categories') }}</h2>
@@ -318,39 +324,13 @@ export default {
 $toolbar-padding: 8px;
 $toolbar-height: 44px + $toolbar-padding * 2;
 
-#apps-list.store {
-	.section {
-		border: 0;
-	}
-
-	:deep(.app-name) {
-		display: block;
-		margin: 5px 0;
-	}
-
-	:deep(.app-image-icon .icon-settings-dark) {
-		width: 100%;
-		height: 150px;
-		background-size: 45px;
-		opacity: 0.5;
-	}
-
-	:deep(.actions) {
-		margin-top: 10px;
-
-		button {
-			margin: 10px 0;
-		}
-	}
-}
-
 .apps-list {
 	display: flex;
 	flex-wrap: wrap;
 	align-content: flex-start;
 
 	// For transition group
-	.app-list-move {
+	&--move {
 		transition: transform 1s;
 	}
 
@@ -358,7 +338,7 @@ $toolbar-height: 44px + $toolbar-padding * 2;
 		margin-left: 10px;
 	}
 
-	.toolbar {
+	&__toolbar {
 		height: $toolbar-height;
 		padding: $toolbar-padding;
 		// Leave room for app-navigation-toggle
@@ -372,18 +352,10 @@ $toolbar-height: 44px + $toolbar-padding * 2;
 		align-items: center;
 	}
 
-	// Installed = list/bundle view in a table, not cards in store view
-	&.installed {
+	&--list-view {
 		margin-bottom: 100px;
 
-		.apps-list-container {
-			display: table;
-			width: 100%;
-			height: auto;
-			white-space: normal;
-		}
-
-		:deep(.section) {
+		:deep(.app-item) {
 			display: table-row;
 			padding: 0;
 			margin: 0;
@@ -398,14 +370,14 @@ $toolbar-height: 44px + $toolbar-padding * 2;
 				box-sizing: border-box;
 			}
 
-			> .actions {
+			> .app-actions {
 				display: flex;
 				gap: 8px;
 				flex-wrap: wrap;
 				justify-content: end;
 			}
 
-			&.selected {
+			&.app-item--selected {
 				background-color: var(--color-background-dark);
 			}
 		}
@@ -426,7 +398,7 @@ $toolbar-height: 44px + $toolbar-padding * 2;
 			display: inline-block;
 		}
 
-		:deep(.actions) {
+		:deep(.app-actions) {
 			text-align: right;
 
 			.icon-loading-small {
@@ -437,16 +409,55 @@ $toolbar-height: 44px + $toolbar-padding * 2;
 		}
 	}
 
-	&:not(.installed) :deep(.app-image-icon svg) {
-		position: absolute;
-		bottom: 43px;
-		/* position halfway vertically */
-		width: 64px;
-		height: 64px;
-		opacity: .1;
+	&__list-container {
+		display: table;
+		width: 100%;
+		height: auto;
+		white-space: normal;
 	}
 
-	:deep(.section) {
+	&--store-view {
+		:deep(.app-item) {
+			border: 0;
+			padding: 30px;
+		}
+
+		:deep(.app-name) {
+			display: block;
+			margin: 5px 0;
+		}
+
+		:deep(.app-image-icon .icon-settings-dark) {
+			width: 100%;
+			height: 150px;
+			background-size: 45px;
+			opacity: 0.5;
+		}
+
+		:deep(.app-actions) {
+			margin-top: 10px;
+
+			button {
+				margin: 10px 0;
+			}
+		}
+
+		:deep(.app-image-icon svg) {
+			position: absolute;
+			bottom: 43px;
+			/* position halfway vertically */
+			width: 64px;
+			height: 64px;
+			opacity: .1;
+		}
+	}
+
+	&__store-container {
+		display: flex;
+		flex-wrap: wrap;
+	}
+
+	:deep(.app-item) {
 		position: relative;
 		flex: 0 0 auto;
 
@@ -454,86 +465,81 @@ $toolbar-height: 44px + $toolbar-padding * 2;
 			background-color: var(--color-background-dark);
 		}
 	}
+
+	&__bundle-heading {
+		display: flex;
+		align-items: center;
+		margin: 20px 10px 20px 0;
+	}
+
+	&__bundle-header {
+		margin: 0 10px 0 50px;
+		font-weight: bold;
+		font-size: 20px;
+		line-height: 30px;
+		color: var(--color-text-light);
+	}
 }
 
 #apps-list-search {
-	.section {
+	.app-item {
 		h2 {
 			margin-bottom: 0;
 		}
 	}
 }
 
-.app-bundle-heading {
-	display: flex;
-	align-items: center;
-	margin: 20px 10px 20px 0;
-}
-
-.app-bundle-header {
-	margin: 0 10px 0 50px;
-	font-weight: bold;
-	font-size: 20px;
-	line-height: 30px;
-	color: var(--color-text-light);
-}
-
-.apps-store-view {
-	display: flex;
-	flex-wrap: wrap;
-}
-
 @media only screen and (min-width: 1601px) {
-	.store .section {
+	.apps-list--store-view .app-item {
 		width: 25%;
 	}
-	:deep(.with-app-sidebar) .store .section {
+	.apps-list--with-sidebar.apps-list--store-view .app-item {
 		width: 33%;
 	}
 }
 
 @media only screen and (max-width: 1600px) {
-	.store .section {
+	.apps-list--store-view .app-item {
 		width: 25%;
 	}
-	:deep(.with-app-sidebar) .store .section {
+	.apps-list--with-sidebar.apps-list--store-view .app-item {
 		width: 33%;
 	}
 }
 
 @media only screen and (max-width: 1400px) {
-	.store .section {
+	.apps-list--store-view .app-item {
 		width: 33%;
 	}
-	:deep(.with-app-sidebar) .store .section {
+	.apps-list--with-sidebar.apps-list--store-view .app-item {
 		width: 50%;
 	}
 }
 
 @media only screen and (max-width: 900px) {
-	.store .section {
+	.apps-list--store-view .app-item {
 		width: 50%;
 	}
-	:deep(.with-app-sidebar) .store .section {
+	.apps-list--with-sidebar.apps-list--store-view .app-item {
 		width: 100%;
 	}
 }
 
 @media only screen and (max-width: variables.$breakpoint-mobile) {
-	.store .section {
+	.apps-list--store-view .app-item {
 		width: 50%;
 	}
 }
 
 @media only screen and (max-width: 480px) {
-	.store .section {
+	.apps-list--store-view .app-item {
 		width: 100%;
 	}
 }
 
 /* hide app version and level on narrower screens */
 @media only screen and (max-width: 900px) {
-	.apps-list.installed {
+	.apps-list--list-view {
 		:deep(.app-version), :deep(.app-level) {
 			display: none !important;
 		}
@@ -542,7 +548,7 @@ $toolbar-height: 44px + $toolbar-padding * 2;
 
 // Display buttons above each other on mobile
 @media (max-width: math.div(variables.$breakpoint-mobile, 2)) {
-	.apps-list.installed .section > :deep(.actions) {
+	.apps-list--list-view .app-item > :deep(.app-actions) {
 		display: table-cell;
 	}
 }
