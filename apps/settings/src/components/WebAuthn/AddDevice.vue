@@ -65,7 +65,7 @@ import { confirmPassword } from '@nextcloud/password-confirmation'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import '@nextcloud/password-confirmation/dist/style.css'
 
-import logger from '../../logger.js'
+import logger from '../../logger.ts'
 import {
 	startRegistration,
 	finishRegistration,

@@ -4,7 +4,7 @@
 	<meta charset="utf-8">
 	<title>
 		<?php
-		p(!empty($_['application'])?$_['application'].' - ':'');
+			p(!empty($_['application']) ? $_['application'].' - ' : '');
 p($theme->getTitle());
 ?>
 	</title>

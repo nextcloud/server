@@ -57,9 +57,9 @@ const validateActiveVisibility = (property: string, active: Visibility) => {
 		.and('match', new RegExp(`current scope is ${active}`, 'i'))
 	getVisibilityButton(property)
 		.click()
-	cy.get('ul[role="dialog"')
+	cy.get('ul[role="menu"]')
 		.contains('button', active)
-		.should('have.attr', 'aria-pressed', 'true')
+		.should('have.attr', 'aria-checked', 'true')
 
 	// close menu
 	getVisibilityButton(property)
@@ -74,7 +74,7 @@ const validateActiveVisibility = (property: string, active: Visibility) => {
 const setActiveVisibility = (property: string, active: Visibility) => {
 	getVisibilityButton(property)
 		.click()
-	cy.get('ul[role="dialog"')
+	cy.get('ul[role="menu"]')
 		.contains('button', active)
 		.click({ force: true })
 	handlePasswordConfirmation(user.password)

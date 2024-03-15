@@ -2,6 +2,7 @@ OC.L10N.register(
     "dav",
     {
     "Calendar" : "Ημερολόγιο",
+    "Tasks" : "Εργασίες",
     "Personal" : "Προσωπικά",
     "{actor} created calendar {calendar}" : "{actor} δημιουργήθηκε το ημερολόγιο {calendar}",
     "You created calendar {calendar}" : "Δημιουργήσατε ημερολόγιο {ημερολόγιο}",
@@ -75,7 +76,6 @@ OC.L10N.register(
     "Configures a CalDAV account" : "Ρυθμίσεις λογαριασμού CalDAV",
     "Configures a CardDAV account" : "Ρυθμίσεις λογαριασμού CardDAV",
     "Events" : "Συμβάντα",
-    "Tasks" : "Εργασίες",
     "Untitled task" : "Εργασία χωρίς όνομα",
     "Completed on %s" : "Ολοκληρώθηκε %s",
     "Contacts and groups" : "Επαφές και ομάδες",

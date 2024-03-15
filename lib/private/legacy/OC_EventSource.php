@@ -113,13 +113,13 @@ class OC_EventSource implements \OCP\IEventSource {
 		}
 		if ($this->fallback) {
 			$response = '<script type="text/javascript">window.parent.OC.EventSource.fallBackCallBack('
-				. $this->fallBackId . ',"' . $type . '",' . OC_JSON::encode($data) . ')</script>' . PHP_EOL;
+				. $this->fallBackId . ',"' . ($type ?? '') . '",' . json_encode($data, JSON_HEX_TAG) . ')</script>' . PHP_EOL;
 			echo $response;
 		} else {
 			if ($type) {
 				echo 'event: ' . $type . PHP_EOL;
 			}
-			echo 'data: ' . OC_JSON::encode($data) . PHP_EOL;
+			echo 'data: ' . json_encode($data, JSON_HEX_TAG) . PHP_EOL;
 		}
 		echo PHP_EOL;
 		flush();

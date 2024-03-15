@@ -2,7 +2,7 @@ OC.L10N.register(
     "dav",
     {
     "Calendar" : "Kalender",
-    "To-dos" : "Aufgaben",
+    "Tasks" : "Aufgaben",
     "Personal" : "Persönlich",
     "{actor} created calendar {calendar}" : "{actor} hat den Kalender {calendar} erstellt",
     "You created calendar {calendar}" : "Du hast den Kalender {calendar} erstellt",
@@ -143,7 +143,6 @@ OC.L10N.register(
     "Configures a CalDAV account" : "Ein CalDAV-Konto einrichten",
     "Configures a CardDAV account" : "Ein CardDAV-Konto einrichten",
     "Events" : "Ereignisse",
-    "Tasks" : "Aufgaben",
     "Untitled task" : "Unbenannte Aufgabe",
     "Completed on %s" : "Erledigt am %s",
     "Due on %s by %s" : "Fällig am %s von %s",
@@ -171,6 +170,7 @@ OC.L10N.register(
     "Delete slot" : "Slot löschen",
     "No working hours set" : "Keine Arbeitszeiten konfiguriert",
     "Add slot" : "Slot hinzufügen",
+    "Weekdays" : "Wochentage",
     "Monday" : "Montag",
     "Tuesday" : "Dienstag",
     "Wednesday" : "Mittwoch",
@@ -185,6 +185,7 @@ OC.L10N.register(
     "Saved availability" : "Verfügbarkeit gespeichert",
     "Failed to save availability" : "Fehler beim Speichern der Verfügbarkeit",
     "Availability" : "Verfügbarkeit",
+    "If you configure your working hours, other people will see when you are out of office when they book a meeting." : "Wenn du deine Arbeitszeiten konfigurierst, können andere Benutzer sehen, wann du nicht im Büro bist, wenn sie eine Besprechung buchen.",
     "Absence" : "Abwesenheit",
     "Configure your next absence period." : "Richte deinen nächsten Abwesenheitszeitraum ein.",
     "Calendar server" : "Kalender-Server",
@@ -204,6 +205,7 @@ OC.L10N.register(
     "Are you accepting the invitation?" : "Die Einladung annehmen?",
     "Tentative" : "Vorläufig",
     "Your attendance was updated successfully." : "Dein Teilnehmerstatus wurde aktualisiert.",
+    "To-dos" : "Aufgaben",
     "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Wenn du deine Arbeitszeiten konfigurierst, können andere Benutzer sehen, wann du nicht im Büro bist, wenn sie eine Besprechung buchen."
 },
 "nplurals=2; plural=(n != 1);");

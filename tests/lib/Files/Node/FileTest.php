@@ -39,7 +39,7 @@ class FileTest extends NodeTest {
 	public function testGetContent() {
 		/** @var \OC\Files\Node\Root|\PHPUnit\Framework\MockObject\MockObject $root */
 		$root = $this->getMockBuilder('\OC\Files\Node\Root')
-			->setConstructorArgs([$this->manager, $this->view, $this->user, $this->userMountCache, $this->logger, $this->userManager, $this->eventDispatcher])
+			->setConstructorArgs([$this->manager, $this->view, $this->user, $this->userMountCache, $this->logger, $this->userManager, $this->eventDispatcher, $this->cacheFactory])
 			->getMock();
 
 		$hook = function ($file) {
@@ -69,7 +69,7 @@ class FileTest extends NodeTest {
 
 		/** @var \OC\Files\Node\Root|\PHPUnit\Framework\MockObject\MockObject $root */
 		$root = $this->getMockBuilder('\OC\Files\Node\Root')
-			->setConstructorArgs([$this->manager, $this->view, $this->user, $this->userMountCache, $this->logger, $this->userManager, $this->eventDispatcher])
+			->setConstructorArgs([$this->manager, $this->view, $this->user, $this->userMountCache, $this->logger, $this->userManager, $this->eventDispatcher, $this->cacheFactory])
 			->getMock();
 
 		$root->expects($this->any())
@@ -88,7 +88,7 @@ class FileTest extends NodeTest {
 	public function testPutContent() {
 		/** @var \OC\Files\Node\Root|\PHPUnit\Framework\MockObject\MockObject $root */
 		$root = $this->getMockBuilder('\OC\Files\Node\Root')
-			->setConstructorArgs([$this->manager, $this->view, $this->user, $this->userMountCache, $this->logger, $this->userManager, $this->eventDispatcher])
+			->setConstructorArgs([$this->manager, $this->view, $this->user, $this->userMountCache, $this->logger, $this->userManager, $this->eventDispatcher, $this->cacheFactory])
 			->getMock();
 
 		$root->expects($this->any())
@@ -115,7 +115,7 @@ class FileTest extends NodeTest {
 
 		/** @var \OC\Files\Node\Root|\PHPUnit\Framework\MockObject\MockObject $root */
 		$root = $this->getMockBuilder('\OC\Files\Node\Root')
-			->setConstructorArgs([$this->manager, $this->view, $this->user, $this->userMountCache, $this->logger, $this->userManager, $this->eventDispatcher])
+			->setConstructorArgs([$this->manager, $this->view, $this->user, $this->userMountCache, $this->logger, $this->userManager, $this->eventDispatcher, $this->cacheFactory])
 			->getMock();
 
 		$this->view->expects($this->once())
@@ -130,7 +130,7 @@ class FileTest extends NodeTest {
 	public function testGetMimeType() {
 		/** @var \OC\Files\Node\Root|\PHPUnit\Framework\MockObject\MockObject $root */
 		$root = $this->getMockBuilder('\OC\Files\Node\Root')
-			->setConstructorArgs([$this->manager, $this->view, $this->user, $this->userMountCache, $this->logger, $this->userManager, $this->eventDispatcher])
+			->setConstructorArgs([$this->manager, $this->view, $this->user, $this->userMountCache, $this->logger, $this->userManager, $this->eventDispatcher, $this->cacheFactory])
 			->getMock();
 
 		$this->view->expects($this->once())
@@ -154,7 +154,8 @@ class FileTest extends NodeTest {
 			$this->userMountCache,
 			$this->logger,
 			$this->userManager,
-			$this->eventDispatcher
+			$this->eventDispatcher,
+			$this->cacheFactory,
 		);
 
 		$hook = function ($file) {
@@ -190,7 +191,8 @@ class FileTest extends NodeTest {
 			$this->userMountCache,
 			$this->logger,
 			$this->userManager,
-			$this->eventDispatcher
+			$this->eventDispatcher,
+			$this->cacheFactory,
 		);
 		$hooksCalled = 0;
 		$hook = function ($file) use (&$hooksCalled) {
@@ -230,7 +232,8 @@ class FileTest extends NodeTest {
 			$this->userMountCache,
 			$this->logger,
 			$this->userManager,
-			$this->eventDispatcher
+			$this->eventDispatcher,
+			$this->cacheFactory,
 		);
 		$hook = function ($file) {
 			throw new \Exception('Hooks are not supposed to be called');
@@ -256,7 +259,8 @@ class FileTest extends NodeTest {
 			$this->userMountCache,
 			$this->logger,
 			$this->userManager,
-			$this->eventDispatcher
+			$this->eventDispatcher,
+			$this->cacheFactory,
 		);
 		$hook = function () {
 			throw new \Exception('Hooks are not supposed to be called');
@@ -282,7 +286,8 @@ class FileTest extends NodeTest {
 			$this->userMountCache,
 			$this->logger,
 			$this->userManager,
-			$this->eventDispatcher
+			$this->eventDispatcher,
+			$this->cacheFactory,
 		);
 		$hook = function () {
 			throw new \Exception('Hooks are not supposed to be called');

@@ -162,7 +162,7 @@ export default defineComponent({
 				if (opened) {
 					// Reset any right click position override on close
 					// Wait for css animation to be done
-					const root = this.$root.$el as HTMLElement
+					const root = this.$el?.closest('main.app-content') as HTMLElement
 					root.style.removeProperty('--mouse-pos-x')
 					root.style.removeProperty('--mouse-pos-y')
 				}
@@ -177,8 +177,10 @@ export default defineComponent({
 		 * When the source changes, reset the preview
 		 * and fetch the new one.
 		 */
-		source() {
-			this.resetState()
+		source(a: Node, b: Node) {
+			if (a.source !== b.source) {
+				this.resetState()
+			}
 		},
 	},
 
@@ -191,7 +193,8 @@ export default defineComponent({
 			// Reset loading state
 			this.loading = ''
 
-			this.$refs.preview.reset()
+			// Reset the preview state
+			this.$refs?.preview?.reset?.()
 
 			// Close menu
 			this.openedMenu = false
@@ -207,12 +210,13 @@ export default defineComponent({
 			// The grid mode is compact enough to not care about
 			// the actions menu mouse position
 			if (!this.gridMode) {
-				const root = this.$root.$el as HTMLElement
+				// Actions menu is contained within the app content
+				const root = this.$el?.closest('main.app-content') as HTMLElement
 				const contentRect = root.getBoundingClientRect()
 				// Using Math.min/max to prevent the menu from going out of the AppContent
 				// 200 = max width of the menu
-				root.style.setProperty('--mouse-pos-x', Math.max(contentRect.left, Math.min(event.clientX, event.clientX - 200)) + 'px')
-				root.style.setProperty('--mouse-pos-y', Math.max(contentRect.top, event.clientY - contentRect.top) + 'px')
+				root.style.setProperty('--mouse-pos-x', Math.max(0, event.clientX - contentRect.left - 200) + 'px')
+				root.style.setProperty('--mouse-pos-y', Math.max(0, event.clientY - contentRect.top) + 'px')
 			}
 
 			// If the clicked row is in the selection, open global menu

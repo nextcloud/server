@@ -19,22 +19,30 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import type { RequestOptions, Response } from 'webdav'
 
 import { createClient, getPatcher } from 'webdav'
 import { generateRemoteUrl } from '@nextcloud/router'
-import { getCurrentUser, getRequestToken } from '@nextcloud/auth'
-import { request } from 'webdav/dist/node/request.js'
+import { getCurrentUser, getRequestToken, onRequestTokenUpdate } from '@nextcloud/auth'
 
 export const rootPath = `/files/${getCurrentUser()?.uid}`
 export const defaultRootUrl = generateRemoteUrl('dav' + rootPath)
 
 export const getClient = (rootUrl = defaultRootUrl) => {
-	const client = createClient(rootUrl, {
-		headers: {
-			requesttoken: getRequestToken() || '',
-		},
-	})
+	const client = createClient(rootUrl)
+
+	// set CSRF token header
+	const setHeaders = (token: string | null) => {
+		client?.setHeaders({
+			// Add this so the server knows it is an request from the browser
+			'X-Requested-With': 'XMLHttpRequest',
+			// Inject user auth
+			requesttoken: token ?? '',
+		});
+	}
+
+	// refresh headers when request token changes
+	onRequestTokenUpdate(setHeaders)
+	setHeaders(getRequestToken())
 
 	/**
 	 * Allow to override the METHOD to support dav REPORT
@@ -45,12 +53,14 @@ export const getClient = (rootUrl = defaultRootUrl) => {
 	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 	// @ts-ignore
 	// https://github.com/perry-mitchell/hot-patcher/issues/6
-	patcher.patch('request', (options: RequestOptions): Promise<Response> => {
-		if (options.headers?.method) {
-			options.method = options.headers.method
-			delete options.headers.method
+	patcher.patch('fetch', (url: string, options: RequestInit): Promise<Response> => {
+		const headers = options.headers as Record<string, string>
+		if (headers?.method) {
+			options.method = headers.method
+			delete headers.method
 		}
-		return request(options)
+		return fetch(url, options)
 	})
-	return client
+
+	return client;
 }

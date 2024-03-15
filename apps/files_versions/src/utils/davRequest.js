@@ -31,6 +31,7 @@ export default `<?xml version="1.0"?>
 		<d:getlastmodified />
 		<d:getetag />
 		<nc:version-label />
+		<nc:version-author />
 		<nc:has-preview />
 	</d:prop>
 </d:propfind>`

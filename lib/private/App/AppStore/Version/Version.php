@@ -23,18 +23,14 @@
 namespace OC\App\AppStore\Version;
 
 class Version {
-	/** @var string */
-	private $minVersion;
-	/** @var string */
-	private $maxVersion;
-
 	/**
 	 * @param string $minVersion
 	 * @param string $maxVersion
 	 */
-	public function __construct($minVersion, $maxVersion) {
-		$this->minVersion = $minVersion;
-		$this->maxVersion = $maxVersion;
+	public function __construct(
+		private string $minVersion,
+		private string $maxVersion,
+	) {
 	}
 
 	/**

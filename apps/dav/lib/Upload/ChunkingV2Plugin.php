@@ -344,7 +344,7 @@ class ChunkingV2Plugin extends ServerPlugin {
 
 		// If the file was not uploaded to the user storage directly we need to copy/move it
 		try {
-			$uploadFileAbsolutePath = Filesystem::getRoot() . $uploadFile->getPath();
+			$uploadFileAbsolutePath = $uploadFile->getFileInfo()->getPath();
 			if ($uploadFileAbsolutePath !== $targetAbsolutePath) {
 				$uploadFile = $rootFolder->get($uploadFile->getFileInfo()->getPath());
 				if ($exists) {

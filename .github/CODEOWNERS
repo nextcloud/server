@@ -29,11 +29,11 @@
 /apps/workflowengine/appinfo/info.xml         @blizzz @juliushaertl
 
 # Frontend expertise
-/apps/files/src                  @skjnldsv
-/apps/files_external/src         @skjnldsv
-/apps/files_reminders/src        @skjnldsv
-/apps/files_sharing/src/actions  @skjnldsv
-/apps/files_trashbin/src         @skjnldsv
+/apps/files/src*                  @skjnldsv
+/apps/files_external/src*         @skjnldsv
+/apps/files_reminders/src*        @skjnldsv
+/apps/files_sharing/src/actions*  @skjnldsv
+/apps/files_trashbin/src*         @skjnldsv
 
 # Security team
 /resources/codesigning              @mgallien @miaulalala @nickvergessen

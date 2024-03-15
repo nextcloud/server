@@ -40,6 +40,7 @@
     "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "L'activation de cette option chiffre tous les fichiers du stockage principal, sinon seuls les espaces de stockage externes seront chiffrés",
     "Enable recovery key" : "Activer la clé de récupération",
     "Disable recovery key" : "Désactiver la clé de récupération",
+    "The recovery key is an additional encryption key used to encrypt files. It is used to recover files from an account if the password is forgotten." : "La clé de récupération est une clé de chiffrement supplémentaire utilisée pour chiffrer les fichiers. Elle est utilisée pour récupérer les fichiers d'un compte si le mot de passe a été oublié.",
     "Recovery key password" : "Mot de passe de la clé de récupération",
     "Repeat recovery key password" : "Répétez le mot de passe de la clé de récupération",
     "Change recovery key password:" : "Modifier le mot de passe de la clé de récupération :",

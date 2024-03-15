@@ -35,7 +35,7 @@ describe('Settings: App management', { testIsolation: true }, () => {
 		// I am logged in as the admin
 		cy.login(admin)
 		// I open the Apps management
-		cy.visit('/settings/apps')
+		cy.visit('/settings/apps/installed')
 	})
 
 	it('Can enable an installed app', () => {
@@ -152,7 +152,7 @@ describe('Settings: App management', { testIsolation: true }, () => {
 		cy.get('#app-sidebar-vue').contains('a', 'View in store').should('exist')
 		cy.get('#app-sidebar-vue').find('input[type="button"][value="Enable"]').should('be.visible')
 		cy.get('#app-sidebar-vue').find('input[type="button"][value="Remove"]').should('be.visible')
-		cy.get('#app-sidebar-vue .app-version').contains(/\d+\.\d+\.\d+/)
+		cy.get('#app-sidebar-vue').contains(/Version \d+\.\d+\.\d+/).should('be.visible')
 	})
 
 	/*

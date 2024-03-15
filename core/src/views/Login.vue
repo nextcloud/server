@@ -32,6 +32,7 @@
 						:errors="errors"
 						:throttle-delay="throttleDelay"
 						:auto-complete-allowed="autoCompleteAllowed"
+						:email-states="emailStates"
 						@submit="loading = true" />
 					<a v-if="canResetPassword && resetPasswordLink !== ''"
 						id="lost-password"
@@ -179,6 +180,7 @@ export default {
 			isLocalhost: window.location.hostname === 'localhost',
 			hasPublicKeyCredential: typeof (window.PublicKeyCredential) !== 'undefined',
 			hideLoginForm: loadState('core', 'hideLoginForm', false),
+			emailStates: loadState('core', 'emailStates', []),
 		}
 	},
 

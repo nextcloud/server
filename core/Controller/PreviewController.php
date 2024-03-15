@@ -133,13 +133,11 @@ class PreviewController extends Controller {
 		}
 
 		$userFolder = $this->root->getUserFolder($this->userId);
-		$nodes = $userFolder->getById($fileId);
+		$node = $userFolder->getFirstNodeById($fileId);
 
-		if (\count($nodes) === 0) {
+		if (!$node) {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		}
-
-		$node = array_pop($nodes);
 
 		return $this->fetchPreview($node, $x, $y, $a, $forceIcon, $mode, $mimeFallback);
 	}

@@ -2,7 +2,7 @@ OC.L10N.register(
     "dav",
     {
     "Calendar" : "Calendário",
-    "To-dos" : "Tarefas",
+    "Tasks" : "Tarefas",
     "Personal" : "Pessoal",
     "{actor} created calendar {calendar}" : "{actor} criou o calendário {calendar}",
     "You created calendar {calendar}" : "Você criou o calendário {calendar}",
@@ -143,7 +143,6 @@ OC.L10N.register(
     "Configures a CalDAV account" : "Configure uma conta CalDAV",
     "Configures a CardDAV account" : "Configure uma conta CardDAV",
     "Events" : "Eventos",
-    "Tasks" : "Tarefas",
     "Untitled task" : "Tarefa sem título",
     "Completed on %s" : "Concluída em %s",
     "Due on %s by %s" : "Vence em %s até %s",
@@ -171,6 +170,7 @@ OC.L10N.register(
     "Delete slot" : "Excluir slot",
     "No working hours set" : "Sem horário de trabalho definido",
     "Add slot" : "Adicionar slot ",
+    "Weekdays" : "Dias da semana",
     "Monday" : "Segunda-feira",
     "Tuesday" : "Terça-feira",
     "Wednesday" : "Quarta-feira",
@@ -185,6 +185,7 @@ OC.L10N.register(
     "Saved availability" : "Disponibilidade salva",
     "Failed to save availability" : "Falha ao salvar a disponibilidade",
     "Availability" : "Disponibilidade",
+    "If you configure your working hours, other people will see when you are out of office when they book a meeting." : "Se você configurar seu horário de trabalho, outras pessoas verão quando você estiver ausente quando agendarem uma reunião.",
     "Absence" : "Ausência",
     "Configure your next absence period." : "Configure seu próximo período de ausência",
     "Calendar server" : "Servidor de calendário",
@@ -204,6 +205,7 @@ OC.L10N.register(
     "Are you accepting the invitation?" : "Você está aceitando o convite?",
     "Tentative" : "Tentativa",
     "Your attendance was updated successfully." : "Sua presença foi atualizada com sucesso.",
+    "To-dos" : "Tarefas",
     "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Se você configurar seu horário de trabalho, outros usuários verão quando você estiver fora do escritório quando marcarem uma reunião. "
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

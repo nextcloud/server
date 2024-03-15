@@ -11,12 +11,14 @@ namespace Test\Files\Node;
 use OC\Files\FileInfo;
 use OC\Files\Mount\Manager;
 use OC\Files\View;
+use OC\Memcache\ArrayCache;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\Files\Storage;
+use OCP\ICacheFactory;
 use OCP\IUser;
 use OCP\IUserManager;
 use Psr\Log\LoggerInterface;
@@ -43,6 +45,8 @@ abstract class NodeTest extends \Test\TestCase {
 	protected $userManager;
 	/** @var IEventDispatcher|\PHPUnit\Framework\MockObject\MockObject */
 	protected $eventDispatcher;
+	/** @var ICacheFactory|\PHPUnit\Framework\MockObject\MockObject */
+	protected $cacheFactory;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -63,8 +67,13 @@ abstract class NodeTest extends \Test\TestCase {
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
+		$this->cacheFactory = $this->createMock(ICacheFactory::class);
+		$this->cacheFactory->method('createLocal')
+			->willReturnCallback(function () {
+				return new ArrayCache();
+			});
 		$this->root = $this->getMockBuilder('\OC\Files\Node\Root')
-			->setConstructorArgs([$this->manager, $this->view, $this->user, $this->userMountCache, $this->logger, $this->userManager, $this->eventDispatcher, $this->eventDispatcher])
+			->setConstructorArgs([$this->manager, $this->view, $this->user, $this->userMountCache, $this->logger, $this->userManager, $this->eventDispatcher, $this->cacheFactory])
 			->getMock();
 	}
 
@@ -174,7 +183,8 @@ abstract class NodeTest extends \Test\TestCase {
 			$this->userMountCache,
 			$this->logger,
 			$this->userManager,
-			$this->eventDispatcher
+			$this->eventDispatcher,
+			$this->cacheFactory,
 		);
 
 		$root->listen('\OC\Files', 'preDelete', $preListener);
@@ -422,7 +432,8 @@ abstract class NodeTest extends \Test\TestCase {
 			$this->userMountCache,
 			$this->logger,
 			$this->userManager,
-			$this->eventDispatcher
+			$this->eventDispatcher,
+			$this->cacheFactory,
 		);
 		$root->listen('\OC\Files', 'preTouch', $preListener);
 		$root->listen('\OC\Files', 'postTouch', $postListener);
@@ -599,7 +610,7 @@ abstract class NodeTest extends \Test\TestCase {
 	public function testMoveCopyHooks($operationMethod, $viewMethod, $preHookName, $postHookName) {
 		/** @var IRootFolder|\PHPUnit\Framework\MockObject\MockObject $root */
 		$root = $this->getMockBuilder('\OC\Files\Node\Root')
-			->setConstructorArgs([$this->manager, $this->view, $this->user, $this->userMountCache, $this->logger, $this->userManager, $this->eventDispatcher])
+			->setConstructorArgs([$this->manager, $this->view, $this->user, $this->userMountCache, $this->logger, $this->userManager, $this->eventDispatcher, $this->cacheFactory])
 			->setMethods(['get'])
 			->getMock();
 

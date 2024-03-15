@@ -27,6 +27,7 @@ namespace OCA\User_LDAP;
 
 use OCA\User_LDAP\Db\GroupMembership;
 use OCA\User_LDAP\Db\GroupMembershipMapper;
+use OCP\DB\Exception;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\EventDispatcher\IEventListener;
@@ -92,7 +93,23 @@ class LoginListener implements IEventListener {
 				);
 				continue;
 			}
-			$this->groupMembershipMapper->insert(GroupMembership::fromParams(['groupid' => $groupId,'userid' => $userId]));
+			try {
+				$this->groupMembershipMapper->insert(GroupMembership::fromParams(['groupid' => $groupId,'userid' => $userId]));
+			} catch (Exception $e) {
+				if ($e->getReason() !== Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
+					$this->logger->error(
+						__CLASS__ . ' – group {group} membership failed to be added (user {user})',
+						[
+							'app' => 'user_ldap',
+							'user' => $userId,
+							'group' => $groupId,
+							'exception' => $e,
+						]
+					);
+				}
+				/* We failed to insert the groupmembership so we do not want to advertise it */
+				continue;
+			}
 			$this->groupBackend->addRelationshipToCaches($userId, null, $groupId);
 			$this->dispatcher->dispatchTyped(new UserAddedEvent($groupObject, $userObject));
 			$this->logger->info(
@@ -105,7 +122,23 @@ class LoginListener implements IEventListener {
 			);
 		}
 		foreach ($oldGroups as $groupId) {
-			$this->groupMembershipMapper->delete($groupMemberships[$groupId]);
+			try {
+				$this->groupMembershipMapper->delete($groupMemberships[$groupId]);
+			} catch (Exception $e) {
+				if ($e->getReason() !== Exception::REASON_DATABASE_OBJECT_NOT_FOUND) {
+					$this->logger->error(
+						__CLASS__ . ' – group {group} membership failed to be removed (user {user})',
+						[
+							'app' => 'user_ldap',
+							'user' => $userId,
+							'group' => $groupId,
+							'exception' => $e,
+						]
+					);
+				}
+				/* We failed to delete the groupmembership so we do not want to advertise it */
+				continue;
+			}
 			$groupObject = $this->groupManager->get($groupId);
 			if ($groupObject === null) {
 				$this->logger->error(

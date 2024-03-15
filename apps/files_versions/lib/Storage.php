@@ -209,9 +209,9 @@ class Storage {
 		$mount = $file->getMountPoint();
 		if ($mount instanceof SharedMount) {
 			$ownerFolder = $rootFolder->getUserFolder($mount->getShare()->getShareOwner());
-			$ownerNodes = $ownerFolder->getById($file->getId());
-			if (count($ownerNodes)) {
-				$file = current($ownerNodes);
+			$ownerNode = $ownerFolder->getFirstNodeById($file->getId());
+			if ($ownerNode) {
+				$file = $ownerNode;
 				$uid = $mount->getShare()->getShareOwner();
 			}
 		}
@@ -598,7 +598,7 @@ class Storage {
 				$versionEntity = $versionsMapper->findVersionForFileId($node->getId(), $version);
 				$versionEntities[$info->getId()] = $versionEntity;
 
-				if ($versionEntity->getLabel() !== '') {
+				if ($versionEntity->getMetadataValue('label') !== null && $versionEntity->getMetadataValue('label') !== '') {
 					return false;
 				}
 			} catch (NotFoundException $e) {
@@ -929,7 +929,7 @@ class Storage {
 					$pathparts = pathinfo($path);
 					$timestamp = (int)substr($pathparts['extension'] ?? '', 1);
 					$versionEntity = $versionsMapper->findVersionForFileId($file->getId(), $timestamp);
-					if ($versionEntity->getLabel() !== '') {
+					if ($versionEntity->getMetadataValue('label') !== '') {
 						continue;
 					}
 					$versionsMapper->delete($versionEntity);

@@ -94,6 +94,7 @@ class NavigationManager implements INavigationManager {
 			$this->closureEntries[] = $entry;
 			return;
 		}
+		$this->init();
 
 		$id = $entry['id'];
 
@@ -236,10 +237,6 @@ class NavigationManager implements INavigationManager {
 			]);
 		}
 
-		if ($this->appManager === 'null') {
-			return;
-		}
-
 		$this->defaultApp = $this->appManager->getDefaultAppForUser($this->userSession->getUser(), false);
 
 		if ($this->userSession->isLoggedIn()) {
@@ -372,14 +369,16 @@ class NavigationManager implements INavigationManager {
 				$order = $nav['order'] ?? 100;
 				$type = $nav['type'];
 				$route = !empty($nav['route']) ? $this->urlGenerator->linkToRoute($nav['route']) : '';
-				$icon = $nav['icon'] ?? 'app.svg';
-				foreach ([$icon, "$app.svg"] as $i) {
+				$icon = $nav['icon'] ?? null;
+				if ($icon !== null) {
 					try {
-						$icon = $this->urlGenerator->imagePath($app, $i);
-						break;
+						$icon = $this->urlGenerator->imagePath($app, $icon);
 					} catch (\RuntimeException $ex) {
-						// no icon? - ignore it then
+						// ignore
 					}
+				}
+				if ($icon === null) {
+					$icon = $this->appManager->getAppIcon($app);
 				}
 				if ($icon === null) {
 					$icon = $this->urlGenerator->imagePath('core', 'default-app-icon');

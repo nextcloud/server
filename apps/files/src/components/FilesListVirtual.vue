@@ -326,7 +326,6 @@ export default defineComponent({
 	--clickable-area: 44px;
 	--icon-preview-size: 32px;
 
-	position: relative;
 	overflow: auto;
 	height: 100%;
 	will-change: scroll-position;

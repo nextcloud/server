@@ -27,10 +27,9 @@ namespace OC\App\AppStore\Bundles;
 use OCP\IL10N;
 
 class BundleFetcher {
-	private IL10N $l10n;
-
-	public function __construct(IL10N $l10n) {
-		$this->l10n = $l10n;
+	public function __construct(
+		private IL10N $l10n,
+	) {
 	}
 
 	/**
@@ -43,6 +42,7 @@ class BundleFetcher {
 			new GroupwareBundle($this->l10n),
 			new SocialSharingBundle($this->l10n),
 			new EducationBundle($this->l10n),
+			new PublicSectorBundle($this->l10n),
 		];
 	}
 

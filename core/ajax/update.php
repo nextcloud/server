@@ -40,10 +40,13 @@ use OC\Repair\Events\RepairStepEvent;
 use OC\Repair\Events\RepairWarningEvent;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\IAppConfig;
+use OCP\IConfig;
 use OCP\IEventSource;
 use OCP\IEventSourceFactory;
 use OCP\IL10N;
 use OCP\L10N\IFactory;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 if (!str_contains(@ini_get('disable_functions'), 'set_time_limit')) {
@@ -111,15 +114,16 @@ if (\OCP\Util::needUpgrade()) {
 	// avoid side effects
 	\OC_User::setIncognitoMode(true);
 
-	$logger = \OC::$server->get(\Psr\Log\LoggerInterface::class);
-	$config = \OC::$server->getConfig();
+	$config = Server::get(IConfig::class);
 	$updater = new \OC\Updater(
 		$config,
+		Server::get(IAppConfig::class),
 		\OC::$server->getIntegrityCodeChecker(),
-		$logger,
-		\OC::$server->query(\OC\Installer::class)
+		Server::get(LoggerInterface::class),
+		Server::get(\OC\Installer::class)
 	);
 	$incompatibleApps = [];
+	$incompatibleOverwrites = $config->getSystemValue('app_install_overwrite', []);
 
 	/** @var IEventDispatcher $dispatcher */
 	$dispatcher = \OC::$server->get(IEventDispatcher::class);
@@ -162,8 +166,10 @@ if (\OCP\Util::needUpgrade()) {
 	$updater->listen('\OC\Updater', 'appUpgrade', function ($app, $version) use ($eventSource, $l) {
 		$eventSource->send('success', $l->t('Updated "%1$s" to %2$s', [$app, $version]));
 	});
-	$updater->listen('\OC\Updater', 'incompatibleAppDisabled', function ($app) use (&$incompatibleApps) {
-		$incompatibleApps[] = $app;
+	$updater->listen('\OC\Updater', 'incompatibleAppDisabled', function ($app) use (&$incompatibleApps, &$incompatibleOverwrites) {
+		if (!in_array($app, $incompatibleOverwrites)) {
+			$incompatibleApps[] = $app;
+		}
 	});
 	$updater->listen('\OC\Updater', 'failure', function ($message) use ($eventSource, $config) {
 		$eventSource->send('failure', $message);
@@ -186,7 +192,7 @@ if (\OCP\Util::needUpgrade()) {
 	try {
 		$updater->upgrade();
 	} catch (\Exception $e) {
-		\OCP\Server::get(LoggerInterface::class)->error(
+		Server::get(LoggerInterface::class)->error(
 			$e->getMessage(),
 			[
 				'exception' => $e,

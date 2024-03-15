@@ -37,10 +37,10 @@ use OCP\OCS\IDiscoveryService;
 
 class DiscoveryService implements IDiscoveryService {
 	/** @var ICache */
-	private $cache;
+	private ICache $cache;
 
 	/** @var IClient */
-	private $client;
+	private IClient $client;
 
 	/**
 	 * @param ICacheFactory $cacheFactory

@@ -282,7 +282,11 @@ class Local extends \OC\Files\Storage\Common {
 	public function file_exists($path) {
 		if ($this->caseInsensitive) {
 			$fullPath = $this->getSourcePath($path);
-			$content = scandir(dirname($fullPath), SCANDIR_SORT_NONE);
+			$parentPath = dirname($fullPath);
+			if (!is_dir($parentPath)) {
+				return false;
+			}
+			$content = scandir($parentPath, SCANDIR_SORT_NONE);
 			return is_array($content) && array_search(basename($fullPath), $content) !== false;
 		} else {
 			return file_exists($this->getSourcePath($path));

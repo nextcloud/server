@@ -134,7 +134,8 @@ class RootCollection extends SimpleCollection {
 			\OC::$server->getSystemTagObjectMapper(),
 			\OC::$server->getUserSession(),
 			$groupManager,
-			$dispatcher
+			$dispatcher,
+			$rootFolder,
 		);
 		$systemTagInUseCollection = \OCP\Server::get(SystemTag\SystemTagsInUseCollection::class);
 		$commentsCollection = new Comments\RootCollection(

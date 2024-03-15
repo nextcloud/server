@@ -181,7 +181,7 @@ class IconBuilder {
 			 * invert app icons for bright primary colors
 			 * the default nextcloud logo will not be inverted to black
 			 */
-			if ($this->util->invertTextColor($color)
+			if ($this->util->isBrightColor($color)
 				&& !$appIcon instanceof ISimpleFile
 				&& $app !== "core"
 			) {

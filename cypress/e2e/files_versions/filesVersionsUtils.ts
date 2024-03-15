@@ -1,3 +1,4 @@
+/* eslint-disable jsdoc/require-jsdoc */
 /**
  * @copyright Copyright (c) 2022 Louis Chemineau <louis@chmn.me>
  *
@@ -22,6 +23,7 @@
 
 import type { User } from '@nextcloud/cypress'
 import path from 'path'
+import { createShare, type ShareSetting } from '../files_sharing/filesSharingUtils'
 
 export const uploadThreeVersions = (user: User, fileName: string) => {
 	// A new version will not be created if the changes occur
@@ -35,7 +37,7 @@ export const uploadThreeVersions = (user: User, fileName: string) => {
 	cy.login(user)
 }
 
-export const openVersionsPanel = (fileName: string) =>{
+export function openVersionsPanel(fileName: string) {
 	// Detect the versions list fetch
 	cy.intercept('PROPFIND', '**/dav/versions/*/versions/**').as('getVersions')
 
@@ -50,35 +52,61 @@ export const openVersionsPanel = (fileName: string) =>{
 	cy.get('#tab-version_vue').should('be.visible', { timeout: 10000 })
 }
 
-export const openVersionMenu = (index: number) => {
-	cy.get('#tab-version_vue').within(() => {
-		cy.get('[data-files-versions-version]')
-			.eq(index).within(() => {
-				cy.get('.action-item__menutoggle').filter(':visible')
-					.click()
-			})
-	})
-}
-
-export const clickPopperAction = (actionName: string) => {
-	cy.get('.v-popper__popper').filter(':visible')
-		.contains(actionName)
+export function toggleVersionMenu(index: number) {
+	cy.get('#tab-version_vue [data-files-versions-version]')
+		.eq(index)
+		.find('button')
 		.click()
 }
 
-export const nameVersion = (index: number, name: string) => {
-	openVersionMenu(index)
-	clickPopperAction('Name this version')
-	cy.get(':focused').type(`${name}{enter}`)
+export function triggerVersionAction(index: number, actionName: string) {
+	toggleVersionMenu(index)
+	cy.get(`[data-cy-files-versions-version-action="${actionName}"]`).filter(':visible').click()
 }
 
-export const assertVersionContent = (filename: string, index: number, expectedContent: string) => {
+export function nameVersion(index: number, name: string) {
+	cy.intercept('PROPPATCH', '**/dav/versions/*/versions/**').as('labelVersion')
+	triggerVersionAction(index, 'label')
+	cy.get(':focused').type(`${name}{enter}`)
+	cy.wait('@labelVersion')
+}
+
+export function restoreVersion(index: number) {
+	cy.intercept('MOVE', '**/dav/versions/*/versions/**').as('restoreVersion')
+	triggerVersionAction(index, 'restore')
+	cy.wait('@restoreVersion')
+}
+
+export function deleteVersion(index: number) {
+	cy.intercept('DELETE', '**/dav/versions/*/versions/**').as('deleteVersion')
+	triggerVersionAction(index, 'delete')
+	cy.wait('@deleteVersion')
+}
+
+export function doesNotHaveAction(index: number, actionName: string) {
+	toggleVersionMenu(index)
+	cy.get(`[data-cy-files-versions-version-action="${actionName}"]`).should('not.exist')
+	toggleVersionMenu(index)
+}
+
+export function assertVersionContent(filename: string, index: number, expectedContent: string) {
 	const downloadsFolder = Cypress.config('downloadsFolder')
 
-	openVersionMenu(index)
-	clickPopperAction('Download version')
+	triggerVersionAction(index, 'download')
 
 	return cy.readFile(path.join(downloadsFolder, filename))
 		.then((versionContent) => expect(versionContent).to.equal(expectedContent))
 		.then(() => cy.exec(`rm ${downloadsFolder}/${filename}`))
+}
+
+export function setupTestSharedFileFromUser(owner: User, randomFileName: string, shareOptions: Partial<ShareSetting>) {
+	return cy.createRandomUser()
+		.then((recipient) => {
+			cy.login(owner)
+			cy.visit('/apps/files')
+			createShare(randomFileName, recipient.userId, shareOptions)
+			cy.login(recipient)
+			cy.visit('/apps/files')
+			return cy.wrap(recipient)
+		})
 }

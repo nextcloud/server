@@ -2,6 +2,7 @@ OC.L10N.register(
     "dav",
     {
     "Calendar" : "Kalendorius",
+    "Tasks" : "Užduotys",
     "Personal" : "Asmeniniai",
     "{actor} created calendar {calendar}" : "{actor} sukūrė kalendorių {calendar}",
     "You created calendar {calendar}" : "Jūs sukūrėte kalendorių {calendar}",
@@ -78,7 +79,6 @@ OC.L10N.register(
     "Configures a CalDAV account" : "Konfigūruoja CalDAV paskyrą",
     "Configures a CardDAV account" : "Konfigūruoja CardDAV paskyrą",
     "Events" : "Įvykiai",
-    "Tasks" : "Užduotys",
     "Untitled task" : "Užduotis be pavadinimo",
     "Contacts and groups" : "Adresatai ir grupės",
     "WebDAV" : "WebDAV",

@@ -56,11 +56,11 @@ class ShareRecipientSorter implements ISorter {
 		}
 		$userFolder = $this->rootFolder->getUserFolder($user->getUID());
 		/** @var Node[] $nodes */
-		$nodes = $userFolder->getById((int)$context['itemId']);
-		if (count($nodes) === 0) {
+		$node = $userFolder->getFirstNodeById((int)$context['itemId']);
+		if (!$node) {
 			return;
 		}
-		$al = $this->shareManager->getAccessList($nodes[0]);
+		$al = $this->shareManager->getAccessList($node);
 
 		foreach ($sortArray as $type => &$byType) {
 			if (!isset($al[$type]) || !is_array($al[$type])) {
