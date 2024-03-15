@@ -64,18 +64,6 @@ use function usort;
  */
 class ShareesAPIController extends OCSController {
 
-	/** @var string */
-	protected $userId;
-
-	/** @var IConfig */
-	protected $config;
-
-	/** @var IURLGenerator */
-	protected $urlGenerator;
-
-	/** @var IManager */
-	protected $shareManager;
-
 	/** @var int */
 	protected $offset = 0;
 
@@ -105,8 +93,6 @@ class ShareesAPIController extends OCSController {
 	];
 
 	protected $reachedEndFor = [];
-	/** @var ISearch */
-	private $collaboratorSearch;
 
 	/**
 	 * @param string $UserId
@@ -118,20 +104,15 @@ class ShareesAPIController extends OCSController {
 	 * @param ISearch $collaboratorSearch
 	 */
 	public function __construct(
-		$UserId,
 		string $appName,
 		IRequest $request,
-		IConfig $config,
-		IURLGenerator $urlGenerator,
-		IManager $shareManager,
-		ISearch $collaboratorSearch
+		protected string $userId,
+		protected IConfig $config,
+		protected IURLGenerator $urlGenerator,
+		protected IManager $shareManager,
+		protected ISearch $collaboratorSearch,
 	) {
 		parent::__construct($appName, $request);
-		$this->userId = $UserId;
-		$this->config = $config;
-		$this->urlGenerator = $urlGenerator;
-		$this->shareManager = $shareManager;
-		$this->collaboratorSearch = $collaboratorSearch;
 	}
 
 	/**
@@ -155,6 +136,10 @@ class ShareesAPIController extends OCSController {
 		// only search for string larger than a given threshold
 		$threshold = $this->config->getSystemValueInt('sharing.minSearchStringLength', 0);
 		if (strlen($search) < $threshold) {
+			return new DataResponse($this->result);
+		}
+
+		if ($this->shareManager->sharingDisabledForUser($this->userId)) {
 			return new DataResponse($this->result);
 		}
 
