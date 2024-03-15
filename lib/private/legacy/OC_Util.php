@@ -65,6 +65,7 @@
  */
 
 use bantu\IniGetWrapper\IniGetWrapper;
+use OC\Authentication\TwoFactorAuth\Manager as TwoFactorAuthManager;
 use OC\Files\SetupManager;
 use OCP\Files\Template\ITemplateManager;
 use OCP\IConfig;
@@ -785,7 +786,7 @@ class OC_Util {
 			exit();
 		}
 		// Redirect to 2FA challenge selection if 2FA challenge was not solved yet
-		if (\OC::$server->getTwoFactorAuthManager()->needsSecondFactor(\OC::$server->getUserSession()->getUser())) {
+		if (\OC::$server->get(TwoFactorAuthManager::class)->needsSecondFactor(\OC::$server->getUserSession()->getUser())) {
 			header('Location: ' . \OC::$server->getURLGenerator()->linkToRoute('core.TwoFactorChallenge.selectChallenge'));
 			exit();
 		}

@@ -27,6 +27,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
+
+use OC\Authentication\TwoFactorAuth\Manager as TwoFactorAuthManager;
+
 class OC_JSON {
 	/**
 	 * Check if the app is enabled, send json error msg if not
@@ -48,7 +51,7 @@ class OC_JSON {
 	 * @suppress PhanDeprecatedFunction
 	 */
 	public static function checkLoggedIn() {
-		$twoFactorAuthManger = \OC::$server->getTwoFactorAuthManager();
+		$twoFactorAuthManger = \OC::$server->get(TwoFactorAuthManager::class);
 		if (!\OC::$server->getUserSession()->isLoggedIn()
 			|| $twoFactorAuthManger->needsSecondFactor(\OC::$server->getUserSession()->getUser())) {
 			$l = \OC::$server->getL10N('lib');
