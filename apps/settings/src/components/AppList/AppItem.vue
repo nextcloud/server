@@ -27,6 +27,7 @@
 			'app-item--list-view': listView,
 			'app-item--store-view': !listView,
 			'app-item--selected': isSelected,
+			'app-item--with-sidebar': withSidebar,
 		}">
 		<component :is="dataItemTag"
 			class="app-image app-image-icon"
@@ -172,6 +173,9 @@ export default {
 		dataItemTag() {
 			return this.listView ? 'td' : 'div'
 		},
+		withSidebar() {
+			return !!this.$route.params.id
+		},
 	},
 	watch: {
 		'$route.params.id'(id) {
@@ -204,6 +208,133 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@use '../../../../../core/css/variables.scss' as variables;
+
+.app-item {
+	position: relative;
+
+	&:hover {
+		background-color: var(--color-background-dark);
+	}
+
+	&--list-view {
+		&.app-item--selected {
+			background-color: var(--color-background-dark);
+		}
+
+		> * {
+			vertical-align: middle;
+			border-bottom: 1px solid var(--color-border);
+			padding: 6px;
+		}
+
+		.app-image {
+			width: 44px;
+			height: auto;
+			text-align: right;
+		}
+
+		.app-image-icon svg,
+		.app-image-icon .icon-settings-dark {
+			margin-top: 5px;
+			width: 20px;
+			height: 20px;
+			opacity: .5;
+			background-size: cover;
+			display: inline-block;
+		}
+
+		.app-actions {
+			display: flex;
+			gap: 8px;
+			flex-wrap: wrap;
+			justify-content: end;
+
+			.icon-loading-small {
+				display: inline-block;
+				top: 4px;
+				margin-right: 10px;
+			}
+		}
+
+		/* hide app version and level on narrower screens */
+		@media only screen and (max-width: 900px) {
+			.app-version,
+			.app-level {
+				display: none !important;
+			}
+		}
+	}
+
+	&--store-view {
+		padding: 30px;
+
+		.app-image-icon .icon-settings-dark {
+			width: 100%;
+			height: 150px;
+			background-size: 45px;
+			opacity: 0.5;
+		}
+
+		.app-image-icon svg {
+			position: absolute;
+			bottom: 43px;
+			/* position halfway vertically */
+			width: 64px;
+			height: 64px;
+			opacity: .1;
+		}
+
+		.app-name {
+			margin: 5px 0;
+		}
+
+		.app-actions {
+			margin: 10px 0;
+		}
+
+		@media only screen and (min-width: 1601px) {
+			width: 25%;
+
+			&.app-item--with-sidebar {
+				width: 33%;
+			}
+		}
+
+		@media only screen and (max-width: 1600px) {
+			width: 25%;
+
+			&.app-item--with-sidebar {
+				width: 33%;
+			}
+		}
+
+		@media only screen and (max-width: 1400px) {
+			width: 33%;
+
+			&.app-item--with-sidebar {
+				width: 50%;
+			}
+		}
+
+		@media only screen and (max-width: 900px) {
+			width: 50%;
+
+			&.app-item--with-sidebar {
+				width: 100%;
+			}
+		}
+
+		@media only screen and (max-width: variables.$breakpoint-mobile) {
+			width: 50%;
+		}
+
+		@media only screen and (max-width: 480px) {
+			width: 100%;
+		}
+	}
+}
+
 .app-icon {
 	filter: var(--background-invert-if-bright);
 }
@@ -213,10 +344,10 @@ export default {
 	height: 150px;
 	opacity: 1;
 	overflow: hidden;
-}
 
-.app-image img {
-	width: 100%;
+	img {
+		width: 100%;
+	}
 }
 
 .app-name--link::after {

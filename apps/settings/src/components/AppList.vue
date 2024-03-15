@@ -27,7 +27,6 @@
 			:class="{
 				'apps-list--list-view': (useBundleView || useListView),
 				'apps-list--store-view': useAppStoreView,
-				'apps-list--with-sidebar': !!selectedApp,
 			}">
 			<template v-if="useListView">
 				<div v-if="showUpdateAll" class="apps-list__toolbar">
@@ -212,6 +211,7 @@ export default {
 				// An app level of `200` will be set for apps featured on the app store
 				return apps.filter(app => app.level === 200)
 			}
+
 			// filter app store categories
 			return apps.filter(app => {
 				return app.appstore && app.category !== undefined
@@ -240,9 +240,6 @@ export default {
 					}
 					return false
 				})
-		},
-		selectedApp() {
-			return this.apps.find(app => app.id === this.$route.params.id)
 		},
 		useAppStoreView() {
 			return !this.useListView && !this.useBundleView
@@ -318,9 +315,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@use '../../../../core/css/variables.scss' as variables;
-@use 'sass:math';
-
 $toolbar-padding: 8px;
 $toolbar-height: 44px + $toolbar-padding * 2;
 
@@ -354,116 +348,16 @@ $toolbar-height: 44px + $toolbar-padding * 2;
 
 	&--list-view {
 		margin-bottom: 100px;
-
-		:deep(.app-item) {
-			display: table-row;
-			padding: 0;
-			margin: 0;
-
-			> * {
-				display: table-cell;
-				height: initial;
-				vertical-align: middle;
-				float: none;
-				border-bottom: 1px solid var(--color-border);
-				padding: 6px;
-				box-sizing: border-box;
-			}
-
-			> .app-actions {
-				display: flex;
-				gap: 8px;
-				flex-wrap: wrap;
-				justify-content: end;
-			}
-
-			&.app-item--selected {
-				background-color: var(--color-background-dark);
-			}
-		}
-
-		:deep(.app-image) {
-			width: 44px;
-			height: auto;
-			text-align: right;
-		}
-
-		:deep(.app-image-icon svg),
-		:deep(.app-image-icon .icon-settings-dark) {
-			margin-top: 5px;
-			width: 20px;
-			height: 20px;
-			opacity: .5;
-			background-size: cover;
-			display: inline-block;
-		}
-
-		:deep(.app-actions) {
-			text-align: right;
-
-			.icon-loading-small {
-				display: inline-block;
-				top: 4px;
-				margin-right: 10px;
-			}
-		}
 	}
 
 	&__list-container {
-		display: table;
 		width: 100%;
-		height: auto;
 		white-space: normal;
-	}
-
-	&--store-view {
-		:deep(.app-item) {
-			border: 0;
-			padding: 30px;
-		}
-
-		:deep(.app-name) {
-			display: block;
-			margin: 5px 0;
-		}
-
-		:deep(.app-image-icon .icon-settings-dark) {
-			width: 100%;
-			height: 150px;
-			background-size: 45px;
-			opacity: 0.5;
-		}
-
-		:deep(.app-actions) {
-			margin-top: 10px;
-
-			button {
-				margin: 10px 0;
-			}
-		}
-
-		:deep(.app-image-icon svg) {
-			position: absolute;
-			bottom: 43px;
-			/* position halfway vertically */
-			width: 64px;
-			height: 64px;
-			opacity: .1;
-		}
 	}
 
 	&__store-container {
 		display: flex;
 		flex-wrap: wrap;
-	}
-
-	:deep(.app-item) {
-		position: relative;
-		flex: 0 0 auto;
-
-		&:hover {
-			background-color: var(--color-background-dark);
-		}
 	}
 
 	&__bundle-heading {
@@ -486,70 +380,6 @@ $toolbar-height: 44px + $toolbar-padding * 2;
 		h2 {
 			margin-bottom: 0;
 		}
-	}
-}
-
-@media only screen and (min-width: 1601px) {
-	.apps-list--store-view .app-item {
-		width: 25%;
-	}
-	.apps-list--with-sidebar.apps-list--store-view .app-item {
-		width: 33%;
-	}
-}
-
-@media only screen and (max-width: 1600px) {
-	.apps-list--store-view .app-item {
-		width: 25%;
-	}
-	.apps-list--with-sidebar.apps-list--store-view .app-item {
-		width: 33%;
-	}
-}
-
-@media only screen and (max-width: 1400px) {
-	.apps-list--store-view .app-item {
-		width: 33%;
-	}
-	.apps-list--with-sidebar.apps-list--store-view .app-item {
-		width: 50%;
-	}
-}
-
-@media only screen and (max-width: 900px) {
-	.apps-list--store-view .app-item {
-		width: 50%;
-	}
-	.apps-list--with-sidebar.apps-list--store-view .app-item {
-		width: 100%;
-	}
-}
-
-@media only screen and (max-width: variables.$breakpoint-mobile) {
-	.apps-list--store-view .app-item {
-		width: 50%;
-	}
-}
-
-@media only screen and (max-width: 480px) {
-	.apps-list--store-view .app-item {
-		width: 100%;
-	}
-}
-
-/* hide app version and level on narrower screens */
-@media only screen and (max-width: 900px) {
-	.apps-list--list-view {
-		:deep(.app-version), :deep(.app-level) {
-			display: none !important;
-		}
-	}
-}
-
-// Display buttons above each other on mobile
-@media (max-width: math.div(variables.$breakpoint-mobile, 2)) {
-	.apps-list--list-view .app-item > :deep(.app-actions) {
-		display: table-cell;
 	}
 }
 </style>
