@@ -163,4 +163,42 @@ class RateLimitingPluginTest extends TestCase {
 		$this->plugin->beforeBind('calendars/foo/cal');
 	}
 
+	public function testNoCalendarsSubscriptsLimit(): void {
+		$user = $this->createMock(IUser::class);
+		$this->userManager->expects(self::once())
+			->method('get')
+			->with($this->userId)
+			->willReturn($user);
+		$user->method('getUID')->willReturn('user123');
+		$this->config
+			->method('getValueInt')
+			->with('dav')
+			->willReturnCallback(function ($app, $key, $default) {
+				switch ($key) {
+					case 'maximumCalendarsSubscriptions':
+						return -1;
+					default:
+						return $default;
+				}
+			});
+		$this->limiter->expects(self::once())
+			->method('registerUserRequest')
+			->with(
+				'caldav-create-calendar',
+				10,
+				3600,
+				$user,
+			);
+		$this->caldavBackend->expects(self::never())
+			->method('getCalendarsForUserCount')
+			->with('principals/users/user123')
+			->willReturn(27);
+		$this->caldavBackend->expects(self::never())
+			->method('getSubscriptionsForUserCount')
+			->with('principals/users/user123')
+			->willReturn(3);
+
+		$this->plugin->beforeBind('calendars/foo/cal');
+	}
+
 }

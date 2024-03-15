@@ -228,18 +228,18 @@ class SearchBuilder {
 		if ($field === 'mimetype') {
 			$value = (string)$value;
 			if ($type === ISearchComparison::COMPARE_EQUAL) {
-				$value = (int)$this->mimetypeLoader->getId($value);
+				$value = $this->mimetypeLoader->getId($value);
 			} elseif ($type === ISearchComparison::COMPARE_LIKE) {
 				// transform "mimetype='foo/%'" to "mimepart='foo'"
 				if (preg_match('|(.+)/%|', $value, $matches)) {
 					$field = 'mimepart';
-					$value = (int)$this->mimetypeLoader->getId($matches[1]);
+					$value = $this->mimetypeLoader->getId($matches[1]);
 					$type = ISearchComparison::COMPARE_EQUAL;
 				} elseif (str_contains($value, '%')) {
 					throw new \InvalidArgumentException('Unsupported query value for mimetype: ' . $value . ', only values in the format "mime/type" or "mime/%" are supported');
 				} else {
 					$field = 'mimetype';
-					$value = (int)$this->mimetypeLoader->getId($value);
+					$value = $this->mimetypeLoader->getId($value);
 					$type = ISearchComparison::COMPARE_EQUAL;
 				}
 			}

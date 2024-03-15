@@ -150,6 +150,7 @@
     "Disable all" : "Matikan semua",
     "_%n app has an update available_::_%n apps have an update available_" : ["Ada pembaruan tersedia untuk %naplikasi"],
     "_Update_::_Update all_" : ["Perbarui semua"],
+    "Loading" : "Memuat",
     "Description" : "Deskrisi",
     "Details" : "Detil",
     "All" : "Semua",

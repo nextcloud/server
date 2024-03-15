@@ -628,7 +628,7 @@ export default defineComponent({
 	overflow: hidden;
 	flex-direction: column;
 	max-height: 100%;
-	position: relative;
+	position: relative !important;
 }
 
 $margin: 4px;

@@ -174,6 +174,7 @@ OC.L10N.register(
     "Disable all" : "Απενεργοποίηση όλων",
     "_%n app has an update available_::_%n apps have an update available_" : ["%n εφαρμογή έχει διαθέσιμη αναβάθμιση","%n εφαρμογές έχουν διαθέσιμη αναβάθμιση"],
     "_Update_::_Update all_" : ["Ενημέρωση","Ενημέρωση όλων"],
+    "Loading" : "Γίνεται φόρτωση",
     "Description" : "Περιγραφή",
     "Details" : "Λεπτομέρειες",
     "All" : "Όλες",

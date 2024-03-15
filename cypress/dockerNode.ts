@@ -132,6 +132,8 @@ export const configureNextcloud = async function() {
 	await runExec(container, ['php', 'occ', 'config:system:set', 'default_locale', '--value', 'en_US'], true)
 	await runExec(container, ['php', 'occ', 'config:system:set', 'force_locale', '--value', 'en_US'], true)
 	await runExec(container, ['php', 'occ', 'config:system:set', 'enforce_theme', '--value', 'light'], true)
+	// Speed up test and make them less flaky. If a cron execution is needed, it can be triggered manually.
+	await runExec(container, ['php', 'occ', 'background:cron'], true)
 
 	console.log('└─ Nextcloud is now ready to use 🎉')
 }

@@ -23,15 +23,14 @@ namespace Test\Files\Type;
 
 use OC\Files\Type\Loader;
 use OCP\IDBConnection;
+use Test\TestCase;
 
-class LoaderTest extends \Test\TestCase {
-	/** @var IDBConnection */
-	protected $db;
-	/** @var Loader */
-	protected $loader;
+class LoaderTest extends TestCase {
+	protected IDBConnection $db;
+	protected Loader $loader;
 
 	protected function setUp(): void {
-		$this->db = \OC::$server->getDatabaseConnection();
+		$this->db = \OC::$server->get(IDBConnection::class);
 		$this->loader = new Loader($this->db);
 	}
 

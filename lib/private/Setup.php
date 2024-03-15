@@ -62,6 +62,7 @@ use OC\TextProcessing\RemoveOldTasksBackgroundJob;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
 use OCP\Defaults;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IGroupManager;
@@ -382,7 +383,8 @@ class Setup {
 
 		$config = Server::get(IConfig::class);
 		$config->setAppValue('core', 'installedat', (string)microtime(true));
-		$config->setAppValue('core', 'lastupdatedat', (string)microtime(true));
+		$appConfig = Server::get(IAppConfig::class);
+		$appConfig->setValueInt('core', 'lastupdatedat', time());
 
 		$vendorData = $this->getVendorData();
 		$config->setAppValue('core', 'vendor', $vendorData['vendor']);

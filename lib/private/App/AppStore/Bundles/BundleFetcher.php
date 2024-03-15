@@ -42,6 +42,7 @@ class BundleFetcher {
 			new GroupwareBundle($this->l10n),
 			new SocialSharingBundle($this->l10n),
 			new EducationBundle($this->l10n),
+			new PublicSectorBundle($this->l10n),
 		];
 	}
 

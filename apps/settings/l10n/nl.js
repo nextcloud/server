@@ -176,6 +176,7 @@ OC.L10N.register(
     "No apps found for your version" : "Geen apps gevonden voor jouw versie",
     "Disable all" : "Alles uitschakelen",
     "_%n app has an update available_::_%n apps have an update available_" : ["Voor %n app is een update beschikbaar","Voor %n apps is een update beschikbaar"],
+    "Loading" : "Laden",
     "Description" : "Omschrijving",
     "Details" : "Details",
     "All" : "Alle",

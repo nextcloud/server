@@ -62,7 +62,7 @@ class MetadataFileEvents implements IEventListener {
 		// check if our version manager supports setting the metadata
 		if ($this->versionManager instanceof IMetadataVersionBackend) {
 			$author = $user->getUID();
-			$this->versionManager->setMetadataValue($node, 'author', $author);
+			$this->versionManager->setMetadataValue($node, $node->getMTime(), 'author', $author);
 		}
 	}
 }

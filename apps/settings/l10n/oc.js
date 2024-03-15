@@ -91,6 +91,7 @@ OC.L10N.register(
     "Actions" : "Accions",
     "Disable all" : "Desactivar tot",
     "_%n app has an update available_::_%n apps have an update available_" : ["%n aplicacion an una mesa a jorn de disponibla","%n aplicacions an una mesa a jorn de disponibla"],
+    "Loading" : "Cargament",
     "Description" : "Descripcion",
     "Details" : "Detalhs",
     "All" : "Tot",

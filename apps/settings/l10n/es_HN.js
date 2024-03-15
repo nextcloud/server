@@ -102,6 +102,7 @@ OC.L10N.register(
     "Level" : "Nivel",
     "Actions" : "Acciones",
     "No apps found for your version" : "No se encontraron aplicaciones para tu versión",
+    "Loading" : "Cargando",
     "Description" : "Descripción",
     "Details" : "Detalles",
     "All" : "Todos",

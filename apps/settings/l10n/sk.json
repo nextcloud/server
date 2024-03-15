@@ -368,6 +368,7 @@
     "Download and enable all" : "Stiahnuť a povoliť všetko",
     "_%n app has an update available_::_%n apps have an update available_" : ["Pre %n aplikáciu je dostupná aktualizácia","Pre %n aplikácie sú dostupné aktualizácie","Pre %n aplikácií sú dostupné aktualizácie","Pre %n aplikácií sú dostupné aktualizácie"],
     "_Update_::_Update all_" : ["Aktualizovať všetko","Aktualizovať všetko","Aktualizovať všetko","Aktualizovať všetko"],
+    "Loading" : "Načítava sa",
     "Description" : "Popis",
     "Details" : "Detaily",
     "All" : "Všetky",

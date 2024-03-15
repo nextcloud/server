@@ -17,10 +17,6 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
             'OC\\' => 3,
             'OCP\\' => 4,
         ),
-        'B' => 
-        array (
-            'Bamarni\\Composer\\Bin\\' => 21,
-        ),
     );
 
     public static $prefixDirsPsr4 = array (
@@ -35,10 +31,6 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\' => 
         array (
             0 => __DIR__ . '/../../..' . '/lib/public',
-        ),
-        'Bamarni\\Composer\\Bin\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/bamarni/composer-bin-plugin/src',
         ),
     );
 
@@ -672,6 +664,12 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Security\\VerificationToken\\InvalidTokenException' => __DIR__ . '/../../..' . '/lib/public/Security/VerificationToken/InvalidTokenException.php',
         'OCP\\Server' => __DIR__ . '/../../..' . '/lib/public/Server.php',
         'OCP\\Session\\Exceptions\\SessionNotAvailableException' => __DIR__ . '/../../..' . '/lib/public/Session/Exceptions/SessionNotAvailableException.php',
+        'OCP\\Settings\\DeclarativeSettingsTypes' => __DIR__ . '/../../..' . '/lib/public/Settings/DeclarativeSettingsTypes.php',
+        'OCP\\Settings\\Events\\DeclarativeSettingsGetValueEvent' => __DIR__ . '/../../..' . '/lib/public/Settings/Events/DeclarativeSettingsGetValueEvent.php',
+        'OCP\\Settings\\Events\\DeclarativeSettingsRegisterFormEvent' => __DIR__ . '/../../..' . '/lib/public/Settings/Events/DeclarativeSettingsRegisterFormEvent.php',
+        'OCP\\Settings\\Events\\DeclarativeSettingsSetValueEvent' => __DIR__ . '/../../..' . '/lib/public/Settings/Events/DeclarativeSettingsSetValueEvent.php',
+        'OCP\\Settings\\IDeclarativeManager' => __DIR__ . '/../../..' . '/lib/public/Settings/IDeclarativeManager.php',
+        'OCP\\Settings\\IDeclarativeSettingsForm' => __DIR__ . '/../../..' . '/lib/public/Settings/IDeclarativeSettingsForm.php',
         'OCP\\Settings\\IDelegatedSettings' => __DIR__ . '/../../..' . '/lib/public/Settings/IDelegatedSettings.php',
         'OCP\\Settings\\IIconSection' => __DIR__ . '/../../..' . '/lib/public/Settings/IIconSection.php',
         'OCP\\Settings\\IManager' => __DIR__ . '/../../..' . '/lib/public/Settings/IManager.php',
@@ -920,7 +918,9 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\App\\AppStore\\Bundles\\EnterpriseBundle' => __DIR__ . '/../../..' . '/lib/private/App/AppStore/Bundles/EnterpriseBundle.php',
         'OC\\App\\AppStore\\Bundles\\GroupwareBundle' => __DIR__ . '/../../..' . '/lib/private/App/AppStore/Bundles/GroupwareBundle.php',
         'OC\\App\\AppStore\\Bundles\\HubBundle' => __DIR__ . '/../../..' . '/lib/private/App/AppStore/Bundles/HubBundle.php',
+        'OC\\App\\AppStore\\Bundles\\PublicSectorBundle' => __DIR__ . '/../../..' . '/lib/private/App/AppStore/Bundles/PublicSectorBundle.php',
         'OC\\App\\AppStore\\Bundles\\SocialSharingBundle' => __DIR__ . '/../../..' . '/lib/private/App/AppStore/Bundles/SocialSharingBundle.php',
+        'OC\\App\\AppStore\\Fetcher\\AppDiscoverFetcher' => __DIR__ . '/../../..' . '/lib/private/App/AppStore/Fetcher/AppDiscoverFetcher.php',
         'OC\\App\\AppStore\\Fetcher\\AppFetcher' => __DIR__ . '/../../..' . '/lib/private/App/AppStore/Fetcher/AppFetcher.php',
         'OC\\App\\AppStore\\Fetcher\\CategoryFetcher' => __DIR__ . '/../../..' . '/lib/private/App/AppStore/Fetcher/CategoryFetcher.php',
         'OC\\App\\AppStore\\Fetcher\\Fetcher' => __DIR__ . '/../../..' . '/lib/private/App/AppStore/Fetcher/Fetcher.php',
@@ -1796,6 +1796,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Session\\Session' => __DIR__ . '/../../..' . '/lib/private/Session/Session.php',
         'OC\\Settings\\AuthorizedGroup' => __DIR__ . '/../../..' . '/lib/private/Settings/AuthorizedGroup.php',
         'OC\\Settings\\AuthorizedGroupMapper' => __DIR__ . '/../../..' . '/lib/private/Settings/AuthorizedGroupMapper.php',
+        'OC\\Settings\\DeclarativeManager' => __DIR__ . '/../../..' . '/lib/private/Settings/DeclarativeManager.php',
         'OC\\Settings\\Manager' => __DIR__ . '/../../..' . '/lib/private/Settings/Manager.php',
         'OC\\Settings\\Section' => __DIR__ . '/../../..' . '/lib/private/Settings/Section.php',
         'OC\\Setup' => __DIR__ . '/../../..' . '/lib/private/Setup.php',

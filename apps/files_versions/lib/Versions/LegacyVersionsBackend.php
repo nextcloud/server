@@ -46,25 +46,14 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
 
-class LegacyVersionsBackend implements IVersionBackend, INameableVersionBackend, IDeletableVersionBackend, INeedSyncVersionBackend, IMetadataVersionBackend {
-	private IRootFolder $rootFolder;
-	private IUserManager $userManager;
-	private VersionsMapper $versionsMapper;
-	private IMimeTypeLoader $mimeTypeLoader;
-	private IUserSession $userSession;
-
+class LegacyVersionsBackend implements IVersionBackend, IDeletableVersionBackend, INeedSyncVersionBackend, IMetadataVersionBackend {
 	public function __construct(
-		IRootFolder $rootFolder,
-		IUserManager $userManager,
-		VersionsMapper $versionsMapper,
-		IMimeTypeLoader $mimeTypeLoader,
-		IUserSession $userSession,
+		private IRootFolder $rootFolder,
+		private IUserManager $userManager,
+		private VersionsMapper $versionsMapper,
+		private IMimeTypeLoader $mimeTypeLoader,
+		private IUserSession $userSession,
 	) {
-		$this->rootFolder = $rootFolder;
-		$this->userManager = $userManager;
-		$this->versionsMapper = $versionsMapper;
-		$this->mimeTypeLoader = $mimeTypeLoader;
-		$this->userSession = $userSession;
 	}
 
 	public function useBackendForStorage(IStorage $storage): bool {
@@ -160,7 +149,7 @@ class LegacyVersionsBackend implements IVersionBackend, INameableVersionBackend,
 				$file,
 				$this,
 				$user,
-				$versions['db']->getLabel(),
+				$versions['db']->getMetadata() ?? [],
 			);
 
 			array_push($davVersions, $version);
@@ -185,7 +174,7 @@ class LegacyVersionsBackend implements IVersionBackend, INameableVersionBackend,
 	}
 
 	public function rollback(IVersion $version) {
-		if (!$this->currentUserHasPermissions($version, \OCP\Constants::PERMISSION_UPDATE)) {
+		if (!$this->currentUserHasPermissions($version->getSourceFile(), \OCP\Constants::PERMISSION_UPDATE)) {
 			throw new Forbidden('You cannot restore this version because you do not have update permissions on the source file.');
 		}
 
@@ -234,24 +223,8 @@ class LegacyVersionsBackend implements IVersionBackend, INameableVersionBackend,
 		return $file;
 	}
 
-	public function setVersionLabel(IVersion $version, string $label): void {
-		if (!$this->currentUserHasPermissions($version, \OCP\Constants::PERMISSION_UPDATE)) {
-			throw new Forbidden('You cannot label this version because you do not have update permissions on the source file.');
-		}
-
-		$versionEntity = $this->versionsMapper->findVersionForFileId(
-			$version->getSourceFile()->getId(),
-			$version->getTimestamp(),
-		);
-		if (trim($label) === '') {
-			$label = null;
-		}
-		$versionEntity->setLabel($label ?? '');
-		$this->versionsMapper->update($versionEntity);
-	}
-
 	public function deleteVersion(IVersion $version): void {
-		if (!$this->currentUserHasPermissions($version, \OCP\Constants::PERMISSION_DELETE)) {
+		if (!$this->currentUserHasPermissions($version->getSourceFile(), \OCP\Constants::PERMISSION_DELETE)) {
 			throw new Forbidden('You cannot delete this version because you do not have delete permissions on the source file.');
 		}
 
@@ -295,8 +268,7 @@ class LegacyVersionsBackend implements IVersionBackend, INameableVersionBackend,
 		$this->versionsMapper->deleteAllVersionsForFileId($file->getId());
 	}
 
-	private function currentUserHasPermissions(IVersion $version, int $permissions): bool {
-		$sourceFile = $version->getSourceFile();
+	private function currentUserHasPermissions(FileInfo $sourceFile, int $permissions): bool {
 		$currentUserId = $this->userSession->getUser()?->getUID();
 
 		if ($currentUserId === null) {
@@ -314,32 +286,14 @@ class LegacyVersionsBackend implements IVersionBackend, INameableVersionBackend,
 		return ($sourceFile->getPermissions() & $permissions) === $permissions;
 	}
 
-	public function setMetadataValue(Node $node, string $key, string $value): void {
-		// Do not handle folders.
-		if ($node instanceof File) {
-
-			try {
-				$versionEntity = $this->versionsMapper->findVersionForFileId($node->getId(), $node->getMTime());
-			} catch (\Exception $e) {
-				throw $e; // the version does not exist or too many versions exist
-			}
-
-			$currentMetadata = $versionEntity->getMetadata() ?? [];
-	
-			$currentMetadata[$key] = $value;
-			$versionEntity->setMetadata($currentMetadata);
-			$this->versionsMapper->update($versionEntity);
+	public function setMetadataValue(Node $node, int $revision, string $key, string $value): void {
+		if (!$this->currentUserHasPermissions($node, \OCP\Constants::PERMISSION_UPDATE)) {
+			throw new Forbidden('You cannot update the version\'s metadata because you do not have update permissions on the source file.');
 		}
 
-	}
+		$versionEntity = $this->versionsMapper->findVersionForFileId($node->getId(), $revision);
 
-	public function getMetadataValue(Node $node, string $key): ?string {
-		try {
-			$versionEntity = $this->versionsMapper->findVersionForFileId($node->getId(), $node->getMTime());
-			return $versionEntity->getMetadataValue($key);
-		} catch (\InvalidArgumentException $e) {
-			// we tried to find a version or key that doesn't exist
-			return null;
-		}
+		$versionEntity->setMetadataValue($key, $value);
+		$this->versionsMapper->update($versionEntity);
 	}
 }

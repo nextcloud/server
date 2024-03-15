@@ -39,6 +39,7 @@ import {
 	mdiOpenInApp,
 	mdiSecurity,
 	mdiStar,
+	mdiStarCircleOutline,
 	mdiStarShooting,
 	mdiTools,
 	mdiViewDashboard,
@@ -49,6 +50,7 @@ import {
  */
 export default Object.freeze({
 	// system special categories
+	discover: mdiStarCircleOutline,
 	installed: mdiAccount,
 	enabled: mdiCheck,
 	disabled: mdiClose,

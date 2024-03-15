@@ -24,9 +24,7 @@ declare(strict_types=1);
 
 namespace OCA\Files\Listener;
 
-use OCA\Files_Trashbin\Events\BeforeNodeRestoredEvent;
-use OCA\Files_Trashbin\Trash\ITrashItem;
-use OCA\Files_Trashbin\Trash\ITrashManager;
+use OCA\Files\Service\LivePhotosService;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\Exceptions\AbortedEventException;
@@ -39,10 +37,7 @@ use OCP\Files\Events\Node\NodeCopiedEvent;
 use OCP\Files\Folder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
-use OCP\Files\NotPermittedException;
-use OCP\FilesMetadata\Exceptions\FilesMetadataNotFoundException;
 use OCP\FilesMetadata\IFilesMetadataManager;
-use OCP\IUserSession;
 
 /**
  * @template-implements IEventListener<Event>
@@ -52,37 +47,40 @@ class SyncLivePhotosListener implements IEventListener {
 	private array $pendingRenames = [];
 	/** @var Array<int, bool> */
 	private array $pendingDeletion = [];
-	/** @var Array<int, bool> */
-	private array $pendingRestores = [];
 
 	public function __construct(
 		private ?Folder $userFolder,
-		private ?IUserSession $userSession,
-		private ITrashManager $trashManager,
 		private IFilesMetadataManager $filesMetadataManager,
+		private LivePhotosService $livePhotosService,
 	) {
 	}
 
 	public function handle(Event $event): void {
-		if ($this->userFolder === null || $this->userSession === null) {
+		if ($this->userFolder === null) {
 			return;
 		}
 
-		$peerFile = null;
+		$peerFileId = null;
+
 		if ($event instanceof BeforeNodeRenamedEvent) {
-			$peerFile = $this->getLivePhotoPeer($event->getSource()->getId());
-		} elseif ($event instanceof BeforeNodeRestoredEvent) {
-			$peerFile = $this->getLivePhotoPeer($event->getSource()->getId());
+			$peerFileId = $this->livePhotosService->getLivePhotoPeerId($event->getSource()->getId());
 		} elseif ($event instanceof BeforeNodeDeletedEvent) {
-			$peerFile = $this->getLivePhotoPeer($event->getNode()->getId());
+			$peerFileId = $this->livePhotosService->getLivePhotoPeerId($event->getNode()->getId());
 		} elseif ($event instanceof CacheEntryRemovedEvent) {
-			$peerFile = $this->getLivePhotoPeer($event->getFileId());
+			$peerFileId = $this->livePhotosService->getLivePhotoPeerId($event->getFileId());
 		} elseif ($event instanceof BeforeNodeCopiedEvent || $event instanceof NodeCopiedEvent) {
-			$peerFile = $this->getLivePhotoPeer($event->getSource()->getId());
+			$peerFileId = $this->livePhotosService->getLivePhotoPeerId($event->getSource()->getId());
 		}
 
+		if ($peerFileId === null) {
+			return; // Not a live photo.
+		}
+
+		// Check the user's folder.
+		$peerFile = $this->userFolder->getFirstNodeById($peerFileId);
+
 		if ($peerFile === null) {
-			return; // not a Live Photo
+			return; // Peer file not found.
 		}
 
 		if ($event instanceof BeforeNodeRenamedEvent) {
@@ -91,8 +89,6 @@ class SyncLivePhotosListener implements IEventListener {
 			$this->handleDeletion($event, $peerFile);
 		} elseif ($event instanceof CacheEntryRemovedEvent) {
 			$peerFile->delete();
-		} elseif ($event instanceof BeforeNodeRestoredEvent) {
-			$this->handleRestore($event, $peerFile);
 		} elseif ($event instanceof BeforeNodeCopiedEvent) {
 			$this->handleMove($event, $peerFile, true);
 		} elseif ($event instanceof NodeCopiedEvent) {
@@ -207,115 +203,5 @@ class SyncLivePhotosListener implements IEventListener {
 			}
 		}
 		return;
-	}
-
-	/**
-	 * During restore event, we trigger another recursive restore on the peer file.
-	 * Restore operations on the .mov file directly are currently blocked.
-	 * The event listener being singleton, we can store the current state
-	 * of pending restores inside the 'pendingRestores' property,
-	 * to prevent infinite recursivity.
-	 */
-	private function handleRestore(BeforeNodeRestoredEvent $event, Node $peerFile): void {
-		$sourceFile = $event->getSource();
-
-		if ($sourceFile->getMimetype() === 'video/quicktime') {
-			if (isset($this->pendingRestores[$peerFile->getId()])) {
-				unset($this->pendingRestores[$peerFile->getId()]);
-				return;
-			} else {
-				$event->abortOperation(new NotPermittedException("Cannot restore the video part of a live photo"));
-			}
-		} else {
-			$user = $this->userSession->getUser();
-			if ($user === null) {
-				return;
-			}
-
-			$peerTrashItem = $this->trashManager->getTrashNodeById($user, $peerFile->getId());
-			// Peer file is not in the bin, no need to restore it.
-			if ($peerTrashItem === null) {
-				return;
-			}
-
-			$trashRoot = $this->trashManager->listTrashRoot($user);
-			$trashItem = $this->getTrashItem($trashRoot, $peerFile->getInternalPath());
-
-			if ($trashItem === null) {
-				$event->abortOperation(new NotFoundException("Couldn't find peer file in trashbin"));
-			}
-
-			$this->pendingRestores[$sourceFile->getId()] = true;
-			try {
-				$this->trashManager->restoreItem($trashItem);
-			} catch (\Throwable $ex) {
-				$event->abortOperation($ex);
-			}
-		}
-	}
-
-	/**
-	 * Helper method to get the associated live photo file.
-	 * We first look for it in the user folder, and if we
-	 * cannot find it here, we look for it in the user's trashbin.
-	 */
-	private function getLivePhotoPeer(int $nodeId): ?Node {
-		if ($this->userFolder === null || $this->userSession === null) {
-			return null;
-		}
-
-		try {
-			$metadata = $this->filesMetadataManager->getMetadata($nodeId);
-		} catch (FilesMetadataNotFoundException $ex) {
-			return null;
-		}
-
-		if (!$metadata->hasKey('files-live-photo')) {
-			return null;
-		}
-
-		$peerFileId = (int)$metadata->getString('files-live-photo');
-
-		// Check the user's folder.
-		$node = $this->userFolder->getFirstNodeById($peerFileId);
-		if ($node) {
-			return $node;
-		}
-
-		// Check the user's trashbin.
-		$user = $this->userSession->getUser();
-		if ($user !== null) {
-			$peerFile = $this->trashManager->getTrashNodeById($user, $peerFileId);
-			if ($peerFile !== null) {
-				return $peerFile;
-			}
-		}
-
-		$metadata->unset('files-live-photo');
-		return null;
-	}
-
-	/**
-	 * There is currently no method to restore a file based on its fileId or path.
-	 * So we have to manually find a ITrashItem from the trash item list.
-	 * TODO: This should be replaced by a proper method in the TrashManager.
-	 */
-	private function getTrashItem(array $trashFolder, string $path): ?ITrashItem {
-		foreach($trashFolder as $trashItem) {
-			if (str_starts_with($path, "files_trashbin/files".$trashItem->getTrashPath())) {
-				if ($path === "files_trashbin/files".$trashItem->getTrashPath()) {
-					return $trashItem;
-				}
-
-				if ($trashItem instanceof Folder) {
-					$node = $this->getTrashItem($trashItem->getDirectoryListing(), $path);
-					if ($node !== null) {
-						return $node;
-					}
-				}
-			}
-		}
-
-		return null;
 	}
 }

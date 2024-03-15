@@ -26,6 +26,7 @@ use OC\App\AppStore\Bundles\EducationBundle;
 use OC\App\AppStore\Bundles\EnterpriseBundle;
 use OC\App\AppStore\Bundles\GroupwareBundle;
 use OC\App\AppStore\Bundles\HubBundle;
+use OC\App\AppStore\Bundles\PublicSectorBundle;
 use OC\App\AppStore\Bundles\SocialSharingBundle;
 use OCP\IL10N;
 use Test\TestCase;
@@ -53,6 +54,7 @@ class BundleFetcherTest extends TestCase {
 			new GroupwareBundle($this->l10n),
 			new SocialSharingBundle($this->l10n),
 			new EducationBundle($this->l10n),
+			new PublicSectorBundle($this->l10n),
 		];
 		$this->assertEquals($expected, $this->bundleFetcher->getBundles());
 	}
