@@ -63,12 +63,15 @@
 				:label="t('core', 'Account name or email')"
 				:label-visible="true"
 				name="user"
+				:maxlength="255"
 				:value.sync="user"
 				:class="{shake: invalidPassword}"
 				autocapitalize="none"
 				:spellchecking="false"
 				:autocomplete="autoCompleteAllowed ? 'username' : 'off'"
 				required
+				:error="userNameInputLengthIs255"
+				:helper-text="userInputHelperText"
 				data-login-form-input-user
 				@change="updateUsername" />
 
@@ -119,6 +122,8 @@ import NcNoteCard from '@nextcloud/vue/dist/Components/NcNoteCard.js'
 
 import LoginButton from './LoginButton.vue'
 
+import AuthMixin from '../../mixins/auth.js'
+
 export default {
 	name: 'LoginForm',
 
@@ -128,6 +133,7 @@ export default {
 		NcTextField,
 		NcNoteCard,
 	},
+	mixins: [AuthMixin],
 
 	props: {
 		username: {
