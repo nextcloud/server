@@ -1003,9 +1003,15 @@ export default {
 						flex-direction: column;
 					}
 				}
+				
+				/* Target component based style in NcCheckboxRadioSwitch slot content*/
+				:deep(span.checkbox-content__text.checkbox-radio-switch__text) {
+					flex-wrap: wrap;
 
-				.subline {
-					display: block;
+					.subline {
+						display: block;
+						flex-basis: 100%;
+					}
 				}
 			}
 
