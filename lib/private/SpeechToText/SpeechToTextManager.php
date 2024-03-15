@@ -112,6 +112,24 @@ class SpeechToTextManager implements ISpeechToTextManager {
 		}
 	}
 
+	public function cancelScheduledFileTranscription(File $file, ?string $userId, string $appId): void {
+		try {
+			$jobArguments = [
+				'fileId' => $file->getId(),
+				'owner' => $file->getOwner()->getUID(),
+				'userId' => $userId,
+				'appId' => $appId,
+			];
+			if (!$this->jobList->has(TranscriptionJob::class, $jobArguments)) {
+				$this->logger->debug('Failed to cancel a Speech-to-text job for file ' . $file->getId() . '. No related job was found.');
+				return;
+			}
+			$this->jobList->remove(TranscriptionJob::class, $jobArguments);
+		} catch (NotFoundException|InvalidPathException $e) {
+			throw new InvalidArgumentException('Invalid file provided to cancel file transcription: ' . $e->getMessage());
+		}
+	}
+
 	public function transcribeFile(File $file): string {
 		if (!$this->hasProviders()) {
 			throw new PreConditionNotMetException('No SpeechToText providers have been registered');
