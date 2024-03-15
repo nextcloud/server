@@ -338,6 +338,7 @@ OC.L10N.register(
     "Download and enable all" : "다운로드 및 모두 활성화",
     "_%n app has an update available_::_%n apps have an update available_" : ["%n개의 앱을 업데이트 할 수 있습니다."],
     "_Update_::_Update all_" : ["모두 업데이트"],
+    "Loading" : "불러오는 중",
     "Description" : "설명",
     "Details" : "자세히",
     "All" : "모두",

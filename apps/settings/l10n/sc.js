@@ -162,6 +162,7 @@ OC.L10N.register(
     "No apps found for your version" : "Peruna aplicatzione agatada pro sa versione tua",
     "Disable all" : "Disativa totu",
     "_%n app has an update available_::_%n apps have an update available_" : ["%n aplicatzione tenet un'agiornamentu a disponimentu","%n aplicatziones tenent un'agiornamentu a disponimentu"],
+    "Loading" : "Carrighende",
     "Description" : "Descritzione",
     "Details" : "Detàllios",
     "All" : "Totu",

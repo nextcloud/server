@@ -188,6 +188,7 @@ OC.L10N.register(
     "Disable all" : "Desactivar todo",
     "_%n app has an update available_::_%n apps have an update available_" : ["%n aplicación tiene una actualización disponible","%n aplicaciones tienen una actualización disponible","%n aplicaciones tienen una actualización disponible"],
     "_Update_::_Update all_" : ["Actualizar","Actualizar todo","Actualizar todo"],
+    "Loading" : "Cargando",
     "Description" : "Descripción",
     "Details" : "Detalles",
     "All" : "Todos",
