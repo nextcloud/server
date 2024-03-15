@@ -2099,26 +2099,33 @@ class ManagerTest extends \Test\TestCase {
 		// No exclude groups
 		$data[] = ['no', null, null, [], false];
 
-		// empty exclude list, user no groups
+		// empty exclude / allow list, user no groups
 		$data[] = ['yes', '', json_encode(['']), [], false];
+		$data[] = ['allow', '', json_encode(['']), [], true];
 
-		// empty exclude list, user groups
+		// empty exclude / allow list, user groups
 		$data[] = ['yes', '', json_encode(['']), ['group1', 'group2'], false];
+		$data[] = ['allow', '', json_encode(['']), ['group1', 'group2'], true];
 
 		// Convert old list to json
 		$data[] = ['yes', 'group1,group2', json_encode(['group1', 'group2']), [], false];
+		$data[] = ['allow', 'group1,group2', json_encode(['group1', 'group2']), [], true];
 
 		// Old list partly groups in common
 		$data[] = ['yes', 'group1,group2', json_encode(['group1', 'group2']), ['group1', 'group3'], false];
+		$data[] = ['allow', 'group1,group2', json_encode(['group1', 'group2']), ['group1', 'group3'], false];
 
 		// Old list only groups in common
 		$data[] = ['yes', 'group1,group2', json_encode(['group1', 'group2']), ['group1'], true];
+		$data[] = ['allow', 'group1,group2', json_encode(['group1', 'group2']), ['group1'], false];
 
 		// New list partly in common
 		$data[] = ['yes', json_encode(['group1', 'group2']), null, ['group1', 'group3'], false];
+		$data[] = ['allow', json_encode(['group1', 'group2']), null, ['group1', 'group3'], false];
 
 		// New list only groups in common
 		$data[] = ['yes', json_encode(['group1', 'group2']), null, ['group2'], true];
+		$data[] = ['allow', json_encode(['group1', 'group2']), null, ['group2'], false];
 
 		return $data;
 	}
