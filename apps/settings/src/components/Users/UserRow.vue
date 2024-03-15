@@ -194,6 +194,7 @@
 					:input-id="'quota' + uniqueId"
 					:options="quotaOptions"
 					:placeholder="t('settings', 'Select account quota')"
+					:value="userQuota"
 					:taggable="true"
 					@option:selected="setUserQuota" />
 			</template>
