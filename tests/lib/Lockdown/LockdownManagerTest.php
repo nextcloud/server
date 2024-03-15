@@ -23,6 +23,7 @@ namespace Test\Lockdown;
 
 use OC\Authentication\Token\PublicKeyToken;
 use OC\Lockdown\LockdownManager;
+use OCP\Authentication\Token\IToken;
 use OCP\ISession;
 use Test\TestCase;
 
@@ -44,7 +45,7 @@ class LockdownManagerTest extends TestCase {
 
 	public function testCanAccessFilesystemAllowed() {
 		$token = new PublicKeyToken();
-		$token->setScope(['filesystem' => true]);
+		$token->setScope([IToken::SCOPE_FILESYSTEM => true]);
 		$manager = new LockdownManager($this->sessionCallback);
 		$manager->setToken($token);
 		$this->assertTrue($manager->canAccessFilesystem());
@@ -52,7 +53,7 @@ class LockdownManagerTest extends TestCase {
 
 	public function testCanAccessFilesystemNotAllowed() {
 		$token = new PublicKeyToken();
-		$token->setScope(['filesystem' => false]);
+		$token->setScope([IToken::SCOPE_FILESYSTEM => false]);
 		$manager = new LockdownManager($this->sessionCallback);
 		$manager->setToken($token);
 		$this->assertFalse($manager->canAccessFilesystem());

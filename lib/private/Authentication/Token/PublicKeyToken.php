@@ -28,6 +28,7 @@ declare(strict_types=1);
 namespace OC\Authentication\Token;
 
 use OCP\AppFramework\Db\Entity;
+use OCP\Authentication\Token\IToken;
 
 /**
  * @method void setId(int $id)
@@ -181,7 +182,7 @@ class PublicKeyToken extends Entity implements INamedToken, IWipeableToken {
 		$scope = json_decode($this->getScope(), true);
 		if (!$scope) {
 			return [
-				'filesystem' => true
+				IToken::SCOPE_FILESYSTEM => true
 			];
 		}
 		return $scope;

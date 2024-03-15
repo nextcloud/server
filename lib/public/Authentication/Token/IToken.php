@@ -54,6 +54,15 @@ interface IToken extends JsonSerializable {
 	public const REMEMBER = 1;
 
 	/**
+	 * @since 29.0.0
+	 */
+	public const SCOPE_FILESYSTEM = 'filesystem';
+	/**
+	 * @since 29.0.0
+	 */
+	public const SCOPE_SINGLE_SIGN_ON = 'sso-based-login';
+
+	/**
 	 * Get the token ID
 	 * @since 28.0.0
 	 */
