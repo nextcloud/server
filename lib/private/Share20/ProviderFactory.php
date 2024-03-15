@@ -44,6 +44,7 @@ use OCA\Talk\Share\RoomShareProvider;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Defaults;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Federation\ICloudFederationFactory;
 use OCP\Files\IRootFolder;
 use OCP\IServerContainer;
 use OCP\Security\IHasher;
@@ -144,7 +145,7 @@ class ProviderFactory implements IProviderFactory {
 				$this->serverContainer->query(\OCP\OCS\IDiscoveryService::class),
 				$this->serverContainer->getJobList(),
 				\OC::$server->getCloudFederationProviderManager(),
-				\OC::$server->getCloudFederationFactory(),
+				\OC::$server->get(ICloudFederationFactory::class),
 				$this->serverContainer->query(IEventDispatcher::class),
 				$this->serverContainer->get(LoggerInterface::class),
 			);
