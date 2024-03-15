@@ -200,6 +200,7 @@ OC.L10N.register(
     "Download and enable all" : "Deskargatu eta gaitu guztia",
     "_%n app has an update available_::_%n apps have an update available_" : ["Aplikazio %nek eguneraketa dauka prest.","%n aplikaziok eguneraketa daukate prest."],
     "_Update_::_Update all_" : ["Eguneratu","Eguneratu denak"],
+    "Loading" : "Kargatzen",
     "Description" : "Deskripzioa",
     "Details" : "Xehetasunak",
     "All" : "Denak",

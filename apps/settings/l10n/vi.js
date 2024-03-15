@@ -207,6 +207,7 @@ OC.L10N.register(
     "Download and enable all" : "Tải xuống và kích hoạt tất cả",
     "_%n app has an update available_::_%n apps have an update available_" : ["%n ứng dụng có sẵn bản cập nhật"],
     "_Update_::_Update all_" : ["Cập nhật tất cả"],
+    "Loading" : "Đang tải",
     "Description" : "Mô tả",
     "Details" : "Thông tin",
     "All" : "Tất cả",

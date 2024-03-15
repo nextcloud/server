@@ -198,6 +198,7 @@ OC.L10N.register(
     "Disable all" : "از کار انداختن همه",
     "_%n app has an update available_::_%n apps have an update available_" : ["۱ کاره به‌روز رسانی دارد","%n کاره به‌روز رسانی دارند"],
     "_Update_::_Update all_" : ["به‌روز رسانی","به‌روز رسانی همه"],
+    "Loading" : "Loading",
     "Description" : "شرح",
     "Details" : "جزییات",
     "All" : "همه",

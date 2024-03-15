@@ -166,6 +166,7 @@ OC.L10N.register(
     "No apps found for your version" : "Nije pronađena nijedna aplikacija za vašu inačicu",
     "Disable all" : "Onemogući sve",
     "_%n app has an update available_::_%n apps have an update available_" : ["Dostupno je ažuriranje za %n aplikaciju","Dostupno je ažuriranje za %n aplikacije","Dostupno je ažuriranje za %n aplikacija"],
+    "Loading" : "Učitavanje",
     "Description" : "Opis",
     "Details" : "Pojedinosti",
     "All" : "Sve",

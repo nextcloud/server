@@ -370,6 +370,7 @@ OC.L10N.register(
     "Download and enable all" : "下載並啟用全部",
     "_%n app has an update available_::_%n apps have an update available_" : ["%n 個應用程式有可用的更新"],
     "_Update_::_Update all_" : ["更新全部"],
+    "Loading" : "正在載入",
     "Description" : "描述",
     "Details" : "詳細資料",
     "All" : "所有",

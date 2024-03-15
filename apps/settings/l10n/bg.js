@@ -184,6 +184,7 @@ OC.L10N.register(
     "Disable all" : "Изключи всички",
     "_%n app has an update available_::_%n apps have an update available_" : ["%n приложения имат налична актуализация ","%n приложения имат налична актуализация"],
     "_Update_::_Update all_" : ["Актуализиране на всички","Актуализиране на всички"],
+    "Loading" : "Зареждане",
     "Details" : "Подробности",
     "All" : "Всички",
     "Limit app usage to groups" : "Ограничаване използването на приложението от групи",

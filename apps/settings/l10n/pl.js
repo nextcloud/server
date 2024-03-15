@@ -265,6 +265,8 @@ OC.L10N.register(
     "Download and enable all" : "Pobierz i włącz wszystko",
     "_%n app has an update available_::_%n apps have an update available_" : ["%n aplikacja ma dostępną aktualizację","%n aplikacje mają dostępną aktualizację","%n aplikacji mają dostępną aktualizację","%n aplikacji mają dostępną aktualizację"],
     "_Update_::_Update all_" : ["Zaktualizuj","Zaktualizuj","Zaktualizuj","Zaktualizuj wszystko"],
+    "Nothing to show" : "Nie ma nic do pokazania",
+    "Loading" : "Wczytywanie",
     "Details" : "Szczegóły",
     "All" : "Wszystkie",
     "Limit app usage to groups" : "Ogranicz korzystanie z aplikacji dla grup",

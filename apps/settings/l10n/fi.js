@@ -191,6 +191,8 @@ OC.L10N.register(
     "Disable all" : "Poista kaikki käytöstä",
     "_%n app has an update available_::_%n apps have an update available_" : ["%n sovelluksella on päivitys saatavilla","%n sovelluksella on päivitys saatavilla"],
     "_Update_::_Update all_" : ["Päivitä","Päivitä kaikki"],
+    "Nothing to show" : "Ei mitään näytettävää",
+    "Loading" : "Ladataan",
     "Description" : "Kuvaus",
     "Details" : "Yksityiskohdat",
     "All" : "Kaikki",

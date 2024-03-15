@@ -276,6 +276,7 @@ OC.L10N.register(
     "Download and enable all" : "Download and enable all",
     "_%n app has an update available_::_%n apps have an update available_" : ["%n app has an update available","%n apps have an update available"],
     "_Update_::_Update all_" : ["Update","Update all"],
+    "Loading" : "Loading",
     "Description" : "Description",
     "Details" : "Details",
     "All" : "All",
