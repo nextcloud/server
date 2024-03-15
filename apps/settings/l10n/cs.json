@@ -339,6 +339,8 @@
     "Download and enable all" : "Stáhnout si a zapnout vše",
     "_%n app has an update available_::_%n apps have an update available_" : ["pro %n aplikaci je k dispozici aktualizace","pro %n aplikace jsou k dispozici aktualizace","pro %n aplikací jsou k dispozici aktualizace","pro %n aplikace jsou k dispozici aktualizace"],
     "_Update_::_Update all_" : ["Aktualizovat","Aktualizovat vše","Aktualizovat vše","Aktualizovat vše"],
+    "Nothing to show" : "Není co zobrazit",
+    "Loading" : "Načítání",
     "Description" : "Popis",
     "Details" : "Podrobnosti",
     "All" : "Vše",

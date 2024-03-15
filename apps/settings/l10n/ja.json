@@ -348,6 +348,8 @@
     "Download and enable all" : "すべてをダウンロードして有効にする",
     "_%n app has an update available_::_%n apps have an update available_" : ["%n 個のアプリに更新情報があります"],
     "_Update_::_Update all_" : ["全て更新"],
+    "Nothing to show" : "表示するものがありません",
+    "Loading" : "読み込み中",
     "Description" : "説明",
     "Details" : "詳細",
     "All" : "すべて",

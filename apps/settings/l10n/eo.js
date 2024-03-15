@@ -141,6 +141,7 @@ OC.L10N.register(
     "Results from other categories" : "Rezultoj el aliaj kategorioj",
     "No apps found for your version" : "Neniu aplikaĵo trovita por via versio",
     "Disable all" : "Malŝalti ĉiujn",
+    "Loading" : "Ŝargado",
     "Description" : "Priskribo",
     "Details" : "Detaloj",
     "All" : "Ĉio",

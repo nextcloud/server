@@ -148,6 +148,7 @@ OC.L10N.register(
     "No apps found for your version" : "Meziant ebet kavet evit ar stumm",
     "Disable all" : "Difenn pep tra",
     "_%n app has an update available_::_%n apps have an update available_" : ["%n meziant a zo posuple adnevesiñ","%n meziant a zo posuple adnevesiñ","%n meziant a zo posuple adnevesiñ","%n meziant a zo posuple adnevesiñ","%n meziant a zo posuple adnevesiñ"],
+    "Loading" : "Kargañ",
     "Description" : "Deskrivadur",
     "Details" : "Munudoù",
     "All" : "Pep tra",

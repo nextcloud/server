@@ -282,6 +282,8 @@ OC.L10N.register(
     "Download and enable all" : "Scarica e abilita tutti",
     "_%n app has an update available_::_%n apps have an update available_" : ["%n applicazione ha un aggiornamento disponibile","%n applicazioni hanno un aggiornamento disponibile","%n applicazioni hanno un aggiornamento disponibile"],
     "_Update_::_Update all_" : ["Aggiorna","Aggiorna","Aggiorna tutto"],
+    "Nothing to show" : "Niente da mostrare",
+    "Loading" : "Caricamento",
     "Description" : "Descrizione",
     "Details" : "Dettagli",
     "All" : "Tutti",
