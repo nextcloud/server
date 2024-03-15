@@ -26,6 +26,7 @@ use OCP\Files\Storage\IStorage;
 use OCP\IDBConnection;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
+use OCP\Share\IManager as IShareManager;
 use OCP\Share\IShare;
 use OCP\Util;
 use Test\HookHelper;
@@ -1684,7 +1685,7 @@ class ViewTest extends \Test\TestCase {
 
 		$userFolder = \OC::$server->getUserFolder($this->user);
 		$shareDir = $userFolder->get('shareddir');
-		$shareManager = \OC::$server->getShareManager();
+		$shareManager = \OC::$server->get(IShareManager::class);
 		$share = $shareManager->newShare();
 		$share->setSharedWith('test2')
 			->setSharedBy($this->user)
