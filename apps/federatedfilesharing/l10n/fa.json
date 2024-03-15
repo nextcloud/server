@@ -39,7 +39,7 @@
     "Share with me through my #Nextcloud Federated Cloud ID" : "از طریق شناسه ابری فدرال #Nextcloud با من به اشتراک بگذارید",
     "Cloud ID copied to the clipboard" : "Cloud ID در کلیپ بورد کپی شد",
     "Copy to clipboard" : "رونوشت به تخته‌گیره",
-    "Clipboard is not available" : "تخته گیره موحود نیست",
+    "Clipboard is not available" : "کلیپ بورد در دسترس نیست",
     "Copied!" : "رونوشت شد!",
     "Sharing %1$s failed, because this item is already shared with user %2$s" : "هم‌رسانی %1$s شکست خورد، چرا که این مورد از پیش با کاربر%2$s هم رسانی شده بود",
     "Not allowed to create a federated share with the same user" : "ایجاد یک هم‌رسانی خودگران با همان کاربر مجاز نیست",

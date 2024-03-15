@@ -222,7 +222,6 @@
     "Select file or folder to link to" : "Velg fil eller mappe å koble til",
     "Choose file" : "Velg fil",
     "Choose {file}" : "Choose {file}",
-    "Add" : "Legg til",
     "Loading current folder" : "Laster gjeldende mappe",
     "No files in here" : "Ingen filer",
     "Upload some content or sync with your devices!" : "Last opp innhold eller synkroniser med enhetene dine!",
@@ -240,6 +239,8 @@
     "Files settings" : "Filinnstillinger",
     "File cannot be accessed" : "Filen er ikke tilgjengelig",
     "The file could not be found or you do not have permissions to view it. Ask the sender to share it." : "Filen ble ikke funnet, eller du har ikke tillatelse til å vise den. Be avsenderen om å dele den.",
+    "Your files" : "Dine filer",
+    "Open in files" : "Åpne i filer",
     "Sort favorites first" : "Sorter favoritter først",
     "Sort folders before files" : "Sorter mapper før filer",
     "Show hidden files" : "Vis skjulte filer",
@@ -273,7 +274,7 @@
     "(copy %n)" : "(kopier %n)",
     "Move cancelled" : "Flytt avbrutt",
     "A file or folder with that name already exists in this folder" : "En fil eller mappe med det navnet finnes allerede i denne mappen",
-    "The files is locked" : "Filene er låst",
+    "The files are locked" : "Filene er låst",
     "The file does not exist anymore" : "Filen finnes ikke lenger",
     "Choose destination" : "Velg målplassering",
     "Copy to {target}" : "Copy to {target}",
@@ -292,6 +293,8 @@
     "Create new templates folder" : "Opprett ny malermappe",
     "Templates" : "Maler",
     "New template folder" : "Ny malermappe",
+    "In folder" : "I mappen",
+    "Search in folder: {folder}" : "Søk i mappen: {folder}",
     "One of the dropped files could not be processed" : "En av de slupne filene kunne ikke behandles",
     "Uploading \"{filename}\" failed" : "Opplasting av \"{filename}\" feilet",
     "_{folderCount} folder_::_{folderCount} folders_" : ["{folderCount} mappe","{folderCount} mapper"],
@@ -343,6 +346,8 @@
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Denne listen er ikke fullstendig gjengitt av ytelsesgrunner. Filene gjengis når du navigerer gjennom listen.",
     "Search for an account" : "Søk etter en konto",
     "Choose" : "Velg",
-    "No files or folders have been deleted yet" : "Ingen filer eller mapper er slettet enda"
+    "No files or folders have been deleted yet" : "Ingen filer eller mapper er slettet enda",
+    "Add" : "Legg til",
+    "The files is locked" : "Filene er låst"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

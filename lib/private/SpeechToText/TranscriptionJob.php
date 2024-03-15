@@ -65,7 +65,7 @@ class TranscriptionJob extends QueuedJob {
 		try {
 			\OC_Util::setupFS($owner);
 			$userFolder = $this->rootFolder->getUserFolder($owner);
-			$file = current($userFolder->getById($fileId));
+			$file = $userFolder->getFirstNodeById($fileId);
 			if (!($file instanceof File)) {
 				$this->logger->warning('Transcription of file ' . $fileId . ' failed. The file could not be found');
 				$this->eventDispatcher->dispatchTyped(

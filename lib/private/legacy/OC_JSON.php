@@ -114,22 +114,10 @@ class OC_JSON {
 	}
 
 	/**
-	 * Convert OC_L10N_String to string, for use in json encodings
-	 */
-	protected static function to_string(&$value) {
-		if ($value instanceof \OC\L10N\L10NString) {
-			$value = (string)$value;
-		}
-	}
-
-	/**
 	 * Encode JSON
 	 * @deprecated Use a AppFramework JSONResponse instead
 	 */
-	public static function encode($data) {
-		if (is_array($data)) {
-			array_walk_recursive($data, ['OC_JSON', 'to_string']);
-		}
+	private static function encode($data) {
 		return json_encode($data, JSON_HEX_TAG);
 	}
 }

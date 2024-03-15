@@ -36,8 +36,8 @@
 			:aria-description="ariaForSection(section)"
 			@click.native="onClick(section.to)">
 			<template v-if="index === 0" #icon>
-				<NcIconSvgWrapper v-if="section.icon" :size="20" :svg="section.icon" />
-				<Home v-else :size="20"/>
+				<NcIconSvgWrapper :size="20"
+					:svg="viewIcon" />
 			</template>
 		</NcBreadcrumb>
 
@@ -53,7 +53,7 @@ import type { Node } from '@nextcloud/files'
 
 import { translate as t} from '@nextcloud/l10n'
 import { basename } from 'path'
-import Home from 'vue-material-design-icons/Home.vue'
+import homeSvg from '@mdi/svg/svg/home.svg?raw'
 import NcBreadcrumb from '@nextcloud/vue/dist/Components/NcBreadcrumb.js'
 import NcBreadcrumbs from '@nextcloud/vue/dist/Components/NcBreadcrumbs.js'
 import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
@@ -68,7 +68,6 @@ export default defineComponent({
 	name: 'BreadCrumbs',
 
 	components: {
-		Home,
 		NcBreadcrumbs,
 		NcBreadcrumb,
 		NcIconSvgWrapper,
@@ -119,7 +118,6 @@ export default defineComponent({
 					exact: true,
 					name: this.getDirDisplayName(dir),
 					to,
-					icon: this.$navigation.active?.icon || null,
 				}
 			})
 		},
@@ -130,8 +128,13 @@ export default defineComponent({
 
 		// Hide breadcrumbs if an upload is ongoing on arrow screens
 		shouldShowBreadcrumbs(): boolean {
-			return this.filesListWidth < 768 && !this.isUploadInProgress
+			return this.filesListWidth > 768 && !this.isUploadInProgress
 		},
+
+		// used to show the views icon for the first breadcrumb
+		viewIcon(): string {
+			return this.currentView?.icon ?? homeSvg
+		}
 	},
 
 	methods: {

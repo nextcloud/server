@@ -60,9 +60,9 @@ class ResourceProvider implements IProvider {
 		if (isset($this->nodes[(int) $resource->getId()])) {
 			return $this->nodes[(int) $resource->getId()];
 		}
-		$nodes = $this->rootFolder->getById((int) $resource->getId());
-		if (!empty($nodes)) {
-			$this->nodes[(int) $resource->getId()] = array_shift($nodes);
+		$node = $this->rootFolder->getFirstNodeById((int) $resource->getId());
+		if ($node) {
+			$this->nodes[(int) $resource->getId()] = $node;
 			return $this->nodes[(int) $resource->getId()];
 		}
 		return null;
@@ -113,10 +113,10 @@ class ResourceProvider implements IProvider {
 		}
 
 		$userFolder = $this->rootFolder->getUserFolder($user->getUID());
-		$nodes = $userFolder->getById((int) $resource->getId());
+		$node = $userFolder->getById((int) $resource->getId());
 
-		if (!empty($nodes)) {
-			$this->nodes[(int) $resource->getId()] = array_shift($nodes);
+		if ($node) {
+			$this->nodes[(int) $resource->getId()] = $node;
 			return true;
 		}
 

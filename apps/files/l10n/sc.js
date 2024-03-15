@@ -200,7 +200,6 @@ OC.L10N.register(
     "Select file or folder to link to" : "Seletziona un'archìviu o una cartella de ligongiare",
     "Choose file" : "Sèbera un'archìviu",
     "Choose {file}" : "Sèbera {file}",
-    "Add" : "Agiunghe",
     "Loading current folder" : "Carrighende sa cartella atuale",
     "No files in here" : "Perunu archìviu",
     "Upload some content or sync with your devices!" : "Càrriga cuntenutos o sincroniza cun is dispositivos tuos!",
@@ -289,6 +288,7 @@ OC.L10N.register(
     "This file has the tags {firstTags} and {lastTag}" : "Custu archìviu tenet is etichetas {firstTags} e {lastTag}",
     "Open folder {name}" : "Aberi sa cartella {name}",
     "Unselect all" : "Deseletziona totu",
-    "Choose" : "Sèbera"
+    "Choose" : "Sèbera",
+    "Add" : "Agiunghe"
 },
 "nplurals=2; plural=(n != 1);");

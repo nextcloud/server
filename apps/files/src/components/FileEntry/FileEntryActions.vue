@@ -77,7 +77,7 @@
 					:key="action.id"
 					:class="`files-list__row-action-${action.id}`"
 					class="files-list__row-action--submenu"
-					:close-after-click="false /* never close submenu, just go back */"
+					close-after-click
 					:data-cy-files-list-row-action="action.id"
 					:title="action.title?.([source], currentView)"
 					@click="onActionClick(action)">
@@ -352,12 +352,13 @@ export default Vue.extend({
 <style lang="scss">
 // Allow right click to define the position of the menu
 // only if defined
-[style*="mouse-pos-x"] .v-popper__popper {
+main.app-content[style*="mouse-pos-x"] .v-popper__popper {
 	transform: translate3d(var(--mouse-pos-x), var(--mouse-pos-y), 0px) !important;
 
 	// If the menu is too close to the bottom, we move it up
 	&[data-popper-placement="top"] {
-		transform: translate3d(var(--mouse-pos-x), calc(var(--mouse-pos-y) - 50vh), 0px) !important;
+		// 34px added to align with the top of the cursor
+		transform: translate3d(var(--mouse-pos-x), calc(var(--mouse-pos-y) - 50vh + 34px), 0px) !important;
 	}
 	// Hide arrow if floating
 	.v-popper__arrow-container {

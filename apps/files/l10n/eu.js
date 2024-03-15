@@ -220,7 +220,6 @@ OC.L10N.register(
     "Select file or folder to link to" : "Hautatu estekatzeko fitxategia edo karpeta",
     "Choose file" : "Aukeratu fitxategia",
     "Choose {file}" : "Aukeratu {file}",
-    "Add" : "Gehitu",
     "Loading current folder" : "Uneko karpeta kargatzen",
     "No files in here" : "Ez dago fitxategirik hemen",
     "Upload some content or sync with your devices!" : "Igo edukiren bat edo sinkronizatu zure gailuekin!",
@@ -238,6 +237,7 @@ OC.L10N.register(
     "Files settings" : "FItxategien ezarpenak",
     "File cannot be accessed" : "Ezin da fitxategia atzitu",
     "The file could not be found or you do not have permissions to view it. Ask the sender to share it." : "Ezin izan da fitxategia aurkitu edo ez duzu ikusteko baimenik. Eskatu bidaltzaileari partekatzeko.",
+    "Open in files" : "Ireki Fitxategiak aplikazioan",
     "Sort favorites first" : "Ordenatu gogokoak lehenengo",
     "Sort folders before files" : "Ordenatu karpetak fitxategien aurretik",
     "Show hidden files" : "Erakutsi ezkutuko fitxategiak",
@@ -270,7 +270,6 @@ OC.L10N.register(
     "(copy)" : "(kopiatu)",
     "(copy %n)" : "(kopiatu %n)",
     "A file or folder with that name already exists in this folder" : "Izen hori duen fitxategi edo karpeta bat dago karpena honetan",
-    "The files is locked" : "Fixategiak blokeatuta dago",
     "The file does not exist anymore" : "Fitxategia ez da existizen dagoeneko",
     "Choose destination" : "Aukeratu helburua",
     "Copy to {target}" : "Kopiatu hona: {target}",
@@ -334,6 +333,8 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Zerrenda hau ez da guztiz ikusten errendimendu arrazoiengatik. Fitxategiak zerrendan zehar nabigatzen duten heinean bistaratuko dira.",
     "Search for an account" : "Bilatu kontu bat",
     "Choose" : "Aukeratu",
-    "No files or folders have been deleted yet" : "Oraindik ez da ezabatu fitxategirik edo karpetarik"
+    "No files or folders have been deleted yet" : "Oraindik ez da ezabatu fitxategirik edo karpetarik",
+    "Add" : "Gehitu",
+    "The files is locked" : "Fixategiak blokeatuta dago"
 },
 "nplurals=2; plural=(n != 1);");

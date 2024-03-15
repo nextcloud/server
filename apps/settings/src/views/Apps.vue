@@ -105,17 +105,9 @@
 
 			<template #description>
 				<!-- Featured/Supported badges -->
-				<div v-if="app.level === 300 || app.level === 200 || hasRating" class="app-level">
-					<span v-if="app.level === 300"
-						:title="t('settings', 'This app is supported via your current Nextcloud subscription.')"
-						class="supported icon-checkmark-color">
-						{{ t('settings', 'Supported') }}</span>
-					<span v-if="app.level === 200"
-						:title="t('settings', 'Featured apps are developed by and within the community. They offer central functionality and are ready for production use.')"
-						class="official icon-checkmark">
-						{{ t('settings', 'Featured') }}</span>
-					<AppScore v-if="hasRating" :score="app.appstoreData.ratingOverall" />
-				</div>
+				<AppLevelBadge :level="app.level" />
+				<AppScore v-if="hasRating" :score="app.appstoreData.ratingOverall" />
+
 				<div class="app-version">
 					<p>{{ app.version }}</p>
 				</div>
@@ -136,7 +128,7 @@
 				:order="1">
 				<div v-for="release in app.releases" :key="release.version" class="app-sidebar-tabs__release">
 					<h2>{{ release.version }}</h2>
-					<Markdown v-if="changelog(release)" :text="changelog(release)" />
+					<Markdown v-if="changelog(release)" :min-heading="3" :text="changelog(release)" />
 				</div>
 			</NcAppSidebarTab>
 		</NcAppSidebar>
@@ -161,6 +153,7 @@ import IconStarShooting from 'vue-material-design-icons/StarShooting.vue'
 import AppList from '../components/AppList.vue'
 import AppDetails from '../components/AppDetails.vue'
 import AppManagement from '../mixins/AppManagement.js'
+import AppLevelBadge from '../components/AppList/AppLevelBadge.vue'
 import AppScore from '../components/AppList/AppScore.vue'
 import Markdown from '../components/Markdown.vue'
 
@@ -179,6 +172,7 @@ export default {
 		NcAppContent,
 		AppDetails,
 		AppList,
+		AppLevelBadge,
 		IconStarShooting,
 		NcAppNavigation,
 		NcAppNavigationItem,
@@ -294,7 +288,7 @@ export default {
 			this.screenshotLoaded = false
 			if (this.app?.releases && this.app?.screenshot) {
 				const image = new Image()
-				image.onload = (e) => {
+				image.onload = () => {
 					this.screenshotLoaded = true
 				}
 				image.src = this.app.screenshot

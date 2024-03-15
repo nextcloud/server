@@ -27,6 +27,7 @@
 namespace OCA\DAV\SystemTag;
 
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\IRootFolder;
 use OCP\IGroupManager;
 use OCP\IUserSession;
 use OCP\SystemTag\ISystemTagManager;
@@ -42,6 +43,7 @@ class SystemTagsRelationsCollection extends SimpleCollection {
 		IUserSession $userSession,
 		IGroupManager $groupManager,
 		IEventDispatcher $dispatcher,
+		IRootFolder $rootFolder,
 	) {
 		$children = [
 			new SystemTagsObjectTypeCollection(
@@ -50,9 +52,14 @@ class SystemTagsRelationsCollection extends SimpleCollection {
 				$tagMapper,
 				$userSession,
 				$groupManager,
-				function ($name) {
-					$nodes = \OC::$server->getUserFolder()->getById((int)$name);
-					return !empty($nodes);
+				function (string $name) use ($rootFolder, $userSession): bool {
+					$user = $userSession->getUser();
+					if ($user) {
+						$node = $rootFolder->getUserFolder($user->getUID())->getFirstNodeById((int)$name);
+						return $node !== null;
+					} else {
+						return false;
+					}
 				}
 			),
 		];

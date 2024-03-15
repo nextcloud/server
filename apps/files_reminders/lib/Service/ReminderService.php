@@ -98,8 +98,8 @@ class ReminderService {
 			$this->reminderMapper->update($reminder);
 			return false;
 		} catch (DoesNotExistException $e) {
-			$nodes = $this->root->getUserFolder($user->getUID())->getById($fileId);
-			if (empty($nodes)) {
+			$node = $this->root->getUserFolder($user->getUID())->getFirstNodeById($fileId);
+			if (!$node) {
 				throw new NodeNotFoundException();
 			}
 			// Create new reminder if no reminder is found

@@ -116,6 +116,7 @@ class FilesSearchProvider implements IFilteringProvider {
 			'max-size',
 			'mime',
 			'type',
+			'path',
 			'is-favorite',
 			'title-only',
 		];
@@ -131,6 +132,7 @@ class FilesSearchProvider implements IFilteringProvider {
 			new FilterDefinition('max-size', FilterDefinition::TYPE_INT),
 			new FilterDefinition('mime', FilterDefinition::TYPE_STRING),
 			new FilterDefinition('type', FilterDefinition::TYPE_STRING),
+			new FilterDefinition('path', FilterDefinition::TYPE_STRING),
 			new FilterDefinition('is-favorite', FilterDefinition::TYPE_BOOL),
 		];
 	}
@@ -182,6 +184,7 @@ class FilesSearchProvider implements IFilteringProvider {
 				'max-size' => new SearchComparison(ISearchComparison::COMPARE_LESS_THAN_EQUAL, 'size', $filter->get()),
 				'mime' => new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'mimetype', $filter->get()),
 				'type' => new SearchComparison(ISearchComparison::COMPARE_LIKE, 'mimetype', $filter->get() . '/%'),
+				'path' => new SearchComparison(ISearchComparison::COMPARE_LIKE, 'path', 'files/' . ltrim($filter->get(), '/') . '%'),
 				'person' => $this->buildPersonSearchQuery($filter),
 				default => throw new InvalidArgumentException('Unsupported comparison'),
 			};

@@ -47,7 +47,14 @@
 		<component :is="dataItemTag"
 			class="app-name"
 			:headers="getDataItemHeaders(`app-table-col-name`)">
-			<router-link class="app-name--link" :to="{ name: 'apps-details',	params: { category: category, id: app.id }}"
+			<router-link class="app-name--link"
+				:to="{
+					name: 'apps-details',
+					params: {
+						category: category,
+						id: app.id
+					},
+				}"
 				:aria-label="t('settings', 'Show details for {appName} app', { appName:app.name })">
 				{{ app.name }}
 			</router-link>
@@ -66,17 +73,8 @@
 			<span v-else-if="app.appstoreData.releases[0].version">{{ app.appstoreData.releases[0].version }}</span>
 		</component>
 
-		<component :is="dataItemTag" :headers="getDataItemHeaders(`app-table-col-level`)" class="app-level">
-			<span v-if="app.level === 300"
-				:title="t('settings', 'This app is supported via your current Nextcloud subscription.')"
-				:aria-label="t('settings', 'This app is supported via your current Nextcloud subscription.')"
-				class="supported icon-checkmark-color">
-				{{ t('settings', 'Supported') }}</span>
-			<span v-if="app.level === 200"
-				:title="t('settings', 'Featured apps are developed by and within the community. They offer central functionality and are ready for production use.')"
-				:aria-label="t('settings', 'Featured apps are developed by and within the community. They offer central functionality and are ready for production use.')"
-				class="official icon-checkmark">
-				{{ t('settings', 'Featured') }}</span>
+		<component :is="dataItemTag" :headers="getDataItemHeaders(`app-table-col-level`)">
+			<AppLevelBadge :level="app.level" />
 			<AppScore v-if="hasRating && !listView" :score="app.score" />
 		</component>
 		<component :is="dataItemTag" :headers="getDataItemHeaders(`app-table-col-actions`)" class="actions">
@@ -124,6 +122,7 @@
 
 <script>
 import AppScore from './AppScore.vue'
+import AppLevelBadge from './AppLevelBadge.vue'
 import AppManagement from '../../mixins/AppManagement.js'
 import SvgFilterMixin from '../SvgFilterMixin.vue'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
@@ -131,12 +130,16 @@ import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 export default {
 	name: 'AppItem',
 	components: {
+		AppLevelBadge,
 		AppScore,
 		NcButton,
 	},
 	mixins: [AppManagement, SvgFilterMixin],
 	props: {
-		app: {},
+		app: {
+			type: Object,
+			required: true,
+		},
 		category: {},
 		listView: {
 			type: Boolean,
@@ -175,7 +178,7 @@ export default {
 		this.isSelected = (this.app.id === this.$route.params.id)
 		if (this.app.releases && this.app.screenshot) {
 			const image = new Image()
-			image.onload = (e) => {
+			image.onload = () => {
 				this.screenshotLoaded = true
 			}
 			image.src = this.app.screenshot

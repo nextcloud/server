@@ -692,17 +692,24 @@ class DefaultShareProvider implements IShareProvider {
 		}, $childMountNodes);
 
 		$qb->innerJoin('s', 'filecache', 'f', $qb->expr()->eq('s.file_source', 'f.fileid'));
+		$storageFilter = $qb->expr()->eq('f.storage', $qb->createNamedParameter($node->getMountPoint()->getNumericStorageId(), IQueryBuilder::PARAM_INT));
 		if ($shallow) {
 			$qb->andWhere(
 				$qb->expr()->orX(
-					$qb->expr()->eq('f.parent', $qb->createNamedParameter($node->getId())),
+					$qb->expr()->andX(
+						$storageFilter,
+						$qb->expr()->eq('f.parent', $qb->createNamedParameter($node->getId())),
+					),
 					$qb->expr()->in('f.fileid', $qb->createParameter('chunk'))
 				)
 			);
 		} else {
 			$qb->andWhere(
 				$qb->expr()->orX(
-					$qb->expr()->like('f.path', $qb->createNamedParameter($this->dbConn->escapeLikeParameter($node->getInternalPath()) . '/%')),
+					$qb->expr()->andX(
+						$storageFilter,
+						$qb->expr()->like('f.path', $qb->createNamedParameter($this->dbConn->escapeLikeParameter($node->getInternalPath()) . '/%')),
+					),
 					$qb->expr()->in('f.fileid', $qb->createParameter('chunk'))
 				)
 			);

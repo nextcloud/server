@@ -58,8 +58,10 @@ export function updateShare(fileName: string, index: number, shareSettings: Part
 		if (shareSettings.download !== undefined) {
 			cy.get('[data-cy-files-sharing-share-permissions-checkbox="download"]').find('input').as('downloadCheckbox')
 			if (shareSettings.download) {
+				// Force:true because the checkbox is hidden by the pretty UI.
 				cy.get('@downloadCheckbox').check({ force: true, scrollBehavior: 'nearest' })
 			} else {
+				// Force:true because the checkbox is hidden by the pretty UI.
 				cy.get('@downloadCheckbox').uncheck({ force: true, scrollBehavior: 'nearest' })
 			}
 		}
@@ -67,8 +69,10 @@ export function updateShare(fileName: string, index: number, shareSettings: Part
 		if (shareSettings.read !== undefined) {
 			cy.get('[data-cy-files-sharing-share-permissions-checkbox="read"]').find('input').as('readCheckbox')
 			if (shareSettings.read) {
+				// Force:true because the checkbox is hidden by the pretty UI.
 				cy.get('@readCheckbox').check({ force: true, scrollBehavior: 'nearest' })
 			} else {
+				// Force:true because the checkbox is hidden by the pretty UI.
 				cy.get('@readCheckbox').uncheck({ force: true, scrollBehavior: 'nearest' })
 			}
 		}
@@ -76,8 +80,10 @@ export function updateShare(fileName: string, index: number, shareSettings: Part
 		if (shareSettings.update !== undefined) {
 			cy.get('[data-cy-files-sharing-share-permissions-checkbox="update"]').find('input').as('updateCheckbox')
 			if (shareSettings.update) {
+				// Force:true because the checkbox is hidden by the pretty UI.
 				cy.get('@updateCheckbox').check({ force: true, scrollBehavior: 'nearest' })
 			} else {
+				// Force:true because the checkbox is hidden by the pretty UI.
 				cy.get('@updateCheckbox').uncheck({ force: true, scrollBehavior: 'nearest' })
 			}
 		}
@@ -85,8 +91,10 @@ export function updateShare(fileName: string, index: number, shareSettings: Part
 		if (shareSettings.delete !== undefined) {
 			cy.get('[data-cy-files-sharing-share-permissions-checkbox="delete"]').find('input').as('deleteCheckbox')
 			if (shareSettings.delete) {
+				// Force:true because the checkbox is hidden by the pretty UI.
 				cy.get('@deleteCheckbox').check({ force: true, scrollBehavior: 'nearest' })
 			} else {
+				// Force:true because the checkbox is hidden by the pretty UI.
 				cy.get('@deleteCheckbox').uncheck({ force: true, scrollBehavior: 'nearest' })
 			}
 		}

@@ -110,9 +110,9 @@ class DirectControllerTest extends TestCase {
 
 		$folder = $this->createMock(Folder::class);
 
-		$userFolder->method('getById')
+		$userFolder->method('getFirstNodeById')
 			->with(101)
-			->willReturn([$folder]);
+			->willReturn($folder);
 
 		$this->expectException(OCSBadRequestException::class);
 		$this->controller->getUrl(101);
@@ -129,9 +129,9 @@ class DirectControllerTest extends TestCase {
 		$this->timeFactory->method('getTime')
 			->willReturn(42);
 
-		$userFolder->method('getById')
+		$userFolder->method('getFirstNodeById')
 			->with(101)
-			->willReturn([$file]);
+			->willReturn($file);
 
 		$userFolder->method('getRelativePath')
 			->willReturn('/path');

@@ -21,6 +21,10 @@
 
 namespace Test\Share;
 
+use OC\Share20\Manager;
+use OCP\Server;
+use OCP\Share\IShare;
+
 class Backend implements \OCP\Share_Backend {
 	public const FORMAT_SOURCE = 0;
 	public const FORMAT_TARGET = 1;
@@ -46,7 +50,11 @@ class Backend implements \OCP\Share_Backend {
 		}
 
 
-		$shares = \OC\Share\Share::getItemsSharedWithUser('test', $shareWith);
+		$shareManager = Server::get(Manager::class);
+		$shares = array_merge(
+			$shareManager->getSharedWith($shareWith, IShare::TYPE_USER),
+			$shareManager->getSharedWith($shareWith, IShare::TYPE_GROUP),
+		);
 
 		$knownTargets = [];
 		foreach ($shares as $share) {

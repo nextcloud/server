@@ -208,7 +208,6 @@ OC.L10N.register(
     "Cannot transfer ownership of a file or folder you do not own" : "Ni mogoče prenesti lastništva datotek in map, katerih niste lastnik",
     "Select file or folder to link to" : "Izbor datoteke ali mape za povezavo",
     "Choose {file}" : "Izberite datoteko {file}",
-    "Add" : "Dodaj",
     "Loading current folder" : "Poteka nalaganje trenutne mape",
     "No files in here" : "V mapi ni datotek",
     "Upload some content or sync with your devices!" : "Uvozite vsebino, ali pa omogočite usklajevanje z napravami!",
@@ -222,6 +221,7 @@ OC.L10N.register(
     "Open the files app settings" : "Odpri nastavitve programa Datoteke",
     "Files settings" : "Nastavitve datotek",
     "File cannot be accessed" : "Do datoteke dostop ni mogoč",
+    "Open in files" : "Open in Files",
     "Sort favorites first" : "Razvrsti najprej priljubljene",
     "Show hidden files" : "Pokaži skrite datoteke",
     "Crop image previews" : "Obreži slike predogleda",
@@ -246,7 +246,6 @@ OC.L10N.register(
     "This file/folder is already in that directory" : "Ta datoteka oziroma mapa je že v določeni mapi",
     "You cannot move a file/folder onto itself or into a subfolder of itself" : "Mape ali datoteke ni mogoče premakniti samo vase oziroma v podmapo same sebe",
     "A file or folder with that name already exists in this folder" : "Datoteka oziroma mapa s tem imenom v tej mapi že obstaja",
-    "The files is locked" : "Datoteka je zaklenjena",
     "The file does not exist anymore" : "Datoteka ne obstaja več",
     "Copy to {target}" : "Kopiraj na {target}",
     "Move to {target}" : "Premakni na {target}",
@@ -306,6 +305,8 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Seznam datotek ni v celoti izpisan zaradi zagotavljanja hitrosti in odzivnosti sistema. Predmeti se bodo dopolnjevali ob brskanju.",
     "Search for an account" : "Poišči račun",
     "Choose" : "Izbor",
-    "No files or folders have been deleted yet" : "Ni še izbrisanih datotek in map"
+    "No files or folders have been deleted yet" : "Ni še izbrisanih datotek in map",
+    "Add" : "Dodaj",
+    "The files is locked" : "Datoteka je zaklenjena"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

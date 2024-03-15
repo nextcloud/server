@@ -585,8 +585,13 @@ class Cache implements ICache {
 				return $cacheEntry->getPath();
 			}, $children);
 
-			$deletedIds = array_merge($deletedIds, $childIds);
-			$deletedPaths = array_merge($deletedPaths, $childPaths);
+			foreach ($childIds as $childId) {
+				$deletedIds[] = $childId;
+			}
+
+			foreach ($childPaths as $childPath) {
+				$deletedPaths[] = $childPath;
+			}
 
 			$query = $this->getQueryBuilder();
 			$query->delete('filecache_extended')

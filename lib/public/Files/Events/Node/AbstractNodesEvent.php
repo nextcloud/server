@@ -32,17 +32,13 @@ use OCP\Files\Node;
  * @since 20.0.0
  */
 abstract class AbstractNodesEvent extends Event {
-	/** @var Node */
-	private $source;
-	/** @var Node */
-	private $target;
-
 	/**
 	 * @since 20.0.0
 	 */
-	public function __construct(Node $source, Node $target) {
-		$this->source = $source;
-		$this->target = $target;
+	public function __construct(
+		private Node $source,
+		private Node $target
+	) {
 	}
 
 	/**

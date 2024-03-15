@@ -190,7 +190,7 @@ OC.L10N.register(
     "{newName} already exists." : "{newName} вже присутній.",
     "\"{char}\" is not allowed inside a file name." : "Неприпустимий \"{char}\" у назві файлу.",
     "Name cannot be empty" : "Ім'я не може бути порожнім",
-    "Another entry with the same name already exists" : "Ще один запис з такою же назвою присутній.",
+    "Another entry with the same name already exists" : "Ще один запис з таким ім'ям вже присутній.",
     "Renamed \"{oldName}\" to \"{newName}\"" : "Перейменовано \"{oldName}\" у \"{newName\"",
     "Could not rename \"{oldName}\", it does not exist any more" : "Не вдалося перейментувати \"{oldName}\", оскільки він вже відсутній",
     "The name \"{newName}\" is already used in the folder \"{dir}\". Please choose a different name." : "Ім'я \"{newName}\" вже використовується у каталозі \"{dir}\". Виберіть інше ім'я.",
@@ -224,7 +224,6 @@ OC.L10N.register(
     "Select file or folder to link to" : "Виберіть файл або каталог, до якого потрібно застосувати посилання",
     "Choose file" : "Вибрати файл",
     "Choose {file}" : "Виберіть {file}",
-    "Add" : "Додати",
     "Loading current folder" : "Завантаження поточного каталогу",
     "No files in here" : "Тут немає файлів",
     "Upload some content or sync with your devices!" : "Завантажте вміст або синхронізуйтеся з вашими пристроями!",
@@ -242,6 +241,7 @@ OC.L10N.register(
     "Files settings" : "Налаштування",
     "File cannot be accessed" : "Неможливо отримати доступ до файлу",
     "The file could not be found or you do not have permissions to view it. Ask the sender to share it." : "Не вдалося знайти файл або у вас відсутній дозвіл на перегляд файлу. Попросіть поділитися цим файлом.",
+    "Open in files" : "Відкрити у файлах",
     "Sort favorites first" : "Спочатку впорядковувати із зірочкою",
     "Sort folders before files" : "Впорядковувати каталоги поререду файлів",
     "Show hidden files" : "Показувати приховані файли",
@@ -275,7 +275,6 @@ OC.L10N.register(
     "(copy %n)" : "(копія %n)",
     "Move cancelled" : "Переміщення скасовано",
     "A file or folder with that name already exists in this folder" : "Файл чи каталог з таким ім'ям вже присутній в цьому каталозі",
-    "The files is locked" : "Файл заблоковано",
     "The file does not exist anymore" : "Цей файл більше недоступний",
     "Choose destination" : "Виберіть каталог призначення",
     "Copy to {target}" : "Копіювати до {target}",
@@ -345,6 +344,8 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Через обмеження, пов'язані з потужністю, список не показується повністю. Файли показуватимуться, щойно ви рухатиметеся списком.",
     "Search for an account" : "Пошук облікового запису",
     "Choose" : "Вибрати",
-    "No files or folders have been deleted yet" : "Поки жодного каталогу чи файлу не було вилучено"
+    "No files or folders have been deleted yet" : "Поки жодного каталогу чи файлу не було вилучено",
+    "Add" : "Додати",
+    "The files is locked" : "Файл заблоковано"
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

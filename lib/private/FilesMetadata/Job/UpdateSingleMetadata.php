@@ -55,10 +55,9 @@ class UpdateSingleMetadata extends QueuedJob {
 		[$userId, $fileId] = $argument;
 
 		try {
-			$node = $this->rootFolder->getUserFolder($userId)->getById($fileId);
-			if (count($node) > 0) {
-				$file = array_shift($node);
-				$this->filesMetadataManager->refreshMetadata($file, IFilesMetadataManager::PROCESS_BACKGROUND);
+			$node = $this->rootFolder->getUserFolder($userId)->getFirstNodeById($fileId);
+			if ($node) {
+				$this->filesMetadataManager->refreshMetadata($node, IFilesMetadataManager::PROCESS_BACKGROUND);
 			}
 		} catch (\Exception $e) {
 			$this->logger->warning('issue while running UpdateSingleMetadata', ['exception' => $e, 'userId' => $userId, 'fileId' => $fileId]);

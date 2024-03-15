@@ -182,7 +182,6 @@ OC.L10N.register(
     "Ownership transfer request sent" : "Aanvraag eigendomsoverdracht verstuurd",
     "Cannot transfer ownership of a file or folder you do not own" : "Kan de eigendom van een bestand of map waarvan u niet de eigenaar bent, niet overdragen",
     "Choose {file}" : "Kies {file}",
-    "Add" : "Toevoegen",
     "No files in here" : "Hier geen bestanden",
     "Upload some content or sync with your devices!" : "Upload je inhoud of synchroniseer met je apparaten!",
     "Go back" : "Ga terug",
@@ -235,6 +234,7 @@ OC.L10N.register(
     "Deleted shares" : "Verwijderde shares",
     "Pending shares" : "Deellinks in behandeling",
     "Unselect all" : "Alle deselecteren",
-    "Choose" : "Kies"
+    "Choose" : "Kies",
+    "Add" : "Toevoegen"
 },
 "nplurals=2; plural=(n != 1);");
