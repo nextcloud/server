@@ -25,6 +25,7 @@
 			<NcTextField id="user"
 				:value.sync="user"
 				name="user"
+				:maxlength="255"
 				autocapitalize="off"
 				:label="t('core', 'Account name or email')"
 				required
@@ -60,6 +61,8 @@ import LoginButton from './LoginButton.vue'
 import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
 import NcNoteCard from '@nextcloud/vue/dist/Components/NcNoteCard.js'
 
+import AuthMixin from '../../mixins/auth.js'
+
 export default {
 	name: 'ResetPassword',
 	components: {
@@ -67,6 +70,7 @@ export default {
 		NcNoteCard,
 		NcTextField,
 	},
+	mixins: [AuthMixin],
 	props: {
 		username: {
 			type: String,
