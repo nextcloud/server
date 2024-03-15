@@ -161,6 +161,7 @@
     "Disable all" : "Išjungti visas",
     "_%n app has an update available_::_%n apps have an update available_" : ["%n programėlei yra prieinamas atnaujinimas","%n programėlėms yra prieinamas atnaujinimas","%n programėlių yra prieinamas atnaujinimas","%n programėlei yra prieinamas atnaujinimas"],
     "_Update_::_Update all_" : ["Atnaujinti","Atnaujinti visas","Atnaujinti visas","Atnaujinti visas"],
+    "Loading" : "Įkeliama",
     "Description" : "Aprašas",
     "Details" : "Išsamiau",
     "All" : "Viskas",

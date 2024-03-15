@@ -266,6 +266,7 @@ OC.L10N.register(
     "Download and enable all" : "下载并启用全部",
     "_%n app has an update available_::_%n apps have an update available_" : ["%n 应用有可用的更新"],
     "_Update_::_Update all_" : ["全部更新"],
+    "Loading" : "加载中",
     "Description" : "描述",
     "Details" : "详情",
     "All" : "全部",

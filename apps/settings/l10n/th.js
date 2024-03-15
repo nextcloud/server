@@ -102,6 +102,7 @@ OC.L10N.register(
     "No apps found for your version" : "ไม่พบแอปสำหรับรุ่นของคุณ",
     "Disable all" : "ปิดใช้งานทั้งหมด",
     "_%n app has an update available_::_%n apps have an update available_" : ["%n แอปมีอัปเดตใหม่"],
+    "Loading" : "กำลังโหลด",
     "Description" : "คำอธิบาย",
     "Details" : "รายละเอียด",
     "All" : "ทั้งหมด",

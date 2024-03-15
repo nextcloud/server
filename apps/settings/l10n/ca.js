@@ -277,6 +277,8 @@ OC.L10N.register(
     "Download and enable all" : "Baixada i activació de tot",
     "_%n app has an update available_::_%n apps have an update available_" : ["%n  aplicació té una actualització disponible","%n aplicacions tenen una actualització disponible"],
     "_Update_::_Update all_" : ["Actualitza","Actualitza-les totes"],
+    "Nothing to show" : "Res a mostrar",
+    "Loading" : "S'està carregant",
     "Description" : "Descripció",
     "Details" : "Detalls",
     "All" : "Tots",

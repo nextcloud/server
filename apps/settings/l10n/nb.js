@@ -370,6 +370,7 @@ OC.L10N.register(
     "Download and enable all" : "Last ned og aktiver alle",
     "_%n app has an update available_::_%n apps have an update available_" : ["%n app har en oppdatering tilgjengelig","%n apper har en oppdatering tilgjengelig"],
     "_Update_::_Update all_" : ["Oppdater","Oppdater alle"],
+    "Loading" : "Lasting",
     "Description" : "Beskrivelse",
     "Details" : "Detaljer",
     "All" : "Alle",

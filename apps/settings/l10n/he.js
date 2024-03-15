@@ -154,6 +154,7 @@ OC.L10N.register(
     "No apps found for your version" : "לא נמצאו יישומים לגרסה שלך",
     "Disable all" : "להשבית הכול",
     "_%n app has an update available_::_%n apps have an update available_" : ["לאחד היישומונים יש עדכון זמין","ל־%n יישומונים יש עדכון זמין","ל־%n יישומונים יש עדכון זמין"],
+    "Loading" : "בטעינה",
     "Description" : "תיאור",
     "Details" : "פרטים",
     "All" : "הכל",

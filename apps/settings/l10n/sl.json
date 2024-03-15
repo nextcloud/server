@@ -260,6 +260,7 @@
     "Download and enable all" : "Prejmi in omogoči vse",
     "_%n app has an update available_::_%n apps have an update available_" : ["Na voljo je posodobitev za %n program.","Na voljo sta posodobitvi za %n programa.","Na voljo so posodobitve za %n programe.","Na voljo so posodobitve za %n programov."],
     "_Update_::_Update all_" : ["Posodobi","Posodobi","Posodobi","Posodobi vse"],
+    "Loading" : "Poteka nalaganje ...",
     "Description" : "Opis",
     "Details" : "Podrobnosti",
     "All" : "Vsi",

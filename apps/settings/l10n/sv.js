@@ -284,6 +284,7 @@ OC.L10N.register(
     "Download and enable all" : "Ladda ner och aktivera alla",
     "_%n app has an update available_::_%n apps have an update available_" : ["%n app har en uppdatering tillgänglig","%n appar har en uppdatering tillgänglig"],
     "_Update_::_Update all_" : ["Uppdatera","Uppdatera alla"],
+    "Loading" : "Läser in",
     "Description" : "Beskrivning",
     "Details" : "Detaljer",
     "All" : "Alla",

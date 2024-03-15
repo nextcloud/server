@@ -130,6 +130,7 @@ OC.L10N.register(
     "No apps found for your version" : "Nenhuma aplicação encontrada para a sua versão",
     "Disable all" : "Desativar todos",
     "_Update_::_Update all_" : ["Atualizar","Atualizar todos","Atualizar todos"],
+    "Loading" : "A carregar",
     "Description" : "Descrição",
     "Details" : "Detalhes",
     "All" : "Todos",

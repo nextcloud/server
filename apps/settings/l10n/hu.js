@@ -221,6 +221,7 @@ OC.L10N.register(
     "Download and enable all" : "Összes letöltése és engedélyezése",
     "_%n app has an update available_::_%n apps have an update available_" : ["%n alkalmazás frissítése érhető el","%n alkalmazás frissítése érhető el"],
     "_Update_::_Update all_" : ["Frissítés","Összes frissítése"],
+    "Loading" : "Betöltés",
     "Description" : "Leírás",
     "Details" : "Részletek",
     "All" : "Mind",
