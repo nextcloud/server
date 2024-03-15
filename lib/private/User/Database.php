@@ -50,6 +50,7 @@ use OCP\Cache\CappedMemoryCache;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IDBConnection;
 use OCP\Security\Events\ValidatePasswordPolicyEvent;
+use OCP\Security\IHasher;
 use OCP\User\Backend\ABackend;
 use OCP\User\Backend\ICheckPasswordBackend;
 use OCP\User\Backend\ICountUsersBackend;
@@ -130,7 +131,7 @@ class Database extends ABackend implements
 				$qb->insert($this->table)
 					->values([
 						'uid' => $qb->createNamedParameter($uid),
-						'password' => $qb->createNamedParameter(\OC::$server->getHasher()->hash($password)),
+						'password' => $qb->createNamedParameter(\OC::$server->get(IHasher::class)->hash($password)),
 						'uid_lower' => $qb->createNamedParameter(mb_strtolower($uid)),
 					]);
 
@@ -197,7 +198,7 @@ class Database extends ABackend implements
 		if ($this->userExists($uid)) {
 			$this->eventDispatcher->dispatchTyped(new ValidatePasswordPolicyEvent($password));
 
-			$hasher = \OC::$server->getHasher();
+			$hasher = \OC::$server->get(IHasher::class);
 			$hashedPassword = $hasher->hash($password);
 
 			$return = $this->updatePassword($uid, $hashedPassword);
@@ -353,7 +354,7 @@ class Database extends ABackend implements
 		if ($found && is_array($this->cache[$loginName])) {
 			$storedHash = $this->cache[$loginName]['password'];
 			$newHash = '';
-			if (\OC::$server->getHasher()->verify($password, $storedHash, $newHash)) {
+			if (\OC::$server->get(IHasher::class)->verify($password, $storedHash, $newHash)) {
 				if (!empty($newHash)) {
 					$this->updatePassword($loginName, $newHash);
 				}

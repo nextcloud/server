@@ -2514,7 +2514,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 	public function testGetSharesInFolder() {
 		$userManager = \OC::$server->getUserManager();
 		$groupManager = \OC::$server->getGroupManager();
-		$rootFolder = \OC::$server->getRootFolder();
+		$rootFolder = \OC::$server->get(IRootFolder::class);
 
 		$provider = new DefaultShareProvider(
 			$this->dbConn,
@@ -2612,7 +2612,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 	public function testGetAccessListNoCurrentAccessRequired() {
 		$userManager = \OC::$server->getUserManager();
 		$groupManager = \OC::$server->getGroupManager();
-		$rootFolder = \OC::$server->getRootFolder();
+		$rootFolder = \OC::$server->get(IRootFolder::class);
 
 		$provider = new DefaultShareProvider(
 			$this->dbConn,
@@ -2708,7 +2708,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 	public function testGetAccessListCurrentAccessRequired() {
 		$userManager = \OC::$server->getUserManager();
 		$groupManager = \OC::$server->getGroupManager();
-		$rootFolder = \OC::$server->getRootFolder();
+		$rootFolder = \OC::$server->get(IRootFolder::class);
 
 		$provider = new DefaultShareProvider(
 			$this->dbConn,
