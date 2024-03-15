@@ -126,6 +126,8 @@ import NcNoteCard from '@nextcloud/vue/dist/Components/NcNoteCard.js'
 import AuthMixin from '../../mixins/auth.js'
 import LoginButton from './LoginButton.vue'
 
+import AuthMixin from '../../mixins/auth.js'
+
 export default {
 	name: 'LoginForm',
 
@@ -135,6 +137,7 @@ export default {
 		NcTextField,
 		NcNoteCard,
 	},
+	mixins: [AuthMixin],
 
 	mixins: [AuthMixin],
 
