@@ -3,7 +3,7 @@ OC.L10N.register(
     {
     "File could not be found" : "Неможливо знайти файл",
     "Move or copy" : "Перемістити або копіювати",
-    "Download" : "Звантажити",
+    "Download" : "Завантажити",
     "Delete" : "Вилучити",
     "Tags" : "Мітки",
     "Show list view" : "Подання списком",

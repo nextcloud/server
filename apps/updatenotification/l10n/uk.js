@@ -16,7 +16,7 @@ OC.L10N.register(
     "View in store" : "Переглянути у крамниці застосунків",
     "Apps with compatible version" : "Застосунки з підтримуваною версією",
     "Open updater" : "Оновити",
-    "Download now" : "Звантажити зараз",
+    "Download now" : "Завантажити зараз",
     "Web updater is disabled. Please use the command line updater or the appropriate update mechanism for your installation method (e.g. Docker pull) to update." : "Веб-оновлення вимкнено. Для оновлення, будь ласка, скористайтеся засобом оновлення з командного рядка або відповідним до вашого методу встановлення механізмом оновлення (наприклад, Docker pull).",
     "What's new?" : "Що нового?",
     "View changelog" : "Переглянути журнал змін",

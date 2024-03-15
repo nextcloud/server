@@ -7,7 +7,7 @@ OC.L10N.register(
     "Edit version name" : "Редагуйте назву версії",
     "Compare to current version" : "Порівняти з поточною версією",
     "Restore version" : "Відновити версію",
-    "Download version" : "Звантажити версію",
+    "Download version" : "Завантажити версію",
     "Delete version" : "Вилучити версію",
     "Current version" : "Поточна версія",
     "Initial version" : "Початкова версія",
