@@ -106,6 +106,7 @@ OC.MimeTypeList={
     "text/x-java-source": "text/code",
     "text/x-ldif": "text/code",
     "text/x-python": "text/code",
+    "text/x-rst": "text",
     "text/x-shellscript": "text/code",
     "web": "text/code",
     "application/internet-shortcut": "link",
