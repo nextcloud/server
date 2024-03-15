@@ -15,6 +15,7 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Authentication\Exceptions\ExpiredTokenException;
 use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\Authentication\Exceptions\WipeTokenException;
+use OCP\Authentication\Token\IToken;
 use OCP\ISession;
 use OCP\IUserSession;
 use OCP\Session\Exceptions\SessionNotAvailableException;
@@ -85,7 +86,7 @@ class PasswordConfirmationMiddleware extends Middleware {
 				return;
 			}
 			$scope = $token->getScopeAsArray();
-			if (isset($scope['sso-based-login']) && $scope['sso-based-login'] === true) {
+			if (isset($scope[IToken::SCOPE_SKIP_PASSWORD_VALIDATION]) && $scope[IToken::SCOPE_SKIP_PASSWORD_VALIDATION] === true) {
 				// Users logging in from SSO backends cannot confirm their password by design
 				return;
 			}

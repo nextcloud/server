@@ -181,7 +181,7 @@ class PasswordConfirmationMiddlewareTest extends TestCase {
 
 		$token = $this->createMock(IToken::class);
 		$token->method('getScopeAsArray')
-			->willReturn(['sso-based-login' => true]);
+			->willReturn([IToken::SCOPE_SKIP_PASSWORD_VALIDATION => true]);
 		$this->tokenProvider->expects($this->once())
 			->method('getToken')
 			->with($sessionId)
