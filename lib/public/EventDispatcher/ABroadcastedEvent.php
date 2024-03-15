@@ -31,7 +31,6 @@ use JsonSerializable;
  * @since 18.0.0
  */
 abstract class ABroadcastedEvent extends Event implements JsonSerializable {
-
 	/**
 	 * @since 18.0.0
 	 */

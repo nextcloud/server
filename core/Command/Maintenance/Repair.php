@@ -29,29 +29,34 @@
 namespace OC\Core\Command\Maintenance;
 
 use Exception;
+use OC\Repair\Events\RepairAdvanceEvent;
+use OC\Repair\Events\RepairErrorEvent;
+use OC\Repair\Events\RepairFinishEvent;
+use OC\Repair\Events\RepairInfoEvent;
+use OC\Repair\Events\RepairStartEvent;
+use OC\Repair\Events\RepairStepEvent;
+use OC\Repair\Events\RepairWarningEvent;
 use OCP\App\IAppManager;
+use OCP\EventDispatcher\Event;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
 
 class Repair extends Command {
-	protected \OC\Repair $repair;
-	protected IConfig $config;
-	private EventDispatcherInterface $dispatcher;
 	private ProgressBar $progress;
 	private OutputInterface $output;
-	private IAppManager $appManager;
+	protected bool $errored = false;
 
-	public function __construct(\OC\Repair $repair, IConfig $config, EventDispatcherInterface $dispatcher, IAppManager $appManager) {
-		$this->repair = $repair;
-		$this->config = $config;
-		$this->dispatcher = $dispatcher;
-		$this->appManager = $appManager;
+	public function __construct(
+		protected \OC\Repair $repair,
+		protected IConfig $config,
+		private IEventDispatcher $dispatcher,
+		private IAppManager $appManager,
+	) {
 		parent::__construct();
 	}
 
@@ -97,52 +102,44 @@ class Repair extends Command {
 			}
 		}
 
+
+
 		$maintenanceMode = $this->config->getSystemValueBool('maintenance');
 		$this->config->setSystemValue('maintenance', true);
 
 		$this->progress = new ProgressBar($output);
 		$this->output = $output;
-		$this->dispatcher->addListener('\OC\Repair::startProgress', [$this, 'handleRepairFeedBack']);
-		$this->dispatcher->addListener('\OC\Repair::advance', [$this, 'handleRepairFeedBack']);
-		$this->dispatcher->addListener('\OC\Repair::finishProgress', [$this, 'handleRepairFeedBack']);
-		$this->dispatcher->addListener('\OC\Repair::step', [$this, 'handleRepairFeedBack']);
-		$this->dispatcher->addListener('\OC\Repair::info', [$this, 'handleRepairFeedBack']);
-		$this->dispatcher->addListener('\OC\Repair::warning', [$this, 'handleRepairFeedBack']);
-		$this->dispatcher->addListener('\OC\Repair::error', [$this, 'handleRepairFeedBack']);
+		$this->dispatcher->addListener(RepairStartEvent::class, [$this, 'handleRepairFeedBack']);
+		$this->dispatcher->addListener(RepairAdvanceEvent::class, [$this, 'handleRepairFeedBack']);
+		$this->dispatcher->addListener(RepairFinishEvent::class, [$this, 'handleRepairFeedBack']);
+		$this->dispatcher->addListener(RepairStepEvent::class, [$this, 'handleRepairFeedBack']);
+		$this->dispatcher->addListener(RepairInfoEvent::class, [$this, 'handleRepairFeedBack']);
+		$this->dispatcher->addListener(RepairWarningEvent::class, [$this, 'handleRepairFeedBack']);
+		$this->dispatcher->addListener(RepairErrorEvent::class, [$this, 'handleRepairFeedBack']);
 
 		$this->repair->run();
 
 		$this->config->setSystemValue('maintenance', $maintenanceMode);
-		return 0;
+		return $this->errored ? 1 : 0;
 	}
 
-	public function handleRepairFeedBack($event) {
-		if (!$event instanceof GenericEvent) {
-			return;
-		}
-		switch ($event->getSubject()) {
-			case '\OC\Repair::startProgress':
-				$this->progress->start($event->getArgument(0));
-				break;
-			case '\OC\Repair::advance':
-				$this->progress->advance($event->getArgument(0));
-				break;
-			case '\OC\Repair::finishProgress':
-				$this->progress->finish();
-				$this->output->writeln('');
-				break;
-			case '\OC\Repair::step':
-				$this->output->writeln(' - ' . $event->getArgument(0));
-				break;
-			case '\OC\Repair::info':
-				$this->output->writeln('     - ' . $event->getArgument(0));
-				break;
-			case '\OC\Repair::warning':
-				$this->output->writeln('     - WARNING: ' . $event->getArgument(0));
-				break;
-			case '\OC\Repair::error':
-				$this->output->writeln('<error>     - ERROR: ' . $event->getArgument(0) . '</error>');
-				break;
+	public function handleRepairFeedBack(Event $event): void {
+		if ($event instanceof RepairStartEvent) {
+			$this->progress->start($event->getMaxStep());
+		} elseif ($event instanceof RepairAdvanceEvent) {
+			$this->progress->advance($event->getIncrement());
+		} elseif ($event instanceof RepairFinishEvent) {
+			$this->progress->finish();
+			$this->output->writeln('');
+		} elseif ($event instanceof RepairStepEvent) {
+			$this->output->writeln('<info> - ' . $event->getStepName() . '</info>');
+		} elseif ($event instanceof RepairInfoEvent) {
+			$this->output->writeln('<info>     - ' . $event->getMessage() . '</info>');
+		} elseif ($event instanceof RepairWarningEvent) {
+			$this->output->writeln('<comment>     - WARNING: ' . $event->getMessage() . '</comment>');
+		} elseif ($event instanceof RepairErrorEvent) {
+			$this->output->writeln('<error>     - ERROR: ' . $event->getMessage() . '</error>');
+			$this->errored = true;
 		}
 	}
 }

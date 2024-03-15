@@ -33,10 +33,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class MigrateCommand extends Command implements CompletionAwareInterface {
-	private Connection $connection;
-
-	public function __construct(Connection $connection) {
-		$this->connection = $connection;
+	public function __construct(
+		private Connection $connection,
+	) {
 		parent::__construct();
 	}
 

@@ -3,11 +3,10 @@ OC.L10N.register(
     {
     "Dashboard" : "Nástěnka",
     "Dashboard app" : "Aplikace Nástěnka",
-    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an\noverview of your upcoming appointments, urgent emails, chat messages,\nincoming tickets, latest tweets and much more! Users can add the widgets\nthey like and change the background to their liking." : "Začněte svůj den informovaní\n\nNextcloud Nástěnka je váš úvodní bod dne, který vám podává přehled\nnadcházejících schůzek, neodkladných e-mailů, zpráv v chatech, příchozích\npožadavků, nejnovějších tweetů a mnoha dalšího! Uživatelé si\nmohou přidávat ovládací prvky, které chtějí a měnit pozadí dle své libosti.",
+    "\"{title} icon\"" : "„ikona {title}“",
     "Customize" : "Přizpůsobit si",
     "Edit widgets" : "Upravit ovládací prvky",
     "Get more widgets from the App Store" : "Získat další ovládací prvky z katalogu aplikací",
-    "Change background image" : "Změnit obrázek na pozadí",
     "Weather service" : "Služba předpovědi počasí",
     "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "Vaše soukromí je chráněno tím,  že komunikaci se službou předpovědi počasí zprostředkovává vámi využívaný Nextcloud server. Díky tomu služba, která tyto údaje poskytuje, neobdrží z vašeho počítače žádné osobní údaje.",
     "Weather data from Met.no" : "Údaje o počasí z Met.no",
@@ -23,10 +22,7 @@ OC.L10N.register(
     "Good evening, {name}" : "Dobrý večer, {name}",
     "Hello" : "Dobrý den",
     "Hello, {name}" : "Dobrý den, {name}",
-    "Pick from Files" : "Vybrat ze souborů",
-    "Plain background" : "Jednolité pozadí",
-    "Insert from {productName}" : "Vložit z {productName}",
-    "Show something" : "Zobrazit něco",
-    "Default images" : "Výchozí obrázek"
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an\noverview of your upcoming appointments, urgent emails, chat messages,\nincoming tickets, latest tweets and much more! Users can add the widgets\nthey like and change the background to their liking." : "Začněte svůj den informovaní\n\nNextcloud Nástěnka je váš úvodní bod dne, který vám podává přehled\nnadcházejících schůzek, neodkladných e-mailů, zpráv v chatech, příchozích\npožadavků, nejnovějších tweetů a mnoha dalšího! Uživatelé si\nmohou přidávat ovládací prvky, které chtějí a měnit pozadí dle své libosti.",
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! Users can add the widgets they like and change the background to their liking." : "Začněte svůj den informovaní\n\nNextcloud Nástěnka je váš úvodní bod dne, který vám podává přehled\nnadcházejících schůzek, neodkladných e-mailů, zpráv v chatech, příchozích\npožadavků, nejnovějších tweetů a mnoha dalšího! Uživatelé si\nmohou přidávat ovládací prvky, které chtějí a měnit pozadí dle své libosti."
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

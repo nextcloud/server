@@ -42,12 +42,11 @@ use OCP\IUser;
  * @since 8.0.0
  */
 interface IAppManager {
-
 	/**
 	 * Returns the app information from "appinfo/info.xml".
 	 *
-	 * @param string $appId
-	 * @return mixed
+	 * @param string|null $lang
+	 * @return array|null
 	 * @since 14.0.0
 	 */
 	public function getAppInfo(string $appId, bool $path = false, $lang = null);
@@ -63,10 +62,20 @@ interface IAppManager {
 	public function getAppVersion(string $appId, bool $useCache = true): string;
 
 	/**
+	 * Returns the app icon or null if none is found
+	 *
+	 * @param string $appId
+	 * @param bool $dark Enable to request a dark icon variant, default is a white icon
+	 * @return string|null
+	 * @since 29.0.0
+	 */
+	public function getAppIcon(string $appId, bool $dark = false): string|null;
+
+	/**
 	 * Check if an app is enabled for user
 	 *
 	 * @param string $appId
-	 * @param \OCP\IUser $user (optional) if not defined, the currently loggedin user will be used
+	 * @param \OCP\IUser|null $user (optional) if not defined, the currently loggedin user will be used
 	 * @return bool
 	 * @since 8.0.0
 	 */
@@ -82,6 +91,31 @@ interface IAppManager {
 	 * @since 8.0.0
 	 */
 	public function isInstalled($appId);
+
+	/**
+	 * Check if an app should be enabled by default
+	 *
+	 * Notice: This actually checks if the app should be enabled by default
+	 * and not if currently installed/enabled
+	 *
+	 * @param string $appId ID of the app
+	 * @since 25.0.0
+	 */
+	public function isDefaultEnabled(string $appId):bool;
+
+	/**
+	 * Load an app, if not already loaded
+	 * @param string $app app id
+	 * @since 27.0.0
+	 */
+	public function loadApp(string $app): void;
+
+	/**
+	 * Check if an app is loaded
+	 * @param string $app app id
+	 * @since 27.0.0
+	 */
+	public function isAppLoaded(string $app): bool;
 
 	/**
 	 * Enable an app for every user
@@ -173,10 +207,37 @@ interface IAppManager {
 	public function isShipped($appId);
 
 	/**
+	 * Loads all apps
+	 *
+	 * @param string[] $types
+	 * @return bool
+	 *
+	 * This function walks through the Nextcloud directory and loads all apps
+	 * it can find. A directory contains an app if the file /appinfo/info.xml
+	 * exists.
+	 *
+	 * if $types is set to non-empty array, only apps of those types will be loaded
+	 * @since 27.0.0
+	 */
+	public function loadApps(array $types = []): bool;
+
+	/**
+	 * Check if an app is of a specific type
+	 * @since 27.0.0
+	 */
+	public function isType(string $app, array $types): bool;
+
+	/**
 	 * @return string[]
 	 * @since 9.0.0
 	 */
 	public function getAlwaysEnabledApps();
+
+	/**
+	 * @return string[] app IDs
+	 * @since 25.0.0
+	 */
+	public function getDefaultEnabledApps(): array;
 
 	/**
 	 * @param \OCP\IGroup $group
@@ -191,4 +252,36 @@ interface IAppManager {
 	 * @since 17.0.0
 	 */
 	public function getAppRestriction(string $appId): array;
+
+	/**
+	 * Returns the id of the user's default app
+	 *
+	 * If `user` is not passed, the currently logged in user will be used
+	 *
+	 * @param ?IUser $user User to query default app for
+	 * @param bool $withFallbacks Include fallback values if no default app was configured manually
+	 *                            Before falling back to predefined default apps,
+	 *                            the user defined app order is considered and the first app would be used as the fallback.
+	 *
+	 * @since 25.0.6
+	 * @since 28.0.0 Added optional $withFallbacks parameter
+	 */
+	public function getDefaultAppForUser(?IUser $user = null, bool $withFallbacks = true): string;
+
+	/**
+	 * Get the global default apps with fallbacks
+	 *
+	 * @return string[] The default applications
+	 * @since 28.0.0
+	 */
+	public function getDefaultApps(): array;
+
+	/**
+	 * Set the global default apps with fallbacks
+	 *
+	 * @param string[] $appId
+	 * @throws \InvalidArgumentException If any of the apps is not installed
+	 * @since 28.0.0
+	 */
+	public function setDefaultApps(array $defaultApps): void;
 }

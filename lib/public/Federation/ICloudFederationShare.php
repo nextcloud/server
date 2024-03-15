@@ -29,7 +29,6 @@ namespace OCP\Federation;
  * @since 14.0.0
  */
 interface ICloudFederationShare {
-
 	/**
 	 * set uid of the recipient
 	 *

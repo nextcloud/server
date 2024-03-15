@@ -22,7 +22,7 @@
 
 import { translate as t } from '@nextcloud/l10n'
 import moment from '@nextcloud/moment'
-import { dateFactory } from '../services/dateService'
+import { dateFactory } from '../services/dateService.js'
 
 /**
  * Formats a clearAt object to be human readable

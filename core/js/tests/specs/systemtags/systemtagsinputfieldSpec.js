@@ -301,12 +301,12 @@ describe('OC.SystemTags.SystemTagsInputField tests', function() {
 		it('formatResult renders tag name with visibility', function() {
 			var opts = select2Stub.getCall(0).args[0];
 			var $el = $(opts.formatResult({id: '1', name: 'test', userVisible: false, userAssignable: false}));
-			expect($el.find('.label').text()).toEqual('test (invisible)');
+			expect($el.find('.label').text()).toEqual('test (Invisible)');
 		});
 		it('formatSelection renders tag name with visibility', function() {
 			var opts = select2Stub.getCall(0).args[0];
 			var $el = $(opts.formatSelection({id: '1', name: 'test', userVisible: false, userAssignable: false}));
-			expect($el.text().trim()).toEqual('test (invisible)');
+			expect($el.text().trim()).toEqual('test (Invisible)');
 		});
 		describe('initSelection', function() {
 			var fetchStub;

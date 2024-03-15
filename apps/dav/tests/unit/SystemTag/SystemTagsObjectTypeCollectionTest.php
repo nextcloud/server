@@ -84,8 +84,8 @@ class SystemTagsObjectTypeCollectionTest extends \Test\TestCase {
 		$userFolder = $this->userFolder;
 
 		$closure = function ($name) use ($userFolder) {
-			$nodes = $userFolder->getById(intval($name));
-			return !empty($nodes);
+			$node = $userFolder->getFirstNodeById(intval($name));
+			return $node !== null;
 		};
 
 		$this->node = new \OCA\DAV\SystemTag\SystemTagsObjectTypeCollection(
@@ -98,80 +98,80 @@ class SystemTagsObjectTypeCollectionTest extends \Test\TestCase {
 		);
 	}
 
-	
-	public function testForbiddenCreateFile() {
+
+	public function testForbiddenCreateFile(): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
 		$this->node->createFile('555');
 	}
 
-	
-	public function testForbiddenCreateDirectory() {
+
+	public function testForbiddenCreateDirectory(): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
 		$this->node->createDirectory('789');
 	}
 
-	public function testGetChild() {
+	public function testGetChild(): void {
 		$this->userFolder->expects($this->once())
-			->method('getById')
+			->method('getFirstNodeById')
 			->with('555')
-			->willReturn([true]);
+			->willReturn($this->createMock(\OCP\Files\Node::class));
 		$childNode = $this->node->getChild('555');
 
 		$this->assertInstanceOf('\OCA\DAV\SystemTag\SystemTagsObjectMappingCollection', $childNode);
 		$this->assertEquals('555', $childNode->getName());
 	}
 
-	
-	public function testGetChildWithoutAccess() {
+
+	public function testGetChildWithoutAccess(): void {
 		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
 
 		$this->userFolder->expects($this->once())
-			->method('getById')
+			->method('getFirstNodeById')
 			->with('555')
-			->willReturn([]);
+			->willReturn(null);
 		$this->node->getChild('555');
 	}
 
-	
-	public function testGetChildren() {
+
+	public function testGetChildren(): void {
 		$this->expectException(\Sabre\DAV\Exception\MethodNotAllowed::class);
 
 		$this->node->getChildren();
 	}
 
-	public function testChildExists() {
+	public function testChildExists(): void {
 		$this->userFolder->expects($this->once())
-			->method('getById')
+			->method('getFirstNodeById')
 			->with('123')
-			->willReturn([true]);
+			->willReturn($this->createMock(\OCP\Files\Node::class));
 		$this->assertTrue($this->node->childExists('123'));
 	}
 
-	public function testChildExistsWithoutAccess() {
+	public function testChildExistsWithoutAccess(): void {
 		$this->userFolder->expects($this->once())
-			->method('getById')
+			->method('getFirstNodeById')
 			->with('555')
-			->willReturn([]);
+			->willReturn(null);
 		$this->assertFalse($this->node->childExists('555'));
 	}
 
-	
-	public function testDelete() {
+
+	public function testDelete(): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
 		$this->node->delete();
 	}
 
-	
-	public function testSetName() {
+
+	public function testSetName(): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
 		$this->node->setName('somethingelse');
 	}
 
-	public function testGetName() {
+	public function testGetName(): void {
 		$this->assertEquals('files', $this->node->getName());
 	}
 }

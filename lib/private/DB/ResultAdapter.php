@@ -33,7 +33,6 @@ use PDO;
  * Adapts DBAL 2.6 API for DBAL 3.x for backwards compatibility of a leaked type
  */
 class ResultAdapter implements IResult {
-
 	/** @var Result */
 	private $inner;
 

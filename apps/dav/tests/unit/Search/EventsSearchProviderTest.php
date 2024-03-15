@@ -32,6 +32,7 @@ use OCP\App\IAppManager;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\IUser;
+use OCP\Search\IFilter;
 use OCP\Search\ISearchQuery;
 use OCP\Search\SearchResult;
 use OCP\Search\SearchResultEntry;
@@ -39,7 +40,6 @@ use Sabre\VObject\Reader;
 use Test\TestCase;
 
 class EventsSearchProviderTest extends TestCase {
-
 	/** @var IAppManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $appManager;
 
@@ -294,7 +294,14 @@ class EventsSearchProviderTest extends TestCase {
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')->willReturn('john.doe');
 		$query = $this->createMock(ISearchQuery::class);
-		$query->method('getTerm')->willReturn('search term');
+		$seachTermFilter = $this->createMock(IFilter::class);
+		$query->method('getFilter')->willReturnCallback(function ($name) use ($seachTermFilter) {
+			return match ($name) {
+				'term' => $seachTermFilter,
+				default => null,
+			};
+		});
+		$seachTermFilter->method('get')->willReturn('search term');
 		$query->method('getLimit')->willReturn(5);
 		$query->method('getCursor')->willReturn(20);
 		$this->appManager->expects($this->once())
@@ -332,7 +339,7 @@ class EventsSearchProviderTest extends TestCase {
 			->with('principals/users/john.doe', 'search term', ['VEVENT'],
 				['SUMMARY', 'LOCATION', 'DESCRIPTION', 'ATTENDEE', 'ORGANIZER', 'CATEGORIES'],
 				['ATTENDEE' => ['CN'], 'ORGANIZER' => ['CN']],
-				['limit' => 5, 'offset' => 20])
+				['limit' => 5, 'offset' => 20, 'timerange' => ['start' => null, 'end' => null]])
 			->willReturn([
 				[
 					'calendarid' => 99,
@@ -420,15 +427,15 @@ class EventsSearchProviderTest extends TestCase {
 	}
 
 	public function testGetDeepLinkToCalendarApp(): void {
-		$this->urlGenerator->expects($this->at(0))
+		$this->urlGenerator->expects($this->once())
 			->method('linkTo')
 			->with('', 'remote.php')
 			->willReturn('link-to-remote.php');
-		$this->urlGenerator->expects($this->at(1))
+		$this->urlGenerator->expects($this->once())
 			->method('linkToRoute')
 			->with('calendar.view.index')
 			->willReturn('link-to-route-calendar/');
-		$this->urlGenerator->expects($this->at(2))
+		$this->urlGenerator->expects($this->once())
 			->method('getAbsoluteURL')
 			->with('link-to-route-calendar/edit/bGluay10by1yZW1vdGUucGhwL2Rhdi9jYWxlbmRhcnMvam9obi5kb2UvZm9vL2Jhci5pY3M=')
 			->willReturn('absolute-url-to-route');

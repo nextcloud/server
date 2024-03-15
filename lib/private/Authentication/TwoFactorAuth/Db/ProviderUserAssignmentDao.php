@@ -25,8 +25,6 @@ declare(strict_types=1);
  */
 namespace OC\Authentication\TwoFactorAuth\Db;
 
-use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
-use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use function array_map;
 
@@ -47,7 +45,7 @@ class ProviderUserAssignmentDao {
 	/**
 	 * Get all assigned provider IDs for the given user ID
 	 *
-	 * @return string[] where the array key is the provider ID (string) and the
+	 * @return array<string, bool> where the array key is the provider ID (string) and the
 	 *                  value is the enabled state (bool)
 	 */
 	public function getState(string $uid): array {
@@ -59,7 +57,7 @@ class ProviderUserAssignmentDao {
 		$result = $query->execute();
 		$providers = [];
 		foreach ($result->fetchAll() as $row) {
-			$providers[$row['provider_id']] = 1 === (int)$row['enabled'];
+			$providers[(string)$row['provider_id']] = 1 === (int)$row['enabled'];
 		}
 		$result->closeCursor();
 
@@ -69,26 +67,25 @@ class ProviderUserAssignmentDao {
 	/**
 	 * Persist a new/updated (provider_id, uid, enabled) tuple
 	 */
-	public function persist(string $providerId, string $uid, int $enabled) {
-		$qb = $this->conn->getQueryBuilder();
+	public function persist(string $providerId, string $uid, int $enabled): void {
+		$conn = $this->conn;
 
-		try {
-			// Insert a new entry
-			$insertQuery = $qb->insert(self::TABLE_NAME)->values([
-				'provider_id' => $qb->createNamedParameter($providerId),
-				'uid' => $qb->createNamedParameter($uid),
-				'enabled' => $qb->createNamedParameter($enabled, IQueryBuilder::PARAM_INT),
-			]);
-
-			$insertQuery->execute();
-		} catch (UniqueConstraintViolationException $ex) {
-			// There is already an entry -> update it
-			$updateQuery = $qb->update(self::TABLE_NAME)
-				->set('enabled', $qb->createNamedParameter($enabled))
-				->where($qb->expr()->eq('provider_id', $qb->createNamedParameter($providerId)))
-				->andWhere($qb->expr()->eq('uid', $qb->createNamedParameter($uid)));
-			$updateQuery->execute();
+		// Insert a new entry
+		if ($conn->insertIgnoreConflict(self::TABLE_NAME, [
+			'provider_id' => $providerId,
+			'uid' => $uid,
+			'enabled' => $enabled,
+		])) {
+			return;
 		}
+
+		// There is already an entry -> update it
+		$qb = $conn->getQueryBuilder();
+		$updateQuery = $qb->update(self::TABLE_NAME)
+			->set('enabled', $qb->createNamedParameter($enabled))
+			->where($qb->expr()->eq('provider_id', $qb->createNamedParameter($providerId)))
+			->andWhere($qb->expr()->eq('uid', $qb->createNamedParameter($uid)));
+		$updateQuery->executeStatement();
 	}
 
 	/**
@@ -96,7 +93,7 @@ class ProviderUserAssignmentDao {
 	 *
 	 * @param string $uid
 	 *
-	 * @return int[]
+	 * @return list<array{provider_id: string, uid: string, enabled: bool}>
 	 */
 	public function deleteByUser(string $uid): array {
 		$qb1 = $this->conn->getQueryBuilder();
@@ -122,7 +119,7 @@ class ProviderUserAssignmentDao {
 		}, $rows);
 	}
 
-	public function deleteAll(string $providerId) {
+	public function deleteAll(string $providerId): void {
 		$qb = $this->conn->getQueryBuilder();
 
 		$deleteQuery = $qb->delete(self::TABLE_NAME)

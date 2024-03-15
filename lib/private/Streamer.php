@@ -32,15 +32,17 @@ use OC\Files\Filesystem;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\InvalidPathException;
+use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\IRequest;
 use ownCloud\TarStreamer\TarStreamer;
+use Psr\Log\LoggerInterface;
 use ZipStreamer\ZipStreamer;
 
 class Streamer {
 	// array of regexp. Matching user agents will get tar instead of zip
-	private $preferTarFor = [ '/macintosh|mac os x/i' ];
+	private array $preferTarFor = [ '/macintosh|mac os x/i' ];
 
 	// streamer instance
 	private $streamerInstance;
@@ -49,12 +51,11 @@ class Streamer {
 	 * Streamer constructor.
 	 *
 	 * @param IRequest $request
-	 * @param int $size The size of the files in bytes
+	 * @param int|float $size The size of the files in bytes
 	 * @param int $numberOfFiles The number of files (and directories) that will
 	 *        be included in the streamed file
 	 */
-	public function __construct(IRequest $request, int $size, int $numberOfFiles) {
-
+	public function __construct(IRequest $request, int|float $size, int $numberOfFiles) {
 		/**
 		 * zip32 constraints for a basic (without compression, volumes nor
 		 * encryption) zip file according to the Zip specification:
@@ -118,15 +119,21 @@ class Streamer {
 		// prevent absolute dirs
 		$internalDir = ltrim($internalDir, '/');
 
-		$userFolder = \OC::$server->getRootFolder()->get(Filesystem::getRoot());
+		$userFolder = \OC::$server->get(IRootFolder::class)->get(Filesystem::getRoot());
 		/** @var Folder $dirNode */
 		$dirNode = $userFolder->get($dir);
 		$files = $dirNode->getDirectoryListing();
 
+		/** @var LoggerInterface $logger */
+		$logger = \OC::$server->query(LoggerInterface::class);
 		foreach ($files as $file) {
 			if ($file instanceof File) {
 				try {
 					$fh = $file->fopen('r');
+					if ($fh === false) {
+						$logger->error('Unable to open file for stream: ' . print_r($file, true));
+						continue;
+					}
 				} catch (NotPermittedException $e) {
 					continue;
 				}
@@ -150,11 +157,11 @@ class Streamer {
 	 *
 	 * @param resource $stream Stream to read data from
 	 * @param string $internalName Filepath and name to be used in the archive.
-	 * @param int $size Filesize
-	 * @param int|bool $time File mtime as int, or false
+	 * @param int|float $size Filesize
+	 * @param int|false $time File mtime as int, or false
 	 * @return bool $success
 	 */
-	public function addFileFromStream($stream, string $internalName, int $size, $time): bool {
+	public function addFileFromStream($stream, string $internalName, int|float $size, $time): bool {
 		$options = [];
 		if ($time) {
 			$options = [

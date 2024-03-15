@@ -29,7 +29,6 @@ namespace OCP\AppFramework\Bootstrap;
  * @since 20.0.0
  */
 interface IBootstrap {
-
 	/**
 	 * @param IRegistrationContext $context
 	 *

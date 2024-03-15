@@ -33,22 +33,16 @@ use OCP\IServerContainer;
 use Psr\Log\LoggerInterface;
 
 class ProviderManager implements IProviderManager {
-
 	/** @var string[] */
-	protected $providers = [];
+	protected array $providers = [];
 
 	/** @var IProvider[] */
-	protected $providerInstances = [];
+	protected array $providerInstances = [];
 
-	/** @var IServerContainer */
-	protected $serverContainer;
-
-	/** @var LoggerInterface */
-	protected $logger;
-
-	public function __construct(IServerContainer $serverContainer, LoggerInterface $logger) {
-		$this->serverContainer = $serverContainer;
-		$this->logger = $logger;
+	public function __construct(
+		protected IServerContainer $serverContainer,
+		protected LoggerInterface $logger,
+	) {
 	}
 
 	public function getResourceProviders(): array {

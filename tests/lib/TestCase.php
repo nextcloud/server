@@ -38,8 +38,41 @@ use OCP\Defaults;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IL10N;
+use OCP\Lock\ILockingProvider;
 use OCP\Security\ISecureRandom;
 use Psr\Log\LoggerInterface;
+
+if (version_compare(\PHPUnit\Runner\Version::id(), 10, '>=')) {
+	trait OnNotSuccessfulTestTrait {
+		protected function onNotSuccessfulTest(\Throwable $t): never {
+			$this->restoreAllServices();
+
+			// restore database connection
+			if (!$this->IsDatabaseAccessAllowed()) {
+				\OC::$server->registerService(IDBConnection::class, function () {
+					return self::$realDatabase;
+				});
+			}
+
+			parent::onNotSuccessfulTest($t);
+		}
+	}
+} else {
+	trait OnNotSuccessfulTestTrait {
+		protected function onNotSuccessfulTest(\Throwable $t): void {
+			$this->restoreAllServices();
+
+			// restore database connection
+			if (!$this->IsDatabaseAccessAllowed()) {
+				\OC::$server->registerService(IDBConnection::class, function () {
+					return self::$realDatabase;
+				});
+			}
+
+			parent::onNotSuccessfulTest($t);
+		}
+	}
+}
 
 abstract class TestCase extends \PHPUnit\Framework\TestCase {
 	/** @var \OC\Command\QueueBus */
@@ -53,6 +86,8 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 
 	/** @var array */
 	protected $services = [];
+
+	use OnNotSuccessfulTestTrait;
 
 	/**
 	 * @param string $name
@@ -150,19 +185,6 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 		}
 	}
 
-	protected function onNotSuccessfulTest(\Throwable $t): void {
-		$this->restoreAllServices();
-
-		// restore database connection
-		if (!$this->IsDatabaseAccessAllowed()) {
-			\OC::$server->registerService(IDBConnection::class, function () {
-				return self::$realDatabase;
-			});
-		}
-
-		parent::onNotSuccessfulTest($t);
-	}
-
 	protected function tearDown(): void {
 		$this->restoreAllServices();
 
@@ -176,7 +198,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 		// further cleanup
 		$hookExceptions = \OC_Hook::$thrownExceptions;
 		\OC_Hook::$thrownExceptions = [];
-		\OC::$server->getLockingProvider()->releaseAll();
+		\OC::$server->get(ILockingProvider::class)->releaseAll();
 		if (!empty($hookExceptions)) {
 			throw $hookExceptions[0];
 		}
@@ -230,7 +252,11 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 			$property->setAccessible(true);
 
 			if (!empty($parameters)) {
-				$property->setValue($object, array_pop($parameters));
+				if ($property->isStatic()) {
+					$property->setValue(null, array_pop($parameters));
+				} else {
+					$property->setValue($object, array_pop($parameters));
+				}
 			}
 
 			if (is_object($object)) {
@@ -238,6 +264,8 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 			}
 
 			return $property->getValue();
+		} elseif ($reflection->hasConstant($methodName)) {
+			return $reflection->getConstant($methodName);
 		}
 
 		return false;
@@ -266,7 +294,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 				return self::$realDatabase;
 			});
 		}
-		$dataDir = \OC::$server->getConfig()->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data-autotest');
+		$dataDir = \OC::$server->getConfig()->getSystemValueString('datadirectory', \OC::$SERVERROOT . '/data-autotest');
 		if (self::$wasDatabaseAllowed && \OC::$server->getDatabaseConnection()) {
 			$db = \OC::$server->getDatabaseConnection();
 			if ($db->inTransaction()) {
@@ -391,7 +419,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 	 * Clean up the list of locks
 	 */
 	protected static function tearDownAfterClassCleanStrayLocks() {
-		\OC::$server->getLockingProvider()->releaseAll();
+		\OC::$server->get(ILockingProvider::class)->releaseAll();
 	}
 
 	/**

@@ -35,4 +35,8 @@ class AzureTest extends ObjectStoreTest {
 
 		return new Azure($config['arguments']);
 	}
+
+	public function testFseekSize() {
+		$this->markTestSkipped('azure does not support seeking at the moment');
+	}
 }

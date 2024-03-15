@@ -5,7 +5,6 @@ namespace Test;
 use OCP\IAddressBook;
 
 class ContactsManagerTest extends \Test\TestCase {
-
 	/** @var \OC\ContactsManager */
 	private $cm;
 
@@ -110,6 +109,9 @@ class ContactsManagerTest extends \Test\TestCase {
 			->method('delete')
 			->willReturn('returnMe');
 
+		$addressbook->expects($this->any())
+			->method('getKey')
+			->willReturn('addressbookKey');
 
 		$this->cm->registerAddressBook($addressbook);
 		$result = $this->cm->delete(1, $addressbook->getKey());
@@ -129,6 +131,10 @@ class ContactsManagerTest extends \Test\TestCase {
 		$addressbook->expects($this->never())
 			->method('delete');
 
+		$addressbook->expects($this->any())
+			->method('getKey')
+			->willReturn('addressbookKey');
+
 		$this->cm->registerAddressBook($addressbook);
 		$result = $this->cm->delete(1, $addressbook->getKey());
 		$this->assertEquals($result, null);
@@ -142,6 +148,10 @@ class ContactsManagerTest extends \Test\TestCase {
 
 		$addressbook->expects($this->never())
 			->method('delete');
+
+		$addressbook->expects($this->any())
+			->method('getKey')
+			->willReturn('addressbookKey');
 
 		$this->cm->registerAddressBook($addressbook);
 		$result = $this->cm->delete(1, 'noaddressbook');
@@ -162,6 +172,10 @@ class ContactsManagerTest extends \Test\TestCase {
 			->method('createOrUpdate')
 			->willReturn('returnMe');
 
+		$addressbook->expects($this->any())
+			->method('getKey')
+			->willReturn('addressbookKey');
+
 		$this->cm->registerAddressBook($addressbook);
 		$result = $this->cm->createOrUpdate([], $addressbook->getKey());
 		$this->assertEquals($result, 'returnMe');
@@ -180,6 +194,10 @@ class ContactsManagerTest extends \Test\TestCase {
 		$addressbook->expects($this->never())
 			->method('createOrUpdate');
 
+		$addressbook->expects($this->any())
+			->method('getKey')
+			->willReturn('addressbookKey');
+
 		$this->cm->registerAddressBook($addressbook);
 		$result = $this->cm->createOrUpdate([], $addressbook->getKey());
 		$this->assertEquals($result, null);
@@ -193,6 +211,10 @@ class ContactsManagerTest extends \Test\TestCase {
 
 		$addressbook->expects($this->never())
 			->method('createOrUpdate');
+
+		$addressbook->expects($this->any())
+			->method('getKey')
+			->willReturn('addressbookKey');
 
 		$this->cm->registerAddressBook($addressbook);
 		$result = $this->cm->createOrUpdate([], 'noaddressbook');
@@ -209,6 +231,10 @@ class ContactsManagerTest extends \Test\TestCase {
 		$addressbook = $this->getMockBuilder('\OCP\IAddressBook')
 			->disableOriginalConstructor()
 			->getMock();
+
+		$addressbook->expects($this->any())
+			->method('getKey')
+			->willReturn('addressbookKey');
 
 		$this->cm->registerAddressBook($addressbook);
 		$result = $this->cm->isEnabled();
@@ -232,9 +258,9 @@ class ContactsManagerTest extends \Test\TestCase {
 
 		// register the address book
 		$this->cm->registerAddressBook($addressbook);
-		$all_books = $this->cm->getAddressBooks();
+		$all_books = $this->cm->getUserAddressBooks();
 
 		$this->assertEquals(1, count($all_books));
-		$this->assertEquals('A very simple Addressbook', $all_books['SIMPLE_ADDRESS_BOOK']);
+		$this->assertEquals($addressbook, $all_books['SIMPLE_ADDRESS_BOOK']);
 	}
 }

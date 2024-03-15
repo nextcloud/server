@@ -42,7 +42,6 @@ use PDO;
  * methods without much magic.
  */
 class PreparedStatement implements IPreparedStatement {
-
 	/** @var Statement */
 	private $statement;
 

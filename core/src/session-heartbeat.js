@@ -29,8 +29,8 @@ import { loadState } from '@nextcloud/initial-state'
 import { getCurrentUser } from '@nextcloud/auth'
 import { generateUrl } from '@nextcloud/router'
 
-import OC from './OC'
-import { setToken as setRequestToken, getToken as getRequestToken } from './OC/requesttoken'
+import OC from './OC/index.js'
+import { setToken as setRequestToken, getToken as getRequestToken } from './OC/requesttoken.js'
 
 let config = null
 /**
@@ -128,14 +128,17 @@ const registerAutoLogout = () => {
 		lastActive = e.newValue
 	})
 
-	setInterval(function() {
+	let intervalId = 0
+	const logoutCheck = () => {
 		const timeout = Date.now() - config.session_lifetime * 1000
 		if (lastActive < timeout) {
+			clearTimeout(intervalId)
 			console.info('Inactivity timout reached, logging out')
 			const logoutUrl = generateUrl('/logout') + '?requesttoken=' + encodeURIComponent(getRequestToken())
 			window.location = logoutUrl
 		}
-	}, 1000)
+	}
+	intervalId = setInterval(logoutCheck, 1000)
 }
 
 /**

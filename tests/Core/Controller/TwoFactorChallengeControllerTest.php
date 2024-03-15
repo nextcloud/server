@@ -41,7 +41,6 @@ use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class TwoFactorChallengeControllerTest extends TestCase {
-
 	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
 	private $request;
 
@@ -317,12 +316,12 @@ class TwoFactorChallengeControllerTest extends TestCase {
 			->method('verifyChallenge')
 			->with('myprovider', $user, 'token')
 			->will($this->throwException($exception));
-		$this->session->expects($this->at(0))
+		$this->session->expects($this->exactly(2))
 			->method('set')
-			->with('two_factor_auth_error_message', "2FA failed");
-		$this->session->expects($this->at(1))
-			->method('set')
-			->with('two_factor_auth_error', true);
+			->withConsecutive(
+				['two_factor_auth_error_message', '2FA failed'],
+				['two_factor_auth_error', true]
+			);
 		$this->urlGenerator->expects($this->once())
 			->method('linkToRoute')
 			->with('core.TwoFactorChallenge.showChallenge', [

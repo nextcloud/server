@@ -39,7 +39,6 @@ use OCP\PreConditionNotMetException;
  * @since 9.0.0
  */
 interface ICommentsManager {
-
 	/**
 	 * @const DELETED_USER type and id for a user that has been deleted
 	 * @see deleteReferencesOfActor
@@ -62,12 +61,12 @@ interface ICommentsManager {
 	public function get($id);
 
 	/**
-	 * returns the comment specified by the id and all it's child comments
+	 * Returns the comment specified by the id and all it's child comments
 	 *
 	 * @param string $id
 	 * @param int $limit max number of entries to return, 0 returns all
 	 * @param int $offset the start entry
-	 * @return array
+	 * @return array{comment: IComment, replies: list<array{comment: IComment, replies: array<empty, empty>}>}
 	 * @since 9.0.0
 	 *
 	 * The return array looks like this
@@ -111,15 +110,15 @@ interface ICommentsManager {
 	 * @param int $offset optional, starting point
 	 * @param \DateTime|null $notOlderThan optional, timestamp of the oldest comments
 	 * that may be returned
-	 * @return IComment[]
+	 * @return list<IComment>
 	 * @since 9.0.0
 	 */
 	public function getForObject(
-			$objectType,
-			$objectId,
-			$limit = 0,
-			$offset = 0,
-			\DateTime $notOlderThan = null
+		$objectType,
+		$objectId,
+		$limit = 0,
+		$offset = 0,
+		\DateTime $notOlderThan = null
 	);
 
 	/**
@@ -130,7 +129,7 @@ interface ICommentsManager {
 	 * @param int $limit optional, number of maximum comments to be returned. if
 	 * set to 0, all comments are returned.
 	 * @param bool $includeLastKnown
-	 * @return IComment[]
+	 * @return list<IComment>
 	 * @since 14.0.0
 	 * @deprecated 24.0.0 - Use getCommentsWithVerbForObjectSinceComment instead
 	 */
@@ -152,7 +151,7 @@ interface ICommentsManager {
 	 * @param int $limit optional, number of maximum comments to be returned. if
 	 * set to 0, all comments are returned.
 	 * @param bool $includeLastKnown
-	 * @return IComment[]
+	 * @return list<IComment>
 	 * @since 24.0.0
 	 */
 	public function getCommentsWithVerbForObjectSinceComment(
@@ -174,7 +173,7 @@ interface ICommentsManager {
 	 * @param string $verb Limit the verb of the comment
 	 * @param int $offset
 	 * @param int $limit
-	 * @return IComment[]
+	 * @return list<IComment>
 	 * @since 14.0.0
 	 */
 	public function search(string $search, string $objectType, string $objectId, string $verb, int $offset, int $limit = 50): array;
@@ -272,6 +271,7 @@ interface ICommentsManager {
 	 * @param IUser $user
 	 * @return array [$fileId => $unreadCount]
 	 * @since 12.0.0
+	 * @deprecated 29.0.0 use getNumberOfUnreadCommentsForObjects instead
 	 */
 	public function getNumberOfUnreadCommentsForFolder($folderId, IUser $user);
 

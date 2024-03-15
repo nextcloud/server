@@ -36,6 +36,7 @@
 namespace OCA\Files_Sharing\Tests;
 
 use OC\Files\Cache\Scanner;
+use OC\Files\Filesystem;
 use OCA\Files_Sharing\Controller\ShareAPIController;
 use OCP\App\IAppManager;
 use OCP\AppFramework\OCS\OCSBadRequestException;
@@ -43,6 +44,7 @@ use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\IConfig;
+use OCP\IDateTimeZone;
 use OCP\IL10N;
 use OCP\IPreview;
 use OCP\IRequest;
@@ -54,7 +56,7 @@ use OCP\UserStatus\IManager as IUserStatusManager;
  * Class ApiTest
  *
  * @group DB
- * TODO: convert to real intergration tests
+ * TODO: convert to real integration tests
  */
 class ApiTest extends TestCase {
 	public const TEST_FOLDER_NAME = '/folder_share_api_test';
@@ -73,6 +75,8 @@ class ApiTest extends TestCase {
 
 		\OC::$server->getConfig()->setAppValue('core', 'shareapi_exclude_groups', 'no');
 		\OC::$server->getConfig()->setAppValue('core', 'shareapi_expire_after_n_days', '7');
+
+		Filesystem::getLoader()->removeStorageWrapper('sharing_mask');
 
 		$this->folder = self::TEST_FOLDER_NAME;
 		$this->subfolder = '/subfolder_share_api_test';
@@ -119,6 +123,8 @@ class ApiTest extends TestCase {
 		$serverContainer = $this->createMock(IServerContainer::class);
 		$userStatusManager = $this->createMock(IUserStatusManager::class);
 		$previewManager = $this->createMock(IPreview::class);
+		$dateTimeZone = $this->createMock(IDateTimeZone::class);
+		$dateTimeZone->method('getTimeZone')->willReturn(new \DateTimeZone(date_default_timezone_get()));
 
 		return new ShareAPIController(
 			self::APP_NAME,
@@ -134,7 +140,8 @@ class ApiTest extends TestCase {
 			$appManager,
 			$serverContainer,
 			$userStatusManager,
-			$previewManager
+			$previewManager,
+			$dateTimeZone,
 		);
 	}
 
@@ -205,14 +212,16 @@ class ApiTest extends TestCase {
 		$ocs->cleanup();
 	}
 
+	/**
+	 * @group RoutingWeirdness
+	 */
 	public function testCreateShareLink() {
 		$ocs = $this->createOCS(self::TEST_FILES_SHARING_API_USER1);
 		$result = $ocs->createShare($this->folder, \OCP\Constants::PERMISSION_ALL, IShare::TYPE_LINK);
 		$ocs->cleanup();
 
 		$data = $result->getData();
-		$this->assertEquals(\OCP\Constants::PERMISSION_READ |
-			\OCP\Constants::PERMISSION_SHARE,
+		$this->assertEquals(\OCP\Constants::PERMISSION_ALL,
 			$data['permissions']);
 		$this->assertEmpty($data['expiration']);
 		$this->assertTrue(is_string($data['token']));
@@ -228,6 +237,9 @@ class ApiTest extends TestCase {
 		$ocs->cleanup();
 	}
 
+	/**
+	 * @group RoutingWeirdness
+	 */
 	public function testCreateShareLinkPublicUpload() {
 		$ocs = $this->createOCS(self::TEST_FILES_SHARING_API_USER1);
 		$result = $ocs->createShare($this->folder, \OCP\Constants::PERMISSION_ALL, IShare::TYPE_LINK, null, 'true');
@@ -420,6 +432,7 @@ class ApiTest extends TestCase {
 
 	/**
 	 * @medium
+	 * @group RoutingWeirdness
 	 */
 	public function testPublicLinkUrl() {
 		$ocs = $this->createOCS(self::TEST_FILES_SHARING_API_USER1);
@@ -838,7 +851,7 @@ class ApiTest extends TestCase {
 
 		// $request = $this->createRequest(['path' => $this->subfolder]);
 		$ocs = $this->createOCS(self::TEST_FILES_SHARING_API_USER2);
-		$result1 = $ocs->getShares('false','false','false', $this->subfolder);
+		$result1 = $ocs->getShares('false', 'false', 'false', $this->subfolder);
 		$ocs->cleanup();
 
 		// test should return one share within $this->folder
@@ -953,10 +966,7 @@ class ApiTest extends TestCase {
 
 		$this->assertNotNull($share1->getAttributes());
 		$share1 = $this->shareManager->createShare($share1);
-		$this->assertNull($share1->getAttributes());
 		$this->assertEquals(19, $share1->getPermissions());
-		// attributes get cleared when empty
-		$this->assertNull($share1->getAttributes());
 
 		$share2 = $this->shareManager->newShare();
 		$share2->setNode($node1)
@@ -1051,10 +1061,9 @@ class ApiTest extends TestCase {
 		$config->setAppValue('core', 'shareapi_enforce_expire_date', 'yes');
 
 		$dateWithinRange = new \DateTime();
-		$dateWithinRange->setTime(0,0,0);
-		$dateWithinRange->add(new \DateInterval('P5D'));
+		$dateWithinRange->add(new \DateInterval('P6D'));
+
 		$dateOutOfRange = new \DateTime();
-		$dateOutOfRange->setTime(0,0,0);
 		$dateOutOfRange->add(new \DateInterval('P8D'));
 
 		// update expire date to a valid value
@@ -1065,6 +1074,8 @@ class ApiTest extends TestCase {
 		$share1 = $this->shareManager->getShareById($share1->getFullId());
 
 		// date should be changed
+		$dateWithinRange->setTime(0, 0, 0);
+		$dateWithinRange->setTimezone(new \DateTimeZone(date_default_timezone_get()));
 		$this->assertEquals($dateWithinRange, $share1->getExpirationDate());
 
 		// update expire date to a value out of range
@@ -1120,7 +1131,7 @@ class ApiTest extends TestCase {
 			->setSharedBy(self::TEST_FILES_SHARING_API_USER1)
 			->setShareType(IShare::TYPE_LINK)
 			->setPermissions(1);
-		$share2 = $this->shareManager->createShare($share1);
+		$share2 = $this->shareManager->createShare($share2);
 
 		$ocs = $this->createOCS(self::TEST_FILES_SHARING_API_USER1);
 		$ocs->deleteShare($share1->getId());
@@ -1278,12 +1289,14 @@ class ApiTest extends TestCase {
 
 	public function datesProvider() {
 		$date = new \DateTime();
+		$date->setTime(0, 0);
 		$date->add(new \DateInterval('P5D'));
+		$date->setTimezone(new \DateTimeZone(date_default_timezone_get()));
 
 		return [
-			[$date->format('Y-m-d'), true],
+			[$date->format('Y-m-d H:i:s'), true],
 			['abc', false],
-			[$date->format('Y-m-d') . 'xyz', false],
+			[$date->format('Y-m-d H:i:s') . 'xyz', false],
 		];
 	}
 
@@ -1291,6 +1304,7 @@ class ApiTest extends TestCase {
 	 * Make sure only ISO 8601 dates are accepted
 	 *
 	 * @dataProvider datesProvider
+	 * @group RoutingWeirdness
 	 */
 	public function testPublicLinkExpireDate($date, $valid) {
 		$ocs = $this->createOCS(self::TEST_FILES_SHARING_API_USER1);
@@ -1308,7 +1322,7 @@ class ApiTest extends TestCase {
 
 		$data = $result->getData();
 		$this->assertTrue(is_string($data['token']));
-		$this->assertEquals($date, substr($data['expiration'], 0, 10));
+		$this->assertEquals(substr($date, 0, 10), substr($data['expiration'], 0, 10));
 
 		// check for correct link
 		$url = \OC::$server->getURLGenerator()->getAbsoluteURL('/index.php/s/' . $data['token']);
@@ -1316,11 +1330,14 @@ class ApiTest extends TestCase {
 
 		$share = $this->shareManager->getShareById('ocinternal:'.$data['id']);
 
-		$this->assertEquals($date, $share->getExpirationDate()->format('Y-m-d'));
+		$this->assertEquals($date, $share->getExpirationDate()->format('Y-m-d H:i:s'));
 
 		$this->shareManager->deleteShare($share);
 	}
 
+	/**
+	 * @group RoutingWeirdness
+	 */
 	public function testCreatePublicLinkExpireDateValid() {
 		$config = \OC::$server->getConfig();
 
@@ -1337,14 +1354,14 @@ class ApiTest extends TestCase {
 
 		$data = $result->getData();
 		$this->assertTrue(is_string($data['token']));
-		$this->assertEquals($date->format('Y-m-d') . ' 00:00:00', $data['expiration']);
+		$this->assertEquals($date->format('Y-m-d 00:00:00'), $data['expiration']);
 
 		// check for correct link
 		$url = \OC::$server->getURLGenerator()->getAbsoluteURL('/index.php/s/' . $data['token']);
 		$this->assertEquals($url, $data['url']);
 
 		$share = $this->shareManager->getShareById('ocinternal:'.$data['id']);
-		$date->setTime(0,0,0);
+		$date->setTime(0, 0, 0);
 		$this->assertEquals($date, $share->getExpirationDate());
 
 		$this->shareManager->deleteShare($share);

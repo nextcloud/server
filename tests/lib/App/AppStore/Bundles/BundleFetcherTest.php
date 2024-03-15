@@ -22,11 +22,11 @@
 namespace Test\App\AppStore\Bundles;
 
 use OC\App\AppStore\Bundles\BundleFetcher;
-use OC\App\AppStore\Bundles\CoreBundle;
 use OC\App\AppStore\Bundles\EducationBundle;
 use OC\App\AppStore\Bundles\EnterpriseBundle;
 use OC\App\AppStore\Bundles\GroupwareBundle;
 use OC\App\AppStore\Bundles\HubBundle;
+use OC\App\AppStore\Bundles\PublicSectorBundle;
 use OC\App\AppStore\Bundles\SocialSharingBundle;
 use OCP\IL10N;
 use Test\TestCase;
@@ -54,20 +54,13 @@ class BundleFetcherTest extends TestCase {
 			new GroupwareBundle($this->l10n),
 			new SocialSharingBundle($this->l10n),
 			new EducationBundle($this->l10n),
+			new PublicSectorBundle($this->l10n),
 		];
 		$this->assertEquals($expected, $this->bundleFetcher->getBundles());
 	}
 
-	public function testGetDefaultInstallationBundle() {
-		$expected = [
-			new CoreBundle($this->l10n),
-		];
-		$this->assertEquals($expected, $this->bundleFetcher->getDefaultInstallationBundle());
-	}
-
 	public function testGetBundleByIdentifier() {
 		$this->assertEquals(new EnterpriseBundle($this->l10n), $this->bundleFetcher->getBundleByIdentifier('EnterpriseBundle'));
-		$this->assertEquals(new CoreBundle($this->l10n), $this->bundleFetcher->getBundleByIdentifier('CoreBundle'));
 		$this->assertEquals(new GroupwareBundle($this->l10n), $this->bundleFetcher->getBundleByIdentifier('GroupwareBundle'));
 	}
 

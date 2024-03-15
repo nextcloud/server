@@ -22,16 +22,19 @@
 
 namespace Test;
 
-use PHPUnit\Framework\MockObject\MockObject;
-use Psr\Log\LoggerInterface;
 use OC\Installer;
 use OC\IntegrityCheck\Checker;
 use OC\Updater;
+use OCP\IAppConfig;
 use OCP\IConfig;
+use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
 
 class UpdaterTest extends TestCase {
 	/** @var IConfig|MockObject */
 	private $config;
+	/** @var IAppConfig|MockObject */
+	private $appConfig;
 	/** @var LoggerInterface|MockObject */
 	private $logger;
 	/** @var Updater */
@@ -46,6 +49,9 @@ class UpdaterTest extends TestCase {
 		$this->config = $this->getMockBuilder(IConfig::class)
 			->disableOriginalConstructor()
 			->getMock();
+		$this->appConfig = $this->getMockBuilder(IAppConfig::class)
+			->disableOriginalConstructor()
+			->getMock();
 		$this->logger = $this->getMockBuilder(LoggerInterface::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -58,6 +64,7 @@ class UpdaterTest extends TestCase {
 
 		$this->updater = new Updater(
 			$this->config,
+			$this->appConfig,
 			$this->checker,
 			$this->logger,
 			$this->installer
@@ -105,7 +112,7 @@ class UpdaterTest extends TestCase {
 	 */
 	public function testIsUpgradePossible($oldVersion, $newVersion, $allowedVersions, $result, $debug = false, $vendor = 'nextcloud') {
 		$this->config->expects($this->any())
-			->method('getSystemValue')
+			->method('getSystemValueBool')
 			->with('debug', false)
 			->willReturn($debug);
 		$this->config->expects($this->any())

@@ -26,42 +26,35 @@ namespace OCA\User_LDAP;
 use OCA\User_LDAP\User\Manager;
 use OCP\IConfig;
 use OCP\IUserManager;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 class AccessFactory {
-	/** @var ILDAPWrapper */
-	protected $ldap;
-	/** @var Manager */
-	protected $userManager;
-	/** @var Helper */
-	protected $helper;
-	/** @var IConfig */
-	protected $config;
-	/** @var IUserManager */
-	private $ncUserManager;
-	/** @var LoggerInterface */
-	private $logger;
+	private ILDAPWrapper $ldap;
+	private Helper $helper;
+	private IConfig $config;
+	private IUserManager $ncUserManager;
+	private LoggerInterface $logger;
 
 	public function __construct(
 		ILDAPWrapper $ldap,
-		Manager $userManager,
 		Helper $helper,
 		IConfig $config,
 		IUserManager $ncUserManager,
 		LoggerInterface $logger) {
 		$this->ldap = $ldap;
-		$this->userManager = $userManager;
 		$this->helper = $helper;
 		$this->config = $config;
 		$this->ncUserManager = $ncUserManager;
 		$this->logger = $logger;
 	}
 
-	public function get(Connection $connection) {
+	public function get(Connection $connection): Access {
+		/* Each Access instance gets its own Manager instance, see OCA\User_LDAP\AppInfo\Application::register() */
 		return new Access(
 			$connection,
 			$this->ldap,
-			$this->userManager,
+			Server::get(Manager::class),
 			$this->helper,
 			$this->config,
 			$this->ncUserManager,

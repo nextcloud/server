@@ -54,14 +54,14 @@ class RegenerateBirthdayCalendarsTest extends TestCase {
 			$this->config);
 	}
 
-	public function testGetName() {
+	public function testGetName(): void {
 		$this->assertEquals(
 			'Regenerating birthday calendars to use new icons and fix old birthday events without year',
 			$this->migration->getName()
 		);
 	}
 
-	public function testRun() {
+	public function testRun(): void {
 		$this->config->expects($this->once())
 			->method('getAppValue')
 			->with('dav', 'regeneratedBirthdayCalendarsForYearFix')
@@ -83,7 +83,7 @@ class RegenerateBirthdayCalendarsTest extends TestCase {
 		$this->migration->run($output);
 	}
 
-	public function testRunSecondTime() {
+	public function testRunSecondTime(): void {
 		$this->config->expects($this->once())
 			->method('getAppValue')
 			->with('dav', 'regeneratedBirthdayCalendarsForYearFix')

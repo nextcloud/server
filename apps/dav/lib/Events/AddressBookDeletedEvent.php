@@ -53,8 +53,8 @@ class AddressBookDeletedEvent extends Event {
 	 * @since 20.0.0
 	 */
 	public function __construct(int $addressBookId,
-								array $addressBookData,
-								array $shares) {
+		array $addressBookData,
+		array $shares) {
 		parent::__construct();
 		$this->addressBookId = $addressBookId;
 		$this->addressBookData = $addressBookData;

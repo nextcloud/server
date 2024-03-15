@@ -4,8 +4,6 @@ namespace Test\Encryption;
 
 use OC\Encryption\Util;
 use OC\Files\View;
-use OCA\Files_External\Lib\StorageConfig;
-use OCA\Files_External\Service\GlobalStoragesService;
 use OCP\Encryption\IEncryptionModule;
 use OCP\IConfig;
 use OCP\IGroupManager;
@@ -13,9 +11,9 @@ use OCP\IUserManager;
 use Test\TestCase;
 
 class UtilTest extends TestCase {
-
 	/**
 	 * block size will always be 8192 for a PHP stream
+	 *
 	 * @see https://bugs.php.net/bug.php?id=21641
 	 */
 	protected int $headerSize = 8192;
@@ -182,42 +180,73 @@ class UtilTest extends TestCase {
 		];
 	}
 
-	public function dataTestIsSystemWideMountPoint() {
+	/**
+	 * @dataProvider dataTestParseRawHeader
+	 */
+	public function testParseRawHeader($rawHeader, $expected) {
+		$result = $this->util->parseRawHeader($rawHeader);
+		$this->assertSameSize($expected, $result);
+		foreach ($result as $key => $value) {
+			$this->assertArrayHasKey($key, $expected);
+			$this->assertSame($expected[$key], $value);
+		}
+	}
+
+	public function dataTestParseRawHeader() {
 		return [
-			[false, 'non-matching mount point name', [], [], '/mp_another'],
-			[true, 'applicable to all', [], []],
-			[true, 'applicable to user directly', ['user1'], []],
-			[true, 'applicable to group directly', [], ['group1']],
-			[false, 'non-applicable to current user', ['user2'], []],
-			[false, 'non-applicable to current user\'s group', [], ['group2']],
-			[true, 'mount point without leading slash', [], [], 'mp'],
+			[str_pad('HBEGIN:oc_encryption_module:0:HEND', $this->headerSize, '-', STR_PAD_RIGHT)
+				, [Util::HEADER_ENCRYPTION_MODULE_KEY => '0']],
+			[str_pad('HBEGIN:oc_encryption_module:0:custom_header:foo:HEND', $this->headerSize, '-', STR_PAD_RIGHT)
+				, ['custom_header' => 'foo', Util::HEADER_ENCRYPTION_MODULE_KEY => '0']],
+			[str_pad('HelloWorld', $this->headerSize, '-', STR_PAD_RIGHT), []],
+			['', []],
+			[str_pad('HBEGIN:oc_encryption_module:0', $this->headerSize, '-', STR_PAD_RIGHT)
+				, []],
+			[str_pad('oc_encryption_module:0:HEND', $this->headerSize, '-', STR_PAD_RIGHT)
+				, []],
 		];
 	}
 
 	/**
-	 * @dataProvider dataTestIsSystemWideMountPoint
+	 * @dataProvider dataTestGetFileKeyDir
+	 *
+	 * @param bool $isSystemWideMountPoint
+	 * @param string $storageRoot
+	 * @param string $expected
 	 */
-	public function testIsSystemWideMountPoint($expectedResult, $expectationText, $applicableUsers, $applicableGroups, $mountPointName = '/mp') {
-		$this->groupManager->method('isInGroup')
-			 ->will($this->returnValueMap([
-			 	['user1', 'group1', true], // user is only in group1
-			 	['user1', 'group2', false],
-			 ]));
+	public function testGetFileKeyDir($isSystemWideMountPoint, $storageRoot, $expected) {
+		$path = '/user1/files/foo/bar.txt';
+		$owner = 'user1';
+		$relativePath = '/foo/bar.txt';
 
-		$storages = [];
+		$util = $this->getMockBuilder(Util::class)
+			->onlyMethods(['isSystemWideMountPoint', 'getUidAndFilename', 'getKeyStorageRoot'])
+			->setConstructorArgs([
+				$this->view,
+				$this->userManager,
+				$this->groupManager,
+				$this->config
+			])
+			->getMock();
 
-		$storageConfig = $this->createMock(StorageConfig::class);
-		$storageConfig->method('getMountPoint')->willReturn($mountPointName);
-		$storageConfig->method('getApplicableUsers')->willReturn($applicableUsers);
-		$storageConfig->method('getApplicableGroups')->willReturn($applicableGroups);
-		$storages[] = $storageConfig;
+		$util->expects($this->once())->method('getKeyStorageRoot')
+			->willReturn($storageRoot);
+		$util->expects($this->once())->method('isSystemWideMountPoint')
+			->willReturn($isSystemWideMountPoint);
+		$util->expects($this->once())->method('getUidAndFilename')
+			->with($path)->willReturn([$owner, $relativePath]);
 
-		$storagesServiceMock = $this->createMock(GlobalStoragesService::class);
-		$storagesServiceMock->expects($this->atLeastOnce())->method('getAllStorages')
-			->willReturn($storages);
+		$this->assertSame($expected,
+			$util->getFileKeyDir('OC_DEFAULT_MODULE', $path)
+		);
+	}
 
-		$this->overwriteService(GlobalStoragesService::class, $storagesServiceMock);
-
-		$this->assertEquals($expectedResult, $this->util->isSystemWideMountPoint('/files/mp', 'user1'), 'Test case: ' . $expectationText);
+	public function dataTestGetFileKeyDir() {
+		return [
+			[false, '', '/user1/files_encryption/keys/foo/bar.txt/OC_DEFAULT_MODULE/'],
+			[true, '', '/files_encryption/keys/foo/bar.txt/OC_DEFAULT_MODULE/'],
+			[false, 'newStorageRoot', '/newStorageRoot/user1/files_encryption/keys/foo/bar.txt/OC_DEFAULT_MODULE/'],
+			[true, 'newStorageRoot', '/newStorageRoot/files_encryption/keys/foo/bar.txt/OC_DEFAULT_MODULE/'],
+		];
 	}
 }

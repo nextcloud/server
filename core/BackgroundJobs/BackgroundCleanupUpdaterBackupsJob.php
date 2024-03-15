@@ -26,31 +26,34 @@ declare(strict_types=1);
  */
 namespace OC\Core\BackgroundJobs;
 
-use OC\BackgroundJob\QueuedJob;
+use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\BackgroundJob\QueuedJob;
 use OCP\IConfig;
 use Psr\Log\LoggerInterface;
 
 class BackgroundCleanupUpdaterBackupsJob extends QueuedJob {
-	protected IConfig $config;
-	protected LoggerInterface $log;
-
-	public function __construct(IConfig $config, LoggerInterface $log) {
-		$this->config = $config;
-		$this->log = $log;
+	public function __construct(
+		protected IConfig $config,
+		protected LoggerInterface $log,
+		ITimeFactory $time,
+	) {
+		parent::__construct($time);
 	}
 
 	/**
 	 * This job cleans up all backups except the latest 3 from the updaters backup directory
+	 *
+	 * @param array $argument
 	 */
-	public function run($arguments) {
-		$dataDir = $this->config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data');
+	public function run($argument): void {
+		$updateDir = $this->config->getSystemValue('updatedirectory', null) ?? $this->config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data');
 		$instanceId = $this->config->getSystemValue('instanceid', null);
 
 		if (!is_string($instanceId) || empty($instanceId)) {
 			return;
 		}
 
-		$updaterFolderPath = $dataDir . '/updater-' . $instanceId;
+		$updaterFolderPath = $updateDir . '/updater-' . $instanceId;
 		$backupFolderPath = $updaterFolderPath . '/backups';
 		if (file_exists($backupFolderPath)) {
 			$this->log->info("$backupFolderPath exists - start to clean it up");

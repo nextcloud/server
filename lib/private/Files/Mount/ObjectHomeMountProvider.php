@@ -65,7 +65,7 @@ class ObjectHomeMountProvider implements IHomeMountProvider {
 			return null;
 		}
 
-		return new MountPoint('\OC\Files\ObjectStore\HomeObjectStoreStorage', '/' . $user->getUID(), $config['arguments'], $loader, null, null, self::class);
+		return new HomeMountPoint($user, '\OC\Files\ObjectStore\HomeObjectStoreStorage', '/' . $user->getUID(), $config['arguments'], $loader, null, null, self::class);
 	}
 
 	/**
@@ -122,7 +122,7 @@ class ObjectHomeMountProvider implements IHomeMountProvider {
 				$config['arguments']['bucket'] = '';
 			}
 			$mapper = new \OC\Files\ObjectStore\Mapper($user, $this->config);
-			$numBuckets = isset($config['arguments']['num_buckets']) ? $config['arguments']['num_buckets'] : 64;
+			$numBuckets = $config['arguments']['num_buckets'] ?? 64;
 			$config['arguments']['bucket'] .= $mapper->getBucket($numBuckets);
 
 			$this->config->setUserValue($user->getUID(), 'homeobjectstore', 'bucket', $config['arguments']['bucket']);

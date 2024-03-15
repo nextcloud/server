@@ -47,9 +47,9 @@ class WebAuthn implements ISettings {
 	private $manager;
 
 	public function __construct(PublicKeyCredentialMapper $mapper,
-								string $UserId,
-								IInitialStateService $initialStateService,
-								Manager $manager) {
+		string $UserId,
+		IInitialStateService $initialStateService,
+		Manager $manager) {
 		$this->mapper = $mapper;
 		$this->uid = $UserId;
 		$this->initialStateService = $initialStateService;

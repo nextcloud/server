@@ -25,7 +25,6 @@ namespace OC\GlobalScale;
 use OCP\IConfig;
 
 class Config implements \OCP\GlobalScale\IConfig {
-
 	/** @var IConfig */
 	private $config;
 
@@ -45,8 +44,7 @@ class Config implements \OCP\GlobalScale\IConfig {
 	 * @return bool
 	 */
 	public function isGlobalScaleEnabled() {
-		$enabled = $this->config->getSystemValue('gs.enabled', false);
-		return $enabled !== false;
+		return $this->config->getSystemValueBool('gs.enabled', false);
 	}
 
 	/**
@@ -62,7 +60,7 @@ class Config implements \OCP\GlobalScale\IConfig {
 			return false;
 		}
 
-		$enabled = $this->config->getSystemValue('gs.federation', 'internal');
+		$enabled = $this->config->getSystemValueString('gs.federation', 'internal');
 
 		return $enabled === 'internal';
 	}

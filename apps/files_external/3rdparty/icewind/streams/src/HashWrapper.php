@@ -41,7 +41,7 @@ abstract class HashWrapper extends Wrapper {
 	 * @param resource $source
 	 * @param string $hash
 	 * @param callable $callback
-	 * @return resource|bool
+	 * @return resource|false
 	 *
 	 * @throws \BadMethodCallException
 	 */

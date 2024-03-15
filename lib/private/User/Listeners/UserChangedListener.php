@@ -25,9 +25,9 @@ namespace OC\User\Listeners;
 
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
-use OCP\User\Events\UserChangedEvent;
 use OCP\Files\NotFoundException;
 use OCP\IAvatarManager;
+use OCP\User\Events\UserChangedEvent;
 
 /**
  * @template-implements IEventListener<UserChangedEvent>

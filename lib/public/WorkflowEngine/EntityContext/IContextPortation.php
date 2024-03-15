@@ -38,7 +38,6 @@ namespace OCP\WorkflowEngine\EntityContext;
  * @since 20.0.0
  */
 interface IContextPortation {
-
 	/**
 	 * All relevant context identifiers that are needed to restore the state
 	 * of an entity shall be returned with this method. The resulting array

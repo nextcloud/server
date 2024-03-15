@@ -10,7 +10,6 @@ use OCP\Files\IAppData;
  * @since 25.0.0
  */
 interface IAppDataFactory {
-
 	/**
 	 * Get the AppData folder for the specified $appId
 	 * @param string $appId

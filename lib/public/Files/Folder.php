@@ -142,16 +142,46 @@ interface Folder extends Node {
 	public function searchByTag($tag, $userId);
 
 	/**
-	 * get a file or folder inside the folder by it's internal id
+	 * search for files by system tag
+	 *
+	 * @param string|int $tag tag name
+	 * @param string $userId user id to ensure access on returned nodes
+	 * @return \OCP\Files\Node[]
+	 * @since 28.0.0
+	 */
+	public function searchBySystemTag(string $tagName, string $userId, int $limit = 0, int $offset = 0);
+
+	/**
+	 * get a file or folder inside the folder by its internal id
 	 *
 	 * This method could return multiple entries. For example once the file/folder
 	 * is shared or mounted (files_external) to the user multiple times.
+	 *
+	 * Note that the different entries can have different permissions.
 	 *
 	 * @param int $id
 	 * @return \OCP\Files\Node[]
 	 * @since 6.0.0
 	 */
 	public function getById($id);
+
+	/**
+	 * get a file or folder inside the folder by its internal id
+	 *
+	 * Unlike getById, this method only returns a single node even if the user has
+	 * access to the file with the requested id multiple times.
+	 *
+	 * This method provides no guarantee about which of the nodes in returned and the
+	 * returned node might, for example, have less permissions than other nodes for the same file
+	 *
+	 * Apps that require accurate information about the users access to the file should use getById
+	 * instead of pick the correct node out of the result.
+	 *
+	 * @param int $id
+	 * @return Node|null
+	 * @since 29.0.0
+	 */
+	public function getFirstNodeById(int $id): ?Node;
 
 	/**
 	 * Get the amount of free space inside the folder

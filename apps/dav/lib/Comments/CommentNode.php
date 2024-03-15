@@ -79,7 +79,7 @@ class CommentNode implements \Sabre\DAV\INode, \Sabre\DAV\IProperties {
 
 		$methods = get_class_methods($this->comment);
 		$methods = array_filter($methods, function ($name) {
-			return strpos($name, 'get') === 0;
+			return str_starts_with($name, 'get');
 		});
 		foreach ($methods as $getter) {
 			if ($getter === 'getMentions') {
@@ -165,10 +165,8 @@ class CommentNode implements \Sabre\DAV\INode, \Sabre\DAV\IProperties {
 
 	/**
 	 * Returns the last modification time, as a unix timestamp
-	 *
-	 * @return int
 	 */
-	public function getLastModified() {
+	public function getLastModified(): ?int {
 		return null;
 	}
 

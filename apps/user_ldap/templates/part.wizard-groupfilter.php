@@ -27,13 +27,21 @@
 		<p class="ldapManyGroupsSupport hidden">
 			<label></label>
 			<select class="ldapGroupList ldapGroupListAvailable" multiple="multiple"
+					aria-describedby="ldapGroupListAvailable_instructions"
 					title="<?php p($l->t('Available groups'));?>"></select>
+			<p class="hidden-visually" id="ldapGroupListAvailable_instructions">
+					<?php p($l->t('Available groups'));?>
+			</p>
 			<span class="buttonSpan">
 				<button class="ldapGroupListSelect" type="button">&gt;</button><br/>
 				<button class="ldapGroupListDeselect" type="button">&lt;</button>
 			</span>
 			<select class="ldapGroupList ldapGroupListSelected" multiple="multiple"
+					aria-describedby="ldapGroupListSelected_instructions"
 					title="<?php p($l->t('Selected groups'));?>"></select>
+			<p class="hidden-visually" id="ldapGroupListSelected_instructions">
+					<?php p($l->t('Selected groups'));?>
+			</p>
 		</p>
 		<p>
 			<label><a id='toggleRawGroupFilter' class='ldapToggle'>↓ <?php p($l->t('Edit LDAP Query'));?></a></label>
@@ -45,8 +53,13 @@
 		<p id="rawGroupFilterContainer" class="invisible">
 			<textarea type="text" id="ldap_group_filter" name="ldap_group_filter"
 					  placeholder="<?php p($l->t('Edit LDAP Query'));?>"
+					  aria-describedby="rawGroupFilterContainer_instructions"
 					  title="<?php p($l->t('The filter specifies which LDAP groups shall have access to the %s instance.', [$theme->getName()]));?>">
 			</textarea>
+			<p class="hidden-visually" id="rawGroupFilterContainer_instructions">
+				<?php p($l->t('The filter specifies which LDAP groups shall have access to the %s instance.', [$theme->getName()]));?>
+			</p>
+
 		</p>
 		<p>
 			<div class="ldapWizardInfo invisible">&nbsp;</div>

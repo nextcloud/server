@@ -56,15 +56,9 @@ OC.L10N.register(
     "PDF documents" : "PDF документи",
     "Custom MIME type" : "Персонализиран файл тип MIME",
     "Custom mimetype" : "Персонализиран mimetype",
-    "Select a tag" : "Избор на етикет",
-    "No results" : "Няма резултати",
-    "%s (invisible)" : "%s (невидим)",
-    "%s (restricted)" : "%s (ограничен)",
     "Please enter a valid time span" : "Моля, въведете валиден период от време",
     "Select a request URL" : "Избор на URL адрес за заявка",
-    "Predefined URLs" : "Предефинирани URL-и",
     "Files WebDAV" : "Файлове WebDAV",
-    "Others" : "Други",
     "Custom URL" : "Персонализиран URL адрес",
     "Select a user agent" : "Избор на потребителски агент",
     "Android client" : "Android клиент",
@@ -113,8 +107,8 @@ OC.L10N.register(
     "between" : "между",
     "not between" : "не между",
     "Request user agent" : "Потребителски агент на заявка",
-    "User group membership" : "Членство към потребителска група",
     "is member of" : "е член на",
-    "is not member of" : "не е член на"
+    "is not member of" : "не е член на",
+    "User group membership" : "Членство към потребителска група"
 },
 "nplurals=2; plural=(n != 1);");

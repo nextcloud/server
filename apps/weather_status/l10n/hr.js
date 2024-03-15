@@ -7,7 +7,6 @@ OC.L10N.register(
     "Error" : "Pogreška",
     "Weather status" : "Status vremenske prognoze",
     "Weather status in your dashboard" : "Status vremenske prognoze u nadzornoj ploči",
-    "Weather status integrated in the Dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Status vremenske prognoze integriran u aplikaciju nadzorne ploče.\n Lokacija korisnika može se automatski odrediti ili ručno definirati. Zatim se prikazuje vremenska prognoza za sljedećih 6 sati.\n Ovaj se status može integrirati i na druga mjesta, primjerice u aplikaciju Calendar.",
     "Detect location" : "Otkrij lokaciju",
     "Set custom address" : "Odaberi prilagođenu adresu",
     "Favorites" : "Favoriti",
@@ -24,17 +23,6 @@ OC.L10N.register(
     "There was an error saving the mode." : "Došlo je do pogreške pri spremanju načina rada.",
     "There was an error using personal address." : "Došlo je do pogreške pri spremanju osobne adrese.",
     "Set location for weather" : "Postavite lokaciju za vremensku prognozu",
-    "{temperature} {unit} Clear sky at {time}" : "{temperature} {unit} Vedro nebo u {time}",
-    "{temperature} {unit} Cloudy at {time}" : "{temperature} {unit} Oblačno u {time}",
-    "{temperature} {unit} Fair day at {time}" : "{temperature} {unit} Ugodan dan u {time}",
-    "{temperature} {unit} Fair night at {time}" : "{temperature} {unit} Ugodna noć u {time}",
-    "{temperature} {unit} Partly cloudy at {time}" : "{temperature} {unit} Djelomično oblačno u {time}",
-    "{temperature} {unit} Foggy at {time}" : "{temperature} {unit} Maglovito u {time}",
-    "{temperature} {unit} Light rain at {time}" : "{temperature} {unit} Lagana kiša u {time}",
-    "{temperature} {unit} Rain at {time}" : "{temperature} {unit} Kiša u {time}",
-    "{temperature} {unit} Heavy rain at {time}" : "{temperature} {unit} Jaka kiša u {time}",
-    "{temperature} {unit} Rain showers at {time}" : "{temperature} {unit} Kišno nevrijeme {time}",
-    "{temperature} {unit} Light rain showers at {time}" : "{temperature} {unit} Lagani pljusak u {time}",
-    "{temperature} {unit} Heavy rain showers at {time}" : "{temperature} {unit} Jaki pljusak u {time}"
+    "Weather status integrated in the Dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Status vremenske prognoze integriran u aplikaciju nadzorne ploče.\n Lokacija korisnika može se automatski odrediti ili ručno definirati. Zatim se prikazuje vremenska prognoza za sljedećih 6 sati.\n Ovaj se status može integrirati i na druga mjesta, primjerice u aplikaciju Calendar."
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

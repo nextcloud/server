@@ -28,7 +28,6 @@ namespace OCP\Calendar\Resource;
  * @since 14.0.0
  */
 interface IResource {
-
 	/**
 	 * get the resource id
 	 *

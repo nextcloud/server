@@ -35,8 +35,8 @@ class RootCollection extends AbstractPrincipalCollection {
 	private $cleanupService;
 
 	public function __construct(PrincipalBackend\BackendInterface $principalBackend,
-								string $principalPrefix,
-								CleanupService $cleanupService) {
+		string $principalPrefix,
+		CleanupService $cleanupService) {
 		parent::__construct($principalBackend, $principalPrefix);
 		$this->cleanupService = $cleanupService;
 	}

@@ -12,7 +12,7 @@
  * The file upload code uses several hooks to interact with blueimps jQuery file upload library:
  * 1. the core upload handling hooks are added when initializing the plugin,
  * 2. if the browser supports progress events they are added in a separate set after the initialization
- * 3. every app can add it's own triggers for fileupload
+ * 3. every app can add its own triggers for fileupload
  *    - files adds d'n'd handlers and also reacts to done events to add new rows to the filelist
  *    - TODO pictures upload button
  *    - TODO music upload button
@@ -74,6 +74,11 @@ OC.FileUpload.prototype = {
 	 * @type string
 	 */
 	id: null,
+
+	/**
+	 * Upload data structure
+	 */
+	data: null,
 
 	/**
 	 * Upload element
@@ -264,8 +269,12 @@ OC.FileUpload.prototype = {
 			&& this.getFile().size > this.uploader.fileUploadParam.maxChunkSize
 		) {
 			data.isChunked = true;
+			var headers = {
+				Destination: this.uploader.davClient._buildUrl(this.getTargetDestination())
+			};
+
 			chunkFolderPromise = this.uploader.davClient.createDirectory(
-				'uploads/' + OC.getCurrentUser().uid + '/' + this.getId()
+				'uploads/' + OC.getCurrentUser().uid + '/' + this.getId(), headers
 			);
 			// TODO: if fails, it means same id already existed, need to retry
 		} else {
@@ -304,15 +313,20 @@ OC.FileUpload.prototype = {
 		}
 		if (size) {
 			headers['OC-Total-Length'] = size;
-
 		}
+		headers['Destination'] = this.uploader.davClient._buildUrl(this.getTargetDestination());
 
 		return this.uploader.davClient.move(
 			'uploads/' + uid + '/' + this.getId() + '/.file',
-			'files/' + uid + '/' + OC.joinPaths(this.getFullPath(), this.getFileName()),
+			this.getTargetDestination(),
 			true,
 			headers
 		);
+	},
+
+	getTargetDestination: function() {
+		var uid = OC.getCurrentUser().uid;
+		return 'files/' + uid + '/' + OC.joinPaths(this.getFullPath(), this.getFileName());
 	},
 
 	_deleteChunkFolder: function() {
@@ -337,6 +351,10 @@ OC.FileUpload.prototype = {
 			return
 		}
 		this.aborted = true;
+		if (this.data) {
+			// abort running XHR
+			this.data.abort();
+		}
 		this._delete();
 	},
 
@@ -600,8 +618,10 @@ OC.Uploader.prototype = _.extend({
 		});
 		if (!self._uploading) {
 			self.totalToUpload = 0;
+			self.totalUploadCount = 0;
 		}
 		self.totalToUpload += _.reduce(uploads, function(memo, upload) { return memo+upload.getFile().size; }, 0);
+		self.totalUploadCount += uploads.length;
 		var semaphore = new OCA.Files.Semaphore(5);
 		var promises = _.map(uploads, function(upload) {
 			return semaphore.acquire().then(function(){
@@ -708,8 +728,9 @@ OC.Uploader.prototype = _.extend({
 	},
 
 	showUploadCancelMessage: _.debounce(function() {
-		OC.Notification.show(t('files', 'Upload cancelled.'), {timeout : 7, type: 'error'});
+		OC.Notification.show(t('files', 'Upload cancelled.'), { timeout : 7000, type: 'error' });
 	}, 500),
+
 	/**
 	 * callback for the conflicts dialog
 	 */
@@ -937,6 +958,7 @@ OC.Uploader.prototype = _.extend({
 				type: 'PUT',
 				dropZone: options.dropZone, // restrict dropZone to content div
 				autoUpload: false,
+				progressInterval: 300, // increased from the default of 100ms for more stable behvaviour when predicting remaining time
 				sequentialUploads: false,
 				limitConcurrentUploads: 4,
 				/**
@@ -1041,8 +1063,8 @@ OC.Uploader.prototype = _.extend({
 						data.textStatus = 'notenoughspace';
 						data.errorThrown = t('files',
 							'Not enough free space, you are uploading {size1} but only {size2} is left', {
-							'size1': OC.Util.humanFileSize(selection.totalBytes),
-							'size2': OC.Util.humanFileSize(freeSpace)
+							'size1': OC.Util.humanFileSize(selection.totalBytes, false, false),
+							'size2': OC.Util.humanFileSize(freeSpace, false, false)
 						});
 					}
 
@@ -1093,8 +1115,6 @@ OC.Uploader.prototype = _.extend({
 				 */
 				start: function(e) {
 					self.log('start', e, null);
-					//hide the tooltip otherwise it covers the progress bar
-					$('#upload').tooltip('hide');
 					self._uploading = true;
 				},
 				fail: function(e, data) {
@@ -1181,7 +1201,7 @@ OC.Uploader.prototype = _.extend({
 
 			if (this._supportAjaxUploadWithProgress()) {
 				//remaining time
-				var lastUpdate, lastSize, bufferSize, buffer, bufferIndex, bufferIndex2, bufferTotal;
+				var lastUpdate, lastSize, bufferSize, buffer, bufferIndex, bufferTotal, smoothRemainingSeconds, smoothBitrate;
 
 				var dragging = false;
 
@@ -1199,11 +1219,15 @@ OC.Uploader.prototype = _.extend({
 					// initial remaining time variables
 					lastUpdate   = new Date().getTime();
 					lastSize     = 0;
-					bufferSize   = 20;
+					bufferSize   = 20; // length of the ring buffer
 					buffer       = [];
-					bufferIndex  = 0;
-					bufferIndex2 = 0;
+					bufferIndex  = 0; // index of the ring buffer, runs from 0 to bufferSize continuously 
 					bufferTotal  = 0;
+					newTotal     = 0;
+					smoothing    = 0.02; // smoothing factor for EMA
+					h            = '';
+					bufferFilled = false;
+
 					for(var i = 0; i < bufferSize; i++){
 						buffer[i]  = 0;
 					}
@@ -1222,33 +1246,65 @@ OC.Uploader.prototype = _.extend({
 					var diffUpdate = (thisUpdate - lastUpdate)/1000; // eg. 2s
 					lastUpdate = thisUpdate;
 					var diffSize = data.loaded - lastSize;
+					if (diffSize <= 0) {
+						diffSize = lastSize;
+					}
 					lastSize = data.loaded;
 					diffSize = diffSize / diffUpdate; // apply timing factor, eg. 1MiB/2s = 0.5MiB/s, unit is byte per second
 					var remainingSeconds = ((total - data.loaded) / diffSize);
+
 					if(remainingSeconds >= 0) {
+						// bufferTotal holds the sum of all entries in the buffer, initially 0 like the entries itself
+						// substract current entry from total and add the current value to total
 						bufferTotal = bufferTotal - (buffer[bufferIndex]) + remainingSeconds;
+						// put current value to the entry
 						buffer[bufferIndex] = remainingSeconds; //buffer to make it smoother
+
 						bufferIndex = (bufferIndex + 1) % bufferSize;
-						bufferIndex2++;
 					}
-					var smoothRemainingSeconds;
-					if (bufferIndex2 > 0 && bufferIndex2 < 20) {
-						smoothRemainingSeconds = bufferTotal / bufferIndex2;
-					} else if (bufferSize > 0) {
-						smoothRemainingSeconds = bufferTotal / bufferSize;
+					if (bufferIndex === bufferSize - 1) {
+						bufferFilled = true;
+					}
+					//console.log('#', ' idx: ',bufferIndex, ' Total: ', bufferTotal, ' remainSeconds: ', remainingSeconds, ' during: ', diffUpdate);
+
+					if (smoothRemainingSeconds) {
+						smoothRemainingSeconds = smoothing * (bufferTotal / bufferSize) + ((1-smoothing) * smoothRemainingSeconds);
 					} else {
-						smoothRemainingSeconds = 1;
+						smoothRemainingSeconds = bufferTotal / bufferSize;
 					}
 
-					var h = moment.duration(smoothRemainingSeconds, "seconds").humanize();
-					if (!(smoothRemainingSeconds >= 0 && smoothRemainingSeconds < 14400)) {
-						// show "Uploading ..." for durations longer than 4 hours
-						h = t('files', 'Uploading …');
+					// the number of currently running uploads
+					const runningUploads = Object.keys(self._uploads).length;
+
+					// Only show remaining time if enough buffer information is available and debounce to 1/4
+					if (bufferFilled && bufferIndex % 4 === 0) {
+						h = moment.duration(smoothRemainingSeconds, "seconds").humanize({m: 50, h: 50});
+						if (self.totalUploadCount > 1) {
+							h = t('files', '{remainingTime} ({currentNumber}/{total})', { remainingTime: h, currentNumber: self.totalUploadCount - runningUploads + 1, total: self.totalUploadCount });
+						}
 					}
+
+					// wait for the buffer to be filled and also show "Uploading ..." for durations longer than 4 hours
+					if (!bufferFilled || !(smoothRemainingSeconds >= 0 && smoothRemainingSeconds < 14400)) {
+						// Do not show file index when there is just one
+						if (self.totalUploadCount > 1) {
+							h = t('files', 'Uploading … ({currentNumber}/{total})', { currentNumber: self.totalUploadCount - runningUploads + 1, total: self.totalUploadCount });
+						} else {
+							h = t('files', 'Uploading …');
+						}
+					}
+
+					// smooth bitrate
+					if (smoothBitrate) {
+						smoothBitrate = smoothing * data.bitrate + ((1-smoothing) * smoothBitrate);
+					} else {
+						smoothBitrate = data.bitrate;
+					}
+ 
 					self._setProgressBarText(h, h, t('files', '{loadedSize} of {totalSize} ({bitrate})' , {
-							loadedSize: OC.Util.humanFileSize(data.loaded),
-							totalSize: OC.Util.humanFileSize(total),
-							bitrate: OC.Util.humanFileSize(data.bitrate / 8) + '/s'
+							loadedSize: OC.Util.humanFileSize(data.loaded, false, false),
+							totalSize: OC.Util.humanFileSize(total, false, false),
+							bitrate: OC.Util.humanFileSize(smoothBitrate / 8, false, false) + '/s'
 						}));
 					self._setProgressBarValue(progress);
 					self.trigger('progressall', e, data);
@@ -1319,6 +1375,10 @@ OC.Uploader.prototype = _.extend({
 					}
 					var range = data.contentRange.split(' ')[1];
 					var chunkId = range.split('/')[0].split('-')[0];
+					// Use a numeric chunk id and set the Destination header on all request for ChunkingV2
+					chunkId = Math.ceil((data.chunkSize+Number(chunkId)) / upload.uploader.fileUploadParam.maxChunkSize);
+					data.headers['Destination'] = self.davClient._buildUrl(upload.getTargetDestination());
+
 					data.url = OC.getRootPath() +
 						'/remote.php/dav/uploads' +
 						'/' + OC.getCurrentUser().uid +

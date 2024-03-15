@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @copyright Copyright (c) 2020, Georg Ehrke
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author Richard Steinmetz <richard@steinmetz.cloud>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -28,9 +29,17 @@ namespace OCA\UserStatus\Dashboard;
 use OCA\UserStatus\AppInfo\Application;
 use OCA\UserStatus\Db\UserStatus;
 use OCA\UserStatus\Service\StatusService;
-use OCP\Dashboard\IWidget;
-use OCP\IInitialStateService;
+use OCP\AppFramework\Services\IInitialState;
+use OCP\Dashboard\IAPIWidget;
+use OCP\Dashboard\IAPIWidgetV2;
+use OCP\Dashboard\IIconWidget;
+use OCP\Dashboard\IOptionWidget;
+use OCP\Dashboard\Model\WidgetItem;
+use OCP\Dashboard\Model\WidgetItems;
+use OCP\Dashboard\Model\WidgetOptions;
+use OCP\IDateTimeFormatter;
 use OCP\IL10N;
+use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\UserStatus\IUserStatus;
@@ -40,38 +49,36 @@ use OCP\UserStatus\IUserStatus;
  *
  * @package OCA\UserStatus
  */
-class UserStatusWidget implements IWidget {
-
-	/** @var IL10N */
-	private $l10n;
-
-	/** @var IInitialStateService */
-	private $initialStateService;
-
-	/** @var IUserManager */
-	private $userManager;
-
-	/** @var IUserSession */
-	private $userSession;
-
-	/** @var StatusService */
-	private $service;
+class UserStatusWidget implements IAPIWidget, IAPIWidgetV2, IIconWidget, IOptionWidget {
+	private IL10N $l10n;
+	private IDateTimeFormatter $dateTimeFormatter;
+	private IURLGenerator $urlGenerator;
+	private IInitialState $initialStateService;
+	private IUserManager $userManager;
+	private IUserSession $userSession;
+	private StatusService $service;
 
 	/**
 	 * UserStatusWidget constructor
 	 *
 	 * @param IL10N $l10n
-	 * @param IInitialStateService $initialStateService
+	 * @param IDateTimeFormatter $dateTimeFormatter
+	 * @param IURLGenerator $urlGenerator
+	 * @param IInitialState $initialStateService
 	 * @param IUserManager $userManager
 	 * @param IUserSession $userSession
 	 * @param StatusService $service
 	 */
 	public function __construct(IL10N $l10n,
-								IInitialStateService $initialStateService,
-								IUserManager $userManager,
-								IUserSession $userSession,
-								StatusService $service) {
+		IDateTimeFormatter $dateTimeFormatter,
+		IURLGenerator $urlGenerator,
+		IInitialState $initialStateService,
+		IUserManager $userManager,
+		IUserSession $userSession,
+		StatusService $service) {
 		$this->l10n = $l10n;
+		$this->dateTimeFormatter = $dateTimeFormatter;
+		$this->urlGenerator = $urlGenerator;
 		$this->initialStateService = $initialStateService;
 		$this->userManager = $userManager;
 		$this->userSession = $userSession;
@@ -103,7 +110,16 @@ class UserStatusWidget implements IWidget {
 	 * @inheritDoc
 	 */
 	public function getIconClass(): string {
-		return 'icon-user-status';
+		return 'icon-user-status-dark';
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getIconUrl(): string {
+		return $this->urlGenerator->getAbsoluteURL(
+			$this->urlGenerator->imagePath(Application::APP_ID, 'app-dark.svg')
+		);
 	}
 
 	/**
@@ -117,28 +133,22 @@ class UserStatusWidget implements IWidget {
 	 * @inheritDoc
 	 */
 	public function load(): void {
-		\OCP\Util::addScript(Application::APP_ID, 'dashboard');
+	}
 
-		$currentUser = $this->userSession->getUser();
-		if ($currentUser === null) {
-			$this->initialStateService->provideInitialState(Application::APP_ID, 'dashboard_data', []);
-			return;
-		}
-		$currentUserId = $currentUser->getUID();
-
+	private function getWidgetData(string $userId, ?string $since = null, int $limit = 7): array {
 		// Fetch status updates and filter current user
 		$recentStatusUpdates = array_slice(
 			array_filter(
-				$this->service->findAllRecentStatusChanges(8, 0),
-				static function (UserStatus $status) use ($currentUserId): bool {
-					return $status->getUserId() !== $currentUserId;
+				$this->service->findAllRecentStatusChanges($limit + 1, 0),
+				static function (UserStatus $status) use ($userId, $since): bool {
+					return $status->getUserId() !== $userId
+						&& ($since === null || $status->getStatusTimestamp() > (int) $since);
 				}
 			),
 			0,
-			7
+			$limit
 		);
-
-		$this->initialStateService->provideInitialState(Application::APP_ID, 'dashboard_data', array_map(function (UserStatus $status): array {
+		return array_map(function (UserStatus $status): array {
 			$user = $this->userManager->get($status->getUserId());
 			$displayName = $status->getUserId();
 			if ($user !== null) {
@@ -153,8 +163,46 @@ class UserStatusWidget implements IWidget {
 					: $status->getStatus(),
 				'icon' => $status->getCustomIcon(),
 				'message' => $status->getCustomMessage(),
-				'timestamp' => $status->getStatusTimestamp(),
+				'timestamp' => $status->getStatusMessageTimestamp(),
 			];
-		}, $recentStatusUpdates));
+		}, $recentStatusUpdates);
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getItems(string $userId, ?string $since = null, int $limit = 7): array {
+		$widgetItemsData = $this->getWidgetData($userId, $since, $limit);
+
+		return array_map(function (array $widgetData) {
+			$formattedDate = $this->dateTimeFormatter->formatTimeSpan($widgetData['timestamp']);
+			return new WidgetItem(
+				$widgetData['displayName'],
+				$widgetData['icon'] . ($widgetData['icon'] ? ' ' : '') . $widgetData['message'] . ', ' . $formattedDate,
+				// https://nextcloud.local/index.php/u/julien
+				$this->urlGenerator->getAbsoluteURL(
+					$this->urlGenerator->linkToRoute('core.ProfilePage.index', ['targetUserId' => $widgetData['userId']])
+				),
+				$this->urlGenerator->getAbsoluteURL(
+					$this->urlGenerator->linkToRoute('core.avatar.getAvatar', ['userId' => $widgetData['userId'], 'size' => 44])
+				),
+				(string) $widgetData['timestamp']
+			);
+		}, $widgetItemsData);
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getItemsV2(string $userId, ?string $since = null, int $limit = 7): WidgetItems {
+		$items = $this->getItems($userId, $since, $limit);
+		return new WidgetItems(
+			$items,
+			count($items) === 0 ? $this->l10n->t('No recent status changes') : '',
+		);
+	}
+
+	public function getWidgetOptions(): WidgetOptions {
+		return new WidgetOptions(true);
 	}
 }

@@ -41,7 +41,6 @@ use Psr\EventDispatcher\StoppableEventInterface;
  * @since 17.0.0
  */
 class Event implements StoppableEventInterface {
-
 	/**
 	 * @var bool
 	 *

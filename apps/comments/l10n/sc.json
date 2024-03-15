@@ -1,7 +1,6 @@
 { "translations": {
     "Comments" : "Cummentos",
     "You commented" : "As cummentadu",
-    "%1$s commented" : "%1$s at cummentadu",
     "{author} commented" : "{author} at cummentadu",
     "You commented on %1$s" : "As cummentadu in %1$s",
     "You commented on {file}" : "As cummentadu {file}",
@@ -17,14 +16,12 @@
     "No more messages" : "Perunu àteru messàgiu",
     "Retry" : "Torra a proare",
     "Unable to load the comments list" : "Non faghet a carrigare sa lista de cummentos",
-    "_%n unread comment_::_%n unread comments_" : ["%n cummentu non lèghidu","%n cummentos non lèghidos"],
     "_1 new comment_::_{unread} new comments_" : ["1 cummentu nou","{unread} cummentos noos"],
     "Comment" : "Cummenta",
     "An error occurred while trying to edit the comment" : "Ddoe at àpidu un'errore proende a modificare su cummentu",
     "Comment deleted" : "Cummentu cantzelladu",
     "An error occurred while trying to delete the comment" : "B'at àpidu un'errore proende a cantzellare su cummentu",
     "An error occurred while trying to create the comment" : "B'at àpidu un'errore proende a creare su cummentu",
-    "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "T'ant mentovadu in “{file}”, in unu cummentu de un'utente chi ant cantzelladu",
-    "{user} mentioned you in a comment on “{file}”" : "{user} t'at mentovadu in unu cummentu in “{file}”"
+    "_%n unread comment_::_%n unread comments_" : ["%n cummentu non lèghidu","%n cummentos non lèghidos"]
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

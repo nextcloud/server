@@ -39,7 +39,6 @@ use Psr\Log\LoggerInterface;
  * @template-implements IEventListener<\OC\Authentication\Events\ARemoteWipeEvent>
  */
 class RemoteWipeActivityListener implements IEventListener {
-
 	/** @var IActvityManager */
 	private $activityManager;
 
@@ -47,7 +46,7 @@ class RemoteWipeActivityListener implements IEventListener {
 	private $logger;
 
 	public function __construct(IActvityManager $activityManager,
-								LoggerInterface $logger) {
+		LoggerInterface $logger) {
 		$this->activityManager = $activityManager;
 		$this->logger = $logger;
 	}

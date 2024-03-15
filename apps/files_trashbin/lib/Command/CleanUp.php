@@ -78,13 +78,14 @@ class CleanUp extends Command {
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$users = $input->getArgument('user_id');
+		$verbose = $input->getOption('verbose');
 		if ((!empty($users)) and ($input->getOption('all-users'))) {
 			throw new InvalidOptionException('Either specify a user_id or --all-users');
 		} elseif (!empty($users)) {
 			foreach ($users as $user) {
 				if ($this->userManager->userExists($user)) {
 					$output->writeln("Remove deleted files of   <info>$user</info>");
-					$this->removeDeletedFiles($user);
+					$this->removeDeletedFiles($user, $output, $verbose);
 				} else {
 					$output->writeln("<error>Unknown user $user</error>");
 					return 1;
@@ -104,7 +105,7 @@ class CleanUp extends Command {
 					$users = $backend->getUsers('', $limit, $offset);
 					foreach ($users as $user) {
 						$output->writeln("   <info>$user</info>");
-						$this->removeDeletedFiles($user);
+						$this->removeDeletedFiles($user, $output, $verbose);
 					}
 					$offset += $limit;
 				} while (count($users) >= $limit);
@@ -117,19 +118,31 @@ class CleanUp extends Command {
 
 	/**
 	 * remove deleted files for the given user
-	 *
-	 * @param string $uid
 	 */
-	protected function removeDeletedFiles($uid) {
+	protected function removeDeletedFiles(string $uid, OutputInterface $output, bool $verbose): void {
 		\OC_Util::tearDownFS();
 		\OC_Util::setupFS($uid);
-		if ($this->rootFolder->nodeExists('/' . $uid . '/files_trashbin')) {
-			$this->rootFolder->get('/' . $uid . '/files_trashbin')->delete();
+		$path = '/' . $uid . '/files_trashbin';
+		if ($this->rootFolder->nodeExists($path)) {
+			$node = $this->rootFolder->get($path);
+
+			if ($verbose) {
+				$output->writeln("Deleting <info>" . \OC_Helper::humanFileSize($node->getSize()) . "</info> in trash for <info>$uid</info>.");
+			}
+			$node->delete();
+			if ($this->rootFolder->nodeExists($path)) {
+				$output->writeln("<error>Trash folder sill exists after attempting to delete it</error>");
+				return;
+			}
 			$query = $this->dbConnection->getQueryBuilder();
 			$query->delete('files_trash')
 				->where($query->expr()->eq('user', $query->createParameter('uid')))
 				->setParameter('uid', $uid);
 			$query->execute();
+		} else {
+			if ($verbose) {
+				$output->writeln("No trash found for <info>$uid</info>");
+			}
 		}
 	}
 }

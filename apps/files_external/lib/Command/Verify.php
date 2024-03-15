@@ -25,8 +25,6 @@
 namespace OCA\Files_External\Command;
 
 use OC\Core\Command\Base;
-use OCA\Files_External\Lib\Auth\AuthMechanism;
-use OCA\Files_External\Lib\Backend\Backend;
 use OCA\Files_External\Lib\InsufficientDataForMeaningfulAnswerException;
 use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\NotFoundException;
@@ -36,19 +34,16 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\HttpFoundation\Response;
 
 class Verify extends Base {
-	/**
-	 * @var GlobalStoragesService
-	 */
-	protected $globalService;
-
-	public function __construct(GlobalStoragesService $globalService) {
+	public function __construct(
+		protected GlobalStoragesService $globalService,
+	) {
 		parent::__construct();
-		$this->globalService = $globalService;
 	}
 
-	protected function configure() {
+	protected function configure(): void {
 		$this
 			->setName('files_external:verify')
 			->setDescription('Verify mount configuration')
@@ -73,7 +68,7 @@ class Verify extends Base {
 			$mount = $this->globalService->getStorage($mountId);
 		} catch (NotFoundException $e) {
 			$output->writeln('<error>Mount with id "' . $mountId . ' not found, check "occ files_external:list" to get available mounts"</error>');
-			return 404;
+			return Response::HTTP_NOT_FOUND;
 		}
 
 		$this->updateStorageStatus($mount, $configInput, $output);
@@ -83,19 +78,17 @@ class Verify extends Base {
 			'code' => $mount->getStatus(),
 			'message' => $mount->getStatusMessage()
 		]);
-		return 0;
+		return self::SUCCESS;
 	}
 
-	private function manipulateStorageConfig(StorageConfig $storage) {
-		/** @var AuthMechanism */
+	private function manipulateStorageConfig(StorageConfig $storage): void {
 		$authMechanism = $storage->getAuthMechanism();
 		$authMechanism->manipulateStorageConfig($storage);
-		/** @var Backend */
 		$backend = $storage->getBackend();
 		$backend->manipulateStorageConfig($storage);
 	}
 
-	private function updateStorageStatus(StorageConfig &$storage, $configInput, OutputInterface $output) {
+	private function updateStorageStatus(StorageConfig &$storage, $configInput, OutputInterface $output): void {
 		try {
 			try {
 				$this->manipulateStorageConfig($storage);
@@ -114,7 +107,6 @@ class Verify extends Base {
 				$storage->setBackendOption($key, $value);
 			}
 
-			/** @var Backend */
 			$backend = $storage->getBackend();
 			// update status (can be time-consuming)
 			$storage->setStatus(
@@ -125,7 +117,7 @@ class Verify extends Base {
 				)
 			);
 		} catch (InsufficientDataForMeaningfulAnswerException $e) {
-			$status = $e->getCode() ? $e->getCode() : StorageNotAvailableException::STATUS_INDETERMINATE;
+			$status = $e->getCode() ?: StorageNotAvailableException::STATUS_INDETERMINATE;
 			$storage->setStatus(
 				$status,
 				$e->getMessage()

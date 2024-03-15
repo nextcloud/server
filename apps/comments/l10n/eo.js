@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Comments" : "Komentoj",
     "You commented" : "Vi komentis",
-    "%1$s commented" : "%1$s komentis",
     "{author} commented" : "{author} komentis",
     "You commented on %1$s" : "Vi komentis %1$s",
     "You commented on {file}" : "Vi komentis pri {file}",
@@ -15,10 +14,8 @@ OC.L10N.register(
     "Delete comment" : "Forigi komenton",
     "No comments yet, start the conversation!" : "Neniu komento, ekkonversaciu!",
     "Retry" : "Reprovi",
-    "_%n unread comment_::_%n unread comments_" : ["%n nelegataj komentoj","%n nelegataj komentoj"],
     "_1 new comment_::_{unread} new comments_" : ["1 nova komento","{unread} novaj komentoj"],
     "Comment" : "Komento",
-    "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "Vi estis menciita en „{file}“, en komento de uzanto, kiu poste estis forigita",
-    "{user} mentioned you in a comment on “{file}”" : "{user} menciis vin en komento pri „{file}“"
+    "_%n unread comment_::_%n unread comments_" : ["%n nelegataj komentoj","%n nelegataj komentoj"]
 },
 "nplurals=2; plural=(n != 1);");

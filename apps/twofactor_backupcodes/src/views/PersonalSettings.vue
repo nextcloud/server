@@ -44,8 +44,9 @@
 </template>
 
 <script>
-import confirmPassword from '@nextcloud/password-confirmation'
-import { print } from '../service/PrintService'
+import { confirmPassword } from '@nextcloud/password-confirmation'
+import '@nextcloud/password-confirmation/dist/style.css'
+import { print } from '../service/PrintService.js'
 
 export default {
 	name: 'PersonalSettings',

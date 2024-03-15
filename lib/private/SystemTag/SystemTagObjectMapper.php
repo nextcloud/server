@@ -29,37 +29,22 @@ namespace OC\SystemTag;
 
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IDBConnection;
 use OCP\SystemTag\ISystemTag;
 use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ISystemTagObjectMapper;
 use OCP\SystemTag\MapperEvent;
 use OCP\SystemTag\TagNotFoundException;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class SystemTagObjectMapper implements ISystemTagObjectMapper {
 	public const RELATION_TABLE = 'systemtag_object_mapping';
 
-	/** @var ISystemTagManager */
-	protected $tagManager;
-
-	/** @var IDBConnection */
-	protected $connection;
-
-	/** @var EventDispatcherInterface */
-	protected $dispatcher;
-
-	/**
-	 * Constructor.
-	 *
-	 * @param IDBConnection $connection database connection
-	 * @param ISystemTagManager $tagManager system tag manager
-	 * @param EventDispatcherInterface $dispatcher
-	 */
-	public function __construct(IDBConnection $connection, ISystemTagManager $tagManager, EventDispatcherInterface $dispatcher) {
-		$this->connection = $connection;
-		$this->tagManager = $tagManager;
-		$this->dispatcher = $dispatcher;
+	public function __construct(
+		protected IDBConnection $connection,
+		protected ISystemTagManager $tagManager,
+		protected IEventDispatcher $dispatcher,
+	) {
 	}
 
 	/**
@@ -77,23 +62,24 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 			->from(self::RELATION_TABLE)
 			->where($query->expr()->in('objectid', $query->createParameter('objectids')))
 			->andWhere($query->expr()->eq('objecttype', $query->createParameter('objecttype')))
-			->setParameter('objectids', $objIds, IQueryBuilder::PARAM_STR_ARRAY)
 			->setParameter('objecttype', $objectType)
 			->addOrderBy('objectid', 'ASC')
 			->addOrderBy('systemtagid', 'ASC');
-
+		$chunks = array_chunk($objIds, 900, false);
 		$mapping = [];
 		foreach ($objIds as $objId) {
 			$mapping[$objId] = [];
 		}
+		foreach ($chunks as $chunk) {
+			$query->setParameter('objectids', $chunk, IQueryBuilder::PARAM_STR_ARRAY);
+			$result = $query->executeQuery();
+			while ($row = $result->fetch()) {
+				$objectId = $row['objectid'];
+				$mapping[$objectId][] = $row['systemtagid'];
+			}
 
-		$result = $query->execute();
-		while ($row = $result->fetch()) {
-			$objectId = $row['objectid'];
-			$mapping[$objectId][] = $row['systemtagid'];
+			$result->closeCursor();
 		}
-
-		$result->closeCursor();
 
 		return $mapping;
 	}
@@ -133,6 +119,7 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 		while ($row = $result->fetch()) {
 			$objectIds[] = $row['objectid'];
 		}
+		$result->closeCursor();
 
 		return $objectIds;
 	}
@@ -140,7 +127,7 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 	/**
 	 * {@inheritdoc}
 	 */
-	public function assignTags(string $objId, string $objectType, $tagIds) {
+	public function assignTags(string $objId, string $objectType, $tagIds): void {
 		if (!\is_array($tagIds)) {
 			$tagIds = [$tagIds];
 		}
@@ -181,7 +168,7 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 	/**
 	 * {@inheritdoc}
 	 */
-	public function unassignTags(string $objId, string $objectType, $tagIds) {
+	public function unassignTags(string $objId, string $objectType, $tagIds): void {
 		if (!\is_array($tagIds)) {
 			$tagIds = [$tagIds];
 		}
@@ -253,7 +240,7 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 	 *
 	 * @throws \OCP\SystemTag\TagNotFoundException if at least one tag did not exist
 	 */
-	private function assertTagsExist($tagIds) {
+	private function assertTagsExist(array $tagIds): void {
 		$tags = $this->tagManager->getTagsByIds($tagIds);
 		if (\count($tags) !== \count($tagIds)) {
 			// at least one tag missing, bail out

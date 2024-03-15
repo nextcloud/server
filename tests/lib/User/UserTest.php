@@ -14,15 +14,16 @@ use OC\Files\Mount\ObjectHomeMountProvider;
 use OC\Hooks\PublicEmitter;
 use OC\User\User;
 use OCP\Comments\ICommentsManager;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\IConfig;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\Notification\IManager as INotificationManager;
 use OCP\Notification\INotification;
+use OCP\Server;
 use OCP\UserInterface;
 use PHPUnit\Framework\MockObject\MockObject;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Test\TestCase;
 
 /**
@@ -33,13 +34,12 @@ use Test\TestCase;
  * @package Test\User
  */
 class UserTest extends TestCase {
-
-	/** @var EventDispatcherInterface|MockObject */
+	/** @var IEventDispatcher|MockObject */
 	protected $dispatcher;
 
 	protected function setUp(): void {
 		parent::setUp();
-		$this->dispatcher = $this->createMock(EventDispatcherInterface::class);
+		$this->dispatcher = Server::get(IEventDispatcher::class);
 	}
 
 	public function testDisplayName() {
@@ -217,7 +217,6 @@ class UserTest extends TestCase {
 	}
 
 	public function testDeleteWithDifferentHome() {
-
 		/** @var ObjectHomeMountProvider $homeProvider */
 		$homeProvider = \OC::$server->get(ObjectHomeMountProvider::class);
 		$user = $this->createMock(IUser::class);
@@ -308,7 +307,7 @@ class UserTest extends TestCase {
 			->method('getUserValue')
 			->willReturn(true);
 		$allConfig->expects($this->any())
-			->method('getSystemValue')
+			->method('getSystemValueString')
 			->with($this->equalTo('datadirectory'))
 			->willReturn('arbitrary/path');
 
@@ -366,7 +365,12 @@ class UserTest extends TestCase {
 				}
 			});
 
-		$user = new User('foo', $backend, $this->dispatcher);
+		$config = $this->createMock(IConfig::class);
+		$config->method('getSystemValueBool')
+			->with('allow_user_to_change_display_name')
+			->willReturn(true);
+
+		$user = new User('foo', $backend, $this->dispatcher, null, $config);
 		$this->assertTrue($user->canChangeDisplayName());
 	}
 
@@ -405,7 +409,7 @@ class UserTest extends TestCase {
 			->with('foo', 'Foo')
 			->willReturn(true);
 
-		$user = new User('foo', $backend, $this->dispatcher);
+		$user = new User('foo', $backend, $this->createMock(IEventDispatcher::class));
 		$this->assertTrue($user->setDisplayName('Foo'));
 		$this->assertEquals('Foo', $user->getDisplayName());
 	}
@@ -535,6 +539,12 @@ class UserTest extends TestCase {
 		$notificationManager = $this->createMock(INotificationManager::class);
 
 		$config->method('getSystemValue')
+			->willReturnArgument(1);
+		$config->method('getSystemValueString')
+			->willReturnArgument(1);
+		$config->method('getSystemValueBool')
+			->willReturnArgument(1);
+		$config->method('getSystemValueInt')
 			->willReturnArgument(1);
 
 		if ($result) {
@@ -693,7 +703,8 @@ class UserTest extends TestCase {
 		$emitter->expects($this->never())
 			->method('emit');
 
-		$this->dispatcher->expects($this->never())
+		$dispatcher = $this->createMock(IEventDispatcher::class);
+		$dispatcher->expects($this->never())
 			->method('dispatch');
 
 		$config = $this->createMock(IConfig::class);
@@ -703,7 +714,7 @@ class UserTest extends TestCase {
 		$config->expects($this->any())
 			->method('setUserValue');
 
-		$user = new User('foo', $backend, $this->dispatcher, $emitter, $config);
+		$user = new User('foo', $backend, $dispatcher, $emitter, $config);
 		$user->setEMailAddress('foo@bar.com');
 	}
 

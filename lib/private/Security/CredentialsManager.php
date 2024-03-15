@@ -40,26 +40,16 @@ use OCP\Security\ICrypto;
 class CredentialsManager implements ICredentialsManager {
 	public const DB_TABLE = 'storages_credentials';
 
-	/** @var ICrypto */
-	protected $crypto;
-
-	/** @var IDBConnection */
-	protected $dbConnection;
-
-	/**
-	 * @param ICrypto $crypto
-	 * @param IDBConnection $dbConnection
-	 */
-	public function __construct(ICrypto $crypto, IDBConnection $dbConnection) {
-		$this->crypto = $crypto;
-		$this->dbConnection = $dbConnection;
+	public function __construct(
+		protected ICrypto $crypto,
+		protected IDBConnection $dbConnection,
+	) {
 	}
 
 	/**
 	 * Store a set of credentials
 	 *
 	 * @param string $userId empty string for system-wide credentials
-	 * @param string $identifier
 	 * @param mixed $credentials
 	 */
 	public function store(string $userId, string $identifier, $credentials): void {
@@ -77,10 +67,8 @@ class CredentialsManager implements ICredentialsManager {
 	 * Retrieve a set of credentials
 	 *
 	 * @param string $userId empty string for system-wide credentials
-	 * @param string $identifier
-	 * @return mixed
 	 */
-	public function retrieve(string $userId, string $identifier) {
+	public function retrieve(string $userId, string $identifier): mixed {
 		$qb = $this->dbConnection->getQueryBuilder();
 		$qb->select('credentials')
 			->from(self::DB_TABLE)
@@ -108,7 +96,6 @@ class CredentialsManager implements ICredentialsManager {
 	 * Delete a set of credentials
 	 *
 	 * @param string $userId empty string for system-wide credentials
-	 * @param string $identifier
 	 * @return int rows removed
 	 */
 	public function delete(string $userId, string $identifier): int {
@@ -128,7 +115,6 @@ class CredentialsManager implements ICredentialsManager {
 	/**
 	 * Erase all credentials stored for a user
 	 *
-	 * @param string $userId
 	 * @return int rows removed
 	 */
 	public function erase(string $userId): int {

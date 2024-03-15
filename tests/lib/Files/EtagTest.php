@@ -9,8 +9,8 @@
 namespace Test\Files;
 
 use OC\Files\Filesystem;
-use OCP\EventDispatcher\IEventDispatcher;
 use OCA\Files_Sharing\AppInfo\Application;
+use OCP\EventDispatcher\IEventDispatcher;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -41,7 +41,7 @@ class EtagTest extends \Test\TestCase {
 		\OC\Share\Share::registerBackend('folder', 'OCA\Files_Sharing\ShareBackend\Folder', 'file');
 
 		$config = \OC::$server->getConfig();
-		$this->datadir = $config->getSystemValue('datadirectory');
+		$this->datadir = $config->getSystemValueString('datadirectory');
 		$this->tmpDir = \OC::$server->getTempManager()->getTemporaryFolder();
 		$config->setSystemValue('datadirectory', $this->tmpDir);
 

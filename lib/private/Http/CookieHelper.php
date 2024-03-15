@@ -33,13 +33,13 @@ class CookieHelper {
 	public const SAMESITE_STRICT = 2;
 
 	public static function setCookie(string $name,
-									 string $value = '',
-									 int $maxAge = 0,
-									 string $path = '',
-									 string $domain = '',
-									 bool $secure = false,
-									 bool $httponly = false,
-									 int $samesite = self::SAMESITE_NONE) {
+		string $value = '',
+		int $maxAge = 0,
+		string $path = '',
+		string $domain = '',
+		bool $secure = false,
+		bool $httponly = false,
+		int $samesite = self::SAMESITE_NONE) {
 		$header = sprintf(
 			'Set-Cookie: %s=%s',
 			$name,

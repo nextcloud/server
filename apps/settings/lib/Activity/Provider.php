@@ -33,7 +33,6 @@ use OCP\Activity\IManager;
 use OCP\Activity\IProvider;
 use OCP\IL10N;
 use OCP\IURLGenerator;
-use OCP\IUser;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
 
@@ -66,13 +65,10 @@ class Provider implements IProvider {
 	/** @var IManager */
 	private $activityManager;
 
-	/** @var string[] cached displayNames - key is the UID and value the displayname */
-	protected $displayNames = [];
-
 	public function __construct(IFactory $languageFactory,
-								IURLGenerator $url,
-								IUserManager $userManager,
-								IManager $activityManager) {
+		IURLGenerator $url,
+		IUserManager $userManager,
+		IManager $activityManager) {
 		$this->languageFactory = $languageFactory;
 		$this->url = $url;
 		$this->userManager = $userManager;
@@ -116,9 +112,9 @@ class Provider implements IProvider {
 			$subject = $this->l->t('Your email address was changed by an administrator');
 		} elseif ($event->getSubject() === self::APP_TOKEN_CREATED) {
 			if ($event->getAffectedUser() === $event->getAuthor()) {
-				$subject = $this->l->t('You created app password "{token}"');
+				$subject = $this->l->t('You created an app password for a session named "{token}"');
 			} else {
-				$subject = $this->l->t('An administrator created app password "{token}"');
+				$subject = $this->l->t('An administrator created an app password for a session named "{token}"');
 			}
 		} elseif ($event->getSubject() === self::APP_TOKEN_DELETED) {
 			$subject = $this->l->t('You deleted app password "{token}"');
@@ -189,40 +185,17 @@ class Provider implements IProvider {
 	}
 
 	/**
-	 * @param IEvent $event
-	 * @param string $subject
-	 * @param array $parameters
 	 * @throws \InvalidArgumentException
 	 */
 	protected function setSubjects(IEvent $event, string $subject, array $parameters): void {
-		$placeholders = $replacements = [];
-		foreach ($parameters as $placeholder => $parameter) {
-			$placeholders[] = '{' . $placeholder . '}';
-			$replacements[] = $parameter['name'];
-		}
-
-		$event->setParsedSubject(str_replace($placeholders, $replacements, $subject))
-			->setRichSubject($subject, $parameters);
+		$event->setRichSubject($subject, $parameters);
 	}
 
 	protected function generateUserParameter(string $uid): array {
-		if (!isset($this->displayNames[$uid])) {
-			$this->displayNames[$uid] = $this->getDisplayName($uid);
-		}
-
 		return [
 			'type' => 'user',
 			'id' => $uid,
-			'name' => $this->displayNames[$uid],
+			'name' => $this->userManager->getDisplayName($uid) ?? $uid,
 		];
-	}
-
-	protected function getDisplayName(string $uid): string {
-		$user = $this->userManager->get($uid);
-		if ($user instanceof IUser) {
-			return $user->getDisplayName();
-		}
-
-		return $uid;
 	}
 }

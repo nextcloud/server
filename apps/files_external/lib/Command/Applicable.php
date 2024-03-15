@@ -34,35 +34,18 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\HttpFoundation\Response;
 
 class Applicable extends Base {
-	/**
-	 * @var GlobalStoragesService
-	 */
-	protected $globalService;
-
-	/**
-	 * @var IUserManager
-	 */
-	private $userManager;
-
-	/**
-	 * @var IGroupManager
-	 */
-	private $groupManager;
-
 	public function __construct(
-		GlobalStoragesService $globalService,
-		IUserManager $userManager,
-		IGroupManager $groupManager
+		protected GlobalStoragesService $globalService,
+		private IUserManager $userManager,
+		private IGroupManager $groupManager,
 	) {
 		parent::__construct();
-		$this->globalService = $globalService;
-		$this->userManager = $userManager;
-		$this->groupManager = $groupManager;
 	}
 
-	protected function configure() {
+	protected function configure(): void {
 		$this
 			->setName('files_external:applicable')
 			->setDescription('Manage applicable users and groups for a mount')
@@ -105,12 +88,12 @@ class Applicable extends Base {
 			$mount = $this->globalService->getStorage($mountId);
 		} catch (NotFoundException $e) {
 			$output->writeln('<error>Mount with id "' . $mountId . ' not found, check "occ files_external:list" to get available mounts</error>');
-			return 404;
+			return Response::HTTP_NOT_FOUND;
 		}
 
-		if ($mount->getType() === StorageConfig::MOUNT_TYPE_PERSONAl) {
+		if ($mount->getType() === StorageConfig::MOUNT_TYPE_PERSONAL) {
 			$output->writeln('<error>Can\'t change applicables on personal mounts</error>');
-			return 1;
+			return self::FAILURE;
 		}
 
 		$addUsers = $input->getOption('add-user');
@@ -125,13 +108,13 @@ class Applicable extends Base {
 			foreach ($addUsers as $addUser) {
 				if (!$this->userManager->userExists($addUser)) {
 					$output->writeln('<error>User "' . $addUser . '" not found</error>');
-					return 404;
+					return Response::HTTP_NOT_FOUND;
 				}
 			}
 			foreach ($addGroups as $addGroup) {
 				if (!$this->groupManager->groupExists($addGroup)) {
 					$output->writeln('<error>Group "' . $addGroup . '" not found</error>');
-					return 404;
+					return Response::HTTP_NOT_FOUND;
 				}
 			}
 
@@ -153,6 +136,6 @@ class Applicable extends Base {
 			'users' => $applicableUsers,
 			'groups' => $applicableGroups
 		]);
-		return 0;
+		return self::SUCCESS;
 	}
 }

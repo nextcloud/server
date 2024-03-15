@@ -35,7 +35,6 @@ use OCP\IUser;
  * @since 18.0.0
  */
 class UserLoggedOutEvent extends Event {
-
 	/** @var IUser|null */
 	private $user;
 

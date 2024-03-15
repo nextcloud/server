@@ -31,8 +31,10 @@ import $ from 'jquery'
  *
  * The downside: anything not ascii is excluded. Not sure how common it is in areas using different
  * alphabets… the upside: fake domains with similar looking characters won't be formatted as links
+ *
+ * This is a copy of the backend regex in IURLGenerator, make sure to adjust both when changing
  */
-const urlRegex = /(\s|^)(https?:\/\/)?((?:[-A-Z0-9+_]+\.)+[-A-Z]+(?:\/[-A-Z0-9+&@#%?=~_|!:,.;()]*)*)(\s|$)/ig
+const urlRegex = /(\s|^)(https?:\/\/)([-A-Z0-9+_.]+(?::[0-9]+)?(?:\/[-A-Z0-9+&@#%?=~_|!:,.;()]*)*)(\s|$)/ig
 
 /**
  * @param {any} content -

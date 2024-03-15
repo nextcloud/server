@@ -29,9 +29,10 @@ use OCP\EventDispatcher\Event;
 
 /**
  * @since 20.0.0
+ * @deprecated 28.0.0 Use \OCP\Authentication\TwoFactorAuth\TwoFactorProviderUserDeleted instead
+ * @see \OCP\Authentication\TwoFactorAuth\TwoFactorProviderUserDeleted
  */
 final class TwoFactorProviderDisabled extends Event {
-
 	/** @var string */
 	private $providerId;
 

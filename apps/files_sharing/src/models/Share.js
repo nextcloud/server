@@ -248,9 +248,9 @@ export default class Share {
 	}
 
 	/**
-	 * Get the expiration date as a string format
+	 * Get the expiration date
 	 *
-	 * @return {string}
+	 * @return {string} date with YYYY-MM-DD format
 	 * @readonly
 	 * @memberof Share
 	 */
@@ -259,10 +259,9 @@ export default class Share {
 	}
 
 	/**
-	 * Set the expiration date as a string format
-	 * e.g. YYYY-MM-DD
+	 * Set the expiration date
 	 *
-	 * @param {string} date the share expiration date
+	 * @param {string} date the share expiration date with YYYY-MM-DD format
 	 * @memberof Share
 	 */
 	set expireDate(date) {
@@ -392,7 +391,7 @@ export default class Share {
 	/**
 	 * Password expiration time
 	 *
-	 * @param {string} password exipration time
+	 * @param {string} password expiration time
 	 * @memberof Share
 	 */
 	set passwordExpirationTime(passwordExpirationTime) {
@@ -580,7 +579,7 @@ export default class Share {
 		for (const i in this._share.attributes) {
 			const attr = this._share.attributes[i]
 			if (attr.scope === attrUpdate.scope && attr.key === attrUpdate.key) {
-				this._share.attributes[i] = attrUpdate
+				this._share.attributes.splice(i, 1, attrUpdate)
 				return
 			}
 		}

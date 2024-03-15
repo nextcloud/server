@@ -48,8 +48,8 @@ class Broker implements IBroker {
 	private ?ITalkBackend $backend = null;
 
 	public function __construct(Coordinator $coordinator,
-								IServerContainer $container,
-								LoggerInterface $logger) {
+		IServerContainer $container,
+		LoggerInterface $logger) {
 		$this->coordinator = $coordinator;
 		$this->container = $container;
 		$this->logger = $logger;
@@ -94,8 +94,8 @@ class Broker implements IBroker {
 	}
 
 	public function createConversation(string $name,
-									   array $moderators,
-									   IConversationOptions $options = null): IConversation {
+		array $moderators,
+		IConversationOptions $options = null): IConversation {
 		if (!$this->hasBackend()) {
 			throw new NoBackendException("The Talk broker has no registered backend");
 		}
@@ -105,5 +105,13 @@ class Broker implements IBroker {
 			$moderators,
 			$options ?? ConversationOptions::default()
 		);
+	}
+
+	public function deleteConversation(string $id): void {
+		if (!$this->hasBackend()) {
+			throw new NoBackendException("The Talk broker has no registered backend");
+		}
+
+		$this->backend->deleteConversation($id);
 	}
 }

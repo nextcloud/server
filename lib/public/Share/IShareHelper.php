@@ -31,7 +31,6 @@ use OCP\Files\Node;
  * @since 12
  */
 interface IShareHelper {
-
 	/**
 	 * @param Node $node
 	 * @return array [ users => [Mapping $uid => $pathForUser], remotes => [Mapping $cloudId => $pathToMountRoot]]

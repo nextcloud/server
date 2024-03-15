@@ -29,25 +29,27 @@ use function lcfirst;
 use function substr;
 
 /**
- * @method integer getId()
- * @method void setId(integer $id)
+ * @method int getId()
+ * @method void setId(int $id)
  * @since 7.0.0
+ * @psalm-consistent-constructor
  */
 abstract class Entity {
+	/**
+	 * @var int
+	 */
 	public $id;
 
-	private $_updatedFields = [];
-	private $_fieldTypes = ['id' => 'integer'];
-
+	private array $_updatedFields = [];
+	private array $_fieldTypes = ['id' => 'integer'];
 
 	/**
 	 * Simple alternative constructor for building entities from a request
 	 * @param array $params the array which was obtained via $this->params('key')
 	 * in the controller
-	 * @return Entity
 	 * @since 7.0.0
 	 */
-	public static function fromParams(array $params) {
+	public static function fromParams(array $params): static {
 		$instance = new static();
 
 		foreach ($params as $key => $value) {
@@ -64,7 +66,7 @@ abstract class Entity {
 	 * @param array $row the row to map onto the entity
 	 * @since 7.0.0
 	 */
-	public static function fromRow(array $row) {
+	public static function fromRow(array $row): static {
 		$instance = new static();
 
 		foreach ($row as $key => $value) {
@@ -100,7 +102,7 @@ abstract class Entity {
 	 * Generic setter for properties
 	 * @since 7.0.0
 	 */
-	protected function setter($name, $args) {
+	protected function setter(string $name, array $args): void {
 		// setters should only work for existing attributes
 		if (property_exists($this, $name)) {
 			if ($this->$name === $args[0]) {
@@ -142,7 +144,7 @@ abstract class Entity {
 	 * Generic getter for properties
 	 * @since 7.0.0
 	 */
-	protected function getter($name) {
+	protected function getter(string $name): mixed {
 		// getters should only work for existing attributes
 		if (property_exists($this, $name)) {
 			return $this->$name;
@@ -160,10 +162,10 @@ abstract class Entity {
 	 * getter method
 	 * @since 7.0.0
 	 */
-	public function __call($methodName, $args) {
-		if (strpos($methodName, 'set') === 0) {
+	public function __call(string $methodName, array $args) {
+		if (str_starts_with($methodName, 'set')) {
 			$this->setter(lcfirst(substr($methodName, 3)), $args);
-		} elseif (strpos($methodName, 'get') === 0) {
+		} elseif (str_starts_with($methodName, 'get')) {
 			return $this->getter(lcfirst(substr($methodName, 3)));
 		} elseif ($this->isGetterForBoolProperty($methodName)) {
 			return $this->getter(lcfirst(substr($methodName, 2)));
@@ -179,9 +181,9 @@ abstract class Entity {
 	 * @since 18.0.0
 	 */
 	protected function isGetterForBoolProperty(string $methodName): bool {
-		if (strpos($methodName, 'is') === 0) {
+		if (str_starts_with($methodName, 'is')) {
 			$fieldName = lcfirst(substr($methodName, 2));
-			return isset($this->_fieldTypes[$fieldName]) && strpos($this->_fieldTypes[$fieldName], 'bool') === 0;
+			return isset($this->_fieldTypes[$fieldName]) && str_starts_with($this->_fieldTypes[$fieldName], 'bool');
 		}
 		return false;
 	}
@@ -191,7 +193,7 @@ abstract class Entity {
 	 * @param string $attribute the name of the attribute
 	 * @since 7.0.0
 	 */
-	protected function markFieldUpdated($attribute) {
+	protected function markFieldUpdated(string $attribute): void {
 		$this->_updatedFields[$attribute] = true;
 	}
 

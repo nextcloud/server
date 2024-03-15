@@ -35,7 +35,6 @@ use OCP\IUserManager;
 use Test\TestCase;
 
 class SignerTest extends TestCase {
-
 	/** @var string */
 	private $private = '-----BEGIN PRIVATE KEY-----
 MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDImc6QvHBjBIoo

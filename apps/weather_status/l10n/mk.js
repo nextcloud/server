@@ -7,7 +7,6 @@ OC.L10N.register(
     "Error" : "Грешка",
     "Weather status" : "Временска прогноза",
     "Weather status in your dashboard" : "Временска прогноза на вашата табла",
-    "Weather status integrated in the Dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Временска прогноза интегрирана во апликацијата Табла.\nПозицијата на корисникот може автоматски да се одреди или рачно да се дефинира. Потоа се прикажува предвидување од 6 часа.\nОвој статус може да се интегрира и на други места, како што е апликацијата „Календар“.",
     "Detect location" : "Детектирај локација",
     "Set custom address" : "Поставете адреса",
     "Favorites" : "Омилени",
@@ -46,17 +45,6 @@ OC.L10N.register(
     "There was an error saving the mode." : "Грешка при зачувување.",
     "There was an error using personal address." : "Настана грешка при користење на сопствена адреса.",
     "Set location for weather" : "Поставете локација за временска прогноза",
-    "{temperature} {unit} Clear sky at {time}" : "{temperature} {unit} Ведро небо во {time}",
-    "{temperature} {unit} Cloudy at {time}" : "{temperature} {unit} Облачно во {time}",
-    "{temperature} {unit} Fair day at {time}" : "{temperature} {unit} Јасен ден во {time}",
-    "{temperature} {unit} Fair night at {time}" : "{temperature} {unit} Јасна ноќ во {time}",
-    "{temperature} {unit} Partly cloudy at {time}" : "{temperature} {unit} Променливо облачно во {time}",
-    "{temperature} {unit} Foggy at {time}" : "{temperature} {unit} Магливо во {time}",
-    "{temperature} {unit} Light rain at {time}" : "{temperature} {unit} Слаб дожд во {time}",
-    "{temperature} {unit} Rain at {time}" : "{temperature} {unit} Дожд во {time}",
-    "{temperature} {unit} Heavy rain at {time}" : "{temperature} {unit} Силен дожд во {time}",
-    "{temperature} {unit} Rain showers at {time}" : "{temperature} {unit} Врнежи од дожд во {time}",
-    "{temperature} {unit} Light rain showers at {time}" : "{temperature} {unit} Слаби врнежи од дожд во {time}",
-    "{temperature} {unit} Heavy rain showers at {time}" : "{temperature} {unit} Поројни врнежи од дожд во {time}"
+    "Weather status integrated in the Dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Временска прогноза интегрирана во апликацијата Табла.\nПозицијата на корисникот може автоматски да се одреди или рачно да се дефинира. Потоа се прикажува предвидување од 6 часа.\nОвој статус може да се интегрира и на други места, како што е апликацијата „Календар“."
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

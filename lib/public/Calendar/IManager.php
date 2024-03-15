@@ -58,7 +58,6 @@ namespace OCP\Calendar;
  * @since 13.0.0
  */
 interface IManager {
-
 	/**
 	 * This function is used to search and find objects within the user's calendars.
 	 * In case $pattern is empty all events/journals/todos will be returned.
@@ -156,4 +155,18 @@ interface IManager {
 	 * @since 23.0.0
 	 */
 	public function newQuery(string $principalUri) : ICalendarQuery;
+
+	/**
+	 * Handle a iMip REPLY message
+	 *
+	 * @since 25.0.0
+	 */
+	public function handleIMipReply(string $principalUri, string $sender, string $recipient, string $calendarData): bool;
+
+	/**
+	 * Handle a iMip CANCEL message
+	 *
+	 * @since 25.0.0
+	 */
+	public function handleIMipCancel(string $principalUri, string $sender, ?string $replyTo, string $recipient, string $calendarData): bool;
 }

@@ -27,7 +27,6 @@ namespace OCP\Share;
  * @since 25.0.0
  */
 interface IAttributes {
-
 	/**
 	 * Sets an attribute enabled/disabled. If the key did not exist before it will be created.
 	 *

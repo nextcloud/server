@@ -43,7 +43,6 @@ use Test\TestCase;
  * @package Test\Encryption
  */
 class DecryptAllTest extends TestCase {
-
 	/** @var \PHPUnit\Framework\MockObject\MockObject | IUserManager */
 	protected $userManager;
 
@@ -78,12 +77,15 @@ class DecryptAllTest extends TestCase {
 			->disableOriginalConstructor()->getMock();
 		$this->outputInterface = $this->getMockBuilder(OutputInterface::class)
 			->disableOriginalConstructor()->getMock();
+		$this->outputInterface->expects($this->any())->method('isDecorated')
+			->willReturn(false);
 		$this->userInterface = $this->getMockBuilder(UserInterface::class)
 			->disableOriginalConstructor()->getMock();
 
 		/* We need format method to return a string */
 		$outputFormatter = $this->createMock(OutputFormatterInterface::class);
 		$outputFormatter->method('format')->willReturn('foo');
+		$outputFormatter->method('isDecorated')->willReturn(false);
 
 		$this->outputInterface->expects($this->any())->method('getFormatter')
 			->willReturn($outputFormatter);
@@ -201,7 +203,6 @@ class DecryptAllTest extends TestCase {
 	 * @dataProvider dataTestDecryptAllUsersFiles
 	 */
 	public function testDecryptAllUsersFiles($user) {
-
 		/** @var DecryptAll | \PHPUnit\Framework\MockObject\MockObject |  $instance */
 		$instance = $this->getMockBuilder('OC\Encryption\DecryptAll')
 			->setConstructorArgs(
@@ -306,6 +307,7 @@ class DecryptAllTest extends TestCase {
 
 		/* We need format method to return a string */
 		$outputFormatter = $this->createMock(OutputFormatterInterface::class);
+		$outputFormatter->method('isDecorated')->willReturn(false);
 		$outputFormatter->method('format')->willReturn('foo');
 
 		$output = $this->createMock(OutputInterface::class);

@@ -22,19 +22,13 @@
  */
 namespace OCA\Files_Sharing\Tests;
 
-use OCP\Files\Events\BeforeDirectFileDownloadEvent;
-use OCP\Files\Events\BeforeZipCreatedEvent;
-use Psr\Log\LoggerInterface;
-use OC\Share20\LegacyHooks;
-use OC\Share20\Manager;
 use OC\EventDispatcher\EventDispatcher;
+use OC\Share20\Manager;
 use OCA\Files_Sharing\AppInfo\Application;
 use OCA\Files_Sharing\SharedStorage;
-use OCP\Constants;
-use OCP\EventDispatcher\GenericEvent;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\Files\Cache\ICacheEntry;
-use OCP\Files\Event\BeforeDirectGetEvent;
+use OCP\Files\Events\BeforeDirectFileDownloadEvent;
+use OCP\Files\Events\BeforeZipCreatedEvent;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
@@ -44,6 +38,7 @@ use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Share\IAttributes;
 use OCP\Share\IShare;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcher as SymfonyDispatcher;
 use Test\TestCase;
 
@@ -57,7 +52,8 @@ class ApplicationTest extends TestCase {
 	/** @var IRootFolder */
 	private $rootFolder;
 
-	/** @var Manager */ private $manager;
+	/** @var Manager */
+	private $manager;
 
 	protected function setUp(): void {
 		parent::setUp();

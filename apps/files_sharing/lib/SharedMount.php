@@ -29,22 +29,23 @@
 
 namespace OCA\Files_Sharing;
 
-use OCP\Cache\CappedMemoryCache;
 use OC\Files\Filesystem;
 use OC\Files\Mount\MountPoint;
 use OC\Files\Mount\MoveableMount;
 use OC\Files\View;
+use OCP\Cache\CappedMemoryCache;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Events\InvalidateMountCacheEvent;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\ICache;
 use OCP\IUser;
 use OCP\Share\Events\VerifyMountPointEvent;
+use Psr\Log\LoggerInterface;
 
 /**
  * Shared mount points can be moved by the user
  */
-class SharedMount extends MountPoint implements MoveableMount {
+class SharedMount extends MountPoint implements MoveableMount, ISharedMountPoint {
 	/**
 	 * @var \OCA\Files_Sharing\SharedStorage $storage
 	 */
@@ -104,7 +105,7 @@ class SharedMount extends MountPoint implements MoveableMount {
 		array $mountpoints,
 		CappedMemoryCache $folderExistCache
 	) {
-		$cacheKey = $this->user->getUID() . '/' . $share->getTarget();
+		$cacheKey = $this->user->getUID() . '/' . $share->getId() . '/' . $share->getTarget();
 		$cached = $this->cache->get($cacheKey);
 		if ($cached !== null) {
 			return $cached;
@@ -117,8 +118,9 @@ class SharedMount extends MountPoint implements MoveableMount {
 		$this->eventDispatcher->dispatchTyped($event);
 		$parent = $event->getParent();
 
-		if ($folderExistCache->hasKey($parent)) {
-			$parentExists = $folderExistCache->get($parent);
+		$cached = $folderExistCache->get($parent);
+		if ($cached) {
+			$parentExists = $cached;
 		} else {
 			$parentExists = $this->recipientView->is_dir($parent);
 			$folderExistCache->set($parent, $parentExists);
@@ -197,7 +199,7 @@ class SharedMount extends MountPoint implements MoveableMount {
 
 		// it is not a file relative to data/user/files
 		if (count($split) < 3 || $split[1] !== 'files') {
-			\OC::$server->getLogger()->error('Can not strip userid and "files/" from path: ' . $path, ['app' => 'files_sharing']);
+			\OCP\Server::get(LoggerInterface::class)->error('Can not strip userid and "files/" from path: ' . $path, ['app' => 'files_sharing']);
 			throw new \OCA\Files_Sharing\Exceptions\BrokenPath('Path does not start with /user/files', 10);
 		}
 
@@ -225,7 +227,13 @@ class SharedMount extends MountPoint implements MoveableMount {
 			$this->setMountPoint($target);
 			$this->storage->setMountPoint($relTargetPath);
 		} catch (\Exception $e) {
-			\OC::$server->getLogger()->logException($e, ['app' => 'files_sharing', 'message' => 'Could not rename mount point for shared folder "' . $this->getMountPoint() . '" to "' . $target . '"']);
+			\OCP\Server::get(LoggerInterface::class)->error(
+				'Could not rename mount point for shared folder "' . $this->getMountPoint() . '" to "' . $target . '"',
+				[
+					'app' => 'files_sharing',
+					'exception' => $e,
+				]
+			);
 		}
 
 		return $result;
@@ -251,6 +259,13 @@ class SharedMount extends MountPoint implements MoveableMount {
 	 */
 	public function getShare() {
 		return $this->superShare;
+	}
+
+	/**
+	 * @return \OCP\Share\IShare[]
+	 */
+	public function getGroupedShares(): array {
+		return $this->groupedShares;
 	}
 
 	/**

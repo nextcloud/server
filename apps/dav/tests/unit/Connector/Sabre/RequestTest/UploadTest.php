@@ -35,7 +35,7 @@ use OCP\Lock\ILockingProvider;
  * @package OCA\DAV\Tests\unit\Connector\Sabre\RequestTest
  */
 class UploadTest extends RequestTestCase {
-	public function testBasicUpload() {
+	public function testBasicUpload(): void {
 		$user = $this->getUniqueID();
 		$view = $this->setupUser($user, 'pass');
 
@@ -51,7 +51,7 @@ class UploadTest extends RequestTestCase {
 		$this->assertEquals(3, $info->getSize());
 	}
 
-	public function testUploadOverWrite() {
+	public function testUploadOverWrite(): void {
 		$user = $this->getUniqueID();
 		$view = $this->setupUser($user, 'pass');
 
@@ -67,7 +67,7 @@ class UploadTest extends RequestTestCase {
 		$this->assertEquals(3, $info->getSize());
 	}
 
-	public function testUploadOverWriteReadLocked() {
+	public function testUploadOverWriteReadLocked(): void {
 		$user = $this->getUniqueID();
 		$view = $this->setupUser($user, 'pass');
 
@@ -79,7 +79,7 @@ class UploadTest extends RequestTestCase {
 		$this->assertEquals(Http::STATUS_LOCKED, $result->getStatus());
 	}
 
-	public function testUploadOverWriteWriteLocked() {
+	public function testUploadOverWriteWriteLocked(): void {
 		$user = $this->getUniqueID();
 		$view = $this->setupUser($user, 'pass');
 		$this->loginAsUser($user);
@@ -92,7 +92,7 @@ class UploadTest extends RequestTestCase {
 		$this->assertEquals(Http::STATUS_LOCKED, $result->getStatus());
 	}
 
-	public function testChunkedUpload() {
+	public function testChunkedUpload(): void {
 		$user = $this->getUniqueID();
 		$view = $this->setupUser($user, 'pass');
 
@@ -114,7 +114,7 @@ class UploadTest extends RequestTestCase {
 		$this->assertEquals(6, $info->getSize());
 	}
 
-	public function testChunkedUploadOverWrite() {
+	public function testChunkedUploadOverWrite(): void {
 		$user = $this->getUniqueID();
 		$view = $this->setupUser($user, 'pass');
 
@@ -135,7 +135,7 @@ class UploadTest extends RequestTestCase {
 		$this->assertEquals(6, $info->getSize());
 	}
 
-	public function testChunkedUploadOutOfOrder() {
+	public function testChunkedUploadOutOfOrder(): void {
 		$user = $this->getUniqueID();
 		$view = $this->setupUser($user, 'pass');
 
@@ -157,7 +157,7 @@ class UploadTest extends RequestTestCase {
 		$this->assertEquals(6, $info->getSize());
 	}
 
-	public function testChunkedUploadOutOfOrderReadLocked() {
+	public function testChunkedUploadOutOfOrderReadLocked(): void {
 		$user = $this->getUniqueID();
 		$view = $this->setupUser($user, 'pass');
 
@@ -180,7 +180,7 @@ class UploadTest extends RequestTestCase {
 		$this->assertEquals(Http::STATUS_LOCKED, $result->getStatus());
 	}
 
-	public function testChunkedUploadOutOfOrderWriteLocked() {
+	public function testChunkedUploadOutOfOrderWriteLocked(): void {
 		$user = $this->getUniqueID();
 		$view = $this->setupUser($user, 'pass');
 

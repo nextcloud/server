@@ -23,7 +23,6 @@ use Test\TestCase;
  * @see \OC\Repair\RepairInvalidShares
  */
 class RepairInvalidSharesTest extends TestCase {
-
 	/** @var IRepairStep */
 	private $repair;
 
@@ -37,7 +36,7 @@ class RepairInvalidSharesTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$config->expects($this->any())
-			->method('getSystemValue')
+			->method('getSystemValueString')
 			->with('version')
 			->willReturn('12.0.0.0');
 

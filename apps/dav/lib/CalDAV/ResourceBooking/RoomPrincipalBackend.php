@@ -39,10 +39,10 @@ class RoomPrincipalBackend extends AbstractPrincipalBackend {
 	 * RoomPrincipalBackend constructor.
 	 */
 	public function __construct(IDBConnection $dbConnection,
-								IUserSession $userSession,
-								IGroupManager $groupManager,
-								LoggerInterface $logger,
-								ProxyMapper $proxyMapper) {
+		IUserSession $userSession,
+		IGroupManager $groupManager,
+		LoggerInterface $logger,
+		ProxyMapper $proxyMapper) {
 		parent::__construct($dbConnection, $userSession, $groupManager, $logger,
 			$proxyMapper, 'principals/calendar-rooms', 'room', 'ROOM');
 	}

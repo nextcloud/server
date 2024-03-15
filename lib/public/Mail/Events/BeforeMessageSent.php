@@ -35,7 +35,6 @@ use OCP\Mail\IMessage;
  * @since 19.0.0
  */
 class BeforeMessageSent extends Event {
-
 	/** @var IMessage */
 	private $message;
 

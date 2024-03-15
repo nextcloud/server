@@ -28,7 +28,6 @@ use OCP\IRequest;
 use OCP\ISession;
 
 class TestController extends PublicShareController {
-
 	/** @var string */
 	private $hash;
 
@@ -56,7 +55,6 @@ class TestController extends PublicShareController {
 }
 
 class PublicShareControllerTest extends \Test\TestCase {
-
 	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
 	private $request;
 	/** @var ISession|\PHPUnit\Framework\MockObject\MockObject */

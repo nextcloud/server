@@ -33,7 +33,6 @@ namespace OCP\Authentication;
  * @since 6.0.0
  */
 interface IApacheBackend {
-
 	/**
 	 * In case the user has been authenticated by a module true is returned.
 	 *

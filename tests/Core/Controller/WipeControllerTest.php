@@ -34,7 +34,6 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class WipeControllerTest extends TestCase {
-
 	/** @var RemoteWipe|MockObject */
 	private $remoteWipe;
 

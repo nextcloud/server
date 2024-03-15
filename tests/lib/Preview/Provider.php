@@ -22,9 +22,9 @@
 namespace Test\Preview;
 
 use OC\Files\Node\File;
+use OCP\Files\IRootFolder;
 
 abstract class Provider extends \Test\TestCase {
-
 	/** @var string */
 	protected $imgPath;
 	/** @var int */
@@ -138,7 +138,7 @@ abstract class Provider extends \Test\TestCase {
 	 * @return bool|\OCP\IImage
 	 */
 	private function getPreview($provider) {
-		$file = new File(\OC::$server->getRootFolder(), $this->rootView, $this->imgPath);
+		$file = new File(\OC::$server->get(IRootFolder::class), $this->rootView, $this->imgPath);
 		$preview = $provider->getThumbnail($file, $this->maxWidth, $this->maxHeight, $this->scalingUp);
 
 		if (get_class($this) === BitmapTest::class && $preview === null) {

@@ -21,108 +21,137 @@
   -->
 
 <template>
-	<div class="section" :class="{ selected: isSelected }" @click="showAppDetails">
-		<div class="app-image app-image-icon" @click="showAppDetails">
+	<component :is="listView ? `tr` : `li`"
+		class="section"
+		:class="{ selected: isSelected }">
+		<component :is="dataItemTag"
+			class="app-image app-image-icon"
+			:headers="getDataItemHeaders(`app-table-col-icon`)">
 			<div v-if="(listView && !app.preview) || (!listView && !screenshotLoaded)" class="icon-settings-dark" />
 
 			<svg v-else-if="listView && app.preview"
 				width="32"
 				height="32"
 				viewBox="0 0 32 32">
-				<defs><filter :id="filterId"><feColorMatrix in="SourceGraphic" type="matrix" values="-1 0 0 0 1 0 -1 0 0 1 0 0 -1 0 1 0 0 0 1 0" /></filter></defs>
 				<image x="0"
 					y="0"
 					width="32"
 					height="32"
 					preserveAspectRatio="xMinYMin meet"
-					:filter="filterUrl"
 					:xlink:href="app.preview"
 					class="app-icon" />
 			</svg>
 
-			<img v-if="!listView && app.screenshot && screenshotLoaded" :src="app.screenshot" width="100%">
-		</div>
-		<div class="app-name" @click="showAppDetails">
-			{{ app.name }}
-		</div>
-		<div v-if="!listView" class="app-summary">
+			<img v-if="!listView && app.screenshot && screenshotLoaded" :src="app.screenshot" alt="">
+		</component>
+		<component :is="dataItemTag"
+			class="app-name"
+			:headers="getDataItemHeaders(`app-table-col-name`)">
+			<router-link class="app-name--link"
+				:to="{
+					name: 'apps-details',
+					params: {
+						category: category,
+						id: app.id
+					},
+				}"
+				:aria-label="t('settings', 'Show details for {appName} app', { appName:app.name })">
+				{{ app.name }}
+			</router-link>
+		</component>
+		<component :is="dataItemTag"
+			v-if="!listView"
+			class="app-summary"
+			:headers="getDataItemHeaders(`app-version`)">
 			{{ app.summary }}
-		</div>
-		<div v-if="listView" class="app-version">
+		</component>
+		<component :is="dataItemTag"
+			v-if="listView"
+			class="app-version"
+			:headers="getDataItemHeaders(`app-table-col-version`)">
 			<span v-if="app.version">{{ app.version }}</span>
 			<span v-else-if="app.appstoreData.releases[0].version">{{ app.appstoreData.releases[0].version }}</span>
-		</div>
+		</component>
 
-		<div class="app-level">
-			<span v-if="app.level === 300"
-				v-tooltip.auto="t('settings', 'This app is supported via your current Nextcloud subscription.')"
-				class="supported icon-checkmark-color">
-				{{ t('settings', 'Supported') }}</span>
-			<span v-if="app.level === 200"
-				v-tooltip.auto="t('settings', 'Featured apps are developed by and within the community. They offer central functionality and are ready for production use.')"
-				class="official icon-checkmark">
-				{{ t('settings', 'Featured') }}</span>
+		<component :is="dataItemTag" :headers="getDataItemHeaders(`app-table-col-level`)">
+			<AppLevelBadge :level="app.level" />
 			<AppScore v-if="hasRating && !listView" :score="app.score" />
-		</div>
-
-		<div class="actions">
+		</component>
+		<component :is="dataItemTag" :headers="getDataItemHeaders(`app-table-col-actions`)" class="actions">
 			<div v-if="app.error" class="warning">
 				{{ app.error }}
 			</div>
 			<div v-if="isLoading" class="icon icon-loading-small" />
-			<input v-if="app.update"
-				class="update primary"
-				type="button"
-				:value="t('settings', 'Update to {update}', {update:app.update})"
+			<NcButton v-if="app.update"
+				type="primary"
 				:disabled="installing || isLoading"
 				@click.stop="update(app.id)">
-			<input v-if="app.canUnInstall"
+				{{ t('settings', 'Update to {update}', {update:app.update}) }}
+			</NcButton>
+			<NcButton v-if="app.canUnInstall"
 				class="uninstall"
-				type="button"
-				:value="t('settings', 'Remove')"
+				type="tertiary"
 				:disabled="installing || isLoading"
 				@click.stop="remove(app.id)">
-			<input v-if="app.active"
-				class="enable"
-				type="button"
-				:value="t('settings','Disable')"
+				{{ t('settings', 'Remove') }}
+			</NcButton>
+			<NcButton v-if="app.active"
 				:disabled="installing || isLoading"
 				@click.stop="disable(app.id)">
-			<input v-if="!app.active && (app.canInstall || app.isCompatible)"
-				v-tooltip.auto="enableButtonTooltip"
-				class="enable"
-				type="button"
-				:value="enableButtonText"
+				{{ t('settings','Disable') }}
+			</NcButton>
+			<NcButton v-if="!app.active && (app.canInstall || app.isCompatible)"
+				:title="enableButtonTooltip"
+				:aria-label="enableButtonTooltip"
+				type="primary"
 				:disabled="!app.canInstall || installing || isLoading"
 				@click.stop="enable(app.id)">
-			<input v-else-if="!app.active"
-				v-tooltip.auto="forceEnableButtonTooltip"
-				class="enable force"
-				type="button"
-				:value="forceEnableButtonText"
+				{{ enableButtonText }}
+			</NcButton>
+			<NcButton v-else-if="!app.active"
+				:title="forceEnableButtonTooltip"
+				:aria-label="forceEnableButtonTooltip"
+				type="secondary"
 				:disabled="installing || isLoading"
 				@click.stop="forceEnable(app.id)">
-		</div>
-	</div>
+				{{ forceEnableButtonText }}
+			</NcButton>
+		</component>
+	</component>
 </template>
 
 <script>
-import AppScore from './AppScore'
-import AppManagement from '../../mixins/AppManagement'
-import SvgFilterMixin from '../SvgFilterMixin'
+import AppScore from './AppScore.vue'
+import AppLevelBadge from './AppLevelBadge.vue'
+import AppManagement from '../../mixins/AppManagement.js'
+import SvgFilterMixin from '../SvgFilterMixin.vue'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 
 export default {
 	name: 'AppItem',
 	components: {
+		AppLevelBadge,
 		AppScore,
+		NcButton,
 	},
 	mixins: [AppManagement, SvgFilterMixin],
 	props: {
-		app: {},
+		app: {
+			type: Object,
+			required: true,
+		},
 		category: {},
 		listView: {
 			type: Boolean,
 			default: true,
+		},
+		useBundleView: {
+			type: Boolean,
+			default: false,
+		},
+		headers: {
+			type: String,
+			default: null,
 		},
 	},
 	data() {
@@ -136,6 +165,9 @@ export default {
 		hasRating() {
 			return this.app.appstoreData && this.app.appstoreData.ratingNumOverall > 5
 		},
+		dataItemTag() {
+			return this.listView ? 'td' : 'div'
+		},
 	},
 	watch: {
 		'$route.params.id'(id) {
@@ -146,7 +178,7 @@ export default {
 		this.isSelected = (this.app.id === this.$route.params.id)
 		if (this.app.releases && this.app.screenshot) {
 			const image = new Image()
-			image.onload = (e) => {
+			image.onload = () => {
 				this.screenshotLoaded = true
 			}
 			image.src = this.app.screenshot
@@ -156,36 +188,33 @@ export default {
 
 	},
 	methods: {
-		async showAppDetails(event) {
-			if (event.currentTarget.tagName === 'INPUT' || event.currentTarget.tagName === 'A') {
-				return
-			}
-			try {
-				await this.$router.push({
-					name: 'apps-details',
-					params: { category: this.category, id: this.app.id },
-				})
-			} catch (e) {
-				// we already view this app
-			}
-		},
 		prefix(prefix, content) {
 			return prefix + '_' + content
+		},
+
+		getDataItemHeaders(columnName) {
+			return this.useBundleView ? [this.headers, columnName].join(' ') : null
 		},
 	},
 }
 </script>
 
-<style scoped>
-	.force {
-		background: var(--color-main-background);
-		border-color: var(--color-error);
-		color: var(--color-error);
-	}
-	.force:hover,
-	.force:active {
-		background: var(--color-error);
-		border-color: var(--color-error) !important;
-		color: var(--color-main-background);
-	}
+<style scoped lang="scss">
+.app-icon {
+	filter: var(--background-invert-if-bright);
+}
+
+.app-image img {
+	width: 100%;
+}
+
+.app-name--link::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
 </style>

@@ -32,13 +32,11 @@ use OCA\DAV\BackgroundJob\GenerateBirthdayCalendarBackgroundJob;
 use OCA\DAV\BackgroundJob\RegisterRegenerateBirthdayCalendars;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
-use OCP\IConfig;
 use OCP\IUser;
 use OCP\IUserManager;
 use Test\TestCase;
 
 class RegisterRegenerateBirthdayCalendarsTest extends TestCase {
-
 	/** @var ITimeFactory | \PHPUnit\Framework\MockObject\MockObject */
 	private $time;
 
@@ -65,10 +63,10 @@ class RegisterRegenerateBirthdayCalendarsTest extends TestCase {
 		);
 	}
 
-	public function testRun() {
+	public function testRun(): void {
 		$this->userManager->expects($this->once())
 			->method('callForSeenUsers')
-			->willReturnCallback(function ($closure) {
+			->willReturnCallback(function ($closure): void {
 				$user1 = $this->createMock(IUser::class);
 				$user1->method('getUID')->willReturn('uid1');
 				$user2 = $this->createMock(IUser::class);
@@ -81,24 +79,22 @@ class RegisterRegenerateBirthdayCalendarsTest extends TestCase {
 				$closure($user3);
 			});
 
-		$this->jobList->expects($this->at(0))
+		$this->jobList->expects($this->exactly(3))
 			->method('add')
-			->with(GenerateBirthdayCalendarBackgroundJob::class, [
-				'userId' => 'uid1',
-				'purgeBeforeGenerating' => true
-			]);
-		$this->jobList->expects($this->at(1))
-			->method('add')
-			->with(GenerateBirthdayCalendarBackgroundJob::class, [
-				'userId' => 'uid2',
-				'purgeBeforeGenerating' => true
-			]);
-		$this->jobList->expects($this->at(2))
-			->method('add')
-			->with(GenerateBirthdayCalendarBackgroundJob::class, [
-				'userId' => 'uid3',
-				'purgeBeforeGenerating' => true
-			]);
+			->withConsecutive(
+				[GenerateBirthdayCalendarBackgroundJob::class, [
+					'userId' => 'uid1',
+					'purgeBeforeGenerating' => true
+				]],
+				[GenerateBirthdayCalendarBackgroundJob::class, [
+					'userId' => 'uid2',
+					'purgeBeforeGenerating' => true
+				]],
+				[GenerateBirthdayCalendarBackgroundJob::class, [
+					'userId' => 'uid3',
+					'purgeBeforeGenerating' => true
+				]],
+			);
 
 		$this->backgroundJob->run([]);
 	}

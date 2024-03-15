@@ -36,7 +36,6 @@ use OCP\AppFramework\OCSController;
 use OCP\IRequest;
 
 class OCSMiddlewareTest extends \Test\TestCase {
-
 	/**
 	 * @var IRequest
 	 */

@@ -12,6 +12,7 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJob;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IConfig;
+use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 /**
@@ -32,6 +33,7 @@ class JobListTest extends TestCase {
 
 	/** @var \OCP\AppFramework\Utility\ITimeFactory|\PHPUnit\Framework\MockObject\MockObject */
 	protected $timeFactory;
+	private bool $ran = false;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -43,7 +45,8 @@ class JobListTest extends TestCase {
 		$this->instance = new \OC\BackgroundJob\JobList(
 			$this->connection,
 			$this->config,
-			$this->timeFactory
+			$this->timeFactory,
+			\OC::$server->get(LoggerInterface::class),
 		);
 	}
 
@@ -54,7 +57,12 @@ class JobListTest extends TestCase {
 	}
 
 	protected function getAllSorted() {
-		$jobs = $this->instance->getAll();
+		$iterator = $this->instance->getJobsIterator(null, null, 0);
+		$jobs = [];
+
+		foreach ($iterator as $job) {
+			$jobs[] = clone $job;
+		}
 
 		usort($jobs, function (IJob $job1, IJob $job2) {
 			return $job1->getId() - $job2->getId();
@@ -238,5 +246,71 @@ class JobListTest extends TestCase {
 
 		$this->assertGreaterThanOrEqual($timeStart, $addedJob->getLastRun());
 		$this->assertLessThanOrEqual($timeEnd, $addedJob->getLastRun());
+	}
+
+	public function testHasReservedJobs() {
+		$this->clearJobsList();
+
+		$this->timeFactory->expects($this->atLeastOnce())
+			->method('getTime')
+			->willReturn(123456789);
+
+		$job = new TestJob($this->timeFactory, $this, function () {
+		});
+
+		$job2 = new TestJob($this->timeFactory, $this, function () {
+		});
+
+		$this->instance->add($job, 1);
+		$this->instance->add($job2, 2);
+
+		$this->assertCount(2, iterator_to_array($this->instance->getJobsIterator(null, 10, 0)));
+
+		$this->assertFalse($this->instance->hasReservedJob());
+		$this->assertFalse($this->instance->hasReservedJob(TestJob::class));
+
+		$job = $this->instance->getNext();
+		$this->assertNotNull($job);
+		$this->assertTrue($this->instance->hasReservedJob());
+		$this->assertTrue($this->instance->hasReservedJob(TestJob::class));
+		$job = $this->instance->getNext();
+		$this->assertNotNull($job);
+		$this->assertTrue($this->instance->hasReservedJob());
+		$this->assertTrue($this->instance->hasReservedJob(TestJob::class));
+	}
+
+	public function testHasReservedJobsAndParallelAwareJob() {
+		$this->clearJobsList();
+
+		$this->timeFactory->expects($this->atLeastOnce())
+			->method('getTime')
+			->willReturnCallback(function () use (&$time) {
+				return time();
+			});
+
+		$job = new TestParallelAwareJob($this->timeFactory, $this, function () {
+		});
+
+		$job2 = new TestParallelAwareJob($this->timeFactory, $this, function () {
+		});
+
+		$this->instance->add($job, 1);
+		$this->instance->add($job2, 2);
+
+		$this->assertCount(2, iterator_to_array($this->instance->getJobsIterator(null, 10, 0)));
+
+		$this->assertFalse($this->instance->hasReservedJob());
+		$this->assertFalse($this->instance->hasReservedJob(TestParallelAwareJob::class));
+
+		$job = $this->instance->getNext();
+		$this->assertNotNull($job);
+		$this->assertTrue($this->instance->hasReservedJob());
+		$this->assertTrue($this->instance->hasReservedJob(TestParallelAwareJob::class));
+		$job = $this->instance->getNext();
+		$this->assertNull($job); // Job doesn't allow parallel runs
+	}
+
+	public function markRun() {
+		$this->ran = true;
 	}
 }

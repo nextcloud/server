@@ -30,6 +30,10 @@ use OCP\BackgroundJob\TimedJob;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IConfig;
 use OCP\IDBConnection;
+use OCP\IUser;
+use OCP\IUserManager;
+use OCP\User\IAvailabilityCoordinator;
+use OCP\User\IOutOfOfficeData;
 use OCP\UserStatus\IManager;
 use OCP\UserStatus\IUserStatus;
 use Psr\Log\LoggerInterface;
@@ -39,24 +43,15 @@ use Sabre\VObject\Reader;
 use Sabre\VObject\Recur\RRuleIterator;
 
 class UserStatusAutomation extends TimedJob {
-	protected IDBConnection $connection;
-	protected IJobList $jobList;
-	protected LoggerInterface $logger;
-	protected IManager $manager;
-	protected IConfig $config;
-
-	public function __construct(ITimeFactory $timeFactory,
-								IDBConnection $connection,
-								IJobList $jobList,
-								LoggerInterface $logger,
-								IManager $manager,
-								IConfig $config) {
+	public function __construct(private ITimeFactory $timeFactory,
+		private IDBConnection $connection,
+		private IJobList $jobList,
+		private LoggerInterface $logger,
+		private IManager $manager,
+		private IConfig $config,
+		private IAvailabilityCoordinator $coordinator,
+		private IUserManager $userManager) {
 		parent::__construct($timeFactory);
-		$this->connection = $connection;
-		$this->jobList = $jobList;
-		$this->logger = $logger;
-		$this->manager = $manager;
-		$this->config = $config;
 
 		// Interval 0 might look weird, but the last_checked is always moved
 		// to the next time we need this and then it's 0 seconds ago.
@@ -74,25 +69,78 @@ class UserStatusAutomation extends TimedJob {
 		}
 
 		$userId = $argument['userId'];
-		$automationEnabled = $this->config->getUserValue($userId, 'dav', 'user_status_automation', 'no') === 'yes';
-		if (!$automationEnabled) {
-			$this->logger->info('Removing ' . self::class . ' background job for user "' . $userId . '" because the setting is disabled');
-			$this->jobList->remove(self::class, $argument);
+		$user = $this->userManager->get($userId);
+		if($user === null) {
+			return;
+		}
+
+		$ooo = $this->coordinator->getCurrentOutOfOfficeData($user);
+
+		$continue = $this->processOutOfOfficeData($user, $ooo);
+		if($continue === false) {
 			return;
 		}
 
 		$property = $this->getAvailabilityFromPropertiesTable($userId);
+		$hasDndForOfficeHours = $this->config->getUserValue($userId, 'dav', 'user_status_automation', 'no') === 'yes';
 
 		if (!$property) {
-			$this->logger->info('Removing ' . self::class . ' background job for user "' . $userId . '" because the user has no availability settings');
+			// We found no ooo data and no availability settings, so we need to delete the job because there is no next runtime
+			$this->logger->info('Removing ' . self::class . ' background job for user "' . $userId . '" because the user has no valid availability rules and no OOO data set');
 			$this->jobList->remove(self::class, $argument);
+			$this->manager->revertUserStatus($user->getUID(), IUserStatus::MESSAGE_AVAILABILITY, IUserStatus::DND);
+			$this->manager->revertUserStatus($user->getUID(), IUserStatus::MESSAGE_OUT_OF_OFFICE, IUserStatus::DND);
 			return;
 		}
 
+		$this->processAvailability($property, $user->getUID(), $hasDndForOfficeHours);
+	}
+
+	protected function setLastRunToNextToggleTime(string $userId, int $timestamp): void {
+		$query = $this->connection->getQueryBuilder();
+
+		$query->update('jobs')
+			->set('last_run', $query->createNamedParameter($timestamp, IQueryBuilder::PARAM_INT))
+			->where($query->expr()->eq('id', $query->createNamedParameter($this->getId(), IQueryBuilder::PARAM_INT)));
+		$query->executeStatement();
+
+		$this->logger->debug('Updated user status automation last_run to ' . $timestamp . ' for user ' . $userId);
+	}
+
+	/**
+	 * @param string $userId
+	 * @return false|string
+	 */
+	protected function getAvailabilityFromPropertiesTable(string $userId) {
+		$propertyPath = 'calendars/' . $userId . '/inbox';
+		$propertyName = '{' . Plugin::NS_CALDAV . '}calendar-availability';
+
+		$query = $this->connection->getQueryBuilder();
+		$query->select('propertyvalue')
+			->from('properties')
+			->where($query->expr()->eq('userid', $query->createNamedParameter($userId)))
+			->andWhere($query->expr()->eq('propertypath', $query->createNamedParameter($propertyPath)))
+			->andWhere($query->expr()->eq('propertyname', $query->createNamedParameter($propertyName)))
+			->setMaxResults(1);
+
+		$result = $query->executeQuery();
+		$property = $result->fetchOne();
+		$result->closeCursor();
+
+		return $property;
+	}
+
+	/**
+	 * @param string $property
+	 * @param $userId
+	 * @param $argument
+	 * @return void
+	 */
+	private function processAvailability(string $property, string $userId, bool $hasDndForOfficeHours): void {
 		$isCurrentlyAvailable = false;
 		$nextPotentialToggles = [];
 
-		$now = new \DateTime('now');
+		$now = $this->time->getDateTime();
 		$lastMidnight = (clone $now)->setTime(0, 0);
 
 		$vObject = Reader::read($property);
@@ -105,12 +153,19 @@ class UserStatusAutomation extends TimedJob {
 			foreach ($availables as $available) {
 				/** @var Available $available */
 				if ($available->name === 'AVAILABLE') {
-					/** @var \DateTimeInterface $effectiveStart */
-					/** @var \DateTimeInterface $effectiveEnd */
-					[$effectiveStart, $effectiveEnd] = $available->getEffectiveStartEnd();
+					/** @var \DateTimeImmutable $originalStart */
+					/** @var \DateTimeImmutable $originalEnd */
+					[$originalStart, $originalEnd] = $available->getEffectiveStartEnd();
+
+					// Little shenanigans to fix the automation on the day the rules were adjusted
+					// Otherwise the $originalStart would match rules for Thursdays on a Friday, etc.
+					// So we simply wind back a week and then fastForward to the next occurrence
+					// since today's midnight, which then also accounts for the week days.
+					$effectiveStart = \DateTime::createFromImmutable($originalStart)->sub(new \DateInterval('P7D'));
+					$effectiveEnd = \DateTime::createFromImmutable($originalEnd)->sub(new \DateInterval('P7D'));
 
 					try {
-						$it = new RRuleIterator((string) $available->RRULE, $effectiveStart);
+						$it = new RRuleIterator((string)$available->RRULE, $effectiveStart);
 						$it->fastForward($lastMidnight);
 
 						$startToday = $it->current();
@@ -139,50 +194,66 @@ class UserStatusAutomation extends TimedJob {
 			}
 		}
 
+		if (empty($nextPotentialToggles)) {
+			$this->logger->info('Removing ' . self::class . ' background job for user "' . $userId . '" because the user has no valid availability rules set');
+			$this->jobList->remove(self::class, ['userId' => $userId]);
+			$this->manager->revertUserStatus($userId, IUserStatus::MESSAGE_AVAILABILITY, IUserStatus::DND);
+			return;
+		}
+
 		$nextAutomaticToggle = min($nextPotentialToggles);
 		$this->setLastRunToNextToggleTime($userId, $nextAutomaticToggle - 1);
 
 		if ($isCurrentlyAvailable) {
+			$this->logger->debug('User is currently available, reverting DND status if applicable');
 			$this->manager->revertUserStatus($userId, IUserStatus::MESSAGE_AVAILABILITY, IUserStatus::DND);
-		} else {
-			// The DND status automation is more important than the "Away - In call" so we also restore that one if it exists.
-			$this->manager->revertUserStatus($userId, IUserStatus::MESSAGE_CALL, IUserStatus::AWAY);
-			$this->manager->setUserStatus($userId, IUserStatus::MESSAGE_AVAILABILITY, IUserStatus::DND, true);
+			$this->logger->debug('User status automation ran');
+			return;
 		}
+
+		if(!$hasDndForOfficeHours) {
+			// Office hours are not set to DND, so there is nothing to do.
+			return;
+		}
+
+		$this->logger->debug('User is currently NOT available, reverting call status if applicable and then setting DND');
+		// The DND status automation is more important than the "Away - In call" so we also restore that one if it exists.
+		$this->manager->revertUserStatus($userId, IUserStatus::MESSAGE_CALL, IUserStatus::AWAY);
+		$this->manager->setUserStatus($userId, IUserStatus::MESSAGE_AVAILABILITY, IUserStatus::DND, true);
 		$this->logger->debug('User status automation ran');
 	}
 
-	protected function setLastRunToNextToggleTime(string $userId, int $timestamp): void {
-		$query = $this->connection->getQueryBuilder();
+	private function processOutOfOfficeData(IUser $user, ?IOutOfOfficeData $ooo): bool {
+		if(empty($ooo)) {
+			// Reset the user status if the absence doesn't exist
+			$this->logger->debug('User has no OOO period in effect, reverting DND status if applicable');
+			$this->manager->revertUserStatus($user->getUID(), IUserStatus::MESSAGE_OUT_OF_OFFICE, IUserStatus::DND);
+			// We need to also run the availability automation
+			return true;
+		}
 
-		$query->update('jobs')
-			->set('last_run', $query->createNamedParameter($timestamp, IQueryBuilder::PARAM_INT))
-			->where($query->expr()->eq('id', $query->createNamedParameter($this->getId(), IQueryBuilder::PARAM_INT)));
-		$query->executeStatement();
+		if(!$this->coordinator->isInEffect($ooo)) {
+			// Reset the user status if the absence is (no longer) in effect
+			$this->logger->debug('User has no OOO period in effect, reverting DND status if applicable');
+			$this->manager->revertUserStatus($user->getUID(), IUserStatus::MESSAGE_OUT_OF_OFFICE, IUserStatus::DND);
 
-		$this->logger->debug('Updated user status automation last_run to ' . $timestamp . ' for user ' . $userId);
-	}
+			if($ooo->getStartDate() > $this->time->getTime()) {
+				// Set the next run to take place at the start of the ooo period if it is in the future
+				// This might be overwritten if there is an availability setting, but we can't determine
+				// if this is the case here
+				$this->setLastRunToNextToggleTime($user->getUID(), $ooo->getStartDate());
+			}
+			return true;
+		}
 
-	/**
-	 * @param string $userId
-	 * @return false|string
-	 */
-	protected function getAvailabilityFromPropertiesTable(string $userId) {
-		$propertyPath = 'calendars/' . $userId . '/inbox';
-		$propertyName = '{' . Plugin::NS_CALDAV . '}calendar-availability';
-
-		$query = $this->connection->getQueryBuilder();
-		$query->select('propertyvalue')
-			->from('properties')
-			->where($query->expr()->eq('userid', $query->createNamedParameter($userId)))
-			->andWhere($query->expr()->eq('propertypath', $query->createNamedParameter($propertyPath)))
-			->where($query->expr()->eq('propertyname', $query->createNamedParameter($propertyName)))
-			->setMaxResults(1);
-
-		$result = $query->executeQuery();
-		$property = $result->fetchOne();
-		$result->closeCursor();
-
-		return $property;
+		$this->logger->debug('User is currently in an OOO period, reverting other automated status and setting OOO DND status');
+		// Revert both a possible 'CALL - away' and 'office hours - DND' status
+		$this->manager->revertUserStatus($user->getUID(), IUserStatus::MESSAGE_CALL, IUserStatus::DND);
+		$this->manager->revertUserStatus($user->getUID(), IUserStatus::MESSAGE_AVAILABILITY, IUserStatus::DND);
+		$this->manager->setUserStatus($user->getUID(), IUserStatus::MESSAGE_OUT_OF_OFFICE, IUserStatus::DND, true, $ooo->getShortMessage());
+		// Run at the end of an ooo period to return to availability / regular user status
+		// If it's overwritten by a custom status in the meantime, there's nothing we can do about it
+		$this->setLastRunToNextToggleTime($user->getUID(), $ooo->getEndDate());
+		return false;
 	}
 }

@@ -29,10 +29,10 @@
  */
 namespace OC\Setup;
 
+use Doctrine\DBAL\Platforms\MySQL80Platform;
 use OC\DB\ConnectionAdapter;
 use OC\DB\MySqlTools;
 use OCP\IDBConnection;
-use Doctrine\DBAL\Platforms\MySQL80Platform;
 use OCP\Security\ISecureRandom;
 
 class MySQL extends AbstractDatabase {
@@ -49,7 +49,14 @@ class MySQL extends AbstractDatabase {
 			$connection = $this->connect(['dbname' => null]);
 		}
 
-		$this->createSpecificUser($username, new ConnectionAdapter($connection));
+		if ($this->tryCreateDbUser) {
+			$this->createSpecificUser($username, new ConnectionAdapter($connection));
+		}
+
+		$this->config->setValues([
+			'dbuser' => $this->dbUser,
+			'dbpassword' => $this->dbPassword,
+		]);
 
 		//create the database
 		$this->createDatabase($connection);
@@ -66,7 +73,7 @@ class MySQL extends AbstractDatabase {
 			$this->logger->error($e->getMessage(), [
 				'exception' => $e,
 			]);
-			throw new \OC\DatabaseSetupException($this->trans->t('MySQL username and/or password not valid'),
+			throw new \OC\DatabaseSetupException($this->trans->t('MySQL Login and/or password not valid'),
 				$this->trans->t('You need to enter details of an existing account.'), 0, $e);
 		}
 	}
@@ -147,8 +154,7 @@ class MySQL extends AbstractDatabase {
 			. $this->random->generate(2, ISecureRandom::CHAR_UPPER)
 			. $this->random->generate(2, ISecureRandom::CHAR_LOWER)
 			. $this->random->generate(2, ISecureRandom::CHAR_DIGITS)
-			. $this->random->generate(2, $saveSymbols)
-		;
+			. $this->random->generate(2, $saveSymbols);
 		$this->dbPassword = str_shuffle($password);
 
 		try {
@@ -183,6 +189,9 @@ class MySQL extends AbstractDatabase {
 						$i++;
 					}
 				}
+			} else {
+				// Reuse existing password if a database config is already present
+				$this->dbPassword = $rootPassword;
 			}
 		} catch (\Exception $ex) {
 			$this->logger->info('Can not create a new MySQL user, will continue with the provided user.', [
@@ -193,10 +202,5 @@ class MySQL extends AbstractDatabase {
 			$this->dbUser = $rootUser;
 			$this->dbPassword = $rootPassword;
 		}
-
-		$this->config->setValues([
-			'dbuser' => $this->dbUser,
-			'dbpassword' => $this->dbPassword,
-		]);
 	}
 }

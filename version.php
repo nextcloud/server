@@ -26,22 +26,22 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-// We only can count up. The 4. digit is only for the internal patchlevel to trigger DB upgrades
-// between betas, final and RCs. This is _not_ the public version number. Reset minor/patchlevel
+// We only can count up. The 4. digit is only for the internal patch level to trigger DB upgrades
+// between betas, final and RCs. This is _not_ the public version number. Reset minor/patch level
 // when updating major/minor version number.
 
-$OC_Version = [25, 0, 0, 5];
+$OC_Version = [29, 0, 0, 9];
 
-// The human readable string
-$OC_VersionString = '25.0.0 beta 1';
+// The human-readable string
+$OC_VersionString = '29.0.0 beta 3';
 
 $OC_VersionCanBeUpgradedFrom = [
 	'nextcloud' => [
-		'24.0' => true,
-		'25.0' => true,
+		'28.0' => true,
+		'29.0' => true,
 	],
 	'owncloud' => [
-		'10.5' => true,
+		'10.13' => true,
 	],
 ];
 

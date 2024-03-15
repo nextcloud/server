@@ -19,25 +19,47 @@
   -
   -->
 <template>
-	<form class="custom-input__form"
-		@submit.prevent>
-		<input ref="input"
-			maxlength="80"
-			:disabled="disabled"
-			:placeholder="$t('user_status', 'What is your status?')"
-			type="text"
-			:value="message"
-			@change="change"
-			@keyup="change"
-			@paste="change"
-			@keyup.enter="submit">
-	</form>
+	<div class="custom-input" role="group">
+		<NcEmojiPicker container=".custom-input" @select="setIcon">
+			<NcButton type="tertiary"
+				:aria-label="t('user_status', 'Emoji for your status message')">
+				<template #icon>
+					{{ visibleIcon }}
+				</template>
+			</NcButton>
+		</NcEmojiPicker>
+		<div class="custom-input__container">
+			<NcTextField ref="input"
+				maxlength="80"
+				:disabled="disabled"
+				:placeholder="t('user_status', 'What is your status?')"
+				:value="message"
+				type="text"
+				:label="t('user_status', 'What is your status?')"
+				@input="onChange" />
+		</div>
+	</div>
 </template>
 
 <script>
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import NcEmojiPicker from '@nextcloud/vue/dist/Components/NcEmojiPicker.js'
+import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
+
 export default {
 	name: 'CustomMessageInput',
+
+	components: {
+		NcTextField,
+		NcButton,
+		NcEmojiPicker,
+	},
+
 	props: {
+		icon: {
+			type: String,
+			default: '😀',
+		},
 		message: {
 			type: String,
 			required: true,
@@ -48,6 +70,23 @@ export default {
 			default: false,
 		},
 	},
+
+	emits: [
+		'change',
+		'select-icon',
+	],
+
+	computed: {
+		/**
+		 * Returns the user-set icon or a smiley in case no icon is set
+		 *
+		 * @return {string}
+		 */
+		visibleIcon() {
+			return this.icon || '😀'
+		},
+	},
+
 	methods: {
 		focus() {
 			this.$refs.input.focus()
@@ -58,24 +97,26 @@ export default {
 		 *
 		 * @param {Event} event The Change Event
 		 */
-		change(event) {
+		onChange(event) {
 			this.$emit('change', event.target.value)
 		},
 
-		submit(event) {
-			this.$emit('submit', event.target.value)
+		setIcon(icon) {
+			this.$emit('select-icon', icon)
 		},
 	},
 }
 </script>
 
 <style lang="scss" scoped>
-.custom-input__form {
-	flex-grow: 1;
+.custom-input {
+	display: flex;
+	align-items: flex-end;
+	gap: var(--default-grid-baseline);
+	width: 100%;
 
-	input {
+	&__container {
 		width: 100%;
-		border-radius: 0 var(--border-radius) var(--border-radius) 0;
 	}
 }
 </style>

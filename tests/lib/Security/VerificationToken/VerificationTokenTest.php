@@ -34,19 +34,22 @@ use OCP\IUser;
 use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
 use OCP\Security\VerificationToken\InvalidTokenException;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class VerificationTokenTest extends TestCase {
 	/** @var VerificationToken */
 	protected $token;
-	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IConfig|MockObject */
 	protected $config;
-	/** @var ISecureRandom|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var ISecureRandom|MockObject */
 	protected $secureRandom;
-	/** @var ICrypto|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var ICrypto|MockObject */
 	protected $crypto;
-	/** @var ITimeFactory|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var ITimeFactory|MockObject */
 	protected $timeFactory;
+	/** @var IJobList|MockObject */
+	protected $jobList;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -113,7 +116,7 @@ class VerificationTokenTest extends TestCase {
 			->with('alice', 'core', 'fingerprintToken', null)
 			->willReturn('encryptedToken');
 		$this->config->expects($this->any())
-			->method('getSystemValue')
+			->method('getSystemValueString')
 			->with('secret')
 			->willReturn('357111317');
 
@@ -140,7 +143,7 @@ class VerificationTokenTest extends TestCase {
 			->with('alice', 'core', 'fingerprintToken', null)
 			->willReturn('encryptedToken');
 		$this->config->expects($this->any())
-			->method('getSystemValue')
+			->method('getSystemValueString')
 			->with('secret')
 			->willReturn('357111317');
 
@@ -170,7 +173,7 @@ class VerificationTokenTest extends TestCase {
 			->with('alice', 'core', 'fingerprintToken', null)
 			->willReturn('encryptedToken');
 		$this->config->expects($this->any())
-			->method('getSystemValue')
+			->method('getSystemValueString')
 			->with('secret')
 			->willReturn('357111317');
 
@@ -204,7 +207,7 @@ class VerificationTokenTest extends TestCase {
 			->with('alice', 'core', 'fingerprintToken', null)
 			->willReturn('encryptedToken');
 		$this->config->expects($this->any())
-			->method('getSystemValue')
+			->method('getSystemValueString')
 			->with('secret')
 			->willReturn('357111317');
 
@@ -238,7 +241,7 @@ class VerificationTokenTest extends TestCase {
 			->with('alice', 'core', 'fingerprintToken', null)
 			->willReturn('encryptedToken');
 		$this->config->expects($this->any())
-			->method('getSystemValue')
+			->method('getSystemValueString')
 			->with('secret')
 			->willReturn('357111317');
 
@@ -272,7 +275,7 @@ class VerificationTokenTest extends TestCase {
 			->with('alice', 'core', 'fingerprintToken', null)
 			->willReturn('encryptedToken');
 		$this->config->expects($this->any())
-			->method('getSystemValue')
+			->method('getSystemValueString')
 			->with('secret')
 			->willReturn('357111317');
 

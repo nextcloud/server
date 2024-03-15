@@ -24,7 +24,6 @@
 namespace OC\App\AppStore\Bundles;
 
 class EducationBundle extends Bundle {
-
 	/**
 	 * {@inheritDoc}
 	 */

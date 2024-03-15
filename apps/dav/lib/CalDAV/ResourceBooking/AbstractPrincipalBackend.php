@@ -75,13 +75,13 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 	private $cuType;
 
 	public function __construct(IDBConnection $dbConnection,
-								IUserSession $userSession,
-								IGroupManager $groupManager,
-								LoggerInterface $logger,
-								ProxyMapper $proxyMapper,
-								string $principalPrefix,
-								string $dbPrefix,
-								string $cuType) {
+		IUserSession $userSession,
+		IGroupManager $groupManager,
+		LoggerInterface $logger,
+		ProxyMapper $proxyMapper,
+		string $principalPrefix,
+		string $dbPrefix,
+		string $cuType) {
 		$this->db = $dbConnection;
 		$this->userSession = $userSession;
 		$this->groupManager = $groupManager;
@@ -160,12 +160,12 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 	 * @return array
 	 */
 	public function getPrincipalByPath($path) {
-		if (strpos($path, $this->principalPrefix) !== 0) {
+		if (!str_starts_with($path, $this->principalPrefix)) {
 			return null;
 		}
 		[, $name] = \Sabre\Uri\split($path);
 
-		[$backendId, $resourceId] = explode('-',  $name, 2);
+		[$backendId, $resourceId] = explode('-', $name, 2);
 
 		$query = $this->db->getQueryBuilder();
 		$query->select(['id', 'backend_id', 'resource_id', 'email', 'displayname'])
@@ -309,7 +309,7 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 
 				case IRoomMetadata::CAPACITY:
 				case IResourceMetadata::VEHICLE_SEATING_CAPACITY:
-					$results[] = $this->searchPrincipalsByCapacity($prop,$value);
+					$results[] = $this->searchPrincipalsByCapacity($prop, $value);
 					break;
 
 				default:
@@ -443,7 +443,7 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 		}
 		$usersGroups = $this->groupManager->getUserGroupIds($user);
 
-		if (strpos($uri, 'mailto:') === 0) {
+		if (str_starts_with($uri, 'mailto:')) {
 			$email = substr($uri, 7);
 			$query = $this->db->getQueryBuilder();
 			$query->select(['id', 'backend_id', 'resource_id', 'email', 'displayname', 'group_restrictions'])
@@ -463,14 +463,14 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 			return $this->rowToPrincipal($row)['uri'];
 		}
 
-		if (strpos($uri, 'principal:') === 0) {
+		if (str_starts_with($uri, 'principal:')) {
 			$path = substr($uri, 10);
-			if (strpos($path, $this->principalPrefix) !== 0) {
+			if (!str_starts_with($path, $this->principalPrefix)) {
 				return null;
 			}
 
 			[, $name] = \Sabre\Uri\split($path);
-			[$backendId, $resourceId] = explode('-',  $name, 2);
+			[$backendId, $resourceId] = explode('-', $name, 2);
 
 			$query = $this->db->getQueryBuilder();
 			$query->select(['id', 'backend_id', 'resource_id', 'email', 'displayname', 'group_restrictions'])
@@ -522,7 +522,7 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 		}
 
 		// group restrictions contains something, but not parsable, deny access and log warning
-		$json = json_decode($row['group_restrictions']);
+		$json = json_decode($row['group_restrictions'], null, 512, JSON_THROW_ON_ERROR);
 		if (!\is_array($json)) {
 			$this->logger->info('group_restrictions field could not be parsed for ' . $this->dbTableName . '::' . $row['id'] . ', denying access to resource');
 			return false;

@@ -75,4 +75,20 @@ interface ICacheFactory {
 	 * @since 13.0.0
 	 */
 	public function createLocal(string $prefix = ''): ICache;
+
+	/**
+	 * Create an in-memory cache instance
+	 *
+	 * Useful for remembering values inside one process. Cache memory is cleared
+	 * when the object is garbage-collected. Implementation may also expire keys
+	 * earlier when the TTL is reached or too much memory is consumed.
+	 *
+	 * Cache keys are local to the cache object. When building two in-memory
+	 * caches, there is no data exchange between the instances.
+	 *
+	 * @param int $capacity maximum number of cache keys
+	 * @return ICache
+	 * @since 28.0.0
+	 */
+	public function createInMemory(int $capacity = 512): ICache;
 }

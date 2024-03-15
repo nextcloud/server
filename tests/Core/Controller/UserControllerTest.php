@@ -31,7 +31,6 @@ use OCP\IUserManager;
 use Test\TestCase;
 
 class UserControllerTest extends TestCase {
-
 	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $userManager;
 

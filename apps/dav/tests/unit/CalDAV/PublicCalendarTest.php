@@ -39,7 +39,7 @@ class PublicCalendarTest extends CalendarTest {
 	 * @param int $expectedChildren
 	 * @param bool $isShared
 	 */
-	public function testPrivateClassification($expectedChildren, $isShared) {
+	public function testPrivateClassification($expectedChildren, $isShared): void {
 		$calObject0 = ['uri' => 'event-0', 'classification' => CalDavBackend::CLASSIFICATION_PUBLIC];
 		$calObject1 = ['uri' => 'event-1', 'classification' => CalDavBackend::CLASSIFICATION_CONFIDENTIAL];
 		$calObject2 = ['uri' => 'event-2', 'classification' => CalDavBackend::CLASSIFICATION_PRIVATE];
@@ -68,7 +68,7 @@ class PublicCalendarTest extends CalendarTest {
 		$config = $this->createMock(IConfig::class);
 		/** @var  MockObject | LoggerInterface $logger */
 		$logger = $this->createMock(LoggerInterface::class);
-		$c = new PublicCalendar($backend, $calendarInfo, $this->l10n, $config,$logger);
+		$c = new PublicCalendar($backend, $calendarInfo, $this->l10n, $config, $logger);
 		$children = $c->getChildren();
 		$this->assertEquals(2, count($children));
 		$children = $c->getMultipleChildren(['event-0', 'event-1', 'event-2']);
@@ -82,7 +82,7 @@ class PublicCalendarTest extends CalendarTest {
 	 * @param int $expectedChildren
 	 * @param bool $isShared
 	 */
-	public function testConfidentialClassification($expectedChildren, $isShared) {
+	public function testConfidentialClassification($expectedChildren, $isShared): void {
 		$start = '20160609';
 		$end = '20160610';
 
@@ -156,7 +156,7 @@ EOD;
 		$config = $this->createMock(IConfig::class);
 		/** @var  MockObject | LoggerInterface $logger */
 		$logger = $this->createMock(LoggerInterface::class);
-		$c = new PublicCalendar($backend, $calendarInfo, $this->l10n, $config,$logger);
+		$c = new PublicCalendar($backend, $calendarInfo, $this->l10n, $config, $logger);
 
 		$this->assertEquals(count($c->getChildren()), 2);
 

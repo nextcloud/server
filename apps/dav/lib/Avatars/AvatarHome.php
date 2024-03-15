@@ -59,8 +59,8 @@ class AvatarHome implements ICollection {
 
 	public function getChild($name) {
 		$elements = pathinfo($name);
-		$ext = isset($elements['extension']) ? $elements['extension'] : '';
-		$size = (int)(isset($elements['filename']) ? $elements['filename'] : '64');
+		$ext = $elements['extension'] ?? '';
+		$size = (int)($elements['filename'] ?? '64');
 		if (!in_array($ext, ['jpeg', 'png'], true)) {
 			throw new MethodNotAllowed('File format not allowed');
 		}

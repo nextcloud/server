@@ -35,7 +35,6 @@ use OCP\IUser;
  * @since 15.0.0
  */
 interface IDeactivatableByAdmin extends IProvider {
-
 	/**
 	 * Disable this provider for the given user.
 	 *

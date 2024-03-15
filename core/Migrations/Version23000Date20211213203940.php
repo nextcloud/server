@@ -29,7 +29,6 @@ namespace OC\Core\Migrations;
 use OCP\Migration\BigIntMigration;
 
 class Version23000Date20211213203940 extends BigIntMigration {
-
 	/**
 	 * @return array Returns an array with the following structure
 	 * ['table1' => ['column1', 'column2'], ...]

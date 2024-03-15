@@ -25,9 +25,9 @@ declare(strict_types=1);
  */
 namespace OCA\WeatherStatus;
 
-use OCP\Capabilities\ICapability;
-
 use OCA\WeatherStatus\AppInfo\Application;
+
+use OCP\Capabilities\ICapability;
 
 /**
  * Class Capabilities
@@ -44,7 +44,7 @@ class Capabilities implements ICapability {
 	}
 
 	/**
-	 * @inheritDoc
+	 * @return array{weather_status: array{enabled: bool}}
 	 */
 	public function getCapabilities() {
 		return [

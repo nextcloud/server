@@ -1,26 +1,25 @@
 <template>
-	<Multiselect v-model="selected"
-		class="group-multiselect"
+	<NcSelect v-model="selected"
+		:input-id="setting.id"
+		class="group-select"
 		:placeholder="t('settings', 'None')"
-		track-by="gid"
 		label="displayName"
 		:options="availableGroups"
-		open-direction="bottom"
 		:multiple="true"
-		:allow-empty="true" />
+		:close-on-select="false" />
 </template>
 
 <script>
-import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
+import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
 import { generateUrl } from '@nextcloud/router'
 import axios from '@nextcloud/axios'
 import { showError } from '@nextcloud/dialogs'
-import logger from '../../logger'
+import logger from '../../logger.ts'
 
 export default {
 	name: 'GroupSelect',
 	components: {
-		Multiselect,
+		NcSelect,
 	},
 	props: {
 		availableGroups: {
@@ -67,8 +66,7 @@ export default {
 </script>
 
 <style lang="scss">
-.group-multiselect {
+.group-select {
 	width: 100%;
-	margin-right: 0;
 }
 </style>

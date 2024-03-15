@@ -9,7 +9,6 @@
 namespace Test;
 
 class NaturalSortTest extends \Test\TestCase {
-
 	/**
 	 * @dataProvider naturalSortDataProvider
 	 */

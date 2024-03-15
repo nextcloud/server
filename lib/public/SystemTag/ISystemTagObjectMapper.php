@@ -32,7 +32,6 @@ namespace OCP\SystemTag;
  * @since 9.0.0
  */
 interface ISystemTagObjectMapper {
-
 	/**
 	 * Get a list of tag ids for the given object ids.
 	 *

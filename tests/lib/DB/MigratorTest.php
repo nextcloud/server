@@ -11,16 +11,12 @@ namespace Test\DB;
 
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\ParameterType;
-use Doctrine\DBAL\Platforms\MySQLPlatform;
 use Doctrine\DBAL\Platforms\OraclePlatform;
-use Doctrine\DBAL\Platforms\PostgreSQL94Platform;
 use Doctrine\DBAL\Platforms\SqlitePlatform;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\SchemaConfig;
 use OC\DB\Migrator;
-use OC\DB\MySQLMigrator;
 use OC\DB\OracleMigrator;
-use OC\DB\PostgreSqlMigrator;
 use OC\DB\SQLiteMigrator;
 use OCP\DB\Types;
 use OCP\IConfig;
@@ -62,21 +58,17 @@ class MigratorTest extends \Test\TestCase {
 	private function getMigrator(): Migrator {
 		$platform = $this->connection->getDatabasePlatform();
 		$random = \OC::$server->getSecureRandom();
-		$dispatcher = \OC::$server->getEventDispatcher();
+		$dispatcher = \OC::$server->get(\OCP\EventDispatcher\IEventDispatcher::class);
 		if ($platform instanceof SqlitePlatform) {
 			return new SQLiteMigrator($this->connection, $this->config, $dispatcher);
 		} elseif ($platform instanceof OraclePlatform) {
 			return new OracleMigrator($this->connection, $this->config, $dispatcher);
-		} elseif ($platform instanceof MySQLPlatform) {
-			return new MySQLMigrator($this->connection, $this->config, $dispatcher);
-		} elseif ($platform instanceof PostgreSQL94Platform) {
-			return new PostgreSqlMigrator($this->connection, $this->config, $dispatcher);
 		}
 		return new Migrator($this->connection, $this->config, $dispatcher);
 	}
 
 	private function getUniqueTableName() {
-		return strtolower($this->getUniqueID($this->config->getSystemValue('dbtableprefix', 'oc_') . 'test_'));
+		return strtolower($this->getUniqueID($this->config->getSystemValueString('dbtableprefix', 'oc_') . 'test_'));
 	}
 
 	protected function tearDown(): void {
@@ -138,14 +130,6 @@ class MigratorTest extends \Test\TestCase {
 		return $config;
 	}
 
-	private function isSQLite() {
-		return $this->connection->getDatabasePlatform() instanceof SqlitePlatform;
-	}
-
-	private function isMySQL() {
-		return $this->connection->getDatabasePlatform() instanceof MySQLPlatform;
-	}
-
 	public function testUpgrade() {
 		[$startSchema, $endSchema] = $this->getDuplicateKeySchemas();
 		$migrator = $this->getMigrator();
@@ -160,10 +144,10 @@ class MigratorTest extends \Test\TestCase {
 	}
 
 	public function testUpgradeDifferentPrefix() {
-		$oldTablePrefix = $this->config->getSystemValue('dbtableprefix', 'oc_');
+		$oldTablePrefix = $this->config->getSystemValueString('dbtableprefix', 'oc_');
 
 		$this->config->setSystemValue('dbtableprefix', 'ownc_');
-		$this->tableName = strtolower($this->getUniqueID($this->config->getSystemValue('dbtableprefix') . 'test_'));
+		$this->tableName = strtolower($this->getUniqueID($this->config->getSystemValueString('dbtableprefix') . 'test_'));
 
 		[$startSchema, $endSchema] = $this->getDuplicateKeySchemas();
 		$migrator = $this->getMigrator();
@@ -227,6 +211,30 @@ class MigratorTest extends \Test\TestCase {
 		$table = $endSchema->createTable($this->tableName);
 		$table->addColumn('id', 'integer', ['autoincrement' => true]);
 		$table->addColumn('user', 'string', ['length' => 64]);
+		$table->setPrimaryKey(['id']);
+
+		$migrator = $this->getMigrator();
+		$migrator->migrate($startSchema);
+
+		$migrator->migrate($endSchema);
+
+		$this->addToAssertionCount(1);
+	}
+
+	/**
+	 * Test for nextcloud/server#36803
+	 */
+	public function testColumnCommentsInUpdate() {
+		$startSchema = new Schema([], [], $this->getSchemaConfig());
+		$table = $startSchema->createTable($this->tableName);
+		$table->addColumn('id', 'integer', ['autoincrement' => true, 'comment' => 'foo']);
+		$table->setPrimaryKey(['id']);
+
+		$endSchema = new Schema([], [], $this->getSchemaConfig());
+		$table = $endSchema->createTable($this->tableName);
+		$table->addColumn('id', 'integer', ['autoincrement' => true, 'comment' => 'foo']);
+		// Assert adding comments on existing tables work (or at least does not throw)
+		$table->addColumn('time', 'integer', ['comment' => 'unix-timestamp', 'notnull' => false]);
 		$table->setPrimaryKey(['id']);
 
 		$migrator = $this->getMigrator();

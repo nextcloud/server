@@ -50,7 +50,7 @@ class TrashbinHome implements IACL, ICollection, IProperties {
 	private $principalInfo;
 
 	public function __construct(CalDavBackend $caldavBackend,
-								array $principalInfo) {
+		array $principalInfo) {
 		$this->caldavBackend = $caldavBackend;
 		$this->principalInfo = $principalInfo;
 	}

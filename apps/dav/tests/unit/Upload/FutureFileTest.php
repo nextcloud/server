@@ -28,38 +28,38 @@ namespace OCA\DAV\Tests\unit\Upload;
 use OCA\DAV\Connector\Sabre\Directory;
 
 class FutureFileTest extends \Test\TestCase {
-	public function testGetContentType() {
+	public function testGetContentType(): void {
 		$f = $this->mockFutureFile();
 		$this->assertEquals('application/octet-stream', $f->getContentType());
 	}
 
-	public function testGetETag() {
+	public function testGetETag(): void {
 		$f = $this->mockFutureFile();
 		$this->assertEquals('1234567890', $f->getETag());
 	}
 
-	public function testGetName() {
+	public function testGetName(): void {
 		$f = $this->mockFutureFile();
 		$this->assertEquals('foo.txt', $f->getName());
 	}
 
-	public function testGetLastModified() {
+	public function testGetLastModified(): void {
 		$f = $this->mockFutureFile();
 		$this->assertEquals(12121212, $f->getLastModified());
 	}
 
-	public function testGetSize() {
+	public function testGetSize(): void {
 		$f = $this->mockFutureFile();
 		$this->assertEquals(0, $f->getSize());
 	}
 
-	public function testGet() {
+	public function testGet(): void {
 		$f = $this->mockFutureFile();
 		$stream = $f->get();
 		$this->assertTrue(is_resource($stream));
 	}
 
-	public function testDelete() {
+	public function testDelete(): void {
 		$d = $this->getMockBuilder(Directory::class)
 			->disableOriginalConstructor()
 			->setMethods(['delete'])
@@ -73,7 +73,7 @@ class FutureFileTest extends \Test\TestCase {
 	}
 
 	
-	public function testPut() {
+	public function testPut(): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
 		$f = $this->mockFutureFile();
@@ -81,7 +81,7 @@ class FutureFileTest extends \Test\TestCase {
 	}
 
 	
-	public function testSetName() {
+	public function testSetName(): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
 		$f = $this->mockFutureFile();

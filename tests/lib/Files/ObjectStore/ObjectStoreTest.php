@@ -25,7 +25,6 @@ namespace Test\Files\ObjectStore;
 use Test\TestCase;
 
 abstract class ObjectStoreTest extends TestCase {
-
 	/** @var string[] */
 	private $cleanup = [];
 
@@ -142,5 +141,20 @@ abstract class ObjectStoreTest extends TestCase {
 		$this->assertTrue($instance->objectExists('target'));
 
 		$this->assertEquals('foobar', stream_get_contents($instance->readObject('target')));
+	}
+
+	public function testFseekSize() {
+		$instance = $this->getInstance();
+
+		$textFile = \OC::$SERVERROOT . '/tests/data/lorem.txt';
+		$size = filesize($textFile);
+		$instance->writeObject('source', fopen($textFile, 'r'));
+
+		$fh = $instance->readObject('source');
+
+		fseek($fh, 0, SEEK_END);
+		$pos = ftell($fh);
+
+		$this->assertEquals($size, $pos);
 	}
 }

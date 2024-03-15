@@ -3,9 +3,11 @@
 declare(strict_types=1);
 
 /**
+ * @copyright Copyright (c) 2023 Joas Schilling <coding@schilljs.com>
  * @copyright Copyright (c) 2017 Lukas Reschke <lukas@statuscode.ch>
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -31,6 +33,7 @@ namespace OC\Security\RateLimiting\Backend;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\ICache;
 use OCP\ICacheFactory;
+use OCP\IConfig;
 
 /**
  * Class MemoryCacheBackend uses the configured distributed memory cache for storing
@@ -39,35 +42,23 @@ use OCP\ICacheFactory;
  * @package OC\Security\RateLimiting\Backend
  */
 class MemoryCacheBackend implements IBackend {
-	/** @var ICache */
-	private $cache;
-	/** @var ITimeFactory */
-	private $timeFactory;
+	private ICache $cache;
 
-	/**
-	 * @param ICacheFactory $cacheFactory
-	 * @param ITimeFactory $timeFactory
-	 */
-	public function __construct(ICacheFactory $cacheFactory,
-								ITimeFactory $timeFactory) {
+	public function __construct(
+		private IConfig $config,
+		ICacheFactory $cacheFactory,
+		private ITimeFactory $timeFactory,
+	) {
 		$this->cache = $cacheFactory->createDistributed(__CLASS__);
-		$this->timeFactory = $timeFactory;
 	}
 
-	/**
-	 * @param string $methodIdentifier
-	 * @param string $userIdentifier
-	 * @return string
-	 */
-	private function hash(string $methodIdentifier,
-						  string $userIdentifier): string {
+	private function hash(
+		string $methodIdentifier,
+		string $userIdentifier,
+	): string {
 		return hash('sha512', $methodIdentifier . $userIdentifier);
 	}
 
-	/**
-	 * @param string $identifier
-	 * @return array
-	 */
 	private function getExistingAttempts(string $identifier): array {
 		$cachedAttempts = $this->cache->get($identifier);
 		if ($cachedAttempts === null) {
@@ -85,8 +76,10 @@ class MemoryCacheBackend implements IBackend {
 	/**
 	 * {@inheritDoc}
 	 */
-	public function getAttempts(string $methodIdentifier,
-								string $userIdentifier): int {
+	public function getAttempts(
+		string $methodIdentifier,
+		string $userIdentifier,
+	): int {
 		$identifier = $this->hash($methodIdentifier, $userIdentifier);
 		$existingAttempts = $this->getExistingAttempts($identifier);
 
@@ -104,9 +97,11 @@ class MemoryCacheBackend implements IBackend {
 	/**
 	 * {@inheritDoc}
 	 */
-	public function registerAttempt(string $methodIdentifier,
-									string $userIdentifier,
-									int $period) {
+	public function registerAttempt(
+		string $methodIdentifier,
+		string $userIdentifier,
+		int $period,
+	): void {
 		$identifier = $this->hash($methodIdentifier, $userIdentifier);
 		$existingAttempts = $this->getExistingAttempts($identifier);
 		$currentTime = $this->timeFactory->getTime();
@@ -121,6 +116,11 @@ class MemoryCacheBackend implements IBackend {
 
 		// Store the new attempt
 		$existingAttempts[] = (string)($currentTime + $period);
+
+		if (!$this->config->getSystemValueBool('ratelimit.protection.enabled', true)) {
+			return;
+		}
+
 		$this->cache->set($identifier, json_encode($existingAttempts));
 	}
 }

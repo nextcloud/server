@@ -33,22 +33,13 @@ use Psr\Log\LoggerInterface;
 class Expire implements ICommand {
 	use FileAccess;
 
-	/**
-	 * @var string
-	 */
-	private $fileName;
-
-	/**
-	 * @var string
-	 */
-	private $user;
-
-	public function __construct(string $user, string $fileName) {
-		$this->user = $user;
-		$this->fileName = $fileName;
+	public function __construct(
+		private string $user,
+		private string $fileName,
+	) {
 	}
 
-	public function handle() {
+	public function handle(): void {
 		/** @var IUserManager $userManager */
 		$userManager = \OC::$server->get(IUserManager::class);
 		if (!$userManager->userExists($this->user)) {
@@ -62,7 +53,6 @@ class Expire implements ICommand {
 			// In case of external storage and session credentials, the expiration
 			// fails because the command does not have those credentials
 
-			/** @var LoggerInterface */
 			$logger = \OC::$server->get(LoggerInterface::class);
 			$logger->warning($e->getMessage(), [
 				'exception' => $e,

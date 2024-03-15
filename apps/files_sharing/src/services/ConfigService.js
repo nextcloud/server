@@ -21,8 +21,24 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+import { getCapabilities } from '@nextcloud/capabilities'
 
 export default class Config {
+
+	constructor() {
+		this._capabilities = getCapabilities()
+	}
+
+	/**
+	 * Get default share permissions, if any
+	 *
+	 * @return {boolean}
+	 * @readonly
+	 * @memberof Config
+	 */
+	 get defaultPermissions() {
+		return this._capabilities.files_sharing?.default_permissions
+	}
 
 	/**
 	 * Is public upload allowed on link shares ?
@@ -32,8 +48,7 @@ export default class Config {
 	 * @memberof Config
 	 */
 	get isPublicUploadEnabled() {
-		return document.getElementsByClassName('files-filestable')[0]
-			&& document.getElementsByClassName('files-filestable')[0].dataset.allowPublicUpload === 'yes'
+		return this._capabilities.files_sharing?.public.upload
 	}
 
 	/**
@@ -60,57 +75,45 @@ export default class Config {
 	}
 
 	/**
-	 * Get the default link share expiration date as string
+	 * Get the default link share expiration date
 	 *
-	 * @return {string}
+	 * @return {Date|null}
 	 * @readonly
 	 * @memberof Config
 	 */
-	get defaultExpirationDateString() {
-		let expireDateString = ''
+	get defaultExpirationDate() {
 		if (this.isDefaultExpireDateEnabled) {
-			const date = window.moment.utc()
-			const expireAfterDays = this.defaultExpireDate
-			date.add(expireAfterDays, 'days')
-			expireDateString = date.format('YYYY-MM-DD')
+			return new Date(new Date().setDate(new Date().getDate() + this.defaultExpireDate))
 		}
-		return expireDateString
+		return null
 	}
 
 	/**
-	 * Get the default internal expiration date as string
+	 * Get the default internal expiration date
 	 *
-	 * @return {string}
+	 * @return {Date|null}
 	 * @readonly
 	 * @memberof Config
 	 */
-	get defaultInternalExpirationDateString() {
-		let expireDateString = ''
+	get defaultInternalExpirationDate() {
 		if (this.isDefaultInternalExpireDateEnabled) {
-			const date = window.moment.utc()
-			const expireAfterDays = this.defaultInternalExpireDate
-			date.add(expireAfterDays, 'days')
-			expireDateString = date.format('YYYY-MM-DD')
+			return new Date(new Date().setDate(new Date().getDate() + this.defaultInternalExpireDate))
 		}
-		return expireDateString
+		return null
 	}
 
 	/**
-	 * Get the default remote expiration date as string
+	 * Get the default remote expiration date
 	 *
-	 * @return {string}
+	 * @return {Date|null}
 	 * @readonly
 	 * @memberof Config
 	 */
 	get defaultRemoteExpirationDateString() {
-		let expireDateString = ''
 		if (this.isDefaultRemoteExpireDateEnabled) {
-			const date = window.moment.utc()
-			const expireAfterDays = this.defaultRemoteExpireDate
-			date.add(expireAfterDays, 'days')
-			expireDateString = date.format('YYYY-MM-DD')
+			return new Date(new Date().setDate(new Date().getDate() + this.defaultRemoteExpireDate))
 		}
-		return expireDateString
+		return null
 	}
 
 	/**
@@ -191,6 +194,17 @@ export default class Config {
 	}
 
 	/**
+	 * Is there a default expiration date for new remote shares ?
+	 *
+	 * @return {boolean}
+	 * @readonly
+	 * @memberof Config
+	 */
+	get isDefaultRemoteExpireDateEnabled() {
+		return OC.appConfig.core.defaultRemoteExpireDateEnabled === true
+	}
+
+	/**
 	 * Are users on this server allowed to send shares to other servers ?
 	 *
 	 * @return {boolean}
@@ -209,11 +223,10 @@ export default class Config {
 	 * @memberof Config
 	 */
 	get isMailShareAllowed() {
-		const capabilities = OC.getCapabilities()
 		// eslint-disable-next-line camelcase
-		return capabilities?.files_sharing?.sharebymail !== undefined
+		return this._capabilities?.files_sharing?.sharebymail !== undefined
 			// eslint-disable-next-line camelcase
-			&& capabilities?.files_sharing?.public?.enabled === true
+			&& this._capabilities?.files_sharing?.public?.enabled === true
 	}
 
 	/**
@@ -268,7 +281,7 @@ export default class Config {
 	 * @memberof Config
 	 */
 	get isPasswordForMailSharesRequired() {
-		return (OC.getCapabilities().files_sharing.sharebymail === undefined) ? false : OC.getCapabilities().files_sharing.sharebymail.password.enforced
+		return (this._capabilities.files_sharing.sharebymail === undefined) ? false : this._capabilities.files_sharing.sharebymail.password.enforced
 	}
 
 	/**
@@ -277,7 +290,7 @@ export default class Config {
 	 * @memberof Config
 	 */
 	get shouldAlwaysShowUnique() {
-		return (OC.getCapabilities().files_sharing?.sharee?.always_show_unique === true)
+		return (this._capabilities.files_sharing?.sharee?.always_show_unique === true)
 	}
 
 	/**
@@ -322,8 +335,7 @@ export default class Config {
 	 * @memberof Config
 	 */
 	get passwordPolicy() {
-		const capabilities = OC.getCapabilities()
-		return capabilities.password_policy ? capabilities.password_policy : {}
+		return this._capabilities.password_policy ? this._capabilities.password_policy : {}
 	}
 
 }

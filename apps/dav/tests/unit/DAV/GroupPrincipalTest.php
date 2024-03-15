@@ -72,12 +72,12 @@ class GroupPrincipalTest extends \Test\TestCase {
 		parent::setUp();
 	}
 
-	public function testGetPrincipalsByPrefixWithoutPrefix() {
+	public function testGetPrincipalsByPrefixWithoutPrefix(): void {
 		$response = $this->connector->getPrincipalsByPrefix('');
 		$this->assertSame([], $response);
 	}
 
-	public function testGetPrincipalsByPrefixWithUsers() {
+	public function testGetPrincipalsByPrefixWithUsers(): void {
 		$group1 = $this->mockGroup('foo');
 		$group2 = $this->mockGroup('bar');
 		$this->groupManager
@@ -102,7 +102,7 @@ class GroupPrincipalTest extends \Test\TestCase {
 		$this->assertSame($expectedResponse, $response);
 	}
 
-	public function testGetPrincipalsByPrefixEmpty() {
+	public function testGetPrincipalsByPrefixEmpty(): void {
 		$this->groupManager
 			->expects($this->once())
 			->method('search')
@@ -113,7 +113,7 @@ class GroupPrincipalTest extends \Test\TestCase {
 		$this->assertSame([], $response);
 	}
 
-	public function testGetPrincipalsByPathWithoutMail() {
+	public function testGetPrincipalsByPathWithoutMail(): void {
 		$group1 = $this->mockGroup('foo');
 		$this->groupManager
 			->expects($this->once())
@@ -130,7 +130,7 @@ class GroupPrincipalTest extends \Test\TestCase {
 		$this->assertSame($expectedResponse, $response);
 	}
 
-	public function testGetPrincipalsByPathWithMail() {
+	public function testGetPrincipalsByPathWithMail(): void {
 		$fooUser = $this->mockGroup('foo');
 		$this->groupManager
 			->expects($this->once())
@@ -147,7 +147,7 @@ class GroupPrincipalTest extends \Test\TestCase {
 		$this->assertSame($expectedResponse, $response);
 	}
 
-	public function testGetPrincipalsByPathEmpty() {
+	public function testGetPrincipalsByPathEmpty(): void {
 		$this->groupManager
 			->expects($this->once())
 			->method('get')
@@ -158,7 +158,7 @@ class GroupPrincipalTest extends \Test\TestCase {
 		$this->assertSame(null, $response);
 	}
 
-	public function testGetPrincipalsByPathGroupWithSlash() {
+	public function testGetPrincipalsByPathGroupWithSlash(): void {
 		$group1 = $this->mockGroup('foo/bar');
 		$this->groupManager
 			->expects($this->once())
@@ -175,7 +175,7 @@ class GroupPrincipalTest extends \Test\TestCase {
 		$this->assertSame($expectedResponse, $response);
 	}
 
-	public function testGetPrincipalsByPathGroupWithHash() {
+	public function testGetPrincipalsByPathGroupWithHash(): void {
 		$group1 = $this->mockGroup('foo#bar');
 		$this->groupManager
 			->expects($this->once())
@@ -192,33 +192,33 @@ class GroupPrincipalTest extends \Test\TestCase {
 		$this->assertSame($expectedResponse, $response);
 	}
 
-	public function testGetGroupMemberSet() {
+	public function testGetGroupMemberSet(): void {
 		$response = $this->connector->getGroupMemberSet('principals/groups/foo');
 		$this->assertSame([], $response);
 	}
 
-	public function testGetGroupMembership() {
+	public function testGetGroupMembership(): void {
 		$response = $this->connector->getGroupMembership('principals/groups/foo');
 		$this->assertSame([], $response);
 	}
 
 
-	public function testSetGroupMembership() {
+	public function testSetGroupMembership(): void {
 		$this->expectException(\Sabre\DAV\Exception::class);
 		$this->expectExceptionMessage('Setting members of the group is not supported yet');
 
 		$this->connector->setGroupMemberSet('principals/groups/foo', ['foo']);
 	}
 
-	public function testUpdatePrincipal() {
+	public function testUpdatePrincipal(): void {
 		$this->assertSame(0, $this->connector->updatePrincipal('foo', new PropPatch([])));
 	}
 
-	public function testSearchPrincipalsWithEmptySearchProperties() {
+	public function testSearchPrincipalsWithEmptySearchProperties(): void {
 		$this->assertSame([], $this->connector->searchPrincipals('principals/groups', []));
 	}
 
-	public function testSearchPrincipalsWithWrongPrefixPath() {
+	public function testSearchPrincipalsWithWrongPrefixPath(): void {
 		$this->assertSame([], $this->connector->searchPrincipals('principals/users',
 			['{DAV:}displayname' => 'Foo']));
 	}
@@ -329,7 +329,7 @@ class GroupPrincipalTest extends \Test\TestCase {
 					->method('getUser')
 					->willReturn($user);
 
-				$this->groupManager->expects($this->at(0))
+				$this->groupManager->expects($this->once())
 					->method('getUserGroupIds')
 					->with($user)
 					->willReturn(['group1', 'group2', 'group5']);

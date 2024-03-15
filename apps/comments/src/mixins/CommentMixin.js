@@ -20,10 +20,11 @@
  *
  */
 
-import NewComment from '../services/NewComment'
-import DeleteComment from '../services/DeleteComment'
-import EditComment from '../services/EditComment'
 import { showError, showUndo, TOAST_UNDO_TIMEOUT } from '@nextcloud/dialogs'
+import NewComment from '../services/NewComment.js'
+import DeleteComment from '../services/DeleteComment.js'
+import EditComment from '../services/EditComment.js'
+import logger from '../logger.js'
 
 export default {
 	props: {
@@ -35,9 +36,13 @@ export default {
 			type: String,
 			default: '',
 		},
-		ressourceId: {
+		resourceId: {
 			type: [String, Number],
 			required: true,
+		},
+		resourceType: {
+			type: String,
+			default: 'files',
 		},
 	},
 
@@ -62,8 +67,8 @@ export default {
 		async onEditComment(message) {
 			this.loading = true
 			try {
-				await EditComment(this.commentsType, this.ressourceId, this.id, message)
-				this.logger.debug('Comment edited', { commentsType: this.commentsType, ressourceId: this.ressourceId, id: this.id, message })
+				await EditComment(this.resourceType, this.resourceId, this.id, message)
+				logger.debug('Comment edited', { resourceType: this.resourceType, resourceId: this.resourceId, id: this.id, message })
 				this.$emit('update:message', message)
 				this.editing = false
 			} catch (error) {
@@ -85,8 +90,8 @@ export default {
 		},
 		async onDelete() {
 			try {
-				await DeleteComment(this.commentsType, this.ressourceId, this.id)
-				this.logger.debug('Comment deleted', { commentsType: this.commentsType, ressourceId: this.ressourceId, id: this.id })
+				await DeleteComment(this.resourceType, this.resourceId, this.id)
+				logger.debug('Comment deleted', { resourceType: this.resourceType, resourceId: this.resourceId, id: this.id })
 				this.$emit('delete', this.id)
 			} catch (error) {
 				showError(t('comments', 'An error occurred while trying to delete the comment'))
@@ -99,8 +104,8 @@ export default {
 		async onNewComment(message) {
 			this.loading = true
 			try {
-				const newComment = await NewComment(this.commentsType, this.ressourceId, message)
-				this.logger.debug('New comment posted', { commentsType: this.commentsType, ressourceId: this.ressourceId, newComment })
+				const newComment = await NewComment(this.resourceType, this.resourceId, message)
+				logger.debug('New comment posted', { resourceType: this.resourceType, resourceId: this.resourceId, newComment })
 				this.$emit('new', newComment)
 
 				// Clear old content

@@ -30,8 +30,10 @@ use OCP\EventDispatcher\IEventListener;
 use OCP\Group\Events\UserRemovedEvent;
 use OCP\Share\IManager;
 
+/**
+ * @template-implements IEventListener<UserRemovedEvent>
+ */
 class UserRemovedListener implements IEventListener {
-
 	/** @var IManager */
 	protected $shareManager;
 

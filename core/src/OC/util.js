@@ -23,8 +23,8 @@
 
 import moment from 'moment'
 
-import History from './util-history'
-import OC from './index'
+import History from './util-history.js'
+import OC from './index.js'
 import { formatFileSize as humanFileSize } from '@nextcloud/files'
 
 /**
@@ -64,7 +64,7 @@ export default {
 	History,
 
 	/**
-	 * @deprecated use https://nextcloud.github.io/nextcloud-files/modules/_humanfilesize_.html#formatfilesize
+	 * @deprecated use https://nextcloud.github.io/nextcloud-files/functions/formatFileSize.html
 	 */
 	humanFileSize,
 
@@ -73,7 +73,7 @@ export default {
 	 * Makes 2kB to 2048.
 	 * Inspired by computerFileSize in helper.php
 	 *
-	 * @param  {string} string file size in human readable format
+	 * @param  {string} string file size in human-readable format
 	 * @return {number} or null if string could not be parsed
 	 *
 	 *
@@ -124,7 +124,7 @@ export default {
 	 */
 	formatDate(timestamp, format) {
 		if (window.TESTING === undefined) {
-			console.warn('OC.Util.formatDate is deprecated and will be removed in Nextcloud 21. See @nextcloud/moment')
+			OC.debug && console.warn('OC.Util.formatDate is deprecated and will be removed in Nextcloud 21. See @nextcloud/moment')
 		}
 		format = format || 'LLL'
 		return moment(timestamp).format(format)
@@ -136,7 +136,7 @@ export default {
 	 */
 	relativeModifiedDate(timestamp) {
 		if (window.TESTING === undefined) {
-			console.warn('OC.Util.relativeModifiedDate is deprecated and will be removed in Nextcloud 21. See @nextcloud/moment')
+			OC.debug && console.warn('OC.Util.relativeModifiedDate is deprecated and will be removed in Nextcloud 21. See @nextcloud/moment')
 		}
 		const diff = moment().diff(moment(timestamp))
 		if (diff >= 0 && diff < 45000) {

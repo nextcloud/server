@@ -36,7 +36,6 @@ use Doctrine\DBAL\Platforms\AbstractPlatform;
  * @since 13.0.0
  */
 interface ISchemaWrapper {
-
 	/**
 	 * @param string $tableName
 	 *

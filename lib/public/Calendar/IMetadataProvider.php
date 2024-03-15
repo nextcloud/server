@@ -30,7 +30,6 @@ namespace OCP\Calendar;
  * @since 17.0.0
  */
 interface IMetadataProvider {
-
 	/**
 	 * Get a list of all metadata keys available for this room
 	 *

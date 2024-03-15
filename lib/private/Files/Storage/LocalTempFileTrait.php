@@ -35,15 +35,10 @@ namespace OC\Files\Storage;
  * in classes which extend it, e.g. $this->stat() .
  */
 trait LocalTempFileTrait {
+	/** @var array<string,string|false> */
+	protected array $cachedFiles = [];
 
-	/** @var string[] */
-	protected $cachedFiles = [];
-
-	/**
-	 * @param string $path
-	 * @return string
-	 */
-	protected function getCachedFile($path) {
+	protected function getCachedFile(string $path): string|false {
 		if (!isset($this->cachedFiles[$path])) {
 			$this->cachedFiles[$path] = $this->toTmpFile($path);
 		}
@@ -57,11 +52,7 @@ trait LocalTempFileTrait {
 		unset($this->cachedFiles[$path]);
 	}
 
-	/**
-	 * @param string $path
-	 * @return string
-	 */
-	protected function toTmpFile($path) { //no longer in the storage api, still useful here
+	protected function toTmpFile(string $path): string|false { //no longer in the storage api, still useful here
 		$source = $this->fopen($path, 'r');
 		if (!$source) {
 			return false;

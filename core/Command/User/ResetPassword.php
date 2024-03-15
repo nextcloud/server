@@ -41,13 +41,11 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Question\Question;
 
 class ResetPassword extends Base {
-	protected IUserManager $userManager;
-	private IAppManager $appManager;
-
-	public function __construct(IUserManager $userManager, IAppManager $appManager) {
+	public function __construct(
+		protected IUserManager $userManager,
+		private IAppManager $appManager,
+	) {
 		parent::__construct();
-		$this->userManager = $userManager;
-		$this->appManager = $appManager;
 	}
 
 	protected function configure() {
@@ -57,7 +55,7 @@ class ResetPassword extends Base {
 			->addArgument(
 				'user',
 				InputArgument::REQUIRED,
-				'Username to reset password'
+				'Login to reset password'
 			)
 			->addOption(
 				'password-from-env',

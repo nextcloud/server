@@ -36,7 +36,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class ScanLegacyFormat extends Command {
-
 	/** @var Util */
 	protected $util;
 
@@ -58,9 +57,9 @@ class ScanLegacyFormat extends Command {
 	 * @param QuestionHelper $questionHelper
 	 */
 	public function __construct(Util $util,
-								IConfig $config,
-								QuestionHelper $questionHelper,
-								IUserManager $userManager) {
+		IConfig $config,
+		QuestionHelper $questionHelper,
+		IUserManager $userManager) {
 		parent::__construct();
 
 		$this->util = $util;
@@ -89,7 +88,7 @@ class ScanLegacyFormat extends Command {
 				foreach ($users as $user) {
 					$output->writeln('Scanning all files for ' . $user);
 					$this->setupUserFS($user);
-					$result &= $this->scanFolder($output, '/' . $user);
+					$result = $result && $this->scanFolder($output, '/' . $user);
 				}
 				$offset += $limit;
 			} while (count($users) >= $limit);

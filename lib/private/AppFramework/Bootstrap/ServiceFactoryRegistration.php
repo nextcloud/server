@@ -29,7 +29,6 @@ namespace OC\AppFramework\Bootstrap;
  * @psalm-immutable
  */
 class ServiceFactoryRegistration extends ARegistration {
-
 	/**
 	 * @var string
 	 * @psalm-var string|class-string
@@ -46,9 +45,9 @@ class ServiceFactoryRegistration extends ARegistration {
 	private $shared;
 
 	public function __construct(string $appId,
-								string $alias,
-								callable $target,
-								bool $shared) {
+		string $alias,
+		callable $target,
+		bool $shared) {
 		parent::__construct($appId);
 		$this->name = $alias;
 		$this->factory = $target;

@@ -27,17 +27,19 @@
  */
 namespace OC\Template;
 
+use OCP\App\AppPathNotFoundException;
+use OCP\App\IAppManager;
 use Psr\Log\LoggerInterface;
 
 class JSResourceLocator extends ResourceLocator {
+	protected JSCombiner $jsCombiner;
+	protected IAppManager $appManager;
 
-	/** @var JSCombiner */
-	protected $jsCombiner;
-
-	public function __construct(LoggerInterface $logger, $theme, array $core_map, array $party_map, JSCombiner $JSCombiner) {
-		parent::__construct($logger, $theme, $core_map, $party_map);
+	public function __construct(LoggerInterface $logger, JSCombiner $JSCombiner, IAppManager $appManager) {
+		parent::__construct($logger);
 
 		$this->jsCombiner = $JSCombiner;
+		$this->appManager = $appManager;
 	}
 
 	/**
@@ -45,77 +47,84 @@ class JSResourceLocator extends ResourceLocator {
 	 */
 	public function doFind($script) {
 		$theme_dir = 'themes/'.$this->theme.'/';
-		if (strpos($script, '3rdparty') === 0
-			&& $this->appendIfExist($this->thirdpartyroot, $script.'.js')) {
-			return;
-		}
 
 		// Extracting the appId and the script file name
 		$app = substr($script, 0, strpos($script, '/'));
 		$scriptName = basename($script);
+		// Get the app root path
+		$appRoot = $this->serverroot . 'apps/';
+		$appWebRoot = null;
+		try {
+			// We need the dir name as getAppPath appends the appid
+			$appRoot = dirname($this->appManager->getAppPath($app));
+			// Only do this if $app_path is set, because an empty argument to realpath gets turned into cwd.
+			if ($appRoot) {
+				// Handle symlinks
+				$appRoot = realpath($appRoot);
+			}
+			// Get the app webroot
+			$appWebRoot = dirname($this->appManager->getAppWebPath($app));
+		} catch (AppPathNotFoundException $e) {
+			// ignore
+		}
 
-		if (strpos($script, '/l10n/') !== false) {
+		if (str_contains($script, '/l10n/')) {
 			// For language files we try to load them all, so themes can overwrite
 			// single l10n strings without having to translate all of them.
 			$found = 0;
-			$found += $this->appendIfExist($this->serverroot, 'core/'.$script.'.js');
-			$found += $this->appendIfExist($this->serverroot, $theme_dir.'core/'.$script.'.js');
-			$found += $this->appendIfExist($this->serverroot, $script.'.js');
-			$found += $this->appendIfExist($this->serverroot, $theme_dir.$script.'.js');
-			$found += $this->appendIfExist($this->serverroot, 'apps/'.$script.'.js');
-			$found += $this->appendIfExist($this->serverroot, $theme_dir.'apps/'.$script.'.js');
+			$found += $this->appendScriptIfExist($this->serverroot, 'core/'.$script);
+			$found += $this->appendScriptIfExist($this->serverroot, $theme_dir.'core/'.$script);
+			$found += $this->appendScriptIfExist($this->serverroot, $script);
+			$found += $this->appendScriptIfExist($this->serverroot, $theme_dir.$script);
+			$found += $this->appendScriptIfExist($appRoot, $script, $appWebRoot);
+			$found += $this->appendScriptIfExist($this->serverroot, $theme_dir.'apps/'.$script);
 
 			if ($found) {
 				return;
 			}
-		} elseif ($this->appendIfExist($this->serverroot, $theme_dir.'apps/'.$script.'.js')
-			|| $this->appendIfExist($this->serverroot, $theme_dir.$script.'.js')
-			|| $this->appendIfExist($this->serverroot, $script.'.js')
-			|| $this->appendIfExist($this->serverroot, "dist/$app-$scriptName.js")
-			|| $this->appendIfExist($this->serverroot, 'apps/'.$script.'.js')
+		} elseif ($this->appendScriptIfExist($this->serverroot, $theme_dir.'apps/'.$script)
+			|| $this->appendScriptIfExist($this->serverroot, $theme_dir.$script)
+			|| $this->appendScriptIfExist($this->serverroot, $script)
+			|| $this->appendScriptIfExist($this->serverroot, $theme_dir."dist/$app-$scriptName")
+			|| $this->appendScriptIfExist($this->serverroot, "dist/$app-$scriptName")
+			|| $this->appendScriptIfExist($appRoot, $script, $appWebRoot)
 			|| $this->cacheAndAppendCombineJsonIfExist($this->serverroot, $script.'.json')
-			|| $this->appendIfExist($this->serverroot, $theme_dir.'core/'.$script.'.js')
-			|| $this->appendIfExist($this->serverroot, 'core/'.$script.'.js')
-			|| (strpos($scriptName, '/') === -1 && $this->appendIfExist($this->serverroot, "dist/core-$scriptName.js"))
+			|| $this->cacheAndAppendCombineJsonIfExist($appRoot, $script.'.json', $appWebRoot)
+			|| $this->appendScriptIfExist($this->serverroot, $theme_dir.'core/'.$script)
+			|| $this->appendScriptIfExist($this->serverroot, 'core/'.$script)
+			|| (strpos($scriptName, '/') === -1 && ($this->appendScriptIfExist($this->serverroot, $theme_dir."dist/core-$scriptName")
+				|| $this->appendScriptIfExist($this->serverroot, "dist/core-$scriptName")))
 			|| $this->cacheAndAppendCombineJsonIfExist($this->serverroot, 'core/'.$script.'.json')
 		) {
 			return;
 		}
 
-		$script = substr($script, strpos($script, '/') + 1);
-		$app_path = \OC_App::getAppPath($app);
-		$app_url = \OC_App::getAppWebPath($app);
-
-		if ($app_path !== false) {
-			// Account for the possibility of having symlinks in app path. Only
-			// do this if $app_path is set, because an empty argument to realpath
-			// gets turned into cwd.
-			$app_path = realpath($app_path);
-		}
-
-		// missing translations files fill be ignored
-		if (strpos($script, 'l10n/') === 0) {
-			$this->appendIfExist($app_path, $script . '.js', $app_url);
+		// missing translations files will be ignored
+		if (str_contains($script, '/l10n/')) {
 			return;
 		}
 
-		if ($app_path === false && $app_url === false) {
-			$this->logger->error('Could not find resource {resource} to load', [
-				'resource' => $app . '/' . $script . '.js',
-				'app' => 'jsresourceloader',
-			]);
-			return;
-		}
-
-		if (!$this->cacheAndAppendCombineJsonIfExist($app_path, $script.'.json', $app)) {
-			$this->append($app_path, $script . '.js', $app_url);
-		}
+		$this->logger->error('Could not find resource {resource} to load', [
+			'resource' => $script . '.js',
+			'app' => 'jsresourceloader',
+		]);
 	}
 
 	/**
 	 * @param string $script
 	 */
 	public function doFindTheme($script) {
+	}
+
+	/**
+	 * Try to find ES6 script file (`.mjs`) with fallback to plain javascript (`.js`)
+	 * @see appendIfExist()
+	 */
+	protected function appendScriptIfExist(string $root, string $file, string $webRoot = null) {
+		if (!$this->appendIfExist($root, $file . '.mjs', $webRoot)) {
+			return $this->appendIfExist($root, $file . '.js', $webRoot);
+		}
+		return true;
 	}
 
 	protected function cacheAndAppendCombineJsonIfExist($root, $file, $app = 'core') {
@@ -125,7 +134,12 @@ class JSResourceLocator extends ResourceLocator {
 			} else {
 				// Add all the files from the json
 				$files = $this->jsCombiner->getContent($root, $file);
-				$app_url = \OC_App::getAppWebPath($app);
+				$app_url = null;
+				try {
+					$app_url = $this->appManager->getAppWebPath($app);
+				} catch (AppPathNotFoundException) {
+					// pass
+				}
 
 				foreach ($files as $jsFile) {
 					$this->append($root, $jsFile, $app_url);

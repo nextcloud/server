@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  *  The MIT License (MIT)
  *
@@ -25,24 +28,23 @@
 
 namespace OC\Log;
 
+use OC\SystemConfig;
 use OCP\Log\IWriter;
 
-class Errorlog implements IWriter {
-
-	/** @var string */
-	protected $tag;
-
-	public function __construct(string $tag = 'owncloud') {
-		$this->tag = $tag;
+class Errorlog extends LogDetails implements IWriter {
+	public function __construct(
+		SystemConfig $config,
+		protected string $tag = 'nextcloud',
+	) {
+		parent::__construct($config);
 	}
 
 	/**
-	 * write a message in the log
-	 * @param string $app
-	 * @param string $message
-	 * @param int $level
+	 * Write a message in the log
+	 *
+	 * @param string|array $message
 	 */
-	public function write(string $app, $message, int $level) {
-		error_log('[' . $this->tag . ']['.$app.']['.$level.'] '.$message);
+	public function write(string $app, $message, int $level): void {
+		error_log('[' . $this->tag . ']['.$app.']['.$level.'] '.$this->logDetailsAsJSON($app, $message, $level));
 	}
 }

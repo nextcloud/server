@@ -26,9 +26,9 @@ declare(strict_types=1);
 namespace OC\DB;
 
 class MissingPrimaryKeyInformation {
-	private $listOfMissingPrimaryKeys = [];
+	private array $listOfMissingPrimaryKeys = [];
 
-	public function addHintForMissingSubject(string $tableName) {
+	public function addHintForMissingPrimaryKey(string $tableName): void {
 		$this->listOfMissingPrimaryKeys[] = [
 			'tableName' => $tableName,
 		];

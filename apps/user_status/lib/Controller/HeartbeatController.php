@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @copyright Copyright (c) 2020, Georg Ehrke
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -26,11 +27,11 @@ declare(strict_types=1);
 namespace OCA\UserStatus\Controller;
 
 use OCA\UserStatus\Db\UserStatus;
+use OCA\UserStatus\ResponseDefinitions;
 use OCA\UserStatus\Service\StatusService;
-use OCP\AppFramework\Controller;
-use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Http;
-use OCP\AppFramework\Http\JSONResponse;
+use OCP\AppFramework\Http\Attribute\ApiRoute;
+use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCSController;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -39,6 +40,9 @@ use OCP\IUserSession;
 use OCP\User\Events\UserLiveStatusEvent;
 use OCP\UserStatus\IUserStatus;
 
+/**
+ * @psalm-import-type UserStatusPrivate from ResponseDefinitions
+ */
 class HeartbeatController extends OCSController {
 
 	/** @var IEventDispatcher */
@@ -54,11 +58,11 @@ class HeartbeatController extends OCSController {
 	private $service;
 
 	public function __construct(string $appName,
-								IRequest $request,
-								IEventDispatcher $eventDispatcher,
-								IUserSession $userSession,
-								ITimeFactory $timeFactory,
-								StatusService $service) {
+		IRequest $request,
+		IEventDispatcher $eventDispatcher,
+		IUserSession $userSession,
+		ITimeFactory $timeFactory,
+		StatusService $service) {
 		parent::__construct($appName, $request);
 		$this->eventDispatcher = $eventDispatcher;
 		$this->userSession = $userSession;
@@ -67,19 +71,26 @@ class HeartbeatController extends OCSController {
 	}
 
 	/**
+	 * Keep the status alive
+	 *
 	 * @NoAdminRequired
 	 *
-	 * @param string $status
-	 * @return JSONResponse
+	 * @param string $status Only online, away
+	 *
+	 * @return DataResponse<Http::STATUS_OK, UserStatusPrivate, array{}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_INTERNAL_SERVER_ERROR|Http::STATUS_NO_CONTENT, array<empty>, array{}>
+	 * 200: Status successfully updated
+	 * 204: User has no status to keep alive
+	 * 400: Invalid status to update
 	 */
-	public function heartbeat(string $status): JSONResponse {
+	#[ApiRoute(verb: 'PUT', url: '/api/v1/heartbeat')]
+	public function heartbeat(string $status): DataResponse {
 		if (!\in_array($status, [IUserStatus::ONLINE, IUserStatus::AWAY], true)) {
-			return new JSONResponse([], Http::STATUS_BAD_REQUEST);
+			return new DataResponse([], Http::STATUS_BAD_REQUEST);
 		}
 
 		$user = $this->userSession->getUser();
 		if ($user === null) {
-			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
+			return new DataResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 
 		$event = new UserLiveStatusEvent(
@@ -92,11 +103,11 @@ class HeartbeatController extends OCSController {
 
 		$userStatus = $event->getUserStatus();
 		if (!$userStatus) {
-			return new JSONResponse([], Http::STATUS_NO_CONTENT);
+			return new DataResponse([], Http::STATUS_NO_CONTENT);
 		}
 
 		/** @psalm-suppress UndefinedInterfaceMethod */
-		return new JSONResponse($this->formatStatus($userStatus->getInternal()));
+		return new DataResponse($this->formatStatus($userStatus->getInternal()));
 	}
 
 	private function formatStatus(UserStatus $status): array {

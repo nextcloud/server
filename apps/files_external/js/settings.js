@@ -24,6 +24,28 @@ function getSelection($row) {
 	return values;
 }
 
+function getSelectedApplicable($row) {
+	var users = [];
+	var groups = [];
+	var multiselect = getSelection($row);
+	$.each(multiselect, function(index, value) {
+		// FIXME: don't rely on string parts to detect groups...
+		var pos = (value.indexOf)?value.indexOf('(group)'): -1;
+		if (pos !== -1) {
+			groups.push(value.substr(0, pos));
+		} else {
+			users.push(value);
+		}
+	});
+
+	// FIXME: this should be done in the multiselect change event instead
+	$row.find('.applicable')
+		.data('applicable-groups', groups)
+		.data('applicable-users', users);
+
+	return { users, groups };
+}
+
 function highlightBorder($element, highlight) {
 	$element.toggleClass('warning-input', highlight);
 	return highlight;
@@ -56,7 +78,7 @@ function highlightInput($input) {
  * @param {Array<Object>} array of jQuery elements
  * @param {number} userListLimit page size for result list
  */
-function addSelect2 ($elements, userListLimit) {
+function initApplicableUsersMultiselect($elements, userListLimit) {
 	var escapeHTML = function (text) {
 		return text.toString()
 			.split('&').join('&amp;')
@@ -68,8 +90,8 @@ function addSelect2 ($elements, userListLimit) {
 	if (!$elements.length) {
 		return;
 	}
-	$elements.select2({
-		placeholder: t('files_external', 'All users. Type to select user or group.'),
+	return $elements.select2({
+		placeholder: t('files_external', 'Type to select account or group.'),
 		allowClear: true,
 		multiple: true,
 		toggleSelect: true,
@@ -167,6 +189,8 @@ function addSelect2 ($elements, userListLimit) {
 				$div.avatar($div.data('name'),32);
 			}
 		});
+	}).on('change', function(event) {
+		highlightBorder($(event.target).closest('.applicableUsersContainer').find('.select2-choices'), !event.val.length);
 	});
 }
 
@@ -674,7 +698,7 @@ MountConfigListView.prototype = _.extend({
 	 * Trigger callback for all existing configurations
 	 */
 	whenSelectBackend: function(callback) {
-		this.$el.find('tbody tr:not(#addMountPoint)').each(function(i, tr) {
+		this.$el.find('tbody tr:not(#addMountPoint):not(.externalStorageLoading)').each(function(i, tr) {
 			var backend = $(tr).find('.backend').data('identifier');
 			callback($(tr), backend);
 		});
@@ -682,7 +706,7 @@ MountConfigListView.prototype = _.extend({
 	},
 	whenSelectAuthMechanism: function(callback) {
 		var self = this;
-		this.$el.find('tbody tr:not(#addMountPoint)').each(function(i, tr) {
+		this.$el.find('tbody tr:not(#addMountPoint):not(.externalStorageLoading)').each(function(i, tr) {
 			var authMechanism = $(tr).find('.selectAuthMechanism').val();
 			callback($(tr), authMechanism, self._allAuthMechanisms[authMechanism]['scheme']);
 		});
@@ -721,6 +745,8 @@ MountConfigListView.prototype = _.extend({
 
 		this.$el.on('change', '.selectBackend', _.bind(this._onSelectBackend, this));
 		this.$el.on('change', '.selectAuthMechanism', _.bind(this._onSelectAuthMechanism, this));
+
+		this.$el.on('change', '.applicableToAllUsers', _.bind(this._onChangeApplicableToAllUsers, this));
 	},
 
 	_onChange: function(event) {
@@ -746,6 +772,7 @@ MountConfigListView.prototype = _.extend({
 
 		var onCompletion = jQuery.Deferred();
 		$tr = this.newStorage(storageConfig, onCompletion);
+		$tr.find('.applicableToAllUsers').prop('checked', false).trigger('change');
 		onCompletion.resolve();
 
 		$tr.find('td.configuration').children().not('[type=hidden]').first().focus();
@@ -760,6 +787,19 @@ MountConfigListView.prototype = _.extend({
 		var onCompletion = jQuery.Deferred();
 		this.configureAuthMechanism($tr, authMechanism, onCompletion);
 		onCompletion.resolve();
+
+		this.saveStorageConfig($tr);
+	},
+
+	_onChangeApplicableToAllUsers: function(event) {
+		var $target = $(event.target);
+		var $tr = $target.closest('tr');
+		var checked = $target.is(':checked');
+
+		$tr.find('.applicableUsersContainer').toggleClass('hidden', checked);
+		if (!checked) {
+			$tr.find('.applicableUsers').select2('val', '', true);
+		}
 
 		this.saveStorageConfig($tr);
 	},
@@ -818,7 +858,7 @@ MountConfigListView.prototype = _.extend({
 		$tr.removeAttr('id');
 		$tr.find('select#selectBackend');
 		if (!deferAppend) {
-			addSelect2($tr.find('.applicableUsers'), this._userListLimit);
+			initApplicableUsersMultiselect($tr.find('.applicableUsers'), this._userListLimit);
 		}
 
 		if (storageConfig.id) {
@@ -890,7 +930,14 @@ MountConfigListView.prototype = _.extend({
 				})
 			);
 		}
-		$tr.find('.applicableUsers').val(applicable).trigger('change');
+		if (applicable.length) {
+			$tr.find('.applicableUsers').val(applicable).trigger('change')
+			$tr.find('.applicableUsersContainer').removeClass('hidden');
+		} else {
+			// applicable to all
+			$tr.find('.applicableUsersContainer').addClass('hidden');
+		}
+		$tr.find('.applicableToAllUsers').prop('checked', !applicable.length);
 
 		var priorityEl = $('<input type="hidden" class="priority" value="' + backend.priority + '" />');
 		$tr.append(priorityEl);
@@ -967,7 +1014,7 @@ MountConfigListView.prototype = _.extend({
 						}
 						$rows = $rows.add($tr);
 					});
-					addSelect2(self.$el.find('.applicableUsers'), this._userListLimit);
+					initApplicableUsersMultiselect(self.$el.find('.applicableUsers'), this._userListLimit);
 					self.$el.find('tr#addMountPoint').before($rows);
 					var mainForm = $('#files_external');
 					if (result.length === 0 && mainForm.attr('data-can-create') === 'false') {
@@ -1007,7 +1054,7 @@ MountConfigListView.prototype = _.extend({
 					}
 					$rows = $rows.add($tr);
 				});
-				addSelect2($rows.find('.applicableUsers'), this._userListLimit);
+				initApplicableUsersMultiselect($rows.find('.applicableUsers'), this._userListLimit);
 				self.$el.find('tr#addMountPoint').before($rows);
 				onCompletion.resolve();
 				onLoaded2.resolve();
@@ -1052,6 +1099,14 @@ MountConfigListView.prototype = _.extend({
 			newElement = $('<input type="hidden" class="'+classes.join(' ')+'" data-parameter="'+parameter+'" />');
 		} else {
 			newElement = $('<input type="text" class="'+classes.join(' ')+'" data-parameter="'+parameter+'" placeholder="'+ trimmedPlaceholder+'" />');
+		}
+
+		if (placeholder.defaultValue) {
+			if (placeholder.type === MountConfigListView.ParameterTypes.BOOLEAN) {
+				newElement.find('input').prop('checked', placeholder.defaultValue);
+			} else {
+				newElement.val(placeholder.defaultValue);
+			}
 		}
 
 		if (placeholder.tooltip) {
@@ -1118,24 +1173,25 @@ MountConfigListView.prototype = _.extend({
 
 		// gather selected users and groups
 		if (!this._isPersonal) {
-			var groups = [];
-			var users = [];
-			var multiselect = getSelection($tr);
-			$.each(multiselect, function(index, value) {
-				var pos = (value.indexOf)?value.indexOf('(group)'): -1;
-				if (pos !== -1) {
-					groups.push(value.substr(0, pos));
-				} else {
-					users.push(value);
-				}
-			});
-			// FIXME: this should be done in the multiselect change event instead
-			$tr.find('.applicable')
-				.data('applicable-groups', groups)
-				.data('applicable-users', users);
+			var multiselect = getSelectedApplicable($tr);
+			var users = multiselect.users || [];
+			var groups = multiselect.groups || [];
+			var isApplicableToAllUsers = $tr.find('.applicableToAllUsers').is(':checked');
 
-			storage.applicableUsers = users;
-			storage.applicableGroups = groups;
+			if (isApplicableToAllUsers) {
+				storage.applicableUsers = [];
+				storage.applicableGroups = [];
+			} else {
+				storage.applicableUsers = users;
+				storage.applicableGroups = groups;
+
+				if (!storage.applicableUsers.length && !storage.applicableGroups.length) {
+					if (!storage.errors) {
+						storage.errors = {};
+					}
+					storage.errors['requiredApplicable'] = true;
+				}
+			}
 
 			storage.priority = parseInt($tr.find('input.priority').val() || '100', 10);
 		}

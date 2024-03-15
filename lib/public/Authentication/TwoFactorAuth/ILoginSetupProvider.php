@@ -31,7 +31,6 @@ use OCP\Template;
  * @since 17.0.0
  */
 interface ILoginSetupProvider {
-
 	/**
 	 * @return Template
 	 *

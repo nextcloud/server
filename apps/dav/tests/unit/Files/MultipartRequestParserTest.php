@@ -22,10 +22,18 @@
 
 namespace OCA\DAV\Tests\unit\DAV;
 
-use Test\TestCase;
 use \OCA\DAV\BulkUpload\MultipartRequestParser;
+use Psr\Log\LoggerInterface;
+use Test\TestCase;
 
 class MultipartRequestParserTest extends TestCase {
+
+	protected LoggerInterface $logger;
+
+	protected function setUp(): void {
+		$this->logger = $this->createMock(LoggerInterface::class);
+	}
+
 	private function getValidBodyObject() {
 		return [
 			[
@@ -65,7 +73,7 @@ class MultipartRequestParserTest extends TestCase {
 
 		$body .= '--'.$boundary."--";
 
-		$stream = fopen('php://temp','r+');
+		$stream = fopen('php://temp', 'r+');
 		fwrite($stream, $body);
 		rewind($stream);
 
@@ -73,14 +81,14 @@ class MultipartRequestParserTest extends TestCase {
 			->method('getBody')
 			->willReturn($stream);
 
-		return new MultipartRequestParser($request);
+		return new MultipartRequestParser($request, $this->logger);
 	}
 
 
 	/**
 	 * Test validation of the request's body type
 	 */
-	public function testBodyTypeValidation() {
+	public function testBodyTypeValidation(): void {
 		$bodyStream = "I am not a stream, but pretend to be";
 		$request = $this->getMockBuilder('Sabre\HTTP\RequestInterface')
 			->disableOriginalConstructor()
@@ -90,7 +98,7 @@ class MultipartRequestParserTest extends TestCase {
 			->willReturn($bodyStream);
 
 		$this->expectExceptionMessage('Body should be of type resource');
-		new MultipartRequestParser($request);
+		new MultipartRequestParser($request, $this->logger);
 	}
 
 	/**
@@ -101,7 +109,7 @@ class MultipartRequestParserTest extends TestCase {
 	 * - valid file content
 	 * - valid file path
 	 */
-	public function testValidRequest() {
+	public function testValidRequest(): void {
 		$multipartParser = $this->getMultipartParser(
 			$this->getValidBodyObject()
 		);
@@ -118,7 +126,7 @@ class MultipartRequestParserTest extends TestCase {
 	/**
 	 * Test with invalid md5 hash.
 	 */
-	public function testInvalidMd5Hash() {
+	public function testInvalidMd5Hash(): void {
 		$bodyObject = $this->getValidBodyObject();
 		$bodyObject["0"]["headers"]["X-File-MD5"] = "f2377b4d911f7ec46325fe603c3af03";
 		$multipartParser = $this->getMultipartParser(
@@ -132,7 +140,7 @@ class MultipartRequestParserTest extends TestCase {
 	/**
 	 * Test with a null md5 hash.
 	 */
-	public function testNullMd5Hash() {
+	public function testNullMd5Hash(): void {
 		$bodyObject = $this->getValidBodyObject();
 		unset($bodyObject["0"]["headers"]["X-File-MD5"]);
 		$multipartParser = $this->getMultipartParser(
@@ -146,7 +154,7 @@ class MultipartRequestParserTest extends TestCase {
 	/**
 	 * Test with a null Content-Length.
 	 */
-	public function testNullContentLength() {
+	public function testNullContentLength(): void {
 		$bodyObject = $this->getValidBodyObject();
 		unset($bodyObject["0"]["headers"]["Content-Length"]);
 		$multipartParser = $this->getMultipartParser(
@@ -160,7 +168,7 @@ class MultipartRequestParserTest extends TestCase {
 	/**
 	 * Test with a lower Content-Length.
 	 */
-	public function testLowerContentLength() {
+	public function testLowerContentLength(): void {
 		$bodyObject = $this->getValidBodyObject();
 		$bodyObject["0"]["headers"]["Content-Length"] = 6;
 		$multipartParser = $this->getMultipartParser(
@@ -174,7 +182,7 @@ class MultipartRequestParserTest extends TestCase {
 	/**
 	 * Test with a higher Content-Length.
 	 */
-	public function testHigherContentLength() {
+	public function testHigherContentLength(): void {
 		$bodyObject = $this->getValidBodyObject();
 		$bodyObject["0"]["headers"]["Content-Length"] = 8;
 		$multipartParser = $this->getMultipartParser(
@@ -188,7 +196,7 @@ class MultipartRequestParserTest extends TestCase {
 	/**
 	 * Test with wrong boundary in body.
 	 */
-	public function testWrongBoundary() {
+	public function testWrongBoundary(): void {
 		$bodyObject = $this->getValidBodyObject();
 		$multipartParser = $this->getMultipartParser(
 			$bodyObject,
@@ -202,7 +210,7 @@ class MultipartRequestParserTest extends TestCase {
 	/**
 	 * Test with no boundary in request headers.
 	 */
-	public function testNoBoundaryInHeader() {
+	public function testNoBoundaryInHeader(): void {
 		$bodyObject = $this->getValidBodyObject();
 		$this->expectExceptionMessage('Error while parsing boundary in Content-Type header.');
 		$this->getMultipartParser(
@@ -214,7 +222,7 @@ class MultipartRequestParserTest extends TestCase {
 	/**
 	 * Test with no boundary in the request's headers.
 	 */
-	public function testNoBoundaryInBody() {
+	public function testNoBoundaryInBody(): void {
 		$bodyObject = $this->getValidBodyObject();
 		$multipartParser = $this->getMultipartParser(
 			$bodyObject,
@@ -229,7 +237,7 @@ class MultipartRequestParserTest extends TestCase {
 	/**
 	 * Test with a boundary with quotes in the request's headers.
 	 */
-	public function testBoundaryWithQuotes() {
+	public function testBoundaryWithQuotes(): void {
 		$bodyObject = $this->getValidBodyObject();
 		$multipartParser = $this->getMultipartParser(
 			$bodyObject,
@@ -245,7 +253,7 @@ class MultipartRequestParserTest extends TestCase {
 	/**
 	 * Test with a wrong Content-Type in the request's headers.
 	 */
-	public function testWrongContentType() {
+	public function testWrongContentType(): void {
 		$bodyObject = $this->getValidBodyObject();
 		$this->expectExceptionMessage('Content-Type must be multipart/related');
 		$this->getMultipartParser(
@@ -257,7 +265,7 @@ class MultipartRequestParserTest extends TestCase {
 	/**
 	 * Test with a wrong key after the content type in the request's headers.
 	 */
-	public function testWrongKeyInContentType() {
+	public function testWrongKeyInContentType(): void {
 		$bodyObject = $this->getValidBodyObject();
 		$this->expectExceptionMessage('Boundary is invalid');
 		$this->getMultipartParser(
@@ -269,7 +277,7 @@ class MultipartRequestParserTest extends TestCase {
 	/**
 	 * Test with a null Content-Type in the request's headers.
 	 */
-	public function testNullContentType() {
+	public function testNullContentType(): void {
 		$bodyObject = $this->getValidBodyObject();
 		$this->expectExceptionMessage('Content-Type can not be null');
 		$this->getMultipartParser(

@@ -36,7 +36,7 @@ class SFTPReadStream implements File {
 	/** @var \phpseclib\Net\SFTP */
 	private $sftp;
 
-	/** @var resource */
+	/** @var string */
 	private $handle;
 
 	/** @var int */
@@ -49,6 +49,8 @@ class SFTPReadStream implements File {
 	private $eof = false;
 
 	private $buffer = '';
+	private bool $pendingRead = false;
+	private int $size = 0;
 
 	public static function register($protocol = 'sftpread') {
 		if (in_array($protocol, stream_get_wrappers(), true)) {
@@ -61,7 +63,6 @@ class SFTPReadStream implements File {
 	 * Load the source from the stream context and return the context options
 	 *
 	 * @param string $name
-	 * @return array
 	 * @throws \BadMethodCallException
 	 */
 	protected function loadContext($name) {
@@ -75,6 +76,9 @@ class SFTPReadStream implements File {
 			$this->sftp = $context['session'];
 		} else {
 			throw new \BadMethodCallException('Invalid context, session not set');
+		}
+		if (isset($context['size'])) {
+			$this->size = $context['size'];
 		}
 		return $context;
 	}
@@ -119,7 +123,25 @@ class SFTPReadStream implements File {
 	}
 
 	public function stream_seek($offset, $whence = SEEK_SET) {
-		return false;
+		switch ($whence) {
+			case SEEK_SET:
+				$this->seekTo($offset);
+				break;
+			case SEEK_CUR:
+				$this->seekTo($this->readPosition + $offset);
+				break;
+			case SEEK_END:
+				$this->seekTo($this->size + $offset);
+				break;
+		}
+		return true;
+	}
+
+	private function seekTo(int $offset): void {
+		$this->internalPosition = $offset;
+		$this->readPosition = $offset;
+		$this->buffer = '';
+		$this->request_chunk(256 * 1024);
 	}
 
 	public function stream_tell() {
@@ -137,20 +159,23 @@ class SFTPReadStream implements File {
 
 		$data = substr($this->buffer, 0, $count);
 		$this->buffer = substr($this->buffer, $count);
-		if ($this->buffer === false) {
-			$this->buffer = '';
-		}
 		$this->readPosition += strlen($data);
 
 		return $data;
 	}
 
 	private function request_chunk($size) {
+		if ($this->pendingRead) {
+			$this->sftp->_get_sftp_packet();
+		}
+
 		$packet = pack('Na*N3', strlen($this->handle), $this->handle, $this->internalPosition / 4294967296, $this->internalPosition, $size);
+		$this->pendingRead = true;
 		return $this->sftp->_send_sftp_packet(NET_SFTP_READ, $packet);
 	}
 
 	private function read_chunk() {
+		$this->pendingRead = false;
 		$response = $this->sftp->_get_sftp_packet();
 
 		switch ($this->sftp->packet_type) {
@@ -199,8 +224,13 @@ class SFTPReadStream implements File {
 	}
 
 	public function stream_close() {
+		// we still have a read request incoming that needs to be handled before we can close
+		if ($this->pendingRead) {
+			$this->sftp->_get_sftp_packet();
+		}
 		if (!$this->sftp->_close_handle($this->handle)) {
 			return false;
 		}
+		return true;
 	}
 }

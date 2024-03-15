@@ -35,8 +35,6 @@ use Sabre\HTTP\ResponseInterface;
 use Test\TestCase;
 
 class ChunkingPluginTest extends TestCase {
-
-
 	/**
 	 * @var \Sabre\DAV\Server | \PHPUnit\Framework\MockObject\MockObject
 	 */
@@ -77,7 +75,7 @@ class ChunkingPluginTest extends TestCase {
 		$this->plugin->initialize($this->server);
 	}
 
-	public function testBeforeMoveFutureFileSkip() {
+	public function testBeforeMoveFutureFileSkip(): void {
 		$node = $this->createMock(Directory::class);
 
 		$this->tree->expects($this->any())
@@ -90,41 +88,45 @@ class ChunkingPluginTest extends TestCase {
 		$this->assertNull($this->plugin->beforeMove('source', 'target'));
 	}
 
-	public function testBeforeMoveDestinationIsDirectory() {
+	public function testBeforeMoveDestinationIsDirectory(): void {
 		$this->expectException(\Sabre\DAV\Exception\BadRequest::class);
 		$this->expectExceptionMessage('The given destination target is a directory.');
 
 		$sourceNode = $this->createMock(FutureFile::class);
 		$targetNode = $this->createMock(Directory::class);
 
-		$this->tree->expects($this->at(0))
+		$this->tree->expects($this->exactly(2))
 			->method('getNodeForPath')
-			->with('source')
-			->willReturn($sourceNode);
-		$this->tree->expects($this->at(1))
-			->method('getNodeForPath')
-			->with('target')
-			->willReturn($targetNode);
+			->withConsecutive(
+				['source'],
+				['target'],
+			)
+			->willReturnOnConsecutiveCalls(
+				$sourceNode,
+				$targetNode,
+			);
 		$this->response->expects($this->never())
 			->method('setStatus');
 
 		$this->assertNull($this->plugin->beforeMove('source', 'target'));
 	}
 
-	public function testBeforeMoveFutureFileSkipNonExisting() {
+	public function testBeforeMoveFutureFileSkipNonExisting(): void {
 		$sourceNode = $this->createMock(FutureFile::class);
 		$sourceNode->expects($this->once())
 			->method('getSize')
 			->willReturn(4);
 
-		$this->tree->expects($this->at(0))
+		$this->tree->expects($this->exactly(2))
 			->method('getNodeForPath')
-			->with('source')
-			->willReturn($sourceNode);
-		$this->tree->expects($this->at(1))
-			->method('getNodeForPath')
-			->with('target')
-			->willThrowException(new NotFound());
+			->withConsecutive(
+				['source'],
+				['target'],
+			)
+			->willReturnOnConsecutiveCalls(
+				$sourceNode,
+				$this->throwException(new NotFound()),
+			);
 		$this->tree->expects($this->any())
 			->method('nodeExists')
 			->with('target')
@@ -143,20 +145,23 @@ class ChunkingPluginTest extends TestCase {
 		$this->assertFalse($this->plugin->beforeMove('source', 'target'));
 	}
 
-	public function testBeforeMoveFutureFileMoveIt() {
+	public function testBeforeMoveFutureFileMoveIt(): void {
 		$sourceNode = $this->createMock(FutureFile::class);
 		$sourceNode->expects($this->once())
 			->method('getSize')
 			->willReturn(4);
 
-		$this->tree->expects($this->at(0))
+
+		$this->tree->expects($this->exactly(2))
 			->method('getNodeForPath')
-			->with('source')
-			->willReturn($sourceNode);
-		$this->tree->expects($this->at(1))
-			->method('getNodeForPath')
-			->with('target')
-			->willThrowException(new NotFound());
+			->withConsecutive(
+				['source'],
+				['target'],
+			)
+			->willReturnOnConsecutiveCalls(
+				$sourceNode,
+				$this->throwException(new NotFound()),
+			);
 		$this->tree->expects($this->any())
 			->method('nodeExists')
 			->with('target')
@@ -180,7 +185,7 @@ class ChunkingPluginTest extends TestCase {
 	}
 
 
-	public function testBeforeMoveSizeIsWrong() {
+	public function testBeforeMoveSizeIsWrong(): void {
 		$this->expectException(\Sabre\DAV\Exception\BadRequest::class);
 		$this->expectExceptionMessage('Chunks on server do not sum up to 4 but to 3 bytes');
 
@@ -189,14 +194,17 @@ class ChunkingPluginTest extends TestCase {
 			->method('getSize')
 			->willReturn(3);
 
-		$this->tree->expects($this->at(0))
+
+		$this->tree->expects($this->exactly(2))
 			->method('getNodeForPath')
-			->with('source')
-			->willReturn($sourceNode);
-		$this->tree->expects($this->at(1))
-			->method('getNodeForPath')
-			->with('target')
-			->willThrowException(new NotFound());
+			->withConsecutive(
+				['source'],
+				['target'],
+			)
+			->willReturnOnConsecutiveCalls(
+				$sourceNode,
+				$this->throwException(new NotFound()),
+			);
 		$this->request->expects($this->once())
 			->method('getHeader')
 			->with('OC-Total-Length')

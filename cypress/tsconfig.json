@@ -1,0 +1,7 @@
+{
+	"extends": "../tsconfig.json",
+	"include": ["./**/*.ts"],
+	"compilerOptions": {
+		"types": ["cypress", "cypress-axe", "cypress-wait-until", "dockerode"],
+	}
+}

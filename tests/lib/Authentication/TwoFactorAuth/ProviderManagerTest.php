@@ -37,7 +37,6 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class ProviderManagerTest extends TestCase {
-
 	/** @var ProviderLoader|MockObject */
 	private $providerLoader;
 

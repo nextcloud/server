@@ -33,11 +33,11 @@ use OCP\Files\Folder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\IUserSession;
-use OCP\Share\IShare;
 use OCP\Share\IManager;
+use OCP\Share\IShare;
 use Sabre\DAV\PropFind;
-use Sabre\DAV\Tree;
 use Sabre\DAV\Server;
+use Sabre\DAV\Tree;
 
 /**
  * Sabre Plugin to provide share-related properties
@@ -110,6 +110,7 @@ class SharesPlugin extends \Sabre\DAV\ServerPlugin {
 			IShare::TYPE_ROOM,
 			IShare::TYPE_CIRCLE,
 			IShare::TYPE_DECK,
+			IShare::TYPE_SCIENCEMESH,
 		];
 		foreach ($requestedShareTypes as $requestedShareType) {
 			$shares = $this->shareManager->getSharesBy(

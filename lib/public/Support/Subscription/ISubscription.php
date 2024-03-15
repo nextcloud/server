@@ -30,7 +30,6 @@ namespace OCP\Support\Subscription;
  * @since 17.0.0
  */
 interface ISubscription {
-
 	/**
 	 * Indicates if a valid subscription is available
 	 *

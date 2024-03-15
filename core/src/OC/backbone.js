@@ -22,7 +22,7 @@
  */
 
 import VendorBackbone from 'backbone'
-import { davCall, davSync } from './backbone-webdav'
+import { davCall, davSync } from './backbone-webdav.js'
 
 const Backbone = VendorBackbone.noConflict()
 

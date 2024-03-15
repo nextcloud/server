@@ -30,7 +30,6 @@ namespace OCP\Files\Lock;
  * @since 24.0.0
  */
 interface ILock {
-
 	/**
 	 * User owned manual lock
 	 *

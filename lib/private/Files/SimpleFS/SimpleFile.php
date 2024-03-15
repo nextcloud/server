@@ -46,7 +46,7 @@ class SimpleFile implements ISimpleFile {
 	/**
 	 * Get the size in bytes
 	 */
-	public function getSize(): int {
+	public function getSize(): int|float {
 		return $this->file->getSize();
 	}
 
@@ -150,7 +150,7 @@ class SimpleFile implements ISimpleFile {
 	/**
 	 * Open the file as stream for reading, resulting resource can be operated as stream like the result from php's own fopen
 	 *
-	 * @return resource
+	 * @return resource|false
 	 * @throws \OCP\Files\NotPermittedException
 	 * @since 14.0.0
 	 */

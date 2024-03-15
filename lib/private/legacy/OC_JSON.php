@@ -27,8 +27,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-class OC_JSON {
 
+use OC\Authentication\TwoFactorAuth\Manager as TwoFactorAuthManager;
+
+class OC_JSON {
 	/**
 	 * Check if the app is enabled, send json error msg if not
 	 * @param string $app
@@ -49,7 +51,7 @@ class OC_JSON {
 	 * @suppress PhanDeprecatedFunction
 	 */
 	public static function checkLoggedIn() {
-		$twoFactorAuthManger = \OC::$server->getTwoFactorAuthManager();
+		$twoFactorAuthManger = \OC::$server->get(TwoFactorAuthManager::class);
 		if (!\OC::$server->getUserSession()->isLoggedIn()
 			|| $twoFactorAuthManger->needsSecondFactor(\OC::$server->getUserSession()->getUser())) {
 			$l = \OC::$server->getL10N('lib');
@@ -115,22 +117,10 @@ class OC_JSON {
 	}
 
 	/**
-	 * Convert OC_L10N_String to string, for use in json encodings
-	 */
-	protected static function to_string(&$value) {
-		if ($value instanceof \OC\L10N\L10NString) {
-			$value = (string)$value;
-		}
-	}
-
-	/**
 	 * Encode JSON
 	 * @deprecated Use a AppFramework JSONResponse instead
 	 */
-	public static function encode($data) {
-		if (is_array($data)) {
-			array_walk_recursive($data, ['OC_JSON', 'to_string']);
-		}
+	private static function encode($data) {
 		return json_encode($data, JSON_HEX_TAG);
 	}
 }

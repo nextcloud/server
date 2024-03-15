@@ -29,7 +29,6 @@ use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class EncryptionWrapperTest extends TestCase {
-
 	/** @var  EncryptionWrapper */
 	private $instance;
 

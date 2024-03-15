@@ -28,6 +28,7 @@ use OCA\Files_Trashbin\Helper;
 use OCA\Files_Trashbin\Storage;
 use OCA\Files_Trashbin\Trashbin;
 use OCP\Files\FileInfo;
+use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IStorage;
@@ -58,11 +59,12 @@ class LegacyTrashBackend implements ITrashBackend {
 			if (!$originalLocation) {
 				$originalLocation = $file->getName();
 			}
+			$trashFilename = Trashbin::getTrashFilename($file->getName(), $file->getMtime());
 			return new TrashItem(
 				$this,
 				$originalLocation,
 				$file->getMTime(),
-				$parentTrashPath . '/' . $file->getName() . ($isRoot ? '.d' . $file->getMtime() : ''),
+				$parentTrashPath . '/' . ($isRoot ? $trashFilename : $file->getName()),
 				$file,
 				$user
 			);
@@ -77,7 +79,7 @@ class LegacyTrashBackend implements ITrashBackend {
 	public function listTrashFolder(ITrashItem $folder): array {
 		$user = $folder->getUser();
 		$entries = Helper::getTrashFiles($folder->getTrashPath(), $user->getUID());
-		return $this->mapTrashItems($entries, $user ,$folder);
+		return $this->mapTrashItems($entries, $user, $folder);
 	}
 
 	public function restoreItem(ITrashItem $item) {
@@ -120,11 +122,11 @@ class LegacyTrashBackend implements ITrashBackend {
 		try {
 			$userFolder = $this->rootFolder->getUserFolder($user->getUID());
 			$trash = $userFolder->getParent()->get('files_trashbin/files');
-			$trashFiles = $trash->getById($fileId);
-			if (!$trashFiles) {
+			if ($trash instanceof Folder) {
+				return $trash->getFirstNodeById($fileId);
+			} else {
 				return null;
 			}
-			return $trashFiles ? array_pop($trashFiles) : null;
 		} catch (NotFoundException $e) {
 			return null;
 		}

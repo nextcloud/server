@@ -31,10 +31,11 @@
  */
 namespace OCA\DAV\Connector\Sabre;
 
-use OCP\Files\Folder;
 use OCA\DAV\AppInfo\PluginManager;
 use OCA\DAV\DAV\ViewOnlyPlugin;
 use OCA\DAV\Files\BrowserErrorPagePlugin;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\Folder;
 use OCP\Files\Mount\IMountManager;
 use OCP\IConfig;
 use OCP\IDBConnection;
@@ -46,7 +47,6 @@ use OCP\IUserSession;
 use OCP\SabrePluginEvent;
 use Psr\Log\LoggerInterface;
 use Sabre\DAV\Auth\Plugin;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class ServerFactory {
 	private IConfig $config;
@@ -57,7 +57,7 @@ class ServerFactory {
 	private ITagManager $tagManager;
 	private IRequest $request;
 	private IPreview $previewManager;
-	private EventDispatcherInterface $eventDispatcher;
+	private IEventDispatcher $eventDispatcher;
 	private IL10N $l10n;
 
 	public function __construct(
@@ -69,7 +69,7 @@ class ServerFactory {
 		ITagManager $tagManager,
 		IRequest $request,
 		IPreview $previewManager,
-		EventDispatcherInterface $eventDispatcher,
+		IEventDispatcher $eventDispatcher,
 		IL10N $l10n
 	) {
 		$this->config = $config;
@@ -88,9 +88,9 @@ class ServerFactory {
 	 * @param callable $viewCallBack callback that should return the view for the dav endpoint
 	 */
 	public function createServer(string $baseUri,
-								 string $requestUri,
-								 Plugin $authPlugin,
-								 callable $viewCallBack): Server {
+		string $requestUri,
+		Plugin $authPlugin,
+		callable $viewCallBack): Server {
 		// Fire up server
 		$objectTree = new \OCA\DAV\Connector\Sabre\ObjectTree();
 		$server = new \OCA\DAV\Connector\Sabre\Server($objectTree);
@@ -161,7 +161,7 @@ class ServerFactory {
 
 			// Allow view-only plugin for webdav requests
 			$server->addPlugin(new ViewOnlyPlugin(
-				$this->logger
+				$userFolder,
 			));
 
 			if ($this->userSession->isLoggedIn()) {
@@ -188,6 +188,7 @@ class ServerFactory {
 				$server->addPlugin(
 					new \Sabre\DAV\PropertyStorage\Plugin(
 						new \OCA\DAV\DAV\CustomPropertiesBackend(
+							$server,
 							$objectTree,
 							$this->databaseConnection,
 							$this->userSession->getUser()
@@ -199,7 +200,7 @@ class ServerFactory {
 
 			// Load dav plugins from apps
 			$event = new SabrePluginEvent($server);
-			$this->eventDispatcher->dispatch($event);
+			$this->eventDispatcher->dispatchTyped($event);
 			$pluginManager = new PluginManager(
 				\OC::$server,
 				\OC::$server->getAppManager()

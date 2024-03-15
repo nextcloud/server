@@ -20,15 +20,18 @@
   -->
 
 <template>
-	<Modal size="normal"
-		:title="$t('user_status', 'Set status')"
+	<NcModal size="normal"
+		:name="$t('user_status', 'Set status')"
+		:set-return-focus="setReturnFocus"
 		@close="closeModal">
 		<div class="set-status-modal">
 			<!-- Status selector -->
 			<div class="set-status-modal__header">
-				<h3>{{ $t('user_status', 'Online status') }}</h3>
+				<h2>{{ $t('user_status', 'Online status') }}</h2>
 			</div>
-			<div class="set-status-modal__online-status">
+			<div class="set-status-modal__online-status"
+				role="radiogroup"
+				:aria-label="$t('user_status', 'Online status')">
 				<OnlineStatusSelect v-for="status in statuses"
 					:key="status.type"
 					v-bind="status"
@@ -36,55 +39,61 @@
 					@select="changeStatus" />
 			</div>
 
-			<!-- Status message -->
-			<div class="set-status-modal__header">
-				<h3>{{ $t('user_status', 'Status message') }}</h3>
-			</div>
-			<div class="set-status-modal__custom-input">
-				<EmojiPicker @select="setIcon">
-					<button class="custom-input__emoji-button">
-						{{ visibleIcon }}
-					</button>
-				</EmojiPicker>
-				<CustomMessageInput ref="customMessageInput"
-					:message="message"
-					@change="setMessage"
-					@submit="saveStatus" />
-			</div>
-			<PredefinedStatusesList @select-status="selectPredefinedMessage" />
-			<ClearAtSelect :clear-at="clearAt"
-				@select-clear-at="setClearAt" />
-			<div class="status-buttons">
-				<ButtonVue :wide="true"
-					type="tertiary"
-					:text="$t('user_status', 'Clear status message')"
-					:disabled="isSavingStatus"
-					@click="clearStatus">
-					{{ $t('user_status', 'Clear status message') }}
-				</ButtonVue>
-				<ButtonVue :wide="true"
-					type="primary"
-					:text="$t('user_status', 'Set status message')"
-					:disabled="isSavingStatus"
-					@click="saveStatus">
-					{{ $t('user_status', 'Set status message') }}
-				</ButtonVue>
-			</div>
+			<!-- Status message form -->
+			<form @submit.prevent="saveStatus" @reset="clearStatus">
+				<div class="set-status-modal__header">
+					<h2>{{ $t('user_status', 'Status message') }}</h2>
+				</div>
+				<div class="set-status-modal__custom-input">
+					<CustomMessageInput ref="customMessageInput"
+						:icon="icon"
+						:message="editedMessage"
+						@change="setMessage"
+						@select-icon="setIcon" />
+				</div>
+				<div v-if="hasBackupStatus"
+					class="set-status-modal__automation-hint">
+					{{ $t('user_status', 'Your status was set automatically') }}
+				</div>
+				<PreviousStatus v-if="hasBackupStatus"
+					:icon="backupIcon"
+					:message="backupMessage"
+					@select="revertBackupFromServer" />
+				<PredefinedStatusesList @select-status="selectPredefinedMessage" />
+				<ClearAtSelect :clear-at="clearAt"
+					@select-clear-at="setClearAt" />
+				<div class="status-buttons">
+					<NcButton :wide="true"
+						type="tertiary"
+						native-type="reset"
+						:aria-label="$t('user_status', 'Clear status message')"
+						:disabled="isSavingStatus">
+						{{ $t('user_status', 'Clear status message') }}
+					</NcButton>
+					<NcButton :wide="true"
+						type="primary"
+						native-type="submit"
+						:aria-label="$t('user_status', 'Set status message')"
+						:disabled="isSavingStatus">
+						{{ $t('user_status', 'Set status message') }}
+					</NcButton>
+				</div>
+			</form>
 		</div>
-	</Modal>
+	</NcModal>
 </template>
 
 <script>
 import { showError } from '@nextcloud/dialogs'
-import EmojiPicker from '@nextcloud/vue/dist/Components/EmojiPicker'
-import Modal from '@nextcloud/vue/dist/Components/Modal'
-import ButtonVue from '@nextcloud/vue/dist/Components/Button'
-import { getAllStatusOptions } from '../services/statusOptionsService'
-import OnlineStatusMixin from '../mixins/OnlineStatusMixin'
-import PredefinedStatusesList from './PredefinedStatusesList'
-import CustomMessageInput from './CustomMessageInput'
-import ClearAtSelect from './ClearAtSelect'
-import OnlineStatusSelect from './OnlineStatusSelect'
+import NcModal from '@nextcloud/vue/dist/Components/NcModal.js'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import { getAllStatusOptions } from '../services/statusOptionsService.js'
+import OnlineStatusMixin from '../mixins/OnlineStatusMixin.js'
+import PredefinedStatusesList from './PredefinedStatusesList.vue'
+import PreviousStatus from './PreviousStatus.vue'
+import CustomMessageInput from './CustomMessageInput.vue'
+import ClearAtSelect from './ClearAtSelect.vue'
+import OnlineStatusSelect from './OnlineStatusSelect.vue'
 
 export default {
 	name: 'SetStatusModal',
@@ -92,32 +101,88 @@ export default {
 	components: {
 		ClearAtSelect,
 		CustomMessageInput,
-		EmojiPicker,
-		Modal,
+		NcModal,
 		OnlineStatusSelect,
 		PredefinedStatusesList,
-		ButtonVue,
+		PreviousStatus,
+		NcButton,
 	},
 	mixins: [OnlineStatusMixin],
+
+	props: {
+		/**
+		 * Whether the component should be rendered as a Dashboard Status or a User Menu Entries
+		 * true = Dashboard Status
+		 * false = User Menu Entries
+		 */
+		inline: {
+			type: Boolean,
+			default: false,
+		},
+	},
 
 	data() {
 		return {
 			clearAt: null,
-			icon: null,
-			message: '',
-			messageId: '',
+			editedMessage: '',
 			isSavingStatus: false,
 			statuses: getAllStatusOptions(),
 		}
 	},
+
 	computed: {
-		/**
-		 * Returns the user-set icon or a smiley in case no icon is set
-		 *
-		 * @return {string}
-		 */
-		visibleIcon() {
-			return this.icon || '😀'
+		messageId() {
+			return this.$store.state.userStatus.messageId
+		},
+		icon() {
+			return this.$store.state.userStatus.icon
+		},
+		message() {
+			return this.$store.state.userStatus.message || ''
+		},
+		hasBackupStatus() {
+			return this.messageId && (this.backupIcon || this.backupMessage)
+		},
+		backupIcon() {
+			return this.$store.state.userBackupStatus.icon || ''
+		},
+		backupMessage() {
+			return this.$store.state.userBackupStatus.message || ''
+		},
+
+		resetButtonText() {
+			if (this.backupIcon && this.backupMessage) {
+				return this.$t('user_status', 'Reset status to "{icon} {message}"', {
+					icon: this.backupIcon,
+					message: this.backupMessage,
+				})
+			} else if (this.backupMessage) {
+				return this.$t('user_status', 'Reset status to "{message}"', {
+					message: this.backupMessage,
+				})
+			} else if (this.backupIcon) {
+				return this.$t('user_status', 'Reset status to "{icon}"', {
+					icon: this.backupIcon,
+				})
+			}
+
+			return this.$t('user_status', 'Reset status')
+		},
+
+		setReturnFocus() {
+			if (this.inline) {
+				return undefined
+			}
+			return document.querySelector('[aria-controls="header-menu-user-menu"]') ?? undefined
+		},
+	},
+
+	watch: {
+		message: {
+			immediate: true,
+			handler(newValue) {
+				this.editedMessage = newValue
+			},
 		},
 	},
 
@@ -125,9 +190,7 @@ export default {
 	 * Loads the current status when a user opens dialog
 	 */
 	mounted() {
-		this.messageId = this.$store.state.userStatus.messageId
-		this.icon = this.$store.state.userStatus.icon
-		this.message = this.$store.state.userStatus.message || ''
+		this.$store.dispatch('fetchBackupFromServer')
 
 		if (this.$store.state.userStatus.clearAt !== null) {
 			this.clearAt = {
@@ -149,8 +212,11 @@ export default {
 		 * @param {string} icon The new icon
 		 */
 		setIcon(icon) {
-			this.messageId = null
-			this.icon = icon
+			this.$store.dispatch('setCustomMessage', {
+				message: this.message,
+				icon,
+				clearAt: this.clearAt,
+			})
 			this.$nextTick(() => {
 				this.$refs.customMessageInput.focus()
 			})
@@ -161,8 +227,7 @@ export default {
 		 * @param {string} message The new message
 		 */
 		setMessage(message) {
-			this.messageId = null
-			this.message = message
+			this.editedMessage = message
 		},
 		/**
 		 * Sets a new clearAt value
@@ -178,10 +243,11 @@ export default {
 		 * @param {object} status The predefined status object
 		 */
 		selectPredefinedMessage(status) {
-			this.messageId = status.id
 			this.clearAt = status.clearAt
-			this.icon = status.icon
-			this.message = status.message
+			this.$store.dispatch('setPredefinedMessage', {
+				messageId: status.id,
+				clearAt: status.clearAt,
+			})
 		},
 		/**
 		 * Saves the status and closes the
@@ -196,18 +262,11 @@ export default {
 			try {
 				this.isSavingStatus = true
 
-				if (this.messageId !== undefined && this.messageId !== null) {
-					await this.$store.dispatch('setPredefinedMessage', {
-						messageId: this.messageId,
-						clearAt: this.clearAt,
-					})
-				} else {
-					await this.$store.dispatch('setCustomMessage', {
-						message: this.message,
-						icon: this.icon,
-						clearAt: this.clearAt,
-					})
-				}
+				await this.$store.dispatch('setCustomMessage', {
+					message: this.editedMessage,
+					icon: this.icon,
+					clearAt: this.clearAt,
+				})
 			} catch (err) {
 				showError(this.$t('user_status', 'There was an error saving the status'))
 				console.debug(err)
@@ -237,6 +296,26 @@ export default {
 			this.isSavingStatus = false
 			this.closeModal()
 		},
+		/**
+		 *
+		 * @return {Promise<void>}
+		 */
+		async revertBackupFromServer() {
+			try {
+				this.isSavingStatus = true
+
+				await this.$store.dispatch('revertBackupFromServer', {
+					messageId: this.messageId,
+				})
+			} catch (err) {
+				showError(this.$t('user_status', 'There was an error reverting the status'))
+				console.debug(err)
+				this.isSavingStatus = false
+				return
+			}
+
+			this.isSavingStatus = false
+		},
 	},
 }
 </script>
@@ -249,12 +328,11 @@ export default {
 	&__header {
 		text-align: center;
 		font-weight: bold;
+		margin: 15px 0;
 	}
 
 	&__online-status {
 		display: grid;
-		// Space between the two sections
-		margin-bottom: 40px;
 		grid-template-columns: 1fr 1fr;
 	}
 
@@ -262,16 +340,13 @@ export default {
 		display: flex;
 		width: 100%;
 		margin-bottom: 10px;
+	}
 
-		.custom-input__emoji-button {
-			flex-basis: 40px;
-			flex-grow: 0;
-			width: 40px;
-			height: 34px;
-			margin-right: 0;
-			border-right: none;
-			border-radius: var(--border-radius) 0 0 var(--border-radius);
-		}
+	&__automation-hint {
+		display: flex;
+		width: 100%;
+		margin-bottom: 10px;
+		color: var(--color-text-maxcontrast);
 	}
 
 	.status-buttons {

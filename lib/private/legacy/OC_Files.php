@@ -43,10 +43,11 @@
 use bantu\IniGetWrapper\IniGetWrapper;
 use OC\Files\View;
 use OC\Streamer;
-use OCP\Lock\ILockingProvider;
-use OCP\Files\Events\BeforeZipCreatedEvent;
-use OCP\Files\Events\BeforeDirectFileDownloadEvent;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\Events\BeforeDirectFileDownloadEvent;
+use OCP\Files\Events\BeforeZipCreatedEvent;
+use OCP\Files\IRootFolder;
+use OCP\Lock\ILockingProvider;
 
 /**
  * Class for file server access
@@ -59,14 +60,11 @@ class OC_Files {
 	public const UPLOAD_MIN_LIMIT_BYTES = 1048576; // 1 MiB
 
 
-	private static $multipartBoundary = '';
+	private static string $multipartBoundary = '';
 
-	/**
-	 * @return string
-	 */
-	private static function getBoundary() {
+	private static function getBoundary(): string {
 		if (empty(self::$multipartBoundary)) {
-			self::$multipartBoundary = md5(mt_rand());
+			self::$multipartBoundary = md5((string)mt_rand());
 		}
 		return self::$multipartBoundary;
 	}
@@ -76,10 +74,9 @@ class OC_Files {
 	 * @param string $name
 	 * @param array $rangeArray ('from'=>int,'to'=>int), ...
 	 */
-	private static function sendHeaders($filename, $name, array $rangeArray) {
+	private static function sendHeaders($filename, $name, array $rangeArray): void {
 		OC_Response::setContentDispositionHeader($name, 'attachment');
 		header('Content-Transfer-Encoding: binary', true);
-		header('Pragma: public');// enable caching in IE
 		header('Expires: 0');
 		header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 		$fileSize = \OC\Files\Filesystem::filesize($filename);
@@ -182,7 +179,7 @@ class OC_Files {
 
 			$streamer->sendHeaders($name);
 			$executionTime = (int)OC::$server->get(IniGetWrapper::class)->getNumeric('max_execution_time');
-			if (strpos(@ini_get('disable_functions'), 'set_time_limit') === false) {
+			if (!str_contains(@ini_get('disable_functions'), 'set_time_limit')) {
 				@set_time_limit(0);
 			}
 			ignore_user_abort(true);
@@ -191,7 +188,7 @@ class OC_Files {
 				foreach ($files as $file) {
 					$file = $dir . '/' . $file;
 					if (\OC\Files\Filesystem::is_file($file)) {
-						$userFolder = \OC::$server->getRootFolder()->get(\OC\Files\Filesystem::getRoot());
+						$userFolder = \OC::$server->get(IRootFolder::class)->get(\OC\Files\Filesystem::getRoot());
 						$file = $userFolder->get($file);
 						if ($file instanceof \OC\Files\Node\File) {
 							try {
@@ -233,6 +230,10 @@ class OC_Files {
 			OC::$server->getLogger()->logException($ex);
 			$l = \OC::$server->getL10N('lib');
 			\OC_Template::printErrorPage($l->t('Cannot download file'), $ex->getMessage(), 200);
+		} catch (\OCP\Files\ConnectionLostException $ex) {
+			self::unlockAllTheFiles($dir, $files, $getType, $view, $filename);
+			OC::$server->getLogger()->logException($ex, ['level' => \OCP\ILogger::DEBUG]);
+			\OC_Template::printErrorPage('Connection lost', $ex->getMessage(), 200);
 		} catch (\Exception $ex) {
 			self::unlockAllTheFiles($dir, $files, $getType, $view, $filename);
 			OC::$server->getLogger()->logException($ex);
@@ -247,10 +248,10 @@ class OC_Files {
 
 	/**
 	 * @param string $rangeHeaderPos
-	 * @param int $fileSize
+	 * @param int|float $fileSize
 	 * @return array $rangeArray ('from'=>int,'to'=>int), ...
 	 */
-	private static function parseHttpRangeHeader($rangeHeaderPos, $fileSize) {
+	private static function parseHttpRangeHeader($rangeHeaderPos, $fileSize): array {
 		$rArray = explode(',', $rangeHeaderPos);
 		$minOffset = 0;
 		$ind = 0;
@@ -307,7 +308,7 @@ class OC_Files {
 		$file = null;
 
 		try {
-			$userFolder = \OC::$server->getRootFolder()->get(\OC\Files\Filesystem::getRoot());
+			$userFolder = \OC::$server->get(IRootFolder::class)->get(\OC\Files\Filesystem::getRoot());
 			$file = $userFolder->get($filename);
 			if (!$file instanceof \OC\Files\Node\File || !$file->isReadable()) {
 				http_response_code(403);
@@ -336,7 +337,7 @@ class OC_Files {
 			$rangeArray = self::parseHttpRangeHeader(substr($params['range'], 6), $fileSize);
 		}
 
-		$dispatcher = \OC::$server->query(IEventDispatcher::class);
+		$dispatcher = \OCP\Server::get(IEventDispatcher::class);
 		$event = new BeforeDirectFileDownloadEvent($filename);
 		$dispatcher->dispatchTyped($event);
 

@@ -32,7 +32,6 @@ namespace OCP\Search;
  * @deprecated 20.0.0
  */
 abstract class PagedProvider extends Provider {
-
 	/**
 	 * show all results
 	 * @since 8.0.0

@@ -1,36 +1,45 @@
-
 <template>
 	<ul>
-		<SharingEntrySimple class="sharing-entry__internal"
+		<SharingEntrySimple ref="shareEntrySimple"
+			class="sharing-entry__internal"
 			:title="t('files_sharing', 'Internal link')"
 			:subtitle="internalLinkSubtitle">
 			<template #avatar>
 				<div class="avatar-external icon-external-white" />
 			</template>
 
-			<ActionLink ref="copyButton"
-				:href="internalLink"
-				:aria-label="t('files_sharing', 'Copy internal link to clipboard')"
-				target="_blank"
-				:icon="copied && copySuccess ? 'icon-checkmark-color' : 'icon-clippy'"
-				@click.prevent="copyLink">
-				{{ clipboardTooltip }}
-			</ActionLink>
+			<NcActionButton :title="copyLinkTooltip"
+				:aria-label="copyLinkTooltip"
+				@click="copyLink">
+				<template #icon>
+					<CheckIcon v-if="copied && copySuccess"
+						:size="20"
+						class="icon-checkmark-color" />
+					<ClipboardIcon v-else :size="20" />
+				</template>
+			</NcActionButton>
 		</SharingEntrySimple>
 	</ul>
 </template>
 
 <script>
 import { generateUrl } from '@nextcloud/router'
-import ActionLink from '@nextcloud/vue/dist/Components/ActionLink'
-import SharingEntrySimple from './SharingEntrySimple'
+import { showSuccess } from '@nextcloud/dialogs'
+import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
+
+import CheckIcon from 'vue-material-design-icons/CheckBold.vue'
+import ClipboardIcon from 'vue-material-design-icons/ClipboardFlow.vue'
+
+import SharingEntrySimple from './SharingEntrySimple.vue'
 
 export default {
 	name: 'SharingEntryInternal',
 
 	components: {
-		ActionLink,
+		NcActionButton,
 		SharingEntrySimple,
+		CheckIcon,
+		ClipboardIcon,
 	},
 
 	props: {
@@ -59,33 +68,34 @@ export default {
 		},
 
 		/**
-		 * Clipboard v-tooltip message
+		 * Tooltip message
 		 *
 		 * @return {string}
 		 */
-		clipboardTooltip() {
+		copyLinkTooltip() {
 			if (this.copied) {
-				return this.copySuccess
-					? t('files_sharing', 'Link copied')
-					: t('files_sharing', 'Cannot copy, please copy the link manually')
+				if (this.copySuccess) {
+					return ''
+				}
+				return t('files_sharing', 'Cannot copy, please copy the link manually')
 			}
-			return t('files_sharing', 'Copy to clipboard')
+			return t('files_sharing', 'Copy internal link to clipboard')
 		},
 
 		internalLinkSubtitle() {
 			if (this.fileInfo.type === 'dir') {
-				return t('files_sharing', 'Only works for users with access to this folder')
+				return t('files_sharing', 'Only works for people with access to this folder')
 			}
-			return t('files_sharing', 'Only works for users with access to this file')
+			return t('files_sharing', 'Only works for people with access to this file')
 		},
 	},
 
 	methods: {
 		async copyLink() {
 			try {
-				await this.$copyText(this.internalLink)
-				// focus and show the tooltip
-				this.$refs.copyButton.$el.focus()
+				await navigator.clipboard.writeText(this.internalLink)
+				showSuccess(t('files_sharing', 'Link copied'))
+				this.$refs.shareEntrySimple.$refs.actionsComponent.$el.focus()
 				this.copySuccess = true
 				this.copied = true
 			} catch (error) {
@@ -116,6 +126,7 @@ export default {
 	}
 	.icon-checkmark-color {
 		opacity: 1;
+		color: var(--color-success);
 	}
 }
 </style>

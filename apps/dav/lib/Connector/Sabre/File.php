@@ -43,13 +43,12 @@ use OC\AppFramework\Http\Request;
 use OC\Files\Filesystem;
 use OC\Files\Stream\HashWrapper;
 use OC\Files\View;
-use OC\Metadata\FileMetadata;
 use OCA\DAV\AppInfo\Application;
+use OCA\DAV\Connector\Sabre\Exception\BadGateway;
 use OCA\DAV\Connector\Sabre\Exception\EntityTooLarge;
 use OCA\DAV\Connector\Sabre\Exception\FileLocked;
 use OCA\DAV\Connector\Sabre\Exception\Forbidden as DAVForbiddenException;
 use OCA\DAV\Connector\Sabre\Exception\UnsupportedMediaType;
-use OCA\DAV\Connector\Sabre\Exception\BadGateway;
 use OCP\Encryption\Exceptions\GenericEncryptionException;
 use OCP\Files\EntityTooLargeException;
 use OCP\Files\FileInfo;
@@ -63,6 +62,7 @@ use OCP\Files\NotPermittedException;
 use OCP\Files\Storage;
 use OCP\Files\StorageNotAvailableException;
 use OCP\IL10N;
+use OCP\IRequest;
 use OCP\L10N\IFactory as IL10NFactory;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
@@ -77,33 +77,34 @@ use Sabre\DAV\Exception\ServiceUnavailable;
 use Sabre\DAV\IFile;
 
 class File extends Node implements IFile {
-	protected $request;
-
+	protected IRequest $request;
 	protected IL10N $l10n;
-
-	/** @var array<string, FileMetadata> */
-	private array $metadata = [];
 
 	/**
 	 * Sets up the node, expects a full path name
 	 *
 	 * @param \OC\Files\View $view
 	 * @param \OCP\Files\FileInfo $info
-	 * @param \OCP\Share\IManager $shareManager
-	 * @param \OC\AppFramework\Http\Request $request
+	 * @param ?\OCP\Share\IManager $shareManager
+	 * @param ?IRequest $request
+	 * @param ?IL10N $l10n
 	 */
-	public function __construct(View $view, FileInfo $info, IManager $shareManager = null, Request $request = null) {
+	public function __construct(View $view, FileInfo $info, IManager $shareManager = null, IRequest $request = null, IL10N $l10n = null) {
 		parent::__construct($view, $info, $shareManager);
 
-		// Querying IL10N directly results in a dependency loop
-		/** @var IL10NFactory $l10nFactory */
-		$l10nFactory = \OC::$server->get(IL10NFactory::class);
-		$this->l10n = $l10nFactory->get(Application::APP_ID);
+		if ($l10n) {
+			$this->l10n = $l10n;
+		} else {
+			// Querying IL10N directly results in a dependency loop
+			/** @var IL10NFactory $l10nFactory */
+			$l10nFactory = \OC::$server->get(IL10NFactory::class);
+			$this->l10n = $l10nFactory->get(Application::APP_ID);
+		}
 
 		if (isset($request)) {
 			$this->request = $request;
 		} else {
-			$this->request = \OC::$server->getRequest();
+			$this->request = \OC::$server->get(IRequest::class);
 		}
 	}
 
@@ -138,7 +139,7 @@ class File extends Node implements IFile {
 	public function put($data) {
 		try {
 			$exists = $this->fileView->file_exists($this->path);
-			if ($this->info && $exists && !$this->info->isUpdateable()) {
+			if ($exists && !$this->info->isUpdateable()) {
 				throw new Forbidden();
 			}
 		} catch (StorageNotAvailableException $e) {
@@ -149,7 +150,8 @@ class File extends Node implements IFile {
 		$this->verifyPath();
 
 		// chunked handling
-		if (isset($_SERVER['HTTP_OC_CHUNKED'])) {
+		$chunkedHeader = $this->request->getHeader('oc-chunked');
+		if ($chunkedHeader) {
 			try {
 				return $this->createFileChunked($data);
 			} catch (\Exception $e) {
@@ -272,10 +274,11 @@ class File extends Node implements IFile {
 
 			if ($result === false) {
 				$expected = -1;
-				if (isset($_SERVER['CONTENT_LENGTH'])) {
-					$expected = $_SERVER['CONTENT_LENGTH'];
+				$lengthHeader = $this->request->getHeader('content-length');
+				if ($lengthHeader) {
+					$expected = (int)$lengthHeader;
 				}
-				if ($expected !== "0") {
+				if ($expected !== 0) {
 					throw new Exception(
 						$this->l10n->t(
 							'Error while copying file to target location (copied: %1$s, expected filesize: %2$s)',
@@ -291,8 +294,9 @@ class File extends Node implements IFile {
 			// if content length is sent by client:
 			// double check if the file was fully received
 			// compare expected and actual size
-			if (isset($_SERVER['CONTENT_LENGTH']) && $_SERVER['REQUEST_METHOD'] === 'PUT') {
-				$expected = (int)$_SERVER['CONTENT_LENGTH'];
+			$lengthHeader = $this->request->getHeader('content-length');
+			if ($lengthHeader && $this->request->getMethod() === 'PUT') {
+				$expected = (int)$lengthHeader;
 				if ($count !== $expected) {
 					throw new BadRequest(
 						$this->l10n->t(
@@ -374,8 +378,9 @@ class File extends Node implements IFile {
 			}
 
 			// allow sync clients to send the mtime along in a header
-			if (isset($this->request->server['HTTP_X_OC_MTIME'])) {
-				$mtime = $this->sanitizeMtime($this->request->server['HTTP_X_OC_MTIME']);
+			$mtimeHeader = $this->request->getHeader('x-oc-mtime');
+			if ($mtimeHeader !== '') {
+				$mtime = $this->sanitizeMtime($mtimeHeader);
 				if ($this->fileView->touch($this->path, $mtime)) {
 					$this->header('X-OC-MTime: accepted');
 				}
@@ -386,8 +391,9 @@ class File extends Node implements IFile {
 			];
 
 			// allow sync clients to send the creation time along in a header
-			if (isset($this->request->server['HTTP_X_OC_CTIME'])) {
-				$ctime = $this->sanitizeMtime($this->request->server['HTTP_X_OC_CTIME']);
+			$ctimeHeader = $this->request->getHeader('x-oc-ctime');
+			if ($ctimeHeader) {
+				$ctime = $this->sanitizeMtime($ctimeHeader);
 				$fileInfoUpdate['creation_time'] = $ctime;
 				$this->header('X-OC-CTime: accepted');
 			}
@@ -400,8 +406,9 @@ class File extends Node implements IFile {
 
 			$this->refreshInfo();
 
-			if (isset($this->request->server['HTTP_OC_CHECKSUM'])) {
-				$checksum = trim($this->request->server['HTTP_OC_CHECKSUM']);
+			$checksumHeader = $this->request->getHeader('oc-checksum');
+			if ($checksumHeader) {
+				$checksum = trim($checksumHeader);
 				$this->setChecksum($checksum);
 			} elseif ($this->getChecksum() !== null && $this->getChecksum() !== '') {
 				$this->setChecksum('');
@@ -422,14 +429,15 @@ class File extends Node implements IFile {
 		}
 	}
 
-	/**
-	 * @param string $path
-	 */
-	private function emitPreHooks($exists, $path = null) {
+	private function emitPreHooks(bool $exists, ?string $path = null): bool {
 		if (is_null($path)) {
 			$path = $this->path;
 		}
 		$hookPath = Filesystem::getView()->getRelativePath($this->fileView->getAbsolutePath($path));
+		if ($hookPath === null) {
+			// We only trigger hooks from inside default view
+			return true;
+		}
 		$run = true;
 
 		if (!$exists) {
@@ -450,14 +458,15 @@ class File extends Node implements IFile {
 		return $run;
 	}
 
-	/**
-	 * @param string $path
-	 */
-	private function emitPostHooks($exists, $path = null) {
+	private function emitPostHooks(bool $exists, ?string $path = null): void {
 		if (is_null($path)) {
 			$path = $this->path;
 		}
 		$hookPath = Filesystem::getView()->getRelativePath($this->fileView->getAbsolutePath($path));
+		if ($hookPath === null) {
+			// We only trigger hooks from inside default view
+			return;
+		}
 		if (!$exists) {
 			\OC_Hook::emit(\OC\Files\Filesystem::CLASSNAME, \OC\Files\Filesystem::signal_post_create, [
 				\OC\Files\Filesystem::signal_param_path => $hookPath
@@ -491,9 +500,21 @@ class File extends Node implements IFile {
 			} catch (\Exception $e) {
 				$this->convertToSabreException($e);
 			}
+
 			if ($res === false) {
 				throw new ServiceUnavailable($this->l10n->t('Could not open file'));
 			}
+
+			// comparing current file size with the one in DB
+			// if different, fix DB and refresh cache.
+			if ($this->getSize() !== $this->fileView->filesize($this->getPath())) {
+				$logger = \OC::$server->get(LoggerInterface::class);
+				$logger->warning('fixing cached size of file id=' . $this->getId());
+
+				$this->getFileInfo()->getStorage()->getUpdater()->update($this->getFileInfo()->getInternalPath());
+				$this->refreshInfo();
+			}
+
 			return $res;
 		} catch (GenericEncryptionException $e) {
 			// returning 503 will allow retry of the operation at a later point in time
@@ -543,7 +564,7 @@ class File extends Node implements IFile {
 		$mimeType = $this->info->getMimetype();
 
 		// PROPFIND needs to return the correct mime type, for consistency with the web UI
-		if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'PROPFIND') {
+		if ($this->request->getMethod() === 'PROPFIND') {
 			return $mimeType;
 		}
 		return \OC::$server->getMimeTypeDetector()->getSecureMimeType($mimeType);
@@ -585,9 +606,10 @@ class File extends Node implements IFile {
 		$bytesWritten = $chunk_handler->store($info['index'], $data);
 
 		//detect aborted upload
-		if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'PUT') {
-			if (isset($_SERVER['CONTENT_LENGTH'])) {
-				$expected = (int)$_SERVER['CONTENT_LENGTH'];
+		if ($this->request->getMethod() === 'PUT') {
+			$lengthHeader = $this->request->getHeader('content-length');
+			if ($lengthHeader) {
+				$expected = (int)$lengthHeader;
 				if ($bytesWritten !== $expected) {
 					$chunk_handler->remove($info['index']);
 					throw new BadRequest(
@@ -653,8 +675,9 @@ class File extends Node implements IFile {
 				}
 
 				// allow sync clients to send the mtime along in a header
-				if (isset($this->request->server['HTTP_X_OC_MTIME'])) {
-					$mtime = $this->sanitizeMtime($this->request->server['HTTP_X_OC_MTIME']);
+				$mtimeHeader = $this->request->getHeader('x-oc-mtime');
+				if ($mtimeHeader !== '') {
+					$mtime = $this->sanitizeMtime($mtimeHeader);
 					if ($targetStorage->touch($targetInternalPath, $mtime)) {
 						$this->header('X-OC-MTime: accepted');
 					}
@@ -670,8 +693,9 @@ class File extends Node implements IFile {
 				// FIXME: should call refreshInfo but can't because $this->path is not the of the final file
 				$info = $this->fileView->getFileInfo($targetPath);
 
-				if (isset($this->request->server['HTTP_OC_CHECKSUM'])) {
-					$checksum = trim($this->request->server['HTTP_OC_CHECKSUM']);
+				$checksumHeader = $this->request->getHeader('oc-checksum');
+				if ($checksumHeader) {
+					$checksum = trim($checksumHeader);
 					$this->fileView->putFileInfo($targetPath, ['checksum' => $checksum]);
 				} elseif ($info->getChecksum() !== null && $info->getChecksum() !== '') {
 					$this->fileView->putFileInfo($this->path, ['checksum' => '']);
@@ -747,9 +771,6 @@ class File extends Node implements IFile {
 	 * @return string|null
 	 */
 	public function getChecksum() {
-		if (!$this->info) {
-			return null;
-		}
 		return $this->info->getChecksum();
 	}
 
@@ -770,17 +791,5 @@ class File extends Node implements IFile {
 
 	public function getNode(): \OCP\Files\File {
 		return $this->node;
-	}
-
-	public function getMetadata(string $group): FileMetadata {
-		return $this->metadata[$group];
-	}
-
-	public function setMetadata(string $group, FileMetadata $metadata): void {
-		$this->metadata[$group] = $metadata;
-	}
-
-	public function hasMetadata(string $group) {
-		return array_key_exists($group, $this->metadata);
 	}
 }

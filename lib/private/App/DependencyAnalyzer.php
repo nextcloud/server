@@ -33,11 +33,6 @@ namespace OC\App;
 use OCP\IL10N;
 
 class DependencyAnalyzer {
-
-	/** @var Platform */
-	private $platform;
-	/** @var \OCP\IL10N */
-	private $l;
 	/** @var array */
 	private $appInfo;
 
@@ -45,9 +40,10 @@ class DependencyAnalyzer {
 	 * @param Platform $platform
 	 * @param \OCP\IL10N $l
 	 */
-	public function __construct(Platform $platform, IL10N $l) {
-		$this->platform = $platform;
-		$this->l = $l;
+	public function __construct(
+		private Platform $platform,
+		private IL10N $l,
+	) {
 	}
 
 	/**
@@ -384,7 +380,7 @@ class DependencyAnalyzer {
 			case '9.1':
 				return '10';
 			default:
-				if (strpos($version, '9.1.') === 0) {
+				if (str_starts_with($version, '9.1.')) {
 					$version = '10.0.' . substr($version, 4);
 				}
 				return $version;

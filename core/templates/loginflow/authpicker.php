@@ -47,17 +47,17 @@ $urlGenerator = $_['urlGenerator'];
 
 	<p id="redirect-link">
 		<form id="login-form" action="<?php p($urlGenerator->linkToRoute('core.ClientFlowLogin.grantPage', ['stateToken' => $_['stateToken'], 'clientIdentifier' => $_['clientIdentifier'], 'oauthState' => $_['oauthState'], 'user' => $_['user'], 'direct' => $_['direct']])) ?>" method="get">
-			<input type="submit" class="login primary icon-confirm-white" value="<?php p($l->t('Log in')) ?>">
+			<input type="submit" class="login primary icon-confirm-white" value="<?php p($l->t('Log in')) ?>" disabled>
 		</form>
 	</p>
 
 	<form action="<?php p($urlGenerator->linkToRouteAbsolute('core.ClientFlowLogin.apptokenRedirect')); ?>" method="post" id="app-token-login-field" class="hidden">
 		<p class="grouptop">
-			<input type="text" name="user" id="user" placeholder="<?php p($l->t('Username')) ?>">
-			<label for="user" class="infield"><?php p($l->t('Username')) ?></label>
+			<input type="text" name="user" id="user" placeholder="<?php p($l->t('Login')) ?>">
+			<label for="user" class="infield"><?php p($l->t('Login')) ?></label>
 		</p>
 		<p class="groupbottom">
-			<input type="password" name="password" id="password" placeholder="<?php p($l->t('App token')) ?>">
+			<input type="password" name="password" id="password" placeholder="<?php p($l->t('App password')) ?>">
 			<label for="password" class="infield"><?php p($l->t('Password')) ?></label>
 		</p>
 		<input type="hidden" name="stateToken" value="<?php p($_['stateToken']) ?>" />
@@ -69,6 +69,6 @@ $urlGenerator = $_['urlGenerator'];
 	</form>
 
 	<?php if (empty($_['oauthState'])): ?>
-		<a id="app-token-login" class="apptoken-link" href="#"><?php p($l->t('Alternative log in using app token')) ?></a>
+		<a id="app-token-login" class="apptoken-link" href="#"><?php p($l->t('Alternative log in using app password')) ?></a>
 	<?php endif; ?>
 </div>

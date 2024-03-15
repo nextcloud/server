@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * ownCloud - App Framework
  *
@@ -14,71 +17,128 @@ namespace Test\AppFramework\Middleware;
 use OC\AppFramework\Middleware\SessionMiddleware;
 use OC\AppFramework\Utility\ControllerMethodReflector;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\Attribute\UseSession;
 use OCP\AppFramework\Http\Response;
+use OCP\IRequest;
+use OCP\ISession;
+use PHPUnit\Framework\MockObject\MockObject;
+use Test\TestCase;
 
-class SessionMiddlewareTest extends \Test\TestCase {
-
-	/** @var ControllerMethodReflector */
-	private $reflector;
-
-	/** @var Controller */
-	private $controller;
+class SessionMiddlewareTest extends TestCase {
+	private ControllerMethodReflector|MockObject $reflector;
+	private ISession|MockObject $session;
+	private Controller $controller;
+	private SessionMiddleware $middleware;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->reflector = new ControllerMethodReflector();
-		$this->controller = $this->createMock(Controller::class);
+		$this->reflector = $this->createMock(ControllerMethodReflector::class);
+		$this->session = $this->createMock(ISession::class);
+		$this->controller = new class('app', $this->createMock(IRequest::class)) extends Controller {
+			/**
+			 * @UseSession
+			 */
+			public function withAnnotation() {
+			}
+			#[UseSession]
+			public function withAttribute() {
+			}
+			public function without() {
+			}
+		};
+		$this->middleware = new SessionMiddleware(
+			$this->reflector,
+			$this->session,
+		);
 	}
 
-	/**
-	 * @UseSession
-	 */
-	public function testSessionNotClosedOnBeforeController() {
-		$session = $this->getSessionMock(0);
+	public function testSessionNotClosedOnBeforeController(): void {
+		$this->configureSessionMock(0, 1);
+		$this->reflector->expects(self::once())
+			->method('hasAnnotation')
+			->with('UseSession')
+			->willReturn(true);
 
-		$this->reflector->reflect($this, __FUNCTION__);
-		$middleware = new SessionMiddleware($this->reflector, $session);
-		$middleware->beforeController($this->controller, __FUNCTION__);
+		$this->middleware->beforeController($this->controller, 'withAnnotation');
 	}
 
-	/**
-	 * @UseSession
-	 */
-	public function testSessionClosedOnAfterController() {
-		$session = $this->getSessionMock(1);
+	public function testSessionNotClosedOnBeforeControllerWithAttribute(): void {
+		$this->configureSessionMock(0, 1);
+		$this->reflector->expects(self::once())
+			->method('hasAnnotation')
+			->with('UseSession')
+			->willReturn(false);
 
-		$this->reflector->reflect($this, __FUNCTION__);
-		$middleware = new SessionMiddleware($this->reflector, $session);
-		$middleware->afterController($this->controller, __FUNCTION__, new Response());
+		$this->middleware->beforeController($this->controller, 'withAttribute');
 	}
 
-	public function testSessionClosedOnBeforeController() {
-		$session = $this->getSessionMock(1);
+	public function testSessionClosedOnAfterController(): void {
+		$this->configureSessionMock(1);
+		$this->reflector->expects(self::once())
+			->method('hasAnnotation')
+			->with('UseSession')
+			->willReturn(true);
 
-		$this->reflector->reflect($this, __FUNCTION__);
-		$middleware = new SessionMiddleware($this->reflector, $session);
-		$middleware->beforeController($this->controller, __FUNCTION__);
+		$this->middleware->afterController($this->controller, 'withAnnotation', new Response());
 	}
 
-	public function testSessionNotClosedOnAfterController() {
-		$session = $this->getSessionMock(0);
+	public function testSessionClosedOnAfterControllerWithAttribute(): void {
+		$this->configureSessionMock(1);
+		$this->reflector->expects(self::once())
+			->method('hasAnnotation')
+			->with('UseSession')
+			->willReturn(true);
 
-		$this->reflector->reflect($this, __FUNCTION__);
-		$middleware = new SessionMiddleware($this->reflector, $session);
-		$middleware->afterController($this->controller, __FUNCTION__, new Response());
+		$this->middleware->afterController($this->controller, 'withAttribute', new Response());
 	}
 
-	/**
-	 * @return mixed
-	 */
-	private function getSessionMock($expectedCloseCount) {
-		$session = $this->getMockBuilder('\OC\Session\Memory')
-			->disableOriginalConstructor()
-			->getMock();
+	public function testSessionReopenedAndClosedOnBeforeController(): void {
+		$this->configureSessionMock(1, 1);
+		$this->reflector->expects(self::exactly(2))
+			->method('hasAnnotation')
+			->with('UseSession')
+			->willReturn(true);
 
-		$session->expects($this->exactly($expectedCloseCount))
+		$this->middleware->beforeController($this->controller, 'withAnnotation');
+		$this->middleware->afterController($this->controller, 'withAnnotation', new Response());
+	}
+
+	public function testSessionReopenedAndClosedOnBeforeControllerWithAttribute(): void {
+		$this->configureSessionMock(1, 1);
+		$this->reflector->expects(self::exactly(2))
+			->method('hasAnnotation')
+			->with('UseSession')
+			->willReturn(false);
+
+		$this->middleware->beforeController($this->controller, 'withAttribute');
+		$this->middleware->afterController($this->controller, 'withAttribute', new Response());
+	}
+
+	public function testSessionClosedOnBeforeController(): void {
+		$this->configureSessionMock(0);
+		$this->reflector->expects(self::once())
+			->method('hasAnnotation')
+			->with('UseSession')
+			->willReturn(false);
+
+		$this->middleware->beforeController($this->controller, 'without');
+	}
+
+	public function testSessionNotClosedOnAfterController(): void {
+		$this->configureSessionMock(0);
+		$this->reflector->expects(self::once())
+			->method('hasAnnotation')
+			->with('UseSession')
+			->willReturn(false);
+
+		$this->middleware->afterController($this->controller, 'without', new Response());
+	}
+
+	private function configureSessionMock(int $expectedCloseCount, int $expectedReopenCount = 0): void {
+		$this->session->expects($this->exactly($expectedCloseCount))
 			->method('close');
-		return $session;
+		$this->session->expects($this->exactly($expectedReopenCount))
+			->method('reopen');
 	}
 }

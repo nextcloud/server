@@ -46,7 +46,6 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class TwoFactorMiddlewareTest extends TestCase {
-
 	/** @var Manager|MockObject */
 	private $twoFactorManager;
 

@@ -51,11 +51,8 @@ class ApplicationTest extends TestCase {
 		$app = new Application();
 		$c = $app->getContainer();
 
-		// assert service instances in the container are properly setup
-		$s = $c->get('NotificationsController');
-		$this->assertInstanceOf('OCA\Comments\Controller\Notifications', $s);
-
 		$services = [
+			'OCA\Comments\Controller\NotificationsController',
 			'OCA\Comments\Activity\Filter',
 			'OCA\Comments\Activity\Listener',
 			'OCA\Comments\Activity\Provider',

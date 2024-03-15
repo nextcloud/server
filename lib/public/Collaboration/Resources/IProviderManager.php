@@ -29,7 +29,6 @@ namespace OCP\Collaboration\Resources;
  * @since 18.0.0
  */
 interface IProviderManager {
-
 	/**
 	 * @return IProvider[] list of resource providers
 	 * @since 18.0.0

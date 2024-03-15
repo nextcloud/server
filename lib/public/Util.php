@@ -46,8 +46,12 @@
 
 namespace OCP;
 
+use bantu\IniGetWrapper\IniGetWrapper;
 use OC\AppScriptDependency;
 use OC\AppScriptSort;
+use OCP\Share\IManager;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Log\LoggerInterface;
 
 /**
  * This class provides different helper functions to make the life of a developer easier
@@ -55,38 +59,11 @@ use OC\AppScriptSort;
  * @since 4.0.0
  */
 class Util {
-	/**
-	 * @deprecated 14.0.0 use \OCP\ILogger::DEBUG
-	 */
-	public const DEBUG = 0;
-	/**
-	 * @deprecated 14.0.0 use \OCP\ILogger::INFO
-	 */
-	public const INFO = 1;
-	/**
-	 * @deprecated 14.0.0 use \OCP\ILogger::WARN
-	 */
-	public const WARN = 2;
-	/**
-	 * @deprecated 14.0.0 use \OCP\ILogger::ERROR
-	 */
-	public const ERROR = 3;
-	/**
-	 * @deprecated 14.0.0 use \OCP\ILogger::FATAL
-	 */
-	public const FATAL = 4;
+	private static ?IManager $shareManager = null;
 
-	/** @var \OCP\Share\IManager */
-	private static $shareManager;
-
-	/** @var array */
-	private static $scripts = [];
-
-	/** @var array */
-	private static $scriptDeps = [];
-
-	/** @var array */
-	private static $sortedScriptDeps = [];
+	private static array $scriptsInit = [];
+	private static array $scripts = [];
+	private static array $scriptDeps = [];
 
 	/**
 	 * get the current installed version of Nextcloud
@@ -103,9 +80,9 @@ class Util {
 	public static function hasExtendedSupport(): bool {
 		try {
 			/** @var \OCP\Support\Subscription\IRegistry */
-			$subscriptionRegistry = \OC::$server->query(\OCP\Support\Subscription\IRegistry::class);
+			$subscriptionRegistry = \OCP\Server::get(\OCP\Support\Subscription\IRegistry::class);
 			return $subscriptionRegistry->delegateHasExtendedSupport();
-		} catch (AppFramework\QueryException $e) {
+		} catch (ContainerExceptionInterface $e) {
 		}
 		return \OC::$server->getConfig()->getSystemValueBool('extendedSupport', false);
 	}
@@ -126,19 +103,6 @@ class Util {
 	 */
 	public static function getChannel() {
 		return \OC_Util::getChannel();
-	}
-
-	/**
-	 * write a message in the log
-	 * @param string $app
-	 * @param string $message
-	 * @param int $level
-	 * @since 4.0.0
-	 * @deprecated 13.0.0 use log of \OCP\ILogger
-	 */
-	public static function writeLog($app, $message, $level) {
-		$context = ['app' => $app];
-		\OC::$server->getLogger()->log($level, $message, $context);
 	}
 
 	/**
@@ -163,13 +127,10 @@ class Util {
 
 	/**
 	 * get l10n object
-	 * @param string $application
-	 * @param string|null $language
-	 * @return \OCP\IL10N
 	 * @since 6.0.0 - parameter $language was added in 8.0.0
 	 */
-	public static function getL10N($application, $language = null) {
-		return \OC::$server->getL10N($application, $language);
+	public static function getL10N(string $application, ?string $language = null): IL10N {
+		return Server::get(\OCP\L10N\IFactory::class)->get($application, $language);
 	}
 
 	/**
@@ -183,14 +144,40 @@ class Util {
 	}
 
 	/**
+	 * Add a standalone init js file that is loaded for initialization
+	 *
+	 * Be careful loading scripts using this method as they are loaded early
+	 * and block the initial page rendering. They should not have dependencies
+	 * on any other scripts than core-common and core-main.
+	 *
+	 * @since 28.0.0
+	 */
+	public static function addInitScript(string $application, string $file): void {
+		if (!empty($application)) {
+			$path = "$application/js/$file";
+		} else {
+			$path = "js/$file";
+		}
+
+		// We need to handle the translation BEFORE the init script
+		// is loaded, as the init script might use translations
+		if ($application !== 'core' && !str_contains($file, 'l10n')) {
+			self::addTranslations($application, null, true);
+		}
+
+		self::$scriptsInit[] = $path;
+	}
+
+	/**
 	 * add a javascript file
 	 *
 	 * @param string $application
 	 * @param string|null $file
 	 * @param string $afterAppId
+	 * @param bool $prepend
 	 * @since 4.0.0
 	 */
-	public static function addScript(string $application, string $file = null, string $afterAppId = 'core'): void {
+	public static function addScript(string $application, string $file = null, string $afterAppId = 'core', bool $prepend = false): void {
 		if (!empty($application)) {
 			$path = "$application/js/$file";
 		} else {
@@ -202,7 +189,7 @@ class Util {
 		// need separate handling
 		if ($application !== 'core'
 			&& $file !== null
-			&& strpos($file, 'l10n') === false) {
+			&& !str_contains($file, 'l10n')) {
 			self::addTranslations($application);
 		}
 
@@ -213,7 +200,11 @@ class Util {
 			self::$scriptDeps[$application]->addDep($afterAppId);
 		}
 
-		self::$scripts[$application][] = $path;
+		if ($prepend) {
+			array_unshift(self::$scripts[$application], $path);
+		} else {
+			self::$scripts[$application][] = $path;
+		}
 	}
 
 	/**
@@ -228,10 +219,16 @@ class Util {
 		$sortedScripts = $scriptSort->sort(self::$scripts, self::$scriptDeps);
 
 		// Flatten array and remove duplicates
-		$sortedScripts = $sortedScripts ? array_merge(...array_values(($sortedScripts))) : [];
+		$sortedScripts = array_merge([self::$scriptsInit], $sortedScripts);
+		$sortedScripts = array_merge(...array_values($sortedScripts));
 
 		// Override core-common and core-main order
-		array_unshift($sortedScripts, 'core/js/common', 'core/js/main');
+		if (in_array('core/js/main', $sortedScripts)) {
+			array_unshift($sortedScripts, 'core/js/main');
+		}
+		if (in_array('core/js/common', $sortedScripts)) {
+			array_unshift($sortedScripts, 'core/js/common');
+		}
 
 		return array_unique($sortedScripts);
 	}
@@ -240,9 +237,10 @@ class Util {
 	 * Add a translation JS file
 	 * @param string $application application id
 	 * @param string $languageCode language code, defaults to the current locale
+	 * @param bool $init whether the translations should be loaded early or not
 	 * @since 8.0.0
 	 */
-	public static function addTranslations($application, $languageCode = null) {
+	public static function addTranslations($application, $languageCode = null, $init = false) {
 		if (is_null($languageCode)) {
 			$languageCode = \OC::$server->getL10NFactory()->findLanguage($application);
 		}
@@ -251,7 +249,12 @@ class Util {
 		} else {
 			$path = "l10n/$languageCode";
 		}
-		self::$scripts[$application][] = $path;
+
+		if ($init) {
+			self::$scriptsInit[] = $path;
+		} else {
+			self::$scripts[$application][] = $path;
+		}
 	}
 
 	/**
@@ -298,21 +301,6 @@ class Util {
 	}
 
 	/**
-	 * Creates an absolute url for public use
-	 * @param string $service id
-	 * @return string the url
-	 * @since 4.5.0
-	 * @deprecated 15.0.0 - use OCP\IURLGenerator
-	 */
-	public static function linkToPublic($service) {
-		$urlGenerator = \OC::$server->getURLGenerator();
-		if ($service === 'files') {
-			return $urlGenerator->getAbsoluteURL('/s');
-		}
-		return $urlGenerator->getAbsoluteURL($urlGenerator->linkTo('', 'public.php').'?service='.$service);
-	}
-
-	/**
 	 * Returns the server host name without an eventual port number
 	 * @return string the server hostname
 	 * @since 5.0.0
@@ -343,11 +331,11 @@ class Util {
 	 * is passed to this function
 	 * @since 5.0.0
 	 */
-	public static function getDefaultEmailAddress($user_part) {
+	public static function getDefaultEmailAddress(string $user_part): string {
 		$config = \OC::$server->getConfig();
-		$user_part = $config->getSystemValue('mail_from_address', $user_part);
+		$user_part = $config->getSystemValueString('mail_from_address', $user_part);
 		$host_name = self::getServerHostName();
-		$host_name = $config->getSystemValue('mail_domain', $host_name);
+		$host_name = $config->getSystemValueString('mail_domain', $host_name);
 		$defaultEmailAddress = $user_part.'@'.$host_name;
 
 		$mailer = \OC::$server->getMailer();
@@ -360,24 +348,35 @@ class Util {
 	}
 
 	/**
+	 * Converts string to int of float depending if it fits an int
+	 * @param numeric-string|float|int $number numeric string
+	 * @return int|float int if it fits, float if it is too big
+	 * @since 26.0.0
+	 */
+	public static function numericToNumber(string|float|int $number): int|float {
+		/* This is a hack to cast to (int|float) */
+		return 0 + (string)$number;
+	}
+
+	/**
 	 * Make a human file size (2048 to 2 kB)
-	 * @param int $bytes file size in bytes
+	 * @param int|float $bytes file size in bytes
 	 * @return string a human readable file size
 	 * @since 4.0.0
 	 */
-	public static function humanFileSize($bytes) {
+	public static function humanFileSize(int|float $bytes): string {
 		return \OC_Helper::humanFileSize($bytes);
 	}
 
 	/**
 	 * Make a computer file size (2 kB to 2048)
 	 * @param string $str file size in a fancy format
-	 * @return float|false a file size in bytes
+	 * @return false|int|float a file size in bytes
 	 *
 	 * Inspired by: https://www.php.net/manual/en/function.filesize.php#92418
 	 * @since 4.0.0
 	 */
-	public static function computerFileSize($str) {
+	public static function computerFileSize(string $str): false|int|float {
 		return \OC_Helper::computerFileSize($str);
 	}
 
@@ -494,39 +493,60 @@ class Util {
 	 * calculates the maximum upload size respecting system settings, free space and user quota
 	 *
 	 * @param string $dir the current folder where the user currently operates
-	 * @param int $free the number of bytes free on the storage holding $dir, if not set this will be received from the storage directly
-	 * @return int number of bytes representing
+	 * @param int|float|null $free the number of bytes free on the storage holding $dir, if not set this will be received from the storage directly
+	 * @return int|float number of bytes representing
 	 * @since 5.0.0
 	 */
-	public static function maxUploadFilesize($dir, $free = null) {
+	public static function maxUploadFilesize(string $dir, int|float|null $free = null): int|float {
 		return \OC_Helper::maxUploadFilesize($dir, $free);
 	}
 
 	/**
 	 * Calculate free space left within user quota
 	 * @param string $dir the current folder where the user currently operates
-	 * @return int number of bytes representing
+	 * @return int|float number of bytes representing
 	 * @since 7.0.0
 	 */
-	public static function freeSpace($dir) {
+	public static function freeSpace(string $dir): int|float {
 		return \OC_Helper::freeSpace($dir);
 	}
 
 	/**
 	 * Calculate PHP upload limit
 	 *
-	 * @return int number of bytes representing
+	 * @return int|float number of bytes representing
 	 * @since 7.0.0
 	 */
-	public static function uploadLimit() {
+	public static function uploadLimit(): int|float {
 		return \OC_Helper::uploadLimit();
+	}
+
+	/**
+	 * Get a list of characters forbidden in file names
+	 * @return string[]
+	 * @since 29.0.0
+	 */
+	public static function getForbiddenFileNameChars(): array {
+		// Get always forbidden characters
+		$invalidChars = str_split(\OCP\Constants::FILENAME_INVALID_CHARS);
+		if ($invalidChars === false) {
+			$invalidChars = [];
+		}
+
+		// Get admin defined invalid characters
+		$additionalChars = \OCP\Server::get(IConfig::class)->getSystemValue('forbidden_chars', []);
+		if (!is_array($additionalChars)) {
+			\OCP\Server::get(LoggerInterface::class)->error('Invalid system config value for "forbidden_chars" is ignored.');
+			$additionalChars = [];
+		}
+		return array_merge($invalidChars, $additionalChars);
 	}
 
 	/**
 	 * Returns whether the given file name is valid
 	 * @param string $file file name to check
 	 * @return bool true if the file name is valid, false otherwise
-	 * @deprecated 8.1.0 use \OC\Files\View::verifyPath()
+	 * @deprecated 8.1.0 use OCP\Files\Storage\IStorage::verifyPath()
 	 * @since 7.0.0
 	 * @suppress PhanDeprecatedFunction
 	 */
@@ -585,13 +605,13 @@ class Util {
 	 * Sometimes a string has to be shortened to fit within a certain maximum
 	 * data length in bytes. substr() you may break multibyte characters,
 	 * because it operates on single byte level. mb_substr() operates on
-	 * characters, so does not ensure that the shortend string satisfies the
+	 * characters, so does not ensure that the shortened string satisfies the
 	 * max length in bytes.
 	 *
 	 * For example, json_encode is messing with multibyte characters a lot,
 	 * replacing them with something along "\u1234".
 	 *
-	 * This function shortens the string with by $accurancy (-5) from
+	 * This function shortens the string with by $accuracy (-5) from
 	 * $dataLength characters, until it fits within $dataLength bytes.
 	 *
 	 * @since 23.0.0
@@ -603,5 +623,23 @@ class Util {
 			$temp = mb_substr($temp, 0, -$accuracy);
 		}
 		return $temp;
+	}
+
+	/**
+	 * Check if a function is enabled in the php configuration
+	 *
+	 * @since 25.0.0
+	 */
+	public static function isFunctionEnabled(string $functionName): bool {
+		if (!function_exists($functionName)) {
+			return false;
+		}
+		$ini = \OCP\Server::get(IniGetWrapper::class);
+		$disabled = explode(',', $ini->get('disable_functions') ?: '');
+		$disabled = array_map('trim', $disabled);
+		if (in_array($functionName, $disabled)) {
+			return false;
+		}
+		return true;
 	}
 }

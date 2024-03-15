@@ -49,7 +49,7 @@ class RepairMimeTypes implements IRepairStep {
 	protected $folderMimeTypeId;
 
 	public function __construct(IConfig $config,
-								IDBConnection $connection) {
+		IDBConnection $connection) {
 		$this->config = $config;
 		$this->connection = $connection;
 	}
@@ -104,6 +104,15 @@ class RepairMimeTypes implements IRepairStep {
 		}
 
 		return $count;
+	}
+
+	private function introduceAsciidocType() {
+		$updatedMimetypes = [
+			'adoc' => 'text/asciidoc',
+			'asciidoc' => 'text/asciidoc',
+		];
+
+		return $this->updateMimetypes($updatedMimetypes);
 	}
 
 	private function introduceImageTypes() {
@@ -220,12 +229,36 @@ class RepairMimeTypes implements IRepairStep {
 		return $this->updateMimetypes($updatedMimetypes);
 	}
 
+	private function introduceEnhancedMetafileFormatType() {
+		$updatedMimetypes = [
+			'emf' => 'image/emf',
+		];
+
+		return $this->updateMimetypes($updatedMimetypes);
+	}
+
+	private function introduceEmlAndMsgFormatType() {
+		$updatedMimetypes = [
+			'eml' => 'message/rfc822',
+			'msg' => 'application/vnd.ms-outlook',
+		];
+
+		return $this->updateMimetypes($updatedMimetypes);
+	}
+
+	private function introduceAacAudioType() {
+		$updatedMimetypes = [
+			'aac' => 'audio/aac',
+		];
+
+		return $this->updateMimetypes($updatedMimetypes);
+	}
 
 	/**
 	 * Fix mime types
 	 */
 	public function run(IOutput $out) {
-		$ocVersionFromBeforeUpdate = $this->config->getSystemValue('version', '0.0.0');
+		$ocVersionFromBeforeUpdate = $this->config->getSystemValueString('version', '0.0.0');
 
 		// NOTE TO DEVELOPERS: when adding new mime types, please make sure to
 		// add a version comparison to avoid doing it every time
@@ -272,6 +305,22 @@ class RepairMimeTypes implements IRepairStep {
 
 		if (version_compare($ocVersionFromBeforeUpdate, '25.0.0.2', '<') && $this->introduceOnlyofficeFormType()) {
 			$out->info('Fixed ONLYOFFICE Forms OpenXML mime types');
+		}
+
+		if (version_compare($ocVersionFromBeforeUpdate, '26.0.0.1', '<') && $this->introduceAsciidocType()) {
+			$out->info('Fixed AsciiDoc mime types');
+		}
+
+		if (version_compare($ocVersionFromBeforeUpdate, '28.0.0.5', '<') && $this->introduceEnhancedMetafileFormatType()) {
+			$out->info('Fixed Enhanced Metafile Format mime types');
+		}
+
+		if (version_compare($ocVersionFromBeforeUpdate, '29.0.0.2', '<') && $this->introduceEmlAndMsgFormatType()) {
+			$out->info('Fixed eml and msg mime type');
+		}
+
+		if (version_compare($ocVersionFromBeforeUpdate, '29.0.0.6', '<') && $this->introduceAacAudioType()) {
+			$out->info('Fixed aac mime type');
 		}
 	}
 }

@@ -24,7 +24,6 @@
 namespace OC\App\AppStore\Bundles;
 
 class SocialSharingBundle extends Bundle {
-
 	/**
 	 * {@inheritDoc}
 	 */

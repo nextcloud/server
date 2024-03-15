@@ -34,7 +34,6 @@ use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 
 class ValidatePhoneNumber implements IRepairStep {
-
 	/** @var IConfig */
 	protected $config;
 	/** @var IUserManager */
@@ -43,8 +42,8 @@ class ValidatePhoneNumber implements IRepairStep {
 	private $accountManager;
 
 	public function __construct(IUserManager $userManager,
-								IAccountManager $accountManager,
-								IConfig $config) {
+		IAccountManager $accountManager,
+		IConfig $config) {
 		$this->config = $config;
 		$this->userManager = $userManager;
 		$this->accountManager = $accountManager;
@@ -56,7 +55,8 @@ class ValidatePhoneNumber implements IRepairStep {
 
 	public function run(IOutput $output): void {
 		if ($this->config->getSystemValueString('default_phone_region', '') === '') {
-			throw new \Exception('Can not validate phone numbers without `default_phone_region` being set in the config file');
+			$output->warning('Can not validate phone numbers without `default_phone_region` being set in the config file');
+			return;
 		}
 
 		$numUpdated = 0;

@@ -37,14 +37,12 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\DB\IResult;
 use OCP\DB\QueryBuilder\IExpressionBuilder;
 use OCP\DB\QueryBuilder\IQueryBuilder;
-use OCP\DB\QueryBuilder\IQueryFunction;
 use OCP\IDBConnection;
 use OCP\IRequest;
 use Sabre\VObject\ITip\Message;
 use Test\TestCase;
 
 class InvitationResponseControllerTest extends TestCase {
-
 	/** @var InvitationResponseController */
 	private $controller;
 
@@ -122,7 +120,7 @@ EOF;
 		$called = false;
 		$this->responseServer->expects($this->once())
 			->method('handleITipMessage')
-			->willReturnCallback(function (Message $iTipMessage) use (&$called, $isExternalAttendee, $expected) {
+			->willReturnCallback(function (Message $iTipMessage) use (&$called, $isExternalAttendee, $expected): void {
 				$called = true;
 				$this->assertEquals('this-is-the-events-uid', $iTipMessage->uid);
 				$this->assertEquals('VEVENT', $iTipMessage->component);
@@ -186,7 +184,7 @@ EOF;
 		$called = false;
 		$this->responseServer->expects($this->once())
 			->method('handleITipMessage')
-			->willReturnCallback(function (Message $iTipMessage) use (&$called, $isExternalAttendee, $expected) {
+			->willReturnCallback(function (Message $iTipMessage) use (&$called, $isExternalAttendee, $expected): void {
 				$called = true;
 				$this->assertEquals('this-is-the-events-uid', $iTipMessage->uid);
 				$this->assertEquals('VEVENT', $iTipMessage->component);
@@ -251,7 +249,7 @@ EOF;
 		$called = false;
 		$this->responseServer->expects($this->once())
 			->method('handleITipMessage')
-			->willReturnCallback(function (Message $iTipMessage) use (&$called, $isExternalAttendee, $expected) {
+			->willReturnCallback(function (Message $iTipMessage) use (&$called, $isExternalAttendee, $expected): void {
 				$called = true;
 				$this->assertEquals('this-is-the-events-uid', $iTipMessage->uid);
 				$this->assertEquals('VEVENT', $iTipMessage->component);
@@ -279,7 +277,7 @@ EOF;
 		$this->assertTrue($called);
 	}
 
-	public function testAcceptTokenNotFound() {
+	public function testAcceptTokenNotFound(): void {
 		$this->buildQueryExpects('TOKEN123', null, 1337);
 
 		$response = $this->controller->accept('TOKEN123');
@@ -288,7 +286,7 @@ EOF;
 		$this->assertEquals([], $response->getParams());
 	}
 
-	public function testAcceptExpiredToken() {
+	public function testAcceptExpiredToken(): void {
 		$this->buildQueryExpects('TOKEN123', [
 			'id' => 0,
 			'uid' => 'this-is-the-events-uid',
@@ -342,7 +340,7 @@ EOF;
 		$called = false;
 		$this->responseServer->expects($this->once())
 			->method('handleITipMessage')
-			->willReturnCallback(function (Message $iTipMessage) use (&$called, $isExternalAttendee, $expected) {
+			->willReturnCallback(function (Message $iTipMessage) use (&$called, $isExternalAttendee, $expected): void {
 				$called = true;
 				$this->assertEquals('this-is-the-events-uid', $iTipMessage->uid);
 				$this->assertEquals('VEVENT', $iTipMessage->component);
@@ -370,7 +368,7 @@ EOF;
 		$this->assertTrue($called);
 	}
 
-	public function testOptions() {
+	public function testOptions(): void {
 		$response = $this->controller->options('TOKEN123');
 		$this->assertInstanceOf(TemplateResponse::class, $response);
 		$this->assertEquals('schedule-response-options', $response->getTemplateName());
@@ -381,18 +379,10 @@ EOF;
 	 * @dataProvider attendeeProvider
 	 */
 	public function testProcessMoreOptionsResult(bool $isExternalAttendee): void {
-		$this->request->expects($this->at(0))
+		$this->request->expects($this->once())
 			->method('getParam')
 			->with('partStat')
 			->willReturn('TENTATIVE');
-		$this->request->expects($this->at(1))
-			->method('getParam')
-			->with('guests')
-			->willReturn('7');
-		$this->request->expects($this->at(2))
-			->method('getParam')
-			->with('comment')
-			->willReturn('Foo bar Bli blub');
 
 		$this->buildQueryExpects('TOKEN123', [
 			'id' => 0,
@@ -411,14 +401,12 @@ VERSION:2.0
 PRODID:-//Nextcloud/Nextcloud CalDAV Server//EN
 METHOD:REPLY
 BEGIN:VEVENT
-ATTENDEE;PARTSTAT=TENTATIVE;X-RESPONSE-COMMENT=Foo bar Bli blub;X-NUM-GUEST
- S=7:mailto:attendee@foo.bar
+ATTENDEE;PARTSTAT=TENTATIVE:mailto:attendee@foo.bar
 ORGANIZER:mailto:organizer@foo.bar
 UID:this-is-the-events-uid
 SEQUENCE:0
 REQUEST-STATUS:2.0;Success
 DTSTAMP:19700101T002217Z
-COMMENT:Foo bar Bli blub
 END:VEVENT
 END:VCALENDAR
 
@@ -428,7 +416,7 @@ EOF;
 		$called = false;
 		$this->responseServer->expects($this->once())
 			->method('handleITipMessage')
-			->willReturnCallback(function (Message $iTipMessage) use (&$called, $isExternalAttendee, $expected) {
+			->willReturnCallback(function (Message $iTipMessage) use (&$called, $isExternalAttendee, $expected): void {
 				$called = true;
 				$this->assertEquals('this-is-the-events-uid', $iTipMessage->uid);
 				$this->assertEquals('VEVENT', $iTipMessage->component);
@@ -457,7 +445,7 @@ EOF;
 		$this->assertTrue($called);
 	}
 
-	private function buildQueryExpects($token, $return, $time) {
+	private function buildQueryExpects($token, $return, $time): void {
 		$queryBuilder = $this->createMock(IQueryBuilder::class);
 		$stmt = $this->createMock(IResult::class);
 		$expr = $this->createMock(IExpressionBuilder::class);
@@ -477,32 +465,34 @@ EOF;
 			->method('fetch')
 			->with(\PDO::FETCH_ASSOC)
 			->willReturn($return);
+		$stmt->expects($this->once())
+			->method('closeCursor');
 
-		$function = $this->createMock(IQueryFunction::class);
+		$function = 'functionToken';
 		$expr->expects($this->once())
 			->method('eq')
 			->with('token', 'namedParameterToken')
-			->willReturn($function);
+			->willReturn((string)$function);
 
 		$this->dbConnection->expects($this->once())
 			->method('getQueryBuilder')
 			->with()
 			->willReturn($queryBuilder);
 
-		$queryBuilder->expects($this->at(0))
+		$queryBuilder->expects($this->once())
 			->method('select')
 			->with('*')
 			->willReturn($queryBuilder);
-		$queryBuilder->expects($this->at(1))
+		$queryBuilder->expects($this->once())
 			->method('from')
 			->with('calendar_invitations')
 			->willReturn($queryBuilder);
-		$queryBuilder->expects($this->at(4))
+		$queryBuilder->expects($this->once())
 			->method('where')
 			->with($function)
 			->willReturn($queryBuilder);
-		$queryBuilder->expects($this->at(5))
-			->method('execute')
+		$queryBuilder->expects($this->once())
+			->method('executeQuery')
 			->with()
 			->willReturn($stmt);
 

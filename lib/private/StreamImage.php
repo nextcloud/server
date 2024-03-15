@@ -23,8 +23,8 @@
 
 namespace OC;
 
-use OCP\IStreamImage;
 use OCP\IImage;
+use OCP\IStreamImage;
 
 /**
  * Only useful when dealing with transferring streamed previews from an external
@@ -37,7 +37,7 @@ class StreamImage implements IStreamImage {
 	/** @var resource The internal stream */
 	private $stream;
 
-	/** @var string */
+	/** @var null|string */
 	private $mimeType;
 
 	/** @var int */
@@ -55,38 +55,38 @@ class StreamImage implements IStreamImage {
 	}
 
 	/** @inheritDoc */
-	public function valid() {
+	public function valid(): bool {
 		return is_resource($this->stream);
 	}
 
 	/** @inheritDoc */
-	public function mimeType() {
+	public function mimeType(): ?string {
 		return $this->mimeType;
 	}
 
 	/** @inheritDoc */
-	public function width() {
+	public function width(): int {
 		return $this->width;
 	}
 
 	/** @inheritDoc */
-	public function height() {
+	public function height(): int {
 		return $this->height;
 	}
 
-	public function widthTopLeft() {
+	public function widthTopLeft(): int {
 		throw new \BadMethodCallException('Not implemented');
 	}
 
-	public function heightTopLeft() {
+	public function heightTopLeft(): int {
 		throw new \BadMethodCallException('Not implemented');
 	}
 
-	public function show($mimeType = null) {
+	public function show(?string $mimeType = null): bool {
 		throw new \BadMethodCallException('Not implemented');
 	}
 
-	public function save($filePath = null, $mimeType = null) {
+	public function save(?string $filePath = null, ?string $mimeType = null): bool {
 		throw new \BadMethodCallException('Not implemented');
 	}
 
@@ -94,23 +94,23 @@ class StreamImage implements IStreamImage {
 		return $this->stream;
 	}
 
-	public function dataMimeType() {
+	public function dataMimeType(): ?string {
 		return $this->mimeType;
 	}
 
-	public function data() {
+	public function data(): ?string {
 		return '';
 	}
 
-	public function getOrientation() {
+	public function getOrientation(): int {
 		throw new \BadMethodCallException('Not implemented');
 	}
 
-	public function fixOrientation() {
+	public function fixOrientation(): bool {
 		throw new \BadMethodCallException('Not implemented');
 	}
 
-	public function resize($maxSize) {
+	public function resize(int $maxSize): bool {
 		throw new \BadMethodCallException('Not implemented');
 	}
 
@@ -118,7 +118,7 @@ class StreamImage implements IStreamImage {
 		throw new \BadMethodCallException('Not implemented');
 	}
 
-	public function centerCrop($size = 0) {
+	public function centerCrop(int $size = 0): bool {
 		throw new \BadMethodCallException('Not implemented');
 	}
 
@@ -126,11 +126,11 @@ class StreamImage implements IStreamImage {
 		throw new \BadMethodCallException('Not implemented');
 	}
 
-	public function fitIn($maxWidth, $maxHeight) {
+	public function fitIn(int $maxWidth, int $maxHeight): bool {
 		throw new \BadMethodCallException('Not implemented');
 	}
 
-	public function scaleDownToFit($maxWidth, $maxHeight) {
+	public function scaleDownToFit(int $maxWidth, int $maxHeight): bool {
 		throw new \BadMethodCallException('Not implemented');
 	}
 

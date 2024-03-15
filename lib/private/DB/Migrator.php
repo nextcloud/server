@@ -27,48 +27,39 @@
  */
 namespace OC\DB;
 
+use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Platforms\MySQLPlatform;
 use Doctrine\DBAL\Schema\AbstractAsset;
-use Doctrine\DBAL\Schema\Comparator;
 use Doctrine\DBAL\Schema\Schema;
+use Doctrine\DBAL\Schema\SchemaDiff;
 use Doctrine\DBAL\Types\StringType;
 use Doctrine\DBAL\Types\Type;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
 use function preg_match;
 
 class Migrator {
-
-	/** @var \Doctrine\DBAL\Connection */
+	/** @var Connection */
 	protected $connection;
 
 	/** @var IConfig */
 	protected $config;
 
-	/** @var EventDispatcherInterface  */
-	private $dispatcher;
+	private ?IEventDispatcher $dispatcher;
 
 	/** @var bool */
 	private $noEmit = false;
 
-	/**
-	 * @param \Doctrine\DBAL\Connection $connection
-	 * @param IConfig $config
-	 * @param EventDispatcherInterface $dispatcher
-	 */
-	public function __construct(\Doctrine\DBAL\Connection $connection,
-								IConfig $config,
-								EventDispatcherInterface $dispatcher = null) {
+	public function __construct(Connection $connection,
+		IConfig $config,
+		?IEventDispatcher $dispatcher = null) {
 		$this->connection = $connection;
 		$this->config = $config;
 		$this->dispatcher = $dispatcher;
 	}
 
 	/**
-	 * @param \Doctrine\DBAL\Schema\Schema $targetSchema
-	 *
 	 * @throws Exception
 	 */
 	public function migrate(Schema $targetSchema) {
@@ -77,14 +68,13 @@ class Migrator {
 	}
 
 	/**
-	 * @param \Doctrine\DBAL\Schema\Schema $targetSchema
 	 * @return string
 	 */
 	public function generateChangeScript(Schema $targetSchema) {
 		$schemaDiff = $this->getDiff($targetSchema, $this->connection);
 
 		$script = '';
-		$sqls = $schemaDiff->toSql($this->connection->getDatabasePlatform());
+		$sqls = $this->connection->getDatabasePlatform()->getAlterSchemaSQL($schemaDiff);
 		foreach ($sqls as $sql) {
 			$script .= $this->convertStatementToScript($sql);
 		}
@@ -104,20 +94,20 @@ class Migrator {
 			}
 			return preg_match($filterExpression, $asset) === 1;
 		});
-		return $this->connection->getSchemaManager()->createSchema();
+		return $this->connection->createSchemaManager()->introspectSchema();
 	}
 
 	/**
-	 * @param Schema $targetSchema
-	 * @param \Doctrine\DBAL\Connection $connection
-	 * @return \Doctrine\DBAL\Schema\SchemaDiff
+	 * @return SchemaDiff
 	 */
-	protected function getDiff(Schema $targetSchema, \Doctrine\DBAL\Connection $connection) {
-		// adjust varchar columns with a length higher then getVarcharMaxLength to clob
+	protected function getDiff(Schema $targetSchema, Connection $connection) {
+		// Adjust STRING columns with a length higher than 4000 to TEXT (clob)
+		// for consistency between the supported databases and
+		// old vs. new installations.
 		foreach ($targetSchema->getTables() as $table) {
 			foreach ($table->getColumns() as $column) {
 				if ($column->getType() instanceof StringType) {
-					if ($column->getLength() > $connection->getDatabasePlatform()->getVarcharMaxLength()) {
+					if ($column->getLength() > 4000) {
 						$column->setType(Type::getType('text'));
 						$column->setLength(null);
 					}
@@ -133,7 +123,7 @@ class Migrator {
 			}
 			return preg_match($filterExpression, $asset) === 1;
 		});
-		$sourceSchema = $connection->getSchemaManager()->createSchema();
+		$sourceSchema = $connection->createSchemaManager()->introspectSchema();
 
 		// remove tables we don't know about
 		foreach ($sourceSchema->getTables() as $table) {
@@ -148,17 +138,14 @@ class Migrator {
 			}
 		}
 
-		$comparator = new Comparator();
-		return $comparator->compare($sourceSchema, $targetSchema);
+		$comparator = $connection->createSchemaManager()->createComparator();
+		return $comparator->compareSchemas($sourceSchema, $targetSchema);
 	}
 
 	/**
-	 * @param \Doctrine\DBAL\Schema\Schema $targetSchema
-	 * @param \Doctrine\DBAL\Connection $connection
-	 *
 	 * @throws Exception
 	 */
-	protected function applySchema(Schema $targetSchema, \Doctrine\DBAL\Connection $connection = null) {
+	protected function applySchema(Schema $targetSchema, Connection $connection = null) {
 		if (is_null($connection)) {
 			$connection = $this->connection;
 		}
@@ -168,11 +155,11 @@ class Migrator {
 		if (!$connection->getDatabasePlatform() instanceof MySQLPlatform) {
 			$connection->beginTransaction();
 		}
-		$sqls = $schemaDiff->toSql($connection->getDatabasePlatform());
+		$sqls = $connection->getDatabasePlatform()->getAlterSchemaSQL($schemaDiff);
 		$step = 0;
 		foreach ($sqls as $sql) {
 			$this->emit($sql, $step++, count($sqls));
-			$connection->query($sql);
+			$connection->executeQuery($sql);
 		}
 		if (!$connection->getDatabasePlatform() instanceof MySQLPlatform) {
 			$connection->commit();
@@ -191,16 +178,16 @@ class Migrator {
 	}
 
 	protected function getFilterExpression() {
-		return '/^' . preg_quote($this->config->getSystemValue('dbtableprefix', 'oc_')) . '/';
+		return '/^' . preg_quote($this->config->getSystemValueString('dbtableprefix', 'oc_'), '/') . '/';
 	}
 
-	protected function emit($sql, $step, $max) {
+	protected function emit(string $sql, int $step, int $max): void {
 		if ($this->noEmit) {
 			return;
 		}
 		if (is_null($this->dispatcher)) {
 			return;
 		}
-		$this->dispatcher->dispatch('\OC\DB\Migrator::executeSql', new GenericEvent($sql, [$step + 1, $max]));
+		$this->dispatcher->dispatchTyped(new MigratorExecuteSqlEvent($sql, $step, $max));
 	}
 }

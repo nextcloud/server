@@ -30,7 +30,6 @@ namespace OCP\Log;
  * @since 14.0.0
  */
 trait RotationTrait {
-
 	/**
 	 * @var string
 	 * @since 14.0.0

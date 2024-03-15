@@ -26,7 +26,6 @@ namespace OCP\Contacts\ContactsMenu;
  * @since 12.0
  */
 interface IActionFactory {
-
 	/**
 	 * Construct and return a new link action for the contacts menu
 	 *

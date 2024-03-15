@@ -35,8 +35,8 @@ namespace OCA\Theming\Tests\Controller;
 
 use OC\L10N\L10N;
 use OCA\Theming\Controller\ThemingController;
-use OCA\Theming\Service\ThemesService;
 use OCA\Theming\ImageManager;
+use OCA\Theming\Service\ThemesService;
 use OCA\Theming\ThemingDefaults;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
@@ -233,6 +233,36 @@ class ThemingControllerTest extends TestCase {
 				'status' => 'failure',
 			],
 			Http::STATUS_UNPROCESSABLE_ENTITY
+		);
+
+		$this->assertEquals($expected, $this->themingController->uploadImage());
+	}
+
+	public function testUploadInvalidUploadKey() {
+		$this->request
+			->expects($this->once())
+			->method('getParam')
+			->with('key')
+			->willReturn('invalid');
+		$this->request
+			->expects($this->never())
+			->method('getUploadedFile');
+		$this->l10n
+			->expects($this->any())
+			->method('t')
+			->willReturnCallback(function ($str) {
+				return $str;
+			});
+
+		$expected = new DataResponse(
+			[
+				'data' =>
+					[
+						'message' => 'Invalid key',
+					],
+				'status' => 'failure',
+			],
+			Http::STATUS_BAD_REQUEST
 		);
 
 		$this->assertEquals($expected, $this->themingController->uploadImage());

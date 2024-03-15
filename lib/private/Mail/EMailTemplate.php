@@ -52,33 +52,19 @@ use OCP\Mail\IEMailTemplate;
  * @package OC\Mail
  */
 class EMailTemplate implements IEMailTemplate {
-	/** @var Defaults */
-	protected $themingDefaults;
-	/** @var IURLGenerator */
-	protected $urlGenerator;
-	/** @var IFactory */
-	protected $l10nFactory;
-	/** @var string */
-	protected $emailId;
-	/** @var array */
-	protected $data;
+	protected string $subject = '';
+	protected string $htmlBody = '';
+	protected string $plainBody = '';
+	/** indicated if the header is added */
+	protected bool $headerAdded = false;
+	/** indicated if the body is already opened */
+	protected bool $bodyOpened = false;
+	/** indicated if there is a list open in the body */
+	protected bool $bodyListOpened = false;
+	/** indicated if the footer is added */
+	protected bool $footerAdded = false;
 
-	/** @var string */
-	protected $subject = '';
-	/** @var string */
-	protected $htmlBody = '';
-	/** @var string */
-	protected $plainBody = '';
-	/** @var bool indicated if the footer is added */
-	protected $headerAdded = false;
-	/** @var bool indicated if the body is already opened */
-	protected $bodyOpened = false;
-	/** @var bool indicated if there is a list open in the body */
-	protected $bodyListOpened = false;
-	/** @var bool indicated if the footer is added */
-	protected $footerAdded = false;
-
-	protected $head = <<<EOF
+	protected string $head = <<<EOF
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en" style="-webkit-font-smoothing:antialiased;background:#fff!important">
 <head>
@@ -96,7 +82,7 @@ class EMailTemplate implements IEMailTemplate {
 				<center data-parsed="" style="min-width:580px;width:100%">
 EOF;
 
-	protected $tail = <<<EOF
+	protected string $tail = <<<EOF
 					</center>
 				</td>
 			</tr>
@@ -108,7 +94,7 @@ EOF;
 
 EOF;
 
-	protected $header = <<<EOF
+	protected string $header = <<<EOF
 <table align="center" class="wrapper header float-center" style="Margin:0 auto;background:#fff;border-collapse:collapse;border-spacing:0;float:none;margin:0 auto;padding:0;text-align:center;vertical-align:top;width:100%%">
 	<tr style="padding:0;text-align:left;vertical-align:top">
 		<td class="wrapper-inner" style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;color:#0a0a0a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0;padding:20px;text-align:left;vertical-align:top;word-wrap:break-word">
@@ -141,7 +127,7 @@ EOF;
 </table>
 EOF;
 
-	protected $heading = <<<EOF
+	protected string $heading = <<<EOF
 <table align="center" class="container main-heading float-center" style="Margin:0 auto;background:0 0!important;border-collapse:collapse;border-spacing:0;float:none;margin:0 auto;padding:0;text-align:center;vertical-align:top;width:580px">
 	<tbody>
 	<tr style="padding:0;text-align:left;vertical-align:top">
@@ -160,7 +146,7 @@ EOF;
 </table>
 EOF;
 
-	protected $bodyBegin = <<<EOF
+	protected string $bodyBegin = <<<EOF
 <table align="center" class="wrapper content float-center" style="Margin:0 auto;border-collapse:collapse;border-spacing:0;float:none;margin:0 auto;padding:0;text-align:center;vertical-align:top;width:100%">
 	<tr style="padding:0;text-align:left;vertical-align:top">
 		<td class="wrapper-inner" style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;color:#0a0a0a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
@@ -170,7 +156,7 @@ EOF;
 					<td style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;color:#0a0a0a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
 EOF;
 
-	protected $bodyText = <<<EOF
+	protected string $bodyText = <<<EOF
 <table class="row description" style="border-collapse:collapse;border-spacing:0;display:table;padding:0;position:relative;text-align:left;vertical-align:top;width:100%%">
 	<tbody>
 	<tr style="padding:0;text-align:left;vertical-align:top">
@@ -190,7 +176,7 @@ EOF;
 EOF;
 
 	// note: listBegin (like bodyBegin) is not processed through sprintf, so "%" is not escaped as "%%". (bug #12151)
-	protected $listBegin = <<<EOF
+	protected string $listBegin = <<<EOF
 <table class="row description" style="border-collapse:collapse;border-spacing:0;display:table;padding:0;position:relative;text-align:left;vertical-align:top;width:100%">
 	<tbody>
 	<tr style="padding:0;text-align:left;vertical-align:top">
@@ -198,7 +184,7 @@ EOF;
 			<table style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%">
 EOF;
 
-	protected $listItem = <<<EOF
+	protected string $listItem = <<<EOF
 				<tr style="padding:0;text-align:left;vertical-align:top">
 					<td style="Margin:0;color:#0a0a0a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:left;width:15px;">
 						<p class="text-left" style="Margin:0;Margin-bottom:10px;color:#777;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;margin-bottom:10px;padding:0;padding-left:10px;text-align:left">%s</p>
@@ -210,7 +196,7 @@ EOF;
 				</tr>
 EOF;
 
-	protected $listEnd = <<<EOF
+	protected string $listEnd = <<<EOF
 			</table>
 		</th>
 	</tr>
@@ -218,7 +204,7 @@ EOF;
 </table>
 EOF;
 
-	protected $buttonGroup = <<<EOF
+	protected string $buttonGroup = <<<EOF
 <table class="spacer" style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%%">
 	<tbody>
 	<tr style="padding:0;text-align:left;vertical-align:top">
@@ -271,7 +257,7 @@ EOF;
 </table>
 EOF;
 
-	protected $button = <<<EOF
+	protected string $button = <<<EOF
 <table class="spacer" style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%%">
 	<tbody>
 	<tr style="padding:0;text-align:left;vertical-align:top">
@@ -311,7 +297,7 @@ EOF;
 </table>
 EOF;
 
-	protected $bodyEnd = <<<EOF
+	protected string $bodyEnd = <<<EOF
 
 					</td>
 				</tr>
@@ -322,7 +308,7 @@ EOF;
 </table>
 EOF;
 
-	protected $footer = <<<EOF
+	protected string $footer = <<<EOF
 <table class="spacer float-center" style="Margin:0 auto;border-collapse:collapse;border-spacing:0;float:none;margin:0 auto;padding:0;text-align:center;vertical-align:top;width:100%%">
 	<tbody>
 	<tr style="padding:0;text-align:left;vertical-align:top">
@@ -348,49 +334,43 @@ EOF;
 </table>
 EOF;
 
-	public function __construct(Defaults $themingDefaults,
-								IURLGenerator $urlGenerator,
-								IFactory $l10nFactory,
-								$emailId,
-								array $data) {
-		$this->themingDefaults = $themingDefaults;
-		$this->urlGenerator = $urlGenerator;
-		$this->l10nFactory = $l10nFactory;
+	public function __construct(
+		protected Defaults $themingDefaults,
+		protected IURLGenerator $urlGenerator,
+		protected IFactory $l10nFactory,
+		protected string $emailId,
+		protected array $data,
+	) {
 		$this->htmlBody .= $this->head;
-		$this->emailId = $emailId;
-		$this->data = $data;
 	}
 
 	/**
 	 * Sets the subject of the email
-	 *
-	 * @param string $subject
 	 */
-	public function setSubject(string $subject) {
+	public function setSubject(string $subject): void {
 		$this->subject = $subject;
 	}
 
 	/**
 	 * Adds a header to the email
 	 */
-	public function addHeader() {
+	public function addHeader(): void {
 		if ($this->headerAdded) {
 			return;
 		}
 		$this->headerAdded = true;
 
 		$logoUrl = $this->urlGenerator->getAbsoluteURL($this->themingDefaults->getLogo(false));
-		$this->htmlBody .= vsprintf($this->header, [$this->themingDefaults->getColorPrimary(), $logoUrl, $this->themingDefaults->getName()]);
+		$this->htmlBody .= vsprintf($this->header, [$this->themingDefaults->getDefaultColorPrimary(), $logoUrl, $this->themingDefaults->getName()]);
 	}
 
 	/**
 	 * Adds a heading to the email
 	 *
-	 * @param string $title
 	 * @param string|bool $plainTitle Title that is used in the plain text email
 	 *   if empty the $title is used, if false none will be used
 	 */
-	public function addHeading(string $title, $plainTitle = '') {
+	public function addHeading(string $title, $plainTitle = ''): void {
 		if ($this->footerAdded) {
 			return;
 		}
@@ -407,7 +387,7 @@ EOF;
 	/**
 	 * Open the HTML body when it is not already
 	 */
-	protected function ensureBodyIsOpened() {
+	protected function ensureBodyIsOpened(): void {
 		if ($this->bodyOpened) {
 			return;
 		}
@@ -423,7 +403,7 @@ EOF;
 	 * @param string|bool $plainText Text that is used in the plain text email
 	 *   if empty the $text is used, if false none will be used
 	 */
-	public function addBodyText(string $text, $plainText = '') {
+	public function addBodyText(string $text, $plainText = ''): void {
 		if ($this->footerAdded) {
 			return;
 		}
@@ -451,10 +431,17 @@ EOF;
 	 *   if empty or true the $text is used, if false none will be used
 	 * @param string|bool $plainMetaInfo Meta info that is used in the plain text email
 	 *   if empty or true the $metaInfo is used, if false none will be used
-	 * @param integer plainIndent If > 0, Indent plainText by this amount.
+	 * @param integer $plainIndent plainIndent If > 0, Indent plainText by this amount.
 	 * @since 12.0.0
 	 */
-	public function addBodyListItem(string $text, string $metaInfo = '', string $icon = '', $plainText = '', $plainMetaInfo = '', $plainIndent = 0) {
+	public function addBodyListItem(
+		string $text,
+		string $metaInfo = '',
+		string $icon = '',
+		$plainText = '',
+		$plainMetaInfo = '',
+		$plainIndent = 0,
+	): void {
 		$this->ensureBodyListOpened();
 
 		if ($plainText === '' || $plainText === true) {
@@ -504,7 +491,7 @@ EOF;
 		}
 	}
 
-	protected function ensureBodyListOpened() {
+	protected function ensureBodyListOpened(): void {
 		if ($this->bodyListOpened) {
 			return;
 		}
@@ -514,7 +501,7 @@ EOF;
 		$this->htmlBody .= $this->listBegin;
 	}
 
-	protected function ensureBodyListClosed() {
+	protected function ensureBodyListClosed(): void {
 		if (!$this->bodyListOpened) {
 			return;
 		}
@@ -533,12 +520,14 @@ EOF;
 	 * @param string $plainTextLeft Text of left button that is used in the plain text version - if unset the $textLeft is used
 	 * @param string $plainTextRight Text of right button that is used in the plain text version - if unset the $textRight is used
 	 */
-	public function addBodyButtonGroup(string $textLeft,
-									   string $urlLeft,
-									   string $textRight,
-									   string $urlRight,
-									   string $plainTextLeft = '',
-									   string $plainTextRight = '') {
+	public function addBodyButtonGroup(
+		string $textLeft,
+		string $urlLeft,
+		string $textRight,
+		string $urlRight,
+		string $plainTextLeft = '',
+		string $plainTextRight = '',
+	): void {
 		if ($this->footerAdded) {
 			return;
 		}
@@ -555,7 +544,7 @@ EOF;
 		$this->ensureBodyIsOpened();
 		$this->ensureBodyListClosed();
 
-		$color = $this->themingDefaults->getColorPrimary();
+		$color = $this->themingDefaults->getDefaultColorPrimary();
 		$textColor = $this->themingDefaults->getTextColorPrimary();
 
 		$this->htmlBody .= vsprintf($this->buttonGroup, [$color, $color, $urlLeft, $color, $textColor, $textColor, $textLeft, $urlRight, $textRight]);
@@ -573,7 +562,7 @@ EOF;
 	 *
 	 * @since 12.0.0
 	 */
-	public function addBodyButton(string $text, string $url, $plainText = '') {
+	public function addBodyButton(string $text, string $url, $plainText = ''): void {
 		if ($this->footerAdded) {
 			return;
 		}
@@ -586,7 +575,7 @@ EOF;
 			$text = htmlspecialchars($text);
 		}
 
-		$color = $this->themingDefaults->getColorPrimary();
+		$color = $this->themingDefaults->getDefaultColorPrimary();
 		$textColor = $this->themingDefaults->getTextColorPrimary();
 		$this->htmlBody .= vsprintf($this->button, [$color, $color, $url, $color, $textColor, $textColor, $text]);
 
@@ -600,7 +589,7 @@ EOF;
 	/**
 	 * Close the HTML body when it is open
 	 */
-	protected function ensureBodyIsClosed() {
+	protected function ensureBodyIsClosed(): void {
 		if (!$this->bodyOpened) {
 			return;
 		}
@@ -616,7 +605,7 @@ EOF;
 	 *
 	 * @param string $text If the text is empty the default "Name - Slogan<br>This is an automatically sent email" will be used
 	 */
-	public function addFooter(string $text = '', ?string $lang = null) {
+	public function addFooter(string $text = '', ?string $lang = null): void {
 		if ($text === '') {
 			$l10n = $this->l10nFactory->get('lib', $lang);
 			$slogan = $this->themingDefaults->getSlogan($lang);
@@ -641,8 +630,6 @@ EOF;
 
 	/**
 	 * Returns the rendered email subject as string
-	 *
-	 * @return string
 	 */
 	public function renderSubject(): string {
 		return $this->subject;
@@ -650,8 +637,6 @@ EOF;
 
 	/**
 	 * Returns the rendered HTML email as string
-	 *
-	 * @return string
 	 */
 	public function renderHtml(): string {
 		if (!$this->footerAdded) {
@@ -664,8 +649,6 @@ EOF;
 
 	/**
 	 * Returns the rendered plain text email as string
-	 *
-	 * @return string
 	 */
 	public function renderText(): string {
 		if (!$this->footerAdded) {

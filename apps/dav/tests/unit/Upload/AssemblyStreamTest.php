@@ -35,7 +35,7 @@ class AssemblyStreamTest extends \Test\TestCase {
 	/**
 	 * @dataProvider providesNodes()
 	 */
-	public function testGetContents($expected, $nodes) {
+	public function testGetContents($expected, $nodes): void {
 		$stream = \OCA\DAV\Upload\AssemblyStream::wrap($nodes);
 		$content = stream_get_contents($stream);
 
@@ -45,7 +45,7 @@ class AssemblyStreamTest extends \Test\TestCase {
 	/**
 	 * @dataProvider providesNodes()
 	 */
-	public function testGetContentsFread($expected, $nodes) {
+	public function testGetContentsFread($expected, $nodes): void {
 		$stream = \OCA\DAV\Upload\AssemblyStream::wrap($nodes);
 
 		$content = '';
@@ -59,7 +59,7 @@ class AssemblyStreamTest extends \Test\TestCase {
 	/**
 	 * @dataProvider providesNodes()
 	 */
-	public function testSeek($expected, $nodes) {
+	public function testSeek($expected, $nodes): void {
 		$stream = \OCA\DAV\Upload\AssemblyStream::wrap($nodes);
 
 		$offset = floor(strlen($expected) * 0.6);
@@ -78,9 +78,9 @@ class AssemblyStreamTest extends \Test\TestCase {
 		$tonofnodes = [];
 		$tonofdata = "";
 		for ($i = 0; $i < 101; $i++) {
-			$thisdata = rand(0,100); // variable length and content
+			$thisdata = rand(0, 100); // variable length and content
 			$tonofdata .= $thisdata;
-			array_push($tonofnodes, $this->buildNode($i,$thisdata));
+			array_push($tonofnodes, $this->buildNode($i, $thisdata));
 		}
 
 		return[

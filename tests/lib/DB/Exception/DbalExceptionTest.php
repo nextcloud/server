@@ -39,7 +39,6 @@ use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use OC\DB\Exceptions\DbalException;
 
 class DbalExceptionTest extends \Test\TestCase {
-
 	/** @var TheDriverException */
 	protected $driverException;
 

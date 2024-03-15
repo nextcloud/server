@@ -32,95 +32,33 @@ use OCP\RichObjectStrings\InvalidObjectExeption;
 use OCP\RichObjectStrings\IValidator;
 
 class Notification implements INotification {
+	protected string $app = '';
+	protected string $user = '';
+	protected \DateTime $dateTime;
+	protected string $objectType = '';
+	protected string $objectId = '';
+	protected string $subject = '';
+	protected array $subjectParameters = [];
+	protected string $subjectParsed = '';
+	protected string $subjectRich = '';
+	protected array $subjectRichParameters = [];
+	protected string $message = '';
+	protected array $messageParameters = [];
+	protected string $messageParsed = '';
+	protected string $messageRich = '';
+	protected array $messageRichParameters = [];
+	protected string $link = '';
+	protected string $icon = '';
+	protected array $actions = [];
+	protected array $actionsParsed = [];
+	protected bool $hasPrimaryAction = false;
+	protected bool $hasPrimaryParsedAction = false;
 
-	/** @var IValidator */
-	protected $richValidator;
-
-	/** @var string */
-	protected $app;
-
-	/** @var string */
-	protected $user;
-
-	/** @var \DateTime */
-	protected $dateTime;
-
-	/** @var string */
-	protected $objectType;
-
-	/** @var string */
-	protected $objectId;
-
-	/** @var string */
-	protected $subject;
-
-	/** @var array */
-	protected $subjectParameters;
-
-	/** @var string */
-	protected $subjectParsed;
-
-	/** @var string */
-	protected $subjectRich;
-
-	/** @var array */
-	protected $subjectRichParameters;
-
-	/** @var string */
-	protected $message;
-
-	/** @var array */
-	protected $messageParameters;
-
-	/** @var string */
-	protected $messageParsed;
-
-	/** @var string */
-	protected $messageRich;
-
-	/** @var array */
-	protected $messageRichParameters;
-
-	/** @var string */
-	protected $link;
-
-	/** @var string */
-	protected $icon;
-
-	/** @var array */
-	protected $actions;
-
-	/** @var array */
-	protected $actionsParsed;
-
-	/** @var bool */
-	protected $hasPrimaryAction;
-
-	/** @var bool */
-	protected $hasPrimaryParsedAction;
-
-	public function __construct(IValidator $richValidator) {
-		$this->richValidator = $richValidator;
-		$this->app = '';
-		$this->user = '';
+	public function __construct(
+		protected IValidator $richValidator,
+	) {
 		$this->dateTime = new \DateTime();
 		$this->dateTime->setTimestamp(0);
-		$this->objectType = '';
-		$this->objectId = '';
-		$this->subject = '';
-		$this->subjectParameters = [];
-		$this->subjectParsed = '';
-		$this->subjectRich = '';
-		$this->subjectRichParameters = [];
-		$this->message = '';
-		$this->messageParameters = [];
-		$this->messageParsed = '';
-		$this->messageRich = '';
-		$this->messageRichParameters = [];
-		$this->link = '';
-		$this->icon = '';
-		$this->actions = [];
-		$this->actionsParsed = [];
 	}
 
 	/**
@@ -296,7 +234,35 @@ class Notification implements INotification {
 		$this->subjectRich = $subject;
 		$this->subjectRichParameters = $parameters;
 
+		if ($this->subjectParsed === '') {
+			$this->subjectParsed = $this->richToParsed($subject, $parameters);
+		}
+
 		return $this;
+	}
+
+	/**
+	 * @throws \InvalidArgumentException if a parameter has no name or no type
+	 */
+	private function richToParsed(string $message, array $parameters): string {
+		$placeholders = [];
+		$replacements = [];
+		foreach ($parameters as $placeholder => $parameter) {
+			$placeholders[] = '{' . $placeholder . '}';
+			foreach (['name','type'] as $requiredField) {
+				if (!isset($parameter[$requiredField]) || !is_string($parameter[$requiredField])) {
+					throw new \InvalidArgumentException("Invalid rich object, {$requiredField} field is missing");
+				}
+			}
+			if ($parameter['type'] === 'user') {
+				$replacements[] = '@' . $parameter['name'];
+			} elseif ($parameter['type'] === 'file') {
+				$replacements[] = $parameter['path'] ?? $parameter['name'];
+			} else {
+				$replacements[] = $parameter['name'];
+			}
+		}
+		return str_replace($placeholders, $replacements, $message);
 	}
 
 	/**
@@ -385,6 +351,10 @@ class Notification implements INotification {
 
 		$this->messageRich = $message;
 		$this->messageRichParameters = $parameters;
+
+		if ($this->messageParsed === '') {
+			$this->messageParsed = $this->richToParsed($message, $parameters);
+		}
 
 		return $this;
 	}

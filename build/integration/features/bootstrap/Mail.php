@@ -21,7 +21,6 @@
  *
  */
 trait Mail {
-
 	// CommandLine trait is expected to be used in the class that uses this
 	// trait.
 

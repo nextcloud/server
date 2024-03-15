@@ -32,7 +32,7 @@ use Test\TestCase;
 class PublisherTest extends TestCase {
 	public const NS_CALENDARSERVER = 'http://calendarserver.org/ns/';
 
-	public function testSerializePublished() {
+	public function testSerializePublished(): void {
 		$publish = new Publisher('urltopublish', true);
 
 		$xml = $this->write([
@@ -48,7 +48,7 @@ class PublisherTest extends TestCase {
 			</x1:publish-url>', $xml);
 	}
 
-	public function testSerializeNotPublished() {
+	public function testSerializeNotPublished(): void {
 		$publish = new Publisher('urltopublish', false);
 
 		$xml = $this->write([

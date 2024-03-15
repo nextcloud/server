@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2021, Louis Chemineau <louis@chmn.me>
  *
  * @author Louis Chemineau <louis@chmn.me>
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
  *
  * @license AGPL-3.0
  *
@@ -22,24 +23,24 @@
 
 namespace OCA\DAV\BulkUpload;
 
+use OCA\DAV\Connector\Sabre\MtimeSanitizer;
+use OCP\AppFramework\Http;
+use OCP\Files\DavUtil;
+use OCP\Files\Folder;
 use Psr\Log\LoggerInterface;
 use Sabre\DAV\Server;
 use Sabre\DAV\ServerPlugin;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
-use OCP\Files\Folder;
-use OCP\AppFramework\Http;
-use OCA\DAV\Connector\Sabre\MtimeSanitizer;
 
 class BulkUploadPlugin extends ServerPlugin {
+	private Folder $userFolder;
+	private LoggerInterface $logger;
 
-	/** @var Folder */
-	private $userFolder;
-
-	/** @var LoggerInterface */
-	private $logger;
-
-	public function __construct(Folder $userFolder, LoggerInterface $logger) {
+	public function __construct(
+		Folder $userFolder,
+		LoggerInterface $logger
+	) {
 		$this->userFolder = $userFolder;
 		$this->logger = $logger;
 	}
@@ -64,7 +65,7 @@ class BulkUploadPlugin extends ServerPlugin {
 			return true;
 		}
 
-		$multiPartParser = new MultipartRequestParser($request);
+		$multiPartParser = new MultipartRequestParser($request, $this->logger);
 		$writtenFiles = [];
 
 		while (!$multiPartParser->isAtLastBoundary()) {
@@ -74,7 +75,7 @@ class BulkUploadPlugin extends ServerPlugin {
 				// Return early if an error occurs during parsing.
 				$this->logger->error($e->getMessage());
 				$response->setStatus(Http::STATUS_BAD_REQUEST);
-				$response->setBody(json_encode($writtenFiles));
+				$response->setBody(json_encode($writtenFiles, JSON_THROW_ON_ERROR));
 				return false;
 			}
 
@@ -90,10 +91,13 @@ class BulkUploadPlugin extends ServerPlugin {
 
 				$node = $this->userFolder->newFile($headers['x-file-path'], $content);
 				$node->touch($mtime);
+				$node = $this->userFolder->getFirstNodeById($node->getId());
 
 				$writtenFiles[$headers['x-file-path']] = [
 					"error" => false,
 					"etag" => $node->getETag(),
+					"fileid" => DavUtil::getDavFileId($node->getId()),
+					"permissions" => DavUtil::getDavPermissions($node),
 				];
 			} catch (\Exception $e) {
 				$this->logger->error($e->getMessage(), ['path' => $headers['x-file-path']]);
@@ -105,7 +109,7 @@ class BulkUploadPlugin extends ServerPlugin {
 		}
 
 		$response->setStatus(Http::STATUS_OK);
-		$response->setBody(json_encode($writtenFiles));
+		$response->setBody(json_encode($writtenFiles, JSON_THROW_ON_ERROR));
 
 		return false;
 	}

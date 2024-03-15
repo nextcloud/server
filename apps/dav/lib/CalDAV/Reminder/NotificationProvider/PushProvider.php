@@ -10,6 +10,7 @@ declare(strict_types=1);
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Citharel <nextcloud@tcit.fr>
+ * @author Richard Steinmetz <richard@steinmetz.cloud>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -58,11 +59,11 @@ class PushProvider extends AbstractProvider {
 	private $timeFactory;
 
 	public function __construct(IConfig $config,
-								IManager $manager,
-								LoggerInterface $logger,
-								L10NFactory $l10nFactory,
-								IURLGenerator $urlGenerator,
-								ITimeFactory $timeFactory) {
+		IManager $manager,
+		LoggerInterface $logger,
+		L10NFactory $l10nFactory,
+		IURLGenerator $urlGenerator,
+		ITimeFactory $timeFactory) {
 		parent::__construct($logger, $l10nFactory, $urlGenerator, $config);
 		$this->manager = $manager;
 		$this->timeFactory = $timeFactory;
@@ -72,19 +73,20 @@ class PushProvider extends AbstractProvider {
 	 * Send push notification to all users.
 	 *
 	 * @param VEvent $vevent
-	 * @param string $calendarDisplayName
+	 * @param string|null $calendarDisplayName
+	 * @param string[] $principalEmailAddresses
 	 * @param IUser[] $users
 	 * @throws \Exception
 	 */
 	public function send(VEvent $vevent,
-						 string $calendarDisplayName = null,
-						 array $users = []):void {
-		if ($this->config->getAppValue('dav', 'sendEventRemindersPush', 'no') !== 'yes') {
+		?string $calendarDisplayName,
+		array $principalEmailAddresses,
+		array $users = []):void {
+		if ($this->config->getAppValue('dav', 'sendEventRemindersPush', 'yes') !== 'yes') {
 			return;
 		}
 
 		$eventDetails = $this->extractEventDetails($vevent);
-		$eventDetails['calendar_displayname'] = $calendarDisplayName;
 		$eventUUID = (string) $vevent->UID;
 		if (!$eventUUID) {
 			return;
@@ -92,6 +94,8 @@ class PushProvider extends AbstractProvider {
 		$eventUUIDHash = hash('sha256', $eventUUID, false);
 
 		foreach ($users as $user) {
+			$eventDetails['calendar_displayname'] = $calendarDisplayName ?? $this->getCalendarDisplayNameFallback($this->l10nFactory->getUserLanguage($user));
+
 			/** @var INotification $notification */
 			$notification = $this->manager->createNotification();
 			$notification->setApp(Application::APP_ID)

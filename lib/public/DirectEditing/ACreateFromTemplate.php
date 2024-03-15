@@ -26,7 +26,6 @@ namespace OCP\DirectEditing;
  * @since 18.0.0
  */
 abstract class ACreateFromTemplate extends ACreateEmpty {
-
 	/**
 	 * List of available templates for the create from template action
 	 *

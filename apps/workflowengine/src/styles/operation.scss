@@ -48,7 +48,7 @@ small {
 .colored:not(.more) {
 	background-color: var(--color-primary-element);
 	h3, small {
-		color: var(--color-primary-text)
+		color: var(--color-primary-element-text)
 	}
 }
 

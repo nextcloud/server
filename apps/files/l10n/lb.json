@@ -5,6 +5,7 @@
     "File could not be found" : "Datei konnt net fonnt ginn",
     "Download" : "Download",
     "Delete" : "Läschen",
+    "Tags" : "Tags",
     "Home" : "Doheem",
     "Close" : "Zoumaachen",
     "Favorites" : "Favoriten",
@@ -17,6 +18,7 @@
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} vun {totalSize} ({bitrate})",
     "Actions" : "Aktiounen",
     "Rename" : "Ëmbenennen",
+    "Move" : "Verschieben",
     "Delete folder" : "Dossier läschen",
     "Disconnect storage" : "Net connectéierten Späicher",
     "Could not load info for file \"{file}\"" : "Et konnten keng Informatiounen zu {file} gelueden ginn",
@@ -49,7 +51,6 @@
     "File name cannot be empty." : "D'Datei kann net eidel sinn",
     "\"{name}\" is not an allowed filetype" : "\"{name}\" ass een ongültegen Typ vun Datei",
     "View in folder" : "Kuk am Dossier ",
-    "Copied!" : "Kopéiert!",
     "Path" : "Pad",
     "_%n byte_::_%n bytes_" : ["¦%n Byte","¦%n Byte"],
     "Favorited" : "Favoriséiert",
@@ -89,7 +90,6 @@
     "All files" : "All d'Fichieren",
     "Upload (max. %s)" : "Upload (maximal ¦%s)",
     "in %s" : "an %s",
-    "Tags" : "Tags",
     "Cancel" : "Ofbriechen",
     "Create" : "Erstellen",
     "Show hidden files" : "Weis déi verstoppten Dateien",
@@ -110,6 +110,7 @@
     "Select" : "Auswielen",
     "You don’t have permission to upload or create files here" : "Du hues net genuch Rechter hei Dokumenter eropzelueden oder ze erstellen",
     "New" : "Nei",
+    "Copied!" : "Kopéiert!",
     "Settings" : "Astellungen"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

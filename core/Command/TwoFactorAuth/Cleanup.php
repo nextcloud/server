@@ -27,17 +27,20 @@ declare(strict_types=1);
 namespace OC\Core\Command\TwoFactorAuth;
 
 use OCP\Authentication\TwoFactorAuth\IRegistry;
+use OCP\IUserManager;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Cleanup extends Base {
-	private IRegistry $registry;
-
-	public function __construct(IRegistry $registry) {
-		parent::__construct();
-
-		$this->registry = $registry;
+	public function __construct(
+		private IRegistry $registry,
+		IUserManager $userManager,
+	) {
+		parent::__construct(
+			null,
+			$userManager,
+		);
 	}
 
 	protected function configure() {

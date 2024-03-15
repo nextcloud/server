@@ -33,7 +33,6 @@ use OCP\IRequest;
 use Test\TestCase;
 
 class CSRFTokenControllerTest extends TestCase {
-
 	/** @var CSRFTokenController */
 	private $controller;
 

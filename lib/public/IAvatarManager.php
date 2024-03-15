@@ -35,7 +35,6 @@ namespace OCP;
  */
 
 interface IAvatarManager {
-
 	/**
 	 * Return a user specific instance of \OCP\IAvatar
 	 * @see IAvatar

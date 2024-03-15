@@ -35,17 +35,13 @@ use Symfony\Component\Console\Output\OutputInterface;
 class DeleteOrphanedFiles extends Command {
 	public const CHUNK_SIZE = 200;
 
-	/**
-	 * @var IDBConnection
-	 */
-	protected $connection;
-
-	public function __construct(IDBConnection $connection) {
-		$this->connection = $connection;
+	public function __construct(
+		protected IDBConnection $connection,
+	) {
 		parent::__construct();
 	}
 
-	protected function configure() {
+	protected function configure(): void {
 		$this
 			->setName('files:cleanup')
 			->setDescription('cleanup filecache');
@@ -81,10 +77,10 @@ class DeleteOrphanedFiles extends Command {
 
 		$deletedMounts = $this->cleanupOrphanedMounts();
 		$output->writeln("$deletedMounts orphaned mount entries deleted");
-		return 0;
+		return self::SUCCESS;
 	}
 
-	private function cleanupOrphanedMounts() {
+	private function cleanupOrphanedMounts(): int {
 		$deletedEntries = 0;
 
 		$query = $this->connection->getQueryBuilder();

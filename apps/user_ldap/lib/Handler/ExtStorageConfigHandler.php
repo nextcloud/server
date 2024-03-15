@@ -62,7 +62,7 @@ class ExtStorageConfigHandler extends UserContext implements IConfigHandler {
 		}
 
 		$ldapUser = $access->userManager->get($user->getUID());
-		$extHome = $ldapUser->getExtStorageHome();
+		$extHome = $ldapUser !== null ? $ldapUser->getExtStorageHome() : '';
 
 		return $this->processInput($optionValue, $extHome);
 	}

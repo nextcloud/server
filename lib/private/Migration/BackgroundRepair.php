@@ -26,15 +26,13 @@
  */
 namespace OC\Migration;
 
-use OC\BackgroundJob\JobList;
-use OC\BackgroundJob\TimedJob;
 use OC\NeedsUpdateException;
 use OC\Repair;
 use OC_App;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
-use OCP\ILogger;
+use OCP\BackgroundJob\TimedJob;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Class BackgroundRepair
@@ -42,33 +40,14 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  * @package OC\Migration
  */
 class BackgroundRepair extends TimedJob {
-
-	/** @var IJobList */
-	private $jobList;
-
-	/** @var ILogger */
-	private $logger;
-
-	/** @var EventDispatcherInterface */
-	private $dispatcher;
-
-	public function __construct(EventDispatcherInterface $dispatcher) {
-		$this->dispatcher = $dispatcher;
-	}
-
-	/**
-	 * run the job, then remove it from the job list
-	 *
-	 * @param JobList $jobList
-	 * @param ILogger|null $logger
-	 */
-	public function execute($jobList, ILogger $logger = null) {
-		// add an interval of 15 mins
+	public function __construct(
+		private Repair $repair,
+		ITimeFactory $time,
+		private LoggerInterface $logger,
+		private IJobList $jobList,
+	) {
+		parent::__construct($time);
 		$this->setInterval(15 * 60);
-
-		$this->jobList = $jobList;
-		$this->logger = $logger;
-		parent::execute($jobList, $logger);
 	}
 
 	/**
@@ -76,7 +55,7 @@ class BackgroundRepair extends TimedJob {
 	 * @throws \Exception
 	 * @throws \OC\NeedsUpdateException
 	 */
-	protected function run($argument) {
+	protected function run($argument): void {
 		if (!isset($argument['app']) || !isset($argument['step'])) {
 			// remove the job - we can never execute it
 			$this->jobList->remove($this, $this->argument);
@@ -93,12 +72,13 @@ class BackgroundRepair extends TimedJob {
 		}
 
 		$step = $argument['step'];
-		$repair = new Repair([], $this->dispatcher, \OC::$server->get(LoggerInterface::class));
+		$this->repair->setRepairSteps([]);
 		try {
-			$repair->addStep($step);
+			$this->repair->addStep($step);
 		} catch (\Exception $ex) {
-			$this->logger->logException($ex, [
-				'app' => 'migration'
+			$this->logger->error($ex->getMessage(), [
+				'app' => 'migration',
+				'exception' => $ex,
 			]);
 
 			// remove the job - we can never execute it
@@ -107,7 +87,7 @@ class BackgroundRepair extends TimedJob {
 		}
 
 		// execute the repair step
-		$repair->run();
+		$this->repair->run();
 
 		// remove the job once executed successfully
 		$this->jobList->remove($this, $this->argument);
@@ -118,7 +98,7 @@ class BackgroundRepair extends TimedJob {
 	 * @param $app
 	 * @throws NeedsUpdateException
 	 */
-	protected function loadApp($app) {
+	protected function loadApp($app): void {
 		OC_App::loadApp($app);
 	}
 }

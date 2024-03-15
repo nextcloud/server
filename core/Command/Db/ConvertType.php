@@ -35,11 +35,11 @@ namespace OC\Core\Command\Db;
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Schema\AbstractAsset;
 use Doctrine\DBAL\Schema\Table;
-use OCP\DB\Types;
 use OC\DB\Connection;
 use OC\DB\ConnectionFactory;
 use OC\DB\MigrationService;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\DB\Types;
 use OCP\IConfig;
 use Stecman\Component\Symfony\Console\BashCompletion\Completion\CompletionAwareInterface;
 use Stecman\Component\Symfony\Console\BashCompletion\CompletionContext;
@@ -56,13 +56,12 @@ use function preg_match;
 use function preg_quote;
 
 class ConvertType extends Command implements CompletionAwareInterface {
-	protected IConfig $config;
-	protected ConnectionFactory $connectionFactory;
-	protected array $columnTypes;
+	protected array $columnTypes = [];
 
-	public function __construct(IConfig $config, ConnectionFactory $connectionFactory) {
-		$this->config = $config;
-		$this->connectionFactory = $connectionFactory;
+	public function __construct(
+		protected IConfig $config,
+		protected ConnectionFactory $connectionFactory,
+	) {
 		parent::__construct();
 	}
 
@@ -200,7 +199,7 @@ class ConvertType extends Command implements CompletionAwareInterface {
 			$output->writeln('<comment>The following tables will not be converted:</comment>');
 			$output->writeln($extraFromTables);
 			if (!$input->getOption('all-apps')) {
-				$output->writeln('<comment>Please note that tables belonging to available but currently not installed apps</comment>');
+				$output->writeln('<comment>Please note that tables belonging to disabled (but not removed) apps</comment>');
 				$output->writeln('<comment>can be included by specifying the --all-apps option.</comment>');
 			}
 

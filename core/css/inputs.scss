@@ -21,12 +21,20 @@ input, textarea, select, button, div[contenteditable=true], div[contenteditable=
 .select2-container-multi .select2-choices .select2-search-field input, .select2-search input, .ui-widget {
 	font-family: var(--font-face) !important;
 }
+.select2-container.select2-drop-above .select2-choice {
+	background-image: unset !important;
+}
 
-$default-height: 34px;
+$default-height: 36px;
+$opacity-disabled: .7;
 
 /* Simple selector to allow easy overriding */
 select,
-button:not(.button-vue),
+button:not(
+	.button-vue,
+	/* "vs__" class prefix is used in the vue-select lib */
+	[class^="vs__"]
+),
 input,
 textarea,
 div[contenteditable=true],
@@ -37,43 +45,70 @@ div[contenteditable=false] {
 }
 
 /**
- * color-text-lighter		normal state
- * color-text-lighter		active state
- * color-text-maxcontrast 	disabled state
+ * color-main-text			normal state
+ * color-main-text			active state
+ * color-text-maxcontrast	disabled state
  */
+
+button:not(.button-vue),
+input:not([type='range']),
+textarea {
+	&:disabled {
+		cursor: default;
+		color: var(--color-text-maxcontrast);
+		border-color: var(--color-border-dark);
+		opacity: $opacity-disabled;
+	}
+}
+
+input:not([type="range"]) {
+	outline: none;
+}
 
 /* Default global values */
 div.select2-drop .select2-search input, // TODO: REMOVE WHEN DROPPING SELECT2
-select,
-button:not(.button-vue), .button,
-input:not([type='range']),
-textarea,
-div[contenteditable=true],
+input[type='submit'],
+input[type='button'],
+input[type='reset'],
+button:not(
+	.button-vue,
+	[class^="vs__"]
+),
+.button,
 .pager li a {
-	margin: 3px 3px 3px 0;
-	padding: 7px 6px;
+	padding: 7px 14px;
 	font-size: 13px;
 	background-color: var(--color-main-background);
 	color: var(--color-main-text);
 	border: 1px solid var(--color-border-dark);
+	font-size: var(--default-font-size);
 	outline: none;
 	border-radius: var(--border-radius);
 	cursor: text;
-	&:not(:disabled):not(.primary) {
-		&:hover,
-		&:focus,
-		&.active {
-		/* active class used for multiselect */
-			border-color: var(--color-primary-element);
-			outline: none;
-		}
-		&:active {
-			outline: none;
-			background-color: var(--color-main-background);
-			color: var(--color-text-light);
+	&:not(.app-navigation-entry-button) {
+		margin: 3px 3px 3px 0;
+	}
+	&:not(
+		:disabled,
+		.primary
+	) {
+		&:not(.app-navigation-entry-button) {
+			&:hover,
+			&:focus,
+			&.active {
+				/* active class used for multiselect */
+				border-color: var(--color-primary-element);
+				outline: none;
+			}
+			&:active {
+				outline: none;
+				background-color: var(--color-main-background);
+				color: var(--color-main-text);
+			}
 		}
 		&:focus-visible {
-			box-shadow: 0 0 0 2px var(--color-primary);
+			box-shadow: 0 0 0 4px var(--color-main-background) !important;
+			outline: 2px solid var(--color-main-text) !important;
 		}
 	}
 	&:disabled {
@@ -92,13 +127,13 @@ div[contenteditable=true],
 	&.primary {
 		background-color: var(--color-primary-element);
 		border-color: var(--color-primary-element);
-		color: var(--color-primary-text);
+		color: var(--color-primary-element-text);
 		cursor: pointer;
 
 		/* Apply border to primary button if on log in page (and not in a dark container) or if in header */
 		#body-login :not(.body-login-container) &,
 		#header & {
-			border-color: var(--color-primary-text);
+			border-color: var(--color-primary-element-text);
 		}
 
 		&:not(:disabled) {
@@ -113,13 +148,13 @@ div[contenteditable=true],
 				box-shadow: 0 0 0 2px var(--color-main-text);
 			}
 			&:active {
-				color: var(--color-primary-text-dark);
+				color: var(--color-primary-element-text-dark);
 			}
 		}
 		&:disabled {
 			// opacity is already defined to .5 if disabled
 			background-color: var(--color-primary-element);
-			color: var(--color-primary-text-dark);
+			color: var(--color-primary-element-text-dark);
 			cursor: default;
 		}
 	}
@@ -130,13 +165,13 @@ div[contenteditable=false] {
 	padding: 7px 6px;
 	font-size: 13px;
 	background-color: var(--color-main-background);
-	color: var(--color-text-lighter);
+	color: var(--color-text-maxcontrast);
 	border: 1px solid var(--color-background-darker);
 	outline: none;
 	border-radius: var(--border-radius);
 
 	background-color: var(--color-background-dark);
-	color: var(--color-text-lighter);
+	color: var(--color-text-maxcontrast);
 	cursor: default;
 	opacity: 0.5;
 }
@@ -146,6 +181,7 @@ input {
 	&:not([type='radio']):not([type='checkbox']):not([type='range']):not([type='submit']):not([type='button']):not([type='reset']):not([type='color']):not([type='file']):not([type='image']) {
 		-webkit-appearance: textfield;
 		-moz-appearance: textfield;
+		appearance: textfield;
 		// force height for inline elements like inputs (not textarea, contenteditable...)
 		height: $default-height;
 	}
@@ -176,11 +212,16 @@ input {
 
 /* 'Click' inputs */
 select,
-button:not(.button-vue), .button,
+button:not(
+	.button-vue,
+	[class^="vs__"]
+),
+.button,
 input[type='button'],
 input[type='submit'],
 input[type='reset'] {
-	padding: 6px 16px;
+	padding: 8px 14px;
+	font-size: var(--default-font-size);
 	width: auto;
 	min-height: $default-height;
 	cursor: pointer;
@@ -191,8 +232,65 @@ input[type='reset'] {
 		cursor: default;
 	}
 }
+
+input:not(
+	[type='range'],
+	.input-field__input,
+	[type='submit'],
+	[type='button'],
+	[type='reset'],
+	.multiselect__input,
+	.select2-input,
+	.action-input__input,
+	[class^="vs__"]
+),
 select,
-button:not(.button-vue), .button {
+div[contenteditable=true],
+textarea {
+	margin: 3px 3px 3px 0;
+	padding: 0 12px;
+	font-size: var(--default-font-size);
+	background-color: var(--color-main-background);
+	color: var(--color-main-text);
+	border: 2px solid var(--color-border-maxcontrast);
+	height: 36px;
+	outline: none;
+	border-radius: var(--border-radius-large);
+	text-overflow: ellipsis;
+	cursor: pointer;
+	&:not(:disabled):hover, &:not(:disabled):focus, &:not(:disabled):active {
+		border-color: 2px solid var(--color-main-text);
+		box-shadow: 0 0 0 2px var(--color-main-background);
+	}
+	&:not(:disabled):focus {
+		cursor: text;
+	}
+}
+
+.multiselect__input, .select2-input {
+	background-color: var(--color-main-background);
+	color: var(--color-main-text);
+}
+
+textarea, div[contenteditable=true] {
+	padding: 12px;
+	height: auto;
+}
+
+/* Override the ugly select arrow */
+select {
+	background: var(--icon-triangle-s-dark) no-repeat right 8px center;
+	appearance: none;
+	background-color: var(--color-main-background);
+	padding-right: 28px !important;
+}
+
+select,
+button:not(
+	.button-vue,
+	[class^="vs__"]
+),
+.button {
 	* {
 		cursor: pointer;
 	}
@@ -205,7 +303,11 @@ button:not(.button-vue), .button {
 }
 
 /* Buttons */
-button:not(.button-vue), .button,
+button:not(
+	.button-vue,
+	[class^="vs__"]
+),
+.button,
 input[type='button'],
 input[type='submit'],
 input[type='reset'] {
@@ -223,7 +325,12 @@ input[type='reset'] {
 		color: #fff !important;
 	}
 }
-button:not(.button-vue):not(.action-button), .button {
+button:not(
+	.button-vue,
+	.action-button,
+	[class^="vs__"]
+),
+.button {
 	> span {
 		/* icon position inside buttons */
 		&[class^='icon-'],
@@ -235,49 +342,16 @@ button:not(.button-vue):not(.action-button), .button {
 	}
 }
 
-textarea, div[contenteditable=true] {
-	color: var(--color-main-text);
-	cursor: text;
-	font-family: inherit;
-	height: auto;
-	&:not(:disabled) {
-		&:active,
-		&:hover,
-		&:focus {
-			border-color: var(--color-background-darker) !important;
-			background-color: var(--color-main-background) !important;
-		}
-	}
-}
-
-div[contenteditable=false] {
-	color: var(--color-text-lighter);
-	font-family: inherit;
-	height: auto;
-}
-
-/* Override the ugly select arrow */
-select {
-	-webkit-appearance: none;
-	-moz-appearance: none;
-	appearance: none;
-	background: var(--icon-triangle-s-dark) no-repeat right 4px center;
-	background-color: inherit;
-	outline: 0;
-	padding-right: 24px !important;
-	// force height for inline elements like inputs (not textarea, contenteditable...)
-	height: $default-height;
-}
-
 /* Confirm inputs */
 input {
 	&[type='text'],
 	&[type='password'],
 	&[type='email'] {
 		+ .icon-confirm {
-			margin-left: -8px !important;
+			margin-left: -13px !important;
 			border-left-color: transparent !important;
-			border-radius: 0 var(--border-radius) var(--border-radius) 0 !important;
+			border-radius: 0 var(--border-radius-large) var(--border-radius-large) 0 !important;
+			border-width: 2px;
 			background-clip: padding-box;
 			/* Avoid background under border */
 			background-color: var(--color-main-background) !important;
@@ -366,7 +440,7 @@ input {
 				vertical-align: middle;
 				border-radius: 50%;
 				margin: 0 6px 3px 3px;
-				border: 1px solid var(--color-text-lighter);
+				border: 1px solid var(--color-text-maxcontrast);
 			}
 			&:not(:disabled):not(:checked) + label:hover:before,
 			&:focus + label:before {
@@ -387,7 +461,7 @@ input {
 				border-color: var(--color-primary-element);
 			}
 			&:disabled + label:before {
-				border: 1px solid var(--color-text-lighter);
+				border: 1px solid var(--color-text-maxcontrast);
 				background-color: var(--color-text-maxcontrast) !important; /* override other status */
 			}
 			&:checked:disabled + label:before {
@@ -505,7 +579,7 @@ div.select2-drop {
 			padding: 12px;
 			background-color: transparent;
 			cursor: pointer;
-			color: var(--color-text-lighter);
+			color: var(--color-text-maxcontrast);
 		}
 		.select2-result {
 			&.select2-selected {
@@ -532,13 +606,16 @@ div.select2-container-multi {
 		white-space: nowrap;
 		text-overflow: ellipsis;
 		background: var(--color-main-background);
-		color: var(--color-text-lighter) !important;
+		color: var(--color-text-maxcontrast) !important;
 		box-sizing: content-box;
-		border-radius: var(--border-radius);
-		border: 1px solid var(--color-border-dark);
+		border-radius: var(--border-radius-large);
+		border: 2px solid var(--color-border-dark);
 		margin: 0;
-		padding: 2px 0;
-		min-height: auto;
+		padding: 6px;
+		min-height: 44px;
+		&:focus-within {
+			border-color: var(--color-primary-element)
+		}
 		.select2-search-choice {
 			line-height: 20px;
 			padding-left: 5px;
@@ -548,7 +625,7 @@ div.select2-container-multi {
 			& {
 				background-image: none;
 				background-color: var(--color-main-background);
-				color: var(--color-text-lighter);
+				color: var(--color-text-maxcontrast);
 				border: 1px solid var(--color-border-dark);
 			}
 			.select2-search-choice-close {
@@ -557,6 +634,9 @@ div.select2-container-multi {
 		}
 		.select2-search-field input {
 			line-height: 20px;
+			min-height: 28px;
+			max-height: 28px;
+			color: var(--color-main-text);
 			&.select2-active {
 				background: none !important;
 			}
@@ -577,14 +657,16 @@ div.select2-container {
 		white-space: nowrap;
 		text-overflow: ellipsis;
 		background: var(--color-main-background);
-		color: var(--color-text-lighter) !important;
+		color: var(--color-text-maxcontrast) !important;
 		box-sizing: content-box;
-		border-radius: var(--border-radius);
-		border: 1px solid var(--color-border-dark);
+		border-radius: var(--border-radius-large);
+		border: 2px solid var(--color-border-dark);
 		margin: 0;
-		padding: 2px 0;
-		padding-left: 6px;
-		min-height: auto;
+		padding: 6px 12px;
+		min-height: 44px;
+		&:focus-within {
+			border-color: var(--color-primary-element)
+		}
 		.select2-search-choice {
 			line-height: 20px;
 			padding-left: 5px;
@@ -632,7 +714,7 @@ div.select2-container {
 			padding-left: 5px;
 			background-image: none;
 			background-color: var(--color-main-background);
-			color: var(--color-text-lighter);
+			color: var(--color-text-maxcontrast);
 			border: 1px solid var(--color-border-dark);
 			display: inline-flex;
 			align-items: center;
@@ -649,7 +731,7 @@ div.select2-container {
 			display: list-item;
 			background-color: transparent;
 			cursor: pointer;
-			color: var(--color-text-lighter);
+			color: var(--color-text-maxcontrast);
 			a {
 				white-space: nowrap;
 				overflow: hidden;
@@ -695,211 +777,6 @@ div.select2-container {
 	}
 }
 
-
-/* Vue multiselect */
-.multiselect.multiselect-vue {
-	margin: 1px 2px;
-	padding: 0 !important;
-	display: inline-block;
-	width: 160px;
-	position: relative;
-	background-color: var(--color-main-background);
-	&.multiselect--active {
-		/* Opened: force display the input */
-		input.multiselect__input {
-			opacity: 1 !important;
-			cursor: text !important;
-		}
-	}
-	&.multiselect--disabled,
-	&.multiselect--disabled .multiselect__single {
-		background-color: var(--color-background-dark) !important;
-	}
-	.multiselect__tags {
-		/* space between tags and limit tag */
-		$space-between: 5px;
-
-		display: flex;
-		flex-wrap: nowrap;
-		overflow: hidden;
-		border: 1px solid var(--color-border-dark);
-		cursor: pointer;
-		position: relative;
-		border-radius: var(--border-radius);
-		height: $default-height;
-		/* tag wrapper */
-		.multiselect__tags-wrap {
-			align-items: center;
-			display: inline-flex;
-			overflow: hidden;
-			max-width: 100%;
-			position: relative;
-			padding: 3px $space-between;
-			flex-grow: 1;
-			/* no tags or simple select? Show input directly
-			   input is used to display single value */
-			&:empty ~ input.multiselect__input {
-				opacity: 1 !important;
-				/* hide default empty text, show input instead */
-				+ span:not(.multiselect__single) {
-					display: none;
-				}
-			}
-			/* selected tag */
-			.multiselect__tag {
-				flex: 1 0 0;
-				line-height: 20px;
-				padding: 1px 5px;
-				background-image: none;
-				color: var(--color-text-lighter);
-				border: 1px solid var(--color-border-dark);
-				display: inline-flex;
-				align-items: center;
-				border-radius: var(--border-radius);
-				/* require to override the default width
-				   and force the tag to shring properly */
-				min-width: 0;
-				max-width: 50%;
-				max-width: fit-content;
-				max-width: -moz-fit-content;
-				/* css hack, detect if more than two tags
-				   if so, flex-basis is set to half */
-				&:only-child {
-					flex: 0 1 auto;
-				}
-				&:not(:last-child) {
-					margin-right: $space-between;
-				}
-				/* ellipsis the groups to be sure
-				   we display at least two of them */
-				> span {
-					white-space: nowrap;
-					text-overflow: ellipsis;
-					overflow: hidden;
-				}
-			}
-		}
-		/* Single select default value */
-		.multiselect__single {
-			padding: 8px 10px;
-			flex: 0 0 100%;
-			z-index: 1; /* above input */
-			background-color: var(--color-main-background);
-			cursor: pointer;
-			line-height: 17px;
-		}
-		/* displayed text if tag limit reached */
-		.multiselect__strong,
-		.multiselect__limit {
-			flex: 0 0 auto;
-			line-height: 20px;
-			color: var(--color-text-lighter);
-			display: inline-flex;
-			align-items: center;
-			opacity: .7;
-			margin-right: $space-between;
-			/* above the input */
-			z-index: 5;
-		}
-		/* default multiselect input for search and placeholder */
-		input.multiselect__input {
-			width: 100% !important;
-			position: absolute !important;
-			margin: 0;
-			opacity: 0;
-			/* let's leave it on top of tags but hide it */
-			height: 100%;
-			border: none;
-			/* override hide to force show the placeholder */
-			display: block !important;
-			/* only when not active */
-			cursor: pointer;
-		}
-	}
-	/* results wrapper */
-	.multiselect__content-wrapper {
-		position: absolute;
-		width: 100%;
-		margin-top: -1px;
-		border: 1px solid var(--color-border-dark);
-		background: var(--color-main-background);
-		z-index: 50;
-		max-height: 175px !important; // 5 items and a half
-		overflow-y: auto;
-		.multiselect__content {
-			width: 100%;
-			padding: 5px 0;
-		}
-		li {
-			padding: 5px;
-			position: relative;
-			display: flex;
-			align-items: center;
-			background-color: transparent;
-			&,
-			span {
-				cursor: pointer;
-			}
-			> span {
-				white-space: nowrap;
-				overflow: hidden;
-				text-overflow: ellipsis;
-				height: 20px;
-				margin: 0;
-				min-height: 1em;
-				-webkit-touch-callout: none;
-				-webkit-user-select: none;
-				-moz-user-select: none;
-				-ms-user-select: none;
-				user-select: none;
-				display: inline-flex;
-				align-items: center;
-				background-color: transparent !important;
-				color: var(--color-text-lighter);
-				width: 100%;
-				/* selected checkmark icon */
-				&::before {
-					content: ' ';
-					background-image: var(--icon-checkmark-dark);
-					background-repeat: no-repeat;
-					background-position: center;
-					min-width: 16px;
-					min-height: 16px;
-					display: block;
-					opacity: .5;
-					margin-right: 5px;
-					visibility: hidden;
-				}
-				&.multiselect__option--disabled {
-					background-color: var(--color-background-dark);
-					opacity: .5;
-				}
-				/* add the prop tag-placeholder="create" to add the +
-				 * icon on top of an unknown-and-ready-to-be-created entry
-				 */
-				&[data-select='create'] {
-					&::before {
-						background-image: var(--icon-add-dark);
-						visibility: visible;
-					}
-				}
-				&.multiselect__option--highlight {
-					color: var(--color-main-text);
-				}
-				&:not(.multiselect__option--disabled):hover::before {
-					opacity: .3;
-				}
-				&.multiselect__option--selected,
-				&:not(.multiselect__option--disabled):hover {
-					&::before {
-						visibility: visible;
-					}
-				}
-			}
-		}
-	}
-}
-
 /* Progressbar */
 progress:not(.vue) {
 	display: block;
@@ -924,12 +801,12 @@ progress:not(.vue) {
 	}
 	&::-moz-progress-bar {
 		border-radius: var(--border-radius);
-		background: var(--color-primary);
+		background: var(--color-primary-element);
 		transition: 250ms all ease-in-out;
 	}
 	&::-webkit-progress-value {
 		border-radius: var(--border-radius);
-		background: var(--color-primary);
+		background: var(--color-primary-element);
 		transition: 250ms all ease-in-out;
 	}
 }
@@ -971,8 +848,22 @@ label.infield {
 	overflow: hidden;
 }
 
-::placeholder,
-::-ms-input-placeholder,
-::-webkit-input-placeholder {
+// when rules are grouped using the comma operator and one selector is invalid / unknown then the whole group is invalidated.
+// https://www.w3.org/TR/selectors-3/#grouping
+// In this case `::-ms-input-placeholder` is unknown to Firefox and Chrome
+@mixin placeholder-style {
 	color: var(--color-text-maxcontrast);
+	font-size: var(--default-font-size);
+}
+
+::placeholder {
+	@include placeholder-style;
+}
+
+::-ms-input-placeholder {
+	@include placeholder-style;
+}
+
+::-webkit-input-placeholder {
+	@include placeholder-style;
 }

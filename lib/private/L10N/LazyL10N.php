@@ -28,7 +28,6 @@ namespace OC\L10N;
 use OCP\IL10N;
 
 class LazyL10N implements IL10N {
-
 	/** @var IL10N */
 	private $l;
 

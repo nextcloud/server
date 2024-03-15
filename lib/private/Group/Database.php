@@ -30,40 +30,43 @@
 namespace OC\Group;
 
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
+use OC\User\LazyUser;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Group\Backend\ABackend;
 use OCP\Group\Backend\IAddToGroupBackend;
+use OCP\Group\Backend\IBatchMethodsBackend;
 use OCP\Group\Backend\ICountDisabledInGroup;
 use OCP\Group\Backend\ICountUsersBackend;
 use OCP\Group\Backend\ICreateGroupBackend;
 use OCP\Group\Backend\IDeleteGroupBackend;
 use OCP\Group\Backend\IGetDisplayNameBackend;
 use OCP\Group\Backend\IGroupDetailsBackend;
-use OCP\Group\Backend\IRemoveFromGroupBackend;
-use OCP\Group\Backend\ISetDisplayNameBackend;
 use OCP\Group\Backend\INamedBackend;
+use OCP\Group\Backend\IRemoveFromGroupBackend;
+use OCP\Group\Backend\ISearchableGroupBackend;
+use OCP\Group\Backend\ISetDisplayNameBackend;
 use OCP\IDBConnection;
+use OCP\IUserManager;
 
 /**
  * Class for group management in a SQL Database (e.g. MySQL, SQLite)
  */
 class Database extends ABackend implements
 	IAddToGroupBackend,
-			   ICountDisabledInGroup,
-			   ICountUsersBackend,
-			   ICreateGroupBackend,
-			   IDeleteGroupBackend,
-			   IGetDisplayNameBackend,
-			   IGroupDetailsBackend,
-			   IRemoveFromGroupBackend,
-			   ISetDisplayNameBackend,
-			   INamedBackend {
-
-	/** @var string[] */
+	ICountDisabledInGroup,
+	ICountUsersBackend,
+	ICreateGroupBackend,
+	IDeleteGroupBackend,
+	IGetDisplayNameBackend,
+	IGroupDetailsBackend,
+	IRemoveFromGroupBackend,
+	ISetDisplayNameBackend,
+	ISearchableGroupBackend,
+	IBatchMethodsBackend,
+	INamedBackend {
+	/** @var array<string, array{gid: string, displayname: string}> */
 	private $groupCache = [];
-
-	/** @var IDBConnection */
-	private $dbConn;
+	private ?IDBConnection $dbConn;
 
 	/**
 	 * \OC\Group\Database constructor.
@@ -263,11 +266,11 @@ class Database extends ABackend implements
 	 *
 	 * Returns a list with all groups
 	 */
-	public function getGroups($search = '', $limit = null, $offset = null) {
+	public function getGroups(string $search = '', int $limit = -1, int $offset = 0) {
 		$this->fixDI();
 
 		$query = $this->dbConn->getQueryBuilder();
-		$query->select('gid')
+		$query->select('gid', 'displayname')
 			->from('groups')
 			->orderBy('gid', 'ASC');
 
@@ -280,12 +283,20 @@ class Database extends ABackend implements
 			)));
 		}
 
-		$query->setMaxResults($limit)
-			->setFirstResult($offset);
+		if ($limit > 0) {
+			$query->setMaxResults($limit);
+		}
+		if ($offset > 0) {
+			$query->setFirstResult($offset);
+		}
 		$result = $query->execute();
 
 		$groups = [];
 		while ($row = $result->fetch()) {
+			$this->groupCache[$row['gid']] = [
+				'displayname' => $row['displayname'],
+				'gid' => $row['gid'],
+			];
 			$groups[] = $row['gid'];
 		}
 		$result->closeCursor();
@@ -325,29 +336,72 @@ class Database extends ABackend implements
 	}
 
 	/**
-	 * get a list of all users in a group
+	 * {@inheritdoc}
+	 */
+	public function groupsExists(array $gids): array {
+		$notFoundGids = [];
+		$existingGroups = [];
+
+		// In case the data is already locally accessible, not need to do SQL query
+		// or do a SQL query but with a smaller in clause
+		foreach ($gids as $gid) {
+			if (isset($this->groupCache[$gid])) {
+				$existingGroups[] = $gid;
+			} else {
+				$notFoundGids[] = $gid;
+			}
+		}
+
+		$qb = $this->dbConn->getQueryBuilder();
+		$qb->select('gid', 'displayname')
+				->from('groups')
+				->where($qb->expr()->in('gid', $qb->createParameter('ids')));
+		foreach (array_chunk($notFoundGids, 1000) as $chunk) {
+			$qb->setParameter('ids', $chunk, IQueryBuilder::PARAM_STR_ARRAY);
+			$result = $qb->executeQuery();
+			while ($row = $result->fetch()) {
+				$this->groupCache[(string)$row['gid']] = [
+					'displayname' => (string)$row['displayname'],
+					'gid' => (string)$row['gid'],
+				];
+				$existingGroups[] = (string)$row['gid'];
+			}
+			$result->closeCursor();
+		}
+
+		return $existingGroups;
+	}
+
+	/**
+	 * Get a list of all users in a group
 	 * @param string $gid
 	 * @param string $search
 	 * @param int $limit
 	 * @param int $offset
-	 * @return array an array of user ids
+	 * @return array<int,string> an array of user ids
 	 */
-	public function usersInGroup($gid, $search = '', $limit = -1, $offset = 0) {
+	public function usersInGroup($gid, $search = '', $limit = -1, $offset = 0): array {
+		return array_values(array_map(fn ($user) => $user->getUid(), $this->searchInGroup($gid, $search, $limit, $offset)));
+	}
+
+	public function searchInGroup(string $gid, string $search = '', int $limit = -1, int $offset = 0): array {
 		$this->fixDI();
 
 		$query = $this->dbConn->getQueryBuilder();
-		$query->select('g.uid')
-			->from('group_user', 'g')
+		$query->select('g.uid', 'u.displayname');
+
+		$query->from('group_user', 'g')
 			->where($query->expr()->eq('gid', $query->createNamedParameter($gid)))
 			->orderBy('g.uid', 'ASC');
 
+		$query->leftJoin('g', 'users', 'u', $query->expr()->eq('g.uid', 'u.uid'));
+
 		if ($search !== '') {
-			$query->leftJoin('g', 'users', 'u', $query->expr()->eq('g.uid', 'u.uid'))
-				->leftJoin('u', 'preferences', 'p', $query->expr()->andX(
-					$query->expr()->eq('p.userid', 'u.uid'),
-					$query->expr()->eq('p.appid', $query->expr()->literal('settings')),
-					$query->expr()->eq('p.configkey', $query->expr()->literal('email')))
-				)
+			$query->leftJoin('u', 'preferences', 'p', $query->expr()->andX(
+				$query->expr()->eq('p.userid', 'u.uid'),
+				$query->expr()->eq('p.appid', $query->expr()->literal('settings')),
+				$query->expr()->eq('p.configkey', $query->expr()->literal('email'))
+			))
 				// sqlite doesn't like re-using a single named parameter here
 				->andWhere(
 					$query->expr()->orX(
@@ -366,11 +420,12 @@ class Database extends ABackend implements
 			$query->setFirstResult($offset);
 		}
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 
 		$users = [];
+		$userManager = \OCP\Server::get(IUserManager::class);
 		while ($row = $result->fetch()) {
-			$users[] = $row['uid'];
+			$users[$row['uid']] = new LazyUser($row['uid'], $userManager, $row['displayname'] ?? null);
 		}
 		$result->closeCursor();
 
@@ -472,6 +527,43 @@ class Database extends ABackend implements
 		}
 
 		return [];
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getGroupsDetails(array $gids): array {
+		$notFoundGids = [];
+		$details = [];
+
+		// In case the data is already locally accessible, not need to do SQL query
+		// or do a SQL query but with a smaller in clause
+		foreach ($gids as $gid) {
+			if (isset($this->groupCache[$gid])) {
+				$details[$gid] = ['displayName' => $this->groupCache[$gid]['displayname']];
+			} else {
+				$notFoundGids[] = $gid;
+			}
+		}
+
+		foreach (array_chunk($notFoundGids, 1000) as $chunk) {
+			$query = $this->dbConn->getQueryBuilder();
+			$query->select('gid', 'displayname')
+				->from('groups')
+				->where($query->expr()->in('gid', $query->createNamedParameter($chunk, IQueryBuilder::PARAM_STR_ARRAY)));
+
+			$result = $query->executeQuery();
+			while ($row = $result->fetch()) {
+				$details[(string)$row['gid']] = ['displayName' => (string)$row['displayname']];
+				$this->groupCache[(string)$row['gid']] = [
+					'displayname' => (string)$row['displayname'],
+					'gid' => (string)$row['gid'],
+				];
+			}
+			$result->closeCursor();
+		}
+
+		return $details;
 	}
 
 	public function setDisplayName(string $gid, string $displayName): bool {

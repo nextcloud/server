@@ -30,62 +30,38 @@ declare(strict_types=1);
 namespace OCA\UpdateNotification\Settings;
 
 use OC\User\Backend;
-use OCP\User\Backend\ICountUsersBackend;
 use OCA\UpdateNotification\UpdateChecker;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Services\IInitialState;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IDateTimeFormatter;
 use OCP\IGroupManager;
+use OCP\IUserManager;
 use OCP\L10N\IFactory;
 use OCP\Settings\ISettings;
 use OCP\Support\Subscription\IRegistry;
+use OCP\User\Backend\ICountUsersBackend;
 use OCP\Util;
-use OCP\IUserManager;
 use Psr\Log\LoggerInterface;
 
 class Admin implements ISettings {
-	/** @var IConfig */
-	private $config;
-	/** @var UpdateChecker */
-	private $updateChecker;
-	/** @var IGroupManager */
-	private $groupManager;
-	/** @var IDateTimeFormatter */
-	private $dateTimeFormatter;
-	/** @var IFactory */
-	private $l10nFactory;
-	/** @var IRegistry */
-	private $subscriptionRegistry;
-	/** @var IUserManager */
-	private $userManager;
-	/** @var LoggerInterface */
-	private $logger;
-
 	public function __construct(
-		IConfig $config,
-		UpdateChecker $updateChecker,
-		IGroupManager $groupManager,
-		IDateTimeFormatter $dateTimeFormatter,
-		IFactory $l10nFactory,
-		IRegistry $subscriptionRegistry,
-		IUserManager $userManager,
-		LoggerInterface $logger
+		private IConfig $config,
+		private IAppConfig $appConfig,
+		private UpdateChecker $updateChecker,
+		private IGroupManager $groupManager,
+		private IDateTimeFormatter $dateTimeFormatter,
+		private IFactory $l10nFactory,
+		private IRegistry $subscriptionRegistry,
+		private IUserManager $userManager,
+		private LoggerInterface $logger,
+		private IInitialState $initialState
 	) {
-		$this->config = $config;
-		$this->updateChecker = $updateChecker;
-		$this->groupManager = $groupManager;
-		$this->dateTimeFormatter = $dateTimeFormatter;
-		$this->l10nFactory = $l10nFactory;
-		$this->subscriptionRegistry = $subscriptionRegistry;
-		$this->userManager = $userManager;
-		$this->logger = $logger;
 	}
 
-	/**
-	 * @return TemplateResponse
-	 */
 	public function getForm(): TemplateResponse {
-		$lastUpdateCheckTimestamp = $this->config->getAppValue('core', 'lastupdatedat');
+		$lastUpdateCheckTimestamp = $this->appConfig->getValueInt('core', 'lastupdatedat');
 		$lastUpdateCheck = $this->dateTimeFormatter->formatDateTime($lastUpdateCheckTimestamp);
 
 		$channels = [
@@ -131,12 +107,9 @@ class Admin implements ISettings {
 			'notifyGroups' => $this->getSelectedGroups($notifyGroups),
 			'hasValidSubscription' => $hasValidSubscription,
 		];
+		$this->initialState->provideInitialState('data', $params);
 
-		$params = [
-			'json' => json_encode($params),
-		];
-
-		return new TemplateResponse('updatenotification', 'admin', $params, '');
+		return new TemplateResponse('updatenotification', 'admin', [], '');
 	}
 
 	protected function filterChanges(array $changes): array {
@@ -162,8 +135,8 @@ class Admin implements ISettings {
 	}
 
 	/**
-	 * @param array $groupIds
-	 * @return array
+	 * @param list<string> $groupIds
+	 * @return list<array{id: string, displayname: string}>
 	 */
 	protected function getSelectedGroups(array $groupIds): array {
 		$result = [];
@@ -174,26 +147,16 @@ class Admin implements ISettings {
 				continue;
 			}
 
-			$result[] = ['value' => $group->getGID(), 'label' => $group->getDisplayName()];
+			$result[] = ['id' => $group->getGID(), 'displayname' => $group->getDisplayName()];
 		}
 
 		return $result;
 	}
 
-	/**
-	 * @return string the section ID, e.g. 'sharing'
-	 */
 	public function getSection(): string {
 		return 'overview';
 	}
 
-	/**
-	 * @return int whether the form should be rather on the top or bottom of
-	 * the admin section. The forms are arranged in ascending order of the
-	 * priority values. It is required to return a value between 0 and 100.
-	 *
-	 * E.g.: 70
-	 */
 	public function getPriority(): int {
 		return 11;
 	}

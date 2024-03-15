@@ -7,7 +7,6 @@ OC.L10N.register(
     "Error" : "Chyba",
     "Weather status" : "Stav počasí",
     "Weather status in your dashboard" : "Stav počasí na vaší nástěnce",
-    "Weather status integrated in the Dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Napojení ohledně stavu počasí pro aplikaci Nástěnka.\n    Polohu uživatele je možné zjistit automaticky nebo zadat ručně. Poté je zobrazována předpověď na příštích 6 hodin.\n    Tento stav je také možné začlenit do ostatních míst, jako například Kalendář.",
     "Detect location" : "Zjistit polohu",
     "Set custom address" : "Nastavit vlastní adresu",
     "Favorites" : "Oblíbené",
@@ -46,17 +45,6 @@ OC.L10N.register(
     "There was an error saving the mode." : "Při ukládání režimu došlo k chybě.",
     "There was an error using personal address." : "Při použití vaší osobní adresy došlo k chybě.",
     "Set location for weather" : "Nastavit místo pro které předpovídat počasí",
-    "{temperature} {unit} Clear sky at {time}" : "{temperature} {unit} jasná obloha v {time}",
-    "{temperature} {unit} Cloudy at {time}" : "{temperature} {unit} zataženo v {time}",
-    "{temperature} {unit} Fair day at {time}" : "{temperature} {unit} krásné počasí v {time}",
-    "{temperature} {unit} Fair night at {time}" : "{temperature} {unit} bezmračná noc v {time}",
-    "{temperature} {unit} Partly cloudy at {time}" : "{temperature} {unit} polojasno v {time}",
-    "{temperature} {unit} Foggy at {time}" : "{temperature} {unit} mlhavo v {time}",
-    "{temperature} {unit} Light rain at {time}" : "{temperature} {unit} drobný déšť v {time}",
-    "{temperature} {unit} Rain at {time}" : "{temperature} {unit} déšť v {time}",
-    "{temperature} {unit} Heavy rain at {time}" : "{temperature} {unit} hustý déšť {time}",
-    "{temperature} {unit} Rain showers at {time}" : "{temperature} {unit} přeháňky v {time}",
-    "{temperature} {unit} Light rain showers at {time}" : "{temperature} {unit} lehké přeháňky v {time}",
-    "{temperature} {unit} Heavy rain showers at {time}" : "{temperature} {unit} intenzivní přeháňky v {time}"
+    "Weather status integrated in the Dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Napojení ohledně stavu počasí pro aplikaci Nástěnka.\n    Polohu uživatele je možné zjistit automaticky nebo zadat ručně. Poté je zobrazována předpověď na příštích 6 hodin.\n    Tento stav je také možné začlenit do ostatních míst, jako například Kalendář."
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

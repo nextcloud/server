@@ -32,8 +32,6 @@ use OCP\Migration\IOutput;
 use Test\TestCase;
 
 class CleanPreviewsTest extends TestCase {
-
-
 	/** @var IJobList|\PHPUnit_Framework_MockObject_MockObject */
 	private $jobList;
 

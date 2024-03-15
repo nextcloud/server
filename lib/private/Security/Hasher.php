@@ -42,28 +42,23 @@ use OCP\Security\IHasher;
  *
  * Usage:
  * // Hashing a message
- * $hash = \OC::$server->getHasher()->hash('MessageToHash');
+ * $hash = \OC::$server->get(\OCP\Security\IHasher::class)->hash('MessageToHash');
  * // Verifying a message - $newHash will contain the newly calculated hash
  * $newHash = null;
- * var_dump(\OC::$server->getHasher()->verify('a', '86f7e437faa5a7fce15d1ddcb9eaeaea377667b8', $newHash));
+ * var_dump(\OC::$server->get(\OCP\Security\IHasher::class)->verify('a', '86f7e437faa5a7fce15d1ddcb9eaeaea377667b8', $newHash));
  * var_dump($newHash);
  *
  * @package OC\Security
  */
 class Hasher implements IHasher {
-	/** @var IConfig */
-	private $config;
-	/** @var array Options passed to password_hash and password_needs_rehash */
-	private $options = [];
-	/** @var string Salt used for legacy passwords */
-	private $legacySalt = null;
+	/** Options passed to password_hash and password_needs_rehash */
+	private array $options = [];
+	/** Salt used for legacy passwords */
+	private ?string $legacySalt = null;
 
-	/**
-	 * @param IConfig $config
-	 */
-	public function __construct(IConfig $config) {
-		$this->config = $config;
-
+	public function __construct(
+		private IConfig $config,
+	) {
 		if (\defined('PASSWORD_ARGON2ID') || \defined('PASSWORD_ARGON2I')) {
 			// password_hash fails, when the minimum values are undershot.
 			// In this case, apply minimum.
@@ -106,7 +101,7 @@ class Hasher implements IHasher {
 	 * @param string $prefixedHash
 	 * @return null|array Null if the hash is not prefixed, otherwise array('version' => 1, 'hash' => 'foo')
 	 */
-	protected function splitHash(string $prefixedHash) {
+	protected function splitHash(string $prefixedHash): ?array {
 		$explodedString = explode('|', $prefixedHash, 2);
 		if (\count($explodedString) === 2) {
 			if ((int)$explodedString[0] > 0) {
@@ -132,6 +127,15 @@ class Hasher implements IHasher {
 		// Verify whether it matches a legacy PHPass or SHA1 string
 		$hashLength = \strlen($hash);
 		if (($hashLength === 60 && password_verify($message.$this->legacySalt, $hash)) ||
+			($hashLength === 40 && hash_equals($hash, sha1($message)))) {
+			$newHash = $this->hash($message);
+			return true;
+		}
+
+		// Verify whether it matches a legacy PHPass or SHA1 string
+		// Retry with empty passwordsalt for cases where it was not set
+		$hashLength = \strlen($hash);
+		if (($hashLength === 60 && password_verify($message, $hash)) ||
 			($hashLength === 40 && hash_equals($hash, sha1($message)))) {
 			$newHash = $this->hash($message);
 			return true;
@@ -189,7 +193,7 @@ class Hasher implements IHasher {
 		return password_needs_rehash($hash, $algorithm, $this->options);
 	}
 
-	private function getPrefferedAlgorithm() {
+	private function getPrefferedAlgorithm(): string {
 		$default = PASSWORD_BCRYPT;
 		if (\defined('PASSWORD_ARGON2I')) {
 			$default = PASSWORD_ARGON2I;
@@ -200,7 +204,7 @@ class Hasher implements IHasher {
 		}
 
 		// Check if we should use PASSWORD_DEFAULT
-		if ($this->config->getSystemValue('hashing_default_password', false) === true) {
+		if ($this->config->getSystemValueBool('hashing_default_password', false)) {
 			$default = PASSWORD_DEFAULT;
 		}
 

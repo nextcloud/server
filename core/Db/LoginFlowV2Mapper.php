@@ -30,15 +30,21 @@ use OCP\AppFramework\Db\QBMapper;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IDBConnection;
 
+/**
+ * @template-extends QBMapper<LoginFlowV2>
+ */
 class LoginFlowV2Mapper extends QBMapper {
 	private const lifetime = 1200;
 
-	/** @var ITimeFactory */
-	private $timeFactory;
-
-	public function __construct(IDBConnection $db, ITimeFactory $timeFactory) {
-		parent::__construct($db, 'login_flow_v2', LoginFlowV2::class);
-		$this->timeFactory = $timeFactory;
+	public function __construct(
+		IDBConnection $db,
+		private ITimeFactory $timeFactory,
+	) {
+		parent::__construct(
+			$db,
+			'login_flow_v2',
+			LoginFlowV2::class,
+		);
 	}
 
 	/**

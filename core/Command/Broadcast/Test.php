@@ -34,11 +34,10 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Test extends Command {
-	private IEventDispatcher $eventDispatcher;
-
-	public function __construct(IEventDispatcher $eventDispatcher) {
+	public function __construct(
+		private IEventDispatcher $eventDispatcher,
+	) {
 		parent::__construct();
-		$this->eventDispatcher = $eventDispatcher;
 	}
 
 	protected function configure(): void {
@@ -69,7 +68,7 @@ class Test extends Command {
 			private $uid;
 
 			public function __construct(string $name,
-										string $uid) {
+				string $uid) {
 				parent::__construct();
 				$this->name = $name;
 				$this->uid = $uid;

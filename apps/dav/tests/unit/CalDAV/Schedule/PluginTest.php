@@ -57,6 +57,9 @@ class PluginTest extends TestCase {
 	/** @var IConfig|MockObject  */
 	private $config;
 
+	/** @var MockObject|LoggerInterface */
+	private $logger;
+
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -70,12 +73,14 @@ class PluginTest extends TestCase {
 		$this->server->httpResponse = $response;
 		$this->server->xml = new Service();
 
-		$this->plugin = new Plugin($this->config);
+		$this->logger = $this->createMock(LoggerInterface::class);
+
+		$this->plugin = new Plugin($this->config, $this->logger);
 		$this->plugin->initialize($this->server);
 	}
 
-	public function testInitialize() {
-		$plugin = new Plugin($this->config);
+	public function testInitialize(): void {
+		$plugin = new Plugin($this->config, $this->logger);
 
 		$this->server->expects($this->exactly(10))
 			->method('on')
@@ -97,7 +102,7 @@ class PluginTest extends TestCase {
 		$plugin->initialize($this->server);
 	}
 
-	public function testGetAddressesForPrincipal() {
+	public function testGetAddressesForPrincipal(): void {
 		$href = $this->createMock(Href::class);
 		$href
 			->expects($this->once())
@@ -121,7 +126,7 @@ class PluginTest extends TestCase {
 	}
 
 
-	public function testGetAddressesForPrincipalEmpty() {
+	public function testGetAddressesForPrincipalEmpty(): void {
 		$this->server
 			->expects($this->once())
 			->method('getProperties')
@@ -137,12 +142,12 @@ class PluginTest extends TestCase {
 		$this->assertSame([], $result);
 	}
 
-	public function testStripOffMailTo() {
+	public function testStripOffMailTo(): void {
 		$this->assertEquals('test@example.com', $this->invokePrivate($this->plugin, 'stripOffMailTo', ['test@example.com']));
 		$this->assertEquals('test@example.com', $this->invokePrivate($this->plugin, 'stripOffMailTo', ['mailto:test@example.com']));
 	}
 
-	public function testGetAttendeeRSVP() {
+	public function testGetAttendeeRSVP(): void {
 		$property1 = $this->createMock(CalAddress::class);
 		$parameter1 = $this->createMock(Parameter::class);
 		$property1->expects($this->once())
@@ -192,6 +197,16 @@ class PluginTest extends TestCase {
 				false,
 				CalDavBackend::PERSONAL_CALENDAR_URI,
 				CalDavBackend::PERSONAL_CALENDAR_NAME,
+				true,
+				true
+			],
+			[
+				'principals/users/myuser',
+				'calendars/myuser',
+				false,
+				CalDavBackend::PERSONAL_CALENDAR_URI,
+				CalDavBackend::PERSONAL_CALENDAR_NAME,
+				false,
 				false,
 				true
 			],
@@ -218,6 +233,7 @@ class PluginTest extends TestCase {
 				CalDavBackend::PERSONAL_CALENDAR_URI,
 				CalDavBackend::PERSONAL_CALENDAR_NAME,
 				true,
+				false,
 				false,
 				false,
 			],
@@ -258,16 +274,8 @@ class PluginTest extends TestCase {
 
 	/**
 	 * @dataProvider propFindDefaultCalendarUrlProvider
-	 * @param string $principalUri
-	 * @param string|null $calendarHome
-	 * @param bool $isResource
-	 * @param string $calendarUri
-	 * @param string $displayName
-	 * @param bool $exists
-	 * @param bool $propertiesForPath
 	 */
-	public function testPropFindDefaultCalendarUrl(string $principalUri, ?string $calendarHome, bool $isResource, string $calendarUri, string $displayName, bool $exists, bool $hasExistingCalendars = false, bool $propertiesForPath = true) {
-		/** @var PropFind $propFind */
+	public function testPropFindDefaultCalendarUrl(string $principalUri, ?string $calendarHome, bool $isResource, string $calendarUri, string $displayName, bool $exists, bool $deleted = false, bool $hasExistingCalendars = false, bool $propertiesForPath = true): void {
 		$propFind = new PropFind(
 			$principalUri,
 			[
@@ -323,6 +331,12 @@ class PluginTest extends TestCase {
 			->with($calendarUri)
 			->willReturn($exists);
 
+		if ($exists) {
+			$calendar = $this->createMock(Calendar::class);
+			$calendar->expects($this->once())->method('isDeleted')->willReturn($deleted);
+			$calendarHomeObject->expects($deleted && !$hasExistingCalendars ? $this->exactly(2) : $this->once())->method('getChild')->with($calendarUri)->willReturn($calendar);
+		}
+
 		$calendarBackend = $this->createMock(CalDavBackend::class);
 		$calendarUri = $hasExistingCalendars ? 'custom' : $calendarUri;
 		$displayName = $hasExistingCalendars ? 'Custom Calendar' : $displayName;
@@ -344,7 +358,7 @@ class PluginTest extends TestCase {
 			)
 		] : [];
 
-		if (!$exists) {
+		if (!$exists || $deleted) {
 			if (!$hasExistingCalendars) {
 				$calendarBackend->expects($this->once())
 				->method('createCalendar')

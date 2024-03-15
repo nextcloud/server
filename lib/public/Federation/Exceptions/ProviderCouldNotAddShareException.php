@@ -32,7 +32,6 @@ use OCP\HintException;
  * @since 14.0.0
  */
 class ProviderCouldNotAddShareException extends HintException {
-
 	/**
 	 * ProviderCouldNotAddShareException constructor.
 	 *

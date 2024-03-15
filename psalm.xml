@@ -6,6 +6,8 @@
 	xmlns="https://getpsalm.org/schema/config"
 	xsi:schemaLocation="https://getpsalm.org/schema/config"
     errorBaseline="build/psalm-baseline.xml"
+	findUnusedBaselineEntry="false"
+	findUnusedCode="false"
 >
 	<plugins>
 		<plugin filename="build/psalm/AppFrameworkTainter.php" />
@@ -41,9 +43,9 @@
 		<directory name="apps/workflowengine"/>
 		<directory name="core"/>
 		<directory name="lib"/>
-		<directory name="ocm-provider"/>
 		<directory name="ocs"/>
 		<directory name="ocs-provider"/>
+		<file name="cron.php"/>
 		<file name="index.php"/>
 		<file name="public.php"/>
 		<file name="remote.php"/>
@@ -67,6 +69,7 @@
 		<file name="build/stubs/imagick.php"/>
 		<file name="build/stubs/intl.php"/>
 		<file name="build/stubs/IntlChar.php"/>
+		<file name="build/stubs/SensitiveParameter.phpstub"/>
 		<file name="build/stubs/ldap.php"/>
 		<file name="build/stubs/memcached.php"/>
 		<file name="build/stubs/redis.php"/>
@@ -77,12 +80,24 @@
 		<file name="build/stubs/ftp.php"/>
 		<file name="build/stubs/pcntl.php"/>
 		<file name="build/stubs/zip.php"/>
+		<file name="build/stubs/psr_container.php"/>
+		<file name="3rdparty/sabre/uri/lib/functions.php" />
+		<file name="build/stubs/app_api.php" />
 	</stubs>
 	<issueHandlers>
+		<LessSpecificReturnStatement errorLevel="error"/>
+		<LessSpecificReturnType errorLevel="error"/>
+		<LessSpecificImplementedReturnType errorLevel="error"/>
+		<MoreSpecificReturnType errorLevel="error"/>
 		<UndefinedClass>
 			<errorLevel type="suppress">
+				<referencedClass name="OCA\Circles\CirclesManager"/>
+				<referencedClass name="OCA\Circles\Exceptions\CircleNotFoundException"/>
+				<referencedClass name="OCA\Circles\Model\Circle"/>
+				<referencedClass name="OCA\Circles\Model\Member"/>
 				<referencedClass name="OCA\GroupFolders\Mount\GroupFolderStorage"/>
 				<referencedClass name="OCA\TwoFactorNextcloudNotification\Controller\APIController"/>
+				<referencedClass name="OCA\GlobalSiteSelector\Service\SlaveService"/>
 			</errorLevel>
 		</UndefinedClass>
 		<UndefinedFunction>
@@ -126,6 +141,7 @@
 				<!-- Helper classes for sharing API integration from other apps -->
 				<referencedClass name="OCA\Deck\Sharing\ShareAPIHelper" />
 				<referencedClass name="OCA\Talk\Share\Helper\DeletedShareAPIController" />
+				<referencedClass name="OCA\GlobalSiteSelector\Service\SlaveService"/>
 			</errorLevel>
 		</UndefinedDocblockClass>
 	</issueHandlers>

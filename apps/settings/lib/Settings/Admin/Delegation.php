@@ -28,10 +28,10 @@ use OCA\Settings\Service\AuthorizedGroupService;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\IGroupManager;
+use OCP\IURLGenerator;
 use OCP\Settings\IDelegatedSettings;
 use OCP\Settings\IManager;
 use OCP\Settings\ISettings;
-use OCP\IURLGenerator;
 
 class Delegation implements ISettings {
 	private IManager $settingManager;
@@ -82,9 +82,11 @@ class Delegation implements ISettings {
 				$settings = array_merge(
 					$settings,
 					array_map(function (IDelegatedSettings $setting) use ($section) {
+						$sectionName = $section->getName() . ($setting->getName() !== null ? ' - ' . $setting->getName() : '');
 						return [
 							'class' => get_class($setting),
-							'sectionName' => $section->getName() . ($setting->getName() !== null ? ' - ' . $setting->getName() : ''),
+							'sectionName' => $sectionName,
+							'id' => mb_strtolower(str_replace(' ', '-', $sectionName)),
 							'priority' => $section->getPriority(),
 						];
 					}, $sectionSettings)

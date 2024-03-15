@@ -37,7 +37,6 @@ use Throwable;
  * @template-implements IEventListener<\OCP\User\Events\UserDeletedEvent>
  */
 class UserDeletedTokenCleanupListener implements IEventListener {
-
 	/** @var Manager */
 	private $manager;
 
@@ -45,7 +44,7 @@ class UserDeletedTokenCleanupListener implements IEventListener {
 	private $logger;
 
 	public function __construct(Manager $manager,
-								LoggerInterface $logger) {
+		LoggerInterface $logger) {
 		$this->manager = $manager;
 		$this->logger = $logger;
 	}

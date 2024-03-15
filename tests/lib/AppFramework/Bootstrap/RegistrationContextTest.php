@@ -27,6 +27,7 @@ namespace lib\AppFramework\Bootstrap;
 
 use OC\AppFramework\Bootstrap\RegistrationContext;
 use OC\AppFramework\Bootstrap\ServiceRegistration;
+use OC\Core\Middleware\TwoFactorMiddleware;
 use OCP\AppFramework\App;
 use OCP\AppFramework\IAppContainer;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -35,7 +36,6 @@ use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class RegistrationContextTest extends TestCase {
-
 	/** @var LoggerInterface|MockObject */
 	private $logger;
 
@@ -146,24 +146,6 @@ class RegistrationContextTest extends TestCase {
 		]);
 	}
 
-	public function testRegisterMiddleware(): void {
-		$app = $this->createMock(App::class);
-		$name = 'abc';
-		$container = $this->createMock(IAppContainer::class);
-		$app->method('getContainer')
-			->willReturn($container);
-		$container->expects($this->once())
-			->method('registerMiddleware')
-			->with($name);
-		$this->logger->expects($this->never())
-			->method('error');
-
-		$this->context->for('myapp')->registerMiddleware($name);
-		$this->context->delegateMiddlewareRegistrations([
-			'myapp' => $app,
-		]);
-	}
-
 	public function testRegisterUserMigrator(): void {
 		$appIdA = 'myapp';
 		$migratorClassA = 'OCA\App\UserMigration\AppMigrator';
@@ -195,5 +177,15 @@ class RegistrationContextTest extends TestCase {
 			[true],
 			[false]
 		];
+	}
+
+	public function testGetMiddlewareRegistrations(): void {
+		$this->context->registerMiddleware('core', TwoFactorMiddleware::class, false);
+
+		$registrations = $this->context->getMiddlewareRegistrations();
+
+		self::assertNotEmpty($registrations);
+		self::assertSame('core', $registrations[0]->getAppId());
+		self::assertSame(TwoFactorMiddleware::class, $registrations[0]->getService());
 	}
 }

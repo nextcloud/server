@@ -41,7 +41,6 @@ namespace OCP\WorkflowEngine;
  * @since 18.0.0
  */
 interface IComplexOperation extends IOperation {
-
 	/**
 	 * As IComplexOperation chooses the triggering events itself, a hint has
 	 * to be shown to the user so make clear when this operation is becoming

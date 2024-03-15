@@ -27,7 +27,6 @@ use OCP\Federation\ICloudFederationNotification;
 use OCP\Federation\ICloudFederationShare;
 
 class CloudFederationFactory implements ICloudFederationFactory {
-
 	/**
 	 * get a CloudFederationShare Object to prepare a share you want to send
 	 *

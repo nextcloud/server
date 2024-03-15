@@ -32,7 +32,6 @@ namespace OCP\Calendar\Room;
  * @since 17.0.0
  */
 interface IRoomMetadata {
-
 	/**
 	 * Type of room
 	 *

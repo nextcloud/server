@@ -42,7 +42,6 @@ use Psr\Container\ContainerInterface;
  * @since 6.0.0
  */
 interface IAppContainer extends ContainerInterface, IContainer {
-
 	/**
 	 * used to return the appname of the set application
 	 * @return string the name of your application

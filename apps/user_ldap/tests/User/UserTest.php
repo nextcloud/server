@@ -493,7 +493,7 @@ class UserTest extends \Test\TestCase {
 		$this->user->updateQuota();
 	}
 
-	//the testUpdateAvatar series also implicitely tests getAvatarImage
+	//the testUpdateAvatar series also implicitly tests getAvatarImage
 	public function XtestUpdateAvatarJpegPhotoProvided() {
 		$this->access->expects($this->once())
 			->method('readAttribute')
@@ -585,9 +585,17 @@ class UserTest extends \Test\TestCase {
 		$avatar = $this->createMock(IAvatar::class);
 		$avatar->expects($this->never())
 			->method('set');
+		$avatar->expects($this->any())
+			->method('exists')
+			->willReturn(true);
+		$avatar->expects($this->any())
+			->method('isCustomAvatar')
+			->willReturn(true);
 
-		$this->avatarManager->expects($this->never())
-			->method('getAvatar');
+		$this->avatarManager->expects($this->any())
+			->method('getAvatar')
+			->with($this->uid)
+			->willReturn($avatar);
 
 		$this->connection->expects($this->any())
 			->method('resolveRule')

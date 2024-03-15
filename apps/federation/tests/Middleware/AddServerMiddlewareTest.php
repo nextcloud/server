@@ -31,8 +31,8 @@ use OCA\Federation\Middleware\AddServerMiddleware;
 use OCP\AppFramework\Http;
 use OCP\HintException;
 use OCP\IL10N;
-use Test\TestCase;
 use Psr\Log\LoggerInterface;
+use Test\TestCase;
 
 class AddServerMiddlewareTest extends TestCase {
 

@@ -1,6 +1,7 @@
 <?php
 /**
  * @copyright Copyright (c) 2017 Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @copyright Copyright (c) 2022 Carl Schwan <carl@carlschwan.eu>
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  *
@@ -21,42 +22,8 @@
  *
  */
 
-script('settings', [
-	'settings',
-	'templates',
-	'vue-settings-personal-security',
-]);
-
 if ($_['passwordChangeSupported']) {
-	script('settings', 'security_password');
+	\OCP\Util::addScript('settings', 'vue-settings-personal-password');
 }
-
 ?>
-<?php if ($_['passwordChangeSupported']) { ?>
-<div id="security-password" class="section">
-	<h2 class="inlineblock"><?php p($l->t('Password'));?></h2>
-	<span id="password-error-msg" class="msg success hidden">Saved</span>
-	<div class="personal-settings-setting-box personal-settings-password-box">
-			<form id="passwordform" method="POST">
-				<label for="pass1" class="hidden-visually"><?php p($l->t('Current password')); ?>: </label>
-				<input type="password" id="pass1" name="oldpassword"
-					   placeholder="<?php p($l->t('Current password'));?>"
-					   autocomplete="current-password" autocapitalize="none" autocorrect="off" />
-
-				<div class="personal-show-container">
-					<label for="pass2" class="hidden-visually"><?php p($l->t('New password'));?>: </label>
-					<input type="password" id="pass2" name="newpassword"
-						   maxlength="469"
-						   placeholder="<?php p($l->t('New password')); ?>"
-						   data-typetoggle="#personal-show"
-						   autocomplete="new-password" autocapitalize="none" autocorrect="off" />
-					<input type="checkbox" id="personal-show" class="hidden-visually" name="show" /><label for="personal-show" class="personal-show-label"></label>
-				</div>
-
-				<input id="passwordbutton" type="submit" value="<?php p($l->t('Change password')); ?>" />
-
-			</form>
-	</div>
-	<span class="msg"></span>
-</div>
-<?php } ?>
+<div id="security-password"></div>

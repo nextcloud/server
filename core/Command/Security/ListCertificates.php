@@ -26,18 +26,20 @@ use OC\Core\Command\Base;
 use OCP\ICertificate;
 use OCP\ICertificateManager;
 use OCP\IL10N;
+use OCP\L10N\IFactory as IL10NFactory;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class ListCertificates extends Base {
-	protected ICertificateManager $certificateManager;
 	protected IL10N $l;
 
-	public function __construct(ICertificateManager $certificateManager, IL10N $l) {
-		$this->certificateManager = $certificateManager;
-		$this->l = $l;
+	public function __construct(
+		protected ICertificateManager $certificateManager,
+		IL10NFactory $l10nFactory,
+	) {
 		parent::__construct();
+		$this->l = $l10nFactory->get('core');
 	}
 
 	protected function configure() {

@@ -50,8 +50,6 @@ OC.L10N.register(
     "Description: %s" : "Priskribo: %s",
     "Where: %s" : "Kie: %s",
     "%1$s via %2$s" : "%1$s pere de %2$s",
-    "Invitation canceled" : "Invito nuligita",
-    "Invitation updated" : "Invito ĝisdatigita",
     "Location:" : "Loko:",
     "Link:" : "Ligilo:",
     "Accept" : "Akcepti",
@@ -87,7 +85,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Bv. senpere kontakti la organizanton.",
     "Are you accepting the invitation?" : "Ĉu vi akceptas la inviton?",
     "Tentative" : "Nekonfirmita",
-    "Comment" : "Komento",
     "Your attendance was updated successfully." : "Via ĉeesto sukcese ĝisdatiĝis.",
     "Todos" : "Taskoj",
     "{actor} created todo {todo} in list {calendar}" : "{actor} kreis farendaĵon {todo} en listo {calendar}",
@@ -100,6 +97,8 @@ OC.L10N.register(
     "You solved todo {todo} in list {calendar}" : "Vi plenumis farendaĵon {todo} en listo {calendar}",
     "{actor} reopened todo {todo} in list {calendar}" : "{actor} remalfermis farendaĵon {todo} en listo {calendar}",
     "You reopened todo {todo} in list {calendar}" : "Vi remalfermis farendaĵon {todo} en listo {calendar}",
-    "A calendar <strong>todo</strong> was modified" : "Kalendara <strong>farendaĵo</strong> estis modifita"
+    "A calendar <strong>todo</strong> was modified" : "Kalendara <strong>farendaĵo</strong> estis modifita",
+    "Invitation canceled" : "Invito nuligita",
+    "Invitation updated" : "Invito ĝisdatigita"
 },
 "nplurals=2; plural=(n != 1);");

@@ -16,7 +16,7 @@
 @use 'sass:math';
 @use 'variables';
 
-html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, code, del, dfn, em, img, q, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, dialog, figure, footer, header, hgroup, nav, section {
+html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, code, del, dfn, em, img, q, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, dialog, figure, footer, header, hgroup, nav, section, main {
 	margin: 0;
 	padding: 0;
 	border: 0;
@@ -34,14 +34,15 @@ html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pr
 }
 
 /** Let vue apps handle the focus themselves */
-.content:not(#content-vue) :focus-visible,
-.app-navigation:not(#app-navigation-vue) :focus-visible {
-	box-shadow: inset 0 0 0 2px var(--color-primary);
+.content:not(#content-vue) :focus-visible {
+	box-shadow: inset 0 0 0 2px var(--color-primary-element);
 	outline: none;
 }
 
 html, body {
 	height: 100%;
+	// disable pull-down-to-refresh on chromium mobile
+	overscroll-behavior-y: contain;
 }
 
 article, aside, dialog, figure, footer, header, hgroup, nav, section {
@@ -98,7 +99,6 @@ ul {
 }
 
 body {
-	background-color: var(--color-main-background);
 	font-weight: normal;
 	/* bring the default font size up to 15px */
 	font-size: var(--default-font-size);
@@ -113,7 +113,7 @@ body {
 
 .two-factor-provider {
 	text-align: center;
-	width: 258px !important;
+	width: 100% !important;
 	display: inline-block;
 	margin-bottom: 0 !important;
 	background-color: var(--color-background-darker) !important;
@@ -141,7 +141,7 @@ body {
 	z-index: 9000;
 	text-align: center;
 	background-color: var(--color-background-darker);
-	color: var(--color-primary-text);
+	color: var(--color-primary-element-text);
 	line-height: 125%;
 	font-size: 24px;
 	div {
@@ -152,10 +152,10 @@ body {
 		margin: 0px auto;
 	}
 	a {
-		color: var(--color-primary-text);
+		color: var(--color-primary-element-text);
 		border-bottom: 2px dotted var(--color-main-background);
 		&:hover, &:focus {
-			color: var(--color-primary-text-dark);
+			color: var(--color-primary-element-text-dark);
 		}
 	}
 }
@@ -167,12 +167,16 @@ body {
 	height: 12px
 }
 
+::-webkit-scrollbar-corner {
+	background-color: transparent;
+}
+
 ::-webkit-scrollbar-track-piece {
 	background-color: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-	background: var(--color-border-dark);
+	background: var(--color-scrollbar);
 	border-radius: var(--border-radius-large);
 	border: 2px solid transparent;
 	background-clip: content-box;
@@ -183,56 +187,14 @@ body {
 
 ::selection {
 	background-color: var(--color-primary-element);
-	color: var(--color-primary-text);
+	color: var(--color-primary-element-text);
 }
 
 
 /* CONTENT ------------------------------------------------------------------ */
 
-.files-controls {
-	box-sizing: border-box;
-	position: -webkit-sticky;
-	position: sticky;
-	height: 44px;
-	padding: 0;
-	margin: 0;
-	background-color: var(--color-main-background-translucent);
-	z-index: 62; /* must be above the filelist sticky header and texteditor menubar */
-	-webkit-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
-	display: flex;
-	top: variables.$header-height;
-}
-
-/* position controls for apps with app-navigation */
-
-.viewer-mode #app-navigation + #app-content .files-controls {
-	left: 0;
-}
-
 #app-navigation * {
 	box-sizing: border-box;
-}
-
-.files-controls .actions {
-	> div,
-	& {
-		> .button, button {
-			box-sizing: border-box;
-			display: inline-block;
-			display: flex;
-			height: 36px;
-			width: 36px;
-			padding: 9px; // width - border - icon width = 18px
-			align-items: center;
-			justify-content: center;
-		}
-		.button.hidden {
-			display: none;
-		}
-	}
 }
 
 /* EMPTY CONTENT DISPLAY ------------------------------------------------------------ */
@@ -305,7 +267,7 @@ body {
 	opacity: .8;
 }
 #show:focus-visible + label, #dbpassword-toggle:focus-visible + label, #personal-show:focus-visible + label {
-	box-shadow: var(--color-primary) 0 0 0 2px;
+	box-shadow: var(--color-primary-element) 0 0 0 2px;
 	opacity: 1;
 	border-radius: 9999px;
 }
@@ -466,7 +428,7 @@ tr {
 	}
 }
 
-tbody tr {
+tbody tr:not(.group-header) {
 	&:hover, &:focus, &:active {
 		background-color: var(--color-background-dark);
 	}
@@ -558,8 +520,8 @@ code {
 			&.ui-datepicker-current-day a.ui-state-active,
 			.ui-state-hover,
 			.ui-state-focus {
-				background-color: var(--color-primary);
-				color: var(--color-primary-text);
+				background-color: var(--color-primary-element);
+				color: var(--color-primary-element-text);
 				font-weight: bold;
 			}
 
@@ -630,8 +592,8 @@ code {
 			&.ui-timepicker-minute-cell a.ui-state-active,
 			.ui-state-hover,
 			.ui-state-focus {
-				background-color: var(--color-primary);
-				color: var(--color-primary-text);
+				background-color: var(--color-primary-element);
+				color: var(--color-primary-element-text);
 				font-weight: bold;
 			}
 
@@ -679,254 +641,6 @@ code {
 }
 
 /* ---- DIALOGS ---- */
-#oc-dialog-filepicker-content {
-	position: relative;
-	display: flex;
-	flex-direction:column;
-
-	.dirtree {
-		flex-wrap: wrap;
-		box-sizing: border-box;
-		padding-right: 140px;
-
-		div:first-child a {
-			background-image: var(--icon-home-dark);
-			background-repeat: no-repeat;
-			background-position: left center;
-		}
-		span {
-			&:not(:last-child) {
-				cursor: pointer;
-			}
-			&:last-child {
-				font-weight: bold;
-			}
-			&:not(:last-child)::after {
-				content: '>';
-				padding: 3px;
-			}
-		}
-	}
-
-	#picker-showgridview {
-		position: absolute;
-		background-color: transparent;
-		border: none;
-		margin: 0;
-		padding: 22px;
-		opacity: .5;
-		right: 0;
-		top: 0;
-
-		&:hover,
-		&:active,
-		&:focus {
-			box-shadow: 0 0 0 2px var(--color-primary);
-			opacity: 1;
-		}
-	}
-
-	.actions.creatable {
-		flex-wrap: wrap;
-		padding: 0px;
-		box-sizing: border-box;
-		display: inline-flex;
-		float: none;
-		max-height: 36px;
-		max-width: 36px;
-		background-color: var(--color-background-dark);
-		border: 1px solid var(--color-border-dark);
-		border-radius: var(--border-radius-pill);
-		position: relative;
-		left: 15px;
-		top:3px;
-		order:1;
-
-		.icon.icon-add{
-			background-image: var(--icon-add-dark);
-			background-size: 16px 16px;
-			width: 34px;
-			height: 34px;
-			margin: 0px;
-			opacity: 0.5;
-		}
-
-		a {
-			width: 36px;
-			padding: 0px;
-			position: static;
-		}
-
-		.menu {
-			top: 100%;
-			margin-top: 10px;
-			form {
-				display: flex;
-				margin: 10px;
-			}
-		}
-
-	}
-
-	.filelist-container {
-		box-sizing: border-box;
-		display: inline-block;
-		overflow-y: auto;
-		flex: 1;
-		/*height: 100%;*/
-		/* overflow under the button row */
-		width: 100%;
-		overflow-x: hidden;
-	}
-	.emptycontent {
-		color: var(--color-text-maxcontrast);
-		text-align: center;
-		margin-top: 80px;
-		width: 100%;
-		display: none;
-	}
-	.filelist {
-		background-color: var(--color-main-background);
-		width: 100%;
-	}
-	#picker-filestable.filelist {
-		/* prevent the filepicker to overflow */
-		min-width: initial;
-		margin-bottom: 50px;
-		thead {
-			tr {
-				border-bottom: 1px solid var(--color-border);
-				background-color: var(--color-main-background);
-				th {
-					width: 80%;
-					border: none;
-				}
-			}
-		}
-		th .columntitle {
-			display: block;
-			padding: 15px;
-			height: 50px;
-			box-sizing: border-box;
-			-moz-box-sizing: border-box;
-			vertical-align: middle;
-		}
-		th .columntitle.name {
-			padding-left: 5px;
-			margin-left: 50px;
-		}
-
-		th .sort-indicator {
-			width: 10px;
-			height: 8px;
-			margin-left: 5px;
-			display: inline-block;
-			vertical-align: text-bottom;
-			opacity: .3;
-		}
-		.sort-indicator.hidden,
-		th:hover .sort-indicator.hidden,
-		th:focus .sort-indicator.hidden {
-			visibility: hidden;
-		}
-		th:hover .sort-indicator.hidden,
-		th:focus .sort-indicator.hidden {
-			visibility: visible;
-		}
-
-		td {
-			padding: 14px;
-			border-bottom: 1px solid var(--color-border);
-		}
-		tr:last-child td {
-			border-bottom: none;
-		}
-		.filename {
-			overflow: hidden;
-			white-space: nowrap;
-			text-overflow: ellipsis;
-			background-size: 32px;
-			background-repeat: no-repeat;
-			padding-left: 51px;
-			background-position: 7px 7px;
-			cursor: pointer;
-			// avoid taking full width
-			max-width: 0;
-			.filename-parts {
-				display: flex;
-				&__first {
-					overflow: hidden;
-					white-space: pre;
-					text-overflow: ellipsis;
-				}
-				&__last {
-					white-space: pre;
-				}
-			}
-		}
-		.filesize, .date {
-			width: 80px;
-		}
-		.filesize {
-			text-align: right;
-		}
-		&.view-grid {
-			$grid-size: 120px;
-			$grid-pad: 10px;
-			$name-height: 30px;
-			display: flex;
-			flex-direction: column;
-
-			tbody {
-				display: grid;
-				grid-template-columns: repeat(auto-fill, $grid-size);
-				justify-content: space-around;
-				row-gap: 15px;
-				margin: 15px 0;
-
-				tr {
-					display: block;
-					position: relative;
-					border-radius: var(--border-radius);
-					padding: $grid-pad;
-					display: flex;
-					flex-direction: column;
-					width: $grid-size - 2 * $grid-pad;
-
-
-					td {
-						border: none;
-						padding: 0;
-						text-align: center;
-						border-radius: var(--border-radius);
-
-						&.filename {
-							padding: #{$grid-size - 2 * $grid-pad} 0 0 0;
-							background-position: center top;
-							background-size: contain;
-							line-height: $name-height;
-							max-width: none;
-							.filename-parts {
-								justify-content: center;
-							}
-						}
-						&.filesize {
-							line-height: math.div($name-height, 3);
-							width: 100%;
-						}
-						&.date {
-							display: none;
-						}
-					}
-				}
-			}
-		}
-	}
-	.filepicker_element_selected {
-		background-color: var(--color-background-darker);
-	}
-}
-
 .ui-dialog {
 	position: fixed !important;
 }
@@ -934,158 +648,6 @@ code {
 span.ui-icon {
 	float: left;
 	margin: 3px 7px 30px 0;
-}
-
-/* ---- CONTACTS MENU ---- */
-
-#contactsmenu {
-	.menutoggle {
-		cursor: pointer;
-		&:before {
-			background-size: 20px 20px;
-			background-repeat: no-repeat;
-			background-position-x: 3px;
-			background-position-y: 4px;
-			padding: 14px;
-			content: ' ';
-			// Force white
-			background-image: var(--original-icon-contacts-white);
-			filter: var(--primary-invert-if-bright);
-		}
-
-		&:hover,
-		&:focus,
-		&:active {
-			opacity: 1 !important;
-		}
-	}
-
-	#contactsmenu-menu {
-		a {
-			padding: 2px;
-
-			&:focus-visible {
-				box-shadow: inset 0 0 0 2px var(--color-main-text) !important; // override rule in core/css/headers.scss #header a:focus-visible
-			}
-		}
-	}
-}
-
-#header .header-right > div#contactsmenu > .menu {
-	/* show 2.5 to 4.5 entries depending on the screen height */
-	height: calc(100vh - 50px * 3);
-	max-height: calc(50px * 4.5 + 50px);
-	min-height: calc(50px * 3.5);
-	width: 350px;
-
-	.emptycontent {
-		margin-top: 5vh !important;
-		margin-bottom: 2vh;
-		.icon-loading,
-		.icon-search {
-			display: inline-block;
-		}
-	}
-
-	.content {
-		/* fixed max height of the parent container without the search input */
-		height: calc(100vh - 50px * 3 - 50px);
-		max-height: calc(50px * 4.5);
-		min-height: calc(50px * 3.5 - 50px);
-		overflow-y: auto;
-
-		.footer {
-			text-align: center;
-
-			a {
-				display: block;
-				width: 100%;
-				padding: 12px 0;
-				opacity: .5;
-			}
-		}
-	}
-
-	.contact {
-		display: flex;
-		position: relative;
-		align-items: center;
-		padding: 3px 3px 3px 10px;
-		border-bottom: 1px solid var(--color-border);
-
-		.avatar {
-			height: 32px;
-			width: 32px;
-			display: inline-block;
-		}
-
-		.body {
-			flex-grow: 1;
-			padding-left: 8px;
-
-			div {
-				position: relative;
-				width: 100%;
-			}
-
-			.full-name, .last-message {
-				/* TODO: don't use fixed width */
-				max-width: 204px;
-				overflow: hidden;
-				white-space: nowrap;
-				text-overflow: ellipsis;
-			}
-			.last-message {
-				opacity: .5;
-			}
-		}
-
-		.top-action, .second-action, .other-actions {
-			width: 16px;
-			height: 16px;
-			opacity: .5;
-			cursor: pointer;
-
-			&:not(button) {
-				padding: 14px;
-			}
-
-			&:hover,
-			&:active,
-			&:focus {
-				opacity: 1;
-			}
-		}
-
-		button.other-actions {
-			margin: 5px;
-
-			&:focus {
-				border-color: transparent;
-				box-shadow: 0 0 0 2px var(--color-main-text);
-			}
-
-			&:focus-visible {
-				border-radius: var(--border-radius-pill);
-			}
-		}
-
-		/* actions menu */
-		.menu {
-			top: 47px;
-			margin-right: 13px;
-		}
-		.popovermenu::after {
-			right: 2px;
-		}
-	}
-}
-
-
-#contactsmenu-search {
-	width: calc(100% - 16px);
-	margin: 8px;
-	height: 34px;
 }
 
 /* ---- TOOLTIPS ---- */
@@ -1135,8 +697,9 @@ span.ui-icon {
 /* ---- BREADCRUMB ---- */
 .breadcrumb {
 	display: inline-flex;
+	height: 50px;
 }
-div.crumb {
+li.crumb {
 	display: inline-flex;
 	background-image: url('../img/breadcrumb.svg?v=1');
 	background-repeat: no-repeat;

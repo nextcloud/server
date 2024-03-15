@@ -245,15 +245,6 @@ class OC_Defaults {
 	}
 
 	/**
-	 * Returns logo claim
-	 * @return string logo claim
-	 * @deprecated 13.0.0
-	 */
-	public function getLogoClaim() {
-		return '';
-	}
-
-	/**
 	 * Returns short version of the footer
 	 * @return string short footer
 	 */

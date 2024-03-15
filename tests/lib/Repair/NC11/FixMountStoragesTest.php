@@ -36,7 +36,6 @@ use Test\TestCase;
  * @group DB
  */
 class FixMountStoragesTest extends TestCase {
-
 	/** @var IDBConnection */
 	private $db;
 
@@ -70,17 +69,16 @@ class FixMountStoragesTest extends TestCase {
 
 		/** @var IOutput|\PHPUnit\Framework\MockObject\MockObject $output */
 		$output = $this->createMock(IOutput::class);
-		$output->expects($this->at(0))
+		$output->expects($this->exactly(2))
 			->method('info')
-			->with('1 mounts updated');
+			->withConsecutive(
+				['1 mounts updated'],
+				['No mounts updated']
+			);
 
 		$this->repair->run($output);
 		$this->assertStorage($mount1, 42);
 		$this->assertStorage($mount2, 23);
-
-		$output->expects($this->at(0))
-			->method('info')
-			->with('No mounts updated');
 
 		$this->repair->run($output);
 		$this->assertStorage($mount1, 42);

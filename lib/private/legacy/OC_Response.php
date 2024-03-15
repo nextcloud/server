@@ -99,7 +99,7 @@ class OC_Response {
 			header('X-Content-Type-Options: nosniff'); // Disable sniffing the content type for IE
 			header('X-Frame-Options: SAMEORIGIN'); // Disallow iFraming from other domains
 			header('X-Permitted-Cross-Domain-Policies: none'); // https://www.adobe.com/devnet/adobe-media-server/articles/cross-domain-xml-for-streaming.html
-			header('X-Robots-Tag: none'); // https://developers.google.com/webmasters/control-crawl-index/docs/robots_meta_tag
+			header('X-Robots-Tag: noindex, nofollow'); // https://developers.google.com/webmasters/control-crawl-index/docs/robots_meta_tag
 			header('X-XSS-Protection: 1; mode=block'); // Enforce browser based XSS filters
 		}
 	}

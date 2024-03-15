@@ -26,6 +26,11 @@ declare(strict_types=1);
  */
 namespace OCA\Files_Versions\Sabre;
 
+use OCA\Files_Versions\Versions\IDeletableVersionBackend;
+use OCA\Files_Versions\Versions\IMetadataVersion;
+use OCA\Files_Versions\Versions\IMetadataVersionBackend;
+use OCA\Files_Versions\Versions\INameableVersion;
+use OCA\Files_Versions\Versions\INameableVersionBackend;
 use OCA\Files_Versions\Versions\IVersion;
 use OCA\Files_Versions\Versions\IVersionManager;
 use OCP\Files\NotFoundException;
@@ -34,15 +39,10 @@ use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\IFile;
 
 class VersionFile implements IFile {
-	/** @var IVersion */
-	private $version;
-
-	/** @var IVersionManager */
-	private $versionManager;
-
-	public function __construct(IVersion $version, IVersionManager $versionManager) {
-		$this->version = $version;
-		$this->versionManager = $versionManager;
+	public function __construct(
+		private IVersion $version,
+		private IVersionManager $versionManager
+	) {
 	}
 
 	public function put($data) {
@@ -65,12 +65,20 @@ class VersionFile implements IFile {
 		return (string)$this->version->getRevisionId();
 	}
 
-	public function getSize(): int {
+	/**
+	 * @psalm-suppress ImplementedReturnTypeMismatch \Sabre\DAV\IFile::getSize signature does not support 32bit
+	 * @return int|float
+	 */
+	public function getSize(): int|float {
 		return $this->version->getSize();
 	}
 
 	public function delete() {
-		throw new Forbidden();
+		if ($this->versionManager instanceof IDeletableVersionBackend) {
+			$this->versionManager->deleteVersion($this->version);
+		} else {
+			throw new Forbidden();
+		}
 	}
 
 	public function getName(): string {
@@ -79,6 +87,29 @@ class VersionFile implements IFile {
 
 	public function setName($name) {
 		throw new Forbidden();
+	}
+
+	public function setMetadataValue(string $key, string $value): bool {
+		$backend = $this->version->getBackend();
+
+		if ($backend instanceof IMetadataVersionBackend) {
+			$backend->setMetadataValue($this->version->getSourceFile(), $this->version->getRevisionId(), $key, $value);
+			return true;
+		} elseif ($key === 'label' && $backend instanceof INameableVersionBackend) {
+			$backend->setVersionLabel($this->version, $value);
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public function getMetadataValue(string $key): ?string {
+		if ($this->version instanceof IMetadataVersion) {
+			return $this->version->getMetadataValue($key);
+		} elseif ($key === 'label' && $this->version instanceof INameableVersion) {
+			return $this->version->getLabel();
+		}
+		return null;
 	}
 
 	public function getLastModified(): int {

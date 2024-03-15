@@ -14,28 +14,20 @@ use OC\Setup;
 use OC\SystemConfig;
 use OCP\Defaults;
 use OCP\IL10N;
+use OCP\L10N\IFactory as IL10NFactory;
 use OCP\Security\ISecureRandom;
-use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
 class SetupTest extends \Test\TestCase {
-
-	/** @var SystemConfig|MockObject */
-	protected $config;
-	/** @var \bantu\IniGetWrapper\IniGetWrapper|MockObject */
-	private $iniWrapper;
-	/** @var \OCP\IL10N|MockObject */
-	private $l10n;
-	/** @var Defaults|MockObject */
-	private $defaults;
-	/** @var \OC\Setup|MockObject */
-	protected $setupClass;
-	/** @var LoggerInterface|MockObject */
-	protected $logger;
-	/** @var \OCP\Security\ISecureRandom|MockObject */
-	protected $random;
-	/** @var Installer|MockObject */
-	protected $installer;
+	protected SystemConfig $config;
+	private IniGetWrapper $iniWrapper;
+	private IL10N $l10n;
+	private IL10NFactory $l10nFactory;
+	private Defaults $defaults;
+	protected Setup $setupClass;
+	protected LoggerInterface $logger;
+	protected ISecureRandom $random;
+	protected Installer $installer;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -43,13 +35,16 @@ class SetupTest extends \Test\TestCase {
 		$this->config = $this->createMock(SystemConfig::class);
 		$this->iniWrapper = $this->createMock(IniGetWrapper::class);
 		$this->l10n = $this->createMock(IL10N::class);
+		$this->l10nFactory = $this->createMock(IL10NFactory::class);
+		$this->l10nFactory->method('get')
+			->willReturn($this->l10n);
 		$this->defaults = $this->createMock(Defaults::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->random = $this->createMock(ISecureRandom::class);
 		$this->installer = $this->createMock(Installer::class);
 		$this->setupClass = $this->getMockBuilder(Setup::class)
 			->setMethods(['class_exists', 'is_callable', 'getAvailableDbDriversForPdo'])
-			->setConstructorArgs([$this->config, $this->iniWrapper, $this->l10n, $this->defaults, $this->logger, $this->random, $this->installer])
+			->setConstructorArgs([$this->config, $this->iniWrapper, $this->l10nFactory, $this->defaults, $this->logger, $this->random, $this->installer])
 			->getMock();
 	}
 

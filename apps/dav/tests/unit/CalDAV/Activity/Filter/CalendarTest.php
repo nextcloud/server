@@ -55,7 +55,7 @@ class CalendarTest extends TestCase {
 		);
 	}
 
-	public function testGetIcon() {
+	public function testGetIcon(): void {
 		$this->url->expects($this->once())
 			->method('imagePath')
 			->with('core', 'places/calendar.svg')
@@ -83,7 +83,7 @@ class CalendarTest extends TestCase {
 	 * @param string[] $types
 	 * @param string[] $expected
 	 */
-	public function testFilterTypes($types, $expected) {
+	public function testFilterTypes($types, $expected): void {
 		$this->assertEquals($expected, $this->filter->filterTypes($types));
 	}
 }

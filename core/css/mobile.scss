@@ -1,6 +1,6 @@
 @use 'variables';
 
-@media only screen and (max-width: variables.$breakpoint-mobile) {
+@media only screen and (width < variables.$breakpoint-mobile) {
 
 	/* position share dropdown */
 	#dropdown {
@@ -21,8 +21,10 @@
 	}
 
 	/* APP SIDEBAR TOGGLE and SWIPE ----------------------------------------------*/
-	#app-navigation {
+	#app-navigation:not(.vue) {
 		transform: translateX(-#{variables.$navigation-width});
+		position: fixed;
+		height: var(--body-height);
 	}
 	.snapjs-left {
 		#app-navigation {
@@ -120,21 +122,6 @@
 	}
 	#body-settings .files-controls {
 		min-width: variables.$breakpoint-mobile !important;
-	}
-
-	/* do not show dates in filepicker */
-	#oc-dialog-filepicker-content .filelist .column-size,
-	#oc-dialog-filepicker-content .filelist .column-mtime,
-	#oc-dialog-filepicker-content .filelist .filesize,
-	#oc-dialog-filepicker-content .filelist .date {
-		display: none;
-	}
-	#oc-dialog-filepicker-content .filelist .filename {
-		max-width: 100%;
-	}
-
-	.snapjs-left table.multiselect thead {
-		top: 44px;
 	}
 
 	/* end of media query */

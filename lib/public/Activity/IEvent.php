@@ -103,9 +103,7 @@ interface IEvent {
 	 * HTML is not allowed in the parsed subject and will be escaped
 	 * automatically by the clients. You can use the RichObjectString system
 	 * provided by the Nextcloud server to highlight important parameters via
-	 * the setRichSubject method, but make sure, that a plain text message is
-	 * always set via setParsedSubject, to support clients which can not handle
-	 * rich strings.
+	 * the setRichSubject method.
 	 *
 	 * See https://github.com/nextcloud/server/issues/1706 for more information.
 	 *
@@ -128,8 +126,6 @@ interface IEvent {
 	 * HTML is not allowed in the rich subject and will be escaped automatically
 	 * by the clients, but you can use the RichObjectString system provided by
 	 * the Nextcloud server to highlight important parameters.
-	 * Also make sure, that a plain text subject is always set via
-	 * setParsedSubject, to support clients which can not handle rich strings.
 	 *
 	 * See https://github.com/nextcloud/server/issues/1706 for more information.
 	 *
@@ -170,9 +166,7 @@ interface IEvent {
 	 * HTML is not allowed in the parsed message and will be escaped
 	 * automatically by the clients. You can use the RichObjectString system
 	 * provided by the Nextcloud server to highlight important parameters via
-	 * the setRichMessage method, but make sure, that a plain text message is
-	 * always set via setParsedMessage, to support clients which can not handle
-	 * rich strings.
+	 * the setRichMessage method.
 	 *
 	 * See https://github.com/nextcloud/server/issues/1706 for more information.
 	 *
@@ -195,8 +189,6 @@ interface IEvent {
 	 * HTML is not allowed in the rich message and will be escaped automatically
 	 * by the clients, but you can use the RichObjectString system provided by
 	 * the Nextcloud server to highlight important parameters.
-	 * Also make sure, that a plain text message is always set via
-	 * setParsedMessage, to support clients which can not handle rich strings.
 	 *
 	 * See https://github.com/nextcloud/server/issues/1706 for more information.
 	 *

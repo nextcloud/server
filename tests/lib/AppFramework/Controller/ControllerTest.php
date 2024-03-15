@@ -23,6 +23,7 @@
 
 namespace Test\AppFramework\Controller;
 
+use OC\AppFramework\DependencyInjection\DIContainer;
 use OC\AppFramework\Http\Request;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\DataResponse;
@@ -30,7 +31,6 @@ use OCP\AppFramework\Http\JSONResponse;
 use OCP\IConfig;
 use OCP\IRequest;
 use OCP\IRequestId;
-use OC\AppFramework\DependencyInjection\DIContainer;
 
 class ChildController extends Controller {
 	public function __construct($appName, $request) {
@@ -56,7 +56,6 @@ class ChildController extends Controller {
 };
 
 class ControllerTest extends \Test\TestCase {
-
 	/**
 	 * @var Controller
 	 */
@@ -117,7 +116,7 @@ class ControllerTest extends \Test\TestCase {
 			'Content-Security-Policy' => "default-src 'none';base-uri 'none';manifest-src 'self';frame-ancestors 'none'",
 			'Feature-Policy' => "autoplay 'none';camera 'none';fullscreen 'none';geolocation 'none';microphone 'none';payment 'none'",
 			'X-Request-Id' => $this->request->getId(),
-			'X-Robots-Tag' => 'none',
+			'X-Robots-Tag' => 'noindex, nofollow',
 		];
 
 		$response = $this->controller->customDataResponse(['hi']);

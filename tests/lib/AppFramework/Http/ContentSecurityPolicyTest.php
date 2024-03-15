@@ -16,7 +16,6 @@ use OCP\AppFramework\Http\ContentSecurityPolicy;
  * @package OC\AppFramework\Http
  */
 class ContentSecurityPolicyTest extends \Test\TestCase {
-
 	/** @var ContentSecurityPolicy */
 	private $contentSecurityPolicy;
 
@@ -69,25 +68,9 @@ class ContentSecurityPolicyTest extends \Test\TestCase {
 		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
 	}
 
-	public function testGetPolicyScriptAllowInline() {
-		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';script-src 'self' 'unsafe-inline';style-src 'self' 'unsafe-inline';img-src 'self' data: blob:;font-src 'self' data:;connect-src 'self';media-src 'self';frame-ancestors 'self';form-action 'self'";
-
-		$this->contentSecurityPolicy->allowInlineScript(true);
-		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
-	}
-
-	public function testGetPolicyScriptAllowInlineWithDomain() {
-		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';script-src 'self' www.owncloud.com 'unsafe-inline';style-src 'self' 'unsafe-inline';img-src 'self' data: blob:;font-src 'self' data:;connect-src 'self';media-src 'self';frame-ancestors 'self';form-action 'self'";
-
-		$this->contentSecurityPolicy->addAllowedScriptDomain('www.owncloud.com');
-		$this->contentSecurityPolicy->allowInlineScript(true);
-		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
-	}
-
-	public function testGetPolicyScriptDisallowInlineAndEval() {
+	public function testGetPolicyScriptDisallowEval() {
 		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';script-src 'self';style-src 'self' 'unsafe-inline';img-src 'self' data: blob:;font-src 'self' data:;connect-src 'self';media-src 'self';frame-ancestors 'self';form-action 'self'";
 
-		$this->contentSecurityPolicy->allowInlineScript(false);
 		$this->contentSecurityPolicy->allowEvalScript(false);
 		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
 	}
@@ -473,9 +456,25 @@ class ContentSecurityPolicyTest extends \Test\TestCase {
 		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
 	}
 
+	public function testGetPolicyUnsafeWasmEval() {
+		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';script-src 'self' 'wasm-unsafe-eval';style-src 'self' 'unsafe-inline';img-src 'self' data: blob:;font-src 'self' data:;connect-src 'self';media-src 'self';frame-ancestors 'self';form-action 'self'";
+
+		$this->contentSecurityPolicy->allowEvalWasm(true);
+		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
+	}
+
 	public function testGetPolicyNonce() {
 		$nonce = 'my-nonce';
 		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';script-src 'nonce-".base64_encode($nonce) . "';style-src 'self' 'unsafe-inline';img-src 'self' data: blob:;font-src 'self' data:;connect-src 'self';media-src 'self';frame-ancestors 'self';form-action 'self'";
+
+		$this->contentSecurityPolicy->useJsNonce($nonce);
+		$this->contentSecurityPolicy->useStrictDynamicOnScripts(false);
+		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
+	}
+
+	public function testGetPolicyNonceDefault() {
+		$nonce = 'my-nonce';
+		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';script-src 'nonce-".base64_encode($nonce) . "';script-src-elem 'strict-dynamic' 'nonce-".base64_encode($nonce) . "';style-src 'self' 'unsafe-inline';img-src 'self' data: blob:;font-src 'self' data:;connect-src 'self';media-src 'self';frame-ancestors 'self';form-action 'self'";
 
 		$this->contentSecurityPolicy->useJsNonce($nonce);
 		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
@@ -487,6 +486,31 @@ class ContentSecurityPolicyTest extends \Test\TestCase {
 
 		$this->contentSecurityPolicy->useJsNonce($nonce);
 		$this->contentSecurityPolicy->useStrictDynamic(true);
+		$this->contentSecurityPolicy->useStrictDynamicOnScripts(false);
+		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
+	}
+
+	public function testGetPolicyNonceStrictDynamicDefault() {
+		$nonce = 'my-nonce';
+		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';script-src 'strict-dynamic' 'nonce-".base64_encode($nonce) . "';style-src 'self' 'unsafe-inline';img-src 'self' data: blob:;font-src 'self' data:;connect-src 'self';media-src 'self';frame-ancestors 'self';form-action 'self'";
+
+		$this->contentSecurityPolicy->useJsNonce($nonce);
+		$this->contentSecurityPolicy->useStrictDynamic(true);
+		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
+	}
+
+	public function testGetPolicyStrictDynamicOnScriptsOff() {
+		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';script-src 'self';style-src 'self' 'unsafe-inline';img-src 'self' data: blob:;font-src 'self' data:;connect-src 'self';media-src 'self';frame-ancestors 'self';form-action 'self'";
+
+		$this->contentSecurityPolicy->useStrictDynamicOnScripts(false);
+		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
+	}
+
+	public function testGetPolicyStrictDynamicAndStrictDynamicOnScripts() {
+		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';script-src 'self';style-src 'self' 'unsafe-inline';img-src 'self' data: blob:;font-src 'self' data:;connect-src 'self';media-src 'self';frame-ancestors 'self';form-action 'self'";
+
+		$this->contentSecurityPolicy->useStrictDynamic(true);
+		$this->contentSecurityPolicy->useStrictDynamicOnScripts(true);
 		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
 	}
 }

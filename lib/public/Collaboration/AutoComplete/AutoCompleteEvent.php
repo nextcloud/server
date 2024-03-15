@@ -29,9 +29,9 @@ use OCP\EventDispatcher\GenericEvent;
 
 /**
  * @since 16.0.0
+ * @deprecated Use {@see AutoCompleteFilterEvent} instead
  */
 class AutoCompleteEvent extends GenericEvent {
-
 	/**
 	 * @param array $arguments
 	 * @since 16.0.0

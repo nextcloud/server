@@ -17,7 +17,7 @@ OC.L10N.register(
     "If you regenerate backup codes, you automatically invalidate old codes." : "Si vous régénérez les codes de récupération, vous invalidez automatiquement les anciens codes.",
     "An error occurred while generating your backup codes" : "Une erreur est survenue lors de la génération de vos codes de récupération",
     "{name} backup codes" : "{name} codes de récupération",
-    "Use one of the backup codes you saved when setting up two-factor authentication." : "Utilisez l'un des codes de secours que vous avez crée lors du paramétrage de l'authentification à deux facteurs.",
-    "Submit" : "Envoyer"
+    "Use one of the backup codes you saved when setting up two-factor authentication." : "Utilisez l'un des codes de récupération que vous avez enregistrés lors de la configuration de l'authentification à deux facteurs.",
+    "Submit" : "Soumettre"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

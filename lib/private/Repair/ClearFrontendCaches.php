@@ -30,7 +30,6 @@ use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 
 class ClearFrontendCaches implements IRepairStep {
-
 	/** @var ICacheFactory */
 	protected $cacheFactory;
 
@@ -38,7 +37,7 @@ class ClearFrontendCaches implements IRepairStep {
 	protected $jsCombiner;
 
 	public function __construct(ICacheFactory $cacheFactory,
-								JSCombiner $JSCombiner) {
+		JSCombiner $JSCombiner) {
 		$this->cacheFactory = $cacheFactory;
 		$this->jsCombiner = $JSCombiner;
 	}

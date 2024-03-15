@@ -20,7 +20,6 @@ use OCP\Share\IShare;
  * @package Test\Repair
  */
 class OldGroupMembershipSharesTest extends \Test\TestCase {
-
 	/** @var OldGroupMembershipShares */
 	protected $repair;
 

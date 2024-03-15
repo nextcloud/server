@@ -22,14 +22,14 @@
 
 <template>
 	<section>
-		<HeaderBar :account-property="accountProperty"
-			label-for="language" />
+		<HeaderBar :input-id="inputId"
+			:readable="propertyReadable" />
 
-		<template v-if="isEditable">
-			<Language :common-languages="commonLanguages"
-				:other-languages="otherLanguages"
-				:language.sync="language" />
-		</template>
+		<Language v-if="isEditable"
+			:input-id="inputId"
+			:common-languages="commonLanguages"
+			:other-languages="otherLanguages"
+			:language.sync="language" />
 
 		<span v-else>
 			{{ t('settings', 'No language set') }}
@@ -40,10 +40,10 @@
 <script>
 import { loadState } from '@nextcloud/initial-state'
 
-import Language from './Language'
-import HeaderBar from '../shared/HeaderBar'
+import Language from './Language.vue'
+import HeaderBar from '../shared/HeaderBar.vue'
 
-import { ACCOUNT_SETTING_PROPERTY_READABLE_ENUM } from '../../../constants/AccountPropertyConstants'
+import { ACCOUNT_SETTING_PROPERTY_ENUM, ACCOUNT_SETTING_PROPERTY_READABLE_ENUM } from '../../../constants/AccountPropertyConstants.js'
 
 const { languageMap: { activeLanguage, commonLanguages, otherLanguages } } = loadState('settings', 'personalInfoParameters', {})
 
@@ -55,16 +55,26 @@ export default {
 		HeaderBar,
 	},
 
-	data() {
+	setup() {
+		// Non reactive instance properties
 		return {
-			accountProperty: ACCOUNT_SETTING_PROPERTY_READABLE_ENUM.LANGUAGE,
 			commonLanguages,
 			otherLanguages,
+			propertyReadable: ACCOUNT_SETTING_PROPERTY_READABLE_ENUM.LANGUAGE,
+		}
+	},
+
+	data() {
+		return {
 			language: activeLanguage,
 		}
 	},
 
 	computed: {
+		inputId() {
+			return `account-setting-${ACCOUNT_SETTING_PROPERTY_ENUM.LANGUAGE}`
+		},
+
 		isEditable() {
 			return Boolean(this.language)
 		},
@@ -75,9 +85,5 @@ export default {
 <style lang="scss" scoped>
 section {
 	padding: 10px 10px;
-
-	&::v-deep button:disabled {
-		cursor: default;
-	}
 }
 </style>

@@ -32,7 +32,6 @@ namespace OCP\WorkflowEngine\EntityContext;
  * @since 18.0.0
  */
 interface IDisplayText {
-
 	/**
 	 * returns translated text used for display to the end user. For instance,
 	 * it can describe the event in a human readable way.

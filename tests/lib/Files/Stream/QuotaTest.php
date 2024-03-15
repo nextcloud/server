@@ -9,7 +9,6 @@
 namespace Test\Files\Stream;
 
 class QuotaTest extends \Test\TestCase {
-
 	/**
 	 * @param string $mode
 	 * @param integer $limit

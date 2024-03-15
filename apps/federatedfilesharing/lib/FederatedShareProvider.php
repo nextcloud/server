@@ -50,12 +50,12 @@ use OCP\Files\NotFoundException;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IL10N;
-use OCP\ILogger;
 use OCP\IUserManager;
 use OCP\Share\Exceptions\GenericShareException;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IShare;
 use OCP\Share\IShareProvider;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class FederatedShareProvider
@@ -65,90 +65,29 @@ use OCP\Share\IShareProvider;
 class FederatedShareProvider implements IShareProvider {
 	public const SHARE_TYPE_REMOTE = 6;
 
-	/** @var IDBConnection */
-	private $dbConnection;
-
-	/** @var AddressHandler */
-	private $addressHandler;
-
-	/** @var Notifications */
-	private $notifications;
-
-	/** @var TokenHandler */
-	private $tokenHandler;
-
-	/** @var IL10N */
-	private $l;
-
-	/** @var ILogger */
-	private $logger;
-
-	/** @var IRootFolder */
-	private $rootFolder;
-
-	/** @var IConfig */
-	private $config;
-
 	/** @var string */
 	private $externalShareTable = 'share_external';
-
-	/** @var IUserManager */
-	private $userManager;
-
-	/** @var ICloudIdManager */
-	private $cloudIdManager;
-
-	/** @var \OCP\GlobalScale\IConfig */
-	private $gsConfig;
-
-	/** @var ICloudFederationProviderManager */
-	private $cloudFederationProviderManager;
 
 	/** @var array list of supported share types */
 	private $supportedShareType = [IShare::TYPE_REMOTE_GROUP, IShare::TYPE_REMOTE, IShare::TYPE_CIRCLE];
 
 	/**
 	 * DefaultShareProvider constructor.
-	 *
-	 * @param IDBConnection $connection
-	 * @param AddressHandler $addressHandler
-	 * @param Notifications $notifications
-	 * @param TokenHandler $tokenHandler
-	 * @param IL10N $l10n
-	 * @param ILogger $logger
-	 * @param IRootFolder $rootFolder
-	 * @param IConfig $config
-	 * @param IUserManager $userManager
-	 * @param ICloudIdManager $cloudIdManager
-	 * @param \OCP\GlobalScale\IConfig $globalScaleConfig
-	 * @param ICloudFederationProviderManager $cloudFederationProviderManager
 	 */
 	public function __construct(
-			IDBConnection $connection,
-			AddressHandler $addressHandler,
-			Notifications $notifications,
-			TokenHandler $tokenHandler,
-			IL10N $l10n,
-			ILogger $logger,
-			IRootFolder $rootFolder,
-			IConfig $config,
-			IUserManager $userManager,
-			ICloudIdManager $cloudIdManager,
-			\OCP\GlobalScale\IConfig $globalScaleConfig,
-			ICloudFederationProviderManager $cloudFederationProviderManager
+		private IDBConnection $dbConnection,
+		private AddressHandler $addressHandler,
+		private Notifications $notifications,
+		private TokenHandler $tokenHandler,
+		private IL10N $l,
+		private IRootFolder $rootFolder,
+		private IConfig $config,
+		private IUserManager $userManager,
+		private ICloudIdManager $cloudIdManager,
+		private \OCP\GlobalScale\IConfig $gsConfig,
+		private ICloudFederationProviderManager $cloudFederationProviderManager,
+		private LoggerInterface $logger,
 	) {
-		$this->dbConnection = $connection;
-		$this->addressHandler = $addressHandler;
-		$this->notifications = $notifications;
-		$this->tokenHandler = $tokenHandler;
-		$this->l = $l10n;
-		$this->logger = $logger;
-		$this->rootFolder = $rootFolder;
-		$this->config = $config;
-		$this->userManager = $userManager;
-		$this->cloudIdManager = $cloudIdManager;
-		$this->gsConfig = $globalScaleConfig;
-		$this->cloudFederationProviderManager = $cloudFederationProviderManager;
 	}
 
 	/**
@@ -193,7 +132,7 @@ class FederatedShareProvider implements IShareProvider {
 		$alreadySharedGroup = $this->getSharedWith($shareWith, IShare::TYPE_REMOTE_GROUP, $share->getNode(), 1, 0);
 		if (!empty($alreadyShared) || !empty($alreadySharedGroup)) {
 			$message = 'Sharing %1$s failed, because this item is already shared with %2$s';
-			$message_t = $this->l->t('Sharing %1$s failed, because this item is already shared with user %2$s', [$share->getNode()->getName(), $shareWith]);
+			$message_t = $this->l->t('Sharing %1$s failed, because this item is already shared with the account %2$s', [$share->getNode()->getName(), $shareWith]);
 			$this->logger->debug(sprintf($message, $share->getNode()->getName(), $shareWith), ['app' => 'Federated File Sharing']);
 			throw new \Exception($message_t);
 		}
@@ -204,8 +143,8 @@ class FederatedShareProvider implements IShareProvider {
 		$currentServer = $this->addressHandler->generateRemoteURL();
 		$currentUser = $sharedBy;
 		if ($this->addressHandler->compareAddresses($cloudId->getUser(), $cloudId->getRemote(), $currentUser, $currentServer)) {
-			$message = 'Not allowed to create a federated share with the same user.';
-			$message_t = $this->l->t('Not allowed to create a federated share with the same user');
+			$message = 'Not allowed to create a federated share to the same account.';
+			$message_t = $this->l->t('Not allowed to create a federated share to the same account');
 			$this->logger->debug($message, ['app' => 'Federated File Sharing']);
 			throw new \Exception($message_t);
 		}
@@ -303,10 +242,9 @@ class FederatedShareProvider implements IShareProvider {
 				$failure = true;
 			}
 		} catch (\Exception $e) {
-			$this->logger->logException($e, [
-				'message' => 'Failed to notify remote server of federated share, removing share.',
-				'level' => ILogger::ERROR,
+			$this->logger->error('Failed to notify remote server of federated share, removing share.', [
 				'app' => 'federatedfilesharing',
+				'exception' => $e,
 			]);
 			$failure = true;
 		}
@@ -618,6 +556,7 @@ class FederatedShareProvider implements IShareProvider {
 			->andWhere($qb->expr()->neq('share_type', $qb->createNamedParameter(IShare::TYPE_CIRCLE)));
 		$qb->execute();
 
+		$qb = $this->dbConnection->getQueryBuilder();
 		$qb->delete('federated_reshares')
 			->where($qb->expr()->eq('share_id', $qb->createNamedParameter($shareId)));
 		$qb->execute();
@@ -666,8 +605,9 @@ class FederatedShareProvider implements IShareProvider {
 
 		$qb->innerJoin('s', 'filecache', 'f', $qb->expr()->eq('s.file_source', 'f.fileid'));
 
+		$qb->andWhere($qb->expr()->eq('f.storage', $qb->createNamedParameter($node->getMountPoint()->getNumericStorageId(), IQueryBuilder::PARAM_INT)));
 		if ($shallow) {
-			$qb->andWhere($qb->expr()->eq('f.parent', $qb->createNamedParameter($node->getId())));
+			$qb->andWhere($qb->expr()->eq('f.parent', $qb->createNamedParameter($node->getId(), IQueryBuilder::PARAM_INT)));
 		} else {
 			$qb->andWhere($qb->expr()->like('f.path', $qb->createNamedParameter($this->dbConnection->escapeLikeParameter($node->getInternalPath()) . '/%')));
 		}
@@ -872,7 +812,6 @@ class FederatedShareProvider implements IShareProvider {
 	 * @throws ShareNotFound
 	 */
 	private function getRawShare($id) {
-
 		// Now fetch the inserted share and create a complete share object
 		$qb = $this->dbConnection->getQueryBuilder();
 		$qb->select('*')
@@ -942,7 +881,7 @@ class FederatedShareProvider implements IShareProvider {
 	 *
 	 * @param string $userId
 	 * @param int $id
-	 * @return \OCP\Files\File|\OCP\Files\Folder
+	 * @return \OCP\Files\Node
 	 * @throws InvalidShare
 	 */
 	private function getNode($userId, $id) {
@@ -952,13 +891,13 @@ class FederatedShareProvider implements IShareProvider {
 			throw new InvalidShare();
 		}
 
-		$nodes = $userFolder->getById($id);
+		$node = $userFolder->getFirstNodeById($id);
 
-		if (empty($nodes)) {
+		if (!$node) {
 			throw new InvalidShare();
 		}
 
-		return $nodes[0];
+		return $node;
 	}
 
 	/**
@@ -969,7 +908,7 @@ class FederatedShareProvider implements IShareProvider {
 	 * @param int $shareType
 	 */
 	public function userDeleted($uid, $shareType) {
-		//TODO: probabaly a good idea to send unshare info to remote servers
+		//TODO: probably a good idea to send unshare info to remote servers
 
 		$qb = $this->dbConnection->getQueryBuilder();
 

@@ -19,7 +19,6 @@ OC.L10N.register(
     "4 hours" : "4 ຊົ່ວໂມງ",
     "Mute all notifications" : "ປິດການແຈ້ງເຕືອນທັງໝົດ",
     "Appear offline" : "ເປີດອັອບລາຍ",
-    "Clear status message after" : "ລ້າງສະຖານະພາບຂໍ້ຄວາມພາຍຫຼັງ",
-    "What's your status?" : "ສະຖານະຂອງທ່ານແມ່ນຫຍັງ?"
+    "Clear status message after" : "ລ້າງສະຖານະພາບຂໍ້ຄວາມພາຍຫຼັງ"
 },
 "nplurals=1; plural=0;");

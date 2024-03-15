@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016 Robin Appelman <robin@icewind.nl>
  *
@@ -27,9 +30,6 @@
 namespace OCA\Files_External\Command;
 
 use Doctrine\DBAL\Exception\DriverException;
-use OC\Core\Command\Base;
-use OCA\Files_External\Lib\InsufficientDataForMeaningfulAnswerException;
-use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\Service\GlobalStoragesService;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\Notify\IChange;
@@ -37,39 +37,25 @@ use OCP\Files\Notify\INotifyHandler;
 use OCP\Files\Notify\IRenameChange;
 use OCP\Files\Storage\INotifyStorage;
 use OCP\Files\Storage\IStorage;
-use OCP\Files\StorageNotAvailableException;
 use OCP\IDBConnection;
-use OCP\ILogger;
 use OCP\IUserManager;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class Notify extends Base {
-	/** @var GlobalStoragesService */
-	private $globalService;
-	/** @var IDBConnection */
-	private $connection;
-	/** @var ILogger */
-	private $logger;
-	/** @var IUserManager */
-	private $userManager;
-
+class Notify extends StorageAuthBase {
 	public function __construct(
+		private IDBConnection $connection,
+		private LoggerInterface $logger,
 		GlobalStoragesService $globalService,
-		IDBConnection $connection,
-		ILogger $logger,
-		IUserManager $userManager
+		IUserManager $userManager,
 	) {
-		parent::__construct();
-		$this->globalService = $globalService;
-		$this->connection = $connection;
-		$this->logger = $logger;
-		$this->userManager = $userManager;
+		parent::__construct($globalService, $userManager);
 	}
 
-	protected function configure() {
+	protected function configure(): void {
 		$this
 			->setName('files_external:notify')
 			->setDescription('Listen for active update notifications for a configured external mount')
@@ -107,82 +93,15 @@ class Notify extends Base {
 		parent::configure();
 	}
 
-	private function getUserOption(InputInterface $input): ?string {
-		if ($input->getOption('user')) {
-			return (string)$input->getOption('user');
-		} elseif (isset($_ENV['NOTIFY_USER'])) {
-			return (string)$_ENV['NOTIFY_USER'];
-		} elseif (isset($_SERVER['NOTIFY_USER'])) {
-			return (string)$_SERVER['NOTIFY_USER'];
-		} else {
-			return null;
-		}
-	}
-
-	private function getPasswordOption(InputInterface $input): ?string {
-		if ($input->getOption('password')) {
-			return (string)$input->getOption('password');
-		} elseif (isset($_ENV['NOTIFY_PASSWORD'])) {
-			return (string)$_ENV['NOTIFY_PASSWORD'];
-		} elseif (isset($_SERVER['NOTIFY_PASSWORD'])) {
-			return (string)$_SERVER['NOTIFY_PASSWORD'];
-		} else {
-			return null;
-		}
-	}
-
 	protected function execute(InputInterface $input, OutputInterface $output): int {
-		$mount = $this->globalService->getStorage($input->getArgument('mount_id'));
-		if (is_null($mount)) {
-			$output->writeln('<error>Mount not found</error>');
-			return 1;
-		}
-		$noAuth = false;
-
-		$userOption = $this->getUserOption($input);
-		$passwordOption = $this->getPasswordOption($input);
-
-		// if only the user is provided, we get the user object to pass along to the auth backend
-		// this allows using saved user credentials
-		$user = ($userOption && !$passwordOption) ? $this->userManager->get($userOption) : null;
-
-		try {
-			$authBackend = $mount->getAuthMechanism();
-			$authBackend->manipulateStorageConfig($mount, $user);
-		} catch (InsufficientDataForMeaningfulAnswerException $e) {
-			$noAuth = true;
-		} catch (StorageNotAvailableException $e) {
-			$noAuth = true;
+		[$mount, $storage] = $this->createStorage($input, $output);
+		if ($storage === null) {
+			return self::FAILURE;
 		}
 
-		if ($userOption) {
-			$mount->setBackendOption('user', $userOption);
-		}
-		if ($passwordOption) {
-			$mount->setBackendOption('password', $passwordOption);
-		}
-
-		try {
-			$backend = $mount->getBackend();
-			$backend->manipulateStorageConfig($mount, $user);
-		} catch (InsufficientDataForMeaningfulAnswerException $e) {
-			$noAuth = true;
-		} catch (StorageNotAvailableException $e) {
-			$noAuth = true;
-		}
-
-		try {
-			$storage = $this->createStorage($mount);
-		} catch (\Exception $e) {
-			$output->writeln('<error>Error while trying to create storage</error>');
-			if ($noAuth) {
-				$output->writeln('<error>Username and/or password required</error>');
-			}
-			return 1;
-		}
 		if (!$storage instanceof INotifyStorage) {
 			$output->writeln('<error>Mount of type "' . $mount->getBackend()->getText() . '" does not support active update notifications</error>');
-			return 1;
+			return self::FAILURE;
 		}
 
 		$dryRun = $input->getOption('dry-run');
@@ -204,15 +123,10 @@ class Notify extends Base {
 			}
 			$this->markParentAsOutdated($mount->getId(), $change->getPath(), $output, $dryRun);
 		});
-		return 0;
+		return self::SUCCESS;
 	}
 
-	private function createStorage(StorageConfig $mount) {
-		$class = $mount->getBackend()->getStorageClass();
-		return new $class($mount->getBackendOptions());
-	}
-
-	private function markParentAsOutdated($mountId, $path, OutputInterface $output, bool $dryRun) {
+	private function markParentAsOutdated($mountId, $path, OutputInterface $output, bool $dryRun): void {
 		$parent = ltrim(dirname($path), '/');
 		if ($parent === '.') {
 			$parent = '';
@@ -221,7 +135,7 @@ class Notify extends Base {
 		try {
 			$storages = $this->getStorageIds($mountId, $parent);
 		} catch (DriverException $ex) {
-			$this->logger->logException($ex, ['message' => 'Error while trying to find correct storage ids.', 'level' => ILogger::WARN]);
+			$this->logger->warning('Error while trying to find correct storage ids.', ['exception' => $ex]);
 			$this->connection = $this->reconnectToDatabase($this->connection, $output);
 			$output->writeln('<info>Needed to reconnect to the database</info>');
 			$storages = $this->getStorageIds($mountId, $path);
@@ -253,22 +167,17 @@ class Notify extends Base {
 		}
 	}
 
-	private function logUpdate(IChange $change, OutputInterface $output) {
-		switch ($change->getType()) {
-			case INotifyStorage::NOTIFY_ADDED:
-				$text = 'added';
-				break;
-			case INotifyStorage::NOTIFY_MODIFIED:
-				$text = 'modified';
-				break;
-			case INotifyStorage::NOTIFY_REMOVED:
-				$text = 'removed';
-				break;
-			case INotifyStorage::NOTIFY_RENAMED:
-				$text = 'renamed';
-				break;
-			default:
-				return;
+	private function logUpdate(IChange $change, OutputInterface $output): void {
+		$text = match ($change->getType()) {
+			INotifyStorage::NOTIFY_ADDED => 'added',
+			INotifyStorage::NOTIFY_MODIFIED => 'modified',
+			INotifyStorage::NOTIFY_REMOVED => 'removed',
+			INotifyStorage::NOTIFY_RENAMED => 'renamed',
+			default => '',
+		};
+
+		if ($text === '') {
+			return;
 		}
 
 		$text .= ' ' . $change->getPath();
@@ -292,37 +201,30 @@ class Notify extends Base {
 			->fetchAll();
 	}
 
-	/**
-	 * @param array $storageIds
-	 * @param string $parent
-	 * @return int
-	 */
-	private function updateParent($storageIds, $parent) {
-		$pathHash = md5(trim(\OC_Util::normalizeUnicode($parent), '/'));
+	private function updateParent(array $storageIds, string $parent): int {
+		$pathHash = md5(trim((string)\OC_Util::normalizeUnicode($parent), '/'));
 		$qb = $this->connection->getQueryBuilder();
 		return $qb
 			->update('filecache')
 			->set('size', $qb->createNamedParameter(-1, IQueryBuilder::PARAM_INT))
 			->where($qb->expr()->in('storage', $qb->createNamedParameter($storageIds, IQueryBuilder::PARAM_INT_ARRAY, ':storage_ids')))
 			->andWhere($qb->expr()->eq('path_hash', $qb->createNamedParameter($pathHash, IQueryBuilder::PARAM_STR)))
-			->execute();
+			->executeStatement();
 	}
 
-	/**
-	 * @return \OCP\IDBConnection
-	 */
-	private function reconnectToDatabase(IDBConnection $connection, OutputInterface $output) {
+	private function reconnectToDatabase(IDBConnection $connection, OutputInterface $output): IDBConnection {
 		try {
 			$connection->close();
 		} catch (\Exception $ex) {
-			$this->logger->logException($ex, ['app' => 'files_external', 'message' => 'Error while disconnecting from DB', 'level' => ILogger::WARN]);
+			$this->logger->warning('Error while disconnecting from DB', ['exception' => $ex]);
 			$output->writeln("<info>Error while disconnecting from database: {$ex->getMessage()}</info>");
 		}
-		while (!$connection->isConnected()) {
+		$connected = false;
+		while (!$connected) {
 			try {
-				$connection->connect();
+				$connected = $connection->connect();
 			} catch (\Exception $ex) {
-				$this->logger->logException($ex, ['app' => 'files_external', 'message' => 'Error while re-connecting to database', 'level' => ILogger::WARN]);
+				$this->logger->warning('Error while re-connecting to database', ['exception' => $ex]);
 				$output->writeln("<info>Error while re-connecting to database: {$ex->getMessage()}</info>");
 				sleep(60);
 			}
@@ -331,9 +233,12 @@ class Notify extends Base {
 	}
 
 
-	private function selfTest(IStorage $storage, INotifyHandler $notifyHandler, OutputInterface $output) {
+	private function selfTest(IStorage $storage, INotifyHandler $notifyHandler, OutputInterface $output): void {
 		usleep(100 * 1000); //give time for the notify to start
-		$storage->file_put_contents('/.nc_test_file.txt', 'test content');
+		if (!$storage->file_put_contents('/.nc_test_file.txt', 'test content')) {
+			$output->writeln("Failed to create test file for self-test");
+			return;
+		}
 		$storage->mkdir('/.nc_test_folder');
 		$storage->file_put_contents('/.nc_test_folder/subfile.txt', 'test content');
 

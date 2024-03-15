@@ -62,13 +62,16 @@ OCA.Sharing.PublicApp = {
 
 		// file list mode ?
 		if ($el.find('.files-filestable').length) {
+			// Toggle for grid view
+			this.$showGridView = $('input#showgridview');
+			this.$showGridView.on('change', _.bind(this._onGridviewChange, this));
+
 			var filesClient = new OC.Files.Client({
 				host: OC.getHost(),
 				port: OC.getPort(),
-				userName: token,
 				// note: password not be required, the endpoint
 				// will recognize previous validation from the session
-				root: OC.getRootPath() + '/public.php/webdav',
+				root: OC.getRootPath() + '/public.php/dav/files/' + token + '/',
 				useHTTPS: OC.getProtocol() === 'https'
 			});
 
@@ -129,7 +132,6 @@ OCA.Sharing.PublicApp = {
 			}
 		}
 
-
 		// dynamically load image previews
 		var bottomMargin = 350;
 		var previewWidth = $(window).width();
@@ -153,13 +155,10 @@ OCA.Sharing.PublicApp = {
 			'max-height': previewHeight
 		});
 
-		var fileSize = parseInt($('#filesize').val(), 10);
-		var maxGifSize = parseInt($('#maxSizeAnimateGif').val(), 10);
-
-		if (mimetype === 'image/gif' &&
-			(maxGifSize === -1 || fileSize <= (maxGifSize * 1024 * 1024))) {
-			img.attr('src', $('#downloadURL').val());
-			imgcontainer.appendTo('#imgframe');
+		if (OCA.Viewer && OCA.Viewer.mimetypes.includes(mimetype)
+			&& (mimetype.startsWith('image/') || mimetype.startsWith('video/') || mimetype.startsWith('audio'))) {
+			OCA.Viewer.setRootElement('#imgframe')
+			OCA.Viewer.open({ path: '/' })
 		} else if (mimetype.substr(0, mimetype.indexOf('/')) === 'text' && window.btoa) {
 			if (OC.appswebroots['files_texteditor'] !== undefined ||
 				OC.appswebroots['text'] !== undefined) {
@@ -167,11 +166,10 @@ OCA.Sharing.PublicApp = {
 				return;
 			}
 			// Undocumented Url to public WebDAV endpoint
-			var url = parent.location.protocol + '//' + location.host + OC.linkTo('', 'public.php/webdav');
+			var url = parent.location.protocol + '//' + location.host + OC.linkTo('', 'public.php/dav/files/'+ token);
 			$.ajax({
 				url: url,
 				headers: {
-					Authorization: 'Basic ' + btoa(token + ':'),
 					Range: 'bytes=0-10000'
 				}
 			}).then(function (data) {
@@ -189,8 +187,7 @@ OCA.Sharing.PublicApp = {
 			// the icon should appear before, so the container should be
 			// prepended to the frame.
 			imgcontainer.prependTo('#imgframe');
-		}
-		else if (previewSupported === 'true') {
+		} else if (previewSupported === 'true') {
 			$('#imgframe > video').attr('poster', OC.generateUrl('/apps/files_sharing/publicpreview/' + token + '?' + OC.buildQueryString(params)));
 		}
 
@@ -218,7 +215,7 @@ OCA.Sharing.PublicApp = {
 					// Remove the link. This means that files without a default action fail hard
 					$tr.find('a.name').attr('href', '#');
 
-					this.fileActions.actions.all = {};
+					delete this.fileActions.actions.all.Download;
 				}
 				return $tr;
 			};
@@ -248,7 +245,9 @@ OCA.Sharing.PublicApp = {
 					// also add auth in URL due to POST workaround
 					base = OC.getProtocol() + '://' + token + '@' + OC.getHost() + (OC.getPort() ? ':' + OC.getPort() : '');
 				}
-				return base + OC.getRootPath() + '/public.php/webdav' + encodedPath;
+				
+				// encodedPath starts with a leading slash
+				return base + OC.getRootPath() + '/public.php/dav/files/' + token + encodedPath;
 			};
 
 			this.fileList.getAjaxUrl = function (action, params) {
@@ -366,6 +365,26 @@ OCA.Sharing.PublicApp = {
 		}
 		if (divHeight > previewHeight) {
 			textDiv.height(previewHeight);
+		}
+	},
+
+	/**
+	 * Toggle showing gridview by default or not
+	 *
+	 * @returns {undefined}
+	 */
+	_onGridviewChange: function() {
+		const isGridView = this.$showGridView.is(':checked');
+		this.$showGridView.next('#view-toggle')
+			.removeClass('icon-toggle-filelist icon-toggle-pictures')
+			.addClass(isGridView ? 'icon-toggle-filelist' : 'icon-toggle-pictures')
+		this.$showGridView.next('#view-toggle').attr(
+			'title',
+			isGridView ? t('files', 'Show list view') : t('files', 'Show grid view'),
+		)
+
+		if (this.fileList) {
+			this.fileList.setGridView(isGridView);
 		}
 	},
 

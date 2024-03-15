@@ -7,7 +7,6 @@
 
 namespace Test\Files;
 
-use OCP\Cache\CappedMemoryCache;
 use OC\Files\Cache\Watcher;
 use OC\Files\Filesystem;
 use OC\Files\Mount\MountPoint;
@@ -16,12 +15,15 @@ use OC\Files\Storage\Common;
 use OC\Files\Storage\Storage;
 use OC\Files\Storage\Temporary;
 use OC\Files\View;
+use OC\Share20\ShareDisableChecker;
+use OCP\Cache\CappedMemoryCache;
 use OCP\Constants;
 use OCP\Files\Config\IMountProvider;
 use OCP\Files\FileInfo;
 use OCP\Files\GenericFileException;
 use OCP\Files\Mount\IMountManager;
 use OCP\Files\Storage\IStorage;
+use OCP\IDBConnection;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
 use OCP\Share\IShare;
@@ -295,7 +297,7 @@ class ViewTest extends \Test\TestCase {
 	 */
 	public function testRemoveSharePermissionWhenSharingDisabledForUser($excludeGroups, $excludeGroupsList, $expectedShareable) {
 		// Reset sharing disabled for users cache
-		self::invokePrivate(\OC::$server->getShareManager(), 'sharingDisabledForUsersCache', [new CappedMemoryCache()]);
+		self::invokePrivate(\OC::$server->get(ShareDisableChecker::class), 'sharingDisabledForUsersCache', [new CappedMemoryCache()]);
 
 		$config = \OC::$server->getConfig();
 		$oldExcludeGroupsFlag = $config->getAppValue('core', 'shareapi_exclude_groups', 'no');
@@ -320,7 +322,7 @@ class ViewTest extends \Test\TestCase {
 		$config->setAppValue('core', 'shareapi_exclude_groups_list', $oldExcludeGroupsList);
 
 		// Reset sharing disabled for users cache
-		self::invokePrivate(\OC::$server->getShareManager(), 'sharingDisabledForUsersCache', [new CappedMemoryCache()]);
+		self::invokePrivate(\OC::$server->get(ShareDisableChecker::class), 'sharingDisabledForUsersCache', [new CappedMemoryCache()]);
 	}
 
 	public function testCacheIncompleteFolder() {
@@ -1096,7 +1098,6 @@ class ViewTest extends \Test\TestCase {
 			['getMountPoint'],
 			['resolvePath'],
 			['getLocalFile'],
-			['getLocalFolder'],
 			['mkdir'],
 			['rmdir'],
 			['opendir'],
@@ -1296,7 +1297,7 @@ class ViewTest extends \Test\TestCase {
 
 
 	public function testNullAsRoot() {
-		$this->expectException(\InvalidArgumentException::class);
+		$this->expectException(\TypeError::class);
 
 		new View(null);
 	}
@@ -1387,7 +1388,7 @@ class ViewTest extends \Test\TestCase {
 	 * Test that locks are on mount point paths instead of mount root
 	 */
 	public function testLockLocalMountPointPathInsteadOfStorageRoot() {
-		$lockingProvider = \OC::$server->getLockingProvider();
+		$lockingProvider = \OC::$server->get(ILockingProvider::class);
 		$view = new View('/testuser/files/');
 		$storage = new Temporary([]);
 		Filesystem::mount($storage, [], '/');
@@ -1417,7 +1418,7 @@ class ViewTest extends \Test\TestCase {
 	 * Test that locks are on mount point paths and also mount root when requested
 	 */
 	public function testLockStorageRootButNotLocalMountPoint() {
-		$lockingProvider = \OC::$server->getLockingProvider();
+		$lockingProvider = \OC::$server->get(ILockingProvider::class);
 		$view = new View('/testuser/files/');
 		$storage = new Temporary([]);
 		Filesystem::mount($storage, [], '/');
@@ -1447,7 +1448,7 @@ class ViewTest extends \Test\TestCase {
 	 * Test that locks are on mount point paths and also mount root when requested
 	 */
 	public function testLockMountPointPathFailReleasesBoth() {
-		$lockingProvider = \OC::$server->getLockingProvider();
+		$lockingProvider = \OC::$server->get(ILockingProvider::class);
 		$view = new View('/testuser/files/');
 		$storage = new Temporary([]);
 		Filesystem::mount($storage, [], '/');
@@ -1569,10 +1570,10 @@ class ViewTest extends \Test\TestCase {
 		$defaultRootValue->setAccessible(true);
 		$oldRoot = $defaultRootValue->getValue();
 		$defaultView = new View('/foo/files');
-		$defaultRootValue->setValue($defaultView);
+		$defaultRootValue->setValue(null, $defaultView);
 		$view = new View($root);
 		$result = self::invokePrivate($view, 'shouldEmitHooks', [$path]);
-		$defaultRootValue->setValue($oldRoot);
+		$defaultRootValue->setValue(null, $oldRoot);
 		$this->assertEquals($shouldEmit, $result);
 	}
 
@@ -1590,6 +1591,9 @@ class ViewTest extends \Test\TestCase {
 				->setConstructorArgs([[]])
 				->getMock();
 			$storage->method('getId')->willReturn('non-null-id');
+			$storage->method('getStorageCache')->willReturnCallback(function () use ($storage) {
+				return new \OC\Files\Cache\Storage($storage, true, \OC::$server->get(IDBConnection::class));
+			});
 
 			$mounts[] = $this->getMockBuilder(TestMoveableMountPoint::class)
 				->setMethods(['moveMount'])
@@ -1686,8 +1690,6 @@ class ViewTest extends \Test\TestCase {
 			->setSharedBy($this->user)
 			->setShareType(IShare::TYPE_USER)
 			->setPermissions(\OCP\Constants::PERMISSION_READ)
-			->setId(42)
-			->setProviderId('foo')
 			->setNode($shareDir);
 		$shareManager->createShare($share);
 
@@ -1798,7 +1800,18 @@ class ViewTest extends \Test\TestCase {
 			['is_file', ['dir'], 'dir', null],
 			['stat', ['dir'], 'dir', null],
 			['filetype', ['dir'], 'dir', null],
-			['filesize', ['dir'], 'dir', null],
+			[
+				'filesize',
+				['dir'],
+				'dir',
+				null,
+				ILockingProvider::LOCK_SHARED,
+				ILockingProvider::LOCK_SHARED,
+				ILockingProvider::LOCK_SHARED,
+				null,
+				/* Return an int */
+				100
+			],
 			['isCreatable', ['dir'], 'dir', null],
 			['isReadable', ['dir'], 'dir', null],
 			['isUpdatable', ['dir'], 'dir', null],
@@ -1832,7 +1845,8 @@ class ViewTest extends \Test\TestCase {
 		$expectedLockBefore = ILockingProvider::LOCK_SHARED,
 		$expectedLockDuring = ILockingProvider::LOCK_SHARED,
 		$expectedLockAfter = ILockingProvider::LOCK_SHARED,
-		$expectedStrayLock = null
+		$expectedStrayLock = null,
+		$returnValue = true,
 	) {
 		$view = new View('/' . $this->user . '/files/');
 
@@ -1853,10 +1867,10 @@ class ViewTest extends \Test\TestCase {
 		$storage->expects($this->once())
 			->method($operation)
 			->willReturnCallback(
-				function () use ($view, $lockedPath, &$lockTypeDuring) {
+				function () use ($view, $lockedPath, &$lockTypeDuring, $returnValue) {
 					$lockTypeDuring = $this->getFileLockType($view, $lockedPath);
 
-					return true;
+					return $returnValue;
 				}
 			);
 
@@ -2708,5 +2722,24 @@ class ViewTest extends \Test\TestCase {
 		$info = $view->getFileInfo('/foo.txt');
 		$this->assertEquals(25, $info->getUploadTime());
 		$this->assertEquals(0, $info->getCreationTime());
+	}
+
+	public function testFopenGone() {
+		$storage = new Temporary([]);
+		$scanner = $storage->getScanner();
+		$storage->file_put_contents('foo.txt', 'bar');
+		$scanner->scan('');
+		$cache = $storage->getCache();
+
+		Filesystem::mount($storage, [], '/test/');
+		$view = new View('/test');
+
+		$storage->unlink('foo.txt');
+
+		$this->assertTrue($cache->inCache('foo.txt'));
+
+		$this->assertFalse($view->fopen('foo.txt', 'r'));
+
+		$this->assertFalse($cache->inCache('foo.txt'));
 	}
 }

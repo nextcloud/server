@@ -39,7 +39,6 @@ use OCP\Share\Exceptions\ShareNotFound;
  */
 
 interface ICloudFederationProvider {
-
 	/**
 	 * get the name of the share type, handled by this provider
 	 *
@@ -67,7 +66,7 @@ interface ICloudFederationProvider {
 	 * @param string $notificationType (e.g SHARE_ACCEPTED)
 	 * @param string $providerId share ID
 	 * @param array $notification provider specific notification
-	 * @return array $data send back to sender
+	 * @return array<string> $data send back to sender
 	 *
 	 * @throws ShareNotFound
 	 * @throws ActionNotSupportedException

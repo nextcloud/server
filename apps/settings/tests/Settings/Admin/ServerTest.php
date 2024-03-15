@@ -36,10 +36,11 @@ use OCA\Settings\Settings\Admin\Server;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IDBConnection;
-use OCP\IUrlGenerator;
 use OCP\IL10N;
+use OCP\IUrlGenerator;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
@@ -59,6 +60,8 @@ class ServerTest extends TestCase {
 	private $timeFactory;
 	/** @var IConfig|MockObject */
 	private $config;
+	/** @var IAppConfig|MockObject */
+	private $appConfig;
 	/** @var IL10N|MockObject */
 	private $l10n;
 	/** @var IUrlGenerator|MockObject */
@@ -71,6 +74,7 @@ class ServerTest extends TestCase {
 		$this->profileManager = $this->createMock(ProfileManager::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
 		$this->config = $this->createMock(IConfig::class);
+		$this->appConfig = $this->createMock(IAppConfig::class);
 		$this->l10n = $this->createMock(IL10N::class);
 		$this->urlGenerator = $this->createMock(IUrlGenerator::class);
 
@@ -83,6 +87,7 @@ class ServerTest extends TestCase {
 				$this->timeFactory,
 				$this->urlGenerator,
 				$this->config,
+				$this->appConfig,
 				$this->l10n,
 			])
 			->getMock();

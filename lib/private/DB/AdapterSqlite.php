@@ -29,7 +29,6 @@ namespace OC\DB;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 
 class AdapterSqlite extends Adapter {
-
 	/**
 	 * @param string $tableName
 	 */

@@ -30,7 +30,6 @@ namespace OCP\Notification;
  * @since 9.0.0
  */
 interface INotifier {
-
 	/**
 	 * Identifier of the notifier, only use [a-z0-9_]
 	 *

@@ -33,11 +33,14 @@
 namespace OCP;
 
 /**
+ * @psalm-type NavigationEntry = array{id: string, order: int, href: string, name: string, app?: string, icon?: string, classes?: string, type?: string}
+ */
+
+/**
  * Manages the ownCloud navigation
  * @since 6.0.0
  */
 interface INavigationManager {
-
 	/**
 	 * Navigation entries of the app navigation
 	 * @since 16.0.0
@@ -59,9 +62,11 @@ interface INavigationManager {
 	/**
 	 * Creates a new navigation entry
 	 *
-	 * @param array|\Closure $entry Array containing: id, name, order, icon and href key
+	 * @param array array|\Closure $entry Array containing: id, name, order, icon and href key
+	 * 					If a menu entry (type = 'link') is added, you shall also set app to the app that added the entry.
 	 *					The use of a closure is preferred, because it will avoid
 	 * 					loading the routing of your app, unless required.
+	 * @psalm-param NavigationEntry|callable():NavigationEntry $entry
 	 * @return void
 	 * @since 6.0.0
 	 */

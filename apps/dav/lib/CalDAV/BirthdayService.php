@@ -54,6 +54,8 @@ use Sabre\VObject\Reader;
  */
 class BirthdayService {
 	public const BIRTHDAY_CALENDAR_URI = 'contact_birthdays';
+	public const EXCLUDE_FROM_BIRTHDAY_CALENDAR_PROPERTY_NAME = 'X-NC-EXCLUDE-FROM-BIRTHDAY-CALENDAR';
+
 	private GroupPrincipalBackend $principalBackend;
 	private CalDavBackend $calDavBackEnd;
 	private CardDavBackend $cardDavBackEnd;
@@ -65,11 +67,11 @@ class BirthdayService {
 	 * BirthdayService constructor.
 	 */
 	public function __construct(CalDavBackend $calDavBackEnd,
-								CardDavBackend $cardDavBackEnd,
-								GroupPrincipalBackend $principalBackend,
-								IConfig $config,
-								IDBConnection $dbConnection,
-								IL10N $l10n) {
+		CardDavBackend $cardDavBackEnd,
+		GroupPrincipalBackend $principalBackend,
+		IConfig $config,
+		IDBConnection $dbConnection,
+		IL10N $l10n) {
 		$this->calDavBackEnd = $calDavBackEnd;
 		$this->cardDavBackEnd = $cardDavBackEnd;
 		$this->principalBackend = $principalBackend;
@@ -79,8 +81,8 @@ class BirthdayService {
 	}
 
 	public function onCardChanged(int $addressBookId,
-								  string $cardUri,
-								  string $cardData): void {
+		string $cardUri,
+		string $cardData): void {
 		if (!$this->isGloballyEnabled()) {
 			return;
 		}
@@ -115,7 +117,7 @@ class BirthdayService {
 	}
 
 	public function onCardDeleted(int $addressBookId,
-								  string $cardUri): void {
+		string $cardUri): void {
 		if (!$this->isGloballyEnabled()) {
 			return;
 		}
@@ -162,9 +164,9 @@ class BirthdayService {
 	 * @throws InvalidDataException
 	 */
 	public function buildDateFromContact(string  $cardData,
-										 string  $dateField,
-										 string  $postfix,
-										 ?string $reminderOffset):?VCalendar {
+		string  $dateField,
+		string  $postfix,
+		?string $reminderOffset):?VCalendar {
 		if (empty($cardData)) {
 			return null;
 		}
@@ -177,6 +179,10 @@ class BirthdayService {
 			}
 			$doc = $doc->convert(Document::VCARD40);
 		} catch (Exception $e) {
+			return null;
+		}
+
+		if (isset($doc->{self::EXCLUDE_FROM_BIRTHDAY_CALENDAR_PROPERTY_NAME})) {
 			return null;
 		}
 
@@ -201,33 +207,26 @@ class BirthdayService {
 		} catch (InvalidDataException $e) {
 			return null;
 		}
-
-		$unknownYear = false;
-		$originalYear = null;
-		if (!$dateParts['year']) {
-			$birthday = '1970-' . $dateParts['month'] . '-' . $dateParts['date'];
-
-			$unknownYear = true;
-		} else {
+		if ($dateParts['year'] !== null) {
 			$parameters = $birthday->parameters();
-			if (isset($parameters['X-APPLE-OMIT-YEAR'])) {
-				$omitYear = $parameters['X-APPLE-OMIT-YEAR'];
-				if ($dateParts['year'] === $omitYear) {
-					$birthday = '1970-' . $dateParts['month'] . '-' . $dateParts['date'];
-					$unknownYear = true;
-				}
-			} else {
-				$originalYear = (int)$dateParts['year'];
-				// 'X-APPLE-OMIT-YEAR' is not always present, at least iOS 12.4 uses the hard coded date of 1604 (the start of the gregorian calendar) when the year is unknown
-				if ($originalYear == 1604) {
-					$originalYear = null;
-					$unknownYear = true;
-					$birthday = '1970-' . $dateParts['month'] . '-' . $dateParts['date'];
-				}
-				if ($originalYear < 1970) {
-					$birthday = '1970-' . $dateParts['month'] . '-' . $dateParts['date'];
-				}
+			$omitYear = (isset($parameters['X-APPLE-OMIT-YEAR'])
+					&& $parameters['X-APPLE-OMIT-YEAR'] === $dateParts['year']);
+			// 'X-APPLE-OMIT-YEAR' is not always present, at least iOS 12.4 uses the hard coded date of 1604 (the start of the gregorian calendar) when the year is unknown
+			if ($omitYear || (int)$dateParts['year'] === 1604) {
+				$dateParts['year'] = null;
 			}
+		}
+
+		$originalYear = null;
+		if ($dateParts['year'] !== null) {
+			$originalYear = (int)$dateParts['year'];
+		}
+
+		$leapDay = ((int)$dateParts['month'] === 2
+				&& (int)$dateParts['date'] === 29);
+		if ($dateParts['year'] === null || $originalYear < 1970) {
+			$birthday = ($leapDay ? '1972-' : '1970-')
+				. $dateParts['month'] . '-' . $dateParts['date'];
 		}
 
 		try {
@@ -262,10 +261,15 @@ class BirthdayService {
 		$vEvent->DTEND['VALUE'] = 'DATE';
 		$vEvent->{'UID'} = $doc->UID . $postfix;
 		$vEvent->{'RRULE'} = 'FREQ=YEARLY';
+		if ($leapDay) {
+			/* Sabre\VObject supports BYMONTHDAY only if BYMONTH
+			 * is also set */
+			$vEvent->{'RRULE'} = 'FREQ=YEARLY;BYMONTH=2;BYMONTHDAY=-1';
+		}
 		$vEvent->{'SUMMARY'} = $summary;
 		$vEvent->{'TRANSP'} = 'TRANSPARENT';
 		$vEvent->{'X-NEXTCLOUD-BC-FIELD-TYPE'} = $dateField;
-		$vEvent->{'X-NEXTCLOUD-BC-UNKNOWN-YEAR'} = $unknownYear ? '1' : '0';
+		$vEvent->{'X-NEXTCLOUD-BC-UNKNOWN-YEAR'} = $dateParts['year'] === null ? '1' : '0';
 		if ($originalYear !== null) {
 			$vEvent->{'X-NEXTCLOUD-BC-YEAR'} = (string) $originalYear;
 		}
@@ -318,7 +322,7 @@ class BirthdayService {
 	 * @return bool
 	 */
 	public function birthdayEvenChanged(string $existingCalendarData,
-										VCalendar $newCalendarData):bool {
+		VCalendar $newCalendarData):bool {
 		try {
 			$existingBirthday = Reader::read($existingCalendarData);
 		} catch (Exception $ex) {
@@ -362,11 +366,11 @@ class BirthdayService {
 	 * @throws \Sabre\DAV\Exception\BadRequest
 	 */
 	private function updateCalendar(string $cardUri,
-									string $cardData,
-									array $book,
-									int $calendarId,
-									array $type,
-									?string $reminderOffset):void {
+		string $cardData,
+		array $book,
+		int $calendarId,
+		array $type,
+		?string $reminderOffset):void {
 		$objectUri = $book['uri'] . '-' . $cardUri . $type['postfix'] . '.ics';
 		$calendarData = $this->buildDateFromContact($cardData, $type['field'], $type['postfix'], $reminderOffset);
 		$existing = $this->calDavBackEnd->getCalendarObject($calendarId, $objectUri);
@@ -415,7 +419,7 @@ class BirthdayService {
 	 * @return string|null
 	 */
 	private function principalToUserId(string $userPrincipal):?string {
-		if (substr($userPrincipal, 0, 17) === 'principals/users/') {
+		if (str_starts_with($userPrincipal, 'principals/users/')) {
 			return substr($userPrincipal, 17);
 		}
 		return null;
@@ -465,9 +469,9 @@ class BirthdayService {
 	 * @return string The formatted title
 	 */
 	private function formatTitle(string $field,
-								 string $name,
-								 int $year = null,
-								 bool $supports4Byte = true):string {
+		string $name,
+		int $year = null,
+		bool $supports4Byte = true):string {
 		if ($supports4Byte) {
 			switch ($field) {
 				case 'BDAY':

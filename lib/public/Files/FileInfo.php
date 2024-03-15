@@ -6,6 +6,7 @@
  * @author Felix Heidecke <felix@heidecke.me>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Julius Härtl <jus@bitgrid.net>
+ * @author Maxence Lange <maxence@artificial-owl.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -84,7 +85,7 @@ interface FileInfo {
 	 * Get the size in bytes for the file or folder
 	 *
 	 * @param bool $includeMounts whether or not to include the size of any sub mounts, since 16.0.0
-	 * @return int
+	 * @return int|float
 	 * @since 7.0.0
 	 */
 	public function getSize($includeMounts = true);
@@ -250,13 +251,16 @@ interface FileInfo {
 	/**
 	 * Get the owner of the file
 	 *
-	 * @return \OCP\IUser
+	 * @return ?\OCP\IUser
 	 * @since 9.0.0
 	 */
 	public function getOwner();
 
 	/**
-	 * Get the stored checksum for this file
+	 * Get the stored checksum(s) for this file
+	 *
+	 * Checksums are stored in the format TYPE:CHECKSUM, here may be multiple checksums separated by a single space
+	 * e.g. MD5:d3b07384d113edec49eaa6238ad5ff00 SHA1:f1d2d2f924e986ac86fdf7b36c94bcdf32beec15
 	 *
 	 * @return string
 	 * @since 9.0.0
@@ -296,4 +300,21 @@ interface FileInfo {
 	 * @since 18.0.0
 	 */
 	public function getUploadTime(): int;
+
+	/**
+	 * Get the fileid or the parent folder
+	 * or -1 if this item has no parent folder (because it is the root)
+	 *
+	 * @return int
+	 * @since 28.0.0
+	 */
+	public function getParentId(): int;
+
+	/**
+	 * Get the metadata, if available
+	 *
+	 * @return array<string, int|string|bool|float|string[]|int[]>
+	 * @since 28.0.0
+	 */
+	public function getMetadata(): array;
 }

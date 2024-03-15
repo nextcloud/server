@@ -1,0 +1,110 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "sharebymail",
+        "version": "0.0.1",
+        "description": "Share provider which allows you to share files by mail",
+        "license": {
+            "name": "agpl"
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "basic_auth": {
+                "type": "http",
+                "scheme": "basic"
+            },
+            "bearer_auth": {
+                "type": "http",
+                "scheme": "bearer"
+            }
+        },
+        "schemas": {
+            "Capabilities": {
+                "oneOf": [
+                    {
+                        "type": "object",
+                        "required": [
+                            "files_sharing"
+                        ],
+                        "properties": {
+                            "files_sharing": {
+                                "type": "object",
+                                "required": [
+                                    "sharebymail"
+                                ],
+                                "properties": {
+                                    "sharebymail": {
+                                        "type": "object",
+                                        "required": [
+                                            "enabled",
+                                            "send_password_by_mail",
+                                            "upload_files_drop",
+                                            "password",
+                                            "expire_date"
+                                        ],
+                                        "properties": {
+                                            "enabled": {
+                                                "type": "boolean"
+                                            },
+                                            "send_password_by_mail": {
+                                                "type": "boolean"
+                                            },
+                                            "upload_files_drop": {
+                                                "type": "object",
+                                                "required": [
+                                                    "enabled"
+                                                ],
+                                                "properties": {
+                                                    "enabled": {
+                                                        "type": "boolean"
+                                                    }
+                                                }
+                                            },
+                                            "password": {
+                                                "type": "object",
+                                                "required": [
+                                                    "enabled",
+                                                    "enforced"
+                                                ],
+                                                "properties": {
+                                                    "enabled": {
+                                                        "type": "boolean"
+                                                    },
+                                                    "enforced": {
+                                                        "type": "boolean"
+                                                    }
+                                                }
+                                            },
+                                            "expire_date": {
+                                                "type": "object",
+                                                "required": [
+                                                    "enabled",
+                                                    "enforced"
+                                                ],
+                                                "properties": {
+                                                    "enabled": {
+                                                        "type": "boolean"
+                                                    },
+                                                    "enforced": {
+                                                        "type": "boolean"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "type": "array",
+                        "maxLength": 0
+                    }
+                ]
+            }
+        }
+    },
+    "paths": {},
+    "tags": []
+}

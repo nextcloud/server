@@ -7,6 +7,7 @@ declare(strict_types=1);
  *
  * @author Julien Veyssier <eneiluj@posteo.net>
  * @author Julius Härtl <jus@bitgrid.net>
+ * @author Richard Steinmetz <richard@steinmetz.cloud>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -29,10 +30,10 @@ return [
 		['name' => 'dashboard#index', 'url' => '/', 'verb' => 'GET'],
 		['name' => 'dashboard#updateLayout', 'url' => '/layout', 'verb' => 'POST'],
 		['name' => 'dashboard#updateStatuses', 'url' => '/statuses', 'verb' => 'POST'],
-		['name' => 'dashboard#getBackground', 'url' => '/background', 'verb' => 'GET'],
-		['name' => 'dashboard#setBackground', 'url' => '/background/{type}', 'verb' => 'POST'],
 	],
 	'ocs' => [
+		['name' => 'dashboardApi#getWidgets', 'url' => '/api/v1/widgets', 'verb' => 'GET'],
 		['name' => 'dashboardApi#getWidgetItems', 'url' => '/api/v1/widget-items', 'verb' => 'GET'],
+		['name' => 'dashboardApi#getWidgetItemsV2', 'url' => '/api/v2/widget-items', 'verb' => 'GET'],
 	]
 ];

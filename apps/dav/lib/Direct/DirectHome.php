@@ -26,13 +26,13 @@ declare(strict_types=1);
  */
 namespace OCA\DAV\Direct;
 
-use OC\Security\Bruteforce\Throttler;
 use OCA\DAV\Db\DirectMapper;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\IRootFolder;
 use OCP\IRequest;
+use OCP\Security\Bruteforce\IThrottler;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\MethodNotAllowed;
 use Sabre\DAV\Exception\NotFound;
@@ -49,18 +49,20 @@ class DirectHome implements ICollection {
 	/** @var ITimeFactory */
 	private $timeFactory;
 
-	/** @var Throttler */
+	/** @var IThrottler */
 	private $throttler;
 
 	/** @var IRequest */
 	private $request;
+
+	/** @var IEventDispatcher */
 	private $eventDispatcher;
 
 	public function __construct(
 		IRootFolder $rootFolder,
 		DirectMapper $mapper,
 		ITimeFactory $timeFactory,
-		Throttler $throttler,
+		IThrottler $throttler,
 		IRequest $request,
 		IEventDispatcher $eventDispatcher
 	) {

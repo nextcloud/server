@@ -70,10 +70,10 @@ class URLGenerator implements IURLGenerator {
 	private ?IAppManager $appManager = null;
 
 	public function __construct(IConfig $config,
-								IUserSession $userSession,
-								ICacheFactory $cacheFactory,
-								IRequest $request,
-								Router $router
+		IUserSession $userSession,
+		ICacheFactory $cacheFactory,
+		IRequest $request,
+		Router $router
 	) {
 		$this->config = $config;
 		$this->userSession = $userSession;
@@ -116,16 +116,25 @@ class URLGenerator implements IURLGenerator {
 	}
 
 	public function linkToOCSRouteAbsolute(string $routeName, array $arguments = []): string {
+		// Returns `/subfolder/index.php/ocsapp/…` with `'htaccess.IgnoreFrontController' => false` in config.php
+		// And `/subfolder/ocsapp/…` with `'htaccess.IgnoreFrontController' => true` in config.php
 		$route = $this->router->generate('ocs.'.$routeName, $arguments, false);
 
-		$indexPhpPos = strpos($route, '/index.php/');
-		if ($indexPhpPos !== false) {
-			$route = substr($route, $indexPhpPos + 10);
+		// Cut off `/subfolder`
+		if (\OC::$WEBROOT !== '' && str_starts_with($route, \OC::$WEBROOT)) {
+			$route = substr($route, \strlen(\OC::$WEBROOT));
 		}
 
+		if (str_starts_with($route, '/index.php/')) {
+			$route = substr($route, 10);
+		}
+
+		// Remove `ocsapp/` bit
 		$route = substr($route, 7);
+		// Prefix with ocs/v2.php endpoint
 		$route = '/ocs/v2.php' . $route;
 
+		// Turn into an absolute URL
 		return $this->getAbsoluteURL($route);
 	}
 
@@ -141,13 +150,13 @@ class URLGenerator implements IURLGenerator {
 	 * Returns a url to the given app and file.
 	 */
 	public function linkTo(string $appName, string $file, array $args = []): string {
-		$frontControllerActive = ($this->config->getSystemValue('htaccess.IgnoreFrontController', false) === true || getenv('front_controller_active') === 'true');
+		$frontControllerActive = ($this->config->getSystemValueBool('htaccess.IgnoreFrontController', false) || getenv('front_controller_active') === 'true');
 
 		if ($appName !== '') {
 			$app_path = $this->getAppManager()->getAppPath($appName);
 			// Check if the app is in the app folder
-			if ($app_path && file_exists($app_path . '/' . $file)) {
-				if (substr($file, -3) === 'php') {
+			if (file_exists($app_path . '/' . $file)) {
+				if (str_ends_with($file, 'php')) {
 					$urlLinkTo = \OC::$WEBROOT . '/index.php/apps/' . $appName;
 					if ($frontControllerActive) {
 						$urlLinkTo = \OC::$WEBROOT . '/apps/' . $appName;
@@ -214,7 +223,7 @@ class URLGenerator implements IURLGenerator {
 
 		// Check if the app is in the app folder
 		$path = '';
-		$themingEnabled = $this->config->getSystemValue('installed', false) && $this->getAppManager()->isEnabledForUser('theming');
+		$themingEnabled = $this->config->getSystemValueBool('installed', false) && $this->getAppManager()->isEnabledForUser('theming');
 		$themingImagePath = false;
 		if ($themingEnabled) {
 			$themingDefaults = \OC::$server->getThemingDefaults();
@@ -272,13 +281,13 @@ class URLGenerator implements IURLGenerator {
 	 * @return string the absolute version of the url
 	 */
 	public function getAbsoluteURL(string $url): string {
-		$separator = strpos($url, '/') === 0 ? '' : '/';
+		$separator = str_starts_with($url, '/') ? '' : '/';
 
 		if (\OC::$CLI && !\defined('PHPUNIT_RUN')) {
-			return rtrim($this->config->getSystemValue('overwrite.cli.url'), '/') . '/' . ltrim($url, '/');
+			return rtrim($this->config->getSystemValueString('overwrite.cli.url'), '/') . '/' . ltrim($url, '/');
 		}
 		// The ownCloud web root can already be prepended.
-		if (\OC::$WEBROOT !== '' && strpos($url, \OC::$WEBROOT) === 0) {
+		if (\OC::$WEBROOT !== '' && str_starts_with($url, \OC::$WEBROOT)) {
 			$url = substr($url, \strlen(\OC::$WEBROOT));
 		}
 
@@ -302,7 +311,7 @@ class URLGenerator implements IURLGenerator {
 	public function linkToDefaultPageUrl(): string {
 		// Deny the redirect if the URL contains a @
 		// This prevents unvalidated redirects like ?redirect_url=:user@domain.com
-		if (isset($_REQUEST['redirect_url']) && strpos($_REQUEST['redirect_url'], '@') === false) {
+		if (isset($_REQUEST['redirect_url']) && !str_contains($_REQUEST['redirect_url'], '@')) {
 			return $this->getAbsoluteURL(urldecode($_REQUEST['redirect_url']));
 		}
 
@@ -311,25 +320,9 @@ class URLGenerator implements IURLGenerator {
 			return $this->getAbsoluteURL($defaultPage);
 		}
 
-		$appId = 'files';
-		$defaultApps = explode(',', $this->config->getSystemValue('defaultapp', 'dashboard,files'));
+		$appId = $this->getAppManager()->getDefaultAppForUser();
 
-		$userId = $this->userSession->isLoggedIn() ? $this->userSession->getUser()->getUID() : null;
-		if ($userId !== null) {
-			$userDefaultApps = explode(',', $this->config->getUserValue($userId, 'core', 'defaultapp'));
-			$defaultApps = array_filter(array_merge($userDefaultApps, $defaultApps));
-		}
-
-		// find the first app that is enabled for the current user
-		foreach ($defaultApps as $defaultApp) {
-			$defaultApp = \OC_App::cleanAppId(strip_tags($defaultApp));
-			if (\OC::$server->getAppManager()->isEnabledForUser($defaultApp)) {
-				$appId = $defaultApp;
-				break;
-			}
-		}
-
-		if ($this->config->getSystemValue('htaccess.IgnoreFrontController', false) === true
+		if ($this->config->getSystemValueBool('htaccess.IgnoreFrontController', false)
 			|| getenv('front_controller_active') === 'true') {
 			return $this->getAbsoluteURL('/apps/' . $appId . '/');
 		}

@@ -38,7 +38,6 @@ namespace OCP {
 	 * @since 5.0.0
 	 */
 	interface IAddressBook {
-
 		/**
 		 * @return string defining the technical unique key
 		 * @since 5.0.0

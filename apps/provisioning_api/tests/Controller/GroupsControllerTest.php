@@ -44,7 +44,6 @@ use OCP\UserInterface;
 use Psr\Log\LoggerInterface;
 
 class GroupsControllerTest extends \Test\TestCase {
-
 	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
 	protected $request;
 	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
@@ -57,6 +56,8 @@ class GroupsControllerTest extends \Test\TestCase {
 	protected $userSession;
 	/** @var IAccountManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $accountManager;
+	/** @var IFactory|\PHPUnit\Framework\MockObject\MockObject */
+	protected $l10nFactory;
 	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
 	protected $logger;
 	/** @var  SubAdmin|\PHPUnit\Framework\MockObject\MockObject */
@@ -506,7 +507,7 @@ class GroupsControllerTest extends \Test\TestCase {
 		$this->userManager->expects($this->any())
 			->method('get')
 			->willReturnCallback(function (string $uid) use ($users) {
-				return isset($users[$uid]) ? $users[$uid] : null;
+				return $users[$uid] ?? null;
 			});
 
 		$group = $this->createGroup($gid);
@@ -551,7 +552,7 @@ class GroupsControllerTest extends \Test\TestCase {
 		$this->userManager->expects($this->any())
 			->method('get')
 			->willReturnCallback(function (string $uid) use ($users) {
-				return isset($users[$uid]) ? $users[$uid] : null;
+				return $users[$uid] ?? null;
 			});
 
 		$group = $this->createGroup($gid);

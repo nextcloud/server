@@ -52,8 +52,6 @@ use OCP\FullTextSearch\IFullTextSearchProvider;
  *
  */
 interface ISearchTemplate {
-
-
 	/**
 	 * Set the class of the icon to be displayed in the left panel of the
 	 * FullTextSearch navigation page, in front of the related Content Provider.

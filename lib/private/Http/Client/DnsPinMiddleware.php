@@ -25,20 +25,21 @@ declare(strict_types=1);
  */
 namespace OC\Http\Client;
 
+use OC\Net\IpAddressClassifier;
+use OCP\Http\Client\LocalServerException;
 use Psr\Http\Message\RequestInterface;
 
 class DnsPinMiddleware {
 	/** @var NegativeDnsCache */
 	private $negativeDnsCache;
-	/** @var LocalAddressChecker */
-	private $localAddressChecker;
+	private IpAddressClassifier $ipAddressClassifier;
 
 	public function __construct(
 		NegativeDnsCache $negativeDnsCache,
-		LocalAddressChecker $localAddressChecker
+		IpAddressClassifier $ipAddressClassifier
 	) {
 		$this->negativeDnsCache = $negativeDnsCache;
-		$this->localAddressChecker = $localAddressChecker;
+		$this->ipAddressClassifier = $ipAddressClassifier;
 	}
 
 	/**
@@ -54,7 +55,7 @@ class DnsPinMiddleware {
 		$second = array_pop($labels);
 
 		$hostname = $second . '.' . $top;
-		$responses = dns_get_record($hostname, DNS_SOA);
+		$responses = $this->dnsGetRecord($hostname, DNS_SOA);
 
 		if ($responses === false || count($responses) === 0) {
 			return null;
@@ -80,7 +81,7 @@ class DnsPinMiddleware {
 				continue;
 			}
 
-			$dnsResponses = dns_get_record($target, $dnsType);
+			$dnsResponses = $this->dnsGetRecord($target, $dnsType);
 			$canHaveCnameRecord = true;
 			if ($dnsResponses !== false && count($dnsResponses) > 0) {
 				foreach ($dnsResponses as $dnsResponse) {
@@ -101,6 +102,13 @@ class DnsPinMiddleware {
 		}
 
 		return $targetIps;
+	}
+
+	/**
+	 * Wrapper for dns_get_record
+	 */
+	protected function dnsGetRecord(string $hostname, int $type): array|false {
+		return \dns_get_record($hostname, $type);
 	}
 
 	public function addDnsPinning() {
@@ -125,7 +133,11 @@ class DnsPinMiddleware {
 					$ports[] = (string)$port;
 				}
 
-				$targetIps = $this->dnsResolve($hostName, 0);
+				$targetIps = $this->dnsResolve(idn_to_utf8($hostName), 0);
+
+				if (empty($targetIps)) {
+					throw new LocalServerException('No DNS record found for ' . $hostName);
+				}
 
 				$curlResolves = [];
 
@@ -133,7 +145,10 @@ class DnsPinMiddleware {
 					$curlResolves["$hostName:$port"] = [];
 
 					foreach ($targetIps as $ip) {
-						$this->localAddressChecker->ThrowIfLocalIp($ip);
+						if ($this->ipAddressClassifier->isLocalAddress($ip)) {
+							// TODO: continue with all non-local IPs?
+							throw new LocalServerException('Host "'.$ip.'" ('.$hostName.':'.$port.') violates local access rules');
+						}
 						$curlResolves["$hostName:$port"][] = $ip;
 					}
 				}

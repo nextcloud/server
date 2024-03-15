@@ -35,7 +35,6 @@ use OCP\AppFramework\Middleware;
 use OCP\IRequest;
 
 class CompressionMiddleware extends Middleware {
-
 	/** @var bool */
 	private $useGZip;
 
@@ -58,7 +57,7 @@ class CompressionMiddleware extends Middleware {
 
 		// Check if we are even asked for gzip
 		$header = $this->request->getHeader('Accept-Encoding');
-		if (strpos($header, 'gzip') === false) {
+		if (!str_contains($header, 'gzip')) {
 			return $response;
 		}
 

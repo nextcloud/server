@@ -75,7 +75,7 @@ class CommentsPluginTest extends \Test\TestCase {
 		$this->plugin = new CommentsPluginImplementation($this->commentsManager, $this->userSession);
 	}
 
-	public function testCreateComment() {
+	public function testCreateComment(): void {
 		$commentData = [
 			'actorType' => 'users',
 			'verb' => 'comment',
@@ -171,7 +171,7 @@ class CommentsPluginTest extends \Test\TestCase {
 	}
 
 	
-	public function testCreateCommentInvalidObject() {
+	public function testCreateCommentInvalidObject(): void {
 		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
 
 		$commentData = [
@@ -253,7 +253,7 @@ class CommentsPluginTest extends \Test\TestCase {
 	}
 
 	
-	public function testCreateCommentInvalidActor() {
+	public function testCreateCommentInvalidActor(): void {
 		$this->expectException(\Sabre\DAV\Exception\BadRequest::class);
 
 		$commentData = [
@@ -341,7 +341,7 @@ class CommentsPluginTest extends \Test\TestCase {
 	}
 
 	
-	public function testCreateCommentUnsupportedMediaType() {
+	public function testCreateCommentUnsupportedMediaType(): void {
 		$this->expectException(\Sabre\DAV\Exception\UnsupportedMediaType::class);
 
 		$commentData = [
@@ -429,7 +429,7 @@ class CommentsPluginTest extends \Test\TestCase {
 	}
 
 	
-	public function testCreateCommentInvalidPayload() {
+	public function testCreateCommentInvalidPayload(): void {
 		$this->expectException(\Sabre\DAV\Exception\BadRequest::class);
 
 		$commentData = [
@@ -523,7 +523,7 @@ class CommentsPluginTest extends \Test\TestCase {
 	}
 
 	
-	public function testCreateCommentMessageTooLong() {
+	public function testCreateCommentMessageTooLong(): void {
 		$this->expectException(\Sabre\DAV\Exception\BadRequest::class);
 		$this->expectExceptionMessage('Message exceeds allowed character limit of');
 
@@ -617,7 +617,7 @@ class CommentsPluginTest extends \Test\TestCase {
 	}
 
 	
-	public function testOnReportInvalidNode() {
+	public function testOnReportInvalidNode(): void {
 		$this->expectException(\Sabre\DAV\Exception\ReportNotSupported::class);
 
 		$path = 'totally/unrelated/13';
@@ -640,7 +640,7 @@ class CommentsPluginTest extends \Test\TestCase {
 	}
 
 	
-	public function testOnReportInvalidReportName() {
+	public function testOnReportInvalidReportName(): void {
 		$this->expectException(\Sabre\DAV\Exception\ReportNotSupported::class);
 
 		$path = 'comments/files/42';
@@ -662,7 +662,7 @@ class CommentsPluginTest extends \Test\TestCase {
 		$this->plugin->onReport('{whoever}whatever', [], '/' . $path);
 	}
 
-	public function testOnReportDateTimeEmpty() {
+	public function testOnReportDateTimeEmpty(): void {
 		$path = 'comments/files/42';
 
 		$parameters = [
@@ -717,7 +717,7 @@ class CommentsPluginTest extends \Test\TestCase {
 		$this->plugin->onReport(CommentsPluginImplementation::REPORT_NAME, $parameters, '/' . $path);
 	}
 
-	public function testOnReport() {
+	public function testOnReport(): void {
 		$path = 'comments/files/42';
 
 		$parameters = [

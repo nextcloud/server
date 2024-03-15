@@ -47,8 +47,6 @@ OC.L10N.register(
     "Your password will expire tomorrow." : "Su contraseña expirará mañana.",
     "Your password will expire today." : "Su contraseña expirará el día de hoy. ",
     "_Your password will expire within %n day._::_Your password will expire within %n days._" : ["La contraseña expirará dentro de %n día. ","La contraseña expirará dentro de %n días. ","La contraseña expirará dentro de %n días. "],
-    "_%s group found_::_%s groups found_" : ["Grupo %s encontrado","%s grupos encontrados","%s grupos encontrados"],
-    "_%s user found_::_%s users found_" : ["Usuario %s encontrado","%s usuarios encontrados","%s usuarios encontrados"],
     "Could not find the desired feature" : "No fue posible encontrar la función deseada.",
     "Invalid Host" : "Servidor inválido",
     "LDAP user and group backend" : "Backend de LDAP para usuario y grupo",

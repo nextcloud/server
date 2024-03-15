@@ -9,6 +9,9 @@
 
 namespace Test\Memcache;
 
+/**
+ * @group Memcache
+ */
 class ArrayCacheTest extends Cache {
 	protected function setUp(): void {
 		parent::setUp();

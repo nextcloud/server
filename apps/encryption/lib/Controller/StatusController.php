@@ -52,11 +52,11 @@ class StatusController extends Controller {
 	 * @param IManager $encryptionManager
 	 */
 	public function __construct($AppName,
-								IRequest $request,
-								IL10N $l10n,
-								Session $session,
-								IManager $encryptionManager
-								) {
+		IRequest $request,
+		IL10N $l10n,
+		Session $session,
+		IManager $encryptionManager
+	) {
 		parent::__construct($AppName, $request);
 		$this->l = $l10n;
 		$this->session = $session;

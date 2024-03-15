@@ -35,7 +35,6 @@ use Symfony\Component\Console\Tester\CommandTester;
 use Test\TestCase;
 
 class DisableTest extends TestCase {
-
 	/** @var ProviderManager|MockObject */
 	private $providerManager;
 

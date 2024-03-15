@@ -27,27 +27,16 @@ use OCP\Comments\CommentsEvent;
 use OCP\Comments\IComment;
 use OCP\IUserManager;
 use OCP\Notification\IManager;
+use OCP\Notification\INotification;
 
 class Listener {
-
-	protected IManager $notificationManager;
-	protected IUserManager $userManager;
-
-	/**
-	 * Listener constructor.
-	 */
 	public function __construct(
-		IManager $notificationManager,
-		IUserManager $userManager
+		protected IManager $notificationManager,
+		protected IUserManager $userManager
 	) {
-		$this->notificationManager = $notificationManager;
-		$this->userManager = $userManager;
 	}
 
-	/**
-	 * @param CommentsEvent $event
-	 */
-	public function evaluate(CommentsEvent $event) {
+	public function evaluate(CommentsEvent $event): void {
 		$comment = $event->getComment();
 
 		$mentions = $this->extractMentions($comment->getMentions());
@@ -77,12 +66,9 @@ class Listener {
 	}
 
 	/**
-	 * creates a notification instance and fills it with comment data
-	 *
-	 * @param IComment $comment
-	 * @return \OCP\Notification\INotification
+	 * Creates a notification instance and fills it with comment data
 	 */
-	public function instantiateNotification(IComment $comment) {
+	public function instantiateNotification(IComment $comment): INotification {
 		$notification = $this->notificationManager->createNotification();
 		$notification
 			->setApp('comments')
@@ -94,12 +80,12 @@ class Listener {
 	}
 
 	/**
-	 * flattens the mention array returned from comments to a list of user ids.
+	 * Flattens the mention array returned from comments to a list of user ids.
 	 *
 	 * @param array $mentions
-	 * @return string[] containing the mentions, e.g. ['alice', 'bob']
+	 * @return list<string> containing the mentions, e.g. ['alice', 'bob']
 	 */
-	public function extractMentions(array $mentions) {
+	public function extractMentions(array $mentions): array {
 		if (empty($mentions)) {
 			return [];
 		}

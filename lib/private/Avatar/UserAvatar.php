@@ -44,31 +44,14 @@ use Psr\Log\LoggerInterface;
  * This class represents a registered user's avatar.
  */
 class UserAvatar extends Avatar {
-	private IConfig $config;
-	private ISimpleFolder $folder;
-	private IL10N $l;
-	private User $user;
-
-	/**
-	 * UserAvatar constructor.
-	 *
-	 * @param IConfig $config The configuration
-	 * @param ISimpleFolder $folder The avatar files folder
-	 * @param IL10N $l The localization helper
-	 * @param User $user The user this class manages the avatar for
-	 * @param LoggerInterface $logger The logger
-	 */
 	public function __construct(
-		ISimpleFolder $folder,
-		IL10N $l,
-		User $user,
+		private ISimpleFolder $folder,
+		private IL10N $l,
+		private User $user,
 		LoggerInterface $logger,
-		IConfig $config) {
+		private IConfig $config,
+	) {
 		parent::__construct($logger);
-		$this->folder = $folder;
-		$this->l = $l;
-		$this->user = $user;
-		$this->config = $config;
 	}
 
 	/**
@@ -85,7 +68,6 @@ class UserAvatar extends Avatar {
 	 * @throws \Exception if the provided file is not a jpg or png image
 	 * @throws \Exception if the provided image is not valid
 	 * @throws NotSquareException if the image is not square
-	 * @return void
 	 */
 	public function set($data): void {
 		$img = $this->getAvatarImage($data);
@@ -113,7 +95,6 @@ class UserAvatar extends Avatar {
 	 * Returns an image from several sources.
 	 *
 	 * @param IImage|resource|string|\GdImage $data An image object, imagedata or path to the avatar
-	 * @return IImage
 	 */
 	private function getAvatarImage($data): IImage {
 		if ($data instanceof IImage) {
@@ -124,7 +105,7 @@ class UserAvatar extends Avatar {
 		if (
 			(is_resource($data) && get_resource_type($data) === 'gd') ||
 			(is_object($data) && get_class($data) === \GdImage::class)
-			) {
+		) {
 			$img->setResource($data);
 		} elseif (is_resource($data)) {
 			$img->loadFromFileHandle($data);
@@ -208,7 +189,14 @@ class UserAvatar extends Avatar {
 	 *
 	 * @throws NotFoundException
 	 */
-	private function getExtension(): string {
+	private function getExtension(bool $generated, bool $darkTheme): string {
+		if ($darkTheme && !$generated) {
+			if ($this->folder->fileExists('avatar-dark.jpg')) {
+				return 'jpg';
+			} elseif ($this->folder->fileExists('avatar-dark.png')) {
+				return 'png';
+			}
+		}
 		if ($this->folder->fileExists('avatar.jpg')) {
 			return 'jpg';
 		} elseif ($this->folder->fileExists('avatar.png')) {
@@ -222,31 +210,40 @@ class UserAvatar extends Avatar {
 	 *
 	 * If there is no avatar file yet, one is generated.
 	 *
-	 * @param int $size
-	 * @return ISimpleFile
 	 * @throws NotFoundException
 	 * @throws \OCP\Files\NotPermittedException
 	 * @throws \OCP\PreConditionNotMetException
 	 */
-	public function getFile(int $size): ISimpleFile {
+	public function getFile(int $size, bool $darkTheme = false): ISimpleFile {
+		$generated = $this->folder->fileExists('generated');
+
 		try {
-			$ext = $this->getExtension();
+			$ext = $this->getExtension($generated, $darkTheme);
 		} catch (NotFoundException $e) {
-			if (!$data = $this->generateAvatarFromSvg(1024)) {
-				$data = $this->generateAvatar($this->getDisplayName(), 1024);
+			if (!$data = $this->generateAvatarFromSvg(1024, $darkTheme)) {
+				$data = $this->generateAvatar($this->getDisplayName(), 1024, $darkTheme);
 			}
-			$avatar = $this->folder->newFile('avatar.png');
+			$avatar = $this->folder->newFile($darkTheme ? 'avatar-dark.png' : 'avatar.png');
 			$avatar->putContent($data);
 			$ext = 'png';
 
 			$this->folder->newFile('generated', '');
 			$this->config->setUserValue($this->user->getUID(), 'avatar', 'generated', 'true');
+			$generated = true;
 		}
 
-		if ($size === -1) {
-			$path = 'avatar.' . $ext;
+		if ($generated) {
+			if ($size === -1) {
+				$path = 'avatar' . ($darkTheme ? '-dark' : '') . '.' . $ext;
+			} else {
+				$path = 'avatar' . ($darkTheme ? '-dark' : '') . '.'  . $size . '.' . $ext;
+			}
 		} else {
-			$path = 'avatar.' . $size . '.' . $ext;
+			if ($size === -1) {
+				$path = 'avatar.' . $ext;
+			} else {
+				$path = 'avatar.' . $size . '.' . $ext;
+			}
 		}
 
 		try {
@@ -255,11 +252,9 @@ class UserAvatar extends Avatar {
 			if ($size <= 0) {
 				throw new NotFoundException;
 			}
-
-			// TODO: rework to integrate with the PlaceholderAvatar in a compatible way
-			if ($this->folder->fileExists('generated')) {
-				if (!$data = $this->generateAvatarFromSvg($size)) {
-					$data = $this->generateAvatar($this->getDisplayName(), $size);
+			if ($generated) {
+				if (!$data = $this->generateAvatarFromSvg($size, $darkTheme)) {
+					$data = $this->generateAvatar($this->getDisplayName(), $size, $darkTheme);
 				}
 			} else {
 				$avatar = new \OCP\Image();
@@ -279,7 +274,7 @@ class UserAvatar extends Avatar {
 		}
 
 		if ($this->config->getUserValue($this->user->getUID(), 'avatar', 'generated', null) === null) {
-			$generated = $this->folder->fileExists('generated') ? 'true' : 'false';
+			$generated = $generated ? 'true' : 'false';
 			$this->config->setUserValue($this->user->getUID(), 'avatar', 'generated', $generated);
 		}
 

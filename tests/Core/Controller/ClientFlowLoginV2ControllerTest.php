@@ -43,7 +43,6 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class ClientFlowLoginV2ControllerTest extends TestCase {
-
 	/** @var IRequest|MockObject */
 	private $request;
 	/** @var LoginFlowV2Service|MockObject */
@@ -107,7 +106,7 @@ class ClientFlowLoginV2ControllerTest extends TestCase {
 
 		$result = $this->controller->poll('token');
 
-		$this->assertSame($creds, $result->getData());
+		$this->assertSame($creds->jsonSerialize(), $result->getData());
 		$this->assertSame(Http::STATUS_OK, $result->getStatus());
 	}
 
@@ -186,6 +185,12 @@ class ClientFlowLoginV2ControllerTest extends TestCase {
 			->with('client.flow.v2.state.token', 'random');
 
 		$this->controller->showAuthPickerPage();
+	}
+
+	public function testGrantPageNoStateToken(): void {
+		$result = $this->controller->grantPage(null);
+
+		$this->assertSame(Http::STATUS_FORBIDDEN, $result->getStatus());
 	}
 
 	public function testGrantPageInvalidStateToken() {

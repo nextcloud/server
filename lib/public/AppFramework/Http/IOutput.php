@@ -31,7 +31,6 @@ namespace OCP\AppFramework\Http;
  * @since 8.1.0
  */
 interface IOutput {
-
 	/**
 	 * @param string $out
 	 * @since 8.1.0

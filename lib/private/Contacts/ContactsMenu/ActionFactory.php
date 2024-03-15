@@ -27,7 +27,6 @@ use OCP\Contacts\ContactsMenu\IActionFactory;
 use OCP\Contacts\ContactsMenu\ILinkAction;
 
 class ActionFactory implements IActionFactory {
-
 	/**
 	 * {@inheritDoc}
 	 */

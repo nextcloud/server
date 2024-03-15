@@ -1,20 +1,18 @@
 <template>
 	<div v-click-outside="hideDelete" class="check" @click="showDelete">
-		<Multiselect ref="checkSelector"
+		<NcSelect ref="checkSelector"
 			v-model="currentOption"
 			:options="options"
 			label="name"
-			track-by="class"
-			:allow-empty="false"
+			:clearable="false"
 			:placeholder="t('workflowengine', 'Select a filter')"
 			@input="updateCheck" />
-		<Multiselect v-model="currentOperator"
+		<NcSelect v-model="currentOperator"
 			:disabled="!currentOption"
 			:options="operators"
 			class="comparator"
 			label="name"
-			track-by="operator"
-			:allow-empty="false"
+			:clearable="false"
 			:placeholder="t('workflowengine', 'Select a comparator')"
 			@input="updateCheck" />
 		<component :is="currentOption.component"
@@ -34,24 +32,34 @@
 			:placeholder="valuePlaceholder"
 			class="option"
 			@input="updateCheck">
-		<Actions v-if="deleteVisible || !currentOption">
-			<ActionButton icon="icon-close" @click="$emit('remove')" />
-		</Actions>
+		<NcActions v-if="deleteVisible || !currentOption">
+			<NcActionButton :title="t('workflowengine', 'Remove filter')" @click="$emit('remove')">
+				<template #icon>
+					<CloseIcon :size="20" />
+				</template>
+			</NcActionButton>
+		</NcActions>
 	</div>
 </template>
 
 <script>
-import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
-import Actions from '@nextcloud/vue/dist/Components/Actions'
-import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
+import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
+import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
+import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
+
+import CloseIcon from 'vue-material-design-icons/Close.vue'
+
 import ClickOutside from 'vue-click-outside'
 
 export default {
 	name: 'Check',
 	components: {
-		ActionButton,
-		Actions,
-		Multiselect,
+		NcActionButton,
+		NcActions,
+		NcSelect,
+
+		// Icons
+		CloseIcon,
 	},
 	directives: {
 		ClickOutside,
@@ -151,46 +159,37 @@ export default {
 	.check {
 		display: flex;
 		flex-wrap: wrap;
+		align-items: flex-start; // to not stretch components vertically
 		width: 100%;
 		padding-right: 20px;
+
 		& > *:not(.close) {
 			width: 180px;
 		}
 		& > .comparator {
-			min-width: 130px;
-			width: 130px;
+			min-width: 200px;
+			width: 200px;
 		}
 		& > .option {
-			min-width: 230px;
-			width: 230px;
+			min-width: 260px;
+			width: 260px;
+			min-height: 48px;
+
+			& > input[type=text] {
+				min-height: 48px;
+			}
 		}
-		& > .multiselect,
+		& > .v-select,
+		& > .button-vue,
 		& > input[type=text] {
 			margin-right: 5px;
 			margin-bottom: 5px;
-		}
-
-		.multiselect::v-deep .multiselect__content-wrapper li>span,
-		.multiselect::v-deep .multiselect__single {
-			display: block;
-			white-space: nowrap;
-			overflow: hidden;
-			text-overflow: ellipsis;
 		}
 	}
 	input[type=text] {
 		margin: 0;
 	}
-	::placeholder {
-		font-size: 10px;
-	}
-	button.action-item.action-item--single.icon-close {
-		height: 44px;
-		width: 44px;
-		margin-top: -5px;
-		margin-bottom: -5px;
-	}
 	.invalid {
-		border: 1px solid var(--color-error) !important;
+		border-color: var(--color-error) !important;
 	}
 </style>

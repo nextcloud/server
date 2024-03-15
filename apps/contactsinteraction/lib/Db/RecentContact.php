@@ -42,24 +42,12 @@ use OCP\AppFramework\Db\Entity;
  * @method int getLastContact()
  */
 class RecentContact extends Entity {
-
-	/** @var string */
-	protected $actorUid;
-
-	/** @var string|null */
-	protected $uid;
-
-	/** @var string|null */
-	protected $email;
-
-	/** @var string|null */
-	protected $federatedCloudId;
-
-	/** @var string */
-	protected $card;
-
-	/** @var int */
-	protected $lastContact;
+	protected string $actorUid = '';
+	protected ?string $uid = null;
+	protected ?string $email = null;
+	protected ?string $federatedCloudId = null;
+	protected string $card = '';
+	protected int $lastContact = -1;
 
 	public function __construct() {
 		$this->addType('actorUid', 'string');

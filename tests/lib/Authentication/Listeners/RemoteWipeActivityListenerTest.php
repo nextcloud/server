@@ -38,7 +38,6 @@ use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class RemoteWipeActivityListenerTest extends TestCase {
-
 	/** @var IActivityManager|MockObject */
 	private $activityManager;
 

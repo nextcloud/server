@@ -37,85 +37,111 @@ declare(strict_types=1);
  */
 namespace OCA\Files\AppInfo;
 
+use OCA\Files\Controller\OpenLocalEditorController;
+
+// Legacy routes above
+/** @var \OC\Route\Router $this */
+$this->create('files_ajax_download', 'apps/files/ajax/download.php')
+	->actionInclude('files/ajax/download.php');
+
 /** @var Application $application */
-$application = \OC::$server->query(Application::class);
+$application = \OC::$server->get(Application::class);
 $application->registerRoutes(
 	$this,
 	[
 		'routes' => [
-			[
-				'name' => 'View#showFile',
-				'url' => '/f/{fileid}',
-				'verb' => 'GET',
-				'root' => '',
-			],
-
-			[
-				'name' => 'API#getThumbnail',
-				'url' => '/api/v1/thumbnail/{x}/{y}/{file}',
-				'verb' => 'GET',
-				'requirements' => ['file' => '.+']
-			],
-			[
-				'name' => 'API#updateFileTags',
-				'url' => '/api/v1/files/{path}',
-				'verb' => 'POST',
-				'requirements' => ['path' => '.+'],
-			],
-			[
-				'name' => 'API#getRecentFiles',
-				'url' => '/api/v1/recent/',
-				'verb' => 'GET'
-			],
-			[
-				'name' => 'API#updateFileSorting',
-				'url' => '/api/v1/sorting',
-				'verb' => 'POST'
-			],
-			[
-				'name' => 'API#showHiddenFiles',
-				'url' => '/api/v1/showhidden',
-				'verb' => 'POST'
-			],
-			[
-				'name' => 'API#cropImagePreviews',
-				'url' => '/api/v1/cropimagepreviews',
-				'verb' => 'POST'
-			],
-			[
-				'name' => 'API#showGridView',
-				'url' => '/api/v1/showgridview',
-				'verb' => 'POST'
-			],
-			[
-				'name' => 'API#getGridView',
-				'url' => '/api/v1/showgridview',
-				'verb' => 'GET'
-			],
 			[
 				'name' => 'view#index',
 				'url' => '/',
 				'verb' => 'GET',
 			],
 			[
-				'name' => 'ajax#getStorageStats',
-				'url' => '/ajax/getstoragestats',
+				'name' => 'View#showFile',
+				'url' => '/f/{fileid}',
 				'verb' => 'GET',
+				'root' => '',
 			],
 			[
-				'name' => 'API#toggleShowFolder',
-				'url' => '/api/v1/toggleShowFolder/{key}',
+				'name' => 'Api#getThumbnail',
+				'url' => '/api/v1/thumbnail/{x}/{y}/{file}',
+				'verb' => 'GET',
+				'requirements' => ['file' => '.+']
+			],
+			[
+				'name' => 'Api#updateFileTags',
+				'url' => '/api/v1/files/{path}',
+				'verb' => 'POST',
+				'requirements' => ['path' => '.+'],
+			],
+			[
+				'name' => 'Api#getRecentFiles',
+				'url' => '/api/v1/recent/',
+				'verb' => 'GET'
+			],
+			[
+				'name' => 'Api#getStorageStats',
+				'url' => '/api/v1/stats',
+				'verb' => 'GET'
+			],
+			[
+				'name' => 'Api#setViewConfig',
+				'url' => '/api/v1/views/{view}/{key}',
+				'verb' => 'PUT'
+			],
+			[
+				'name' => 'Api#getViewConfigs',
+				'url' => '/api/v1/views',
+				'verb' => 'GET'
+			],
+			[
+				'name' => 'Api#setConfig',
+				'url' => '/api/v1/config/{key}',
+				'verb' => 'PUT'
+			],
+			[
+				'name' => 'Api#getConfigs',
+				'url' => '/api/v1/configs',
+				'verb' => 'GET'
+			],
+			[
+				'name' => 'Api#showHiddenFiles',
+				'url' => '/api/v1/showhidden',
 				'verb' => 'POST'
 			],
 			[
-				'name' => 'API#getNodeType',
-				'url' => '/api/v1/quickaccess/get/NodeType',
-				'verb' => 'GET',
+				'name' => 'Api#cropImagePreviews',
+				'url' => '/api/v1/cropimagepreviews',
+				'verb' => 'POST'
+			],
+			[
+				'name' => 'Api#showGridView',
+				'url' => '/api/v1/showgridview',
+				'verb' => 'POST'
+			],
+			[
+				'name' => 'Api#getGridView',
+				'url' => '/api/v1/showgridview',
+				'verb' => 'GET'
 			],
 			[
 				'name' => 'DirectEditingView#edit',
 				'url' => '/directEditing/{token}',
 				'verb' => 'GET'
+			],
+			[
+				'name' => 'Api#serviceWorker',
+				'url' => '/preview-service-worker.js',
+				'verb' => 'GET'
+			],
+			[
+				'name' => 'view#indexView',
+				'url' => '/{view}',
+				'verb' => 'GET',
+			],
+			[
+				'name' => 'view#indexViewFileid',
+				'url' => '/{view}/{fileid}',
+				'verb' => 'GET',
 			],
 		],
 		'ocs' => [
@@ -169,13 +195,18 @@ $application->registerRoutes(
 				'url' => '/api/v1/transferownership/{id}',
 				'verb' => 'DELETE',
 			],
+			[
+				/** @see OpenLocalEditorController::create() */
+				'name' => 'OpenLocalEditor#create',
+				'url' => '/api/v1/openlocaleditor',
+				'verb' => 'POST',
+			],
+			[
+				/** @see OpenLocalEditorController::validate() */
+				'name' => 'OpenLocalEditor#validate',
+				'url' => '/api/v1/openlocaleditor/{token}',
+				'verb' => 'POST',
+			],
 		],
 	]
 );
-
-/** @var $this \OC\Route\Router */
-
-$this->create('files_ajax_download', 'apps/files/ajax/download.php')
-	->actionInclude('files/ajax/download.php');
-$this->create('files_ajax_list', 'apps/files/ajax/list.php')
-	->actionInclude('files/ajax/list.php');

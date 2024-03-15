@@ -32,6 +32,7 @@ class Admin implements ISettings {
 	 * @return TemplateResponse
 	 */
 	public function getForm() {
+		\OCP\Util::addScript('systemtags', 'admin');
 		return new TemplateResponse('systemtags', 'admin', [], '');
 	}
 

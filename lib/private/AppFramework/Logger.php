@@ -32,7 +32,6 @@ use OCP\ILogger;
  * @deprecated
  */
 class Logger implements ILogger {
-
 	/** @var ILogger */
 	private $logger;
 

@@ -29,6 +29,7 @@ namespace OCA\Theming\Tests\Settings;
 
 use OCA\Theming\AppInfo\Application;
 use OCA\Theming\ImageManager;
+use OCA\Theming\ITheme;
 use OCA\Theming\Service\ThemesService;
 use OCA\Theming\Settings\Personal;
 use OCA\Theming\Themes\DarkHighContrastTheme;
@@ -39,7 +40,7 @@ use OCA\Theming\Themes\HighContrastTheme;
 use OCA\Theming\Themes\LightTheme;
 use OCA\Theming\ThemingDefaults;
 use OCA\Theming\Util;
-use OCA\Theming\ITheme;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\IConfig;
@@ -50,9 +51,11 @@ use Test\TestCase;
 
 class PersonalTest extends TestCase {
 	private IConfig $config;
-	private IUserSession $userSession;
 	private ThemesService $themesService;
 	private IInitialState $initialStateService;
+	private ThemingDefaults $themingDefaults;
+	private IAppManager $appManager;
+	private Personal $admin;
 
 	/** @var ITheme[] */
 	private $themes;
@@ -60,9 +63,10 @@ class PersonalTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 		$this->config = $this->createMock(IConfig::class);
-		$this->userSession = $this->createMock(IUserSession::class);
 		$this->themesService = $this->createMock(ThemesService::class);
 		$this->initialStateService = $this->createMock(IInitialState::class);
+		$this->themingDefaults = $this->createMock(ThemingDefaults::class);
+		$this->appManager = $this->createMock(IAppManager::class);
 
 		$this->initThemes();
 
@@ -73,10 +77,12 @@ class PersonalTest extends TestCase {
 
 		$this->admin = new Personal(
 			Application::APP_ID,
+			'admin',
 			$this->config,
-			$this->userSession,
 			$this->themesService,
-			$this->initialStateService
+			$this->initialStateService,
+			$this->themingDefaults,
+			$this->appManager,
 		);
 	}
 
@@ -87,7 +93,7 @@ class PersonalTest extends TestCase {
 				$this->formatThemeForm('default'),
 				$this->formatThemeForm('light'),
 				$this->formatThemeForm('dark'),
-				$this->formatThemeForm('highcontrast'),
+				$this->formatThemeForm('light-highcontrast'),
 				$this->formatThemeForm('dark-highcontrast'),
 				$this->formatThemeForm('opendyslexic'),
 			]],
@@ -110,11 +116,22 @@ class PersonalTest extends TestCase {
 			->with('enforce_theme', '')
 			->willReturn($enforcedTheme);
 
-		$this->initialStateService->expects($this->exactly(2))
+		$this->config->expects($this->once())
+			->method('getUserValue')
+			->with('admin', 'core', 'apporder')
+			->willReturn('[]');
+
+		$this->appManager->expects($this->once())
+			->method('getDefaultAppForUser')
+			->willReturn('forcedapp');
+
+		$this->initialStateService->expects($this->exactly(4))
 			->method('provideInitialState')
 			->withConsecutive(
 				['themes', $themesState],
 				['enforceTheme', $enforcedTheme],
+				['isUserThemingDisabled', false],
+				['navigationBar', ['userAppOrder' => [], 'enforcedDefaultApp' => 'forcedapp']],
 			);
 
 		$expected = new TemplateResponse('theming', 'settings-personal');
@@ -132,63 +149,81 @@ class PersonalTest extends TestCase {
 	private function initThemes() {
 		$util = $this->createMock(Util::class);
 		$themingDefaults = $this->createMock(ThemingDefaults::class);
+		$userSession = $this->createMock(IUserSession::class);
 		$urlGenerator = $this->createMock(IURLGenerator::class);
 		$imageManager = $this->createMock(ImageManager::class);
 		$config = $this->createMock(IConfig::class);
 		$l10n = $this->createMock(IL10N::class);
+		$appManager = $this->createMock(IAppManager::class);
 
 		$themingDefaults->expects($this->any())
 			->method('getColorPrimary')
+			->willReturn('#0082c9');
+
+		$themingDefaults->expects($this->any())
+			->method('getDefaultColorPrimary')
 			->willReturn('#0082c9');
 
 		$this->themes = [
 			'default' => new DefaultTheme(
 				$util,
 				$themingDefaults,
+				$userSession,
 				$urlGenerator,
 				$imageManager,
 				$config,
 				$l10n,
+				$appManager,
 			),
 			'light' => new LightTheme(
 				$util,
 				$themingDefaults,
+				$userSession,
 				$urlGenerator,
 				$imageManager,
 				$config,
 				$l10n,
+				$appManager,
 			),
 			'dark' => new DarkTheme(
 				$util,
 				$themingDefaults,
+				$userSession,
 				$urlGenerator,
 				$imageManager,
 				$config,
 				$l10n,
+				$appManager,
 			),
-			'highcontrast' => new HighContrastTheme(
+			'light-highcontrast' => new HighContrastTheme(
 				$util,
 				$themingDefaults,
+				$userSession,
 				$urlGenerator,
 				$imageManager,
 				$config,
 				$l10n,
+				$appManager,
 			),
 			'dark-highcontrast' => new DarkHighContrastTheme(
 				$util,
 				$themingDefaults,
+				$userSession,
 				$urlGenerator,
 				$imageManager,
 				$config,
 				$l10n,
+				$appManager,
 			),
 			'opendyslexic' => new DyslexiaFont(
 				$util,
 				$themingDefaults,
+				$userSession,
 				$urlGenerator,
 				$imageManager,
 				$config,
 				$l10n,
+				$appManager,
 			),
 		];
 	}

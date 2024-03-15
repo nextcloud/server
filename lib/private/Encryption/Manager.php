@@ -32,40 +32,24 @@ use OC\Memcache\ArrayCache;
 use OC\ServiceUnavailableException;
 use OCP\Encryption\IEncryptionModule;
 use OCP\Encryption\IManager;
+use OCP\Files\Mount\IMountPoint;
+use OCP\Files\Storage\IStorage;
 use OCP\IConfig;
 use OCP\IL10N;
 use Psr\Log\LoggerInterface;
 
 class Manager implements IManager {
+	protected array $encryptionModules;
 
-	/** @var array */
-	protected $encryptionModules;
-
-	/** @var IConfig */
-	protected $config;
-
-	protected LoggerInterface $logger;
-
-	/** @var Il10n */
-	protected $l;
-
-	/** @var View  */
-	protected $rootView;
-
-	/** @var Util  */
-	protected $util;
-
-	/** @var ArrayCache  */
-	protected $arrayCache;
-
-	public function __construct(IConfig $config, LoggerInterface $logger, IL10N $l10n, View $rootView, Util $util, ArrayCache $arrayCache) {
+	public function __construct(
+		protected IConfig $config,
+		protected LoggerInterface $logger,
+		protected IL10N $l,
+		protected View $rootView,
+		protected Util $util,
+		protected ArrayCache $arrayCache,
+	) {
 		$this->encryptionModules = [];
-		$this->config = $config;
-		$this->logger = $logger;
-		$this->l = $l10n;
-		$this->rootView = $rootView;
-		$this->util = $util;
-		$this->arrayCache = $arrayCache;
 	}
 
 	/**
@@ -74,7 +58,7 @@ class Manager implements IManager {
 	 * @return bool true if enabled, false if not
 	 */
 	public function isEnabled() {
-		$installed = $this->config->getSystemValue('installed', false);
+		$installed = $this->config->getSystemValueBool('installed', false);
 		if (!$installed) {
 			return false;
 		}
@@ -233,6 +217,11 @@ class Manager implements IManager {
 			$encryptionWrapper = new EncryptionWrapper($this->arrayCache, $this, $this->logger);
 			Filesystem::addStorageWrapper('oc_encryption', [$encryptionWrapper, 'wrapStorage'], 2);
 		}
+	}
+
+	public function forceWrapStorage(IMountPoint $mountPoint, IStorage $storage) {
+		$encryptionWrapper = new EncryptionWrapper($this->arrayCache, $this, $this->logger);
+		return $encryptionWrapper->wrapStorage($mountPoint->getMountPoint(), $storage, $mountPoint, true);
 	}
 
 

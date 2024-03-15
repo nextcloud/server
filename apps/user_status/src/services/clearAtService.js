@@ -22,7 +22,7 @@
 
 import {
 	dateFactory,
-} from './dateService'
+} from './dateService.js'
 import moment from '@nextcloud/moment'
 
 /**

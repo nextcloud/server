@@ -30,7 +30,6 @@ use OCP\AppFramework\Http\TemplateResponse;
  * @since 9.1
  */
 interface ISettings {
-
 	/**
 	 * @return TemplateResponse returns the instance with all parameters set, ready to be rendered
 	 * @since 9.1

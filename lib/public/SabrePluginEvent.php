@@ -32,7 +32,6 @@ use Sabre\DAV\Server;
  * @since 8.2.0
  */
 class SabrePluginEvent extends Event {
-
 	/** @var int */
 	protected $statusCode;
 

@@ -28,20 +28,20 @@ namespace OC\Dashboard;
 
 use InvalidArgumentException;
 use OCP\App\IAppManager;
+use OCP\Dashboard\IConditionalWidget;
 use OCP\Dashboard\IManager;
 use OCP\Dashboard\IWidget;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
-use Throwable;
 use Psr\Log\LoggerInterface;
+use Throwable;
 
 class Manager implements IManager {
-
 	/** @var array */
 	private $lazyWidgets = [];
 
-	/** @var IWidget[] */
-	private $widgets = [];
+	/** @var array<string, IWidget> */
+	private array $widgets = [];
 
 	private ContainerInterface $serverContainer;
 	private ?IAppManager $appManager = null;
@@ -82,15 +82,20 @@ class Manager implements IManager {
 				 * we can not inject it. Thus the static call.
 				 */
 				\OC::$server->get(LoggerInterface::class)->critical(
-					'Could not load lazy dashboard widget: ' . $e->getMessage(),
-					['excepiton' => $e]
+					'Could not load lazy dashboard widget: ' . $service['class'],
+					['exception' => $e]
 				);
+				continue;
 			}
 			/**
 			 * Try to register the loaded reporter. Theoretically it could be of a wrong
 			 * type, so we might get a TypeError here that we should catch.
 			 */
 			try {
+				if ($widget instanceof IConditionalWidget && !$widget->isEnabled()) {
+					continue;
+				}
+
 				$this->registerWidget($widget);
 			} catch (Throwable $e) {
 				/*
@@ -98,9 +103,10 @@ class Manager implements IManager {
 				 * we can not inject it. Thus the static call.
 				 */
 				\OC::$server->get(LoggerInterface::class)->critical(
-					'Could not register lazy dashboard widget: ' . $e->getMessage(),
+					'Could not register lazy dashboard widget: ' . $service['class'],
 					['exception' => $e]
 				);
+				continue;
 			}
 
 			try {
@@ -109,7 +115,7 @@ class Manager implements IManager {
 				$endTime = microtime(true);
 				$duration = $endTime - $startTime;
 				if ($duration > 1) {
-					\OC::$server->get(LoggerInterface::class)->error(
+					\OC::$server->get(LoggerInterface::class)->info(
 						'Dashboard widget {widget} took {duration} seconds to load.',
 						[
 							'widget' => $widget->getId(),
@@ -119,14 +125,18 @@ class Manager implements IManager {
 				}
 			} catch (Throwable $e) {
 				\OC::$server->get(LoggerInterface::class)->critical(
-					'Error during dashboard widget loading: ' . $e->getMessage(),
+					'Error during dashboard widget loading: ' . $service['class'],
 					['exception' => $e]
 				);
+				continue;
 			}
 		}
 		$this->lazyWidgets = [];
 	}
 
+	/**
+	 * @return array<string, IWidget>
+	 */
 	public function getWidgets(): array {
 		$this->loadLazyPanels();
 		return $this->widgets;

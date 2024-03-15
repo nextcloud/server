@@ -31,7 +31,6 @@ use OCP\IConfig;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class FinishRememberedLoginCommandTest extends ALoginCommandTest {
-
 	/** @var Session|MockObject */
 	private $userSession;
 	/** @var IConfig|MockObject */
@@ -63,7 +62,7 @@ class FinishRememberedLoginCommandTest extends ALoginCommandTest {
 	public function testProcess() {
 		$data = $this->getLoggedInLoginData();
 		$this->config->expects($this->once())
-			->method('getSystemValue')
+			->method('getSystemValueBool')
 			->with('auto_logout', false)
 			->willReturn(false);
 		$this->userSession->expects($this->once())
@@ -78,7 +77,7 @@ class FinishRememberedLoginCommandTest extends ALoginCommandTest {
 	public function testProcessNotRemeberedLoginWithAutologout() {
 		$data = $this->getLoggedInLoginData();
 		$this->config->expects($this->once())
-			->method('getSystemValue')
+			->method('getSystemValueBool')
 			->with('auto_logout', false)
 			->willReturn(true);
 		$this->userSession->expects($this->never())

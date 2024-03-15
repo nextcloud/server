@@ -29,7 +29,6 @@ namespace OCP\RichObjectStrings;
  * @since 11.0.0
  */
 interface IValidator {
-
 	/**
 	 * @param string $subject
 	 * @param array[] $parameters

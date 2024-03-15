@@ -39,7 +39,6 @@ use Sabre\HTTP\ResponseInterface;
 use Test\TestCase;
 
 class ImageExportPluginTest extends TestCase {
-
 	/** @var ResponseInterface|\PHPUnit\Framework\MockObject\MockObject */
 	private $response;
 	/** @var RequestInterface|\PHPUnit\Framework\MockObject\MockObject */
@@ -74,7 +73,7 @@ class ImageExportPluginTest extends TestCase {
 	 * @dataProvider providesQueryParams
 	 * @param $param
 	 */
-	public function testQueryParams($param) {
+	public function testQueryParams($param): void {
 		$this->request->expects($this->once())->method('getQueryParameters')->willReturn($param);
 		$result = $this->plugin->httpGet($this->request, $this->response);
 		$this->assertTrue($result);
@@ -88,7 +87,7 @@ class ImageExportPluginTest extends TestCase {
 		];
 	}
 
-	public function testNoCard() {
+	public function testNoCard(): void {
 		$this->request->method('getQueryParameters')
 			->willReturn([
 				'photo'
@@ -120,7 +119,7 @@ class ImageExportPluginTest extends TestCase {
 	 * @param $size
 	 * @param bool $photo
 	 */
-	public function testCard($size, $photo) {
+	public function testCard($size, $photo): void {
 		$query = ['photo' => null];
 		if ($size !== null) {
 			$query['size'] = $size;
@@ -150,16 +149,6 @@ class ImageExportPluginTest extends TestCase {
 				$this->fail();
 			});
 
-		$this->response->expects($this->at(0))
-			->method('setHeader')
-			->with('Cache-Control', 'private, max-age=3600, must-revalidate');
-		$this->response->expects($this->at(1))
-			->method('setHeader')
-			->with('Etag', '"myEtag"');
-		$this->response->expects($this->at(2))
-			->method('setHeader')
-			->with('Pragma', 'public');
-
 		$size = $size === null ? -1 : $size;
 
 		if ($photo) {
@@ -173,12 +162,14 @@ class ImageExportPluginTest extends TestCase {
 				->with(1, 'card', $size, $card)
 				->willReturn($file);
 
-			$this->response->expects($this->at(3))
+			$this->response->expects($this->exactly(4))
 				->method('setHeader')
-				->with('Content-Type', 'image/jpeg');
-			$this->response->expects($this->at(4))
-				->method('setHeader')
-				->with('Content-Disposition', 'attachment; filename=card.jpg');
+				->withConsecutive(
+					['Cache-Control', 'private, max-age=3600, must-revalidate'],
+					['Etag', '"myEtag"'],
+					['Content-Type', 'image/jpeg'],
+					['Content-Disposition', 'attachment; filename=card.jpg'],
+				);
 
 			$this->response->expects($this->once())
 				->method('setStatus')
@@ -187,6 +178,12 @@ class ImageExportPluginTest extends TestCase {
 				->method('setBody')
 				->with('imgdata');
 		} else {
+			$this->response->expects($this->exactly(2))
+				->method('setHeader')
+				->withConsecutive(
+					['Cache-Control', 'private, max-age=3600, must-revalidate'],
+					['Etag', '"myEtag"'],
+				);
 			$this->cache->method('get')
 				->with(1, 'card', $size, $card)
 				->willThrowException(new NotFoundException());

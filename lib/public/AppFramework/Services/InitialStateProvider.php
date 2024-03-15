@@ -29,7 +29,6 @@ namespace OCP\AppFramework\Services;
  * @since 21.0.0
  */
 abstract class InitialStateProvider implements \JsonSerializable {
-
 	/**
 	 * @since 21.0.0
 	 */

@@ -4,7 +4,9 @@
  *
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Maxence Lange <maxence@artificial-owl.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -25,8 +27,10 @@
 namespace OCA\CloudFederationAPI\Controller;
 
 use OCA\CloudFederationAPI\Config;
+use OCA\CloudFederationAPI\ResponseDefinitions;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\Federation\Exceptions\ActionNotSupportedException;
 use OCP\Federation\Exceptions\AuthenticationFailedException;
@@ -44,85 +48,56 @@ use OCP\Share\Exceptions\ShareNotFound;
 use Psr\Log\LoggerInterface;
 
 /**
- * Class RequestHandlerController
- *
- * handle API between different Cloud instances
+ * Open-Cloud-Mesh-API
  *
  * @package OCA\CloudFederationAPI\Controller
+ *
+ * @psalm-import-type CloudFederationAPIAddShare from ResponseDefinitions
+ * @psalm-import-type CloudFederationAPIValidationError from ResponseDefinitions
+ * @psalm-import-type CloudFederationAPIError from ResponseDefinitions
  */
+#[OpenAPI(scope: OpenAPI::SCOPE_FEDERATION)]
 class RequestHandlerController extends Controller {
-
-	/** @var LoggerInterface */
-	private $logger;
-
-	/** @var IUserManager */
-	private $userManager;
-
-	/** @var IGroupManager */
-	private $groupManager;
-
-	/** @var IURLGenerator */
-	private $urlGenerator;
-
-	/** @var ICloudFederationProviderManager */
-	private $cloudFederationProviderManager;
-
-	/** @var Config */
-	private $config;
-
-	/** @var ICloudFederationFactory */
-	private $factory;
-
-	/** @var ICloudIdManager */
-	private $cloudIdManager;
-
-	public function __construct($appName,
-								IRequest $request,
-								LoggerInterface $logger,
-								IUserManager $userManager,
-								IGroupManager $groupManager,
-								IURLGenerator $urlGenerator,
-								ICloudFederationProviderManager $cloudFederationProviderManager,
-								Config $config,
-								ICloudFederationFactory $factory,
-								ICloudIdManager $cloudIdManager
+	public function __construct(
+		string $appName,
+		IRequest $request,
+		private LoggerInterface $logger,
+		private IUserManager $userManager,
+		private IGroupManager $groupManager,
+		private IURLGenerator $urlGenerator,
+		private ICloudFederationProviderManager $cloudFederationProviderManager,
+		private Config $config,
+		private ICloudFederationFactory $factory,
+		private ICloudIdManager $cloudIdManager
 	) {
 		parent::__construct($appName, $request);
-
-		$this->logger = $logger;
-		$this->userManager = $userManager;
-		$this->groupManager = $groupManager;
-		$this->urlGenerator = $urlGenerator;
-		$this->cloudFederationProviderManager = $cloudFederationProviderManager;
-		$this->config = $config;
-		$this->factory = $factory;
-		$this->cloudIdManager = $cloudIdManager;
 	}
 
 	/**
-	 * add share
+	 * Add share
 	 *
 	 * @NoCSRFRequired
 	 * @PublicPage
 	 * @BruteForceProtection(action=receiveFederatedShare)
 	 *
-	 * @param string $shareWith
-	 * @param string $name resource name (e.g. document.odt)
-	 * @param string $description share description (optional)
-	 * @param string $providerId resource UID on the provider side
-	 * @param string $owner provider specific UID of the user who owns the resource
-	 * @param string $ownerDisplayName display name of the user who shared the item
-	 * @param string $sharedBy provider specific UID of the user who shared the resource
-	 * @param string $sharedByDisplayName display name of the user who shared the resource
-	 * @param array $protocol (e,.g. ['name' => 'webdav', 'options' => ['username' => 'john', 'permissions' => 31]])
-	 * @param string $shareType ('group' or 'user' share)
-	 * @param $resourceType ('file', 'calendar',...)
-	 * @return Http\DataResponse|JSONResponse
+	 * @param string $shareWith The user who the share will be shared with
+	 * @param string $name The resource name (e.g. document.odt)
+	 * @param string|null $description Share description
+	 * @param string $providerId Resource UID on the provider side
+	 * @param string $owner Provider specific UID of the user who owns the resource
+	 * @param string|null $ownerDisplayName Display name of the user who shared the item
+	 * @param string|null $sharedBy Provider specific UID of the user who shared the resource
+	 * @param string|null $sharedByDisplayName Display name of the user who shared the resource
+	 * @param array{name: string[], options: array<string, mixed>} $protocol e,.g. ['name' => 'webdav', 'options' => ['username' => 'john', 'permissions' => 31]]
+	 * @param string $shareType 'group' or 'user' share
+	 * @param string $resourceType 'file', 'calendar',...
 	 *
-	 * Example: curl -H "Content-Type: application/json" -X POST -d '{"shareWith":"admin1@serve1","name":"welcome server2.txt","description":"desc","providerId":"2","owner":"admin2@http://localhost/server2","ownerDisplayName":"admin2 display","shareType":"user","resourceType":"file","protocol":{"name":"webdav","options":{"sharedSecret":"secret","permissions":"webdav-property"}}}' http://localhost/server/index.php/ocm/shares
+	 * @return JSONResponse<Http::STATUS_CREATED, CloudFederationAPIAddShare, array{}>|JSONResponse<Http::STATUS_BAD_REQUEST, CloudFederationAPIValidationError, array{}>|JSONResponse<Http::STATUS_NOT_IMPLEMENTED, CloudFederationAPIError, array{}>
+	 * 201: The notification was successfully received. The display name of the recipient might be returned in the body
+	 * 400: Bad request due to invalid parameters, e.g. when `shareWith` is not found or required properties are missing
+	 * 501: Share type or the resource type is not supported
 	 */
 	public function addShare($shareWith, $name, $description, $providerId, $owner, $ownerDisplayName, $sharedBy, $sharedByDisplayName, $protocol, $shareType, $resourceType) {
-
 		// check if all required parameters are set
 		if ($shareWith === null ||
 			$name === null ||
@@ -137,7 +112,10 @@ class RequestHandlerController extends Controller {
 			!isset($protocol['options']['sharedSecret'])
 		) {
 			return new JSONResponse(
-				['message' => 'Missing arguments'],
+				[
+					'message' => 'Missing arguments',
+					'validationErrors' => [],
+				],
 				Http::STATUS_BAD_REQUEST
 			);
 		}
@@ -158,7 +136,10 @@ class RequestHandlerController extends Controller {
 
 			if (!$this->userManager->userExists($shareWith)) {
 				$response = new JSONResponse(
-					['message' => 'User "' . $shareWith . '" does not exists at ' . $this->urlGenerator->getBaseUrl()],
+					[
+						'message' => 'User "' . $shareWith . '" does not exists at ' . $this->urlGenerator->getBaseUrl(),
+						'validationErrors' => [],
+					],
 					Http::STATUS_BAD_REQUEST
 				);
 				$response->throttle();
@@ -169,7 +150,10 @@ class RequestHandlerController extends Controller {
 		if ($shareType === 'group') {
 			if (!$this->groupManager->groupExists($shareWith)) {
 				$response = new JSONResponse(
-					['message' => 'Group "' . $shareWith . '" does not exists at ' . $this->urlGenerator->getBaseUrl()],
+					[
+						'message' => 'Group "' . $shareWith . '" does not exists at ' . $this->urlGenerator->getBaseUrl(),
+						'validationErrors' => [],
+					],
 					Http::STATUS_BAD_REQUEST
 				);
 				$response->throttle();
@@ -192,20 +176,18 @@ class RequestHandlerController extends Controller {
 			$share = $this->factory->getCloudFederationShare($shareWith, $name, $description, $providerId, $owner, $ownerDisplayName, $sharedBy, $sharedByDisplayName, '', $shareType, $resourceType);
 			$share->setProtocol($protocol);
 			$provider->shareReceived($share);
-		} catch (ProviderDoesNotExistsException $e) {
+		} catch (ProviderDoesNotExistsException|ProviderCouldNotAddShareException $e) {
 			return new JSONResponse(
 				['message' => $e->getMessage()],
 				Http::STATUS_NOT_IMPLEMENTED
 			);
-		} catch (ProviderCouldNotAddShareException $e) {
-			return new JSONResponse(
-				['message' => $e->getMessage()],
-				$e->getCode()
-			);
 		} catch (\Exception $e) {
 			$this->logger->error($e->getMessage(), ['exception' => $e]);
 			return new JSONResponse(
-				['message' => 'Internal error at ' . $this->urlGenerator->getBaseUrl()],
+				[
+					'message' => 'Internal error at ' . $this->urlGenerator->getBaseUrl(),
+					'validationErrors' => [],
+				],
 				Http::STATUS_BAD_REQUEST
 			);
 		}
@@ -222,20 +204,24 @@ class RequestHandlerController extends Controller {
 	}
 
 	/**
-	 * receive notification about existing share
+	 * Send a notification about an existing share
 	 *
 	 * @NoCSRFRequired
 	 * @PublicPage
 	 * @BruteForceProtection(action=receiveFederatedShareNotification)
 	 *
-	 * @param string $notificationType (notification type, e.g. SHARE_ACCEPTED)
-	 * @param string $resourceType (calendar, file, contact,...)
-	 * @param string $providerId id of the share
-	 * @param array $notification the actual payload of the notification
-	 * @return JSONResponse
+	 * @param string $notificationType Notification type, e.g. SHARE_ACCEPTED
+	 * @param string $resourceType calendar, file, contact,...
+	 * @param string|null $providerId ID of the share
+	 * @param array<string, mixed>|null $notification The actual payload of the notification
+	 *
+	 * @return JSONResponse<Http::STATUS_CREATED, array<string, mixed>, array{}>|JSONResponse<Http::STATUS_BAD_REQUEST, CloudFederationAPIValidationError, array{}>|JSONResponse<Http::STATUS_FORBIDDEN|Http::STATUS_NOT_IMPLEMENTED, CloudFederationAPIError, array{}>
+	 * 201: The notification was successfully received
+	 * 400: Bad request due to invalid parameters, e.g. when `type` is invalid or missing
+	 * 403: Getting resource is not allowed
+	 * 501: The resource type is not supported
 	 */
-	public function receiveNotification($notificationType, $resourceType, $providerId, array $notification) {
-
+	public function receiveNotification($notificationType, $resourceType, $providerId, ?array $notification) {
 		// check if all required parameters are set
 		if ($notificationType === null ||
 			$resourceType === null ||
@@ -243,7 +229,10 @@ class RequestHandlerController extends Controller {
 			!is_array($notification)
 		) {
 			return new JSONResponse(
-				['message' => 'Missing arguments'],
+				[
+					'message' => 'Missing arguments',
+					'validationErrors' => [],
+				],
 				Http::STATUS_BAD_REQUEST
 			);
 		}
@@ -253,12 +242,18 @@ class RequestHandlerController extends Controller {
 			$result = $provider->notificationReceived($notificationType, $providerId, $notification);
 		} catch (ProviderDoesNotExistsException $e) {
 			return new JSONResponse(
-				['message' => $e->getMessage()],
+				[
+					'message' => $e->getMessage(),
+					'validationErrors' => [],
+				],
 				Http::STATUS_BAD_REQUEST
 			);
 		} catch (ShareNotFound $e) {
 			$response = new JSONResponse(
-				['message' => $e->getMessage()],
+				[
+					'message' => $e->getMessage(),
+					'validationErrors' => [],
+				],
 				Http::STATUS_BAD_REQUEST
 			);
 			$response->throttle();
@@ -276,12 +271,15 @@ class RequestHandlerController extends Controller {
 			return $response;
 		} catch (\Exception $e) {
 			return new JSONResponse(
-				['message' => 'Internal error at ' . $this->urlGenerator->getBaseUrl()],
+				[
+					'message' => 'Internal error at ' . $this->urlGenerator->getBaseUrl(),
+					'validationErrors' => [],
+				],
 				Http::STATUS_BAD_REQUEST
 			);
 		}
 
-		return new JSONResponse($result,Http::STATUS_CREATED);
+		return new JSONResponse($result, Http::STATUS_CREATED);
 	}
 
 	/**

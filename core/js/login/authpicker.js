@@ -10,4 +10,6 @@ jQuery(document).ready(function() {
 		e.preventDefault();
 		document.location.href = e.target.attributes.action.value
 	})
+
+	$('#login-form input').removeAttr('disabled');
 })

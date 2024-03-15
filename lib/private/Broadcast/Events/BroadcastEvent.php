@@ -31,7 +31,6 @@ use OCP\EventDispatcher\ABroadcastedEvent;
 use OCP\EventDispatcher\Event;
 
 class BroadcastEvent extends Event implements IBroadcastEvent {
-
 	/** @var ABroadcastedEvent */
 	private $event;
 

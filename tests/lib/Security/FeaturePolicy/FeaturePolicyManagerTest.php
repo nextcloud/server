@@ -29,11 +29,10 @@ use OC\Security\FeaturePolicy\FeaturePolicyManager;
 use OCP\AppFramework\Http\FeaturePolicy;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Security\FeaturePolicy\AddFeaturePolicyEvent;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Test\TestCase;
 
 class FeaturePolicyManagerTest extends TestCase {
-	/** @var EventDispatcherInterface */
+	/** @var IEventDispatcher */
 	private $dispatcher;
 
 	/** @var FeaturePolicyManager */

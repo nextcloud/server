@@ -20,7 +20,7 @@
  *
  */
 
-import CommentsInstance from './services/CommentsInstance'
+import CommentsInstance from './services/CommentsInstance.js'
 
 // Init Comments
 if (window.OCA && !window.OCA.Comments) {

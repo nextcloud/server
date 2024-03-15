@@ -4,6 +4,7 @@
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -28,6 +29,7 @@ use OC\Security\IdentityProof\Manager;
 use OC\Updater\ChangesCheck;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\ApiRoute;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\Defaults;
 use OCP\IConfig;
@@ -37,41 +39,32 @@ use OCP\IUserSession;
 use OCP\L10N\IFactory;
 
 class WhatsNewController extends OCSController {
-
-	/** @var IConfig */
-	protected $config;
-	/** @var IUserSession */
-	private $userSession;
-	/** @var ChangesCheck */
-	private $whatsNewService;
-	/** @var IFactory */
-	private $langFactory;
-	/** @var Defaults */
-	private $defaults;
-
 	public function __construct(
 		string $appName,
 		IRequest $request,
 		CapabilitiesManager $capabilitiesManager,
-		IUserSession $userSession,
+		private IUserSession $userSession,
 		IUserManager $userManager,
 		Manager $keyManager,
-		IConfig $config,
-		ChangesCheck $whatsNewService,
-		IFactory $langFactory,
-		Defaults $defaults
+		private IConfig $config,
+		private ChangesCheck $whatsNewService,
+		private IFactory $langFactory,
+		private Defaults $defaults,
 	) {
 		parent::__construct($appName, $request, $capabilitiesManager, $userSession, $userManager, $keyManager);
-		$this->config = $config;
-		$this->userSession = $userSession;
-		$this->whatsNewService = $whatsNewService;
-		$this->langFactory = $langFactory;
-		$this->defaults = $defaults;
 	}
 
 	/**
 	 * @NoAdminRequired
+	 *
+	 * Get the changes
+	 *
+	 * @return DataResponse<Http::STATUS_OK, array{changelogURL: string, product: string, version: string, whatsNew?: array{regular: string[], admin: string[]}}, array{}>|DataResponse<Http::STATUS_NO_CONTENT, array<empty>, array{}>
+	 *
+	 * 200: Changes returned
+	 * 204: No changes
 	 */
+	#[ApiRoute(verb: 'GET', url: '/whatsnew', root: '/core')]
 	public function get():DataResponse {
 		$user = $this->userSession->getUser();
 		if ($user === null) {
@@ -109,9 +102,17 @@ class WhatsNewController extends OCSController {
 	/**
 	 * @NoAdminRequired
 	 *
+	 * Dismiss the changes
+	 *
+	 * @param string $version Version to dismiss the changes for
+	 *
+	 * @return DataResponse<Http::STATUS_OK, array<empty>, array{}>
 	 * @throws \OCP\PreConditionNotMetException
 	 * @throws DoesNotExistException
+	 *
+	 * 200: Changes dismissed
 	 */
+	#[ApiRoute(verb: 'POST', url: '/whatsnew', root: '/core')]
 	public function dismiss(string $version):DataResponse {
 		$user = $this->userSession->getUser();
 		if ($user === null) {

@@ -25,7 +25,7 @@
 				state.call.abort();
 			}
 			state.dir = currentDir;
-			state.call = $.getJSON(OC.generateUrl('apps/files/ajax/getstoragestats?dir={dir}', {
+			state.call = $.getJSON(OC.generateUrl('apps/files/api/v1/stats?dir={dir}', {
 				dir: currentDir,
 			}), function(response) {
 				state.dir = null;
@@ -39,7 +39,7 @@
 		},
 		_updateStorageQuotas: function() {
 			var state = Files.updateStorageQuotas;
-			state.call = $.getJSON(OC.generateUrl('apps/files/ajax/getstoragestats'), function(response) {
+			state.call = $.getJSON(OC.generateUrl('apps/files/api/v1/stats'), function(response) {
 				Files.updateQuota(response);
 			});
 		},
@@ -72,7 +72,7 @@
 			}
 			if (response.data !== undefined && response.data.uploadMaxFilesize !== undefined) {
 				$('#free_space').val(response.data.freeSpace);
-				$('#upload.button').attr('data-original-title', response.data.maxHumanFilesize);
+				$('#upload.button').attr('title', response.data.maxHumanFilesize);
 				$('#usedSpacePercent').val(response.data.usedSpacePercent);
 				$('#usedSpacePercent').data('mount-type', response.data.mountType);
 				$('#usedSpacePercent').data('mount-point', response.data.mountPoint);
@@ -85,7 +85,7 @@
 				return;
 			}
 			if (response[0].uploadMaxFilesize !== undefined) {
-				$('#upload.button').attr('data-original-title', response[0].maxHumanFilesize);
+				$('#upload.button').attr('title', response[0].maxHumanFilesize);
 				$('#usedSpacePercent').val(response[0].usedSpacePercent);
 				Files.displayStorageWarnings();
 			}
@@ -101,10 +101,10 @@
 			 && response.data.total !== undefined
 			 && response.data.used !== undefined
 			 && response.data.usedSpacePercent !== undefined) {
-				var humanUsed = OC.Util.humanFileSize(response.data.used, true);
-				var humanTotal = OC.Util.humanFileSize(response.data.total, true);
+				var humanUsed = OC.Util.humanFileSize(response.data.used, true, false);
+				var humanTotal = OC.Util.humanFileSize(response.data.total, true, false);
 				if (response.data.quota > 0) {
-					$('#quota').attr('data-original-title', t('files', '{used}%', {used: Math.round(response.data.usedSpacePercent)}));
+					$('#quota').attr('title', t('files', '{used}%', {used: Math.round(response.data.usedSpacePercent)}));
 					$('#quota progress').val(response.data.usedSpacePercent);
 					$('#quotatext').html(t('files', '{used} of {quota} used', {used: humanUsed, quota: humanTotal}));
 				} else {
@@ -281,7 +281,7 @@
 		 * @deprecated used OCA.Files.FileList.generatePreviewUrl instead
 		 */
 		generatePreviewUrl: function(urlSpec) {
-			console.warn('DEPRECATED: please use generatePreviewUrl() from an OCA.Files.FileList instance');
+			OC.debug && console.warn('DEPRECATED: please use generatePreviewUrl() from an OCA.Files.FileList instance');
 			return OCA.Files.App.fileList.generatePreviewUrl(urlSpec);
 		},
 
@@ -290,7 +290,7 @@
 		 * @deprecated used OCA.Files.FileList.lazyLoadPreview instead
 		 */
 		lazyLoadPreview : function(path, mime, ready, width, height, etag) {
-			console.warn('DEPRECATED: please use lazyLoadPreview() from an OCA.Files.FileList instance');
+			OC.debug && console.warn('DEPRECATED: please use lazyLoadPreview() from an OCA.Files.FileList instance');
 			return FileList.lazyLoadPreview({
 				path: path,
 				mime: mime,
@@ -345,8 +345,6 @@
 				this.focus();
 				this.setSelectionRange(0, this.value.length);
 			});
-
-			$('#upload').tooltip({placement:'right'});
 
 			//FIXME scroll to and highlight preselected file
 			/*
@@ -427,7 +425,7 @@ var createDragShadow = function(event) {
 			.attr('data-file', elem.name)
 			.attr('data-origin', elem.origin);
 		newtr.append($('<td class="filename"></td>').text(elem.name).css('background-size', 32));
-		newtr.append($('<td class="size"></td>').text(OC.Util.humanFileSize(elem.size)));
+		newtr.append($('<td class="size"></td>').text(OC.Util.humanFileSize(elem.size, false, false)));
 		tbody.append(newtr);
 		if (elem.type === 'dir') {
 			newtr.find('td.filename')
@@ -451,7 +449,6 @@ var dragOptions={
 	revert: 'invalid',
 	revertDuration: 300,
 	opacity: 0.7,
-	appendTo: 'body',
 	cursorAt: { left: 24, top: 18 },
 	helper: createDragShadow,
 	cursor: 'move',
@@ -484,23 +481,31 @@ var dragOptions={
 		$('.crumbmenu').removeClass('canDropChildren');
 	},
 	drag: function(event, ui) {
-		var scrollingArea = window;
-		var currentScrollTop = $(scrollingArea).scrollTop();
-		var scrollArea = Math.min(Math.floor($(window).innerHeight() / 2), 100);
-
-		var bottom = $(window).innerHeight() - scrollArea;
-		var top = $(window).scrollTop() + scrollArea;
-		if (event.pageY < top) {
-			$(scrollingArea).animate({
-				scrollTop: currentScrollTop - 10
-			}, 400);
-
-		} else if (event.pageY > bottom) {
-			$(scrollingArea).animate({
-				scrollTop: currentScrollTop + 10
-			}, 400);
+		// Prevent scrolling when hovering .files-controls
+		if ($(event.originalEvent.target).parents('.files-controls').length > 0) {
+			return
 		}
 
+		/** @type {JQuery<HTMLDivElement>} */
+		const scrollingArea = FileList.$container;
+
+		// Get the top and bottom scroll trigger y positions
+		const containerHeight = scrollingArea.innerHeight() ?? 0
+		const scrollTriggerArea = Math.min(Math.floor(containerHeight / 2), 100);
+		const bottomTriggerY = containerHeight - scrollTriggerArea;
+		const topTriggerY = scrollTriggerArea;
+
+		// Get the cursor position relative to the container
+		const containerOffset = scrollingArea.offset() ?? {left: 0, top: 0}
+		const cursorPositionY = event.pageY - containerOffset.top
+
+		const currentScrollTop = scrollingArea.scrollTop() ?? 0
+
+		if (cursorPositionY < topTriggerY) {
+			scrollingArea.scrollTop(currentScrollTop - 10)
+		} else if (cursorPositionY > bottomTriggerY) {
+			scrollingArea.scrollTop(currentScrollTop + 10)
+		}
 	}
 };
 // sane browsers support using the distance option

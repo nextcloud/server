@@ -137,13 +137,13 @@ class AccessTest extends TestCase {
 
 	public function testEscapeFilterPartEscapeWildcard() {
 		$input = '*';
-		$expected = '\\\\*';
+		$expected = '\\2a';
 		$this->assertTrue($expected === $this->access->escapeFilterPart($input));
 	}
 
 	public function testEscapeFilterPartEscapeWildcard2() {
 		$input = 'foo*bar';
-		$expected = 'foo\\\\*bar';
+		$expected = 'foo\\2abar';
 		$this->assertTrue($expected === $this->access->escapeFilterPart($input));
 	}
 
@@ -678,7 +678,7 @@ class AccessTest extends TestCase {
 		$this->groupMapper->expects($this->never())
 			->method('getNameByDN');
 
-		$this->connection->expects($this->exactly(2))
+		$this->connection->expects($this->exactly(3))
 			->method('writeToCache');
 
 		$groups = $this->access->fetchListOfGroups($filter, $attributes);

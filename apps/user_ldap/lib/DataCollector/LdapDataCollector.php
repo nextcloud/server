@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types = 1);
 /**
  * @copyright 2022 Carl Schwan <carl@carlschwan.eu>
  *
@@ -28,12 +30,13 @@ use OCP\AppFramework\Http\Response;
 use OCP\DataCollector\AbstractDataCollector;
 
 class LdapDataCollector extends AbstractDataCollector {
-	public function startLdapRequest(string $query, array $args): void {
+	public function startLdapRequest(string $query, array $args, array $backtrace): void {
 		$this->data[] = [
 			'start' => microtime(true),
 			'query' => $query,
 			'args' => $args,
 			'end' => microtime(true),
+			'backtrace' => $backtrace,
 		];
 	}
 

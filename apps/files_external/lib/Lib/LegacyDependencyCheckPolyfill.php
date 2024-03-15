@@ -21,13 +21,15 @@
  */
 namespace OCA\Files_External\Lib;
 
+use OCP\Files\Storage\IStorage;
+
 /**
  * Polyfill for checking dependencies using legacy Storage::checkDependencies()
  */
 trait LegacyDependencyCheckPolyfill {
 
 	/**
-	 * @return string
+	 * @return class-string<IStorage>
 	 */
 	abstract public function getStorageClass();
 
@@ -54,7 +56,7 @@ trait LegacyDependencyCheckPolyfill {
 						$module = $key;
 						$message = $value;
 					}
-					$value = new MissingDependency($module, $this);
+					$value = new MissingDependency($module);
 					$value->setMessage($message);
 				}
 				$ret[] = $value;

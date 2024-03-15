@@ -37,38 +37,30 @@
  */
 namespace OC\Files;
 
-use OCP\Cache\CappedMemoryCache;
 use OC\Files\Mount\MountPoint;
 use OC\User\NoUserException;
+use OCP\Cache\CappedMemoryCache;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Events\Node\FilesystemTornDownEvent;
+use OCP\Files\Mount\IMountManager;
 use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use Psr\Log\LoggerInterface;
 
 class Filesystem {
+	private static ?Mount\Manager $mounts = null;
 
-	/**
-	 * @var Mount\Manager $mounts
-	 */
-	private static $mounts;
+	public static bool $loaded = false;
 
-	public static $loaded = false;
-	/**
-	 * @var \OC\Files\View $defaultInstance
-	 */
-	private static $defaultInstance;
+	private static ?View $defaultInstance = null;
 
-	private static $usersSetup = [];
-
-	private static $normalizedPathCache = null;
-
-	private static $listeningForProviders = false;
+	private static ?CappedMemoryCache $normalizedPathCache = null;
 
 	/** @var string[]|null */
-	private static $blacklist = null;
+	private static ?array $blacklist = null;
 
 	/**
 	 * classname which used for hooks handling
@@ -187,22 +179,18 @@ class Filesystem {
 	public const signal_param_mount_type = 'mounttype';
 	public const signal_param_users = 'users';
 
-	/**
-	 * @var \OC\Files\Storage\StorageFactory $loader
-	 */
-	private static $loader;
+	private static ?\OC\Files\Storage\StorageFactory $loader = null;
 
-	/** @var bool */
-	private static $logWarningWhenAddingStorageWrapper = true;
+	private static bool $logWarningWhenAddingStorageWrapper = true;
 
 	/**
 	 * @param bool $shouldLog
 	 * @return bool previous value
 	 * @internal
 	 */
-	public static function logWarningWhenAddingStorageWrapper($shouldLog) {
+	public static function logWarningWhenAddingStorageWrapper(bool $shouldLog): bool {
 		$previousValue = self::$logWarningWhenAddingStorageWrapper;
-		self::$logWarningWhenAddingStorageWrapper = (bool) $shouldLog;
+		self::$logWarningWhenAddingStorageWrapper = $shouldLog;
 		return $previousValue;
 	}
 
@@ -213,7 +201,7 @@ class Filesystem {
 	 */
 	public static function addStorageWrapper($wrapperName, $wrapper, $priority = 50) {
 		if (self::$logWarningWhenAddingStorageWrapper) {
-			\OC::$server->getLogger()->warning("Storage wrapper '{wrapper}' was not registered via the 'OC_Filesystem - preSetup' hook which could cause potential problems.", [
+			\OCP\Server::get(LoggerInterface::class)->warning("Storage wrapper '{wrapper}' was not registered via the 'OC_Filesystem - preSetup' hook which could cause potential problems.", [
 				'wrapper' => $wrapperName,
 				'app' => 'filesystem',
 			]);
@@ -233,18 +221,17 @@ class Filesystem {
 	 */
 	public static function getLoader() {
 		if (!self::$loader) {
-			self::$loader = \OC::$server->query(IStorageFactory::class);
+			self::$loader = \OC::$server->get(IStorageFactory::class);
 		}
 		return self::$loader;
 	}
 
 	/**
 	 * Returns the mount manager
-	 *
-	 * @return \OC\Files\Mount\Manager
 	 */
-	public static function getMountManager($user = '') {
+	public static function getMountManager(): Mount\Manager {
 		self::initMountManager();
+		assert(self::$mounts !== null);
 		return self::$mounts;
 	}
 
@@ -314,14 +301,14 @@ class Filesystem {
 	 * resolve a path to a storage and internal path
 	 *
 	 * @param string $path
-	 * @return array an array consisting of the storage and the internal path
+	 * @return array{?\OCP\Files\Storage\IStorage, string} an array consisting of the storage and the internal path
 	 */
-	public static function resolvePath($path) {
+	public static function resolvePath($path): array {
 		$mount = self::getMountManager()->find($path);
 		return [$mount->getStorage(), rtrim($mount->getInternalPath($path), '/')];
 	}
 
-	public static function init($user, $root) {
+	public static function init(string|IUser|null $user, string $root): bool {
 		if (self::$defaultInstance) {
 			return false;
 		}
@@ -333,7 +320,7 @@ class Filesystem {
 		return true;
 	}
 
-	public static function initInternal($root) {
+	public static function initInternal(string $root): bool {
 		if (self::$defaultInstance) {
 			return false;
 		}
@@ -343,32 +330,28 @@ class Filesystem {
 		$eventDispatcher = \OC::$server->get(IEventDispatcher::class);
 		$eventDispatcher->addListener(FilesystemTornDownEvent::class, function () {
 			self::$defaultInstance = null;
-			self::$usersSetup = [];
 			self::$loaded = false;
 		});
 
-		if (!self::$mounts) {
-			self::$mounts = \OC::$server->getMountManager();
-		}
+		self::initMountManager();
 
 		self::$loaded = true;
 
 		return true;
 	}
 
-	public static function initMountManager() {
+	public static function initMountManager(): void {
 		if (!self::$mounts) {
-			self::$mounts = \OC::$server->getMountManager();
+			self::$mounts = \OC::$server->get(IMountManager::class);
 		}
 	}
 
 	/**
 	 * Initialize system and personal mount points for a user
 	 *
-	 * @param string|IUser|null $user
 	 * @throws \OC\User\NoUserException if the user is not available
 	 */
-	public static function initMountPoints($user = '') {
+	public static function initMountPoints(string|IUser|null $user = ''): void {
 		/** @var IUserManager $userManager */
 		$userManager = \OC::$server->get(IUserManager::class);
 
@@ -383,11 +366,9 @@ class Filesystem {
 	}
 
 	/**
-	 * get the default filesystem view
-	 *
-	 * @return View
+	 * Get the default filesystem view
 	 */
-	public static function getView() {
+	public static function getView(): ?View {
 		if (!self::$defaultInstance) {
 			/** @var IUserSession $session */
 			$session = \OC::$server->get(IUserSession::class);
@@ -410,7 +391,7 @@ class Filesystem {
 	/**
 	 * get the relative path of the root data directory for the current user
 	 *
-	 * @return string
+	 * @return ?string
 	 *
 	 * Returns path like /admin/files
 	 */
@@ -440,20 +421,9 @@ class Filesystem {
 	 * return the path to a local version of the file
 	 * we need this because we can't know if a file is stored local or not from
 	 * outside the filestorage and for some purposes a local file is needed
-	 *
-	 * @param string $path
-	 * @return string
 	 */
-	public static function getLocalFile($path) {
+	public static function getLocalFile(string $path): string|false {
 		return self::$defaultInstance->getLocalFile($path);
-	}
-
-	/**
-	 * @param string $path
-	 * @return string
-	 */
-	public static function getLocalFolder($path) {
-		return self::$defaultInstance->getLocalFolder($path);
 	}
 
 	/**
@@ -482,29 +452,10 @@ class Filesystem {
 		if (!$path || $path[0] !== '/') {
 			$path = '/' . $path;
 		}
-		if (strpos($path, '/../') !== false || strrchr($path, '/') === '/..') {
+		if (str_contains($path, '/../') || strrchr($path, '/') === '/..') {
 			return false;
 		}
 		return true;
-	}
-
-	/**
-	 * checks if a file is blacklisted for storage in the filesystem
-	 * Listens to write and rename hooks
-	 *
-	 * @param array $data from hook
-	 */
-	public static function isBlacklisted($data) {
-		if (isset($data['path'])) {
-			$path = $data['path'];
-		} elseif (isset($data['newpath'])) {
-			$path = $data['newpath'];
-		}
-		if (isset($path)) {
-			if (self::isFileBlacklisted($path)) {
-				$data['run'] = false;
-			}
-		}
 	}
 
 	/**
@@ -604,7 +555,7 @@ class Filesystem {
 	}
 
 	/**
-	 * @return string
+	 * @return string|false
 	 */
 	public static function file_get_contents($path) {
 		return self::$defaultInstance->file_get_contents($path);
@@ -618,12 +569,12 @@ class Filesystem {
 		return self::$defaultInstance->unlink($path);
 	}
 
-	public static function rename($path1, $path2) {
-		return self::$defaultInstance->rename($path1, $path2);
+	public static function rename($source, $target) {
+		return self::$defaultInstance->rename($source, $target);
 	}
 
-	public static function copy($path1, $path2) {
-		return self::$defaultInstance->copy($path1, $path2);
+	public static function copy($source, $target) {
+		return self::$defaultInstance->copy($source, $target);
 	}
 
 	public static function fopen($path, $mode) {
@@ -631,9 +582,10 @@ class Filesystem {
 	}
 
 	/**
-	 * @return string
+	 * @param string $path
+	 * @throws \OCP\Files\InvalidPathException
 	 */
-	public static function toTmpFile($path) {
+	public static function toTmpFile($path): string|false {
 		return self::$defaultInstance->toTmpFile($path);
 	}
 
@@ -691,6 +643,7 @@ class Filesystem {
 	 * @param bool $stripTrailingSlash whether to strip the trailing slash
 	 * @param bool $isAbsolutePath whether the given path is absolute
 	 * @param bool $keepUnicode true to disable unicode normalization
+	 * @psalm-taint-escape file
 	 * @return string
 	 */
 	public static function normalizePath($path, $stripTrailingSlash = true, $isAbsolutePath = false, $keepUnicode = false) {
@@ -750,7 +703,7 @@ class Filesystem {
 	 * get the filesystem info
 	 *
 	 * @param string $path
-	 * @param boolean $includeMountPoints whether to add mountpoint sizes,
+	 * @param bool|string $includeMountPoints whether to add mountpoint sizes,
 	 * defaults to true
 	 * @return \OC\Files\FileInfo|false False if file does not exist
 	 */
@@ -807,11 +760,8 @@ class Filesystem {
 
 	/**
 	 * get the ETag for a file or folder
-	 *
-	 * @param string $path
-	 * @return string
 	 */
-	public static function getETag($path) {
+	public static function getETag(string $path): string|false {
 		return self::$defaultInstance->getETag($path);
 	}
 }

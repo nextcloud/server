@@ -33,7 +33,6 @@ use OCP\Files\File;
 use OCP\IImage;
 
 abstract class Image extends ProviderV2 {
-
 	/**
 	 * {@inheritDoc}
 	 */

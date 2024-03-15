@@ -29,7 +29,6 @@ use OC\Authentication\Token\IToken;
 use OCP\EventDispatcher\Event;
 
 abstract class ARemoteWipeEvent extends Event {
-
 	/** @var IToken */
 	private $token;
 

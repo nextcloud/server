@@ -45,7 +45,7 @@
 				type: OCA.Files.FileActions.TYPE_DROPDOWN,
 				actionHandler: function (fileName, context) {
 					var fileModel = context.fileInfoModel;
-					OC.Apps.hideAppSidebar($('.detailsView'));
+					OCA.Files.Sidebar.close();
 					OCA.Files.App.setActiveView('files', { silent: true });
 					OCA.Files.App.fileList.changeDirectory(fileModel.get('path'), true, true).then(function() {
 						OCA.Files.App.fileList.scrollTo(fileModel.get('name'));

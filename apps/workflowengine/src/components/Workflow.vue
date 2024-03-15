@@ -1,20 +1,28 @@
 <template>
 	<div id="workflowengine">
-		<SettingsSection :title="t('workflowengine', 'Available flows')"
+		<NcSettingsSection :name="t('workflowengine', 'Available flows')"
 			:doc-url="workflowDocUrl">
-
-			<p v-if="scope === 0" class="settings-hint">
+			<p v-if="isAdminScope" class="settings-hint">
 				<a href="https://nextcloud.com/developer/">{{ t('workflowengine', 'For details on how to write your own flow, check out the development documentation.') }}</a>
 			</p>
 
-			<transition-group name="slide" tag="div" class="actions">
-				<Operation v-for="operation in getMainOperations"
+			<NcEmptyContent v-if="!isUserAdmin && mainOperations.length === 0"
+				:name="t('workflowengine', 'No flows installed')"
+				:description="!isUserAdmin ? t('workflowengine', 'Ask your administrator to install new flows.') : undefined">
+				<template #icon>
+					<NcIconSvgWrapper :svg="WorkflowOffSvg" :size="20" />
+				</template>
+			</NcEmptyContent>
+			<transition-group v-else
+				name="slide"
+				tag="div"
+				class="actions">
+				<Operation v-for="operation in mainOperations"
 					:key="operation.id"
 					:operation="operation"
 					@click.native="createNewRule(operation)" />
-
 				<a v-if="showAppStoreHint"
-					:key="'add'"
+					key="add"
 					:href="appstoreUrl"
 					class="actions__item colored more">
 					<div class="icon icon-add" />
@@ -26,57 +34,66 @@
 			</transition-group>
 
 			<div v-if="hasMoreOperations" class="actions__more">
-				<Button @click="showMoreOperations = !showMoreOperations">
+				<NcButton @click="showMoreOperations = !showMoreOperations">
 					<template #icon>
 						<MenuUp v-if="showMoreOperations" :size="20" />
 						<MenuDown v-else :size="20" />
 					</template>
 					{{ showMoreOperations ? t('workflowengine', 'Show less') : t('workflowengine', 'Show more') }}
-				</Button>
+				</NcButton>
 			</div>
+		</NcSettingsSection>
 
-			<h2 v-if="scope === 0" class="configured-flows">
-				{{ t('workflowengine', 'Configured flows') }}
-			</h2>
-			<h2 v-else class="configured-flows">
-				{{ t('workflowengine', 'Your flows') }}
-			</h2>
-		</SettingsSection>
-
-		<transition-group v-if="rules.length > 0" name="slide">
-			<Rule v-for="rule in rules" :key="rule.id" :rule="rule" />
-		</transition-group>
+		<NcSettingsSection v-if="mainOperations.length > 0"
+			:name="isAdminScope ? t('workflowengine', 'Configured flows') : t('workflowengine', 'Your flows')">
+			<transition-group v-if="rules.length > 0" name="slide">
+				<Rule v-for="rule in rules" :key="rule.id" :rule="rule" />
+			</transition-group>
+			<NcEmptyContent v-else :name="t('workflowengine', 'No flows configured')">
+				<template #icon>
+					<NcIconSvgWrapper :svg="WorkflowOffSvg" :size="20" />
+				</template>
+			</NcEmptyContent>
+		</NcSettingsSection>
 	</div>
 </template>
 
 <script>
-import Rule from './Rule'
-import Operation from './Operation'
-import SettingsSection from '@nextcloud/vue/dist/Components/SettingsSection'
-import Button from '@nextcloud/vue/dist/Components/Button'
+import Rule from './Rule.vue'
+import Operation from './Operation.vue'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
+import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
+import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection.js'
 import { mapGetters, mapState } from 'vuex'
 import { generateUrl } from '@nextcloud/router'
 import { loadState } from '@nextcloud/initial-state'
-import MenuUp from 'vue-material-design-icons/MenuUp'
-import MenuDown from 'vue-material-design-icons/MenuDown'
+import MenuUp from 'vue-material-design-icons/MenuUp.vue'
+import MenuDown from 'vue-material-design-icons/MenuDown.vue'
+import WorkflowOffSvg from '../../img/workflow-off.svg?raw'
 
 const ACTION_LIMIT = 3
+const ADMIN_SCOPE = 0
+// const PERSONAL_SCOPE = 1
 
 export default {
 	name: 'Workflow',
 	components: {
-		Button,
 		MenuDown,
 		MenuUp,
+		NcButton,
+		NcEmptyContent,
+		NcIconSvgWrapper,
+		NcSettingsSection,
 		Operation,
 		Rule,
-		SettingsSection,
 	},
 	data() {
 		return {
 			showMoreOperations: false,
 			appstoreUrl: generateUrl('settings/apps/workflow'),
 			workflowDocUrl: loadState('workflowengine', 'doc-url'),
+			WorkflowOffSvg,
 		}
 	},
 	computed: {
@@ -91,14 +108,20 @@ export default {
 		hasMoreOperations() {
 			return Object.keys(this.operations).length > ACTION_LIMIT
 		},
-		getMainOperations() {
+		mainOperations() {
 			if (this.showMoreOperations) {
 				return Object.values(this.operations)
 			}
 			return Object.values(this.operations).slice(0, ACTION_LIMIT)
 		},
 		showAppStoreHint() {
-			return this.scope === 0 && this.appstoreEnabled && OC.isUserAdmin()
+			return this.appstoreEnabled && OC.isUserAdmin()
+		},
+		isUserAdmin() {
+			return OC.isUserAdmin()
+		},
+		isAdminScope() {
+			return this.scope === ADMIN_SCOPE
 		},
 	},
 	mounted() {

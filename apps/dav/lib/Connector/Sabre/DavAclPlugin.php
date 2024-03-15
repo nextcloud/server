@@ -8,6 +8,7 @@
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Richard Steinmetz <richard@steinmetz.cloud>
  *
  * @license AGPL-3.0
  *
@@ -26,6 +27,7 @@
  */
 namespace OCA\DAV\Connector\Sabre;
 
+use OCA\DAV\CalDAV\Calendar;
 use OCA\DAV\CardDAV\AddressBook;
 use Sabre\CalDAV\Principal\User;
 use Sabre\DAV\Exception\NotFound;
@@ -58,6 +60,9 @@ class DavAclPlugin extends \Sabre\DAVACL\Plugin {
 				case AddressBook::class:
 					$type = 'Addressbook';
 					break;
+				case Calendar::class:
+					$type = 'Calendar';
+					break;
 				default:
 					$type = 'Node';
 					break;
@@ -75,6 +80,11 @@ class DavAclPlugin extends \Sabre\DAVACL\Plugin {
 	}
 
 	public function propFind(PropFind $propFind, INode $node) {
+		if ($node instanceof Node) {
+			// files don't use dav acls
+			return;
+		}
+
 		// If the node is neither readable nor writable then fail unless its of
 		// the standard user-principal
 		if (!($node instanceof User)) {
@@ -94,8 +104,23 @@ class DavAclPlugin extends \Sabre\DAVACL\Plugin {
 		$path = $request->getPath();
 
 		// prevent the plugin from causing an unneeded overhead for file requests
-		if (strpos($path, 'files/') !== 0) {
-			parent::beforeMethod($request, $response);
+		if (str_starts_with($path, 'files/')) {
+			return;
+		}
+
+		parent::beforeMethod($request, $response);
+
+		if (!str_starts_with($path, 'addressbooks/') && !str_starts_with($path, 'calendars/')) {
+			return;
+		}
+
+		[$parentName] = \Sabre\Uri\split($path);
+		if ($request->getMethod() === 'REPORT') {
+			// is calendars/users/bob or addressbooks/users/bob readable?
+			$this->checkPrivileges($parentName, '{DAV:}read');
+		} elseif ($request->getMethod() === 'MKCALENDAR' || $request->getMethod() === 'MKCOL') {
+			// is calendars/users/bob or addressbooks/users/bob writeable?
+			$this->checkPrivileges($parentName, '{DAV:}write');
 		}
 	}
 }

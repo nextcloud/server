@@ -100,16 +100,16 @@ class Principal implements BackendInterface {
 	private $languageFactory;
 
 	public function __construct(IUserManager $userManager,
-								IGroupManager $groupManager,
-								IAccountManager $accountManager,
-								IShareManager $shareManager,
-								IUserSession $userSession,
-								IAppManager $appManager,
-								ProxyMapper $proxyMapper,
-								KnownUserService $knownUserService,
-								IConfig $config,
-								IFactory $languageFactory,
-								string $principalPrefix = 'principals/users/') {
+		IGroupManager $groupManager,
+		IAccountManager $accountManager,
+		IShareManager $shareManager,
+		IUserSession $userSession,
+		IAppManager $appManager,
+		ProxyMapper $proxyMapper,
+		KnownUserService $knownUserService,
+		IConfig $config,
+		IFactory $languageFactory,
+		string $principalPrefix = 'principals/users/') {
 		$this->userManager = $userManager;
 		$this->groupManager = $groupManager;
 		$this->accountManager = $accountManager;
@@ -208,6 +208,11 @@ class Principal implements BackendInterface {
 					'{DAV:}displayname' => $group->getDisplayName(),
 				];
 			}
+		} elseif ($prefix === 'principals/system') {
+			return [
+				'uri' => 'principals/system/' . $name,
+				'{DAV:}displayname' => $this->languageFactory->get('dav')->t("Accounts"),
+			];
 		}
 		return null;
 	}
@@ -255,6 +260,7 @@ class Principal implements BackendInterface {
 	 * @return int
 	 */
 	public function updatePrincipal($path, PropPatch $propPatch) {
+		// Updating schedule-default-calendar-URL is handled in CustomPropertiesBackend
 		return 0;
 	}
 
@@ -482,7 +488,7 @@ class Principal implements BackendInterface {
 			$restrictGroups = $this->groupManager->getUserGroupIds($user);
 		}
 
-		if (strpos($uri, 'mailto:') === 0) {
+		if (str_starts_with($uri, 'mailto:')) {
 			if ($principalPrefix === 'principals/users') {
 				$users = $this->userManager->getByEmail(substr($uri, 7));
 				if (count($users) !== 1) {
@@ -500,7 +506,7 @@ class Principal implements BackendInterface {
 				return $this->principalPrefix . '/' . $user->getUID();
 			}
 		}
-		if (substr($uri, 0, 10) === 'principal:') {
+		if (str_starts_with($uri, 'principal:')) {
 			$principal = substr($uri, 10);
 			$principal = $this->getPrincipalByPath($principal);
 			if ($principal !== null) {
@@ -606,5 +612,45 @@ class Principal implements BackendInterface {
 		}
 
 		return [];
+	}
+
+	/**
+	 * Get all email addresses associated to a principal.
+	 *
+	 * @param array $principal Data from getPrincipal*()
+	 * @return string[] All email addresses without the mailto: prefix
+	 */
+	public function getEmailAddressesOfPrincipal(array $principal): array {
+		$emailAddresses = [];
+
+		if (isset($principal['{http://sabredav.org/ns}email-address'])) {
+			$emailAddresses[] = $principal['{http://sabredav.org/ns}email-address'];
+		}
+
+		if (isset($principal['{DAV:}alternate-URI-set'])) {
+			foreach ($principal['{DAV:}alternate-URI-set'] as $address) {
+				if (str_starts_with($address, 'mailto:')) {
+					$emailAddresses[] = substr($address, 7);
+				}
+			}
+		}
+
+		if (isset($principal['{urn:ietf:params:xml:ns:caldav}calendar-user-address-set'])) {
+			foreach ($principal['{urn:ietf:params:xml:ns:caldav}calendar-user-address-set'] as $address) {
+				if (str_starts_with($address, 'mailto:')) {
+					$emailAddresses[] = substr($address, 7);
+				}
+			}
+		}
+
+		if (isset($principal['{http://calendarserver.org/ns/}email-address-set'])) {
+			foreach ($principal['{http://calendarserver.org/ns/}email-address-set'] as $address) {
+				if (str_starts_with($address, 'mailto:')) {
+					$emailAddresses[] = substr($address, 7);
+				}
+			}
+		}
+
+		return array_values(array_unique($emailAddresses));
 	}
 }

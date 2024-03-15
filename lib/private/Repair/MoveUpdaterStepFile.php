@@ -27,7 +27,6 @@ use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 
 class MoveUpdaterStepFile implements IRepairStep {
-
 	/** @var \OCP\IConfig */
 	protected $config;
 
@@ -43,14 +42,14 @@ class MoveUpdaterStepFile implements IRepairStep {
 	}
 
 	public function run(IOutput $output) {
-		$dataDir = $this->config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data');
-		$instanceId = $this->config->getSystemValue('instanceid', null);
+		$updateDir = $this->config->getSystemValue('updatedirectory', null) ?? $this->config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data');
+		$instanceId = $this->config->getSystemValueString('instanceid');
 
-		if (!is_string($instanceId) || empty($instanceId)) {
+		if (empty($instanceId)) {
 			return;
 		}
 
-		$updaterFolderPath = $dataDir . '/updater-' . $instanceId;
+		$updaterFolderPath = $updateDir . '/updater-' . $instanceId;
 		$stepFile = $updaterFolderPath . '/.step';
 		if (file_exists($stepFile)) {
 			$output->info('.step file exists');

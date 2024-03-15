@@ -31,13 +31,15 @@ use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\JSONResponse;
+use OCP\AppFramework\Http\ParameterOutOfRangeException;
 use OCP\AppFramework\Http\Response;
 use OCP\Diagnostics\IEventLogger;
 use OCP\IConfig;
 use OCP\IRequest;
-use PHPUnit\Framework\MockObject\MockObject;
-use Psr\Log\LoggerInterface;
 use OCP\IRequestId;
+use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Container\ContainerInterface;
+use Psr\Log\LoggerInterface;
 
 class TestController extends Controller {
 	/**
@@ -51,11 +53,12 @@ class TestController extends Controller {
 	/**
 	 * @param int $int
 	 * @param bool $bool
+	 * @param double $foo
 	 * @param int $test
-	 * @param int $test2
+	 * @param integer $test2
 	 * @return array
 	 */
-	public function exec($int, $bool, $test = 4, $test2 = 1) {
+	public function exec($int, $bool, $foo, $test = 4, $test2 = 1) {
 		$this->registerResponder('text', function ($in) {
 			return new JSONResponse(['text' => $in]);
 		});
@@ -103,10 +106,10 @@ class DispatcherTest extends \Test\TestCase {
 	private $config;
 	/** @var LoggerInterface|MockObject  */
 	private $logger;
-	/**
-	 * @var IEventLogger|MockObject
-	 */
+	/** @var IEventLogger|MockObject */
 	private $eventLogger;
+	/** @var ContainerInterface|MockObject */
+	private $container;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -115,6 +118,7 @@ class DispatcherTest extends \Test\TestCase {
 		$this->config = $this->createMock(IConfig::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->eventLogger = $this->createMock(IEventLogger::class);
+		$this->container = $this->createMock(ContainerInterface::class);
 		$app = $this->getMockBuilder(
 			'OC\AppFramework\DependencyInjection\DIContainer')
 			->disableOriginalConstructor()
@@ -153,7 +157,8 @@ class DispatcherTest extends \Test\TestCase {
 			$this->config,
 			\OC::$server->getDatabaseConnection(),
 			$this->logger,
-			$this->eventLogger
+			$this->eventLogger,
+			$this->container,
 		);
 
 		$this->response = $this->createMock(Response::class);
@@ -315,7 +320,8 @@ class DispatcherTest extends \Test\TestCase {
 			[
 				'post' => [
 					'int' => '3',
-					'bool' => 'false'
+					'bool' => 'false',
+					'double' => 1.2,
 				],
 				'method' => 'POST'
 			],
@@ -328,7 +334,8 @@ class DispatcherTest extends \Test\TestCase {
 			$this->config,
 			\OC::$server->getDatabaseConnection(),
 			$this->logger,
-			$this->eventLogger
+			$this->eventLogger,
+			$this->container
 		);
 		$controller = new TestController('app', $this->request);
 
@@ -346,6 +353,7 @@ class DispatcherTest extends \Test\TestCase {
 				'post' => [
 					'int' => '3',
 					'bool' => 'false',
+					'double' => 1.2,
 					'test2' => 7
 				],
 				'method' => 'POST',
@@ -359,7 +367,8 @@ class DispatcherTest extends \Test\TestCase {
 			$this->config,
 			\OC::$server->getDatabaseConnection(),
 			$this->logger,
-			$this->eventLogger
+			$this->eventLogger,
+			$this->container
 		);
 		$controller = new TestController('app', $this->request);
 
@@ -377,7 +386,8 @@ class DispatcherTest extends \Test\TestCase {
 			[
 				'post' => [
 					'int' => '3',
-					'bool' => 'false'
+					'bool' => 'false',
+					'double' => 1.2,
 				],
 				'urlParams' => [
 					'format' => 'text'
@@ -393,7 +403,8 @@ class DispatcherTest extends \Test\TestCase {
 			$this->config,
 			\OC::$server->getDatabaseConnection(),
 			$this->logger,
-			$this->eventLogger
+			$this->eventLogger,
+			$this->container
 		);
 		$controller = new TestController('app', $this->request);
 
@@ -410,7 +421,8 @@ class DispatcherTest extends \Test\TestCase {
 			[
 				'post' => [
 					'int' => '3',
-					'bool' => 'false'
+					'bool' => 'false',
+					'double' => 1.2,
 				],
 				'urlParams' => [
 					'format' => 'json'
@@ -426,7 +438,8 @@ class DispatcherTest extends \Test\TestCase {
 			$this->config,
 			\OC::$server->getDatabaseConnection(),
 			$this->logger,
-			$this->eventLogger
+			$this->eventLogger,
+			$this->container
 		);
 		$controller = new TestController('app', $this->request);
 
@@ -443,7 +456,8 @@ class DispatcherTest extends \Test\TestCase {
 			[
 				'post' => [
 					'int' => '3',
-					'bool' => 'false'
+					'bool' => 'false',
+					'double' => 1.2,
 				],
 				'server' => [
 					'HTTP_ACCEPT' => 'application/text, test',
@@ -460,7 +474,8 @@ class DispatcherTest extends \Test\TestCase {
 			$this->config,
 			\OC::$server->getDatabaseConnection(),
 			$this->logger,
-			$this->eventLogger
+			$this->eventLogger,
+			$this->container
 		);
 		$controller = new TestController('app', $this->request);
 
@@ -477,7 +492,8 @@ class DispatcherTest extends \Test\TestCase {
 			[
 				'post' => [
 					'int' => '3',
-					'bool' => 'false'
+					'bool' => 'false',
+					'double' => 1.2,
 				],
 				'get' => [
 					'format' => 'text'
@@ -496,7 +512,8 @@ class DispatcherTest extends \Test\TestCase {
 			$this->config,
 			\OC::$server->getDatabaseConnection(),
 			$this->logger,
-			$this->eventLogger
+			$this->eventLogger,
+			$this->container
 		);
 		$controller = new TestController('app', $this->request);
 
@@ -505,5 +522,52 @@ class DispatcherTest extends \Test\TestCase {
 		$response = $this->dispatcher->dispatch($controller, 'exec');
 
 		$this->assertEquals('{"text":[3,true,4,1]}', $response[3]);
+	}
+
+
+	public function rangeDataProvider(): array {
+		return [
+			[PHP_INT_MIN, PHP_INT_MAX, 42, false],
+			[0, 12, -5, true],
+			[-12, 0, 5, true],
+			[7, 14, 5, true],
+			[7, 14, 10, false],
+			[-14, -7, -10, false],
+		];
+	}
+
+	/**
+	 * @dataProvider rangeDataProvider
+	 */
+	public function testEnsureParameterValueSatisfiesRange(int $min, int $max, int $input, bool $throw): void {
+		$this->reflector = $this->createMock(ControllerMethodReflector::class);
+		$this->reflector->expects($this->any())
+			->method('getRange')
+			->willReturn([
+				'min' => $min,
+				'max' => $max,
+			]);
+
+		$this->dispatcher = new Dispatcher(
+			$this->http,
+			$this->middlewareDispatcher,
+			$this->reflector,
+			$this->request,
+			$this->config,
+			\OC::$server->getDatabaseConnection(),
+			$this->logger,
+			$this->eventLogger,
+			$this->container,
+		);
+
+		if ($throw) {
+			$this->expectException(ParameterOutOfRangeException::class);
+		}
+
+		$this->invokePrivate($this->dispatcher, 'ensureParameterValueSatisfiesRange', ['myArgument', $input]);
+		if (!$throw) {
+			// do not mark this test risky
+			$this->assertTrue(true);
+		}
 	}
 }

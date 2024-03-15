@@ -56,7 +56,7 @@ class NewSimpleFile implements ISimpleFile {
 	/**
 	 * Get the size in bytes
 	 */
-	public function getSize(): int {
+	public function getSize(): int|float {
 		if ($this->file) {
 			return $this->file->getSize();
 		} else {
@@ -136,6 +136,10 @@ class NewSimpleFile implements ISimpleFile {
 	 * @throws NotFoundException
 	 */
 	private function checkFile(): void {
+		if (!$this->file) {
+			throw new NotFoundException('File not set');
+		}
+
 		$cur = $this->file;
 
 		while ($cur->stat() === false) {
@@ -192,7 +196,7 @@ class NewSimpleFile implements ISimpleFile {
 	/**
 	 * Open the file as stream for reading, resulting resource can be operated as stream like the result from php's own fopen
 	 *
-	 * @return resource
+	 * @return resource|false
 	 * @throws \OCP\Files\NotPermittedException
 	 * @since 14.0.0
 	 */

@@ -29,7 +29,6 @@ use OCP\Files\NotFoundException;
  * @since 18.0.0
  */
 interface IToken {
-
 	/**
 	 * Extend the token validity time
 	 *

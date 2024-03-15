@@ -3,37 +3,45 @@ name: Update Psalm baseline
 on:
   workflow_dispatch:
   schedule:
-    - cron: "5 4 * * *"
+    - cron: "5 2 * * *"
 
 jobs:
   update-psalm-baseline:
     runs-on: ubuntu-latest
 
+    if: ${{ github.repository_owner != 'nextcloud-gmbh' }}
+
     strategy:
       fail-fast: false
       matrix:
-        branches: ["master", "stable24", "stable23", "stable22"]
+        branches: ["master", "stable28", "stable27", "stable26"]
 
     name: update-psalm-baseline-${{ matrix.branches }}
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
         with:
           ref: ${{ matrix.branches }}
           submodules: true
 
-      - name: Set up php7.4
+      - name: Set up php
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 7.4
-          extensions: ctype,curl,dom,fileinfo,gd,intl,json,mbstring,openssl,pdo_sqlite,posix,sqlite,xml,zip
+          php-version: '8.0'
+          extensions: apcu,ctype,curl,dom,fileinfo,ftp,gd,intl,json,ldap,mbstring,openssl,pdo_sqlite,posix,sqlite,xml,zip
           coverage: none
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Composer install
         run: composer install
 
       - name: Psalm
-        run: composer run psalm -- --monochrome --no-progress --output-format=text --update-baseline
+        run: composer run psalm:ci -- --monochrome --no-progress --output-format=text --update-baseline
+        continue-on-error: true
+
+      - name: Psalm OCP
+        run: composer run psalm:ci -- -c psalm-ocp.xml --monochrome --no-progress --output-format=github --update-baseline
         continue-on-error: true
 
       - name: Reset composer
@@ -42,7 +50,7 @@ jobs:
           git checkout composer.json composer.lock lib/composer
 
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v3
+        uses: peter-evans/create-pull-request@a4f52f8033a6168103c2538976c07b467e8163bc
         with:
           token: ${{ secrets.COMMAND_BOT_PAT }}
           commit-message: Update psalm baseline

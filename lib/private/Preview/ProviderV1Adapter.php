@@ -55,7 +55,7 @@ class ProviderV1Adapter implements IProviderV2 {
 	}
 
 	private function getViewAndPath(File $file) {
-		$view = new View($file->getParent()->getPath());
+		$view = new View(dirname($file->getPath()));
 		$path = $file->getName();
 
 		return [$view, $path];

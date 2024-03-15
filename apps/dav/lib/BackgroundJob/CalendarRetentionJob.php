@@ -34,7 +34,7 @@ class CalendarRetentionJob extends TimedJob {
 	private $service;
 
 	public function __construct(ITimeFactory $time,
-								RetentionService $service) {
+		RetentionService $service) {
 		parent::__construct($time);
 		$this->service = $service;
 

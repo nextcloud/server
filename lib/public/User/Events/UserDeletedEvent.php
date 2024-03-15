@@ -32,7 +32,6 @@ use OCP\IUser;
  * @since 18.0.0
  */
 class UserDeletedEvent extends Event {
-
 	/** @var IUser */
 	private $user;
 

@@ -34,9 +34,9 @@ use OCP\AppFramework\Http\DataResponse;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IL10N;
-use OCP\ILogger;
 use OCP\IRequest;
 use OCP\IUserSession;
+use Psr\Log\LoggerInterface;
 
 /**
  * Global storages controller
@@ -49,7 +49,7 @@ class GlobalStoragesController extends StoragesController {
 	 * @param IRequest $request request object
 	 * @param IL10N $l10n l10n service
 	 * @param GlobalStoragesService $globalStoragesService storage service
-	 * @param ILogger $logger
+	 * @param LoggerInterface $logger
 	 * @param IUserSession $userSession
 	 * @param IGroupManager $groupManager
 	 * @param IConfig $config
@@ -59,7 +59,7 @@ class GlobalStoragesController extends StoragesController {
 		IRequest $request,
 		IL10N $l10n,
 		GlobalStoragesService $globalStoragesService,
-		ILogger $logger,
+		LoggerInterface $logger,
 		IUserSession $userSession,
 		IGroupManager $groupManager,
 		IConfig $config
@@ -134,7 +134,7 @@ class GlobalStoragesController extends StoragesController {
 		$this->updateStorageStatus($newStorage);
 
 		return new DataResponse(
-			$this->formatStorageForUI($newStorage),
+			$newStorage->jsonSerialize(true),
 			Http::STATUS_CREATED
 		);
 	}
@@ -145,7 +145,7 @@ class GlobalStoragesController extends StoragesController {
 	 * @param int $id storage id
 	 * @param string $mountPoint storage mount point
 	 * @param string $backend backend identifier
-	 * @param string $authMechanism authentication mechansim identifier
+	 * @param string $authMechanism authentication mechanism identifier
 	 * @param array $backendOptions backend-specific options
 	 * @param array $mountOptions mount-specific options
 	 * @param array $applicableUsers users for which to mount the storage
@@ -201,7 +201,7 @@ class GlobalStoragesController extends StoragesController {
 		$this->updateStorageStatus($storage, $testOnly);
 
 		return new DataResponse(
-			$this->formatStorageForUI($storage),
+			$storage->jsonSerialize(true),
 			Http::STATUS_OK
 		);
 	}

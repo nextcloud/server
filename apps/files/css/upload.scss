@@ -39,26 +39,26 @@
 }
 #uploadprogressbar {
 	border-color: var(--color-border-dark);
-	border-radius: 18px 0 0 18px;
+	border-radius: var(--border-radius-pill) 0 0 var(--border-radius-pill);
 	border-right: 0;
 	position:relative;
 	float: left;
 	width: 200px;
-	height: 36px;
+	height: 44px;
 	display:inline-block;
 	text-align: center;
 
 	.ui-progressbar-value {
-		margin: 0;
+		margin-top:.1em;
 	}
 }
 #uploadprogressbar .ui-progressbar-value.ui-widget-header.ui-corner-left {
 	height: calc(100% + 2px);
-	top: -1px;
+	top: -2px;
 	left: -1px;
 	position: absolute;
 	overflow: hidden;
-	background-color: var(--color-primary);
+	background-color: var(--color-primary-element);
 }
 #uploadprogressbar .label {
 	top: 8px;
@@ -68,7 +68,7 @@
 	font-weight: normal;
 }
 #uploadprogressbar .label.inner {
-	color: var(--color-primary-text);
+	color: var(--color-primary-element-text);
 	position: absolute;
 	display: block;
 	width: 200px;
@@ -156,7 +156,7 @@
 .oc-dialog .fileexists .original,
 .oc-dialog .fileexists .replacement {
 	float: left;
-	width: 225px;
+	width: 50%;
 }
 .oc-dialog .fileexists .conflicts {
 	overflow-y: auto;

@@ -36,19 +36,11 @@ use Sabre\DAVACL\IACL;
 class Card implements ICard, IACL {
 	use ACLTrait;
 
-	/** @var RecentContact */
-	private $contact;
-
-	/** @var string */
-	private $principal;
-
-	/** @var array */
-	private $acls;
-
-	public function __construct(RecentContact $contact, string $principal, array $acls) {
-		$this->contact = $contact;
-		$this->principal = $principal;
-		$this->acls = $acls;
+	public function __construct(
+		private RecentContact $contact,
+		private string $principal,
+		private array $acls,
+	) {
 	}
 
 	/**
@@ -82,7 +74,7 @@ class Card implements ICard, IACL {
 	/**
 	 * @inheritDoc
 	 */
-	public function get() {
+	public function get(): string {
 		return $this->contact->getCard();
 	}
 

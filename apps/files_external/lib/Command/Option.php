@@ -27,7 +27,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Option extends Config {
-	protected function configure() {
+	protected function configure(): void {
 		$this
 			->setName('files_external:option')
 			->setDescription('Manage mount options for a mount')
@@ -47,11 +47,9 @@ class Option extends Config {
 	}
 
 	/**
-	 * @param StorageConfig $mount
 	 * @param string $key
-	 * @param OutputInterface $output
 	 */
-	protected function getOption(StorageConfig $mount, $key, OutputInterface $output) {
+	protected function getOption(StorageConfig $mount, $key, OutputInterface $output): void {
 		$value = $mount->getMountOption($key);
 		if (!is_string($value)) { // show bools and objects correctly
 			$value = json_encode($value);
@@ -60,12 +58,10 @@ class Option extends Config {
 	}
 
 	/**
-	 * @param StorageConfig $mount
 	 * @param string $key
 	 * @param string $value
-	 * @param OutputInterface $output
 	 */
-	protected function setOption(StorageConfig $mount, $key, $value, OutputInterface $output) {
+	protected function setOption(StorageConfig $mount, $key, $value, OutputInterface $output): void {
 		$decoded = json_decode($value, true);
 		if (!is_null($decoded)) {
 			$value = $decoded;

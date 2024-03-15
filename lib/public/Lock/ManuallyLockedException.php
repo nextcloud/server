@@ -31,8 +31,6 @@ namespace OCP\Lock;
  * @since 18.0.0
  */
 class ManuallyLockedException extends LockedException {
-
-
 	/**
 	 * owner of the lock
 	 *

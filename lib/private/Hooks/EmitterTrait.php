@@ -27,7 +27,6 @@ namespace OC\Hooks;
  * @deprecated 18.0.0 use events and the \OCP\EventDispatcher\IEventDispatcher service
  */
 trait EmitterTrait {
-
 	/**
 	 * @var callable[][] $listeners
 	 */
@@ -44,7 +43,7 @@ trait EmitterTrait {
 		if (!isset($this->listeners[$eventName])) {
 			$this->listeners[$eventName] = [];
 		}
-		if (array_search($callback, $this->listeners[$eventName], true) === false) {
+		if (!in_array($callback, $this->listeners[$eventName], true)) {
 			$this->listeners[$eventName][] = $callback;
 		}
 	}

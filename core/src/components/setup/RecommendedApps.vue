@@ -33,40 +33,41 @@
 		</p>
 
 		<div v-for="app in recommendedApps" :key="app.id" class="app">
-			<img :src="customIcon(app.id)" alt="">
-			<div class="info">
-				<h3>
-					{{ app.name }}
-					<span v-if="app.loading" class="icon icon-loading-small-dark" />
-					<span v-else-if="app.active" class="icon icon-checkmark-white" />
-				</h3>
-				<p v-html="customDescription(app.id)" />
-				<p v-if="app.installationError">
-					<strong>{{ t('core', 'App download or installation failed') }}</strong>
-				</p>
-				<p v-else-if="!app.isCompatible">
-					<strong>{{ t('core', 'Cannot install this app because it is not compatible') }}</strong>
-				</p>
-				<p v-else-if="!app.canInstall">
-					<strong>{{ t('core', 'Cannot install this app') }}</strong>
-				</p>
-			</div>
+			<template v-if="!isHidden(app.id)">
+				<img :src="customIcon(app.id)" alt="">
+				<div class="info">
+					<h3>
+						{{ customName(app) }}
+						<span v-if="app.loading" class="icon icon-loading-small-dark" />
+						<span v-else-if="app.active" class="icon icon-checkmark-white" />
+					</h3>
+					<p v-html="customDescription(app.id)" />
+					<p v-if="app.installationError">
+						<strong>{{ t('core', 'App download or installation failed') }}</strong>
+					</p>
+					<p v-else-if="!app.isCompatible">
+						<strong>{{ t('core', 'Cannot install this app because it is not compatible') }}</strong>
+					</p>
+					<p v-else-if="!app.canInstall">
+						<strong>{{ t('core', 'Cannot install this app') }}</strong>
+					</p>
+				</div>
+			</template>
 		</div>
 
 		<div class="dialog-row">
-			<Button v-if="showInstallButton"
+			<NcButton v-if="showInstallButton"
 				type="tertiary"
 				role="link"
-				href="defaultPageUrl"
-				@click="goTo(defaultPageUrl)">
+				:href="defaultPageUrl">
 				{{ t('core', 'Skip') }}
-			</Button>
+			</NcButton>
 
-			<Button v-if="showInstallButton"
+			<NcButton v-if="showInstallButton"
 				type="primary"
 				@click.stop.prevent="installApps">
 				{{ t('core', 'Install recommended apps') }}
-			</Button>
+			</NcButton>
 		</div>
 	</div>
 </template>
@@ -78,9 +79,9 @@ import { loadState } from '@nextcloud/initial-state'
 import pLimit from 'p-limit'
 import { translate as t } from '@nextcloud/l10n'
 
-import Button from '@nextcloud/vue/dist/Components/Button'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 
-import logger from '../../logger'
+import logger from '../../logger.js'
 
 const recommended = {
 	calendar: {
@@ -100,21 +101,24 @@ const recommended = {
 		icon: imagePath('core', 'apps/spreed.svg'),
 	},
 	richdocuments: {
-		description: t('core', 'Collaboratively edit office documents.'),
+		name: 'Nextcloud Office',
+		description: t('core', 'Collaborative documents, spreadsheets and presentations, built on Collabora Online.'),
 		icon: imagePath('core', 'apps/richdocuments.svg'),
 	},
+	notes: {
+		description: t('core', 'Distraction free note taking app.'),
+		icon: imagePath('core', 'apps/notes.svg'),
+	},
 	richdocumentscode: {
-		description: t('core', 'Local document editing back-end used by the Collabora Online app.'),
-		icon: imagePath('core', 'apps/richdocumentscode.svg'),
+		hidden: true,
 	},
 }
 const recommendedIds = Object.keys(recommended)
-const defaultPageUrl = loadState('core', 'defaultPageUrl')
 
 export default {
 	name: 'RecommendedApps',
 	components: {
-		Button,
+		NcButton,
 	},
 	data() {
 		return {
@@ -123,7 +127,7 @@ export default {
 			loadingApps: true,
 			loadingAppsError: false,
 			apps: [],
-			defaultPageUrl,
+			defaultPageUrl: loadState('core', 'defaultPageUrl')
 		}
 	},
 	computed: {
@@ -174,7 +178,7 @@ export default {
 				.then(() => {
 					logger.info('all recommended apps installed, redirecting …')
 
-					window.location = defaultPageUrl
+					window.location = this.defaultPageUrl
 				})
 				.catch(error => logger.error('could not install recommended apps', { error }))
 		},
@@ -185,6 +189,12 @@ export default {
 			}
 			return recommended[appId].icon
 		},
+		customName(app) {
+			if (!(app.id in recommended)) {
+				return app.name
+			}
+			return recommended[app.id].name || app.name
+		},
 		customDescription(appId) {
 			if (!(appId in recommended)) {
 				logger.warn(`no app description for recommended app ${appId}`)
@@ -192,8 +202,11 @@ export default {
 			}
 			return recommended[appId].description
 		},
-		goTo(href) {
-			window.location.href = href
+		isHidden(appId) {
+			if (!(appId in recommended)) {
+				return false
+			}
+			return !!recommended[appId].hidden
 		},
 	},
 }

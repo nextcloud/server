@@ -39,7 +39,6 @@ use Psr\Log\LoggerInterface;
  * The DB permission is needed for the fake root storage initialization
  */
 class ObjectStorePreviewCacheMountProviderTest extends \Test\TestCase {
-
 	/** @var ObjectStorePreviewCacheMountProvider */
 	protected $provider;
 

@@ -30,35 +30,35 @@
 			<template #avatar>
 				<div class="avatar-shared icon-more-white" />
 			</template>
-			<ActionButton :icon="showInheritedSharesIcon"
-				:aria-label="mainTitle"
-				@click.prevent.stop="toggleInheritedShares">
-				{{ toggleTooltip }}
-			</ActionButton>
+			<NcActionButton :icon="showInheritedSharesIcon"
+				:aria-label="toggleTooltip"
+				:title="toggleTooltip"
+				@click.prevent.stop="toggleInheritedShares" />
 		</SharingEntrySimple>
 
 		<!-- Inherited shares list -->
 		<SharingEntryInherited v-for="share in shares"
 			:key="share.id"
 			:file-info="fileInfo"
-			:share="share" />
+			:share="share"
+			@remove:share="removeShare" />
 	</ul>
 </template>
 
 <script>
 import { generateOcsUrl } from '@nextcloud/router'
-import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
+import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
 import axios from '@nextcloud/axios'
 
-import Share from '../models/Share'
-import SharingEntryInherited from '../components/SharingEntryInherited'
-import SharingEntrySimple from '../components/SharingEntrySimple'
+import Share from '../models/Share.js'
+import SharingEntryInherited from '../components/SharingEntryInherited.vue'
+import SharingEntrySimple from '../components/SharingEntrySimple.vue'
 
 export default {
 	name: 'SharingInherited',
 
 	components: {
-		ActionButton,
+		NcActionButton,
 		SharingEntryInherited,
 		SharingEntrySimple,
 	},
@@ -94,7 +94,7 @@ export default {
 		},
 		subTitle() {
 			return (this.showInheritedShares && this.shares.length === 0)
-				? t('files_sharing', 'No other users with access found')
+				? t('files_sharing', 'No other accounts with access found')
 				: ''
 		},
 		toggleTooltip() {
@@ -151,6 +151,16 @@ export default {
 			this.loading = false
 			this.showInheritedShares = false
 			this.shares = []
+		},
+		/**
+		 * Remove a share from the shares list
+		 *
+		 * @param {Share} share the share to remove
+		 */
+		removeShare(share) {
+			const index = this.shares.findIndex(item => item === share)
+			// eslint-disable-next-line vue/no-mutating-props
+			this.shares.splice(index, 1)
 		},
 	},
 }

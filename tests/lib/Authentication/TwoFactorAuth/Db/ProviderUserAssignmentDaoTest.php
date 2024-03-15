@@ -35,7 +35,6 @@ use Test\TestCase;
  * @group DB
  */
 class ProviderUserAssignmentDaoTest extends TestCase {
-
 	/** @var IDBConnection */
 	private $dbConn;
 

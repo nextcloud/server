@@ -222,7 +222,7 @@ class TagsPlugin extends \Sabre\DAV\ServerPlugin {
 			&& $propFind->getDepth() !== 0
 			&& (!is_null($propFind->getStatus(self::TAGS_PROPERTYNAME))
 			|| !is_null($propFind->getStatus(self::FAVORITE_PROPERTYNAME))
-		)) {
+			)) {
 			// note: pre-fetching only supported for depth <= 1
 			$folderContent = $node->getChildren();
 			$fileIds[] = (int)$node->getId();

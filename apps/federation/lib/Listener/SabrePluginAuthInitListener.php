@@ -33,6 +33,7 @@ use Sabre\DAV\Auth\Plugin;
 
 /**
  * @since 20.0.0
+ * @template-implements IEventListener<SabrePluginAuthInitEvent>
  */
 class SabrePluginAuthInitListener implements IEventListener {
 	private FedAuth $fedAuth;

@@ -72,6 +72,7 @@ use OCP\IServerContainer;
 use OCP\ISession;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
+use OCP\Security\Bruteforce\IThrottler;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
@@ -79,6 +80,7 @@ use Psr\Log\LoggerInterface;
  * @deprecated 20.0.0
  */
 class DIContainer extends SimpleContainer implements IAppContainer {
+	private string $appName;
 
 	/**
 	 * @var array
@@ -94,9 +96,10 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 	 * @param array $urlParams
 	 * @param ServerContainer|null $server
 	 */
-	public function __construct($appName, $urlParams = [], ServerContainer $server = null) {
+	public function __construct(string $appName, array $urlParams = [], ServerContainer $server = null) {
 		parent::__construct();
-		$this['AppName'] = $appName;
+		$this->appName = $appName;
+		$this['appName'] = $appName;
 		$this['urlParams'] = $urlParams;
 
 		$this->registerAlias('Request', IRequest::class);
@@ -109,9 +112,12 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		$this->server->registerAppContainer($appName, $this);
 
 		// aliases
-		$this->registerAlias('appName', 'AppName');
-		$this->registerAlias('webRoot', 'WebRoot');
-		$this->registerAlias('userId', 'UserId');
+		/** @deprecated inject $appName */
+		$this->registerAlias('AppName', 'appName');
+		/** @deprecated inject $webRoot*/
+		$this->registerAlias('WebRoot', 'webRoot');
+		/** @deprecated inject $userId */
+		$this->registerAlias('UserId', 'userId');
 
 		/**
 		 * Core services
@@ -158,11 +164,11 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		$this->registerAlias(IAppContainer::class, ContainerInterface::class);
 
 		// commonly used attributes
-		$this->registerService('UserId', function (ContainerInterface $c) {
+		$this->registerService('userId', function (ContainerInterface $c) {
 			return $c->get(IUserSession::class)->getSession()->get('user_id');
 		});
 
-		$this->registerService('WebRoot', function (ContainerInterface $c) {
+		$this->registerService('webRoot', function (ContainerInterface $c) {
 			return $c->get(IServerContainer::class)->getWebRoot();
 		});
 
@@ -186,7 +192,8 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 				$c->get(IConfig::class),
 				$c->get(IDBConnection::class),
 				$c->get(LoggerInterface::class),
-				$c->get(EventLogger::class)
+				$c->get(EventLogger::class),
+				$c,
 			);
 		});
 
@@ -227,7 +234,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 					$c->get(IRequest::class),
 					$c->get(IControllerMethodReflector::class),
 					$c->get(IUserSession::class),
-					$c->get(OC\Security\Bruteforce\Throttler::class)
+					$c->get(IThrottler::class)
 				)
 			);
 			$dispatcher->registerMiddleware(
@@ -285,8 +292,9 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			$dispatcher->registerMiddleware(
 				new OC\AppFramework\Middleware\Security\BruteForceMiddleware(
 					$c->get(IControllerMethodReflector::class),
-					$c->get(OC\Security\Bruteforce\Throttler::class),
-					$c->get(IRequest::class)
+					$c->get(IThrottler::class),
+					$c->get(IRequest::class),
+					$c->get(LoggerInterface::class)
 				)
 			);
 			$dispatcher->registerMiddleware(
@@ -301,13 +309,26 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 				new OC\AppFramework\Middleware\PublicShare\PublicShareMiddleware(
 					$c->get(IRequest::class),
 					$c->get(ISession::class),
-					$c->get(\OCP\IConfig::class)
+					$c->get(\OCP\IConfig::class),
+					$c->get(IThrottler::class)
 				)
 			);
 			$dispatcher->registerMiddleware(
 				$c->get(\OC\AppFramework\Middleware\AdditionalScriptsMiddleware::class)
 			);
 
+			/** @var \OC\AppFramework\Bootstrap\Coordinator $coordinator */
+			$coordinator = $c->get(\OC\AppFramework\Bootstrap\Coordinator::class);
+			$registrationContext = $coordinator->getRegistrationContext();
+			if ($registrationContext !== null) {
+				$appId = $this->getAppName();
+				foreach ($registrationContext->getMiddlewareRegistrations() as $middlewareRegistration) {
+					if ($middlewareRegistration->getAppId() === $appId
+						|| $middlewareRegistration->isGlobal()) {
+						$dispatcher->registerMiddleware($c->get($middlewareRegistration->getService()));
+					}
+				}
+			}
 			foreach ($this->middleWares as $middleWare) {
 				$dispatcher->registerMiddleware($c->get($middleWare));
 			}
@@ -324,6 +345,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		$this->registerService(IAppConfig::class, function (ContainerInterface $c) {
 			return new OC\AppFramework\Services\AppConfig(
 				$c->get(IConfig::class),
+				$c->get(\OCP\IAppConfig::class),
 				$c->get('AppName')
 			);
 		});
@@ -383,33 +405,6 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 	}
 
 	/**
-	 * @deprecated use the ILogger instead
-	 * @param string $message
-	 * @param string $level
-	 * @return mixed
-	 */
-	public function log($message, $level) {
-		switch ($level) {
-			case 'debug':
-				$level = ILogger::DEBUG;
-				break;
-			case 'info':
-				$level = ILogger::INFO;
-				break;
-			case 'warn':
-				$level = ILogger::WARN;
-				break;
-			case 'fatal':
-				$level = ILogger::FATAL;
-				break;
-			default:
-				$level = ILogger::ERROR;
-				break;
-		}
-		\OCP\Util::writeLog($this->getAppName(), $message, $level);
-	}
-
-	/**
 	 * Register a capability
 	 *
 	 * @param string $serviceName e.g. 'OCA\Files\Capabilities'
@@ -433,6 +428,15 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 	}
 
 	public function query(string $name, bool $autoload = true) {
+		if ($name === 'AppName' || $name === 'appName') {
+			return $this->appName;
+		}
+
+		$isServerClass = str_starts_with($name, 'OCP\\') || str_starts_with($name, 'OC\\');
+		if ($isServerClass && !$this->has($name)) {
+			return $this->getServer()->query($name, $autoload);
+		}
+
 		try {
 			return $this->queryNoFallback($name);
 		} catch (QueryException $firstException) {
@@ -457,11 +461,11 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 
 		if ($this->offsetExists($name)) {
 			return parent::query($name);
-		} elseif ($this['AppName'] === 'settings' && strpos($name, 'OC\\Settings\\') === 0) {
+		} elseif ($this->appName === 'settings' && str_starts_with($name, 'OC\\Settings\\')) {
 			return parent::query($name);
-		} elseif ($this['AppName'] === 'core' && strpos($name, 'OC\\Core\\') === 0) {
+		} elseif ($this->appName === 'core' && str_starts_with($name, 'OC\\Core\\')) {
 			return parent::query($name);
-		} elseif (strpos($name, \OC\AppFramework\App::buildAppNamespace($this['AppName']) . '\\') === 0) {
+		} elseif (str_starts_with($name, \OC\AppFramework\App::buildAppNamespace($this->appName) . '\\')) {
 			return parent::query($name);
 		}
 

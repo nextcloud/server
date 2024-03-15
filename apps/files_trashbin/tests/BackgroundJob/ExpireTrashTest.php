@@ -27,9 +27,9 @@ namespace OCA\Files_Trashbin\Tests\BackgroundJob;
 
 use OCA\Files_Trashbin\BackgroundJob\ExpireTrash;
 use OCA\Files_Trashbin\Expiration;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
 use OCP\IConfig;
-use OCP\ILogger;
 use OCP\IUserManager;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
@@ -47,8 +47,8 @@ class ExpireTrashTest extends TestCase {
 	/** @var IJobList|MockObject */
 	private $jobList;
 
-	/** @var ILogger|MockObject */
-	private $logger;
+	/** @var ITimeFactory|MockObject */
+	private $time;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -57,7 +57,10 @@ class ExpireTrashTest extends TestCase {
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->expiration = $this->createMock(Expiration::class);
 		$this->jobList = $this->createMock(IJobList::class);
-		$this->logger = $this->createMock(ILogger::class);
+
+		$this->time = $this->createMock(ITimeFactory::class);
+		$this->time->method('getTime')
+			->willReturn(999999999);
 
 		$this->jobList->expects($this->once())
 			->method('setLastRun');
@@ -66,8 +69,12 @@ class ExpireTrashTest extends TestCase {
 	}
 
 	public function testConstructAndRun(): void {
-		$job = new ExpireTrash($this->config, $this->userManager, $this->expiration);
-		$job->execute($this->jobList, $this->logger);
+		$this->config->method('getAppValue')
+			->with('files_trashbin', 'background_job_expire_trash', 'yes')
+			->willReturn('yes');
+
+		$job = new ExpireTrash($this->config, $this->userManager, $this->expiration, $this->time);
+		$job->start($this->jobList);
 	}
 
 	public function testBackgroundJobDeactivated(): void {
@@ -77,7 +84,7 @@ class ExpireTrashTest extends TestCase {
 		$this->expiration->expects($this->never())
 			->method('getMaxAgeAsTimestamp');
 
-		$job = new ExpireTrash($this->config, $this->userManager, $this->expiration);
-		$job->execute($this->jobList, $this->logger);
+		$job = new ExpireTrash($this->config, $this->userManager, $this->expiration, $this->time);
+		$job->start($this->jobList);
 	}
 }

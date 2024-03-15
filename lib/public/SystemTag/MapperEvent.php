@@ -35,13 +35,14 @@ use OCP\EventDispatcher\Event;
  * @since 9.0.0
  */
 class MapperEvent extends Event {
-
 	/**
+	 * @since 9.0.0
 	 * @deprecated 22.0.0
 	 */
 	public const EVENT_ASSIGN = 'OCP\SystemTag\ISystemTagObjectMapper::assignTags';
 
 	/**
+	 * @since 9.0.0
 	 * @deprecated 22.0.0
 	 */
 	public const EVENT_UNASSIGN = 'OCP\SystemTag\ISystemTagObjectMapper::unassignTags';

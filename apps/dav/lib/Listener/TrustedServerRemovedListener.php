@@ -30,6 +30,7 @@ use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\Federation\Events\TrustedServerRemovedEvent;
 
+/** @template-implements IEventListener<TrustedServerRemovedEvent> */
 class TrustedServerRemovedListener implements IEventListener {
 	private CardDavBackend $cardDavBackend;
 

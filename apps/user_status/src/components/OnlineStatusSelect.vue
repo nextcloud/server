@@ -23,29 +23,33 @@
 	<div class="user-status-online-select">
 		<input :id="id"
 			:checked="checked"
-			class="user-status-online-select__input"
+			class="hidden-visually user-status-online-select__input"
 			type="radio"
 			name="user-status-online"
 			@change="onChange">
-		<label :for="id" :class="icon" class="user-status-online-select__label">
+		<label :for="id" class="user-status-online-select__label">
 			{{ label }}
+			<NcUserStatusIcon :status="type"
+				aria-hidden="true" />
 			<em class="user-status-online-select__subline">{{ subline }}</em>
 		</label>
 	</div>
 </template>
 
 <script>
+import NcUserStatusIcon from '@nextcloud/vue/dist/Components/NcUserStatusIcon.js'
+
 export default {
 	name: 'OnlineStatusSelect',
+
+	components: {
+		NcUserStatusIcon,
+	},
 
 	props: {
 		checked: {
 			type: Boolean,
 			default: false,
-		},
-		icon: {
-			type: String,
-			required: true,
 		},
 		type: {
 			type: String,
@@ -76,21 +80,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@use 'sass:math';
 $icon-size: 24px;
 $label-padding: 8px;
 
 .user-status-online-select {
-	// Inputs are here for keyboard navigation, they are not visually visible
-	&__input {
-		position: absolute;
-		top: auto;
-		left: -10000px;
-		overflow: hidden;
-		width: 1px;
-		height: 1px;
-	}
-
 	&__label {
+		position: relative;
 		display: block;
 		margin: $label-padding;
 		padding: $label-padding;
@@ -105,12 +101,24 @@ $label-padding: 8px;
 		& {
 			cursor: pointer;
 		}
+
+		span {
+			position: absolute;
+			top: calc(50% - 10px);
+			left: 10px;
+			display: block;
+			width: $icon-size;
+			height: $icon-size;
+		}
 	}
 
-	&__input:checked + &__label,
-	&__input:focus + &__label,
-	&__label:hover {
-		border-color: var(--color-primary);
+	&__input:checked + &__label {
+		outline: 2px solid var(--color-main-text);
+		box-shadow: 0 0 0 4px var(--color-main-background);
+	}
+
+	&__input:focus-visible + &__label {
+		outline: 2px solid var(--color-primary-element) !important;
 	}
 
 	&__subline {
@@ -118,5 +126,4 @@ $label-padding: 8px;
 		color: var(--color-text-lighter);
 	}
 }
-
 </style>

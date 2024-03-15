@@ -33,7 +33,6 @@ namespace OCP\SystemTag;
  * @since 9.0.0
  */
 class TagNotFoundException extends \RuntimeException {
-
 	/** @var string[] */
 	protected $tags;
 

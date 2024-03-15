@@ -34,8 +34,6 @@ use OCP\FullTextSearch\Model\IIndex;
  *
  */
 interface IIndexService {
-
-
 	/**
 	 * Create an Index
 	 *

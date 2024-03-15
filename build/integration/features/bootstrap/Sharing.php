@@ -187,8 +187,8 @@ trait Sharing {
 			$token = $this->lastShareData->data->token;
 		}
 
-		$fullUrl = substr($this->baseUrl, 0, -4) . "public.php/webdav";
-		$this->checkDownload($fullUrl, [$token, $password], 'text/plain');
+		$fullUrl = substr($this->baseUrl, 0, -4) . "public.php/dav/files/$token/";
+		$this->checkDownload($fullUrl, ['', $password], 'text/plain');
 	}
 
 	private function checkDownload($url, $auth = null, $mimeType = null) {
@@ -270,12 +270,13 @@ trait Sharing {
 	}
 
 	public function createShare($user,
-								$path = null,
-								$shareType = null,
-								$shareWith = null,
-								$publicUpload = null,
-								$password = null,
-								$permissions = null) {
+		$path = null,
+		$shareType = null,
+		$shareWith = null,
+		$publicUpload = null,
+		$password = null,
+		$permissions = null,
+		$viewOnly = false) {
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/apps/files_sharing/api/v{$this->sharingApiVersion}/shares";
 		$client = new Client();
 		$options = [
@@ -307,6 +308,10 @@ trait Sharing {
 		}
 		if (!is_null($permissions)) {
 			$body['permissions'] = $permissions;
+		}
+
+		if ($viewOnly === true) {
+			$body['attributes'] = json_encode([['scope' => 'permissions', 'key' => 'download', 'enabled' => false]]);
 		}
 
 		$options['form_params'] = $body;
@@ -402,13 +407,17 @@ trait Sharing {
 	}
 
 	/**
-	 * @Given /^(file|folder|entry) "([^"]*)" of user "([^"]*)" is shared with user "([^"]*)"( with permissions ([\d]*))?$/
+	 * @Given /^(file|folder|entry) "([^"]*)" of user "([^"]*)" is shared with user "([^"]*)"( with permissions ([\d]*))?( view-only)?$/
 	 *
 	 * @param string $filepath
 	 * @param string $user1
 	 * @param string $user2
 	 */
-	public function assureFileIsShared($entry, $filepath, $user1, $user2, $withPerms = null, $permissions = null) {
+	public function assureFileIsShared($entry, $filepath, $user1, $user2, $withPerms = null, $permissions = null, $viewOnly = null) {
+		// when view-only is set, permissions is empty string instead of null...
+		if ($permissions === '') {
+			$permissions = null;
+		}
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/apps/files_sharing/api/v{$this->sharingApiVersion}/shares" . "?path=$filepath";
 		$client = new Client();
 		$options = [];
@@ -424,20 +433,24 @@ trait Sharing {
 		if ($this->isUserOrGroupInSharedData($user2, $permissions)) {
 			return;
 		} else {
-			$this->createShare($user1, $filepath, 0, $user2, null, null, $permissions);
+			$this->createShare($user1, $filepath, 0, $user2, null, null, $permissions, $viewOnly !== null);
 		}
 		$this->response = $client->get($fullUrl, $options);
 		Assert::assertEquals(true, $this->isUserOrGroupInSharedData($user2, $permissions));
 	}
 
 	/**
-	 * @Given /^(file|folder|entry) "([^"]*)" of user "([^"]*)" is shared with group "([^"]*)"( with permissions ([\d]*))?$/
+	 * @Given /^(file|folder|entry) "([^"]*)" of user "([^"]*)" is shared with group "([^"]*)"( with permissions ([\d]*))?( view-only)?$/
 	 *
 	 * @param string $filepath
 	 * @param string $user
 	 * @param string $group
 	 */
-	public function assureFileIsSharedWithGroup($entry, $filepath, $user, $group, $withPerms = null, $permissions = null) {
+	public function assureFileIsSharedWithGroup($entry, $filepath, $user, $group, $withPerms = null, $permissions = null, $viewOnly = null) {
+		// when view-only is set, permissions is empty string instead of null...
+		if ($permissions === '') {
+			$permissions = null;
+		}
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/apps/files_sharing/api/v{$this->sharingApiVersion}/shares" . "?path=$filepath";
 		$client = new Client();
 		$options = [];
@@ -453,7 +466,7 @@ trait Sharing {
 		if ($this->isUserOrGroupInSharedData($group, $permissions)) {
 			return;
 		} else {
-			$this->createShare($user, $filepath, 1, $group, null, null, $permissions);
+			$this->createShare($user, $filepath, 1, $group, null, null, $permissions, $viewOnly !== null);
 		}
 		$this->response = $client->get($fullUrl, $options);
 		Assert::assertEquals(true, $this->isUserOrGroupInSharedData($group, $permissions));
@@ -608,7 +621,7 @@ trait Sharing {
 			return;
 		}
 
-		if (!array_key_exists($field, $returnedShare)) {
+		if (!property_exists($returnedShare, $field)) {
 			Assert::fail("$field was not found in response");
 		}
 

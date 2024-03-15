@@ -30,7 +30,6 @@ namespace OCP\Profile;
  * @since 23.0.0
  */
 class ParameterDoesNotExistException extends \Exception {
-
 	/**
 	 * @since 23.0.0
 	 */

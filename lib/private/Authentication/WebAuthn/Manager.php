@@ -56,7 +56,6 @@ use Webauthn\PublicKeyCredentialUserEntity;
 use Webauthn\TokenBinding\TokenBindingNotSupportedHandler;
 
 class Manager {
-
 	/** @var CredentialRepository */
 	private $repository;
 
@@ -92,7 +91,7 @@ class Manager {
 			$user->getUID(),                              //Name
 			$user->getUID(),                              //ID
 			$user->getDisplayName()                      //Display name
-//            'https://foo.example.co/avatar/123e4567-e89b-12d3-a456-426655440000' //Icon
+			//            'https://foo.example.co/avatar/123e4567-e89b-12d3-a456-426655440000' //Icon
 		);
 
 		$challenge = random_bytes(32);
@@ -145,6 +144,7 @@ class Manager {
 			$tokenBindingHandler,
 			$extensionOutputCheckerHandler
 		);
+		$authenticatorAttestationResponseValidator->setLogger($this->logger);
 
 		try {
 			// Load the data
@@ -212,7 +212,9 @@ class Manager {
 			$this->repository,
 			$tokenBindingHandler,
 			$extensionOutputCheckerHandler,
-			$algorithmManager
+			$algorithmManager,
+			null,
+			$this->logger,
 		);
 
 		try {

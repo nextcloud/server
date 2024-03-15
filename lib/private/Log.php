@@ -39,14 +39,17 @@ namespace OC;
 use Exception;
 use Nextcloud\LogNormalizer\Normalizer;
 use OC\AppFramework\Bootstrap\Coordinator;
-use OCP\Log\IDataLogger;
-use Throwable;
-use function array_merge;
 use OC\Log\ExceptionSerializer;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\ILogger;
+use OCP\IUserSession;
+use OCP\Log\BeforeMessageLoggedEvent;
+use OCP\Log\IDataLogger;
 use OCP\Log\IFileBased;
 use OCP\Log\IWriter;
 use OCP\Support\CrashReport\IRegistry;
+use Throwable;
+use function array_merge;
 use function strtr;
 
 /**
@@ -59,42 +62,39 @@ use function strtr;
  * MonoLog is an example implementing this interface.
  */
 class Log implements ILogger, IDataLogger {
-
-	/** @var IWriter */
-	private $logger;
-
-	/** @var SystemConfig */
-	private $config;
-
-	/** @var boolean|null cache the result of the log condition check for the request */
-	private $logConditionSatisfied = null;
-
-	/** @var Normalizer */
-	private $normalizer;
-
-	/** @var IRegistry */
-	private $crashReporters;
+	private ?SystemConfig $config;
+	private ?bool $logConditionSatisfied = null;
+	private ?Normalizer $normalizer;
+	private ?IEventDispatcher $eventDispatcher;
 
 	/**
 	 * @param IWriter $logger The logger that should be used
-	 * @param SystemConfig $config the system config object
+	 * @param SystemConfig|null $config the system config object
 	 * @param Normalizer|null $normalizer
-	 * @param IRegistry|null $registry
+	 * @param IRegistry|null $crashReporters
 	 */
-	public function __construct(IWriter $logger, SystemConfig $config = null, $normalizer = null, IRegistry $registry = null) {
+	public function __construct(
+		private IWriter $logger,
+		SystemConfig $config = null,
+		Normalizer $normalizer = null,
+		private	?IRegistry $crashReporters = null
+	) {
 		// FIXME: Add this for backwards compatibility, should be fixed at some point probably
 		if ($config === null) {
 			$config = \OC::$server->getSystemConfig();
 		}
 
 		$this->config = $config;
-		$this->logger = $logger;
 		if ($normalizer === null) {
 			$this->normalizer = new Normalizer();
 		} else {
 			$this->normalizer = $normalizer;
 		}
-		$this->crashReporters = $registry;
+		$this->eventDispatcher = null;
+	}
+
+	public function setEventDispatcher(IEventDispatcher $eventDispatcher) {
+		$this->eventDispatcher = $eventDispatcher;
 	}
 
 	/**
@@ -207,11 +207,24 @@ class Log implements ILogger, IDataLogger {
 	 */
 	public function log(int $level, string $message, array $context = []) {
 		$minLevel = $this->getLogLevel($context);
+		if ($level < $minLevel
+			&& (($this->crashReporters?->hasReporters() ?? false) === false)
+			&& (($this->eventDispatcher?->hasListeners(BeforeMessageLoggedEvent::class) ?? false) === false)) {
+			return; // no crash reporter, no listeners, we can stop for lower log level
+		}
 
 		array_walk($context, [$this->normalizer, 'format']);
 
 		$app = $context['app'] ?? 'no app in context';
 		$entry = $this->interpolateMessage($context, $message);
+
+		$this->eventDispatcher?->dispatchTyped(new BeforeMessageLoggedEvent($app, $level, $entry));
+
+		$hasBacktrace = isset($entry['exception']);
+		$logBacktrace = $this->config->getValue('log.backtrace', false);
+		if (!$hasBacktrace && $logBacktrace) {
+			$entry['backtrace'] = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+		}
 
 		try {
 			if ($level >= $minLevel) {
@@ -227,9 +240,7 @@ class Log implements ILogger, IDataLogger {
 					$this->crashReporters->delegateMessage($entry['message'], $messageContext);
 				}
 			} else {
-				if ($this->crashReporters !== null) {
-					$this->crashReporters->delegateBreadcrumb($entry['message'], 'log', $context);
-				}
+				$this->crashReporters?->delegateBreadcrumb($entry['message'], 'log', $context);
 			}
 		} catch (Throwable $e) {
 			// make sure we dont hard crash if logging fails
@@ -247,14 +258,13 @@ class Log implements ILogger, IDataLogger {
 			// default to false to just process this once per request
 			$this->logConditionSatisfied = false;
 			if (!empty($logCondition)) {
-
 				// check for secret token in the request
 				if (isset($logCondition['shared_secret'])) {
 					$request = \OC::$server->getRequest();
 
 					if ($request->getMethod() === 'PUT' &&
-						strpos($request->getHeader('Content-Type'), 'application/x-www-form-urlencoded') === false &&
-						strpos($request->getHeader('Content-Type'), 'application/json') === false) {
+						!str_contains($request->getHeader('Content-Type'), 'application/x-www-form-urlencoded') &&
+						!str_contains($request->getHeader('Content-Type'), 'application/json')) {
 						$logSecretRequest = '';
 					} else {
 						$logSecretRequest = $request->getParam('log_secret', '');
@@ -268,10 +278,13 @@ class Log implements ILogger, IDataLogger {
 
 				// check for user
 				if (isset($logCondition['users'])) {
-					$user = \OC::$server->getUserSession()->getUser();
+					$user = \OCP\Server::get(IUserSession::class)->getUser();
 
-					// if the user matches set the log condition to satisfied
-					if ($user !== null && in_array($user->getUID(), $logCondition['users'], true)) {
+					if ($user === null) {
+						// User is not known for this request yet
+						$this->logConditionSatisfied = null;
+					} elseif (in_array($user->getUID(), $logCondition['users'], true)) {
+						// if the user matches set the log condition to satisfied
 						$this->logConditionSatisfied = true;
 					}
 				}
@@ -312,6 +325,13 @@ class Log implements ILogger, IDataLogger {
 		$app = $context['app'] ?? 'no app in context';
 		$level = $context['level'] ?? ILogger::ERROR;
 
+		$minLevel = $this->getLogLevel($context);
+		if ($level < $minLevel
+			&& (($this->crashReporters?->hasReporters() ?? false) === false)
+			&& (($this->eventDispatcher?->hasListeners(BeforeMessageLoggedEvent::class) ?? false) === false)) {
+			return; // no crash reporter, no listeners, we can stop for lower log level
+		}
+
 		// if an error is raised before the autoloader is properly setup, we can't serialize exceptions
 		try {
 			$serializer = $this->getSerializer();
@@ -323,11 +343,11 @@ class Log implements ILogger, IDataLogger {
 		unset($data['app']);
 		unset($data['level']);
 		$data = array_merge($serializer->serializeException($exception), $data);
-		$data = $this->interpolateMessage($data, $context['message'] ?? '--', 'CustomMessage');
-
-		$minLevel = $this->getLogLevel($context);
+		$data = $this->interpolateMessage($data, isset($context['message']) && $context['message'] !== '' ? $context['message'] : ('Exception thrown: ' . get_class($exception)), 'CustomMessage');
 
 		array_walk($context, [$this->normalizer, 'format']);
+
+		$this->eventDispatcher?->dispatchTyped(new BeforeMessageLoggedEvent($app, $level, $data));
 
 		try {
 			if ($level >= $minLevel) {
@@ -366,6 +386,7 @@ class Log implements ILogger, IDataLogger {
 			$context['level'] = $level;
 		} catch (Throwable $e) {
 			// make sure we dont hard crash if logging fails
+			error_log('Error when trying to log exception: ' . $e->getMessage() . ' ' . $e->getTraceAsString());
 		}
 	}
 
@@ -398,7 +419,7 @@ class Log implements ILogger, IDataLogger {
 		foreach ($context as $key => $val) {
 			$fullKey = '{' . $key . '}';
 			$replace[$fullKey] = $val;
-			if (strpos($message, $fullKey) !== false) {
+			if (str_contains($message, $fullKey)) {
 				$usedContextKeys[$key] = true;
 			}
 		}

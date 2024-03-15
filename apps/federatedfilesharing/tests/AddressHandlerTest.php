@@ -30,6 +30,8 @@ namespace OCA\FederatedFileSharing\Tests;
 use OC\Federation\CloudIdManager;
 use OCA\FederatedFileSharing\AddressHandler;
 use OCP\Contacts\IManager;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\ICacheFactory;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
@@ -60,7 +62,13 @@ class AddressHandlerTest extends \Test\TestCase {
 
 		$this->contactsManager = $this->createMock(IManager::class);
 
-		$this->cloudIdManager = new CloudIdManager($this->contactsManager, $this->urlGenerator, $this->createMock(IUserManager::class));
+		$this->cloudIdManager = new CloudIdManager(
+			$this->contactsManager,
+			$this->urlGenerator,
+			$this->createMock(IUserManager::class),
+			$this->createMock(ICacheFactory::class),
+			$this->createMock(IEventDispatcher::class)
+		);
 
 		$this->addressHandler = new AddressHandler($this->urlGenerator, $this->il10n, $this->cloudIdManager);
 	}

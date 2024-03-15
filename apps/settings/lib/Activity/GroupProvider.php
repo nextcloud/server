@@ -30,7 +30,6 @@ use OCP\Activity\IProvider;
 use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IURLGenerator;
-use OCP\IUser;
 use OCP\IUserManager;
 use OCP\L10N\IFactory as L10nFactory;
 
@@ -51,15 +50,13 @@ class GroupProvider implements IProvider {
 
 	/** @var string[] */
 	protected $groupDisplayNames = [];
-	/** @var string[] */
-	protected $userDisplayNames = [];
 
 
 	public function __construct(L10nFactory $l10n,
-								IURLGenerator $urlGenerator,
-								IManager $activityManager,
-								IUserManager $userManager,
-								IGroupManager $groupManager) {
+		IURLGenerator $urlGenerator,
+		IManager $activityManager,
+		IUserManager $userManager,
+		IGroupManager $groupManager) {
 		$this->urlGenerator = $urlGenerator;
 		$this->l10n = $l10n;
 		$this->activityManager = $activityManager;
@@ -125,20 +122,10 @@ class GroupProvider implements IProvider {
 	}
 
 	/**
-	 * @param IEvent $event
-	 * @param string $subject
-	 * @param array $parameters
 	 * @throws \InvalidArgumentException
 	 */
 	protected function setSubjects(IEvent $event, string $subject, array $parameters): void {
-		$placeholders = $replacements = [];
-		foreach ($parameters as $placeholder => $parameter) {
-			$placeholders[] = '{' . $placeholder . '}';
-			$replacements[] = $parameter['name'];
-		}
-
-		$event->setParsedSubject(str_replace($placeholders, $replacements, $subject))
-			->setRichSubject($subject, $parameters);
+		$event->setRichSubject($subject, $parameters);
 	}
 
 	/**
@@ -169,32 +156,11 @@ class GroupProvider implements IProvider {
 		return $gid;
 	}
 
-	/**
-	 * @param string $uid
-	 * @return array
-	 */
 	protected function generateUserParameter(string $uid): array {
-		if (!isset($this->displayNames[$uid])) {
-			$this->userDisplayNames[$uid] = $this->getDisplayName($uid);
-		}
-
 		return [
 			'type' => 'user',
 			'id' => $uid,
-			'name' => $this->userDisplayNames[$uid],
+			'name' => $this->userManager->getDisplayName($uid) ?? $uid,
 		];
-	}
-
-	/**
-	 * @param string $uid
-	 * @return string
-	 */
-	protected function getDisplayName(string $uid): string {
-		$user = $this->userManager->get($uid);
-		if ($user instanceof IUser) {
-			return $user->getDisplayName();
-		} else {
-			return $uid;
-		}
 	}
 }

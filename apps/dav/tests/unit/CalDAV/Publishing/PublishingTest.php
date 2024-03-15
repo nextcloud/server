@@ -77,7 +77,7 @@ class PublishingTest extends TestCase {
 		$this->plugin->initialize($this->server);
 	}
 
-	public function testPublishing() {
+	public function testPublishing(): void {
 		$this->book->expects($this->once())->method('setPublishStatus')->with(true);
 
 		// setup request
@@ -88,7 +88,7 @@ class PublishingTest extends TestCase {
 		$this->plugin->httpPost($request, $response);
 	}
 
-	public function testUnPublishing() {
+	public function testUnPublishing(): void {
 		$this->book->expects($this->once())->method('setPublishStatus')->with(false);
 
 		// setup request

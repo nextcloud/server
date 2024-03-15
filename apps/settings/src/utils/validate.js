@@ -26,19 +26,7 @@
  * TODO add nice validation errors for Profile page settings modal
  */
 
-import { VALIDATE_EMAIL_REGEX } from '../constants/AccountPropertyConstants'
-
-/**
- * Validate the string input
- *
- * Generic validator just to check that input is not an empty string*
- *
- * @param {string} input the input
- * @return {boolean}
- */
-export function validateStringInput(input) {
-	return input !== ''
-}
+import { VALIDATE_EMAIL_REGEX } from '../constants/AccountPropertyConstants.js'
 
 /**
  * Validate the email input
@@ -59,12 +47,40 @@ export function validateEmail(input) {
 }
 
 /**
+ * Validate the URL input
+ *
+ * @param {string} input the input
+ * @return {boolean}
+ */
+export function validateUrl(input) {
+	try {
+		// eslint-disable-next-line no-new
+		new URL(input)
+		return true
+	} catch (e) {
+		return false
+	}
+}
+
+/**
  * Validate the language input
  *
  * @param {object} input the input
  * @return {boolean}
  */
 export function validateLanguage(input) {
+	return input.code !== ''
+		&& input.name !== ''
+		&& input.name !== undefined
+}
+
+/**
+ * Validate the locale input
+ *
+ * @param {object} input the input
+ * @return {boolean}
+ */
+export function validateLocale(input) {
 	return input.code !== ''
 		&& input.name !== ''
 		&& input.name !== undefined

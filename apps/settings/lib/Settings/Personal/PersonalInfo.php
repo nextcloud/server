@@ -36,6 +36,7 @@ declare(strict_types=1);
 
 namespace OCA\Settings\Settings\Personal;
 
+use OC\Profile\ProfileManager;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCP\Accounts\IAccount;
 use OCP\Accounts\IAccountManager;
@@ -51,7 +52,6 @@ use OCP\IL10N;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
-use OC\Profile\ProfileManager;
 use OCP\Notification\IManager;
 use OCP\Settings\ISettings;
 
@@ -135,45 +135,32 @@ class PersonalInfo implements ISettings {
 			$totalSpace = \OC_Helper::humanFileSize($storageInfo['total']);
 		}
 
-		$languageParameters = $this->getLanguageMap($user);
-		$localeParameters = $this->getLocales($user);
 		$messageParameters = $this->getMessageParameters($account);
 
 		$parameters = [
-			'total_space' => $totalSpace,
-			'usage' => \OC_Helper::humanFileSize($storageInfo['used']),
-			'usage_relative' => round($storageInfo['relative']),
-			'quota' => $storageInfo['quota'],
-			'avatarChangeSupported' => $user->canChangeAvatar(),
-			'federationEnabled' => $federationEnabled,
 			'lookupServerUploadEnabled' => $lookupServerUploadEnabled,
-			'avatarScope' => $account->getProperty(IAccountManager::PROPERTY_AVATAR)->getScope(),
-			'displayNameChangeSupported' => $user->canChangeDisplayName(),
-			'displayName' => $account->getProperty(IAccountManager::PROPERTY_DISPLAYNAME)->getValue(),
-			'displayNameScope' => $account->getProperty(IAccountManager::PROPERTY_DISPLAYNAME)->getScope(),
-			'email' => $account->getProperty(IAccountManager::PROPERTY_EMAIL)->getValue(),
-			'emailScope' => $account->getProperty(IAccountManager::PROPERTY_EMAIL)->getScope(),
-			'emailVerification' => $account->getProperty(IAccountManager::PROPERTY_EMAIL)->getVerified(),
-			'phone' => $account->getProperty(IAccountManager::PROPERTY_PHONE)->getValue(),
-			'phoneScope' => $account->getProperty(IAccountManager::PROPERTY_PHONE)->getScope(),
-			'address' => $account->getProperty(IAccountManager::PROPERTY_ADDRESS)->getValue(),
-			'addressScope' => $account->getProperty(IAccountManager::PROPERTY_ADDRESS)->getScope(),
-			'website' => $account->getProperty(IAccountManager::PROPERTY_WEBSITE)->getValue(),
-			'websiteScope' => $account->getProperty(IAccountManager::PROPERTY_WEBSITE)->getScope(),
-			'websiteVerification' => $account->getProperty(IAccountManager::PROPERTY_WEBSITE)->getVerified(),
-			'twitter' => $account->getProperty(IAccountManager::PROPERTY_TWITTER)->getValue(),
-			'twitterScope' => $account->getProperty(IAccountManager::PROPERTY_TWITTER)->getScope(),
-			'twitterVerification' => $account->getProperty(IAccountManager::PROPERTY_TWITTER)->getVerified(),
-			'groups' => $this->getGroups($user),
 			'isFairUseOfFreePushService' => $this->isFairUseOfFreePushService(),
 			'profileEnabledGlobally' => $this->profileManager->isProfileEnabled(),
-		] + $messageParameters + $languageParameters + $localeParameters;
+		] + $messageParameters;
 
 		$personalInfoParameters = [
 			'userId' => $uid,
+			'avatar' => $this->getProperty($account, IAccountManager::PROPERTY_AVATAR),
+			'groups' => $this->getGroups($user),
+			'quota' => $storageInfo['quota'],
+			'totalSpace' => $totalSpace,
+			'usage' => \OC_Helper::humanFileSize($storageInfo['used']),
+			'usageRelative' => round($storageInfo['relative']),
 			'displayName' => $this->getProperty($account, IAccountManager::PROPERTY_DISPLAYNAME),
 			'emailMap' => $this->getEmailMap($account),
+			'phone' => $this->getProperty($account, IAccountManager::PROPERTY_PHONE),
+			'defaultPhoneRegion' => $this->config->getSystemValueString('default_phone_region'),
+			'location' => $this->getProperty($account, IAccountManager::PROPERTY_ADDRESS),
+			'website' => $this->getProperty($account, IAccountManager::PROPERTY_WEBSITE),
+			'twitter' => $this->getProperty($account, IAccountManager::PROPERTY_TWITTER),
+			'fediverse' => $this->getProperty($account, IAccountManager::PROPERTY_FEDIVERSE),
 			'languageMap' => $this->getLanguageMap($user),
+			'localeMap' => $this->getLocaleMap($user),
 			'profileEnabledGlobally' => $this->profileManager->isProfileEnabled(),
 			'profileEnabled' => $this->profileManager->isProfileEnabled($user),
 			'organisation' => $this->getProperty($account, IAccountManager::PROPERTY_ORGANISATION),
@@ -183,7 +170,9 @@ class PersonalInfo implements ISettings {
 		];
 
 		$accountParameters = [
+			'avatarChangeSupported' => $user->canChangeAvatar(),
 			'displayNameChangeSupported' => $user->canChangeDisplayName(),
+			'federationEnabled' => $federationEnabled,
 			'lookupServerUploadEnabled' => $lookupServerUploadEnabled,
 		];
 
@@ -213,6 +202,7 @@ class PersonalInfo implements ISettings {
 	 */
 	private function getProperty(IAccount $account, string $property): array {
 		$property = [
+			'name' => $account->getProperty($property)->getName(),
 			'value' => $account->getProperty($property)->getValue(),
 			'scope' => $account->getProperty($property)->getScope(),
 			'verified' => $account->getProperty($property)->getVerified(),
@@ -262,6 +252,7 @@ class PersonalInfo implements ISettings {
 	 */
 	private function getEmailMap(IAccount $account): array {
 		$systemEmail = [
+			'name' => $account->getProperty(IAccountManager::PROPERTY_EMAIL)->getName(),
 			'value' => $account->getProperty(IAccountManager::PROPERTY_EMAIL)->getValue(),
 			'scope' => $account->getProperty(IAccountManager::PROPERTY_EMAIL)->getScope(),
 			'verified' => $account->getProperty(IAccountManager::PROPERTY_EMAIL)->getVerified(),
@@ -270,6 +261,7 @@ class PersonalInfo implements ISettings {
 		$additionalEmails = array_map(
 			function (IAccountProperty $property) {
 				return [
+					'name' => $property->getName(),
 					'value' => $property->getValue(),
 					'scope' => $property->getScope(),
 					'verified' => $property->getVerified(),
@@ -325,31 +317,24 @@ class PersonalInfo implements ISettings {
 		);
 	}
 
-	private function getLocales(IUser $user): array {
+	private function getLocaleMap(IUser $user): array {
 		$forceLanguage = $this->config->getSystemValue('force_locale', false);
 		if ($forceLanguage !== false) {
 			return [];
 		}
 
 		$uid = $user->getUID();
-
 		$userLocaleString = $this->config->getUserValue($uid, 'core', 'locale', $this->l10nFactory->findLocale());
-
 		$userLang = $this->config->getUserValue($uid, 'core', 'lang', $this->l10nFactory->findLanguage());
-
 		$localeCodes = $this->l10nFactory->findAvailableLocales();
-
-		$userLocale = array_filter($localeCodes, function ($value) use ($userLocaleString) {
-			return $userLocaleString === $value['code'];
-		});
+		$userLocale = array_filter($localeCodes, fn ($value) => $userLocaleString === $value['code']);
 
 		if (!empty($userLocale)) {
 			$userLocale = reset($userLocale);
 		}
 
-		$localesForLanguage = array_filter($localeCodes, function ($localeCode) use ($userLang) {
-			return 0 === strpos($localeCode['code'], $userLang);
-		});
+		$localesForLanguage = array_values(array_filter($localeCodes, fn ($localeCode) => str_starts_with($localeCode['code'], $userLang)));
+		$otherLocales = array_values(array_filter($localeCodes, fn ($localeCode) => !str_starts_with($localeCode['code'], $userLang)));
 
 		if (!$userLocale) {
 			$userLocale = [
@@ -359,10 +344,10 @@ class PersonalInfo implements ISettings {
 		}
 
 		return [
-			'activelocaleLang' => $userLocaleString,
-			'activelocale' => $userLocale,
-			'locales' => $localeCodes,
+			'activeLocaleLang' => $userLocaleString,
+			'activeLocale' => $userLocale,
 			'localesForLanguage' => $localesForLanguage,
+			'otherLocales' => $otherLocales,
 		];
 	}
 

@@ -31,7 +31,6 @@ use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class ManagerTest extends TestCase {
-
 	/** @var LoggerInterface */
 	protected $logger;
 	/** @var IProviderManager */

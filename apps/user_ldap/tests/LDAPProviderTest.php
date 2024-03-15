@@ -39,7 +39,6 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IServerContainer;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Class LDAPProviderTest
@@ -76,7 +75,6 @@ class LDAPProviderTest extends \Test\TestCase {
 			->setMethods(['getBackends'])
 			->setConstructorArgs([
 				$this->createMock(IConfig::class),
-				$this->createMock(EventDispatcherInterface::class),
 				$this->createMock(ICacheFactory::class),
 				$this->createMock(IEventDispatcher::class),
 			])

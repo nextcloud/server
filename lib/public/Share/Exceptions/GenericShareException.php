@@ -32,7 +32,6 @@ use OCP\HintException;
  * @since 9.0.0
  */
 class GenericShareException extends HintException {
-
 	/**
 	 * @param string $message
 	 * @param string $hint

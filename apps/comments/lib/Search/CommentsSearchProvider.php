@@ -39,39 +39,22 @@ use function array_map;
 use function pathinfo;
 
 class CommentsSearchProvider implements IProvider {
-
-	private IUserManager $userManager;
-	private IL10N $l10n;
-	private IURLGenerator $urlGenerator;
-	private LegacyProvider $legacyProvider;
-
-	public function __construct(IUserManager $userManager,
-								IL10N $l10n,
-								IURLGenerator $urlGenerator,
-								LegacyProvider $legacyProvider) {
-		$this->userManager = $userManager;
-		$this->l10n = $l10n;
-		$this->urlGenerator = $urlGenerator;
-		$this->legacyProvider = $legacyProvider;
+	public function __construct(
+		private IUserManager $userManager,
+		private IL10N $l10n,
+		private IURLGenerator $urlGenerator,
+		private LegacyProvider $legacyProvider,
+	) {
 	}
 
-	/**
-	 * @inheritDoc
-	 */
 	public function getId(): string {
 		return 'comments';
 	}
 
-	/**
-	 * @inheritDoc
-	 */
 	public function getName(): string {
 		return $this->l10n->t('Comments');
 	}
 
-	/**
-	 * @inheritDoc
-	 */
 	public function getOrder(string $route, array $routeParameters): int {
 		if ($route === 'files.View.index') {
 			// Files first
@@ -80,9 +63,6 @@ class CommentsSearchProvider implements IProvider {
 		return 10;
 	}
 
-	/**
-	 * @inheritDoc
-	 */
 	public function search(IUser $user, ISearchQuery $query): SearchResult {
 		return SearchResult::complete(
 			$this->l10n->t('Comments'),
@@ -97,7 +77,7 @@ class CommentsSearchProvider implements IProvider {
 					$avatarUrl,
 					$result->name,
 					$path,
-					$this->urlGenerator->linkToRouteAbsolute('files.view.index',[
+					$this->urlGenerator->linkToRouteAbsolute('files.view.index', [
 						'dir' => $pathInfo['dirname'],
 						'scrollto' => $pathInfo['basename'],
 					]),

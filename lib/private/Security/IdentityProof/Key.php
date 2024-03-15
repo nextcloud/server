@@ -27,18 +27,10 @@ declare(strict_types=1);
 namespace OC\Security\IdentityProof;
 
 class Key {
-	/** @var string */
-	private $publicKey;
-	/** @var string */
-	private $privateKey;
-
-	/**
-	 * @param string $publicKey
-	 * @param string $privateKey
-	 */
-	public function __construct(string $publicKey, string $privateKey) {
-		$this->publicKey = $publicKey;
-		$this->privateKey = $privateKey;
+	public function __construct(
+		private string $publicKey,
+		private string $privateKey,
+	) {
 	}
 
 	public function getPrivate(): string {

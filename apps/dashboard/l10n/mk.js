@@ -3,11 +3,10 @@ OC.L10N.register(
     {
     "Dashboard" : "Табла",
     "Dashboard app" : "Табла",
-    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an\noverview of your upcoming appointments, urgent emails, chat messages,\nincoming tickets, latest tweets and much more! Users can add the widgets\nthey like and change the background to their liking." : "Започнете го денот информирано\n\nКонтролната табла на Nextcloud е вашата почетна точка на денот, што\nви дава преглед на вашите претстојни состаноци, итни е-пошта, пораки\nза разговор, дојдовни билети, најнови твитови и многу повеќе!\nКорисниците можат да додадат виџети им се допаѓа и ја менуваат\nпозадината по нивен вкус.",
+    "\"{title} icon\"" : "\"{title} икона\"",
     "Customize" : "Прилагоди",
     "Edit widgets" : "Уреди графички контроли",
     "Get more widgets from the App Store" : "Преземи повеќе графички контроли од продавницата со апликации",
-    "Change background image" : "Промени ја позадинската слика",
     "Weather service" : "Сервис за временска прогноза",
     "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "За ваша приватност, податоците за времето ги бара вашиот сервер во ваше име, така што метеоролошката служба не добива лични информации.",
     "Weather data from Met.no" : "Податоци за временето од Met.no",
@@ -23,10 +22,7 @@ OC.L10N.register(
     "Good evening, {name}" : "Добровечер, {name}",
     "Hello" : "Здраво",
     "Hello, {name}" : "Здраво, {name}",
-    "Pick from Files" : "Избери од датотеките",
-    "Plain background" : "Обична позадина",
-    "Insert from {productName}" : "Вметнни од {productName}",
-    "Show something" : "Прикажи нешто",
-    "Default images" : "Стандардни слики"
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an\noverview of your upcoming appointments, urgent emails, chat messages,\nincoming tickets, latest tweets and much more! Users can add the widgets\nthey like and change the background to their liking." : "Започнете го денот информирано\n\nКонтролната табла на Nextcloud е вашата почетна точка на денот, што\nви дава преглед на вашите претстојни состаноци, итни е-пошта, пораки\nза разговор, дојдовни билети, најнови твитови и многу повеќе!\nКорисниците можат да додадат виџети им се допаѓа и ја менуваат\nпозадината по нивен вкус.",
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! Users can add the widgets they like and change the background to their liking." : "Започнете го денот информирано\n\nКонтролната табла на Nextcloud е вашата почетна точка на денот, што ви дава преглед на вашите претстојни состаноци, итни е-пошта, пораки за разговор, дојдовни билети, најнови твитови и многу повеќе! Корисниците можат да додадат виџети им се допаѓа и ја менуваат позадината по нивен вкус."
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

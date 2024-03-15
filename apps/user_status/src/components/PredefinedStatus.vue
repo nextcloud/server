@@ -19,25 +19,29 @@
   -
   -->
 <template>
-	<div class="predefined-status"
-		tabindex="0"
-		@keyup.enter="select"
-		@keyup.space="select"
-		@click="select">
-		<span class="predefined-status__icon">
-			{{ icon }}
-		</span>
-		<span class="predefined-status__message">
-			{{ message }}
-		</span>
-		<span class="predefined-status__clear-at">
-			{{ clearAt | clearAtFilter }}
-		</span>
-	</div>
+	<li class="predefined-status">
+		<input :id="id"
+			class="hidden-visually predefined-status__input"
+			type="radio"
+			name="predefined-status"
+			:checked="selected"
+			@change="select">
+		<label class="predefined-status__label" :for="id">
+			<span aria-hidden="true" class="predefined-status__label--icon">
+				{{ icon }}
+			</span>
+			<span class="predefined-status__label--message">
+				{{ message }}
+			</span>
+			<span class="predefined-status__label--clear-at">
+				{{ clearAt | clearAtFilter }}
+			</span>
+		</label>
+	</li>
 </template>
 
 <script>
-import { clearAtFilter } from '../filters/clearAtFilter'
+import { clearAtFilter } from '../filters/clearAtFilter.js'
 
 export default {
 	name: 'PredefinedStatus',
@@ -62,6 +66,16 @@ export default {
 			required: false,
 			default: null,
 		},
+		selected: {
+			type: Boolean,
+			required: false,
+			default: false,
+		},
+	},
+	computed: {
+		id() {
+			return `user-status-predefined-status-${this.messageId}`
+		},
 	},
 	methods: {
 		/**
@@ -76,35 +90,44 @@ export default {
 
 <style lang="scss" scoped>
 .predefined-status {
-	display: flex;
-	flex-wrap: nowrap;
-	justify-content: flex-start;
-	flex-basis: 100%;
-	border-radius: var(--border-radius);
-	align-items: center;
-	min-height: 44px;
+	&__label {
+		display: flex;
+		flex-wrap: nowrap;
+		justify-content: flex-start;
+		flex-basis: 100%;
+		border-radius: var(--border-radius);
+		align-items: center;
+		min-height: 44px;
 
-	&:hover,
-	&:focus {
-		background-color: var(--color-background-hover);
-	}
-
-	&__icon {
-		flex-basis: 40px;
-		text-align: center;
-	}
-
-	&__message {
-		font-weight: bold;
-		padding: 0 6px;
-	}
-
-	&__clear-at {
-		opacity: .7;
-
-		&::before {
-			content: ' – ';
+		&--icon {
+			flex-basis: 40px;
+			text-align: center;
 		}
+
+		&--message {
+			font-weight: bold;
+			padding: 0 6px;
+		}
+
+		&--clear-at {
+			color: var(--color-text-maxcontrast);
+
+			&::before {
+				content: ' – ';
+			}
+		}
+	}
+
+	&__input:checked + &__label,
+	&__label:active {
+		outline: 2px solid var(--color-main-text);
+		box-shadow: 0 0 0 4px var(--color-main-background);
+		border-radius: var(--border-radius-large);
+	}
+
+	&__input:focus-visible + &__label {
+		outline: 2px solid var(--color-primary-element) !important;
+		border-radius: var(--border-radius-large);
 	}
 }
 </style>

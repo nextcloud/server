@@ -84,6 +84,7 @@ class PublicCalendarRootTest extends TestCase {
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$dispatcher = $this->createMock(IEventDispatcher::class);
 		$config = $this->createMock(IConfig::class);
+		$sharingBackend = $this->createMock(\OCA\DAV\CalDAV\Sharing\Backend::class);
 
 		$this->principal->expects($this->any())->method('getGroupMembership')
 			->withAnyParameters()
@@ -97,11 +98,12 @@ class PublicCalendarRootTest extends TestCase {
 			$db,
 			$this->principal,
 			$this->userManager,
-			$this->groupManager,
 			$this->random,
 			$this->logger,
 			$dispatcher,
-			$config
+			$config,
+			$sharingBackend,
+			false,
 		);
 		$this->l10n = $this->getMockBuilder(IL10N::class)
 			->disableOriginalConstructor()->getMock();
@@ -131,12 +133,12 @@ class PublicCalendarRootTest extends TestCase {
 		}
 	}
 
-	public function testGetName() {
+	public function testGetName(): void {
 		$name = $this->publicCalendarRoot->getName();
 		$this->assertEquals('public-calendars', $name);
 	}
 
-	public function testGetChild() {
+	public function testGetChild(): void {
 		$calendar = $this->createPublicCalendar();
 
 		$publicCalendars = $this->backend->getPublicCalendars();
@@ -149,7 +151,7 @@ class PublicCalendarRootTest extends TestCase {
 		$this->assertEquals($calendar, $calendarResult);
 	}
 
-	public function testGetChildren() {
+	public function testGetChildren(): void {
 		$this->createPublicCalendar();
 		$calendarResults = $this->publicCalendarRoot->getChildren();
 		$this->assertSame([], $calendarResults);

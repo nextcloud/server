@@ -29,7 +29,6 @@ use JsonSerializable;
  * @since 12.0
  */
 interface IEntry extends JsonSerializable {
-
 	/**
 	 * @since 12.0
 	 * @return string
@@ -53,6 +52,20 @@ interface IEntry extends JsonSerializable {
 	 * @param IAction $action an action to show in the contacts menu
 	 */
 	public function addAction(IAction $action): void;
+
+	/**
+	 * Set the (system) contact's user status
+	 *
+	 * @since 28.0
+	 * @param string $status
+	 * @param string $statusMessage
+	 * @param string|null $icon
+	 * @return void
+	 */
+	public function setStatus(string $status,
+		string $statusMessage = null,
+		int $statusMessageTimestamp = null,
+		string $icon = null): void;
 
 	/**
 	 * Get an arbitrary property from the contact

@@ -31,7 +31,6 @@ use OCP\Util;
  * @since 14.0.0
  */
 class LinkMenuAction extends SimpleMenuAction {
-
 	/**
 	 * LinkMenuAction constructor.
 	 *

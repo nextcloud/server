@@ -37,6 +37,8 @@ use OCP\Security\ICrypto;
  */
 class DBConfigService {
 	public const MOUNT_TYPE_ADMIN = 1;
+	public const MOUNT_TYPE_PERSONAL = 2;
+	/** @deprecated use MOUNT_TYPE_PERSONAL (full uppercase) instead */
 	public const MOUNT_TYPE_PERSONAl = 2;
 
 	public const APPLICABLE_TYPE_GLOBAL = 1;
@@ -64,11 +66,7 @@ class DBConfigService {
 		$this->crypto = $crypto;
 	}
 
-	/**
-	 * @param int $mountId
-	 * @return array
-	 */
-	public function getMountById($mountId) {
+	public function getMountById(int $mountId): ?array {
 		$builder = $this->connection->getQueryBuilder();
 		$query = $builder->select(['mount_id', 'mount_point', 'storage_backend', 'auth_backend', 'priority', 'type'])
 			->from('external_mounts', 'm')
@@ -238,7 +236,7 @@ class DBConfigService {
 	public function getUserMountsFor($type, $value) {
 		$builder = $this->connection->getQueryBuilder();
 		$query = $this->getForQuery($builder, $type, $value);
-		$query->andWhere($builder->expr()->eq('m.type', $builder->expr()->literal(self::MOUNT_TYPE_PERSONAl, IQueryBuilder::PARAM_INT)));
+		$query->andWhere($builder->expr()->eq('m.type', $builder->expr()->literal(self::MOUNT_TYPE_PERSONAL, IQueryBuilder::PARAM_INT)));
 
 		return $this->getMountsFromQuery($query);
 	}
@@ -281,14 +279,17 @@ class DBConfigService {
 			->where($builder->expr()->eq('mount_id', $builder->createNamedParameter($mountId, IQueryBuilder::PARAM_INT)));
 		$query->execute();
 
+		$builder = $this->connection->getQueryBuilder();
 		$query = $builder->delete('external_applicable')
 			->where($builder->expr()->eq('mount_id', $builder->createNamedParameter($mountId, IQueryBuilder::PARAM_INT)));
 		$query->execute();
 
+		$builder = $this->connection->getQueryBuilder();
 		$query = $builder->delete('external_config')
 			->where($builder->expr()->eq('mount_id', $builder->createNamedParameter($mountId, IQueryBuilder::PARAM_INT)));
 		$query->execute();
 
+		$builder = $this->connection->getQueryBuilder();
 		$query = $builder->delete('external_options')
 			->where($builder->expr()->eq('mount_id', $builder->createNamedParameter($mountId, IQueryBuilder::PARAM_INT)));
 		$query->execute();

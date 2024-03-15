@@ -31,7 +31,6 @@ use OCP\IUserManager;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class EmailLoginCommandTest extends ALoginCommandTest {
-
 	/** @var IUserManager|MockObject */
 	private $userManager;
 
@@ -55,7 +54,7 @@ class EmailLoginCommandTest extends ALoginCommandTest {
 
 	public function testProcessNotAnEmailLogin() {
 		$data = $this->getFailedLoginData();
-		$this->userManager->expects($this->once())
+		$this->userManager->expects($this->never())
 			->method('getByEmail')
 			->with($this->username)
 			->willReturn([]);
@@ -67,9 +66,10 @@ class EmailLoginCommandTest extends ALoginCommandTest {
 
 	public function testProcessDuplicateEmailLogin() {
 		$data = $this->getFailedLoginData();
+		$data->setUsername('user@example.com');
 		$this->userManager->expects($this->once())
 			->method('getByEmail')
-			->with($this->username)
+			->with('user@example.com')
 			->willReturn([
 				$this->createMock(IUser::class),
 				$this->createMock(IUser::class),

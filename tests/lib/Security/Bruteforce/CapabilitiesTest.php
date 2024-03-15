@@ -25,8 +25,8 @@ declare(strict_types=1);
 namespace Test\Security\Bruteforce;
 
 use OC\Security\Bruteforce\Capabilities;
-use OC\Security\Bruteforce\Throttler;
 use OCP\IRequest;
+use OCP\Security\Bruteforce\IThrottler;
 use Test\TestCase;
 
 class CapabilitiesTest extends TestCase {
@@ -36,7 +36,7 @@ class CapabilitiesTest extends TestCase {
 	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
 	private $request;
 
-	/** @var Throttler|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IThrottler|\PHPUnit\Framework\MockObject\MockObject */
 	private $throttler;
 
 	protected function setUp(): void {
@@ -44,7 +44,7 @@ class CapabilitiesTest extends TestCase {
 
 		$this->request = $this->createMock(IRequest::class);
 
-		$this->throttler = $this->createMock(Throttler::class);
+		$this->throttler = $this->createMock(IThrottler::class);
 
 		$this->capabilities = new Capabilities(
 			$this->request,
@@ -52,18 +52,24 @@ class CapabilitiesTest extends TestCase {
 		);
 	}
 
-	public function testGetCapabilities() {
+	public function testGetCapabilities(): void {
 		$this->throttler->expects($this->atLeastOnce())
 			->method('getDelay')
 			->with('10.10.10.10')
 			->willReturn(42);
+
+		$this->throttler->expects($this->atLeastOnce())
+			->method('isBypassListed')
+			->with('10.10.10.10')
+			->willReturn(true);
 
 		$this->request->method('getRemoteAddress')
 			->willReturn('10.10.10.10');
 
 		$expected = [
 			'bruteforce' => [
-				'delay' => 42
+				'delay' => 42,
+				'allow-listed' => true,
 			]
 		];
 		$result = $this->capabilities->getCapabilities();
@@ -71,7 +77,7 @@ class CapabilitiesTest extends TestCase {
 		$this->assertEquals($expected, $result);
 	}
 
-	public function testGetCapabilitiesOnCli() {
+	public function testGetCapabilitiesOnCli(): void {
 		$this->throttler->expects($this->atLeastOnce())
 			->method('getDelay')
 			->with('')
@@ -82,7 +88,8 @@ class CapabilitiesTest extends TestCase {
 
 		$expected = [
 			'bruteforce' => [
-				'delay' => 0
+				'delay' => 0,
+				'allow-listed' => false,
 			]
 		];
 		$result = $this->capabilities->getCapabilities();

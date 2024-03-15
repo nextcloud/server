@@ -27,6 +27,7 @@ declare(strict_types=1);
 namespace OC\Core\Controller;
 
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\Attribute\FrontpageRoute;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\IRequest;
 use OCP\ISearch;
@@ -34,24 +35,19 @@ use OCP\Search\Result;
 use Psr\Log\LoggerInterface;
 
 class SearchController extends Controller {
-	private ISearch $searcher;
-	private LoggerInterface $logger;
-
 	public function __construct(
 		string $appName,
 		IRequest $request,
-		ISearch $search,
-		LoggerInterface $logger
+		private ISearch $searcher,
+		private LoggerInterface $logger,
 	) {
 		parent::__construct($appName, $request);
-
-		$this->searcher = $search;
-		$this->logger = $logger;
 	}
 
 	/**
 	 * @NoAdminRequired
 	 */
+	#[FrontpageRoute(verb: 'GET', url: '/core/search')]
 	public function search(string $query, array $inApps = [], int $page = 1, int $size = 30): JSONResponse {
 		$results = $this->searcher->searchPaged($query, $inApps, $page, $size);
 

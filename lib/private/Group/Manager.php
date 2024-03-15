@@ -21,6 +21,7 @@
  * @author Vincent Petry <vincent@nextcloud.com>
  * @author Vinicius Cubas Brand <vinicius@eita.org.br>
  * @author voxsim "Simon Vocella"
+ * @author Carl Schwan <carl@carlschwan.eu>
  *
  * @license AGPL-3.0
  *
@@ -41,12 +42,17 @@ namespace OC\Group;
 
 use OC\Hooks\PublicEmitter;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Group\Backend\IBatchMethodsBackend;
+use OCP\Group\Backend\IGroupDetailsBackend;
+use OCP\Group\Events\BeforeGroupCreatedEvent;
+use OCP\Group\Events\GroupCreatedEvent;
 use OCP\GroupInterface;
+use OCP\ICacheFactory;
 use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IUser;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use function is_string;
 
 /**
  * Class Manager
@@ -69,25 +75,28 @@ class Manager extends PublicEmitter implements IGroupManager {
 
 	/** @var \OC\User\Manager */
 	private $userManager;
-	/** @var EventDispatcherInterface */
-	private $dispatcher;
+	private IEventDispatcher $dispatcher;
 	private LoggerInterface $logger;
 
-	/** @var \OC\Group\Group[] */
+	/** @var array<string, IGroup> */
 	private $cachedGroups = [];
 
-	/** @var (string[])[] */
+	/** @var array<string, list<string>> */
 	private $cachedUserGroups = [];
 
 	/** @var \OC\SubAdmin */
 	private $subAdmin = null;
 
+	private DisplayNameCache $displayNameCache;
+
 	public function __construct(\OC\User\Manager $userManager,
-								EventDispatcherInterface $dispatcher,
-								LoggerInterface $logger) {
+		IEventDispatcher $dispatcher,
+		LoggerInterface $logger,
+		ICacheFactory $cacheFactory) {
 		$this->userManager = $userManager;
 		$this->dispatcher = $dispatcher;
 		$this->logger = $logger;
+		$this->displayNameCache = new DisplayNameCache($cacheFactory, $this);
 
 		$cachedGroups = &$this->cachedGroups;
 		$cachedUserGroups = &$this->cachedUserGroups;
@@ -180,7 +189,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 			if ($backend->implementsActions(Backend::GROUP_DETAILS)) {
 				$groupData = $backend->getGroupDetails($gid);
 				if (is_array($groupData) && !empty($groupData)) {
-					// take the display name from the first backend that has a non-null one
+					// take the display name from the last backend that has a non-null one
 					if (is_null($displayName) && isset($groupData['displayName'])) {
 						$displayName = $groupData['displayName'];
 					}
@@ -193,8 +202,66 @@ class Manager extends PublicEmitter implements IGroupManager {
 		if (count($backends) === 0) {
 			return null;
 		}
+		/** @var GroupInterface[] $backends */
 		$this->cachedGroups[$gid] = new Group($gid, $backends, $this->dispatcher, $this->userManager, $this, $displayName);
 		return $this->cachedGroups[$gid];
+	}
+
+	/**
+	 * @brief Batch method to create group objects
+	 *
+	 * @param list<string> $gids List of groupIds for which we want to create a IGroup object
+	 * @param array<string, string> $displayNames Array containing already know display name for a groupId
+	 * @return array<string, IGroup>
+	 */
+	protected function getGroupsObjects(array $gids, array $displayNames = []): array {
+		$backends = [];
+		$groups = [];
+		foreach ($gids as $gid) {
+			$backends[$gid] = [];
+			if (!isset($displayNames[$gid])) {
+				$displayNames[$gid] = null;
+			}
+		}
+		foreach ($this->backends as $backend) {
+			if ($backend instanceof IGroupDetailsBackend || $backend->implementsActions(GroupInterface::GROUP_DETAILS)) {
+				/** @var IGroupDetailsBackend $backend */
+				if ($backend instanceof IBatchMethodsBackend) {
+					$groupDatas = $backend->getGroupsDetails($gids);
+				} else {
+					$groupDatas = [];
+					foreach ($gids as $gid) {
+						$groupDatas[$gid] = $backend->getGroupDetails($gid);
+					}
+				}
+				foreach ($groupDatas as $gid => $groupData) {
+					if (!empty($groupData)) {
+						// take the display name from the last backend that has a non-null one
+						if (isset($groupData['displayName'])) {
+							$displayNames[$gid] = $groupData['displayName'];
+						}
+						$backends[$gid][] = $backend;
+					}
+				}
+			} else {
+				if ($backend instanceof IBatchMethodsBackend) {
+					$existingGroups = $backend->groupsExists($gids);
+				} else {
+					$existingGroups = array_filter($gids, fn (string $gid): bool => $backend->groupExists($gid));
+				}
+				foreach ($existingGroups as $group) {
+					$backends[$group][] = $backend;
+				}
+			}
+		}
+		foreach ($gids as $gid) {
+			if (count($backends[$gid]) === 0) {
+				continue;
+			}
+			$this->cachedGroups[$gid] = new Group($gid, $backends[$gid], $this->dispatcher, $this->userManager, $this, $displayNames[$gid]);
+			$groups[$gid] = $this->cachedGroups[$gid];
+		}
+		return $groups;
 	}
 
 	/**
@@ -215,11 +282,13 @@ class Manager extends PublicEmitter implements IGroupManager {
 		} elseif ($group = $this->get($gid)) {
 			return $group;
 		} else {
+			$this->dispatcher->dispatchTyped(new BeforeGroupCreatedEvent($gid));
 			$this->emit('\OC\Group', 'preCreate', [$gid]);
 			foreach ($this->backends as $backend) {
 				if ($backend->implementsActions(Backend::CREATE_GROUP)) {
 					if ($backend->createGroup($gid)) {
 						$group = $this->getGroupObject($gid);
+						$this->dispatcher->dispatchTyped(new GroupCreatedEvent($group));
 						$this->emit('\OC\Group', 'postCreate', [$group]);
 						return $group;
 					}
@@ -231,21 +300,17 @@ class Manager extends PublicEmitter implements IGroupManager {
 
 	/**
 	 * @param string $search
-	 * @param int $limit
-	 * @param int $offset
+	 * @param ?int $limit
+	 * @param ?int $offset
 	 * @return \OC\Group\Group[]
 	 */
-	public function search($search, $limit = null, $offset = null) {
+	public function search(string $search, ?int $limit = null, ?int $offset = 0) {
 		$groups = [];
 		foreach ($this->backends as $backend) {
-			$groupIds = $backend->getGroups($search, $limit, $offset);
-			foreach ($groupIds as $groupId) {
-				$aGroup = $this->get($groupId);
-				if ($aGroup instanceof IGroup) {
-					$groups[$groupId] = $aGroup;
-				} else {
-					$this->logger->debug('Group "' . $groupId . '" was returned by search but not found through direct access', ['app' => 'core']);
-				}
+			$groupIds = $backend->getGroups($search, $limit ?? -1, $offset ?? 0);
+			$newGroups = $this->getGroupsObjects($groupIds);
+			foreach ($newGroups as $groupId => $group) {
+				$groups[$groupId] = $group;
 			}
 			if (!is_null($limit) and $limit <= 0) {
 				return array_values($groups);
@@ -292,7 +357,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 	 */
 	public function isAdmin($userId) {
 		foreach ($this->backends as $backend) {
-			if ($backend->implementsActions(Backend::IS_ADMIN) && $backend->isAdmin($userId)) {
+			if (is_string($userId) && $backend->implementsActions(Backend::IS_ADMIN) && $backend->isAdmin($userId)) {
 				return true;
 			}
 		}
@@ -307,7 +372,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 	 * @return bool if in group
 	 */
 	public function isInGroup($userId, $group) {
-		return array_search($group, $this->getUserIdGroupIds($userId)) !== false;
+		return in_array($group, $this->getUserIdGroupIds($userId));
 	}
 
 	/**
@@ -339,6 +404,14 @@ class Manager extends PublicEmitter implements IGroupManager {
 	}
 
 	/**
+	 * @param string $groupId
+	 * @return ?string
+	 */
+	public function getDisplayName(string $groupId): ?string {
+		return $this->displayNameCache->getDisplayName($groupId);
+	}
+
+	/**
 	 * get an array of groupid and displayName for a user
 	 *
 	 * @param IUser $user
@@ -346,7 +419,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 	 */
 	public function getUserGroupNames(IUser $user) {
 		return array_map(function ($group) {
-			return ['displayName' => $group->getDisplayName()];
+			return ['displayName' => $this->displayNameCache->getDisplayName($group->getGID())];
 		}, $this->getUserGroups($user));
 	}
 
@@ -411,7 +484,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 				$this->userManager,
 				$this,
 				\OC::$server->getDatabaseConnection(),
-				\OC::$server->get(IEventDispatcher::class)
+				$this->dispatcher
 			);
 		}
 

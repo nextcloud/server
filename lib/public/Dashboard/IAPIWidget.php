@@ -32,7 +32,6 @@ namespace OCP\Dashboard;
  * @since 22.0.0
  */
 interface IAPIWidget extends IWidget {
-
 	/**
 	 * @return \OCP\Dashboard\Model\WidgetItem[] The widget items
 	 * @since 22.0.0

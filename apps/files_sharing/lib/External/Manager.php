@@ -447,14 +447,11 @@ class Manager {
 		return $result;
 	}
 
-	/**
-	 * @param int $remoteShare
-	 */
-	public function processNotification($remoteShare) {
+	public function processNotification(int $remoteShare): void {
 		$filter = $this->notificationManager->createNotification();
 		$filter->setApp('files_sharing')
 			->setUser($this->uid)
-			->setObject('remote_share', (int) $remoteShare);
+			->setObject('remote_share', (string)$remoteShare);
 		$this->notificationManager->markProcessed($filter);
 	}
 
@@ -475,7 +472,7 @@ class Manager {
 		}
 
 		$federationEndpoints = $this->discoveryService->discover($remote, 'FEDERATED_SHARING');
-		$endpoint = isset($federationEndpoints['share']) ? $federationEndpoints['share'] : '/ocs/v2.php/cloud/shares';
+		$endpoint = $federationEndpoints['share'] ?? '/ocs/v2.php/cloud/shares';
 
 		$url = rtrim($remote, '/') . $endpoint . '/' . $remoteId . '/' . $feedback . '?format=' . Share::RESPONSE_FORMAT;
 		$fields = ['token' => $token];
@@ -609,6 +606,10 @@ class Manager {
 			$this->logger->error('Mount point to remove share not found', ['mountPoint' => $mountPoint]);
 			return false;
 		}
+		if (!$mountPointObj instanceof Mount) {
+			$this->logger->error('Mount point to remove share is not an external share, share probably doesn\'t exist', ['mountPoint' => $mountPoint]);
+			return false;
+		}
 		$id = $mountPointObj->getStorage()->getCache()->getId('');
 
 		$mountPoint = $this->stripPath($mountPoint);
@@ -663,7 +664,7 @@ class Manager {
 
 
 		$query->delete('federated_reshares')
-			->where($query->expr()->in('share_id', $query->createFunction('(' . $select . ')')));
+			->where($query->expr()->in('share_id', $query->createFunction($select)));
 		$query->execute();
 
 		$deleteReShares = $this->connection->getQueryBuilder();
@@ -733,10 +734,10 @@ class Manager {
 			// delete group share entry and matching sub-entries
 			$qb->delete('share_external')
 			   ->where(
-				   $qb->expr()->orX(
-					   $qb->expr()->eq('id', $qb->createParameter('share_id')),
-					   $qb->expr()->eq('parent', $qb->createParameter('share_parent_id'))
-				   )
+			   	$qb->expr()->orX(
+			   		$qb->expr()->eq('id', $qb->createParameter('share_id')),
+			   		$qb->expr()->eq('parent', $qb->createParameter('share_parent_id'))
+			   	)
 			   );
 
 			foreach ($shares as $share) {

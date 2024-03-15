@@ -55,9 +55,9 @@ class WrapperHandler {
 	 * @param resource|array $context
 	 * @param string|null $protocol deprecated, protocol is now automatically generated
 	 * @param string|null $class deprecated, class is now automatically generated
-	 * @return bool|resource
+	 * @return resource|false
 	 */
-	protected static function wrapSource($source, $context = [], $protocol = null, $class = null) {
+	protected static function wrapSource($source, $context = [], $protocol = null, $class = null, $mode = 'r+') {
 		if ($class === null) {
 			$class = static::class;
 		}
@@ -72,7 +72,7 @@ class WrapperHandler {
 			if (self::isDirectoryHandle($source)) {
 				return opendir($protocol . '://', $context);
 			} else {
-				return fopen($protocol . '://', 'r+', false, $context);
+				return fopen($protocol . '://', $mode, false, $context);
 			}
 		} finally {
 			stream_wrapper_unregister($protocol);

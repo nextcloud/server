@@ -30,7 +30,6 @@ use OCP\Files\Cache\ICache;
 use OCP\Files\FileInfo;
 
 class NulLCacheTest extends \Test\TestCase {
-
 	/** @var NullCache */
 	private $cache;
 

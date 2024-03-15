@@ -46,39 +46,14 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 
 class TwoFactorMiddleware extends Middleware {
-
-	/** @var Manager */
-	private $twoFactorManager;
-
-	/** @var Session */
-	private $userSession;
-
-	/** @var ISession */
-	private $session;
-
-	/** @var IURLGenerator */
-	private $urlGenerator;
-
-	/** @var IControllerMethodReflector */
-	private $reflector;
-
-	/** @var IRequest */
-	private $request;
-
-	/**
-	 * @param Manager $twoFactorManager
-	 * @param Session $userSession
-	 * @param ISession $session
-	 * @param IURLGenerator $urlGenerator
-	 */
-	public function __construct(Manager $twoFactorManager, Session $userSession, ISession $session,
-		IURLGenerator $urlGenerator, IControllerMethodReflector $reflector, IRequest $request) {
-		$this->twoFactorManager = $twoFactorManager;
-		$this->userSession = $userSession;
-		$this->session = $session;
-		$this->urlGenerator = $urlGenerator;
-		$this->reflector = $reflector;
-		$this->request = $request;
+	public function __construct(
+		private Manager $twoFactorManager,
+		private Session $userSession,
+		private ISession $session,
+		private IURLGenerator $urlGenerator,
+		private IControllerMethodReflector $reflector,
+		private IRequest $request,
+	) {
 	}
 
 	/**
@@ -125,7 +100,10 @@ class TwoFactorMiddleware extends Middleware {
 		if ($this->userSession->isLoggedIn()) {
 			$user = $this->userSession->getUser();
 
-			if ($this->session->exists('app_password') || $this->twoFactorManager->isTwoFactorAuthenticated($user)) {
+			if ($this->session->exists('app_password')  // authenticated using an app password
+				|| $this->session->exists('app_api')  // authenticated using an AppAPI Auth
+				|| $this->twoFactorManager->isTwoFactorAuthenticated($user)) {
+
 				$this->checkTwoFactor($controller, $methodName, $user);
 			} elseif ($controller instanceof TwoFactorChallengeController) {
 				// Allow access to the two-factor controllers only if two-factor authentication

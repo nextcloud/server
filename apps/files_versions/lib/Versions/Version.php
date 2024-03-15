@@ -28,54 +28,19 @@ namespace OCA\Files_Versions\Versions;
 use OCP\Files\FileInfo;
 use OCP\IUser;
 
-class Version implements IVersion {
-	/** @var int */
-	private $timestamp;
-
-	/** @var int|string */
-	private $revisionId;
-
-	/** @var string */
-	private $name;
-
-	/** @var int */
-	private $size;
-
-	/** @var string */
-	private $mimetype;
-
-	/** @var string */
-	private $path;
-
-	/** @var FileInfo */
-	private $sourceFileInfo;
-
-	/** @var IVersionBackend */
-	private $backend;
-
-	/** @var IUser */
-	private $user;
-
+class Version implements IVersion, IMetadataVersion {
 	public function __construct(
-		int $timestamp,
-		$revisionId,
-		string $name,
-		int $size,
-		string $mimetype,
-		string $path,
-		FileInfo $sourceFileInfo,
-		IVersionBackend $backend,
-		IUser $user
+		private int $timestamp,
+		private int|string $revisionId,
+		private string $name,
+		private int|float $size,
+		private string $mimetype,
+		private string $path,
+		private FileInfo $sourceFileInfo,
+		private IVersionBackend $backend,
+		private IUser $user,
+		private array $metadata = [],
 	) {
-		$this->timestamp = $timestamp;
-		$this->revisionId = $revisionId;
-		$this->name = $name;
-		$this->size = $size;
-		$this->mimetype = $mimetype;
-		$this->path = $path;
-		$this->sourceFileInfo = $sourceFileInfo;
-		$this->backend = $backend;
-		$this->user = $user;
 	}
 
 	public function getBackend(): IVersionBackend {
@@ -94,7 +59,7 @@ class Version implements IVersion {
 		return $this->timestamp;
 	}
 
-	public function getSize(): int {
+	public function getSize(): int|float {
 		return $this->size;
 	}
 
@@ -112,5 +77,9 @@ class Version implements IVersion {
 
 	public function getUser(): IUser {
 		return $this->user;
+	}
+
+	public function getMetadataValue(string $key): ?string {
+		return $this->metadata[$key] ?? null;
 	}
 }

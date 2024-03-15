@@ -23,7 +23,7 @@ class DirectoryWrapper extends Wrapper implements Directory {
 	}
 
 	/**
-	 * @return string
+	 * @return string|false
 	 */
 	public function dir_readdir() {
 		return readdir($this->source);

@@ -1,7 +1,1 @@
-/* ---- BROWSER-SPECIFIC FIXES ---- */
-/* remove dotted outlines in Firefox */
-::-moz-focus-inner {
-  border: 0;
-}
-
-/*# sourceMappingURL=fixes.css.map */
+::-moz-focus-inner{border:0}/*# sourceMappingURL=fixes.css.map */

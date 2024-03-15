@@ -32,7 +32,6 @@ use Throwable;
  * @since 13.0.0
  */
 interface IReporter {
-
 	/**
 	 * Report an (unhandled) exception
 	 *

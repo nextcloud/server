@@ -7,6 +7,7 @@ declare(strict_types=1);
  *
  * @author Joas Schilling <coding@schilljs.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -30,37 +31,26 @@ use OC\Authentication\WebAuthn\Manager;
 use OCA\Settings\AppInfo\Application;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\JSONResponse;
-use OCP\ILogger;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IUserSession;
+use Psr\Log\LoggerInterface;
 use Webauthn\PublicKeyCredentialCreationOptions;
 
+#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class WebAuthnController extends Controller {
 	private const WEBAUTHN_REGISTRATION = 'webauthn_registration';
 
-	/** @var Manager */
-	private $manager;
-
-	/** @var IUserSession */
-	private $userSession;
-	/**
-	 * @var ISession
-	 */
-	private $session;
-	/**
-	 * @var ILogger
-	 */
-	private $logger;
-
-	public function __construct(IRequest $request, ILogger $logger, Manager $webAuthnManager, IUserSession $userSession, ISession $session) {
+	public function __construct(
+		IRequest $request,
+		private LoggerInterface $logger,
+		private Manager $manager,
+		private IUserSession $userSession,
+		private ISession $session,
+	) {
 		parent::__construct(Application::APP_ID, $request);
-
-		$this->manager = $webAuthnManager;
-		$this->userSession = $userSession;
-		$this->session = $session;
-		$this->logger = $logger;
 	}
 
 	/**

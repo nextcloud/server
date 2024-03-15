@@ -41,7 +41,7 @@ describe('OCA.Sharing.Util tests', function() {
 	}
 
 	beforeEach(function() {
-		var $content = $('<div id="content"></div>');
+		var $content = $('<div id="app-content"></div>');
 		$('#testArea').append($content);
 		// dummy file list
 		var $div = $(
@@ -51,7 +51,7 @@ describe('OCA.Sharing.Util tests', function() {
 			'<tbody class="files-fileList"></tbody>' +
 			'</table>' +
 			'</div>');
-		$('#content').append($div);
+		$('#app-content').append($div);
 
 		var fileActions = new OCA.Files.FileActions();
 		fileList = new OCA.Files.FileList(

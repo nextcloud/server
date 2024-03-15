@@ -21,9 +21,9 @@
  *
  */
 
-import { stringValidator, validateIPv4, validateIPv6 } from '../../helpers/validators'
-import FileMimeType from './FileMimeType'
-import FileSystemTag from './FileSystemTag'
+import { stringValidator, validateIPv4, validateIPv6 } from '../../helpers/validators.js'
+import FileMimeType from './FileMimeType.vue'
+import FileSystemTag from './FileSystemTag.vue'
 
 const stringOrRegexOperators = () => {
 	return [

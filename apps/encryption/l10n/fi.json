@@ -26,16 +26,14 @@
     "Bad Signature" : "Virheellinen allekirjoitus",
     "Missing Signature" : "Puuttuva allekirjoitus",
     "one-time password for server-side-encryption" : "kertakäyttöinen salasana palvelinpään salausta varten",
+    "Encryption password" : "Salauksen salasana",
     "Default encryption module" : "Oletus salausmoduuli",
     "Default encryption module for server-side encryption" : "Oletusarvoinen salausmoduuli palvelimella tehtävään salaukseen",
-    "The share will expire on %s." : "Jakaminen päättyy %s.",
-    "Cheers!" : "Kiitos!",
     "Encryption app is enabled but your keys are not initialized, please log-out and log-in again" : "Salaussovellus on aktivoitu, mutta avaimia ei ole alustettu, kirjaudu uudelleen sisään",
     "Encrypt the home storage" : "Salaa oma kotitila",
     "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "Tämän valinnan ollessa valittuna salataan kaikki päätallennustilaan tallennetut tiedostot. Muussa tapauksessa ainoastaan ulkoisessa tallennustilassa sijaitsevat tiedostot salataan.",
     "Enable recovery key" : "Ota palautusavain käyttöön",
     "Disable recovery key" : "Poista palautusavain käytöstä",
-    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "Palautusavain on ylimääräinen salausavain, jota käytetään tiedostojen salaamiseen. Sen avulla on mahdollista palauttaa käyttäjien tiedostot, vaikka käyttäjä unohtaisi oman salasanansa.",
     "Recovery key password" : "Palautusavaimen salasana",
     "Repeat recovery key password" : "Toista salausavaimen salasana",
     "Change recovery key password:" : "Vaihda palautusavaimen salasana:",
@@ -54,6 +52,6 @@
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Tämän valinnan käyttäminen mahdollistaa pääsyn salattuihin tiedostoihisi, jos salasana unohtuu",
     "Enabled" : "Käytössä",
     "Disabled" : "Ei käytössä",
-    "Hey there,<br><br>the admin enabled server-side-encryption. Your files were encrypted using the password <strong>%s</strong>.<br><br>Please login to the web interface, go to the section \"basic encryption module\" of your personal settings and update your encryption password by entering this password into the \"old log-in password\" field and your current login-password.<br><br>" : "Hei,<br><br>Ylläpiäjä on ottanut käyttöön palvelimen salauksen. Tiedostosi salattiin salasanalla <strong>%s</srong>.<br><br>Ole hyvä ja kirjaudu palveluun verkkokäyttöliittymän kautta, siirry henkilökohtaisten asetustesi kohtaan \"perussalausmoduuli\" ja päivitä salaukseen käytettävä salasanasi syöttämällä yllä mainittu salasana \"vanha kirjautumissalasana\"-kenttään ja nykyinen kirjautumissalasanasi.<br><br>"
+    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "Palautusavain on ylimääräinen salausavain, jota käytetään tiedostojen salaamiseen. Sen avulla on mahdollista palauttaa käyttäjien tiedostot, vaikka käyttäjä unohtaisi oman salasanansa."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

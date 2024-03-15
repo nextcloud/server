@@ -27,8 +27,8 @@ namespace OCA\DAV\Tests\Unit\DAV\Settings;
 
 use OCA\DAV\Settings\CalDAVSettings;
 use OCP\AppFramework\Http\TemplateResponse;
-use OCP\IConfig;
 use OCP\AppFramework\Services\IInitialState;
+use OCP\IConfig;
 use OCP\IURLGenerator;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
@@ -44,7 +44,6 @@ class CalDAVSettingsTest extends TestCase {
 	/** @var IURLGenerator|MockObject */
 	private $urlGenerator;
 
-	/** @var CalDAVSettings */
 	private CalDAVSettings $settings;
 
 	protected function setUp(): void {
@@ -56,14 +55,14 @@ class CalDAVSettingsTest extends TestCase {
 		$this->settings = new CalDAVSettings($this->config, $this->initialState, $this->urlGenerator);
 	}
 
-	public function testGetForm() {
+	public function testGetForm(): void {
 		$this->config->method('getAppValue')
 		   ->withConsecutive(
-			   ['dav', 'sendInvitations', 'yes'],
-			   ['dav', 'generateBirthdayCalendar', 'yes'],
-			   ['dav', 'sendEventReminders', 'yes'],
-			   ['dav', 'sendEventRemindersToSharedGroupMembers', 'yes'],
-			   ['dav', 'sendEventRemindersPush', 'no'],
+		   	['dav', 'sendInvitations', 'yes'],
+		   	['dav', 'generateBirthdayCalendar', 'yes'],
+		   	['dav', 'sendEventReminders', 'yes'],
+		   	['dav', 'sendEventRemindersToSharedUsers', 'yes'],
+		   	['dav', 'sendEventRemindersPush', 'yes'],
 		   )
 		   ->will($this->onConsecutiveCalls('yes', 'no', 'yes', 'yes', 'yes'));
 		$this->urlGenerator
@@ -77,7 +76,7 @@ class CalDAVSettingsTest extends TestCase {
 				['sendInvitations', true],
 				['generateBirthdayCalendar', false],
 				['sendEventReminders', true],
-				['sendEventRemindersToSharedGroupMembers', true],
+				['sendEventRemindersToSharedUsers', true],
 				['sendEventRemindersPush', true],
 			);
 		$result = $this->settings->getForm();
@@ -85,11 +84,11 @@ class CalDAVSettingsTest extends TestCase {
 		$this->assertInstanceOf(TemplateResponse::class, $result);
 	}
 
-	public function testGetSection() {
+	public function testGetSection(): void {
 		$this->assertEquals('groupware', $this->settings->getSection());
 	}
 
-	public function testGetPriority() {
+	public function testGetPriority(): void {
 		$this->assertEquals(10, $this->settings->getPriority());
 	}
 }

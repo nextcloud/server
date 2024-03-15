@@ -11,6 +11,7 @@
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author S. Cat <33800996+sparrowjack63@users.noreply.github.com>
  * @author Stephen Cuppett <steve@cuppett.com>
+ * @author Jasper Weyne <jasperweyne@gmail.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -61,11 +62,19 @@ trait S3ConnectionTrait {
 	/** @var string */
 	protected $proxy;
 
+	/** @var string */
+	protected $storageClass;
+
 	/** @var int */
 	protected $uploadPartSize;
 
 	/** @var int */
 	private $putSizeLimit;
+
+	/** @var int */
+	private $copySizeLimit;
+
+	private bool $useMultipartCopy = true;
 
 	protected $test;
 
@@ -80,14 +89,17 @@ trait S3ConnectionTrait {
 		$this->bucket = $params['bucket'];
 		$this->proxy = $params['proxy'] ?? false;
 		$this->timeout = $params['timeout'] ?? 15;
+		$this->storageClass = !empty($params['storageClass']) ? $params['storageClass'] : 'STANDARD';
 		$this->uploadPartSize = $params['uploadPartSize'] ?? 524288000;
 		$this->putSizeLimit = $params['putSizeLimit'] ?? 104857600;
+		$this->copySizeLimit = $params['copySizeLimit'] ?? 5242880000;
+		$this->useMultipartCopy = (bool)($params['useMultipartCopy'] ?? true);
 		$params['region'] = empty($params['region']) ? 'eu-west-1' : $params['region'];
 		$params['hostname'] = empty($params['hostname']) ? 's3.' . $params['region'] . '.amazonaws.com' : $params['hostname'];
 		if (!isset($params['port']) || $params['port'] === '') {
 			$params['port'] = (isset($params['use_ssl']) && $params['use_ssl'] === false) ? 80 : 443;
 		}
-		$params['verify_bucket_exists'] = empty($params['verify_bucket_exists']) ? true : $params['verify_bucket_exists'];
+		$params['verify_bucket_exists'] = $params['verify_bucket_exists'] ?? true;
 		$this->params = $params;
 	}
 
@@ -123,7 +135,7 @@ trait S3ConnectionTrait {
 		);
 
 		$options = [
-			'version' => isset($this->params['version']) ? $this->params['version'] : 'latest',
+			'version' => $this->params['version'] ?? 'latest',
 			'credentials' => $provider,
 			'endpoint' => $base_url,
 			'region' => $this->params['region'],
@@ -132,6 +144,7 @@ trait S3ConnectionTrait {
 			'csm' => false,
 			'use_arn_region' => false,
 			'http' => ['verify' => $this->getCertificateBundlePath()],
+			'use_aws_shared_config_files' => false,
 		];
 		if ($this->getProxy()) {
 			$options['http']['proxy'] = $this->getProxy();
@@ -224,5 +237,35 @@ trait S3ConnectionTrait {
 		} else {
 			return null;
 		}
+	}
+
+	protected function getSSECKey(): ?string {
+		if (isset($this->params['sse_c_key'])) {
+			return $this->params['sse_c_key'];
+		}
+
+		return null;
+	}
+
+	protected function getSSECParameters(bool $copy = false): array {
+		$key = $this->getSSECKey();
+
+		if ($key === null) {
+			return [];
+		}
+
+		$rawKey = base64_decode($key);
+		if ($copy) {
+			return [
+				'CopySourceSSECustomerAlgorithm' => 'AES256',
+				'CopySourceSSECustomerKey' => $rawKey,
+				'CopySourceSSECustomerKeyMD5' => md5($rawKey, true)
+			];
+		}
+		return [
+			'SSECustomerAlgorithm' => 'AES256',
+			'SSECustomerKey' => $rawKey,
+			'SSECustomerKeyMD5' => md5($rawKey, true)
+		];
 	}
 }

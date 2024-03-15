@@ -106,29 +106,30 @@ class S3Test extends ObjectStoreTest {
 	}
 
 	public function assertNoUpload($objectUrn) {
+		/** @var \OC\Files\ObjectStore\S3 */
 		$s3 = $this->getInstance();
 		$s3client = $s3->getConnection();
 		$uploads = $s3client->listMultipartUploads([
 			'Bucket' => $s3->getBucket(),
 			'Prefix' => $objectUrn,
 		]);
-		$this->assertArrayNotHasKey('Uploads', $uploads);
+		$this->assertArrayNotHasKey('Uploads', $uploads, 'Assert is not uploaded');
 	}
 
 	public function testEmptyUpload() {
 		$s3 = $this->getInstance();
 
 		$emptyStream = fopen("php://memory", "r");
-		fwrite($emptyStream, null);
+		fwrite($emptyStream, '');
 
 		$s3->writeObject('emptystream', $emptyStream);
 
 		$this->assertNoUpload('emptystream');
-		$this->assertTrue($s3->objectExists('emptystream'));
+		$this->assertTrue($s3->objectExists('emptystream'), 'Object exists on S3');
 
 		$thrown = false;
 		try {
-			self::assertFalse($s3->readObject('emptystream'));
+			self::assertFalse($s3->readObject('emptystream'), 'Reading empty stream object should return false');
 		} catch (\Exception $e) {
 			// An exception is expected here since 0 byte files are wrapped
 			// to be read from an empty memory stream in the ObjectStoreStorage
@@ -163,20 +164,20 @@ class S3Test extends ObjectStoreTest {
 		$s3->writeObject('testfilesizes', $sourceStream);
 
 		$this->assertNoUpload('testfilesizes');
-		self::assertTrue($s3->objectExists('testfilesizes'));
+		self::assertTrue($s3->objectExists('testfilesizes'), 'Object exists on S3');
 
 		$result = $s3->readObject('testfilesizes');
 
 		// compare first 100 bytes
-		self::assertEquals(str_repeat('A', 100), fread($result, 100));
+		self::assertEquals(str_repeat('A', 100), fread($result, 100), 'Compare first 100 bytes');
 
-		// compare 100 bytes
+		// compare last 100 bytes
 		fseek($result, $size - 100);
-		self::assertEquals(str_repeat('A', 100), fread($result, 100));
+		self::assertEquals(str_repeat('A', 100), fread($result, 100), 'Compare last 100 bytes');
 
 		// end of file reached
 		fseek($result, $size);
-		self:self::assertTrue(feof($result));
+		self::assertTrue(feof($result), 'End of file reached');
 
 		$this->assertNoUpload('testfilesizes');
 	}

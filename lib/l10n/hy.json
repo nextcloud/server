@@ -1,4 +1,7 @@
 { "translations": {
+    "Unknown filetype" : "Անհայտ նիշքի տեսակ",
+    "Invalid image" : "Անվավեր նկար",
+    "Files" : "Ֆայլեր",
     "today" : "այսօր",
     "seconds ago" : "վրկ. առաջ",
     "File name contains at least one invalid character" : "Ֆայլի անունը առնվազն մի անվավեր նիշ է պարունակում",

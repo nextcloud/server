@@ -31,7 +31,6 @@ namespace OCP\Dashboard;
  * @since 20.0.0
  */
 interface IWidget {
-
 	/**
 	 * @return string Unique id that identifies the widget, e.g. the app id
 	 * @since 20.0.0

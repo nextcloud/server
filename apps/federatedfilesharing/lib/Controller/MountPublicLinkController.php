@@ -31,22 +31,24 @@
  */
 namespace OCA\FederatedFileSharing\Controller;
 
+use OCA\DAV\Connector\Sabre\PublicAuth;
 use OCA\FederatedFileSharing\AddressHandler;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\Constants;
 use OCP\Federation\ICloudIdManager;
 use OCP\HintException;
 use OCP\Http\Client\IClientService;
 use OCP\IL10N;
-use OCP\ILogger;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IUserSession;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class MountPublicLinkController
@@ -55,67 +57,25 @@ use OCP\Share\IShare;
  *
  * @package OCA\FederatedFileSharing\Controller
  */
+#[OpenAPI(scope: OpenAPI::SCOPE_FEDERATION)]
 class MountPublicLinkController extends Controller {
-
-	/** @var FederatedShareProvider */
-	private $federatedShareProvider;
-
-	/** @var AddressHandler */
-	private $addressHandler;
-
-	/** @var IManager  */
-	private $shareManager;
-
-	/** @var  ISession */
-	private $session;
-
-	/** @var IL10N */
-	private $l;
-
-	/** @var IUserSession */
-	private $userSession;
-
-	/** @var IClientService */
-	private $clientService;
-
-	/** @var ICloudIdManager  */
-	private $cloudIdManager;
-
 	/**
 	 * MountPublicLinkController constructor.
-	 *
-	 * @param string $appName
-	 * @param IRequest $request
-	 * @param FederatedShareProvider $federatedShareProvider
-	 * @param IManager $shareManager
-	 * @param AddressHandler $addressHandler
-	 * @param ISession $session
-	 * @param IL10N $l
-	 * @param IUserSession $userSession
-	 * @param IClientService $clientService
-	 * @param ICloudIdManager $cloudIdManager
 	 */
-	public function __construct($appName,
-								IRequest $request,
-								FederatedShareProvider $federatedShareProvider,
-								IManager $shareManager,
-								AddressHandler $addressHandler,
-								ISession $session,
-								IL10N $l,
-								IUserSession $userSession,
-								IClientService $clientService,
-								ICloudIdManager $cloudIdManager
+	public function __construct(
+		string $appName,
+		IRequest $request,
+		private FederatedShareProvider $federatedShareProvider,
+		private IManager $shareManager,
+		private AddressHandler $addressHandler,
+		private ISession $session,
+		private IL10N $l,
+		private IUserSession $userSession,
+		private IClientService $clientService,
+		private ICloudIdManager $cloudIdManager,
+		private LoggerInterface $logger,
 	) {
 		parent::__construct($appName, $request);
-
-		$this->federatedShareProvider = $federatedShareProvider;
-		$this->shareManager = $shareManager;
-		$this->addressHandler = $addressHandler;
-		$this->session = $session;
-		$this->l = $l;
-		$this->userSession = $userSession;
-		$this->clientService = $clientService;
-		$this->cloudIdManager = $cloudIdManager;
 	}
 
 	/**
@@ -125,10 +85,12 @@ class MountPublicLinkController extends Controller {
 	 * @PublicPage
 	 * @BruteForceProtection(action=publicLink2FederatedShare)
 	 *
-	 * @param string $shareWith
-	 * @param string $token
-	 * @param string $password
-	 * @return JSONResponse
+	 * @param string $shareWith Username to share with
+	 * @param string $token Token of the share
+	 * @param string $password Password of the share
+	 * @return JSONResponse<Http::STATUS_OK, array{remoteUrl: string}, array{}>|JSONResponse<Http::STATUS_BAD_REQUEST, array{message: string}, array{}>
+	 * 200: Remote URL returned
+	 * 400: Creating share is not possible
 	 */
 	public function createFederatedShare($shareWith, $token, $password = '') {
 		if (!$this->federatedShareProvider->isOutgoingServer2serverShareEnabled()) {
@@ -149,7 +111,7 @@ class MountPublicLinkController extends Controller {
 
 		// make sure that user is authenticated in case of a password protected link
 		$storedPassword = $share->getPassword();
-		$authenticated = $this->session->get('public_link_authenticated') === $share->getId() ||
+		$authenticated = $this->session->get(PublicAuth::DAV_AUTHENTICATED) === $share->getId() ||
 			$this->shareManager->checkPassword($share, $password);
 		if (!empty($storedPassword) && !$authenticated) {
 			$response = new JSONResponse(
@@ -175,9 +137,9 @@ class MountPublicLinkController extends Controller {
 		try {
 			$this->federatedShareProvider->create($share);
 		} catch (\Exception $e) {
-			\OC::$server->getLogger()->logException($e, [
-				'level' => ILogger::WARN,
+			$this->logger->warning($e->getMessage(), [
 				'app' => 'federatedfilesharing',
+				'exception' => $e,
 			]);
 			return new JSONResponse(['message' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
 		}

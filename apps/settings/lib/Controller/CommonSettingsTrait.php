@@ -26,16 +26,26 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace OCA\Settings\Controller;
 
+use OCA\Settings\AppInfo\Application;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Services\IInitialState;
 use OCP\Group\ISubAdmin;
 use OCP\IGroupManager;
 use OCP\INavigationManager;
 use OCP\IUserSession;
+use OCP\Settings\IDeclarativeManager;
+use OCP\Settings\IDeclarativeSettingsForm;
+use OCP\Settings\IIconSection;
 use OCP\Settings\IManager as ISettingsManager;
 use OCP\Settings\ISettings;
+use OCP\Util;
 
+/**
+ * @psalm-import-type DeclarativeSettingsFormField from IDeclarativeSettingsForm
+ */
 trait CommonSettingsTrait {
 
 	/** @var ISettingsManager */
@@ -53,29 +63,30 @@ trait CommonSettingsTrait {
 	/** @var ISubAdmin */
 	private $subAdmin;
 
+	private IDeclarativeManager $declarativeSettingsManager;
+
+	/** @var IInitialState */
+	private $initialState;
+
 	/**
-	 * @param string $currentSection
-	 * @return array
+	 * @return array{forms: array{personal: array, admin: array}}
 	 */
-	private function getNavigationParameters($currentType, $currentSection) {
-		$templateParameters = [
-			'personal' => $this->formatPersonalSections($currentType, $currentSection),
-			'admin' => []
-		];
-
-		$templateParameters['admin'] = $this->formatAdminSections(
-				$currentType,
-				$currentSection
-			);
-
+	private function getNavigationParameters(string $currentType, string $currentSection): array {
 		return [
-			'forms' => $templateParameters
+			'forms' => [
+				'personal' => $this->formatPersonalSections($currentType, $currentSection),
+				'admin' => $this->formatAdminSections($currentType, $currentSection),
+			],
 		];
 	}
 
+	/**
+	 * @param IIconSection[][] $sections
+	 * @psalm-param 'admin'|'personal' $type
+	 * @return list<array{anchor: string, section-name: string, active: bool, icon: string}>
+	 */
 	protected function formatSections(array $sections, string $currentSection, string $type, string $currentType): array {
 		$templateParameters = [];
-		/** @var \OCP\Settings\IIconSection[] $prioritizedSections */
 		foreach ($sections as $prioritizedSections) {
 			foreach ($prioritizedSections as $section) {
 				if ($type === 'admin') {
@@ -83,7 +94,11 @@ trait CommonSettingsTrait {
 				} elseif ($type === 'personal') {
 					$settings = $this->settingsManager->getPersonalSettings($section->getID());
 				}
-				if (empty($settings) && !($section->getID() === 'additional' && count(\OC_App::getForms('admin')) > 0)) {
+
+				/** @psalm-suppress PossiblyNullArgument */
+				$declarativeFormIDs = $this->declarativeSettingsManager->getFormIDs($this->userSession->getUser(), $type, $section->getID());
+
+				if (empty($settings) && empty($declarativeFormIDs) && !($section->getID() === 'additional' && count(\OC_App::getForms('admin')) > 0)) {
 					continue;
 				}
 
@@ -103,23 +118,19 @@ trait CommonSettingsTrait {
 		return $templateParameters;
 	}
 
-	protected function formatPersonalSections(string $currentType, string $currentSections): array {
+	protected function formatPersonalSections(string $currentType, string $currentSection): array {
 		$sections = $this->settingsManager->getPersonalSections();
-		$templateParameters = $this->formatSections($sections, $currentSections, 'personal', $currentType);
-
-		return $templateParameters;
+		return $this->formatSections($sections, $currentSection, 'personal', $currentType);
 	}
 
-	protected function formatAdminSections(string $currentType, string $currentSections): array {
+	protected function formatAdminSections(string $currentType, string $currentSection): array {
 		$sections = $this->settingsManager->getAdminSections();
-		$templateParameters = $this->formatSections($sections, $currentSections, 'admin', $currentType);
-
-		return $templateParameters;
+		return $this->formatSections($sections, $currentSection, 'admin', $currentType);
 	}
 
 	/**
 	 * @param array<int, list<\OCP\Settings\ISettings>> $settings
-	 * @return array
+	 * @return array{content: string}
 	 */
 	private function formatSettings(array $settings): array {
 		$html = '';
@@ -133,11 +144,44 @@ trait CommonSettingsTrait {
 		return ['content' => $html];
 	}
 
-	private function getIndexResponse($type, $section) {
-		$this->navigationManager->setActiveEntry('settings');
+	/**
+	 * @psalm-param 'admin'|'personal' $type
+	 */
+	private function getIndexResponse(string $type, string $section): TemplateResponse {
+		if ($type === 'personal') {
+			if ($section === 'theming') {
+				$this->navigationManager->setActiveEntry('accessibility_settings');
+			} else {
+				$this->navigationManager->setActiveEntry('settings');
+			}
+		} elseif ($type === 'admin') {
+			$this->navigationManager->setActiveEntry('admin_settings');
+		}
+
+		$this->declarativeSettingsManager->loadSchemas();
+
 		$templateParams = [];
 		$templateParams = array_merge($templateParams, $this->getNavigationParameters($type, $section));
 		$templateParams = array_merge($templateParams, $this->getSettings($section));
+
+		/** @psalm-suppress PossiblyNullArgument */
+		$declarativeFormIDs = $this->declarativeSettingsManager->getFormIDs($this->userSession->getUser(), $type, $section);
+		if (!empty($declarativeFormIDs)) {
+			foreach ($declarativeFormIDs as $app => $ids) {
+				/** @psalm-suppress PossiblyUndefinedArrayOffset */
+				$templateParams['content'] .= join(array_map(fn (string $id) => '<div id="' . $app . '_' . $id . '"></div>', $ids));
+			}
+			Util::addScript(Application::APP_ID, 'declarative-settings-forms');
+			/** @psalm-suppress PossiblyNullArgument */
+			$this->initialState->provideInitialState('declarative-settings-forms', $this->declarativeSettingsManager->getFormsWithValues($this->userSession->getUser(), $type, $section));
+		}
+
+		$activeSection = $this->settingsManager->getSection($type, $section);
+		if ($activeSection) {
+			$templateParams['pageTitle'] = $activeSection->getName();
+			$templateParams['activeSectionId'] = $activeSection->getID();
+			$templateParams['activeSectionType'] = $type;
+		}
 
 		return new TemplateResponse('settings', 'settings/frame', $templateParams);
 	}

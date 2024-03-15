@@ -29,6 +29,7 @@ namespace OC\Authentication\Token;
 
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\QBMapper;
+use OCP\Authentication\Token\IToken;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 
@@ -42,8 +43,6 @@ class PublicKeyTokenMapper extends QBMapper {
 
 	/**
 	 * Invalidate (delete) a given token
-	 *
-	 * @param string $token
 	 */
 	public function invalidate(string $token) {
 		/* @var $qb IQueryBuilder */
@@ -67,6 +66,15 @@ class PublicKeyTokenMapper extends QBMapper {
 			->andWhere($qb->expr()->eq('remember', $qb->createNamedParameter($remember, IQueryBuilder::PARAM_INT)))
 			->andWhere($qb->expr()->eq('version', $qb->createNamedParameter(PublicKeyToken::VERSION, IQueryBuilder::PARAM_INT)))
 			->execute();
+	}
+
+	public function invalidateLastUsedBefore(string $uid, int $before): int {
+		$qb = $this->db->getQueryBuilder();
+		$qb->delete($this->tableName)
+			->where($qb->expr()->eq('uid', $qb->createNamedParameter($uid)))
+			->andWhere($qb->expr()->lt('last_activity', $qb->createNamedParameter($before, IQueryBuilder::PARAM_INT)))
+			->andWhere($qb->expr()->eq('version', $qb->createNamedParameter(PublicKeyToken::VERSION, IQueryBuilder::PARAM_INT)));
+		return $qb->executeStatement();
 	}
 
 	/**
@@ -141,14 +149,15 @@ class PublicKeyTokenMapper extends QBMapper {
 		return $entities;
 	}
 
-	public function deleteById(string $uid, int $id) {
+	public function getTokenByUserAndId(string $uid, int $id): ?string {
 		/* @var $qb IQueryBuilder */
 		$qb = $this->db->getQueryBuilder();
-		$qb->delete($this->tableName)
+		$qb->select('token')
+			->from($this->tableName)
 			->where($qb->expr()->eq('id', $qb->createNamedParameter($id)))
 			->andWhere($qb->expr()->eq('uid', $qb->createNamedParameter($uid)))
 			->andWhere($qb->expr()->eq('version', $qb->createNamedParameter(PublicKeyToken::VERSION, IQueryBuilder::PARAM_INT)));
-		$qb->execute();
+		return $qb->executeQuery()->fetchOne() ?: null;
 	}
 
 	/**
@@ -228,5 +237,32 @@ class PublicKeyTokenMapper extends QBMapper {
 				$qb->expr()->lt('last_activity', $qb->createNamedParameter($now - 15, IQueryBuilder::PARAM_INT), IQueryBuilder::PARAM_INT)
 			);
 		$update->executeStatement();
+	}
+
+	public function updateHashesForUser(string $userId, string $passwordHash): void {
+		$qb = $this->db->getQueryBuilder();
+		$update = $qb->update($this->getTableName())
+			->set('password_hash', $qb->createNamedParameter($passwordHash))
+			->where(
+				$qb->expr()->eq('uid', $qb->createNamedParameter($userId))
+			);
+		$update->executeStatement();
+	}
+
+	public function getFirstTokenForUser(string $userId): ?PublicKeyToken {
+		$qb = $this->db->getQueryBuilder();
+		$qb->select('*')
+			->from($this->getTableName())
+			->where($qb->expr()->eq('uid', $qb->createNamedParameter($userId)))
+			->setMaxResults(1)
+			->orderBy('id');
+		$result = $qb->executeQuery();
+
+		$data = $result->fetch();
+		$result->closeCursor();
+		if ($data === false) {
+			return null;
+		}
+		return PublicKeyToken::fromRow($data);
 	}
 }

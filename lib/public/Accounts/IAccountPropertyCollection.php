@@ -37,9 +37,8 @@ use JsonSerializable;
  * @since 22.0.0
  */
 interface IAccountPropertyCollection extends JsonSerializable {
-
 	/**
-	 * retuns the collection name
+	 * returns the collection name
 	 *
 	 * @since 22.0.0
 	 */

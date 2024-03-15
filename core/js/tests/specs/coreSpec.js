@@ -42,16 +42,16 @@ describe('Core base tests', function() {
 	describe('Base values', function() {
 		it('Sets webroots', function() {
 			expect(OC.getRootPath()).toBeDefined();
-			expect(OC.appswebroots).toBeDefined();
+			expect(window._oc_appswebroots).toBeDefined();
 		});
 	});
 	describe('filePath', function() {
 		beforeEach(function() {
-			OC.webroot = 'http://localhost';
-			OC.appswebroots.files = OC.getRootPath() + '/apps3/files';
+			window._oc_webroot = 'http://localhost';
+			window._oc_appswebroots.files = OC.getRootPath() + '/apps3/files';
 		});
 		afterEach(function() {
-			delete OC.appswebroots.files;
+			delete window._oc_appswebroots.files;
 		});
 
 		it('Uses a direct link for css and images,' , function() {
@@ -70,11 +70,11 @@ describe('Core base tests', function() {
 		var TESTAPP_ROOT = OC.getRootPath() + '/appsx/testapp';
 
 		beforeEach(function() {
-			OC.appswebroots[TESTAPP] = TESTAPP_ROOT;
+			window._oc_appswebroots[TESTAPP] = TESTAPP_ROOT;
 		});
 		afterEach(function() {
 			// restore original array
-			delete OC.appswebroots[TESTAPP];
+			delete window._oc_appswebroots[TESTAPP];
 		});
 		it('Generates correct links for core apps', function() {
 			expect(OC.linkTo('core', 'somefile.php')).toEqual(OC.getRootPath() + '/core/somefile.php');
@@ -306,48 +306,6 @@ describe('Core base tests', function() {
 		});
 		it('doesnt error out with no params provided', function  () {
 			expect(OC.generateUrl('apps/files/download{file}')).toEqual(OC.getRootPath() + '/index.php/apps/files/download%7Bfile%7D');
-		});
-	});
-	describe('Main menu mobile toggle', function() {
-		var clock;
-		var $toggle;
-		var $navigation;
-
-		beforeEach(function() {
-			jQuery.fx.off = true;
-			clock = sinon.useFakeTimers();
-			$('#testArea').append('<div id="header">' +
-				'<a class="menutoggle header-appname-container" href="#">' +
-				'<h1 class="header-appname"></h1>' +
-				'<div class="icon-caret"></div>' +
-				'</a>' +
-				'</div>' +
-				'<div id="navigation"></div>');
-			$toggle = $('#header').find('.menutoggle');
-			$navigation = $('#navigation');
-		});
-		afterEach(function() {
-			jQuery.fx.off = false;
-			clock.restore();
-			$(document).off('ajaxError');
-		});
-		it('Sets up menu toggle', function() {
-			window.initCore();
-			expect($navigation.hasClass('menu')).toEqual(true);
-		});
-		it('Clicking menu toggle toggles navigation in', function() {
-			window.initCore();
-			// fore show more apps icon since otherwise it would be hidden since no icons are available
-			clock.tick(1 * 1000);
-			$('#more-apps').show();
-
-			expect($navigation.is(':visible')).toEqual(false);
-			$toggle.click();
-			clock.tick(1 * 1000);
-			expect($navigation.is(':visible')).toEqual(true);
-			$toggle.click();
-			clock.tick(1 * 1000);
-			expect($navigation.is(':visible')).toEqual(false);
 		});
 	});
 	describe('Util', function() {
@@ -1335,67 +1293,6 @@ describe('Core base tests', function() {
 			expect(snapperStub.enable.called).toBe(false);
 			expect(snapperStub.disable.calledTwice).toBe(true);
 			expect(snapperStub.close.calledTwice).toBe(true);
-		});
-	});
-	describe('Requires password confirmation', function () {
-		var stubMomentNow;
-		var stubJsPageLoadTime;
-
-		afterEach(function () {
-			delete window.nc_pageLoad;
-			delete window.nc_lastLogin;
-			delete window.backendAllowsPasswordConfirmation;
-
-			stubMomentNow.restore();
-			stubJsPageLoadTime.restore();
-		});
-
-		it('should not show the password confirmation dialog when server time is earlier than local time', function () {
-			// add server variables
-			window.nc_pageLoad = parseInt(new Date(2018, 0, 3, 1, 15, 0).getTime() / 1000);
-			window.nc_lastLogin = parseInt(new Date(2018, 0, 3, 1, 0, 0).getTime() / 1000);
-			window.backendAllowsPasswordConfirmation = true;
-
-			stubJsPageLoadTime = sinon.stub(OC.PasswordConfirmation, 'pageLoadTime').value(new Date(2018, 0, 3, 12, 15, 0).getTime());
-			stubMomentNow = sinon.stub(moment, 'now').returns(new Date(2018, 0, 3, 12, 20, 0).getTime());
-
-			expect(OC.PasswordConfirmation.requiresPasswordConfirmation()).toBeFalsy();
-		});
-
-		it('should show the password confirmation dialog when server time is earlier than local time', function () {
-			// add server variables
-			window.nc_pageLoad = parseInt(new Date(2018, 0, 3, 1, 15, 0).getTime() / 1000);
-			window.nc_lastLogin = parseInt(new Date(2018, 0, 3, 1, 0, 0).getTime() / 1000);
-			window.backendAllowsPasswordConfirmation = true;
-
-			stubJsPageLoadTime = sinon.stub(OC.PasswordConfirmation, 'pageLoadTime').value(new Date(2018, 0, 3, 12, 15, 0).getTime());
-			stubMomentNow = sinon.stub(moment, 'now').returns(new Date(2018, 0, 3, 12, 31, 0).getTime());
-
-			expect(OC.PasswordConfirmation.requiresPasswordConfirmation()).toBeTruthy();
-		});
-
-		it('should not show the password confirmation dialog when server time is later than local time', function () {
-			// add server variables
-			window.nc_pageLoad = parseInt(new Date(2018, 0, 3, 23, 15, 0).getTime() / 1000);
-			window.nc_lastLogin = parseInt(new Date(2018, 0, 3, 23, 0, 0).getTime() / 1000);
-			window.backendAllowsPasswordConfirmation = true;
-
-			stubJsPageLoadTime = sinon.stub(OC.PasswordConfirmation, 'pageLoadTime').value(new Date(2018, 0, 3, 12, 15, 0).getTime());
-			stubMomentNow = sinon.stub(moment, 'now').returns(new Date(2018, 0, 3, 12, 20, 0).getTime());
-
-			expect(OC.PasswordConfirmation.requiresPasswordConfirmation()).toBeFalsy();
-		});
-
-		it('should show the password confirmation dialog when server time is later than local time', function () {
-			// add server variables
-			window.nc_pageLoad = parseInt(new Date(2018, 0, 3, 23, 15, 0).getTime() / 1000);
-			window.nc_lastLogin = parseInt(new Date(2018, 0, 3, 23, 0, 0).getTime() / 1000);
-			window.backendAllowsPasswordConfirmation = true;
-
-			stubJsPageLoadTime = sinon.stub(OC.PasswordConfirmation, 'pageLoadTime').value(new Date(2018, 0, 3, 12, 15, 0).getTime());
-			stubMomentNow = sinon.stub(moment, 'now').returns(new Date(2018, 0, 3, 12, 31, 0).getTime());
-
-			expect(OC.PasswordConfirmation.requiresPasswordConfirmation()).toBeTruthy();
 		});
 	});
 });

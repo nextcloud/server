@@ -82,7 +82,7 @@ abstract class AsyncBus implements IBus {
 	private function canRunAsync($command) {
 		$traits = $this->getTraits($command);
 		foreach ($traits as $trait) {
-			if (array_search($trait, $this->syncTraits) !== false) {
+			if (in_array($trait, $this->syncTraits)) {
 				return false;
 			}
 		}

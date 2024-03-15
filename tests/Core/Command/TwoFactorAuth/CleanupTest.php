@@ -28,14 +28,17 @@ namespace Core\Command\TwoFactorAuth;
 
 use OC\Core\Command\TwoFactorAuth\Cleanup;
 use OCP\Authentication\TwoFactorAuth\IRegistry;
+use OCP\IUserManager;
 use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Console\Tester\CommandTester;
 use Test\TestCase;
 
 class CleanupTest extends TestCase {
-
 	/** @var IRegistry|MockObject */
 	private $registry;
+
+	/** @var IUserManager|MockObject */
+	private $userManager;
 
 	/** @var CommandTester */
 	private $cmd;
@@ -44,8 +47,9 @@ class CleanupTest extends TestCase {
 		parent::setUp();
 
 		$this->registry = $this->createMock(IRegistry::class);
+		$this->userManager = $this->createMock(IUserManager::class);
 
-		$cmd = new Cleanup($this->registry);
+		$cmd = new Cleanup($this->registry, $this->userManager);
 		$this->cmd = new CommandTester($cmd);
 	}
 

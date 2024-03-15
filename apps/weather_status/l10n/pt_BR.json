@@ -5,7 +5,7 @@
     "Error" : "Erro",
     "Weather status" : "Status do Tempo",
     "Weather status in your dashboard" : "Status do Tempo no seu Painel",
-    "Weather status integrated in the Dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Status do Tempo integrado no aplicativo Painel.\n    Localização do usuário pode ser obtida automaticamente ou definida manualmente. Uma previsão de 6 horas é então exibida.\n    Esse status também pode ser integrado em outros locais, como no aplicativo Calendário.",
+    "Weather status integrated in the Dashboard app.\n    The geographic location can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Status do tempo integrado no aplicativo Dashboard. \n    A localização geográfica pode ser determinada automaticamente ou definida manualmente. Uma previsão de 6 horas é então exibida. \n    Esse status também pode ser integrado em outros locais, como o aplicativo Calendário.",
     "Detect location" : "Detectar localização",
     "Set custom address" : "Definir endereço personalizado",
     "Favorites" : "Favoritos",
@@ -44,17 +44,6 @@
     "There was an error saving the mode." : "Houve um erro ao salvar o modo.",
     "There was an error using personal address." : "Houve um erro ao usar o endereço pessoal.",
     "Set location for weather" : "Definir localização para o Tempo",
-    "{temperature} {unit} Clear sky at {time}" : "{temperature} {unit} Céu limpo às {time}",
-    "{temperature} {unit} Cloudy at {time}" : "{temperature} {unit} Nublado às {time}",
-    "{temperature} {unit} Fair day at {time}" : "{temperature} {unit} Dia ameno às {time}",
-    "{temperature} {unit} Fair night at {time}" : "{temperature} {unit} Noite amena às {time}",
-    "{temperature} {unit} Partly cloudy at {time}" : "{temperature} {unit} Parcialmente nublado às {time}",
-    "{temperature} {unit} Foggy at {time}" : "{temperature} {unit} Neblina às {time}",
-    "{temperature} {unit} Light rain at {time}" : "{temperature} {unit} Garoa às {time}",
-    "{temperature} {unit} Rain at {time}" : "{temperature} {unit} Chuva às {time}",
-    "{temperature} {unit} Heavy rain at {time}" : "{temperature} {unit} Chuva forte às {time}",
-    "{temperature} {unit} Rain showers at {time}" : "{temperature} {unit} Pancadas de chuva às {time}",
-    "{temperature} {unit} Light rain showers at {time}" : "{temperature} {unit} Pancadas leves de chuva às {time}",
-    "{temperature} {unit} Heavy rain showers at {time}" : "{temperature} {unit} Pancadas fortes de chuva às {time}"
+    "Weather status integrated in the Dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Status do Tempo integrado no aplicativo Painel.\n    Localização do usuário pode ser obtida automaticamente ou definida manualmente. Uma previsão de 6 horas é então exibida.\n    Esse status também pode ser integrado em outros locais, como no aplicativo Calendário."
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

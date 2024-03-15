@@ -42,7 +42,6 @@ use OCP\IUser;
 use OCP\IUserManager;
 
 class SubAdmin extends PublicEmitter implements ISubAdmin {
-
 	/** @var IUserManager */
 	private $userManager;
 
@@ -61,9 +60,9 @@ class SubAdmin extends PublicEmitter implements ISubAdmin {
 	 * @param IDBConnection $dbConn
 	 */
 	public function __construct(IUserManager $userManager,
-								IGroupManager $groupManager,
-								IDBConnection $dbConn,
-								IEventDispatcher $eventDispatcher) {
+		IGroupManager $groupManager,
+		IDBConnection $dbConn,
+		IEventDispatcher $eventDispatcher) {
 		$this->userManager = $userManager;
 		$this->groupManager = $groupManager;
 		$this->dbConn = $dbConn;

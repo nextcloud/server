@@ -33,13 +33,14 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class State extends Base {
-	private IRegistry $registry;
-
-	public function __construct(IRegistry $registry, IUserManager $userManager) {
-		parent::__construct('twofactorauth:state');
-
-		$this->registry = $registry;
-		$this->userManager = $userManager;
+	public function __construct(
+		private IRegistry $registry,
+		IUserManager $userManager,
+	) {
+		parent::__construct(
+			'twofactorauth:state',
+			$userManager,
+		);
 	}
 
 	protected function configure() {
@@ -91,7 +92,7 @@ class State extends Base {
 	}
 
 	private function printProviders(string $title, array $providers,
-									OutputInterface $output) {
+		OutputInterface $output) {
 		if (empty($providers)) {
 			// Ignore and don't print anything
 			return;

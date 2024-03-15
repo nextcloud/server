@@ -266,7 +266,7 @@ describe('OCA.Files.FileList tests', function() {
 				type: OCA.Files.FileActions.TYPE_INLINE,
 				permissions: OC.PERMISSION_ALL,
 				icon: function() {
-					// Specify icon for hitory button
+					// Specify icon for history button
 					return OC.imagePath('core','actions/history');
 				},
 				actionHandler: actionStub
@@ -515,9 +515,9 @@ describe('OCA.Files.FileList tests', function() {
 		});
 		it('toggles the list\'s class when toggling hidden files', function() {
 			expect(fileList.$el.hasClass('hide-hidden-files')).toEqual(false);
-			filesConfig.set('showhidden', false);
+			window._nc_event_bus.emit('files:config:updated', { key: 'show_hidden', value: false });
 			expect(fileList.$el.hasClass('hide-hidden-files')).toEqual(true);
-			filesConfig.set('showhidden', true);
+			window._nc_event_bus.emit('files:config:updated', { key: 'show_hidden', value: true })
 			expect(fileList.$el.hasClass('hide-hidden-files')).toEqual(false);
 		});
 	});
@@ -1371,7 +1371,7 @@ describe('OCA.Files.FileList tests', function() {
 			expect($('.files-fileList tr').length).toEqual(20);
 		});
 		it('renders the full first page despite hidden rows', function() {
-			filesConfig.set('showhidden', false);
+			window._nc_event_bus.emit('files:config:updated', { key: 'show_hidden', value: false });
 			var files = _.map(generateFiles(0, 23), function(data) {
 				return _.extend(data, {
 					name: '.' + data.name
@@ -1385,7 +1385,7 @@ describe('OCA.Files.FileList tests', function() {
 			expect($('.files-fileList tr').length).toEqual(25);
 		});
 		it('renders the full first page despite hidden rows', function() {
-			filesConfig.set('showhidden', true);
+			window._nc_event_bus.emit('files:config:updated', { key: 'show_hidden', value: true });
 			var files = _.map(generateFiles(0, 23), function(data) {
 				return _.extend(data, {
 					name: '.' + data.name
@@ -1817,18 +1817,6 @@ describe('OCA.Files.FileList tests', function() {
 			$('#app-content-files').trigger(new $.Event('urlChanged', {view: 'files', dir: '/somedir'}));
 			expect(fileList.getCurrentDirectory()).toEqual('/somedir');
 		});
-		it('reloads the list when leaving hidden state', function() {
-			var reloadStub = sinon.stub(fileList, 'reload');
-
-			// First show should not trigger
-			$('#app-content-files').trigger(new $.Event('show'));
-			expect(reloadStub.calledOnce).toEqual(false);
-
-			// Second show should!
-			$('#app-content-files').trigger(new $.Event('show'));
-			expect(reloadStub.calledOnce).toEqual(true);
-			reloadStub.restore();
-		});
 		it('refreshes breadcrumb after update', function() {
 			var setDirSpy = sinon.spy(fileList.breadcrumb, 'setDirectory');
 			fileList.changeDirectory('/anothersubdir');
@@ -2014,7 +2002,7 @@ describe('OCA.Files.FileList tests', function() {
 			expect($('.select-all').prop('checked')).toEqual(false);
 		});
 		it('Selecting all files also selects hidden files when invisible', function() {
-			filesConfig.set('showhidden', false);
+			window._nc_event_bus.emit('files:config:updated', { key: 'show_hidden', value: false });
 			var $tr = fileList.add(new FileInfo({
 				name: '.hidden',
 				type: 'dir',
@@ -2103,7 +2091,7 @@ describe('OCA.Files.FileList tests', function() {
 			expect($summary.text()).toEqual('Name');
 		});
 		it('Displays the number of hidden files in selection summary if hidden files are invisible', function() {
-			filesConfig.set('showhidden', false);
+			window._nc_event_bus.emit('files:config:updated', { key: 'show_hidden', value: false });
 			var $tr = fileList.add(new FileInfo({
 				name: '.hidden',
 				type: 'dir',
@@ -2115,7 +2103,7 @@ describe('OCA.Files.FileList tests', function() {
 			expect($summary.text()).toEqual('2 folders and 3 files (including 1 hidden)');
 		});
 		it('Does not displays the number of hidden files in selection summary if hidden files are visible', function() {
-			filesConfig.set('showhidden', true);
+			window._nc_event_bus.emit('files:config:updated', { key: 'show_hidden', value: true });
 			var $tr = fileList.add(new FileInfo({
 				name: '.hidden',
 				type: 'dir',
@@ -2127,7 +2115,7 @@ describe('OCA.Files.FileList tests', function() {
 			expect($summary.text()).toEqual('2 folders and 3 files');
 		});
 		it('Toggling hidden file visibility updates selection summary', function() {
-			filesConfig.set('showhidden', false);
+			window._nc_event_bus.emit('files:config:updated', { key: 'show_hidden', value: false });
 			var $tr = fileList.add(new FileInfo({
 				name: '.hidden',
 				type: 'dir',
@@ -2137,7 +2125,7 @@ describe('OCA.Files.FileList tests', function() {
 			$('.select-all').click();
 			var $summary = $('.column-name a.name>span:first');
 			expect($summary.text()).toEqual('2 folders and 3 files (including 1 hidden)');
-			filesConfig.set('showhidden', true);
+			window._nc_event_bus.emit('files:config:updated', { key: 'show_hidden', value: true });
 			expect($summary.text()).toEqual('2 folders and 3 files');
 		});
 		it('Select/deselect files shows/hides file actions', function() {
@@ -2474,7 +2462,7 @@ describe('OCA.Files.FileList tests', function() {
 				type: OCA.Files.FileActions.TYPE_INLINE,
 				permissions: OC.PERMISSION_ALL,
 				icon: function() {
-					// Specify icon for hitory button
+					// Specify icon for history button
 					return OC.imagePath('core','actions/history');
 				},
 				actionHandler: actionStub
@@ -2539,7 +2527,7 @@ describe('OCA.Files.FileList tests', function() {
 				type: OCA.Files.FileActions.TYPE_INLINE,
 				permissions: OC.PERMISSION_ALL,
 				icon: function() {
-					// Specify icon for hitory button
+					// Specify icon for history button
 					return OC.imagePath('core','actions/history');
 				},
 				actionHandler: actionStub

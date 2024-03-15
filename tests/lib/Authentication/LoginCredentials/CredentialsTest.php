@@ -28,7 +28,6 @@ use OC\Authentication\LoginCredentials\Credentials;
 use Test\TestCase;
 
 class CredentialsTest extends TestCase {
-
 	/** @var string */
 	private $uid;
 

@@ -29,7 +29,6 @@ use OCP\IDBConnection;
 use OCP\IEmojiHelper;
 
 class EmojiHelperTest extends TestCase {
-
 	/** @var IDBConnection|\PHPUnit\Framework\MockObject\MockObject */
 	private $db;
 

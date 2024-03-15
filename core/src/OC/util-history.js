@@ -22,7 +22,7 @@
  */
 
 import _ from 'underscore'
-import OC from './index'
+import OC from './index.js'
 
 /**
  * Utility class for the history API,

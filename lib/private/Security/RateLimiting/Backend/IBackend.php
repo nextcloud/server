@@ -39,10 +39,11 @@ interface IBackend {
 	 *
 	 * @param string $methodIdentifier Identifier for the method
 	 * @param string $userIdentifier Identifier for the user
-	 * @return int
 	 */
-	public function getAttempts(string $methodIdentifier,
-								string $userIdentifier): int;
+	public function getAttempts(
+		string $methodIdentifier,
+		string $userIdentifier,
+	): int;
 
 	/**
 	 * Registers an attempt
@@ -51,7 +52,9 @@ interface IBackend {
 	 * @param string $userIdentifier Identifier for the user
 	 * @param int $period Period in seconds how long this attempt should be stored
 	 */
-	public function registerAttempt(string $methodIdentifier,
-									string $userIdentifier,
-									int $period);
+	public function registerAttempt(
+		string $methodIdentifier,
+		string $userIdentifier,
+		int $period,
+	);
 }

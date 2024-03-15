@@ -2,6 +2,7 @@
   - @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
   -
   - @author 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
+  - @author Ferdinand Thiessen <opensource@fthiessen.de>
   -
   - @license GNU AGPL version 3 or any later version
   -
@@ -25,163 +26,32 @@
 		<p class="settings-hint hidden-when-empty">
 			{{ t('settings', 'Web, desktop and mobile clients currently logged in to your account.') }}
 		</p>
-		<AuthTokenList :tokens="tokens"
-			@toggle-scope="toggleTokenScope"
-			@rename="rename"
-			@delete="deleteToken"
-			@wipe="wipeToken" />
-		<AuthTokenSetupDialogue v-if="canCreateToken" :add="addNewToken" />
+		<AuthTokenList />
+		<AuthTokenSetup v-if="canCreateToken" />
 	</div>
 </template>
 
-<script>
-import axios from '@nextcloud/axios'
-import confirmPassword from '@nextcloud/password-confirmation'
-import { generateUrl } from '@nextcloud/router'
+<script lang="ts">
+import { loadState } from '@nextcloud/initial-state'
+import { translate as t } from '@nextcloud/l10n'
+import { defineComponent } from 'vue'
 
-import AuthTokenList from './AuthTokenList'
-import AuthTokenSetupDialogue from './AuthTokenSetupDialogue'
+import AuthTokenList from './AuthTokenList.vue'
+import AuthTokenSetup from './AuthTokenSetup.vue'
 
-const confirm = () => {
-	return new Promise(resolve => {
-		OC.dialogs.confirm(
-			t('settings', 'Do you really want to wipe your data from this device?'),
-			t('settings', 'Confirm wipe'),
-			resolve,
-			true
-		)
-	})
-}
-
-/**
- * Tap into a promise without losing the value
- *
- * @param {Function} cb the callback
- * @return {any} val the value
- */
-const tap = cb => val => {
-	cb(val)
-	return val
-}
-
-export default {
+export default defineComponent({
 	name: 'AuthTokenSection',
 	components: {
-		AuthTokenSetupDialogue,
 		AuthTokenList,
-	},
-	props: {
-		tokens: {
-			type: Array,
-			required: true,
-		},
-		canCreateToken: {
-			type: Boolean,
-			required: true,
-		},
+		AuthTokenSetup,
 	},
 	data() {
 		return {
-			baseUrl: generateUrl('/settings/personal/authtokens'),
+			canCreateToken: loadState('settings', 'can_create_app_token'),
 		}
 	},
 	methods: {
-		addNewToken(name) {
-			console.debug('creating a new app token', name)
-
-			const data = {
-				name,
-			}
-			return axios.post(this.baseUrl, data)
-				.then(resp => resp.data)
-				.then(tap(() => console.debug('app token created')))
-				// eslint-disable-next-line vue/no-mutating-props
-				.then(tap(data => this.tokens.push(data.deviceToken)))
-				.catch(err => {
-					console.error.bind('could not create app password', err)
-					OC.Notification.showTemporary(t('settings', 'Error while creating device token'))
-					throw err
-				})
-		},
-		toggleTokenScope(token, scope, value) {
-			console.debug('updating app token scope', token.id, scope, value)
-
-			const oldVal = token.scope[scope]
-			token.scope[scope] = value
-
-			return this.updateToken(token)
-				.then(tap(() => console.debug('app token scope updated')))
-				.catch(err => {
-					console.error.bind('could not update app token scope', err)
-					OC.Notification.showTemporary(t('settings', 'Error while updating device token scope'))
-
-					// Restore
-					token.scope[scope] = oldVal
-
-					throw err
-				})
-		},
-		rename(token, newName) {
-			console.debug('renaming app token', token.id, token.name, newName)
-
-			const oldName = token.name
-			token.name = newName
-
-			return this.updateToken(token)
-				.then(tap(() => console.debug('app token name updated')))
-				.catch(err => {
-					console.error.bind('could not update app token name', err)
-					OC.Notification.showTemporary(t('settings', 'Error while updating device token name'))
-
-					// Restore
-					token.name = oldName
-				})
-		},
-		updateToken(token) {
-			return axios.put(this.baseUrl + '/' + token.id, token)
-				.then(resp => resp.data)
-		},
-		deleteToken(token) {
-			console.debug('deleting app token', token)
-
-			// eslint-disable-next-line vue/no-mutating-props
-			this.tokens = this.tokens.filter(t => t !== token)
-
-			return axios.delete(this.baseUrl + '/' + token.id)
-				.then(resp => resp.data)
-				.then(tap(() => console.debug('app token deleted')))
-				.catch(err => {
-					console.error.bind('could not delete app token', err)
-					OC.Notification.showTemporary(t('settings', 'Error while deleting the token'))
-
-					// Restore
-					// eslint-disable-next-line vue/no-mutating-props
-					this.tokens.push(token)
-				})
-		},
-		async wipeToken(token) {
-			console.debug('wiping app token', token)
-
-			try {
-				await confirmPassword()
-
-				if (!(await confirm())) {
-					console.debug('wipe aborted by user')
-					return
-				}
-				await axios.post(this.baseUrl + '/wipe/' + token.id)
-				console.debug('app token marked for wipe')
-
-				token.type = 2
-			} catch (err) {
-				console.error('could not wipe app token', err)
-				OC.Notification.showTemporary(t('settings', 'Error while wiping the device with the token'))
-			}
-		},
+		t,
 	},
-}
+})
 </script>
-
-<style scoped>
-
-</style>

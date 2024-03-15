@@ -30,7 +30,6 @@ namespace OCP\AppFramework\Http;
  * @since 8.1.0
  */
 interface ICallbackResponse {
-
 	/**
 	 * Outputs the content that should be printed
 	 *

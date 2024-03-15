@@ -2,6 +2,7 @@
   - @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
   -
   - @author 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
+  - @author Ferdinand Thiessen <opensource@fthiessen.de>
   -
   - @license GNU AGPL version 3 or any later version
   -
@@ -20,76 +21,94 @@
   -->
 
 <template>
-	<tr :data-id="token.id"
-		:class="wiping">
-		<td class="client">
-			<div :class="iconName.icon" />
-		</td>
-		<td class="token-name">
-			<input v-if="token.canRename && renaming"
-				ref="input"
-				v-model="newName"
-				type="text"
-				@keyup.enter="rename"
-				@blur="cancelRename"
-				@keyup.esc="cancelRename">
-			<span v-else>{{ iconName.name }}</span>
-			<span v-if="wiping" class="wiping-warning">({{ t('settings', 'Marked for remote wipe') }})</span>
+	<tr :class="['auth-token', { 'auth-token--wiping': wiping }]" :data-id="token.id">
+		<td class="auth-token__name">
+			<NcIconSvgWrapper :path="tokenIcon" />
+			<div class="auth-token__name-wrapper">
+				<form v-if="token.canRename && renaming"
+					class="auth-token__name-form"
+					@submit.prevent.stop="rename">
+					<NcTextField ref="input"
+						:value.sync="newName"
+						:label="t('settings', 'Device name')"
+						:show-trailing-button="true"
+						:trailing-button-label="t('settings', 'Cancel renaming')"
+						@trailing-button-click="cancelRename"
+						@keyup.esc="cancelRename" />
+					<NcButton :aria-label="t('settings', 'Save new name')" type="tertiary" native-type="submit">
+						<template #icon>
+							<NcIconSvgWrapper :path="mdiCheck" />
+						</template>
+					</NcButton>
+				</form>
+				<span v-else>{{ tokenLabel }}</span>
+				<span v-if="wiping" class="wiping-warning">({{ t('settings', 'Marked for remote wipe') }})</span>
+			</div>
 		</td>
 		<td>
-			<span v-tooltip="lastActivity" class="last-activity">{{ lastActivityRelative }}</span>
+			<NcDateTime class="auth-token__last-activity"
+				:ignore-seconds="true"
+				:timestamp="tokenLastActivity" />
 		</td>
-		<td class="more">
-			<Actions v-if="!token.current"
-				v-tooltip.auto="{
-					content: t('settings', 'Device settings'),
-					container: 'body'
-				}"
+		<td class="auth-token__actions">
+			<NcActions v-if="!token.current"
+				:title="t('settings', 'Device settings')"
+				:aria-label="t('settings', 'Device settings')"
 				:open.sync="actionOpen">
-				<ActionCheckbox v-if="token.type === 1"
+				<NcActionCheckbox v-if="canChangeScope"
 					:checked="token.scope.filesystem"
-					@change.stop.prevent="$emit('toggle-scope', token, 'filesystem', !token.scope.filesystem)">
+					@update:checked="updateFileSystemScope">
 					<!-- TODO: add text/longtext with some description -->
 					{{ t('settings', 'Allow filesystem access') }}
-				</ActionCheckbox>
-				<ActionButton v-if="token.canRename"
+				</NcActionCheckbox>
+				<NcActionButton v-if="token.canRename"
 					icon="icon-rename"
 					@click.stop.prevent="startRename">
 					<!-- TODO: add text/longtext with some description -->
 					{{ t('settings', 'Rename') }}
-				</ActionButton>
+				</NcActionButton>
 
 				<!-- revoke & wipe -->
 				<template v-if="token.canDelete">
 					<template v-if="token.type !== 2">
-						<ActionButton icon="icon-delete"
+						<NcActionButton icon="icon-delete"
 							@click.stop.prevent="revoke">
 							<!-- TODO: add text/longtext with some description -->
 							{{ t('settings', 'Revoke') }}
-						</ActionButton>
-						<ActionButton icon="icon-delete"
+						</NcActionButton>
+						<NcActionButton icon="icon-delete"
 							@click.stop.prevent="wipe">
 							{{ t('settings', 'Wipe device') }}
-						</ActionButton>
+						</NcActionButton>
 					</template>
-					<ActionButton v-else-if="token.type === 2"
+					<NcActionButton v-else-if="token.type === 2"
 						icon="icon-delete"
-						:title="t('settings', 'Revoke')"
+						:name="t('settings', 'Revoke')"
 						@click.stop.prevent="revoke">
 						{{ t('settings', 'Revoking this token might prevent the wiping of your device if it has not started the wipe yet.') }}
-					</ActionButton>
+					</NcActionButton>
 				</template>
-			</Actions>
+			</NcActions>
 		</td>
 	</tr>
 </template>
 
-<script>
-import {
-	Actions,
-	ActionButton,
-	ActionCheckbox,
-} from '@nextcloud/vue'
+<script lang="ts">
+import type { PropType } from 'vue'
+import type { IToken } from '../store/authtoken'
+
+import { mdiCheck, mdiCellphone, mdiTablet, mdiMonitor, mdiWeb, mdiKey, mdiMicrosoftEdge, mdiFirefox, mdiGoogleChrome, mdiAppleSafari, mdiAndroid, mdiAppleIos } from '@mdi/js'
+import { translate as t } from '@nextcloud/l10n'
+import { defineComponent } from 'vue'
+import { TokenType, useAuthTokenStore } from '../store/authtoken.ts'
+
+import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
+import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
+import NcActionCheckbox from '@nextcloud/vue/dist/Components/NcActionCheckbox.js'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import NcDateTime from '@nextcloud/vue/dist/Components/NcDateTime.js'
+import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
+import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
 
 // When using capture groups the following parts are extracted the first is used as the version number, the second as the OS
 const userAgentMap = {
@@ -120,122 +139,171 @@ const userAgentMap = {
 	neon: /Neon \d+\.\d+\.\d+\+\d+/,
 }
 const nameMap = {
-	ie: t('setting', 'Internet Explorer'),
-	edge: t('setting', 'Edge'),
-	firefox: t('setting', 'Firefox'),
-	chrome: t('setting', 'Google Chrome'),
-	safari: t('setting', 'Safari'),
-	androidChrome: t('setting', 'Google Chrome for Android'),
-	iphone: t('setting', 'iPhone'),
-	ipad: t('setting', 'iPad'),
-	iosClient: t('setting', '{productName} iOS app', { productName: window.oc_defaults.productName }),
-	androidClient: t('setting', '{productName} Android app', { productName: window.oc_defaults.productName }),
-	iosTalkClient: t('setting', '{productName} Talk for iOS', { productName: window.oc_defaults.productName }),
-	androidTalkClient: t('setting', '{productName} Talk for Android', { productName: window.oc_defaults.productName }),
+	edge: 'Microsoft Edge',
+	firefox: 'Firefox',
+	chrome: 'Google Chrome',
+	safari: 'Safari',
+	androidChrome: t('settings', 'Google Chrome for Android'),
+	iphone: 'iPhone',
+	ipad: 'iPad',
+	iosClient: t('settings', '{productName} iOS app', { productName: window.oc_defaults.productName }),
+	androidClient: t('settings', '{productName} Android app', { productName: window.oc_defaults.productName }),
+	iosTalkClient: t('settings', '{productName} Talk for iOS', { productName: window.oc_defaults.productName }),
+	androidTalkClient: t('settings', '{productName} Talk for Android', { productName: window.oc_defaults.productName }),
+	syncClient: t('settings', 'Sync client'),
 	davx5: 'DAVx5',
 	webPirate: 'WebPirate',
 	sailfishBrowser: 'SailfishBrowser',
 	neon: 'Neon',
 }
-const iconMap = {
-	ie: 'icon-desktop',
-	edge: 'icon-desktop',
-	firefox: 'icon-desktop',
-	chrome: 'icon-desktop',
-	safari: 'icon-desktop',
-	androidChrome: 'icon-phone',
-	iphone: 'icon-phone',
-	ipad: 'icon-tablet',
-	iosClient: 'icon-phone',
-	androidClient: 'icon-phone',
-	iosTalkClient: 'icon-phone',
-	androidTalkClient: 'icon-phone',
-	davx5: 'icon-phone',
-	webPirate: 'icon-link',
-	sailfishBrowser: 'icon-link',
-}
 
-export default {
+export default defineComponent({
 	name: 'AuthToken',
 	components: {
-		Actions,
-		ActionButton,
-		ActionCheckbox,
+		NcActions,
+		NcActionButton,
+		NcActionCheckbox,
+		NcButton,
+		NcDateTime,
+		NcIconSvgWrapper,
+		NcTextField,
 	},
 	props: {
 		token: {
-			type: Object,
+			type: Object as PropType<IToken>,
 			required: true,
 		},
 	},
+	setup() {
+		const authTokenStore = useAuthTokenStore()
+		return { authTokenStore }
+	},
 	data() {
 		return {
-			showMore: this.token.canScope || this.token.canDelete,
+			actionOpen: false,
 			renaming: false,
 			newName: '',
-			actionOpen: false,
+			oldName: '',
+			mdiCheck,
 		}
 	},
 	computed: {
-		lastActivityRelative() {
-			return OC.Util.relativeModifiedDate(this.token.lastActivity * 1000)
+		canChangeScope() {
+			return this.token.type === TokenType.PERMANENT_TOKEN
 		},
-		lastActivity() {
-			return OC.Util.formatDate(this.token.lastActivity * 1000, 'LLL')
-		},
-		iconName() {
+		/**
+		 * Object ob the current user agend used by the token
+		 * @return Either an object containing user agent information or null if unknown
+		 */
+		client() {
 			// pretty format sync client user agent
 			const matches = this.token.name.match(/Mozilla\/5\.0 \((\w+)\) (?:mirall|csyncoC)\/(\d+\.\d+\.\d+)/)
 
-			let icon = ''
 			if (matches) {
-				/* eslint-disable-next-line */
-				this.token.name = t('settings', 'Sync client - {os}', {
+				return {
+					id: 'syncClient',
 					os: matches[1],
 					version: matches[2],
-				})
-				icon = 'icon-desktop'
-			}
-
-			// preserve title for cases where we format it further
-			const title = this.token.name
-			let name = this.token.name
-			for (const client in userAgentMap) {
-				const matches = title.match(userAgentMap[client])
-				if (matches) {
-					if (matches[2] && matches[1]) { // version number and os
-						name = nameMap[client] + ' ' + matches[2] + ' - ' + matches[1]
-					} else if (matches[1]) { // only version number
-						name = nameMap[client] + ' ' + matches[1]
-					} else {
-						name = nameMap[client]
-					}
-
-					icon = iconMap[client]
 				}
 			}
-			if (this.token.current) {
-				name = t('settings', 'This session')
+
+			for (const client in userAgentMap) {
+				const matches = this.token.name.match(userAgentMap[client])
+				if (matches) {
+					return {
+						id: client,
+						os: matches[2] && matches[1],
+						version: matches[2] ?? matches[1],
+					}
+				}
 			}
 
-			return {
-				icon,
-				name,
+			return null
+		},
+		/**
+		 * Last activity of the token as ECMA timestamp (in ms)
+		 */
+		tokenLastActivity() {
+			return this.token.lastActivity * 1000
+		},
+		/**
+		 * Icon to use for the current token
+		 */
+		tokenIcon() {
+			// For custom created app tokens / app passwords
+			if (this.token.type === TokenType.PERMANENT_TOKEN) {
+				return mdiKey
+			}
+
+			switch (this.client?.id) {
+			case 'edge':
+				return mdiMicrosoftEdge
+			case 'firefox':
+				return mdiFirefox
+			case 'chrome':
+				return mdiGoogleChrome
+			case 'safari':
+				return mdiAppleSafari
+			case 'androidChrome':
+			case 'androidClient':
+			case 'androidTalkClient':
+				return mdiAndroid
+			case 'iphone':
+			case 'iosClient':
+			case 'iosTalkClient':
+				return mdiAppleIos
+			case 'ipad':
+				return mdiTablet
+			case 'davx5':
+				return mdiCellphone
+			case 'syncClient':
+				return mdiMonitor
+			case 'webPirate':
+			case 'sailfishBrowser':
+			default:
+				return mdiWeb
 			}
 		},
+		/**
+		 * Label to be shown for current token
+		 */
+		tokenLabel() {
+			if (this.token.current) {
+				return t('settings', 'This session')
+			}
+			if (this.client === null) {
+				return this.token.name
+			}
+
+			const name = nameMap[this.client.id]
+			if (this.client.os) {
+				return t('settings', '{client} - {version} ({system})', { client: name, system: this.client.os, version: this.client.version })
+			} else if (this.client.version) {
+				return t('settings', '{client} - {version}', { client: name, version: this.client.version })
+			}
+			return name
+		},
+		/**
+		 * If the current token is considered for remote wiping
+		 */
 		wiping() {
-			return this.token.type === 2
+			return this.token.type === TokenType.WIPING_TOKEN
 		},
 	},
 	methods: {
+		t,
+		updateFileSystemScope(state: boolean) {
+			this.authTokenStore.setTokenScope(this.token, 'filesystem', state)
+		},
 		startRename() {
 			// Close action (popover menu)
 			this.actionOpen = false
 
+			this.oldName = this.token.name
 			this.newName = this.token.name
 			this.renaming = true
 			this.$nextTick(() => {
-				this.$refs.input.select()
+				this.$refs.input!.select()
 			})
 		},
 		cancelRename() {
@@ -243,68 +311,61 @@ export default {
 		},
 		revoke() {
 			this.actionOpen = false
-			this.$emit('delete', this.token)
+			this.authTokenStore.deleteToken(this.token)
 		},
 		rename() {
 			this.renaming = false
-			this.$emit('rename', this.token, this.newName)
+			this.authTokenStore.renameToken(this.token, this.newName)
 		},
 		wipe() {
 			this.actionOpen = false
-			this.$emit('wipe', this.token)
+			this.authTokenStore.wipeToken(this.token)
 		},
 	},
-}
+})
 </script>
 
 <style lang="scss" scoped>
-	.wiping {
-		background-color: var(--color-background-darker);
+.auth-token {
+	border-top: 2px solid var(--color-border);
+	max-width: 200px;
+	white-space: normal;
+	vertical-align: middle;
+	position: relative;
+
+	&--wiping {
+		background-color: var(--color-background-dark);
 	}
 
-	td {
-		border-top: 1px solid var(--color-border);
-		max-width: 200px;
-		white-space: normal;
-		vertical-align: middle;
-		position: relative;
-
-		&%icon {
-			overflow: visible;
-			position: relative;
-			width: 44px;
-			height: 44px;
-		}
-
-		&.token-name {
-			padding: 10px 6px;
-
-			&.token-rename {
-				padding: 0;
-			}
-
-			input {
-				width: 100%;
-				margin: 0;
-			}
-		}
-		&.token-name .wiping-warning {
-			color: var(--color-text-lighter);
-		}
-
-		&.more {
-			@extend %icon;
-			padding: 0 10px;
-		}
-
-		&.client {
-			@extend %icon;
-
-			div {
-				opacity: 0.57;
-				width: 44px;
-				height: 44px;
-			}
-		}
+	&__name {
+		padding-block: 10px;
+		display: flex;
+		align-items: center;
+		gap: 6px;
+		min-width: 355px; // ensure no jumping when renaming
 	}
+
+	&__name-wrapper {
+		display: flex;
+		flex-direction: column;
+	}
+
+	&__name-form {
+		align-items: end;
+		display: flex;
+		gap: 4px;
+	}
+
+	&__actions {
+		padding: 0 10px;
+	}
+
+	&__last-activity {
+		padding-inline-start: 10px;
+	}
+
+	.wiping-warning {
+		color: var(--color-text-maxcontrast);
+	}
+}
 </style>

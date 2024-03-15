@@ -1,0 +1,392 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "user_ldap",
+        "version": "0.0.1",
+        "description": "This application enables administrators to connect Nextcloud to an LDAP-based user directory.",
+        "license": {
+            "name": "agpl"
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "basic_auth": {
+                "type": "http",
+                "scheme": "basic"
+            },
+            "bearer_auth": {
+                "type": "http",
+                "scheme": "bearer"
+            }
+        },
+        "schemas": {
+            "OCSMeta": {
+                "type": "object",
+                "required": [
+                    "status",
+                    "statuscode"
+                ],
+                "properties": {
+                    "status": {
+                        "type": "string"
+                    },
+                    "statuscode": {
+                        "type": "integer"
+                    },
+                    "message": {
+                        "type": "string"
+                    },
+                    "totalitems": {
+                        "type": "string"
+                    },
+                    "itemsperpage": {
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    },
+    "paths": {
+        "/ocs/v2.php/apps/user_ldap/api/v1/config": {
+            "post": {
+                "operationId": "configapi-create",
+                "summary": "Create a new (empty) configuration and return the resulting prefix",
+                "description": "This endpoint requires admin access",
+                "tags": [
+                    "configapi"
+                ],
+                "security": [
+                    {
+                        "bearer_auth": []
+                    },
+                    {
+                        "basic_auth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "OCS-APIRequest",
+                        "in": "header",
+                        "description": "Required to be true for the API request to pass",
+                        "required": true,
+                        "schema": {
+                            "type": "boolean",
+                            "default": true
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Config created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "required": [
+                                                        "configID"
+                                                    ],
+                                                    "properties": {
+                                                        "configID": {
+                                                            "type": "string"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ocs/v2.php/apps/user_ldap/api/v1/config/{configID}": {
+            "get": {
+                "operationId": "configapi-show",
+                "summary": "Get a configuration",
+                "description": "Output can look like this: <?xml version=\"1.0\"?> <ocs> <meta> <status>ok</status> <statuscode>200</statuscode> <message>OK</message> </meta> <data> <ldapHost>ldaps://my.ldap.server</ldapHost> <ldapPort>7770</ldapPort> <ldapBackupHost></ldapBackupHost> <ldapBackupPort></ldapBackupPort> <ldapBase>ou=small,dc=my,dc=ldap,dc=server</ldapBase> <ldapBaseUsers>ou=users,ou=small,dc=my,dc=ldap,dc=server</ldapBaseUsers> <ldapBaseGroups>ou=small,dc=my,dc=ldap,dc=server</ldapBaseGroups> <ldapAgentName>cn=root,dc=my,dc=ldap,dc=server</ldapAgentName> <ldapAgentPassword>clearTextWithShowPassword=1</ldapAgentPassword> <ldapTLS>1</ldapTLS> <turnOffCertCheck>0</turnOffCertCheck> <ldapIgnoreNamingRules/> <ldapUserDisplayName>displayname</ldapUserDisplayName> <ldapUserDisplayName2>uid</ldapUserDisplayName2> <ldapUserFilterObjectclass>inetOrgPerson</ldapUserFilterObjectclass> <ldapUserFilterGroups></ldapUserFilterGroups> <ldapUserFilter>(&amp;(objectclass=nextcloudUser)(nextcloudEnabled=TRUE))</ldapUserFilter> <ldapUserFilterMode>1</ldapUserFilterMode> <ldapGroupFilter>(&amp;(|(objectclass=nextcloudGroup)))</ldapGroupFilter> <ldapGroupFilterMode>0</ldapGroupFilterMode> <ldapGroupFilterObjectclass>nextcloudGroup</ldapGroupFilterObjectclass> <ldapGroupFilterGroups></ldapGroupFilterGroups> <ldapGroupDisplayName>cn</ldapGroupDisplayName> <ldapGroupMemberAssocAttr>memberUid</ldapGroupMemberAssocAttr> <ldapLoginFilter>(&amp;(|(objectclass=inetOrgPerson))(uid=%uid))</ldapLoginFilter> <ldapLoginFilterMode>0</ldapLoginFilterMode> <ldapLoginFilterEmail>0</ldapLoginFilterEmail> <ldapLoginFilterUsername>1</ldapLoginFilterUsername> <ldapLoginFilterAttributes></ldapLoginFilterAttributes> <ldapQuotaAttribute></ldapQuotaAttribute> <ldapQuotaDefault></ldapQuotaDefault> <ldapEmailAttribute>mail</ldapEmailAttribute> <ldapCacheTTL>20</ldapCacheTTL> <ldapUuidUserAttribute>auto</ldapUuidUserAttribute> <ldapUuidGroupAttribute>auto</ldapUuidGroupAttribute> <ldapOverrideMainServer></ldapOverrideMainServer> <ldapConfigurationActive>1</ldapConfigurationActive> <ldapAttributesForUserSearch>uid;sn;givenname</ldapAttributesForUserSearch> <ldapAttributesForGroupSearch></ldapAttributesForGroupSearch> <ldapExperiencedAdmin>0</ldapExperiencedAdmin> <homeFolderNamingRule></homeFolderNamingRule> <hasMemberOfFilterSupport></hasMemberOfFilterSupport> <useMemberOfToDetectMembership>1</useMemberOfToDetectMembership> <ldapExpertUsernameAttr>uid</ldapExpertUsernameAttr> <ldapExpertUUIDUserAttr>uid</ldapExpertUUIDUserAttr> <ldapExpertUUIDGroupAttr></ldapExpertUUIDGroupAttr> <lastJpegPhotoLookup>0</lastJpegPhotoLookup> <ldapNestedGroups>0</ldapNestedGroups> <ldapPagingSize>500</ldapPagingSize> <turnOnPasswordChange>1</turnOnPasswordChange> <ldapDynamicGroupMemberURL></ldapDynamicGroupMemberURL> </data> </ocs>\nThis endpoint requires admin access",
+                "tags": [
+                    "configapi"
+                ],
+                "security": [
+                    {
+                        "bearer_auth": []
+                    },
+                    {
+                        "basic_auth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "showPassword",
+                        "in": "query",
+                        "description": "Whether to show the password",
+                        "schema": {
+                            "type": "integer",
+                            "default": 0,
+                            "enum": [
+                                0,
+                                1
+                            ]
+                        }
+                    },
+                    {
+                        "name": "configID",
+                        "in": "path",
+                        "description": "ID of the config",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "OCS-APIRequest",
+                        "in": "header",
+                        "description": "Required to be true for the API request to pass",
+                        "required": true,
+                        "schema": {
+                            "type": "boolean",
+                            "default": true
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Config returned",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "additionalProperties": {
+                                                        "type": "object"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Config not found",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "operationId": "configapi-modify",
+                "summary": "Modify a configuration",
+                "description": "This endpoint requires admin access",
+                "tags": [
+                    "configapi"
+                ],
+                "security": [
+                    {
+                        "bearer_auth": []
+                    },
+                    {
+                        "basic_auth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "configData",
+                        "in": "query",
+                        "description": "New config",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "configID",
+                        "in": "path",
+                        "description": "ID of the config",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "OCS-APIRequest",
+                        "in": "header",
+                        "description": "Required to be true for the API request to pass",
+                        "required": true,
+                        "schema": {
+                            "type": "boolean",
+                            "default": true
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Config returned",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Modifying config is not possible",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Config not found",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "operationId": "configapi-delete",
+                "summary": "Delete a LDAP configuration",
+                "description": "This endpoint requires admin access",
+                "tags": [
+                    "configapi"
+                ],
+                "security": [
+                    {
+                        "bearer_auth": []
+                    },
+                    {
+                        "basic_auth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "configID",
+                        "in": "path",
+                        "description": "ID of the config",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "OCS-APIRequest",
+                        "in": "header",
+                        "description": "Required to be true for the API request to pass",
+                        "required": true,
+                        "schema": {
+                            "type": "boolean",
+                            "default": true
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Config deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Config not found",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "tags": []
+}

@@ -10,18 +10,17 @@
 namespace Test\Group;
 
 use OC\User\User;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IUser;
 use PHPUnit\Framework\MockObject\MockObject;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class GroupTest extends \Test\TestCase {
-	
-	/** @var EventDispatcherInterface|MockObject */
+	/** @var IEventDispatcher|MockObject */
 	protected $dispatcher;
 
 	protected function setUp(): void {
 		parent::setUp();
-		$this->dispatcher = $this->createMock(EventDispatcherInterface::class);
+		$this->dispatcher = $this->createMock(IEventDispatcher::class);
 	}
 
 	/**
@@ -304,14 +303,14 @@ class GroupTest extends \Test\TestCase {
 		$group = new \OC\Group\Group('group1', [$backend], $this->dispatcher, $userManager);
 
 		$backend->expects($this->once())
-			->method('usersInGroup')
+			->method('searchInGroup')
 			->with('group1', '2')
-			->willReturn(['user2']);
+			->willReturn(['user2' => new \OC\User\User('user2', null, $this->dispatcher)]);
 
 		$users = $group->searchUsers('2');
 
 		$this->assertEquals(1, count($users));
-		$user2 = $users['user2'];
+		$user2 = reset($users);
 		$this->assertEquals('user2', $user2->getUID());
 	}
 
@@ -326,18 +325,18 @@ class GroupTest extends \Test\TestCase {
 		$group = new \OC\Group\Group('group1', [$backend1, $backend2], $this->dispatcher, $userManager);
 
 		$backend1->expects($this->once())
-			->method('usersInGroup')
+			->method('searchInGroup')
 			->with('group1', '2')
-			->willReturn(['user2']);
+			->willReturn(['user2' => new \OC\User\User('user2', null, $this->dispatcher)]);
 		$backend2->expects($this->once())
-			->method('usersInGroup')
+			->method('searchInGroup')
 			->with('group1', '2')
-			->willReturn(['user2']);
+			->willReturn(['user2' => new \OC\User\User('user2', null, $this->dispatcher)]);
 
 		$users = $group->searchUsers('2');
 
 		$this->assertEquals(1, count($users));
-		$user2 = $users['user2'];
+		$user2 = reset($users);
 		$this->assertEquals('user2', $user2->getUID());
 	}
 
@@ -349,14 +348,14 @@ class GroupTest extends \Test\TestCase {
 		$group = new \OC\Group\Group('group1', [$backend], $this->dispatcher, $userManager);
 
 		$backend->expects($this->once())
-			->method('usersInGroup')
+			->method('searchInGroup')
 			->with('group1', 'user', 1, 1)
-			->willReturn(['user2']);
+			->willReturn(['user2' => new \OC\User\User('user2', null, $this->dispatcher)]);
 
 		$users = $group->searchUsers('user', 1, 1);
 
 		$this->assertEquals(1, count($users));
-		$user2 = $users['user2'];
+		$user2 = reset($users);
 		$this->assertEquals('user2', $user2->getUID());
 	}
 
@@ -371,19 +370,19 @@ class GroupTest extends \Test\TestCase {
 		$group = new \OC\Group\Group('group1', [$backend1, $backend2], $this->dispatcher, $userManager);
 
 		$backend1->expects($this->once())
-			->method('usersInGroup')
+			->method('searchInGroup')
 			->with('group1', 'user', 2, 1)
-			->willReturn(['user2']);
+			->willReturn(['user2' => new \OC\User\User('user2', null, $this->dispatcher)]);
 		$backend2->expects($this->once())
-			->method('usersInGroup')
+			->method('searchInGroup')
 			->with('group1', 'user', 2, 1)
-			->willReturn(['user1']);
+			->willReturn(['user1' => new \OC\User\User('user1', null, $this->dispatcher)]);
 
 		$users = $group->searchUsers('user', 2, 1);
 
 		$this->assertEquals(2, count($users));
-		$user2 = $users['user2'];
-		$user1 = $users['user1'];
+		$user2 = reset($users);
+		$user1 = next($users);
 		$this->assertEquals('user2', $user2->getUID());
 		$this->assertEquals('user1', $user1->getUID());
 	}

@@ -33,7 +33,6 @@ use OCP\WorkflowEngine\IManager;
  * @since 18.0.0
  */
 class RegisterChecksEvent extends Event {
-
 	/** @var IManager */
 	private $manager;
 

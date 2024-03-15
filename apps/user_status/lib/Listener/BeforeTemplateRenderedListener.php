@@ -37,6 +37,7 @@ use OCP\EventDispatcher\IEventListener;
 use OCP\IInitialStateService;
 use OCP\IUserSession;
 
+/** @template-implements IEventListener<BeforeTemplateRenderedEvent> */
 class BeforeTemplateRenderedListener implements IEventListener {
 
 	/** @var ProfileManager */

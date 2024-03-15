@@ -50,13 +50,6 @@ module.exports = function(config) {
 			'files',
 			'files_versions',
 			{
-				name: 'comments',
-				srcFiles: [
-					'dist/comments-comments.js'
-				],
-				testFiles: ['apps/comments/tests/js/**/*.js']
-			},
-			{
 				name: 'files_sharing',
 				srcFiles: [
 					// only test these files, others are not ready and mess
@@ -72,20 +65,6 @@ module.exports = function(config) {
 				],
 				testFiles: ['apps/files_sharing/tests/js/*.js']
 			},
-			{
-				name: 'files_external',
-				srcFiles: [
-					// only test these files, others are not ready and mess
-					// up with the global namespace/classes/state
-					'apps/files_external/js/app.js',
-					'apps/files_external/js/templates.js',
-					'apps/files_external/js/mountsfilelist.js',
-					'apps/files_external/js/settings.js',
-					'apps/files_external/js/statusmanager.js'
-				],
-				testFiles: ['apps/files_external/tests/js/*.js']
-			},
-			'systemtags',
 			'files_trashbin',
 		];
 	}

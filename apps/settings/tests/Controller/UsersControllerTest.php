@@ -35,6 +35,7 @@ use OC\Encryption\Exceptions\ModuleDoesNotExistsException;
 use OC\ForbiddenException;
 use OC\Group\Manager;
 use OC\KnownUser\KnownUserService;
+use OC\User\Manager as UserManager;
 use OCA\Settings\Controller\UsersController;
 use OCP\Accounts\IAccount;
 use OCP\Accounts\IAccountManager;
@@ -42,22 +43,19 @@ use OCP\Accounts\IAccountProperty;
 use OCP\Accounts\PropertyDoesNotExistException;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Services\IInitialState;
 use OCP\BackgroundJob\IJobList;
 use OCP\Encryption\IEncryptionModule;
 use OCP\Encryption\IManager;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\IAvatarManager;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IL10N;
-use OCP\ILogger;
 use OCP\IRequest;
 use OCP\IUser;
-use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\Mail\IMailer;
-use OCP\Security\ISecureRandom;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -68,47 +66,41 @@ use PHPUnit\Framework\MockObject\MockObject;
 class UsersControllerTest extends \Test\TestCase {
 	/** @var IGroupManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $groupManager;
-	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var UserManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $userManager;
 	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
 	private $userSession;
 	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $config;
-	/** @var ILogger|\PHPUnit\Framework\MockObject\MockObject */
-	private $logger;
 	/** @var IMailer|\PHPUnit\Framework\MockObject\MockObject */
 	private $mailer;
 	/** @var IFactory|\PHPUnit\Framework\MockObject\MockObject */
 	private $l10nFactory;
 	/** @var IAppManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $appManager;
-	/** @var IAvatarManager|\PHPUnit\Framework\MockObject\MockObject */
-	private $avatarManager;
 	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
 	private $l;
-	/** @var AccountManager | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var AccountManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $accountManager;
-	/** @var ISecureRandom | \PHPUnit\Framework\MockObject\MockObject  */
-	private $secureRandom;
-	/** @var \OCA\Settings\Mailer\NewUserMailHelper|\PHPUnit\Framework\MockObject\MockObject */
-	private $newUserMailHelper;
 	/** @var  IJobList | \PHPUnit\Framework\MockObject\MockObject */
 	private $jobList;
-	/** @var \OC\Security\IdentityProof\Manager |\PHPUnit\Framework\MockObject\MockObject  */
+	/** @var \OC\Security\IdentityProof\Manager|\PHPUnit\Framework\MockObject\MockObject  */
 	private $securityManager;
-	/** @var  IManager | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var  IManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $encryptionManager;
 	/** @var KnownUserService|\PHPUnit\Framework\MockObject\MockObject */
 	private $knownUserService;
-	/** @var  IEncryptionModule  | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var  IEncryptionModule|\PHPUnit\Framework\MockObject\MockObject */
 	private $encryptionModule;
 	/** @var IEventDispatcher|\PHPUnit\Framework\MockObject\MockObject */
 	private $dispatcher;
+	/** @var IInitialState|\PHPUnit\Framework\MockObject\MockObject*/
+	private $initialState;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->userManager = $this->createMock(IUserManager::class);
+		$this->userManager = $this->createMock(UserManager::class);
 		$this->groupManager = $this->createMock(Manager::class);
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->config = $this->createMock(IConfig::class);
@@ -122,6 +114,7 @@ class UsersControllerTest extends \Test\TestCase {
 		$this->encryptionManager = $this->createMock(IManager::class);
 		$this->knownUserService = $this->createMock(KnownUserService::class);
 		$this->dispatcher = $this->createMock(IEventDispatcher::class);
+		$this->initialState = $this->createMock(IInitialState::class);
 
 		$this->l->method('t')
 			->willReturnCallback(function ($text, $parameters = []) {
@@ -140,6 +133,10 @@ class UsersControllerTest extends \Test\TestCase {
 	 * @return UsersController | \PHPUnit\Framework\MockObject\MockObject
 	 */
 	protected function getController($isAdmin = false, $mockedMethods = []) {
+		$this->groupManager->expects($this->any())
+			->method('isAdmin')
+			->willReturn($isAdmin);
+
 		if (empty($mockedMethods)) {
 			return new UsersController(
 				'settings',
@@ -148,7 +145,6 @@ class UsersControllerTest extends \Test\TestCase {
 				$this->groupManager,
 				$this->userSession,
 				$this->config,
-				$isAdmin,
 				$this->l,
 				$this->mailer,
 				$this->l10nFactory,
@@ -158,7 +154,8 @@ class UsersControllerTest extends \Test\TestCase {
 				$this->jobList,
 				$this->encryptionManager,
 				$this->knownUserService,
-				$this->dispatcher
+				$this->dispatcher,
+				$this->initialState,
 			);
 		} else {
 			return $this->getMockBuilder(UsersController::class)
@@ -170,7 +167,6 @@ class UsersControllerTest extends \Test\TestCase {
 						$this->groupManager,
 						$this->userSession,
 						$this->config,
-						$isAdmin,
 						$this->l,
 						$this->mailer,
 						$this->l10nFactory,
@@ -180,9 +176,10 @@ class UsersControllerTest extends \Test\TestCase {
 						$this->jobList,
 						$this->encryptionManager,
 						$this->knownUserService,
-						$this->dispatcher
+						$this->dispatcher,
+						$this->initialState,
 					]
-				)->setMethods($mockedMethods)->getMock();
+				)->onlyMethods($mockedMethods)->getMock();
 		}
 	}
 
@@ -238,6 +235,11 @@ class UsersControllerTest extends \Test\TestCase {
 			),
 			IAccountManager::PROPERTY_TWITTER => $this->buildPropertyMock(
 				IAccountManager::PROPERTY_TWITTER,
+				'Default twitter',
+				IAccountManager::SCOPE_LOCAL,
+			),
+			IAccountManager::PROPERTY_FEDIVERSE => $this->buildPropertyMock(
+				IAccountManager::PROPERTY_FEDIVERSE,
 				'Default twitter',
 				IAccountManager::SCOPE_LOCAL,
 			),
@@ -336,6 +338,8 @@ class UsersControllerTest extends \Test\TestCase {
 		$addressScope = IAccountManager::SCOPE_PUBLISHED;
 		$twitter = '@nextclouders';
 		$twitterScope = IAccountManager::SCOPE_PUBLISHED;
+		$fediverse = '@nextclouders@floss.social';
+		$fediverseScope = IAccountManager::SCOPE_PUBLISHED;
 
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')->willReturn('johndoe');
@@ -410,7 +414,9 @@ class UsersControllerTest extends \Test\TestCase {
 			$address,
 			$addressScope,
 			$twitter,
-			$twitterScope
+			$twitterScope,
+			$fediverse,
+			$fediverseScope
 		);
 	}
 
@@ -447,6 +453,8 @@ class UsersControllerTest extends \Test\TestCase {
 		$addressScope = IAccountManager::SCOPE_PUBLISHED;
 		$twitter = '@nextclouders';
 		$twitterScope = IAccountManager::SCOPE_PUBLISHED;
+		$fediverse = '@nextclouders@floss.social';
+		$fediverseScope = IAccountManager::SCOPE_PUBLISHED;
 
 		// All settings are changed (in the past phone, website, address and
 		// twitter were not changed).
@@ -464,6 +472,8 @@ class UsersControllerTest extends \Test\TestCase {
 		$expectedProperties[IAccountManager::PROPERTY_ADDRESS]['scope'] = $addressScope;
 		$expectedProperties[IAccountManager::PROPERTY_TWITTER]['value'] = $twitter;
 		$expectedProperties[IAccountManager::PROPERTY_TWITTER]['scope'] = $twitterScope;
+		$expectedProperties[IAccountManager::PROPERTY_FEDIVERSE]['value'] = $fediverse;
+		$expectedProperties[IAccountManager::PROPERTY_FEDIVERSE]['scope'] = $fediverseScope;
 
 		$this->mailer->expects($this->once())->method('validateMailAddress')
 			->willReturn(true);
@@ -485,7 +495,9 @@ class UsersControllerTest extends \Test\TestCase {
 			$address,
 			$addressScope,
 			$twitter,
-			$twitterScope
+			$twitterScope,
+			$fediverse,
+			$fediverseScope
 		);
 	}
 
@@ -523,6 +535,8 @@ class UsersControllerTest extends \Test\TestCase {
 		$addressScope = ($property === 'addressScope') ? $propertyValue : null;
 		$twitter = ($property === 'twitter') ? $propertyValue : null;
 		$twitterScope = ($property === 'twitterScope') ? $propertyValue : null;
+		$fediverse = ($property === 'fediverse') ? $propertyValue : null;
+		$fediverseScope = ($property === 'fediverseScope') ? $propertyValue : null;
 
 		/** @var IAccountProperty[]|MockObject[] $expectedProperties */
 		$expectedProperties = $userAccount->getProperties();
@@ -555,6 +569,10 @@ class UsersControllerTest extends \Test\TestCase {
 			case 'twitterScope':
 				$propertyId = IAccountManager::PROPERTY_TWITTER;
 				break;
+			case 'fediverse':
+			case 'fediverseScope':
+				$propertyId = IAccountManager::PROPERTY_FEDIVERSE;
+				break;
 			default:
 				$propertyId = '404';
 		}
@@ -584,7 +602,9 @@ class UsersControllerTest extends \Test\TestCase {
 			$address,
 			$addressScope,
 			$twitter,
-			$twitterScope
+			$twitterScope,
+			$fediverse,
+			$fediverseScope
 		);
 	}
 
@@ -603,6 +623,8 @@ class UsersControllerTest extends \Test\TestCase {
 			['addressScope', IAccountManager::SCOPE_PUBLISHED],
 			['twitter', '@nextclouders'],
 			['twitterScope', IAccountManager::SCOPE_PUBLISHED],
+			['fediverse', '@nextclouders@floss.social'],
+			['fediverseScope', IAccountManager::SCOPE_PUBLISHED],
 		];
 	}
 
@@ -610,12 +632,12 @@ class UsersControllerTest extends \Test\TestCase {
 	 * @dataProvider dataTestSaveUserSettings
 	 *
 	 * @param array $data
-	 * @param string $oldEmailAddress
-	 * @param string $oldDisplayName
+	 * @param ?string $oldEmailAddress
+	 * @param ?string $oldDisplayName
 	 */
 	public function testSaveUserSettings($data,
-										 $oldEmailAddress,
-										 $oldDisplayName
+		$oldEmailAddress,
+		$oldDisplayName
 	) {
 		$controller = $this->getController();
 		$user = $this->createMock(IUser::class);
@@ -624,16 +646,14 @@ class UsersControllerTest extends \Test\TestCase {
 		$user->method('getSystemEMailAddress')->willReturn($oldEmailAddress);
 		$user->method('canChangeDisplayName')->willReturn(true);
 
-		if ($data[IAccountManager::PROPERTY_EMAIL]['value'] === $oldEmailAddress ||
-			($oldEmailAddress === null && $data[IAccountManager::PROPERTY_EMAIL]['value'] === '')) {
+		if (strtolower($data[IAccountManager::PROPERTY_EMAIL]['value']) === strtolower($oldEmailAddress ?? '')) {
 			$user->expects($this->never())->method('setSystemEMailAddress');
 		} else {
 			$user->expects($this->once())->method('setSystemEMailAddress')
 				->with($data[IAccountManager::PROPERTY_EMAIL]['value']);
 		}
 
-		if ($data[IAccountManager::PROPERTY_DISPLAYNAME]['value'] === $oldDisplayName ||
-			($oldDisplayName === null && $data[IAccountManager::PROPERTY_DISPLAYNAME]['value'] === '')) {
+		if ($data[IAccountManager::PROPERTY_DISPLAYNAME]['value'] === $oldDisplayName ?? '') {
 			$user->expects($this->never())->method('setDisplayName');
 		} else {
 			$user->expects($this->once())->method('setDisplayName')
@@ -718,6 +738,14 @@ class UsersControllerTest extends \Test\TestCase {
 					IAccountManager::PROPERTY_DISPLAYNAME => ['value' => 'john doe'],
 				],
 				'john@example.com',
+				null
+			],
+			[
+				[
+					IAccountManager::PROPERTY_EMAIL => ['value' => 'john@example.com'],
+					IAccountManager::PROPERTY_DISPLAYNAME => ['value' => 'john doe'],
+				],
+				'JOHN@example.com',
 				null
 			],
 
@@ -822,7 +850,7 @@ class UsersControllerTest extends \Test\TestCase {
 		$signature = 'theSignature';
 
 		$code = $message . ' ' . $signature;
-		if ($type === IAccountManager::PROPERTY_TWITTER) {
+		if ($type === IAccountManager::PROPERTY_TWITTER || $type === IAccountManager::PROPERTY_FEDIVERSE) {
 			$code = $message . ' ' . md5($signature);
 		}
 
@@ -920,9 +948,9 @@ class UsersControllerTest extends \Test\TestCase {
 	 * @param bool $expected
 	 */
 	public function testCanAdminChangeUserPasswords($encryptionEnabled,
-													$encryptionModuleLoaded,
-													$masterKeyEnabled,
-													$expected) {
+		$encryptionModuleLoaded,
+		$masterKeyEnabled,
+		$expected) {
 		$controller = $this->getController();
 
 		$this->encryptionManager->expects($this->any())

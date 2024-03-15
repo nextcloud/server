@@ -35,16 +35,14 @@ use OCP\IUser;
  * @since 25.0.0
  */
 class PasswordResetEvent extends Event {
-	private IUser $user;
-	private string $password;
-
 	/**
 	 * @since 25.0.0
 	 */
-	public function __construct(IUser $user, string $password) {
+	public function __construct(
+		private IUser $user,
+		private string $password,
+	) {
 		parent::__construct();
-		$this->user = $user;
-		$this->password = $password;
 	}
 
 	/**

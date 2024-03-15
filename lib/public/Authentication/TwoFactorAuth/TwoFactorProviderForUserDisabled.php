@@ -30,6 +30,8 @@ use OCP\IUser;
 
 /**
  * @since 22.0.0
+ * @deprecated 28.0.0 Use \OCP\Authentication\TwoFactorAuth\TwoFactorProviderChallengeFailed instead
+ * @see \OCP\Authentication\TwoFactorAuth\TwoFactorProviderChallengeFailed
  */
 class TwoFactorProviderForUserDisabled extends Event {
 	/** @var IProvider */

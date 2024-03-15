@@ -31,12 +31,13 @@ use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use Psr\Log\LoggerInterface;
 
+/** @template-implements IEventListener<CalendarShareUpdatedEvent> */
 class CalendarShareUpdateListener implements IEventListener {
 	private Backend $activityBackend;
 	private LoggerInterface $logger;
 
 	public function __construct(Backend $activityBackend,
-								LoggerInterface $logger) {
+		LoggerInterface $logger) {
 		$this->activityBackend = $activityBackend;
 		$this->logger = $logger;
 	}
@@ -50,7 +51,7 @@ class CalendarShareUpdateListener implements IEventListener {
 			return;
 		}
 
-		$this->logger->debug("Creating activity for Calendar having it's shares updated");
+		$this->logger->debug("Creating activity for Calendar having its shares updated");
 
 		$this->activityBackend->onCalendarUpdateShares(
 			$event->getCalendarData(),

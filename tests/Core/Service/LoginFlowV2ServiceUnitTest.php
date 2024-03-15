@@ -27,8 +27,8 @@ use OC\Authentication\Token\IProvider;
 use OC\Authentication\Token\IToken;
 use OC\Core\Data\LoginFlowV2Credentials;
 use OC\Core\Data\LoginFlowV2Tokens;
-use OC\Core\Db\LoginFlowV2Mapper;
 use OC\Core\Db\LoginFlowV2;
+use OC\Core\Db\LoginFlowV2Mapper;
 use OC\Core\Exception\LoginFlowV2NotFoundException;
 use OC\Core\Service\LoginFlowV2Service;
 use OCP\AppFramework\Db\DoesNotExistException;
@@ -350,7 +350,7 @@ class LoginFlowV2ServiceUnitTest extends TestCase {
 
 		// app password is encrypted and must look like:
 		// ZACZOOzxTpKz4+KXL5kZ/gCK0xvkaVi/8yzupAn6Ui6+5qCSKvfPKGgeDRKs0sivvSLzk/XSp811SZCZmH0Y3g==
-		$this->assertRegExp('/[a-zA-Z\/0-9+=]+/', $loginFlowV2->getAppPassword());
+		$this->assertMatchesRegularExpression('/[a-zA-Z\/0-9+=]+/', $loginFlowV2->getAppPassword());
 
 		$this->assertEquals('server', $loginFlowV2->getServer());
 	}

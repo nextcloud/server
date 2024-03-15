@@ -28,8 +28,8 @@
  */
 namespace OC\Files\Storage\Wrapper;
 
-use OCP\Cache\CappedMemoryCache;
 use OC\Files\Filesystem;
+use OCP\Cache\CappedMemoryCache;
 use OCP\Files\Storage\IStorage;
 use OCP\ICache;
 
@@ -40,7 +40,6 @@ use OCP\ICache;
  * the actual given name and then try its NFD form.
  */
 class Encoding extends Wrapper {
-
 	/**
 	 * @var ICache
 	 */
@@ -160,7 +159,7 @@ class Encoding extends Wrapper {
 	 * see https://www.php.net/manual/en/function.opendir.php
 	 *
 	 * @param string $path
-	 * @return resource|bool
+	 * @return resource|false
 	 */
 	public function opendir($path) {
 		$handle = $this->storage->opendir($this->findPathToUse($path));
@@ -211,11 +210,8 @@ class Encoding extends Wrapper {
 	/**
 	 * see https://www.php.net/manual/en/function.filesize.php
 	 * The result for filesize when called on a folder is required to be 0
-	 *
-	 * @param string $path
-	 * @return int|bool
 	 */
-	public function filesize($path) {
+	public function filesize($path): false|int|float {
 		return $this->storage->filesize($this->findPathToUse($path));
 	}
 
@@ -304,7 +300,7 @@ class Encoding extends Wrapper {
 	 * see https://www.php.net/manual/en/function.file_get_contents.php
 	 *
 	 * @param string $path
-	 * @return string|bool
+	 * @return string|false
 	 */
 	public function file_get_contents($path) {
 		return $this->storage->file_get_contents($this->findPathToUse($path));
@@ -315,7 +311,7 @@ class Encoding extends Wrapper {
 	 *
 	 * @param string $path
 	 * @param mixed $data
-	 * @return int|false
+	 * @return int|float|false
 	 */
 	public function file_put_contents($path, $data) {
 		return $this->storage->file_put_contents($this->findPathToUse($path), $data);
@@ -338,24 +334,24 @@ class Encoding extends Wrapper {
 	/**
 	 * see https://www.php.net/manual/en/function.rename.php
 	 *
-	 * @param string $path1
-	 * @param string $path2
+	 * @param string $source
+	 * @param string $target
 	 * @return bool
 	 */
-	public function rename($path1, $path2) {
+	public function rename($source, $target) {
 		// second name always NFC
-		return $this->storage->rename($this->findPathToUse($path1), $this->findPathToUse($path2));
+		return $this->storage->rename($this->findPathToUse($source), $this->findPathToUse($target));
 	}
 
 	/**
 	 * see https://www.php.net/manual/en/function.copy.php
 	 *
-	 * @param string $path1
-	 * @param string $path2
+	 * @param string $source
+	 * @param string $target
 	 * @return bool
 	 */
-	public function copy($path1, $path2) {
-		return $this->storage->copy($this->findPathToUse($path1), $this->findPathToUse($path2));
+	public function copy($source, $target) {
+		return $this->storage->copy($this->findPathToUse($source), $this->findPathToUse($target));
 	}
 
 	/**
@@ -400,7 +396,7 @@ class Encoding extends Wrapper {
 	 * see https://www.php.net/manual/en/function.free_space.php
 	 *
 	 * @param string $path
-	 * @return int|bool
+	 * @return int|float|bool
 	 */
 	public function free_space($path) {
 		return $this->storage->free_space($this->findPathToUse($path));
@@ -433,7 +429,7 @@ class Encoding extends Wrapper {
 	 * The local version of the file can be temporary and doesn't have to be persistent across requests
 	 *
 	 * @param string $path
-	 * @return string|bool
+	 * @return string|false
 	 */
 	public function getLocalFile($path) {
 		return $this->storage->getLocalFile($this->findPathToUse($path));
@@ -485,7 +481,7 @@ class Encoding extends Wrapper {
 	 * get the ETag for a file or folder
 	 *
 	 * @param string $path
-	 * @return string|bool
+	 * @return string|false
 	 */
 	public function getETag($path) {
 		return $this->storage->getETag($this->findPathToUse($path));

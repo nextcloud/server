@@ -29,7 +29,7 @@
 				class="checkbox"
 				type="checkbox"
 				@change="toggleEnabled">
-			<label for="files-sharing-personal-settings-accept">{{ t('files_sharing', 'Accept user and group shares by default') }}</label>
+			<label for="files-sharing-personal-settings-accept">{{ t('files_sharing', 'Accept shares from other accounts and groups by default') }}</label>
 		</p>
 		<p v-if="allowCustomDirectory">
 			<SelectShareFolderDialogue />
@@ -43,7 +43,7 @@ import { loadState } from '@nextcloud/initial-state'
 import { showError } from '@nextcloud/dialogs'
 import axios from '@nextcloud/axios'
 
-import SelectShareFolderDialogue from './SelectShareFolderDialogue'
+import SelectShareFolderDialogue from './SelectShareFolderDialogue.vue'
 
 export default {
 	name: 'PersonalSettings',
@@ -69,7 +69,7 @@ export default {
 					accept: this.accepting,
 				})
 			} catch (error) {
-				showError(t('sharing', 'Error while toggling options'))
+				showError(t('files_sharing', 'Error while toggling options'))
 				console.error(error)
 			}
 		},

@@ -57,7 +57,7 @@ class CopyEtagHeaderPluginTest extends TestCase {
 		$this->plugin->initialize($this->server);
 	}
 
-	public function testCopyEtag() {
+	public function testCopyEtag(): void {
 		$request = new \Sabre\Http\Request('GET', 'dummy.file');
 		$response = new \Sabre\Http\Response();
 		$response->setHeader('Etag', 'abcd');
@@ -67,7 +67,7 @@ class CopyEtagHeaderPluginTest extends TestCase {
 		$this->assertEquals('abcd', $response->getHeader('OC-Etag'));
 	}
 
-	public function testNoopWhenEmpty() {
+	public function testNoopWhenEmpty(): void {
 		$request = new \Sabre\Http\Request('GET', 'dummy.file');
 		$response = new \Sabre\Http\Response();
 
@@ -89,7 +89,7 @@ class CopyEtagHeaderPluginTest extends TestCase {
 		// Nothing to assert, we are just testing if the exception is handled
 	}
 
-	public function testAfterMove() {
+	public function testAfterMove(): void {
 		$node = $this->getMockBuilder(File::class)
 			->disableOriginalConstructor()
 			->getMock();

@@ -34,14 +34,13 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class ListApps extends Base {
-	protected IAppManager $manager;
-
-	public function __construct(IAppManager $manager) {
+	public function __construct(
+		protected IAppManager $manager,
+	) {
 		parent::__construct();
-		$this->manager = $manager;
 	}
 
-	protected function configure() {
+	protected function configure(): void {
 		parent::configure();
 
 		$this
@@ -124,7 +123,7 @@ class ListApps extends Base {
 
 			sort($disabledApps);
 			foreach ($disabledApps as $app) {
-				$apps['disabled'][$app] = $versions[$app] ?? null;
+				$apps['disabled'][$app] = $this->manager->getAppVersion($app) . (isset($versions[$app]) ? ' (installed ' . $versions[$app] . ')' : '');
 			}
 		}
 
@@ -137,7 +136,7 @@ class ListApps extends Base {
 	 * @param OutputInterface $output
 	 * @param array $items
 	 */
-	protected function writeAppList(InputInterface $input, OutputInterface $output, $items) {
+	protected function writeAppList(InputInterface $input, OutputInterface $output, $items): void {
 		switch ($input->getOption('output')) {
 			case self::OUTPUT_FORMAT_PLAIN:
 				if (isset($items['enabled'])) {
@@ -149,11 +148,11 @@ class ListApps extends Base {
 					$output->writeln('Disabled:');
 					parent::writeArrayInOutputFormat($input, $output, $items['disabled']);
 				}
-			break;
+			  break;
 
 			default:
 				parent::writeArrayInOutputFormat($input, $output, $items);
-			break;
+				break;
 		}
 	}
 
@@ -162,7 +161,7 @@ class ListApps extends Base {
 	 * @param CompletionContext $context
 	 * @return array
 	 */
-	public function completeOptionValues($optionName, CompletionContext $context) {
+	public function completeOptionValues($optionName, CompletionContext $context): array {
 		if ($optionName === 'shipped') {
 			return ['true', 'false'];
 		}
@@ -174,7 +173,7 @@ class ListApps extends Base {
 	 * @param CompletionContext $context
 	 * @return string[]
 	 */
-	public function completeArgumentValues($argumentName, CompletionContext $context) {
+	public function completeArgumentValues($argumentName, CompletionContext $context): array {
 		return [];
 	}
 }

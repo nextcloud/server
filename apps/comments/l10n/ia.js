@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Comments" : "Commentarios",
     "You commented" : "Tu commentava",
-    "%1$s commented" : "%1$s commentava",
     "{author} commented" : "{author} commentava",
     "You commented on %1$s" : "Tu commentava in %1$s",
     "You commented on {file}" : "Tu commentava in {file}",
@@ -13,8 +12,8 @@ OC.L10N.register(
     "Edit comment" : "Modificar commentario",
     "Delete comment" : "Deler commentario",
     "No comments yet, start the conversation!" : "Il ha nulle commentarios ancora, initia le conversation!",
-    "_%n unread comment_::_%n unread comments_" : ["%n commentario non legite","%n commentarios non legite"],
     "Comment" : "Commentario",
-    "{user} mentioned you in a comment on “{file}”" : "{user} mentionava tu in un commentario in “{file}”"
+    "%1$s commented" : "%1$s commentava",
+    "_%n unread comment_::_%n unread comments_" : ["%n commentario non legite","%n commentarios non legite"]
 },
 "nplurals=2; plural=(n != 1);");

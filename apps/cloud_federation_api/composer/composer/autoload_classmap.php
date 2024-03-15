@@ -11,4 +11,5 @@ return array(
     'OCA\\CloudFederationAPI\\Capabilities' => $baseDir . '/../lib/Capabilities.php',
     'OCA\\CloudFederationAPI\\Config' => $baseDir . '/../lib/Config.php',
     'OCA\\CloudFederationAPI\\Controller\\RequestHandlerController' => $baseDir . '/../lib/Controller/RequestHandlerController.php',
+    'OCA\\CloudFederationAPI\\ResponseDefinitions' => $baseDir . '/../lib/ResponseDefinitions.php',
 );

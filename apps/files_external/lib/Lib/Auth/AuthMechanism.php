@@ -26,6 +26,8 @@ namespace OCA\Files_External\Lib\Auth;
 
 use OCA\Files_External\Lib\FrontendDefinitionTrait;
 use OCA\Files_External\Lib\IdentifierTrait;
+use OCA\Files_External\Lib\IFrontendDefinition;
+use OCA\Files_External\Lib\IIdentifier;
 use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\Lib\StorageModifierTrait;
 use OCA\Files_External\Lib\VisibilityTrait;
@@ -37,7 +39,7 @@ use OCA\Files_External\Lib\VisibilityTrait;
  * such as \OCP\IDB for database operations. This allows an authentication
  * mechanism to perform advanced operations based on provided information.
  *
- * An authenication scheme defines the parameter interface, common to the
+ * An authentication scheme defines the parameter interface, common to the
  * storage implementation, the backend and the authentication mechanism.
  * A storage implementation expects parameters according to the authentication
  * scheme, which are provided from the authentication mechanism.
@@ -50,7 +52,7 @@ use OCA\Files_External\Lib\VisibilityTrait;
  *  - StorageModifierTrait
  *      Object can affect storage mounting
  */
-class AuthMechanism implements \JsonSerializable {
+class AuthMechanism implements \JsonSerializable, IIdentifier, IFrontendDefinition {
 	/** Standard authentication schemes */
 	public const SCHEME_NULL = 'null';
 	public const SCHEME_BUILTIN = 'builtin';

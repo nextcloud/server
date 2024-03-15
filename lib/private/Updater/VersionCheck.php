@@ -27,25 +27,22 @@
 namespace OC\Updater;
 
 use OCP\Http\Client\IClientService;
+use OCP\IAppConfig;
 use OCP\IConfig;
+use OCP\IUserManager;
+use OCP\Support\Subscription\IRegistry;
 use OCP\Util;
+use Psr\Log\LoggerInterface;
 
 class VersionCheck {
-
-	/** @var IClientService */
-	private $clientService;
-
-	/** @var IConfig */
-	private $config;
-
-	/**
-	 * @param IClientService $clientService
-	 * @param IConfig $config
-	 */
-	public function __construct(IClientService $clientService,
-								IConfig $config) {
-		$this->clientService = $clientService;
-		$this->config = $config;
+	public function __construct(
+		private IClientService $clientService,
+		private IConfig $config,
+		private IAppConfig $appConfig,
+		private IUserManager $userManager,
+		private IRegistry $registry,
+		private LoggerInterface $logger,
+	) {
 	}
 
 
@@ -61,27 +58,29 @@ class VersionCheck {
 		}
 
 		// Look up the cache - it is invalidated all 30 minutes
-		if (((int)$this->config->getAppValue('core', 'lastupdatedat') + 1800) > time()) {
+		if (($this->appConfig->getValueInt('core', 'lastupdatedat') + 1800) > time()) {
 			return json_decode($this->config->getAppValue('core', 'lastupdateResult'), true);
 		}
 
-		$updaterUrl = $this->config->getSystemValue('updater.server.url', 'https://updates.nextcloud.com/updater_server/');
+		$updaterUrl = $this->config->getSystemValueString('updater.server.url', 'https://updates.nextcloud.com/updater_server/');
 
-		$this->config->setAppValue('core', 'lastupdatedat', time());
+		$this->appConfig->setValueInt('core', 'lastupdatedat', time());
 
 		if ($this->config->getAppValue('core', 'installedat', '') === '') {
-			$this->config->setAppValue('core', 'installedat', microtime(true));
+			$this->config->setAppValue('core', 'installedat', (string)microtime(true));
 		}
 
 		$version = Util::getVersion();
 		$version['installed'] = $this->config->getAppValue('core', 'installedat');
-		$version['updated'] = $this->config->getAppValue('core', 'lastupdatedat');
+		$version['updated'] = $this->appConfig->getValueInt('core', 'lastupdatedat');
 		$version['updatechannel'] = \OC_Util::getChannel();
 		$version['edition'] = '';
 		$version['build'] = \OC_Util::getBuild();
 		$version['php_major'] = PHP_MAJOR_VERSION;
 		$version['php_minor'] = PHP_MINOR_VERSION;
 		$version['php_release'] = PHP_RELEASE_VERSION;
+		$version['category'] = $this->computeCategory();
+		$version['isSubscriber'] = (int) $this->registry->delegateHasValidSubscription();
 		$versionString = implode('x', $version);
 
 		//fetch xml data from updater
@@ -91,6 +90,8 @@ class VersionCheck {
 		try {
 			$xml = $this->getUrlContent($url);
 		} catch (\Exception $e) {
+			$this->logger->info('Version could not be fetched from updater server: ' . $url, ['exception' => $e]);
+
 			return false;
 		}
 
@@ -128,7 +129,30 @@ class VersionCheck {
 	 */
 	protected function getUrlContent($url) {
 		$client = $this->clientService->newClient();
-		$response = $client->get($url);
+		$response = $client->get($url, [
+			'timeout' => 5,
+		]);
 		return $response->getBody();
+	}
+
+	private function computeCategory(): int {
+		$categoryBoundaries = [
+			100,
+			500,
+			1000,
+			5000,
+			10000,
+			100000,
+			1000000,
+		];
+
+		$nbUsers = $this->userManager->countSeenUsers();
+		foreach ($categoryBoundaries as $categoryId => $boundary) {
+			if ($nbUsers <= $boundary) {
+				return $categoryId;
+			}
+		}
+
+		return count($categoryBoundaries);
 	}
 }

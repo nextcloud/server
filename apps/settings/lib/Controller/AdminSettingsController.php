@@ -6,6 +6,7 @@
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Robin Appelman <robin@icewind.nl>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -27,16 +28,20 @@ namespace OCA\Settings\Controller;
 
 use OC\AppFramework\Middleware\Security\Exceptions\NotAdminException;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Services\IInitialState;
 use OCP\Group\ISubAdmin;
 use OCP\IGroupManager;
 use OCP\INavigationManager;
 use OCP\IRequest;
 use OCP\IUser;
 use OCP\IUserSession;
+use OCP\Settings\IDeclarativeManager;
 use OCP\Settings\IManager as ISettingsManager;
 use OCP\Template;
 
+#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class AdminSettingsController extends Controller {
 	use CommonSettingsTrait;
 
@@ -47,7 +52,9 @@ class AdminSettingsController extends Controller {
 		ISettingsManager $settingsManager,
 		IUserSession $userSession,
 		IGroupManager $groupManager,
-		ISubAdmin $subAdmin
+		ISubAdmin $subAdmin,
+		IDeclarativeManager $declarativeSettingsManager,
+		IInitialState $initialState,
 	) {
 		parent::__construct($appName, $request);
 		$this->navigationManager = $navigationManager;
@@ -55,6 +62,8 @@ class AdminSettingsController extends Controller {
 		$this->userSession = $userSession;
 		$this->groupManager = $groupManager;
 		$this->subAdmin = $subAdmin;
+		$this->declarativeSettingsManager = $declarativeSettingsManager;
+		$this->initialState = $initialState;
 	}
 
 	/**
@@ -77,7 +86,8 @@ class AdminSettingsController extends Controller {
 		$user = $this->userSession->getUser();
 		$isSubAdmin = !$this->groupManager->isAdmin($user->getUID()) && $this->subAdmin->isSubAdmin($user);
 		$settings = $this->settingsManager->getAllowedAdminSettings($section, $user);
-		if (empty($settings)) {
+		$declarativeFormIDs = $this->declarativeSettingsManager->getFormIDs($user, 'admin', $section);
+		if (empty($settings) && empty($declarativeFormIDs)) {
 			throw new NotAdminException("Logged in user doesn't have permission to access these settings.");
 		}
 		$formatted = $this->formatSettings($settings);

@@ -32,6 +32,7 @@ use OCP\Files\IRootFolder;
 use OCP\IDBConnection;
 use Symfony\Component\Console\Exception\InvalidOptionException;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
 
@@ -101,27 +102,27 @@ class CleanUpTest extends TestCase {
 	 * @dataProvider dataTestRemoveDeletedFiles
 	 * @param boolean $nodeExists
 	 */
-	public function testRemoveDeletedFiles($nodeExists) {
+	public function testRemoveDeletedFiles(bool $nodeExists) {
 		$this->initTable();
-		$this->rootFolder->expects($this->once())
+		$this->rootFolder
 			->method('nodeExists')
 			->with('/' . $this->user0 . '/files_trashbin')
-			->willReturn($nodeExists);
+			->willReturnOnConsecutiveCalls($nodeExists, false);
 		if ($nodeExists) {
-			$this->rootFolder->expects($this->once())
+			$this->rootFolder
 				->method('get')
 				->with('/' . $this->user0 . '/files_trashbin')
 				->willReturn($this->rootFolder);
-			$this->rootFolder->expects($this->once())
+			$this->rootFolder
 				->method('delete');
 		} else {
 			$this->rootFolder->expects($this->never())->method('get');
 			$this->rootFolder->expects($this->never())->method('delete');
 		}
-		$this->invokePrivate($this->cleanup, 'removeDeletedFiles', [$this->user0]);
+		$this->invokePrivate($this->cleanup, 'removeDeletedFiles', [$this->user0, new NullOutput(), false]);
 
 		if ($nodeExists) {
-			// if the delete operation was execute only files from user1
+			// if the delete operation was executed only files from user1
 			// should be left.
 			$query = $this->dbConnection->getQueryBuilder();
 			$query->select('user')
@@ -136,7 +137,7 @@ class CleanUpTest extends TestCase {
 				$this->assertSame('user1', $r['user']);
 			}
 		} else {
-			// if no delete operation was execute we should still have all 10
+			// if no delete operation was executed we should still have all 10
 			// database entries
 			$getAllQuery = $this->dbConnection->getQueryBuilder();
 			$result = $getAllQuery->select('id')
@@ -171,9 +172,14 @@ class CleanUpTest extends TestCase {
 			->method('userExists')->willReturn(true);
 		$inputInterface = $this->getMockBuilder('\Symfony\Component\Console\Input\InputInterface')
 			->disableOriginalConstructor()->getMock();
-		$inputInterface->expects($this->once())->method('getArgument')
+		$inputInterface->method('getArgument')
 			->with('user_id')
 			->willReturn($userIds);
+		$inputInterface->method('getOption')
+			->willReturnMap([
+				['all-users', false],
+				['verbose', false],
+			]);
 		$outputInterface = $this->getMockBuilder('\Symfony\Component\Console\Output\OutputInterface')
 			->disableOriginalConstructor()->getMock();
 		$this->invokePrivate($instance, 'execute', [$inputInterface, $outputInterface]);
@@ -190,7 +196,7 @@ class CleanUpTest extends TestCase {
 			->setConstructorArgs([$this->rootFolder, $this->userManager, $this->dbConnection])
 			->getMock();
 		$backend = $this->createMock(\OCP\UserInterface::class);
-		$backend->expects($this->once())->method('getUsers')
+		$backend->method('getUsers')
 			->with('', 500, 0)
 			->willReturn($backendUsers);
 		$instance->expects($this->exactly(count($backendUsers)))
@@ -199,14 +205,16 @@ class CleanUpTest extends TestCase {
 				$this->assertTrue(in_array($user, $backendUsers));
 			});
 		$inputInterface = $this->createMock(InputInterface::class);
-		$inputInterface->expects($this->once())->method('getArgument')
+		$inputInterface->method('getArgument')
 			->with('user_id')
 			->willReturn($userIds);
 		$inputInterface->method('getOption')
-			->with('all-users')
-			->willReturn(true);
+			->willReturnMap([
+				['all-users', true],
+				['verbose', false],
+			]);
 		$outputInterface = $this->createMock(OutputInterface::class);
-		$this->userManager->expects($this->once())
+		$this->userManager
 			->method('getBackends')
 			->willReturn([$backend]);
 		$this->invokePrivate($instance, 'execute', [$inputInterface, $outputInterface]);
@@ -214,12 +222,14 @@ class CleanUpTest extends TestCase {
 
 	public function testExecuteNoUsersAndNoAllUsers() {
 		$inputInterface = $this->createMock(InputInterface::class);
-		$inputInterface->expects($this->once())->method('getArgument')
+		$inputInterface->method('getArgument')
 			->with('user_id')
 			->willReturn([]);
 		$inputInterface->method('getOption')
-			->with('all-users')
-			->willReturn(false);
+			->willReturnMap([
+				['all-users', false],
+				['verbose', false],
+			]);
 		$outputInterface = $this->createMock(OutputInterface::class);
 
 		$this->expectException(InvalidOptionException::class);
@@ -230,12 +240,14 @@ class CleanUpTest extends TestCase {
 
 	public function testExecuteUsersAndAllUsers() {
 		$inputInterface = $this->createMock(InputInterface::class);
-		$inputInterface->expects($this->once())->method('getArgument')
+		$inputInterface->method('getArgument')
 			->with('user_id')
 			->willReturn(['user1', 'user2']);
 		$inputInterface->method('getOption')
-			->with('all-users')
-			->willReturn(true);
+			->willReturnMap([
+				['all-users', true],
+				['verbose', false],
+			]);
 		$outputInterface = $this->createMock(OutputInterface::class);
 
 		$this->expectException(InvalidOptionException::class);

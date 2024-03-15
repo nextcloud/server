@@ -157,16 +157,16 @@ class Expiration {
 		if (!ctype_digit($minValue) && $minValue !== 'auto') {
 			$isValid = false;
 			$this->logger->warning(
-					$minValue . ' is not a valid value for minimal versions retention obligation. Check versions_retention_obligation in your config.php. Falling back to auto.',
-					['app' => 'files_versions']
+				$minValue . ' is not a valid value for minimal versions retention obligation. Check versions_retention_obligation in your config.php. Falling back to auto.',
+				['app' => 'files_versions']
 			);
 		}
 
 		if (!ctype_digit($maxValue) && $maxValue !== 'auto') {
 			$isValid = false;
 			$this->logger->warning(
-					$maxValue . ' is not a valid value for maximal versions retention obligation. Check versions_retention_obligation in your config.php. Falling back to auto.',
-					['app' => 'files_versions']
+				$maxValue . ' is not a valid value for maximal versions retention obligation. Check versions_retention_obligation in your config.php. Falling back to auto.',
+				['app' => 'files_versions']
 			);
 		}
 

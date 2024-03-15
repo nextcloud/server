@@ -41,7 +41,8 @@ class OwnCloud extends Backend {
 				(new DefinitionParameter('root', $l->t('Remote subfolder')))
 					->setFlag(DefinitionParameter::FLAG_OPTIONAL),
 				(new DefinitionParameter('secure', $l->t('Secure https://')))
-					->setType(DefinitionParameter::VALUE_BOOLEAN),
+					->setType(DefinitionParameter::VALUE_BOOLEAN)
+					->setDefaultValue(true),
 			])
 			->addAuthScheme(AuthMechanism::SCHEME_PASSWORD)
 			->setLegacyAuthMechanism($legacyAuth)

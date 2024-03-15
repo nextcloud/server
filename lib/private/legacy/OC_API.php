@@ -32,7 +32,6 @@ use OCP\API;
 use OCP\AppFramework\Http;
 
 class OC_API {
-
 	/**
 	 * api actions
 	 */
@@ -98,13 +97,10 @@ class OC_API {
 		}
 	}
 
-	/**
-	 * @return string
-	 */
-	public static function requestedFormat() {
+	public static function requestedFormat(): string {
 		$formats = ['json', 'xml'];
 
-		$format = !empty($_GET['format']) && in_array($_GET['format'], $formats) ? $_GET['format'] : 'xml';
+		$format = (isset($_GET['format']) && is_string($_GET['format']) && in_array($_GET['format'], $formats)) ? $_GET['format'] : 'xml';
 		return $format;
 	}
 
@@ -134,7 +130,7 @@ class OC_API {
 	protected static function isV2(\OCP\IRequest $request) {
 		$script = $request->getScriptName();
 
-		return substr($script, -11) === '/ocs/v2.php';
+		return str_ends_with($script, '/ocs/v2.php');
 	}
 
 	/**
@@ -175,7 +171,7 @@ class OC_API {
 			],
 		];
 		if ($format == 'json') {
-			return OC_JSON::encode($response);
+			return json_encode($response, JSON_HEX_TAG);
 		}
 
 		$writer = new XMLWriter();

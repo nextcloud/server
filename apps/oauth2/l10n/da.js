@@ -3,12 +3,13 @@ OC.L10N.register(
     {
     "OAuth 2.0" : "OAuth 2.0",
     "OAuth 2.0 clients" : "OAuth 2.0 klienter",
-    "Add client" : "Tilføj klient",
     "Name" : "Navn",
     "Redirection URI" : "Viderestilling URI",
-    "Add" : "Tilføj",
     "Client Identifier" : "Klient ID",
-    "Secret" : "Hemmelighed",
-    "Delete" : "Slet"
+    "Secret key" : "Hemmelig nøgle",
+    "Add client" : "Tilføj klient",
+    "Add" : "Tilføj",
+    "Delete" : "Slet",
+    "Secret" : "Hemmelighed"
 },
 "nplurals=2; plural=(n != 1);");

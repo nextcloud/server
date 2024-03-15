@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import ChevronDownIcon from 'vue-material-design-icons/ChevronDown'
+import ChevronDownIcon from 'vue-material-design-icons/ChevronDown.vue'
 
 export default {
 	name: 'EditProfileAnchorLink',
@@ -69,12 +69,14 @@ html {
 a {
 	display: block;
 	height: 44px;
-	width: 290px;
+	width: min(100%, 290px);
+	overflow: hidden;
+	text-overflow: ellipsis;
 	line-height: 44px;
 	padding: 0 16px;
 	margin: 14px auto;
 	border-radius: var(--border-radius-pill);
-	opacity: 0.4;
+	color: var(--color-text-maxcontrast);
 	background-color: transparent;
 
 	.anchor-icon {
@@ -87,8 +89,8 @@ a {
 	&:hover,
 	&:focus,
 	&:active {
-		opacity: 0.8;
-		background-color: rgba(127, 127, 127, .25);
+		color: var(--color-main-text);
+		background-color: var(--color-background-dark);
 	}
 
 	&.disabled {

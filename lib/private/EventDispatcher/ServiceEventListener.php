@@ -41,7 +41,6 @@ use function sprintf;
  * created by the service container
  */
 final class ServiceEventListener {
-
 	/** @var IServerContainer */
 	private $container;
 
@@ -55,8 +54,8 @@ final class ServiceEventListener {
 	private $service;
 
 	public function __construct(IServerContainer $container,
-								string $class,
-								LoggerInterface $logger) {
+		string $class,
+		LoggerInterface $logger) {
 		$this->container = $container;
 		$this->class = $class;
 		$this->logger = $logger;

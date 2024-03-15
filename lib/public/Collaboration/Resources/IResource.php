@@ -32,7 +32,6 @@ use OCP\IUser;
  * @since 16.0.0
  */
 interface IResource {
-
 	/**
 	 * @return string
 	 * @since 16.0.0

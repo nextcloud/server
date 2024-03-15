@@ -76,8 +76,7 @@ class GetSharedSecretTest extends TestCase {
 	/** @var \PHPUnit\Framework\MockObject\MockObject|ITimeFactory */
 	private $timeFactory;
 
-	/** @var GetSharedSecret */
-	private $getSharedSecret;
+	private GetSharedSecret $getSharedSecret;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -113,9 +112,9 @@ class GetSharedSecretTest extends TestCase {
 	 * @param bool $isTrustedServer
 	 * @param bool $retainBackgroundJob
 	 */
-	public function testExecute($isTrustedServer, $retainBackgroundJob) {
+	public function testExecute(bool $isTrustedServer, bool $retainBackgroundJob): void {
 		/** @var GetSharedSecret |\PHPUnit\Framework\MockObject\MockObject $getSharedSecret */
-		$getSharedSecret = $this->getMockBuilder('OCA\Federation\BackgroundJob\GetSharedSecret')
+		$getSharedSecret = $this->getMockBuilder(GetSharedSecret::class)
 			->setConstructorArgs(
 				[
 					$this->httpClientService,
@@ -126,15 +125,15 @@ class GetSharedSecretTest extends TestCase {
 					$this->discoverService,
 					$this->timeFactory
 				]
-			)->setMethods(['parentExecute'])->getMock();
+			)->setMethods(['parentStart'])->getMock();
 		$this->invokePrivate($getSharedSecret, 'argument', [['url' => 'url', 'token' => 'token']]);
 
 		$this->trustedServers->expects($this->once())->method('isTrustedServer')
 			->with('url')->willReturn($isTrustedServer);
 		if ($isTrustedServer) {
-			$getSharedSecret->expects($this->once())->method('parentExecute');
+			$getSharedSecret->expects($this->once())->method('parentStart');
 		} else {
-			$getSharedSecret->expects($this->never())->method('parentExecute');
+			$getSharedSecret->expects($this->never())->method('parentStart');
 		}
 		$this->invokePrivate($getSharedSecret, 'retainJob', [$retainBackgroundJob]);
 		$this->jobList->expects($this->once())->method('remove');
@@ -156,7 +155,7 @@ class GetSharedSecretTest extends TestCase {
 			$this->jobList->expects($this->never())->method('add');
 		}
 
-		$getSharedSecret->execute($this->jobList);
+		$getSharedSecret->start($this->jobList);
 	}
 
 	public function dataTestExecute() {

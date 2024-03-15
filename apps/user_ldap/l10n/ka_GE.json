@@ -52,8 +52,6 @@
     "Your password will expire tomorrow." : "თქვენი პაროლი გაუქმდება ხვალ.",
     "Your password will expire today." : "თქვენი პაროლი გაუქმდება დღეს.",
     "_Your password will expire within %n day._::_Your password will expire within %n days._" : ["თქვენი პაროლი გაუქმდება %n დღეში.","თქვენი პაროლი გაუქმდება %n დღეში."],
-    "_%s group found_::_%s groups found_" : ["ნაპოვნა %s ჯგუფი","ნაპოვნა %s ჯგუფი"],
-    "_%s user found_::_%s users found_" : ["ნაპოვნია %s მომხმარებელი","ნაპოვნია %s მომხმარებელი"],
     "Could not detect user display name attribute. Please specify it yourself in advanced LDAP settings." : "მომხმარებლის დისპლეის სახელის ატრიბუტის აღმოჩენა ვერ მოხერხდა. გთხოვთ LDAP-ის პარამეტრებში თქვენით დააყენოთ ის.",
     "Could not find the desired feature" : "მოთხოვნილი ფუნქციონალის პოვნა ვერ მოხერხდა",
     "Invalid Host" : "არასწორი ჰოსტი",

@@ -23,12 +23,7 @@ OC.L10N.register(
     "Flow" : "Flow",
     "Folder" : "Mappe",
     "Images" : "Billeder",
-    "No results" : "Ingen resultater",
-    "%s (invisible)" : "%s (usynlig)",
-    "%s (restricted)" : "%s (begrænset)",
-    "Predefined URLs" : "Foruddefineret URLer",
     "Files WebDAV" : "Fil WebDAV",
-    "Others" : "Andre",
     "Android client" : "Android klient",
     "iOS client" : "iOS klient",
     "Desktop client" : "Dekstop klient",
@@ -62,8 +57,8 @@ OC.L10N.register(
     "between" : "mellem",
     "not between" : "ikke mellem",
     "Request user agent" : "Bruger \"user agent\"",
-    "User group membership" : "Brugers gruppemedlemsskab",
     "is member of" : "er medlem af",
-    "is not member of" : "er ikke medlem af"
+    "is not member of" : "er ikke medlem af",
+    "User group membership" : "Brugers gruppemedlemsskab"
 },
 "nplurals=2; plural=(n != 1);");

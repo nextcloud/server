@@ -33,36 +33,32 @@ namespace OC\Console;
 use OC\MemoryInfo;
 use OC\NeedsUpdateException;
 use OC_App;
-use OCP\AppFramework\QueryException;
 use OCP\App\IAppManager;
 use OCP\Console\ConsoleEvent;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IRequest;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Application as SymfonyApplication;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\ConsoleOutputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class Application {
-	/** @var IConfig */
-	private $config;
-	/** @var EventDispatcherInterface */
-	private $dispatcher;
-	/** @var IRequest */
-	private $request;
-	/** @var LoggerInterface */
-	private $logger;
-	/** @var MemoryInfo */
-	private $memoryInfo;
+	private IConfig $config;
+	private SymfonyApplication $application;
+	private IEventDispatcher $dispatcher;
+	private IRequest $request;
+	private LoggerInterface $logger;
+	private MemoryInfo $memoryInfo;
 
 	public function __construct(IConfig $config,
-								EventDispatcherInterface $dispatcher,
-								IRequest $request,
-								LoggerInterface $logger,
-								MemoryInfo $memoryInfo) {
+		IEventDispatcher $dispatcher,
+		IRequest $request,
+		LoggerInterface $logger,
+		MemoryInfo $memoryInfo) {
 		$defaults = \OC::$server->getThemingDefaults();
 		$this->config = $config;
 		$this->application = new SymfonyApplication($defaults->getName(), \OC_Util::getVersionString());
@@ -73,8 +69,6 @@ class Application {
 	}
 
 	/**
-	 * @param InputInterface $input
-	 * @param ConsoleOutputInterface $output
 	 * @throws \Exception
 	 */
 	public function loadCommands(
@@ -111,7 +105,7 @@ class Application {
 
 		try {
 			require_once __DIR__ . '/../../../core/register_command.php';
-			if ($this->config->getSystemValue('installed', false)) {
+			if ($this->config->getSystemValueBool('installed', false)) {
 				if (\OCP\Util::needUpgrade()) {
 					throw new NeedsUpdateException();
 				} elseif ($this->config->getSystemValueBool('maintenance')) {
@@ -127,7 +121,14 @@ class Application {
 						// load commands using info.xml
 						$info = $appManager->getAppInfo($app);
 						if (isset($info['commands'])) {
-							$this->loadCommandsFromInfoXml($info['commands']);
+							try {
+								$this->loadCommandsFromInfoXml($info['commands']);
+							} catch (\Throwable $e) {
+								$output->writeln("<error>" . $e->getMessage() . "</error>");
+								$this->logger->error($e->getMessage(), [
+									'exception' => $e,
+								]);
+							}
 						}
 						// load from register_command.php
 						\OC_App::registerAutoloading($app, $appPath);
@@ -177,16 +178,13 @@ class Application {
 	 * for writing outputs.
 	 * @return void
 	 */
-	private function writeMaintenanceModeInfo(
-		InputInterface $input, ConsoleOutputInterface $output
-	) {
+	private function writeMaintenanceModeInfo(InputInterface $input, ConsoleOutputInterface $output): void {
 		if ($input->getArgument('command') !== '_completion'
-			&& $input->getArgument('command') !== 'maintenance:mode') {
+			&& $input->getArgument('command') !== 'maintenance:mode'
+			&& $input->getArgument('command') !== 'status') {
 			$errOutput = $output->getErrorOutput();
-			$errOutput->writeln(
-				'<comment>Nextcloud is in maintenance mode, hence the database isn\'t accessible.' . PHP_EOL .
-				'Cannot perform any command except \'maintenance:mode --off\'</comment>' . PHP_EOL
-			);
+			$errOutput->writeln('<comment>Nextcloud is in maintenance mode, no apps are loaded.</comment>');
+			$errOutput->writeln('<comment>Commands provided by apps are unavailable.</comment>');
 		}
 	}
 
@@ -206,18 +204,20 @@ class Application {
 	 * @throws \Exception
 	 */
 	public function run(InputInterface $input = null, OutputInterface $output = null) {
-		$this->dispatcher->dispatch(ConsoleEvent::EVENT_RUN, new ConsoleEvent(
+		$event = new ConsoleEvent(
 			ConsoleEvent::EVENT_RUN,
 			$this->request->server['argv']
-		));
+		);
+		$this->dispatcher->dispatchTyped($event);
+		$this->dispatcher->dispatch(ConsoleEvent::EVENT_RUN, $event);
 		return $this->application->run($input, $output);
 	}
 
 	private function loadCommandsFromInfoXml($commands) {
 		foreach ($commands as $command) {
 			try {
-				$c = \OC::$server->query($command);
-			} catch (QueryException $e) {
+				$c = \OCP\Server::get($command);
+			} catch (ContainerExceptionInterface $e) {
 				if (class_exists($command)) {
 					try {
 						$c = new $command();

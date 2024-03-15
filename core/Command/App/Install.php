@@ -28,6 +28,7 @@
 namespace OC\Core\Command\App;
 
 use OC\Installer;
+use OCP\App\IAppManager;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -35,7 +36,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Install extends Command {
-	protected function configure() {
+	protected function configure(): void {
 		$this
 			->setName('app:install')
 			->setDescription('install an app')
@@ -89,7 +90,7 @@ class Install extends Command {
 			return 1;
 		}
 
-		$appVersion = \OC_App::getAppVersion($appId);
+		$appVersion = \OCP\Server::get(IAppManager::class)->getAppVersion($appId);
 		$output->writeln($appId . ' ' . $appVersion . ' installed');
 
 		if (!$input->getOption('keep-disabled')) {

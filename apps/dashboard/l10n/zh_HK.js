@@ -3,11 +3,11 @@ OC.L10N.register(
     {
     "Dashboard" : "儀表板",
     "Dashboard app" : "儀表板應用程式",
-    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an\noverview of your upcoming appointments, urgent emails, chat messages,\nincoming tickets, latest tweets and much more! Users can add the widgets\nthey like and change the background to their liking." : "開始您新的一天\n\nNextcloud 儀表板是您一天的起點，為您提供\n您即將到來的約會概覽、緊急電郵、聊天訊息、\n新到的工單、最新的推文以及更多！用戶可以新增\n他們喜愛的小工具與變更他們喜愛的背景。",
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! People can add the widgets they like and change the background to their liking." : "開始您新的一天\n\nNextcloud 儀表板是您一天的起點，為您提供您即將到來的約會概覽、緊急電郵、聊天訊息、新到的工單、最新的推文以及更多！人仕可以新增他們喜愛的小工具與變更他們喜愛的背景。",
+    "\"{title} icon\"" : "\"{title} 圖示\"",
     "Customize" : "自訂",
     "Edit widgets" : "編輯小工具",
     "Get more widgets from the App Store" : "從 App Store 取得更多小工具",
-    "Change background image" : "變更背景圖片",
     "Weather service" : "天氣服務",
     "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "為了保護您的隱私，Nextcloud 會代您請求氣象資料，因此天氣服務不會收到您的個人資訊。",
     "Weather data from Met.no" : "氣象資訊來自 Met.no",
@@ -23,10 +23,7 @@ OC.L10N.register(
     "Good evening, {name}" : "晚安，{name}",
     "Hello" : "哈囉",
     "Hello, {name}" : "哈囉，{name}",
-    "Pick from Files" : "從檔案選取",
-    "Plain background" : "簡單背景",
-    "Insert from {productName}" : "插入自 {productName}",
-    "Show something" : "顯示一些東西",
-    "Default images" : "默認圖像"
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an\noverview of your upcoming appointments, urgent emails, chat messages,\nincoming tickets, latest tweets and much more! Users can add the widgets\nthey like and change the background to their liking." : "開始您新的一天\n\nNextcloud 儀表板是您一天的起點，為您提供\n您即將到來的約會概覽、緊急電郵、聊天訊息、\n新到的工單、最新的推文以及更多！用戶可以新增\n他們喜愛的小工具與變更他們喜愛的背景。",
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! Users can add the widgets they like and change the background to their liking." : "開始您新的一天\n\nNextcloud 儀表板是您一天的起點，為您提供您即將到來的約會概覽、緊急電郵、聊天訊息、新到的工單、最新的推文以及更多！用戶可以新增他們喜愛的小工具與變更他們喜愛的背景。"
 },
 "nplurals=1; plural=0;");

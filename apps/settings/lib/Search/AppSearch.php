@@ -34,56 +34,43 @@ use OCP\Search\SearchResult;
 use OCP\Search\SearchResultEntry;
 
 class AppSearch implements IProvider {
-
-	/** @var INavigationManager */
-	protected $navigationManager;
-
-	/** @var IL10N */
-	protected $l;
-
-	public function __construct(INavigationManager $navigationManager,
-								IL10N $l) {
-		$this->navigationManager = $navigationManager;
-		$this->l = $l;
+	public function __construct(
+		protected INavigationManager $navigationManager,
+		protected IL10N $l,
+	) {
 	}
 
-	/**
-	 * @inheritDoc
-	 */
 	public function getId(): string {
 		return 'settings_apps';
 	}
 
-	/**
-	 * @inheritDoc
-	 */
 	public function getName(): string {
 		return $this->l->t('Apps');
 	}
 
-	/**
-	 * @inheritDoc
-	 */
 	public function getOrder(string $route, array $routeParameters): int {
-		return -50;
+		return $route === 'settings.AppSettings.viewApps' ? -50 : 100;
 	}
 
-	/**
-	 * @inheritDoc
-	 */
 	public function search(IUser $user, ISearchQuery $query): SearchResult {
 		$entries = $this->navigationManager->getAll('all');
+
+		$searchTitle = $this->l->t('Apps');
+		$term = $query->getFilter('term')?->get();
+		if (empty($term)) {
+			return SearchResult::complete($searchTitle, []);
+		}
 
 		$result = [];
 		foreach ($entries as $entry) {
 			if (
-				stripos($entry['name'], $query->getTerm()) === false &&
-				stripos($entry['id'], $query->getTerm()) === false
+				stripos($entry['name'], $term) === false &&
+				stripos($entry['id'], $term) === false
 			) {
 				continue;
 			}
 
-			if (strpos($query->getRoute(), $entry['id'] . '.') === 0) {
+			if (str_starts_with($query->getRoute(), $entry['id'] . '.')) {
 				// Skip the current app, unlikely this is intended
 				continue;
 			}
@@ -102,9 +89,6 @@ class AppSearch implements IProvider {
 			);
 		}
 
-		return SearchResult::complete(
-			$this->l->t('Apps'),
-			$result
-		);
+		return SearchResult::complete($searchTitle, $result);
 	}
 }

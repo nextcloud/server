@@ -24,7 +24,6 @@
 namespace OCA\Files_Sharing\Collaboration;
 
 use OCP\Collaboration\AutoComplete\ISorter;
-use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\IUserSession;
@@ -32,12 +31,9 @@ use OCP\Share\IManager;
 
 class ShareRecipientSorter implements ISorter {
 
-	/** @var IManager */
-	private $shareManager;
-	/** @var Folder */
-	private $rootFolder;
-	/** @var IUserSession */
-	private $userSession;
+	private IManager $shareManager;
+	private IRootFolder $rootFolder;
+	private IUserSession $userSession;
 
 	public function __construct(IManager $shareManager, IRootFolder $rootFolder, IUserSession $userSession) {
 		$this->shareManager = $shareManager;
@@ -45,7 +41,7 @@ class ShareRecipientSorter implements ISorter {
 		$this->userSession = $userSession;
 	}
 
-	public function getId() {
+	public function getId(): string {
 		return 'share-recipients';
 	}
 
@@ -60,11 +56,11 @@ class ShareRecipientSorter implements ISorter {
 		}
 		$userFolder = $this->rootFolder->getUserFolder($user->getUID());
 		/** @var Node[] $nodes */
-		$nodes = $userFolder->getById((int)$context['itemId']);
-		if (count($nodes) === 0) {
+		$node = $userFolder->getFirstNodeById((int)$context['itemId']);
+		if (!$node) {
 			return;
 		}
-		$al = $this->shareManager->getAccessList($nodes[0]);
+		$al = $this->shareManager->getAccessList($node);
 
 		foreach ($sortArray as $type => &$byType) {
 			if (!isset($al[$type]) || !is_array($al[$type])) {

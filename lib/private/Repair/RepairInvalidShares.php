@@ -110,7 +110,7 @@ class RepairInvalidShares implements IRepairStep {
 	}
 
 	public function run(IOutput $out) {
-		$ocVersionFromBeforeUpdate = $this->config->getSystemValue('version', '0.0.0');
+		$ocVersionFromBeforeUpdate = $this->config->getSystemValueString('version', '0.0.0');
 		if (version_compare($ocVersionFromBeforeUpdate, '12.0.0.11', '<')) {
 			$this->adjustFileSharePermissions($out);
 		}

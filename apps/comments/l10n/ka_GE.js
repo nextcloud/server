@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Comments" : "კომენტარები",
     "You commented" : "თქვენ გააკეთეთ კომენტარი",
-    "%1$s commented" : "%1$s მოხმარებელმა გააკეთა კომენტარი",
     "{author} commented" : "{author} მომხმარებელმა გააკეთა კომენტარი",
     "You commented on %1$s" : "თქვენ გააკეთეთ კომენტარი %1$s-ზე",
     "You commented on {file}" : "თქვენ გააკეთეთ კომენტარი {file}-ზე",
@@ -14,9 +13,8 @@ OC.L10N.register(
     "Delete comment" : "კომენტარის გაუქმება",
     "No comments yet, start the conversation!" : "ჯერ კომენტარები არაა, დაიწყეთ საუბარი! ",
     "Retry" : "ვცადოთ ახლიდან",
-    "_%n unread comment_::_%n unread comments_" : ["%n წაუკუთხავი კომენტარი","%n წაუკუთხავი კომენტარი"],
     "Comment" : "კომენტარის დამატება",
-    "You were mentioned on “{file}”, in a comment by a user that has since been deleted" : "თქვენ მოგიხსენიეს “{file}”-ში, ახლა უკვე გაუქმებული მომხმარებლის კომენტარში",
-    "{user} mentioned you in a comment on “{file}”" : "{user} გახსენათ “{file}” ფაილზე გაკეტებულ კომენტარში"
+    "%1$s commented" : "%1$s მოხმარებელმა გააკეთა კომენტარი",
+    "_%n unread comment_::_%n unread comments_" : ["%n წაუკუთხავი კომენტარი","%n წაუკუთხავი კომენტარი"]
 },
 "nplurals=2; plural=(n!=1);");

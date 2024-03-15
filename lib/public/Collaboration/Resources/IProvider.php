@@ -32,7 +32,6 @@ use OCP\IUser;
  * @since 16.0.0
  */
 interface IProvider {
-
 	/**
 	 * Get the resource type of the provider
 	 *

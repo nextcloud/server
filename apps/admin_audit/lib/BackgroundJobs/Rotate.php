@@ -27,23 +27,24 @@ declare(strict_types=1);
  */
 namespace OCA\AdminAudit\BackgroundJobs;
 
-use OC\BackgroundJob\TimedJob;
+use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\BackgroundJob\TimedJob;
 use OCP\IConfig;
 use OCP\Log\RotationTrait;
 
 class Rotate extends TimedJob {
 	use RotationTrait;
 
-	/** @var IConfig */
-	private $config;
-
-	public function __construct(IConfig  $config) {
-		$this->config = $config;
+	public function __construct(
+		ITimeFactory $time,
+		private IConfig $config,
+	) {
+		parent::__construct($time);
 
 		$this->setInterval(60 * 60 * 3);
 	}
 
-	protected function run($argument) {
+	protected function run($argument): void {
 		$default = $this->config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data') . '/audit.log';
 		$this->filePath = $this->config->getAppValue('admin_audit', 'logfile', $default);
 

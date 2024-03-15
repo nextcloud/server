@@ -46,22 +46,19 @@ use Sabre\DAV\Xml\Property\Href;
 use Sabre\VObject\Component;
 use Sabre\VObject\DateTimeParser;
 use Sabre\VObject\InvalidDataException;
-use Sabre\VObject\Recur\NoInstancesException;
 use Sabre\VObject\ParseException;
 use Sabre\VObject\Reader;
+use Sabre\VObject\Recur\NoInstancesException;
 use Sabre\VObject\Splitter\ICalendar;
 use Sabre\VObject\UUIDUtil;
 use function count;
 
 class RefreshWebcalService {
 
-	/** @var CalDavBackend */
 	private CalDavBackend $calDavBackend;
 
-	/** @var IClientService */
 	private IClientService $clientService;
 
-	/** @var IConfig */
 	private IConfig $config;
 
 	/** @var LoggerInterface */

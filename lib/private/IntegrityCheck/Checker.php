@@ -40,6 +40,7 @@ use OC\IntegrityCheck\Iterator\ExcludeFileByNameFilterIterator;
 use OC\IntegrityCheck\Iterator\ExcludeFoldersByPathFilterIterator;
 use OCP\App\IAppManager;
 use OCP\Files\IMimeTypeDetector;
+use OCP\IAppConfig;
 use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IConfig;
@@ -58,44 +59,20 @@ use phpseclib\File\X509;
  */
 class Checker {
 	public const CACHE_KEY = 'oc.integritycheck.checker';
-	/** @var EnvironmentHelper */
-	private $environmentHelper;
-	/** @var AppLocator */
-	private $appLocator;
-	/** @var FileAccessHelper */
-	private $fileAccessHelper;
-	/** @var IConfig|null */
-	private $config;
-	/** @var ICache */
-	private $cache;
-	/** @var IAppManager|null */
-	private $appManager;
-	/** @var IMimeTypeDetector */
-	private $mimeTypeDetector;
 
-	/**
-	 * @param EnvironmentHelper $environmentHelper
-	 * @param FileAccessHelper $fileAccessHelper
-	 * @param AppLocator $appLocator
-	 * @param IConfig|null $config
-	 * @param ICacheFactory $cacheFactory
-	 * @param IAppManager|null $appManager
-	 * @param IMimeTypeDetector $mimeTypeDetector
-	 */
-	public function __construct(EnvironmentHelper $environmentHelper,
-								FileAccessHelper $fileAccessHelper,
-								AppLocator $appLocator,
-								?IConfig $config,
-								ICacheFactory $cacheFactory,
-								?IAppManager $appManager,
-								IMimeTypeDetector $mimeTypeDetector) {
-		$this->environmentHelper = $environmentHelper;
-		$this->fileAccessHelper = $fileAccessHelper;
-		$this->appLocator = $appLocator;
-		$this->config = $config;
+	private ICache $cache;
+
+	public function __construct(
+		private EnvironmentHelper $environmentHelper,
+		private FileAccessHelper $fileAccessHelper,
+		private AppLocator $appLocator,
+		private ?IConfig $config,
+		private ?IAppConfig $appConfig,
+		ICacheFactory $cacheFactory,
+		private ?IAppManager $appManager,
+		private IMimeTypeDetector $mimeTypeDetector,
+	) {
 		$this->cache = $cacheFactory->createDistributed(self::CACHE_KEY);
-		$this->appManager = $appManager;
-		$this->mimeTypeDetector = $mimeTypeDetector;
 	}
 
 	/**
@@ -114,15 +91,7 @@ class Checker {
 		 * applicable for very specific scenarios and we should not advertise it
 		 * too prominent. So please do not add it to config.sample.php.
 		 */
-		$isIntegrityCheckDisabled = false;
-		if ($this->config !== null) {
-			$isIntegrityCheckDisabled = $this->config->getSystemValue('integrity.check.disabled', false);
-		}
-		if ($isIntegrityCheckDisabled === true) {
-			return false;
-		}
-
-		return true;
+		return !($this->config?->getSystemValueBool('integrity.check.disabled', false) ?? false);
 	}
 
 	/**
@@ -161,7 +130,7 @@ class Checker {
 	 * @return array Array of hashes.
 	 */
 	private function generateHashes(\RecursiveIteratorIterator $iterator,
-									string $path): array {
+		string $path): array {
 		$hashes = [];
 
 		$baseDirectoryLength = \strlen($path);
@@ -223,8 +192,8 @@ class Checker {
 	 * @return array
 	 */
 	private function createSignatureData(array $hashes,
-										 X509 $certificate,
-										 RSA $privateKey): array {
+		X509 $certificate,
+		RSA $privateKey): array {
 		ksort($hashes);
 
 		$privateKey->setSignatureMode(RSA::SIGNATURE_PSS);
@@ -249,8 +218,8 @@ class Checker {
 	 * @throws \Exception
 	 */
 	public function writeAppSignature($path,
-									  X509 $certificate,
-									  RSA $privateKey) {
+		X509 $certificate,
+		RSA $privateKey) {
 		$appInfoDir = $path . '/appinfo';
 		try {
 			$this->fileAccessHelper->assertDirectoryExists($appInfoDir);
@@ -259,7 +228,7 @@ class Checker {
 			$hashes = $this->generateHashes($iterator, $path);
 			$signature = $this->createSignatureData($hashes, $certificate, $privateKey);
 			$this->fileAccessHelper->file_put_contents(
-					$appInfoDir . '/signature.json',
+				$appInfoDir . '/signature.json',
 				json_encode($signature, JSON_PRETTY_PRINT)
 			);
 		} catch (\Exception $e) {
@@ -279,8 +248,8 @@ class Checker {
 	 * @throws \Exception
 	 */
 	public function writeCoreSignature(X509 $certificate,
-									   RSA $rsa,
-									   $path) {
+		RSA $rsa,
+		$path) {
 		$coreDir = $path . '/core';
 		try {
 			$this->fileAccessHelper->assertDirectoryExists($coreDir);
@@ -357,7 +326,7 @@ class Checker {
 		// Verify if certificate has proper CN. "core" CN is always trusted.
 		if ($x509->getDN(X509::DN_OPENSSL)['CN'] !== $certificateCN && $x509->getDN(X509::DN_OPENSSL)['CN'] !== 'core') {
 			throw new InvalidSignatureException(
-					sprintf('Certificate is not valid for required scope. (Requested: %s, current: CN=%s)', $certificateCN, $x509->getDN(true)['CN'])
+				sprintf('Certificate is not valid for required scope. (Requested: %s, current: CN=%s)', $certificateCN, $x509->getDN(true)['CN'])
 			);
 		}
 
@@ -379,7 +348,7 @@ class Checker {
 		// integrity check.
 		if ($basePath === $this->environmentHelper->getServerRoot()) {
 			foreach ($expectedHashes as $fileName => $hash) {
-				if (strpos($fileName, 'updater/') === 0) {
+				if (str_starts_with($fileName, 'updater/')) {
 					unset($expectedHashes[$fileName]);
 				}
 			}
@@ -439,14 +408,11 @@ class Checker {
 	 */
 	public function getResults(): array {
 		$cachedResults = $this->cache->get(self::CACHE_KEY);
-		if (!\is_null($cachedResults)) {
+		if (!\is_null($cachedResults) and $cachedResults !== false) {
 			return json_decode($cachedResults, true);
 		}
 
-		if ($this->config !== null) {
-			return json_decode($this->config->getAppValue('core', self::CACHE_KEY, '{}'), true);
-		}
-		return [];
+		return $this->appConfig?->getValueArray('core', self::CACHE_KEY, lazy: true) ?? [];
 	}
 
 	/**
@@ -461,9 +427,7 @@ class Checker {
 		if (!empty($result)) {
 			$resultArray[$scope] = $result;
 		}
-		if ($this->config !== null) {
-			$this->config->setAppValue('core', self::CACHE_KEY, json_encode($resultArray));
-		}
+		$this->appConfig?->setValueArray('core', self::CACHE_KEY, $resultArray, lazy: true);
 		$this->cache->set(self::CACHE_KEY, json_encode($resultArray));
 	}
 
@@ -472,7 +436,7 @@ class Checker {
 	 * Clean previous results for a proper rescanning. Otherwise
 	 */
 	private function cleanResults() {
-		$this->config->deleteAppValue('core', self::CACHE_KEY);
+		$this->appConfig->deleteKey('core', self::CACHE_KEY);
 		$this->cache->remove(self::CACHE_KEY);
 	}
 
@@ -515,10 +479,10 @@ class Checker {
 				$path = $this->appLocator->getAppPath($appId);
 			}
 			$result = $this->verify(
-					$path . '/appinfo/signature.json',
-					$path,
-					$appId,
-					$forceVerify
+				$path . '/appinfo/signature.json',
+				$path,
+				$appId,
+				$forceVerify
 			);
 		} catch (\Exception $e) {
 			$result = [
@@ -566,9 +530,9 @@ class Checker {
 	public function verifyCoreSignature(): array {
 		try {
 			$result = $this->verify(
-					$this->environmentHelper->getServerRoot() . '/core/signature.json',
-					$this->environmentHelper->getServerRoot(),
-					'core'
+				$this->environmentHelper->getServerRoot() . '/core/signature.json',
+				$this->environmentHelper->getServerRoot(),
+				'core'
 			);
 		} catch (\Exception $e) {
 			$result = [

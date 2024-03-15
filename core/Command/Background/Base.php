@@ -38,14 +38,14 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 abstract class Base extends Command {
 	abstract protected function getMode();
-	protected IConfig $config;
 
-	public function __construct(IConfig $config) {
+	public function __construct(
+		protected IConfig $config,
+	) {
 		parent::__construct();
-		$this->config = $config;
 	}
 
-	protected function configure() {
+	protected function configure(): void {
 		$mode = $this->getMode();
 		$this
 			->setName("background:$mode")
@@ -59,6 +59,7 @@ abstract class Base extends Command {
 	 *
 	 * @param InputInterface $input
 	 * @param OutputInterface $output
+	 * @return int
 	 */
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$mode = $this->getMode();

@@ -9,6 +9,7 @@
  * @author Joas Schilling <coding@schilljs.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Citharel <nextcloud@tcit.fr>
+ * @author Richard Steinmetz <richard@steinmetz.cloud>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -33,12 +34,16 @@ use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\Calendar;
 use OCA\DAV\CalDAV\CalendarHome;
 use OCP\IConfig;
+use Psr\Log\LoggerInterface;
 use Sabre\CalDAV\ICalendar;
+use Sabre\CalDAV\ICalendarObject;
+use Sabre\CalDAV\Schedule\ISchedulingObject;
 use Sabre\DAV\INode;
 use Sabre\DAV\IProperties;
 use Sabre\DAV\PropFind;
 use Sabre\DAV\Server;
 use Sabre\DAV\Xml\Property\LocalHref;
+use Sabre\DAVACL\IACL;
 use Sabre\DAVACL\IPrincipal;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
@@ -48,6 +53,7 @@ use Sabre\VObject\Component\VEvent;
 use Sabre\VObject\DateTimeParser;
 use Sabre\VObject\FreeBusyGenerator;
 use Sabre\VObject\ITip;
+use Sabre\VObject\ITip\SameOrganizerForAllComponentsException;
 use Sabre\VObject\Parameter;
 use Sabre\VObject\Property;
 use Sabre\VObject\Reader;
@@ -68,12 +74,14 @@ class Plugin extends \Sabre\CalDAV\Schedule\Plugin {
 
 	public const CALENDAR_USER_TYPE = '{' . self::NS_CALDAV . '}calendar-user-type';
 	public const SCHEDULE_DEFAULT_CALENDAR_URL = '{' . Plugin::NS_CALDAV . '}schedule-default-calendar-URL';
+	private LoggerInterface $logger;
 
 	/**
 	 * @param IConfig $config
 	 */
-	public function __construct(IConfig $config) {
+	public function __construct(IConfig $config, LoggerInterface $logger) {
 		$this->config = $config;
+		$this->logger = $logger;
 	}
 
 	/**
@@ -87,6 +95,13 @@ class Plugin extends \Sabre\CalDAV\Schedule\Plugin {
 		$server->on('propFind', [$this, 'propFindDefaultCalendarUrl'], 90);
 		$server->on('afterWriteContent', [$this, 'dispatchSchedulingResponses']);
 		$server->on('afterCreateFile', [$this, 'dispatchSchedulingResponses']);
+
+		// We allow mutating the default calendar URL through the CustomPropertiesBackend
+		// (oc_properties table)
+		$server->protectedProperties = array_filter(
+			$server->protectedProperties,
+			static fn (string $property) => $property !== self::SCHEDULE_DEFAULT_CALENDAR_URL,
+		);
 	}
 
 	/**
@@ -157,20 +172,51 @@ class Plugin extends \Sabre\CalDAV\Schedule\Plugin {
 			$this->pathOfCalendarObjectChange = $request->getPath();
 		}
 
-		parent::calendarObjectChange($request, $response, $vCal, $calendarPath, $modified, $isNew);
+		try {
+			parent::calendarObjectChange($request, $response, $vCal, $calendarPath, $modified, $isNew);
+		} catch (SameOrganizerForAllComponentsException $e) {
+			$this->handleSameOrganizerException($e, $vCal, $calendarPath);
+		}
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function beforeUnbind($path): void {
+		try {
+			parent::beforeUnbind($path);
+		} catch (SameOrganizerForAllComponentsException $e) {
+			$node = $this->server->tree->getNodeForPath($path);
+			if (!$node instanceof ICalendarObject || $node instanceof ISchedulingObject) {
+				throw $e;
+			}
+
+			/** @var VCalendar $vCal */
+			$vCal = Reader::read($node->get());
+			$this->handleSameOrganizerException($e, $vCal, $path);
+		}
 	}
 
 	/**
 	 * @inheritDoc
 	 */
 	public function scheduleLocalDelivery(ITip\Message $iTipMessage):void {
-		parent::scheduleLocalDelivery($iTipMessage);
+		/** @var VEvent|null $vevent */
+		$vevent = $iTipMessage->message->VEVENT ?? null;
 
-		// We only care when the message was successfully delivered locally
-		if ($iTipMessage->scheduleStatus !== '1.2;Message delivered locally') {
-			return;
+		// Strip VALARMs from incoming VEVENT
+		if ($vevent && isset($vevent->VALARM)) {
+			$vevent->remove('VALARM');
 		}
 
+		parent::scheduleLocalDelivery($iTipMessage);
+		// We only care when the message was successfully delivered locally
+		// Log all possible codes returned from the parent method that mean something went wrong
+		// 3.7, 3.8, 5.0, 5.2
+		if ($iTipMessage->scheduleStatus !== '1.2;Message delivered locally') {
+			$this->logger->debug('Message not delivered locally with status: ' . $iTipMessage->scheduleStatus);
+			return;
+		}
 		// We only care about request. reply and cancel are properly handled
 		// by parent::scheduleLocalDelivery already
 		if (strcasecmp($iTipMessage->method, 'REQUEST') !== 0) {
@@ -186,34 +232,31 @@ class Plugin extends \Sabre\CalDAV\Schedule\Plugin {
 		$principalUri = $aclPlugin->getPrincipalByUri($iTipMessage->recipient);
 		$calendarUserType = $this->getCalendarUserTypeForPrincipal($principalUri);
 		if (strcasecmp($calendarUserType, 'ROOM') !== 0 && strcasecmp($calendarUserType, 'RESOURCE') !== 0) {
+			$this->logger->debug('Calendar user type is room or resource, not processing further');
 			return;
 		}
 
 		$attendee = $this->getCurrentAttendee($iTipMessage);
 		if (!$attendee) {
+			$this->logger->debug('No attendee set for scheduling message');
 			return;
 		}
 
 		// We only respond when a response was actually requested
 		$rsvp = $this->getAttendeeRSVP($attendee);
 		if (!$rsvp) {
+			$this->logger->debug('No RSVP requested for attendee ' . $attendee->getValue());
 			return;
 		}
 
-		if (!isset($iTipMessage->message)) {
+		if (!$vevent) {
+			$this->logger->debug('No VEVENT set to process on scheduling message');
 			return;
 		}
-
-		$vcalendar = $iTipMessage->message;
-		if (!isset($vcalendar->VEVENT)) {
-			return;
-		}
-
-		/** @var Component $vevent */
-		$vevent = $vcalendar->VEVENT;
 
 		// We don't support autoresponses for recurrencing events for now
 		if (isset($vevent->RRULE) || isset($vevent->RDATE)) {
+			$this->logger->debug('VEVENT is a recurring event, autoresponding not supported');
 			return;
 		}
 
@@ -300,10 +343,10 @@ EOF;
 					return null;
 				}
 
-				$isResourceOrRoom = strpos($principalUrl, 'principals/calendar-resources') === 0 ||
-					strpos($principalUrl, 'principals/calendar-rooms') === 0;
+				$isResourceOrRoom = str_starts_with($principalUrl, 'principals/calendar-resources') ||
+					str_starts_with($principalUrl, 'principals/calendar-rooms');
 
-				if (strpos($principalUrl, 'principals/users') === 0) {
+				if (str_starts_with($principalUrl, 'principals/users')) {
 					[, $userId] = split($principalUrl);
 					$uri = $this->config->getUserValue($userId, 'dav', 'defaultCalendar', CalDavBackend::PERSONAL_CALENDAR_URI);
 					$displayName = CalDavBackend::PERSONAL_CALENDAR_NAME;
@@ -318,12 +361,12 @@ EOF;
 
 				/** @var CalendarHome $calendarHome */
 				$calendarHome = $this->server->tree->getNodeForPath($calendarHomePath);
-				if (!$calendarHome->childExists($uri)) {
+				$currentCalendarDeleted = false;
+				if (!$calendarHome->childExists($uri) || $currentCalendarDeleted = $this->isCalendarDeleted($calendarHome, $uri)) {
 					// If the default calendar doesn't exist
 					if ($isResourceOrRoom) {
-						$calendarHome->getCalDAVBackend()->createCalendar($principalUrl, $uri, [
-							'{DAV:}displayname' => $displayName,
-						]);
+						// Resources or rooms can't be in the trashbin, so we're fine
+						$this->createCalendar($calendarHome, $principalUrl, $uri, $displayName);
 					} else {
 						// And we're not handling scheduling on resource/room booking
 						$userCalendars = [];
@@ -348,9 +391,16 @@ EOF;
 							$uri = $userCalendars[0]->getName();
 						} else {
 							// Otherwise if we have really nothing, create a new calendar
-							$calendarHome->getCalDAVBackend()->createCalendar($principalUrl, $uri, [
-								'{DAV:}displayname' => $displayName,
-							]);
+							if ($currentCalendarDeleted) {
+								// If the calendar exists but is deleted, we need to purge it first
+								// This may cause some issues in a non synchronous database setup
+								$calendar = $this->getCalendar($calendarHome, $uri);
+								if ($calendar instanceof Calendar) {
+									$calendar->disableTrashbin();
+									$calendar->delete();
+								}
+							}
+							$this->createCalendar($calendarHome, $principalUrl, $uri, $displayName);
 						}
 					}
 				}
@@ -597,5 +647,60 @@ EOF;
 		}
 
 		return $email;
+	}
+
+	private function getCalendar(CalendarHome $calendarHome, string $uri): INode {
+		return $calendarHome->getChild($uri);
+	}
+
+	private function isCalendarDeleted(CalendarHome $calendarHome, string $uri): bool {
+		$calendar = $this->getCalendar($calendarHome, $uri);
+		return $calendar instanceof Calendar && $calendar->isDeleted();
+	}
+
+	private function createCalendar(CalendarHome $calendarHome, string $principalUri, string $uri, string $displayName): void {
+		$calendarHome->getCalDAVBackend()->createCalendar($principalUri, $uri, [
+			'{DAV:}displayname' => $displayName,
+		]);
+	}
+
+	/**
+	 * Try to handle the given exception gracefully or throw it if necessary.
+	 *
+	 * @throws SameOrganizerForAllComponentsException If the exception should not be ignored
+	 */
+	private function handleSameOrganizerException(
+		SameOrganizerForAllComponentsException $e,
+		VCalendar $vCal,
+		string $calendarPath,
+	): void {
+		// This is very hacky! However, we want to allow saving events with multiple
+		// organizers. Those events are not RFC compliant, but sometimes imported from major
+		// external calendar services (e.g. Google). If the current user is not an organizer of
+		// the event we ignore the exception as no scheduling messages will be sent anyway.
+
+		// It would be cleaner to patch Sabre to validate organizers *after* checking if
+		// scheduling messages are necessary. Currently, organizers are validated first and
+		// afterwards the broker checks if messages should be scheduled. So the code will throw
+		// even if the organizers are not relevant. This is to ensure compliance with RFCs but
+		// a bit too strict for real world usage.
+
+		if (!isset($vCal->VEVENT)) {
+			throw $e;
+		}
+
+		$calendarNode = $this->server->tree->getNodeForPath($calendarPath);
+		if (!($calendarNode instanceof IACL)) {
+			// Should always be an instance of IACL but just to be sure
+			throw $e;
+		}
+
+		$addresses = $this->getAddressesForPrincipal($calendarNode->getOwner());
+		foreach ($vCal->VEVENT as $vevent) {
+			if (in_array($vevent->ORGANIZER->getNormalizedValue(), $addresses, true)) {
+				// User is an organizer => throw the exception
+				throw $e;
+			}
+		}
 	}
 }

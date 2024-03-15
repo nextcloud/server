@@ -31,7 +31,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
 
 class DeleteTest extends TestCase {
-
 	/** @var ISystemTagManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $systemTagManager;
 

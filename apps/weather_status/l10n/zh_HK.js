@@ -7,7 +7,7 @@ OC.L10N.register(
     "Error" : "錯誤",
     "Weather status" : "天氣報告",
     "Weather status in your dashboard" : "您儀表板中的天氣報告",
-    "Weather status integrated in the Dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "整合在儀表板應用程式中的天氣報告。\n    用戶的位置可以自動偵測或手動定義。然後會顯示6小時的預測。\n    此狀態也可以整合到其他地方，如「日曆」應用程式。",
+    "Weather status integrated in the Dashboard app.\n    The geographic location can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "整合在儀表板應用程式中的天氣狀態。\n    地理位置可以自動偵測或手動定義。然後會顯示6小時的預測。\n    此狀態也可以整合到其他地方，如「日曆」應用程式。",
     "Detect location" : "偵測位置",
     "Set custom address" : "設定自訂位置",
     "Favorites" : "我的最愛",
@@ -46,17 +46,6 @@ OC.L10N.register(
     "There was an error saving the mode." : "儲存模式時發生錯誤。",
     "There was an error using personal address." : "使用個人地址時發生錯誤。",
     "Set location for weather" : "設定天氣位置",
-    "{temperature} {unit} Clear sky at {time}" : "{temperature} {unit} 晴朗於 {time}",
-    "{temperature} {unit} Cloudy at {time}" : "{temperature} {unit} 多雲於 {time}",
-    "{temperature} {unit} Fair day at {time}" : "{temperature} {unit} 白天晴朗於 {time}",
-    "{temperature} {unit} Fair night at {time}" : "{temperature} {unit} 夜晚晴朗於 {time}",
-    "{temperature} {unit} Partly cloudy at {time}" : "{temperature} {unit} 局部多雲於 {time}",
-    "{temperature} {unit} Foggy at {time}" : "{temperature} {unit} 有霧於 {time}",
-    "{temperature} {unit} Light rain at {time}" : "{temperature} {unit} 小雨於 {time}",
-    "{temperature} {unit} Rain at {time}" : "{temperature} {unit} 下雨於 {time}",
-    "{temperature} {unit} Heavy rain at {time}" : "{temperature} {unit} 大雨於 {time}",
-    "{temperature} {unit} Rain showers at {time}" : "{temperature} {unit} 陣雨於 {time}",
-    "{temperature} {unit} Light rain showers at {time}" : "{temperature} {unit} 小陣雨於 {time}",
-    "{temperature} {unit} Heavy rain showers at {time}" : "{temperature} {unit} 大陣雨於 {time}"
+    "Weather status integrated in the Dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "整合在儀表板應用程式中的天氣報告。\n    用戶的位置可以自動偵測或手動定義。然後會顯示6小時的預測。\n    此狀態也可以整合到其他地方，如「日曆」應用程式。"
 },
 "nplurals=1; plural=0;");

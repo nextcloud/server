@@ -35,7 +35,7 @@ interface IManager {
 	public function registerSorter($className);
 
 	/**
-	 * @param array $sorters	list of sorter IDs, seperated by "|"
+	 * @param array $sorters	list of sorter IDs, separated by "|"
 	 * @param array $sortArray	array representation of OCP\Collaboration\Collaborators\ISearchResult
 	 * @param array $context	context info of the search, keys: itemType, itemId
 	 * @since 13.0.0

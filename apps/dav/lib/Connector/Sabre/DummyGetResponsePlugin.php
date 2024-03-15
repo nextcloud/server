@@ -26,9 +26,9 @@
  */
 namespace OCA\DAV\Connector\Sabre;
 
+use Sabre\DAV\Server;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
-use Sabre\DAV\Server;
 
 /**
  * Class DummyGetResponsePlugin is a plugin used to not show a "Not implemented"
@@ -63,7 +63,7 @@ class DummyGetResponsePlugin extends \Sabre\DAV\ServerPlugin {
 	public function httpGet(RequestInterface $request, ResponseInterface $response) {
 		$string = 'This is the WebDAV interface. It can only be accessed by ' .
 			'WebDAV clients such as the Nextcloud desktop sync client.';
-		$stream = fopen('php://memory','r+');
+		$stream = fopen('php://memory', 'r+');
 		fwrite($stream, $string);
 		rewind($stream);
 

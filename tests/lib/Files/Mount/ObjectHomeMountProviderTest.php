@@ -8,7 +8,6 @@ use OCP\IConfig;
 use OCP\IUser;
 
 class ObjectHomeMountProviderTest extends \Test\TestCase {
-
 	/** @var ObjectHomeMountProvider */
 	protected $provider;
 

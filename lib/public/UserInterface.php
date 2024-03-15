@@ -34,7 +34,6 @@ namespace OCP;
  * @since 4.5.0
  */
 interface UserInterface {
-
 	/**
 	 * Check if backend implements actions
 	 * @param int $actions bitwise-or'ed actions

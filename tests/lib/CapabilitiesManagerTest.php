@@ -28,7 +28,6 @@ use OCP\Capabilities\IPublicCapability;
 use Psr\Log\LoggerInterface;
 
 class CapabilitiesManagerTest extends TestCase {
-
 	/** @var CapabilitiesManager */
 	private $manager;
 

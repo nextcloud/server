@@ -92,6 +92,9 @@ class SystemTagsObjectMappingCollection implements ICollection {
 		$this->user = $user;
 	}
 
+	/**
+	 * @return void
+	 */
 	public function createFile($name, $data = null) {
 		$tagId = $name;
 		try {
@@ -110,10 +113,16 @@ class SystemTagsObjectMappingCollection implements ICollection {
 		}
 	}
 
+	/**
+	 * @return never
+	 */
 	public function createDirectory($name) {
 		throw new Forbidden('Permission denied to create collections');
 	}
 
+	/**
+	 * @return SystemTagMappingNode
+	 */
 	public function getChild($tagName) {
 		try {
 			if ($this->tagMapper->haveTag([$this->objectId], $this->objectType, $tagName, true)) {
@@ -131,6 +140,11 @@ class SystemTagsObjectMappingCollection implements ICollection {
 		}
 	}
 
+	/**
+	 * @return SystemTagMappingNode[]
+	 *
+	 * @psalm-return list<SystemTagMappingNode>
+	 */
 	public function getChildren() {
 		$tagIds = current($this->tagMapper->getTagIdsForObjects([$this->objectId], $this->objectType));
 		if (empty($tagIds)) {
@@ -168,6 +182,9 @@ class SystemTagsObjectMappingCollection implements ICollection {
 		}
 	}
 
+	/**
+	 * @return never
+	 */
 	public function delete() {
 		throw new Forbidden('Permission denied to delete this collection');
 	}
@@ -176,6 +193,9 @@ class SystemTagsObjectMappingCollection implements ICollection {
 		return $this->objectId;
 	}
 
+	/**
+	 * @return never
+	 */
 	public function setName($name) {
 		throw new Forbidden('Permission denied to rename this collection');
 	}
@@ -183,7 +203,7 @@ class SystemTagsObjectMappingCollection implements ICollection {
 	/**
 	 * Returns the last modification time, as a unix timestamp
 	 *
-	 * @return int
+	 * @return null
 	 */
 	public function getLastModified() {
 		return null;

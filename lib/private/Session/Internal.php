@@ -33,8 +33,8 @@ declare(strict_types=1);
  */
 namespace OC\Session;
 
-use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Token\IProvider;
+use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\Session\Exceptions\SessionNotAvailableException;
 
 /**
@@ -68,8 +68,11 @@ class Internal extends Session {
 	 * @param integer $value
 	 */
 	public function set(string $key, $value) {
-		$this->validateSession();
+		$reopened = $this->reopen();
 		$_SESSION[$key] = $value;
+		if ($reopened) {
+			$this->close();
+		}
 	}
 
 	/**
@@ -101,8 +104,10 @@ class Internal extends Session {
 	}
 
 	public function clear() {
+		$this->reopen();
 		$this->invoke('session_unset');
 		$this->regenerateId();
+		$this->invoke('session_write_close');
 		$this->startSession(true);
 		$_SESSION = [];
 	}
@@ -120,6 +125,7 @@ class Internal extends Session {
 	 * @return void
 	 */
 	public function regenerateId(bool $deleteOldSession = true, bool $updateToken = false) {
+		$this->reopen();
 		$oldId = null;
 
 		if ($updateToken) {
@@ -143,7 +149,7 @@ class Internal extends Session {
 			$newId = $this->getId();
 
 			/** @var IProvider $tokenProvider */
-			$tokenProvider = \OC::$server->query(IProvider::class);
+			$tokenProvider = \OCP\Server::get(IProvider::class);
 
 			try {
 				$tokenProvider->renewSessionToken($oldId, $newId);
@@ -171,8 +177,14 @@ class Internal extends Session {
 	/**
 	 * @throws \Exception
 	 */
-	public function reopen() {
-		throw new \Exception('The session cannot be reopened - reopen() is only to be used in unit testing.');
+	public function reopen(): bool {
+		if ($this->sessionClosed) {
+			$this->startSession(false, false);
+			$this->sessionClosed = false;
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
@@ -183,15 +195,6 @@ class Internal extends Session {
 	public function trapError(int $errorNumber, string $errorString) {
 		if ($errorNumber & E_ERROR) {
 			throw new \ErrorException($errorString);
-		}
-	}
-
-	/**
-	 * @throws \Exception
-	 */
-	private function validateSession() {
-		if ($this->sessionClosed) {
-			throw new SessionNotAvailableException('Session has been closed - no further changes to the session are allowed');
 		}
 	}
 
@@ -214,7 +217,11 @@ class Internal extends Session {
 		}
 	}
 
-	private function startSession(bool $silence = false) {
-		$this->invoke('session_start', [['cookie_samesite' => 'Lax']], $silence);
+	private function startSession(bool $silence = false, bool $readAndClose = true) {
+		$sessionParams = ['cookie_samesite' => 'Lax'];
+		if (\OC::hasSessionRelaxedExpiry()) {
+			$sessionParams['read_and_close'] = $readAndClose;
+		}
+		$this->invoke('session_start', [$sessionParams], $silence);
 	}
 }

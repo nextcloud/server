@@ -24,8 +24,8 @@
 import _ from 'underscore'
 import $ from 'jquery'
 
-import OC from './index'
-import Notification from './notification'
+import OC from './index.js'
+import Notification from './notification.js'
 
 /**
  * Warn users that the connection to the server was lost temporarily

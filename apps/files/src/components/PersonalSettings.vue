@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import TransferOwnershipDialogue from './TransferOwnershipDialogue'
+import TransferOwnershipDialogue from './TransferOwnershipDialogue.vue'
 
 export default {
 	name: 'PersonalSettings',

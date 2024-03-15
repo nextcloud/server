@@ -43,7 +43,6 @@ use OCP\Share\Exceptions\IllegalIDChangeException;
  * @since 9.0.0
  */
 interface IShare {
-
 	/**
 	 * @since 17.0.0
 	 */
@@ -117,6 +116,11 @@ interface IShare {
 	 * @since 21.0.0
 	 */
 	public const TYPE_DECK_USER = 13;
+
+	/**
+	 * @since 26.0.0
+	 */
+	public const TYPE_SCIENCEMESH = 15;
 
 	/**
 	 * @since 18.0.0
@@ -209,7 +213,7 @@ interface IShare {
 	 * @since 9.0.0
 	 * @throws NotFoundException
 	 */
-	public function getNodeId();
+	public function getNodeId(): int;
 
 	/**
 	 * Set the type of node (file/folder)
@@ -390,7 +394,7 @@ interface IShare {
 	/**
 	 * Get the expiration date
 	 *
-	 * @return \DateTime
+	 * @return null|\DateTime
 	 * @since 9.0.0
 	 */
 	public function getExpirationDate();
@@ -470,7 +474,7 @@ interface IShare {
 	 * If this share is obtained via a shareprovider the password is
 	 * hashed.
 	 *
-	 * @return string
+	 * @return string|null
 	 * @since 9.0.0
 	 */
 	public function getPassword();

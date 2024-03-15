@@ -31,7 +31,6 @@ use OCP\Authentication\Exceptions\CredentialsUnavailableException;
  * @since 12
  */
 interface IStore {
-
 	/**
 	 * Get login credentials of the currently logged in user
 	 *

@@ -143,7 +143,7 @@ abstract class AbstractIntegrationTest {
 	 * initializes the Access test instance
 	 */
 	protected function initAccess() {
-		$this->access = new Access($this->connection, $this->ldap, $this->userManager, $this->helper, \OC::$server->getConfig(), \OC::$server->getLogger());
+		$this->access = new Access($this->connection, $this->ldap, $this->userManager, $this->helper, \OC::$server->getConfig(), \OCP\Server::get(LoggerInterface::class));
 	}
 
 	/**
@@ -155,7 +155,7 @@ abstract class AbstractIntegrationTest {
 		$methods = get_class_methods($this);
 		$atLeastOneCaseRan = false;
 		foreach ($methods as $method) {
-			if (strpos($method, 'case') === 0) {
+			if (str_starts_with($method, 'case')) {
 				print("running $method " . PHP_EOL);
 				try {
 					if (!$this->$method()) {

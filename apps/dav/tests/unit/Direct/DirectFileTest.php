@@ -73,66 +73,66 @@ class DirectFileTest extends TestCase {
 			->willReturn($this->userFolder);
 
 		$this->file = $this->createMock(File::class);
-		$this->userFolder->method('getById')
+		$this->userFolder->method('getFirstNodeById')
 			->with(42)
-			->willReturn([$this->file]);
+			->willReturn($this->file);
 
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 
 		$this->directFile = new DirectFile($this->direct, $this->rootFolder, $this->eventDispatcher);
 	}
 
-	public function testPut() {
+	public function testPut(): void {
 		$this->expectException(Forbidden::class);
 
 		$this->directFile->put('foo');
 	}
 
-	public function testGet() {
+	public function testGet(): void {
 		$this->file->expects($this->once())
 			->method('fopen')
 			->with('rb');
 		$this->directFile->get();
 	}
 
-	public function testGetContentType() {
+	public function testGetContentType(): void {
 		$this->file->method('getMimeType')
 			->willReturn('direct/type');
 
 		$this->assertSame('direct/type', $this->directFile->getContentType());
 	}
 
-	public function testGetETag() {
+	public function testGetETag(): void {
 		$this->file->method('getEtag')
 			->willReturn('directEtag');
 
 		$this->assertSame('directEtag', $this->directFile->getETag());
 	}
 
-	public function testGetSize() {
+	public function testGetSize(): void {
 		$this->file->method('getSize')
 			->willReturn(42);
 
 		$this->assertSame(42, $this->directFile->getSize());
 	}
 
-	public function testDelete() {
+	public function testDelete(): void {
 		$this->expectException(Forbidden::class);
 
 		$this->directFile->delete();
 	}
 
-	public function testGetName() {
+	public function testGetName(): void {
 		$this->assertSame('directToken', $this->directFile->getName());
 	}
 
-	public function testSetName() {
+	public function testSetName(): void {
 		$this->expectException(Forbidden::class);
 
 		$this->directFile->setName('foobar');
 	}
 
-	public function testGetLastModified() {
+	public function testGetLastModified(): void {
 		$this->file->method('getMTime')
 			->willReturn(42);
 

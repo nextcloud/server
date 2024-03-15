@@ -30,7 +30,6 @@ use OCP\IGroupManager;
 use OCP\IUser;
 
 class MandatoryTwoFactor {
-
 	/** @var IConfig */
 	private $config;
 

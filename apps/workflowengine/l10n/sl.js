@@ -54,16 +54,11 @@ OC.L10N.register(
     "Images" : "Slike",
     "Office documents" : "Pisarniški dokumenti",
     "PDF documents" : "Dokumenti PDF",
+    "Custom MIME type" : "Vrsta Mime po meri",
     "Custom mimetype" : "Vrsta Mime po meri",
-    "Select a tag" : "Izbor oznake",
-    "No results" : "Ni zadetkov",
-    "%s (invisible)" : "%s (nevidno)",
-    "%s (restricted)" : "%s (omejeno)",
     "Please enter a valid time span" : "Vpisati je treba veljaven časovni obseg",
     "Select a request URL" : "Izberite naslov URL zahteve",
-    "Predefined URLs" : "Določeni naslovi URL",
     "Files WebDAV" : "Datoteke WebDAV",
-    "Others" : "Ostali",
     "Custom URL" : "Naslov URL po meri",
     "Select a user agent" : "Izbor uporabniškega odjemalca",
     "Android client" : "Odjemalec za Android",
@@ -112,8 +107,8 @@ OC.L10N.register(
     "between" : "je dovoljen med",
     "not between" : "ni dovoljen med",
     "Request user agent" : "Uporabniški odjemalec",
-    "User group membership" : "Članstvo v uporabniških skupinah",
     "is member of" : "je v skupini",
-    "is not member of" : "ni v skupini"
+    "is not member of" : "ni v skupini",
+    "User group membership" : "Članstvo v uporabniških skupinah"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

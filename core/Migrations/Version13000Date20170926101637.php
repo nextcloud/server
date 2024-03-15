@@ -29,7 +29,6 @@ use OCP\Migration\BigIntMigration;
  * Auto-generated migration step: Please modify to your needs!
  */
 class Version13000Date20170926101637 extends BigIntMigration {
-
 	/**
 	 * @return array Returns an array with the following structure
 	 * ['table1' => ['column1', 'column2'], ...]

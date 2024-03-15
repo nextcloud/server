@@ -32,7 +32,6 @@ use OCP\IUser;
  * @since 23.0.0
  */
 interface ILinkAction {
-
 	/**
 	 * Preload the user specific value required by the action
 	 *

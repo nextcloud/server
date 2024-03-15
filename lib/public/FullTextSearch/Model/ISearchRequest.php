@@ -43,8 +43,6 @@ namespace OCP\FullTextSearch\Model;
  *
  */
 interface ISearchRequest {
-
-
 	/**
 	 * Get the maximum number of results to be returns by the Search Platform.
 	 *

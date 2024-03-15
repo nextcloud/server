@@ -126,6 +126,20 @@ class Color {
 	}
 
 	/**
+	 * Alpha blend another color with a given opacity to this color
+	 *
+	 * @return Color The new color
+	 * @since 25.0.0
+	 */
+	public function alphaBlending(float $opacity, Color $source): Color {
+		return new Color(
+			(int)((1 - $opacity) * $source->red() + $opacity * $this->red()),
+			(int)((1 - $opacity) * $source->green() + $opacity * $this->green()),
+			(int)((1 - $opacity) * $source->blue() + $opacity * $this->blue())
+		);
+	}
+
+	/**
 	 * Calculate steps between two Colors
 	 * @param int $steps start color
 	 * @param Color[] $ends end color

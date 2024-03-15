@@ -25,21 +25,25 @@ declare(strict_types=1);
  */
 namespace OC\Core\BackgroundJobs;
 
-use OC\BackgroundJob\QueuedJob;
+use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\BackgroundJob\QueuedJob;
 use OCP\IConfig;
 use OCP\IUser;
 use OCP\IUserManager;
 
 class LookupServerSendCheckBackgroundJob extends QueuedJob {
-	protected IConfig $config;
-	private IUserManager $userManager;
-
-	public function __construct(IConfig $config, IUserManager $userManager) {
-		$this->config = $config;
-		$this->userManager = $userManager;
+	public function __construct(
+		protected IConfig $config,
+		private IUserManager $userManager,
+		ITimeFactory $time,
+	) {
+		parent::__construct($time);
 	}
 
-	public function run($arguments) {
+	/**
+	 * @param array $argument
+	 */
+	public function run($argument): void {
 		$this->userManager->callForSeenUsers(function (IUser $user) {
 			$this->config->setUserValue($user->getUID(), 'lookup_server_connector', 'dataSend', '1');
 		});

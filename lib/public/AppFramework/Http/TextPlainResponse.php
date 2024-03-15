@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @copyright 2021 Lukas Reschke <lukas@statuscode.ch>
  *
  * @author 2021 Lukas Reschke <lukas@statuscode.ch>
+ * @author Kate Döen <kate.doeen@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -30,6 +31,9 @@ use OCP\AppFramework\Http;
 /**
  * A renderer for text responses
  * @since 22.0.0
+ * @template S of int
+ * @template H of array<string, mixed>
+ * @template-extends Response<int, array<string, mixed>>
  */
 class TextPlainResponse extends Response {
 	/** @var string */
@@ -38,14 +42,14 @@ class TextPlainResponse extends Response {
 	/**
 	 * constructor of TextPlainResponse
 	 * @param string $text The text body
-	 * @param int $statusCode the Http status code, defaults to 200
+	 * @param S $statusCode the Http status code, defaults to 200
+	 * @param H $headers
 	 * @since 22.0.0
 	 */
-	public function __construct(string $text = '', int $statusCode = Http::STATUS_OK) {
-		parent::__construct();
+	public function __construct(string $text = '', int $statusCode = Http::STATUS_OK, array $headers = []) {
+		parent::__construct($statusCode, $headers);
 
 		$this->text = $text;
-		$this->setStatus($statusCode);
 		$this->addHeader('Content-Type', 'text/plain');
 	}
 

@@ -29,8 +29,10 @@ namespace OC\Session;
 
 use OCP\ISession;
 
+/**
+ * @template-implements \ArrayAccess<string,mixed>
+ */
 abstract class Session implements \ArrayAccess, ISession {
-
 	/**
 	 * @var bool
 	 */

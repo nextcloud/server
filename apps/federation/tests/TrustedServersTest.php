@@ -31,17 +31,16 @@ use OCA\Federation\DbHandler;
 use OCA\Federation\TrustedServers;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
 use OCP\Http\Client\IResponse;
 use OCP\IConfig;
 use OCP\Security\ISecureRandom;
-use OCP\EventDispatcher\IEventDispatcher;
-use Test\TestCase;
 use Psr\Log\LoggerInterface;
+use Test\TestCase;
 
 class TrustedServersTest extends TestCase {
-
 	/** @var \PHPUnit\Framework\MockObject\MockObject | TrustedServers */
 	private $trustedServers;
 
@@ -57,7 +56,7 @@ class TrustedServersTest extends TestCase {
 	/** @var  \PHPUnit\Framework\MockObject\MockObject | IResponse */
 	private $response;
 
-	/** @var  \PHPUnit\Framework\MockObject\MockObject | ILogger */
+	/** @var  \PHPUnit\Framework\MockObject\MockObject | LoggerInterface */
 	private $logger;
 
 	/** @var  \PHPUnit\Framework\MockObject\MockObject | IJobList */
@@ -132,7 +131,7 @@ class TrustedServersTest extends TestCase {
 		$this->dbHandler->expects($this->once())->method('addToken')->with('https://url', 'token');
 		$this->jobList->expects($this->once())->method('add')
 			->with('OCA\Federation\BackgroundJob\RequestSharedSecret',
-					['url' => 'https://url', 'token' => 'token', 'created' => 1234567]);
+				['url' => 'https://url', 'token' => 'token', 'created' => 1234567]);
 
 		$this->assertSame(
 			$trustedServers->addServer('url'),

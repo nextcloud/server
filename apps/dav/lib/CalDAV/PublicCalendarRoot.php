@@ -52,7 +52,7 @@ class PublicCalendarRoot extends Collection {
 	 * @param IConfig $config
 	 */
 	public function __construct(CalDavBackend $caldavBackend, IL10N $l10n,
-						 IConfig $config, LoggerInterface $logger) {
+		IConfig $config, LoggerInterface $logger) {
 		$this->caldavBackend = $caldavBackend;
 		$this->l10n = $l10n;
 		$this->config = $config;

@@ -28,18 +28,13 @@ use OCP\Contacts\ContactsMenu\IProvider;
 use OCP\IURLGenerator;
 
 class EMailProvider implements IProvider {
-	private IActionFactory $actionFactory;
-	private IURLGenerator $urlGenerator;
-
-	public function __construct(IActionFactory $actionFactory, IURLGenerator $urlGenerator) {
-		$this->actionFactory = $actionFactory;
-		$this->urlGenerator = $urlGenerator;
+	public function __construct(
+		private IActionFactory $actionFactory,
+		private IURLGenerator $urlGenerator,
+	) {
 	}
 
-	/**
-	 * @param IEntry $entry
-	 */
-	public function process(IEntry $entry) {
+	public function process(IEntry $entry): void {
 		$iconUrl = $this->urlGenerator->getAbsoluteURL($this->urlGenerator->imagePath('core', 'actions/mail.svg'));
 		foreach ($entry->getEMailAddresses() as $address) {
 			if (empty($address)) {

@@ -29,8 +29,8 @@
  */
 namespace OC\Share20;
 
-use OCP\Files\File;
 use OCP\Files\Cache\ICacheEntry;
+use OCP\Files\File;
 use OCP\Files\FileInfo;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
@@ -41,7 +41,6 @@ use OCP\Share\IAttributes;
 use OCP\Share\IShare;
 
 class Share implements IShare {
-
 	/** @var string */
 	private $id;
 	/** @var string */
@@ -189,12 +188,12 @@ class Share implements IShare {
 				$userFolder = $this->rootFolder->getUserFolder($this->sharedBy);
 			}
 
-			$nodes = $userFolder->getById($this->fileId);
-			if (empty($nodes)) {
+			$node = $userFolder->getFirstNodeById($this->fileId);
+			if (!$node) {
 				throw new NotFoundException('Node for share not found, fileid: ' . $this->fileId);
 			}
 
-			$this->node = $nodes[0];
+			$this->node = $node;
 		}
 
 		return $this->node;
@@ -212,12 +211,16 @@ class Share implements IShare {
 	/**
 	 * @inheritdoc
 	 */
-	public function getNodeId() {
+	public function getNodeId(): int {
 		if ($this->fileId === null) {
 			$this->fileId = $this->getNode()->getId();
 		}
 
-		return $this->fileId;
+		if ($this->fileId === null) {
+			throw new NotFoundException("Share source not found");
+		} else {
+			return $this->fileId;
+		}
 	}
 
 	/**

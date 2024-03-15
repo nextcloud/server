@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import Share from '../models/Share'
+import Share from '../models/Share.js'
 
 export default {
 	name: 'ExternalShareAction',

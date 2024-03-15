@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2018 Roeland Jago Douma <roeland@famdouma.nl>
  *
@@ -26,14 +29,18 @@ namespace Test\Authentication\Token;
 use OC\Authentication\Exceptions\ExpiredTokenException;
 use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Exceptions\PasswordlessTokenException;
-use OC\Authentication\Token\IToken;
 use OC\Authentication\Token\PublicKeyToken;
 use OC\Authentication\Token\PublicKeyTokenMapper;
 use OC\Authentication\Token\PublicKeyTokenProvider;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Authentication\Token\IToken;
+use OCP\ICacheFactory;
 use OCP\IConfig;
+use OCP\IDBConnection;
 use OCP\Security\ICrypto;
+use OCP\Security\IHasher;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
@@ -42,14 +49,20 @@ class PublicKeyTokenProviderTest extends TestCase {
 	private $tokenProvider;
 	/** @var PublicKeyTokenMapper|\PHPUnit\Framework\MockObject\MockObject */
 	private $mapper;
+	/** @var IHasher|\PHPUnit\Framework\MockObject\MockObject */
+	private $hasher;
 	/** @var ICrypto */
 	private $crypto;
 	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $config;
+	/** @var IDBConnection|MockObject */
+	private IDBConnection $db;
 	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
 	private $logger;
 	/** @var ITimeFactory|\PHPUnit\Framework\MockObject\MockObject */
 	private $timeFactory;
+	/** @var ICacheFactory|\PHPUnit\Framework\MockObject\MockObject */
+	private $cacheFactory;
 	/** @var int */
 	private $time;
 
@@ -57,27 +70,45 @@ class PublicKeyTokenProviderTest extends TestCase {
 		parent::setUp();
 
 		$this->mapper = $this->createMock(PublicKeyTokenMapper::class);
+		$this->hasher = \OC::$server->get(IHasher::class);
 		$this->crypto = \OC::$server->getCrypto();
 		$this->config = $this->createMock(IConfig::class);
-		$this->config->method('getSystemValue')
+		$this->config->method('getSystemValueInt')
 			->willReturnMap([
 				['session_lifetime', 60 * 60 * 24, 150],
 				['remember_login_cookie_lifetime', 60 * 60 * 24 * 15, 300],
-				['secret', '', '1f4h9s'],
+				['token_auth_activity_update', 60, 60],
+			]);
+		$this->config->method('getSystemValue')
+			->willReturnMap([
 				['openssl', [], []],
 			]);
+		$this->config->method('getSystemValueString')
+			->willReturnMap([
+				['secret', '', '1f4h9s'],
+			]);
+		$this->db = $this->createMock(IDBConnection::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
 		$this->time = 1313131;
 		$this->timeFactory->method('getTime')
 			->willReturn($this->time);
+		$this->cacheFactory = $this->createMock(ICacheFactory::class);
 
-		$this->tokenProvider = new PublicKeyTokenProvider($this->mapper, $this->crypto, $this->config, $this->logger,
-			$this->timeFactory);
+		$this->tokenProvider = new PublicKeyTokenProvider(
+			$this->mapper,
+			$this->crypto,
+			$this->config,
+			$this->db,
+			$this->logger,
+			$this->timeFactory,
+			$this->hasher,
+			$this->cacheFactory,
+		);
 	}
 
 	public function testGenerateToken() {
-		$token = 'token';
+		$token = 'tokentokentokentokentoken';
 		$uid = 'user';
 		$user = 'User';
 		$password = 'passme';
@@ -99,7 +130,7 @@ class PublicKeyTokenProviderTest extends TestCase {
 	}
 
 	public function testGenerateTokenNoPassword(): void {
-		$token = 'token';
+		$token = 'tokentokentokentokentoken';
 		$uid = 'user';
 		$user = 'User';
 		$password = 'passme';
@@ -122,7 +153,7 @@ class PublicKeyTokenProviderTest extends TestCase {
 	}
 
 	public function testGenerateTokenLongPassword() {
-		$token = 'token';
+		$token = 'tokentokentokentokentoken';
 		$uid = 'user';
 		$user = 'User';
 		$password = '';
@@ -141,7 +172,7 @@ class PublicKeyTokenProviderTest extends TestCase {
 	}
 
 	public function testGenerateTokenInvalidName() {
-		$token = 'token';
+		$token = 'tokentokentokentokentoken';
 		$uid = 'user';
 		$user = 'User';
 		$password = 'passme';
@@ -206,7 +237,7 @@ class PublicKeyTokenProviderTest extends TestCase {
 	}
 
 	public function testGetPassword() {
-		$token = 'token';
+		$token = 'tokentokentokentokentoken';
 		$uid = 'user';
 		$user = 'User';
 		$password = 'passme';
@@ -237,7 +268,7 @@ class PublicKeyTokenProviderTest extends TestCase {
 	public function testGetPasswordInvalidToken() {
 		$this->expectException(\OC\Authentication\Exceptions\InvalidTokenException::class);
 
-		$token = 'token';
+		$token = 'tokentokentokentokentoken';
 		$uid = 'user';
 		$user = 'User';
 		$password = 'passme';
@@ -254,7 +285,7 @@ class PublicKeyTokenProviderTest extends TestCase {
 	}
 
 	public function testSetPassword() {
-		$token = 'token';
+		$token = 'tokentokentokentokentoken';
 		$uid = 'user';
 		$user = 'User';
 		$password = 'passme';
@@ -275,13 +306,13 @@ class PublicKeyTokenProviderTest extends TestCase {
 		$this->mapper->expects($this->once())
 			->method('update')
 			->with($this->callback(function ($token) use ($newpass) {
-				return $newpass === $this->tokenProvider->getPassword($token, 'token');
+				return $newpass === $this->tokenProvider->getPassword($token, 'tokentokentokentokentoken');
 			}));
 
 
 		$this->tokenProvider->setPassword($actual, $token, $newpass);
 
-		$this->assertSame($newpass, $this->tokenProvider->getPassword($actual, 'token'));
+		$this->assertSame($newpass, $this->tokenProvider->getPassword($actual, 'tokentokentokentokentoken'));
 	}
 
 
@@ -296,19 +327,22 @@ class PublicKeyTokenProviderTest extends TestCase {
 	}
 
 	public function testInvalidateToken() {
-		$this->mapper->expects($this->once())
+		$this->mapper->expects($this->exactly(2))
 			->method('invalidate')
-			->with(hash('sha512', 'token7'.'1f4h9s'));
+			->withConsecutive(
+				[hash('sha512', 'token7'.'1f4h9s')],
+				[hash('sha512', 'token7')]
+			);
 
 		$this->tokenProvider->invalidateToken('token7');
 	}
 
-	public function testInvaildateTokenById() {
+	public function testInvalidateTokenById() {
 		$id = 123;
 
 		$this->mapper->expects($this->once())
-			->method('deleteById')
-			->with('uid', $id);
+			->method('getTokenById')
+			->with($id);
 
 		$this->tokenProvider->invalidateTokenById('uid', $id);
 	}
@@ -317,7 +351,7 @@ class PublicKeyTokenProviderTest extends TestCase {
 		$defaultSessionLifetime = 60 * 60 * 24;
 		$defaultRememberMeLifetime = 60 * 60 * 24 * 15;
 		$this->config->expects($this->exactly(2))
-			->method('getSystemValue')
+			->method('getSystemValueInt')
 			->willReturnMap([
 				['session_lifetime', $defaultSessionLifetime, 150],
 				['remember_login_cookie_lifetime', $defaultRememberMeLifetime, 300],
@@ -332,8 +366,16 @@ class PublicKeyTokenProviderTest extends TestCase {
 		$this->tokenProvider->invalidateOldTokens();
 	}
 
+	public function testInvalidateLastUsedBefore() {
+		$this->mapper->expects($this->once())
+			->method('invalidateLastUsedBefore')
+			->with('user', 946684800);
+
+		$this->tokenProvider->invalidateLastUsedBefore('user', 946684800);
+	}
+
 	public function testRenewSessionTokenWithoutPassword() {
-		$token = 'oldId';
+		$token = 'oldIdtokentokentokentoken';
 		$uid = 'user';
 		$user = 'User';
 		$password = null;
@@ -345,7 +387,7 @@ class PublicKeyTokenProviderTest extends TestCase {
 		$this->mapper
 			->expects($this->once())
 			->method('getToken')
-			->with(hash('sha512', 'oldId' . '1f4h9s'))
+			->with(hash('sha512', 'oldIdtokentokentokentoken' . '1f4h9s'))
 			->willReturn($oldToken);
 		$this->mapper
 			->expects($this->once())
@@ -365,11 +407,11 @@ class PublicKeyTokenProviderTest extends TestCase {
 				return $token === $oldToken;
 			}));
 
-		$this->tokenProvider->renewSessionToken('oldId', 'newId');
+		$this->tokenProvider->renewSessionToken('oldIdtokentokentokentoken', 'newIdtokentokentokentoken');
 	}
 
 	public function testRenewSessionTokenWithPassword(): void {
-		$token = 'oldId';
+		$token = 'oldIdtokentokentokentoken';
 		$uid = 'user';
 		$user = 'User';
 		$password = 'password';
@@ -385,7 +427,7 @@ class PublicKeyTokenProviderTest extends TestCase {
 		$this->mapper
 			->expects($this->once())
 			->method('getToken')
-			->with(hash('sha512', 'oldId' . '1f4h9s'))
+			->with(hash('sha512', 'oldIdtokentokentokentoken' . '1f4h9s'))
 			->willReturn($oldToken);
 		$this->mapper
 			->expects($this->once())
@@ -397,7 +439,7 @@ class PublicKeyTokenProviderTest extends TestCase {
 					$token->getType() === IToken::DO_NOT_REMEMBER &&
 					$token->getLastActivity() === $this->time &&
 					$token->getPassword() !== null &&
-					$this->tokenProvider->getPassword($token, 'newId') === 'password';
+					$this->tokenProvider->getPassword($token, 'newIdtokentokentokentoken') === 'password';
 			}));
 		$this->mapper
 			->expects($this->once())
@@ -406,7 +448,7 @@ class PublicKeyTokenProviderTest extends TestCase {
 				return $token === $oldToken;
 			}));
 
-		$this->tokenProvider->renewSessionToken('oldId', 'newId');
+		$this->tokenProvider->renewSessionToken('oldIdtokentokentokentoken', 'newIdtokentokentokentoken');
 	}
 
 	public function testGetToken(): void {
@@ -419,28 +461,32 @@ class PublicKeyTokenProviderTest extends TestCase {
 		$this->mapper->method('getToken')
 			->with(
 				$this->callback(function (string $token) {
-					return hash('sha512', 'unhashedToken'.'1f4h9s') === $token;
+					return hash('sha512', 'unhashedTokentokentokentokentoken'.'1f4h9s') === $token;
 				})
 			)->willReturn($token);
 
-		$this->assertSame($token, $this->tokenProvider->getToken('unhashedToken'));
+		$this->assertSame($token, $this->tokenProvider->getToken('unhashedTokentokentokentokentoken'));
 	}
 
 	public function testGetInvalidToken() {
 		$this->expectException(InvalidTokenException::class);
 
-		$this->mapper->method('getToken')
-			->with(
-				$this->callback(function (string $token) {
-					return hash('sha512', 'unhashedToken'.'1f4h9s') === $token;
-				})
+		$this->mapper->expects($this->exactly(2))
+			->method('getToken')
+			->withConsecutive(
+				[$this->callback(function (string $token): bool {
+					return hash('sha512', 'unhashedTokentokentokentokentoken'.'1f4h9s') === $token;
+				})],
+				[$this->callback(function (string $token): bool {
+					return hash('sha512', 'unhashedTokentokentokentokentoken') === $token;
+				})]
 			)->willThrowException(new DoesNotExistException('nope'));
 
-		$this->tokenProvider->getToken('unhashedToken');
+		$this->tokenProvider->getToken('unhashedTokentokentokentokentoken');
 	}
 
 	public function testGetExpiredToken() {
-		$token = 'token';
+		$token = 'tokentokentokentokentoken';
 		$uid = 'user';
 		$user = 'User';
 		$password = 'passme';
@@ -453,12 +499,12 @@ class PublicKeyTokenProviderTest extends TestCase {
 		$this->mapper->method('getToken')
 			->with(
 				$this->callback(function (string $token) {
-					return hash('sha512', 'token'.'1f4h9s') === $token;
+					return hash('sha512', 'tokentokentokentokentoken'.'1f4h9s') === $token;
 				})
 			)->willReturn($actual);
 
 		try {
-			$this->tokenProvider->getToken('token');
+			$this->tokenProvider->getToken('tokentokentokentokentoken');
 			$this->fail();
 		} catch (ExpiredTokenException $e) {
 			$this->assertSame($actual, $e->getToken());
@@ -505,7 +551,7 @@ class PublicKeyTokenProviderTest extends TestCase {
 	}
 
 	public function testRotate() {
-		$token = 'oldtoken';
+		$token = 'oldtokentokentokentokentoken';
 		$uid = 'user';
 		$user = 'User';
 		$password = 'password';
@@ -518,13 +564,13 @@ class PublicKeyTokenProviderTest extends TestCase {
 			]);
 		$actual = $this->tokenProvider->generateToken($token, $uid, $user, $password, $name, $type, IToken::DO_NOT_REMEMBER);
 
-		$new = $this->tokenProvider->rotate($actual, 'oldtoken', 'newtoken');
+		$new = $this->tokenProvider->rotate($actual, 'oldtokentokentokentokentoken', 'newtokentokentokentokentoken');
 
-		$this->assertSame('password', $this->tokenProvider->getPassword($new, 'newtoken'));
+		$this->assertSame('password', $this->tokenProvider->getPassword($new, 'newtokentokentokentokentoken'));
 	}
 
 	public function testRotateNoPassword() {
-		$token = 'oldtoken';
+		$token = 'oldtokentokentokentokentoken';
 		$uid = 'user';
 		$user = 'User';
 		$password = null;
@@ -535,7 +581,7 @@ class PublicKeyTokenProviderTest extends TestCase {
 
 		$oldPrivate = $actual->getPrivateKey();
 
-		$new = $this->tokenProvider->rotate($actual, 'oldtoken', 'newtoken');
+		$new = $this->tokenProvider->rotate($actual, 'oldtokentokentokentokentoken', 'newtokentokentokentokentoken');
 
 		$newPrivate = $new->getPrivateKey();
 
@@ -567,7 +613,7 @@ class PublicKeyTokenProviderTest extends TestCase {
 	public function testUpdatePasswords() {
 		$uid = 'myUID';
 		$token1 = $this->tokenProvider->generateToken(
-			'foo',
+			'foobetokentokentokentoken',
 			$uid,
 			$uid,
 			'bar',
@@ -575,7 +621,7 @@ class PublicKeyTokenProviderTest extends TestCase {
 			IToken::PERMANENT_TOKEN,
 			IToken::REMEMBER);
 		$token2 = $this->tokenProvider->generateToken(
-			'foobar',
+			'foobartokentokentokentoken',
 			$uid,
 			$uid,
 			'bar',

@@ -22,18 +22,6 @@ OC.L10N.register(
     "There was an error setting the location." : "אירעה שגיאה בהגדרת המיקום.",
     "There was an error saving the mode." : "אירעה שגיאה בשמירת המצב.",
     "There was an error using personal address." : "אירעה שגיאה בשימוש בכתובת האישית.",
-    "Set location for weather" : "הגדרת מיקום למזג האוויר",
-    "{temperature} {unit} Clear sky at {time}" : "{temperature} {unit} שמיים בהירים ב־{time}",
-    "{temperature} {unit} Cloudy at {time}" : "{temperature} {unit} מעונן ב־{time}",
-    "{temperature} {unit} Fair day at {time}" : "{temperature} {unit} יום נוח ב־{time}",
-    "{temperature} {unit} Fair night at {time}" : "{temperature} {unit} לילה נוח ב־{time}",
-    "{temperature} {unit} Partly cloudy at {time}" : "{temperature} {unit} מעונן חלקית ב־{time}",
-    "{temperature} {unit} Foggy at {time}" : "{temperature} {unit} ערפילי ב־{time}",
-    "{temperature} {unit} Light rain at {time}" : "{temperature} {unit} טפטוף קל ב־{time}",
-    "{temperature} {unit} Rain at {time}" : "{temperature} {unit} גשם ב־{time}",
-    "{temperature} {unit} Heavy rain at {time}" : "{temperature} {unit} גשם כבד ב־{time}",
-    "{temperature} {unit} Rain showers at {time}" : "{temperature} {unit} ממטרים ב־{time}",
-    "{temperature} {unit} Light rain showers at {time}" : "{temperature} {unit} ממטרים קלים ב־{time}",
-    "{temperature} {unit} Heavy rain showers at {time}" : "{temperature} {unit} ממטרים כבדים ב־{time}"
+    "Set location for weather" : "הגדרת מיקום למזג האוויר"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");

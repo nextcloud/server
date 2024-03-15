@@ -9,7 +9,6 @@
 namespace Test\Files\Storage\Wrapper;
 
 class JailTest extends \Test\Files\Storage\Storage {
-
 	/**
 	 * @var \OC\Files\Storage\Temporary
 	 */

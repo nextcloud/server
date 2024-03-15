@@ -79,7 +79,7 @@ class SaveAccountsTableData implements IRepairStep {
 		}
 
 		// oc_persistent_locks will be removed later on anyways so we can just drop and ignore any foreign key constraints here
-		$tableName = $this->config->getSystemValue('dbtableprefix', 'oc_') . 'persistent_locks';
+		$tableName = $this->config->getSystemValueString('dbtableprefix', 'oc_') . 'persistent_locks';
 		$schema = $this->db->createSchema();
 		$table = $schema->getTable($tableName);
 		foreach ($table->getForeignKeys() as $foreignKey) {
@@ -99,7 +99,7 @@ class SaveAccountsTableData implements IRepairStep {
 	 */
 	protected function shouldRun() {
 		$schema = $this->db->createSchema();
-		$prefix = $this->config->getSystemValue('dbtableprefix', 'oc_');
+		$prefix = $this->config->getSystemValueString('dbtableprefix', 'oc_');
 
 		$tableName = $prefix . 'accounts';
 		if (!$schema->hasTable($tableName)) {

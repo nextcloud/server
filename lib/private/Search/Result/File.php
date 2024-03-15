@@ -36,7 +36,6 @@ use OCP\IUserSession;
  * @deprecated 20.0.0
  */
 class File extends \OCP\Search\Result {
-
 	/**
 	 * Type name; translated in templates
 	 * @var string

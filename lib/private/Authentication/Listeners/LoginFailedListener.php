@@ -27,6 +27,7 @@ declare(strict_types=1);
 namespace OC\Authentication\Listeners;
 
 use OC\Authentication\Events\LoginFailed;
+use OCP\Authentication\Events\AnyLoginFailedEvent;
 use OCP\Authentication\Events\LoginFailedEvent;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -38,7 +39,6 @@ use OCP\Util;
  * @template-implements IEventListener<\OC\Authentication\Events\LoginFailed>
  */
 class LoginFailedListener implements IEventListener {
-
 	/** @var IEventDispatcher */
 	private $dispatcher;
 
@@ -54,6 +54,8 @@ class LoginFailedListener implements IEventListener {
 		if (!($event instanceof LoginFailed)) {
 			return;
 		}
+
+		$this->dispatcher->dispatchTyped(new AnyLoginFailedEvent($event->getLoginName(), $event->getPassword()));
 
 		$uid = $event->getLoginName();
 		Util::emitHook(

@@ -20,109 +20,130 @@
   -
   -->
 <template>
-	<div v-show="!deleted"
+	<component :is="tag"
+		v-show="!deleted"
 		:class="{'comment--loading': loading}"
 		class="comment">
 		<!-- Comment header toolbar -->
-		<div class="comment__header">
+		<div class="comment__side">
 			<!-- Author -->
-			<Avatar class="comment__avatar"
+			<NcAvatar class="comment__avatar"
 				:display-name="actorDisplayName"
 				:user="actorId"
 				:size="32" />
-			<span class="comment__author">{{ actorDisplayName }}</span>
-
-			<!-- Comment actions,
-				show if we have a message id and current user is author -->
-			<Actions v-if="isOwnComment && id && !loading" class="comment__actions">
-				<template v-if="!editing">
-					<ActionButton :close-after-click="true"
-						icon="icon-rename"
-						@click="onEdit">
-						{{ t('comments', 'Edit comment') }}
-					</ActionButton>
-					<ActionSeparator />
-					<ActionButton :close-after-click="true"
-						icon="icon-delete"
-						@click="onDeleteWithUndo">
-						{{ t('comments', 'Delete comment') }}
-					</ActionButton>
-				</template>
-
-				<ActionButton v-else
-					icon="icon-close"
-					@click="onEditCancel">
-					{{ t('comments', 'Cancel edit') }}
-				</ActionButton>
-			</Actions>
-
-			<!-- Show loading if we're editing or deleting, not on new ones -->
-			<div v-if="id && loading" class="comment_loading icon-loading-small" />
-
-			<!-- Relative time to the comment creation -->
-			<Moment v-else-if="creationDateTime" class="comment__timestamp" :timestamp="timestamp" />
 		</div>
+		<div class="comment__body">
+			<div class="comment__header">
+				<span class="comment__author">{{ actorDisplayName }}</span>
 
-		<!-- Message editor -->
-		<div v-if="editor || editing" class="comment__editor ">
-			<RichContenteditable ref="editor"
-				:auto-complete="autoComplete"
-				:contenteditable="!loading"
-				:value="localMessage"
-				@update:value="updateLocalMessage"
-				@submit="onSubmit" />
-			<Button class="comment__submit"
-				type="tertiary-no-background"
-				native-type="submit"
-				:aria-label="t('comments', 'Post comment')"
-				:disabled="isEmptyMessage"
-				@click="onSubmit">
-				<template #icon>
-					<span v-if="loading" class="icon-loading-small" />
-					<ArrowRight v-else :size="20" />
-				</template>
-			</Button>
+				<!-- Comment actions,
+					show if we have a message id and current user is author -->
+				<NcActions v-if="isOwnComment && id && !loading" class="comment__actions">
+					<template v-if="!editing">
+						<NcActionButton :close-after-click="true"
+							icon="icon-rename"
+							@click="onEdit">
+							{{ t('comments', 'Edit comment') }}
+						</NcActionButton>
+						<NcActionSeparator />
+						<NcActionButton :close-after-click="true"
+							icon="icon-delete"
+							@click="onDeleteWithUndo">
+							{{ t('comments', 'Delete comment') }}
+						</NcActionButton>
+					</template>
+
+					<NcActionButton v-else
+						icon="icon-close"
+						@click="onEditCancel">
+						{{ t('comments', 'Cancel edit') }}
+					</NcActionButton>
+				</NcActions>
+
+				<!-- Show loading if we're editing or deleting, not on new ones -->
+				<div v-if="id && loading" class="comment_loading icon-loading-small" />
+
+				<!-- Relative time to the comment creation -->
+				<NcDateTime v-else-if="creationDateTime"
+					class="comment__timestamp"
+					:timestamp="timestamp"
+					:ignore-seconds="true" />
+			</div>
+
+			<!-- Message editor -->
+			<form v-if="editor || editing" class="comment__editor" @submit.prevent>
+				<div class="comment__editor-group">
+					<NcRichContenteditable ref="editor"
+						:auto-complete="autoComplete"
+						:contenteditable="!loading"
+						:label="editor ? t('comments', 'New comment') : t('comments', 'Edit comment')"
+						:placeholder="t('comments', 'Write a comment …')"
+						:value="localMessage"
+						:user-data="userData"
+						aria-describedby="tab-comments__editor-description"
+						@update:value="updateLocalMessage"
+						@submit="onSubmit" />
+					<div class="comment__submit">
+						<NcButton type="tertiary-no-background"
+							native-type="submit"
+							:aria-label="t('comments', 'Post comment')"
+							:disabled="isEmptyMessage"
+							@click="onSubmit">
+							<template #icon>
+								<span v-if="loading" class="icon-loading-small" />
+								<ArrowRight v-else :size="20" />
+							</template>
+						</NcButton>
+					</div>
+				</div>
+				<div id="tab-comments__editor-description" class="comment__editor-description">
+					{{ t('comments', '@ for mentions, : for emoji, / for smart picker') }}
+				</div>
+			</form>
+
+			<!-- Message content -->
+			<!-- The html is escaped and sanitized before rendering -->
+			<!-- eslint-disable vue/no-v-html-->
+			<div v-else
+				:class="{'comment__message--expanded': expanded}"
+				class="comment__message"
+				@click="onExpand"
+				v-html="renderedContent" />
+			<!-- eslint-enable vue/no-v-html-->
 		</div>
-
-		<!-- Message content -->
-		<!-- The html is escaped and sanitized before rendering -->
-		<!-- eslint-disable-next-line vue/no-v-html-->
-		<div v-else
-			:class="{'comment__message--expanded': expanded}"
-			class="comment__message"
-			@click="onExpand"
-			v-html="renderedContent" />
-	</div>
+	</component>
 </template>
 
 <script>
 import { getCurrentUser } from '@nextcloud/auth'
-import moment from '@nextcloud/moment'
+import { translate as t } from '@nextcloud/l10n'
 
-import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
-import Actions from '@nextcloud/vue/dist/Components/Actions'
-import ActionSeparator from '@nextcloud/vue/dist/Components/ActionSeparator'
-import Avatar from '@nextcloud/vue/dist/Components/Avatar'
-import Button from '@nextcloud/vue/dist/Components/Button'
-import RichContenteditable from '@nextcloud/vue/dist/Components/RichContenteditable'
-import RichEditorMixin from '@nextcloud/vue/dist/Mixins/richEditor'
-import ArrowRight from 'vue-material-design-icons/ArrowRight'
+import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
+import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
+import NcActionSeparator from '@nextcloud/vue/dist/Components/NcActionSeparator.js'
+import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import NcDateTime from '@nextcloud/vue/dist/Components/NcDateTime.js'
+import RichEditorMixin from '@nextcloud/vue/dist/Mixins/richEditor.js'
+import ArrowRight from 'vue-material-design-icons/ArrowRight.vue'
 
-import Moment from './Moment'
-import CommentMixin from '../mixins/CommentMixin'
+import CommentMixin from '../mixins/CommentMixin.js'
+
+// Dynamic loading
+const NcRichContenteditable = () => import('@nextcloud/vue/dist/Components/NcRichContenteditable.js')
 
 export default {
 	name: 'Comment',
 
 	components: {
-		ActionButton,
-		Actions,
-		ActionSeparator,
 		ArrowRight,
-		Avatar,
-		Button,
-		Moment,
-		RichContenteditable,
+		NcActionButton,
+		NcActions,
+		NcActionSeparator,
+		NcAvatar,
+		NcButton,
+		NcDateTime,
+		NcRichContenteditable,
 	},
 	mixins: [RichEditorMixin, CommentMixin],
 
@@ -157,6 +178,11 @@ export default {
 			type: Function,
 			required: true,
 		},
+
+		tag: {
+			type: String,
+			default: 'div',
+		},
 	},
 
 	data() {
@@ -165,6 +191,7 @@ export default {
 			// Only change data locally and update the original
 			// parent data when the request is sent and resolved
 			localMessage: '',
+			submitted: false,
 		}
 	},
 
@@ -195,9 +222,11 @@ export default {
 			return !this.localMessage || this.localMessage.trim() === ''
 		},
 
+		/**
+		 * Timestamp of the creation time (in ms UNIX time)
+		 */
 		timestamp() {
-			// seconds, not milliseconds
-			return parseInt(moment(this.creationDateTime).format('x'), 10) / 1000
+			return Date.parse(this.creationDateTime)
 		},
 	},
 
@@ -214,6 +243,8 @@ export default {
 	},
 
 	methods: {
+		t,
+
 		/**
 		 * Update local Message on outer change
 		 *
@@ -221,6 +252,7 @@ export default {
 		 */
 		updateLocalMessage(message) {
 			this.localMessage = message.toString()
+			this.submitted = false
 		},
 
 		/**
@@ -257,17 +289,28 @@ export default {
 $comment-padding: 10px;
 
 .comment {
-	position: relative;
-	padding: $comment-padding 0 $comment-padding * 1.5;
+	display: flex;
+	gap: 8px;
+	padding: 5px $comment-padding;
+
+	&__side {
+		display: flex;
+		align-items: flex-start;
+		padding-top: 6px;
+	}
+
+	&__body {
+		display: flex;
+		flex-grow: 1;
+		flex-direction: column;
+	}
 
 	&__header {
 		display: flex;
 		align-items: center;
 		min-height: 44px;
-		padding: math.div($comment-padding, 2) 0;
 	}
 
-	&__author,
 	&__actions {
 		margin-left: $comment-padding !important;
 	}
@@ -282,22 +325,24 @@ $comment-padding: 10px;
 	&_loading,
 	&__timestamp {
 		margin-left: auto;
+		text-align: right;
+		white-space: nowrap;
 		color: var(--color-text-maxcontrast);
 	}
 
-	&__editor,
-	&__message {
+	&__editor-group {
 		position: relative;
-		// Avatar size, align with author name
-		padding-left: 32px + $comment-padding;
+	}
+
+	&__editor-description {
+		color: var(--color-text-maxcontrast);
+		padding-block: var(--default-grid-baseline);
 	}
 
 	&__submit {
 		position: absolute !important;
-		right: 0;
 		bottom: 0;
-		// Align with input border
-		margin: 1px;
+		right: 0;
 	}
 
 	&__message {
@@ -305,6 +350,7 @@ $comment-padding: 10px;
 		word-break: break-word;
 		max-height: 70px;
 		overflow: hidden;
+		margin-top: -6px;
 		&--expanded {
 			max-height: none;
 			overflow: visible;

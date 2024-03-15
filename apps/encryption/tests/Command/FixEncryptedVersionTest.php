@@ -24,6 +24,7 @@ namespace OCA\Encryption\Tests\Command;
 use OC\Files\View;
 use OCA\Encryption\Command\FixEncryptedVersion;
 use OCA\Encryption\Util;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Tester\CommandTester;
 use Test\TestCase;
 use Test\Traits\EncryptionTrait;
@@ -70,7 +71,7 @@ class FixEncryptedVersionTest extends TestCase {
 
 		$this->fixEncryptedVersion = new FixEncryptedVersion(
 			\OC::$server->getConfig(),
-			\OC::$server->getLogger(),
+			\OC::$server->get(LoggerInterface::class),
 			\OC::$server->getRootFolder(),
 			\OC::$server->getUserManager(),
 			$this->util,
@@ -263,7 +264,7 @@ Fixed the file: \"/$this->userId/files/world.txt\" with version 4", $output);
 		$cacheInfo = ['encryptedVersion' => 1, 'encrypted' => 1];
 		$cache1->put($fileCache1->getPath(), $cacheInfo);
 
-		$absPath = $view->getLocalFolder(''). '/hello.txt';
+		$absPath = $storage1->getSourcePath('').$fileInfo1->getInternalPath();
 
 		// create unencrypted file on disk, the version stays
 		file_put_contents($absPath, 'hello contents');
@@ -333,15 +334,26 @@ The file \"/$this->userId/files/sub/hello.txt\" is: OK", $output);
 		$this->assertStringNotContainsString('world.txt', $output);
 	}
 
-	/**
-	 * Test commands with a directory path
-	 */
 	public function testExecuteWithNoUser() {
 		$this->util->expects($this->once())->method('isMasterKeyEnabled')
 			->willReturn(true);
 
 		$this->commandTester->execute([
 			'user' => null,
+			'--path' => "/"
+		]);
+
+		$output = $this->commandTester->getDisplay();
+
+		$this->assertStringContainsString('Either a user id or --all needs to be provided', $output);
+	}
+
+	public function testExecuteWithBadUser() {
+		$this->util->expects($this->once())->method('isMasterKeyEnabled')
+			->willReturn(true);
+
+		$this->commandTester->execute([
+			'user' => 'nonexisting',
 			'--path' => "/"
 		]);
 

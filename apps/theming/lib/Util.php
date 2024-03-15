@@ -28,38 +28,44 @@
  */
 namespace OCA\Theming;
 
+use Mexitek\PHPColors\Color;
 use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\IConfig;
-use Mexitek\PHPColors\Color;
+use OCP\IUserSession;
 
 class Util {
 
 	private IConfig $config;
 	private IAppManager $appManager;
 	private IAppData $appData;
+	private ImageManager $imageManager;
 
-	/**
-	 * Util constructor.
-	 *
-	 * @param IConfig $config
-	 * @param IAppManager $appManager
-	 * @param IAppData $appData
-	 */
-	public function __construct(IConfig $config, IAppManager $appManager, IAppData $appData) {
+	public function __construct(IConfig $config, IAppManager $appManager, IAppData $appData, ImageManager $imageManager) {
 		$this->config = $config;
 		$this->appManager = $appManager;
 		$this->appData = $appData;
+		$this->imageManager = $imageManager;
 	}
 
 	/**
+	 * Should we invert the text on this background color?
 	 * @param string $color rgb color value
 	 * @return bool
 	 */
-	public function invertTextColor($color) {
+	public function invertTextColor(string $color): bool {
+		return $this->colorContrast($color, '#ffffff') < 4.5;
+	}
+
+	/**
+	 * Is this color too bright ?
+	 * @param string $color rgb color value
+	 * @return bool
+	 */
+	public function isBrightColor(string $color): bool {
 		$l = $this->calculateLuma($color);
 		if ($l > 0.6) {
 			return true;
@@ -72,20 +78,43 @@ class Util {
 	 * get color for on-page elements:
 	 * theme color by default, grey if theme color is to bright
 	 * @param string $color
-	 * @param bool $brightBackground
+	 * @param ?bool $brightBackground
 	 * @return string
 	 */
-	public function elementColor($color, bool $brightBackground = true) {
-		$luminance = $this->calculateLuminance($color);
+	public function elementColor($color, ?bool $brightBackground = null, ?string $backgroundColor = null, bool $highContrast = false) {
+		if ($backgroundColor !== null) {
+			$brightBackground = $brightBackground ?? $this->isBrightColor($backgroundColor);
+			// Minimal amount that is possible to change the luminance
+			$epsilon = 1.0 / 255.0;
+			// Current iteration to prevent infinite loops
+			$iteration = 0;
+			// We need to keep blurred backgrounds in mind which might be mixed with the background
+			$blurredBackground = $this->mix($backgroundColor, $brightBackground ? $color : '#ffffff', 66);
+			$contrast = $this->colorContrast($color, $blurredBackground);
 
-		if ($brightBackground && $luminance > 0.8) {
-			// If the color is too bright in bright mode, we fall back to a darker gray
-			return '#aaaaaa';
+			// Min. element contrast is 3:1 but we need to keep hover states in mind -> min 3.2:1
+			$minContrast = $highContrast ? 5.5 : 3.2;
+
+			while ($contrast < $minContrast && $iteration++ < 100) {
+				$hsl = Color::hexToHsl($color);
+				$hsl['L'] = max(0, min(1, $hsl['L'] + ($brightBackground ? -$epsilon : $epsilon)));
+				$color = '#' . Color::hslToHex($hsl);
+				$contrast = $this->colorContrast($color, $blurredBackground);
+			}
+			return $color;
 		}
 
-		if (!$brightBackground && $luminance < 0.2) {
-			// If the color is too dark in dark mode, we fall back to a brighter gray
-			return '#555555';
+		// Fallback for legacy calling
+		$luminance = $this->calculateLuminance($color);
+
+		if ($brightBackground !== false && $luminance > 0.8) {
+			// If the color is too bright in bright mode, we fall back to a darkened color
+			return $this->darken($color, 30);
+		}
+
+		if ($brightBackground !== true && $luminance < 0.2) {
+			// If the color is too dark in dark mode, we fall back to a brightened color
+			return $this->lighten($color, 30);
 		}
 
 		return $color;
@@ -133,12 +162,38 @@ class Util {
 	}
 
 	/**
+	 * Calculate the Luma according to WCAG 2
+	 * http://www.w3.org/TR/WCAG20/#relativeluminancedef
 	 * @param string $color rgb color value
 	 * @return float
 	 */
 	public function calculateLuma(string $color): float {
-		[$red, $green, $blue] = $this->hexToRGB($color);
-		return (0.2126 * $red + 0.7152 * $green + 0.0722 * $blue) / 255;
+		$rgb = $this->hexToRGB($color);
+
+		// Normalize the values by converting to float and applying the rules from WCAG2.0
+		$rgb = array_map(function (int $color) {
+			$color = $color / 255.0;
+			if ($color <= 0.03928) {
+				return $color / 12.92;
+			} else {
+				return pow((($color + 0.055) / 1.055), 2.4);
+			}
+		}, $rgb);
+
+		[$red, $green, $blue] = $rgb;
+		return (0.2126 * $red + 0.7152 * $green + 0.0722 * $blue);
+	}
+
+	/**
+	 * Calculat the color contrast according to WCAG 2
+	 * http://www.w3.org/TR/WCAG20/#contrast-ratiodef
+	 * @param string $color1 The first color
+	 * @param string $color2 The second color
+	 */
+	public function colorContrast(string $color1, string $color2): float {
+		$luminance1 = $this->calculateLuma($color1) + 0.05;
+		$luminance2 = $this->calculateLuma($color2) + 0.05;
+		return max($luminance1, $luminance2) / min($luminance1, $luminance2);
 	}
 
 	/**
@@ -184,7 +239,7 @@ class Util {
 		if ($this->config->getAppValue('theming', 'logoMime', '') !== '') {
 			$logoFile = null;
 			try {
-				$folder = $this->appData->getFolder('images');
+				$folder = $this->appData->getFolder('global/images');
 				return $folder->getFile('logo');
 			} catch (NotFoundException $e) {
 			}
@@ -265,5 +320,26 @@ class Util {
 	public function isBackgroundThemed() {
 		$backgroundLogo = $this->config->getAppValue('theming', 'backgroundMime', '');
 		return $backgroundLogo !== '' && $backgroundLogo !== 'backgroundColor';
+	}
+
+	public function isLogoThemed() {
+		return $this->imageManager->hasImage('logo')
+			|| $this->imageManager->hasImage('logoheader');
+	}
+
+	public function getCacheBuster(): string {
+		$userSession = \OC::$server->get(IUserSession::class);
+		$userId = '';
+		$user = $userSession->getUser();
+		if (!is_null($user)) {
+			$userId = $user->getUID();
+		}
+		$userCacheBuster = '';
+		if ($userId) {
+			$userCacheBusterValue = (int)$this->config->getUserValue($userId, 'theming', 'userCacheBuster', '0');
+			$userCacheBuster = $userId . '_' . $userCacheBusterValue;
+		}
+		$systemCacheBuster = $this->config->getAppValue('theming', 'cachebuster', '0');
+		return substr(sha1($userCacheBuster . $systemCacheBuster), 0, 8);
 	}
 }

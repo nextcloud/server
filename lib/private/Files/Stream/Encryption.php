@@ -37,7 +37,6 @@ use function is_array;
 use function stream_context_create;
 
 class Encryption extends Wrapper {
-
 	/** @var \OC\Encryption\Util */
 	protected $util;
 
@@ -144,8 +143,8 @@ class Encryption extends Wrapper {
 	 * @param \OC\Encryption\Util $util
 	 * @param \OC\Encryption\File $file
 	 * @param string $mode
-	 * @param int $size
-	 * @param int $unencryptedSize
+	 * @param int|float $size
+	 * @param int|float $unencryptedSize
 	 * @param int $headerSize
 	 * @param bool $signed
 	 * @param string $wrapper stream wrapper class
@@ -154,18 +153,18 @@ class Encryption extends Wrapper {
 	 * @throws \BadMethodCallException
 	 */
 	public static function wrap($source, $internalPath, $fullPath, array $header,
-								$uid,
-								\OCP\Encryption\IEncryptionModule $encryptionModule,
-								\OC\Files\Storage\Storage $storage,
-								\OC\Files\Storage\Wrapper\Encryption $encStorage,
-								\OC\Encryption\Util $util,
-								 \OC\Encryption\File $file,
-								$mode,
-								$size,
-								$unencryptedSize,
-								$headerSize,
-								$signed,
-								$wrapper = Encryption::class) {
+		$uid,
+		\OCP\Encryption\IEncryptionModule $encryptionModule,
+		\OC\Files\Storage\Storage $storage,
+		\OC\Files\Storage\Wrapper\Encryption $encStorage,
+		\OC\Encryption\Util $util,
+		\OC\Encryption\File $file,
+		$mode,
+		$size,
+		$unencryptedSize,
+		$headerSize,
+		$signed,
+		$wrapper = Encryption::class) {
 		$context = stream_context_create([
 			'ocencryption' => [
 				'source' => $source,
@@ -375,7 +374,6 @@ class Encryption extends Wrapper {
 
 			// only allow writes on seekable streams, or at the end of the encrypted stream
 			if (!$this->readOnly && ($resultFseek || $positionInFile === $this->size)) {
-
 				// switch the writeFlag so flush() will write the block
 				$this->writeFlag = true;
 				$this->fileUpdated = true;
@@ -392,7 +390,7 @@ class Encryption extends Wrapper {
 					$length += $remainingLength;
 					$data = '';
 				// if $data doesn't fit the current block, the fill the current block and reiterate
-					// after the block is filled, it is flushed and $data is updatedxxx
+				// after the block is filled, it is flushed and $data is updatedxxx
 				} else {
 					$this->cache = substr($this->cache, 0, $blockPosition) .
 						substr($data, 0, $this->unencryptedBlockSize - $blockPosition);
@@ -465,7 +463,7 @@ class Encryption extends Wrapper {
 			$cacheEntry = $cache->get($this->internalPath);
 			if ($cacheEntry) {
 				$version = $cacheEntry['encryptedVersion'] + 1;
-				$cache->update($cacheEntry->getId(), ['encrypted' => $version, 'encryptedVersion' => $version]);
+				$cache->update($cacheEntry->getId(), ['encrypted' => $version, 'encryptedVersion' => $version, 'unencrypted_size' => $this->unencryptedSize]);
 			}
 		}
 
@@ -528,6 +526,7 @@ class Encryption extends Wrapper {
 	 */
 	protected function writeHeader() {
 		$header = $this->util->createHeader($this->newHeader, $this->encryptionModule);
+		$this->fileUpdated = true;
 		return parent::stream_write($header);
 	}
 

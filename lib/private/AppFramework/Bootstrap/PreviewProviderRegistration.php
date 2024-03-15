@@ -30,13 +30,12 @@ namespace OC\AppFramework\Bootstrap;
  * @template-extends ServiceRegistration<\OCP\Preview\IProviderV2>
  */
 class PreviewProviderRegistration extends ServiceRegistration {
-
 	/** @var string */
 	private $mimeTypeRegex;
 
 	public function __construct(string $appId,
-								string $service,
-								string $mimeTypeRegex) {
+		string $service,
+		string $mimeTypeRegex) {
 		parent::__construct($appId, $service);
 		$this->mimeTypeRegex = $mimeTypeRegex;
 	}

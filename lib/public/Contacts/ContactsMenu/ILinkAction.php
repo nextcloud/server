@@ -26,7 +26,6 @@ namespace OCP\Contacts\ContactsMenu;
  * @since 12.0
  */
 interface ILinkAction extends IAction {
-
 	/**
 	 * @param string $href the target URL of the action
 	 * @since 12.0

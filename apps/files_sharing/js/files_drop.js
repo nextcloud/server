@@ -24,10 +24,9 @@
 			var filesClient = new OC.Files.Client({
 				host: OC.getHost(),
 				port: OC.getPort(),
-				userName: $('#sharingToken').val(),
 				// note: password not be required, the endpoint
 				// will recognize previous validation from the session
-				root: OC.getRootPath() + '/public.php/webdav',
+				root: OC.getRootPath() + '/public.php/dav/files/' + $('#sharingToken').val() + '/',
 				useHTTPS: OC.getProtocol() === 'https'
 			});
 
@@ -45,7 +44,7 @@
 				return false;
 			}
 			var base = OC.getProtocol() + '://' + OC.getHost();
-			data.url = base + OC.getRootPath() + '/public.php/webdav/' + encodeURI(name);
+			data.url = base + OC.getRootPath() + '/public.php/dav/files/' + $('#sharingToken').val() + '/' + encodeURI(name);
 
 			data.multipart = false;
 
@@ -53,19 +52,10 @@
 				data.headers = {};
 			}
 
-			var userName = filesClient.getUserName();
-			var password = filesClient.getPassword();
-			if (userName) {
-				// copy username/password from DAV client
-				data.headers['Authorization'] =
-					'Basic ' + btoa(userName + ':' + (password || ''));
-			}
-
 			$('#drop-upload-done-indicator').addClass('hidden');
 			$('#drop-upload-progress-indicator').removeClass('hidden');
 
 			$('#drop-uploaded-files').append(output({isUploading: true, name: data.files[0].name}));
-			$('[data-toggle="tooltip"]').tooltip();
 			data.submit();
 
 			return true;
@@ -73,7 +63,6 @@
 
 		updateFileItem: function (fileName, fileItem) {
 			$('#drop-uploaded-files li[data-name="' + fileName + '"]').replaceWith(fileItem);
-			$('[data-toggle="tooltip"]').tooltip();
 		},
 
 		initialize: function () {
@@ -97,7 +86,7 @@
 					Drop.addFileToUpload(e, data);
 					$('#drop-upload-status').text(t('files_sharing', 'Waiting…'));
 					//we return true to keep trying to upload next file even
-					//if addFileToUpload did not like the privious one
+					//if addFileToUpload did not like the previous one
 					return true;
 				},
 				done: function(e, data) {

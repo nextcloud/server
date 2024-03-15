@@ -40,8 +40,10 @@ use OC\IntegrityCheck\Helpers\AppLocator;
 use OC\Migration\SimpleOutput;
 use OCP\AppFramework\App;
 use OCP\AppFramework\QueryException;
+use OCP\DB\ISchemaWrapper;
 use OCP\Migration\IMigrationStep;
 use OCP\Migration\IOutput;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 class MigrationService {
@@ -50,6 +52,7 @@ class MigrationService {
 	private string $migrationsPath;
 	private string $migrationsNamespace;
 	private IOutput $output;
+	private LoggerInterface $logger;
 	private Connection $connection;
 	private string $appName;
 	private bool $checkOracle;
@@ -57,11 +60,16 @@ class MigrationService {
 	/**
 	 * @throws \Exception
 	 */
-	public function __construct($appName, Connection $connection, ?IOutput $output = null, ?AppLocator $appLocator = null) {
+	public function __construct(string $appName, Connection $connection, ?IOutput $output = null, ?AppLocator $appLocator = null, ?LoggerInterface $logger = null) {
 		$this->appName = $appName;
 		$this->connection = $connection;
+		if ($logger === null) {
+			$this->logger = Server::get(LoggerInterface::class);
+		} else {
+			$this->logger = $logger;
+		}
 		if ($output === null) {
-			$this->output = new SimpleOutput(\OC::$server->get(LoggerInterface::class), $appName);
+			$this->output = new SimpleOutput($this->logger, $appName);
 		} else {
 			$this->output = $output;
 		}
@@ -99,18 +107,15 @@ class MigrationService {
 
 	/**
 	 * Returns the name of the app for which this migration is executed
-	 *
-	 * @return string
 	 */
-	public function getApp() {
+	public function getApp(): string {
 		return $this->appName;
 	}
 
 	/**
-	 * @return bool
 	 * @codeCoverageIgnore - this will implicitly tested on installation
 	 */
-	private function createMigrationTable() {
+	private function createMigrationTable(): bool {
 		if ($this->migrationTableCreated) {
 			return false;
 		}
@@ -187,7 +192,7 @@ class MigrationService {
 			->where($qb->expr()->eq('app', $qb->createNamedParameter($this->getApp())))
 			->orderBy('version');
 
-		$result = $qb->execute();
+		$result = $qb->executeQuery();
 		$rows = $result->fetchAll(\PDO::FETCH_COLUMN);
 		$result->closeCursor();
 
@@ -196,15 +201,17 @@ class MigrationService {
 
 	/**
 	 * Returns all versions which are available in the migration folder
-	 *
-	 * @return array
+	 * @return list<string>
 	 */
-	public function getAvailableVersions() {
+	public function getAvailableVersions(): array {
 		$this->ensureMigrationsAreLoaded();
 		return array_map('strval', array_keys($this->migrations));
 	}
 
-	protected function findMigrations() {
+	/**
+	 * @return array<string, string>
+	 */
+	protected function findMigrations(): array {
 		$directory = realpath($this->migrationsPath);
 		if ($directory === false || !file_exists($directory) || !is_dir($directory)) {
 			return [];
@@ -321,10 +328,9 @@ class MigrationService {
 	/**
 	 * Return the explicit version for the aliases; current, next, prev, latest
 	 *
-	 * @param string $alias
 	 * @return mixed|null|string
 	 */
-	public function getMigration($alias) {
+	public function getMigration(string $alias) {
 		switch ($alias) {
 			case 'current':
 				return $this->getCurrentVersion();
@@ -341,29 +347,22 @@ class MigrationService {
 		return '0';
 	}
 
-	/**
-	 * @param string $version
-	 * @param int $delta
-	 * @return null|string
-	 */
-	private function getRelativeVersion($version, $delta) {
+	private function getRelativeVersion(string $version, int $delta): ?string {
 		$this->ensureMigrationsAreLoaded();
 
 		$versions = $this->getAvailableVersions();
-		array_unshift($versions, 0);
+		array_unshift($versions, '0');
+		/** @var int $offset */
 		$offset = array_search($version, $versions, true);
 		if ($offset === false || !isset($versions[$offset + $delta])) {
 			// Unknown version or delta out of bounds.
 			return null;
 		}
 
-		return (string) $versions[$offset + $delta];
+		return (string)$versions[$offset + $delta];
 	}
 
-	/**
-	 * @return string
-	 */
-	private function getCurrentVersion() {
+	private function getCurrentVersion(): string {
 		$m = $this->getMigratedVersions();
 		if (count($m) === 0) {
 			return '0';
@@ -373,11 +372,9 @@ class MigrationService {
 	}
 
 	/**
-	 * @param string $version
-	 * @return string
 	 * @throws \InvalidArgumentException
 	 */
-	private function getClass($version) {
+	private function getClass(string $version): string {
 		$this->ensureMigrationsAreLoaded();
 
 		if (isset($this->migrations[$version])) {
@@ -389,22 +386,18 @@ class MigrationService {
 
 	/**
 	 * Allows to set an IOutput implementation which is used for logging progress and messages
-	 *
-	 * @param IOutput $output
 	 */
-	public function setOutput(IOutput $output) {
+	public function setOutput(IOutput $output): void {
 		$this->output = $output;
 	}
 
 	/**
 	 * Applies all not yet applied versions up to $to
-	 *
-	 * @param string $to
-	 * @param bool $schemaOnly
 	 * @throws \InvalidArgumentException
 	 */
-	public function migrate($to = 'latest', $schemaOnly = false) {
+	public function migrate(string $to = 'latest', bool $schemaOnly = false): void {
 		if ($schemaOnly) {
+			$this->output->debug('Migrating schema only');
 			$this->migrateSchemaOnly($to);
 			return;
 		}
@@ -424,11 +417,9 @@ class MigrationService {
 
 	/**
 	 * Applies all not yet applied versions up to $to
-	 *
-	 * @param string $to
 	 * @throws \InvalidArgumentException
 	 */
-	public function migrateSchemaOnly($to = 'latest') {
+	public function migrateSchemaOnly(string $to = 'latest'): void {
 		// read known migrations
 		$toBeExecuted = $this->getMigrationsToExecute($to);
 
@@ -438,23 +429,29 @@ class MigrationService {
 
 		$toSchema = null;
 		foreach ($toBeExecuted as $version) {
+			$this->output->debug('- Reading ' . $version);
 			$instance = $this->createInstance($version);
 
-			$toSchema = $instance->changeSchema($this->output, function () use ($toSchema) {
+			$toSchema = $instance->changeSchema($this->output, function () use ($toSchema): ISchemaWrapper {
 				return $toSchema ?: new SchemaWrapper($this->connection);
 			}, ['tablePrefix' => $this->connection->getPrefix()]) ?: $toSchema;
 		}
 
 		if ($toSchema instanceof SchemaWrapper) {
+			$this->output->debug('- Checking target database schema');
 			$targetSchema = $toSchema->getWrappedSchema();
+			$this->ensureUniqueNamesConstraints($targetSchema, true);
 			if ($this->checkOracle) {
 				$beforeSchema = $this->connection->createSchema();
 				$this->ensureOracleConstraints($beforeSchema, $targetSchema, strlen($this->connection->getPrefix()));
 			}
+
+			$this->output->debug('- Migrate database schema');
 			$this->connection->migrateToSchema($targetSchema);
 			$toSchema->performDropTableCalls();
 		}
 
+		$this->output->debug('- Mark migrations as executed');
 		foreach ($toBeExecuted as $version) {
 			$this->markAsExecuted($version);
 		}
@@ -486,7 +483,7 @@ class MigrationService {
 	protected function createInstance($version) {
 		$class = $this->getClass($version);
 		try {
-			$s = \OC::$server->query($class);
+			$s = \OCP\Server::get($class);
 
 			if (!$s instanceof IMigrationStep) {
 				throw new \InvalidArgumentException('Not a valid migration');
@@ -513,17 +510,18 @@ class MigrationService {
 		$instance = $this->createInstance($version);
 
 		if (!$schemaOnly) {
-			$instance->preSchemaChange($this->output, function () {
+			$instance->preSchemaChange($this->output, function (): ISchemaWrapper {
 				return new SchemaWrapper($this->connection);
 			}, ['tablePrefix' => $this->connection->getPrefix()]);
 		}
 
-		$toSchema = $instance->changeSchema($this->output, function () {
+		$toSchema = $instance->changeSchema($this->output, function (): ISchemaWrapper {
 			return new SchemaWrapper($this->connection);
 		}, ['tablePrefix' => $this->connection->getPrefix()]);
 
 		if ($toSchema instanceof SchemaWrapper) {
 			$targetSchema = $toSchema->getWrappedSchema();
+			$this->ensureUniqueNamesConstraints($targetSchema, $schemaOnly);
 			if ($this->checkOracle) {
 				$sourceSchema = $this->connection->createSchema();
 				$this->ensureOracleConstraints($sourceSchema, $targetSchema, strlen($this->connection->getPrefix()));
@@ -533,7 +531,7 @@ class MigrationService {
 		}
 
 		if (!$schemaOnly) {
-			$instance->postSchemaChange($this->output, function () {
+			$instance->postSchemaChange($this->output, function (): ISchemaWrapper {
 				return new SchemaWrapper($this->connection);
 			}, ['tablePrefix' => $this->connection->getPrefix()]);
 		}
@@ -655,6 +653,91 @@ class MigrationService {
 			if (!$sourceSchema->hasSequence($sequence->getName()) && \strlen($sequence->getName()) > 30) {
 				throw new \InvalidArgumentException('Sequence name "' . $sequence->getName() . '" is too long.');
 			}
+		}
+	}
+
+	/**
+	 * Ensure naming constraints
+	 *
+	 * Naming constraints:
+	 * - Index, sequence and primary key names must be unique within a Postgres Schema
+	 *
+	 * Only on installation we want to break hard, so that all developers notice
+	 * the bugs when installing the app on any database or CI, and can work on
+	 * fixing their migrations before releasing a version incompatible with Postgres.
+	 *
+	 * In case of updates we might be running on production instances and the
+	 * administrators being faced with the error would not know how to resolve it
+	 * anyway. This can also happen with instances, that had the issue before the
+	 * current update, so we don't want to make their life more complicated
+	 * than needed.
+	 *
+	 * @param Schema $targetSchema
+	 * @param bool $isInstalling
+	 */
+	public function ensureUniqueNamesConstraints(Schema $targetSchema, bool $isInstalling): void {
+		$constraintNames = [];
+		$sequences = $targetSchema->getSequences();
+
+		foreach ($targetSchema->getTables() as $table) {
+			foreach ($table->getIndexes() as $thing) {
+				$indexName = strtolower($thing->getName());
+				if ($indexName === 'primary' || $thing->isPrimary()) {
+					continue;
+				}
+
+				if (isset($constraintNames[$thing->getName()])) {
+					if ($isInstalling) {
+						throw new \InvalidArgumentException('Index name "' . $thing->getName() . '" for table "' . $table->getName() . '" collides with the constraint on table "' . $constraintNames[$thing->getName()] . '".');
+					}
+					$this->logErrorOrWarning('Index name "' . $thing->getName() . '" for table "' . $table->getName() . '" collides with the constraint on table "' . $constraintNames[$thing->getName()] . '".');
+				}
+				$constraintNames[$thing->getName()] = $table->getName();
+			}
+
+			foreach ($table->getForeignKeys() as $thing) {
+				if (isset($constraintNames[$thing->getName()])) {
+					if ($isInstalling) {
+						throw new \InvalidArgumentException('Foreign key name "' . $thing->getName() . '" for table "' . $table->getName() . '" collides with the constraint on table "' . $constraintNames[$thing->getName()] . '".');
+					}
+					$this->logErrorOrWarning('Foreign key name "' . $thing->getName() . '" for table "' . $table->getName() . '" collides with the constraint on table "' . $constraintNames[$thing->getName()] . '".');
+				}
+				$constraintNames[$thing->getName()] = $table->getName();
+			}
+
+			$primaryKey = $table->getPrimaryKey();
+			if ($primaryKey instanceof Index) {
+				$indexName = strtolower($primaryKey->getName());
+				if ($indexName === 'primary') {
+					continue;
+				}
+
+				if (isset($constraintNames[$indexName])) {
+					if ($isInstalling) {
+						throw new \InvalidArgumentException('Primary index name "' . $indexName . '" for table "' . $table->getName() . '" collides with the constraint on table "' . $constraintNames[$thing->getName()] . '".');
+					}
+					$this->logErrorOrWarning('Primary index name "' . $indexName . '" for table "' . $table->getName() . '" collides with the constraint on table "' . $constraintNames[$thing->getName()] . '".');
+				}
+				$constraintNames[$indexName] = $table->getName();
+			}
+		}
+
+		foreach ($sequences as $sequence) {
+			if (isset($constraintNames[$sequence->getName()])) {
+				if ($isInstalling) {
+					throw new \InvalidArgumentException('Sequence name "' . $sequence->getName() . '" for table "' . $table->getName() . '" collides with the constraint on table "' . $constraintNames[$thing->getName()] . '".');
+				}
+				$this->logErrorOrWarning('Sequence name "' . $sequence->getName() . '" for table "' . $table->getName() . '" collides with the constraint on table "' . $constraintNames[$thing->getName()] . '".');
+			}
+			$constraintNames[$sequence->getName()] = 'sequence';
+		}
+	}
+
+	protected function logErrorOrWarning(string $log): void {
+		if ($this->output instanceof SimpleOutput) {
+			$this->output->warning($log);
+		} else {
+			$this->logger->error($log);
 		}
 	}
 

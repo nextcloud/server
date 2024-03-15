@@ -27,7 +27,6 @@ declare(strict_types=1);
 namespace OC\Notification;
 
 use OC\AppFramework\Bootstrap\Coordinator;
-use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IUserManager;
@@ -44,52 +43,35 @@ use Psr\Container\ContainerExceptionInterface;
 use Psr\Log\LoggerInterface;
 
 class Manager implements IManager {
-	/** @var IValidator */
-	protected $validator;
-	/** @var IUserManager */
-	private $userManager;
 	/** @var ICache */
-	protected $cache;
-	/** @var ITimeFactory */
-	protected $timeFactory;
-	/** @var IRegistry */
-	protected $subscription;
-	/** @var LoggerInterface */
-	protected $logger;
-	/** @var Coordinator */
-	private $coordinator;
+	protected ICache $cache;
 
 	/** @var IApp[] */
-	protected $apps;
+	protected array $apps;
 	/** @var string[] */
-	protected $appClasses;
+	protected array $appClasses;
 
 	/** @var INotifier[] */
-	protected $notifiers;
+	protected array $notifiers;
 	/** @var string[] */
-	protected $notifierClasses;
+	protected array $notifierClasses;
 
 	/** @var bool */
-	protected $preparingPushNotification;
+	protected bool $preparingPushNotification;
 	/** @var bool */
-	protected $deferPushing;
+	protected bool $deferPushing;
 	/** @var bool */
-	private $parsedRegistrationContext;
+	private bool $parsedRegistrationContext;
 
-	public function __construct(IValidator $validator,
-								IUserManager $userManager,
-								ICacheFactory $cacheFactory,
-								ITimeFactory $timeFactory,
-								IRegistry $subscription,
-								LoggerInterface $logger,
-								Coordinator $coordinator) {
-		$this->validator = $validator;
-		$this->userManager = $userManager;
+	public function __construct(
+		protected IValidator $validator,
+		private IUserManager $userManager,
+		ICacheFactory $cacheFactory,
+		protected IRegistry $subscription,
+		protected LoggerInterface $logger,
+		private Coordinator $coordinator,
+	) {
 		$this->cache = $cacheFactory->createDistributed('notifications');
-		$this->timeFactory = $timeFactory;
-		$this->subscription = $subscription;
-		$this->logger = $logger;
-		$this->coordinator = $coordinator;
 
 		$this->apps = [];
 		$this->notifiers = [];
@@ -116,7 +98,7 @@ class Manager implements IManager {
 	 * @deprecated 17.0.0 use registerNotifierService instead.
 	 * @since 8.2.0 - Parameter $info was added in 9.0.0
 	 */
-	public function registerNotifier(\Closure $service, \Closure $info) {
+	public function registerNotifier(\Closure $service, \Closure $info): void {
 		$infoData = $info();
 		$exception = new \InvalidArgumentException(
 			'Notifier ' . $infoData['name'] . ' (id: ' . $infoData['id'] . ') is not considered because it is using the old way to register.'
@@ -310,10 +292,7 @@ class Manager implements IManager {
 			 * users overload our infrastructure. For this reason we have to rate-limit the
 			 * use of push notifications. If you need this feature, consider using Nextcloud Enterprise.
 			 */
-			// TODO Remove time check after 1st March 2022
-			$isFairUse = $this->timeFactory->getTime() < 1646089200
-				|| $this->subscription->delegateHasValidSubscription()
-				|| $this->userManager->countSeenUsers() < 5000;
+			$isFairUse = $this->subscription->delegateHasValidSubscription() || $this->userManager->countSeenUsers() < 1000;
 			$pushAllowed = $isFairUse ? 'yes' : 'no';
 			$this->cache->set('push_fair_use', $pushAllowed, 3600);
 		}
@@ -387,6 +366,7 @@ class Manager implements IManager {
 		}
 
 		if (!$notification->isValidParsed()) {
+			$this->logger->info('Notification was not parsed by any notifier [app: ' . $notification->getApp() . ', subject: ' . $notification->getSubject() . ']');
 			throw new \InvalidArgumentException('The given notification has not been handled');
 		}
 

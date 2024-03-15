@@ -37,7 +37,6 @@ use OCP\Share\IShare;
  * @package OCA\Files_Sharing\Tests
  */
 class DeleteOrphanedSharesJobTest extends \Test\TestCase {
-
 	/**
 	 * @var bool
 	 */
@@ -94,7 +93,7 @@ class DeleteOrphanedSharesJobTest extends \Test\TestCase {
 
 		\OC::registerShareHooks(\OC::$server->getSystemConfig());
 
-		$this->job = new DeleteOrphanedSharesJob();
+		$this->job = \OCP\Server::get(DeleteOrphanedSharesJob::class);
 	}
 
 	protected function tearDown(): void {

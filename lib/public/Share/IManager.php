@@ -46,7 +46,6 @@ use OCP\Share\Exceptions\ShareNotFound;
  * @since 9.0.0
  */
 interface IManager {
-
 	/**
 	 * Create a Share
 	 *
@@ -211,7 +210,7 @@ interface IManager {
 	 * Verify the password of a public share
 	 *
 	 * @param IShare $share
-	 * @param string $password
+	 * @param ?string $password
 	 * @return bool
 	 * @since 9.0.0
 	 */
@@ -415,6 +414,15 @@ interface IManager {
 	 * @since 9.0.0
 	 */
 	public function shareWithGroupMembersOnly();
+
+	/**
+	 * If shareWithGroupMembersOnly is enabled, return an optional
+	 * list of groups that must be excluded from the principle of
+	 * belonging to the same group.
+	 * @return array
+	 * @since 27.0.0
+	 */
+	public function shareWithGroupMembersOnlyExcludeGroupsList();
 
 	/**
 	 * Check if users can share with groups

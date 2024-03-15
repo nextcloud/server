@@ -1,5 +1,5 @@
 /* eslint-disable quote-props */
-/* eslint-disable node/no-unpublished-import */
+/* eslint-disable n/no-unpublished-import */
 import path from 'path'
 import fs from 'fs'
 import sass from 'sass'
@@ -7,7 +7,8 @@ import sass from 'sass'
 const colors = {
 	dark: '000',
 	white: 'fff',
-	yellow: 'FC0',
+	// gold but for backwards compatibility called yellow
+	yellow: 'a08b00',
 	red: 'e9322d',
 	orange: 'eca700',
 	green: '46ba61',
@@ -94,9 +95,11 @@ const icons = {
 	'sound': path.join(__dirname, '../img', 'actions', 'sound.svg'),
 	'star': path.join(__dirname, '../img', 'actions', 'star.svg'),
 	'starred': path.join(__dirname, '../img', 'actions', 'star-dark.svg'),
+	'star-rounded': path.join(__dirname, '../img', 'actions', 'star-rounded.svg'),
 	'tablet': path.join(__dirname, '../img', 'clients', 'tablet.svg'),
 	'tag': path.join(__dirname, '../img', 'actions', 'tag.svg'),
 	'talk': path.join(__dirname, '../img', 'apps', 'spreed.svg'),
+	'teams': path.join(__dirname, '../img', 'apps', 'circles.svg'),
 	'template-add': path.join(__dirname, '../img', 'actions', 'template-add.svg'),
 	'timezone': path.join(__dirname, '../img', 'actions', 'timezone.svg'),
 	'toggle-background': path.join(__dirname, '../img', 'actions', 'toggle-background.svg'),
@@ -138,6 +141,10 @@ const iconsColor = {
 		path: path.join(__dirname, '../img', 'actions', 'star-dark.svg'),
 		color: 'yellow',
 	},
+	'star': {
+		path: path.join(__dirname, '../img', 'actions', 'star-dark.svg'),
+		color: 'grey',
+	},
 	'delete-color': {
 		path: path.join(__dirname, '../img', 'actions', 'delete.svg'),
 		color: 'red',
@@ -170,8 +177,8 @@ const iconsAliases = {
 	'icon-star:hover': 'icon-starred',
 	'icon-star:focus': 'icon-starred',
 	// Un-starring action
-	'icon-starred:hover': 'icon-star',
-	'icon-starred:focus': 'icon-star',
+	'icon-starred:hover': 'icon-star-grey',
+	'icon-starred:focus': 'icon-star-grey',
 	// Delete normal
 	'icon-delete.no-permission:hover': 'icon-delete-dark',
 	'icon-delete.no-permission:focus': 'icon-delete-dark',
@@ -322,12 +329,12 @@ css += generateVariablesAliases(true)
 css += '}}'
 
 // DARK THEME
-css += 'body[data-themes*=light] {'
+css += '[data-themes*=light] {'
 css += generateVariablesAliases()
 css += '}'
 
 // DARK THEME
-css += 'body[data-themes*=dark] {'
+css += '[data-themes*=dark] {'
 css += generateVariablesAliases(true)
 css += '}'
 

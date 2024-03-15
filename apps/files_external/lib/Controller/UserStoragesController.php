@@ -38,9 +38,9 @@ use OCP\AppFramework\Http\DataResponse;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IL10N;
-use OCP\ILogger;
 use OCP\IRequest;
 use OCP\IUserSession;
+use Psr\Log\LoggerInterface;
 
 /**
  * User storages controller
@@ -53,7 +53,7 @@ class UserStoragesController extends StoragesController {
 	 * @param IRequest $request request object
 	 * @param IL10N $l10n l10n service
 	 * @param UserStoragesService $userStoragesService storage service
-	 * @param ILogger $logger
+	 * @param LoggerInterface $logger
 	 * @param IUserSession $userSession
 	 * @param IGroupManager $groupManager
 	 */
@@ -62,7 +62,7 @@ class UserStoragesController extends StoragesController {
 		IRequest $request,
 		IL10N $l10n,
 		UserStoragesService $userStoragesService,
-		ILogger $logger,
+		LoggerInterface $logger,
 		IUserSession $userSession,
 		IGroupManager $groupManager,
 		IConfig $config
@@ -159,7 +159,7 @@ class UserStoragesController extends StoragesController {
 		$this->updateStorageStatus($newStorage);
 
 		return new DataResponse(
-			$this->formatStorageForUI($newStorage),
+			$newStorage->jsonSerialize(true),
 			Http::STATUS_CREATED
 		);
 	}
@@ -219,7 +219,7 @@ class UserStoragesController extends StoragesController {
 		$this->updateStorageStatus($storage, $testOnly);
 
 		return new DataResponse(
-			$this->formatStorageForUI($storage),
+			$storage->jsonSerialize(true),
 			Http::STATUS_OK
 		);
 	}

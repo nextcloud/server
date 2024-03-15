@@ -16,7 +16,6 @@ use OCP\Files\Cache\IScanner;
  * @group DB
  */
 class PermissionsMaskTest extends \Test\Files\Storage\Storage {
-
 	/**
 	 * @var \OC\Files\Storage\Temporary
 	 */

@@ -31,23 +31,26 @@ use OCP\EventDispatcher\Event;
  * @since 9.0.0
  */
 class CommentsEvent extends Event {
-
 	/**
+	 * @since 11.0.0
 	 * @deprecated 22.0.0
 	 */
 	public const EVENT_ADD = 'OCP\Comments\ICommentsManager::addComment';
 
 	/**
+	 * @since 11.0.0
 	 * @deprecated 22.0.0
 	 */
 	public const EVENT_PRE_UPDATE = 'OCP\Comments\ICommentsManager::preUpdateComment';
 
 	/**
+	 * @since 11.0.0
 	 * @deprecated 22.0.0
 	 */
 	public const EVENT_UPDATE = 'OCP\Comments\ICommentsManager::updateComment';
 
 	/**
+	 * @since 11.0.0
 	 * @deprecated 22.0.0
 	 */
 	public const EVENT_DELETE = 'OCP\Comments\ICommentsManager::deleteComment';

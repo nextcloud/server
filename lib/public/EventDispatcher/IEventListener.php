@@ -31,7 +31,6 @@ namespace OCP\EventDispatcher;
  * @template T of Event
  */
 interface IEventListener {
-
 	/**
 	 * @param Event $event
 	 * @psalm-param T $event

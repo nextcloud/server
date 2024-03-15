@@ -29,6 +29,7 @@ use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IUserManager;
 use OCP\User\Events\UserChangedEvent;
+use OCP\User\Events\UserDeletedEvent;
 
 /**
  * Class that cache the relation UserId -> Display name
@@ -36,6 +37,7 @@ use OCP\User\Events\UserChangedEvent;
  * This saves fetching the user from a user backend and later on fetching
  * their preferences. It's generally not an issue if this data is slightly
  * outdated.
+ * @template-implements IEventListener<UserChangedEvent|UserDeletedEvent>
  */
 class DisplayNameCache implements IEventListener {
 	private array $cache = [];
@@ -47,7 +49,7 @@ class DisplayNameCache implements IEventListener {
 		$this->userManager = $userManager;
 	}
 
-	public function getDisplayName(string $userId) {
+	public function getDisplayName(string $userId): ?string {
 		if (isset($this->cache[$userId])) {
 			return $this->cache[$userId];
 		}
@@ -61,7 +63,7 @@ class DisplayNameCache implements IEventListener {
 		if ($user) {
 			$displayName = $user->getDisplayName();
 		} else {
-			$displayName = $userId;
+			$displayName = null;
 		}
 		$this->cache[$userId] = $displayName;
 		$this->memCache->set($userId, $displayName, 60 * 10); // 10 minutes
@@ -80,6 +82,11 @@ class DisplayNameCache implements IEventListener {
 			$newDisplayName = $event->getValue();
 			$this->cache[$userId] = $newDisplayName;
 			$this->memCache->set($userId, $newDisplayName, 60 * 10); // 10 minutes
+		}
+		if ($event instanceof UserDeletedEvent) {
+			$userId = $event->getUser()->getUID();
+			unset($this->cache[$userId]);
+			$this->memCache->remove($userId);
 		}
 	}
 }

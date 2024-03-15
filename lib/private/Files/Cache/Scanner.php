@@ -36,13 +36,15 @@
 namespace OC\Files\Cache;
 
 use Doctrine\DBAL\Exception;
-use OCP\Files\Cache\IScanner;
-use OCP\Files\ForbiddenException;
-use OCP\Files\Storage\IReliableEtagStorage;
-use OCP\Lock\ILockingProvider;
-use OC\Files\Storage\Wrapper\Encoding;
+use OC\Files\Storage\Wrapper\Encryption;
 use OC\Files\Storage\Wrapper\Jail;
 use OC\Hooks\BasicEmitter;
+use OCP\Files\Cache\IScanner;
+use OCP\Files\ForbiddenException;
+use OCP\Files\NotFoundException;
+use OCP\Files\Storage\IReliableEtagStorage;
+use OCP\IDBConnection;
+use OCP\Lock\ILockingProvider;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -87,12 +89,15 @@ class Scanner extends BasicEmitter implements IScanner {
 	 */
 	protected $lockingProvider;
 
+	protected IDBConnection $connection;
+
 	public function __construct(\OC\Files\Storage\Storage $storage) {
 		$this->storage = $storage;
 		$this->storageId = $this->storage->getId();
 		$this->cache = $storage->getCache();
-		$this->cacheActive = !\OC::$server->getConfig()->getSystemValue('filesystem_cache_readonly', false);
-		$this->lockingProvider = \OC::$server->getLockingProvider();
+		$this->cacheActive = !\OC::$server->getConfig()->getSystemValueBool('filesystem_cache_readonly', false);
+		$this->lockingProvider = \OC::$server->get(ILockingProvider::class);
+		$this->connection = \OC::$server->get(IDBConnection::class);
 	}
 
 	/**
@@ -142,8 +147,7 @@ class Scanner extends BasicEmitter implements IScanner {
 		}
 		// only proceed if $file is not a partial file, blacklist is handled by the storage
 		if (!self::isPartialFile($file)) {
-
-			//acquire a lock
+			// acquire a lock
 			if ($lock) {
 				if ($this->storage->instanceOfStorage('\OCP\Files\Storage\ILockingStorage')) {
 					$this->storage->acquireLock($file, ILockingProvider::LOCK_SHARED, $this->lockingProvider);
@@ -164,7 +168,6 @@ class Scanner extends BasicEmitter implements IScanner {
 
 			try {
 				if ($data) {
-
 					// pre-emit only if it was a file. By that we avoid counting/treating folders as files
 					if ($data['mimetype'] !== 'httpd/unix-directory') {
 						$this->emit('\OC\Files\Cache\Scanner', 'scanFile', [$file, $this->storageId]);
@@ -172,7 +175,7 @@ class Scanner extends BasicEmitter implements IScanner {
 					}
 
 					$parent = dirname($file);
-					if ($parent === '.' or $parent === '/') {
+					if ($parent === '.' || $parent === '/') {
 						$parent = '';
 					}
 					if ($parentId === -1) {
@@ -180,7 +183,7 @@ class Scanner extends BasicEmitter implements IScanner {
 					}
 
 					// scan the parent if it's not in the cache (id -1) and the current file is not the root folder
-					if ($file and $parentId === -1) {
+					if ($file && $parentId === -1) {
 						$parentData = $this->scanFile($parent);
 						if (!$parentData) {
 							return null;
@@ -194,17 +197,15 @@ class Scanner extends BasicEmitter implements IScanner {
 						/** @var CacheEntry $cacheData */
 						$cacheData = $this->cache->get($file);
 					}
-					if ($cacheData and $reuseExisting and isset($cacheData['fileid'])) {
+					if ($cacheData && $reuseExisting && isset($cacheData['fileid'])) {
 						// prevent empty etag
-						if (empty($cacheData['etag'])) {
-							$etag = $data['etag'];
-						} else {
-							$etag = $cacheData['etag'];
-						}
+						$etag = empty($cacheData['etag']) ? $data['etag'] : $cacheData['etag'];
 						$fileId = $cacheData['fileid'];
 						$data['fileid'] = $fileId;
 						// only reuse data if the file hasn't explicitly changed
-						if (isset($data['storage_mtime']) && isset($cacheData['storage_mtime']) && $data['storage_mtime'] === $cacheData['storage_mtime']) {
+						$mtimeUnchanged = isset($data['storage_mtime']) && isset($cacheData['storage_mtime']) && $data['storage_mtime'] === $cacheData['storage_mtime'];
+						// if the folder is marked as unscanned, never reuse etags
+						if ($mtimeUnchanged && $cacheData['size'] !== -1) {
 							$data['mtime'] = $cacheData['mtime'];
 							if (($reuseExisting & self::REUSE_SIZE) && ($data['size'] === -1)) {
 								$data['size'] = $cacheData['size'];
@@ -213,9 +214,22 @@ class Scanner extends BasicEmitter implements IScanner {
 								$data['etag'] = $etag;
 							}
 						}
+
+						// we only updated unencrypted_size if it's already set
+						if ($cacheData['unencrypted_size'] === 0) {
+							unset($data['unencrypted_size']);
+						}
+
 						// Only update metadata that has changed
 						$newData = array_diff_assoc($data, $cacheData->getData());
+
+						// make it known to the caller that etag has been changed and needs propagation
+						if (isset($newData['etag'])) {
+							$data['etag_changed'] = true;
+						}
 					} else {
+						// we only updated unencrypted_size if it's already set
+						unset($data['unencrypted_size']);
 						$newData = $data;
 						$fileId = -1;
 					}
@@ -225,11 +239,8 @@ class Scanner extends BasicEmitter implements IScanner {
 						$newData['parent'] = $parentId;
 						$data['fileid'] = $this->addToCache($file, $newData, $fileId);
 					}
-					if ($cacheData && isset($cacheData['size'])) {
-						$data['oldSize'] = $cacheData['size'];
-					} else {
-						$data['oldSize'] = 0;
-					}
+
+					$data['oldSize'] = ($cacheData && isset($cacheData['size'])) ? $cacheData['size'] : 0;
 
 					if ($cacheData && isset($cacheData['encrypted'])) {
 						$data['encrypted'] = $cacheData['encrypted'];
@@ -252,7 +263,7 @@ class Scanner extends BasicEmitter implements IScanner {
 				throw $e;
 			}
 
-			//release the acquired lock
+			// release the acquired lock
 			if ($lock) {
 				if ($this->storage->instanceOfStorage('\OCP\Files\Storage\ILockingStorage')) {
 					$this->storage->releaseLock($file, ILockingProvider::LOCK_SHARED, $this->lockingProvider);
@@ -287,7 +298,7 @@ class Scanner extends BasicEmitter implements IScanner {
 			$data['permissions'] = $data['scan_permissions'];
 		}
 		\OC_Hook::emit('Scanner', 'addToCache', ['file' => $path, 'data' => $data]);
-		$this->emit('\OC\Files\Cache\Scanner', 'addToCache', [$path, $this->storageId, $data]);
+		$this->emit('\OC\Files\Cache\Scanner', 'addToCache', [$path, $this->storageId, $data, $fileId]);
 		if ($this->cacheActive) {
 			if ($fileId !== -1) {
 				$this->cache->update($fileId, $data);
@@ -337,10 +348,15 @@ class Scanner extends BasicEmitter implements IScanner {
 			}
 		}
 		try {
-			$data = $this->scanFile($path, $reuse, -1, null, $lock);
-			if ($data and $data['mimetype'] === 'httpd/unix-directory') {
-				$size = $this->scanChildren($path, $recursive, $reuse, $data['fileid'], $lock);
-				$data['size'] = $size;
+			try {
+				$data = $this->scanFile($path, $reuse, -1, null, $lock);
+				if ($data && $data['mimetype'] === 'httpd/unix-directory') {
+					$size = $this->scanChildren($path, $recursive, $reuse, $data['fileid'], $lock, $data['size']);
+					$data['size'] = $size;
+				}
+			} catch (NotFoundException $e) {
+				$this->removeFromCache($path);
+				return null;
 			}
 		} finally {
 			if ($lock) {
@@ -372,52 +388,78 @@ class Scanner extends BasicEmitter implements IScanner {
 	 * scan all the files and folders in a folder
 	 *
 	 * @param string $path
-	 * @param bool $recursive
-	 * @param int $reuse
+	 * @param bool|IScanner::SCAN_RECURSIVE_INCOMPLETE $recursive
+	 * @param int $reuse a combination of self::REUSE_*
 	 * @param int $folderId id for the folder to be scanned
 	 * @param bool $lock set to false to disable getting an additional read lock during scanning
-	 * @return int the size of the scanned folder or -1 if the size is unknown at this stage
+	 * @param int|float $oldSize the size of the folder before (re)scanning the children
+	 * @return int|float the size of the scanned folder or -1 if the size is unknown at this stage
 	 */
-	protected function scanChildren($path, $recursive = self::SCAN_RECURSIVE, $reuse = -1, $folderId = null, $lock = true) {
+	protected function scanChildren(string $path, $recursive, int $reuse, int $folderId, bool $lock, int|float $oldSize, &$etagChanged = false) {
 		if ($reuse === -1) {
 			$reuse = ($recursive === self::SCAN_SHALLOW) ? self::REUSE_ETAG | self::REUSE_SIZE : self::REUSE_ETAG;
 		}
 		$this->emit('\OC\Files\Cache\Scanner', 'scanFolder', [$path, $this->storageId]);
 		$size = 0;
-		if (!is_null($folderId)) {
-			$folderId = $this->cache->getId($path);
-		}
-		$childQueue = $this->handleChildren($path, $recursive, $reuse, $folderId, $lock, $size);
+		$childQueue = $this->handleChildren($path, $recursive, $reuse, $folderId, $lock, $size, $etagChanged);
 
-		foreach ($childQueue as $child => $childId) {
-			$childSize = $this->scanChildren($child, $recursive, $reuse, $childId, $lock);
+		foreach ($childQueue as $child => [$childId, $childSize]) {
+			// "etag changed" propagates up, but not down, so we pass `false` to the children even if we already know that the etag of the current folder changed
+			$childEtagChanged = false;
+			$childSize = $this->scanChildren($child, $recursive, $reuse, $childId, $lock, $childSize, $childEtagChanged);
+			$etagChanged |= $childEtagChanged;
+
 			if ($childSize === -1) {
 				$size = -1;
 			} elseif ($size !== -1) {
 				$size += $childSize;
 			}
 		}
-		if ($this->cacheActive) {
-			$this->cache->update($folderId, ['size' => $size]);
+
+		// for encrypted storages, we trigger a regular folder size calculation instead of using the calculated size
+		// to make sure we also updated the unencrypted-size where applicable
+		if ($this->storage->instanceOfStorage(Encryption::class)) {
+			$this->cache->calculateFolderSize($path);
+		} else {
+			if ($this->cacheActive) {
+				$updatedData = [];
+				if ($oldSize !== $size) {
+					$updatedData['size'] = $size;
+				}
+				if ($etagChanged) {
+					$updatedData['etag'] = uniqid();
+				}
+				if ($updatedData) {
+					$this->cache->update($folderId, $updatedData);
+				}
+			}
 		}
 		$this->emit('\OC\Files\Cache\Scanner', 'postScanFolder', [$path, $this->storageId]);
 		return $size;
 	}
 
-	private function handleChildren($path, $recursive, $reuse, $folderId, $lock, &$size) {
+	/**
+	 * @param bool|IScanner::SCAN_RECURSIVE_INCOMPLETE $recursive
+	 */
+	private function handleChildren(string $path, $recursive, int $reuse, int $folderId, bool $lock, int|float &$size, bool &$etagChanged): array {
 		// we put this in it's own function so it cleans up the memory before we start recursing
 		$existingChildren = $this->getExistingChildren($folderId);
 		$newChildren = iterator_to_array($this->storage->getDirectoryContent($path));
 
+		if (count($existingChildren) === 0 && count($newChildren) === 0) {
+			// no need to do a transaction
+			return [];
+		}
+
 		if ($this->useTransactions) {
-			\OC::$server->getDatabaseConnection()->beginTransaction();
+			$this->connection->beginTransaction();
 		}
 
 		$exceptionOccurred = false;
 		$childQueue = [];
 		$newChildNames = [];
 		foreach ($newChildren as $fileMeta) {
-			$permissions = isset($fileMeta['scan_permissions']) ? $fileMeta['scan_permissions'] : $fileMeta['permissions'];
+			$permissions = $fileMeta['scan_permissions'] ?? $fileMeta['permissions'];
 			if ($permissions === 0) {
 				continue;
 			}
@@ -434,18 +476,22 @@ class Scanner extends BasicEmitter implements IScanner {
 			$newChildNames[] = $file;
 			$child = $path ? $path . '/' . $file : $file;
 			try {
-				$existingData = isset($existingChildren[$file]) ? $existingChildren[$file] : false;
+				$existingData = $existingChildren[$file] ?? false;
 				$data = $this->scanFile($child, $reuse, $folderId, $existingData, $lock, $fileMeta);
 				if ($data) {
-					if ($data['mimetype'] === 'httpd/unix-directory' and $recursive === self::SCAN_RECURSIVE) {
-						$childQueue[$child] = $data['fileid'];
-					} elseif ($data['mimetype'] === 'httpd/unix-directory' and $recursive === self::SCAN_RECURSIVE_INCOMPLETE and $data['size'] === -1) {
+					if ($data['mimetype'] === 'httpd/unix-directory' && $recursive === self::SCAN_RECURSIVE) {
+						$childQueue[$child] = [$data['fileid'], $data['size']];
+					} elseif ($data['mimetype'] === 'httpd/unix-directory' && $recursive === self::SCAN_RECURSIVE_INCOMPLETE && $data['size'] === -1) {
 						// only recurse into folders which aren't fully scanned
-						$childQueue[$child] = $data['fileid'];
+						$childQueue[$child] = [$data['fileid'], $data['size']];
 					} elseif ($data['size'] === -1) {
 						$size = -1;
 					} elseif ($size !== -1) {
 						$size += $data['size'];
+					}
+
+					if (isset($data['etag_changed']) && $data['etag_changed']) {
+						$etagChanged = true;
 					}
 				}
 			} catch (Exception $ex) {
@@ -453,8 +499,8 @@ class Scanner extends BasicEmitter implements IScanner {
 				// process is running in parallel
 				// log and ignore
 				if ($this->useTransactions) {
-					\OC::$server->getDatabaseConnection()->rollback();
-					\OC::$server->getDatabaseConnection()->beginTransaction();
+					$this->connection->rollback();
+					$this->connection->beginTransaction();
 				}
 				\OC::$server->get(LoggerInterface::class)->debug('Exception while scanning file "' . $child . '"', [
 					'app' => 'core',
@@ -463,7 +509,7 @@ class Scanner extends BasicEmitter implements IScanner {
 				$exceptionOccurred = true;
 			} catch (\OCP\Lock\LockedException $e) {
 				if ($this->useTransactions) {
-					\OC::$server->getDatabaseConnection()->rollback();
+					$this->connection->rollback();
 				}
 				throw $e;
 			}
@@ -474,7 +520,7 @@ class Scanner extends BasicEmitter implements IScanner {
 			$this->removeFromCache($child);
 		}
 		if ($this->useTransactions) {
-			\OC::$server->getDatabaseConnection()->commit();
+			$this->connection->commit();
 		}
 		if ($exceptionOccurred) {
 			// It might happen that the parallel scan process has already
@@ -498,7 +544,7 @@ class Scanner extends BasicEmitter implements IScanner {
 		if (pathinfo($file, PATHINFO_EXTENSION) === 'part') {
 			return true;
 		}
-		if (strpos($file, '.part/') !== false) {
+		if (str_contains($file, '.part/')) {
 			return true;
 		}
 
@@ -538,7 +584,7 @@ class Scanner extends BasicEmitter implements IScanner {
 		}
 	}
 
-	private function runBackgroundScanJob(callable $callback, $path) {
+	protected function runBackgroundScanJob(callable $callback, $path) {
 		try {
 			$callback();
 			\OC_Hook::emit('Scanner', 'correctFolderSize', ['path' => $path]);

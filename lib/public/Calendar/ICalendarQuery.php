@@ -34,7 +34,6 @@ use DateTimeImmutable;
  * @since 23.0.0
  */
 interface ICalendarQuery {
-
 	/**
 	 * @since 24.0.0
 	 */

@@ -10,6 +10,7 @@ declare(strict_types=1);
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Richard Steinmetz <richard@steinmetz.cloud>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -68,9 +69,9 @@ abstract class AbstractProvider implements INotificationProvider {
 	protected $config;
 
 	public function __construct(LoggerInterface $logger,
-								L10NFactory $l10nFactory,
-								IURLGenerator $urlGenerator,
-								IConfig $config) {
+		L10NFactory $l10nFactory,
+		IURLGenerator $urlGenerator,
+		IConfig $config) {
 		$this->logger = $logger;
 		$this->l10nFactory = $l10nFactory;
 		$this->urlGenerator = $urlGenerator;
@@ -81,13 +82,15 @@ abstract class AbstractProvider implements INotificationProvider {
 	 * Send notification
 	 *
 	 * @param VEvent $vevent
-	 * @param string $calendarDisplayName
+	 * @param string|null $calendarDisplayName
+	 * @param string[] $principalEmailAddresses
 	 * @param IUser[] $users
 	 * @return void
 	 */
 	abstract public function send(VEvent $vevent,
-						   string $calendarDisplayName,
-						   array $users = []): void;
+		?string $calendarDisplayName,
+		array $principalEmailAddresses,
+		array $users = []): void;
 
 	/**
 	 * @return string
@@ -181,5 +184,9 @@ abstract class AbstractProvider implements INotificationProvider {
 		}
 
 		return clone $vevent->DTSTART;
+	}
+
+	protected function getCalendarDisplayNameFallback(string $lang): string {
+		return $this->getL10NForLang($lang)->t('Untitled calendar');
 	}
 }

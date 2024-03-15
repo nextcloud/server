@@ -28,7 +28,6 @@ namespace Test\AppFramework\Http;
 use OCP\AppFramework\Http\EmptyFeaturePolicy;
 
 class EmptyFeaturePolicyTest extends \Test\TestCase {
-
 	/** @var EmptyFeaturePolicy */
 	private $policy;
 

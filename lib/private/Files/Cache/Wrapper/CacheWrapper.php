@@ -30,30 +30,46 @@
 namespace OC\Files\Cache\Wrapper;
 
 use OC\Files\Cache\Cache;
-use OC\Files\Cache\QuerySearchHelper;
+use OC\Files\Cache\CacheDependencies;
 use OCP\Files\Cache\ICache;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Search\ISearchOperator;
 use OCP\Files\Search\ISearchQuery;
+use OCP\Server;
 
 class CacheWrapper extends Cache {
 	/**
-	 * @var \OCP\Files\Cache\ICache
+	 * @var ?ICache
 	 */
 	protected $cache;
 
-	/**
-	 * @param \OCP\Files\Cache\ICache $cache
-	 */
-	public function __construct($cache) {
+	public function __construct(?ICache $cache, CacheDependencies $dependencies = null) {
 		$this->cache = $cache;
-		$this->mimetypeLoader = \OC::$server->getMimeTypeLoader();
-		$this->connection = \OC::$server->getDatabaseConnection();
-		$this->querySearchHelper = \OC::$server->get(QuerySearchHelper::class);
+		if (!$dependencies && $cache instanceof Cache) {
+			$this->mimetypeLoader = $cache->mimetypeLoader;
+			$this->connection = $cache->connection;
+			$this->querySearchHelper = $cache->querySearchHelper;
+		} else {
+			if (!$dependencies) {
+				$dependencies = Server::get(CacheDependencies::class);
+			}
+			$this->mimetypeLoader = $dependencies->getMimeTypeLoader();
+			$this->connection = $dependencies->getConnection();
+			$this->querySearchHelper = $dependencies->getQuerySearchHelper();
+		}
 	}
 
 	protected function getCache() {
 		return $this->cache;
+	}
+
+	protected function hasEncryptionWrapper(): bool {
+		$cache = $this->getCache();
+		if ($cache instanceof Cache) {
+			return $cache->hasEncryptionWrapper();
+		} else {
+			return false;
+		}
 	}
 
 	/**
@@ -74,7 +90,7 @@ class CacheWrapper extends Cache {
 	 */
 	public function get($file) {
 		$result = $this->getCache()->get($file);
-		if ($result) {
+		if ($result instanceof ICacheEntry) {
 			$result = $this->formatCacheEntry($result);
 		}
 		return $result;
@@ -240,8 +256,8 @@ class CacheWrapper extends Cache {
 	 * get the size of a folder and set it in the cache
 	 *
 	 * @param string $path
-	 * @param array $entry (optional) meta data of the folder
-	 * @return int
+	 * @param array|null|ICacheEntry $entry (optional) meta data of the folder
+	 * @return int|float
 	 */
 	public function calculateFolderSize($path, $entry = null) {
 		if ($this->getCache() instanceof Cache) {

@@ -28,18 +28,18 @@ use Exception;
 use OC\Contacts\ContactsMenu\Manager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\FrontpageRoute;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\IRequest;
 use OCP\IUserSession;
 
 class ContactsMenuController extends Controller {
-	private Manager $manager;
-	private IUserSession $userSession;
-
-	public function __construct(IRequest $request, IUserSession $userSession, Manager $manager) {
+	public function __construct(
+		IRequest $request,
+		private IUserSession $userSession,
+		private Manager $manager,
+	) {
 		parent::__construct('core', $request);
-		$this->userSession = $userSession;
-		$this->manager = $manager;
 	}
 
 	/**
@@ -48,6 +48,7 @@ class ContactsMenuController extends Controller {
 	 * @return \JsonSerializable[]
 	 * @throws Exception
 	 */
+	#[FrontpageRoute(verb: 'POST', url: '/contactsmenu/contacts')]
 	public function index(?string $filter = null): array {
 		return $this->manager->getEntries($this->userSession->getUser(), $filter);
 	}
@@ -58,6 +59,7 @@ class ContactsMenuController extends Controller {
 	 * @return JSONResponse|\JsonSerializable
 	 * @throws Exception
 	 */
+	#[FrontpageRoute(verb: 'POST', url: '/contactsmenu/findOne')]
 	public function findOne(int $shareType, string $shareWith) {
 		$contact = $this->manager->findOne($this->userSession->getUser(), $shareType, $shareWith);
 

@@ -22,8 +22,8 @@
 describe('OC.SystemTags tests', function() {
 	it('describes non existing tag', function() {
 		var $return = OC.SystemTags.getDescriptiveTag('23');
-		expect($return.text()).toEqual('Non-existing tag #23');
-		expect($return.hasClass('non-existing-tag')).toEqual(true);
+		expect($return.textContent).toEqual('Non-existing tag #23');
+		expect($return.classList.contains('non-existing-tag')).toEqual(true);
 	});
 
 	it('describes SystemTagModel', function() {
@@ -34,8 +34,8 @@ describe('OC.SystemTags tests', function() {
 			userVisible: true
 		});
 		var $return = OC.SystemTags.getDescriptiveTag(tag);
-		expect($return.text()).toEqual('Twenty Three');
-		expect($return.hasClass('non-existing-tag')).toEqual(false);
+		expect($return.textContent).toEqual('Twenty Three');
+		expect($return.classList.contains('non-existing-tag')).toEqual(false);
 	});
 
 	it('describes JSON tag object', function() {
@@ -45,8 +45,8 @@ describe('OC.SystemTags tests', function() {
 			userAssignable: true,
 			userVisible: true
 		});
-		expect($return.text()).toEqual('Fourty Two');
-		expect($return.hasClass('non-existing-tag')).toEqual(false);
+		expect($return.textContent).toEqual('Fourty Two');
+		expect($return.classList.contains('non-existing-tag')).toEqual(false);
 	});
 
 	it('scope', function() {
@@ -57,13 +57,13 @@ describe('OC.SystemTags tests', function() {
 				userAssignable: userAssignable,
 				userVisible: userVisible
 			});
-			expect($return.text()).toEqual(expectedText);
-			expect($return.hasClass('non-existing-tag')).toEqual(false);
+			expect($return.textContent).toEqual(expectedText);
+			expect($return.classList.contains('non-existing-tag')).toEqual(false);
 		}
 
 		testScope(true, true, 'Fourty Two');
-		testScope(false, true, 'Fourty Two (invisible)');
-		testScope(false, false, 'Fourty Two (invisible)');
-		testScope(true, false, 'Fourty Two (restricted)');
+		testScope(false, true, 'Fourty Two (Invisible)');
+		testScope(false, false, 'Fourty Two (Invisible)');
+		testScope(true, false, 'Fourty Two (Restricted)');
 	});
 });

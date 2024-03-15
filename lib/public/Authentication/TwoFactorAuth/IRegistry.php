@@ -39,11 +39,13 @@ use OCP\IUser;
  */
 interface IRegistry {
 	/**
+	 * @since 15.0.0
 	 * @deprecated 22.0.0
 	 */
 	public const EVENT_PROVIDER_ENABLED = self::class . '::enable';
 
 	/**
+	 * @since 15.0.0
 	 * @deprecated 22.0.0
 	 */
 	public const EVENT_PROVIDER_DISABLED = self::class . '::disable';
@@ -53,7 +55,7 @@ interface IRegistry {
 	 * the given user.
 	 *
 	 * @since 14.0.0
-	 * @return string[] where the array key is the provider ID (string) and the
+	 * @return array<string, bool> where the array key is the provider ID (string) and the
 	 *                  value is the enabled state (bool)
 	 */
 	public function getProviderStates(IUser $user): array;

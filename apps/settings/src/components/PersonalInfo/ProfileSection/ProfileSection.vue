@@ -22,7 +22,7 @@
 
 <template>
 	<section>
-		<HeaderBar :account-property="accountProperty" />
+		<HeaderBar :is-heading="true" :readable="propertyReadable" />
 
 		<ProfileCheckbox :profile-enabled.sync="profileEnabled" />
 
@@ -39,12 +39,12 @@
 import { loadState } from '@nextcloud/initial-state'
 import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 
-import EditProfileAnchorLink from './EditProfileAnchorLink'
-import HeaderBar from '../shared/HeaderBar'
-import ProfileCheckbox from './ProfileCheckbox'
-import ProfilePreviewCard from './ProfilePreviewCard'
+import EditProfileAnchorLink from './EditProfileAnchorLink.vue'
+import HeaderBar from '../shared/HeaderBar.vue'
+import ProfileCheckbox from './ProfileCheckbox.vue'
+import ProfilePreviewCard from './ProfilePreviewCard.vue'
 
-import { ACCOUNT_PROPERTY_READABLE_ENUM } from '../../../constants/AccountPropertyConstants'
+import { ACCOUNT_PROPERTY_READABLE_ENUM } from '../../../constants/AccountPropertyConstants.js'
 
 const {
 	organisation: { value: organisation },
@@ -65,7 +65,7 @@ export default {
 
 	data() {
 		return {
-			accountProperty: ACCOUNT_PROPERTY_READABLE_ENUM.PROFILE_ENABLED,
+			propertyReadable: ACCOUNT_PROPERTY_READABLE_ENUM.PROFILE_ENABLED,
 			organisation,
 			displayName,
 			profileEnabled,

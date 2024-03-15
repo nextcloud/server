@@ -30,6 +30,10 @@ namespace OCP\Log;
 interface IWriter {
 	/**
 	 * @since 14.0.0
+	 *
+	 * @param string $app
+	 * @param string|array $message
+	 * @param int $level
 	 */
 	public function write(string $app, $message, int $level);
 }

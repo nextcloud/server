@@ -27,11 +27,11 @@ declare(strict_types = 1);
 namespace OC\Profiler;
 
 use OC\AppFramework\Http\Request;
+use OC\SystemConfig;
 use OCP\AppFramework\Http\Response;
 use OCP\DataCollector\IDataCollector;
-use OCP\Profiler\IProfiler;
 use OCP\Profiler\IProfile;
-use OC\SystemConfig;
+use OCP\Profiler\IProfiler;
 
 class Profiler implements IProfiler {
 	/** @var array<string, IDataCollector> */
@@ -44,7 +44,7 @@ class Profiler implements IProfiler {
 	public function __construct(SystemConfig $config) {
 		$this->enabled = $config->getValue('profiler', false);
 		if ($this->enabled) {
-			$this->storage = new FileProfilerStorage($config->getValue('datadirectory', \OC::$SERVERROOT . '/data') . '/profiler');
+			$this->storage = new FileProfilerStorage($config->getValue('datadirectory', \OC::$SERVERROOT . '/data') . '/__profiler');
 		}
 	}
 
@@ -61,11 +61,19 @@ class Profiler implements IProfiler {
 	}
 
 	public function loadProfile(string $token): ?IProfile {
-		return $this->storage->read($token);
+		if ($this->storage) {
+			return $this->storage->read($token);
+		} else {
+			return null;
+		}
 	}
 
 	public function saveProfile(IProfile $profile): bool {
-		return $this->storage->write($profile);
+		if ($this->storage) {
+			return $this->storage->write($profile);
+		} else {
+			return false;
+		}
 	}
 
 	public function collect(Request $request, Response $response): IProfile {
@@ -87,8 +95,12 @@ class Profiler implements IProfiler {
 	 * @return array[]
 	 */
 	public function find(?string $url, ?int $limit, ?string $method, ?int $start, ?int $end,
-						 string $statusCode = null): array {
-		return $this->storage->find($url, $limit, $method, $start, $end, $statusCode);
+		string $statusCode = null): array {
+		if ($this->storage) {
+			return $this->storage->find($url, $limit, $method, $start, $end, $statusCode);
+		} else {
+			return [];
+		}
 	}
 
 	public function dataProviders(): array {
@@ -101,5 +113,9 @@ class Profiler implements IProfiler {
 
 	public function setEnabled(bool $enabled): void {
 		$this->enabled = $enabled;
+	}
+
+	public function clear(): void {
+		$this->storage->purge();
 	}
 }

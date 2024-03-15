@@ -38,20 +38,18 @@ namespace OCA\DAV\Connector\Sabre;
 use OC\Files\Mount\MoveableMount;
 use OC\Files\Node\File;
 use OC\Files\Node\Folder;
-use OC\Files\Storage\Wrapper\Wrapper;
 use OC\Files\View;
 use OCA\DAV\Connector\Sabre\Exception\InvalidPath;
+use OCP\Files\DavUtil;
 use OCP\Files\FileInfo;
 use OCP\Files\IRootFolder;
 use OCP\Files\StorageNotAvailableException;
-use OCP\Share\IShare;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
 
 abstract class Node implements \Sabre\DAV\INode {
-
 	/**
-	 * @var \OC\Files\View
+	 * @var View
 	 */
 	protected $fileView;
 
@@ -69,10 +67,7 @@ abstract class Node implements \Sabre\DAV\INode {
 	 */
 	protected $property_cache = null;
 
-	/**
-	 * @var \OCP\Files\FileInfo
-	 */
-	protected $info;
+	protected FileInfo $info;
 
 	/**
 	 * @var IManager
@@ -83,10 +78,6 @@ abstract class Node implements \Sabre\DAV\INode {
 
 	/**
 	 * Sets up the node, expects a full path name
-	 *
-	 * @param \OC\Files\View $view
-	 * @param \OCP\Files\FileInfo $info
-	 * @param IManager $shareManager
 	 */
 	public function __construct(View $view, FileInfo $info, IManager $shareManager = null) {
 		$this->fileView = $view;
@@ -100,22 +91,29 @@ abstract class Node implements \Sabre\DAV\INode {
 		if ($info instanceof Folder || $info instanceof File) {
 			$this->node = $info;
 		} else {
+			// The Node API assumes that the view passed doesn't have a fake root
+			$rootView = \OC::$server->get(View::class);
 			$root = \OC::$server->get(IRootFolder::class);
 			if ($info->getType() === FileInfo::TYPE_FOLDER) {
-				$this->node = new Folder($root, $view, $this->path, $info);
+				$this->node = new Folder($root, $rootView, $this->fileView->getAbsolutePath($this->path), $info);
 			} else {
-				$this->node = new File($root, $view, $this->path, $info);
+				$this->node = new File($root, $rootView, $this->fileView->getAbsolutePath($this->path), $info);
 			}
 		}
 	}
 
-	protected function refreshInfo() {
-		$this->info = $this->fileView->getFileInfo($this->path);
+	protected function refreshInfo(): void {
+		$info = $this->fileView->getFileInfo($this->path);
+		if ($info === false) {
+			throw new \Sabre\DAV\Exception('Failed to get fileinfo for '. $this->path);
+		}
+		$this->info = $info;
 		$root = \OC::$server->get(IRootFolder::class);
+		$rootView = \OC::$server->get(View::class);
 		if ($this->info->getType() === FileInfo::TYPE_FOLDER) {
-			$this->node = new Folder($root, $this->fileView, $this->path, $this->info);
+			$this->node = new Folder($root, $rootView, $this->path, $this->info);
 		} else {
-			$this->node = new File($root, $this->fileView, $this->path, $this->info);
+			$this->node = new File($root, $rootView, $this->path, $this->info);
 		}
 	}
 
@@ -145,7 +143,6 @@ abstract class Node implements \Sabre\DAV\INode {
 	 * @throws \Sabre\DAV\Exception\Forbidden
 	 */
 	public function setName($name) {
-
 		// rename is only allowed if the update privilege is granted
 		if (!($this->info->isUpdateable() || ($this->info->getMountPoint() instanceof MoveableMount && $this->info->getInternalPath() === ''))) {
 			throw new \Sabre\DAV\Exception\Forbidden();
@@ -233,9 +230,10 @@ abstract class Node implements \Sabre\DAV\INode {
 	/**
 	 * Returns the size of the node, in bytes
 	 *
-	 * @return integer
+	 * @psalm-suppress ImplementedReturnTypeMismatch \Sabre\DAV\IFile::getSize signature does not support 32bit
+	 * @return int|float
 	 */
-	public function getSize() {
+	public function getSize(): int|float {
 		return $this->info->getSize();
 	}
 
@@ -252,10 +250,8 @@ abstract class Node implements \Sabre\DAV\INode {
 	 * @return string|null
 	 */
 	public function getFileId() {
-		if ($this->info->getId()) {
-			$instanceId = \OC_Util::getInstanceId();
-			$id = sprintf('%08d', $this->info->getId());
-			return $id . $instanceId;
+		if ($id = $this->info->getId()) {
+			return DavUtil::getDavFileId($id);
 		}
 
 		return null;
@@ -268,12 +264,15 @@ abstract class Node implements \Sabre\DAV\INode {
 		return $this->info->getId();
 	}
 
+	public function getInternalPath(): string {
+		return $this->info->getInternalPath();
+	}
+
 	/**
 	 * @param string $user
 	 * @return int
 	 */
 	public function getSharePermissions($user) {
-
 		// check of we access a federated share
 		if ($user !== null) {
 			try {
@@ -304,7 +303,7 @@ abstract class Node implements \Sabre\DAV\INode {
 		$mountpoint = $this->info->getMountPoint();
 		if (!($mountpoint instanceof MoveableMount)) {
 			$mountpointpath = $mountpoint->getMountPoint();
-			if (substr($mountpointpath, -1) === '/') {
+			if (str_ends_with($mountpointpath, '/')) {
 				$mountpointpath = substr($mountpointpath, 0, -1);
 			}
 
@@ -357,23 +356,19 @@ abstract class Node implements \Sabre\DAV\INode {
 			return '';
 		}
 
-		$types = [
-			IShare::TYPE_USER,
-			IShare::TYPE_GROUP,
-			IShare::TYPE_CIRCLE,
-			IShare::TYPE_ROOM
-		];
-
-		foreach ($types as $shareType) {
-			$shares = $this->shareManager->getSharedWith($user, $shareType, $this, -1);
-			foreach ($shares as $share) {
-				$note = $share->getNote();
-				if ($share->getShareOwner() !== $user && !empty($note)) {
-					return $note;
-				}
-			}
+		// Retrieve note from the share object already loaded into
+		// memory, to avoid additional database queries.
+		$storage = $this->getNode()->getStorage();
+		if (!$storage->instanceOfStorage(\OCA\Files_Sharing\SharedStorage::class)) {
+			return '';
 		}
+		/** @var \OCA\Files_Sharing\SharedStorage $storage */
 
+		$share = $storage->getShare();
+		$note = $share->getNote();
+		if ($share->getShareOwner() !== $user) {
+			return $note;
+		}
 		return '';
 	}
 
@@ -381,35 +376,7 @@ abstract class Node implements \Sabre\DAV\INode {
 	 * @return string
 	 */
 	public function getDavPermissions() {
-		$p = '';
-		if ($this->info->isShared()) {
-			$p .= 'S';
-		}
-		if ($this->info->isShareable()) {
-			$p .= 'R';
-		}
-		if ($this->info->isMounted()) {
-			$p .= 'M';
-		}
-		if ($this->info->isReadable()) {
-			$p .= 'G';
-		}
-		if ($this->info->isDeletable()) {
-			$p .= 'D';
-		}
-		if ($this->info->isUpdateable()) {
-			$p .= 'NV'; // Renameable, Moveable
-		}
-		if ($this->info->getType() === \OCP\Files\FileInfo::TYPE_FILE) {
-			if ($this->info->isUpdateable()) {
-				$p .= 'W';
-			}
-		} else {
-			if ($this->info->isCreatable()) {
-				$p .= 'CK';
-			}
-		}
-		return $p;
+		return DavUtil::getDavPermissions($this->info);
 	}
 
 	public function getOwner() {

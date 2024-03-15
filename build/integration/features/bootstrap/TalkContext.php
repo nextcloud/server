@@ -23,7 +23,6 @@
 use Behat\Behat\Context\Context;
 
 class TalkContext implements Context {
-
 	/**
 	 * @BeforeFeature @Talk
 	 * @BeforeScenario @Talk

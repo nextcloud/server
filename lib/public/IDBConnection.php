@@ -46,34 +46,24 @@ use OCP\DB\QueryBuilder\IQueryBuilder;
  */
 interface IDBConnection {
 	/**
-	 * @deprecated 22.0.0 this is an internal event
+	 * @since 28.0.0
 	 */
-	public const ADD_MISSING_INDEXES_EVENT = self::class . '::ADD_MISSING_INDEXES';
+	public const PLATFORM_MYSQL = 'mysql';
 
 	/**
-	 * @deprecated 22.0.0 this is an internal event
+	 * @since 28.0.0
 	 */
-	public const CHECK_MISSING_INDEXES_EVENT = self::class . '::CHECK_MISSING_INDEXES';
+	public const PLATFORM_ORACLE = 'oracle';
 
 	/**
-	 * @deprecated 22.0.0 this is an internal event
+	 * @since 28.0.0
 	 */
-	public const ADD_MISSING_PRIMARY_KEYS_EVENT = self::class . '::ADD_MISSING_PRIMARY_KEYS';
+	public const PLATFORM_POSTGRES = 'postgres';
 
 	/**
-	 * @deprecated 22.0.0 this is an internal event
+	 * @since 28.0.0
 	 */
-	public const CHECK_MISSING_PRIMARY_KEYS_EVENT = self::class . '::CHECK_MISSING_PRIMARY_KEYS';
-
-	/**
-	 * @deprecated 22.0.0 this is an internal event
-	 */
-	public const ADD_MISSING_COLUMNS_EVENT = self::class . '::ADD_MISSING_COLUMNS';
-
-	/**
-	 * @deprecated 22.0.0 this is an internal event
-	 */
-	public const CHECK_MISSING_COLUMNS_EVENT = self::class . '::CHECK_MISSING_COLUMNS';
+	public const PLATFORM_SQLITE = 'sqlite';
 
 	/**
 	 * Gets the QueryBuilder for the connection.
@@ -369,4 +359,12 @@ interface IDBConnection {
 	 * @since 13.0.0
 	 */
 	public function migrateToSchema(Schema $toSchema): void;
+
+	/**
+	 * Returns the database provider name
+	 * @link https://github.com/nextcloud/server/issues/30877
+	 * @since 28.0.0
+	 * @return IDBConnection::PLATFORM_*
+	 */
+	public function getDatabaseProvider(): string;
 }

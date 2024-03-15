@@ -30,7 +30,6 @@ namespace OCP\Accounts;
  *
  */
 class PropertyDoesNotExistException extends \Exception {
-
 	/**
 	 * Constructor
 	 * @param string $msg the error message
