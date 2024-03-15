@@ -21,8 +21,8 @@
   -->
 
 <template>
-	<div id="app-content-inner">
-		<div id="apps-list" class="apps-list" :class="{installed: (useBundleView || useListView), store: useAppStoreView}">
+	<div id="app-content-inner" class="{ 'with-app-sidebar': !!selectedApp }">
+		<div id="apps-list" class="apps-list" :class="{installed: (useBundleView || useListView), store: useAppStoreView }">
 			<template v-if="useListView">
 				<div v-if="showUpdateAll" class="toolbar">
 					{{ n('settings', '%n app has an update available', '%n apps have an update available', counter) }}
@@ -236,6 +236,9 @@ export default {
 					}
 					return false
 				})
+		},
+		selectedApp() {
+			return this.apps.find(app => app.id === this.$route.params.id)
 		},
 		useAppStoreView() {
 			return !this.useListView && !this.useBundleView

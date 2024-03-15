@@ -73,7 +73,7 @@
 			<span v-else-if="app.appstoreData.releases[0].version">{{ app.appstoreData.releases[0].version }}</span>
 		</component>
 
-		<component :is="dataItemTag" :headers="getDataItemHeaders(`app-table-col-level`)">
+		<component :is="dataItemTag" :headers="getDataItemHeaders(`app-table-col-level`)" class="app-level">
 			<AppLevelBadge :level="app.level" />
 			<AppScore v-if="hasRating && !listView" :score="app.score" />
 		</component>
