@@ -159,7 +159,7 @@ class FilesMetadata implements IFilesMetadata {
 
 	public function getEtag(string $key): string {
 		if (!array_key_exists($key, $this->metadata)) {
-			throw new FilesMetadataNotFoundException();
+			return '';
 		}
 
 		return $this->metadata[$key]->getEtag();
