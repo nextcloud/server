@@ -348,11 +348,12 @@ $toolbar-height: 44px + $toolbar-padding * 2;
 
 	&--list-view {
 		margin-bottom: 100px;
+		// For positioning link overlay on rows
+		position: relative;
 	}
 
 	&__list-container {
 		width: 100%;
-		white-space: normal;
 	}
 
 	&__store-container {
