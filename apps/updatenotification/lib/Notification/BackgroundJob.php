@@ -118,7 +118,7 @@ class BackgroundJob extends TimedJob {
 				->setSubject('connection_error', ['days' => $numDays]);
 
 			foreach ($this->getUsersToNotify() as $uid) {
-				$notification->setUser($uid);
+				$notification->setUser((string) $uid);
 				$this->notificationManager->notify($notification);
 			}
 		} catch (\InvalidArgumentException $e) {
@@ -186,7 +186,7 @@ class BackgroundJob extends TimedJob {
 			}
 
 			foreach ($this->getUsersToNotify() as $uid) {
-				$notification->setUser($uid);
+				$notification->setUser((string) $uid);
 				$this->notificationManager->notify($notification);
 			}
 		} catch (\InvalidArgumentException $e) {
