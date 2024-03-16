@@ -1419,6 +1419,7 @@ return array(
     'OC\\Files\\ObjectStore\\ObjectStoreScanner' => $baseDir . '/lib/private/Files/ObjectStore/ObjectStoreScanner.php',
     'OC\\Files\\ObjectStore\\ObjectStoreStorage' => $baseDir . '/lib/private/Files/ObjectStore/ObjectStoreStorage.php',
     'OC\\Files\\ObjectStore\\S3' => $baseDir . '/lib/private/Files/ObjectStore/S3.php',
+    'OC\\Files\\ObjectStore\\S3ConfigTrait' => $baseDir . '/lib/private/Files/ObjectStore/S3ConfigTrait.php',
     'OC\\Files\\ObjectStore\\S3ConnectionTrait' => $baseDir . '/lib/private/Files/ObjectStore/S3ConnectionTrait.php',
     'OC\\Files\\ObjectStore\\S3ObjectTrait' => $baseDir . '/lib/private/Files/ObjectStore/S3ObjectTrait.php',
     'OC\\Files\\ObjectStore\\S3Signature' => $baseDir . '/lib/private/Files/ObjectStore/S3Signature.php',

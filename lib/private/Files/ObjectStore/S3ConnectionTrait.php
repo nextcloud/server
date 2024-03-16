@@ -44,39 +44,13 @@ use OCP\ICertificateManager;
 use Psr\Log\LoggerInterface;
 
 trait S3ConnectionTrait {
-	/** @var array */
-	protected $params;
+	use S3ConfigTrait;
 
-	/** @var S3Client */
-	protected $connection;
+	protected string $id;
 
-	/** @var string */
-	protected $id;
+	protected ?S3Client $connection;
 
-	/** @var string */
-	protected $bucket;
-
-	/** @var int */
-	protected $timeout;
-
-	/** @var string */
-	protected $proxy;
-
-	/** @var string */
-	protected $storageClass;
-
-	/** @var int */
-	protected $uploadPartSize;
-
-	/** @var int */
-	private $putSizeLimit;
-
-	/** @var int */
-	private $copySizeLimit;
-
-	private bool $useMultipartCopy = true;
-
-	protected $test;
+	protected bool $test;
 
 	protected function parseParams($params) {
 		if (empty($params['bucket'])) {

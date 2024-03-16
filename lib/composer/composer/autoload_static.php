@@ -1452,6 +1452,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Files\\ObjectStore\\ObjectStoreScanner' => __DIR__ . '/../../..' . '/lib/private/Files/ObjectStore/ObjectStoreScanner.php',
         'OC\\Files\\ObjectStore\\ObjectStoreStorage' => __DIR__ . '/../../..' . '/lib/private/Files/ObjectStore/ObjectStoreStorage.php',
         'OC\\Files\\ObjectStore\\S3' => __DIR__ . '/../../..' . '/lib/private/Files/ObjectStore/S3.php',
+        'OC\\Files\\ObjectStore\\S3ConfigTrait' => __DIR__ . '/../../..' . '/lib/private/Files/ObjectStore/S3ConfigTrait.php',
         'OC\\Files\\ObjectStore\\S3ConnectionTrait' => __DIR__ . '/../../..' . '/lib/private/Files/ObjectStore/S3ConnectionTrait.php',
         'OC\\Files\\ObjectStore\\S3ObjectTrait' => __DIR__ . '/../../..' . '/lib/private/Files/ObjectStore/S3ObjectTrait.php',
         'OC\\Files\\ObjectStore\\S3Signature' => __DIR__ . '/../../..' . '/lib/private/Files/ObjectStore/S3Signature.php',

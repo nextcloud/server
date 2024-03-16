@@ -36,6 +36,8 @@ use OC\Files\Stream\SeekableHttpStream;
 use Psr\Http\Message\StreamInterface;
 
 trait S3ObjectTrait {
+	use S3ConfigTrait;
+
 	/**
 	 * Returns the connection
 	 *
