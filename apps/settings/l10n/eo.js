@@ -115,8 +115,6 @@ OC.L10N.register(
     "Allow public uploads" : "Permesi publikajn alŝutojn",
     "Always ask for a password" : "Ĉiam peti pasvorton",
     "Enforce password protection" : "Devigi pasvortan protekton ",
-    "Exclude groups from sharing" : "Malhelpi, ke grupoj kunhavigas",
-    "These groups will still be able to receive shares, but not to initiate them." : "Tiu ĉi grupoj povos ricevi kunhavojn, sed ne ekigi ilin.",
     "Enforce expiration date" : "Devigi limdaton",
     "This text will be shown on the public link upload page when the file list is hidden." : "Tiu ĉi teksto montriĝos en la publika paĝo de alŝutado, kiam la dosierlisto estas kaŝita.",
     "Default share permissions" : "Defaŭltaj kunhavigaj permesoj",
@@ -350,6 +348,8 @@ OC.L10N.register(
     "Twitter" : "Twitter",
     "Enable untested app" : "Ŝalti netestitan aplikaĵon",
     "SMTP Username" : "SMTP-uzantonomo",
-    "Set default expiration date" : "Agordi defaŭltan limdaton"
+    "Set default expiration date" : "Agordi defaŭltan limdaton",
+    "Exclude groups from sharing" : "Malhelpi, ke grupoj kunhavigas",
+    "These groups will still be able to receive shares, but not to initiate them." : "Tiu ĉi grupoj povos ricevi kunhavojn, sed ne ekigi ilin."
 },
 "nplurals=2; plural=(n != 1);");

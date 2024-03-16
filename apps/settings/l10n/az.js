@@ -69,8 +69,6 @@ OC.L10N.register(
     "Restrict users to only share with users in their groups" : "İstifadəçiləri yalnız yerləşdikləri qrup üzvləri ilə paylaşım edə bilmələrini məhdudla",
     "Allow public uploads" : "Ümumi yüklənmələrə izin vermək",
     "Enforce password protection" : "Şifrə müdafiəsini həyata keçirmək",
-    "Exclude groups from sharing" : "Qrupları paylaşımdan ayır",
-    "These groups will still be able to receive shares, but not to initiate them." : "Bu qruplar paylaşımları hələdə ala biləcəklər ancaq, yarada bilməyəcəklər",
     "Enforce expiration date" : "Bitmə tarixini həyata keçir",
     "Two-Factor Authentication" : "İki faktorlu autentifikasiya",
     "Limit to groups" : "Qruplara limitlə",
@@ -201,6 +199,8 @@ OC.L10N.register(
     "Show user backend" : "Daxili istifadəçini göstər",
     "Send email to new user" : "Yeni istifadəçiyə məktub yolla",
     "SMTP Username" : "SMTP İstifadəçi adı",
-    "Set default expiration date" : "Susmaya görə olan bitmə vaxtını təyin edin"
+    "Set default expiration date" : "Susmaya görə olan bitmə vaxtını təyin edin",
+    "Exclude groups from sharing" : "Qrupları paylaşımdan ayır",
+    "These groups will still be able to receive shares, but not to initiate them." : "Bu qruplar paylaşımları hələdə ala biləcəklər ancaq, yarada bilməyəcəklər"
 },
 "nplurals=2; plural=(n != 1);");

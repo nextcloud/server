@@ -32,6 +32,7 @@ OC.L10N.register(
     "An error occurred while trying to delete the comment" : "An error occurred while trying to delete the comment",
     "An error occurred while trying to create the comment" : "An error occurred while trying to create the comment",
     "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "You were mentioned on \"{file}\", in a comment by a user that has since been deleted",
-    "_%n unread comment_::_%n unread comments_" : ["%n unread comment","%n unread comments"]
+    "_%n unread comment_::_%n unread comments_" : ["%n unread comment","%n unread comments"],
+    "\"@\" for mentions, \":\" for emoji, \"/\" for smart picker" : "\"@\" for mentions, \":\" for emoji, \"/\" for smart picker"
 },
 "nplurals=2; plural=(n != 1);");

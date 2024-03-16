@@ -195,7 +195,7 @@ OC.L10N.register(
     "Video verification" : "Відеоперевірка",
     "Set expiration date" : "Встановити термін дії",
     "Expiration date" : "Термін дії",
-    "Hide download" : "Приховати завантаження",
+    "Hide download" : "Приховати звантаження",
     "Allow download" : "Дозволити звантаження",
     "Note to recipient" : "Примітка для одержувача",
     "Enter a note for the share recipient" : "Додайте нотатку для одержувача доступу до спільного ресурсу",
