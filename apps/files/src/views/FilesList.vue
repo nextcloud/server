@@ -49,7 +49,7 @@
 						<template #icon>
 							<PlusIcon :size="20" />
 						</template>
-						{{ t('files', 'Add') }}
+						{{ t('files', 'New') }}
 					</NcButton>
 
 					<!-- Uploader -->
