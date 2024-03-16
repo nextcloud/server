@@ -128,8 +128,6 @@ OC.L10N.register(
     "Allow public uploads" : "Permite carrigamentos pùblicos",
     "Always ask for a password" : "Pedi semper una crae",
     "Enforce password protection" : "Impone sa bardiadura de sa crae",
-    "Exclude groups from sharing" : "Esclude grupos dae sa cumpartzidura",
-    "These groups will still be able to receive shares, but not to initiate them." : "Custos grupos ant a pòdere retzire cumpartziduras, ma no ddas ant a pòdere cumintzare.",
     "Set default expiration date for shares" : "Imposta sa data de iscadèntzia predefinida pro is cumpartziduras",
     "Enforce expiration date" : "Impone data de iscadèntzia",
     "Set default expiration date for shares to other servers" : "Imposta sa data de iscadèntzia predefinida pro is cumpartziduras a àteros serbidores",
@@ -414,6 +412,8 @@ OC.L10N.register(
     "day(s)" : "die(s)",
     "Set default expiration date" : "Imposta sa data de iscadèntzia predefinida ",
     "Exclude groups from creating link shares:" : "Esclude grupos dae sa creatzione de ligòngios de cumpartzidura:",
+    "Exclude groups from sharing" : "Esclude grupos dae sa cumpartzidura",
+    "These groups will still be able to receive shares, but not to initiate them." : "Custos grupos ant a pòdere retzire cumpartziduras, ma no ddas ant a pòdere cumintzare.",
     "Allow username autocompletion in share dialog" : "Permite sa cumponidura automàtica de su nùmene de utente in sa ventana de cumpartzidura",
     "Allow username autocompletion to users within the same groups" : "Permite sa cumponidura automàtica de su nùmene de utente a is utentes de su matessi grupu"
 },

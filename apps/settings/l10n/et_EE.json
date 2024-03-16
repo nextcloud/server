@@ -96,8 +96,6 @@
     "Allow public uploads" : "Luba avalikud üleslaadimised",
     "Always ask for a password" : "Alati küsi parooli",
     "Enforce password protection" : "Jõusta paroolikaitse",
-    "Exclude groups from sharing" : "Eemalda grupid jagamisest",
-    "These groups will still be able to receive shares, but not to initiate them." : "Need grupid saavad vastu võtta jagamisi, kuid ise jagamisi algatada ei saa.",
     "Enforce expiration date" : "Sunnitud aegumise kuupäev",
     "This text will be shown on the public link upload page when the file list is hidden." : "Seda teksti näidatakse avaliku lingiga üleslaadimise lehel kui failide loend on peidetud.",
     "Limit to groups" : "Luba gruppidele",
@@ -265,6 +263,8 @@
     "Not saved" : "Ei ole salvestatud",
     "Twitter" : "Twitter",
     "SMTP Username" : "SMTP kasutajatunnus",
-    "Set default expiration date" : "Määra vaikimisi aegumise kuupäev"
+    "Set default expiration date" : "Määra vaikimisi aegumise kuupäev",
+    "Exclude groups from sharing" : "Eemalda grupid jagamisest",
+    "These groups will still be able to receive shares, but not to initiate them." : "Need grupid saavad vastu võtta jagamisi, kuid ise jagamisi algatada ei saa."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

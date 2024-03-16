@@ -145,8 +145,6 @@
     "Allow public uploads" : "Разреши общодостъпно качване",
     "Always ask for a password" : "Винаги искайте парола",
     "Enforce password protection" : "Изискай защита с парола",
-    "Exclude groups from sharing" : "Забрани групи да споделят",
-    "These groups will still be able to receive shares, but not to initiate them." : "Тези групи ще могат да получават споделения, но няма да могат самите те да споделят.",
     "Set default expiration date for shares" : "Задай дата за изтичане по подразбиране за споделянията",
     "Enforce expiration date" : "Изисквай срок на валидност",
     "Set default expiration date for shares to other servers" : "Задайте дата на изтичане по подразбиране за споделяния към други сървъри",
@@ -534,6 +532,8 @@
     "Exclude groups from password requirements:" : "Изключване на групит от изискванията за парола:",
     "Set default expiration date" : "Задайте дата на изтичане по подразбиране",
     "Exclude groups from creating link shares:" : "Изключване на групи от създаване на споделяния на връзки:",
+    "Exclude groups from sharing" : "Забрани групи да споделят",
+    "These groups will still be able to receive shares, but not to initiate them." : "Тези групи ще могат да получават споделения, но няма да могат самите те да споделят.",
     "Allow username autocompletion in share dialog" : "Разрешаване на автоматично довършване на име на потребител в диалоговия прозорец за споделяне",
     "Allow username autocompletion to users within the same groups" : "Разрешаване на автоматично довършване на име на потребител на потребители в същите групи"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

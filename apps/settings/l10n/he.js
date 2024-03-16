@@ -123,8 +123,6 @@ OC.L10N.register(
     "Allow public uploads" : "אפשר העלאות ציבוריות",
     "Always ask for a password" : "תמיד לבקש ססמה",
     "Enforce password protection" : "חייב הגנת סיסמא",
-    "Exclude groups from sharing" : "מניעת קבוצות משיתוף",
-    "These groups will still be able to receive shares, but not to initiate them." : "קבוצות אלו עדיין יוכלו לקבל שיתופים, אך לא לשתף בעצמם.",
     "Set default expiration date for shares" : "הגדרת תאריך תפוגה כבררת מחדל לשיתופים",
     "Enforce expiration date" : "חייב תאריך תפוגה",
     "Show disclaimer text on the public link upload page (only shown when the file list is hidden)" : "הצגת טקסט הבהרה בעמוד ההעלאה בקישור הציבורי (מופיע רק כאשר רשימת הקבצים מוסתרת)",
@@ -392,6 +390,8 @@ OC.L10N.register(
     "SMTP Username" : "שם משתמש SMTP ",
     "day(s)" : "ימים",
     "Set default expiration date" : "הגדרת תאריך תפוגה ברירת מחדל",
+    "Exclude groups from sharing" : "מניעת קבוצות משיתוף",
+    "These groups will still be able to receive shares, but not to initiate them." : "קבוצות אלו עדיין יוכלו לקבל שיתופים, אך לא לשתף בעצמם.",
     "Allow username autocompletion in share dialog" : "לאפשר השלמה אוטומטית של שם משתמש בחלונית השיתוף",
     "Allow username autocompletion to users within the same groups" : "לאפשר השלמה אוטומטית של שם משתמש למשתמשים בתוך אותן הקבוצות"
 },

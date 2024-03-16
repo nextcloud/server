@@ -119,8 +119,6 @@ OC.L10N.register(
     "Allow public uploads" : "Aotreañ ar bellkas publik",
     "Always ask for a password" : "Goulenn ar ger-tremen bewech.",
     "Enforce password protection" : "Rediañ ar gwarez dre ger-tremen",
-    "Exclude groups from sharing" : "Lemel ar strolladoù eus ar rannañ",
-    "These groups will still be able to receive shares, but not to initiate them." : "Posupl vo d'ar strolad resev rannadennoù, mes ne vo ket posuple d'eo o krouiñ.",
     "Set default expiration date for shares" : "Lakaat un deizat termen dre ziouer evit ar rannañ",
     "Enforce expiration date" : "Rediañ an deiziat diamzerañ",
     "This text will be shown on the public link upload page when the file list is hidden." : "Diskouezet e vo an destenn war ar bajenn publik palkass liammoù pa eo kouachet ar roll restroù.",
@@ -367,6 +365,8 @@ OC.L10N.register(
     "Twitter" : "Twitter",
     "Enable untested app" : "Aotreañ ar meziant disamprouet",
     "SMTP Username" : "Anv implijer SMTP",
-    "Set default expiration date" : "Lakaat un deizat termen dre ziouer"
+    "Set default expiration date" : "Lakaat un deizat termen dre ziouer",
+    "Exclude groups from sharing" : "Lemel ar strolladoù eus ar rannañ",
+    "These groups will still be able to receive shares, but not to initiate them." : "Posupl vo d'ar strolad resev rannadennoù, mes ne vo ket posuple d'eo o krouiñ."
 },
 "nplurals=5; plural=((n%10 == 1) && (n%100 != 11) && (n%100 !=71) && (n%100 !=91) ? 0 :(n%10 == 2) && (n%100 != 12) && (n%100 !=72) && (n%100 !=92) ? 1 :(n%10 ==3 || n%10==4 || n%10==9) && (n%100 < 10 || n% 100 > 19) && (n%100 < 70 || n%100 > 79) && (n%100 < 90 || n%100 > 99) ? 2 :(n != 0 && n % 1000000 == 0) ? 3 : 4);");

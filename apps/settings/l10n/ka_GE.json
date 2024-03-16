@@ -89,8 +89,6 @@
     "Allow public uploads" : "საქვეყნო ატვირთების დაშვება",
     "Always ask for a password" : "ყოველთვის მოხდეს პაროლის მოთხოვნა",
     "Enforce password protection" : "პროლით დაცვის იძულება",
-    "Exclude groups from sharing" : "აკრძალეთ ჯგუფების გაზიარება",
-    "These groups will still be able to receive shares, but not to initiate them." : "ეს ჯგუფები ისევ მიიღებენ გაზიარებებს, მაგრამ ვერ წამოიწყებენ მათ.",
     "Enforce expiration date" : "ვადის ამოწურვის თარიღის იძულება",
     "This text will be shown on the public link upload page when the file list is hidden." : "ეს ტექსტი გამოჩნდება ღია ბმულის ატვირთვის გვერდზე, როდესაც ფაილების სია დამალულია.",
     "Default share permissions" : "საწყისი გაზიარების პარამეტრები",
@@ -249,6 +247,8 @@
     "Not saved" : "არაა შენახული",
     "Twitter" : "Twitter-ი",
     "SMTP Username" : "SMTP მოხმარებლის სახელი",
-    "Set default expiration date" : "დააყენეთ საწყისი ვადის ამოწურვის თარიღი"
+    "Set default expiration date" : "დააყენეთ საწყისი ვადის ამოწურვის თარიღი",
+    "Exclude groups from sharing" : "აკრძალეთ ჯგუფების გაზიარება",
+    "These groups will still be able to receive shares, but not to initiate them." : "ეს ჯგუფები ისევ მიიღებენ გაზიარებებს, მაგრამ ვერ წამოიწყებენ მათ."
 },"pluralForm" :"nplurals=2; plural=(n!=1);"
 }

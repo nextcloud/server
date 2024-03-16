@@ -28,6 +28,7 @@
     "An error occurred while trying to delete the comment" : "删除评论时出错",
     "An error occurred while trying to create the comment" : "创建评论时出错",
     "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "用户在“ {file}”中的评论中提到了你，此评论已被删除",
-    "_%n unread comment_::_%n unread comments_" : ["%n 条未读评论"]
+    "_%n unread comment_::_%n unread comments_" : ["%n 条未读评论"],
+    "\"@\" for mentions, \":\" for emoji, \"/\" for smart picker" : "「@」表示提及、「:」表示表情符号、「/」表示智能拾取"
 },"pluralForm" :"nplurals=1; plural=0;"
 }
