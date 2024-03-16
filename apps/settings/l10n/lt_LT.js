@@ -130,8 +130,6 @@ OC.L10N.register(
     "Allow public uploads" : "Leisti viešus įkėlimus",
     "Always ask for a password" : "Visada prašyti slaptažodžio",
     "Enforce password protection" : "Priverstinė apsauga slaptažodžiu",
-    "Exclude groups from sharing" : "Išskirti grupes iš bendrinimo",
-    "These groups will still be able to receive shares, but not to initiate them." : "Šios grupės vis tiek galės gauti viešinius, tačiau negalės jų inicijuoti.",
     "Set default expiration date for shares" : "Nustatyti viešiniams numatytąją galiojimo pabaigos datą",
     "Enforce expiration date" : "Priverstinė galiojimo pabaigos data",
     "Show disclaimer text on the public link upload page (only shown when the file list is hidden)" : "Rodyti atsakomybės ribojimo tekstą įkėlimo per viešąją nuorodą puslapyje (rodomas tik tada, kai failų sąrašas yra paslėptas)",
@@ -468,6 +466,8 @@ OC.L10N.register(
     "Show to logged in users only" : "Rodyti tik prisijungusiems naudotojams",
     "Enable untested app" : "Įjungti netestuotą programą",
     "SMTP Username" : "SMTP naudotojo vardas",
-    "Set default expiration date" : "Nustatyti numatytąją galiojimo pabaigos datą"
+    "Set default expiration date" : "Nustatyti numatytąją galiojimo pabaigos datą",
+    "Exclude groups from sharing" : "Išskirti grupes iš bendrinimo",
+    "These groups will still be able to receive shares, but not to initiate them." : "Šios grupės vis tiek galės gauti viešinius, tačiau negalės jų inicijuoti."
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

@@ -132,8 +132,6 @@ OC.L10N.register(
     "Allow public uploads" : "Dopusti javne otpreme",
     "Always ask for a password" : "Uvijek traži zaporku",
     "Enforce password protection" : "Nametni zaštitu zaporkom",
-    "Exclude groups from sharing" : "Izuzmi grupe iz dijeljenja",
-    "These groups will still be able to receive shares, but not to initiate them." : "Ove će grupe još uvijek moći primati dijeljene sadržaje, ali ih neće moći pokrenuti.",
     "Set default expiration date for shares" : "Postavi zadani datum isteka dijeljenja",
     "Enforce expiration date" : "Primijeni datum isteka",
     "Set default expiration date for shares to other servers" : "Postavi zadani datum isteka dijeljenja na druge poslužitelje",
@@ -451,6 +449,8 @@ OC.L10N.register(
     "day(s)" : "dan/dana",
     "Set default expiration date" : "Postavi zadani datum isteka",
     "Exclude groups from creating link shares:" : "Izuzmite grupe iz stvaranja dijeljenja poveznice:",
+    "Exclude groups from sharing" : "Izuzmi grupe iz dijeljenja",
+    "These groups will still be able to receive shares, but not to initiate them." : "Ove će grupe još uvijek moći primati dijeljene sadržaje, ali ih neće moći pokrenuti.",
     "Allow username autocompletion in share dialog" : "Dopusti automatsko dovršavanje korisničkog imena u dijaloškom okviru za dijeljenje",
     "Allow username autocompletion to users within the same groups" : "Dopusti automatsko dovršavanje korisničkog imena na korisnike iz istih grupa"
 },

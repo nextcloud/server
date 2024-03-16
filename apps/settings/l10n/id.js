@@ -129,8 +129,6 @@ OC.L10N.register(
     "Allow public uploads" : "Izinkan unggahan publik",
     "Always ask for a password" : "Selalu tanya kata sandi",
     "Enforce password protection" : "Berlakukan perlindungan sandi",
-    "Exclude groups from sharing" : "Tidak termasuk grup untuk berbagi",
-    "These groups will still be able to receive shares, but not to initiate them." : "Grup ini akan tetap dapat menerima berbagi, tatapi tidak dapat membagikan.",
     "Enforce expiration date" : "Berlakukan tanggal kadaluarsa",
     "Default share permissions" : "Ijin bawaan berbagi",
     "Two-Factor Authentication" : "Autentikasi Dua-Faktor",
@@ -371,6 +369,8 @@ OC.L10N.register(
     "Twitter" : "Twitter",
     "Enable untested app" : "Hidupkan aplikasi yang belum dites",
     "SMTP Username" : "Nama pengguna SMTP",
-    "Set default expiration date" : "Atur tanggal kadaluarsa default"
+    "Set default expiration date" : "Atur tanggal kadaluarsa default",
+    "Exclude groups from sharing" : "Tidak termasuk grup untuk berbagi",
+    "These groups will still be able to receive shares, but not to initiate them." : "Grup ini akan tetap dapat menerima berbagi, tatapi tidak dapat membagikan."
 },
 "nplurals=1; plural=0;");

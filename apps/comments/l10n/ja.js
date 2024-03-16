@@ -31,6 +31,7 @@ OC.L10N.register(
     "An error occurred while trying to delete the comment" : "コメントの削除中にエラーが発生しました",
     "An error occurred while trying to create the comment" : "コメント中にエラーが発生しました",
     "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "You were mentioned on \"{file}\", in a comment by a user that has since been deleted",
-    "_%n unread comment_::_%n unread comments_" : ["%n の未読のコメント"]
+    "_%n unread comment_::_%n unread comments_" : ["%n の未読のコメント"],
+    "\"@\" for mentions, \":\" for emoji, \"/\" for smart picker" : "メンションには \"@\"、絵文字には \":\"、スマートピッカーには \"/\""
 },
 "nplurals=1; plural=0;");
