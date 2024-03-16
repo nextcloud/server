@@ -55,7 +55,6 @@ OC.L10N.register(
     "Restrict users to only share with users in their groups" : "Ierobežot lietotājiem koplietot tikai ar lietotājiem savās grupās",
     "Allow public uploads" : "Atļaut publisko augšupielādi",
     "Enforce password protection" : "Ieviest paroles aizsardzību",
-    "Exclude groups from sharing" : "Izslēgt grupas no koplietošanas",
     "Enforce expiration date" : "Uzspiest beigu termiņu",
     "Limit to groups" : "Grupu ierobežojums",
     "Save changes" : "Saglabāt izmaiņas",
@@ -182,6 +181,7 @@ OC.L10N.register(
     "Not saved" : "Nav saglabāts",
     "Twitter" : "Twitter",
     "SMTP Username" : "SMTP lietotājvārds",
-    "Set default expiration date" : "Iestatīt noklusējuma beigu datumu"
+    "Set default expiration date" : "Iestatīt noklusējuma beigu datumu",
+    "Exclude groups from sharing" : "Izslēgt grupas no koplietošanas"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

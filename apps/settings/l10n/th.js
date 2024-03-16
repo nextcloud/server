@@ -82,8 +82,6 @@ OC.L10N.register(
     "Allow public uploads" : "อนุญาตให้อัปโหลดสาธารณะ",
     "Always ask for a password" : "ถามรหัสผ่านเสมอ",
     "Enforce password protection" : "บังคับใช้การป้องกันรหัสผ่าน",
-    "Exclude groups from sharing" : "ยกเว้นกลุ่มจากการแชร์",
-    "These groups will still be able to receive shares, but not to initiate them." : "กลุ่มนี้จะยังคงสามารถรับการแชร์ แต่ไม่สามารถสร้างแชร์ใหม่",
     "Set default expiration date for shares" : "ตั้งวันหมดอายุค่าเริ่มต้นสำหรับการแชร์",
     "Enforce expiration date" : "บังคับให้มีวันหมดอายุ",
     "Set default expiration date for shares to other servers" : "ตั้งวันหมดอายุค่าเริ่มต้นสำหรับการแชร์ไปยังเซิร์ฟเวอร์อื่น",
@@ -329,6 +327,8 @@ OC.L10N.register(
     "Expire after" : "หมดอายุหลังจาก",
     "day(s)" : "วัน",
     "Set default expiration date" : "ตั้งวันหมดอายุค่าเริ่มต้น",
-    "Exclude groups from creating link shares:" : "ยกเว้นกลุ่มจากการสร้างลิงก์แชร์:"
+    "Exclude groups from creating link shares:" : "ยกเว้นกลุ่มจากการสร้างลิงก์แชร์:",
+    "Exclude groups from sharing" : "ยกเว้นกลุ่มจากการแชร์",
+    "These groups will still be able to receive shares, but not to initiate them." : "กลุ่มนี้จะยังคงสามารถรับการแชร์ แต่ไม่สามารถสร้างแชร์ใหม่"
 },
 "nplurals=1; plural=0;");

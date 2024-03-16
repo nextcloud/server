@@ -140,8 +140,6 @@ OC.L10N.register(
     "Allow public uploads" : "Sta publieke uploads toe",
     "Always ask for a password" : "Vraag altijd naar een wachtwoord",
     "Enforce password protection" : "Dwing wachtwoordbeveiliging af",
-    "Exclude groups from sharing" : "Sta bepaalde groepen niet toe om te delen",
-    "These groups will still be able to receive shares, but not to initiate them." : "Deze groepen kunnen gedeelde mappen en bestanden ontvangen, maar kunnen zelf niks delen.",
     "Set default expiration date for shares" : "Instellen standaard vervaldatum voor deellinks",
     "Enforce expiration date" : "Het kiezen van een vervaldatum verplichten",
     "Set default expiration date for shares to other servers" : "Instellen standaard vervaldatum voor deellink naar andere servers",
@@ -487,6 +485,8 @@ OC.L10N.register(
     "day(s)" : "dag(en)",
     "Set default expiration date" : "Stel standaard vervaldatum in",
     "Exclude groups from creating link shares:" : "Sta deze groepen niet toe om deellinks te maken:",
+    "Exclude groups from sharing" : "Sta bepaalde groepen niet toe om te delen",
+    "These groups will still be able to receive shares, but not to initiate them." : "Deze groepen kunnen gedeelde mappen en bestanden ontvangen, maar kunnen zelf niks delen.",
     "Allow username autocompletion in share dialog" : "Automatisch aanvullen gebruikersnamen binnen deeldialoog toegestaan",
     "Allow username autocompletion to users within the same groups" : "Automatisch aanvullen van gebruikersnamen voor de gebruikers binnen dezelfde groepen toegestaan"
 },

@@ -84,8 +84,6 @@ OC.L10N.register(
     "Allow public uploads" : "Lejo ngarkime publike",
     "Always ask for a password" : "Gjithmonë pyet për një fjalëkalim",
     "Enforce password protection" : "Detyro mbrojtje me fjalëkalim",
-    "Exclude groups from sharing" : "Përjashtoni grupe nga ndarjet",
-    "These groups will still be able to receive shares, but not to initiate them." : "Këto grupe prapë do të jenë në gjendje të marrin ndarje nga të tjerët, por jo të fillojnë të tilla.",
     "Enforce expiration date" : "Detyro datë skadimi",
     "This text will be shown on the public link upload page when the file list is hidden." : "Ky tekst do të shfaqet në linkun publik të faqes së ngarkuar kur lista e skedarit të jetë e fshehur.",
     "Limit to groups" : "Kufizo grupet",
@@ -249,6 +247,8 @@ OC.L10N.register(
     "Not saved" : "Nuk u ruajt",
     "Twitter" : "Twitter",
     "SMTP Username" : "Emër përdoruesi SMTP",
-    "Set default expiration date" : "Caktoni datë parazgjedhje skadimi"
+    "Set default expiration date" : "Caktoni datë parazgjedhje skadimi",
+    "Exclude groups from sharing" : "Përjashtoni grupe nga ndarjet",
+    "These groups will still be able to receive shares, but not to initiate them." : "Këto grupe prapë do të jenë në gjendje të marrin ndarje nga të tjerët, por jo të fillojnë të tilla."
 },
 "nplurals=2; plural=(n != 1);");

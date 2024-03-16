@@ -128,8 +128,6 @@ OC.L10N.register(
     "Allow sharing with groups" : "Permite partajarea cu grupuri",
     "Allow public uploads" : "Permite încărcări publice",
     "Enforce password protection" : "Impune protecția prin parolă",
-    "Exclude groups from sharing" : "Exclude grupuri de la partajare",
-    "These groups will still be able to receive shares, but not to initiate them." : "Aceste grupuri vor putea în continuare să primească partajări, dar nu să le inițieze.",
     "Enforce expiration date" : "Impune data de expirare",
     "Two-Factor Authentication" : " Autentificare în doi pași",
     "Enforce two-factor authentication" : "Forțează autentificarea cu doi factori",
@@ -299,6 +297,8 @@ OC.L10N.register(
     "Show to logged in users only" : "Afișează doar pentru utilizatorii autentificați",
     "SMTP Username" : "Nume utilizator SMTP",
     "Set default expiration date" : "Setează data implicită de expirare",
+    "Exclude groups from sharing" : "Exclude grupuri de la partajare",
+    "These groups will still be able to receive shares, but not to initiate them." : "Aceste grupuri vor putea în continuare să primească partajări, dar nu să le inițieze.",
     "Allow username autocompletion in share dialog" : "Permite autocompletarea numelor în dialogul de partajare"
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");
