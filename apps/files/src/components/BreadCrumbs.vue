@@ -13,8 +13,8 @@
 			:aria-description="ariaForSection(section)"
 			@click.native="onClick(section.to)">
 			<template v-if="index === 0" #icon>
-				<NcIconSvgWrapper v-if="section.icon" :size="20" :svg="section.icon" />
-				<Home v-else :size="20"/>
+				<NcIconSvgWrapper :size="20"
+					:svg="viewIcon" />
 			</template>
 		</NcBreadcrumb>
 
@@ -28,7 +28,7 @@
 <script>
 import { basename } from 'path'
 import { translate as t } from '@nextcloud/l10n'
-import Home from 'vue-material-design-icons/Home.vue'
+import homeSvg from '@mdi/svg/svg/home.svg?raw'
 import NcBreadcrumb from '@nextcloud/vue/dist/Components/NcBreadcrumb.js'
 import NcBreadcrumbs from '@nextcloud/vue/dist/Components/NcBreadcrumbs.js'
 import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
@@ -41,7 +41,6 @@ export default Vue.extend({
 	name: 'BreadCrumbs',
 
 	components: {
-		Home,
 		NcBreadcrumbs,
 		NcBreadcrumb,
 		NcIconSvgWrapper,
@@ -85,10 +84,14 @@ export default Vue.extend({
 					exact: true,
 					name: this.getDirDisplayName(dir),
 					to,
-					icon: this.$navigation.active?.icon || null,
 				}
 			})
 		},
+
+		// used to show the views icon for the first breadcrumb
+		viewIcon() {
+			return this.currentView?.icon ?? homeSvg
+		}
 	},
 
 	methods: {
