@@ -90,23 +90,23 @@ body {
 	align-items: center;
 }
 
-#header {
-	.logo {
-		background-image: var(--image-logo, url('../../core/img/logo/logo.svg'));
-		background-repeat: no-repeat;
-		background-size: contain;
-		background-position: center;
-		width: 175px;
-		height: 130px;
-		margin: 0 auto;
-		position: relative;
-		left: unset;
-	}
-}
+// #header {
+// 	.logo {
+// 		background-image: var(--image-logo, url('../../core/img/logo/logo.svg'));
+// 		background-repeat: no-repeat;
+// 		background-size: contain;
+// 		background-position: center;
+// 		// width: 175px;
+// 		// height: 130px;
+// 		// margin: 0 auto;
+// 		position: relative;
+// 		left: unset;
+// 	}
+// }
 
 .wrapper {
 	width: 100%;
-	max-width: 700px;
+	// max-width: 700px;
 	margin-block: 10vh auto;
 }
 
@@ -424,9 +424,8 @@ form .warning input[type='checkbox']+label {
 }
 
 .body-login-container.two-factor {
-	// Same size as login box and dashboard panels
-	width: 320px;
-	box-sizing: border-box;
+	max-width: 290px;
+	margin: 15px auto 0;
 }
 .two-factor-provider {
 	display: flex;
