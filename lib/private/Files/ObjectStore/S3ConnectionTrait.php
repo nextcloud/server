@@ -48,9 +48,9 @@ trait S3ConnectionTrait {
 
 	protected string $id;
 
-	protected ?S3Client $connection;
-
 	protected bool $test;
+
+	protected ?S3Client $connection = null;
 
 	protected function parseParams($params) {
 		if (empty($params['bucket'])) {
@@ -61,6 +61,8 @@ trait S3ConnectionTrait {
 
 		$this->test = isset($params['test']);
 		$this->bucket = $params['bucket'];
+		// Default to 5 like the S3 SDK does
+		$this->concurrency = $params['concurrency'] ?? 5;
 		$this->proxy = $params['proxy'] ?? false;
 		$this->timeout = $params['timeout'] ?? 15;
 		$this->storageClass = !empty($params['storageClass']) ? $params['storageClass'] : 'STANDARD';
@@ -92,7 +94,7 @@ trait S3ConnectionTrait {
 	 * @throws \Exception if connection could not be made
 	 */
 	public function getConnection() {
-		if (!is_null($this->connection)) {
+		if ($this->connection !== null) {
 			return $this->connection;
 		}
 

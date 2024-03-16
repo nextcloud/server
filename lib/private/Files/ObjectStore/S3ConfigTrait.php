@@ -34,6 +34,9 @@ trait S3ConfigTrait {
 
 	protected string $bucket;
 
+	/** Maximum number of concurrent multipart uploads */
+	protected int $concurrency;
+
 	protected int $timeout;
 
 	protected string $proxy;

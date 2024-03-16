@@ -129,6 +129,7 @@ trait S3ObjectTrait {
 	protected function writeMultiPart(string $urn, StreamInterface $stream, string $mimetype = null): void {
 		$uploader = new MultipartUploader($this->getConnection(), $stream, [
 			'bucket' => $this->bucket,
+			'concurrency' => $this->concurrency,
 			'key' => $urn,
 			'part_size' => $this->uploadPartSize,
 			'params' => [
