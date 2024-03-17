@@ -344,7 +344,6 @@ OC.L10N.register(
     "Search for an account" : "계정 검색",
     "Choose" : "선택",
     "No files or folders have been deleted yet" : "아직 삭제된 파일이나 폴더가 없습니다.",
-    "Add" : "추가",
     "The files is locked" : "이 파일은 잠겼습니다."
 },
 "nplurals=1; plural=0;");

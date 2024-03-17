@@ -3,7 +3,7 @@ OC.L10N.register(
     {
     "File could not be found" : "Неможливо знайти файл",
     "Move or copy" : "Перемістити або копіювати",
-    "Download" : "Звантажити",
+    "Download" : "Завантажити",
     "Delete" : "Вилучити",
     "Tags" : "Мітки",
     "Show list view" : "Подання списком",
@@ -349,7 +349,6 @@ OC.L10N.register(
     "Search for an account" : "Пошук облікового запису",
     "Choose" : "Вибрати",
     "No files or folders have been deleted yet" : "Поки жодного каталогу чи файлу не було вилучено",
-    "Add" : "Додати",
     "The files is locked" : "Файл заблоковано"
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

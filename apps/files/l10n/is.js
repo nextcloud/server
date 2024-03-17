@@ -313,7 +313,6 @@ OC.L10N.register(
     "Search for an account" : "Leita að notandaaðgangi",
     "Choose" : "Velja",
     "No files or folders have been deleted yet" : "Engum skrám eða möppum hefur enn verið eytt",
-    "Add" : "Bæta við",
     "The files is locked" : "Skráin er læst"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

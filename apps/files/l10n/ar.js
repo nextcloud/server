@@ -349,7 +349,6 @@ OC.L10N.register(
     "Search for an account" : "البحث عن حساب",
     "Choose" : "إختَر",
     "No files or folders have been deleted yet" : "لم يتم حذف أي ملفات أو مجلدات بعدُ",
-    "Add" : "أضِف",
     "The files is locked" : "الملفات مقفله"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

@@ -232,7 +232,6 @@
     "Deleted shares" : "Verwijderde shares",
     "Pending shares" : "Deellinks in behandeling",
     "Unselect all" : "Alle deselecteren",
-    "Choose" : "Kies",
-    "Add" : "Toevoegen"
+    "Choose" : "Kies"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

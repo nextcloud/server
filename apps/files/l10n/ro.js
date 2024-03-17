@@ -302,7 +302,6 @@ OC.L10N.register(
     "Search for an account" : "Căutați un cont",
     "Choose" : "Alege",
     "No files or folders have been deleted yet" : "Niciun fișier sau folder nu a fost șters încă",
-    "Add" : "Adaugă",
     "The files is locked" : "Fișierul este blocat"
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

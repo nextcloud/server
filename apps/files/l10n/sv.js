@@ -349,7 +349,6 @@ OC.L10N.register(
     "Search for an account" : "Sök efter ett konto",
     "Choose" : "Välj",
     "No files or folders have been deleted yet" : "Inga filer eller mappar har tagits bort än",
-    "Add" : "Lägg till",
     "The files is locked" : "Filerna är låsta"
 },
 "nplurals=2; plural=(n != 1);");
