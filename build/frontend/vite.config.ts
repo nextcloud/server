@@ -22,7 +22,7 @@ const modules = {
 	},
 	files_external: {
 		init: resolve(import.meta.dirname, 'apps/files_external/src', 'init.ts'),
-		settings: resolve(import.meta.dirname, 'apps/files_external/src', 'settings.js'),
+		settings: resolve(import.meta.dirname, 'apps/files_external/src', 'settings-main.ts'),
 	},
 	files_reminders: {
 		init: resolve(import.meta.dirname, 'apps/files_reminders/src', 'files-init.ts'),
