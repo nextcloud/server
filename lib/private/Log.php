@@ -62,22 +62,38 @@ use function strtr;
  * MonoLog is an example implementing this interface.
  */
 class Log implements ILogger, IDataLogger {
+	private ?SystemConfig $config;
 	private ?bool $logConditionSatisfied = null;
-	private ?IEventDispatcher $eventDispatcher = null;
+	private ?Normalizer $normalizer;
+	private ?IEventDispatcher $eventDispatcher;
 
+	/**
+	 * @param IWriter $logger The logger that should be used
+	 * @param SystemConfig|null $config the system config object
+	 * @param Normalizer|null $normalizer
+	 * @param IRegistry|null $crashReporters
+	 */
 	public function __construct(
 		private IWriter $logger,
-		private SystemConfig $config,
-		private ?Normalizer $normalizer = null,
-		private ?IRegistry $crashReporters = null
+		SystemConfig $config = null,
+		Normalizer $normalizer = null,
+		private	?IRegistry $crashReporters = null
 	) {
-		// FIXME: php8.1 allows "private Normalizer $normalizer = new Normalizer()," in initializer
+		// FIXME: Add this for backwards compatibility, should be fixed at some point probably
+		if ($config === null) {
+			$config = \OC::$server->getSystemConfig();
+		}
+
+		$this->config = $config;
 		if ($normalizer === null) {
 			$this->normalizer = new Normalizer();
+		} else {
+			$this->normalizer = $normalizer;
 		}
+		$this->eventDispatcher = null;
 	}
 
-	public function setEventDispatcher(IEventDispatcher $eventDispatcher): void {
+	public function setEventDispatcher(IEventDispatcher $eventDispatcher) {
 		$this->eventDispatcher = $eventDispatcher;
 	}
 
@@ -86,8 +102,9 @@ class Log implements ILogger, IDataLogger {
 	 *
 	 * @param string $message
 	 * @param array $context
+	 * @return void
 	 */
-	public function emergency(string $message, array $context = []): void {
+	public function emergency(string $message, array $context = []) {
 		$this->log(ILogger::FATAL, $message, $context);
 	}
 
@@ -99,8 +116,9 @@ class Log implements ILogger, IDataLogger {
 	 *
 	 * @param string $message
 	 * @param array $context
+	 * @return void
 	 */
-	public function alert(string $message, array $context = []): void {
+	public function alert(string $message, array $context = []) {
 		$this->log(ILogger::ERROR, $message, $context);
 	}
 
@@ -111,8 +129,9 @@ class Log implements ILogger, IDataLogger {
 	 *
 	 * @param string $message
 	 * @param array $context
+	 * @return void
 	 */
-	public function critical(string $message, array $context = []): void {
+	public function critical(string $message, array $context = []) {
 		$this->log(ILogger::ERROR, $message, $context);
 	}
 
@@ -122,8 +141,9 @@ class Log implements ILogger, IDataLogger {
 	 *
 	 * @param string $message
 	 * @param array $context
+	 * @return void
 	 */
-	public function error(string $message, array $context = []): void {
+	public function error(string $message, array $context = []) {
 		$this->log(ILogger::ERROR, $message, $context);
 	}
 
@@ -135,8 +155,9 @@ class Log implements ILogger, IDataLogger {
 	 *
 	 * @param string $message
 	 * @param array $context
+	 * @return void
 	 */
-	public function warning(string $message, array $context = []): void {
+	public function warning(string $message, array $context = []) {
 		$this->log(ILogger::WARN, $message, $context);
 	}
 
@@ -145,8 +166,9 @@ class Log implements ILogger, IDataLogger {
 	 *
 	 * @param string $message
 	 * @param array $context
+	 * @return void
 	 */
-	public function notice(string $message, array $context = []): void {
+	public function notice(string $message, array $context = []) {
 		$this->log(ILogger::INFO, $message, $context);
 	}
 
@@ -157,8 +179,9 @@ class Log implements ILogger, IDataLogger {
 	 *
 	 * @param string $message
 	 * @param array $context
+	 * @return void
 	 */
-	public function info(string $message, array $context = []): void {
+	public function info(string $message, array $context = []) {
 		$this->log(ILogger::INFO, $message, $context);
 	}
 
@@ -167,8 +190,9 @@ class Log implements ILogger, IDataLogger {
 	 *
 	 * @param string $message
 	 * @param array $context
+	 * @return void
 	 */
-	public function debug(string $message, array $context = []): void {
+	public function debug(string $message, array $context = []) {
 		$this->log(ILogger::DEBUG, $message, $context);
 	}
 
@@ -179,8 +203,9 @@ class Log implements ILogger, IDataLogger {
 	 * @param int $level
 	 * @param string $message
 	 * @param array $context
+	 * @return void
 	 */
-	public function log(int $level, string $message, array $context = []): void {
+	public function log(int $level, string $message, array $context = []) {
 		$minLevel = $this->getLogLevel($context);
 		if ($level < $minLevel
 			&& (($this->crashReporters?->hasReporters() ?? false) === false)
@@ -222,7 +247,7 @@ class Log implements ILogger, IDataLogger {
 		}
 	}
 
-	public function getLogLevel($context): int {
+	public function getLogLevel($context) {
 		$logCondition = $this->config->getValue('log.condition', []);
 
 		/**
@@ -272,16 +297,20 @@ class Log implements ILogger, IDataLogger {
 		}
 
 		if (isset($context['app'])) {
+			$app = $context['app'];
+
 			/**
 			 * check log condition based on the context of each log message
 			 * once this is met -> change the required log level to debug
 			 */
-			if (in_array($context['app'], $logCondition['apps'] ?? [], true)) {
+			if (!empty($logCondition)
+				&& isset($logCondition['apps'])
+				&& in_array($app, $logCondition['apps'], true)) {
 				return ILogger::DEBUG;
 			}
 		}
 
-		return min($this->config->getValue('loglevel', ILogger::WARN) ?? ILogger::WARN, ILogger::FATAL);
+		return min($this->config->getValue('loglevel', ILogger::WARN), ILogger::FATAL);
 	}
 
 	/**
@@ -292,7 +321,7 @@ class Log implements ILogger, IDataLogger {
 	 * @return void
 	 * @since 8.2.0
 	 */
-	public function logException(Throwable $exception, array $context = []): void {
+	public function logException(Throwable $exception, array $context = []) {
 		$app = $context['app'] ?? 'no app in context';
 		$level = $context['level'] ?? ILogger::ERROR;
 
@@ -366,7 +395,7 @@ class Log implements ILogger, IDataLogger {
 	 * @param string|array $entry
 	 * @param int $level
 	 */
-	protected function writeLog(string $app, $entry, int $level): void {
+	protected function writeLog(string $app, $entry, int $level) {
 		$this->logger->write($app, $entry, $level);
 	}
 
