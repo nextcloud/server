@@ -281,7 +281,8 @@ class Log implements ILogger, IDataLogger {
 			}
 		}
 
-		return min($this->config->getValue('loglevel', ILogger::WARN) ?? ILogger::WARN, ILogger::FATAL);
+		$configLogLevel = $this->config->getValue('loglevel', ILogger::WARN);
+		return min(is_int($configLogLevel) ? $configLogLevel : ILogger::WARN, ILogger::FATAL);
 	}
 
 	/**
