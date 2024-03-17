@@ -36,21 +36,27 @@ export const handleDrop = async (data: DataTransfer): Promise<Upload[]> => {
 	// TODO: Maybe handle `getAsFileSystemHandle()` in the future
 
 	const uploads = [] as Upload[]
-	for (const item of data.items) {
-		if (item.kind !== 'file') {
-			logger.debug('Skipping dropped item', { kind: item.kind, type: item.type })
-			continue
-		}
+	// we need to cache the entries to prevent Blink engine bug that clears the list (`data.items`) after first access props of one of the entries
+	const entries = [...data.items]
+		.filter((item) => {
+			if (item.kind !== 'file') {
+				logger.debug('Skipping dropped item', { kind: item.kind, type: item.type })
+				return false
+			}
+			return true
+		})
+		.map((item) => {
+			// MDN recommends to try both, as it might be renamed in the future
+			return (item as unknown as { getAsEntry?: () => FileSystemEntry|undefined})?.getAsEntry?.() ?? item.webkitGetAsEntry() ?? item
+		})
 
-		// MDN recommends to try both, as it might be renamed in the future
-		const entry = (item as unknown as { getAsEntry?: () => FileSystemEntry|undefined})?.getAsEntry?.() ?? item.webkitGetAsEntry()
-
+	for (const entry of entries) {
 		// Handle browser issues if Filesystem API is not available. Fallback to File API
-		if (entry === null) {
+		if (entry instanceof DataTransferItem) {
 			logger.debug('Could not get FilesystemEntry of item, falling back to file')
-			const file = item.getAsFile()
+			const file = entry.getAsFile()
 			if (file === null) {
-				logger.warn('Could not process DataTransferItem', { type: item.type, kind: item.kind })
+				logger.warn('Could not process DataTransferItem', { type: entry.type, kind: entry.kind })
 				showError(t('files', 'One of the dropped files could not be processed'))
 			} else {
 				uploads.push(await handleFileUpload(file))
