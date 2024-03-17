@@ -66,5 +66,5 @@ export interface IAppstoreApp {
 	isCompatible: boolean
 
 	appstoreData: Record<string, never>
-	releases: IAppstoreAppRelease[]
+	releases?: IAppstoreAppRelease[]
 }
