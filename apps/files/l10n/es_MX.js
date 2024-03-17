@@ -349,7 +349,6 @@ OC.L10N.register(
     "Search for an account" : "Buscar una cuenta",
     "Choose" : "Seleccionar",
     "No files or folders have been deleted yet" : "No se han eliminado archivos o carpetas todavía",
-    "Add" : "Guardar",
     "The files is locked" : "El archivo está bloqueado"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

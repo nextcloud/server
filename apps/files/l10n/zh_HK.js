@@ -349,7 +349,6 @@ OC.L10N.register(
     "Search for an account" : "搜尋賬號",
     "Choose" : "選擇",
     "No files or folders have been deleted yet" : "尚未刪除任何檔案或資料夾",
-    "Add" : "添加",
     "The files is locked" : "檔案已被上鎖"
 },
 "nplurals=1; plural=0;");

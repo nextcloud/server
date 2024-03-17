@@ -288,7 +288,6 @@ OC.L10N.register(
     "This file has the tags {firstTags} and {lastTag}" : "Custu archìviu tenet is etichetas {firstTags} e {lastTag}",
     "Open folder {name}" : "Aberi sa cartella {name}",
     "Unselect all" : "Deseletziona totu",
-    "Choose" : "Sèbera",
-    "Add" : "Agiunghe"
+    "Choose" : "Sèbera"
 },
 "nplurals=2; plural=(n != 1);");
