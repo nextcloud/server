@@ -15,6 +15,7 @@ use OCP\Encryption\IManager;
 use OCP\Settings\ISettings;
 
 class Admin implements ISettings {
+	use CommonSettingsTrait;
 
 	public function __construct(
 		private IManager $encryptionManager,
@@ -40,6 +41,7 @@ class Admin implements ISettings {
 			'globalCredentialsUid' => '',
 		];
 
+		$this->loadScriptsAndStyles();
 		return new TemplateResponse('files_external', 'settings', $parameters, '');
 	}
 
