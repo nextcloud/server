@@ -314,7 +314,6 @@ OC.L10N.register(
     "Search for an account" : "Пребарај сметка",
     "Choose" : "Избери",
     "No files or folders have been deleted yet" : "Нема датотеки или папки што се избришани",
-    "Add" : "Додади",
     "The files is locked" : "Датотекатите се заклучени"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

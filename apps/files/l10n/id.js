@@ -234,7 +234,6 @@ OC.L10N.register(
     "Deleted shares" : "Berbagi terhapus",
     "Pending shares" : "Berbagi tertunda",
     "Unselect all" : "Batalkan semua pemilihan",
-    "Choose" : "Pilih",
-    "Add" : "Tambah"
+    "Choose" : "Pilih"
 },
 "nplurals=1; plural=0;");

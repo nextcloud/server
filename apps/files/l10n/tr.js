@@ -344,7 +344,6 @@ OC.L10N.register(
     "Search for an account" : "Hesap ara",
     "Choose" : "Seçin",
     "No files or folders have been deleted yet" : "Henüz silinmiş bir dosya ya da klasör yok",
-    "Add" : "Ekle",
     "The files is locked" : "Dosyalar kilitli"
 },
 "nplurals=2; plural=(n > 1);");

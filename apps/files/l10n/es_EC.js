@@ -271,7 +271,6 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Esta lista no se muestra completamente por motivos de rendimiento. Los archivos se mostrarán a medida que navegas por la lista.",
     "Search for an account" : "Buscar una cuenta",
     "Choose" : "Seleccionar",
-    "No files or folders have been deleted yet" : "No se han eliminado archivos o carpetas todavía.",
-    "Add" : "Guardar"
+    "No files or folders have been deleted yet" : "No se han eliminado archivos o carpetas todavía."
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

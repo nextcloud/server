@@ -234,7 +234,6 @@ OC.L10N.register(
     "Deleted shares" : "Verwijderde shares",
     "Pending shares" : "Deellinks in behandeling",
     "Unselect all" : "Alle deselecteren",
-    "Choose" : "Kies",
-    "Add" : "Toevoegen"
+    "Choose" : "Kies"
 },
 "nplurals=2; plural=(n != 1);");

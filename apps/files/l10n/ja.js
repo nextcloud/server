@@ -345,7 +345,6 @@ OC.L10N.register(
     "Search for an account" : "アカウントを検索",
     "Choose" : "選択",
     "No files or folders have been deleted yet" : "まだ削除されたファイルやフォルダはありません",
-    "Add" : "追加",
     "The files is locked" : "ファイルはロックされています"
 },
 "nplurals=1; plural=0;");
