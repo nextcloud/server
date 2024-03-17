@@ -259,7 +259,6 @@ OC.L10N.register(
     "This list is not fully rendered for performances reasons. The files will be rendered as you navigate through the list." : "Този списък не е напълно рендиран поради причини, свързани с производителността. Файловете ще бъдат рендирани, докато навигирате из списъка.",
     "Search for an account" : "Търсене на профил",
     "Choose" : "Изберете",
-    "No files or folders have been deleted yet" : "Все още няма изтрити файлове или папки",
-    "Add" : "Добавяне"
+    "No files or folders have been deleted yet" : "Все още няма изтрити файлове или папки"
 },
 "nplurals=2; plural=(n != 1);");

@@ -314,7 +314,6 @@ OC.L10N.register(
     "Search for an account" : "Fiók keresése",
     "Choose" : "Válasszon",
     "No files or folders have been deleted yet" : "Még nem lettek fájlok vagy mappák törölve",
-    "Add" : "Hozzáadás",
     "The files is locked" : "Ez a fájl zárolva van"
 },
 "nplurals=2; plural=(n != 1);");
