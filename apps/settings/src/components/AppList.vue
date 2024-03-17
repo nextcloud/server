@@ -266,14 +266,14 @@ export default {
 		unsubscribe('nextcloud:unified-search.reset', this.resetSearch)
 	},
 
-	beforeCreate() {
+	mounted() {
 		subscribe('nextcloud:unified-search.search', this.setSearch)
 		subscribe('nextcloud:unified-search.reset', this.resetSearch)
 	},
 
 	methods: {
-		setSearch(value) {
-			this.search = value
+		setSearch({ query }) {
+			this.search = query
 		},
 		resetSearch() {
 			this.search = ''
