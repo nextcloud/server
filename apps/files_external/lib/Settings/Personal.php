@@ -6,23 +6,21 @@
 namespace OCA\Files_External\Settings;
 
 use OCA\Files_External\Lib\Auth\Password\GlobalAuth;
-use OCA\Files_External\MountConfig;
 use OCA\Files_External\Service\BackendService;
-use OCA\Files_External\Service\UserGlobalStoragesService;
 use OCP\AppFramework\Http\TemplateResponse;
-use OCP\Encryption\IManager;
-use OCP\IUserSession;
+use OCP\AppFramework\Services\IInitialState;
+use OCP\IURLGenerator;
 use OCP\Settings\ISettings;
 
 class Personal implements ISettings {
 	use CommonSettingsTrait;
 
 	public function __construct(
-		private IManager $encryptionManager,
-		private UserGlobalStoragesService $userGlobalStoragesService,
+		private ?string $userId,
 		private BackendService $backendService,
 		private GlobalAuth $globalAuth,
-		private IUserSession $userSession,
+		private IInitialState $initialState,
+		private IURLGenerator $urlGenerator,
 	) {
 	}
 
@@ -30,22 +28,9 @@ class Personal implements ISettings {
 	 * @return TemplateResponse
 	 */
 	public function getForm() {
-		$uid = $this->userSession->getUser()->getUID();
-
-		$parameters = [
-			'encryptionEnabled' => $this->encryptionManager->isEnabled(),
-			'visibilityType' => BackendService::VISIBILITY_PERSONAL,
-			'storages' => $this->userGlobalStoragesService->getStorages(),
-			'backends' => $this->backendService->getAvailableBackends(),
-			'authMechanisms' => $this->backendService->getAuthMechanisms(),
-			'dependencies' => MountConfig::dependencyMessage($this->backendService->getBackends()),
-			'allowUserMounting' => $this->backendService->isUserMountingAllowed(),
-			'globalCredentials' => $this->globalAuth->getAuth($uid),
-			'globalCredentialsUid' => $uid,
-		];
+		$this->setInitialState(BackendService::VISIBILITY_PERSONAL);
 		$this->loadScriptsAndStyles();
-
-		return new TemplateResponse('files_external', 'settings', $parameters, '');
+		return new TemplateResponse('files_external', 'settings', renderAs: '');
 	}
 
 	/**
