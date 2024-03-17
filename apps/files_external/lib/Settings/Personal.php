@@ -15,6 +15,7 @@ use OCP\IUserSession;
 use OCP\Settings\ISettings;
 
 class Personal implements ISettings {
+	use CommonSettingsTrait;
 
 	public function __construct(
 		private IManager $encryptionManager,
@@ -42,6 +43,7 @@ class Personal implements ISettings {
 			'globalCredentials' => $this->globalAuth->getAuth($uid),
 			'globalCredentialsUid' => $uid,
 		];
+		$this->loadScriptsAndStyles();
 
 		return new TemplateResponse('files_external', 'settings', $parameters, '');
 	}
