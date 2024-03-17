@@ -349,7 +349,6 @@ OC.L10N.register(
     "Search for an account" : "Vyhľadať účet",
     "Choose" : "Vybrať",
     "No files or folders have been deleted yet" : "Žiadne súbory alebo priečinky neboli ešte vymazané",
-    "Add" : "Pridať",
     "The files is locked" : "Súbory sú uzamknuté"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

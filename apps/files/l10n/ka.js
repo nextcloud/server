@@ -314,7 +314,6 @@ OC.L10N.register(
     "Search for an account" : "Search for an account",
     "Choose" : "Choose",
     "No files or folders have been deleted yet" : "No files or folders have been deleted yet",
-    "Add" : "Add",
     "The files is locked" : "The files is locked"
 },
 "nplurals=2; plural=(n!=1);");

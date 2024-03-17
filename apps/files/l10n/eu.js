@@ -334,7 +334,6 @@ OC.L10N.register(
     "Search for an account" : "Bilatu kontu bat",
     "Choose" : "Aukeratu",
     "No files or folders have been deleted yet" : "Oraindik ez da ezabatu fitxategirik edo karpetarik",
-    "Add" : "Gehitu",
     "The files is locked" : "Fixategiak blokeatuta dago"
 },
 "nplurals=2; plural=(n != 1);");

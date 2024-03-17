@@ -311,7 +311,6 @@ OC.L10N.register(
     "Search for an account" : "Αναζήτηση για λογαριασμό",
     "Choose" : "Επιλογή",
     "No files or folders have been deleted yet" : "Κανένα αρχείο ή φάκελος δεν έχει διαγραφεί ακόμα",
-    "Add" : "Προσθήκη",
     "The files is locked" : "Το αρχείο είναι κλειδωμένο"
 },
 "nplurals=2; plural=(n != 1);");

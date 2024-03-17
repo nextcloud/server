@@ -33,6 +33,7 @@ OC.L10N.register(
     "An error occurred while trying to create the comment" : "Під час створення коментаря сталася помилка",
     "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "Вас згадали в \"{file}\" у коментарі користувача, який згодом було видалено",
     "_%n unread comment_::_%n unread comments_" : ["%n непрочитаний коментар","%n непрочитаних коментарів","%n непрочитаних коментарів","%n непрочитаних коментарів"],
+    "Write a message …" : "Написати повідомлення ...",
     "\"@\" for mentions, \":\" for emoji, \"/\" for smart picker" : "\"@\" для згадок, \":\" для емоційок, \"/\" для асистента"
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");
