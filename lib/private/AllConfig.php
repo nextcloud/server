@@ -333,7 +333,7 @@ class AllConfig implements \OCP\IConfig {
 	public function getUserKeys($userId, $appName) {
 		$data = $this->getUserValues($userId);
 		if (isset($data[$appName])) {
-			return array_keys($data[$appName]);
+			return array_map('strval', array_keys($data[$appName]));
 		} else {
 			return [];
 		}
