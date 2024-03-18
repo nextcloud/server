@@ -64,6 +64,11 @@ const shuffleArray = <T, >(array: T[]): T[] => {
 onBeforeMount(async () => {
 	try {
 		const { data } = await axios.get<Record<string, unknown>[]>(generateUrl('/settings/api/apps/discover'))
+		if (data.length === 0) {
+			logger.info('No app discover elements available (empty response)')
+			hasError.value = true
+			return
+		}
 		// Parse data to ensure dates are useable and then filter out expired or future elements
 		const parsedElements = data.map(parseApiResponse).filter(filterElements)
 		// Shuffle elements to make it looks more interesting
