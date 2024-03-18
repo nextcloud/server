@@ -56,7 +56,7 @@
 						button-variant-grouped="vertical"
 						@update:checked="toggleCustomPermissions">
 						{{ t('files_sharing', 'File drop') }}
-						<small>{{ t('files_sharing', 'Upload only') }}</small>
+						<small class="subline">{{ t('files_sharing', 'Upload only') }}</small>
 						<template #icon>
 							<UploadIcon :size="20" />
 						</template>
@@ -69,7 +69,7 @@
 						button-variant-grouped="vertical"
 						@update:checked="expandCustomPermissions">
 						{{ t('files_sharing', 'Custom permissions') }}
-						<small>{{ customPermissionsList }}</small>
+						<small class="subline">{{ customPermissionsList }}</small>
 						<template #icon>
 							<DotsHorizontalIcon :size="20" />
 						</template>
@@ -993,7 +993,6 @@ export default {
 				span:nth-child(1) {
 					align-items: center;
 					justify-content: center;
-					color: var(--color-primary-element);
 					padding: 0.1em;
 				}
 
@@ -1002,6 +1001,16 @@ export default {
 					span {
 						display: flex;
 						flex-direction: column;
+					}
+				}
+				
+				/* Target component based style in NcCheckboxRadioSwitch slot content*/
+				:deep(span.checkbox-content__text.checkbox-radio-switch__text) {
+					flex-wrap: wrap;
+
+					.subline {
+						display: block;
+						flex-basis: 100%;
 					}
 				}
 			}
