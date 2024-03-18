@@ -622,6 +622,7 @@ OC.L10N.register(
     "Set line manager" : "Angi linjeleder",
     "{size} used" : "{size} brukt",
     "Delete account" : "Slett konto",
+    "Disconnect all devices and delete local data" : "Frakoble alle enheter og slett lokal data",
     "Disable account" : "Deaktiver konto",
     "Enable account" : "Aktiver konto",
     "Resend welcome email" : "Send velkomst-epost igjen",

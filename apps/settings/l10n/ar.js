@@ -622,6 +622,7 @@ OC.L10N.register(
     "Set line manager" : "تعيين الرئيس المباشر",
     "{size} used" : "{size} مُستخدَمَةٌ",
     "Delete account" : "حذف الحساب",
+    "Disconnect all devices and delete local data" : "إفصِل جميع الأجهزة و احذِف البيانات المحلية",
     "Disable account" : "تعطيل الحساب",
     "Enable account" : "تمكين الحساب",
     "Resend welcome email" : "إعادة إرسال الإيميل الترحيبي",
