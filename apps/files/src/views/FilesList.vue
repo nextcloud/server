@@ -77,12 +77,14 @@
 			:description="currentView?.emptyCaption || t('files', 'Upload some content or sync with your devices!')"
 			data-cy-files-content-empty>
 			<template #action>
-				<NcButton v-if="dir !== '/'"
-					:aria-label="t('files', 'Go to the previous folder')"
-					type="primary"
-					:to="toPreviousDir">
-					{{ t('files', 'Go back') }}
-				</NcButton>
+				<!-- Uploader -->
+				<UploadPicker v-if="dir !== '/'"
+					:content="dirContents"
+					:destination="currentFolder"
+					:multiple="true"
+					class="files-list__header-upload-button"
+					@failed="onUploadFail"
+					@uploaded="onUpload" />
 			</template>
 			<template #icon>
 				<NcIconSvgWrapper :svg="currentView.icon" />
@@ -349,14 +351,6 @@ export default defineComponent({
 			return this.currentFolder !== undefined
 				&& !this.isEmptyDir
 				&& this.loading
-		},
-
-		/**
-		 * Route to the previous directory.
-		 */
-		toPreviousDir(): Route {
-			const dir = this.dir.split('/').slice(0, -1).join('/') || '/'
-			return { ...this.$route, query: { dir } }
 		},
 
 		shareAttributes(): number[] | undefined {
