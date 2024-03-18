@@ -105,7 +105,7 @@ export default defineComponent({
 					to: {
 						name: 'apps-details',
 						params: {
-							category: 'installed',
+							category: this.$route.params?.category ?? 'discover',
 							id: appId,
 						},
 					},
