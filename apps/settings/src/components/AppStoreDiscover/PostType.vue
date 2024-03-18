@@ -192,6 +192,7 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .app-discover-post {
+	max-height: 300px;
 	width: 100%;
 	background-color: var(--color-primary-element-light);
 	border-radius: var(--border-radius-rounded);
@@ -210,15 +211,20 @@ export default defineComponent({
 
 	&__text {
 		display: block;
-		padding: var(--border-radius-rounded);
 		width: 100%;
+		padding: var(--border-radius-rounded);
+		overflow-y: scroll;
+	}
+
+	// If there is media next to the text we do not want a padding on the bottom as this looks weird when scrolling
+	&:has(&__media) &__text {
+		padding-block-end: 0;
 	}
 
 	&__media {
 		display: block;
 		overflow: hidden;
 
-		max-height: 300px;
 		max-width: 450px;
 		border-radius: var(--border-radius-rounded);
 
@@ -262,9 +268,14 @@ export default defineComponent({
 @media only screen and (max-width: 699px) {
 	.app-discover-post {
 		flex-direction: column;
+		max-height: 500px;
 
 		&--reverse {
 			flex-direction: column-reverse;
+		}
+
+		&__text {
+			flex: 1 1 50%;
 		}
 
 		&__media {
