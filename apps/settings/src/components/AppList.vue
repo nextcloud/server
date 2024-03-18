@@ -119,18 +119,32 @@
 
 		<div id="apps-list-search" class="apps-list apps-list--list-view">
 			<div class="apps-list__list-container">
-				<template v-if="search !== '' && searchApps.length > 0">
-					<div class="app-item">
-						<div />
-						<td colspan="5">
-							<h2>{{ t('settings', 'Results from other categories') }}</h2>
-						</td>
-					</div>
+				<table v-if="search !== '' && searchApps.length > 0" class="apps-list__list-container">
+					<caption class="apps-list__bundle-header">
+						{{ t('settings', 'Results from other categories') }}
+					</caption>
+					<tr key="app-list-view-header">
+						<th>
+							<span class="hidden-visually">{{ t('settings', 'Icon') }}</span>
+						</th>
+						<th>
+							<span class="hidden-visually">{{ t('settings', 'Name') }}</span>
+						</th>
+						<th>
+							<span class="hidden-visually">{{ t('settings', 'Version') }}</span>
+						</th>
+						<th>
+							<span class="hidden-visually">{{ t('settings', 'Level') }}</span>
+						</th>
+						<th>
+							<span class="hidden-visually">{{ t('settings', 'Actions') }}</span>
+						</th>
+					</tr>
 					<AppItem v-for="app in searchApps"
 						:key="app.id"
 						:app="app"
 						:category="category" />
-				</template>
+				</table>
 			</div>
 		</div>
 
