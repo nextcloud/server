@@ -53,10 +53,13 @@
 						@click="clickUpdaterButton">{{ t('updatenotification', 'Update via web') }}</a>
 					<a v-if="updaterEnabled"
 						href="https://docs.nextcloud.com/server/latest/admin_manual/maintenance/update.html#using-the-command-line-based-updater"
-						class="button primary">{{ t('updatenotification', 'Update via command line`) }}</a>						
+						class="button primary">{{ t('updatenotification', 'Update via command line`) }}</a>
+					<a v-if="updaterEnabled"
+						href="https://docs.nextcloud.com/server/latest/admin_manual/maintenance/manual_upgrade.html"
+						class="button primary">{{ t('updatenotification', 'Update manually`) }}</a>
 					<a v-if="downloadLink && updaterEnabled"
 						:href="downloadLink"
-						class="button">{{ t('updatenotification', 'Update manually') }}</a>
+						class="button">{{ t('updatenotification', 'Download the Archive (.zip) file') }}</a>
 					<span v-if="updaterEnabled && !webUpdaterEnabled">
 						{{ t('updatenotification', 'Web updater is disabled. Please use the command line updater or the appropriate update mechanism for your installation method (e.g. Docker pull) to update.') }}
 					</span>
