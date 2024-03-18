@@ -74,22 +74,8 @@ class ListApps extends Base {
 			$shippedFilter = null;
 		}
 
-		if ($input->getOption('enabled') && $input->getOption('disabled')) {
-			$showEnabledApps = true;
-			$showDisabledApps = true;
-		}
-		else if ($input->getOption('enabled')) {
-			$showEnabledApps = true;
-			$showDisabledApps = false;
-		}
-		else if ($input->getOption('disabled')) {
-			$showEnabledApps = false;
-			$showDisabledApps = true;
-		}
-		else {
-			$showEnabledApps = true;
-			$showDisabledApps = true;
-		}
+		$showEnabledApps = $input->getOption('enabled') || !$input->getOption('disabled');
+		$showDisabledApps = $input->getOption('disabled') || !$input->getOption('enabled');
 
 		$apps = \OC_App::getAllApps();
 		$enabledApps = $disabledApps = [];
