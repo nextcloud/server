@@ -22,6 +22,7 @@
 	-->
 <template>
 	<div v-show="dragover"
+		data-cy-files-drag-drop-area
 		class="files-list__drag-drop-notice"
 		@drop="onDrop">
 		<div class="files-list__drag-drop-notice-wrapper">
