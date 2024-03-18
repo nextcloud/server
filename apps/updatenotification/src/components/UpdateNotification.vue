@@ -50,11 +50,13 @@
 					<a v-if="updaterEnabled && webUpdaterEnabled"
 						href="#"
 						class="button primary"
-						@click="clickUpdaterButton">{{ t('updatenotification', 'Open updater') }}</a>
-					<a v-if="downloadLink"
+						@click="clickUpdaterButton">{{ t('updatenotification', 'Update via web') }}</a>
+					<a v-if="updaterEnabled"
+						href="https://docs.nextcloud.com/server/latest/admin_manual/maintenance/update.html#using-the-command-line-based-updater"
+						class="button primary">{{ t('updatenotification', 'Update via command line`) }}</a>						
+					<a v-if="downloadLink && updaterEnabled"
 						:href="downloadLink"
-						class="button"
-						:class="{ hidden: !updaterEnabled }">{{ t('updatenotification', 'Download now') }}</a>
+						class="button">{{ t('updatenotification', 'Update manually') }}</a>
 					<span v-if="updaterEnabled && !webUpdaterEnabled">
 						{{ t('updatenotification', 'Web updater is disabled. Please use the command line updater or the appropriate update mechanism for your installation method (e.g. Docker pull) to update.') }}
 					</span>
