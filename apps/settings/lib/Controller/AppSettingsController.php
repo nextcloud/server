@@ -131,7 +131,7 @@ class AppSettingsController extends Controller {
 	 * @NoCSRFRequired
 	 */
 	public function getAppDiscoverJSON(): JSONResponse {
-		$data = $this->discoverFetcher->get();
+		$data = $this->discoverFetcher->get(true);
 		return new JSONResponse($data);
 	}
 
