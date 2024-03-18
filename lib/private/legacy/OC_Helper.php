@@ -522,6 +522,13 @@ class OC_Helper {
 			$total = $free + $used;
 		} else {
 			$total = $free; //either unknown or unlimited
+
+			// So that the front does not react to a negative free space value and does not show appropriate warnings
+			if ($free === \OCP\Files\FileInfo::SPACE_UNKNOWN
+				|| $free === \OCP\Files\FileInfo::SPACE_UNLIMITED
+				|| $free === \OCP\Files\FileInfo::SPACE_NOT_COMPUTED) {
+				$free = PHP_INT_MAX;
+			}
 		}
 		if ($total > 0) {
 			if ($quota > 0 && $total > $quota) {
