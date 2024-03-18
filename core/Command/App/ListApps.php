@@ -101,7 +101,7 @@ class ListApps extends Base {
 			sort($enabledApps);
 			foreach ($enabledApps as $app) {
 				$apps['enabled'][$app] = $versions[$app] ?? true;
-			}	
+			}
 		}
 
 		if ($showDisabledApps) {
@@ -134,7 +134,7 @@ class ListApps extends Base {
 					$output->writeln('Disabled:');
 					parent::writeArrayInOutputFormat($input, $output, $items['disabled']);
 				}
-			  break;
+				break;
 
 			default:
 				parent::writeArrayInOutputFormat($input, $output, $items);
