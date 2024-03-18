@@ -620,6 +620,7 @@
     "Set line manager" : "設定行管理員",
     "{size} used" : "已使用 {size}",
     "Delete account" : "刪除賬戶",
+    "Disconnect all devices and delete local data" : "中斷所有裝置並刪除近端數據",
     "Disable account" : "停用賬戶",
     "Enable account" : "啟用賬戶",
     "Resend welcome email" : "重新傳送歡迎電子郵件",
