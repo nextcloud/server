@@ -23,18 +23,18 @@
 	<article :id="domId"
 		class="app-discover-post"
 		:class="{ 'app-discover-post--reverse': media && media.alignment === 'start' }">
-		<component :is="link ? 'a' : 'div'"
+		<component :is="link ? 'AppLink' : 'div'"
 			v-if="headline || text"
 			:href="link"
-			:target="link ? '_blank' : undefined"
 			class="app-discover-post__text">
-			<component :is="inline ? 'h4' : 'h3'">{{ translatedHeadline }}</component>
+			<component :is="inline ? 'h4' : 'h3'">
+				{{ translatedHeadline }}
+			</component>
 			<p>{{ translatedText }}</p>
 		</component>
-		<component :is="mediaLink ? 'a' : 'div'"
+		<component :is="mediaLink ? 'AppLink' : 'div'"
 			v-if="mediaSources"
 			:href="mediaLink"
-			:target="mediaLink ? '_blank' : undefined"
 			class="app-discover-post__media"
 			:class="{
 				'app-discover-post__media--fullwidth': isFullWidth,
@@ -79,9 +79,11 @@ import { commonAppDiscoverProps } from './common'
 import { useLocalizedValue } from '../../composables/useGetLocalizedValue'
 
 import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
+import AppLink from './AppLink.vue'
 
 export default defineComponent({
 	components: {
+		AppLink,
 		NcIconSvgWrapper,
 	},
 
@@ -116,8 +118,8 @@ export default defineComponent({
 	setup(props) {
 		const translatedHeadline = useLocalizedValue(computed(() => props.headline))
 		const translatedText = useLocalizedValue(computed(() => props.text))
-
 		const localizedMedia = useLocalizedValue(computed(() => props.media?.content))
+
 		const mediaSources = computed(() => localizedMedia.value !== null ? [localizedMedia.value.src].flat() : undefined)
 		const mediaAlt = computed(() => localizedMedia.value?.alt ?? '')
 

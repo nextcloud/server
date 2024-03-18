@@ -80,7 +80,7 @@ const hasRating = computed(() => app.value.appstoreData?.ratingNumOverall > 5)
 const rating = computed(() => app.value.appstoreData?.ratingNumRecent > 5
 	? app.value.appstoreData.ratingRecent
 	: (app.value.appstoreData?.ratingOverall ?? 0.5))
-const showSidebar = computed(() => app.value)
+const showSidebar = computed(() => app.value !== null)
 
 const { appIcon } = useAppIcon(app)
 

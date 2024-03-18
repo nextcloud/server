@@ -29,6 +29,13 @@ const routes: RouteConfig[] = [
 	{
 		path: '/:index(index.php/)?settings/apps',
 		name: 'apps',
+		// redirect to our default route - the app discover section
+		redirect: {
+			name: 'apps-category',
+			params: {
+				category: 'discover',
+			},
+		},
 		components: {
 			default: AppStore,
 			navigation: AppStoreNavigation,

@@ -3,8 +3,7 @@
 	<NcAppNavigation :aria-label="t('settings', 'Apps')">
 		<template #list>
 			<NcAppNavigationItem id="app-category-discover"
-				:to="{ name: 'apps' }"
-				:exact="true"
+				:to="{ name: 'apps-category', params: { category: 'discover'} }"
 				:name="APPS_SECTION_ENUM.discover">
 				<template #icon>
 					<NcIconSvgWrapper :path="APPSTORE_CATEGORY_ICONS.discover" />
@@ -12,7 +11,6 @@
 			</NcAppNavigationItem>
 			<NcAppNavigationItem id="app-category-installed"
 				:to="{ name: 'apps-category', params: { category: 'installed'} }"
-				:exact="true"
 				:name="APPS_SECTION_ENUM.installed">
 				<template #icon>
 					<NcIconSvgWrapper :path="APPSTORE_CATEGORY_ICONS.installed" />
