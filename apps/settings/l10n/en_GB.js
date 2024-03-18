@@ -622,6 +622,7 @@ OC.L10N.register(
     "Set line manager" : "Set line manager",
     "{size} used" : "{size} used",
     "Delete account" : "Delete account",
+    "Disconnect all devices and delete local data" : "Disconnect all devices and delete local data",
     "Disable account" : "Disable account",
     "Enable account" : "Enable account",
     "Resend welcome email" : "Resend welcome email",
