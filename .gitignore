@@ -5,7 +5,7 @@
 /config/mimetype*.json
 /config/mount.php
 /apps/inc.php
-/assets
+# /assets
 /.htaccess
 /node_modules
 /translationfiles
