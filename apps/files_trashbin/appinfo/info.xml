@@ -35,6 +35,7 @@ To prevent an account from running out of disk space, the Deleted files app will
 		<command>OCA\Files_Trashbin\Command\ExpireTrash</command>
 		<command>OCA\Files_Trashbin\Command\Size</command>
 		<command>OCA\Files_Trashbin\Command\RestoreAllFiles</command>
+		<command>OCA\Files_Trashbin\Command\ScanFileSystem</command>
 	</commands>
 
 	<sabre>
