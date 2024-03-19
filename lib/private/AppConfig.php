@@ -219,8 +219,9 @@ class AppConfig implements IAppConfig {
 		// if we want to filter values, we need to get sensitivity
 		$this->loadConfigAll();
 		// array_merge() will remove numeric keys (here config keys), so addition arrays instead
+		$values = $this->formatAppValues($app, ($this->fastCache[$app] ?? []) + ($this->lazyCache[$app] ?? []));
 		$values = array_filter(
-			(($this->fastCache[$app] ?? []) + ($this->lazyCache[$app] ?? [])),
+			$values,
 			function (string $key) use ($prefix): bool {
 				return str_starts_with($key, $prefix); // filter values based on $prefix
 			}, ARRAY_FILTER_USE_KEY
@@ -271,7 +272,8 @@ class AppConfig implements IAppConfig {
 
 		foreach (array_keys($cache) as $app) {
 			if (isset($cache[$app][$key])) {
-				$values[$app] = $cache[$app][$key];
+				$appCache = $this->formatAppValues((string)$app, $cache[$app], $lazy);
+				$values[$app] = $appCache[$key];
 			}
 		}
 
@@ -510,9 +512,9 @@ class AppConfig implements IAppConfig {
 	 * @see VALUE_BOOL
 	 * @see VALUE_ARRAY
 	 */
-	public function getValueType(string $app, string $key): int {
+	public function getValueType(string $app, string $key, ?bool $lazy = null): int {
 		$this->assertParams($app, $key);
-		$this->loadConfigAll();
+		$this->loadConfig($lazy);
 
 		if (!isset($this->valueTypes[$app][$key])) {
 			throw new AppConfigUnknownKeyException('unknown config key');
@@ -1384,6 +1386,48 @@ class AppConfig implements IAppConfig {
 	 */
 	public function getFilteredValues($app) {
 		return $this->getAllValues($app, filtered: true);
+	}
+
+
+	/**
+	 * **Warning:** avoid default NULL value for $lazy as this will
+	 * load all lazy values from the database
+	 *
+	 * @param string $app
+	 * @param array $values
+	 * @param bool|null $lazy
+	 *
+	 * @return array
+	 */
+	private function formatAppValues(string $app, array $values, ?bool $lazy = null): array {
+		foreach($values as $key => $value) {
+			try {
+				$type = $this->getValueType($app, $key, $lazy);
+			} catch (AppConfigUnknownKeyException $e) {
+				continue;
+			}
+
+			switch ($type) {
+				case self::VALUE_INT:
+					$values[$key] = (int)$value;
+					break;
+				case self::VALUE_FLOAT:
+					$values[$key] = (float)$value;
+					break;
+				case self::VALUE_BOOL:
+					$values[$key] = in_array(strtolower($value), ['1', 'true', 'yes', 'on']);
+					break;
+				case self::VALUE_ARRAY:
+					try {
+						$values[$key] = json_decode($value, true, flags: JSON_THROW_ON_ERROR);
+					} catch (JsonException $e) {
+						// ignoreable
+					}
+					break;
+			}
+		}
+
+		return $values;
 	}
 
 	/**
