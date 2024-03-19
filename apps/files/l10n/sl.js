@@ -306,7 +306,6 @@ OC.L10N.register(
     "Search for an account" : "Poišči račun",
     "Choose" : "Izbor",
     "No files or folders have been deleted yet" : "Ni še izbrisanih datotek in map",
-    "Add" : "Dodaj",
     "The files is locked" : "Datoteka je zaklenjena"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

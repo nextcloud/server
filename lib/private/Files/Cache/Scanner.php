@@ -96,7 +96,7 @@ class Scanner extends BasicEmitter implements IScanner {
 		$this->storageId = $this->storage->getId();
 		$this->cache = $storage->getCache();
 		$this->cacheActive = !\OC::$server->getConfig()->getSystemValueBool('filesystem_cache_readonly', false);
-		$this->lockingProvider = \OC::$server->getLockingProvider();
+		$this->lockingProvider = \OC::$server->get(ILockingProvider::class);
 		$this->connection = \OC::$server->get(IDBConnection::class);
 	}
 

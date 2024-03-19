@@ -349,7 +349,6 @@ OC.L10N.register(
     "Search for an account" : "Cerqueu un compte",
     "Choose" : "Tria",
     "No files or folders have been deleted yet" : "Encara no s'ha suprimit cap fitxer o carpeta",
-    "Add" : "Afegeix",
     "The files is locked" : "El fitxer està blocat"
 },
 "nplurals=2; plural=(n != 1);");

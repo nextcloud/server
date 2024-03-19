@@ -15,37 +15,6 @@
 		MESSAGE_TYPE_INFO:0,
 		MESSAGE_TYPE_WARNING:1,
 		MESSAGE_TYPE_ERROR:2,
-		/**
-		 * Check whether the WebDAV connection works.
-		 *
-		 * @return $.Deferred object resolved with an array of error messages
-		 */
-		checkWebDAV: function() {
-			var deferred = $.Deferred();
-			var afterCall = function(xhr) {
-				var messages = [];
-				if (xhr.status !== 207 && xhr.status !== 401) {
-					messages.push({
-						msg: t('core', 'Your web server is not yet properly set up to allow file synchronization, because the WebDAV interface seems to be broken.'),
-						type: OC.SetupChecks.MESSAGE_TYPE_ERROR
-					});
-				}
-				deferred.resolve(messages);
-			};
-
-			$.ajax({
-				type: 'PROPFIND',
-				url: OC.linkToRemoteBase('webdav'),
-				data: '<?xml version="1.0"?>' +
-						'<d:propfind xmlns:d="DAV:">' +
-						'<d:prop><d:resourcetype/></d:prop>' +
-						'</d:propfind>',
-				contentType: 'application/xml; charset=utf-8',
-				complete: afterCall,
-				allowAuthErrors: true
-			});
-			return deferred.promise();
-		},
 
 		/**
 		 * Runs setup checks on the server side

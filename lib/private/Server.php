@@ -546,7 +546,7 @@ class Server extends ServerContainer implements IServerContainer {
 				$provider,
 				$c->get(\OCP\IConfig::class),
 				$c->get(ISecureRandom::class),
-				$c->getLockdownManager(),
+				$c->get('LockdownManager'),
 				$c->get(LoggerInterface::class),
 				$c->get(IEventDispatcher::class)
 			);
@@ -1348,7 +1348,7 @@ class Server extends ServerContainer implements IServerContainer {
 
 		$this->registerService(Defaults::class, function (Server $c) {
 			return new Defaults(
-				$c->getThemingDefaults()
+				$c->get('ThemingDefaults')
 			);
 		});
 		/** @deprecated 19.0.0 */

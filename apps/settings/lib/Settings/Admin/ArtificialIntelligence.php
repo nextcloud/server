@@ -86,7 +86,9 @@ class ArtificialIntelligence implements IDelegatedSettings {
 				'name' => $provider->getName(),
 				'taskType' => $provider->getTaskType(),
 			];
-			$textProcessingSettings[$provider->getTaskType()] = $provider instanceof IProviderWithId ? $provider->getId() : $provider::class;
+			if (!isset($textProcessingSettings[$provider->getTaskType()])) {
+				$textProcessingSettings[$provider->getTaskType()] = $provider instanceof IProviderWithId ? $provider->getId() : $provider::class;
+			}
 		}
 		$textProcessingTaskTypes = [];
 		foreach ($textProcessingSettings as $taskTypeClass => $providerClass) {

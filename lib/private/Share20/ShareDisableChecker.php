@@ -35,7 +35,9 @@ class ShareDisableChecker {
 			return $this->sharingDisabledForUsersCache[$userId];
 		}
 
-		if ($this->config->getAppValue('core', 'shareapi_exclude_groups', 'no') === 'yes') {
+		$excludeGroups = $this->config->getAppValue('core', 'shareapi_exclude_groups', 'no');
+
+		if ($excludeGroups && $excludeGroups !== 'no') {
 			$groupsList = $this->config->getAppValue('core', 'shareapi_exclude_groups_list', '');
 			$excludedGroups = json_decode($groupsList);
 			if (is_null($excludedGroups)) {
@@ -48,14 +50,28 @@ class ShareDisableChecker {
 				return false;
 			}
 			$usersGroups = $this->groupManager->getUserGroupIds($user);
-			if (!empty($usersGroups)) {
-				$remainingGroups = array_diff($usersGroups, $excludedGroups);
-				// if the user is only in groups which are disabled for sharing then
-				// sharing is also disabled for the user
-				if (empty($remainingGroups)) {
-					$this->sharingDisabledForUsersCache[$userId] = true;
-					return true;
+			if ($excludeGroups !== 'allow') {
+				if (!empty($usersGroups)) {
+					$remainingGroups = array_diff($usersGroups, $excludedGroups);
+					// if the user is only in groups which are disabled for sharing then
+					// sharing is also disabled for the user
+					if (empty($remainingGroups)) {
+						$this->sharingDisabledForUsersCache[$userId] = true;
+						return true;
+					}
 				}
+			} else {
+				if (!empty($usersGroups)) {
+					$remainingGroups = array_intersect($usersGroups, $excludedGroups);
+					// if the user is in any group which is allowed for sharing then
+					// sharing is also allowed for the user
+					if (!empty($remainingGroups)) {
+						$this->sharingDisabledForUsersCache[$userId] = false;
+						return false;
+					}
+				}
+				$this->sharingDisabledForUsersCache[$userId] = true;
+				return true;
 			}
 		}
 

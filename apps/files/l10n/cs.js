@@ -345,7 +345,6 @@ OC.L10N.register(
     "Search for an account" : "Hledat účet",
     "Choose" : "Vybrat",
     "No files or folders have been deleted yet" : "Zatím nebyly smazány žádné soubory či složky",
-    "Add" : "Přidat",
     "The files is locked" : "Soubory jsou uzamčené"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

@@ -26,6 +26,7 @@ namespace Test;
 
 use OC\App\AppStore\Fetcher\AppFetcher;
 use OC\App\AppStore\Fetcher\CategoryFetcher;
+use OCP\Comments\ICommentsManager;
 
 /**
  * Class Server
@@ -185,7 +186,7 @@ class ServerTest extends \Test\TestCase {
 
 		$config->setSystemValue('comments.managerFactory', '\Test\Comments\FakeFactory');
 
-		$manager = $this->server->getCommentsManager();
+		$manager = $this->server->get(ICommentsManager::class);
 		$this->assertInstanceOf('\OCP\Comments\ICommentsManager', $manager);
 
 		$config->setSystemValue('comments.managerFactory', $defaultManagerFactory);

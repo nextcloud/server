@@ -668,7 +668,7 @@ class ManagerTest extends TestCase {
 		$user = \OC::$server->getUserManager()->createUser('xenia', '123456');
 		$this->assertTrue($user instanceof IUser);
 
-		$manager = \OC::$server->getCommentsManager();
+		$manager = \OC::$server->get(ICommentsManager::class);
 		$comment = $manager->create('users', $user->getUID(), 'files', 'file64');
 		$comment
 			->setMessage('Most important comment I ever left on the Internet.')

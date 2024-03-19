@@ -97,7 +97,7 @@ export const useAppsStore = defineStore('settings-apps', {
 			return this.categories.find(({ id }) => id === categoryId) ?? null
 		},
 
-		getAppById(appId: string) {
+		getAppById(appId: string): IAppstoreApp|null {
 			return this.apps.find(({ id }) => id === appId) ?? null
 		},
 	},

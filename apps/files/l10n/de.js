@@ -313,7 +313,6 @@ OC.L10N.register(
     "Search for an account" : "Nach einem Konto suchen",
     "Choose" : "Auswählen",
     "No files or folders have been deleted yet" : "Es wurden noch keine Dateien oder Ordner gelöscht",
-    "Add" : "Hinzufügen",
     "The files is locked" : "Die Datei ist gesperrt"
 },
 "nplurals=2; plural=(n != 1);");

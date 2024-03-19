@@ -110,11 +110,11 @@ class Util {
 	 *
 	 * @return boolean
 	 * @since 7.0.0
-	 * @deprecated 9.1.0 Use \OC::$server->getShareManager()->sharingDisabledForUser
+	 * @deprecated 9.1.0 Use \OC::$server->get(\OCP\Share\IManager::class)->sharingDisabledForUser
 	 */
 	public static function isSharingDisabledForUser() {
 		if (self::$shareManager === null) {
-			self::$shareManager = \OC::$server->getShareManager();
+			self::$shareManager = \OC::$server->get(IManager::class);
 		}
 
 		$user = \OC::$server->getUserSession()->getUser();

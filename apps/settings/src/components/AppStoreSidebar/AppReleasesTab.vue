@@ -50,7 +50,7 @@ import Markdown from '../Markdown.vue'
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const props = defineProps<{ app: IAppstoreApp }>()
 
-const hasChangelog = computed(() => Object.values(props.app.releases[0]?.translations ?? {}).some(({ changelog }) => !!changelog))
+const hasChangelog = computed(() => Object.values(props.app.releases?.[0]?.translations ?? {}).some(({ changelog }) => !!changelog))
 
 const createChangelogFromRelease = (release: IAppstoreAppRelease) => release.translations?.[getLanguage()]?.changelog ?? release.translations?.en?.changelog ?? ''
 </script>

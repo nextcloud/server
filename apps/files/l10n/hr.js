@@ -212,7 +212,6 @@ OC.L10N.register(
     "Shared with you" : "Podijeljeno s vama",
     "Deleted shares" : "Izbrisana dijeljenja",
     "Pending shares" : "Dijeljenja na čekanju",
-    "Choose" : "Odaberite",
-    "Add" : "Dodaj"
+    "Choose" : "Odaberite"
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

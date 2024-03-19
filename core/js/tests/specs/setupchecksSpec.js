@@ -22,44 +22,6 @@ describe('OC.SetupChecks tests', function() {
 		protocolStub.restore();
 	});
 
-	describe('checkWebDAV', function() {
-		it('should fail with another response status code than 201 or 207', function(done) {
-			var async = OC.SetupChecks.checkWebDAV();
-
-			suite.server.requests[0].respond(200);
-
-			async.done(function( data, s, x ){
-				expect(data).toEqual([{
-					msg: 'Your web server is not yet properly set up to allow file synchronization, because the WebDAV interface seems to be broken.',
-					type: OC.SetupChecks.MESSAGE_TYPE_ERROR
-				}]);
-				done();
-			});
-		});
-
-		it('should return no error with a response status code of 207', function(done) {
-			var async = OC.SetupChecks.checkWebDAV();
-
-			suite.server.requests[0].respond(207);
-
-			async.done(function( data, s, x ){
-				expect(data).toEqual([]);
-				done();
-			});
-		});
-
-		it('should return no error with a response status code of 401', function(done) {
-			var async = OC.SetupChecks.checkWebDAV();
-
-			suite.server.requests[0].respond(401);
-
-			async.done(function( data, s, x ){
-				expect(data).toEqual([]);
-				done();
-			});
-		});
-	});
-
 	describe('checkSetup', function() {
 		it('should return an error if server has no internet connection', function(done) {
 			var async = OC.SetupChecks.checkSetup();

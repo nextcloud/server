@@ -112,8 +112,6 @@ OC.L10N.register(
     "Allow public uploads" : "Permitir Envios Públicos",
     "Always ask for a password" : "Pedir sempre a senha",
     "Enforce password protection" : "Forçar proteção por palavra-passe",
-    "Exclude groups from sharing" : "Excluir grupos das partilhas",
-    "These groups will still be able to receive shares, but not to initiate them." : "Estes grupos poderão receber partilhas, mas não poderão iniciá-las.",
     "Enforce expiration date" : "Forçar a data de expiração",
     "This text will be shown on the public link upload page when the file list is hidden." : "Este texto será exibido na página de carregamento de ligações públicas quando a lista de ficheiros estiver oculta. ",
     "Limit to groups" : "Limitado a grupos",
@@ -303,6 +301,8 @@ OC.L10N.register(
     "Not saved" : "Não guardado",
     "Twitter" : "Twitter",
     "SMTP Username" : "Nome de utilizador SMTP",
-    "Set default expiration date" : "Especificar a data padrão de expiração"
+    "Set default expiration date" : "Especificar a data padrão de expiração",
+    "Exclude groups from sharing" : "Excluir grupos das partilhas",
+    "These groups will still be able to receive shares, but not to initiate them." : "Estes grupos poderão receber partilhas, mas não poderão iniciá-las."
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

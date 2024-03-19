@@ -46,6 +46,7 @@ use OC\Streamer;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Events\BeforeDirectFileDownloadEvent;
 use OCP\Files\Events\BeforeZipCreatedEvent;
+use OCP\Files\IRootFolder;
 use OCP\Lock\ILockingProvider;
 
 /**
@@ -187,7 +188,7 @@ class OC_Files {
 				foreach ($files as $file) {
 					$file = $dir . '/' . $file;
 					if (\OC\Files\Filesystem::is_file($file)) {
-						$userFolder = \OC::$server->getRootFolder()->get(\OC\Files\Filesystem::getRoot());
+						$userFolder = \OC::$server->get(IRootFolder::class)->get(\OC\Files\Filesystem::getRoot());
 						$file = $userFolder->get($file);
 						if ($file instanceof \OC\Files\Node\File) {
 							try {
@@ -307,7 +308,7 @@ class OC_Files {
 		$file = null;
 
 		try {
-			$userFolder = \OC::$server->getRootFolder()->get(\OC\Files\Filesystem::getRoot());
+			$userFolder = \OC::$server->get(IRootFolder::class)->get(\OC\Files\Filesystem::getRoot());
 			$file = $userFolder->get($filename);
 			if (!$file instanceof \OC\Files\Node\File || !$file->isReadable()) {
 				http_response_code(403);

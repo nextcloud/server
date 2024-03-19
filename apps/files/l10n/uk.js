@@ -3,7 +3,7 @@ OC.L10N.register(
     {
     "File could not be found" : "Неможливо знайти файл",
     "Move or copy" : "Перемістити або копіювати",
-    "Download" : "Звантажити",
+    "Download" : "Завантажити",
     "Delete" : "Вилучити",
     "Tags" : "Мітки",
     "Show list view" : "Подання списком",
@@ -241,6 +241,7 @@ OC.L10N.register(
     "Files settings" : "Налаштування",
     "File cannot be accessed" : "Неможливо отримати доступ до файлу",
     "The file could not be found or you do not have permissions to view it. Ask the sender to share it." : "Не вдалося знайти файл або у вас відсутній дозвіл на перегляд файлу. Попросіть поділитися цим файлом.",
+    "Your files" : "Ваші файли",
     "Open in files" : "Відкрити у файлах",
     "Sort favorites first" : "Спочатку впорядковувати із зірочкою",
     "Sort folders before files" : "Впорядковувати каталоги поререду файлів",
@@ -275,6 +276,7 @@ OC.L10N.register(
     "(copy %n)" : "(копія %n)",
     "Move cancelled" : "Переміщення скасовано",
     "A file or folder with that name already exists in this folder" : "Файл чи каталог з таким ім'ям вже присутній в цьому каталозі",
+    "The files are locked" : "Файли заблоковано",
     "The file does not exist anymore" : "Цей файл більше недоступний",
     "Choose destination" : "Виберіть каталог призначення",
     "Copy to {target}" : "Копіювати до {target}",
@@ -293,6 +295,8 @@ OC.L10N.register(
     "Create new templates folder" : "Створіть новий каталог для шаблонів",
     "Templates" : "Шаблони",
     "New template folder" : "Новий каталог шаблонів",
+    "In folder" : "У каталозі",
+    "Search in folder: {folder}" : "Шукати у каталозі: {folder}",
     "One of the dropped files could not be processed" : "Один із завантажених файлів не вдалося обробити",
     "Uploading \"{filename}\" failed" : "Завантаження \"{filename}\" не вдалося",
     "_{folderCount} folder_::_{folderCount} folders_" : ["{folderCount} каталог","{folderCount} каталоги","{folderCount} каталогів","{folderCount} каталогів"],
@@ -345,7 +349,6 @@ OC.L10N.register(
     "Search for an account" : "Пошук облікового запису",
     "Choose" : "Вибрати",
     "No files or folders have been deleted yet" : "Поки жодного каталогу чи файлу не було вилучено",
-    "Add" : "Додати",
     "The files is locked" : "Файл заблоковано"
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

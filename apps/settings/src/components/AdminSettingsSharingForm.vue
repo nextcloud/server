@@ -76,19 +76,31 @@
 				</label>
 			</fieldset>
 
-			<NcCheckboxRadioSwitch type="switch" :checked.sync="settings.excludeGroups">
-				{{ t('settings', 'Exclude groups from sharing') }}
-			</NcCheckboxRadioSwitch>
-			<div v-show="settings.excludeGroups" class="sharing__sub-section">
-				<div class="sharing__labeled-entry sharing__input">
-					<label for="settings-sharing-excluded-groups">{{ t('settings', 'Groups excluded from sharing') }}</label>
+			<label>{{ t('settings', 'Limit sharing based on groups') }}</label>
+			<div class="sharing__sub-section">
+				<NcCheckboxRadioSwitch :checked.sync="settings.excludeGroups"
+															 name="excludeGroups" value="no"
+															 type="radio" @update:checked="onUpdateExcludeGroups">
+					{{ t('settings', 'Allow sharing for everyone (default)') }}
+				</NcCheckboxRadioSwitch>
+				<NcCheckboxRadioSwitch :checked.sync="settings.excludeGroups"
+															 name="excludeGroups" value="yes"
+															 type="radio" @update:checked="onUpdateExcludeGroups">
+					{{ t('settings', 'Exclude some groups from sharing') }}
+				</NcCheckboxRadioSwitch>
+				<NcCheckboxRadioSwitch :checked.sync="settings.excludeGroups"
+															 name="excludeGroups" value="allow"
+															 type="radio" @update:checked="onUpdateExcludeGroups">
+					{{ t('settings', 'Limit sharing to some groups') }}
+				</NcCheckboxRadioSwitch>
+				<div v-show="settings.excludeGroups !== 'no'" class="sharing__labeled-entry sharing__input">
 					<NcSettingsSelectGroup id="settings-sharing-excluded-groups"
 						v-model="settings.excludeGroupsList"
 						aria-describedby="settings-sharing-excluded-groups-desc"
-						:label="t('settings', 'Groups excluded from sharing')"
-						:disabled="!settings.excludeGroups"
+						:label="settings.excludeGroups === 'allow' ? t('settings', 'Groups allowed to share') : t('settings', 'Groups excluded from sharing')"
+						:disabled="settings.excludeGroups === 'no'"
 						style="width: 100%" />
-					<em id="settings-sharing-excluded-groups-desc">{{ t('settings', 'These groups will still be able to receive shares, but not to initiate them.') }}</em>
+					<em id="settings-sharing-excluded-groups-desc">{{ t('settings', 'Not allowed groups will still be able to receive shares, but not to initiate them.') }}</em>
 				</div>
 			</div>
 
@@ -227,7 +239,7 @@ interface IShareSettings {
 	defaultExpireDate: boolean
 	expireAfterNDays: string
 	enforceExpireDate: boolean
-	excludeGroups: boolean
+	excludeGroups: string
 	excludeGroupsList: string[]
 	publicShareDisclaimerText?: string
 	enableLinkPasswordByDefault: boolean
@@ -306,6 +318,10 @@ export default defineComponent({
 			}
 			this.settingsData.publicShareDisclaimerText = value
 		}, 500) as (v?: string) => void,
+		onUpdateExcludeGroups: debounce(function(value: string) {
+			window.OCP.AppConfig.setValue('core', 'excludeGroups', value)
+			this.settings.excludeGroups = value
+		}, 500) as (v?: string) => void
 	},
 })
 </script>

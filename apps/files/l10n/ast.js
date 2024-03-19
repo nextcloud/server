@@ -336,7 +336,6 @@ OC.L10N.register(
     "Search for an account" : "Buscar una cuenta",
     "Choose" : "Escoyer",
     "No files or folders have been deleted yet" : "Entá nun se desanició nengún ficheru nin carpeta",
-    "Add" : "Amestar",
     "The files is locked" : "El ficheru ta bloquiáu"
 },
 "nplurals=2; plural=(n != 1);");

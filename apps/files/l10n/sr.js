@@ -349,7 +349,6 @@ OC.L10N.register(
     "Search for an account" : "Претражите налог",
     "Choose" : "Изаберите",
     "No files or folders have been deleted yet" : "Још увек није обрисан ниједан фајл или фолдер",
-    "Add" : "Додај",
     "The files is locked" : "Фајл је закључан"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

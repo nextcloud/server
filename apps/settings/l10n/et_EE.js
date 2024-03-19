@@ -98,8 +98,6 @@ OC.L10N.register(
     "Allow public uploads" : "Luba avalikud üleslaadimised",
     "Always ask for a password" : "Alati küsi parooli",
     "Enforce password protection" : "Jõusta paroolikaitse",
-    "Exclude groups from sharing" : "Eemalda grupid jagamisest",
-    "These groups will still be able to receive shares, but not to initiate them." : "Need grupid saavad vastu võtta jagamisi, kuid ise jagamisi algatada ei saa.",
     "Enforce expiration date" : "Sunnitud aegumise kuupäev",
     "This text will be shown on the public link upload page when the file list is hidden." : "Seda teksti näidatakse avaliku lingiga üleslaadimise lehel kui failide loend on peidetud.",
     "Limit to groups" : "Luba gruppidele",
@@ -198,7 +196,6 @@ OC.L10N.register(
     "As admin you can fine-tune the sharing behavior. Please see the documentation for more information." : "Administraatorina saate jagamise valikuid täpselt seadistada. Lisateavet leiad dokumentatsioonist.",
     "Admins" : "Haldurid",
     "Group name" : "Grupi nimi",
-    "{license}-licensed" : "{license} litsents",
     "Sending…" : "Saadan...",
     "Email sent" : "E-kiri on saadetud",
     "Location" : "Asukoht",
@@ -259,6 +256,7 @@ OC.L10N.register(
     "Disable user" : "Keela kasutaja",
     "Enable user" : "Luba kasutaja",
     "Add a new user" : "Lisa uus kasutaja",
+    "{license}-licensed" : "{license} litsents",
     "Add group" : "Lisa grupp",
     "Active users" : "Aktiivseid kasutajaid",
     "Disabled users" : "Keelatud kasutajad",
@@ -267,6 +265,8 @@ OC.L10N.register(
     "Not saved" : "Ei ole salvestatud",
     "Twitter" : "Twitter",
     "SMTP Username" : "SMTP kasutajatunnus",
-    "Set default expiration date" : "Määra vaikimisi aegumise kuupäev"
+    "Set default expiration date" : "Määra vaikimisi aegumise kuupäev",
+    "Exclude groups from sharing" : "Eemalda grupid jagamisest",
+    "These groups will still be able to receive shares, but not to initiate them." : "Need grupid saavad vastu võtta jagamisi, kuid ise jagamisi algatada ei saa."
 },
 "nplurals=2; plural=(n != 1);");

@@ -304,7 +304,6 @@ OC.L10N.register(
     "Search for an account" : "Tìm kiếm tài khoản",
     "Choose" : "Chọn",
     "No files or folders have been deleted yet" : "Chưa có tập tin hoặc thư mục nào bị xóa",
-    "Add" : "Thêm",
     "The files is locked" : "Các tập tin bị khóa"
 },
 "nplurals=1; plural=0;");

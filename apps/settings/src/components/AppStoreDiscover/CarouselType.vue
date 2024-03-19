@@ -101,12 +101,12 @@ export default defineComponent({
 		const internalId = computed(() => props.id ?? (Math.random() + 1).toString(36).substring(7))
 		const headingId = computed(() => `${internalId.value}-h`)
 
-		const transitionName = ref('slide-out')
+		const transitionName = ref('slide-in')
 		watch(() => currentIndex.value, (o, n) => {
 			if (o < n) {
-				transitionName.value = 'slide-out'
-			} else {
 				transitionName.value = 'slide-in'
+			} else {
+				transitionName.value = 'slide-out'
 			}
 
 			// Wait next tick
