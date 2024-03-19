@@ -21,7 +21,7 @@
   -->
 
 <template>
-	<component :is="listView ? `tr` : `li`"
+	<component :is="listView ? 'tr' : (inline ? 'article' : 'li')"
 		class="app-item"
 		:class="{
 			'app-item--list-view': listView,
@@ -82,7 +82,10 @@
 			<AppLevelBadge :level="app.level" />
 			<AppScore v-if="hasRating && !listView" :score="app.score" />
 		</component>
-		<component :is="dataItemTag" :headers="getDataItemHeaders(`app-table-col-actions`)" class="app-actions">
+		<component :is="dataItemTag"
+			v-if="!inline"
+			:headers="getDataItemHeaders(`app-table-col-actions`)"
+			class="app-actions">
 			<div v-if="app.error" class="warning">
 				{{ app.error }}
 			</div>
@@ -145,7 +148,10 @@ export default {
 			type: Object,
 			required: true,
 		},
-		category: {},
+		category: {
+			type: String,
+			required: true,
+		},
 		listView: {
 			type: Boolean,
 			default: true,
@@ -157,6 +163,10 @@ export default {
 		headers: {
 			type: String,
 			default: null,
+		},
+		inline: {
+			type: Boolean,
+			default: false,
 		},
 	},
 	data() {

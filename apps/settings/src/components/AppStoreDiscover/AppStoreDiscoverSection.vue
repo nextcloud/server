@@ -42,6 +42,7 @@ import { parseApiResponse, filterElements } from '../../utils/appDiscoverParser.
 
 const PostType = defineAsyncComponent(() => import('./PostType.vue'))
 const CarouselType = defineAsyncComponent(() => import('./CarouselType.vue'))
+const ShowcaseType = defineAsyncComponent(() => import('./ShowcaseType.vue'))
 
 const hasError = ref(false)
 const elements = ref<IAppDiscoverElements[]>([])
@@ -89,6 +90,8 @@ const getComponent = (type) => {
 		return PostType
 	} else if (type === 'carousel') {
 		return CarouselType
+	} else if (type === 'showcase') {
+		return ShowcaseType
 	}
 	return defineComponent({
 		mounted: () => logger.error('Unknown component requested ', type),
