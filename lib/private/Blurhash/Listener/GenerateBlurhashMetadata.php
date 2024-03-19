@@ -37,6 +37,7 @@ use OCP\Files\NotPermittedException;
 use OCP\FilesMetadata\AMetadataEvent;
 use OCP\FilesMetadata\Event\MetadataBackgroundEvent;
 use OCP\FilesMetadata\Event\MetadataLiveEvent;
+use OCP\FilesMetadata\Exceptions\FilesMetadataNotFoundException;
 use OCP\IPreview;
 use OCP\Lock\LockedException;
 
@@ -74,8 +75,12 @@ class GenerateBlurhashMetadata implements IEventListener {
 
 		$currentEtag = $file->getEtag();
 		$metadata = $event->getMetadata();
-		if ($metadata->getEtag('blurhash') === $currentEtag) {
-			return;
+
+		try {
+			if ($metadata->getEtag('blurhash') === $currentEtag) {
+				return;
+			}
+		} catch (FilesMetadataNotFoundException) {
 		}
 
 		// too heavy to run on the live thread, request a rerun as a background job
