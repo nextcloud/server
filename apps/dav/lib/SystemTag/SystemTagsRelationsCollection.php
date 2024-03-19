@@ -26,6 +26,7 @@
  */
 namespace OCA\DAV\SystemTag;
 
+use OCP\Constants;
 use OCP\IGroupManager;
 use OCP\IUserSession;
 use OCP\SystemTag\ISystemTagManager;
