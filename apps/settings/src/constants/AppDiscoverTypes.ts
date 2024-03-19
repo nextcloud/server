@@ -91,15 +91,6 @@ interface IAppDiscoverMediaContent {
 }
 
 /**
- * An app element only used for the showcase type
- */
-interface IAppDiscoverApp {
-	/** The App ID */
-	type: 'app'
-	app: string
-}
-
-/**
  * Wrapper for post media
  */
 interface IAppDiscoverMedia {
@@ -112,6 +103,15 @@ interface IAppDiscoverMedia {
 	 * The (localized) content
 	 */
 	content: ILocalizedValue<IAppDiscoverMediaContent>
+}
+
+/**
+ * An app element only used for the showcase type
+ */
+export interface IAppDiscoverApp {
+	/** The App ID */
+	type: 'app'
+	appId: string
 }
 
 export interface IAppDiscoverPost extends IAppDiscoverElement {
