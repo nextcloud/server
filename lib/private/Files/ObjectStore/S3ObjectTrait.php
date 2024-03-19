@@ -29,9 +29,9 @@ namespace OC\Files\ObjectStore;
 use Aws\S3\Exception\S3MultipartUploadException;
 use Aws\S3\MultipartUploader;
 use Aws\S3\S3Client;
+use GuzzleHttp\Psr7;
 use GuzzleHttp\Psr7\Utils;
 use OC\Files\Stream\SeekableHttpStream;
-use GuzzleHttp\Psr7;
 use Psr\Http\Message\StreamInterface;
 
 trait S3ObjectTrait {
@@ -47,6 +47,7 @@ trait S3ObjectTrait {
 
 	/**
 	 * @param string $urn the unified resource name used to identify the object
+	 *
 	 * @return resource stream with the read data
 	 * @throws \Exception when something goes wrong, message will be logged
 	 * @since 7.0.0
@@ -87,6 +88,7 @@ trait S3ObjectTrait {
 			return fopen($request->getUri(), 'r', false, $context);
 		});
 	}
+
 
 	/**
 	 * Single object put helper
