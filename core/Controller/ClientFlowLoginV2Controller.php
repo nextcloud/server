@@ -49,6 +49,8 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Security\ISecureRandom;
+use Psr\Log\LoggerInterface;
+use function OCP\Log\logger;
 
 /**
  * @psalm-import-type CoreLoginFlowV2Credentials from ResponseDefinitions
@@ -319,9 +321,20 @@ class ClientFlowLoginV2Controller extends Controller {
 	private function isValidStateToken(string $stateToken): bool {
 		$currentToken = $this->session->get(self::STATE_NAME);
 		if (!is_string($stateToken) || !is_string($currentToken)) {
+			logger('core')->error('Client login flow state token is not set', [
+				'sessionToken' => $currentToken,
+				'requestToken' => $stateToken,
+			]);
 			return false;
 		}
-		return hash_equals($currentToken, $stateToken);
+		$hashEquals = hash_equals($currentToken, $stateToken);
+		if (!$hashEquals) {
+			logger('core')->error('Client login flow state token does not match', [
+				'sessionToken' => $currentToken,
+				'requestToken' => $stateToken,
+			]);
+		}
+		return $hashEquals;
 	}
 
 	private function stateTokenMissingResponse(): StandaloneTemplateResponse {
