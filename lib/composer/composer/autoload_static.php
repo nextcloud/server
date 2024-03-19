@@ -1169,6 +1169,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Core\\Command\\User\\Delete' => __DIR__ . '/../../..' . '/core/Command/User/Delete.php',
         'OC\\Core\\Command\\User\\Disable' => __DIR__ . '/../../..' . '/core/Command/User/Disable.php',
         'OC\\Core\\Command\\User\\Enable' => __DIR__ . '/../../..' . '/core/Command/User/Enable.php',
+        'OC\\Core\\Command\\User\\GetUserFromEmail' => __DIR__ . '/../../..' . '/core/Command/User/GetUserFromEmail.php',
         'OC\\Core\\Command\\User\\Info' => __DIR__ . '/../../..' . '/core/Command/User/Info.php',
         'OC\\Core\\Command\\User\\Keys\\Verify' => __DIR__ . '/../../..' . '/core/Command/User/Keys/Verify.php',
         'OC\\Core\\Command\\User\\LastSeen' => __DIR__ . '/../../..' . '/core/Command/User/LastSeen.php',
