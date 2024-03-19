@@ -40,12 +40,18 @@ use Sabre\DAV\ICollection;
  * Collection containing tags by object id
  */
 class SystemTagsObjectMappingCollection implements ICollection {
-	private string $objectId;
-	private string $objectType;
-	private IUser $user;
-	private ISystemTagManager $tagManager;
-	private ISystemTagObjectMapper $tagMapper;
-	protected \Closure $childWriteAccessFunction;
+	/** @var string */
+	private $objectId;
+	/** @var string */
+	private $objectType;
+	/** @var IUser */
+	private $user;
+	/** @var ISystemTagManager */
+	private $tagManager;
+	/** @var ISystemTagObjectMapper */
+	private $tagMapper;
+	/** @var \Closure */
+	protected $childWriteAccessFunction;
 
 	public function __construct(
 		string $objectId,

@@ -33,9 +33,12 @@ use OCP\SystemTag\ISystemTagObjectMapper;
 use OCP\SystemTag\TagNotFoundException;
 
 class SystemTagMappingNodeTest extends \Test\TestCase {
-	private ISystemTagManager $tagManager;
-	private ISystemTagObjectMapper $tagMapper;
-	private IUser $user;
+	/** @var ISystemTagManager */
+	private $tagManager;
+	/** @var ISystemTagObjectMapper */
+	private $tagMapper;
+	/** @var IUser */
+	private $user;
 
 	protected function setUp(): void {
 		parent::setUp();
