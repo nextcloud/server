@@ -277,6 +277,31 @@ class AllConfigTest extends \Test\TestCase {
 		$this->connection->executeUpdate('DELETE FROM `*PREFIX*preferences`');
 	}
 
+	public function testGetUserKeysAllInts() {
+		$config = $this->getConfig();
+
+		// preparation - add something to the database
+		$data = [
+			['userFetch', 'appFetch1', '123', 'value'],
+			['userFetch', 'appFetch1', '456', 'value'],
+		];
+		foreach ($data as $entry) {
+			$this->connection->executeUpdate(
+				'INSERT INTO `*PREFIX*preferences` (`userid`, `appid`, ' .
+				'`configkey`, `configvalue`) VALUES (?, ?, ?, ?)',
+				$entry
+			);
+		}
+
+		$value = $config->getUserKeys('userFetch', 'appFetch1');
+		$this->assertEquals(['123', '456'], $value);
+		$this->assertIsString($value[0]);
+		$this->assertIsString($value[1]);
+
+		// cleanup
+		$this->connection->executeUpdate('DELETE FROM `*PREFIX*preferences`');
+	}
+
 	public function testGetUserValueDefault() {
 		$config = $this->getConfig();
 
