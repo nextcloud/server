@@ -38,7 +38,7 @@ import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js
 import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
 
 import logger from '../../logger'
-import { apiTypeParser } from '../../utils/appDiscoverTypeParser.ts'
+import { parseApiResponse, filterElements } from '../../utils/appDiscoverParser.ts'
 
 const PostType = defineAsyncComponent(() => import('./PostType.vue'))
 const CarouselType = defineAsyncComponent(() => import('./CarouselType.vue'))
@@ -50,7 +50,7 @@ const elements = ref<IAppDiscoverElements[]>([])
  * Shuffle using the Fisher-Yates algorithm
  * @param array The array to shuffle (in place)
  */
-const shuffleArray = (array) => {
+const shuffleArray = <T, >(array: T[]): T[] => {
 	for (let i = array.length - 1; i > 0; i--) {
 		const j = Math.floor(Math.random() * (i + 1));
 		[array[i], array[j]] = [array[j], array[i]]
@@ -64,8 +64,14 @@ const shuffleArray = (array) => {
 onBeforeMount(async () => {
 	try {
 		const { data } = await axios.get<Record<string, unknown>[]>(generateUrl('/settings/api/apps/discover'))
-		const parsedData = data.map(apiTypeParser)
-		elements.value = shuffleArray(parsedData)
+		// Parse data to ensure dates are useable and then filter out expired or future elements
+		const parsedElements = data.map(parseApiResponse).filter(filterElements)
+		// Shuffle elements to make it looks more interesting
+		const shuffledElements = shuffleArray(parsedElements)
+		// Sort pinned elements first
+		shuffledElements.sort((a, b) => (a.order ?? Infinity) < (b.order ?? Infinity) ? -1 : 1)
+		// Set the elements to the UI
+		elements.value = shuffledElements
 	} catch (error) {
 		hasError.value = true
 		logger.error(error as Error)

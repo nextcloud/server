@@ -20,14 +20,14 @@
  *
  */
 
-import type { IAppDiscoverCarousel, IAppDiscoverElements, IAppDiscoverPost, IAppDiscoverShowcase } from '../constants/AppDiscoverTypes.ts'
+import type { IAppDiscoverCarousel, IAppDiscoverElement, IAppDiscoverElements, IAppDiscoverPost, IAppDiscoverShowcase } from '../constants/AppDiscoverTypes.ts'
 
 /**
  * Helper to transform the JSON API results to proper frontend objects (app discover section elements)
  *
  * @param element The JSON API element to transform
  */
-export const apiTypeParser = (element: Record<string, unknown>): IAppDiscoverElements => {
+export const parseApiResponse = (element: Record<string, unknown>): IAppDiscoverElements => {
 	const appElement = { ...element }
 	if (appElement.date) {
 		appElement.date = Date.parse(appElement.date as string)
@@ -44,4 +44,22 @@ export const apiTypeParser = (element: Record<string, unknown>): IAppDiscoverEle
 		return appElement as unknown as IAppDiscoverCarousel
 	}
 	throw new Error(`Invalid argument, app discover element with type ${element.type ?? 'unknown'} is unknown`)
+}
+
+/**
+ * Filter outdated or upcoming elements
+ * @param element Element to check
+ */
+export const filterElements = (element: IAppDiscoverElement) => {
+	const now = Date.now()
+	// Element not yet published
+	if (element.date && element.date > now) {
+		return false
+	}
+
+	// Element expired
+	if (element.expiryDate && element.expiryDate < now) {
+		return false
+	}
+	return true
 }
