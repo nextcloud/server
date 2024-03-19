@@ -1153,10 +1153,12 @@ class DefaultShareProvider implements IShareProvider {
 		$stmt = $query->execute();
 
 		while ($data = $stmt->fetch()) {
-			$shareMap[$data['parent']]->setPermissions((int)$data['permissions']);
-			$shareMap[$data['parent']]->setStatus((int)$data['accepted']);
-			$shareMap[$data['parent']]->setTarget($data['file_target']);
-			$shareMap[$data['parent']]->setParent($data['parent']);
+			if (array_key_exists($data['parent'], $shareMap)) {
+				$shareMap[$data['parent']]->setPermissions((int)$data['permissions']);
+				$shareMap[$data['parent']]->setStatus((int)$data['accepted']);
+				$shareMap[$data['parent']]->setTarget($data['file_target']);
+				$shareMap[$data['parent']]->setParent($data['parent']);
+			}
 		}
 
 		return array_values($shareMap);
