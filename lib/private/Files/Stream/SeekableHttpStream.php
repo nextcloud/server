@@ -79,6 +79,7 @@ class SeekableHttpStream implements File {
 	private $offset = 0;
 	/** @var int */
 	private $length = 0;
+	private int $totalSize = 0;
 
 	private function reconnect(int $start) {
 		$range = $start . '-';
@@ -124,6 +125,9 @@ class SeekableHttpStream implements File {
 
 		$this->offset = $begin;
 		$this->length = $length;
+		if ($start === 0) {
+			$this->totalSize = $length;
+		}
 
 		return true;
 	}
@@ -173,7 +177,9 @@ class SeekableHttpStream implements File {
 
 	public function stream_stat() {
 		if (is_resource($this->current)) {
-			return fstat($this->current);
+			$stat = fstat($this->current);
+			$stat['size'] = $this->totalSize;
+			return $stat;
 		} else {
 			return false;
 		}
