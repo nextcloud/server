@@ -23,13 +23,15 @@ body:
       label: "⚠️ This issue respects the following points: ⚠️"
       description: All conditions are **required**. Your issue can be closed if these are checked incorrectly.
       options:
-        - label: This is a **bug**, not a question or a configuration/webserver/proxy issue.
+        - label: This is **not** a troubleshooting question, general support matter, or webserver/proxy problem, but likely a bug _(if unsure, ask the [Community Help Forum](https://help.nextcloud.com))_.
           required: true
-        - label: This issue is **not** already reported on [Github](https://github.com/nextcloud/server/issues?q=is%3Aopen+is%3Aissue+label%3Abug) OR [Nextcloud Community Forum](https://help.nextcloud.com/) _(I've searched it)_.
+        - label: This issue is **not** already reported on [Github](https://github.com/nextcloud/server/issues?q=is%3Aissue+label%3Abug) OR solved at the [Community Help Forum](https://help.nextcloud.com/) _(I've searched!)_.
           required: true
-        - label: Nextcloud Server **is** up to date. See [Maintenance and Release Schedule](https://github.com/nextcloud/server/wiki/Maintenance-and-Release-Schedule) for supported versions.
+        - label: I'm using a maintained major version of Nextcloud Server **and** tested against the latest patch level. _([Supported major versions and current patch levels](https://github.com/nextcloud/server/wiki/Maintenance-and-Release-Schedule))_.
           required: true
         - label: I agree to follow Nextcloud's [Code of Conduct](https://nextcloud.com/contribute/code-of-conduct/).
+          required: true
+        - label: I've tried my best to provide clear reproduction steps that someone unfamiliar with this bug could use to reproduce it.
           required: true
   - type: textarea
     id: bug-description
