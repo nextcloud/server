@@ -38,15 +38,30 @@ use Sabre\DAV\ICollection;
  * Collection containing object ids by object type
  */
 class SystemTagsObjectTypeCollection implements ICollection {
+	private string $objectType;
+	private ISystemTagManager $tagManager;
+	private ISystemTagObjectMapper $tagMapper;
+	private IUserSession $userSession;
+	private IGroupManager $groupManager;
+	protected \Closure $childExistsFunction;
+	protected \Closure $childWriteAccessFunction;
+
 	public function __construct(
-		private string $objectType,
-		private ISystemTagManager $tagManager,
-		private ISystemTagObjectMapper $tagMapper,
-		private IUserSession $userSession,
-		private IGroupManager $groupManager,
-		protected \Closure $childExistsFunction,
-		protected \Closure $childWriteAccessFunction,
+		string $objectType,
+		ISystemTagManager $tagManager,
+		ISystemTagObjectMapper $tagMapper,
+		IUserSession $userSession,
+		IGroupManager $groupManager,
+		\Closure $childExistsFunction,
+		\Closure $childWriteAccessFunction
 	) {
+		$this->objectType = $objectType;
+		$this->tagManager = $tagManager;
+		$this->tagMapper = $tagMapper;
+		$this->userSession = $userSession;
+		$this->groupManager = $groupManager;
+		$this->childExistsFunction = $childExistsFunction;
+		$this->childWriteAccessFunction = $childWriteAccessFunction;
 	}
 
 	/**
