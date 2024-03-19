@@ -94,7 +94,7 @@ class Notifier implements INotifier {
 		}
 
 		// Read the language from the notification
-		$l = $this->factory->get('files_sharing', $languageCode);
+		$l = $this->factory->get('federatedfilesharing', $languageCode);
 
 		switch ($notification->getSubject()) {
 			// Deal with known subjects
