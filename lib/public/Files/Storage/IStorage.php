@@ -460,4 +460,16 @@ interface IStorage {
 	 * @since 9.0.0
 	 */
 	public function getWatcher();
+
+	/**
+	 * Allow setting the storage owner
+	 *
+	 * This can be used for storages that do not have a dedicated owner, where we want to
+	 * pass the user that we setup the mountpoint for along to the storage layer
+	 *
+	 * @param string|null $user Owner user id
+	 * @return void
+	 * @since 29.0.0
+	 */
+	public function setOwner(?string $user): void;
 }
