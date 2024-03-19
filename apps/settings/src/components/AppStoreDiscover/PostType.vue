@@ -214,6 +214,8 @@ export default defineComponent({
 
 	display: flex;
 	flex-direction: row;
+	justify-content: start;
+
 	&--reverse {
 		flex-direction: row-reverse;
 	}
