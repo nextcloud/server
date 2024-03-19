@@ -129,11 +129,13 @@ Feature: provisioning
       | value | no.reply@nextcloud.com |
     And the OCS status code should be "100"
     And the HTTP status code should be "200"
+    And user "brand-new-user" verifies email "no.reply@nextcloud.com"
     And sending "PUT" to "/cloud/users/brand-new-user" with
       | key | additional_mail |
       | value | noreply@nextcloud.com |
     And the OCS status code should be "100"
     And the HTTP status code should be "200"
+    And user "brand-new-user" verifies email "noreply@nextcloud.com"
 		And sending "PUT" to "/cloud/users/brand-new-user" with
 			| key | phone |
 			| value | +49 711 / 25 24 28-90 |
@@ -302,11 +304,13 @@ Feature: provisioning
       | value | no.reply6@nextcloud.com |
     And the OCS status code should be "100"
     And the HTTP status code should be "200"
+    And user "brand-new-user" verifies email "no.reply6@nextcloud.com"
     And sending "PUT" to "/cloud/users/brand-new-user" with
       | key | additional_mail |
       | value | noreply7@nextcloud.com |
     And the OCS status code should be "100"
     And the HTTP status code should be "200"
+    And user "brand-new-user" verifies email "no.reply7@nextcloud.com"
     When sending "PUT" to "/cloud/users/brand-new-user/additional_mail" with
       | key | no.reply6@nextcloud.com |
       | value | |

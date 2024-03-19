@@ -63,5 +63,10 @@ return [
 				'type' => null
 			]
 		],
+		[
+			'name' => 'MailVerificationTest',
+			'url' => '/api/v1/mailverification',
+			'verb' => 'POST',
+		]
 	],
 ];
