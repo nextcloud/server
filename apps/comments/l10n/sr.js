@@ -33,6 +33,7 @@ OC.L10N.register(
     "An error occurred while trying to create the comment" : "Грешка приликом покушаја креирања коментара",
     "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "Поменути сте за „{file}”, у коментару корисника које је од тада обрисан",
     "_%n unread comment_::_%n unread comments_" : ["%nнепрочитани коментар","%nнепрочитана коментара ","%n непрочитаних коментара"],
+    "Write a message …" : "Напиши поруку…",
     "\"@\" for mentions, \":\" for emoji, \"/\" for smart picker" : "„@” за помињања, „:” за емођи, „/” за паметни бирач"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");
