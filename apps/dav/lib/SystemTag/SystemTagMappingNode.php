@@ -37,15 +37,30 @@ use Sabre\DAV\Exception\NotFound;
  * Mapping node for system tag to object id
  */
 class SystemTagMappingNode implements \Sabre\DAV\INode {
+	private ISystemTag $tag;
+	private string $objectId;
+	private string $objectType;
+	private IUser $user;
+	private ISystemTagManager $tagManager;
+	private ISystemTagObjectMapper $tagMapper;
+	private \Closure $childWriteAccessFunction;
+
 	public function __construct(
-		private ISystemTag $tag,
-		private string $objectId,
-		private string $objectType,
-		private IUser $user,
-		private ISystemTagManager $tagManager,
-		private ISystemTagObjectMapper $tagMapper,
-		private \Closure $childWriteAccessFunction,
+		ISystemTag $tag,
+		string $objectId,
+		string $objectType,
+		IUser $user,
+		ISystemTagManager $tagManager,
+		ISystemTagObjectMapper $tagMapper,
+		\Closure $childWriteAccessFunction
 	) {
+		$this->tag = $tag;
+		$this->objectId = $objectId;
+		$this->objectType = $objectType;
+		$this->user = $user;
+		$this->tagManager = $tagManager;
+		$this->tagMapper = $tagMapper;
+		$this->childWriteAccessFunction = $childWriteAccessFunction;
 	}
 
 	/**
