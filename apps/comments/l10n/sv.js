@@ -33,6 +33,7 @@ OC.L10N.register(
     "An error occurred while trying to create the comment" : "Ett fel uppstod när du försökte skapa kommentaren",
     "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "Du har nämnts i  \"{file}\", i en kommentar av en användare som sedan har blivit borttagen",
     "_%n unread comment_::_%n unread comments_" : ["%n oläst kommentar","%n olästa kommentarer"],
+    "Write a message …" : "Skriv ett meddelande …",
     "\"@\" for mentions, \":\" for emoji, \"/\" for smart picker" : "\"@\" för omnämnanden, \":\" för emoji, \"/\" för smart picker"
 },
 "nplurals=2; plural=(n != 1);");
