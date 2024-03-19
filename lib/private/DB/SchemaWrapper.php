@@ -38,9 +38,9 @@ class SchemaWrapper implements ISchemaWrapper {
 	/** @var array */
 	protected $tablesToDelete = [];
 
-	public function __construct(Connection $connection) {
+	public function __construct(Connection $connection, ?Schema $beforeSchema = null) {
 		$this->connection = $connection;
-		$this->schema = $this->connection->createSchema();
+		$this->schema = $beforeSchema !== null ? $beforeSchema : $this->connection->createSchema();
 	}
 
 	public function getWrappedSchema() {
