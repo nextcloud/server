@@ -7,6 +7,7 @@
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Victor Dubiniuk <dubiniuk@owncloud.com>
+ * @author Adam Blakey <adam@blakey.family>
  *
  * @license AGPL-3.0
  *
@@ -51,6 +52,18 @@ class ListApps extends Base {
 				InputOption::VALUE_REQUIRED,
 				'true - limit to shipped apps only, false - limit to non-shipped apps only'
 			)
+			->addOption(
+				'enabled',
+				null,
+				InputOption::VALUE_NONE,
+				'shows only enabled apps'
+			)
+			->addOption(
+				'disabled',
+				null,
+				InputOption::VALUE_NONE,
+				'shows only disabled apps'
+			)
 		;
 	}
 
@@ -60,6 +73,9 @@ class ListApps extends Base {
 		} else {
 			$shippedFilter = null;
 		}
+
+		$showEnabledApps = $input->getOption('enabled') || !$input->getOption('disabled');
+		$showDisabledApps = $input->getOption('disabled') || !$input->getOption('enabled');
 
 		$apps = \OC_App::getAllApps();
 		$enabledApps = $disabledApps = [];
@@ -77,16 +93,24 @@ class ListApps extends Base {
 			}
 		}
 
-		$apps = ['enabled' => [], 'disabled' => []];
+		$apps = [];
 
-		sort($enabledApps);
-		foreach ($enabledApps as $app) {
-			$apps['enabled'][$app] = $versions[$app] ?? true;
+		if ($showEnabledApps) {
+			$apps['enabled'] = [];
+
+			sort($enabledApps);
+			foreach ($enabledApps as $app) {
+				$apps['enabled'][$app] = $versions[$app] ?? true;
+			}
 		}
 
-		sort($disabledApps);
-		foreach ($disabledApps as $app) {
-			$apps['disabled'][$app] = $this->manager->getAppVersion($app) . (isset($versions[$app]) ? ' (installed ' . $versions[$app] . ')' : '');
+		if ($showDisabledApps) {
+			$apps['disabled'] = [];
+
+			sort($disabledApps);
+			foreach ($disabledApps as $app) {
+				$apps['disabled'][$app] = $this->manager->getAppVersion($app) . (isset($versions[$app]) ? ' (installed ' . $versions[$app] . ')' : '');
+			}
 		}
 
 		$this->writeAppList($input, $output, $apps);
@@ -101,11 +125,15 @@ class ListApps extends Base {
 	protected function writeAppList(InputInterface $input, OutputInterface $output, $items): void {
 		switch ($input->getOption('output')) {
 			case self::OUTPUT_FORMAT_PLAIN:
-				$output->writeln('Enabled:');
-				parent::writeArrayInOutputFormat($input, $output, $items['enabled']);
+				if (isset($items['enabled'])) {
+					$output->writeln('Enabled:');
+					parent::writeArrayInOutputFormat($input, $output, $items['enabled']);
+				}
 
-				$output->writeln('Disabled:');
-				parent::writeArrayInOutputFormat($input, $output, $items['disabled']);
+				if (isset($items['disabled'])) {
+					$output->writeln('Disabled:');
+					parent::writeArrayInOutputFormat($input, $output, $items['disabled']);
+				}
 				break;
 
 			default:
