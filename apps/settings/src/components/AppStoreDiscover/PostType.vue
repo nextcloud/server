@@ -21,8 +21,12 @@
   -->
 <template>
 	<article :id="domId"
+		ref="container"
 		class="app-discover-post"
-		:class="{ 'app-discover-post--reverse': media && media.alignment === 'start' }">
+		:class="{
+			'app-discover-post--reverse': media && media.alignment === 'start',
+			'app-discover-post--small': isSmallWidth
+		}">
 		<component :is="link ? 'AppLink' : 'div'"
 			v-if="headline || text"
 			:href="link"
@@ -73,7 +77,7 @@ import type { PropType } from 'vue'
 
 import { mdiPlayCircleOutline } from '@mdi/js'
 import { generateUrl } from '@nextcloud/router'
-import { useElementVisibility } from '@vueuse/core'
+import { useElementSize, useElementVisibility } from '@vueuse/core'
 import { computed, defineComponent, ref, watchEffect } from 'vue'
 import { commonAppDiscoverProps } from './common'
 import { useLocalizedValue } from '../../composables/useGetLocalizedValue'
@@ -139,6 +143,14 @@ export default defineComponent({
 		const showPlayVideo = computed(() => localizedMedia.value?.link && hasPlaybackEnded.value)
 
 		/**
+		 * The content is sized / styles are applied based on the container width
+		 * To make it responsive even for inline usage and when opening / closing the sidebar / navigation
+		 */
+		const container = ref<HTMLElement>()
+		const { width: containerWidth } = useElementSize(container)
+		const isSmallWidth = computed(() => containerWidth.value < 600)
+
+		/**
 		 * Generate URL for cached media to prevent user can be tracked
 		 * @param url The URL to resolve
 		 */
@@ -171,6 +183,8 @@ export default defineComponent({
 		return {
 			mdiPlayCircleOutline,
 
+			container,
+
 			translatedText,
 			translatedHeadline,
 			mediaElement,
@@ -182,6 +196,7 @@ export default defineComponent({
 			showPlayVideo,
 
 			isFullWidth,
+			isSmallWidth,
 			isImage,
 
 			generatePrivacyUrl,
@@ -264,16 +279,17 @@ export default defineComponent({
 	}
 }
 
-// Ensure section works on mobile devices
-@media only screen and (max-width: 699px) {
-	.app-discover-post {
+.app-discover-post--small {
+	&.app-discover-post {
 		flex-direction: column;
 		max-height: 500px;
 
 		&--reverse {
 			flex-direction: column-reverse;
 		}
+	}
 
+	.app-discover-post {
 		&__text {
 			flex: 1 1 50%;
 		}
