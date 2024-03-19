@@ -212,7 +212,8 @@ trait S3ObjectTrait {
 			$copy->copy();
 		} else {
 			$this->getConnection()->copy($this->getBucket(), $from, $this->getBucket(), $to, 'private', array_merge([
-				'params' => $this->getSSECParameters() + $this->getSSECParameters(true)
+				'params' => $this->getSSECParameters() + $this->getSSECParameters(true),
+				'mup_threshold' => PHP_INT_MAX,
 			], $options));
 		}
 	}
