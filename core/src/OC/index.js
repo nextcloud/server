@@ -70,6 +70,7 @@ import {
 } from './host.js'
 import {
 	getToken as getRequestToken,
+	fetchToken as fetchRequestToken,
 } from './requesttoken.js'
 import {
 	hideMenus,
@@ -274,6 +275,7 @@ export default {
 	redirect,
 	reload,
 	requestToken: getRequestToken(),
+	fetchRequestToken,
 	/**
 	 * @deprecated 19.0.0 use `linkTo` from https://www.npmjs.com/package/@nextcloud/router
 	 */
