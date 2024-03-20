@@ -116,9 +116,13 @@ class CalendarObject extends \Sabre\CalDAV\CalendarObject {
 					case 'CREATED':
 					case 'DTSTART':
 					case 'RRULE':
+					case 'RECURRENCE-ID':
+					case 'RDATE':
 					case 'DURATION':
 					case 'DTEND':
 					case 'CLASS':
+					case 'EXRULE':
+					case 'EXDATE':
 					case 'UID':
 						break;
 					case 'SUMMARY':
