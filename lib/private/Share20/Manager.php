@@ -212,7 +212,7 @@ class Manager implements IManager {
 	 *
 	 * @suppress PhanUndeclaredClassMethod
 	 */
-	protected function generalCreateChecks(IShare $share) {
+	protected function generalCreateChecks(IShare $share, bool $isUpdate = false) {
 		if ($share->getShareType() === IShare::TYPE_USER) {
 			// We expect a valid user as sharedWith for user shares
 			if (!$this->userManager->userExists($share->getSharedWith())) {
@@ -298,8 +298,14 @@ class Manager implements IManager {
 
 		$isFederatedShare = $share->getNode()->getStorage()->instanceOfStorage('\OCA\Files_Sharing\External\Storage');
 		$permissions = 0;
+		
+		$isReshare = $share->getNode()->getOwner() && $share->getNode()->getOwner()->getUID() !== $share->getSharedBy();
+		if (!$isReshare && $isUpdate) {
+			// in case of update on owner-less filesystem, we use share owner to improve reshare detection
+			$isReshare = $share->getShareOwner() !== $share->getSharedBy();
+		}
 
-		if (!$isFederatedShare && $share->getNode()->getOwner() && $share->getNode()->getOwner()->getUID() !== $share->getSharedBy()) {
+		if (!$isFederatedShare && $isReshare) {
 			$userMounts = array_filter($userFolder->getById($share->getNode()->getId()), function ($mount) {
 				// We need to filter since there might be other mountpoints that contain the file
 				// e.g. if the user has access to the same external storage that the file is originating from
@@ -997,7 +1003,7 @@ class Manager implements IManager {
 			throw new \InvalidArgumentException('Cannot share with the share owner');
 		}
 
-		$this->generalCreateChecks($share);
+		$this->generalCreateChecks($share, true);
 
 		if ($share->getShareType() === IShare::TYPE_USER) {
 			$this->userCreateChecks($share);
