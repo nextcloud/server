@@ -385,19 +385,37 @@ interface IShare {
 	/**
 	 * Set the expiration date
 	 *
-	 * @param null|\DateTime $expireDate
+	 * @param \DateTime|null $expireDate
 	 * @return \OCP\Share\IShare The modified object
 	 * @since 9.0.0
 	 */
-	public function setExpirationDate($expireDate);
+	public function setExpirationDate(\DateTime|null $expireDate);
 
 	/**
 	 * Get the expiration date
 	 *
-	 * @return null|\DateTime
+	 * @return \DateTime|null
 	 * @since 9.0.0
 	 */
 	public function getExpirationDate();
+
+	/**
+	 * Set overwrite flag for falsy expiry date vavlues
+	 *
+	 * @param bool $noExpirationDate
+	 * @return \OCP\Share\IShare The modified object
+	 * @since 29.0.1
+	 */
+	public function setNoExpirationDate(bool $noExpirationDate);
+
+
+	/**
+	 * Get value of overwrite falsy expiry date flag
+	 *
+	 * @return bool
+	 * @since 29.0.1
+	 */
+	public function getNoExpirationDate();
 
 	/**
 	 * Is the share expired ?
