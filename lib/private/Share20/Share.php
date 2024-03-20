@@ -99,7 +99,6 @@ class Share implements IShare {
 
 	/** @var ICacheEntry|null */
 	private $nodeCacheEntry;
-
 	/** @var bool */
 	private $hideDownload = false;
 
@@ -419,6 +418,21 @@ class Share implements IShare {
 	 */
 	public function getExpirationDate() {
 		return $this->expireDate;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function setNoExpirationDate(bool $noExpirationDate) {
+		$this->noExpirationDate = $noExpirationDate;
+		return $this;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getNoExpirationDate(): bool {
+		return $this->noExpirationDate;
 	}
 
 	/**
