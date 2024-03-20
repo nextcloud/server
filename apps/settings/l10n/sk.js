@@ -256,6 +256,7 @@ OC.L10N.register(
     "Configuration file access rights" : "Prístupové práva k súboru konfigurácie",
     "The read-only config has been enabled. This prevents setting some configurations via the web-interface. Furthermore, the file needs to be made writable manually for every update." : "Konfigurácia je nastavená len na čítanie. Toto znemožňuje urobiť niektoré nastavenia prostredníctvom webového rozhrania. Okrem toho, súbor musí mať zapisovanie ručne povolené pre každú aktualizáciu.",
     "Nextcloud configuration file is writable" : "Konfiguračný súbor Nextcloud je zapisovateľný",
+    "HTTP headers" : "HTTP hlavičky",
     "Database version" : "Verzia databázy",
     "MariaDB version \"%s\" is used. Nextcloud 21 and higher do not support this version and require MariaDB 10.2 or higher." : "Používa sa verzia MariaDB \"%s\". Nextcloud 21 a vyšší už nebude podporovať túto verziu a vyžaduje MariaDB 10.2 alebo novšiu.",
     "MySQL version \"%s\" is used. Nextcloud 21 and higher do not support this version and require MySQL 8.0 or MariaDB 10.2 or higher." : "Používa sa verzia MySQL \"%s\". Nextcloud 21 a vyšší už nebude podporovať túto verziu a vyžaduje MySQL 8.0 alebo MariaDB 10.2 alebo novšia.",
