@@ -170,6 +170,7 @@ OC.L10N.register(
     "Back to login form" : "Назад на формулар за пријаву",
     "Back" : "Назад",
     "Login form is disabled." : "Форма за пријаву је искључена.",
+    "The Nextcloud login form is disabled. Use another login option if available or contact your administration." : "Nextcloud формулар за пријаву је искључен. Ако је доступна, користите неку другу могућност пријаве, или се обратите администрацији.",
     "Edit Profile" : "Уреди профил",
     "The headline and about sections will show up here" : "Овде ће се појавити насловна линија и одељак „о”",
     "You have not added any info yet" : "Још увек нисте додали никакве информације",
