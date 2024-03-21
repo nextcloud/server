@@ -29,6 +29,10 @@
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\Gherkin\Node\TableNode;
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\ConnectException;
+use PHPUnit\Framework\Assert;
 
 require __DIR__ . '/../../vendor/autoload.php';
 
@@ -175,6 +179,42 @@ class FederationContext implements Context, SnippetAcceptingContext {
 	public function deleteLastAcceptedRemoteShare($user) {
 		$this->asAn($user);
 		$this->sendingToWith('DELETE', "/apps/files_sharing/api/v1/remote_shares/" . $this->lastAcceptedRemoteShareId, null);
+	}
+
+	/**
+	 * @When /^remote server is started$/
+	 */
+	public function remoteServerIsStarted() {
+		$this->startFederatedServer();
+
+		$retryCount = 10;
+
+		while (!$this->isRemoteServerReady()) {
+			if ($retryCount > 0) {
+				sleep(1);
+
+				$retryCount--;
+			} else {
+				Assert::fail("Remote server not ready yet after 10 seconds");
+			}
+		}
+	}
+
+	private function isRemoteServerReady() {
+		$port = getenv('PORT_FED');
+		$remoteServerUrl = 'http://localhost:' . $port;
+
+		$client = new Client();
+
+		try {
+			$client->request('GET', $remoteServerUrl);
+		} catch (ClientException $exception) {
+			return false;
+		} catch (ConnectException $exception) {
+			return false;
+		}
+
+		return true;
 	}
 
 	/**
