@@ -401,6 +401,35 @@ Feature: federated
 		And sending "GET" to "/apps/files_sharing/api/v1/remote_shares"
 		And the list of returned shares has 0 shares
 
+	Scenario: Delete federated share with another server no longer reachable
+		Given Using server "LOCAL"
+		And user "user0" exists
+		Given Using server "REMOTE"
+		And user "user1" exists
+		# Rename file so it has a unique name in the target server (as the target
+		# server may have its own /textfile0.txt" file)
+		And User "user0" copies file "/textfile0.txt" to "/remote-share.txt"
+		And User "user0" from server "LOCAL" shares "/remote-share.txt" with user "user1" from server "REMOTE"
+		And Using server "LOCAL"
+		And As an "user0"
+		And sending "GET" to "/apps/files_sharing/api/v1/shares"
+		And the list of returned shares has 1 shares
+		And Using server "REMOTE"
+		And User "user1" from server "REMOTE" accepts last pending share
+		And as "user1" the file "/remote-share.txt" exists
+		And As an "user1"
+		And sending "GET" to "/apps/files_sharing/api/v1/remote_shares"
+		And the list of returned shares has 1 shares
+		And remote server is stopped
+		And Using server "LOCAL"
+		When As an "user0"
+		And Deleting last share
+		Then the OCS status code should be "100"
+		And the HTTP status code should be "200"
+		And As an "user0"
+		And sending "GET" to "/apps/files_sharing/api/v1/shares"
+		And the list of returned shares has 0 shares
+
 	Scenario: Delete federated share from another server
 		Given Using server "LOCAL"
 		And user "user0" exists
