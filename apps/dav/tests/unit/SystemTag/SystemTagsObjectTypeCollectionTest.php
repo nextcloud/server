@@ -33,7 +33,6 @@ use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ISystemTagObjectMapper;
 
 class SystemTagsObjectTypeCollectionTest extends \Test\TestCase {
-
 	/**
 	 * @var \OCA\DAV\SystemTag\SystemTagsObjectTypeCollection
 	 */
@@ -87,6 +86,15 @@ class SystemTagsObjectTypeCollectionTest extends \Test\TestCase {
 			$nodes = $userFolder->getById(intval($name));
 			return !empty($nodes);
 		};
+		$writeAccessClosure = function ($name) use ($userFolder) {
+			$nodes = $userFolder->getById((int)$name);
+			foreach ($nodes as $node) {
+				if (($node->getPermissions() & Constants::PERMISSION_UPDATE) === Constants::PERMISSION_UPDATE) {
+					return true;
+				}
+			}
+			return false;
+		};
 
 		$this->node = new \OCA\DAV\SystemTag\SystemTagsObjectTypeCollection(
 			'files',
@@ -94,19 +102,18 @@ class SystemTagsObjectTypeCollectionTest extends \Test\TestCase {
 			$this->tagMapper,
 			$userSession,
 			$groupManager,
-			$closure
+			$closure,
+			$writeAccessClosure,
 		);
 	}
 
-	
-	public function testForbiddenCreateFile() {
+	public function testForbiddenCreateFile(): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
 		$this->node->createFile('555');
 	}
 
-	
-	public function testForbiddenCreateDirectory() {
+	public function testForbiddenCreateDirectory(): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
 		$this->node->createDirectory('789');
@@ -123,8 +130,7 @@ class SystemTagsObjectTypeCollectionTest extends \Test\TestCase {
 		$this->assertEquals('555', $childNode->getName());
 	}
 
-	
-	public function testGetChildWithoutAccess() {
+	public function testGetChildWithoutAccess(): void {
 		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
 
 		$this->userFolder->expects($this->once())
@@ -134,8 +140,7 @@ class SystemTagsObjectTypeCollectionTest extends \Test\TestCase {
 		$this->node->getChild('555');
 	}
 
-	
-	public function testGetChildren() {
+	public function testGetChildren(): void {
 		$this->expectException(\Sabre\DAV\Exception\MethodNotAllowed::class);
 
 		$this->node->getChildren();
@@ -157,15 +162,13 @@ class SystemTagsObjectTypeCollectionTest extends \Test\TestCase {
 		$this->assertFalse($this->node->childExists('555'));
 	}
 
-	
-	public function testDelete() {
+	public function testDelete(): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
 		$this->node->delete();
 	}
 
-	
-	public function testSetName() {
+	public function testSetName(): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
 		$this->node->setName('somethingelse');

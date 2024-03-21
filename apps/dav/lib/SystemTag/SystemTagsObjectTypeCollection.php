@@ -38,61 +38,30 @@ use Sabre\DAV\ICollection;
  * Collection containing object ids by object type
  */
 class SystemTagsObjectTypeCollection implements ICollection {
+	private string $objectType;
+	private ISystemTagManager $tagManager;
+	private ISystemTagObjectMapper $tagMapper;
+	private IUserSession $userSession;
+	private IGroupManager $groupManager;
+	protected \Closure $childExistsFunction;
+	protected \Closure $childWriteAccessFunction;
 
-	/**
-	 * @var string
-	 */
-	private $objectType;
-
-	/**
-	 * @var ISystemTagManager
-	 */
-	private $tagManager;
-
-	/**
-	 * @var ISystemTagObjectMapper
-	 */
-	private $tagMapper;
-
-	/**
-	 * @var IGroupManager
-	 */
-	private $groupManager;
-
-	/**
-	 * @var IUserSession
-	 */
-	private $userSession;
-
-	/**
-	 * @var \Closure
-	 **/
-	protected $childExistsFunction;
-
-	/**
-	 * Constructor
-	 *
-	 * @param string $objectType object type
-	 * @param ISystemTagManager $tagManager
-	 * @param ISystemTagObjectMapper $tagMapper
-	 * @param IUserSession $userSession
-	 * @param IGroupManager $groupManager
-	 * @param \Closure $childExistsFunction
-	 */
 	public function __construct(
-		$objectType,
+		string $objectType,
 		ISystemTagManager $tagManager,
 		ISystemTagObjectMapper $tagMapper,
 		IUserSession $userSession,
 		IGroupManager $groupManager,
-		\Closure $childExistsFunction
+		\Closure $childExistsFunction,
+		\Closure $childWriteAccessFunction
 	) {
+		$this->objectType = $objectType;
 		$this->tagManager = $tagManager;
 		$this->tagMapper = $tagMapper;
-		$this->objectType = $objectType;
 		$this->userSession = $userSession;
 		$this->groupManager = $groupManager;
 		$this->childExistsFunction = $childExistsFunction;
+		$this->childWriteAccessFunction = $childWriteAccessFunction;
 	}
 
 	/**
@@ -129,7 +98,8 @@ class SystemTagsObjectTypeCollection implements ICollection {
 			$this->objectType,
 			$this->userSession->getUser(),
 			$this->tagManager,
-			$this->tagMapper
+			$this->tagMapper,
+			$this->childWriteAccessFunction,
 		);
 	}
 
