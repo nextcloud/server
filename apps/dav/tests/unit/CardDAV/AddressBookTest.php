@@ -170,7 +170,7 @@ class AddressBookTest extends TestCase {
 			'protected' => true
 		], [
 			'privilege' => '{DAV:}write-properties',
-			'principal' => '{DAV:}authenticated',
+			'principal' => $hasOwnerSet ? 'user1' : 'user2',
 			'protected' => true
 		]];
 		if ($hasOwnerSet) {

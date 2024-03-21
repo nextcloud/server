@@ -118,7 +118,7 @@ class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareable, IMov
 			],
 			[
 				'privilege' => '{DAV:}write-properties',
-				'principal' => '{DAV:}authenticated',
+				'principal' => $this->getOwner(),
 				'protected' => true,
 			],
 		];
@@ -126,6 +126,11 @@ class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareable, IMov
 		if ($this->getOwner() === 'principals/system/system') {
 			$acl[] = [
 				'privilege' => '{DAV:}read',
+				'principal' => '{DAV:}authenticated',
+				'protected' => true,
+			];
+			$acl[] = [
+				'privilege' => '{DAV:}write-properties',
 				'principal' => '{DAV:}authenticated',
 				'protected' => true,
 			];
