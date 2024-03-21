@@ -1108,9 +1108,10 @@ class ShareByMailProvider implements IShareProvider {
 			));
 		$cursor = $qb->executeQuery();
 
-		$public = $cursor->rowCount() > 0;
+		$public = false;
 		$mail = [];
 		while ($row = $cursor->fetch()) {
+			$public = true;
 			if ($currentAccess === false) {
 				$mail[] = $row['share_with'];
 			} else {
