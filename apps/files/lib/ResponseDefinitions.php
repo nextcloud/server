@@ -44,6 +44,7 @@ namespace OCA\Files;
  *     label: string,
  *     extension: string,
  *     iconClass: ?string,
+ *     iconSvgInline: ?string,
  *     mimetypes: string[],
  *     ratio: ?float,
  *     actionLabel: string,

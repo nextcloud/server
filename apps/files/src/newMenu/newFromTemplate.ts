@@ -64,8 +64,8 @@ export function registerTemplateEntries() {
 		addNewFileMenuEntry({
 			id: `template-new-${provider.app}-${index}`,
 			displayName: provider.label,
-			// TODO: migrate to inline svg
 			iconClass: provider.iconClass || 'icon-file',
+			iconSvgInline: provider.iconSvgInline,
 			enabled(context: Folder): boolean {
 				return (context.permissions & Permission.CREATE) !== 0
 			},

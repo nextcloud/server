@@ -151,6 +151,7 @@
                     "label",
                     "extension",
                     "iconClass",
+                    "iconSvgInline",
                     "mimetypes",
                     "ratio",
                     "actionLabel"
@@ -166,6 +167,10 @@
                         "type": "string"
                     },
                     "iconClass": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "iconSvgInline": {
                         "type": "string",
                         "nullable": true
                     },
