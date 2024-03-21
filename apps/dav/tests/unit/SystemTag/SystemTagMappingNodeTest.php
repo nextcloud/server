@@ -33,21 +33,9 @@ use OCP\SystemTag\ISystemTagObjectMapper;
 use OCP\SystemTag\TagNotFoundException;
 
 class SystemTagMappingNodeTest extends \Test\TestCase {
-
-	/**
-	 * @var \OCP\SystemTag\ISystemTagManager
-	 */
-	private $tagManager;
-
-	/**
-	 * @var \OCP\SystemTag\ISystemTagObjectMapper
-	 */
-	private $tagMapper;
-
-	/**
-	 * @var \OCP\IUser
-	 */
-	private $user;
+	private ISystemTagManager $tagManager;
+	private ISystemTagObjectMapper $tagMapper;
+	private IUser $user;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -60,7 +48,7 @@ class SystemTagMappingNodeTest extends \Test\TestCase {
 			->getMock();
 	}
 
-	public function getMappingNode($tag = null) {
+	public function getMappingNode($tag = null, array $writableNodeIds = []) {
 		if ($tag === null) {
 			$tag = new SystemTag(1, 'Test', true, true);
 		}
@@ -70,7 +58,8 @@ class SystemTagMappingNodeTest extends \Test\TestCase {
 			'files',
 			$this->user,
 			$this->tagManager,
-			$this->tagMapper
+			$this->tagMapper,
+			fn ($id): bool => in_array($id, $writableNodeIds),
 		);
 	}
 
@@ -84,7 +73,7 @@ class SystemTagMappingNodeTest extends \Test\TestCase {
 	}
 
 	public function testDeleteTag(): void {
-		$node = $this->getMappingNode();
+		$node = $this->getMappingNode(null, [123]);
 		$this->tagManager->expects($this->once())
 			->method('canUserSeeTag')
 			->with($node->getSystemTag())
@@ -99,6 +88,25 @@ class SystemTagMappingNodeTest extends \Test\TestCase {
 			->method('unassignTags')
 			->with(123, 'files', 1);
 
+		$node->delete();
+	}
+
+	public function testDeleteTagForbidden(): void {
+		$node = $this->getMappingNode();
+		$this->tagManager->expects($this->once())
+			->method('canUserSeeTag')
+			->with($node->getSystemTag())
+			->willReturn(true);
+		$this->tagManager->expects($this->once())
+			->method('canUserAssignTag')
+			->with($node->getSystemTag())
+			->willReturn(true);
+		$this->tagManager->expects($this->never())
+			->method('deleteTags');
+		$this->tagMapper->expects($this->never())
+			->method('unassignTags');
+
+		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 		$node->delete();
 	}
 
@@ -144,7 +152,7 @@ class SystemTagMappingNodeTest extends \Test\TestCase {
 		$this->assertInstanceOf($expectedException, $thrown);
 	}
 
-	
+
 	public function testDeleteTagNotFound(): void {
 		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
 
@@ -164,6 +172,6 @@ class SystemTagMappingNodeTest extends \Test\TestCase {
 			->with(123, 'files', 1)
 			->will($this->throwException(new TagNotFoundException()));
 
-		$this->getMappingNode($tag)->delete();
+		$this->getMappingNode($tag, [123])->delete();
 	}
 }
