@@ -29,6 +29,7 @@ declare(strict_types=1);
  */
 namespace OCA\DAV\Tests\unit\BackgroundJob;
 
+use InvalidArgumentException;
 use OCA\DAV\AppInfo\Application;
 use OCA\DAV\BackgroundJob\PruneOutdatedSyncTokensJob;
 use OCA\DAV\CalDAV\CalDavBackend;
@@ -72,18 +73,27 @@ class PruneOutdatedSyncTokensJobTest extends TestCase {
 	/**
 	 * @dataProvider dataForTestRun
 	 */
-	public function testRun(string $configValue, int $actualLimit, int $deletedCalendarSyncTokens, int $deletedAddressBookSyncTokens): void {
-		$this->config->expects($this->once())
+	public function testRun(string $configToKeep, string $configRetentionDays, int $actualLimit, int $retentionDays, int $deletedCalendarSyncTokens, int $deletedAddressBookSyncTokens): void {
+		$this->config->expects($this->exactly(2))
 			->method('getAppValue')
-			->with(Application::APP_ID, 'totalNumberOfSyncTokensToKeep', '10000')
-			->willReturn($configValue);
+			->with(Application::APP_ID, self::anything(), self::anything())
+			->willReturnCallback(function ($app, $key) use ($configToKeep, $configRetentionDays) {
+				switch ($key) {
+					case 'totalNumberOfSyncTokensToKeep':
+						return $configToKeep;
+					case 'syncTokensRetentionDays':
+						return $configRetentionDays;
+					default:
+						throw new InvalidArgumentException();
+				}
+			});
 		$this->calDavBackend->expects($this->once())
 			->method('pruneOutdatedSyncTokens')
 			->with($actualLimit)
 			->willReturn($deletedCalendarSyncTokens);
 		$this->cardDavBackend->expects($this->once())
 			->method('pruneOutdatedSyncTokens')
-			->with($actualLimit)
+			->with($actualLimit, $retentionDays)
 			->willReturn($deletedAddressBookSyncTokens);
 		$this->logger->expects($this->once())
 			->method('info')
@@ -97,8 +107,9 @@ class PruneOutdatedSyncTokensJobTest extends TestCase {
 
 	public function dataForTestRun(): array {
 		return [
-			['100', 100, 2, 3],
-			['0', 1, 0, 0]
+			['100', '2', 100, 7 * 24 * 3600, 2, 3],
+			['100', '14', 100, 14 * 24 * 3600, 2, 3],
+			['0', '60', 1, 60 * 24 * 3600, 0, 0]
 		];
 	}
 }

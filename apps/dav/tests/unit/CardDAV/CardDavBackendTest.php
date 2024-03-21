@@ -60,6 +60,7 @@ use Sabre\DAV\PropPatch;
 use Sabre\VObject\Component\VCard;
 use Sabre\VObject\Property\Text;
 use Test\TestCase;
+use function time;
 
 /**
  * Class CardDavBackendTest
@@ -880,7 +881,12 @@ class CardDavBackendTest extends TestCase {
 		$uri = $this->getUniqueID('card');
 		$this->backend->createCard($addressBookId, $uri, $this->vcardTest0);
 		$this->backend->updateCard($addressBookId, $uri, $this->vcardTest1);
-		$deleted = $this->backend->pruneOutdatedSyncTokens(0);
+
+		// Do not delete anything if week data as old as ts=0
+		$deleted = $this->backend->pruneOutdatedSyncTokens(0, 0);
+		self::assertSame(0, $deleted);
+
+		$deleted = $this->backend->pruneOutdatedSyncTokens(0, time());
 		// At least one from the object creation and one from the object update
 		$this->assertGreaterThanOrEqual(2, $deleted);
 		$changes = $this->backend->getChangesForAddressBook($addressBookId, $syncToken, 1);
@@ -912,7 +918,7 @@ class CardDavBackendTest extends TestCase {
 		$this->assertEmpty($changes['deleted']);
 
 		// Delete all but last change
-		$deleted = $this->backend->pruneOutdatedSyncTokens(1);
+		$deleted = $this->backend->pruneOutdatedSyncTokens(1, time());
 		$this->assertEquals(1, $deleted); // We had two changes before, now one
 
 		// Only update should remain
@@ -920,8 +926,8 @@ class CardDavBackendTest extends TestCase {
 		$this->assertEmpty($changes['added']);
 		$this->assertEquals(1, count($changes['modified']));
 		$this->assertEmpty($changes['deleted']);
-		
+
 		// Check that no crash occurs when prune is called without current changes
-		$deleted = $this->backend->pruneOutdatedSyncTokens(1);
+		$deleted = $this->backend->pruneOutdatedSyncTokens(1, time());
 	}
 }
