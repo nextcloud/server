@@ -64,7 +64,7 @@ import PQueue from 'p-queue'
 	var FileList = function($el, options) {
 		this.client = options.client
 		this.initialize($el, options)
-		this.deleteOperationQueue = new PQueue({ concurrency: 4 })
+		this.deleteOperationQueue = new PQueue({ concurrency: 1 })
 	}
 	FileList.prototype = _.extend({}, OCA.Files.FileList.prototype,
 		/** @lends OCA.Trashbin.FileList.prototype */ {
