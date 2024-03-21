@@ -87,7 +87,9 @@ class SystemTagsRelationsCollection extends SimpleCollection {
 				$userSession,
 				$groupManager,
 				$entityExistsFunction,
-				fn ($name) => true,
+				function ($name) {
+					return true;
+				},
 			);
 		}
 

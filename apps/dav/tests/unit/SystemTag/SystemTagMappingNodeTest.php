@@ -62,7 +62,9 @@ class SystemTagMappingNodeTest extends \Test\TestCase {
 			$this->user,
 			$this->tagManager,
 			$this->tagMapper,
-			fn ($id): bool => in_array($id, $writableNodeIds),
+			function ($id) use ($writableNodeIds): bool {
+				return in_array($id, $writableNodeIds);
+			},
 		);
 	}
 
