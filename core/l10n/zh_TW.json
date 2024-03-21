@@ -168,6 +168,7 @@
     "Back to login form" : "回到登入表單",
     "Back" : "返回",
     "Login form is disabled." : "登入表單已停用。",
+    "The Nextcloud login form is disabled. Use another login option if available or contact your administration." : "Nextcloud 登入表單已停用。使用其他登入選項（若可用）或聯絡您的管理人員。",
     "Edit Profile" : "編輯個人檔案",
     "The headline and about sections will show up here" : "標題與關於部份將在此顯示",
     "You have not added any info yet" : "您尚未新增任何資訊。",

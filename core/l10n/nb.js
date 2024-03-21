@@ -170,6 +170,7 @@ OC.L10N.register(
     "Back to login form" : "Tilbake til innloggingsskjema",
     "Back" : "Tilbake",
     "Login form is disabled." : "Innloggingskjemaet er deaktivert.",
+    "The Nextcloud login form is disabled. Use another login option if available or contact your administration." : "Nextcloud-påloggingsskjemaet er deaktivert. Bruk et annet påloggingsalternativ hvis tilgjengelig, eller kontakt administrasjonen din.",
     "Edit Profile" : "Endre profil",
     "The headline and about sections will show up here" : "Overskriften og om-seksjoner vil vises her",
     "You have not added any info yet" : "Du har ikke lagt inn noe informasjon ennå",
