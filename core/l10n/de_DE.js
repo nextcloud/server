@@ -170,6 +170,7 @@ OC.L10N.register(
     "Back to login form" : "Zurück zum Anmeldeformular",
     "Back" : "Zurück",
     "Login form is disabled." : "Das Anmeldeformular ist deaktiviert.",
+    "The Nextcloud login form is disabled. Use another login option if available or contact your administration." : "Das Nextcloud-Anmeldeformular ist deaktiviert. Nutzen Sie ggf. eine andere Anmeldemöglichkeit oder wenden Sie sich an Ihre Administration.",
     "Edit Profile" : "Profil bearbeiten",
     "The headline and about sections will show up here" : "Die Überschrift und der Infobereich werden hier angezeigt",
     "You have not added any info yet" : "Sie haben noch keine Infos hinzugefügt",
