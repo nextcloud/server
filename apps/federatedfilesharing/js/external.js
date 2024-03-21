@@ -78,7 +78,7 @@
 			this.filesApp = filesApp;
 			this.processIncomingShareFromUrl();
 
-			if (!$('#header').find('div.notifications').length) {
+			if (!('notifications' in OC.appswebroots)) {
 				// No notification app, display the modal
 				this.processSharesToConfirm();
 			}
