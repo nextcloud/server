@@ -239,7 +239,7 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 				// valid Nextcloud instance means that the public share no longer exists
 				// since this is permanent (re-sharing the file will create a new token)
 				// we remove the invalid storage
-				$this->manager->removeShare($this->mountPoint);
+				$this->manager->removeShare($this->mountPoint, true);
 				$this->manager->getMountManager()->removeMount($this->mountPoint);
 				throw new StorageInvalidException("Remote share not found", 0, $e);
 			} else {
@@ -248,7 +248,7 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 			}
 		} catch (ForbiddenException $e) {
 			// auth error, remove share for now (provide a dialog in the future)
-			$this->manager->removeShare($this->mountPoint);
+			$this->manager->removeShare($this->mountPoint, true);
 			$this->manager->getMountManager()->removeMount($this->mountPoint);
 			throw new StorageInvalidException("Auth error when getting remote share");
 		} catch (\GuzzleHttp\Exception\ConnectException $e) {
