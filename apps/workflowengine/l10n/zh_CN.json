@@ -63,6 +63,8 @@
     "Desktop client" : "桌面客户端",
     "Thunderbird & Outlook addons" : "Thunderbird & Outlook 插件",
     "Custom user agent" : "自定义用户代理",
+    "Select groups" : "选择用户组",
+    "Groups" : "用户组",
     "At least one event must be selected" : "必须至少选择一个事件",
     "Add new flow" : "添加新的流程",
     "When" : "时间",

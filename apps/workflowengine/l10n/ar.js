@@ -67,6 +67,8 @@ OC.L10N.register(
     "Desktop client" : "تطبيق سطح المكتب",
     "Thunderbird & Outlook addons" : "إضافات ثندربيرد و أوت لوك",
     "Custom user agent" : "وكيل مستخدم مخصص",
+    "Select groups" : "إختَر مجموعةً",
+    "Groups" : "المجموعات",
     "Select a trigger" : "حدد مشغل",
     "At least one event must be selected" : "يجب اختيار حدث واحد على الأقل",
     "Add new flow" : "إضافة مسار دفق جديد",
