@@ -401,6 +401,58 @@ Feature: federated
 		And sending "GET" to "/apps/files_sharing/api/v1/remote_shares"
 		And the list of returned shares has 0 shares
 
+	Scenario: Delete federated group share with another server
+		Given Using server "LOCAL"
+		And parameter "outgoing_server2server_group_share_enabled" of app "files_sharing" is set to "yes"
+		And user "user0" exists
+		Given Using server "REMOTE"
+		And parameter "incoming_server2server_group_share_enabled" of app "files_sharing" is set to "yes"
+		And user "group1-user0" exists
+		And user "group1-user1" exists
+		And group "group1" exists
+		And user "group1-user0" belongs to group "group1"
+		And user "group1-user1" belongs to group "group1"
+		# Rename file so it has a unique name in the target server (as the target
+		# server may have its own /textfile0.txt" file)
+		And User "user0" copies file "/textfile0.txt" to "/remote-share.txt"
+		And User "user0" from server "LOCAL" shares "/remote-share.txt" with group "group1" from server "REMOTE"
+		And Using server "LOCAL"
+		And As an "user0"
+		And sending "GET" to "/apps/files_sharing/api/v1/shares"
+		And the list of returned shares has 1 shares
+		And Using server "REMOTE"
+		And User "group1-user0" from server "REMOTE" accepts last pending share
+		And as "group1-user0" the file "/remote-share.txt" exists
+		And As an "group1-user0"
+		And sending "GET" to "/apps/files_sharing/api/v1/remote_shares"
+		And the list of returned shares has 1 shares
+		And User "group1-user1" from server "REMOTE" accepts last pending share
+		And as "group1-user1" the file "/remote-share.txt" exists
+		And As an "group1-user1"
+		And sending "GET" to "/apps/files_sharing/api/v1/remote_shares"
+		And the list of returned shares has 1 shares
+		And Using server "LOCAL"
+		When As an "user0"
+		And Deleting last share
+		Then the OCS status code should be "100"
+		And the HTTP status code should be "200"
+		And As an "user0"
+		And sending "GET" to "/apps/files_sharing/api/v1/shares"
+		And the list of returned shares has 0 shares
+		And Using server "REMOTE"
+		And as "group1-user0" the file "/remote-share.txt" does not exist
+		And As an "group1-user0"
+		And sending "GET" to "/apps/files_sharing/api/v1/remote_shares"
+		And the list of returned shares has 0 shares
+		And sending "GET" to "/apps/files_sharing/api/v1/remote_shares/pending"
+		And the list of returned shares has 0 shares
+		And as "group1-user1" the file "/remote-share.txt" does not exist
+		And As an "group1-user1"
+		And sending "GET" to "/apps/files_sharing/api/v1/remote_shares"
+		And the list of returned shares has 0 shares
+		And sending "GET" to "/apps/files_sharing/api/v1/remote_shares/pending"
+		And the list of returned shares has 0 shares
+
 	Scenario: Delete federated share with another server no longer reachable
 		Given Using server "LOCAL"
 		And user "user0" exists
@@ -418,6 +470,46 @@ Feature: federated
 		And User "user1" from server "REMOTE" accepts last pending share
 		And as "user1" the file "/remote-share.txt" exists
 		And As an "user1"
+		And sending "GET" to "/apps/files_sharing/api/v1/remote_shares"
+		And the list of returned shares has 1 shares
+		And remote server is stopped
+		And Using server "LOCAL"
+		When As an "user0"
+		And Deleting last share
+		Then the OCS status code should be "100"
+		And the HTTP status code should be "200"
+		And As an "user0"
+		And sending "GET" to "/apps/files_sharing/api/v1/shares"
+		And the list of returned shares has 0 shares
+
+	Scenario: Delete federated group share with another server no longer reachable
+		Given Using server "LOCAL"
+		And parameter "outgoing_server2server_group_share_enabled" of app "files_sharing" is set to "yes"
+		And user "user0" exists
+		Given Using server "REMOTE"
+		And parameter "incoming_server2server_group_share_enabled" of app "files_sharing" is set to "yes"
+		And user "group1-user0" exists
+		And user "group1-user1" exists
+		And group "group1" exists
+		And user "group1-user0" belongs to group "group1"
+		And user "group1-user1" belongs to group "group1"
+		# Rename file so it has a unique name in the target server (as the target
+		# server may have its own /textfile0.txt" file)
+		And User "user0" copies file "/textfile0.txt" to "/remote-share.txt"
+		And User "user0" from server "LOCAL" shares "/remote-share.txt" with group "group1" from server "REMOTE"
+		And Using server "LOCAL"
+		And As an "user0"
+		And sending "GET" to "/apps/files_sharing/api/v1/shares"
+		And the list of returned shares has 1 shares
+		And Using server "REMOTE"
+		And User "group1-user0" from server "REMOTE" accepts last pending share
+		And as "group1-user0" the file "/remote-share.txt" exists
+		And As an "group1-user0"
+		And sending "GET" to "/apps/files_sharing/api/v1/remote_shares"
+		And the list of returned shares has 1 shares
+		And User "group1-user1" from server "REMOTE" accepts last pending share
+		And as "group1-user1" the file "/remote-share.txt" exists
+		And As an "group1-user1"
 		And sending "GET" to "/apps/files_sharing/api/v1/remote_shares"
 		And the list of returned shares has 1 shares
 		And remote server is stopped
@@ -463,6 +555,60 @@ Feature: federated
 		And as "user1" the file "/remote-share.txt" does not exist
 		And As an "user1"
 		And sending "GET" to "/apps/files_sharing/api/v1/remote_shares"
+		And the list of returned shares has 0 shares
+
+	Scenario: Delete federated group share with another server when temporary unreachable
+		Given Using server "LOCAL"
+		And parameter "outgoing_server2server_group_share_enabled" of app "files_sharing" is set to "yes"
+		And user "user0" exists
+		Given Using server "REMOTE"
+		And parameter "incoming_server2server_group_share_enabled" of app "files_sharing" is set to "yes"
+		And user "group1-user0" exists
+		And user "group1-user1" exists
+		And group "group1" exists
+		And user "group1-user0" belongs to group "group1"
+		And user "group1-user1" belongs to group "group1"
+		# Rename file so it has a unique name in the target server (as the target
+		# server may have its own /textfile0.txt" file)
+		And User "user0" copies file "/textfile0.txt" to "/remote-share.txt"
+		And User "user0" from server "LOCAL" shares "/remote-share.txt" with group "group1" from server "REMOTE"
+		And Using server "LOCAL"
+		And As an "user0"
+		And sending "GET" to "/apps/files_sharing/api/v1/shares"
+		And the list of returned shares has 1 shares
+		And Using server "REMOTE"
+		And User "group1-user0" from server "REMOTE" accepts last pending share
+		And as "group1-user0" the file "/remote-share.txt" exists
+		And As an "group1-user0"
+		And sending "GET" to "/apps/files_sharing/api/v1/remote_shares"
+		And the list of returned shares has 1 shares
+		And User "group1-user1" from server "REMOTE" accepts last pending share
+		And as "group1-user1" the file "/remote-share.txt" exists
+		And As an "group1-user1"
+		And sending "GET" to "/apps/files_sharing/api/v1/remote_shares"
+		And the list of returned shares has 1 shares
+		And remote server is stopped
+		And Using server "LOCAL"
+		When As an "user0"
+		And Deleting last share
+		Then the OCS status code should be "100"
+		And the HTTP status code should be "200"
+		And As an "user0"
+		And sending "GET" to "/apps/files_sharing/api/v1/shares"
+		And the list of returned shares has 0 shares
+		And remote server is started
+		And Using server "REMOTE"
+		And as "group1-user0" the file "/remote-share.txt" does not exist
+		And As an "group1-user0"
+		And sending "GET" to "/apps/files_sharing/api/v1/remote_shares"
+		And the list of returned shares has 0 shares
+		And sending "GET" to "/apps/files_sharing/api/v1/remote_shares/pending"
+		And the list of returned shares has 0 shares
+		And as "group1-user1" the file "/remote-share.txt" does not exist
+		And As an "group1-user1"
+		And sending "GET" to "/apps/files_sharing/api/v1/remote_shares"
+		And the list of returned shares has 0 shares
+		And sending "GET" to "/apps/files_sharing/api/v1/remote_shares/pending"
 		And the list of returned shares has 0 shares
 
 	Scenario: Delete federated share from another server
