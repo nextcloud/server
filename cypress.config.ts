@@ -1,15 +1,15 @@
-import {
-	applyChangesToNextcloud,
-	configureNextcloud,
-	startNextcloud,
-	stopNextcloud,
-	waitOnNextcloud,
-} from './cypress/dockerNode'
-import { defineConfig } from 'cypress'
-import cypressSplit from 'cypress-split'
-import webpackPreprocessor from '@cypress/webpack-preprocessor'
 import type { Configuration } from 'webpack'
 
+import {
+	configureNextcloud,
+	stopNextcloud,
+	waitOnNextcloud,
+} from '@nextcloud/cypress/docker'
+import webpackPreprocessor from '@cypress/webpack-preprocessor'
+
+import { defineConfig } from 'cypress'
+import { applyChangesToNextcloud, startDockerServer } from './cypress/dockerNode'
+import cypressSplit from 'cypress-split'
 import webpackConfig from './webpack.config.js'
 
 export default defineConfig({
@@ -83,13 +83,13 @@ export default defineConfig({
 
 			// Before the browser launches
 			// starting Nextcloud testing container
-			const ip = await startNextcloud(process.env.BRANCH)
+			const ip = await startDockerServer(process.env.BRANCH)
 
 			// Setting container's IP as base Url
 			config.baseUrl = `http://${ip}/index.php`
 			await waitOnNextcloud(ip)
-			await configureNextcloud()
 			await applyChangesToNextcloud()
+			await configureNextcloud()
 
 			// IMPORTANT: return the config otherwise cypress-split will not work
 			return config
