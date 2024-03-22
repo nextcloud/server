@@ -67,6 +67,8 @@ OC.L10N.register(
     "Desktop client" : "Desktop-Client",
     "Thunderbird & Outlook addons" : "Thunderbird & Outlook Addons",
     "Custom user agent" : "Benutzerdefinierter User-Agent",
+    "Select groups" : "Gruppen auswählen",
+    "Groups" : "Gruppen",
     "Select a trigger" : "Einen Auslöser auswählen",
     "At least one event must be selected" : "Mindestens ein Termin muss ausgewählt werden",
     "Add new flow" : "Neuen Ablauf hinzufügen",

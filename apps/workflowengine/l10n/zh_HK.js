@@ -67,6 +67,8 @@ OC.L10N.register(
     "Desktop client" : "桌面客戶端",
     "Thunderbird & Outlook addons" : "Thunderbird & Outlook 插件",
     "Custom user agent" : "自訂 user agent",
+    "Select groups" : "選擇群組",
+    "Groups" : "群組",
     "Select a trigger" : "選擇觸發條件",
     "At least one event must be selected" : "必須選擇至少一個活動",
     "Add new flow" : "添加新流程",

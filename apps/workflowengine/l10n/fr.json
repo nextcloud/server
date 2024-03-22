@@ -65,6 +65,8 @@
     "Desktop client" : "Client de bureau",
     "Thunderbird & Outlook addons" : "Modules complémentaires Thunderbird & Outlook",
     "Custom user agent" : "Autre client",
+    "Select groups" : "Sélectionnez les groupes",
+    "Groups" : "Groupes",
     "Select a trigger" : "Sélectionner un déclencheur",
     "At least one event must be selected" : "Au moins un événement doit être sélectionné",
     "Add new flow" : "Ajouter un nouveau flux",

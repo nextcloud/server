@@ -66,6 +66,8 @@ OC.L10N.register(
     "Desktop client" : "Odjemalec za namizne računalnike",
     "Thunderbird & Outlook addons" : "Razširitve za Thunderbird in Outlook",
     "Custom user agent" : "Uporabniški odjemalec po meri",
+    "Select groups" : "Izbor skupin",
+    "Groups" : "Skupine",
     "At least one event must be selected" : "Izbran mora biti vsaj en dogodek",
     "Add new flow" : "Dodaj koračnik",
     "When" : "Ko je",

@@ -65,6 +65,8 @@
     "Desktop client" : "Skrivebordsklient",
     "Thunderbird & Outlook addons" : "Thunderbird & Outlook tillegg",
     "Custom user agent" : "Egendefinert brukeragent",
+    "Select groups" : "Velg grupper",
+    "Groups" : "Grupper",
     "Select a trigger" : "Velg en utløser",
     "At least one event must be selected" : "Minst èn hendelse må velges",
     "Add new flow" : "Legg til ny flyt",
