@@ -55,6 +55,8 @@ OC.L10N.register(
     "iOS client" : "iOS 클라이언트",
     "Desktop client" : "데스크톱 클라이언트",
     "Thunderbird & Outlook addons" : "Thunderbird와 Outlook 확장 기능",
+    "Select groups" : "그룹 선택",
+    "Groups" : "그룹",
     "At least one event must be selected" : "적어도 하나의 이벤트는 선택해야합니다.",
     "Add new flow" : "새 흐름 추가",
     "When" : "언제",

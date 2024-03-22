@@ -67,6 +67,8 @@ OC.L10N.register(
     "Desktop client" : "Cliente de escritorio",
     "Thunderbird & Outlook addons" : "Complementos do Thunderbird e do Outlook",
     "Custom user agent" : "Axente de usuario personalizado",
+    "Select groups" : "Seleccionar grupos",
+    "Groups" : "Grupos",
     "Select a trigger" : "Seleccione un disparador",
     "At least one event must be selected" : "Ten que seleccionar polo menos un evento",
     "Add new flow" : "Engadir un novo fluxo",
