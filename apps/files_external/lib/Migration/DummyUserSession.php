@@ -28,7 +28,6 @@ use OCP\IUser;
 use OCP\IUserSession;
 
 class DummyUserSession implements IUserSession {
-
 	private ?IUser $user = null;
 
 	public function login($uid, $password) {
