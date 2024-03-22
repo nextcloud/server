@@ -168,6 +168,7 @@
     "Back to login form" : "Voltar ao formulário de login",
     "Back" : "Voltar",
     "Login form is disabled." : "O formulário de login está desativado.",
+    "The Nextcloud login form is disabled. Use another login option if available or contact your administration." : "O formulário de login do Nextcloud está desabilitado. Use outra opção de login, se disponível, ou entre em contato com sua administração.",
     "Edit Profile" : "Editar Perfil ",
     "The headline and about sections will show up here" : "O título e as seções sobre serão exibidos aqui",
     "You have not added any info yet" : "Você ainda não adicionou nenhuma informação",

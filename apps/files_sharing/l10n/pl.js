@@ -173,6 +173,7 @@ OC.L10N.register(
     "Guest" : "Gość",
     "Group" : "Grupa",
     "Email" : "E-mail",
+    "Team" : "Zespół",
     "Talk conversation" : "Rozmowa Talk",
     "Deck board" : "Tablica Deck",
     "ScienceMesh" : "ScienceMesh",
