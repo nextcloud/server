@@ -198,6 +198,38 @@ class FederationContext implements Context, SnippetAcceptingContext {
 	}
 
 	/**
+	 * @When /^user "([^"]*)" deletes last accepted remote group share$/
+	 * @param string $user
+	 */
+	public function deleteLastAcceptedRemoteGroupShare($user) {
+		$this->asAn($user);
+
+		// Accepting the group share creates an additional share exclusive for
+		// the user which needs to be got from the list of remote shares.
+		$this->sendingToWith('DELETE', "/apps/files_sharing/api/v1/remote_shares/" . $this->getRemoteShareWithParentId($this->lastAcceptedRemoteShareId), null);
+	}
+
+	private function getRemoteShareWithParentId($parentId) {
+		// Ensure that the id is a string rather than a SimpleXMLElement.
+		$parentId = (string)$parentId;
+
+		$this->sendingToWith('GET', "/apps/files_sharing/api/v1/remote_shares", null);
+
+		$returnedShare = $this->getXmlResponse()->data[0];
+		if ($returnedShare->element) {
+			for ($i = 0; $i < count($returnedShare->element); $i++) {
+				if (((string)$returnedShare->element[$i]->parent) === $parentId) {
+					return (string)$returnedShare->element[$i]->id;
+				}
+			}
+		} elseif (((string)$returnedShare->parent) === $parentId) {
+			return (string)$returnedShare->id;
+		}
+
+		Assert::fail("No remote share found with parent id $parentId");
+	}
+
+	/**
 	 * @When /^remote server is started$/
 	 */
 	public function remoteServerIsStarted() {
