@@ -36,7 +36,7 @@
 			:aria-description="ariaForSection(section)"
 			@click.native="onClick(section.to)"
 			@dragover.native="onDragOver($event, section.dir)"
-			@dropped="onDrop($event, section.dir)">
+			@drop.native="onDrop($event, section.dir)">
 			<template v-if="index === 0" #icon>
 				<NcIconSvgWrapper :size="20"
 					:svg="viewIcon" />
@@ -61,7 +61,7 @@ import NcBreadcrumb from '@nextcloud/vue/dist/Components/NcBreadcrumb.js'
 import NcBreadcrumbs from '@nextcloud/vue/dist/Components/NcBreadcrumbs.js'
 import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
 
-import { onDropExternalFiles, onDropInternalFiles } from '../services/DropService'
+import { onDropInternalFiles, dataTransferToFileTree, onDropExternalFiles } from '../services/DropService'
 import { showError } from '@nextcloud/dialogs'
 import { useDragAndDropStore } from '../store/dragging.ts'
 import { useFilesStore } from '../store/files.ts'
@@ -70,8 +70,6 @@ import { useSelectionStore } from '../store/selection.ts'
 import { useUploaderStore } from '../store/uploader.ts'
 import filesListWidthMixin from '../mixins/filesListWidth.ts'
 import logger from '../logger'
-import { debug } from '../../../../core/src/OC/debug.js'
-import { F } from 'lodash/fp'
 
 export default defineComponent({
 	name: 'BreadCrumbs',
@@ -143,7 +141,13 @@ export default defineComponent({
 
 		// Hide breadcrumbs if an upload is ongoing
 		shouldShowBreadcrumbs(): boolean {
-			return this.filesListWidth > 400 && !this.isUploadInProgress
+			// If we're uploading files, only show the breadcrumbs
+			// if the files list is greater than 768px wide
+			if (this.isUploadInProgress) {
+				return this.filesListWidth > 768
+			}
+			// If we're not uploading, we have enough space from 400px
+			return this.filesListWidth > 400
 		},
 
 		// used to show the views icon for the first breadcrumb
@@ -200,16 +204,22 @@ export default defineComponent({
 
 		async onDrop(event: DragEvent, path: string) {
 			// skip if native drop like text drag and drop from files names
-			if (!this.draggingFiles && !event.dataTransfer?.files?.length) {
+			if (!this.draggingFiles && !event.dataTransfer?.items?.length) {
 				return
 			}
 
+			// Do not stop propagation, so the main content
+			// drop event can be triggered too and clear the
+			// dragover state on the DragAndDropNotice component.
+			event.preventDefault()
+
 			// Caching the selection
 			const selection = this.draggingFiles
-			const files = event.dataTransfer?.files || new FileList()
+			const items = [...event.dataTransfer?.items || []] as DataTransferItem[]
 
-			event.preventDefault()
-			event.stopPropagation()
+			// We need to process the dataTransfer ASAP before the
+			// browser clears it. This is why we cache the items too.
+			const fileTree = await dataTransferToFileTree(items)
 
 			// We might not have the target directory fetched yet
 			const contents = await this.currentView?.getContents(path)
@@ -228,17 +238,17 @@ export default defineComponent({
 				return
 			}
 
-			logger.debug('Dropped', { event, folder, selection })
+			logger.debug('Dropped', { event, folder, selection, fileTree })
 
 			// Check whether we're uploading files
-			if (files.length > 0) {
-				await onDropExternalFiles(folder, files)
+			if (fileTree.contents.length > 0) {
+				await onDropExternalFiles(fileTree, folder, contents.contents)
 				return
 			}
 
 			// Else we're moving/copying files
 			const nodes = selection.map(fileid => this.filesStore.getNode(fileid)) as Node[]
-			await onDropInternalFiles(folder, nodes, isCopy)
+			await onDropInternalFiles(nodes, folder, contents.contents, isCopy)
 
 			// Reset selection after we dropped the files
 			// if the dropped files are within the selection

@@ -32,8 +32,9 @@ import Vue, { defineComponent } from 'vue'
 import { action as sidebarAction } from '../actions/sidebarAction.ts'
 import { getDragAndDropPreview } from '../utils/dragUtils.ts'
 import { hashCode } from '../utils/hashUtils.ts'
-import { onDropExternalFiles, onDropInternalFiles } from '../services/DropService.ts'
+import { dataTransferToFileTree, onDropExternalFiles, onDropInternalFiles } from '../services/DropService.ts'
 import logger from '../logger.js'
+import { showError } from '@nextcloud/dialogs'
 
 Vue.directive('onClickOutside', vOnClickOutside)
 
@@ -306,16 +307,28 @@ export default defineComponent({
 
 		async onDrop(event: DragEvent) {
 			// skip if native drop like text drag and drop from files names
-			if (!this.draggingFiles && !event.dataTransfer?.files?.length) {
+			if (!this.draggingFiles && !event.dataTransfer?.items?.length) {
 				return
 			}
 
-			// Caching the selection
-			const selection = this.draggingFiles
-			const files = event.dataTransfer?.files || new FileList()
-
 			event.preventDefault()
 			event.stopPropagation()
+
+			// Caching the selection
+			const selection = this.draggingFiles
+			const items = [...event.dataTransfer?.items || []] as DataTransferItem[]
+
+			// We need to process the dataTransfer ASAP before the
+			// browser clears it. This is why we cache the items too.
+			const fileTree = await dataTransferToFileTree(items)
+
+			// We might not have the target directory fetched yet
+			const contents = await this.currentView?.getContents(this.source.path)
+			const folder = contents?.folder
+			if (!folder) {
+				showError(this.t('files', 'Target folder does not exist any more'))
+				return
+			}
 
 			// If another button is pressed, cancel it. This
 			// allows cancelling the drag with the right click.
@@ -326,17 +339,17 @@ export default defineComponent({
 			const isCopy = event.ctrlKey
 			this.dragover = false
 
-			logger.debug('Dropped', { event, selection })
+			logger.debug('Dropped', { event, folder, selection, fileTree })
 
 			// Check whether we're uploading files
-			if (files.length > 0) {
-				await onDropExternalFiles(this.source as Folder, files)
+			if (fileTree.contents.length > 0) {
+				await onDropExternalFiles(fileTree, folder, contents.contents)
 				return
 			}
 
 			// Else we're moving/copying files
 			const nodes = selection.map(fileid => this.filesStore.getNode(fileid)) as Node[]
-			await onDropInternalFiles(this.source as Folder, nodes, isCopy)
+			await onDropInternalFiles(nodes, folder, contents.contents, isCopy)
 
 			// Reset selection after we dropped the files
 			// if the dropped files are within the selection
