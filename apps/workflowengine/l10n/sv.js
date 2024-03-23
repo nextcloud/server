@@ -69,6 +69,7 @@ OC.L10N.register(
     "Custom user agent" : "Anpassad användaragent",
     "Select groups" : "Välj grupper",
     "Groups" : "Grupper",
+    "Type to search for group …" : "Skriv för att söka efter grupp ...",
     "Select a trigger" : "Välj en utlösare",
     "At least one event must be selected" : "Minst en händelse måste väljas",
     "Add new flow" : "Lägg till nytt flöde",
