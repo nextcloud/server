@@ -147,7 +147,7 @@
     "cypress": "^13.7.0",
     "cypress-axe": "^1.5.0",
     "cypress-if": "^1.10.5",
-    "cypress-split": "^1.15.3",
+    "cypress-split": "^1.21.0",
     "cypress-wait-until": "^3.0.1",
     "dockerode": "^4.0.2",
     "eslint-plugin-cypress": "^2.15.1",
