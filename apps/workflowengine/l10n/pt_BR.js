@@ -69,6 +69,7 @@ OC.L10N.register(
     "Custom user agent" : "Agente do usuário personalizado",
     "Select groups" : "Selecionar grupos",
     "Groups" : "Grupos",
+    "Type to search for group …" : "Digite para pesquisar o grupo…",
     "Select a trigger" : "Selecione um gatilho",
     "At least one event must be selected" : "É necessário selecionar ao menos um evento",
     "Add new flow" : "Adicionar novo fluxo",
