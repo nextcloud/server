@@ -72,7 +72,9 @@ describe('Files: Move or copy files', { testIsolation: true }, () => {
 		getRowForFile('new-folder').should('not.exist')
 	})
 
-	// This was a bug previously
+	/**
+	 * Test for https://github.com/nextcloud/server/issues/41768
+	 */
 	it('Can move a file to folder with similar name', () => {
 		cy.uploadContent(currentUser, new Blob(), 'text/plain', '/original')
 			.mkdir(currentUser, '/original folder')
@@ -138,8 +140,23 @@ describe('Files: Move or copy files', { testIsolation: true }, () => {
 		getRowForFile('original (copy 2).txt').should('be.visible')
 	})
 
+	/**
+	 * Test that a copied folder with a dot will be renamed correctly ('foo.bar' -> 'foo.bar (copy)')
+	 * Test for: https://github.com/nextcloud/server/issues/43843
+	 */
+	it('Can copy a folder to same folder', () => {
+		cy.mkdir(currentUser, '/foo.bar')
+		cy.login(currentUser)
+		cy.visit('/apps/files')
+
+		copyFile('foo.bar', '.')
+
+		getRowForFile('foo.bar').should('be.visible')
+		getRowForFile('foo.bar (copy)').should('be.visible')
+	})
+
 	/** Test for https://github.com/nextcloud/server/issues/43329 */
-	context.only('escaping file and folder names', () => {
+	context('escaping file and folder names', () => {
 		it('Can handle files with special characters', () => {
 			cy.uploadContent(currentUser, new Blob(), 'text/plain', '/original.txt')
 				.mkdir(currentUser, '/can\'t say')
