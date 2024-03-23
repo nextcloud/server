@@ -88,7 +88,7 @@
     "eslint-plugin-cypress": "^2.15.1",
     "ts-node": "^10.9.2",
     "tslib": "^2.6.2",
-    "typescript": "^5.4.2",
+    "typescript": "^5.4.3",
     "vite": "^5.1.5",
     "wait-on": "^7.2.0"
   }
