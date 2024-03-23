@@ -57,7 +57,9 @@
 				<!-- the following div ensures that the spinner is always inside the #message div -->
 				<div style="clear: both;" />
 			</div>
-			<h2 class="login-form__headline" data-login-form-headline v-html="headline" />
+			<h2 class="login-form__headline" data-login-form-headline>
+				{{ headlineText }}
+			</h2>
 			<NcTextField id="user"
 				ref="user"
 				:label="loginText"
@@ -102,7 +104,7 @@
 				:value="timezoneOffset">
 			<input type="hidden"
 				name="requesttoken"
-				:value="OC.requestToken">
+				:value="requestToken">
 			<input v-if="directLogin"
 				type="hidden"
 				name="direct"
@@ -112,15 +114,17 @@
 </template>
 
 <script>
+import { loadState } from '@nextcloud/initial-state'
+import { translate as t } from '@nextcloud/l10n'
 import { generateUrl, imagePath } from '@nextcloud/router'
+import { debounce } from 'debounce'
 
 import NcPasswordField from '@nextcloud/vue/dist/Components/NcPasswordField.js'
 import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
 import NcNoteCard from '@nextcloud/vue/dist/Components/NcNoteCard.js'
 
-import LoginButton from './LoginButton.vue'
-
 import AuthMixin from '../../mixins/auth.js'
+import LoginButton from './LoginButton.vue'
 
 export default {
 	name: 'LoginForm',
@@ -131,6 +135,7 @@ export default {
 		NcTextField,
 		NcNoteCard,
 	},
+
 	mixins: [AuthMixin],
 
 	props: {
@@ -170,18 +175,43 @@ export default {
 		},
 	},
 
+	setup() {
+		// non reactive props
+		return {
+			t,
+
+			// Disable escape and sanitize to prevent special characters to be html escaped
+			// For example "J's cloud" would be escaped to "J&#39; cloud". But we do not need escaping as Vue does this in `v-text` automatically
+			headlineText: t('core', 'Log in to {productName}', { productName: OC.theme.name }, undefined, { sanitize: false, escape: false }),
+
+			loginTimeout: loadState('core', 'loginTimeout', 300),
+			requestToken: window.OC.requestToken,
+			timezone: (new Intl.DateTimeFormat())?.resolvedOptions()?.timeZone,
+			timezoneOffset: (-new Date().getTimezoneOffset() / 60),
+		}
+	},
+
 	data() {
 		return {
 			loading: false,
-			timezone: (new Intl.DateTimeFormat())?.resolvedOptions()?.timeZone,
-			timezoneOffset: (-new Date().getTimezoneOffset() / 60),
-			headline: t('core', 'Log in to {productName}', { productName: OC.theme.name }),
 			user: '',
 			password: '',
 		}
 	},
 
 	computed: {
+		/**
+		 * Reset the login form after a long idle time (debounced)
+		 */
+		resetFormTimeout() {
+			// Infinite timeout, do nothing
+			if (this.loginTimeout <= 0) {
+				return () => {}
+			}
+			// Debounce for given timeout (in seconds so convert to milli seconds)
+			return debounce(this.handleResetForm, this.loginTimeout * 1000)
+		},
+
 		isError() {
 			return this.invalidPassword || this.userDisabled
 				|| this.throttleDelay > 5000
@@ -230,6 +260,15 @@ export default {
 		},
 	},
 
+	watch: {
+		/**
+		 * Reset form reset after the password was changed
+		 */
+		password() {
+			this.resetFormTimeout()
+		},
+	},
+
 	mounted() {
 		if (this.username === '') {
 			this.$refs.user.$refs.inputField.$refs.input.focus()
@@ -240,6 +279,14 @@ export default {
 	},
 
 	methods: {
+		/**
+		 * Handle reset of the login form after a long IDLE time
+		 * This is recommended security behavior to prevent password leak on public devices
+		 */
+		handleResetForm() {
+			this.password = ''
+		},
+
 		updateUsername() {
 			this.$emit('update:username', this.user)
 		},
