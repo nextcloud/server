@@ -69,6 +69,7 @@ OC.L10N.register(
     "Custom user agent" : "Egendefinert brukeragent",
     "Select groups" : "Velg grupper",
     "Groups" : "Grupper",
+    "Type to search for group …" : "Skriv for å søke etter gruppe...",
     "Select a trigger" : "Velg en utløser",
     "At least one event must be selected" : "Minst èn hendelse må velges",
     "Add new flow" : "Legg til ny flyt",

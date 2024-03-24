@@ -67,6 +67,7 @@
     "Custom user agent" : "وكيل مستخدم مخصص",
     "Select groups" : "إختَر مجموعةً",
     "Groups" : "المجموعات",
+    "Type to search for group …" : "أُكتُب اسم المجموعة التي تبحث عنها ...",
     "Select a trigger" : "حدد مشغل",
     "At least one event must be selected" : "يجب اختيار حدث واحد على الأقل",
     "Add new flow" : "إضافة مسار دفق جديد",
