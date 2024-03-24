@@ -42,18 +42,18 @@ p($theme->getTitle());
 			<link async href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Montserrat:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet"  nonce="<?php p(\OC::$server->getContentSecurityPolicyNonceManager()->getNonce()) ?>" />
 			<!-- <link  href='https://css.gg/userlane.css' rel='stylesheet'> -->
 			<!-- font Icons -->
-			 <link async rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css"  nonce="<?php p(\OC::$server->getContentSecurityPolicyNonceManager()->getNonce()) ?>" /> 
+			 <link async rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css"  nonce="<?php p(\OC::$server->getContentSecurityPolicyNonceManager()->getNonce()) ?>" />
 			<!-- Vendor CSS Files -->
-	
+
 
 			<link async href="../assets/css/style.css" rel="stylesheet">
 			<link async href="../assets/css/google-fonts.css" rel="stylesheet">
 			<link async href="../assets/vendor/aos/aos.css" rel="stylesheet">
-			<link async href="../assets/vendor/optimized/css/bootstrap.min.css" rel="stylesheet">			
+			<link async href="../assets/vendor/optimized/css/bootstrap.min.css" rel="stylesheet">
 			<link async href="../assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
 			<link async href="../assets/vendor/remixicon/remixicon.css" rel="stylesheet">
 			<link async href="../assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
-     
+
 
 			<style>
 				.loader {
@@ -88,9 +88,9 @@ p($theme->getTitle());
 
         <?php
             $file = "config/config.php";
-            if (file_exists($file) && strpos(file_get_contents($file), " 'installed' => true") == false) {
+            if (!file_exists($file) || (file_exists($file) && strpos(file_get_contents($file), " 'installed' => true") == false)) {
                 // echo "inside if condition";
-                ?> 
+                ?>
                  <!-- Next Cloud Layout -->
                  <div class="wrapper">
                     <div class="v-align">
@@ -110,8 +110,8 @@ p($theme->getTitle());
                     </div>
 		             </div>
                  <?php
-                
-             } else { 
+
+             } else {
                 //    echo "inside else condition";
                  ?>
                 <!-- Scale Infinite Layout -->
@@ -120,7 +120,7 @@ p($theme->getTitle());
                     <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
                         <a href="index.php" class="scale-logo d-flex align-items-center">
                         <img src="../assets/img/logo.png" alt="Logo of scaleinfinite">
-                        </a> 
+                        </a>
                         <nav id="navbar" class="navbar">
                             <ul>
                                 <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
@@ -345,7 +345,7 @@ p($theme->getTitle());
                               <div id="faq-content-3" class="accordion-collapse collapse" data-bs-parent="#faqlist1" itemscope itemtype="https://schema.org/Answer" itemprop="acceptedAnswer">
                                  <div class="accordion-body">
                                     You can choose either public. In that case, you can connect with username & password from anywhere in the internet.
-                                    Otherwise if you want to limit the access, you can use vpn connection or limit the IP Adress from where you can connect. 
+                                    Otherwise if you want to limit the access, you can use vpn connection or limit the IP Adress from where you can connect.
                                  </div>
                               </div>
                            </div>
@@ -543,7 +543,7 @@ p($theme->getTitle());
             }
         ?>
 
-		
-		
+
+
 	</body>
 </html>
