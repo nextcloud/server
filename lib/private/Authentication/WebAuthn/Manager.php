@@ -107,8 +107,8 @@ class Manager {
 		];
 
 		$authenticatorSelectionCriteria = new AuthenticatorSelectionCriteria(
-			null,
-			AuthenticatorSelectionCriteria::USER_VERIFICATION_REQUIREMENT_DISCOURAGED,
+			AuthenticatorSelectionCriteria::AUTHENTICATOR_ATTACHMENT_NO_PREFERENCE,
+			AuthenticatorSelectionCriteria::USER_VERIFICATION_REQUIREMENT_PREFERRED,
 			null,
 			false,
 		);
@@ -170,7 +170,8 @@ class Manager {
 		}
 
 		// Persist the data
-		return $this->repository->saveAndReturnCredentialSource($publicKeyCredentialSource, $name);
+		$userVerification = $response->attestationObject->authData->isUserVerified();
+		return $this->repository->saveAndReturnCredentialSource($publicKeyCredentialSource, $name, $userVerification);
 	}
 
 	private function stripPort(string $serverHost): string {
@@ -179,7 +180,11 @@ class Manager {
 
 	public function startAuthentication(string $uid, string $serverHost): PublicKeyCredentialRequestOptions {
 		// List of registered PublicKeyCredentialDescriptor classes associated to the user
-		$registeredPublicKeyCredentialDescriptors = array_map(function (PublicKeyCredentialEntity $entity) {
+		$userVerificationRequirement = AuthenticatorSelectionCriteria::USER_VERIFICATION_REQUIREMENT_REQUIRED;
+		$registeredPublicKeyCredentialDescriptors = array_map(function (PublicKeyCredentialEntity $entity) use (&$userVerificationRequirement) {
+			if ($entity->getUserVerification() !== true) {
+				$userVerificationRequirement = AuthenticatorSelectionCriteria::USER_VERIFICATION_REQUIREMENT_DISCOURAGED;
+			}
 			$credential = $entity->toPublicKeyCredentialSource();
 			return new PublicKeyCredentialDescriptor(
 				$credential->type,
@@ -192,7 +197,7 @@ class Manager {
 			random_bytes(32),                                                          // Challenge
 			$this->stripPort($serverHost),                                             // Relying Party ID
 			$registeredPublicKeyCredentialDescriptors,                                 // Registered PublicKeyCredentialDescriptor classes
-			AuthenticatorSelectionCriteria::USER_VERIFICATION_REQUIREMENT_DISCOURAGED,
+			$userVerificationRequirement,
 			60000,                                                                     // Timeout
 		);
 	}
