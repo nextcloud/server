@@ -69,6 +69,7 @@ OC.L10N.register(
     "Custom user agent" : "Custom user agent",
     "Select groups" : "Select groups",
     "Groups" : "Groups",
+    "Type to search for group …" : "Type to search for group …",
     "Select a trigger" : "Select a trigger",
     "At least one event must be selected" : "At least one event must be selected",
     "Add new flow" : "Add new flow",
