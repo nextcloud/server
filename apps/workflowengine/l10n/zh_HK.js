@@ -69,6 +69,7 @@ OC.L10N.register(
     "Custom user agent" : "自訂 user agent",
     "Select groups" : "選擇群組",
     "Groups" : "群組",
+    "Type to search for group …" : "輸入以搜尋群組 …",
     "Select a trigger" : "選擇觸發條件",
     "At least one event must be selected" : "必須選擇至少一個活動",
     "Add new flow" : "添加新流程",
