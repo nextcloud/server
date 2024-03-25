@@ -22,8 +22,6 @@
  */
 
 import { emit } from '@nextcloud/event-bus'
-import { generateUrl } from '@nextcloud/router'
-import $ from 'jquery'
 
 /**
  * @private
@@ -43,15 +41,6 @@ export const manageToken = (global, emit) => {
 				token,
 			})
 		},
-		fetchToken: async () => {
-			const url = generateUrl('/csrftoken')
-			const resp = await $.get(url)
-			token = resp.token
-			emit('csrf-token-update', {
-				token,
-			})
-			return token
-		},
 	}
 }
 
@@ -66,8 +55,3 @@ export const getToken = manageFromDocument.getToken
  * @param {string} newToken new token
  */
 export const setToken = manageFromDocument.setToken
-
-/**
- * @return {Promise<string>}
- */
-export const fetchToken = manageFromDocument.fetchToken

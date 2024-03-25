@@ -52,18 +52,3 @@ document.addEventListener('DOMContentLoaded', function() {
 	}
 
 });
-
-// Fix error "CSRF check failed"
-document.addEventListener('DOMContentLoaded', function() {
-	var form = document.getElementById('password-input-form');
-	if (form) {
-		form.addEventListener('submit', async function(event) {
-			event.preventDefault();
-			var requestToken = document.getElementById('requesttoken');
-			if (requestToken) {
-				requestToken.value = await OC.fetchRequestToken();
-			}
-			form.submit();
-		});
-	}
-});
