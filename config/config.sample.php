@@ -1353,6 +1353,7 @@ $CONFIG = [
  * Sort groups in the user settings by name instead of the user count
  *
  * By enabling this the user count beside the group name is disabled as well.
+ * @deprecated since Nextcloud 29 - Use the frontend instead or set the app config value `group.sortBy` for `core` to `2`
  */
 'sort_groups_by_name' => false,
 
