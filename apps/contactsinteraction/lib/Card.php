@@ -99,7 +99,7 @@ class Card implements ICard, IACL {
 	 * @inheritDoc
 	 */
 	public function getSize(): int {
-		throw new NotImplemented();
+		return strlen($this->contact->getCard());
 	}
 
 	/**
