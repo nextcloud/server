@@ -483,7 +483,11 @@ class Swift extends \OC\Files\Storage\Common {
 		}
 	}
 
-	public function copy($source, $target) {
+	/**
+	 * @param string $source
+	 * @param string $target
+	 */
+	public function copy($source, $target, bool $preserveMtime = false): bool {
 		$source = $this->normalizePath($source);
 		$target = $this->normalizePath($target);
 
@@ -502,6 +506,12 @@ class Swift extends \OC\Files\Storage\Common {
 				// invalidate target object to force repopulation on fetch
 				$this->objectCache->remove($target);
 				$this->objectCache->remove($target . '/');
+				if ($preserveMtime) {
+					$mTime = $this->filemtime($source);
+					if (is_int($mTime)) {
+						$this->touch($target, $mTime);
+					}
+				}
 			} catch (BadResponseError $e) {
 				\OC::$server->get(LoggerInterface::class)->error($e->getMessage(), [
 					'exception' => $e,
@@ -534,7 +544,7 @@ class Swift extends \OC\Files\Storage\Common {
 
 				$source = $source . '/' . $file;
 				$target = $target . '/' . $file;
-				$this->copy($source, $target);
+				$this->copy($source, $target, $preserveMtime);
 			}
 		} else {
 			//file does not exist

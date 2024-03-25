@@ -596,7 +596,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		$sourceInternalPath,
 		$targetInternalPath,
 		$preserveMtime = false
-	) {
+	): bool {
 		if ($sourceStorage->instanceOfStorage(ObjectStoreStorage::class)) {
 			/** @var ObjectStoreStorage $sourceStorage */
 			if ($sourceStorage->getObjectStore()->getStorageId() === $this->getObjectStore()->getStorageId()) {
@@ -614,10 +614,10 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 			}
 		}
 
-		return parent::copyFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
+		return parent::copyFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath, $preserveMtime);
 	}
 
-	public function copy($source, $target) {
+	public function copy($source, $target, bool $preserveMtime = false): bool {
 		$source = $this->normalizePath($source);
 		$target = $this->normalizePath($target);
 

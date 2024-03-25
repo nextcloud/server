@@ -224,6 +224,15 @@ abstract class Storage extends \Test\TestCase {
 		);
 	}
 
+	protected function getAlteredMtime($path): int {
+		/* Save mtime, but also change it so that it differs from current timestamp */
+		$mTime = $this->instance->filemtime($path);
+		$mTime -= 100;
+		$this->instance->touch($path, $mTime);
+		$this->assertEquals($mTime, $this->instance->filemtime($path), 'Failed to set mtime with touch');
+		return $mTime;
+	}
+
 	/**
 	 * @dataProvider copyAndMoveProvider
 	 */
@@ -243,12 +252,14 @@ abstract class Storage extends \Test\TestCase {
 	public function testMove($source, $target) {
 		$this->initSourceAndTarget($source);
 
+		$mTime = $this->getAlteredMtime($source);
 		$this->instance->rename($source, $target);
 
 		$this->wait();
 		$this->assertTrue($this->instance->file_exists($target), $target . ' was not created');
 		$this->assertFalse($this->instance->file_exists($source), $source . ' still exists');
 		$this->assertSameAsLorem($target);
+		$this->assertEquals($mTime, $this->instance->filemtime($target), 'mtime was not preserved by move');
 	}
 
 	/**
@@ -271,11 +282,13 @@ abstract class Storage extends \Test\TestCase {
 	public function testMoveOverwrite($source, $target) {
 		$this->initSourceAndTarget($source, $target);
 
+		$mTime = $this->getAlteredMtime($source);
 		$this->instance->rename($source, $target);
 
 		$this->assertTrue($this->instance->file_exists($target), $target . ' was not created');
 		$this->assertFalse($this->instance->file_exists($source), $source . ' still exists');
 		$this->assertSameAsLorem($target);
+		$this->assertEquals($mTime, $this->instance->filemtime($target), 'mtime was not preserved by move');
 	}
 
 	public function testLocal() {
@@ -485,6 +498,10 @@ abstract class Storage extends \Test\TestCase {
 		$this->instance->file_put_contents('source/test2.txt', 'qwerty');
 		$this->instance->mkdir('source/subfolder');
 		$this->instance->file_put_contents('source/subfolder/test.txt', 'bar');
+
+		$mTimeDirectory = $this->getAlteredMtime('source');
+		$mTimeTestFile = $this->getAlteredMtime('source/subfolder/test.txt');
+
 		$this->instance->rename('source', 'target');
 
 		$this->assertFalse($this->instance->file_exists('source'));
@@ -505,6 +522,8 @@ abstract class Storage extends \Test\TestCase {
 		$this->assertEquals('foo', $this->instance->file_get_contents('target/test1.txt'));
 		$this->assertEquals('qwerty', $this->instance->file_get_contents('target/test2.txt'));
 		$this->assertEquals('bar', $this->instance->file_get_contents('target/subfolder/test.txt'));
+		$this->assertEquals($mTimeDirectory, $this->instance->filemtime('target'), 'directory mtime was not preserved by rename');
+		$this->assertEquals($mTimeTestFile, $this->instance->filemtime('target/subfolder/test.txt'), 'file mtime was not preserved by rename');
 	}
 
 	public function testRenameOverWriteDirectory() {
@@ -678,5 +697,50 @@ abstract class Storage extends \Test\TestCase {
 		$pos = ftell($fh);
 
 		$this->assertEquals($size, $pos);
+	}
+
+	public function testMoveFromStorage() {
+		$source = 'foo.txt';
+		$target = 'bar.txt';
+
+		$instance = $this->createMock(\OCP\Files\Storage\IStorage::class);
+		$mTime = time() - 400;
+
+		$instance->method('copyFromStorage')
+			->willThrowException(new \Exception('copy'));
+		$instance->expects(static::once())
+			->method('isDeletable')
+			->with($source)
+			->willReturn(true);
+		$instance->expects(static::atLeastOnce())
+			->method('is_dir')
+			->with($source)
+			->willReturn(false);
+		$instance->expects(static::once())
+			->method('fopen')
+			->willReturnCallback(function ($path, $mode) {
+				$temp = \OCP\Server::get(\OCP\ITempManager::class);
+				return fopen($temp->getTemporaryFile(), $mode);
+			});
+		$instance->expects(static::once())
+			->method('unlink')
+			->with($source)
+			->willReturn(true);
+		$instance->expects(static::atLeastOnce())
+			->method('filemtime')
+			->with($source)
+			->willReturn($mTime);
+		$instance->expects(static::any())
+			->method('getId')
+			->willReturn('fakeid');
+		$cache = $this->createMock(\OCP\Files\Cache\ICache::class);
+		$instance->expects(static::any())
+			->method('getCache')
+			->willReturn($cache);
+
+		$this->assertFalse($this->instance->file_exists($target));
+		$this->instance->moveFromStorage($instance, $source, $target);
+		$this->assertTrue($this->instance->file_exists($target));
+		$this->assertEquals($mTime, $this->instance->filemtime($target), 'mtime was not preserved by move');
 	}
 }
