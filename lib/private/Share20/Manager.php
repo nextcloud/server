@@ -1672,9 +1672,10 @@ class Manager implements IManager {
 	 *  |-folder2 (32)
 	 *   |-fileA (42)
 	 *
-	 * fileA is shared with user1 and user1@server1
+	 * fileA is shared with user1 and user1@server1 and email1@maildomain1
 	 * folder2 is shared with group2 (user4 is a member of group2)
 	 * folder1 is shared with user2 (renamed to "folder (1)") and user2@server2
+	 *                        and email2@maildomain2
 	 *
 	 * Then the access list to '/folder1/folder2/fileA' with $currentAccess is:
 	 * [
@@ -1688,7 +1689,10 @@ class Manager implements IManager {
 	 *      'user2@server2' => ['node_id' => 23, 'token' => 'FooBaR'],
 	 *  ],
 	 *  public => bool
-	 *  mail => bool
+	 *  mail => [
+	 *      'email1@maildomain1' => ['node_id' => 42, 'token' => 'aBcDeFg'],
+	 *      'email2@maildomain2' => ['node_id' => 23, 'token' => 'hIjKlMn'],
+	 *  ]
 	 * ]
 	 *
 	 * The access list to '/folder1/folder2/fileA' **without** $currentAccess is:
@@ -1696,7 +1700,7 @@ class Manager implements IManager {
 	 *  users  => ['user1', 'user2', 'user4'],
 	 *  remote => bool,
 	 *  public => bool
-	 *  mail => bool
+	 *  mail => ['email1@maildomain1', 'email2@maildomain2']
 	 * ]
 	 *
 	 * This is required for encryption/activity
@@ -1716,9 +1720,9 @@ class Manager implements IManager {
 		$owner = $owner->getUID();
 
 		if ($currentAccess) {
-			$al = ['users' => [], 'remote' => [], 'public' => false];
+			$al = ['users' => [], 'remote' => [], 'public' => false, 'mail' => []];
 		} else {
-			$al = ['users' => [], 'remote' => false, 'public' => false];
+			$al = ['users' => [], 'remote' => false, 'public' => false, 'mail' => []];
 		}
 		if (!$this->userManager->userExists($owner)) {
 			return $al;
