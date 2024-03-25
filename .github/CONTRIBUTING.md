@@ -21,7 +21,7 @@ Help us to maximize the effort we can spend fixing issues and adding new feature
 
 [templates]: ./ISSUE_TEMPLATE
 [forum]: https://help.nextcloud.com/
-[irc]: https://webchat.freenode.net/?channels=nextcloud
+[irc]: https://web.libera.chat/#nextcloud
 
 ## Contributing to Source Code
 
