@@ -195,9 +195,9 @@ class FederatedShareProviderTest extends \Test\TestCase {
 				$this->equalTo('myFile'),
 				$this->anything(),
 				'shareOwner',
-				'shareOwner@http://localhost/',
+				'shareOwner@http://localhost',
 				'sharedBy',
-				'sharedBy@http://localhost/'
+				'sharedBy@http://localhost'
 			)
 			->willReturn(true);
 
@@ -276,9 +276,9 @@ class FederatedShareProviderTest extends \Test\TestCase {
 				$this->equalTo('myFile'),
 				$this->anything(),
 				'shareOwner',
-				'shareOwner@http://localhost/',
+				'shareOwner@http://localhost',
 				'sharedBy',
-				'sharedBy@http://localhost/'
+				'sharedBy@http://localhost'
 			)->willReturn(false);
 
 		$this->rootFolder->method('getById')
@@ -337,9 +337,9 @@ class FederatedShareProviderTest extends \Test\TestCase {
 				$this->equalTo('myFile'),
 				$this->anything(),
 				'shareOwner',
-				'shareOwner@http://localhost/',
+				'shareOwner@http://localhost',
 				'sharedBy',
-				'sharedBy@http://localhost/'
+				'sharedBy@http://localhost'
 			)->willThrowException(new \Exception('dummy'));
 
 		$this->rootFolder->method('getById')
@@ -443,9 +443,9 @@ class FederatedShareProviderTest extends \Test\TestCase {
 				$this->equalTo('myFile'),
 				$this->anything(),
 				'shareOwner',
-				'shareOwner@http://localhost/',
+				'shareOwner@http://localhost',
 				'sharedBy',
-				'sharedBy@http://localhost/'
+				'sharedBy@http://localhost'
 			)->willReturn(true);
 
 		$this->rootFolder->expects($this->never())->method($this->anything());
@@ -514,9 +514,9 @@ class FederatedShareProviderTest extends \Test\TestCase {
 				$this->equalTo('myFile'),
 				$this->anything(),
 				$owner,
-				$owner . '@http://localhost/',
+				$owner . '@http://localhost',
 				$sharedBy,
-				$sharedBy . '@http://localhost/'
+				$sharedBy . '@http://localhost'
 			)->willReturn(true);
 
 		if ($owner === $sharedBy) {
