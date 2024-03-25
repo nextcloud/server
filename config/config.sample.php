@@ -2308,6 +2308,14 @@ $CONFIG = [
 'login_form_autocomplete' => true,
 
 /**
+ * Timeout for the login form, after this time the login form is reset.
+ * This prevents password leaks on public devices if the user forgots to clear the form.
+ * 
+ * Default is 5 minutes (300 seconds), a value of 0 means no timeout.
+ */
+'login_form_timeout' => 300,
+
+/**
  * If your user is using an outdated or unsupported browser, a warning will be shown
  * to offer some guidance to upgrade or switch and ensure a proper Nextcloud experience.
  * They can still bypass it after they have read the warning.
