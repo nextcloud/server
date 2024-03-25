@@ -152,7 +152,7 @@ OC.L10N.register(
     "external-storage" : "external-storage",
     "Couldn't fetch list of Windows network drive mount points: Empty response from server" : "Impossible d'aller chercher la liste des points de montage des disques réseaux Windows : Réponse vide du serveur",
     "Please enter the credentials for the {mount} mount" : "Veuillez entrer les identifiants pour le montage {mount}",
-    "Username" : "Nom d'utilisateur",
+    "Username" : "Nom d’utilisateur",
     "Credentials saved" : "Identifiants sauvegardés",
     "Credentials saving failed" : "La sauvegarde des identifiants a échoué",
     "Credentials required" : "Identifiants exigés",

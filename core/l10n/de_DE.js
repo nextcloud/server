@@ -29,7 +29,7 @@ OC.L10N.register(
     "Your login token is invalid or has expired" : "Ihr Anmelde-Token ist ungültig oder abgelaufen",
     "This community release of Nextcloud is unsupported and push notifications are limited." : "Diese Community-Version von Nextcloud wird nicht unterstützt und sofortige Benachrichtigungen sind nur begrenzt verfügbar.",
     "Login" : "Anmelden",
-    "Unsupported email length (>255)" : "Nicht unterstützte E-Mailadress-Länge (>255)",
+    "Unsupported email length (>255)" : "Nicht unterstützte E-Mail-Adresslänge (>255)",
     "Password reset is disabled" : "Passwort-Reset ist deaktiviert",
     "Could not reset password because the token is expired" : "Das Passwort konnte aufgrund eines abgelaufenen Tokens nicht zurückgesetzt werden",
     "Could not reset password because the token is invalid" : "Das Passwort konnte aufgrund eines ungültigen Tokens nicht zurückgesetzt werden",
