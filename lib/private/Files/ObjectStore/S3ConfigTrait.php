@@ -43,11 +43,14 @@ trait S3ConfigTrait {
 
 	protected string $storageClass;
 
-	protected int $uploadPartSize;
+	/** @var int Part size in bytes (float is added for 32bit support) */
+	protected int|float $uploadPartSize;
 
-	private int $putSizeLimit;
+	/** @var int Limit on PUT in bytes (float is added for 32bit support) */
+	private int|float $putSizeLimit;
 
-	private int $copySizeLimit;
+	/** @var int Limit on COPY in bytes (float is added for 32bit support) */
+	private int|float $copySizeLimit;
 
 	private bool $useMultipartCopy = true;
 }
