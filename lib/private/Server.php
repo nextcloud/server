@@ -843,8 +843,7 @@ class Server extends ServerContainer implements IServerContainer {
 			if (!$factory->isValidType($type)) {
 				throw new \OC\DatabaseException('Invalid database type');
 			}
-			$connectionParams = $factory->createConnectionParams();
-			$connection = $factory->getConnection($type, $connectionParams);
+			$connection = $factory->getConnection($type, []);
 			return $connection;
 		});
 		/** @deprecated 19.0.0 */
