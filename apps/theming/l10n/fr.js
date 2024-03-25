@@ -28,7 +28,7 @@ OC.L10N.register(
     "Theming" : "Personnaliser l'apparence",
     "Appearance and accessibility" : "Apparence et accessibilité",
     "PHP Imagick module" : "Module PHP Imagick",
-    "The PHP module \"imagick\" is not enabled although the theming app is. For favicon generation to work correctly, you need to install and enable this module." : "Le module PHP \"imagick\" n'est pas actif mais l'application Theming est activée. Pour que la génération du Favicon fonctionne correctement, ce module doit être installé et actif.",
+    "The PHP module \"imagick\" is not enabled although the theming app is. For favicon generation to work correctly, you need to install and enable this module." : "Le module PHP \"imagick\" n’est pas actif mais l’application Theming est activée. Pour que la génération du Favicon fonctionne correctement, ce module doit être installé et actif.",
     "The PHP module \"imagick\" in this instance has no SVG support. For better compatibility it is recommended to install it." : "Le module PHP « imagick » n’a aucun support SVG dans cette instance. Pour une meilleure compatibilité, il est recommandé de l’installer.",
     "Dark theme with high contrast mode" : "Thème sombre avec mode de contraste élevé",
     "Enable dark high contrast mode" : "Activer le mode sombre à contraste élevé",
