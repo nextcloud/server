@@ -51,6 +51,7 @@ class SetupCheckManager implements ISetupCheckManager {
 				$setupResult = $setupCheckObject->run();
 			} catch (\Throwable $t) {
 				$setupResult = SetupResult::error("An exception occured while running the setup check:\n$t");
+				$this->logger->error('Exception running check '.get_class($setupCheckObject).': '.$t->getMessage(), ['exception' => $t]);
 			}
 			$setupResult->setName($setupCheckObject->getName());
 			$category = $setupCheckObject->getCategory();
