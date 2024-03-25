@@ -71,7 +71,7 @@ class EventComparisonService {
 				$eventToFilterData[] = IMipService::readPropertyWithDefault($eventToFilter, $eventDiff, '');
 			}
 			// events are identical and can be removed
-			if (empty(array_diff($filterEventData, $eventToFilterData))) {
+			if ($filterEventData === $eventToFilterData) {
 				unset($eventsToFilter[$k]);
 				return true;
 			}
