@@ -170,6 +170,7 @@ OC.L10N.register(
     "Delete slot" : "Ezabatu tartea",
     "No working hours set" : "Ez dira laneko orduak ezarri",
     "Add slot" : "Gehitu tartea",
+    "Weekdays" : "Astegunak",
     "Monday" : "Astelehena",
     "Tuesday" : "Asteartea",
     "Wednesday" : "Asteazkena",
