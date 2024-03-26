@@ -173,6 +173,7 @@ OC.L10N.register(
     "Guest" : "Gonbidatua",
     "Group" : "Taldea",
     "Email" : "Posta elektronikoa",
+    "Team" : "Taldea",
     "Talk conversation" : "Talk elkarrizketa",
     "Deck board" : "Deck mahaia",
     "ScienceMesh" : "ScienceMesh",
