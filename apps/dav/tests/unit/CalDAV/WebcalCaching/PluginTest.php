@@ -48,17 +48,64 @@ class PluginTest extends \Test\TestCase {
 		$this->assertEquals(false, $plugin->isCachingEnabledForThisRequest());
 	}
 
-	public function testEnabled(): void {
+	public function testEnabledUserAgent(): void {
+		$request = $this->createMock(IRequest::class);
+		$request->expects($this->once())
+			->method('isUserAgent')
+			->with(Plugin::ENABLE_FOR_CLIENTS)
+			->willReturn(true);
+		$request->expects($this->once())
+			->method('getHeader')
+			->with('X-NC-CalDAV-Webcal-Caching')
+			->willReturn('');
+		$request->expects($this->once())
+			->method('getMethod')
+			->willReturn('REPORT');
+		$request->expects($this->never())
+			->method('getParams');
+
+		$plugin = new Plugin($request);
+
+		$this->assertEquals(true, $plugin->isCachingEnabledForThisRequest());
+	}
+
+	public function testEnabledWebcalCachingHeader(): void {
 		$request = $this->createMock(IRequest::class);
 		$request->expects($this->once())
 			->method('isUserAgent')
 			->with(Plugin::ENABLE_FOR_CLIENTS)
 			->willReturn(false);
-
 		$request->expects($this->once())
 			->method('getHeader')
 			->with('X-NC-CalDAV-Webcal-Caching')
 			->willReturn('On');
+		$request->expects($this->once())
+			->method('getMethod')
+			->willReturn('REPORT');
+		$request->expects($this->never())
+			->method('getParams');
+
+		$plugin = new Plugin($request);
+
+		$this->assertEquals(true, $plugin->isCachingEnabledForThisRequest());
+	}
+
+	public function testEnabledExportRequest(): void {
+		$request = $this->createMock(IRequest::class);
+		$request->expects($this->once())
+			->method('isUserAgent')
+			->with(Plugin::ENABLE_FOR_CLIENTS)
+			->willReturn(false);
+		$request->expects($this->once())
+			->method('getHeader')
+			->with('X-NC-CalDAV-Webcal-Caching')
+			->willReturn('');
+		$request->expects($this->once())
+			->method('getMethod')
+			->willReturn('GET');
+		$request->expects($this->once())
+			->method('getParams')
+			->willReturn(['export' => '']);
 
 		$plugin = new Plugin($request);
 

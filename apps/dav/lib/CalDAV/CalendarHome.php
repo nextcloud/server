@@ -53,14 +53,16 @@ class CalendarHome extends \Sabre\CalDAV\CalendarHome {
 	/** @var PluginManager */
 	private $pluginManager;
 
-	/** @var bool */
-	private $returnCachedSubscriptions = false;
-
 	/** @var LoggerInterface */
 	private $logger;
 	private ?array $cachedChildren = null;
 
-	public function __construct(BackendInterface $caldavBackend, $principalInfo, LoggerInterface $logger) {
+	public function __construct(
+		BackendInterface $caldavBackend,
+		array $principalInfo,
+		LoggerInterface $logger,
+		private bool $returnCachedSubscriptions
+	) {
 		parent::__construct($caldavBackend, $principalInfo);
 		$this->l10n = \OC::$server->getL10N('dav');
 		$this->config = \OC::$server->getConfig();
@@ -218,9 +220,5 @@ class CalendarHome extends \Sabre\CalDAV\CalendarHome {
 	public function calendarSearch(array $filters, $limit = null, $offset = null) {
 		$principalUri = $this->principalInfo['uri'];
 		return $this->caldavBackend->calendarSearch($principalUri, $filters, $limit, $offset);
-	}
-
-	public function enableCachedSubscriptionsForThisRequest() {
-		$this->returnCachedSubscriptions = true;
 	}
 }
