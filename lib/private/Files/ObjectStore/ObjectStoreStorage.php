@@ -617,6 +617,25 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		return parent::copyFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
 	}
 
+	public function moveFromStorage(IStorage $sourceStorage, $sourceInternalPath, $targetInternalPath)
+    {
+        $result = parent::moveFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
+
+        if ($result) {
+            $sourceCache = $sourceStorage->getCache();
+            $targetCache = $this->getCache();
+
+            $sourceEntry = $sourceCache->get($sourceInternalPath);
+            $targetEntry = $targetCache->get($targetInternalPath);
+
+            if ($sourceEntry && $targetEntry) {
+                $this->renameAfterMove($sourceEntry, $targetEntry);
+            }
+        }
+
+        return $result;
+    }
+
 	public function copy($source, $target) {
 		$source = $this->normalizePath($source);
 		$target = $this->normalizePath($target);
@@ -674,6 +693,24 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 			throw $e;
 		}
 	}
+
+	private function renameAfterMove(ICacheEntry $sourceEntry, ICacheEntry $targetEntry): void
+    {
+        $sourceUrn = $this->getURN($sourceEntry->getId());
+        $targetUrn = $this->getURN($targetEntry->getId());
+
+        try {
+            $this->objectStore->copyObject($targetUrn, $sourceUrn);
+        } catch (\Exception $e) {
+            throw $e;
+        }
+
+        try {
+            $this->objectStore->deleteObject($targetUrn);
+        } catch (\Exception $e) {
+            throw $e;
+        }
+    }
 
 	public function startChunkedWrite(string $targetPath): string {
 		if (!$this->objectStore instanceof IObjectStoreMultiPartUpload) {
