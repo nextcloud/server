@@ -249,7 +249,7 @@ class Notifier implements INotifier {
 		$notification->addParsedAction($acceptAction);
 
 		$rejectAction = $notification->createAction();
-		$rejectAction->setParsedLabel($l->t('Reject'))
+		$rejectAction->setParsedLabel($l->t('Decline'))
 			->setLink($this->url->linkToOCSRouteAbsolute('files_sharing.ShareAPI.deleteShare', ['id' => $share->getId()]), 'DELETE')
 			->setPrimary(false);
 		$notification->addParsedAction($rejectAction);

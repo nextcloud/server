@@ -90,7 +90,7 @@ export const copyFile = (fileName: string, dirName: string) => {
 			cy.contains('button', 'Copy').should('be.visible').click()
 		} else {
 			// select folder
-			cy.get(`[data-filename="${dirName}"]`).should('be.visible').click()
+			cy.get(`[data-filename="${CSS.escape(dirName)}"]`).should('be.visible').click()
 			// click copy
 			cy.contains('button', `Copy to ${dirName}`).should('be.visible').click()
 		}

@@ -66,6 +66,8 @@ OC.L10N.register(
     "Desktop client" : "Πελάτης σταθερού υπολογιστή",
     "Thunderbird & Outlook addons" : "Πρόσθετα των Thunderbird & Outlook",
     "Custom user agent" : "Προσαρμοσμένο πρόγραμμα χρήστη",
+    "Select groups" : "Επιλέξτε ομάδες",
+    "Groups" : "Ομάδες",
     "At least one event must be selected" : "Τουλάχιστον ένα γεγονός πρέπει να επιλεγεί",
     "Add new flow" : "Προσθήκη νέας ροής",
     "When" : "Πότε",

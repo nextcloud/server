@@ -9,11 +9,14 @@ OC.L10N.register(
     "%1$s commented on %2$s" : "%1$s-ek %2$s-en iruzkindu du",
     "{author} commented on {file}" : "{author}-(e)k {file}-en iruzkina egin du",
     "<strong>Comments</strong> for files" : "Fitxategientzako <strong>iruzkinak</strong>",
+    "You were mentioned on \"{file}\", in a comment by an account that has since been deleted" : "\"{file}\"-n aipatu zaituzte, dagoeneko ezabatu den kontu baten iruzkin batean",
     "{user} mentioned you in a comment on \"{file}\"" : "{user} erabiltzaileak aipatu zaitu \"{file}\"-eko iruzkin batean",
     "Files app plugin to add comments to files" : "Fitxategiak aplikazioko plugina, fitxategiei iruzkinak gehitzeko",
     "Edit comment" : "Editatu iruzkina",
     "Delete comment" : "Ezabatu iruzkina",
     "Cancel edit" : "Utzi editatzeari",
+    "New comment" : "Iruzkin berria",
+    "Write a comment …" : "Idatzi iruzkin bat ...",
     "Post comment" : "Argitaratu iruzkina",
     "@ for mentions, : for emoji, / for smart picker" : "@ aipamenetarako, : emojientzako, / hautatzaile adimentsurako",
     "Could not reload comments" : "Ezin izan dira iruzkinak freskatu",
@@ -30,6 +33,7 @@ OC.L10N.register(
     "An error occurred while trying to create the comment" : "Errorea gertatu da iruzkina sortzen saiatzean",
     "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "\"{file}\"-n aipatu zaituzte, dagoeneko ezabatu den erabiltzaile baten iruzkin batean",
     "_%n unread comment_::_%n unread comments_" : ["iruzkin %n irakurri gabe","%n iruzkin irakurri gabe"],
+    "Write a message …" : "Idatzi mezu bat ...",
     "\"@\" for mentions, \":\" for emoji, \"/\" for smart picker" : "\"@\" aipamenetarako, \":\" emojientzako, \"/\" hautatzaile adimentsurako"
 },
 "nplurals=2; plural=(n != 1);");

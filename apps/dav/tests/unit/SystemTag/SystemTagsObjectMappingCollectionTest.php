@@ -32,21 +32,9 @@ use OCP\SystemTag\ISystemTagObjectMapper;
 use OCP\SystemTag\TagNotFoundException;
 
 class SystemTagsObjectMappingCollectionTest extends \Test\TestCase {
-
-	/**
-	 * @var \OCP\SystemTag\ISystemTagManager
-	 */
-	private $tagManager;
-
-	/**
-	 * @var \OCP\SystemTag\ISystemTagObjectMapper
-	 */
-	private $tagMapper;
-
-	/**
-	 * @var \OCP\IUser
-	 */
-	private $user;
+	private ISystemTagManager $tagManager;
+	private ISystemTagObjectMapper $tagMapper;
+	private IUser $user;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -60,13 +48,14 @@ class SystemTagsObjectMappingCollectionTest extends \Test\TestCase {
 			->getMock();
 	}
 
-	public function getNode() {
+	public function getNode(array $writableNodeIds = []) {
 		return new \OCA\DAV\SystemTag\SystemTagsObjectMappingCollection(
 			111,
 			'files',
 			$this->user,
 			$this->tagManager,
-			$this->tagMapper
+			$this->tagMapper,
+			fn ($id): bool => in_array($id, $writableNodeIds),
 		);
 	}
 
@@ -89,6 +78,28 @@ class SystemTagsObjectMappingCollectionTest extends \Test\TestCase {
 			->method('assignTags')
 			->with(111, 'files', '555');
 
+		$this->getNode([111])->createFile('555');
+	}
+
+	public function testAssignTagForbidden(): void {
+		$tag = new SystemTag('1', 'Test', true, true);
+		$this->tagManager->expects($this->once())
+			->method('canUserSeeTag')
+			->with($tag)
+			->willReturn(true);
+		$this->tagManager->expects($this->once())
+			->method('canUserAssignTag')
+			->with($tag)
+			->willReturn(true);
+
+		$this->tagManager->expects($this->once())
+			->method('getTagsByIds')
+			->with(['555'])
+			->willReturn([$tag]);
+		$this->tagMapper->expects($this->never())
+			->method('assignTags');
+
+		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 		$this->getNode()->createFile('555');
 	}
 
@@ -132,7 +143,7 @@ class SystemTagsObjectMappingCollectionTest extends \Test\TestCase {
 		$this->assertInstanceOf($expectedException, $thrown);
 	}
 
-	
+
 	public function testAssignTagNotFound(): void {
 		$this->expectException(\Sabre\DAV\Exception\PreconditionFailed::class);
 
@@ -144,7 +155,7 @@ class SystemTagsObjectMappingCollectionTest extends \Test\TestCase {
 		$this->getNode()->createFile('555');
 	}
 
-	
+
 	public function testForbiddenCreateDirectory(): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
@@ -174,7 +185,7 @@ class SystemTagsObjectMappingCollectionTest extends \Test\TestCase {
 		$this->assertEquals('555', $childNode->getName());
 	}
 
-	
+
 	public function testGetChildNonVisible(): void {
 		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
 
@@ -197,7 +208,7 @@ class SystemTagsObjectMappingCollectionTest extends \Test\TestCase {
 		$this->getNode()->getChild('555');
 	}
 
-	
+
 	public function testGetChildRelationNotFound(): void {
 		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
 
@@ -209,7 +220,7 @@ class SystemTagsObjectMappingCollectionTest extends \Test\TestCase {
 		$this->getNode()->getChild('777');
 	}
 
-	
+
 	public function testGetChildInvalidId(): void {
 		$this->expectException(\Sabre\DAV\Exception\BadRequest::class);
 
@@ -221,7 +232,7 @@ class SystemTagsObjectMappingCollectionTest extends \Test\TestCase {
 		$this->getNode()->getChild('badid');
 	}
 
-	
+
 	public function testGetChildTagDoesNotExist(): void {
 		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
 
@@ -325,7 +336,7 @@ class SystemTagsObjectMappingCollectionTest extends \Test\TestCase {
 		$this->assertFalse($this->getNode()->childExists('555'));
 	}
 
-	
+
 	public function testChildExistsInvalidId(): void {
 		$this->expectException(\Sabre\DAV\Exception\BadRequest::class);
 
@@ -337,14 +348,14 @@ class SystemTagsObjectMappingCollectionTest extends \Test\TestCase {
 		$this->getNode()->childExists('555');
 	}
 
-	
+
 	public function testDelete(): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
 		$this->getNode()->delete();
 	}
 
-	
+
 	public function testSetName(): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 

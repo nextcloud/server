@@ -53,9 +53,9 @@ use OCP\AppFramework\Http\Attribute\UseSession;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Services\IInitialState;
 use OCP\Defaults;
 use OCP\IConfig;
-use OCP\IInitialStateService;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\ISession;
@@ -81,7 +81,7 @@ class LoginController extends Controller {
 		private IURLGenerator $urlGenerator,
 		private Defaults $defaults,
 		private IThrottler $throttler,
-		private IInitialStateService $initialStateService,
+		private IInitialState $initialState,
 		private WebAuthnManager $webAuthnManager,
 		private IManager $manager,
 		private IL10N $l10n,
@@ -148,19 +148,18 @@ class LoginController extends Controller {
 		}
 		if (is_array($loginMessages)) {
 			[$errors, $messages] = $loginMessages;
-			$this->initialStateService->provideInitialState('core', 'loginMessages', $messages);
-			$this->initialStateService->provideInitialState('core', 'loginErrors', $errors);
+			$this->initialState->provideInitialState('loginMessages', $messages);
+			$this->initialState->provideInitialState('loginErrors', $errors);
 		}
 		$this->session->remove('loginMessages');
 
 		if ($user !== null && $user !== '') {
-			$this->initialStateService->provideInitialState('core', 'loginUsername', $user);
+			$this->initialState->provideInitialState('loginUsername', $user);
 		} else {
-			$this->initialStateService->provideInitialState('core', 'loginUsername', '');
+			$this->initialState->provideInitialState('loginUsername', '');
 		}
 
-		$this->initialStateService->provideInitialState(
-			'core',
+		$this->initialState->provideInitialState(
 			'loginAutocomplete',
 			$this->config->getSystemValue('login_form_autocomplete', true) === true
 		);
@@ -168,12 +167,11 @@ class LoginController extends Controller {
 		if (!empty($redirect_url)) {
 			[$url, ] = explode('?', $redirect_url);
 			if ($url !== $this->urlGenerator->linkToRoute('core.login.logout')) {
-				$this->initialStateService->provideInitialState('core', 'loginRedirectUrl', $redirect_url);
+				$this->initialState->provideInitialState('loginRedirectUrl', $redirect_url);
 			}
 		}
 
-		$this->initialStateService->provideInitialState(
-			'core',
+		$this->initialState->provideInitialState(
 			'loginThrottleDelay',
 			$this->throttler->getDelay($this->request->getRemoteAddress())
 		);
@@ -182,9 +180,9 @@ class LoginController extends Controller {
 
 		$this->setEmailStates();
 
-		$this->initialStateService->provideInitialState('core', 'webauthn-available', $this->webAuthnManager->isWebAuthnAvailable());
+		$this->initialState->provideInitialState('webauthn-available', $this->webAuthnManager->isWebAuthnAvailable());
 
-		$this->initialStateService->provideInitialState('core', 'hideLoginForm', $this->config->getSystemValueBool('hide_login_form', false));
+		$this->initialState->provideInitialState('hideLoginForm', $this->config->getSystemValueBool('hide_login_form', false));
 
 		// OpenGraph Support: http://ogp.me/
 		Util::addHeader('meta', ['property' => 'og:title', 'content' => Util::sanitizeHTML($this->defaults->getName())]);
@@ -199,8 +197,9 @@ class LoginController extends Controller {
 			'pageTitle' => $this->l10n->t('Login'),
 		];
 
-		$this->initialStateService->provideInitialState('core', 'countAlternativeLogins', count($parameters['alt_login']));
-		$this->initialStateService->provideInitialState('core', 'alternativeLogins', $parameters['alt_login']);
+		$this->initialState->provideInitialState('countAlternativeLogins', count($parameters['alt_login']));
+		$this->initialState->provideInitialState('alternativeLogins', $parameters['alt_login']);
+		$this->initialState->provideInitialState('loginTimeout', $this->config->getSystemValueInt('login_form_timeout', 5 * 60));
 
 		return new TemplateResponse(
 			$this->appName,
@@ -224,14 +223,12 @@ class LoginController extends Controller {
 
 		$passwordLink = $this->config->getSystemValueString('lost_password_link', '');
 
-		$this->initialStateService->provideInitialState(
-			'core',
+		$this->initialState->provideInitialState(
 			'loginResetPasswordLink',
 			$passwordLink
 		);
 
-		$this->initialStateService->provideInitialState(
-			'core',
+		$this->initialState->provideInitialState(
 			'loginCanResetPassword',
 			$this->canResetPassword($passwordLink, $user)
 		);
@@ -255,11 +252,7 @@ class LoginController extends Controller {
 				array_push($emailStates, $emailConfig->__get('ldapLoginFilterEmail'));
 			}
 		}
-		$this->initialStateService->
-			provideInitialState(
-				'core',
-				'emailStates',
-				$emailStates);
+		$this->initialState->provideInitialState('emailStates', $emailStates);
 	}
 
 	/**
@@ -336,9 +329,20 @@ class LoginController extends Controller {
 			);
 		}
 
+		$user = trim($user);
+
+		if (strlen($user) > 255) {
+			return $this->createLoginFailedResponse(
+				$user,
+				$user,
+				$redirect_url,
+				$this->l10n->t('Unsupported email length (>255)')
+			);
+		}
+
 		$data = new LoginData(
 			$this->request,
-			trim($user),
+			$user,
 			$password,
 			$redirect_url,
 			$timezone,

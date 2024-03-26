@@ -82,6 +82,7 @@ OC.L10N.register(
     "Share API is disabled" : "A partilha de API está desativada",
     "File sharing" : "Partilha de ficheiro",
     "Accept" : "Aceitar",
+    "Decline" : "Recusar",
     "Sharing" : "Partilha",
     "Reset" : "Reiniciar",
     "Unknown error" : "Erro desconhecido",

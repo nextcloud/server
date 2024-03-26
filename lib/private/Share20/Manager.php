@@ -210,7 +210,7 @@ class Manager implements IManager {
 	 *
 	 * @suppress PhanUndeclaredClassMethod
 	 */
-	protected function generalCreateChecks(IShare $share) {
+	protected function generalCreateChecks(IShare $share, bool $isUpdate = false) {
 		if ($share->getShareType() === IShare::TYPE_USER) {
 			// We expect a valid user as sharedWith for user shares
 			if (!$this->userManager->userExists($share->getSharedWith())) {
@@ -296,8 +296,14 @@ class Manager implements IManager {
 
 		$isFederatedShare = $share->getNode()->getStorage()->instanceOfStorage('\OCA\Files_Sharing\External\Storage');
 		$permissions = 0;
+		
+		$isReshare = $share->getNode()->getOwner() && $share->getNode()->getOwner()->getUID() !== $share->getSharedBy();
+		if (!$isReshare && $isUpdate) {
+			// in case of update on owner-less filesystem, we use share owner to improve reshare detection
+			$isReshare = $share->getShareOwner() !== $share->getSharedBy();
+		}
 
-		if (!$isFederatedShare && $share->getNode()->getOwner() && $share->getNode()->getOwner()->getUID() !== $share->getSharedBy()) {
+		if (!$isFederatedShare && $isReshare) {
 			$userMounts = array_filter($userFolder->getById($share->getNode()->getId()), function ($mount) {
 				// We need to filter since there might be other mountpoints that contain the file
 				// e.g. if the user has access to the same external storage that the file is originating from
@@ -999,7 +1005,7 @@ class Manager implements IManager {
 			throw new \InvalidArgumentException('Cannot share with the share owner');
 		}
 
-		$this->generalCreateChecks($share);
+		$this->generalCreateChecks($share, true);
 
 		if ($share->getShareType() === IShare::TYPE_USER) {
 			$this->userCreateChecks($share);
@@ -1666,9 +1672,10 @@ class Manager implements IManager {
 	 *  |-folder2 (32)
 	 *   |-fileA (42)
 	 *
-	 * fileA is shared with user1 and user1@server1
+	 * fileA is shared with user1 and user1@server1 and email1@maildomain1
 	 * folder2 is shared with group2 (user4 is a member of group2)
 	 * folder1 is shared with user2 (renamed to "folder (1)") and user2@server2
+	 *                        and email2@maildomain2
 	 *
 	 * Then the access list to '/folder1/folder2/fileA' with $currentAccess is:
 	 * [
@@ -1682,7 +1689,10 @@ class Manager implements IManager {
 	 *      'user2@server2' => ['node_id' => 23, 'token' => 'FooBaR'],
 	 *  ],
 	 *  public => bool
-	 *  mail => bool
+	 *  mail => [
+	 *      'email1@maildomain1' => ['node_id' => 42, 'token' => 'aBcDeFg'],
+	 *      'email2@maildomain2' => ['node_id' => 23, 'token' => 'hIjKlMn'],
+	 *  ]
 	 * ]
 	 *
 	 * The access list to '/folder1/folder2/fileA' **without** $currentAccess is:
@@ -1690,7 +1700,7 @@ class Manager implements IManager {
 	 *  users  => ['user1', 'user2', 'user4'],
 	 *  remote => bool,
 	 *  public => bool
-	 *  mail => bool
+	 *  mail => ['email1@maildomain1', 'email2@maildomain2']
 	 * ]
 	 *
 	 * This is required for encryption/activity
@@ -1710,9 +1720,9 @@ class Manager implements IManager {
 		$owner = $owner->getUID();
 
 		if ($currentAccess) {
-			$al = ['users' => [], 'remote' => [], 'public' => false];
+			$al = ['users' => [], 'remote' => [], 'public' => false, 'mail' => []];
 		} else {
-			$al = ['users' => [], 'remote' => false, 'public' => false];
+			$al = ['users' => [], 'remote' => false, 'public' => false, 'mail' => []];
 		}
 		if (!$this->userManager->userExists($owner)) {
 			return $al;

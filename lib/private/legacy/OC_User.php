@@ -39,6 +39,7 @@
 use OC\User\LoginException;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IGroupManager;
+use OCP\ISession;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Server;
@@ -338,7 +339,7 @@ class OC_User {
 	 * @return string|false uid or false
 	 */
 	public static function getUser() {
-		$uid = \OC::$server->getSession() ? \OC::$server->getSession()->get('user_id') : null;
+		$uid = Server::get(ISession::class)?->get('user_id');
 		if (!is_null($uid) && self::$incognitoMode === false) {
 			return $uid;
 		} else {

@@ -1,7 +1,7 @@
 OC.L10N.register(
     "files_external",
     {
-    "Grant access" : "Autoriser l'accès",
+    "Grant access" : "Autoriser l’accès",
     "Error configuring OAuth1" : "Erreur lors de la configuration de OAuth1",
     "Please provide a valid app key and secret." : "Veuillez fournir une clé d'application et un mot de passe valides.",
     "Error configuring OAuth2" : "Erreur lors de la configuration de OAuth2",
@@ -72,7 +72,7 @@ OC.L10N.register(
     "Kerberos ticket" : "Ticket Kerberos",
     "Amazon S3" : "Amazon S3",
     "Bucket" : "Bucket",
-    "Hostname" : "Nom de l'hôte",
+    "Hostname" : "Nom de l’hôte",
     "Port" : "Port",
     "Region" : "Région",
     "Storage Class" : "Classe de stockage",
@@ -152,7 +152,7 @@ OC.L10N.register(
     "external-storage" : "external-storage",
     "Couldn't fetch list of Windows network drive mount points: Empty response from server" : "Impossible d'aller chercher la liste des points de montage des disques réseaux Windows : Réponse vide du serveur",
     "Please enter the credentials for the {mount} mount" : "Veuillez entrer les identifiants pour le montage {mount}",
-    "Username" : "Nom d'utilisateur",
+    "Username" : "Nom d’utilisateur",
     "Credentials saved" : "Identifiants sauvegardés",
     "Credentials saving failed" : "La sauvegarde des identifiants a échoué",
     "Credentials required" : "Identifiants exigés",

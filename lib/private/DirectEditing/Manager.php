@@ -272,13 +272,11 @@ class Manager implements IManager {
 	}
 
 	public function invokeTokenScope($userId): void {
-		\OC_User::setIncognitoMode(true);
 		\OC_User::setUserId($userId);
 	}
 
 	public function revertTokenScope(): void {
 		$this->userSession->setUser(null);
-		\OC_User::setIncognitoMode(false);
 	}
 
 	public function createToken($editorId, File $file, string $filePath, IShare $share = null): string {

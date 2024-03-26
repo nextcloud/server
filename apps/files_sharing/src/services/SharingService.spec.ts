@@ -33,6 +33,12 @@ global.window.OC = {
 	TAG_FAVORITE: '_$!<Favorite>!$_',
 }
 
+// Mock webroot variable
+beforeAll(() => {
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	(window as any)._oc_webroot = ''
+})
+
 describe('SharingService methods definitions', () => {
 	beforeAll(() => {
 		jest.spyOn(axios, 'get').mockImplementation(async (): Promise<any> => {

@@ -275,15 +275,23 @@ class LegacyVersionsBackend implements IVersionBackend, IDeletableVersionBackend
 			throw new NotFoundException("No user logged in");
 		}
 
-		if ($sourceFile->getOwner()?->getUID() !== $currentUserId) {
-			$nodes = $this->rootFolder->getUserFolder($currentUserId)->getById($sourceFile->getId());
-			$sourceFile = array_pop($nodes);
-			if (!$sourceFile) {
-				throw new NotFoundException("Version file not accessible by current user");
+		if ($sourceFile->getOwner()?->getUID() === $currentUserId) {
+			return ($sourceFile->getPermissions() & $permissions) === $permissions;
+		}
+
+		$nodes = $this->rootFolder->getUserFolder($currentUserId)->getById($sourceFile->getId());
+
+		if (count($nodes) === 0) {
+			throw new NotFoundException("Version file not accessible by current user");
+		}
+
+		foreach ($nodes as $node) {
+			if (($node->getPermissions() & $permissions) === $permissions) {
+				return true;
 			}
 		}
 
-		return ($sourceFile->getPermissions() & $permissions) === $permissions;
+		return false;
 	}
 
 	public function setMetadataValue(Node $node, int $revision, string $key, string $value): void {

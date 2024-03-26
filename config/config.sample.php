@@ -112,9 +112,9 @@ $CONFIG = [
 
 /**
  * Your host server name, for example ``localhost``, ``hostname``,
- * ``hostname.example.com``, or the IP address. To specify a port use
- * ``hostname:####``; to specify a Unix socket use
- * ``/path/to/directory/containing/socket`` e.g. ``/run/postgresql/``.
+ * ``hostname.example.com``, or the IP address.
+ * To specify a port use ``hostname:####``, for IPv6 addresses use the URI notation ``[ip]:port``.
+ * To specify a Unix socket use ``/path/to/directory/containing/socket``, e.g. ``/run/postgresql/``.
  */
 'dbhost' => '',
 
@@ -2306,6 +2306,14 @@ $CONFIG = [
  */
 
 'login_form_autocomplete' => true,
+
+/**
+ * Timeout for the login form, after this time the login form is reset.
+ * This prevents password leaks on public devices if the user forgots to clear the form.
+ * 
+ * Default is 5 minutes (300 seconds), a value of 0 means no timeout.
+ */
+'login_form_timeout' => 300,
 
 /**
  * If your user is using an outdated or unsupported browser, a warning will be shown

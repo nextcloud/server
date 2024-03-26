@@ -212,6 +212,15 @@ class Session implements IUserSession, Emitter {
 	}
 
 	/**
+	 * Temporarily set the currently active user without persisting in the session
+	 *
+	 * @param IUser|null $user
+	 */
+	public function setVolatileActiveUser(?IUser $user): void {
+		$this->activeUser = $user;
+	}
+
+	/**
 	 * get the current active user
 	 *
 	 * @return IUser|null Current user, otherwise null

@@ -36,7 +36,7 @@ Cypress.Commands.add('mount', (component, optionsOrProps) => {
 		// eslint-disable-next-line
 		instance = this
 		if (oldMounted) {
-			oldMounted()
+			oldMounted.call(instance)
 		}
 	}
 

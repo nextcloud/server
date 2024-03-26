@@ -42,6 +42,11 @@ export interface IAppDiscoverElement {
 	id: string,
 
 	/**
+	 * Order of this element to pin elements (smaller = shown on top)
+	 */
+	order?: number
+
+	/**
 	 * Optional, localized, headline for the element
 	 */
 	headline?: ILocalizedValue<string>
@@ -54,12 +59,12 @@ export interface IAppDiscoverElement {
 	/**
 	 * Optional date when this element will get valid (only show since then)
 	 */
-	date?: Date|number
+	date?: number
 
 	/**
 	 * Optional date when this element will be invalid (only show until then)
 	 */
-	expiryDate?: Date|number
+	expiryDate?: number
 }
 
 /** Wrapper for media source and MIME type */
@@ -86,15 +91,6 @@ interface IAppDiscoverMediaContent {
 }
 
 /**
- * An app element only used for the showcase type
- */
-interface IAppDiscoverApp {
-	/** The App ID */
-	type: 'app'
-	app: string
-}
-
-/**
  * Wrapper for post media
  */
 interface IAppDiscoverMedia {
@@ -107,6 +103,15 @@ interface IAppDiscoverMedia {
 	 * The (localized) content
 	 */
 	content: ILocalizedValue<IAppDiscoverMediaContent>
+}
+
+/**
+ * An app element only used for the showcase type
+ */
+export interface IAppDiscoverApp {
+	/** The App ID */
+	type: 'app'
+	appId: string
 }
 
 export interface IAppDiscoverPost extends IAppDiscoverElement {

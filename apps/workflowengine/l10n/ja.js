@@ -65,6 +65,8 @@ OC.L10N.register(
     "Desktop client" : "デスクトップクライアント",
     "Thunderbird & Outlook addons" : "Thunderbird & Outlook アドオン",
     "Custom user agent" : "カスタムユーザーエージェント",
+    "Select groups" : "グループを選択",
+    "Groups" : "グループ",
     "At least one event must be selected" : "少なくともイベントを一つ指定してください",
     "Add new flow" : "新しいフローを追加",
     "When" : "いつ",

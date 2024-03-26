@@ -282,7 +282,13 @@ class Log implements ILogger, IDataLogger {
 		}
 
 		$configLogLevel = $this->config->getValue('loglevel', ILogger::WARN);
-		return min(is_int($configLogLevel) ? $configLogLevel : ILogger::WARN, ILogger::FATAL);
+		if (is_numeric($configLogLevel)) {
+			return min((int)$configLogLevel, ILogger::FATAL);
+		}
+
+		// Invalid configuration, warn the user and fall back to default level of WARN
+		error_log('Nextcloud configuration: "loglevel" is not a valid integer');
+		return ILogger::WARN;
 	}
 
 	/**

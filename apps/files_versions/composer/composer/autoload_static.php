@@ -36,7 +36,7 @@ class ComposerStaticInitFiles_Versions
         'OCA\\Files_Versions\\Listener\\FileEventsListener' => __DIR__ . '/..' . '/../lib/Listener/FileEventsListener.php',
         'OCA\\Files_Versions\\Listener\\LoadAdditionalListener' => __DIR__ . '/..' . '/../lib/Listener/LoadAdditionalListener.php',
         'OCA\\Files_Versions\\Listener\\LoadSidebarListener' => __DIR__ . '/..' . '/../lib/Listener/LoadSidebarListener.php',
-        'OCA\\Files_Versions\\Listener\\MetadataFileEvents' => __DIR__ . '/..' . '/../lib/Listener/MetadataFileEvents.php',
+        'OCA\\Files_Versions\\Listener\\VersionAuthorListener' => __DIR__ . '/..' . '/../lib/Listener/VersionAuthorListener.php',
         'OCA\\Files_Versions\\Migration\\Version1020Date20221114144058' => __DIR__ . '/..' . '/../lib/Migration/Version1020Date20221114144058.php',
         'OCA\\Files_Versions\\Sabre\\Plugin' => __DIR__ . '/..' . '/../lib/Sabre/Plugin.php',
         'OCA\\Files_Versions\\Sabre\\RestoreFolder' => __DIR__ . '/..' . '/../lib/Sabre/RestoreFolder.php',

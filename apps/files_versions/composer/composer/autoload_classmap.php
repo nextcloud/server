@@ -21,7 +21,7 @@ return array(
     'OCA\\Files_Versions\\Listener\\FileEventsListener' => $baseDir . '/../lib/Listener/FileEventsListener.php',
     'OCA\\Files_Versions\\Listener\\LoadAdditionalListener' => $baseDir . '/../lib/Listener/LoadAdditionalListener.php',
     'OCA\\Files_Versions\\Listener\\LoadSidebarListener' => $baseDir . '/../lib/Listener/LoadSidebarListener.php',
-    'OCA\\Files_Versions\\Listener\\MetadataFileEvents' => $baseDir . '/../lib/Listener/MetadataFileEvents.php',
+    'OCA\\Files_Versions\\Listener\\VersionAuthorListener' => $baseDir . '/../lib/Listener/VersionAuthorListener.php',
     'OCA\\Files_Versions\\Migration\\Version1020Date20221114144058' => $baseDir . '/../lib/Migration/Version1020Date20221114144058.php',
     'OCA\\Files_Versions\\Sabre\\Plugin' => $baseDir . '/../lib/Sabre/Plugin.php',
     'OCA\\Files_Versions\\Sabre\\RestoreFolder' => $baseDir . '/../lib/Sabre/RestoreFolder.php',
