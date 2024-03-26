@@ -210,6 +210,7 @@ class ConfigAPIController extends OCSController {
 	 *     <ldapExpertUsernameAttr>uid</ldapExpertUsernameAttr>
 	 *     <ldapExpertUUIDUserAttr>uid</ldapExpertUUIDUserAttr>
 	 *     <ldapExpertUUIDGroupAttr></ldapExpertUUIDGroupAttr>
+	 *     <ldapExpertForceUUIDCase>accept</ldapExpertForceUUIDCase>
 	 *     <lastJpegPhotoLookup>0</lastJpegPhotoLookup>
 	 *     <ldapNestedGroups>0</ldapNestedGroups>
 	 *     <ldapPagingSize>500</ldapPagingSize>

@@ -36,6 +36,10 @@ OCA = OCA || {};
 					$element: $('#ldap_expert_uuid_group_attr'),
 					setMethod: 'setGroupUUIDAttribute'
 				},
+				ldap_expert_force_uuid_case: {
+					$element: $('#ldap_expert_force_uuid_case'),
+					setMethod: 'setGroupUUIDAttribute'
+				},
 
 				//Buttons
 				ldap_action_clear_user_mappings: {

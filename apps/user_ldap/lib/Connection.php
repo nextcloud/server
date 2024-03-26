@@ -56,6 +56,7 @@ use Psr\Log\LoggerInterface;
  * @property bool|mixed|void ldapGroupMemberAssocAttr
  * @property string ldapUuidUserAttribute
  * @property string ldapUuidGroupAttribute
+ * @property string ldapExpertForceUUIDCase
  * @property string ldapExpertUUIDUserAttr
  * @property string ldapExpertUUIDGroupAttr
  * @property string ldapQuotaAttribute
