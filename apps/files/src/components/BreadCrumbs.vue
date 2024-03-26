@@ -21,17 +21,17 @@
   -->
 
 <template>
-	<NcBreadcrumbs 
-		data-cy-files-content-breadcrumbs
+	<NcBreadcrumbs data-cy-files-content-breadcrumbs
 		:aria-label="t('files', 'Current directory path')"
-		:class="{ breadcrumb__progress: wrapUploadProgressBar }">
+		class="files-list__breadcrumbs"
+		:class="{ 'files-list__breadcrumbs--with-progress': wrapUploadProgressBar }">
 		<!-- Current path sections -->
 		<NcBreadcrumb v-for="(section, index) in sections"
 			:key="section.dir"
 			v-bind="section"
 			dir="auto"
 			:to="section.to"
-			:force-icon-text="true"
+			:force-icon-text="index === 0 && filesListWidth >= 486"
 			:title="titleForSection(index, section)"
 			:aria-description="ariaForSection(section)"
 			@click.native="onClick(section.to)"
@@ -55,6 +55,7 @@ import type { Node } from '@nextcloud/files'
 
 import { basename } from 'path'
 import { defineComponent } from 'vue'
+import { Permission } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 import HomeSvg from '@mdi/svg/svg/home.svg?raw'
 import NcBreadcrumb from '@nextcloud/vue/dist/Components/NcBreadcrumb.js'
@@ -165,7 +166,7 @@ export default defineComponent({
 			return this.filesStore.getNode(id)
 		},
 		getFileIdFromPath(path: string): number | undefined {
-			return this.pathsStore.getPath(this.currentView?.id, path)
+			return this.pathsStore.getPath(this.currentView!.id, path)
 		},
 		getDirDisplayName(path: string): string {
 			if (path === '/') {
@@ -276,23 +277,23 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.breadcrumb {
+.files-list__breadcrumbs {
 	// Take as much space as possible
 	flex: 1 1 100% !important;
 	width: 100%;
 	height: 100%;
-	margin-inline: 0px 10px 0px 10px;
+	margin-block: 0;
+	margin-inline: 10px;
 
-	& :deep() {
+	:deep() {
 		a {
 			cursor: pointer !important;
 		}
 	}
 
-	&__progress {
+	&--with-progress {
 		flex-direction: column !important;
 		align-items: flex-start !important;
 	}
 }
-
 </style>
