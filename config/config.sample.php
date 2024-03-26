@@ -1964,7 +1964,7 @@ $CONFIG = [
 /**
  * Blacklist characters from being used in filenames. This is useful if you
  * have a filesystem or OS which does not support certain characters like windows.
- * 
+ *
  * The '/' and '\' characters are always forbidden.
  *
  * Example for windows systems: ``array('?', '<', '>', ':', '*', '|', '"', chr(0), "\n", "\r")``
@@ -2430,4 +2430,20 @@ $CONFIG = [
  * Defaults to ``true``
  */
 'enable_non-accessible_features' => true,
+
+/**
+ * Directories where nextcloud looks for binaries.
+ * This is used to find external binaries like libreoffice, sendmail, ffmpeg and more.
+ *
+ * Defaults to ``['/usr/local/sbin','/usr/local/bin','/usr/sbin','/usr/bin','/sbin','/bin','/opt/bin']``
+ */
+'binary_search_paths' => [
+	'/usr/local/sbin',
+	'/usr/local/bin',
+	'/usr/sbin',
+	'/usr/bin',
+	'/sbin',
+	'/bin',
+	'/opt/bin',
+],
 ];
