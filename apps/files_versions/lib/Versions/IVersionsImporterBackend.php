@@ -3,9 +3,11 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2024 Eduardo Morales <emoral435@gmail.com>
+ * @copyright Copyright (c) 2024 Louis Chmn <louis@chmn.me>
  *
- * @license GNU AGPL-3.0-or-later
+ * @author Louis Chmn <louis@chmn.me>
+ *
+ * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -23,24 +25,26 @@ declare(strict_types=1);
  */
 namespace OCA\Files_Versions\Versions;
 
+use OCP\Files\Node;
+use OCP\IUser;
+
 /**
- * This interface allows for just direct accessing of the metadata column JSON
  * @since 29.0.0
  */
-interface IMetadataVersion {
+interface IVersionsImporterBackend {
 	/**
-	 * retrieves the all the metadata
+	 * Import the given versions for the target file.
 	 *
-	 * @return string[]
+	 * @param Node $source - The source might not exist anymore.
+	 * @param IVersion[] $versions
 	 * @since 29.0.0
 	 */
-	public function getMetadata(): array;
+	public function importVersionsForFile(IUser $user, Node $source, Node $target, array $versions): void;
 
 	/**
-	 * retrieves the metadata value from our $key param
+	 * Clear all versions for a file
 	 *
-	 * @param string $key the key for the json value of the metadata column
 	 * @since 29.0.0
 	 */
-	public function getMetadataValue(string $key): ?string;
+	public function clearVersionsForFile(IUser $user, Node $source, Node $target): void;
 }

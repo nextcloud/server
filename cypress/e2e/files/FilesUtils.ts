@@ -45,7 +45,7 @@ export const triggerInlineActionForFile = (filename: string, actionId: string) =
 	getActionsForFile(filename).get(`button[data-cy-files-list-row-action="${CSS.escape(actionId)}"]`).should('exist').click()
 }
 
-export const moveFile = (fileName: string, dirName: string) => {
+export const moveFile = (fileName: string, dirPath: string) => {
 	getRowForFile(fileName).should('be.visible')
 	triggerActionForFile(fileName, 'move-copy')
 
@@ -53,26 +53,30 @@ export const moveFile = (fileName: string, dirName: string) => {
 		// intercept the copy so we can wait for it
 		cy.intercept('MOVE', /\/remote.php\/dav\/files\//).as('moveFile')
 
-		if (dirName === '/') {
+		if (dirPath === '/') {
 			// select home folder
 			cy.get('button[title="Home"]').should('be.visible').click()
 			// click move
 			cy.contains('button', 'Move').should('be.visible').click()
-		} else if (dirName === '.') {
+		} else if (dirPath === '.') {
 			// click move
 			cy.contains('button', 'Copy').should('be.visible').click()
 		} else {
-			// select the folder
-			cy.get(`[data-filename="${dirName}"]`).should('be.visible').click()
+			const directories = dirPath.split('/')
+			directories.forEach((directory) => {
+				// select the folder
+				cy.get(`[data-filename="${directory}"]`).should('be.visible').click()
+			})
+
 			// click move
-			cy.contains('button', `Move to ${dirName}`).should('be.visible').click()
+			cy.contains('button', `Move to ${directories.at(-1)}`).should('be.visible').click()
 		}
 
 		cy.wait('@moveFile')
 	})
 }
 
-export const copyFile = (fileName: string, dirName: string) => {
+export const copyFile = (fileName: string, dirPath: string) => {
 	getRowForFile(fileName).should('be.visible')
 	triggerActionForFile(fileName, 'move-copy')
 
@@ -80,19 +84,23 @@ export const copyFile = (fileName: string, dirName: string) => {
 		// intercept the copy so we can wait for it
 		cy.intercept('COPY', /\/remote.php\/dav\/files\//).as('copyFile')
 
-		if (dirName === '/') {
+		if (dirPath === '/') {
 			// select home folder
 			cy.get('button[title="Home"]').should('be.visible').click()
 			// click copy
 			cy.contains('button', 'Copy').should('be.visible').click()
-		} else if (dirName === '.') {
+		} else if (dirPath === '.') {
 			// click copy
 			cy.contains('button', 'Copy').should('be.visible').click()
 		} else {
-			// select folder
-			cy.get(`[data-filename="${CSS.escape(dirName)}"]`).should('be.visible').click()
+			const directories = dirPath.split('/')
+			directories.forEach((directory) => {
+				// select the folder
+				cy.get(`[data-filename="${CSS.escape(directory)}"]`).should('be.visible').click()
+			})
+
 			// click copy
-			cy.contains('button', `Copy to ${dirName}`).should('be.visible').click()
+			cy.contains('button', `Copy to ${directories.at(-1)}`).should('be.visible').click()
 		}
 
 		cy.wait('@copyFile')
@@ -112,10 +120,21 @@ export const renameFile = (fileName: string, newFileName: string) => {
 	cy.wait('@moveFile')
 }
 
-export const navigateToFolder = (folderName: string) => {
-	getRowForFile(folderName).should('be.visible').find('[data-cy-files-list-row-name-link]').click()
+export const navigateToFolder = (dirPath: string) => {
+	const directories = dirPath.split('/')
+	directories.forEach((directory) => {
+		getRowForFile(directory).should('be.visible').find('[data-cy-files-list-row-name-link]').click()
+	})
+
 }
 
 export const closeSidebar = () => {
-	cy.get('[cy-data-sidebar] .app-sidebar__close').click()
+	// {force: true} as it might be hidden behind toasts
+	cy.get('[cy-data-sidebar] .app-sidebar__close').click({ force: true })
+}
+
+export const clickOnBreadcumbs = (label: string) => {
+	cy.intercept('PROPFIND', /\/remote.php\/dav\//).as('propfind')
+	cy.get('[data-cy-files-content-breadcrumbs]').contains(label).click()
+	cy.wait('@propfind')
 }

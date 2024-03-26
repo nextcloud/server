@@ -300,6 +300,13 @@ class FileEventsListener implements IEventListener {
 	 * of the stored versions along the actual file
 	 */
 	public function rename_hook(Node $source, Node $target): void {
+		$sourceBackend = $this->versionManager->getBackendForStorage($source->getParent()->getStorage());
+		$targetBackend = $this->versionManager->getBackendForStorage($target->getStorage());
+		// If different backends, do nothing.
+		if ($sourceBackend !== $targetBackend) {
+			return;
+		}
+
 		$oldPath = $this->getPathForNode($source);
 		$newPath = $this->getPathForNode($target);
 		Storage::renameOrCopy($oldPath, $newPath, 'rename');
@@ -312,6 +319,13 @@ class FileEventsListener implements IEventListener {
 	 * the stored versions to the new location
 	 */
 	public function copy_hook(Node $source, Node $target): void {
+		$sourceBackend = $this->versionManager->getBackendForStorage($source->getParent()->getStorage());
+		$targetBackend = $this->versionManager->getBackendForStorage($target->getStorage());
+		// If different backends, do nothing.
+		if ($sourceBackend !== $targetBackend) {
+			return;
+		}
+
 		$oldPath = $this->getPathForNode($source);
 		$newPath = $this->getPathForNode($target);
 		Storage::renameOrCopy($oldPath, $newPath, 'copy');
@@ -325,6 +339,13 @@ class FileEventsListener implements IEventListener {
 	 *
 	 */
 	public function pre_renameOrCopy_hook(Node $source, Node $target): void {
+		$sourceBackend = $this->versionManager->getBackendForStorage($source->getStorage());
+		$targetBackend = $this->versionManager->getBackendForStorage($target->getParent()->getStorage());
+		// If different backends, do nothing.
+		if ($sourceBackend !== $targetBackend) {
+			return;
+		}
+
 		// if we rename a movable mount point, then the versions don't have
 		// to be renamed
 		$oldPath = $this->getPathForNode($source);

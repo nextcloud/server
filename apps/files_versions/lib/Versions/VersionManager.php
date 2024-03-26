@@ -203,5 +203,4 @@ class VersionManager implements IVersionManager, IDeletableVersionBackend, INeed
 			return $result;
 		}
 	}
-
 }

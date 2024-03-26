@@ -89,14 +89,11 @@ export function doesNotHaveAction(index: number, actionName: string) {
 	toggleVersionMenu(index)
 }
 
-export function assertVersionContent(filename: string, index: number, expectedContent: string) {
-	const downloadsFolder = Cypress.config('downloadsFolder')
-
+export function assertVersionContent(index: number, expectedContent: string) {
+	cy.intercept({ method: 'GET', times: 1, url: 'remote.php/**' }).as('downloadVersion')
 	triggerVersionAction(index, 'download')
-
-	return cy.readFile(path.join(downloadsFolder, filename))
-		.then((versionContent) => expect(versionContent).to.equal(expectedContent))
-		.then(() => cy.exec(`rm ${downloadsFolder}/${filename}`))
+	cy.wait('@downloadVersion')
+		.then(({ response }) => expect(response?.body).to.equal(expectedContent))
 }
 
 export function setupTestSharedFileFromUser(owner: User, randomFileName: string, shareOptions: Partial<ShareSetting>) {
