@@ -37,55 +37,29 @@ use Sabre\DAV\Exception\NotFound;
  * Mapping node for system tag to object id
  */
 class SystemTagMappingNode implements \Sabre\DAV\INode {
-	/**
-	 * @var ISystemTag
-	 */
-	protected $tag;
-
-	/**
-	 * @var string
-	 */
+	/** @var ISystemTag */
+	private $tag;
+	/** @var string */
 	private $objectId;
-
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	private $objectType;
-
-	/**
-	 * User
-	 *
-	 * @var IUser
-	 */
-	protected $user;
-
-	/**
-	 * @var ISystemTagManager
-	 */
-	protected $tagManager;
-
-	/**
-	 * @var ISystemTagObjectMapper
-	 */
+	/** @var IUser */
+	private $user;
+	/** @var ISystemTagManager */
+	private $tagManager;
+	/** @var ISystemTagObjectMapper */
 	private $tagMapper;
+	/** @var \Closure */
+	private $childWriteAccessFunction;
 
-	/**
-	 * Sets up the node, expects a full path name
-	 *
-	 * @param ISystemTag $tag system tag
-	 * @param string $objectId
-	 * @param string $objectType
-	 * @param IUser $user user
-	 * @param ISystemTagManager $tagManager
-	 * @param ISystemTagObjectMapper $tagMapper
-	 */
 	public function __construct(
 		ISystemTag $tag,
-		$objectId,
-		$objectType,
+		string $objectId,
+		string $objectType,
 		IUser $user,
 		ISystemTagManager $tagManager,
-		ISystemTagObjectMapper $tagMapper
+		ISystemTagObjectMapper $tagMapper,
+		\Closure $childWriteAccessFunction
 	) {
 		$this->tag = $tag;
 		$this->objectId = $objectId;
@@ -93,6 +67,7 @@ class SystemTagMappingNode implements \Sabre\DAV\INode {
 		$this->user = $user;
 		$this->tagManager = $tagManager;
 		$this->tagMapper = $tagMapper;
+		$this->childWriteAccessFunction = $childWriteAccessFunction;
 	}
 
 	/**
@@ -160,6 +135,10 @@ class SystemTagMappingNode implements \Sabre\DAV\INode {
 			}
 			if (!$this->tagManager->canUserAssignTag($this->tag, $this->user)) {
 				throw new Forbidden('No permission to unassign tag ' . $this->tag->getId());
+			}
+			$writeAccessFunction = $this->childWriteAccessFunction;
+			if (!$writeAccessFunction($this->objectId)) {
+				throw new Forbidden('No permission to unassign tag to ' . $this->objectId);
 			}
 			$this->tagMapper->unassignTags($this->objectId, $this->objectType, $this->tag->getId());
 		} catch (TagNotFoundException $e) {
