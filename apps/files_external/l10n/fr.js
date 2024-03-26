@@ -1,7 +1,7 @@
 OC.L10N.register(
     "files_external",
     {
-    "Grant access" : "Autoriser l'accès",
+    "Grant access" : "Autoriser l’accès",
     "Error configuring OAuth1" : "Erreur lors de la configuration de OAuth1",
     "Please provide a valid app key and secret." : "Veuillez fournir une clé d'application et un mot de passe valides.",
     "Error configuring OAuth2" : "Erreur lors de la configuration de OAuth2",
@@ -72,7 +72,7 @@ OC.L10N.register(
     "Kerberos ticket" : "Ticket Kerberos",
     "Amazon S3" : "Amazon S3",
     "Bucket" : "Bucket",
-    "Hostname" : "Nom de l'hôte",
+    "Hostname" : "Nom de l’hôte",
     "Port" : "Port",
     "Region" : "Région",
     "Storage Class" : "Classe de stockage",

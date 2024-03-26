@@ -1,7 +1,7 @@
 OC.L10N.register(
     "updatenotification",
     {
-    "{version} is available. Get more information on how to update." : "La version {version} est disponible. Cliquez ici pour plus d'informations sur comment mettre à jour.",
+    "{version} is available. Get more information on how to update." : "La version {version} est disponible. Cliquez ici pour plus d’informations sur comment mettre à jour.",
     "Channel updated" : "Canal de mise à jour modifié",
     "Web updater is disabled" : "La mise à jour par l'interface Web est désactivée ",
     "App updated" : "Application mise à jour",
