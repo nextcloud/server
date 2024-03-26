@@ -106,7 +106,7 @@ OC.L10N.register(
     "Overview" : "نمای کلّی",
     "Basic settings" : "تنظیمات پایه",
     "Sharing" : "اشتراک گذاری",
-    "Availability" : "دردسترس بودن",
+    "Availability" : "در دسترس بودن",
     "Calendar" : "تقویم",
     "Personal info" : "اطّلاعات شخصی",
     "Mobile & desktop" : "همراه و میزکار",

@@ -69,6 +69,7 @@ OC.L10N.register(
     "Custom user agent" : "Özel kullanıcı uygulaması",
     "Select groups" : "Grupları seçin",
     "Groups" : "Gruplar",
+    "Type to search for group …" : "Grup aramak için yazmaya başlayın…",
     "Select a trigger" : "Bir tetikleyici seçin",
     "At least one event must be selected" : "En az bir etkinlik seçilmelidir",
     "Add new flow" : "Akış ekle",
