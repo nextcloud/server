@@ -36,6 +36,7 @@ use Exception;
 use OCA\DAV\BackgroundJob\UpdateCalendarResourcesRoomsBackgroundJob;
 use OCA\DAV\CalDAV\Activity\Backend;
 use OCA\DAV\CalDAV\AppCalendar\AppCalendarPlugin;
+use OCA\DAV\CalDAV\CachedSubscriptionProvider;
 use OCA\DAV\CalDAV\CalendarManager;
 use OCA\DAV\CalDAV\CalendarProvider;
 use OCA\DAV\CalDAV\Reminder\NotificationProvider\AudioProvider;
@@ -199,6 +200,7 @@ class Application extends App implements IBootstrap {
 		$context->registerNotifierService(Notifier::class);
 
 		$context->registerCalendarProvider(CalendarProvider::class);
+		$context->registerCalendarProvider(CachedSubscriptionProvider::class);
 
 		$context->registerUserMigrator(CalendarMigrator::class);
 		$context->registerUserMigrator(ContactsMigrator::class);

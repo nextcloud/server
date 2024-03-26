@@ -39,9 +39,6 @@ use Sabre\VObject\Component\VEvent;
 use Sabre\VObject\ITip\Message;
 use Sabre\VObject\Reader;
 
-/**
- * @group DB
- */
 class CalendarImplTest extends \Test\TestCase {
 	/** @var CalendarImpl */
 	private $calendarImpl;
