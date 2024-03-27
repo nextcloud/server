@@ -569,6 +569,26 @@ class PublicKeyTokenProviderTest extends TestCase {
 		$this->assertSame('password', $this->tokenProvider->getPassword($new, 'newtokentokentokentokentoken'));
 	}
 
+	public function testRotateNoStoreCrypt() {
+		$token = 'oldtokentokentokentokentoken';
+		$uid = 'user';
+		$user = 'User';
+		$password = 'password';
+		$name = 'User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.2.12) Gecko/20101026 Firefox/3.6.12';
+		$type = IToken::PERMANENT_TOKEN;
+
+		$this->config->method('getSystemValueBool')
+			->willReturnMap([
+				['auth.storeCryptedPassword', true, false],
+			]);
+		$actual = $this->tokenProvider->generateToken($token, $uid, $user, $password, $name, $type, IToken::DO_NOT_REMEMBER);
+
+		$new = $this->tokenProvider->rotate($actual, 'oldtokentokentokentokentoken', 'newtokentokentokentokentoken');
+
+		$this->expectException(PasswordlessTokenException::class);
+		$this->tokenProvider->getPassword($new, 'newtokentokentokentokentoken');
+	}
+
 	public function testRotateNoPassword() {
 		$token = 'oldtokentokentokentokentoken';
 		$uid = 'user';
@@ -585,7 +605,8 @@ class PublicKeyTokenProviderTest extends TestCase {
 
 		$newPrivate = $new->getPrivateKey();
 
-		$this->assertNotSame($newPrivate, $oldPrivate);
+		$this->assertNull($oldPrivate);
+		$this->assertNull($newPrivate);
 		$this->assertNull($new->getPassword());
 	}
 
@@ -611,6 +632,11 @@ class PublicKeyTokenProviderTest extends TestCase {
 	}
 
 	public function testUpdatePasswords() {
+		$this->config->method('getSystemValueBool')
+			->willReturnMap([
+				['auth.storeCryptedPassword', true, true],
+			]);
+
 		$uid = 'myUID';
 		$token1 = $this->tokenProvider->generateToken(
 			'foobetokentokentokentoken',
