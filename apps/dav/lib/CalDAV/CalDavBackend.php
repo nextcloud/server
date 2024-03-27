@@ -99,6 +99,7 @@ use Sabre\VObject\Property;
 use Sabre\VObject\Reader;
 use Sabre\VObject\Recur\EventIterator;
 use function array_column;
+use function array_map;
 use function array_merge;
 use function array_values;
 use function explode;
@@ -2706,7 +2707,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * Adds a change record to the calendarchanges table.
 	 *
 	 * @param mixed $calendarId
-	 * @param string $objectUri
+	 * @param string[] $objectUris
 	 * @param int $operation 1 = add, 2 = modify, 3 = delete.
 	 * @param int $calendarType
 	 * @return void
@@ -2738,6 +2739,47 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		$stmt->execute([
 			$calendarId
 		]);
+	}
+
+	public function restoreChanges(int $calendarId, int $calendarType = self::CALENDAR_TYPE_CALENDAR): void {
+		$this->cachedObjects = [];
+
+		$this->atomic(function () use ($calendarId, $calendarType) {
+			$qbAdded = $this->db->getQueryBuilder();
+			$qbAdded->select('uri')
+				->from('calendarobjects')
+				->where(
+					$qbAdded->expr()->andX(
+						$qbAdded->expr()->eq('calendarid', $qbAdded->createNamedParameter($calendarId)),
+						$qbAdded->expr()->eq('calendartype', $qbAdded->createNamedParameter($calendarType)),
+						$qbAdded->expr()->isNull('deleted_at'),
+					)
+				);
+			$resultAdded = $qbAdded->executeQuery();
+			$addedUris = $resultAdded->fetchAll(\PDO::FETCH_COLUMN);
+			$resultAdded->closeCursor();
+			// Track everything as changed
+			// Tracking the creation is not necessary because \OCA\DAV\CalDAV\CalDavBackend::getChangesForCalendar
+			// only returns the last change per object.
+			$this->addChanges($calendarId, $addedUris, 2, $calendarType);
+
+			$qbDeleted = $this->db->getQueryBuilder();
+			$qbDeleted->select('uri')
+				->from('calendarobjects')
+				->where(
+					$qbDeleted->expr()->andX(
+						$qbDeleted->expr()->eq('calendarid', $qbDeleted->createNamedParameter($calendarId)),
+						$qbDeleted->expr()->eq('calendartype', $qbDeleted->createNamedParameter($calendarType)),
+						$qbDeleted->expr()->isNotNull('deleted_at'),
+					)
+				);
+			$resultDeleted = $qbDeleted->executeQuery();
+			$deletedUris = array_map(function (string $uri) {
+				return str_replace("-deleted.ics", ".ics", $uri);
+			}, $resultDeleted->fetchAll(\PDO::FETCH_COLUMN));
+			$resultDeleted->closeCursor();
+			$this->addChanges($calendarId, $deletedUris, 3, $calendarType);
+		}, $this->db);
 	}
 
 	/**
