@@ -65,10 +65,13 @@ class NoopScanner extends Scanner {
 	 * @param string $path
 	 * @param bool $recursive
 	 * @param int $reuse
-	 * @param array $folderData existing cache data for the folder to be scanned
+	 * @param ?int $folderId
+	 * @param bool $lock
+	 * @param array $data
+	 * @param bool &$etagChanged
 	 * @return int the size of the scanned folder or -1 if the size is unknown at this stage
 	 */
-	protected function scanChildren($path, $recursive = self::SCAN_RECURSIVE, $reuse = -1, $folderId = null, $lock = true, array $data = []) {
+	protected function scanChildren($path, $recursive = self::SCAN_RECURSIVE, $reuse = -1, $folderId = null, $lock = true, array $data = [], &$etagChanged = false) {
 		return 0;
 	}
 
