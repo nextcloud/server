@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Logged in account must be an administrator or have authorization to edit this setting." : "Le compte connecté doit être un administrateur ou avoir l'autorisation de modifier ce paramètre.",
     "User already exists" : "Cet utilisateur existe déjà",
+    "Group %1$s does not exist" : "Le groupe %1$s n’existe pas",
     "Insufficient privileges for group %1$s" : "Privilèges insuffisants pour le groupe %1$s",
     "No group specified (required for sub-admins)" : "Aucun groupe spécifié (requis pour les sous-administrateurs)",
     "Sub-admin group does not exist" : "Le groupe des sous-administrateurs n'existe pas",
