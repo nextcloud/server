@@ -29,6 +29,7 @@ declare(strict_types=1);
 
 namespace OCP\AppFramework\Bootstrap;
 
+use OCP\AppFramework\ConfigValues\IConfigValue;
 use OCP\AppFramework\IAppContainer;
 use OCP\Authentication\TwoFactorAuth\IProvider;
 use OCP\Calendar\ICalendarProvider;
@@ -410,4 +411,6 @@ interface IRegistrationContext {
 	 * @since 29.0.0
 	 */
 	public function registerDeclarativeSettings(string $declarativeSettingsClass): void;
+
+	public function registerConfigValues(bool $strict, IConfigValue ...$configValues): void;
 }

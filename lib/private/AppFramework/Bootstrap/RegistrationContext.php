@@ -33,6 +33,7 @@ use Closure;
 use OC\Support\CrashReport\Registry;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
+use OCP\AppFramework\ConfigValues\IConfigValue;
 use OCP\AppFramework\Middleware;
 use OCP\AppFramework\Services\InitialStateProvider;
 use OCP\Authentication\IAlternativeLogin;
@@ -160,6 +161,7 @@ class RegistrationContext {
 	/** @var ServiceRegistration<IDeclarativeSettingsForm>[] */
 	private array $declarativeSettings = [];
 
+	private array $configValues = [];
 	/** @var ServiceRegistration<ITeamResourceProvider>[] */
 	private array $teamResourceProviders = [];
 
@@ -411,6 +413,14 @@ class RegistrationContext {
 					$declarativeSettingsClass
 				);
 			}
+
+			public function registerConfigValues(bool $strict, IConfigValue ...$configValues): void {
+				$this->context->registerConfigValues(
+					$this->appId,
+					$strict,
+					...$configValues
+				);
+			}
 		};
 	}
 
@@ -589,6 +599,16 @@ class RegistrationContext {
 	public function registerDeclarativeSettings(string $appId, string $declarativeSettingsClass): void {
 		$this->declarativeSettings[] = new ServiceRegistration($appId, $declarativeSettingsClass);
 	}
+
+	public function registerConfigValues(string $appId, bool $strict, IConfigValue ...$configValues): void {
+		$values = ['_strict' => $strict];
+		foreach ($configValues as $configValue) {
+			$values[$configValue->getConfigType()][$configValue->getKey()] = $configValue;
+		}
+
+		$this->configValues[$appId] = $values;
+	}
+
 
 	/**
 	 * @param App[] $apps
@@ -919,5 +939,19 @@ class RegistrationContext {
 	 */
 	public function getDeclarativeSettings(): array {
 		return $this->declarativeSettings;
+	}
+
+	/**
+	 * @param string $app
+	 * @param string $configType
+	 *
+	 * @return array<string, IConfigValue>
+	 */
+	public function getConfigValues(string $app, string $configType): array {
+		return $this->configValues[$app][$configType] ?? [];
+	}
+
+	public function strictConfigValues(string $app): bool {
+		return $this->configValues[$app]['_strict'] ?? false;
 	}
 }

@@ -38,6 +38,9 @@ namespace OC;
 
 use InvalidArgumentException;
 use JsonException;
+use OC\AppFramework\Bootstrap\Coordinator;
+use OC\AppFramework\ConfigValues\AppConfigValue;
+use OCP\AppFramework\ConfigValues\IConfigValue;
 use OCP\DB\Exception as DBException;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Exceptions\AppConfigIncorrectTypeException;
@@ -97,6 +100,7 @@ class AppConfig implements IAppConfig {
 		protected IDBConnection $connection,
 		protected LoggerInterface $logger,
 		protected ICrypto $crypto,
+		private Coordinator $coordinator,
 	) {
 	}
 
@@ -455,6 +459,7 @@ class AppConfig implements IAppConfig {
 		int $type
 	): string {
 		$this->assertParams($app, $key, valueType: $type);
+		$this->compareRegisteredConfigValues($app, $key, $lazy, $type, $default);
 		$this->loadConfig($lazy);
 
 		/**
@@ -746,6 +751,7 @@ class AppConfig implements IAppConfig {
 		int $type
 	): bool {
 		$this->assertParams($app, $key);
+		$this->compareRegisteredConfigValues($app, $key, $lazy, $type);
 		$this->loadConfig($lazy);
 
 		$sensitive = $this->isTyped(self::VALUE_SENSITIVE, $type);
@@ -1505,5 +1511,46 @@ class AppConfig implements IAppConfig {
 	 */
 	public function clearCachedConfig(): void {
 		$this->clearCache();
+	}
+
+
+
+	private function compareRegisteredConfigValues(
+		string $app,
+		string $key,
+		bool &$lazy,
+		int &$type,
+		string &$default = '',
+	): void {
+		$context = $this->coordinator->getRegistrationContext();
+		$configValues = $context->getConfigValues($app, AppConfigValue::TYPE);
+
+		if (!array_key_exists($key, $configValues)) {
+			if ($context->strictConfigValues($app)) {
+				throw new AppConfigUnknownKeyException('This key is not defined in the list of available AppConfig keys for this app');
+			}
+			return;
+		}
+
+		$configValue = $configValues[$key];
+
+		if ($configValue->getValueType() !== match($type) {
+			self::VALUE_STRING => IConfigValue::TYPE_STRING,
+			self::VALUE_INT => IConfigValue::TYPE_INT,
+			self::VALUE_FLOAT => IConfigValue::TYPE_FLOAT,
+			self::VALUE_BOOL => IConfigValue::TYPE_BOOL,
+			self::VALUE_ARRAY => IConfigValue::TYPE_ARRAY,
+		}) {
+			throw new AppConfigTypeConflictException('This key is mistyped compare to the list of available AppConfig keys for this app');
+		}
+
+		$lazy = $configValue->isLazy();
+		$default = $configValue->getDefault() ?? $default;
+		if ($configValue->isSensitive()) {
+			$type |= self::VALUE_SENSITIVE;
+		}
+		if ($configValue->isDeprecated()) {
+			$this->logger->notice('config value ' . $key . ' from ' . $app . ' is set as deprecated');
+		}
 	}
 }
