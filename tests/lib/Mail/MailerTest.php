@@ -72,7 +72,7 @@ class MailerTest extends TestCase {
 	public function sendmailModeProvider(): array {
 		return [
 			'smtp' => ['smtp', ' -bs'],
-			'pipe' => ['pipe', ' -t'],
+			'pipe' => ['pipe', ' -t -i'],
 		];
 	}
 
