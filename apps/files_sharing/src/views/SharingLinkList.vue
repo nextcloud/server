@@ -129,8 +129,10 @@ export default {
 		 * @param {Function} resolve a function to execute after
 		 */
 		awaitForShare(share, resolve) {
+			console.debug('I get update event for share')
 			this.$nextTick(() => {
 				const newShare = this.$children.find(component => component.share === share)
+				console.log('So called new share from await', newShare)
 				if (newShare) {
 					resolve(newShare)
 				}

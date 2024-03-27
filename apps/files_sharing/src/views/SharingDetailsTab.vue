@@ -807,6 +807,7 @@ export default {
 					incomingShare.password = this.share.password
 				}
 
+				debug
 				const share = await this.addShare(incomingShare, this.fileInfo)
 				this.share = share
 				this.$emit('add:share', this.share)

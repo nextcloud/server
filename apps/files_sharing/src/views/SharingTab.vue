@@ -342,6 +342,7 @@ export default {
 		addShare(share, resolve = () => { }) {
 			// only catching share type MAIL as link shares are added differently
 			// meaning: not from the ShareInput
+			console.debug('EVENT RECEIEVED', share)
 			if (share.type === this.SHARE_TYPES.SHARE_TYPE_EMAIL) {
 				this.linkShares.unshift(share)
 			} else {

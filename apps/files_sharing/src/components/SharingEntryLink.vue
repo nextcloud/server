@@ -497,6 +497,8 @@ export default {
 				shareDefaults.expiration = this.formatDateToString(this.config.defaultExpirationDate)
 			}
 
+			console.debug('ON NEW SHARE 1', this.share)
+
 			// do not push yet if we need a password or an expiration date: show pending menu
 			if (this.config.enableLinkPasswordByDefault || this.config.enforcePasswordForPublicLink || this.config.isDefaultExpireDateEnforced) {
 				this.pending = true
@@ -506,6 +508,7 @@ export default {
 					// if the share is valid, create it on the server
 					if (this.checkShare(this.share)) {
 						try {
+							console.debug('ON NEW SHARE 2 (TREATED AS NEW SHARE)', this.share)
 							await this.pushNewLinkShare(this.share, true)
 						} catch (e) {
 							this.pending = false
@@ -518,6 +521,7 @@ export default {
 						OC.Notification.showTemporary(t('files_sharing', 'Error, please enter proper password and/or expiration date'))
 						return false
 					}
+					
 				}
 
 				// ELSE, show the pending popovermenu
@@ -540,6 +544,7 @@ export default {
 
 				// Nothing is enforced, creating share directly
 			} else {
+				console.debug('ENDS UP AS NEW SHARE 4')
 				const share = new Share(shareDefaults)
 				await this.pushNewLinkShare(share)
 			}
@@ -559,6 +564,8 @@ export default {
 				if (this.loading) {
 					return true
 				}
+
+				console.debug('ENDS UP AS NEW SHARE 5', this.share, update)
 
 				this.loading = true
 				this.errors = {}
@@ -586,10 +593,13 @@ export default {
 				// if share already exists, copy link directly on next tick
 				let component
 				if (update) {
+					console.debug('WORKS AS UPDATE INSTEAD')
+					this.$emit('update:share', newShare)
 					component = await new Promise(resolve => {
 						this.$emit('update:share', newShare, resolve)
 					})
 				} else {
+					console.debug('NA NEW SHARE, CAN WE EMIT')
 					// adding new share to the array and copying link to clipboard
 					// using promise so that we can copy link in the same click function
 					// and avoid firefox copy permissions issue
