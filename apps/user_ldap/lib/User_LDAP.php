@@ -211,6 +211,22 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 		return false;
 	}
 
+	/** BeforePasswordUpdated handler
+	 * @param string $uid The username
+	 * @param string $oldPassword The old password
+	 * @return void
+	 */
+	public function beforePasswordUpdated($uid, $oldPassword) {
+		$user = $this->access->userManager->get($uid);
+
+		if (!$user instanceof User) {
+			throw new \Exception('LDAP beforePasswordUpdated: Could not get user object for uid ' . $uid .
+				'. Maybe the LDAP entry has no set display name attribute?');
+		}
+
+		return $this->access->cacheUserConnection($user->getDN(), $oldPassword);
+	}
+
 	/**
 	 * Set password
 	 * @param string $uid The username

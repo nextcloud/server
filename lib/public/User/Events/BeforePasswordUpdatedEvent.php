@@ -42,21 +42,27 @@ class BeforePasswordUpdatedEvent extends Event {
 	private $password;
 
 	/** @var string|null */
+	private $oldPassword;
+
+	/** @var string|null */
 	private $recoveryPassword;
 
 	/**
 	 * @param IUser $user
 	 * @param string $password
 	 * @param string|null $recoveryPassword
+	 * @param string|null $oldPassword
 	 * @since 18.0.0
 	 */
 	public function __construct(IUser $user,
 		string $password,
-		string $recoveryPassword = null) {
+		string $recoveryPassword = null,
+		string $oldPassword = null) {
 		parent::__construct();
 		$this->user = $user;
 		$this->password = $password;
 		$this->recoveryPassword = $recoveryPassword;
+		$this->oldPassword = $oldPassword;
 	}
 
 	/**
@@ -73,6 +79,14 @@ class BeforePasswordUpdatedEvent extends Event {
 	 */
 	public function getPassword(): string {
 		return $this->password;
+	}
+
+	/**
+	 * @return string|null
+	 * @since 29.0.0
+	 */
+	public function getOldPassword(): ?string {
+		return $this->oldPassword;
 	}
 
 	/**
