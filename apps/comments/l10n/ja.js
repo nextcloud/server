@@ -9,6 +9,7 @@ OC.L10N.register(
     "%1$s commented on %2$s" : "%2$s について、%1$s がコメントしました",
     "{author} commented on {file}" : "{author} が{file} にコメントしました",
     "<strong>Comments</strong> for files" : "ファイルへの<strong>コメント</strong>があったとき",
+    "You were mentioned on \"{file}\", in a comment by an account that has since been deleted" : "あなたは \"{file}\" で、削除されたアカウントのコメントで言及されました",
     "{user} mentioned you in a comment on \"{file}\"" : "{user} さんが \"{file}\" のコメント内であなたついて言及しました",
     "Files app plugin to add comments to files" : "ファイルにコメントを追加するためのファイルアプリプラグイン",
     "Edit comment" : "コメントを編集",
@@ -32,6 +33,7 @@ OC.L10N.register(
     "An error occurred while trying to create the comment" : "コメント中にエラーが発生しました",
     "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "You were mentioned on \"{file}\", in a comment by a user that has since been deleted",
     "_%n unread comment_::_%n unread comments_" : ["%n の未読のコメント"],
+    "Write a message …" : "メッセージを書く…",
     "\"@\" for mentions, \":\" for emoji, \"/\" for smart picker" : "メンションには \"@\"、絵文字には \":\"、スマートピッカーには \"/\""
 },
 "nplurals=1; plural=0;");
