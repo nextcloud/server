@@ -283,6 +283,7 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\HookManager' => __DIR__ . '/..' . '/../lib/HookManager.php',
         'OCA\\DAV\\Listener\\ActivityUpdaterListener' => __DIR__ . '/..' . '/../lib/Listener/ActivityUpdaterListener.php',
         'OCA\\DAV\\Listener\\AddressbookListener' => __DIR__ . '/..' . '/../lib/Listener/AddressbookListener.php',
+        'OCA\\DAV\\Listener\\AdminAuditListener' => __DIR__ . '/..' . '/../lib/Listener/AdminAuditListener.php',
         'OCA\\DAV\\Listener\\BirthdayListener' => __DIR__ . '/..' . '/../lib/Listener/BirthdayListener.php',
         'OCA\\DAV\\Listener\\CalendarContactInteractionListener' => __DIR__ . '/..' . '/../lib/Listener/CalendarContactInteractionListener.php',
         'OCA\\DAV\\Listener\\CalendarDeletionDefaultUpdaterListener' => __DIR__ . '/..' . '/../lib/Listener/CalendarDeletionDefaultUpdaterListener.php',
