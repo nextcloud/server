@@ -30,6 +30,7 @@ import DetailsSection from './components/PersonalInfo/DetailsSection.vue'
 import DisplayNameSection from './components/PersonalInfo/DisplayNameSection.vue'
 import EmailSection from './components/PersonalInfo/EmailSection/EmailSection.vue'
 import PhoneSection from './components/PersonalInfo/PhoneSection.vue'
+import PronounsSection from './components/PersonalInfo/PronounsSection.vue'
 import LocationSection from './components/PersonalInfo/LocationSection.vue'
 import WebsiteSection from './components/PersonalInfo/WebsiteSection.vue'
 import TwitterSection from './components/PersonalInfo/TwitterSection.vue'
@@ -64,6 +65,7 @@ const TwitterView = Vue.extend(TwitterSection)
 const FediverseView = Vue.extend(FediverseSection)
 const LanguageView = Vue.extend(LanguageSection)
 const LocaleView = Vue.extend(LocaleSection)
+const PronounsView = Vue.extend(PronounsSection)
 
 new AvatarView().$mount('#vue-avatar-section')
 new DetailsView().$mount('#vue-details-section')
@@ -76,6 +78,7 @@ new TwitterView().$mount('#vue-twitter-section')
 new FediverseView().$mount('#vue-fediverse-section')
 new LanguageView().$mount('#vue-language-section')
 new LocaleView().$mount('#vue-locale-section')
+new PronounsView().$mount('#vue-pronouns-section')
 
 if (profileEnabledGlobally) {
 	const ProfileView = Vue.extend(ProfileSection)

@@ -103,6 +103,7 @@ class AccountManager implements IAccountManager {
 		self::PROPERTY_ROLE => self::SCOPE_LOCAL,
 		self::PROPERTY_HEADLINE => self::SCOPE_LOCAL,
 		self::PROPERTY_BIOGRAPHY => self::SCOPE_LOCAL,
+		self::PROPERTY_PRONOUNS => self::SCOPE_FEDERATED,
 	];
 
 	public function __construct(
@@ -698,6 +699,12 @@ class AccountManager implements IAccountManager {
 			[
 				'name' => self::PROPERTY_PROFILE_ENABLED,
 				'value' => $this->isProfileEnabledByDefault($this->config) ? '1' : '0',
+			],
+
+			[
+				'name' => self::PROPERTY_PRONOUNS,
+				'value' => '',
+				'scope' => $scopes[self::PROPERTY_PRONOUNS],
 			],
 		];
 	}
