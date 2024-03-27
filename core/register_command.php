@@ -151,6 +151,7 @@ if ($config->getSystemValueBool('installed', false)) {
 	$application->add(Server::get(Command\User\Delete::class));
 	$application->add(Server::get(Command\User\Disable::class));
 	$application->add(Server::get(Command\User\Enable::class));
+	$application->add(Server::get(Command\User\GetUserFromEmail::class)); // Tested with $application->add(new OC\Core\Command\User\GetUserFromEmail(\OC::$server->getUserManager()));
 	$application->add(Server::get(Command\User\LastSeen::class));
 	$application->add(Server::get(Command\User\Report::class));
 	$application->add(Server::get(Command\User\ResetPassword::class));
