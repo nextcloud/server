@@ -37,6 +37,7 @@ use OC\Files\Storage\Home;
 use OC\ForbiddenException;
 use OC\Hooks\PublicEmitter;
 use OC\Lock\DBLockingProvider;
+use OCA\Collectives\Mount\CollectiveStorage;
 use OCA\Files_Sharing\SharedStorage;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Events\BeforeFileScannedEvent;
@@ -239,10 +240,11 @@ class Scanner extends PublicEmitter {
 				}
 			}
 
-			// don't scan received local shares, these can be scanned when scanning the owner's storage
-			if ($storage->instanceOfStorage(SharedStorage::class)) {
+			// don't scan received local shares or collectives, these can be scanned when scanning the owner's storage
+			if (substr($storage->getId(), 0, 6) !== 'home::') {
 				continue;
 			}
+
 			$relativePath = $mount->getInternalPath($dir);
 			$scanner = $storage->getScanner();
 			$scanner->setUseTransactions(false);
