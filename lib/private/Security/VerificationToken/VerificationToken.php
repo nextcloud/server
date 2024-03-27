@@ -101,6 +101,7 @@ class VerificationToken implements IVerificationToken {
 		IUser $user,
 		string $subject,
 		string $passwordPrefix = '',
+		int $expirationTime = self::TOKEN_LIFETIME * 2
 	): string {
 		$token = $this->secureRandom->generate(
 			21,
@@ -115,7 +116,7 @@ class VerificationToken implements IVerificationToken {
 			'userId' => $user->getUID(),
 			'subject' => $subject,
 			'pp' => $passwordPrefix,
-			'notBefore' => $this->timeFactory->getTime() + self::TOKEN_LIFETIME * 2, // multiply to provide a grace period
+			'notBefore' => $this->timeFactory->getTime() + $expirationTime, // multiply to provide a grace period
 		]);
 		$this->jobList->add(CleanUpJob::class, $jobArgs);
 
