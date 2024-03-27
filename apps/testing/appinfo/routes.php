@@ -80,5 +80,10 @@ return [
 				'type' => null
 			]
 		],
+		[
+			'name' => 'RemoteShares#delete',
+			'url' => '/api/v1/remote_shares',
+			'verb' => 'DELETE',
+		],
 	],
 ];

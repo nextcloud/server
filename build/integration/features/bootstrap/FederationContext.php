@@ -70,7 +70,7 @@ class FederationContext implements Context, SnippetAcceptingContext {
 	/**
 	 * @BeforeScenario
 	 */
-	public function cleanupRemoteStorages() {
+	public function cleanupRemoteStoragesAndShares() {
 		// Ensure that dangling remote storages from previous tests will not
 		// interfere with the current scenario.
 		// The storages must be cleaned before each scenario; they can not be
@@ -78,6 +78,22 @@ class FederationContext implements Context, SnippetAcceptingContext {
 		// that removes the users, so the shares would be still valid and thus
 		// the storages would not be dangling yet.
 		$this->runOcc(['sharing:cleanup-remote-storages']);
+
+		// Even if the groups are removed after each scenario there might be
+		// dangling remote group shares that could interfere with the current
+		// scenario, so the remote shares need to be explicitly cleared.
+		$this->runOcc(['app:enable', 'testing']);
+
+		$user = $this->currentUser;
+		$this->currentUser = 'admin';
+
+		$this->sendingTo('DELETE', "/apps/testing/api/v1/remote_shares");
+		$this->theHTTPStatusCodeShouldBe('200');
+		if ($this->apiVersion === 1) {
+			$this->theOCSStatusCodeShouldBe('100');
+		}
+
+		$this->currentUser = $user;
 	}
 
 	/**
