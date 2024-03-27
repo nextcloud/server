@@ -3149,7 +3149,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	/**
 	 * @throws \InvalidArgumentException
 	 */
-	public function pruneOutdatedSyncTokens(int $keep = 10_000): int {
+	public function pruneOutdatedSyncTokens(int $keep, int $retention): int {
 		if ($keep < 0) {
 			throw new \InvalidArgumentException();
 		}
@@ -3167,7 +3167,10 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 
 		$query = $this->db->getQueryBuilder();
 		$query->delete('calendarchanges')
-			->where($query->expr()->lte('id', $query->createNamedParameter($maxId - $keep, IQueryBuilder::PARAM_INT), IQueryBuilder::PARAM_INT));
+			->where(
+				$query->expr()->lte('id', $query->createNamedParameter($maxId - $keep, IQueryBuilder::PARAM_INT), IQueryBuilder::PARAM_INT),
+				$query->expr()->lte('created_at', $query->createNamedParameter($retention)),
+			);
 		return $query->executeStatement();
 	}
 
