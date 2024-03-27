@@ -650,6 +650,13 @@ class ShareAPIController extends OCSController {
 		$share->setNode($node);
 
 		try {
+			$expireDate = $expireDate !== '' ? $this->parseDate($expireDate) : null;
+				$share->setExpirationDate($expireDate);
+		} catch (\Exception $e) {
+				throw new OCSNotFoundException($this->l->t('Invalid date, date format must be YYYY-MM-DD'));
+		}
+	
+		try {
 			$this->lock($share->getNode());
 		} catch (LockedException $e) {
 			throw new OCSNotFoundException($this->l->t('Could not create share'));
@@ -767,15 +774,6 @@ class ShareAPIController extends OCSController {
 
 			$share->setSharedWith($shareWith);
 			$share->setPermissions($permissions);
-			if ($expireDate !== '') {
-				try {
-					$expireDate = $this->parseDate($expireDate);
-					$share->setExpirationDate($expireDate);
-				} catch (\Exception $e) {
-					throw new OCSNotFoundException($this->l->t('Invalid date, date format must be YYYY-MM-DD'));
-				}
-			}
-
 			$share->setSharedWithDisplayName($this->getCachedFederatedDisplayName($shareWith, false));
 		} elseif ($shareType === IShare::TYPE_REMOTE_GROUP) {
 			if (!$this->shareManager->outgoingServer2ServerGroupSharesAllowed()) {
@@ -788,14 +786,6 @@ class ShareAPIController extends OCSController {
 
 			$share->setSharedWith($shareWith);
 			$share->setPermissions($permissions);
-			if ($expireDate !== '') {
-				try {
-					$expireDate = $this->parseDate($expireDate);
-					$share->setExpirationDate($expireDate);
-				} catch (\Exception $e) {
-					throw new OCSNotFoundException($this->l->t('Invalid date, date format must be YYYY-MM-DD'));
-				}
-			}
 		} elseif ($shareType === IShare::TYPE_CIRCLE) {
 			if (!\OC::$server->getAppManager()->isEnabledForUser('circles') || !class_exists('\OCA\Circles\ShareByCircleProvider')) {
 				throw new OCSNotFoundException($this->l->t('You cannot share to a Circle if the app is not enabled'));
@@ -829,16 +819,6 @@ class ShareAPIController extends OCSController {
 			}
 		} else {
 			throw new OCSBadRequestException($this->l->t('Unknown share type'));
-		}
-
-		//Expire date
-		if ($expireDate !== '') {
-			try {
-				$expireDate = $this->parseDate($expireDate);
-				$share->setExpirationDate($expireDate);
-			} catch (\Exception $e) {
-				throw new OCSNotFoundException($this->l->t('Invalid date, date format must be YYYY-MM-DD'));
-			}
 		}
 
 		$share->setShareType($shareType);
