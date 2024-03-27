@@ -56,6 +56,7 @@ class DatabaseHasMissingIndices implements ISetupCheck {
 		$event = new AddMissingIndicesEvent();
 		$this->dispatcher->dispatchTyped($event);
 		$missingIndices = $event->getMissingIndices();
+		$indicesToReplace = $event->getIndicesToReplace();
 
 		if (!empty($missingIndices)) {
 			$schema = new SchemaWrapper($this->connection);
@@ -64,6 +65,18 @@ class DatabaseHasMissingIndices implements ISetupCheck {
 					$table = $schema->getTable($missingIndex['tableName']);
 					if (!$table->hasIndex($missingIndex['indexName'])) {
 						$indexInfo->addHintForMissingIndex($missingIndex['tableName'], $missingIndex['indexName']);
+					}
+				}
+			}
+		}
+
+		if (!empty($indicesToReplace)) {
+			$schema = new SchemaWrapper($this->connection);
+			foreach ($indicesToReplace as $indexToReplace) {
+				if ($schema->hasTable($indexToReplace['tableName'])) {
+					$table = $schema->getTable($indexToReplace['tableName']);
+					if (!$table->hasIndex($indexToReplace['newIndexName'])) {
+						$indexInfo->addHintForMissingIndex($indexToReplace['tableName'], $indexToReplace['newIndexName']);
 					}
 				}
 			}
