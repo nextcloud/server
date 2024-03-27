@@ -11,7 +11,7 @@ OC.L10N.register(
     "You can upload into this folder" : "Sie können in diesen Ordner hochladen",
     "Terms of service" : "Nutzungsbedingungen",
     "Show list view" : "Listenansicht anzeigen",
-    "Show grid view" : "Rasteransicht anzeigen",
+    "Show grid view" : "Kachelansicht anzeigen",
     "No compatible server found at {remote}" : "Keinen kompatiblen Server unter {remote} gefunden",
     "Invalid server URL" : "Falsche Server-URL",
     "Failed to add the public link to your Nextcloud" : "Fehler beim Hinzufügen des öffentlichen Links zu Ihrer Nextcloud",
