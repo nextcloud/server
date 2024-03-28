@@ -343,7 +343,8 @@ class NavigationManagerTest extends TestCase {
 				'active' => false,
 				'type' => 'settings',
 				'classes' => '',
-				'unread' => 0
+				'unread' => 0,
+				'target' => '_blank',
 			]
 		];
 

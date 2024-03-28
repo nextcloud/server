@@ -44,6 +44,7 @@
 				:key="entry.id"
 				:name="entry.name"
 				:href="entry.href"
+				:target="entry.target"
 				:active="entry.active"
 				:icon="entry.icon" />
 		</ul>
