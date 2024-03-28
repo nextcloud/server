@@ -32,6 +32,7 @@ namespace OC\Session;
 use OCP\ISession;
 use OCP\Security\ICrypto;
 use OCP\Session\Exceptions\SessionNotAvailableException;
+use function OCP\Log\logger;
 
 /**
  * Class CryptoSessionData
@@ -104,6 +105,12 @@ class CryptoSessionData implements \ArrayAccess, ISession {
 
 		$reopened = $this->reopen();
 		$this->sessionValues[$key] = $value;
+		if ($key === 'client.flow.v2.state.token' || $key === 'client.flow.state.token') {
+			logger('core')->error('Saving state token with session', [
+				'loginFlow' => str_contains($key, 'v2') ? 'v2' : 'v1',
+				'stateToken' => $value,
+			]);
+		}
 		$this->isModified = true;
 		if ($reopened) {
 			$this->close();
@@ -142,6 +149,14 @@ class CryptoSessionData implements \ArrayAccess, ISession {
 	public function remove(string $key) {
 		$reopened = $this->reopen();
 		$this->isModified = true;
+		if ($key === 'client.flow.v2.state.token' || $key === 'client.flow.state.token') {
+			$e = new \Exception();
+			logger('core')->error('Removing state token from session', [
+				'loginFlow' => str_contains($key, 'v2') ? 'v2' : 'v1',
+				'stateToken' => $this->sessionValues[$key],
+				'exception' => $e
+			]);
+		}
 		unset($this->sessionValues[$key]);
 		if ($reopened) {
 			$this->close();
@@ -154,6 +169,15 @@ class CryptoSessionData implements \ArrayAccess, ISession {
 	public function clear() {
 		$reopened = $this->reopen();
 		$requesttoken = $this->get('requesttoken');
+		if ($this->exists('client.flow.v2.state.token') || $this->exists('client.flow.state.token')) {
+			$key = $this->exists('client.flow.v2.state.token') ? 'client.flow.v2.state.token' : 'client.flow.state.token';
+			$e = new \Exception();
+			logger('core')->error('Cleared session containing state token', [
+				'loginFlow' => $key === 'client.flow.v2.state.token' ? 'v2' : 'v1',
+				'stateToken' => $this->sessionValues[$key],
+				'exception' => $e
+			]);
+		}
 		$this->sessionValues = [];
 		if ($requesttoken !== null) {
 			$this->set('requesttoken', $requesttoken);
