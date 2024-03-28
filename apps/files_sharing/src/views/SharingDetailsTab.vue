@@ -799,9 +799,7 @@ export default {
 					fileInfo: this.fileInfo,
 				}
 
-				if (this.hasExpirationDate) {
-					incomingShare.expireDate = this.share.expireDate
-				}
+				incomingShare.expireDate = this.hasExpirationDate ? this.share.expireDate : ''
 
 				if (this.isPasswordProtected) {
 					incomingShare.password = this.share.password
@@ -832,9 +830,9 @@ export default {
 					shareWith: share.shareWith,
 					permissions: share.permissions,
 					attributes: JSON.stringify(fileInfo.shareAttributes),
+					expireDate: share.expireDate,
 					...(share.note ? { note: share.note } : {}),
 					...(share.password ? { password: share.password } : {}),
-					...(share.expireDate ? { expireDate: share.expireDate } : {}),
 				})
 				return resultingShare
 			} catch (error) {
