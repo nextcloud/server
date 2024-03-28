@@ -383,6 +383,7 @@ OC.L10N.register(
     "Visibility" : "Visibilidad",
     "Show storage path" : "Mostrar ruta de almacenamiento",
     "Show last login" : "Mostrar último inicio de sesión",
+    "Sorting" : "Ordenar",
     "Send email" : "Enviar correo electrónico",
     "Defaults" : "Valores predeterminados",
     "Default quota" : "Cuota predeterminada",

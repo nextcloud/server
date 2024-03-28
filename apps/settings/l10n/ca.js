@@ -496,6 +496,7 @@ OC.L10N.register(
     "Show language" : "Mostra la llengua",
     "Show storage path" : "Mostra el camí del magatzem",
     "Show last login" : "Mostra el darrer inici de sessió",
+    "Sorting" : "Ordenació",
     "Send email" : "Envia el correu electrònic",
     "Defaults" : "Valors per defecte",
     "Default quota" : "Quota per defecte",

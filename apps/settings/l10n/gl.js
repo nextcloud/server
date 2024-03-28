@@ -482,6 +482,7 @@ OC.L10N.register(
     "Show language" : "Amosar o idioma",
     "Show storage path" : "Amosar a ruta do almacenamento",
     "Show last login" : "Amosar o último acceso",
+    "Sorting" : "Ordenando",
     "Send email" : "Enviar o correo",
     "Defaults" : "Predeterminados",
     "Default quota" : "Cota predeterminada",

@@ -406,6 +406,7 @@ OC.L10N.register(
     "Show language" : "Erakutsi hizkuntza",
     "Show storage path" : "Erakutsi biltegiaren bidea",
     "Show last login" : "Azken izen ematea erakutsi",
+    "Sorting" : "Antolaketa",
     "Send email" : "Bidali posta-mezua",
     "Defaults" : "Defektuzkoak",
     "Default quota" : "Kuota lehenetsia",

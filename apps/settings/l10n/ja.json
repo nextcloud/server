@@ -588,6 +588,7 @@
     "Show account backend" : "アカウントバックエンドを表示",
     "Show storage path" : "ストレージの場所を表示",
     "Show last login" : "最終ログインを表示",
+    "Sorting" : "並べ替え",
     "Send email" : "メールを送信",
     "Send welcome email to new accounts" : "新規アカウントにウェルカムメールを送る",
     "Defaults" : "Defaults",

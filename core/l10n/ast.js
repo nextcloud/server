@@ -59,6 +59,7 @@ OC.L10N.register(
     "Pick start date" : "Escoyer la data de comienzu",
     "Pick end date" : "Escoyer la data de fin",
     "Search in date range" : "Buscar nun intervalu de dates",
+    "Log in" : "Aniciar la sesión",
     "Logging in …" : "Aniciando la sesión…",
     "Please contact your administrator." : "Ponte en contautu cola alministración.",
     "Temporary error" : "Error temporal",
