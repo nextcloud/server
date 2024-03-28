@@ -37,6 +37,9 @@ use OCP\IUserManager;
 use Psr\Log\LoggerInterface;
 
 class GenerateMetadataJob extends TimedJob {
+	// Default memory limit for metadata generation (256 MBytes).
+	protected const DEFAULT_MEMORY_LIMIT = 256;
+
 	public function __construct(
 		ITimeFactory $time,
 		private IConfig $config,
@@ -97,6 +100,14 @@ class GenerateMetadataJob extends TimedJob {
 		foreach ($folder->getDirectoryListing() as $node) {
 			if ($node instanceof Folder) {
 				$this->scanFolder($node);
+				continue;
+			}
+
+			// Don't generate metadata for files bigger than metadata_max_memory
+			$nodeSize = $node->getSize();
+			$memoryLimit = $this->config->getSystemValueInt('metadata_max_memory', self::DEFAULT_MEMORY_LIMIT);
+			if ($nodeSize > $memoryLimit * 1000000) {
+				$this->logger->debug("Skipping generating metadata for fileid " . $node->getId() . " as its size exceeds configured 'metadata_max_memory'.");
 				continue;
 			}
 
