@@ -68,7 +68,7 @@ jobs:
           - 'videoverification_features'
 
         php-versions: ['8.2']
-        spreed-versions: ['main']
+        spreed-versions: ['stable29']
 
     services:
       redis:
