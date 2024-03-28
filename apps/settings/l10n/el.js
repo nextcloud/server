@@ -330,6 +330,7 @@ OC.L10N.register(
     "Edit" : "Επεξεργασία",
     "Show storage path" : "Εμφάνιση διαδρομής αποθήκευσης",
     "Show last login" : "Εμφάνιση τελευταίας σύνδεσης",
+    "Sorting" : "Ταξινόμηση",
     "Send email" : "Αποστολή email",
     "Defaults" : "Προεπιλογές",
     "Default quota" : "Προεπιλέγμενη χωρητικότητα",

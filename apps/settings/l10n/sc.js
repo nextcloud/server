@@ -271,6 +271,7 @@ OC.L10N.register(
     "Edit" : "Modìfica",
     "Show storage path" : "Mustra su percursu de archiviatzione",
     "Show last login" : "Mustra s'ùrtimu atzessu",
+    "Sorting" : "Assentende",
     "Send email" : "Imbia messàgiu de posta eletrònica",
     "Default quota" : "Cuota predefinida",
     "Select default quota" : "Seletziona cuota predefinida",
