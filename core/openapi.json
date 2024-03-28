@@ -86,6 +86,38 @@
                     }
                 }
             },
+            "Capabilities": {
+                "type": "object",
+                "required": [
+                    "core"
+                ],
+                "properties": {
+                    "core": {
+                        "type": "object",
+                        "required": [
+                            "pollinterval",
+                            "webdav-root",
+                            "reference-api",
+                            "reference-regex"
+                        ],
+                        "properties": {
+                            "pollinterval": {
+                                "type": "integer",
+                                "format": "int64"
+                            },
+                            "webdav-root": {
+                                "type": "string"
+                            },
+                            "reference-api": {
+                                "type": "boolean"
+                            },
+                            "reference-regex": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            },
             "Collection": {
                 "type": "object",
                 "required": [
@@ -280,6 +312,30 @@
                     },
                     "link": {
                         "type": "string"
+                    }
+                }
+            },
+            "PublicCapabilities": {
+                "type": "object",
+                "required": [
+                    "bruteforce"
+                ],
+                "properties": {
+                    "bruteforce": {
+                        "type": "object",
+                        "required": [
+                            "delay",
+                            "allow-listed"
+                        ],
+                        "properties": {
+                            "delay": {
+                                "type": "integer",
+                                "format": "int64"
+                            },
+                            "allow-listed": {
+                                "type": "boolean"
+                            }
+                        }
                     }
                 }
             },

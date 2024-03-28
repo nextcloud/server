@@ -42,6 +42,15 @@ class CoreCapabilities implements ICapability {
 
 	/**
 	 * Return this classes capabilities
+	 *
+	 * @return array{
+	 *     core: array{
+	 *         pollinterval: int,
+	 *         webdav-root: string,
+	 *         reference-api: boolean,
+	 *         reference-regex: string,
+	 *     },
+	 * }
 	 */
 	public function getCapabilities(): array {
 		return [
