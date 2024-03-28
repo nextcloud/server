@@ -155,86 +155,6 @@
       <code>$uris</code>
     </MoreSpecificImplementedParamType>
     <NullableReturnStatement>
-      <code><![CDATA[$this->atomic(function () use ($calendarId, $syncToken, $syncLevel, $limit, $calendarType) {
-			// Current synctoken
-			$qb = $this->db->getQueryBuilder();
-			$qb->select('synctoken')
-				->from('calendars')
-				->where(
-					$qb->expr()->eq('id', $qb->createNamedParameter($calendarId))
-				);
-			$stmt = $qb->executeQuery();
-			$currentToken = $stmt->fetchOne();
-
-			if ($currentToken === false) {
-				return null;
-			}
-
-			$result = [
-				'syncToken' => $currentToken,
-				'added' => [],
-				'modified' => [],
-				'deleted' => [],
-			];
-
-			if ($syncToken) {
-				$qb = $this->db->getQueryBuilder();
-
-				$qb->select('uri', 'operation')
-					->from('calendarchanges')
-					->where(
-						$qb->expr()->andX(
-							$qb->expr()->gte('synctoken', $qb->createNamedParameter($syncToken)),
-							$qb->expr()->lt('synctoken', $qb->createNamedParameter($currentToken)),
-							$qb->expr()->eq('calendarid', $qb->createNamedParameter($calendarId)),
-							$qb->expr()->eq('calendartype', $qb->createNamedParameter($calendarType))
-						)
-					)->orderBy('synctoken');
-				if (is_int($limit) && $limit > 0) {
-					$qb->setMaxResults($limit);
-				}
-
-				// Fetching all changes
-				$stmt = $qb->executeQuery();
-				$changes = [];
-
-				// This loop ensures that any duplicates are overwritten, only the
-				// last change on a node is relevant.
-				while ($row = $stmt->fetch()) {
-					$changes[$row['uri']] = $row['operation'];
-				}
-				$stmt->closeCursor();
-
-				foreach ($changes as $uri => $operation) {
-					switch ($operation) {
-						case 1:
-							$result['added'][] = $uri;
-							break;
-						case 2:
-							$result['modified'][] = $uri;
-							break;
-						case 3:
-							$result['deleted'][] = $uri;
-							break;
-					}
-				}
-			} else {
-				// No synctoken supplied, this is the initial sync.
-				$qb = $this->db->getQueryBuilder();
-				$qb->select('uri')
-					->from('calendarobjects')
-					->where(
-						$qb->expr()->andX(
-							$qb->expr()->eq('calendarid', $qb->createNamedParameter($calendarId)),
-							$qb->expr()->eq('calendartype', $qb->createNamedParameter($calendarType))
-						)
-					);
-				$stmt = $qb->executeQuery();
-				$result['added'] = $stmt->fetchAll(\PDO::FETCH_COLUMN);
-				$stmt->closeCursor();
-			}
-			return $result;
-		}, $this->db)]]></code>
       <code>null</code>
     </NullableReturnStatement>
   </file>
@@ -516,7 +436,6 @@
   <file src="apps/dav/lib/Connector/Sabre/FilesReportPlugin.php">
     <InvalidArgument>
       <code>0</code>
-      <code>200</code>
     </InvalidArgument>
     <InvalidNullableReturnType>
       <code>bool</code>
