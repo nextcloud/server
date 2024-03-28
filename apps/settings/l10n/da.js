@@ -376,6 +376,7 @@ OC.L10N.register(
     "Show language" : "Vis sprog",
     "Show storage path" : "Vis lagersti",
     "Show last login" : "Vis seneste login",
+    "Sorting" : "Sortering",
     "Send email" : "Send e-mail",
     "Defaults" : "Standarder",
     "Default quota" : "Standard kvote",

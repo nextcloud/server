@@ -579,6 +579,7 @@ OC.L10N.register(
     "Show language" : "Показувати мову",
     "Show storage path" : "Показати шлях до сховища",
     "Show last login" : "Показати останній вхід",
+    "Sorting" : "Впорядкування",
     "Send email" : "Надіслати ел. листа",
     "Send welcome email to new accounts" : "Надсилати вітальний лист щойно створеним обліковим записам",
     "Defaults" : "Типові налаштування",
