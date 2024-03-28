@@ -500,6 +500,7 @@ OC.L10N.register(
     "Show language" : "Mostra lingua",
     "Show storage path" : "Mostra percorso di archiviazione",
     "Show last login" : "Mostra ultimo accesso",
+    "Sorting" : "Ordina",
     "Send email" : "Invia email",
     "Defaults" : "Predefiniti",
     "Default quota" : "Quota predefinita",

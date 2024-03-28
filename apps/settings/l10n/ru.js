@@ -438,6 +438,7 @@ OC.L10N.register(
     "Show language" : "Показывать язык",
     "Show storage path" : "Путь хранилища",
     "Show last login" : "Время последнего входа в систему",
+    "Sorting" : "Сортировка",
     "Send email" : "Отправить сообщение",
     "Defaults" : "Значения по умолчанию",
     "Default quota" : "Квота по умолчанию",

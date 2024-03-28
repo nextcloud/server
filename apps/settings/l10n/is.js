@@ -446,6 +446,7 @@ OC.L10N.register(
     "Show language" : "Birta tungumál",
     "Show storage path" : "Birta slóð á gagnageymslu",
     "Show last login" : "Birta síðustu innskráningu",
+    "Sorting" : "Röðun",
     "Send email" : "Senda tölvupóst",
     "Defaults" : "Sjálfgefin gildi",
     "Default quota" : "Sjálfgefinn kvóti",

@@ -597,6 +597,7 @@ OC.L10N.register(
     "Show account backend" : "Hesap arka ucu görüntülensin",
     "Show storage path" : "Depolama yolu görüntülensin",
     "Show last login" : "Son oturum açma zamanı görüntülensin",
+    "Sorting" : "Sıralama",
     "Send email" : "E-posta gönder",
     "Send welcome email to new accounts" : "Yeni hesaplara hoş geldiniz e-postası gönderilsin",
     "Defaults" : "Varsayılanlar",

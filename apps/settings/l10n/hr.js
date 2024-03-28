@@ -294,6 +294,7 @@ OC.L10N.register(
     "Edit" : "Uredi",
     "Show storage path" : "Prikaži put pohrane",
     "Show last login" : "Prikaži posljednju prijavu",
+    "Sorting" : "Razvrstavanje",
     "Send email" : "Pošalji poruku e-pošte",
     "Default quota" : "Zadana kvota",
     "Select default quota" : "Odaberi zadanu kvotu",

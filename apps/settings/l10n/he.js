@@ -253,6 +253,7 @@ OC.L10N.register(
     "Edit" : "עריכה",
     "Show storage path" : "הצגת נתיב אחסון",
     "Show last login" : "הצגת כניסה אחרונה",
+    "Sorting" : "מיון",
     "Send email" : "שליחת דואר אלקטרוני",
     "Default quota" : "מיכסת בררת מחדל",
     "Select default quota" : "בחירת מכסת בררת מחדל",

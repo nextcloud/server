@@ -466,6 +466,7 @@ OC.L10N.register(
     "Show language" : "Pokaži jezik",
     "Show storage path" : "Pokaži pot mesta shrambe",
     "Show last login" : "Pokaži zadnjo prijavo",
+    "Sorting" : "Razvrščanje",
     "Send email" : "Pošlji elektronsko sporočilo",
     "Defaults" : "Privzeto",
     "Default quota" : "Privzeta omejitev",

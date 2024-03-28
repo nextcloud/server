@@ -375,6 +375,7 @@ OC.L10N.register(
     "Show language" : "Näytä kieli",
     "Show storage path" : "Näytä tallennustilan polku",
     "Show last login" : "Näytä viimeisin sisäänkirjautuminen",
+    "Sorting" : "Lajittelu",
     "Send email" : "Lähetä sähköpostiviesti",
     "Defaults" : "Oletukset",
     "Default quota" : "Oletuskiintiö",
