@@ -2140,6 +2140,14 @@
     </MoreSpecificImplementedParamType>
   </file>
   <file src="lib/private/Files/Cache/Scanner.php">
+    <RedundantCondition>
+      <code>$metadataQuery?->extractMetadata($data)->asArray() ?? []</code>
+    </RedundantCondition>
+    <TypeDoesNotContainNull>
+      <code>$metadataQuery?->extractMetadata($data)->asArray() ?? []</code>
+    </TypeDoesNotContainNull>
+  </file>
+  <file src="lib/private/Files/Cache/Scanner.php">
     <InvalidArgument>
       <code>self::SCAN_RECURSIVE_INCOMPLETE</code>
     </InvalidArgument>
