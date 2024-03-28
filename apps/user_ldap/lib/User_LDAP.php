@@ -461,7 +461,7 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 	/**
 	 * get display name of the user
 	 * @param string $uid user ID of the user
-	 * @return string|false display name
+	 * @return ?string|false display name
 	 */
 	public function getDisplayName($uid) {
 		if ($this->userPluginManager->implementsActions(Backend::GET_DISPLAYNAME)) {
@@ -472,44 +472,7 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 			return false;
 		}
 
-		$cacheKey = 'getDisplayName'.$uid;
-		if (!is_null($displayName = $this->access->connection->getFromCache($cacheKey))) {
-			return $displayName;
-		}
-
-		//Check whether the display name is configured to have a 2nd feature
-		$additionalAttribute = $this->access->connection->ldapUserDisplayName2;
-		$displayName2 = '';
-		if ($additionalAttribute !== '') {
-			$displayName2 = $this->access->readAttribute(
-				$this->access->username2dn($uid),
-				$additionalAttribute);
-		}
-
-		$displayName = $this->access->readAttribute(
-			$this->access->username2dn($uid),
-			$this->access->connection->ldapUserDisplayName);
-
-		if ($displayName && (count($displayName) > 0)) {
-			$displayName = $displayName[0];
-
-			if (is_array($displayName2)) {
-				$displayName2 = count($displayName2) > 0 ? $displayName2[0] : '';
-			}
-
-			$user = $this->access->userManager->get($uid);
-			if ($user instanceof User) {
-				$displayName = $user->composeAndStoreDisplayName($displayName, $displayName2);
-				$this->access->connection->writeToCache($cacheKey, $displayName);
-			}
-			if ($user instanceof OfflineUser) {
-				/** @var OfflineUser $user*/
-				$displayName = $user->getDisplayName();
-			}
-			return $displayName;
-		}
-
-		return null;
+		return $this->ocConfig->getUserValue($uid, 'user_ldap', 'displayName', null);
 	}
 
 	/**
