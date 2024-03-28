@@ -182,7 +182,7 @@
     "ts-loader": "^9.5.0",
     "ts-node": "^10.9.1",
     "tslib": "^2.6.2",
-    "typescript": "^5.4.2",
+    "typescript": "^5.4.3",
     "vue-loader": "^15.9.8",
     "vue-template-compiler": "^2.7.16",
     "wait-on": "^7.2.0",
