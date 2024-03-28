@@ -167,10 +167,13 @@ class ConvertType extends Command implements CompletionAwareInterface {
 		if ($input->isInteractive()) {
 			/** @var QuestionHelper $helper */
 			$helper = $this->getHelper('question');
-			$question = new Question('What is the database password?');
+			$question = new Question('What is the database password (press <enter> for none)? ');
 			$question->setHidden(true);
 			$question->setHiddenFallback(false);
 			$password = $helper->ask($input, $output, $question);
+			if ($password === null) {
+				$password = ''; // possibly unnecessary
+			}
 			$input->setOption('password', $password);
 			return;
 		}
@@ -253,6 +256,16 @@ class ConvertType extends Command implements CompletionAwareInterface {
 		]);
 		if ($input->getOption('port')) {
 			$connectionParams['port'] = $input->getOption('port');
+		}
+		if (strpos($input->getOption('hostname'), ':') !== false)  {
+			// Host variable may carry a socket (or port)
+			[$host, $portOrSocket] = explode(':', $input->getOption('hostname'), 2);
+			if (ctype_digit($portOrSocket)) {
+				$connectionParams['port'] = $portOrSocket; // to be consistent with how we handle this elsewhere we accept this too but don't document it
+			} else {
+				$connectionParams['unix_socket'] = $portOrSocket;
+			}
+			$connectionParams['host'] = $host;
 		}
 		return $this->connectionFactory->getConnection($type, $connectionParams);
 	}
