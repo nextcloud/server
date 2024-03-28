@@ -122,7 +122,9 @@ class Update extends Command {
 					}
 				}
 			}
+else $output->writeln($appId . ' no new version available');
 		}
+$output->writeln('Update command processed');
 
 		if (!$updateFound) {
 			if ($singleAppId) {
