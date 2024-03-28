@@ -29,8 +29,11 @@ import { getUploader } from '@nextcloud/upload'
 import { joinPaths } from '@nextcloud/paths'
 import { showError } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
+import { loadState } from '@nextcloud/initial-state'
 
 import logger from '../logger.js'
+
+const forbiddenCharacters = loadState<string>('files', 'forbiddenCharacters', '')
 
 export const handleDrop = async (data: DataTransfer): Promise<Upload[]> => {
 	// TODO: Maybe handle `getAsFileSystemHandle()` in the future
@@ -73,11 +76,18 @@ export const handleDrop = async (data: DataTransfer): Promise<Upload[]> => {
 const handleFileUpload = async (file: File, path: string = '') => {
 	const uploader = getUploader()
 
-	try {
-		return await uploader.upload(`${path}${file.name}`, file)
-	} catch (e) {
-		showError(t('files', 'Uploading "{filename}" failed', { filename: file.name }))
-		throw e
+	const forbidden = forbiddenCharacters.split('')
+	const forbiddenChar = forbidden.find(char => file.name.includes(char))
+
+	if (forbiddenChar !== undefined) {
+		showError(t('files', '"{forbiddenChar}" is not allowed inside a file name.', { forbiddenChar }))
+	} else {
+		try {
+			return await uploader.upload(`${path}${file.name}`, file)
+		} catch (e) {
+			showError(t('files', 'Uploading "{filename}" failed', { filename: file.name }))
+			throw e
+		}
 	}
 }
 

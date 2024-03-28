@@ -56,6 +56,7 @@
 					<UploadPicker v-else-if="currentFolder"
 						:content="dirContents"
 						:destination="currentFolder"
+						:forbiddenCharacters="forbiddenCharacters"
 						:multiple="true"
 						class="files-list__header-upload-button"
 						@failed="onUploadFail"
@@ -214,6 +215,7 @@ export default defineComponent({
 			loading: true,
 			promise: null,
 			Type,
+			forbiddenCharacters: loadState('files', 'forbiddenCharacters', '') as string,
 		}
 	},
 
