@@ -178,6 +178,34 @@ class FolderTest extends NodeTest {
 		$this->assertEquals($child, $result);
 	}
 
+	public function testNewFolderWhenFolderAlreadyExists() {
+		$manager = $this->createMock(Manager::class);
+		$view = $this->getRootViewMock();
+		$root = $this->getMockBuilder(Root::class)
+			->setConstructorArgs([$manager, $view, $this->user, $this->userMountCache, $this->logger, $this->userManager, $this->eventDispatcher, $this->cacheFactory])
+			->getMock();
+		$root->expects($this->any())
+			->method('getUser')
+			->willReturn($this->user);
+
+		$view->method('getFileInfo')
+			->with('/bar/foo')
+			->willReturn($this->getFileInfo(['permissions' => \OCP\Constants::PERMISSION_ALL]));
+
+		$view->method('mkdir')
+			->with('/bar/foo/asd')
+			->willReturn(false);
+
+		$view->method('is_dir')
+			->with('/bar/foo/asd')
+			->willReturn(true);
+
+		$node = new Folder($root, $view, '/bar/foo');
+		$child = new Folder($root, $view, '/bar/foo/asd', null, $node);
+		$result = $node->newFolder('asd');
+		$this->assertEquals($child, $result);
+	}
+
 	public function testNewFolderDeepParent() {
 		$manager = $this->createMock(Manager::class);
 		$view = $this->getRootViewMock();
