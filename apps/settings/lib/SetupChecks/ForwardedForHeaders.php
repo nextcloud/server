@@ -59,6 +59,16 @@ class ForwardedForHeaders implements ISetupCheck {
 			return SetupResult::error($this->l10n->t('Your "trusted_proxies" setting is not correctly set, it should be an array.'));
 		}
 
+		foreach ($trustedProxies as $proxy) {
+			$addressParts = explode('/', $proxy, 2);
+			if (filter_var($addressParts[0], FILTER_VALIDATE_IP) === false || !ctype_digit($addressParts[1] ?? '24')) {
+				return SetupResult::error(
+					$this->l10n->t('Your "trusted_proxies" setting is not correctly set, it should be an array of IP addresses - optionally with range in CIDR notation.'),
+					$this->urlGenerator->linkToDocs('admin-reverse-proxy'),
+				);
+			}
+		}
+
 		if (($remoteAddress === '') && ($detectedRemoteAddress === '')) {
 			if (\OC::$CLI) {
 				/* We were called from CLI */
