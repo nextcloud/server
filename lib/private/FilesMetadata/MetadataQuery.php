@@ -31,9 +31,11 @@ use OC\FilesMetadata\Service\MetadataRequestService;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\FilesMetadata\Exceptions\FilesMetadataNotFoundException;
 use OCP\FilesMetadata\Exceptions\FilesMetadataTypeException;
+use OCP\FilesMetadata\IFilesMetadataManager;
 use OCP\FilesMetadata\IMetadataQuery;
 use OCP\FilesMetadata\Model\IFilesMetadata;
 use OCP\FilesMetadata\Model\IMetadataValueWrapper;
+use Psr\Log\LoggerInterface;
 
 /**
  * @inheritDoc
@@ -43,12 +45,23 @@ class MetadataQuery implements IMetadataQuery {
 	private array $knownJoinedIndex = [];
 	public function __construct(
 		private IQueryBuilder $queryBuilder,
-		private IFilesMetadata $knownMetadata,
+		private IFilesMetadata|IFilesMetadataManager $manager,
 		private string $fileTableAlias = 'fc',
 		private string $fileIdField = 'fileid',
 		private string $alias = 'meta',
 		private string $aliasIndexPrefix = 'meta_index'
 	) {
+		if ($manager instanceof IFilesMetadata) {
+			/**
+			 * Since 29, because knownMetadata is stored in lazy appconfig, it seems smarter
+			 * to not call getKnownMetadata() at the load of this class as it is only needed
+			 * in {@see getMetadataValueField}.
+			 *
+			 * FIXME: remove support for IFilesMetadata
+			 */
+			$logger = \OCP\Server::get(LoggerInterface::class);
+			$logger->debug('It is deprecated to use IFilesMetadata as second parameter when calling MetadataQuery::__construct()');
+		}
 	}
 
 	/**
@@ -158,7 +171,20 @@ class MetadataQuery implements IMetadataQuery {
 	 * @since 28.0.0
 	 */
 	public function getMetadataValueField(string $metadataKey): string {
-		return match ($this->knownMetadata->getType($metadataKey)) {
+		if ($this->manager instanceof IFilesMetadataManager) {
+			/**
+			 * Since 29, because knownMetadata is stored in lazy appconfig, it seems smarter
+			 * to not call getKnownMetadata() at the load of this class as it is only needed
+			 * in this method.
+			 *
+			 * FIXME: keep only this line and remove support for previous IFilesMetadata in constructor
+			 */
+			$knownMetadata = $this->manager->getKnownMetadata();
+		} else {
+			$knownMetadata = $this->manager;
+		}
+
+		return match ($knownMetadata->getType($metadataKey)) {
 			IMetadataValueWrapper::TYPE_STRING => $this->joinedTableAlias($metadataKey) . '.meta_value_string',
 			IMetadataValueWrapper::TYPE_INT, IMetadataValueWrapper::TYPE_BOOL => $this->joinedTableAlias($metadataKey) . '.meta_value_int',
 			default => throw new FilesMetadataTypeException('metadata is not set as indexed'),

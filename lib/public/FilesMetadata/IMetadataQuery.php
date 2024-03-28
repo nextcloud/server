@@ -83,6 +83,8 @@ interface IMetadataQuery {
 	/**
 	 * returns the name of the field for metadata string value to be used in query expressions
 	 *
+	 * Note: this method loads lazy appconfig values.
+	 *
 	 * @param string $metadataKey metadata key
 	 *
 	 * @return string table field
