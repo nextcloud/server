@@ -27,6 +27,7 @@ declare(strict_types=1);
  * @author Samuel CHEMLA <chemla.samuel@gmail.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Thomas Tanghus <thomas@tanghus.net>
+ * @author Richard Steinmetz <richard@steinmetz.cloud>
  *
  * @license AGPL-3.0
  *
@@ -54,6 +55,9 @@ class OC_Image implements \OCP\IImage {
 
 	// Default quality for jpeg images
 	protected const DEFAULT_JPEG_QUALITY = 80;
+
+	// Default quality for webp images
+	protected const DEFAULT_WEBP_QUALITY = 80;
 
 	/** @var false|resource|\GdImage */
 	protected $resource = false; // tmp resource.
@@ -283,6 +287,9 @@ class OC_Image implements \OCP\IImage {
 				case 'image/x-ms-bmp':
 					$imageType = IMAGETYPE_BMP;
 					break;
+				case 'image/webp':
+					$imageType = IMAGETYPE_WEBP;
+					break;
 				default:
 					throw new Exception('\OC_Image::_output(): "' . $mimeType . '" is not supported when forcing a specific output format');
 			}
@@ -313,6 +320,9 @@ class OC_Image implements \OCP\IImage {
 				break;
 			case IMAGETYPE_BMP:
 				$retVal = imagebmp($this->resource, $filePath);
+				break;
+			case IMAGETYPE_WEBP:
+				$retVal = imagewebp($this->resource, null, $this->getWebpQuality());
 				break;
 			default:
 				$retVal = imagepng($this->resource, $filePath);
@@ -364,6 +374,7 @@ class OC_Image implements \OCP\IImage {
 			case 'image/png':
 			case 'image/jpeg':
 			case 'image/gif':
+			case 'image/webp':
 				return $this->mimeType;
 			default:
 				return 'image/png';
@@ -391,6 +402,9 @@ class OC_Image implements \OCP\IImage {
 			case "image/gif":
 				$res = imagegif($this->resource);
 				break;
+			case "image/webp":
+				$res = imagewebp($this->resource, null, $this->getWebpQuality());
+				break;
 			default:
 				$res = imagepng($this->resource);
 				$this->logger->info('OC_Image->data. Could not guess mime-type, defaulting to png', ['app' => 'core']);
@@ -417,6 +431,18 @@ class OC_Image implements \OCP\IImage {
 		// TODO: remove when getAppValue is type safe
 		if ($quality === null) {
 			$quality = self::DEFAULT_JPEG_QUALITY;
+		}
+		return min(100, max(10, (int) $quality));
+	}
+
+	/**
+	 * @return int
+	 */
+	protected function getWebpQuality(): int {
+		$quality = $this->config->getAppValue('preview', 'webp_quality', (string) self::DEFAULT_WEBP_QUALITY);
+		// TODO: remove when getAppValue is type safe
+		if ($quality === null) {
+			$quality = self::DEFAULT_WEBP_QUALITY;
 		}
 		return min(100, max(10, (int) $quality));
 	}
