@@ -674,4 +674,8 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage, IWriteStrea
 		}
 		return false;
 	}
+
+	public function setOwner(?string $user): void {
+		$this->getWrapperStorage()->setOwner($user);
+	}
 }
