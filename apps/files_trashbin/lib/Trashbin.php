@@ -246,6 +246,8 @@ class Trashbin {
 	 * @return bool
 	 */
 	public static function move2trash($file_path, $ownerOnly = false) {
+		/** @var LoggerInterface $logger */
+		$logger = \OC::$server->get(LoggerInterface::class);
 		// get the user for which the filesystem is setup
 		$root = Filesystem::getRoot();
 		[, $user] = explode('/', $root);
@@ -261,12 +263,14 @@ class Trashbin {
 
 		// file has been deleted in between
 		if (is_null($ownerPath) || $ownerPath === '') {
+			$logger->warning("Failed to get owner for $file_path while moving to trashbin", ['app' => 'files_trashbin']);
 			return true;
 		}
 
 		$sourceInfo = $ownerView->getFileInfo('/files/' . $ownerPath);
 
 		if ($sourceInfo === false) {
+			$logger->warning("Failed to find $file_path while moving to trashbin", ['app' => 'files_trashbin']);
 			return true;
 		}
 
@@ -316,6 +320,7 @@ class Trashbin {
 
 		$configuredTrashbinSize = static::getConfiguredTrashbinSize($owner);
 		if ($configuredTrashbinSize >= 0 && $sourceInfo->getSize() >= $configuredTrashbinSize) {
+			$logger->warning("Skipping trashbin because $file_path is larger(" . $sourceInfo->getSize() . ") than the configured trashbin limit of " . $configuredTrashbinSize, ['app' => 'files_trashbin']);
 			return false;
 		}
 
@@ -337,6 +342,7 @@ class Trashbin {
 		}
 
 		if ($sourceStorage->file_exists($sourceInternalPath)) { // failed to delete the original file, abort
+			$logger->warning("$file_path still exists after we tried to move it to the trashbin", ['app' => 'files_trashbin']);
 			if ($sourceStorage->is_dir($sourceInternalPath)) {
 				$sourceStorage->rmdir($sourceInternalPath);
 			} else {
