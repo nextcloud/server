@@ -113,6 +113,7 @@ class ImageManager {
 					$finalIconFile->setImageFormat('png32');
 					$pngFile = $folder->newFile($key . '.png');
 					$pngFile->putContent($finalIconFile->getImageBlob());
+					$finalIconFile->clear();
 					return $pngFile;
 				} catch (\ImagickException $e) {
 					$this->logger->info('The image was requested to be no SVG file, but converting it to PNG failed: ' . $e->getMessage());
