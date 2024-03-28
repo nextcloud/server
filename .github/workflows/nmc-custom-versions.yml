@@ -20,7 +20,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        custombase: [ "master", "stable25", "stable26", "stable27" ]
+        custombase: [ "master", "stable25", "stable27", "stable28" ]
     uses: nextmcloud/.github/.github/workflows/nmc-custom-assembly.yml@master
     with:
       trunk: "master"
