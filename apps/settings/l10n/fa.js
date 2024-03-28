@@ -396,6 +396,7 @@ OC.L10N.register(
     "Show language" : "Show language",
     "Show storage path" : "نمایش مسیر ذخیره سازی",
     "Show last login" : "نمایش آخرین ورود",
+    "Sorting" : "مرتب سازی",
     "Send email" : "ارسال ایمیل",
     "Defaults" : "Defaults",
     "Default quota" : "سهمیه پیش فرض",

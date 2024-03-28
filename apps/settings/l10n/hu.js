@@ -429,6 +429,7 @@ OC.L10N.register(
     "Show language" : "Nyelv megjelenítése",
     "Show storage path" : "Tároló útvonal megjelenítése",
     "Show last login" : "Utolsó bejelentkezés megjelenítése",
+    "Sorting" : "Rendezés",
     "Send email" : "E-mail küldése",
     "Defaults" : "Alapértelmezések",
     "Default quota" : "Alapértelmezett kvóta",

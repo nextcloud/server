@@ -567,6 +567,7 @@ OC.L10N.register(
     "Show account backend" : "계정 백엔드 보이기",
     "Show storage path" : "스토리지 경로 보이기",
     "Show last login" : "마지막 로그인 보이기",
+    "Sorting" : "정렬",
     "Send email" : "이메일 보내기",
     "Send welcome email to new accounts" : "새 계정에 환영 이메일 보내기",
     "Defaults" : "기본값",

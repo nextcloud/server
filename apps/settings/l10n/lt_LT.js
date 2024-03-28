@@ -311,6 +311,7 @@ OC.L10N.register(
     "Visibility" : "Matomumas",
     "Show storage path" : "Rodyti saugyklos kelią",
     "Show last login" : "Rodyti paskutinį prisijungimą",
+    "Sorting" : "Rikiavimas",
     "Send email" : "Siųsti el. paštą",
     "Default quota" : "Numatytasis leidžiamas duomenų kiekis",
     "Select default quota" : "Pasirinkite numatytą leidžiamą duomenų kiekį ",

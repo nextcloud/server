@@ -316,6 +316,7 @@ OC.L10N.register(
     "Visibility" : "Zichtbaarheid",
     "Show storage path" : "Tonen opslagpad",
     "Show last login" : "Toon laatste inlog",
+    "Sorting" : "Sorteren",
     "Send email" : "Verstuur e-mail",
     "Defaults" : "Standaard",
     "Default quota" : "Standaard quota",
