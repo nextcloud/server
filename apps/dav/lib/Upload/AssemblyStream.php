@@ -153,10 +153,14 @@ class AssemblyStream implements \Icewind\Streams\File {
 			$this->currentNodeRead += $read;
 
 			if (feof($this->currentStream)) {
+				$streamStat = fstat($this->currentStream);
 				fclose($this->currentStream);
 				$currentNodeSize = $this->nodes[$this->currentNode]->getSize();
 				if ($this->currentNodeRead < $currentNodeSize) {
-					throw new \Exception('Stream from assembly node shorter than expected, got ' . $this->currentNodeRead . ' bytes, expected ' . $currentNodeSize);
+					throw new \Exception('Stream from assembly node shorter than expected, got ' .
+						$this->currentNodeRead . ' bytes, node size is reported as ' .
+						$currentNodeSize . 'B, stream is reported as ' . $streamStat['size'] . 'B'
+					);
 				}
 				$this->currentNode++;
 				$this->currentNodeRead = 0;
