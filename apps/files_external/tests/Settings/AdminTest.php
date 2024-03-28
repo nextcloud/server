@@ -98,6 +98,7 @@ class AdminTest extends TestCase {
 			'authMechanisms' => ['g', 'h', 'i'],
 			'dependencies' => \OCA\Files_External\MountConfig::dependencyMessage($this->backendService->getBackends()),
 			'allowUserMounting' => true,
+			'allowUserUnmounting' => true,
 			'globalCredentials' => 'asdf:asdf',
 			'globalCredentialsUid' => '',
 		];

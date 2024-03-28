@@ -32,6 +32,7 @@ use OCA\Files_External\Lib\Auth\AuthMechanism;
 use OCA\Files_External\Lib\Backend\Backend;
 use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\NotFoundException;
+use OCA\Files_External\Service\BackendService;
 use OCA\Files_External\Service\UserStoragesService;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
@@ -58,23 +59,25 @@ class UserStoragesController extends StoragesController {
 	 * @param IGroupManager $groupManager
 	 */
 	public function __construct(
-		$AppName,
+		string $appName,
 		IRequest $request,
 		IL10N $l10n,
 		UserStoragesService $userStoragesService,
 		LoggerInterface $logger,
 		IUserSession $userSession,
 		IGroupManager $groupManager,
+		BackendService $backendService,
 		IConfig $config
 	) {
 		parent::__construct(
-			$AppName,
+			$appName,
 			$request,
 			$l10n,
 			$userStoragesService,
 			$logger,
 			$userSession,
 			$groupManager,
+			$backendService,
 			$config
 		);
 	}
@@ -232,6 +235,17 @@ class UserStoragesController extends StoragesController {
 	 * {@inheritdoc}
 	 */
 	public function destroy($id) {
+		if (!$this->backendService->isUserUnmountingAllowed()) {
+			return new DataResponse(
+				[
+					'message' => $this->l10n->t(
+						'Insufficient right to disconnect this storage'
+					)
+				],
+				Http::STATUS_NOT_FOUND
+			);
+		}
+
 		return parent::destroy($id);
 	}
 }

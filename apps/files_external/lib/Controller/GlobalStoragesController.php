@@ -28,6 +28,7 @@
 namespace OCA\Files_External\Controller;
 
 use OCA\Files_External\NotFoundException;
+use OCA\Files_External\Service\BackendService;
 use OCA\Files_External\Service\GlobalStoragesService;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
@@ -42,36 +43,26 @@ use Psr\Log\LoggerInterface;
  * Global storages controller
  */
 class GlobalStoragesController extends StoragesController {
-	/**
-	 * Creates a new global storages controller.
-	 *
-	 * @param string $AppName application name
-	 * @param IRequest $request request object
-	 * @param IL10N $l10n l10n service
-	 * @param GlobalStoragesService $globalStoragesService storage service
-	 * @param LoggerInterface $logger
-	 * @param IUserSession $userSession
-	 * @param IGroupManager $groupManager
-	 * @param IConfig $config
-	 */
 	public function __construct(
-		$AppName,
+		string $appName,
 		IRequest $request,
 		IL10N $l10n,
 		GlobalStoragesService $globalStoragesService,
 		LoggerInterface $logger,
 		IUserSession $userSession,
 		IGroupManager $groupManager,
+		BackendService $backendService,
 		IConfig $config
 	) {
 		parent::__construct(
-			$AppName,
+			$appName,
 			$request,
 			$l10n,
 			$globalStoragesService,
 			$logger,
 			$userSession,
 			$groupManager,
+			$backendService,
 			$config
 		);
 	}

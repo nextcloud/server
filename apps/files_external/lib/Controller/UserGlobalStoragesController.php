@@ -33,6 +33,7 @@ use OCA\Files_External\Lib\Backend\Backend;
 use OCA\Files_External\Lib\InsufficientDataForMeaningfulAnswerException;
 use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\NotFoundException;
+use OCA\Files_External\Service\BackendService;
 use OCA\Files_External\Service\UserGlobalStoragesService;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
@@ -59,23 +60,25 @@ class UserGlobalStoragesController extends StoragesController {
 	 * @param IGroupManager $groupManager
 	 */
 	public function __construct(
-		$AppName,
+		string $appName,
 		IRequest $request,
 		IL10N $l10n,
 		UserGlobalStoragesService $userGlobalStoragesService,
 		LoggerInterface $logger,
 		IUserSession $userSession,
 		IGroupManager $groupManager,
+		BackendService $backendService,
 		IConfig $config
 	) {
 		parent::__construct(
-			$AppName,
+			$appName,
 			$request,
 			$l10n,
 			$userGlobalStoragesService,
 			$logger,
 			$userSession,
 			$groupManager,
+			$backendService,
 			$config
 		);
 	}
