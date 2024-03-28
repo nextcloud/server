@@ -348,6 +348,7 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\ServerFactory' => __DIR__ . '/..' . '/../lib/ServerFactory.php',
         'OCA\\DAV\\Service\\AbsenceService' => __DIR__ . '/..' . '/../lib/Service/AbsenceService.php',
         'OCA\\DAV\\Settings\\AvailabilitySettings' => __DIR__ . '/..' . '/../lib/Settings/AvailabilitySettings.php',
+        'OCA\\DAV\\Settings\\BirthdayCalendarSettings' => __DIR__ . '/..' . '/../lib/Settings/BirthdayCalendarSettings.php',
         'OCA\\DAV\\Settings\\CalDAVSettings' => __DIR__ . '/..' . '/../lib/Settings/CalDAVSettings.php',
         'OCA\\DAV\\SetupChecks\\NeedsSystemAddressBookSync' => __DIR__ . '/..' . '/../lib/SetupChecks/NeedsSystemAddressBookSync.php',
         'OCA\\DAV\\SetupChecks\\WebdavEndpoint' => __DIR__ . '/..' . '/../lib/SetupChecks/WebdavEndpoint.php',

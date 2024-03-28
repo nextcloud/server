@@ -63,6 +63,7 @@
 	<settings>
 		<admin>OCA\DAV\Settings\CalDAVSettings</admin>
 		<personal>OCA\DAV\Settings\AvailabilitySettings</personal>
+		<personal>OCA\DAV\Settings\BirthdayCalendarSettings</personal>
 	</settings>
 
 	<activity>

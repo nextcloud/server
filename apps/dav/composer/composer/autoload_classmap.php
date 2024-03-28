@@ -333,6 +333,7 @@ return array(
     'OCA\\DAV\\ServerFactory' => $baseDir . '/../lib/ServerFactory.php',
     'OCA\\DAV\\Service\\AbsenceService' => $baseDir . '/../lib/Service/AbsenceService.php',
     'OCA\\DAV\\Settings\\AvailabilitySettings' => $baseDir . '/../lib/Settings/AvailabilitySettings.php',
+    'OCA\\DAV\\Settings\\BirthdayCalendarSettings' => $baseDir . '/../lib/Settings/BirthdayCalendarSettings.php',
     'OCA\\DAV\\Settings\\CalDAVSettings' => $baseDir . '/../lib/Settings/CalDAVSettings.php',
     'OCA\\DAV\\SetupChecks\\NeedsSystemAddressBookSync' => $baseDir . '/../lib/SetupChecks/NeedsSystemAddressBookSync.php',
     'OCA\\DAV\\SetupChecks\\WebdavEndpoint' => $baseDir . '/../lib/SetupChecks/WebdavEndpoint.php',

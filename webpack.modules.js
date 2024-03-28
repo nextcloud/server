@@ -48,6 +48,7 @@ module.exports = {
 	dav: {
 		'settings-admin-caldav': path.join(__dirname, 'apps/dav/src', 'settings.js'),
 		'settings-personal-availability': path.join(__dirname, 'apps/dav/src', 'settings-personal-availability.js'),
+		'settings-personal-birthday-calendar': path.join(__dirname, 'apps/dav/src', 'settings-personal-birthday-calendar.js'),
 	},
 	files: {
 		sidebar: path.join(__dirname, 'apps/files/src', 'sidebar.js'),

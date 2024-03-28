@@ -3,6 +3,7 @@
 declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2022 Joas Schilling <coding@schilljs.com>
+ * @copyright Copyright (c) 2022 Cédric Neukom <github@webguy.ch>
  *
  * @author Joas Schilling <coding@schilljs.com>
  *
@@ -24,6 +25,7 @@ declare(strict_types=1);
  */
 namespace OCA\DAV\Listener;
 
+use DateInterval;
 use OCA\DAV\BackgroundJob\UserStatusAutomation;
 use OCP\BackgroundJob\IJobList;
 use OCP\Config\BeforePreferenceDeletedEvent;
@@ -42,14 +44,37 @@ class UserPreferenceListener implements IEventListener {
 
 	public function handle(Event $event): void {
 		if ($event instanceof BeforePreferenceSetEvent) {
-			if ($event->getAppId() === 'dav' && $event->getConfigKey() === 'user_status_automation' && $event->getConfigValue() === 'yes') {
-				$event->setValid(true);
+			if ($event->getAppId() === 'dav') {
+				switch ($event->getConfigKey()) {
+					case 'user_status_automation':
+						if ($event->getConfigValue() === 'yes') {
+							$event->setValid(true);
 
-				// Not the cleanest way, but we just add the job in the before event.
-				// If something ever turns wrong the first execution will remove the job again.
-				// We also first delete the current job, so the next run time is reset.
-				$this->jobList->remove(UserStatusAutomation::class, ['userId' => $event->getUserId()]);
-				$this->jobList->add(UserStatusAutomation::class, ['userId' => $event->getUserId()]);
+							// Not the cleanest way, but we just add the job in the before event.
+							// If something ever turns wrong the first execution will remove the job again.
+							// We also first delete the current job, so the next run time is reset.
+							$this->jobList->remove(UserStatusAutomation::class, ['userId' => $event->getUserId()]);
+							$this->jobList->add(UserStatusAutomation::class, ['userId' => $event->getUserId()]);
+						}
+						break;
+
+					case 'birthdayCalendarReminderOffset':
+						$configValue = $event->getConfigValue();
+						if (empty($configValue)) {
+							$event->setValid(true);
+							break;
+						}
+						if ($configValue[0] === '-') {
+							$configValue = substr($configValue, 1);
+						}
+						try {
+							new DateInterval($configValue);
+							$event->setValid(true);
+						} catch (\Exception $e) {
+							// Client attempted with an invalid duration string, do nothing
+						}
+						break;
+				}
 			}
 		} elseif ($event instanceof BeforePreferenceDeletedEvent) {
 			if ($event->getAppId() === 'dav' && $event->getConfigKey() === 'user_status_automation') {
