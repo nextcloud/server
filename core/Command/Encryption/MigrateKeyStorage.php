@@ -55,7 +55,7 @@ class MigrateKeyStorage extends Command {
 	protected function updateKeys(string $root, OutputInterface $output): bool {
 		$output->writeln('Start to update the keys:');
 
-		$this->updateSystemKeys($root);
+		$this->updateSystemKeys($root, $output);
 		$this->updateUsersKeys($root, $output);
 		$this->config->deleteSystemValue('encryption.key_storage_migrated');
 		return true;
@@ -64,15 +64,15 @@ class MigrateKeyStorage extends Command {
 	/**
 	 * Move system key folder
 	 */
-	protected function updateSystemKeys(string $root): void {
+	protected function updateSystemKeys(string $root, OutputInterface $output): void {
 		if (!$this->rootView->is_dir($root . '/files_encryption')) {
 			return;
 		}
 
-		$this->traverseKeys($root . '/files_encryption', null);
+		$this->traverseKeys($root . '/files_encryption', null, $output);
 	}
 
-	private function traverseKeys(string $folder, ?string $uid): void {
+	private function traverseKeys(string $folder, ?string $uid, OutputInterface $output): void {
 		$listing = $this->rootView->getDirectoryContent($folder);
 
 		foreach ($listing as $node) {
@@ -87,6 +87,11 @@ class MigrateKeyStorage extends Command {
 				$path = $folder . '/' . $node['name'];
 
 				$content = $this->rootView->file_get_contents($path);
+
+				if ($content === false) {
+					$output->writeln("<error>Failed to open path $path</error>");
+					continue;
+				}
 
 				try {
 					$this->crypto->decrypt($content);
@@ -106,12 +111,12 @@ class MigrateKeyStorage extends Command {
 		}
 	}
 
-	private function traverseFileKeys(string $folder): void {
+	private function traverseFileKeys(string $folder, OutputInterface $output): void {
 		$listing = $this->rootView->getDirectoryContent($folder);
 
 		foreach ($listing as $node) {
 			if ($node['mimetype'] === 'httpd/unix-directory') {
-				$this->traverseFileKeys($folder . '/' . $node['name']);
+				$this->traverseFileKeys($folder . '/' . $node['name'], $output);
 			} else {
 				$endsWith = function (string $haystack, string $needle): bool {
 					$length = strlen($needle);
@@ -129,6 +134,11 @@ class MigrateKeyStorage extends Command {
 					$path = $folder . '/' . $node['name'];
 
 					$content = $this->rootView->file_get_contents($path);
+
+					if ($content === false) {
+						$output->writeln("<error>Failed to open path $path</error>");
+						continue;
+					}
 
 					try {
 						$this->crypto->decrypt($content);
@@ -173,7 +183,7 @@ class MigrateKeyStorage extends Command {
 				foreach ($users as $user) {
 					$progress->advance();
 					$this->setupUserFS($user);
-					$this->updateUserKeys($root, $user);
+					$this->updateUserKeys($root, $user, $output);
 				}
 				$offset += $limit;
 			} while (count($users) >= $limit);
@@ -186,16 +196,16 @@ class MigrateKeyStorage extends Command {
 	 *
 	 * @throws \Exception
 	 */
-	protected function updateUserKeys(string $root, string $user): void {
+	protected function updateUserKeys(string $root, string $user, OutputInterface $output): void {
 		if ($this->userManager->userExists($user)) {
 			$source = $root . '/' . $user . '/files_encryption/OC_DEFAULT_MODULE';
 			if ($this->rootView->is_dir($source)) {
-				$this->traverseKeys($source, $user);
+				$this->traverseKeys($source, $user, $output);
 			}
 
 			$source = $root . '/' . $user . '/files_encryption/keys';
 			if ($this->rootView->is_dir($source)) {
-				$this->traverseFileKeys($source);
+				$this->traverseFileKeys($source, $output);
 			}
 		}
 	}
