@@ -647,6 +647,7 @@ OC.L10N.register(
     "Show account backend" : "Vis konto-server",
     "Show storage path" : "Vis lagringsplassering",
     "Show last login" : "Vis siste innlogging",
+    "Sorting" : "Sorter",
     "Send email" : "Send e-post",
     "Send welcome email to new accounts" : "Sende velkomst-e-post til nye kontoer",
     "Defaults" : "Standarder",

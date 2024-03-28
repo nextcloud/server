@@ -474,6 +474,7 @@ OC.L10N.register(
     "Show language" : "显示语言",
     "Show storage path" : "显示存储路径",
     "Show last login" : "显示最后登录",
+    "Sorting" : "正在排序",
     "Send email" : "发送电子邮件",
     "Defaults" : "默认",
     "Default quota" : "默认配额",

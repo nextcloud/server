@@ -206,6 +206,7 @@ OC.L10N.register(
     "Copied!" : "¡Copióse!",
     "Copy" : "Copiar",
     "Please confirm the group removal " : "Confirma'l desaniciu del grupu",
+    "Your email address" : "La to direición de corréu electrónicu",
     "Enable Profile" : "Activar el perfil",
     "You do not have permissions to see the details of this user" : "Nun tienes permisu pa ver los detalles d'esti usuariu",
     "Twitter" : "Twitter",
