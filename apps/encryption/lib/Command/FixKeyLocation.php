@@ -43,25 +43,17 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class FixKeyLocation extends Command {
-	private IUserManager $userManager;
-	private IUserMountCache $userMountCache;
-	private Util $encryptionUtil;
-	private IRootFolder $rootFolder;
 	private string $keyRootDirectory;
 	private View $rootView;
 	private Manager $encryptionManager;
 
 	public function __construct(
-		IUserManager $userManager,
-		IUserMountCache $userMountCache,
-		Util $encryptionUtil,
-		IRootFolder $rootFolder,
-		IManager $encryptionManager
+		private IUserManager $userManager,
+		private IUserMountCache $userMountCache,
+		private Util $encryptionUtil,
+		private IRootFolder $rootFolder,
+		IManager $encryptionManager,
 	) {
-		$this->userManager = $userManager;
-		$this->userMountCache = $userMountCache;
-		$this->encryptionUtil = $encryptionUtil;
-		$this->rootFolder = $rootFolder;
 		$this->keyRootDirectory = rtrim($this->encryptionUtil->getKeyStorageRoot(), '/');
 		$this->rootView = new View();
 		if (!$encryptionManager instanceof Manager) {
@@ -89,7 +81,7 @@ class FixKeyLocation extends Command {
 		$user = $this->userManager->get($userId);
 		if (!$user) {
 			$output->writeln("<error>User $userId not found</error>");
-			return 1;
+			return self::FAILURE;
 		}
 
 		\OC_Util::setupFS($user->getUID());
@@ -173,7 +165,7 @@ class FixKeyLocation extends Command {
 			}
 		}
 
-		return 0;
+		return self::SUCCESS;
 	}
 
 	private function getUserRelativePath(string $path): string {
@@ -186,7 +178,6 @@ class FixKeyLocation extends Command {
 	}
 
 	/**
-	 * @param IUser $user
 	 * @return ICachedMountInfo[]
 	 */
 	private function getSystemMountsForUser(IUser $user): array {
@@ -201,7 +192,6 @@ class FixKeyLocation extends Command {
 	/**
 	 * Get all files in a folder which are marked as encrypted
 	 *
-	 * @param Folder $folder
 	 * @return \Generator<File>
 	 */
 	private function getAllEncryptedFiles(Folder $folder) {
@@ -242,10 +232,6 @@ class FixKeyLocation extends Command {
 
 	/**
 	 * Check that the user key stored for a file can decrypt the file
-	 *
-	 * @param IUser $user
-	 * @param File $node
-	 * @return bool
 	 */
 	private function copyUserKeyToSystemAndValidate(IUser $user, File $node): bool {
 		$path = trim(substr($node->getPath(), strlen($user->getUID()) + 1), '/');
@@ -282,7 +268,6 @@ class FixKeyLocation extends Command {
 	/**
 	 * Get the contents of a file without decrypting it
 	 *
-	 * @param File $node
 	 * @return resource
 	 */
 	private function openWithoutDecryption(File $node, string $mode) {
@@ -310,9 +295,6 @@ class FixKeyLocation extends Command {
 
 	/**
 	 * Check if the data stored for a file is encrypted, regardless of it's metadata
-	 *
-	 * @param File $node
-	 * @return bool
 	 */
 	private function isDataEncrypted(File $node): bool {
 		$handle = $this->openWithoutDecryption($node, 'r');
@@ -325,9 +307,6 @@ class FixKeyLocation extends Command {
 
 	/**
 	 * Attempt to find a key (stored for user) for a file (that needs a system key) even when it's not stored in the expected location
-	 *
-	 * @param File $node
-	 * @return string
 	 */
 	private function findUserKeyForSystemFile(IUser $user, File $node): ?string {
 		$userKeyPath = $this->getUserBaseKeyPath($user);
@@ -343,8 +322,6 @@ class FixKeyLocation extends Command {
 	/**
 	 * Attempt to find a key for a file even when it's not stored in the expected location
 	 *
-	 * @param string $basePath
-	 * @param string $name
 	 * @return \Generator<string>
 	 */
 	private function findKeysByFileName(string $basePath, string $name) {
@@ -371,11 +348,6 @@ class FixKeyLocation extends Command {
 
 	/**
 	 * Test if the provided key is valid as a system key for the file
-	 *
-	 * @param IUser $user
-	 * @param string $key
-	 * @param File $node
-	 * @return bool
 	 */
 	private function testSystemKey(IUser $user, string $key, File $node): bool {
 		$systemKeyPath = $this->getSystemKeyPath($node);
@@ -393,10 +365,6 @@ class FixKeyLocation extends Command {
 
 	/**
 	 * Decrypt a file with the specified system key and mark the key as not-encrypted
-	 *
-	 * @param File $node
-	 * @param string $key
-	 * @return void
 	 */
 	private function decryptWithSystemKey(File $node, string $key): void {
 		$storage = $node->getStorage();

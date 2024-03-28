@@ -39,7 +39,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class FixEncryptedVersion extends Command {
-	private bool $supportLegacy;
+	private bool $supportLegacy = false;
 
 	public function __construct(
 		private IConfig $config,
@@ -49,8 +49,6 @@ class FixEncryptedVersion extends Command {
 		private Util $util,
 		private View $view,
 	) {
-		$this->supportLegacy = false;
-
 		parent::__construct();
 	}
 
@@ -83,42 +81,44 @@ class FixEncryptedVersion extends Command {
 
 		if ($skipSignatureCheck) {
 			$output->writeln("<error>Repairing is not possible when \"encryption_skip_signature_check\" is set. Please disable this flag in the configuration.</error>\n");
-			return 1;
+			return self::FAILURE;
 		}
 
 		if (!$this->util->isMasterKeyEnabled()) {
 			$output->writeln("<error>Repairing only works with master key encryption.</error>\n");
-			return 1;
+			return self::FAILURE;
 		}
 
 		$user = $input->getArgument('user');
 		$all = $input->getOption('all');
 		$pathOption = \trim(($input->getOption('path') ?? ''), '/');
 
+		if (!$user && !$all) {
+			$output->writeln("Either a user id or --all needs to be provided");
+			return self::FAILURE;
+		}
+
 		if ($user) {
 			if ($all) {
 				$output->writeln("Specifying a user id and --all are mutually exclusive");
-				return 1;
+				return self::FAILURE;
 			}
 
 			if ($this->userManager->get($user) === null) {
 				$output->writeln("<error>User id $user does not exist. Please provide a valid user id</error>");
-				return 1;
+				return self::FAILURE;
 			}
 
 			return $this->runForUser($user, $pathOption, $output);
-		} elseif ($all) {
-			$result = 0;
-			$this->userManager->callForSeenUsers(function (IUser $user) use ($pathOption, $output, &$result) {
-				$output->writeln("Processing files for " . $user->getUID());
-				$result = $this->runForUser($user->getUID(), $pathOption, $output);
-				return $result === 0;
-			});
-			return $result;
-		} else {
-			$output->writeln("Either a user id or --all needs to be provided");
-			return 1;
 		}
+
+		$result = 0;
+		$this->userManager->callForSeenUsers(function (IUser $user) use ($pathOption, $output, &$result) {
+			$output->writeln("Processing files for " . $user->getUID());
+			$result = $this->runForUser($user->getUID(), $pathOption, $output);
+			return $result === 0;
+		});
+		return $result;
 	}
 
 	private function runForUser(string $user, string $pathOption, OutputInterface $output): int {
@@ -136,13 +136,13 @@ class FixEncryptedVersion extends Command {
 		$this->setupUserFs($user);
 		if (!$this->view->file_exists($path)) {
 			$output->writeln("<error>Path \"$path\" does not exist. Please provide a valid path.</error>");
-			return 1;
+			return self::FAILURE;
 		}
 
 		if ($this->view->is_file($path)) {
 			$output->writeln("Verifying the content of file \"$path\"");
 			$this->verifyFileContent($path, $output);
-			return 0;
+			return self::SUCCESS;
 		}
 		$directories = [];
 		$directories[] = $path;
@@ -158,7 +158,7 @@ class FixEncryptedVersion extends Command {
 				}
 			}
 		}
-		return 0;
+		return self::SUCCESS;
 	}
 
 	/**

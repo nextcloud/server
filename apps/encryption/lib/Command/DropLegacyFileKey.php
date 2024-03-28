@@ -75,10 +75,10 @@ class DropLegacyFileKey extends Command {
 
 		if ($result) {
 			$output->writeln('All scanned files are properly encrypted.');
-			return 0;
+			return self::SUCCESS;
 		}
 
-		return 1;
+		return self::FAILURE;
 	}
 
 	private function scanFolder(OutputInterface $output, string $folder): bool {
