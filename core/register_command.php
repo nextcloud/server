@@ -148,6 +148,7 @@ if ($config->getSystemValueBool('installed', false)) {
 	$application->add(Server::get(Command\Preview\ResetRenderedTexts::class));
 
 	$application->add(Server::get(Command\User\Add::class));
+	$application->add(Server::get(Command\User\CheckPassword::class)); // Tested with $application->add(new OC\Core\Command\User\CheckPassword(\OC::$server->getUserManager()));
 	$application->add(Server::get(Command\User\Delete::class));
 	$application->add(Server::get(Command\User\Disable::class));
 	$application->add(Server::get(Command\User\Enable::class));
