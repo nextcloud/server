@@ -33,6 +33,7 @@ use OCP\Files\Folder;
 use OCP\Files\Node as INode;
 use OCP\IGroupManager;
 use OCP\ITagManager;
+use OCP\ITags;
 use OCP\IUserSession;
 use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ISystemTagObjectMapper;
@@ -49,6 +50,10 @@ class FilesReportPlugin extends ServerPlugin {
 	// namespace
 	public const NS_OWNCLOUD = 'http://owncloud.org/ns';
 	public const NS_NEXTCLOUD = 'http://nextcloud.org/ns';
+
+	public const NS_OWNCLOUD_PREFIX = '{' . self::NS_OWNCLOUD. '}';
+	public const NS_NEXTCLOUD_PREFIX = '{' . self::NS_NEXTCLOUD. '}';
+
 	public const REPORT_NAME = '{http://owncloud.org/ns}filter-files';
 	public const SYSTEMTAG_PROPERTYNAME = '{http://owncloud.org/ns}systemtag';
 	public const CIRCLE_PROPERTYNAME = '{http://owncloud.org/ns}circle';
@@ -186,15 +191,13 @@ class FilesReportPlugin extends ServerPlugin {
 			return;
 		}
 
-		$ns = '{' . $this::NS_OWNCLOUD . '}';
-		$ncns = '{' . $this::NS_NEXTCLOUD . '}';
 		$requestedProps = [];
 		$filterRules = [];
 
 		// parse report properties and gather filter info
 		foreach ($report as $reportProps) {
 			$name = $reportProps['name'];
-			if ($name === $ns . 'filter-rules') {
+			if ($name === self::NS_OWNCLOUD_PREFIX . 'filter-rules') {
 				$filterRules = $reportProps['value'];
 			} elseif ($name === '{DAV:}prop') {
 				// propfind properties
@@ -205,7 +208,7 @@ class FilesReportPlugin extends ServerPlugin {
 				foreach ($reportProps['value'] as $propVal) {
 					if ($propVal['name'] === '{DAV:}nresults') {
 						$limit = (int)$propVal['value'];
-					} elseif ($propVal['name'] === $ncns . 'firstresult') {
+					} elseif ($propVal['name'] === self::NS_NEXTCLOUD_PREFIX . 'firstresult') {
 						$offset = (int)$propVal['value'];
 					}
 				}
@@ -292,36 +295,18 @@ class FilesReportPlugin extends ServerPlugin {
 	 * @return array array of unique file id results
 	 */
 	protected function processFilterRulesForFileIDs(array $filterRules): array {
-		$ns = '{' . $this::NS_OWNCLOUD . '}';
-		$resultFileIds = [];
 		$circlesIds = [];
-		$favoriteFilter = null;
 		foreach ($filterRules as $filterRule) {
 			if ($filterRule['name'] === self::CIRCLE_PROPERTYNAME) {
 				$circlesIds[] = $filterRule['value'];
 			}
-			if ($filterRule['name'] === $ns . 'favorite') {
-				$favoriteFilter = true;
-			}
-		}
-
-		if ($favoriteFilter !== null) {
-			$resultFileIds = $this->fileTagger->load('files')->getFavorites();
-			if (empty($resultFileIds)) {
-				return [];
-			}
 		}
 
 		if (!empty($circlesIds)) {
-			$fileIds = $this->getCirclesFileIds($circlesIds);
-			if (empty($resultFileIds)) {
-				$resultFileIds = $fileIds;
-			} else {
-				$resultFileIds = array_intersect($fileIds, $resultFileIds);
-			}
+			return $this->getCirclesFileIds($circlesIds);
 		}
 
-		return $resultFileIds;
+		return [];
 	}
 
 	protected function processFilterRulesForFileNodes(array $filterRules, ?int $limit, ?int $offset): array {
@@ -345,13 +330,7 @@ class FilesReportPlugin extends ServerPlugin {
 			foreach ($tags as $tag) {
 				$tagName = $tag->getName();
 				$tmpNodes = $this->userFolder->searchBySystemTag($tagName, $this->userSession->getUser()->getUID(), $dbLimit, $dbOffset);
-				if (count($nodes) === 0) {
-					$nodes = $tmpNodes;
-				} else {
-					$nodes = array_uintersect($nodes, $tmpNodes, function (INode $a, INode $b): int {
-						return $a->getId() - $b->getId();
-					});
-				}
+				$nodes = $this->intersectNodes($nodes, $tmpNodes);
 				if ($nodes === []) {
 					// there cannot be a common match when nodes are empty early.
 					return $nodes;
@@ -359,11 +338,47 @@ class FilesReportPlugin extends ServerPlugin {
 			}
 
 			if (!$oneTagSearch && ($limit !== null || $offset !== null)) {
-				$nodes = array_slice($nodes, $offset, $limit);
+				$nodes = array_slice($nodes, $offset ?? 0, $limit);
 			}
 		}
 
+		if ($this->hasFilterFavorites($filterRules)) {
+			$tmpNodes = $this->userFolder->searchByTag(ITags::TAG_FAVORITE, $this->userSession->getUser()->getUID(), $limit ?? 0, $offset ?? 0);
+			$nodes = $this->intersectNodes($nodes, $tmpNodes);
+			if ($nodes === []) {
+				// there cannot be a common match when nodes are empty early.
+				return $nodes;
+			}
+		}
+
+		if ($limit !== null || $offset !== null) {
+			$nodes = array_slice($nodes, $offset ?? 0, $limit);
+		}
+
 		return $nodes;
+	}
+
+	private function intersectNodes(array $nodes, array $newNodes): array {
+		if (count($nodes) === 0) {
+			$nodes = $newNodes;
+		} else {
+			$nodes = array_uintersect($nodes, $newNodes, function (INode $a, INode $b): int {
+				return $a->getId() - $b->getId();
+			});
+		}
+
+		return $nodes;
+	}
+
+	private function hasFilterFavorites(array $filterRules): bool {
+		$favoriteFilter = null;
+		foreach ($filterRules as $filterRule) {
+			if ($filterRule['name'] === self::NS_OWNCLOUD_PREFIX . 'favorite') {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	/**

@@ -495,7 +495,7 @@ class FilesReportPluginTest extends \Test\TestCase {
 			->with('OneTwoThree')
 			->willReturn([$filesNode1, $filesNode2]);
 
-		$this->assertEquals([$filesNode1, $filesNode2], $this->invokePrivate($this->plugin, 'processFilterRulesForFileNodes', [$rules, 0, 0]));
+		$this->assertEquals([$filesNode1, $filesNode2], $this->invokePrivate($this->plugin, 'processFilterRulesForFileNodes', [$rules, null, null]));
 	}
 
 	public function testProcessFilterRulesAndCondition(): void {
@@ -934,11 +934,25 @@ class FilesReportPluginTest extends \Test\TestCase {
 			['name' => '{http://owncloud.org/ns}favorite', 'value' => '1'],
 		];
 
-		$this->privateTags->expects($this->once())
-			->method('getFavorites')
-			->willReturn(['456', '789']);
+		$filesNode1 = $this->createMock(File::class);
+		$filesNode1->expects($this->any())
+			->method('getId')
+			->willReturn(111);
 
-		$this->assertEquals(['456', '789'], array_values($this->invokePrivate($this->plugin, 'processFilterRulesForFileIDs', [$rules])));
+		$filesNode2 = $this->createMock(File::class);
+		$filesNode2->expects($this->any())
+			->method('getId')
+			->willReturn(222);
+
+		$this->userFolder->expects($this->exactly(1))
+			->method('searchByTag')
+			->with('_$!<Favorite>!$_')
+			->willReturn([
+				$filesNode2,
+				$filesNode1,
+			]);
+
+		$this->assertEquals([$filesNode1, $filesNode2], array_values($this->invokePrivate($this->plugin, 'processFilterRulesForFileNodes', [$rules, null, null])));
 	}
 
 	public function filesBaseUriProvider() {
