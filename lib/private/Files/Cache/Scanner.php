@@ -221,8 +221,17 @@ class Scanner extends BasicEmitter implements IScanner {
 						}
 
 						// Only update metadata that has changed
-						$newData = array_diff_assoc($data, $cacheData->getData());
-
+						// i.e. get all the values in $data that are not present in the cache already
+						// NOTE: we serialize then unserialize here because array_diff_assoc() doesn't 
+						// support multidimensional arrays on its own (and otherwise internally casts any 
+						// embedded array elements to attempt to compare them - not only generating warnings 
+						// like "Array to string conversion" but also, as a resut, overlooking real differences)
+						$newData = array_diff_assoc(
+							array_map('serialize', $data), 
+							array_map('serialize', $cacheData->getData())
+							);
+						$newData = array_map('unserialize', $newData);
+						
 						// make it known to the caller that etag has been changed and needs propagation
 						if (isset($newData['etag'])) {
 							$data['etag_changed'] = true;
