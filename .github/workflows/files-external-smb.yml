@@ -16,7 +16,7 @@ jobs:
       src: ${{ steps.changes.outputs.src}}
 
     steps:
-      - uses: dorny/paths-filter@0bc4621a3135347011ad047f9ecf449bf72ce2bd # v3.0.0
+      - uses: dorny/paths-filter@de90cc6fb38fc0963ad72b210f1f284cd68cea36 # v3.0.2
         id: changes
         continue-on-error: true
         with:
@@ -54,7 +54,7 @@ jobs:
 
     steps:
       - name: Checkout server
-        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
+        uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633
         with:
           submodules: true
 
@@ -92,7 +92,7 @@ jobs:
 
       - name: Upload code coverage
         if: ${{ !cancelled() && matrix.coverage }}
-        uses: codecov/codecov-action@4fe8c5f003fae66aa5ebb77cfd3e7bfbbda0b6b0 # v3.1.5
+        uses: codecov/codecov-action@c16abc29c95fcf9174b58eb7e1abf4c866893bc8 # v4.1.1
         with:
           files: ./clover.xml
           flags: phpunit-files-external-smb
