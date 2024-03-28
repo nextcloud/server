@@ -1,6 +1,9 @@
 <?php
+
+declare(strict_types=1);
+
 /*
- * @copyright Copyright (c) 2021 Julius Härtl <jus@bitgrid.net>
+ * @copyright Copyright (c) 2023 Julius Härtl <jus@bitgrid.net>
  *
  * @author Julius Härtl <jus@bitgrid.net>
  *
@@ -21,7 +24,6 @@
  *
  */
 
-declare(strict_types=1);
 
 
 namespace OCP\Files\ObjectStore;
@@ -54,6 +56,15 @@ interface IObjectStoreMultiPartUpload {
 
 	/**
 	 * @since 26.0.0
+	 * @return array of the parts in ListParts response
+	 *
+	 * Sample data:
+	 * [[
+	 * 		'PartNumber' => 1,
+	 * 		'LastModified' => '2010-11-10T20:48:34.000Z',
+	 * 		'ETag' => '"7778aef83f66abc1fa1e8477f296d394"',
+	 * 		'Size' => 10485760,
+	 * ]]
 	 */
 	public function getMultipartUploads(string $urn, string $uploadId): array;
 }

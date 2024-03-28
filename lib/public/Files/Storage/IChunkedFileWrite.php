@@ -1,6 +1,9 @@
 <?php
+
+declare(strict_types=1);
+
 /*
- * @copyright Copyright (c) 2021 Julius Härtl <jus@bitgrid.net>
+ * @copyright Copyright (c) 2023 Julius Härtl <jus@bitgrid.net>
  *
  * @author Julius Härtl <jus@bitgrid.net>
  *
@@ -21,7 +24,6 @@
  *
  */
 
-declare(strict_types=1);
 
 
 namespace OCP\Files\Storage;
@@ -46,6 +48,7 @@ interface IChunkedFileWrite extends IStorage {
 	 * @param string $chunkId
 	 * @param resource $data
 	 * @param int|null $size
+	 * @return array|null
 	 * @throws GenericFileException
 	 * @since 26.0.0
 	 */

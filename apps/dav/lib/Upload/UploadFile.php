@@ -44,7 +44,7 @@ class UploadFile implements IFile {
 		return $this->file->get();
 	}
 
-	public function getId() {
+	public function getId(): int {
 		return $this->file->getId();
 	}
 
@@ -88,7 +88,7 @@ class UploadFile implements IFile {
 		return $this->file;
 	}
 
-	public function getNode() {
+	public function getNode(): \OCP\Files\File {
 		return $this->file->getNode();
 	}
 }
