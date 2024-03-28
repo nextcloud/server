@@ -525,7 +525,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 	protected function IsDatabaseAccessAllowed() {
 		// on travis-ci.org we allow database access in any case - otherwise
 		// this will break all apps right away
-		if (true == getenv('TRAVIS')) {
+		if (getenv('TRAVIS') == true) {
 			return true;
 		}
 		$annotations = $this->getGroupAnnotations();

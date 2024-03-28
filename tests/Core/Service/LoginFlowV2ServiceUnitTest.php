@@ -392,7 +392,7 @@ class LoginFlowV2ServiceUnitTest extends TestCase {
 			->method('getSystemValue')
 			->willReturn($this->returnCallback(function ($key) {
 				// Note: \OCP\IConfig::getSystemValue returns either an array or string.
-				return 'openssl' == $key ? [] : '';
+				return $key == 'openssl' ? [] : '';
 			}));
 
 		$this->mapper->expects($this->once())

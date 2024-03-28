@@ -51,7 +51,7 @@ class SecurityProvider implements IProvider {
 		$this->activityManager = $activityManager;
 	}
 
-	public function parse($language, IEvent $event, IEvent $previousEvent = null) {
+	public function parse($language, IEvent $event, ?IEvent $previousEvent = null) {
 		if ($event->getType() !== 'security') {
 			throw new InvalidArgumentException();
 		}

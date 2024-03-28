@@ -77,7 +77,7 @@ class SMB extends Backend {
 			->setLegacyAuthMechanism($legacyAuth);
 	}
 
-	public function manipulateStorageConfig(StorageConfig &$storage, IUser $user = null) {
+	public function manipulateStorageConfig(StorageConfig &$storage, ?IUser $user = null) {
 		$auth = $storage->getAuthMechanism();
 		if ($auth->getScheme() === AuthMechanism::SCHEME_PASSWORD) {
 			if (!is_string($storage->getBackendOption('user')) || !is_string($storage->getBackendOption('password'))) {

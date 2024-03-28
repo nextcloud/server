@@ -49,7 +49,7 @@ class HintException extends \Exception {
 	 * @param int $code
 	 * @param \Exception|null $previous
 	 */
-	public function __construct($message, $hint = '', $code = 0, \Exception $previous = null) {
+	public function __construct($message, $hint = '', $code = 0, ?\Exception $previous = null) {
 		$this->hint = $hint;
 		parent::__construct($message, $code, $previous);
 	}

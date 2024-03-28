@@ -157,7 +157,7 @@ class L10N implements IL10N {
 	 *  - jsdate: Returns the short JS date format
 	 */
 	public function l(string $type, $data = null, array $options = []) {
-		if (null === $this->locale) {
+		if ($this->locale === null) {
 			// Use the language of the instance
 			$this->locale = $this->getLanguageCode();
 		}

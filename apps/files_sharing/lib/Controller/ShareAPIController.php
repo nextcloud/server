@@ -134,7 +134,7 @@ class ShareAPIController extends OCSController {
 		IUserManager $userManager,
 		IRootFolder $rootFolder,
 		IURLGenerator $urlGenerator,
-		string $userId = null,
+		?string $userId = null,
 		IL10N $l10n,
 		IConfig $config,
 		IAppManager $appManager,
@@ -170,7 +170,7 @@ class ShareAPIController extends OCSController {
 	 *
 	 * @suppress PhanUndeclaredClassMethod
 	 */
-	protected function formatShare(IShare $share, Node $recipientNode = null): array {
+	protected function formatShare(IShare $share, ?Node $recipientNode = null): array {
 		$sharedBy = $this->userManager->get($share->getSharedBy());
 		$shareOwner = $this->userManager->get($share->getShareOwner());
 
@@ -600,17 +600,17 @@ class ShareAPIController extends OCSController {
 	 * 200: Share created
 	 */
 	public function createShare(
-		string $path = null,
-		int $permissions = null,
+		?string $path = null,
+		?int $permissions = null,
 		int $shareType = -1,
-		string $shareWith = null,
+		?string $shareWith = null,
 		string $publicUpload = 'false',
 		string $password = '',
-		string $sendPasswordByTalk = null,
+		?string $sendPasswordByTalk = null,
 		string $expireDate = '',
 		string $note = '',
 		string $label = '',
-		string $attributes = null
+		?string $attributes = null
 	): DataResponse {
 		$share = $this->shareManager->newShare();
 
@@ -1209,15 +1209,15 @@ class ShareAPIController extends OCSController {
 	 */
 	public function updateShare(
 		string $id,
-		int $permissions = null,
-		string $password = null,
-		string $sendPasswordByTalk = null,
-		string $publicUpload = null,
-		string $expireDate = null,
-		string $note = null,
-		string $label = null,
-		string $hideDownload = null,
-		string $attributes = null
+		?int $permissions = null,
+		?string $password = null,
+		?string $sendPasswordByTalk = null,
+		?string $publicUpload = null,
+		?string $expireDate = null,
+		?string $note = null,
+		?string $label = null,
+		?string $hideDownload = null,
+		?string $attributes = null
 	): DataResponse {
 		try {
 			$share = $this->getShareById($id);

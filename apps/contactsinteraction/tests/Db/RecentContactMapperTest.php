@@ -107,7 +107,7 @@ class RecentContactMapperTest extends TestCase {
 		$this->assertCount(0, $this->recentContactMapper->findAll('admin'));
 	}
 
-	protected function createRecentContact(string $email = null, string $federatedCloudId = null): RecentContact {
+	protected function createRecentContact(?string $email = null, ?string $federatedCloudId = null): RecentContact {
 		$props = [
 			'URI' => UUIDUtil::getUUID(),
 			'FN' => 'Foo Bar',

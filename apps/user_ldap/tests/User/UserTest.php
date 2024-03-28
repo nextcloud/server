@@ -837,7 +837,7 @@ class UserTest extends \Test\TestCase {
 	/**
 	 * @dataProvider extStorageHomeDataProvider
 	 */
-	public function testUpdateExtStorageHome(string $expected, string $valueFromLDAP = null, bool $isSet = true) {
+	public function testUpdateExtStorageHome(string $expected, ?string $valueFromLDAP = null, bool $isSet = true) {
 		if ($valueFromLDAP === null) {
 			$this->connection->expects($this->once())
 				->method('__get')

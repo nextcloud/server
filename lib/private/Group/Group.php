@@ -76,7 +76,7 @@ class Group implements IGroup {
 	/** @var PublicEmitter */
 	private $emitter;
 
-	public function __construct(string $gid, array $backends, IEventDispatcher $dispatcher, IUserManager $userManager, PublicEmitter $emitter = null, ?string $displayName = null) {
+	public function __construct(string $gid, array $backends, IEventDispatcher $dispatcher, IUserManager $userManager, ?PublicEmitter $emitter = null, ?string $displayName = null) {
 		$this->gid = $gid;
 		$this->backends = $backends;
 		$this->dispatcher = $dispatcher;
@@ -302,7 +302,7 @@ class Group implements IGroup {
 	 * @return IUser[]
 	 * @deprecated 27.0.0 Use searchUsers instead (same implementation)
 	 */
-	public function searchDisplayName(string $search, int $limit = null, int $offset = null): array {
+	public function searchDisplayName(string $search, ?int $limit = null, ?int $offset = null): array {
 		return $this->searchUsers($search, $limit, $offset);
 	}
 

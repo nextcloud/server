@@ -71,7 +71,7 @@ class UserProvided extends AuthMechanism implements IUserProvided {
 		]);
 	}
 
-	public function manipulateStorageConfig(StorageConfig &$storage, IUser $user = null) {
+	public function manipulateStorageConfig(StorageConfig &$storage, ?IUser $user = null) {
 		if (!isset($user)) {
 			throw new InsufficientDataForMeaningfulAnswerException('No credentials saved');
 		}

@@ -53,7 +53,7 @@ class CachedMountInfo implements ICachedMountInfo {
 		int $rootId,
 		string $mountPoint,
 		string $mountProvider,
-		int $mountId = null,
+		?int $mountId = null,
 		string $rootInternalPath = ''
 	) {
 		$this->user = $user;

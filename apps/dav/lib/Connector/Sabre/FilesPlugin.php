@@ -563,7 +563,7 @@ class FilesPlugin extends ServerPlugin {
 	 */
 	private function handleUpdatePropertiesMetadata(PropPatch $propPatch, Node $node): void {
 		$userId = $this->userSession->getUser()?->getUID();
-		if (null === $userId) {
+		if ($userId === null) {
 			return;
 		}
 
@@ -667,7 +667,7 @@ class FilesPlugin extends ServerPlugin {
 	 * @param \Sabre\DAV\INode $node
 	 * @throws \Sabre\DAV\Exception\BadRequest
 	 */
-	public function sendFileIdHeader($filePath, \Sabre\DAV\INode $node = null) {
+	public function sendFileIdHeader($filePath, ?\Sabre\DAV\INode $node = null) {
 		// chunked upload handling
 		if (isset($_SERVER['HTTP_OC_CHUNKED'])) {
 			[$path, $name] = \Sabre\Uri\split($filePath);
