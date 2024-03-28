@@ -44,7 +44,7 @@
 		<!-- TODO: create a standard to allow multiple elements here? -->
 		<template v-if="fileInfo" #description>
 			<div class="sidebar__description">
-				<SystemTags v-if="isSystemTagsEnabled"
+				<SystemTags v-if="isSystemTagsEnabled && showTagsDefault"
 					v-show="showTags"
 					:file-id="fileInfo.id"
 					@has-tags="value => showTags = value" />
@@ -157,6 +157,7 @@ export default {
 			// reactive state
 			Sidebar: OCA.Files.Sidebar.state,
 			showTags: false,
+			showTagsDefault: true,
 			error: null,
 			loading: true,
 			fileInfo: null,
@@ -441,7 +442,7 @@ export default {
 		 * Toggle the tags selector
 		 */
 		toggleTags() {
-			this.showTags = !this.showTags
+			this.showTagsDefault = this.showTags = !this.showTags
 		},
 
 		/**
@@ -521,6 +522,15 @@ export default {
 				document.querySelector('#content')?.classList.remove('with-sidebar--full')
 					|| document.querySelector('#content-vue')?.classList.remove('with-sidebar--full')
 			}
+		},
+
+		/**
+		 * Allow to set whether tags should be shown by default from OCA.Files.Sidebar
+		 *
+		 * @param {boolean} showTagsDefault - Whether or not to show the tags by default.
+		 */
+		setShowTagsDefault(showTagsDefault) {
+			this.showTagsDefault = showTagsDefault
 		},
 
 		/**
