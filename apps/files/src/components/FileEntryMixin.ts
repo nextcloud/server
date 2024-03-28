@@ -95,7 +95,7 @@ export default defineComponent({
 		},
 		displayName() {
 			const ext = this.extension
-			const name = (this.source.attributes.displayName
+			const name = String(this.source.attributes.displayName
 				|| this.source.basename)
 
 			// Strip extension from name if defined
