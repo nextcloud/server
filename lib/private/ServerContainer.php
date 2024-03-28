@@ -52,7 +52,6 @@ class ServerContainer extends SimpleContainer {
 	 * ServerContainer constructor.
 	 */
 	public function __construct() {
-		parent::__construct();
 		$this->appContainers = [];
 		$this->namespaces = [];
 		$this->hasNoAppContainer = [];
@@ -137,16 +136,12 @@ class ServerContainer extends SimpleContainer {
 	 * @deprecated 20.0.0 use \Psr\Container\ContainerInterface::get
 	 */
 	public function query(string $name, bool $autoload = true) {
-		$name = $this->sanitizeName($name);
-
-		if (str_starts_with($name, 'OCA\\')) {
-			// Skip server container query for app namespace classes
-			try {
-				return parent::query($name, false);
-			} catch (QueryException $e) {
-				// Continue with general autoloading then
-			}
+		// if we have a resolved instance ourselves, there is no need to try and delegate
+		// we check this before doing any sanitization, because usually the name already is sanitized
+		if ($this->isResolved($name)) {
+			return $this->items[$name];
 		}
+		$name = $this->sanitizeName($name);
 
 		// In case the service starts with OCA\ we try to find the service in
 		// the apps container first.
@@ -170,6 +165,13 @@ class ServerContainer extends SimpleContainer {
 			}
 		}
 
+		return parent::query($name, $autoload);
+	}
+
+	public function queryNoApps(string $name, bool $autoload = true) {
+		if ($this->isResolved($name)) {
+			return $this->items[$name];
+		}
 		return parent::query($name, $autoload);
 	}
 
