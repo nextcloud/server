@@ -167,6 +167,11 @@ class DeletedShareAPIController extends OCSController {
 				$result = array_merge($result, $this->getDeckShareHelper()->formatShare($share));
 			} catch (QueryException $e) {
 			}
+		} elseif ($share->getShareType() === IShare::TYPE_CIRCLE) {
+			try {
+				$result = array_merge($result, $this->getCirclesShareHelper()->formatShare($share));
+			} catch (QueryException $e) {
+			}
 		} elseif ($share->getShareType() === IShare::TYPE_SCIENCEMESH) {
 			$result['share_with'] = $share->getSharedWith();
 			$result['share_with_displayname'] = '';
@@ -193,9 +198,10 @@ class DeletedShareAPIController extends OCSController {
 		$groupShares = $this->shareManager->getDeletedSharedWith($this->userId, IShare::TYPE_GROUP, null, -1, 0);
 		$roomShares = $this->shareManager->getDeletedSharedWith($this->userId, IShare::TYPE_ROOM, null, -1, 0);
 		$deckShares = $this->shareManager->getDeletedSharedWith($this->userId, IShare::TYPE_DECK, null, -1, 0);
+		$circlesShares = $this->shareManager->getDeletedSharedWith($this->userId, IShare::TYPE_CIRCLE, null, -1, 0);
 		$sciencemeshShares = $this->shareManager->getDeletedSharedWith($this->userId, IShare::TYPE_SCIENCEMESH, null, -1, 0);
 
-		$shares = array_merge($groupShares, $roomShares, $deckShares, $sciencemeshShares);
+		$shares = array_merge($groupShares, $roomShares, $deckShares, $circlesShares, $sciencemeshShares);
 
 		$shares = array_map(function (IShare $share) {
 			return $this->formatShare($share);
@@ -268,6 +274,23 @@ class DeletedShareAPIController extends OCSController {
 		}
 
 		return $this->serverContainer->get('\OCA\Deck\Sharing\ShareAPIHelper');
+	}
+
+	/**
+	 * Returns the helper of ShareAPIHelper for circles shares.
+	 *
+	 * If the Circles application is not enabled or the helper is not available
+	 * a QueryException is thrown instead.
+	 *
+	 * @return \OCA\Circles\ShareAPIHelper
+	 * @throws QueryException
+	 */
+	private function getCirclesShareHelper() {
+		if (!$this->appManager->isEnabledForUser('circles')) {
+			throw new QueryException();
+		}
+
+		return $this->serverContainer->get('\OCA\Circles\ShareByCircleProvider');
 	}
 
 	/**
