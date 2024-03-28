@@ -107,9 +107,9 @@ class Manager {
 		];
 
 		$authenticatorSelectionCriteria = new AuthenticatorSelectionCriteria(
-			null,
+			AuthenticatorSelectionCriteria::AUTHENTICATOR_ATTACHMENT_NO_PREFERENCE,
 			false,
-			AuthenticatorSelectionCriteria::USER_VERIFICATION_REQUIREMENT_DISCOURAGED
+			AuthenticatorSelectionCriteria::USER_VERIFICATION_REQUIREMENT_PREFERRED
 		);
 
 		return new PublicKeyCredentialCreationOptions(
@@ -149,7 +149,9 @@ class Manager {
 		try {
 			// Load the data
 			$publicKeyCredential = $publicKeyCredentialLoader->load($data);
+			/** @var AuthenticatorAttestationResponse $response */
 			$response = $publicKeyCredential->getResponse();
+			$userVerification = $response->getAttestationObject()->getAuthData()->isUserVerified();
 
 			// Check if the response is an Authenticator Attestation Response
 			if (!$response instanceof AuthenticatorAttestationResponse) {
@@ -168,7 +170,7 @@ class Manager {
 		}
 
 		// Persist the data
-		return $this->repository->saveAndReturnCredentialSource($publicKeyCredentialSource, $name);
+		return $this->repository->saveAndReturnCredentialSource($publicKeyCredentialSource, $name, $userVerification);
 	}
 
 	private function stripPort(string $serverHost): string {
@@ -177,7 +179,11 @@ class Manager {
 
 	public function startAuthentication(string $uid, string $serverHost): PublicKeyCredentialRequestOptions {
 		// List of registered PublicKeyCredentialDescriptor classes associated to the user
-		$registeredPublicKeyCredentialDescriptors = array_map(function (PublicKeyCredentialEntity $entity) {
+		$userVerificationRequirement = AuthenticatorSelectionCriteria::USER_VERIFICATION_REQUIREMENT_REQUIRED;
+		$registeredPublicKeyCredentialDescriptors = array_map(function (PublicKeyCredentialEntity $entity) use (&$userVerificationRequirement) {
+			if ($entity->getUserVerification() !== true) {
+				$userVerificationRequirement = AuthenticatorSelectionCriteria::USER_VERIFICATION_REQUIREMENT_DISCOURAGED;
+			}
 			$credential = $entity->toPublicKeyCredentialSource();
 			return new PublicKeyCredentialDescriptor(
 				$credential->getType(),
@@ -191,7 +197,7 @@ class Manager {
 			60000,                                                              // Timeout
 			$this->stripPort($serverHost),                                                                  // Relying Party ID
 			$registeredPublicKeyCredentialDescriptors,                                  // Registered PublicKeyCredentialDescriptor classes
-			AuthenticatorSelectionCriteria::USER_VERIFICATION_REQUIREMENT_DISCOURAGED
+			$userVerificationRequirement
 		);
 	}
 

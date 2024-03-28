@@ -61,7 +61,7 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository {
 		}, $entities);
 	}
 
-	public function saveAndReturnCredentialSource(PublicKeyCredentialSource $publicKeyCredentialSource, string $name = null): PublicKeyCredentialEntity {
+	public function saveAndReturnCredentialSource(PublicKeyCredentialSource $publicKeyCredentialSource, string $name = null, bool $userVerification = false): PublicKeyCredentialEntity {
 		$oldEntity = null;
 
 		try {
@@ -75,7 +75,7 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository {
 			$name = 'default';
 		}
 
-		$entity = PublicKeyCredentialEntity::fromPublicKeyCrendentialSource($name, $publicKeyCredentialSource);
+		$entity = PublicKeyCredentialEntity::fromPublicKeyCrendentialSource($name, $publicKeyCredentialSource, $userVerification);
 
 		if ($oldEntity) {
 			$entity->setId($oldEntity->getId());
