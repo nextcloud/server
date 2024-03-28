@@ -83,11 +83,15 @@ const setDeprecatedProp = (global, cb, msg) => {
 		}
 		Object.defineProperty(window, global, {
 			get: () => {
+				let value;
 				if (msg) {
-					warnIfNotTesting(`${global} is deprecated: ${msg}`)
+					value = warnIfNotTesting(`${global} is deprecated: ${msg}`)
 				} else {
-					warnIfNotTesting(`${global} is deprecated`)
+					value = warnIfNotTesting(`${global} is deprecated`)
 				}
+				
+				delete window[global];
+				window[global] = value;
 
 				return cb()
 			},
