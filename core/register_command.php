@@ -50,7 +50,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 use OC\Core\Command;
 use OCP\IConfig;
 use OCP\Server;
@@ -81,6 +80,8 @@ if ($config->getSystemValueBool('installed', false)) {
 	$application->add(Server::get(Command\TwoFactorAuth\Enable::class));
 	$application->add(Server::get(Command\TwoFactorAuth\Disable::class));
 	$application->add(Server::get(Command\TwoFactorAuth\State::class));
+	$application->add(Server::get(Command\TwoFactorAuth\State::class));
+
 
 	$application->add(Server::get(Command\Background\Cron::class));
 	$application->add(Server::get(Command\Background\WebCron::class));
@@ -88,6 +89,7 @@ if ($config->getSystemValueBool('installed', false)) {
 	$application->add(Server::get(Command\Background\Job::class));
 	$application->add(Server::get(Command\Background\ListCommand::class));
 	$application->add(Server::get(Command\Background\Delete::class));
+	$application->add(Server::get(Command\Background\JobWorker::class));
 
 	$application->add(Server::get(Command\Broadcast\Test::class));
 

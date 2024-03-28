@@ -110,9 +110,9 @@ interface IJobList {
 	/**
 	 * get the next job in the list
 	 *
-	 * @since 7.0.0 - In 24.0.0 parameter $onlyTimeSensitive got added
+	 * @since 7.0.0 - In 24.0.0 parameter $onlyTimeSensitive got added; In 29.0.0 parameter $jobClass got added
 	 */
-	public function getNext(bool $onlyTimeSensitive = false): ?IJob;
+	public function getNext(bool $onlyTimeSensitive = false, string $jobClass = null): ?IJob;
 
 	/**
 	 * @since 7.0.0
@@ -168,4 +168,12 @@ interface IJobList {
 	 * @since 27.0.0
 	 */
 	public function hasReservedJob(?string $className): bool;
+
+	/**
+	 * Returns a count of jobs per Job class
+	 *
+	 * @return list<array{class:class-string, count:int}>
+	 * @since 29.0.0
+	 */
+	public function countByClass(): array;
 }
