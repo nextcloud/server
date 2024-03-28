@@ -33,19 +33,12 @@ use OCP\Command\ICommand;
 class Expire implements ICommand {
 	use FileAccess;
 
-	/**
-	 * @var string
-	 */
-	private $user;
-
-	/**
-	 * @param string $user
-	 */
-	public function __construct($user) {
-		$this->user = $user;
+	public function __construct(
+		private string $user,
+	) {
 	}
 
-	public function handle() {
+	public function handle(): void {
 		$userManager = \OC::$server->getUserManager();
 		if (!$userManager->userExists($this->user)) {
 			// User has been deleted already
