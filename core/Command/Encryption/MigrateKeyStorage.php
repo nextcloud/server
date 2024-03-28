@@ -30,7 +30,7 @@ class MigrateKeyStorage extends Command {
 		parent::__construct();
 	}
 
-	protected function configure() {
+	protected function configure(): void {
 		parent::configure();
 		$this
 			->setName('encryption:migrate-key-storage-format')
@@ -50,9 +50,6 @@ class MigrateKeyStorage extends Command {
 	/**
 	 * Move keys to new key storage root
 	 *
-	 * @param string $root
-	 * @param OutputInterface $output
-	 * @return bool
 	 * @throws \Exception
 	 */
 	protected function updateKeys(string $root, OutputInterface $output): bool {
@@ -75,7 +72,7 @@ class MigrateKeyStorage extends Command {
 		$this->traverseKeys($root . '/files_encryption', null);
 	}
 
-	private function traverseKeys(string $folder, ?string $uid) {
+	private function traverseKeys(string $folder, ?string $uid): void {
 		$listing = $this->rootView->getDirectoryContent($folder);
 
 		foreach ($listing as $node) {
@@ -109,14 +106,14 @@ class MigrateKeyStorage extends Command {
 		}
 	}
 
-	private function traverseFileKeys(string $folder) {
+	private function traverseFileKeys(string $folder): void {
 		$listing = $this->rootView->getDirectoryContent($folder);
 
 		foreach ($listing as $node) {
 			if ($node['mimetype'] === 'httpd/unix-directory') {
 				$this->traverseFileKeys($folder . '/' . $node['name']);
 			} else {
-				$endsWith = function ($haystack, $needle) {
+				$endsWith = function (string $haystack, string $needle): bool {
 					$length = strlen($needle);
 					if ($length === 0) {
 						return true;
@@ -154,10 +151,8 @@ class MigrateKeyStorage extends Command {
 
 	/**
 	 * setup file system for the given user
-	 *
-	 * @param string $uid
 	 */
-	protected function setupUserFS($uid) {
+	protected function setupUserFS(string $uid): void {
 		\OC_Util::tearDownFS();
 		\OC_Util::setupFS($uid);
 	}
@@ -165,11 +160,8 @@ class MigrateKeyStorage extends Command {
 
 	/**
 	 * iterate over each user and move the keys to the new storage
-	 *
-	 * @param string $root
-	 * @param OutputInterface $output
 	 */
-	protected function updateUsersKeys(string $root, OutputInterface $output) {
+	protected function updateUsersKeys(string $root, OutputInterface $output): void {
 		$progress = new ProgressBar($output);
 		$progress->start();
 
@@ -192,11 +184,9 @@ class MigrateKeyStorage extends Command {
 	/**
 	 * move user encryption folder to new root folder
 	 *
-	 * @param string $root
-	 * @param string $user
 	 * @throws \Exception
 	 */
-	protected function updateUserKeys(string $root, string $user) {
+	protected function updateUserKeys(string $root, string $user): void {
 		if ($this->userManager->userExists($user)) {
 			$source = $root . '/' . $user . '/files_encryption/OC_DEFAULT_MODULE';
 			if ($this->rootView->is_dir($source)) {
