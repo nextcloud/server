@@ -26,5 +26,11 @@
 		<address-book-plugins>
 			<plugin>OCA\ContactsInteraction\AddressBookProvider</plugin>
 		</address-book-plugins>
+		<plugins>
+			<plugin>OCA\ContactsInteraction\DAV\Plugin</plugin>
+		</plugins>
 	</sabre>
+	<settings>
+		<personal>OCA\ContactsInteraction\Settings\Personal</personal>
+	</settings>
 </info>
