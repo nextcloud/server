@@ -19,7 +19,7 @@ jobs:
     name: update-psalm-baseline-${{ matrix.branches }}
 
     steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
+      - uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633
         with:
           ref: ${{ matrix.branches }}
           submodules: true
@@ -50,7 +50,7 @@ jobs:
           git checkout composer.json composer.lock lib/composer
 
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@a4f52f8033a6168103c2538976c07b467e8163bc
+        uses: peter-evans/create-pull-request@70a41aba780001da0a30141984ae2a0c95d8704e
         with:
           token: ${{ secrets.COMMAND_BOT_PAT }}
           commit-message: Update psalm baseline
