@@ -52,7 +52,7 @@ class JSResourceLocator extends ResourceLocator {
 		$app = substr($script, 0, strpos($script, '/'));
 		$scriptName = basename($script);
 		// Get the app root path
-		$appRoot = $this->serverroot . 'apps/';
+		$appRoot = $this->serverroot . '/apps/';
 		$appWebRoot = null;
 		try {
 			// We need the dir name as getAppPath appends the appid
