@@ -30,6 +30,7 @@ use OCP\BackgroundJob\TimedJob;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
+use OCP\ILogger;
 use OCP\IDBConnection;
 use Psr\Log\LoggerInterface;
 
@@ -81,23 +82,6 @@ class ScanFiles extends TimedJob {
 	}
 
 	/**
-	 * Find a storage which have unindexed files and return a user with access to the storage
-	 *
-	 * @return string|false
-	 */
-	private function getUserToScan() {
-		$query = $this->connection->getQueryBuilder();
-		$query->select('user_id')
-			->from('filecache', 'f')
-			->innerJoin('f', 'mounts', 'm', $query->expr()->eq('storage_id', 'storage'))
-			->where($query->expr()->lt('size', $query->createNamedParameter(0, IQueryBuilder::PARAM_INT)))
-			->andWhere($query->expr()->gt('parent', $query->createNamedParameter(-1, IQueryBuilder::PARAM_INT)))
-			->setMaxResults(1);
-
-		return $query->executeQuery()->fetchOne();
-	}
-
-	/**
 	 * @param $argument
 	 * @throws \Exception
 	 */
@@ -106,18 +90,59 @@ class ScanFiles extends TimedJob {
 			return;
 		}
 
-		$usersScanned = 0;
-		$lastUser = '';
-		$user = $this->getUserToScan();
-		while ($user && $usersScanned < self::USERS_PER_SESSION && $lastUser !== $user) {
-			$this->runScanner($user);
-			$lastUser = $user;
-			$user = $this->getUserToScan();
-			$usersScanned += 1;
+		$usersScanned = [];
+		$storageScanned = [];
+
+		$query = $this->connection->getQueryBuilder();
+		$query->select('storage_id', 'user_id')->from('mounts');
+		$storageUsers = $query->executeQuery()->fetchAll();
+		$storageUsers = array_column($storageUsers, 'user_id', 'storage_id');
+		$mountedStorageIds = array_keys($storageUsers);
+
+		$query = $this->connection->getQueryBuilder();
+		$query->selectDistinct('storage')->from('filecache', 'f')
+			->where($query->expr()->lt('size', $query->createNamedParameter(0, IQueryBuilder::PARAM_INT)))
+			->andWhere($query->expr()->gt('parent', $query->createNamedParameter(-1, IQueryBuilder::PARAM_INT)));
+		$storageIds = $query->executeQuery()->fetchAll();
+		$storageIds = array_column($storageIds, 'storage');
+
+		$scanningStrageIds = array_intersect($mountedStorageIds, $storageIds);
+
+		foreach ($scanningStrageIds as $scanningStrageId) {
+			if (count($usersScanned) >= self::USERS_PER_SESSION) {
+				break;
+			}
+			$storageScanned[] = $scanningStrageId;
+			if (in_array($storageUsers[$scanningStrageId], $usersScanned)) {
+				continue;
+			}
+			$this->runScanner($storageUsers[$scanningStrageId]);
+			$usersScanned[] = $storageUsers[$scanningStrageId];
 		}
 
-		if ($lastUser === $user) {
-			$this->logger->warning("User $user still has unscanned files after running background scan, background scan might be stopped prematurely");
+		if ($this->config->getSystemValue('loglevel') > ILogger::WARN) {
+			return;
 		}
+
+		$query = $this->connection->getQueryBuilder();
+		$query->selectDistinct('storage')->from('filecache', 'f')
+			->where($query->expr()->lt('size', $query->createNamedParameter(0, IQueryBuilder::PARAM_INT)))
+			->andWhere($query->expr()->gt('parent', $query->createNamedParameter(-1, IQueryBuilder::PARAM_INT)))
+			->andWhere($query->expr()->in('storage', $query->createNamedParameter($storageScanned, IQueryBuilder::PARAM_INT_ARRAY)));
+		$unscannedStorageIds = $query->executeQuery()->fetchAll();
+		$unscannedStorageIds = array_column($unscannedStorageIds, 'storage');
+
+		foreach ($unscannedStorageIds as $unscannedStorageId) {
+			if (!isset($storageUsers[$unscannedStorageId])) {
+				continue;
+			}
+			$user = $storageUsers[$unscannedStorageId];
+			$userIndex = array_search($user, $usersScanned);
+			if ($userIndex !== false) {
+				unset($usersScanned[$userIndex]);
+				$this->logger->warning("User $user still has unscanned files after running background scan, background scan might be stopped prematurely");
+			}
+		}
+
 	}
 }
