@@ -144,10 +144,13 @@ class SettingsControllerTest extends TestCase {
 		// count other users in the db before adding our own
 		$count = 0;
 		$function = function (IUser $user) use (&$count) {
-			$count++;
+			if ($user->getLastLogin() > 0) {
+				$count++;
+			}
 		};
 		$userManager->callForAllUsers($function);
 		$user1 = $userManager->createUser('test101', 'test101');
+		$user1->updateLastLoginTimestamp();
 		$tokenProviderMock = $this->getMockBuilder(IAuthTokenProvider::class)->getMock();
 
 		// expect one call per user and ensure the correct client name
