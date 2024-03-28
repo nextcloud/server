@@ -411,11 +411,14 @@ class ShareController extends AuthPublicShareController {
 		$userFolder = $this->rootFolder->getUserFolder($share->getShareOwner());
 		$originalSharePath = $userFolder->getRelativePath($share->getNode()->getPath());
 
+		$isVideoAudio = false;
 
 		// Single file share
 		if ($share->getNode() instanceof \OCP\Files\File) {
+			$node = $share->getNode();
 			// Single file download
-			$this->singleFileDownloaded($share, $share->getNode());
+			$this->singleFileDownloaded($share, $node);
+			$isVideoAutio = str_starts_with($node->getMimeType(), 'video/') || str_starts_with($node->getMimeType(), 'audio/');
 		}
 		// Directory share
 		else {
@@ -436,8 +439,10 @@ class ShareController extends AuthPublicShareController {
 			$originalSharePath = $userFolder->getRelativePath($node->getPath());
 
 			if ($node instanceof \OCP\Files\File) {
+				$node = $share->getNode();
 				// Single file download
-				$this->singleFileDownloaded($share, $share->getNode());
+				$this->singleFileDownloaded($share, $node);
+				$isVideoAutio = str_starts_with($node->getMimeType(), 'video/') || str_starts_with($node->getMimeType(), 'audio/');
 			} else {
 				try {
 					if (!empty($files_list)) {
@@ -469,7 +474,11 @@ class ShareController extends AuthPublicShareController {
 		}
 
 		$this->emitAccessShareHook($share);
-		$this->emitShareAccessEvent($share, self::SHARE_DOWNLOAD);
+
+		// Ensure download limit is counted unless we are streaming a video or audio file
+		if (!isset($_SERVER['HTTP_RANGE']) || !$isVideoAudio) {
+			$this->emitShareAccessEvent($share, self::SHARE_DOWNLOAD);
+		}
 
 		$server_params = [ 'head' => $this->request->getMethod() === 'HEAD' ];
 
