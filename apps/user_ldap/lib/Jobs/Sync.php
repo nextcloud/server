@@ -319,7 +319,7 @@ class Sync extends TimedJob {
 		if (isset($argument['avatarManager'])) {
 			$this->avatarManager = $argument['avatarManager'];
 		} else {
-			$this->avatarManager = \OC::$server->getAvatarManager();
+			$this->avatarManager = \OC::$server->get(IAvatarManager::class);
 		}
 
 		if (isset($argument['dbc'])) {

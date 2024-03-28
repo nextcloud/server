@@ -35,6 +35,7 @@ use OCA\User_LDAP\User\Manager;
 use OCA\User_LDAP\User\User;
 use OCA\User_LDAP\User_LDAP;
 use OCA\User_LDAP\UserPluginManager;
+use OCP\IAvatarManager;
 use OCP\Image;
 use Psr\Log\LoggerInterface;
 
@@ -78,8 +79,8 @@ class IntegrationTestUserAvatar extends AbstractIntegrationTest {
 		\OC_Util::setupFS($username);
 		\OC::$server->getUserFolder($username);
 		\OC::$server->getConfig()->deleteUserValue($username, 'user_ldap', User::USER_PREFKEY_LASTREFRESH);
-		if (\OC::$server->getAvatarManager()->getAvatar($username)->exists()) {
-			\OC::$server->getAvatarManager()->getAvatar($username)->remove();
+		if (\OC::$server->get(IAvatarManager::class)->getAvatar($username)->exists()) {
+			\OC::$server->get(IAvatarManager::class)->getAvatar($username)->remove();
 		}
 
 		// finally attempt to get the avatar set
@@ -99,7 +100,7 @@ class IntegrationTestUserAvatar extends AbstractIntegrationTest {
 
 		$this->execFetchTest($dn, $username, $image);
 
-		return \OC::$server->getAvatarManager()->getAvatar($username)->exists();
+		return \OC::$server->get(IAvatarManager::class)->getAvatar($username)->exists();
 	}
 
 	/**
@@ -116,7 +117,7 @@ class IntegrationTestUserAvatar extends AbstractIntegrationTest {
 
 		$this->execFetchTest($dn, $username, $image);
 
-		return !\OC::$server->getAvatarManager()->getAvatar($username)->exists();
+		return !\OC::$server->get(IAvatarManager::class)->getAvatar($username)->exists();
 	}
 
 	/**
@@ -136,7 +137,7 @@ class IntegrationTestUserAvatar extends AbstractIntegrationTest {
 			\OC::$server->getConfig(),
 			new FilesystemHelper(),
 			\OC::$server->get(LoggerInterface::class),
-			\OC::$server->getAvatarManager(),
+			\OC::$server->get(IAvatarManager::class),
 			new Image(),
 			\OC::$server->getDatabaseConnection(),
 			\OC::$server->getUserManager(),
