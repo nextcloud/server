@@ -41,6 +41,9 @@ use OCP\Authentication\Exceptions\ExpiredTokenException;
 use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\DB\Exception;
 use OCP\IRequest;
+use OCP\IUserSession;
+use OCP\IURLGenerator;
+use OCP\IConfig;
 use OCP\Security\Bruteforce\IThrottler;
 use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
@@ -62,6 +65,9 @@ class OauthApiController extends Controller {
 		private LoggerInterface $logger,
 		private IThrottler $throttler,
 		private ITimeFactory $timeFactory,
+		private IUserSession $userSession,
+		private IURLGenerator $urlGenerator,
+		private IConfig $config,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -225,5 +231,46 @@ class OauthApiController extends Controller {
 				'user_id' => $appToken->getUID(),
 			]
 		);
+	}
+
+	/**
+	 * @PublicPage
+	 * @NoCSRFRequired
+	 *
+	 * @return JSONResponse
+	 */
+	public function getUserInfo(): JSONResponse {
+		$user = $this->userSession->getUser();
+		if ($user === null) {
+			return new JSONResponse([
+				'error' => 'user_not_found',
+			], Http::STATUS_NOT_FOUND);
+		}
+		$displayName = $user->getDisplayName();
+		$userId = $user->getUID();
+
+		$userInfo = [
+			'sub' => $userId,
+			'name' => $displayName,
+			'email' => $user->getEMailAddress(),
+			'picture' => $this->urlGenerator->getAbsoluteURL(
+				$this->urlGenerator->linkToRoute('core.avatar.getAvatar', [
+					'userId' => $userId,
+					'size' => 512
+				]))
+		];
+
+		$oauthConf = $this->config->getSystemValue('oauth2', ['process_name' => false]);
+		if ($oauthConf["process_name"] === true &&
+			key_exists("separator", $oauthConf) &&
+			key_exists("first_name_position", $oauthConf) &&
+			key_exists("family_name_position", $oauthConf) &&
+			$oauthConf["separator"] !== ""
+		) {
+			$partedName = explode($oauthConf["separator"], $displayName);
+			$userInfo['given_name'] = $partedName[$oauthConf["first_name_position"]];
+			$userInfo['family_name'] = $partedName[$oauthConf["family_name_position"]] ?? $partedName[0];
+		}
+		return new JSONResponse($userInfo);
 	}
 }
