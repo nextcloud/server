@@ -706,6 +706,28 @@ class OC {
 		$bootstrapCoordinator->runInitialRegistration();
 
 		$eventLogger->start('init_session', 'Initialize session');
+
+		// Check for PHP SimpleXML extension earlier since we need it before our other checks and want to provide a useful hint for web users
+		// see https://github.com/nextcloud/server/pull/2619
+		if (!function_exists('simplexml_load_file')) {
+			if (!defined('OC_CONSOLE') && !self::$CLI) {
+				$errors[] = [
+					// don't translate since languages may not be available yet
+					'error' => 'The PHP SimpleXML/PHP-XML extension is not installed.',
+					'hint' => 'Install the extension or make sure it is enabled.'
+				];
+				http_response_code(503);
+				OC_Util::addStyle('guest');
+				try {
+					OC_Template::printGuestPage('', 'error', ['errors' => $errors]);
+					exit;
+				} catch (\Exception $e) {
+					// In case any error happens when showing the error page, we simply fall back to posting the text.
+					// This might be the case when e.g. the data directory is broken and we can not load/write SCSS to/from it.
+				}
+			}
+		}
+		
 		OC_App::loadApps(['session']);
 		if (!self::$CLI) {
 			self::initSession();
