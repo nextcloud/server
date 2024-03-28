@@ -84,6 +84,8 @@ use Psr\Log\LoggerInterface;
  * @property string ldapAttributeHeadline
  * @property string ldapAttributeBiography
  * @property string ldapAdminGroup
+ * @property string ldapAttributeBirthDate
+ * @property string ldapAttributeAnniversaryDate
  */
 class Connection extends LDAPUtility {
 	/**

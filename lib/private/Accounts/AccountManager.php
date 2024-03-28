@@ -103,6 +103,8 @@ class AccountManager implements IAccountManager {
 		self::PROPERTY_ROLE => self::SCOPE_LOCAL,
 		self::PROPERTY_HEADLINE => self::SCOPE_LOCAL,
 		self::PROPERTY_BIOGRAPHY => self::SCOPE_LOCAL,
+		self::PROPERTY_BIRTHDATE => self::SCOPE_LOCAL,
+		self::PROPERTY_ANNIVERSARYDATE => self::SCOPE_LOCAL,
 	];
 
 	public function __construct(
@@ -693,6 +695,18 @@ class AccountManager implements IAccountManager {
 				'name' => self::PROPERTY_BIOGRAPHY,
 				'value' => '',
 				'scope' => $scopes[self::PROPERTY_BIOGRAPHY],
+			],
+
+			[
+				'name' => self::PROPERTY_BIRTHDATE,
+				'value' => '',
+				'scope' => $scopes[self::PROPERTY_BIRTHDATE],
+			],
+
+			[
+				'name' => self::PROPERTY_ANNIVERSARYDATE,
+				'value' => '',
+				'scope' => $scopes[self::PROPERTY_ANNIVERSARYDATE],
 			],
 
 			[

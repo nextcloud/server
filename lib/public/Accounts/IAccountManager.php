@@ -178,6 +178,10 @@ interface IAccountManager {
 	 */
 	public const PROPERTY_PROFILE_ENABLED = 'profile_enabled';
 
+	// To hold extra LDAP attributes
+	public const PROPERTY_BIRTHDATE = 'birthdate';
+	public const PROPERTY_ANNIVERSARYDATE = 'anniversarydate';
+
 	/**
 	 * The list of allowed properties
 	 *
@@ -197,6 +201,8 @@ interface IAccountManager {
 		self::PROPERTY_HEADLINE,
 		self::PROPERTY_BIOGRAPHY,
 		self::PROPERTY_PROFILE_ENABLED,
+		self::PROPERTY_BIRTHDATE,
+		self::PROPERTY_ANNIVERSARYDATE,
 	];
 
 
