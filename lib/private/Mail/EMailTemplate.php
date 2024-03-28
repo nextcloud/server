@@ -587,6 +587,25 @@ EOF;
 	}
 
 	/**
+	 * Adds a HTML fragment to the body of the email. Use only for basic HTML fragments and make sure the given HTML is valid, as this can affect the whole email HTML body
+	 *
+	 * @param string $html The HTML fragment to add to the body of the email
+	 * @param string $plainText The plain text alternative version for the HTML fragment
+	 * @since 27.0.0
+	 */
+	public function addHTMLFragment(string $html, string $plainText): void {
+		if ($this->footerAdded) {
+			return;
+		}
+
+		$this->ensureBodyListClosed();
+		$this->ensureBodyIsOpened();
+
+		$this->htmlBody .= $html;
+		$this->plainBody .= $plainText . PHP_EOL . PHP_EOL;
+	}
+
+	/**
 	 * Close the HTML body when it is open
 	 */
 	protected function ensureBodyIsClosed(): void {

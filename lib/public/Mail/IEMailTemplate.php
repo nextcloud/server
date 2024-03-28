@@ -137,6 +137,15 @@ interface IEMailTemplate {
 	public function addBodyButton(string $text, string $url, $plainText = '');
 
 	/**
+	 * Adds a HTML fragment to the body of the email. Use only for basic HTML fragments and make sure the given HTML is valid, as this can affect the whole email HTML body
+	 *
+	 * @param string $html The HTML fragment to add to the body of the email
+	 * @param string $plainText The plain text alternative version for the HTML fragment
+	 * @since 27.0.0
+	 */
+	public function addHTMLFragment(string $html, string $plainText): void;
+
+	/**
 	 * Adds a logo and a text to the footer. <br> in the text will be replaced by new lines in the plain text email
 	 *
 	 * @param string $text If the text is empty the default "Name - Slogan<br>This is an automatically sent email" will be used
