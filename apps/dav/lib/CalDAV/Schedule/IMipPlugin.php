@@ -218,6 +218,13 @@ class IMipPlugin extends SabreIMipPlugin {
 		if ($this->userId !== null && ($senderName === null || empty(trim($senderName)))) {
 			$senderName = $this->userManager->getDisplayName($this->userId);
 		}
+		//if sender name is empty sometimes in case of email client
+		if ($senderName === null || empty(trim($senderName))) {
+				$users = $this->userManager->getByEmail($sender);
+			if (count($users) === 1) {
+				$senderName = $users[0]->getDisplayName();
+			}
+		}
 
 		$sender = substr($iTipMessage->sender, 7);
 
