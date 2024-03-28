@@ -87,6 +87,7 @@ class DashboardController extends Controller {
 		$this->initialState->provideInitialState('panels', $widgets);
 		$this->initialState->provideInitialState('statuses', $statuses);
 		$this->initialState->provideInitialState('layout', $userLayout);
+		$this->initialState->provideInitialState('appStoreEnabled', $this->config->getSystemValueBool('appstoreenabled', true));
 		$this->initialState->provideInitialState('firstRun', $this->config->getUserValue($this->userId, 'dashboard', 'firstRun', '1') === '1');
 		$this->config->setUserValue($this->userId, 'dashboard', 'firstRun', '0');
 
