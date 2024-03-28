@@ -29,6 +29,7 @@
  */
 namespace OC\Files\Cache;
 
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\Storage\IStorage;
 use OCP\IDBConnection;
@@ -78,9 +79,16 @@ class Storage {
 			$this->numericId = (int)$row['numeric_id'];
 		} else {
 			$available = $isAvailable ? 1 : 0;
-			if ($connection->insertIfNotExist('*PREFIX*storages', ['id' => $this->storageId, 'available' => $available])) {
-				$this->numericId = $connection->lastInsertId('*PREFIX*storages');
-			} else {
+			$query = $connection->getQueryBuilder();
+			$query->insert('storages')
+				->values([
+					'id' => $query->createNamedParameter($this->storageId),
+					'available' => $query->createNamedParameter($available, IQueryBuilder::PARAM_INT),
+				]);
+			try {
+				$query->executeStatement();
+				$this->numericId = $query->getLastInsertId();
+			} catch (UniqueConstraintViolationException $e) {
 				if ($row = self::getStorageById($this->storageId)) {
 					$this->numericId = (int)$row['numeric_id'];
 				} else {
