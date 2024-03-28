@@ -33,6 +33,7 @@ use OCA\Files_Sharing\Event\ShareMountedEvent;
 use OCP\Cache\CappedMemoryCache;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Config\IMountProvider;
+use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\ICacheFactory;
 use OCP\IConfig;
@@ -101,6 +102,13 @@ class MountProvider implements IMountProvider {
 				if (!isset($ownerViews[$owner])) {
 					$ownerViews[$owner] = new View('/' . $parentShare->getShareOwner() . '/files');
 				}
+
+				try {
+					$ownerViews[$owner]->getPath($parentShare->getNodeId());
+				} catch (NotFoundException $e) {
+					continue;
+				}
+
 				$mount = new SharedMount(
 					'\OCA\Files_Sharing\SharedStorage',
 					$mounts,
