@@ -163,7 +163,7 @@ class HookManager {
 		}
 	}
 
-	public function firstLogin(IUser $user = null) {
+	public function firstLogin(?IUser $user = null) {
 		if (!is_null($user)) {
 			$principal = 'principals/users/' . $user->getUID();
 			if ($this->calDav->getCalendarsForUserCount($principal) === 0) {

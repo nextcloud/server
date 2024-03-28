@@ -39,7 +39,7 @@ interface IDataCollector {
 	 * Collects data for the given Request and Response.
 	 * @since 24.0.0
 	 */
-	public function collect(Request $request, Response $response, \Throwable $exception = null): void;
+	public function collect(Request $request, Response $response, ?\Throwable $exception = null): void;
 
 	/**
 	 * Reset the state of the profiler.

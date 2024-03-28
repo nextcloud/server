@@ -51,7 +51,7 @@ class SessionCredentials extends AuthMechanism {
 			->addParameters([]);
 	}
 
-	public function manipulateStorageConfig(StorageConfig &$storage, IUser $user = null) {
+	public function manipulateStorageConfig(StorageConfig &$storage, ?IUser $user = null) {
 		try {
 			$credentials = $this->credentialsStore->getLoginCredentials();
 		} catch (CredentialsUnavailableException $e) {

@@ -121,7 +121,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	public function __construct(array $vars,
 		IRequestId $requestId,
 		IConfig $config,
-		CsrfTokenManager $csrfTokenManager = null,
+		?CsrfTokenManager $csrfTokenManager = null,
 		string $stream = 'php://input') {
 		$this->inputStream = $stream;
 		$this->items['params'] = [];
@@ -432,8 +432,8 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 					$this->items['post'] = $params;
 				}
 			}
-		// Handle application/x-www-form-urlencoded for methods other than GET
-		// or post correctly
+			// Handle application/x-www-form-urlencoded for methods other than GET
+			// or post correctly
 		} elseif ($this->method !== 'GET'
 				&& $this->method !== 'POST'
 				&& str_contains($this->getHeader('Content-Type'), 'application/x-www-form-urlencoded')) {

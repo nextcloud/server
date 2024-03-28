@@ -470,7 +470,7 @@ class BirthdayService {
 	 */
 	private function formatTitle(string $field,
 		string $name,
-		int $year = null,
+		?int $year = null,
 		bool $supports4Byte = true):string {
 		if ($supports4Byte) {
 			switch ($field) {

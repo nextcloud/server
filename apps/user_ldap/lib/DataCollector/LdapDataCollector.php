@@ -48,6 +48,6 @@ class LdapDataCollector extends AbstractDataCollector {
 		return 'ldap';
 	}
 
-	public function collect(Request $request, Response $response, \Throwable $exception = null): void {
+	public function collect(Request $request, Response $response, ?\Throwable $exception = null): void {
 	}
 }

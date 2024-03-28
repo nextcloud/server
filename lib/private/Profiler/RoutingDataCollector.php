@@ -41,7 +41,7 @@ class RoutingDataCollector extends AbstractDataCollector {
 		$this->actionName = $actionName;
 	}
 
-	public function collect(Request $request, Response $response, \Throwable $exception = null): void {
+	public function collect(Request $request, Response $response, ?\Throwable $exception = null): void {
 		$this->data = [
 			'appName' => $this->appName,
 			'controllerName' => $this->controllerName,

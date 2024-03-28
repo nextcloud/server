@@ -313,7 +313,7 @@ class Manager {
 	 * @param IUser $user the currently logged in user
 	 * @return boolean
 	 */
-	public function needsSecondFactor(IUser $user = null): bool {
+	public function needsSecondFactor(?IUser $user = null): bool {
 		if ($user === null) {
 			return false;
 		}

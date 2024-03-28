@@ -59,7 +59,7 @@ abstract class QBMapper {
 	 * mapped to queries without using sql
 	 * @since 14.0.0
 	 */
-	public function __construct(IDBConnection $db, string $tableName, string $entityClass = null) {
+	public function __construct(IDBConnection $db, string $tableName, ?string $entityClass = null) {
 		$this->db = $db;
 		$this->tableName = $tableName;
 

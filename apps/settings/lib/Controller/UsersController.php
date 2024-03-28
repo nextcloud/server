@@ -391,10 +391,10 @@ class UsersController extends Controller {
 				continue;
 			}
 			$property = $userAccount->getProperty($property);
-			if (null !== $data['value']) {
+			if ($data['value'] !== null) {
 				$property->setValue($data['value']);
 			}
-			if (null !== $data['scope']) {
+			if ($data['scope'] !== null) {
 				$property->setScope($data['scope']);
 			}
 		}

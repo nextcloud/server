@@ -105,7 +105,7 @@ class Util {
 	 * @return string
 	 * @throws ModuleDoesNotExistsException
 	 */
-	public function getEncryptionModuleId(array $header = null) {
+	public function getEncryptionModuleId(?array $header = null) {
 		$id = '';
 		$encryptionModuleKey = self::HEADER_ENCRYPTION_MODULE_KEY;
 

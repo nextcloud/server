@@ -353,7 +353,7 @@ trait Sharing {
 				return is_numeric((string)$data->$field);
 			} elseif ($contentExpected == "AN_URL") {
 				return $this->isExpectedUrl((string)$data->$field, "index.php/s/");
-			} elseif ($data->$field == $contentExpected) {
+			} elseif ($contentExpected == $data->$field) {
 				return true;
 			}
 			return false;
