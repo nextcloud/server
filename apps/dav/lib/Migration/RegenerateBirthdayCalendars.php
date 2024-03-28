@@ -4,6 +4,7 @@
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -30,36 +31,22 @@ use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 
 class RegenerateBirthdayCalendars implements IRepairStep {
+	private IJobList $jobList;
+	private IConfig $config;
 
-	/** @var IJobList */
-	private $jobList;
-
-	/** @var IConfig */
-	private $config;
-
-	/**
-	 * @param IJobList $jobList
-	 * @param IConfig $config
-	 */
 	public function __construct(IJobList $jobList,
 		IConfig $config) {
 		$this->jobList = $jobList;
 		$this->config = $config;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getName() {
+	public function getName(): string {
 		return 'Regenerating birthday calendars to use new icons and fix old birthday events without year';
 	}
 
-	/**
-	 * @param IOutput $output
-	 */
-	public function run(IOutput $output) {
+	public function run(IOutput $output): void {
 		// only run once
-		if ($this->config->getAppValue('dav', 'regeneratedBirthdayCalendarsForYearFix') === 'yes') {
+		if ($this->config->getAppValue('dav', 'regeneratedBirthdayCalendarsForYearFix') === 'yes' && $this->config->getAppValue('dav', 'regeneratedBirthdayCalendarsForAlarmFix') === 'yes') {
 			$output->info('Repair step already executed');
 			return;
 		}
@@ -69,5 +56,6 @@ class RegenerateBirthdayCalendars implements IRepairStep {
 
 		// if all were done, no need to redo the repair during next upgrade
 		$this->config->setAppValue('dav', 'regeneratedBirthdayCalendarsForYearFix', 'yes');
+		$this->config->setAppValue('dav', 'regeneratedBirthdayCalendarsForAlarmFix', 'yes');
 	}
 }
