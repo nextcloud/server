@@ -104,7 +104,7 @@ class Account implements IAccount {
 		}
 	}
 
-	public function getFilteredProperties(string $scope = null, string $verified = null): array {
+	public function getFilteredProperties(?string $scope = null, ?string $verified = null): array {
 		$result = $incrementals = [];
 		/** @var IAccountProperty $obj */
 		foreach ($this->getAllProperties() as $obj) {

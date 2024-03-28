@@ -218,7 +218,7 @@ class Redis extends Cache implements IMemcacheTTL {
 		$script = self::LUA_SCRIPTS[$scriptName];
 
 		$result = $this->getCache()->evalSha($script[1], $args, count($keys));
-		if (false === $result) {
+		if ($result === false) {
 			$result = $this->getCache()->eval($script[0], $args, count($keys));
 		}
 

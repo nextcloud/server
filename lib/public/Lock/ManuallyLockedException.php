@@ -58,7 +58,7 @@ class ManuallyLockedException extends LockedException {
 	 *
 	 * @since 18.0.0
 	 */
-	public function __construct(string $path, \Exception $previous = null, ?string $existingLock = null, ?string $owner = null, int $timeout = -1) {
+	public function __construct(string $path, ?\Exception $previous = null, ?string $existingLock = null, ?string $owner = null, int $timeout = -1) {
 		parent::__construct($path, $previous, $existingLock);
 		$this->owner = $owner;
 		$this->timeout = $timeout;

@@ -34,7 +34,7 @@ class SearchResult implements ISearchResult {
 
 	protected array $exactIdMatches = [];
 
-	public function addResultSet(SearchResultType $type, array $matches, array $exactMatches = null): void {
+	public function addResultSet(SearchResultType $type, array $matches, ?array $exactMatches = null): void {
 		$type = $type->getLabel();
 		if (!isset($this->result[$type])) {
 			$this->result[$type] = [];

@@ -48,7 +48,7 @@ use function class_exists;
  * @return LoggerInterface
  * @since 24.0.0
  */
-function logger(string $appId = null): LoggerInterface {
+function logger(?string $appId = null): LoggerInterface {
 	/** @psalm-suppress TypeDoesNotContainNull false-positive, it may contain null if we are logging from initialization */
 	if (!class_exists(OC::class) || OC::$server === null) {
 		// If someone calls this log before Nextcloud is initialized, there is

@@ -83,7 +83,7 @@ abstract class ProviderV2 implements IProviderV2 {
 	 * @param int $maxSize maximum size for temporary files
 	 * @return string|false
 	 */
-	protected function getLocalFile(File $file, int $maxSize = null) {
+	protected function getLocalFile(File $file, ?int $maxSize = null) {
 		if ($this->useTempFile($file)) {
 			$absPath = \OC::$server->getTempManager()->getTemporaryFile();
 

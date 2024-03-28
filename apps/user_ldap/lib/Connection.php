@@ -307,7 +307,7 @@ class Connection extends LDAPUtility {
 	 * @param string $key
 	 * @param mixed $value
 	 */
-	public function writeToCache($key, $value, int $ttlOverride = null): void {
+	public function writeToCache($key, $value, ?int $ttlOverride = null): void {
 		if (!$this->configured) {
 			$this->readConfiguration();
 		}

@@ -902,7 +902,7 @@ class Manager implements IManager {
 		$link,
 		$initiator,
 		$shareWith,
-		\DateTime $expiration = null,
+		?\DateTime $expiration = null,
 		$note = '') {
 		$initiatorUser = $this->userManager->get($initiator);
 		$initiatorDisplayName = ($initiatorUser instanceof IUser) ? $initiatorUser->getDisplayName() : $initiator;

@@ -64,7 +64,7 @@ class LoginResult {
 	/**
 	 * @param LoginController::LOGIN_MSG_*|null $msg
 	 */
-	public static function failure(LoginData $data, string $msg = null): LoginResult {
+	public static function failure(LoginData $data, ?string $msg = null): LoginResult {
 		$result = new static(false, $data);
 		if ($msg !== null) {
 			$result->setErrorMessage($msg);

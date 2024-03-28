@@ -244,7 +244,7 @@ class User {
 			($profileCached === null) && // no cache or TTL not expired
 			!$this->wasRefreshed('profile')) {
 			// check current data
-			$profileValues = array();
+			$profileValues = [];
 			//User Profile Field - Phone number
 			$attr = strtolower($this->connection->ldapAttributePhone);
 			if (!empty($attr)) { // attribute configured
@@ -316,7 +316,7 @@ class User {
 				if (str_contains($ldapEntry[$attr][0], '\r')) {
 					// convert line endings
 					$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_BIOGRAPHY]
-						= str_replace(array("\r\n","\r"), "\n", $ldapEntry[$attr][0]);
+						= str_replace(["\r\n","\r"], "\n", $ldapEntry[$attr][0]);
 				} else {
 					$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_BIOGRAPHY]
 						= $ldapEntry[$attr][0];
@@ -397,9 +397,9 @@ class User {
 		if ($path !== '') {
 			//if attribute's value is an absolute path take this, otherwise append it to data dir
 			//check for / at the beginning or pattern c:\ resp. c:/
-			if ('/' !== $path[0]
-			   && !(3 < strlen($path) && ctype_alpha($path[0])
-				   && $path[1] === ':' && ('\\' === $path[2] || '/' === $path[2]))
+			if ($path[0] !== '/'
+			   && !(strlen($path) > 3 && ctype_alpha($path[0])
+				   && $path[1] === ':' && ($path[2] === '\\' || $path[2] === '/'))
 			) {
 				$path = $this->config->getSystemValue('datadirectory',
 					\OC::$SERVERROOT.'/data') . '/' . $path;
@@ -785,7 +785,7 @@ class User {
 	 * @throws \OCP\PreConditionNotMetException
 	 * @throws \OC\ServerNotAvailableException
 	 */
-	public function updateExtStorageHome(string $valueFromLDAP = null):string {
+	public function updateExtStorageHome(?string $valueFromLDAP = null):string {
 		if ($valueFromLDAP === null) {
 			$extHomeValues = $this->access->readAttribute($this->getDN(), $this->connection->ldapExtStorageHomeAttribute);
 		} else {

@@ -40,7 +40,7 @@ class BeforeNodeRestoredEvent extends AbstractNodesEvent {
 	/**
 	 * @return never
 	 */
-	public function abortOperation(\Throwable $ex = null) {
+	public function abortOperation(?\Throwable $ex = null) {
 		$this->stopPropagation();
 		$this->run = false;
 		if ($ex !== null) {

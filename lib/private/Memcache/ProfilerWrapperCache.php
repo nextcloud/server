@@ -216,7 +216,7 @@ class ProfilerWrapperCache extends AbstractDataCollector implements IMemcacheTTL
 		$this->remove($offset);
 	}
 
-	public function collect(Request $request, Response $response, \Throwable $exception = null): void {
+	public function collect(Request $request, Response $response, ?\Throwable $exception = null): void {
 		// Nothing to do here $data is already ready
 	}
 

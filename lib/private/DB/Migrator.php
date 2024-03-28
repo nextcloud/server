@@ -145,7 +145,7 @@ class Migrator {
 	/**
 	 * @throws Exception
 	 */
-	protected function applySchema(Schema $targetSchema, Connection $connection = null) {
+	protected function applySchema(Schema $targetSchema, ?Connection $connection = null) {
 		if (is_null($connection)) {
 			$connection = $this->connection;
 		}

@@ -204,7 +204,7 @@ class UserThemeController extends OCSController {
 	 * 200: Background set successfully
 	 * 400: Setting background is not possible
 	 */
-	public function setBackground(string $type = BackgroundService::BACKGROUND_DEFAULT, string $value = '', string $color = null): JSONResponse {
+	public function setBackground(string $type = BackgroundService::BACKGROUND_DEFAULT, string $value = '', ?string $color = null): JSONResponse {
 		$currentVersion = (int)$this->config->getUserValue($this->userId, Application::APP_ID, 'userCacheBuster', '0');
 
 		// Set color if provided

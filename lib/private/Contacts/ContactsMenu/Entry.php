@@ -111,9 +111,9 @@ class Entry implements IEntry {
 	}
 
 	public function setStatus(string $status,
-		string $statusMessage = null,
-		int $statusMessageTimestamp = null,
-		string $icon = null): void {
+		?string $statusMessage = null,
+		?int $statusMessageTimestamp = null,
+		?string $icon = null): void {
 		$this->status = $status;
 		$this->statusMessage = $statusMessage;
 		$this->statusMessageTimestamp = $statusMessageTimestamp;

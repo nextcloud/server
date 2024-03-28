@@ -289,7 +289,7 @@ class Generator {
 	 * @return int number of concurrent preview generations, or -1 if $type is invalid
 	 */
 	public function getNumConcurrentPreviews(string $type): int {
-		static $cached = array();
+		static $cached = [];
 		if (array_key_exists($type, $cached)) {
 			return $cached[$type];
 		}

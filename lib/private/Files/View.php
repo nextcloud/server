@@ -802,14 +802,14 @@ class View {
 							} else {
 								$result = false;
 							}
-						// moving a file/folder within the same mount point
+							// moving a file/folder within the same mount point
 						} elseif ($storage1 === $storage2) {
 							if ($storage1) {
 								$result = $storage1->rename($internalPath1, $internalPath2);
 							} else {
 								$result = false;
 							}
-						// moving a file/folder between storages (from $storage1 to $storage2)
+							// moving a file/folder between storages (from $storage1 to $storage2)
 						} else {
 							$result = $storage2->moveFromStorage($storage1, $internalPath1, $internalPath2);
 						}
@@ -1428,7 +1428,7 @@ class View {
 	 * @param string $mimetype_filter limit returned content to this mimetype or mimepart
 	 * @return FileInfo[]
 	 */
-	public function getDirectoryContent($directory, $mimetype_filter = '', \OCP\Files\FileInfo $directoryInfo = null) {
+	public function getDirectoryContent($directory, $mimetype_filter = '', ?\OCP\Files\FileInfo $directoryInfo = null) {
 		$this->assertPathLength($directory);
 		if (!Filesystem::isValidPath($directory)) {
 			return [];
@@ -1733,7 +1733,7 @@ class View {
 	 * @return string
 	 * @throws NotFoundException
 	 */
-	public function getPath($id, int $storageId = null) {
+	public function getPath($id, ?int $storageId = null) {
 		$id = (int)$id;
 		$manager = Filesystem::getMountManager();
 		$mounts = $manager->findIn($this->fakeRoot);

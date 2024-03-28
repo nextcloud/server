@@ -53,7 +53,7 @@ class LockedException extends \Exception {
 	 * @param string $readablePath since 20.0.0
 	 * @since 8.1.0
 	 */
-	public function __construct(string $path, \Exception $previous = null, string $existingLock = null, string $readablePath = null) {
+	public function __construct(string $path, ?\Exception $previous = null, ?string $existingLock = null, ?string $readablePath = null) {
 		if ($readablePath) {
 			$message = "\"$path\"(\"$readablePath\") is locked";
 		} else {

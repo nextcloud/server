@@ -301,7 +301,7 @@ class FTP extends Common {
 		return false;
 	}
 
-	public function writeStream(string $path, $stream, int $size = null): int {
+	public function writeStream(string $path, $stream, ?int $size = null): int {
 		if ($size === null) {
 			$stream = CountWrapper::wrap($stream, function ($writtenSize) use (&$size) {
 				$size = $writtenSize;

@@ -121,7 +121,7 @@ class UserThemeControllerTest extends TestCase {
 	 * @param string $themeId
 	 * @param string $exception
 	 */
-	public function testEnableTheme($themeId, string $exception = null) {
+	public function testEnableTheme($themeId, ?string $exception = null) {
 		$this->themesService
 			->expects($this->any())
 			->method('getThemes')
@@ -141,7 +141,7 @@ class UserThemeControllerTest extends TestCase {
 	 * @param string $themeId
 	 * @param string $exception
 	 */
-	public function testDisableTheme($themeId, string $exception = null) {
+	public function testDisableTheme($themeId, ?string $exception = null) {
 		$this->themesService
 			->expects($this->any())
 			->method('getThemes')

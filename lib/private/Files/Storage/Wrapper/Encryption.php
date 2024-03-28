@@ -107,15 +107,15 @@ class Encryption extends Wrapper {
 	 */
 	public function __construct(
 		$parameters,
-		IManager $encryptionManager = null,
-		Util $util = null,
-		LoggerInterface $logger = null,
-		IFile $fileHelper = null,
+		?IManager $encryptionManager = null,
+		?Util $util = null,
+		?LoggerInterface $logger = null,
+		?IFile $fileHelper = null,
 		$uid = null,
-		IStorage $keyStorage = null,
-		Update $update = null,
-		Manager $mountManager = null,
-		ArrayCache $arrayCache = null
+		?IStorage $keyStorage = null,
+		?Update $update = null,
+		?Manager $mountManager = null,
+		?ArrayCache $arrayCache = null
 	) {
 		$this->mountPoint = $parameters['mountPoint'];
 		$this->mount = $parameters['mount'];
@@ -1062,7 +1062,7 @@ class Encryption extends Wrapper {
 		return $encryptionModule->shouldEncrypt($fullPath);
 	}
 
-	public function writeStream(string $path, $stream, int $size = null): int {
+	public function writeStream(string $path, $stream, ?int $size = null): int {
 		// always fall back to fopen
 		$target = $this->fopen($path, 'w');
 		[$count, $result] = \OC_Helper::streamCopy($stream, $target);

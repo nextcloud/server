@@ -79,7 +79,7 @@ class MigrationService {
 			$this->migrationsNamespace = 'OC\\Core\\Migrations';
 			$this->checkOracle = true;
 		} else {
-			if (null === $appLocator) {
+			if ($appLocator === null) {
 				$appLocator = new AppLocator();
 			}
 			$appPath = $appLocator->getAppPath($appName);

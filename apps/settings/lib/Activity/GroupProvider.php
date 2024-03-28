@@ -64,7 +64,7 @@ class GroupProvider implements IProvider {
 		$this->groupManager = $groupManager;
 	}
 
-	public function parse($language, IEvent $event, IEvent $previousEvent = null) {
+	public function parse($language, IEvent $event, ?IEvent $previousEvent = null) {
 		if ($event->getType() !== 'group_settings') {
 			throw new InvalidArgumentException();
 		}

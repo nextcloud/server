@@ -117,7 +117,7 @@ class GroupsController extends AUserData {
 	 *
 	 * 200: Groups details returned
 	 */
-	public function getGroupsDetails(string $search = '', int $limit = null, int $offset = 0): DataResponse {
+	public function getGroupsDetails(string $search = '', ?int $limit = null, int $offset = 0): DataResponse {
 		$groups = $this->groupManager->search($search, $limit, $offset);
 		$groups = array_map(function ($group) {
 			/** @var IGroup $group */
@@ -209,7 +209,7 @@ class GroupsController extends AUserData {
 	 *
 	 * 200: Group users details returned
 	 */
-	public function getGroupUsersDetails(string $groupId, string $search = '', int $limit = null, int $offset = 0): DataResponse {
+	public function getGroupUsersDetails(string $groupId, string $search = '', ?int $limit = null, int $offset = 0): DataResponse {
 		$groupId = urldecode($groupId);
 		$currentUser = $this->userSession->getUser();
 

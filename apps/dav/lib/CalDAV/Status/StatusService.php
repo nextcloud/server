@@ -154,7 +154,7 @@ class StatusService {
 			}
 
 			$sct = $calendarObject->getSchedulingTransparency();
-			if ($sct !== null && ScheduleCalendarTransp::TRANSPARENT == strtolower($sct->getValue())) {
+			if ($sct !== null && strtolower($sct->getValue()) == ScheduleCalendarTransp::TRANSPARENT) {
 				// If a calendar is marked as 'transparent', it means we must
 				// ignore it for free-busy purposes.
 				continue;

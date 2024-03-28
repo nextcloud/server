@@ -51,7 +51,7 @@ class File extends PagedProvider {
 	 * @return \OCP\Search\Result[]
 	 * @deprecated 20.0.0
 	 */
-	public function search($query, int $limit = null, int $offset = null) {
+	public function search($query, ?int $limit = null, ?int $offset = null) {
 		/** @var IRootFolder $rootFolder */
 		$rootFolder = \OCP\Server::get(IRootFolder::class);
 		/** @var IUserSession $userSession */

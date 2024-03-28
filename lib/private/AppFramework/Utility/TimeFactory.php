@@ -60,7 +60,7 @@ class TimeFactory implements ITimeFactory {
 	 * @since 15.0.0
 	 * @deprecated 26.0.0 {@see ITimeFactory::now()}
 	 */
-	public function getDateTime(string $time = 'now', \DateTimeZone $timezone = null): \DateTime {
+	public function getDateTime(string $time = 'now', ?\DateTimeZone $timezone = null): \DateTime {
 		return new \DateTime($time, $timezone);
 	}
 

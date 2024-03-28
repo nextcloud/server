@@ -41,7 +41,7 @@ class BeforeUserLoggedOutEvent extends Event {
 	/**
 	 * @since 18.0.0
 	 */
-	public function __construct(IUser $user = null) {
+	public function __construct(?IUser $user = null) {
 		parent::__construct();
 		$this->user = $user;
 	}

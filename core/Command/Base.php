@@ -70,7 +70,7 @@ class Base extends Command implements CompletionAwareInterface {
 						$this->writeArrayInOutputFormat($input, $output, $item, '  ' . $prefix);
 						continue;
 					}
-					if (!is_int($key) || ListCommand::class === get_class($this)) {
+					if (!is_int($key) || get_class($this) === ListCommand::class) {
 						$value = $this->valueToString($item);
 						if (!is_null($value)) {
 							$output->writeln($prefix . $key . ': ' . $value);

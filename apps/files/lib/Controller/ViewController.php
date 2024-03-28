@@ -135,7 +135,7 @@ class ViewController extends Controller {
 	 * @param string $fileid
 	 * @return TemplateResponse|RedirectResponse
 	 */
-	public function showFile(string $fileid = null): Response {
+	public function showFile(?string $fileid = null): Response {
 		if (!$fileid) {
 			return new RedirectResponse($this->urlGenerator->linkToRoute('files.view.index'));
 		}

@@ -38,7 +38,7 @@ class InvalidPath extends Exception {
 	 * @param bool $retry
 	 * @param \Exception|null $previous
 	 */
-	public function __construct($message, $retry = false, \Exception $previous = null) {
+	public function __construct($message, $retry = false, ?\Exception $previous = null) {
 		parent::__construct($message, 0, $previous);
 		$this->retry = $retry;
 	}

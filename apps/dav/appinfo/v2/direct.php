@@ -24,7 +24,7 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-use \OCA\DAV\Direct\ServerFactory;
+use OCA\DAV\Direct\ServerFactory;
 
 // no php execution timeout for webdav
 if (!str_contains(@ini_get('disable_functions'), 'set_time_limit')) {

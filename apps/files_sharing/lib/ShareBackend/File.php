@@ -51,7 +51,7 @@ class File implements \OCP\Share_Backend_File_Dependent {
 	/** @var FederatedShareProvider */
 	private $federatedShareProvider;
 
-	public function __construct(FederatedShareProvider $federatedShareProvider = null) {
+	public function __construct(?FederatedShareProvider $federatedShareProvider = null) {
 		if ($federatedShareProvider) {
 			$this->federatedShareProvider = $federatedShareProvider;
 		} else {

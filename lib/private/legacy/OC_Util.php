@@ -970,11 +970,11 @@ class OC_Util {
 	 */
 	private static function isNonUTF8Locale() {
 		if (function_exists('escapeshellcmd')) {
-			return '' === escapeshellcmd('§');
+			return escapeshellcmd('§') === '';
 		} elseif (function_exists('escapeshellarg')) {
-			return '\'\'' === escapeshellarg('§');
+			return escapeshellarg('§') === '\'\'';
 		} else {
-			return 0 === preg_match('/utf-?8/i', setlocale(LC_CTYPE, 0));
+			return preg_match('/utf-?8/i', setlocale(LC_CTYPE, 0)) === 0;
 		}
 	}
 

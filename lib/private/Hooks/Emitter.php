@@ -49,5 +49,5 @@ interface Emitter {
 	 * @return void
 	 * @deprecated 18.0.0 use \OCP\EventDispatcher\IEventDispatcher::removeListener
 	 */
-	public function removeListener($scope = null, $method = null, callable $callback = null);
+	public function removeListener($scope = null, $method = null, ?callable $callback = null);
 }

@@ -35,7 +35,7 @@ class BeforeNodeDeletedEvent extends AbstractNodeEvent {
 	 * @since 28.0.0
 	 * @deprecated 29.0.0 - use OCP\Exceptions\AbortedEventException instead
 	 */
-	public function abortOperation(\Throwable $ex = null) {
+	public function abortOperation(?\Throwable $ex = null) {
 		throw new AbortedEventException($ex?->getMessage() ?? 'Operation aborted');
 	}
 }

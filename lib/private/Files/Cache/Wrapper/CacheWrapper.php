@@ -43,7 +43,7 @@ class CacheWrapper extends Cache {
 	 */
 	protected $cache;
 
-	public function __construct(?ICache $cache, CacheDependencies $dependencies = null) {
+	public function __construct(?ICache $cache, ?CacheDependencies $dependencies = null) {
 		$this->cache = $cache;
 		if (!$dependencies && $cache instanceof Cache) {
 			$this->mimetypeLoader = $cache->mimetypeLoader;

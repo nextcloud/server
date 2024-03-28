@@ -54,7 +54,7 @@ interface IObjectStore {
 	 * @throws \Exception when something goes wrong, message will be logged
 	 * @since 7.0.0
 	 */
-	public function writeObject($urn, $stream, string $mimetype = null);
+	public function writeObject($urn, $stream, ?string $mimetype = null);
 
 	/**
 	 * @param string $urn the unified resource name used to identify the object

@@ -135,7 +135,7 @@ interface IGroup {
 	 * @return IUser[]
 	 * @since 8.0.0
 	 */
-	public function searchDisplayName(string $search, int $limit = null, int $offset = null): array;
+	public function searchDisplayName(string $search, ?int $limit = null, ?int $offset = null): array;
 
 	/**
 	 * Get the names of the backends the group is connected to

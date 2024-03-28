@@ -199,7 +199,7 @@ class CalDavContext implements \Behat\Behat\Context\Context {
 	 * @throws \Exception
 	 */
 	public function theCaldavResponseShouldBeMultiStatus(): void {
-		if (207 !== $this->response->getStatusCode()) {
+		if ($this->response->getStatusCode() !== 207) {
 			throw new \Exception(
 				sprintf(
 					'Expected code 207 got %s',

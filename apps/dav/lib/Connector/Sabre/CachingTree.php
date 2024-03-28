@@ -46,7 +46,7 @@ class CachingTree extends Tree {
 		$path = trim($path, '/');
 		foreach ($this->cache as $nodePath => $node) {
 			$nodePath = (string) $nodePath;
-			if ('' === $path || $nodePath == $path || str_starts_with($nodePath, $path . '/')) {
+			if ($path === '' || $nodePath == $path || str_starts_with($nodePath, $path . '/')) {
 				unset($this->cache[$nodePath]);
 			}
 		}

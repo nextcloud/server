@@ -64,7 +64,7 @@ class StorageObjectStore implements IObjectStore {
 		throw new \Exception();
 	}
 
-	public function writeObject($urn, $stream, string $mimetype = null) {
+	public function writeObject($urn, $stream, ?string $mimetype = null) {
 		$handle = $this->storage->fopen($urn, 'w');
 		if ($handle) {
 			stream_copy_to_stream($stream, $handle);

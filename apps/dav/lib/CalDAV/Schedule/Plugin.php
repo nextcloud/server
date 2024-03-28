@@ -57,7 +57,7 @@ use Sabre\VObject\ITip\SameOrganizerForAllComponentsException;
 use Sabre\VObject\Parameter;
 use Sabre\VObject\Property;
 use Sabre\VObject\Reader;
-use function \Sabre\Uri\split;
+use function Sabre\Uri\split;
 
 class Plugin extends \Sabre\CalDAV\Schedule\Plugin {
 
@@ -457,7 +457,7 @@ EOF;
 	 * @param Property|null $attendee
 	 * @return bool
 	 */
-	private function getAttendeeRSVP(Property $attendee = null):bool {
+	private function getAttendeeRSVP(?Property $attendee = null):bool {
 		if ($attendee !== null) {
 			$rsvp = $attendee->offsetGet('RSVP');
 			if (($rsvp instanceof Parameter) && (strcasecmp($rsvp->getValue(), 'TRUE') === 0)) {

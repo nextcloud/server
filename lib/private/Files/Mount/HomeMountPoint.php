@@ -33,11 +33,11 @@ class HomeMountPoint extends MountPoint {
 		IUser $user,
 		$storage,
 		string $mountpoint,
-		array $arguments = null,
-		IStorageFactory $loader = null,
-		array $mountOptions = null,
-		int $mountId = null,
-		string $mountProvider = null
+		?array $arguments = null,
+		?IStorageFactory $loader = null,
+		?array $mountOptions = null,
+		?int $mountId = null,
+		?string $mountProvider = null
 	) {
 		parent::__construct($storage, $mountpoint, $arguments, $loader, $mountOptions, $mountId, $mountProvider);
 		$this->user = $user;

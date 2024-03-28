@@ -121,7 +121,7 @@ class ManagerTest extends TestCase {
 	/**
 	 * @return MockObject|ScopeContext
 	 */
-	protected function buildScope(string $scopeId = null): MockObject {
+	protected function buildScope(?string $scopeId = null): MockObject {
 		$scopeContext = $this->createMock(ScopeContext::class);
 		$scopeContext->expects($this->any())
 			->method('getScope')

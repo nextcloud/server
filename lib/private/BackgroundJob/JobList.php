@@ -59,7 +59,7 @@ class JobList implements IJobList {
 		$this->logger = $logger;
 	}
 
-	public function add($job, $argument = null, int $firstCheck = null): void {
+	public function add($job, $argument = null, ?int $firstCheck = null): void {
 		if ($firstCheck === null) {
 			$firstCheck = $this->timeFactory->getTime();
 		}

@@ -184,7 +184,7 @@ class Manager implements IManager {
 	 *
 	 * @return ISettings[]
 	 */
-	protected function getSettings(string $type, string $section, Closure $filter = null): array {
+	protected function getSettings(string $type, string $section, ?Closure $filter = null): array {
 		if (!isset($this->settings[$type])) {
 			$this->settings[$type] = [];
 		}

@@ -164,7 +164,7 @@ interface IDBConnection {
 	 * @since 6.0.0 - parameter $compare was added in 8.1.0, return type changed from boolean in 8.1.0
 	 * @deprecated 15.0.0 - use unique index and "try { $db->insert() } catch (UniqueConstraintViolationException $e) {}" instead, because it is more reliable and does not have the risk for deadlocks - see https://github.com/nextcloud/server/pull/12371
 	 */
-	public function insertIfNotExist(string $table, array $input, array $compare = null);
+	public function insertIfNotExist(string $table, array $input, ?array $compare = null);
 
 
 	/**

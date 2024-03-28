@@ -132,7 +132,7 @@ class KnownMtime extends Wrapper {
 		return $result;
 	}
 
-	public function writeStream(string $path, $stream, int $size = null): int {
+	public function writeStream(string $path, $stream, ?int $size = null): int {
 		$result = parent::writeStream($path, $stream, $size);
 		if ($result) {
 			$this->knowMtimes->set($path, $this->clock->now()->getTimestamp());

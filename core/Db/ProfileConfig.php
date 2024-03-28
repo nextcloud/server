@@ -26,7 +26,7 @@ declare(strict_types=1);
 
 namespace OC\Core\Db;
 
-use \JsonSerializable;
+use JsonSerializable;
 use OCP\AppFramework\Db\Entity;
 use OCP\Profile\ParameterDoesNotExistException;
 use function json_decode;

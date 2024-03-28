@@ -199,7 +199,7 @@ class LockingController extends OCSController {
 		throw new OCSException('', Http::STATUS_LOCKED);
 	}
 
-	public function releaseAll(int $type = null): DataResponse {
+	public function releaseAll(?int $type = null): DataResponse {
 		$lockingProvider = $this->getLockingProvider();
 
 		foreach ($this->config->getAppKeys('testing') as $lock) {

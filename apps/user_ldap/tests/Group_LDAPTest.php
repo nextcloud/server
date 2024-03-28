@@ -1356,7 +1356,7 @@ class Group_LDAPTest extends TestCase {
 	 * @param string[] $expectedMembers
 	 * @dataProvider groupMemberProvider
 	 */
-	public function testGroupMembers(array $expectedResult, array $groupsInfo = null) {
+	public function testGroupMembers(array $expectedResult, ?array $groupsInfo = null) {
 		$this->access->expects($this->any())
 			->method('readAttribute')
 			->willReturnCallback(function ($group) use ($groupsInfo) {

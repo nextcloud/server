@@ -105,7 +105,7 @@ abstract class Entity {
 	protected function setter(string $name, array $args): void {
 		// setters should only work for existing attributes
 		if (property_exists($this, $name)) {
-			if ($this->$name === $args[0]) {
+			if ($args[0] === $this->$name) {
 				return;
 			}
 			$this->markFieldUpdated($name);

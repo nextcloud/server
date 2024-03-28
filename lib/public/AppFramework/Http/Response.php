@@ -141,7 +141,7 @@ class Response {
 	 * @return $this
 	 * @since 8.0.0
 	 */
-	public function addCookie($name, $value, \DateTime $expireDate = null, $sameSite = 'Lax') {
+	public function addCookie($name, $value, ?\DateTime $expireDate = null, $sameSite = 'Lax') {
 		$this->cookies[$name] = ['value' => $value, 'expireDate' => $expireDate, 'sameSite' => $sameSite];
 		return $this;
 	}

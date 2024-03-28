@@ -48,7 +48,7 @@ class Local extends Backend {
 		;
 	}
 
-	public function manipulateStorageConfig(StorageConfig &$storage, IUser $user = null): void {
+	public function manipulateStorageConfig(StorageConfig &$storage, ?IUser $user = null): void {
 		$storage->setBackendOption('isExternal', true);
 	}
 }

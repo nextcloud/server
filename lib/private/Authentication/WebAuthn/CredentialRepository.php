@@ -61,7 +61,7 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository {
 		}, $entities);
 	}
 
-	public function saveAndReturnCredentialSource(PublicKeyCredentialSource $publicKeyCredentialSource, string $name = null): PublicKeyCredentialEntity {
+	public function saveAndReturnCredentialSource(PublicKeyCredentialSource $publicKeyCredentialSource, ?string $name = null): PublicKeyCredentialEntity {
 		$oldEntity = null;
 
 		try {
@@ -87,7 +87,7 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository {
 		return $this->credentialMapper->insertOrUpdate($entity);
 	}
 
-	public function saveCredentialSource(PublicKeyCredentialSource $publicKeyCredentialSource, string $name = null): void {
+	public function saveCredentialSource(PublicKeyCredentialSource $publicKeyCredentialSource, ?string $name = null): void {
 		$this->saveAndReturnCredentialSource($publicKeyCredentialSource, $name);
 	}
 }

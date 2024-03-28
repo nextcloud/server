@@ -154,7 +154,7 @@ class PlatformRepository {
 	 */
 	public function normalizeVersion(string $version, ?string $fullVersion = null): string {
 		$version = trim($version);
-		if (null === $fullVersion) {
+		if ($fullVersion === null) {
 			$fullVersion = $version;
 		}
 		// ignore aliases and just assume the alias is required instead of the source
@@ -165,7 +165,7 @@ class PlatformRepository {
 		if (preg_match('{^(?:dev-)?(?:master|trunk|default)$}i', $version)) {
 			return '9999999-dev';
 		}
-		if ('dev-' === strtolower(substr($version, 0, 4))) {
+		if (strtolower(substr($version, 0, 4)) === 'dev-') {
 			return 'dev-' . substr($version, 4);
 		}
 		// match classical versioning
@@ -188,7 +188,7 @@ class PlatformRepository {
 		// add version modifiers if a version was matched
 		if (isset($index)) {
 			if (!empty($matches[$index])) {
-				if ('stable' === $matches[$index]) {
+				if ($matches[$index] === 'stable') {
 					return $version;
 				}
 				$version .= '-' . $this->expandStability($matches[$index]) . (!empty($matches[$index + 1]) ? $matches[$index + 1] : '');

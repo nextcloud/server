@@ -80,7 +80,7 @@ interface ITemplateManager {
 	 * @param string|null $userId
 	 * @since 21.0.0
 	 */
-	public function initializeTemplateDirectory(string $path = null, string $userId = null, $copyTemplates = true): string;
+	public function initializeTemplateDirectory(?string $path = null, ?string $userId = null, $copyTemplates = true): string;
 
 	/**
 	 * @param string $filePath

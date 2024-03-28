@@ -55,7 +55,7 @@ class Comment implements IComment {
 	 * @param array $data	optional, array with keys according to column names from
 	 * 						the comments database scheme
 	 */
-	public function __construct(array $data = null) {
+	public function __construct(?array $data = null) {
 		if (is_array($data)) {
 			$this->fromArray($data);
 		}

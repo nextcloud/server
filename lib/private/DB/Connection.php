@@ -269,7 +269,7 @@ class Connection extends PrimaryReadReplicaConnection {
 	 *
 	 * @throws \Doctrine\DBAL\Exception
 	 */
-	public function executeQuery(string $sql, array $params = [], $types = [], QueryCacheProfile $qcp = null): Result {
+	public function executeQuery(string $sql, array $params = [], $types = [], ?QueryCacheProfile $qcp = null): Result {
 		$tables = $this->getQueriedTables($sql);
 		$now = $this->clock->now()->getTimestamp();
 		$dirtyTableWrites = [];
@@ -423,7 +423,7 @@ class Connection extends PrimaryReadReplicaConnection {
 	 * @throws \Doctrine\DBAL\Exception
 	 * @deprecated 15.0.0 - use unique index and "try { $db->insert() } catch (UniqueConstraintViolationException $e) {}" instead, because it is more reliable and does not have the risk for deadlocks - see https://github.com/nextcloud/server/pull/12371
 	 */
-	public function insertIfNotExist($table, $input, array $compare = null) {
+	public function insertIfNotExist($table, $input, ?array $compare = null) {
 		return $this->adapter->insertIfNotExist($table, $input, $compare);
 	}
 
@@ -709,7 +709,7 @@ class Connection extends PrimaryReadReplicaConnection {
 	private function reconnectIfNeeded(): void {
 		if (
 			!isset($this->lastConnectionCheck[$this->getConnectionName()]) ||
-			$this->lastConnectionCheck[$this->getConnectionName()] + 30 >= time() ||
+			time() <= $this->lastConnectionCheck[$this->getConnectionName()] + 30 ||
 			$this->isTransactionActive()
 		) {
 			return;

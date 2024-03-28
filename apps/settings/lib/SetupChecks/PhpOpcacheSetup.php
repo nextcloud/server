@@ -104,7 +104,7 @@ class PhpOpcacheSetup implements ISetupCheck {
 
 			if (
 				// Do not recommend to raise the interned strings buffer size above a quarter of the total OPcache size
-				($this->iniGetWrapper->getNumeric('opcache.interned_strings_buffer') ?? 0 < $this->iniGetWrapper->getNumeric('opcache.memory_consumption') ?? 0 / 4) &&
+				($this->iniGetWrapper->getNumeric('opcache.interned_strings_buffer') ?? $this->iniGetWrapper->getNumeric('opcache.memory_consumption') > 0 ?? 0 / 4) &&
 				(
 					empty($status['interned_strings_usage']['free_memory']) ||
 					($status['interned_strings_usage']['used_memory'] / $status['interned_strings_usage']['free_memory'] > 9)

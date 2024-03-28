@@ -49,7 +49,7 @@ interface IChunkedFileWrite extends IStorage {
 	 * @throws GenericFileException
 	 * @since 26.0.0
 	 */
-	public function putChunkedWritePart(string $targetPath, string $writeToken, string $chunkId, $data, int $size = null): ?array;
+	public function putChunkedWritePart(string $targetPath, string $writeToken, string $chunkId, $data, ?int $size = null): ?array;
 
 	/**
 	 * @param string $targetPath

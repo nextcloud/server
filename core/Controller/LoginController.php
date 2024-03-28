@@ -134,7 +134,7 @@ class LoginController extends Controller {
 	#[UseSession]
 	#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 	#[FrontpageRoute(verb: 'GET', url: '/login')]
-	public function showLoginForm(string $user = null, string $redirect_url = null): Http\Response {
+	public function showLoginForm(?string $user = null, ?string $redirect_url = null): Http\Response {
 		if ($this->userSession->isLoggedIn()) {
 			return new RedirectResponse($this->urlGenerator->linkToDefaultPageUrl());
 		}
@@ -307,7 +307,7 @@ class LoginController extends Controller {
 	public function tryLogin(Chain $loginChain,
 		string $user = '',
 		string $password = '',
-		string $redirect_url = null,
+		?string $redirect_url = null,
 		string $timezone = '',
 		string $timezone_offset = ''): RedirectResponse {
 		if (!$this->request->passesCSRFCheck()) {

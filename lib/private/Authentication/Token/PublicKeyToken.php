@@ -211,7 +211,7 @@ class PublicKeyToken extends Entity implements INamedToken, IWipeableToken {
 		parent::setToken($token);
 	}
 
-	public function setPassword(string $password = null): void {
+	public function setPassword(?string $password = null): void {
 		parent::setPassword($password);
 	}
 

@@ -56,7 +56,7 @@ class Result {
 	 * @param string|null $message
 	 * @param array $headers
 	 */
-	public function __construct(mixed $data = null, int $code = 100, string $message = null, array $headers = []) {
+	public function __construct(mixed $data = null, int $code = 100, ?string $message = null, array $headers = []) {
 		if ($data === null) {
 			$this->data = [];
 		} elseif (!is_array($data)) {

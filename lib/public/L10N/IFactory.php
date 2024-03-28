@@ -78,7 +78,7 @@ interface IFactory {
 	 * @return string language code, defaults to 'en' if no other matches are found
 	 * @since 23.0.0
 	 */
-	public function findGenericLanguage(string $appId = null): string;
+	public function findGenericLanguage(?string $appId = null): string;
 
 	/**
 	 * @param string|null $lang user language as default locale
@@ -95,7 +95,7 @@ interface IFactory {
 	 * @return null|string
 	 * @since 14.0.1
 	 */
-	public function findLanguageFromLocale(string $app = 'core', string $locale = null);
+	public function findLanguageFromLocale(string $app = 'core', ?string $locale = null);
 
 	/**
 	 * Find all available languages for an app
@@ -141,7 +141,7 @@ interface IFactory {
 	 *
 	 * @since 14.0.0
 	 */
-	public function getLanguageIterator(IUser $user = null): ILanguageIterator;
+	public function getLanguageIterator(?IUser $user = null): ILanguageIterator;
 
 	/**
 	 * returns the common language and other languages in an
@@ -158,5 +158,5 @@ interface IFactory {
 	 * @return string
 	 * @since 20.0.0
 	 */
-	public function getUserLanguage(IUser $user = null): string;
+	public function getUserLanguage(?IUser $user = null): string;
 }

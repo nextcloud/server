@@ -99,7 +99,7 @@ class Cache implements ICache {
 		private IStorage $storage,
 		// this constructor is used in to many pleases to easily do proper di
 		// so instead we group it all together
-		CacheDependencies $dependencies = null,
+		?CacheDependencies $dependencies = null,
 	) {
 		$this->storageId = $storage->getId();
 		if (strlen($this->storageId) > 64) {

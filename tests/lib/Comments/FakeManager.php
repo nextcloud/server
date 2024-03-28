@@ -22,7 +22,7 @@ class FakeManager implements ICommentsManager {
 		$objectId,
 		$limit = 0,
 		$offset = 0,
-		\DateTime $notOlderThan = null
+		?\DateTime $notOlderThan = null
 	) {
 	}
 
@@ -49,7 +49,7 @@ class FakeManager implements ICommentsManager {
 		return [];
 	}
 
-	public function getNumberOfCommentsForObject($objectType, $objectId, \DateTime $notOlderThan = null, $verb = '') {
+	public function getNumberOfCommentsForObject($objectType, $objectId, ?\DateTime $notOlderThan = null, $verb = '') {
 	}
 
 	public function search(string $search, string $objectType, string $objectId, string $verb, int $offset, int $limit = 50): array {

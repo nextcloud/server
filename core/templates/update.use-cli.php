@@ -12,7 +12,7 @@
 			} else {
 				$cliUpgradeLink = link_to_docs('admin-cli-upgrade');
 			}
-			print_unescaped($l->t('For help, see the  <a target="_blank" rel="noreferrer noopener" href="%s">documentation</a>.', [$cliUpgradeLink])); ?>
+print_unescaped($l->t('For help, see the  <a target="_blank" rel="noreferrer noopener" href="%s">documentation</a>.', [$cliUpgradeLink])); ?>
 		</div>
 	</div>
 

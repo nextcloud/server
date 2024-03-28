@@ -66,7 +66,7 @@ class Capabilities implements ICapability {
 		$this->provider->setApiVersion(self::API_VERSION);
 
 		$pos = strrpos($url, '/');
-		if (false === $pos) {
+		if ($pos === false) {
 			throw new OCMArgumentException('generated route should contains a slash character');
 		}
 

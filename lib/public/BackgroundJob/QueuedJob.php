@@ -43,7 +43,7 @@ abstract class QueuedJob extends Job {
 	 * @deprecated since 25.0.0 Use start() instead. This method will be removed
 	 * with the ILogger interface
 	 */
-	final public function execute($jobList, ILogger $logger = null) {
+	final public function execute($jobList, ?ILogger $logger = null) {
 		$this->start($jobList);
 	}
 

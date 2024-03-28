@@ -50,7 +50,7 @@ interface ITimeFactory extends ClockInterface {
 	 * @return \DateTime
 	 * @since 15.0.0
 	 */
-	public function getDateTime(string $time = 'now', \DateTimeZone $timezone = null): \DateTime;
+	public function getDateTime(string $time = 'now', ?\DateTimeZone $timezone = null): \DateTime;
 
 	/**
 	 * @param \DateTimeZone $timezone

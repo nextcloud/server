@@ -116,7 +116,7 @@ class App {
 	 * @param array $urlParams list of URL parameters (optional)
 	 * @throws HintException
 	 */
-	public static function main(string $controllerName, string $methodName, DIContainer $container, array $urlParams = null) {
+	public static function main(string $controllerName, string $methodName, DIContainer $container, ?array $urlParams = null) {
 		/** @var IProfiler $profiler */
 		$profiler = $container->get(IProfiler::class);
 		$eventLogger = $container->get(IEventLogger::class);

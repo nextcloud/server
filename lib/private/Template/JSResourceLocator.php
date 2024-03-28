@@ -120,7 +120,7 @@ class JSResourceLocator extends ResourceLocator {
 	 * Try to find ES6 script file (`.mjs`) with fallback to plain javascript (`.js`)
 	 * @see appendIfExist()
 	 */
-	protected function appendScriptIfExist(string $root, string $file, string $webRoot = null) {
+	protected function appendScriptIfExist(string $root, string $file, ?string $webRoot = null) {
 		if (!$this->appendIfExist($root, $file . '.mjs', $webRoot)) {
 			return $this->appendIfExist($root, $file . '.js', $webRoot);
 		}

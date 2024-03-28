@@ -94,11 +94,11 @@ class MountPoint implements IMountPoint {
 	public function __construct(
 		$storage,
 		string $mountpoint,
-		array $arguments = null,
-		IStorageFactory $loader = null,
-		array $mountOptions = null,
-		int $mountId = null,
-		string $mountProvider = null
+		?array $arguments = null,
+		?IStorageFactory $loader = null,
+		?array $mountOptions = null,
+		?int $mountId = null,
+		?string $mountProvider = null
 	) {
 		if (is_null($arguments)) {
 			$arguments = [];

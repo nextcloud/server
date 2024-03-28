@@ -22,7 +22,7 @@
 
 namespace OCA\DAV\Tests\unit\DAV;
 
-use \OCA\DAV\BulkUpload\MultipartRequestParser;
+use OCA\DAV\BulkUpload\MultipartRequestParser;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 

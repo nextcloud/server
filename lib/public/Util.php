@@ -177,7 +177,7 @@ class Util {
 	 * @param bool $prepend
 	 * @since 4.0.0
 	 */
-	public static function addScript(string $application, string $file = null, string $afterAppId = 'core', bool $prepend = false): void {
+	public static function addScript(string $application, ?string $file = null, string $afterAppId = 'core', bool $prepend = false): void {
 		if (!empty($application)) {
 			$path = "$application/js/$file";
 		} else {

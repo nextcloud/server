@@ -257,7 +257,7 @@ class FilesMetadataManager implements IFilesMetadataManager {
 	 * @since 28.0.0
 	 */
 	public function getKnownMetadata(): IFilesMetadata {
-		if (null !== $this->all) {
+		if ($this->all !== null) {
 			return $this->all;
 		}
 		$this->all = new FilesMetadata();

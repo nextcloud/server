@@ -361,7 +361,7 @@ class Router implements IRouter {
 	 *
 	 */
 	public function getGenerator() {
-		if (null !== $this->generator) {
+		if ($this->generator !== null) {
 			return $this->generator;
 		}
 

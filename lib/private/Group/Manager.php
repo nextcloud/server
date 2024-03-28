@@ -323,7 +323,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 	 * @param IUser|null $user
 	 * @return \OC\Group\Group[]
 	 */
-	public function getUserGroups(IUser $user = null) {
+	public function getUserGroups(?IUser $user = null) {
 		if (!$user instanceof IUser) {
 			return [];
 		}

@@ -79,7 +79,7 @@ class ChangePasswordController extends Controller {
 	 * @NoSubAdminRequired
 	 * @BruteForceProtection(action=changePersonalPassword)
 	 */
-	public function changePersonalPassword(string $oldpassword = '', string $newpassword = null): JSONResponse {
+	public function changePersonalPassword(string $oldpassword = '', ?string $newpassword = null): JSONResponse {
 		$loginName = $this->userSession->getLoginName();
 		/** @var IUser $user */
 		$user = $this->userManager->checkPassword($loginName, $oldpassword);
@@ -127,7 +127,7 @@ class ChangePasswordController extends Controller {
 	 * @NoAdminRequired
 	 * @PasswordConfirmationRequired
 	 */
-	public function changeUserPassword(string $username = null, string $password = null, string $recoveryPassword = null): JSONResponse {
+	public function changeUserPassword(?string $username = null, ?string $password = null, ?string $recoveryPassword = null): JSONResponse {
 		if ($username === null) {
 			return new JSONResponse([
 				'status' => 'error',

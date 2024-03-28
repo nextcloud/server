@@ -177,7 +177,7 @@ class Configuration {
 	 * array
 	 * @param array &$applied optional; array where the set fields will be given to
 	 */
-	public function setConfiguration(array $config, array &$applied = null): void {
+	public function setConfiguration(array $config, ?array &$applied = null): void {
 		$cta = $this->getConfigTranslationArray();
 		foreach ($config as $inputKey => $val) {
 			if (str_contains($inputKey, '_') && array_key_exists($inputKey, $cta)) {

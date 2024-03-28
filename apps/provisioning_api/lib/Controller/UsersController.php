@@ -129,7 +129,7 @@ class UsersController extends AUserData {
 	 *
 	 * 200: Users returned
 	 */
-	public function getUsers(string $search = '', int $limit = null, int $offset = 0): DataResponse {
+	public function getUsers(string $search = '', ?int $limit = null, int $offset = 0): DataResponse {
 		$user = $this->userSession->getUser();
 		$users = [];
 
@@ -170,7 +170,7 @@ class UsersController extends AUserData {
 	 *
 	 * 200: Users details returned
 	 */
-	public function getUsersDetails(string $search = '', int $limit = null, int $offset = 0): DataResponse {
+	public function getUsersDetails(string $search = '', ?int $limit = null, int $offset = 0): DataResponse {
 		$currentUser = $this->userSession->getUser();
 		$users = [];
 

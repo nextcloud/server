@@ -67,7 +67,7 @@ interface IProfiler {
 	 * Find a profile from various search parameters
 	 * @since 24.0.0
 	 */
-	public function find(?string $url, ?int $limit, ?string $method, ?int $start, ?int $end, string $statusCode = null): array;
+	public function find(?string $url, ?int $limit, ?string $method, ?int $start, ?int $end, ?string $statusCode = null): array;
 
 	/**
 	 * Get the list of data providers by identifier

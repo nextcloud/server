@@ -45,7 +45,7 @@ class Swift implements IObjectStore {
 	/** @var SwiftFactory */
 	private $swiftFactory;
 
-	public function __construct($params, SwiftFactory $connectionFactory = null) {
+	public function __construct($params, ?SwiftFactory $connectionFactory = null) {
 		$this->swiftFactory = $connectionFactory ?: new SwiftFactory(
 			\OC::$server->getMemCacheFactory()->createDistributed('swift::'),
 			$params,
@@ -74,7 +74,7 @@ class Swift implements IObjectStore {
 		return $this->params['container'];
 	}
 
-	public function writeObject($urn, $stream, string $mimetype = null) {
+	public function writeObject($urn, $stream, ?string $mimetype = null) {
 		$tmpFile = \OC::$server->getTempManager()->getTemporaryFile('swiftwrite');
 		file_put_contents($tmpFile, $stream);
 		$handle = fopen($tmpFile, 'rb');
