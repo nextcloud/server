@@ -369,11 +369,12 @@ class ManagerTest extends TestCase {
 			->method('get')
 			->with('two_factor_remember_login')
 			->willReturn(false);
-		$this->session->expects($this->exactly(2))
+		$this->session->expects($this->exactly(3))
 			->method('remove')
 			->withConsecutive(
 				['two_factor_auth_uid'],
-				['two_factor_remember_login']
+				['two_factor_remember_login'],
+				['two_factor_auth_configuring']
 			);
 		$this->session->expects($this->once())
 			->method('set')
@@ -653,7 +654,7 @@ class ManagerTest extends TestCase {
 		$this->assertFalse($this->manager->needsSecondFactor($user));
 	}
 
-	public function testNeedsSecondFactorSessionAuthFailDBPass() {
+	public function testNeedsSecondFactorWhileConfiguring() {
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')
 			->willReturn('user');
@@ -677,10 +678,12 @@ class ManagerTest extends TestCase {
 				'42', '43', '44'
 			]);
 
+		// the user is still configuring 2FA with token 40
 		$this->session->expects($this->once())
 			->method('set')
-			->with(Manager::SESSION_UID_DONE, 'user');
+			->with(Manager::SESSION_UID_CONFIGURING, 'user');
 
+		// 2FA should not be required if configuration is not complete
 		$this->assertFalse($this->manager->needsSecondFactor($user));
 	}
 
