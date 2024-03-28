@@ -112,6 +112,9 @@ class LoginCredentials extends AuthMechanism {
 		return $credentials;
 	}
 
+	/**
+	 * @return void
+	 */
 	public function manipulateStorageConfig(StorageConfig &$storage, ?IUser $user = null) {
 		if (!isset($user)) {
 			throw new InsufficientDataForMeaningfulAnswerException('No login credentials saved');

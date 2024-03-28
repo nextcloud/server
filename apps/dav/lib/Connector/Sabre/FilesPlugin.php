@@ -664,7 +664,8 @@ class FilesPlugin extends ServerPlugin {
 
 	/**
 	 * @param string $filePath
-	 * @param \Sabre\DAV\INode $node
+	 * @param ?\Sabre\DAV\INode $node
+	 * @return void
 	 * @throws \Sabre\DAV\Exception\BadRequest
 	 */
 	public function sendFileIdHeader($filePath, ?\Sabre\DAV\INode $node = null) {
