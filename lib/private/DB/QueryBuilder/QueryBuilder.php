@@ -48,11 +48,14 @@ use OC\DB\QueryBuilder\FunctionBuilder\SqliteFunctionBuilder;
 use OC\DB\ResultAdapter;
 use OC\SystemConfig;
 use OCP\DB\IResult;
+use OCP\DB\QueryBuilder\Events\BeforeQueryExecutedEvent;
+use OCP\DB\QueryBuilder\Events\QueryExecutedEvent;
 use OCP\DB\QueryBuilder\ICompositeExpression;
 use OCP\DB\QueryBuilder\ILiteral;
 use OCP\DB\QueryBuilder\IParameter;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\DB\QueryBuilder\IQueryFunction;
+use OCP\EventDispatcher\IEventDispatcher;
 use Psr\Log\LoggerInterface;
 
 class QueryBuilder implements IQueryBuilder {
@@ -76,6 +79,9 @@ class QueryBuilder implements IQueryBuilder {
 	/** @var string */
 	protected $lastInsertedTable;
 
+	/** @var IEventDispatcher */
+	private $dispatcher;
+
 	/**
 	 * Initializes a new QueryBuilder.
 	 *
@@ -88,6 +94,7 @@ class QueryBuilder implements IQueryBuilder {
 		$this->logger = $logger;
 		$this->queryBuilder = new \Doctrine\DBAL\Query\QueryBuilder($this->connection->getInner());
 		$this->helper = new QuoteHelper();
+		$this->dispatcher = \OC::$server->get(IEventDispatcher::class);
 	}
 
 	/**
@@ -277,7 +284,18 @@ class QueryBuilder implements IQueryBuilder {
 			]);
 		}
 
-		$result = $this->queryBuilder->execute();
+		$event = new BeforeQueryExecutedEvent($this);
+		$this->dispatcher->dispatchTyped($event);
+		$result = $event->getResult();
+
+		if ($result === null) {
+			$result = $this->queryBuilder->execute();
+		}
+
+		$event = new QueryExecutedEvent($this, $result);
+		$this->dispatcher->dispatchTyped($event);
+		$result = $event->getResult();
+		
 		if (is_int($result)) {
 			return $result;
 		}
