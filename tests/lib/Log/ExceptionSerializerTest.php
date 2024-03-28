@@ -52,6 +52,14 @@ class ExceptionSerializerTest extends TestCase {
 		throw new \Exception('expected custom auth exception');
 	}
 
+	private function usingSensitiveParameterAttribute(
+		string $login,
+		#[\SensitiveParameter]
+		string $parole,
+	): void {
+		throw new \Exception('SensitiveParameter attribute');
+	}
+
 	/**
 	 * this test ensures that the serializer does not overwrite referenced
 	 * variables. It is crafted after a scenario we experienced: the DAV server
@@ -79,6 +87,17 @@ class ExceptionSerializerTest extends TestCase {
 			$this->assertSame('customMagicAuthThing', $serializedData['Trace'][0]['function']);
 			$this->assertSame(ExceptionSerializer::SENSITIVE_VALUE_PLACEHOLDER, $serializedData['Trace'][0]['args'][0]);
 			$this->assertFalse(isset($serializedData['Trace'][0]['args'][1]));
+		}
+	}
+
+	public function testSensitiveParameterAttribute(): void {
+		try {
+			$this->usingSensitiveParameterAttribute('u57474', 'Secret');
+		} catch (\Exception $e) {
+			$serializedData = $this->serializer->serializeException($e);
+			$this->assertSame('usingSensitiveParameterAttribute', $serializedData['Trace'][0]['function']);
+			$this->assertSame('u57474', $serializedData['Trace'][0]['args'][0]);
+			$this->assertSame('*** sensitive parameters replaced ***', $serializedData['Trace'][0]['args'][1]);
 		}
 	}
 }

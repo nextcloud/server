@@ -220,7 +220,9 @@ class ExceptionSerializer {
 	private function removeValuesFromArgs($args, $values): array {
 		$workArgs = [];
 		foreach ($args as $arg) {
-			if (in_array($arg, $values, true)) {
+			if (isset($arg['__class__']) && $arg['__class__'] === \SensitiveParameterValue::class) {
+				$arg = self::SENSITIVE_VALUE_PLACEHOLDER;
+			} elseif (in_array($arg, $values, true)) {
 				$arg = self::SENSITIVE_VALUE_PLACEHOLDER;
 			} elseif (is_array($arg)) {
 				$arg = $this->removeValuesFromArgs($arg, $values);
