@@ -1754,7 +1754,11 @@ class Access extends LDAPUtility {
 				$uuid = $uuid[0];
 			}
 		}
-
+		if ($this->connection->ldapExpertForceUUIDCase === "lowercase" && is_string($uuid)) {
+			$uuid = strtolower($uuid);
+		} elseif ($this->connection->ldapExpertForceUUIDCase === "uppercase" && is_string($uuid)) {
+			$uuid = strtoupper($uuid);
+		}
 		return $uuid;
 	}
 
