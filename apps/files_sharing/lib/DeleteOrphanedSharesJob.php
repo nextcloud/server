@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -24,6 +27,7 @@
  */
 namespace OCA\Files_Sharing;
 
+use OCP\AppFramework\Db\TTransactional;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\TimedJob;
 
@@ -31,14 +35,32 @@ use OCP\BackgroundJob\TimedJob;
  * Delete all share entries that have no matching entries in the file cache table.
  */
 class DeleteOrphanedSharesJob extends TimedJob {
+
+	use TTransactional;
+
+	private const CHUNK_SIZE = 1000;
+
+	private const INTERVAL = 24 * 60 * 60; // 1 day
+
+	private IDBConnection $db;
+
+	private LoggerInterface $logger;
+
 	/**
 	 * sets the correct interval for this timed job
 	 */
-	public function __construct(ITimeFactory $time) {
+	public function __construct(
+		ITimeFactory $time,
+		IDBConnection $db,
+		LoggerInterface $logger
+	) {
 		parent::__construct($time);
 
-		$this->setInterval(24 * 60 * 60); // 1 day
+		$this->db = $db;
+
+		$this->setInterval(self::INTERVAL); // 1 day
 		$this->setTimeSensitivity(self::TIME_INSENSITIVE);
+		$this->logger = $logger;
 	}
 
 	/**
