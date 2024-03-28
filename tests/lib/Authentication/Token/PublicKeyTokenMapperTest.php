@@ -26,9 +26,9 @@ declare(strict_types=1);
 namespace Test\Authentication\Token;
 
 use OC;
-use OC\Authentication\Token\IToken;
 use OC\Authentication\Token\PublicKeyToken;
 use OC\Authentication\Token\PublicKeyTokenMapper;
+use OCP\Authentication\Token\IToken;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\IUser;
@@ -249,7 +249,7 @@ class PublicKeyTokenMapperTest extends TestCase {
 		$this->assertCount(0, $this->mapper->getTokenByUser('user1000'));
 	}
 
-	public function testDeleteById() {
+	public function testGetById() {
 		/** @var IUser|\PHPUnit\Framework\MockObject\MockObject $user */
 		$user = $this->createMock(IUser::class);
 		$qb = $this->dbConnection->getQueryBuilder();
@@ -259,17 +259,8 @@ class PublicKeyTokenMapperTest extends TestCase {
 		$result = $qb->execute();
 		$id = $result->fetch()['id'];
 
-		$this->mapper->deleteById('user1', (int)$id);
-		$this->assertEquals(4, $this->getNumberOfTokens());
-	}
-
-	public function testDeleteByIdWrongUser() {
-		/** @var IUser|\PHPUnit\Framework\MockObject\MockObject $user */
-		$user = $this->createMock(IUser::class);
-		$id = 33;
-
-		$this->mapper->deleteById('user1000', $id);
-		$this->assertEquals(5, $this->getNumberOfTokens());
+		$token = $this->mapper->getTokenById((int)$id);
+		$this->assertEquals('user1', $token->getUID());
 	}
 
 	public function testDeleteByName() {
