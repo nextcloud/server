@@ -74,6 +74,17 @@ class CSPMiddleware extends Middleware {
 			$defaultPolicy->useJsNonce($this->csrfTokenManager->getToken()->getEncryptedValue());
 		}
 
+		// Loosen security presets in debug mode to enable development
+		// tools functionality
+		$debugging = \OC::$server->getConfig()->getSystemValue('debug', false);
+		if ($debugging) {
+			// Allow vue dev tool to work on Firefox.
+			$defaultPolicy->allowEvalScript(true);
+			// Unblock HMR requests.
+			$defaultPolicy->addAllowedConnectDomain('*');
+			$defaultPolicy->addAllowedScriptDomain('*');
+		}
+
 		$response->setContentSecurityPolicy($defaultPolicy);
 
 		return $response;
