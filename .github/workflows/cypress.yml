@@ -84,6 +84,13 @@ jobs:
 
     name: runner ${{ matrix.containers }}
 
+    services:
+      nextcloud:
+        image: ghcr.io/nextcloud/continuous-integration-shallow-server
+        options: --name nextcloud
+        ports:
+          - 80:80
+
     steps:
       - name: Restore context
         uses: buildjet/cache/restore@e376f15c6ec6dc595375c78633174c7e5f92dc0e # v3
@@ -103,12 +110,16 @@ jobs:
       - name: Run ${{ matrix.containers == 'component' && 'component' || 'E2E' }} cypress tests
         uses: cypress-io/github-action@1b70233146622b69e789ccdd4f9452adc638d25a # v6.6.1
         with:
+          # Unavailable without cypress cloud
+          # ci-build-id: ${{ github.sha }}-${{ github.run_number }}
           component: ${{ matrix.containers == 'component' }}
-          group: ${{ matrix.use-cypress-cloud && matrix.containers == 'component' && 'Run component' || matrix.use-cypress-cloud && 'Run E2E' || '' }}
-          # cypress env
-          ci-build-id: ${{ matrix.use-cypress-cloud && format('{0}-{1}', github.sha, github.run_number) || '' }}
-          tag: ${{ matrix.use-cypress-cloud && github.event_name || '' }}
+          # Unavailable without cypress cloud
+          # group: Run ${{ matrix.containers == 'component' && 'component' || 'E2E' }}
+          # tag: ${{ github.event_name }}
         env:
+          # Use github service for server
+          NEXTCLOUD_HOST: localhost
+          NEXTCLOUD_CONTAINER: nextcloud
           # Needs to be prefixed with CYPRESS_
           CYPRESS_BRANCH: ${{ env.BRANCH }}
           # https://github.com/cypress-io/github-action/issues/124
