@@ -142,8 +142,28 @@ class CalendarContactInteractionListener implements IEventListener {
 	}
 
 	private function emitFromObject(VEvent $vevent, IUser $user): void {
-		if (!$vevent->ATTENDEE) {
+		$userEmail = $user->getPrimaryEMailAddress();
+		if ($userEmail === null) {
+			// This user can't be organizer
+			return;
+		}
+
+		if (!$vevent->ORGANIZER || !$vevent->ATTENDEE) {
 			// Nothing left to do
+			return;
+		}
+		$organizer = $vevent->ORGANIZER;
+		if (!($organizer instanceof Property)) {
+			return;
+		}
+		$organizerMailTo = $organizer->getValue();
+		if (strpos($organizerMailTo, 'mailto:') !== 0) {
+			// Doesn't look like an email
+			return;
+		}
+		$organizerEmail = substr($organizerMailTo, strlen('mailto:'));
+		$userEmail = $user->getPrimaryEMailAddress();
+		if ($organizerEmail !== $userEmail) {
 			return;
 		}
 
