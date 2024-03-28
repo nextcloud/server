@@ -40,6 +40,7 @@ use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Middleware;
 use OCP\IRequest;
+use OCP\ISession;
 use OCP\IUserSession;
 use ReflectionMethod;
 
@@ -70,6 +71,7 @@ class RateLimitingMiddleware extends Middleware {
 		protected IUserSession $userSession,
 		protected ControllerMethodReflector $reflector,
 		protected Limiter $limiter,
+		protected ISession $session,
 	) {
 	}
 
@@ -80,6 +82,11 @@ class RateLimitingMiddleware extends Middleware {
 	public function beforeController(Controller $controller, string $methodName): void {
 		parent::beforeController($controller, $methodName);
 		$rateLimitIdentifier = get_class($controller) . '::' . $methodName;
+
+		if ($this->session->exists('app_api_system')) {
+			// Bypass rate limiting for app_api
+			return;
+		}
 
 		if ($this->userSession->isLoggedIn()) {
 			$rateLimit = $this->readLimitFromAnnotationOrAttribute($controller, $methodName, 'UserRateThrottle', UserRateLimit::class);
