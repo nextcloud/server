@@ -364,7 +364,7 @@
 		 * @param {string} url download URL
 		 * @param {Function} callback function to call once the download has started
 		 */
-		handleDownload: function(url, callback) {
+		handleDownload: function(url, callback, files = null, dir = null)  {
 			var randomToken = Math.random().toString(36).substring(2),
 				checkForDownloadCookie = function() {
 					if (!OC.Util.isCookieSetToValue('ocDownloadStarted', randomToken)){
@@ -380,6 +380,10 @@
 			} else {
 				url += '?';
 			}
+			filesClient = OC.Files.getClient();
+			filesClient = filesClient.getClient();
+			// Method signature : request: function (method, url, headers, body, responseType, options) 
+			filesClient.request('POST', url, [], []);
 			OC.redirect(url + 'downloadStartSecret=' + randomToken);
 			OC.Util.waitFor(checkForDownloadCookie, 500);
 		}

@@ -1053,7 +1053,7 @@
 			};
 
 			if(this.getSelectedFiles().length > 1) {
-				OCA.Files.Files.handleDownload(this.getDownloadUrl(files, dir, true), disableLoadingState);
+				OCA.Files.Files.handleDownload(this.getDownloadUrl(files, dir, true), disableLoadingState, files, dir);
 			}
 			else {
 				var first = this.getSelectedFiles()[0];
