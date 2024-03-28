@@ -26,9 +26,9 @@ declare(strict_types=1);
 namespace Test\Authentication\Token;
 
 use OC;
-use OC\Authentication\Token\IToken;
 use OC\Authentication\Token\PublicKeyToken;
 use OC\Authentication\Token\PublicKeyTokenMapper;
+use OCP\Authentication\Token\IToken;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\IUser;
@@ -227,7 +227,7 @@ class PublicKeyTokenMapperTest extends TestCase {
 		$this->assertCount(0, $this->mapper->getTokenByUser('user1000'));
 	}
 
-	public function testDeleteById() {
+	public function testGetById() {
 		/** @var IUser|\PHPUnit\Framework\MockObject\MockObject $user */
 		$user = $this->createMock(IUser::class);
 		$qb = $this->dbConnection->getQueryBuilder();

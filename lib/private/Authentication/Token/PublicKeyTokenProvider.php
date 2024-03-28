@@ -47,6 +47,8 @@ use Psr\Log\LoggerInterface;
 
 class PublicKeyTokenProvider implements IProvider {
 	public const TOKEN_MIN_LENGTH = 22;
+	/** Token cache TTL in seconds */
+	private const TOKEN_CACHE_TTL = 10;
 
 	use TTransactional;
 
@@ -67,10 +69,11 @@ class PublicKeyTokenProvider implements IProvider {
 	/** @var ITimeFactory */
 	private $time;
 
-	/** @var CappedMemoryCache */
+	/** @var ICache */
 	private $cache;
 
-	private IHasher $hasher;
+	/** @var IHasher */
+	private $hasher;
 
 	public function __construct(PublicKeyTokenMapper $mapper,
 								ICrypto $crypto,
@@ -86,7 +89,9 @@ class PublicKeyTokenProvider implements IProvider {
 		$this->logger = $logger;
 		$this->time = $time;
 
-		$this->cache = new CappedMemoryCache();
+		$this->cache = $cacheFactory->isLocalCacheAvailable()
+			? $cacheFactory->createLocal('authtoken_')
+			: $cacheFactory->createInMemory();
 		$this->hasher = $hasher;
 	}
 
@@ -128,7 +133,7 @@ class PublicKeyTokenProvider implements IProvider {
 		}
 
 		// Add the token to the cache
-		$this->cache[$dbToken->getToken()] = $dbToken;
+		$this->cacheToken($dbToken);
 
 		return $dbToken;
 	}
@@ -156,26 +161,21 @@ class PublicKeyTokenProvider implements IProvider {
 		}
 
 		$tokenHash = $this->hashToken($tokenId);
+		if ($token = $this->getTokenFromCache($tokenHash)) {
+			$this->checkToken($token);
+			return $token;
+		}
 
-		if (isset($this->cache[$tokenHash])) {
-			if ($this->cache[$tokenHash] instanceof DoesNotExistException) {
-				$ex = $this->cache[$tokenHash];
-				throw new InvalidTokenException("Token does not exist: " . $ex->getMessage(), 0, $ex);
-			}
-			$token = $this->cache[$tokenHash];
-		} else {
+		try {
+			$token = $this->mapper->getToken($tokenHash);
+			$this->cacheToken($token);
+		} catch (DoesNotExistException $ex) {
 			try {
-				$token = $this->mapper->getToken($tokenHash);
-				$this->cache[$token->getToken()] = $token;
-			} catch (DoesNotExistException $ex) {
-				try {
-					$token = $this->mapper->getToken($this->hashTokenWithEmptySecret($tokenId));
-					$this->cache[$token->getToken()] = $token;
-					$this->rotate($token, $tokenId, $tokenId);
-				} catch (DoesNotExistException $ex2) {
-					$this->cache[$tokenHash] = $ex2;
-					throw new InvalidTokenException("Token does not exist: " . $ex->getMessage(), 0, $ex);
-				}
+				$token = $this->mapper->getToken($this->hashTokenWithEmptySecret($tokenId));
+				$this->rotate($token, $tokenId, $tokenId);
+			} catch (DoesNotExistException) {
+				$this->cacheInvalidHash($tokenHash);
+				throw new InvalidTokenException("Token does not exist: " . $ex->getMessage(), 0, $ex);
 			}
 		}
 
@@ -202,6 +202,12 @@ class PublicKeyTokenProvider implements IProvider {
 			throw new InvalidTokenException("Token with ID $tokenId does not exist: " . $ex->getMessage(), 0, $ex);
 		}
 
+		$this->checkToken($token);
+
+		return $token;
+	}
+
+	private function checkToken($token): void {
 		if ((int)$token->getExpires() !== 0 && $token->getExpires() < $this->time->getTime()) {
 			throw new ExpiredTokenException($token);
 		}
@@ -214,8 +220,6 @@ class PublicKeyTokenProvider implements IProvider {
 			//The password is invalid we should throw an TokenPasswordExpiredException
 			throw new TokenPasswordExpiredException($token);
 		}
-
-		return $token;
 	}
 
 	public function renewSessionToken(string $oldSessionId, string $sessionId): IToken {
@@ -242,7 +246,9 @@ class PublicKeyTokenProvider implements IProvider {
 				IToken::TEMPORARY_TOKEN,
 				$token->getRemember()
 			);
+			$this->cacheToken($newToken);
 
+			$this->cacheInvalidHash($token->getToken());
 			$this->mapper->delete($token);
 
 			return $newToken;
@@ -250,21 +256,23 @@ class PublicKeyTokenProvider implements IProvider {
 	}
 
 	public function invalidateToken(string $token) {
-		$this->cache->clear();
-
+		$tokenHash = $this->hashToken($token);
 		$this->mapper->invalidate($this->hashToken($token));
 		$this->mapper->invalidate($this->hashTokenWithEmptySecret($token));
+		$this->cacheInvalidHash($tokenHash);
 	}
 
 	public function invalidateTokenById(string $uid, int $id) {
-		$this->cache->clear();
+		$token = $this->mapper->getTokenById($id);
+		if ($token->getUID() !== $uid) {
+			return;
+		}
+		$this->mapper->invalidate($token->getToken());
+		$this->cacheInvalidHash($token->getToken());
 
-		$this->mapper->deleteById($uid, $id);
 	}
 
 	public function invalidateOldTokens() {
-		$this->cache->clear();
-
 		$olderThan = $this->time->getTime() - $this->config->getSystemValueInt('session_lifetime', 60 * 60 * 24);
 		$this->logger->debug('Invalidating session tokens older than ' . date('c', $olderThan), ['app' => 'cron']);
 		$this->mapper->invalidateOld($olderThan, IToken::DO_NOT_REMEMBER);
@@ -280,6 +288,7 @@ class PublicKeyTokenProvider implements IProvider {
 			throw new InvalidTokenException("Invalid token type");
 		}
 		$this->mapper->update($token);
+		$this->cacheToken($token);
 	}
 
 	public function updateTokenActivity(IToken $token) {
@@ -297,6 +306,7 @@ class PublicKeyTokenProvider implements IProvider {
 		if ($token->getLastActivity() < ($now - $activityInterval)) {
 			$token->setLastActivity($now);
 			$this->mapper->updateActivity($token, $now);
+			$this->cacheToken($token);
 		}
 	}
 
@@ -481,11 +491,10 @@ class PublicKeyTokenProvider implements IProvider {
 
 		$token->setPasswordInvalid(true);
 		$this->mapper->update($token);
+		$this->cacheToken($token);
 	}
 
 	public function updatePasswords(string $uid, string $password) {
-		$this->cache->clear();
-
 		// prevent setting an empty pw as result of pw-less-login
 		if ($password === '' || !$this->config->getSystemValueBool('auth.storeCryptedPassword', true)) {
 			return;
