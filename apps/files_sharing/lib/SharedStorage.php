@@ -173,9 +173,7 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 			$sourceId = $this->superShare->getNodeId();
 			$ownerNode = $this->ownerUserFolder->getFirstNodeById($sourceId);
 			if (!$ownerNode) {
-				$this->storage = new FailedStorage(['exception' => new NotFoundException("File by id $sourceId not found")]);
-				$this->cache = new FailedCache();
-				$this->rootPath = '';
+				throw new NotFoundException("File by id $sourceId not found");
 			} else {
 				if ($this->nonMaskedStorage instanceof Wrapper && $this->nonMaskedStorage->isWrapperOf($this)) {
 					throw new \Exception('recursive share detected');
@@ -193,6 +191,8 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 			$this->storage = new FailedStorage(['exception' => $e]);
 			$this->cache = new FailedCache();
 			$this->rootPath = '';
+			$this->logger->error("Share source no longer available, removing share", ['exception' => $e, 'app' => 'files_sharing']);
+			$this->unshareStorage();
 		} catch (NoUserException $e) {
 			// sharer user deleted, set FailedStorage
 			$this->storage = new FailedStorage(['exception' => $e]);
