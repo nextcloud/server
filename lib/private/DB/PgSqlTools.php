@@ -61,13 +61,15 @@ class PgSqlTools {
 		});
 
 		foreach ($conn->getSchemaManager()->listSequences() as $sequence) {
-			$sequenceName = $sequence->getName();
+			$namespaceName = $sequence->getNamespaceName();
+			$shortestName = $sequence->getShortestName($namespaceName);
 			$sqlInfo = 'SELECT table_schema, table_name, column_name
 				FROM information_schema.columns
-				WHERE column_default = ? AND table_catalog = ?';
+				WHERE column_default = ? AND table_catalog = ? AND table_schema = ?';
 			$result = $conn->executeQuery($sqlInfo, [
-				"nextval('$sequenceName'::regclass)",
-				$databaseName
+				"nextval('$shortestName'::regclass)",
+				$databaseName,
+				$namespaceName
 			]);
 			$sequenceInfo = $result->fetchAssociative();
 			$result->free();
@@ -76,7 +78,7 @@ class PgSqlTools {
 			/** @var string $columnName */
 			$columnName = $sequenceInfo['column_name'];
 			$sqlMaxId = "SELECT MAX($columnName) FROM $tableName";
-			$sqlSetval = "SELECT setval('$sequenceName', ($sqlMaxId))";
+			$sqlSetval = "SELECT setval('$shortestName', ($sqlMaxId))";
 			$conn->executeQuery($sqlSetval);
 		}
 	}
