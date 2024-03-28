@@ -35,6 +35,8 @@ import './jquery/index.js'
 import { initCore } from './init.js'
 import { registerAppsSlideToggle } from './OC/apps.js'
 import { getRequestToken } from '@nextcloud/auth'
+import { generateUrl } from '@nextcloud/router'
+import Axios from '@nextcloud/axios'
 
 // eslint-disable-next-line camelcase
 __webpack_nonce__ = btoa(getRequestToken())
@@ -48,5 +50,22 @@ window.addEventListener('DOMContentLoaded', function() {
 		window.onpopstate = _.bind(OC.Util.History._onPopState, OC.Util.History)
 	} else {
 		window.onhashchange = _.bind(OC.Util.History._onPopState, OC.Util.History)
+	}
+})
+
+// Fix error "CSRF check failed"
+document.addEventListener('DOMContentLoaded', function() {
+	const form = document.getElementById('password-input-form')
+	if (form) {
+		form.addEventListener('submit', async function(event) {
+			event.preventDefault()
+			const requestToken = document.getElementById('requesttoken')
+			if (requestToken) {
+				const url = generateUrl('/csrftoken')
+				const resp = await Axios.get(url)
+				requestToken.value = resp.data.token
+			}
+			form.submit()
+		})
 	}
 })
