@@ -69,6 +69,9 @@ class OCMDiscoveryService implements IOCMDiscoveryService {
 	 */
 	public function discover(string $remote, bool $skipCache = false): IOCMProvider {
 		$remote = rtrim($remote, '/');
+		if (str_ends_with($remote, '/index.php')) {
+			$remote = substr($remote, 0, -10);
+		}
 
 		if (!$skipCache) {
 			try {
@@ -84,7 +87,7 @@ class OCMDiscoveryService implements IOCMDiscoveryService {
 		$client = $this->clientService->newClient();
 		try {
 			$response = $client->get(
-				$remote . '/ocm-provider/',
+				$remote . '/index.php/ocm-provider/',
 				[
 					'timeout' => 10,
 					'verify' => !$this->config->getSystemValueBool('sharing.federation.allowSelfSignedCertificates'),
