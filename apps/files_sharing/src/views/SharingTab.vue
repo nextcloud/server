@@ -277,11 +277,16 @@ export default {
 		 */
 		processShares({ data }) {
 			if (data.ocs && data.ocs.data && data.ocs.data.length > 0) {
-				// create Share objects and sort by newest
+				// create Share objects and sort by title in alphabetical order and then by creation time
 				const shares = data.ocs.data
 					.map(share => new Share(share))
-					.sort((a, b) => b.createdTime - a.createdTime)
-
+					.sort((a, b) => {
+						const localCompare = a.title.localeCompare(b.title)
+						if (localCompare !== 0) {
+							return localCompare
+						}
+						return b.createdTime - a.createdTime
+					})
 				this.linkShares = shares.filter(share => share.type === this.SHARE_TYPES.SHARE_TYPE_LINK || share.type === this.SHARE_TYPES.SHARE_TYPE_EMAIL)
 				this.shares = shares.filter(share => share.type !== this.SHARE_TYPES.SHARE_TYPE_LINK && share.type !== this.SHARE_TYPES.SHARE_TYPE_EMAIL)
 
