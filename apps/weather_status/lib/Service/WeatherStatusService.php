@@ -287,9 +287,9 @@ class WeatherStatusService {
 	 * @return WeatherStatusLocationWithMode which contains coordinates, formatted address and current weather status mode
 	 */
 	public function getLocation(): array {
-		$lat = $this->config->getUserValue($this->userId, Application::APP_ID, 'lat', '');
-		$lon = $this->config->getUserValue($this->userId, Application::APP_ID, 'lon', '');
-		$address = $this->config->getUserValue($this->userId, Application::APP_ID, 'address', '');
+        $lat = $this->config->getUserValue($this->userId, Application::APP_ID, 'lat', $this->config->getAppValue(Application::APP_ID, 'lat', ''));
+        $lon = $this->config->getUserValue($this->userId, Application::APP_ID, 'lon', $this->config->getAppValue(Application::APP_ID, 'lon', ''));
+        $address = $this->config->getUserValue($this->userId, Application::APP_ID, 'address', $this->config->getAppValue(Application::APP_ID, 'address', ''));
 		$mode = $this->config->getUserValue($this->userId, Application::APP_ID, 'mode', self::MODE_MANUAL_LOCATION);
 		return [
 			'lat' => $lat,
@@ -305,9 +305,9 @@ class WeatherStatusService {
 	 * @return WeatherStatusForecast[]|array{error: string}|WeatherStatusSuccess which contains success state and filtered forecast data
 	 */
 	public function getForecast(): array {
-		$lat = $this->config->getUserValue($this->userId, Application::APP_ID, 'lat', '');
-		$lon = $this->config->getUserValue($this->userId, Application::APP_ID, 'lon', '');
-		$alt = $this->config->getUserValue($this->userId, Application::APP_ID, 'altitude', '');
+        $lat = $this->config->getUserValue($this->userId, Application::APP_ID, 'lat', $this->config->getAppValue(Application::APP_ID, 'lat', ''));
+        $lon = $this->config->getUserValue($this->userId, Application::APP_ID, 'lon', $this->config->getAppValue(Application::APP_ID, 'lon', ''));
+        $alt = $this->config->getUserValue($this->userId, Application::APP_ID, 'altitude', $this->config->getAppValue(Application::APP_ID, 'altitude', ''));
 		if (!is_numeric($alt)) {
 			$alt = 0;
 		}
