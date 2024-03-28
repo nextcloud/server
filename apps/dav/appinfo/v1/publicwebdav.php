@@ -35,9 +35,9 @@ use OCP\EventDispatcher\IEventDispatcher;
 use Psr\Log\LoggerInterface;
 
 // load needed apps
-$RUNTIME_APPTYPES = ['filesystem', 'authentication', 'logging'];
-
-OC_App::loadApps($RUNTIME_APPTYPES);
+OC_App::loadApps(['authentication']);
+OC_App::loadApps(['extended_authentication']);
+OC_App::loadApps(['filesystem', 'logging']);
 
 OC_Util::obEnd();
 \OC::$server->getSession()->close();
