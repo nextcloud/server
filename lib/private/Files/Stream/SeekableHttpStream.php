@@ -219,7 +219,9 @@ class SeekableHttpStream implements File {
 	public function stream_stat() {
 		if ($this->getCurrent()) {
 			$stat = fstat($this->getCurrent());
-			$stat['size'] = $this->totalSize;
+			if ($stat) {
+				$stat['size'] = $this->totalSize;
+			}
 			return $stat;
 		} else {
 			return false;
