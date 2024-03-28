@@ -60,6 +60,9 @@ class InvalidBackend extends Backend {
 		return $this->invalidId;
 	}
 
+	/**
+	 * @return void
+	 */
 	public function manipulateStorageConfig(StorageConfig &$storage, ?IUser $user = null) {
 		$storage->setBackendOption('exception', new \Exception('Unknown storage backend "' . $this->invalidId . '"', StorageNotAvailableException::STATUS_ERROR));
 	}

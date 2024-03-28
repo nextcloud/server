@@ -163,6 +163,9 @@ class HookManager {
 		}
 	}
 
+	/**
+	 * @return void
+	 */
 	public function firstLogin(?IUser $user = null) {
 		if (!is_null($user)) {
 			$principal = 'principals/users/' . $user->getUID();

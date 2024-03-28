@@ -29,6 +29,10 @@ namespace OCA\DAV\Connector\Sabre\Exception;
 use Exception;
 
 class FileLocked extends \Sabre\DAV\Exception {
+	/**
+	 * @param string $message
+	 * @param int $code
+	 */
 	public function __construct($message = "", $code = 0, ?Exception $previous = null) {
 		if ($previous instanceof \OCP\Files\LockNotAcquiredException) {
 			$message = sprintf('Target file %s is locked by another process.', $previous->path);

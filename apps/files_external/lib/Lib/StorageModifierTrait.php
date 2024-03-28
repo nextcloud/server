@@ -46,6 +46,7 @@ trait StorageModifierTrait {
 	 *
 	 * @param StorageConfig $storage
 	 * @param IUser $user User the storage is being used as
+	 * @return void
 	 * @throws InsufficientDataForMeaningfulAnswerException
 	 * @throws StorageNotAvailableException
 	 */
