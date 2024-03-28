@@ -49,7 +49,9 @@ class PhpModules implements ISetupCheck {
 		'zlib',
 	];
 	protected const RECOMMENDED_MODULES = [
+		'bcmath',
 		'exif',
+		'gmp',
 		'intl',
 		'sodium',
 		'sysvsem',
@@ -66,7 +68,18 @@ class PhpModules implements ISetupCheck {
 	}
 
 	public function getCategory(): string {
-		return 'system';
+		return 'php';
+	}
+
+	protected function getRecommendedModuleDescription(string $module): string {
+		return match($module) {
+			'intl' => $this->l10n->t('increases language translation performance and fixes sorting of non-ASCII characters'),
+			'sodium' => $this->l10n->t('for Argon2 for password hashing'),
+			'bcmath' => $this->l10n->t('for WebAuthn passwordless login'),
+			'gmp' => $this->l10n->t('for WebAuthn passwordless login, and SFTP storage'),
+			'exif' => $this->l10n->t('for picture rotation in server and metadata extraction in the Photos app'),
+			default => '',
+		};
 	}
 
 	public function run(): SetupResult {
@@ -78,8 +91,15 @@ class PhpModules implements ISetupCheck {
 				$this->urlGenerator->linkToDocs('admin-php-modules')
 			);
 		} elseif (!empty($missingRecommendedModules)) {
+			$moduleList = implode(
+				"\n",
+				array_map(
+					fn (string $module) => '- '.$module.' '.$this->getRecommendedModuleDescription($module),
+					$missingRecommendedModules
+				)
+			);
 			return SetupResult::info(
-				$this->l10n->t('This instance is missing some recommended PHP modules. For improved performance and better compatibility it is highly recommended to install them: %s.', implode(', ', $missingRecommendedModules)),
+				$this->l10n->t("This instance is missing some recommended PHP modules. For improved performance and better compatibility it is highly recommended to install them:\n%s", $moduleList),
 				$this->urlGenerator->linkToDocs('admin-php-modules')
 			);
 		} else {

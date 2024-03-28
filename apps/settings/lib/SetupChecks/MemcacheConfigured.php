@@ -48,13 +48,29 @@ class MemcacheConfigured implements ISetupCheck {
 	}
 
 	public function run(): SetupResult {
-		if ($this->config->getSystemValue('memcache.local', null) !== null) {
-			return SetupResult::success($this->l10n->t('Configured'));
-		} else {
+		$memcacheDistributedClass = $this->config->getSystemValue('memcache.distributed', null);
+		$memcacheLockingClass = $this->config->getSystemValue('memcache.locking', null);
+		$memcacheLocalClass = $this->config->getSystemValue('memcache.local', null);
+		$caches = array_filter([$memcacheDistributedClass,$memcacheLockingClass,$memcacheLocalClass]);
+		if (in_array(\OC\Memcache\Memcached::class, array_map(fn (string $class) => ltrim($class, '\\'), $caches))) {
+			if (extension_loaded('memcache')) {
+				return SetupResult::warning(
+					$this->l10n->t('Memcached is configured as distributed cache, but the wrong PHP module "memcache" is installed. \\OC\\Memcache\\Memcached only supports "memcached" and not "memcache".'),
+					'https://code.google.com/p/memcached/wiki/PHPClientComparison'
+				);
+			}
+			if (!extension_loaded('memcached')) {
+				return SetupResult::warning(
+					$this->l10n->t('Memcached is configured as distributed cache, but the PHP module "memcached" is not installed.')
+				);
+			}
+		}
+		if ($memcacheLocalClass === null) {
 			return SetupResult::info(
 				$this->l10n->t('No memory cache has been configured. To enhance performance, please configure a memcache, if available.'),
 				$this->urlGenerator->linkToDocs('admin-performance')
 			);
 		}
+		return SetupResult::success($this->l10n->t('Configured'));
 	}
 }
