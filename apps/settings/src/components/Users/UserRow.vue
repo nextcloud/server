@@ -1,6 +1,7 @@
 <!--
   - @copyright Copyright (c) 2019 Gary Kim <gary@garykim.dev>
   - @copyright Copyright (c) 2018 John Molakvoæ <skjnldsv@protonmail.com>
+  - @copyright Copyright (c) <2024>, <Jed Boulahya> (<jed.boulahya@medtech.tn>)
   -
   - @author Christopher Ng <chrng8@gmail.com>
   - @author Gary Kim <gary@garykim.dev>
@@ -24,67 +25,38 @@
   -->
 
 <template>
-	<tr class="user-list__row"
-		:data-cy-user-row="user.id">
+	<tr class="user-list__row" :data-cy-user-row="user.id">
 		<td class="row__cell row__cell--avatar" data-cy-user-list-cell-avatar>
-			<NcLoadingIcon v-if="isLoadingUser"
-				:name="t('settings', 'Loading account …')"
-				:size="32" />
-			<NcAvatar v-else-if="visible"
-				disable-menu
-				:show-user-status="false"
-				:user="user.id" />
+			<NcLoadingIcon v-if="isLoadingUser" :name="t('settings', 'Loading account …')" :size="32" />
+			<NcAvatar v-else-if="visible" disable-menu :show-user-status="false" :user="user.id" />
 		</td>
 
 		<td class="row__cell row__cell--displayname" data-cy-user-list-cell-displayname>
 			<template v-if="editing && user.backendCapabilities.setDisplayName">
-				<NcTextField ref="displayNameField"
-					class="user-row-text-field"
-					data-cy-user-list-input-displayname
-					:data-loading="loading.displayName || undefined"
-					:trailing-button-label="t('settings', 'Submit')"
-					:class="{ 'icon-loading-small': loading.displayName }"
-					:show-trailing-button="true"
-					:disabled="loading.displayName || isLoadingField"
-					:label="t('settings', 'Change display name')"
-					trailing-button-icon="arrowRight"
-					:value.sync="editedDisplayName"
-					autocapitalize="off"
-					autocomplete="off"
-					spellcheck="false"
-					@trailing-button-click="updateDisplayName" />
+				<NcTextField ref="displayNameField" class="user-row-text-field" data-cy-user-list-input-displayname
+					:data-loading="loading.displayName || undefined" :trailing-button-label="t('settings', 'Submit')"
+					:class="{ 'icon-loading-small': loading.displayName }" :show-trailing-button="true"
+					:disabled="loading.displayName || isLoadingField" :label="t('settings', 'Change display name')"
+					trailing-button-icon="arrowRight" :value.sync="editedDisplayName" autocapitalize="off"
+					autocomplete="off" spellcheck="false" @trailing-button-click="updateDisplayName" />
 			</template>
 			<template v-else>
-				<strong v-if="!isObfuscated"
-					:title="user.displayname?.length > 20 ? user.displayname : null">
+				<strong v-if="!isObfuscated" :title="user.displayname?.length > 20 ? user.displayname : null">
 					{{ user.displayname }}
 				</strong>
 				<span class="row__subtitle">{{ user.id }}</span>
 			</template>
 		</td>
 
-		<td data-cy-user-list-cell-password
-			class="row__cell"
-			:class="{ 'row__cell--obfuscated': hasObfuscated }">
+		<td data-cy-user-list-cell-password class="row__cell" :class="{ 'row__cell--obfuscated': hasObfuscated }">
 			<template v-if="editing && settings.canChangePassword && user.backendCapabilities.setPassword">
-				<NcTextField class="user-row-text-field"
-					data-cy-user-list-input-password
-					:data-loading="loading.password || undefined"
-					:trailing-button-label="t('settings', 'Submit')"
-					:class="{'icon-loading-small': loading.password}"
-					:show-trailing-button="true"
-					:disabled="loading.password || isLoadingField"
-					:minlength="minPasswordLength"
-					maxlength="469"
-					:label="t('settings', 'Set new password')"
-					trailing-button-icon="arrowRight"
-					:value.sync="editedPassword"
-					autocapitalize="off"
-					autocomplete="new-password"
-					required
-					spellcheck="false"
-					type="password"
-					@trailing-button-click="updatePassword" />
+				<NcTextField class="user-row-text-field" data-cy-user-list-input-password
+					:data-loading="loading.password || undefined" :trailing-button-label="t('settings', 'Submit')"
+					:class="{ 'icon-loading-small': loading.password }" :show-trailing-button="true"
+					:disabled="loading.password || isLoadingField" :minlength="minPasswordLength" maxlength="469"
+					:label="t('settings', 'Set new password')" trailing-button-icon="arrowRight"
+					:value.sync="editedPassword" autocapitalize="off" autocomplete="new-password" required
+					spellcheck="false" type="password" @trailing-button-click="updatePassword" />
 			</template>
 			<span v-else-if="isObfuscated">
 				{{ t('settings', 'You do not have permissions to see the details of this account') }}
@@ -93,81 +65,47 @@
 
 		<td class="row__cell" data-cy-user-list-cell-email>
 			<template v-if="editing">
-				<NcTextField class="user-row-text-field"
-					:class="{'icon-loading-small': loading.mailAddress}"
-					data-cy-user-list-input-email
-					:data-loading="loading.mailAddress || undefined"
-					:show-trailing-button="true"
-					:trailing-button-label="t('settings', 'Submit')"
-					:label="t('settings', 'Set new email address')"
-					:disabled="loading.mailAddress || isLoadingField"
-					trailing-button-icon="arrowRight"
-					:value.sync="editedMail"
-					autocapitalize="off"
-					autocomplete="email"
-					spellcheck="false"
-					type="email"
-					@trailing-button-click="updateEmail" />
+				<NcTextField class="user-row-text-field" :class="{ 'icon-loading-small': loading.mailAddress }"
+					data-cy-user-list-input-email :data-loading="loading.mailAddress || undefined"
+					:show-trailing-button="true" :trailing-button-label="t('settings', 'Submit')"
+					:label="t('settings', 'Set new email address')" :disabled="loading.mailAddress || isLoadingField"
+					trailing-button-icon="arrowRight" :value.sync="editedMail" autocapitalize="off" autocomplete="email"
+					spellcheck="false" type="email" @trailing-button-click="updateEmail" />
 			</template>
-			<span v-else-if="!isObfuscated"
-				:title="user.email?.length > 20 ? user.email : null">
+			<span v-else-if="!isObfuscated" :title="user.email?.length > 20 ? user.email : null">
 				{{ user.email }}
 			</span>
 		</td>
 
 		<td class="row__cell row__cell--large row__cell--multiline" data-cy-user-list-cell-groups>
 			<template v-if="editing">
-				<label class="hidden-visually"
-					:for="'groups' + uniqueId">
+				<label class="hidden-visually" :for="'groups' + uniqueId">
 					{{ t('settings', 'Add user to group') }}
 				</label>
-				<NcSelect data-cy-user-list-input-groups
-					:data-loading="loading.groups || undefined"
-					:input-id="'groups' + uniqueId"
-					:close-on-select="false"
-					:disabled="isLoadingField"
-					:loading="loading.groups"
-					:multiple="true"
-					:append-to-body="false"
-					:options="availableGroups"
-					:placeholder="t('settings', 'Add account to group')"
-					:taggable="settings.isAdmin"
-					:value="userGroups"
-					label="name"
-					:no-wrap="true"
-					:create-option="(value) => ({ name: value, isCreating: true })"
-					@option:created="createGroup"
-					@option:selected="options => addUserGroup(options.at(-1))"
-					@option:deselected="removeUserGroup" />
+				<NcSelect data-cy-user-list-input-groups :data-loading="loading.groups || undefined"
+					:input-id="'groups' + uniqueId" :close-on-select="false" :disabled="isLoadingField"
+					:loading="loading.groups" :multiple="true" :append-to-body="false" :options="availableGroups"
+					:placeholder="t('settings', 'Add account to group')" :taggable="settings.isAdmin"
+					:value="userGroups" label="name" :no-wrap="true"
+					:create-option="(value) => ({ name: value, isCreating: true })" @option:created="createGroup"
+					@option:selected="options => addUserGroup(options.at(-1))" @option:deselected="removeUserGroup" />
 			</template>
-			<span v-else-if="!isObfuscated"
-				:title="userGroupsLabels?.length > 40 ? userGroupsLabels : null">
+			<span v-else-if="!isObfuscated" :title="userGroupsLabels?.length > 40 ? userGroupsLabels : null">
 				{{ userGroupsLabels }}
 			</span>
 		</td>
 
-		<td v-if="subAdminsGroups.length > 0 && settings.isAdmin"
-			data-cy-user-list-cell-subadmins
+		<td v-if="subAdminsGroups.length > 0 && settings.isAdmin" data-cy-user-list-cell-subadmins
 			class="row__cell row__cell--large row__cell--multiline">
 			<template v-if="editing && settings.isAdmin && subAdminsGroups.length > 0">
-				<label class="hidden-visually"
-					:for="'subadmins' + uniqueId">
+				<label class="hidden-visually" :for="'subadmins' + uniqueId">
 					{{ t('settings', 'Set account as admin for') }}
 				</label>
-				<NcSelect data-cy-user-list-input-subadmins
-					:data-loading="loading.subadmins || undefined"
-					:input-id="'subadmins' + uniqueId"
-					:close-on-select="false"
-					:disabled="isLoadingField"
-					:loading="loading.subadmins"
-					label="name"
-					:append-to-body="false"
-					:multiple="true"
-					:no-wrap="true"
-					:options="subAdminsGroups"
-					:placeholder="t('settings', 'Set account as admin for')"
-					:value="userSubAdminsGroups"
-					@option:deselected="removeUserSubAdmin"
+				<NcSelect data-cy-user-list-input-subadmins :data-loading="loading.subadmins || undefined"
+					:input-id="'subadmins' + uniqueId" :close-on-select="false" :disabled="isLoadingField"
+					:loading="loading.subadmins" label="name" :append-to-body="false" :multiple="true" :no-wrap="true"
+					:options="subAdminsGroups" :placeholder="t('settings', 'Set account as admin for')"
+					:value="userSubAdminsGroups" @option:deselected="removeUserSubAdmin"
 					@option:selected="options => addUserSubAdmin(options.at(-1))" />
 			</template>
 			<span v-else-if="!isObfuscated"
@@ -178,104 +116,65 @@
 
 		<td class="row__cell" data-cy-user-list-cell-quota>
 			<template v-if="editing">
-				<label class="hidden-visually"
-					:for="'quota' + uniqueId">
+				<label class="hidden-visually" :for="'quota' + uniqueId">
 					{{ t('settings', 'Select account quota') }}
 				</label>
-				<NcSelect v-model="editedUserQuota"
-					:close-on-select="true"
-					:create-option="validateQuota"
-					data-cy-user-list-input-quota
-					:data-loading="loading.quota || undefined"
-					:disabled="isLoadingField"
-					:loading="loading.quota"
-					:append-to-body="false"
-					:clearable="false"
-					:input-id="'quota' + uniqueId"
-					:options="quotaOptions"
-					:placeholder="t('settings', 'Select account quota')"
-					:taggable="true"
+				<NcSelect v-model="editedUserQuota" :close-on-select="true" :create-option="validateQuota"
+					data-cy-user-list-input-quota :data-loading="loading.quota || undefined" :disabled="isLoadingField"
+					:loading="loading.quota" :append-to-body="false" :clearable="false" :input-id="'quota' + uniqueId"
+					:options="quotaOptions" :placeholder="t('settings', 'Select account quota')" :taggable="true"
 					@option:selected="setUserQuota" />
 			</template>
 			<template v-else-if="!isObfuscated">
 				<span :id="'quota-progress' + uniqueId">{{ userQuota }} ({{ usedSpace }})</span>
-				<NcProgressBar :aria-labelledby="'quota-progress' + uniqueId"
-					class="row__progress"
-					:class="{
-						'row__progress--warn': usedQuota > 80,
-					}"
-					:value="usedQuota" />
+				<NcProgressBar :aria-labelledby="'quota-progress' + uniqueId" class="row__progress" :class="{
+		'row__progress--warn': usedQuota > 80,
+	}" :value="usedQuota" />
 			</template>
 		</td>
 
-		<td v-if="showConfig.showLanguages"
-			class="row__cell row__cell--large"
-			data-cy-user-list-cell-language>
+		<td v-if="showConfig.showLanguages" class="row__cell row__cell--large" data-cy-user-list-cell-language>
 			<template v-if="editing">
-				<label class="hidden-visually"
-					:for="'language' + uniqueId">
+				<label class="hidden-visually" :for="'language' + uniqueId">
 					{{ t('settings', 'Set the language') }}
 				</label>
-				<NcSelect :id="'language' + uniqueId"
-					data-cy-user-list-input-language
-					:data-loading="loading.languages || undefined"
-					:allow-empty="false"
-					:disabled="isLoadingField"
-					:loading="loading.languages"
-					:clearable="false"
-					:append-to-body="false"
-					:options="availableLanguages"
-					:placeholder="t('settings', 'No language set')"
-					:value="userLanguage"
-					label="name"
-					@input="setUserLanguage" />
+				<NcSelect :id="'language' + uniqueId" data-cy-user-list-input-language
+					:data-loading="loading.languages || undefined" :allow-empty="false" :disabled="isLoadingField"
+					:loading="loading.languages" :clearable="false" :append-to-body="false"
+					:options="availableLanguages" :placeholder="t('settings', 'No language set')" :value="userLanguage"
+					label="name" @input="setUserLanguage" />
 			</template>
 			<span v-else-if="!isObfuscated">
 				{{ userLanguage.name }}
 			</span>
 		</td>
 
-		<td v-if="showConfig.showUserBackend || showConfig.showStoragePath"
-			data-cy-user-list-cell-storage-location
+		<td v-if="showConfig.showUserBackend || showConfig.showStoragePath" data-cy-user-list-cell-storage-location
 			class="row__cell row__cell--large">
 			<template v-if="!isObfuscated">
 				<span v-if="showConfig.showUserBackend">{{ user.backend }}</span>
-				<span v-if="showConfig.showStoragePath"
-					:title="user.storageLocation"
-					class="row__subtitle">
+				<span v-if="showConfig.showStoragePath" :title="user.storageLocation" class="row__subtitle">
 					{{ user.storageLocation }}
 				</span>
 			</template>
 		</td>
 
-		<td v-if="showConfig.showLastLogin"
-			:title="userLastLoginTooltip"
-			class="row__cell"
+		<td v-if="showConfig.showLastLogin" :title="userLastLoginTooltip" class="row__cell"
 			data-cy-user-list-cell-last-login>
 			<span v-if="!isObfuscated">{{ userLastLogin }}</span>
 		</td>
 
 		<td class="row__cell row__cell--large row__cell--fill" data-cy-user-list-cell-manager>
 			<template v-if="editing">
-				<label class="hidden-visually"
-					:for="'manager' + uniqueId">
+				<label class="hidden-visually" :for="'manager' + uniqueId">
 					{{ managerLabel }}
 				</label>
-				<NcSelect v-model="currentManager"
-					class="select--fill"
-					data-cy-user-list-input-manager
-					:data-loading="loading.manager || undefined"
-					:input-id="'manager' + uniqueId"
-					:close-on-select="true"
-					:disabled="isLoadingField"
-					:append-to-body="false"
-					:loading="loadingPossibleManagers || loading.manager"
-					label="displayname"
-					:options="possibleManagers"
-					:placeholder="managerLabel"
-					@open="searchInitialUserManager"
-					@search="searchUserManager"
-					@option:selected="updateUserManager" />
+				<NcSelect v-model="currentManager" class="select--fill" data-cy-user-list-input-manager
+					:data-loading="loading.manager || undefined" :input-id="'manager' + uniqueId"
+					:close-on-select="true" :disabled="isLoadingField" :append-to-body="false"
+					:loading="loadingPossibleManagers || loading.manager" label="displayname"
+					:options="possibleManagers" :placeholder="managerLabel" @open="searchInitialUserManager"
+					@search="searchUserManager" @option:selected="updateUserManager" />
 			</template>
 			<span v-else-if="!isObfuscated">
 				{{ user.manager }}
@@ -283,12 +182,8 @@
 		</td>
 
 		<td class="row__cell row__cell--actions" data-cy-user-list-cell-actions>
-			<UserRowActions v-if="visible && !isObfuscated && canEdit && !loading.all"
-				:actions="userActions"
-				:disabled="isLoadingField"
-				:edit="editing"
-				:user="user"
-				@update:edit="toggleEdit" />
+			<UserRowActions v-if="visible && !isObfuscated && canEdit && !loading.all" :actions="userActions"
+				:disabled="isLoadingField" :edit="editing" :user="user" @update:edit="toggleEdit" />
 		</td>
 	</tr>
 </template>
@@ -596,6 +491,10 @@ export default {
 
 		deleteUser() {
 			const userid = this.user.id
+			// check if dialog is open to prevent reoppening
+			if (this.dialogOpen) {
+				return; // Prevent opening a new dialog
+			}
 			OC.dialogs.confirmDestructive(
 				t('settings', 'Fully delete {userid}\'s account including all their personal files, app data, etc.', { userid }),
 				t('settings', 'Account deletion'),
@@ -613,12 +512,19 @@ export default {
 							.then(() => {
 								this.loading.delete = false
 								this.loading.all = false
+								this.dialogOpen = false
+
 							})
+					} else {
+						this.dialogOpen = false // Mark dialog as closed
 					}
 				},
 				true,
 			)
+			// Mark dialog as open
+			this.dialogOpen = true;
 		},
+
 
 		enableDisableUser() {
 			this.loading.delete = true
@@ -960,6 +866,7 @@ export default {
 			&::-moz-progress-bar {
 				background: var(--color-warning) !important;
 			}
+
 			&::-webkit-progress-value {
 				background: var(--color-warning) !important;
 			}
