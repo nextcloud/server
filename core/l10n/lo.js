@@ -300,7 +300,6 @@ OC.L10N.register(
     "Wrong username or password." : "ຊື່ຜູ້ໃຊ້ ຫຼື ລະຫັດຜ່ານຜິດ.",
     "User disabled" : "ປິດຊື່ຜູ້ໃຊ້",
     "Username or email" : "ຊື່ຜູ້ໃຊ້ ຫຼື ອີເມວ",
-    "If it is not there ask your local administrator." : "ຖ້າບໍ່ໄດ້ຖາມຜູ້ເບິ່ງລະບົບຂອງທ່ານ.",
     "Settings" : "ການຕັ້ງຄ່າ",
     "Show all contacts …" : "ສະແດງການຕິດຕໍ່ທັງຫມົດ ...",
     "No files in here" : "ບໍ່ມີຟາຍໃນທີ່ນີ້",

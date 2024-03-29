@@ -110,8 +110,6 @@ OC.L10N.register(
     "Reset to default" : "Reset to default",
     "Upload" : "Upload",
     "Remove background image" : "Remove background image",
-    "Failed to clean up the old administration theming images folder" : "Failed to clean up the old administration theming images folder",
-    "Failed to clean up the old administration image folder" : "Failed to clean up the old administration image folder",
     "Select a custom color" : "Select a custom colour"
 },
 "nplurals=2; plural=(n != 1);");

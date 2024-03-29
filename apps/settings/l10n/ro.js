@@ -286,7 +286,6 @@ OC.L10N.register(
     "For security reasons this password will only be shown once." : "Din motive de securitate, această parolă va fi afișată doar o singură dată.",
     "Copied!" : "S-a copiat!",
     "Copy" : "Copiază",
-    "png or jpg, max. 20 MB" : "png sau jpg, max. 20 MB",
     "Your email address" : "Adresa ta de email",
     "You do not have permissions to see the details of this user" : "Nu aveți permisiuni pentru a vedea detaliile acestui utilizator",
     "Add group" : "Adaugă grup",
@@ -298,7 +297,6 @@ OC.L10N.register(
     "SMTP Username" : "Nume utilizator SMTP",
     "Set default expiration date" : "Setează data implicită de expirare",
     "Exclude groups from sharing" : "Exclude grupuri de la partajare",
-    "These groups will still be able to receive shares, but not to initiate them." : "Aceste grupuri vor putea în continuare să primească partajări, dar nu să le inițieze.",
-    "Allow username autocompletion in share dialog" : "Permite autocompletarea numelor în dialogul de partajare"
+    "These groups will still be able to receive shares, but not to initiate them." : "Aceste grupuri vor putea în continuare să primească partajări, dar nu să le inițieze."
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

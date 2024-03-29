@@ -32,8 +32,8 @@ OC.L10N.register(
     "An error occurred while trying to delete the comment" : "Yorum silinmeye çalışılırken bir sorun çıktı",
     "An error occurred while trying to create the comment" : "Yorum eklenmeye çalışılırken bir sorun çıktı",
     "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "\"{file}\" hakkında bir yorumda silinmiş bir kullanıcı tarafından anıldınız",
-    "_%n unread comment_::_%n unread comments_" : ["%n okunmamış yorum","%n okunmamış yorum"],
     "Write a message …" : "Bir ileti yazın…",
-    "\"@\" for mentions, \":\" for emoji, \"/\" for smart picker" : "Anmalar için \"@\" , emojiler için \":\"  akıllı seçici için \"/\""
+    "\"@\" for mentions, \":\" for emoji, \"/\" for smart picker" : "Anmalar için \"@\" , emojiler için \":\"  akıllı seçici için \"/\"",
+    "_%n unread comment_::_%n unread comments_" : ["%n okunmamış yorum","%n okunmamış yorum"]
 },
 "nplurals=2; plural=(n > 1);");

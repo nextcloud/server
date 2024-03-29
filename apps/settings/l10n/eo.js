@@ -324,7 +324,6 @@ OC.L10N.register(
     "To run this you need the PHP POSIX extension. See {linkstart}PHP documentation{linkend} for more details." : "Por ruli iton, vi bezonas la PHP-modulon pri POSIX. Vidu la {linkstart}PHP-dokumentaron{linkend} pro pli da detaloj.",
     "You are about to remove the group {group}. The users will NOT be deleted." : "Vi tuj forigos grupon {group}. La uzantoj NE estos forigitaj.",
     "Please confirm the group removal " : "Bv. konfirmi forigadon de la grupo",
-    "png or jpg, max. 20 MB" : "png aŭ jpg, maksimume 20 MB",
     "Your email address" : "Via retpoŝta adreso",
     "You do not have permissions to see the details of this user" : "Vi ne rajtas vidi detalojn pri tiu ĉu uzanto",
     "Set user as admin for" : "Agordi uzanton kiel administranto por",

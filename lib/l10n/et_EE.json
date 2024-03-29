@@ -137,7 +137,6 @@
     "Your data directory is invalid." : "Sinu andmekataloog on vigane",
     "Could not obtain lock type %d on \"%s\"." : "Ei suutnud hankida %d tüüpi lukustust \"%s\".",
     "Storage is temporarily not available" : "Salvestusruum pole ajutiselt kättesaadav",
-    "Full name" : "Täisnimi",
     "Unknown user" : "Tundmatu kasutaja",
     "Oracle username and/or password not valid" : "Oracle kasutajatunnus ja/või parool pole õiged",
     "PostgreSQL username and/or password not valid" : "PostgreSQL kasutajatunnus ja/või parool pole õiged",
@@ -149,7 +148,6 @@
     "Username contains whitespace at the beginning or at the end" : "Kasutajanime alguses või lõpus on tühik",
     "Username must not consist of dots only" : "Kasutajanimi ei tohi koosneda ainult punktidest",
     "User disabled" : "Kasutaja deaktiveeritud",
-    "libxml2 2.7.0 is at least required. Currently %s is installed." : "Vaja on vähemalt libxml2 2.7.0. Hetkel on installitud %s.",
     "Please upgrade your database version." : "Palun uuenda oma andmebaasi versioon",
     "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Palun muuda kataloogi õigused 0770-ks, et kataloogi sisu poleks teistele kasutajatele nähtav"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

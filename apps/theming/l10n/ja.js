@@ -106,8 +106,6 @@ OC.L10N.register(
     "Reset to default" : "デフォルトに戻す",
     "Upload" : "アップロード",
     "Remove background image" : "背景画像を削除",
-    "Failed to clean up the old administration theming images folder" : "古い管理テーマ画像フォルダのクリーンアップに失敗しました",
-    "Failed to clean up the old administration image folder" : "古い管理画像フォルダのクリーンアップに失敗しました",
     "Select a custom color" : "カスタムカラーを選択"
 },
 "nplurals=1; plural=0;");

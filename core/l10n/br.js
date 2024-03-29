@@ -277,7 +277,6 @@ OC.L10N.register(
     "Wrong username or password." : "Anv-implijader pe ger-tremen direizh",
     "User disabled" : "Implijer disaotreet",
     "Username or email" : "Anv implijer pe bostel",
-    "If it is not there ask your local administrator." : "M'a n'eo ket amañ, goulennit o merour lec'h.",
     "Settings" : "Arventennoù",
     "Show all contacts …" : "Diskwel tout an darempredoù ...",
     "No files in here" : "Restr ebet amañ",

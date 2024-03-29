@@ -27,7 +27,7 @@
     "An error occurred while trying to delete the comment" : "Prišlo je do napake med brisanjem opombe",
     "An error occurred while trying to create the comment" : "Prišlo je do napake med ustvarjanjem opombe",
     "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "Uporabnik, ki je sicer že izbrisan, vas omeni v opombi k datoteki »{file}«.",
-    "_%n unread comment_::_%n unread comments_" : ["%n  neprebrana opomba","%n  neprebrani opombi","%n  neprebrane opombe","%n neprebranih opomb"],
-    "\"@\" for mentions, \":\" for emoji, \"/\" for smart picker" : "» @ « za omenjanje, » : « za izrazne ikone, » / « za pametni izbirnik"
+    "\"@\" for mentions, \":\" for emoji, \"/\" for smart picker" : "» @ « za omenjanje, » : « za izrazne ikone, » / « za pametni izbirnik",
+    "_%n unread comment_::_%n unread comments_" : ["%n  neprebrana opomba","%n  neprebrani opombi","%n  neprebrane opombe","%n neprebranih opomb"]
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"
 }

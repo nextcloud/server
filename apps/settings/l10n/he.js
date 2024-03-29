@@ -359,7 +359,6 @@ OC.L10N.register(
     "To run this you need the PHP POSIX extension. See {linkstart}PHP documentation{linkend} for more details." : "כדי להריץ זאת יש צורך בהרחבת POSIX ל־PHP. נא לעיין ב{linkstart}תיעוד של PHP{linkend} לפרטים נוספים.",
     "You are about to remove the group {group}. The users will NOT be deleted." : "פעולה זו תסיר את הקבוצה {group}. המשתמשים ﬥﬡ יימחקו.",
     "Please confirm the group removal " : "נא לאשר את הסרת הקבוצה",
-    "png or jpg, max. 20 MB" : "png או jpg, מקסימום 20 מגה-בייט",
     "Your email address" : "כתובת הדואר האלקטרוני שלך",
     "You do not have permissions to see the details of this user" : "אין לך הרשאות לצפות בפירוט על המשתמש",
     "Add new password" : "הוספת ססמה חדשה",
@@ -392,8 +391,6 @@ OC.L10N.register(
     "day(s)" : "ימים",
     "Set default expiration date" : "הגדרת תאריך תפוגה ברירת מחדל",
     "Exclude groups from sharing" : "מניעת קבוצות משיתוף",
-    "These groups will still be able to receive shares, but not to initiate them." : "קבוצות אלו עדיין יוכלו לקבל שיתופים, אך לא לשתף בעצמם.",
-    "Allow username autocompletion in share dialog" : "לאפשר השלמה אוטומטית של שם משתמש בחלונית השיתוף",
-    "Allow username autocompletion to users within the same groups" : "לאפשר השלמה אוטומטית של שם משתמש למשתמשים בתוך אותן הקבוצות"
+    "These groups will still be able to receive shares, but not to initiate them." : "קבוצות אלו עדיין יוכלו לקבל שיתופים, אך לא לשתף בעצמם."
 },
 "nplurals=3; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: 2;");

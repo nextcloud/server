@@ -32,8 +32,8 @@ OC.L10N.register(
     "An error occurred while trying to delete the comment" : "Errorea gertatu da iruzkina ezabatzen saiatzean",
     "An error occurred while trying to create the comment" : "Errorea gertatu da iruzkina sortzen saiatzean",
     "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "\"{file}\"-n aipatu zaituzte, dagoeneko ezabatu den erabiltzaile baten iruzkin batean",
-    "_%n unread comment_::_%n unread comments_" : ["iruzkin %n irakurri gabe","%n iruzkin irakurri gabe"],
     "Write a message …" : "Idatzi mezu bat ...",
-    "\"@\" for mentions, \":\" for emoji, \"/\" for smart picker" : "\"@\" aipamenetarako, \":\" emojientzako, \"/\" hautatzaile adimentsurako"
+    "\"@\" for mentions, \":\" for emoji, \"/\" for smart picker" : "\"@\" aipamenetarako, \":\" emojientzako, \"/\" hautatzaile adimentsurako",
+    "_%n unread comment_::_%n unread comments_" : ["iruzkin %n irakurri gabe","%n iruzkin irakurri gabe"]
 },
 "nplurals=2; plural=(n != 1);");

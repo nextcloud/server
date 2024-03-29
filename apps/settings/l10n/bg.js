@@ -491,11 +491,8 @@ OC.L10N.register(
     "You are about to remove the group {group}. The users will NOT be deleted." : "На път сте да премахнете групата {group}. Потребителите НЯМА да бъдат изтрити.",
     "Please confirm the group removal " : "Моля, потвърдете премахването на групата",
     "Your profile information" : "Информация за вашия профил",
-    "Choose profile picture from files" : "Избор на профилна снимка от файлове",
-    "png or jpg, max. 20 MB" : "png или jpg, макс. 20 MB",
     "Your email address" : "Вашият имейл адрес",
     "Additional emails" : "Допълнителни имейли",
-    "Your location" : "Вашето местоположение",
     "Enable Profile" : "Активиране на профил",
     "Your Twitter handle" : "Вашият Twitter манипулатор",
     "You do not have permissions to see the details of this user" : "Нямате права да виждате подробности за този потребител",
@@ -535,8 +532,6 @@ OC.L10N.register(
     "Set default expiration date" : "Задайте дата на изтичане по подразбиране",
     "Exclude groups from creating link shares:" : "Изключване на групи от създаване на споделяния на връзки:",
     "Exclude groups from sharing" : "Забрани групи да споделят",
-    "These groups will still be able to receive shares, but not to initiate them." : "Тези групи ще могат да получават споделения, но няма да могат самите те да споделят.",
-    "Allow username autocompletion in share dialog" : "Разрешаване на автоматично довършване на име на потребител в диалоговия прозорец за споделяне",
-    "Allow username autocompletion to users within the same groups" : "Разрешаване на автоматично довършване на име на потребител на потребители в същите групи"
+    "These groups will still be able to receive shares, but not to initiate them." : "Тези групи ще могат да получават споделения, но няма да могат самите те да споделят."
 },
 "nplurals=2; plural=(n != 1);");

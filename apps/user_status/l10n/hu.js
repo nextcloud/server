@@ -43,7 +43,6 @@ OC.L10N.register(
     "4 hours" : "4 óra",
     "Mute all notifications" : "Összes értesítés némítása",
     "Appear offline" : "Megjelenés nem kapcsolódottként",
-    "View profile" : "Profil megtekintése",
-    "{status}, {timestamp}" : "{status}, {timestamp}"
+    "View profile" : "Profil megtekintése"
 },
 "nplurals=2; plural=(n != 1);");
