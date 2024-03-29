@@ -239,7 +239,6 @@ OC.L10N.register(
     "Copied!" : "¡Copiado!",
     "Copy" : "Copiar",
     "To run this you need the PHP POSIX extension. See {linkstart}PHP documentation{linkend} for more details." : "Para correr esto necesitas la extensión POSIX de PHP. Por favor ve la {linkstart}documentación de PHP{linkend} para más detalles. ",
-    "png or jpg, max. 20 MB" : "png o jpg max. 20 MB",
     "Your email address" : "Tu dirección de correo electrónico",
     "Your Twitter handle" : "Tu cuenta de Twitter",
     "Add group" : "Agregar grupo",

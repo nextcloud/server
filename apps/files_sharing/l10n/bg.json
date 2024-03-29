@@ -249,23 +249,16 @@
     "No expiration date set" : "Не е зададен срок на валидност",
     "Please specify a valid user" : "Моля въведете валиден потребител",
     "Please specify a valid federated user ID" : "Моля, посочете валиден идентификатор на федериран потребител",
-    "Sharing %s failed because the back end does not support sciencemesh shares" : "Споделянето %s не бе успешно, защото вътрешния сървър не позволява споделяния на приложението sciencemesh",
-    "Reject" : "Откажи",
     "This application enables users to share files within Nextcloud. If enabled, the admin can choose which groups can share files. The applicable users can then share files and folders with other users and groups within Nextcloud. In addition, if the admin enables the share link feature, an external link can be used to share files with other users outside of Nextcloud. Admins can also enforce passwords, expirations dates, and enable server to server sharing via share links, as well as sharing from mobile devices.\nTurning the feature off removes shared files and folders on the server for all share recipients, and also on the sync clients and mobile apps. More information is available in the Nextcloud Documentation." : "Приложението позволява споделянето на файлове с Nextcloud. Администраторът може да ограничи споделянето само за определени групи. Потретилите с права ще могат да споделят файлове и папки с други потребители и групи от Nextcloud. За споделяне с потребители извън Nextloud администраторът трябва да активира функционалността за споделяне с връзка. Администратора може да наложи ползването на пароли, валидност, споделяне с връзка от сървър към сървър и споделяне от мобилни устройства.\nИзключването на функционалността ще прекрати споделени файлове и папки от сървъра (за потребители, клиенти за синхронизиране и мобилни приложения). Подробна информация ще намерите в документацията на Nextcloud.",
     "Accept user and group shares by default" : "Приемане на споделяния на потребители и групи по подразбиране",
     "Read only" : "Само за четене",
     "File drop (upload only)" : "Само за качване",
     "Upload" : "Качване",
     "Bundled permissions" : "Пакет от права",
-    "Allow creating" : "Разреши създаването",
-    "Allow deleting" : "Разреши изтриването",
-    "Allow resharing" : "Може да споделя повторно",
-    "Expiration date enforced" : "Дата на изтичане на срока на действие",
     "Only works for users with access to this folder" : "Работи само за потребители, които имат достъп до тази папка",
     "Only works for users with access to this file" : "Работи само за потребители, които имат достъп до този файл",
-    "Password protect" : "Защита с парола",
     "Circle" : "Кръг",
-    "Science Mesh" : "Приложение Science Mesh",
+    "Update" : "Обновяване",
     "No other users with access found" : "Няма намерени други потребители с достъп",
     "No entries found in this folder" : "Папката е празна",
     "Name" : "Име",
@@ -275,7 +268,6 @@
     "the item was removed" : "елемента е премахнат",
     "the link expired" : "валидността на връзката е изтекла",
     "sharing is disabled" : "споделянето е изключено",
-    "For more info, please ask the person who sent this link." : "За допълнителна информация, моля питай човека, който е изпратил връзката.",
-    "Update" : "Обновяване"
+    "For more info, please ask the person who sent this link." : "За допълнителна информация, моля питай човека, който е изпратил връзката."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

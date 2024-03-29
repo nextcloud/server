@@ -221,7 +221,6 @@ OC.L10N.register(
     "Wrong username or password." : "Nepareizs lietotājvārds vai parole.",
     "User disabled" : "Lietotājs deaktivizēts",
     "Username or email" : "Lietotājvārds vai e-pasts",
-    "If it is not there ask your local administrator." : "Ja tas tur nav tad jautājiet savam vietējam administratoram.",
     "Settings" : "Iestatījumi",
     "Show all contacts …" : "Rādīt visas kontaktpersonas",
     "No files in here" : "Šeit nav datņu",

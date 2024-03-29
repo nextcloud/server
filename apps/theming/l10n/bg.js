@@ -86,8 +86,6 @@ OC.L10N.register(
     "Reset to default" : "Настройки по подразбиране",
     "Upload" : "Качване",
     "Remove background image" : "Премахни фоновото изображение",
-    "Failed to clean up the old administration theming images folder" : "Неуспешно почистване на папка със стари изображения на администраторски теми",
-    "Failed to clean up the old administration image folder" : "Неуспешно почистване на старата папка с изображения на администратора",
     "Select a custom color" : "Избор на персонализиран цвят"
 },
 "nplurals=2; plural=(n != 1);");

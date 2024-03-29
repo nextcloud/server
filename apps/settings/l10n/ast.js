@@ -67,6 +67,7 @@ OC.L10N.register(
     "Results from other categories" : "Resultaos d'otres categoríes",
     "No apps found for your version" : "Nun s'atopó nenguna aplicación pa esta versión",
     "Disable all" : "Desactivar too",
+    "Loading" : "Cargando",
     "Description" : "Descripción",
     "Details" : "Detalles",
     "All" : "Too",

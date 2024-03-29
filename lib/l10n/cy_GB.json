@@ -61,7 +61,6 @@
     "Application is not enabled" : "Nid yw'r pecyn wedi'i alluogi",
     "Authentication error" : "Gwall dilysu",
     "Token expired. Please reload page." : "Tocyn wedi dod i ben. Ail-lwythwch y dudalen.",
-    "Full name" : "Enw llawn",
     "Oracle username and/or password not valid" : "Enw a/neu gyfrinair Oracle annilys",
     "PostgreSQL username and/or password not valid" : "Enw a/neu gyfrinair PostgreSQL annilys",
     "Set an admin username." : "Creu enw defnyddiwr i'r gweinyddwr."

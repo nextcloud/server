@@ -41,7 +41,6 @@ OC.L10N.register(
     "4 hours" : "4 часа",
     "Mute all notifications" : "Заглушаване на всички известия",
     "Appear offline" : "Показване като офлайн",
-    "View profile" : "Преглед на профил",
-    "{status}, {timestamp}" : "{status}, {timestamp}"
+    "View profile" : "Преглед на профил"
 },
 "nplurals=2; plural=(n != 1);");

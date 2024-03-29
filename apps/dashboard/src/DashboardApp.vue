@@ -99,7 +99,7 @@
 					</li>
 				</Draggable>
 
-				<a v-if="isAdmin" :href="appStoreUrl" class="button">{{ t('dashboard', 'Get more widgets from the App Store') }}</a>
+				<a v-if="isAdmin && appStoreEnabled" :href="appStoreUrl" class="button">{{ t('dashboard', 'Get more widgets from the App Store') }}</a>
 
 				<div v-if="statuses.weather && isStatusActive('weather')">
 					<h2>{{ t('dashboard', 'Weather service') }}</h2>
@@ -176,6 +176,7 @@ export default {
 			layout: loadState('dashboard', 'layout').filter((panelId) => panels[panelId]),
 			modal: false,
 			appStoreUrl: generateUrl('/settings/apps/dashboard'),
+			appStoreEnabled: loadState('dashboard', 'appStoreEnabled', true),
 			statuses: {},
 			apiWidgets: [],
 			apiWidgetItems: {},

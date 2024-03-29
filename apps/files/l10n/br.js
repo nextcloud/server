@@ -29,6 +29,9 @@ OC.L10N.register(
     "Copy" : "Eilañ",
     "Choose target folder" : "Dibab an teuliad moned",
     "Open" : "Digeriñ",
+    "Delete file" : "Diverkañ ar restr",
+    "Delete folder" : "Diverkañ an teuliad",
+    "Disconnect storage" : "Digevreañ ar skor stokañ-mañ",
     "Could not load info for file \"{file}\"" : "Dibosupl eo kargañ titouroù ar restr \"{file}\"",
     "Files" : "Restroù",
     "Details" : "Munudoù",
@@ -172,14 +175,12 @@ OC.L10N.register(
     "Copy direct link (only works for users who have access to this file/folder)" : "Eilañ al liamm eeun (nemet evit an implijourien aotreet da dizhout ar restr-mañ pe an teuliad-mañ)",
     "You can only favorite a single file or folder at a time" : "Ne c'hallit ouzhpennañ nemet ur pennroll teuliad pe restr en un taol.",
     "\"remote user\"" : "\"pell-implijer\"",
-    "Search users" : "Klask implijourien",
+    "Choose" : "Dibab",
     "Toggle grid view" : "Gweredekat/Diweredekat an diskwel roued",
-    "Deleted files" : "Restroù dilemet",
     "Shares" : "Rannañ",
     "Shared with others" : "Rannet gant tud all",
     "Shared with you" : "Rannet ganeoc'h",
     "Deleted shares" : "Rannañ dilemet",
-    "Pending shares" : "Rannañ o c'hortoz",
-    "Choose" : "Dibab"
+    "Pending shares" : "Rannañ o c'hortoz"
 },
 "nplurals=5; plural=((n%10 == 1) && (n%100 != 11) && (n%100 !=71) && (n%100 !=91) ? 0 :(n%10 == 2) && (n%100 != 12) && (n%100 !=72) && (n%100 !=92) ? 1 :(n%10 ==3 || n%10==4 || n%10==9) && (n%100 < 10 || n% 100 > 19) && (n%100 < 70 || n%100 > 79) && (n%100 < 90 || n%100 > 99) ? 2 :(n != 0 && n % 1000000 == 0) ? 3 : 4);");

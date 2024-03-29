@@ -237,7 +237,6 @@ OC.L10N.register(
     "iPad" : "iPad",
     "Copied!" : "Copiat !",
     "Copy" : "Copiar",
-    "png or jpg, max. 20 MB" : "png or jpg, max. 20 Mo",
     "Your email address" : "Vòstra adreça electronica",
     "Additional emails" : "Emails suplementaris",
     "Enable Profile" : "Activar Perfil",
