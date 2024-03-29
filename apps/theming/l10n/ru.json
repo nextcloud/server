@@ -96,8 +96,6 @@
     "Reset to default" : "Сбросить изменения",
     "Upload" : "Отправить",
     "Remove background image" : "Убрать фоновое изображение ",
-    "Failed to clean up the old administration theming images folder" : "Не удалось очистить старую папку с изображениями для администрирования тем",
-    "Failed to clean up the old administration image folder" : "Не удалось очистить старую папку с изображением для администрирования",
     "Select a custom color" : "Выберать собственный цвет"
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
 }

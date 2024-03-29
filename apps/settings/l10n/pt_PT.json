@@ -289,8 +289,6 @@
     "Copy" : "Copiar",
     "To run this you need the PHP POSIX extension. See {linkstart}PHP documentation{linkend} for more details." : "Para esta execução precisa da extensão PHP POSIX. Veja {iniciodaligação}documentação PHP{fimdaligação} para mais mais detalhes.",
     "Your profile information" : "Informação de perfil",
-    "Choose profile picture from files" : "Escolher imagem de perfil de Ficheiros",
-    "png or jpg, max. 20 MB" : "png ou jpg, máx. 20 MB",
     "Your email address" : "O seu endereço de email",
     "Add group" : "Adicionar grupo",
     "Active users" : "Utilizadores activos",

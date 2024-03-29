@@ -154,13 +154,9 @@ OC.L10N.register(
     "Read only" : "Apenas leitura",
     "File drop (upload only)" : "Pasta de carregamento apenas",
     "Upload" : "Upload",
-    "Allow creating" : "Permitir criar",
-    "Allow deleting" : "Permitir eliminar",
-    "Allow resharing" : "Permitir repartilha",
-    "Expiration date enforced" : "Imposta data de expiração",
     "Only works for users with access to this folder" : "Apenas funciona para utilizadores com acesso a esta pasta",
-    "Password protect" : "Proteger com palavra-passe",
     "Circle" : "Círculo",
+    "Update" : "Atualizar",
     "No entries found in this folder" : "Não foram encontradas entradas nesta pasta",
     "Name" : "Nome",
     "Share time" : "Hora da Partilha",
@@ -168,7 +164,6 @@ OC.L10N.register(
     "the item was removed" : "o item foi removido",
     "the link expired" : "a hiperligação expirou",
     "sharing is disabled" : "a partilha está desativada",
-    "For more info, please ask the person who sent this link." : "Para mais informação, por favor, pergunte à pessoa que lhe enviou esta hiperligação.",
-    "Update" : "Atualizar"
+    "For more info, please ask the person who sent this link." : "Para mais informação, por favor, pergunte à pessoa que lhe enviou esta hiperligação."
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

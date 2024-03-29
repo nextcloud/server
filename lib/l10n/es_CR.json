@@ -152,7 +152,6 @@
     "Storage is temporarily not available" : "El almacenamieto se encuentra temporalmente no disponible",
     "Storage connection timeout. %s" : "El tiempo de la conexión del almacenamiento se agotó. %s",
     "Logged in user must be an admin" : "El usuario firmado debe ser un administrador",
-    "Full name" : "Nombre completo",
     "Unknown user" : "Ususario desconocido",
     "Oracle username and/or password not valid" : "Usuario y/o contraseña de Oracle inválidos",
     "PostgreSQL username and/or password not valid" : "El Usuario y/o Contraseña de PostgreSQL inválido(s)",
@@ -164,8 +163,6 @@
     "Username contains whitespace at the beginning or at the end" : "El usuario contiene un espacio en blanco al inicio o al final",
     "Username must not consist of dots only" : "El usuario no debe consistir de solo puntos. ",
     "User disabled" : "Usuario deshabilitado",
-    "libxml2 2.7.0 is at least required. Currently %s is installed." : "Se requiere de por lo menos libxml2 2.7.0. Actualmente %s está instalado. ",
-    "To fix this issue update your libxml2 version and restart your web server." : "Para corregir este tema, por favor actualiza la versión de su libxml2 y reinicia tu servidor web. ",
     "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Por favor cambia los permisos a 0770 para que el directorio no pueda ser enlistado por otros usuarios. "
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

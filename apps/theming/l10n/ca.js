@@ -110,8 +110,6 @@ OC.L10N.register(
     "Reset to default" : "Reinicialitza els valors per defecte",
     "Upload" : "Puja",
     "Remove background image" : "Suprimeix la imatge de fons",
-    "Failed to clean up the old administration theming images folder" : "No s'ha pogut netejar la carpeta antiga d'imatges de temes d'administració",
-    "Failed to clean up the old administration image folder" : "No s'ha pogut netejar la carpeta antiga d'imatges d'administració",
     "Select a custom color" : "Selecciona un color personalitzat"
 },
 "nplurals=2; plural=(n != 1);");

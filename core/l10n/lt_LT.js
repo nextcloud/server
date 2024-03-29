@@ -327,7 +327,6 @@ OC.L10N.register(
     "Confirm" : "Patvirtinti",
     "Failed to authenticate, try again" : "Nepavyko nustatyti tapatybės, bandykite dar kartą",
     "Users" : "Naudotojai",
-    "The page could not be found on the server." : "Šio puslapio nepavyko rasti serveryje.",
     "Username" : "Naudotojo vardas",
     "Database user" : "Duomenų bazės naudotojas",
     "Confirm your password" : "Patvirtinkite savo slaptažodį",

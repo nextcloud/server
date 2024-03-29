@@ -48,7 +48,6 @@
     "PHP module %s not installed." : "Modul %s PHPn n'eo ket staliet.",
     "Storage connection error. %s" : "Fazi renkañ kenstag. %s",
     "Storage is temporarily not available" : "N'haller ket tizhout ar skor roadennoù evit ar poent",
-    "Full name" : "Tout an anv",
     "Unknown user" : "Implijer dianv",
     "Set an admin username." : "Lakaat un anv-impljer merour.",
     "The username is already being used" : "An anv-implijet a zo dija implijet",

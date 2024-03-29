@@ -292,7 +292,6 @@
     "Copy" : "คัดลอก",
     "You are about to remove the group {group}. The users will NOT be deleted." : "คุณกำลังจะลบกลุ่ม {group} ผู้ใช้ที่อยู่ในกลุ่มจะไม่ถูกลบไปด้วย",
     "Please confirm the group removal " : "กรุณายืนยันการลบกลุ่ม",
-    "png or jpg, max. 20 MB" : "png หรือ jpg สูงสุดไม่เกิน 20 MB",
     "Your email address" : "ที่อยู่อีเมลของคุณ",
     "You do not have permissions to see the details of this user" : "คุณไม่มีสิทธิ์ที่จะดูรายละเอียดของผู้ใช้นี้",
     "Add new password" : "เพิ่มรหัสผ่านใหม่",
