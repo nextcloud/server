@@ -1,5 +1,6 @@
 <!--
   - @copyright Copyright (c) 2022 Julius Härtl <jus@bitgrid.net>
+  - @copyright Copyright (c) 2024 Jed Boulahya <jed.boulahya@medtech.tn>
   -
   - @author Julius Härtl <jus@bitgrid.net>
   -
@@ -276,6 +277,7 @@ export default defineComponent({
 			display: flex;
 			align-items: center;
 			justify-content: center;
+			color: var(--color-primary);
 		}
 	}
 
