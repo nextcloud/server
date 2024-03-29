@@ -10,12 +10,13 @@ OC.L10N.register(
     "We will remind you of this file" : "我們會提醒您該檔案",
     "Please choose a valid date & time" : "請選擇有效的日期與時間",
     "Cancel" : "取消",
+    "Clear reminder" : "清除提醒",
     "Set reminder" : "設定提醒",
     "Set reminder for \"{fileName}\"" : "設定「{fileName}」的提醒",
     "Set reminder at custom date & time" : "設定自訂日期與時間的提醒",
-    "Clear reminder" : "清除提醒",
     "Reminder set for \"{fileName}\"" : "「{fileName}」的提醒設定",
     "Failed to set reminder" : "設定提醒失敗",
+    "Failed to clear reminder" : "清除提醒失敗",
     "Set custom reminder" : "設定自訂提醒",
     "Later today" : "今天稍後",
     "Set reminder for later today" : "設定今天稍後的提醒",
@@ -27,7 +28,6 @@ OC.L10N.register(
     "Set reminder for next week" : "設定下週的提醒",
     "Back" : "返回",
     "Reminder cleared" : "提醒已清除",
-    "Failed to clear reminder" : "清除提醒失敗",
     "Failed to load reminder" : "載入提醒失敗"
 },
 "nplurals=1; plural=0;");

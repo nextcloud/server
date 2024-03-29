@@ -30,6 +30,9 @@ OC.L10N.register(
     "Copy" : "Kopiraj",
     "Choose target folder" : "Odaberi ciljnu mapu",
     "Open" : "Otvori",
+    "Delete file" : "Izbrisati datoteku",
+    "Delete folder" : "Izbriši mapu",
+    "Disconnect storage" : "Odspoji pohranu",
     "Could not load info for file \"{file}\"" : "Nije moguće učitati podatke za datoteku „{file}”",
     "Files" : "Datoteke",
     "Details" : "Pojedinosti",
@@ -202,16 +205,14 @@ OC.L10N.register(
     "Copy direct link (only works for users who have access to this file/folder)" : "Kopiraj izravnu poveznicu (samo za korisnike koji smiju pristupiti ovoj datoteci/mapi)",
     "You can only favorite a single file or folder at a time" : "Istovremeno možete označiti samo jednu datoteku ili mapu kao favorita",
     "\"remote user\"" : "„udaljeni korisnik”",
-    "Search users" : "Pretraži korisnike",
+    "Choose" : "Odaberite",
     "Set up templates folder" : "Postavi mapu predložaka",
     "Toggle %1$s sublist" : "Uključivanje/isključivanje potpopisa %1$s",
     "Toggle grid view" : "Uključi/isključi prikaz rešetke",
-    "Deleted files" : "Izbrisane datoteke",
     "Shares" : "Dijeljenja",
     "Shared with others" : "Podijeljeno s ostalima",
     "Shared with you" : "Podijeljeno s vama",
     "Deleted shares" : "Izbrisana dijeljenja",
-    "Pending shares" : "Dijeljenja na čekanju",
-    "Choose" : "Odaberite"
+    "Pending shares" : "Dijeljenja na čekanju"
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

@@ -7,7 +7,7 @@
     "Invalid Federated Cloud ID" : "ID de Cloud Fédéré incorrect",
     "Server to server sharing is not enabled on this server" : "Le partage de serveur à serveur n'est pas activé sur ce serveur",
     "Couldn't establish a federated share." : "Impossible d'établir un partage fédéré.",
-    "Couldn't establish a federated share, maybe the password was wrong." : "Impossible d'établir un partage fédéré, peut-être que le mot de passe est incorrect.",
+    "Couldn't establish a federated share, maybe the password was wrong." : "Impossible d’établir un partage fédéré, peut-être que le mot de passe est incorrect.",
     "Federated Share request sent, you will receive an invitation. Check your notifications." : "Demande de partage fédéré envoyée, vous allez recevoir une invitation. Vérifiez vos notifications.",
     "Couldn't establish a federated share, it looks like the server to federate with is too old (Nextcloud <= 9)." : "Impossible d'établir un partage fédére, il semble que le serveur avec lequel fédérer est trop vieux (Nextcloud <=9)",
     "It is not allowed to send federated group shares from this server." : "Il n'est pas autorisé d'envoyer des partages à des groupes fédérés depuis ce serveur.",

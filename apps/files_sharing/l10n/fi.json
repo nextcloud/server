@@ -259,19 +259,14 @@
     "Something happened. Unable to reject the share." : "Tapahtui virhe. Ei voida hylätä jakoa.",
     "No expiration date set" : "Ei vanhenemispäivää asetettu",
     "Please specify a valid user" : "Määritä kelvollinen käyttäjä",
-    "Reject" : "Hylkää",
     "Accept user and group shares by default" : "Hyväksy käyttäjä- ja ryhmäjaot oletuksena",
     "Read only" : "Vain luku",
     "File drop (upload only)" : "Tiedostojen pudotus (vain lähetys)",
     "Upload" : "Lähetä",
-    "Allow creating" : "Salli luominen",
-    "Allow deleting" : "Salli poistaminen",
-    "Allow resharing" : "Salli uudelleenjakaminen",
-    "Expiration date enforced" : "Vanhenemispäivä pakotettu",
     "Only works for users with access to this folder" : "Toimii vain käyttäjille, joilla on oikeus tähän kansioon",
     "Only works for users with access to this file" : "Toimii vain käyttäjille, joilla on käyttöoikeus tähän tiedostoon",
-    "Password protect" : "Suojaa salasanalla",
     "Circle" : "Piiri",
+    "Update" : "Päivitä",
     "No other users with access found" : "Ei löytynyt muita käyttäjiä, joilla olisi käyttöoikeus",
     "No entries found in this folder" : "Ei kohteita tässä kansiossa",
     "Name" : "Nimi",
@@ -281,7 +276,6 @@
     "the item was removed" : "kohde poistettiin",
     "the link expired" : "linkki vanheni",
     "sharing is disabled" : "jakaminen on poistettu käytöstä",
-    "For more info, please ask the person who sent this link." : "Kysy lisätietoja henkilöltä, jolta sait linkin.",
-    "Update" : "Päivitä"
+    "For more info, please ask the person who sent this link." : "Kysy lisätietoja henkilöltä, jolta sait linkin."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

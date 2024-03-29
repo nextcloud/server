@@ -88,8 +88,6 @@ OC.L10N.register(
     "Reset to default" : "Berezarri balio lehenetsira",
     "Upload" : "Igo",
     "Remove background image" : "Kendu atzeko-planoko irudia",
-    "Failed to clean up the old administration theming images folder" : "Ezin izan da garbitu administrazio zaharraren gaikako irudien karpeta",
-    "Failed to clean up the old administration image folder" : "Ezin izan da garbitu administrazio zaharraren irudien karpeta ",
     "Select a custom color" : "Hautatu kolore pertsonalizatu bat"
 },
 "nplurals=2; plural=(n != 1);");

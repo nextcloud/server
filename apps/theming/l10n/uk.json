@@ -108,8 +108,6 @@
     "Reset to default" : "Скинути до типового",
     "Upload" : "Завантажити",
     "Remove background image" : "Вилучити зображення тла",
-    "Failed to clean up the old administration theming images folder" : "Не вдалося очистити каталог зображень старої адміністративної теми",
-    "Failed to clean up the old administration image folder" : "Не вдалося очистити старий каталог образу адміністрування",
     "Select a custom color" : "Виберіть власний колір"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);"
 }

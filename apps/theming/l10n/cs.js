@@ -109,8 +109,6 @@ OC.L10N.register(
     "Reset to default" : "Vrátit zpět na výchozí hodnoty",
     "Upload" : "Nahrát",
     "Remove background image" : "Odebrat obrázek z pozadí",
-    "Failed to clean up the old administration theming images folder" : "Nepodařilo se uklidit v původní složce s obrázky motivu vzhledu, určovaným správcem",
-    "Failed to clean up the old administration image folder" : "Nepodařilo se uklidit v původní složce s obrázky určovanými správcem",
     "Select a custom color" : "Vybrat uživatelsky určenou barvu"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

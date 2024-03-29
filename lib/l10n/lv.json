@@ -123,7 +123,6 @@
     "Storage is temporarily not available" : "Glabātuve īslaicīgi nav pieejama",
     "Storage connection timeout. %s" : "Datu savienojuma taimauts. %s",
     "404" : "404",
-    "Full name" : "Pilns vārds",
     "Unknown user" : "Nezināms lietotājs",
     "Oracle username and/or password not valid" : "Nav derīga Oracle parole un/vai lietotājvārds",
     "PostgreSQL username and/or password not valid" : "Nav derīga PostgreSQL parole un/vai lietotājvārds",

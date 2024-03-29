@@ -78,6 +78,7 @@ OC.L10N.register(
     "Cannot copy, please copy the link manually" : "Nun se pue copiar. Copia l'enllaz manualmente",
     "Copy internal link to clipboard" : "Copiar l'enllaz internu nel cartafueyu",
     "Link copied" : "Copióse l'enllaz",
+    "Password protection" : "Proteición con contraseña",
     "Enter a password" : "Introduz una contraseña",
     "Enter a date" : "Introduz una data",
     "Cancel" : "Encaboxar",
@@ -150,11 +151,9 @@ OC.L10N.register(
     "Shares will show up here" : "Equí apaecen les comparticiones",
     "Restore" : "Restaurar",
     "Please specify a valid user" : "Especifica un usuariu válidu",
-    "Reject" : "Refugar",
     "Upload" : "Xunir",
-    "Allow creating" : "Permitir la creación",
-    "Allow deleting" : "Permitir el desaniciu",
     "Circle" : "Círculu",
+    "Update" : "Anovar",
     "No entries found in this folder" : "Nun s'atopó nenguna entrada nesta carpeta",
     "Name" : "Nome",
     "Sorry, this link does not seem to work anymore." : "Esti enllaz paez que yá nun funciones.",
@@ -162,7 +161,6 @@ OC.L10N.register(
     "the item was removed" : "quitóse l'elementu",
     "the link expired" : "l'enllaz caducó",
     "sharing is disabled" : "la compartición ta desactivada",
-    "For more info, please ask the person who sent this link." : "Pa consiguir más información, entruga a la persona que t'unvió esti enllaz.",
-    "Update" : "Anovar"
+    "For more info, please ask the person who sent this link." : "Pa consiguir más información, entruga a la persona que t'unvió esti enllaz."
 },
 "nplurals=2; plural=(n != 1);");

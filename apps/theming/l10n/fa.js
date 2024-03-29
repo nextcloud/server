@@ -86,8 +86,6 @@ OC.L10N.register(
     "Reset to default" : "بازنشانی به پیش‌گزیده",
     "Upload" : "بارگذاری",
     "Remove background image" : "برداشتن تصویر پس‌زمینه",
-    "Failed to clean up the old administration theming images folder" : "Failed to clean up the old administration theming images folder",
-    "Failed to clean up the old administration image folder" : "Failed to clean up the old administration image folder",
     "Select a custom color" : "گزینش رنگی شخصی"
 },
 "nplurals=2; plural=(n > 1);");

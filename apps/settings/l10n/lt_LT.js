@@ -432,7 +432,6 @@ OC.L10N.register(
     "The cron.php needs to be executed by the system user \"{user}\"." : "Failą „cron.php“ turi vykdyti sistemos naudotojas „{user}“.",
     "You are about to remove the group {group}. The users will NOT be deleted." : "Jūs ketinate pašalinti grupę {group}. Naudotojai NEBUS ištrinti.",
     "Please confirm the group removal " : "Patvirtinkite grupės pašalinimą",
-    "png or jpg, max. 20 MB" : "png arba jpg, daugiausiai 20 MB",
     "Your email address" : "Jūsų el. pašto adresas",
     "Additional emails" : "Papildomi el. paštai",
     "Enable Profile" : "Įjungti profilį",
