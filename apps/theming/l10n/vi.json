@@ -104,8 +104,6 @@
     "Reset to default" : "Đặt lại về mặc định",
     "Upload" : "Tải lên",
     "Remove background image" : "Xóa bỏ ảnh nền",
-    "Failed to clean up the old administration theming images folder" : "Không thể dọn sạch thư mục hình ảnh theo chủ đề quản trị cũ",
-    "Failed to clean up the old administration image folder" : "Không thể dọn sạch thư mục hình ảnh quản trị cũ",
     "Select a custom color" : "Chọn màu tùy chỉnh"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

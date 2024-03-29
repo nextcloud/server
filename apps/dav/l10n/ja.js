@@ -171,6 +171,7 @@ OC.L10N.register(
     "Delete slot" : "スロットを削除",
     "No working hours set" : "勤務時間未設定",
     "Add slot" : "スロットを追加",
+    "Weekdays" : "平日",
     "Monday" : "月曜日",
     "Tuesday" : "火曜日",
     "Wednesday" : "水曜日",

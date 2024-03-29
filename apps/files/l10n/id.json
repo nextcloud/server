@@ -32,6 +32,8 @@
     "Choose target folder" : "Pilih folder target",
     "Edit locally" : "Sunting secara lokal",
     "Open" : "Buka",
+    "Disconnect storage" : "Memutuskan penyimpaan",
+    "Leave this share" : "Tinggalkan pembagian ini",
     "Could not load info for file \"{file}\"" : "Tidak dapat menampilkan info berkas \"{file}\"",
     "Files" : "Berkas",
     "Details" : "Rincian",
@@ -220,18 +222,16 @@
     "Copy direct link (only works for users who have access to this file/folder)" : "Salin tautan langsung (hanya berlaku bagi pengguna yang telah memiliki akses ke berkas/folder ini)",
     "You can only favorite a single file or folder at a time" : "Anda hanya dapat memfavoritkan satu berkas atau folder dalam satu waktu",
     "\"remote user\"" : "\"remote user\"",
-    "Search users" : "Cari pengguna",
+    "Unselect all" : "Batalkan semua pemilihan",
+    "Choose" : "Pilih",
     "You might not have have permissions to view it, ask the sender to share it" : "Anda mungkin tidak memiliki izin untuk menampilkan ini, tanyakan pengirim untuk membagikannya",
     "Set up templates folder" : "Siapkan folder templat",
     "Toggle %1$s sublist" : "Alih %1$s subdaftar",
     "Toggle grid view" : "Alihkan tampilan jala-jala",
-    "Deleted files" : "Berkas terhapus",
     "Shares" : "Dibagikan",
     "Shared with others" : "Dibagikan dengan lainnya",
     "Shared with you" : "Shared with you",
     "Deleted shares" : "Berbagi terhapus",
-    "Pending shares" : "Berbagi tertunda",
-    "Unselect all" : "Batalkan semua pemilihan",
-    "Choose" : "Pilih"
+    "Pending shares" : "Berbagi tertunda"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

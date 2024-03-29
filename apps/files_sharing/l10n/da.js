@@ -183,18 +183,13 @@ OC.L10N.register(
     "Something happened. Unable to reject the share." : "Der skete et eller andet. Ude af stand til at afvise delingen.",
     "No expiration date set" : "Ingen udløbsdato sat",
     "Please specify a valid user" : "Angiv en gyldig bruger",
-    "Reject" : "Afvis",
     "Read only" : "Skrivebeskyttet",
     "File drop (upload only)" : "Fil drop (kun upload)",
     "Upload" : "Send",
-    "Allow creating" : "Tillad oprettelse",
-    "Allow deleting" : "Tillad sletning",
-    "Allow resharing" : "Tillad videredeling",
-    "Expiration date enforced" : "Udløbsdato tvungen",
     "Only works for users with access to this folder" : "Virker kun for brugere med adgang til denne folder",
     "Only works for users with access to this file" : "Virker kun for brugere med adgang til denne fil",
-    "Password protect" : "Beskyt med adgangskode",
     "Circle" : "Cirkel",
+    "Update" : "Opdatér",
     "No other users with access found" : "Ingen andre brugere med adgang fundet",
     "No entries found in this folder" : "Der blev ikke fundet poster i denne mappe",
     "Name" : "Navn",
@@ -203,7 +198,6 @@ OC.L10N.register(
     "the item was removed" : "Filen blev fjernet",
     "the link expired" : "linket udløb",
     "sharing is disabled" : "deling er deaktiveret",
-    "For more info, please ask the person who sent this link." : "For yderligere information, kontakt venligst personen der sendte linket. ",
-    "Update" : "Opdatér"
+    "For more info, please ask the person who sent this link." : "For yderligere information, kontakt venligst personen der sendte linket. "
 },
 "nplurals=2; plural=(n != 1);");

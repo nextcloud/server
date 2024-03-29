@@ -186,18 +186,13 @@ OC.L10N.register(
     "Something happened. Unable to reject the share." : "Kaut kas atgadījās. Nevar noraidīt koplietojumu.",
     "No expiration date set" : "Nav noteikts derīguma termiņa beigu datums",
     "Please specify a valid user" : "Lūdzu norādiet derīgu lietotāju",
-    "Reject" : "Noraidīt",
     "Accept user and group shares by default" : "Pēc noklusējuma pieņemt koplietošanu no lietotājiem un grupām",
     "Read only" : "Tikai lasāms",
     "File drop (upload only)" : "Datņu mešana (tikai augšupielādei)",
     "Upload" : "Augšupielādēt",
-    "Allow creating" : "Atļaut veidošanu",
-    "Allow deleting" : "Atļaut dzēšanu",
-    "Allow resharing" : "Atļaut atkārtotu koplietošanu",
-    "Expiration date enforced" : "Piespiedu derīguma termiņš",
     "Only works for users with access to this file" : "Darbojas tikai lietotājiem, kuriem ir piekļuve šai datnei",
-    "Password protect" : "Aizsargāt ar paroli",
     "Circle" : "Loks",
+    "Update" : "Atjaunināt",
     "No other users with access found" : "Nav atrasti citi lietotāji ar pieeju",
     "No entries found in this folder" : "Šajā mapē nekas nav atrasts",
     "Name" : "Nosaukums",
@@ -206,7 +201,6 @@ OC.L10N.register(
     "the item was removed" : "vienums tika dzēsts",
     "the link expired" : "saitei beidzies termiņš",
     "sharing is disabled" : "koplietošana nav ieslēgta",
-    "For more info, please ask the person who sent this link." : "Vairāk informācijas vaicā personai, kas nosūtīja šo saiti.",
-    "Update" : "Atjaunināt"
+    "For more info, please ask the person who sent this link." : "Vairāk informācijas vaicā personai, kas nosūtīja šo saiti."
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

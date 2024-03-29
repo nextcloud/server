@@ -110,8 +110,6 @@ OC.L10N.register(
     "Reset to default" : "Vovler a configuración por defecto",
     "Upload" : "Subir",
     "Remove background image" : "Eliminar imagen de fondo",
-    "Failed to clean up the old administration theming images folder" : "Fallo al limpiar la carpeta antigua del administrador con las imágenes de temas",
-    "Failed to clean up the old administration image folder" : "Fallo al limpiar la carpeta de imágenes de administración antigua",
     "Select a custom color" : "Seleccionar un color personalizado"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
