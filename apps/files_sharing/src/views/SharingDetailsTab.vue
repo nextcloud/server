@@ -97,14 +97,15 @@
 				role="region">
 				<section>
 					<NcInputField v-if="isPublicShare"
-						:value.sync="share.label"
-						type="text"
-						:label="t('files_sharing', 'Share label')" />
+						autocomplete="off"
+						:label="t('files_sharing', 'Share label')"
+						:value.sync="share.label" />
 					<template v-if="isPublicShare">
 						<NcCheckboxRadioSwitch :checked.sync="isPasswordProtected" :disabled="isPasswordEnforced">
 							{{ t('files_sharing', 'Set password') }}
 						</NcCheckboxRadioSwitch>
 						<NcPasswordField v-if="isPasswordProtected"
+							autocomplete="new-password"
 							:value="hasUnsavedPassword ? share.newPassword : ''"
 							:error="passwordError"
 							:helper-text="errorPasswordLabel"
