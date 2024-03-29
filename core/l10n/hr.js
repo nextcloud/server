@@ -329,8 +329,6 @@ OC.L10N.register(
     "Wrong username or password." : "Pogrešno korisničko ime ili zaporka.",
     "User disabled" : "Korisnik je onemogućen",
     "Username or email" : "Korisničko ime ili adresa e-pošte",
-    "A password reset message has been sent to the email address of this account. If you do not receive it, check your spam/junk folders or ask your local administrator for help." : "Poslana Vam je poruka za resetiranje zaporke na adresu e-pošte za ovaj račun. Ako je niste primili, provjerite Vaše mape smeća i neželjene pošte, ili se obratite svom lokalnom administratoru.",
-    "If it is not there ask your local administrator." : "Ako i tamo nema poruke, obratite se lokalnom administratoru.",
     "Settings" : "Postavke",
     "Show all contacts …" : "Prikaži sve kontakte...",
     "No files in here" : "Nema datoteka",

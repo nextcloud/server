@@ -99,8 +99,6 @@ OC.L10N.register(
     "Reset to default" : "Visszaállítás alapértelmezettre",
     "Upload" : "Feltöltés",
     "Remove background image" : "Háttérkép eltávolítása",
-    "Failed to clean up the old administration theming images folder" : "Nem sikerült megtisztítani a régi rendszergazdai témaképek mappát",
-    "Failed to clean up the old administration image folder" : "Nem sikerült megtisztítani a régi rendszergazdai képmappát",
     "Select a custom color" : "Válasszon egyéni színt"
 },
 "nplurals=2; plural=(n != 1);");

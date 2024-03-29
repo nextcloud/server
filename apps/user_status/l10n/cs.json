@@ -41,7 +41,6 @@
     "4 hours" : "4 hodiny",
     "Mute all notifications" : "Ztlumit veškerá upozornění",
     "Appear offline" : "Jevit se offline",
-    "View profile" : "Zobrazit profil ",
-    "{status}, {timestamp}" : "{status}, {timestamp}"
+    "View profile" : "Zobrazit profil "
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;"
 }

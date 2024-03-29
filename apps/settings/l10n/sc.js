@@ -379,7 +379,6 @@ OC.L10N.register(
     "To run this you need the PHP POSIX extension. See {linkstart}PHP documentation{linkend} for more details." : "Pro esecutare custu, serbit s'estensione PHP POSIX. Càstia {linkstart}documentatzione PHP{linkend} pro àteros detàllios.",
     "You are about to remove the group {group}. The users will NOT be deleted." : "Ses acanta de nche bogare su grupu {group}. Is utèntzias NO s'ant a cantzellare.",
     "Please confirm the group removal " : "Cunfirma de bogare su grupu",
-    "png or jpg, max. 20 MB" : "png o jpg, max. 20 MB",
     "Your email address" : "Indiritzu tuo de posta eletrònica",
     "You do not have permissions to see the details of this user" : "Non tenes is permissos pro bìdere is detàllios de s'utente",
     "Add new password" : "Agiunghe una crae noa",
@@ -414,8 +413,6 @@ OC.L10N.register(
     "Set default expiration date" : "Imposta sa data de iscadèntzia predefinida ",
     "Exclude groups from creating link shares:" : "Esclude grupos dae sa creatzione de ligòngios de cumpartzidura:",
     "Exclude groups from sharing" : "Esclude grupos dae sa cumpartzidura",
-    "These groups will still be able to receive shares, but not to initiate them." : "Custos grupos ant a pòdere retzire cumpartziduras, ma no ddas ant a pòdere cumintzare.",
-    "Allow username autocompletion in share dialog" : "Permite sa cumponidura automàtica de su nùmene de utente in sa ventana de cumpartzidura",
-    "Allow username autocompletion to users within the same groups" : "Permite sa cumponidura automàtica de su nùmene de utente a is utentes de su matessi grupu"
+    "These groups will still be able to receive shares, but not to initiate them." : "Custos grupos ant a pòdere retzire cumpartziduras, ma no ddas ant a pòdere cumintzare."
 },
 "nplurals=2; plural=(n != 1);");

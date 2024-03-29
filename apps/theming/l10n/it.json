@@ -105,8 +105,6 @@
     "Reset to default" : "Ripristina valori predefiniti",
     "Upload" : "Carica",
     "Remove background image" : "Rimuovi immagine di sfondo",
-    "Failed to clean up the old administration theming images folder" : "Impossibile ripulire la vecchia cartella delle immagini dei temi dell'amministrazione",
-    "Failed to clean up the old administration image folder" : "Impossibile ripulire la vecchia cartella delle immagini di amministrazione",
     "Select a custom color" : "Seleziona un colore personalizzato"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

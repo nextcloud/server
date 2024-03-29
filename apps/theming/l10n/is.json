@@ -100,8 +100,6 @@
     "Reset to default" : "Endurstilla á sjálfgefið",
     "Upload" : "Senda inn",
     "Remove background image" : "Fjarlægja bakgrunnsmynd",
-    "Failed to clean up the old administration theming images folder" : "Mistókst að hreinsa upp gamla þemamyndamöppu kerfisstjórnunar",
-    "Failed to clean up the old administration image folder" : "Mistókst að hreinsa upp gamla myndamöppu kerfisstjórnunar",
     "Select a custom color" : "Veldu sérsniðinn lit"
 },"pluralForm" :"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);"
 }

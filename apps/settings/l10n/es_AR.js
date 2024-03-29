@@ -230,7 +230,6 @@ OC.L10N.register(
     "For security reasons this password will only be shown once." : "Por razones de seguridad esta contraseña sólo se mostrará una vez. ",
     "Copied!" : "¡Credenciales!",
     "Copy" : "Copiar",
-    "png or jpg, max. 20 MB" : "png o jpg max. 20 MB",
     "Your email address" : "Su dirección de correo electrónico",
     "Your Twitter handle" : "Su cuenta de Twitter",
     "Add group" : "Agregar grupo",

@@ -237,7 +237,6 @@
     "Copied!" : "კოპირებულია",
     "Copy" : "კოპირება",
     "To run this you need the PHP POSIX extension. See {linkstart}PHP documentation{linkend} for more details." : "ამის გასაშვებად საჭიროა გქონდეთ PHP POSIX გაფართოება. მეტი დეტალებისთვის იხილეთ {linkstart}PHP დოკუმენტაცია{linkend}. ",
-    "png or jpg, max. 20 MB" : "png ან jpg, მაქს. 20 მბ",
     "Your email address" : "თქვენი ელ-ფოსტის მისამართი",
     "Your Twitter handle" : "თქვენი Twitter-is @…",
     "Add group" : "ჯგუფის დამატება",

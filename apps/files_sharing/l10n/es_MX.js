@@ -160,16 +160,12 @@ OC.L10N.register(
     "Restore" : "Restaurar",
     "No expiration date set" : "No se ha establecido la fecha de expiración",
     "Please specify a valid user" : "Por favor especifica un usuario válido",
-    "Reject" : "Rechazar",
     "This application enables users to share files within Nextcloud. If enabled, the admin can choose which groups can share files. The applicable users can then share files and folders with other users and groups within Nextcloud. In addition, if the admin enables the share link feature, an external link can be used to share files with other users outside of Nextcloud. Admins can also enforce passwords, expirations dates, and enable server to server sharing via share links, as well as sharing from mobile devices.\nTurning the feature off removes shared files and folders on the server for all share recipients, and also on the sync clients and mobile apps. More information is available in the Nextcloud Documentation." : "Esta aplicación le permite a los usuarios compartir archivos dentro de Nextcloud. Si está habilitada, el administrador puede elegir que grupos pueden compartir archivos. Los usuarios correspondientes entonces pueden compartir archivos y carpetas con otros usuarios y grupos dentro de Nextcloid. Además, si el adminsitrador habilita la funcionalidad de compartir liga, una liga externa puede ser usada para compartir archivos con otros usuarios fuera de Nextcloud. Los administradores también pueden forzar contraseñas, fechas de expiración, y habilitar el compartir de servidor-a-servidor mediante ligas, asi como compartir desde dispositivos móviles. \nEl deshabilitar la funcionalidad, elimina en el servidor a los archivos y carpetas compartidos para todos los destinatarios del elemento compartido y también en los clientes de sincronización y dispositivos móviles. Hay mas información disponible en la Documentación de Nextcloud.",
     "Read only" : "Sólo lectura",
     "File drop (upload only)" : "Soltar archivo (solo carga)",
     "Upload" : "Cargar",
-    "Allow creating" : "Permitir creación",
-    "Allow deleting" : "Permitir eliminación",
-    "Allow resharing" : "Permitir volver a compartir",
-    "Password protect" : "Proteger con contraseña",
     "Circle" : "Círculo",
+    "Update" : "Actualizar",
     "No entries found in this folder" : "No se encontraron elementos en esta carpeta",
     "Name" : "Nombre",
     "Share time" : "Compartido desde",
@@ -177,7 +173,6 @@ OC.L10N.register(
     "the item was removed" : "el elemento fue eliminado",
     "the link expired" : "la liga expiró",
     "sharing is disabled" : "compartir está deshabilitado",
-    "For more info, please ask the person who sent this link." : "Para mayores informes, contacta a la persona que le envió esta liga.",
-    "Update" : "Actualizar"
+    "For more info, please ask the person who sent this link." : "Para mayores informes, contacta a la persona que le envió esta liga."
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

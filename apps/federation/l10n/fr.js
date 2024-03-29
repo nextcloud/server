@@ -3,7 +3,7 @@ OC.L10N.register(
     {
     "Added to the list of trusted servers" : "Ajouté à la liste des serveurs de confiance",
     "Server is already in the list of trusted servers." : "Le serveur est déjà dans la liste des serveurs de confiance.",
-    "No server to federate with found" : "Aucun serveur avec lequel fédérer n'a été trouvé",
+    "No server to federate with found" : "Aucun serveur avec lequel fédérer n’a été trouvé",
     "Could not add server" : "Impossible d’ajouter le serveur",
     "Trusted servers" : "Serveurs de confiance",
     "Federation" : "Fédération",
