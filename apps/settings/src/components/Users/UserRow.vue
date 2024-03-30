@@ -419,6 +419,9 @@ export default {
 	methods: {
 		wipeUserDevices() {
 			const userid = this.user.id
+			if (this.dialogOpen) {
+				return; // Prevent opening a new dialog
+			}else{
 			OC.dialogs.confirmDestructive(
 				t('settings', 'In case of lost device or exiting the organization, this can remotely wipe the Nextcloud data from all devices associated with {userid}. Only works if the devices are connected to the internet.', { userid }),
 				t('settings', 'Remote wipe of devices'),
@@ -441,7 +444,9 @@ export default {
 					}
 				},
 				true,
-			)
+			)}
+			// Mark dialog as open
+			this.dialogOpen = true;
 		},
 
 		filterManagers(managers) {
@@ -494,7 +499,7 @@ export default {
 			// check if dialog is open to prevent reoppening
 			if (this.dialogOpen) {
 				return; // Prevent opening a new dialog
-			}
+			}else{
 			OC.dialogs.confirmDestructive(
 				t('settings', 'Fully delete {userid}\'s account including all their personal files, app data, etc.', { userid }),
 				t('settings', 'Account deletion'),
@@ -520,7 +525,8 @@ export default {
 					}
 				},
 				true,
-			)
+				
+			)}
 			// Mark dialog as open
 			this.dialogOpen = true;
 		},
