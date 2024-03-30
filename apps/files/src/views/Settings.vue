@@ -1,5 +1,6 @@
 <!--
   - @copyright Copyright (c) 2023 John Molakvoæ <skjnldsv@protonmail.com>
+  - @copyright Copyright (c) 2024 Jed Boulahya <jed.boulahya@medtech.tn>
   -
   - @author John Molakvoæ <skjnldsv@protonmail.com>
   -
