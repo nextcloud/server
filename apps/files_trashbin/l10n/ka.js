@@ -5,6 +5,8 @@ OC.L10N.register(
     "Deleted files" : "Deleted files",
     "Deleted files and folders in the trash bin (may expire during export if you are low on storage space)" : "Deleted files and folders in the trash bin (may expire during export if you are low on storage space)",
     "Restore" : "Restore",
+    "Unknown" : "Unknown",
+    "All files" : "All files",
     "List of files that have been deleted." : "List of files that have been deleted.",
     "No deleted files" : "No deleted files",
     "Files and folders you have deleted will show up here" : "Files and folders you have deleted will show up here",

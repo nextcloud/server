@@ -37,6 +37,7 @@ OC.L10N.register(
     "Set reminder" : "設定提醒",
     "Edit locally" : "本機編輯",
     "Open" : "開啟",
+    "Delete file" : "刪除檔案",
     "Delete folder" : "刪除資料夾",
     "Disconnect storage" : "解除連結儲存空間",
     "Leave this share" : "離開此分享",

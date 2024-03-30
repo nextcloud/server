@@ -4,6 +4,8 @@ OC.L10N.register(
     "restored" : "recuperado",
     "Deleted files" : "Archivos eliminados",
     "Restore" : "Recuperar",
+    "Unknown" : "Desconocido",
+    "All files" : "Todos los archivos",
     "No deleted files" : "No hay archivos eliminados",
     "Deleted" : "Eliminado",
     "This application enables users to restore files that were deleted from the system." : "Esta aplicación permite a los usuarios restaurar archivos que fueron eliminados del sistema.",

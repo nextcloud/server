@@ -4,6 +4,8 @@ OC.L10N.register(
     "restored" : "vraćeno",
     "Deleted files" : "Izbrisane datoteke",
     "Restore" : "Vrati",
+    "Unknown" : "Nepoznata pogreška",
+    "All files" : "Sve datoteke",
     "No deleted files" : "Nema izbrisanih datoteka",
     "Deleted" : "Izbrisano",
     "This application enables users to restore files that were deleted from the system." : "Ova aplikacija omogućuje korisnicima vraćanje datoteka izbrisanih iz sustava.",

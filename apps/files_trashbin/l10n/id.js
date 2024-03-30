@@ -4,6 +4,8 @@ OC.L10N.register(
     "restored" : "dipulihkan",
     "Deleted files" : "Berkas yang dihapus",
     "Restore" : "Pulihkan",
+    "Unknown" : "Tidak diketahui",
+    "All files" : "Semua berkas",
     "No deleted files" : "Tidak ada berkas yang dihapus",
     "Deleted" : "Dihapus",
     "This application enables users to restore files that were deleted from the system." : "Aplikasi ini memungkinkan pengguna untuk memulihkan berkas terhapus dari sistem.",

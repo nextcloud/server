@@ -4,6 +4,8 @@ OC.L10N.register(
     "restored" : "restaurate",
     "Deleted files" : "Files delite",
     "Restore" : "Restaurar",
+    "Unknown" : "Incognite",
+    "All files" : "Tote files",
     "No deleted files" : "Nulle files delite",
     "Deleted" : "Delite",
     "You will be able to recover deleted files from here" : "Tu potera recuperar files delite desde ci",
