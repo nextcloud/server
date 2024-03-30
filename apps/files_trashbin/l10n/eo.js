@@ -4,6 +4,8 @@ OC.L10N.register(
     "restored" : "restaŭrita",
     "Deleted files" : "Forigitaj dosieroj",
     "Restore" : "Restaŭri",
+    "Unknown" : "Nekonata",
+    "All files" : "Ĉiuj dosieroj",
     "No deleted files" : "Neniu dosiero foriĝis",
     "Deleted" : "Forigita",
     "This application enables users to restore files that were deleted from the system." : "Per tiu aplikaĵo, uzanto povas restaŭri dosierojn, kiuj estis forigitaj el la sistemo.",

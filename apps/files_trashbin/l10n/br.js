@@ -4,6 +4,8 @@ OC.L10N.register(
     "restored" : "adkrouet",
     "Deleted files" : "Restroù diverket",
     "Restore" : "Adkrouiñ",
+    "Unknown" : "Dianv",
+    "All files" : "An holl restroù",
     "No deleted files" : "Restr lemet ebet",
     "Deleted" : "Lamet",
     "This application enables users to restore files that were deleted from the system." : "Ar meziant-mañ a aotre an implijourienn da adtapout ho restroù a oa bet lamet eus ar sistem.",

@@ -110,6 +110,8 @@ OC.L10N.register(
     "Password" : "Hasło",
     "Log in to {productName}" : "Zaloguj się do {productName}",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "Wykryliśmy wiele nieudanych prób logowania z Twojego adresu IP. Dlatego następne logowanie będzie możliwe dopiero za 30 sekund.",
+    "Login with username or email" : "Zaloguj się za pomocą nazwy lub e-mail",
+    "Login with username" : "Zaloguj się za pomocą nazwy użytkownika",
     "Log in with a device" : "Zaloguj się za pomocą urządzenia",
     "Your account is not setup for passwordless login." : "Twoje konto nie jest skonfigurowane do logowania bez hasła.",
     "Browser not supported" : "Przeglądarka nie jest obsługiwana",

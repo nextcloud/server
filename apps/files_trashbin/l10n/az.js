@@ -4,6 +4,7 @@ OC.L10N.register(
     "restored" : "geriqaytarılıb",
     "Deleted files" : "Silinmiş fayllar",
     "Restore" : "Geri qaytar",
+    "All files" : "Bütün fayllar",
     "No deleted files" : "Silinmiş fayllar mövcud deyil",
     "Deleted" : "Silinib",
     "You will be able to recover deleted files from here" : "Siz silinmiş faylları burdan bərpa edə bilərsiniz",

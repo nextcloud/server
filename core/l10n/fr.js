@@ -153,7 +153,7 @@ OC.L10N.register(
     "Search contacts …" : "Rechercher un contact...",
     "Could not load your contacts" : "Impossible de charger vos contacts",
     "No contacts found" : "Aucun contact trouvé",
-    "Show all contacts" : "Afficher toutes les contacts",
+    "Show all contacts" : "Afficher tous les contacts",
     "Install the Contacts app" : "Installer l'appli Contacts",
     "Loading your contacts …" : "Chargement de vos contacts...",
     "Looking for {term} …" : "Recherche de {term} ...",
