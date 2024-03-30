@@ -20,44 +20,34 @@
   -
   -->
 <template>
-	<NcAppSettingsDialog :open="open"
-		:show-navigation="true"
-		:name="t('files', 'Files settings')"
+	<NcAppSettingsDialog :open="open" :show-navigation="true" :name="t('files', 'Files settings')"
 		@update:open="onClose">
 		<!-- Settings API-->
 		<NcAppSettingsSection id="settings" :name="t('files', 'Files settings')">
 			<NcCheckboxRadioSwitch data-cy-files-settings-setting="sort_favorites_first"
-				:checked="userConfig.sort_favorites_first"
-				@update:checked="setConfig('sort_favorites_first', $event)">
+				:checked="userConfig.sort_favorites_first" @update:checked="setConfig('sort_favorites_first', $event)">
 				{{ t('files', 'Sort favorites first') }}
 			</NcCheckboxRadioSwitch>
 			<NcCheckboxRadioSwitch data-cy-files-settings-setting="sort_folders_first"
-				:checked="userConfig.sort_folders_first"
-				@update:checked="setConfig('sort_folders_first', $event)">
+				:checked="userConfig.sort_folders_first" @update:checked="setConfig('sort_folders_first', $event)">
 				{{ t('files', 'Sort folders before files') }}
 			</NcCheckboxRadioSwitch>
-			<NcCheckboxRadioSwitch data-cy-files-settings-setting="show_hidden"
-				:checked="userConfig.show_hidden"
+			<NcCheckboxRadioSwitch data-cy-files-settings-setting="show_hidden" :checked="userConfig.show_hidden"
 				@update:checked="setConfig('show_hidden', $event)">
 				{{ t('files', 'Show hidden files') }}
 			</NcCheckboxRadioSwitch>
 			<NcCheckboxRadioSwitch data-cy-files-settings-setting="crop_image_previews"
-				:checked="userConfig.crop_image_previews"
-				@update:checked="setConfig('crop_image_previews', $event)">
+				:checked="userConfig.crop_image_previews" @update:checked="setConfig('crop_image_previews', $event)">
 				{{ t('files', 'Crop image previews') }}
 			</NcCheckboxRadioSwitch>
-			<NcCheckboxRadioSwitch v-if="enableGridView"
-				data-cy-files-settings-setting="grid_view"
-				:checked="userConfig.grid_view"
-				@update:checked="setConfig('grid_view', $event)">
+			<NcCheckboxRadioSwitch v-if="enableGridView" data-cy-files-settings-setting="grid_view"
+				:checked="userConfig.grid_view" @update:checked="setConfig('grid_view', $event)">
 				{{ t('files', 'Enable the grid view') }}
 			</NcCheckboxRadioSwitch>
 		</NcAppSettingsSection>
 
 		<!-- Settings API-->
-		<NcAppSettingsSection v-if="settings.length !== 0"
-			id="more-settings"
-			:name="t('files', 'Additional settings')">
+		<NcAppSettingsSection v-if="settings.length !== 0" id="more-settings" :name="t('files', 'Additional settings')">
 			<template v-for="setting in settings">
 				<Setting :key="setting.name" :el="setting.el" />
 			</template>
@@ -65,34 +55,27 @@
 
 		<!-- Webdav URL-->
 		<NcAppSettingsSection id="webdav" :name="t('files', 'WebDAV')">
-			<NcInputField id="webdav-url-input"
-				:label="t('files', 'WebDAV URL')"
-				:show-trailing-button="true"
-				:success="webdavUrlCopied"
-				:trailing-button-label="t('files', 'Copy to clipboard')"
-				:value="webdavUrl"
-				readonly="readonly"
-				type="url"
-				@focus="$event.target.select()"
-				@trailing-button-click="copyCloudId">
+			<NcInputField id="webdav-url-input" :label="t('files', 'WebDAV URL')" :show-trailing-button="true"
+				:success="webdavUrlCopied" :trailing-button-label="t('files', 'Copy to clipboard')" :value="webdavUrl"
+				readonly="readonly" type="url" @focus="$event.target.select()" @trailing-button-click="copyCloudId">
 				<template #trailing-button-icon>
 					<Clipboard :size="20" />
 				</template>
 			</NcInputField>
 			<em>
-				<a class="setting-link"
-					:href="webdavDocs"
-					target="_blank"
-					rel="noreferrer noopener">
+				<a class="setting-link" :href="webdavDocs" target="_blank" rel="noreferrer noopener">
 					{{ t('files', 'Use this address to access your Files via WebDAV') }} ↗
 				</a>
 			</em>
 			<br>
-			<em>
-				<a class="setting-link" :href="appPasswordUrl">
-					{{ t('files', 'If you have enabled 2FA, you must create and use a new app password by clicking here.') }} ↗
-				</a>
-			</em>
+			<!-- Conditional rendering based on 2FA -->
+			<template v-if="isTwoFactorEnabled">
+				<em>
+					<a class="setting-link" :href="appPasswordUrl">
+						{{ t('files', 'If you have enabled 2FA, you must create and use a new app password by clicking here.') }} ↗
+					</a>
+				</em>
+			</template>
 		</NcAppSettingsSection>
 	</NcAppSettingsDialog>
 </template>
