@@ -4,6 +4,8 @@ OC.L10N.register(
     "restored" : "erëmhiergestallt",
     "Deleted files" : "Geläscht Fichieren",
     "Restore" : "Erëmhierstellen",
+    "Unknown" : "Onbekannt",
+    "All files" : "All d'Fichieren",
     "No deleted files" : "Keng geläscht Fichieren",
     "Deleted" : "Geläscht",
     "You will be able to recover deleted files from here" : "Du kanns geläscht Fichieren aus desëm Dossier erëmhierstellen",

@@ -5,6 +5,8 @@ OC.L10N.register(
     "Deleted files" : "Изтрити файлове",
     "Deleted files and folders in the trash bin (may expire during export if you are low on storage space)" : "Изтрити файлове и папки в кошчето (може да изтекът по време на експортиране, ако нямате място във вашето хранилище)",
     "Restore" : "Възстановяне",
+    "Unknown" : "Неизвестен",
+    "All files" : "Всички файлове",
     "List of files that have been deleted." : "Списък на файловете, които са били изтрити.",
     "No deleted files" : "Няма изтрити файлове",
     "Deleted" : "Изтрито",

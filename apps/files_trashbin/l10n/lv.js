@@ -4,6 +4,8 @@ OC.L10N.register(
     "restored" : "atjaunots",
     "Deleted files" : "Dzēstās datnes",
     "Restore" : "Atjaunot",
+    "Unknown" : "Nezināms",
+    "All files" : "Visas datnes",
     "No deleted files" : "Nav dzēstu datņu",
     "Deleted" : "Dzēsts",
     "You will be able to recover deleted files from here" : "No šejienes būs iespējams atgūt dzēstās datnes",

@@ -5,6 +5,8 @@ OC.L10N.register(
     "Deleted files" : "Izbrisane datoteke",
     "Deleted files and folders in the trash bin (may expire during export if you are low on storage space)" : "Izbrisane datoteke in mape v smeteh (nabor je odvisen od velikosti prostora)",
     "Restore" : "Obnovi",
+    "Unknown" : "Neznano",
+    "All files" : "Vse datoteke",
     "List of files that have been deleted." : "Seznam datotek, ki so bile izbrisane.",
     "No deleted files" : "Ni izbrisanih datotek",
     "Deleted" : "Izbrisano",
