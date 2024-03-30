@@ -4,6 +4,8 @@ OC.L10N.register(
     "restored" : "שוחזר",
     "Deleted files" : "קבצים שנמחקו",
     "Restore" : "שחזור",
+    "Unknown" : "לא ידוע",
+    "All files" : "כל הקבצים",
     "No deleted files" : "אין קבצים שנמחקו",
     "Deleted" : "נמחק",
     "This application enables users to restore files that were deleted from the system." : "יישומון זה מאפשר למשתמשים לשחזר קבצים שנמחקו מהמערכת.",

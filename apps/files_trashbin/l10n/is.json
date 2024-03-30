@@ -3,6 +3,8 @@
     "Deleted files" : "eyddar skrár",
     "Deleted files and folders in the trash bin (may expire during export if you are low on storage space)" : "Eyddar skrár og möppur í ruslinu (gæru runnið út við útflutning ef þú átt lítið geymslupláss eftir)",
     "Restore" : "Endurheimta",
+    "Unknown" : "Óþekkt",
+    "All files" : "Allar skrár",
     "List of files that have been deleted." : "Listi yfir skrár sem hefur verið eytt.",
     "No deleted files" : "Engar eyddar skrár",
     "Files and folders you have deleted will show up here" : "Skrár og möppur sem þú hefur eytt birtast hér",
