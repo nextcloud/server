@@ -1,5 +1,9 @@
 {
 	"extends": "@vue/tsconfig/tsconfig.json",
+	"compilerOptions": {
+		"types": ["jest", "node", "vue", "vue-router"],
+		// other compiler options...
+	},
 	"include": ["./apps/**/*.ts", "./apps/**/*.vue", "./core/**/*.ts", "./core/**/*.vue", "./*.d.ts"],
 	"compilerOptions": {
 		"types": ["jest", "node", "vue", "vue-router"],
