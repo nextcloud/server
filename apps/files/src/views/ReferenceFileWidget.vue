@@ -55,7 +55,7 @@
 		:href="richObject.link"
 		target="_blank"
 		@click="navigate">
-		<span class="widget-file__image" :class="filePreviewClass" :style="filePreviewStyle">
+		<span class="widget-file__image" :class="filePreviewClass" :style="{ backgroundColor: primaryColor }">
 			<template v-if="!previewUrl">
 				<FolderIcon v-if="isFolder" :size="88" />
 				<FileIcon v-else :size="88" />
@@ -141,6 +141,7 @@ export default defineComponent({
 		return {
 			previewUrl: null as string | null,
 			failedViewer: false,
+			primaryColor: 'var(--primary-color)'
 		}
 	},
 

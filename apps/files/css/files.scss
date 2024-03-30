@@ -348,18 +348,19 @@ table td.filename .thumbnail-wrapper.icon-loading-small {
 	}
 }
 table td.filename .thumbnail {
-	display: inline-block;
-	width: 32px;
-	height: 32px;
-	background-size: contain;
-	background-position: center;
-	background-repeat: no-repeat;
-	margin-left: 9px;
-	margin-top: 9px;
-	border-radius: var(--border-radius);
-	cursor: pointer;
-	position: absolute;
-	z-index: 4;
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    margin-left: 9px;
+    margin-top: 9px;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    position: absolute;
+    z-index: 4;
+    background-color: var(--primary-color); /* Set the background color to the primary color */
 }
 table td.filename p.name .thumbnail {
 	cursor: default;
