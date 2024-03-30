@@ -4,6 +4,8 @@ OC.L10N.register(
     "restored" : "აღდგენილია",
     "Deleted files" : "წაშლილი ფაილები",
     "Restore" : "აღდგენა",
+    "Unknown" : "უცნობია",
+    "All files" : "ყველა ფაილი",
     "No deleted files" : "წაშლილი ფაილები ვერ მოიძებნა",
     "Deleted" : "წაშლილი",
     "You will be able to recover deleted files from here" : "წაშლილი ფაილების აღდგენა შესაძლებელია აქ",

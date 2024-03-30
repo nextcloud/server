@@ -4,6 +4,8 @@ OC.L10N.register(
     "restored" : "u rikthye",
     "Deleted files" : "Kartela të fshira",
     "Restore" : "Riktheje",
+    "Unknown" : "I panjohur",
+    "All files" : "Të gjithë skedarët",
     "No deleted files" : "Pa kartela të fshira",
     "Deleted" : "U fshi",
     "You will be able to recover deleted files from here" : "Që këtu do të jeni në gjendje të rimerrni kartela të fshira",

@@ -4,6 +4,8 @@ OC.L10N.register(
     "restored" : "hersteld",
     "Deleted files" : "Verwijderde bestanden",
     "Restore" : "Herstellen",
+    "Unknown" : "Onbekend",
+    "All files" : "Alle bestanden",
     "No deleted files" : "Geen verwijderde bestanden",
     "Deleted" : "Verwijderd",
     "This application enables users to restore files that were deleted from the system." : "Deze applicatie stelt gebruikers in staat om verwijderde bestanden te herstellen.",

@@ -2,6 +2,8 @@
     "restored" : "restaurado",
     "Deleted files" : "Papelera",
     "Restore" : "Restaurar",
+    "Unknown" : "Desconocido",
+    "All files" : "Todos los archivos",
     "No deleted files" : "No hay archivos borrados",
     "Deleted" : "Borrado",
     "This application enables users to restore files that were deleted from the system." : "Esta aplicación le permite a los usuarios restaurar archivos que fueron borrados del sistema.",

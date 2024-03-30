@@ -3,7 +3,7 @@ OC.L10N.register(
     {
     "File could not be found" : "Filen kunne ikke findes",
     "Move or copy" : "Flyt eller kopier",
-    "Download" : "Hent",
+    "Download" : "Download",
     "Delete" : "Slet",
     "Tags" : "Mærker",
     "Show list view" : "Vis som liste",
@@ -37,6 +37,7 @@ OC.L10N.register(
     "Set reminder" : "Sæt påmindelse",
     "Edit locally" : "Rediger lokalt",
     "Open" : "Åbn",
+    "Delete file" : "Slet fil",
     "Delete folder" : "Slet mappe",
     "Disconnect storage" : "Frakobl lager",
     "Leave this share" : "Forlad dette delte drev",

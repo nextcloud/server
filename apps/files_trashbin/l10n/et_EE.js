@@ -5,6 +5,8 @@ OC.L10N.register(
     "Deleted files" : "Kustutatud failid",
     "Deleted files and folders in the trash bin (may expire during export if you are low on storage space)" : "Kustutatud failid ja kaustad prügikastis (võivad ekspordi käigus aeguda, kui salvestusruum on otsakorral)",
     "Restore" : "Taasta",
+    "Unknown" : "Teadmata",
+    "All files" : "Kõik failid",
     "List of files that have been deleted." : "Kustutatud failide loend.",
     "No deleted files" : "Kustutatud faile pole",
     "Deleted" : "Kustutatud",
