@@ -498,24 +498,24 @@ class ManagerTest extends TestCase {
 
 		return $shareData;
 	}
-	private function createTestGroupShare($groupId = 'group1') {
+	private function createTestGroupShare($groupId = 'group1', $token = 'token1', $name = '/SharedFolder', $remoteId = '2342') {
 		$shareData = [
 			'remote' => 'http://localhost',
-			'token' => 'token1',
+			'token' => $token,
 			'password' => '',
-			'name' => '/SharedFolder',
+			'name' => $name,
 			'owner' => 'foobar',
 			'shareType' => IShare::TYPE_GROUP,
 			'accepted' => false,
 			'user' => $groupId,
-			'remoteId' => '2342'
+			'remoteId' => $remoteId
 		];
 
 		$this->assertSame(null, call_user_func_array([$this->manager, 'addShare'], $shareData));
 
 		$allShares = self::invokePrivate($this->manager, 'getShares', [null]);
 		foreach ($allShares as $share) {
-			if ($share['user'] === $groupId) {
+			if ($share['user'] === $groupId && $share['share_token'] == $token && $share['name'] == $name && $share['remote_id'] == $remoteId) {
 				// this will hold the main group entry
 				$groupShare = $share;
 				break;
