@@ -32,7 +32,7 @@ OC.L10N.register(
     "%s (restricted)" : "%s (begrænset)",
     "%s (invisible)" : "%s (usynlig)",
     "<strong>System tags</strong> for a file have been modified" : "En fils <strong>systemmærkning</strong> er blevet ændret",
-    "Tags" : "Mærker",
+    "Tags" : "Tags",
     "Collaborative tags" : "Kollaborativ tags",
     "Create" : "Opret",
     "Update" : "Opdater",

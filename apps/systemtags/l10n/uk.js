@@ -60,7 +60,7 @@ OC.L10N.register(
     "Failed to create tag" : "Не вдалося створити мітку",
     "Updated tag" : "Оновлені мітки",
     "Failed to update tag" : "Не вдалося оновити мітку",
-    "Deleted tag" : "Видалена мітка",
+    "Deleted tag" : "Вилучена мітка",
     "Failed to delete tag" : "Не вдалося вилучити мітку",
     "Loading collaborative tags …" : "Завантажую мітки співпрації...",
     "Search or create collaborative tags" : "Пошук або створення спільних міток",
