@@ -12,6 +12,7 @@ OC.L10N.register(
     "List of files that have been deleted." : "Liste med filer der er blevet slettet.",
     "No deleted files" : "Ingen slettede filer",
     "Files and folders you have deleted will show up here" : "Filer og mapper du har slettet, vil blive listet her",
+    "Original location" : "Oprindelig filplacering",
     "Deleted" : "Slettet",
     "A long time ago" : "For lang tid siden",
     "This application enables users to restore files that were deleted from the system." : "Denne app giver brugere mulighed for at gendanne filer som var slettet fra systemet.",

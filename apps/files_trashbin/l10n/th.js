@@ -4,6 +4,8 @@ OC.L10N.register(
     "restored" : "เรียกคืนแล้ว",
     "Deleted files" : "ไฟล์ที่ถูกลบ",
     "Restore" : "คืนค่า",
+    "Unknown" : "ไม่ทราบ",
+    "All files" : "ไฟล์ทั้งหมด",
     "No deleted files" : "ไม่มีไฟล์ที่ถูกลบ",
     "Deleted" : "ลบแล้ว",
     "You will be able to recover deleted files from here" : "คุณจะสามารถกู้คืนไฟล์ที่ถูกได้ลบจากที่นี่",

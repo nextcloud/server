@@ -4,6 +4,8 @@ OC.L10N.register(
     "restored" : "Restaurado",
     "Deleted files" : "Ficheiros eliminados",
     "Restore" : "Restaurar",
+    "Unknown" : "Desconhecido",
+    "All files" : "Todos os ficheiros",
     "No deleted files" : "Sem ficheiros eliminados",
     "Deleted" : "Eliminado",
     "You will be able to recover deleted files from here" : "Poderá recuperar ficheiros eliminados a partir daqui",

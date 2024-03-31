@@ -12,6 +12,7 @@ OC.L10N.register(
     "List of files that have been deleted." : "Liste der gelöschten Dateien.",
     "No deleted files" : "Keine gelöschten Dateien",
     "Files and folders you have deleted will show up here" : "Die von Ihnen gelöschten Dateien und Ordner werden hier angezeigt",
+    "Original location" : "Ursprünglicher Ort",
     "Deleted" : "Gelöscht",
     "A long time ago" : "Vor langer Zeit",
     "This application enables users to restore files that were deleted from the system." : "Diese App ermöglicht es Benutzern Dateien die vom System gelöscht wurden wiederherzustellen.",
