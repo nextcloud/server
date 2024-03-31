@@ -12,6 +12,7 @@ OC.L10N.register(
     "List of files that have been deleted." : "List of files that have been deleted.",
     "No deleted files" : "No deleted files",
     "Files and folders you have deleted will show up here" : "Files and folders you have deleted will show up here",
+    "Original location" : "Original location",
     "Deleted" : "Deleted",
     "A long time ago" : "A long time ago",
     "This application enables users to restore files that were deleted from the system." : "This application enables users to restore files that were deleted from the system.",
