@@ -103,6 +103,10 @@ OCA = OCA || {};
 					$element: $('#ldap_turn_on_pwd_change'),
 					setMethod: 'setPasswordChangeEnabled'
 				},
+				ldap_change_pwd_as_user: {
+					$element: $('#ldap_change_pwd_as_user'),
+					setMethod: 'setChangePasswordAsUser'
+				},
 				ldap_default_ppolicy_dn: {
 					$element: $('#ldap_default_ppolicy_dn'),
 					setMethod: 'setDefaultPPolicyDN'
@@ -360,6 +364,17 @@ OCA = OCA || {};
 		setPasswordChangeEnabled: function(doPasswordChange) {
 			this.setElementValue(
 				this.managedItems.ldap_turn_on_pwd_change.$element, doPasswordChange
+			);
+		},
+
+		/**
+		 * sets whether the password change should be done as the initiator user or not
+		 *
+		 * @param {string} doChangePasswordAsUser contains an int
+		 */
+		setChangePasswordAsUser: function(doChangePasswordAsUser) {
+			this.setElementValue(
+				this.managedItems.ldap_change_pwd_as_user.$element, doChangePasswordAsUser
 			);
 		},
 

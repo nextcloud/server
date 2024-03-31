@@ -95,7 +95,7 @@ class ChangePasswordController extends Controller {
 		}
 
 		try {
-			if ($newpassword === null || strlen($newpassword) > IUserManager::MAX_PASSWORD_LENGTH || $user->setPassword($newpassword) === false) {
+			if ($newpassword === null || strlen($newpassword) > IUserManager::MAX_PASSWORD_LENGTH || $user->setPassword($newpassword, null, $oldpassword) === false) {
 				return new JSONResponse([
 					'status' => 'error',
 					'data' => [

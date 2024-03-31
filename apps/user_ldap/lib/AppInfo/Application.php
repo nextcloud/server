@@ -57,6 +57,7 @@ use OCP\IL10N;
 use OCP\Image;
 use OCP\IServerContainer;
 use OCP\IUserManager;
+use OCP\User\Events\BeforePasswordUpdatedEvent;
 use OCP\Notification\IManager as INotificationManager;
 use OCP\Share\IManager as IShareManager;
 use OCP\User\Events\PostLoginEvent;
@@ -143,6 +144,14 @@ class Application extends App implements IBootstrap {
 				$dispatcher->dispatchTyped($userBackendRegisteredEvent);
 				$groupBackendRegisteredEvent = new GroupBackendRegistered($groupBackend, $groupPluginManager);
 				$dispatcher->dispatchTyped($groupBackendRegisteredEvent);
+
+				$dispatcher->addListener(BeforePasswordUpdatedEvent::class, function(BeforePasswordUpdatedEvent $event) {
+					if (!is_string($event->getOldPassword()) || ($event->getUser()->getBackendClassName() !== 'LDAP')) {
+						return;
+					}
+					$userBackend = $event->getUser()->getBackend();
+					$userBackend->beforePasswordUpdated($event->getUser()->getUID(), $event->getOldPassword());
+				});
 			}
 		});
 

@@ -96,6 +96,8 @@ class Access extends LDAPUtility {
 	/** @var LoggerInterface */
 	private $logger;
 	private string $lastCookie = '';
+	/** @var Connection[] */
+	private $cachedUserConnections = [];
 
 	public function __construct(
 		Connection $connection,
@@ -340,10 +342,12 @@ class Access extends LDAPUtility {
 	 * @throws \Exception
 	 */
 	public function setPassword($userDN, $password) {
-		if ((int)$this->connection->turnOnPasswordChange !== 1) {
+		$connection = $this->popCachedUserConnection($userDN) ?? $this->connection;
+
+		if ((int)$connection->turnOnPasswordChange !== 1) {
 			throw new \Exception('LDAP password changes are disabled.');
 		}
-		$cr = $this->connection->getConnectionResource();
+		$cr = $connection->getConnectionResource();
 		if (!$this->ldap->isResource($cr)) {
 			//LDAP not available
 			$this->logger->debug('LDAP resource not available.', ['app' => 'user_ldap']);
@@ -1591,6 +1595,56 @@ class Access extends LDAPUtility {
 		]);
 
 		return $filter;
+	}
+
+	/**
+	 * @param string $userDN
+	 * @param string $oldPassword
+	 * @return void
+	 */
+	public function cacheUserConnection($userDN, $oldPassword) {
+		if ((int)$this->connection->changePasswordAsUser !== 1) {
+			return;
+		}
+
+		$dn = $this->helper->DNasBaseParameter($userDN);
+		$connection = clone $this->connection;
+		$credentials = [
+			'ldapAgentName' => $dn,
+			'ldapAgentPassword' => $oldPassword
+		];
+		if (!$connection->setConfiguration($credentials)) {
+			return;
+		}
+		if (!$connection->bind()) {
+			return;
+		}
+
+		// Clear plain user credentials after a successful bind
+		$connection->setConfiguration(['ldapAgentName' => '', 'ldapAgentPassword' => '']);
+
+		$this->cachedUserConnections[$userDN] = $connection;
+		\OCP\Util::writeLog('user_ldap', 'Saved an LDAP user connection to cache.', ILogger::DEBUG);
+	}
+
+	/**
+	 * @param string $userDN
+	 * @return Connection|null
+	 */
+	public function popCachedUserConnection($userDN) {
+		if (!is_string($userDN) || !is_array($this->cachedUserConnections)
+			|| !array_key_exists($userDN, $this->cachedUserConnections)) {
+			return null;
+		}
+		if ((int)$this->connection->changePasswordAsUser !== 1) {
+			$this->cachedUserConnections = [];
+			return null;
+		}
+
+		$connection = $this->cachedUserConnections[$userDN];
+		unset($this->cachedUserConnections[$userDN]);
+		\OCP\Util::writeLog('user_ldap', 'Popped an LDAP user connection from cache.', ILogger::DEBUG);
+		return $connection;
 	}
 
 	public function areCredentialsValid(string $name, string $password): bool {

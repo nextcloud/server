@@ -320,10 +320,11 @@ class User implements IUser {
 	 *
 	 * @param string $password
 	 * @param string $recoveryPassword for the encryption app to reset encryption keys
+	 * @param string $oldPassword for backends which need it for setting the new password
 	 * @return bool
 	 */
-	public function setPassword($password, $recoveryPassword = null) {
-		$this->dispatcher->dispatchTyped(new BeforePasswordUpdatedEvent($this, $password, $recoveryPassword));
+	public function setPassword($password, $recoveryPassword = null, $oldPassword = null) {
+		$this->dispatcher->dispatchTyped(new BeforePasswordUpdatedEvent($this, $password, $recoveryPassword, $oldPassword));
 		if ($this->emitter) {
 			$this->emitter->emit('\OC\User', 'preSetPassword', [$this, $password, $recoveryPassword]);
 		}

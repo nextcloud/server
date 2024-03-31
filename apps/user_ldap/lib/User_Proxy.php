@@ -373,6 +373,17 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IUserLDAP
 	}
 
 	/**
+	 * BeforePasswordUpdated handler
+	 *
+	 * @param string $uid The username
+	 * @param string $oldPassword The old password
+	 * @return void
+	 */
+	public function beforePasswordUpdated($uid, $oldPassword) {
+		return $this->handleRequest($uid, 'beforePasswordUpdated', [$uid, $oldPassword]);
+	}
+
+	/**
 	 * Set password
 	 *
 	 * @param string $uid The username

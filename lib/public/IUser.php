@@ -91,10 +91,11 @@ interface IUser {
 	 *
 	 * @param string $password
 	 * @param string $recoveryPassword for the encryption app to reset encryption keys
+	 * @param string $oldPassword for the backends which need it when setting the new password
 	 * @return bool
 	 * @since 8.0.0
 	 */
-	public function setPassword($password, $recoveryPassword = null);
+	public function setPassword($password, $recoveryPassword = null, $oldPassword = null);
 
 	/**
 	 * get the users home folder to mount
