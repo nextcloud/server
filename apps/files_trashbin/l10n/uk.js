@@ -8,7 +8,7 @@ OC.L10N.register(
     "Restore" : "Відновити",
     "Unknown" : "Невідомо",
     "All files" : "Усі файли",
-    "List of files that have been deleted." : "Список файлів, які було видалено.",
+    "List of files that have been deleted." : "Список файлів, які було вилучено.",
     "No deleted files" : "Кошик порожній",
     "Files and folders you have deleted will show up here" : "Тут показуватимуться файли та каталоги, які ви вилучили",
     "Deleted" : "Вилучено",

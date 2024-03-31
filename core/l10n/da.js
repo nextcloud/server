@@ -110,7 +110,7 @@ OC.L10N.register(
     "Please try again." : "Prøv venligst igen.",
     "An internal error occurred." : "Der opstod en intern fejl.",
     "Please try again or contact your administrator." : "Kontakt venligst din administrator.",
-    "Password" : "Adgangskode",
+    "Password" : "Password",
     "Log in to {productName}" : "Log ind på {productName}",
     "Wrong login or password." : "Forkert brugernavn eller adgangskode.",
     "This account is disabled" : "Denne konto er deaktiveret",
