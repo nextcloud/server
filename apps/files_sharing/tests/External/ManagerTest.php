@@ -99,6 +99,14 @@ class ManagerTest extends TestCase {
 	 * @var \OCP\IUser
 	 */
 	private $user;
+
+	private $uid2;
+
+	/**
+	 * @var \OCP\IUser
+	 */
+	private $user2;
+
 	private $testMountProvider;
 	/** @var IEventDispatcher|\PHPUnit\Framework\MockObject\MockObject */
 	private $eventDispatcher;
@@ -108,6 +116,8 @@ class ManagerTest extends TestCase {
 
 		$this->uid = $this->getUniqueID('user');
 		$this->user = $this->createUser($this->uid, '');
+		$this->uid2 = $this->getUniqueID('user2');
+		$this->user2 = $this->createUser($this->uid2, '');
 		$this->mountManager = new \OC\Files\Mount\Manager($this->createMock(SetupManagerFactory::class));
 		$this->clientService = $this->getMockBuilder(IClientService::class)
 			->disableOriginalConstructor()->getMock();
@@ -140,18 +150,35 @@ class ManagerTest extends TestCase {
 
 		$group1 = $this->createMock(IGroup::class);
 		$group1->expects($this->any())->method('getGID')->willReturn('group1');
-		$group1->expects($this->any())->method('inGroup')->with($this->user)->willReturn(true);
+		$group1->expects($this->any())->method('inGroup')
+			->will($this->returnValueMap([
+				[$this->user, true],
+				[$this->user2, true],
+			]));
 
 		$group2 = $this->createMock(IGroup::class);
 		$group2->expects($this->any())->method('getGID')->willReturn('group2');
 		$group2->expects($this->any())->method('inGroup')->with($this->user)->willReturn(true);
 
-		$this->userManager->expects($this->any())->method('get')->willReturn($this->user);
-		$this->groupManager->expects($this->any())->method(('getUserGroups'))->willReturn([$group1, $group2]);
+		$group3 = $this->createMock(IGroup::class);
+		$group3->expects($this->any())->method('getGID')->willReturn('group3');
+		$group3->expects($this->any())->method('inGroup')->with($this->user2)->willReturn(true);
+
+		$this->userManager->expects($this->any())->method('get')
+			->will($this->returnValueMap([
+				[$this->uid, $this->user],
+				[$this->uid2, $this->user2],
+			]));
+		$this->groupManager->expects($this->any())->method(('getUserGroups'))
+			->will($this->returnValueMap([
+				[$this->user, [$group1, $group2]],
+				[$this->user2, [$group1, $group3]],
+			]));
 		$this->groupManager->expects($this->any())->method(('get'))
 			->will($this->returnValueMap([
 				['group1', $group1],
 				['group2', $group2],
+				['group3', $group3],
 			]));
 	}
 
@@ -656,7 +683,7 @@ class ManagerTest extends TestCase {
 		$this->assertTrue($this->manager->acceptShare($groupShare['id']));
 
 		// user 2 shares
-		$manager2 = $this->createManagerForUser('user2');
+		$manager2 = $this->createManagerForUser($this->uid2);
 		$shareData2 = [
 			'remote' => 'http://localhost',
 			'token' => 'token1',
@@ -665,7 +692,7 @@ class ManagerTest extends TestCase {
 			'owner' => 'foobar',
 			'shareType' => IShare::TYPE_USER,
 			'accepted' => false,
-			'user' => 'user2',
+			'user' => $this->uid2,
 			'remoteId' => '2342'
 		];
 		$this->assertSame(null, call_user_func_array([$manager2, 'addShare'], $shareData2));
@@ -687,7 +714,7 @@ class ManagerTest extends TestCase {
 		$this->assertEquals($user2Shares[0]['share_type'], IShare::TYPE_GROUP);
 		$this->assertEquals($user2Shares[0]['user'], 'group1');
 		$this->assertEquals($user2Shares[1]['share_type'], IShare::TYPE_USER);
-		$this->assertEquals($user2Shares[1]['user'], 'user2');
+		$this->assertEquals($user2Shares[1]['user'], $this->uid2);
 	}
 
 	public function testDeleteGroupShares() {
@@ -701,7 +728,7 @@ class ManagerTest extends TestCase {
 		$this->assertTrue($this->manager->acceptShare($groupShare['id']));
 
 		// user 2 shares
-		$manager2 = $this->createManagerForUser('user2');
+		$manager2 = $this->createManagerForUser($this->uid2);
 		$shareData2 = [
 			'remote' => 'http://localhost',
 			'token' => 'token1',
@@ -710,7 +737,7 @@ class ManagerTest extends TestCase {
 			'owner' => 'foobar',
 			'shareType' => IShare::TYPE_USER,
 			'accepted' => false,
-			'user' => 'user2',
+			'user' => $this->uid2,
 			'remoteId' => '2342'
 		];
 		$this->assertSame(null, call_user_func_array([$manager2, 'addShare'], $shareData2));
@@ -730,7 +757,7 @@ class ManagerTest extends TestCase {
 		$user2Shares = $manager2->getOpenShares();
 		$this->assertCount(1, $user2Shares);
 		$this->assertEquals($user2Shares[0]['share_type'], IShare::TYPE_USER);
-		$this->assertEquals($user2Shares[0]['user'], 'user2');
+		$this->assertEquals($user2Shares[0]['user'], $this->uid2);
 	}
 
 	/**
