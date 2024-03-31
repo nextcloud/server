@@ -12,6 +12,7 @@ OC.L10N.register(
     "List of files that have been deleted." : "قائمة بجميع الملفات المحذوفة",
     "No deleted files" : "لا توجد ملفات محذوفة",
     "Files and folders you have deleted will show up here" : "الملفات و المجلدات التي قُمتَ أنت بحذفها ستظهر هنا",
+    "Original location" : "الموقع الأصلي",
     "Deleted" : "محذوفة",
     "A long time ago" : "منذ وقت طويل",
     "This application enables users to restore files that were deleted from the system." : "هذا التطبيق يُمكّن المستخدمين من استعادة الملفات التي قاموا بحذفها من النظام.",

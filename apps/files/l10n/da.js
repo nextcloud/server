@@ -5,7 +5,7 @@ OC.L10N.register(
     "Move or copy" : "Flyt eller kopier",
     "Download" : "Download",
     "Delete" : "Slet",
-    "Tags" : "Mærker",
+    "Tags" : "Tags",
     "Show list view" : "Vis som liste",
     "Show grid view" : "Vis som gitter",
     "Home" : "Hjem",

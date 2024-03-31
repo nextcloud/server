@@ -107,6 +107,7 @@ OC.L10N.register(
     "Expiration date" : "Data de caducidá",
     "Hide download" : "Anubrir la descarga",
     "Allow download" : "Permitir la descarga",
+    "Read" : "Lleer",
     "Create" : "Crear",
     "Edit" : "Editar",
     "Share" : "Compartir",
