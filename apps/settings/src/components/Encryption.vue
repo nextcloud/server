@@ -30,6 +30,7 @@
 		<NcNoteCard type="warning">
 			<p>Once enabled, server-side encryption cannot be toggled off here. Disabling encryption requires command line access.</p>
 		</NcNoteCard>
+		
 		<NcCheckboxRadioSwitch :checked="encryptionEnabled || shouldDisplayWarning"
 			:disabled="encryptionEnabled"
 			type="switch"
@@ -83,10 +84,7 @@
 
 <script>
 import axios from '@nextcloud/axios'
-import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection.js'
-import NcNoteCard from '@nextcloud/vue/dist/Components/NcNoteCard.js'
+import { NcCheckboxRadioSwitch, NcButton, NcSettingsSection, NcNoteCard } from '@nextcloud/vue'
 import { loadState } from '@nextcloud/initial-state'
 import { getLoggerBuilder } from '@nextcloud/logger'
 
