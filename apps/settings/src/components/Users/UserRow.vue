@@ -265,6 +265,7 @@ export default {
 
 	data() {
 		return {
+			dialogOpen: false, // Add this line to initialize the dialog state
 			selectedQuota: false,
 			rand: Math.random().toString(36).substring(2),
 			loadingPossibleManagers: false,
@@ -418,35 +419,37 @@ export default {
 
 	methods: {
 		wipeUserDevices() {
-			const userid = this.user.id
+			const userid = this.user.id;
 			if (this.dialogOpen) {
 				return; // Prevent opening a new dialog
-			}else{
-			OC.dialogs.confirmDestructive(
-				t('settings', 'In case of lost device or exiting the organization, this can remotely wipe the Nextcloud data from all devices associated with {userid}. Only works if the devices are connected to the internet.', { userid }),
-				t('settings', 'Remote wipe of devices'),
-				{
-					type: OC.dialogs.YES_NO_BUTTONS,
-					confirm: t('settings', 'Wipe {userid}\'s devices', { userid }),
-					confirmClasses: 'error',
-					cancel: t('settings', 'Cancel'),
-				},
-				(result) => {
-					if (result) {
-						this.loading.wipe = true
-						this.loading.all = true
-						this.$store.dispatch('wipeUserDevices', userid)
-							.then(() => showSuccess(t('settings', 'Wiped {userid}\'s devices', { userid })), { timeout: 2000 })
-							.finally(() => {
-								this.loading.wipe = false
-								this.loading.all = false
-							})
-					}
-				},
-				true,
-			)}
-			// Mark dialog as open
-			this.dialogOpen = true;
+			} else {
+				OC.dialogs.confirmDestructive(
+					t('settings', 'In case of lost device or exiting the organization, this can remotely wipe the Nextcloud data from all devices associated with {userid}. Only works if the devices are connected to the internet.', { userid }),
+					t('settings', 'Remote wipe of devices'),
+					{
+						type: OC.dialogs.YES_NO_BUTTONS,
+						confirm: t('settings', 'Wipe {userid}\'s devices', { userid }),
+						confirmClasses: 'error',
+						cancel: t('settings', 'Cancel'),
+					},
+					(result) => {
+						if (result) {
+							this.loading.wipe = true;
+							this.loading.all = true;
+							this.$store.dispatch('wipeUserDevices', userid)
+								.then(() => {
+									showSuccess(t('settings', 'Wiped {userid}\'s devices', { userid }));
+								})
+								.finally(() => {
+									this.loading.wipe = false;
+									this.loading.all = false;
+									this.dialogOpen = false; // Mark dialog as closed
+								});
+						}
+					},
+					true
+				);
+			}
 		},
 
 		filterManagers(managers) {
@@ -499,36 +502,34 @@ export default {
 			// check if dialog is open to prevent reoppening
 			if (this.dialogOpen) {
 				return; // Prevent opening a new dialog
-			}else{
-			OC.dialogs.confirmDestructive(
-				t('settings', 'Fully delete {userid}\'s account including all their personal files, app data, etc.', { userid }),
-				t('settings', 'Account deletion'),
-				{
-					type: OC.dialogs.YES_NO_BUTTONS,
-					confirm: t('settings', 'Delete {userid}\'s account', { userid }),
-					confirmClasses: 'error',
-					cancel: t('settings', 'Cancel'),
-				},
-				(result) => {
-					if (result) {
-						this.loading.delete = true
-						this.loading.all = true
-						return this.$store.dispatch('deleteUser', userid)
-							.then(() => {
-								this.loading.delete = false
-								this.loading.all = false
-								this.dialogOpen = false
-
-							})
-					} else {
-						this.dialogOpen = false // Mark dialog as closed
-					}
-				},
-				true,
-				
-			)}
-			// Mark dialog as open
-			this.dialogOpen = true;
+			} else {
+				this.dialogOpen = true; // Mark dialog as open
+				OC.dialogs.confirmDestructive(
+					t('settings', 'Fully delete {userid}\'s account including all their personal files, app data, etc.', { userid }),
+					t('settings', 'Account deletion'),
+					{
+						type: OC.dialogs.YES_NO_BUTTONS,
+						confirm: t('settings', 'Delete {userid}\'s account', { userid }),
+						confirmClasses: 'error',
+						cancel: t('settings', 'Cancel'),
+					},
+					(result) => {
+						if (result) {
+							this.loading.delete = true
+							this.loading.all = true
+							return this.$store.dispatch('deleteUser', userid)
+								.then(() => {
+									this.loading.delete = false
+									this.loading.all = false
+									this.dialogOpen = false; // Mark dialog as closed
+								})
+						} else {
+							this.dialogOpen = false; // Mark dialog as closed
+						}
+					},
+					true,
+				)
+			}
 		},
 
 

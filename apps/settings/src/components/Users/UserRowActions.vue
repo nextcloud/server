@@ -22,23 +22,15 @@
 -->
 
 <template>
-	<NcActions :aria-label="t('settings', 'Toggle account actions menu')"
-		:disabled="disabled"
-		:inline="1">
-		<NcActionButton :data-cy-user-list-action-toggle-edit="`${edit}`"
-			:disabled="disabled"
-			@click="toggleEdit">
+	<NcActions :aria-label="t('settings', 'Toggle account actions menu')" :disabled="disabled" :inline="1">
+		<NcActionButton :data-cy-user-list-action-toggle-edit="`${edit}`" :disabled="disabled" @click="toggleEdit">
 			{{ edit ? t('settings', 'Done') : t('settings', 'Edit') }}
 			<template #icon>
 				<NcIconSvgWrapper :key="editSvg" :svg="editSvg" aria-hidden="true" />
 			</template>
 		</NcActionButton>
-		<NcActionButton v-for="({ action, icon, text }, index) in actions"
-			:key="index"
-			:disabled="disabled"
-			:aria-label="text"
-			:icon="icon"
-			@click="(event) => action(event, { ...user })">
+		<NcActionButton v-for="({ action, icon, text }, index) in actions" :key="index" :disabled="disabled"
+			:aria-label="text" :icon="icon" @click="performAction(action)">
 			{{ text }}
 		</NcActionButton>
 	</NcActions>
@@ -111,11 +103,14 @@ export default defineComponent({
 	},
 
 	methods: {
-		/**
-		 * Toggle edit mode by emitting the update event
-		 */
 		toggleEdit() {
 			this.$emit('update:edit', !this.edit)
+		},
+		performAction(action: (event: MouseEvent, user: Record<string, unknown>) => void) {
+			// Emit event to notify UserRow component that an action has been performed
+			this.$emit('actionPerformed');
+			// Call the action method
+			action(event as MouseEvent, { ...this.user });
 		},
 	},
 })
