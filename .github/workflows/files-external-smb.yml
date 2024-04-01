@@ -39,9 +39,9 @@ jobs:
 
     strategy:
       matrix:
-        php-versions: ['8.0', '8.3']
+        php-versions: ['8.1', '8.3']
         include:
-          - php-versions: '8.0'
+          - php-versions: '8.1'
             coverage: ${{ github.event_name != 'pull_request' }}
 
     name: php${{ matrix.php-versions }}-smb

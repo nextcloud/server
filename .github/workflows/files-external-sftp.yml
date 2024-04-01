@@ -3,7 +3,7 @@ on:
   pull_request:
   schedule:
     - cron: "5 2 * * *"
-  
+
 concurrency:
   group: files-external-sftp-${{ github.head_ref || github.run_id }}
   cancel-in-progress: true
@@ -41,10 +41,10 @@ jobs:
       # do not stop on another job's failure
       fail-fast: false
       matrix:
-        php-versions: ['8.0', '8.3']
+        php-versions: ['8.1', '8.3']
         sftpd: ['openssh']
         include:
-          - php-versions: '8.0'
+          - php-versions: '8.1'
             coverage: ${{ github.event_name != 'pull_request' }}
 
     name: php${{ matrix.php-versions }}-${{ matrix.sftpd }}

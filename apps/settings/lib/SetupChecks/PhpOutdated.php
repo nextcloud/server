@@ -46,8 +46,8 @@ class PhpOutdated implements ISetupCheck {
 	}
 
 	public function run(): SetupResult {
-		if (PHP_VERSION_ID < 80100) {
-			return SetupResult::warning($this->l10n->t('You are currently running PHP %s. PHP 8.0 is now deprecated in Nextcloud 27. Nextcloud 28 may require at least PHP 8.1. Please upgrade to one of the officially supported PHP versions provided by the PHP Group as soon as possible.', [PHP_VERSION]), 'https://secure.php.net/supported-versions.php');
+		if (PHP_VERSION_ID < 80200) {
+			return SetupResult::warning($this->l10n->t('You are currently running PHP %s. PHP 8.1 is now deprecated in Nextcloud 30. Nextcloud 31 may require at least PHP 8.2. Please upgrade to one of the officially supported PHP versions provided by the PHP Group as soon as possible.', [PHP_VERSION]), 'https://secure.php.net/supported-versions.php');
 		}
 		return SetupResult::success($this->l10n->t('You are currently running PHP %s.', [PHP_VERSION]));
 	}

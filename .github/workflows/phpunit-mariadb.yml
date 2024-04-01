@@ -52,7 +52,7 @@ jobs:
 
     strategy:
       matrix:
-        php-versions: ['8.0']
+        php-versions: ['8.1']
         mariadb-versions: ['10.3', '10.4', '10.5', '10.6', '10.11']
         include:
           - php-versions: '8.3'
