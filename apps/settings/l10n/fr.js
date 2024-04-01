@@ -285,6 +285,7 @@ OC.L10N.register(
     ".well-known URLs" : "URL .well-known",
     "`check_for_working_wellknown_setup` is set to false in your configuration, so this check was skipped." : "`check_for_working_wellknown_setup` est définit à faux dans votre configuration, donc cette vérification a été passée.",
     "Could not check that your web server serves `.well-known` correctly. Please check manually." : "Impossible de vérifier que votre serveur web serve les entêtes `.well-known` correctement. Veuillez vérifier manuellement.",
+    "Your web server is not properly set up to resolve `.well-known` URLs, failed on:\n`%s`" : "Votre serveur web n’est pas configuré correctement pour résoudre les URL `.well-known`, a échoué sur :\n`%s`",
     "WOFF2 file loading" : "Chargement du fichier WOFF2",
     "Profile information" : "Information du profil",
     "Profile picture, full name, email, phone number, address, website, Twitter, organisation, role, headline, biography, and whether your profile is enabled" : "Photo de profil, nom complet, adresse e-mail, numéro de téléphone, adresse, site web, Twitter, organisation, fonction, titre, à propos, et si votre profil est activé",
