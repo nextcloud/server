@@ -1,5 +1,6 @@
 <!--
 	- @copyright 2023 Ferdinand Thiessen <opensource@fthiessen.de>
+	- @copyright 2024 Jed Boulahya <jed.boulahya@medtech.tn>
 	-
 	- @author Christopher Ng <chrng8@gmail.com>
 	- @author Ferdinand Thiessen <opensource@fthiessen.de>
