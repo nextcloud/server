@@ -86,6 +86,7 @@ import axios from '@nextcloud/axios'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection.js'
+import NcNoteCard from '@nextcloud/vue/dist/Components/NcNoteCard.js'
 import { loadState } from '@nextcloud/initial-state'
 import { getLoggerBuilder } from '@nextcloud/logger'
 
