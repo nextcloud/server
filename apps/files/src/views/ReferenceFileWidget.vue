@@ -277,6 +277,7 @@ export default defineComponent({
 			display: flex;
 			align-items: center;
 			justify-content: center;
+			color: var(--primary-color);
 		}
 	}
 
