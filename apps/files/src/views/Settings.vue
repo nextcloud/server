@@ -93,13 +93,13 @@
 					:href="webdavDocs"
 					target="_blank"
 					rel="noreferrer noopener">
-					{{ t('files', 'Use this address to access your Files via WebDAV') }} ↗
+					{{ t('files', 'Use this address to access your Files via WebDAV.') }} ↗
 				</a>
 			</em>
 			<br>
-			<em>
+			<em v-if="isTwoFactorEnabled">
 				<a class="setting-link" :href="appPasswordUrl">
-					{{ t('files', 'If you have enabled 2FA, you must create and use a new app password by clicking here.') }} ↗
+					{{ t('files', 'Two-Factor Authentication is enabled for your account, and therefore you need to use an app password to connect an external WebDAV client.') }} ↗
 				</a>
 			</em>
 		</NcAppSettingsSection>
@@ -334,6 +334,7 @@ export default {
 			appPasswordUrl: generateUrl('/settings/user/security#generate-app-token-section'),
 			webdavUrlCopied: false,
 			enableGridView: (loadState('core', 'config', [])['enable_non-accessible_features'] ?? true),
+			isTwoFactorEnabled: (loadState('files', 'isTwoFactorEnabled', false)),
 		}
 	},
 
