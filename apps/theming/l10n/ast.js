@@ -38,6 +38,7 @@ OC.L10N.register(
     "Name" : "Nome",
     "Web link" : "Enllaz web",
     "a safe home for all your data" : "un llugar seguru pa los datos personales",
+    "Color" : "Color",
     "Logo" : "Logotipu",
     "Privacy policy link" : "Enllaz de la política de privacidá",
     "Header logo" : "Logotipu de la testera",

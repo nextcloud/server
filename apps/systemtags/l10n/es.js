@@ -77,7 +77,7 @@ OC.L10N.register(
     "No tags found" : "No se encontraron etiquetas",
     "Tags you have created will show up here." : "Las etiquetas que haya creado aparecerán aquí.",
     "Failed to load last used tags" : "Fallo al cargar las etiquetas recientemente utilizadas",
-    "Missing \"Content-Location\" header" : "No existe la cabecera \"Content-Location\"",
+    "Missing \"Content-Location\" header" : "Falta el encabezado \"Content-Location\"",
     "Failed to load tags for file" : "Fallo al cargar las etiquetas del archivo",
     "Failed to set tag for file" : "Fallo al asignar la etiqueta al archivo",
     "Failed to delete tag for file" : "Fallo al borrar la etiqueta del archivo",

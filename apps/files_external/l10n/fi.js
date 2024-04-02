@@ -7,6 +7,7 @@ OC.L10N.register(
     "Error configuring OAuth2" : "Virhe OAuth2:n asetuksia tehdessä",
     "Generate keys" : "Luo avaimet",
     "Error generating key pair" : "Virhe luotaessa avainparia",
+    "Type to select account or group." : "Kirjoita valitaksesi tilin tai ryhmän.",
     "(Group)" : "(Ryhmä)",
     "Compatibility with Mac NFD encoding (slow)" : "Yhteensopivuus Mac NFD -enkoodauksen kanssa (hidas)",
     "Enable encryption" : "Käytä salausta",

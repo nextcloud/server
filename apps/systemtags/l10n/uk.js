@@ -42,6 +42,7 @@ OC.L10N.register(
     "All tagged %s …" : "Усі позначено мітками %s …",
     "tagged %s" : "позначено міткою %s",
     "Collaborative tags" : "Мітки для організації співпраці",
+    "Collaborative tagging functionality which shares tags among people." : "Функціональність спільних міток дозволяє надавати у спільний доступ мітки.",
     "Create or edit tags" : "Створити чи редагувати мітки",
     "Search for a tag to edit" : "Пошук мітки для редагування",
     "Collaborative tags …" : "Спільні мітки...",
