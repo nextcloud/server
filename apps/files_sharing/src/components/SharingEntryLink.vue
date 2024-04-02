@@ -205,6 +205,7 @@ import GeneratePassword from '../utils/GeneratePassword.js'
 import Share from '../models/Share.js'
 import SharesMixin from '../mixins/SharesMixin.js'
 import ShareDetails from '../mixins/ShareDetails.js'
+import { getLoggerBuilder } from '@nextcloud/logger'
 
 export default {
 	name: 'SharingEntryLink',
@@ -237,6 +238,7 @@ export default {
 
 	data() {
 		return {
+			shareCreationComplete: false,
 			copySuccess: true,
 			copied: false,
 
@@ -245,6 +247,10 @@ export default {
 
 			ExternalLegacyLinkActions: OCA.Sharing.ExternalLinkActions.state,
 			ExternalShareActions: OCA.Sharing.ExternalShareActions.state,
+			logger: getLoggerBuilder()
+				.setApp('files_sharing')
+				.detectUser()
+				.build(),
 		}
 	},
 
@@ -405,6 +411,32 @@ export default {
 			return this.config.isDefaultExpireDateEnforced && this.share && !this.share.id
 		},
 
+		sharePolicyHasRequiredProperties() {
+			return this.config.enforcePasswordForPublicLink || this.config.isDefaultExpireDateEnforced
+		},
+
+		requiredPropertiesMissing() {
+			// Ensure share exist and the share policy has required properties
+			if (!this.sharePolicyHasRequiredProperties) {
+				return false
+			}
+
+			if (!this.share) {
+				// if no share, we can't tell if properties are missing or not so we assume properties are missing
+			    return true
+			}
+
+			// If share has ID, then this is an incoming link share created from the existing link share
+			// Hence assume required properties
+			if (this.share.id) {
+				return true
+			}
+			// Check if either password or expiration date is missing and enforced
+			const isPasswordMissing = this.config.enforcePasswordForPublicLink && !this.share.password
+			const isExpireDateMissing = this.config.isDefaultExpireDateEnforced && !this.share.expireDate
+
+			return isPasswordMissing || isExpireDateMissing
+		},
 		// if newPassword exists, but is empty, it means
 		// the user deleted the original password
 		hasUnsavedPassword() {
@@ -481,6 +513,7 @@ export default {
 		 * Create a new share link and append it to the list
 		 */
 		async onNewLinkShare() {
+			this.logger.debug('onNewLinkShare called (with this.share)', this.share)
 			// do not run again if already loading
 			if (this.loading) {
 				return
@@ -495,28 +528,13 @@ export default {
 				shareDefaults.expiration = this.formatDateToString(this.config.defaultExpirationDate)
 			}
 
+			this.logger.debug('Missing required properties?', this.requiredPropertiesMissing)
 			// do not push yet if we need a password or an expiration date: show pending menu
-			if (this.config.enableLinkPasswordByDefault || this.config.enforcePasswordForPublicLink || this.config.isDefaultExpireDateEnforced) {
+			if (this.sharePolicyHasRequiredProperties && this.requiredPropertiesMissing) {
 				this.pending = true
+				this.shareCreationComplete = false
 
-				// if a share already exists, pushing it
-				if (this.share && !this.share.id) {
-					// if the share is valid, create it on the server
-					if (this.checkShare(this.share)) {
-						try {
-							await this.pushNewLinkShare(this.share, true)
-						} catch (e) {
-							this.pending = false
-							console.error(e)
-							return false
-						}
-						return true
-					} else {
-						this.open = true
-						OC.Notification.showTemporary(t('files_sharing', 'Error, please enter proper password and/or expiration date'))
-						return false
-					}
-				}
+				this.logger.info('Share policy requires mandated properties (password)...')
 
 				// ELSE, show the pending popovermenu
 				// if password default or enforced, pre-fill with random one
@@ -538,8 +556,32 @@ export default {
 
 				// Nothing is enforced, creating share directly
 			} else {
+
+				// if a share already exists, pushing it
+				if (this.share && !this.share.id) {
+					// if the share is valid, create it on the server
+					if (this.checkShare(this.share)) {
+						try {
+							this.logger.info('Sending existing share to server', this.share)
+							await this.pushNewLinkShare(this.share, true)
+							this.shareCreationComplete = true
+							this.logger.info('Share created on server', this.share)
+						} catch (e) {
+							this.pending = false
+							this.logger.error('Error creating share', e)
+							return false
+						}
+						return true
+					} else {
+						this.open = true
+						showError(t('files_sharing', 'Error, please enter proper password and/or expiration date'))
+						return false
+					}
+				}
+
 				const share = new Share(shareDefaults)
 				await this.pushNewLinkShare(share)
+				this.shareCreationComplete = true
 			}
 		},
 
@@ -579,8 +621,8 @@ export default {
 				const newShare = await this.createShare(options)
 
 				this.open = false
+				this.shareCreationComplete = true
 				console.debug('Link share created', newShare)
-
 				// if share already exists, copy link directly on next tick
 				let component
 				if (update) {
@@ -622,8 +664,10 @@ export default {
 					this.onSyncError('pending', message)
 				}
 				throw data
+
 			} finally {
 				this.loading = false
+				this.shareCreationComplete = true
 			}
 		},
 		async copyLink() {
@@ -726,7 +770,9 @@ export default {
 			// this.share already exists at this point,
 			// but is incomplete as not pushed to server
 			// YET. We can safely delete the share :)
-			this.$emit('remove:share', this.share)
+			if (!this.shareCreationComplete) {
+				this.$emit('remove:share', this.share)
+			}
 		},
 	},
 }
@@ -747,25 +793,21 @@ export default {
 		min-width: 0;
 	}
 
-	&__desc {
-		display: flex;
-		flex-direction: column;
-		line-height: 1.2em;
+		&__desc {
+			display: flex;
+			flex-direction: column;
+			line-height: 1.2em;
 
-		p {
-			color: var(--color-text-maxcontrast);
+			p {
+				color: var(--color-text-maxcontrast);
+			}
+
+			&__title {
+				text-overflow: ellipsis;
+				overflow: hidden;
+				white-space: nowrap;
+			}
 		}
-
-		&__title {
-			text-overflow: ellipsis;
-			overflow: hidden;
-			white-space: nowrap;
-		}
-	}
-
-	&__copy {
-
-	}
 
 	&:not(.sharing-entry--share) &__actions {
 		.new-share-link {
