@@ -247,7 +247,7 @@ OC.L10N.register(
     "No action available" : "Keine Aktion verfügbar",
     "Error fetching contact actions" : "Fehler beim Einlesen der Kontakt-Aktionen",
     "Close \"{dialogTitle}\" dialog" : "Dialog \"{dialogTitle}\" schließen",
-    "Email length is at max (255)" : "Maximlae Länge der E-Mailadresse erreicht (255)",
+    "Email length is at max (255)" : "Maximale Länge der E-Mail-Adresse erreicht (255)",
     "Non-existing tag #{tag}" : "Nicht existierendes Schlagwort #{tag}",
     "Restricted" : "Eingeschränkt",
     "Invisible" : "Unsichtbar",

@@ -12,6 +12,7 @@ OC.L10N.register(
     "List of files that have been deleted." : "已被刪除的檔案清單。",
     "No deleted files" : "沒有已刪除的檔案",
     "Files and folders you have deleted will show up here" : "您已刪除的檔案與資料夾將會在此處顯示",
+    "Original location" : "原始位置",
     "Deleted" : "已刪除",
     "A long time ago" : "很久以前",
     "This application enables users to restore files that were deleted from the system." : "此應用程式讓使用者可以還原他們在系統當中刪除的檔案",

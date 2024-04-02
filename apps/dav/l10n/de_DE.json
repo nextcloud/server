@@ -151,7 +151,7 @@
     "WebDAV endpoint" : "WebDAV-Endpunkt",
     "Could not check that your web server is properly set up to allow file synchronization over WebDAV. Please check manually." : "Es konnte nicht überprüft werden, ob Ihr Webserver ordnungsgemäß eingerichtet ist, um Dateisynchronisation über WebDAV zu ermöglichen. Bitte überprüfen Sie dies manuell.",
     "Your web server is not yet properly set up to allow file synchronization, because the WebDAV interface seems to be broken." : "Ihr Webserver ist noch nicht hinreichend für Datei-Synchronisierung konfiguriert. Die WebDAV-Schnittstelle ist vermutlich defekt.",
-    "Your web server is properly set up to allow file synchronization over WebDAV." : "Ihr Webserver ist ordnungsgemäß eingerichtet un Dateisynchronisation über WebDAV zu ermöglichen.",
+    "Your web server is properly set up to allow file synchronization over WebDAV." : "Ihr Webserver ist ordnungsgemäß eingerichtet um Dateisynchronisation über WebDAV zu ermöglichen.",
     "Migrated calendar (%1$s)" : "Migrierter Kalender (%1$s)",
     "Calendars including events, details and attendees" : "Kalender mit Terminen, Details und Teilnehmern",
     "Contacts and groups" : "Kontakte und Gruppen",
