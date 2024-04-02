@@ -76,9 +76,9 @@ body:
         Select Nextcloud Server version.
         _Versions not listed here are not maintained and not supported anymore_
       options:
-        - "26"
         - "27"
         - "28"
+        - "29"
         - "master"
     validations:
       required: true

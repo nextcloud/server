@@ -36,7 +36,7 @@ declare(strict_types=1);
  */
 namespace OC;
 
-use \OCP\AutoloadNotAllowedException;
+use OCP\AutoloadNotAllowedException;
 use OCP\ICache;
 use Psr\Log\LoggerInterface;
 
@@ -185,7 +185,7 @@ class Autoloader {
 	 *
 	 * @param ICache $memoryCache Instance of memory cache.
 	 */
-	public function setMemoryCache(ICache $memoryCache = null): void {
+	public function setMemoryCache(?ICache $memoryCache = null): void {
 		$this->memoryCache = $memoryCache;
 	}
 }

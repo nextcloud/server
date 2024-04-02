@@ -88,7 +88,7 @@ class MountConfig {
 	 * @throws \OCP\AppFramework\QueryException
 	 * @since 16.0.0
 	 */
-	public static function substitutePlaceholdersInConfig($input, string $userId = null) {
+	public static function substitutePlaceholdersInConfig($input, ?string $userId = null) {
 		/** @var BackendService $backendService */
 		$backendService = \OC::$server->get(BackendService::class);
 		/** @var IConfigHandler[] $handlers */

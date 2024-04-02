@@ -1,8 +1,8 @@
 <?php
-use \OCA\Files_External\Lib\Auth\AuthMechanism;
-use \OCA\Files_External\Lib\Backend\Backend;
-use \OCA\Files_External\Lib\DefinitionParameter;
-use \OCA\Files_External\Service\BackendService;
+use OCA\Files_External\Lib\Auth\AuthMechanism;
+use OCA\Files_External\Lib\Backend\Backend;
+use OCA\Files_External\Lib\DefinitionParameter;
+use OCA\Files_External\Service\BackendService;
 
 /** @var array $_ */
 

@@ -69,7 +69,10 @@ class UserGlobalAuth extends AuthMechanism {
 		$this->credentialsManager->store($user->getUID(), self::CREDENTIALS_IDENTIFIER, $credentials);
 	}
 
-	public function manipulateStorageConfig(StorageConfig &$storage, IUser $user = null) {
+	/**
+	 * @return void
+	 */
+	public function manipulateStorageConfig(StorageConfig &$storage, ?IUser $user = null) {
 		if ($user === null) {
 			throw new InsufficientDataForMeaningfulAnswerException('No credentials saved');
 		}

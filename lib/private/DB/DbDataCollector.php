@@ -48,7 +48,7 @@ class DbDataCollector extends \OCP\DataCollector\AbstractDataCollector {
 	/**
 	 * @inheritDoc
 	 */
-	public function collect(Request $request, Response $response, \Throwable $exception = null): void {
+	public function collect(Request $request, Response $response, ?\Throwable $exception = null): void {
 		$queries = $this->sanitizeQueries($this->debugStack->queries);
 
 		$this->data = [
@@ -75,7 +75,7 @@ class DbDataCollector extends \OCP\DataCollector\AbstractDataCollector {
 	private function sanitizeQuery(array $query): array {
 		$query['explainable'] = true;
 		$query['runnable'] = true;
-		if (null === $query['params']) {
+		if ($query['params'] === null) {
 			$query['params'] = [];
 		}
 		if (!\is_array($query['params'])) {
