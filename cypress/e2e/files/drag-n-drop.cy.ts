@@ -1,6 +1,6 @@
 import { getRowForFile } from './FilesUtils.ts'
 
-describe('files: Drag and Drop legacy', { testIsolation: true }, () => {
+describe('files: Drag and Drop', { testIsolation: true }, () => {
 	beforeEach(() => {
 		cy.createRandomUser().then((user) => {
 			cy.login(user)

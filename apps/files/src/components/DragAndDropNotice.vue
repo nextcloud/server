@@ -180,7 +180,7 @@ export default defineComponent({
 
 			// If another button is pressed, cancel it. This
 			// allows cancelling the drag with the right click.
-			if (event.button !== 0) {
+			if (event.button) {
 				return
 			}
 
@@ -192,9 +192,12 @@ export default defineComponent({
 			// Scroll to last successful upload in current directory if terminated
 			const lastUpload = uploads.findLast((upload) => upload.status !== UploadStatus.FAILED
 				&& !upload.file.webkitRelativePath.includes('/')
-				&& upload.response?.headers?.['oc-fileid'])
+				&& upload.response?.headers?.['oc-fileid']
+				// Only use the last ID if it's in the current folder
+				&& upload.source.replace(folder.source, '').split('/').length === 2)
 
 			if (lastUpload !== undefined) {
+				logger.debug('Scrolling to last upload in current folder', { lastUpload })
 				this.$router.push({
 					...this.$route,
 					params: {
