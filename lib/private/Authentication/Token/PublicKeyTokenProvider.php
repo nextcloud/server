@@ -280,6 +280,9 @@ class PublicKeyTokenProvider implements IProvider {
 		if (!($token instanceof PublicKeyToken)) {
 			throw new InvalidTokenException("Invalid token type");
 		}
+		if ($this->db->inTransaction()) {
+			$this->logger->error('Auth token update is executed in a transaction', ['exception' => new Exception('Auth token update is executed in a transaction')]);
+		}
 		$this->mapper->update($token);
 	}
 
