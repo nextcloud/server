@@ -332,7 +332,7 @@ export default defineComponent({
 
 			// If another button is pressed, cancel it. This
 			// allows cancelling the drag with the right click.
-			if (!this.canDrop || event.button !== 0) {
+			if (!this.canDrop || event.button) {
 				return
 			}
 
