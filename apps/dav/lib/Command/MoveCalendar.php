@@ -93,7 +93,7 @@ class MoveCalendar extends Command {
 
 		$calendar = $this->calDav->getCalendarByUri(self::URI_USERS . $userOrigin, $name);
 
-		if (null === $calendar) {
+		if ($calendar === null) {
 			throw new \InvalidArgumentException("User <$userOrigin> has no calendar named <$name>. You can run occ dav:list-calendars to list calendars URIs for this user.");
 		}
 
@@ -133,7 +133,7 @@ class MoveCalendar extends Command {
 	 * Check if the calendar exists for user
 	 */
 	protected function calendarExists(string $userDestination, string $name): bool {
-		return null !== $this->calDav->getCalendarByUri(self::URI_USERS . $userDestination, $name);
+		return $this->calDav->getCalendarByUri(self::URI_USERS . $userDestination, $name) !== null;
 	}
 
 	/**
@@ -172,7 +172,7 @@ class MoveCalendar extends Command {
 			 * Check that user destination is member of the groups which whom the calendar was shared
 			 * If we ask to force the migration, the share with the group is dropped
 			 */
-			if ($this->shareManager->shareWithGroupMembersOnly() === true && 'groups' === $prefix && !$this->groupManager->isInGroup($userDestination, $userOrGroup)) {
+			if ($this->shareManager->shareWithGroupMembersOnly() === true && $prefix === 'groups' && !$this->groupManager->isInGroup($userDestination, $userOrGroup)) {
 				if ($force) {
 					$this->calDav->updateShares(new Calendar($this->calDav, $calendar, $this->l10n, $this->config, $this->logger), [], ['principal:principals/groups/' . $userOrGroup]);
 				} else {

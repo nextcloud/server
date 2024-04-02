@@ -183,7 +183,7 @@ class UserGlobalStoragesService extends GlobalStoragesService {
 	 * @param IUser|null $user user to get the storages for, if not set the currently logged in user will be used
 	 * @return StorageConfig[] array of storage configs
 	 */
-	public function getAllStoragesForUser(IUser $user = null) {
+	public function getAllStoragesForUser(?IUser $user = null) {
 		if (is_null($user)) {
 			$user = $this->getUser();
 		}

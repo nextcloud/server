@@ -683,7 +683,7 @@ class FactoryTest extends TestCase {
 	/**
 	 * @dataProvider languageIteratorRequestProvider
 	 */
-	public function testGetLanguageIterator(bool $hasSession, IUser $iUserMock = null): void {
+	public function testGetLanguageIterator(bool $hasSession, ?IUser $iUserMock = null): void {
 		$factory = $this->getFactory();
 
 		if ($iUserMock === null) {

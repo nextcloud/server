@@ -203,7 +203,7 @@ class Application {
 	 * @return int
 	 * @throws \Exception
 	 */
-	public function run(InputInterface $input = null, OutputInterface $output = null) {
+	public function run(?InputInterface $input = null, ?OutputInterface $output = null) {
 		$event = new ConsoleEvent(
 			ConsoleEvent::EVENT_RUN,
 			$this->request->server['argv']

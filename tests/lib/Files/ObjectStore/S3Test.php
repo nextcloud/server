@@ -25,7 +25,7 @@ use Icewind\Streams\Wrapper;
 use OC\Files\ObjectStore\S3;
 
 class MultiPartUploadS3 extends S3 {
-	public function writeObject($urn, $stream, string $mimetype = null) {
+	public function writeObject($urn, $stream, ?string $mimetype = null) {
 		$this->getConnection()->upload($this->bucket, $urn, $stream, 'private', [
 			'mup_threshold' => 1,
 		]);

@@ -51,7 +51,7 @@ class LegacyTrashBackend implements ITrashBackend {
 	 * @param ITrashItem $parent
 	 * @return ITrashItem[]
 	 */
-	private function mapTrashItems(array $items, IUser $user, ITrashItem $parent = null): array {
+	private function mapTrashItems(array $items, IUser $user, ?ITrashItem $parent = null): array {
 		$parentTrashPath = ($parent instanceof ITrashItem) ? $parent->getTrashPath() : '';
 		$isRoot = $parent === null;
 		return array_map(function (FileInfo $file) use ($parent, $parentTrashPath, $isRoot, $user) {

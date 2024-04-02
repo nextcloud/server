@@ -81,7 +81,7 @@ class UserMountCache implements IUserMountCache {
 		$this->mountsForUsers = new CappedMemoryCache();
 	}
 
-	public function registerMounts(IUser $user, array $mounts, array $mountProviderClasses = null) {
+	public function registerMounts(IUser $user, array $mounts, ?array $mountProviderClasses = null) {
 		$this->eventLogger->start('fs:setup:user:register', 'Registering mounts for user');
 		/** @var array<string, ICachedMountInfo> $newMounts */
 		$newMounts = [];
