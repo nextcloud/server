@@ -17,6 +17,7 @@ OC.L10N.register(
     "Reminder set for \"{fileName}\"" : "Muistutus asetettu tiedostolle \"{fileName}\"",
     "Failed to set reminder" : "Muistutuksen asettaminen epäonnistui",
     "Failed to clear reminder" : "Muistutuksen tyhjentäminen epäonnistui",
+    "Reminder set" : "Muistutus asetettu",
     "Set custom reminder" : "Aseta mukautettu muistutus",
     "Later today" : "Myöhemmin tänään",
     "Set reminder for later today" : "Aseta muistutus myöhemmälle ajankohdalle tälle päivälle",
