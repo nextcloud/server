@@ -203,6 +203,8 @@ OC.L10N.register(
     "You are not using MySQL" : "MySQL kullanmıyorsunuz",
     "MySQL is used as database and does support 4-byte characters" : "Veri tabanı olarak MySQL kullanılıyor ve 4 baytlık karakterler destekleniyor",
     "MySQL is used as database but does not support 4-byte characters. To be able to handle 4-byte characters (like emojis) without issues in filenames or comments for example it is recommended to enable the 4-byte support in MySQL." : "Veri tabanı olarak MySQL kullanılıyor ancak 4 bayt uzunluğundaki karakterler desteklenmiyor. 4 bayt uzunluğundaki karaktelerin (emoji simgeleri gibi) dosya adları ya da yorumlarda sorun çıkmadan işlenebilmesi için MySQL üzerinde 4 bayt desteğinin etkinleştirilmesi önerilir.",
+    "OCS provider resolving" : "OCS hizmet sağlayıcısı çözümleniyor",
+    "Could not check if your web server properly resolves the OCM and OCS provider URLs." : "Site sunucunuzun OCM ve OCS hizmet sağlayıcı adreslerini doğru şekilde çözümleyip çözümlemediği denetlenemedi.",
     "Overwrite CLI URL" : "CLI adresi değişikliği",
     "The \"overwrite.cli.url\" option in your config.php is correctly set to \"%s\"." : "config.php dosyasınızdaki \"overwrite.cli.url\" seçeneği doğru şekilde \"%s\" olarak ayarlanmış.",
     "The \"overwrite.cli.url\" option in your config.php is set to \"%s\" which is a correct URL. Suggested URL is \"%s\"." : "config.php dosyasınızdaki \"overwrite.cli.url\" seçeneği doğru bir adres olan \"%s\" olarak ayarlanmış. Önerilen adres \"%s\".",
