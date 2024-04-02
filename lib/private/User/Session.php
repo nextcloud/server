@@ -995,12 +995,14 @@ class Session implements IUserSession, Emitter {
 				$token = $this->session->getId();
 				$this->tokenProvider->invalidateToken($token);
 				$this->logger->debug('Session token invalidated before logout', [
+					'app' => 'core',
 					'user' => $user->getUID(),
 				]);
 			} catch (SessionNotAvailableException $ex) {
 			}
 		}
 		$this->logger->debug('Logging out', [
+			'app' => 'core',
 			'user' => $user === null ? null : $user->getUID(),
 		]);
 		$this->setUser(null);
