@@ -123,6 +123,7 @@ OC.L10N.register(
     "Delete slot" : "Poista aikarako",
     "No working hours set" : "Työskentelytunteja ei ole asetettu",
     "Add slot" : "Lisää aikarako",
+    "Weekdays" : "Viikonpäivät",
     "Monday" : "Maanantai",
     "Tuesday" : "Tiistai",
     "Wednesday" : "Keskiviikko",

@@ -11,6 +11,7 @@ OC.L10N.register(
     "List of files that have been deleted." : "Список файлів, які було вилучено.",
     "No deleted files" : "Кошик порожній",
     "Files and folders you have deleted will show up here" : "Тут показуватимуться файли та каталоги, які ви вилучили",
+    "Original location" : "Початкове розташування",
     "Deleted" : "Вилучено",
     "A long time ago" : "Давно",
     "This application enables users to restore files that were deleted from the system." : "Цей застосунок дозволяє користувачам відновлювати файли, які було вилучено у системі.",
