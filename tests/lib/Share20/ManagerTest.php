@@ -1517,6 +1517,7 @@ class ManagerTest extends \Test\TestCase {
 
 		$save = clone $nextWeek;
 		$save->setTime(0, 0);
+		$save->sub(new \DateInterval('P2D'));
 		$save->setTimezone(new \DateTimeZone(date_default_timezone_get()));
 
 		$hookListener = $this->getMockBuilder('Dummy')->setMethods(['listener'])->getMock();
@@ -1530,7 +1531,6 @@ class ManagerTest extends \Test\TestCase {
 
 		self::invokePrivate($this->manager, 'validateExpirationDateLink', [$share]);
 
-		$save->sub(new \DateInterval('P2D'));
 		$this->assertEquals($save, $share->getExpirationDate());
 	}
 
