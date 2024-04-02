@@ -128,11 +128,11 @@ class CloudIdManagerTest extends TestCase {
 		return [
 			['test', 'example.com', 'test@example.com'],
 			['test', 'http://example.com', 'test@http://example.com', 'test@example.com'],
-			['test', null, 'test@http://example.com', 'test@example.com', 'http://example.com'],
+			['test', null, 'test@http://example.com', 'test@example.com', 'http://example.com', 'http://example.com'],
 			['test@example.com', 'example.com', 'test@example.com@example.com'],
 			['test@example.com', 'https://example.com', 'test@example.com@example.com'],
-			['test@example.com', null, 'test@example.com@example.com'],
-			['test@example.com', 'https://example.com/index.php/s/shareToken', 'test@example.com@example.com'],
+			['test@example.com', null, 'test@example.com@example.com', null, 'https://example.com', 'https://example.com'],
+			['test@example.com', 'https://example.com/index.php/s/shareToken', 'test@example.com@example.com', null, 'https://example.com', 'https://example.com'],
 		];
 	}
 
@@ -143,7 +143,7 @@ class CloudIdManagerTest extends TestCase {
 	 * @param null|string $remote
 	 * @param string $id
 	 */
-	public function testGetCloudId(string $user, ?string $remote, string $id, ?string $searchCloudId = null, ?string $localHost = 'https://example.com'): void {
+	public function testGetCloudId(string $user, ?string $remote, string $id, ?string $searchCloudId = null, ?string $localHost = 'https://example.com', ?string $expectedRemoteId = null): void {
 		if ($remote !== null) {
 			$this->contactsManager->expects($this->any())
 				->method('search')
@@ -159,9 +159,11 @@ class CloudIdManagerTest extends TestCase {
 				->method('getAbsoluteUrl')
 				->willReturn($localHost);
 		}
+		$expectedRemoteId ??= $remote;
 
 		$cloudId = $this->cloudIdManager->getCloudId($user, $remote);
 
-		$this->assertEquals($id, $cloudId->getId());
+		$this->assertEquals($id, $cloudId->getId(), 'Cloud ID');
+		$this->assertEquals($expectedRemoteId, $cloudId->getRemote(), 'Remote URL');
 	}
 }
