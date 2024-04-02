@@ -60,7 +60,7 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 	 * @psalm-param S $id
 	 * @psalm-return (S is class-string<T> ? T : mixed)
 	 */
-	public function get(string $id) {
+	public function get(string $id): mixed {
 		return $this->query($id);
 	}
 

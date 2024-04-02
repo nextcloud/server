@@ -101,7 +101,7 @@ class Event implements IEvent {
 		return $this->end - $this->start;
 	}
 
-	public function __toString() {
+	public function __toString(): string {
 		return $this->getId() . ' ' . $this->getDescription() . ' ' . $this->getDuration();
 	}
 }

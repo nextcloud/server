@@ -419,7 +419,7 @@ class OC_Image implements \OCP\IImage {
 	/**
 	 * @return string - base64 encoded, which is suitable for embedding in a VCard.
 	 */
-	public function __toString() {
+	public function __toString(): string {
 		return base64_encode($this->data());
 	}
 
