@@ -79,7 +79,10 @@ const displayName = (nodes: Node[], view: View) => {
 	 * share, we can only unshare them.
 	 */
 	if (canUnshareOnly(nodes)) {
-		return n('files', 'Leave this share', 'Leave these shares', nodes.length)
+		if (nodes.length === 1) {
+			return t('files', 'Leave this share')
+		}
+		return t('files', 'Leave these shares')
 	}
 
 	/**
@@ -87,21 +90,30 @@ const displayName = (nodes: Node[], view: View) => {
 	 * external storage, we can only disconnect it.
 	 */
 	if (canDisconnectOnly(nodes)) {
-		return n('files', 'Disconnect storage', 'Disconnect storages', nodes.length)
+		if (nodes.length === 1) {
+			return t('files', 'Disconnect storage')
+		}
+		return t('files', 'Disconnect storages')
 	}
 
 	/**
 	 * If we're only selecting files, use proper wording
 	 */
 	if (isAllFiles(nodes)) {
-		return n('files', 'Delete file', 'Delete files', nodes.length)
+		if (nodes.length === 1) {
+			return t('files', 'Delete file')
+		}
+		return t('files', 'Delete files')
 	}
 
 	/**
 	 * If we're only selecting folders, use proper wording
 	 */
 	if (isAllFolders(nodes)) {
-		return n('files', 'Delete folder', 'Delete folders', nodes.length)
+		if (nodes.length === 1) {
+			return t('files', 'Delete folder')
+		}
+		return t('files', 'Delete folders')
 	}
 
 	return t('files', 'Delete')
