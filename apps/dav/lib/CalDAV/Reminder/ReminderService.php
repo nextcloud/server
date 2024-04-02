@@ -392,8 +392,8 @@ class ReminderService {
 	private function getRemindersForVAlarm(VAlarm $valarm,
 		array $objectData,
 		DateTimeZone $calendarTimeZone,
-		string $eventHash = null,
-		string $alarmHash = null,
+		?string $eventHash = null,
+		?string $alarmHash = null,
 		bool $isRecurring = false,
 		bool $isRecurrenceException = false):array {
 		if ($eventHash === null) {

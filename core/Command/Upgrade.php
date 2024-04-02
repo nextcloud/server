@@ -80,7 +80,7 @@ class Upgrade extends Command {
 	 */
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		if (Util::needUpgrade()) {
-			if (OutputInterface::VERBOSITY_NORMAL < $output->getVerbosity()) {
+			if ($output->getVerbosity() > OutputInterface::VERBOSITY_NORMAL) {
 				// Prepend each line with a little timestamp
 				$timestampFormatter = new TimestampFormatter($this->config, $output->getFormatter());
 				$output->setFormatter($timestampFormatter);
@@ -96,7 +96,7 @@ class Upgrade extends Command {
 			$progress->setFormat(" %message%\n %current%/%max% [%bar%] %percent:3s%%");
 			$listener = function (MigratorExecuteSqlEvent $event) use ($progress, $output): void {
 				$message = $event->getSql();
-				if (OutputInterface::VERBOSITY_NORMAL < $output->getVerbosity()) {
+				if ($output->getVerbosity() > OutputInterface::VERBOSITY_NORMAL) {
 					$output->writeln(' Executing SQL ' . $message);
 				} else {
 					if (strlen($message) > 60) {
@@ -132,11 +132,11 @@ class Upgrade extends Command {
 					$progress->finish();
 					$output->writeln('');
 				} elseif ($event instanceof RepairStepEvent) {
-					if (OutputInterface::VERBOSITY_NORMAL < $output->getVerbosity()) {
+					if ($output->getVerbosity() > OutputInterface::VERBOSITY_NORMAL) {
 						$output->writeln('<info>Repair step: ' . $event->getStepName() . '</info>');
 					}
 				} elseif ($event instanceof RepairInfoEvent) {
-					if (OutputInterface::VERBOSITY_NORMAL < $output->getVerbosity()) {
+					if ($output->getVerbosity() > OutputInterface::VERBOSITY_NORMAL) {
 						$output->writeln('<info>Repair info: ' . $event->getMessage() . '</info>');
 					}
 				} elseif ($event instanceof RepairWarningEvent) {

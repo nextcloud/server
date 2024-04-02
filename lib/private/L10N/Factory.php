@@ -233,7 +233,7 @@ class Factory implements IFactory {
 		return 'en';
 	}
 
-	public function findGenericLanguage(string $appId = null): string {
+	public function findGenericLanguage(?string $appId = null): string {
 		// Step 1: Forced language always has precedence over anything else
 		$forcedLanguage = $this->config->getSystemValue('force_language', false);
 		if ($forcedLanguage !== false) {
@@ -283,9 +283,9 @@ class Factory implements IFactory {
 		}
 
 		if ($this->config->getSystemValueBool('installed', false)) {
-			$userId = null !== $this->userSession->getUser() ? $this->userSession->getUser()->getUID() :  null;
+			$userId = $this->userSession->getUser() !== null ? $this->userSession->getUser()->getUID() :  null;
 			$userLocale = null;
-			if (null !== $userId) {
+			if ($userId !== null) {
 				$userLocale = $this->config->getUserValue($userId, 'core', 'locale', null);
 			}
 		} else {
@@ -304,7 +304,7 @@ class Factory implements IFactory {
 		}
 
 		// If no user locale set, use lang as locale
-		if (null !== $lang && $this->localeExists($lang)) {
+		if ($lang !== null && $this->localeExists($lang)) {
 			return $lang;
 		}
 
@@ -319,7 +319,7 @@ class Factory implements IFactory {
 	 * @param string $locale
 	 * @return null|string
 	 */
-	public function findLanguageFromLocale(string $app = 'core', string $locale = null) {
+	public function findLanguageFromLocale(string $app = 'core', ?string $locale = null) {
 		if ($this->languageExists($app, $locale)) {
 			return $locale;
 		}
@@ -415,7 +415,7 @@ class Factory implements IFactory {
 		return in_array($lang, $languages);
 	}
 
-	public function getLanguageIterator(IUser $user = null): ILanguageIterator {
+	public function getLanguageIterator(?IUser $user = null): ILanguageIterator {
 		$user = $user ?? $this->userSession->getUser();
 		if ($user === null) {
 			throw new \RuntimeException('Failed to get an IUser instance');
@@ -430,7 +430,7 @@ class Factory implements IFactory {
 	 * @return string
 	 * @since 20.0.0
 	 */
-	public function getUserLanguage(IUser $user = null): string {
+	public function getUserLanguage(?IUser $user = null): string {
 		$language = $this->config->getSystemValue('force_language', false);
 		if ($language !== false) {
 			return $language;
@@ -495,7 +495,7 @@ class Factory implements IFactory {
 					if ($preferred_language === strtolower($available_language)) {
 						return $this->respectDefaultLanguage($app, $available_language);
 					}
-					if ($preferred_language_parts[0].'_'.end($preferred_language_parts) === strtolower($available_language)) {
+					if (strtolower($available_language) === $preferred_language_parts[0].'_'.end($preferred_language_parts)) {
 						return $available_language;
 					}
 				}

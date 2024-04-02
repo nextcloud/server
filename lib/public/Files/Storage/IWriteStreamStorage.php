@@ -44,5 +44,5 @@ interface IWriteStreamStorage extends IStorage {
 	 * @throws GenericFileException
 	 * @since 15.0.0
 	 */
-	public function writeStream(string $path, $stream, int $size = null): int;
+	public function writeStream(string $path, $stream, ?int $size = null): int;
 }

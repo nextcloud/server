@@ -85,7 +85,7 @@ class OC_Image implements \OCP\IImage {
 	 * @param \OCP\IConfig $config
 	 * @throws \InvalidArgumentException in case the $imageRef parameter is not null
 	 */
-	public function __construct($imageRef = null, \OCP\ILogger $logger = null, \OCP\IConfig $config = null) {
+	public function __construct($imageRef = null, ?\OCP\ILogger $logger = null, ?\OCP\IConfig $config = null) {
 		$this->logger = $logger;
 		if ($logger === null) {
 			$this->logger = \OC::$server->getLogger();
@@ -211,7 +211,7 @@ class OC_Image implements \OCP\IImage {
 	 * @param string $mimeType
 	 * @return bool
 	 */
-	public function show(string $mimeType = null): bool {
+	public function show(?string $mimeType = null): bool {
 		if ($mimeType === null) {
 			$mimeType = $this->mimeType();
 		}

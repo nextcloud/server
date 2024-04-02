@@ -154,7 +154,7 @@ interface IAccount extends \JsonSerializable {
 	 * @param string $verified \OCP\Accounts\IAccountManager::NOT_VERIFIED | \OCP\Accounts\IAccountManager::VERIFICATION_IN_PROGRESS | \OCP\Accounts\IAccountManager::VERIFIED
 	 * @return IAccountProperty[]
 	 */
-	public function getFilteredProperties(string $scope = null, string $verified = null): array;
+	public function getFilteredProperties(?string $scope = null, ?string $verified = null): array;
 
 	/**
 	 * Get the related user for the account data
