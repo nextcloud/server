@@ -29,6 +29,7 @@ declare(strict_types=1);
  */
 namespace OC\Authentication\Token;
 
+use Exception;
 use OC\Authentication\Exceptions\ExpiredTokenException;
 use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Exceptions\TokenPasswordExpiredException;
@@ -296,6 +297,9 @@ class PublicKeyTokenProvider implements IProvider {
 		$now = $this->time->getTime();
 		if ($token->getLastActivity() < ($now - $activityInterval)) {
 			$token->setLastActivity($now);
+			if ($this->db->inTransaction()) {
+				$this->logger->error('Auth token update is executed in a transaction', ['exception' => new Exception('Auth token update is executed in a transaction')]);
+			}
 			$this->mapper->updateActivity($token, $now);
 		}
 	}
