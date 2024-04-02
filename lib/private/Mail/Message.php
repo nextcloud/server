@@ -73,7 +73,7 @@ class Message implements IMessage {
 	 * {@inheritDoc}
 	 * @since 26.0.0
 	 */
-	public function attachInline(string $body, string $name, string $contentType = null): IMessage {
+	public function attachInline(string $body, string $name, ?string $contentType = null): IMessage {
 		# To be sure this works with iCalendar messages, we encode with 8bit instead of
 		# quoted-printable encoding. We save the current encoder, replace the current
 		# encoder with an 8bit encoder and after we've finished, we reset the encoder

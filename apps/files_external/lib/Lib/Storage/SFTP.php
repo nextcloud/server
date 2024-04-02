@@ -500,7 +500,7 @@ class SFTP extends Common {
 		}
 	}
 
-	public function writeStream(string $path, $stream, int $size = null): int {
+	public function writeStream(string $path, $stream, ?int $size = null): int {
 		if ($size === null) {
 			$stream = CountWrapper::wrap($stream, function (int $writtenSize) use (&$size) {
 				$size = $writtenSize;

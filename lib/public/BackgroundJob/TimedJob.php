@@ -88,7 +88,7 @@ abstract class TimedJob extends Job {
 	 * @since 15.0.0
 	 * @deprecated since 25.0.0 Use start() instead
 	 */
-	final public function execute(IJobList $jobList, ILogger $logger = null) {
+	final public function execute(IJobList $jobList, ?ILogger $logger = null) {
 		$this->start($jobList);
 	}
 

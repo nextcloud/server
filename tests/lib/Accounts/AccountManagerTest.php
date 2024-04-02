@@ -125,7 +125,7 @@ class AccountManagerTest extends TestCase {
 		$query->delete($this->table)->executeStatement();
 	}
 
-	protected function makeUser(string $uid, string $name, string $email = null): IUser {
+	protected function makeUser(string $uid, string $name, ?string $email = null): IUser {
 		$user = $this->createMock(IUser::class);
 		$user->expects($this->any())
 			->method('getUid')

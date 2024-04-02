@@ -87,7 +87,7 @@ class OC_Files {
 				header('Accept-Ranges: bytes', true);
 				if (count($rangeArray) > 1) {
 					$type = 'multipart/byteranges; boundary='.self::getBoundary();
-				// no Content-Length header here
+					// no Content-Length header here
 				} else {
 					header(sprintf('Content-Range: bytes %d-%d/%d', $rangeArray[0]['from'], $rangeArray[0]['to'], $fileSize), true);
 					OC_Response::setContentLengthHeader($rangeArray[0]['to'] - $rangeArray[0]['from'] + 1);

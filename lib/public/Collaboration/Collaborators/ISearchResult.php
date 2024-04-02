@@ -34,7 +34,7 @@ interface ISearchResult {
 	 * @param array|null $exactMatches
 	 * @since 13.0.0
 	 */
-	public function addResultSet(SearchResultType $type, array $matches, array $exactMatches = null);
+	public function addResultSet(SearchResultType $type, array $matches, ?array $exactMatches = null);
 
 	/**
 	 * @param SearchResultType $type

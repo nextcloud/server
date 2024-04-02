@@ -54,7 +54,7 @@ trait EmitterTrait {
 	 * @param callable $callback optional
 	 * @deprecated 18.0.0 use \OCP\EventDispatcher\IEventDispatcher::removeListener
 	 */
-	public function removeListener($scope = null, $method = null, callable $callback = null) {
+	public function removeListener($scope = null, $method = null, ?callable $callback = null) {
 		$names = [];
 		$allNames = array_keys($this->listeners);
 		if ($scope and $method) {

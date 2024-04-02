@@ -56,7 +56,7 @@ class Provider implements IProvider {
 		$this->l10n = $l10n;
 	}
 
-	public function parse($language, IEvent $event, IEvent $previousEvent = null): IEvent {
+	public function parse($language, IEvent $event, ?IEvent $previousEvent = null): IEvent {
 		if ($event->getApp() !== 'twofactor_backupcodes') {
 			throw new InvalidArgumentException();
 		}

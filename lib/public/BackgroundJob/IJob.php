@@ -55,7 +55,7 @@ interface IJob {
 	 * @deprecated since 25.0.0 Use start() instead. This method will be removed
 	 * with the ILogger interface
 	 */
-	public function execute(IJobList $jobList, ILogger $logger = null);
+	public function execute(IJobList $jobList, ?ILogger $logger = null);
 
 	/**
 	 * Start the background job with the registered argument
