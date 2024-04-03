@@ -66,6 +66,7 @@ return array(
     'OCA\\Files\\ResponseDefinitions' => $baseDir . '/../lib/ResponseDefinitions.php',
     'OCA\\Files\\Search\\FilesSearchProvider' => $baseDir . '/../lib/Search/FilesSearchProvider.php',
     'OCA\\Files\\Service\\DirectEditingService' => $baseDir . '/../lib/Service/DirectEditingService.php',
+    'OCA\\Files\\Service\\LivePhotosService' => $baseDir . '/../lib/Service/LivePhotosService.php',
     'OCA\\Files\\Service\\OwnershipTransferService' => $baseDir . '/../lib/Service/OwnershipTransferService.php',
     'OCA\\Files\\Service\\TagService' => $baseDir . '/../lib/Service/TagService.php',
     'OCA\\Files\\Service\\UserConfig' => $baseDir . '/../lib/Service/UserConfig.php',

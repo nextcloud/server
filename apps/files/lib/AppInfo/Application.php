@@ -49,7 +49,6 @@ use OCA\Files\Search\FilesSearchProvider;
 use OCA\Files\Service\TagService;
 use OCA\Files\Service\UserConfig;
 use OCA\Files\Service\ViewConfig;
-use OCA\Files_Trashbin\Events\BeforeNodeRestoredEvent;
 use OCP\Activity\IManager as IActivityManager;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
@@ -127,7 +126,6 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(RenderReferenceEvent::class, RenderReferenceEventListener::class);
 		$context->registerEventListener(BeforeNodeRenamedEvent::class, SyncLivePhotosListener::class);
 		$context->registerEventListener(BeforeNodeDeletedEvent::class, SyncLivePhotosListener::class);
-		$context->registerEventListener(BeforeNodeRestoredEvent::class, SyncLivePhotosListener::class);
 		$context->registerEventListener(CacheEntryRemovedEvent::class, SyncLivePhotosListener::class);
 
 		$context->registerSearchProvider(FilesSearchProvider::class);
