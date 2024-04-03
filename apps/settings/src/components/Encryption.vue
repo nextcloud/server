@@ -22,8 +22,15 @@
 
 <template>
 	<NcSettingsSection :name="t('settings', 'Server-side encryption')"
-		:description="t('settings', 'Server-side encryption makes it possible to encrypt files which are uploaded to this server. This comes with limitations like a performance penalty, so enable this only if needed.')"
+		:description="t('settings', 'Server-side encryption makes it possible to encrypt files which are uploaded to this server.')"
 		:doc-url="encryptionAdminDoc">
+		<NcNoteCard type="info">
+			<p>This comes with limitations like a performance penalty, so enable this only if needed.</p>
+		</NcNoteCard>
+		<NcNoteCard type="warning">
+			<p>Once enabled, server-side encryption cannot be toggled off here. Disabling encryption requires command line access.</p>
+		</NcNoteCard>
+		
 		<NcCheckboxRadioSwitch :checked="encryptionEnabled || shouldDisplayWarning"
 			:disabled="encryptionEnabled"
 			type="switch"
@@ -77,9 +84,7 @@
 
 <script>
 import axios from '@nextcloud/axios'
-import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection.js'
+import { NcCheckboxRadioSwitch, NcButton, NcSettingsSection, NcNoteCard } from '@nextcloud/vue'
 import { loadState } from '@nextcloud/initial-state'
 import { getLoggerBuilder } from '@nextcloud/logger'
 
@@ -137,10 +142,9 @@ export default {
 				key,
 			})
 
-			const stringValue = value ? 'yes' : 'no'
 			try {
 				const { data } = await axios.post(url, {
-					value: stringValue,
+					value: value,
 				})
 				this.handleResponse({
 					status: data.ocs?.meta?.status,
@@ -157,7 +161,7 @@ export default {
 		},
 		async enableEncryption() {
 			this.encryptionEnabled = true
-			await this.update('encryption_enabled', true)
+			await this.update('encryption_enabled', 'yes')
 		},
 		async handleResponse({ status, errorMessage, error }) {
 			if (status !== 'ok') {
