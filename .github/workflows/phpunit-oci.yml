@@ -63,7 +63,7 @@ jobs:
         options: --health-cmd="redis-cli ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
       oracle:
-        image: ghcr.io/gvenzl/oracle-xe:${{ matrix.oracle-versions }}
+        image: ghcr.io/gvenzl/oracle-xe:${{ matrix.oracle-versions }}-slim-faststart
 
         # Provide passwords and other environment variables to container
         env:
