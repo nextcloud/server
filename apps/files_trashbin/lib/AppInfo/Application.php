@@ -28,8 +28,10 @@ namespace OCA\Files_Trashbin\AppInfo;
 use OCA\DAV\Connector\Sabre\Principal;
 use OCA\Files\Event\LoadAdditionalScriptsEvent;
 use OCA\Files_Trashbin\Capabilities;
+use OCA\Files_Trashbin\Events\BeforeNodeRestoredEvent;
 use OCA\Files_Trashbin\Expiration;
 use OCA\Files_Trashbin\Listeners\LoadAdditionalScripts;
+use OCA\Files_Trashbin\Listeners\SyncLivePhotosListener;
 use OCA\Files_Trashbin\Trash\ITrashManager;
 use OCA\Files_Trashbin\Trash\TrashManager;
 use OCA\Files_Trashbin\UserMigration\TrashbinMigrator;
@@ -62,6 +64,8 @@ class Application extends App implements IBootstrap {
 			LoadAdditionalScriptsEvent::class,
 			LoadAdditionalScripts::class
 		);
+
+		$context->registerEventListener(BeforeNodeRestoredEvent::class, SyncLivePhotosListener::class);
 	}
 
 	public function boot(IBootContext $context): void {
