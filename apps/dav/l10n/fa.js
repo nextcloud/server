@@ -5,7 +5,7 @@ OC.L10N.register(
     "Tasks" : "وظایف",
     "Personal" : "شخصی",
     "{actor} created calendar {calendar}" : "{actor} created calendar {calendar}",
-    "You created calendar {calendar}" : "You created calendar {calendar}",
+    "You created calendar {calendar}" : "تقویم ساخته شد",
     "{actor} deleted calendar {calendar}" : "{actor} deleted calendar {calendar}",
     "You deleted calendar {calendar}" : "You deleted calendar {calendar}",
     "{actor} updated calendar {calendar}" : "{actor} updated calendar {calendar}",
@@ -95,7 +95,7 @@ OC.L10N.register(
     "More options at %s" : "More options at %s",
     "Contacts" : "مخاطبین",
     "{actor} created address book {addressbook}" : "{actor} created address book {addressbook}",
-    "You created address book {addressbook}" : "You created address book {addressbook}",
+    "You created address book {addressbook}" : "دفترچه آدرس ساخته شد",
     "{actor} deleted address book {addressbook}" : "{actor} deleted address book {addressbook}",
     "You deleted address book {addressbook}" : "You deleted address book {addressbook}",
     "{actor} updated address book {addressbook}" : "{actor} updated address book {addressbook}",
@@ -158,7 +158,7 @@ OC.L10N.register(
     "Time zone:" : "منطقه زمانی:",
     "to" : "به",
     "Delete slot" : "Delete slot",
-    "No working hours set" : "No working hours set",
+    "No working hours set" : "ساعات کاری تعیین نشده است",
     "Add slot" : "Add slot",
     "Monday" : "دوشنبه",
     "Tuesday" : "سه شنبه",
@@ -190,6 +190,6 @@ OC.L10N.register(
     "Tentative" : "آزمایشی",
     "Your attendance was updated successfully." : "Your attendance was updated successfully.",
     "To-dos" : "کارهای برای انجام",
-    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "If you configure your working hours, other users will see when you are out of office when they book a meeting."
+    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "اگر بازه ی ساعات کاری خود را مشخص کنید، سایر کاربران در هنگام تنظیم وقت جلسات کاری، مطلع می شوند که شما چه زمانی حضور دارید"
 },
 "nplurals=2; plural=(n > 1);");
