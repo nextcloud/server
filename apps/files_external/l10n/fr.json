@@ -100,6 +100,7 @@
     "Check the ACL's of each file or folder inside a directory to filter out items where the account has no read permissions, comes with a performance penalty" : "Contrôler les ACL de chaque fichier ou dossier à l'intérieur d'un répertoire afin de filtrer les éléments pour lesquels le compte n'a pas d'accès en lecture, ceci engendre une dégradation des performances",
     "Timeout" : "Délai d'attente",
     "SMB/CIFS using OC login" : "SMB/CIFS en utilisant le login OC",
+    "Login as share" : "Connectez-vous en tant que share.",
     "OpenStack Object Storage" : "OpenStack Object Storage",
     "Service name" : "Nom du service",
     "Request timeout (seconds)" : "Délai d'expiration des requêtes (en secondes)",
