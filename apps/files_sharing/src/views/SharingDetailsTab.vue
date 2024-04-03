@@ -453,7 +453,7 @@ export default {
 			return this.share.type === this.SHARE_TYPES.SHARE_TYPE_GROUP
 		},
 		isNewShare() {
-			return this.share.id === null || this.share.id === undefined
+			return !this.share.id
 		},
 		allowsFileDrop() {
 			if (this.isFolder && this.config.isPublicUploadEnabled) {
@@ -718,13 +718,10 @@ export default {
 
 		},
 		handleShareType() {
-			if (this.share.share_type) {
-				this.share.type = this.share.share_type
-			}
-			// shareType 0 (USER_SHARE) would evaluate to zero
-			// Hence the use of hasOwnProperty
 			if ('shareType' in this.share) {
 				this.share.type = this.share.shareType
+			} else if (this.share.share_type) {
+				this.share.type = this.share.share_type
 			}
 		},
 		handleDefaultPermissions() {
@@ -745,7 +742,7 @@ export default {
 				this.sharingPermission = 'custom'
 				this.advancedSectionAccordionExpanded = true
 				this.setCustomPermissions = true
-			} else {
+			} else if (this.share.permissions) {
 				this.sharingPermission = this.share.permissions.toString()
 			}
 		},
