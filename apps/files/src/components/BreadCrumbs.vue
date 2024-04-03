@@ -36,7 +36,7 @@
 			:aria-description="ariaForSection(section)"
 			@click.native="onClick(section.to)"
 			@dragover.native="onDragOver($event, section.dir)"
-			@drop.native="onDrop($event, section.dir)">
+			@drop="onDrop($event, section.dir)">
 			<template v-if="index === 0" #icon>
 				<NcIconSvgWrapper :size="20"
 					:svg="viewIcon" />
