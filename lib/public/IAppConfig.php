@@ -261,9 +261,11 @@ interface IAppConfig {
 	 * returns the type of config value
 	 *
 	 * **WARNING:** ignore lazy filtering, all config values are loaded from database
+	 *              unless lazy is set to false
 	 *
 	 * @param string $app id of the app
 	 * @param string $key config key
+	 * @param bool|null $lazy
 	 *
 	 * @return int
 	 * @throws AppConfigUnknownKeyException
@@ -274,7 +276,7 @@ interface IAppConfig {
 	 * @see VALUE_BOOL
 	 * @see VALUE_ARRAY
 	 */
-	public function getValueType(string $app, string $key): int;
+	public function getValueType(string $app, string $key, ?bool $lazy = null): int;
 
 	/**
 	 * Store a config key and its value in database
