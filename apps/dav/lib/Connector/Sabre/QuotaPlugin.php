@@ -233,11 +233,13 @@ class QuotaPlugin extends \Sabre\DAV\ServerPlugin {
 		}
 
 		$ocLength = $req->getHeader('OC-Total-Length');
-		if (is_numeric($length) && is_numeric($ocLength)) {
-			return max($length, $ocLength);
+		if (!is_numeric($ocLength)) {
+			return $length;
 		}
-
-		return $length;
+		if (!is_numeric($length)) {
+			return $ocLength;
+		}
+		return max($length, $ocLength);
 	}
 
 	/**
