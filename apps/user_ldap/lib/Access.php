@@ -1136,7 +1136,7 @@ class Access extends LDAPUtility {
 	/**
 	 * processes an LDAP paged search operation
 	 *
-	 * @param resource|\LDAP\Result|resource[]|\LDAP\Result[] $sr the array containing the LDAP search resources
+	 * @param \LDAP\Result|\LDAP\Result[] $sr the array containing the LDAP search resources
 	 * @param int $foundItems number of results in the single search operation
 	 * @param int $limit maximum results to be counted
 	 * @param bool $pagedSearchOK whether a paged search has been executed
@@ -1249,7 +1249,7 @@ class Access extends LDAPUtility {
 	}
 
 	/**
-	 * @param resource|\LDAP\Result|resource[]|\LDAP\Result[] $sr
+	 * @param \LDAP\Result|\LDAP\Result[] $sr
 	 * @return int
 	 * @throws ServerNotAvailableException
 	 */
