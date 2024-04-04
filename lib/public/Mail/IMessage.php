@@ -79,7 +79,7 @@ interface IMessage {
 	 * @return IMessage
 	 * @since 27.0.0
 	 */
-	public function attachInline(string $body, string $name, string $contentType = null): IMessage;
+	public function attachInline(string $body, string $name, ?string $contentType = null): IMessage;
 
 	/**
 	 * Set the from address of this message.

@@ -97,7 +97,7 @@ class ConnectionAdapter implements IDBConnection {
 		}
 	}
 
-	public function insertIfNotExist(string $table, array $input, array $compare = null) {
+	public function insertIfNotExist(string $table, array $input, ?array $compare = null) {
 		try {
 			return $this->inner->insertIfNotExist($table, $input, $compare);
 		} catch (Exception $e) {

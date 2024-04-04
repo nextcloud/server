@@ -2169,7 +2169,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				->andWhere($searchOr)
 				->andWhere($calendarObjectIdQuery->expr()->isNull('deleted_at'));
 
-			if ('' !== $pattern) {
+			if ($pattern !== '') {
 				if (!$escapePattern) {
 					$calendarObjectIdQuery->andWhere($calendarObjectIdQuery->expr()->ilike('cob.value', $calendarObjectIdQuery->createNamedParameter($pattern)));
 				} else {
