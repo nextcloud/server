@@ -94,7 +94,7 @@ class ListFiles extends Base {
 		if($node->getMimetype() == FileInfo::MIMETYPE_FOLDER) {
 			$nodeInfo['type'] = 'directory';
 		}
-		
+
 		return $nodeInfo;
 	}
 
@@ -107,7 +107,7 @@ class ListFiles extends Base {
 		?int $maxSize = 0
 	): void {
 		try {
-			/** @ var OC\Files\Node\Folder $userFolder **/
+			/** @ var OCP\Files\Folder $userFolder **/
 			$userFolder = $this->rootFolder->get($path);
 
 			$files = $userFolder->getDirectoryListing();
