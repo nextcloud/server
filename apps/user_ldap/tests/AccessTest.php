@@ -114,6 +114,9 @@ class AccessTest extends TestCase {
 		$connector = $this->getMockBuilder(Connection::class)
 			->setConstructorArgs([$lw, '', null])
 			->getMock();
+		$connector->expects($this->any())
+			->method('getConnectionResource')
+			->willReturn(ldap_connect('ldap://example.com'));
 		$um = $this->getMockBuilder(Manager::class)
 			->setConstructorArgs([
 				$this->createMock(IConfig::class),
@@ -286,6 +289,11 @@ class AccessTest extends TestCase {
 		$this->ldap->expects($this->any())
 			->method('isResource')
 			->willReturn(true);
+
+		$this->connection
+			->expects($this->any())
+			->method('getConnectionResource')
+			->willReturn(ldap_connect('ldap://example.com'));
 
 		$this->ldap->expects($this->any())
 			->method('getAttributes')
@@ -469,7 +477,7 @@ class AccessTest extends TestCase {
 		$this->connection
 			->method('__get')
 			->willReturn(true);
-		$connection = $this->createMock(LDAP::class);
+		$connection = ldap_connect('ldap://example.com');
 		$this->connection
 			->expects($this->once())
 			->method('getConnectionResource')
@@ -492,7 +500,7 @@ class AccessTest extends TestCase {
 		$this->connection
 			->method('__get')
 			->willReturn(true);
-		$connection = $this->createMock(LDAP::class);
+		$connection = ldap_connect('ldap://example.com');
 		$this->connection
 			->expects($this->any())
 			->method('getConnectionResource')
@@ -516,7 +524,7 @@ class AccessTest extends TestCase {
 		$this->connection
 			->method('__get')
 			->willReturn(true);
-		$connection = $this->createMock(LDAP::class);
+		$connection = ldap_connect('ldap://example.com');
 		$this->connection
 			->expects($this->any())
 			->method('getConnectionResource')
