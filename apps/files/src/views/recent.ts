@@ -19,13 +19,27 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+import { subscribe } from '@nextcloud/event-bus'
+import { View, getNavigation } from '@nextcloud/files'
+import { loadState } from '@nextcloud/initial-state'
 import { translate as t } from '@nextcloud/l10n'
 import HistorySvg from '@mdi/svg/svg/history.svg?raw'
 
 import { getContents } from '../services/Recent'
-import { View, getNavigation } from '@nextcloud/files'
 
 export default () => {
+	// Callback to use to trigger reload
+	let reloadCallback = () => {}
+	// Current state of user config for hidden files
+	let { show_hidden: showHiddenFiles } = loadState<{ show_hidden: boolean }>('files', 'config')
+	// When the user config changes and the hidden files setting is changed we need to reload the directory content
+	subscribe('files:config:updated', ({ key, value }: { key: string, value: boolean}) => {
+		if (key === 'show_hidden') {
+			showHiddenFiles = value
+			reloadCallback()
+		}
+	})
+
 	const Navigation = getNavigation()
 	Navigation.register(new View({
 		id: 'recent',
@@ -40,6 +54,16 @@ export default () => {
 
 		defaultSortKey: 'mtime',
 
-		getContents,
+		getContents: async (path = '/', callback: () => void) => {
+			// Only use the real reload callback on the root directory
+			// as otherwise the files app will handle it correctly and we would cause a doubled WebDAV request
+			reloadCallback = path === '/' ? callback : () => {}
+			const content = await getContents(path)
+			if (path === '/' && !showHiddenFiles) {
+				// We need to hide files from hidden directories in the root if not configured
+				content.contents = content.contents.filter((node) => node.dirname.split('/').some((dir) => dir.startsWith('.')))
+			}
+			return content
+		},
 	}))
 }

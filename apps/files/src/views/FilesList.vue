@@ -476,7 +476,7 @@ export default defineComponent({
 			}
 
 			// Fetch the current dir contents
-			this.promise = currentView.getContents(dir) as Promise<ContentsWithRoot>
+			this.promise = currentView.getContents(dir, this.fetchContent) as Promise<ContentsWithRoot>
 			try {
 				const { folder, contents } = await this.promise
 				logger.debug('Fetched contents', { dir, folder, contents })
