@@ -386,6 +386,21 @@ class AppConfigTest extends TestCase {
 		$config->isLazy('unknown-app', 'inexistant-key');
 	}
 
+	public function testGetAllValues(): void {
+		$config = $this->generateAppConfig();
+		$this->assertEquals(
+			[
+				'array' => ['test' => 1],
+				'bool' => true,
+				'float' => 3.14,
+				'int' => 42,
+				'mixed' => 'mix',
+				'string' => 'value',
+			],
+			$config->getAllValues('typed')
+		);
+	}
+
 	public function testGetAllValuesWithEmptyApp(): void {
 		$config = $this->generateAppConfig();
 		$this->expectException(InvalidArgumentException::class);
