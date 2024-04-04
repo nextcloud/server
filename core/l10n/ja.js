@@ -171,7 +171,7 @@ OC.L10N.register(
     "Back to login form" : "ログイン画面に戻る",
     "Back" : "戻る",
     "Login form is disabled." : "ログインフォームは無効です。",
-    "The Nextcloud login form is disabled. Use another login option if available or contact your administration." : "Nextcloud ログイン フォームは無効になっています。 利用可能な場合は別のログイン オプションを使用するか、管理者に問い合わせてください。",
+    "The Nextcloud login form is disabled. Use another login option if available or contact your administration." : "Nextcloud ログインフォームは無効になっています。 利用可能な場合は別のログインオプションを使用するか、管理者に問い合わせてください。",
     "Edit Profile" : "プロフィールを編集",
     "The headline and about sections will show up here" : "見出しと概要セクションがここに表示されます",
     "You have not added any info yet" : "まだ情報が追加されていません",

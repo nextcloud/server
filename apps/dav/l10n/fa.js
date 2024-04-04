@@ -167,7 +167,7 @@ OC.L10N.register(
     "Friday" : "جمعه",
     "Saturday" : "شنبه",
     "Sunday" : "یکشنبه",
-    "Automatically set user status to \"Do not disturb\" outside of availability to mute all notifications." : "Automatically set user status to \"Do not disturb\" outside of availability to mute all notifications.",
+    "Automatically set user status to \"Do not disturb\" outside of availability to mute all notifications." : "وضعیت کاربر بصورت خودکار به \"مزاحم نشوید\" تغییر داده شود تا همه ی اعلان ها خاموش شوند",
     "Failed to load availability" : "Failed to load availability",
     "Saved availability" : "Saved availability",
     "Failed to save availability" : "Failed to save availability",

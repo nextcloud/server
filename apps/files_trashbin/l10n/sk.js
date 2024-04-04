@@ -12,6 +12,7 @@ OC.L10N.register(
     "List of files that have been deleted." : "Zoznam súborov, ktoré boli vymazané.",
     "No deleted files" : "Žiadne zmazané súbory",
     "Files and folders you have deleted will show up here" : "Súbory a adresáre, ktoré ste vymazali, sa zobrazia tu",
+    "Original location" : "Pôvodné umiestnenie",
     "Deleted" : "Zmazané",
     "A long time ago" : "Pred dlhším časom",
     "This application enables users to restore files that were deleted from the system." : "Táto aplikácia používateľom umožňuje obnoviť súbory, ktoré boli zo systému vymazané.",
