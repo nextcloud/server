@@ -107,7 +107,7 @@ class ListFiles extends Base {
 		?int $maxSize = 0
 	): void {
 		try {
-			/** @ var OCP\Files\Folder $userFolder **/
+			/** @var OCP\Files\Folder $userFolder **/
 			$userFolder = $this->rootFolder->get($path);
 
 			$files = $userFolder->getDirectoryListing();
