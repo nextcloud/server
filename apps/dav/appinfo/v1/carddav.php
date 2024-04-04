@@ -32,6 +32,7 @@ use OC\KnownUser\KnownUserService;
 use OCA\DAV\AppInfo\PluginManager;
 use OCA\DAV\CardDAV\AddressBookRoot;
 use OCA\DAV\CardDAV\CardDavBackend;
+use OCA\DAV\CardDAV\Security\CardDavRateLimitingPlugin;
 use OCA\DAV\Connector\LegacyDAVACL;
 use OCA\DAV\Connector\Sabre\Auth;
 use OCA\DAV\Connector\Sabre\ExceptionLoggerPlugin;
@@ -103,6 +104,7 @@ $server->addPlugin(new \OCA\DAV\CardDAV\ImageExportPlugin(new \OCA\DAV\CardDAV\P
 	\OC::$server->get(LoggerInterface::class)
 )));
 $server->addPlugin(new ExceptionLoggerPlugin('carddav', \OC::$server->get(LoggerInterface::class)));
+$server->addPlugin(\OCP\Server::get(CardDavRateLimitingPlugin::class));
 
 // And off we go!
 $server->exec();
