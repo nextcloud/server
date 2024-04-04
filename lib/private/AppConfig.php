@@ -211,7 +211,7 @@ class AppConfig implements IAppConfig {
 	 * @param string $prefix config keys prefix to search
 	 * @param bool $filtered TRUE to hide sensitive config values. Value are replaced by {@see IConfig::SENSITIVE_VALUE}
 	 *
-	 * @return array<string, string> [configKey => configValue]
+	 * @return array<string, string|int|float|bool|array> [configKey => configValue]
 	 * @since 29.0.0
 	 */
 	public function getAllValues(string $app, string $prefix = '', bool $filtered = false): array {
@@ -254,14 +254,14 @@ class AppConfig implements IAppConfig {
 	 *
 	 * @param string $key config key
 	 * @param bool $lazy search within lazy loaded config
+	 * @param int|null $typedAs enforce type for the returned values ({@see self::VALUE_STRING} and others)
 	 *
-	 * @return array<string, string> [appId => configValue]
+	 * @return array<string, string|int|float|bool|array> [appId => configValue]
 	 * @since 29.0.0
 	 */
-	public function searchValues(string $key, bool $lazy = false): array {
+	public function searchValues(string $key, bool $lazy = false, ?int $typedAs = null): array {
 		$this->assertParams('', $key, true);
 		$this->loadConfig($lazy);
-		$values = [];
 
 		/** @var array<array-key, array<array-key, mixed>> $cache */
 		if ($lazy) {
@@ -270,10 +270,10 @@ class AppConfig implements IAppConfig {
 			$cache = $this->fastCache;
 		}
 
+		$values = [];
 		foreach (array_keys($cache) as $app) {
 			if (isset($cache[$app][$key])) {
-				$appCache = $this->formatAppValues((string)$app, $cache[$app], $lazy);
-				$values[$app] = $appCache[$key];
+				$values[$app] = $this->convertTypedValue($cache[$app][$key], $typedAs ?? $this->getValueType((string)$app, $key, $lazy));
 			}
 		}
 
@@ -1371,7 +1371,7 @@ class AppConfig implements IAppConfig {
 
 		$key = ($key === false) ? '' : $key;
 		if (!$app) {
-			return $this->searchValues($key);
+			return $this->searchValues($key, false, self::VALUE_MIXED);
 		} else {
 			return $this->getAllValues($app, $key);
 		}
@@ -1395,10 +1395,10 @@ class AppConfig implements IAppConfig {
 	 * load all lazy values from the database
 	 *
 	 * @param string $app
-	 * @param array $values
+	 * @param array<string, string> $values ['key' => 'value']
 	 * @param bool|null $lazy
 	 *
-	 * @return array
+	 * @return array<string, string|int|float|bool|array>
 	 */
 	private function formatAppValues(string $app, array $values, ?bool $lazy = null): array {
 		foreach($values as $key => $value) {
@@ -1408,27 +1408,37 @@ class AppConfig implements IAppConfig {
 				continue;
 			}
 
-			switch ($type) {
-				case self::VALUE_INT:
-					$values[$key] = (int)$value;
-					break;
-				case self::VALUE_FLOAT:
-					$values[$key] = (float)$value;
-					break;
-				case self::VALUE_BOOL:
-					$values[$key] = in_array(strtolower($value), ['1', 'true', 'yes', 'on']);
-					break;
-				case self::VALUE_ARRAY:
-					try {
-						$values[$key] = json_decode($value, true, flags: JSON_THROW_ON_ERROR);
-					} catch (JsonException $e) {
-						// ignoreable
-					}
-					break;
-			}
+			$values[$key] = $this->convertTypedValue($value, $type);
 		}
 
 		return $values;
+	}
+
+	/**
+	 * convert string value to the expected type
+	 *
+	 * @param string $value
+	 * @param int $type
+	 *
+	 * @return string|int|float|bool|array
+	 */
+	private function convertTypedValue(string $value, int $type): string|int|float|bool|array {
+		switch ($type) {
+			case self::VALUE_INT:
+				return (int)$value;
+			case self::VALUE_FLOAT:
+				return (float)$value;
+			case self::VALUE_BOOL:
+				return in_array(strtolower($value), ['1', 'true', 'yes', 'on']);
+			case self::VALUE_ARRAY:
+				try {
+					return json_decode($value, true, flags: JSON_THROW_ON_ERROR);
+				} catch (JsonException $e) {
+					// ignoreable
+				}
+				break;
+		}
+		return $value;
 	}
 
 	/**

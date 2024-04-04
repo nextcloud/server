@@ -140,7 +140,7 @@ interface IAppConfig {
 	 * @param string $prefix config keys prefix to search, can be empty.
 	 * @param bool $filtered filter sensitive config values
 	 *
-	 * @return array<string, string> [configKey => configValue]
+	 * @return array<string, string|int|float|bool|array> [configKey => configValue]
 	 * @since 29.0.0
 	 */
 	public function getAllValues(string $app, string $prefix = '', bool $filtered = false): array;
@@ -151,11 +151,12 @@ interface IAppConfig {
 	 *
 	 * @param string $key config key
 	 * @param bool $lazy search within lazy loaded config
+	 * @param int|null $typedAs enforce type for the returned values {@see self::VALUE_STRING} and others
 	 *
 	 * @return array<string, string|int|float|bool|array> [appId => configValue]
 	 * @since 29.0.0
 	 */
-	public function searchValues(string $key, bool $lazy = false): array;
+	public function searchValues(string $key, bool $lazy = false, ?int $typedAs = null): array;
 
 	/**
 	 * Get config value assigned to a config key.
