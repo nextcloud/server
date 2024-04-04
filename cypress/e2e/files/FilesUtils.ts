@@ -27,8 +27,8 @@ export const getActionsForFile = (filename: string) => getRowForFile(filename).f
 export const getActionButtonForFile = (filename: string) => getActionsForFile(filename).find('button[aria-label="Actions"]')
 
 export const triggerActionForFile = (filename: string, actionId: string) => {
-	getActionButtonForFile(filename).click()
-	cy.get(`[data-cy-files-list-row-action="${CSS.escape(actionId)}"] > button`).should('exist').click()
+	getActionButtonForFile(filename).click({ force: true })
+	cy.get(`[data-cy-files-list-row-action="${CSS.escape(actionId)}"] > button`).should('be.visible').click({ force: true })
 }
 
 export const moveFile = (fileName: string, dirPath: string) => {
