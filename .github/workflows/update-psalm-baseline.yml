@@ -53,7 +53,7 @@ jobs:
         uses: peter-evans/create-pull-request@70a41aba780001da0a30141984ae2a0c95d8704e
         with:
           token: ${{ secrets.COMMAND_BOT_PAT }}
-          commit-message: Update psalm baseline
+          commit-message: "chore(tests): Update psalm baseline"
           committer: GitHub <noreply@github.com>
           author: nextcloud-command <nextcloud-command@users.noreply.github.com>
           signoff: true
