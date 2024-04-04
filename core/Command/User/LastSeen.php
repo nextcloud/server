@@ -56,7 +56,7 @@ class LastSeen extends Base {
 			} else {
 				$date = new \DateTime();
 				$date->setTimestamp($lastLogin);
-				$output->writeln($user->getUID() . "'s last login: " . $date->format('Y-m-d H:i'));
+				$output->writeln($user->getUID() . "'s last login: " . $date->format('Y-m-d H:i:s T'));
 			}
 
 			return 0;
@@ -74,7 +74,7 @@ class LastSeen extends Base {
 			} else {
 				$date = new \DateTime();
 				$date->setTimestamp($lastLogin);
-				$output->writeln($user->getUID() . "'s last login: " . $date->format('Y-m-d H:i'));
+				$output->writeln($user->getUID() . "'s last login: " . $date->format('Y-m-d H:i:s T'));
 			}
 		});
 		return 0;
