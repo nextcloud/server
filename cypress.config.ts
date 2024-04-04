@@ -30,6 +30,7 @@ export default defineConfig({
 	experimentalInteractiveRunEvents: true,
 
 	// faster video processing
+	video: !process.env.CI,
 	videoCompression: false,
 
 	// Visual regression testing

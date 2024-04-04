@@ -212,6 +212,15 @@ module.exports = {
 		// Make appName & appVersion available as a constants for '@nextcloud/vue' components
 		new webpack.DefinePlugin({ appName: JSON.stringify('Nextcloud') }),
 		new webpack.DefinePlugin({ appVersion: JSON.stringify(appVersion) }),
+
+		// @nextcloud/moment since v1.3.0 uses `moment/min/moment-with-locales.js`
+		// Which works only in Node.js and is not compatible with Webpack bundling
+		// It has an unused function `localLocale` that requires locales by invalid relative path `./locale`
+		// Though it is not used, Webpack tries to resolve it with `require.context` and fails
+		new webpack.IgnorePlugin({
+			resourceRegExp: /^\.\/locale$/,
+			contextRegExp: /moment\/min$/,
+		}),
 	],
 	externals: {
 		OC: 'OC',
