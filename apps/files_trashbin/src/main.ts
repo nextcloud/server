@@ -19,10 +19,13 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
+import './trashbin.scss'
+
 import type NavigationService from '../../files/src/services/Navigation.ts'
 import type { Navigation } from '../../files/src/services/Navigation.ts'
 
-import { translate as t, translate } from '@nextcloud/l10n'
+import { translate as t } from '@nextcloud/l10n'
 import DeleteSvg from '@mdi/svg/svg/delete.svg?raw'
 import moment from '@nextcloud/moment'
 
@@ -30,6 +33,20 @@ import { getContents } from './services/trashbin'
 
 // Register restore action
 import './actions/restoreAction'
+import type { Node } from '@nextcloud/files'
+import { dirname, joinPaths } from '@nextcloud/paths'
+
+const parseOriginalLocation = (node: Node): string => {
+	const path = node.attributes?.['trashbin-original-location'] !== undefined ? String(node.attributes?.['trashbin-original-location']) : null
+	if (!path) {
+		return t('files_trashbin', 'Unknown')
+	}
+	const dir = dirname(path)
+	if (dir === path) { // Node is in root folder
+		return t('files_trashbin', 'All files')
+	}
+	return joinPaths(t('files_trashbin', 'All files'), dir)
+}
 
 const Navigation = window.OCP.Files.Navigation as NavigationService
 Navigation.register({
@@ -45,6 +62,22 @@ Navigation.register({
 
 	columns: [
 		{
+			id: 'original-location',
+			title: t('files_trashbin', 'Original location'),
+			render(node) {
+				const originalLocation = parseOriginalLocation(node)
+				const span = document.createElement('span')
+				span.title = originalLocation
+				span.textContent = originalLocation
+				return span
+			},
+			sort(nodeA, nodeB) {
+				const locationA = parseOriginalLocation(nodeA)
+				const locationB = parseOriginalLocation(nodeB)
+				return locationA.localeCompare(locationB)
+			},
+		},
+		{
 			id: 'deleted',
 			title: t('files_trashbin', 'Deleted'),
 			render(node) {
@@ -57,7 +90,7 @@ Navigation.register({
 				}
 
 				// Unknown deletion time
-				span.textContent = translate('files_trashbin', 'A long time ago')
+				span.textContent = t('files_trashbin', 'A long time ago')
 				return span
 			},
 			sort(nodeA, nodeB) {
