@@ -12,6 +12,7 @@ OC.L10N.register(
     "List of files that have been deleted." : "Lista de arquivos que foram excluídos.",
     "No deleted files" : "Nenhum arquivo apagado",
     "Files and folders you have deleted will show up here" : "Arquivos e pastas que você excluiu aparecerão aqui",
+    "Original location" : "Localização original",
     "Deleted" : "Excluído",
     "A long time ago" : "A muito tempo atrás",
     "This application enables users to restore files that were deleted from the system." : "Este aplicativo permite que os usuários restaurem arquivos apagados do sistema.",

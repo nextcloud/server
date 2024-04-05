@@ -28,6 +28,7 @@ OC.L10N.register(
     "Client ID" : "ID de veceru",
     "Client secret" : "Secretu de veceru",
     "OpenStack v2" : "OpenStack v2",
+    "Login" : "Aniciar la sesión",
     "Password" : "Contraseña",
     "OpenStack v3" : "OpenStack v3",
     "Domain" : "Dominiu",
