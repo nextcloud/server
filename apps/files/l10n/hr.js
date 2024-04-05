@@ -193,6 +193,7 @@ OC.L10N.register(
     "Filename" : "Naziv datoteke",
     "Unable to initialize the templates directory" : "Nije moguće inicijalizirati direktorij predložaka",
     "Templates" : "Predlošci",
+    "Some files could not be moved" : "Neke datoteke nije moguće premjestiti",
     "No favorites yet" : "Još nema favorita",
     "Files and folders you mark as favorite will show up here" : "Ovdje će se prikazati datoteke i mape koje označite kao favorite",
     "All files" : "Sve datoteke",

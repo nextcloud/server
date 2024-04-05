@@ -213,6 +213,7 @@ OC.L10N.register(
     "Filename" : "Bestandsnaam",
     "Unable to initialize the templates directory" : "Kon de sjablonenmap niet instellen",
     "Templates" : "Sjablonen",
+    "Some files could not be moved" : "Een paar bestanden konden niet worden verplaatst",
     "No favorites yet" : "Nog geen favorieten",
     "Files and folders you mark as favorite will show up here" : "Bestanden en mappen die je als favoriet aanmerkt, worden hier getoond",
     "All files" : "Alle bestanden",
