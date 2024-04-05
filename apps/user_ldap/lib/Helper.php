@@ -206,6 +206,21 @@ class Helper {
 	/**
 	 * sanitizes a DN received from the LDAP server
 	 *
+	 * This is used and done to have a stable format of DNs that can be compared
+	 * and identified again. The input DN value is modified as following:
+	 *
+	 * 1) whitespaces after commas are removed
+	 * 2) the DN is turned to lower-case
+	 * 3) the DN is escaped according to RFC 2253
+	 *
+	 * When a future DN is supposed to be used as a base parameter, it has to be
+	 * run through DNasBaseParameter() first, to recode \5c into a backslash
+	 * again, otherwise the search or read operation will fail with LDAP error
+	 * 32, NO_SUCH_OBJECT. Regular usage in LDAP filters requires the backslash
+	 * being escaped, however.
+	 *
+	 * Internally, DNs are stored in their sanitized form.
+	 *
 	 * @param array|string $dn the DN in question
 	 * @return array|string the sanitized DN
 	 */
