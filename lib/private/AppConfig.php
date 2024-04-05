@@ -751,6 +751,7 @@ class AppConfig implements IAppConfig {
 		$sensitive = $this->isTyped(self::VALUE_SENSITIVE, $type);
 		$inserted = $refreshCache = false;
 
+		$origValue = $value;
 		if ($sensitive || ($this->hasKey($app, $key, $lazy) && $this->isSensitive($app, $key, $lazy))) {
 			$value = self::ENCRYPTION_PREFIX . $this->crypto->encrypt($value);
 		}
@@ -760,7 +761,7 @@ class AppConfig implements IAppConfig {
 			 * no update if key is already known with set lazy status and value is
 			 * not different, unless sensitivity is switched from false to true.
 			 */
-			if ($value === $this->getTypedValue($app, $key, $value, $lazy, $type)
+			if ($origValue === $this->getTypedValue($app, $key, $value, $lazy, $type)
 				&& (!$sensitive || $this->isSensitive($app, $key, $lazy))) {
 				return false;
 			}

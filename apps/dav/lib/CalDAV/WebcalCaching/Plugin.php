@@ -98,6 +98,10 @@ class Plugin extends ServerPlugin {
 		}
 
 		$path = $request->getPath();
+		if (!str_starts_with($path, 'calendars/')) {
+			return;
+		}
+
 		$pathParts = explode('/', ltrim($path, '/'));
 		if (\count($pathParts) < 2) {
 			return;

@@ -179,6 +179,7 @@ OC.L10N.register(
     "Unable to initialize the templates directory" : "Mallide kausta loomine ebaõnnestus",
     "Create new templates folder" : "Loo uus mallide kaust",
     "Templates" : "Mallid",
+    "Some files could not be moved" : "Mõnda faili ei saanud liigutada",
     "No favorites yet" : "Lemmikuid veel pole",
     "Files and folders you mark as favorite will show up here" : "Siin kuvatakse faile ja kaustasid, mille oled märkinud lemmikuteks",
     "All files" : "Kõik failid",
