@@ -864,11 +864,12 @@
     </InvalidReturnType>
   </file>
   <file src="apps/files_external/lib/MountConfig.php">
-    <InternalMethod occurrences="4">
+    <InternalMethod occurrences="5">
       <code>decrypt</code>
       <code>encrypt</code>
       <code>setIV</code>
       <code>setIV</code>
+      <code>setKey</code>
     </InternalMethod>
     <TooManyArguments occurrences="1">
       <code>test</code>
