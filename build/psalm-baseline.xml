@@ -1134,6 +1134,7 @@
       <code>encrypt</code>
       <code>setIV</code>
       <code>setIV</code>
+      <code>setKey</code>
     </InternalMethod>
     <TooManyArguments>
       <code>test</code>
