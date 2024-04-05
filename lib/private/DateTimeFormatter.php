@@ -136,14 +136,13 @@ class DateTimeFormatter implements \OCP\IDateTimeFormatter {
 	 * Gives the relative date of the timestamp
 	 * Only works for past dates
 	 *
-	 * @param int|\DateTime	$timestamp	Either a Unix timestamp or DateTime object
+	 * @param int|\DateTime	$timestamp		Either a Unix timestamp or DateTime object
 	 * @param int|\DateTime	$baseTimestamp	Timestamp to compare $timestamp against, defaults to current time
-	 * @return string	Dates returned are:
+	 * @param \OCP\IL10N $l				The locale to use
+	 * @return string Formatted date span. Dates returned are:
 	 * 				<  1 month	=> Today, Yesterday, n days ago
 	 * 				< 13 month	=> last month, n months ago
 	 * 				>= 13 month	=> last year, n years ago
-	 * @param \OCP\IL10N	$l			The locale to use
-	 * @return string Formatted date span
 	 */
 	public function formatDateSpan($timestamp, $baseTimestamp = null, ?\OCP\IL10N $l = null) {
 		$l = $this->getLocale($l);
@@ -220,15 +219,14 @@ class DateTimeFormatter implements \OCP\IDateTimeFormatter {
 	 *
 	 * @param int|\DateTime	$timestamp	Either a Unix timestamp or DateTime object
 	 * @param int|\DateTime	$baseTimestamp	Timestamp to compare $timestamp against, defaults to current time
-	 * @return string	Dates returned are:
+	 * @param \OCP\IL10N	$l			The locale to use
+	 * @return string Formatted time span. Dates returned are:
 	 * 				< 60 sec	=> seconds ago
 	 * 				<  1 hour	=> n minutes ago
 	 * 				<  1 day	=> n hours ago
 	 * 				<  1 month	=> Yesterday, n days ago
 	 * 				< 13 month	=> last month, n months ago
 	 * 				>= 13 month	=> last year, n years ago
-	 * @param \OCP\IL10N	$l			The locale to use
-	 * @return string Formatted time span
 	 */
 	public function formatTimeSpan($timestamp, $baseTimestamp = null, ?\OCP\IL10N $l = null) {
 		$l = $this->getLocale($l);
