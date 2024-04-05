@@ -159,7 +159,7 @@ OC.L10N.register(
     "Looking for {term} …" : "Recherche de {term} ...",
     "Search starts once you start typing and results may be reached with the arrow keys" : "La recherche démarre dès que vous commencez à taper et les résultats peuvent être atteints avec les flèches du clavier",
     "Search for {name} only" : "Rechercher pour {name} uniquement",
-    "Start typing to search" : "Commencez à taper pour lancer la rechercher",
+    "Start typing to search" : "Commencez à taper pour lancer la recherche",
     "Loading more results …" : "Chargement de plus de résultats …",
     "Load more results" : "Charger plus de résultats",
     "Search" : "Rechercher",

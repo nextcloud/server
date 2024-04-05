@@ -220,6 +220,7 @@ OC.L10N.register(
     "Filename" : "ชื่อไฟล์",
     "Unable to initialize the templates directory" : "ไม่สามารถเตรียมไดเรกทอรีเทมเพลต",
     "Templates" : "เทมเพลต",
+    "Some files could not be moved" : "ไม่สามารถย้ายบางไฟล์",
     "No favorites yet" : "ยังไม่มีรายการโปรด",
     "Files and folders you mark as favorite will show up here" : "ไฟล์และโฟลเดอร์ที่คุณระบุเป็นรายการโปรดจะแสดงที่นี่",
     "All files" : "ไฟล์ทั้งหมด",

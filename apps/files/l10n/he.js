@@ -176,6 +176,7 @@ OC.L10N.register(
     "Cancel" : "ביטול",
     "Open details" : "פתיחת פרטים",
     "Filename" : "שם קובץ",
+    "Some files could not be moved" : "חלק מהקבצים לא הועברו",
     "No favorites yet" : "אין מועדפים עדיין",
     "Files and folders you mark as favorite will show up here" : "קבצים ותיקיות שסומנו על ידך כמועדפים יוצגו כאן",
     "All files" : "כל הקבצים",

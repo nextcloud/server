@@ -30,6 +30,7 @@ export default defineConfig({
 	experimentalInteractiveRunEvents: true,
 
 	// faster video processing
+	video: !process.env.CI,
 	videoCompression: false,
 
 	// Prevent elements to be scrolled under a top bar during actions (click, clear, type, etc). Default is 'top'.

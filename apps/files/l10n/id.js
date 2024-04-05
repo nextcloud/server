@@ -211,6 +211,7 @@ OC.L10N.register(
     "Filename" : "Nama berkas",
     "Unable to initialize the templates directory" : "Tidak dapat membuat direktori templat",
     "Templates" : "Templat",
+    "Some files could not be moved" : "Beberapa berkas tidak dapat dipindahkan",
     "No favorites yet" : "Belum memiliki favorit",
     "Files and folders you mark as favorite will show up here" : "Berkas dan folder yang Anda tandai sebagai favorit akan ditampilkan di sini.",
     "All files" : "Semua berkas",

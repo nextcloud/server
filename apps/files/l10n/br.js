@@ -163,6 +163,7 @@ OC.L10N.register(
     "Delete permanently" : "Lamet da viken",
     "Cancel" : "Arrest",
     "Filename" : "Anv restr",
+    "Some files could not be moved" : "Ne oa ket posupl diblasañ ar restroù",
     "No favorites yet" : "Pennroll ebet evit ar poent",
     "Files and folders you mark as favorite will show up here" : "Ar restroù ha teuliadoù ouzhpennet en ho pennrolloù a vo diskwelet amañ",
     "All files" : "An holl restroù",
