@@ -279,6 +279,8 @@ class Access extends LDAPUtility {
 	 * Normalizes a result grom getAttributes(), i.e. handles DNs and binary
 	 * data if present.
 	 *
+	 * DN values are escaped as per RFC 2253
+	 *
 	 * @param array $result from ILDAPWrapper::getAttributes()
 	 * @param string $attribute the attribute name that was read
 	 * @return string[]
@@ -1259,6 +1261,8 @@ class Access extends LDAPUtility {
 
 	/**
 	 * Executes an LDAP search
+	 *
+	 * DN values in the result set are escaped as per RFC 2253
 	 *
 	 * @throws ServerNotAvailableException
 	 */
