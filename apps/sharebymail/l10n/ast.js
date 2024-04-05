@@ -19,7 +19,9 @@ OC.L10N.register(
     "Click the button below to open it." : "Calca nel botón p'abrilo.",
     "Open »%s«" : "Abrir «%s»",
     "%1$s via %2$s" : "%1$s per %2$s",
+    "Password to access »%1$s« shared to you by %2$s" : "%2$s compartió contigo la contraseña p'acceder a «%1$s»",
     "Password to access »%s«" : "La contraseña p'acceder a «%s»",
+    "It is protected with the following password:" : "L'elementu ta protexíu cola contraseña siguiente:",
     "»%s« added a note to a file shared with you" : "«%s» amestó una nota a un ficheru compartíu contigo",
     "This is the password:" : "Esta ye la contraseña:",
     "Could not find share" : "Nun se pudo atopar la compartición"

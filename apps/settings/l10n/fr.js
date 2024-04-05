@@ -451,7 +451,7 @@ OC.L10N.register(
     "Could not copy app password. Please copy it manually." : "Impossible de copier le mot de passe de l'application. Merci de le copier manuellement.",
     "Could not copy login name. Please copy it manually." : "Impossible de copier le nom de l'identifiant. Merci de le copier manuellement.",
     "For the server to work properly, it's important to configure background jobs correctly. Cron is the recommended setting. Please see the documentation for more information." : "Pour que le serveur fonctionne correctement, il est important de configurer correctement les tâches d'arrière-plan. Cron est le paramètre recommandé. Veuillez consulter la documentation pour plus d'informations.",
-    "Last job execution ran {time}. Something seems wrong." : "La dernière exécution de la tâche a duré {time}. Quelque chose semble dysfonctionner.",
+    "Last job execution ran {time}. Something seems wrong." : "La dernière exécution de tâche s'est déroulée {time}. Quelque chose semble dysfonctionner.",
     "Last job ran {relativeTime}." : "Dernière tâche exécutée {relativeTime}.",
     "Background job did not run yet!" : "La tâche d'arrière-plan n'a pas encore été exécutée !",
     "AJAX" : "AJAX",

@@ -227,6 +227,7 @@
     "Unable to initialize the templates directory" : "Неуспешно инициализиране на директорията с шаблони",
     "Create new templates folder" : "Създаване на нова папка за шаблони",
     "Templates" : "Шаблони",
+    "Some files could not be moved" : "Някои файлове не могат да бъдат преместени",
     "No favorites yet" : "Няма любими",
     "Files and folders you mark as favorite will show up here" : "Файловете и папките които маркирате като любими ще се показват тук",
     "All files" : "Всички файлове",

@@ -252,6 +252,7 @@ OC.L10N.register(
     "Unable to initialize the templates directory" : "راه اندازی دایرکتوری الگوها ممکن نیست",
     "Create new templates folder" : "پوشه قالب های جدید ایجاد کنید",
     "Templates" : "قالب‌ها",
+    "Some files could not be moved" : "برخی از پرونده‌ها قابل انتقال نیستند",
     "_{folderCount} folder_::_{folderCount} folders_" : ["{folderCount} پوشه","{folderCount} پوشه"],
     "_{fileCount} file_::_{fileCount} files_" : ["{fileCount} پرونده","{fileCount} پرونده"],
     "List of favorites files and folders." : "لیست فایل ها و پوشه های مورد علاقه",
