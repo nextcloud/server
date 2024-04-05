@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Dashboard" : "Cruscotto",
     "Dashboard app" : "Cruscotto",
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! People can add the widgets they like and change the background to their liking." : "Inizia la giornata informato\n\nIl cruscotto di Nextcloud è il tuo punto di partenza della giornata, in grado di offrire una panoramica dei prossimi appuntamenti, email urgenti, messaggi di chat, nuove richieste, ultimi tweet e molto altro ancora! Gli utenti possono aggiungere i widget che preferiscono e modificare lo sfondo a proprio piacimento.",
     "\"{title} icon\"" : "\"Icona {title}\"",
     "Customize" : "Personalizza",
     "Edit widgets" : "Modifica widget",

@@ -238,6 +238,7 @@ OC.L10N.register(
     "Unable to initialize the templates directory" : "No se pudo inicializar el directorio de plantillas.",
     "Create new templates folder" : "Crear nueva carpeta de plantillas.",
     "Templates" : "Plantillas",
+    "Some files could not be moved" : "Algunos archivos no se pudieron mover",
     "List of favorites files and folders." : "Lista de archivos y carpetas favoritos.",
     "No favorites yet" : "Aún no hay favoritos",
     "Files and folders you mark as favorite will show up here" : "Los archivos y carpetas que marques como favoritos se mostrarán aquí. ",

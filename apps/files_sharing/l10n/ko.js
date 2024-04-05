@@ -148,6 +148,7 @@ OC.L10N.register(
     "Create share" : "공유 만들기",
     "Cancel" : "취소",
     "Customize link" : "링크 맞춤설정",
+    "Generate QR code" : "QR코드 생성",
     "Add another link" : "다른 링크 추가",
     "Create a new share link" : "새로운 공유 링크 생성",
     "Shared via link by {initiator}" : "{initiator}님이 링크를 통해 공유함",
