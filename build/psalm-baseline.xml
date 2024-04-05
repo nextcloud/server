@@ -508,7 +508,6 @@
       <code>\OCA\Circles\Api\v1\Circles</code>
     </UndefinedClass>
     <UndefinedInterfaceMethod>
-      <code>getById</code>
       <code>getPath</code>
     </UndefinedInterfaceMethod>
   </file>
@@ -813,12 +812,6 @@
       <code>$shareId</code>
       <code>(int)$data['id']</code>
     </InvalidArgument>
-    <LessSpecificReturnStatement>
-      <code>$nodes[0]</code>
-    </LessSpecificReturnStatement>
-    <MoreSpecificReturnType>
-      <code>\OCP\Files\File|\OCP\Files\Folder</code>
-    </MoreSpecificReturnType>
   </file>
   <file src="apps/federatedfilesharing/lib/Notifications.php">
     <InvalidReturnType>
@@ -1112,15 +1105,8 @@
     </InvalidReturnType>
   </file>
   <file src="apps/files_trashbin/lib/Trash/LegacyTrashBackend.php">
-    <RedundantCondition>
-      <code>$trashFiles</code>
-    </RedundantCondition>
-    <TypeDoesNotContainType>
-      <code>null</code>
-    </TypeDoesNotContainType>
     <UndefinedInterfaceMethod>
       <code>$file</code>
-      <code>getById</code>
     </UndefinedInterfaceMethod>
   </file>
   <file src="apps/files_trashbin/lib/Trashbin.php">
@@ -1228,14 +1214,6 @@
     <InvalidReturnType>
       <code>array{0: int, 1: int, 2: int}</code>
     </InvalidReturnType>
-  </file>
-  <file src="apps/updatenotification/lib/Notification/BackgroundJob.php">
-    <InvalidArgument>
-      <code>false</code>
-    </InvalidArgument>
-    <InvalidPropertyAssignmentValue>
-      <code><![CDATA[$this->users]]></code>
-    </InvalidPropertyAssignmentValue>
   </file>
   <file src="apps/user_ldap/ajax/getNewServerConfigPrefix.php">
     <InvalidScalarArgument>
@@ -1416,17 +1394,7 @@
       <code>isUserScopeEnabled</code>
     </UndefinedInterfaceMethod>
   </file>
-  <file src="core/BackgroundJobs/BackgroundCleanupUpdaterBackupsJob.php">
-    <ParamNameMismatch>
-      <code>$arguments</code>
-    </ParamNameMismatch>
-  </file>
   <file src="core/BackgroundJobs/CheckForUserCertificates.php">
-    <ParamNameMismatch>
-      <code>$arguments</code>
-    </ParamNameMismatch>
-  </file>
-  <file src="core/BackgroundJobs/LookupServerSendCheckBackgroundJob.php">
     <ParamNameMismatch>
       <code>$arguments</code>
     </ParamNameMismatch>
@@ -2238,7 +2206,6 @@
   <file src="lib/private/Files/Node/Folder.php">
     <LessSpecificReturnStatement>
       <code><![CDATA[$this->root->get($this->getFullPath($path))]]></code>
-      <code><![CDATA[$this->root->getByIdInPath((int)$id, $this->getPath())]]></code>
       <code><![CDATA[array_map(function (FileInfo $file) {
 			return $this->createNode($file->getPath(), $file);
 		}, $files)]]></code>
@@ -2934,15 +2901,6 @@
       <code><![CDATA[$this->dbprettyname]]></code>
     </UndefinedThisPropertyFetch>
   </file>
-  <file src="lib/private/Share/Share.php">
-    <InvalidOperand>
-      <code>!self::isResharingAllowed()</code>
-    </InvalidOperand>
-    <UndefinedInterfaceMethod>
-      <code>getParents</code>
-      <code>getParents</code>
-    </UndefinedInterfaceMethod>
-  </file>
   <file src="lib/private/Share20/DefaultShareProvider.php">
     <InvalidArgument>
       <code><![CDATA[$share->getId()]]></code>
@@ -3004,12 +2962,6 @@
       <code>private $roomShareProvider = null;</code>
       <code>private $shareByCircleProvider = null;</code>
     </UndefinedDocblockClass>
-    <UndefinedInterfaceMethod>
-      <code>getLazyRootFolder</code>
-      <code>getLazyRootFolder</code>
-      <code>getLazyRootFolder</code>
-      <code>getLazyRootFolder</code>
-    </UndefinedInterfaceMethod>
   </file>
   <file src="lib/private/Share20/Share.php">
     <LessSpecificReturnStatement>
