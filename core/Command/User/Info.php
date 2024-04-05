@@ -46,12 +46,18 @@ class Info extends Base {
 			$output->writeln('<error>user not found</error>');
 			return 1;
 		}
+
 		$groups = $this->groupManager->getUserGroupIds($user);
+
+		if (ini_get('date.timezone')) {
+			date_default_timezone_set(ini_get('date.timezone'));
+		}
 		if ($user->getLastLogin() == 0) {
 			$lastseen = "never";
 		} else {
 			$lastseen = date('Y-m-d H:i:s T', $user->getLastLogin());
 		}
+
 		$data = [
 			'user_id' => $user->getUID(),
 			'display_name' => $user->getDisplayName(),
@@ -65,6 +71,7 @@ class Info extends Base {
 			'user_directory' => $user->getHome(),
 			'backend' => $user->getBackendClassName()
 		];
+
 		$this->writeArrayInOutputFormat($input, $output, $data);
 		return 0;
 	}

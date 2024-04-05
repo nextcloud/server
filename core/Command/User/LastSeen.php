@@ -43,6 +43,11 @@ class LastSeen extends Base {
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$singleUserId = $input->getArgument('uid');
+
+		if (ini_get('date.timezone')) {
+			date_default_timezone_set(ini_get('date.timezone'));
+		}
+
 		if ($singleUserId) {
 			$user = $this->userManager->get($singleUserId);
 			if (is_null($user)) {
