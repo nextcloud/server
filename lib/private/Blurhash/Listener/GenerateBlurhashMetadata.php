@@ -88,7 +88,7 @@ class GenerateBlurhashMetadata implements IEventListener {
 		try {
 			// using preview image to generate the blurhash
 			$preview = $this->preview->getPreview($file, 256, 256);
-			$image = imagecreatefromstring($preview->getContent());
+			$image = @imagecreatefromstring($preview->getContent());
 		} catch (NotFoundException $e) {
 			// https://github.com/nextcloud/server/blob/9d70fd3e64b60a316a03fb2b237891380c310c58/lib/private/legacy/OC_Image.php#L668
 			// The preview system can fail on huge picture, in that case we use our own image resizer.
@@ -114,7 +114,7 @@ class GenerateBlurhashMetadata implements IEventListener {
 	 * @throws LockedException
 	 */
 	private function resizedImageFromFile(File $file): GdImage|false {
-		$image = imagecreatefromstring($file->getContent());
+		$image = @imagecreatefromstring($file->getContent());
 		if ($image === false) {
 			return false;
 		}
