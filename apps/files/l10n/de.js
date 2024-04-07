@@ -267,7 +267,7 @@ OC.L10N.register(
     "Create new templates folder" : "Neuen Vorlagenordner erstellen",
     "Templates" : "Vorlagen",
     "One of the dropped files could not be processed" : "Eine der abgelegten Dateien konnte nicht verarbeitet werden",
-    "Some files could not be moved" : "Benötigt keine Übersetzung. Hier wird nur die formelle Übersetzung verwendet (de_DE).",
+    "Some files could not be moved" : "Einige Dateien konnten nicht verschoben werden.",
     "_{folderCount} folder_::_{folderCount} folders_" : ["{folderCount} Ordner","{folderCount} Ordner"],
     "_{fileCount} file_::_{fileCount} files_" : ["{fileCount} Datei","{fileCount} Dateien"],
     "_1 file and {folderCount} folder_::_1 file and {folderCount} folders_" : ["1 Datei und {folderCount} Ordner","1 Datei und {folderCount} Ordner"],
