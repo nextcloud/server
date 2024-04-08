@@ -57,6 +57,21 @@ use Psr\Log\LoggerInterface;
 try {
 	require_once __DIR__ . '/lib/base.php';
 
+	if ($argv[1] === '-h' || $argv[1] === '--help') {
+		echo 'Description:
+  Run the background job routine
+
+Usage:
+  php -f cron.php -- [-h] [<job-class>]
+
+Arguments:
+  job-class                  Optional job class to only run those jobs
+
+Options:
+  -h, --help                 Display this help message' . PHP_EOL;
+		exit(0);
+	}
+
 	if (Util::needUpgrade()) {
 		Server::get(LoggerInterface::class)->debug('Update required, skipping cron', ['app' => 'cron']);
 		exit;
@@ -160,6 +175,7 @@ try {
 		$endTime = time() + 14 * 60;
 
 		$executedJobs = [];
+		// a specific job class can optionally be given as first argument
 		$jobClass = isset($argv[1]) ? $argv[1] : null;
 		while ($job = $jobList->getNext($onlyTimeSensitive, $jobClass)) {
 			if (isset($executedJobs[$job->getId()])) {
