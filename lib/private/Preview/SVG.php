@@ -44,9 +44,6 @@ class SVG extends ProviderV2 {
 	 */
 	public function getThumbnail(File $file, int $maxX, int $maxY): ?IImage {
 		try {
-			$svg = new \Imagick();
-			$svg->setBackgroundColor(new \ImagickPixel('transparent'));
-
 			$content = stream_get_contents($file->fopen('r'));
 			if (substr($content, 0, 5) !== '<?xml') {
 				$content = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>' . $content;
@@ -57,13 +54,25 @@ class SVG extends ProviderV2 {
 				return null;
 			}
 
+			$svg = new \Imagick();
+
+			$svg->pingImageBlob($content);
+			$mimeType = $svg->getImageMimeType();
+			if (!preg_match($this->getMimeType(), $mimeType)) {
+				throw new \Exception('File mime type does not match the preview provider: ' . $mimeType);
+			}
+
+			$svg->setBackgroundColor(new \ImagickPixel('transparent'));
 			$svg->readImageBlob($content);
 			$svg->setImageFormat('png32');
 		} catch (\Exception $e) {
-			\OC::$server->get(LoggerInterface::class)->error($e->getMessage(), [
-				'exception' => $e,
-				'app' => 'core',
-			]);
+			\OC::$server->get(LoggerInterface::class)->error(
+				'File: ' . $file->getPath() . ' Imagick says:',
+				[
+					'exception' => $e,
+					'app' => 'core',
+				]
+			);
 			return null;
 		}
 

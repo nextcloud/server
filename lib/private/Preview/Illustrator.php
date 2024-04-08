@@ -31,4 +31,11 @@ class Illustrator extends Bitmap {
 	public function getMimeType(): string {
 		return '/application\/illustrator/';
 	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	protected function getAllowedMimeTypes(): string {
+		return '/application\/(illustrator|pdf)/';
+	}
 }
