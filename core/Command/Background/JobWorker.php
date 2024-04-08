@@ -40,9 +40,9 @@ class JobWorker extends JobBase {
 			->setName('background-job:worker')
 			->setDescription('Run a background job worker')
 			->addArgument(
-				'job-class',
+				'job-classes',
 				InputArgument::OPTIONAL,
-				'The class of the job in the database'
+				'The classes of the jobs to look for in the database, comma-separated'
 			)
 			->addOption(
 				'once',
@@ -61,11 +61,31 @@ class JobWorker extends JobBase {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
-		$jobClass = $input->getArgument('job-class');
+		$jobClassesString = $input->getArgument('job-classes');
+		// only keep non-empty strings
+		$jobClasses = $jobClassesString === null
+			? null
+			: array_filter(
+				explode(',', $jobClassesString),
+				static function (string $jobClass) {
+					return strlen($jobClass) > 0;
+				}
+			);
 
-		if ($jobClass && !class_exists($jobClass)) {
-			$output->writeln('<error>Invalid job class</error>');
-			return 1;
+		if ($jobClasses !== null) {
+			// no class
+			if (count($jobClasses) === 0) {
+				$output->writeln('<error>Invalid job class list supplied</error>');
+				return 1;
+			}
+
+			// at least one invalid class
+			foreach ($jobClasses as $jobClass) {
+				if (!class_exists($jobClass)) {
+					$output->writeln('<error>Invalid job class: ' . $jobClass . '</error>');
+					return 1;
+				}
+			}
 		}
 
 		while (true) {
@@ -80,10 +100,10 @@ class JobWorker extends JobBase {
 			$this->printSummary($input, $output);
 
 			usleep(50000);
-			$job = $this->jobList->getNext(false, $jobClass);
+			$job = $this->jobList->getNext(false, $jobClasses);
 			if (!$job) {
 				if ($input->getOption('once') === true) {
-					$output->writeln('No job of class ' . $jobClass . ' is currently queued', OutputInterface::VERBOSITY_VERBOSE);
+					$output->writeln('No job of classes ' . $jobClassesString . ' is currently queued', OutputInterface::VERBOSITY_VERBOSE);
 					$output->writeln('Exiting...', OutputInterface::VERBOSITY_VERBOSE);
 					break;
 				}

@@ -110,9 +110,12 @@ interface IJobList {
 	/**
 	 * get the next job in the list
 	 *
-	 * @since 7.0.0 - In 24.0.0 parameter $onlyTimeSensitive got added; In 29.0.0 parameter $jobClass got added
+	 * @param bool $onlyTimeSensitive Whether we get only time sensitive jobs or not
+	 * @param array|null $jobClasses List of job classes to restrict which next job we get
+	 * @return IJob|null
+	 * @since 7.0.0 - In 24.0.0 parameter $onlyTimeSensitive got added; In 30.0.0 parameter $jobClasses got added
 	 */
-	public function getNext(bool $onlyTimeSensitive = false, string $jobClass = null): ?IJob;
+	public function getNext(bool $onlyTimeSensitive = false, ?array $jobClasses = null): ?IJob;
 
 	/**
 	 * @since 7.0.0

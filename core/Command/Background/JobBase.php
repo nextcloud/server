@@ -35,8 +35,10 @@ abstract class JobBase extends \OC\Core\Command\Base {
 	protected IJobList $jobList;
 	protected LoggerInterface $logger;
 
-	public function __construct(IJobList $jobList,
-								LoggerInterface $logger) {
+	public function __construct(
+		IJobList $jobList,
+		LoggerInterface $logger
+	) {
 		parent::__construct();
 		$this->jobList = $jobList;
 		$this->logger = $logger;
