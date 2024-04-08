@@ -381,9 +381,9 @@ class PreviewManager implements IPreview {
 				'PSD' => ['mimetype' => '/application\/x-photoshop/', 'class' => Preview\Photoshop::class],
 				'EPS' => ['mimetype' => '/application\/postscript/', 'class' => Preview\Postscript::class],
 				'TTF' => ['mimetype' => '/application\/(?:font-sfnt|x-font$)/', 'class' => Preview\Font::class],
-				'HEIC' => ['mimetype' => '/image\/hei(f|c)/', 'class' => Preview\HEIC::class],
-				'TGA' => ['mimetype' => '/image\/t(ar)?ga/', 'class' => Preview\TGA::class],
-				'SGI' => ['mimetype' => '/image\/sgi/', 'class' => Preview\SGI::class],
+				'HEIC' => ['mimetype' => '/image\/(x-)?hei(f|c)/', 'class' => Preview\HEIC::class],
+				'TGA' => ['mimetype' => '/image\/(x-)?t(ar)?ga/', 'class' => Preview\TGA::class],
+				'SGI' => ['mimetype' => '/image\/(x-)?sgi/', 'class' => Preview\SGI::class],
 			];
 
 			foreach ($imagickProviders as $queryFormat => $provider) {
