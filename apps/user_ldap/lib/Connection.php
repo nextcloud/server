@@ -446,8 +446,7 @@ class Connection extends LDAPUtility {
 
 	private function doCriticalValidation(): bool {
 		$configurationOK = true;
-		$errorStr = 'Configuration Error (prefix '.
-			(string)$this->configPrefix .'): ';
+		$errorStr = 'Configuration Error (prefix ' . $this->configPrefix . '): ';
 
 		//options that shall not be empty
 		$options = ['ldapHost', 'ldapUserDisplayName',

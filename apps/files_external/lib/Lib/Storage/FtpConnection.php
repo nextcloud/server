@@ -50,10 +50,7 @@ class FtpConnection {
 	}
 
 	public function __destruct() {
-		if ($this->connection) {
-			ftp_close($this->connection);
-		}
-		$this->connection = null;
+		ftp_close($this->connection);
 	}
 
 	public function setUtf8Mode(): bool {
