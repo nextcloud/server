@@ -26,6 +26,8 @@
 <template>
 	<tr class="user-list__row"
 		:data-cy-user-row="user.id">
+
+		<!-- Displays the user avatar -->
 		<td class="row__cell row__cell--avatar" data-cy-user-list-cell-avatar>
 			<NcLoadingIcon v-if="isLoadingUser"
 				:name="t('settings', 'Loading account …')"
@@ -36,6 +38,7 @@
 				:user="user.id" />
 		</td>
 
+		<!-- Shows the display name for the user row -->
 		<td class="row__cell row__cell--displayname" data-cy-user-list-cell-displayname>
 			<template v-if="editing && user.backendCapabilities.setDisplayName">
 				<NcTextField ref="displayNameField"
@@ -63,6 +66,7 @@
 			</template>
 		</td>
 
+		<!-- Password input field -->
 		<td data-cy-user-list-cell-password
 			class="row__cell"
 			:class="{ 'row__cell--obfuscated': hasObfuscated }">
@@ -91,6 +95,7 @@
 			</span>
 		</td>
 
+		<!-- Email input field -->
 		<td class="row__cell" data-cy-user-list-cell-email>
 			<template v-if="editing">
 				<NcTextField class="user-row-text-field"
@@ -115,6 +120,7 @@
 			</span>
 		</td>
 
+		<!-- Group input field -->
 		<td class="row__cell row__cell--large row__cell--multiline" data-cy-user-list-cell-groups>
 			<template v-if="editing">
 				<label class="hidden-visually"
@@ -146,6 +152,7 @@
 			</span>
 		</td>
 
+		<!-- Subadmins select input -->
 		<td v-if="subAdminsGroups.length > 0 && settings.isAdmin"
 			data-cy-user-list-cell-subadmins
 			class="row__cell row__cell--large row__cell--multiline">
@@ -176,6 +183,7 @@
 			</span>
 		</td>
 
+		<!-- Quota selection -->
 		<td class="row__cell" data-cy-user-list-cell-quota>
 			<template v-if="editing">
 				<label class="hidden-visually"
@@ -248,6 +256,7 @@
 			</template>
 		</td>
 
+		<!-- Manager input field -->
 		<td v-if="showConfig.showLastLogin"
 			:title="userLastLoginTooltip"
 			class="row__cell"
@@ -255,6 +264,7 @@
 			<span v-if="!isObfuscated">{{ userLastLogin }}</span>
 		</td>
 
+		<!-- Manager input field -->
 		<td class="row__cell row__cell--large row__cell--fill" data-cy-user-list-cell-manager>
 			<template v-if="editing">
 				<label class="hidden-visually"
@@ -282,6 +292,7 @@
 			</span>
 		</td>
 
+		<!-- User row actions -->
 		<td class="row__cell row__cell--actions" data-cy-user-list-cell-actions>
 			<UserRowActions v-if="visible && !isObfuscated && canEdit && !loading.all"
 				:actions="userActions"
@@ -290,6 +301,15 @@
 				:user="user"
 				@update:edit="toggleEdit" />
 		</td>
+
+		<!-- Dialog for user row action popups -->
+		<NcDialog :open="dialog.isOpen"
+			:name="dialog.name"
+			:message="dialog.message"
+			:buttons="dialog.buttons"
+			:size="medium"
+			:can-close="false"
+			:close-on-click-outside="normal" />
 	</tr>
 </template>
 
@@ -303,6 +323,7 @@ import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
 import NcProgressBar from '@nextcloud/vue/dist/Components/NcProgressBar.js'
 import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
 import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
+import NcDialog from '@nextcloud/vue/dist/Components/NcDialog.js'
 
 import UserRowActions from './UserRowActions.vue'
 
@@ -319,6 +340,7 @@ export default {
 		NcSelect,
 		NcTextField,
 		UserRowActions,
+		NcDialog,
 	},
 
 	mixins: [
@@ -393,6 +415,12 @@ export default {
 			editedDisplayName: this.user.displayname,
 			editedPassword: '',
 			editedMail: this.user.email ?? '',
+			dialog: {
+				isOpen: false,
+				name: '',
+				message: '',
+				buttons: [],
+			}
 		}
 	},
 
@@ -524,29 +552,25 @@ export default {
 	methods: {
 		wipeUserDevices() {
 			const userid = this.user.id
-			OC.dialogs.confirmDestructive(
-				t('settings', 'In case of lost device or exiting the organization, this can remotely wipe the Nextcloud data from all devices associated with {userid}. Only works if the devices are connected to the internet.', { userid }),
-				t('settings', 'Remote wipe of devices'),
-				{
-					type: OC.dialogs.YES_NO_BUTTONS,
-					confirm: t('settings', 'Wipe {userid}\'s devices', { userid }),
-					confirmClasses: 'error',
-					cancel: t('settings', 'Cancel'),
-				},
-				(result) => {
-					if (result) {
-						this.loading.wipe = true
-						this.loading.all = true
-						this.$store.dispatch('wipeUserDevices', userid)
-							.then(() => showSuccess(t('settings', 'Wiped {userid}\'s devices', { userid })), { timeout: 2000 })
-							.finally(() => {
-								this.loading.wipe = false
-								this.loading.all = false
-							})
-					}
-				},
-				true,
-			)
+			const buttons = [
+				{label: t('settings', 'Cancel'), type: 'error', callback: () => this.dialog.isOpen = false},
+				{label: t('settings', 'Wipe {userid}\'s devices', { userid }),
+				callback: () => {
+					this.loading.wipe = true
+					this.loading.all = true
+					this.$store.dispatch('wipeUserDevices', userid)
+						.then(() => showSuccess(t('settings', 'Wiped {userid}\'s devices', { userid })), { timeout: 2000 })
+						.finally(() => {
+							this.loading.wipe = false
+							this.loading.all = false
+							this.dialog.isOpen = false
+						})
+				}},
+			]
+			// set up the dialog
+			this.setupDialog(t('settings', 'Remote wipe of devices'), 
+							t('settings', 'In case of lost device or exiting the organization, this can remotely wipe the Nextcloud data from all devices associated with {userid}. Only works if the devices are connected to the internet.', { userid }),
+							buttons)
 		},
 
 		filterManagers(managers) {
@@ -596,28 +620,25 @@ export default {
 
 		deleteUser() {
 			const userid = this.user.id
-			OC.dialogs.confirmDestructive(
-				t('settings', 'Fully delete {userid}\'s account including all their personal files, app data, etc.', { userid }),
-				t('settings', 'Account deletion'),
-				{
-					type: OC.dialogs.YES_NO_BUTTONS,
-					confirm: t('settings', 'Delete {userid}\'s account', { userid }),
-					confirmClasses: 'error',
-					cancel: t('settings', 'Cancel'),
-				},
-				(result) => {
-					if (result) {
-						this.loading.delete = true
-						this.loading.all = true
-						return this.$store.dispatch('deleteUser', userid)
-							.then(() => {
-								this.loading.delete = false
-								this.loading.all = false
-							})
-					}
-				},
-				true,
-			)
+			const buttons = [
+				{label: t('settings', 'Cancel'), type: 'error', callback: () => this.dialog.isOpen = false},
+				{label: t('settings', 'Delete {userid}\'s account', { userid }),
+				callback: () => {
+					this.loading.delete = true
+					this.loading.all = true
+					return this.$store.dispatch('deleteUser', userid)
+						.then(() => {
+							this.loading.delete = false
+							this.loading.all = false
+						}).finally(() => {
+							this.dialog.isOpen = false
+						})
+				}},
+			]
+			// set up the dialog
+			this.setupDialog(t('settings', 'Account deletion'), 
+							t('settings', 'Fully delete {userid}\'s account including all their personal files, app data, etc.', { userid }),
+							buttons)
 		},
 
 		enableDisableUser() {
@@ -915,6 +936,16 @@ export default {
 			} else if (this.editedMail !== this.user.email) {
 				this.editedMail = this.user.email ?? ''
 			}
+		},
+
+		/**
+		 * Helper function to allow for cleaner code when setting up the dialog popup
+		 */
+		setupDialog(name, message, buttons) {
+			this.dialog.name = name
+			this.dialog.message = message
+			this.dialog.buttons = buttons
+			this.dialog.isOpen = true
 		},
 	},
 }
