@@ -50,10 +50,9 @@ class LockNotAcquiredException extends \Exception {
 	/**
 	 * custom string representation of object
 	 *
-	 * @return string
 	 * @since 7.0.0
 	 */
-	public function __toString() {
+	public function __toString(): string {
 		return __CLASS__ . ": [{$this->code}]: {$this->message}\n";
 	}
 }
