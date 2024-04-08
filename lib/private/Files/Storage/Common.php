@@ -919,4 +919,8 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 			}
 		}
 	}
+
+	public function pathAvailable(string $path): bool {
+		return !$this->file_exists($path);
+	}
 }

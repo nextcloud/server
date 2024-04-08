@@ -136,4 +136,16 @@ interface Storage extends \OCP\Files\Storage {
 	 * - permissions
 	 */
 	public function getDirectoryContent($directory): \Traversable;
+
+	/**
+	 * Check if a filepath is available/unused
+	 *
+	 * This is usually the inverse of `file_exists` but some filesystems might have additional restrictions for
+	 * which file names are available.
+	 * For example with case-insensitive filesystems where names that only differ by case would conflict.
+	 *
+	 * @param string $path
+	 * @return bool
+	 */
+	public function pathAvailable(string $path): bool;
 }
