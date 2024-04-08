@@ -211,7 +211,7 @@ class Response {
 			$config = \OC::$server->get(IConfig::class);
 
 			if ($config->getSystemValueBool('debug', false)) {
-				\OC::$server->get(LoggerInterface::class)->error('Setting custom header on a 204 or 304 is not supported (Header: {header})', [
+				\OC::$server->get(LoggerInterface::class)->error('Setting custom header on a 304 is not supported (Header: {header})', [
 					'header' => $name,
 				]);
 			}
