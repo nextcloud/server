@@ -1257,6 +1257,7 @@ return array(
     'OC\\Files\\Cache\\Wrapper\\CachePermissionsMask' => $baseDir . '/lib/private/Files/Cache/Wrapper/CachePermissionsMask.php',
     'OC\\Files\\Cache\\Wrapper\\CacheWrapper' => $baseDir . '/lib/private/Files/Cache/Wrapper/CacheWrapper.php',
     'OC\\Files\\Cache\\Wrapper\\JailPropagator' => $baseDir . '/lib/private/Files/Cache/Wrapper/JailPropagator.php',
+    'OC\\Files\\Cache\\Wrapper\\JailWatcher' => $baseDir . '/lib/private/Files/Cache/Wrapper/JailWatcher.php',
     'OC\\Files\\Config\\CachedMountFileInfo' => $baseDir . '/lib/private/Files/Config/CachedMountFileInfo.php',
     'OC\\Files\\Config\\CachedMountInfo' => $baseDir . '/lib/private/Files/Config/CachedMountInfo.php',
     'OC\\Files\\Config\\LazyStorageMountInfo' => $baseDir . '/lib/private/Files/Config/LazyStorageMountInfo.php',
