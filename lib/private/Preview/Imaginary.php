@@ -77,7 +77,7 @@ class Imaginary extends ProviderV2 {
 		$imaginaryUrl = rtrim($imaginaryUrl, '/');
 
 		// Set to true if Imaginary was configured with "-mount" with the Nextcloud data directory, else set to false
-		$locallymounted = $this->config->getSystemValueString('preview_imaginary_locally_mounted',false);
+		$locallymounted = $this->config->getSystemValueBool('preview_imaginary_locally_mounted',false);
 		if (!$locallymounted) {
 			// Object store, needed if data directory is not locally mounted 
 			$stream = $file->fopen('r');
