@@ -76,12 +76,15 @@ class Imaginary extends ProviderV2 {
 		}
 		$imaginaryUrl = rtrim($imaginaryUrl, '/');
 
-		// Object store
-		$stream = $file->fopen('r');
-		if (!$stream || !is_resource($stream) || feof($stream)) {
-			return null;
+		// Set to true if Imaginary was configured with "-mount" with the NextCloud data directory, else set to false
+		$locallymounted = $this->config->getSystemValueString('preview_imaginary_locally_mounted',false);
+		if (!$locallymounted) {
+			// Object store, needed if data directory is not locally mounted 
+			$stream = $file->fopen('r');
+			if (!$stream || !is_resource($stream) || feof($stream)) {
+				return null;
+			}
 		}
-
 		$httpClient = $this->service->newClient();
 
 		$convert = false;
@@ -158,16 +161,30 @@ class Imaginary extends ProviderV2 {
 
 		try {
 			$imaginaryKey = $this->config->getSystemValueString('preview_imaginary_key', '');
-			$response = $httpClient->post(
-				$imaginaryUrl . '/pipeline', [
-					'query' => ['operations' => json_encode($operations), 'key' => $imaginaryKey],
-					'stream' => true,
-					'content-type' => $file->getMimeType(),
-					'body' => $stream,
-					'nextcloud' => ['allow_local_address' => true],
-					'timeout' => 120,
-					'connect_timeout' => 3,
-				]);
+			if ($locallymounted) {
+				// Imaginary is configured with "-mount" during runtime. Imaginary only accepts "file" via a GET request
+				$response = $httpClient->get(
+					$imaginaryUrl . '/pipeline', [
+						'query' => ['operations' => json_encode($operations), 'file' => $file->getPath(), 'key' => $imaginaryKey],
+						'stream' => true,
+						'content-type' => $file->getMimeType(),
+						'nextcloud' => ['allow_local_address' => true],
+						'timeout' => 120,
+						'connect_timeout' => 3,
+					]);
+			} else {
+				// Imaginary does not have data mounted locally, image must be uploaded via a POST
+				$response = $httpClient->post(
+					$imaginaryUrl . '/pipeline', [
+						'query' => ['operations' => json_encode($operations), 'key' => $imaginaryKey],
+						'stream' => true,
+						'content-type' => $file->getMimeType(),
+						'body' => $stream,
+						'nextcloud' => ['allow_local_address' => true],
+						'timeout' => 120,
+						'connect_timeout' => 3,
+					]);
+			}
 		} catch (\Throwable $e) {
 			$this->logger->info('Imaginary preview generation failed: ' . $e->getMessage(), [
 				'exception' => $e,
