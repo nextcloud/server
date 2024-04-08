@@ -31,4 +31,11 @@ class TIFF extends Bitmap {
 	public function getMimeType(): string {
 		return '/image\/tiff/';
 	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	protected function getAllowedMimeTypes(): string {
+		return '/image\/tiff/';
+	}
 }
