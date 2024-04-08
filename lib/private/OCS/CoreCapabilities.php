@@ -42,12 +42,21 @@ class CoreCapabilities implements ICapability {
 
 	/**
 	 * Return this classes capabilities
+	 *
+	 * @return array{
+	 *     core: array{
+	 *         pollinterval: int,
+	 *         webdav-root: string,
+	 *         reference-api: boolean,
+	 *         reference-regex: string,
+	 *     },
+	 * }
 	 */
 	public function getCapabilities(): array {
 		return [
 			'core' => [
-				'pollinterval' => $this->config->getSystemValue('pollinterval', 60),
-				'webdav-root' => $this->config->getSystemValue('webdav-root', 'remote.php/webdav'),
+				'pollinterval' => $this->config->getSystemValueInt('pollinterval', 60),
+				'webdav-root' => $this->config->getSystemValueString('webdav-root', 'remote.php/webdav'),
 				'reference-api' => true,
 				'reference-regex' => IURLGenerator::URL_REGEX_NO_MODIFIERS,
 			],
