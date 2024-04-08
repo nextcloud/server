@@ -83,22 +83,26 @@ class JobWorker extends JobBase {
 			$job = $this->jobList->getNext(false, $jobClass);
 			if (!$job) {
 				if ($input->getOption('once') === true) {
+					$output->writeln('No job of class ' . $jobClass . ' is currently queued', OutputInterface::VERBOSITY_VERBOSE);
+					$output->writeln('Exiting...', OutputInterface::VERBOSITY_VERBOSE);
 					break;
 				}
 
-				$output->writeln("Waiting for new jobs to be queued", OutputInterface::VERBOSITY_VERBOSE);
+				$output->writeln('Waiting for new jobs to be queued', OutputInterface::VERBOSITY_VERBOSE);
 				// Re-check interval for new jobs
 				sleep(1);
 				continue;
 			}
 
-			$output->writeln("Running job " . get_class($job) . " with ID " . $job->getId());
+			$output->writeln('Running job ' . get_class($job) . ' with ID ' . $job->getId());
 
 			if ($output->isVerbose()) {
 				$this->printJobInfo($job->getId(), $job, $output);
 			}
 
 			$job->start($this->jobList);
+
+			$output->writeln('Job ' . $job->getId() . ' has finished', OutputInterface::VERBOSITY_VERBOSE);
 
 			// clean up after unclean jobs
 			\OC_Util::tearDownFS();
@@ -119,7 +123,7 @@ class JobWorker extends JobBase {
 		if (!$output->isVeryVerbose()) {
 			return;
 		}
-		$output->writeln("<comment>Summary</comment>");
+		$output->writeln('<comment>Summary</comment>');
 
 		$counts = [];
 		foreach ($this->jobList->countByClass() as $row) {
