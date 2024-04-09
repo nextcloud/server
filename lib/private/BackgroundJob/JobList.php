@@ -211,8 +211,7 @@ class JobList implements IJobList {
 	}
 
 	/**
-	 * Get the next job in the list
-	 * @return ?IJob the next job to run. Beware that this object may be a singleton and may be modified by the next call to buildJob.
+	 * @inheritDoc
 	 */
 	public function getNext(bool $onlyTimeSensitive = false, ?array $jobClasses = null): ?IJob {
 		$query = $this->connection->getQueryBuilder();

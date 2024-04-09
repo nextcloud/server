@@ -80,8 +80,6 @@ if ($config->getSystemValueBool('installed', false)) {
 	$application->add(Server::get(Command\TwoFactorAuth\Enable::class));
 	$application->add(Server::get(Command\TwoFactorAuth\Disable::class));
 	$application->add(Server::get(Command\TwoFactorAuth\State::class));
-	$application->add(Server::get(Command\TwoFactorAuth\State::class));
-
 
 	$application->add(Server::get(Command\Background\Cron::class));
 	$application->add(Server::get(Command\Background\WebCron::class));

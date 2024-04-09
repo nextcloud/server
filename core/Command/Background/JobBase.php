@@ -32,16 +32,12 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 abstract class JobBase extends \OC\Core\Command\Base {
-	protected IJobList $jobList;
-	protected LoggerInterface $logger;
 
 	public function __construct(
-		IJobList $jobList,
-		LoggerInterface $logger
+		protected IJobList $jobList,
+		protected LoggerInterface $logger
 	) {
 		parent::__construct();
-		$this->jobList = $jobList;
-		$this->logger = $logger;
 	}
 
 	protected function printJobInfo(int $jobId, IJob $job, OutputInterface $output): void {

@@ -26,13 +26,25 @@ declare(strict_types=1);
 namespace OC\Core\Command\Background;
 
 use OC\Core\Command\InterruptedException;
+use OC\Files\SetupManager;
+use OCP\BackgroundJob\IJobList;
 use OCP\ITempManager;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class JobWorker extends JobBase {
+
+	public function __construct(
+		protected IJobList $jobList,
+		protected LoggerInterface $logger,
+		private ITempManager $tempManager,
+		private SetupManager $setupManager,
+	) {
+		parent::__construct($jobList, $logger);
+	}
 	protected function configure(): void {
 		parent::configure();
 
@@ -103,7 +115,11 @@ class JobWorker extends JobBase {
 			$job = $this->jobList->getNext(false, $jobClasses);
 			if (!$job) {
 				if ($input->getOption('once') === true) {
-					$output->writeln('No job of classes ' . $jobClassesString . ' is currently queued', OutputInterface::VERBOSITY_VERBOSE);
+					if ($jobClassesString === null) {
+						$output->writeln('No job is currently queued', OutputInterface::VERBOSITY_VERBOSE);
+					} else {
+						$output->writeln('No job of classes ' . $jobClassesString . ' is currently queued', OutputInterface::VERBOSITY_VERBOSE);
+					}
 					$output->writeln('Exiting...', OutputInterface::VERBOSITY_VERBOSE);
 					break;
 				}
@@ -120,13 +136,14 @@ class JobWorker extends JobBase {
 				$this->printJobInfo($job->getId(), $job, $output);
 			}
 
-			$job->start($this->jobList);
+			/** @psalm-suppress DeprecatedMethod Calling execute until it is removed, then will switch to start */
+			$job->execute($this->jobList);
 
 			$output->writeln('Job ' . $job->getId() . ' has finished', OutputInterface::VERBOSITY_VERBOSE);
 
 			// clean up after unclean jobs
-			\OC_Util::tearDownFS();
-			\OC::$server->get(ITempManager::class)->clean();
+			$this->setupManager->tearDown();
+			$this->tempManager->clean();
 
 			$this->jobList->setLastJob($job);
 			$this->jobList->unlockJob($job);
