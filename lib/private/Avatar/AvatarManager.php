@@ -101,6 +101,9 @@ class AvatarManager implements IAvatarManager {
 
 	/**
 	 * return a user specific instance of \OCP\IAvatar
+	 *
+	 * If the user is disabled a guest avatar will be returned
+	 *
 	 * @see \OCP\IAvatar
 	 * @param string $userId the ownCloud user id
 	 * @return \OCP\IAvatar
@@ -111,6 +114,10 @@ class AvatarManager implements IAvatarManager {
 		$user = $this->userManager->get($userId);
 		if ($user === null) {
 			throw new \Exception('user does not exist');
+		}
+
+		if (!$user->isEnabled()) {
+			return $this->getGuestAvatar($userId);
 		}
 
 		// sanitize userID - fixes casing issue (needed for the filesystem stuff that is done below)
