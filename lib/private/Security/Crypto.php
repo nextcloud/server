@@ -11,8 +11,8 @@ namespace OC\Security;
 use Exception;
 use OCP\IConfig;
 use OCP\Security\ICrypto;
-use phpseclib\Crypt\AES;
-use phpseclib\Crypt\Hash;
+use phpseclib3\Crypt\AES;
+use phpseclib3\Crypt\Hash;
 
 /**
  * Class Crypto provides a high-level encryption layer using AES-CBC. If no key has been provided
@@ -31,7 +31,7 @@ class Crypto implements ICrypto {
 	public function __construct(
 		private IConfig $config,
 	) {
-		$this->cipher = new AES();
+		$this->cipher = new AES('cbc');
 	}
 
 	/**

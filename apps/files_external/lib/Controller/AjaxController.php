@@ -42,10 +42,15 @@ class AjaxController extends Controller {
 	 */
 	private function generateSshKeys($keyLength) {
 		$key = $this->rsaMechanism->createKey($keyLength);
-		// Replace the placeholder label with a more meaningful one
-		$key['publickey'] = str_replace('phpseclib-generated-key', gethostname(), $key['publickey']);
-
-		return $key;
+		return [
+			'private_key' => $key->toString('PKCS1'),
+			// Replace the placeholder label with a more meaningful one
+			'public_key' => str_replace(
+				'phpseclib-generated-key',
+				gethostname(),
+				$key->getPublicKey()->toString('OpenSSH'),
+			),
+		];
 	}
 
 	/**
@@ -57,10 +62,7 @@ class AjaxController extends Controller {
 	public function getSshKeys($keyLength = 1024) {
 		$key = $this->generateSshKeys($keyLength);
 		return new JSONResponse(
-			['data' => [
-				'private_key' => $key['privatekey'],
-				'public_key' => $key['publickey']
-			],
+			['data' => $key,
 				'status' => 'success'
 			]);
 	}

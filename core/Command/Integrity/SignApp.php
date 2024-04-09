@@ -10,8 +10,8 @@ namespace OC\Core\Command\Integrity;
 use OC\IntegrityCheck\Checker;
 use OC\IntegrityCheck\Helpers\FileAccessHelper;
 use OCP\IURLGenerator;
-use phpseclib\Crypt\RSA;
-use phpseclib\File\X509;
+use phpseclib3\Crypt\RSA;
+use phpseclib3\File\X509;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -68,8 +68,7 @@ class SignApp extends Command {
 			return 1;
 		}
 
-		$rsa = new RSA();
-		$rsa->loadKey($privateKey);
+		$rsa = RSA::loadPrivateKey($privateKey);
 		$x509 = new X509();
 		$x509->loadX509($keyBundle);
 		$x509->setPrivateKey($rsa);

@@ -22,8 +22,8 @@ use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\ServerVersion;
-use phpseclib\Crypt\RSA;
-use phpseclib\File\X509;
+use phpseclib3\Crypt\RSA;
+use phpseclib3\File\X509;
 
 /**
  * Class Checker handles the code signing using X.509 and RSA. ownCloud ships with
@@ -167,24 +167,26 @@ class Checker {
 	 *
 	 * @param array $hashes
 	 * @param X509 $certificate
-	 * @param RSA $privateKey
+	 * @param RSA\PrivateKey $privateKey
 	 * @return array
 	 */
-	private function createSignatureData(array $hashes,
+	private function createSignatureData(
+		array $hashes,
 		X509 $certificate,
-		RSA $privateKey): array {
+		RSA\PrivateKey $privateKey,
+	): array {
 		ksort($hashes);
 
-		$privateKey->setSignatureMode(RSA::SIGNATURE_PSS);
-		$privateKey->setMGFHash('sha512');
-		// See https://tools.ietf.org/html/rfc3447#page-38
-		$privateKey->setSaltLength(0);
-		$signature = $privateKey->sign(json_encode($hashes));
+		$signature = $privateKey
+			->withPadding(RSA::SIGNATURE_PSS)
+			->withMGFHash('sha512')
+			->withSaltLength(0)
+			->sign(json_encode($hashes));
 
 		return [
 			'hashes' => $hashes,
 			'signature' => base64_encode($signature),
-			'certificate' => $certificate->saveX509($certificate->currentCert),
+			'certificate' => $certificate->saveX509($certificate->getCurrentCert()),
 		];
 	}
 
@@ -193,12 +195,12 @@ class Checker {
 	 *
 	 * @param string $path
 	 * @param X509 $certificate
-	 * @param RSA $privateKey
+	 * @param RSA\PrivateKey $privateKey
 	 * @throws \Exception
 	 */
 	public function writeAppSignature($path,
 		X509 $certificate,
-		RSA $privateKey) {
+		RSA\PrivateKey $privateKey) {
 		$appInfoDir = $path . '/appinfo';
 		try {
 			$this->fileAccessHelper->assertDirectoryExists($appInfoDir);
@@ -222,12 +224,12 @@ class Checker {
 	 * Write the signature of core
 	 *
 	 * @param X509 $certificate
-	 * @param RSA $rsa
+	 * @param RSA\PrivateKey $rsa
 	 * @param string $path
 	 * @throws \Exception
 	 */
 	public function writeCoreSignature(X509 $certificate,
-		RSA $rsa,
+		RSA\PrivateKey $rsa,
 		$path) {
 		$coreDir = $path . '/core';
 		try {
@@ -291,15 +293,14 @@ class Checker {
 		$certificate = $signatureData['certificate'];
 
 		// Check if certificate is signed by Nextcloud Root Authority
-		$x509 = new \phpseclib\File\X509();
+		$x509 = new X509();
 		$rootCertificatePublicKey = $this->fileAccessHelper->file_get_contents($this->environmentHelper->getServerRoot() . '/resources/codesigning/root.crt');
 
 		$rootCerts = $this->splitCerts($rootCertificatePublicKey);
 		foreach ($rootCerts as $rootCert) {
 			$x509->loadCA($rootCert);
 		}
-		$x509->loadX509($certificate);
-		if (!$x509->validateSignature()) {
+		if ($x509->loadX509($certificate) === false || !$x509->validateSignature()) {
 			throw new InvalidSignatureException('Certificate is not valid.');
 		}
 		// Verify if certificate has proper CN. "core" CN is always trusted.
@@ -310,13 +311,18 @@ class Checker {
 		}
 
 		// Check if the signature of the files is valid
-		$rsa = new \phpseclib\Crypt\RSA();
-		$rsa->loadKey($x509->currentCert['tbsCertificate']['subjectPublicKeyInfo']['subjectPublicKey']);
-		$rsa->setSignatureMode(RSA::SIGNATURE_PSS);
-		$rsa->setMGFHash('sha512');
-		// See https://tools.ietf.org/html/rfc3447#page-38
-		$rsa->setSaltLength(0);
-		if (!$rsa->verify(json_encode($expectedHashes), $signature)) {
+		/** @var RSA\PublicKey|false */
+		$rsa = $x509->getPublicKey();
+		if ($rsa === false) {
+			throw new InvalidSignatureException('Certificate does not provide valid public RSA key.');
+		}
+
+		$rsa = $rsa
+			->withPadding(RSA::SIGNATURE_PSS)
+			->withMGFHash('sha512')
+			->withSaltLength(0);
+
+		if (!$rsa->verify(json_encode($expectedHashes), (string)$signature)) {
 			throw new InvalidSignatureException('Signature could not get verified.');
 		}
 

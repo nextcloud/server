@@ -12,7 +12,7 @@ use OCA\Files_External\Lib\StorageConfig;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IUser;
-use phpseclib\Crypt\RSA as RSACrypt;
+use phpseclib3\Crypt\RSA as RSACrypt;
 
 /**
  * RSA public key authentication
@@ -41,15 +41,16 @@ class RSA extends AuthMechanism {
 	 * @return void
 	 */
 	public function manipulateStorageConfig(StorageConfig &$storage, ?IUser $user = null) {
-		$auth = new RSACrypt();
-		$auth->setPassword($this->config->getSystemValue('secret', ''));
-		if (!$auth->loadKey($storage->getBackendOption('private_key'))) {
+		try {
+			$auth = RSACrypt::loadPrivateKey(
+				$storage->getBackendOption('private_key'),
+				$this->config->getSystemValue('secret', '')
+			);
+		} catch (\Throwable) {
 			// Add fallback routine for a time where secret was not enforced to be exists
-			$auth->setPassword('');
-			if (!$auth->loadKey($storage->getBackendOption('private_key'))) {
-				throw new \RuntimeException('unable to load private key');
-			}
+			$auth = RSACrypt::loadPrivateKey($storage->getBackendOption('private_key'));
 		}
+
 		$storage->setBackendOption('public_key_auth', $auth);
 	}
 
@@ -57,17 +58,15 @@ class RSA extends AuthMechanism {
 	 * Generate a keypair
 	 *
 	 * @param int $keyLenth
-	 * @return array ['privatekey' => $privateKey, 'publickey' => $publicKey]
 	 */
-	public function createKey($keyLength) {
+	public function createKey($keyLength): RSACrypt\PrivateKey {
 		$rsa = new RSACrypt();
-		$rsa->setPublicKeyFormat(RSACrypt::PUBLIC_FORMAT_OPENSSH);
-		$rsa->setPassword($this->config->getSystemValue('secret', ''));
-
+		
 		if ($keyLength !== 1024 && $keyLength !== 2048 && $keyLength !== 4096) {
 			$keyLength = 1024;
 		}
 
-		return $rsa->createKey($keyLength);
+		return $rsa->createKey($keyLength)
+			->withPassword($this->config->getSystemValue('secret', ''));
 	}
 }
