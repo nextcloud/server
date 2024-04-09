@@ -166,7 +166,7 @@ export default defineComponent({
 			return this.filesStore.getNode(id)
 		},
 		getFileIdFromPath(path: string): number | undefined {
-			return this.pathsStore.getPath(this.currentView!.id, path)
+			return this.pathsStore.getPath(this.currentView?.id, path)
 		},
 		getDirDisplayName(path: string): string {
 			if (path === '/') {
