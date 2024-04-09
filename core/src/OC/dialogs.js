@@ -470,6 +470,8 @@ const Dialogs = {
 	 * @param {object} replacement file with name, size and mtime
 	 * @param {object} controller with onCancel, onSkip, onReplace and onRename methods
 	 * @returns {Promise} jquery promise that resolves after the dialog template was loaded
+	 *
+	 * @deprecated 29.0.0 Use openConflictPicker from the @nextcloud/upload package instead
 	 */
 	fileexists: function(data, original, replacement, controller) {
 		var self = this
