@@ -188,11 +188,6 @@ class Access extends LDAPUtility {
 			return false;
 		}
 		$cr = $this->connection->getConnectionResource();
-		if (!$this->ldap->isResource($cr)) {
-			//LDAP not available
-			$this->logger->debug('LDAP resource not available.', ['app' => 'user_ldap']);
-			return false;
-		}
 		$attr = mb_strtolower($attr, 'UTF-8');
 		// the actual read attribute later may contain parameters on a ranged
 		// request, e.g. member;range=99-199. Depends on server reply.
@@ -344,11 +339,6 @@ class Access extends LDAPUtility {
 			throw new \Exception('LDAP password changes are disabled.');
 		}
 		$cr = $this->connection->getConnectionResource();
-		if (!$this->ldap->isResource($cr)) {
-			//LDAP not available
-			$this->logger->debug('LDAP resource not available.', ['app' => 'user_ldap']);
-			return false;
-		}
 		try {
 			// try PASSWD extended operation first
 			return @$this->invokeLDAPMethod('exopPasswd', $userDN, '', $password) ||
@@ -1108,12 +1098,6 @@ class Access extends LDAPUtility {
 	) {
 		// See if we have a resource, in case not cancel with message
 		$cr = $this->connection->getConnectionResource();
-		if (!$this->ldap->isResource($cr)) {
-			// Seems like we didn't find any resource.
-			// Return an empty array just like before.
-			$this->logger->debug('Could not search, because resource is missing.', ['app' => 'user_ldap']);
-			return false;
-		}
 
 		//check whether paged search should be attempted
 		try {

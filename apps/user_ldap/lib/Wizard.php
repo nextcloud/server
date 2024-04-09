@@ -645,10 +645,6 @@ class Wizard extends LDAPUtility {
 		}
 
 		$cr = $this->access->connection->getConnectionResource();
-		if (!$this->ldap->isResource($cr)) {
-			throw new \Exception('connection error');
-		}
-		/** @var \LDAP\Connection $cr */
 
 		if (mb_strpos($this->access->connection->ldapLoginFilter, '%uid', 0, 'UTF-8')
 			=== false) {
@@ -1213,9 +1209,7 @@ class Wizard extends LDAPUtility {
 					$dnReadCount++;
 					$foundItems = array_merge($foundItems, $newItems);
 					$dnRead[] = $dn;
-				} while (($state === self::LRESULT_PROCESSED_SKIP
-						|| $this->ldap->isResource($entry))
-						&& ($dnReadLimit === 0 || $dnReadCount < $dnReadLimit));
+				} while ($dnReadLimit === 0 || $dnReadCount < $dnReadLimit);
 			}
 		}
 

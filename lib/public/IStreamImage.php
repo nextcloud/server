@@ -27,4 +27,8 @@ namespace OCP;
  * @since 24.0.0
  */
 interface IStreamImage extends IImage {
+	/**
+	 * @return false|resource Returns the image resource if any
+	 */
+	public function resource();
 }
