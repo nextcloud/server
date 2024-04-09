@@ -481,15 +481,14 @@ class AccessTest extends TestCase {
 		$this->connection
 			->expects($this->once())
 			->method('getConnectionResource')
-			->willReturn($connection);
+			->willThrowException(new \OC\ServerNotAvailableException('Connection to LDAP server could not be established'));
 		$this->ldap
-			->expects($this->once())
-			->method('isResource')
-			->with($connection)
-			->willReturn(false);
+			->expects($this->never())
+			->method('isResource');
 
-		/** @noinspection PhpUnhandledExceptionInspection */
-		$this->assertFalse($this->access->setPassword('CN=foo', 'MyPassword'));
+		$this->expectException(\OC\ServerNotAvailableException::class);
+		$this->expectExceptionMessage('Connection to LDAP server could not be established');
+		$this->access->setPassword('CN=foo', 'MyPassword');
 	}
 
 
@@ -505,11 +504,6 @@ class AccessTest extends TestCase {
 			->expects($this->any())
 			->method('getConnectionResource')
 			->willReturn($connection);
-		$this->ldap
-			->expects($this->once())
-			->method('isResource')
-			->with($connection)
-			->willReturn(true);
 		$this->ldap
 			->expects($this->once())
 			->method('modReplace')
@@ -529,11 +523,6 @@ class AccessTest extends TestCase {
 			->expects($this->any())
 			->method('getConnectionResource')
 			->willReturn($connection);
-		$this->ldap
-			->expects($this->once())
-			->method('isResource')
-			->with($connection)
-			->willReturn(true);
 		$this->ldap
 			->expects($this->once())
 			->method('modReplace')
@@ -567,7 +556,7 @@ class AccessTest extends TestCase {
 			->expects($this->any())
 			->method('isResource')
 			->willReturnCallback(function ($resource) {
-				return is_resource($resource) || is_object($resource);
+				return is_object($resource);
 			});
 		$this->ldap
 			->expects($this->any())
