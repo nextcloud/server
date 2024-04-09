@@ -74,7 +74,7 @@ interface IDBConnection {
 	public function getQueryBuilder();
 
 	/**
-	 * Used to abstract the ownCloud database access away
+	 * Used to abstract the Nextcloud database access away
 	 * @param string $sql the sql query with ? placeholder for params
 	 * @param int|null $limit the maximum number of rows
 	 * @param int|null $offset from which row we want to start
