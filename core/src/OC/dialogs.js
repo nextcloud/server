@@ -51,7 +51,8 @@ import IconMove from '@mdi/svg/svg/folder-move.svg?raw'
 import IconCopy from '@mdi/svg/svg/folder-multiple.svg?raw'
 
 import OC from './index.js'
-import { FilePickerType, getFilePickerBuilder, spawnDialog } from '@nextcloud/dialogs'
+import { DialogBuilder, FilePickerType, getFilePickerBuilder, spawnDialog } from '@nextcloud/dialogs'
+import { translate as t } from '@nextcloud/l10n'
 import { basename } from 'path'
 import { defineAsyncComponent } from 'vue'
 
@@ -60,7 +61,9 @@ import { defineAsyncComponent } from 'vue'
  */
 const Dialogs = {
 	// dialog button types
+	/** @deprecated use `@nextcloud/dialogs` */
 	YES_NO_BUTTONS: 70,
+	/** @deprecated use `@nextcloud/dialogs` */
 	OK_BUTTONS: 71,
 
 	/** @deprecated use FilePickerType from `@nextcloud/dialogs` */
@@ -74,15 +77,14 @@ const Dialogs = {
 	/** @deprecated use FilePickerType from `@nextcloud/dialogs` */
 	FILEPICKER_TYPE_CUSTOM: 5,
 
-	// used to name each dialog
-	dialogsCounter: 0,
-
 	/**
 	 * displays alert dialog
 	 * @param {string} text content of dialog
 	 * @param {string} title dialog title
 	 * @param {function} callback which will be triggered when user presses OK
 	 * @param {boolean} [modal] make the dialog modal
+	 *
+	 * @deprecated 30.0.0 Use `@nextcloud/dialogs` instead or build your own with `@nextcloud/vue` NcDialog
 	 */
 	alert: function(text, title, callback, modal) {
 		this.message(
@@ -94,12 +96,15 @@ const Dialogs = {
 			modal
 		)
 	},
+
 	/**
 	 * displays info dialog
 	 * @param {string} text content of dialog
 	 * @param {string} title dialog title
 	 * @param {function} callback which will be triggered when user presses OK
 	 * @param {boolean} [modal] make the dialog modal
+	 *
+	 * @deprecated 30.0.0 Use `@nextcloud/dialogs` instead or build your own with `@nextcloud/vue` NcDialog
 	 */
 	info: function(text, title, callback, modal) {
 		this.message(text, title, 'info', Dialogs.OK_BUTTON, callback, modal)
@@ -112,6 +117,8 @@ const Dialogs = {
 	 * @param {function} callback which will be triggered when user presses OK (true or false would be passed to callback respectively)
 	 * @param {boolean} [modal] make the dialog modal
 	 * @returns {Promise}
+	 *
+	 * @deprecated 30.0.0 Use `@nextcloud/dialogs` instead or build your own with `@nextcloud/vue` NcDialog
 	 */
 	confirm: function(text, title, callback, modal) {
 		return this.message(
@@ -131,16 +138,34 @@ const Dialogs = {
 	 * @param {function} callback which will be triggered when user presses OK (true or false would be passed to callback respectively)
 	 * @param {boolean} [modal] make the dialog modal
 	 * @returns {Promise}
+	 *
+	 * @deprecated 30.0.0 Use `@nextcloud/dialogs` instead or build your own with `@nextcloud/vue` NcDialog
 	 */
-	confirmDestructive: function(text, title, buttons, callback, modal) {
-		return this.message(
-			text,
-			title,
-			'none',
-			buttons,
-			callback,
-			modal === undefined ? true : modal
-		)
+	confirmDestructive: function(text, title, buttons = Dialogs.OK_BUTTONS, callback = () => {}, modal) {
+		return (new DialogBuilder())
+			.setName(title)
+			.setText(text)
+			.setButtons(
+				buttons === Dialogs.OK_BUTTONS
+				? [
+					{
+						label: t('core', 'Yes'),
+						type: 'error',
+						callback: () => {
+							callback.clicked = true
+							callback(true)
+						},
+					}
+				]
+				: Dialogs._getLegacyButtons(buttons, callback)
+			)
+			.build()
+			.show()
+			.then(() => {
+				if (!callback.clicked) {
+					callback(false)
+				}
+			})
 	},
 	/**
 	 * displays confirmation dialog
@@ -149,17 +174,35 @@ const Dialogs = {
 	 * @param {function} callback which will be triggered when user presses OK (true or false would be passed to callback respectively)
 	 * @param {boolean} [modal] make the dialog modal
 	 * @returns {Promise}
+	 *
+	 * @deprecated 30.0.0 Use `@nextcloud/dialogs` instead or build your own with `@nextcloud/vue` NcDialog
 	 */
 	confirmHtml: function(text, title, callback, modal) {
-		return this.message(
-			text,
-			title,
-			'notice',
-			Dialogs.YES_NO_BUTTONS,
-			callback,
-			modal,
-			true
-		)
+		return (new DialogBuilder())
+			.setName(title)
+			.setText('')
+			.setButtons([
+				{
+					label: t('core', 'No'),
+					callback: () => {},
+				},
+				{
+					label: t('core', 'Yes'),
+					type: 'primary',
+					callback: () => {
+						callback.clicked = true
+						callback(true)
+					},
+				},
+			])
+			.build()
+			.setHTML(text)
+			.show()
+			.then(() => {
+				if (!callback.clicked) {
+					callback(false)
+				}
+			})
 	},
 	/**
 	 * displays prompt dialog
@@ -320,105 +363,81 @@ const Dialogs = {
 	/**
 	 * Displays raw dialog
 	 * You better use a wrapper instead ...
+	 *
+	 * @deprecated 30.0.0 Use `@nextcloud/dialogs` instead or build your own with `@nextcloud/vue` NcDialog
 	 */
-	message: function(content, title, dialogType, buttons, callback, modal, allowHtml) {
-		return $.when(this._getMessageTemplate()).then(function($tmpl) {
-			var dialogName = 'oc-dialog-' + Dialogs.dialogsCounter + '-content'
-			var dialogId = '#' + dialogName
-			var $dlg = $tmpl.octemplate({
-				dialog_name: dialogName,
-				title: title,
-				message: content,
-				type: dialogType
-			}, allowHtml ? { escapeFunction: '' } : {})
-			if (modal === undefined) {
-				modal = false
-			}
-			$('body').append($dlg)
-			var buttonlist = []
-			switch (buttons) {
-			case Dialogs.YES_NO_BUTTONS:
-				buttonlist = [{
-					text: t('core', 'No'),
-					click: function() {
-						if (callback !== undefined) {
-							callback(false)
-						}
-						$(dialogId).ocdialog('close')
-					}
-				},
-				{
-					text: t('core', 'Yes'),
-					click: function() {
-						if (callback !== undefined) {
-							callback(true)
-						}
-						$(dialogId).ocdialog('close')
-					},
-					defaultButton: true
-				}]
+	message: function(content, title, dialogType, buttons, callback = () => {}, modal, allowHtml) {
+		const builder = (new DialogBuilder())
+			.setName(title)
+			.setText(allowHtml ? '' : content)
+			.setButtons(Dialogs._getLegacyButtons(buttons, callback))
+
+		switch (dialogType) {
+			case 'alert':
+				builder.setSeverity('warning')
 				break
-			case Dialogs.OK_BUTTON:
-				var functionToCall = function() {
-					$(dialogId).ocdialog('close')
-					if (callback !== undefined) {
-						callback()
-					}
-				}
-				buttonlist[0] = {
-					text: t('core', 'OK'),
-					click: functionToCall,
-					defaultButton: true
-				}
+			case 'notice':
+				builder.setSeverity('info')
 				break
 			default:
-				if (typeof(buttons) === 'object') {
-					switch (buttons.type) {
-						case Dialogs.YES_NO_BUTTONS:
-							buttonlist = [{
-								text: buttons.cancel || t('core', 'No'),
-								click: function() {
-									if (callback !== undefined) {
-										callback(false)
-									}
-									$(dialogId).ocdialog('close')
-								}
-							},
-								{
-									text: buttons.confirm || t('core', 'Yes'),
-									click: function() {
-										if (callback !== undefined) {
-											callback(true)
-										}
-										$(dialogId).ocdialog('close')
-									},
-									defaultButton: true,
-									classes: buttons.confirmClasses
-								}]
-							break
-					}
-				}
 				break
-			}
+		}
 
-			$(dialogId).ocdialog({
-				closeOnEscape: true,
-				closeCallback: () => { callback && callback(false) },
-				modal: modal,
-				buttons: buttonlist
-			})
-			Dialogs.dialogsCounter++
+		const dialog = builder.build()
+	
+		if (allowHtml) {
+			dialog.setHTML(content)
+		}
+
+		return dialog.show().then(() => {
+			if(!callback._clicked) {
+				callback(false)
+			}
 		})
-			.fail(function(status, error) {
-				// If the method is called while navigating away from
-				// the page, we still want to deliver the message.
-				if (status === 0) {
-					alert(title + ': ' + content)
-				} else {
-					alert(t('core', 'Error loading message template: {error}', { error: error }))
-				}
-			})
 	},
+
+	/**
+	 * Helper for legacy API
+	 * @deprecated
+	 */
+	_getLegacyButtons(buttons, callback) {
+		const buttonList = []
+
+		switch (typeof buttons === 'object' ? buttons.type : buttons) {
+			case Dialogs.YES_NO_BUTTONS:
+				buttonList.push({
+					label: buttons?.cancel ?? t('core', 'No'),
+					callback: () => {
+						callback._clicked = true
+						callback(false)
+					},
+				})
+				buttonList.push({
+					label: buttons?.confirm ?? t('core', 'Yes'),
+					type: 'primary',
+					callback: () => {
+						callback._clicked = true
+						callback(true)
+					},
+				})
+				break
+			case Dialogs.OK_BUTTONS:
+				buttonList.push({
+					label: buttons?.confirm ?? t('core', 'OK'),
+					type: 'primary',
+					callback: () => {
+						callback._clicked = true
+						callback(true)
+					},
+				})
+				break
+			default:
+				console.error('Invalid call to OC.dialogs')
+				break
+		}
+		return buttonList
+	},
+
 	_fileexistsshown: false,
 	/**
 	 * Displays file exists dialog
@@ -788,22 +807,6 @@ const Dialogs = {
 		return dialogDeferred.promise()
 	},
 
-	_getMessageTemplate: function() {
-		var defer = $.Deferred()
-		if (!this.$messageTemplate) {
-			var self = this
-			$.get(OC.filePath('core', 'templates', 'message.html'), function(tmpl) {
-				self.$messageTemplate = $(tmpl)
-				defer.resolve(self.$messageTemplate)
-			})
-				.fail(function(jqXHR, textStatus, errorThrown) {
-					defer.reject(jqXHR.status, errorThrown)
-				})
-		} else {
-			defer.resolve(this.$messageTemplate)
-		}
-		return defer.promise()
-	},
 	_getFileExistsTemplate: function() {
 		var defer = $.Deferred()
 		if (!this.$fileexistsTemplate) {
