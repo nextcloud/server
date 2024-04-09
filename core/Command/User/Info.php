@@ -49,9 +49,6 @@ class Info extends Base {
 
 		$groups = $this->groupManager->getUserGroupIds($user);
 
-		if (ini_get('date.timezone')) {
-			date_default_timezone_set(ini_get('date.timezone'));
-		}
 		if ($user->getLastLogin() == 0) {
 			$lastseen = "never";
 		} else {
