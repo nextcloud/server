@@ -213,13 +213,14 @@ class TwoFactorChallengeController extends Controller {
 	 * @NoCSRFRequired
 	 */
 	#[FrontpageRoute(verb: 'GET', url: 'login/setupchallenge')]
-	public function setupProviders(): StandaloneTemplateResponse {
+	public function setupProviders(?string $redirect_url = null): StandaloneTemplateResponse {
 		$user = $this->userSession->getUser();
 		$setupProviders = $this->twoFactorManager->getLoginSetupProviders($user);
 
 		$data = [
 			'providers' => $setupProviders,
 			'logout_url' => $this->getLogoutUrl(),
+			'redirect_url' => $redirect_url,
 		];
 
 		return new StandaloneTemplateResponse($this->appName, 'twofactorsetupselection', $data, 'guest');
@@ -230,7 +231,7 @@ class TwoFactorChallengeController extends Controller {
 	 * @NoCSRFRequired
 	 */
 	#[FrontpageRoute(verb: 'GET', url: 'login/setupchallenge/{providerId}')]
-	public function setupProvider(string $providerId) {
+	public function setupProvider(string $providerId, ?string $redirect_url = null) {
 		$user = $this->userSession->getUser();
 		$providers = $this->twoFactorManager->getLoginSetupProviders($user);
 
@@ -251,6 +252,7 @@ class TwoFactorChallengeController extends Controller {
 		$data = [
 			'provider' => $provider,
 			'logout_url' => $this->getLogoutUrl(),
+			'redirect_url' => $redirect_url,
 			'template' => $tmpl->fetchPage(),
 		];
 		$response = new StandaloneTemplateResponse($this->appName, 'twofactorsetupchallenge', $data, 'guest');
@@ -264,11 +266,12 @@ class TwoFactorChallengeController extends Controller {
 	 * @todo handle the extreme edge case of an invalid provider ID and redirect to the provider selection page
 	 */
 	#[FrontpageRoute(verb: 'POST', url: 'login/setupchallenge/{providerId}')]
-	public function confirmProviderSetup(string $providerId) {
+	public function confirmProviderSetup(string $providerId, ?string $redirect_url = null) {
 		return new RedirectResponse($this->urlGenerator->linkToRoute(
 			'core.TwoFactorChallenge.showChallenge',
 			[
 				'challengeProviderId' => $providerId,
+				'redirect_url' => $redirect_url,
 			]
 		));
 	}
