@@ -144,7 +144,7 @@
     "%1$s via %2$s" : "%1$s через %2$s",
     "You are not allowed to share %s" : "Вам заборонено поширювати %s",
     "Cannot increase permissions of %s" : "Не вдалося підвищити дозволи для %s",
-    "Files cannot be shared with delete permissions" : "Не можна ділитися файлами з дозволом на видалення",
+    "Files cannot be shared with delete permissions" : "Не можна надавати у спільний доступ файли з дозволами на вилучення",
     "Files cannot be shared with create permissions" : "Не можна ділитися файлами з дозволом на створення",
     "Expiration date is in the past" : "Дата закінчення в минулому",
     "_Cannot set expiration date more than %n day in the future_::_Cannot set expiration date more than %n days in the future_" : ["Неможливо встановити дату закінчення більше ніж %n день у майбутньому","Неможливо встановити дату закінчення більше ніж %n днів у майбутньому","Неможливо встановити дату закінчення більше ніж %n днів у майбутньому","Неможливо встановити дату закінчення більше ніж %n днів у майбутньому"],

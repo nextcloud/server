@@ -18,7 +18,7 @@
     "Disconnect" : "Від'єднати",
     "Admin defined" : "Визначено адміністратором",
     "Automatic status checking is disabled due to the large number of configured storages, click to check status" : "Автоматична перевірка статусу вимкнена через велику кількість налаштованих сховищ, натисніть, щоб перевірити статус",
-    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Ви впевнені, що бажаєте від’єднати цю зовнішню пам’ять? Це зробить сховище недоступним у Nextcloud і призведе до видалення цих файлів і папок на будь-якому клієнті синхронізації, який наразі підключено, але не вилучіть жодних файлів і папок на самому зовнішньому сховищі.",
+    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Ви впевнені, що бажаєте від’єднати це зовнішнє сховище? Це призведе до того, що сховище стане недоступним у хмарі Nextcloud, а також вилучить файли та каталоги на клієнтських пристроях, які наразі синхронізуються з хмарою. Файли та каталоги у зовнішньому сховищі не буде вилучено.",
     "Delete storage?" : "Вилучити сховище?",
     "Saved" : "Збережено",
     "Saving …" : "Збереження …",
