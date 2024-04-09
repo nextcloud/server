@@ -205,6 +205,7 @@ interface ILDAPWrapper {
 	/**
 	 * Checks whether the submitted parameter is a resource
 	 * @param mixed $resource the resource variable to check
+	 * @psalm-assert-if-true object $resource
 	 * @return bool true if it is a resource or LDAP object, false otherwise
 	 */
 	public function isResource($resource);
