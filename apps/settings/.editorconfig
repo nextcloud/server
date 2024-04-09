@@ -7,6 +7,6 @@ end_of_line = lf
 insert_final_newline = true
 trim_trailing_whitespace = true
 
-[{package.json,.travis.yml,webpack.config.js}]
+[{package.json,.travis.yml,webpack.config.js,assetlinks-template.json}]
 indent_style = space
 indent_size = 2

@@ -126,6 +126,7 @@ return array(
     'OCA\\Settings\\SetupChecks\\Woff2Loading' => $baseDir . '/../lib/SetupChecks/Woff2Loading.php',
     'OCA\\Settings\\UserMigration\\AccountMigrator' => $baseDir . '/../lib/UserMigration/AccountMigrator.php',
     'OCA\\Settings\\UserMigration\\AccountMigratorException' => $baseDir . '/../lib/UserMigration/AccountMigratorException.php',
+    'OCA\\Settings\\WellKnown\\AssetLinksHandler' => $baseDir . '/../lib/WellKnown/AssetLinksHandler.php',
     'OCA\\Settings\\WellKnown\\ChangePasswordHandler' => $baseDir . '/../lib/WellKnown/ChangePasswordHandler.php',
     'OCA\\Settings\\WellKnown\\SecurityTxtHandler' => $baseDir . '/../lib/WellKnown/SecurityTxtHandler.php',
 );

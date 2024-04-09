@@ -1121,6 +1121,24 @@ $CONFIG = [
 	'https://itunes.apple.com/us/app/nextcloud/id1125420102?mt=8',
 'customclient_ios_appid' =>
 		'1125420102',
+
+/**
+ * This configures the package name in assetlinks.json for the Android client.
+ *
+ * Defaults to ``com.nextcloud.client``
+ */
+'assetlinks_package_name' => 'com.nextcloud.client',
+
+/**
+ * This configures the sha256 certificate fingerprints in assetlinks.json for the Android client.
+ *
+ * Defaults to an array with:
+ * - ``59:BF:BB:8A:5C:17:53:D6:69:AE:C0:D8:CC:D0:DA:82:76:FE:8E:AC:81:A4:45:22:AE:68:0E:A7:74:81:A3:32``
+ */
+'assetlinks_sha256_cert_fingerprints' => [
+	'59:BF:BB:8A:5C:17:53:D6:69:AE:C0:D8:CC:D0:DA:82:76:FE:8E:AC:81:A4:45:22:AE:68:0E:A7:74:81:A3:32',
+],
+
 /**
  * Apps
  *

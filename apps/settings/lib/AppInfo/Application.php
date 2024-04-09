@@ -94,6 +94,7 @@ use OCA\Settings\SetupChecks\TransactionIsolation;
 use OCA\Settings\SetupChecks\WellKnownUrls;
 use OCA\Settings\SetupChecks\Woff2Loading;
 use OCA\Settings\UserMigration\AccountMigrator;
+use OCA\Settings\WellKnown\AssetLinksHandler;
 use OCA\Settings\WellKnown\ChangePasswordHandler;
 use OCA\Settings\WellKnown\SecurityTxtHandler;
 use OCP\AppFramework\App;
@@ -136,6 +137,7 @@ class Application extends App implements IBootstrap {
 		// Register well-known handlers
 		$context->registerWellKnownHandler(SecurityTxtHandler::class);
 		$context->registerWellKnownHandler(ChangePasswordHandler::class);
+		$context->registerWellKnownHandler(AssetLinksHandler::class);
 
 		/**
 		 * Core class wrappers
