@@ -51,8 +51,9 @@ import IconMove from '@mdi/svg/svg/folder-move.svg?raw'
 import IconCopy from '@mdi/svg/svg/folder-multiple.svg?raw'
 
 import OC from './index.js'
-import { FilePickerType, getFilePickerBuilder } from '@nextcloud/dialogs'
+import { FilePickerType, getFilePickerBuilder, spawnDialog } from '@nextcloud/dialogs'
 import { basename } from 'path'
+import { defineAsyncComponent } from 'vue'
 
 /**
  * this class to ease the usage of jquery dialogs
@@ -169,69 +170,25 @@ const Dialogs = {
 	 * @param {string} name name of the input field
 	 * @param {boolean} password whether the input should be a password input
 	 * @returns {Promise}
+	 *
+	 * @deprecated Use NcDialog from `@nextcloud/vue` instead
 	 */
 	prompt: function(text, title, callback, modal, name, password) {
-		return $.when(this._getMessageTemplate()).then(function($tmpl) {
-			var dialogName = 'oc-dialog-' + Dialogs.dialogsCounter + '-content'
-			var dialogId = '#' + dialogName
-			var $dlg = $tmpl.octemplate({
-				dialog_name: dialogName,
-				title: title,
-				message: text,
-				type: 'notice'
-			})
-			var input = $('<input/>')
-			input.attr('type', password ? 'password' : 'text').attr('id', dialogName + '-input').attr('placeholder', name)
-			var label = $('<label/>').attr('for', dialogName + '-input').text(name + ': ')
-			$dlg.append(label)
-			$dlg.append(input)
-			if (modal === undefined) {
-				modal = false
-			}
-			$('body').append($dlg)
-
-			// wrap callback in _.once():
-			// only call callback once and not twice (button handler and close
-			// event) but call it for the close event, if ESC or the x is hit
-			if (callback !== undefined) {
-				callback = _.once(callback)
-			}
-
-			var buttonlist = [{
-				text: t('core', 'No'),
-				click: function() {
-					if (callback !== undefined) {
-						// eslint-disable-next-line standard/no-callback-literal
-						callback(false, input.val())
-					}
-					$(dialogId).ocdialog('close')
-				}
-			}, {
-				text: t('core', 'Yes'),
-				click: function() {
-					if (callback !== undefined) {
-						// eslint-disable-next-line standard/no-callback-literal
-						callback(true, input.val())
-					}
-					$(dialogId).ocdialog('close')
+		return new Promise((resolve) => {
+			spawnDialog(
+				defineAsyncComponent(() => import('../components/LegacyDialogPrompt.vue')),
+				{
+					text,
+					name: title,
+					callback,
+					inputName: name,
+					isPassword: !!password
 				},
-				defaultButton: true
-			}]
-
-			$(dialogId).ocdialog({
-				closeOnEscape: true,
-				modal: modal,
-				buttons: buttonlist,
-				close: function() {
-					// callback is already fired if Yes/No is clicked directly
-					if (callback !== undefined) {
-						// eslint-disable-next-line standard/no-callback-literal
-						callback(false, input.val())
-					}
-				}
-			})
-			input.focus()
-			Dialogs.dialogsCounter++
+				(...args) => {
+					callback(...args)
+					resolve()
+				},
+			)
 		})
 	},
 
