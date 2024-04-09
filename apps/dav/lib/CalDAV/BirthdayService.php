@@ -317,6 +317,11 @@ class BirthdayService {
 	}
 
 	/**
+	 * The birthday event is considered changed if either
+	 *  - the start date has changed
+	 *  - the title has changed
+	 *  - the time for the alarm has changed
+	 *
 	 * @param string $existingCalendarData
 	 * @param VCalendar $newCalendarData
 	 * @return bool
@@ -331,7 +336,8 @@ class BirthdayService {
 
 		return (
 			$newCalendarData->VEVENT->DTSTART->getValue() !== $existingBirthday->VEVENT->DTSTART->getValue() ||
-			$newCalendarData->VEVENT->SUMMARY->getValue() !== $existingBirthday->VEVENT->SUMMARY->getValue()
+			$newCalendarData->VEVENT->SUMMARY->getValue() !== $existingBirthday->VEVENT->SUMMARY->getValue() ||
+			($newCalendarData->VEVENT->VALARM && $existingBirthday->VEVENT->VALARM && $newCalendarData->VEVENT->VALARM->TRIGGER->getValue() !== $existingBirthday->VEVENT->VALARM->TRIGGER->getValue())
 		);
 	}
 

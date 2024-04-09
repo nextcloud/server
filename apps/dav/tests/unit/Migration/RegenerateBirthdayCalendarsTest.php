@@ -31,18 +31,17 @@ use OCA\DAV\Migration\RegenerateBirthdayCalendars;
 use OCP\BackgroundJob\IJobList;
 use OCP\IConfig;
 use OCP\Migration\IOutput;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class RegenerateBirthdayCalendarsTest extends TestCase {
-
-	/** @var IJobList | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var IJobList | MockObject */
 	private $jobList;
 
-	/** @var IConfig | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var IConfig | MockObject */
 	private $config;
 
-	/** @var RegenerateBirthdayCalendars */
-	private $migration;
+	private RegenerateBirthdayCalendars $migration;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -61,41 +60,47 @@ class RegenerateBirthdayCalendarsTest extends TestCase {
 		);
 	}
 
-	public function testRun(): void {
-		$this->config->expects($this->once())
-			->method('getAppValue')
-			->with('dav', 'regeneratedBirthdayCalendarsForYearFix')
-			->willReturn(null);
-
-		$output = $this->createMock(IOutput::class);
-		$output->expects($this->once())
-			->method('info')
-			->with('Adding background jobs to regenerate birthday calendar');
-
-		$this->jobList->expects($this->once())
-			->method('add')
-			->with(RegisterRegenerateBirthdayCalendars::class);
-
-		$this->config->expects($this->once())
-			->method('setAppValue')
-			->with('dav', 'regeneratedBirthdayCalendarsForYearFix', 'yes');
-
-		$this->migration->run($output);
+	public function dataForTestRun(): array {
+		return [
+			['', '', true],
+			['yes', '', true],
+			['yes', 'yes', false]
+		];
 	}
 
-	public function testRunSecondTime(): void {
-		$this->config->expects($this->once())
+	/**
+	 * @dataProvider dataForTestRun
+	 */
+	public function testRun(string $yearFix, string $alarmFix, bool $run): void {
+		$this->config->expects($this->exactly($yearFix === '' ? 1 : 2))
 			->method('getAppValue')
-			->with('dav', 'regeneratedBirthdayCalendarsForYearFix')
-			->willReturn('yes');
+			->withConsecutive(['dav', 'regeneratedBirthdayCalendarsForYearFix'], ['dav', 'regeneratedBirthdayCalendarsForAlarmFix'])
+			->willReturnOnConsecutiveCalls($yearFix, $alarmFix);
 
 		$output = $this->createMock(IOutput::class);
-		$output->expects($this->once())
-			->method('info')
-			->with('Repair step already executed');
 
-		$this->jobList->expects($this->never())
-			->method('add');
+		if ($run) {
+			$output->expects($this->once())
+				->method('info')
+				->with('Adding background jobs to regenerate birthday calendar');
+
+			$this->jobList->expects($this->once())
+				->method('add')
+				->with(RegisterRegenerateBirthdayCalendars::class);
+
+			$this->config->expects($this->exactly(2))
+				->method('setAppValue')
+				->withConsecutive(['dav', 'regeneratedBirthdayCalendarsForYearFix', 'yes'], ['dav', 'regeneratedBirthdayCalendarsForAlarmFix', 'yes']);
+		} else {
+			$output->expects($this->once())
+				->method('info')
+				->with('Repair step already executed');
+
+			$this->jobList->expects($this->never())
+				->method('add');
+
+			$this->config->expects($this->never())->method('setAppValue');
+		}
 
 		$this->migration->run($output);
 	}
