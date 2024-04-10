@@ -631,18 +631,16 @@ export default defineComponent({
 	position: relative !important;
 }
 
-$margin: 4px;
-$navigationToggleSize: 50px;
-
 .files-list {
 	&__header {
 		display: flex;
 		align-items: center;
 		// Do not grow or shrink (vertically)
 		flex: 0 0;
-		// Align with the navigation toggle icon
-		margin: $margin $margin $margin $navigationToggleSize;
 		max-width: 100%;
+		// Align with the navigation toggle icon
+		margin-block: var(--app-navigation-padding, 4px);
+		margin-inline: calc(var(--default-clickable-area, 44px) + 2 * var(--app-navigation-padding, 4px)) var(--app-navigation-padding, 4px);
 
 		>* {
 			// Do not grow or shrink (horizontally)

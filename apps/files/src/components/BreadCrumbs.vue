@@ -21,17 +21,17 @@
   -->
 
 <template>
-	<NcBreadcrumbs 
-		data-cy-files-content-breadcrumbs
-		:aria-label="t('files', 'Current directory path')">
+	<NcBreadcrumbs data-cy-files-content-breadcrumbs
+		:aria-label="t('files', 'Current directory path')"
+		class="files-list__breadcrumbs"
+		:class="{ 'files-list__breadcrumbs--with-progress': wrapUploadProgressBar }">
 		<!-- Current path sections -->
 		<NcBreadcrumb v-for="(section, index) in sections"
-			v-show="shouldShowBreadcrumbs"
 			:key="section.dir"
 			v-bind="section"
 			dir="auto"
 			:to="section.to"
-			:force-icon-text="true"
+			:force-icon-text="index === 0 && filesListWidth >= 486"
 			:title="titleForSection(index, section)"
 			:aria-description="ariaForSection(section)"
 			@click.native="onClick(section.to)"
@@ -51,11 +51,12 @@
 </template>
 
 <script lang="ts">
-import { Permission, type Node } from '@nextcloud/files'
+import type { Node } from '@nextcloud/files'
 
 import { basename } from 'path'
 import { defineComponent } from 'vue'
-import { translate as t} from '@nextcloud/l10n'
+import { Permission } from '@nextcloud/files'
+import { translate as t } from '@nextcloud/l10n'
 import HomeSvg from '@mdi/svg/svg/home.svg?raw'
 import NcBreadcrumb from '@nextcloud/vue/dist/Components/NcBreadcrumb.js'
 import NcBreadcrumbs from '@nextcloud/vue/dist/Components/NcBreadcrumbs.js'
@@ -140,14 +141,10 @@ export default defineComponent({
 		},
 
 		// Hide breadcrumbs if an upload is ongoing
-		shouldShowBreadcrumbs(): boolean {
-			// If we're uploading files, only show the breadcrumbs
-			// if the files list is greater than 768px wide
-			if (this.isUploadInProgress) {
-				return this.filesListWidth > 768
-			}
-			// If we're not uploading, we have enough space from 400px
-			return this.filesListWidth > 400
+		wrapUploadProgressBar(): boolean {
+			// if an upload is ongoing, and on small screens / mobile, then
+			// show the progress bar for the upload below breadcrumbs
+			return this.isUploadInProgress && this.filesListWidth < 512
 		},
 
 		// used to show the views icon for the first breadcrumb
@@ -169,7 +166,7 @@ export default defineComponent({
 			return this.filesStore.getNode(id)
 		},
 		getFileIdFromPath(path: string): number | undefined {
-			return this.pathsStore.getPath(this.currentView?.id, path)
+			return this.pathsStore.getPath(this.currentView!.id, path)
 		},
 		getDirDisplayName(path: string): string {
 			if (path === '/') {
@@ -280,15 +277,23 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.breadcrumb {
+.files-list__breadcrumbs {
 	// Take as much space as possible
 	flex: 1 1 100% !important;
 	width: 100%;
-	margin-inline: 0px 10px 0px 10px;
+	height: 100%;
+	margin-block: 0;
+	margin-inline: 10px;
 
-	::v-deep a {
-		cursor: pointer !important;
+	:deep() {
+		a {
+			cursor: pointer !important;
+		}
+	}
+
+	&--with-progress {
+		flex-direction: column !important;
+		align-items: flex-start !important;
 	}
 }
-
 </style>
