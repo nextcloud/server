@@ -35,7 +35,7 @@ class StorageTimeoutException extends StorageNotAvailableException {
 	 * @param \Exception|null $previous
 	 * @since 9.0.0
 	 */
-	public function __construct($message = '', \Exception $previous = null) {
+	public function __construct($message = '', ?\Exception $previous = null) {
 		$l = \OCP\Util::getL10N('core');
 		parent::__construct($l->t('Storage connection timeout. %s', [$message]), self::STATUS_TIMEOUT, $previous);
 	}

@@ -2169,7 +2169,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				->andWhere($searchOr)
 				->andWhere($calendarObjectIdQuery->expr()->isNull('deleted_at'));
 
-			if ('' !== $pattern) {
+			if ($pattern !== '') {
 				if (!$escapePattern) {
 					$calendarObjectIdQuery->andWhere($calendarObjectIdQuery->expr()->ilike('cob.value', $calendarObjectIdQuery->createNamedParameter($pattern)));
 				} else {
@@ -2347,7 +2347,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * @param int $syncLevel
 	 * @param int|null $limit
 	 * @param int $calendarType
-	 * @return array
+	 * @return ?array
 	 */
 	public function getChangesForCalendar($calendarId, $syncToken, $syncLevel, $limit = null, $calendarType = self::CALENDAR_TYPE_CALENDAR) {
 		$table = $calendarType === self::CALENDAR_TYPE_CALENDAR ? 'calendars': 'calendarsubscriptions';

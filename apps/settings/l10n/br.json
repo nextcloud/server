@@ -334,7 +334,6 @@
     "To run this you need the PHP POSIX extension. See {linkstart}PHP documentation{linkend} for more details." : "Ezhomm ez eus eus astennenn PHP POSIX evit al lakaat da dreiñ. Sellit ouzh {linkstart}diellvadur PHP{linkend} evit muioc'h a ditouroù.",
     "You are about to remove the group {group}. The users will NOT be deleted." : "O vont da lemel ar strollad {group} emaoc'h. An implijourienn NA VEZONT KET lemet.",
     "Please confirm the group removal " : "Gwiriit an dilemel",
-    "png or jpg, max. 20 MB" : "png pe jpg, 20 MB d'ar muiañ",
     "Your email address" : "O chom-lec'h postel",
     "You do not have permissions to see the details of this user" : "N'oc'h ket aotreet da gwellet munudoù an implijer",
     "Add new password" : "Ouzhpennañ ur ger-tremen",

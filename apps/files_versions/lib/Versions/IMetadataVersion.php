@@ -29,6 +29,14 @@ namespace OCA\Files_Versions\Versions;
  */
 interface IMetadataVersion {
 	/**
+	 * retrieves the all the metadata
+	 *
+	 * @return string[]
+	 * @since 29.0.0
+	 */
+	public function getMetadata(): array;
+
+	/**
 	 * retrieves the metadata value from our $key param
 	 *
 	 * @param string $key the key for the json value of the metadata column

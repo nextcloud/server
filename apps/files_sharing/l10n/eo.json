@@ -187,17 +187,14 @@
     "Something happened. Unable to restore the share." : "Io okazis. Ne eblis restaŭri la kunhavon. ",
     "No expiration date set" : "Neniu limdato agordita",
     "Please specify a valid user" : "Bv. doni validan uzanton",
-    "Reject" : "Rifuzi",
     "This application enables users to share files within Nextcloud. If enabled, the admin can choose which groups can share files. The applicable users can then share files and folders with other users and groups within Nextcloud. In addition, if the admin enables the share link feature, an external link can be used to share files with other users outside of Nextcloud. Admins can also enforce passwords, expirations dates, and enable server to server sharing via share links, as well as sharing from mobile devices.\nTurning the feature off removes shared files and folders on the server for all share recipients, and also on the sync clients and mobile apps. More information is available in the Nextcloud Documentation." : "Tiu aplikaĵo ebligas al uzantoj kunhavigi dosieroj ene de Nextcloud. Se ebligita, la administranto povas elekti, kiuj grupoj povas kunhavigi dosierojn. Tiam, uzantoj povas kunhavigi dosierojn kaj dosierujojn kun aliaj uzantoj kaj grupoj ene de Nextcloud. Cetere, se la administranto permesas kunhavigi ligilojn, ekstera ligilo uzeblas por kunhavigi dosieroj kun aliaj uzantoj ekster Nextcloud. Administrantoj povas ankaŭ devigi uzon de pasvortoj, limdatoj, kaj permesi servil-al-servila kunhavigon per kunhaviga ligilo, kaj kunhavigon el porteblaj aparatoj.\nMalebligi tiun funkcion forigas kunhavigitajn dosierojn kaj dosierujon el la servilo por ĉiuj kunhavaj ricevantoj, kaj ankaŭ por la sinkronigaj klientoj kaj la porteblaj aplikaĵoj. Pli da informoj en la dokumentaro de Nextcloud.",
     "Read only" : "Nurlega",
     "File drop (upload only)" : "Demeti dosieron (nur alŝuto)",
     "Upload" : "Alŝuti",
-    "Allow resharing" : "Permesi rekunhavigon",
-    "Expiration date enforced" : "Limdato efektiva",
     "Only works for users with access to this folder" : "Nur validas por uzantoj, kiuj povas aliri al tiu dosierujo",
     "Only works for users with access to this file" : "Nur validas por uzantoj, kiuj povas aliri al tiu dosiero",
-    "Password protect" : "Protekti per pasvorto",
     "Circle" : "Rondo",
+    "Update" : "Ĝisdatigi",
     "No entries found in this folder" : "Neniu enigo troviĝis en ĉi tiu dosierujo",
     "Name" : "Nomo",
     "Share time" : "Kunhavotempo",
@@ -205,7 +202,6 @@
     "the item was removed" : "la ero foriĝis",
     "the link expired" : "la ligilo eksvalidiĝis",
     "sharing is disabled" : "kunhavigo malkapablas",
-    "For more info, please ask the person who sent this link." : "Por plia informo, bonvolu peti al la persono, kiu sendis ĉi tiun ligilon.",
-    "Update" : "Ĝisdatigi"
+    "For more info, please ask the person who sent this link." : "Por plia informo, bonvolu peti al la persono, kiu sendis ĉi tiun ligilon."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -1151,7 +1151,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			->andWhere($query2->expr()->in('cp.name', $query2->createNamedParameter($searchProperties, IQueryBuilder::PARAM_STR_ARRAY)));
 
 		// No need for like when the pattern is empty
-		if ('' !== $pattern) {
+		if ($pattern !== '') {
 			if (!$useWildcards) {
 				$query2->andWhere($query2->expr()->eq('cp.value', $query2->createNamedParameter($pattern)));
 			} elseif (!$escapePattern) {

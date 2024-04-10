@@ -57,7 +57,7 @@ class LoginData {
 	public function __construct(IRequest $request,
 		string $username,
 		?string $password,
-		string $redirectUrl = null,
+		?string $redirectUrl = null,
 		string $timeZone = '',
 		string $timeZoneOffset = '') {
 		$this->request = $request;

@@ -107,8 +107,6 @@ OC.L10N.register(
     "Reset to default" : "Restabelecer os valores predeterminados",
     "Upload" : "Enviar",
     "Remove background image" : "Retirar a imaxe de fondo",
-    "Failed to clean up the old administration theming images folder" : "Produciuse un erro ao limpar o antigo cartafol de administración de imaxes de temas",
-    "Failed to clean up the old administration image folder" : "Produciuse un erro ao limpar o antigo cartafol de administración de imaxes",
     "Select a custom color" : "Seleccione unha cor personalizada"
 },
 "nplurals=2; plural=(n != 1);");

@@ -234,7 +234,7 @@ $.widget('oc.ocdialog', {
 		}
 		this.overlay = $('<div>')
 			.addClass('oc-dialog-dim')
-			.appendTo(contentDiv)
+			.insertBefore(this.$dialog)
 		this.overlay.on('click keydown keyup', function(event) {
 			if (event.target !== self.$dialog.get(0) && self.$dialog.find($(event.target)).length === 0) {
 				event.preventDefault()

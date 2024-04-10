@@ -159,16 +159,11 @@ OC.L10N.register(
     "Something happened. Unable to restore the share." : "Midagi juhtus. Ei saa jagamist taastada.",
     "No expiration date set" : "Aegumise kuupäeva pole määratud",
     "Please specify a valid user" : "Palun määra kehtiv kasutaja",
-    "Reject" : "Keeldu",
     "Read only" : "kirjutuskaitstud",
     "File drop (upload only)" : "Faili lohistamine (ainult üleslaadimine)",
     "Upload" : "Lae üles",
-    "Allow creating" : "Luba loomine",
-    "Allow deleting" : "Luba kustutamine",
-    "Allow resharing" : "Luba edasijagamine",
-    "Expiration date enforced" : "Aegumise kuupäev jõustatud",
-    "Password protect" : "Parooliga kaitsmine",
     "Circle" : "Ring",
+    "Update" : "Uuenda",
     "No entries found in this folder" : "Selles kaustas ei leitud kirjeid",
     "Name" : "Nimi",
     "Share time" : "Jagamise aeg",
@@ -176,7 +171,6 @@ OC.L10N.register(
     "the item was removed" : "üksus on eemaldatud",
     "the link expired" : "link on aegunud",
     "sharing is disabled" : "jagamine on peatatud",
-    "For more info, please ask the person who sent this link." : "Täpsema info saamiseks palun pöördu lingi saatnud isiku poole.",
-    "Update" : "Uuenda"
+    "For more info, please ask the person who sent this link." : "Täpsema info saamiseks palun pöördu lingi saatnud isiku poole."
 },
 "nplurals=2; plural=(n != 1);");

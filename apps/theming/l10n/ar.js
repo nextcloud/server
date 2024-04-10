@@ -110,8 +110,6 @@ OC.L10N.register(
     "Reset to default" : "اعادة تعيين الافتراضيات",
     "Upload" : "تحميل",
     "Remove background image" : "إزالة صورة الخلفية",
-    "Failed to clean up the old administration theming images folder" : "إخفاق في تنظيف مجلد صور ثيمات الإدارة القديمة",
-    "Failed to clean up the old administration image folder" : "إخفاق في تنظيف مجلد صور الإدارة القديمة",
     "Select a custom color" : "إختر لوناً مُخصّصاً"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

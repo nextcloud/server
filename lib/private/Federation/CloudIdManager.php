@@ -174,7 +174,6 @@ class CloudIdManager implements ICloudIdManager {
 		// note that for remote id's we don't strip the protocol for the remote we use to construct the CloudId
 		// this way if a user has an explicit non-https cloud id this will be preserved
 		// we do still use the version without protocol for looking up the display name
-		$remote = $this->removeProtocolFromUrl($remote, true);
 		$remote = $this->fixRemoteURL($remote);
 		$host = $this->removeProtocolFromUrl($remote);
 
@@ -191,7 +190,9 @@ class CloudIdManager implements ICloudIdManager {
 		} else {
 			$displayName = $this->getDisplayNameFromContact($user . '@' . $host);
 		}
-		$id = $user . '@' . $remote;
+
+		// For the visible cloudID we only strip away https
+		$id = $user . '@' . $this->removeProtocolFromUrl($remote, true);
 
 		$data = [
 			'id' => $id,

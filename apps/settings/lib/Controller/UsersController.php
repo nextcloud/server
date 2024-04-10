@@ -125,7 +125,7 @@ class UsersController extends Controller {
 		/* SORT OPTION: SORT_USERCOUNT or SORT_GROUPNAME */
 		$sortGroupsBy = \OC\Group\MetaData::SORT_USERCOUNT;
 		$isLDAPUsed = false;
-		if ($this->config->getSystemValue('sort_groups_by_name', false)) {
+		if ($this->config->getSystemValueBool('sort_groups_by_name', false)) {
 			$sortGroupsBy = \OC\Group\MetaData::SORT_GROUPNAME;
 		} else {
 			if ($this->appManager->isEnabledForUser('user_ldap')) {
@@ -212,13 +212,19 @@ class UsersController extends Controller {
 		/* LANGUAGES */
 		$languages = $this->l10nFactory->getLanguages();
 
+		/** Using LDAP or admins (system config) can enfore sorting by group name, in this case the frontend setting is overwritten */
+		$forceSortGroupByName = $sortGroupsBy === \OC\Group\MetaData::SORT_GROUPNAME;
+
 		/* FINAL DATA */
 		$serverData = [];
 		// groups
 		$serverData['groups'] = array_merge_recursive($adminGroup, [$disabledUsersGroup], $groups);
 		// Various data
 		$serverData['isAdmin'] = $isAdmin;
-		$serverData['sortGroups'] = $sortGroupsBy;
+		$serverData['sortGroups'] = $forceSortGroupByName
+			? \OC\Group\MetaData::SORT_GROUPNAME
+			: (int)$this->config->getAppValue('core', 'group.sortBy', (string)\OC\Group\MetaData::SORT_USERCOUNT);
+		$serverData['forceSortGroupByName'] = $forceSortGroupByName;
 		$serverData['quotaPreset'] = $quotaPreset;
 		$serverData['allowUnlimitedQuota'] = $allowUnlimitedQuota;
 		$serverData['userCount'] = $userCount;
@@ -247,7 +253,7 @@ class UsersController extends Controller {
 	 * @return JSONResponse
 	 */
 	public function setPreference(string $key, string $value): JSONResponse {
-		$allowed = ['newUser.sendEmail'];
+		$allowed = ['newUser.sendEmail', 'group.sortBy'];
 		if (!in_array($key, $allowed, true)) {
 			return new JSONResponse([], Http::STATUS_FORBIDDEN);
 		}
@@ -385,10 +391,10 @@ class UsersController extends Controller {
 				continue;
 			}
 			$property = $userAccount->getProperty($property);
-			if (null !== $data['value']) {
+			if ($data['value'] !== null) {
 				$property->setValue($data['value']);
 			}
-			if (null !== $data['scope']) {
+			if ($data['scope'] !== null) {
 				$property->setScope($data['scope']);
 			}
 		}

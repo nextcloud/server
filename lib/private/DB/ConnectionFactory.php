@@ -242,7 +242,7 @@ class ConnectionFactory {
 			$connectionParams['persistent'] = true;
 		}
 
-		$replica = $this->config->getValue('dbreplica', []) ?: [$connectionParams];
+		$replica = $this->config->getValue($configPrefix . 'dbreplica', $this->config->getValue('dbreplica', [])) ?: [$connectionParams];
 		return array_merge($connectionParams, [
 			'primary' => $connectionParams,
 			'replica' => $replica,

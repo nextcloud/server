@@ -10,12 +10,13 @@ OC.L10N.register(
     "We will remind you of this file" : "Vi kommer att påminna dig om denna fil",
     "Please choose a valid date & time" : "Välj ett giltigt datum och tid",
     "Cancel" : "Avbryt",
+    "Clear reminder" : "Rensa påminnelse",
     "Set reminder" : "Ställ in påminnelse",
     "Set reminder for \"{fileName}\"" : "Ställ in påminnelse för \"{fileName}\"",
     "Set reminder at custom date & time" : "Ställ in påminnelse vid anpassat datum och tid",
-    "Clear reminder" : "Rensa påminnelse",
     "Reminder set for \"{fileName}\"" : "Påminnelse inställd för \"{fileName}\"",
     "Failed to set reminder" : "Kunde inte ställa in påminnelsen",
+    "Failed to clear reminder" : "Kunde inte rensa påminnelsen",
     "Set custom reminder" : "Ställ in anpassad påminnelse",
     "Later today" : "Senare idag",
     "Set reminder for later today" : "Ställ in påminnelse för senare idag",
@@ -27,7 +28,6 @@ OC.L10N.register(
     "Set reminder for next week" : "Ställ in påminnelse för nästa vecka",
     "Back" : "Tillbaka",
     "Reminder cleared" : "Påminnelsen rensad",
-    "Failed to clear reminder" : "Kunde inte rensa påminnelsen",
     "Failed to load reminder" : "Kunde inte läsa in påminnelsen"
 },
 "nplurals=2; plural=(n != 1);");

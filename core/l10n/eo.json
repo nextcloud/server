@@ -306,7 +306,6 @@
     "This %s instance is currently in maintenance mode, which may take a while." : "La servilo %s estas nun en reĝimo de prizorgado, tio eble daŭros longatempe.",
     "This page will refresh itself when the instance is available again." : "Tiu ĉi paĝo aktualiĝos mem, kiam la servilo redisponeblos.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Kontaktu vian administranton, se tiu ĉi mesaĝo daŭras aŭ aperas neatendite.",
-    "Please try again" : "Bonvolu reprovi",
     "The user limit of this instance is reached." : "La maksimuma nombro de uzantoj estis atingita en tiu ĉi servilo.",
     "Your web server is not yet properly set up to allow file synchronization, because the WebDAV interface seems to be broken." : "Via retservilo ankoraŭ ne estas agordita por permesi sinkronigon de dosieroj, ĉar la WebDAV-interfaco ŝajne difektiĝas.",
     "Your web server is not properly set up to resolve \"{url}\". Further information can be found in the {linkstart}documentation ↗{linkend}." : "Via retservilo ne estas bone agordita por trovi la adreson „{url}“. Pli da informo troveblas en la {linkstart}dokumentaro ↗{linkend}.",
@@ -340,11 +339,10 @@
     "Wrong username or password." : "Neĝusta uzantnomo aŭ pasvorto.",
     "User disabled" : "Uzanto malvalidigita",
     "Username or email" : "Uzantnomo aŭ retpoŝtadreso",
-    "If it is not there ask your local administrator." : "Se tio ne estas tie, kontaktu vian lokan administranton.",
     "Start search" : "Ekserĉi",
-    "Press enter to start searching" : "Premu enter por komenci serĉon",
     "Open settings menu" : "Malfermi agardan menuon",
     "Settings" : "Agordo",
+    "Avatar of {fullName}" : "Avataro de {fullName}",
     "Show all contacts …" : "Montri ĉiujn kontaktojn",
     "No files in here" : "Neniu dosiero ĉi tie",
     "New folder" : "Nova dosierujo",
@@ -369,13 +367,11 @@
     "Confirm" : "Konfirmi",
     "Failed to authenticate, try again" : "Malsukcesis aŭtentigi, provu ree",
     "Users" : "Uzantoj",
-    "The page could not be found on the server." : "La paĝo ne povis esti trovita en la servilo.",
     "Username" : "Uzantnomo",
     "Database user" : "Datumbaza uzanto",
     "Confirm your password" : "Konfirmu vian pasvorton",
     "App token" : "Aplikaĵa ĵetono",
     "Alternative log in using app token" : "Ensaluti alimaniere per aplikaĵa ĵetono",
-    "Please use the command line updater because you have a big instance with more than 50 users." : "Bv. uzi la komandlinian ĝisdatigilon, ĉar vi havas pli da 50 uzantojn en tiu servilo.",
-    "Avatar of {fullName}" : "Avataro de {fullName}"
+    "Please use the command line updater because you have a big instance with more than 50 users." : "Bv. uzi la komandlinian ĝisdatigilon, ĉar vi havas pli da 50 uzantojn en tiu servilo."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

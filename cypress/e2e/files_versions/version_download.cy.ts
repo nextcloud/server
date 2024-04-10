@@ -42,9 +42,9 @@ describe('Versions download', () => {
 	})
 
 	it('Download versions and assert their content', () => {
-		assertVersionContent(randomFileName, 0, 'v3')
-		assertVersionContent(randomFileName, 1, 'v2')
-		assertVersionContent(randomFileName, 2, 'v1')
+		assertVersionContent(0, 'v3')
+		assertVersionContent(1, 'v2')
+		assertVersionContent(2, 'v1')
 	})
 
 	context('Download versions of shared file', () => {
@@ -52,9 +52,9 @@ describe('Versions download', () => {
 			setupTestSharedFileFromUser(user, randomFileName, { download: true })
 			openVersionsPanel(randomFileName)
 
-			assertVersionContent(randomFileName, 0, 'v3')
-			assertVersionContent(randomFileName, 1, 'v2')
-			assertVersionContent(randomFileName, 2, 'v1')
+			assertVersionContent(0, 'v3')
+			assertVersionContent(1, 'v2')
+			assertVersionContent(2, 'v1')
 		})
 
 		it('Does not show action without download permission', () => {

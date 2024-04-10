@@ -36,11 +36,14 @@ const currUserID = getCurrentUser()?.uid
  * @param {FileStat} node that contains  
  * @return {Boolean}
  */
-export const personalFile = function(node: File): Boolean {
-	const isNotShared = currUserID ? node.owner === currUserID : true
-						&& node.attributes['mount-type'] !== 'group'
-						&& node.attributes['mount-type'] !== 'shared'
-	return isNotShared
+export const isPersonalFile = function(node: File): Boolean {
+	// the type of mounts that determine whether the file is shared
+	const sharedMountTypes = ["group", "shared"]
+	const mountType = node.attributes['mount-type']
+	// the check to determine whether the current logged in user is the owner / creator of the node
+	const currUserCreated = currUserID ? node.owner === currUserID : true
+
+	return currUserCreated && !sharedMountTypes.includes(mountType)
 }
 
 export const getContents = (path: string = "/"): Promise<ContentsWithRoot> => {
@@ -48,7 +51,7 @@ export const getContents = (path: string = "/"): Promise<ContentsWithRoot> => {
 	// then filter the files that the user does not own, or has shared / is a group folder
     return getFiles(path)
 		.then(c => {
-			c.contents = c.contents.filter(personalFile) as File[]
+			c.contents = c.contents.filter(isPersonalFile) as File[]
 			return c
 		})
 }

@@ -646,7 +646,7 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage, IWriteStrea
 		return $this->getWrapperStorage()->needsPartFile();
 	}
 
-	public function writeStream(string $path, $stream, int $size = null): int {
+	public function writeStream(string $path, $stream, ?int $size = null): int {
 		$storage = $this->getWrapperStorage();
 		if ($storage->instanceOfStorage(IWriteStreamStorage::class)) {
 			/** @var IWriteStreamStorage $storage */
@@ -673,5 +673,9 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage, IWriteStrea
 			return $wrapped->isWrapperOf($storage);
 		}
 		return false;
+	}
+
+	public function setOwner(?string $user): void {
+		$this->getWrapperStorage()->setOwner($user);
 	}
 }

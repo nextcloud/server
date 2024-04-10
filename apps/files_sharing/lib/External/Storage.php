@@ -95,7 +95,7 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 
 		$host = parse_url($remote, PHP_URL_HOST);
 		$port = parse_url($remote, PHP_URL_PORT);
-		$host .= (null === $port) ? '' : ':' . $port; // we add port if available
+		$host .= ($port === null) ? '' : ':' . $port; // we add port if available
 
 		// in case remote NC is on a sub folder and using deprecated ocm provider
 		$tmpPath = rtrim(parse_url($this->cloudId->getRemote(), PHP_URL_PATH) ?? '', '/');

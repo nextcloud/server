@@ -30,25 +30,15 @@
 import { getBuilder } from '@nextcloud/browser-storage'
 import { getCapabilities } from '@nextcloud/capabilities'
 import { parseFileSize } from '@nextcloud/files'
-import { generateOcsUrl } from '@nextcloud/router'
+import { showError } from '@nextcloud/dialogs'
+import { generateOcsUrl, generateUrl } from '@nextcloud/router'
 import axios from '@nextcloud/axios'
 
+import { GroupSorting } from '../constants/GroupManagement.ts'
 import api from './api.js'
 import logger from '../logger.ts'
 
 const localStorage = getBuilder('settings').persist(true).build()
-
-const orderGroups = function(groups, orderBy) {
-	/* const SORT_USERCOUNT = 1;
-	 * const SORT_GROUPNAME = 2;
-	 * https://github.com/nextcloud/server/blob/208e38e84e1a07a49699aa90dc5b7272d24489f0/lib/private/Group/MetaData.php#L34
-	 */
-	if (orderBy === 1) {
-		return groups.sort((a, b) => a.usercount - a.disabled < b.usercount - b.disabled)
-	} else {
-		return groups.sort((a, b) => a.name.localeCompare(b.name))
-	}
-}
 
 const defaults = {
 	group: {
@@ -64,7 +54,7 @@ const defaults = {
 const state = {
 	users: [],
 	groups: [],
-	orderBy: 1,
+	orderBy: GroupSorting.UserCount,
 	minPasswordLength: 0,
 	usersOffset: 0,
 	usersLimit: 25,
@@ -100,8 +90,6 @@ const mutations = {
 		state.groups = groups.map(group => Object.assign({}, defaults.group, group))
 		state.orderBy = orderBy
 		state.userCount = userCount
-		state.groups = orderGroups(state.groups, state.orderBy)
-
 	},
 	addGroup(state, { gid, displayName }) {
 		try {
@@ -114,7 +102,6 @@ const mutations = {
 				name: displayName,
 			})
 			state.groups.unshift(group)
-			state.groups = orderGroups(state.groups, state.orderBy)
 		} catch (e) {
 			console.error('Can\'t create group', e)
 		}
@@ -125,7 +112,6 @@ const mutations = {
 			const updatedGroup = state.groups[groupIndex]
 			updatedGroup.name = displayName
 			state.groups.splice(groupIndex, 1, updatedGroup)
-			state.groups = orderGroups(state.groups, state.orderBy)
 		}
 	},
 	removeGroup(state, gid) {
@@ -143,7 +129,6 @@ const mutations = {
 		}
 		const groups = user.groups
 		groups.push(gid)
-		state.groups = orderGroups(state.groups, state.orderBy)
 	},
 	removeUserGroup(state, { userid, gid }) {
 		const group = state.groups.find(groupSearch => groupSearch.id === gid)
@@ -154,7 +139,6 @@ const mutations = {
 		}
 		const groups = user.groups
 		groups.splice(groups.indexOf(gid), 1)
-		state.groups = orderGroups(state.groups, state.orderBy)
 	},
 	addUserSubAdmin(state, { userid, gid }) {
 		const groups = state.users.find(user => user.id === userid).subadmin
@@ -254,6 +238,23 @@ const mutations = {
 		localStorage.setItem(`account_settings__${key}`, JSON.stringify(value))
 		state.showConfig[key] = value
 	},
+
+	setGroupSorting(state, sorting) {
+		const oldValue = state.orderBy
+		state.orderBy = sorting
+
+		// Persist the value on the server
+		axios.post(
+			generateUrl('/settings/users/preferences/group.sortBy'),
+			{
+				value: String(sorting),
+			},
+		).catch((error) => {
+			state.orderBy = oldValue
+			showError(t('settings', 'Could not set group sorting'))
+			logger.error(error)
+		})
+	},
 }
 
 const getters = {
@@ -266,6 +267,21 @@ const getters = {
 	getSubadminGroups(state) {
 		// Can't be subadmin of admin or disabled
 		return state.groups.filter(group => group.id !== 'admin' && group.id !== 'disabled')
+	},
+	getSortedGroups(state) {
+		const groups = [...state.groups]
+		if (state.orderBy === GroupSorting.UserCount) {
+			return groups.sort((a, b) => {
+				const numA = a.usercount - a.disabled
+				const numB = b.usercount - b.disabled
+				return (numA < numB) ? 1 : (numB < numA ? -1 : a.name.localeCompare(b.name))
+			})
+		} else {
+			return groups.sort((a, b) => a.name.localeCompare(b.name))
+		}
+	},
+	getGroupSorting(state) {
+		return state.orderBy
 	},
 	getPasswordPolicyMinLength(state) {
 		return state.minPasswordLength

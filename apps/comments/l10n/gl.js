@@ -30,7 +30,7 @@ OC.L10N.register(
     "An error occurred while trying to delete the comment" : "Produciuse un erro cando tentaba eliminar o comentario",
     "An error occurred while trying to create the comment" : "Produciuse un erro cando tentaba crear o comentario",
     "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "Mencionárono en «{file}», nun comentario dun usuario que xa foi eliminado",
-    "_%n unread comment_::_%n unread comments_" : ["%n comentario sen ler","%n comentarios sen ler"],
-    "\"@\" for mentions, \":\" for emoji, \"/\" for smart picker" : "«@» para mencións, «:» para «emoji», «/» para selector intelixente"
+    "\"@\" for mentions, \":\" for emoji, \"/\" for smart picker" : "«@» para mencións, «:» para «emoji», «/» para selector intelixente",
+    "_%n unread comment_::_%n unread comments_" : ["%n comentario sen ler","%n comentarios sen ler"]
 },
 "nplurals=2; plural=(n != 1);");

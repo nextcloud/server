@@ -101,14 +101,15 @@
 				role="region">
 				<section>
 					<NcInputField v-if="isPublicShare"
-						:value.sync="share.label"
-						type="text"
-						:label="t('files_sharing', 'Share label')" />
+						autocomplete="off"
+						:label="t('files_sharing', 'Share label')"
+						:value.sync="share.label" />
 					<template v-if="isPublicShare">
 						<NcCheckboxRadioSwitch :checked.sync="isPasswordProtected" :disabled="isPasswordEnforced">
 							{{ t('files_sharing', 'Set password') }}
 						</NcCheckboxRadioSwitch>
 						<NcPasswordField v-if="isPasswordProtected"
+							autocomplete="new-password"
 							:value="hasUnsavedPassword ? share.newPassword : ''"
 							:error="passwordError"
 							:helper-text="errorPasswordLabel"
@@ -404,10 +405,14 @@ export default {
 		 */
 		canDownload: {
 			get() {
-				return this.share.hasDownloadPermission
+				return this.share.attributes.find(attr => attr.key === 'download')?.enabled || false
 			},
 			set(checked) {
-				this.updateAtomicPermissions({ isDownloadChecked: checked })
+				// Find the 'download' attribute and update its value
+				const downloadAttr = this.share.attributes.find(attr => attr.key === 'download')
+				if (downloadAttr) {
+					downloadAttr.enabled = checked
+				}
 			},
 		},
 		/**
@@ -504,7 +509,7 @@ export default {
 			return this.share.type === this.SHARE_TYPES.SHARE_TYPE_GROUP
 		},
 		isNewShare() {
-			return this.share.id === null || this.share.id === undefined
+			return !this.share.id
 		},
 		allowsFileDrop() {
 			if (this.isFolder && this.config.isPublicUploadEnabled) {
@@ -723,7 +728,6 @@ export default {
 			isCreateChecked = this.canCreate,
 			isDeleteChecked = this.canDelete,
 			isReshareChecked = this.canReshare,
-			isDownloadChecked = this.canDownload,
 		} = {}) {
 			// calc permissions if checked
 			const permissions = 0
@@ -733,9 +737,6 @@ export default {
 				| (isEditChecked ? ATOMIC_PERMISSIONS.UPDATE : 0)
 				| (isReshareChecked ? ATOMIC_PERMISSIONS.SHARE : 0)
 			this.share.permissions = permissions
-			if (this.share.hasDownloadPermission !== isDownloadChecked) {
-				this.$set(this.share, 'hasDownloadPermission', isDownloadChecked)
-			}
 		},
 		expandCustomPermissions() {
 			if (!this.advancedSectionAccordionExpanded) {
@@ -787,13 +788,10 @@ export default {
 
 		},
 		handleShareType() {
-			if (this.share.share_type) {
-				this.share.type = this.share.share_type
-			}
-			// shareType 0 (USER_SHARE) would evaluate to zero
-			// Hence the use of hasOwnProperty
 			if ('shareType' in this.share) {
 				this.share.type = this.share.shareType
+			} else if (this.share.share_type) {
+				this.share.type = this.share.share_type
 			}
 		},
 		handleDefaultPermissions() {
@@ -814,7 +812,7 @@ export default {
 				this.sharingPermission = 'custom'
 				this.advancedSectionAccordionExpanded = true
 				this.setCustomPermissions = true
-			} else {
+			} else if (this.share.permissions) {
 				this.sharingPermission = this.share.permissions.toString()
 			}
 		},
@@ -868,9 +866,7 @@ export default {
 					fileInfo: this.fileInfo,
 				}
 
-				if (this.hasExpirationDate) {
-					incomingShare.expireDate = this.share.expireDate
-				}
+				incomingShare.expireDate = this.hasExpirationDate ? this.share.expireDate : ''
 
 				if (this.isPasswordProtected) {
 					incomingShare.password = this.share.password
@@ -911,10 +907,10 @@ export default {
 					shareType: share.shareType,
 					shareWith: share.shareWith,
 					permissions: share.permissions,
-					attributes: JSON.stringify(fileInfo.shareAttributes),
+					expireDate: share.expireDate,
+					attributes: JSON.stringify(share.attributes),
 					...(share.note ? { note: share.note } : {}),
 					...(share.password ? { password: share.password } : {}),
-					...(share.expireDate ? { expireDate: share.expireDate } : {}),
 				})
 				return resultingShare
 			} catch (error) {
@@ -1056,7 +1052,7 @@ export default {
 						flex-direction: column;
 					}
 				}
-				
+
 				/* Target component based style in NcCheckboxRadioSwitch slot content*/
 				:deep(span.checkbox-content__text.checkbox-radio-switch__text) {
 					flex-wrap: wrap;

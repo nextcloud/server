@@ -38,6 +38,7 @@ OC.L10N.register(
     "You can choose a different password at any time in the share dialog." : "Kedykoľvek môžete vybrať iné heslo v okne zdieľania.",
     "Could not find share" : "Nebolo možné nájsť sprístupnenie",
     "Share provider which allows you to share files by mail" : "Poskytovateľ zdieľania umožňuje zdieľať súbory pomocou e-mailu",
+    "Allows people to share a personalized link to a file or folder by putting in an email address." : "Umožňuje ľuďom zdieľať prispôsobený odkaz na súbor alebo priečinok zadaním e-mailovej adresy.",
     "Send password by mail" : "Odoslať heslo e-mailom",
     "Reply to initiator" : "Odpovedať iniciátorovi",
     "Unable to update share by mail config" : "Nepodarila sa aktualizovať konfigurácia zdieľania prostredníctvom e-mailu",

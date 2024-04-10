@@ -28,7 +28,7 @@ OC.L10N.register(
     "Theming" : "Оформлення",
     "Appearance and accessibility" : "Тема та вигляд",
     "PHP Imagick module" : "Модуль PHP Imagick",
-    "The PHP module \"imagick\" is not enabled although the theming app is. For favicon generation to work correctly, you need to install and enable this module." : "PHP-модуль \"imagick\" не активовано, в той же час застосунок оформлення увімкнено. Щоб генерація піктограм працювала коректно, вам необхідно встановити та увімкнути цей модуль PHP.",
+    "The PHP module \"imagick\" is not enabled although the theming app is. For favicon generation to work correctly, you need to install and enable this module." : "PHP-модуль \"imagick\" не активовано, в той же час застосунок оформлення увімкнено. Щоби значки сайтів створювалися коректно, вам необхідно встановити та увімкнути цей модуль PHP.",
     "The PHP module \"imagick\" in this instance has no SVG support. For better compatibility it is recommended to install it." : "Модуль PHP \"imagick\" у цьому примірнику хмари не підтримує SVG. Для кращої сумісности рекомендується встановити цей модуль.",
     "Dark theme with high contrast mode" : "Темна тема з режимом високої контрастності",
     "Enable dark high contrast mode" : "Увімкнути темний режим високої контрастності",
@@ -67,8 +67,8 @@ OC.L10N.register(
     "Privacy policy link" : "Посилання на політику конфіденційності",
     "Header logo" : "Логотип заголовка",
     "Upload new header logo" : "Завантажити новий логотип заголовка",
-    "Favicon" : "Піктограма сайту",
-    "Upload new favicon" : "Завантажити нову піктограму",
+    "Favicon" : "Значок сайту",
+    "Upload new favicon" : "Завантажити новий значок",
     "User settings" : "Користувацькі налаштування",
     "Disable user theming" : "Вимкнути можливість користувачів змінювати оформлення",
     "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can toggle this on." : "На додаток до встановлення оформлення вашої хмари користувачі також можуть змінювати тло та кольорову гаму. Тут ви можете встановити оформлення однаковим для всіх користувачів.",
@@ -110,8 +110,6 @@ OC.L10N.register(
     "Reset to default" : "Скинути до типового",
     "Upload" : "Завантажити",
     "Remove background image" : "Вилучити зображення тла",
-    "Failed to clean up the old administration theming images folder" : "Не вдалося очистити каталог зображень старої адміністративної теми",
-    "Failed to clean up the old administration image folder" : "Не вдалося очистити старий каталог образу адміністрування",
     "Select a custom color" : "Виберіть власний колір"
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

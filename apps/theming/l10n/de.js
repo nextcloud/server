@@ -107,8 +107,6 @@ OC.L10N.register(
     "Reset to default" : " Auf Standard zurücksetzen ",
     "Upload" : "Hochladen",
     "Remove background image" : "Hintergrundbild entfernen",
-    "Failed to clean up the old administration theming images folder" : "Fehler beim Bereinigen des alten Admin-Design-Bilderordners",
-    "Failed to clean up the old administration image folder" : "Fehler beim Bereinigen des alten Admin-Design-Bilderordners",
     "Select a custom color" : "Eine benutzerdefinierte Farbe auswählen"
 },
 "nplurals=2; plural=(n != 1);");

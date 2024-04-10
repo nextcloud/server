@@ -61,11 +61,11 @@ class Storage extends Wrapper {
 	 */
 	public function __construct(
 		$parameters,
-		ITrashManager $trashManager = null,
-		IUserManager $userManager = null,
-		LoggerInterface $logger = null,
-		IEventDispatcher $eventDispatcher = null,
-		IRootFolder $rootFolder = null
+		?ITrashManager $trashManager = null,
+		?IUserManager $userManager = null,
+		?LoggerInterface $logger = null,
+		?IEventDispatcher $eventDispatcher = null,
+		?IRootFolder $rootFolder = null
 	) {
 		$this->mountPoint = $parameters['mountPoint'];
 		$this->trashManager = $trashManager;

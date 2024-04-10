@@ -50,7 +50,7 @@ class Defaults {
 	 * actual defaults
 	 * @since 6.0.0
 	 */
-	public function __construct(\OC_Defaults $defaults = null) {
+	public function __construct(?\OC_Defaults $defaults = null) {
 		if ($defaults === null) {
 			$defaults = \OC::$server->get('ThemingDefaults');
 		}

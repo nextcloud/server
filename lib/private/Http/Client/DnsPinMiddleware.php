@@ -75,7 +75,9 @@ class DnsPinMiddleware {
 		$soaDnsEntry = $this->soaRecord($target);
 		$dnsNegativeTtl = $soaDnsEntry['minimum-ttl'] ?? null;
 
-		$dnsTypes = [DNS_A, DNS_AAAA, DNS_CNAME];
+		$dnsTypes = \defined('AF_INET6') || @inet_pton('::1')
+			? [DNS_A, DNS_AAAA, DNS_CNAME]
+			: [DNS_A, DNS_CNAME];
 		foreach ($dnsTypes as $dnsType) {
 			if ($this->negativeDnsCache->isNegativeCached($target, $dnsType)) {
 				continue;

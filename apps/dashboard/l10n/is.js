@@ -22,7 +22,6 @@ OC.L10N.register(
     "Good evening, {name}" : "Góða kvöldið, {name}",
     "Hello" : "Halló",
     "Hello, {name}" : "Halló, {name}",
-    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an\noverview of your upcoming appointments, urgent emails, chat messages,\nincoming tickets, latest tweets and much more! Users can add the widgets\nthey like and change the background to their liking." : "Byrjaðu daginn vel upplýst/ur\n\nNextcloud-stjórnborðið er útgangspunkturinn á deginum, sem gefur þér\nyfirlit um væntanleg stefnumót, áríðandi tölvupósta, spjallskilaboð, innlagðar\nverkbeiðnir, nýjustu tíst og margt fleira! Notendur geta bætt við þeim\nviðmótshlutum sem þeim sýnist og skipt um bakgrunn eftir sínum smekk.",
     "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! Users can add the widgets they like and change the background to their liking." : "Byrjaðu daginn vel upplýst/ur\n\nNextcloud-stjórnborðið er útgangspunkturinn á deginum, sem gefur þér yfirlit um væntanleg stefnumót, áríðandi tölvupósta, spjallskilaboð, innlagðar verkbeiðnir, nýjustu tíst og margt fleira! Notendur geta bætt við þeim viðmótshlutum sem þeim sýnist og skipt um bakgrunn eftir sínum smekk."
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");
