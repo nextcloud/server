@@ -18,7 +18,7 @@ OC.L10N.register(
     "Failed to set reminder" : "Fehler beim Setzen der Erinnerung",
     "Reminder cleared for \"{fileName}\"" : "Erinnerung für \"{fileName}\" gelöscht",
     "Failed to clear reminder" : "Fehler beim Löschen der Erinnerung",
-    "Reminder set" : "Erinnerung eingestellt",
+    "Reminder set" : "Erinnerung gesetzt",
     "Set custom reminder" : "Benutzerdefinierte Erinnerung erstellen",
     "Later today" : "Später heute",
     "Set reminder for later today" : "Erinnerung für später heute erstellen",
