@@ -35,6 +35,7 @@ use OCP\Notification\IApp;
 use OCP\Notification\IDeferrableApp;
 use OCP\Notification\IDismissableNotifier;
 use OCP\Notification\IManager;
+use OCP\Notification\IncompleteNotificationException;
 use OCP\Notification\INotification;
 use OCP\Notification\INotifier;
 use OCP\RichObjectStrings\IValidator;
@@ -300,13 +301,11 @@ class Manager implements IManager {
 	}
 
 	/**
-	 * @param INotification $notification
-	 * @throws \InvalidArgumentException When the notification is not valid
-	 * @since 8.2.0
+	 * {@inheritDoc}
 	 */
 	public function notify(INotification $notification): void {
 		if (!$notification->isValid()) {
-			throw new \InvalidArgumentException('The given notification is invalid');
+			throw new IncompleteNotificationException('The given notification is invalid');
 		}
 
 		$apps = $this->getApps();
@@ -314,7 +313,11 @@ class Manager implements IManager {
 		foreach ($apps as $app) {
 			try {
 				$app->notify($notification);
+			} catch (IncompleteNotificationException) {
 			} catch (\InvalidArgumentException $e) {
+				// todo 33.0.0 Log as warning
+				// todo 39.0.0 Log as error
+				$this->logger->debug(get_class($app) . '::notify() threw \InvalidArgumentException which is deprecated. Throw \OCP\Notification\IncompleteNotificationException when the notification is incomplete for your app and otherwise handle all \InvalidArgumentException yourself.');
 			}
 		}
 	}
