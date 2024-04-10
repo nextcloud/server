@@ -355,7 +355,7 @@ class Manager implements IManager {
 				$notification = $notifier->prepare($notification, $languageCode);
 			} catch (AlreadyProcessedException $e) {
 				$this->markProcessed($notification);
-				throw new \InvalidArgumentException('The given notification has been processed');
+				throw $e;
 			} catch (UnknownNotificationException) {
 				continue;
 			} catch (\InvalidArgumentException $e) {
