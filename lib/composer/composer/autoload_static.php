@@ -602,6 +602,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Notification\\INotifier' => __DIR__ . '/../../..' . '/lib/public/Notification/INotifier.php',
         'OCP\\Notification\\IncompleteNotificationException' => __DIR__ . '/../../..' . '/lib/public/Notification/IncompleteNotificationException.php',
         'OCP\\Notification\\InvalidValueException' => __DIR__ . '/../../..' . '/lib/public/Notification/InvalidValueException.php',
+        'OCP\\Notification\\UnknownNotificationException' => __DIR__ . '/../../..' . '/lib/public/Notification/UnknownNotificationException.php',
         'OCP\\OCM\\Events\\ResourceTypeRegisterEvent' => __DIR__ . '/../../..' . '/lib/public/OCM/Events/ResourceTypeRegisterEvent.php',
         'OCP\\OCM\\Exceptions\\OCMArgumentException' => __DIR__ . '/../../..' . '/lib/public/OCM/Exceptions/OCMArgumentException.php',
         'OCP\\OCM\\Exceptions\\OCMProviderException' => __DIR__ . '/../../..' . '/lib/public/OCM/Exceptions/OCMProviderException.php',

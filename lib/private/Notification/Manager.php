@@ -38,6 +38,7 @@ use OCP\Notification\IManager;
 use OCP\Notification\IncompleteNotificationException;
 use OCP\Notification\INotification;
 use OCP\Notification\INotifier;
+use OCP\Notification\UnknownNotificationException;
 use OCP\RichObjectStrings\IValidator;
 use OCP\Support\Subscription\IRegistry;
 use Psr\Container\ContainerExceptionInterface;
@@ -343,12 +344,7 @@ class Manager implements IManager {
 	}
 
 	/**
-	 * @param INotification $notification
-	 * @param string $languageCode The code of the language that should be used to prepare the notification
-	 * @return INotification
-	 * @throws \InvalidArgumentException When the notification was not prepared by a notifier
-	 * @throws AlreadyProcessedException When the notification is not needed anymore and should be deleted
-	 * @since 8.2.0
+	 * {@inheritDoc}
 	 */
 	public function prepare(INotification $notification, string $languageCode): INotification {
 		$notifiers = $this->getNotifiers();
@@ -356,11 +352,16 @@ class Manager implements IManager {
 		foreach ($notifiers as $notifier) {
 			try {
 				$notification = $notifier->prepare($notification, $languageCode);
-			} catch (\InvalidArgumentException $e) {
-				continue;
 			} catch (AlreadyProcessedException $e) {
 				$this->markProcessed($notification);
 				throw new \InvalidArgumentException('The given notification has been processed');
+			} catch (UnknownNotificationException) {
+				continue;
+			} catch (\InvalidArgumentException $e) {
+				// todo 33.0.0 Log as warning
+				// todo 39.0.0 Log as error
+				$this->logger->debug(get_class($notifier) . '::prepare() threw \InvalidArgumentException which is deprecated. Throw \OCP\Notification\UnknownNotificationException when the notification is not known to your notifier and otherwise handle all \InvalidArgumentException yourself.');
+				continue;
 			}
 
 			if (!$notification->isValidParsed()) {
@@ -402,6 +403,9 @@ class Manager implements IManager {
 		return $count;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function dismissNotification(INotification $notification): void {
 		$notifiers = $this->getNotifiers();
 
@@ -409,7 +413,12 @@ class Manager implements IManager {
 			if ($notifier instanceof IDismissableNotifier) {
 				try {
 					$notifier->dismissNotification($notification);
+				} catch (UnknownNotificationException) {
+					continue;
 				} catch (\InvalidArgumentException $e) {
+					// todo 33.0.0 Log as warning
+					// todo 39.0.0 Log as error
+					$this->logger->debug(get_class($notifier) . '::dismissNotification() threw \InvalidArgumentException which is deprecated. Throw \OCP\Notification\UnknownNotificationException when the notification is not known to your notifier and otherwise handle all \InvalidArgumentException yourself.');
 					continue;
 				}
 			}

@@ -37,9 +37,12 @@ namespace OCP\Notification;
 interface IDismissableNotifier extends INotifier {
 	/**
 	 * @param INotification $notification
-	 * @throws \InvalidArgumentException In case the handler can't handle the notification
+	 * @throws UnknownNotificationException when the notifier is not in charge of the notification
 	 *
 	 * @since 18.0.0
+	 * @since 30.0.0 Notifiers should throw {@see UnknownNotificationException} instead of \InvalidArgumentException
+	 *  when they did not handle the notification. Throwing \InvalidArgumentException directly is deprecated and will
+	 *  be logged as an error in Nextcloud 39.
 	 */
 	public function dismissNotification(INotification $notification): void;
 }
