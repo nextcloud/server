@@ -73,7 +73,6 @@
 						:auto-complete-allowed="autoCompleteAllowed"
 						:is-https="isHttps"
 						:is-localhost="isLocalhost"
-						:has-public-key-credential="hasPublicKeyCredential"
 						@submit="loading = true" />
 					<NcButton type="tertiary"
 						:aria-label="t('core', 'Back to login form')"
@@ -178,7 +177,6 @@ export default {
 			alternativeLogins: loadState('core', 'alternativeLogins', []),
 			isHttps: window.location.protocol === 'https:',
 			isLocalhost: window.location.hostname === 'localhost',
-			hasPublicKeyCredential: typeof (window.PublicKeyCredential) !== 'undefined',
 			hideLoginForm: loadState('core', 'hideLoginForm', false),
 			emailStates: loadState('core', 'emailStates', []),
 		}
