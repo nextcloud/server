@@ -376,6 +376,23 @@ class Manager implements IManager {
 			throw new IncompleteParsedNotificationException();
 		}
 
+		$link = $notification->getLink();
+		if ($link !== '' && !str_starts_with($link, 'http://') && !str_starts_with($link, 'https://')) {
+			$this->logger->warning('Link of notification is not an absolute URL and does not work in mobile and desktop clients [app: ' . $notification->getApp() . ', subject: ' . $notification->getSubject() . ']');
+		}
+
+		$icon = $notification->getIcon();
+		if ($icon !== '' && !str_starts_with($icon, 'http://') && !str_starts_with($icon, 'https://')) {
+			$this->logger->warning('Icon of notification is not an absolute URL and does not work in mobile and desktop clients [app: ' . $notification->getApp() . ', subject: ' . $notification->getSubject() . ']');
+		}
+
+		foreach ($notification->getParsedActions() as $action) {
+			$link = $action->getLink();
+			if ($link !== '' && !str_starts_with($link, 'http://') && !str_starts_with($link, 'https://')) {
+				$this->logger->warning('Link of action is not an absolute URL and does not work in mobile and desktop clients [app: ' . $notification->getApp() . ', subject: ' . $notification->getSubject() . ']');
+			}
+		}
+
 		return $notification;
 	}
 
