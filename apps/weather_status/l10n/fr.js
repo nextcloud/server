@@ -7,7 +7,7 @@ OC.L10N.register(
     "Error" : "Erreur",
     "Weather status" : "Statut météo",
     "Weather status in your dashboard" : "Statut météo sur votre tableau de bord",
-    "Weather status integrated in the Dashboard app.\n    The geographic location can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Conditions météo intégrées à l'app Dashboard.\nLa position géographique peut être déterminée automatiquement ou définie manuellement. Une prévision à 6 heures est ensuite affichée.\nLa météo peut également être intégrée à d'autres emplacements comme l'app Calendrier.",
+    "Weather status integrated in the Dashboard app.\n    The geographic location can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Conditions météo intégrées à l’app Tableau de bord.\nLa position géographique peut être déterminée automatiquement ou définie manuellement. Une prévision à 6 heures est ensuite affichée.\nLa météo peut également être intégrée à d’autres emplacements comme l’app Calendrier.",
     "Detect location" : "Détecter la position",
     "Set custom address" : "Définir une adresse personnalisée",
     "Favorites" : "Favoris",
