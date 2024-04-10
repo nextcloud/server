@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2018 Roeland Jago Douma <roeland@famdouma.nl>
+ * @copyright Copyright (c) 2024 Benjamin Gaussorgues <benjamin.gaussorgues@nextcloud.com>
  *
- * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Benjamin Gaussorgues <benjamin.gaussorgues@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -26,12 +26,18 @@ declare(strict_types=1);
 namespace OCP\Group\Backend;
 
 /**
- * @since 14.0.0
- * @deprecated 30.0.0 Use ICreateNamedGroupBackend instead
+ * @since 30.0.0
  */
-interface ICreateGroupBackend {
+interface ICreateNamedGroupBackend {
 	/**
-	 * @since 14.0.0
+	 * Tries to create a group from its name.
+	 *
+	 * If group name already exists, null is returned.
+	 * Otherwise, new group ID is returned.
+	 *
+	 * @param string $name Group name
+	 * @return ?string Group ID in case of success, null in case of failure
+	 * @since 30.0.0
 	 */
-	public function createGroup(string $gid): bool;
+	public function createGroup(string $name): ?string;
 }

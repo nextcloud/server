@@ -42,6 +42,7 @@ namespace OC\Group;
 use OC\Hooks\PublicEmitter;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\GroupInterface;
+use OCP\Group\Backend\ICreateNamedGroupBackend;
 use OCP\ICacheFactory;
 use OCP\IGroup;
 use OCP\IGroupManager;
@@ -84,6 +85,8 @@ class Manager extends PublicEmitter implements IGroupManager {
 	private $subAdmin = null;
 
 	private DisplayNameCache $displayNameCache;
+
+	private const MAX_GROUP_LENGTH = 255;
 
 	public function __construct(\OC\User\Manager $userManager,
 								EventDispatcherInterface $dispatcher,
@@ -219,11 +222,20 @@ class Manager extends PublicEmitter implements IGroupManager {
 			return null;
 		} elseif ($group = $this->get($gid)) {
 			return $group;
+		} elseif (mb_strlen($gid) > self::MAX_GROUP_LENGTH) {
+			throw new \Exception('Group name is limited to '. self::MAX_GROUP_LENGTH.' characters');
 		} else {
 			$this->emit('\OC\Group', 'preCreate', [$gid]);
 			foreach ($this->backends as $backend) {
 				if ($backend->implementsActions(Backend::CREATE_GROUP)) {
-					if ($backend->createGroup($gid)) {
+					if ($backend instanceof ICreateNamedGroupBackend) {
+						$groupName = $gid;
+						if (($gid = $backend->createGroup($groupName)) !== null) {
+							$group = $this->getGroupObject($gid);
+							$this->emit('\OC\Group', 'postCreate', [$group]);
+							return $group;
+						}
+					} elseif ($backend->createGroup($gid)) {
 						$group = $this->getGroupObject($gid);
 						$this->emit('\OC\Group', 'postCreate', [$group]);
 						return $group;
