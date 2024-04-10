@@ -30,7 +30,7 @@ namespace OCP\Notification;
  * that are dismissed by the user.
  *
  * This can be useful if dismissing the notification will leave it in an incomplete
- * state. The handler can chose to for example do some default action.
+ * state. The handler can choose to for example do some default action.
  *
  * @since 18.0.0
  */
