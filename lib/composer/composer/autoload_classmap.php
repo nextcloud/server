@@ -568,6 +568,7 @@ return array(
     'OCP\\Notification\\INotification' => $baseDir . '/lib/public/Notification/INotification.php',
     'OCP\\Notification\\INotifier' => $baseDir . '/lib/public/Notification/INotifier.php',
     'OCP\\Notification\\IncompleteNotificationException' => $baseDir . '/lib/public/Notification/IncompleteNotificationException.php',
+    'OCP\\Notification\\IncompleteParsedNotificationException' => $baseDir . '/lib/public/Notification/IncompleteParsedNotificationException.php',
     'OCP\\Notification\\InvalidValueException' => $baseDir . '/lib/public/Notification/InvalidValueException.php',
     'OCP\\Notification\\UnknownNotificationException' => $baseDir . '/lib/public/Notification/UnknownNotificationException.php',
     'OCP\\OCM\\Events\\ResourceTypeRegisterEvent' => $baseDir . '/lib/public/OCM/Events/ResourceTypeRegisterEvent.php',

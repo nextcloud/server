@@ -36,6 +36,7 @@ use OCP\Notification\IDeferrableApp;
 use OCP\Notification\IDismissableNotifier;
 use OCP\Notification\IManager;
 use OCP\Notification\IncompleteNotificationException;
+use OCP\Notification\IncompleteParsedNotificationException;
 use OCP\Notification\INotification;
 use OCP\Notification\INotifier;
 use OCP\Notification\UnknownNotificationException;
@@ -365,13 +366,14 @@ class Manager implements IManager {
 			}
 
 			if (!$notification->isValidParsed()) {
-				throw new \InvalidArgumentException('The given notification has not been handled');
+				$this->logger->info('Notification was claimed to be parsed, but was not fully parsed by ' . get_class($notifier) . ' [app: ' . $notification->getApp() . ', subject: ' . $notification->getSubject() . ']');
+				throw new IncompleteParsedNotificationException();
 			}
 		}
 
 		if (!$notification->isValidParsed()) {
 			$this->logger->info('Notification was not parsed by any notifier [app: ' . $notification->getApp() . ', subject: ' . $notification->getSubject() . ']');
-			throw new \InvalidArgumentException('The given notification has not been handled');
+			throw new IncompleteParsedNotificationException();
 		}
 
 		return $notification;
