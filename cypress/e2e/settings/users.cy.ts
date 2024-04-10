@@ -127,7 +127,7 @@ describe('Settings: Create and delete accounts', function() {
 			// The "Delete account" action in the actions menu is shown and clicked
 			cy.get('.action-item__popper .action').contains('Delete account').should('exist').click({ force: true })
 			// And confirmation dialog accepted
-			cy.get('.oc-dialog button').contains(`Delete ${testUser.userId}`).click({ force: true })
+			cy.get('.nc-generic-dialog button').contains(`Delete ${testUser.userId}`).click({ force: true })
 
 			// Make sure no confirmation modal is shown
 			handlePasswordConfirmation(admin.password)
