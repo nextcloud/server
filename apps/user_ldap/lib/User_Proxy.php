@@ -415,12 +415,7 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IUserLDAP
 	 */
 	public function countMappedUsers(): int {
 		$this->setup();
-
-		$users = 0;
-		foreach ($this->backends as $backend) {
-			$users += $backend->countMappedUsers();
-		}
-		return $users;
+		return $this->refBackend?->countMappedUsers() ?? 0;
 	}
 
 	/**
