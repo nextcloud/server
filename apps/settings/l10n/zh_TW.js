@@ -243,6 +243,7 @@ OC.L10N.register(
     "The PHP OPcache module is not properly configured. %s." : "PHP OPcache 模組設定不正確。%s。",
     "Correctly configured" : "正確設定",
     "PHP version" : "PHP 版本",
+    "You are currently running PHP %s. PHP 8.1 is now deprecated in Nextcloud 30. Nextcloud 31 may require at least PHP 8.2. Please upgrade to one of the officially supported PHP versions provided by the PHP Group as soon as possible." : "您正在執行 PHP %s。Nextcloud 30 已棄用 PHP 8.1。Nextcloud 31 需要 PHP 8.2 或更新版本。請盡快升級至 PHP Group 提供官方支援的其中一個版本。",
     "You are currently running PHP %s." : "您正在執行 PHP %s。",
     "PHP \"output_buffering\" option" : "PHP「output_buffering」選項",
     "PHP configuration option \"output_buffering\" must be disabled" : "PHP 設定選項「output_buffering」必須停用",
