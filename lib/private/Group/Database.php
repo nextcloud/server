@@ -37,7 +37,7 @@ use OCP\Group\Backend\IAddToGroupBackend;
 use OCP\Group\Backend\IBatchMethodsBackend;
 use OCP\Group\Backend\ICountDisabledInGroup;
 use OCP\Group\Backend\ICountUsersBackend;
-use OCP\Group\Backend\ICreateGroupBackend;
+use OCP\Group\Backend\ICreateNamedGroupBackend;
 use OCP\Group\Backend\IDeleteGroupBackend;
 use OCP\Group\Backend\IGetDisplayNameBackend;
 use OCP\Group\Backend\IGroupDetailsBackend;
@@ -55,7 +55,7 @@ class Database extends ABackend implements
 	IAddToGroupBackend,
 	ICountDisabledInGroup,
 	ICountUsersBackend,
-	ICreateGroupBackend,
+	ICreateNamedGroupBackend,
 	IDeleteGroupBackend,
 	IGetDisplayNameBackend,
 	IGroupDetailsBackend,
@@ -86,35 +86,28 @@ class Database extends ABackend implements
 		}
 	}
 
-	/**
-	 * Try to create a new group
-	 * @param string $gid The name of the group to create
-	 * @return bool
-	 *
-	 * Tries to create a new group. If the group name already exists, false will
-	 * be returned.
-	 */
-	public function createGroup(string $gid): bool {
+	public function createGroup(string $name): ?string {
 		$this->fixDI();
 
+		$gid = $this->computeGid($name);
 		try {
 			// Add group
 			$builder = $this->dbConn->getQueryBuilder();
 			$result = $builder->insert('groups')
 				->setValue('gid', $builder->createNamedParameter($gid))
-				->setValue('displayname', $builder->createNamedParameter($gid))
+				->setValue('displayname', $builder->createNamedParameter($name))
 				->execute();
 		} catch (UniqueConstraintViolationException $e) {
-			$result = 0;
+			return null;
 		}
 
 		// Add to cache
 		$this->groupCache[$gid] = [
 			'gid' => $gid,
-			'displayname' => $gid
+			'displayname' => $name
 		];
 
-		return $result === 1;
+		return $gid;
 	}
 
 	/**
@@ -594,5 +587,14 @@ class Database extends ABackend implements
 	 */
 	public function getBackendName(): string {
 		return 'Database';
+	}
+
+	/**
+	 * Compute group ID from display name (GIDs are limited to 64 characters in database)
+	 */
+	private function computeGid(string $displayName): string {
+		return mb_strlen($displayName) > 64
+			? hash('sha256', $displayName)
+			: $displayName;
 	}
 }
