@@ -142,6 +142,7 @@ class RequestSharedSecretTest extends TestCase {
 						'url' => 'url',
 						'token' => 'token',
 						'created' => 42,
+						'attempt' => 1,
 					]
 				);
 		} else {
@@ -164,12 +165,12 @@ class RequestSharedSecretTest extends TestCase {
 	 *
 	 * @param int $statusCode
 	 */
-	public function testRun($statusCode) {
+	public function testRun(int $statusCode, int $attempt = 0): void {
 		$target = 'targetURL';
 		$source = 'sourceURL';
 		$token = 'token';
 
-		$argument = ['url' => $target, 'token' => $token];
+		$argument = ['url' => $target, 'token' => $token, 'attempt' => $attempt];
 
 		$this->timeFactory->method('getTime')->willReturn(42);
 
@@ -196,7 +197,7 @@ class RequestSharedSecretTest extends TestCase {
 		$this->invokePrivate($this->requestSharedSecret, 'run', [$argument]);
 		if (
 			$statusCode !== Http::STATUS_OK
-			&& $statusCode !== Http::STATUS_FORBIDDEN
+			&& ($statusCode !== Http::STATUS_FORBIDDEN || $attempt < 5)
 		) {
 			$this->assertTrue($this->invokePrivate($this->requestSharedSecret, 'retainJob'));
 		} else {
@@ -207,6 +208,7 @@ class RequestSharedSecretTest extends TestCase {
 	public function dataTestRun() {
 		return [
 			[Http::STATUS_OK],
+			[Http::STATUS_FORBIDDEN, 5],
 			[Http::STATUS_FORBIDDEN],
 			[Http::STATUS_CONFLICT],
 		];
