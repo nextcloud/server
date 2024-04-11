@@ -29,10 +29,9 @@ import { resultToNode } from './Files'
 
 const client = getClient()
 
-const reportPayload = davGetFavoritesReport()
-
 export const getContents = async (path = '/'): Promise<ContentsWithRoot> => {
 	const propfindPayload = davGetDefaultPropfind()
+	const reportPayload = davGetFavoritesReport()
 
 	// Get root folder
 	let rootResponse
