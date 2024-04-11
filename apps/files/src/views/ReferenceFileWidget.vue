@@ -256,7 +256,7 @@ export default defineComponent({
 .widget-file {
 	display: flex;
 	flex-grow: 1;
-	color: var(--color-main-text) !important;
+	color: #007bff !important;
 	text-decoration: none !important;
 	padding: 0 !important;
 
