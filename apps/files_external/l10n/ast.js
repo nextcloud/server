@@ -85,6 +85,7 @@ OC.L10N.register(
     "Advanced settings" : "Configuración avanzada",
     "Empty response from the server" : "Recibióse una rempuesta balera del sirvidor",
     "Couldn't get the list of external mount points: {type}" : "Nun se pudo consiguir la llista de puntos de montaxe esternos: {type}",
+    "Username" : "Nome d'usuariu",
     "Name" : "Nome",
     "All users" : "Tolos usuarios"
 },
