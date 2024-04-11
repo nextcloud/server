@@ -252,6 +252,7 @@ OC.L10N.register(
     "_{userCount} user …_::_{userCount} users …_" : ["{userCount} usuariu…","{userCount} usuarios…"],
     "_{userCount} user_::_{userCount} users_" : ["{userCount} usuariu","{userCount} usuarios"],
     "Avatar" : "Avatar",
+    "Username" : "Nome d'usuariu",
     "Loading account …" : "Cargando la cuenta…",
     "{size} used" : "{size} n'usu",
     "Delete account" : "Dersaniciar la cuenta",
