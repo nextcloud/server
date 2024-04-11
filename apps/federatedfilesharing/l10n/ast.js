@@ -5,6 +5,8 @@ OC.L10N.register(
     "Remote share" : "Compartición remota",
     "Remote share password" : "Contraseña de la compartición remota",
     "Cancel" : "Encaboxar",
+    "Add remote share" : "Amestar un elementu compartíu remotu",
+    "Invalid Federated Cloud ID" : "La ID de nube federada ye inválida",
     "Server to server sharing is not enabled on this server" : "La compartición de sirvidor a sirvidor nun ta activada nesti sirvidor",
     "File is already shared with %s" : "El ficheru xá se comparte con %s",
     "Could not find share" : "Nun se pudo atopar la compartición",
