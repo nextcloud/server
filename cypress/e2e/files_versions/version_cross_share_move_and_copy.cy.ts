@@ -21,7 +21,7 @@
  */
 
 import { assertVersionContent, openVersionsPanel, setupTestSharedFileFromUser, uploadThreeVersions, nameVersion } from './filesVersionsUtils'
-import { clickOnBreadcumbs, closeSidebar, copyFile, moveFile, navigateToFolder } from '../files/FilesUtils'
+import { clickOnBreadcrumbs, closeSidebar, copyFile, moveFile, navigateToFolder } from '../files/FilesUtils'
 import type { User } from '@nextcloud/cypress'
 
 /**
@@ -31,7 +31,7 @@ import type { User } from '@nextcloud/cypress'
 function assertVersionsContent(filePath: string) {
 	const path = filePath.split('/').slice(0, -1).join('/')
 
-	clickOnBreadcumbs('All files')
+	clickOnBreadcrumbs('All files')
 
 	if (path !== '') {
 		navigateToFolder(path)
@@ -96,7 +96,7 @@ describe('Versions cross share move and copy', () => {
 		beforeEach(() => {
 			randomSubFolderName = Math.random().toString(36).replace(/[^a-z]+/g, '').substring(0, 10)
 			randomSubSubFolderName = Math.random().toString(36).replace(/[^a-z]+/g, '').substring(0, 10)
-			clickOnBreadcumbs('All files')
+			clickOnBreadcrumbs('All files')
 			cy.mkdir(bob, `/${randomSharedFolderName}/${randomSubFolderName}`)
 			cy.mkdir(bob, `/${randomSharedFolderName}/${randomSubFolderName}/${randomSubSubFolderName}`)
 			cy.login(bob)

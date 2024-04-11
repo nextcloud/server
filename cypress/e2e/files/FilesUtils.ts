@@ -133,7 +133,7 @@ export const closeSidebar = () => {
 	cy.get('[cy-data-sidebar] .app-sidebar__close').click({ force: true })
 }
 
-export const clickOnBreadcumbs = (label: string) => {
+export const clickOnBreadcrumbs = (label: string) => {
 	cy.intercept('PROPFIND', /\/remote.php\/dav\//).as('propfind')
 	cy.get('[data-cy-files-content-breadcrumbs]').contains(label).click()
 	cy.wait('@propfind')
