@@ -62,10 +62,10 @@ try {
   Run the background job routine
 
 Usage:
-  php -f cron.php -- [-h] [<job-classes>]
+  php -f cron.php -- [-h] [<job-classes>...]
 
 Arguments:
-  job-classes                  Optional job class comma-separated list to only run those jobs
+  job-classes                  Optional job class list to only run those jobs
 
 Options:
   -h, --help                 Display this help message' . PHP_EOL;
@@ -175,16 +175,10 @@ Options:
 		$endTime = time() + 14 * 60;
 
 		$executedJobs = [];
-		// a specific job class list can optionally be given as first argument
-		// only keep non-empty strings
-		$jobClasses = isset($argv[1])
-			? array_filter(
-				explode(',', $argv[1]),
-				static function (string $jobClass) {
-					return strlen($jobClass) > 0;
-				}
-			)
-			: null;
+		// a specific job class list can optionally be given as argument
+		$jobClasses = array_slice($argv, 1);
+		$jobClasses = empty($jobClasses) ? null : $jobClasses;
+
 		while ($job = $jobList->getNext($onlyTimeSensitive, $jobClasses)) {
 			if (isset($executedJobs[$job->getId()])) {
 				$jobList->unlockJob($job);
