@@ -253,6 +253,7 @@ class QueryBuilder implements IQueryBuilder {
 			// `IQueryBuilder->execute` never wrapped the exception, but `executeQuery` and `executeStatement` do
 			/** @var \Doctrine\DBAL\Exception $previous */
 			$previous = $e->getPrevious();
+
 			throw $previous;
 		}
 	}

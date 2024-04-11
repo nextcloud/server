@@ -240,4 +240,8 @@ class ConnectionAdapter implements IDBConnection {
 	public function getServerVersion(): string {
 		return $this->inner->getServerVersion();
 	}
+
+	public function logDatabaseException(\Exception $exception) {
+		$this->inner->logDatabaseException($exception);
+	}
 }
