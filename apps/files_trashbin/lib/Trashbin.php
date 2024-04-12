@@ -228,7 +228,8 @@ class Trashbin {
 				->setValue('id', $query->createNamedParameter($targetFilename))
 				->setValue('timestamp', $query->createNamedParameter($timestamp))
 				->setValue('location', $query->createNamedParameter($targetLocation))
-				->setValue('user', $query->createNamedParameter($user));
+				->setValue('user', $query->createNamedParameter($user))
+				->setValue('deleted_by', $query->createNamedParameter($user));
 			$result = $query->executeStatement();
 			if (!$result) {
 				\OC::$server->get(LoggerInterface::class)->error('trash bin database couldn\'t be updated for the files owner', ['app' => 'files_trashbin']);
@@ -358,7 +359,8 @@ class Trashbin {
 				->setValue('id', $query->createNamedParameter($filename))
 				->setValue('timestamp', $query->createNamedParameter($timestamp))
 				->setValue('location', $query->createNamedParameter($location))
-				->setValue('user', $query->createNamedParameter($owner));
+				->setValue('user', $query->createNamedParameter($owner))
+				->setValue('deleted_by', $query->createNamedParameter($user));
 			$result = $query->executeStatement();
 			if (!$result) {
 				\OC::$server->get(LoggerInterface::class)->error('trash bin database couldn\'t be updated', ['app' => 'files_trashbin']);
