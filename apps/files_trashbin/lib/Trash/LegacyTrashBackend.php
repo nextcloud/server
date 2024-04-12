@@ -33,16 +33,16 @@ use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IStorage;
 use OCP\IUser;
+use OCP\IUserManager;
 
 class LegacyTrashBackend implements ITrashBackend {
 	/** @var array */
 	private $deletedFiles = [];
 
-	/** @var IRootFolder */
-	private $rootFolder;
-
-	public function __construct(IRootFolder $rootFolder) {
-		$this->rootFolder = $rootFolder;
+	public function __construct(
+		private IRootFolder $rootFolder,
+		private IUserManager $userManager,
+	) {
 	}
 
 	/**
@@ -59,6 +59,8 @@ class LegacyTrashBackend implements ITrashBackend {
 			if (!$originalLocation) {
 				$originalLocation = $file->getName();
 			}
+			/** @psalm-suppress UndefinedInterfaceMethod */
+			$deletedBy = $this->userManager->get($file['deletedBy']) ?? $parent?->getDeletedBy();
 			$trashFilename = Trashbin::getTrashFilename($file->getName(), $file->getMtime());
 			return new TrashItem(
 				$this,
@@ -66,7 +68,8 @@ class LegacyTrashBackend implements ITrashBackend {
 				$file->getMTime(),
 				$parentTrashPath . '/' . ($isRoot ? $trashFilename : $file->getName()),
 				$file,
-				$user
+				$user,
+				$deletedBy,
 			);
 		}, $items);
 	}
