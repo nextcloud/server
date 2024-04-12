@@ -21,11 +21,12 @@
   -->
 
 <template>
-	<FilePicker :buttons="buttons"
+	<FilePicker allow-pick-directory
+		:buttons="buttons"
 		:container="null"
 		:name="t('files', 'Select file or folder to link to')"
 		:multiselect="false"
-		@close="$emit('cancel')" />
+		@close="onClose" />
 </template>
 
 <script>
@@ -48,24 +49,32 @@ export default {
 			default: false,
 		},
 	},
-	data() {
-		return {
-			buttons: [
-				{
-					label: t('files', 'Choose'),
-					type: 'primary',
-					callback: (nodes) => {
-						logger.debug('FileReferencePicker - Nodes picked', { nodes })
-						this.submit(nodes[0].fileid)
-					},
+
+	setup() {
+		// Buttons to show
+		const buttons = [
+			{
+				label: t('files', 'Choose'),
+				type: 'primary',
+				callback: (nodes) => {
+					logger.debug('FileReferencePicker - Nodes picked', { nodes })
 				},
-			],
+			},
+		]
+
+		return {
+			buttons,
 		}
 	},
+
 	methods: {
-		submit(fileId) {
-			const fileLink = `${window.location.protocol}//${window.location.host}${generateUrl('/f/{fileId}', { fileId })}`
-			this.$emit('submit', fileLink)
+		onClose(selectedNodes) {
+			if (!selectedNodes || selectedNodes.length === 0) {
+				this.$emit('cancel')
+			} else {
+				const fileLink = `${window.location.protocol}//${window.location.host}${generateUrl('/f/{fileId}', { fileId: selectedNodes[0].fileid })}`
+				this.$emit('submit', fileLink)
+			}
 		},
 	},
 }
