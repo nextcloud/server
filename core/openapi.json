@@ -98,7 +98,8 @@
                             "pollinterval",
                             "webdav-root",
                             "reference-api",
-                            "reference-regex"
+                            "reference-regex",
+                            "mod-rewrite-working"
                         ],
                         "properties": {
                             "pollinterval": {
@@ -113,6 +114,9 @@
                             },
                             "reference-regex": {
                                 "type": "string"
+                            },
+                            "mod-rewrite-working": {
+                                "type": "boolean"
                             }
                         }
                     }
