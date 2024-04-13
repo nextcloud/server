@@ -75,7 +75,6 @@ use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IPreview;
 use OCP\IRequest;
-use OCP\IServerContainer;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\Lock\ILockingProvider;
@@ -86,6 +85,7 @@ use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
 use OCP\UserStatus\IManager as IUserStatusManager;
+use Psr\Container\ContainerInterface;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Log\LoggerInterface;
 
@@ -111,7 +111,7 @@ class ShareAPIController extends OCSController {
 		private IL10N $l,
 		private IConfig $config,
 		private IAppManager $appManager,
-		private IServerContainer $serverContainer,
+		private ContainerInterface $serverContainer,
 		private IUserStatusManager $userStatusManager,
 		private IPreview $previewManager,
 		private IDateTimeZone $dateTimeZone,
