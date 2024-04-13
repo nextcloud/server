@@ -42,6 +42,7 @@ const ignorePatterns = [
 	'string-length',
 	'strip-ansi',
 	'tributejs',
+	'unist-.+',
 	'vue-material-design-icons',
 	'webdav',
 	'yocto-queue',
