@@ -80,6 +80,11 @@
     </MissingThrowsDocblock>
   </file>
   <file src="apps/comments/lib/Activity/Provider.php">
+    <InvalidOperand>
+      <code>$mentionCount</code>
+      <code>$mentionCount</code>
+      <code>$mentionCount</code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>getCurrentUserId</code>
       <code>getCurrentUserId</code>
@@ -126,11 +131,21 @@
       <code><![CDATA[list<string>]]></code>
     </MoreSpecificReturnType>
   </file>
+  <file src="apps/comments/lib/Notification/Notifier.php">
+    <InvalidOperand>
+      <code><![CDATA[$mentionTypeCount[$mention['type']]]]></code>
+    </InvalidOperand>
+  </file>
   <file src="apps/comments/lib/Search/LegacyProvider.php">
     <MissingThrowsDocblock>
       <code>get</code>
       <code>get</code>
     </MissingThrowsDocblock>
+  </file>
+  <file src="apps/contactsinteraction/lib/AddressBook.php">
+    <InvalidOperand>
+      <code><![CDATA[$this->getLastModified() ?? 0]]></code>
+    </InvalidOperand>
   </file>
   <file src="apps/contactsinteraction/lib/Card.php">
     <MissingThrowsDocblock>
@@ -278,6 +293,11 @@
     </MissingThrowsDocblock>
   </file>
   <file src="apps/dav/lib/BackgroundJob/BuildReminderIndexBackgroundJob.php">
+    <InvalidOperand>
+      <code>$offset</code>
+      <code>$offset</code>
+      <code>$stopAt</code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>executeQuery</code>
       <code>executeQuery</code>
@@ -335,6 +355,9 @@
     </MissingThrowsDocblock>
   </file>
   <file src="apps/dav/lib/BackgroundJob/UserStatusAutomation.php">
+    <InvalidOperand>
+      <code>$timestamp</code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>executeQuery</code>
       <code>executeQuery</code>
@@ -451,6 +474,17 @@
     </MissingThrowsDocblock>
   </file>
   <file src="apps/dav/lib/CalDAV/BirthdayService.php">
+    <ImplicitToStringCast>
+      <code><![CDATA[$doc->UID]]></code>
+    </ImplicitToStringCast>
+    <InvalidOperand>
+      <code>$year</code>
+      <code>$year</code>
+      <code>$year</code>
+      <code>$year</code>
+      <code>$year</code>
+      <code>$year</code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>createCalendar</code>
     </MissingThrowsDocblock>
@@ -483,6 +517,11 @@
     <InvalidNullableReturnType>
       <code>array</code>
     </InvalidNullableReturnType>
+    <InvalidOperand>
+      <code>$calendarId</code>
+      <code>$calendarType</code>
+      <code>$calendarType</code>
+    </InvalidOperand>
     <LessSpecificReturnStatement>
       <code>Reader::read($objectData)</code>
     </LessSpecificReturnStatement>
@@ -782,6 +821,9 @@
     </NullableReturnStatement>
   </file>
   <file src="apps/dav/lib/CalDAV/Schedule/IMipPlugin.php">
+    <ImplicitToStringCast>
+      <code>$uid</code>
+    </ImplicitToStringCast>
     <RedundantCast>
       <code><![CDATA[(string)$iTipMessage->recipientName]]></code>
     </RedundantCast>
@@ -915,6 +957,9 @@
     <InvalidArgument>
       <code>$webcalData</code>
     </InvalidArgument>
+    <InvalidOperand>
+      <code><![CDATA[$parsed['port']]]></code>
+    </InvalidOperand>
   </file>
   <file src="apps/dav/lib/CardDAV/Activity/Backend.php">
     <MissingThrowsDocblock>
@@ -987,6 +1032,10 @@
     <FalsableReturnStatement>
       <code>false</code>
     </FalsableReturnStatement>
+    <InvalidOperand>
+      <code>$id</code>
+      <code>$property</code>
+    </InvalidOperand>
     <LessSpecificReturnStatement>
       <code>Reader::read($cardData)</code>
     </LessSpecificReturnStatement>
@@ -1073,6 +1122,13 @@
     </MissingThrowsDocblock>
   </file>
   <file src="apps/dav/lib/CardDAV/PhotoCache.php">
+    <InvalidOperand>
+      <code>$addressBookId</code>
+      <code>$size</code>
+      <code>$size * $ratio</code>
+      <code>1 / $ratio</code>
+      <code>2 ** ceil(log($size) / log(2))</code>
+    </InvalidOperand>
     <LessSpecificReturnStatement>
       <code><![CDATA[[
 				'Content-Type' => $type,
@@ -1207,6 +1263,10 @@
     </MissingThrowsDocblock>
   </file>
   <file src="apps/dav/lib/Command/MoveCalendar.php">
+    <InvalidOperand>
+      <code>$increment</code>
+      <code>$increment</code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>addArgument</code>
       <code>addArgument</code>
@@ -1268,11 +1328,17 @@
     </MissingThrowsDocblock>
   </file>
   <file src="apps/dav/lib/Comments/CommentNode.php">
+    <InvalidOperand>
+      <code>IComment::MAX_MESSAGE_LENGTH</code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code><![CDATA[throw new Forbidden('Only authors are allowed to edit their comment.');]]></code>
     </MissingThrowsDocblock>
   </file>
   <file src="apps/dav/lib/Comments/CommentsPlugin.php">
+    <InvalidOperand>
+      <code>\OCP\Comments\IComment::MAX_MESSAGE_LENGTH</code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>createComment</code>
       <code>createComment</code>
@@ -1416,6 +1482,10 @@
     </MissingThrowsDocblock>
   </file>
   <file src="apps/dav/lib/Connector/Sabre/File.php">
+    <InvalidOperand>
+      <code><![CDATA[$this->getId()]]></code>
+      <code>rand()</code>
+    </InvalidOperand>
     <LessSpecificReturnStatement>
       <code><![CDATA[$this->node]]></code>
     </LessSpecificReturnStatement>
@@ -1658,6 +1728,9 @@
     </UndefinedInterfaceMethod>
   </file>
   <file src="apps/dav/lib/Controller/DirectController.php">
+    <InvalidOperand>
+      <code>60 * 60 * 24</code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>getRelativePath</code>
       <code>getUserFolder</code>
@@ -1834,6 +1907,11 @@
     </MissingThrowsDocblock>
   </file>
   <file src="apps/dav/lib/Files/FileSearchBackend.php">
+    <InvalidOperand>
+      <code>$operatorCount</code>
+      <code>0 + $value</code>
+      <code>self::OPERATOR_LIMIT</code>
+    </InvalidOperand>
     <InvalidReturnStatement>
       <code>$value</code>
     </InvalidReturnStatement>
@@ -1899,7 +1977,20 @@
       <code>delete</code>
     </MissingThrowsDocblock>
   </file>
+  <file src="apps/dav/lib/Listener/SubscriptionListener.php">
+    <InvalidOperand>
+      <code>$subscriptionId</code>
+      <code>$subscriptionId</code>
+      <code>$subscriptionId</code>
+      <code>$subscriptionId</code>
+    </InvalidOperand>
+  </file>
   <file src="apps/dav/lib/Migration/BuildCalendarSearchIndexBackgroundJob.php">
+    <InvalidOperand>
+      <code>$offset</code>
+      <code>$offset</code>
+      <code>$stopAt</code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>executeQuery</code>
       <code>executeQuery</code>
@@ -1909,6 +2000,9 @@
     </ParamNameMismatch>
   </file>
   <file src="apps/dav/lib/Migration/BuildSocialSearchIndexBackgroundJob.php">
+    <InvalidOperand>
+      <code>$offset</code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>executeQuery</code>
       <code>executeQuery</code>
@@ -2211,6 +2305,11 @@
       <code>getTable</code>
     </MissingThrowsDocblock>
   </file>
+  <file src="apps/dav/lib/Migration/Version1025Date20240308063933.php">
+    <InvalidOperand>
+      <code>$updated</code>
+    </InvalidOperand>
+  </file>
   <file src="apps/dav/lib/Migration/Version1029Date20231004091403.php">
     <MissingThrowsDocblock>
       <code>addColumn</code>
@@ -2366,6 +2465,10 @@
     </MissingThrowsDocblock>
   </file>
   <file src="apps/dav/lib/SystemTag/SystemTagNode.php">
+    <InvalidOperand>
+      <code>$userAssignable</code>
+      <code>$userVisible</code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code><![CDATA[throw new Forbidden('No permission to delete tag ' . $this->tag->getId());]]></code>
       <code><![CDATA[throw new NotFound('Tag with id ' . $this->tag->getId() . ' not found');]]></code>
@@ -2435,6 +2538,10 @@
     <FalsableReturnStatement>
       <code>false</code>
     </FalsableReturnStatement>
+    <InvalidOperand>
+      <code>$currentNodeSize</code>
+      <code><![CDATA[$this->currentNodeRead]]></code>
+    </InvalidOperand>
     <InvalidPropertyAssignmentValue>
       <code><![CDATA[$this->currentStream]]></code>
     </InvalidPropertyAssignmentValue>
@@ -2459,6 +2566,9 @@
     </MissingThrowsDocblock>
   </file>
   <file src="apps/dav/lib/Upload/ChunkingV2Plugin.php">
+    <InvalidOperand>
+      <code><![CDATA[$tempTargetFile->getSize() + $additionalSize]]></code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code><![CDATA[OC_Hook::emit(Filesystem::CLASSNAME, Filesystem::signal_create, [
 				Filesystem::signal_param_path => $hookPath,
@@ -2604,12 +2714,23 @@
     </MissingThrowsDocblock>
   </file>
   <file src="apps/dav/lib/UserMigration/CalendarMigrator.php">
+    <InvalidOperand>
+      <code>$size += ($componentCount * 450) / 1024</code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>createCalendar</code>
       <code>getCalendarExports</code>
     </MissingThrowsDocblock>
   </file>
   <file src="apps/dav/lib/UserMigration/ContactsMigrator.php">
+    <ImplicitToStringCast>
+      <code><![CDATA[$vCard->FN ?? 'null']]></code>
+      <code><![CDATA[$vCard->FN ?? 'null']]></code>
+      <code><![CDATA[$vCard->FN ?? 'null']]></code>
+    </ImplicitToStringCast>
+    <InvalidOperand>
+      <code>$size += ($contactsCount * 350) / 1024</code>
+    </InvalidOperand>
     <LessSpecificReturnStatement>
       <code><![CDATA[[
 			'name' => $addressBookNode->getName(),
@@ -2663,6 +2784,12 @@
     </MissingThrowsDocblock>
   </file>
   <file src="apps/encryption/lib/Command/DropLegacyFileKey.php">
+    <ImplicitToStringCast>
+      <code>$e</code>
+    </ImplicitToStringCast>
+    <InvalidOperand>
+      <code>time()</code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>fopen</code>
       <code>fopen</code>
@@ -2679,6 +2806,10 @@
     </MissingThrowsDocblock>
   </file>
   <file src="apps/encryption/lib/Command/FixEncryptedVersion.php">
+    <InvalidOperand>
+      <code>$encryptedVersion</code>
+      <code>$newEncryptedVersion</code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>addArgument</code>
       <code>addOption</code>
@@ -2750,6 +2881,11 @@
     </MissingThrowsDocblock>
   </file>
   <file src="apps/encryption/lib/Crypto/Crypt.php">
+    <InvalidOperand>
+      <code>$version</code>
+      <code>$version</code>
+      <code>$version</code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>checkSignature</code>
       <code>generateIv</code>
@@ -2775,6 +2911,9 @@
     </MissingThrowsDocblock>
   </file>
   <file src="apps/encryption/lib/Crypto/EncryptAll.php">
+    <InvalidOperand>
+      <code>time()</code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>ask</code>
       <code>fopen</code>
@@ -2901,6 +3040,10 @@
       <code>$shareId</code>
       <code><![CDATA[(int)$data['id']]]></code>
     </InvalidArgument>
+    <InvalidOperand>
+      <code>$id</code>
+      <code>time()</code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>execute</code>
       <code>execute</code>
@@ -3041,6 +3184,16 @@
       <code>imagePath</code>
     </MissingThrowsDocblock>
   </file>
+  <file src="apps/federation/lib/BackgroundJob/GetSharedSecret.php">
+    <InvalidOperand>
+      <code>$status</code>
+    </InvalidOperand>
+  </file>
+  <file src="apps/federation/lib/BackgroundJob/RequestSharedSecret.php">
+    <InvalidOperand>
+      <code>$status</code>
+    </InvalidOperand>
+  </file>
   <file src="apps/federation/lib/Command/SyncFederationAddressBooks.php">
     <MissingThrowsDocblock>
       <code>parent::__construct()</code>
@@ -3055,6 +3208,9 @@
     </MissingThrowsDocblock>
   </file>
   <file src="apps/federation/lib/DbHandler.php">
+    <InvalidOperand>
+      <code>$id</code>
+    </InvalidOperand>
     <LessSpecificReturnStatement>
       <code>$result</code>
     </LessSpecificReturnStatement>
@@ -3132,6 +3288,10 @@
     </MissingThrowsDocblock>
   </file>
   <file src="apps/files/lib/Activity/Filter/Favorites.php">
+    <ImplicitToStringCast>
+      <code><![CDATA[$query->createNamedParameter('files')]]></code>
+      <code><![CDATA[$query->createNamedParameter('files')]]></code>
+    </ImplicitToStringCast>
     <MissingThrowsDocblock>
       <code>imagePath</code>
     </MissingThrowsDocblock>
@@ -3418,6 +3578,9 @@
     </MissingThrowsDocblock>
   </file>
   <file src="apps/files/lib/Command/RepairTree.php">
+    <InvalidOperand>
+      <code>count($rows)</code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>addOption</code>
       <code>beginTransaction</code>
@@ -3454,6 +3617,10 @@
     </MissingThrowsDocblock>
   </file>
   <file src="apps/files/lib/Command/ScanAppData.php">
+    <InvalidOperand>
+      <code>$secs / 3600</code>
+      <code>$secs / 60</code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>addArgument</code>
       <code>get</code>
@@ -3511,6 +3678,9 @@
     </UndefinedInterfaceMethod>
   </file>
   <file src="apps/files/lib/Controller/OpenLocalEditorController.php">
+    <InvalidOperand>
+      <code>self::TOKEN_RETRIES</code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>delete</code>
       <code>verifyToken</code>
@@ -3842,6 +4012,9 @@
     </MissingThrowsDocblock>
   </file>
   <file src="apps/files_external/lib/Command/Create.php">
+    <InvalidOperand>
+      <code><![CDATA[$mount->getId()]]></code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>addArgument</code>
       <code>addArgument</code>
@@ -3909,6 +4082,10 @@
     </MissingThrowsDocblock>
   </file>
   <file src="apps/files_external/lib/Command/ListCommand.php">
+    <InvalidOperand>
+      <code>$key</code>
+      <code>$key</code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>addArgument</code>
       <code>addOption</code>
@@ -3951,6 +4128,11 @@
     </MissingThrowsDocblock>
   </file>
   <file src="apps/files_external/lib/Command/Scan.php">
+    <InvalidOperand>
+      <code>$secs % 60</code>
+      <code>$secs / 3600</code>
+      <code>$secs / 60</code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>addArgument</code>
       <code>addOption</code>
@@ -3985,6 +4167,9 @@
     </MissingThrowsDocblock>
   </file>
   <file src="apps/files_external/lib/Config/ConfigAdapter.php">
+    <InvalidOperand>
+      <code><![CDATA[$storageConfig->getId()]]></code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>manipulateStorageConfig</code>
       <code>manipulateStorageConfig</code>
@@ -4394,6 +4579,13 @@
     </MissingThrowsDocblock>
   </file>
   <file src="apps/files_external/lib/Service/StoragesService.php">
+    <InvalidOperand>
+      <code>$id</code>
+      <code>$id</code>
+      <code>$id</code>
+      <code>$id</code>
+      <code>$id</code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>get</code>
       <code>get</code>
@@ -4491,6 +4683,10 @@
     </MissingThrowsDocblock>
   </file>
   <file src="apps/files_sharing/lib/Command/CleanupRemoteStorages.php">
+    <InvalidOperand>
+      <code>count($remoteShareIds)</code>
+      <code>count($remoteStorages)</code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>addOption</code>
       <code>executeQuery</code>
@@ -4561,6 +4757,9 @@
     </MissingThrowsDocblock>
   </file>
   <file src="apps/files_sharing/lib/Controller/RemoteController.php">
+    <InvalidOperand>
+      <code>$id</code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code><![CDATA[new \OC\Files\View('/' . \OC_User::getUser() . '/files/')]]></code>
     </MissingThrowsDocblock>
@@ -4730,6 +4929,9 @@
     </MissingThrowsDocblock>
   </file>
   <file src="apps/files_sharing/lib/External/Manager.php">
+    <InvalidOperand>
+      <code>$i</code>
+    </InvalidOperand>
     <LessSpecificReturnStatement>
       <code>$mount</code>
     </LessSpecificReturnStatement>
@@ -4795,6 +4997,9 @@
     </MoreSpecificImplementedParamType>
   </file>
   <file src="apps/files_sharing/lib/External/Storage.php">
+    <InvalidOperand>
+      <code>$port</code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>Server::get(IConfig::class)</code>
       <code>Server::get(IConfig::class)</code>
@@ -4824,6 +5029,9 @@
     </MissingThrowsDocblock>
   </file>
   <file src="apps/files_sharing/lib/Helper.php">
+    <InvalidOperand>
+      <code>$i</code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>setSystemValue</code>
     </MissingThrowsDocblock>
@@ -4990,6 +5198,9 @@
     </UndefinedInterfaceMethod>
   </file>
   <file src="apps/files_sharing/lib/SharedMount.php">
+    <InvalidOperand>
+      <code>$i</code>
+    </InvalidOperand>
     <InvalidReturnType>
       <code>bool</code>
     </InvalidReturnType>
@@ -5249,6 +5460,9 @@
     </MissingThrowsDocblock>
   </file>
   <file src="apps/files_trashbin/lib/Trash/LegacyTrashBackend.php">
+    <InvalidOperand>
+      <code><![CDATA[$item->getDeletedTime()]]></code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>getUserFolder</code>
       <code>getUserFolder</code>
@@ -5264,6 +5478,21 @@
     <InvalidArgument>
       <code>$timestamp</code>
     </InvalidArgument>
+    <InvalidOperand>
+      <code>$availableSpace += $delSize</code>
+      <code>$availableSpace += $tmp</code>
+      <code>$configuredTrashbinSize - $trashbinSize</code>
+      <code>$i</code>
+      <code><![CDATA[$quota - $userFolder->getSize(false)]]></code>
+      <code>$size += $tmp</code>
+      <code><![CDATA[$size += self::calculateSize(new View('/' . $user . '/files_trashbin/files/' . $file))]]></code>
+      <code><![CDATA[$size += self::calculateSize(new View('/' . $user . '/files_trashbin/versions/' . $file))]]></code>
+      <code>$size += self::delete($filename, $user, $timestamp)</code>
+      <code>$size += self::deleteVersions($view, $file, $filename, $timestamp, $user)</code>
+      <code>$timestamp</code>
+      <code>$timestamp</code>
+      <code>$tmp</code>
+    </InvalidOperand>
     <InvalidScalarArgument>
       <code>$timestamp</code>
     </InvalidScalarArgument>
@@ -5373,6 +5602,9 @@
     </MissingThrowsDocblock>
   </file>
   <file src="apps/files_trashbin/lib/UserMigration/TrashbinMigrator.php">
+    <InvalidOperand>
+      <code><![CDATA[$trashbinFolder->getSize() / 1024]]></code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>newFolder</code>
     </MissingThrowsDocblock>
@@ -5595,6 +5827,21 @@
     </MissingThrowsDocblock>
   </file>
   <file src="apps/files_versions/lib/Storage.php">
+    <InvalidOperand>
+      <code>$diff</code>
+      <code><![CDATA[$quota - $userFolder->getSize(false)]]></code>
+      <code>$revision</code>
+      <code>$revision</code>
+      <code>$revision</code>
+      <code>$revision</code>
+      <code>$version</code>
+      <code>round($diff / 2419200)</code>
+      <code>round($diff / 29030400)</code>
+      <code>round($diff / 3600)</code>
+      <code>round($diff / 60)</code>
+      <code>round($diff / 604800)</code>
+      <code>round($diff / 86400)</code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code><![CDATA[\OC_Hook::emit('\OCP\Versions', 'delete', ['path' => $path . $revision, 'trigger' => self::DELETE_TRIGGER_MASTER_REMOVED])]]></code>
       <code><![CDATA[\OC_Hook::emit('\OCP\Versions', 'delete', ['path' => $path . $revision, 'trigger' => self::DELETE_TRIGGER_MASTER_REMOVED])]]></code>
@@ -5671,6 +5918,12 @@
     </RedundantCondition>
   </file>
   <file src="apps/files_versions/lib/Versions/LegacyVersionsBackend.php">
+    <InvalidOperand>
+      <code><![CDATA[$file->getMtime()]]></code>
+      <code><![CDATA[$file->getMtime()]]></code>
+      <code><![CDATA[$version->getTimestamp()]]></code>
+      <code><![CDATA[(int)$version['version']]]></code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>delete</code>
       <code>fopen</code>
@@ -5809,6 +6062,9 @@
     </MissingThrowsDocblock>
   </file>
   <file src="apps/oauth2/lib/Db/ClientMapper.php">
+    <InvalidOperand>
+      <code>$id</code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>findEntities</code>
       <code>findEntity</code>
@@ -6105,6 +6361,9 @@
     </MissingThrowsDocblock>
   </file>
   <file src="apps/settings/lib/Mailer/NewUserMailHelper.php">
+    <InvalidOperand>
+      <code><![CDATA[$this->timeFactory->getTime()]]></code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>setUserValue</code>
       <code>setUserValue</code>
@@ -6647,6 +6906,10 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     </MissingThrowsDocblock>
   </file>
   <file src="apps/settings/lib/SetupChecks/TempSpaceAvailable.php">
+    <InvalidOperand>
+      <code>$freeSpaceInNextcloudTemp / 1024</code>
+      <code>$freeSpaceInTemp / 1024</code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code><![CDATA[SetupResult::error($this->l10n->t('Error while checking the available disk space of temporary PHP path or no free disk space returned. Temporary path: %s', [$nextcloudTempPath]))]]></code>
       <code><![CDATA[SetupResult::error($this->l10n->t('Error while checking the available disk space of temporary PHP path or no free disk space returned. Temporary path: %s', [$phpTempPath]))]]></code>
@@ -6703,6 +6966,10 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     </MissingThrowsDocblock>
   </file>
   <file src="apps/settings/lib/UserMigration/AccountMigrator.php">
+    <InvalidOperand>
+      <code><![CDATA[$avatarFile->getSize() / 1024]]></code>
+      <code><![CDATA[$size += $avatarFile->getSize() / 1024]]></code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>new \OCP\Image()</code>
     </MissingThrowsDocblock>
@@ -6909,6 +7176,11 @@ On Nginx those are typically the lines starting with "location ~" that need an u
       <code>executeUpdate</code>
     </MissingThrowsDocblock>
   </file>
+  <file src="apps/testing/lib/Settings/DeclarativeSettingsForm.php">
+    <InvalidOperand>
+      <code>60 * 24</code>
+    </InvalidOperand>
+  </file>
   <file src="apps/theming/lib/Command/UpdateConfig.php">
     <MissingThrowsDocblock>
       <code>addArgument</code>
@@ -6935,6 +7207,12 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     </MissingThrowsDocblock>
   </file>
   <file src="apps/theming/lib/IconBuilder.php">
+    <InvalidOperand>
+      <code><![CDATA[$appIconFile->getImageHeight() * 0.05]]></code>
+      <code><![CDATA[$appIconFile->getImageWidth() * 0.05]]></code>
+      <code>512 / 2 - $innerHeight / 2</code>
+      <code>512 / 2 - $innerWidth / 2</code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>adaptiveResizeImage</code>
       <code>getContent</code>
@@ -6952,6 +7230,9 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     </MissingThrowsDocblock>
   </file>
   <file src="apps/theming/lib/ImageManager.php">
+    <InvalidOperand>
+      <code>imagesy($newImage) / (imagesx($newImage) / $newWidth)</code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>cleanup</code>
       <code>getFolder</code>
@@ -7012,6 +7293,11 @@ On Nginx those are typically the lines starting with "location ~" that need an u
       <code>imagePath</code>
     </MissingThrowsDocblock>
   </file>
+  <file src="apps/theming/lib/Themes/CommonThemeTrait.php">
+    <InvalidOperand>
+      <code>$currentVersion</code>
+    </InvalidOperand>
+  </file>
   <file src="apps/theming/lib/ThemingDefaults.php">
     <MissingThrowsDocblock>
       <code>getImage</code>
@@ -7020,6 +7306,13 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     </MissingThrowsDocblock>
   </file>
   <file src="apps/theming/lib/Util.php">
+    <InvalidOperand>
+      <code>$color / 255.0</code>
+      <code>$userCacheBusterValue</code>
+      <code>0.0722 * $blue</code>
+      <code>0.2126 * $red</code>
+      <code>0.7152 * $green</code>
+    </InvalidOperand>
     <InvalidReturnStatement>
       <code><![CDATA[array_values($color->getRgb())]]></code>
     </InvalidReturnStatement>
@@ -7126,6 +7419,9 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     </MissingThrowsDocblock>
   </file>
   <file src="apps/updatenotification/lib/Command/Check.php">
+    <InvalidOperand>
+      <code>$updatesAvailableCount</code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>parent::__construct()</code>
       <code>setName</code>
@@ -7159,6 +7455,10 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     </InvalidScope>
   </file>
   <file src="apps/user_ldap/lib/Access.php">
+    <InvalidOperand>
+      <code>$lastNo + $attempts</code>
+      <code>rand(1000, 9999)</code>
+    </InvalidOperand>
     <InvalidReturnStatement>
       <code>$uuid</code>
       <code>$values</code>
@@ -7196,6 +7496,9 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     </MissingThrowsDocblock>
   </file>
   <file src="apps/user_ldap/lib/Command/CheckGroup.php">
+    <InvalidOperand>
+      <code><![CDATA[$event->getGroup()->count()]]></code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>addArgument</code>
       <code>addOption</code>
@@ -7346,6 +7649,9 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     </MissingThrowsDocblock>
   </file>
   <file src="apps/user_ldap/lib/Connection.php">
+    <InvalidOperand>
+      <code>$errno</code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>establishConnection</code>
       <code>establishConnection</code>
@@ -7376,7 +7682,18 @@ On Nginx those are typically the lines starting with "location ~" that need an u
       <code>findEntities</code>
     </MissingThrowsDocblock>
   </file>
+  <file src="apps/user_ldap/lib/GroupPluginManager.php">
+    <InvalidOperand>
+      <code>$action</code>
+    </InvalidOperand>
+  </file>
   <file src="apps/user_ldap/lib/Group_LDAP.php">
+    <InvalidOperand>
+      <code>$limit</code>
+      <code>$limit</code>
+      <code>$offset</code>
+      <code>$offset</code>
+    </InvalidOperand>
     <InvalidScalarArgument>
       <code>$groupID</code>
     </InvalidScalarArgument>
@@ -7420,6 +7737,7 @@ On Nginx those are typically the lines starting with "location ~" that need an u
   <file src="apps/user_ldap/lib/Jobs/Sync.php">
     <InvalidOperand>
       <code>$i</code>
+      <code>24 * 60 * 60 / $runsPerDay</code>
     </InvalidOperand>
     <MissingThrowsDocblock>
       <code>\OCP\Server::get(AccessFactory::class)</code>
@@ -7494,6 +7812,11 @@ On Nginx those are typically the lines starting with "location ~" that need an u
       <code>executeQuery</code>
       <code>executeQuery</code>
     </MissingThrowsDocblock>
+  </file>
+  <file src="apps/user_ldap/lib/Migration/UUIDFixInsert.php">
+    <InvalidOperand>
+      <code>count($records) * 0.8</code>
+    </InvalidOperand>
   </file>
   <file src="apps/user_ldap/lib/Migration/Version1010Date20200630192842.php">
     <MissingThrowsDocblock>
@@ -7598,6 +7921,12 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     <FalsableReturnStatement>
       <code><![CDATA[$this->avatarImage]]></code>
     </FalsableReturnStatement>
+    <InvalidOperand>
+      <code>$property</code>
+      <code>$property</code>
+      <code>$pwdMaxAgeInt</code>
+      <code>$secondsToExpiry / 60 / 60</code>
+    </InvalidOperand>
     <InvalidPropertyAssignmentValue>
       <code><![CDATA[$this->refreshedFeatures]]></code>
     </InvalidPropertyAssignmentValue>
@@ -7650,6 +7979,9 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     </RedundantCondition>
   </file>
   <file src="apps/user_ldap/lib/UserPluginManager.php">
+    <InvalidOperand>
+      <code>$action</code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>\OCP\Server::get(LoggerInterface::class)</code>
       <code>\OCP\Server::get(LoggerInterface::class)</code>
@@ -7659,6 +7991,15 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     <ImplementedReturnTypeMismatch>
       <code>string|false</code>
     </ImplementedReturnTypeMismatch>
+    <InvalidOperand>
+      <code>$limit</code>
+      <code>$limit</code>
+      <code>$limit</code>
+      <code>$offset</code>
+      <code>$offset</code>
+      <code>$offset</code>
+      <code>count($ldap_users)</code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>cacheUserDisplayName</code>
       <code>countUsers</code>
@@ -7709,6 +8050,13 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     <InvalidArrayOffset>
       <code>$possibleAttrs[$i]</code>
     </InvalidArrayOffset>
+    <InvalidOperand>
+      <code><![CDATA[!$result['count'] > 0]]></code>
+      <code>$errorNo</code>
+      <code>$port</code>
+      <code>$port</code>
+      <code>(int)$tls</code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>countUsers</code>
       <code>detectGroupMemberAssoc</code>
@@ -7743,6 +8091,10 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     </MissingThrowsDocblock>
   </file>
   <file src="apps/user_status/lib/Controller/UserStatusController.php">
+    <InvalidOperand>
+      <code>$clearAt</code>
+      <code>$clearAt</code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>findByUserId</code>
     </MissingThrowsDocblock>
@@ -7822,6 +8174,10 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     </MissingThrowsDocblock>
   </file>
   <file src="apps/user_status/lib/Service/StatusService.php">
+    <InvalidOperand>
+      <code>$userId</code>
+      <code>self::MAXIMUM_MESSAGE_LENGTH</code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>delete</code>
       <code>delete</code>
@@ -7853,6 +8209,10 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     </MissingThrowsDocblock>
   </file>
   <file src="apps/weather_status/lib/Service/WeatherStatusService.php">
+    <InvalidOperand>
+      <code>$lat</code>
+      <code>$lon</code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>setUserValue</code>
       <code>setUserValue</code>
@@ -7906,6 +8266,9 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     </InvalidReturnType>
   </file>
   <file src="apps/workflowengine/lib/Check/FileSystemTags.php">
+    <InvalidOperand>
+      <code><![CDATA[$cache->getNumericStorageId()]]></code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code><![CDATA[throw new \LogicException('Should not happen: Storage is instance of GroupFolderStorage but no group folder storage found while unwrapping.');]]></code>
     </MissingThrowsDocblock>
@@ -7953,6 +8316,12 @@ On Nginx those are typically the lines starting with "location ~" that need an u
       <code>setName</code>
     </MissingThrowsDocblock>
   </file>
+  <file src="apps/workflowengine/lib/Controller/AWorkflowController.php">
+    <InvalidOperand>
+      <code>$id</code>
+      <code>$id</code>
+    </InvalidOperand>
+  </file>
   <file src="apps/workflowengine/lib/Controller/UserWorkflowsController.php">
     <MissingThrowsDocblock>
       <code>parent::create($class, $name, $checks, $operation, $entity, $events)</code>
@@ -7978,6 +8347,9 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     </MissingThrowsDocblock>
   </file>
   <file src="apps/workflowengine/lib/Helper/ScopeContext.php">
+    <InvalidOperand>
+      <code><![CDATA[$this->getScope()]]></code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code><![CDATA[throw new \InvalidArgumentException('Invalid scope');]]></code>
       <code><![CDATA[throw new \InvalidArgumentException('user scope requires a user id');]]></code>
@@ -8133,6 +8505,9 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     </ParamNameMismatch>
   </file>
   <file src="core/BackgroundJobs/GenerateMetadataJob.php">
+    <InvalidOperand>
+      <code><![CDATA[$node->getId()]]></code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>getDirectoryListing</code>
       <code>getUserFolder</code>
@@ -8232,6 +8607,9 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     </MissingThrowsDocblock>
   </file>
   <file src="core/Command/Background/Delete.php">
+    <InvalidOperand>
+      <code>$jobId</code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>addArgument</code>
       <code>getArgument</code>
@@ -8241,6 +8619,10 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     </MissingThrowsDocblock>
   </file>
   <file src="core/Command/Background/Job.php">
+    <InvalidOperand>
+      <code>$jobId</code>
+      <code>$jobId</code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>addArgument</code>
       <code>addOption</code>
@@ -8252,6 +8634,9 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     </MissingThrowsDocblock>
   </file>
   <file src="core/Command/Background/ListCommand.php">
+    <InvalidOperand>
+      <code>$limit</code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>addOption</code>
       <code>addOption</code>
@@ -8265,6 +8650,11 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     </MissingThrowsDocblock>
   </file>
   <file src="core/Command/Base.php">
+    <InvalidOperand>
+      <code>$key</code>
+      <code>$key</code>
+      <code>$key</code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>addOption</code>
       <code>getOption</code>
@@ -8359,6 +8749,9 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     </MissingThrowsDocblock>
   </file>
   <file src="core/Command/Config/Import.php">
+    <InvalidOperand>
+      <code>$app</code>
+    </InvalidOperand>
     <InvalidScalarArgument>
       <code>0</code>
       <code>1</code>
@@ -8417,6 +8810,10 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     </MissingThrowsDocblock>
   </file>
   <file src="core/Command/Config/System/SetConfig.php">
+    <InvalidOperand>
+      <code>(double) $value</code>
+      <code>(int) $value</code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>addArgument</code>
       <code>addOption</code>
@@ -8475,6 +8872,9 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     </MissingThrowsDocblock>
   </file>
   <file src="core/Command/Db/ConvertType.php">
+    <InvalidOperand>
+      <code>$numChunks</code>
+    </InvalidOperand>
     <InvalidScalarArgument>
       <code>0</code>
       <code>1</code>
@@ -8757,6 +9157,14 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     </MissingThrowsDocblock>
   </file>
   <file src="core/Command/Info/File.php">
+    <InvalidOperand>
+      <code><![CDATA[$node->getId()]]></code>
+      <code><![CDATA[$node->getSize()]]></code>
+      <code><![CDATA[$stat['size']]]></code>
+      <code><![CDATA[$storageConfig->getId()]]></code>
+      <code>count($children)</code>
+      <code>count($children)</code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>addArgument</code>
       <code>addOption</code>
@@ -8785,6 +9193,10 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     </MissingThrowsDocblock>
   </file>
   <file src="core/Command/Info/FileUtils.php">
+    <InvalidOperand>
+      <code><![CDATA[$mountPoint->getStorageConfig()->getId()]]></code>
+      <code><![CDATA[$share->getShareType()]]></code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>getDirectoryListing</code>
       <code>getUserFolder</code>
@@ -8806,6 +9218,9 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     </MissingThrowsDocblock>
   </file>
   <file src="core/Command/Integrity/CheckApp.php">
+    <InvalidOperand>
+      <code>count($result)</code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>addArgument</code>
       <code>addOption</code>
@@ -8816,6 +9231,9 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     </MissingThrowsDocblock>
   </file>
   <file src="core/Command/Integrity/CheckCore.php">
+    <InvalidOperand>
+      <code>count($result)</code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>parent::__construct()</code>
       <code>setName</code>
@@ -8947,6 +9365,9 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     </MissingThrowsDocblock>
   </file>
   <file src="core/Command/Maintenance/Mimetype/UpdateDB.php">
+    <InvalidOperand>
+      <code>$totalNewMimetypes</code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>addOption</code>
       <code>parent::__construct()</code>
@@ -8986,6 +9407,10 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     </MissingThrowsDocblock>
   </file>
   <file src="core/Command/Maintenance/RepairShareOwnership.php">
+    <InvalidOperand>
+      <code>count($shares)</code>
+      <code>count($shares)</code>
+    </InvalidOperand>
     <LessSpecificReturnStatement>
       <code>$found</code>
       <code>$found</code>
@@ -9022,6 +9447,9 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     </MissingThrowsDocblock>
   </file>
   <file src="core/Command/Preview/Generate.php">
+    <InvalidOperand>
+      <code>count($specifications)</code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>addArgument</code>
       <code>addOption</code>
@@ -9040,6 +9468,11 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     </MissingThrowsDocblock>
   </file>
   <file src="core/Command/Preview/Repair.php">
+    <InvalidOperand>
+      <code><![CDATA[$oldPreviewFolder->getId()]]></code>
+      <code><![CDATA[$this->memoryLimit / 1024 / 1024]]></code>
+      <code><![CDATA[$this->memoryTreshold / 1024 / 1024]]></code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>addOption</code>
       <code>addOption</code>
@@ -9059,6 +9492,10 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     </UndefinedInterfaceMethod>
   </file>
   <file src="core/Command/Preview/ResetRenderedTexts.php">
+    <InvalidOperand>
+      <code>$avatarsToDeleteCount</code>
+      <code>$previewsToDeleteCount</code>
+    </InvalidOperand>
     <InvalidReturnStatement>
       <code>[]</code>
     </InvalidReturnStatement>
@@ -9115,6 +9552,9 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     </MissingThrowsDocblock>
   </file>
   <file src="core/Command/SetupChecks.php">
+    <InvalidOperand>
+      <code>$placeholder</code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>getOption</code>
       <code>parent::__construct()</code>
@@ -9148,6 +9588,10 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     </MissingThrowsDocblock>
   </file>
   <file src="core/Command/SystemTag/Edit.php">
+    <InvalidOperand>
+      <code>$userAssignable</code>
+      <code>$userVisible</code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>addArgument</code>
       <code>addOption</code>
@@ -9329,6 +9773,11 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     </MissingThrowsDocblock>
   </file>
   <file src="core/Command/User/Keys/Verify.php">
+    <InvalidOperand>
+      <code>strlen($privateKey)</code>
+      <code>strlen($publicKey)</code>
+      <code>strlen($publicKeyDerived)</code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>addArgument</code>
       <code>getArgument</code>
@@ -9365,6 +9814,9 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     </MissingThrowsDocblock>
   </file>
   <file src="core/Command/User/Report.php">
+    <InvalidOperand>
+      <code>self::DEFAULT_COUNT_DIRS_MAX_USERS</code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>addOption</code>
       <code><![CDATA[new View('/')]]></code>
@@ -9452,6 +9904,12 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     </MissingThrowsDocblock>
   </file>
   <file src="core/Controller/AvatarController.php">
+    <InvalidOperand>
+      <code>$size</code>
+      <code>$size</code>
+      <code>$size</code>
+      <code>$size</code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>get</code>
       <code>getContent</code>
@@ -9495,9 +9953,19 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     </UndefinedInterfaceMethod>
   </file>
   <file src="core/Controller/CssController.php">
+    <InvalidOperand>
+      <code>$ttl</code>
+      <code>$ttl</code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>getFolder</code>
     </MissingThrowsDocblock>
+  </file>
+  <file src="core/Controller/GuestAvatarController.php">
+    <InvalidOperand>
+      <code>$size</code>
+      <code>$size</code>
+    </InvalidOperand>
   </file>
   <file src="core/Controller/HoverCardController.php">
     <MissingThrowsDocblock>
@@ -9505,6 +9973,10 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     </MissingThrowsDocblock>
   </file>
   <file src="core/Controller/JsController.php">
+    <InvalidOperand>
+      <code>$ttl</code>
+      <code>$ttl</code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>getFolder</code>
     </MissingThrowsDocblock>
@@ -10421,7 +10893,21 @@ On Nginx those are typically the lines starting with "location ~" that need an u
       <code>getIcon</code>
     </UndefinedInterfaceMethod>
   </file>
+  <file src="cron.php">
+    <ImplicitToStringCast>
+      <code>$ex</code>
+      <code>$ex</code>
+    </ImplicitToStringCast>
+    <InvalidOperand>
+      <code>$dataDirectoryUser</code>
+      <code><![CDATA[$job->getId()]]></code>
+      <code>$user</code>
+    </InvalidOperand>
+  </file>
   <file src="lib/autoloader.php">
+    <InvalidOperand>
+      <code>$root</code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>\OCP\Server::get(LoggerInterface::class)</code>
       <code>\OCP\Server::get(LoggerInterface::class)</code>
@@ -10524,6 +11010,9 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     </MissingThrowsDocblock>
   </file>
   <file src="lib/private/Accounts/Account.php">
+    <InvalidOperand>
+      <code>$incrementals[$index]</code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code><![CDATA[throw new RuntimeException('Requested collection is not an IAccountPropertyCollection');]]></code>
       <code><![CDATA[throw new \InvalidArgumentException('getProperty cannot retrieve an IAccountsPropertyCollection');]]></code>
@@ -10566,11 +11055,19 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     </MissingThrowsDocblock>
   </file>
   <file src="lib/private/Activity/Event.php">
+    <InvalidOperand>
+      <code>$placeholder</code>
+    </InvalidOperand>
     <ParamNameMismatch>
       <code>$affectedUser</code>
     </ParamNameMismatch>
   </file>
   <file src="lib/private/Activity/EventMerger.php">
+    <InvalidOperand>
+      <code>$combined</code>
+      <code>$combined</code>
+      <code>$placeholder</code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>setParsedSubject</code>
       <code>setRichSubject</code>
@@ -10637,6 +11134,10 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     </TypeDoesNotContainType>
   </file>
   <file src="lib/private/App/AppManager.php">
+    <InvalidOperand>
+      <code>$jsonError</code>
+      <code>$jsonError</code>
+    </InvalidOperand>
     <LessSpecificImplementedReturnType>
       <code>array</code>
       <code>array</code>
@@ -10697,6 +11198,9 @@ On Nginx those are typically the lines starting with "location ~" that need an u
       <code>$array[$element][]</code>
       <code>$array[$element][]</code>
     </InvalidArrayOffset>
+    <InvalidOperand>
+      <code>filemtime($file)</code>
+    </InvalidOperand>
     <InvalidReturnStatement>
       <code>(string)$xml</code>
     </InvalidReturnStatement>
@@ -10710,7 +11214,17 @@ On Nginx those are typically the lines starting with "location ~" that need an u
       <code>\OCP\Server::get(IBinaryFinder::class)</code>
     </MissingThrowsDocblock>
   </file>
+  <file src="lib/private/App/PlatformRepository.php">
+    <InvalidOperand>
+      <code>ord($match[2]) - 96</code>
+    </InvalidOperand>
+  </file>
   <file src="lib/private/AppConfig.php">
+    <InvalidOperand>
+      <code>$type</code>
+      <code>self::APP_MAX_LENGTH</code>
+      <code>self::KEY_MAX_LENGTH</code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>assertParams</code>
       <code>assertParams</code>
@@ -10756,6 +11270,9 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     </NullableReturnStatement>
   </file>
   <file src="lib/private/AppFramework/App.php">
+    <InvalidOperand>
+      <code>strlen($output)</code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>\OCP\Server::get(IAppManager::class)</code>
       <code>\OCP\Server::get(IAppManager::class)</code>
@@ -10832,6 +11349,9 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     </UndefinedInterfaceMethod>
   </file>
   <file src="lib/private/AppFramework/Http/Dispatcher.php">
+    <InvalidOperand>
+      <code><![CDATA[$throwable->getLine()]]></code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>buildResponse</code>
       <code>buildResponse</code>
@@ -10916,6 +11436,9 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     </MissingThrowsDocblock>
   </file>
   <file src="lib/private/AppFramework/Middleware/Security/BruteForceMiddleware.php">
+    <InvalidOperand>
+      <code><![CDATA[$this->delaySlept]]></code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>sleepDelayOrThrowOnMax</code>
       <code><![CDATA[throw new OCSException($e->getMessage(), Http::STATUS_TOO_MANY_REQUESTS);]]></code>
@@ -11149,6 +11672,10 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     </MissingThrowsDocblock>
   </file>
   <file src="lib/private/Authentication/Token/PublicKeyTokenProvider.php">
+    <InvalidOperand>
+      <code>self::TOKEN_MIN_LENGTH</code>
+      <code>strlen($token)</code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>atomic</code>
       <code>atomic</code>
@@ -11187,6 +11714,9 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     </MissingThrowsDocblock>
   </file>
   <file src="lib/private/Authentication/TwoFactorAuth/Manager.php">
+    <InvalidOperand>
+      <code>count($missing)</code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>getId</code>
       <code>getId</code>
@@ -11268,6 +11798,13 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     </MissingThrowsDocblock>
   </file>
   <file src="lib/private/Avatar/Avatar.php">
+    <InvalidOperand>
+      <code>$size * 0.4</code>
+      <code>$xi - $xr</code>
+      <code>$yi + $yr</code>
+      <code>($xi - $xr) / 2</code>
+      <code>($yi + $yr) / 2</code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>getContent</code>
       <code>getContent</code>
@@ -11279,7 +11816,16 @@ On Nginx those are typically the lines starting with "location ~" that need an u
       <code>getFolder</code>
     </MissingThrowsDocblock>
   </file>
+  <file src="lib/private/Avatar/PlaceholderAvatar.php">
+    <InvalidOperand>
+      <code>$size</code>
+    </InvalidOperand>
+  </file>
   <file src="lib/private/Avatar/UserAvatar.php">
+    <InvalidOperand>
+      <code>$size</code>
+      <code>$size</code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>new \OCP\Image()</code>
       <code>new \OCP\Image()</code>
@@ -11291,6 +11837,9 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     </MissingThrowsDocblock>
   </file>
   <file src="lib/private/BackgroundJob/JobList.php">
+    <InvalidOperand>
+      <code><![CDATA[$job->getId()]]></code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code><![CDATA[\OCP\Server::get($row['class'])]]></code>
       <code><![CDATA[\OCP\Server::get($row['class'])]]></code>
@@ -11436,6 +11985,9 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     </MissingThrowsDocblock>
   </file>
   <file src="lib/private/Collaboration/Reference/File/FileReferenceProvider.php">
+    <InvalidOperand>
+      <code>$fileId</code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>imagePath</code>
     </MissingThrowsDocblock>
@@ -11517,6 +12069,9 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     </MissingThrowsDocblock>
   </file>
   <file src="lib/private/Comments/Comment.php">
+    <InvalidOperand>
+      <code>$maxLength</code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code><![CDATA[throw new \InvalidArgumentException('Integer expected.');]]></code>
       <code><![CDATA[throw new \InvalidArgumentException('Non empty string expected.');]]></code>
@@ -11683,6 +12238,13 @@ On Nginx those are typically the lines starting with "location ~" that need an u
       <code><![CDATA[$params['adapter']]]></code>
       <code><![CDATA[$params['tablePrefix']]]></code>
     </InvalidArrayOffset>
+    <InvalidOperand>
+      <code><![CDATA[$this->getTransactionNestingLevel()]]></code>
+      <code>$timeTook</code>
+      <code>$timeTook</code>
+      <code>$timeTook</code>
+      <code><![CDATA[$traces[1]['line']]]></code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>\OCP\Server::get(ClockInterface::class)</code>
       <code>\OCP\Server::get(ClockInterface::class)</code>
@@ -11808,10 +12370,21 @@ On Nginx those are typically the lines starting with "location ~" that need an u
       <code><![CDATA[$params['collation']]]></code>
     </InvalidArrayOffset>
   </file>
+  <file src="lib/private/DB/QueryBuilder/FunctionBuilder/PgSqlFunctionBuilder.php">
+    <ImplicitToStringCast>
+      <code>$castedExpression</code>
+      <code>$castedExpression</code>
+    </ImplicitToStringCast>
+  </file>
   <file src="lib/private/DB/QueryBuilder/QueryBuilder.php">
     <InvalidNullableReturnType>
       <code>string</code>
     </InvalidNullableReturnType>
+    <InvalidOperand>
+      <code>$placeholder</code>
+      <code>$placeholder</code>
+      <code>$placeholder</code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>execute</code>
       <code>executeStatement</code>
@@ -11889,6 +12462,9 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     </InvalidReturnType>
   </file>
   <file src="lib/private/DateTimeZone.php">
+    <InvalidOperand>
+      <code>abs($offset)</code>
+    </InvalidOperand>
     <InvalidScalarArgument>
       <code>$timestamp</code>
     </InvalidScalarArgument>
@@ -11898,6 +12474,17 @@ On Nginx those are typically the lines starting with "location ~" that need an u
       <code>get</code>
       <code>get</code>
     </MissingThrowsDocblock>
+  </file>
+  <file src="lib/private/Diagnostics/Event.php">
+    <InvalidOperand>
+      <code><![CDATA[$this->getDuration()]]></code>
+    </InvalidOperand>
+  </file>
+  <file src="lib/private/Diagnostics/EventLogger.php">
+    <InvalidOperand>
+      <code>$duration * 1000</code>
+      <code>$timeInMs</code>
+    </InvalidOperand>
   </file>
   <file src="lib/private/Diagnostics/Query.php">
     <ImplementedReturnTypeMismatch>
@@ -11913,6 +12500,9 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     </InvalidReturnType>
   </file>
   <file src="lib/private/DirectEditing/Manager.php">
+    <InvalidOperand>
+      <code>$fileId</code>
+    </InvalidOperand>
     <InvalidReturnStatement>
       <code><![CDATA[$query->execute()]]></code>
     </InvalidReturnStatement>
@@ -11960,6 +12550,10 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     </UndefinedMethod>
   </file>
   <file src="lib/private/Encryption/DecryptAll.php">
+    <InvalidOperand>
+      <code><![CDATA[$this->getTimestamp()]]></code>
+      <code>$uid</code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>rename</code>
     </MissingThrowsDocblock>
@@ -12004,6 +12598,9 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     <InvalidNullableReturnType>
       <code>deleteUserKey</code>
     </InvalidNullableReturnType>
+    <InvalidOperand>
+      <code><![CDATA[$this->getTimestamp()]]></code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>file_get_contents</code>
       <code>file_put_contents</code>
@@ -12030,6 +12627,9 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     </MissingThrowsDocblock>
   </file>
   <file src="lib/private/Encryption/Update.php">
+    <InvalidOperand>
+      <code><![CDATA[$info->getId()]]></code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code><![CDATA[Filesystem::getPath($params['fileSource'])]]></code>
       <code><![CDATA[Filesystem::getPath($params['fileSource'])]]></code>
@@ -12043,6 +12643,9 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     </MissingThrowsDocblock>
   </file>
   <file src="lib/private/Encryption/Util.php">
+    <InvalidOperand>
+      <code>$key</code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>getUidAndFilename</code>
     </MissingThrowsDocblock>
@@ -12086,6 +12689,10 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     <InvalidNullableReturnType>
       <code>array</code>
     </InvalidNullableReturnType>
+    <InvalidOperand>
+      <code>0 + $min</code>
+      <code>0 + $sum</code>
+    </InvalidOperand>
     <InvalidScalarArgument>
       <code>$path</code>
       <code>\OC_Util::normalizeUnicode($path)</code>
@@ -12155,6 +12762,10 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     <InvalidArgument>
       <code>self::SCAN_RECURSIVE_INCOMPLETE</code>
     </InvalidArgument>
+    <InvalidOperand>
+      <code>$childName</code>
+      <code>$size += $childSize</code>
+    </InvalidOperand>
     <InvalidReturnStatement>
       <code>$existingChildren</code>
     </InvalidReturnStatement>
@@ -12253,10 +12864,18 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     </ParamNameMismatch>
   </file>
   <file src="lib/private/Files/Config/CachedMountInfo.php">
+    <InvalidOperand>
+      <code>$rootId</code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code><![CDATA[Filesystem::initMountPoints($this->getUser()->getUID())]]></code>
       <code><![CDATA[throw new \Exception("Mount provider $mountProvider name exceeds the limit of 128 characters");]]></code>
     </MissingThrowsDocblock>
+  </file>
+  <file src="lib/private/Files/Config/LazyStorageMountInfo.php">
+    <InvalidOperand>
+      <code><![CDATA[$this->getRootId()]]></code>
+    </InvalidOperand>
   </file>
   <file src="lib/private/Files/Config/MountProviderCollection.php">
     <InvalidOperand>
@@ -12364,6 +12983,9 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     </TooManyArguments>
   </file>
   <file src="lib/private/Files/Lock/LockManager.php">
+    <ImplicitToStringCast>
+      <code><![CDATA[$this->lockInScope]]></code>
+    </ImplicitToStringCast>
     <MissingThrowsDocblock>
       <code><![CDATA[throw new PreConditionNotMetException('Could not obtain lock scope as already in use by ' . $this->lockInScope);]]></code>
     </MissingThrowsDocblock>
@@ -12380,6 +13002,9 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     </MissingThrowsDocblock>
   </file>
   <file src="lib/private/Files/Mount/Manager.php">
+    <InvalidOperand>
+      <code><![CDATA[count($this->mounts)]]></code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code><![CDATA[throw new NotFoundException("No mount for path " . $path . " existing mounts (" . count($this->mounts) ."): " . implode(",", array_keys($this->mounts)));]]></code>
       <code><![CDATA[throw new \Exception("No mounts even after explicitly setting up the root mounts");]]></code>
@@ -12597,6 +13222,10 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     </MissingThrowsDocblock>
   </file>
   <file src="lib/private/Files/Node/Root.php">
+    <InvalidOperand>
+      <code>$id</code>
+      <code>$id</code>
+    </InvalidOperand>
     <LessSpecificReturnStatement>
       <code>$folders</code>
       <code><![CDATA[$this->createNode($fullPath, $fileInfo, false)]]></code>
@@ -12642,6 +13271,9 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     </MissingThrowsDocblock>
   </file>
   <file src="lib/private/Files/ObjectStore/ObjectStoreStorage.php">
+    <InvalidOperand>
+      <code>$fileId</code>
+    </InvalidOperand>
     <InvalidScalarArgument>
       <code>$source</code>
     </InvalidScalarArgument>
@@ -12738,6 +13370,16 @@ On Nginx those are typically the lines starting with "location ~" that need an u
       <code>objectExists</code>
       <code>request</code>
     </MissingThrowsDocblock>
+  </file>
+  <file src="lib/private/Files/ObjectStore/SwiftFactory.php">
+    <InvalidOperand>
+      <code><![CDATA[$request->getUri()->getPort()]]></code>
+    </InvalidOperand>
+  </file>
+  <file src="lib/private/Files/Search/SearchBinaryOperator.php">
+    <ImplicitToStringCast>
+      <code><![CDATA[$this->arguments[0]]]></code>
+    </ImplicitToStringCast>
   </file>
   <file src="lib/private/Files/SetupManager.php">
     <MissingThrowsDocblock>
@@ -12843,6 +13485,10 @@ On Nginx those are typically the lines starting with "location ~" that need an u
       <code>ArrayCache</code>
       <code>ArrayCache</code>
     </InvalidClass>
+    <InvalidOperand>
+      <code><![CDATA[$response->getStatusCode()]]></code>
+      <code>round($elapsed * 1000, 1)</code>
+    </InvalidOperand>
     <InvalidReturnStatement>
       <code><![CDATA[$response->getBody()]]></code>
     </InvalidReturnStatement>
@@ -13144,9 +13790,17 @@ On Nginx those are typically the lines starting with "location ~" that need an u
   </file>
   <file src="lib/private/Files/Storage/Wrapper/Encryption.php">
     <InvalidOperand>
+      <code>$lastChunkNr</code>
+      <code>$lastChunkNr</code>
+      <code>$lastChunkNr * $blockSize</code>
+      <code>$lastChunkNr * $unencryptedBlockSize</code>
+      <code>$newUnencryptedSize += $lastChunkNr * $unencryptedBlockSize</code>
+      <code>$newUnencryptedSize += $unencryptedBlockSize</code>
+      <code>$newUnencryptedSize += strlen($decryptedLastChunk)</code>
       <code>$result</code>
       <code>$result</code>
       <code><![CDATA[$this->copyFromStorage($sourceStorage, $sourceInternalPath . '/' . $file, $targetInternalPath . '/' . $file, false, $isRename)]]></code>
+      <code>ceil($size / $blockSize) - 1</code>
     </InvalidOperand>
     <InvalidReturnStatement>
       <code>$newUnencryptedSize</code>
@@ -13200,6 +13854,9 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     </InvalidReturnType>
   </file>
   <file src="lib/private/Files/Storage/Wrapper/Quota.php">
+    <InvalidOperand>
+      <code><![CDATA[$this->getQuota() - $used]]></code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code><![CDATA[throw new \Exception("No quota or quota callback provider");]]></code>
     </MissingThrowsDocblock>
@@ -13217,6 +13874,9 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     </MissingThrowsDocblock>
   </file>
   <file src="lib/private/Files/Stream/SeekableHttpStream.php">
+    <InvalidOperand>
+      <code>$start</code>
+    </InvalidOperand>
     <InvalidReturnType>
       <code>stream_close</code>
       <code>stream_flush</code>
@@ -13407,6 +14067,11 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     </UndefinedInterfaceMethod>
   </file>
   <file src="lib/private/FilesMetadata/FilesMetadataManager.php">
+    <InvalidOperand>
+      <code><![CDATA[$filesMetadata->getFileId()]]></code>
+      <code>self::JSON_MAXSIZE</code>
+      <code>strlen($json)</code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>\OCP\Server::get(IDBConnection::class)</code>
       <code>\OCP\Server::get(IDBConnection::class)</code>
@@ -13414,6 +14079,9 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     </MissingThrowsDocblock>
   </file>
   <file src="lib/private/FilesMetadata/MetadataQuery.php">
+    <InvalidOperand>
+      <code><![CDATA[count($this->knownJoinedIndex)]]></code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>getMetadataKeyField</code>
     </MissingThrowsDocblock>
@@ -13449,6 +14117,9 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     </MissingThrowsDocblock>
   </file>
   <file src="lib/private/FullTextSearch/Model/IndexDocument.php">
+    <InvalidOperand>
+      <code>$source</code>
+    </InvalidOperand>
     <TypeDoesNotContainNull>
       <code><![CDATA[is_null($this->getContent())]]></code>
     </TypeDoesNotContainNull>
@@ -13541,6 +14212,9 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     </NullableReturnStatement>
   </file>
   <file src="lib/private/Http/WellKnown/RequestManager.php">
+    <InvalidOperand>
+      <code>count($registrations)</code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code><![CDATA[throw new RuntimeException("Well known handlers requested before the apps had been fully registered");]]></code>
     </MissingThrowsDocblock>
@@ -13649,6 +14323,7 @@ On Nginx those are typically the lines starting with "location ~" that need an u
   <file src="lib/private/LargeFileHelper.php">
     <InvalidOperand>
       <code>$matches[1]</code>
+      <code>0 + $result</code>
     </InvalidOperand>
     <MissingThrowsDocblock>
       <code>get</code>
@@ -13758,6 +14433,9 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     </InvalidPropertyAssignmentValue>
   </file>
   <file src="lib/private/Log.php">
+    <InvalidOperand>
+      <code>$key</code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>\OCP\Server::get(IUserSession::class)</code>
       <code>\OCP\Server::get(IUserSession::class)</code>
@@ -13768,10 +14446,26 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     </RedundantCondition>
   </file>
   <file src="lib/private/Log/ErrorHandler.php">
+    <InvalidOperand>
+      <code><![CDATA[$error['line']]]></code>
+      <code><![CDATA[$exception->getLine()]]></code>
+      <code>$line</code>
+      <code>$line</code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>log</code>
       <code>log</code>
     </MissingThrowsDocblock>
+  </file>
+  <file src="lib/private/Log/Errorlog.php">
+    <InvalidOperand>
+      <code>$level</code>
+    </InvalidOperand>
+  </file>
+  <file src="lib/private/Log/ExceptionSerializer.php">
+    <InvalidOperand>
+      <code>$elemCount - 5</code>
+    </InvalidOperand>
   </file>
   <file src="lib/private/Log/File.php">
     <TypeDoesNotContainNull>
@@ -13784,6 +14478,9 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     </RedundantCondition>
   </file>
   <file src="lib/private/Log/Rotate.php">
+    <InvalidOperand>
+      <code><![CDATA[$this->maxSize]]></code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>\OCP\Server::get(IConfig::class)</code>
       <code>\OCP\Server::get(IConfig::class)</code>
@@ -13841,6 +14538,11 @@ On Nginx those are typically the lines starting with "location ~" that need an u
 			]), $missingCacheHint);]]></code>
     </MissingThrowsDocblock>
   </file>
+  <file src="lib/private/Memcache/LoggerWrapperCache.php">
+    <InvalidOperand>
+      <code>$ttl</code>
+    </InvalidOperand>
+  </file>
   <file src="lib/private/Memcache/Memcached.php">
     <MissingThrowsDocblock>
       <code><![CDATA[throw new HintException("Expected 'memcached_options' config to be an array, got $options");]]></code>
@@ -13867,6 +14569,11 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     </MissingThrowsDocblock>
   </file>
   <file src="lib/private/MemoryInfo.php">
+    <InvalidOperand>
+      <code>$memoryLimit *= 1024</code>
+      <code>$memoryLimit *= 1024</code>
+      <code>$memoryLimit *= 1024</code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code><![CDATA[throw new \InvalidArgumentException($number.' is not a valid numeric string (in memory_limit ini directive)');]]></code>
     </MissingThrowsDocblock>
@@ -13893,6 +14600,11 @@ On Nginx those are typically the lines starting with "location ~" that need an u
       <code>imagePath</code>
       <code>imagePath</code>
     </MissingThrowsDocblock>
+  </file>
+  <file src="lib/private/Notification/Notification.php">
+    <InvalidOperand>
+      <code>$placeholder</code>
+    </InvalidOperand>
   </file>
   <file src="lib/private/Preview/BackgroundCleanupJob.php">
     <InvalidReturnStatement>
@@ -13925,6 +14637,28 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     <InvalidArgument>
       <code>$maxPreviewImage</code>
     </InvalidArgument>
+    <InvalidOperand>
+      <code>$height / $maxHeight</code>
+      <code>$height / $maxHeight</code>
+      <code>$height / $pow4height</code>
+      <code>$height / $ratio</code>
+      <code>$height / $ratio</code>
+      <code>$height / $ratio</code>
+      <code>$height /= $ratio</code>
+      <code>$height /= $ratioW</code>
+      <code>$width * $ratio</code>
+      <code>$width * $ratio</code>
+      <code>$width * $ratio</code>
+      <code>$width / $maxWidth</code>
+      <code>$width / $maxWidth</code>
+      <code>$width / $pow4width</code>
+      <code>$width /= $ratio</code>
+      <code>$width /= $ratioH</code>
+      <code>4 ** ceil(log($height) / log(4))</code>
+      <code>4 ** ceil(log($width) / log(4))</code>
+      <code><![CDATA[abs($height - $preview->height()) * 0.5]]></code>
+      <code><![CDATA[abs($width - $preview->width()) * 0.5]]></code>
+    </InvalidOperand>
     <LessSpecificReturnType>
       <code>null|string</code>
     </LessSpecificReturnType>
@@ -14004,6 +14738,23 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     </MissingThrowsDocblock>
   </file>
   <file src="lib/private/Preview/MarkDown.php">
+    <InvalidOperand>
+      <code>$actualFontSize * 2</code>
+      <code>$actualFontSize * 2</code>
+      <code>$actualFontSize *= 1.1</code>
+      <code>$actualFontSize *= 1.2</code>
+      <code>$actualFontSize *= 1.4</code>
+      <code>$actualFontSize *= 1.6</code>
+      <code>$actualFontSize *= 1.8</code>
+      <code>$linesWrapped * ceil($actualFontSize * 2)</code>
+      <code>$maxX * 0.05</code>
+      <code>$maxY * 0.05</code>
+      <code>$nextLineStart + $actualFontSize</code>
+      <code>$nextLineStart -= $actualFontSize</code>
+      <code>(1 / $actualFontSize * 1.3) * $maxX</code>
+      <code>1 / $actualFontSize</code>
+      <code><![CDATA[1 / ($maxX >= 512 ? 60 : 40) * $maxX]]></code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>fopen</code>
       <code>fopen</code>
@@ -14019,6 +14770,10 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     </MissingThrowsDocblock>
   </file>
   <file src="lib/private/Preview/Office.php">
+    <InvalidOperand>
+      <code><![CDATA[$file->getId()]]></code>
+      <code><![CDATA[$file->getId()]]></code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>Server::get(ITempManager::class)</code>
       <code>Server::get(ITempManager::class)</code>
@@ -14060,6 +14815,12 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     </MissingThrowsDocblock>
   </file>
   <file src="lib/private/Preview/TXT.php">
+    <InvalidOperand>
+      <code>$fontSize * 1.5</code>
+      <code>$index * $lineSize</code>
+      <code>$index * $lineSize</code>
+      <code>(1 / 32) * $maxX</code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>fopen</code>
       <code>fopen</code>
@@ -14226,6 +14987,11 @@ On Nginx those are typically the lines starting with "location ~" that need an u
       <code>get</code>
     </MissingThrowsDocblock>
   </file>
+  <file src="lib/private/Repair/AddAppConfigLazyMigration.php">
+    <InvalidOperand>
+      <code>$c</code>
+    </InvalidOperand>
+  </file>
   <file src="lib/private/Repair/CleanTags.php">
     <MissingThrowsDocblock>
       <code>execute</code>
@@ -14238,6 +15004,21 @@ On Nginx those are typically the lines starting with "location ~" that need an u
       <code>executeQuery</code>
       <code>executeQuery</code>
     </MissingThrowsDocblock>
+  </file>
+  <file src="lib/private/Repair/NC11/FixMountStorages.php">
+    <InvalidOperand>
+      <code>$entriesUpdated</code>
+    </InvalidOperand>
+  </file>
+  <file src="lib/private/Repair/NC16/CleanupCardDAVPhotoCache.php">
+    <InvalidOperand>
+      <code>count($folders)</code>
+    </InvalidOperand>
+  </file>
+  <file src="lib/private/Repair/OldGroupMembershipShares.php">
+    <InvalidOperand>
+      <code>$deletedEntries</code>
+    </InvalidOperand>
   </file>
   <file src="lib/private/Repair/Owncloud/CleanPreviews.php">
     <InvalidArgument>
@@ -14270,6 +15051,11 @@ On Nginx those are typically the lines starting with "location ~" that need an u
       <code>getTable</code>
     </MissingThrowsDocblock>
   </file>
+  <file src="lib/private/Repair/Owncloud/UpdateLanguageCodes.php">
+    <InvalidOperand>
+      <code>$affectedRows</code>
+    </InvalidOperand>
+  </file>
   <file src="lib/private/Repair/RemoveLinkShares.php">
     <InvalidPropertyAssignmentValue>
       <code><![CDATA[$this->userToNotify]]></code>
@@ -14290,6 +15076,10 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     </MissingThrowsDocblock>
   </file>
   <file src="lib/private/Repair/RepairInvalidShares.php">
+    <InvalidOperand>
+      <code>$deletedEntries</code>
+      <code>$updatedEntries</code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>execute</code>
     </MissingThrowsDocblock>
@@ -14305,6 +15095,11 @@ On Nginx those are typically the lines starting with "location ~" that need an u
       <code>$out</code>
     </ParamNameMismatch>
   </file>
+  <file src="lib/private/Route/CachingRouter.php">
+    <InvalidOperand>
+      <code>(int)$absolute</code>
+    </InvalidOperand>
+  </file>
   <file src="lib/private/Route/Router.php">
     <InvalidClass>
       <code>\OC_APP</code>
@@ -14312,6 +15107,9 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     <InvalidNullableReturnType>
       <code>string</code>
     </InvalidNullableReturnType>
+    <InvalidOperand>
+      <code>$app</code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>generate</code>
       <code>generate</code>
@@ -14403,15 +15201,31 @@ On Nginx those are typically the lines starting with "location ~" that need an u
       <code>executeStatement</code>
     </MissingThrowsDocblock>
   </file>
+  <file src="lib/private/Security/Bruteforce/Backend/MemoryCacheBackend.php">
+    <InvalidOperand>
+      <code>$timestamp</code>
+    </InvalidOperand>
+  </file>
   <file src="lib/private/Security/Bruteforce/CleanupJob.php">
     <MissingThrowsDocblock>
       <code>execute</code>
     </MissingThrowsDocblock>
   </file>
   <file src="lib/private/Security/Bruteforce/Throttler.php">
+    <InvalidOperand>
+      <code>$delay * 1000</code>
+      <code>$firstDelay * 2 ** $attempts</code>
+      <code><![CDATA[$this->timeFactory->getTime() - 3600 * $maxAgeHours]]></code>
+      <code>3600 * $maxAgeHours</code>
+    </InvalidOperand>
     <NullArgument>
       <code>null</code>
     </NullArgument>
+  </file>
+  <file src="lib/private/Security/CSP/ContentSecurityPolicyManager.php">
+    <InvalidOperand>
+      <code><![CDATA[$value > $currentValue]]></code>
+    </InvalidOperand>
   </file>
   <file src="lib/private/Security/CSP/ContentSecurityPolicyNonceManager.php">
     <NoInterfaceProperties>
@@ -14473,6 +15287,13 @@ On Nginx those are typically the lines starting with "location ~" that need an u
       <code><![CDATA[throw new \RuntimeException('String contains non hex chars: ' . $hex);]]></code>
     </MissingThrowsDocblock>
   </file>
+  <file src="lib/private/Security/Hasher.php">
+    <InvalidOperand>
+      <code>1</code>
+      <code>2</code>
+      <code>3</code>
+    </InvalidOperand>
+  </file>
   <file src="lib/private/Security/IdentityProof/Manager.php">
     <MissingThrowsDocblock>
       <code>getFolder</code>
@@ -14499,7 +15320,20 @@ On Nginx those are typically the lines starting with "location ~" that need an u
       <code>getExistingAttemptCount</code>
     </MissingThrowsDocblock>
   </file>
+  <file src="lib/private/Security/SecureRandom.php">
+    <InvalidOperand>
+      <code>$length</code>
+    </InvalidOperand>
+  </file>
+  <file src="lib/private/Security/TrustedDomainHelper.php">
+    <InvalidOperand>
+      <code><![CDATA[$parsedUrl['port']]]></code>
+    </InvalidOperand>
+  </file>
   <file src="lib/private/Security/VerificationToken/VerificationToken.php">
+    <InvalidOperand>
+      <code><![CDATA[$this->timeFactory->getTime()]]></code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>setUserValue</code>
       <code>setUserValue</code>
@@ -14859,6 +15693,9 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     </UndefinedThisPropertyFetch>
   </file>
   <file src="lib/private/Setup/MySQL.php">
+    <InvalidOperand>
+      <code>$i</code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>executeQuery</code>
       <code>throw $ex;</code>
@@ -14883,6 +15720,9 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     </MissingThrowsDocblock>
   </file>
   <file src="lib/private/Setup/PostgreSQL.php">
+    <InvalidOperand>
+      <code>$i</code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>execute</code>
       <code>execute</code>
@@ -14910,6 +15750,9 @@ On Nginx those are typically the lines starting with "location ~" that need an u
       <code><![CDATA[$share->getId()]]></code>
       <code><![CDATA[(int)$data['id']]]></code>
     </InvalidArgument>
+    <InvalidOperand>
+      <code>$shareType</code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>\OCP\Server::get(LoggerInterface::class)</code>
       <code>\OCP\Server::get(LoggerInterface::class)</code>
@@ -15020,6 +15863,12 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     <InvalidArgument>
       <code>$id</code>
     </InvalidArgument>
+    <InvalidOperand>
+      <code>$days</code>
+      <code>$days</code>
+      <code>$defaultExpireDays</code>
+      <code><![CDATA[$this->shareApiLinkDefaultExpireDays()]]></code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code><![CDATA[\OC_Hook::emit(Share::class, 'post_set_expiration_date', [
 				'itemType' => $share->getNode() instanceof \OCP\Files\File ? 'file' : 'folder',
@@ -15145,6 +15994,9 @@ On Nginx those are typically the lines starting with "location ~" that need an u
       <code>FederatedShareProvider</code>
       <code>ShareByMailProvider</code>
     </InvalidNullableReturnType>
+    <InvalidOperand>
+      <code>$shareType</code>
+    </InvalidOperand>
     <InvalidReturnStatement>
       <code>$provider</code>
       <code>$provider</code>
@@ -15222,6 +16074,9 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     </MissingThrowsDocblock>
   </file>
   <file src="lib/private/Share20/Share.php">
+    <InvalidOperand>
+      <code><![CDATA[$this->fileId]]></code>
+    </InvalidOperand>
     <LessSpecificReturnStatement>
       <code><![CDATA[$this->node]]></code>
     </LessSpecificReturnStatement>
@@ -15241,6 +16096,16 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     <MoreSpecificReturnType>
       <code>getNode</code>
     </MoreSpecificReturnType>
+  </file>
+  <file src="lib/private/SpeechToText/SpeechToTextManager.php">
+    <InvalidOperand>
+      <code><![CDATA[$file->getId()]]></code>
+    </InvalidOperand>
+  </file>
+  <file src="lib/private/SpeechToText/TranscriptionJob.php">
+    <InvalidOperand>
+      <code>$fileId</code>
+    </InvalidOperand>
   </file>
   <file src="lib/private/StreamImage.php">
     <MissingThrowsDocblock>
@@ -15318,6 +16183,14 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     </MissingThrowsDocblock>
   </file>
   <file src="lib/private/SystemTag/SystemTagManager.php">
+    <InvalidOperand>
+      <code>$userAssignable</code>
+      <code>$userAssignable</code>
+      <code>$userAssignable</code>
+      <code>$userVisible</code>
+      <code>$userVisible</code>
+      <code>$userVisible</code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>beginTransaction</code>
       <code>execute</code>
@@ -15369,6 +16242,9 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     </MissingThrowsDocblock>
   </file>
   <file src="lib/private/Tags.php">
+    <InvalidOperand>
+      <code><![CDATA[$tag->getId()]]></code>
+    </InvalidOperand>
     <InvalidScalarArgument>
       <code>$from</code>
       <code>$names</code>
@@ -15510,6 +16386,11 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     </MissingThrowsDocblock>
   </file>
   <file src="lib/private/TextProcessing/Manager.php">
+    <InvalidOperand>
+      <code>$maxExecutionTime * 0.8</code>
+      <code><![CDATA[$provider->getExpectedRuntime()]]></code>
+      <code><![CDATA[$provider->getExpectedRuntime()]]></code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>delete</code>
       <code><![CDATA[throw new RuntimeException('Failure while trying to find tasks by appId and identifier: ' . $e->getMessage(), 0, $e);]]></code>
@@ -15530,11 +16411,19 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     </MissingThrowsDocblock>
   </file>
   <file src="lib/private/TextToImage/Db/TaskMapper.php">
+    <InvalidOperand>
+      <code>$timeout</code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>executeStatement</code>
     </MissingThrowsDocblock>
   </file>
   <file src="lib/private/TextToImage/Manager.php">
+    <InvalidOperand>
+      <code>$maxExecutionTime * 0.8</code>
+      <code><![CDATA[$provider->getExpectedRuntime()]]></code>
+      <code><![CDATA[$this->getPreferredProviders()[0]->getExpectedRuntime()]]></code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>delete</code>
       <code>update</code>
@@ -15569,6 +16458,13 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     </MissingThrowsDocblock>
   </file>
   <file src="lib/private/Updater.php">
+    <InvalidOperand>
+      <code>$appId</code>
+      <code><![CDATA[$event->getCurrentStep()]]></code>
+      <code><![CDATA[$event->getIncrement()]]></code>
+      <code><![CDATA[$event->getMaxStep()]]></code>
+      <code><![CDATA[$event->getMaxStep()]]></code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>\OCP\Server::get(Repair::class)</code>
       <code>\OCP\Server::get(Repair::class)</code>
@@ -15731,6 +16627,9 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     <InvalidNullableReturnType>
       <code>int</code>
     </InvalidNullableReturnType>
+    <InvalidOperand>
+      <code>$name</code>
+    </InvalidOperand>
     <NullableReturnStatement>
       <code>null</code>
     </NullableReturnStatement>
@@ -15815,6 +16714,9 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     </MissingThrowsDocblock>
   </file>
   <file src="lib/private/legacy/OC_EventSource.php">
+    <InvalidOperand>
+      <code><![CDATA[$this->fallBackId]]></code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>send</code>
       <code>send</code>
@@ -15829,6 +16731,18 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     </UndefinedDocblockClass>
   </file>
   <file src="lib/private/legacy/OC_Files.php">
+    <InvalidOperand>
+      <code><![CDATA[$fileSize += $fileInfo->getSize()]]></code>
+      <code>$fileSize - $ranges[1]</code>
+      <code>$fileSize - $ranges[1]</code>
+      <code>$fileSize - 1</code>
+      <code>$fileSize - 1</code>
+      <code>$fileSize - 1</code>
+      <code><![CDATA[$rangeArray[$ind - 1]['to'] + 1]]></code>
+      <code><![CDATA[$rangeArray[$ind - 1]['to'] + 1]]></code>
+      <code>$ranges[1] + 1</code>
+      <code>$ranges[1] + 1</code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>\OCP\Server::get(IEventDispatcher::class)</code>
       <code>\OCP\Server::get(IEventDispatcher::class)</code>
@@ -15861,6 +16775,21 @@ On Nginx those are typically the lines starting with "location ~" that need an u
       <code>$matches[0][$last_match]</code>
       <code>$matches[1][$last_match]</code>
     </InvalidArrayOffset>
+    <InvalidOperand>
+      <code>$bytes *= $bytes_array[$matches[1]]</code>
+      <code>$bytes / 1024</code>
+      <code>$bytes / 1024</code>
+      <code>$bytes / 1024</code>
+      <code>$bytes / 1024</code>
+      <code>$bytes / 1024</code>
+      <code>$free + $used</code>
+      <code>$quota - $used</code>
+      <code>$used / $total</code>
+      <code>$used / $total</code>
+      <code>($used / $total) * 10000</code>
+      <code>round(($used / $total) * 10000) / 100</code>
+      <code>round(($used / $total) * 10000) / 100</code>
+    </InvalidOperand>
     <InvalidScalarArgument>
       <code>$path</code>
     </InvalidScalarArgument>
@@ -15888,6 +16817,24 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     </UndefinedInterfaceMethod>
   </file>
   <file src="lib/private/legacy/OC_Image.php">
+    <InvalidOperand>
+      <code>$h</code>
+      <code>$height</code>
+      <code>$height</code>
+      <code>$maxSize * $ratioOrig</code>
+      <code>$maxSize / $ratioOrig</code>
+      <code>$maxWidth / $ratio</code>
+      <code>$memory_limit</code>
+      <code>$o</code>
+      <code>$o</code>
+      <code>$o</code>
+      <code>$ratio * $maxHeight</code>
+      <code>$w</code>
+      <code>$width</code>
+      <code>$width</code>
+      <code>($heightOrig / 2) - ($height / 2)</code>
+      <code>($widthOrig / 2) - ($width / 2)</code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>_output</code>
       <code>_output</code>
@@ -15910,6 +16857,9 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     </MissingThrowsDocblock>
   </file>
   <file src="lib/private/legacy/OC_Template.php">
+    <InvalidOperand>
+      <code><![CDATA[$exception->getLine()]]></code>
+    </InvalidOperand>
     <InvalidReturnType>
       <code>bool|string</code>
     </InvalidReturnType>
@@ -16054,6 +17004,9 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     </MissingThrowsDocblock>
   </file>
   <file src="lib/public/AppFramework/Http/FileDisplayResponse.php">
+    <InvalidOperand>
+      <code><![CDATA[$this->file->getSize()]]></code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>getContent</code>
       <code>getContent</code>
@@ -16074,6 +17027,9 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     </MissingThrowsDocblock>
   </file>
   <file src="lib/public/AppFramework/Http/Response.php">
+    <InvalidOperand>
+      <code>$cacheSeconds</code>
+    </InvalidOperand>
     <LessSpecificReturnStatement>
       <code><![CDATA[array_merge($mergeWith, $this->headers)]]></code>
     </LessSpecificReturnStatement>
@@ -16106,6 +17062,10 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     </AmbiguousConstantInheritance>
   </file>
   <file src="lib/public/BackgroundJob/Job.php">
+    <InvalidOperand>
+      <code><![CDATA[$this->getId()]]></code>
+      <code>$timeTaken</code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>\OCP\Server::get(LoggerInterface::class)</code>
       <code>\OCP\Server::get(LoggerInterface::class)</code>
@@ -16133,6 +17093,17 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     </MissingThrowsDocblock>
   </file>
   <file src="lib/public/Color.php">
+    <InvalidOperand>
+      <code><![CDATA[$opacity * $this->blue()]]></code>
+      <code><![CDATA[$opacity * $this->green()]]></code>
+      <code><![CDATA[$opacity * $this->red()]]></code>
+      <code><![CDATA[(1 - $opacity) * $source->blue()]]></code>
+      <code><![CDATA[(1 - $opacity) * $source->green()]]></code>
+      <code><![CDATA[(1 - $opacity) * $source->red()]]></code>
+      <code>1 - $opacity</code>
+      <code>1 - $opacity</code>
+      <code>1 - $opacity</code>
+    </InvalidOperand>
     <LessSpecificReturnStatement>
       <code>$step</code>
     </LessSpecificReturnStatement>
@@ -16173,6 +17144,9 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     </MissingThrowsDocblock>
   </file>
   <file src="lib/public/Files/Lock/LockContext.php">
+    <InvalidOperand>
+      <code><![CDATA[$this->getNode()->getId()]]></code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>getId</code>
       <code>getId</code>
@@ -16243,6 +17217,9 @@ On Nginx those are typically the lines starting with "location ~" that need an u
     </MissingThrowsDocblock>
   </file>
   <file src="lib/public/Util.php">
+    <InvalidOperand>
+      <code>0 + (string)$number</code>
+    </InvalidOperand>
     <MissingThrowsDocblock>
       <code>Server::get(\OCP\L10N\IFactory::class)</code>
       <code>Server::get(\OCP\L10N\IFactory::class)</code>
