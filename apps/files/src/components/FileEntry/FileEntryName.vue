@@ -22,7 +22,7 @@
 <template>
 	<!-- Rename input -->
 	<form v-if="isRenaming"
-		v-on-click-outside="stopRenaming"
+		v-on-click-outside="onRename"
 		:aria-label="t('files', 'Rename file')"
 		class="files-list__row-rename"
 		@submit.prevent.stop="onRename">
