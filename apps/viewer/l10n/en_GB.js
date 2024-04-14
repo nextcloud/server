@@ -3,7 +3,7 @@ OC.L10N.register(
     {
     "Viewer" : "Viewer",
     "Simple file viewer with slideshow for media" : "Simple file viewer with slideshow for media",
-    "Show your latest holiday photos and videos like in the movies, show a glimpse of your latest novel directly from your Nextcloud, choose the best GIF of your collection thanks to the direct preview of your favorites files and many more!" : "Show your latest holiday photos and videos like in the movies, show a glimpse of your latest novel directly from your Nextcloud, choose the best GIF of your collection thanks to the direct preview of your favorites files and many more!",
+    "Show your latest holiday photos and videos like in the movies, show a glimpse of your latest novel directly from your Nextcloud, choose the best GIF of your collection thanks to the direct preview of your favorites files and many more!" : "Show your latest holiday photos and videos like in the movies, show a glimpse of your latest novel directly from your Nextcloud, choose the best GIF of your collection thanks to the direct preview of your favourites files and many more!",
     "Your browser does not support audio." : "Your browser does not support audio.",
     "Error loading {name}" : "Error loading {name}",
     "Image saved" : "Image saved",
