@@ -51,6 +51,7 @@
     "App \"%s\" cannot be installed because appinfo file cannot be read." : "Nun se pue instalar l'aplicación «%s» porque nun se pue lleer el ficheru appinfo",
     "App \"%s\" cannot be installed because it is not compatible with this version of the server." : "Nun se pue instalar l'aplicación «%s» porque nun ye compatible con esta versión del sirvidor.",
     "__language_name__" : "Asturianu",
+    "This is an automatically sent email, please do not reply." : "Esti mensaxe unvióse automáticamente, nun respuendas.",
     "Help" : "Ayuda",
     "Appearance and accessibility" : "Aspeutu ya accesibilidá",
     "Apps" : "Aplicaciones",

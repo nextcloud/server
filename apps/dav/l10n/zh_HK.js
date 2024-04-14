@@ -87,7 +87,7 @@ OC.L10N.register(
     "Attendees:" : "參加者：",
     "Title:" : "標題：",
     "Time:" : "時間：",
-    "Location:" : "地點：",
+    "Location:" : "位置：",
     "Link:" : "連結：",
     "Accept" : "接受",
     "Decline" : "拒絕",
