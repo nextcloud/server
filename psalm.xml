@@ -10,6 +10,7 @@
 	findUnusedCode="false"
 	checkForThrowsDocblock="true"
 	strictBinaryOperands="true"
+	findUnusedPsalmSuppress="true"
 >
 	<plugins>
 		<plugin filename="build/psalm/AppFrameworkTainter.php" />

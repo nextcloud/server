@@ -303,7 +303,6 @@ class SystemAddressbook extends AddressBook {
 			return false;
 		}
 
-		/** @psalm-suppress NoInterfaceProperties */
 		$sharedSecret = $server['PHP_AUTH_PW'] ?? null;
 		if ($sharedSecret === null) {
 			return false;

@@ -250,9 +250,6 @@ class Response {
 	 */
 	public function getHeaders() {
 		/** @var IRequest $request */
-		/**
-		 * @psalm-suppress UndefinedClass
-		 */
 		$request = \OC::$server->get(IRequest::class);
 		$mergeWith = [
 			'X-Request-Id' => $request->getId(),

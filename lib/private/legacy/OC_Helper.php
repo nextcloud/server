@@ -609,7 +609,6 @@ class OC_Helper {
 	/**
 	 * Get storage info including all mount points and quota
 	 *
-	 * @psalm-suppress LessSpecificReturnStatement Legacy code outputs weird types - manually validated that they are correct
 	 * @return StorageInfo
 	 */
 	private static function getGlobalStorageInfo(int|float $quota, IUser $user, IMountPoint $mount): array {

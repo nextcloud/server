@@ -113,7 +113,6 @@ class AppConfig implements IAppConfig {
 	 * @deprecated 29.0.0 use {@see setAppValueString()}
 	 */
 	public function setAppValue(string $key, string $value): void {
-		/** @psalm-suppress InternalMethod */
 		$this->appConfig->setValueMixed($this->appName, $key, $value);
 	}
 
@@ -235,8 +234,6 @@ class AppConfig implements IAppConfig {
 	 * @return string
 	 */
 	public function getAppValue(string $key, string $default = ''): string {
-		/** @psalm-suppress InternalMethod */
-		/** @psalm-suppress UndefinedInterfaceMethod */
 		return $this->appConfig->getValueMixed($this->appName, $key, $default);
 	}
 

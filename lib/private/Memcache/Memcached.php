@@ -69,7 +69,6 @@ class Memcached extends Cache implements IMemcache {
 			 * By default enable igbinary serializer if available
 			 *
 			 * Psalm checks depend on if igbinary is installed or not with memcached
-			 * @psalm-suppress RedundantCondition
 			 * @psalm-suppress TypeDoesNotContainType
 			 */
 			if (\Memcached::HAVE_IGBINARY) {

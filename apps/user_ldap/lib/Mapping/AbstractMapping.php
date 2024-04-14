@@ -249,8 +249,6 @@ abstract class AbstractMapping {
 			$slice++;
 			$fdnsSlice = array_slice($fdns, $sliceSize * ($slice - 1), $sliceSize);
 
-			/** @see https://github.com/vimeo/psalm/issues/4995 */
-			/** @psalm-suppress TypeDoesNotContainType */
 			if (!isset($qb)) {
 				$qb = $this->prepareListOfIdsQuery($fdnsSlice);
 				continue;

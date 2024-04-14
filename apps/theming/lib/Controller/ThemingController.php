@@ -450,7 +450,6 @@ class ThemingController extends Controller {
 	 * Get the manifest for an app
 	 *
 	 * @param string $app ID of the app
-	 * @psalm-suppress LessSpecificReturnStatement The content of the Manifest doesn't need to be described in the return type
 	 * @return JSONResponse<Http::STATUS_OK, array{name: string, short_name: string, start_url: string, theme_color: string, background_color: string, description: string, icons: array{src: non-empty-string, type: string, sizes: string}[], display: string}, array{}>|JSONResponse<Http::STATUS_NOT_FOUND, array{}, array{}>
 	 *
 	 * 200: Manifest returned

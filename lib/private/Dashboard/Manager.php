@@ -68,7 +68,6 @@ class Manager implements IManager {
 		}
 		$services = $this->lazyWidgets;
 		foreach ($services as $service) {
-			/** @psalm-suppress InvalidCatch */
 			try {
 				if (!$this->appManager->isEnabledForUser($service['appId'])) {
 					// all apps are registered, but some may not be enabled for the user

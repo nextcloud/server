@@ -51,7 +51,6 @@ final class Server {
 	 * @since 25.0.0
 	 */
 	public static function get(string $serviceName) {
-		/** @psalm-suppress UndefinedClass */
 		return \OC::$server->get($serviceName);
 	}
 }

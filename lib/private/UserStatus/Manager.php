@@ -89,9 +89,6 @@ class Manager implements IManager {
 			return;
 		}
 
-		/**
-		 * @psalm-suppress InvalidCatch
-		 */
 		try {
 			$provider = $this->container->get($this->providerClass);
 		} catch (ContainerExceptionInterface $e) {

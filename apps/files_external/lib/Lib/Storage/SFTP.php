@@ -149,7 +149,6 @@ class SFTP extends Common {
 
 		$login = false;
 		foreach ($this->auth as $auth) {
-			/** @psalm-suppress TooManyArguments */
 			$login = $this->client->login($this->user, $auth);
 			if ($login === true) {
 				break;
