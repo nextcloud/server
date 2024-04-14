@@ -8,6 +8,7 @@
     errorBaseline="build/psalm-baseline.xml"
 	findUnusedBaselineEntry="false"
 	findUnusedCode="false"
+	checkForThrowsDocblock="true"
 >
 	<plugins>
 		<plugin filename="build/psalm/AppFrameworkTainter.php" />
