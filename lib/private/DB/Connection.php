@@ -55,6 +55,7 @@ use OCP\Diagnostics\IEventLogger;
 use OCP\IRequestId;
 use OCP\PreConditionNotMetException;
 use OCP\Profiler\IProfiler;
+use OCP\Server;
 use Psr\Clock\ClockInterface;
 use Psr\Log\LoggerInterface;
 use function in_array;
@@ -115,11 +116,11 @@ class Connection extends PrimaryReadReplicaConnection {
 		$this->tablePrefix = $params['tablePrefix'];
 
 		$this->systemConfig = \OC::$server->getSystemConfig();
-		$this->clock = \OCP\Server::get(ClockInterface::class);
-		$this->logger = \OC::$server->get(LoggerInterface::class);
+		$this->clock = Server::get(ClockInterface::class);
+		$this->logger = Server::get(LoggerInterface::class);
 
 		/** @var \OCP\Profiler\IProfiler */
-		$profiler = \OC::$server->get(IProfiler::class);
+		$profiler = Server::get(IProfiler::class);
 		if ($profiler->isEnabled()) {
 			$this->dbDataCollector = new DbDataCollector($this);
 			$profiler->add($this->dbDataCollector);
@@ -143,7 +144,7 @@ class Connection extends PrimaryReadReplicaConnection {
 			$this->lastConnectionCheck[$this->getConnectionName()] = time();
 
 			// Only trigger the event logger for the initial connect call
-			$eventLogger = \OC::$server->get(IEventLogger::class);
+			$eventLogger = Server::get(IEventLogger::class);
 			$eventLogger->start('connect:db', 'db connection opened');
 			/** @psalm-suppress InternalMethod */
 			$status = parent::connect();
@@ -365,7 +366,7 @@ class Connection extends PrimaryReadReplicaConnection {
 		if ($logFile !== '' && is_writable(dirname($logFile)) && (!file_exists($logFile) || is_writable($logFile))) {
 			$prefix = '';
 			if ($this->systemConfig->getValue('query_log_file_requestid') === 'yes') {
-				$prefix .= \OC::$server->get(IRequestId::class)->getId() . "\t";
+				$prefix .= Server::get(IRequestId::class)->getId() . "\t";
 			}
 
 			// FIXME:  Improve to log the actual target db host
@@ -665,7 +666,7 @@ class Connection extends PrimaryReadReplicaConnection {
 		$random = \OC::$server->getSecureRandom();
 		$platform = $this->getDatabasePlatform();
 		$config = \OC::$server->getConfig();
-		$dispatcher = \OC::$server->get(\OCP\EventDispatcher\IEventDispatcher::class);
+		$dispatcher = Server::get(\OCP\EventDispatcher\IEventDispatcher::class);
 		if ($platform instanceof SqlitePlatform) {
 			return new SQLiteMigrator($this, $config, $dispatcher);
 		} elseif ($platform instanceof OraclePlatform) {
