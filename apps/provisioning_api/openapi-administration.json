@@ -238,7 +238,7 @@
             "post": {
                 "operationId": "apps-enable",
                 "summary": "Enable an app",
-                "description": "This endpoint requires admin access",
+                "description": "This endpoint requires admin access\nThis endpoint requires password confirmation",
                 "tags": [
                     "apps"
                 ],
@@ -305,7 +305,7 @@
             "delete": {
                 "operationId": "apps-disable",
                 "summary": "Disable an app",
-                "description": "This endpoint requires admin access",
+                "description": "This endpoint requires admin access\nThis endpoint requires password confirmation",
                 "tags": [
                     "apps"
                 ],
@@ -449,7 +449,7 @@
             "post": {
                 "operationId": "groups-add-group",
                 "summary": "Create a new group",
-                "description": "This endpoint requires admin access",
+                "description": "This endpoint requires admin access\nThis endpoint requires password confirmation",
                 "tags": [
                     "groups"
                 ],
@@ -527,7 +527,7 @@
             "put": {
                 "operationId": "groups-update-group",
                 "summary": "Update a group",
-                "description": "This endpoint requires admin access",
+                "description": "This endpoint requires admin access\nThis endpoint requires password confirmation",
                 "tags": [
                     "groups"
                 ],
@@ -613,7 +613,7 @@
             "delete": {
                 "operationId": "groups-delete-group",
                 "summary": "Delete a group",
-                "description": "This endpoint requires admin access",
+                "description": "This endpoint requires admin access\nThis endpoint requires password confirmation",
                 "tags": [
                     "groups"
                 ],
@@ -755,7 +755,7 @@
             "post": {
                 "operationId": "users-add-sub-admin",
                 "summary": "Make a user a subadmin of a group",
-                "description": "This endpoint requires admin access",
+                "description": "This endpoint requires admin access\nThis endpoint requires password confirmation",
                 "tags": [
                     "users"
                 ],
@@ -831,7 +831,7 @@
             "delete": {
                 "operationId": "users-remove-sub-admin",
                 "summary": "Remove a user from the subadmins of a group",
-                "description": "This endpoint requires admin access",
+                "description": "This endpoint requires admin access\nThis endpoint requires password confirmation",
                 "tags": [
                     "users"
                 ],
@@ -1251,7 +1251,7 @@
             "delete": {
                 "operationId": "app_config-delete-key",
                 "summary": "Delete a config key of an app",
-                "description": "This endpoint requires admin access",
+                "description": "This endpoint requires admin access\nThis endpoint requires password confirmation",
                 "tags": [
                     "app_config"
                 ],

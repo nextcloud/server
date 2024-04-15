@@ -147,7 +147,7 @@
                         }
                     },
                     "value": {
-                        "oneOf": [
+                        "anyOf": [
                             {
                                 "type": "string"
                             },
@@ -157,7 +157,7 @@
                             },
                             {
                                 "type": "number",
-                                "format": "float"
+                                "format": "double"
                             },
                             {
                                 "type": "boolean"
