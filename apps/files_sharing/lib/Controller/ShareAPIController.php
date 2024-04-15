@@ -71,7 +71,6 @@ use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IPreview;
 use OCP\IRequest;
-use OCP\IServerContainer;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\Lock\ILockingProvider;
@@ -83,6 +82,7 @@ use OCP\Share\IManager;
 use OCP\Share\IShare;
 use OCP\UserStatus\IManager as IUserStatusManager;
 use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -92,32 +92,8 @@ use Psr\Log\LoggerInterface;
  */
 class ShareAPIController extends OCSController {
 
-	/** @var IManager */
-	private $shareManager;
-	/** @var IGroupManager */
-	private $groupManager;
-	/** @var IUserManager */
-	private $userManager;
-	/** @var IRootFolder */
-	private $rootFolder;
-	/** @var IURLGenerator */
-	private $urlGenerator;
-	/** @var string */
-	private $currentUser;
-	/** @var IL10N */
-	private $l;
-	/** @var \OCP\Files\Node */
-	private $lockedNode;
-	/** @var IConfig */
-	private $config;
-	/** @var IAppManager */
-	private $appManager;
-	/** @var IServerContainer */
-	private $serverContainer;
-	/** @var IUserStatusManager */
-	private $userStatusManager;
-	/** @var IPreview */
-	private $previewManager;
+	private ?Node $lockedNode = null;
+	private string $currentUser;
 
 	/**
 	 * Share20OCS constructor.
@@ -138,22 +114,11 @@ class ShareAPIController extends OCSController {
 		IUserStatusManager $userStatusManager,
 		IPreview $previewManager,
 		private IDateTimeZone $dateTimeZone,
+		private LoggerInterface $logger,
+		?string $userId = null
 	) {
 		parent::__construct($appName, $request);
-
-		$this->shareManager = $shareManager;
-		$this->userManager = $userManager;
-		$this->groupManager = $groupManager;
-		$this->request = $request;
-		$this->rootFolder = $rootFolder;
-		$this->urlGenerator = $urlGenerator;
 		$this->currentUser = $userId;
-		$this->l = $l10n;
-		$this->config = $config;
-		$this->appManager = $appManager;
-		$this->serverContainer = $serverContainer;
-		$this->userStatusManager = $userStatusManager;
-		$this->previewManager = $previewManager;
 	}
 
 	/**
@@ -355,7 +320,7 @@ class ShareAPIController extends OCSController {
 				'strict_search' => true,
 			]);
 		} catch (Exception $e) {
-			Server::get(LoggerInterface::class)->error(
+			$this->logger->error(
 				$e->getMessage(),
 				['exception' => $e]
 			);
@@ -437,7 +402,7 @@ class ShareAPIController extends OCSController {
 		try {
 			$slaveService = Server::get(\OCA\GlobalSiteSelector\Service\SlaveService::class);
 		} catch (\Throwable $e) {
-			Server::get(LoggerInterface::class)->error(
+			$this->logger->error(
 				$e->getMessage(),
 				['exception' => $e]
 			);
