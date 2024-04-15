@@ -757,6 +757,7 @@
             "get": {
                 "operationId": "app_password-get-app-password",
                 "summary": "Create app password",
+                "description": "This endpoint requires password confirmation",
                 "tags": [
                     "app_password"
                 ],
@@ -2583,6 +2584,7 @@
             "put": {
                 "operationId": "profile_api-set-visibility",
                 "summary": "Update the visibility of a parameter",
+                "description": "This endpoint requires password confirmation",
                 "tags": [
                     "profile_api"
                 ],

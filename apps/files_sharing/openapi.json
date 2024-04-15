@@ -555,10 +555,10 @@
                         "format": "int64"
                     },
                     "item_size": {
-                        "oneOf": [
+                        "anyOf": [
                             {
                                 "type": "number",
-                                "format": "float"
+                                "format": "double"
                             },
                             {
                                 "type": "integer",
@@ -727,14 +727,14 @@
                         "type": "string"
                     },
                     "size": {
-                        "oneOf": [
+                        "anyOf": [
                             {
                                 "type": "integer",
                                 "format": "int64"
                             },
                             {
                                 "type": "number",
-                                "format": "float"
+                                "format": "double"
                             }
                         ]
                     },
