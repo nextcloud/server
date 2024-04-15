@@ -264,7 +264,7 @@
     "Generate headline" : "Générer un titre",
     "Generates a possible headline for a text." : "Génère un titre possible pour un texte.",
     "Summarize" : "Résumer",
-    "Summarizes text by reducing its length without losing key information." : "Résume un texte en réduisant sa longueur sans perdre d'informations essentielles.",
+    "Summarizes text by reducing its length without losing key information." : "Résume un texte en réduisant sa longueur sans perdre d’informations essentielles.",
     "Extract topics" : "Extraire des thèmes",
     "Extracts topics from a text and outputs them separated by commas." : "Extrait les thèmes d'un texte et les restitue séparés par des virgules.",
     "404" : "404",
