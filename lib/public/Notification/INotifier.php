@@ -39,7 +39,7 @@ interface INotifier {
 	public function getID(): string;
 
 	/**
-	 * Human readable name describing the notifier
+	 * Human-readable name describing the notifier
 	 *
 	 * @return string
 	 * @since 17.0.0
@@ -50,9 +50,15 @@ interface INotifier {
 	 * @param INotification $notification
 	 * @param string $languageCode The code of the language that should be used to prepare the notification
 	 * @return INotification
-	 * @throws \InvalidArgumentException When the notification was not prepared by a notifier
+	 * @throws UnknownNotificationException When the notification was not prepared by a notifier
 	 * @throws AlreadyProcessedException When the notification is not needed anymore and should be deleted
+	 * @throws IncompleteParsedNotificationException Only to be thrown by the {@see IManager}
 	 * @since 9.0.0
+	 * @since 30.0.0 Notifiers should throw {@see UnknownNotificationException} instead of \InvalidArgumentException
+	 *  when they did not handle the notification. Throwing \InvalidArgumentException directly is deprecated and will
+	 *  be logged as an error in Nextcloud 39.
+	 * @since 30.0.0 Throws {@see IncompleteParsedNotificationException} when not all required fields
+	 *  are set at the end of the manager or after a INotifier that claimed to have parsed the notification.
 	 */
 	public function prepare(INotification $notification, string $languageCode): INotification;
 }

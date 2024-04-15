@@ -54,8 +54,9 @@ interface IAction {
 	/**
 	 * @param string $label
 	 * @return $this
-	 * @throws \InvalidArgumentException if the label is invalid
+	 * @throws InvalidValueException if the label is invalid
 	 * @since 9.0.0
+	 * @since 30.0.0 throws {@see InvalidValueException} instead of \InvalidArgumentException
 	 */
 	public function setLabel(string $label): IAction;
 
@@ -68,8 +69,9 @@ interface IAction {
 	/**
 	 * @param string $label
 	 * @return $this
-	 * @throws \InvalidArgumentException if the label is invalid
+	 * @throws InvalidValueException if the label is invalid
 	 * @since 9.0.0
+	 * @since 30.0.0 throws {@see InvalidValueException} instead of \InvalidArgumentException
 	 */
 	public function setParsedLabel(string $label): IAction;
 
@@ -82,7 +84,6 @@ interface IAction {
 	/**
 	 * @param bool $primary
 	 * @return $this
-	 * @throws \InvalidArgumentException if $primary is invalid
 	 * @since 9.0.0
 	 */
 	public function setPrimary(bool $primary): IAction;
@@ -97,8 +98,9 @@ interface IAction {
 	 * @param string $link
 	 * @param string $requestType
 	 * @return $this
-	 * @throws \InvalidArgumentException if the link is invalid
+	 * @throws InvalidValueException if the link is invalid
 	 * @since 9.0.0
+	 * @since 30.0.0 throws {@see InvalidValueException} instead of \InvalidArgumentException
 	 */
 	public function setLink(string $link, string $requestType): IAction;
 
