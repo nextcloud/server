@@ -62,7 +62,7 @@
                         ]
                     },
                     "time": {
-                        "oneOf": [
+                        "anyOf": [
                             {
                                 "type": "integer",
                                 "format": "int64"
@@ -1110,13 +1110,13 @@
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
                                                 "data": {
-                                                    "oneOf": [
+                                                    "anyOf": [
                                                         {
                                                             "$ref": "#/components/schemas/Private"
                                                         },
                                                         {
                                                             "type": "array",
-                                                            "maxLength": 0
+                                                            "maxItems": 0
                                                         }
                                                     ]
                                                 }

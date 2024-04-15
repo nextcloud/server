@@ -492,7 +492,7 @@
                         "description": "Latitude in decimal degree format",
                         "schema": {
                             "type": "number",
-                            "format": "float",
+                            "format": "double",
                             "nullable": true
                         }
                     },
@@ -502,7 +502,7 @@
                         "description": "Longitude in decimal degree format",
                         "schema": {
                             "type": "number",
-                            "format": "float",
+                            "format": "double",
                             "nullable": true
                         }
                     },

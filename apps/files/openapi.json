@@ -182,7 +182,7 @@
                     },
                     "ratio": {
                         "type": "number",
-                        "format": "float",
+                        "format": "double",
                         "nullable": true
                     },
                     "actionLabel": {
