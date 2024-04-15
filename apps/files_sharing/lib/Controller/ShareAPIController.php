@@ -718,7 +718,6 @@ class ShareAPIController extends OCSController {
 
 			$share->setSharedWith($shareWith);
 			$share->setPermissions($permissions);
-
 			$share->setSharedWithDisplayName($this->getCachedFederatedDisplayName($shareWith, false));
 		} elseif ($shareType === IShare::TYPE_REMOTE_GROUP) {
 			if (!$this->shareManager->outgoingServer2ServerGroupSharesAllowed()) {
@@ -731,7 +730,6 @@ class ShareAPIController extends OCSController {
 
 			$share->setSharedWith($shareWith);
 			$share->setPermissions($permissions);
-
 		} elseif ($shareType === IShare::TYPE_CIRCLE) {
 			if (!\OC::$server->getAppManager()->isEnabledForUser('circles') || !class_exists('\OCA\Circles\ShareByCircleProvider')) {
 				throw new OCSNotFoundException($this->l->t('You cannot share to a Circle if the app is not enabled'));
