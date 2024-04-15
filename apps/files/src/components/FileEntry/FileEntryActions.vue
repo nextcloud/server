@@ -93,13 +93,15 @@
 </template>
 
 <script lang="ts">
-import { DefaultType, FileAction, Node, NodeStatus, View, getFileActions } from '@nextcloud/files'
+import type { FileAction, Node, View } from '@nextcloud/files'
+import type { PropType } from 'vue'
+
 import { showError, showSuccess } from '@nextcloud/dialogs'
+import { DefaultType, NodeStatus, getFileActions } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
-import Vue, { PropType } from 'vue'
+import Vue, { defineComponent } from 'vue'
 
 import ArrowLeftIcon from 'vue-material-design-icons/ArrowLeft.vue'
-import ChevronRightIcon from 'vue-material-design-icons/ChevronRight.vue'
 import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
 import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
 import NcActionSeparator from '@nextcloud/vue/dist/Components/NcActionSeparator.js'
@@ -112,12 +114,11 @@ import logger from '../../logger.js'
 // The registered actions list
 const actions = getFileActions()
 
-export default Vue.extend({
+export default defineComponent({
 	name: 'FileEntryActions',
 
 	components: {
 		ArrowLeftIcon,
-		ChevronRightIcon,
 		CustomElementRender,
 		NcActionButton,
 		NcActions,
@@ -335,7 +336,7 @@ export default Vue.extend({
 			// Focus the previous menu action button
 			this.$nextTick(() => {
 				// Focus the action button
-				const menuAction = this.$refs[`action-${action.id}`][0]
+				const menuAction = this.$refs[`action-${action.id}`]?.[0]
 				if (menuAction) {
 					menuAction.$el.querySelector('button')?.focus()
 				}

@@ -36,7 +36,7 @@ import Vue, { defineAsyncComponent } from 'vue'
 const TemplatePickerVue = defineAsyncComponent(() => import('../views/TemplatePicker.vue'))
 let TemplatePicker: ComponentInstance & { open: (n: string, t: TemplateFile) => void } | null = null
 
-const getTemplatePicker = async () => {
+const getTemplatePicker = async (context: Folder) => {
 	if (TemplatePicker === null) {
 		// Create document root
 		const mountingPoint = document.createElement('div')
@@ -45,7 +45,15 @@ const getTemplatePicker = async () => {
 
 		// Init vue app
 		TemplatePicker = new Vue({
-			render: (h) => h(TemplatePickerVue, { ref: 'picker' }),
+			render: (h) => h(
+				TemplatePickerVue,
+				{
+					ref: 'picker',
+					props: {
+						parent: context,
+					},
+				},
+			),
 			methods: { open(...args) { this.$refs.picker.open(...args) } },
 			el: mountingPoint,
 		})
@@ -71,7 +79,7 @@ export function registerTemplateEntries() {
 			},
 			order: 11,
 			async handler(context: Folder, content: Node[]) {
-				const templatePicker = getTemplatePicker()
+				const templatePicker = getTemplatePicker(context)
 				const name = await newNodeName(`${provider.label}${provider.extension}`, content, {
 					label: t('files', 'Filename'),
 					name: provider.label,

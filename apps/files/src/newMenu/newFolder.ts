@@ -74,6 +74,12 @@ export const entry = {
 				owner: getCurrentUser()?.uid || null,
 				permissions: Permission.ALL,
 				root: context?.root || '/files/' + getCurrentUser()?.uid,
+				// Include mount-type from parent folder as this is inherited
+				attributes: {
+					'mount-type': context.attributes?.['mount-type'],
+					'owner-id': context.attributes?.['owner-id'],
+					'owner-display-name': context.attributes?.['owner-display-name'],
+				},
 			})
 
 			showSuccess(t('files', 'Created new folder "{name}"', { name: basename(source) }))
