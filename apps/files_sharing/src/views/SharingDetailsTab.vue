@@ -308,20 +308,30 @@ export default {
 			switch (this.share.type) {
 			case this.SHARE_TYPES.SHARE_TYPE_USER:
 				return t('files_sharing', 'Share with {userName}', { userName: this.share.shareWithDisplayName })
+			case this.SHARE_TYPES.SHARE_TYPE_EMAIL:
+			    return t('files_sharing', 'Share with email {email}', { email: this.share.shareWith })
 			case this.SHARE_TYPES.SHARE_TYPE_LINK:
 				return t('files_sharing', 'Share link')
 			case this.SHARE_TYPES.SHARE_TYPE_GROUP:
 				return t('files_sharing', 'Share with group')
 			case this.SHARE_TYPES.SHARE_TYPE_ROOM:
 				return t('files_sharing', 'Share in conversation')
-			case this.SHARE_TYPES.SHARE_TYPE_REMOTE:
-				return t('files_sharing', 'Share with remote')
+			case this.SHARE_TYPES.SHARE_TYPE_REMOTE: {
+				const [user, server] = this.share.shareWith.split('@')
+				return t('files_sharing', 'Share with {user} on remote server {server}', { user, server })
+			}
 			case this.SHARE_TYPES.SHARE_TYPE_REMOTE_GROUP:
 				return t('files_sharing', 'Share with remote group')
 			case this.SHARE_TYPES.SHARE_TYPE_GUEST:
 				return t('files_sharing', 'Share with guest')
-			default:
-				return t('files_sharing', 'Share with')
+			default: {
+			        if (this.share.id) {
+					    // Share already exists
+					    return t('files_sharing', 'Update share')
+				    } else {
+					    return t('files_sharing', 'Create share')
+				    }
+			}
 			}
 		},
 		/**
