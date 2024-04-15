@@ -77,6 +77,7 @@ OC.L10N.register(
     "No altered files" : "Nun hai nengún ficheru alteriáu",
     "Cron errors" : "Errores de cron",
     "Cron last run" : "Última execución de cron",
+    "The database is missing some primary keys. Due to the fact that adding primary keys on big tables could take some time they were not added automatically. By running \"occ db:add-missing-primary-keys\" those missing primary keys could be added manually while the instance keeps running." : "A la base de datos fálten-y dalgunes claves primaries. Pola mor de qu'amestar claves primaries en tables grandes pue tardar tiempu, nun s'amestaron automáticamente. Al executar «occ db:add-missing-primary-keys» eses claves primaries que falten podríen amestase manualmente mentanto la instancia sigue n'execución.",
     "Debug mode" : "Mou de depuración",
     "Debug mode is disabled." : "El mou de puración ta desactiváu.",
     "File locking" : "Bloquéu de ficheros",

@@ -12,6 +12,7 @@
     "Password to access {file} was sent to {email}" : "La contraseña p'acceder a «{file}» unvióse a {email}",
     "Password to access {file} was sent to you" : "Unviósete la contraseña p'acceder a «{file}»",
     "Share by mail" : "Compartir per corréu electrónicu",
+    "Sharing %1$s failed, because this item is already shared with the account %2$s" : "La compartición de «%1$s» falló porque esti elementu yá ta compartíu cola cuenta «%2$s»",
     "%1$s shared »%2$s« with you" : "%1$s compartió «%2$s» contigo",
     "%1$s shared »%2$s« with you." : "%1$s compartió «%2$s» contigo.",
     "Click the button below to open it." : "Calca nel botón p'abrilo.",
