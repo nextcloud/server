@@ -90,6 +90,16 @@ export default defineComponent({
 		TemplatePreview,
 	},
 
+	props: {
+		/**
+		 * The parent folder where to create the node
+		 */
+		parent: {
+			type: Object,
+			default: () => null,
+		},
+	},
+
 	data() {
 		return {
 			// Check empty template by default
@@ -109,7 +119,7 @@ export default defineComponent({
 		nameWithoutExt() {
 			// Strip extension from name if defined
 			return !this.extension
-				? this.name
+				? this.name!
 				: this.name!.slice(0, 0 - this.extension.length)
 		},
 
@@ -236,6 +246,10 @@ export default defineComponent({
 					size: fileInfo.size,
 					permissions: fileInfo.permissions,
 					attributes: {
+						// Inherit some attributes from parent folder like the mount type and real owner
+						'mount-type': this.parent?.attributes?.['mount-type'],
+						'owner-id': this.parent?.attributes?.['owner-id'],
+						'owner-display-name': this.parent?.attributes?.['owner-display-name'],
 						...fileInfo,
 						'has-preview': fileInfo.hasPreview,
 					},
