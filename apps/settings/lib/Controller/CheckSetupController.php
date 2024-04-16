@@ -55,9 +55,7 @@ use OCP\AppFramework\Http\RedirectResponse;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
-use OCP\ITempManager;
 use OCP\IURLGenerator;
-use OCP\Notification\IManager;
 use OCP\SetupCheck\ISetupCheckManager;
 use Psr\Log\LoggerInterface;
 
@@ -73,10 +71,6 @@ class CheckSetupController extends Controller {
 	private $checker;
 	/** @var LoggerInterface */
 	private $logger;
-	/** @var ITempManager */
-	private $tempManager;
-	/** @var IManager */
-	private $manager;
 	private ISetupCheckManager $setupCheckManager;
 
 	public function __construct($AppName,
@@ -86,8 +80,6 @@ class CheckSetupController extends Controller {
 		IL10N $l10n,
 		Checker $checker,
 		LoggerInterface $logger,
-		ITempManager $tempManager,
-		IManager $manager,
 		ISetupCheckManager $setupCheckManager,
 	) {
 		parent::__construct($AppName, $request);
@@ -96,8 +88,6 @@ class CheckSetupController extends Controller {
 		$this->l10n = $l10n;
 		$this->checker = $checker;
 		$this->logger = $logger;
-		$this->tempManager = $tempManager;
-		$this->manager = $manager;
 		$this->setupCheckManager = $setupCheckManager;
 	}
 
@@ -108,51 +98,6 @@ class CheckSetupController extends Controller {
 	 */
 	public function setupCheckManager(): DataResponse {
 		return new DataResponse($this->setupCheckManager->runAll());
-	}
-
-	/**
-	 * Check if is fair use of free push service
-	 * @return bool
-	 */
-	private function isFairUseOfFreePushService(): bool {
-		$rateLimitReached = (int) $this->config->getAppValue('notifications', 'rate_limit_reached', '0');
-		if ($rateLimitReached >= (time() - 7 * 24 * 3600)) {
-			// Notifications app is showing a message already
-			return true;
-		}
-		return $this->manager->isFairUseOfFreePushService();
-	}
-
-	/**
-	 * Checks if the correct memcache module for PHP is installed. Only
-	 * fails if memcached is configured and the working module is not installed.
-	 *
-	 * @return bool
-	 */
-	private function isCorrectMemcachedPHPModuleInstalled() {
-		$memcacheDistributedClass = $this->config->getSystemValue('memcache.distributed', null);
-		if ($memcacheDistributedClass === null || ltrim($memcacheDistributedClass, '\\') !== \OC\Memcache\Memcached::class) {
-			return true;
-		}
-
-		// there are two different memcache modules for PHP
-		// we only support memcached and not memcache
-		// https://code.google.com/p/memcached/wiki/PHPClientComparison
-		return !(!extension_loaded('memcached') && extension_loaded('memcache'));
-	}
-
-	/**
-	 * Checks if set_time_limit is not disabled.
-	 *
-	 * @return bool
-	 */
-	private function isSettimelimitAvailable() {
-		if (function_exists('set_time_limit')
-			&& !str_contains(ini_get('disable_functions'), 'set_time_limit')) {
-			return true;
-		}
-
-		return false;
 	}
 
 	/**
@@ -224,66 +169,6 @@ Raw output
 		);
 	}
 
-	private function isTemporaryDirectoryWritable(): bool {
-		try {
-			if (!empty($this->tempManager->getTempBaseDir())) {
-				return true;
-			}
-		} catch (\Exception $e) {
-		}
-		return false;
-	}
-
-	protected function areWebauthnExtensionsEnabled(): bool {
-		if (!extension_loaded('bcmath')) {
-			return false;
-		}
-		if (!extension_loaded('gmp')) {
-			return false;
-		}
-		return true;
-	}
-
-	protected function isMysqlUsedWithoutUTF8MB4(): bool {
-		return ($this->config->getSystemValue('dbtype', 'sqlite') === 'mysql') && ($this->config->getSystemValue('mysql.utf8mb4', false) === false);
-	}
-
-	protected function isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed(): bool {
-		$objectStore = $this->config->getSystemValue('objectstore', null);
-		$objectStoreMultibucket = $this->config->getSystemValue('objectstore_multibucket', null);
-
-		if (!isset($objectStoreMultibucket) && !isset($objectStore)) {
-			return true;
-		}
-
-		if (isset($objectStoreMultibucket['class']) && $objectStoreMultibucket['class'] !== 'OC\\Files\\ObjectStore\\S3') {
-			return true;
-		}
-
-		if (isset($objectStore['class']) && $objectStore['class'] !== 'OC\\Files\\ObjectStore\\S3') {
-			return true;
-		}
-
-		$tempPath = sys_get_temp_dir();
-		if (!is_dir($tempPath)) {
-			$this->logger->error('Error while checking the temporary PHP path - it was not properly set to a directory. Returned value: ' . $tempPath);
-			return false;
-		}
-		$freeSpaceInTemp = function_exists('disk_free_space') ? disk_free_space($tempPath) : false;
-		if ($freeSpaceInTemp === false) {
-			$this->logger->error('Error while checking the available disk space of temporary PHP path or no free disk space returned. Temporary path: ' . $tempPath);
-			return false;
-		}
-
-		$freeSpaceInTempInGB = $freeSpaceInTemp / 1024 / 1024 / 1024;
-		if ($freeSpaceInTempInGB > 50) {
-			return true;
-		}
-
-		$this->logger->warning('Checking the available space in the temporary path resulted in ' . round($freeSpaceInTempInGB, 1) . ' GB instead of the recommended 50GB. Path: ' . $tempPath);
-		return false;
-	}
-
 	/**
 	 * @return DataResponse
 	 * @AuthorizedAdminSetting(settings=OCA\Settings\Settings\Admin\Overview)
@@ -291,15 +176,8 @@ Raw output
 	public function check() {
 		return new DataResponse(
 			[
-				'isFairUseOfFreePushService' => $this->isFairUseOfFreePushService(),
 				'reverseProxyDocs' => $this->urlGenerator->linkToDocs('admin-reverse-proxy'),
-				'isCorrectMemcachedPHPModuleInstalled' => $this->isCorrectMemcachedPHPModuleInstalled(),
-				'isSettimelimitAvailable' => $this->isSettimelimitAvailable(),
-				'areWebauthnExtensionsEnabled' => $this->areWebauthnExtensionsEnabled(),
-				'isMysqlUsedWithoutUTF8MB4' => $this->isMysqlUsedWithoutUTF8MB4(),
-				'isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed' => $this->isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed(),
 				'reverseProxyGeneratedURL' => $this->urlGenerator->getAbsoluteURL('index.php'),
-				'temporaryDirectoryWritable' => $this->isTemporaryDirectoryWritable(),
 				'generic' => $this->setupCheckManager->runAll(),
 			]
 		);

@@ -43,9 +43,7 @@ use OCP\AppFramework\Http\RedirectResponse;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
-use OCP\ITempManager;
 use OCP\IURLGenerator;
-use OCP\Notification\IManager;
 use OCP\SetupCheck\ISetupCheckManager;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
@@ -72,10 +70,6 @@ class CheckSetupControllerTest extends TestCase {
 	private $logger;
 	/** @var Checker|\PHPUnit\Framework\MockObject\MockObject */
 	private $checker;
-	/** @var ITempManager|\PHPUnit\Framework\MockObject\MockObject */
-	private $tempManager;
-	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
-	private $notificationManager;
 	/** @var ISetupCheckManager|MockObject */
 	private $setupCheckManager;
 
@@ -98,8 +92,6 @@ class CheckSetupControllerTest extends TestCase {
 		$this->checker = $this->getMockBuilder('\OC\IntegrityCheck\Checker')
 				->disableOriginalConstructor()->getMock();
 		$this->logger = $this->getMockBuilder(LoggerInterface::class)->getMock();
-		$this->tempManager = $this->getMockBuilder(ITempManager::class)->getMock();
-		$this->notificationManager = $this->getMockBuilder(IManager::class)->getMock();
 		$this->setupCheckManager = $this->createMock(ISetupCheckManager::class);
 		$this->checkSetupController = $this->getMockBuilder(CheckSetupController::class)
 			->setConstructorArgs([
@@ -110,17 +102,12 @@ class CheckSetupControllerTest extends TestCase {
 				$this->l10n,
 				$this->checker,
 				$this->logger,
-				$this->tempManager,
-				$this->notificationManager,
 				$this->setupCheckManager,
 			])
 			->setMethods([
 				'getCurlVersion',
 				'isPhpOutdated',
 				'isPHPMailerUsed',
-				'areWebauthnExtensionsEnabled',
-				'isMysqlUsedWithoutUTF8MB4',
-				'isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed',
 			])->getMock();
 	}
 
@@ -142,21 +129,6 @@ class CheckSetupControllerTest extends TestCase {
 
 		$this->request->expects($this->never())
 			->method('getHeader');
-
-		$this->checkSetupController
-			->expects($this->once())
-			->method('areWebauthnExtensionsEnabled')
-			->willReturn(false);
-
-		$this->checkSetupController
-			->expects($this->once())
-			->method('isMysqlUsedWithoutUTF8MB4')
-			->willReturn(false);
-
-		$this->checkSetupController
-			->expects($this->once())
-			->method('isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed')
-			->willReturn(true);
 
 		$this->urlGenerator->method('linkToDocs')
 			->willReturnCallback(function (string $key): string {
@@ -192,14 +164,7 @@ class CheckSetupControllerTest extends TestCase {
 		$expected = new DataResponse(
 			[
 				'reverseProxyDocs' => 'reverse-proxy-doc-link',
-				'isCorrectMemcachedPHPModuleInstalled' => true,
-				'isSettimelimitAvailable' => true,
-				'areWebauthnExtensionsEnabled' => false,
-				'isMysqlUsedWithoutUTF8MB4' => false,
-				'isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed' => true,
 				'reverseProxyGeneratedURL' => 'https://server/index.php',
-				'isFairUseOfFreePushService' => false,
-				'temporaryDirectoryWritable' => false,
 				'generic' => [],
 			]
 		);
@@ -660,93 +625,5 @@ Array
 			]
 		);
 		$this->assertEquals($expected, $this->checkSetupController->getFailedIntegrityCheckFiles());
-	}
-
-	public function dataForIsMysqlUsedWithoutUTF8MB4() {
-		return [
-			['sqlite', false, false],
-			['sqlite', true, false],
-			['postgres', false, false],
-			['postgres', true, false],
-			['oci', false, false],
-			['oci', true, false],
-			['mysql', false, true],
-			['mysql', true, false],
-		];
-	}
-
-	/**
-	 * @dataProvider dataForIsMysqlUsedWithoutUTF8MB4
-	 */
-	public function testIsMysqlUsedWithoutUTF8MB4(string $db, bool $useUTF8MB4, bool $expected) {
-		$this->config->method('getSystemValue')
-			->willReturnCallback(function ($key, $default) use ($db, $useUTF8MB4) {
-				if ($key === 'dbtype') {
-					return $db;
-				}
-				if ($key === 'mysql.utf8mb4') {
-					return $useUTF8MB4;
-				}
-				return $default;
-			});
-
-		$checkSetupController = new CheckSetupController(
-			'settings',
-			$this->request,
-			$this->config,
-			$this->urlGenerator,
-			$this->l10n,
-			$this->checker,
-			$this->logger,
-			$this->tempManager,
-			$this->notificationManager,
-			$this->setupCheckManager,
-		);
-
-		$this->assertSame($expected, $this->invokePrivate($checkSetupController, 'isMysqlUsedWithoutUTF8MB4'));
-	}
-
-	public function dataForIsEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed() {
-		return [
-			['singlebucket', 'OC\\Files\\ObjectStore\\Swift', true],
-			['multibucket', 'OC\\Files\\ObjectStore\\Swift', true],
-			['singlebucket', 'OC\\Files\\ObjectStore\\Custom', true],
-			['multibucket', 'OC\Files\\ObjectStore\\Custom', true],
-			['singlebucket', 'OC\Files\ObjectStore\Swift', true],
-			['multibucket', 'OC\Files\ObjectStore\Swift', true],
-			['singlebucket', 'OC\Files\ObjectStore\Custom', true],
-			['multibucket', 'OC\Files\ObjectStore\Custom', true],
-		];
-	}
-
-	/**
-	 * @dataProvider dataForIsEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed
-	 */
-	public function testIsEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed(string $mode, string $className, bool $expected) {
-		$this->config->method('getSystemValue')
-			->willReturnCallback(function ($key, $default) use ($mode, $className) {
-				if ($key === 'objectstore' && $mode === 'singlebucket') {
-					return ['class' => $className];
-				}
-				if ($key === 'objectstore_multibucket' && $mode === 'multibucket') {
-					return ['class' => $className];
-				}
-				return $default;
-			});
-
-		$checkSetupController = new CheckSetupController(
-			'settings',
-			$this->request,
-			$this->config,
-			$this->urlGenerator,
-			$this->l10n,
-			$this->checker,
-			$this->logger,
-			$this->tempManager,
-			$this->notificationManager,
-			$this->setupCheckManager,
-		);
-
-		$this->assertSame($expected, $this->invokePrivate($checkSetupController, 'isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed'));
 	}
 }

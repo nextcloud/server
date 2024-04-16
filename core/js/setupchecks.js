@@ -180,69 +180,11 @@
 			var afterCall = function(data, statusText, xhr) {
 				var messages = [];
 				if (xhr.status === 200 && data) {
-					if (!data.isFairUseOfFreePushService) {
-						messages.push({
-							msg: t('core', 'This is the unsupported community build of Nextcloud. Given the size of this instance, performance, reliability and scalability cannot be guaranteed. Push notifications are limited to avoid overloading our free service. Learn more about the benefits of Nextcloud Enterprise at {linkstart}https://nextcloud.com/enterprise{linkend}.')
-								.replace('{linkstart}', '<a target="_blank" rel="noreferrer noopener" class="external" href="https://nextcloud.com/enterprise">')
-								.replace('{linkend}', '</a>'),
-							type: OC.SetupChecks.MESSAGE_TYPE_ERROR
-						});
-					}
-					if(!data.isCorrectMemcachedPHPModuleInstalled) {
-						messages.push({
-							msg: t('core', 'Memcached is configured as distributed cache, but the wrong PHP module "memcache" is installed. \\OC\\Memcache\\Memcached only supports "memcached" and not "memcache". See the {linkstart}memcached wiki about both modules ↗{linkend}.')
-								.replace('{linkstart}', '<a target="_blank" rel="noreferrer noopener" class="external" href="https://code.google.com/p/memcached/wiki/PHPClientComparison">')
-								.replace('{linkend}', '</a>'),
-							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
-						});
-					}
-					if(!data.isSettimelimitAvailable) {
-						messages.push({
-							msg: t('core', 'The PHP function "set_time_limit" is not available. This could result in scripts being halted mid-execution, breaking your installation. Enabling this function is strongly recommended.'),
-							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
-						});
-					}
-					if (!data.areWebauthnExtensionsEnabled) {
-						messages.push({
-							msg: t(
-								'core',
-								'The PHP modules "gmp" and/or "bcmath" are not enabled. If you use WebAuthn passwordless authentication, these modules are required.'
-							),
-							type: OC.SetupChecks.MESSAGE_TYPE_INFO
-						})
-					}
-
-					if (data.isMysqlUsedWithoutUTF8MB4) {
-						messages.push({
-							msg: t('core', 'MySQL is used as database but does not support 4-byte characters. To be able to handle 4-byte characters (like emojis) without issues in filenames or comments for example it is recommended to enable the 4-byte support in MySQL. For further details read {linkstart}the documentation page about this ↗{linkend}.')
-								.replace('{linkstart}', '<a target="_blank" rel="noreferrer noopener" class="external" href="' + OC.theme.docPlaceholderUrl.replace('PLACEHOLDER', 'admin-mysql-utf8mb4') + '">')
-								.replace('{linkend}', '</a>'),
-							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
-						})
-					}
-					if (!data.isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed) {
-						messages.push({
-							msg: t('core', 'This instance uses an S3 based object store as primary storage. The uploaded files are stored temporarily on the server and thus it is recommended to have 50 GB of free space available in the temp directory of PHP. Check the logs for full details about the path and the available space. To improve this please change the temporary directory in the php.ini or make more space available in that path.'),
-							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
-						})
-					}
-					if (!data.temporaryDirectoryWritable) {
-						messages.push({
-							msg: t('core', 'The temporary directory of this instance points to an either non-existing or non-writable directory.'),
-							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
-						})
-					}
 					if (window.location.protocol === 'https:' && data.reverseProxyGeneratedURL.split('/')[0] !== 'https:') {
 						messages.push({
 							msg: t('core', 'You are accessing your instance over a secure connection, however your instance is generating insecure URLs. This most likely means that you are behind a reverse proxy and the overwrite config variables are not set correctly. Please read {linkstart}the documentation page about this ↗{linkend}.')
 								.replace('{linkstart}', '<a target="_blank" rel="noreferrer noopener" class="external" href="' + data.reverseProxyDocs + '">')
 								.replace('{linkend}', '</a>'),
-							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
-						})
-					}
-					if (window.oc_debug) {
-						messages.push({
-							msg: t('core', 'This instance is running in debug mode. Only enable this for local development and not in production environments.'),
 							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 						})
 					}
