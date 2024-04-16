@@ -1138,6 +1138,7 @@ return array(
     'OC\\Core\\Command\\User\\AuthTokens\\Add' => $baseDir . '/core/Command/User/AuthTokens/Add.php',
     'OC\\Core\\Command\\User\\AuthTokens\\Delete' => $baseDir . '/core/Command/User/AuthTokens/Delete.php',
     'OC\\Core\\Command\\User\\AuthTokens\\ListCommand' => $baseDir . '/core/Command/User/AuthTokens/ListCommand.php',
+    'OC\\Core\\Command\\User\\ClearGeneratedAvatarCacheCommand' => $baseDir . '/core/Command/User/ClearGeneratedAvatarCacheCommand.php',
     'OC\\Core\\Command\\User\\Delete' => $baseDir . '/core/Command/User/Delete.php',
     'OC\\Core\\Command\\User\\Disable' => $baseDir . '/core/Command/User/Disable.php',
     'OC\\Core\\Command\\User\\Enable' => $baseDir . '/core/Command/User/Enable.php',
