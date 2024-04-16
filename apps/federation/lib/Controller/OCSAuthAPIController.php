@@ -7,6 +7,7 @@
  */
 namespace OCA\Federation\Controller;
 
+use OCA\Federation\BackgroundJob\RequestSharedSecret;
 use OCA\Federation\DbHandler;
 use OCA\Federation\TrustedServers;
 use OCP\AppFramework\Http;
@@ -126,6 +127,25 @@ class OCSAuthAPIController extends OCSController {
 				'remote server (' . $url . ') presented lower token. We will initiate the exchange of the shared secret.',
 				['app' => 'federation']
 			);
+
+			$hasJob = false;
+			foreach ($this->jobList->getJobsIterator(RequestSharedSecret::class, null, 0) as $job) {
+				$arg = $job->getArgument();
+				if (is_array($arg) && isset($arg['url']) && $arg['url'] === $url) {
+					$hasJob = true;
+					break;
+				}
+			}
+			if (!$hasJob) {
+				$this->jobList->add(
+					RequestSharedSecret::class,
+					[
+						'url' => $url,
+						'token' => $this->dbHandler->getToken($url),
+						'created' => $this->timeFactory->getTime()
+					]
+				);
+			}
 			throw new OCSForbiddenException();
 		}
 
