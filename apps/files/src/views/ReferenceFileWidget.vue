@@ -57,7 +57,7 @@
 		@click="navigate">
 		<span class="widget-file__image" :class="filePreviewClass" :style="filePreviewStyle">
 			<template v-if="!previewUrl">
-				<FolderIcon v-if="isFolder" :size="88" />
+				<FolderIcon v-if="isFolder" :size="88" fill-color="var(--color-primary-element)" />
 				<FileIcon v-else :size="88" />
 			</template>
 		</span>
