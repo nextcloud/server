@@ -40,9 +40,9 @@ class ClearGeneratedAvatarCacheCommand extends Base {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
-		$output->writeln("clearing avatar cache started");
+		$output->writeln("Clearing avatar cache has started");
 		$this->avatarManager->clearCachedAvatars();
-		$output->writeln("cleared avatar cache successfully");
+		$output->writeln("Cleared avatar cache successfully");
 		return 0;
 	}
 }
