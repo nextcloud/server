@@ -1,10 +1,9 @@
 <?php
 /**
- * @copyright Copyright (c) 2016 Kareem <yemkareems@gmail.com>
+ * @copyright Copyright (c) 2024, Nextcloud GmbH
  *
  * @author Kareem <yemkareems@gmail.com>
- *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -36,12 +35,12 @@ class ClearGeneratedAvatarCacheCommand extends Base {
 
 	protected function configure(): void {
 		$this
-			->setName('user:clear-avatar-cache')
-			->setDescription('clear avatar cache');
+			->setDescription('clear avatar cache')
+			->setName('user:clear-avatar-cache');
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
-		$output->writeln("cleared avatar cache started");
+		$output->writeln("clearing avatar cache started");
 		$this->avatarManager->clearCachedAvatars();
 		$output->writeln("cleared avatar cache successfully");
 		return 0;
