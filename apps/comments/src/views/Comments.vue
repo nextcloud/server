@@ -86,20 +86,21 @@
 <script>
 import { showError } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
+import { vElementVisibility as elementVisibility } from '@vueuse/components'
 import VTooltip from 'v-tooltip'
 import Vue from 'vue'
 import VueObserveVisibility from 'vue-observe-visibility'
 
-import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import RefreshIcon from 'vue-material-design-icons/Refresh.vue'
-import MessageReplyTextIcon from 'vue-material-design-icons/MessageReplyText.vue'
 import AlertCircleOutlineIcon from 'vue-material-design-icons/AlertCircleOutline.vue'
+import MessageReplyTextIcon from 'vue-material-design-icons/MessageReplyText.vue'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
+import RefreshIcon from 'vue-material-design-icons/Refresh.vue'
 
-import Comment from '../components/Comment.vue'
 import { getComments, DEFAULT_LIMIT } from '../services/GetComments.ts'
-import cancelableRequest from '../utils/cancelableRequest.js'
 import { markCommentsAsRead } from '../services/ReadComments.ts'
+import cancelableRequest from '../utils/cancelableRequest.js'
+import Comment from '../components/Comment.vue'
 import CommentView from '../mixins/CommentView'
 
 Vue.use(VTooltip)
@@ -115,6 +116,10 @@ export default {
 		RefreshIcon,
 		MessageReplyTextIcon,
 		AlertCircleOutlineIcon,
+	},
+
+	directives: {
+		elementVisibility,
 	},
 
 	mixins: [CommentView],
