@@ -22,7 +22,7 @@
   -->
 
 <template>
-	<div v-observe-visibility="onVisibilityChange"
+	<div v-element-visibility="onVisibilityChange"
 		class="comments"
 		:class="{ 'icon-loading': isFirstLoading }">
 		<!-- Editor -->
@@ -86,9 +86,7 @@
 <script>
 import { showError } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
-import VTooltip from 'v-tooltip'
-import Vue from 'vue'
-import VueObserveVisibility from 'vue-observe-visibility'
+import { vElementVisibility } from '@vueuse/components'
 
 import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
@@ -97,13 +95,10 @@ import MessageReplyTextIcon from 'vue-material-design-icons/MessageReplyText.vue
 import AlertCircleOutlineIcon from 'vue-material-design-icons/AlertCircleOutline.vue'
 
 import Comment from '../components/Comment.vue'
-import { getComments, DEFAULT_LIMIT } from '../services/GetComments.ts'
-import cancelableRequest from '../utils/cancelableRequest.js'
-import { markCommentsAsRead } from '../services/ReadComments.ts'
 import CommentView from '../mixins/CommentView'
-
-Vue.use(VTooltip)
-Vue.use(VueObserveVisibility)
+import cancelableRequest from '../utils/cancelableRequest.js'
+import { getComments, DEFAULT_LIMIT } from '../services/GetComments.ts'
+import { markCommentsAsRead } from '../services/ReadComments.ts'
 
 export default {
 	name: 'Comments',
@@ -115,6 +110,10 @@ export default {
 		RefreshIcon,
 		MessageReplyTextIcon,
 		AlertCircleOutlineIcon,
+	},
+
+	directives: {
+		vElementVisibility,
 	},
 
 	mixins: [CommentView],
