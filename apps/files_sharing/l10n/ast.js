@@ -161,6 +161,7 @@ OC.L10N.register(
     "Something happened. Unable to accept the share." : "Prodúxose daqué. Nun ye posible aceptar l'elementu compartíu.",
     "Something happened. Unable to reject the share." : "Prodúxose daqué. Nun ye posible refugar l'elementu compartíu.",
     "Please specify a valid user" : "Especifica un usuariu válidu",
+    "Read only" : "Namás llectura",
     "Upload" : "Xunir",
     "Circle" : "Círculu",
     "Update" : "Anovar",

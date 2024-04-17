@@ -25,6 +25,7 @@ OC.L10N.register(
     "It is protected with the following password:" : "L'elementu ta protexíu cola contraseña siguiente:",
     "»%s« added a note to a file shared with you" : "«%s» amestó una nota a un ficheru compartíu contigo",
     "This is the password:" : "Esta ye la contraseña:",
-    "Could not find share" : "Nun se pudo atopar la compartición"
+    "Could not find share" : "Nun se pudo atopar la compartición",
+    "Sharing %1$s failed, because this item is already shared with user %2$s" : "La compartición de «%1$s» falló porque esti elementu yá ta compartíu col usuariu «%2$s»"
 },
 "nplurals=2; plural=(n != 1);");
