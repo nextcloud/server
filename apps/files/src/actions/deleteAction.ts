@@ -19,10 +19,13 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+import type { Node, View } from '@nextcloud/files'
+
 import { emit } from '@nextcloud/event-bus'
-import { Permission, Node, View, FileAction, FileType } from '@nextcloud/files'
-import { showInfo } from '@nextcloud/dialogs'
-import { translate as t, translatePlural as n } from '@nextcloud/l10n'
+import { Permission, FileAction, FileType } from '@nextcloud/files'
+import { showInfo, showWarning } from '@nextcloud/dialogs'
+import { translate as t } from '@nextcloud/l10n'
+import { isAxiosError } from 'axios'
 import axios from '@nextcloud/axios'
 
 import CloseSvg from '@mdi/svg/svg/close.svg?raw'
@@ -140,7 +143,7 @@ export const action = new FileAction({
 			.every(permission => (permission & Permission.DELETE) !== 0)
 	},
 
-	async exec(node: Node) {
+	async exec(node: Node, view: View, dir: string) {
 		try {
 			await axios.delete(node.encodedSource)
 
@@ -150,6 +153,15 @@ export const action = new FileAction({
 			emit('files:node:deleted', node)
 			return true
 		} catch (error) {
+			if (isAxiosError(error) && (error.response?.status === 423 || error.status === 423)) {
+				logger.debug('Delete failed: File is currently locked', { error, source: node.source })
+				showWarning(t('files', '{file} is currently locked, retry deleting it in 10s.', { file: node.basename }), { timeout: 9000 })
+				return new Promise((resolve) => {
+					window.setTimeout(async () => {
+						resolve(await this.exec(node, view, dir))
+					}, 10000)
+				})
+			}
 			logger.error('Error while deleting a file', { error, source: node.source, node })
 			return false
 		}
