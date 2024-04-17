@@ -20,7 +20,7 @@
  *
  */
 
-import { getRowForFile, triggerActionForFile } from './FilesUtils.ts'
+import { copyFile, getRowForFile, navigateToFolder, triggerActionForFile } from './FilesUtils.ts'
 
 describe('Files: Move or copy files', { testIsolation: true }, () => {
 	let currentUser
@@ -162,16 +162,8 @@ describe('Files: Move or copy files', { testIsolation: true }, () => {
 		cy.login(currentUser)
 		cy.visit('/apps/files')
 
-		// intercept the copy so we can wait for it
-		cy.intercept('COPY', /\/remote.php\/dav\/files\//).as('copyFile')
+		copyFile('original.txt', '.')
 
-		getRowForFile('original.txt').should('be.visible')
-		triggerActionForFile('original.txt', 'move-copy')
-
-		// click copy
-		cy.get('.file-picker').contains('button', 'Copy').should('be.visible').click()
-
-		cy.wait('@copyFile')
 		getRowForFile('original.txt').should('be.visible')
 		getRowForFile('original (copy).txt').should('be.visible')
 	})
@@ -182,17 +174,46 @@ describe('Files: Move or copy files', { testIsolation: true }, () => {
 		cy.login(currentUser)
 		cy.visit('/apps/files')
 
-		// intercept the copy so we can wait for it
-		cy.intercept('COPY', /\/remote.php\/dav\/files\//).as('copyFile')
+		copyFile('original.txt', '.')
 
-		getRowForFile('original.txt').should('be.visible')
-		triggerActionForFile('original.txt', 'move-copy')
-
-		// click copy
-		cy.get('.file-picker').contains('button', 'Copy').should('be.visible').click()
-
-		cy.wait('@copyFile')
 		getRowForFile('original.txt').should('be.visible')
 		getRowForFile('original (copy 2).txt').should('be.visible')
+	})
+
+	/** Test for https://github.com/nextcloud/server/issues/43329 */
+	context('escaping file and folder names', () => {
+		it('Can handle files with special characters', () => {
+			cy.uploadContent(currentUser, new Blob(), 'text/plain', '/original.txt')
+				.mkdir(currentUser, '/can\'t say')
+			cy.login(currentUser)
+			cy.visit('/apps/files')
+
+			copyFile('original.txt', 'can\'t say')
+
+			navigateToFolder('can\'t say')
+
+			cy.url().should('contain', 'dir=/can%27t%20say')
+			getRowForFile('original.txt').should('be.visible')
+			getRowForFile('can\'t say').should('not.exist')
+		})
+
+		/**
+		 * If escape is set to false (required for test above) then "<a>foo" would result in "<a>foo</a>" if sanitizing is not disabled
+		 * We should disable it as vue already escapes the text when using v-text
+		 */
+		it('does not incorrectly sanitize file names', () => {
+			cy.uploadContent(currentUser, new Blob(), 'text/plain', '/original.txt')
+				.mkdir(currentUser, '/<a href="#">foo')
+			cy.login(currentUser)
+			cy.visit('/apps/files')
+
+			copyFile('original.txt', '<a href="#">foo')
+
+			navigateToFolder('<a href="#">foo')
+
+			cy.url().should('contain', 'dir=/%3Ca%20href%3D%22%23%22%3Efoo')
+			getRowForFile('original.txt').should('be.visible')
+			getRowForFile('<a href="#">foo').should('not.exist')
+		})
 	})
 })
