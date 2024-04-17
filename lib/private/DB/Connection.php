@@ -55,6 +55,7 @@ use OCP\Diagnostics\IEventLogger;
 use OCP\IRequestId;
 use OCP\PreConditionNotMetException;
 use OCP\Profiler\IProfiler;
+use OCP\Server;
 use Psr\Clock\ClockInterface;
 use Psr\Log\LoggerInterface;
 use function in_array;
@@ -90,6 +91,9 @@ class Connection extends PrimaryReadReplicaConnection {
 	/** @var array<string, int> */
 	protected $tableDirtyWrites = [];
 
+	protected bool $logRequestId;
+	protected string $requestId;
+
 	/**
 	 * Initializes a new instance of the Connection class.
 	 *
@@ -115,8 +119,11 @@ class Connection extends PrimaryReadReplicaConnection {
 		$this->tablePrefix = $params['tablePrefix'];
 
 		$this->systemConfig = \OC::$server->getSystemConfig();
-		$this->clock = \OCP\Server::get(ClockInterface::class);
+		$this->clock = Server::get(ClockInterface::class);
 		$this->logger = \OC::$server->get(LoggerInterface::class);
+
+		$this->logRequestId = $this->systemConfig->getValue('db.log_request_id', false);
+		$this->requestId = Server::get(IRequestId::class)->getId();
 
 		/** @var \OCP\Profiler\IProfiler */
 		$profiler = \OC::$server->get(IProfiler::class);
@@ -248,8 +255,7 @@ class Connection extends PrimaryReadReplicaConnection {
 			$platform = $this->getDatabasePlatform();
 			$sql = $platform->modifyLimitQuery($sql, $limit, $offset);
 		}
-		$statement = $this->replaceTablePrefix($sql);
-		$statement = $this->adapter->fixupStatement($statement);
+		$statement = $this->finishQuery($sql);
 
 		return parent::prepare($statement);
 	}
@@ -306,8 +312,7 @@ class Connection extends PrimaryReadReplicaConnection {
 			$this->ensureConnectedToPrimary();
 		}
 
-		$sql = $this->replaceTablePrefix($sql);
-		$sql = $this->adapter->fixupStatement($sql);
+		$sql = $this->finishQuery($sql);
 		$this->queriesExecuted++;
 		$this->logQueryToFile($sql);
 		return parent::executeQuery($sql, $params, $types, $qcp);
@@ -327,8 +332,7 @@ class Connection extends PrimaryReadReplicaConnection {
 	 * @throws Exception
 	 */
 	public function executeUpdate(string $sql, array $params = [], array $types = []): int {
-		$sql = $this->replaceTablePrefix($sql);
-		$sql = $this->adapter->fixupStatement($sql);
+		$sql = $this->finishQuery($sql);
 		$this->queriesExecuted++;
 		$this->logQueryToFile($sql);
 		return parent::executeUpdate($sql, $params, $types);
@@ -353,8 +357,7 @@ class Connection extends PrimaryReadReplicaConnection {
 		foreach ($tables as $table) {
 			$this->tableDirtyWrites[$table] = $this->clock->now()->getTimestamp();
 		}
-		$sql = $this->replaceTablePrefix($sql);
-		$sql = $this->adapter->fixupStatement($sql);
+		$sql = $this->finishQuery($sql);
 		$this->queriesExecuted++;
 		$this->logQueryToFile($sql);
 		return (int)parent::executeStatement($sql, $params, $types);
@@ -584,6 +587,16 @@ class Connection extends PrimaryReadReplicaConnection {
 		$table = $this->tablePrefix . trim($table);
 		$schema = $this->getSchemaManager();
 		return $schema->tablesExist([$table]);
+	}
+
+	protected function finishQuery(string $statement): string {
+		$statement = $this->replaceTablePrefix($statement);
+		$statement = $this->adapter->fixupStatement($statement);
+		if ($this->logRequestId) {
+			return $statement . " /* reqid: " . $this->requestId . " */";
+		} else {
+			return $statement;
+		}
 	}
 
 	// internal use
