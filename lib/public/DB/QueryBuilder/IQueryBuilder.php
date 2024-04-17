@@ -185,6 +185,13 @@ interface IQueryBuilder {
 	public function executeQuery(): IResult;
 
 	/**
+	 * @since 30.0.0
+	 *
+	 * @param int $retryLimit - Retry the query up to $retryLimit times in case of a RetryableException. Won't retry by default.
+	 */
+	public function setRetryLimit(int $retryLimit): void;
+
+	/**
 	 * Execute insert, update and delete statements
 	 *
 	 * @return int the number of affected rows

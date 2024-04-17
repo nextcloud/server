@@ -30,6 +30,7 @@
  */
 namespace OC\DB\QueryBuilder;
 
+use Doctrine\DBAL\Exception\RetryableException;
 use Doctrine\DBAL\Platforms\MySQLPlatform;
 use Doctrine\DBAL\Platforms\OraclePlatform;
 use Doctrine\DBAL\Platforms\PostgreSQL94Platform;
@@ -75,6 +76,8 @@ class QueryBuilder implements IQueryBuilder {
 
 	/** @var string */
 	protected $lastInsertedTable;
+
+	private int $retryLimit = 0;
 
 	/**
 	 * Initializes a new QueryBuilder.
@@ -277,11 +280,34 @@ class QueryBuilder implements IQueryBuilder {
 			]);
 		}
 
-		$result = $this->queryBuilder->execute();
+		for ($i = 0; $i <= $this->retryLimit; $i++) {
+			try {
+				$result = $this->queryBuilder->execute();
+				break;
+			} catch (RetryableException $e) {
+				// Throw if we reached retryLimit.
+				if ($i === $this->retryLimit - 1) {
+					throw $e;
+				}
+
+				$this->logger->warning("Retrying query after a RetryableException", ['exception' => $e]);
+
+				// Incrementally sleep a bit to give some time to the other transaction to finish.
+				usleep(100 * 1000 * ($i + 1));
+			}
+		}
+
 		if (is_int($result)) {
 			return $result;
 		}
 		return new ResultAdapter($result);
+	}
+
+	/**
+	 * @param int $retryLimit - Retry the query up to $retryLimit times in case of a RetryableException. Initially equal to 4.
+	 */
+	public function setRetryLimit(int $retryLimit): void {
+		$this->retryLimit = $retryLimit;
 	}
 
 	public function executeQuery(): IResult {

@@ -40,7 +40,6 @@
 
 namespace OC\Files\Cache;
 
-use Doctrine\DBAL\Exception\RetryableException;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use OC\Files\Search\SearchComparison;
 use OC\Files\Search\SearchQuery;
@@ -715,28 +714,14 @@ class Cache implements ICache {
 					$query->set('encrypted', $query->createNamedParameter(0, IQueryBuilder::PARAM_INT));
 				}
 
-				// Retry transaction in case of RetryableException like deadlocks.
-				// Retry up to 4 times because we should receive up to 4 concurrent requests from the frontend
-				$retryLimit = 4;
-				for ($i = 1; $i <= $retryLimit; $i++) {
-					try {
-						$this->connection->beginTransaction();
-						$query->executeStatement();
-						break;
-					} catch (\OC\DatabaseException $e) {
-						$this->connection->rollBack();
-						throw $e;
-					} catch (RetryableException $e) {
-						// Simply throw if we already retried 4 times.
-						if ($i === $retryLimit) {
-							throw $e;
-						}
+				$query->setRetryLimit(4);
 
-						$this->connection->rollBack();
-
-						// Sleep a bit to give some time to the other transaction to finish.
-						usleep(100 * 1000 * $i);
-					}
+				try {
+					$this->connection->beginTransaction();
+					$query->executeStatement();
+				} catch (\OC\DatabaseException $e) {
+					$this->connection->rollBack();
+					throw $e;
 				}
 			} else {
 				$this->connection->beginTransaction();
