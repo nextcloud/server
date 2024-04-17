@@ -14,6 +14,7 @@ return array(
     'OCP\\Accounts\\PropertyDoesNotExistException' => $baseDir . '/lib/public/Accounts/PropertyDoesNotExistException.php',
     'OCP\\Accounts\\UserUpdatedEvent' => $baseDir . '/lib/public/Accounts/UserUpdatedEvent.php',
     'OCP\\Activity\\ActivitySettings' => $baseDir . '/lib/public/Activity/ActivitySettings.php',
+    'OCP\\Activity\\Exceptions\\InvalidValueException' => $baseDir . '/lib/public/Activity/Exceptions/InvalidValueException.php',
     'OCP\\Activity\\IConsumer' => $baseDir . '/lib/public/Activity/IConsumer.php',
     'OCP\\Activity\\IEvent' => $baseDir . '/lib/public/Activity/IEvent.php',
     'OCP\\Activity\\IEventMerger' => $baseDir . '/lib/public/Activity/IEventMerger.php',
