@@ -54,6 +54,7 @@ use OCP\PreConditionNotMetException;
 use OCP\Profiler\IProfiler;
 use OC\DB\QueryBuilder\QueryBuilder;
 use OC\SystemConfig;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 class Connection extends \Doctrine\DBAL\Connection {
@@ -78,6 +79,9 @@ class Connection extends \Doctrine\DBAL\Connection {
 
 	/** @var DbDataCollector|null */
 	protected $dbDataCollector = null;
+
+	protected bool $logRequestId;
+	protected string $requestId;
 
 	/**
 	 * Initializes a new instance of the Connection class.
@@ -105,6 +109,9 @@ class Connection extends \Doctrine\DBAL\Connection {
 
 		$this->systemConfig = \OC::$server->getSystemConfig();
 		$this->logger = \OC::$server->get(LoggerInterface::class);
+
+		$this->logRequestId = $this->systemConfig->getValue('db.log_request_id', false);
+		$this->requestId = Server::get(IRequestId::class)->getId();
 
 		/** @var \OCP\Profiler\IProfiler */
 		$profiler = \OC::$server->get(IProfiler::class);
@@ -233,8 +240,7 @@ class Connection extends \Doctrine\DBAL\Connection {
 			$platform = $this->getDatabasePlatform();
 			$statement = $platform->modifyLimitQuery($statement, $limit, $offset);
 		}
-		$statement = $this->replaceTablePrefix($statement);
-		$statement = $this->adapter->fixupStatement($statement);
+		$statement = $this->finishQuery($statement);
 
 		return parent::prepare($statement);
 	}
@@ -255,8 +261,7 @@ class Connection extends \Doctrine\DBAL\Connection {
 	 * @throws \Doctrine\DBAL\Exception
 	 */
 	public function executeQuery(string $sql, array $params = [], $types = [], QueryCacheProfile $qcp = null): Result {
-		$sql = $this->replaceTablePrefix($sql);
-		$sql = $this->adapter->fixupStatement($sql);
+		$sql = $this->finishQuery($sql);
 		$this->queriesExecuted++;
 		$this->logQueryToFile($sql);
 		return parent::executeQuery($sql, $params, $types, $qcp);
@@ -266,8 +271,7 @@ class Connection extends \Doctrine\DBAL\Connection {
 	 * @throws Exception
 	 */
 	public function executeUpdate(string $sql, array $params = [], array $types = []): int {
-		$sql = $this->replaceTablePrefix($sql);
-		$sql = $this->adapter->fixupStatement($sql);
+		$sql = $this->finishQuery($sql);
 		$this->queriesExecuted++;
 		$this->logQueryToFile($sql);
 		return parent::executeUpdate($sql, $params, $types);
@@ -288,8 +292,7 @@ class Connection extends \Doctrine\DBAL\Connection {
 	 * @throws \Doctrine\DBAL\Exception
 	 */
 	public function executeStatement($sql, array $params = [], array $types = []): int {
-		$sql = $this->replaceTablePrefix($sql);
-		$sql = $this->adapter->fixupStatement($sql);
+		$sql = $this->finishQuery($sql);
 		$this->queriesExecuted++;
 		$this->logQueryToFile($sql);
 		return (int)parent::executeStatement($sql, $params, $types);
@@ -514,6 +517,16 @@ class Connection extends \Doctrine\DBAL\Connection {
 		$table = $this->tablePrefix . trim($table);
 		$schema = $this->getSchemaManager();
 		return $schema->tablesExist([$table]);
+	}
+
+	protected function finishQuery(string $statement): string {
+		$statement = $this->replaceTablePrefix($statement);
+		$statement = $this->adapter->fixupStatement($statement);
+		if ($this->logRequestId) {
+			return $statement . " /* reqid: " . $this->requestId . " */";
+		} else {
+			return $statement;
+		}
 	}
 
 	// internal use
