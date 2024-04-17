@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 /**
  * @copyright 2023 Daniel Kesselberg <mail@danielkesselberg.de>
+ * @copyright 2024 Robert C. Schaller <gtbc_robert.schaller@rsxc.de>
  *
  * @author 2023 Daniel Kesselberg <mail@danielkesselberg.de>
  *
@@ -143,4 +144,70 @@ class EventComparisonServiceTest extends TestCase
 		$this->assertEquals([$vEventOld2], $result['old']);
 		$this->assertEquals([$vEventNew2], $result['new']);
 	}
+
+	// First test to certify fix for issue nextcloud/server#41084
+	public function testSequenceNumberIncrementDetectedForFirstModificationToEventWithoutZeroInit(): void {
+		$vCalendarOld = new VCalendar();
+		$vCalendarNew = new VCalendar();
+
+		$vEventOld = $vCalendarOld->add('VEVENT', [
+			'UID' => 'uid-1234',
+			'LAST-MODIFIED' => 123456,
+			// 'SEQUENCE' => 0,			// sequence number may not be set to zero during event creation and instead fully omitted
+			'SUMMARY' => 'Fellowship meeting',
+			'DTSTART' => new \DateTime('2016-01-01 00:00:00'),
+			'RRULE' => 'FREQ=DAILY;INTERVAL=1;UNTIL=20160201T000000Z',
+		]);
+		$vEventOld->add('ORGANIZER', 'mailto:gandalf@wiz.ard');
+		$vEventOld->add('ATTENDEE', 'mailto:' . 'frodo@hobb.it', ['RSVP' => 'TRUE', 'CN' => 'Frodo']);
+
+		$vEventNew = $vCalendarNew->add('VEVENT', [
+			'UID' => 'uid-1234',
+			'LAST-MODIFIED' => 123456,
+			'SEQUENCE' => 1,
+			'SUMMARY' => 'Fellowship meeting',
+			'DTSTART' => new \DateTime('2016-01-01 00:00:00'),
+			'RRULE' => 'FREQ=DAILY;INTERVAL=1;UNTIL=20160201T000000Z',
+		]);
+		$vEventNew->add('ORGANIZER', 'mailto:gandalf@wiz.ard');
+		$vEventNew->add('ATTENDEE', 'mailto:' . 'frodo@hobb.it', ['RSVP' => 'TRUE', 'CN' => 'Frodo']);
+
+		$result = $this->eventComparisonService->findModified($vCalendarNew, $vCalendarOld);
+		$this->assertEquals([$vEventOld], $result['old']);
+		$this->assertEquals([$vEventNew], $result['new']);
+	}
+
+	// Second test to certify fix for issue nextcloud/server#41084
+	public function testSequenceNumberIncrementDetectedForFirstModificationToEventWithZeroInit(): void {
+		$vCalendarOld = new VCalendar();
+		$vCalendarNew = new VCalendar();
+
+		$vEventOld = $vCalendarOld->add('VEVENT', [
+			'UID' => 'uid-1234',
+			'LAST-MODIFIED' => 123456,
+			'SEQUENCE' => 0,
+			'SUMMARY' => 'Fellowship meeting',
+			'DTSTART' => new \DateTime('2016-01-01 00:00:00'),
+			'RRULE' => 'FREQ=DAILY;INTERVAL=1;UNTIL=20160201T000000Z',
+		]);
+		$vEventOld->add('ORGANIZER', 'mailto:gandalf@wiz.ard');
+		$vEventOld->add('ATTENDEE', 'mailto:' . 'frodo@hobb.it', ['RSVP' => 'TRUE', 'CN' => 'Frodo']);
+
+		$vEventNew = $vCalendarNew->add('VEVENT', [
+			'UID' => 'uid-1234',
+			'LAST-MODIFIED' => 123456,
+			'SEQUENCE' => 1,
+			'SUMMARY' => 'Fellowship meeting',
+			'DTSTART' => new \DateTime('2016-01-01 00:00:00'),
+			'RRULE' => 'FREQ=DAILY;INTERVAL=1;UNTIL=20160201T000000Z',
+		]);
+		$vEventNew->add('ORGANIZER', 'mailto:gandalf@wiz.ard');
+		$vEventNew->add('ATTENDEE', 'mailto:' . 'frodo@hobb.it', ['RSVP' => 'TRUE', 'CN' => 'Frodo']);
+
+		$result = $this->eventComparisonService->findModified($vCalendarNew, $vCalendarOld);
+		$this->assertEquals([$vEventOld], $result['old']);
+		$this->assertEquals([$vEventNew], $result['new']);
+	}
+
+
 }
