@@ -20,7 +20,7 @@
  *
  */
 
-import { getRowForFile, triggerActionForFile } from './FilesUtils.ts'
+import { copyFile, getRowForFile, navigateToFolder, triggerActionForFile } from './FilesUtils.ts'
 
 describe('Files: Move or copy files', { testIsolation: true }, () => {
 	let currentUser
@@ -34,7 +34,6 @@ describe('Files: Move or copy files', { testIsolation: true }, () => {
 		// nice to have cleanup
 		cy.deleteUser(currentUser)
 	})
-
 
 	it('Can copy a file to new folder', () => {
 		cy.uploadContent(currentUser, new Blob(), 'text/plain', '/original.txt')
@@ -163,16 +162,8 @@ describe('Files: Move or copy files', { testIsolation: true }, () => {
 		cy.login(currentUser)
 		cy.visit('/apps/files')
 
-		// intercept the copy so we can wait for it
-		cy.intercept('COPY', /\/remote.php\/dav\/files\//).as('copyFile')
+		copyFile('original.txt', '.')
 
-		getRowForFile('original.txt').should('be.visible')
-		triggerActionForFile('original.txt', 'move-copy')
-
-		// click copy
-		cy.get('.file-picker').contains('button', 'Copy').should('be.visible').click()
-
-		cy.wait('@copyFile')
 		getRowForFile('original.txt').should('be.visible')
 		getRowForFile('original (copy).txt').should('be.visible')
 	})
@@ -183,22 +174,14 @@ describe('Files: Move or copy files', { testIsolation: true }, () => {
 		cy.login(currentUser)
 		cy.visit('/apps/files')
 
-		// intercept the copy so we can wait for it
-		cy.intercept('COPY', /\/remote.php\/dav\/files\//).as('copyFile')
+		copyFile('original.txt', '.')
 
-		getRowForFile('original.txt').should('be.visible')
-		triggerActionForFile('original.txt', 'move-copy')
-
-		// click copy
-		cy.get('.file-picker').contains('button', 'Copy').should('be.visible').click()
-
-		cy.wait('@copyFile')
 		getRowForFile('original.txt').should('be.visible')
 		getRowForFile('original (copy 2).txt').should('be.visible')
 	})
 
 	/** Test for https://github.com/nextcloud/server/issues/43329 */
-	context.only('escaping file and folder names', () => {
+	context('escaping file and folder names', () => {
 		it('Can handle files with special characters', () => {
 			cy.uploadContent(currentUser, new Blob(), 'text/plain', '/original.txt')
 				.mkdir(currentUser, '/can\'t say')
