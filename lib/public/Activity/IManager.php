@@ -28,6 +28,8 @@ declare(strict_types=1);
  */
 namespace OCP\Activity;
 
+use OCP\Activity\Exceptions\IncompleteActivityException;
+
 /**
  * Interface IManager
  *
@@ -61,8 +63,9 @@ interface IManager {
 	 *  - setObject()
 	 *
 	 * @param IEvent $event
-	 * @throws \BadMethodCallException if required values have not been set
+	 * @throws IncompleteActivityException if required values have not been set
 	 * @since 8.2.0
+	 * @since 30.0.0 throws {@see IncompleteActivityException} instead of \BadMethodCallException
 	 */
 	public function publish(IEvent $event): void;
 

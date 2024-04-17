@@ -47,6 +47,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Accounts\\PropertyDoesNotExistException' => __DIR__ . '/../../..' . '/lib/public/Accounts/PropertyDoesNotExistException.php',
         'OCP\\Accounts\\UserUpdatedEvent' => __DIR__ . '/../../..' . '/lib/public/Accounts/UserUpdatedEvent.php',
         'OCP\\Activity\\ActivitySettings' => __DIR__ . '/../../..' . '/lib/public/Activity/ActivitySettings.php',
+        'OCP\\Activity\\Exceptions\\IncompleteActivityException' => __DIR__ . '/../../..' . '/lib/public/Activity/Exceptions/IncompleteActivityException.php',
         'OCP\\Activity\\Exceptions\\InvalidValueException' => __DIR__ . '/../../..' . '/lib/public/Activity/Exceptions/InvalidValueException.php',
         'OCP\\Activity\\IConsumer' => __DIR__ . '/../../..' . '/lib/public/Activity/IConsumer.php',
         'OCP\\Activity\\IEvent' => __DIR__ . '/../../..' . '/lib/public/Activity/IEvent.php',

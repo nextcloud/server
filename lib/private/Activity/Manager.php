@@ -29,6 +29,7 @@
 namespace OC\Activity;
 
 use OCP\Activity\ActivitySettings;
+use OCP\Activity\Exceptions\IncompleteActivityException;
 use OCP\Activity\IConsumer;
 use OCP\Activity\IEvent;
 use OCP\Activity\IFilter;
@@ -127,16 +128,7 @@ class Manager implements IManager {
 	}
 
 	/**
-	 * Publish an event to the activity consumers
-	 *
-	 * Make sure to call at least the following methods before sending an Event:
-	 *  - setApp()
-	 *  - setType()
-	 *  - setAffectedUser()
-	 *  - setSubject()
-	 *
-	 * @param IEvent $event
-	 * @throws \BadMethodCallException if required values have not been set
+	 * {@inheritDoc}
 	 */
 	public function publish(IEvent $event): void {
 		if ($event->getAuthor() === '') {
@@ -150,7 +142,7 @@ class Manager implements IManager {
 		}
 
 		if (!$event->isValid()) {
-			throw new \BadMethodCallException('The given event is invalid');
+			throw new IncompleteActivityException('The given event is invalid');
 		}
 
 		foreach ($this->getConsumers() as $c) {
