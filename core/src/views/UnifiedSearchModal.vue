@@ -13,11 +13,12 @@
 			<div class="unified-search-modal__header">
 				<h2>{{ t('core', 'Unified search') }}</h2>
 				<NcInputField ref="searchInput"
+					data-cy-unified-search-input
 					:value.sync="searchQuery"
 					type="text"
 					:label="t('core', 'Search apps, files, tags, messages') + '...'"
 					@update:value="debouncedFind" />
-				<div class="unified-search-modal__filters">
+				<div class="unified-search-modal__filters" data-cy-unified-search-filters>
 					<NcActions :menu-name="t('core', 'Apps and Settings')" :open.sync="providerActionMenuIsOpen">
 						<template #icon>
 							<ListBox :size="20" />
@@ -31,7 +32,7 @@
 							{{ provider.name }}
 						</NcActionButton>
 					</NcActions>
-					<NcActions :menu-name="t('core', 'Date')" :open.sync="dateActionMenuIsOpen">
+					<NcActions :menu-name="t('core', 'Date')" :open.sync="dateActionMenuIsOpen" data-cy-unified-search-filter="date">
 						<template #icon>
 							<CalendarRangeIcon :size="20" />
 						</template>
@@ -57,6 +58,7 @@
 					<SearchableList :label-text="t('core', 'Search people')"
 						:search-list="userContacts"
 						:empty-content-text="t('core', 'Not found')"
+						data-cy-unified-search-filter="people"
 						@search-term-change="debouncedFilterContacts"
 						@item-selected="applyPersonFilter">
 						<template #trigger>
@@ -68,7 +70,7 @@
 							</NcButton>
 						</template>
 					</SearchableList>
-					<NcButton v-if="supportFiltering" @click="closeModal">
+					<NcButton v-if="supportFiltering" data-cy-unified-search-filter="current-view" @click="closeModal">
 						{{ t('core', 'Filter in current view') }}
 						<template #icon>
 							<FilterIcon :size="20" />
