@@ -1708,20 +1708,6 @@
       <code><![CDATA[$this->providers]]></code>
     </UndefinedInterfaceMethod>
   </file>
-  <file src="lib/private/Blurhash/Listener/GenerateBlurhashMetadata.php">
-    <InvalidArgument>
-      <code>$image</code>
-      <code>$image</code>
-      <code>$image</code>
-      <code>$image</code>
-    </InvalidArgument>
-    <InvalidReturnStatement>
-      <code>($newImage !== false) ? $newImage : $image</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType>
-      <code>GdImage|false</code>
-    </InvalidReturnType>
-  </file>
   <file src="lib/private/Cache/CappedMemoryCache.php">
     <MissingTemplateParam>
       <code>\ArrayAccess</code>
