@@ -532,9 +532,12 @@ class StatusService {
 			return null;
 		}
 
-		if ($revertedManually && $backupUserStatus->getStatus() === IUserStatus::OFFLINE) {
-			// When the user reverts the status manually they are online
-			$backupUserStatus->setStatus(IUserStatus::ONLINE);
+		if ($revertedManually) {
+			if ($backupUserStatus->getStatus() === IUserStatus::OFFLINE) {
+				// When the user reverts the status manually they are online
+				$backupUserStatus->setStatus(IUserStatus::ONLINE);
+			}
+			$backupUserStatus->setStatusTimestamp($this->timeFactory->getTime());
 		}
 
 		$backupUserStatus->setIsBackup(false);
