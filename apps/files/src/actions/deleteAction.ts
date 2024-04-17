@@ -143,14 +143,15 @@ export const action = new FileAction({
 			.every(permission => (permission & Permission.DELETE) !== 0)
 	},
 
-	async exec(node: Node) {
+	async exec(node: Node, view: View, dir: string) {
 		try {
 			await axios.delete(node.encodedSource)
 
 			// Let's delete even if it's moved to the trashbin
 			// since it has been removed from the current view
-			//  and changing the view will trigger a reload anyway.
+			// and changing the view will trigger a reload anyway.
 			emit('files:node:deleted', node)
+
 			return true
 		} catch (error) {
 			logger.error('Error while deleting a file', { error, source: node.source, node })

@@ -241,6 +241,14 @@ export default defineComponent({
 		},
 
 		/**
+		 * The current file id
+		 */
+		fileId(): number | null {
+			const number = Number.parseInt(this.$route?.params.fileid ?? '')
+			return Number.isNaN(number) ? null : number
+		},
+
+		/**
 		 * The current folder.
 		 */
 		currentFolder(): Folder | undefined {
@@ -453,6 +461,8 @@ export default defineComponent({
 
 	mounted() {
 		this.fetchContent()
+
+		subscribe('files:node:deleted', this.onNodeDeleted)
 		subscribe('files:node:updated', this.onUpdatedNode)
 		subscribe('nextcloud:unified-search.search', this.onSearch)
 		subscribe('nextcloud:unified-search.reset', this.onSearch)
@@ -462,6 +472,7 @@ export default defineComponent({
 	},
 
 	unmounted() {
+		unsubscribe('files:node:deleted', this.onNodeDeleted)
 		unsubscribe('files:node:updated', this.onUpdatedNode)
 		unsubscribe('nextcloud:unified-search.search', this.onSearch)
 		unsubscribe('nextcloud:unified-search.reset', this.onSearch)
@@ -533,6 +544,31 @@ export default defineComponent({
 		 */
 		getNode(fileId) {
 			return this.filesStore.getNode(fileId)
+		},
+
+		/**
+		 * Handle the node deleted event to reset open file
+		 * @param node The deleted node
+		 */
+		 onNodeDeleted(node: Node) {
+			if (node.fileid && node.fileid === this.fileId) {
+				if (node.fileid === this.currentFolder?.fileid) {
+					// Handle the edge case that the current directory is deleted
+					// in this case we neeed to keept the current view but move to the parent directory
+					window.OCP.Files.Router.goToRoute(
+						null,
+						{ view: this.$route.params.view },
+						{ dir: this.currentFolder?.dirname ?? '/' },
+					)
+				} else {
+					// If the currently active file is deleted we need to remove the fileid and possible the `openfile` query
+					window.OCP.Files.Router.goToRoute(
+						null,
+						{ ...this.$route.params, fileid: undefined },
+						{ ...this.$route.query, openfile: undefined },
+					)
+				}
+			}
 		},
 
 		/**
