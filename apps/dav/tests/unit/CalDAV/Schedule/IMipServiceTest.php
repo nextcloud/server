@@ -18,6 +18,7 @@ use OCP\Security\ISecureRandom;
 use PHPUnit\Framework\MockObject\MockObject;
 use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Component\VEvent;
+use Sabre\VObject\ITip\Message;
 use Sabre\VObject\Property\ICalendar\DateTime;
 use Test\TestCase;
 
@@ -247,5 +248,75 @@ class IMipServiceTest extends TestCase {
 
 		$occurrence = $this->service->getLastOccurrence($vCalendar);
 		$this->assertEquals(1451606400, $occurrence);
+	}
+
+	public function testGetCurrentAttendeeRequest(): void {
+		// Construct ITip Message
+		$message = new Message();
+		$message->method = 'REQUEST';
+		$message->sequence = 1;
+		$message->sender = 'mailto:organizer@example.com';
+		$message->senderName = 'The Organizer';
+		$message->recipient = 'mailto:attendee@example.com';
+		$message->recipientName = 'The Attendee';
+		$message->significantChange = true;
+		$message->message = new VCalendar();
+		$message->message->add('VEVENT', ['UID' => '82496785-1915-4604-a5ce-4e2091639c9a', 'SEQUENCE' => 1]);
+		$message->message->VEVENT->add('SUMMARY', 'Fellowship meeting');
+		$message->message->VEVENT->add('DTSTART', (new \DateTime('NOW'))->modify('+1 hour'));
+		$message->message->VEVENT->add('DTEND', (new \DateTime('NOW'))->modify('+2 hour'));
+		$message->message->VEVENT->add('ORGANIZER', 'mailto:organizer@example.com', ['CN' => 'The Organizer']);
+		$message->message->VEVENT->add('ATTENDEE', 'mailto:attendee@example.com', ['CN' => 'The Attendee']);
+		// Test getCurrentAttendee
+		$result = $this->service->getCurrentAttendee($message);
+		// Evaluate Result
+		$this->assertEquals($message->message->VEVENT->ATTENDEE, $result);
+	}
+
+	public function testGetCurrentAttendeeReply(): void {
+		// Construct ITip Message
+		$message = new Message();
+		$message->method = 'REPLY';
+		$message->sequence = 2;
+		$message->sender = 'mailto:attendee@example.com';
+		$message->senderName = 'The Attendee';
+		$message->recipient = 'mailto:organizer@example.com';
+		$message->recipientName = 'The Organizer';
+		$message->significantChange = true;
+		$message->message = new VCalendar();
+		$message->message->add('METHOD', 'REPLY');
+		$message->message->add('VEVENT', ['UID' => '82496785-1915-4604-a5ce-4e2091639c9a', 'SEQUENCE' => 2]);
+		$message->message->VEVENT->add('SUMMARY', 'Fellowship meeting');
+		$message->message->VEVENT->add('DTSTART', (new \DateTime('NOW'))->modify('+1 hour'));
+		$message->message->VEVENT->add('DTEND', (new \DateTime('NOW'))->modify('+2 hour'));
+		$message->message->VEVENT->add('ORGANIZER', 'mailto:organizer@example.com', ['CN' => 'The Organizer']);
+		$message->message->VEVENT->add('ATTENDEE', 'mailto:attendee@example.com', ['CN' => 'The Attendee']);
+		// Test getCurrentAttendee
+		$result = $this->service->getCurrentAttendee($message);
+		// Evaluate Result
+		$this->assertEquals($message->message->VEVENT->ATTENDEE, $result);
+	}
+
+	public function testGetCurrentAttendeeMismatch(): void {
+		// Construct ITip Message
+		$message = new Message();
+		$message->method = 'REQUEST';
+		$message->sequence = 1;
+		$message->sender = 'mailto:organizer@example.com';
+		$message->senderName = 'The Organizer';
+		$message->recipient = 'mailto:mismatch@example.com';
+		$message->recipientName = 'The Mismatch';
+		$message->significantChange = true;
+		$message->message = new VCalendar();
+		$message->message->add('VEVENT', ['UID' => '82496785-1915-4604-a5ce-4e2091639c9a', 'SEQUENCE' => 1]);
+		$message->message->VEVENT->add('SUMMARY', 'Fellowship meeting');
+		$message->message->VEVENT->add('DTSTART', (new \DateTime('NOW'))->modify('+1 hour'));
+		$message->message->VEVENT->add('DTEND', (new \DateTime('NOW'))->modify('+2 hour'));
+		$message->message->VEVENT->add('ORGANIZER', 'mailto:organizer@example.com', ['CN' => 'The Organizer']);
+		$message->message->VEVENT->add('ATTENDEE', 'mailto:attendee@example.com', ['CN' => 'The Attendee']);
+		// Test getCurrentAttendee
+		$result = $this->service->getCurrentAttendee($message);
+		// Evaluate Result
+		$this->assertEquals(null, $result);
 	}
 }

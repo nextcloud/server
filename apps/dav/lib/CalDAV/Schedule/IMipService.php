@@ -552,8 +552,11 @@ class IMipService {
 		$vevent = $iTipMessage->message->VEVENT;
 		$attendees = $vevent->select('ATTENDEE');
 		foreach ($attendees as $attendee) {
-			/** @var Property $attendee */
-			if (strcasecmp($attendee->getValue(), $iTipMessage->recipient) === 0) {
+			if ($iTipMessage->method === 'REPLY' && strcasecmp($attendee->getValue(), $iTipMessage->sender) === 0) {
+				/** @var Property $attendee */
+				return $attendee;
+			} elseif (strcasecmp($attendee->getValue(), $iTipMessage->recipient) === 0) {
+				/** @var Property $attendee */
 				return $attendee;
 			}
 		}

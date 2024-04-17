@@ -88,7 +88,7 @@ class IMipPluginTest extends TestCase {
 		$this->timeFactory->method('getTime')->willReturn(1496912528); // 2017-01-01
 
 		$this->config = $this->createMock(IConfig::class);
-		
+
 		$this->user = $this->createMock(IUser::class);
 		/*
 		$this->user->method('getUID');
