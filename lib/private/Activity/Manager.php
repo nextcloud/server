@@ -29,7 +29,9 @@
 namespace OC\Activity;
 
 use OCP\Activity\ActivitySettings;
+use OCP\Activity\Exceptions\FilterNotFoundException;
 use OCP\Activity\Exceptions\IncompleteActivityException;
+use OCP\Activity\Exceptions\SettingNotFoundException;
 use OCP\Activity\IConsumer;
 use OCP\Activity\IEvent;
 use OCP\Activity\IFilter;
@@ -198,10 +200,7 @@ class Manager implements IManager {
 	}
 
 	/**
-	 * @param string $id
-	 * @return IFilter
-	 * @throws \InvalidArgumentException when the filter was not found
-	 * @since 11.0.0
+	 * {@inheritDoc}
 	 */
 	public function getFilterById(string $id): IFilter {
 		$filters = $this->getFilters();
@@ -210,7 +209,7 @@ class Manager implements IManager {
 			return $filters[$id];
 		}
 
-		throw new \InvalidArgumentException('Requested filter does not exist');
+		throw new FilterNotFoundException($id);
 	}
 
 	/** @var string[] */
@@ -286,10 +285,7 @@ class Manager implements IManager {
 	}
 
 	/**
-	 * @param string $id
-	 * @return ActivitySettings
-	 * @throws \InvalidArgumentException when the setting was not found
-	 * @since 11.0.0
+	 * {@inheritDoc}
 	 */
 	public function getSettingById(string $id): ActivitySettings {
 		$settings = $this->getSettings();
@@ -298,7 +294,7 @@ class Manager implements IManager {
 			return $settings[$id];
 		}
 
-		throw new \InvalidArgumentException('Requested setting does not exist');
+		throw new SettingNotFoundException($id);
 	}
 
 

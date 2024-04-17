@@ -28,7 +28,9 @@ declare(strict_types=1);
  */
 namespace OCP\Activity;
 
+use OCP\Activity\Exceptions\FilterNotFoundException;
 use OCP\Activity\Exceptions\IncompleteActivityException;
+use OCP\Activity\Exceptions\SettingNotFoundException;
 
 /**
  * Interface IManager
@@ -95,8 +97,9 @@ interface IManager {
 	/**
 	 * @param string $id
 	 * @return IFilter
-	 * @throws \InvalidArgumentException when the filter was not found
+	 * @throws FilterNotFoundException when the filter was not found
 	 * @since 11.0.0
+	 * @since 30.0.0 throws {@see FilterNotFoundException} instead of \InvalidArgumentException
 	 */
 	public function getFilterById(string $id): IFilter;
 
@@ -127,8 +130,9 @@ interface IManager {
 	/**
 	 * @param string $id
 	 * @return ActivitySettings
-	 * @throws \InvalidArgumentException when the setting was not found
+	 * @throws SettingNotFoundException when the setting was not found
 	 * @since 11.0.0
+	 * @since 30.0.0 throws {@see SettingNotFoundException} instead of \InvalidArgumentException
 	 */
 	public function getSettingById(string $id): ActivitySettings;
 
