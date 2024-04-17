@@ -50,6 +50,7 @@ OC.L10N.register(
     "Tag name is empty" : "El nome de la etiqueta ta baleru",
     "Select tag …" : "Seleicionar una etiqueta…",
     "Tagged files" : "Ficheros etiquetaos",
+    "Select tags to filter by" : "Seleiciona les etiquetes polos que quies peñerar",
     "Please select tags to filter by" : "Seleiciona les etiquetes poles que quies peñerar",
     "No files found for the selected tags" : "Nun s'atopó nengún ficheru pa les etiquetes seleicionaes",
     "Create a new tag" : "Crear una etiqueta",
