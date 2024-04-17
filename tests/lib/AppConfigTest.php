@@ -1238,7 +1238,7 @@ class AppConfigTest extends TestCase {
 			[
 				'app' => 'sensitive-app',
 				'key' => 'lazy-key',
-				'value' => $this->baseStruct['sensitive-app']['lazy-key']['encrypted'],
+				'value' => 'value',
 				'type' => 4,
 				'lazy' => true,
 				'typeString' => 'string',
