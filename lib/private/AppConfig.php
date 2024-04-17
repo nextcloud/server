@@ -1034,14 +1034,20 @@ class AppConfig implements IAppConfig {
 			throw new AppConfigUnknownKeyException('unknown config key');
 		}
 
+		$value = $cache[$app][$key];
+		$sensitive = $this->isSensitive($app, $key, null);
+		if ($sensitive && str_starts_with($value, self::ENCRYPTION_PREFIX)) {
+			$value = $this->crypto->decrypt(substr($value, self::ENCRYPTION_PREFIX_LENGTH));
+		}
+
 		return [
 			'app' => $app,
 			'key' => $key,
-			'value' => $cache[$app][$key],
+			'value' => $value,
 			'type' => $type,
 			'lazy' => $lazy,
 			'typeString' => $typeString,
-			'sensitive' => $this->isSensitive($app, $key, null)
+			'sensitive' => $sensitive
 		];
 	}
 
