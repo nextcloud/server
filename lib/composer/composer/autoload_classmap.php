@@ -16,6 +16,7 @@ return array(
     'OCP\\Activity\\ActivitySettings' => $baseDir . '/lib/public/Activity/ActivitySettings.php',
     'OCP\\Activity\\Exceptions\\IncompleteActivityException' => $baseDir . '/lib/public/Activity/Exceptions/IncompleteActivityException.php',
     'OCP\\Activity\\Exceptions\\InvalidValueException' => $baseDir . '/lib/public/Activity/Exceptions/InvalidValueException.php',
+    'OCP\\Activity\\Exceptions\\UnknownActivityException' => $baseDir . '/lib/public/Activity/Exceptions/UnknownActivityException.php',
     'OCP\\Activity\\IConsumer' => $baseDir . '/lib/public/Activity/IConsumer.php',
     'OCP\\Activity\\IEvent' => $baseDir . '/lib/public/Activity/IEvent.php',
     'OCP\\Activity\\IEventMerger' => $baseDir . '/lib/public/Activity/IEventMerger.php',
