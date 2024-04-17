@@ -1171,6 +1171,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Core\\Command\\User\\AuthTokens\\Add' => __DIR__ . '/../../..' . '/core/Command/User/AuthTokens/Add.php',
         'OC\\Core\\Command\\User\\AuthTokens\\Delete' => __DIR__ . '/../../..' . '/core/Command/User/AuthTokens/Delete.php',
         'OC\\Core\\Command\\User\\AuthTokens\\ListCommand' => __DIR__ . '/../../..' . '/core/Command/User/AuthTokens/ListCommand.php',
+        'OC\\Core\\Command\\User\\ClearGeneratedAvatarCacheCommand' => __DIR__ . '/../../..' . '/core/Command/User/ClearGeneratedAvatarCacheCommand.php',
         'OC\\Core\\Command\\User\\Delete' => __DIR__ . '/../../..' . '/core/Command/User/Delete.php',
         'OC\\Core\\Command\\User\\Disable' => __DIR__ . '/../../..' . '/core/Command/User/Disable.php',
         'OC\\Core\\Command\\User\\Enable' => __DIR__ . '/../../..' . '/core/Command/User/Enable.php',
