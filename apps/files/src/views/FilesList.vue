@@ -428,6 +428,7 @@ export default defineComponent({
 
 			logger.debug('View changed', { newView, oldView })
 			this.selectionStore.reset()
+			this.resetSearch()
 			this.fetchContent()
 		},
 
@@ -435,6 +436,7 @@ export default defineComponent({
 			logger.debug('Directory changed', { newDir, oldDir })
 			// TODO: preserve selection on browsing?
 			this.selectionStore.reset()
+			this.resetSearch()
 			this.fetchContent()
 
 			// Scroll to top, force virtual scroller to re-render
@@ -608,6 +610,14 @@ export default defineComponent({
 			console.debug('Files app handling search event from unified search...', searchEvent)
 			this.filterText = searchEvent.query
 		}, 500),
+
+		/**
+		 * Reset the search query
+		 */
+		resetSearch() {
+			this.filterText = ''
+		},
+
 		openSharingSidebar() {
 			if (!this.currentFolder) {
 				logger.debug('No current folder found for opening sharing sidebar')
