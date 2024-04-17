@@ -334,12 +334,8 @@ class Manager implements IManager {
 	 * Set the user we need to use
 	 *
 	 * @param string|null $currentUserId
-	 * @throws \UnexpectedValueException If the user is invalid
 	 */
 	public function setCurrentUserId(?string $currentUserId = null): void {
-		if (!is_string($currentUserId) && $currentUserId !== null) {
-			throw new \UnexpectedValueException('The given current user is invalid');
-		}
 		$this->currentUserId = $currentUserId;
 	}
 

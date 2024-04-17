@@ -165,7 +165,6 @@ interface IManager {
 	 * Set the user we need to use
 	 *
 	 * @param string|null $currentUserId
-	 * @throws \UnexpectedValueException If the user is invalid
 	 * @since 9.0.1
 	 */
 	public function setCurrentUserId(?string $currentUserId = null): void;
