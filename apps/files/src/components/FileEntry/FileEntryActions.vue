@@ -105,8 +105,7 @@ import NcActionSeparator from '@nextcloud/vue/dist/Components/NcActionSeparator.
 import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
 import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
 import ArrowLeftIcon from 'vue-material-design-icons/ArrowLeft.vue'
-import ChevronRightIcon from 'vue-material-design-icons/ChevronRight.vue'
-import Vue from 'vue'
+import Vue, { defineComponent } from 'vue'
 
 import CustomElementRender from '../CustomElementRender.vue'
 import logger from '../../logger.js'
@@ -114,12 +113,11 @@ import logger from '../../logger.js'
 // The registered actions list
 const actions = getFileActions()
 
-export default Vue.extend({
+export default defineComponent({
 	name: 'FileEntryActions',
 
 	components: {
 		ArrowLeftIcon,
-		ChevronRightIcon,
 		CustomElementRender,
 		NcActionButton,
 		NcActions,
@@ -337,7 +335,7 @@ export default Vue.extend({
 			// Focus the previous menu action button
 			this.$nextTick(() => {
 				// Focus the action button
-				const menuAction = this.$refs[`action-${action.id}`][0]
+				const menuAction = this.$refs[`action-${action.id}`]?.[0]
 				if (menuAction) {
 					menuAction.$el.querySelector('button')?.focus()
 				}
