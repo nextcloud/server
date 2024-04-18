@@ -1,6 +1,7 @@
 { "translations": {
     "Dashboard" : "Taboleiro",
     "Dashboard app" : "Aplicación de taboleiro",
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! People can add the widgets they like and change the background to their liking." : "O Panel de Control de Nextcloud é o teu punto de partida do día, dándoche unha visión xeral das túas próximas citas, correos electrónicos urxentes, mensaxes de chat, entradas entrantes, chíos máis recentes e moito máis. As persoas poden engadir os widgets que lles gustan e cambiar o fondo ao seu gusto.",
     "\"{title} icon\"" : "«icona {title}»",
     "Customize" : "Personalizar",
     "Edit widgets" : "Editar trebellos",
