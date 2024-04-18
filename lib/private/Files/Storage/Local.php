@@ -540,6 +540,7 @@ class Local extends \OC\Files\Storage\Common {
 	}
 
 	private function canDoCrossStorageMove(IStorage $sourceStorage) {
+		/** @psalm-suppress UndefinedClass */
 		return $sourceStorage->instanceOfStorage(Local::class)
 			// Don't treat ACLStorageWrapper like local storage where copy can be done directly.
 			// Instead, use the slower recursive copying in php from Common::copyFromStorage with
