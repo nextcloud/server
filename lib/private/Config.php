@@ -153,8 +153,6 @@ class Config {
 	 * @throws HintException
 	 */
 	protected function set($key, $value) {
-		$this->checkReadOnly();
-
 		if (!isset($this->cache[$key]) || $this->cache[$key] !== $value) {
 			// Add change
 			$this->cache[$key] = $value;
@@ -185,8 +183,6 @@ class Config {
 	 * @throws HintException
 	 */
 	protected function delete($key) {
-		$this->checkReadOnly();
-
 		if (isset($this->cache[$key])) {
 			// Delete key from cache
 			unset($this->cache[$key]);
