@@ -120,7 +120,14 @@ export const handleCopyMoveNodeTo = async (node: Node, destination: Folder, meth
 				// If we do not allow overwriting then find an unique name
 				if (!overwrite) {
 					const otherNodes = await client.getDirectoryContents(destinationPath) as FileStat[]
-					target = getUniqueName(node.basename, otherNodes.map((n) => n.basename), copySuffix)
+					target = getUniqueName(
+						node.basename,
+						otherNodes.map((n) => n.basename),
+						{
+							suffix: copySuffix,
+							ignoreFileExtension: node.type === FileType.Folder,
+						},
+					)
 				}
 				await client.copyFile(currentPath, join(destinationPath, target))
 				// If the node is copied into current directory the view needs to be updated
@@ -150,7 +157,7 @@ export const handleCopyMoveNodeTo = async (node: Node, destination: Folder, meth
 						}
 					} catch (error) {
 						// User cancelled
-						showError(t('files','Move cancelled'))
+						showError(t('files', 'Move cancelled'))
 						return
 					}
 				}
