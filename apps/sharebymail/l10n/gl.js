@@ -14,6 +14,7 @@ OC.L10N.register(
     "Password to access {file} was sent to {email}" : "Envióuselle a {email} un contrasinal para acceder a {file}",
     "Password to access {file} was sent to you" : "Envióuselle a Vde. un correo para acceder a {file}",
     "Share by mail" : "Compartido por correo",
+    "Sharing %1$s failed, because this item is already shared with the account %2$s" : "Produciuse un erro ao compartir %1$s porque este elemento xa está compartido coa conta %2$s",
     "We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Non é posíbel enviarlle o contrasinal xerado automaticamente. Estabeleza un enderezo de correo correcto nos seus axustes persoais e ténteo de novo.",
     "Failed to send share by email. Got an invalid email address" : "Produciuse un erro ao enviar a compartición por correo. O enderezo de correo non é válido",
     "Failed to send share by email" : "Produciuse un fallo ao enviar acomparticióno por correo",
