@@ -53,7 +53,6 @@ use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IPreview;
 use OCP\IRequest;
-use OCP\IServerContainer;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
@@ -63,6 +62,8 @@ use OCP\Share\IAttributes as IShareAttributes;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
 use OCP\UserStatus\IManager as IUserStatusManager;
+use Psr\Container\ContainerInterface;
+use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 /**
@@ -73,53 +74,23 @@ use Test\TestCase;
  */
 class ShareAPIControllerTest extends TestCase {
 
-	/** @var string */
-	private $appName = 'files_sharing';
-
-	/** @var \OC\Share20\Manager|\PHPUnit\Framework\MockObject\MockObject */
-	private $shareManager;
-
-	/** @var IGroupManager|\PHPUnit\Framework\MockObject\MockObject */
-	private $groupManager;
-
-	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
-	private $userManager;
-
-	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
-	private $request;
-
-	/** @var IRootFolder|\PHPUnit\Framework\MockObject\MockObject */
-	private $rootFolder;
-
-	/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
-	private $urlGenerator;
-
-	/** @var string|\PHPUnit\Framework\MockObject\MockObject */
-	private $currentUser;
-
-	/** @var ShareAPIController */
-	private $ocs;
-
-	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
-	private $l;
-
-	/** @var  IConfig|\PHPUnit\Framework\MockObject\MockObject */
-	private $config;
-
-	/** @var IAppManager|\PHPUnit\Framework\MockObject\MockObject */
-	private $appManager;
-
-	/** @var IServerContainer|\PHPUnit\Framework\MockObject\MockObject */
-	private $serverContainer;
-
-	/** @var IUserStatusManager|\PHPUnit\Framework\MockObject\MockObject */
-	private $userStatusManager;
-
-	/** @var IPreview|\PHPUnit\Framework\MockObject\MockObject */
-	private $previewManager;
-
-	/** @var IDateTimeZone|\PHPUnit\Framework\MockObject\MockObject */
-	private $dateTimeZone;
+	private string $appName = 'files_sharing';
+	private \OC\Share20\Manager|\PHPUnit\Framework\MockObject\MockObject $shareManager;
+	private IGroupManager|\PHPUnit\Framework\MockObject\MockObject $groupManager;
+	private IUserManager|\PHPUnit\Framework\MockObject\MockObject $userManager;
+	private IRequest|\PHPUnit\Framework\MockObject\MockObject $request;
+	private IRootFolder|\PHPUnit\Framework\MockObject\MockObject $rootFolder;
+	private IURLGenerator|\PHPUnit\Framework\MockObject\MockObject $urlGenerator;
+	private string|\PHPUnit\Framework\MockObject\MockObject $currentUser;
+	private ShareAPIController  $ocs;
+	private IL10N|\PHPUnit\Framework\MockObject\MockObject $l;
+	private IConfig|\PHPUnit\Framework\MockObject\MockObject $config;
+	private IAppManager|\PHPUnit\Framework\MockObject\MockObject $appManager;
+	private IServerContainer|\PHPUnit\Framework\MockObject\MockObject $serverContainer;
+	private IUserStatusManager|\PHPUnit\Framework\MockObject\MockObject $userStatusManager;
+	private IPreview|\PHPUnit\Framework\MockObject\MockObject $previewManager;
+	private IDateTimeZone|\PHPUnit\Framework\MockObject\MockObject $dateTimeZone;
+	private LoggerInterface $logger;
 
 	protected function setUp(): void {
 		$this->shareManager = $this->createMock(IManager::class);
@@ -144,7 +115,7 @@ class ShareAPIControllerTest extends TestCase {
 			});
 		$this->config = $this->createMock(IConfig::class);
 		$this->appManager = $this->createMock(IAppManager::class);
-		$this->serverContainer = $this->createMock(IServerContainer::class);
+		$this->serverContainer = $this->createMock(ContainerInterface::class);
 		$this->userStatusManager = $this->createMock(IUserStatusManager::class);
 		$this->previewManager = $this->createMock(IPreview::class);
 		$this->previewManager->method('isAvailable')
@@ -152,6 +123,7 @@ class ShareAPIControllerTest extends TestCase {
 				return $fileInfo->getMimeType() === 'mimeWithPreview';
 			});
 		$this->dateTimeZone = $this->createMock(IDateTimeZone::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 
 		$this->ocs = new ShareAPIController(
 			$this->appName,
@@ -161,7 +133,6 @@ class ShareAPIControllerTest extends TestCase {
 			$this->userManager,
 			$this->rootFolder,
 			$this->urlGenerator,
-			$this->currentUser,
 			$this->l,
 			$this->config,
 			$this->appManager,
@@ -169,6 +140,8 @@ class ShareAPIControllerTest extends TestCase {
 			$this->userStatusManager,
 			$this->previewManager,
 			$this->dateTimeZone,
+			$this->logger,
+			$this->currentUser,
 		);
 	}
 
@@ -185,7 +158,6 @@ class ShareAPIControllerTest extends TestCase {
 				$this->userManager,
 				$this->rootFolder,
 				$this->urlGenerator,
-				$this->currentUser,
 				$this->l,
 				$this->config,
 				$this->appManager,
@@ -193,6 +165,8 @@ class ShareAPIControllerTest extends TestCase {
 				$this->userStatusManager,
 				$this->previewManager,
 				$this->dateTimeZone,
+				$this->logger,
+				$this->currentUser,
 			])->setMethods(['formatShare'])
 			->getMock();
 	}
@@ -786,7 +760,6 @@ class ShareAPIControllerTest extends TestCase {
 					$this->userManager,
 					$this->rootFolder,
 					$this->urlGenerator,
-					$this->currentUser,
 					$this->l,
 					$this->config,
 					$this->appManager,
@@ -794,6 +767,9 @@ class ShareAPIControllerTest extends TestCase {
 					$this->userStatusManager,
 					$this->previewManager,
 					$this->dateTimeZone,
+					$this->logger,
+					$this->currentUser,
+
 				])->setMethods(['canAccessShare'])
 				->getMock();
 
@@ -1416,7 +1392,6 @@ class ShareAPIControllerTest extends TestCase {
 				$this->userManager,
 				$this->rootFolder,
 				$this->urlGenerator,
-				$this->currentUser,
 				$this->l,
 				$this->config,
 				$this->appManager,
@@ -1424,6 +1399,8 @@ class ShareAPIControllerTest extends TestCase {
 				$this->userStatusManager,
 				$this->previewManager,
 				$this->dateTimeZone,
+				$this->logger,
+				$this->currentUser,
 			])->setMethods(['formatShare'])
 			->getMock();
 
@@ -1756,7 +1733,6 @@ class ShareAPIControllerTest extends TestCase {
 				$this->userManager,
 				$this->rootFolder,
 				$this->urlGenerator,
-				$this->currentUser,
 				$this->l,
 				$this->config,
 				$this->appManager,
@@ -1764,6 +1740,8 @@ class ShareAPIControllerTest extends TestCase {
 				$this->userStatusManager,
 				$this->previewManager,
 				$this->dateTimeZone,
+				$this->logger,
+				$this->currentUser,
 			])->setMethods(['formatShare'])
 			->getMock();
 
@@ -1851,7 +1829,6 @@ class ShareAPIControllerTest extends TestCase {
 				$this->userManager,
 				$this->rootFolder,
 				$this->urlGenerator,
-				$this->currentUser,
 				$this->l,
 				$this->config,
 				$this->appManager,
@@ -1859,6 +1836,8 @@ class ShareAPIControllerTest extends TestCase {
 				$this->userStatusManager,
 				$this->previewManager,
 				$this->dateTimeZone,
+				$this->logger,
+				$this->currentUser,
 			])->setMethods(['formatShare'])
 			->getMock();
 
@@ -2270,7 +2249,6 @@ class ShareAPIControllerTest extends TestCase {
 				$this->userManager,
 				$this->rootFolder,
 				$this->urlGenerator,
-				$this->currentUser,
 				$this->l,
 				$this->config,
 				$this->appManager,
@@ -2278,6 +2256,8 @@ class ShareAPIControllerTest extends TestCase {
 				$this->userStatusManager,
 				$this->previewManager,
 				$this->dateTimeZone,
+				$this->logger,
+				$this->currentUser,
 			])->setMethods(['formatShare'])
 			->getMock();
 
@@ -2337,7 +2317,6 @@ class ShareAPIControllerTest extends TestCase {
 				$this->userManager,
 				$this->rootFolder,
 				$this->urlGenerator,
-				$this->currentUser,
 				$this->l,
 				$this->config,
 				$this->appManager,
@@ -2345,6 +2324,8 @@ class ShareAPIControllerTest extends TestCase {
 				$this->userStatusManager,
 				$this->previewManager,
 				$this->dateTimeZone,
+				$this->logger,
+				$this->currentUser,
 			])->setMethods(['formatShare'])
 			->getMock();
 
@@ -2577,7 +2558,6 @@ class ShareAPIControllerTest extends TestCase {
 				$this->userManager,
 				$this->rootFolder,
 				$this->urlGenerator,
-				$this->currentUser,
 				$this->l,
 				$this->config,
 				$this->appManager,
@@ -2585,6 +2565,8 @@ class ShareAPIControllerTest extends TestCase {
 				$this->userStatusManager,
 				$this->previewManager,
 				$this->dateTimeZone,
+				$this->logger,
+				$this->currentUser,
 			])->setMethods(['formatShare'])
 			->getMock();
 
