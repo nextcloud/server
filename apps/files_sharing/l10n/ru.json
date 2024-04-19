@@ -77,6 +77,7 @@
     "Wrong path, file/folder does not exist" : "Неверный путь, файл или каталог не существует",
     "Could not create share" : "Не удалось создать общий ресурс",
     "Invalid permissions" : "Неверные права доступа",
+    "Invalid date, date format must be YYYY-MM-DD" : "Недопустимая дата. Дата должна быть указана в формате ГГГГ-ММ-ДД",
     "Group sharing is disabled by the administrator" : "Возможность делиться с группами отключена администратором",
     "Please specify a valid group" : "Укажите верную группу",
     "Public link sharing is disabled by the administrator" : "Возможность предоставления общего доступа созданием общедоступных ссылок отключена администратором",
@@ -84,7 +85,6 @@
     "Public upload is only possible for publicly shared folders" : "Общедоступная выгрузка возможна только в общедоступные папки",
     "Sharing %s sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Не удалось отправить пароль для доступа к «%s»: приложение Nextcloud Talk отключено.",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Не удалось предоставить общий доступ к  «%1$s», поскольку механизм удалённого обмена не разрешает публикации типа %2$s",
-    "Invalid date, date format must be YYYY-MM-DD" : "Недопустимая дата. Дата должна быть указана в формате ГГГГ-ММ-ДД",
     "Please specify a valid federated group ID" : "Укажите действительный идентификатор федеративной группы",
     "You cannot share to a Circle if the app is not enabled" : "Вы не можете поделиться с кругом, если приложение «Круг» не включено",
     "Please specify a valid circle" : "Укажите верный круг",
@@ -199,12 +199,10 @@
     "Share with {userName}" : "Поделиться с {userName}",
     "Share with group" : "Поделиться с группой",
     "Share in conversation" : "Поделиться в чате",
-    "Share with remote" : "Поделиться с удалённым",
     "Share with remote group" : "Поделиться с удалённой группой",
     "Share with guest" : "Поделиться с гостем",
-    "Share with" : "Поделиться",
-    "Save share" : "Сохранить общий ресурс",
     "Update share" : "Обновить общий ресурс",
+    "Save share" : "Сохранить общий ресурс",
     "Others with access" : "Другие пользователи, имеющие доступ",
     "Toggle list of others with access to this directory" : "Свернуть или развернуть список пользователей, имеющих доступ к этой папке",
     "Toggle list of others with access to this file" : "Свернуть или развернуть список пользователей, имеющих доступ к этому файлу",
@@ -301,6 +299,8 @@
     "the item was removed" : "объект удалён",
     "the link expired" : "истёк срок действия ссылки",
     "sharing is disabled" : "закрыт общий доступ",
-    "For more info, please ask the person who sent this link." : "Для получения дополнительной информации, свяжитесь с тем, кто отправил вам эту ссылку."
+    "For more info, please ask the person who sent this link." : "Для получения дополнительной информации, свяжитесь с тем, кто отправил вам эту ссылку.",
+    "Share with remote" : "Поделиться с удалённым",
+    "Share with" : "Поделиться"
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
 }

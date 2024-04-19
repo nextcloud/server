@@ -79,6 +79,7 @@ OC.L10N.register(
     "Wrong path, file/folder does not exist" : "Wrong path, file/folder does not exist",
     "Could not create share" : "امکان ایجاد اشتراک گذاری وجود ندارد",
     "Invalid permissions" : "دسترسی نامعتبر",
+    "Invalid date, date format must be YYYY-MM-DD" : "تاریخ نامعتبر است ، قالب تاریخ باید YYYY-MM-DD باشد",
     "Group sharing is disabled by the administrator" : "اشتراک گروه توسط مدیر غیرفعال شده است.",
     "Please specify a valid group" : "لطفا یک گروه معتبر انتخاب کنید",
     "Public link sharing is disabled by the administrator" : "اشتراک پیوندهای عمومی توسط مدیر غیرفعال شده است",
@@ -86,7 +87,6 @@ OC.L10N.register(
     "Public upload is only possible for publicly shared folders" : "بارگذاری عمومی فقط برای پوشه هایی که به طور عمومی به اشتراک گذاشته می شوند ممکن است",
     "Sharing %s sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : ".اشتراک‍‍‍%s ارسال رمز عبور توسط Nextcloud Talk به دلیل فعال نشدن Nextcloud Talk انجام نشد.",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "%2$sاشتراک گذاری%1$s انجام نشد زیرا بک اِند اجازه نمی دهد نوع از سهام استفاده شود",
-    "Invalid date, date format must be YYYY-MM-DD" : "تاریخ نامعتبر است ، قالب تاریخ باید YYYY-MM-DD باشد",
     "Please specify a valid federated group ID" : "Please specify a valid federated group ID",
     "You cannot share to a Circle if the app is not enabled" : "اگر برنامه فعال نباشد ، نمی توانید در یک حلقه به اشتراک بگذارید",
     "Please specify a valid circle" : "لطفاً یک حلقه معتبر تعیین کنید",
@@ -194,7 +194,6 @@ OC.L10N.register(
     "Create" : "ایجاد",
     "Edit" : "ویرایش",
     "Share" : "هم‌رسانی",
-    "Share with" : "به اشتراک گذاشتن با",
     "Others with access" : "دیگران با دسترسی",
     "Toggle list of others with access to this directory" : "لیست دسترسی دیگران به این فهرست را تغییر دهید",
     "Toggle list of others with access to this file" : "لیست سایرین را با دسترسی به این پرونده تغییر دهید",
@@ -288,6 +287,7 @@ OC.L10N.register(
     "the item was removed" : "این مورد حذف شده است",
     "the link expired" : "این لینک منقضی شده است",
     "sharing is disabled" : "قابلیت اشتراک گذاری غیرفعال است",
-    "For more info, please ask the person who sent this link." : "برای اطلاعات بیشتر، لطفا از شخصی که این پیوند را ارسال کرده سوال بفرمایید."
+    "For more info, please ask the person who sent this link." : "برای اطلاعات بیشتر، لطفا از شخصی که این پیوند را ارسال کرده سوال بفرمایید.",
+    "Share with" : "به اشتراک گذاشتن با"
 },
 "nplurals=2; plural=(n > 1);");

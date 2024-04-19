@@ -197,6 +197,7 @@ OC.L10N.register(
     "Toggle selection for all files and folders" : "Basculer la sélection pour tous les fichiers et dossiers",
     "\"{displayName}\" failed on some elements " : "\"{displayName}\" a échoué sur certains éléments",
     "\"{displayName}\" batch action executed successfully" : "L’action « {displayName} » par lot a été exécutée avec succès",
+    "{count} selected" : "{count} sélectionné(s)",
     "List of files and folders." : "Liste des fichiers et dossiers.",
     "Column headers with buttons are sortable." : "L'entête des colonnes avec des boutons sont triables.",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Cette liste n'est pas entièrement affichée pour des raisons de performances. Les fichiers seront affichés au fur et à mesure que vous naviguerez dans la liste.",

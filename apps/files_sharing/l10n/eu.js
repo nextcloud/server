@@ -79,6 +79,7 @@ OC.L10N.register(
     "Wrong path, file/folder does not exist" : "Bide okerra, fitxategia/karpeta ez da existitzen",
     "Could not create share" : "Ezin izan da partekatzea sortu",
     "Invalid permissions" : "Baimen baliogabeak",
+    "Invalid date, date format must be YYYY-MM-DD" : "Data baliogabea, dataren formatuak UUUU-HH-EE izan behar du",
     "Group sharing is disabled by the administrator" : "Administratzaileak taldeekin partekatzea desgaitu du",
     "Please specify a valid group" : "Zehaztu baliozko talde bat",
     "Public link sharing is disabled by the administrator" : "Administratzaileak estekak publikoki partekatzea desgaitu du",
@@ -86,7 +87,6 @@ OC.L10N.register(
     "Public upload is only possible for publicly shared folders" : "Igoera publikoa publikoki partekatutako karpetetan egin daiteke soilik",
     "Sharing %s sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : " %s Nextcloud Talk-etik pasahitza bidaliz partekatzeak huts egin du, Nextcloud Talk ez dagoelako gaituta",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : " %1$s partekatzeak huts egin du, atzealdeak %2$s motako partekatzeak ez dituelako onartzen",
-    "Invalid date, date format must be YYYY-MM-DD" : "Data baliogabea, dataren formatuak UUUU-HH-EE izan behar du",
     "Please specify a valid federated group ID" : "Mesedez, zehaztu baliozko talde federatu baten id-a",
     "You cannot share to a Circle if the app is not enabled" : "Ezin duzu zirkulu batekin partekatu aplikazioa gaituta ez badago",
     "Please specify a valid circle" : "Zehaztu baliozko zirkulu bat",
@@ -199,9 +199,8 @@ OC.L10N.register(
     "Edit" : "Aldatu",
     "Share" : "Partekatu",
     "Delete share" : "Ezabatu partekatzea",
-    "Share with" : "Partekatu honekin",
-    "Save share" : "Gorde partekatzea",
     "Update share" : "Eguneratu partekatzea",
+    "Save share" : "Gorde partekatzea",
     "Others with access" : "Sarbidea duten beste erabiltzaileak",
     "Toggle list of others with access to this directory" : "Txandakatu direktorio honetara sarbidea duten beste erabiltzaileen zerrenda",
     "Toggle list of others with access to this file" : "Txandakatu fitxategi honetara sarbidea duten beste erabiltzaileen zerrenda",
@@ -297,6 +296,7 @@ OC.L10N.register(
     "the item was removed" : "fitxategia kendu da",
     "the link expired" : "esteka iraungi da",
     "sharing is disabled" : "partekatzea desgaituta dago",
-    "For more info, please ask the person who sent this link." : "Informazio gehiagorako, galdetu esteka hau bidali zuen pertsonari"
+    "For more info, please ask the person who sent this link." : "Informazio gehiagorako, galdetu esteka hau bidali zuen pertsonari",
+    "Share with" : "Partekatu honekin"
 },
 "nplurals=2; plural=(n != 1);");

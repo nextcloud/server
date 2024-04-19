@@ -77,6 +77,7 @@
     "Wrong path, file/folder does not exist" : "错误的路径，文件/文件夹不存在",
     "Could not create share" : "无法创建共享",
     "Invalid permissions" : "无效的权限 ",
+    "Invalid date, date format must be YYYY-MM-DD" : "无效的日期，日期格式必须是 YYYY-MM-DD",
     "Group sharing is disabled by the administrator" : "群组共享已被管理员禁用",
     "Please specify a valid group" : "请指定一个有效的组",
     "Public link sharing is disabled by the administrator" : "公共链接共享已被管理员禁用",
@@ -84,7 +85,6 @@
     "Public upload is only possible for publicly shared folders" : "公共上传仅适用于公共共享文件夹",
     "Sharing %s sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "由于 Nextcloud 通话应用没有启用，所以通过 Nextcloud 通话应用发送%s共享密码失败。",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "共享 %1$s 失败，后端不允许类型为 %2$s 的共享",
-    "Invalid date, date format must be YYYY-MM-DD" : "无效的日期，日期格式必须是 YYYY-MM-DD",
     "Please specify a valid federated group ID" : "请指定一个有效的联合群组 ID",
     "You cannot share to a Circle if the app is not enabled" : "如果这个应用程序不可用，您不能共享到圈子",
     "Please specify a valid circle" : "请指明一个可用圈子",
@@ -199,12 +199,10 @@
     "Share with {userName}" : "分享至 {userName}",
     "Share with group" : "分享至群组",
     "Share in conversation" : "分享至对话",
-    "Share with remote" : "分享至远程",
     "Share with remote group" : "分享至远程群组",
     "Share with guest" : "分享至访客",
-    "Share with" : "共享给",
-    "Save share" : "保存分享",
     "Update share" : "更新分享",
+    "Save share" : "保存分享",
     "Others with access" : "其他具有访问权限的人",
     "Toggle list of others with access to this directory" : "切换有权访问此目录的其他人的列表",
     "Toggle list of others with access to this file" : "切换有权访问此文件的其他人的列表",
@@ -301,6 +299,8 @@
     "the item was removed" : "此项已移除",
     "the link expired" : "链接过期",
     "sharing is disabled" : "已禁用共享",
-    "For more info, please ask the person who sent this link." : "如需了解更多信息，请联系发给您该链接的人。"
+    "For more info, please ask the person who sent this link." : "如需了解更多信息，请联系发给您该链接的人。",
+    "Share with remote" : "分享至远程",
+    "Share with" : "共享给"
 },"pluralForm" :"nplurals=1; plural=0;"
 }
