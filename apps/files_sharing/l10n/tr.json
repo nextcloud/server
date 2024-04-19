@@ -77,6 +77,7 @@
     "Wrong path, file/folder does not exist" : "Yol yanlış. Dosya ya da klasör bulunamadı",
     "Could not create share" : "Paylaşılamadı",
     "Invalid permissions" : "İzinler geçersiz",
+    "Invalid date, date format must be YYYY-MM-DD" : "Tarih geçersiz. Tarih biçimi YYYY-AA-GG olmalıdır",
     "Please specify a valid account to share with" : "Lütfen paylaşılacak geçerli bir hesap belirtin",
     "Group sharing is disabled by the administrator" : "Grup paylaşımı BT yöneticisi tarafından devre dışı bırakılmış",
     "Please specify a valid group" : "Lütfen geçerli bir grup belirtin",
@@ -86,7 +87,6 @@
     "Sharing %s sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Nextcloud Talk etkinleştirilmemiş olduğundan, %s paylaşım parolası Nextcloud Talk ile gönderilemedi",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Yönetim bölümünden %2$s türündeki paylaşımlar yapılamadığından %1$s paylaşılamadı",
     "Please specify a valid federated account ID" : "Lütfen geçerli bir birleşik hesap kimliği belirtin",
-    "Invalid date, date format must be YYYY-MM-DD" : "Tarih geçersiz. Tarih biçimi YYYY-AA-GG olmalıdır",
     "Please specify a valid federated group ID" : "Lütfen geçerli bir birleşik grup kimliği belirtin",
     "You cannot share to a Circle if the app is not enabled" : "Uygulama etkinleştirilmemiş ise bir Takım ile paylaşamazsınız",
     "Please specify a valid circle" : "Lütfen geçerli bir takım belirtin",
@@ -208,12 +208,10 @@
     "Share with {userName}" : "{userName} ile paylaş",
     "Share with group" : "Grupla paylaş",
     "Share in conversation" : "Yazışmada paylaş",
-    "Share with remote" : "Uzaktakilerle paylaş",
     "Share with remote group" : "Uzaktaki grupla paylaş",
     "Share with guest" : "Konukla paylaş",
-    "Share with" : "Şunlarla paylaş",
-    "Save share" : "Paylaşımı kaydet",
     "Update share" : "Paylaşımı güncelle",
+    "Save share" : "Paylaşımı kaydet",
     "Others with access" : "Erişebilen diğer kişiler",
     "No other accounts with access found" : "Erişebilen başka bir hesap bulunamadı",
     "Toggle list of others with access to this directory" : "Bu klasöre erişme izni olan diğer kişiler listesini aç/kapat",
@@ -312,6 +310,8 @@
     "the item was removed" : "öge silinmiş",
     "the link expired" : "bağlantının geçerlilik süresi dolmuş",
     "sharing is disabled" : "paylaşım devre dışı bırakılmış",
-    "For more info, please ask the person who sent this link." : "Ayrıntılı bilgi almak için bu bağlantıyı aldığınız kişi ile görüşün."
+    "For more info, please ask the person who sent this link." : "Ayrıntılı bilgi almak için bu bağlantıyı aldığınız kişi ile görüşün.",
+    "Share with remote" : "Uzaktakilerle paylaş",
+    "Share with" : "Şunlarla paylaş"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

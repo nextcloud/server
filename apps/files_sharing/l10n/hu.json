@@ -77,6 +77,7 @@
     "Wrong path, file/folder does not exist" : "Hibás útvonal, a fájl/mappa nem létezik",
     "Could not create share" : "A megosztás nem hozható létre",
     "Invalid permissions" : "Érvénytelen jogosultságok",
+    "Invalid date, date format must be YYYY-MM-DD" : "Érvénytelen dátum, a dátumnak YYYY-MM-DD formátumúnak kell lennie",
     "Group sharing is disabled by the administrator" : "A csoportos megosztást letiltotta a rendszergazda",
     "Please specify a valid group" : "Adjon meg egy érvényes csoportot",
     "Public link sharing is disabled by the administrator" : "A nyilvános hivatkozással történő megosztást letiltotta a rendszergazda",
@@ -84,7 +85,6 @@
     "Public upload is only possible for publicly shared folders" : "A nyilvános feltöltés csak a nyilvánosan megosztott mappákban lehetséges",
     "Sharing %s sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "A(z) %s megosztás jelszavának Nextcloud Beszélgetéssel történő elküldése sikertelen, mert a Nextcloud Beszélgetés nem engedélyezett",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "A(z) %1$s megosztása sikertelen, mert a háttérprogram nem engedélyezi a(z) %2$s típusú megosztást",
-    "Invalid date, date format must be YYYY-MM-DD" : "Érvénytelen dátum, a dátumnak YYYY-MM-DD formátumúnak kell lennie",
     "Please specify a valid federated group ID" : "Adjon meg egy érvényes föderált csoportazonosítót",
     "You cannot share to a Circle if the app is not enabled" : "Nem tudja megosztani egy Kör számára, ha az alkalmazás nem engedélyezett",
     "Please specify a valid circle" : "Adjon meg egy érvényes Kört",
@@ -196,9 +196,8 @@
     "Edit" : "Szerkesztés",
     "Share" : "Megosztás",
     "Delete share" : "Megosztás törlése",
-    "Share with" : "Megosztva a következővel",
-    "Save share" : "Megosztás mentése",
     "Update share" : "Megosztás frissítése",
+    "Save share" : "Megosztás mentése",
     "Others with access" : "Mások, akik hozzáféréssel rendelkeznek",
     "Toggle list of others with access to this directory" : "A könyvtárhoz hozzáféréssel rendelkezők listája be/ki",
     "Toggle list of others with access to this file" : "A fájlhoz hozzáféréssel rendelkezők listája be/ki",
@@ -295,6 +294,7 @@
     "the item was removed" : "az elem el lett távolítva",
     "the link expired" : "lejárt a hivatkozás érvényességi ideje",
     "sharing is disabled" : "a megosztás letiltásra került",
-    "For more info, please ask the person who sent this link." : "További információért forduljon ahhoz, aki ezt a hivatkozást küldte."
+    "For more info, please ask the person who sent this link." : "További információért forduljon ahhoz, aki ezt a hivatkozást küldte.",
+    "Share with" : "Megosztva a következővel"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -79,6 +79,7 @@ OC.L10N.register(
     "Wrong path, file/folder does not exist" : "Błędna ścieżka, plik/katalog nie istnieje",
     "Could not create share" : "Nie można utworzyć udostępnienia",
     "Invalid permissions" : "Nieprawidłowe uprawnienia",
+    "Invalid date, date format must be YYYY-MM-DD" : "Nieprawidłowa data, data musi być w formacie RRRR-MM-DD",
     "Group sharing is disabled by the administrator" : "Udostępnianie grupowe jest wyłączone przez administratora",
     "Please specify a valid group" : "Podaj prawidłową grupę",
     "Public link sharing is disabled by the administrator" : "Udostępnianie linków publicznych zostało wyłączone przez administratora",
@@ -86,7 +87,6 @@ OC.L10N.register(
     "Public upload is only possible for publicly shared folders" : "Przesyłanie publiczne jest możliwe tylko w przypadku katalogów udostępnianych publicznie",
     "Sharing %s sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Udostępnienie %s wysyłanego hasła przez Nextcloud Talk nie powiodło się, ponieważ Nextcloud Talk nie jest włączony",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Udostępnienie %1$s nie powiodło się, ponieważ zaplecze nie zezwala na udostępnianie typu %2$s",
-    "Invalid date, date format must be YYYY-MM-DD" : "Nieprawidłowa data, data musi być w formacie RRRR-MM-DD",
     "Please specify a valid federated group ID" : "Podaj prawidłowy ID grupy federacyjnej",
     "You cannot share to a Circle if the app is not enabled" : "Nie możesz udostępnić w Kręgach, jeśli aplikacja jest wyłączona",
     "Please specify a valid circle" : "Podaj prawidłowy krąg",
@@ -199,9 +199,8 @@ OC.L10N.register(
     "Edit" : "Edytuj",
     "Share" : "Udostępnij",
     "Delete share" : "Usuń udostępnianie",
-    "Share with" : "Udostępnij dla",
-    "Save share" : "Zapisz udostępnienie",
     "Update share" : "Zaktualizuj udostępnienie",
+    "Save share" : "Zapisz udostępnienie",
     "Others with access" : "Inni z dostępem",
     "Toggle list of others with access to this directory" : "Przełącz listę innych z dostępem do tego katalogu",
     "Toggle list of others with access to this file" : "Przełącz listę innych z dostępem do tego pliku",
@@ -298,6 +297,7 @@ OC.L10N.register(
     "the item was removed" : "element został usunięty",
     "the link expired" : "link wygasł",
     "sharing is disabled" : "udostępnianie jest wyłączone",
-    "For more info, please ask the person who sent this link." : "Aby uzyskać więcej informacji, zapytaj osobę, która wysłała ten link."
+    "For more info, please ask the person who sent this link." : "Aby uzyskać więcej informacji, zapytaj osobę, która wysłała ten link.",
+    "Share with" : "Udostępnij dla"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

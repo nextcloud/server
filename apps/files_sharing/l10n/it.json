@@ -77,6 +77,7 @@
     "Wrong path, file/folder does not exist" : "Percorso errato, file/cartella inesistente",
     "Could not create share" : "Impossibile creare la condivisione",
     "Invalid permissions" : "Permessi non validi",
+    "Invalid date, date format must be YYYY-MM-DD" : "Data non valida, il formato della data deve essere AAAA-MM-GG",
     "Group sharing is disabled by the administrator" : "La condivisione di gruppo è disabilitata dall'amministratore",
     "Please specify a valid group" : "Specifica un gruppo valido",
     "Public link sharing is disabled by the administrator" : "La condivisione pubblica di collegamenti è disabilitata dall'amministratore",
@@ -84,7 +85,6 @@
     "Public upload is only possible for publicly shared folders" : "Il caricamento pubblico è possibile solo per cartelle condivise pubblicamente",
     "Sharing %s sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "La condivisione di %s tramite invio della password da Nextcloud Talk non è  riuscito poiché Nextcloud Talk non è abilitato",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Condivisione di %1$s non riuscita poiché il motore non consente condivisioni del tipo %2$s",
-    "Invalid date, date format must be YYYY-MM-DD" : "Data non valida, il formato della data deve essere AAAA-MM-GG",
     "Please specify a valid federated group ID" : "Specifica un ID di gruppo federato valido",
     "You cannot share to a Circle if the app is not enabled" : "Non puoi condividere con una cerchia se l'applicazione non è abilitata",
     "Please specify a valid circle" : "Specifica una cerchia valida",
@@ -200,9 +200,8 @@
     "Share with group" : "Condividi con gruppo",
     "Share in conversation" : "Condividi nella conversazione",
     "Share with guest" : "Condividi con ospite",
-    "Share with" : "Condividi con",
-    "Save share" : "Salva condivisione",
     "Update share" : "Aggiorna condivisione",
+    "Save share" : "Salva condivisione",
     "Others with access" : "Altri con accesso",
     "Toggle list of others with access to this directory" : "Attiva l'elenco degli altri utenti con accesso a questa cartella ",
     "Toggle list of others with access to this file" : "Attiva l'elenco degli altri utenti con accesso a questo file ",
@@ -299,6 +298,7 @@
     "the item was removed" : "l'elemento è stato rimosso",
     "the link expired" : "il collegamento è scaduto",
     "sharing is disabled" : "la condivisione è disabilitata",
-    "For more info, please ask the person who sent this link." : "Per ulteriori informazioni, chiedi alla persona che ti ha inviato il collegamento."
+    "For more info, please ask the person who sent this link." : "Per ulteriori informazioni, chiedi alla persona che ti ha inviato il collegamento.",
+    "Share with" : "Condividi con"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

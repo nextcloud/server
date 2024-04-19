@@ -23,7 +23,7 @@ OC.L10N.register(
     "Apps missing compatible version" : "應用程式缺少兼容版本",
     "View in store" : "在商店中檢視",
     "Apps with compatible version" : "具有兼容版本的應用程式",
-    "Please note that the web updater is not recommended with more than 100 accounts! Please use the command line updater instead!" : "請注意，不建議使用超過 100 個賬戶的網絡更新程序！ 請改用命令行更新程序！",
+    "Please note that the web updater is not recommended with more than 100 accounts! Please use the command line updater instead!" : "請注意，不建議使用超過 100 個帳戶的網絡更新程序！ 請改用命令行更新程序！",
     "Open updater" : "打開更新程式",
     "Download now" : "立即下載",
     "Web updater is disabled. Please use the command line updater or the appropriate update mechanism for your installation method (e.g. Docker pull) to update." : "網頁更新程式已停用。請使用命令列更新程式或適合您安裝方式的適當更新機制（例如 Docker pull）進行更新。",

@@ -79,6 +79,7 @@ OC.L10N.register(
     "Wrong path, file/folder does not exist" : "Λάθος διαδρομή, το αρχείο/φάκελος δεν υπάρχει",
     "Could not create share" : "Αδυναμία δημιουργίας κοινόχρηστου",
     "Invalid permissions" : "Μη έγκυρα δικαιώματα",
+    "Invalid date, date format must be YYYY-MM-DD" : "Μη έγκυρη ημερομηνία, η μορφή της ημερομηνίας πρέπει να είναι YYYY-MM-DD",
     "Please specify a valid account to share with" : "Παρακαλούμε καθορίστε έναν έγκυρο λογαριασμό για κοινή χρήση",
     "Group sharing is disabled by the administrator" : "Διαμοιρασμός σε ομάδες είναι απενεργοποιημένος από τον διαχειρηστή",
     "Please specify a valid group" : "Παρακαλούμε καθορίστε μια έγκυρη ομάδα",
@@ -87,7 +88,6 @@ OC.L10N.register(
     "Public upload is only possible for publicly shared folders" : "Δημόσιο ανέβασμα είναι δυνατό μόνο για δημόσια διαμοιρασμένους φακέλους",
     "Sharing %s sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Η κοινή χρήση %s της αποστολής του κωδικού πρόσβασης από το Nextcloud Talk απέτυχε επειδή δεν είναι ενεργοποιημένο το Nextcloud Talk",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Διαμοιρασμός %1$s απέτυχε επειδή ο εξυπηρετητής δεν επιτρέπει διαμοιρασμούς από τύπο %2$s",
-    "Invalid date, date format must be YYYY-MM-DD" : "Μη έγκυρη ημερομηνία, η μορφή της ημερομηνίας πρέπει να είναι YYYY-MM-DD",
     "You cannot share to a Circle if the app is not enabled" : "Δεν μπορείτε να διαμοιράσετε σε έναν Κύκλο εάν η εφαρμογή δεν είναι ενεργοποιημένη",
     "Please specify a valid circle" : "Παρακαλούμε προσδιορίστε έναν έγκυρο κύκλο",
     "Sharing %s failed because the back end does not support room shares" : "Διαμοιρασμός %s απέτυχε επειδή ο εξυπηρετητής δεν επιτρέπει διαμοιρασμούς δωματίων",
@@ -196,9 +196,8 @@ OC.L10N.register(
     "Share with group" : "Κοινή χρήση με ομάδα",
     "Share in conversation" : "Κοινή χρήση σε συζήτηση",
     "Share with guest" : "Κοινή χρήση με επισκέπτη",
-    "Share with" : "Διαμοιρασμός με",
-    "Save share" : "Αποθήκευση κοινόχρηστου",
     "Update share" : "Ενημέρωση κοινόχρηστου",
+    "Save share" : "Αποθήκευση κοινόχρηστου",
     "Others with access" : "Άλλοι με πρόσβαση",
     "Toggle list of others with access to this directory" : "Εναλλαγή λίστας άλλων με πρόσβαση σε αυτόν τον κατάλογο",
     "Toggle list of others with access to this file" : "Εναλλαγή λίστας άλλων με πρόσβαση σε αυτόν το αρχείο",
@@ -289,6 +288,7 @@ OC.L10N.register(
     "the item was removed" : "το αντικείμενο απομακρύνθηκε",
     "the link expired" : "ο σύνδεσμος έληξε",
     "sharing is disabled" : "ο διαμοιρασμός απενεργοποιήθηκε",
-    "For more info, please ask the person who sent this link." : "Για περισσότερες πληροφορίες, παρακαλούμε ρωτήστε το άτομο που σας έστειλε αυτόν τον σύνδεσμο."
+    "For more info, please ask the person who sent this link." : "Για περισσότερες πληροφορίες, παρακαλούμε ρωτήστε το άτομο που σας έστειλε αυτόν τον σύνδεσμο.",
+    "Share with" : "Διαμοιρασμός με"
 },
 "nplurals=2; plural=(n != 1);");

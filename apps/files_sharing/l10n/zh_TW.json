@@ -77,6 +77,7 @@
     "Wrong path, file/folder does not exist" : "錯誤的路徑，該檔案或資料夾不存在",
     "Could not create share" : "無法建立分享",
     "Invalid permissions" : "無效的權限",
+    "Invalid date, date format must be YYYY-MM-DD" : "無效的日期，需為 YYYY-MM-DD 格式",
     "Please specify a valid account to share with" : "請指定要分享的有效帳號",
     "Group sharing is disabled by the administrator" : "群組分享已被管理員停用",
     "Please specify a valid group" : "請指定有效的群組",
@@ -86,7 +87,6 @@
     "Sharing %s sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "因為未啟用 Nextcloud Talk，因此透過 Nextcloud Talk 傳送密碼分享 %s 失敗",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "分享 %1$s 失敗，因為後端不允許來自 %2$s 類型的分享",
     "Please specify a valid federated account ID" : "請指定有效的聯盟帳號 ID",
-    "Invalid date, date format must be YYYY-MM-DD" : "無效的日期，需為 YYYY-MM-DD 格式",
     "Please specify a valid federated group ID" : "請指定有效的聯盟群組 ID",
     "You cannot share to a Circle if the app is not enabled" : "因為應用程式未啟用，所以您無法分享至小圈圈",
     "Please specify a valid circle" : "請指定有效的小圈圈",
@@ -208,12 +208,10 @@
     "Share with {userName}" : "與 {userName} 分享",
     "Share with group" : "與群組分享",
     "Share in conversation" : "在對話中分享",
-    "Share with remote" : "與遠端分享",
     "Share with remote group" : "與遠端群組分享",
     "Share with guest" : "與訪客分享",
-    "Share with" : "分享者",
-    "Save share" : "儲存分享",
     "Update share" : "更新分享",
+    "Save share" : "儲存分享",
     "Others with access" : "有存取權的其他人",
     "No other accounts with access found" : "找不到其他有存取權的使用者",
     "Toggle list of others with access to this directory" : "切換有權存取此目錄的其他人的列表",
@@ -312,6 +310,8 @@
     "the item was removed" : "項目已經移除",
     "the link expired" : "連結過期",
     "sharing is disabled" : "分享功能已停用",
-    "For more info, please ask the person who sent this link." : "要取得更多資訊，請詢問傳送此連結給您的人。"
+    "For more info, please ask the person who sent this link." : "要取得更多資訊，請詢問傳送此連結給您的人。",
+    "Share with remote" : "與遠端分享",
+    "Share with" : "分享者"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

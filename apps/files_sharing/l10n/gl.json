@@ -77,6 +77,7 @@
     "Wrong path, file/folder does not exist" : "Ruta errónea, o ficheiro/cartafol non existe",
     "Could not create share" : "Non foi posíbel crear a compartición",
     "Invalid permissions" : "Permisos incorrectos",
+    "Invalid date, date format must be YYYY-MM-DD" : "Data incorrecta, o formato da date debe ser AAAA-MM-DD",
     "Please specify a valid account to share with" : "Especifica unha conta válida para compartir",
     "Group sharing is disabled by the administrator" : "A opción de compartir en grupo foi desactivada pola administración desta instancia.",
     "Please specify a valid group" : "Especifique un grupo correcto",
@@ -86,7 +87,6 @@
     "Sharing %s sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Compartir %s enviando o contrasinal por Nextcloud Talk fallou porque Nextcloud Talk non está activado",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Fallou a compartición de %1$s, xa que a infraestrutura non permite accións do tipo %2$s",
     "Please specify a valid federated account ID" : "Especifique un ID de conta federado válido",
-    "Invalid date, date format must be YYYY-MM-DD" : "Data incorrecta, o formato da date debe ser AAAA-MM-DD",
     "Please specify a valid federated group ID" : "Especifique un ID de grupo federado válido",
     "You cannot share to a Circle if the app is not enabled" : "Vde. non pode compartir para un círculo se a aplicación non esta activada",
     "Please specify a valid circle" : "Especifique un círculo correcto",
@@ -208,12 +208,10 @@
     "Share with {userName}" : "Compartir con {userName}",
     "Share with group" : "Compartir co grupo",
     "Share in conversation" : "Compartir na conversación",
-    "Share with remote" : "Compartir co remoto",
     "Share with remote group" : "Compartir co grupo remoto",
     "Share with guest" : "Compartir cun invitado",
-    "Share with" : "Compartir con",
-    "Save share" : "Gardar a compartición",
     "Update share" : "Actualizar a compartición",
+    "Save share" : "Gardar a compartición",
     "Others with access" : "Outros con acceso",
     "No other accounts with access found" : "Non se atoparon outras contas con acceso",
     "Toggle list of others with access to this directory" : "Alternar a lista doutros con acceso a este directorio",
@@ -312,6 +310,8 @@
     "the item was removed" : "o elemento foi retirado",
     "the link expired" : "a ligazón caducou",
     "sharing is disabled" : "foi desactivada a compartición",
-    "For more info, please ask the person who sent this link." : "Para obter máis información, pregúntelle á persoa que lle enviou a ligazón."
+    "For more info, please ask the person who sent this link." : "Para obter máis información, pregúntelle á persoa que lle enviou a ligazón.",
+    "Share with remote" : "Compartir co remoto",
+    "Share with" : "Compartir con"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

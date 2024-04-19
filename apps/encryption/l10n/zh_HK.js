@@ -42,7 +42,7 @@ OC.L10N.register(
     "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "請啟用這個功能以用來加密主要儲存空間的檔案，否則只有再外部儲存的檔案會加密",
     "Enable recovery key" : "啟用還原密鑰",
     "Disable recovery key" : "關閉還原密鑰",
-    "The recovery key is an additional encryption key used to encrypt files. It is used to recover files from an account if the password is forgotten." : "還原密鑰是用於加密檔案的額外加密密鑰。其用於忘記密碼時從賬戶還原檔案。",
+    "The recovery key is an additional encryption key used to encrypt files. It is used to recover files from an account if the password is forgotten." : "還原密鑰是用於加密檔案的額外加密密鑰。其用於忘記密碼時從帳戶還原檔案。",
     "Recovery key password" : "還原密鑰密碼",
     "Repeat recovery key password" : "再輸入還原密鑰密碼一次",
     "Change recovery key password:" : "更新還原密鑰密碼：",

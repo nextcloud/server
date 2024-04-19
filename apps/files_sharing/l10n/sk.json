@@ -77,6 +77,7 @@
     "Wrong path, file/folder does not exist" : "Neplatná cesta, súbor alebo priečinok neexistuje",
     "Could not create share" : "Nie je možné sprístupniť",
     "Invalid permissions" : "Neplatné oprávnenia",
+    "Invalid date, date format must be YYYY-MM-DD" : "Neplatný dátum, formát musí byť v tvare YYYY-MM-DD",
     "Please specify a valid account to share with" : "Prosím, uveďte platný účet, s ktorým chcete zdieľať",
     "Group sharing is disabled by the administrator" : "Skupinové zdieľanie je zakázané administrátorom",
     "Please specify a valid group" : "Zvoľte prosím platnú skupinu",
@@ -86,7 +87,6 @@
     "Sharing %s sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Zdieľanie %s odoslaním hesla cez Nextcloud Talk /Rozhovor/ zlyhalo, pretože Nextcloud Rozhovor nie je zapnutý",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Sprístupnenie %1$s zlyhalo, backend nepodporuje typ sprístupnenia %2$s",
     "Please specify a valid federated account ID" : "Prosím zvoľte platné ID združeného účtu.",
-    "Invalid date, date format must be YYYY-MM-DD" : "Neplatný dátum, formát musí byť v tvare YYYY-MM-DD",
     "Please specify a valid federated group ID" : "Prosím zvoľte platné ID združenej skupiny",
     "You cannot share to a Circle if the app is not enabled" : "Ak aplikácia nie je povolená, nemôžete ju zdieľať s Kruhom",
     "Please specify a valid circle" : "Zadajte platný kruh",
@@ -208,12 +208,10 @@
     "Share with {userName}" : "Zdiľať s {userName}",
     "Share with group" : "Zdieľať so skupinou",
     "Share in conversation" : "Zdieľať v rozhovore",
-    "Share with remote" : "Zdieľať so vzdialeným",
     "Share with remote group" : "Zdieľať so vzdialenou skupinou",
     "Share with guest" : "Zdiľať s hosťom",
-    "Share with" : "Zdieľať s",
-    "Save share" : "Uložiť zdieľanie",
     "Update share" : "Aktualizovať zdieľanie",
+    "Save share" : "Uložiť zdieľanie",
     "Others with access" : "Ďalší, ktorí majú prístup",
     "No other accounts with access found" : "Neboli nájdené žiadne ďalšie účty s prístupom",
     "Toggle list of others with access to this directory" : "Vypnutie/zapnutie zoznamu ostatných s prístupom k tomuto priečinku",
@@ -312,6 +310,8 @@
     "the item was removed" : "položka bola presunutá",
     "the link expired" : "linke vypršala platnosť",
     "sharing is disabled" : "sprístupňovanie je zakázané",
-    "For more info, please ask the person who sent this link." : "Pre viac informácií kontaktujte osobu, ktorá vám poslala tento odkaz."
+    "For more info, please ask the person who sent this link." : "Pre viac informácií kontaktujte osobu, ktorá vám poslala tento odkaz.",
+    "Share with remote" : "Zdieľať so vzdialeným",
+    "Share with" : "Zdieľať s"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);"
 }
