@@ -79,12 +79,12 @@ OC.L10N.register(
     "Wrong path, file/folder does not exist" : "Forkert sti, fil/mappe findes ikke",
     "Could not create share" : "Kunne ikke oprette deling",
     "Invalid permissions" : "Ugyldige rettigheder",
+    "Invalid date, date format must be YYYY-MM-DD" : "Ugyldig dato. Brug formatet ÅÅÅÅ-MM-DD",
     "Group sharing is disabled by the administrator" : "Gruppedeling er deaktiveret af administratoren",
     "Please specify a valid group" : "Angiv en gyldig gruppe",
     "Public link sharing is disabled by the administrator" : "Deling med offentligt link er deaktiveret af administratoren",
     "Public upload disabled by the administrator" : "Offentlige uploads er slået fra af administratoren",
     "Public upload is only possible for publicly shared folders" : "Offentligt upload er kun muligt i mapper der er delt offentligt",
-    "Invalid date, date format must be YYYY-MM-DD" : "Ugyldig dato. Brug formatet ÅÅÅÅ-MM-DD",
     "Unknown share type" : "Ukendt deletype",
     "Not a directory" : "Ikke en mappe",
     "Could not lock path" : "Stien kunne ikke låses",
@@ -139,7 +139,6 @@ OC.L10N.register(
     "Create" : "Opret",
     "Edit" : "Rediger",
     "Share" : "Del",
-    "Share with" : "Del med",
     "Others with access" : "Andre med adgang",
     "Toggle list of others with access to this directory" : "Vis/skjul liste over andre med adgang til denne mappe",
     "Toggle list of others with access to this file" : "Vis/skjul liste over andre med adgang til denne fil",
@@ -198,6 +197,7 @@ OC.L10N.register(
     "the item was removed" : "Filen blev fjernet",
     "the link expired" : "linket udløb",
     "sharing is disabled" : "deling er deaktiveret",
-    "For more info, please ask the person who sent this link." : "For yderligere information, kontakt venligst personen der sendte linket. "
+    "For more info, please ask the person who sent this link." : "For yderligere information, kontakt venligst personen der sendte linket. ",
+    "Share with" : "Del med"
 },
 "nplurals=2; plural=(n != 1);");

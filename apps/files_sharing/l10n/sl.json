@@ -77,6 +77,7 @@
     "Wrong path, file/folder does not exist" : "Napačna pot; datoteka ali mapa ne obstaja",
     "Could not create share" : "Mesta souporabe ni mogoče ustvariti",
     "Invalid permissions" : "Neustrezna dovoljenja",
+    "Invalid date, date format must be YYYY-MM-DD" : "Neveljaven zapis časa; biti mora v zapisu YYYY-MM-DD",
     "Group sharing is disabled by the administrator" : "Skupinska souporaba je skrbniško onemogočena",
     "Please specify a valid group" : "Navesti je treba veljavno skupino",
     "Public link sharing is disabled by the administrator" : "Souporaba z uporabo javne povezave je skrbniško onemogočena",
@@ -84,7 +85,6 @@
     "Public upload is only possible for publicly shared folders" : "Javno pošiljanje v oblak je mogoče le za mape v javni skupni rabi.",
     "Sharing %s sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Souporaba %s s pošiljanjem gesla prek programa Nextcloud Talk je spodletela, ker program Talk ni omogočen.",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Souporaba %1$s je spodletela, ker ozadnji program ne omogoča souporabe prek vrste %2$s.",
-    "Invalid date, date format must be YYYY-MM-DD" : "Neveljaven zapis časa; biti mora v zapisu YYYY-MM-DD",
     "Please specify a valid federated group ID" : "Navesti je treba veljaven ID zvezne skupine",
     "You cannot share to a Circle if the app is not enabled" : "Ni mogoče odobriti souporabe s Krogom, če program ni omogočen",
     "Please specify a valid circle" : "Določite veljaven krog",
@@ -188,7 +188,6 @@
     "Create" : "Ustvari",
     "Edit" : "Uredi",
     "Share" : "·Souporaba·",
-    "Share with" : "Omogoči souporabo …",
     "Others with access" : "Drugi z dostopom",
     "Toggle list of others with access to this directory" : "Preklopi seznam drugih z dostopom do te mape",
     "Toggle list of others with access to this file" : "Preklopi seznam drugih z dostopom do te datoteke",
@@ -267,6 +266,7 @@
     "the item was removed" : "predmet je odstranjen,",
     "the link expired" : "povezava je pretekla",
     "sharing is disabled" : "souporaba je onemogočena.",
-    "For more info, please ask the person who sent this link." : "Za več podrobnosti stopite v stik s pošiljateljem te povezave."
+    "For more info, please ask the person who sent this link." : "Za več podrobnosti stopite v stik s pošiljateljem te povezave.",
+    "Share with" : "Omogoči souporabo …"
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"
 }

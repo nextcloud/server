@@ -77,6 +77,7 @@
     "Wrong path, file/folder does not exist" : "Погрешна путања, фајл/фолдер не постоји",
     "Could not create share" : "Не могу да направим дељење",
     "Invalid permissions" : "Неисправне дозволе",
+    "Invalid date, date format must be YYYY-MM-DD" : "Неисправан датим, формат датума мора бити ГГГГ-ММ-ДД",
     "Please specify a valid account to share with" : "Молимо вас да наведете исправни налог којем се дели",
     "Group sharing is disabled by the administrator" : "Администратор је забранио дељење са групом",
     "Please specify a valid group" : "Одаберите исправну групу",
@@ -86,7 +87,6 @@
     "Sharing %s sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Дељење %s слањем лозинке преко Nextcloud Talk-а није успело пошто Nextcloud Talk није укључен",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Дељење %1$s није успело зато што позадина не дозвољава дељење које је типа %2$s",
     "Please specify a valid federated account ID" : "Молимо вас да наведете исправни ID федерисаног налога",
-    "Invalid date, date format must be YYYY-MM-DD" : "Неисправан датим, формат датума мора бити ГГГГ-ММ-ДД",
     "Please specify a valid federated group ID" : "Молимо вас да наведете исправни ID федерисане групе",
     "You cannot share to a Circle if the app is not enabled" : "Не можете делити са Круговима ако та апликација није укључена",
     "Please specify a valid circle" : "Одаберите исправан круг",
@@ -208,12 +208,10 @@
     "Share with {userName}" : "Подели са {userName}",
     "Share with group" : "Подели са групом",
     "Share in conversation" : "Подели у разговор",
-    "Share with remote" : "Подели са удаљеним",
     "Share with remote group" : "Подели са удаљеном групом",
     "Share with guest" : "Подели са гостом",
-    "Share with" : "Подели са",
-    "Save share" : "Сачувај дељење",
     "Update share" : "Ажурирај дељење",
+    "Save share" : "Сачувај дељење",
     "Others with access" : "Остали са приступом",
     "No other accounts with access found" : "Није пронађен ниједан други налог са приступом",
     "Toggle list of others with access to this directory" : "Укључи/искључи списак осталих са приступом овом директоријуму",
@@ -312,6 +310,8 @@
     "the item was removed" : "ставка је уклоњена",
     "the link expired" : "веза је истекла",
     "sharing is disabled" : "дељење је искључено",
-    "For more info, please ask the person who sent this link." : "За више информација, питајте особу која вам је послала везу."
+    "For more info, please ask the person who sent this link." : "За више информација, питајте особу која вам је послала везу.",
+    "Share with remote" : "Подели са удаљеним",
+    "Share with" : "Подели са"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"
 }

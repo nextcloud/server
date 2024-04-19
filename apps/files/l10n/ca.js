@@ -197,6 +197,7 @@ OC.L10N.register(
     "Toggle selection for all files and folders" : "Canvia la selecció per a tots els fitxers i carpetes",
     "\"{displayName}\" failed on some elements " : "S'ha produït un error en l'acció «{displayName}» per a alguns elements",
     "\"{displayName}\" batch action executed successfully" : "L'acció per lots «{displayName}» s'ha executat correctament",
+    "{count} selected" : "Selecció: {count}",
     "List of files and folders." : "Llista de fitxers i carpetes.",
     "Column headers with buttons are sortable." : "Les capçaleres de columna amb botons es poder ordenar.",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Aquesta llista no es mostra completament per raons de rendiment. Es mostraran els fitxers a mesura que navegueu per la llista.",
