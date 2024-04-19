@@ -14,7 +14,7 @@ OC.L10N.register(
     "Password to access {file} was sent to {email}" : "Lösenord till {file} skickades till {email}",
     "Password to access {file} was sent to you" : "Lösenord till {file} skickades till dig",
     "Share by mail" : "Dela via e-post",
-    "Sharing %1$s failed, because this item is already shared with user %2$s" : "Delning av %1$s misslyckades eftersom detta redan är delat med användaren %2$s",
+    "Sharing %1$s failed, because this item is already shared with the account %2$s" : "Delning av %1$s misslyckades eftersom det här objektet redan delas med kontot %2$s",
     "We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Vi kan inte skicka det autogenererade lösenordet till dig. Vänligen ange en giltig e-postadress i dina personliga inställningar och försök igen.",
     "Failed to send share by email. Got an invalid email address" : "Misslyckades att skicka delning via mejl. Ogiltig mejladress",
     "Failed to send share by email" : "Det gick inte att skicka delning via e-post",
@@ -38,9 +38,11 @@ OC.L10N.register(
     "You can choose a different password at any time in the share dialog." : "Du kan välja ett annat lösenord när som helst i delningsdialogen.",
     "Could not find share" : "Kunde inte hitta delning",
     "Share provider which allows you to share files by mail" : "Möjliggör delning av filer via e-post",
-    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Tillåt användare att dela en personlig länk till en fil eller mapp genom att ange en e-postadress",
+    "Allows people to share a personalized link to a file or folder by putting in an email address." : "Tillåter personer att dela en personlig länk till en fil eller mapp genom att ange en e-postadress.",
     "Send password by mail" : "Skicka lösenord via e-post",
     "Reply to initiator" : "Svara till startare",
-    "Unable to update share by mail config" : "Kunde inte uppdatera konfiguration för delning via e-post"
+    "Unable to update share by mail config" : "Kunde inte uppdatera konfiguration för delning via e-post",
+    "Sharing %1$s failed, because this item is already shared with user %2$s" : "Delning av %1$s misslyckades eftersom detta redan är delat med användaren %2$s",
+    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Tillåt användare att dela en personlig länk till en fil eller mapp genom att ange en e-postadress"
 },
 "nplurals=2; plural=(n != 1);");

@@ -67,6 +67,9 @@ OC.L10N.register(
     "Desktop client" : "桌面客戶端",
     "Thunderbird & Outlook addons" : "Thunderbird & Outlook 插件",
     "Custom user agent" : "自訂 user agent",
+    "Select groups" : "選擇群組",
+    "Groups" : "群組",
+    "Type to search for group …" : "輸入以搜尋群組 …",
     "Select a trigger" : "選擇觸發條件",
     "At least one event must be selected" : "必須選擇至少一個活動",
     "Add new flow" : "添加新流程",
@@ -113,8 +116,9 @@ OC.L10N.register(
     "between" : "介於",
     "not between" : "皆非",
     "Request user agent" : "索取 user agent",
-    "User group membership" : "用戶群組成員身分",
+    "Group membership" : "群組成員身分",
     "is member of" : "是以下群組的成員：",
-    "is not member of" : "非以下群組的成員："
+    "is not member of" : "非以下群組的成員：",
+    "User group membership" : "用戶群組成員身分"
 },
 "nplurals=1; plural=0;");

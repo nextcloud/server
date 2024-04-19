@@ -75,7 +75,9 @@ class DnsPinMiddleware {
 		$soaDnsEntry = $this->soaRecord($target);
 		$dnsNegativeTtl = $soaDnsEntry['minimum-ttl'] ?? null;
 
-		$dnsTypes = [DNS_A, DNS_AAAA, DNS_CNAME];
+		$dnsTypes = \defined('AF_INET6') || @inet_pton('::1')
+			? [DNS_A, DNS_AAAA, DNS_CNAME]
+			: [DNS_A, DNS_CNAME];
 		foreach ($dnsTypes as $dnsType) {
 			if ($this->negativeDnsCache->isNegativeCached($target, $dnsType)) {
 				continue;
@@ -147,7 +149,7 @@ class DnsPinMiddleware {
 					foreach ($targetIps as $ip) {
 						if ($this->ipAddressClassifier->isLocalAddress($ip)) {
 							// TODO: continue with all non-local IPs?
-							throw new LocalServerException('Host violates local access rules');
+							throw new LocalServerException('Host "'.$ip.'" ('.$hostName.':'.$port.') violates local access rules');
 						}
 						$curlResolves["$hostName:$port"][] = $ip;
 					}

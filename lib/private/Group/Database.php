@@ -73,7 +73,7 @@ class Database extends ABackend implements
 	 *
 	 * @param IDBConnection|null $dbConn
 	 */
-	public function __construct(IDBConnection $dbConn = null) {
+	public function __construct(?IDBConnection $dbConn = null) {
 		$this->dbConn = $dbConn;
 	}
 

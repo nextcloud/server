@@ -137,10 +137,9 @@ export default {
 				key,
 			})
 
-			const stringValue = value ? 'yes' : 'no'
 			try {
 				const { data } = await axios.post(url, {
-					value: stringValue,
+					value: value,
 				})
 				this.handleResponse({
 					status: data.ocs?.meta?.status,
@@ -157,7 +156,7 @@ export default {
 		},
 		async enableEncryption() {
 			this.encryptionEnabled = true
-			await this.update('encryption_enabled', true)
+			await this.update('encryption_enabled', 'yes')
 		},
 		async handleResponse({ status, errorMessage, error }) {
 			if (status !== 'ok') {

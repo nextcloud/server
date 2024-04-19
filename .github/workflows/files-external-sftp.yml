@@ -3,7 +3,7 @@ on:
   pull_request:
   schedule:
     - cron: "5 2 * * *"
-  
+
 concurrency:
   group: files-external-sftp-${{ github.head_ref || github.run_id }}
   cancel-in-progress: true
@@ -16,7 +16,7 @@ jobs:
       src: ${{ steps.changes.outputs.src}}
 
     steps:
-      - uses: dorny/paths-filter@0bc4621a3135347011ad047f9ecf449bf72ce2bd # v3.0.0
+      - uses: dorny/paths-filter@de90cc6fb38fc0963ad72b210f1f284cd68cea36 # v3.0.2
         id: changes
         continue-on-error: true
         with:
@@ -41,17 +41,17 @@ jobs:
       # do not stop on another job's failure
       fail-fast: false
       matrix:
-        php-versions: ['8.0', '8.3']
+        php-versions: ['8.1', '8.3']
         sftpd: ['openssh']
         include:
-          - php-versions: '8.0'
+          - php-versions: '8.1'
             coverage: ${{ github.event_name != 'pull_request' }}
 
     name: php${{ matrix.php-versions }}-${{ matrix.sftpd }}
 
     steps:
       - name: Checkout server
-        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
+        uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633
         with:
           submodules: true
 
@@ -87,7 +87,7 @@ jobs:
 
       - name: Upload code coverage
         if: ${{ !cancelled() && matrix.coverage }}
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v4.1.1
         with:
           files: ./clover.xml
           flags: phpunit-files-external-sftp

@@ -63,6 +63,8 @@ OC.L10N.register(
     "Desktop client" : "Darbalaukio klientas",
     "Thunderbird & Outlook addons" : "Thunderbird ir Outlook priedai",
     "Custom user agent" : "Tinkintas naudotojo agentas",
+    "Select groups" : "Pasirinkti grupes",
+    "Groups" : "Grupės",
     "At least one event must be selected" : "Privalo būti pasirinktas bent vienas įvykis",
     "Add new flow" : "Pridėti naują eigą",
     "When" : "Kada",
@@ -104,8 +106,8 @@ OC.L10N.register(
     "between" : "tarp",
     "not between" : "nėra tarp",
     "Request user agent" : "Užklausti naudotojo agentą",
-    "User group membership" : "Naudotojų grupių narystės",
     "is member of" : "priklauso grupei",
-    "is not member of" : "nepriklauso grupei"
+    "is not member of" : "nepriklauso grupei",
+    "User group membership" : "Naudotojų grupių narystės"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

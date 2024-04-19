@@ -14,7 +14,6 @@ OC.L10N.register(
     "Password to access {file} was sent to {email}" : "Slaptažodis, skirtas prieigai prie {file}, buvo išsiųstas į {email}",
     "Password to access {file} was sent to you" : "Jums buvo išsiųstas slaptažodis, skirtas prieigai prie {file}",
     "Share by mail" : "Bendrinimas el. paštu",
-    "Sharing %1$s failed, because this item is already shared with user %2$s" : "Nepavyko bendrinti %1$s, nes šis elementas jau yra bendrinamas su naudotoju %2$s",
     "Failed to send share by email" : "Nepavyko pasidalinti el. paštu",
     "%1$s shared »%2$s« with you" : "%1$s pasidalino „%2$s“ su jumis",
     "%1$s shared »%2$s« with you." : "%1$s pasidalino „%2$s“ su jumis.",
@@ -35,8 +34,9 @@ OC.L10N.register(
     "You can choose a different password at any time in the share dialog." : "Dalinimosi dialoge bet kuriuo metu galite pasirinkti kitą slaptažodį.",
     "Could not find share" : "Nepavyko rasti viešinio",
     "Share provider which allows you to share files by mail" : "Bendrinimo teikėjas, kuris leidžia bendrinti failus el. paštu",
-    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Leidžia naudotojams bendrinti asmeninę nuorodą į failą ar aplanką, įvedus el. pašto adresą.",
     "Send password by mail" : "Siųsti slaptažodį el. paštu",
-    "Reply to initiator" : "Atsakyti iniciatoriui"
+    "Reply to initiator" : "Atsakyti iniciatoriui",
+    "Sharing %1$s failed, because this item is already shared with user %2$s" : "Nepavyko bendrinti %1$s, nes šis elementas jau yra bendrinamas su naudotoju %2$s",
+    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Leidžia naudotojams bendrinti asmeninę nuorodą į failą ar aplanką, įvedus el. pašto adresą."
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

@@ -14,7 +14,7 @@ OC.L10N.register(
     "Password to access {file} was sent to {email}" : "كلمة مرور لمشاركة {file} تم إرسالها إلى {email}",
     "Password to access {file} was sent to you" : "كلمة مرور لمشاركة {file}  تمّ إرسالها إليك",
     "Share by mail" : "مشاركة بالإيميل",
-    "Sharing %1$s failed, because this item is already shared with user %2$s" : "عملية مشاركة %1$s لم تتم، بسبب أن هذا العنصر سبقت مشاركته سلفاً مع المستخدم %2$s",
+    "Sharing %1$s failed, because this item is already shared with the account %2$s" : "فشلت مشاركة %1$s بسبب أن هذه العنصر سبقت مشاركته مع الحساب  %2$s",
     "We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "لا يمكننا أن نرسل لك كلمة المرور التي تم إنشاؤها تلقائيًا. يرجى تعيين عنوان بريد إلكتروني صالح في إعداداتك الشخصية، ثم حاول مرة أخرى.",
     "Failed to send share by email. Got an invalid email address" : "تعذّر إرسال المشاركة عبر البريد الإلكتروني. حصلت على عنوان بريد إلكتروني غير صالح.",
     "Failed to send share by email" : "تعذّر إرسال مشاركة بالإيميل",
@@ -38,9 +38,11 @@ OC.L10N.register(
     "You can choose a different password at any time in the share dialog." : "يمكنك اختيار كلمة مرور مختلفة في أي وقت في نافذة حوار المشاركة share dialog.",
     "Could not find share" : "تعذّر العثور على المُشاركة",
     "Share provider which allows you to share files by mail" : "مُزوّد المشاركة share provider الذي مكّنك من المشاركة عبر البريد",
-    "Allows users to share a personalized link to a file or folder by putting in an email address." : "يسمح للمستخدمين بمشاركة ارتباط مخصص لملف أو مجلد عن طريق إدخال عنوان بريد إلكتروني.",
+    "Allows people to share a personalized link to a file or folder by putting in an email address." : "تمكين الأشخاص من المشاركة المخصصة لملف أو مجلد عن طريق تحديد حساب الإيميل ",
     "Send password by mail" : "إرسال كلمة مرور بالإيميل",
     "Reply to initiator" : "ردّ على المُنشيء initiator",
-    "Unable to update share by mail config" : "تعذّر تحديث تهيئة المشاركة بالإيميل"
+    "Unable to update share by mail config" : "تعذّر تحديث تهيئة المشاركة بالإيميل",
+    "Sharing %1$s failed, because this item is already shared with user %2$s" : "عملية مشاركة %1$s لم تتم، بسبب أن هذا العنصر سبقت مشاركته سلفاً مع المستخدم %2$s",
+    "Allows users to share a personalized link to a file or folder by putting in an email address." : "يسمح للمستخدمين بمشاركة ارتباط مخصص لملف أو مجلد عن طريق إدخال عنوان بريد إلكتروني."
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

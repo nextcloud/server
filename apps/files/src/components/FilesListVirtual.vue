@@ -34,6 +34,7 @@
 		:scroll-to-index="scrollToIndex"
 		:caption="caption">
 		<template v-if="!isNoneSelected" #header-overlay>
+			<span class="files-list__selected">{{ t('files', '{count} selected', { count: selectedNodes.length }) }}</span>
 			<FilesListTableHeaderActions :current-view="currentView"
 				:selected-nodes="selectedNodes" />
 		</template>
@@ -326,7 +327,6 @@ export default defineComponent({
 	--clickable-area: 44px;
 	--icon-preview-size: 32px;
 
-	position: relative;
 	overflow: auto;
 	height: 100%;
 	will-change: scroll-position;
@@ -356,6 +356,11 @@ export default defineComponent({
 		.files-list__before {
 			display: flex;
 			flex-direction: column;
+		}
+
+		.files-list__selected {
+			padding-right: 12px;
+			white-space: nowrap;
 		}
 
 		.files-list__table {

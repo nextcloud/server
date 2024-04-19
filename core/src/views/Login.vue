@@ -32,6 +32,7 @@
 						:errors="errors"
 						:throttle-delay="throttleDelay"
 						:auto-complete-allowed="autoCompleteAllowed"
+						:email-states="emailStates"
 						@submit="loading = true" />
 					<a v-if="canResetPassword && resetPasswordLink !== ''"
 						id="lost-password"
@@ -65,14 +66,13 @@
 					</template>
 				</div>
 				<div v-else-if="!loading && passwordlessLogin"
-					key="reset"
+					key="reset-pw-less"
 					class="login-additional login-passwordless">
 					<PasswordLessLoginForm :username.sync="user"
 						:redirect-url="redirectUrl"
 						:auto-complete-allowed="autoCompleteAllowed"
 						:is-https="isHttps"
 						:is-localhost="isLocalhost"
-						:has-public-key-credential="hasPublicKeyCredential"
 						@submit="loading = true" />
 					<NcButton type="tertiary"
 						:aria-label="t('core', 'Back to login form')"
@@ -82,7 +82,7 @@
 					</NcButton>
 				</div>
 				<div v-else-if="!loading && canResetPassword"
-					key="reset"
+					key="reset-can-reset"
 					class="login-additional">
 					<div class="lost-password-container">
 						<ResetPassword v-if="resetPassword"
@@ -100,8 +100,8 @@
 		</template>
 		<template v-else>
 			<transition name="fade" mode="out-in">
-				<NcNoteCard type="warning" :title="t('core', 'Login form is disabled.')">
-					{{ t('core', 'Please contact your administrator.') }}
+				<NcNoteCard type="info" :title="t('core', 'Login form is disabled.')">
+					{{ t('core', 'The Nextcloud login form is disabled. Use another login option if available or contact your administration.') }}
 				</NcNoteCard>
 			</transition>
 		</template>
@@ -177,8 +177,8 @@ export default {
 			alternativeLogins: loadState('core', 'alternativeLogins', []),
 			isHttps: window.location.protocol === 'https:',
 			isLocalhost: window.location.hostname === 'localhost',
-			hasPublicKeyCredential: typeof (window.PublicKeyCredential) !== 'undefined',
 			hideLoginForm: loadState('core', 'hideLoginForm', false),
+			emailStates: loadState('core', 'emailStates', []),
 		}
 	},
 

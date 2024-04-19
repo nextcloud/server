@@ -360,7 +360,7 @@ class LDAP implements ILDAPWrapper {
 	/**
 	 * Analyzes the returned LDAP error and acts accordingly if not 0
 	 *
-	 * @param resource|\LDAP\Connection $resource the LDAP Connection resource
+	 * @param \LDAP\Connection $resource the LDAP Connection resource
 	 * @throws ConstraintViolationException
 	 * @throws ServerNotAvailableException
 	 * @throws \Exception

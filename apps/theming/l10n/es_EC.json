@@ -19,8 +19,6 @@
     "Could not write file to disk" : "No fue posible escribir a disco",
     "A PHP extension stopped the file upload" : "Una extensión de PHP detuvo la carga del archivo",
     "No file uploaded" : "No hay archivos cargados",
-    "Failed to clean up the old administration theming images folder" : "Error al limpiar la antigua carpeta de imágenes de tematización de administración",
-    "Failed to clean up the old administration image folder" : "Error al limpiar la antigua carpeta de imágenes de administración",
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "Ya te encuentras usando un tema personalizado. La aplicación de Temas puede estar siendo sobreescrita por él.",
     "Theming" : "Tematizar",
     "Appearance and accessibility" : "Apariencia y accesibilidad",

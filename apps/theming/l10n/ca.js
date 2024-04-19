@@ -24,8 +24,6 @@ OC.L10N.register(
     "Could not write file to disk" : "No s’ha pogut escriure el fitxer en el disc",
     "A PHP extension stopped the file upload" : "Una extensió del PHP ha aturat la pujada del fitxer",
     "No file uploaded" : "No s'ha pujat cap fitxer",
-    "Failed to clean up the old administration theming images folder" : "No s'ha pogut netejar la carpeta antiga d'imatges de temes d'administració",
-    "Failed to clean up the old administration image folder" : "No s'ha pogut netejar la carpeta antiga d'imatges d'administració",
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "Ja utilitzeu un tema personalitzat. És possible que aquest tema substitueixi els paràmetres de l'aplicació Aparença.",
     "Theming" : "Aparença",
     "Appearance and accessibility" : "Aparença i accessibilitat",

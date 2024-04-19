@@ -57,7 +57,7 @@ class ProviderUserAssignmentDao {
 		$result = $query->execute();
 		$providers = [];
 		foreach ($result->fetchAll() as $row) {
-			$providers[(string)$row['provider_id']] = 1 === (int)$row['enabled'];
+			$providers[(string)$row['provider_id']] = (int)$row['enabled'] === 1;
 		}
 		$result->closeCursor();
 
@@ -91,8 +91,6 @@ class ProviderUserAssignmentDao {
 	/**
 	 * Delete all provider states of a user and return the provider IDs
 	 *
-	 * @param string $uid
-	 *
 	 * @return list<array{provider_id: string, uid: string, enabled: bool}>
 	 */
 	public function deleteByUser(string $uid): array {
@@ -100,7 +98,7 @@ class ProviderUserAssignmentDao {
 		$selectQuery = $qb1->select('*')
 			->from(self::TABLE_NAME)
 			->where($qb1->expr()->eq('uid', $qb1->createNamedParameter($uid)));
-		$selectResult = $selectQuery->execute();
+		$selectResult = $selectQuery->executeQuery();
 		$rows = $selectResult->fetchAll();
 		$selectResult->closeCursor();
 
@@ -108,15 +106,15 @@ class ProviderUserAssignmentDao {
 		$deleteQuery = $qb2
 			->delete(self::TABLE_NAME)
 			->where($qb2->expr()->eq('uid', $qb2->createNamedParameter($uid)));
-		$deleteQuery->execute();
+		$deleteQuery->executeStatement();
 
-		return array_map(function (array $row) {
+		return array_values(array_map(function (array $row) {
 			return [
-				'provider_id' => $row['provider_id'],
-				'uid' => $row['uid'],
-				'enabled' => 1 === (int) $row['enabled'],
+				'provider_id' => (string)$row['provider_id'],
+				'uid' => (string)$row['uid'],
+				'enabled' => ((int) $row['enabled']) === 1,
 			];
-		}, $rows);
+		}, $rows));
 	}
 
 	public function deleteAll(string $providerId): void {

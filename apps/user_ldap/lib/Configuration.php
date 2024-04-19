@@ -35,6 +35,8 @@
  */
 namespace OCA\User_LDAP;
 
+use Psr\Log\LoggerInterface;
+
 /**
  * @property int ldapPagingSize holds an integer
  * @property string ldapUserAvatarRule
@@ -175,7 +177,7 @@ class Configuration {
 	 * array
 	 * @param array &$applied optional; array where the set fields will be given to
 	 */
-	public function setConfiguration(array $config, array &$applied = null): void {
+	public function setConfiguration(array $config, ?array &$applied = null): void {
 		$cta = $this->getConfigTranslationArray();
 		foreach ($config as $inputKey => $val) {
 			if (str_contains($inputKey, '_') && array_key_exists($inputKey, $cta)) {
@@ -598,7 +600,7 @@ class Configuration {
 			return [strtolower($attribute)];
 		}
 		if ($value !== self::AVATAR_PREFIX_DEFAULT) {
-			\OC::$server->getLogger()->warning('Invalid config value to ldapUserAvatarRule; falling back to default.');
+			\OCP\Server::get(LoggerInterface::class)->warning('Invalid config value to ldapUserAvatarRule; falling back to default.');
 		}
 		return $defaultAttributes;
 	}

@@ -180,6 +180,6 @@ class MailSettingsController extends Controller {
 		}
 
 		$this->config->setAppValue('core', 'emailTestSuccessful', '0');
-		return new DataResponse($this->l10n->t('You need to set your user email before being able to send test emails. Go to %s for that.', [$this->urlGenerator->linkToRouteAbsolute('settings.PersonalSettings.index')]), Http::STATUS_BAD_REQUEST);
+		return new DataResponse($this->l10n->t('You need to set your account email before being able to send test emails. Go to %s for that.', [$this->urlGenerator->linkToRouteAbsolute('settings.PersonalSettings.index')]), Http::STATUS_BAD_REQUEST);
 	}
 }

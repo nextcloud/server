@@ -39,7 +39,7 @@
 			:class="{'files-list__row-icon-preview--loaded': backgroundFailed === false}"
 			loading="lazy"
 			:src="previewUrl"
-			@error="backgroundFailed = true"
+			@error="onBackgroundError"
 			@load="backgroundFailed = false">
 
 		<FileIcon v-else v-once />
@@ -56,14 +56,15 @@
 </template>
 
 <script lang="ts">
+import type { PropType } from 'vue'
 import type { UserConfig } from '../../types.ts'
 
-import { File, Folder, Node, FileType } from '@nextcloud/files'
+import { Node, FileType } from '@nextcloud/files'
 import { generateUrl } from '@nextcloud/router'
 import { translate as t } from '@nextcloud/l10n'
 import { Type as ShareType } from '@nextcloud/sharing'
-import Vue, { PropType } from 'vue'
 
+import Vue from 'vue'
 import AccountGroupIcon from 'vue-material-design-icons/AccountGroup.vue'
 import AccountPlusIcon from 'vue-material-design-icons/AccountPlus.vue'
 import FileIcon from 'vue-material-design-icons/File.vue'
@@ -218,12 +219,21 @@ export default Vue.extend({
 	},
 
 	methods: {
+		// Called from FileEntry
 		reset() {
-			if (this.backgroundFailed === true && this.$refs.previewImg) {
+			// Reset background state to cancel any ongoing requests
+			this.backgroundFailed = undefined
+			if (this.$refs.previewImg) {
 				this.$refs.previewImg.src = ''
 			}
-			// Reset background state
-			this.backgroundFailed = undefined
+		},
+
+		onBackgroundError(event) {
+			// Do not fail if we just reset the background
+			if (event.target?.src === '') {
+				return
+			}
+			this.backgroundFailed = true
 		},
 
 		t,

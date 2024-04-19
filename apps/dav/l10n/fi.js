@@ -2,7 +2,7 @@ OC.L10N.register(
     "dav",
     {
     "Calendar" : "Kalenteri",
-    "To-dos" : "Tehtävät",
+    "Tasks" : "Tehtävät",
     "Personal" : "Henkilökohtainen",
     "{actor} created calendar {calendar}" : "{actor} loi kalenterin {calendar}",
     "You created calendar {calendar}" : "Loit kalenterin {calendar}",
@@ -111,11 +111,11 @@ OC.L10N.register(
     "Configures a CalDAV account" : "Määrittää CalDAV-tilin",
     "Configures a CardDAV account" : "Määrittää CardDAV-tilin",
     "Events" : "Tapahtumat",
-    "Tasks" : "Tehtävät",
     "Untitled task" : "Nimetön tehtävä",
+    "WebDAV endpoint" : "WebDAV-päätepiste",
+    "Your web server is not yet properly set up to allow file synchronization, because the WebDAV interface seems to be broken." : "Palvelintasi ei ole määritetty oikein tiedostojen synkronointia varten, koska WebDAV-liitäntä vaikuttaa olevan rikki.",
     "Contacts and groups" : "Yhteystiedot ja ryhmät",
     "WebDAV" : "WebDAV",
-    "WebDAV endpoint" : "WebDAV-päätepiste",
     "First day" : "Ensimmäinen päivä",
     "Save" : "Tallenna",
     "Time zone:" : "Aikavyöhyke:",
@@ -123,6 +123,7 @@ OC.L10N.register(
     "Delete slot" : "Poista aikarako",
     "No working hours set" : "Työskentelytunteja ei ole asetettu",
     "Add slot" : "Lisää aikarako",
+    "Weekdays" : "Viikonpäivät",
     "Monday" : "Maanantai",
     "Tuesday" : "Tiistai",
     "Wednesday" : "Keskiviikko",
@@ -144,6 +145,7 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Ota yhteys suoraan järjestäjään.",
     "Are you accepting the invitation?" : "Hyväksytkö kutsun?",
     "Tentative" : "Alustava",
-    "Your attendance was updated successfully." : "Osallistumisesi päivitettiin onnistuneesti."
+    "Your attendance was updated successfully." : "Osallistumisesi päivitettiin onnistuneesti.",
+    "To-dos" : "Tehtävät"
 },
 "nplurals=2; plural=(n != 1);");

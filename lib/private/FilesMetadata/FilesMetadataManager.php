@@ -51,8 +51,7 @@ use OCP\FilesMetadata\IFilesMetadataManager;
 use OCP\FilesMetadata\IMetadataQuery;
 use OCP\FilesMetadata\Model\IFilesMetadata;
 use OCP\FilesMetadata\Model\IMetadataValueWrapper;
-use OCP\IConfig;
-use OCP\IDBConnection;
+use OCP\IAppConfig;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -69,7 +68,7 @@ class FilesMetadataManager implements IFilesMetadataManager {
 	public function __construct(
 		private IEventDispatcher $eventDispatcher,
 		private IJobList $jobList,
-		private IConfig $config,
+		private IAppConfig $appConfig,
 		private LoggerInterface $logger,
 		private MetadataRequestService $metadataRequestService,
 		private IndexRequestService $indexRequestService,
@@ -206,7 +205,7 @@ class FilesMetadataManager implements IFilesMetadataManager {
 		// update metadata types list
 		$current = $this->getKnownMetadata();
 		$current->import($filesMetadata->jsonSerialize(true));
-		$this->config->setAppValue('core', self::CONFIG_KEY, json_encode($current));
+		$this->appConfig->setValueArray('core', self::CONFIG_KEY, $current->jsonSerialize(), lazy: true);
 	}
 
 	/**
@@ -235,7 +234,7 @@ class FilesMetadataManager implements IFilesMetadataManager {
 	 * @param string $fileIdField alias of the field that contains file ids
 	 *
 	 * @inheritDoc
-	 * @return IMetadataQuery|null
+	 * @return IMetadataQuery
 	 * @see IMetadataQuery
 	 * @since 28.0.0
 	 */
@@ -243,12 +242,8 @@ class FilesMetadataManager implements IFilesMetadataManager {
 		IQueryBuilder $qb,
 		string $fileTableAlias,
 		string $fileIdField
-	): ?IMetadataQuery {
-		if (!$this->metadataInitiated()) {
-			return null;
-		}
-
-		return new MetadataQuery($qb, $this->getKnownMetadata(), $fileTableAlias, $fileIdField);
+	): IMetadataQuery {
+		return new MetadataQuery($qb, $this, $fileTableAlias, $fileIdField);
 	}
 
 	/**
@@ -257,14 +252,13 @@ class FilesMetadataManager implements IFilesMetadataManager {
 	 * @since 28.0.0
 	 */
 	public function getKnownMetadata(): IFilesMetadata {
-		if (null !== $this->all) {
+		if ($this->all !== null) {
 			return $this->all;
 		}
 		$this->all = new FilesMetadata();
 
 		try {
-			$data = json_decode($this->config->getAppValue('core', self::CONFIG_KEY, '[]'), true, 127, JSON_THROW_ON_ERROR);
-			$this->all->import($data);
+			$this->all->import($this->appConfig->getValueArray('core', self::CONFIG_KEY, lazy: true));
 		} catch (JsonException) {
 			$this->logger->warning('issue while reading stored list of metadata. Advised to run ./occ files:scan --all --generate-metadata');
 		}
@@ -310,7 +304,7 @@ class FilesMetadataManager implements IFilesMetadataManager {
 		}
 
 		$current->import([$key => ['type' => $type, 'indexed' => $indexed, 'editPermission' => $editPermission]]);
-		$this->config->setAppValue('core', self::CONFIG_KEY, json_encode($current));
+		$this->appConfig->setValueArray('core', self::CONFIG_KEY, $current->jsonSerialize(), lazy: true);
 		$this->all = $current;
 	}
 
@@ -322,27 +316,5 @@ class FilesMetadataManager implements IFilesMetadataManager {
 	public static function loadListeners(IEventDispatcher $eventDispatcher): void {
 		$eventDispatcher->addServiceListener(NodeWrittenEvent::class, MetadataUpdate::class);
 		$eventDispatcher->addServiceListener(CacheEntryRemovedEvent::class, MetadataDelete::class);
-	}
-
-	/**
-	 * Will confirm that tables were created and store an app value to cache the result.
-	 * Can be removed in 29 as this is to avoid strange situation when Nextcloud files were
-	 * replaced but the upgrade was not triggered yet.
-	 *
-	 * @return bool
-	 */
-	private function metadataInitiated(): bool {
-		if ($this->config->getAppValue('core', self::MIGRATION_DONE, '0') === '1') {
-			return true;
-		}
-
-		$dbConnection = \OCP\Server::get(IDBConnection::class);
-		if ($dbConnection->tableExists(MetadataRequestService::TABLE_METADATA)) {
-			$this->config->setAppValue('core', self::MIGRATION_DONE, '1');
-
-			return true;
-		}
-
-		return false;
 	}
 }

@@ -63,7 +63,6 @@ OC.L10N.register(
     "LDAP/AD integration" : "LDAP/AD 통합",
     "Invalid LDAP UUIDs" : "잘못된 LDAP UUID",
     "None found" : "아무것도 찾지 못함",
-    "Invalid UUIDs of LDAP users or groups have been found. Please review your \"Override UUID detection\" settings in the Expert part of the LDAP configuration and use \"occ ldap:update-uuid\" to update them." : "잘못된 LDAP 사용자 또는 그룹 UUID를 발견했습니다. LDAP 설정의 '전문가' 부분에서 \"Override UUID detection\"을 재확인하시고, \"occ ldap:update-uuid\" 명령어를 통해 이를 갱신하십시오.",
     "_%n group found_::_%n groups found_" : ["그룹 %n개 찾음"],
     "> 1000 groups found" : "그룹 1000개 초과 찾음",
     "> 1000 users found" : "사용자 1000명 초과 찾음",
@@ -87,7 +86,7 @@ OC.L10N.register(
     "Verify settings and count the groups" : "설정을 확인하고 그룹 개수 세기",
     "When logging in, %s will find the user based on the following attributes:" : "로그인할 때 %s에서 다음 속성을 기반으로 사용자를 찾습니다:",
     "LDAP/AD Username:" : "LDAP/AD 사용자 이름:",
-    "Allows login against the LDAP/AD username, which is either \"uid\" or \"sAMAccountName\" and will be detected." : "LDAP/AD 사용자 이름으로 로그인하는 것을 허용합니다. \"uid\" 및 \"sAMAccountName\" 중 하나이며 자동으로 감지합니다.",
+    "Allows login against the LDAP/AD username, which is either \"uid\" or \"sAMAccountName\" and will be detected." : "LDAP/AD 사용자 아이디로 로그인하는 것을 허용합니다. \"uid\" 및 \"sAMAccountName\" 중 하나이며 자동으로 감지합니다.",
     "LDAP/AD Email Address:" : "LDAP/AD 이메일 주소:",
     "Allows login against an email attribute. \"mail\" and \"mailPrimaryAddress\" allowed." : "이메일 속성으로 로그인하는 것을 허용합니다. \"mail\" 및 \"mailPrimaryAddress\"를 사용할 수 있습니다.",
     "Other Attributes:" : "기타 속성:",
@@ -214,6 +213,7 @@ OC.L10N.register(
     "Username-LDAP User Mapping" : "사용자 이름-LDAP 사용자 매핑",
     "Usernames are used to store and assign metadata. In order to precisely identify and recognize users, each LDAP user will have an internal username. This requires a mapping from username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found. The internal username is used all over. Clearing the mappings will have leftovers everywhere. Clearing the mappings is not configuration sensitive, it affects all LDAP configurations! Never clear the mappings in a production environment, only in a testing or experimental stage." : "사용자 이름은 메타데이터를 저장하고 할당하는 데 사용됩니다. 사용자를 정확히 식별하기 위해서 모든 LDAP 사용자는 내부 사용자 이름을 갖고 있습니다. 이 정보에 접근하려면 사용자 이름과 LDAP 사용자 사이의 연결을 알아야 합니다. 생성된 사용자 이름은 LDAP 사용자의 UUID에 연결됩니다. LDAP에 연결하는 횟수를 줄이기 위하여 DN을 캐시에 저장하지만, 식별에는 사용하지 않습니다. DN이 변경되었을 때 변경 사항이 적용됩니다. 내부 사용자 이름은 항상 사용됩니다. 매핑을 비우면 과거 매핑의 흔적이 남습니다. 매핑을 비우는 것은 설정에 관계 없이 적용되므로 모든 LDAP 설정에 영향을 줍니다! 테스트 및 실험 단계에서만 매핑을 비우고, 상용 환경에서는 매핑을 비우지 마십시오.",
     "Clear Username-LDAP User Mapping" : "사용자 이름-LDAP 사용자 매핑 비우기",
-    "Clear Groupname-LDAP Group Mapping" : "그룹 이름-LDAP 그룹 매핑 비우기"
+    "Clear Groupname-LDAP Group Mapping" : "그룹 이름-LDAP 그룹 매핑 비우기",
+    "Invalid UUIDs of LDAP users or groups have been found. Please review your \"Override UUID detection\" settings in the Expert part of the LDAP configuration and use \"occ ldap:update-uuid\" to update them." : "잘못된 LDAP 사용자 또는 그룹 UUID를 발견했습니다. LDAP 설정의 '전문가' 부분에서 \"Override UUID detection\"을 재확인하시고, \"occ ldap:update-uuid\" 명령어를 통해 이를 갱신하십시오."
 },
 "nplurals=1; plural=0;");

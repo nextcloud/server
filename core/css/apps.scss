@@ -59,28 +59,42 @@ body {
 
 /* BASE STYLING ------------------------------------------------------------ */
 // no h1 allowed since h1 = logo
-h2 {
-	font-weight: bold;
-	font-size: 20px;
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-weight: 600;
+	line-height: 1.5;
+	margin-top: 24px;
 	margin-bottom: 12px;
-	line-height: 30px;
-	color: var(--color-text-light);
+	color: var(--color-main-text);
+}
+
+h2 {
+	font-size: 30px;
 }
 
 h3 {
-	font-size: 16px;
-	margin: 12px 0;
-	color: var(--color-text-light);
+	font-size: 26px;
 }
 
 h4 {
-	font-size: 14px;
+	font-size: 23px;
+}
+
+h5 {
+	font-size: 20px;
+}
+
+h6 {
+	font-size: 17px;
 }
 
 /* do not use italic typeface style, instead lighter color */
 em {
 	font-style: normal;
-	color: var(--color-text-lighter);
+	color: var(--color-text-maxcontrast);
 }
 
 dl {

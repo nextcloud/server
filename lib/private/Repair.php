@@ -36,6 +36,7 @@ namespace OC;
 
 use OC\DB\Connection;
 use OC\DB\ConnectionAdapter;
+use OC\Repair\AddAppConfigLazyMigration;
 use OC\Repair\AddBruteForceCleanupJob;
 use OC\Repair\AddCleanupUpdaterBackupsJob;
 use OC\Repair\AddMetadataGenerationJob;
@@ -209,6 +210,7 @@ class Repair implements IOutput {
 			\OCP\Server::get(AddMissingSecretJob::class),
 			\OCP\Server::get(AddRemoveOldTasksBackgroundJob::class),
 			\OCP\Server::get(AddMetadataGenerationJob::class),
+			\OCP\Server::get(AddAppConfigLazyMigration::class),
 		];
 	}
 

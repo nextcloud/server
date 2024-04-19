@@ -182,6 +182,9 @@ class CalendarMigrator implements IMigrator, ISizeEstimationMigrator {
 		)));
 	}
 
+	/**
+	 * @throws InvalidCalendarException
+	 */
 	private function getUniqueCalendarUri(IUser $user, string $initialCalendarUri): string {
 		$principalUri = $this->getPrincipalUri($user);
 
@@ -190,7 +193,7 @@ class CalendarMigrator implements IMigrator, ISizeEstimationMigrator {
 			: CalendarMigrator::MIGRATED_URI_PREFIX . $initialCalendarUri;
 
 		if ($initialCalendarUri === '') {
-			throw new CalendarMigratorException('Failed to get unique calendar URI');
+			throw new InvalidCalendarException();
 		}
 
 		$existingCalendarUris = array_map(
@@ -457,17 +460,20 @@ class CalendarMigrator implements IMigrator, ISizeEstimationMigrator {
 					VObjectReader::OPTION_FORGIVING,
 				);
 			} catch (Throwable $e) {
-				throw new CalendarMigratorException("Failed to read file \"$importPath\"", 0, $e);
+				$output->writeln("Failed to read file \"$importPath\", skipping…");
+				continue;
 			}
 
 			$problems = $vCalendar->validate();
 			if (!empty($problems)) {
-				throw new CalendarMigratorException("Invalid calendar data contained in \"$importPath\"");
+				$output->writeln("Invalid calendar data contained in \"$importPath\", skipping…");
+				continue;
 			}
 
 			$splitFilename = explode('.', $filename, 2);
 			if (count($splitFilename) !== 2) {
-				throw new CalendarMigratorException("Invalid filename \"$filename\", expected filename of the format \"<calendar_name>" . CalendarMigrator::FILENAME_EXT . '"');
+				$output->writeln("Invalid filename \"$filename\", expected filename of the format \"<calendar_name>" . CalendarMigrator::FILENAME_EXT . '", skipping…');
+				continue;
 			}
 			[$initialCalendarUri, $ext] = $splitFilename;
 

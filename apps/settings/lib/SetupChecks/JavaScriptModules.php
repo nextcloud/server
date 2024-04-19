@@ -37,12 +37,14 @@ use Psr\Log\LoggerInterface;
  * Checks if the webserver serves '.mjs' files using the correct MIME type
  */
 class JavaScriptModules implements ISetupCheck {
+	use CheckServerResponseTrait;
+
 	public function __construct(
-		private IL10N $l10n,
-		private IConfig $config,
-		private IURLGenerator $urlGenerator,
-		private IClientService $clientService,
-		private LoggerInterface $logger,
+		protected IL10N $l10n,
+		protected IConfig $config,
+		protected IURLGenerator $urlGenerator,
+		protected IClientService $clientService,
+		protected LoggerInterface $logger,
 	) {
 	}
 
@@ -56,28 +58,19 @@ class JavaScriptModules implements ISetupCheck {
 
 	public function run(): SetupResult {
 		$testFile = $this->urlGenerator->linkTo('settings', 'js/esm-test.mjs');
-		$testURLs = array_merge(
-			[$this->urlGenerator->getAbsoluteURL($testFile)],
-			array_map(fn (string $host): string => $host . $testFile, $this->config->getSystemValue('trusted_domains', []))
-		);
 
-		foreach ($testURLs as $testURL) {
-			try {
-				$client = $this->clientService->newClient();
-				$response = $client->head($testURL, [
-					'connect_timeout' => 10,
-					'nextcloud' => [
-						'allow_local_address' => true,
-					],
-				]);
-				if (preg_match('/(text|application)\/javascript/i', $response->getHeader('Content-Type'))) {
-					return SetupResult::success();
-				}
-			} catch (\Throwable $e) {
-				$this->logger->debug('Can not connect to local server for checking JavaScript modules support', ['exception' => $e, 'url' => $testURL]);
-				return SetupResult::warning($this->l10n->t('Could not check for JavaScript support. Please check manually if your webserver serves `.mjs` files using the JavaScript MIME type.'));
+		$noResponse = true;
+		foreach ($this->runHEAD($testFile) as $response) {
+			$noResponse = false;
+			if (preg_match('/(text|application)\/javascript/i', $response->getHeader('Content-Type'))) {
+				return SetupResult::success();
 			}
 		}
+
+		if ($noResponse) {
+			return SetupResult::warning($this->l10n->t('Could not check for JavaScript support via any of your `trusted_domains` nor `overwrite.cli.url`. This may be the result of a server-side DNS mismatch or outbound firewall rule. Please check manually if your webserver serves `.mjs` files using the JavaScript MIME type.') . "\n" . $this->serverConfigHelp());
+		}
 		return SetupResult::error($this->l10n->t('Your webserver does not serve `.mjs` files using the JavaScript MIME type. This will break some apps by preventing browsers from executing the JavaScript files. You should configure your webserver to serve `.mjs` files with either the `text/javascript` or `application/javascript` MIME type.'));
+		
 	}
 }

@@ -9,6 +9,7 @@ declare(strict_types=1);
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Vincent Petry <vincent@nextcloud.com>
+ * @author Ferdinand Thiessen <opensource@fthiessen.de>
  *
  * @license AGPL-3.0
  *
@@ -27,12 +28,13 @@ declare(strict_types=1);
  */
 namespace OCA\UpdateNotification\Controller;
 
-use OCA\UpdateNotification\ResetTokenBackgroundJob;
+use OCA\UpdateNotification\BackgroundJob\ResetToken;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
@@ -40,39 +42,18 @@ use OCP\Security\ISecureRandom;
 use OCP\Util;
 
 class AdminController extends Controller {
-	/** @var IJobList */
-	private $jobList;
-	/** @var ISecureRandom */
-	private $secureRandom;
-	/** @var IConfig */
-	private $config;
-	/** @var ITimeFactory */
-	private $timeFactory;
-	/** @var IL10N */
-	private $l10n;
 
-	/**
-	 * @param string $appName
-	 * @param IRequest $request
-	 * @param IJobList $jobList
-	 * @param ISecureRandom $secureRandom
-	 * @param IConfig $config
-	 * @param ITimeFactory $timeFactory
-	 * @param IL10N $l10n
-	 */
-	public function __construct($appName,
+	public function __construct(
+		string $appName,
 		IRequest $request,
-		IJobList $jobList,
-		ISecureRandom $secureRandom,
-		IConfig $config,
-		ITimeFactory $timeFactory,
-		IL10N $l10n) {
+		private IJobList $jobList,
+		private ISecureRandom $secureRandom,
+		private IConfig $config,
+		private IAppConfig $appConfig,
+		private ITimeFactory $timeFactory,
+		private IL10N $l10n,
+	) {
 		parent::__construct($appName, $request);
-		$this->jobList = $jobList;
-		$this->secureRandom = $secureRandom;
-		$this->config = $config;
-		$this->timeFactory = $timeFactory;
-		$this->l10n = $l10n;
 	}
 
 	private function isUpdaterEnabled() {
@@ -85,7 +66,7 @@ class AdminController extends Controller {
 	 */
 	public function setChannel(string $channel): DataResponse {
 		Util::setChannel($channel);
-		$this->config->setAppValue('core', 'lastupdatedat', '0');
+		$this->appConfig->setValueInt('core', 'lastupdatedat', 0);
 		return new DataResponse(['status' => 'success', 'data' => ['message' => $this->l10n->t('Channel updated')]]);
 	}
 
@@ -98,8 +79,8 @@ class AdminController extends Controller {
 		}
 
 		// Create a new job and store the creation date
-		$this->jobList->add(ResetTokenBackgroundJob::class);
-		$this->config->setAppValue('core', 'updater.secret.created', (string)$this->timeFactory->getTime());
+		$this->jobList->add(ResetToken::class);
+		$this->appConfig->setValueInt('core', 'updater.secret.created', $this->timeFactory->getTime());
 
 		// Create a new token
 		$newToken = $this->secureRandom->generate(64);

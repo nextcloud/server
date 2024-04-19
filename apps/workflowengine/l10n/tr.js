@@ -67,6 +67,9 @@ OC.L10N.register(
     "Desktop client" : "Masaüstü istemcisi",
     "Thunderbird & Outlook addons" : "Thunderbird ve Outlook eklentileri",
     "Custom user agent" : "Özel kullanıcı uygulaması",
+    "Select groups" : "Grupları seçin",
+    "Groups" : "Gruplar",
+    "Type to search for group …" : "Grup aramak için yazmaya başlayın…",
     "Select a trigger" : "Bir tetikleyici seçin",
     "At least one event must be selected" : "En az bir etkinlik seçilmelidir",
     "Add new flow" : "Akış ekle",
@@ -113,8 +116,9 @@ OC.L10N.register(
     "between" : "şunların arasında olan",
     "not between" : "şunların arasında olmayan",
     "Request user agent" : "Kullanıcı uygulaması istensin",
-    "User group membership" : "Kullanıcı grubu üyeliği",
+    "Group membership" : "Grup üyeliği",
     "is member of" : "şunun üyesi olan",
-    "is not member of" : "şunun üyesi olmayan"
+    "is not member of" : "şunun üyesi olmayan",
+    "User group membership" : "Kullanıcı grubu üyeliği"
 },
 "nplurals=2; plural=(n > 1);");

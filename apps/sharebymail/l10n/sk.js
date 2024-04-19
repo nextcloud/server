@@ -14,7 +14,7 @@ OC.L10N.register(
     "Password to access {file} was sent to {email}" : "Heslo na sprístupnenie {file} bolo zaslané na {email}",
     "Password to access {file} was sent to you" : "Heslo na sprístupnenie {file} Vám bolo zaslané",
     "Share by mail" : "Sprístupniť e-mailom",
-    "Sharing %1$s failed, because this item is already shared with user %2$s" : "Zdieľanie %1$s zlyhalo, táto položka už je zdieľaná s užívateľom %2$s ",
+    "Sharing %1$s failed, because this item is already shared with the account %2$s" : "Zdieľanie %1$s zlyhalo, pretože táto položka už je užívateľovi %2$s zozdieľaná.",
     "We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Vygenerované heslo Vám nemôže byť zaslané. Zadajte správnu mailovú adresu vo Vašich osobných nastaveniach a skúste znovu.",
     "Failed to send share by email. Got an invalid email address" : "Odoslanie zdieľania e-mailom zlyhalo. Máte neplatnú e-mailovú adresu",
     "Failed to send share by email" : "Zaslanie sprístupnenia cez e-mail zlyhalo",
@@ -38,9 +38,11 @@ OC.L10N.register(
     "You can choose a different password at any time in the share dialog." : "Kedykoľvek môžete vybrať iné heslo v okne zdieľania.",
     "Could not find share" : "Nebolo možné nájsť sprístupnenie",
     "Share provider which allows you to share files by mail" : "Poskytovateľ zdieľania umožňuje zdieľať súbory pomocou e-mailu",
-    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Povoľuje používateľom zdieľať personalizovaný odkaz na súbor alebo priečinok zadaním e-mailovej adresy.",
+    "Allows people to share a personalized link to a file or folder by putting in an email address." : "Umožňuje ľuďom zdieľať prispôsobený odkaz na súbor alebo priečinok zadaním e-mailovej adresy.",
     "Send password by mail" : "Odoslať heslo e-mailom",
     "Reply to initiator" : "Odpovedať iniciátorovi",
-    "Unable to update share by mail config" : "Nepodarila sa aktualizovať konfigurácia zdieľania prostredníctvom e-mailu"
+    "Unable to update share by mail config" : "Nepodarila sa aktualizovať konfigurácia zdieľania prostredníctvom e-mailu",
+    "Sharing %1$s failed, because this item is already shared with user %2$s" : "Zdieľanie %1$s zlyhalo, táto položka už je zdieľaná s užívateľom %2$s ",
+    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Povoľuje používateľom zdieľať personalizovaný odkaz na súbor alebo priečinok zadaním e-mailovej adresy."
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

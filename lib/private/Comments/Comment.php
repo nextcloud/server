@@ -55,7 +55,7 @@ class Comment implements IComment {
 	 * @param array $data	optional, array with keys according to column names from
 	 * 						the comments database scheme
 	 */
-	public function __construct(array $data = null) {
+	public function __construct(?array $data = null) {
 		if (is_array($data)) {
 			$this->fromArray($data);
 		}
@@ -220,7 +220,7 @@ class Comment implements IComment {
 	 *
 	 */
 	public function getMentions(): array {
-		$ok = preg_match_all("/\B(?<![^a-z0-9_\-@\.\'\s])@(\"guest\/[a-f0-9]+\"|\"group\/[a-z0-9_\-@\.\' ]+\"|\"[a-z0-9_\-@\.\' ]+\"|[a-z0-9_\-@\.\']+)/i", $this->getMessage(), $mentions);
+		$ok = preg_match_all("/\B(?<![^a-z0-9_\-@\.\'\s])@(\"guest\/[a-f0-9]+\"|\"(?:federated_)?(?:group|team|user){1}\/[a-z0-9_\-@\.\' \/:]+\"|\"[a-z0-9_\-@\.\' ]+\"|[a-z0-9_\-@\.\']+)/i", $this->getMessage(), $mentions);
 		if (!$ok || !isset($mentions[0])) {
 			return [];
 		}
@@ -230,11 +230,21 @@ class Comment implements IComment {
 		});
 		$result = [];
 		foreach ($mentionIds as $mentionId) {
+			// Cut-off the @ and remove wrapping double-quotes
 			$cleanId = trim(substr($mentionId, 1), '"');
+
 			if (str_starts_with($cleanId, 'guest/')) {
 				$result[] = ['type' => 'guest', 'id' => $cleanId];
+			} elseif (str_starts_with($cleanId, 'federated_group/')) {
+				$result[] = ['type' => 'federated_group', 'id' => substr($cleanId, 16)];
 			} elseif (str_starts_with($cleanId, 'group/')) {
 				$result[] = ['type' => 'group', 'id' => substr($cleanId, 6)];
+			} elseif (str_starts_with($cleanId, 'federated_team/')) {
+				$result[] = ['type' => 'federated_team', 'id' => substr($cleanId, 15)];
+			} elseif (str_starts_with($cleanId, 'team/')) {
+				$result[] = ['type' => 'team', 'id' => substr($cleanId, 5)];
+			} elseif (str_starts_with($cleanId, 'federated_user/')) {
+				$result[] = ['type' => 'federated_user', 'id' => substr($cleanId, 15)];
 			} else {
 				$result[] = ['type' => 'user', 'id' => $cleanId];
 			}

@@ -124,7 +124,7 @@ class Node implements INode {
 	/**
 	 * @param string[] $hooks
 	 */
-	protected function sendHooks($hooks, array $args = null) {
+	protected function sendHooks($hooks, ?array $args = null) {
 		$args = !empty($args) ? $args : [$this];
 		/** @var IEventDispatcher $dispatcher */
 		$dispatcher = \OC::$server->get(IEventDispatcher::class);

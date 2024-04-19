@@ -32,12 +32,14 @@ import { emit } from '@nextcloud/event-bus'
 import { FilePickerClosed, getFilePickerBuilder, showError } from '@nextcloud/dialogs'
 import { Permission, FileAction, FileType, NodeStatus, davGetClient, davRootPath, davResultToNode, davGetDefaultPropfind } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
+import { openConflictPicker, hasConflict } from '@nextcloud/upload'
 import Vue from 'vue'
 
 import CopyIconSvg from '@mdi/svg/svg/folder-multiple.svg?raw'
 import FolderMoveSvg from '@mdi/svg/svg/folder-move.svg?raw'
 
 import { MoveCopyAction, canCopy, canMove, getQueue } from './moveOrCopyActionUtils'
+import { getContents } from '../services/Files'
 import logger from '../logger'
 import { getUniqueName } from '../utils/fileUtils'
 
@@ -118,7 +120,14 @@ export const handleCopyMoveNodeTo = async (node: Node, destination: Folder, meth
 				// If we do not allow overwriting then find an unique name
 				if (!overwrite) {
 					const otherNodes = await client.getDirectoryContents(destinationPath) as FileStat[]
-					target = getUniqueName(node.basename, otherNodes.map((n) => n.basename), copySuffix)
+					target = getUniqueName(
+						node.basename,
+						otherNodes.map((n) => n.basename),
+						{
+							suffix: copySuffix,
+							ignoreFileExtension: node.type === FileType.Folder,
+						},
+					)
 				}
 				await client.copyFile(currentPath, join(destinationPath, target))
 				// If the node is copied into current directory the view needs to be updated
@@ -133,6 +142,27 @@ export const handleCopyMoveNodeTo = async (node: Node, destination: Folder, meth
 					emit('files:node:created', davResultToNode(data))
 				}
 			} else {
+				// show conflict file popup if we do not allow overwriting
+				const otherNodes = await getContents(destination.path)
+				if (hasConflict([node], otherNodes.contents)) {
+					try {
+						// Let the user choose what to do with the conflicting files
+						const { selected, renamed } = await openConflictPicker(destination.path, [node], otherNodes.contents)
+						// if the user selected to keep the old file, and did not select the new file
+						// that means they opted to delete the current node
+						if (!selected.length && !renamed.length) {
+							await client.deleteFile(currentPath)
+							emit('files:node:deleted', node)
+							return
+						}
+					} catch (error) {
+						// User cancelled
+						showError(t('files', 'Move cancelled'))
+						return
+					}
+				}
+				// getting here means either no conflict, file was renamed to keep both files
+				// in a conflict, or the selected file was chosen to be kept during the conflict
 				await client.moveFile(currentPath, join(destinationPath, node.basename))
 				// Delete the node as it will be fetched again
 				// when navigating to the destination folder
@@ -143,7 +173,7 @@ export const handleCopyMoveNodeTo = async (node: Node, destination: Folder, meth
 				if (error?.response?.status === 412) {
 					throw new Error(t('files', 'A file or folder with that name already exists in this folder'))
 				} else if (error?.response?.status === 423) {
-					throw new Error(t('files', 'The files is locked'))
+					throw new Error(t('files', 'The files are locked'))
 				} else if (error?.response?.status === 404) {
 					throw new Error(t('files', 'The file does not exist anymore'))
 				} else if (error.message) {
@@ -189,7 +219,7 @@ const openFilePickerForAction = async (action: MoveCopyAction, dir = '/', nodes:
 
 			if (action === MoveCopyAction.COPY || action === MoveCopyAction.MOVE_OR_COPY) {
 				buttons.push({
-					label: target ? t('files', 'Copy to {target}', { target }) : t('files', 'Copy'),
+					label: target ? t('files', 'Copy to {target}', { target }, undefined, { escape: false, sanitize: false }) : t('files', 'Copy'),
 					type: 'primary',
 					icon: CopyIconSvg,
 					async callback(destination: Node[]) {
@@ -214,7 +244,7 @@ const openFilePickerForAction = async (action: MoveCopyAction, dir = '/', nodes:
 
 			if (action === MoveCopyAction.MOVE || action === MoveCopyAction.MOVE_OR_COPY) {
 				buttons.push({
-					label: target ? t('files', 'Move to {target}', { target }) : t('files', 'Move'),
+					label: target ? t('files', 'Move to {target}', { target }, undefined, { escape: false, sanitize: false }) : t('files', 'Move'),
 					type: action === MoveCopyAction.MOVE ? 'primary' : 'secondary',
 					icon: FolderMoveSvg,
 					async callback(destination: Node[]) {

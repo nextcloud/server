@@ -88,6 +88,7 @@ use OCA\DAV\Search\ContactsSearchProvider;
 use OCA\DAV\Search\EventsSearchProvider;
 use OCA\DAV\Search\TasksSearchProvider;
 use OCA\DAV\SetupChecks\NeedsSystemAddressBookSync;
+use OCA\DAV\SetupChecks\WebdavEndpoint;
 use OCA\DAV\UserMigration\CalendarMigrator;
 use OCA\DAV\UserMigration\ContactsMigrator;
 use OCP\Accounts\UserUpdatedEvent;
@@ -211,6 +212,7 @@ class Application extends App implements IBootstrap {
 		$context->registerUserMigrator(ContactsMigrator::class);
 
 		$context->registerSetupCheck(NeedsSystemAddressBookSync::class);
+		$context->registerSetupCheck(WebdavEndpoint::class);
 	}
 
 	public function boot(IBootContext $context): void {

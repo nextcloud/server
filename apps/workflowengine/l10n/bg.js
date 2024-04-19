@@ -66,6 +66,8 @@ OC.L10N.register(
     "Desktop client" : "Клиент за настолен компютър",
     "Thunderbird & Outlook addons" : "Добавки на Thunderbird и Outlook",
     "Custom user agent" : "Персонализиран потребителски агент",
+    "Select groups" : "Избери Групи",
+    "Groups" : "Групи",
     "At least one event must be selected" : "Трябва да бъде избрано поне едно събитие",
     "Add new flow" : "Добавяне на нов поток",
     "When" : "Кога",
@@ -107,8 +109,8 @@ OC.L10N.register(
     "between" : "между",
     "not between" : "не между",
     "Request user agent" : "Потребителски агент на заявка",
-    "User group membership" : "Членство към потребителска група",
     "is member of" : "е член на",
-    "is not member of" : "не е член на"
+    "is not member of" : "не е член на",
+    "User group membership" : "Членство към потребителска група"
 },
 "nplurals=2; plural=(n != 1);");

@@ -67,6 +67,9 @@ OC.L10N.register(
     "Desktop client" : "تطبيق سطح المكتب",
     "Thunderbird & Outlook addons" : "إضافات ثندربيرد و أوت لوك",
     "Custom user agent" : "وكيل مستخدم مخصص",
+    "Select groups" : "إختَر مجموعةً",
+    "Groups" : "المجموعات",
+    "Type to search for group …" : "أُكتُب اسم المجموعة التي تبحث عنها ...",
     "Select a trigger" : "حدد مشغل",
     "At least one event must be selected" : "يجب اختيار حدث واحد على الأقل",
     "Add new flow" : "إضافة مسار دفق جديد",
@@ -113,8 +116,9 @@ OC.L10N.register(
     "between" : "بين",
     "not between" : "ليس بين",
     "Request user agent" : "وكيل المستخدم الخاص بالطلب",
-    "User group membership" : "عضوية مجموعة المستخدمين",
+    "Group membership" : "عضوية المجموعة",
     "is member of" : "عضو فى",
-    "is not member of" : "ليس عضو فى"
+    "is not member of" : "ليس عضو فى",
+    "User group membership" : "عضوية مجموعة المستخدمين"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

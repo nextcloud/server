@@ -38,6 +38,7 @@ class MetadataValueWrapper implements IMetadataValueWrapper {
 	private string $type;
 	/** @var string|int|float|bool|array|string[]|int[] */
 	private mixed $value = null;
+	private string $etag = '';
 	private bool $indexed = false;
 	private int $editPermission = self::EDIT_FORBIDDEN;
 
@@ -233,7 +234,7 @@ class MetadataValueWrapper implements IMetadataValueWrapper {
 	 */
 	public function getValueString(): string {
 		$this->assertType(self::TYPE_STRING);
-		if (null === $this->value) {
+		if ($this->value === null) {
 			throw new FilesMetadataNotFoundException('value is not set');
 		}
 
@@ -249,7 +250,7 @@ class MetadataValueWrapper implements IMetadataValueWrapper {
 	 */
 	public function getValueInt(): int {
 		$this->assertType(self::TYPE_INT);
-		if (null === $this->value) {
+		if ($this->value === null) {
 			throw new FilesMetadataNotFoundException('value is not set');
 		}
 
@@ -265,7 +266,7 @@ class MetadataValueWrapper implements IMetadataValueWrapper {
 	 */
 	public function getValueFloat(): float {
 		$this->assertType(self::TYPE_FLOAT);
-		if (null === $this->value) {
+		if ($this->value === null) {
 			throw new FilesMetadataNotFoundException('value is not set');
 		}
 
@@ -281,7 +282,7 @@ class MetadataValueWrapper implements IMetadataValueWrapper {
 	 */
 	public function getValueBool(): bool {
 		$this->assertType(self::TYPE_BOOL);
-		if (null === $this->value) {
+		if ($this->value === null) {
 			throw new FilesMetadataNotFoundException('value is not set');
 		}
 
@@ -297,7 +298,7 @@ class MetadataValueWrapper implements IMetadataValueWrapper {
 	 */
 	public function getValueArray(): array {
 		$this->assertType(self::TYPE_ARRAY);
-		if (null === $this->value) {
+		if ($this->value === null) {
 			throw new FilesMetadataNotFoundException('value is not set');
 		}
 
@@ -313,7 +314,7 @@ class MetadataValueWrapper implements IMetadataValueWrapper {
 	 */
 	public function getValueStringList(): array {
 		$this->assertType(self::TYPE_STRING_LIST);
-		if (null === $this->value) {
+		if ($this->value === null) {
 			throw new FilesMetadataNotFoundException('value is not set');
 		}
 
@@ -329,7 +330,7 @@ class MetadataValueWrapper implements IMetadataValueWrapper {
 	 */
 	public function getValueIntList(): array {
 		$this->assertType(self::TYPE_INT_LIST);
-		if (null === $this->value) {
+		if ($this->value === null) {
 			throw new FilesMetadataNotFoundException('value is not set');
 		}
 
@@ -343,11 +344,32 @@ class MetadataValueWrapper implements IMetadataValueWrapper {
 	 * @since 28.0.0
 	 */
 	public function getValueAny(): mixed {
-		if (null === $this->value) {
+		if ($this->value === null) {
 			throw new FilesMetadataNotFoundException('value is not set');
 		}
 
 		return $this->value;
+	}
+
+	/**
+	 * @inheritDoc
+	 * @return string stored etag
+	 * @since 29.0.0
+	 */
+	public function getEtag(): string {
+		return $this->etag;
+	}
+
+	/**
+	 * @param string $etag etag value
+	 *
+	 * @inheritDoc
+	 * @return self
+	 * @since 29.0.0
+	 */
+	public function setEtag(string $etag): self {
+		$this->etag = $etag;
+		return $this;
 	}
 
 	/**
@@ -405,6 +427,7 @@ class MetadataValueWrapper implements IMetadataValueWrapper {
 	public function import(array $data): self {
 		$this->value = $data['value'] ?? null;
 		$this->type = $data['type'] ?? '';
+		$this->setEtag($data['etag'] ?? '');
 		$this->setIndexed($data['indexed'] ?? false);
 		$this->setEditPermission($data['editPermission'] ?? self::EDIT_FORBIDDEN);
 		return $this;
@@ -414,6 +437,7 @@ class MetadataValueWrapper implements IMetadataValueWrapper {
 		return [
 			'value' => ($emptyValues) ? null : $this->value,
 			'type' => $this->getType(),
+			'etag' => $this->getEtag(),
 			'indexed' => $this->isIndexed(),
 			'editPermission' => $this->getEditPermission()
 		];

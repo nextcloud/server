@@ -14,11 +14,10 @@
     "Address" : "Address",
     "Profile picture" : "Profil rasmi",
     "About" : "About",
-    "Unknown user" : "Unknown user",
     "Set an admin password." : "Set an admin password.",
     "January" : "January",
     "Authentication error" : "Authentication error",
     "Storage is temporarily not available" : "Storage is temporarily not available",
-    "Full name" : "Full name"
+    "Unknown user" : "Unknown user"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

@@ -128,14 +128,31 @@ export default defineComponent({
 		defaultName() {
 			this.localDefaultName = this.defaultName || t('files', 'New folder')
 		},
+
+		/**
+		 * Ensure the input is focussed even if the dialog is already mounted but not open
+		 */
+		open() {
+			this.$nextTick(() => this.focusInput())
+		},
 	},
 	mounted() {
 		// on mounted lets use the unique name
 		this.localDefaultName = this.uniqueName
-		this.$nextTick(() => (this.$refs.input as unknown as ICanFocus)?.focus?.())
+		this.$nextTick(() => this.focusInput())
 	},
 	methods: {
 		t,
+
+		/**
+		 * Focus the filename input field
+		 */
+		focusInput() {
+			if (this.open) {
+				this.$nextTick(() => (this.$refs.input as unknown as ICanFocus)?.focus?.())
+			}
+		},
+
 		onCreate() {
 			this.$emit('close', this.localDefaultName)
 		},

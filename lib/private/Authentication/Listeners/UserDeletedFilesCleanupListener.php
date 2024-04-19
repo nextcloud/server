@@ -56,7 +56,7 @@ class UserDeletedFilesCleanupListener implements IEventListener {
 			$userHome = $this->mountProviderCollection->getHomeMountForUser($event->getUser());
 			$storage = $userHome->getStorage();
 			if (!$storage) {
-				throw new \Exception("User has no home storage");
+				throw new \Exception("Account has no home storage");
 			}
 
 			// remove all wrappers, so we do the delete directly on the home storage bypassing any wrapper

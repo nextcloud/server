@@ -320,7 +320,7 @@ class User_LDAPTest extends TestCase {
 			->willReturn($mapping);
 		$this->connection->expects($this->any())
 			->method('getConnectionResource')
-			->willReturn('this is an ldap link');
+			->willReturn(ldap_connect('ldap://example.com'));
 
 		$this->deletedUsersIndex->expects($this->once())
 		->method('isUserMarked')

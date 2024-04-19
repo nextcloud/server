@@ -67,6 +67,8 @@ OC.L10N.register(
     "Desktop client" : "Klient pro počítač",
     "Thunderbird & Outlook addons" : "Doplňky pro Thunderbird a Outlook",
     "Custom user agent" : "Uživatelem určený user agent",
+    "Select groups" : "Vybrat skupiny",
+    "Groups" : "Skupiny",
     "Select a trigger" : "Vybrat spouštěč",
     "At least one event must be selected" : "Je třeba vybrat alespoň jednu událost",
     "Add new flow" : "Přidat nový tok",
@@ -113,8 +115,8 @@ OC.L10N.register(
     "between" : "mezi",
     "not between" : "není mezi",
     "Request user agent" : "User agent požadavku",
-    "User group membership" : "Členství ve skupinách uživatelů",
     "is member of" : "je členem",
-    "is not member of" : "není členem"
+    "is not member of" : "není členem",
+    "User group membership" : "Členství ve skupinách uživatelů"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

@@ -2,7 +2,7 @@ OC.L10N.register(
     "dav",
     {
     "Calendar" : "Kalendarz",
-    "To-dos" : "Do zrobienia",
+    "Tasks" : "Zadania",
     "Personal" : "Osobiste",
     "{actor} created calendar {calendar}" : "{actor} utworzył kalendarz {calendar}",
     "You created calendar {calendar}" : "Utworzyłeś kalendarz {calendar}",
@@ -143,7 +143,6 @@ OC.L10N.register(
     "Configures a CalDAV account" : "Konfiguruje konto CalDAV",
     "Configures a CardDAV account" : "Konfiguruje konto CardDAV",
     "Events" : "Wydarzenia",
-    "Tasks" : "Zadania",
     "Untitled task" : "Zadanie bez tytułu",
     "Completed on %s" : "Ukończono %s",
     "Due on %s by %s" : "Na dzień %s w %s",
@@ -151,11 +150,12 @@ OC.L10N.register(
     "DAV system address book" : "Książka adresowa systemu DAV",
     "No outstanding DAV system address book sync." : "Brak zaległej synchronizacji książki adresowej systemu DAV.",
     "The DAV system address book sync has not run yet as your instance has more than 1000 users or because an error occurred. Please run it manually by calling \"occ dav:sync-system-addressbook\"." : "Synchronizacja książki adresowej systemu DAV nie została jeszcze uruchomiona, ponieważ Twoja instancja ma ponad 1000 użytkowników lub wystąpił błąd. Uruchom go ręcznie, wywołując \"occ dav:sync-system-addressbook\".",
+    "WebDAV endpoint" : "Adres WebDAV",
+    "Your web server is not yet properly set up to allow file synchronization, because the WebDAV interface seems to be broken." : "Serwer WWW nie jest jeszcze na tyle poprawnie skonfigurowany, aby umożliwić synchronizację plików, ponieważ interfejs WebDAV może być uszkodzony.",
     "Migrated calendar (%1$s)" : "Przeniesiony kalendarz (%1$s)",
     "Calendars including events, details and attendees" : "Kalendarze zawierające wydarzenia, szczegóły i uczestników",
     "Contacts and groups" : "Kontakty i grupy",
     "WebDAV" : "WebDAV",
-    "WebDAV endpoint" : "Adres WebDAV",
     "First day" : "Pierwszy dzień",
     "Last day (inclusive)" : "Ostatni dzień (inclusive)",
     "Short absence status" : "Powiadomienie o krótkiej nieobecności ",
@@ -183,7 +183,6 @@ OC.L10N.register(
     "Saved availability" : "Zapisana dostępność",
     "Failed to save availability" : "Nie udało się zapisać dostępności",
     "Availability" : "Dostępność",
-    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Jeśli skonfigurujesz godziny pracy, inni użytkownicy będą widzieć, kiedy jesteś poza biurem, gdy będą rezerwować spotkanie.",
     "Absence" : "Nieobecność",
     "Configure your next absence period." : "Ustaw czas swojej nieobecności ",
     "Calendar server" : "Serwer kalendarza",
@@ -202,6 +201,8 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Skontaktuj się bezpośrednio z orgnizatorem.",
     "Are you accepting the invitation?" : "Czy akceptujesz zaproszenie?",
     "Tentative" : "Niepewne",
-    "Your attendance was updated successfully." : "Twoja obecność została pomyślnie zaktualizowana."
+    "Your attendance was updated successfully." : "Twoja obecność została pomyślnie zaktualizowana.",
+    "To-dos" : "Do zrobienia",
+    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Jeśli skonfigurujesz godziny pracy, inni użytkownicy będą widzieć, kiedy jesteś poza biurem, gdy będą rezerwować spotkanie."
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

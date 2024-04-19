@@ -24,8 +24,6 @@ OC.L10N.register(
     "Could not write file to disk" : "Dosya diske yazılamadı",
     "A PHP extension stopped the file upload" : "Bir PHP eklentisi dosyanın yüklenmesini engelledi",
     "No file uploaded" : "Henüz bir dosya yüklenmemiş",
-    "Failed to clean up the old administration theming images folder" : "Eski yönetim temasının images klasörü temizlenemedi",
-    "Failed to clean up the old administration image folder" : "Eski yönetim image klasörü temizlenemedi",
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "Zaten özel bir tema kullanıyorsunuz. Tema uygulaması ayarları bu değer ile değiştirilebilir.",
     "Theming" : "Tema",
     "Appearance and accessibility" : "Görünüm ve erişilebilirlik",

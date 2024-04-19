@@ -1,28 +1,5 @@
 ---
 kind: pipeline
-name: checkers
-
-steps:
-- name: submodules
-  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
-  commands:
-    - git submodule update --init
-- name: checkers
-  image: ghcr.io/nextcloud/continuous-integration-php8.0:latest
-  commands:
-    - ./autotest-checkers.sh
-  secrets: [ github_token ]
-
-trigger:
-  branch:
-    - master
-    - stable*
-  event:
-    - pull_request
-    - push
-
----
-kind: pipeline
 name: litmus
 
 steps:
@@ -31,12 +8,12 @@ steps:
   commands:
     - git submodule update --init
 - name: litmus-v1
-  image: ghcr.io/nextcloud/continuous-integration-litmus-php8.0:latest
+  image: ghcr.io/nextcloud/continuous-integration-litmus-php8.3:latest
   commands:
     - bash tests/travis/install.sh sqlite
     - bash apps/dav/tests/travis/litmus-v1/script.sh
 - name: litmus-v2
-  image: ghcr.io/nextcloud/continuous-integration-litmus-php8.0:latest
+  image: ghcr.io/nextcloud/continuous-integration-litmus-php8.3:latest
   commands:
     - bash tests/travis/install.sh sqlite
     - bash apps/dav/tests/travis/litmus-v2/script.sh
@@ -59,7 +36,7 @@ steps:
   commands:
     - git submodule update --init
 - name: caldavtester-new-endpoint
-  image: ghcr.io/nextcloud/continuous-integration-litmus-php8.0:latest
+  image: ghcr.io/nextcloud/continuous-integration-litmus-php8.3:latest
   commands:
     - bash tests/travis/install.sh sqlite
     - bash apps/dav/tests/travis/caldav/install.sh
@@ -83,7 +60,7 @@ steps:
   commands:
     - git submodule update --init
 - name: caldavtester-old-endpoint
-  image: ghcr.io/nextcloud/continuous-integration-litmus-php8.0:latest
+  image: ghcr.io/nextcloud/continuous-integration-litmus-php8.3:latest
   commands:
     - bash tests/travis/install.sh sqlite
     - bash apps/dav/tests/travis/caldav/install.sh
@@ -107,7 +84,7 @@ steps:
   commands:
     - git submodule update --init
 - name: carddavtester-new-endpoint
-  image: ghcr.io/nextcloud/continuous-integration-litmus-php8.0:latest
+  image: ghcr.io/nextcloud/continuous-integration-litmus-php8.3:latest
   commands:
     - bash tests/travis/install.sh sqlite
     - bash apps/dav/tests/travis/carddav/install.sh
@@ -131,7 +108,7 @@ steps:
   commands:
     - git submodule update --init
 - name: carddavtester-old-endpoint
-  image: ghcr.io/nextcloud/continuous-integration-litmus-php8.0:latest
+  image: ghcr.io/nextcloud/continuous-integration-litmus-php8.3:latest
   commands:
     - bash tests/travis/install.sh sqlite
     - bash apps/dav/tests/travis/carddav/install.sh
@@ -146,45 +123,5 @@ trigger:
     - push
 
 ---
-kind: pipeline
-name: samba
-
-steps:
-- name: submodules
-  image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
-  commands:
-    - git submodule update --init
-- name: sqlite-php8.0-samba-native
-  image: ghcr.io/nextcloud/continuous-integration-samba-native-php8.0:latest
-  commands:
-    - smbd -D -FS &
-    - ./autotest-external.sh sqlite smb-linux
-    - wget https://codecov.io/bash -O codecov.sh
-    - sh -c "if [ '$DRONE_BUILD_EVENT' = 'pull_request' ]; then bash codecov.sh -B $DRONE_BRANCH -C $DRONE_COMMIT -P $DRONE_PULL_REQUEST -t 117641e2-a9e8-4b7b-984b-ae872d9b05f5 -f tests/autotest-external-clover-sqlite.xml; fi"
-    - sh -c "if [ '$DRONE_BUILD_EVENT' != 'pull_request' ]; then bash codecov.sh -B $DRONE_BRANCH -C $DRONE_COMMIT -t 117641e2-a9e8-4b7b-984b-ae872d9b05f5 -f tests/autotest-external-clover-sqlite.xml; fi"
-    - sh -c "if [ '$DRONE_BUILD_EVENT' = 'pull_request' ]; then bash codecov.sh -B $DRONE_BRANCH -C $DRONE_COMMIT -P $DRONE_PULL_REQUEST -t 117641e2-a9e8-4b7b-984b-ae872d9b05f5 -f tests/autotest-external-clover-sqlite-smb-linux.xml; fi"
-    - sh -c "if [ '$DRONE_BUILD_EVENT' != 'pull_request' ]; then bash codecov.sh -B $DRONE_BRANCH -C $DRONE_COMMIT -t 117641e2-a9e8-4b7b-984b-ae872d9b05f5 -f tests/autotest-external-clover-sqlite-smb-linux.xml; fi"
-# Temporarily disabled because it times out for unknown reasons 98% of the time
-#- name: sqlite-php8.0-samba-non-native
-#  image: ghcr.io/nextcloud/continuous-integration-samba-non-native-php8.0:latest
-#  commands:
-#    - smbd -D -FS &
-#    - ./autotest-external.sh sqlite smb-linux
-#    - wget https://codecov.io/bash -O codecov.sh
-#    - sh -c "if [ '$DRONE_BUILD_EVENT' = 'pull_request' ]; then bash codecov.sh -B $DRONE_BRANCH -C $DRONE_COMMIT -P $DRONE_PULL_REQUEST -t 117641e2-a9e8-4b7b-984b-ae872d9b05f5 -f tests/autotest-external-clover-sqlite.xml; fi"
-#    - sh -c "if [ '$DRONE_BUILD_EVENT' != 'pull_request' ]; then bash codecov.sh -B $DRONE_BRANCH -C $DRONE_COMMIT -t 117641e2-a9e8-4b7b-984b-ae872d9b05f5 -f tests/autotest-external-clover-sqlite.xml; fi"
-#    - sh -c "if [ '$DRONE_BUILD_EVENT' = 'pull_request' ]; then bash codecov.sh -B $DRONE_BRANCH -C $DRONE_COMMIT -P $DRONE_PULL_REQUEST -t 117641e2-a9e8-4b7b-984b-ae872d9b05f5 -f tests/autotest-external-clover-sqlite-smb-linux.xml; fi"
-#    - sh -c "if [ '$DRONE_BUILD_EVENT' != 'pull_request' ]; then bash codecov.sh -B $DRONE_BRANCH -C $DRONE_COMMIT -t 117641e2-a9e8-4b7b-984b-ae872d9b05f5 -f tests/autotest-external-clover-sqlite-smb-linux.xml; fi"
-
-trigger:
-  branch:
-    - master
-    - stable*
-  event:
-    - pull_request
-    - push
-
-
----
 kind: signature
-hmac: a4f9a3fec27fbd14dfb478902b7b5cbc155916a309f05fe6eb78961b3db18c3a
+hmac: 1c487e85d1dba3fec3151868f8f94fc46b4ecb0f821c35516c193700cdbc2a9c

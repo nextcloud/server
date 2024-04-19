@@ -115,11 +115,11 @@ try {
 		}
 
 		$user = posix_getuid();
-		$configUser = fileowner(OC::$configDir . 'config.php');
-		if ($user !== $configUser) {
-			echo "Console has to be executed with the user that owns the file config/config.php" . PHP_EOL;
+		$dataDirectoryUser = fileowner($config->getSystemValueString('datadirectory', \OC::$SERVERROOT . '/data'));
+		if ($user !== $dataDirectoryUser) {
+			echo "Cron has to be executed with the user that owns the data directory" . PHP_EOL;
 			echo "Current user id: " . $user . PHP_EOL;
-			echo "Owner id of config.php: " . $configUser . PHP_EOL;
+			echo "Owner id of the data directory: " . $dataDirectoryUser . PHP_EOL;
 			exit(1);
 		}
 
@@ -172,7 +172,8 @@ try {
 			$memoryBefore = memory_get_usage();
 			$memoryPeakBefore = memory_get_peak_usage();
 
-			$job->start($jobList);
+			/** @psalm-suppress DeprecatedMethod Calling execute until it is removed, then will switch to start */
+			$job->execute($jobList);
 
 			$memoryAfter = memory_get_usage();
 			$memoryPeakAfter = memory_get_peak_usage();
@@ -207,7 +208,8 @@ try {
 			$job = $jobList->getNext();
 			if ($job != null) {
 				$logger->debug('WebCron call has selected job with ID ' . strval($job->getId()), ['app' => 'cron']);
-				$job->start($jobList);
+				/** @psalm-suppress DeprecatedMethod Calling execute until it is removed, then will switch to start */
+				$job->execute($jobList);
 				$jobList->setLastJob($job);
 			}
 			OC_JSON::success();

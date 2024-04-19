@@ -193,7 +193,7 @@ class ContactsStore implements IContactsStore {
 		$restrictEnumerationGroup = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_group', 'no') === 'yes';
 		$restrictEnumerationPhone = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_phone', 'no') === 'yes';
 		$allowEnumerationFullMatch = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match', 'yes') === 'yes';
-		$excludedGroups = $this->config->getAppValue('core', 'shareapi_exclude_groups', 'no') === 'yes';
+		$excludeGroups = $this->config->getAppValue('core', 'shareapi_exclude_groups', 'no');
 
 		// whether to filter out local users
 		$skipLocal = false;
@@ -202,14 +202,22 @@ class ContactsStore implements IContactsStore {
 
 		$selfGroups = $this->groupManager->getUserGroupIds($self);
 
-		if ($excludedGroups) {
+		if ($excludeGroups && $excludeGroups !== 'no') {
 			$excludedGroups = $this->config->getAppValue('core', 'shareapi_exclude_groups_list', '');
 			$decodedExcludeGroups = json_decode($excludedGroups, true);
 			$excludeGroupsList = $decodedExcludeGroups ?? [];
 
-			if (count(array_intersect($excludeGroupsList, $selfGroups)) !== 0) {
-				// a group of the current user is excluded -> filter all local users
+			if ($excludeGroups != 'allow') {
+				if (count(array_intersect($excludeGroupsList, $selfGroups)) !== 0) {
+					// a group of the current user is excluded -> filter all local users
+					$skipLocal = true;
+				}
+			} else {
 				$skipLocal = true;
+				if (count(array_intersect($excludeGroupsList, $selfGroups)) !== 0) {
+					// a group of the current user is allowed -> do not filter all local users
+					$skipLocal = false;
+				}
 			}
 		}
 

@@ -99,7 +99,7 @@
                     },
                     {
                         "type": "array",
-                        "maxLength": 0
+                        "maxItems": 0
                     }
                 ]
             }

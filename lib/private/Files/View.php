@@ -65,10 +65,12 @@ use OCP\Files\InvalidPathException;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\NotFoundException;
 use OCP\Files\ReservedWordException;
-use OCP\Files\Storage\IStorage;
 use OCP\IUser;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
+use OCP\Server;
+use OCP\Share\IManager;
+use OCP\Share\IShare;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -104,7 +106,7 @@ class View {
 		}
 
 		$this->fakeRoot = $root;
-		$this->lockingProvider = \OC::$server->getLockingProvider();
+		$this->lockingProvider = \OC::$server->get(ILockingProvider::class);
 		$this->lockingEnabled = !($this->lockingProvider instanceof \OC\Lock\NoopLockingProvider);
 		$this->userManager = \OC::$server->getUserManager();
 		$this->logger = \OC::$server->get(LoggerInterface::class);
@@ -731,6 +733,8 @@ class View {
 	public function rename($source, $target) {
 		$absolutePath1 = Filesystem::normalizePath($this->getAbsolutePath($source));
 		$absolutePath2 = Filesystem::normalizePath($this->getAbsolutePath($target));
+		$targetParts = explode('/', $absolutePath2);
+		$targetUser = $targetParts[1] ?? null;
 		$result = false;
 		if (
 			Filesystem::isValidPath($target)
@@ -785,7 +789,7 @@ class View {
 						if ($internalPath1 === '') {
 							if ($mount1 instanceof MoveableMount) {
 								$sourceParentMount = $this->getMount(dirname($source));
-								if ($sourceParentMount === $mount2 && $this->targetIsNotShared($storage2, $internalPath2)) {
+								if ($sourceParentMount === $mount2 && $this->targetIsNotShared($targetUser, $absolutePath2)) {
 									/**
 									 * @var \OC\Files\Mount\MountPoint | \OC\Files\Mount\MoveableMount $mount1
 									 */
@@ -798,14 +802,14 @@ class View {
 							} else {
 								$result = false;
 							}
-						// moving a file/folder within the same mount point
+							// moving a file/folder within the same mount point
 						} elseif ($storage1 === $storage2) {
 							if ($storage1) {
 								$result = $storage1->rename($internalPath1, $internalPath2);
 							} else {
 								$result = false;
 							}
-						// moving a file/folder between storages (from $storage1 to $storage2)
+							// moving a file/folder between storages (from $storage1 to $storage2)
 						} else {
 							$result = $storage2->moveFromStorage($storage1, $internalPath1, $internalPath2);
 						}
@@ -1424,7 +1428,7 @@ class View {
 	 * @param string $mimetype_filter limit returned content to this mimetype or mimepart
 	 * @return FileInfo[]
 	 */
-	public function getDirectoryContent($directory, $mimetype_filter = '', \OCP\Files\FileInfo $directoryInfo = null) {
+	public function getDirectoryContent($directory, $mimetype_filter = '', ?\OCP\Files\FileInfo $directoryInfo = null) {
 		$this->assertPathLength($directory);
 		if (!Filesystem::isValidPath($directory)) {
 			return [];
@@ -1477,6 +1481,13 @@ class View {
 
 		//add a folder for any mountpoint in this directory and add the sizes of other mountpoints to the folders
 		$mounts = Filesystem::getMountManager()->findIn($path);
+
+		// make sure nested mounts are sorted after their parent mounts
+		// otherwise doesn't propagate the etag across storage boundaries correctly
+		usort($mounts, function (IMountPoint $a, IMountPoint $b) {
+			return $a->getMountPoint() <=> $b->getMountPoint();
+		});
+
 		$dirLength = strlen($path);
 		foreach ($mounts as $mount) {
 			$mountPoint = $mount->getMountPoint();
@@ -1722,7 +1733,7 @@ class View {
 	 * @return string
 	 * @throws NotFoundException
 	 */
-	public function getPath($id, int $storageId = null) {
+	public function getPath($id, ?int $storageId = null) {
 		$id = (int)$id;
 		$manager = Filesystem::getMountManager();
 		$mounts = $manager->findIn($this->fakeRoot);
@@ -1781,28 +1792,29 @@ class View {
 	 * It is not allowed to move a mount point into a different mount point or
 	 * into an already shared folder
 	 */
-	private function targetIsNotShared(IStorage $targetStorage, string $targetInternalPath): bool {
-		// note: cannot use the view because the target is already locked
-		$fileId = $targetStorage->getCache()->getId($targetInternalPath);
-		if ($fileId === -1) {
-			// target might not exist, need to check parent instead
-			$fileId = $targetStorage->getCache()->getId(dirname($targetInternalPath));
-		}
+	private function targetIsNotShared(string $user, string $targetPath): bool {
+		$providers = [
+			IShare::TYPE_USER,
+			IShare::TYPE_GROUP,
+			IShare::TYPE_EMAIL,
+			IShare::TYPE_CIRCLE,
+			IShare::TYPE_ROOM,
+			IShare::TYPE_DECK,
+			IShare::TYPE_SCIENCEMESH
+		];
+		$shareManager = Server::get(IManager::class);
+		/** @var IShare[] $shares */
+		$shares = array_merge(...array_map(function (int $type) use ($shareManager, $user) {
+			return $shareManager->getSharesBy($user, $type);
+		}, $providers));
 
-		// check if any of the parents were shared by the current owner (include collections)
-		$shares = Share::getItemShared(
-			'folder',
-			(string)$fileId,
-			\OC\Share\Constants::FORMAT_NONE,
-			null,
-			true
-		);
-
-		if (count($shares) > 0) {
-			$this->logger->debug(
-				'It is not allowed to move one mount point into a shared folder',
-				['app' => 'files']);
-			return false;
+		foreach ($shares as $share) {
+			if (str_starts_with($targetPath, $share->getNode()->getPath())) {
+				$this->logger->debug(
+					'It is not allowed to move one mount point into a shared folder',
+					['app' => 'files']);
+				return false;
+			}
 		}
 
 		return true;

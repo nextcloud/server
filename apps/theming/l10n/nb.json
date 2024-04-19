@@ -22,8 +22,6 @@
     "Could not write file to disk" : "Kunne ikke skrive fil til disk",
     "A PHP extension stopped the file upload" : "A PHP-utvidelse stoppet filopplastingen",
     "No file uploaded" : "Ingen fil lastet opp",
-    "Failed to clean up the old administration theming images folder" : "Kunne ikke rydde opp i den gamle mappen for administrasjonstemabilder",
-    "Failed to clean up the old administration image folder" : "Kunne ikke rydde opp i den gamle mappen for administrasjonsbilder",
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "Du bruker et tilpasset tema. Innstillinger i app for tilpasning av tema kan bli overskrevet av disse.",
     "Theming" : "Temavalg",
     "Appearance and accessibility" : "Utseende og tilgjengelighet",

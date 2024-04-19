@@ -77,7 +77,7 @@
 					:key="action.id"
 					:class="`files-list__row-action-${action.id}`"
 					class="files-list__row-action--submenu"
-					:close-after-click="false /* never close submenu, just go back */"
+					close-after-click
 					:data-cy-files-list-row-action="action.id"
 					:title="action.title?.([source], currentView)"
 					@click="onActionClick(action)">
@@ -93,18 +93,19 @@
 </template>
 
 <script lang="ts">
+import type { PropType } from 'vue'
+
 import { DefaultType, FileAction, Node, NodeStatus, View, getFileActions } from '@nextcloud/files'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
-import Vue, { PropType } from 'vue'
 
-import ArrowLeftIcon from 'vue-material-design-icons/ArrowLeft.vue'
-import ChevronRightIcon from 'vue-material-design-icons/ChevronRight.vue'
 import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
 import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
 import NcActionSeparator from '@nextcloud/vue/dist/Components/NcActionSeparator.js'
 import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
 import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
+import ArrowLeftIcon from 'vue-material-design-icons/ArrowLeft.vue'
+import Vue, { defineComponent } from 'vue'
 
 import CustomElementRender from '../CustomElementRender.vue'
 import logger from '../../logger.js'
@@ -112,12 +113,11 @@ import logger from '../../logger.js'
 // The registered actions list
 const actions = getFileActions()
 
-export default Vue.extend({
+export default defineComponent({
 	name: 'FileEntryActions',
 
 	components: {
 		ArrowLeftIcon,
-		ChevronRightIcon,
 		CustomElementRender,
 		NcActionButton,
 		NcActions,
@@ -335,7 +335,7 @@ export default Vue.extend({
 			// Focus the previous menu action button
 			this.$nextTick(() => {
 				// Focus the action button
-				const menuAction = this.$refs[`action-${action.id}`][0]
+				const menuAction = this.$refs[`action-${action.id}`]?.[0]
 				if (menuAction) {
 					menuAction.$el.querySelector('button')?.focus()
 				}
@@ -350,12 +350,13 @@ export default Vue.extend({
 <style lang="scss">
 // Allow right click to define the position of the menu
 // only if defined
-[style*="mouse-pos-x"] .v-popper__popper {
+main.app-content[style*="mouse-pos-x"] .v-popper__popper {
 	transform: translate3d(var(--mouse-pos-x), var(--mouse-pos-y), 0px) !important;
 
 	// If the menu is too close to the bottom, we move it up
 	&[data-popper-placement="top"] {
-		transform: translate3d(var(--mouse-pos-x), calc(var(--mouse-pos-y) - 50vh), 0px) !important;
+		// 34px added to align with the top of the cursor
+		transform: translate3d(var(--mouse-pos-x), calc(var(--mouse-pos-y) - 50vh + 34px), 0px) !important;
 	}
 	// Hide arrow if floating
 	.v-popper__arrow-container {

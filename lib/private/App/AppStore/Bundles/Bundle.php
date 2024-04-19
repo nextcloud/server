@@ -26,14 +26,12 @@ namespace OC\App\AppStore\Bundles;
 use OCP\IL10N;
 
 abstract class Bundle {
-	/** @var IL10N */
-	protected $l10n;
-
 	/**
 	 * @param IL10N $l10n
 	 */
-	public function __construct(IL10N $l10n) {
-		$this->l10n = $l10n;
+	public function __construct(
+		protected IL10N $l10n,
+	) {
 	}
 
 	/**

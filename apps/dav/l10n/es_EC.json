@@ -1,6 +1,6 @@
 { "translations": {
     "Calendar" : "Calendario",
-    "To-dos" : "Tareas pendientes",
+    "Tasks" : "Tareas",
     "Personal" : "Personal",
     "{actor} created calendar {calendar}" : "{actor} creó el calendario {calendar}",
     "You created calendar {calendar}" : "Creaste el calendario {calendar}",
@@ -141,16 +141,16 @@
     "Configures a CalDAV account" : "Configura una cuenta CalDAV",
     "Configures a CardDAV account" : "Configura una cuenta CardDAV",
     "Events" : "Eventos",
-    "Tasks" : "Tareas",
     "Untitled task" : "Tarea sin título",
     "Completed on %s" : "Completada el %s",
     "Due on %s by %s" : "Vence el %s a las %s",
     "Due on %s" : "Vence el %s",
+    "WebDAV endpoint" : "Extremo WebDAV",
+    "Your web server is not yet properly set up to allow file synchronization, because the WebDAV interface seems to be broken." : "Tu servidor web aún no esta correctamente configurado para permitir la sincronización de archivos porque la interfaz WebDAV parece estar rota. ",
     "Migrated calendar (%1$s)" : "Calendario migrado (%1$s)",
     "Calendars including events, details and attendees" : "Calendarios que incluyen eventos, detalles y asistentes",
     "Contacts and groups" : "Contactos y grupos",
     "WebDAV" : "WebDAV",
-    "WebDAV endpoint" : "Extremo WebDAV",
     "First day" : "Primer día",
     "Save" : "Guardar",
     "Time zone:" : "Zona horaria:",
@@ -170,7 +170,6 @@
     "Saved availability" : "Disponibilidad guardada",
     "Failed to save availability" : "Error al guardar la disponibilidad",
     "Availability" : "Disponibilidad",
-    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Si configuras tus horas de trabajo, otros usuarios verán cuando estás fuera de la oficina al reservar una reunión.",
     "Calendar server" : "Servidor de calendario",
     "Send invitations to attendees" : "Enviar invitaciones a los asistentes",
     "Automatically generate a birthday calendar" : "Generar automaticamente un calendario para cumpleaños",
@@ -187,6 +186,8 @@
     "Please contact the organizer directly." : "Por favor, contacta directamente al organizador.",
     "Are you accepting the invitation?" : "¿Aceptas la invitación?",
     "Tentative" : "Tentativo",
-    "Your attendance was updated successfully." : "Tu asistencia se actualizó correctamente."
+    "Your attendance was updated successfully." : "Tu asistencia se actualizó correctamente.",
+    "To-dos" : "Tareas pendientes",
+    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Si configuras tus horas de trabajo, otros usuarios verán cuando estás fuera de la oficina al reservar una reunión."
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

@@ -22,8 +22,6 @@
     "Could not write file to disk" : "無法將檔案寫入硬碟",
     "A PHP extension stopped the file upload" : "一個 PHP 擴充功能終止檔案的上傳",
     "No file uploaded" : "未上傳檔案",
-    "Failed to clean up the old administration theming images folder" : "無法清除舊的管理佈景主題影像資料夾",
-    "Failed to clean up the old administration image folder" : "清除舊的管理影像資料夾失敗",
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "您已經在使用自訂佈景主題。佈景主題應用程式設定可能會被覆寫。",
     "Theming" : "佈景主題",
     "Appearance and accessibility" : "外觀與無障礙存取",

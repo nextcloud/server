@@ -9,7 +9,7 @@ OC.L10N.register(
     "%1$s commented on %2$s" : "%1$s, %2$s için yorum yaptı",
     "{author} commented on {file}" : "{author}, {file} hakkında yorum yaptı",
     "<strong>Comments</strong> for files" : "Dosyalar için <strong>yorum</strong> yapıldığında",
-    "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "\"{file}\" hakkında bir yorumda silinmiş bir kullanıcı tarafından anıldınız",
+    "You were mentioned on \"{file}\", in a comment by an account that has since been deleted" : "\"{file}\" hakkında bir yorumda silinmiş bir hesap tarafından anıldınız",
     "{user} mentioned you in a comment on \"{file}\"" : "{user}, \"{file}\" hakkındaki bir yorumda sizi andı",
     "Files app plugin to add comments to files" : "Dosyalara notlar eklenmesini sağlayan dosyalar uygulaması eki",
     "Edit comment" : "Yorumu düzenle",
@@ -31,6 +31,9 @@ OC.L10N.register(
     "Comment deleted" : "Yorum silindi",
     "An error occurred while trying to delete the comment" : "Yorum silinmeye çalışılırken bir sorun çıktı",
     "An error occurred while trying to create the comment" : "Yorum eklenmeye çalışılırken bir sorun çıktı",
+    "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "\"{file}\" hakkında bir yorumda silinmiş bir kullanıcı tarafından anıldınız",
+    "Write a message …" : "Bir ileti yazın…",
+    "\"@\" for mentions, \":\" for emoji, \"/\" for smart picker" : "Anmalar için \"@\" , emojiler için \":\"  akıllı seçici için \"/\"",
     "_%n unread comment_::_%n unread comments_" : ["%n okunmamış yorum","%n okunmamış yorum"]
 },
 "nplurals=2; plural=(n > 1);");

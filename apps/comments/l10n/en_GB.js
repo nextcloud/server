@@ -9,7 +9,7 @@ OC.L10N.register(
     "%1$s commented on %2$s" : "%1$s commented on %2$s",
     "{author} commented on {file}" : "{author} commented on {file}",
     "<strong>Comments</strong> for files" : "<strong>Comments</strong> for files",
-    "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "You were mentioned on \"{file}\", in a comment by a user that has since been deleted",
+    "You were mentioned on \"{file}\", in a comment by an account that has since been deleted" : "You were mentioned on \"{file}\", in a comment by an account that has since been deleted",
     "{user} mentioned you in a comment on \"{file}\"" : "{user} mentioned you in a comment on \"{file}\"",
     "Files app plugin to add comments to files" : "Files app plugin to add comments to files",
     "Edit comment" : "Edit comment",
@@ -31,6 +31,9 @@ OC.L10N.register(
     "Comment deleted" : "Comment deleted",
     "An error occurred while trying to delete the comment" : "An error occurred while trying to delete the comment",
     "An error occurred while trying to create the comment" : "An error occurred while trying to create the comment",
+    "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "You were mentioned on \"{file}\", in a comment by a user that has since been deleted",
+    "Write a message …" : "Write a message …",
+    "\"@\" for mentions, \":\" for emoji, \"/\" for smart picker" : "\"@\" for mentions, \":\" for emoji, \"/\" for smart picker",
     "_%n unread comment_::_%n unread comments_" : ["%n unread comment","%n unread comments"]
 },
 "nplurals=2; plural=(n != 1);");

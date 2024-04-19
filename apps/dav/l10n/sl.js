@@ -2,7 +2,7 @@ OC.L10N.register(
     "dav",
     {
     "Calendar" : "Koledar",
-    "To-dos" : "Naloge To-Do",
+    "Tasks" : "Naloge",
     "Personal" : "Osebno",
     "{actor} created calendar {calendar}" : "{actor} ustvari koledar {calendar}",
     "You created calendar {calendar}" : "Ustvarite koledar {calendar}",
@@ -142,7 +142,6 @@ OC.L10N.register(
     "Configures a CalDAV account" : "Nastavi račun CalDAV",
     "Configures a CardDAV account" : "Nastavi račun CardDAV",
     "Events" : "Dogodki",
-    "Tasks" : "Naloge",
     "Untitled task" : "Neimenovana naloga",
     "Completed on %s" : "Končana %s",
     "Due on %s by %s" : "Poteče %s ob %s",
@@ -150,11 +149,12 @@ OC.L10N.register(
     "DAV system address book" : "Imenik sistema DAV",
     "No outstanding DAV system address book sync." : "Sinhronizacija imenika DAV ni odprta.",
     "The DAV system address book sync has not run yet as your instance has more than 1000 users or because an error occurred. Please run it manually by calling \"occ dav:sync-system-addressbook\"." : "Sinhronizacija imenika DAV se še ni izvedla. To pa zato, ker ima vaš strežnik več kot 1000 uporabnikov ali ker je prišlo do napake. Prosimo, zaženite jo ročno, tako, da zaženete ukaz \"occ dav:sync-system-addressbook\".",
+    "WebDAV endpoint" : "Končna točka WebDAV",
+    "Your web server is not yet properly set up to allow file synchronization, because the WebDAV interface seems to be broken." : "Spletni stražnik še ni ustrezno nastavljen in ne omogoča usklajevanja, saj je vmesnik WebDAV videti okvarjen.",
     "Migrated calendar (%1$s)" : "Prenesen koledar (%1$s)",
     "Calendars including events, details and attendees" : "Koledarji z dogodki, podrobnostmi in udeleženci",
     "Contacts and groups" : "Stiki in skupine",
     "WebDAV" : "WebDAV",
-    "WebDAV endpoint" : "Končna točka WebDAV",
     "First day" : "Prvi dan",
     "Last day (inclusive)" : "Zadnji dan (vključujoče)",
     "Short absence status" : "Stanje kratke odsotnosti",
@@ -182,7 +182,6 @@ OC.L10N.register(
     "Saved availability" : "Čas razpoložljivosti je shranjen",
     "Failed to save availability" : "Shranjevanje časa razpoložljivosti je spodletelo",
     "Availability" : "Razpoložljivost",
-    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Če nastavite delovni čas, bodo drugi uporabniki pri izbiri časa sestanka videli, kdaj ste zasedeni.",
     "Absence" : "Odsotnost",
     "Configure your next absence period." : "Nastavitev naslednjega časa odsotnosti",
     "Calendar server" : "Strežnik koledarja",
@@ -201,6 +200,8 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Z organizatorjem stopite neposredno v stik.",
     "Are you accepting the invitation?" : "Ali želite sprejeti povabilo?",
     "Tentative" : "Začasno",
-    "Your attendance was updated successfully." : "Vaša prisotnost je uspešno posodobljena."
+    "Your attendance was updated successfully." : "Vaša prisotnost je uspešno posodobljena.",
+    "To-dos" : "Naloge To-Do",
+    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Če nastavite delovni čas, bodo drugi uporabniki pri izbiri časa sestanka videli, kdaj ste zasedeni."
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

@@ -12,10 +12,12 @@ OC.L10N.register(
     "Redirection URI" : "Videresendings-URI",
     "Client Identifier" : "Klient-identifikator",
     "Secret key" : "Hemmelig nøkkel",
+    "Delete client" : "Slett klient",
     "Add client" : "Legg til klient",
     "Add" : "Legg til",
     "Delete" : "Slett",
     "Show client secret" : "Vis klients hemmelighet",
+    "Hide client secret" : "Skjul klienthemmelighet",
     "Secret" : "Hemmelighet"
 },
 "nplurals=2; plural=(n != 1);");

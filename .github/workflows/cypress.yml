@@ -24,14 +24,14 @@ jobs:
 
     steps:
       - name: Checkout server
-        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+        uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633 # v4.1.2
         with:
           # We need to checkout submodules for 3rdparty
           submodules: true
 
       - name: Check composer.json
         id: check_composer
-        uses: andstor/file-existence-action@20b4d2e596410855db8f9ca21e96fbe18e12930b # v2
+        uses: andstor/file-existence-action@076e0072799f4942c8bc574a82233e1e4d13e9d6 # v2
         with:
           files: "composer.json"
 
@@ -101,7 +101,7 @@ jobs:
         run: npm i -g npm@"${{ needs.init.outputs.npmVersion }}"
 
       - name: Run ${{ matrix.containers == 'component' && 'component' || 'E2E' }} cypress tests
-        uses: cypress-io/github-action@ebe8b24c4428922d0f793a5c4c96853a633180e3 # v6.6.0
+        uses: cypress-io/github-action@1b70233146622b69e789ccdd4f9452adc638d25a # v6.6.1
         with:
           component: ${{ matrix.containers == 'component' }}
           group: ${{ matrix.use-cypress-cloud && matrix.containers == 'component' && 'Run component' || matrix.use-cypress-cloud && 'Run E2E' || '' }}
@@ -121,7 +121,7 @@ jobs:
           SPLIT_INDEX: ${{ matrix.containers == 'component' && 0 || matrix.containers }}
 
       - name: Upload snapshots
-        uses: actions/upload-artifact@26f96dfa697d77e81fd5907df203aa23a56210a8 # v4.3.0
+        uses: actions/upload-artifact@5d5d22a31266ced268874388b861e4b58bb5c2f3 # v4.3.1
         if: always()
         with:
           name: snapshots_${{ matrix.containers }}
@@ -132,7 +132,7 @@ jobs:
         run: docker logs nextcloud-cypress-tests-${{ env.APP_NAME }} > nextcloud.log
 
       - name: Upload NC logs
-        uses: actions/upload-artifact@26f96dfa697d77e81fd5907df203aa23a56210a8 # v4.3.0
+        uses: actions/upload-artifact@5d5d22a31266ced268874388b861e4b58bb5c2f3 # v4.3.1
         if: failure() && matrix.containers != 'component'
         with:
           name: nc_logs_${{ matrix.containers }}
@@ -143,7 +143,7 @@ jobs:
         run: docker exec nextcloud-cypress-tests-server tar -cvjf - data > data.tar
 
       - name: Upload data dir archive
-        uses: actions/upload-artifact@26f96dfa697d77e81fd5907df203aa23a56210a8 # v4.3.0
+        uses: actions/upload-artifact@5d5d22a31266ced268874388b861e4b58bb5c2f3 # v4.3.1
         if: failure() && matrix.containers != 'component'
         with:
           name: nc_data_${{ matrix.containers }}

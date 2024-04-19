@@ -89,7 +89,6 @@
     "_%n byte_::_%n bytes_" : ["%n byte","%n bytes","%n bytes"],
     "Favorited" : "Nos Favoritos",
     "Favorite" : "Favorito",
-    "Copy direct link (only works for users who have access to this file/folder)" : "Copiar hiperligação direta (apenas funciona para os utilizadores que tenham acesso a este ficheiro/pasta)",
     "New folder" : "Nova pasta",
     "Create new folder" : "Criar nova pasta",
     "Upload file" : "Enviar ficheiro",
@@ -110,7 +109,6 @@
     "Restored by {user}" : "Restaurado por {user}",
     "Renamed by {user}" : "Renomeado por {user}",
     "Moved by {user}" : "Movido por {user}",
-    "\"remote user\"" : "\"utilizador remoto\"",
     "You created {file}" : "Criou {file}",
     "{user} created {file}" : "{user} criou {file}",
     "{user} created an encrypted file in {file}" : "{user} criou um ficheiro encriptado em {file}",
@@ -142,7 +140,6 @@
     "Change" : "Mudar",
     "Transfer" : "Transfere",
     "Unknown error" : "Erro desconhecido",
-    "Add" : "Adicionar",
     "No files in here" : "Nenhuns ficheiros aqui",
     "Upload some content or sync with your devices!" : "Envie algum conteúdo ou sincronize com os seus dispositivos!",
     "Go back" : "Voltar",
@@ -166,11 +163,14 @@
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Os ficheiros que está a tentar enviar excedem o tamanho máximo para os envios de ficheiro neste servidor.",
     "Text file" : "Ficheiro de Texto",
     "New text file.txt" : "Novo texto ficheiro.txt",
+    "Copy direct link (only works for users who have access to this file/folder)" : "Copiar hiperligação direta (apenas funciona para os utilizadores que tenham acesso a este ficheiro/pasta)",
     "You can only favorite a single file or folder at a time" : "Apenas pode definir como favorito um ficheiro ou uma pasta de cada vez",
+    "\"remote user\"" : "\"utilizador remoto\"",
     "Deleted files" : "Ficheiros eliminados",
     "Shares" : "Partilhas",
     "Shared with others" : "Partilhado com terceiros",
     "Shared with you" : "Partilhado consigo ",
-    "Choose" : "Escolher"
+    "Choose" : "Escolher",
+    "Add" : "Adicionar"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

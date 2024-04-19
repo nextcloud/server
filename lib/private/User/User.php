@@ -40,6 +40,7 @@ use OC\Avatar\AvatarManager;
 use OC\Hooks\Emitter;
 use OC_Helper;
 use OCP\Accounts\IAccountManager;
+use OCP\Comments\ICommentsManager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Group\Events\BeforeUserRemovedEvent;
 use OCP\Group\Events\UserRemovedEvent;
@@ -102,7 +103,7 @@ class User implements IUser {
 	/** @var IURLGenerator */
 	private $urlGenerator;
 
-	public function __construct(string $uid, ?UserInterface $backend, IEventDispatcher $dispatcher, $emitter = null, IConfig $config = null, $urlGenerator = null) {
+	public function __construct(string $uid, ?UserInterface $backend, IEventDispatcher $dispatcher, $emitter = null, ?IConfig $config = null, $urlGenerator = null) {
 		$this->uid = $uid;
 		$this->backend = $backend;
 		$this->emitter = $emitter;
@@ -290,8 +291,8 @@ class User implements IUser {
 			// Delete the user's keys in preferences
 			\OC::$server->getConfig()->deleteAllUserValues($this->uid);
 
-			\OC::$server->getCommentsManager()->deleteReferencesOfActor('users', $this->uid);
-			\OC::$server->getCommentsManager()->deleteReadMarksFromUser($this);
+			\OC::$server->get(ICommentsManager::class)->deleteReferencesOfActor('users', $this->uid);
+			\OC::$server->get(ICommentsManager::class)->deleteReadMarksFromUser($this);
 
 			/** @var AvatarManager $avatarManager */
 			$avatarManager = \OCP\Server::get(AvatarManager::class);

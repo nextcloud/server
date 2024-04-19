@@ -14,7 +14,7 @@ OC.L10N.register(
     "Password to access {file} was sent to {email}" : "{file} にアクセスするパスワードを {email} に送信しました",
     "Password to access {file} was sent to you" : "{file} にアクセスするパスワードを あなたに送信しました",
     "Share by mail" : "メールで共有",
-    "Sharing %1$s failed, because this item is already shared with user %2$s" : "ユーザー%2$sによりすでに共有されているため%1$s を共有できませんでした。",
+    "Sharing %1$s failed, because this item is already shared with the account %2$s" : "このアイテム %1$sはすでにアカウント %2$sと共有されているため、共有に失敗しました",
     "We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "あなたに自動生成したパスワードを送信できませんでした。個人設定画面から正しいメールアドレスを設定して再度実施してください。",
     "Failed to send share by email. Got an invalid email address" : "共有メールの送信に失敗しました。無効なメールアドレスが入力されています",
     "Failed to send share by email" : "メールで共有の送信に失敗しました",
@@ -38,9 +38,11 @@ OC.L10N.register(
     "You can choose a different password at any time in the share dialog." : "共有ダイアログからいつでも違うパスワードに変更できます。",
     "Could not find share" : "共有が見つかりませんでした",
     "Share provider which allows you to share files by mail" : "メールでファイルを共有できる共有プロバイダー",
-    "Allows users to share a personalized link to a file or folder by putting in an email address." : "ユーザーがメールアドレスを使ってファイルやフォルダーへの個人リンクを共有することを許可します。",
+    "Allows people to share a personalized link to a file or folder by putting in an email address." : "ユーザーがメールアドレスを使ってファイルやフォルダーへの個人リンクを共有することを許可します。",
     "Send password by mail" : "メールでパスワード送信",
     "Reply to initiator" : "返信先を共有開始者にする",
-    "Unable to update share by mail config" : "メール共有の設定の更新に失敗しました"
+    "Unable to update share by mail config" : "メール共有の設定の更新に失敗しました",
+    "Sharing %1$s failed, because this item is already shared with user %2$s" : "ユーザー%2$sによりすでに共有されているため%1$s を共有できませんでした。",
+    "Allows users to share a personalized link to a file or folder by putting in an email address." : "ユーザーがメールアドレスを使ってファイルやフォルダーへの個人リンクを共有することを許可します。"
 },
 "nplurals=1; plural=0;");

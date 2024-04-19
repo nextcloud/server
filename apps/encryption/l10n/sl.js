@@ -37,7 +37,6 @@ OC.L10N.register(
     "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "Izbrana možnost omogoči šifriranje vseh datotek, shranjenih v glavni shrambi, sicer so šifrirane le datoteke v zunanjih shrambah.",
     "Enable recovery key" : "Omogoči obnovitveni ključ",
     "Disable recovery key" : "Onemogoči ključ za obnovitev gesla",
-    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "Obnovitveni ključ je dodatni šifrirni ključ, ki se uporablja pri šifriranju datotek. Omogoča obnovitev uporabnikovih datotek, če uporabnih pozabi svoje geslo za dostop.",
     "Recovery key password" : "Ključ za obnovitev gesla",
     "Repeat recovery key password" : "Ponovi ključ za obnovitev gesla",
     "Change recovery key password:" : "Spremeni ključ za obnovitev gesla:",
@@ -56,6 +55,6 @@ OC.L10N.register(
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Nastavitev te možnosti omogoča ponovno pridobitev dostopa do šifriranih datotek, v primeru, da geslo pozabite.",
     "Enabled" : "Omogočeno",
     "Disabled" : "Onemogočeno",
-    "In order to use this encryption module you need to enable server-side\n\t\tencryption in the admin settings. Once enabled this module will encrypt\n\t\tall your files transparently. The encryption is based on AES 256 keys.\n\t\tThe module won't touch existing files, only new files will be encrypted\n\t\tafter server-side encryption was enabled. It is also not possible to\n\t\tdisable the encryption again and switch back to a unencrypted system.\n\t\tPlease read the documentation to know all implications before you decide\n\t\tto enable server-side encryption." : "Za uporabo tega šifrirnega modula je treba na strežniku omogočiti\n\t\tšifriranje med »skrbniškimi nastavitvami«. Ko je modul omogočen, bo samodejno izvedeno šifriranje\n\t\tvseh datotek. Šifriranje je zasnovano po protokolu AES 256.\n\t\tŠifriranje je onemogočeno za obstoječe datoteke, postopek se izvede le za nove,\n\t\tustvarjene po omogočanju šifriranja. Prav tako ni mogoče\n\t\tonemogočiti šifriranja in povrniti sistem v nešifriran.\n\t\tPred dokončno odločitvijo je priporočljivo natančno pregrati dokumentacijo,\n\t\t in temeljito razmisliti o posledicah."
+    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "Obnovitveni ključ je dodatni šifrirni ključ, ki se uporablja pri šifriranju datotek. Omogoča obnovitev uporabnikovih datotek, če uporabnih pozabi svoje geslo za dostop."
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

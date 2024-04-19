@@ -14,7 +14,6 @@ OC.L10N.register(
     "Password to access {file} was sent to {email}" : "Password to access {file} was sent to {email}",
     "Password to access {file} was sent to you" : "Password to access {file} was sent to you",
     "Share by mail" : "Share by mail",
-    "Sharing %1$s failed, because this item is already shared with user %2$s" : "Sharing %1$s failed, because this item is already shared with user %2$s",
     "We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again.",
     "Failed to send share by email. Got an invalid email address" : "Failed to send share by email. Got an invalid email address",
     "Failed to send share by email" : "Failed to send share by email",
@@ -38,9 +37,10 @@ OC.L10N.register(
     "You can choose a different password at any time in the share dialog." : "You can choose a different password at any time in the share dialog.",
     "Could not find share" : "Could not find share",
     "Share provider which allows you to share files by mail" : "Share provider which allows you to share files by mail",
-    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Allows users to share a personalized link to a file or folder by putting in an email address.",
     "Send password by mail" : "Send password by mail",
     "Reply to initiator" : "Reply to initiator",
-    "Unable to update share by mail config" : "Unable to update share by mail config"
+    "Unable to update share by mail config" : "Unable to update share by mail config",
+    "Sharing %1$s failed, because this item is already shared with user %2$s" : "Sharing %1$s failed, because this item is already shared with user %2$s",
+    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Allows users to share a personalized link to a file or folder by putting in an email address."
 },
 "nplurals=2; plural=(n!=1);");

@@ -9,7 +9,6 @@ OC.L10N.register(
     "%1$s commented on %2$s" : "%1$s okomentoval(a) %2$s",
     "{author} commented on {file}" : "{author} okomentoval(a) {file}",
     "<strong>Comments</strong> for files" : "<strong>Komentáře</strong> k souborům",
-    "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "Byli jste zmíněni u souboru „{file}“, v komentáři od uživatele, který byl později smazán",
     "{user} mentioned you in a comment on \"{file}\"" : "{user} vás zmínil(a) v komentáři u „{file}“",
     "Files app plugin to add comments to files" : "Zásuvný modul do aplikace Soubory pro přidávání komentářů k souborům",
     "Edit comment" : "Upravit komentář",
@@ -31,6 +30,8 @@ OC.L10N.register(
     "Comment deleted" : "Komentář smazán",
     "An error occurred while trying to delete the comment" : "Došlo k chybě při pokusu o smazání komentáře",
     "An error occurred while trying to create the comment" : "Došlo k chybě při pokusu o vytvoření komentáře",
+    "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "Byli jste zmíněni u souboru „{file}“, v komentáři od uživatele, který byl později smazán",
+    "\"@\" for mentions, \":\" for emoji, \"/\" for smart picker" : "„@“ pro zmínění, „:“ pro emotikony, „/“ pro inteligentní výběr",
     "_%n unread comment_::_%n unread comments_" : ["%n nepřečtený komentář","%n nepřečtené komentáře","%n nepřečtených komentářů","%n nepřečtené komentáře"]
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

@@ -13,7 +13,7 @@ Feature: caldav
     When "user0" requests calendar "admin/MyCalendar" on the endpoint "/remote.php/dav/calendars/"
     Then The CalDAV HTTP status code should be "404"
     And The exception is "Sabre\DAV\Exception\NotFound"
-    And The error message is "Node with name 'MyCalendar' could not be found"
+    And The error message is "Calendar with name 'MyCalendar' could not be found"
 
   Scenario: Accessing a not shared calendar of another user via the legacy endpoint
     Given user "user0" exists
@@ -22,7 +22,7 @@ Feature: caldav
     When "user0" requests calendar "admin/MyCalendar" on the endpoint "/remote.php/caldav/calendars/"
     Then The CalDAV HTTP status code should be "404"
     And The exception is "Sabre\DAV\Exception\NotFound"
-    And The error message is "Node with name 'MyCalendar' could not be found"
+    And The error message is "Calendar with name 'MyCalendar' could not be found"
 
   Scenario: Accessing a not existing calendar of another user
     Given user "user0" exists
@@ -75,3 +75,13 @@ Feature: caldav
     Then The CalDAV HTTP status code should be "404"
     And The exception is "Sabre\DAV\Exception\NotFound"
     And The error message is "Node with name 'admin' could not be found"
+
+  Scenario: Update a principal's schedule-default-calendar-URL
+    Given user "user0" exists
+    And "user0" creates a calendar named "MyCalendar2"
+    When "user0" updates property "{urn:ietf:params:xml:ns:caldav}schedule-default-calendar-URL" to href "/remote.php/dav/calendars/user0/MyCalendar2/" of principal "users/user0" on the endpoint "/remote.php/dav/principals/"
+    Then The CalDAV response should be multi status
+    And The CalDAV response should contain a property "{urn:ietf:params:xml:ns:caldav}schedule-default-calendar-URL"
+    When "user0" requests principal "users/user0" on the endpoint "/remote.php/dav/principals/"
+    Then The CalDAV response should be multi status
+    And The CalDAV response should contain a property "{urn:ietf:params:xml:ns:caldav}schedule-default-calendar-URL" with a href value "/remote.php/dav/calendars/user0/MyCalendar2/"

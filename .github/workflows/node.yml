@@ -23,7 +23,7 @@ jobs:
       src: ${{ steps.changes.outputs.src}}
 
     steps:
-      - uses: dorny/paths-filter@0bc4621a3135347011ad047f9ecf449bf72ce2bd # v3.0.0
+      - uses: dorny/paths-filter@de90cc6fb38fc0963ad72b210f1f284cd68cea36 # v3.0.2
         id: changes
         continue-on-error: true
         with:
@@ -48,7 +48,7 @@ jobs:
     name: NPM build
     steps:
       - name: Checkout
-        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v3.6.0
+        uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633 # v3.6.0
 
       - name: Read package.json node and npm engines version
         uses: skjnldsv/read-package-engines-version-actions@8205673bab74a63eb9b8093402fd9e0e018663a1 # v2.2

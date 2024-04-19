@@ -156,6 +156,23 @@ class FilesMetadata implements IFilesMetadata {
 		$this->metadata[$key]->setEditPermission($permission);
 	}
 
+
+	public function getEtag(string $key): string {
+		if (!array_key_exists($key, $this->metadata)) {
+			return '';
+		}
+
+		return $this->metadata[$key]->getEtag();
+	}
+
+	public function setEtag(string $key, string $etag): void {
+		if (!array_key_exists($key, $this->metadata)) {
+			throw new FilesMetadataNotFoundException();
+		}
+
+		$this->metadata[$key]->setEtag($etag);
+	}
+
 	/**
 	 * @param string $key metadata key
 	 *
@@ -480,7 +497,7 @@ class FilesMetadata implements IFilesMetadata {
 			// if value does not exist, or type has changed, we keep on the writing
 		}
 
-		$valueWrapper = new MetadataValueWrapper(IMetadataValueWrapper::TYPE_STRING_LIST);
+		$valueWrapper = new MetadataValueWrapper(IMetadataValueWrapper::TYPE_INT_LIST);
 		$this->metadata[$key] = $valueWrapper->setValueIntList($value)->setIndexed($index);
 		$this->updated = true;
 

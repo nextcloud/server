@@ -27,6 +27,7 @@ namespace OC\Core\Controller;
 
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\FrontpageRoute;
 use OCP\AppFramework\Http\DataDownloadResponse;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\Collaboration\Reference\IReferenceManager;
@@ -57,6 +58,7 @@ class ReferenceController extends Controller {
 	 * 200: Preview returned
 	 * 404: Reference not found
 	 */
+	#[FrontpageRoute(verb: 'GET', url: '/core/references/preview/{referenceId}')]
 	public function preview(string $referenceId): DataDownloadResponse|DataResponse {
 		$reference = $this->referenceManager->getReferenceByCacheKey($referenceId);
 

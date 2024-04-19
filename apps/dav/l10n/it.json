@@ -1,6 +1,6 @@
 { "translations": {
     "Calendar" : "Calendario",
-    "To-dos" : "Da fare",
+    "Tasks" : "Attività",
     "Personal" : "Personale",
     "{actor} created calendar {calendar}" : "{actor} ha creato il calendario {calendar}",
     "You created calendar {calendar}" : "Hai creato il calendario {calendar}",
@@ -141,7 +141,6 @@
     "Configures a CalDAV account" : "Configura un account CalDAV",
     "Configures a CardDAV account" : "Configura un account CardDAV",
     "Events" : "Eventi",
-    "Tasks" : "Attività",
     "Untitled task" : "Attività senza titolo",
     "Completed on %s" : "Completata il %s",
     "Due on %s by %s" : "Scade il %s per %s",
@@ -149,11 +148,12 @@
     "DAV system address book" : "Rubrica di sistema DAV",
     "No outstanding DAV system address book sync." : "Nessuna sincronizzazione della rubrica del sistema DAV in sospeso.",
     "The DAV system address book sync has not run yet as your instance has more than 1000 users or because an error occurred. Please run it manually by calling \"occ dav:sync-system-addressbook\"." : "La sincronizzazione della rubrica del sistema DAV non è ancora stata eseguita poiché la tua istanza ha più di 1000 utenti o perché si è verificato un errore. Eseguila a mano chiamando \"occ dav:sync-system-addressbook\".",
+    "WebDAV endpoint" : "Terminatore WebDAV",
+    "Your web server is not yet properly set up to allow file synchronization, because the WebDAV interface seems to be broken." : "Il tuo server web non è configurato correttamente per consentire la sincronizzazione dei file, poiché l'interfaccia WebDAV sembra essere danneggiata.",
     "Migrated calendar (%1$s)" : "Calendario migrato (%1$s)",
     "Calendars including events, details and attendees" : "Calendari inclusi eventi, dettagli e partecipanti",
     "Contacts and groups" : "Contatti e gruppi",
     "WebDAV" : "WebDAV",
-    "WebDAV endpoint" : "Terminatore WebDAV",
     "First day" : "Primo giorno",
     "Last day (inclusive)" : "Ultimo giorno (inclusivo)",
     "Short absence status" : "Stato di assenza breve",
@@ -183,7 +183,6 @@
     "Saved availability" : "Disponibilità salvata",
     "Failed to save availability" : "Salvataggio disponibilità non riuscito",
     "Availability" : "Disponibilità",
-    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Se imposti il tuo orario di lavoro, gli altri utenti potranno vedere quando non sei in ufficio per organizzare una riunione.",
     "Absence" : "Assenza",
     "Configure your next absence period." : "Configura il tuo prossimo periodo di assenza.",
     "Calendar server" : "Server di calendari",
@@ -202,6 +201,8 @@
     "Please contact the organizer directly." : "Contatta direttamente l'amministratore.",
     "Are you accepting the invitation?" : "Accetti l'invito?",
     "Tentative" : "Provvisorio",
-    "Your attendance was updated successfully." : "La tua partecipazione è stata aggiornata correttamente."
+    "Your attendance was updated successfully." : "La tua partecipazione è stata aggiornata correttamente.",
+    "To-dos" : "Da fare",
+    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Se imposti il tuo orario di lavoro, gli altri utenti potranno vedere quando non sei in ufficio per organizzare una riunione."
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

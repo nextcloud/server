@@ -50,6 +50,7 @@ use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IStorage;
 use OCP\Files\StorageNotAvailableException;
 use OCP\IDBConnection;
+use OCP\Lock\ILockingProvider;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -100,7 +101,7 @@ class Scanner extends PublicEmitter {
 		$this->dispatcher = $dispatcher;
 		$this->logger = $logger;
 		// when DB locking is used, no DB transactions will be used
-		$this->useTransaction = !(\OC::$server->getLockingProvider() instanceof DBLockingProvider);
+		$this->useTransaction = !(\OC::$server->get(ILockingProvider::class) instanceof DBLockingProvider);
 	}
 
 	/**
@@ -197,7 +198,7 @@ class Scanner extends PublicEmitter {
 	 * @throws ForbiddenException
 	 * @throws NotFoundException
 	 */
-	public function scan($dir = '', $recursive = \OC\Files\Cache\Scanner::SCAN_RECURSIVE, callable $mountFilter = null) {
+	public function scan($dir = '', $recursive = \OC\Files\Cache\Scanner::SCAN_RECURSIVE, ?callable $mountFilter = null) {
 		if (!Filesystem::isValidPath($dir)) {
 			throw new \InvalidArgumentException('Invalid path to scan');
 		}

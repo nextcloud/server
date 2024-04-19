@@ -59,7 +59,7 @@ class Application {
 		IRequest $request,
 		LoggerInterface $logger,
 		MemoryInfo $memoryInfo) {
-		$defaults = \OC::$server->getThemingDefaults();
+		$defaults = \OC::$server->get('ThemingDefaults');
 		$this->config = $config;
 		$this->application = new SymfonyApplication($defaults->getName(), \OC_Util::getVersionString());
 		$this->dispatcher = $dispatcher;
@@ -203,7 +203,7 @@ class Application {
 	 * @return int
 	 * @throws \Exception
 	 */
-	public function run(InputInterface $input = null, OutputInterface $output = null) {
+	public function run(?InputInterface $input = null, ?OutputInterface $output = null) {
 		$event = new ConsoleEvent(
 			ConsoleEvent::EVENT_RUN,
 			$this->request->server['argv']

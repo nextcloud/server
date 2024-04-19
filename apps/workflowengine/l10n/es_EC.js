@@ -67,6 +67,8 @@ OC.L10N.register(
     "Desktop client" : "Cliente de escritorio",
     "Thunderbird & Outlook addons" : "Complementos de Thunderbird y Outlook",
     "Custom user agent" : "Agente de usuario personalizado",
+    "Select groups" : "Seleccionar grupos",
+    "Groups" : "Grupos",
     "Select a trigger" : "Seleccionar un desencadenante",
     "At least one event must be selected" : "Debe seleccionarse al menos un evento",
     "Add new flow" : "Añadir nuevo flujo",
@@ -110,8 +112,8 @@ OC.L10N.register(
     "between" : "entre",
     "not between" : "no entre",
     "Request user agent" : "Solicitar agente de usuario",
-    "User group membership" : "Membresia al grupo de usuarios",
     "is member of" : "es miembro de",
-    "is not member of" : "no es miembro de"
+    "is not member of" : "no es miembro de",
+    "User group membership" : "Membresia al grupo de usuarios"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

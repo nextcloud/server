@@ -37,7 +37,6 @@ OC.L10N.register(
     "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "Het inschakelen van deze optie zorgt voor versleutelen van alle bestanden op de hoofdopslag, anders worden alleen bestanden op externe opslag versleuteld",
     "Enable recovery key" : "Activeer herstelsleutel",
     "Disable recovery key" : "Deactiveer herstelsleutel",
-    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "De herstelsleutel is een extra cryptografische sleutel die wordt gebruikt om bestanden te versleutelen. Die maakt het mogelijk bestanden te herstellen als de gebruiker zijn of haar wachtwoord vergeet.",
     "Recovery key password" : "Wachtwoord herstelsleulel",
     "Repeat recovery key password" : "Herhaal wachtwoord herstelsleutel",
     "Change recovery key password:" : "Wijzig wachtwoord herstelsleutel:",
@@ -56,6 +55,6 @@ OC.L10N.register(
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Het activeren van deze optie maakt het mogelijk om je versleutelde bestanden te benaderen als je wachtwoord kwijt is",
     "Enabled" : "Ingeschakeld",
     "Disabled" : "Uitgeschakeld",
-    "In order to use this encryption module you need to enable server-side\n\t\tencryption in the admin settings. Once enabled this module will encrypt\n\t\tall your files transparently. The encryption is based on AES 256 keys.\n\t\tThe module won't touch existing files, only new files will be encrypted\n\t\tafter server-side encryption was enabled. It is also not possible to\n\t\tdisable the encryption again and switch back to a unencrypted system.\n\t\tPlease read the documentation to know all implications before you decide\n\t\tto enable server-side encryption." : "Om deze cryptomodule te gebruiker moeten de volgende server-side aanpassingen worden gedaan\n\t\tversleuteling in de beheerinstellingen. Na inschakeling versleutelt deze module \n\t\tal je bestanden transparent. De versleuteling is gebaseerd op AES 256 sleutels.\n\t\tDe module raakt geen bestaande bestanden, alleen nieuwe bestanden worden versleuteld.\n\t\tNadat server-side crypto is ingeschakeld. Het is ook niet meer mogelijk\n\t\tom de versleuteling uit te zetten en terug te gaan naar een onversleuteld systeem.\n\t\tLees de documentatie om de gevolgen te kennen voordat je besluit\n\t\tserver-side versleuteling in te schakelen."
+    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "De herstelsleutel is een extra cryptografische sleutel die wordt gebruikt om bestanden te versleutelen. Die maakt het mogelijk bestanden te herstellen als de gebruiker zijn of haar wachtwoord vergeet."
 },
 "nplurals=2; plural=(n != 1);");

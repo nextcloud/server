@@ -35,7 +35,6 @@
     "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "Η ενεργοποίηση αυτή της επιλογής κρυπτογραφεί όλα τα αρχεία που βρίσκονται στον κύριο αποθηκευτικό χώρο, αλλιώς μόνο τα αρχεία σε εξωτερικούς αποθηκευτικούς χώρους θα κρυπτογραφηθούν.",
     "Enable recovery key" : "Ενεργοποίηση κλειδιού ανάκτησης",
     "Disable recovery key" : "Απενεργοποίηση κλειδιού ανάκτησης",
-    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "Το κλειδί ανάκτησης είναι ένα επιπλέον κλειδί κρυπτογράφησης που χρησιμοποιείται για να κρυπτογραφήσει αρχεία. Επιτρέπει την ανάκτηση των αρχείων ενός χρήστη αν αυτός/αυτή ξεχάσει τον κωδικό πρόσβασης.",
     "Recovery key password" : "Επαναφορά κωδικού κλειδιού",
     "Repeat recovery key password" : "Επαναλάβετε τον κωδικό του κλειδιού ανάκτησης",
     "Change recovery key password:" : "Αλλαγή κλειδιού επαναφοράς κωδικού:",
@@ -54,6 +53,6 @@
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Η ενεργοποίηση αυτής της επιλογής θα σας επιτρέψει να επανακτήσετε πρόσβαση στα κρυπτογραφημένα σας αρχεία σε περίπτωση απώλειας του κωδικού σας",
     "Enabled" : "Ενεργοποιημένο",
     "Disabled" : "Απενεργοποιημένο",
-    "In order to use this encryption module you need to enable server-side\n\t\tencryption in the admin settings. Once enabled this module will encrypt\n\t\tall your files transparently. The encryption is based on AES 256 keys.\n\t\tThe module won't touch existing files, only new files will be encrypted\n\t\tafter server-side encryption was enabled. It is also not possible to\n\t\tdisable the encryption again and switch back to a unencrypted system.\n\t\tPlease read the documentation to know all implications before you decide\n\t\tto enable server-side encryption." : "Για την χρήση του πρόσθετου κρυπτογράφησης πρέπει να το ενεργοποιήσετε από τον διακομιστή \n\t\tτην κρυπτογράφηση στις ρυθμίσεις διαχείρισης. Μόλις ενεργοποιηθεί το ρπόσθετο θα κρυπτογραφήσει\n\t\tόλα τα αρχεία σας χωρίς εξέρεση. Η κρυπρογράφηση βασίζεται σε κλειδιά AES 256.\n\t\tTο πρόσθετο θα κρυπτογραφεί μόνο νέα αρχεία\n\t\tμετά την ενεγοποίηση απο τον διακομιστή. Επίσης δεν είναι δυνατό να\n\t\tαπενεργοποιηθεί η κρυπτογράφηση και να λειτουργήσει ξανά με το προηγούμενο σύστημα.\n\t\tΠαρακαλώ διαβάστε την τεκμηρίωση πρίν αποφασίσετε\n\t\tτην ενεργοποίηση κρυπτογράφησης του διακομιστή σας."
+    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "Το κλειδί ανάκτησης είναι ένα επιπλέον κλειδί κρυπτογράφησης που χρησιμοποιείται για να κρυπτογραφήσει αρχεία. Επιτρέπει την ανάκτηση των αρχείων ενός χρήστη αν αυτός/αυτή ξεχάσει τον κωδικό πρόσβασης."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -2,6 +2,8 @@
 	- @copyright 2021, Christopher Ng <chrng8@gmail.com>
 	-
 	- @author Christopher Ng <chrng8@gmail.com>
+	- @author Ferdinand Thiessen <opensource@fthiessen.de>
+	- @author Grigorii K. Shartsev <me@shgk.me>
 	-
 	- @license GNU AGPL version 3 or any later version
 	-
@@ -23,20 +25,24 @@
 <template>
 	<NcActions ref="federationActions"
 		class="federation-actions"
-		:class="{ 'federation-actions--additional': additional }"
 		:aria-label="ariaLabel"
-		:default-icon="scopeIcon"
 		:disabled="disabled">
+		<template #icon>
+			<NcIconSvgWrapper :path="scopeIcon" />
+		</template>
+
 		<NcActionButton v-for="federationScope in federationScopes"
 			:key="federationScope.name"
 			:close-after-click="true"
 			:disabled="!supportedScopes.includes(federationScope.name)"
-			:icon="federationScope.iconClass"
 			:name="federationScope.displayName"
 			type="radio"
 			:value="federationScope.name"
 			:model-value="scope"
 			@update:modelValue="changeScope">
+			<template #icon>
+				<NcIconSvgWrapper :path="federationScope.icon" />
+			</template>
 			{{ supportedScopes.includes(federationScope.name) ? federationScope.tooltip : federationScope.tooltipDisabled }}
 		</NcActionButton>
 	</NcActions>
@@ -45,6 +51,7 @@
 <script>
 import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
 import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
+import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
 import { loadState } from '@nextcloud/initial-state'
 
 import {
@@ -53,7 +60,8 @@ import {
 	PROFILE_READABLE_ENUM,
 	PROPERTY_READABLE_KEYS_ENUM,
 	PROPERTY_READABLE_SUPPORTED_SCOPES_ENUM,
-	SCOPE_ENUM, SCOPE_PROPERTY_ENUM,
+	SCOPE_PROPERTY_ENUM,
+	SCOPE_ENUM,
 	UNPUBLISHED_READABLE_PROPERTIES,
 } from '../../../constants/AccountPropertyConstants.js'
 import { savePrimaryAccountPropertyScope } from '../../../service/PersonalInfo/PersonalInfoService.js'
@@ -70,6 +78,7 @@ export default {
 	components: {
 		NcActions,
 		NcActionButton,
+		NcIconSvgWrapper,
 	},
 
 	props: {
@@ -100,6 +109,8 @@ export default {
 		},
 	},
 
+	emits: ['update:scope'],
+
 	data() {
 		return {
 			readableLowerCase: this.readable.toLocaleLowerCase(),
@@ -117,7 +128,7 @@ export default {
 		},
 
 		scopeIcon() {
-			return SCOPE_PROPERTY_ENUM[this.scope].iconClass
+			return SCOPE_PROPERTY_ENUM[this.scope].icon
 		},
 
 		federationScopes() {

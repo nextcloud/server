@@ -22,8 +22,6 @@
     "Could not write file to disk" : "Die Datei konnte nicht auf die Festplatte geschrieben werden",
     "A PHP extension stopped the file upload" : "Eine PHP-Erweiterung hat das Hochladen der Datei gestoppt",
     "No file uploaded" : "Keine Datei hochgeladen",
-    "Failed to clean up the old administration theming images folder" : "Fehler beim Bereinigen des alten Admin-Design-Bilderordners",
-    "Failed to clean up the old administration image folder" : "Fehler beim Bereinigen des alten Admin-Design-Bilderordners",
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "Sie benutzen bereits ein benutzerdefiniertes Design. Die App \"Theming\" würde dies überschreiben.",
     "Theming" : "Design",
     "Appearance and accessibility" : "Aussehen und Barrierefreiheit",

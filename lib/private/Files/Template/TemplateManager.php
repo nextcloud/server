@@ -262,7 +262,7 @@ class TemplateManager implements ITemplateManager {
 		return $this->config->getUserValue($this->userId, 'core', 'templateDirectory', '');
 	}
 
-	public function initializeTemplateDirectory(string $path = null, string $userId = null, $copyTemplates = true): string {
+	public function initializeTemplateDirectory(?string $path = null, ?string $userId = null, $copyTemplates = true): string {
 		if ($userId !== null) {
 			$this->userId = $userId;
 		}

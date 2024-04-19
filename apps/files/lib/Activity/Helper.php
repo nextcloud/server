@@ -61,9 +61,8 @@ class Helper {
 		$userFolder = $this->rootFolder->getUserFolder($user);
 		$favoriteNodes = [];
 		foreach ($favorites as $favorite) {
-			$nodes = $userFolder->getById($favorite);
-			if (!empty($nodes)) {
-				$node = array_shift($nodes);
+			$node = $userFolder->getFirstNodeById($favorite);
+			if ($node) {
 				if (!$foldersOnly || $node instanceof Folder) {
 					$favoriteNodes[] = $node;
 				}

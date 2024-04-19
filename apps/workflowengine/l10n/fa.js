@@ -67,6 +67,8 @@ OC.L10N.register(
     "Desktop client" : "دستگاه دسکتاپ",
     "Thunderbird & Outlook addons" : "Thunderbird & Outlook addons",
     "Custom user agent" : "Custom user agent",
+    "Select groups" : "انتخاب گروه‌ها",
+    "Groups" : "گروه ها",
     "Select a trigger" : "Select a trigger",
     "At least one event must be selected" : "At least one event must be selected",
     "Add new flow" : "Add new flow",
@@ -110,8 +112,8 @@ OC.L10N.register(
     "between" : "بین ",
     "not between" : "نیست بین",
     "Request user agent" : "درخواست سفیر کاربر",
-    "User group membership" : "عضویت کاربر در گروه",
     "is member of" : "عضو است در ",
-    "is not member of" : "عضو نیست در "
+    "is not member of" : "عضو نیست در ",
+    "User group membership" : "عضویت کاربر در گروه"
 },
 "nplurals=2; plural=(n > 1);");

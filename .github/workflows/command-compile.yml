@@ -32,7 +32,7 @@ jobs:
           reactions: "+1"
 
       - name: Parse command
-        uses: skjnldsv/parse-command-comment@d8c0034c481b791dd6348fcacd9c510dc3a4cb4f # v2
+        uses: skjnldsv/parse-command-comment@5c955203c52424151e6d0e58fb9de8a9f6a605a1 # v2
         id: command
 
       # Init path depending on which command is run
@@ -61,7 +61,7 @@ jobs:
           key: git-repo
 
       - name: Checkout ${{ needs.init.outputs.head_ref }}
-        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+        uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633 # v4.1.2
         with:
           token: ${{ secrets.COMMAND_BOT_PAT }}
           fetch-depth: 0

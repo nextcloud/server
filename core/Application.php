@@ -170,20 +170,6 @@ class Application extends App {
 				[],
 				true
 			);
-			$event->addMissingIndex(
-				'cards',
-				'cards_abid',
-				['addressbookid'],
-				[],
-				true
-			);
-			$event->addMissingIndex(
-				'cards',
-				'cards_abiduri',
-				['addressbookid', 'uri'],
-				[],
-				true
-			);
 
 			$event->addMissingIndex(
 				'cards_properties',

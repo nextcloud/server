@@ -22,26 +22,18 @@
 
 <template>
 	<div class="locale">
-		<select :id="inputId" @change="onLocaleChange">
-			<option v-for="currentLocale in localesForLanguage"
-				:key="currentLocale.code"
-				:selected="locale.code === currentLocale.code"
-				:value="currentLocale.code">
-				{{ currentLocale.name }}
-			</option>
-			<option disabled>
-				──────────
-			</option>
-			<option v-for="currentLocale in otherLocales"
-				:key="currentLocale.code"
-				:selected="locale.code === currentLocale.code"
-				:value="currentLocale.code">
-				{{ currentLocale.name }}
-			</option>
-		</select>
+		<NcSelect :aria-label-listbox="t('settings', 'Locales')"
+			class="locale__select"
+			:clearable="false"
+			:input-id="inputId"
+			label="name"
+			label-outside
+			:options="allLocales"
+			:value="locale"
+			@option:selected="updateLocale" />
 
 		<div class="example">
-			<Web :size="20" />
+			<MapClock :size="20" />
 			<div class="example__text">
 				<p>
 					<span>{{ example.date }}</span>
@@ -57,18 +49,19 @@
 
 <script>
 import moment from '@nextcloud/moment'
-import Web from 'vue-material-design-icons/Web.vue'
+import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
+import MapClock from 'vue-material-design-icons/MapClock.vue'
 
 import { ACCOUNT_SETTING_PROPERTY_ENUM } from '../../../constants/AccountPropertyConstants.js'
 import { savePrimaryAccountProperty } from '../../../service/PersonalInfo/PersonalInfoService.js'
-import { validateLocale } from '../../../utils/validate.js'
 import { handleError } from '../../../utils/handlers.js'
 
 export default {
 	name: 'Locale',
 
 	components: {
-		Web,
+		MapClock,
+		NcSelect,
 	},
 
 	props: {
@@ -93,6 +86,7 @@ export default {
 	data() {
 		return {
 			initialLocale: this.locale,
+			intervalId: 0,
 			example: {
 				date: moment().format('L'),
 				time: moment().format('LTS'),
@@ -102,28 +96,25 @@ export default {
 	},
 
 	computed: {
+		/**
+		 * All available locale, sorted like: current, common, other
+		 */
 		allLocales() {
-			return Object.freeze(
-				[...this.localesForLanguage, ...this.otherLocales]
-					.reduce((acc, { code, name }) => ({ ...acc, [code]: name }), {}),
-			)
+			const common = this.localesForLanguage.filter(l => l.code !== this.locale.code)
+			const other = this.otherLocales.filter(l => l.code !== this.locale.code)
+			return [this.locale, ...common, ...other]
 		},
 	},
 
-	created() {
-		setInterval(this.refreshExample, 1000)
+	mounted() {
+		this.intervalId = window.setInterval(this.refreshExample, 1000)
+	},
+
+	beforeDestroy() {
+		window.clearInterval(this.intervalId)
 	},
 
 	methods: {
-		async onLocaleChange(e) {
-			const locale = this.constructLocale(e.target.value)
-			this.$emit('update:locale', locale)
-
-			if (validateLocale(locale)) {
-				await this.updateLocale(locale)
-			}
-		},
-
 		async updateLocale(locale) {
 			try {
 				const responseData = await savePrimaryAccountProperty(ACCOUNT_SETTING_PROPERTY_ENUM.LOCALE, locale.code)
@@ -131,19 +122,12 @@ export default {
 					locale,
 					status: responseData.ocs?.meta?.status,
 				})
-				this.reloadPage()
+				window.location.reload()
 			} catch (e) {
 				this.handleResponse({
 					errorMessage: t('settings', 'Unable to update locale'),
 					error: e,
 				})
-			}
-		},
-
-		constructLocale(localeCode) {
-			return {
-				code: localeCode,
-				name: this.allLocales[localeCode],
 			}
 		},
 
@@ -163,10 +147,6 @@ export default {
 				firstDayOfWeek: window.dayNames[window.firstDay],
 			}
 		},
-
-		reloadPage() {
-			location.reload()
-		},
 	},
 }
 </script>
@@ -175,8 +155,8 @@ export default {
 .locale {
 	display: grid;
 
-	select {
-		width: 100%;
+	#{&}__select {
+		margin-top: 6px; // align with other inputs
 	}
 }
 
@@ -184,9 +164,9 @@ export default {
 	margin: 10px 0;
 	display: flex;
 	gap: 0 10px;
-	color: var(--color-text-lighter);
+	color: var(--color-text-maxcontrast);
 
-	&::v-deep .material-design-icon {
+	&:deep(.material-design-icon) {
 		align-self: flex-start;
 		margin-top: 2px;
 	}

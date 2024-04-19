@@ -14,7 +14,6 @@ OC.L10N.register(
     "Password to access {file} was sent to {email}" : "Wachtwoord voor toegang tot {file} is gestuurd naar {email}",
     "Password to access {file} was sent to you" : "Wachtwoord voor toegang tot {file} is naar je verstuurd",
     "Share by mail" : "Delen via email",
-    "Sharing %1$s failed, because this item is already shared with user %2$s" : "Delen van %1$s is mislukt omdat het object al wordt gedeeld met gebruiker %2$s",
     "We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "We kunnen je geen automatisch gegenereerd wachtwoord toesturen. Vermeld een geldig e-mailadres in je persoonlijke instellingen en probeer het nogmaals.",
     "Failed to send share by email. Got an invalid email address" : "Het delen van het bestand per e-mail is mislukt. Ongeldig e-mailadres",
     "Failed to send share by email" : "Versturen share per e-mail is mislukt",
@@ -37,8 +36,9 @@ OC.L10N.register(
     "You can choose a different password at any time in the share dialog." : "Je kunt in de Delen-dialoog altijd een ander wachtwoord kiezen.",
     "Could not find share" : "Kon gedeeld niet vinden",
     "Share provider which allows you to share files by mail" : "Share provider waarmee je bestanden via de mail kunt delen",
-    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Staat gebruikers toe om een gepersonaliseerde link of map te delen door een e-mailadres op te geven.",
     "Send password by mail" : "Wachtwoord per email verzenden",
-    "Reply to initiator" : "Antwoord aan oproeper"
+    "Reply to initiator" : "Antwoord aan oproeper",
+    "Sharing %1$s failed, because this item is already shared with user %2$s" : "Delen van %1$s is mislukt omdat het object al wordt gedeeld met gebruiker %2$s",
+    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Staat gebruikers toe om een gepersonaliseerde link of map te delen door een e-mailadres op te geven."
 },
 "nplurals=2; plural=(n != 1);");

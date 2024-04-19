@@ -60,6 +60,24 @@ interface IRootFolder extends Folder, Emitter {
 	public function getByIdInPath(int $id, string $path);
 
 	/**
+	 * get a file or folder inside the folder by its internal id
+	 *
+	 * Unlike getByIdInPath, this method only returns a single node even if the user has
+	 * access to the file with the requested id multiple times.
+	 *
+	 * This method provides no guarantee about which of the nodes in returned and the
+	 * returned node might, for example, have less permissions than other nodes for the same file
+	 *
+	 * Apps that require accurate information about the users access to the file should use getByIdInPath
+	 * instead of pick the correct node out of the result.
+	 *
+	 * @param int $id
+	 * @return Node|null
+	 * @since 29.0.0
+	 */
+	public function getFirstNodeByIdInPath(int $id, string $path): ?Node;
+
+	/**
 	 * @return IMountPoint[]
 	 *
 	 * @since 28.0.0

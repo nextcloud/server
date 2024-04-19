@@ -371,9 +371,9 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface, IGroupLDAP, IGet
 	 * The connection needs to be closed manually.
 	 *
 	 * @param string $gid
-	 * @return resource|\LDAP\Connection The LDAP connection
+	 * @return \LDAP\Connection The LDAP connection
 	 */
-	public function getNewLDAPConnection($gid) {
+	public function getNewLDAPConnection($gid): \LDAP\Connection {
 		return $this->handleRequest($gid, 'getNewLDAPConnection', [$gid]);
 	}
 

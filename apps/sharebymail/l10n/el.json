@@ -12,7 +12,6 @@
     "Password to access {file} was sent to {email}" : "Ο κωδικός πρόσβασης για πρόσβαση στο {αρχείο} έχει αποσταλεί στο {email}",
     "Password to access {file} was sent to you" : "Σας έχει αποσταλεί στο συνθηματικό για πρόσβαση {file}",
     "Share by mail" : "Διαμοιρασμός με ηλεκτρονική αλληλογραφία",
-    "Sharing %1$s failed, because this item is already shared with user %2$s" : "Αποτυχία διαμοιρασμού του %1$s, διότι το αντικείμενο διαμοιράζεται ήδη με τον χρήστη %2$s",
     "We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Δεν μπορούμε να σας στείλουμε τον κωδικό πρόσβασης που δημιουργείται αυτόματα. Ορίστε μια έγκυρη διεύθυνση email στις προσωπικές σας ρυθμίσεις και δοκιμάστε ξανά.",
     "Failed to send share by email. Got an invalid email address" : "Αποτυχία αποστολής της κοινής χρήσης μέσω email. Λάβαμε μια μη έγκυρη διεύθυνση email",
     "Failed to send share by email" : "Αποτυχία αποστολής συνδέσμου διαμοιρασμού μέσω Ηλ.ταχυδρομείου",
@@ -36,9 +35,10 @@
     "You can choose a different password at any time in the share dialog." : "Μπορείτε να διαλέξετε ένα διαφορετικό συνθηματικό οποιαδήποτε στιγμή στον διάλογο διαμοιρασμού.",
     "Could not find share" : "Αδυναμία εύρεσης κοινόχρηστου",
     "Share provider which allows you to share files by mail" : "Πάροχος διαμοιρασμού που σας επιτρέπει να διαμοιράζεστε αρχεία μέσω mail",
-    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Να επιτρέπεται οι χρήστες να στέλνουν εξατομικευμένο σύνδεσμο σε ένα αρχείο ή φάκελο μέσω mail.",
     "Send password by mail" : "Αποστολή συνθηματικου με ηλεκτρονική αλληλογραφία",
     "Reply to initiator" : "Απάντηση στον αποστολέα",
-    "Unable to update share by mail config" : "Αδυναμία ενημέρωσης των ρυθμίσεων κοινής χρήσης μέσω mail"
+    "Unable to update share by mail config" : "Αδυναμία ενημέρωσης των ρυθμίσεων κοινής χρήσης μέσω mail",
+    "Sharing %1$s failed, because this item is already shared with user %2$s" : "Αποτυχία διαμοιρασμού του %1$s, διότι το αντικείμενο διαμοιράζεται ήδη με τον χρήστη %2$s",
+    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Να επιτρέπεται οι χρήστες να στέλνουν εξατομικευμένο σύνδεσμο σε ένα αρχείο ή φάκελο μέσω mail."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

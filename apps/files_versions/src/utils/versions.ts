@@ -21,22 +21,21 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+import type { FileStat, ResponseDataDetailed } from 'webdav'
 
-import { getCurrentUser } from '@nextcloud/auth'
-import { joinPaths } from '@nextcloud/paths'
 import { generateRemoteUrl, generateUrl } from '@nextcloud/router'
+import { getCurrentUser } from '@nextcloud/auth'
+import { joinPaths, encodePath } from '@nextcloud/paths'
 import moment from '@nextcloud/moment'
-
-import { encodeFilePath } from '../../../files/src/utils/fileUtils.ts'
 
 import client from '../utils/davClient.js'
 import davRequest from '../utils/davRequest.js'
 import logger from '../utils/logger.js'
-import type { FileStat, ResponseDataDetailed } from 'webdav'
 
 export interface Version {
 	fileId: string, // The id of the file associated to the version.
 	label: string, // 'Current version' or ''
+	author: string|null, // UID for the author of the version
 	filename: string, // File name relative to the version DAV endpoint
 	basename: string, // A base name generated from the mtime
 	mime: string, // Empty for the current version, else the actual mime type of the version
@@ -109,6 +108,7 @@ function formatVersion(version: any, fileInfo: any): Version {
 	return {
 		fileId: fileInfo.id,
 		label: version.props['version-label'],
+		author: version.props['version-author'] ?? null,
 		filename: version.filename,
 		basename: moment(mtime).format('LLL'),
 		mime: version.mime,
@@ -120,7 +120,7 @@ function formatVersion(version: any, fileInfo: any): Version {
 		hasPreview: version.props['has-preview'] === 1,
 		previewUrl,
 		url: joinPaths('/remote.php/dav', version.filename),
-		source: generateRemoteUrl('dav') + encodeFilePath(version.filename),
+		source: generateRemoteUrl('dav') + encodePath(version.filename),
 		fileVersion: version.basename,
 	}
 }

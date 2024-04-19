@@ -84,7 +84,8 @@ class Job extends Command {
 			$output->writeln('<error>Something went wrong when trying to retrieve Job with ID ' . $jobId . ' from database</error>');
 			return 1;
 		}
-		$job->start($this->jobList);
+		/** @psalm-suppress DeprecatedMethod Calling execute until it is removed, then will switch to start */
+		$job->execute($this->jobList);
 		$job = $this->jobList->getById($jobId);
 
 		if (($job === null) || ($lastRun !== $job->getLastRun())) {
@@ -102,7 +103,7 @@ class Job extends Command {
 		return 0;
 	}
 
-	protected function printJobInfo(int $jobId, IJob $job, OutputInterface$output): void {
+	protected function printJobInfo(int $jobId, IJob $job, OutputInterface $output): void {
 		$row = $this->jobList->getDetailsById($jobId);
 
 		$lastRun = new \DateTime();

@@ -25,10 +25,10 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-// Show warning if a PHP version below 8.0 is used,
-if (PHP_VERSION_ID < 80000) {
+// Show warning if a PHP version below 8.1 is used,
+if (PHP_VERSION_ID < 80100) {
 	http_response_code(500);
-	echo 'This version of Nextcloud requires at least PHP 8.0<br/>';
+	echo 'This version of Nextcloud requires at least PHP 8.1<br/>';
 	echo 'You are currently running ' . PHP_VERSION . '. Please update your PHP version.';
 	exit(1);
 }

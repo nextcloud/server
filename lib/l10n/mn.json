@@ -26,7 +26,6 @@
     "Address" : "хаяг",
     "Profile picture" : "Профайл зураг",
     "About" : "Тухай",
-    "Unknown user" : "Тодорхойгүй хэрэглэгч",
     "Open »%s«" : "»%s« нээх",
     "Sunday" : "ням гариг",
     "Monday" : "даваа",
@@ -40,6 +39,6 @@
     "a safe home for all your data" : "Таны өгөгдлүүдийн аюулгүй гэр",
     "Authentication error" : "Нотолгооны алдаа",
     "Storage is temporarily not available" : "Хадгалах төхөөрөмж нь түр хугацаанд ашиглах боломжгүй байна",
-    "Full name" : "бүтэн нэр"
+    "Unknown user" : "Тодорхойгүй хэрэглэгч"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

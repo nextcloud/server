@@ -271,14 +271,15 @@ class LDAPProviderTest extends \Test\TestCase {
 		$userBackend->expects($this->any())
 			->method('userExists')
 			->willReturn(true);
+		$ldapConnection = ldap_connect('ldap://example.com');
 		$userBackend->expects($this->any())
 			->method('getNewLDAPConnection')
-			->willReturn(true);
+			->willReturn($ldapConnection);
 
 		$server = $this->getServerMock($userBackend, $this->getDefaultGroupBackendMock());
 
 		$ldapProvider = $this->getLDAPProvider($server);
-		$this->assertTrue($ldapProvider->getLDAPConnection('existing_user'));
+		$this->assertEquals($ldapConnection, $ldapProvider->getLDAPConnection('existing_user'));
 	}
 
 
@@ -317,14 +318,15 @@ class LDAPProviderTest extends \Test\TestCase {
 			->method('groupExists')
 			->willReturn(true);
 
+		$ldapConnection = ldap_connect('ldap://example.com');
 		$groupBackend->expects($this->any())
 			->method('getNewLDAPConnection')
-			->willReturn(true);
+			->willReturn($ldapConnection);
 
 		$server = $this->getServerMock($userBackend, $groupBackend);
 
 		$ldapProvider = $this->getLDAPProvider($server);
-		$this->assertTrue($ldapProvider->getGroupLDAPConnection('existing_group'));
+		$this->assertEquals($ldapConnection, $ldapProvider->getGroupLDAPConnection('existing_group'));
 	}
 
 

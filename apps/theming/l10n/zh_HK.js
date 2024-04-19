@@ -24,8 +24,6 @@ OC.L10N.register(
     "Could not write file to disk" : "寫入硬碟失敗",
     "A PHP extension stopped the file upload" : "一個 PHP 擴充功能終止檔案的上傳",
     "No file uploaded" : "未上傳檔案",
-    "Failed to clean up the old administration theming images folder" : "無法清除舊的管理佈景主題圖像資料夾",
-    "Failed to clean up the old administration image folder" : "無法清除舊的管理圖像資料夾",
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "您已經在使用自訂佈景主題。佈景主題應用程式設定可能會被覆寫。",
     "Theming" : "佈景主題",
     "Appearance and accessibility" : "外觀和可及性",

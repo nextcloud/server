@@ -77,7 +77,7 @@ class DateTimeFormatter implements \OCP\IDateTimeFormatter {
 	 * @param \DateTimeZone $timeZone	The timezone to use
 	 * @return \DateTime
 	 */
-	protected function getDateTime($timestamp, \DateTimeZone $timeZone = null) {
+	protected function getDateTime($timestamp, ?\DateTimeZone $timeZone = null) {
 		if ($timestamp === null) {
 			return new \DateTime('now', $timeZone);
 		} elseif (!$timestamp instanceof \DateTime) {
@@ -105,7 +105,7 @@ class DateTimeFormatter implements \OCP\IDateTimeFormatter {
 	 * @param \OCP\IL10N	$l			The locale to use
 	 * @return string Formatted date string
 	 */
-	public function formatDate($timestamp, $format = 'long', \DateTimeZone $timeZone = null, \OCP\IL10N $l = null) {
+	public function formatDate($timestamp, $format = 'long', ?\DateTimeZone $timeZone = null, ?\OCP\IL10N $l = null) {
 		return $this->format($timestamp, 'date', $format, $timeZone, $l);
 	}
 
@@ -124,7 +124,7 @@ class DateTimeFormatter implements \OCP\IDateTimeFormatter {
 	 * @param \OCP\IL10N	$l			The locale to use
 	 * @return string Formatted relative date string
 	 */
-	public function formatDateRelativeDay($timestamp, $format = 'long', \DateTimeZone $timeZone = null, \OCP\IL10N $l = null) {
+	public function formatDateRelativeDay($timestamp, $format = 'long', ?\DateTimeZone $timeZone = null, ?\OCP\IL10N $l = null) {
 		if (!str_ends_with($format, '^') && !str_ends_with($format, '*')) {
 			$format .= '^';
 		}
@@ -136,16 +136,15 @@ class DateTimeFormatter implements \OCP\IDateTimeFormatter {
 	 * Gives the relative date of the timestamp
 	 * Only works for past dates
 	 *
-	 * @param int|\DateTime	$timestamp	Either a Unix timestamp or DateTime object
+	 * @param int|\DateTime	$timestamp		Either a Unix timestamp or DateTime object
 	 * @param int|\DateTime	$baseTimestamp	Timestamp to compare $timestamp against, defaults to current time
-	 * @return string	Dates returned are:
+	 * @param \OCP\IL10N $l				The locale to use
+	 * @return string Formatted date span. Dates returned are:
 	 * 				<  1 month	=> Today, Yesterday, n days ago
 	 * 				< 13 month	=> last month, n months ago
 	 * 				>= 13 month	=> last year, n years ago
-	 * @param \OCP\IL10N	$l			The locale to use
-	 * @return string Formatted date span
 	 */
-	public function formatDateSpan($timestamp, $baseTimestamp = null, \OCP\IL10N $l = null) {
+	public function formatDateSpan($timestamp, $baseTimestamp = null, ?\OCP\IL10N $l = null) {
 		$l = $this->getLocale($l);
 		$timestamp = $this->getDateTime($timestamp);
 		$timestamp->setTime(0, 0, 0);
@@ -211,7 +210,7 @@ class DateTimeFormatter implements \OCP\IDateTimeFormatter {
 	 * @param \OCP\IL10N	$l			The locale to use
 	 * @return string Formatted time string
 	 */
-	public function formatTime($timestamp, $format = 'medium', \DateTimeZone $timeZone = null, \OCP\IL10N $l = null) {
+	public function formatTime($timestamp, $format = 'medium', ?\DateTimeZone $timeZone = null, ?\OCP\IL10N $l = null) {
 		return $this->format($timestamp, 'time', $format, $timeZone, $l);
 	}
 
@@ -220,17 +219,16 @@ class DateTimeFormatter implements \OCP\IDateTimeFormatter {
 	 *
 	 * @param int|\DateTime	$timestamp	Either a Unix timestamp or DateTime object
 	 * @param int|\DateTime	$baseTimestamp	Timestamp to compare $timestamp against, defaults to current time
-	 * @return string	Dates returned are:
+	 * @param \OCP\IL10N	$l			The locale to use
+	 * @return string Formatted time span. Dates returned are:
 	 * 				< 60 sec	=> seconds ago
 	 * 				<  1 hour	=> n minutes ago
 	 * 				<  1 day	=> n hours ago
 	 * 				<  1 month	=> Yesterday, n days ago
 	 * 				< 13 month	=> last month, n months ago
 	 * 				>= 13 month	=> last year, n years ago
-	 * @param \OCP\IL10N	$l			The locale to use
-	 * @return string Formatted time span
 	 */
-	public function formatTimeSpan($timestamp, $baseTimestamp = null, \OCP\IL10N $l = null) {
+	public function formatTimeSpan($timestamp, $baseTimestamp = null, ?\OCP\IL10N $l = null) {
 		$l = $this->getLocale($l);
 		$timestamp = $this->getDateTime($timestamp);
 		if ($baseTimestamp === null) {
@@ -273,7 +271,7 @@ class DateTimeFormatter implements \OCP\IDateTimeFormatter {
 	 * @param \OCP\IL10N	$l			The locale to use
 	 * @return string Formatted date and time string
 	 */
-	public function formatDateTime($timestamp, $formatDate = 'long', $formatTime = 'medium', \DateTimeZone $timeZone = null, \OCP\IL10N $l = null) {
+	public function formatDateTime($timestamp, $formatDate = 'long', $formatTime = 'medium', ?\DateTimeZone $timeZone = null, ?\OCP\IL10N $l = null) {
 		return $this->format($timestamp, 'datetime', $formatDate . '|' . $formatTime, $timeZone, $l);
 	}
 
@@ -288,7 +286,7 @@ class DateTimeFormatter implements \OCP\IDateTimeFormatter {
 	 * @param \OCP\IL10N	$l			The locale to use
 	 * @return string Formatted relative date and time string
 	 */
-	public function formatDateTimeRelativeDay($timestamp, $formatDate = 'long', $formatTime = 'medium', \DateTimeZone $timeZone = null, \OCP\IL10N $l = null) {
+	public function formatDateTimeRelativeDay($timestamp, $formatDate = 'long', $formatTime = 'medium', ?\DateTimeZone $timeZone = null, ?\OCP\IL10N $l = null) {
 		if (!str_ends_with($formatDate, '^') && !str_ends_with($formatDate, '*')) {
 			$formatDate .= '^';
 		}
@@ -306,7 +304,7 @@ class DateTimeFormatter implements \OCP\IDateTimeFormatter {
 	 * @param \OCP\IL10N	$l			The locale to use
 	 * @return string Formatted date and time string
 	 */
-	protected function format($timestamp, $type, $format, \DateTimeZone $timeZone = null, \OCP\IL10N $l = null) {
+	protected function format($timestamp, $type, $format, ?\DateTimeZone $timeZone = null, ?\OCP\IL10N $l = null) {
 		$l = $this->getLocale($l);
 		$timeZone = $this->getTimeZone($timeZone);
 		$timestamp = $this->getDateTime($timestamp, $timeZone);

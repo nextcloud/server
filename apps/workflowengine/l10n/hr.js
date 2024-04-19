@@ -65,6 +65,8 @@ OC.L10N.register(
     "Desktop client" : "Klijent za stolna računala",
     "Thunderbird & Outlook addons" : "Dodaci za Thunderbird i Outlook",
     "Custom user agent" : "Prilagođeni korisnički agent",
+    "Select groups" : "Označi grupe",
+    "Groups" : "Grupe",
     "At least one event must be selected" : "Morate odabrati barem jedan događaj",
     "Add new flow" : "Dodaj novi tijek",
     "When" : "Kada",
@@ -106,8 +108,8 @@ OC.L10N.register(
     "between" : "između",
     "not between" : "nije između",
     "Request user agent" : "Zatraži korisničkog agenta",
-    "User group membership" : "Članstvo u grupi korisnika",
     "is member of" : "je član",
-    "is not member of" : "nije član"
+    "is not member of" : "nije član",
+    "User group membership" : "Članstvo u grupi korisnika"
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

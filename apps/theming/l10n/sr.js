@@ -24,8 +24,6 @@ OC.L10N.register(
     "Could not write file to disk" : "Не могу да упишем фајл на диск",
     "A PHP extension stopped the file upload" : "ПХП екстензија је зауставила отпремање фајла",
     "No file uploaded" : "Није отпремљен фајл",
-    "Failed to clean up the old administration theming images folder" : "Није успело чишћење фолдера са старим сликама административне теме",
-    "Failed to clean up the old administration image folder" : "Није успело чишћење фолдера са старим сликама администрације ",
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "Већ користите прилагођену тему. Поставке ове апликације ће прегажене са њом.",
     "Theming" : "Изглед",
     "Appearance and accessibility" : "Изглед и приступачност",

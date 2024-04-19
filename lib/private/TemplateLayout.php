@@ -258,7 +258,7 @@ class TemplateLayout extends \OC_Template {
 				\OC::$server->getGroupManager(),
 				\OC::$server->get(IniGetWrapper::class),
 				\OC::$server->getURLGenerator(),
-				\OC::$server->getCapabilitiesManager(),
+				\OC::$server->get(CapabilitiesManager::class),
 				\OCP\Server::get(IInitialStateService::class)
 			);
 			$config = $jsConfigHelper->getConfig();

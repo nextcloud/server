@@ -3,7 +3,7 @@ OC.L10N.register(
     {
     "Dashboard" : "Instrumentpanel",
     "Dashboard app" : "Instrumentpanel app",
-    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! Users can add the widgets they like and change the background to their liking." : "Start dagen din informert\n\nNextcloud-kontrollpanel er ditt utgangspunkt for dagen, og gir deg en oversikt over dine kommende avtaler, presserende e-poster, chatmeldinger, innkommende billetter, siste tvitringer og mye mer! Brukere kan legge til widgetene de liker og endre bakgrunnen etter eget ønske.",
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! People can add the widgets they like and change the background to their liking." : "Start dagen din informert\n\nNextcloud-kontrollpanel er ditt utgangspunkt for dagen, og gir deg en oversikt over dine kommende avtaler, presserende e-poster, chatmeldinger, innkommende billetter, siste tvitringer og mye mer! Brukere kan legge til widgetene de liker og endre bakgrunnen etter eget ønske.",
     "\"{title} icon\"" : "\"{title} ikon\"",
     "Customize" : "Tilpass",
     "Edit widgets" : "Rediger widgets",
@@ -23,6 +23,6 @@ OC.L10N.register(
     "Good evening, {name}" : "God kveld, {name}",
     "Hello" : "Hallo",
     "Hello, {name}" : "Hallo, {name}",
-    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an\noverview of your upcoming appointments, urgent emails, chat messages,\nincoming tickets, latest tweets and much more! Users can add the widgets\nthey like and change the background to their liking." : "Start dagen din informert \n\nNextcloud skrivebordet er starte punktet ditt for dagen, gir deg kommende møter, viktig email, chat-meldinger\ninnkommende biletter, seneste tweets og mye mer! Brukere kan legge til widgeter\nde liker og forandre bakgrunnen etter deres smak."
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! Users can add the widgets they like and change the background to their liking." : "Start dagen din informert\n\nNextcloud-kontrollpanel er ditt utgangspunkt for dagen, og gir deg en oversikt over dine kommende avtaler, presserende e-poster, chatmeldinger, innkommende billetter, siste tvitringer og mye mer! Brukere kan legge til widgetene de liker og endre bakgrunnen etter eget ønske."
 },
 "nplurals=2; plural=(n != 1);");

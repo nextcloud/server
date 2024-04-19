@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2023 Your name <your@email.com>
+ * @copyright Copyright (c) 2023 Côme Chilliet <come.chilliet@nextcloud.com>
  *
- * @author Your name <your@email.com>
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -99,6 +99,10 @@ class Version1190Date20230706134108 extends SimpleMigrationStep {
 		$result = $query->executeQuery();
 		while ($row = $result->fetch()) {
 			$knownUsers = unserialize($row['owncloudusers']);
+			if (!is_array($knownUsers)) {
+				/* Unserialize failed or data was incorrect in database, ignore */
+				continue;
+			}
 			$knownUsers = array_unique($knownUsers);
 			foreach ($knownUsers as $knownUser) {
 				try {

@@ -65,6 +65,8 @@
     "Desktop client" : "Клієнт для ПК",
     "Thunderbird & Outlook addons" : "Доповнення Thunderbird та Outlook",
     "Custom user agent" : "Власний user agent",
+    "Select groups" : "Виберіть групи",
+    "Groups" : "Групи",
     "Select a trigger" : "Виберіть умову початку виконання",
     "At least one event must be selected" : "Потрібно вибрати принаймні одну подію",
     "Add new flow" : "Додати новий процес",
@@ -111,8 +113,8 @@
     "between" : "між",
     "not between" : "не між",
     "Request user agent" : "Запит агента користувача",
-    "User group membership" : "Участь користувача в групі",
     "is member of" : "є учасником",
-    "is not member of" : "не є учасником"
+    "is not member of" : "не є учасником",
+    "User group membership" : "Участь користувача в групі"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);"
 }

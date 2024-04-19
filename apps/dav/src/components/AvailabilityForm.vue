@@ -15,6 +15,7 @@
 			:l10n-delete-slot="$t('dav', 'Delete slot')"
 			:l10n-empty-day="$t('dav', 'No working hours set')"
 			:l10n-add-slot="$t('dav', 'Add slot')"
+			:l10n-week-day-list-label="$t('dav', 'Weekdays')"
 			:l10n-monday="$t('dav', 'Monday')"
 			:l10n-tuesday="$t('dav', 'Tuesday')"
 			:l10n-wednesday="$t('dav', 'Wednesday')"

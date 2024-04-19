@@ -2,6 +2,7 @@ OC.L10N.register(
     "dav",
     {
     "Calendar" : "Ημερολόγιο",
+    "Tasks" : "Εργασίες",
     "Personal" : "Προσωπικά",
     "{actor} created calendar {calendar}" : "{actor} δημιουργήθηκε το ημερολόγιο {calendar}",
     "You created calendar {calendar}" : "Δημιουργήσατε ημερολόγιο {ημερολόγιο}",
@@ -75,12 +76,12 @@ OC.L10N.register(
     "Configures a CalDAV account" : "Ρυθμίσεις λογαριασμού CalDAV",
     "Configures a CardDAV account" : "Ρυθμίσεις λογαριασμού CardDAV",
     "Events" : "Συμβάντα",
-    "Tasks" : "Εργασίες",
     "Untitled task" : "Εργασία χωρίς όνομα",
     "Completed on %s" : "Ολοκληρώθηκε %s",
+    "WebDAV endpoint" : "Τερματικό WebDAV",
+    "Your web server is not yet properly set up to allow file synchronization, because the WebDAV interface seems to be broken." : "Ο διακομιστής σας δεν έχει ρυθμιστεί ακόμη κατάλληλα ώστε να επιτρέπει τον συγχρονισμό αρχείων, διότι η διεπαφή WebDAV φαίνεται να μη λειτουργεί.",
     "Contacts and groups" : "Επαφές και ομάδες",
     "WebDAV" : "WebDAV",
-    "WebDAV endpoint" : "Τερματικό WebDAV",
     "Save" : "Αποθήκευση",
     "Time zone:" : "Ζώνη ώρας:",
     "to" : "προς",
@@ -97,7 +98,6 @@ OC.L10N.register(
     "Failed to load availability" : "Αποτυχία φόρτωσης της διαθεσιμότητας",
     "Failed to save availability" : "Αποτυχία αποθήκευσης της διαθεσιμότητας",
     "Availability" : "Διαθεσιμότητα",
-    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Εάν διαμορφώσετε τις ώρες εργασίας σας, οι άλλοι χρήστες θα βλέπουν πότε είστε εκτός γραφείου όταν κάνουν κράτηση για μια συνάντηση.",
     "Calendar server" : "Διακομιστής ημερολογίου",
     "Send invitations to attendees" : "Αποστολή προσκλήσεων στους συμμετέχοντες.",
     "Automatically generate a birthday calendar" : "Δημιουργία ημερολογίου γενεθλίων αυτόματα",
@@ -114,6 +114,7 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Παρακαλώ επικοινωνήστε απ' ευθείας με τον διοργανωτή.",
     "Are you accepting the invitation?" : "Αποδέχεστε την πρόσκληση;",
     "Tentative" : "Δοκιμαστικό",
-    "Your attendance was updated successfully." : "Η παρουσία σας ενημερώθηκε με επιτυχία."
+    "Your attendance was updated successfully." : "Η παρουσία σας ενημερώθηκε με επιτυχία.",
+    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Εάν διαμορφώσετε τις ώρες εργασίας σας, οι άλλοι χρήστες θα βλέπουν πότε είστε εκτός γραφείου όταν κάνουν κράτηση για μια συνάντηση."
 },
 "nplurals=2; plural=(n != 1);");

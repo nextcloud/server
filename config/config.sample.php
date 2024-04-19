@@ -112,9 +112,9 @@ $CONFIG = [
 
 /**
  * Your host server name, for example ``localhost``, ``hostname``,
- * ``hostname.example.com``, or the IP address. To specify a port use
- * ``hostname:####``; to specify a Unix socket use
- * ``/path/to/directory/containing/socket`` e.g. ``/run/postgresql/``.
+ * ``hostname.example.com``, or the IP address.
+ * To specify a port use ``hostname:####``, for IPv6 addresses use the URI notation ``[ip]:port``.
+ * To specify a Unix socket use ``/path/to/directory/containing/socket``, e.g. ``/run/postgresql/``.
  */
 'dbhost' => '',
 
@@ -368,7 +368,7 @@ $CONFIG = [
 'token_auth_activity_update' => 60,
 
 /**
- * Whether the bruteforce protection shipped with Nextcloud should be enabled or not.
+ * Whether the brute force protection shipped with Nextcloud should be enabled or not.
  *
  * Disabling this is discouraged for security reasons.
  *
@@ -377,9 +377,9 @@ $CONFIG = [
 'auth.bruteforce.protection.enabled' => true,
 
 /**
- * Whether the bruteforce protection shipped with Nextcloud should be set to testing mode.
+ * Whether the brute force protection shipped with Nextcloud should be set to testing mode.
  *
- * In testing mode bruteforce attempts are still recorded, but the requests do
+ * In testing mode brute force attempts are still recorded, but the requests do
  * not sleep/wait for the specified time. They will still abort with
  * "429 Too Many Requests" when the maximum delay is reached.
  * Enabling this is discouraged for security reasons
@@ -1353,6 +1353,7 @@ $CONFIG = [
  * Sort groups in the user settings by name instead of the user count
  *
  * By enabling this the user count beside the group name is disabled as well.
+ * @deprecated since Nextcloud 29 - Use the frontend instead or set the app config value `group.sortBy` for `core` to `2`
  */
 'sort_groups_by_name' => false,
 
@@ -1946,7 +1947,9 @@ $CONFIG = [
  * where the default `datadirectory` is on network disk like NFS, or is otherwise
  * restricted. Defaults to the value of `datadirectory` if unset.
  *
- * The Web server user must have write access to this directory.
+ * If set, the value MUST be located _outside_ of the installation directory of Nextcloud and
+ * writable by the Web server user.
+ *
  */
 'updatedirectory' => '',
 
@@ -1962,6 +1965,8 @@ $CONFIG = [
 /**
  * Blacklist characters from being used in filenames. This is useful if you
  * have a filesystem or OS which does not support certain characters like windows.
+ * 
+ * The '/' and '\' characters are always forbidden.
  *
  * Example for windows systems: ``array('?', '<', '>', ':', '*', '|', '"', chr(0), "\n", "\r")``
  * see https://en.wikipedia.org/wiki/Comparison_of_file_systems#Limits
@@ -2304,6 +2309,14 @@ $CONFIG = [
 'login_form_autocomplete' => true,
 
 /**
+ * Timeout for the login form, after this time the login form is reset.
+ * This prevents password leaks on public devices if the user forgots to clear the form.
+ * 
+ * Default is 5 minutes (300 seconds), a value of 0 means no timeout.
+ */
+'login_form_timeout' => 300,
+
+/**
  * If your user is using an outdated or unsupported browser, a warning will be shown
  * to offer some guidance to upgrade or switch and ensure a proper Nextcloud experience.
  * They can still bypass it after they have read the warning.
@@ -2364,17 +2377,6 @@ $CONFIG = [
  * Defaults to ``true``
  */
 'profile.enabled' => true,
-
-/**
- * Enable file metadata collection
- *
- * This is helpful for the mobile clients and will enable few optimizations in
- * the future for the preview generation.
- *
- * Note that when enabled, this data will be stored in the database and might increase
- * the database storage.
- */
-'enable_file_metadata' => true,
 
 /**
  * Allows to override the default scopes for Account data.

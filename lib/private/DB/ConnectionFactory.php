@@ -128,6 +128,15 @@ class ConnectionFactory {
 		$eventManager->addEventSubscriber(new SetTransactionIsolationLevel());
 		$additionalConnectionParams = array_merge($this->createConnectionParams(), $additionalConnectionParams);
 		switch ($normalizedType) {
+			case 'pgsql':
+				// pg_connect used by Doctrine DBAL does not support URI notation (enclosed in brackets)
+				$matches = [];
+				if (preg_match('/^\[([^\]]+)\]$/', $additionalConnectionParams['host'], $matches)) {
+					// Host variable carries a port or socket.
+					$additionalConnectionParams['host'] = $matches[1];
+				}
+				break;
+
 			case 'oci':
 				$eventManager->addEventSubscriber(new OracleSessionInit);
 				// the driverOptions are unused in dbal and need to be mapped to the parameters
@@ -233,7 +242,7 @@ class ConnectionFactory {
 			$connectionParams['persistent'] = true;
 		}
 
-		$replica = $this->config->getValue('dbreplica', []) ?: [$connectionParams];
+		$replica = $this->config->getValue($configPrefix . 'dbreplica', $this->config->getValue('dbreplica', [])) ?: [$connectionParams];
 		return array_merge($connectionParams, [
 			'primary' => $connectionParams,
 			'replica' => $replica,

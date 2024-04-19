@@ -419,7 +419,7 @@ class BirthdayService {
 	 * @return string|null
 	 */
 	private function principalToUserId(string $userPrincipal):?string {
-		if (substr($userPrincipal, 0, 17) === 'principals/users/') {
+		if (str_starts_with($userPrincipal, 'principals/users/')) {
 			return substr($userPrincipal, 17);
 		}
 		return null;
@@ -470,7 +470,7 @@ class BirthdayService {
 	 */
 	private function formatTitle(string $field,
 		string $name,
-		int $year = null,
+		?int $year = null,
 		bool $supports4Byte = true):string {
 		if ($supports4Byte) {
 			switch ($field) {

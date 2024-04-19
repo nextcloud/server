@@ -150,14 +150,15 @@ use OC\Security\SecureRandom;
 use OC\Security\TrustedDomainHelper;
 use OC\Security\VerificationToken\VerificationToken;
 use OC\Session\CryptoWrapper;
+use OC\Settings\DeclarativeManager;
 use OC\SetupCheck\SetupCheckManager;
 use OC\Share20\ProviderFactory;
-use OC\Share20\ShareDisableChecker;
 use OC\Share20\ShareHelper;
 use OC\SpeechToText\SpeechToTextManager;
 use OC\SystemTag\ManagerFactory as SystemTagManagerFactory;
 use OC\Tagging\TagMapper;
 use OC\Talk\Broker;
+use OC\Teams\TeamManager;
 use OC\Template\JSCombiner;
 use OC\Translation\TranslationManager;
 use OC\User\AvailabilityCoordinator;
@@ -259,12 +260,15 @@ use OCP\Security\ISecureRandom;
 use OCP\Security\ITrustedDomainHelper;
 use OCP\Security\RateLimiting\ILimiter;
 use OCP\Security\VerificationToken\IVerificationToken;
+use OCP\Settings\IDeclarativeManager;
 use OCP\SetupCheck\ISetupCheckManager;
+use OCP\Share\IProviderFactory;
 use OCP\Share\IShareHelper;
 use OCP\SpeechToText\ISpeechToTextManager;
 use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ISystemTagObjectMapper;
 use OCP\Talk\IBroker;
+use OCP\Teams\ITeamManager;
 use OCP\Translation\ITranslationManager;
 use OCP\User\Events\BeforeUserDeletedEvent;
 use OCP\User\Events\BeforeUserLoggedInEvent;
@@ -448,14 +452,17 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerService('RootFolder', function (ContainerInterface $c) {
 			$manager = \OC\Files\Filesystem::getMountManager();
 			$view = new View();
+			/** @var IUserSession $userSession */
+			$userSession = $c->get(IUserSession::class);
 			$root = new Root(
 				$manager,
 				$view,
-				null,
+				$userSession->getUser(),
 				$c->get(IUserMountCache::class),
 				$this->get(LoggerInterface::class),
 				$this->get(IUserManager::class),
 				$this->get(IEventDispatcher::class),
+				$this->get(ICacheFactory::class),
 			);
 
 			$previewConnector = new \OC\Preview\WatcherConnector(
@@ -470,7 +477,8 @@ class Server extends ServerContainer implements IServerContainer {
 			return new HookConnector(
 				$c->get(IRootFolder::class),
 				new View(),
-				$c->get(IEventDispatcher::class)
+				$c->get(IEventDispatcher::class),
+				$c->get(LoggerInterface::class)
 			);
 		});
 
@@ -538,7 +546,7 @@ class Server extends ServerContainer implements IServerContainer {
 				$provider,
 				$c->get(\OCP\IConfig::class),
 				$c->get(ISecureRandom::class),
-				$c->getLockdownManager(),
+				$c->get('LockdownManager'),
 				$c->get(LoggerInterface::class),
 				$c->get(IEventDispatcher::class)
 			);
@@ -716,7 +724,7 @@ class Server extends ServerContainer implements IServerContainer {
 
 		$this->registerService('RedisFactory', function (Server $c) {
 			$systemConfig = $c->get(SystemConfig::class);
-			return new RedisFactory($systemConfig, $c->getEventLogger());
+			return new RedisFactory($systemConfig, $c->get(IEventLogger::class));
 		});
 
 		$this->registerService(\OCP\Activity\IManager::class, function (Server $c) {
@@ -888,7 +896,8 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->get(IGroupManager::class),
 				$c->get(ICacheFactory::class),
 				$c->get(IEventDispatcher::class),
-				$c->get(LoggerInterface::class)
+				$c->get(LoggerInterface::class),
+				$c->get(IURLGenerator::class),
 			);
 		});
 		/** @deprecated 19.0.0 */
@@ -982,10 +991,10 @@ class Server extends ServerContainer implements IServerContainer {
 			// might however be called when ownCloud is not yet setup.
 			if (\OC::$server->get(SystemConfig::class)->getValue('installed', false)) {
 				$config = $c->get(\OCP\IConfig::class);
+				$appConfig = $c->get(\OCP\IAppConfig::class);
 				$appManager = $c->get(IAppManager::class);
 			} else {
-				$config = null;
-				$appManager = null;
+				$config = $appConfig = $appManager = null;
 			}
 
 			return new Checker(
@@ -993,6 +1002,7 @@ class Server extends ServerContainer implements IServerContainer {
 				new FileAccessHelper(),
 				new AppLocator(),
 				$config,
+				$appConfig,
 				$c->get(ICacheFactory::class),
 				$appManager,
 				$c->get(IMimeTypeDetector::class)
@@ -1155,7 +1165,7 @@ class Server extends ServerContainer implements IServerContainer {
 				$userDisplayName = $manager->getDisplayName($id);
 				if ($userDisplayName === null) {
 					$l = $c->get(IFactory::class)->get('core');
-					return $l->t('Unknown user');
+					return $l->t('Unknown account');
 				}
 				return $userDisplayName;
 			});
@@ -1174,7 +1184,7 @@ class Server extends ServerContainer implements IServerContainer {
 				$classExists = false;
 			}
 
-			if ($classExists && $c->get(\OCP\IConfig::class)->getSystemValueBool('installed', false) && $c->get(IAppManager::class)->isInstalled('theming') && $c->getTrustedDomainHelper()->isTrustedDomain($c->getRequest()->getInsecureServerHost())) {
+			if ($classExists && $c->get(\OCP\IConfig::class)->getSystemValueBool('installed', false) && $c->get(IAppManager::class)->isInstalled('theming') && $c->get(TrustedDomainHelper::class)->isTrustedDomain($c->getRequest()->getInsecureServerHost())) {
 				$imageManager = new ImageManager(
 					$c->get(\OCP\IConfig::class),
 					$c->getAppDataDir('theming'),
@@ -1242,35 +1252,14 @@ class Server extends ServerContainer implements IServerContainer {
 		/** @deprecated 19.0.0 */
 		$this->registerDeprecatedAlias('ContentSecurityPolicyManager', ContentSecurityPolicyManager::class);
 
-		$this->registerService(\OCP\Share\IManager::class, function (IServerContainer $c) {
+		$this->registerService(IProviderFactory::class, function (ContainerInterface $c) {
 			$config = $c->get(\OCP\IConfig::class);
 			$factoryClass = $config->getSystemValue('sharing.managerFactory', ProviderFactory::class);
 			/** @var \OCP\Share\IProviderFactory $factory */
-			$factory = new $factoryClass($this);
-
-			$manager = new \OC\Share20\Manager(
-				$c->get(LoggerInterface::class),
-				$c->get(\OCP\IConfig::class),
-				$c->get(ISecureRandom::class),
-				$c->get(IHasher::class),
-				$c->get(IMountManager::class),
-				$c->get(IGroupManager::class),
-				$c->getL10N('lib'),
-				$c->get(IFactory::class),
-				$factory,
-				$c->get(IUserManager::class),
-				$c->get(IRootFolder::class),
-				$c->get(IMailer::class),
-				$c->get(IURLGenerator::class),
-				$c->get('ThemingDefaults'),
-				$c->get(IEventDispatcher::class),
-				$c->get(IUserSession::class),
-				$c->get(KnownUserService::class),
-				$c->get(ShareDisableChecker::class)
-			);
-
-			return $manager;
+			return new $factoryClass($this);
 		});
+
+		$this->registerAlias(\OCP\Share\IManager::class, \OC\Share20\Manager::class);
 		/** @deprecated 19.0.0 */
 		$this->registerDeprecatedAlias('ShareManager', \OCP\Share\IManager::class);
 
@@ -1296,6 +1285,7 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerAlias(\OCP\Collaboration\Resources\IManager::class, \OC\Collaboration\Resources\Manager::class);
 
 		$this->registerAlias(IReferenceManager::class, ReferenceManager::class);
+		$this->registerAlias(ITeamManager::class, TeamManager::class);
 
 		$this->registerDeprecatedAlias('SettingsManager', \OC\Settings\Manager::class);
 		$this->registerAlias(\OCP\Settings\IManager::class, \OC\Settings\Manager::class);
@@ -1358,7 +1348,7 @@ class Server extends ServerContainer implements IServerContainer {
 
 		$this->registerService(Defaults::class, function (Server $c) {
 			return new Defaults(
-				$c->getThemingDefaults()
+				$c->get('ThemingDefaults')
 			);
 		});
 		/** @deprecated 19.0.0 */
@@ -1441,6 +1431,8 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerAlias(IProfileManager::class, ProfileManager::class);
 
 		$this->registerAlias(IAvailabilityCoordinator::class, AvailabilityCoordinator::class);
+
+		$this->registerAlias(IDeclarativeManager::class, DeclarativeManager::class);
 
 		$this->connectDispatcher();
 	}

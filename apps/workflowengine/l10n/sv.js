@@ -67,6 +67,9 @@ OC.L10N.register(
     "Desktop client" : "Skrivbordsklient",
     "Thunderbird & Outlook addons" : "Thunderbird & Outlook - tillägg",
     "Custom user agent" : "Anpassad användaragent",
+    "Select groups" : "Välj grupper",
+    "Groups" : "Grupper",
+    "Type to search for group …" : "Skriv för att söka efter grupp ...",
     "Select a trigger" : "Välj en utlösare",
     "At least one event must be selected" : "Minst en händelse måste väljas",
     "Add new flow" : "Lägg till nytt flöde",
@@ -113,8 +116,9 @@ OC.L10N.register(
     "between" : "mellan",
     "not between" : "inte mellan",
     "Request user agent" : "Begär användaragent",
-    "User group membership" : "Användargruppsmedlemskap",
+    "Group membership" : "Gruppmedlemskap",
     "is member of" : "är medlem i",
-    "is not member of" : "är inte medlem i"
+    "is not member of" : "är inte medlem i",
+    "User group membership" : "Användargruppsmedlemskap"
 },
 "nplurals=2; plural=(n != 1);");

@@ -42,7 +42,7 @@ OC.L10N.register(
     "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "이 옵션을 사용하면 주 저장소에 있는 모드 파일을 암호화하며, 사용하지 않으면 외부 저장소의 파일만 암호화합니다",
     "Enable recovery key" : "복구 키 활성화",
     "Disable recovery key" : "복구 키 비활성화",
-    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "복구 키는 파일을 암호화하는 추가 키입니다. 사용자가 암호를 잊었을 때 복구할 수 있도록 해 줍니다.",
+    "The recovery key is an additional encryption key used to encrypt files. It is used to recover files from an account if the password is forgotten." : "복구 키는 암호화된 파일에 대한 추가적 키 입니다. 암호를 잊은 상황에서 파일을 복구할 때 사용됩니다.",
     "Recovery key password" : "복구 키 암호",
     "Repeat recovery key password" : "복구 키 암호 확인",
     "Change recovery key password:" : "복구 키 암호 변경:",
@@ -62,6 +62,6 @@ OC.L10N.register(
     "Enabled" : "활성화",
     "Disabled" : "비활성화",
     "Please login to the web interface, go to the \"Security\" section of your personal settings and update your encryption password by entering this password into the \"Old log-in password\" field and your current login-password." : "웹 인터페이스에 로그인하여 개인 설정의 \"보안\"으로 이동하고, \"이전 로그인 암호\" 필드에 위 암호를 입력한 후, 현재 로그인 암호를 입력하여 암호화 암호를 갱신하십시오. ",
-    "In order to use this encryption module you need to enable server-side\n\t\tencryption in the admin settings. Once enabled this module will encrypt\n\t\tall your files transparently. The encryption is based on AES 256 keys.\n\t\tThe module won't touch existing files, only new files will be encrypted\n\t\tafter server-side encryption was enabled. It is also not possible to\n\t\tdisable the encryption again and switch back to a unencrypted system.\n\t\tPlease read the documentation to know all implications before you decide\n\t\tto enable server-side encryption." : "이 암호화 모듈을 사용하려면 관리자 설정에서 서버 측 암호화를 사용해야 합니다.\n\t\t서버 측 암호화를 활성화하면 이 모듈에서 모든 파일을 투명하게 암호화합니다.\n\t\t암호화는 AES 256 키로 진행됩니다. 이 모듈에서는 기존 파일은 암호화하지 않으며,\n\t\t서버 측 암호화를 활성화한 이후 새로 업로드한 파일만 암호화합니다. 한 번 암호화를\n\t\t활성화하면 암호화를 비활성화하고 암호화를 사용하지 않았던 상태로 돌아갈 수\n\t\t없습니다. 서버 측 암호화를 활성화하기 전에 문서를 참조하여 모든 조건과\n\t\t제약 사항을 확인하십시오."
+    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "복구 키는 파일을 암호화하는 추가 키입니다. 사용자가 암호를 잊었을 때 복구할 수 있도록 해 줍니다."
 },
 "nplurals=1; plural=0;");

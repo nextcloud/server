@@ -41,7 +41,7 @@ export const VISIBILITY_PROPERTY_ENUM = Object.freeze({
 	},
 	[VISIBILITY_ENUM.SHOW_USERS_ONLY]: {
 		name: VISIBILITY_ENUM.SHOW_USERS_ONLY,
-		label: t('settings', 'Show to logged in users only'),
+		label: t('settings', 'Show to logged in accounts only'),
 	},
 	[VISIBILITY_ENUM.HIDE]: {
 		name: VISIBILITY_ENUM.HIDE,

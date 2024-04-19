@@ -14,7 +14,7 @@ jobs:
       src: ${{ steps.changes.outputs.src}}
 
     steps:
-      - uses: dorny/paths-filter@0bc4621a3135347011ad047f9ecf449bf72ce2bd # v3.0.0
+      - uses: dorny/paths-filter@de90cc6fb38fc0963ad72b210f1f284cd68cea36 # v3.0.2
         id: changes
         continue-on-error: true
         with:
@@ -41,7 +41,7 @@ jobs:
       # do not stop on another job's failure
       fail-fast: false
       matrix:
-        php-versions: ['8.0']
+        php-versions: ['8.1']
         key: ['objectstore', 'objectstore_multibucket']
 
     name: php${{ matrix.php-versions }}-${{ matrix.key }}-minio
@@ -63,7 +63,7 @@ jobs:
 
     steps:
       - name: Checkout server
-        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
+        uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633
         with:
           submodules: true
 

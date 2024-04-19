@@ -9,8 +9,9 @@ OC.L10N.register(
     "%1$s commented on %2$s" : "%1$s comentó en: %2$s",
     "{author} commented on {file}" : "{author} comentó en: {file}",
     "<strong>Comments</strong> for files" : "<strong>Comentarios</strong> pa ficheros",
-    "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "Un usuariu que ta desaniciáu mentóte nun comentariu de: {file}",
+    "You were mentioned on \"{file}\", in a comment by an account that has since been deleted" : "Mentáronte en «{file}», nun comentariu d'una cuenta que ta desaniciada",
     "{user} mentioned you in a comment on \"{file}\"" : "{user} mentóte nun comentariu de: «{file}»",
+    "Files app plugin to add comments to files" : "Plugin de l'aplicación Ficheros p'amestar comentarios a los ficheros",
     "Edit comment" : "Editar el comentariu",
     "Delete comment" : "Desaniciar el comentariu",
     "Cancel edit" : "Anular la edición",
@@ -22,6 +23,7 @@ OC.L10N.register(
     "No comments yet, start the conversation!" : "Nun hai comentarios, ¡anicia una conversación!",
     "No more messages" : "Nun hai más mensaxes",
     "Retry" : "Retentar",
+    "Failed to mark comments as read" : "Nun se pudieron marcar los comentarios como lleíos",
     "Unable to load the comments list" : "Nun ye posible cargar la llista de comentarios",
     "_1 new comment_::_{unread} new comments_" : ["1 comentariu nuevu","{unread} comentarios nuevos"],
     "Comment" : "Comentariu",
@@ -29,6 +31,9 @@ OC.L10N.register(
     "Comment deleted" : "Desanicióse'l comentariu",
     "An error occurred while trying to delete the comment" : "Prodúxose un error mentanto se tentaba de desaniciar el comentariu",
     "An error occurred while trying to create the comment" : "Prodúxose un error mentanto se tentaba de crear el comentariu",
+    "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "Un usuariu que ta desaniciáu mentóte nun comentariu de: {file}",
+    "Write a message …" : "Escribi un mensaxe…",
+    "\"@\" for mentions, \":\" for emoji, \"/\" for smart picker" : "«@» pa mentar, «.» p'amestar un fustaxe, «/» pa usar el selector intelixente",
     "_%n unread comment_::_%n unread comments_" : ["%n comentariu ensin lleer","%n comentarios ensin lleer"]
 },
 "nplurals=2; plural=(n != 1);");

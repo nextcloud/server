@@ -46,6 +46,7 @@ use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\PropPatch;
 use Sabre\DAV\Xml\Property\Href;
 use Sabre\DAVACL\IACL;
+use function time;
 
 /**
  * Class CalDavBackendTest
@@ -93,6 +94,9 @@ class CalDavBackendTest extends AbstractCalDavBackend {
 					'href' => 'principal:' . self::UNIT_TEST_GROUP,
 					'readOnly' => true
 				]
+			], [
+				self::UNIT_TEST_USER1,
+				self::UNIT_TEST_GROUP,
 			]],
 			[true, true, true, false, [
 				[
@@ -103,6 +107,9 @@ class CalDavBackendTest extends AbstractCalDavBackend {
 					'href' => 'principal:' . self::UNIT_TEST_GROUP2,
 					'readOnly' => false,
 				],
+			], [
+				self::UNIT_TEST_GROUP,
+				self::UNIT_TEST_GROUP2,
 			]],
 			[true, true, true, true, [
 				[
@@ -113,12 +120,17 @@ class CalDavBackendTest extends AbstractCalDavBackend {
 					'href' => 'principal:' . self::UNIT_TEST_GROUP2,
 					'readOnly' => true,
 				],
+			], [
+				self::UNIT_TEST_GROUP,
+				self::UNIT_TEST_GROUP2,
 			]],
 			[true, false, false, false, [
 				[
 					'href' => 'principal:' . self::UNIT_TEST_USER1,
 					'readOnly' => true
 				],
+			], [
+				self::UNIT_TEST_USER1,
 			]],
 
 		];
@@ -127,27 +139,26 @@ class CalDavBackendTest extends AbstractCalDavBackend {
 	/**
 	 * @dataProvider providesSharingData
 	 */
-	public function testCalendarSharing($userCanRead, $userCanWrite, $groupCanRead, $groupCanWrite, $add): void {
-		/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject $l10n */
+	public function testCalendarSharing($userCanRead, $userCanWrite, $groupCanRead, $groupCanWrite, $add, $principals): void {
+		$logger = $this->createMock(\Psr\Log\LoggerInterface::class);
+		$config = $this->createMock(IConfig::class);
+		/** @var IL10N|MockObject $l10n */
 		$l10n = $this->createMock(IL10N::class);
-		$l10n
-			->expects($this->any())
+		$l10n->expects($this->any())
 			->method('t')
 			->willReturnCallback(function ($text, $parameters = []) {
 				return vsprintf($text, $parameters);
 			});
 
-		$logger = $this->createMock(\Psr\Log\LoggerInterface::class);
-
-		$config = $this->createMock(IConfig::class);
-
 		$this->userManager->expects($this->any())
 			->method('userExists')
 			->willReturn(true);
-
 		$this->groupManager->expects($this->any())
 			->method('groupExists')
 			->willReturn(true);
+		$this->principal->expects(self::atLeastOnce())
+			->method('findByUri')
+			->willReturnOnConsecutiveCalls(...$principals);
 
 		$calendarId = $this->createTestCalendar();
 		$calendars = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER);
@@ -1250,6 +1261,9 @@ EOD;
 		$this->groupManager->expects($this->any())
 			->method('groupExists')
 			->willReturn(true);
+		$this->principal->expects(self::atLeastOnce())
+			->method('findByUri')
+			->willReturn(self::UNIT_TEST_USER);
 
 		$me = self::UNIT_TEST_USER;
 		$sharer = self::UNIT_TEST_USER1;
@@ -1344,7 +1358,12 @@ END:VEVENT
 END:VCALENDAR
 EOD;
 		$this->backend->updateCalendarObject($calendarId, $uri, $calData);
-		$deleted = $this->backend->pruneOutdatedSyncTokens(0);
+
+		// Keep everything
+		$deleted = $this->backend->pruneOutdatedSyncTokens(0, 0);
+		self::assertSame(0, $deleted);
+
+		$deleted = $this->backend->pruneOutdatedSyncTokens(0, time());
 		// At least one from the object creation and one from the object update
 		$this->assertGreaterThanOrEqual(2, $deleted);
 		$changes = $this->backend->getChangesForCalendar($calendarId, $syncToken, 1);
@@ -1410,7 +1429,7 @@ EOD;
 		$this->assertEmpty($changes['deleted']);
 
 		// Delete all but last change
-		$deleted = $this->backend->pruneOutdatedSyncTokens(1);
+		$deleted = $this->backend->pruneOutdatedSyncTokens(1, time());
 		$this->assertEquals(1, $deleted); // We had two changes before, now one
 
 		// Only update should remain
@@ -1420,7 +1439,8 @@ EOD;
 		$this->assertEmpty($changes['deleted']);
 
 		// Check that no crash occurs when prune is called without current changes
-		$deleted = $this->backend->pruneOutdatedSyncTokens(1);
+		$deleted = $this->backend->pruneOutdatedSyncTokens(1, time());
+		self::assertSame(0, $deleted);
 	}
 
 	public function testSearchAndExpandRecurrences() {
@@ -1488,5 +1508,94 @@ EOD;
 				);
 			}
 		}
+	}
+
+	public function testRestoreChanges(): void {
+		$calendarId = $this->createTestCalendar();
+		$uri1 = static::getUniqueID('calobj1') . '.ics';
+		$calData = <<<EOD
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:Nextcloud Calendar
+BEGIN:VEVENT
+CREATED;VALUE=DATE-TIME:20130910T125139Z
+UID:47d15e3ec8
+LAST-MODIFIED;VALUE=DATE-TIME:20130910T125139Z
+DTSTAMP;VALUE=DATE-TIME:20130910T125139Z
+SUMMARY:Test Event
+DTSTART;VALUE=DATE-TIME:20130912T130000Z
+DTEND;VALUE=DATE-TIME:20130912T140000Z
+CLASS:PUBLIC
+END:VEVENT
+END:VCALENDAR
+EOD;
+		$this->backend->createCalendarObject($calendarId, $uri1, $calData);
+		$calData = <<<EOD
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:Nextcloud Calendar
+BEGIN:VEVENT
+CREATED;VALUE=DATE-TIME:20130910T125139Z
+UID:47d15e3ec8
+LAST-MODIFIED;VALUE=DATE-TIME:20130910T125139Z
+DTSTAMP;VALUE=DATE-TIME:20130910T125139Z
+SUMMARY:Test Event – UPDATED
+DTSTART;VALUE=DATE-TIME:20130912T130000Z
+DTEND;VALUE=DATE-TIME:20130912T140000Z
+CLASS:PUBLIC
+SEQUENCE:1
+END:VEVENT
+END:VCALENDAR
+EOD;
+		$this->backend->updateCalendarObject($calendarId, $uri1, $calData);
+		$uri2 = static::getUniqueID('calobj2') . '.ics';
+		$calData = <<<EOD
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:Nextcloud Calendar
+BEGIN:VEVENT
+CREATED;VALUE=DATE-TIME:20130910T125139Z
+UID:47d15e3ec9
+LAST-MODIFIED;VALUE=DATE-TIME:20130910T125139Z
+DTSTAMP;VALUE=DATE-TIME:20130910T125139Z
+SUMMARY:Test Event
+DTSTART;VALUE=DATE-TIME:20130912T130000Z
+DTEND;VALUE=DATE-TIME:20130912T140000Z
+CLASS:PUBLIC
+END:VEVENT
+END:VCALENDAR
+EOD;
+		$this->backend->createCalendarObject($calendarId, $uri2, $calData);
+		$changesBefore = $this->backend->getChangesForCalendar($calendarId, null, 1);
+		$this->backend->deleteCalendarObject($calendarId, $uri2);
+		$uri3 = static::getUniqueID('calobj3') . '.ics';
+		$calData = <<<EOD
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:Nextcloud Calendar
+BEGIN:VEVENT
+CREATED;VALUE=DATE-TIME:20130910T125139Z
+UID:47d15e3e10
+LAST-MODIFIED;VALUE=DATE-TIME:20130910T125139Z
+DTSTAMP;VALUE=DATE-TIME:20130910T125139Z
+SUMMARY:Test Event
+DTSTART;VALUE=DATE-TIME:20130912T130000Z
+DTEND;VALUE=DATE-TIME:20130912T140000Z
+CLASS:PUBLIC
+END:VEVENT
+END:VCALENDAR
+EOD;
+		$this->backend->createCalendarObject($calendarId, $uri3, $calData);
+		$deleteChanges = $this->db->getQueryBuilder();
+		$deleteChanges->delete('calendarchanges')
+			->where($deleteChanges->expr()->eq('calendarid', $deleteChanges->createNamedParameter($calendarId)));
+		$deleteChanges->executeStatement();
+
+		$this->backend->restoreChanges($calendarId);
+
+		$changesAfter = $this->backend->getChangesForCalendar($calendarId, $changesBefore['syncToken'], 1);
+		self::assertEquals([], $changesAfter['added']);
+		self::assertEqualsCanonicalizing([$uri1, $uri3], $changesAfter['modified']);
+		self::assertEquals([$uri2], $changesAfter['deleted']);
 	}
 }

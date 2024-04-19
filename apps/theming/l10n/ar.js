@@ -24,8 +24,6 @@ OC.L10N.register(
     "Could not write file to disk" : "لم يستطع كتابة ملف للقرص",
     "A PHP extension stopped the file upload" : "اضافة البي اچ بي PHP اوقفت رفع الملف",
     "No file uploaded" : "لم يتم رفع الملف",
-    "Failed to clean up the old administration theming images folder" : "إخفاق في تنظيف مجلد صور ثيمات الإدارة القديمة",
-    "Failed to clean up the old administration image folder" : "إخفاق في تنظيف مجلد صور الإدارة القديمة",
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "أنت تستخدم الآن ثيمة مُخصّصة. إعدادات تطبيق الثيمات يُمكن أن يتم الكتابة عليها بسبب ذلك. ",
     "Theming" : "تخصيص القالب",
     "Appearance and accessibility" : "المظهر appearance، و سهولة الوصول accessibility",

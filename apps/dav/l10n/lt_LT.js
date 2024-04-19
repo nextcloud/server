@@ -2,6 +2,7 @@ OC.L10N.register(
     "dav",
     {
     "Calendar" : "Kalendorius",
+    "Tasks" : "Užduotys",
     "Personal" : "Asmeniniai",
     "{actor} created calendar {calendar}" : "{actor} sukūrė kalendorių {calendar}",
     "You created calendar {calendar}" : "Jūs sukūrėte kalendorių {calendar}",
@@ -78,8 +79,8 @@ OC.L10N.register(
     "Configures a CalDAV account" : "Konfigūruoja CalDAV paskyrą",
     "Configures a CardDAV account" : "Konfigūruoja CardDAV paskyrą",
     "Events" : "Įvykiai",
-    "Tasks" : "Užduotys",
     "Untitled task" : "Užduotis be pavadinimo",
+    "Your web server is not yet properly set up to allow file synchronization, because the WebDAV interface seems to be broken." : "Jūsų svetainės serveris nėra tinkamai sukonfiguruotas, Failų sinchronizavimas negalimas, nes neveikia WebDAV interfeisas.",
     "Contacts and groups" : "Adresatai ir grupės",
     "WebDAV" : "WebDAV",
     "Save" : "Įrašyti",

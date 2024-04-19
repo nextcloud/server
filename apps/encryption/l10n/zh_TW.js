@@ -42,7 +42,7 @@ OC.L10N.register(
     "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "啟用此功能以加密所有主要儲存空間的檔案，否則僅有外部儲存空間的檔案會被加密。",
     "Enable recovery key" : "啟用還原金鑰",
     "Disable recovery key" : "停用還原金鑰",
-    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "還原金鑰是用於加密檔案的另一把加密金鑰。當使用者忘記密碼時，可以用它來還原使用者的檔案。",
+    "The recovery key is an additional encryption key used to encrypt files. It is used to recover files from an account if the password is forgotten." : "還原金鑰是用於加密檔案的額外加密金鑰。其用於忘記密碼時從帳號還原檔案。",
     "Recovery key password" : "還原金鑰密碼",
     "Repeat recovery key password" : "再輸入還原金鑰密碼一次",
     "Change recovery key password:" : "變更還原金鑰密碼：",
@@ -62,6 +62,6 @@ OC.L10N.register(
     "Enabled" : "已啟用",
     "Disabled" : "已停用",
     "Please login to the web interface, go to the \"Security\" section of your personal settings and update your encryption password by entering this password into the \"Old log-in password\" field and your current login-password." : "請登入網頁界面，請到個人設定中的「安全」區塊，透過輸入此密碼至「舊登入密碼」欄位與您目前的登入密碼來更新您的加密密碼。",
-    "In order to use this encryption module you need to enable server-side\n\t\tencryption in the admin settings. Once enabled this module will encrypt\n\t\tall your files transparently. The encryption is based on AES 256 keys.\n\t\tThe module won't touch existing files, only new files will be encrypted\n\t\tafter server-side encryption was enabled. It is also not possible to\n\t\tdisable the encryption again and switch back to a unencrypted system.\n\t\tPlease read the documentation to know all implications before you decide\n\t\tto enable server-side encryption." : "為了使用此加密模組，您必須在管理員設定中\n\t\t啟用伺服器端加密。啟用後，此模組將會\n\t\t加密您之後傳輸的所有檔案。此加密是以 AES 256 金鑰為基礎。\n\t\t此模組將不會處理既有的檔案，僅會加密\n\t\t在伺服器端加密啟用後的新檔案。同時也\n\t\t無法停用加密並切換回未加密的系統。\n\t\t在您決定啟用伺服器端加密前，請閱讀文\n\t\t件得知其實際作用與影響。"
+    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "還原金鑰是用於加密檔案的另一把加密金鑰。當使用者忘記密碼時，可以用它來還原使用者的檔案。"
 },
 "nplurals=1; plural=0;");

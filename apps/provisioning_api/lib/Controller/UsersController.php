@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
+ * @copyright Copyright (c) 2023, Ezhil Shanmugham <ezhil930@gmail.com>
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bjoern Schiessle <bjoern@schiessle.org>
@@ -25,6 +26,7 @@ declare(strict_types=1);
  * @author Tom Needham <tom@owncloud.com>
  * @author Vincent Petry <vincent@nextcloud.com>
  * @author Kate Döen <kate.doeen@nextcloud.com>
+ * @author Ezhil Shanmugham <ezhil930@gmail.com>
  *
  * @license AGPL-3.0
  *
@@ -127,7 +129,7 @@ class UsersController extends AUserData {
 	 *
 	 * 200: Users returned
 	 */
-	public function getUsers(string $search = '', int $limit = null, int $offset = 0): DataResponse {
+	public function getUsers(string $search = '', ?int $limit = null, int $offset = 0): DataResponse {
 		$user = $this->userSession->getUser();
 		$users = [];
 
@@ -168,7 +170,7 @@ class UsersController extends AUserData {
 	 *
 	 * 200: Users details returned
 	 */
-	public function getUsersDetails(string $search = '', int $limit = null, int $offset = 0): DataResponse {
+	public function getUsersDetails(string $search = '', ?int $limit = null, int $offset = 0): DataResponse {
 		$currentUser = $this->userSession->getUser();
 		$users = [];
 
@@ -254,7 +256,7 @@ class UsersController extends AUserData {
 						fn (IUser $user): string => $user->getUID(),
 						array_filter(
 							$group->searchUsers('', ($tempLimit === null ? null : $tempLimit - count($users))),
-							fn (IUser $user): bool => $user->isEnabled()
+							fn (IUser $user): bool => !$user->isEnabled()
 						)
 					)
 				);
@@ -1546,7 +1548,12 @@ class UsersController extends AUserData {
 		}
 
 		try {
-			$emailTemplate = $this->newUserMailHelper->generateTemplate($targetUser, false);
+			if ($this->config->getUserValue($targetUser->getUID(), 'core', 'lostpassword')) {
+				$emailTemplate = $this->newUserMailHelper->generateTemplate($targetUser, true);
+			} else {
+				$emailTemplate = $this->newUserMailHelper->generateTemplate($targetUser, false);
+			}
+
 			$this->newUserMailHelper->sendMail($targetUser, $emailTemplate);
 		} catch (\Exception $e) {
 			$this->logger->error(

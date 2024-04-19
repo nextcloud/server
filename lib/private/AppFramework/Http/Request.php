@@ -68,7 +68,7 @@ use Symfony\Component\HttpFoundation\IpUtils;
 class Request implements \ArrayAccess, \Countable, IRequest {
 	public const USER_AGENT_IE = '/(MSIE)|(Trident)/';
 	// Microsoft Edge User Agent from https://msdn.microsoft.com/en-us/library/hh869301(v=vs.85).aspx
-	public const USER_AGENT_MS_EDGE = '/^Mozilla\/5\.0 \([^)]+\) AppleWebKit\/[0-9.]+ \(KHTML, like Gecko\) Chrome\/[0-9.]+ (Mobile Safari|Safari)\/[0-9.]+ Edge\/[0-9.]+$/';
+	public const USER_AGENT_MS_EDGE = '/^Mozilla\/5\.0 \([^)]+\) AppleWebKit\/[0-9.]+ \(KHTML, like Gecko\) Chrome\/[0-9.]+ (Mobile Safari|Safari)\/[0-9.]+ Edge?\/[0-9.]+$/';
 	// Firefox User Agent from https://developer.mozilla.org/en-US/docs/Web/HTTP/Gecko_user_agent_string_reference
 	public const USER_AGENT_FIREFOX = '/^Mozilla\/5\.0 \([^)]+\) Gecko\/[0-9.]+ Firefox\/[0-9.]+$/';
 	// Chrome User Agent from https://developer.chrome.com/multidevice/user-agent
@@ -121,7 +121,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	public function __construct(array $vars,
 		IRequestId $requestId,
 		IConfig $config,
-		CsrfTokenManager $csrfTokenManager = null,
+		?CsrfTokenManager $csrfTokenManager = null,
 		string $stream = 'php://input') {
 		$this->inputStream = $stream;
 		$this->items['params'] = [];
@@ -432,8 +432,8 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 					$this->items['post'] = $params;
 				}
 			}
-		// Handle application/x-www-form-urlencoded for methods other than GET
-		// or post correctly
+			// Handle application/x-www-form-urlencoded for methods other than GET
+			// or post correctly
 		} elseif ($this->method !== 'GET'
 				&& $this->method !== 'POST'
 				&& str_contains($this->getHeader('Content-Type'), 'application/x-www-form-urlencoded')) {
@@ -607,10 +607,15 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 				if (isset($this->server[$header])) {
 					foreach (array_reverse(explode(',', $this->server[$header])) as $IP) {
 						$IP = trim($IP);
-
-						// remove brackets from IPv6 addresses
-						if (str_starts_with($IP, '[') && str_ends_with($IP, ']')) {
-							$IP = substr($IP, 1, -1);
+						$colons = substr_count($IP, ':');
+						if ($colons > 1) {
+							// Extract IP from string with brackets and optional port
+							if (preg_match('/^\[(.+?)\](?::\d+)?$/', $IP, $matches) && isset($matches[1])) {
+								$IP = $matches[1];
+							}
+						} elseif ($colons === 1) {
+							// IPv4 with port
+							$IP = substr($IP, 0, strpos($IP, ':'));
 						}
 
 						if ($this->isTrustedProxy($trustedProxies, $IP)) {

@@ -64,10 +64,10 @@ class Install extends Command {
 			->addOption('database-name', null, InputOption::VALUE_REQUIRED, 'Name of the database')
 			->addOption('database-host', null, InputOption::VALUE_REQUIRED, 'Hostname of the database', 'localhost')
 			->addOption('database-port', null, InputOption::VALUE_REQUIRED, 'Port the database is listening on')
-			->addOption('database-user', null, InputOption::VALUE_REQUIRED, 'User name to connect to the database')
+			->addOption('database-user', null, InputOption::VALUE_REQUIRED, 'Login to connect to the database')
 			->addOption('database-pass', null, InputOption::VALUE_OPTIONAL, 'Password of the database user', null)
 			->addOption('database-table-space', null, InputOption::VALUE_OPTIONAL, 'Table space of the database (oci only)', null)
-			->addOption('admin-user', null, InputOption::VALUE_REQUIRED, 'User name of the admin account', 'admin')
+			->addOption('admin-user', null, InputOption::VALUE_REQUIRED, 'Login of the admin account', 'admin')
 			->addOption('admin-pass', null, InputOption::VALUE_REQUIRED, 'Password of the admin account')
 			->addOption('admin-email', null, InputOption::VALUE_OPTIONAL, 'E-Mail of the admin account')
 			->addOption('data-dir', null, InputOption::VALUE_REQUIRED, 'Path to data directory', \OC::$SERVERROOT."/data");
@@ -150,7 +150,7 @@ class Install extends Command {
 
 		if ($db !== 'sqlite') {
 			if (is_null($dbUser)) {
-				throw new InvalidArgumentException("Database user not provided.");
+				throw new InvalidArgumentException("Database account not provided.");
 			}
 			if (is_null($dbName)) {
 				throw new InvalidArgumentException("Database name not provided.");

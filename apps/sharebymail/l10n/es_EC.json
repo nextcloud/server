@@ -12,7 +12,6 @@
     "Password to access {file} was sent to {email}" : "La contraseña para acceder {file} ha sido enviada a {email}",
     "Password to access {file} was sent to you" : "La contraseña para acceder {file} se te ha sido enviada",
     "Share by mail" : "Compartir por correo",
-    "Sharing %1$s failed, because this item is already shared with user %2$s" : "La compartición de %1$s falló, porque este elemento ya está compartido con el usuario %2$s",
     "We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "No podemos enviarte la contraseña generada automáticamente. Por favor, establece una dirección de correo electrónico válida en tus ajustes personales e inténtalo de nuevo.",
     "Failed to send share by email. Got an invalid email address" : "Error al enviar el compartido por correo electrónico. Se proporcionó una dirección de correo electrónico no válida",
     "Failed to send share by email" : "Se presentó una falla al enviar el elemento compartido por correo electrónico",
@@ -36,9 +35,10 @@
     "You can choose a different password at any time in the share dialog." : "Puedes elegir una contraseña diferente en cualquier momento en la ventana de diálogo de compartir. ",
     "Could not find share" : "No fue posible encontrar el elemento compartido",
     "Share provider which allows you to share files by mail" : "Proveedor de compartidos que te permite compartir archivos por correo electrónico",
-    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Le permite a los usuarios compartir una liga personalizada a un archivo o carpeta colocando una dirección de correo eletrónico. ",
     "Send password by mail" : "La contraseña ha sido enviada por correo",
     "Reply to initiator" : "Responder al remitente",
-    "Unable to update share by mail config" : "No se pudo actualizar la configuración de compartido por correo"
+    "Unable to update share by mail config" : "No se pudo actualizar la configuración de compartido por correo",
+    "Sharing %1$s failed, because this item is already shared with user %2$s" : "La compartición de %1$s falló, porque este elemento ya está compartido con el usuario %2$s",
+    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Le permite a los usuarios compartir una liga personalizada a un archivo o carpeta colocando una dirección de correo eletrónico. "
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

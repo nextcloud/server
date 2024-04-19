@@ -34,11 +34,11 @@ describe('Settings: Show and hide columns', function() {
 
 	beforeEach(function() {
 		// open the settings dialog
-		cy.get('.app-navigation-entry__settings').contains('User management settings').click()
+		cy.contains('button', 'Account management settings').click()
 		// reset all visibility toggles
 		cy.get('.modal-container #settings-section_visibility-settings input[type="checkbox"]').uncheck({ force: true })
 
-		cy.contains('.modal-container', 'User management settings').within(() => {
+		cy.contains('.modal-container', 'Account management settings').within(() => {
 			// enable the last login toggle
 			cy.get('[data-test="showLastLogin"] input[type="checkbox"]').check({ force: true })
 			// close the settings dialog
@@ -57,9 +57,9 @@ describe('Settings: Show and hide columns', function() {
 		})
 
 		// open the settings dialog
-		cy.get('.app-navigation-entry__settings').contains('User management settings').click()
+		cy.contains('button', 'Account management settings').click()
 
-		cy.contains('.modal-container', 'User management settings').within(() => {
+		cy.contains('.modal-container', 'Account management settings').within(() => {
 			// enable the language toggle
 			cy.get('[data-test="showLanguages"] input[type="checkbox"]').should('not.be.checked')
 			cy.get('[data-test="showLanguages"] input[type="checkbox"]').check({ force: true })
@@ -88,9 +88,9 @@ describe('Settings: Show and hide columns', function() {
 		})
 
 		// open the settings dialog
-		cy.get('.app-navigation-entry__settings').contains('User management settings').click()
+		cy.contains('button', 'Account management settings').click()
 
-		cy.contains('.modal-container', 'User management settings').within(() => {
+		cy.contains('.modal-container', 'Account management settings').within(() => {
 			// disable the last login toggle
 			cy.get('[data-test="showLastLogin"] input[type="checkbox"]').should('be.checked')
 			cy.get('[data-test="showLastLogin"] input[type="checkbox"]').uncheck({ force: true })
@@ -98,7 +98,7 @@ describe('Settings: Show and hide columns', function() {
 			// close the settings dialog
 			cy.get('button.modal-container__close').click()
 		})
-		cy.waitUntil(() => cy.contains('.modal-container', 'User management settings').should(el => assertNotExistOrNotVisible(el)))
+		cy.waitUntil(() => cy.contains('.modal-container', 'Account management settings').should(el => assertNotExistOrNotVisible(el)))
 
 		// see that the last login column is not in the header
 		cy.get('[data-cy-user-list-header-last-login]').should('not.exist')

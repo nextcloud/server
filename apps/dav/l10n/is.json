@@ -1,6 +1,6 @@
 { "translations": {
     "Calendar" : "Dagatal",
-    "To-dos" : "Verkþættir",
+    "Tasks" : "Verkefni",
     "Personal" : "Einka",
     "{actor} created calendar {calendar}" : "{actor} bjó til dagatalið {calendar}",
     "You created calendar {calendar}" : "Þú bjóst til dagatalið {calendar}",
@@ -141,7 +141,6 @@
     "Configures a CalDAV account" : "Setur upp CalDAV aðgang",
     "Configures a CardDAV account" : "Setur upp CardDAV aðgang",
     "Events" : "Atburðir",
-    "Tasks" : "Verkefni",
     "Untitled task" : "Ónefnt verkefni",
     "Completed on %s" : "Lokið þann %s",
     "Due on %s by %s" : "Á að ljúka %s af %s",
@@ -149,11 +148,12 @@
     "DAV system address book" : "DAV-kerfisnafnaskrá",
     "No outstanding DAV system address book sync." : "Engar eftirstandandi samstillingar við DAV-kerfisnafnaskrá.",
     "The DAV system address book sync has not run yet as your instance has more than 1000 users or because an error occurred. Please run it manually by calling \"occ dav:sync-system-addressbook\"." : "Samstilling við DAV-nafnaskrá kerfisins hefur ekki enn verið keyrð, þar sem tilvikið þitt er með fleiri en 1000 notendur eða að villa hefur komið upp. Keyrðu samstillinguna handvirkt með því að kalla á occ dav:sync-system-addressbook\".",
+    "WebDAV endpoint" : "WebDAV-endapunktur",
+    "Your web server is not yet properly set up to allow file synchronization, because the WebDAV interface seems to be broken." : "Vefþjónninn er ekki enn sett upp á réttan hátt til að leyfa skráasamstillingu því WebDAV viðmótið virðist vera skemmt.",
     "Migrated calendar (%1$s)" : "Yfirfært dagatal (%1$s)",
     "Calendars including events, details and attendees" : "Dagatöl sem innihalda atburði, nánari upplýsingar og þátttakendur",
     "Contacts and groups" : "Tengiliðir og hópar",
     "WebDAV" : "WebDAV",
-    "WebDAV endpoint" : "WebDAV-endapunktur",
     "First day" : "Fyrsta dag",
     "Last day (inclusive)" : "Síðasta dag (meðtalinn)",
     "Short absence status" : "Staða stuttrar fjarveru",
@@ -183,7 +183,6 @@
     "Saved availability" : "Vistaði lausa tíma",
     "Failed to save availability" : "Mistókst að hlaða vista lausa tíma",
     "Availability" : "Aðgengileiki",
-    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Ef þú stillir vinnutímana þína, geta aðrir séð hvenæt þú sért fjarverandi þegar þeir bóka fundi með þér.",
     "Absence" : "Fjarverandi",
     "Configure your next absence period." : "Stilltu næsta fjarvistatímabilið þitt",
     "Calendar server" : "Dagatalaþjónn",
@@ -202,6 +201,8 @@
     "Please contact the organizer directly." : "Hafðu samband beint við skipuleggjendurna.",
     "Are you accepting the invitation?" : "Ætlar þú að samþykkja boðið?",
     "Tentative" : "Bráðabirgða",
-    "Your attendance was updated successfully." : "Mætingarstaða þín var uppfærð."
+    "Your attendance was updated successfully." : "Mætingarstaða þín var uppfærð.",
+    "To-dos" : "Verkþættir",
+    "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Ef þú stillir vinnutímana þína, geta aðrir séð hvenæt þú sért fjarverandi þegar þeir bóka fundi með þér."
 },"pluralForm" :"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);"
 }

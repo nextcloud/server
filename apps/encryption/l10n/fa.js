@@ -42,7 +42,6 @@ OC.L10N.register(
     "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "با فعال کردن این گزینه، فایل های ذخیره شده در حافظه اصلی رمزگذاری می شود؛ در غیر این صورت فقط پرونده های موجود در حافظه خارجی رمزگذاری می شوند.",
     "Enable recovery key" : "فعال‌سازی کلید بازیابی",
     "Disable recovery key" : "غیرفعال‌سازی کلید بازیابی",
-    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "کلید بازیابی یک کلید رمزگذاری اضافی است که برای رمزگذاری پرونده ها استفاده می شود. اگر کاربر رمزعبور خود را فراموش کند ، امکان بازیابی پرونده های کاربر را فراهم می کند.",
     "Recovery key password" : "رمزعبور کلید بازیابی",
     "Repeat recovery key password" : "تکرار رمزعبور کلید بازیابی",
     "Change recovery key password:" : "تغییر رمزعبور کلید بازیابی:",
@@ -62,6 +61,6 @@ OC.L10N.register(
     "Enabled" : "فعال شده",
     "Disabled" : "غیرفعال شده",
     "Please login to the web interface, go to the \"Security\" section of your personal settings and update your encryption password by entering this password into the \"Old log-in password\" field and your current login-password." : "Please login to the web interface, go to the \"Security\" section of your personal settings and update your encryption password by entering this password into the \"Old log-in password\" field and your current login-password.",
-    "In order to use this encryption module you need to enable server-side\n\t\tencryption in the admin settings. Once enabled this module will encrypt\n\t\tall your files transparently. The encryption is based on AES 256 keys.\n\t\tThe module won't touch existing files, only new files will be encrypted\n\t\tafter server-side encryption was enabled. It is also not possible to\n\t\tdisable the encryption again and switch back to a unencrypted system.\n\t\tPlease read the documentation to know all implications before you decide\n\t\tto enable server-side encryption." : "برای استفاده از این ماژول رمزگذاری باید سمت سرور را فعال کنید پس از فعال کردن ماژول رمزگذاری در تنظیمات مدیر، رمزگذاری می شود همه پرونده های شما با شفافیت رمزگذاری بر اساس کلید AES 256 است. ماژول پرونده های موجود را لمس نمی کند، فقط پرونده های جدید رمزگذاری می شوند پس از فعال کردن رمزگذاری سمت سرور ممکن نیست رمزنگاری را مجدد غیرفعال کنید و به یک سیستم رمز نشده بازگردید. قبل از انجام عملیات و فعال کردن رمزگذاری سمت سرور توضیحات را بخوانید."
+    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "کلید بازیابی یک کلید رمزگذاری اضافی است که برای رمزگذاری پرونده ها استفاده می شود. اگر کاربر رمزعبور خود را فراموش کند ، امکان بازیابی پرونده های کاربر را فراهم می کند."
 },
 "nplurals=2; plural=(n > 1);");
