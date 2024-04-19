@@ -27,6 +27,7 @@ declare(strict_types=1);
 
 namespace OCA\Files_Versions\Versions;
 
+use Exception;
 use OC\Files\View;
 use OCA\DAV\Connector\Sabre\Exception\Forbidden;
 use OCA\Files_Sharing\ISharedStorage;
@@ -45,14 +46,16 @@ use OCP\Files\Storage\IStorage;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use Psr\Log\LoggerInterface;
 
-class LegacyVersionsBackend implements IVersionBackend, IDeletableVersionBackend, INeedSyncVersionBackend, IMetadataVersionBackend {
+class LegacyVersionsBackend implements IVersionBackend, IDeletableVersionBackend, INeedSyncVersionBackend, IMetadataVersionBackend, IVersionsImporterBackend {
 	public function __construct(
 		private IRootFolder $rootFolder,
 		private IUserManager $userManager,
 		private VersionsMapper $versionsMapper,
 		private IMimeTypeLoader $mimeTypeLoader,
 		private IUserSession $userSession,
+		private LoggerInterface $logger,
 	) {
 	}
 
@@ -275,15 +278,23 @@ class LegacyVersionsBackend implements IVersionBackend, IDeletableVersionBackend
 			throw new NotFoundException("No user logged in");
 		}
 
-		if ($sourceFile->getOwner()?->getUID() !== $currentUserId) {
-			$nodes = $this->rootFolder->getUserFolder($currentUserId)->getById($sourceFile->getId());
-			$sourceFile = array_pop($nodes);
-			if (!$sourceFile) {
-				throw new NotFoundException("Version file not accessible by current user");
+		if ($sourceFile->getOwner()?->getUID() === $currentUserId) {
+			return ($sourceFile->getPermissions() & $permissions) === $permissions;
+		}
+
+		$nodes = $this->rootFolder->getUserFolder($currentUserId)->getById($sourceFile->getId());
+
+		if (count($nodes) === 0) {
+			throw new NotFoundException("Version file not accessible by current user");
+		}
+
+		foreach ($nodes as $node) {
+			if (($node->getPermissions() & $permissions) === $permissions) {
+				return true;
 			}
 		}
 
-		return ($sourceFile->getPermissions() & $permissions) === $permissions;
+		return false;
 	}
 
 	public function setMetadataValue(Node $node, int $revision, string $key, string $value): void {
@@ -295,5 +306,75 @@ class LegacyVersionsBackend implements IVersionBackend, IDeletableVersionBackend
 
 		$versionEntity->setMetadataValue($key, $value);
 		$this->versionsMapper->update($versionEntity);
+	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	public function importVersionsForFile(IUser $user, Node $source, Node $target, array $versions): void {
+		$userFolder = $this->rootFolder->getUserFolder($user->getUID());
+		$relativePath = $userFolder->getRelativePath($target->getPath());
+
+		if ($relativePath === null) {
+			throw new \Exception('Target does not have a relative path' . $target->getPath());
+		}
+
+		$userView = new View('/' . $user->getUID());
+		// create all parent folders
+		Storage::createMissingDirectories($relativePath, $userView);
+		Storage::scheduleExpire($user->getUID(), $relativePath);
+
+		foreach ($versions as $version) {
+			// 1. Import the file in its new location.
+			// Nothing to do for the current version.
+			if ($version->getTimestamp() !== $source->getMTime()) {
+				$backend = $version->getBackend();
+				$versionFile = $backend->getVersionFile($user, $source, $version->getRevisionId());
+				$newVersionPath = 'files_versions/' . $relativePath . '.v' . $version->getTimestamp();
+
+				$versionContent = $versionFile->fopen('r');
+				if ($versionContent === false) {
+					$this->logger->warning('Fail to open version file.', ['source' => $source, 'version' => $version, 'versionFile' => $versionFile]);
+					continue;
+				}
+
+				$userView->file_put_contents($newVersionPath, $versionContent);
+				// ensure the file is scanned
+				$userView->getFileInfo($newVersionPath);
+			}
+
+			// 2. Create the entity in the database
+			$versionEntity = new VersionEntity();
+			$versionEntity->setFileId($target->getId());
+			$versionEntity->setTimestamp($version->getTimestamp());
+			$versionEntity->setSize($version->getSize());
+			$versionEntity->setMimetype($this->mimeTypeLoader->getId($version->getMimetype()));
+			if ($version instanceof IMetadataVersion) {
+				$versionEntity->setMetadata($version->getMetadata());
+			}
+			$this->versionsMapper->insert($versionEntity);
+		}
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function clearVersionsForFile(IUser $user, Node $source, Node $target): void {
+		$userFolder = $this->rootFolder->getUserFolder($user->getUID());
+
+		$relativePath = $userFolder->getRelativePath($source->getPath());
+		if ($relativePath === null) {
+			throw new Exception("Relative path not found for node with path: " . $source->getPath());
+		}
+
+		$versions = Storage::getVersions($user->getUID(), $relativePath);
+		/** @var Folder versionFolder */
+		$versionFolder = $this->rootFolder->get('admin/files_versions');
+		foreach ($versions as $version) {
+			$versionFolder->get($version['path'] . '.v' . (int)$version['version'])->delete();
+		}
+
+		$this->versionsMapper->deleteAllVersionsForFileId($target->getId());
 	}
 }

@@ -2169,7 +2169,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				->andWhere($searchOr)
 				->andWhere($calendarObjectIdQuery->expr()->isNull('deleted_at'));
 
-			if ('' !== $pattern) {
+			if ($pattern !== '') {
 				if (!$escapePattern) {
 					$calendarObjectIdQuery->andWhere($calendarObjectIdQuery->expr()->ilike('cob.value', $calendarObjectIdQuery->createNamedParameter($pattern)));
 				} else {
@@ -2347,7 +2347,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * @param int $syncLevel
 	 * @param int|null $limit
 	 * @param int $calendarType
-	 * @return array
+	 * @return ?array
 	 */
 	public function getChangesForCalendar($calendarId, $syncToken, $syncLevel, $limit = null, $calendarType = self::CALENDAR_TYPE_CALENDAR) {
 		$table = $calendarType === self::CALENDAR_TYPE_CALENDAR ? 'calendars': 'calendarsubscriptions';
@@ -2785,6 +2785,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 					'calendarid' => $query->createNamedParameter($calendarId),
 					'operation' => $query->createNamedParameter($operation),
 					'calendartype' => $query->createNamedParameter($calendarType),
+					'created_at' => time(),
 				]);
 			foreach ($objectUris as $uri) {
 				$query->setParameter('uri', $uri);
@@ -3259,7 +3260,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	/**
 	 * @throws \InvalidArgumentException
 	 */
-	public function pruneOutdatedSyncTokens(int $keep = 10_000): int {
+	public function pruneOutdatedSyncTokens(int $keep, int $retention): int {
 		if ($keep < 0) {
 			throw new \InvalidArgumentException();
 		}
@@ -3277,7 +3278,10 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 
 		$query = $this->db->getQueryBuilder();
 		$query->delete('calendarchanges')
-			->where($query->expr()->lte('id', $query->createNamedParameter($maxId - $keep, IQueryBuilder::PARAM_INT), IQueryBuilder::PARAM_INT));
+			->where(
+				$query->expr()->lte('id', $query->createNamedParameter($maxId - $keep, IQueryBuilder::PARAM_INT), IQueryBuilder::PARAM_INT),
+				$query->expr()->lte('created_at', $query->createNamedParameter($retention)),
+			);
 		return $query->executeStatement();
 	}
 

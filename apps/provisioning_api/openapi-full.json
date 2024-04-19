@@ -309,10 +309,10 @@
                 "type": "object",
                 "properties": {
                     "free": {
-                        "oneOf": [
+                        "anyOf": [
                             {
                                 "type": "number",
-                                "format": "float"
+                                "format": "double"
                             },
                             {
                                 "type": "integer",
@@ -321,10 +321,10 @@
                         ]
                     },
                     "quota": {
-                        "oneOf": [
+                        "anyOf": [
                             {
                                 "type": "number",
-                                "format": "float"
+                                "format": "double"
                             },
                             {
                                 "type": "integer",
@@ -336,10 +336,10 @@
                         ]
                     },
                     "relative": {
-                        "oneOf": [
+                        "anyOf": [
                             {
                                 "type": "number",
-                                "format": "float"
+                                "format": "double"
                             },
                             {
                                 "type": "integer",
@@ -348,10 +348,10 @@
                         ]
                     },
                     "total": {
-                        "oneOf": [
+                        "anyOf": [
                             {
                                 "type": "number",
-                                "format": "float"
+                                "format": "double"
                             },
                             {
                                 "type": "integer",
@@ -360,10 +360,10 @@
                         ]
                     },
                     "used": {
-                        "oneOf": [
+                        "anyOf": [
                             {
                                 "type": "number",
-                                "format": "float"
+                                "format": "double"
                             },
                             {
                                 "type": "integer",
@@ -535,7 +535,7 @@
             "post": {
                 "operationId": "apps-enable",
                 "summary": "Enable an app",
-                "description": "This endpoint requires admin access",
+                "description": "This endpoint requires admin access\nThis endpoint requires password confirmation",
                 "tags": [
                     "apps"
                 ],
@@ -602,7 +602,7 @@
             "delete": {
                 "operationId": "apps-disable",
                 "summary": "Disable an app",
-                "description": "This endpoint requires admin access",
+                "description": "This endpoint requires admin access\nThis endpoint requires password confirmation",
                 "tags": [
                     "apps"
                 ],
@@ -1002,7 +1002,7 @@
             "post": {
                 "operationId": "users-add-sub-admin",
                 "summary": "Make a user a subadmin of a group",
-                "description": "This endpoint requires admin access",
+                "description": "This endpoint requires admin access\nThis endpoint requires password confirmation",
                 "tags": [
                     "users"
                 ],
@@ -1078,7 +1078,7 @@
             "delete": {
                 "operationId": "users-remove-sub-admin",
                 "summary": "Remove a user from the subadmins of a group",
-                "description": "This endpoint requires admin access",
+                "description": "This endpoint requires admin access\nThis endpoint requires password confirmation",
                 "tags": [
                     "users"
                 ],
@@ -1357,6 +1357,7 @@
             "post": {
                 "operationId": "app_config-set-value",
                 "summary": "Update the config value of an app",
+                "description": "This endpoint requires password confirmation",
                 "tags": [
                     "app_config"
                 ],
@@ -1668,9 +1669,27 @@
                     "404": {
                         "description": "Group not found",
                         "content": {
-                            "text/plain": {
+                            "application/json": {
                                 "schema": {
-                                    "type": "string"
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -1678,9 +1697,27 @@
                     "403": {
                         "description": "Missing permissions to get users in the group",
                         "content": {
-                            "text/plain": {
+                            "application/json": {
                                 "schema": {
-                                    "type": "string"
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -1784,7 +1821,7 @@
                                                         "users": {
                                                             "type": "object",
                                                             "additionalProperties": {
-                                                                "oneOf": [
+                                                                "anyOf": [
                                                                     {
                                                                         "$ref": "#/components/schemas/UserDetails"
                                                                     },
@@ -1917,6 +1954,7 @@
             "post": {
                 "operationId": "users-add-user",
                 "summary": "Create a new user",
+                "description": "This endpoint requires password confirmation",
                 "tags": [
                     "users"
                 ],
@@ -2069,9 +2107,27 @@
                     "403": {
                         "description": "Missing permissions to make user subadmin",
                         "content": {
-                            "text/plain": {
+                            "application/json": {
                                 "schema": {
-                                    "type": "string"
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -2165,7 +2221,7 @@
                                                         "users": {
                                                             "type": "object",
                                                             "additionalProperties": {
-                                                                "oneOf": [
+                                                                "anyOf": [
                                                                     {
                                                                         "$ref": "#/components/schemas/UserDetails"
                                                                     },
@@ -2272,7 +2328,7 @@
                                                         "users": {
                                                             "type": "object",
                                                             "additionalProperties": {
-                                                                "oneOf": [
+                                                                "anyOf": [
                                                                     {
                                                                         "$ref": "#/components/schemas/UserDetails"
                                                                     },
@@ -2484,6 +2540,7 @@
             "put": {
                 "operationId": "users-edit-user",
                 "summary": "Update a value of the user's details",
+                "description": "This endpoint requires password confirmation",
                 "tags": [
                     "users"
                 ],
@@ -2568,6 +2625,7 @@
             "delete": {
                 "operationId": "users-delete-user",
                 "summary": "Delete a user",
+                "description": "This endpoint requires password confirmation",
                 "tags": [
                     "users"
                 ],
@@ -2834,6 +2892,7 @@
             "put": {
                 "operationId": "users-edit-user-multi-value",
                 "summary": "Update multiple values of the user's details",
+                "description": "This endpoint requires password confirmation",
                 "tags": [
                     "users"
                 ],
@@ -2930,6 +2989,7 @@
             "post": {
                 "operationId": "users-wipe-user-devices",
                 "summary": "Wipe all devices of a user",
+                "description": "This endpoint requires password confirmation",
                 "tags": [
                     "users"
                 ],
@@ -2998,6 +3058,7 @@
             "put": {
                 "operationId": "users-enable-user",
                 "summary": "Enable a user",
+                "description": "This endpoint requires password confirmation",
                 "tags": [
                     "users"
                 ],
@@ -3066,6 +3127,7 @@
             "put": {
                 "operationId": "users-disable-user",
                 "summary": "Disable a user",
+                "description": "This endpoint requires password confirmation",
                 "tags": [
                     "users"
                 ],
@@ -3213,6 +3275,7 @@
             "post": {
                 "operationId": "users-add-to-group",
                 "summary": "Add a user to a group",
+                "description": "This endpoint requires password confirmation",
                 "tags": [
                     "users"
                 ],
@@ -3288,6 +3351,7 @@
             "delete": {
                 "operationId": "users-remove-from-group",
                 "summary": "Remove a user from a group",
+                "description": "This endpoint requires password confirmation",
                 "tags": [
                     "users"
                 ],
@@ -3365,6 +3429,7 @@
             "post": {
                 "operationId": "users-resend-welcome-message",
                 "summary": "Resend the welcome message",
+                "description": "This endpoint requires password confirmation",
                 "tags": [
                     "users"
                 ],

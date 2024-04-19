@@ -50,7 +50,7 @@ class CacheJail extends CacheWrapper {
 	public function __construct(
 		?ICache $cache,
 		string $root,
-		CacheDependencies $dependencies = null,
+		?CacheDependencies $dependencies = null,
 	) {
 		parent::__construct($cache, $dependencies);
 		$this->root = $root;
@@ -88,7 +88,7 @@ class CacheJail extends CacheWrapper {
 	 * @param null|string $root
 	 * @return null|string the jailed path or null if the path is outside the jail
 	 */
-	protected function getJailedPath(string $path, string $root = null) {
+	protected function getJailedPath(string $path, ?string $root = null) {
 		if ($root === null) {
 			$root = $this->getRoot();
 		}

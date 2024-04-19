@@ -192,7 +192,7 @@ class PublicKeyTokenProvider implements IProvider {
 	 */
 	private function getTokenFromCache(string $tokenHash): ?PublicKeyToken {
 		$serializedToken = $this->cache->get($tokenHash);
-		if (null === $serializedToken) {
+		if ($serializedToken === null) {
 			if ($this->cache->hasKey($tokenHash)) {
 				throw new InvalidTokenException('Token does not exist: ' . $tokenHash);
 			}

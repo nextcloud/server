@@ -131,7 +131,6 @@
     "Storage connection error. %s" : "Koneksi penyimpanan bermasalah. %s",
     "Storage is temporarily not available" : "Penyimpanan sementara tidak tersedia",
     "Storage connection timeout. %s" : "Koneksi penyimpanan waktu-habis. %s",
-    "Full name" : "Nama lengkap",
     "Unknown user" : "Pengguna tidak dikenal",
     "Oracle username and/or password not valid" : "Nama pengguna dan/atau kata sandi Oracle tidak sah",
     "PostgreSQL username and/or password not valid" : "Nama pengguna dan/atau kata sandi PostgreSQL tidak valid",
@@ -141,8 +140,6 @@
     "A valid username must be provided" : "Tuliskan nama pengguna yang valid",
     "Username contains whitespace at the beginning or at the end" : "Nama pengguna mengandung spasi di depan atau di belakang.",
     "User disabled" : "Pengguna dinonaktifkan",
-    "libxml2 2.7.0 is at least required. Currently %s is installed." : "Setidaknya libxml2 2.7.0 dibutuhkan. Saat ini %s dipasang.",
-    "To fix this issue update your libxml2 version and restart your web server." : "Untuk mengatasi masalah ini, perbarui versi libxml2 Anda dan mulai-ulang server web Anda.",
     "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Mohon ubah perizinan menjadi 0770 sehingga direktori tersebut tidak dapat dilihat oleh pengguna lain."
 },"pluralForm" :"nplurals=1; plural=0;"
 }

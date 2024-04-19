@@ -58,7 +58,7 @@ export async function findScheduleInboxAvailability() {
 			</x0:propfind>`,
 	})
 
-	const xml = await parseXML(response.data)
+	const xml = await parseXML(await response.text())
 
 	if (!xml) {
 		return undefined

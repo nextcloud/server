@@ -117,6 +117,7 @@ export interface TemplateFile {
 	label: string
 	extension: string
 	iconClass?: string
+	iconSvgInline?: string
 	mimetypes: string[]
 	ratio?: number
 	templates?: Record<string, unknown>[]

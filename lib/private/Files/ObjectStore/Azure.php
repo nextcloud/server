@@ -100,7 +100,7 @@ class Azure implements IObjectStore {
 		return $blob->getContentStream();
 	}
 
-	public function writeObject($urn, $stream, string $mimetype = null) {
+	public function writeObject($urn, $stream, ?string $mimetype = null) {
 		$options = new CreateBlockBlobOptions();
 		if ($mimetype) {
 			$options->setContentType($mimetype);

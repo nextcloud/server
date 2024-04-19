@@ -4,7 +4,7 @@
 		"optimize-autoloader": true,
 		"sort-packages": true,
 		"platform": {
-			"php": "8.0"
+			"php": "8.1"
 		},
 		"allow-plugins": {
 			"bamarni/composer-bin-plugin": true
@@ -23,7 +23,7 @@
 		}
 	},
 	"require": {
-		"php": "^8.0",
+		"php": "^8.1",
 		"ext-ctype": "*",
 		"ext-curl": "*",
 		"ext-dom": "*",

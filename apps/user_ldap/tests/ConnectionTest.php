@@ -114,7 +114,7 @@ class ConnectionTest extends \Test\TestCase {
 
 		$this->ldap->expects($this->exactly(3))
 			->method('connect')
-			->willReturn('ldapResource');
+			->willReturn(ldap_connect('ldap://example.com'));
 
 		$this->ldap->expects($this->any())
 			->method('errno')
@@ -173,7 +173,7 @@ class ConnectionTest extends \Test\TestCase {
 
 		$this->ldap->expects($this->once())
 			->method('connect')
-			->willReturn('ldapResource');
+			->willReturn(ldap_connect('ldap://example.com'));
 
 		$this->ldap->expects($this->any())
 			->method('errno')
@@ -221,7 +221,7 @@ class ConnectionTest extends \Test\TestCase {
 
 		$this->ldap->expects($this->any())
 			->method('connect')
-			->willReturn('ldapResource');
+			->willReturn(ldap_connect('ldap://example.com'));
 
 		$this->ldap->expects($this->once())
 			->method('bind')
@@ -264,7 +264,7 @@ class ConnectionTest extends \Test\TestCase {
 
 		$this->ldap->expects($this->any())
 			->method('connect')
-			->willReturn('ldapResource');
+			->willReturn(ldap_connect('ldap://example.com'));
 
 		$this->ldap->expects($this->any())
 			->method('setOption')

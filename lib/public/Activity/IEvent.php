@@ -30,6 +30,8 @@ declare(strict_types=1);
 
 namespace OCP\Activity;
 
+use OCP\Activity\Exceptions\InvalidValueException;
+
 /**
  * Interface IEvent
  *
@@ -41,8 +43,9 @@ interface IEvent {
 	 *
 	 * @param string $app
 	 * @return IEvent
-	 * @throws \InvalidArgumentException if the app id is invalid
+	 * @throws InvalidValueException if the app id is invalid
 	 * @since 8.2.0
+	 * @since 30.0.0 throws {@see InvalidValueException} instead of \InvalidArgumentException
 	 */
 	public function setApp(string $app): self;
 
@@ -51,28 +54,31 @@ interface IEvent {
 	 *
 	 * @param string $type
 	 * @return IEvent
-	 * @throws \InvalidArgumentException if the type is invalid
+	 * @throws InvalidValueException if the type is invalid
 	 * @since 8.2.0
+	 * @since 30.0.0 throws {@see InvalidValueException} instead of \InvalidArgumentException
 	 */
 	public function setType(string $type): self;
 
 	/**
 	 * Set the affected user of the activity
 	 *
-	 * @param string $user
+	 * @param string $affectedUser
 	 * @return IEvent
-	 * @throws \InvalidArgumentException if the affected user is invalid
+	 * @throws InvalidValueException if the affected user is invalid
 	 * @since 8.2.0
+	 * @since 30.0.0 throws {@see InvalidValueException} instead of \InvalidArgumentException
 	 */
-	public function setAffectedUser(string $user): self;
+	public function setAffectedUser(string $affectedUser): self;
 
 	/**
 	 * Set the author of the activity
 	 *
 	 * @param string $author
 	 * @return IEvent
-	 * @throws \InvalidArgumentException if the author is invalid
+	 * @throws InvalidValueException if the author is invalid
 	 * @since 8.2.0
+	 * @since 30.0.0 throws {@see InvalidValueException} instead of \InvalidArgumentException
 	 */
 	public function setAuthor(string $author): self;
 
@@ -81,8 +87,9 @@ interface IEvent {
 	 *
 	 * @param int $timestamp
 	 * @return IEvent
-	 * @throws \InvalidArgumentException if the timestamp is invalid
+	 * @throws InvalidValueException if the timestamp is invalid
 	 * @since 8.2.0
+	 * @since 30.0.0 throws {@see InvalidValueException} instead of \InvalidArgumentException
 	 */
 	public function setTimestamp(int $timestamp): self;
 
@@ -92,8 +99,9 @@ interface IEvent {
 	 * @param string $subject
 	 * @param array $parameters
 	 * @return IEvent
-	 * @throws \InvalidArgumentException if the subject or parameters are invalid
+	 * @throws InvalidValueException if the subject or parameters are invalid
 	 * @since 8.2.0
+	 * @since 30.0.0 throws {@see InvalidValueException} instead of \InvalidArgumentException
 	 */
 	public function setSubject(string $subject, array $parameters = []): self;
 
@@ -109,8 +117,9 @@ interface IEvent {
 	 *
 	 * @param string $subject
 	 * @return $this
-	 * @throws \InvalidArgumentException if the subject is invalid
+	 * @throws InvalidValueException if the subject is invalid
 	 * @since 11.0.0
+	 * @since 30.0.0 throws {@see InvalidValueException} instead of \InvalidArgumentException
 	 */
 	public function setParsedSubject(string $subject): self;
 
@@ -132,8 +141,9 @@ interface IEvent {
 	 * @param string $subject
 	 * @param array $parameters
 	 * @return $this
-	 * @throws \InvalidArgumentException if the subject or parameters are invalid
+	 * @throws InvalidValueException if the subject or parameters are invalid
 	 * @since 11.0.0
+	 * @since 30.0.0 throws {@see InvalidValueException} instead of \InvalidArgumentException
 	 */
 	public function setRichSubject(string $subject, array $parameters = []): self;
 
@@ -155,8 +165,9 @@ interface IEvent {
 	 * @param string $message
 	 * @param array $parameters
 	 * @return IEvent
-	 * @throws \InvalidArgumentException if the message or parameters are invalid
+	 * @throws InvalidValueException if the message or parameters are invalid
 	 * @since 8.2.0
+	 * @since 30.0.0 throws {@see InvalidValueException} instead of \InvalidArgumentException
 	 */
 	public function setMessage(string $message, array $parameters = []): self;
 
@@ -172,8 +183,9 @@ interface IEvent {
 	 *
 	 * @param string $message
 	 * @return $this
-	 * @throws \InvalidArgumentException if the message is invalid
+	 * @throws InvalidValueException if the message is invalid
 	 * @since 11.0.0
+	 * @since 30.0.0 throws {@see InvalidValueException} instead of \InvalidArgumentException
 	 */
 	public function setParsedMessage(string $message): self;
 
@@ -197,6 +209,7 @@ interface IEvent {
 	 * @return $this
 	 * @throws \InvalidArgumentException if the message or parameters are invalid
 	 * @since 11.0.0
+	 * @since 30.0.0 throws {@see InvalidValueException} instead of \InvalidArgumentException
 	 */
 	public function setRichMessage(string $message, array $parameters = []): self;
 
@@ -219,8 +232,9 @@ interface IEvent {
 	 * @param int $objectId
 	 * @param string $objectName
 	 * @return IEvent
-	 * @throws \InvalidArgumentException if the object is invalid
+	 * @throws InvalidValueException if the object is invalid
 	 * @since 8.2.0
+	 * @since 30.0.0 throws {@see InvalidValueException} instead of \InvalidArgumentException
 	 */
 	public function setObject(string $objectType, int $objectId, string $objectName = ''): self;
 
@@ -229,8 +243,9 @@ interface IEvent {
 	 *
 	 * @param string $link
 	 * @return IEvent
-	 * @throws \InvalidArgumentException if the link is invalid
+	 * @throws InvalidValueException if the link is invalid
 	 * @since 8.2.0
+	 * @since 30.0.0 throws {@see InvalidValueException} instead of \InvalidArgumentException
 	 */
 	public function setLink(string $link): self;
 
@@ -315,8 +330,9 @@ interface IEvent {
 	/**
 	 * @param string $icon
 	 * @return $this
-	 * @throws \InvalidArgumentException if the icon is invalid
+	 * @throws InvalidValueException if the icon is invalid
 	 * @since 11.0.0
+	 * @since 30.0.0 throws {@see InvalidValueException} instead of \InvalidArgumentException
 	 */
 	public function setIcon(string $icon): self;
 
@@ -352,7 +368,7 @@ interface IEvent {
 	public function isValidParsed(): bool;
 
 	/**
-	 * Set whether or not a notification should be automatically generated for this activity.
+	 * Set whether a notification should be automatically generated for this activity.
 	 *
 	 * Set this to `false` if the app already generates a notification for the event.
 	 *
@@ -363,7 +379,7 @@ interface IEvent {
 	public function setGenerateNotification(bool $generate): self;
 
 	/**
-	 * whether or not a notification should be automatically generated for this activity.
+	 * Whether a notification should be automatically generated for this activity.
 	 *
 	 * @return bool
 	 * @since 20.0.0

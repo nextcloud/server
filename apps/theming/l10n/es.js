@@ -65,8 +65,8 @@ OC.L10N.register(
     "Upload new background and login image" : "Cargar una nueva imagen de fondo y de ingreso",
     "Legal notice link" : "Enlace al aviso legal",
     "Privacy policy link" : "Enlace a la política de privacidad",
-    "Header logo" : "Logo de la cabecera",
-    "Upload new header logo" : "Subir nuevo logo de la cabecera",
+    "Header logo" : "Logo del encabezado",
+    "Upload new header logo" : "Subir nuevo logo del encabezado",
     "Favicon" : "Favicon",
     "Upload new favicon" : "Subir nuevo favicon",
     "User settings" : "Configuración de usuario",
@@ -110,8 +110,6 @@ OC.L10N.register(
     "Reset to default" : "Vovler a configuración por defecto",
     "Upload" : "Subir",
     "Remove background image" : "Eliminar imagen de fondo",
-    "Failed to clean up the old administration theming images folder" : "Fallo al limpiar la carpeta antigua del administrador con las imágenes de temas",
-    "Failed to clean up the old administration image folder" : "Fallo al limpiar la carpeta de imágenes de administración antigua",
     "Select a custom color" : "Seleccionar un color personalizado"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

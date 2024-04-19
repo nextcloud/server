@@ -214,6 +214,8 @@ export default defineComponent({
 			loading: true,
 			promise: null,
 			Type,
+
+			_unsubscribeStore: () => {},
 		}
 	},
 
@@ -426,6 +428,7 @@ export default defineComponent({
 
 			logger.debug('View changed', { newView, oldView })
 			this.selectionStore.reset()
+			this.resetSearch()
 			this.fetchContent()
 		},
 
@@ -433,6 +436,7 @@ export default defineComponent({
 			logger.debug('Directory changed', { newDir, oldDir })
 			// TODO: preserve selection on browsing?
 			this.selectionStore.reset()
+			this.resetSearch()
 			this.fetchContent()
 
 			// Scroll to top, force virtual scroller to re-render
@@ -452,10 +456,16 @@ export default defineComponent({
 		subscribe('files:node:updated', this.onUpdatedNode)
 		subscribe('nextcloud:unified-search.search', this.onSearch)
 		subscribe('nextcloud:unified-search.reset', this.onSearch)
+
+		// reload on settings change
+		this._unsubscribeStore = this.userConfigStore.$subscribe(() => this.fetchContent(), { deep: true })
 	},
 
 	unmounted() {
 		unsubscribe('files:node:updated', this.onUpdatedNode)
+		unsubscribe('nextcloud:unified-search.search', this.onSearch)
+		unsubscribe('nextcloud:unified-search.reset', this.onSearch)
+		this._unsubscribeStore()
 	},
 
 	methods: {
@@ -600,6 +610,14 @@ export default defineComponent({
 			console.debug('Files app handling search event from unified search...', searchEvent)
 			this.filterText = searchEvent.query
 		}, 500),
+
+		/**
+		 * Reset the search query
+		 */
+		resetSearch() {
+			this.filterText = ''
+		},
+
 		openSharingSidebar() {
 			if (!this.currentFolder) {
 				logger.debug('No current folder found for opening sharing sidebar')
@@ -631,18 +649,16 @@ export default defineComponent({
 	position: relative !important;
 }
 
-$margin: 4px;
-$navigationToggleSize: 50px;
-
 .files-list {
 	&__header {
 		display: flex;
 		align-items: center;
 		// Do not grow or shrink (vertically)
 		flex: 0 0;
-		// Align with the navigation toggle icon
-		margin: $margin $margin $margin $navigationToggleSize;
 		max-width: 100%;
+		// Align with the navigation toggle icon
+		margin-block: var(--app-navigation-padding, 4px);
+		margin-inline: calc(var(--default-clickable-area, 44px) + 2 * var(--app-navigation-padding, 4px)) var(--app-navigation-padding, 4px);
 
 		>* {
 			// Do not grow or shrink (horizontally)

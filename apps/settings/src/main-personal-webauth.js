@@ -37,6 +37,5 @@ new View({
 		initialDevices: devices,
 		isHttps: window.location.protocol === 'https:',
 		isLocalhost: window.location.hostname === 'localhost',
-		hasPublicKeyCredential: typeof (window.PublicKeyCredential) !== 'undefined',
 	},
 }).$mount('#security-webauthn')

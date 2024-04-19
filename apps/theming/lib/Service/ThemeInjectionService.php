@@ -93,7 +93,7 @@ class ThemeInjectionService {
 	 * @param bool $plain request the :root syntax
 	 * @param string $media media query to use in the <link> element
 	 */
-	private function addThemeHeaders(ITheme $theme, bool $plain = true, string $media = null): void {
+	private function addThemeHeaders(ITheme $theme, bool $plain = true, ?string $media = null): void {
 		$linkToCSS = $this->urlGenerator->linkToRoute('theming.Theming.getThemeStylesheet', [
 			'themeId' => $theme->getId(),
 			'plain' => $plain,

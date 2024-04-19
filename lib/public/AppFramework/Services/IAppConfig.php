@@ -88,7 +88,7 @@ interface IAppConfig {
 	 * @param string $key config keys prefix to search, can be empty.
 	 * @param bool $filtered filter sensitive config values
 	 *
-	 * @return array<string, string> [configKey => configValue]
+	 * @return array<string, string|int|float|bool|array> [configKey => configValue]
 	 * @since 29.0.0
 	 */
 	public function getAllAppValues(string $key = '', bool $filtered = false): array;

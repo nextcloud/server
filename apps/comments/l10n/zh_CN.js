@@ -9,12 +9,14 @@ OC.L10N.register(
     "%1$s commented on %2$s" : "%1$s 评论了 %2$s",
     "{author} commented on {file}" : "{author} 对 {file} 的评论",
     "<strong>Comments</strong> for files" : "文件的<strong>评论</strong>",
+    "You were mentioned on \"{file}\", in a comment by an account that has since been deleted" : "你在文件 “{file}” 内被一个已删除的账号评论提及",
     "{user} mentioned you in a comment on \"{file}\"" : "{user} 在 “{file}” 的评论中提到了你",
     "Files app plugin to add comments to files" : "文件应用插件可向文件添加评论",
     "Edit comment" : "编辑评论",
     "Delete comment" : "删除评论",
     "Cancel edit" : "取消编辑",
     "New comment" : "新评论",
+    "Write a comment …" : "发表评论 ...",
     "Post comment" : "发表评论",
     "@ for mentions, : for emoji, / for smart picker" : "使用“@”提及，“:”输入表情符号，“/”唤起智能选择",
     "Could not reload comments" : "无法重载评论",
@@ -30,7 +32,8 @@ OC.L10N.register(
     "An error occurred while trying to delete the comment" : "删除评论时出错",
     "An error occurred while trying to create the comment" : "创建评论时出错",
     "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "用户在“ {file}”中的评论中提到了你，此评论已被删除",
-    "_%n unread comment_::_%n unread comments_" : ["%n 条未读评论"],
-    "\"@\" for mentions, \":\" for emoji, \"/\" for smart picker" : "「@」表示提及、「:」表示表情符号、「/」表示智能拾取"
+    "Write a message …" : "发表信息 ...",
+    "\"@\" for mentions, \":\" for emoji, \"/\" for smart picker" : "「@」表示提及、「:」表示表情符号、「/」表示智能拾取",
+    "_%n unread comment_::_%n unread comments_" : ["%n 条未读评论"]
 },
 "nplurals=1; plural=0;");

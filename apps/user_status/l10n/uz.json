@@ -31,7 +31,6 @@
     "4 hours" : "4 hours",
     "Mute all notifications" : "Mute all notifications",
     "Appear offline" : "Appear offline",
-    "View profile" : "View profile",
-    "{status}, {timestamp}" : "{status}, {timestamp}"
+    "View profile" : "View profile"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

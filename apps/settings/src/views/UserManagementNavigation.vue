@@ -149,7 +149,7 @@ const selectedGroupDecoded = computed(() => selectedGroup.value ? decodeURICompo
 /** Overall user count */
 const userCount = computed(() => store.getters.getUserCount)
 /** All available groups */
-const groups = computed(() => store.getters.getGroups)
+const groups = computed(() => store.getters.getSortedGroups)
 const { adminGroup, disabledGroup, userGroups } = useFormatGroups(groups)
 
 /** True if the current user is an administrator */

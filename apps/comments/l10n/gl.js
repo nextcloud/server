@@ -9,12 +9,14 @@ OC.L10N.register(
     "%1$s commented on %2$s" : "%1$s comentados en %2$s",
     "{author} commented on {file}" : "{author} comentou en {file}",
     "<strong>Comments</strong> for files" : "<strong>Comentarios</strong> para ficheiros",
+    "You were mentioned on \"{file}\", in a comment by an account that has since been deleted" : "Mencionáronte en \"{file}\", nun comentario dunha conta que xa foi eliminada",
     "{user} mentioned you in a comment on \"{file}\"" : "{user} mencionouno a Vde. nun comentario en «{file}»",
     "Files app plugin to add comments to files" : "Complemento da aplicación de ficheiros para engadir comentarios aos ficheiros",
     "Edit comment" : "Editar comentario",
     "Delete comment" : "Eliminar comentario",
     "Cancel edit" : "Cancelar a edición",
     "New comment" : "Comentario novo",
+    "Write a comment …" : "Escribe un comentario …",
     "Post comment" : "Publicar comentario",
     "@ for mentions, : for emoji, / for smart picker" : "@ para mencións, : para «emoji», / para selector intelixente",
     "Could not reload comments" : "Non foi posíbel volver cargar os comentarios",
@@ -30,7 +32,8 @@ OC.L10N.register(
     "An error occurred while trying to delete the comment" : "Produciuse un erro cando tentaba eliminar o comentario",
     "An error occurred while trying to create the comment" : "Produciuse un erro cando tentaba crear o comentario",
     "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "Mencionárono en «{file}», nun comentario dun usuario que xa foi eliminado",
-    "_%n unread comment_::_%n unread comments_" : ["%n comentario sen ler","%n comentarios sen ler"],
-    "\"@\" for mentions, \":\" for emoji, \"/\" for smart picker" : "«@» para mencións, «:» para «emoji», «/» para selector intelixente"
+    "Write a message …" : "Escribe unha mensaxe ...",
+    "\"@\" for mentions, \":\" for emoji, \"/\" for smart picker" : "«@» para mencións, «:» para «emoji», «/» para selector intelixente",
+    "_%n unread comment_::_%n unread comments_" : ["%n comentario sen ler","%n comentarios sen ler"]
 },
 "nplurals=2; plural=(n != 1);");

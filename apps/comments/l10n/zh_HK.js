@@ -9,7 +9,7 @@ OC.L10N.register(
     "%1$s commented on %2$s" : "%1$s 對 %2$s 留了言",
     "{author} commented on {file}" : "{author} 對 {file} 留了言",
     "<strong>Comments</strong> for files" : "檔案的<strong>留言</strong>",
-    "You were mentioned on \"{file}\", in a comment by an account that has since been deleted" : "一個已被刪除的賬戶在 “{file}” 的留言中提到你",
+    "You were mentioned on \"{file}\", in a comment by an account that has since been deleted" : "一個已被刪除的帳戶在 “{file}” 的留言中提到你",
     "{user} mentioned you in a comment on \"{file}\"" : "{user} 在 “{file}” 的留言中提到你",
     "Files app plugin to add comments to files" : "檔案插件程式插件，用於為檔案增加註釋",
     "Edit comment" : "編輯留言",
@@ -32,8 +32,8 @@ OC.L10N.register(
     "An error occurred while trying to delete the comment" : "嘗試刪除此留言時錯誤",
     "An error occurred while trying to create the comment" : "嘗試建立此留言時錯誤",
     "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "一個已被刪除的用戶在 “{file}” 的留言中提到你",
-    "_%n unread comment_::_%n unread comments_" : ["%n 個未讀留言"],
     "Write a message …" : "書寫訊息 ...",
-    "\"@\" for mentions, \":\" for emoji, \"/\" for smart picker" : "“@” 表示提及，“:” 表示表情符號，“/” 表示智慧型選擇器"
+    "\"@\" for mentions, \":\" for emoji, \"/\" for smart picker" : "“@” 表示提及，“:” 表示表情符號，“/” 表示智慧型選擇器",
+    "_%n unread comment_::_%n unread comments_" : ["%n 個未讀留言"]
 },
 "nplurals=1; plural=0;");

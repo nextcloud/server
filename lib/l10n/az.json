@@ -65,7 +65,6 @@
     "Authentication error" : "Təyinat metodikası",
     "Token expired. Please reload page." : "Token vaxtı bitib. Xahiş olunur səhifəni yenidən yükləyəsiniz.",
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "Bu ola bilər ki, cache/accelerator such tərəfindən cağırılıb hansi ki, Zend OPcache və eAccelerator-da olduğu kimidir.",
-    "Full name" : "Tam ad",
     "Unknown user" : "Istifadəçi tanınmır ",
     "Oracle username and/or password not valid" : "Oracle istifadəçi adı və/ya şifrəsi düzgün deyil",
     "Set an admin username." : "İnzibatçı istifadəçi adını təyin et.",

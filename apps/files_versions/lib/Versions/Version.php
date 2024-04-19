@@ -79,6 +79,10 @@ class Version implements IVersion, IMetadataVersion {
 		return $this->user;
 	}
 
+	public function getMetadata(): array {
+		return $this->metadata;
+	}
+
 	public function getMetadataValue(string $key): ?string {
 		return $this->metadata[$key] ?? null;
 	}

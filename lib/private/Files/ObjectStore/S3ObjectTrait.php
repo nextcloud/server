@@ -36,6 +36,8 @@ use OC\Files\Stream\SeekableHttpStream;
 use Psr\Http\Message\StreamInterface;
 
 trait S3ObjectTrait {
+	use S3ConfigTrait;
+
 	/**
 	 * Returns the connection
 	 *
@@ -104,7 +106,7 @@ trait S3ObjectTrait {
 	 * @param string|null $mimetype the mimetype to set for the remove object @since 22.0.0
 	 * @throws \Exception when something goes wrong, message will be logged
 	 */
-	protected function writeSingle(string $urn, StreamInterface $stream, string $mimetype = null): void {
+	protected function writeSingle(string $urn, StreamInterface $stream, ?string $mimetype = null): void {
 		$this->getConnection()->putObject([
 			'Bucket' => $this->bucket,
 			'Key' => $urn,
@@ -124,9 +126,10 @@ trait S3ObjectTrait {
 	 * @param string|null $mimetype the mimetype to set for the remove object
 	 * @throws \Exception when something goes wrong, message will be logged
 	 */
-	protected function writeMultiPart(string $urn, StreamInterface $stream, string $mimetype = null): void {
+	protected function writeMultiPart(string $urn, StreamInterface $stream, ?string $mimetype = null): void {
 		$uploader = new MultipartUploader($this->getConnection(), $stream, [
 			'bucket' => $this->bucket,
+			'concurrency' => $this->concurrency,
 			'key' => $urn,
 			'part_size' => $this->uploadPartSize,
 			'params' => [
@@ -156,7 +159,7 @@ trait S3ObjectTrait {
 	 * @throws \Exception when something goes wrong, message will be logged
 	 * @since 7.0.0
 	 */
-	public function writeObject($urn, $stream, string $mimetype = null) {
+	public function writeObject($urn, $stream, ?string $mimetype = null) {
 		$psrStream = Utils::streamFor($stream);
 
 		// ($psrStream->isSeekable() && $psrStream->getSize() !== null) evaluates to true for a On-Seekable stream

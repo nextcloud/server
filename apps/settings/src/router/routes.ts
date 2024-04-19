@@ -1,14 +1,12 @@
 import type { RouteConfig } from 'vue-router'
 
-import { defineAsyncComponent } from 'vue'
-
 // Dynamic loading
-const AppStore = defineAsyncComponent(() => import(/* webpackChunkName: 'settings-apps-view' */'../views/AppStore.vue'))
-const AppStoreNavigation = defineAsyncComponent(() => import(/* webpackChunkName: 'settings-apps-view' */'../views/AppStoreNavigation.vue'))
-const AppstoreSidebar = defineAsyncComponent(() => import(/* webpackChunkName: 'settings-apps-view' */'../views/AppStoreSidebar.vue'))
+const AppStore = () => import(/* webpackChunkName: 'settings-apps-view' */'../views/AppStore.vue')
+const AppStoreNavigation = () => import(/* webpackChunkName: 'settings-apps-view' */'../views/AppStoreNavigation.vue')
+const AppStoreSidebar = () => import(/* webpackChunkName: 'settings-apps-view' */'../views/AppStoreSidebar.vue')
 
-const UserManagement = defineAsyncComponent(() => import(/* webpackChunkName: 'settings-users' */'../views/UserManagement.vue'))
-const UserManagementNavigation = defineAsyncComponent(() => import(/* webpackChunkName: 'settings-users' */'../views/UserManagementNavigation.vue'))
+const UserManagement = () => import(/* webpackChunkName: 'settings-users' */'../views/UserManagement.vue')
+const UserManagementNavigation = () => import(/* webpackChunkName: 'settings-users' */'../views/UserManagementNavigation.vue')
 
 const routes: RouteConfig[] = [
 	{
@@ -39,7 +37,7 @@ const routes: RouteConfig[] = [
 		components: {
 			default: AppStore,
 			navigation: AppStoreNavigation,
-			sidebar: AppstoreSidebar,
+			sidebar: AppStoreSidebar,
 		},
 		children: [
 			{

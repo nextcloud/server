@@ -31,9 +31,9 @@ OC.L10N.register(
     "Dark theme" : "زمینهٔ تیره",
     "Enable dark theme" : "به کار انداختن زمینهٔ تیره",
     "A dark theme to ease your eyes by reducing the overall luminosity and brightness." : "زمینه‌ای تاریک برای آسایش چشمانتان با کاستن نوردهی و روشنایی کلّی.",
-    "System default theme" : "زمینهٔ پیش‌گزیدهٔ سامانه",
+    "System default theme" : "زمینه ی پیش فرض سامانه",
     "Enable the system default" : "به کار انداختن پیش‌گزیدهٔ سامانه",
-    "Using the default system appearance." : "در حال استفاده از ظاهر سامانهٔ پیش‌گزیده.",
+    "Using the default system appearance." : "استفاده از ظاهر پیش فرض سامانه",
     "Dyslexia font" : "قلم خوانش‌پریش",
     "Enable dyslexia font" : "به کار انداختن قلم خوانش‌پریش",
     "OpenDyslexic is a free typeface/font designed to mitigate some of the common reading errors caused by dyslexia." : "اُپن‌دیسلکسیک قلمی آزاد است که برای کاهش برخی از خطاهای معمول در خواندن ناشی از خوانش‌پریشی طرّاحی شده.",
@@ -86,8 +86,6 @@ OC.L10N.register(
     "Reset to default" : "بازنشانی به پیش‌گزیده",
     "Upload" : "بارگذاری",
     "Remove background image" : "برداشتن تصویر پس‌زمینه",
-    "Failed to clean up the old administration theming images folder" : "Failed to clean up the old administration theming images folder",
-    "Failed to clean up the old administration image folder" : "Failed to clean up the old administration image folder",
     "Select a custom color" : "گزینش رنگی شخصی"
 },
 "nplurals=2; plural=(n > 1);");

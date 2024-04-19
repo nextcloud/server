@@ -86,6 +86,42 @@
                     }
                 }
             },
+            "Capabilities": {
+                "type": "object",
+                "required": [
+                    "core"
+                ],
+                "properties": {
+                    "core": {
+                        "type": "object",
+                        "required": [
+                            "pollinterval",
+                            "webdav-root",
+                            "reference-api",
+                            "reference-regex",
+                            "mod-rewrite-working"
+                        ],
+                        "properties": {
+                            "pollinterval": {
+                                "type": "integer",
+                                "format": "int64"
+                            },
+                            "webdav-root": {
+                                "type": "string"
+                            },
+                            "reference-api": {
+                                "type": "boolean"
+                            },
+                            "reference-regex": {
+                                "type": "string"
+                            },
+                            "mod-rewrite-working": {
+                                "type": "boolean"
+                            }
+                        }
+                    }
+                }
+            },
             "Collection": {
                 "type": "object",
                 "required": [
@@ -280,6 +316,30 @@
                     },
                     "link": {
                         "type": "string"
+                    }
+                }
+            },
+            "PublicCapabilities": {
+                "type": "object",
+                "required": [
+                    "bruteforce"
+                ],
+                "properties": {
+                    "bruteforce": {
+                        "type": "object",
+                        "required": [
+                            "delay",
+                            "allow-listed"
+                        ],
+                        "properties": {
+                            "delay": {
+                                "type": "integer",
+                                "format": "int64"
+                            },
+                            "allow-listed": {
+                                "type": "boolean"
+                            }
+                        }
                     }
                 }
             },
@@ -697,6 +757,7 @@
             "get": {
                 "operationId": "app_password-get-app-password",
                 "summary": "Create app password",
+                "description": "This endpoint requires password confirmation",
                 "tags": [
                     "app_password"
                 ],
@@ -762,9 +823,27 @@
                     "403": {
                         "description": "Creating app password is not allowed",
                         "content": {
-                            "text/plain": {
+                            "application/json": {
                                 "schema": {
-                                    "type": "string"
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -831,9 +910,27 @@
                     "403": {
                         "description": "Deleting app password is not allowed",
                         "content": {
-                            "text/plain": {
+                            "application/json": {
                                 "schema": {
-                                    "type": "string"
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -910,9 +1007,27 @@
                     "403": {
                         "description": "Rotating app password is not allowed",
                         "content": {
-                            "text/plain": {
+                            "application/json": {
                                 "schema": {
-                                    "type": "string"
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -2272,32 +2387,7 @@
                         }
                     },
                     "304": {
-                        "description": "No apps navigation changed",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "required": [
-                                        "ocs"
-                                    ],
-                                    "properties": {
-                                        "ocs": {
-                                            "type": "object",
-                                            "required": [
-                                                "meta",
-                                                "data"
-                                            ],
-                                            "properties": {
-                                                "meta": {
-                                                    "$ref": "#/components/schemas/OCSMeta"
-                                                },
-                                                "data": {}
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
+                        "description": "No apps navigation changed"
                     }
                 }
             }
@@ -2377,32 +2467,7 @@
                         }
                     },
                     "304": {
-                        "description": "No apps navigation changed",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "required": [
-                                        "ocs"
-                                    ],
-                                    "properties": {
-                                        "ocs": {
-                                            "type": "object",
-                                            "required": [
-                                                "meta",
-                                                "data"
-                                            ],
-                                            "properties": {
-                                                "meta": {
-                                                    "$ref": "#/components/schemas/OCSMeta"
-                                                },
-                                                "data": {}
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
+                        "description": "No apps navigation changed"
                     }
                 }
             }
@@ -2519,6 +2584,7 @@
             "put": {
                 "operationId": "profile_api-set-visibility",
                 "summary": "Update the visibility of a parameter",
+                "description": "This endpoint requires password confirmation",
                 "tags": [
                     "profile_api"
                 ],
@@ -2601,9 +2667,27 @@
                     "400": {
                         "description": "Updating visibility is not possible",
                         "content": {
-                            "text/plain": {
+                            "application/json": {
                                 "schema": {
-                                    "type": "string"
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -2611,9 +2695,27 @@
                     "403": {
                         "description": "Not allowed to edit other users visibility",
                         "content": {
-                            "text/plain": {
+                            "application/json": {
                                 "schema": {
-                                    "type": "string"
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -2621,9 +2723,27 @@
                     "404": {
                         "description": "Account not found",
                         "content": {
-                            "text/plain": {
+                            "application/json": {
                                 "schema": {
-                                    "type": "string"
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -5459,32 +5579,7 @@
                         }
                     },
                     "204": {
-                        "description": "No changes",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "required": [
-                                        "ocs"
-                                    ],
-                                    "properties": {
-                                        "ocs": {
-                                            "type": "object",
-                                            "required": [
-                                                "meta",
-                                                "data"
-                                            ],
-                                            "properties": {
-                                                "meta": {
-                                                    "$ref": "#/components/schemas/OCSMeta"
-                                                },
-                                                "data": {}
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
+                        "description": "No changes"
                     }
                 }
             },

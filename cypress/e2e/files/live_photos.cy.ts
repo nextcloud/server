@@ -21,17 +21,7 @@
  */
 
 import type { User } from '@nextcloud/cypress'
-import { closeSidebar, copyFile, getRowForFile, getRowForFileId, renameFile, triggerActionForFile, triggerInlineActionForFileId } from './FilesUtils'
-
-/**
- *
- * @param label
- */
-function refreshView(label: string) {
-	cy.intercept('PROPFIND', /\/remote.php\/dav\//).as('propfind')
-	cy.get('[data-cy-files-content-breadcrumbs]').contains(label).click()
-	cy.wait('@propfind')
-}
+import { clickOnBreadcrumbs, closeSidebar, copyFile, getRowForFile, getRowForFileId, renameFile, triggerActionForFile, triggerInlineActionForFileId } from './FilesUtils'
 
 /**
  *
@@ -123,7 +113,7 @@ describe('Files: Live photos', { testIsolation: true }, () => {
 
 		it('Copies both files when copying the .jpg', () => {
 			copyFile(`${randomFileName}.jpg`, '.')
-			refreshView('All files')
+			clickOnBreadcrumbs('All files')
 
 			getRowForFile(`${randomFileName}.jpg`).should('have.length', 1)
 			getRowForFile(`${randomFileName}.mov`).should('have.length', 1)
@@ -133,7 +123,7 @@ describe('Files: Live photos', { testIsolation: true }, () => {
 
 		it('Copies both files when copying the .mov', () => {
 			copyFile(`${randomFileName}.mov`, '.')
-			refreshView('All files')
+			clickOnBreadcrumbs('All files')
 
 			getRowForFile(`${randomFileName}.mov`).should('have.length', 1)
 			getRowForFile(`${randomFileName} (copy).jpg`).should('have.length', 1)
@@ -142,7 +132,7 @@ describe('Files: Live photos', { testIsolation: true }, () => {
 
 		it('Moves files when moving the .jpg', () => {
 			renameFile(`${randomFileName}.jpg`, `${randomFileName}_moved.jpg`)
-			refreshView('All files')
+			clickOnBreadcrumbs('All files')
 
 			getRowForFileId(jpgFileId).invoke('attr', 'data-cy-files-list-row-name').should('equal', `${randomFileName}_moved.jpg`)
 			getRowForFileId(movFileId).invoke('attr', 'data-cy-files-list-row-name').should('equal', `${randomFileName}_moved.mov`)
@@ -150,7 +140,7 @@ describe('Files: Live photos', { testIsolation: true }, () => {
 
 		it('Moves files when moving the .mov', () => {
 			renameFile(`${randomFileName}.mov`, `${randomFileName}_moved.mov`)
-			refreshView('All files')
+			clickOnBreadcrumbs('All files')
 
 			getRowForFileId(jpgFileId).invoke('attr', 'data-cy-files-list-row-name').should('equal', `${randomFileName}_moved.jpg`)
 			getRowForFileId(movFileId).invoke('attr', 'data-cy-files-list-row-name').should('equal', `${randomFileName}_moved.mov`)
@@ -158,7 +148,7 @@ describe('Files: Live photos', { testIsolation: true }, () => {
 
 		it('Deletes files when deleting the .jpg', () => {
 			triggerActionForFile(`${randomFileName}.jpg`, 'delete')
-			refreshView('All files')
+			clickOnBreadcrumbs('All files')
 
 			getRowForFile(`${randomFileName}.jpg`).should('have.length', 0)
 			getRowForFile(`${randomFileName}.mov`).should('have.length', 0)
@@ -171,7 +161,7 @@ describe('Files: Live photos', { testIsolation: true }, () => {
 
 		it('Block deletion when deleting the .mov', () => {
 			triggerActionForFile(`${randomFileName}.mov`, 'delete')
-			refreshView('All files')
+			clickOnBreadcrumbs('All files')
 
 			getRowForFile(`${randomFileName}.jpg`).should('have.length', 1)
 			getRowForFile(`${randomFileName}.mov`).should('have.length', 1)
@@ -186,7 +176,7 @@ describe('Files: Live photos', { testIsolation: true }, () => {
 			triggerActionForFile(`${randomFileName}.jpg`, 'delete')
 			cy.visit('/apps/files/trashbin')
 			triggerInlineActionForFileId(jpgFileId, 'restore')
-			refreshView('Deleted files')
+			clickOnBreadcrumbs('Deleted files')
 
 			getRowForFile(`${randomFileName}.jpg`).should('have.length', 0)
 			getRowForFile(`${randomFileName}.mov`).should('have.length', 0)
@@ -201,7 +191,7 @@ describe('Files: Live photos', { testIsolation: true }, () => {
 			triggerActionForFile(`${randomFileName}.jpg`, 'delete')
 			cy.visit('/apps/files/trashbin')
 			triggerInlineActionForFileId(movFileId, 'restore')
-			refreshView('Deleted files')
+			clickOnBreadcrumbs('Deleted files')
 
 			getRowForFileId(jpgFileId).should('have.length', 1)
 			getRowForFileId(movFileId).should('have.length', 1)

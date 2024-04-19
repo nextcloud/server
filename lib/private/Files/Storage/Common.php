@@ -868,6 +868,19 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 	}
 
 	/**
+	 * Allow setting the storage owner
+	 *
+	 * This can be used for storages that do not have a dedicated owner, where we want to
+	 * pass the user that we setup the mountpoint for along to the storage layer
+	 *
+	 * @param string|null $user
+	 * @return void
+	 */
+	public function setOwner(?string $user): void {
+		$this->owner = $user;
+	}
+
+	/**
 	 * @return bool
 	 */
 	public function needsPartFile() {
@@ -882,7 +895,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 	 * @param int $size
 	 * @return int
 	 */
-	public function writeStream(string $path, $stream, int $size = null): int {
+	public function writeStream(string $path, $stream, ?int $size = null): int {
 		$target = $this->fopen($path, 'w');
 		if (!$target) {
 			throw new GenericFileException("Failed to open $path for writing");

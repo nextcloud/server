@@ -68,7 +68,7 @@ class CacheQueryBuilder extends QueryBuilder {
 		return $this;
 	}
 
-	public function selectFileCache(string $alias = null, bool $joinExtendedCache = true) {
+	public function selectFileCache(?string $alias = null, bool $joinExtendedCache = true) {
 		$name = $alias ?: 'filecache';
 		$this->select("$name.fileid", 'storage', 'path', 'path_hash', "$name.parent", "$name.name", 'mimetype', 'mimepart', 'size', 'mtime',
 			'storage_mtime', 'encrypted', 'etag', "$name.permissions", 'checksum', 'unencrypted_size')
@@ -138,11 +138,11 @@ class CacheQueryBuilder extends QueryBuilder {
 	/**
 	 * join metadata to current query builder and returns an helper
 	 *
-	 * @return IMetadataQuery|null NULL if no metadata have never been generated
+	 * @return IMetadataQuery
 	 */
-	public function selectMetadata(): ?IMetadataQuery {
+	public function selectMetadata(): IMetadataQuery {
 		$metadataQuery = $this->filesMetadataManager->getMetadataQuery($this, $this->alias, 'fileid');
-		$metadataQuery?->retrieveMetadata();
+		$metadataQuery->retrieveMetadata();
 		return $metadataQuery;
 	}
 }

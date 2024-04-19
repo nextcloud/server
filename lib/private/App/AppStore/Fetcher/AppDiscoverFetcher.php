@@ -61,28 +61,17 @@ class AppDiscoverFetcher extends Fetcher {
 	/**
 	 * Get the app discover section entries
 	 *
-	 * @param bool $allowUnstable Include also expired and upcoming entries
+	 * @param bool $allowUnstable Include also upcoming entries
 	 */
 	public function get($allowUnstable = false) {
 		$entries = parent::get(false);
+		$now = new DateTimeImmutable();
 
-		if (!$allowUnstable) {
-			$now = new DateTimeImmutable();
-
-			// Remove expired or future entries
-			return array_filter($entries, function (array $entry) use ($now) {
+		return array_filter($entries, function (array $entry) use ($now, $allowUnstable) {
+			// Always remove expired entries
+			if (isset($entry['expiryDate'])) {
 				try {
-					$date = new DateTimeImmutable($entry['date'] ?? '');
-					if ($date > $now) {
-						return false;
-					}
-				} catch (\Throwable $e) {
-					// Invalid date format
-					return false;
-				}
-
-				try {
-					$expiryDate = new DateTimeImmutable($entry['expiryDate'] ?? '');
+					$expiryDate = new DateTimeImmutable($entry['expiryDate']);
 					if ($expiryDate < $now) {
 						return false;
 					}
@@ -90,12 +79,23 @@ class AppDiscoverFetcher extends Fetcher {
 					// Invalid expiryDate format
 					return false;
 				}
+			}
 
-				return true;
-			});
-		}
-
-		return $entries;
+			// If not include upcoming entries, check for upcoming dates and remove those entries
+			if (!$allowUnstable && isset($entry['date'])) {
+				try {
+					$date = new DateTimeImmutable($entry['date']);
+					if ($date > $now) {
+						return false;
+					}
+				} catch (\Throwable $e) {
+					// Invalid date format
+					return false;
+				}
+			}
+			// Otherwise the entry is not time limited and should stay
+			return true;
+		});
 	}
 
 	public function getETag(): string|null {

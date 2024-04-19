@@ -162,7 +162,7 @@ class Session implements IUserSession, Emitter {
 	 * @param string $method optional
 	 * @param callable $callback optional
 	 */
-	public function removeListener($scope = null, $method = null, callable $callback = null) {
+	public function removeListener($scope = null, $method = null, ?callable $callback = null) {
 		$this->manager->removeListener($scope, $method, $callback);
 	}
 
@@ -208,6 +208,15 @@ class Session implements IUserSession, Emitter {
 		} else {
 			$this->session->set('user_id', $user->getUID());
 		}
+		$this->activeUser = $user;
+	}
+
+	/**
+	 * Temporarily set the currently active user without persisting in the session
+	 *
+	 * @param IUser|null $user
+	 */
+	public function setVolatileActiveUser(?IUser $user): void {
 		$this->activeUser = $user;
 	}
 

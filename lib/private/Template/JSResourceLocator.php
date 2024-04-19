@@ -52,7 +52,7 @@ class JSResourceLocator extends ResourceLocator {
 		$app = substr($script, 0, strpos($script, '/'));
 		$scriptName = basename($script);
 		// Get the app root path
-		$appRoot = $this->serverroot . 'apps/';
+		$appRoot = $this->serverroot . '/apps/';
 		$appWebRoot = null;
 		try {
 			// We need the dir name as getAppPath appends the appid
@@ -120,7 +120,7 @@ class JSResourceLocator extends ResourceLocator {
 	 * Try to find ES6 script file (`.mjs`) with fallback to plain javascript (`.js`)
 	 * @see appendIfExist()
 	 */
-	protected function appendScriptIfExist(string $root, string $file, string $webRoot = null) {
+	protected function appendScriptIfExist(string $root, string $file, ?string $webRoot = null) {
 		if (!$this->appendIfExist($root, $file . '.mjs', $webRoot)) {
 			return $this->appendIfExist($root, $file . '.js', $webRoot);
 		}

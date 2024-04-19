@@ -156,6 +156,7 @@ if ($config->getSystemValueBool('installed', false)) {
 	$application->add(Server::get(Command\User\ResetPassword::class));
 	$application->add(Server::get(Command\User\Setting::class));
 	$application->add(Server::get(Command\User\ListCommand::class));
+	$application->add(Server::get(Command\User\ClearGeneratedAvatarCacheCommand::class));
 	$application->add(Server::get(Command\User\Info::class));
 	$application->add(Server::get(Command\User\SyncAccountDataCommand::class));
 	$application->add(Server::get(Command\User\AuthTokens\Add::class));

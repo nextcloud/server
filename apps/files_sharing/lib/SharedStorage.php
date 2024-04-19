@@ -569,6 +569,16 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 
 	public function getWrapperStorage() {
 		$this->init();
+
+		/**
+		 * @psalm-suppress DocblockTypeContradiction
+		 */
+		if (!$this->storage) {
+			$message = "no storage set after init for share " . $this->getShareId();
+			$this->logger->error($message);
+			$this->storage = new FailedStorage(['exception' => new \Exception($message)]);
+		}
+
 		return $this->storage;
 	}
 

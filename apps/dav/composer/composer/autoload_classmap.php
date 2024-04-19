@@ -315,6 +315,7 @@ return array(
     'OCA\\DAV\\Migration\\Version1017Date20210216083742' => $baseDir . '/../lib/Migration/Version1017Date20210216083742.php',
     'OCA\\DAV\\Migration\\Version1018Date20210312100735' => $baseDir . '/../lib/Migration/Version1018Date20210312100735.php',
     'OCA\\DAV\\Migration\\Version1024Date20211221144219' => $baseDir . '/../lib/Migration/Version1024Date20211221144219.php',
+    'OCA\\DAV\\Migration\\Version1025Date20240308063933' => $baseDir . '/../lib/Migration/Version1025Date20240308063933.php',
     'OCA\\DAV\\Migration\\Version1027Date20230504122946' => $baseDir . '/../lib/Migration/Version1027Date20230504122946.php',
     'OCA\\DAV\\Migration\\Version1029Date20221114151721' => $baseDir . '/../lib/Migration/Version1029Date20221114151721.php',
     'OCA\\DAV\\Migration\\Version1029Date20231004091403' => $baseDir . '/../lib/Migration/Version1029Date20231004091403.php',

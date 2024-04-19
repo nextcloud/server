@@ -173,8 +173,8 @@ class SetConfig extends Base {
 			 */
 			$sensitive = $input->getOption('sensitive');
 			try {
-				$currSensitive = $this->appConfig->isLazy($appName, $configName);
-				if ($sensitive === null || $sensitive === $currSensitive || !$this->ask($input, $output, ($sensitive) ? 'LAZY' : 'NOT LAZY')) {
+				$currSensitive = $this->appConfig->isSensitive($appName, $configName, null);
+				if ($sensitive === null || $sensitive === $currSensitive || !$this->ask($input, $output, ($sensitive) ? 'SENSITIVE' : 'NOT SENSITIVE')) {
 					$sensitive = $currSensitive;
 				}
 			} catch (AppConfigUnknownKeyException) {
