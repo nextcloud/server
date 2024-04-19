@@ -46,6 +46,8 @@ use OCP\IUserManager;
 use OCP\Security\ICrypto;
 use OCP\Security\IHasher;
 use Psr\Log\LoggerInterface;
+use function array_merge;
+use function strlen;
 
 class PublicKeyTokenProvider implements IProvider {
 	public const TOKEN_MIN_LENGTH = 22;
@@ -165,7 +167,7 @@ class PublicKeyTokenProvider implements IProvider {
 
 		$tokenHash = $this->hashToken($tokenId);
 		if ($token = $this->getTokenFromCache($tokenHash)) {
-			$this->checkToken($token);
+			$this->checkToken($token, $tokenId);
 			return $token;
 		}
 
@@ -182,7 +184,7 @@ class PublicKeyTokenProvider implements IProvider {
 			}
 		}
 
-		$this->checkToken($token);
+		$this->checkToken($token, $tokenId);
 
 		return $token;
 	}
@@ -223,23 +225,33 @@ class PublicKeyTokenProvider implements IProvider {
 			throw new InvalidTokenException("Token with ID $tokenId does not exist: " . $ex->getMessage(), 0, $ex);
 		}
 
-		$this->checkToken($token);
+		$this->checkToken($token, null);
 
 		return $token;
 	}
 
-	private function checkToken($token): void {
-		if ((int)$token->getExpires() !== 0 && $token->getExpires() < $this->time->getTime()) {
-			throw new ExpiredTokenException($token);
+	private function checkToken(PublicKeyToken $dbToken, ?string $token): void {
+		if ((int)$dbToken->getExpires() !== 0 && $dbToken->getExpires() < $this->time->getTime()) {
+			throw new ExpiredTokenException($dbToken);
 		}
 
-		if ($token->getType() === OCPIToken::WIPE_TOKEN) {
-			throw new WipeTokenException($token);
+		if ($dbToken->getType() === OCPIToken::WIPE_TOKEN) {
+			throw new WipeTokenException($dbToken);
 		}
 
-		if ($token->getPasswordInvalid() === true) {
+		if ($dbToken->getPasswordInvalid() === true) {
 			//The password is invalid we should throw an TokenPasswordExpiredException
-			throw new TokenPasswordExpiredException($token);
+			throw new TokenPasswordExpiredException($dbToken);
+		}
+
+		if ($token !== null
+			&& $dbToken->getPublicKey() === null
+			&& $this->config->getSystemValueBool('auth.storeCryptedPassword', true)) {
+			$this->generateNewKey($dbToken, null, $token);
+			// TODO: Two processes might set keys at the same time. Could this have
+			//       any side effects? If so, perform the UPDATE with optimistic
+			//       locking and SELECT the row again if someone else changed it.
+			$this->mapper->update($dbToken);
 		}
 	}
 
@@ -462,35 +474,13 @@ class PublicKeyTokenProvider implements IProvider {
 		$dbToken->setUid($uid);
 		$dbToken->setLoginName($loginName);
 
-		$config = array_merge([
-			'digest_alg' => 'sha512',
-			'private_key_bits' => $password !== null && strlen($password) > 250 ? 4096 : 2048,
-		], $this->config->getSystemValue('openssl', []));
-
 		if (!is_null($password) && $this->config->getSystemValueBool('auth.storeCryptedPassword', true)) {
-			// Generate new key
-			$res = openssl_pkey_new($config);
-			if ($res === false) {
-				$this->logOpensslError();
-				throw new \RuntimeException('OpenSSL reported a problem');
-			}
-
-			if (openssl_pkey_export($res, $privateKey, null, $config) === false) {
-				$this->logOpensslError();
-				throw new \RuntimeException('OpenSSL reported a problem');
-			}
-
-			// Extract the public key from $res to $pubKey
-			$publicKey = openssl_pkey_get_details($res);
-			$publicKey = $publicKey['key'];
-
-			$dbToken->setPublicKey($publicKey);
-			$dbToken->setPrivateKey($this->encrypt($privateKey, $token));
+			$this->generateNewKey($dbToken, $password, $token);
 
 			if (strlen($password) > IUserManager::MAX_PASSWORD_LENGTH) {
 				throw new \RuntimeException('Trying to save a password with more than 469 characters is not supported. If you want to use big passwords, disable the auth.storeCryptedPassword option in config.php');
 			}
-			$dbToken->setPassword($this->encryptPassword($password, $publicKey));
+			$dbToken->setPassword($this->encryptPassword($password, $dbToken->getPublicKey()));
 			$dbToken->setPasswordHash($this->hashPassword($password));
 		}
 
@@ -535,6 +525,17 @@ class PublicKeyTokenProvider implements IProvider {
 			$hashNeedsUpdate = [];
 
 			foreach ($tokens as $t) {
+				if ($t->getPublicKey() === null) {
+					// This auth token does not have a key pair yet, and we can
+					// not generate one without knowing the token value because
+					// the token is used to encrypt the private key.
+					//
+					// To get a password into these rows we need to
+					// 1. Generate a key pair when the app token is used
+					// 2. Update the password the next time the user logs in by
+					//    password.
+					continue;
+				}
 				if (!isset($hashNeedsUpdate[$t->getPasswordHash()])) {
 					if ($t->getPasswordHash() === null) {
 						$hashNeedsUpdate[$t->getPasswordHash() ?: ''] = true;
@@ -574,5 +575,31 @@ class PublicKeyTokenProvider implements IProvider {
 			$errors[] = $error;
 		}
 		$this->logger->critical('Something is wrong with your openssl setup: ' . implode(', ', $errors));
+	}
+
+	private function generateNewKey(PublicKeyToken $dbToken, ?string $password, string $token): PublicKeyToken {
+		$config = array_merge([
+			'digest_alg' => 'sha512',
+			'private_key_bits' => $password !== null && strlen($password) > 250 ? 4096 : 2048,
+		], $this->config->getSystemValue('openssl', []));
+		$res = openssl_pkey_new($config);
+		if ($res === false) {
+			$this->logOpensslError();
+			throw new \RuntimeException('OpenSSL reported a problem');
+		}
+
+		if (openssl_pkey_export($res, $privateKey, null, $config) === false) {
+			$this->logOpensslError();
+			throw new \RuntimeException('OpenSSL reported a problem');
+		}
+
+		// Extract the public key from $res to $pubKey
+		$publicKey = openssl_pkey_get_details($res);
+		$publicKey = $publicKey['key'];
+
+		$dbToken->setPublicKey($publicKey);
+		$dbToken->setPrivateKey($this->encrypt($privateKey, $token));
+
+		return $dbToken;
 	}
 }
