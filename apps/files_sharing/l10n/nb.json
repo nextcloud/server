@@ -77,6 +77,7 @@
     "Wrong path, file/folder does not exist" : "Feil bane, fil/mappe eksisterer ikke",
     "Could not create share" : "Kunne ikke opprette ressurs",
     "Invalid permissions" : "Ugyldig rettigheter",
+    "Invalid date, date format must be YYYY-MM-DD" : "Feil dato, dato må være i formatet YYYY-MM-DD",
     "Please specify a valid account to share with" : "Spesifiser en gyldig konto å dele med",
     "Group sharing is disabled by the administrator" : "Gruppedeling er deaktivert av administratoren",
     "Please specify a valid group" : "Oppgi en gyldig gruppe",
@@ -86,7 +87,6 @@
     "Sharing %s sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Deling av %s ved å sende passordet av Nextcloud Talk mislyktes fordi Nextcloud Talk ikke er aktivert",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Deling av %1$s mislyktes fordi serveren ikke tillater delinger fra typen %2$s",
     "Please specify a valid federated account ID" : "Angi en gyldig sammenknyttet konto-ID",
-    "Invalid date, date format must be YYYY-MM-DD" : "Feil dato, dato må være i formatet YYYY-MM-DD",
     "Please specify a valid federated group ID" : "Angi en gyldig sammenknyttet gruppesky-ID",
     "You cannot share to a Circle if the app is not enabled" : "Du kan ikke dele til en sirkel så lenge appen ikke er aktivert",
     "Please specify a valid circle" : "Angi en gyldig sirkel",
@@ -208,12 +208,10 @@
     "Share with {userName}" : "Del med {userName}",
     "Share with group" : "Del med gruppe",
     "Share in conversation" : "Del i samtalen",
-    "Share with remote" : "Del med ekstern",
     "Share with remote group" : "Del med fjerngruppe",
     "Share with guest" : "Del med gjest",
-    "Share with" : "Del med",
-    "Save share" : "Lagre delt ressurs",
     "Update share" : "Oppdater delt ressurs",
+    "Save share" : "Lagre delt ressurs",
     "Others with access" : "Andre med tilgang",
     "No other accounts with access found" : "Ingen andre kontoer med tilgang funnet",
     "Toggle list of others with access to this directory" : "Endre liste over andre brukere med tilgang til denne mappen",
@@ -312,6 +310,8 @@
     "the item was removed" : "elementet er fjernet",
     "the link expired" : "lenken er utløpt",
     "sharing is disabled" : "deling er avskrudd",
-    "For more info, please ask the person who sent this link." : "For mer informasjon, spør personen som sendte lenken."
+    "For more info, please ask the person who sent this link." : "For mer informasjon, spør personen som sendte lenken.",
+    "Share with remote" : "Del med ekstern",
+    "Share with" : "Del med"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -77,6 +77,7 @@
     "Wrong path, file/folder does not exist" : "Röng slóð, skráin/mappan er ekki til",
     "Could not create share" : "Ekki tókst að búa til sameign",
     "Invalid permissions" : "Ógildar aðgangsheimildir",
+    "Invalid date, date format must be YYYY-MM-DD" : "Ógild dagsetning, dagsetningasniðið verður að vera ÁÁÁÁ-MM-DD",
     "Group sharing is disabled by the administrator" : "Deiling innan hóps hefur verið gerð óvirk af kerfisstjóra.",
     "Please specify a valid group" : "Settu inn gildan hóp",
     "Public link sharing is disabled by the administrator" : "Deiling opinberra sameignartengla hefur verið gerð óvirk af kerfisstjóra.",
@@ -84,7 +85,6 @@
     "Public upload is only possible for publicly shared folders" : "Opinber innsending er einungis möguleg í möppur sem er deilt opinberlega",
     "Sharing %s sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Deiling á %s með því að senda lykilorð með Nextcloud Talk mistókst því að Nextcloud Talk er ekki virkt",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Deiling %1$s mistókst, því bakvinnslukerfið leyfir ekki sameignir af gerðinni %2$s",
-    "Invalid date, date format must be YYYY-MM-DD" : "Ógild dagsetning, dagsetningasniðið verður að vera ÁÁÁÁ-MM-DD",
     "Please specify a valid federated group ID" : "Skilgreindu gilt skýjasambandsauðkenni hóps",
     "You cannot share to a Circle if the app is not enabled" : "Þú getur ekki deilt með hring ef forritið er ekki virkt",
     "Please specify a valid circle" : "Skilgreindu gildan hring",
@@ -196,9 +196,8 @@
     "Edit" : "Breyta",
     "Share" : "Deila",
     "Delete share" : "Eyða sameign",
-    "Share with" : "Deila með",
-    "Save share" : "Vista sameign",
     "Update share" : "Uppfæra sameign",
+    "Save share" : "Vista sameign",
     "Others with access" : "Aðrir með aðgang",
     "Toggle list of others with access to this directory" : "Víxla af/á lista yfir aðra með aðgang að þessari möppu",
     "Toggle list of others with access to this file" : "Víxla af/á lista yfir aðra með aðgang að þessari skrá",
@@ -295,6 +294,7 @@
     "the item was removed" : "atriðið var fjarlægt",
     "the link expired" : "tengillinn er útrunninn",
     "sharing is disabled" : "slökkt er á skráadeilingu",
-    "For more info, please ask the person who sent this link." : "Til að vita meira skaltu hafa samband við þann sem sendi þér þennan tengil."
+    "For more info, please ask the person who sent this link." : "Til að vita meira skaltu hafa samband við þann sem sendi þér þennan tengil.",
+    "Share with" : "Deila með"
 },"pluralForm" :"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);"
 }

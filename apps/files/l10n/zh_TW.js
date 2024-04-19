@@ -197,6 +197,7 @@ OC.L10N.register(
     "Toggle selection for all files and folders" : "切換所有檔案和資料夾的選取",
     "\"{displayName}\" failed on some elements " : "「{displayName}」在某些元素上失敗",
     "\"{displayName}\" batch action executed successfully" : "「{displayName}」批次動作執行成功",
+    "{count} selected" : "已選取 {count} 個",
     "List of files and folders." : "檔案與資料夾清單。",
     "Column headers with buttons are sortable." : "帶有按鈕的欄位標題是可排序的。",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "出於效能考量，此清單未完全呈現。檔案將在您瀏覽清單時呈現。",

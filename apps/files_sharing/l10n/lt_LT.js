@@ -79,6 +79,7 @@ OC.L10N.register(
     "Wrong path, file/folder does not exist" : "Neteisingas kelias, failo/aplanko nėra",
     "Could not create share" : "Nepavyko sukurti viešinio",
     "Invalid permissions" : "Neteisingi leidimai",
+    "Invalid date, date format must be YYYY-MM-DD" : "Netinkamas datos formavimas. Privaloma: YYYY-MM-DD",
     "Group sharing is disabled by the administrator" : "Administratorius išjungė bendrinimą su grupėmis",
     "Please specify a valid group" : "Nurodykite teisingą grupę",
     "Public link sharing is disabled by the administrator" : "Administratorius išjungė bendrinimą per viešąsias nuorodas",
@@ -86,7 +87,6 @@ OC.L10N.register(
     "Public upload is only possible for publicly shared folders" : "Duomenų įkėlimas viešam naudojimui galimas tik į viešai dalinamus aplankus",
     "Sharing %s sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Nepavyko išsiųsti slaptažodžio bendrinimui %s panaudojant Nextcloud Talk, kadangi Nextcloud Talk neįjungtas ",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Bendrinimas %1$s nepavyko, kadangi sistema nepalaiko bendrinimų šio tipo %2$s",
-    "Invalid date, date format must be YYYY-MM-DD" : "Netinkamas datos formavimas. Privaloma: YYYY-MM-DD",
     "You cannot share to a Circle if the app is not enabled" : "Negalite bendrinti su ratu, jeigu programėlė nėra įjungta",
     "Please specify a valid circle" : "Pasirinkite naudotojų ratą",
     "Sharing %s failed because the back end does not support room shares" : "Bendrinimas %s nepavyko, kadangi sistema nepalaiko kambario bendrinimo",
@@ -175,7 +175,6 @@ OC.L10N.register(
     "Edit" : "Taisyti",
     "Share" : "Bendrinti",
     "Delete share" : "Ištrinti viešinį",
-    "Share with" : "Bendrinti su",
     "Others with access" : "Kiti asmenys, turintys prieigą",
     "Toggle list of others with access to this directory" : "Perjungti sąrašą kitų asmenų, turinčių prieigą prie šio katalogo",
     "Toggle list of others with access to this file" : "Perjungti sąrašą kitų asmenų, turinčių prieigą prie šio failo",
@@ -247,6 +246,7 @@ OC.L10N.register(
     "the item was removed" : "elementas buvo pašalintas",
     "the link expired" : "baigėsi nuorodos galiojimo laikas",
     "sharing is disabled" : "dalinimasis yra išjungtas",
-    "For more info, please ask the person who sent this link." : "Dėl tikslesnės informacijos susisiekite su asmeniu atsiuntusiu nuorodą."
+    "For more info, please ask the person who sent this link." : "Dėl tikslesnės informacijos susisiekite su asmeniu atsiuntusiu nuorodą.",
+    "Share with" : "Bendrinti su"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

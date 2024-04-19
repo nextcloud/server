@@ -71,6 +71,7 @@
     "Could not delete share" : "Ne eblis forigi kunhavon",
     "Please specify a file or folder path" : "Bv. entajpi vojon al dosiero aŭ dosierujo",
     "Could not create share" : "Ne eblis krei kunhavon",
+    "Invalid date, date format must be YYYY-MM-DD" : "Nevalida dato; datoformo estu JJJJ-MM-TT",
     "Group sharing is disabled by the administrator" : "Grup-kunhavigon malebligis la administranto",
     "Please specify a valid group" : "Bv. doni validan grupon",
     "Public link sharing is disabled by the administrator" : "Kunhavigon per publika ligilo malebligis la administranto",
@@ -78,7 +79,6 @@
     "Public upload is only possible for publicly shared folders" : "Publika alŝuto eblas nur por publike kunhavigitaj dosierujoj",
     "Sharing %s sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Kunhavigo de %s per sendado de la pasvorto per „Nextcloud Talk“ malsukcesis, ĉar Nextcloud Talk ne estas ebligita.",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Kunhavigo de %1$s malsukcesis, ĉar la servilo ne permesas kunhavon de tipo %2$s",
-    "Invalid date, date format must be YYYY-MM-DD" : "Nevalida dato; datoformo estu JJJJ-MM-TT",
     "You cannot share to a Circle if the app is not enabled" : "Vi ne povas kunhavigi per Rondo, se la aplikaĵo „Rondo“ ne estas ebligita",
     "Please specify a valid circle" : "Bv. doni validan rondon",
     "Sharing %s failed because the back end does not support room shares" : "Kunhavigo de %s malsukcesis, ĉar la servilo ne subtenas kunhavon de ĉambro",
@@ -146,7 +146,6 @@
     "Edit" : "Modifi",
     "Share" : "Kunhavigi",
     "Delete share" : "Forigi kunhavigon",
-    "Share with" : "Kunhavigi kun",
     "Unable to load the shares list" : "Ne eblas ricevi kunhavliston",
     "Expires {relativetime}" : "Senvalidiĝas {relativetime}",
     "this share just expired." : "Tiu kunhavo ĵus senvalidiĝis.",
@@ -202,6 +201,7 @@
     "the item was removed" : "la ero foriĝis",
     "the link expired" : "la ligilo eksvalidiĝis",
     "sharing is disabled" : "kunhavigo malkapablas",
-    "For more info, please ask the person who sent this link." : "Por plia informo, bonvolu peti al la persono, kiu sendis ĉi tiun ligilon."
+    "For more info, please ask the person who sent this link." : "Por plia informo, bonvolu peti al la persono, kiu sendis ĉi tiun ligilon.",
+    "Share with" : "Kunhavigi kun"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

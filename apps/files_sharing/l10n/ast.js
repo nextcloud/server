@@ -46,12 +46,12 @@ OC.L10N.register(
     "Please specify a file or folder path" : "Especifica'l camín d'un ficheru o una carpeta",
     "Could not create share" : "Nun se pudo crear la compartición",
     "Invalid permissions" : "Los permisos son inválidos",
+    "Invalid date, date format must be YYYY-MM-DD" : "La data ye inválida, el so formatu ha ser AAAA-MM-DD",
     "Please specify a valid account to share with" : "Especifica una cuenta válida cola que compartir",
     "Please specify a valid group" : "Especifica un grupu válidu",
     "Public link sharing is disabled by the administrator" : "L'alministración desactivó al compartición d'enllaces públicos",
     "Public upload disabled by the administrator" : "L'alministración desactivó la xuba pública",
     "Public upload is only possible for publicly shared folders" : "La xuba pública namás ye posible pa les carpetes compartíes públicamente",
-    "Invalid date, date format must be YYYY-MM-DD" : "La data ye inválida, el so formatu ha ser AAAA-MM-DD",
     "Please specify a valid circle" : "Especifica un círculu válidu",
     "Not a directory" : "Nun ye un direutoriu",
     "Could not lock node" : "Nun se pudo bloquiar el noyu",
@@ -116,9 +116,8 @@ OC.L10N.register(
     "Share in conversation" : "Compartir na conversación",
     "Share with remote group" : "Compartir col grupu remotu",
     "Share with guest" : "Compartir col convidáu",
-    "Share with" : "Compartir con",
-    "Save share" : "Guardar la compartición",
     "Update share" : "Anovar la compartición",
+    "Save share" : "Guardar la compartición",
     "Unable to fetch inherited shares" : "Nun ye posible dir en cata de los elementos compartíos heredaos",
     "Unable to load the shares list" : "Nun ye posible cargar la llista d'elementos compartíos",
     "this share just expired." : "esta compartición ta acabante de caducar.",
@@ -172,6 +171,7 @@ OC.L10N.register(
     "the item was removed" : "quitóse l'elementu",
     "the link expired" : "l'enllaz caducó",
     "sharing is disabled" : "la compartición ta desactivada",
-    "For more info, please ask the person who sent this link." : "Pa consiguir más información, entruga a la persona que t'unvió esti enllaz."
+    "For more info, please ask the person who sent this link." : "Pa consiguir más información, entruga a la persona que t'unvió esti enllaz.",
+    "Share with" : "Compartir con"
 },
 "nplurals=2; plural=(n != 1);");
