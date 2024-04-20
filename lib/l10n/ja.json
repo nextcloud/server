@@ -88,7 +88,7 @@
     "Empty filename is not allowed" : "空のファイル名は許可されていません",
     "App \"%s\" cannot be installed because appinfo file cannot be read." : "appinfoファイルが読み込めないため、アプリ名 \"%s\"  がインストールできません。",
     "App \"%s\" cannot be installed because it is not compatible with this version of the server." : "\"%s\" アプリは、このバージョンのサーバーと互換性がないためインストールされませんでした。",
-    "__language_name__" : "Japanese (日本語)",
+    "__language_name__" : "日本語 (Japanese)",
     "This is an automatically sent email, please do not reply." : "これは自動的に生成されたメールです。返信しないでください。",
     "Help" : "ヘルプ",
     "Appearance and accessibility" : "外観とアクセシビリティ",
