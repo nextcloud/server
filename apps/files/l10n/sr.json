@@ -195,6 +195,7 @@
     "Toggle selection for all files and folders" : "Укљ./искљ. избор за све фајлове и фолдере",
     "\"{displayName}\" failed on some elements " : "„{displayName}” није успело на неким елементима",
     "\"{displayName}\" batch action executed successfully" : "Пакетна акција „{displayName}” се успешно извршила",
+    "{count} selected" : "{count} изабрано",
     "List of files and folders." : "Листа фајлова и фолдера.",
     "Column headers with buttons are sortable." : "Заглавља колона са дугмићима могу да се соритрају.",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Ова листа није у потпуности приказана из разлога перформанси. Фајлови ће се приказивати како се крећете кроз листу.",
