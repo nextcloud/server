@@ -46,7 +46,7 @@ export const registerFavoritesView = async () => {
 	Navigation.register(new View({
 		id: 'favorites',
 		name: t('files', 'Favorites'),
-		caption: t('files', 'List of favorites files and folders.'),
+		caption: t('files', 'List of favorite files and folders.'),
 
 		emptyTitle: t('files', 'No favorites yet'),
 		emptyCaption: t('files', 'Files and folders you mark as favorite will show up here'),

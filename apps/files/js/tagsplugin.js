@@ -32,7 +32,7 @@
 	function renderStar (state) {
 		return OCA.Files.Templates['favorite_mark']({
 			isFavorite: state,
-			altText: state ? t('files', 'Favorited') : t('files', 'Not favorited'),
+			altText: state ? t('files', 'Favored') : t('files', 'Not favored'),
 			iconClass: getStarIconClass(state)
 		});
 	}
