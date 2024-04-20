@@ -22,29 +22,24 @@
  */
 namespace OCA\Files_Sharing\Tests;
 
-use OC\EventDispatcher\EventDispatcher;
-use OC\Share20\Manager;
 use OCA\Files_Sharing\AppInfo\Application;
+use OCA\Files_Sharing\Listener\BeforeDirectFileDownloadListener;
+use OCA\Files_Sharing\Listener\BeforeZipCreatedListener;
 use OCA\Files_Sharing\SharedStorage;
-use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Events\BeforeDirectFileDownloadEvent;
 use OCP\Files\Events\BeforeZipCreatedEvent;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\Storage\IStorage;
-use OCP\IServerContainer;
 use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Share\IAttributes;
 use OCP\Share\IShare;
-use Psr\Log\LoggerInterface;
-use Symfony\Component\EventDispatcher\EventDispatcher as SymfonyDispatcher;
 use Test\TestCase;
 
 class ApplicationTest extends TestCase {
 	private Application $application;
-	private IEventDispatcher $eventDispatcher;
 
 	/** @var IUserSession */
 	private $userSession;
@@ -52,28 +47,14 @@ class ApplicationTest extends TestCase {
 	/** @var IRootFolder */
 	private $rootFolder;
 
-	/** @var Manager */
-	private $manager;
 
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->application = new Application([]);
 
-		$symfonyDispatcher = new SymfonyDispatcher();
-		$this->eventDispatcher = new EventDispatcher(
-			$symfonyDispatcher,
-			$this->createMock(IServerContainer::class),
-			$this->createMock(LoggerInterface::class)
-		);
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->rootFolder = $this->createMock(IRootFolder::class);
-
-		$this->application->registerDownloadEvents(
-			$this->eventDispatcher,
-			$this->userSession,
-			$this->rootFolder
-		);
 	}
 
 	public function providesDataForCanGet(): array {
@@ -134,7 +115,11 @@ class ApplicationTest extends TestCase {
 
 		// Simulate direct download of file
 		$event = new BeforeDirectFileDownloadEvent($path);
-		$this->eventDispatcher->dispatchTyped($event);
+		$listener = new BeforeDirectFileDownloadListener(
+			$this->userSession,
+			$this->rootFolder
+		);
+		$listener->handle($event);
 
 		$this->assertEquals($run, $event->isSuccessful());
 	}
@@ -212,7 +197,12 @@ class ApplicationTest extends TestCase {
 
 		// Simulate zip download of folder folder
 		$event = new BeforeZipCreatedEvent($dir, $files);
-		$this->eventDispatcher->dispatchTyped($event);
+		$listener = new BeforeZipCreatedListener(
+			$this->userSession,
+			$this->rootFolder
+		);
+		$listener->handle($event);
+
 
 		$this->assertEquals($run, $event->isSuccessful());
 		$this->assertEquals($run, $event->getErrorMessage() === null);
@@ -223,7 +213,11 @@ class ApplicationTest extends TestCase {
 
 		// Simulate zip download of folder folder
 		$event = new BeforeZipCreatedEvent('/test', ['test.txt']);
-		$this->eventDispatcher->dispatchTyped($event);
+		$listener = new BeforeZipCreatedListener(
+			$this->userSession,
+			$this->rootFolder
+		);
+		$listener->handle($event);
 
 		// It should run as this would restrict e.g. share links otherwise
 		$this->assertTrue($event->isSuccessful());
