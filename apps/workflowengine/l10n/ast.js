@@ -50,6 +50,7 @@ OC.L10N.register(
     "Android client" : "Veceru p'Android",
     "iOS client" : "Veceru pa iOS",
     "Desktop client" : "Veceru pa ordenadores",
+    "Select groups" : "Seleicionar grupos",
     "Groups" : "Grupos",
     "and" : "y",
     "Cancel" : "Encaboxar",
