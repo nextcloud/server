@@ -371,6 +371,7 @@
     "Missing primary key on table \"{tableName}\"." : "Falta la clave primaria na tabla «{tableName}»",
     "The database is missing some primary keys. Due to the fact that adding primary keys on big tables could take some time they were not added automatically. By running \"occ db:add-missing-primary-keys\" those missing primary keys could be added manually while the instance keeps running." : "A la base de datos fálten-y dalgunes claves primaries. Pola mor de qu'amestar claves primaries en tables grandes pue tardar tiempu, nun s'amestaron automáticamente. Al executar «occ db:add-missing-primary-keys» eses claves primaries que falten podríen amestase manualmente mentanto la instancia sigue n'execución.",
     "Missing optional column \"{columnName}\" in table \"{tableName}\"." : "Falta la columna opcional «{columnName}» na tabla «{tableName}».",
+    "The PHP module \"imagick\" is not enabled although the theming app is. For favicon generation to work correctly, you need to install and enable this module." : "El módulu de PHP «imagick» nun ta activáu magar que l'aplicación d'estilos lo ta. Pa que la xeneración de favíconos funcione correutamente, tienes d'instalar y activar esti módulu.",
     "Account name or email" : "Nome de la cuenta o direición de corréu electrónicu",
     "Wrong username or password." : "El nome d'usuariu o la contraseña son incorreutos",
     "User disabled" : "L'usuariu ta desactiváu",
