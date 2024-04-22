@@ -57,6 +57,7 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCS\OCSForbiddenException;
+use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\AppFramework\OCSController;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\HintException;
@@ -214,7 +215,14 @@ class UsersController extends AUserData {
 		$usersDetails = [];
 		foreach ($users as $userId) {
 			$userId = (string) $userId;
-			$userData = $this->getUserData($userId);
+			try {
+				$userData = $this->getUserData($userId);
+			} catch (OCSNotFoundException $e) {
+				// We still want to return all other accounts, but this one was removed from the backends
+				// yet they are still in our database. Might be a LDAP remnant.
+				$userData = null;
+				$this->logger->warning('Found one enabled account that is removed from its backend, but still exists in Nextcloud database', ['accountId' => $userId]);
+			}
 			// Do not insert empty entry
 			if ($userData !== null) {
 				$usersDetails[$userId] = $userData;
@@ -287,12 +295,19 @@ class UsersController extends AUserData {
 
 		$usersDetails = [];
 		foreach ($users as $userId) {
-			$userData = $this->getUserData($userId);
+			try {
+				$userData = $this->getUserData($userId);
+			} catch (OCSNotFoundException $e) {
+				// We still want to return all other accounts, but this one was removed from the backends
+				// yet they are still in our database. Might be a LDAP remnant.
+				$userData = null;
+				$this->logger->warning('Found one disabled account that was removed from its backend, but still exists in Nextcloud database', ['accountId' => $userId]);
+			}
 			// Do not insert empty entry
 			if ($userData !== null) {
 				$usersDetails[$userId] = $userData;
 			} else {
-				// Logged user does not have permissions to see this user
+				// Currently logged in user does not have permissions to see this user
 				// only showing its id
 				$usersDetails[$userId] = ['id' => $userId];
 			}
