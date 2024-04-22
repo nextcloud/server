@@ -1449,11 +1449,6 @@
       <code>$restrictions</code>
     </InvalidArgument>
   </file>
-  <file src="lib/private/Activity/Event.php">
-    <ParamNameMismatch>
-      <code>$affectedUser</code>
-    </ParamNameMismatch>
-  </file>
   <file src="lib/private/Activity/Manager.php">
     <InvalidPropertyAssignmentValue>
       <code><![CDATA[$this->filterClasses]]></code>
@@ -1466,9 +1461,6 @@
     <MoreSpecificReturnType>
       <code>ActivitySettings[]</code>
     </MoreSpecificReturnType>
-    <TypeDoesNotContainType>
-      <code><![CDATA[!is_string($currentUserId) && $currentUserId !== null]]></code>
-    </TypeDoesNotContainType>
   </file>
   <file src="lib/private/AllConfig.php">
     <MoreSpecificImplementedParamType>
