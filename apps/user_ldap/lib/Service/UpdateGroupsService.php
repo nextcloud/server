@@ -66,7 +66,7 @@ class UpdateGroupsService {
 
 		if (empty($actualGroups) && empty($knownGroups)) {
 			$this->logger->info(
-				'service "updateGroups" – groups do not seem to be configured properly, aborting.',
+				'service "updateGroups" - groups do not seem to be configured properly, aborting.',
 			);
 			return;
 		}
@@ -75,7 +75,7 @@ class UpdateGroupsService {
 		$this->handleCreatedGroups(array_diff($actualGroups, $knownGroups));
 		$this->handleRemovedGroups(array_diff($knownGroups, $actualGroups));
 
-		$this->logger->debug('service "updateGroups" – Finished.');
+		$this->logger->debug('service "updateGroups" - Finished.');
 	}
 
 	/**
@@ -83,10 +83,10 @@ class UpdateGroupsService {
 	 * @throws Exception
 	 */
 	public function handleKnownGroups(array $groups): void {
-		$this->logger->debug('service "updateGroups" – Dealing with known Groups.');
+		$this->logger->debug('service "updateGroups" - Dealing with known Groups.');
 
 		foreach ($groups as $group) {
-			$this->logger->debug('service "updateGroups" – Dealing with {group}.', ['group' => $group]);
+			$this->logger->debug('service "updateGroups" - Dealing with {group}.', ['group' => $group]);
 			$groupMemberships = $this->groupMembershipMapper->findGroupMemberships($group);
 			$knownUsers = array_map(
 				static fn (GroupMembership $groupMembership): string => $groupMembership->getUserid(),
@@ -99,7 +99,7 @@ class UpdateGroupsService {
 			if ($groupObject === null) {
 				/* We are not expecting the group to not be found since it was returned by $this->groupBackend->getGroups() */
 				$this->logger->error(
-					'service "updateGroups" – Failed to get group {group} for update',
+					'service "updateGroups" - Failed to get group {group} for update',
 					[
 						'group' => $group
 					]
@@ -113,7 +113,7 @@ class UpdateGroupsService {
 					if ($e->getReason() !== Exception::REASON_DATABASE_OBJECT_NOT_FOUND) {
 						/* If reason is not found something else removed the membership, that’s fine */
 						$this->logger->error(
-							__CLASS__ . ' – group {group} membership failed to be removed (user {user})',
+							__CLASS__ . ' - group {group} membership failed to be removed (user {user})',
 							[
 								'app' => 'user_ldap',
 								'user' => $removedUser,
@@ -130,7 +130,7 @@ class UpdateGroupsService {
 					$this->dispatcher->dispatchTyped(new UserRemovedEvent($groupObject, $userObject));
 				}
 				$this->logger->info(
-					'service "updateGroups" – {user} removed from {group}',
+					'service "updateGroups" - {user} removed from {group}',
 					[
 						'user' => $removedUser,
 						'group' => $group
@@ -144,7 +144,7 @@ class UpdateGroupsService {
 					if ($e->getReason() !== Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
 						/* If reason is unique constraint something else added the membership, that’s fine */
 						$this->logger->error(
-							__CLASS__ . ' – group {group} membership failed to be added (user {user})',
+							__CLASS__ . ' - group {group} membership failed to be added (user {user})',
 							[
 								'app' => 'user_ldap',
 								'user' => $addedUser,
@@ -161,7 +161,7 @@ class UpdateGroupsService {
 					$this->dispatcher->dispatchTyped(new UserAddedEvent($groupObject, $userObject));
 				}
 				$this->logger->info(
-					'service "updateGroups" – {user} added to {group}',
+					'service "updateGroups" - {user} added to {group}',
 					[
 						'user' => $addedUser,
 						'group' => $group
@@ -169,7 +169,7 @@ class UpdateGroupsService {
 				);
 			}
 		}
-		$this->logger->debug('service "updateGroups" – FINISHED dealing with known Groups.');
+		$this->logger->debug('service "updateGroups" - FINISHED dealing with known Groups.');
 	}
 
 	/**
@@ -177,10 +177,10 @@ class UpdateGroupsService {
 	 * @throws Exception
 	 */
 	public function handleCreatedGroups(array $createdGroups): void {
-		$this->logger->debug('service "updateGroups" – dealing with created Groups.');
+		$this->logger->debug('service "updateGroups" - dealing with created Groups.');
 
 		foreach ($createdGroups as $createdGroup) {
-			$this->logger->info('service "updateGroups" – new group "' . $createdGroup . '" found.');
+			$this->logger->info('service "updateGroups" - new group "' . $createdGroup . '" found.');
 
 			$users = $this->groupBackend->usersInGroup($createdGroup);
 			$groupObject = $this->groupManager->get($createdGroup);
@@ -190,7 +190,7 @@ class UpdateGroupsService {
 				} catch (Exception $e) {
 					if ($e->getReason() !== Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
 						$this->logger->error(
-							__CLASS__ . ' – group {group} membership failed to be added (user {user})',
+							__CLASS__ . ' - group {group} membership failed to be added (user {user})',
 							[
 								'app' => 'user_ldap',
 								'user' => $user,
@@ -210,7 +210,7 @@ class UpdateGroupsService {
 				}
 			}
 		}
-		$this->logger->debug('service "updateGroups" – FINISHED dealing with created Groups.');
+		$this->logger->debug('service "updateGroups" - FINISHED dealing with created Groups.');
 	}
 
 	/**
@@ -218,7 +218,7 @@ class UpdateGroupsService {
 	 * @throws Exception
 	 */
 	public function handleRemovedGroups(array $removedGroups): void {
-		$this->logger->debug('service "updateGroups" – dealing with removed groups.');
+		$this->logger->debug('service "updateGroups" - dealing with removed groups.');
 
 		$this->groupMembershipMapper->deleteGroups($removedGroups);
 		foreach ($removedGroups as $group) {
@@ -235,7 +235,7 @@ class UpdateGroupsService {
 		}
 
 		$this->logger->info(
-			'service "updateGroups" – groups {removedGroups} were removed.',
+			'service "updateGroups" - groups {removedGroups} were removed.',
 			[
 				'removedGroups' => $removedGroups
 			]
