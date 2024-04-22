@@ -294,8 +294,7 @@ class OC_Image implements \OCP\IImage {
 				$retVal = imagegif($this->resource, $filePath);
 				break;
 			case IMAGETYPE_JPEG:
-				/** @psalm-suppress InvalidScalarArgument */
-				imageinterlace($this->resource, (PHP_VERSION_ID >= 80000 ? true : 1));
+				imageinterlace($this->resource, true);
 				$retVal = imagejpeg($this->resource, $filePath, $this->getJpegQuality());
 				break;
 			case IMAGETYPE_PNG:
