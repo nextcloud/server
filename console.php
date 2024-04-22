@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -57,7 +60,7 @@ try {
 		exit(1);
 	}
 
-	$config = \OC::$server->getConfig();
+	$config = \OCP\Server::get(\OCP\IConfig::class);
 	set_exception_handler('exceptionHandler');
 
 	if (!function_exists('posix_getuid')) {
@@ -102,13 +105,7 @@ try {
 		echo "Additionally the function 'pcntl_signal' and 'pcntl_signal_dispatch' need to be enabled in your php.ini." . PHP_EOL;
 	}
 
-	$application = new Application(
-		$config,
-		\OC::$server->get(\OCP\EventDispatcher\IEventDispatcher::class),
-		\OC::$server->getRequest(),
-		\OC::$server->get(\Psr\Log\LoggerInterface::class),
-		\OC::$server->query(\OC\MemoryInfo::class)
-	);
+	$application = \OCP\Server::get(Application::class);
 	$application->loadCommands(new ArgvInput(), new ConsoleOutput());
 	$application->run();
 } catch (Exception $ex) {

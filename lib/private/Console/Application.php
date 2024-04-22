@@ -32,7 +32,7 @@ namespace OC\Console;
 
 use OC\MemoryInfo;
 use OC\NeedsUpdateException;
-use OC_App;
+use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
 use OCP\Console\ConsoleEvent;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -47,25 +47,18 @@ use Symfony\Component\Console\Output\ConsoleOutputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Application {
-	private IConfig $config;
 	private SymfonyApplication $application;
-	private IEventDispatcher $dispatcher;
-	private IRequest $request;
-	private LoggerInterface $logger;
-	private MemoryInfo $memoryInfo;
 
-	public function __construct(IConfig $config,
-		IEventDispatcher $dispatcher,
-		IRequest $request,
-		LoggerInterface $logger,
-		MemoryInfo $memoryInfo) {
+	public function __construct(
+		private IConfig $config,
+		private IEventDispatcher $dispatcher,
+		private IRequest $request,
+		private LoggerInterface $logger,
+		private MemoryInfo $memoryInfo,
+		private IAppManager $appManager,
+	) {
 		$defaults = \OC::$server->get('ThemingDefaults');
-		$this->config = $config;
 		$this->application = new SymfonyApplication($defaults->getName(), \OC_Util::getVersionString());
-		$this->dispatcher = $dispatcher;
-		$this->request = $request;
-		$this->logger = $logger;
-		$this->memoryInfo = $memoryInfo;
 	}
 
 	/**
@@ -111,15 +104,15 @@ class Application {
 				} elseif ($this->config->getSystemValueBool('maintenance')) {
 					$this->writeMaintenanceModeInfo($input, $output);
 				} else {
-					OC_App::loadApps();
-					$appManager = \OCP\Server::get(IAppManager::class);
-					foreach ($appManager->getInstalledApps() as $app) {
-						$appPath = \OC_App::getAppPath($app);
-						if ($appPath === false) {
+					$this->appManager->loadApps();
+					foreach ($this->appManager->getInstalledApps() as $app) {
+						try {
+							$appPath = $this->appManager->getAppPath($app);
+						} catch (AppPathNotFoundException) {
 							continue;
 						}
 						// load commands using info.xml
-						$info = $appManager->getAppInfo($app);
+						$info = $this->appManager->getAppInfo($app);
 						if (isset($info['commands'])) {
 							try {
 								$this->loadCommandsFromInfoXml($info['commands']);
