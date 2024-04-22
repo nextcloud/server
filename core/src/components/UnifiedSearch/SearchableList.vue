@@ -46,7 +46,11 @@
 						:wide="true"
 						@click="itemSelected(element)">
 						<template #icon>
-							<NcAvatar :user="element.user" :show-user-status="false" :hide-favorite="false" />
+							<NcAvatar v-if="element.isUser" :user="element.user" :show-user-status="false" />
+							<NcAvatar v-else
+								:is-no-user="true"
+								:display-name="element.displayName"
+								:show-user-status="false" />
 						</template>
 						{{ element.displayName }}
 					</NcButton>
