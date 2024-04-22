@@ -57,12 +57,12 @@ use Symfony\Component\HttpFoundation\IpUtils;
  * Class for accessing variables in the request.
  * This class provides an immutable object with request variables.
  *
- * @property mixed[] cookies
- * @property mixed[] env
- * @property mixed[] files
- * @property string method
- * @property mixed[] parameters
- * @property mixed[] server
+ * @property mixed[] $cookies
+ * @property mixed[] $env
+ * @property mixed[] $files
+ * @property string $method
+ * @property mixed[] $parameters
+ * @property mixed[] $server
  * @template-implements \ArrayAccess<string,mixed>
  */
 class Request implements \ArrayAccess, \Countable, IRequest {

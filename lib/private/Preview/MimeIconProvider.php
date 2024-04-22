@@ -47,7 +47,7 @@ class MimeIconProvider implements IMimeIconProvider {
 		$aliases = $this->mimetypeDetector->getAllAliases();
 
 		// Remove comments
-		$aliases = array_filter($aliases, static function ($key) {
+		$aliases = array_filter($aliases, static function (string $key) {
 			return !($key === '' || $key[0] === '_');
 		}, ARRAY_FILTER_USE_KEY);
 
