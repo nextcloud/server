@@ -59,7 +59,7 @@ style('user_ldap', 'settings');
 
 ?>
 
-<form id="ldap" class="section" action="#" method="post">
+<form id="ldap" class="settings-section" action="#" method="post">
 	<h2><?php p($l->t('LDAP/AD integration')); ?></h2>
 
 	<div id="ldapSettings">

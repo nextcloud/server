@@ -26,4 +26,4 @@ script('settings', 'vue-settings-personal-webauthn');
 
 ?>
 
-<div id="security-webauthn" class="section"></div>
+<div id="security-webauthn" class="settings-section"></div>

@@ -4,7 +4,7 @@
 -->
 
 <template>
-	<div id="files-personal-settings" class="section">
+	<div id="files-personal-settings" class="settings-section">
 		<h2>{{ t('files', 'Files') }}</h2>
 		<TransferOwnershipDialogue />
 	</div>

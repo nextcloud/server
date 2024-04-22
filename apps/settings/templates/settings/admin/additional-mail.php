@@ -50,7 +50,7 @@ $mail_sendmailmode = [
 
 ?>
 
-<div class="section" id="mail_general_settings">
+<div class="settings-section" id="mail_general_settings">
 	<form id="mail_general_settings_form" class="mail_settings">
 		<h2><?php p($l->t('Email server'));?></h2>
 		<a 	target="_blank"

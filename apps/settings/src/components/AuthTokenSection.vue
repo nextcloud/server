@@ -21,7 +21,7 @@
   -->
 
 <template>
-	<div id="security" class="section">
+	<div id="security" class="settings-section">
 		<h2>{{ t('settings', 'Devices & sessions', {}, undefined, {sanitize: false}) }}</h2>
 		<p class="settings-hint hidden-when-empty">
 			{{ t('settings', 'Web, desktop and mobile clients currently logged in to your account.') }}

@@ -20,7 +20,7 @@
   -->
 
 <template>
-	<div id="security-webauthn" class="section">
+	<NcSettingsSection id="security-webauthn">
 		<h2>{{ t('settings', 'Passwordless Authentication') }}</h2>
 		<p class="settings-hint hidden-when-empty">
 			{{ t('settings', 'Set up your account for passwordless authentication following the FIDO2 standard.') }}
@@ -47,20 +47,20 @@
 			:is-https="isHttps"
 			:is-localhost="isLocalhost"
 			@added="deviceAdded" />
-	</div>
+	</NcSettingsSection>
 </template>
 
 <script>
 import { browserSupportsWebAuthn } from '@simplewebauthn/browser'
 import { confirmPassword } from '@nextcloud/password-confirmation'
 import NcNoteCard from '@nextcloud/vue/dist/Components/NcNoteCard.js'
-import '@nextcloud/password-confirmation/dist/style.css'
 import sortBy from 'lodash/fp/sortBy.js'
 
 import AddDevice from './AddDevice.vue'
 import Device from './Device.vue'
 import logger from '../../logger.ts'
 import { removeRegistration } from '../../service/WebAuthnRegistrationSerice.js'
+import { NcSettingsSection } from '@nextcloud/vue'
 
 const sortByName = sortBy('name')
 
@@ -69,6 +69,7 @@ export default {
 		AddDevice,
 		Device,
 		NcNoteCard,
+		NcSettingsSection,
 	},
 	props: {
 		initialDevices: {

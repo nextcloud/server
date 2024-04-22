@@ -26,4 +26,4 @@ script('settings', 'vue-settings-personal-security');
 
 ?>
 
-<div id="security-authtokens" class="section"></div>
+<div id="security-authtokens" class="settings-section"></div>

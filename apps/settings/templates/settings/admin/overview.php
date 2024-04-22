@@ -27,7 +27,7 @@
 
 ?>
 
-<div id="security-warning" class="section">
+<div id="security-warning" class="settings-section">
 	<div class="security-warning__heading">
 		<h2><?php p($l->t('Security & setup warnings'));?></h2>
 		<a 	target="_blank"
@@ -71,7 +71,7 @@
 
 </div>
 
-<div id="version" class="section">
+<div id="version" class="settings-section">
 	<!-- should be the last part, so Updater can follow if enabled (it has no heading therefore). -->
 	<h2><?php p($l->t('Version'));?></h2>
 	<p><strong><a href="<?php print_unescaped($theme->getBaseUrl()); ?>" rel="noreferrer noopener" target="_blank">Nextcloud Hub 8</a> (<?php p(OC_Util::getHumanVersion()) ?>)</strong></p>
