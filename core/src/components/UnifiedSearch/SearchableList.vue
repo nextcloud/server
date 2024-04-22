@@ -46,7 +46,8 @@
 						:wide="true"
 						@click="itemSelected(element)">
 						<template #icon>
-							<NcAvatar :user="element.user" :show-user-status="false" :hide-favorite="false" />
+							<NcAvatar v-if="element.isUser" :user="element.user"  :show-user-status="false" :hide-favorite="false" />
+							<NcAvatar v-else :url="element.avatar"  :show-user-status="false" :hide-favorite="false" />
 						</template>
 						{{ element.displayName }}
 					</NcButton>
@@ -117,7 +118,6 @@ export default {
 			})
 		},
 	},
-
 	methods: {
 		clearSearch() {
 			this.searchTerm = ''
@@ -128,6 +128,7 @@ export default {
 			this.opened = false
 		},
 		searchTermChanged(term) {
+			console.debug('Users (search)', this.filteredList) // WIP, would remove
 			this.$emit('search-term-change', term)
 		},
 	},

@@ -383,6 +383,7 @@ export default {
 		},
 		mapContacts(contacts) {
 			return contacts.map(contact => {
+				console.debug('CONTACT VIEW', contact) // WIP would remove
 				return {
 					// id: contact.id,
 					// name: '',
@@ -391,6 +392,8 @@ export default {
 					subname: contact.emailAddresses[0] ? contact.emailAddresses[0] : '',
 					icon: '',
 					user: contact.id,
+					isUser: contact.isUser,
+					avatar: contact.avatar,
 				}
 			})
 		},

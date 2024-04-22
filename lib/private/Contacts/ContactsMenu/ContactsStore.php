@@ -31,6 +31,7 @@
 
 namespace OC\Contacts\ContactsMenu;
 
+use OC\Federation\CloudId;
 use OC\KnownUser\KnownUserService;
 use OC\Profile\ProfileManager;
 use OCA\UserStatus\Db\UserStatus;
@@ -44,6 +45,7 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\L10N\IFactory as IL10NFactory;
+use Psr\Log\LoggerInterface;
 use function array_column;
 use function array_fill_keys;
 use function array_filter;
@@ -62,6 +64,7 @@ class ContactsStore implements IContactsStore {
 		private IGroupManager $groupManager,
 		private KnownUserService $knownUserService,
 		private IL10NFactory $l10nFactory,
+		private LoggerInterface $logger,
 	) {
 	}
 
@@ -351,19 +354,35 @@ class ContactsStore implements IContactsStore {
 
 	private function contactArrayToEntry(array $contact): Entry {
 		$entry = new Entry();
-
 		if (!empty($contact['UID'])) {
 			$uid = $contact['UID'];
 			$entry->setId($uid);
 			$entry->setProperty('isUser', false);
+			$username = '';
+			$remoteServer = '';
+
+			if (isset($contact['CLOUD']) && is_array($contact['CLOUD']) && isset($contact['CLOUD'][0])) {
+				preg_match('/^(.*?)@(https?:\/\/.*?)$/', $contact['CLOUD'][0], $matches);
+				if (count($matches) === 3) {
+					$username = $matches[1];
+					$remoteServer = $matches[2];
+					$cloud = new CloudId($entry->getId(), $username, $remoteServer);
+					$entry->setCloudId($cloud);
+					$this->logger->warning('Set address cloud: ' . json_encode(['username' => $username, 'server' => $remoteServer]));
+				} else {
+					$this->logger->warning('Unable to process contact remote server: ' . $contact['CLOUD'][0]);
+				}
+			} else {
+				$this->logger->warning('Invalid remote server data');
+			}
 			// overloaded usage so leaving as-is for now
 			if (isset($contact['isLocalSystemBook'])) {
 				$avatar = $this->urlGenerator->linkToRouteAbsolute('core.avatar.getAvatar', ['userId' => $uid, 'size' => 64]);
 				$entry->setProperty('isUser', true);
-			} elseif (!empty($contact['FN'])) {
-				$avatar = $this->urlGenerator->linkToRouteAbsolute('core.GuestAvatar.getAvatar', ['guestName' => str_replace('/', ' ', $contact['FN']), 'size' => 64]);
+			} elseif ($username != '') {
+				$avatar = $this->urlGenerator->linkToRemoteRouteAbsolute($remoteServer, 'core.avatar.getAvatar', ['userId' => str_replace('/', ' ', $username), 'size' => 64]);
 			} else {
-				$avatar = $this->urlGenerator->linkToRouteAbsolute('core.GuestAvatar.getAvatar', ['guestName' => str_replace('/', ' ', $uid), 'size' => 64]);
+				$avatar = $this->urlGenerator->linkToRemoteRouteAbsolute($remoteServer, 'core.avatar.getAvatar', ['userId' => str_replace('/', ' ', $uid), 'size' => 64]);
 			}
 			$entry->setAvatar($avatar);
 		}
@@ -374,7 +393,7 @@ class ContactsStore implements IContactsStore {
 
 		$avatarPrefix = "VALUE=uri:";
 		if (!empty($contact['PHOTO']) && str_starts_with($contact['PHOTO'], $avatarPrefix)) {
-			$entry->setAvatar(substr($contact['PHOTO'], strlen($avatarPrefix)));
+			//$entry->setAvatar(substr($contact['PHOTO'], strlen($avatarPrefix)));
 		}
 
 		if (!empty($contact['EMAIL'])) {

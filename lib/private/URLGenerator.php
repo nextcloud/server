@@ -115,6 +115,19 @@ class URLGenerator implements IURLGenerator {
 		return $this->getAbsoluteURL($this->linkToRoute($routeName, $arguments));
 	}
 
+
+	public function linkToRemoteRouteAbsolute(string $remote, $routeName, array $arguments = []): string {
+		return $this->formatAsUrl($remote, $this->linkToRoute($routeName, $arguments));
+	}
+
+	private function formatAsUrl(string $baseUrl, string $restUrl): ?string {
+		$baseUrl = trim($baseUrl);
+		if (empty($baseUrl) || !filter_var(preg_match("~^(?:f|ht)tps?://~i", $baseUrl) ? $baseUrl : "http://$baseUrl", FILTER_VALIDATE_URL)) {
+			return null;
+		}
+		return filter_var($baseUrl . $restUrl, FILTER_VALIDATE_URL) ? $baseUrl . $restUrl : null;
+	}
+
 	public function linkToOCSRouteAbsolute(string $routeName, array $arguments = []): string {
 		// Returns `/subfolder/index.php/ocsapp/…` with `'htaccess.IgnoreFrontController' => false` in config.php
 		// And `/subfolder/ocsapp/…` with `'htaccess.IgnoreFrontController' => true` in config.php

@@ -27,6 +27,7 @@ declare(strict_types=1);
 
 namespace OC\Contacts\ContactsMenu;
 
+use OC\Federation\CloudId;
 use OCP\Contacts\ContactsMenu\IAction;
 use OCP\Contacts\ContactsMenu\IEntry;
 use function array_merge;
@@ -34,32 +35,30 @@ use function array_merge;
 class Entry implements IEntry {
 	public const PROPERTY_STATUS_MESSAGE_TIMESTAMP = 'statusMessageTimestamp';
 
-	/** @var string|int|null */
-	private $id = null;
+	public function __construct(
+		private ?string $id = null,
+		private string $fullName = '',
+		private array $emailAddresses = [],
+		private ?string $avatar = null,
+		private ?string $profileTitle = null,
+		private ?string $profileUrl = null,
+		private array $actions = [],
+		private array $properties = [],
+		private ?string $status = null,
+		private ?string $statusMessage = null,
+		private ?int $statusMessageTimestamp = null,
+		private ?string $statusIcon = null,
+		private ?CloudId $cloud = null
+	) {
+	}
 
-	private string $fullName = '';
-
-	/** @var string[] */
-	private array $emailAddresses = [];
-
-	private ?string $avatar = null;
-
-	private ?string $profileTitle = null;
-
-	private ?string $profileUrl = null;
-
-	/** @var IAction[] */
-	private array $actions = [];
-
-	private array $properties = [];
-
-	private ?string $status = null;
-	private ?string $statusMessage = null;
-	private ?int $statusMessageTimestamp = null;
-	private ?string $statusIcon = null;
 
 	public function setId(string $id): void {
 		$this->id = $id;
+	}
+
+	public function getId(): string {
+		return $this->id;
 	}
 
 	public function setFullName(string $displayName): void {
@@ -163,8 +162,25 @@ class Entry implements IEntry {
 		return $this->properties[$key];
 	}
 
+
+	public function getStatusMessage(): ?string {
+		return $this->statusMessage;
+	}
+
+	public function getStatusMessageTimestamp(): ?int {
+		return $this->statusMessageTimestamp;
+	}
+
+	public function setCloudId(CloudId $cloudId) {
+		$this->cloud = $cloudId;
+	}
+
+	public function getCloud(): CloudId {
+		return $this->cloud;
+	}
+
 	/**
-	 * @return array{id: int|string|null, fullName: string, avatar: string|null, topAction: mixed, actions: array, lastMessage: '', emailAddresses: string[], profileTitle: string|null, profileUrl: string|null, status: string|null, statusMessage: null|string, statusMessageTimestamp: null|int, statusIcon: null|string, isUser: bool, uid: mixed}
+	 * @return array{id: int|string|null, fullName: string, avatar: string|null, topAction: mixed, actions: array, lastMessage: '', emailAddresses: string[], profileTitle: string|null, profileUrl: string|null, status: string|null, statusMessage: null|string, statusMessageTimestamp: null|int, statusIcon: null|string, isUser: bool, uid: mixed, cloud: mixed}
 	 */
 	public function jsonSerialize(): array {
 		$topAction = !empty($this->actions) ? $this->actions[0]->jsonSerialize() : null;
@@ -188,14 +204,7 @@ class Entry implements IEntry {
 			'statusIcon' => $this->statusIcon,
 			'isUser' => $this->getProperty('isUser') === true,
 			'uid' => $this->getProperty('UID'),
+			'cloud' => $this->cloud,
 		];
-	}
-
-	public function getStatusMessage(): ?string {
-		return $this->statusMessage;
-	}
-
-	public function getStatusMessageTimestamp(): ?int {
-		return $this->statusMessageTimestamp;
 	}
 }

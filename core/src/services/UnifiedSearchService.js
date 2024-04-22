@@ -116,6 +116,7 @@ export async function getContacts({ searchTerm }) {
 			id: authenticatedUser.uid,
 			fullName: authenticatedUser.displayName,
 			emailAddresses: [],
+			isUser: true,
 		  }
 		contacts.unshift(authenticatedUser)
 		return contacts

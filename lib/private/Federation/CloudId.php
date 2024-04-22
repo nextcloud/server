@@ -88,4 +88,16 @@ class CloudId implements ICloudId {
 	public function getRemote(): string {
 		return $this->remote;
 	}
+
+	/**
+	 * @return array{id: string, user: string, remote: string, displayName: string|null}
+	 */
+	public function jsonSerialize(): array {
+		return [
+			'id' => $this->id,
+			'user' => $this->user,
+			'remote' => $this->remote,
+			'displayName' => $this->displayName,
+		];
+	}
 }
