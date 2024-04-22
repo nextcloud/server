@@ -1126,11 +1126,18 @@ class OC {
 		if ($userSession->tryTokenLogin($request)) {
 			return true;
 		}
+		$reopened = $userSession->getSession()->reopen();
 		if (isset($_COOKIE['nc_username'])
 			&& isset($_COOKIE['nc_token'])
 			&& isset($_COOKIE['nc_session_id'])
 			&& $userSession->loginWithCookie($_COOKIE['nc_username'], $_COOKIE['nc_token'], $_COOKIE['nc_session_id'])) {
+			if ($reopened) {
+				$userSession->getSession()->close();
+			}
 			return true;
+		}
+		if ($reopened) {
+			$userSession->getSession()->close();
 		}
 		if ($userSession->tryBasicAuthLogin($request, Server::get(IThrottler::class))) {
 			return true;
