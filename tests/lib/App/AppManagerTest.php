@@ -99,7 +99,7 @@ class AppManagerTest extends TestCase {
 	/** @var LoggerInterface|MockObject */
 	protected $logger;
 
-	protected IURLGenerator|MockObject $urlGenerator;
+	protected IURLGenerator&MockObject $urlGenerator;
 
 	/** @var IAppManager */
 	protected $manager;
@@ -118,6 +118,7 @@ class AppManagerTest extends TestCase {
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 
 		$this->overwriteService(AppConfig::class, $this->appConfig);
+		$this->overwriteService(IURLGenerator::class, $this->urlGenerator);
 
 		$this->cacheFactory->expects($this->any())
 			->method('createDistributed')
@@ -136,7 +137,6 @@ class AppManagerTest extends TestCase {
 			$this->cacheFactory,
 			$this->eventDispatcher,
 			$this->logger,
-			$this->urlGenerator,
 		);
 	}
 
@@ -279,7 +279,6 @@ class AppManagerTest extends TestCase {
 				$this->cacheFactory,
 				$this->eventDispatcher,
 				$this->logger,
-				$this->urlGenerator,
 			])
 			->onlyMethods([
 				'getAppPath',
@@ -333,7 +332,6 @@ class AppManagerTest extends TestCase {
 				$this->cacheFactory,
 				$this->eventDispatcher,
 				$this->logger,
-				$this->urlGenerator,
 			])
 			->onlyMethods([
 				'getAppPath',
@@ -395,7 +393,6 @@ class AppManagerTest extends TestCase {
 				$this->cacheFactory,
 				$this->eventDispatcher,
 				$this->logger,
-				$this->urlGenerator,
 			])
 			->onlyMethods([
 				'getAppPath',
@@ -598,7 +595,6 @@ class AppManagerTest extends TestCase {
 				$this->cacheFactory,
 				$this->eventDispatcher,
 				$this->logger,
-				$this->urlGenerator,
 			])
 			->onlyMethods(['getAppInfo'])
 			->getMock();
@@ -657,7 +653,6 @@ class AppManagerTest extends TestCase {
 				$this->cacheFactory,
 				$this->eventDispatcher,
 				$this->logger,
-				$this->urlGenerator,
 			])
 			->onlyMethods(['getAppInfo'])
 			->getMock();

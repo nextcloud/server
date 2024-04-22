@@ -98,7 +98,12 @@ class AppManager implements IAppManager {
 	private array $loadedApps = [];
 
 	private ?AppConfig $appConfig = null;
+	private ?IURLGenerator $urlGenerator = null;
 
+	/**
+	 * Be extremely careful when injecting classes here. The AppManager is used by the installer,
+	 * so it needs to work before installation. See how AppConfig and IURLGenerator are injected for reference
+	 */
 	public function __construct(
 		private IUserSession $userSession,
 		private IConfig $config,
@@ -106,7 +111,6 @@ class AppManager implements IAppManager {
 		private ICacheFactory $memCacheFactory,
 		private IEventDispatcher $dispatcher,
 		private LoggerInterface $logger,
-		private IURLGenerator $urlGenerator,
 	) {
 	}
 
@@ -115,7 +119,7 @@ class AppManager implements IAppManager {
 		$icon = null;
 		foreach ($possibleIcons as $iconName) {
 			try {
-				$icon = $this->urlGenerator->imagePath($appId, $iconName);
+				$icon = $this->getUrlGenerator()->imagePath($appId, $iconName);
 				break;
 			} catch (\RuntimeException $e) {
 				// ignore
@@ -133,6 +137,17 @@ class AppManager implements IAppManager {
 		}
 		$this->appConfig = \OCP\Server::get(AppConfig::class);
 		return $this->appConfig;
+	}
+
+	private function getUrlGenerator(): IURLGenerator {
+		if ($this->urlGenerator !== null) {
+			return $this->urlGenerator;
+		}
+		if (!$this->config->getSystemValueBool('installed', false)) {
+			throw new \Exception('Nextcloud is not installed yet, AppConfig is not available');
+		}
+		$this->urlGenerator = \OCP\Server::get(IURLGenerator::class);
+		return $this->urlGenerator;
 	}
 
 	/**
