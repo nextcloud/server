@@ -75,7 +75,7 @@ class LoggerWrapperCache extends Cache implements IMemcacheTTL {
 			FILE_APPEND
 		);
 
-		return $this->wrappedCache->set($key, $value, $$ttl);
+		return $this->wrappedCache->set($key, $value, $ttl);
 	}
 
 	/** @inheritDoc */
