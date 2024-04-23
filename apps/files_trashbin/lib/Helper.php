@@ -60,7 +60,7 @@ class Helper {
 		$absoluteDir = $view->getAbsolutePath($dir);
 		$internalPath = $mount->getInternalPath($absoluteDir);
 
-		$originalLocations = \OCA\Files_Trashbin\Trashbin::getLocations($user);
+		$extraData = \OCA\Files_Trashbin\Trashbin::getExtraData($user);
 		$dirContent = $storage->getCache()->getFolderContents($mount->getInternalPath($view->getAbsolutePath($dir)));
 		foreach ($dirContent as $entry) {
 			$entryName = $entry->getName();
@@ -76,8 +76,8 @@ class Helper {
 			}
 			$originalPath = '';
 			$originalName = substr($entryName, 0, -strlen($timestamp) - 2);
-			if (isset($originalLocations[$originalName][$timestamp])) {
-				$originalPath = $originalLocations[$originalName][$timestamp];
+			if (isset($extraData[$originalName][$timestamp]['location'])) {
+				$originalPath = $extraData[$originalName][$timestamp]['location'];
 				if (substr($originalPath, -1) === '/') {
 					$originalPath = substr($originalPath, 0, -1);
 				}
@@ -101,6 +101,7 @@ class Helper {
 					$i['extraData'] = $originalName;
 				}
 			}
+			$i['deletedBy'] = $extraData[$originalName][$timestamp]['deletedBy'] ?? null;
 			$result[] = new FileInfo($absoluteDir . '/' . $i['name'], $storage, $internalPath . '/' . $i['name'], $i, $mount);
 		}
 

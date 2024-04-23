@@ -27,6 +27,7 @@ declare(strict_types=1);
 namespace OCA\Files_Trashbin\Sabre;
 
 use OCP\Files\FileInfo;
+use OCP\IUser;
 
 interface ITrash {
 	public function restore(): bool;
@@ -38,6 +39,8 @@ interface ITrash {
 	public function getTitle(): string;
 
 	public function getDeletionTime(): int;
+
+	public function getDeletedBy(): ?IUser;
 
 	public function getSize(): int|float;
 
