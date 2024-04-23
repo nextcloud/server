@@ -129,6 +129,7 @@ class CalendarImpl implements ICreateFromString, IHandleImipMessage {
 
 	/**
 	 * @return int build up using \OCP\Constants
+	 * @psalm-return int-mask-of<\OCP\Constants::PERMISSION_*>
 	 * @since 13.0.0
 	 */
 	public function getPermissions(): int {
