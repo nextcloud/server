@@ -470,9 +470,6 @@ class DAV extends Common {
 				$this->client->proppatch($this->encodePath($path), ['{DAV:}lastmodified' => $mtime]);
 				// non-owncloud clients might not have accepted the property, need to recheck it
 				$response = $this->client->propfind($this->encodePath($path), ['{DAV:}getlastmodified'], 0);
-				if ($response === false) {
-					return false;
-				}
 				if (isset($response['{DAV:}getlastmodified'])) {
 					$remoteMtime = strtotime($response['{DAV:}getlastmodified']);
 					if ($remoteMtime !== $mtime) {
@@ -911,9 +908,6 @@ class DAV extends Common {
 				self::PROPFIND_PROPS,
 				1
 			);
-			if ($responses === false) {
-				return;
-			}
 
 			array_shift($responses); //the first entry is the current directory
 			if (!$this->statCache->hasKey($directory)) {
