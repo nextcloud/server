@@ -195,6 +195,7 @@
     "Toggle selection for all files and folders" : "Veksle valg for alle filer og mapper",
     "\"{displayName}\" failed on some elements " : "\"{displayName}\" feilet på noen elementer",
     "\"{displayName}\" batch action executed successfully" : "\"{displayName}\" massehandling utført",
+    "{count} selected" : "{count} valgt",
     "List of files and folders." : "Liste over filer og mapper.",
     "Column headers with buttons are sortable." : "Kolonneoverskrifter med knapper kan sorteres.",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Denne listen er ikke fullstendig gjengitt av ytelsesgrunner. Filene gjengis når du navigerer gjennom listen.",
