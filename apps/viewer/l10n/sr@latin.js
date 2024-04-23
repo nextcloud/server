@@ -9,6 +9,7 @@ OC.L10N.register(
     "Name" : "Ime",
     "Save" : "Sačuvaj",
     "Back" : "Nazad",
+    "Loading …" : "Učitavanje...",
     "Cancel" : "Otkaži",
     "Undo" : "Opozovi"
 },
