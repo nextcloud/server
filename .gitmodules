@@ -1,3 +1,6 @@
 [submodule "3rdparty"]
 	path = 3rdparty
 	url = https://github.com/nextcloud/3rdparty.git
+[submodule "IONOS"]
+	path = IONOS
+	url = git@github.com:IONOS-Productivity/easystorage-config.git
