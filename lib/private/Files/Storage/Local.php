@@ -540,11 +540,14 @@ class Local extends \OC\Files\Storage\Common {
 	}
 
 	private function canDoCrossStorageMove(IStorage $sourceStorage) {
+		/** @psalm-suppress UndefinedClass */
 		return $sourceStorage->instanceOfStorage(Local::class)
 			// Don't treat ACLStorageWrapper like local storage where copy can be done directly.
 			// Instead, use the slower recursive copying in php from Common::copyFromStorage with
 			// more permissions checks.
 			&& !$sourceStorage->instanceOfStorage('OCA\GroupFolders\ACL\ACLStorageWrapper')
+			// Same for access control
+			&& !$sourceStorage->instanceOfStorage(\OCA\FilesAccessControl\StorageWrapper::class)
 			// when moving encrypted files we have to handle keys and the target might not be encrypted
 			&& !$sourceStorage->instanceOfStorage(Encryption::class);
 	}
