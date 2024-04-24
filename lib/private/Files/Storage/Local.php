@@ -528,7 +528,10 @@ class Local extends \OC\Files\Storage\Common {
 		// Don't treat ACLStorageWrapper like local storage where copy can be done directly.
 		// Instead use the slower recursive copying in php from Common::copyFromStorage with
 		// more permissions checks.
-		if ($sourceStorage->instanceOfStorage(Local::class) && !$sourceStorage->instanceOfStorage('OCA\GroupFolders\ACL\ACLStorageWrapper')) {
+		/** @psalm-suppress UndefinedClass */
+		if ($sourceStorage->instanceOfStorage(Local::class)
+			&& !$sourceStorage->instanceOfStorage('OCA\GroupFolders\ACL\ACLStorageWrapper')
+			&& !$sourceStorage->instanceOfStorage(\OCA\FilesAccessControl\StorageWrapper::class)) {
 			if ($sourceStorage->instanceOfStorage(Jail::class)) {
 				/**
 				 * @var \OC\Files\Storage\Wrapper\Jail $sourceStorage
