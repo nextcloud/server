@@ -31,6 +31,7 @@ use OCP\Profiler\IProfiler;
 use OCP\Server;
 use Psr\Clock\ClockInterface;
 use Psr\Log\LoggerInterface;
+use function count;
 use function in_array;
 
 class Connection extends PrimaryReadReplicaConnection {
@@ -73,7 +74,7 @@ class Connection extends PrimaryReadReplicaConnection {
 	 * @throws \Exception
 	 */
 	public function __construct(
-		array $params,
+		private array $params,
 		Driver $driver,
 		?Configuration $config = null,
 		?EventManager $eventManager = null
@@ -136,6 +137,15 @@ class Connection extends PrimaryReadReplicaConnection {
 			// throw a new exception to prevent leaking info from the stacktrace
 			throw new Exception('Failed to connect to the database: ' . $e->getMessage(), $e->getCode());
 		}
+	}
+
+	protected function performConnect(?string $connectionName = null): bool {
+		if (($connectionName ?? 'replica') === 'replica'
+			&& count($this->params['replica']) === 1
+			&& $this->params['primary'] === $this->params['replica'][0]) {
+			return parent::performConnect('primary');
+		}
+		return parent::performConnect($connectionName);
 	}
 
 	public function getStats(): array {
