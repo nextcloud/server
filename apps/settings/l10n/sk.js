@@ -736,8 +736,9 @@ OC.L10N.register(
     "Account documentation" : "Dokumentácia k účtom",
     "Administration documentation" : "Príručka administrátora",
     "Forum" : "Fórum",
-    "Nextcloud help resources" : "Pomoc pre Nextcloud",
     "General documentation" : "Všeobecná dokumentácia",
+    "Legal notice" : "Právne upozornenie",
+    "Privacy policy" : "Zásady ochrany osobných údajov",
     "None/STARTTLS" : "Žiadne/STARTTLS",
     "SSL" : "SSL",
     "Open documentation" : "Otvoriť dokumentáciu",
@@ -882,6 +883,7 @@ OC.L10N.register(
     "Send welcome email to new users" : "Odoslať uvítací e-mail novým používateľo",
     "User management" : "Správa užívateľov",
     "Creating group …" : "Vytváram skupinu ...",
-    "User group: {group}" : "Skupina užívateľa: {group}"
+    "User group: {group}" : "Skupina užívateľa: {group}",
+    "Nextcloud help resources" : "Pomoc pre Nextcloud"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

@@ -739,8 +739,9 @@ OC.L10N.register(
     "Account documentation" : "Documentación da conta",
     "Administration documentation" : "Documentación da administración da instancia",
     "Forum" : "Foro",
-    "Nextcloud help resources" : "Recursos de axuda de Nextcloud",
     "General documentation" : "Documentación xeral",
+    "Legal notice" : "Aviso legal",
+    "Privacy policy" : "Directiva de privacidade",
     "None/STARTTLS" : "Ningún/STARTTLS",
     "SSL" : "SSL",
     "Open documentation" : "Abrir a documentación",
@@ -886,6 +887,7 @@ OC.L10N.register(
     "Send welcome email to new users" : "Enviar correo de benvida aos novos usuarios",
     "User management" : "Xestión de usuarios",
     "Creating group …" : "Creando un grupo…",
-    "User group: {group}" : "Grupo de usuarios: {group}"
+    "User group: {group}" : "Grupo de usuarios: {group}",
+    "Nextcloud help resources" : "Recursos de axuda de Nextcloud"
 },
 "nplurals=2; plural=(n != 1);");

@@ -387,6 +387,8 @@ OC.L10N.register(
     "Error while updating device token scope" : "Σφάλμα κατά την ενημέρωση του αναγνωριστικού συσκευής",
     "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "Υπήρχαν πάρα πολλά αιτήματα από το δίκτυό σας. Δοκιμάστε ξανά αργότερα ή επικοινωνήστε με τον διαχειριστή σας εάν πρόκειται για σφάλμα.",
     "Forum" : "Φόρουμ",
+    "Legal notice" : "Νομική ειδοποίηση",
+    "Privacy policy" : "Πολιτική Απορρήτου",
     "SSL" : "SSL",
     "Open documentation" : "Άνοιγμα τεκμηρίωσης.",
     "It is important to set up this server to be able to send emails, like for password reset and notifications." : "Είναι σημαντικό να ρυθμίσετε τον διακομιστή να μπορεί να στέλνει Ηλ.Ταχυδρομείο, όπως για επαναφορά κωδικού πρόσβασης και ειδοποιήσεις.",

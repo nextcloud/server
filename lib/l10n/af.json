@@ -5,7 +5,6 @@
     "seconds ago" : "sekondes gelede",
     "File already exists" : "Lêer bestaan reeds",
     "__language_name__" : "Afrikaans",
-    "Help" : "Hulp",
     "Apps" : "Toeps",
     "Settings" : "Instellings",
     "Log out" : "Meld af",
@@ -27,6 +26,7 @@
     "Saturday" : "Saterdag",
     "a safe home for all your data" : "’n veilige tuiste vir al u data",
     "Storage is temporarily not available" : "Berging is tydelik nie beskikbaar nie",
+    "Help" : "Hulp",
     "Unknown user" : "Onbekende gebruiker"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

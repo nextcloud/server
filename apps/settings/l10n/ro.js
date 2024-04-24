@@ -247,6 +247,7 @@ OC.L10N.register(
     "Error while updating device token scope" : "Eroare la actualizarea domeniului de aplicare a token-ului de dispozitiv",
     "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "Prea multe cereri din această rețea. Încercați mai târziu sau contactați administratorul.",
     "Forum" : "Forum",
+    "Legal notice" : "Aviz juridic",
     "SSL" : "SSL",
     "Open documentation" : "Deschide documentația",
     "Send mode" : "Modul de expediere",

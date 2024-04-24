@@ -538,8 +538,9 @@ OC.L10N.register(
     "Account documentation" : "Dokumentacja konta",
     "Administration documentation" : "Dokumentacja administracyjna",
     "Forum" : "Forum",
-    "Nextcloud help resources" : "Zasoby pomocy Nextcloud",
     "General documentation" : "Dokumentacja ogólna",
+    "Legal notice" : "Nota prawna",
+    "Privacy policy" : "Polityka prywatności",
     "None/STARTTLS" : "Brak/STARTTLS",
     "SSL" : "SSL",
     "Open documentation" : "Otwórz dokumentację",
@@ -679,6 +680,7 @@ OC.L10N.register(
     "Failed to update user manager" : "Nie udało się zaktualizować menedżera użytkowników",
     "User management settings" : "Ustawienia zarządzania użytkownikiem",
     "Send welcome email to new users" : "Wyślij wiadomość powitalną e-mail do nowych użytkowników",
-    "Creating group …" : "Tworzenie grupy..."
+    "Creating group …" : "Tworzenie grupy...",
+    "Nextcloud help resources" : "Zasoby pomocy Nextcloud"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");
