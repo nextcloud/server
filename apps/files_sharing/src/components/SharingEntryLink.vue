@@ -411,6 +411,9 @@ export default {
 					? this.formatDateToString(defaultExpirationDate)
 					: ''
 				console.debug('Expiration date status', enabled, this.share.expireDate)
+				if (enabled) {
+					this.queueUpdate('expireDate')
+				}
 			},
 		},
 
