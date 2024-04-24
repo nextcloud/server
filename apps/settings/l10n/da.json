@@ -305,6 +305,7 @@
     "The more restrictive setting of either visibility or scope is respected on your Profile. For example, if visibility is set to \"Show to everyone\" and scope is set to \"Private\", \"Private\" is respected." : "Den mere restriktive indstilling af enten synlighed eller omfang respekteres på din profil. For eksempel, hvis synlighed er indstillet til \"Vis til alle\", og omfanget er indstillet til \"Privat\", respekteres \"Privat\".",
     "Unable to update visibility of {displayId}" : "Kan ikke opdatere synligheden af {displayId}",
     "Your role" : "Din rolle",
+    "Your X (formerly Twitter) handle" : "Dit X (tidligere Twitter) brugernavn",
     "Your website" : "Vores hjemmeside",
     "No {property} set" : "Ingen {property} indstillet",
     "Unable to update {property}" : "Kunne ikke opdaterer {property}",
@@ -410,10 +411,11 @@
     "Organisation" : "Organisation",
     "Phone number" : "Telefon nummer",
     "Role" : "Rolle",
+    "X (formerly Twitter)" : "X (tidligere Twitter)",
     "Fediverse (e.g. Mastodon)" : "Fediverse (fx Mastodon)",
     "Website" : "Hjemmeside",
     "Profile visibility" : "Profil synlighed",
-    "Locale" : "Lokal",
+    "Locale" : "Lokalitet",
     "Not available as this property is required for core functionality including file sharing and calendar invitations" : "Ikke tilgængelig, da denne egenskab er påkrævet for kernefunktionalitet, herunder fildeling og kalenderinvitationer",
     "Your apps" : "Dine apps",
     "Active apps" : "Aktive apps",
@@ -440,8 +442,9 @@
     "Account documentation" : "Konto dokumentation",
     "Administration documentation" : "Administrations dokumentation",
     "Forum" : "Forum",
-    "Nextcloud help resources" : "Nextcloud hjælperessourcer",
     "General documentation" : "Overordnet dokumentation",
+    "Legal notice" : "Juridisk notits",
+    "Privacy policy" : "Fortrolighedspolitik",
     "None/STARTTLS" : "Ingen/STARTTLS",
     "SSL" : "SSL",
     "Open documentation" : "Åbn dokumentation",
@@ -563,6 +566,7 @@
     "Failed to update user manager" : "Kunne ikke opdaterer bruger administrator",
     "User management settings" : "Bruger administrations indstillinger",
     "Send welcome email to new users" : "Send velkomst e-mail til nye brugere",
-    "Creating group …" : "Opretter gruppe ..."
+    "Creating group …" : "Opretter gruppe ...",
+    "Nextcloud help resources" : "Nextcloud hjælperessourcer"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

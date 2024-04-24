@@ -739,8 +739,9 @@ OC.L10N.register(
     "Account documentation" : "Документација налога",
     "Administration documentation" : "Администраторска документација",
     "Forum" : "Форум",
-    "Nextcloud help resources" : "Ресурси Nextcloud помоћи",
     "General documentation" : "Општа документација",
+    "Legal notice" : "Правно обавештење",
+    "Privacy policy" : "Смернице приватности",
     "None/STARTTLS" : "Ништа/STARTTLS",
     "SSL" : "ССЛ",
     "Open documentation" : "Отвори документацију",
@@ -886,6 +887,7 @@ OC.L10N.register(
     "Send welcome email to new users" : "Пошаљи новим корисницима е-мејл добродошлице",
     "User management" : "Управљање корисницима",
     "Creating group …" : "Креира се група",
-    "User group: {group}" : "Група корисника: {group}"
+    "User group: {group}" : "Група корисника: {group}",
+    "Nextcloud help resources" : "Ресурси Nextcloud помоћи"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

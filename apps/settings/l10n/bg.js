@@ -410,6 +410,8 @@ OC.L10N.register(
     "Error while updating device token scope" : "Грешка при актуализиране на обхвата на токена на устройството",
     "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "Имаше твърде много заявки от вашата мрежа. Опитайте отново по-късно или се свържете с вашия администратор, ако това е грешка.",
     "Forum" : "Форум",
+    "Legal notice" : "Правна информация",
+    "Privacy policy" : "Политика за поверителност",
     "SSL" : "SSL",
     "Open documentation" : "Отвори документацията",
     "It is important to set up this server to be able to send emails, like for password reset and notifications." : "След като настроите сървъра Nextcloud ще може да изпраща имейли за възстановяване на забравени пароли и известия.",

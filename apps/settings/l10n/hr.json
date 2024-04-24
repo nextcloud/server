@@ -348,6 +348,8 @@
     "Error while updating device token scope" : "Pogreška pri ažuriranju raspona tokena za uređaj",
     "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "Zaprimljeno je previše zahtjeva iz vaše mreže. Pokušajte kasnije ili se obratite administratoru ako se radi o pogrešci.",
     "Forum" : "Forum",
+    "Legal notice" : "Pravna obavijest",
+    "Privacy policy" : "Pravila o privatnosti",
     "SSL" : "SSL",
     "Open documentation" : "Otvori dokumentaciju",
     "It is important to set up this server to be able to send emails, like for password reset and notifications." : "Važno je postaviti ovaj poslužitelj kako biste mogli slati poruke e-pošte u vezi s resetiranjem zaporke i obavijesti.",

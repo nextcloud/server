@@ -552,8 +552,9 @@ OC.L10N.register(
     "Account documentation" : "Dokumentacija računa",
     "Administration documentation" : "Skrbniška dokumentacija",
     "Forum" : "Forum",
-    "Nextcloud help resources" : "Viri pomoči za okolje Nextcloud",
     "General documentation" : "Splošna dokumentacija",
+    "Legal notice" : "Pravno obvestilo",
+    "Privacy policy" : "Pravila zasebnosti",
     "None/STARTTLS" : "Brez/STARTTLS",
     "SSL" : "Protokol SSL",
     "Open documentation" : "Odprta dokumentacija",
@@ -691,6 +692,7 @@ OC.L10N.register(
     "Failed to update user manager" : "Posodabljanje upravljalnika uporabnikov je spodletelo",
     "User management settings" : "Nastavitve upravljanja z računi uporabnikov",
     "Send welcome email to new users" : "Pošlji sporočilo novim uporabnikom",
-    "Creating group …" : "Poteka ustvarjanje skupine ..."
+    "Creating group …" : "Poteka ustvarjanje skupine ...",
+    "Nextcloud help resources" : "Viri pomoči za okolje Nextcloud"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

@@ -739,8 +739,9 @@ OC.L10N.register(
     "Account documentation" : "帳戶使用手冊",
     "Administration documentation" : "管理使用手冊",
     "Forum" : "論壇",
-    "Nextcloud help resources" : "Nextcloud 幫助資源",
     "General documentation" : "一般使用手冊",
+    "Legal notice" : "法律聲明",
+    "Privacy policy" : "私隱政策",
     "None/STARTTLS" : "無／STARTTLS",
     "SSL" : "SSL",
     "Open documentation" : "開啟使用手冊",
@@ -886,6 +887,7 @@ OC.L10N.register(
     "Send welcome email to new users" : "向新用戶發送歡迎電子郵件",
     "User management" : "用戶管理",
     "Creating group …" : "正在創建群組 ...",
-    "User group: {group}" : "用戶群組：{group}"
+    "User group: {group}" : "用戶群組：{group}",
+    "Nextcloud help resources" : "Nextcloud 幫助資源"
 },
 "nplurals=1; plural=0;");
