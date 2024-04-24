@@ -736,8 +736,9 @@ OC.L10N.register(
     "Account documentation" : "Hesap belgeleri",
     "Administration documentation" : "Yönetim belgeleri",
     "Forum" : "Forum",
-    "Nextcloud help resources" : "Nextcloud yardım kaynakları",
     "General documentation" : "Genel belgeler",
+    "Legal notice" : "Yasal bildirim",
+    "Privacy policy" : "Kişisel gizliliğin korunması ilkesi",
     "None/STARTTLS" : "Yok/STARTTLS",
     "SSL" : "SSL",
     "Open documentation" : "Belgeleri aç",
@@ -882,6 +883,7 @@ OC.L10N.register(
     "Send welcome email to new users" : "Yeni kullanıcılara hoş geldiniz e-postası gönderilsin",
     "User management" : "Kullanıcı yönetimi",
     "Creating group …" : "Grup ekleniyor…",
-    "User group: {group}" : "Kullanıcı grubu: {group}"
+    "User group: {group}" : "Kullanıcı grubu: {group}",
+    "Nextcloud help resources" : "Nextcloud yardım kaynakları"
 },
 "nplurals=2; plural=(n > 1);");

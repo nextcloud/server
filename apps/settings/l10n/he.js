@@ -299,6 +299,8 @@ OC.L10N.register(
     "Error while updating device token scope" : "שגיאה בעדכון טווח אסימון מכשירים",
     "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "היו יותר מדי בקשות מהרשת שלך. נסה שוב מאוחר יותר, או צור קשר עם מנהל המערכת שלך אם זו שגיאה.",
     "Forum" : "פורום",
+    "Legal notice" : "הצהרה משפטית",
+    "Privacy policy" : "מדיניות פרטיות",
     "SSL" : "SSL",
     "Open documentation" : "תיעוד פתוח",
     "It is important to set up this server to be able to send emails, like for password reset and notifications." : "חשוב להגדיר את השרת הזה כדי שיתאפשר לשלוח דרכו הודעות דוא״ל, למשל כדי לאפס ססמה ולשלוח התרעות.",

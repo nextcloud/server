@@ -7,10 +7,10 @@
     "yesterday" : "Ayer",
     "last month" : "Zaguero mes",
     "last year" : "Zaguero año",
-    "Help" : "Aduya",
     "Apps" : "Aplicazions",
     "Settings" : "Configurazión",
     "Users" : "Usuarios",
-    "Email" : "Correu electronico"
+    "Email" : "Correu electronico",
+    "Help" : "Aduya"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

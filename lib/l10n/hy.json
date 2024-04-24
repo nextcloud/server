@@ -6,7 +6,6 @@
     "seconds ago" : "վրկ. առաջ",
     "File name contains at least one invalid character" : "Ֆայլի անունը առնվազն մի անվավեր նիշ է պարունակում",
     "__language_name__" : "Հայերեն",
-    "Help" : "Օգնություն",
     "Settings" : "կարգավորումներ",
     "Log out" : "Դուրս գալ",
     "Email" : "Էլ․փոստ",
@@ -56,6 +55,7 @@
     "Sep." : "Սեպ.",
     "Oct." : "Հոկ.",
     "Nov." : "Նոյ.",
-    "Dec." : "Դեկ."
+    "Dec." : "Դեկ.",
+    "Help" : "Օգնություն"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

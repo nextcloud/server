@@ -540,8 +540,9 @@ OC.L10N.register(
     "Account documentation" : "账号文档",
     "Administration documentation" : "管理文档",
     "Forum" : "论坛",
-    "Nextcloud help resources" : "Nextcloud 帮助资源",
     "General documentation" : "一般文档",
+    "Legal notice" : "法律声明",
+    "Privacy policy" : "隐私政策",
     "None/STARTTLS" : "无/STARTTLS",
     "SSL" : "SSL",
     "Open documentation" : "打开文档",
@@ -681,6 +682,7 @@ OC.L10N.register(
     "Failed to update user manager" : "更新用户管理员失败",
     "User management settings" : "用户管理设置",
     "Send welcome email to new users" : "向新用户发送欢迎邮件",
-    "Creating group …" : "正在创建群组 ..."
+    "Creating group …" : "正在创建群组 ...",
+    "Nextcloud help resources" : "Nextcloud 帮助资源"
 },
 "nplurals=1; plural=0;");

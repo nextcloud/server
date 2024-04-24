@@ -469,8 +469,9 @@ OC.L10N.register(
     "Account documentation" : "Kontuen dokumentazioa",
     "Administration documentation" : "Administrazioaren dokumentazioa",
     "Forum" : "Foroa",
-    "Nextcloud help resources" : "Nextcloud laguntza baliabideak",
     "General documentation" : "Dokumentazio orokorra",
+    "Legal notice" : "Ohar legala",
+    "Privacy policy" : "Pribatutasun politika",
     "None/STARTTLS" : "Batere ez/STARTTLS",
     "SSL" : "SSL",
     "Open documentation" : "Ireki dokumentazioa",
@@ -605,6 +606,7 @@ OC.L10N.register(
     "Loading user …" : "Erabiltzailea kargatzen ...",
     "Failed to update user manager" : "Ezin izan da erabiltzaile kudeatzailea eguneratu",
     "User management settings" : "Erabiltzaile kudeaketaren ezarpenak",
-    "Send welcome email to new users" : "Bidali ongietorri eposta erabiltzaile berriei"
+    "Send welcome email to new users" : "Bidali ongietorri eposta erabiltzaile berriei",
+    "Nextcloud help resources" : "Nextcloud laguntza baliabideak"
 },
 "nplurals=2; plural=(n != 1);");

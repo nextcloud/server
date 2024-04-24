@@ -345,6 +345,8 @@ OC.L10N.register(
     "Nothing to show" : "Відсутня інформація для показу",
     "Could not load section content from app store." : "Не вдалося отримати розділ вмісту із крамнички.",
     "Loading" : "Завантаження",
+    "Could not render element" : "Не вдалося показати елемент",
+    "Carousel" : "Карусель",
     "Description" : "Опис",
     "Details" : "Деталі",
     "All" : "Всі",
@@ -655,8 +657,9 @@ OC.L10N.register(
     "Account documentation" : "Документація для облікового запису",
     "Administration documentation" : "Документація для адміністратора",
     "Forum" : "Форум",
-    "Nextcloud help resources" : "Посібники та допомога у користуванні Nextcloud",
     "General documentation" : "Загальна документація",
+    "Legal notice" : "Правові застереження",
+    "Privacy policy" : "Політика конфіденційності",
     "None/STARTTLS" : "Ні/STARTTLS",
     "SSL" : "SSL",
     "Open documentation" : "Відкрити документацію",
@@ -800,6 +803,7 @@ OC.L10N.register(
     "Send welcome email to new users" : "Надсилати вітальні листи новим користувачам",
     "User management" : "Керування користувачами",
     "Creating group …" : "Створення групи ...",
-    "User group: {group}" : "Група користувачів: {group}"
+    "User group: {group}" : "Група користувачів: {group}",
+    "Nextcloud help resources" : "Посібники та допомога у користуванні Nextcloud"
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

@@ -497,8 +497,9 @@ OC.L10N.register(
     "Account documentation" : "Tilin dokumentaatio",
     "Administration documentation" : "Ylläpidon dokumentaatio",
     "Forum" : "Keskustelupalsta",
-    "Nextcloud help resources" : "Nextcloud-ohjeresurssit",
     "General documentation" : "Yleinen dokumentaatio",
+    "Legal notice" : "Lainopillinen huomautus",
+    "Privacy policy" : "Tietosuojakäytäntö",
     "SSL" : "SSL",
     "Open documentation" : "Avaa dokumentaatio",
     "It is important to set up this server to be able to send emails, like for password reset and notifications." : "On tärkeää määrittää sähköpostipalvelinasetukset, jotta voidaan lähettää muun muassa salasanan palautus- ja ilmoitussähköpostiviestejä.",
@@ -609,6 +610,7 @@ OC.L10N.register(
     "Send welcome email to new users" : "Lähetä Tervetuloa-sähköposti uusille käyttäjille",
     "User management" : "Käyttäjähallinta",
     "Creating group …" : "Luodaan ryhmää…",
-    "User group: {group}" : "Käyttäjäryhmä: {group}"
+    "User group: {group}" : "Käyttäjäryhmä: {group}",
+    "Nextcloud help resources" : "Nextcloud-ohjeresurssit"
 },
 "nplurals=2; plural=(n != 1);");
