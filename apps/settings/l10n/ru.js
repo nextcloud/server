@@ -581,6 +581,8 @@ OC.L10N.register(
     "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "Превышено количество запросов из вашей сети. Попробуйте позднее или сообщите администратору об этой ошибке.",
     "Administration documentation" : "Документация администратора",
     "Forum" : "Форум",
+    "Legal notice" : "Официальное уведомление",
+    "Privacy policy" : "Политика конфиденциальности",
     "None/STARTTLS" : "Без шифрования/STARTTLS",
     "SSL" : "SSL",
     "Open documentation" : "Открыть документацию",

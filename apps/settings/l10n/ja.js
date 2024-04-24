@@ -664,8 +664,9 @@ OC.L10N.register(
     "Account documentation" : "アカウント・ドキュメント",
     "Administration documentation" : "管理者ドキュメント",
     "Forum" : "フォーラム",
-    "Nextcloud help resources" : "Nextcloud ヘルプのリソース",
     "General documentation" : "一般的なドキュメント",
+    "Legal notice" : "法的通知",
+    "Privacy policy" : "個人情報保護方針",
     "None/STARTTLS" : "None/STARTTLS",
     "SSL" : "SSL",
     "Open documentation" : "ドキュメントを開く",
@@ -810,6 +811,7 @@ OC.L10N.register(
     "Send welcome email to new users" : "新規ユーザーにウェルカムメールを送る",
     "User management" : "ユーザー管理",
     "Creating group …" : "グループを作成 ...",
-    "User group: {group}" : "ユーザーグループ: {group}"
+    "User group: {group}" : "ユーザーグループ: {group}",
+    "Nextcloud help resources" : "Nextcloud ヘルプのリソース"
 },
 "nplurals=1; plural=0;");

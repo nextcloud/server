@@ -145,6 +145,7 @@ OC.L10N.register(
     "Hide" : "Slēpt",
     "Never" : "Nekad",
     "Forum" : "Forums",
+    "Privacy policy" : "Privātuma politika",
     "SSL" : "SSL",
     "Open documentation" : "Atvērt dokumentāciju",
     "Send mode" : "Sūtīšanas metode",

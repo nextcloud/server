@@ -366,6 +366,8 @@ OC.L10N.register(
     "Error while updating device token scope" : "Įvyko klaida atnaujinant įrenginio prieigos rakto taikymą",
     "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "Iš jūsų tinklo buvo per daug užklausų. Bandykite dar kartą vėliau arba, jeigu tai klaida, susisiekite su savo administratoriumi.",
     "Forum" : "Forumas",
+    "Legal notice" : "Teisinis pranešimas",
+    "Privacy policy" : "Privatumo politika",
     "SSL" : "SSL",
     "Open documentation" : "Atverti dokumentaciją",
     "It is important to set up this server to be able to send emails, like for password reset and notifications." : "Svarbu nustatyti šį serverį, kad galėtumėte siųsti el. laiškus, kaip, pavyzdžiui, slaptažodžio atstatymą ar pranešimus.",

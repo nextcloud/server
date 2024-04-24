@@ -3,7 +3,6 @@
     "Invalid image" : "ಅಸಾಮರ್ಥ್ಯ ಚಿತ್ರ",
     "Files" : "ಕಡತಗಳು",
     "__language_name__" : "ಕನ್ನಡ",
-    "Help" : "﻿ಸಹಾಯ",
     "Apps" : "ಕಾರ್ಯಕ್ರಮಗಳು",
     "Settings" : "ಆಯ್ಕೆ",
     "Log out" : "ಈ ಆವೃತ್ತಿ ಇಂದ ನಿರ್ಗಮಿಸಿ",
@@ -31,6 +30,7 @@
     "December" : "﻿ಡಿಸೆಂಬರ್",
     "A valid password must be provided" : "ಸರಿಯಾದ ಬಳಕೆದಾರ ಗುಪ್ತಪದ ಒದಗಿಸಬೇಕಾಗಿದೆ",
     "Authentication error" : "ದೃಢೀಕರಣ ದೋಷ",
+    "Help" : "﻿ಸಹಾಯ",
     "A valid username must be provided" : "﻿ಮಾನ್ಯ ಬಳಕೆದಾರ ಹೆಸರು ಒದಗಿಸಬೇಕಾಗುತ್ತದೆ"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

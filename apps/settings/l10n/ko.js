@@ -652,8 +652,9 @@ OC.L10N.register(
     "Account documentation" : "계정 문서",
     "Administration documentation" : "관리 문서",
     "Forum" : "포럼",
-    "Nextcloud help resources" : "Nextcloud 도움말 자원",
     "General documentation" : "일반 문서",
+    "Legal notice" : "법적 고지",
+    "Privacy policy" : "개인 정보 취급 방침",
     "None/STARTTLS" : "없음/STARTTLS",
     "SSL" : "SSL",
     "Open documentation" : "문서 열기",
@@ -796,6 +797,7 @@ OC.L10N.register(
     "Send welcome email to new users" : "새 사용자에게 환영 이메일 보내기",
     "User management" : "사용자 관리",
     "Creating group …" : "그룹 생성 ...",
-    "User group: {group}" : "사용자 그룹: {group}"
+    "User group: {group}" : "사용자 그룹: {group}",
+    "Nextcloud help resources" : "Nextcloud 도움말 자원"
 },
 "nplurals=1; plural=0;");

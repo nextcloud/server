@@ -640,8 +640,9 @@ OC.L10N.register(
     "Account documentation" : "Användardokumentation",
     "Administration documentation" : "Administratörsdokumentation",
     "Forum" : "Forum",
-    "Nextcloud help resources" : "Nextcloud hjälpresurser",
     "General documentation" : "Dokumentationsöversikt",
+    "Legal notice" : "Rättsligt meddelande",
+    "Privacy policy" : "Integritetspolicy",
     "None/STARTTLS" : "Ingen/STARTTLS",
     "SSL" : "SSL",
     "Open documentation" : "Öppna dokumentation",
@@ -785,6 +786,7 @@ OC.L10N.register(
     "Send welcome email to new users" : "Skicka välkomstmail till nya användare",
     "User management" : "Användarhantering",
     "Creating group …" : "Skapar grupp ...",
-    "User group: {group}" : "Användargrupp: {group}"
+    "User group: {group}" : "Användargrupp: {group}",
+    "Nextcloud help resources" : "Nextcloud hjälpresurser"
 },
 "nplurals=2; plural=(n != 1);");

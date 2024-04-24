@@ -510,8 +510,9 @@
     "Account documentation" : "Hjálparskjöl fyrir notendaaðganga",
     "Administration documentation" : "Hjálparskjöl fyrir stjórnendur",
     "Forum" : "Vefspjall",
-    "Nextcloud help resources" : "Aðstoðartilföng Nextcloud",
     "General documentation" : "Almenn hjálparskjöl",
+    "Legal notice" : "Lagaleg atriði",
+    "Privacy policy" : "Meðferð persónulegra gagna",
     "None/STARTTLS" : "Ekkert/STARTTLS",
     "SSL" : "SSL",
     "Open documentation" : "Opna hjálparskjöl",
@@ -640,6 +641,7 @@
     "Failed to update user manager" : "Mistókst að uppfæra notendastýringu",
     "User management settings" : "Stillingar notendastýringar",
     "Send welcome email to new users" : "Senda tölvupóst sem býður notanda velkominn",
-    "Creating group …" : "Bý til hóp …"
+    "Creating group …" : "Bý til hóp …",
+    "Nextcloud help resources" : "Aðstoðartilföng Nextcloud"
 },"pluralForm" :"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);"
 }
