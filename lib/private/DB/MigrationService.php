@@ -222,7 +222,7 @@ class MigrationService {
 				new \RecursiveDirectoryIterator($directory, \FilesystemIterator::SKIP_DOTS),
 				\RecursiveIteratorIterator::LEAVES_ONLY
 			),
-			'#^.+\\/Version[^\\/]{1,255}\\.php$#i',
+			'#^.+\Version(\d+)Date(\d+)\.php$#i',
 			\RegexIterator::GET_MATCH);
 
 		$files = array_keys(iterator_to_array($iterator));
