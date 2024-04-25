@@ -31,7 +31,7 @@
 			<template v-if="useListView">
 				<div v-if="showUpdateAll" class="apps-list__toolbar">
 					{{ n('settings', '%n app has an update available', '%n apps have an update available', counter) }}
-					<NcButton v-if="showUpdateAll"
+					<NcButton
 						id="app-list-update-all"
 						type="primary"
 						@click="updateAll">
@@ -39,7 +39,7 @@
 					</NcButton>
 				</div>
 
-				<div v-if="!showUpdateAll" class="apps-list__toolbar">
+				<div v-else-if="!loading" class="apps-list__toolbar">
 					{{ t('settings', 'All apps are up-to-date.') }}
 				</div>
 
