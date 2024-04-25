@@ -102,10 +102,8 @@
 # Here are more information about the issue:
 #  - https://docs.cyberduck.io/mountainduck/issues/fastcgi/
 #  - https://docs.nextcloud.com/server/latest/admin_manual/issues/general_troubleshooting.html#troubleshooting-webdav
-<IfModule setenvif.c>
-  <Location "/remote.php">
-    SetEnvIf Transfer-Encoding "chunked" proxy-sendcl=1
-  </Location>
+<IfModule mod_setenvif.c>
+  SetEnvIf Transfer-Encoding "chunked" proxy-sendcl=1
 </IfModule>
 
 AddDefaultCharset utf-8
