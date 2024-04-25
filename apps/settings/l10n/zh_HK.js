@@ -739,6 +739,7 @@ OC.L10N.register(
     "Account documentation" : "帳戶使用手冊",
     "Administration documentation" : "管理使用手冊",
     "Forum" : "論壇",
+    "Nextcloud help & privacy resources" : "Nextcloud 說明與隱私資源",
     "General documentation" : "一般使用手冊",
     "Legal notice" : "法律聲明",
     "Privacy policy" : "私隱政策",

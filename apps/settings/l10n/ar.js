@@ -739,6 +739,7 @@ OC.L10N.register(
     "Account documentation" : "وثائق الحساب",
     "Administration documentation" : "وثائق الإشراف",
     "Forum" : "المُنتَدَى",
+    "Nextcloud help & privacy resources" : "مصادر للمساعدة و الخصوصية حول نكست كلاود",
     "General documentation" : "وثائق عامة",
     "Legal notice" : "ملاحظة قانونية",
     "Privacy policy" : "سياسة الخصوصية",

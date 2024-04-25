@@ -739,6 +739,7 @@ OC.L10N.register(
     "Account documentation" : "Account documentation",
     "Administration documentation" : "Administration documentation",
     "Forum" : "Forum",
+    "Nextcloud help & privacy resources" : "Nextcloud help & privacy resources",
     "General documentation" : "General documentation",
     "Legal notice" : "Legal notice",
     "Privacy policy" : "Privacy policy",

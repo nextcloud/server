@@ -739,6 +739,7 @@ OC.L10N.register(
     "Account documentation" : "Документација налога",
     "Administration documentation" : "Администраторска документација",
     "Forum" : "Форум",
+    "Nextcloud help & privacy resources" : "Nextcloud ресурси помоћи и приватности",
     "General documentation" : "Општа документација",
     "Legal notice" : "Правно обавештење",
     "Privacy policy" : "Смернице приватности",
