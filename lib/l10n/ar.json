@@ -91,6 +91,7 @@
     "App \"%s\" cannot be installed because it is not compatible with this version of the server." : "لا يمكن تثبيت التطبيق \"%s\" لأنه غير متوافق مع هذا الإصدار من الخادم.",
     "__language_name__" : "اللغة العربية",
     "This is an automatically sent email, please do not reply." : "هذه رسالة آلية، يرجى عدم الرد عليها.",
+    "Help & privacy" : "المساعدة و الخصوصية",
     "Appearance and accessibility" : "المظهر  و سهولة الوصول.",
     "Apps" : "التطبيقات",
     "Personal settings" : "إعدادات شخصيّة",

@@ -91,6 +91,7 @@
     "App \"%s\" cannot be installed because it is not compatible with this version of the server." : "Апликација \"%s\" не може бити инсталирана јер није компатибилна са овом верзијом сервера.",
     "__language_name__" : "Српски",
     "This is an automatically sent email, please do not reply." : "Ово је аутоматски генерисана порука, не одговарајте на њу.",
+    "Help & privacy" : "Помоћ и приватност",
     "Appearance and accessibility" : "Изглед и приступачност",
     "Apps" : "Апликације",
     "Personal settings" : "Лична подешавања",
