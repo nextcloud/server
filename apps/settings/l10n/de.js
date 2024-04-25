@@ -554,7 +554,7 @@ OC.L10N.register(
     "Forum" : "Forum",
     "General documentation" : "Allgemeine Dokumentation",
     "Legal notice" : "Impressum",
-    "Privacy policy" : "Benötigt keine Übersetzung. Hier wird nur die formelle Übersetzung verwendet (de_DE).",
+    "Privacy policy" : "Datenschutzerklärung ",
     "None/STARTTLS" : "Keine/STARTTLS",
     "SSL" : "SSL",
     "Open documentation" : "Dokumentation öffnen",

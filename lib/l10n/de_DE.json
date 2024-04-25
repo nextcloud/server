@@ -91,6 +91,7 @@
     "App \"%s\" cannot be installed because it is not compatible with this version of the server." : "Die App \"%s\" kann nicht installiert werden, da sie mit dieser Serverversion nicht kompatibel ist.",
     "__language_name__" : "Deutsch (Förmlich: Sie)",
     "This is an automatically sent email, please do not reply." : "Dies ist eine automatisch versandte E-Mail, bitte nicht antworten.",
+    "Help & privacy" : "Hilfe & Datenschutz",
     "Appearance and accessibility" : "Aussehen und Barrierefreiheit",
     "Apps" : "Apps",
     "Personal settings" : "Persönliche Einstellungen",
