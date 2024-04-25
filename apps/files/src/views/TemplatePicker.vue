@@ -217,24 +217,25 @@ export default {
 				this.logger.debug('Created new file', fileInfo)
 
 				// Fetch FileInfo and model
-				const data = await fileList?.addAndFetchFileInfo(this.name).then((status, data) => data)
-				const model = new OCA.Files.FileInfoModel(data, {
-					filesClient: fileList?.filesClient,
-				})
-
-				// Run default action
-				const fileAction = OCA.Files.fileActions.getDefaultFileAction(fileInfo.mime, 'file', OC.PERMISSION_ALL)
-				if (fileAction) {
-					fileAction.action(fileInfo.basename, {
-						$file: fileList?.findFileEl(this.name),
-						dir: currentDirectory,
-						fileList,
-						fileActions: fileList?.fileActions,
-						fileInfoModel: model,
+				fileList?.addAndFetchFileInfo(this.name).then((status, data) => {
+					const model = new OCA.Files.FileInfoModel(data, {
+						filesClient: fileList?.filesClient,
 					})
-				}
 
-				this.close()
+					// Run default action
+					const fileAction = OCA.Files.fileActions.getDefaultFileAction(fileInfo.mime, 'file', OC.PERMISSION_ALL)
+					if (fileAction) {
+						fileAction.action(fileInfo.basename, {
+							$file: fileList?.findFileEl(this.name),
+							dir: currentDirectory,
+							fileList,
+							fileActions: fileList?.fileActions,
+							fileInfoModel: model,
+						})
+					}
+
+					this.close()
+				})
 			} catch (error) {
 				this.logger.error('Error while creating the new file from template')
 				console.error(error)
