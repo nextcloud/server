@@ -1,3 +1,15 @@
+# This workflow is provided via the organization template repository
+#
+# https://github.com/nextcloud/.github
+# https://docs.github.com/en/actions/learn-github-actions/sharing-workflows-with-your-organization
+
+# SPDX-FileCopyrightText: 2023-2024 Nextcloud GmbH and Nextcloud contributors
+# SPDX-FileCopyrightText: 2023 Marcel Klehr <mklehr@gmx.net>
+# SPDX-FileCopyrightText: 2023 Joas Schilling <213943+nickvergessen@users.noreply.github.com>
+# SPDX-FileCopyrightText: 2023 Daniel Kesselberg <mail@danielkesselberg.de>
+# SPDX-FileCopyrightText: 2023 Florian Steffens <florian.steffens@nextcloud.com>
+# SPDX-License-Identifier: MIT
+
 name: 'Ask for feedback on PRs'
 on:
   schedule:
@@ -5,25 +17,25 @@ on:
 
 jobs:
   pr-feedback:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     steps:
       - name: The get-github-handles-from-website action
         uses: marcelklehr/get-github-handles-from-website-action@a739600f6b91da4957f51db0792697afbb2f143c # v1.0.0
         id: scrape
         with:
           website: 'https://nextcloud.com/team/'
-      - uses: marcelklehr/pr-feedback-action@601109aa729eb4c8d6d0ece7567b9d4901db4aef
+      - uses: marcelklehr/pr-feedback-action@1883b38a033fb16f576875e0cf45f98b857655c4
         with:
           feedback-message: |
             Hello there,
             Thank you so much for taking the time and effort to create a pull request to our Nextcloud project. 
 
-            We hope that the reviewing process is going smooth and is helpful for you. We want to ensure your pull request is reviewed to your satisfaction. If you have a moment, our community management team would very much appreciate your feedback on your experience with this PR reviewing process.
+            We hope that the review process is going smooth and is helpful for you. We want to ensure your pull request is reviewed to your satisfaction. If you have a moment, our community management team would very much appreciate your feedback on your experience with this PR review process.
 
             Your feedback is valuable to us as we continuously strive to improve our community developer experience. Please take a moment to complete our short survey by clicking on the following link: https://cloud.nextcloud.com/apps/forms/s/i9Ago4EQRZ7TWxjfmeEpPkf6
 
             Thank you for contributing to Nextcloud and we hope to hear from you soon!
           days-before-feedback: 14
           start-date: "2023-07-10"
-          exempt-authors: "${{ steps.scrape.outputs.users }}"
+          exempt-authors: "${{ steps.scrape.outputs.users }},nextcloud-command,nextcloud-android-bot,skjnldsv,datenangebot"
           exempt-bots: true
