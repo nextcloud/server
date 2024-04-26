@@ -306,6 +306,7 @@ class OC_Template extends \OC\Template\Base {
 		http_response_code($statusCode);
 		try {
 			$debug = \OC::$server->getSystemConfig()->getValue('debug', false);
+			$serverLogsDocumentation = \OC::$server->getSystemConfig()->getValue('documentation_url.server_logs', '');
 			$request = \OC::$server->getRequest();
 			$content = new \OC_Template('', 'exception', 'error', false);
 			$content->assign('errorClass', get_class($exception));
@@ -315,6 +316,7 @@ class OC_Template extends \OC\Template\Base {
 			$content->assign('line', $exception->getLine());
 			$content->assign('exception', $exception);
 			$content->assign('debugMode', $debug);
+			$content->assign('serverLogsDocumentation', $serverLogsDocumentation);
 			$content->assign('remoteAddr', $request->getRemoteAddress());
 			$content->assign('requestID', $request->getId());
 			$content->printPage();

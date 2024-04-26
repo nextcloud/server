@@ -2242,6 +2242,11 @@ $CONFIG = [
 'upgrade.cli-upgrade-link' => '',
 
 /**
+ * Allows to modify the exception server logs documentation link in order to link to a different documentation
+ */
+'documentation_url.server_logs' => '',
+
+/**
  * Set this Nextcloud instance to debugging mode
  *
  * Only enable this for local development and not in production environments
