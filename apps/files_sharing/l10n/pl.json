@@ -295,7 +295,6 @@
     "the item was removed" : "element został usunięty",
     "the link expired" : "link wygasł",
     "sharing is disabled" : "udostępnianie jest wyłączone",
-    "For more info, please ask the person who sent this link." : "Aby uzyskać więcej informacji, zapytaj osobę, która wysłała ten link.",
-    "Share with" : "Udostępnij dla"
+    "For more info, please ask the person who sent this link." : "Aby uzyskać więcej informacji, zapytaj osobę, która wysłała ten link."
 },"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"
 }

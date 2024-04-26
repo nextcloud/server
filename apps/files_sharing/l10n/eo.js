@@ -203,7 +203,6 @@ OC.L10N.register(
     "the item was removed" : "la ero foriĝis",
     "the link expired" : "la ligilo eksvalidiĝis",
     "sharing is disabled" : "kunhavigo malkapablas",
-    "For more info, please ask the person who sent this link." : "Por plia informo, bonvolu peti al la persono, kiu sendis ĉi tiun ligilon.",
-    "Share with" : "Kunhavigi kun"
+    "For more info, please ask the person who sent this link." : "Por plia informo, bonvolu peti al la persono, kiu sendis ĉi tiun ligilon."
 },
 "nplurals=2; plural=(n != 1);");

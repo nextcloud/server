@@ -296,7 +296,6 @@ OC.L10N.register(
     "the item was removed" : "az elem el lett távolítva",
     "the link expired" : "lejárt a hivatkozás érvényességi ideje",
     "sharing is disabled" : "a megosztás letiltásra került",
-    "For more info, please ask the person who sent this link." : "További információért forduljon ahhoz, aki ezt a hivatkozást küldte.",
-    "Share with" : "Megosztva a következővel"
+    "For more info, please ask the person who sent this link." : "További információért forduljon ahhoz, aki ezt a hivatkozást küldte."
 },
 "nplurals=2; plural=(n != 1);");

@@ -91,6 +91,7 @@
     "App \"%s\" cannot be installed because it is not compatible with this version of the server." : "\"%s\" uygulaması sunucu sürümüyle uyumlu olmadığından kurulamaz.",
     "__language_name__" : "Türkçe",
     "This is an automatically sent email, please do not reply." : "Bu ileti otomatik olarak gönderildiğinden lütfen yanıtlamayın.",
+    "Help & privacy" : "Yardım ve gizlilik",
     "Appearance and accessibility" : "Görünüm ve erişilebilirlik",
     "Apps" : "Uygulamalar",
     "Personal settings" : "Kişisel ayarlar",

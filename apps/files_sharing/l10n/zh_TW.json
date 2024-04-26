@@ -312,8 +312,6 @@
     "the item was removed" : "項目已經移除",
     "the link expired" : "連結過期",
     "sharing is disabled" : "分享功能已停用",
-    "For more info, please ask the person who sent this link." : "要取得更多資訊，請詢問傳送此連結給您的人。",
-    "Share with remote" : "與遠端分享",
-    "Share with" : "分享者"
+    "For more info, please ask the person who sent this link." : "要取得更多資訊，請詢問傳送此連結給您的人。"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

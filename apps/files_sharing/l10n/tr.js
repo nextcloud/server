@@ -208,8 +208,10 @@ OC.L10N.register(
     "Share" : "Paylaş",
     "Delete share" : "Paylaşımı sil",
     "Share with {userName}" : "{userName} ile paylaş",
+    "Share with email {email}" : "{email} e-posta adresi ile paylaş",
     "Share with group" : "Grupla paylaş",
     "Share in conversation" : "Yazışmada paylaş",
+    "Share with {user} on remote server {server}" : "{server} uzak sunucusundaki {user} ile paylaş",
     "Share with remote group" : "Uzaktaki grupla paylaş",
     "Share with guest" : "Konukla paylaş",
     "Update share" : "Paylaşımı güncelle",
@@ -312,8 +314,6 @@ OC.L10N.register(
     "the item was removed" : "öge silinmiş",
     "the link expired" : "bağlantının geçerlilik süresi dolmuş",
     "sharing is disabled" : "paylaşım devre dışı bırakılmış",
-    "For more info, please ask the person who sent this link." : "Ayrıntılı bilgi almak için bu bağlantıyı aldığınız kişi ile görüşün.",
-    "Share with remote" : "Uzaktakilerle paylaş",
-    "Share with" : "Şunlarla paylaş"
+    "For more info, please ask the person who sent this link." : "Ayrıntılı bilgi almak için bu bağlantıyı aldığınız kişi ile görüşün."
 },
 "nplurals=2; plural=(n > 1);");

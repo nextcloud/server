@@ -314,8 +314,6 @@ OC.L10N.register(
     "the item was removed" : "S'ha suprimit l'element.",
     "the link expired" : "L'enllaç ha caducat.",
     "sharing is disabled" : "S'ha inhabilitat l'ús compartit.",
-    "For more info, please ask the person who sent this link." : "Per a més informació, contacteu amb qui us hagi enviat l'enllaç.",
-    "Share with remote" : "Comparteix en remot",
-    "Share with" : "Comparteix amb"
+    "For more info, please ask the person who sent this link." : "Per a més informació, contacteu amb qui us hagi enviat l'enllaç."
 },
 "nplurals=2; plural=(n != 1);");

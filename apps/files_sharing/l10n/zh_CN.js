@@ -301,8 +301,6 @@ OC.L10N.register(
     "the item was removed" : "此项已移除",
     "the link expired" : "链接过期",
     "sharing is disabled" : "已禁用共享",
-    "For more info, please ask the person who sent this link." : "如需了解更多信息，请联系发给您该链接的人。",
-    "Share with remote" : "分享至远程",
-    "Share with" : "共享给"
+    "For more info, please ask the person who sent this link." : "如需了解更多信息，请联系发给您该链接的人。"
 },
 "nplurals=1; plural=0;");

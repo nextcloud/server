@@ -303,8 +303,6 @@
     "the item was removed" : "항목이 삭제됨",
     "the link expired" : "링크가 만료됨",
     "sharing is disabled" : "공유가 비활성화됨",
-    "For more info, please ask the person who sent this link." : "자세한 정보는 링크를 보낸 사람에게 문의하십시오.",
-    "Share with remote" : "원격지에 공유",
-    "Share with" : "다음과 공유"
+    "For more info, please ask the person who sent this link." : "자세한 정보는 링크를 보낸 사람에게 문의하십시오."
 },"pluralForm" :"nplurals=1; plural=0;"
 }
