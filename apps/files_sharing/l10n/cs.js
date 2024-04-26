@@ -302,8 +302,6 @@ OC.L10N.register(
     "the item was removed" : "položka byla odebrána",
     "the link expired" : "platnost odkazu skončila",
     "sharing is disabled" : "sdílení je vypnuto",
-    "For more info, please ask the person who sent this link." : "Pokud potřebujete další podrobnosti, obraťte se na osobu, která vám tento odkaz zaslala.",
-    "Share with remote" : "Nasdílet pro vzdálené",
-    "Share with" : "Sdílet s"
+    "For more info, please ask the person who sent this link." : "Pokud potřebujete další podrobnosti, obraťte se na osobu, která vám tento odkaz zaslala."
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

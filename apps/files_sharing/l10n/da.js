@@ -197,7 +197,6 @@ OC.L10N.register(
     "the item was removed" : "Filen blev fjernet",
     "the link expired" : "linket udløb",
     "sharing is disabled" : "deling er deaktiveret",
-    "For more info, please ask the person who sent this link." : "For yderligere information, kontakt venligst personen der sendte linket. ",
-    "Share with" : "Del med"
+    "For more info, please ask the person who sent this link." : "For yderligere information, kontakt venligst personen der sendte linket. "
 },
 "nplurals=2; plural=(n != 1);");

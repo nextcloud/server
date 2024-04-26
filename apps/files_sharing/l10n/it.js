@@ -300,7 +300,6 @@ OC.L10N.register(
     "the item was removed" : "l'elemento è stato rimosso",
     "the link expired" : "il collegamento è scaduto",
     "sharing is disabled" : "la condivisione è disabilitata",
-    "For more info, please ask the person who sent this link." : "Per ulteriori informazioni, chiedi alla persona che ti ha inviato il collegamento.",
-    "Share with" : "Condividi con"
+    "For more info, please ask the person who sent this link." : "Per ulteriori informazioni, chiedi alla persona che ti ha inviato il collegamento."
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

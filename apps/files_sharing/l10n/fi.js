@@ -289,8 +289,6 @@ OC.L10N.register(
     "the item was removed" : "kohde poistettiin",
     "the link expired" : "linkki vanheni",
     "sharing is disabled" : "jakaminen on poistettu käytöstä",
-    "For more info, please ask the person who sent this link." : "Kysy lisätietoja henkilöltä, jolta sait linkin.",
-    "Share with remote" : "Jaa etätahon kanssa",
-    "Share with" : "Jaa"
+    "For more info, please ask the person who sent this link." : "Kysy lisätietoja henkilöltä, jolta sait linkin."
 },
 "nplurals=2; plural=(n != 1);");

@@ -301,8 +301,6 @@ OC.L10N.register(
     "the item was removed" : "объект удалён",
     "the link expired" : "истёк срок действия ссылки",
     "sharing is disabled" : "закрыт общий доступ",
-    "For more info, please ask the person who sent this link." : "Для получения дополнительной информации, свяжитесь с тем, кто отправил вам эту ссылку.",
-    "Share with remote" : "Поделиться с удалённым",
-    "Share with" : "Поделиться"
+    "For more info, please ask the person who sent this link." : "Для получения дополнительной информации, свяжитесь с тем, кто отправил вам эту ссылку."
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");
