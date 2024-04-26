@@ -498,7 +498,8 @@ export default {
 	align-self: stretch;
 	background-color: var(--color-main-background-blur);
 	-webkit-backdrop-filter: var(--filter-background-blur);
-	backdrop-filter: var(--filter-background-blur);
+	// Commented because it leads to huge performance problems in Chromium based browsers on Windows
+	// backdrop-filter: var(--filter-background-blur);
 	border-radius: var(--border-radius-rounded);
 
 	#body-user.theme--highcontrast & {
