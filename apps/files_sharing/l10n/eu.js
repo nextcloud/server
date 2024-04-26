@@ -296,7 +296,6 @@ OC.L10N.register(
     "the item was removed" : "fitxategia kendu da",
     "the link expired" : "esteka iraungi da",
     "sharing is disabled" : "partekatzea desgaituta dago",
-    "For more info, please ask the person who sent this link." : "Informazio gehiagorako, galdetu esteka hau bidali zuen pertsonari",
-    "Share with" : "Partekatu honekin"
+    "For more info, please ask the person who sent this link." : "Informazio gehiagorako, galdetu esteka hau bidali zuen pertsonari"
 },
 "nplurals=2; plural=(n != 1);");

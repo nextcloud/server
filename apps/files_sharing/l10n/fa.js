@@ -287,7 +287,6 @@ OC.L10N.register(
     "the item was removed" : "این مورد حذف شده است",
     "the link expired" : "این لینک منقضی شده است",
     "sharing is disabled" : "قابلیت اشتراک گذاری غیرفعال است",
-    "For more info, please ask the person who sent this link." : "برای اطلاعات بیشتر، لطفا از شخصی که این پیوند را ارسال کرده سوال بفرمایید.",
-    "Share with" : "به اشتراک گذاشتن با"
+    "For more info, please ask the person who sent this link." : "برای اطلاعات بیشتر، لطفا از شخصی که این پیوند را ارسال کرده سوال بفرمایید."
 },
 "nplurals=2; plural=(n > 1);");

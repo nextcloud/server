@@ -311,8 +311,6 @@ OC.L10N.register(
     "the item was removed" : "el elemento fue eliminado",
     "the link expired" : "la liga expiró",
     "sharing is disabled" : "compartir está deshabilitado",
-    "For more info, please ask the person who sent this link." : "Para mayores informes, contacta a la persona que le envió esta liga.",
-    "Share with remote" : "Compartir con remoto",
-    "Share with" : "Compartir con"
+    "For more info, please ask the person who sent this link." : "Para mayores informes, contacta a la persona que le envió esta liga."
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

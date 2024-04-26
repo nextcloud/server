@@ -197,6 +197,7 @@ OC.L10N.register(
     "Toggle selection for all files and folders" : "Tüm dosyaları ve klasörleri seç/bırak",
     "\"{displayName}\" failed on some elements " : "\"{displayName}\" toplu işlemi bazı bileşenlerde tamamlanamadı",
     "\"{displayName}\" batch action executed successfully" : "\"{displayName}\" toplu işlemi tamamlandı",
+    "{count} selected" : "{count} seçilmiş",
     "List of files and folders." : "Dosya ve klasörlerin listesi.",
     "Column headers with buttons are sortable." : "Düğmeler olan sütunlar sıralanabilir.",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Başarımı olumsuz etkilememek için listenin tümü görüntülenmiyor. Listede ilerledikçe dosyalar görüntülenecek.",

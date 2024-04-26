@@ -301,8 +301,6 @@ OC.L10N.register(
     "the item was removed" : "the item was removed",
     "the link expired" : "the link expired",
     "sharing is disabled" : "sharing is disabled",
-    "For more info, please ask the person who sent this link." : "For more info, please ask the person who sent this link.",
-    "Share with remote" : "Share with remote",
-    "Share with" : "Share with"
+    "For more info, please ask the person who sent this link." : "For more info, please ask the person who sent this link."
 },
 "nplurals=2; plural=(n!=1);");

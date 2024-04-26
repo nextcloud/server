@@ -314,8 +314,6 @@ OC.L10N.register(
     "the item was removed" : "項目已經移除",
     "the link expired" : "連結已過期",
     "sharing is disabled" : "分享功能已停用",
-    "For more info, please ask the person who sent this link." : "請詢問告訴您此連結的人以瞭解更多",
-    "Share with remote" : "與遠端分享",
-    "Share with" : "分享與"
+    "For more info, please ask the person who sent this link." : "請詢問告訴您此連結的人以瞭解更多"
 },
 "nplurals=1; plural=0;");
