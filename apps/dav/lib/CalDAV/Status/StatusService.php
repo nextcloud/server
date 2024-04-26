@@ -32,6 +32,7 @@ use OCA\UserStatus\Service\StatusService as UserStatusService;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Calendar\IManager;
+use OCP\DB\Exception;
 use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IUser as User;
@@ -72,7 +73,18 @@ class StatusService {
 		}
 
 		if(empty($calendarEvents)) {
-			$this->userStatusService->revertUserStatus($userId, IUserStatus::MESSAGE_CALENDAR_BUSY);
+			try {
+				$this->userStatusService->revertUserStatus($userId, IUserStatus::MESSAGE_CALENDAR_BUSY);
+			} catch (Exception $e) {
+				if ($e->getReason() === Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
+					// A different process might have written another status
+					// update to the DB while we're processing our stuff.
+					// We cannot safely restore the status as we don't know which one is valid at this point
+					// So let's silently log this one and exit
+					$this->logger->debug('Unique constraint violation for live user status', ['exception' => $e]);
+					return;
+				}
+			}
 			$this->logger->debug('No calendar events found for status check', ['user' => $userId]);
 			return;
 		}
@@ -118,7 +130,18 @@ class StatusService {
 		});
 
 		if(empty($applicableEvents)) {
-			$this->userStatusService->revertUserStatus($userId, IUserStatus::MESSAGE_CALENDAR_BUSY);
+			try {
+				$this->userStatusService->revertUserStatus($userId, IUserStatus::MESSAGE_CALENDAR_BUSY);
+			} catch (Exception $e) {
+				if ($e->getReason() === Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
+					// A different process might have written another status
+					// update to the DB while we're processing our stuff.
+					// We cannot safely restore the status as we don't know which one is valid at this point
+					// So let's silently log this one and exit
+					$this->logger->debug('Unique constraint violation for live user status', ['exception' => $e]);
+					return;
+				}
+			}
 			$this->logger->debug('No status relevant events found, skipping calendar status change', ['user' => $userId]);
 			return;
 		}
