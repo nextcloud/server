@@ -311,8 +311,6 @@ OC.L10N.register(
     "the item was removed" : "アイテムが削除されました",
     "the link expired" : "リンクの期限が切れています",
     "sharing is disabled" : "共有は無効になっています",
-    "For more info, please ask the person who sent this link." : "不明な点は、こちらのリンクの提供者に確認をお願いします。",
-    "Share with remote" : "リモートと共有する",
-    "Share with" : "共有対象"
+    "For more info, please ask the person who sent this link." : "不明な点は、こちらのリンクの提供者に確認をお願いします。"
 },
 "nplurals=1; plural=0;");

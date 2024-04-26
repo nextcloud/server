@@ -296,7 +296,6 @@ OC.L10N.register(
     "the item was removed" : "atriðið var fjarlægt",
     "the link expired" : "tengillinn er útrunninn",
     "sharing is disabled" : "slökkt er á skráadeilingu",
-    "For more info, please ask the person who sent this link." : "Til að vita meira skaltu hafa samband við þann sem sendi þér þennan tengil.",
-    "Share with" : "Deila með"
+    "For more info, please ask the person who sent this link." : "Til að vita meira skaltu hafa samband við þann sem sendi þér þennan tengil."
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

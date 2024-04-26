@@ -312,8 +312,6 @@ OC.L10N.register(
     "the item was removed" : "položka bola presunutá",
     "the link expired" : "linke vypršala platnosť",
     "sharing is disabled" : "sprístupňovanie je zakázané",
-    "For more info, please ask the person who sent this link." : "Pre viac informácií kontaktujte osobu, ktorá vám poslala tento odkaz.",
-    "Share with remote" : "Zdieľať so vzdialeným",
-    "Share with" : "Zdieľať s"
+    "For more info, please ask the person who sent this link." : "Pre viac informácií kontaktujte osobu, ktorá vám poslala tento odkaz."
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

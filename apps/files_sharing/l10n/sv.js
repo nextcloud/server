@@ -314,8 +314,6 @@ OC.L10N.register(
     "the item was removed" : "objektet togs bort",
     "the link expired" : "giltighet för länken har gått ut",
     "sharing is disabled" : "delning är inaktiverat",
-    "For more info, please ask the person who sent this link." : "För mer information, kontakta den person som skickade den här länken.",
-    "Share with remote" : "Dela med remote",
-    "Share with" : "Dela med"
+    "For more info, please ask the person who sent this link." : "För mer information, kontakta den person som skickade den här länken."
 },
 "nplurals=2; plural=(n != 1);");
