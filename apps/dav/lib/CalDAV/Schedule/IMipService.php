@@ -682,7 +682,7 @@ class IMipService {
 			return false;
 		}
 		$type = $cuType->getValue() ?? 'INDIVIDUAL';
-		if (\in_array(strtoupper($type), ['RESOURCE', 'ROOM', 'UNKNOWN'], true)) {
+		if (\in_array(strtoupper($type), ['RESOURCE', 'ROOM'], true)) {
 			// Don't send emails to things
 			return true;
 		}
