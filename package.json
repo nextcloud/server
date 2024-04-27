@@ -76,7 +76,7 @@
     "escape-html": "^1.0.3",
     "focus-trap": "^7.5.4",
     "handlebars": "^4.7.7",
-    "ical.js": "^1.4.0",
+    "ical.js": "^2.0.1",
     "jquery": "~3.7",
     "jquery-ui": "^1.13.2",
     "jquery-ui-dist": "^1.13.2",
