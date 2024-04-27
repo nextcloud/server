@@ -91,6 +91,7 @@
     "App \"%s\" cannot be installed because it is not compatible with this version of the server." : "Aplikácia \"%s\" nie je kompatibilná s verziou servera, preto nemôže byť nainštalovaná.",
     "__language_name__" : "Slovenčina",
     "This is an automatically sent email, please do not reply." : "Toto je automaticky odosielaný e-mail, prosím, neodpovedajte.",
+    "Help & privacy" : "Pomoc a ochrana osobých údajov",
     "Appearance and accessibility" : "Vzhľad a správanie",
     "Apps" : "Aplikácie",
     "Personal settings" : "Osobné nastavenia",
