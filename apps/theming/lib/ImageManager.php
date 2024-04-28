@@ -97,10 +97,10 @@ class ImageManager {
 	 * @throws NotPermittedException
 	 */
 	public function getImage(string $key, bool $useSvg = true): ISimpleFile {
-		$logo = $this->config->getAppValue('theming', $key . 'Mime', '');
+		$mime = $this->config->getAppValue('theming', $key . 'Mime', '');
 		$folder = $this->getRootFolder()->getFolder('images');
 
-		if ($logo === '' || !$folder->fileExists($key)) {
+		if ($mime === '' || !$folder->fileExists($key)) {
 			throw new NotFoundException();
 		}
 
@@ -127,7 +127,8 @@ class ImageManager {
 
 	public function hasImage(string $key): bool {
 		$mimeSetting = $this->config->getAppValue('theming', $key . 'Mime', '');
-		return $mimeSetting !== '';
+		// Removing the background defines its mime as 'backgroundColor'
+		return $mimeSetting !== '' && $mimeSetting !== 'backgroundColor';
 	}
 
 	/**
@@ -239,7 +240,7 @@ class ImageManager {
 				imagesavealpha($newImage, true);
 				imagealphablending($newImage, true);
 
-				$newWidth = (int)(imagesx($newImage) < 4096 ? imagesx($newImage) : 4096);
+				$newWidth = (imagesx($newImage) < 4096 ? imagesx($newImage) : 4096);
 				$newHeight = (int)(imagesy($newImage) / (imagesx($newImage) / $newWidth));
 				$outputImage = imagescale($newImage, $newWidth, $newHeight);
 				if ($outputImage === false) {
@@ -247,7 +248,7 @@ class ImageManager {
 				}
 
 				$newTmpFile = $this->tempManager->getTemporaryFile();
-				imageinterlace($outputImage, 1);
+				imageinterlace($outputImage, true);
 				// Keep jpeg images encoded as jpeg
 				if (str_contains($detectedMimeType, 'image/jpeg')) {
 					if (!imagejpeg($outputImage, $newTmpFile, 90)) {

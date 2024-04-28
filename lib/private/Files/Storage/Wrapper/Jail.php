@@ -30,6 +30,7 @@ namespace OC\Files\Storage\Wrapper;
 
 use OC\Files\Cache\Wrapper\CacheJail;
 use OC\Files\Cache\Wrapper\JailPropagator;
+use OC\Files\Cache\Wrapper\JailWatcher;
 use OC\Files\Filesystem;
 use OCP\Files\Storage\IStorage;
 use OCP\Files\Storage\IWriteStreamStorage;
@@ -396,10 +397,7 @@ class Jail extends Wrapper {
 	 * @return \OC\Files\Cache\Cache
 	 */
 	public function getCache($path = '', $storage = null) {
-		if (!$storage) {
-			$storage = $this->getWrapperStorage();
-		}
-		$sourceCache = $this->getWrapperStorage()->getCache($this->getUnjailedPath($path), $storage);
+		$sourceCache = $this->getWrapperStorage()->getCache($this->getUnjailedPath($path));
 		return new CacheJail($sourceCache, $this->rootPath);
 	}
 
@@ -421,10 +419,8 @@ class Jail extends Wrapper {
 	 * @return \OC\Files\Cache\Watcher
 	 */
 	public function getWatcher($path = '', $storage = null) {
-		if (!$storage) {
-			$storage = $this;
-		}
-		return $this->getWrapperStorage()->getWatcher($this->getUnjailedPath($path), $storage);
+		$sourceWatcher = $this->getWrapperStorage()->getWatcher($this->getUnjailedPath($path), $this->getWrapperStorage());
+		return new JailWatcher($sourceWatcher, $this->rootPath);
 	}
 
 	/**
@@ -517,7 +513,7 @@ class Jail extends Wrapper {
 		return $this->propagator;
 	}
 
-	public function writeStream(string $path, $stream, int $size = null): int {
+	public function writeStream(string $path, $stream, ?int $size = null): int {
 		$storage = $this->getWrapperStorage();
 		if ($storage->instanceOfStorage(IWriteStreamStorage::class)) {
 			/** @var IWriteStreamStorage $storage */

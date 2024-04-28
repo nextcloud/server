@@ -15,7 +15,6 @@ OC.L10N.register(
     "No comments yet, start the conversation!" : "No hay comentarios aún, iniciar la conversación!",
     "Retry" : "Reintentar",
     "Comment" : "Comentar",
-    "%1$s commented" : "%1$s comentados",
     "_%n unread comment_::_%n unread comments_" : ["%n comentarios sin leer","%n comentarios sin leer","%n comentarios sin leer"]
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

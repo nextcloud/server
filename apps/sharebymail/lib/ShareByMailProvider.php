@@ -116,8 +116,8 @@ class ShareByMailProvider implements IShareProvider {
 		 */
 		$alreadyShared = $this->getSharedWith($shareWith, IShare::TYPE_EMAIL, $share->getNode(), 1, 0);
 		if (!empty($alreadyShared)) {
-			$message = 'Sharing %1$s failed, because this item is already shared with user %2$s';
-			$message_t = $this->l->t('Sharing %1$s failed, because this item is already shared with user %2$s', [$share->getNode()->getName(), $shareWith]);
+			$message = 'Sharing %1$s failed, because this item is already shared with the account %2$s';
+			$message_t = $this->l->t('Sharing %1$s failed, because this item is already shared with the account %2$s', [$share->getNode()->getName(), $shareWith]);
 			$this->logger->debug(sprintf($message, $share->getNode()->getName(), $shareWith), ['app' => 'Federated File Sharing']);
 			throw new \Exception($message_t);
 		}
@@ -1069,6 +1069,7 @@ class ShareByMailProvider implements IShareProvider {
 
 		$qb->innerJoin('s', 'filecache', 'f', $qb->expr()->eq('s.file_source', 'f.fileid'));
 
+		$qb->andWhere($qb->expr()->eq('f.storage', $qb->createNamedParameter($node->getMountPoint()->getNumericStorageId(), IQueryBuilder::PARAM_INT)));
 		if ($shallow) {
 			$qb->andWhere($qb->expr()->eq('f.parent', $qb->createNamedParameter($node->getId())));
 		} else {
@@ -1097,21 +1098,32 @@ class ShareByMailProvider implements IShareProvider {
 		}
 
 		$qb = $this->dbConnection->getQueryBuilder();
-		$qb->select('share_with')
+		$qb->select('share_with', 'file_source', 'token')
 			->from('share')
 			->where($qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_EMAIL)))
 			->andWhere($qb->expr()->in('file_source', $qb->createNamedParameter($ids, IQueryBuilder::PARAM_INT_ARRAY)))
 			->andWhere($qb->expr()->orX(
 				$qb->expr()->eq('item_type', $qb->createNamedParameter('file')),
 				$qb->expr()->eq('item_type', $qb->createNamedParameter('folder'))
-			))
-			->setMaxResults(1);
+			));
 		$cursor = $qb->executeQuery();
 
-		$mail = $cursor->fetch() !== false;
+		$public = false;
+		$mail = [];
+		while ($row = $cursor->fetch()) {
+			$public = true;
+			if ($currentAccess === false) {
+				$mail[] = $row['share_with'];
+			} else {
+				$mail[$row['share_with']] = [
+					'node_id' => $row['file_source'],
+					'token' => $row['token']
+				];
+			}
+		}
 		$cursor->closeCursor();
 
-		return ['public' => $mail];
+		return ['public' => $public, 'mail' => $mail];
 	}
 
 	public function getAllShares(): iterable {

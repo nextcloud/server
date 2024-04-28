@@ -32,6 +32,7 @@ use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use Psr\Log\LoggerInterface;
 
+/** @template-implements IEventListener<CodesGenerated> */
 class ActivityPublisher implements IEventListener {
 	public function __construct(
 		private IManager $activityManager,

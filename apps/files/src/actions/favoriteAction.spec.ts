@@ -41,6 +41,12 @@ global.window.OC = {
 	TAG_FAVORITE: '_$!<Favorite>!$_',
 }
 
+// Mock webroot variable
+beforeAll(() => {
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	(window as any)._oc_webroot = ''
+})
+
 describe('Favorite action conditions tests', () => {
 	test('Default values', () => {
 		const file = new File({

@@ -63,12 +63,12 @@ abstract class Base implements IProvider {
 	protected $displayNames = [];
 
 	public function __construct(IFactory $languageFactory,
-								IURLGenerator $url,
-								IManager $activityManager,
-								IUserManager $userManager,
-								ICloudIdManager $cloudIdManager,
-								IContactsManager $contactsManager,
-								IEventMerger $eventMerger) {
+		IURLGenerator $url,
+		IManager $activityManager,
+		IUserManager $userManager,
+		ICloudIdManager $cloudIdManager,
+		IContactsManager $contactsManager,
+		IEventMerger $eventMerger) {
 		$this->languageFactory = $languageFactory;
 		$this->url = $url;
 		$this->activityManager = $activityManager;
@@ -86,7 +86,7 @@ abstract class Base implements IProvider {
 	 * @throws \InvalidArgumentException
 	 * @since 11.0.0
 	 */
-	public function parse($language, IEvent $event, IEvent $previousEvent = null) {
+	public function parse($language, IEvent $event, ?IEvent $previousEvent = null) {
 		if ($event->getApp() !== 'files_sharing') {
 			throw new \InvalidArgumentException();
 		}
@@ -119,7 +119,7 @@ abstract class Base implements IProvider {
 	 * @throws \InvalidArgumentException
 	 * @since 11.0.0
 	 */
-	abstract protected function parseLongVersion(IEvent $event, IEvent $previousEvent = null);
+	abstract protected function parseLongVersion(IEvent $event, ?IEvent $previousEvent = null);
 
 	/**
 	 * @throws \InvalidArgumentException
@@ -134,7 +134,7 @@ abstract class Base implements IProvider {
 	 * @return array
 	 * @throws \InvalidArgumentException
 	 */
-	protected function getFile($parameter, IEvent $event = null) {
+	protected function getFile($parameter, ?IEvent $event = null) {
 		if (is_array($parameter)) {
 			$path = reset($parameter);
 			$id = (string) key($parameter);

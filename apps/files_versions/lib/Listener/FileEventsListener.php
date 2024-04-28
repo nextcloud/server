@@ -59,11 +59,11 @@ use OCP\Files\Folder;
 use OCP\Files\IMimeTypeLoader;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
+use OCP\IUserSession;
 use Psr\Log\LoggerInterface;
 
+/** @template-implements IEventListener<BeforeNodeCopiedEvent|BeforeNodeDeletedEvent|BeforeNodeRenamedEvent|BeforeNodeTouchedEvent|BeforeNodeWrittenEvent|NodeCopiedEvent|NodeCreatedEvent|NodeDeletedEvent|NodeRenamedEvent|NodeTouchedEvent|NodeWrittenEvent> */
 class FileEventsListener implements IEventListener {
-	private IRootFolder $rootFolder;
-	private IVersionManager $versionManager;
 	/**
 	 * @var array<int, array>
 	 */
@@ -76,19 +76,14 @@ class FileEventsListener implements IEventListener {
 	 * @var array<string, Node>
 	 */
 	private array $versionsDeleted = [];
-	private IMimeTypeLoader $mimeTypeLoader;
-	private LoggerInterface $logger;
 
 	public function __construct(
-		IRootFolder $rootFolder,
-		IVersionManager $versionManager,
-		IMimeTypeLoader $mimeTypeLoader,
-		LoggerInterface $logger,
+		private IRootFolder $rootFolder,
+		private IVersionManager $versionManager,
+		private IMimeTypeLoader $mimeTypeLoader,
+		private IUserSession $userSession,
+		private LoggerInterface $logger,
 	) {
-		$this->rootFolder = $rootFolder;
-		$this->versionManager = $versionManager;
-		$this->mimeTypeLoader = $mimeTypeLoader;
-		$this->logger = $logger;
 	}
 
 	public function handle(Event $event): void {
@@ -224,11 +219,12 @@ class FileEventsListener implements IEventListener {
 		}
 
 		if (
-			($writeHookInfo['versionCreated'] || $writeHookInfo['previousNode']->getSize() === 0) &&
+			$writeHookInfo['versionCreated'] &&
 			$node->getMTime() !== $writeHookInfo['previousNode']->getMTime()
 		) {
 			// If a new version was created, insert a version in the DB for the current content.
-			// Unless both versions have the same mtime.
+			// If both versions have the same mtime, it means the latest version file simply got overrode,
+			// so no need to create a new version.
 			$this->created($node);
 		} else {
 			try {
@@ -304,6 +300,13 @@ class FileEventsListener implements IEventListener {
 	 * of the stored versions along the actual file
 	 */
 	public function rename_hook(Node $source, Node $target): void {
+		$sourceBackend = $this->versionManager->getBackendForStorage($source->getParent()->getStorage());
+		$targetBackend = $this->versionManager->getBackendForStorage($target->getStorage());
+		// If different backends, do nothing.
+		if ($sourceBackend !== $targetBackend) {
+			return;
+		}
+
 		$oldPath = $this->getPathForNode($source);
 		$newPath = $this->getPathForNode($target);
 		Storage::renameOrCopy($oldPath, $newPath, 'rename');
@@ -316,6 +319,13 @@ class FileEventsListener implements IEventListener {
 	 * the stored versions to the new location
 	 */
 	public function copy_hook(Node $source, Node $target): void {
+		$sourceBackend = $this->versionManager->getBackendForStorage($source->getParent()->getStorage());
+		$targetBackend = $this->versionManager->getBackendForStorage($target->getStorage());
+		// If different backends, do nothing.
+		if ($sourceBackend !== $targetBackend) {
+			return;
+		}
+
 		$oldPath = $this->getPathForNode($source);
 		$newPath = $this->getPathForNode($target);
 		Storage::renameOrCopy($oldPath, $newPath, 'copy');
@@ -329,6 +339,13 @@ class FileEventsListener implements IEventListener {
 	 *
 	 */
 	public function pre_renameOrCopy_hook(Node $source, Node $target): void {
+		$sourceBackend = $this->versionManager->getBackendForStorage($source->getStorage());
+		$targetBackend = $this->versionManager->getBackendForStorage($target->getParent()->getStorage());
+		// If different backends, do nothing.
+		if ($sourceBackend !== $targetBackend) {
+			return;
+		}
+
 		// if we rename a movable mount point, then the versions don't have
 		// to be renamed
 		$oldPath = $this->getPathForNode($source);
@@ -351,17 +368,41 @@ class FileEventsListener implements IEventListener {
 
 	/**
 	 * Retrieve the path relative to the current user root folder.
-	 * If no user is connected, use the node's owner.
+	 * If no user is connected, try to use the node's owner.
 	 */
 	private function getPathForNode(Node $node): ?string {
-		try {
-			return $this->rootFolder
-				->getUserFolder(\OC_User::getUser())
+		$user = $this->userSession->getUser()?->getUID();
+		if ($user) {
+			$path = $this->rootFolder
+				->getUserFolder($user)
 				->getRelativePath($node->getPath());
-		} catch (\Throwable $ex) {
-			return $this->rootFolder
-				->getUserFolder($node->getOwner()->getUid())
-				->getRelativePath($node->getPath());
+
+			if ($path !== null) {
+				return $path;
+			}
 		}
+
+		$owner = $node->getOwner()?->getUid();
+
+		// If no owner, extract it from the path.
+		// e.g. /user/files/foobar.txt
+		if (!$owner) {
+			$parts = explode('/', $node->getPath(), 4);
+			if (count($parts) === 4) {
+				$owner = $parts[1];
+			}
+		}
+
+		if ($owner) {
+			$path = $this->rootFolder
+				->getUserFolder($owner)
+				->getRelativePath($node->getPath());
+
+			if ($path !== null) {
+				return $path;
+			}
+		}
+
+		return null;
 	}
 }

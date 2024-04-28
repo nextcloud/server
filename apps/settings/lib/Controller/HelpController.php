@@ -31,17 +31,18 @@ declare(strict_types=1);
 namespace OCA\Settings\Controller;
 
 use OCP\AppFramework\Controller;
-use OCP\AppFramework\Http\Attribute\IgnoreOpenAPI;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\IAppConfig;
+use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\INavigationManager;
 use OCP\IRequest;
 use OCP\IURLGenerator;
-use OCP\IConfig;
 
-#[IgnoreOpenAPI]
+#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class HelpController extends Controller {
 
 	/** @var INavigationManager */
@@ -59,6 +60,9 @@ class HelpController extends Controller {
 	/** @var IConfig */
 	private $config;
 
+	/** @var IAppConfig */
+	private $appConfig;
+
 	public function __construct(
 		string $appName,
 		IRequest $request,
@@ -68,6 +72,7 @@ class HelpController extends Controller {
 		IGroupManager $groupManager,
 		IL10N $l10n,
 		IConfig $config,
+		IAppConfig $appConfig,
 	) {
 		parent::__construct($appName, $request);
 		$this->navigationManager = $navigationManager;
@@ -76,6 +81,7 @@ class HelpController extends Controller {
 		$this->groupManager = $groupManager;
 		$this->l10n = $l10n;
 		$this->config = $config;
+		$this->appConfig = $appConfig;
 	}
 
 	/**
@@ -107,6 +113,9 @@ class HelpController extends Controller {
 			$urlAdminDocs = $this->urlGenerator->linkToDocs('admin');
 		}
 
+		$legalNoticeUrl = $this->appConfig->getValueString('theming', 'imprintUrl');
+		$privacyUrl = $this->appConfig->getValueString('theming', 'privacyUrl');
+
 		$response = new TemplateResponse('settings', 'help', [
 			'admin' => $this->groupManager->isAdmin($this->userId),
 			'url' => $documentationUrl,
@@ -115,6 +124,8 @@ class HelpController extends Controller {
 			'mode' => $mode,
 			'pageTitle' => $pageTitle,
 			'knowledgebaseEmbedded' => $knowledgebaseEmbedded,
+			'legalNoticeUrl' => $legalNoticeUrl,
+			'privacyUrl' => $privacyUrl,
 		]);
 		$policy = new ContentSecurityPolicy();
 		$policy->addAllowedFrameDomain('\'self\'');

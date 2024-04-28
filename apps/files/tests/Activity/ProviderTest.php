@@ -32,7 +32,6 @@ use OCP\Federation\ICloudId;
 use OCP\Federation\ICloudIdManager;
 use OCP\Files\IRootFolder;
 use OCP\IURLGenerator;
-use OCP\IUser;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
 use PHPUnit\Framework\MockObject\MockObject;

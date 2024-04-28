@@ -30,7 +30,6 @@
 namespace OCA\WorkflowEngine;
 
 use Doctrine\DBAL\Exception;
-use OCP\Cache\CappedMemoryCache;
 use OCA\WorkflowEngine\AppInfo\Application;
 use OCA\WorkflowEngine\Check\FileMimeType;
 use OCA\WorkflowEngine\Check\FileName;
@@ -46,6 +45,7 @@ use OCA\WorkflowEngine\Helper\ScopeContext;
 use OCA\WorkflowEngine\Service\Logger;
 use OCA\WorkflowEngine\Service\RuleMatcher;
 use OCP\AppFramework\QueryException;
+use OCP\Cache\CappedMemoryCache;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\ICacheFactory;
@@ -333,7 +333,7 @@ class Manager implements IManager {
 			->where($qb->expr()->eq('s.type', $qb->createParameter('scope')));
 
 		if ($scopeContext->getScope() !== IManager::SCOPE_ADMIN) {
-			$qb->where($qb->expr()->eq('s.value', $qb->createParameter('scopeId')));
+			$qb->andWhere($qb->expr()->eq('s.value', $qb->createParameter('scopeId')));
 		}
 
 		$qb->setParameters(['scope' => $scopeContext->getScope(), 'scopeId' => $scopeContext->getScopeId()]);

@@ -28,12 +28,15 @@ declare(strict_types=1);
  */
 namespace OC\Core\Controller;
 
+use InvalidArgumentException;
 use OC\Search\SearchComposer;
 use OC\Search\SearchQuery;
+use OC\Search\UnsupportedFilter;
 use OCA\Core\ResponseDefinitions;
-use OCP\AppFramework\OCSController;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\ApiRoute;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\OCSController;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
@@ -67,6 +70,7 @@ class UnifiedSearchController extends OCSController {
 	 *
 	 * 200: Providers returned
 	 */
+	#[ApiRoute(verb: 'GET', url: '/providers', root: '/search')]
 	public function getProviders(string $from = ''): DataResponse {
 		[$route, $parameters] = $this->getRouteInformation($from);
 
@@ -80,7 +84,10 @@ class UnifiedSearchController extends OCSController {
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 *
-	 * Search
+	 * Launch a search for a specific search provider.
+	 *
+	 * Additional filters are available for each provider.
+	 * Send a request to /providers endpoint to list providers with their available filters.
 	 *
 	 * @param string $providerId ID of the provider
 	 * @param string $term Term to search
@@ -89,28 +96,34 @@ class UnifiedSearchController extends OCSController {
 	 * @param int|string|null $cursor Offset for searching
 	 * @param string $from The current user URL
 	 *
-	 * @return DataResponse<Http::STATUS_OK, CoreUnifiedSearchResult, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, null, array{}>
+	 * @return DataResponse<Http::STATUS_OK, CoreUnifiedSearchResult, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, string, array{}>
 	 *
 	 * 200: Search entries returned
 	 * 400: Searching is not possible
 	 */
-	public function search(string $providerId,
-						   string $term = '',
-						   ?int $sortOrder = null,
-						   ?int $limit = null,
-						   $cursor = null,
-						   string $from = ''): DataResponse {
-		if (trim($term) === "") {
-			return new DataResponse(null, Http::STATUS_BAD_REQUEST);
-		}
+	#[ApiRoute(verb: 'GET', url: '/providers/{providerId}/search', root: '/search')]
+	public function search(
+		string $providerId,
+		// Unused parameter for OpenAPI spec generator
+		string $term = '',
+		?int $sortOrder = null,
+		?int $limit = null,
+		$cursor = null,
+		string $from = '',
+	): DataResponse {
 		[$route, $routeParameters] = $this->getRouteInformation($from);
 
+		try {
+			$filters = $this->composer->buildFilterList($providerId, $this->request->getParams());
+		} catch (UnsupportedFilter|InvalidArgumentException $e) {
+			return new DataResponse($e->getMessage(), Http::STATUS_BAD_REQUEST);
+		}
 		return new DataResponse(
 			$this->composer->search(
 				$this->userSession->getUser(),
 				$providerId,
 				new SearchQuery(
-					$term,
+					$filters,
 					$sortOrder ?? ISearchQuery::SORT_DATE_DESC,
 					$limit ?? SearchQuery::LIMIT_DEFAULT,
 					$cursor,

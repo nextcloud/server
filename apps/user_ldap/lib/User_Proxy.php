@@ -38,10 +38,10 @@ use OCP\IConfig;
 use OCP\IUserBackend;
 use OCP\IUserSession;
 use OCP\Notification\IManager as INotificationManager;
-use OCP\UserInterface;
 use OCP\User\Backend\ICountMappedUsersBackend;
 use OCP\User\Backend\ICountUsersBackend;
 use OCP\User\Backend\IProvideEnabledStateBackend;
+use OCP\UserInterface;
 use Psr\Log\LoggerInterface;
 
 class User_Proxy extends Proxy implements IUserBackend, UserInterface, IUserLDAP, ICountUsersBackend, ICountMappedUsersBackend, IProvideEnabledStateBackend {
@@ -438,7 +438,7 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IUserLDAP
 	 * The connection needs to be closed manually.
 	 *
 	 * @param string $uid
-	 * @return resource|\LDAP\Connection The LDAP connection
+	 * @return \LDAP\Connection The LDAP connection
 	 */
 	public function getNewLDAPConnection($uid) {
 		return $this->handleRequest($uid, 'getNewLDAPConnection', [$uid]);
@@ -463,7 +463,7 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IUserLDAP
 		return $this->handleRequest($uid, 'setUserEnabled', [$uid, $enabled, $queryDatabaseValue, $setDatabaseValue]);
 	}
 
-	public function getDisabledUserList(int $offset = 0, ?int $limit = null): array {
+	public function getDisabledUserList(?int $limit = null, int $offset = 0): array {
 		return array_map(
 			fn (OfflineUser $user) => $user->getOCName(),
 			array_slice(

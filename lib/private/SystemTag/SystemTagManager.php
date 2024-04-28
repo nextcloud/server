@@ -50,10 +50,8 @@ class SystemTagManager implements ISystemTagManager {
 
 	/**
 	 * Prepared query for selecting tags directly
-	 *
-	 * @var \OCP\DB\QueryBuilder\IQueryBuilder
 	 */
-	private $selectTagQuery;
+	private IQueryBuilder $selectTagQuery;
 
 	public function __construct(
 		protected IDBConnection $connection,
@@ -219,7 +217,12 @@ class SystemTagManager implements ISystemTagManager {
 	/**
 	 * {@inheritdoc}
 	 */
-	public function updateTag(string $tagId, string $newName, bool $userVisible, bool $userAssignable) {
+	public function updateTag(
+		string $tagId,
+		string $newName,
+		bool $userVisible,
+		bool $userAssignable,
+	): void {
 		try {
 			$tags = $this->getTagsByIds($tagId);
 		} catch (TagNotFoundException $e) {
@@ -271,7 +274,7 @@ class SystemTagManager implements ISystemTagManager {
 	/**
 	 * {@inheritdoc}
 	 */
-	public function deleteTags($tagIds) {
+	public function deleteTags($tagIds): void {
 		if (!\is_array($tagIds)) {
 			$tagIds = [$tagIds];
 		}
@@ -363,14 +366,14 @@ class SystemTagManager implements ISystemTagManager {
 		return false;
 	}
 
-	private function createSystemTagFromRow($row) {
+	private function createSystemTagFromRow($row): SystemTag {
 		return new SystemTag((string)$row['id'], $row['name'], (bool)$row['visibility'], (bool)$row['editable']);
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function setTagGroups(ISystemTag $tag, array $groupIds) {
+	public function setTagGroups(ISystemTag $tag, array $groupIds): void {
 		// delete relationships first
 		$this->connection->beginTransaction();
 		try {

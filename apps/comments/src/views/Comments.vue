@@ -22,15 +22,16 @@
   -->
 
 <template>
-	<div v-observe-visibility="onVisibilityChange"
+	<div v-element-visibility="onVisibilityChange"
 		class="comments"
 		:class="{ 'icon-loading': isFirstLoading }">
 		<!-- Editor -->
 		<Comment v-bind="editorData"
 			:auto-complete="autoComplete"
-			:user-data="userData"
+			:resource-type="resourceType"
 			:editor="true"
-			:ressource-id="ressourceId"
+			:user-data="userData"
+			:resource-id="currentResourceId"
 			class="comments__writer"
 			@new="onNewComment" />
 
@@ -49,8 +50,9 @@
 					tag="li"
 					v-bind="comment.props"
 					:auto-complete="autoComplete"
+					:resource-type="resourceType"
 					:message.sync="comment.props.message"
-					:ressource-id="ressourceId"
+					:resource-id="currentResourceId"
 					:user-data="genMentionsData(comment.props.mentions)"
 					class="comments__list"
 					@delete="onDelete" />
@@ -82,14 +84,9 @@
 </template>
 
 <script>
-import { generateOcsUrl } from '@nextcloud/router'
-import { getCurrentUser } from '@nextcloud/auth'
-import { loadState } from '@nextcloud/initial-state'
 import { showError } from '@nextcloud/dialogs'
-import axios from '@nextcloud/axios'
-import VTooltip from 'v-tooltip'
-import Vue from 'vue'
-import VueObserveVisibility from 'vue-observe-visibility'
+import { translate as t } from '@nextcloud/l10n'
+import { vElementVisibility as elementVisibility } from '@vueuse/components'
 
 import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
@@ -98,18 +95,15 @@ import MessageReplyTextIcon from 'vue-material-design-icons/MessageReplyText.vue
 import AlertCircleOutlineIcon from 'vue-material-design-icons/AlertCircleOutline.vue'
 
 import Comment from '../components/Comment.vue'
-import { getComments, DEFAULT_LIMIT } from '../services/GetComments.ts'
+import CommentView from '../mixins/CommentView'
 import cancelableRequest from '../utils/cancelableRequest.js'
+import { getComments, DEFAULT_LIMIT } from '../services/GetComments.ts'
 import { markCommentsAsRead } from '../services/ReadComments.ts'
-
-Vue.use(VTooltip)
-Vue.use(VueObserveVisibility)
 
 export default {
 	name: 'Comments',
 
 	components: {
-		// Avatar,
 		Comment,
 		NcEmptyContent,
 		NcButton,
@@ -118,23 +112,23 @@ export default {
 		AlertCircleOutlineIcon,
 	},
 
+	directives: {
+		elementVisibility,
+	},
+
+	mixins: [CommentView],
+
 	data() {
 		return {
 			error: '',
 			loading: false,
 			done: false,
 
-			ressourceId: null,
+			currentResourceId: this.resourceId,
 			offset: 0,
 			comments: [],
 
 			cancelRequest: () => {},
-
-			editorData: {
-				actorDisplayName: getCurrentUser().displayName,
-				actorId: getCurrentUser().uid,
-				key: 'editor',
-			},
 
 			Comment,
 			userData: {},
@@ -150,11 +144,19 @@ export default {
 		},
 	},
 
+	watch: {
+		resourceId() {
+			this.currentResourceId = this.resourceId
+		},
+	},
+
 	methods: {
+		t,
+
 		async onVisibilityChange(isVisible) {
 			if (isVisible) {
 				try {
-					await markCommentsAsRead(this.commentsType, this.ressourceId, new Date())
+					await markCommentsAsRead(this.resourceType, this.currentResourceId, new Date())
 				} catch (e) {
 					showError(e.message || t('comments', 'Failed to mark comments as read'))
 				}
@@ -162,12 +164,12 @@ export default {
 		},
 
 		/**
-		 * Update current ressourceId and fetch new data
+		 * Update current resourceId and fetch new data
 		 *
-		 * @param {number} ressourceId the current ressourceId (fileId...)
+		 * @param {number} resourceId the current resourceId (fileId...)
 		 */
-		async update(ressourceId) {
-			this.ressourceId = ressourceId
+		async update(resourceId) {
+			this.currentResourceId = resourceId
 			this.resetState()
 			this.getComments()
 		},
@@ -189,28 +191,6 @@ export default {
 		},
 
 		/**
-		 * Make sure we have all mentions as Array of objects
-		 *
-		 * @param {any[]} mentions the mentions list
-		 * @return {Record<string, object>}
-		 */
-		genMentionsData(mentions) {
-			Object.values(mentions)
-				.flat()
-				.forEach(mention => {
-					this.userData[mention.mentionId] = {
-						// TODO: support groups
-						icon: 'icon-user',
-						id: mention.mentionId,
-						label: mention.mentionDisplayName,
-						source: 'users',
-						primary: getCurrentUser().uid === mention.mentionId,
-					}
-				})
-			return this.userData
-		},
-
-		/**
 		 * Get the existing shares infos
 		 */
 		async getComments() {
@@ -227,8 +207,8 @@ export default {
 
 				// Fetch comments
 				const { data: comments } = await request({
-					commentsType: this.commentsType,
-					ressourceId: this.ressourceId,
+					resourceType: this.resourceType,
+					resourceId: this.currentResourceId,
 				}, { offset: this.offset }) || { data: [] }
 
 				this.logger.debug(`Processed ${comments.length} comments`, { comments })
@@ -253,27 +233,6 @@ export default {
 			} finally {
 				this.loading = false
 			}
-		},
-
-		/**
-		 * Autocomplete @mentions
-		 *
-		 * @param {string} search the query
-		 * @param {Function} callback the callback to process the results with
-		 */
-		async autoComplete(search, callback) {
-			const results = await axios.get(generateOcsUrl('core/autocomplete/get'), {
-				params: {
-					search,
-					itemType: 'files',
-					itemId: this.ressourceId,
-					sorter: 'commenters|share-recipients',
-					limit: loadState('comments', 'maxAutoCompleteResults'),
-				},
-			})
-			// Save user data so it can be used by the editor to replace mentions
-			results.data.ocs.data.forEach(user => { this.userData[user.id] = user })
-			return callback(Object.values(this.userData))
 		},
 
 		/**

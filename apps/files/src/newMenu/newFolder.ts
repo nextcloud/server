@@ -21,7 +21,7 @@
  */
 import type { Entry, Node } from '@nextcloud/files'
 
-import { basename, extname } from 'path'
+import { basename } from 'path'
 import { emit } from '@nextcloud/event-bus'
 import { getCurrentUser } from '@nextcloud/auth'
 import { Permission, Folder } from '@nextcloud/files'
@@ -31,6 +31,7 @@ import axios from '@nextcloud/axios'
 
 import FolderPlusSvg from '@mdi/svg/svg/folder-plus.svg?raw'
 
+import { newNodeName } from '../utils/newNodeDialog'
 import logger from '../logger'
 
 type createFolderResponse = {
@@ -55,17 +56,6 @@ const createNewFolder = async (root: Folder, name: string): Promise<createFolder
 	}
 }
 
-// TODO: move to @nextcloud/files
-export const getUniqueName = (name: string, names: string[]): string => {
-	let newName = name
-	let i = 1
-	while (names.includes(newName)) {
-		const ext = extname(name)
-		newName = `${basename(name, ext)} (${i++})${ext}`
-	}
-	return newName
-}
-
 export const entry = {
 	id: 'newFolder',
 	displayName: t('files', 'New folder'),
@@ -73,23 +63,33 @@ export const entry = {
 	iconSvgInline: FolderPlusSvg,
 	order: 0,
 	async handler(context: Folder, content: Node[]) {
-		const contentNames = content.map((node: Node) => node.basename)
-		const name = getUniqueName(t('files', 'New folder'), contentNames)
-		const { fileid, source } = await createNewFolder(context, name)
+		const name = await newNodeName(t('files', 'New folder'), content)
+		if (name !== null) {
+			const { fileid, source } = await createNewFolder(context, name)
+			// Create the folder in the store
+			const folder = new Folder({
+				source,
+				id: fileid,
+				mtime: new Date(),
+				owner: getCurrentUser()?.uid || null,
+				permissions: Permission.ALL,
+				root: context?.root || '/files/' + getCurrentUser()?.uid,
+				// Include mount-type from parent folder as this is inherited
+				attributes: {
+					'mount-type': context.attributes?.['mount-type'],
+					'owner-id': context.attributes?.['owner-id'],
+					'owner-display-name': context.attributes?.['owner-display-name'],
+				},
+			})
 
-		// Create the folder in the store
-		const folder = new Folder({
-			source,
-			id: fileid,
-			mtime: new Date(),
-			owner: getCurrentUser()?.uid || null,
-			permissions: Permission.ALL,
-			root: context?.root || '/files/' + getCurrentUser()?.uid,
-		})
-
-		showSuccess(t('files', 'Created new folder "{name}"', { name: basename(source) }))
-		logger.debug('Created new folder', { folder, source })
-		emit('files:node:created', folder)
-		emit('files:node:rename', folder)
+			showSuccess(t('files', 'Created new folder "{name}"', { name: basename(source) }))
+			logger.debug('Created new folder', { folder, source })
+			emit('files:node:created', folder)
+			window.OCP.Files.Router.goToRoute(
+				null, // use default route
+				{ view: 'files', fileid: folder.fileid },
+				{ dir: context.path },
+			)
+		}
 	},
 } as Entry

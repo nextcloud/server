@@ -44,34 +44,13 @@ use OCP\ICertificateManager;
 use Psr\Log\LoggerInterface;
 
 trait S3ConnectionTrait {
-	/** @var array */
-	protected $params;
+	use S3ConfigTrait;
 
-	/** @var S3Client */
-	protected $connection;
+	protected string $id;
 
-	/** @var string */
-	protected $id;
+	protected bool $test;
 
-	/** @var string */
-	protected $bucket;
-
-	/** @var int */
-	protected $timeout;
-
-	/** @var string */
-	protected $proxy;
-
-	/** @var string */
-	protected $storageClass;
-
-	/** @var int */
-	protected $uploadPartSize;
-
-	/** @var int */
-	private $putSizeLimit;
-
-	protected $test;
+	protected ?S3Client $connection = null;
 
 	protected function parseParams($params) {
 		if (empty($params['bucket'])) {
@@ -82,17 +61,27 @@ trait S3ConnectionTrait {
 
 		$this->test = isset($params['test']);
 		$this->bucket = $params['bucket'];
+		// Default to 5 like the S3 SDK does
+		$this->concurrency = $params['concurrency'] ?? 5;
 		$this->proxy = $params['proxy'] ?? false;
 		$this->timeout = $params['timeout'] ?? 15;
 		$this->storageClass = !empty($params['storageClass']) ? $params['storageClass'] : 'STANDARD';
 		$this->uploadPartSize = $params['uploadPartSize'] ?? 524288000;
 		$this->putSizeLimit = $params['putSizeLimit'] ?? 104857600;
+		$this->copySizeLimit = $params['copySizeLimit'] ?? 5242880000;
+		$this->useMultipartCopy = (bool)($params['useMultipartCopy'] ?? true);
 		$params['region'] = empty($params['region']) ? 'eu-west-1' : $params['region'];
+		$params['s3-accelerate'] = $params['hostname'] == 's3-accelerate.amazonaws.com' || $params['hostname'] == 's3-accelerate.dualstack.amazonaws.com';
 		$params['hostname'] = empty($params['hostname']) ? 's3.' . $params['region'] . '.amazonaws.com' : $params['hostname'];
 		if (!isset($params['port']) || $params['port'] === '') {
 			$params['port'] = (isset($params['use_ssl']) && $params['use_ssl'] === false) ? 80 : 443;
 		}
 		$params['verify_bucket_exists'] = $params['verify_bucket_exists'] ?? true;
+
+		if ($params['s3-accelerate']) {
+			$params['verify_bucket_exists'] = false;
+		}
+
 		$this->params = $params;
 	}
 
@@ -111,7 +100,7 @@ trait S3ConnectionTrait {
 	 * @throws \Exception if connection could not be made
 	 */
 	public function getConnection() {
-		if (!is_null($this->connection)) {
+		if ($this->connection !== null) {
 			return $this->connection;
 		}
 
@@ -139,6 +128,13 @@ trait S3ConnectionTrait {
 			'http' => ['verify' => $this->getCertificateBundlePath()],
 			'use_aws_shared_config_files' => false,
 		];
+
+		if ($this->params['s3-accelerate']) {
+			$options['use_accelerate_endpoint'] = true;
+		} else {
+			$options['endpoint'] = $base_url;
+		}
+
 		if ($this->getProxy()) {
 			$options['http']['proxy'] = $this->getProxy();
 		}
@@ -167,7 +163,9 @@ trait S3ConnectionTrait {
 					'exception' => $e,
 					'app' => 'objectstore',
 				]);
-				throw new \Exception('Creation of bucket "' . $this->bucket . '" failed. ' . $e->getMessage());
+				if ($e->getAwsErrorCode() !== "BucketAlreadyOwnedByYou") {
+					throw new \Exception('Creation of bucket "' . $this->bucket . '" failed. ' . $e->getMessage());
+				}
 			}
 		}
 

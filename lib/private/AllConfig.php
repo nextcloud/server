@@ -32,6 +32,7 @@
  */
 namespace OC;
 
+use Doctrine\DBAL\Platforms\OraclePlatform;
 use OCP\Cache\CappedMemoryCache;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IConfig;
@@ -42,7 +43,6 @@ use OCP\PreConditionNotMetException;
  * Class to combine all the configuration options ownCloud offers
  */
 class AllConfig implements IConfig {
-	private SystemConfig $systemConfig;
 	private ?IDBConnection $connection = null;
 
 	/**
@@ -67,9 +67,10 @@ class AllConfig implements IConfig {
 	 */
 	private CappedMemoryCache $userCache;
 
-	public function __construct(SystemConfig $systemConfig) {
+	public function __construct(
+		private SystemConfig $systemConfig
+	) {
 		$this->userCache = new CappedMemoryCache();
-		$this->systemConfig = $systemConfig;
 	}
 
 	/**
@@ -189,6 +190,7 @@ class AllConfig implements IConfig {
 	 *
 	 * @param string $appName the appName that we stored the value under
 	 * @return string[] the keys stored for the app
+	 * @deprecated 29.0.0 Use {@see IAppConfig} directly
 	 */
 	public function getAppKeys($appName) {
 		return \OC::$server->get(AppConfig::class)->getKeys($appName);
@@ -200,6 +202,7 @@ class AllConfig implements IConfig {
 	 * @param string $appName the appName that we want to store the value under
 	 * @param string $key the key of the value, under which will be saved
 	 * @param string|float|int $value the value that should be stored
+	 * @deprecated 29.0.0 Use {@see IAppConfig} directly
 	 */
 	public function setAppValue($appName, $key, $value) {
 		\OC::$server->get(AppConfig::class)->setValue($appName, $key, $value);
@@ -212,6 +215,7 @@ class AllConfig implements IConfig {
 	 * @param string $key the key of the value, under which it was saved
 	 * @param string $default the default value to be returned if the value isn't set
 	 * @return string the saved value
+	 * @deprecated 29.0.0 Use {@see IAppConfig} directly
 	 */
 	public function getAppValue($appName, $key, $default = '') {
 		return \OC::$server->get(AppConfig::class)->getValue($appName, $key, $default);
@@ -222,6 +226,7 @@ class AllConfig implements IConfig {
 	 *
 	 * @param string $appName the appName that we stored the value under
 	 * @param string $key the key of the value, under which it was saved
+	 * @deprecated 29.0.0 Use {@see IAppConfig} directly
 	 */
 	public function deleteAppValue($appName, $key) {
 		\OC::$server->get(AppConfig::class)->deleteKey($appName, $key);
@@ -231,6 +236,7 @@ class AllConfig implements IConfig {
 	 * Removes all keys in appconfig belonging to the app
 	 *
 	 * @param string $appName the appName the configs are stored under
+	 * @deprecated 29.0.0 Use {@see IAppConfig} directly
 	 */
 	public function deleteAppValues($appName) {
 		\OC::$server->get(AppConfig::class)->deleteApp($appName);
@@ -333,7 +339,7 @@ class AllConfig implements IConfig {
 	public function getUserKeys($userId, $appName) {
 		$data = $this->getAllUserValues($userId);
 		if (isset($data[$appName])) {
-			return array_keys($data[$appName]);
+			return array_map('strval', array_keys($data[$appName]));
 		} else {
 			return [];
 		}
@@ -490,12 +496,15 @@ class AllConfig implements IConfig {
 		$this->fixDIInit();
 
 		$qb = $this->connection->getQueryBuilder();
+		$configValueColumn = ($this->connection->getDatabasePlatform() instanceof OraclePlatform)
+			? $qb->expr()->castColumn('configvalue', IQueryBuilder::PARAM_STR)
+			: 'configvalue';
 		$result = $qb->select('userid')
 			->from('preferences')
 			->where($qb->expr()->eq('appid', $qb->createNamedParameter($appName, IQueryBuilder::PARAM_STR)))
 			->andWhere($qb->expr()->eq('configkey', $qb->createNamedParameter($key, IQueryBuilder::PARAM_STR)))
 			->andWhere($qb->expr()->eq(
-				$qb->expr()->castColumn('configvalue', IQueryBuilder::PARAM_STR),
+				$configValueColumn,
 				$qb->createNamedParameter($value, IQueryBuilder::PARAM_STR))
 			)->orderBy('userid')
 			->executeQuery();
@@ -524,13 +533,18 @@ class AllConfig implements IConfig {
 			// Email address is always stored lowercase in the database
 			return $this->getUsersForUserValue($appName, $key, strtolower($value));
 		}
+
 		$qb = $this->connection->getQueryBuilder();
+		$configValueColumn = ($this->connection->getDatabasePlatform() instanceof OraclePlatform)
+			? $qb->expr()->castColumn('configvalue', IQueryBuilder::PARAM_STR)
+			: 'configvalue';
+
 		$result = $qb->select('userid')
 			->from('preferences')
 			->where($qb->expr()->eq('appid', $qb->createNamedParameter($appName, IQueryBuilder::PARAM_STR)))
 			->andWhere($qb->expr()->eq('configkey', $qb->createNamedParameter($key, IQueryBuilder::PARAM_STR)))
 			->andWhere($qb->expr()->eq(
-				$qb->func()->lower($qb->expr()->castColumn('configvalue', IQueryBuilder::PARAM_STR)),
+				$qb->func()->lower($configValueColumn),
 				$qb->createNamedParameter(strtolower($value), IQueryBuilder::PARAM_STR))
 			)->orderBy('userid')
 			->executeQuery();

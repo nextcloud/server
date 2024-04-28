@@ -20,7 +20,7 @@ jobs:
 
     # Only run on stableXX branches
     if: startsWith( github.base_ref, 'stable')
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest-low
 
     steps:
       - name: Download updater config
@@ -34,4 +34,4 @@ jobs:
 
       - name: Checking if ${{ env.server_major }} is EOL
         run: |
-          php -r 'echo json_encode(require_once "config.php");' | jq --arg version "${{ env.server_major }}" '.stable[$version]["100"].eol // .beta[$version]["100"].eol' | grep --silent -i 'false'
+          php -r 'echo json_encode(require_once "config.php");' | jq --arg version "${{ env.server_major }}" '.stable[$version]["100"].eol // .beta[$version]["100"].eol // "NotEOL"' | grep -q "NotEOL"

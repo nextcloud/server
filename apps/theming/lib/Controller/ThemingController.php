@@ -38,6 +38,7 @@
  */
 namespace OCA\Theming\Controller;
 
+use InvalidArgumentException;
 use OCA\Theming\ImageManager;
 use OCA\Theming\Service\ThemesService;
 use OCA\Theming\ThemingDefaults;
@@ -67,7 +68,7 @@ use ScssPhp\ScssPhp\Compiler;
  * @package OCA\Theming\Controller
  */
 class ThemingController extends Controller {
-	const VALID_UPLOAD_KEYS = ['header', 'logo', 'logoheader', 'background', 'favicon'];
+	public const VALID_UPLOAD_KEYS = ['header', 'logo', 'logoheader', 'background', 'favicon'];
 
 	private ThemingDefaults $themingDefaults;
 	private IL10N $l10n;
@@ -156,7 +157,7 @@ class ThemingController extends Controller {
 				}
 				break;
 			case 'disable-user-theming':
-				if ($value !== "yes" && $value !== "no") {
+				if ($value !== 'yes' && $value !== 'no') {
 					$error = $this->l10n->t('Disable-user-theming should be true or false');
 				}
 				break;
@@ -171,6 +172,47 @@ class ThemingController extends Controller {
 		}
 
 		$this->themingDefaults->set($setting, $value);
+
+		return new DataResponse([
+			'data' => [
+				'message' => $this->l10n->t('Saved'),
+			],
+			'status' => 'success'
+		]);
+	}
+
+	/**
+	 * @AuthorizedAdminSetting(settings=OCA\Theming\Settings\Admin)
+	 * @param string $setting
+	 * @param mixed $value
+	 * @return DataResponse
+	 * @throws NotPermittedException
+	 */
+	public function updateAppMenu($setting, $value) {
+		$error = null;
+		switch ($setting) {
+			case 'defaultApps':
+				if (is_array($value)) {
+					try {
+						$this->appManager->setDefaultApps($value);
+					} catch (InvalidArgumentException $e) {
+						$error = $this->l10n->t('Invalid app given');
+					}
+				} else {
+					$error = $this->l10n->t('Invalid type for setting "defaultApp" given');
+				}
+				break;
+			default:
+				$error = $this->l10n->t('Invalid setting key');
+		}
+		if ($error !== null) {
+			return new DataResponse([
+				'data' => [
+					'message' => $error,
+				],
+				'status' => 'error'
+			], Http::STATUS_BAD_REQUEST);
+		}
 
 		return new DataResponse([
 			'data' => [
@@ -299,6 +341,7 @@ class ThemingController extends Controller {
 	 */
 	public function undoAll(): DataResponse {
 		$this->themingDefaults->undoAll();
+		$this->appManager->setDefaultApps([]);
 
 		return new DataResponse(
 			[
@@ -371,7 +414,7 @@ class ThemingController extends Controller {
 		}
 
 		$theme = $themes[$themeId];
-		$customCss  = $theme->getCustomCss();
+		$customCss = $theme->getCustomCss();
 
 		// Generate variables
 		$variables = '';
@@ -386,7 +429,8 @@ class ThemingController extends Controller {
 			// If not set, we'll rely on the body class
 			$compiler = new Compiler();
 			$compiledCss = $compiler->compileString("[data-theme-$themeId] { $variables $customCss }");
-			$css = $compiledCss->getCss();;
+			$css = $compiledCss->getCss();
+			;
 		}
 
 		try {
@@ -401,16 +445,18 @@ class ThemingController extends Controller {
 	/**
 	 * @NoCSRFRequired
 	 * @PublicPage
+	 * @BruteForceProtection(action=manifest)
 	 *
 	 * Get the manifest for an app
 	 *
 	 * @param string $app ID of the app
 	 * @psalm-suppress LessSpecificReturnStatement The content of the Manifest doesn't need to be described in the return type
-	 * @return JSONResponse<Http::STATUS_OK, array{name: string, short_name: string, start_url: string, theme_color: string, background_color: string, description: string, icons: array{src: non-empty-string, type: string, sizes: string}[], display: string}, array{}>
+	 * @return JSONResponse<Http::STATUS_OK, array{name: string, short_name: string, start_url: string, theme_color: string, background_color: string, description: string, icons: array{src: non-empty-string, type: string, sizes: string}[], display: string}, array{}>|JSONResponse<Http::STATUS_NOT_FOUND, array{}, array{}>
 	 *
 	 * 200: Manifest returned
+	 * 404: App not found
 	 */
-	public function getManifest(string $app) {
+	public function getManifest(string $app): JSONResponse {
 		$cacheBusterValue = $this->config->getAppValue('theming', 'cachebuster', '0');
 		if ($app === 'core' || $app === 'settings') {
 			$name = $this->themingDefaults->getName();
@@ -418,6 +464,12 @@ class ThemingController extends Controller {
 			$startUrl = $this->urlGenerator->getBaseUrl();
 			$description = $this->themingDefaults->getSlogan();
 		} else {
+			if (!$this->appManager->isEnabledForUser($app)) {
+				$response = new JSONResponse([], Http::STATUS_NOT_FOUND);
+				$response->throttle(['action' => 'manifest', 'app' => $app]);
+				return $response;
+			}
+
 			$info = $this->appManager->getAppInfo($app, false, $this->l10n->getLanguageCode());
 			$name = $info['name'] . ' - ' . $this->themingDefaults->getName();
 			$shortName = $info['name'];
@@ -443,13 +495,13 @@ class ThemingController extends Controller {
 				[
 					[
 						'src' => $this->urlGenerator->linkToRoute('theming.Icon.getTouchIcon',
-								['app' => $app]) . '?v=' . $cacheBusterValue,
+							['app' => $app]) . '?v=' . $cacheBusterValue,
 						'type' => 'image/png',
 						'sizes' => '512x512'
 					],
 					[
 						'src' => $this->urlGenerator->linkToRoute('theming.Icon.getFavicon',
-								['app' => $app]) . '?v=' . $cacheBusterValue,
+							['app' => $app]) . '?v=' . $cacheBusterValue,
 						'type' => 'image/svg+xml',
 						'sizes' => '16x16'
 					]

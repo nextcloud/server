@@ -67,6 +67,8 @@ OC.L10N.register(
     "Desktop client" : "Mahaigaineko bezeroa",
     "Thunderbird & Outlook addons" : "Thunderbird eta Outlook gehigarriak",
     "Custom user agent" : "Erabiltzaile-agente pertsonalizatua",
+    "Select groups" : "Hautatu taldeak",
+    "Groups" : "Taldeak",
     "At least one event must be selected" : "Gutxienez gertaera bat hautatu behar da",
     "Add new flow" : "Gehitu fluxu berria",
     "When" : "Noiz",
@@ -109,10 +111,8 @@ OC.L10N.register(
     "between" : "bitarte honetan",
     "not between" : "ez dago bitarte honetan",
     "Request user agent" : "Eskatu erabiltzaile-agentea",
-    "User group membership" : "Erabiltzailearen talde-kidetza",
     "is member of" : "hemengo kide da:",
     "is not member of" : "ez da hemengo kide:",
-    "Predefined URLs" : "Aurrez definitutako URL-ak",
-    "Others" : "Bestelakoak"
+    "User group membership" : "Erabiltzailearen talde-kidetza"
 },
 "nplurals=2; plural=(n != 1);");

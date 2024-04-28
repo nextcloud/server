@@ -23,13 +23,13 @@ declare(strict_types=1);
 
 namespace OC\Files\Node;
 
-use OCP\Files\FileInfo;
 use OCP\Constants;
+use OCP\Files\File;
+use OCP\Files\FileInfo;
+use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountManager;
 use OCP\Files\NotFoundException;
-use OCP\Files\Folder;
-use OCP\Files\File;
 use OCP\IUser;
 use Psr\Log\LoggerInterface;
 
@@ -66,18 +66,6 @@ class LazyUserFolder extends LazyFolder {
 			'type' => FileInfo::TYPE_FOLDER,
 			'mimetype' => FileInfo::MIMETYPE_FOLDER,
 		]);
-	}
-
-	public function get($path) {
-		return $this->getRootFolder()->get('/' . $this->user->getUID() . '/files/' . ltrim($path, '/'));
-	}
-
-	/**
-	 * @param int $id
-	 * @return \OCP\Files\Node[]
-	 */
-	public function getById($id) {
-		return $this->getRootFolder()->getByIdInPath((int)$id, $this->getPath());
 	}
 
 	public function getMountPoint() {

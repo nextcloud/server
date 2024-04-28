@@ -96,7 +96,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 	 * @param array $urlParams
 	 * @param ServerContainer|null $server
 	 */
-	public function __construct(string $appName, array $urlParams = [], ServerContainer $server = null) {
+	public function __construct(string $appName, array $urlParams = [], ?ServerContainer $server = null) {
 		parent::__construct();
 		$this->appName = $appName;
 		$this['appName'] = $appName;
@@ -173,7 +173,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		});
 
 		$this->registerService('OC_Defaults', function (ContainerInterface $c) {
-			return $c->get(IServerContainer::class)->getThemingDefaults();
+			return $c->get(IServerContainer::class)->get('ThemingDefaults');
 		});
 
 		$this->registerService('Protocol', function (ContainerInterface $c) {
@@ -302,7 +302,8 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 					$c->get(IRequest::class),
 					$c->get(IUserSession::class),
 					$c->get(IControllerMethodReflector::class),
-					$c->get(OC\Security\RateLimiting\Limiter::class)
+					$c->get(OC\Security\RateLimiting\Limiter::class),
+					$c->get(ISession::class)
 				)
 			);
 			$dispatcher->registerMiddleware(
@@ -345,6 +346,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		$this->registerService(IAppConfig::class, function (ContainerInterface $c) {
 			return new OC\AppFramework\Services\AppConfig(
 				$c->get(IConfig::class),
+				$c->get(\OCP\IAppConfig::class),
 				$c->get('AppName')
 			);
 		});

@@ -38,6 +38,7 @@ use OCP\Defaults;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IL10N;
+use OCP\Lock\ILockingProvider;
 use OCP\Security\ISecureRandom;
 use Psr\Log\LoggerInterface;
 
@@ -197,7 +198,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 		// further cleanup
 		$hookExceptions = \OC_Hook::$thrownExceptions;
 		\OC_Hook::$thrownExceptions = [];
-		\OC::$server->getLockingProvider()->releaseAll();
+		\OC::$server->get(ILockingProvider::class)->releaseAll();
 		if (!empty($hookExceptions)) {
 			throw $hookExceptions[0];
 		}
@@ -263,6 +264,8 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 			}
 
 			return $property->getValue();
+		} elseif ($reflection->hasConstant($methodName)) {
+			return $reflection->getConstant($methodName);
 		}
 
 		return false;
@@ -416,7 +419,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 	 * Clean up the list of locks
 	 */
 	protected static function tearDownAfterClassCleanStrayLocks() {
-		\OC::$server->getLockingProvider()->releaseAll();
+		\OC::$server->get(ILockingProvider::class)->releaseAll();
 	}
 
 	/**
@@ -522,7 +525,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 	protected function IsDatabaseAccessAllowed() {
 		// on travis-ci.org we allow database access in any case - otherwise
 		// this will break all apps right away
-		if (true == getenv('TRAVIS')) {
+		if (getenv('TRAVIS') == true) {
 			return true;
 		}
 		$annotations = $this->getGroupAnnotations();

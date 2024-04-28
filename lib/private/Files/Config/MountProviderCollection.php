@@ -119,7 +119,7 @@ class MountProviderCollection implements IMountProviderCollection, Emitter {
 		return $this->getUserMountsForProviders($user, $providers);
 	}
 
-	public function addMountForUser(IUser $user, IMountManager $mountManager, callable $providerFilter = null) {
+	public function addMountForUser(IUser $user, IMountManager $mountManager, ?callable $providerFilter = null) {
 		// shared mount provider gets to go last since it needs to know existing files
 		// to check for name collisions
 		$firstMounts = [];
@@ -238,6 +238,11 @@ class MountProviderCollection implements IMountProviderCollection, Emitter {
 		$mounts = array_reduce($mounts, function (array $mounts, array $providerMounts) {
 			return array_merge($mounts, $providerMounts);
 		}, []);
+
+		if (count($mounts) === 0) {
+			throw new \Exception("No root mounts provided by any provider");
+		}
+
 		return $mounts;
 	}
 

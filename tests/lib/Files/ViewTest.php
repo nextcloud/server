@@ -7,8 +7,6 @@
 
 namespace Test\Files;
 
-use OC\Share20\ShareDisableChecker;
-use OCP\Cache\CappedMemoryCache;
 use OC\Files\Cache\Watcher;
 use OC\Files\Filesystem;
 use OC\Files\Mount\MountPoint;
@@ -17,6 +15,8 @@ use OC\Files\Storage\Common;
 use OC\Files\Storage\Storage;
 use OC\Files\Storage\Temporary;
 use OC\Files\View;
+use OC\Share20\ShareDisableChecker;
+use OCP\Cache\CappedMemoryCache;
 use OCP\Constants;
 use OCP\Files\Config\IMountProvider;
 use OCP\Files\FileInfo;
@@ -26,6 +26,7 @@ use OCP\Files\Storage\IStorage;
 use OCP\IDBConnection;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
+use OCP\Share\IManager as IShareManager;
 use OCP\Share\IShare;
 use OCP\Util;
 use Test\HookHelper;
@@ -1388,7 +1389,7 @@ class ViewTest extends \Test\TestCase {
 	 * Test that locks are on mount point paths instead of mount root
 	 */
 	public function testLockLocalMountPointPathInsteadOfStorageRoot() {
-		$lockingProvider = \OC::$server->getLockingProvider();
+		$lockingProvider = \OC::$server->get(ILockingProvider::class);
 		$view = new View('/testuser/files/');
 		$storage = new Temporary([]);
 		Filesystem::mount($storage, [], '/');
@@ -1418,7 +1419,7 @@ class ViewTest extends \Test\TestCase {
 	 * Test that locks are on mount point paths and also mount root when requested
 	 */
 	public function testLockStorageRootButNotLocalMountPoint() {
-		$lockingProvider = \OC::$server->getLockingProvider();
+		$lockingProvider = \OC::$server->get(ILockingProvider::class);
 		$view = new View('/testuser/files/');
 		$storage = new Temporary([]);
 		Filesystem::mount($storage, [], '/');
@@ -1448,7 +1449,7 @@ class ViewTest extends \Test\TestCase {
 	 * Test that locks are on mount point paths and also mount root when requested
 	 */
 	public function testLockMountPointPathFailReleasesBoth() {
-		$lockingProvider = \OC::$server->getLockingProvider();
+		$lockingProvider = \OC::$server->get(ILockingProvider::class);
 		$view = new View('/testuser/files/');
 		$storage = new Temporary([]);
 		Filesystem::mount($storage, [], '/');
@@ -1684,7 +1685,7 @@ class ViewTest extends \Test\TestCase {
 
 		$userFolder = \OC::$server->getUserFolder($this->user);
 		$shareDir = $userFolder->get('shareddir');
-		$shareManager = \OC::$server->getShareManager();
+		$shareManager = \OC::$server->get(IShareManager::class);
 		$share = $shareManager->newShare();
 		$share->setSharedWith('test2')
 			->setSharedBy($this->user)

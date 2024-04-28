@@ -32,9 +32,9 @@ use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
+use OCP\Migration\IOutput;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
-use OCP\Migration\IOutput;
 use function in_array;
 
 class RepairDavSharesTest extends TestCase {

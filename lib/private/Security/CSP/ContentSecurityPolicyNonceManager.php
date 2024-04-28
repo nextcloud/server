@@ -65,16 +65,14 @@ class ContentSecurityPolicyNonceManager {
 	 * Check if the browser supports CSP v3
 	 */
 	public function browserSupportsCspV3(): bool {
-		$browserWhitelist = [
-			Request::USER_AGENT_CHROME,
-			Request::USER_AGENT_FIREFOX,
-			Request::USER_AGENT_SAFARI,
+		$browserBlocklist = [
+			Request::USER_AGENT_IE,
 		];
 
-		if ($this->request->isUserAgent($browserWhitelist)) {
-			return true;
+		if ($this->request->isUserAgent($browserBlocklist)) {
+			return false;
 		}
 
-		return false;
+		return true;
 	}
 }

@@ -27,8 +27,8 @@ namespace OCA\DAV\Tests\Unit\DAV\Settings;
 
 use OCA\DAV\Settings\CalDAVSettings;
 use OCP\AppFramework\Http\TemplateResponse;
-use OCP\IConfig;
 use OCP\AppFramework\Services\IInitialState;
+use OCP\IConfig;
 use OCP\IURLGenerator;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
@@ -58,11 +58,11 @@ class CalDAVSettingsTest extends TestCase {
 	public function testGetForm(): void {
 		$this->config->method('getAppValue')
 		   ->withConsecutive(
-			   ['dav', 'sendInvitations', 'yes'],
-			   ['dav', 'generateBirthdayCalendar', 'yes'],
-			   ['dav', 'sendEventReminders', 'yes'],
-			   ['dav', 'sendEventRemindersToSharedUsers', 'yes'],
-			   ['dav', 'sendEventRemindersPush', 'yes'],
+		   	['dav', 'sendInvitations', 'yes'],
+		   	['dav', 'generateBirthdayCalendar', 'yes'],
+		   	['dav', 'sendEventReminders', 'yes'],
+		   	['dav', 'sendEventRemindersToSharedUsers', 'yes'],
+		   	['dav', 'sendEventRemindersPush', 'yes'],
 		   )
 		   ->will($this->onConsecutiveCalls('yes', 'no', 'yes', 'yes', 'yes'));
 		$this->urlGenerator

@@ -23,8 +23,6 @@ declare(strict_types=1);
 
 namespace OCA\Files\Command\Object;
 
-use OCP\DB\QueryBuilder\IQueryBuilder;
-use OCP\IDBConnection;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputArgument;

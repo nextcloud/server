@@ -25,7 +25,6 @@ namespace OCA\Files\Command;
 
 use OC\Core\Command\Info\FileUtils;
 use OCP\Files\Folder;
-use OCP\Files\File;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputArgument;

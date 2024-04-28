@@ -31,6 +31,7 @@
 			:clearable="false"
 			:options="visibilityOptions"
 			:value="visibilityObject"
+			label-outside
 			@option:selected="onVisibilityChange" />
 	</div>
 </template>

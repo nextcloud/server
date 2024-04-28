@@ -24,6 +24,9 @@
  */
 namespace OC\Memcache;
 
+/**
+ * @template-implements \ArrayAccess<string,mixed>
+ */
 abstract class Cache implements \ArrayAccess, \OCP\ICache {
 	/**
 	 * @var string $prefix

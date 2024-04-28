@@ -25,10 +25,10 @@
 namespace OCA\Comments\Controller;
 
 use OCP\AppFramework\Controller;
-use OCP\AppFramework\Http\Attribute\IgnoreOpenAPI;
+use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Http\RedirectResponse;
-use OCP\AppFramework\Http;
 use OCP\Comments\IComment;
 use OCP\Comments\ICommentsManager;
 use OCP\Files\IRootFolder;
@@ -41,7 +41,7 @@ use OCP\Notification\IManager;
 /**
  * @package OCA\Comments\Controller
  */
-#[IgnoreOpenAPI]
+#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class NotificationsController extends Controller {
 	public function __construct(
 		string $appName,

@@ -22,8 +22,8 @@
  */
 namespace OC\Command;
 
-use OC\BackgroundJob\QueuedJob;
 use Laravel\SerializableClosure\SerializableClosure as LaravelClosure;
+use OCP\BackgroundJob\QueuedJob;
 
 class ClosureJob extends QueuedJob {
 	protected function run($argument) {

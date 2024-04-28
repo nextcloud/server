@@ -35,13 +35,6 @@ namespace OC\Group;
 use OC\Hooks\PublicEmitter;
 use OC\User\LazyUser;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\Group\Events\BeforeGroupDeletedEvent;
-use OCP\Group\Events\BeforeUserAddedEvent;
-use OCP\Group\Events\BeforeUserRemovedEvent;
-use OCP\Group\Events\GroupDeletedEvent;
-use OCP\Group\Events\UserAddedEvent;
-use OCP\Group\Events\UserRemovedEvent;
-use OCP\GroupInterface;
 use OCP\Group\Backend\ICountDisabledInGroup;
 use OCP\Group\Backend\IGetDisplayNameBackend;
 use OCP\Group\Backend\IHideFromCollaborationBackend;
@@ -49,7 +42,14 @@ use OCP\Group\Backend\INamedBackend;
 use OCP\Group\Backend\ISearchableGroupBackend;
 use OCP\Group\Backend\ISetDisplayNameBackend;
 use OCP\Group\Events\BeforeGroupChangedEvent;
+use OCP\Group\Events\BeforeGroupDeletedEvent;
+use OCP\Group\Events\BeforeUserAddedEvent;
+use OCP\Group\Events\BeforeUserRemovedEvent;
 use OCP\Group\Events\GroupChangedEvent;
+use OCP\Group\Events\GroupDeletedEvent;
+use OCP\Group\Events\UserAddedEvent;
+use OCP\Group\Events\UserRemovedEvent;
+use OCP\GroupInterface;
 use OCP\IGroup;
 use OCP\IUser;
 use OCP\IUserManager;
@@ -76,7 +76,7 @@ class Group implements IGroup {
 	/** @var PublicEmitter */
 	private $emitter;
 
-	public function __construct(string $gid, array $backends, IEventDispatcher $dispatcher, IUserManager $userManager, PublicEmitter $emitter = null, ?string $displayName = null) {
+	public function __construct(string $gid, array $backends, IEventDispatcher $dispatcher, IUserManager $userManager, ?PublicEmitter $emitter = null, ?string $displayName = null) {
 		$this->gid = $gid;
 		$this->backends = $backends;
 		$this->dispatcher = $dispatcher;
@@ -85,11 +85,11 @@ class Group implements IGroup {
 		$this->displayName = $displayName;
 	}
 
-	public function getGID() {
+	public function getGID(): string {
 		return $this->gid;
 	}
 
-	public function getDisplayName() {
+	public function getDisplayName(): string {
 		if (is_null($this->displayName)) {
 			foreach ($this->backends as $backend) {
 				if ($backend instanceof IGetDisplayNameBackend) {
@@ -126,7 +126,7 @@ class Group implements IGroup {
 	 *
 	 * @return \OC\User\User[]
 	 */
-	public function getUsers() {
+	public function getUsers(): array {
 		if ($this->usersLoaded) {
 			return $this->users;
 		}
@@ -153,7 +153,7 @@ class Group implements IGroup {
 	 * @param IUser $user
 	 * @return bool
 	 */
-	public function inGroup(IUser $user) {
+	public function inGroup(IUser $user): bool {
 		if (isset($this->users[$user->getUID()])) {
 			return true;
 		}
@@ -171,7 +171,7 @@ class Group implements IGroup {
 	 *
 	 * @param IUser $user
 	 */
-	public function addUser(IUser $user) {
+	public function addUser(IUser $user): void {
 		if ($this->inGroup($user)) {
 			return;
 		}
@@ -184,9 +184,7 @@ class Group implements IGroup {
 		foreach ($this->backends as $backend) {
 			if ($backend->implementsActions(\OC\Group\Backend::ADD_TO_GROUP)) {
 				$backend->addToGroup($user->getUID(), $this->gid);
-				if ($this->users) {
-					$this->users[$user->getUID()] = $user;
-				}
+				$this->users[$user->getUID()] = $user;
 
 				$this->dispatcher->dispatchTyped(new UserAddedEvent($this, $user));
 
@@ -200,10 +198,8 @@ class Group implements IGroup {
 
 	/**
 	 * remove a user from the group
-	 *
-	 * @param \OC\User\User $user
 	 */
-	public function removeUser($user) {
+	public function removeUser(IUser $user): void {
 		$result = false;
 		$this->dispatcher->dispatchTyped(new BeforeUserRemovedEvent($this, $user));
 		if ($this->emitter) {
@@ -262,7 +258,7 @@ class Group implements IGroup {
 	 * @param string $search
 	 * @return int|bool
 	 */
-	public function count($search = '') {
+	public function count($search = ''): int|bool {
 		$users = false;
 		foreach ($this->backends as $backend) {
 			if ($backend->implementsActions(\OC\Group\Backend::COUNT_USERS)) {
@@ -282,7 +278,7 @@ class Group implements IGroup {
 	 *
 	 * @return int|bool
 	 */
-	public function countDisabled() {
+	public function countDisabled(): int|bool {
 		$users = false;
 		foreach ($this->backends as $backend) {
 			if ($backend instanceof ICountDisabledInGroup) {
@@ -306,7 +302,7 @@ class Group implements IGroup {
 	 * @return IUser[]
 	 * @deprecated 27.0.0 Use searchUsers instead (same implementation)
 	 */
-	public function searchDisplayName($search, $limit = null, $offset = null) {
+	public function searchDisplayName(string $search, ?int $limit = null, ?int $offset = null): array {
 		return $this->searchUsers($search, $limit, $offset);
 	}
 
@@ -315,7 +311,7 @@ class Group implements IGroup {
 	 *
 	 * @return string[]
 	 */
-	public function getBackendNames() {
+	public function getBackendNames(): array {
 		$backends = [];
 		foreach ($this->backends as $backend) {
 			if ($backend instanceof INamedBackend) {
@@ -329,11 +325,11 @@ class Group implements IGroup {
 	}
 
 	/**
-	 * delete the group
+	 * Delete the group
 	 *
 	 * @return bool
 	 */
-	public function delete() {
+	public function delete(): bool {
 		// Prevent users from deleting group admin
 		if ($this->getGID() === 'admin') {
 			return false;
@@ -378,7 +374,7 @@ class Group implements IGroup {
 	 * @return bool
 	 * @since 14.0.0
 	 */
-	public function canRemoveUser() {
+	public function canRemoveUser(): bool {
 		foreach ($this->backends as $backend) {
 			if ($backend->implementsActions(GroupInterface::REMOVE_FROM_GOUP)) {
 				return true;
@@ -391,7 +387,7 @@ class Group implements IGroup {
 	 * @return bool
 	 * @since 14.0.0
 	 */
-	public function canAddUser() {
+	public function canAddUser(): bool {
 		foreach ($this->backends as $backend) {
 			if ($backend->implementsActions(GroupInterface::ADD_TO_GROUP)) {
 				return true;

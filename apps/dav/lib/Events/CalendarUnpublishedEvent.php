@@ -46,7 +46,7 @@ class CalendarUnpublishedEvent extends Event {
 	 * @since 20.0.0
 	 */
 	public function __construct(int $calendarId,
-								array $calendarData) {
+		array $calendarData) {
 		parent::__construct();
 		$this->calendarId = $calendarId;
 		$this->calendarData = $calendarData;

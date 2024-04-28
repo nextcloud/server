@@ -23,6 +23,7 @@ use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IGroupManager;
+use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserSession;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -98,6 +99,8 @@ class AppManagerTest extends TestCase {
 	/** @var LoggerInterface|MockObject */
 	protected $logger;
 
+	protected IURLGenerator&MockObject $urlGenerator;
+
 	/** @var IAppManager */
 	protected $manager;
 
@@ -112,19 +115,119 @@ class AppManagerTest extends TestCase {
 		$this->cache = $this->createMock(ICache::class);
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
+		$this->urlGenerator = $this->createMock(IURLGenerator::class);
+
+		$this->overwriteService(AppConfig::class, $this->appConfig);
+		$this->overwriteService(IURLGenerator::class, $this->urlGenerator);
+
 		$this->cacheFactory->expects($this->any())
 			->method('createDistributed')
 			->with('settings')
 			->willReturn($this->cache);
+
+		$this->config
+			->method('getSystemValueBool')
+			->with('installed', false)
+			->willReturn(true);
+
 		$this->manager = new AppManager(
 			$this->userSession,
 			$this->config,
-			$this->appConfig,
 			$this->groupManager,
 			$this->cacheFactory,
 			$this->eventDispatcher,
-			$this->logger
+			$this->logger,
 		);
+	}
+
+	/**
+	 * @dataProvider dataGetAppIcon
+	 */
+	public function testGetAppIcon($callback, ?bool $dark, string|null $expected) {
+		$this->urlGenerator->expects($this->atLeastOnce())
+			->method('imagePath')
+			->willReturnCallback($callback);
+
+		if ($dark !== null) {
+			$this->assertEquals($expected, $this->manager->getAppIcon('test', $dark));
+		} else {
+			$this->assertEquals($expected, $this->manager->getAppIcon('test'));
+		}
+	}
+
+	public function dataGetAppIcon(): array {
+		$nothing = function ($appId) {
+			$this->assertEquals('test', $appId);
+			throw new \RuntimeException();
+		};
+
+		$createCallback = function ($workingIcons) {
+			return function ($appId, $icon) use ($workingIcons) {
+				$this->assertEquals('test', $appId);
+				if (in_array($icon, $workingIcons)) {
+					return '/path/' . $icon;
+				}
+				throw new \RuntimeException();
+			};
+		};
+
+		return [
+			'does not find anything' => [
+				$nothing,
+				false,
+				null,
+			],
+			'nothing if request dark but only bright available' => [
+				$createCallback(['app.svg']),
+				true,
+				null,
+			],
+			'nothing if request bright but only dark available' => [
+				$createCallback(['app-dark.svg']),
+				false,
+				null,
+			],
+			'bright and only app.svg' => [
+				$createCallback(['app.svg']),
+				false,
+				'/path/app.svg',
+			],
+			'dark and only app-dark.svg' => [
+				$createCallback(['app-dark.svg']),
+				true,
+				'/path/app-dark.svg',
+			],
+			'dark only appname -dark.svg' => [
+				$createCallback(['test-dark.svg']),
+				true,
+				'/path/test-dark.svg',
+			],
+			'bright and only appname.svg' => [
+				$createCallback(['test.svg']),
+				false,
+				'/path/test.svg',
+			],
+			'priotize custom over default' => [
+				$createCallback(['app.svg', 'test.svg']),
+				false,
+				'/path/test.svg',
+			],
+			'defaults to bright' => [
+				$createCallback(['test-dark.svg', 'test.svg']),
+				null,
+				'/path/test.svg',
+			],
+			'no dark icon on default' => [
+				$createCallback(['test-dark.svg', 'test.svg', 'app-dark.svg', 'app.svg']),
+				false,
+				'/path/test.svg',
+			],
+			'no bright icon on dark' => [
+				$createCallback(['test-dark.svg', 'test.svg', 'app-dark.svg', 'app.svg']),
+				true,
+				'/path/test-dark.svg',
+			],
+		];
 	}
 
 	public function testEnableApp() {
@@ -170,9 +273,14 @@ class AppManagerTest extends TestCase {
 		/** @var AppManager|MockObject $manager */
 		$manager = $this->getMockBuilder(AppManager::class)
 			->setConstructorArgs([
-				$this->userSession, $this->config, $this->appConfig, $this->groupManager, $this->cacheFactory, $this->eventDispatcher, $this->logger
+				$this->userSession,
+				$this->config,
+				$this->groupManager,
+				$this->cacheFactory,
+				$this->eventDispatcher,
+				$this->logger,
 			])
-			->setMethods([
+			->onlyMethods([
 				'getAppPath',
 			])
 			->getMock();
@@ -218,9 +326,14 @@ class AppManagerTest extends TestCase {
 		/** @var AppManager|MockObject $manager */
 		$manager = $this->getMockBuilder(AppManager::class)
 			->setConstructorArgs([
-				$this->userSession, $this->config, $this->appConfig, $this->groupManager, $this->cacheFactory, $this->eventDispatcher, $this->logger
+				$this->userSession,
+				$this->config,
+				$this->groupManager,
+				$this->cacheFactory,
+				$this->eventDispatcher,
+				$this->logger,
 			])
-			->setMethods([
+			->onlyMethods([
 				'getAppPath',
 				'getAppInfo',
 			])
@@ -274,9 +387,14 @@ class AppManagerTest extends TestCase {
 		/** @var AppManager|MockObject $manager */
 		$manager = $this->getMockBuilder(AppManager::class)
 			->setConstructorArgs([
-				$this->userSession, $this->config, $this->appConfig, $this->groupManager, $this->cacheFactory, $this->eventDispatcher, $this->logger
+				$this->userSession,
+				$this->config,
+				$this->groupManager,
+				$this->cacheFactory,
+				$this->eventDispatcher,
+				$this->logger,
 			])
-			->setMethods([
+			->onlyMethods([
 				'getAppPath',
 				'getAppInfo',
 			])
@@ -470,8 +588,15 @@ class AppManagerTest extends TestCase {
 	public function testGetAppsNeedingUpgrade() {
 		/** @var AppManager|MockObject $manager */
 		$manager = $this->getMockBuilder(AppManager::class)
-			->setConstructorArgs([$this->userSession, $this->config, $this->appConfig, $this->groupManager, $this->cacheFactory, $this->eventDispatcher, $this->logger])
-			->setMethods(['getAppInfo'])
+			->setConstructorArgs([
+				$this->userSession,
+				$this->config,
+				$this->groupManager,
+				$this->cacheFactory,
+				$this->eventDispatcher,
+				$this->logger,
+			])
+			->onlyMethods(['getAppInfo'])
 			->getMock();
 
 		$appInfos = [
@@ -521,8 +646,15 @@ class AppManagerTest extends TestCase {
 	public function testGetIncompatibleApps() {
 		/** @var AppManager|MockObject $manager */
 		$manager = $this->getMockBuilder(AppManager::class)
-			->setConstructorArgs([$this->userSession, $this->config, $this->appConfig, $this->groupManager, $this->cacheFactory, $this->eventDispatcher, $this->logger])
-			->setMethods(['getAppInfo'])
+			->setConstructorArgs([
+				$this->userSession,
+				$this->config,
+				$this->groupManager,
+				$this->cacheFactory,
+				$this->eventDispatcher,
+				$this->logger,
+			])
+			->onlyMethods(['getAppInfo'])
 			->getMock();
 
 		$appInfos = [
@@ -609,20 +741,47 @@ class AppManagerTest extends TestCase {
 				'',
 				'',
 				'{}',
+				true,
 				'files',
+			],
+			// none specified, without fallback
+			[
+				'',
+				'',
+				'{}',
+				false,
+				'',
 			],
 			// unexisting or inaccessible app specified, default to files
 			[
 				'unexist',
 				'',
 				'{}',
+				true,
 				'files',
+			],
+			// unexisting or inaccessible app specified, without fallbacks
+			[
+				'unexist',
+				'',
+				'{}',
+				false,
+				'',
 			],
 			// non-standard app
 			[
 				'settings',
 				'',
 				'{}',
+				true,
+				'settings',
+			],
+			// non-standard app, without fallback
+			[
+				'settings',
+				'',
+				'{}',
+				false,
 				'settings',
 			],
 			// non-standard app with fallback
@@ -630,20 +789,74 @@ class AppManagerTest extends TestCase {
 				'unexist,settings',
 				'',
 				'{}',
+				true,
 				'settings',
+			],
+			// system default app and user apporder
+			[
+				// system default is settings
+				'unexist,settings',
+				'',
+				// apporder says default app is files (order is lower)
+				'{"files_id":{"app":"files","order":1},"settings_id":{"app":"settings","order":2}}',
+				true,
+				// system default should override apporder
+				'settings'
 			],
 			// user-customized defaultapp
 			[
+				'',
+				'files',
+				'',
+				true,
+				'files',
+			],
+			// user-customized defaultapp with systemwide
+			[
 				'unexist,settings',
 				'files',
-				'{"settings":[1],"files":[2]}',
+				'',
+				true,
+				'files',
+			],
+			// user-customized defaultapp with system wide and apporder
+			[
+				'unexist,settings',
+				'files',
+				'{"settings_id":{"app":"settings","order":1},"files_id":{"app":"files","order":2}}',
+				true,
 				'files',
 			],
 			// user-customized apporder fallback
 			[
 				'',
 				'',
-				'{"settings":[1],"files":[2]}',
+				'{"settings_id":{"app":"settings","order":1},"files":{"app":"files","order":2}}',
+				true,
+				'settings',
+			],
+			// user-customized apporder fallback with missing app key (entries added by closures does not always have an app key set (Nextcloud 27 spreed app for example))
+			[
+				'',
+				'',
+				'{"spreed":{"order":1},"files":{"app":"files","order":2}}',
+				true,
+				'files',
+			],
+			// user-customized apporder, but called without fallback
+			[
+				'',
+				'',
+				'{"settings":{"app":"settings","order":1},"files":{"app":"files","order":2}}',
+				false,
+				'',
+			],
+			// user-customized apporder with an app that has multiple routes
+			[
+				'',
+				'',
+				'{"settings_id":{"app":"settings","order":1},"settings_id_2":{"app":"settings","order":3},"id_files":{"app":"files","order":2}}',
+				true,
 				'settings',
 			],
 		];
@@ -652,7 +865,7 @@ class AppManagerTest extends TestCase {
 	/**
 	 * @dataProvider provideDefaultApps
 	 */
-	public function testGetDefaultAppForUser($defaultApps, $userDefaultApps, $userApporder, $expectedApp) {
+	public function testGetDefaultAppForUser($defaultApps, $userDefaultApps, $userApporder, $withFallbacks, $expectedApp) {
 		$user = $this->newUser('user1');
 
 		$this->userSession->expects($this->once())
@@ -671,6 +884,6 @@ class AppManagerTest extends TestCase {
 				['user1', 'core', 'apporder', '[]', $userApporder],
 			]);
 
-		$this->assertEquals($expectedApp, $this->manager->getDefaultAppForUser());
+		$this->assertEquals($expectedApp, $this->manager->getDefaultAppForUser(null, $withFallbacks));
 	}
 }

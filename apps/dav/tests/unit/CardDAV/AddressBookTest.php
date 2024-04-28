@@ -29,7 +29,6 @@ namespace OCA\DAV\Tests\unit\CardDAV;
 use OCA\DAV\CardDAV\AddressBook;
 use OCA\DAV\CardDAV\Card;
 use OCA\DAV\CardDAV\CardDavBackend;
-use OCA\DAV\DAV\CustomPropertiesBackend;
 use OCP\IL10N;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
@@ -170,7 +169,7 @@ class AddressBookTest extends TestCase {
 			'protected' => true
 		], [
 			'privilege' => '{DAV:}write-properties',
-			'principal' => '{DAV:}authenticated',
+			'principal' => $hasOwnerSet ? 'user1' : 'user2',
 			'protected' => true
 		]];
 		if ($hasOwnerSet) {

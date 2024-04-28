@@ -40,7 +40,6 @@ OC.L10N.register(
     "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "このオプションを有効にすると、外部ストレージ接続ストレージだけが暗号化されるのではなく、メインストレージのファイルすべてが暗号化されます。",
     "Enable recovery key" : "復旧キーを有効にする",
     "Disable recovery key" : "復旧キーを無効にする",
-    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "復旧キーは、ファイルの暗号化に使う特別な暗号化キーです。ユーザーがパスワードを忘れてしまった場合には、リカバリキーを使ってユーザーのファイルを復元することができます。",
     "Recovery key password" : "復旧キーのパスワード",
     "Repeat recovery key password" : "復旧キーのパスワードをもう一度入力",
     "Change recovery key password:" : "復旧キーのパスワードを変更:",
@@ -59,10 +58,6 @@ OC.L10N.register(
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "このオプションを有効にすると、パスワードを紛失した場合も、暗号化されたファイルに再度アクセスすることができるようになります。",
     "Enabled" : "有効",
     "Disabled" : "無効",
-    "In order to use this encryption module you need to enable server-side\n\t\tencryption in the admin settings. Once enabled this module will encrypt\n\t\tall your files transparently. The encryption is based on AES 256 keys.\n\t\tThe module won't touch existing files, only new files will be encrypted\n\t\tafter server-side encryption was enabled. It is also not possible to\n\t\tdisable the encryption again and switch back to a unencrypted system.\n\t\tPlease read the documentation to know all implications before you decide\n\t\tto enable server-side encryption." : "この暗号化モジュールを使うには管理者画面でサーバーサイド暗号化を有効にする\n\t\t必要があります。このモジュールを一旦有効にすると全てのファイルが\n\t\t意識することなく暗号化されます。AES 256bit の鍵で暗号化されます。\n\t\tこのモジュールは既存ファイルはそのままで、サーバーサイド暗号化を\n\t\t有効にした後の新しいファイルのみ暗号化します。 一旦暗号化したシステムを\n\t\t無効化して元の暗号化されていない状態に戻すことはできません。\n\t\tサーバーサイド暗号化するかどうか決める前にドキュメントをよく読んで\n\t\t全ての要件を確認してください。",
-    "Hey there,\n\nThe administration enabled server-side-encryption. Your files were encrypted using the password \"%s\".\n\nPlease login to the web interface, go to the section \"Basic encryption module\" of your personal settings and update your encryption password by entering this password into the \"Old log-in password\" field and your current login-password.\n\n" : "こんにちは\n\n管理者がサーバーサイド暗号化を有効にしました。\"%s\"というパスワードであなたのファイルが暗号化されました。\n\nWeb画面からログインして、個人設定画面の\"基本暗号化モジュール\"セクションにいき、暗号化パスワードの更新をお願いします。\"旧ログインパスワード\"部分に上記パスワードを入力し、現在のログインパスワードで更新します。\n",
-    "The share will expire on %s." : "共有は %s で有効期限が切れます。",
-    "Cheers!" : "それでは！",
-    "Hey there,<br><br>The administration enabled server-side-encryption. Your files were encrypted using the password <strong>%s</strong>.<br><br>Please login to the web interface, go to the section \"Basic encryption module\" of your personal settings and update your encryption password by entering this password into the \"Old log-in password\" field and your current login-password.<br><br>" : "こんにちは、<br><br>管理者がサーバーサイド暗号化を有効にしました。<strong>%s</strong>というパスワードであなたのファイルが暗号化されました。<br><br>Web画面からログインして、個人設定画面の\"基本暗号化モジュール\"のセクションにいき、暗号化パスワードの更新をお願いします。\"旧ログインパスワード\"部分に上記パスワードを入力し、現在のログインパスワードで更新します。<br><br>"
+    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "復旧キーは、ファイルの暗号化に使う特別な暗号化キーです。ユーザーがパスワードを忘れてしまった場合には、リカバリキーを使ってユーザーのファイルを復元することができます。"
 },
 "nplurals=1; plural=0;");

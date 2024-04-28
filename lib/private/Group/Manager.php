@@ -52,6 +52,7 @@ use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IUser;
 use Psr\Log\LoggerInterface;
+use function is_string;
 
 /**
  * Class Manager
@@ -89,9 +90,9 @@ class Manager extends PublicEmitter implements IGroupManager {
 	private DisplayNameCache $displayNameCache;
 
 	public function __construct(\OC\User\Manager $userManager,
-								IEventDispatcher $dispatcher,
-								LoggerInterface $logger,
-								ICacheFactory $cacheFactory) {
+		IEventDispatcher $dispatcher,
+		LoggerInterface $logger,
+		ICacheFactory $cacheFactory) {
 		$this->userManager = $userManager;
 		$this->dispatcher = $dispatcher;
 		$this->logger = $logger;
@@ -322,7 +323,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 	 * @param IUser|null $user
 	 * @return \OC\Group\Group[]
 	 */
-	public function getUserGroups(IUser $user = null) {
+	public function getUserGroups(?IUser $user = null) {
 		if (!$user instanceof IUser) {
 			return [];
 		}
@@ -356,7 +357,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 	 */
 	public function isAdmin($userId) {
 		foreach ($this->backends as $backend) {
-			if ($backend->implementsActions(Backend::IS_ADMIN) && $backend->isAdmin($userId)) {
+			if (is_string($userId) && $backend->implementsActions(Backend::IS_ADMIN) && $backend->isAdmin($userId)) {
 				return true;
 			}
 		}
@@ -371,7 +372,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 	 * @return bool if in group
 	 */
 	public function isInGroup($userId, $group) {
-		return array_search($group, $this->getUserIdGroupIds($userId)) !== false;
+		return in_array($group, $this->getUserIdGroupIds($userId));
 	}
 
 	/**

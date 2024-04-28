@@ -39,34 +39,17 @@ use OCP\IL10N;
 use Psr\Log\LoggerInterface;
 
 class Manager implements IManager {
-	/** @var array */
-	protected $encryptionModules;
+	protected array $encryptionModules;
 
-	/** @var IConfig */
-	protected $config;
-
-	protected LoggerInterface $logger;
-
-	/** @var Il10n */
-	protected $l;
-
-	/** @var View  */
-	protected $rootView;
-
-	/** @var Util  */
-	protected $util;
-
-	/** @var ArrayCache  */
-	protected $arrayCache;
-
-	public function __construct(IConfig $config, LoggerInterface $logger, IL10N $l10n, View $rootView, Util $util, ArrayCache $arrayCache) {
+	public function __construct(
+		protected IConfig $config,
+		protected LoggerInterface $logger,
+		protected IL10N $l,
+		protected View $rootView,
+		protected Util $util,
+		protected ArrayCache $arrayCache,
+	) {
 		$this->encryptionModules = [];
-		$this->config = $config;
-		$this->logger = $logger;
-		$this->l = $l10n;
-		$this->rootView = $rootView;
-		$this->util = $util;
-		$this->arrayCache = $arrayCache;
 	}
 
 	/**

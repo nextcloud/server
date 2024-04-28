@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2018, Patrik Kernstock <info@pkern.at>
  *
@@ -47,7 +50,7 @@ class Remove extends Command implements CompletionAwareInterface {
 		parent::__construct();
 	}
 
-	protected function configure() {
+	protected function configure(): void {
 		$this
 			->setName('app:remove')
 			->setDescription('remove an app')
@@ -68,7 +71,7 @@ class Remove extends Command implements CompletionAwareInterface {
 		$appId = $input->getArgument('app-id');
 
 		// Check if the app is installed
-		if (!\OC_App::getAppPath($appId)) {
+		if (!$this->manager->isInstalled($appId)) {
 			$output->writeln($appId . ' is not installed');
 			return 1;
 		}
@@ -124,7 +127,7 @@ class Remove extends Command implements CompletionAwareInterface {
 	 * @param CompletionContext $context
 	 * @return string[]
 	 */
-	public function completeOptionValues($optionName, CompletionContext $context) {
+	public function completeOptionValues($optionName, CompletionContext $context): array {
 		return [];
 	}
 
@@ -133,9 +136,9 @@ class Remove extends Command implements CompletionAwareInterface {
 	 * @param CompletionContext $context
 	 * @return string[]
 	 */
-	public function completeArgumentValues($argumentName, CompletionContext $context) {
+	public function completeArgumentValues($argumentName, CompletionContext $context): array {
 		if ($argumentName === 'app-id') {
-			return \OC_App::getAllApps();
+			return $this->manager->getInstalledApps();
 		}
 		return [];
 	}

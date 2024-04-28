@@ -35,6 +35,7 @@ namespace OCA\Files_Sharing\ShareBackend;
 
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCP\Share\IShare;
+use Psr\Log\LoggerInterface;
 
 class File implements \OCP\Share_Backend_File_Dependent {
 	public const FORMAT_SHARED_STORAGE = 0;
@@ -50,7 +51,7 @@ class File implements \OCP\Share_Backend_File_Dependent {
 	/** @var FederatedShareProvider */
 	private $federatedShareProvider;
 
-	public function __construct(FederatedShareProvider $federatedShareProvider = null) {
+	public function __construct(?FederatedShareProvider $federatedShareProvider = null) {
 		if ($federatedShareProvider) {
 			$this->federatedShareProvider = $federatedShareProvider;
 		} else {
@@ -233,7 +234,7 @@ class File implements \OCP\Share_Backend_File_Dependent {
 		if (isset($fileOwner)) {
 			$source['fileOwner'] = $fileOwner;
 		} else {
-			\OC::$server->getLogger()->error('No owner found for reshare', ['app' => 'files_sharing']);
+			\OCP\Server::get(LoggerInterface::class)->error('No owner found for reshare', ['app' => 'files_sharing']);
 		}
 
 		return $source;

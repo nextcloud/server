@@ -30,15 +30,6 @@ declare(strict_types=1);
 namespace OC\AppFramework\Bootstrap;
 
 use Closure;
-use OCP\Calendar\Resource\IBackend as IResourceBackend;
-use OCP\Calendar\Room\IBackend as IRoomBackend;
-use OCP\Collaboration\Reference\IReferenceProvider;
-use OCP\TextProcessing\IProvider as ITextProcessingProvider;
-use OCP\SpeechToText\ISpeechToTextProvider;
-use OCP\Talk\ITalkBackend;
-use OCP\Translation\ITranslationProvider;
-use RuntimeException;
-use function array_shift;
 use OC\Support\CrashReport\Registry;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
@@ -46,7 +37,10 @@ use OCP\AppFramework\Middleware;
 use OCP\AppFramework\Services\InitialStateProvider;
 use OCP\Authentication\IAlternativeLogin;
 use OCP\Calendar\ICalendarProvider;
+use OCP\Calendar\Resource\IBackend as IResourceBackend;
+use OCP\Calendar\Room\IBackend as IRoomBackend;
 use OCP\Capabilities\ICapability;
+use OCP\Collaboration\Reference\IReferenceProvider;
 use OCP\Dashboard\IManager;
 use OCP\Dashboard\IWidget;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -55,11 +49,20 @@ use OCP\Http\WellKnown\IHandler;
 use OCP\Notification\INotifier;
 use OCP\Profile\ILinkAction;
 use OCP\Search\IProvider;
+use OCP\Settings\IDeclarativeSettingsForm;
+use OCP\SetupCheck\ISetupCheck;
 use OCP\Share\IPublicShareTemplateProvider;
+use OCP\SpeechToText\ISpeechToTextProvider;
 use OCP\Support\CrashReport\IReporter;
+use OCP\Talk\ITalkBackend;
+use OCP\Teams\ITeamResourceProvider;
+use OCP\TextProcessing\IProvider as ITextProcessingProvider;
+use OCP\Translation\ITranslationProvider;
 use OCP\UserMigration\IMigrator as IUserMigrator;
 use Psr\Log\LoggerInterface;
+use RuntimeException;
 use Throwable;
+use function array_shift;
 
 class RegistrationContext {
 	/** @var ServiceRegistration<ICapability>[] */
@@ -137,17 +140,28 @@ class RegistrationContext {
 	/** @var ServiceRegistration<IReferenceProvider>[] */
 	private array $referenceProviders = [];
 
+	/** @var ServiceRegistration<\OCP\TextToImage\IProvider>[] */
+	private $textToImageProviders = [];
+
 	/** @var ParameterRegistration[] */
 	private $sensitiveMethods = [];
 
 	/** @var ServiceRegistration<IPublicShareTemplateProvider>[] */
 	private $publicShareTemplateProviders = [];
 
-	/** @var LoggerInterface */
-	private $logger;
+	private LoggerInterface $logger;
+
+	/** @var ServiceRegistration<ISetupCheck>[] */
+	private array $setupChecks = [];
 
 	/** @var PreviewProviderRegistration[] */
-	private $previewProviders = [];
+	private array $previewProviders = [];
+
+	/** @var ServiceRegistration<IDeclarativeSettingsForm>[] */
+	private array $declarativeSettings = [];
+
+	/** @var ServiceRegistration<ITeamResourceProvider>[] */
+	private array $teamResourceProviders = [];
 
 	public function __construct(LoggerInterface $logger) {
 		$this->logger = $logger;
@@ -270,6 +284,13 @@ class RegistrationContext {
 				);
 			}
 
+			public function registerTextToImageProvider(string $providerClass): void {
+				$this->context->registerTextToImageProvider(
+					$this->appId,
+					$providerClass
+				);
+			}
+
 			public function registerTemplateProvider(string $providerClass): void {
 				$this->context->registerTemplateProvider(
 					$this->appId,
@@ -341,6 +362,13 @@ class RegistrationContext {
 				);
 			}
 
+			public function registerTeamResourceProvider(string $class) : void {
+				$this->context->registerTeamResourceProvider(
+					$this->appId,
+					$class
+				);
+			}
+
 			public function registerCalendarRoomBackend(string $class): void {
 				$this->context->registerCalendarRoomBackend(
 					$this->appId,
@@ -367,6 +395,20 @@ class RegistrationContext {
 				$this->context->registerPublicShareTemplateProvider(
 					$this->appId,
 					$class
+				);
+			}
+
+			public function registerSetupCheck(string $setupCheckClass): void {
+				$this->context->registerSetupCheck(
+					$this->appId,
+					$setupCheckClass
+				);
+			}
+
+			public function registerDeclarativeSettings(string $declarativeSettingsClass): void {
+				$this->context->registerDeclarativeSettings(
+					$this->appId,
+					$declarativeSettingsClass
 				);
 			}
 		};
@@ -440,6 +482,10 @@ class RegistrationContext {
 		$this->textProcessingProviders[] = new ServiceRegistration($appId, $class);
 	}
 
+	public function registerTextToImageProvider(string $appId, string $class): void {
+		$this->textToImageProviders[] = new ServiceRegistration($appId, $class);
+	}
+
 	public function registerTemplateProvider(string $appId, string $class): void {
 		$this->templateProviders[] = new ServiceRegistration($appId, $class);
 	}
@@ -505,6 +551,16 @@ class RegistrationContext {
 	}
 
 	/**
+	 * @psalm-param class-string<ITeamResourceProvider> $class
+	 */
+	public function registerTeamResourceProvider(string $appId, string $class) {
+		$this->teamResourceProviders[] = new ServiceRegistration(
+			$appId,
+			$class
+		);
+	}
+
+	/**
 	 * @psalm-param class-string<IUserMigrator> $migratorClass
 	 */
 	public function registerUserMigrator(string $appId, string $migratorClass): void {
@@ -518,6 +574,20 @@ class RegistrationContext {
 
 	public function registerPublicShareTemplateProvider(string $appId, string $class): void {
 		$this->publicShareTemplateProviders[] = new ServiceRegistration($appId, $class);
+	}
+
+	/**
+	 * @psalm-param class-string<ISetupCheck> $setupCheckClass
+	 */
+	public function registerSetupCheck(string $appId, string $setupCheckClass): void {
+		$this->setupChecks[] = new ServiceRegistration($appId, $setupCheckClass);
+	}
+
+	/**
+	 * @psalm-param class-string<IDeclarativeSettingsForm> $declarativeSettingsClass
+	 */
+	public function registerDeclarativeSettings(string $appId, string $declarativeSettingsClass): void {
+		$this->declarativeSettings[] = new ServiceRegistration($appId, $declarativeSettingsClass);
 	}
 
 	/**
@@ -723,6 +793,13 @@ class RegistrationContext {
 	}
 
 	/**
+	 * @return ServiceRegistration<\OCP\TextToImage\IProvider>[]
+	 */
+	public function getTextToImageProviders(): array {
+		return $this->textToImageProviders;
+	}
+
+	/**
 	 * @return ServiceRegistration<ICustomTemplateProvider>[]
 	 */
 	public function getTemplateProviders(): array {
@@ -821,5 +898,26 @@ class RegistrationContext {
 	 */
 	public function getPublicShareTemplateProviders(): array {
 		return $this->publicShareTemplateProviders;
+	}
+
+	/**
+	 * @return ServiceRegistration<ISetupCheck>[]
+	 */
+	public function getSetupChecks(): array {
+		return $this->setupChecks;
+	}
+
+	/**
+	 * @return ServiceRegistration<ITeamResourceProvider>[]
+	 */
+	public function getTeamResourceProviders(): array {
+		return $this->teamResourceProviders;
+	}
+
+	/**
+	 * @return ServiceRegistration<IDeclarativeSettingsForm>[]
+	 */
+	public function getDeclarativeSettings(): array {
+		return $this->declarativeSettings;
 	}
 }

@@ -49,8 +49,8 @@ class RegisterRegenerateBirthdayCalendars extends QueuedJob {
 	 * @param IJobList $jobList
 	 */
 	public function __construct(ITimeFactory $time,
-								IUserManager $userManager,
-								IJobList $jobList) {
+		IUserManager $userManager,
+		IJobList $jobList) {
 		parent::__construct($time);
 		$this->userManager = $userManager;
 		$this->jobList = $jobList;

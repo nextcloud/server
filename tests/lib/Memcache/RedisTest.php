@@ -9,11 +9,18 @@
 
 namespace Test\Memcache;
 
+use OC\Memcache\Redis;
+
 /**
  * @group Memcache
  * @group Redis
  */
 class RedisTest extends Cache {
+	/**
+	 * @var Redis cache;
+	 */
+	protected $instance;
+
 	public static function setUpBeforeClass(): void {
 		parent::setUpBeforeClass();
 
@@ -61,5 +68,19 @@ class RedisTest extends Cache {
 		foreach (\OC\Memcache\Redis::LUA_SCRIPTS as $script) {
 			$this->assertEquals(sha1($script[0]), $script[1]);
 		}
+	}
+
+	public function testCasTtlNotChanged() {
+		$this->instance->set('foo', 'bar', 50);
+		$this->assertTrue($this->instance->compareSetTTL('foo', 'bar', 100));
+		// allow for 1s of inaccuracy due to time moving forward
+		$this->assertLessThan(1, 100 - $this->instance->getTTL('foo'));
+	}
+
+	public function testCasTtlChanged() {
+		$this->instance->set('foo', 'bar1', 50);
+		$this->assertFalse($this->instance->compareSetTTL('foo', 'bar', 100));
+		// allow for 1s of inaccuracy due to time moving forward
+		$this->assertLessThan(1, 50 - $this->instance->getTTL('foo'));
 	}
 }

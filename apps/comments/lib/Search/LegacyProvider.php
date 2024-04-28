@@ -26,12 +26,12 @@ declare(strict_types=1);
 namespace OCA\Comments\Search;
 
 use OCP\Comments\IComment;
+use OCP\Comments\ICommentsManager;
 use OCP\Files\Folder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\IUser;
 use OCP\Search\Provider;
-use OCP\Comments\ICommentsManager;
 use function count;
 
 class LegacyProvider extends Provider {

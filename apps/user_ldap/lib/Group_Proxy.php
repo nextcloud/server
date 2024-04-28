@@ -33,12 +33,13 @@ use OCP\Group\Backend\IBatchMethodsBackend;
 use OCP\Group\Backend\IDeleteGroupBackend;
 use OCP\Group\Backend\IGetDisplayNameBackend;
 use OCP\Group\Backend\IGroupDetailsBackend;
+use OCP\Group\Backend\IIsAdminBackend;
 use OCP\Group\Backend\INamedBackend;
 use OCP\GroupInterface;
 use OCP\IConfig;
 use OCP\IUserManager;
 
-class Group_Proxy extends Proxy implements \OCP\GroupInterface, IGroupLDAP, IGetDisplayNameBackend, INamedBackend, IDeleteGroupBackend, IBatchMethodsBackend {
+class Group_Proxy extends Proxy implements \OCP\GroupInterface, IGroupLDAP, IGetDisplayNameBackend, INamedBackend, IDeleteGroupBackend, IBatchMethodsBackend, IIsAdminBackend {
 	private $backends = [];
 	private ?Group_LDAP $refBackend = null;
 	private Helper $helper;
@@ -177,7 +178,7 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface, IGroupLDAP, IGet
 			}
 		}
 
-		return $groups;
+		return array_values(array_unique($groups));
 	}
 
 	/**
@@ -370,9 +371,9 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface, IGroupLDAP, IGet
 	 * The connection needs to be closed manually.
 	 *
 	 * @param string $gid
-	 * @return resource|\LDAP\Connection The LDAP connection
+	 * @return \LDAP\Connection The LDAP connection
 	 */
-	public function getNewLDAPConnection($gid) {
+	public function getNewLDAPConnection($gid): \LDAP\Connection {
 		return $this->handleRequest($gid, 'getNewLDAPConnection', [$gid]);
 	}
 
@@ -395,5 +396,9 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface, IGroupLDAP, IGet
 
 	public function addRelationshipToCaches(string $uid, ?string $dnUser, string $gid): void {
 		$this->handleRequest($gid, 'addRelationshipToCaches', [$uid, $dnUser, $gid]);
+	}
+
+	public function isAdmin(string $uid): bool {
+		return $this->handleRequest($uid, 'isAdmin', [$uid]);
 	}
 }

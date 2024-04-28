@@ -55,10 +55,13 @@ OC.L10N.register(
     "iOS client" : "iOS 클라이언트",
     "Desktop client" : "데스크톱 클라이언트",
     "Thunderbird & Outlook addons" : "Thunderbird와 Outlook 확장 기능",
+    "Select groups" : "그룹 선택",
+    "Groups" : "그룹",
     "At least one event must be selected" : "적어도 하나의 이벤트는 선택해야합니다.",
     "Add new flow" : "새 흐름 추가",
     "When" : "언제",
     "and" : "그리고",
+    "Add a new filter" : "새 필터 추가",
     "Cancel" : "취소",
     "Delete" : "삭제",
     "The configuration is invalid" : "설정이 잘못됨",
@@ -96,10 +99,8 @@ OC.L10N.register(
     "between" : "사이",
     "not between" : "사이에 없음",
     "Request user agent" : "요청 사용자 에이전트",
-    "User group membership" : "사용자 그룹 구성원",
     "is member of" : "구성원임",
     "is not member of" : "구성원이 아님",
-    "Predefined URLs" : "사전 정의된 URL",
-    "Others" : "기타"
+    "User group membership" : "사용자 그룹 구성원"
 },
 "nplurals=1; plural=0;");

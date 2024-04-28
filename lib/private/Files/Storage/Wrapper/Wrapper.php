@@ -31,11 +31,14 @@
  */
 namespace OC\Files\Storage\Wrapper;
 
+use OC\Files\Storage\FailedStorage;
 use OCP\Files\InvalidPathException;
 use OCP\Files\Storage\ILockingStorage;
 use OCP\Files\Storage\IStorage;
 use OCP\Files\Storage\IWriteStreamStorage;
 use OCP\Lock\ILockingProvider;
+use OCP\Server;
+use Psr\Log\LoggerInterface;
 
 class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage, IWriteStreamStorage {
 	/**
@@ -60,6 +63,12 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage, IWriteStrea
 	 * @return \OC\Files\Storage\Storage
 	 */
 	public function getWrapperStorage() {
+		if (!$this->storage) {
+			$message = "storage wrapper " . get_class($this) . " doesn't have a wrapped storage set";
+			$logger = Server::get(LoggerInterface::class);
+			$logger->error($message);
+			$this->storage = new FailedStorage(['exception' => new \Exception($message)]);
+		}
 		return $this->storage;
 	}
 
@@ -637,7 +646,7 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage, IWriteStrea
 		return $this->getWrapperStorage()->needsPartFile();
 	}
 
-	public function writeStream(string $path, $stream, int $size = null): int {
+	public function writeStream(string $path, $stream, ?int $size = null): int {
 		$storage = $this->getWrapperStorage();
 		if ($storage->instanceOfStorage(IWriteStreamStorage::class)) {
 			/** @var IWriteStreamStorage $storage */
@@ -653,5 +662,20 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage, IWriteStrea
 
 	public function getDirectoryContent($directory): \Traversable {
 		return $this->getWrapperStorage()->getDirectoryContent($directory);
+	}
+
+	public function isWrapperOf(IStorage $storage) {
+		$wrapped = $this->getWrapperStorage();
+		if ($wrapped === $storage) {
+			return true;
+		}
+		if ($wrapped instanceof Wrapper) {
+			return $wrapped->isWrapperOf($storage);
+		}
+		return false;
+	}
+
+	public function setOwner(?string $user): void {
+		$this->getWrapperStorage()->setOwner($user);
 	}
 }

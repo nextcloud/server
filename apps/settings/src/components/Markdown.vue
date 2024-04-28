@@ -35,6 +35,10 @@ export default {
 			type: String,
 			default: '',
 		},
+		minHeading: {
+			type: Number,
+			default: 1,
+		},
 	},
 	computed: {
 		renderMarkdown() {
@@ -59,6 +63,10 @@ export default {
 				}
 				out += '>' + text + '</a>'
 				return out
+			}
+			renderer.heading = (text, level) => {
+				level = Math.min(6, level + (this.minHeading - 1))
+				return `<h${level}>${text}</h${level}>`
 			}
 			renderer.image = function(href, title, text) {
 				if (text) {

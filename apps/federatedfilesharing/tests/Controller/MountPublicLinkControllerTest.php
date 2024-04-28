@@ -48,8 +48,8 @@ use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
-use Psr\Log\LoggerInterface;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
 
 class MountPublicLinkControllerTest extends \Test\TestCase {
 	/** @var IContactsManager|MockObject */
@@ -145,13 +145,13 @@ class MountPublicLinkControllerTest extends \Test\TestCase {
 	 * @param string $expectedReturnData
 	 */
 	public function testCreateFederatedShare($shareWith,
-											 $outgoingSharesAllowed,
-											 $validShareWith,
-											 $token,
-											 $validToken,
-											 $createSuccessful,
-											 $expectedReturnData,
-											 $permissions
+		$outgoingSharesAllowed,
+		$validShareWith,
+		$token,
+		$validToken,
+		$createSuccessful,
+		$expectedReturnData,
+		$permissions
 	) {
 		$this->federatedShareProvider->expects($this->any())
 			->method('isOutgoingServer2serverShareEnabled')

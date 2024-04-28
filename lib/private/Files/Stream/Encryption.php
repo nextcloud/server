@@ -153,18 +153,18 @@ class Encryption extends Wrapper {
 	 * @throws \BadMethodCallException
 	 */
 	public static function wrap($source, $internalPath, $fullPath, array $header,
-								$uid,
-								\OCP\Encryption\IEncryptionModule $encryptionModule,
-								\OC\Files\Storage\Storage $storage,
-								\OC\Files\Storage\Wrapper\Encryption $encStorage,
-								\OC\Encryption\Util $util,
-								\OC\Encryption\File $file,
-								$mode,
-								$size,
-								$unencryptedSize,
-								$headerSize,
-								$signed,
-								$wrapper = Encryption::class) {
+		$uid,
+		\OCP\Encryption\IEncryptionModule $encryptionModule,
+		\OC\Files\Storage\Storage $storage,
+		\OC\Files\Storage\Wrapper\Encryption $encStorage,
+		\OC\Encryption\Util $util,
+		\OC\Encryption\File $file,
+		$mode,
+		$size,
+		$unencryptedSize,
+		$headerSize,
+		$signed,
+		$wrapper = Encryption::class) {
 		$context = stream_context_create([
 			'ocencryption' => [
 				'source' => $source,
@@ -321,7 +321,7 @@ class Encryption extends Wrapper {
 				$result .= substr($this->cache, $blockPosition, $remainingLength);
 				$this->position += $remainingLength;
 				$count = 0;
-			// otherwise remainder of current block is fetched, the block is flushed and the position updated
+				// otherwise remainder of current block is fetched, the block is flushed and the position updated
 			} else {
 				$result .= substr($this->cache, $blockPosition);
 				$this->flush();
@@ -389,8 +389,8 @@ class Encryption extends Wrapper {
 					$this->position += $remainingLength;
 					$length += $remainingLength;
 					$data = '';
-				// if $data doesn't fit the current block, the fill the current block and reiterate
-				// after the block is filled, it is flushed and $data is updatedxxx
+					// if $data doesn't fit the current block, the fill the current block and reiterate
+					// after the block is filled, it is flushed and $data is updatedxxx
 				} else {
 					$this->cache = substr($this->cache, 0, $blockPosition) .
 						substr($data, 0, $this->unencryptedBlockSize - $blockPosition);

@@ -38,9 +38,6 @@ declare(strict_types=1);
  */
 namespace OCA\Files_Sharing\Controller;
 
-use OCP\Constants;
-use function array_slice;
-use function array_values;
 use Generator;
 use OC\Collaboration\Collaborators\SearchResult;
 use OCA\Files_Sharing\ResponseDefinitions;
@@ -51,30 +48,21 @@ use OCP\AppFramework\OCSController;
 use OCP\Collaboration\Collaborators\ISearch;
 use OCP\Collaboration\Collaborators\ISearchResult;
 use OCP\Collaboration\Collaborators\SearchResultType;
+use OCP\Constants;
 use OCP\IConfig;
 use OCP\IRequest;
 use OCP\IURLGenerator;
-use OCP\Share\IShare;
 use OCP\Share\IManager;
+use OCP\Share\IShare;
+use function array_slice;
+use function array_values;
 use function usort;
 
 /**
- * @psalm-import-type FilesSharingShareesSearchResult from ResponseDefinitions
- * @psalm-import-type FilesSharingShareesRecommendedResult from ResponseDefinitions
+ * @psalm-import-type Files_SharingShareesSearchResult from ResponseDefinitions
+ * @psalm-import-type Files_SharingShareesRecommendedResult from ResponseDefinitions
  */
 class ShareesAPIController extends OCSController {
-
-	/** @var string */
-	protected $userId;
-
-	/** @var IConfig */
-	protected $config;
-
-	/** @var IURLGenerator */
-	protected $urlGenerator;
-
-	/** @var IManager */
-	protected $shareManager;
 
 	/** @var int */
 	protected $offset = 0;
@@ -82,7 +70,7 @@ class ShareesAPIController extends OCSController {
 	/** @var int */
 	protected $limit = 10;
 
-	/** @var FilesSharingShareesSearchResult */
+	/** @var Files_SharingShareesSearchResult */
 	protected $result = [
 		'exact' => [
 			'users' => [],
@@ -105,8 +93,6 @@ class ShareesAPIController extends OCSController {
 	];
 
 	protected $reachedEndFor = [];
-	/** @var ISearch */
-	private $collaboratorSearch;
 
 	/**
 	 * @param string $UserId
@@ -118,20 +104,15 @@ class ShareesAPIController extends OCSController {
 	 * @param ISearch $collaboratorSearch
 	 */
 	public function __construct(
-		$UserId,
 		string $appName,
 		IRequest $request,
-		IConfig $config,
-		IURLGenerator $urlGenerator,
-		IManager $shareManager,
-		ISearch $collaboratorSearch
+		protected string $userId,
+		protected IConfig $config,
+		protected IURLGenerator $urlGenerator,
+		protected IManager $shareManager,
+		protected ISearch $collaboratorSearch,
 	) {
 		parent::__construct($appName, $request);
-		$this->userId = $UserId;
-		$this->config = $config;
-		$this->urlGenerator = $urlGenerator;
-		$this->shareManager = $shareManager;
-		$this->collaboratorSearch = $collaboratorSearch;
 	}
 
 	/**
@@ -145,16 +126,20 @@ class ShareesAPIController extends OCSController {
 	 * @param int $perPage Limit amount of search results per page
 	 * @param int|int[]|null $shareType Limit to specific share types
 	 * @param bool $lookup If a global lookup should be performed too
-	 * @return DataResponse<Http::STATUS_OK, FilesSharingShareesSearchResult, array{Link?: string}>
+	 * @return DataResponse<Http::STATUS_OK, Files_SharingShareesSearchResult, array{Link?: string}>
 	 * @throws OCSBadRequestException Invalid search parameters
 	 *
 	 * 200: Sharees search result returned
 	 */
-	public function search(string $search = '', string $itemType = null, int $page = 1, int $perPage = 200, $shareType = null, bool $lookup = false): DataResponse {
+	public function search(string $search = '', ?string $itemType = null, int $page = 1, int $perPage = 200, $shareType = null, bool $lookup = false): DataResponse {
 
 		// only search for string larger than a given threshold
 		$threshold = $this->config->getSystemValueInt('sharing.minSearchStringLength', 0);
 		if (strlen($search) < $threshold) {
+			return new DataResponse($this->result);
+		}
+
+		if ($this->shareManager->sharingDisabledForUser($this->userId)) {
 			return new DataResponse($this->result);
 		}
 
@@ -347,7 +332,7 @@ class ShareesAPIController extends OCSController {
 	 *
 	 * @param string $itemType Limit to specific item types
 	 * @param int|int[]|null $shareType Limit to specific share types
-	 * @return DataResponse<Http::STATUS_OK, FilesSharingShareesRecommendedResult, array{}>
+	 * @return DataResponse<Http::STATUS_OK, Files_SharingShareesRecommendedResult, array{}>
 	 *
 	 * 200: Recommended sharees returned
 	 */

@@ -15,186 +15,221 @@
 				<h1>{{ title }}</h1>
 			</span>
 		</div>
-		<div class="sharingTabDetailsView__quick-permissions">
-			<div>
-				<NcCheckboxRadioSwitch :button-variant="true"
-					:checked.sync="sharingPermission"
-					:value="bundledPermissions.READ_ONLY.toString()"
-					name="sharing_permission_radio"
-					type="radio"
-					button-variant-grouped="vertical"
-					@update:checked="toggleCustomPermissions">
-					{{ t('files_sharing', 'View only') }}
-					<template #icon>
-						<ViewIcon :size="20" />
-					</template>
-				</NcCheckboxRadioSwitch>
-				<NcCheckboxRadioSwitch :button-variant="true"
-					:checked.sync="sharingPermission"
-					:value="bundledPermissions.ALL.toString()"
-					name="sharing_permission_radio"
-					type="radio"
-					button-variant-grouped="vertical"
-					@update:checked="toggleCustomPermissions">
-					<template v-if="allowsFileDrop">
-						{{ t('files_sharing', 'Allow upload and editing') }}
-					</template>
-					<template v-else>
-						{{ t('files_sharing', 'Allow editing') }}
-					</template>
-
-					<template #icon>
-						<EditIcon :size="20" />
-					</template>
-				</NcCheckboxRadioSwitch>
-				<NcCheckboxRadioSwitch v-if="allowsFileDrop"
-					:button-variant="true"
-					:checked.sync="sharingPermission"
-					:value="bundledPermissions.FILE_DROP.toString()"
-					name="sharing_permission_radio"
-					type="radio"
-					button-variant-grouped="vertical"
-					@update:checked="toggleCustomPermissions">
-					{{ t('files_sharing', 'File drop') }}
-					<small>{{ t('files_sharing', 'Upload only') }}</small>
-					<template #icon>
-						<UploadIcon :size="20" />
-					</template>
-				</NcCheckboxRadioSwitch>
-				<NcCheckboxRadioSwitch :button-variant="true"
-					:checked.sync="sharingPermission"
-					:value="'custom'"
-					name="sharing_permission_radio"
-					type="radio"
-					button-variant-grouped="vertical"
-					@update:checked="expandCustomPermissions">
-					{{ t('files_sharing', 'Custom permissions') }}
-					<small>{{ t('files_sharing', customPermissionsList) }}</small>
-					<template #icon>
-						<DotsHorizontalIcon :size="20" />
-					</template>
-				</NcCheckboxRadioSwitch>
+		<div class="sharingTabDetailsView__wrapper">
+			<div ref="quickPermissions" class="sharingTabDetailsView__quick-permissions">
+				<div>
+					<NcCheckboxRadioSwitch :button-variant="true"
+						data-cy-files-sharing-share-permissions-bundle="read-only"
+						:checked.sync="sharingPermission"
+						:value="bundledPermissions.READ_ONLY.toString()"
+						name="sharing_permission_radio"
+						type="radio"
+						button-variant-grouped="vertical"
+						@update:checked="toggleCustomPermissions">
+						{{ t('files_sharing', 'View only') }}
+						<template #icon>
+							<ViewIcon :size="20" />
+						</template>
+					</NcCheckboxRadioSwitch>
+					<NcCheckboxRadioSwitch :button-variant="true"
+						data-cy-files-sharing-share-permissions-bundle="upload-edit"
+						:checked.sync="sharingPermission"
+						:value="bundledPermissions.ALL.toString()"
+						name="sharing_permission_radio"
+						type="radio"
+						button-variant-grouped="vertical"
+						@update:checked="toggleCustomPermissions">
+						<template v-if="allowsFileDrop">
+							{{ t('files_sharing', 'Allow upload and editing') }}
+						</template>
+						<template v-else>
+							{{ t('files_sharing', 'Allow editing') }}
+						</template>
+						<template #icon>
+							<EditIcon :size="20" />
+						</template>
+					</NcCheckboxRadioSwitch>
+					<NcCheckboxRadioSwitch v-if="allowsFileDrop"
+						data-cy-files-sharing-share-permissions-bundle="file-drop"
+						:button-variant="true"
+						:checked.sync="sharingPermission"
+						:value="bundledPermissions.FILE_DROP.toString()"
+						name="sharing_permission_radio"
+						type="radio"
+						button-variant-grouped="vertical"
+						@update:checked="toggleCustomPermissions">
+						{{ t('files_sharing', 'File drop') }}
+						<small class="subline">{{ t('files_sharing', 'Upload only') }}</small>
+						<template #icon>
+							<UploadIcon :size="20" />
+						</template>
+					</NcCheckboxRadioSwitch>
+					<NcCheckboxRadioSwitch :button-variant="true"
+						data-cy-files-sharing-share-permissions-bundle="custom"
+						:checked.sync="sharingPermission"
+						:value="'custom'"
+						name="sharing_permission_radio"
+						type="radio"
+						button-variant-grouped="vertical"
+						@update:checked="expandCustomPermissions">
+						{{ t('files_sharing', 'Custom permissions') }}
+						<small class="subline">{{ customPermissionsList }}</small>
+						<template #icon>
+							<DotsHorizontalIcon :size="20" />
+						</template>
+					</NcCheckboxRadioSwitch>
+				</div>
 			</div>
-		</div>
-		<div class="sharingTabDetailsView__advanced-control">
-			<NcButton type="tertiary"
-				alignment="end-reverse"
-				@click="advancedSectionAccordionExpanded = !advancedSectionAccordionExpanded">
-				{{ t('files_sharing', 'Advanced settings') }}
-				<template #icon>
-					<MenuDownIcon />
-				</template>
-			</NcButton>
-		</div>
-		<div v-if="advancedSectionAccordionExpanded" class="sharingTabDetailsView__advanced">
-			<section>
-				<NcInputField v-if="isPublicShare"
-					:value.sync="share.label"
-					type="text"
-					:label="t('files_sharing', 'Share label')" />
-				<template v-if="isPublicShare">
-					<NcCheckboxRadioSwitch :checked.sync="isPasswordProtected" :disabled="isPasswordEnforced">
-						{{ t('files_sharing', 'Set password') }}
-					</NcCheckboxRadioSwitch>
-					<NcInputField v-if="isPasswordProtected"
-						:type="hasUnsavedPassword ? 'text' : 'password'"
-						:value="hasUnsavedPassword ? share.newPassword : '***************'"
-						:error="passwordError"
-						:required="isPasswordEnforced"
-						:label="t('files_sharing', 'Password')"
-						@update:value="onPasswordChange" />
+			<div class="sharingTabDetailsView__advanced-control">
+				<NcButton id="advancedSectionAccordionAdvancedControl"
+					type="tertiary"
+					alignment="end-reverse"
+					aria-controls="advancedSectionAccordionAdvanced"
+					:aria-expanded="advancedControlExpandedValue"
+					@click="advancedSectionAccordionExpanded = !advancedSectionAccordionExpanded">
+					{{ t('files_sharing', 'Advanced settings') }}
+					<template #icon>
+						<MenuDownIcon v-if="!advancedSectionAccordionExpanded" />
+						<MenuUpIcon v-else />
+					</template>
+				</NcButton>
+			</div>
+			<div v-if="advancedSectionAccordionExpanded"
+				id="advancedSectionAccordionAdvanced"
+				class="sharingTabDetailsView__advanced"
+				aria-labelledby="advancedSectionAccordionAdvancedControl"
+				role="region">
+				<section>
+					<NcInputField v-if="isPublicShare"
+						autocomplete="off"
+						:label="t('files_sharing', 'Share label')"
+						:value.sync="share.label" />
+					<template v-if="isPublicShare">
+						<NcCheckboxRadioSwitch :checked.sync="isPasswordProtected" :disabled="isPasswordEnforced">
+							{{ t('files_sharing', 'Set password') }}
+						</NcCheckboxRadioSwitch>
+						<NcPasswordField v-if="isPasswordProtected"
+							autocomplete="new-password"
+							:value="hasUnsavedPassword ? share.newPassword : ''"
+							:error="passwordError"
+							:helper-text="errorPasswordLabel"
+							:required="isPasswordEnforced"
+							:label="t('files_sharing', 'Password')"
+							@update:value="onPasswordChange" />
 
-					<!-- Migrate icons and remote -> icon="icon-info"-->
-					<span v-if="isEmailShareType && passwordExpirationTime" icon="icon-info">
-						{{ t('files_sharing', 'Password expires {passwordExpirationTime}', { passwordExpirationTime }) }}
-					</span>
-					<span v-else-if="isEmailShareType && passwordExpirationTime !== null" icon="icon-error">
-						{{ t('files_sharing', 'Password expired') }}
-					</span>
-				</template>
-				<NcCheckboxRadioSwitch :checked.sync="hasExpirationDate" :disabled="isExpiryDateEnforced">
-					{{ isExpiryDateEnforced
-						? t('files_sharing', 'Expiration date (enforced)')
-						: t('files_sharing', 'Set expiration date') }}
-				</NcCheckboxRadioSwitch>
-				<NcDateTimePickerNative v-if="hasExpirationDate"
-					id="share-date-picker"
-					:value="new Date(share.expireDate ?? dateTomorrow)"
-					:min="dateTomorrow"
-					:max="maxExpirationDateEnforced"
-					:hide-label="true"
-					:placeholder="t('files_sharing', 'Expiration date')"
-					type="date"
-					@input="onExpirationChange" />
-				<NcCheckboxRadioSwitch v-if="isPublicShare"
-					:disabled="canChangeHideDownload"
-					:checked.sync="share.hideDownload"
-					@update:checked="queueUpdate('hideDownload')">
-					{{ t('files_sharing', 'Hide download') }}
-				</NcCheckboxRadioSwitch>
-				<NcCheckboxRadioSwitch v-if="canTogglePasswordProtectedByTalkAvailable"
-					:checked.sync="isPasswordProtectedByTalk"
-					@update:checked="onPasswordProtectedByTalkChange">
-					{{ t('files_sharing', 'Video verification') }}
-				</NcCheckboxRadioSwitch>
-				<NcCheckboxRadioSwitch v-if="!isPublicShare" :disabled="!canSetDownload" :checked.sync="canDownload">
-					{{ t('files_sharing', 'Allow download') }}
-				</NcCheckboxRadioSwitch>
-				<NcCheckboxRadioSwitch :checked.sync="writeNoteToRecipientIsChecked">
-					{{ t('files_sharing', 'Note to recipient') }}
-				</NcCheckboxRadioSwitch>
-				<template v-if="writeNoteToRecipientIsChecked">
-					<label for="share-note-textarea">
-						{{ t('files_sharing', 'Enter a note for the share recipient') }}
-					</label>
-					<textarea id="share-note-textarea" :value="share.note" @input="share.note = $event.target.value" />
-				</template>
-				<NcCheckboxRadioSwitch :checked.sync="setCustomPermissions">
-					{{ t('files_sharing', 'Custom permissions') }}
-				</NcCheckboxRadioSwitch>
-				<section v-if="setCustomPermissions" class="custom-permissions-group">
-					<NcCheckboxRadioSwitch :disabled="!allowsFileDrop && share.type === SHARE_TYPES.SHARE_TYPE_LINK"
-						:checked.sync="hasRead">
-						{{ t('files_sharing', 'Read') }}
+						<!-- Migrate icons and remote -> icon="icon-info"-->
+						<span v-if="isEmailShareType && passwordExpirationTime" icon="icon-info">
+							{{ t('files_sharing', 'Password expires {passwordExpirationTime}', { passwordExpirationTime }) }}
+						</span>
+						<span v-else-if="isEmailShareType && passwordExpirationTime !== null" icon="icon-error">
+							{{ t('files_sharing', 'Password expired') }}
+						</span>
+					</template>
+					<NcCheckboxRadioSwitch v-if="canTogglePasswordProtectedByTalkAvailable"
+						:checked.sync="isPasswordProtectedByTalk"
+						@update:checked="onPasswordProtectedByTalkChange">
+						{{ t('files_sharing', 'Video verification') }}
 					</NcCheckboxRadioSwitch>
-					<NcCheckboxRadioSwitch v-if="isFolder" :disabled="!canSetCreate" :checked.sync="canCreate">
-						{{ t('files_sharing', 'Create') }}
+					<NcCheckboxRadioSwitch :checked.sync="hasExpirationDate" :disabled="isExpiryDateEnforced">
+						{{ isExpiryDateEnforced
+							? t('files_sharing', 'Expiration date (enforced)')
+							: t('files_sharing', 'Set expiration date') }}
 					</NcCheckboxRadioSwitch>
-					<NcCheckboxRadioSwitch :disabled="!canSetEdit" :checked.sync="canEdit">
-						{{ t('files_sharing', 'Update') }}
+					<NcDateTimePickerNative v-if="hasExpirationDate"
+						id="share-date-picker"
+						:value="new Date(share.expireDate ?? dateTomorrow)"
+						:min="dateTomorrow"
+						:max="maxExpirationDateEnforced"
+						:hide-label="true"
+						:placeholder="t('files_sharing', 'Expiration date')"
+						type="date"
+						@input="onExpirationChange" />
+					<NcCheckboxRadioSwitch v-if="isPublicShare"
+						:disabled="canChangeHideDownload"
+						:checked.sync="share.hideDownload"
+						@update:checked="queueUpdate('hideDownload')">
+						{{ t('files_sharing', 'Hide download') }}
 					</NcCheckboxRadioSwitch>
-					<NcCheckboxRadioSwitch v-if="config.isResharingAllowed && share.type !== SHARE_TYPES.SHARE_TYPE_LINK"
-						:disabled="!canSetReshare"
-						:checked.sync="canReshare">
-						{{ t('files_sharing', 'Share') }}
+					<NcCheckboxRadioSwitch v-if="!isPublicShare"
+						:disabled="!canSetDownload"
+						:checked.sync="canDownload"
+						data-cy-files-sharing-share-permissions-checkbox="download">
+						{{ t('files_sharing', 'Allow download') }}
 					</NcCheckboxRadioSwitch>
-					<NcCheckboxRadioSwitch :disabled="!canSetDelete" :checked.sync="canDelete">
-						{{ t('files_sharing', 'Delete') }}
+					<NcCheckboxRadioSwitch :checked.sync="writeNoteToRecipientIsChecked">
+						{{ t('files_sharing', 'Note to recipient') }}
 					</NcCheckboxRadioSwitch>
+					<template v-if="writeNoteToRecipientIsChecked">
+						<label for="share-note-textarea">
+							{{ t('files_sharing', 'Enter a note for the share recipient') }}
+						</label>
+						<textarea id="share-note-textarea" :value="share.note" @input="share.note = $event.target.value" />
+					</template>
+					<ExternalShareAction v-for="action in externalLinkActions"
+						:id="action.id"
+						ref="externalLinkActions"
+						:key="action.id"
+						:action="action"
+						:file-info="fileInfo"
+						:share="share" />
+					<NcCheckboxRadioSwitch :checked.sync="setCustomPermissions">
+						{{ t('files_sharing', 'Custom permissions') }}
+					</NcCheckboxRadioSwitch>
+					<section v-if="setCustomPermissions" class="custom-permissions-group">
+						<NcCheckboxRadioSwitch :disabled="!allowsFileDrop && share.type === SHARE_TYPES.SHARE_TYPE_LINK"
+							:checked.sync="hasRead"
+							data-cy-files-sharing-share-permissions-checkbox="read">
+							{{ t('files_sharing', 'Read') }}
+						</NcCheckboxRadioSwitch>
+						<NcCheckboxRadioSwitch v-if="isFolder"
+							:disabled="!canSetCreate"
+							:checked.sync="canCreate"
+							data-cy-files-sharing-share-permissions-checkbox="create">
+							{{ t('files_sharing', 'Create') }}
+						</NcCheckboxRadioSwitch>
+						<NcCheckboxRadioSwitch :disabled="!canSetEdit"
+							:checked.sync="canEdit"
+							data-cy-files-sharing-share-permissions-checkbox="update">
+							{{ t('files_sharing', 'Edit') }}
+						</NcCheckboxRadioSwitch>
+						<NcCheckboxRadioSwitch v-if="config.isResharingAllowed && share.type !== SHARE_TYPES.SHARE_TYPE_LINK"
+							:disabled="!canSetReshare"
+							:checked.sync="canReshare"
+							data-cy-files-sharing-share-permissions-checkbox="share">
+							{{ t('files_sharing', 'Share') }}
+						</NcCheckboxRadioSwitch>
+						<NcCheckboxRadioSwitch :disabled="!canSetDelete"
+							:checked.sync="canDelete"
+							data-cy-files-sharing-share-permissions-checkbox="delete">
+							{{ t('files_sharing', 'Delete') }}
+						</NcCheckboxRadioSwitch>
+					</section>
+					<div class="sharingTabDetailsView__delete">
+						<NcButton v-if="!isNewShare"
+							:aria-label="t('files_sharing', 'Delete share')"
+							:disabled="false"
+							:readonly="false"
+							type="tertiary"
+							@click.prevent="removeShare">
+							<template #icon>
+								<CloseIcon :size="16" />
+							</template>
+							{{ t('files_sharing', 'Delete share') }}
+						</NcButton>
+					</div>
 				</section>
-			</section>
-		</div>
-
-		<div class="sharingTabDetailsView__delete">
-			<NcButton v-if="!isNewShare"
-				:aria-label="t('files_sharing', 'Delete share')"
-				:disabled="false"
-				:readonly="false"
-				type="tertiary"
-				@click.prevent="removeShare">
-				<template #icon>
-					<CloseIcon :size="16" />
-				</template>
-				{{ t('files_sharing', 'Delete share') }}
-			</NcButton>
+			</div>
 		</div>
 
 		<div class="sharingTabDetailsView__footer">
 			<div class="button-group">
-				<NcButton @click="$emit('close-sharing-details')">
+				<NcButton data-cy-files-sharing-share-editor-action="cancel"
+					@click="$emit('close-sharing-details')">
 					{{ t('files_sharing', 'Cancel') }}
 				</NcButton>
-				<NcButton type="primary" @click="saveShare">
+				<NcButton type="primary"
+					data-cy-files-sharing-share-editor-action="save"
+					@click="saveShare">
 					{{ shareButtonText }}
 					<template v-if="creating" #icon>
 						<NcLoadingIcon />
@@ -206,10 +241,13 @@
 </template>
 
 <script>
+import { getLanguage } from '@nextcloud/l10n'
+import { Type as ShareType } from '@nextcloud/sharing'
+
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import NcInputField from '@nextcloud/vue/dist/Components/NcInputField.js'
+import NcPasswordField from '@nextcloud/vue/dist/Components/NcPasswordField.js'
 import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
-import NcDateTimePicker from '@nextcloud/vue/dist/Components/NcDateTimePicker.js'
 import NcDateTimePickerNative from '@nextcloud/vue/dist/Components/NcDateTimePickerNative.js'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
 import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
@@ -224,7 +262,10 @@ import UserIcon from 'vue-material-design-icons/AccountCircleOutline.vue'
 import ViewIcon from 'vue-material-design-icons/Eye.vue'
 import UploadIcon from 'vue-material-design-icons/Upload.vue'
 import MenuDownIcon from 'vue-material-design-icons/MenuDown.vue'
+import MenuUpIcon from 'vue-material-design-icons/MenuUp.vue'
 import DotsHorizontalIcon from 'vue-material-design-icons/DotsHorizontal.vue'
+
+import ExternalShareAction from '../components/ExternalShareAction.vue'
 
 import GeneratePassword from '../utils/GeneratePassword.js'
 import Share from '../models/Share.js'
@@ -244,13 +285,14 @@ export default {
 		NcAvatar,
 		NcButton,
 		NcInputField,
-		NcDateTimePicker,
+		NcPasswordField,
 		NcDateTimePickerNative,
 		NcCheckboxRadioSwitch,
 		NcLoadingIcon,
 		CloseIcon,
 		CircleIcon,
 		EditIcon,
+		ExternalShareAction,
 		LinkIcon,
 		GroupIcon,
 		ShareIcon,
@@ -258,6 +300,7 @@ export default {
 		UploadIcon,
 		ViewIcon,
 		MenuDownIcon,
+		MenuUpIcon,
 		DotsHorizontalIcon,
 	},
 	mixins: [ShareTypes, ShareRequests, SharesMixin],
@@ -287,29 +330,41 @@ export default {
 			isFirstComponentLoad: true,
 			test: false,
 			creating: false,
+
+			ExternalShareActions: OCA.Sharing.ExternalShareActions.state,
 		}
 	},
 
 	computed: {
 		title() {
-			let title = t('files_sharing', 'Share with ')
-			if (this.share.type === this.SHARE_TYPES.SHARE_TYPE_USER) {
-				title = title + this.share.shareWithDisplayName
-			} else if (this.share.type === this.SHARE_TYPES.SHARE_TYPE_LINK) {
-				title = t('files_sharing', 'Share link')
-			} else if (this.share.type === this.SHARE_TYPES.SHARE_TYPE_GROUP) {
-				title += ` (${t('files_sharing', 'group')})`
-			} else if (this.share.type === this.SHARE_TYPES.SHARE_TYPE_ROOM) {
-				title += ` (${t('files_sharing', 'conversation')})`
-			} else if (this.share.type === this.SHARE_TYPES.SHARE_TYPE_REMOTE) {
-				title += ` (${t('files_sharing', 'remote')})`
-			} else if (this.share.type === this.SHARE_TYPES.SHARE_TYPE_REMOTE_GROUP) {
-				title += ` (${t('files_sharing', 'remote group')})`
-			} else if (this.share.type === this.SHARE_TYPES.SHARE_TYPE_GUEST) {
-				title += ` (${t('files_sharing', 'guest')})`
+			switch (this.share.type) {
+			case this.SHARE_TYPES.SHARE_TYPE_USER:
+				return t('files_sharing', 'Share with {userName}', { userName: this.share.shareWithDisplayName })
+			case this.SHARE_TYPES.SHARE_TYPE_EMAIL:
+			    return t('files_sharing', 'Share with email {email}', { email: this.share.shareWith })
+			case this.SHARE_TYPES.SHARE_TYPE_LINK:
+				return t('files_sharing', 'Share link')
+			case this.SHARE_TYPES.SHARE_TYPE_GROUP:
+				return t('files_sharing', 'Share with group')
+			case this.SHARE_TYPES.SHARE_TYPE_ROOM:
+				return t('files_sharing', 'Share in conversation')
+			case this.SHARE_TYPES.SHARE_TYPE_REMOTE: {
+				const [user, server] = this.share.shareWith.split('@')
+				return t('files_sharing', 'Share with {user} on remote server {server}', { user, server })
 			}
-
-			return title
+			case this.SHARE_TYPES.SHARE_TYPE_REMOTE_GROUP:
+				return t('files_sharing', 'Share with remote group')
+			case this.SHARE_TYPES.SHARE_TYPE_GUEST:
+				return t('files_sharing', 'Share with guest')
+			default: {
+			        if (this.share.id) {
+					    // Share already exists
+					    return t('files_sharing', 'Update share')
+				    } else {
+					    return t('files_sharing', 'Create share')
+				    }
+			}
+			}
 		},
 		/**
 		 * Can the sharee edit the shared file ?
@@ -360,10 +415,14 @@ export default {
 		 */
 		canDownload: {
 			get() {
-				return this.share.hasDownloadPermission
+				return this.share.attributes.find(attr => attr.key === 'download')?.enabled || false
 			},
 			set(checked) {
-				this.updateAtomicPermissions({ isDownloadChecked: checked })
+				// Find the 'download' attribute and update its value
+				const downloadAttr = this.share.attributes.find(attr => attr.key === 'download')
+				if (downloadAttr) {
+					downloadAttr.enabled = checked
+				}
 			},
 		},
 		/**
@@ -385,19 +444,7 @@ export default {
 		 */
 		hasExpirationDate: {
 			get() {
-				const isDefaultExpireDateEnabled = this.config.isDefaultExpireDateEnabled
-				const hasExistingExpirationDate = !!this.share.expireDate || isDefaultExpireDateEnabled
-				const isDefaultInternalExpireDateEnabled = this.config.isDefaultInternalExpireDateEnabled
-				const isDefaultRemoteExpireDateEnabled = this.config.isDefaultRemoteExpireDateEnabled
-				if (this.isPublicShare) {
-					return hasExistingExpirationDate
-				}
-
-				if (this.isRemoteShare) {
-					return hasExistingExpirationDate || isDefaultRemoteExpireDateEnabled
-				}
-
-				return hasExistingExpirationDate || isDefaultInternalExpireDateEnabled
+				return this.isValidShareAttribute(this.share.expireDate)
 			},
 			set(enabled) {
 				this.share.expireDate = enabled
@@ -416,9 +463,13 @@ export default {
 					|| !!this.share.password
 			},
 			async set(enabled) {
-				// TODO: directly save after generation to make sure the share is always protected
-				this.share.password = enabled ? await GeneratePassword() : ''
-				this.$set(this.share, 'newPassword', this.share.password)
+				if (enabled) {
+					this.share.password = await GeneratePassword()
+					this.$set(this.share, 'newPassword', this.share.password)
+				} else {
+					this.share.password = ''
+					this.$delete(this.share, 'newPassword')
+				}
 			},
 		},
 		/**
@@ -428,19 +479,6 @@ export default {
 		 */
 		isFolder() {
 			return this.fileInfo.type === 'dir'
-		},
-		maxExpirationDateEnforced() {
-			if (this.isPublicShare) {
-				return this.config.defaultExpirationDate
-			}
-			if (this.isRemoteShare) {
-				return this.config.defaultRemoteExpirationDateString
-			}
-			// If it get's here then it must be an internal share
-			if (this.isExpiryDateEnforced) {
-				return this.config.defaultInternalExpirationDate
-			}
-			return null
 		},
 		/**
 		 * @return {boolean}
@@ -480,11 +518,8 @@ export default {
 		isGroupShare() {
 			return this.share.type === this.SHARE_TYPES.SHARE_TYPE_GROUP
 		},
-		isRemoteShare() {
-			return this.share.type === this.SHARE_TYPES.SHARE_TYPE_REMOTE_GROUP || this.share.type === this.SHARE_TYPES.SHARE_TYPE_REMOTE
-		},
 		isNewShare() {
-			return this.share.id === null || this.share.id === undefined
+			return !this.share.id
 		},
 		allowsFileDrop() {
 			if (this.isFolder && this.config.isPublicUploadEnabled) {
@@ -630,34 +665,50 @@ export default {
 				return false
 			}
 
-			// Anything else should be fine
-			return true
+			// Is Talk enabled?
+			return OC.appswebroots.spreed !== undefined
 		},
 		canChangeHideDownload() {
 			const hasDisabledDownload = (shareAttribute) => shareAttribute.key === 'download' && shareAttribute.scope === 'permissions' && shareAttribute.enabled === false
 			return this.fileInfo.shareAttributes.some(hasDisabledDownload)
 		},
 		customPermissionsList() {
-			const perms = []
-			if (hasPermissions(this.share.permissions, ATOMIC_PERMISSIONS.READ)) {
-				perms.push('read')
+			// Key order will be different, because ATOMIC_PERMISSIONS are numbers
+			const translatedPermissions = {
+				[ATOMIC_PERMISSIONS.READ]: this.t('files_sharing', 'Read'),
+				[ATOMIC_PERMISSIONS.CREATE]: this.t('files_sharing', 'Create'),
+				[ATOMIC_PERMISSIONS.UPDATE]: this.t('files_sharing', 'Edit'),
+				[ATOMIC_PERMISSIONS.SHARE]: this.t('files_sharing', 'Share'),
+				[ATOMIC_PERMISSIONS.DELETE]: this.t('files_sharing', 'Delete'),
 			}
-			if (hasPermissions(this.share.permissions, ATOMIC_PERMISSIONS.CREATE)) {
-				perms.push('create')
-			}
-			if (hasPermissions(this.share.permissions, ATOMIC_PERMISSIONS.UPDATE)) {
-				perms.push('update')
-			}
-			if (hasPermissions(this.share.permissions, ATOMIC_PERMISSIONS.DELETE)) {
-				perms.push('delete')
-			}
-			if (hasPermissions(this.share.permissions, ATOMIC_PERMISSIONS.SHARE)) {
-				perms.push('share')
-			}
-			const capitalizeFirstAndJoin = array => array.map((item, index) => index === 0 ? item[0].toUpperCase() + item.substring(1) : item).join(', ')
 
-			return capitalizeFirstAndJoin(perms)
+			return [ATOMIC_PERMISSIONS.READ, ATOMIC_PERMISSIONS.CREATE, ATOMIC_PERMISSIONS.UPDATE, ATOMIC_PERMISSIONS.SHARE, ATOMIC_PERMISSIONS.DELETE]
+				.filter((permission) => hasPermissions(this.share.permissions, permission))
+				.map((permission, index) => index === 0
+					? translatedPermissions[permission]
+					: translatedPermissions[permission].toLocaleLowerCase(getLanguage()))
+				.join(', ')
+		},
+		advancedControlExpandedValue() {
+			return this.advancedSectionAccordionExpanded ? 'true' : 'false'
+		},
+		errorPasswordLabel() {
+			if (this.passwordError) {
+				return t('files_sharing', "Password field can't be empty")
+			}
+			return undefined
+		},
 
+		/**
+		 * Additional actions for the menu
+		 *
+		 * @return {Array}
+		 */
+		externalLinkActions() {
+			const filterValidAction = (action) => (action.shareType.includes(ShareType.SHARE_TYPE_LINK) || action.shareType.includes(ShareType.SHARE_TYPE_EMAIL)) && action.advanced
+			// filter only the advanced registered actions for said link
+			return this.ExternalShareActions.actions
+				.filter(filterValidAction)
 		},
 	},
 	watch: {
@@ -676,6 +727,10 @@ export default {
 		console.debug('config', this.config)
 	},
 
+	mounted() {
+		this.$refs.quickPermissions?.querySelector('input:checked')?.focus()
+	},
+
 	methods: {
 		updateAtomicPermissions({
 			isReadChecked = this.hasRead,
@@ -683,7 +738,6 @@ export default {
 			isCreateChecked = this.canCreate,
 			isDeleteChecked = this.canDelete,
 			isReshareChecked = this.canReshare,
-			isDownloadChecked = this.canDownload,
 		} = {}) {
 			// calc permissions if checked
 			const permissions = 0
@@ -693,9 +747,6 @@ export default {
 				| (isEditChecked ? ATOMIC_PERMISSIONS.UPDATE : 0)
 				| (isReshareChecked ? ATOMIC_PERMISSIONS.SHARE : 0)
 			this.share.permissions = permissions
-			if (this.share.hasDownloadPermission !== isDownloadChecked) {
-				this.$set(this.share, 'hasDownloadPermission', isDownloadChecked)
-			}
 		},
 		expandCustomPermissions() {
 			if (!this.advancedSectionAccordionExpanded) {
@@ -712,14 +763,29 @@ export default {
 
 			if (this.isNewShare) {
 				if (this.isPasswordEnforced && this.isPublicShare) {
-					this.share.newPassword = await GeneratePassword()
+					this.$set(this.share, 'newPassword', await GeneratePassword())
 					this.advancedSectionAccordionExpanded = true
 				}
-				if (this.hasExpirationDate) {
-					this.share.expireDate = this.defaultExpiryDate
+				/* Set default expiration dates if configured */
+				if (this.isPublicShare && this.config.isDefaultExpireDateEnabled) {
+					this.share.expireDate = this.config.defaultExpirationDate.toDateString()
+				} else if (this.isRemoteShare && this.config.isDefaultRemoteExpireDateEnabled) {
+					this.share.expireDate = this.config.defaultRemoteExpirationDateString.toDateString()
+				} else if (this.config.isDefaultInternalExpireDateEnabled) {
+					this.share.expireDate = this.config.defaultInternalExpirationDate.toDateString()
+				}
+
+				if (this.isValidShareAttribute(this.share.expireDate)) {
 					this.advancedSectionAccordionExpanded = true
 				}
+
 				return
+			}
+
+			// If there is an enforced expiry date, then existing shares created before enforcement
+			// have no expiry date, hence we set it here.
+			if (!this.isValidShareAttribute(this.share.expireDate) && this.isExpiryDateEnforced) {
+				this.hasExpirationDate = true
 			}
 
 			if (
@@ -731,31 +797,39 @@ export default {
 			}
 
 		},
-		initializePermissions() {
-			if (this.share.share_type) {
-				this.share.type = this.share.share_type
-			}
-			// shareType 0 (USER_SHARE) would evaluate to zero
-			// Hence the use of hasOwnProperty
+		handleShareType() {
 			if ('shareType' in this.share) {
 				this.share.type = this.share.shareType
+			} else if (this.share.share_type) {
+				this.share.type = this.share.share_type
 			}
+		},
+		handleDefaultPermissions() {
 			if (this.isNewShare) {
-				if (this.isPublicShare) {
-					this.sharingPermission = BUNDLED_PERMISSIONS.READ_ONLY.toString()
+				const defaultPermissions = this.config.defaultPermissions
+				if (defaultPermissions === BUNDLED_PERMISSIONS.READ_ONLY || defaultPermissions === BUNDLED_PERMISSIONS.ALL) {
+					this.sharingPermission = defaultPermissions.toString()
 				} else {
-					this.sharingPermission = BUNDLED_PERMISSIONS.ALL.toString()
-				}
-
-			} else {
-				if (this.hasCustomPermissions || this.share.setCustomPermissions) {
 					this.sharingPermission = 'custom'
+					this.share.permissions = defaultPermissions
 					this.advancedSectionAccordionExpanded = true
 					this.setCustomPermissions = true
-				} else {
-					this.sharingPermission = this.share.permissions.toString()
 				}
 			}
+		},
+		handleCustomPermissions() {
+			if (!this.isNewShare && (this.hasCustomPermissions || this.share.setCustomPermissions)) {
+				this.sharingPermission = 'custom'
+				this.advancedSectionAccordionExpanded = true
+				this.setCustomPermissions = true
+			} else if (this.share.permissions) {
+				this.sharingPermission = this.share.permissions.toString()
+			}
+		},
+		initializePermissions() {
+			this.handleShareType()
+			this.handleDefaultPermissions()
+			this.handleCustomPermissions()
 		},
 		async saveShare() {
 			const permissionsAndAttributes = ['permissions', 'attributes', 'note', 'expireDate']
@@ -777,16 +851,12 @@ export default {
 			if (!this.writeNoteToRecipientIsChecked) {
 				this.share.note = ''
 			}
-
 			if (this.isPasswordProtected) {
-				if (this.isValidShareAttribute(this.share.newPassword)) {
+				if (this.hasUnsavedPassword && this.isValidShareAttribute(this.share.newPassword)) {
 					this.share.password = this.share.newPassword
 					this.$delete(this.share, 'newPassword')
-				} else {
-					if (this.isPasswordEnforced) {
-						this.passwordError = true
-						return
-					}
+				} else if (this.isPasswordEnforced && !this.isValidShareAttribute(this.share.password)) {
+					this.passwordError = true
 				}
 			} else {
 				this.share.password = ''
@@ -806,9 +876,7 @@ export default {
 					fileInfo: this.fileInfo,
 				}
 
-				if (this.hasExpirationDate) {
-					incomingShare.expireDate = this.share.expireDate
-				}
+				incomingShare.expireDate = this.hasExpirationDate ? this.share.expireDate : ''
 
 				if (this.isPasswordProtected) {
 					incomingShare.password = this.share.password
@@ -821,6 +889,15 @@ export default {
 				this.$emit('add:share', this.share)
 			} else {
 				this.queueUpdate(...permissionsAndAttributes)
+			}
+
+			if (this.$refs.externalLinkActions?.length > 0) {
+				await Promise.allSettled(this.$refs.externalLinkActions.map((action) => {
+					if (typeof action.$children.at(0)?.onSave !== 'function') {
+						return Promise.resolve()
+					}
+					return action.$children.at(0)?.onSave?.()
+				}))
 			}
 
 			this.$emit('close-sharing-details')
@@ -840,10 +917,10 @@ export default {
 					shareType: share.shareType,
 					shareWith: share.shareWith,
 					permissions: share.permissions,
-					attributes: JSON.stringify(fileInfo.shareAttributes),
+					expireDate: share.expireDate,
+					attributes: JSON.stringify(share.attributes),
 					...(share.note ? { note: share.note } : {}),
 					...(share.password ? { password: share.password } : {}),
-					...(share.expireDate ? { expireDate: share.expireDate } : {}),
 				})
 				return resultingShare
 			} catch (error) {
@@ -927,9 +1004,11 @@ export default {
 .sharingTabDetailsView {
 	display: flex;
 	flex-direction: column;
-	align-items: flex-start;
-	width: 96%;
+	width: 100%;
 	margin: 0 auto;
+	position: relative;
+	height: 100%;
+	overflow: hidden;
 
 	&__header {
 		display: flex;
@@ -949,10 +1028,17 @@ export default {
 		}
 	}
 
+	&__wrapper {
+		position: relative;
+		overflow: scroll;
+		flex-shrink: 1;
+		padding: 4px;
+		padding-right: 12px;
+	}
+
 	&__quick-permissions {
 		display: flex;
 		justify-content: center;
-		margin-bottom: 0.2em;
 		width: 100%;
 		margin: 0 auto;
 		border-radius: 0;
@@ -966,7 +1052,6 @@ export default {
 				span:nth-child(1) {
 					align-items: center;
 					justify-content: center;
-					color: var(--color-primary-element);
 					padding: 0.1em;
 				}
 
@@ -975,6 +1060,16 @@ export default {
 					span {
 						display: flex;
 						flex-direction: column;
+					}
+				}
+
+				/* Target component based style in NcCheckboxRadioSwitch slot content*/
+				:deep(span.checkbox-content__text.checkbox-radio-switch__text) {
+					flex-wrap: wrap;
+
+					.subline {
+						display: block;
+						flex-basis: 100%;
 					}
 				}
 			}
@@ -1006,6 +1101,7 @@ export default {
 
 			textarea {
 				height: 80px;
+				margin: 0;
 			}
 
 			/*

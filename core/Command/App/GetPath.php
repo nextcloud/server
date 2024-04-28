@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -23,13 +26,21 @@
 namespace OC\Core\Command\App;
 
 use OC\Core\Command\Base;
+use OCP\App\AppPathNotFoundException;
+use OCP\App\IAppManager;
 use Stecman\Component\Symfony\Console\BashCompletion\CompletionContext;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class GetPath extends Base {
-	protected function configure() {
+	public function __construct(
+		protected IAppManager $appManager,
+	) {
+		parent::__construct();
+	}
+
+	protected function configure(): void {
 		parent::configure();
 
 		$this
@@ -52,14 +63,14 @@ class GetPath extends Base {
 	 */
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$appName = $input->getArgument('app');
-		$path = \OC_App::getAppPath($appName);
-		if ($path !== false) {
-			$output->writeln($path);
-			return 0;
+		try {
+			$path = $this->appManager->getAppPath($appName);
+		} catch (AppPathNotFoundException) {
+			// App not found, exit with non-zero
+			return self::FAILURE;
 		}
-
-		// App not found, exit with non-zero
-		return 1;
+		$output->writeln($path);
+		return self::SUCCESS;
 	}
 
 	/**
@@ -67,7 +78,7 @@ class GetPath extends Base {
 	 * @param CompletionContext $context
 	 * @return string[]
 	 */
-	public function completeArgumentValues($argumentName, CompletionContext $context) {
+	public function completeArgumentValues($argumentName, CompletionContext $context): array {
 		if ($argumentName === 'app') {
 			return \OC_App::getAllApps();
 		}

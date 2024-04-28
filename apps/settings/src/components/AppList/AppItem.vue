@@ -21,14 +21,17 @@
   -->
 
 <template>
-	<component :is="listView ? `tr` : `li`"
-		class="section"
-		:class="{ selected: isSelected }"
-		@click="showAppDetails">
+	<component :is="listView ? 'tr' : (inline ? 'article' : 'li')"
+		class="app-item"
+		:class="{
+			'app-item--list-view': listView,
+			'app-item--store-view': !listView,
+			'app-item--selected': isSelected,
+			'app-item--with-sidebar': withSidebar,
+		}">
 		<component :is="dataItemTag"
 			class="app-image app-image-icon"
-			:headers="getDataItemHeaders(`app-table-col-icon`)"
-			@click="showAppDetails">
+			:headers="getDataItemHeaders(`app-table-col-icon`)">
 			<div v-if="(listView && !app.preview) || (!listView && !screenshotLoaded)" class="icon-settings-dark" />
 
 			<svg v-else-if="listView && app.preview"
@@ -44,13 +47,22 @@
 					class="app-icon" />
 			</svg>
 
-			<img v-if="!listView && app.screenshot && screenshotLoaded" :src="app.screenshot" width="100%">
+			<img v-if="!listView && app.screenshot && screenshotLoaded" :src="app.screenshot" alt="">
 		</component>
 		<component :is="dataItemTag"
 			class="app-name"
-			:headers="getDataItemHeaders(`app-table-col-name`)"
-			@click="showAppDetails">
-			{{ app.name }}
+			:headers="getDataItemHeaders(`app-table-col-name`)">
+			<router-link class="app-name--link"
+				:to="{
+					name: 'apps-details',
+					params: {
+						category: category,
+						id: app.id
+					},
+				}"
+				:aria-label="t('settings', 'Show details for {appName} app', { appName:app.name })">
+				{{ app.name }}
+			</router-link>
 		</component>
 		<component :is="dataItemTag"
 			v-if="!listView"
@@ -67,19 +79,13 @@
 		</component>
 
 		<component :is="dataItemTag" :headers="getDataItemHeaders(`app-table-col-level`)" class="app-level">
-			<span v-if="app.level === 300"
-				:title="t('settings', 'This app is supported via your current Nextcloud subscription.')"
-				:aria-label="t('settings', 'This app is supported via your current Nextcloud subscription.')"
-				class="supported icon-checkmark-color">
-				{{ t('settings', 'Supported') }}</span>
-			<span v-if="app.level === 200"
-				:title="t('settings', 'Featured apps are developed by and within the community. They offer central functionality and are ready for production use.')"
-				:aria-label="t('settings', 'Featured apps are developed by and within the community. They offer central functionality and are ready for production use.')"
-				class="official icon-checkmark">
-				{{ t('settings', 'Featured') }}</span>
+			<AppLevelBadge :level="app.level" />
 			<AppScore v-if="hasRating && !listView" :score="app.score" />
 		</component>
-		<component :is="dataItemTag" :headers="getDataItemHeaders(`app-table-col-actions`)" class="actions">
+		<component :is="dataItemTag"
+			v-if="!inline"
+			:headers="getDataItemHeaders(`app-table-col-actions`)"
+			class="app-actions">
 			<div v-if="app.error" class="warning">
 				{{ app.error }}
 			</div>
@@ -124,6 +130,7 @@
 
 <script>
 import AppScore from './AppScore.vue'
+import AppLevelBadge from './AppLevelBadge.vue'
 import AppManagement from '../../mixins/AppManagement.js'
 import SvgFilterMixin from '../SvgFilterMixin.vue'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
@@ -131,13 +138,20 @@ import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 export default {
 	name: 'AppItem',
 	components: {
+		AppLevelBadge,
 		AppScore,
 		NcButton,
 	},
 	mixins: [AppManagement, SvgFilterMixin],
 	props: {
-		app: {},
-		category: {},
+		app: {
+			type: Object,
+			required: true,
+		},
+		category: {
+			type: String,
+			required: true,
+		},
 		listView: {
 			type: Boolean,
 			default: true,
@@ -149,6 +163,10 @@ export default {
 		headers: {
 			type: String,
 			default: null,
+		},
+		inline: {
+			type: Boolean,
+			default: false,
 		},
 	},
 	data() {
@@ -165,6 +183,9 @@ export default {
 		dataItemTag() {
 			return this.listView ? 'td' : 'div'
 		},
+		withSidebar() {
+			return !!this.$route.params.id
+		},
 	},
 	watch: {
 		'$route.params.id'(id) {
@@ -175,7 +196,7 @@ export default {
 		this.isSelected = (this.app.id === this.$route.params.id)
 		if (this.app.releases && this.app.screenshot) {
 			const image = new Image()
-			image.onload = (e) => {
+			image.onload = () => {
 				this.screenshotLoaded = true
 			}
 			image.src = this.app.screenshot
@@ -185,19 +206,6 @@ export default {
 
 	},
 	methods: {
-		async showAppDetails(event) {
-			if (event.currentTarget.tagName === 'INPUT' || event.currentTarget.tagName === 'A') {
-				return
-			}
-			try {
-				await this.$router.push({
-					name: 'apps-details',
-					params: { category: this.category, id: this.app.id },
-				})
-			} catch (e) {
-				// we already view this app
-			}
-		},
 		prefix(prefix, content) {
 			return prefix + '_' + content
 		},
@@ -210,7 +218,191 @@ export default {
 </script>
 
 <style scoped lang="scss">
-	.app-icon {
-		filter: var(--background-invert-if-bright);
+@use '../../../../../core/css/variables.scss' as variables;
+@use 'sass:math';
+
+.app-item {
+	position: relative;
+
+	&:hover {
+		background-color: var(--color-background-dark);
 	}
+
+	&--list-view {
+		--app-item-padding: calc(var(--default-grid-baseline) * 2);
+		--app-item-height: calc(var(--default-clickable-area) + var(--app-item-padding) * 2);
+
+		&.app-item--selected {
+			background-color: var(--color-background-dark);
+		}
+
+		> * {
+			vertical-align: middle;
+			border-bottom: 1px solid var(--color-border);
+			padding: var(--app-item-padding);
+			height: var(--app-item-height);
+		}
+
+		.app-image {
+			width: var(--default-clickable-area);
+			height: auto;
+			text-align: right;
+		}
+
+		.app-image-icon svg,
+		.app-image-icon .icon-settings-dark {
+			margin-top: 5px;
+			width: 20px;
+			height: 20px;
+			opacity: .5;
+			background-size: cover;
+			display: inline-block;
+		}
+
+		.app-name {
+			padding: 0 var(--app-item-padding);
+		}
+
+		.app-name--link {
+			height: var(--app-item-height);
+			display: flex;
+			align-items: center;
+		}
+
+		// Note: because of Safari bug, we cannot position link overlay relative to the table row
+		// So we need to manually position it relative to the table container and cell
+		// See: https://bugs.webkit.org/show_bug.cgi?id=240961
+		.app-name--link::after {
+			content: '';
+			position: absolute;
+			left: 0;
+			right: 0;
+			height: var(--app-item-height);
+		}
+
+		.app-actions {
+			display: flex;
+			gap: var(--app-item-padding);
+			flex-wrap: wrap;
+			justify-content: end;
+
+			.icon-loading-small {
+				display: inline-block;
+				top: 4px;
+				margin-right: 10px;
+			}
+		}
+
+		/* hide app version and level on narrower screens */
+		@media only screen and (max-width: 900px) {
+			.app-version,
+			.app-level {
+				display: none;
+			}
+		}
+
+		/* Hide actions on a small screen. Click on app opens fill-screen sidebar with the buttons */
+		@media only screen and (max-width: math.div(variables.$breakpoint-mobile, 2)) {
+			.app-actions {
+				display: none;
+			}
+		}
+	}
+
+	&--store-view {
+		padding: 30px;
+
+		.app-image-icon .icon-settings-dark {
+			width: 100%;
+			height: 150px;
+			background-size: 45px;
+			opacity: 0.5;
+		}
+
+		.app-image-icon svg {
+			position: absolute;
+			bottom: 43px;
+			/* position halfway vertically */
+			width: 64px;
+			height: 64px;
+			opacity: .1;
+		}
+
+		.app-name {
+			margin: 5px 0;
+		}
+
+		.app-name--link::after {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+		}
+
+		.app-actions {
+			margin: 10px 0;
+		}
+
+		@media only screen and (min-width: 1601px) {
+			width: 25%;
+
+			&.app-item--with-sidebar {
+				width: 33%;
+			}
+		}
+
+		@media only screen and (max-width: 1600px) {
+			width: 25%;
+
+			&.app-item--with-sidebar {
+				width: 33%;
+			}
+		}
+
+		@media only screen and (max-width: 1400px) {
+			width: 33%;
+
+			&.app-item--with-sidebar {
+				width: 50%;
+			}
+		}
+
+		@media only screen and (max-width: 900px) {
+			width: 50%;
+
+			&.app-item--with-sidebar {
+				width: 100%;
+			}
+		}
+
+		@media only screen and (max-width: variables.$breakpoint-mobile) {
+			width: 50%;
+		}
+
+		@media only screen and (max-width: 480px) {
+			width: 100%;
+		}
+	}
+}
+
+.app-icon {
+	filter: var(--background-invert-if-bright);
+}
+
+.app-image {
+	position: relative;
+	height: 150px;
+	opacity: 1;
+	overflow: hidden;
+
+	img {
+		width: 100%;
+	}
+}
+
+.app-version {
+	color: var(--color-text-maxcontrast);
+}
 </style>

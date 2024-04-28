@@ -6,6 +6,7 @@ use OC\AppFramework\DependencyInjection\DIContainer;
 use OC\AppFramework\Routing\RouteConfig;
 use OC\Route\Route;
 use OC\Route\Router;
+use OCP\App\IAppManager;
 use OCP\Diagnostics\IEventLogger;
 use OCP\IConfig;
 use OCP\IRequest;
@@ -142,7 +143,8 @@ class RoutingTest extends \Test\TestCase {
 				$this->createMock(IRequest::class),
 				$this->createMock(IConfig::class),
 				$this->createMock(IEventLogger::class),
-				$this->createMock(ContainerInterface::class)
+				$this->createMock(ContainerInterface::class),
+				$this->createMock(IAppManager::class),
 			])
 			->getMock();
 
@@ -169,7 +171,8 @@ class RoutingTest extends \Test\TestCase {
 				$this->createMock(IRequest::class),
 				$this->createMock(IConfig::class),
 				$this->createMock(IEventLogger::class),
-				$this->createMock(ContainerInterface::class)
+				$this->createMock(ContainerInterface::class),
+				$this->createMock(IAppManager::class),
 			])
 			->getMock();
 
@@ -235,7 +238,8 @@ class RoutingTest extends \Test\TestCase {
 				$this->createMock(IRequest::class),
 				$this->createMock(IConfig::class),
 				$this->createMock(IEventLogger::class),
-				$this->createMock(ContainerInterface::class)
+				$this->createMock(ContainerInterface::class),
+				$this->createMock(IAppManager::class),
 			])
 			->getMock();
 
@@ -267,14 +271,14 @@ class RoutingTest extends \Test\TestCase {
 	 * @param string $postfix
 	 */
 	private function assertSimpleOCSRoute($routes,
-										  $name,
-										  $verb,
-										  $url,
-										  $controllerName,
-										  $actionName,
-										  array $requirements = [],
-										  array $defaults = [],
-										  $postfix = '') {
+		$name,
+		$verb,
+		$url,
+		$controllerName,
+		$actionName,
+		array $requirements = [],
+		array $defaults = [],
+		$postfix = '') {
 		if ($postfix) {
 			$name .= $postfix;
 		}
@@ -291,7 +295,8 @@ class RoutingTest extends \Test\TestCase {
 				$this->createMock(IRequest::class),
 				$this->createMock(IConfig::class),
 				$this->createMock(IEventLogger::class),
-				$this->createMock(ContainerInterface::class)
+				$this->createMock(ContainerInterface::class),
+				$this->createMock(IAppManager::class),
 			])
 			->getMock();
 
@@ -324,7 +329,8 @@ class RoutingTest extends \Test\TestCase {
 				$this->createMock(IRequest::class),
 				$this->createMock(IConfig::class),
 				$this->createMock(IEventLogger::class),
-				$this->createMock(ContainerInterface::class)
+				$this->createMock(ContainerInterface::class),
+				$this->createMock(IAppManager::class),
 			])
 			->getMock();
 
@@ -377,7 +383,8 @@ class RoutingTest extends \Test\TestCase {
 				$this->createMock(IRequest::class),
 				$this->createMock(IConfig::class),
 				$this->createMock(IEventLogger::class),
-				$this->createMock(ContainerInterface::class)
+				$this->createMock(ContainerInterface::class),
+				$this->createMock(IAppManager::class),
 			])
 			->getMock();
 

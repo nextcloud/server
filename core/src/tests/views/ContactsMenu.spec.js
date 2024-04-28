@@ -139,7 +139,7 @@ describe('ContactsMenu', function() {
 						emailAddresses: [],
 					}
 				],
-				contactsAppEnabled: false,
+				contactsAppEnabled: true,
 			},
 		})
 
@@ -149,26 +149,6 @@ describe('ContactsMenu', function() {
 		expect(view.vm.contacts.length).toBe(2)
 		expect(view.text()).toContain('Acosta Lancaster')
 		expect(view.text()).toContain('Adeline Snider')
-	})
-
-	it('shows link ot Contacts', async () => {
-		const view = shallowMount(ContactsMenu)
-		axios.post.mockResolvedValue({
-			data: {
-				contacts: [
-					{
-						id: 1,
-					},
-					{
-						id: 2,
-					},
-				],
-				contactsAppEnabled: true,
-			},
-		})
-
-		await view.vm.handleOpen()
-
-		expect(view.text()).toContain('Show all contacts …')
+		expect(view.text()).toContain('Show all contacts')
 	})
 })

@@ -55,10 +55,10 @@ class Backend {
 	protected $userManager;
 
 	public function __construct(IActivityManager $activityManager,
-								IGroupManager $groupManager,
-								IUserSession $userSession,
-								IAppManager $appManager,
-								IUserManager $userManager) {
+		IGroupManager $groupManager,
+		IUserSession $userSession,
+		IAppManager $appManager,
+		IUserManager $userManager) {
 		$this->activityManager = $activityManager;
 		$this->groupManager = $groupManager;
 		$this->userSession = $userSession;

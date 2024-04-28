@@ -22,10 +22,7 @@
 
 <template>
 	<section id="vue-avatar-section">
-		<h3 class="hidden-visually">
-			{{ t('settings', 'Your profile information') }}
-		</h3>
-		<HeaderBar :input-id="avatarChangeSupported ? inputId : null"
+		<HeaderBar :is-heading="true"
 			:readable="avatar.readable"
 			:scope.sync="avatar.scope" />
 
@@ -35,8 +32,7 @@
 					:key="version"
 					:user="userId"
 					:aria-label="t('settings', 'Your profile picture')"
-					:disabled-menu="true"
-					:disabled-tooltip="true"
+					:disable-tooltip="true"
 					:show-user-status="false"
 					:size="180" />
 				<div v-else class="icon-loading" />
@@ -64,8 +60,7 @@
 					</NcButton>
 				</div>
 				<span>{{ t('settings', 'The file must be a PNG or JPG') }}</span>
-				<input :id="inputId"
-					ref="input"
+				<input ref="input"
 					type="file"
 					:accept="validMimeTypes.join(',')"
 					@change="onChange">
@@ -162,12 +157,6 @@ export default {
 				minContainerHeight: 300,
 			},
 		}
-	},
-
-	computed: {
-		inputId() {
-			return `account-property-${this.avatar.name}`
-		},
 	},
 
 	created() {
@@ -283,6 +272,7 @@ export default {
 <style lang="scss" scoped>
 section {
 	grid-row: 1/3;
+	padding: 10px 10px;
 }
 .avatar {
 	&__container {

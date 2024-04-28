@@ -28,10 +28,6 @@ use OC\Files\Mount\Manager;
 use OC\Files\SetupManagerFactory;
 use OCA\Files_External\Lib\PersonalMount;
 use OCA\Files_External\Lib\StorageConfig;
-use OCP\Diagnostics\IEventLogger;
-use OCP\EventDispatcher\IEventDispatcher;
-use OCP\Files\Config\IMountProviderCollection;
-use OCP\IUserManager;
 use Test\TestCase;
 
 class PersonalMountTest extends TestCase {

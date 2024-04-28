@@ -43,7 +43,7 @@ trait EmitterTrait {
 		if (!isset($this->listeners[$eventName])) {
 			$this->listeners[$eventName] = [];
 		}
-		if (array_search($callback, $this->listeners[$eventName], true) === false) {
+		if (!in_array($callback, $this->listeners[$eventName], true)) {
 			$this->listeners[$eventName][] = $callback;
 		}
 	}
@@ -54,7 +54,7 @@ trait EmitterTrait {
 	 * @param callable $callback optional
 	 * @deprecated 18.0.0 use \OCP\EventDispatcher\IEventDispatcher::removeListener
 	 */
-	public function removeListener($scope = null, $method = null, callable $callback = null) {
+	public function removeListener($scope = null, $method = null, ?callable $callback = null) {
 		$names = [];
 		$allNames = array_keys($this->listeners);
 		if ($scope and $method) {

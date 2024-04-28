@@ -83,7 +83,8 @@ class CoordinatorTest extends TestCase {
 			$this->dashboardManager,
 			$this->eventDispatcher,
 			$this->eventLogger,
-			$this->logger
+			$this->appManager,
+			$this->logger,
 		);
 	}
 

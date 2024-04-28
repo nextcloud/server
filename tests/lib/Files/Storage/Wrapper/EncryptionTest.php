@@ -422,9 +422,9 @@ class EncryptionTest extends Storage {
 	 * @param boolean $renameKeysReturn
 	 */
 	public function testRename($source,
-							   $target,
-							   $encryptionEnabled,
-							   $renameKeysReturn) {
+		$target,
+		$encryptionEnabled,
+		$renameKeysReturn) {
 		if ($encryptionEnabled) {
 			$this->keyStore
 				->expects($this->once())
@@ -790,10 +790,10 @@ class EncryptionTest extends Storage {
 			->method('isEnabled')
 			->willReturn($encryptionEnabled);
 		// FIXME can not overwrite the return after definition
-//		$this->mount->expects($this->at(0))
-//			->method('getOption')
-//			->with('encrypt', true)
-//			->willReturn($mountPointEncryptionEnabled);
+		//		$this->mount->expects($this->at(0))
+		//			->method('getOption')
+		//			->with('encrypt', true)
+		//			->willReturn($mountPointEncryptionEnabled);
 		global $mockedMountPointEncryptionEnabled;
 		$mockedMountPointEncryptionEnabled = $mountPointEncryptionEnabled;
 

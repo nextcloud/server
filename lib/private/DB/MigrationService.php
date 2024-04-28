@@ -43,6 +43,7 @@ use OCP\AppFramework\QueryException;
 use OCP\DB\ISchemaWrapper;
 use OCP\Migration\IMigrationStep;
 use OCP\Migration\IOutput;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 class MigrationService {
@@ -51,6 +52,7 @@ class MigrationService {
 	private string $migrationsPath;
 	private string $migrationsNamespace;
 	private IOutput $output;
+	private LoggerInterface $logger;
 	private Connection $connection;
 	private string $appName;
 	private bool $checkOracle;
@@ -58,11 +60,16 @@ class MigrationService {
 	/**
 	 * @throws \Exception
 	 */
-	public function __construct(string $appName, Connection $connection, ?IOutput $output = null, ?AppLocator $appLocator = null) {
+	public function __construct(string $appName, Connection $connection, ?IOutput $output = null, ?AppLocator $appLocator = null, ?LoggerInterface $logger = null) {
 		$this->appName = $appName;
 		$this->connection = $connection;
+		if ($logger === null) {
+			$this->logger = Server::get(LoggerInterface::class);
+		} else {
+			$this->logger = $logger;
+		}
 		if ($output === null) {
-			$this->output = new SimpleOutput(\OC::$server->get(LoggerInterface::class), $appName);
+			$this->output = new SimpleOutput($this->logger, $appName);
 		} else {
 			$this->output = $output;
 		}
@@ -72,7 +79,7 @@ class MigrationService {
 			$this->migrationsNamespace = 'OC\\Core\\Migrations';
 			$this->checkOracle = true;
 		} else {
-			if (null === $appLocator) {
+			if ($appLocator === null) {
 				$appLocator = new AppLocator();
 			}
 			$appPath = $appLocator->getAppPath($appName);
@@ -390,6 +397,7 @@ class MigrationService {
 	 */
 	public function migrate(string $to = 'latest', bool $schemaOnly = false): void {
 		if ($schemaOnly) {
+			$this->output->debug('Migrating schema only');
 			$this->migrateSchemaOnly($to);
 			return;
 		}
@@ -421,6 +429,7 @@ class MigrationService {
 
 		$toSchema = null;
 		foreach ($toBeExecuted as $version) {
+			$this->output->debug('- Reading ' . $version);
 			$instance = $this->createInstance($version);
 
 			$toSchema = $instance->changeSchema($this->output, function () use ($toSchema): ISchemaWrapper {
@@ -429,16 +438,20 @@ class MigrationService {
 		}
 
 		if ($toSchema instanceof SchemaWrapper) {
+			$this->output->debug('- Checking target database schema');
 			$targetSchema = $toSchema->getWrappedSchema();
-			$this->ensureUniqueNamesConstraints($targetSchema);
+			$this->ensureUniqueNamesConstraints($targetSchema, true);
 			if ($this->checkOracle) {
 				$beforeSchema = $this->connection->createSchema();
 				$this->ensureOracleConstraints($beforeSchema, $targetSchema, strlen($this->connection->getPrefix()));
 			}
+
+			$this->output->debug('- Migrate database schema');
 			$this->connection->migrateToSchema($targetSchema);
 			$toSchema->performDropTableCalls();
 		}
 
+		$this->output->debug('- Mark migrations as executed');
 		foreach ($toBeExecuted as $version) {
 			$this->markAsExecuted($version);
 		}
@@ -508,7 +521,7 @@ class MigrationService {
 
 		if ($toSchema instanceof SchemaWrapper) {
 			$targetSchema = $toSchema->getWrappedSchema();
-			$this->ensureUniqueNamesConstraints($targetSchema);
+			$this->ensureUniqueNamesConstraints($targetSchema, $schemaOnly);
 			if ($this->checkOracle) {
 				$sourceSchema = $this->connection->createSchema();
 				$this->ensureOracleConstraints($sourceSchema, $targetSchema, strlen($this->connection->getPrefix()));
@@ -644,14 +657,26 @@ class MigrationService {
 	}
 
 	/**
+	 * Ensure naming constraints
+	 *
 	 * Naming constraints:
 	 * - Index, sequence and primary key names must be unique within a Postgres Schema
 	 *
+	 * Only on installation we want to break hard, so that all developers notice
+	 * the bugs when installing the app on any database or CI, and can work on
+	 * fixing their migrations before releasing a version incompatible with Postgres.
+	 *
+	 * In case of updates we might be running on production instances and the
+	 * administrators being faced with the error would not know how to resolve it
+	 * anyway. This can also happen with instances, that had the issue before the
+	 * current update, so we don't want to make their life more complicated
+	 * than needed.
+	 *
 	 * @param Schema $targetSchema
+	 * @param bool $isInstalling
 	 */
-	public function ensureUniqueNamesConstraints(Schema $targetSchema): void {
+	public function ensureUniqueNamesConstraints(Schema $targetSchema, bool $isInstalling): void {
 		$constraintNames = [];
-
 		$sequences = $targetSchema->getSequences();
 
 		foreach ($targetSchema->getTables() as $table) {
@@ -662,14 +687,20 @@ class MigrationService {
 				}
 
 				if (isset($constraintNames[$thing->getName()])) {
-					throw new \InvalidArgumentException('Index name "' . $thing->getName() . '" for table "' . $table->getName() . '" collides with the constraint on table "' . $constraintNames[$thing->getName()] . '".');
+					if ($isInstalling) {
+						throw new \InvalidArgumentException('Index name "' . $thing->getName() . '" for table "' . $table->getName() . '" collides with the constraint on table "' . $constraintNames[$thing->getName()] . '".');
+					}
+					$this->logErrorOrWarning('Index name "' . $thing->getName() . '" for table "' . $table->getName() . '" collides with the constraint on table "' . $constraintNames[$thing->getName()] . '".');
 				}
 				$constraintNames[$thing->getName()] = $table->getName();
 			}
 
 			foreach ($table->getForeignKeys() as $thing) {
 				if (isset($constraintNames[$thing->getName()])) {
-					throw new \InvalidArgumentException('Foreign key name "' . $thing->getName() . '" for table "' . $table->getName() . '" collides with the constraint on table "' . $constraintNames[$thing->getName()] . '".');
+					if ($isInstalling) {
+						throw new \InvalidArgumentException('Foreign key name "' . $thing->getName() . '" for table "' . $table->getName() . '" collides with the constraint on table "' . $constraintNames[$thing->getName()] . '".');
+					}
+					$this->logErrorOrWarning('Foreign key name "' . $thing->getName() . '" for table "' . $table->getName() . '" collides with the constraint on table "' . $constraintNames[$thing->getName()] . '".');
 				}
 				$constraintNames[$thing->getName()] = $table->getName();
 			}
@@ -682,7 +713,10 @@ class MigrationService {
 				}
 
 				if (isset($constraintNames[$indexName])) {
-					throw new \InvalidArgumentException('Primary index name "' . $indexName . '" for table "' . $table->getName() . '" collides with the constraint on table "' . $constraintNames[$thing->getName()] . '".');
+					if ($isInstalling) {
+						throw new \InvalidArgumentException('Primary index name "' . $indexName . '" for table "' . $table->getName() . '" collides with the constraint on table "' . $constraintNames[$thing->getName()] . '".');
+					}
+					$this->logErrorOrWarning('Primary index name "' . $indexName . '" for table "' . $table->getName() . '" collides with the constraint on table "' . $constraintNames[$thing->getName()] . '".');
 				}
 				$constraintNames[$indexName] = $table->getName();
 			}
@@ -690,9 +724,20 @@ class MigrationService {
 
 		foreach ($sequences as $sequence) {
 			if (isset($constraintNames[$sequence->getName()])) {
-				throw new \InvalidArgumentException('Sequence name "' . $sequence->getName() . '" for table "' . $table->getName() . '" collides with the constraint on table "' . $constraintNames[$thing->getName()] . '".');
+				if ($isInstalling) {
+					throw new \InvalidArgumentException('Sequence name "' . $sequence->getName() . '" for table "' . $table->getName() . '" collides with the constraint on table "' . $constraintNames[$thing->getName()] . '".');
+				}
+				$this->logErrorOrWarning('Sequence name "' . $sequence->getName() . '" for table "' . $table->getName() . '" collides with the constraint on table "' . $constraintNames[$thing->getName()] . '".');
 			}
 			$constraintNames[$sequence->getName()] = 'sequence';
+		}
+	}
+
+	protected function logErrorOrWarning(string $log): void {
+		if ($this->output instanceof SimpleOutput) {
+			$this->output->warning($log);
+		} else {
+			$this->logger->error($log);
 		}
 	}
 

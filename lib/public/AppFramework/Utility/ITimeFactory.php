@@ -50,7 +50,7 @@ interface ITimeFactory extends ClockInterface {
 	 * @return \DateTime
 	 * @since 15.0.0
 	 */
-	public function getDateTime(string $time = 'now', \DateTimeZone $timezone = null): \DateTime;
+	public function getDateTime(string $time = 'now', ?\DateTimeZone $timezone = null): \DateTime;
 
 	/**
 	 * @param \DateTimeZone $timezone
@@ -58,4 +58,12 @@ interface ITimeFactory extends ClockInterface {
 	 * @since 26.0.0
 	 */
 	public function withTimeZone(\DateTimeZone $timezone): static;
+
+	/**
+	 * @param string|null $timezone
+	 * @return \DateTimeZone Requested timezone if provided, UTC otherwise
+	 * @throws \Exception
+	 * @since 29.0.0
+	 */
+	public function getTimeZone(?string $timezone = null): \DateTimeZone;
 }

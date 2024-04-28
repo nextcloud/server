@@ -151,6 +151,7 @@ abstract class Avatar implements IAvatar {
 
 	/**
 	 * Generate png avatar with GD
+	 * @throws \Exception when an error occurs in gd calls
 	 */
 	protected function generateAvatar(string $userDisplayName, int $size, bool $darkTheme): string {
 		$text = $this->getAvatarText();
@@ -158,6 +159,9 @@ abstract class Avatar implements IAvatar {
 		$backgroundColor = $textColor->alphaBlending(0.1, $darkTheme ? new Color(0, 0, 0) : new Color(255, 255, 255));
 
 		$im = imagecreatetruecolor($size, $size);
+		if ($im === false) {
+			throw new \Exception('Failed to create avatar image');
+		}
 		$background = imagecolorallocate(
 			$im,
 			$backgroundColor->red(),
@@ -169,6 +173,9 @@ abstract class Avatar implements IAvatar {
 			$textColor->green(),
 			$textColor->blue()
 		);
+		if ($background === false || $textColor === false) {
+			throw new \Exception('Failed to create avatar image color');
+		}
 		imagefilledrectangle($im, 0, 0, $size, $size, $background);
 
 		$font = __DIR__ . '/../../../core/fonts/NotoSans-Regular.ttf';
@@ -191,7 +198,7 @@ abstract class Avatar implements IAvatar {
 	/**
 	 * Calculate real image ttf center
 	 *
-	 * @param resource $image
+	 * @param \GdImage $image
 	 * @param string $text text string
 	 * @param string $font font path
 	 * @param int $size font size

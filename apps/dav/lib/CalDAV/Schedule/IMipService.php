@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 /*
  * DAV App
@@ -57,10 +58,10 @@ class IMipService {
 	];
 
 	public function __construct(URLGenerator $urlGenerator,
-								IConfig $config,
-								IDBConnection $db,
-								ISecureRandom $random,
-								L10NFactory $l10nFactory) {
+		IConfig $config,
+		IDBConnection $db,
+		ISecureRandom $random,
+		L10NFactory $l10nFactory) {
 		$this->urlGenerator = $urlGenerator;
 		$this->config = $config;
 		$this->db = $db;
@@ -99,7 +100,7 @@ class IMipService {
 			return $default;
 		}
 		$newstring = $vevent->$property->getValue();
-		if(isset($oldVEvent->$property) && $oldVEvent->$property->getValue() !== $newstring ) {
+		if(isset($oldVEvent->$property) && $oldVEvent->$property->getValue() !== $newstring) {
 			$oldstring = $oldVEvent->$property->getValue();
 			return sprintf($strikethrough, $oldstring, $newstring);
 		}
@@ -162,7 +163,7 @@ class IMipService {
 
 		if(!empty($oldVEvent)) {
 			$oldMeetingWhen = $this->generateWhenString($oldVEvent);
-			$data['meeting_title_html']	= $this->generateDiffString($vEvent, $oldVEvent, 'SUMMARY', $data['meeting_title']);
+			$data['meeting_title_html'] = $this->generateDiffString($vEvent, $oldVEvent, 'SUMMARY', $data['meeting_title']);
 			$data['meeting_description_html'] = $this->generateDiffString($vEvent, $oldVEvent, 'DESCRIPTION', $data['meeting_description']);
 			$data['meeting_location_html'] = $this->generateLinkifiedDiffString($vEvent, $oldVEvent, 'LOCATION', $data['meeting_location']);
 
@@ -281,7 +282,8 @@ class IMipService {
 		$strikethrough = "<span style='text-decoration: line-through'>%s</span>";
 
 		$newMeetingWhen = $this->generateWhenString($vEvent);
-		$newSummary = isset($vEvent->SUMMARY) && (string)$vEvent->SUMMARY !== '' ? (string)$vEvent->SUMMARY : $this->l10n->t('Untitled event');;
+		$newSummary = isset($vEvent->SUMMARY) && (string)$vEvent->SUMMARY !== '' ? (string)$vEvent->SUMMARY : $this->l10n->t('Untitled event');
+		;
 		$newDescription = isset($vEvent->DESCRIPTION) && (string)$vEvent->DESCRIPTION !== '' ? (string)$vEvent->DESCRIPTION : $defaultVal;
 		$newUrl = isset($vEvent->URL) && (string)$vEvent->URL !== '' ? sprintf('<a href="%1$s">%1$s</a>', $vEvent->URL) : $defaultVal;
 		$newLocation = isset($vEvent->LOCATION) && (string)$vEvent->LOCATION !== '' ? (string)$vEvent->LOCATION : $defaultVal;
@@ -483,7 +485,7 @@ class IMipService {
 				htmlspecialchars($organizer->getNormalizedValue()),
 				htmlspecialchars($organizerName ?: $organizerEmail));
 			$organizerText = sprintf('%s <%s>', $organizerName, $organizerEmail);
-			if(isset($organizer['PARTSTAT']) ) {
+			if(isset($organizer['PARTSTAT'])) {
 				/** @var Parameter $partstat */
 				$partstat = $organizer['PARTSTAT'];
 				if(strcasecmp($partstat->getValue(), 'ACCEPTED') === 0) {
@@ -672,5 +674,18 @@ class IMipService {
 			}
 		}
 		return null;
+	}
+
+	public function isRoomOrResource(Property $attendee): bool {
+		$cuType = $attendee->offsetGet('CUTYPE');
+		if(!$cuType instanceof Parameter) {
+			return false;
+		}
+		$type = $cuType->getValue() ?? 'INDIVIDUAL';
+		if (\in_array(strtoupper($type), ['RESOURCE', 'ROOM'], true)) {
+			// Don't send emails to things
+			return true;
+		}
+		return false;
 	}
 }

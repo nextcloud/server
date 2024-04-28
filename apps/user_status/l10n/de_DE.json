@@ -5,10 +5,10 @@
     "Commuting" : "Pendelt",
     "Out sick" : "Krank geschrieben",
     "Vacationing" : "Im Urlaub",
+    "Out of office" : "Nicht im Büro",
     "Working remotely" : "Arbeitet aus der Ferne",
     "In a call" : "In einem Anruf",
     "User status" : "Benutzerstatus",
-    "View profile" : "Profil ansehen",
     "Clear status after" : "Status löschen nach",
     "Emoji for your status message" : "Emoji für Ihre Statusnachricht",
     "What is your status?" : "Wie ist Ihr Status?",
@@ -41,6 +41,6 @@
     "4 hours" : "4 Stunden",
     "Mute all notifications" : "Alle Benachrichtigungen stummschalten",
     "Appear offline" : "Offline erscheinen",
-    "{status}, {timestamp}" : "{status}, {timestamp}"
+    "View profile" : "Profil ansehen"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -9,8 +9,8 @@
 namespace Test\Files;
 
 use OC\Files\Filesystem;
-use OCP\EventDispatcher\IEventDispatcher;
 use OCA\Files_Sharing\AppInfo\Application;
+use OCP\EventDispatcher\IEventDispatcher;
 use Psr\Log\LoggerInterface;
 
 /**

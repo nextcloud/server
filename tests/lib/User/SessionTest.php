@@ -11,9 +11,12 @@ namespace Test\User;
 use OC\AppFramework\Http\Request;
 use OC\Authentication\Events\LoginFailed;
 use OC\Authentication\Exceptions\InvalidTokenException;
+use OC\Authentication\Exceptions\PasswordlessTokenException;
 use OC\Authentication\Exceptions\PasswordLoginForbiddenException;
 use OC\Authentication\Token\IProvider;
 use OC\Authentication\Token\IToken;
+use OC\Authentication\Token\PublicKeyToken;
+use OC\Security\CSRF\CsrfTokenManager;
 use OC\Session\Memory;
 use OC\User\LoginException;
 use OC\User\Manager;
@@ -34,7 +37,8 @@ use OCP\Security\ISecureRandom;
 use OCP\User\Events\PostLoginEvent;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
-use OC\Security\CSRF\CsrfTokenManager;
+use function array_diff;
+use function get_class_methods;
 
 /**
  * @group DB
@@ -309,6 +313,80 @@ class SessionTest extends \Test\TestCase {
 		$userSession->login('foo', 'bar');
 	}
 
+	public function testPasswordlessLoginNoLastCheckUpdate(): void {
+		$session = $this->getMockBuilder(Memory::class)->setConstructorArgs([''])->getMock();
+		$managerMethods = get_class_methods(Manager::class);
+		// Keep following methods intact in order to ensure hooks are working
+		$mockedManagerMethods = array_diff($managerMethods, ['__construct', 'emit', 'listen']);
+		$manager = $this->getMockBuilder(Manager::class)
+			->setMethods($mockedManagerMethods)
+			->setConstructorArgs([
+				$this->config,
+				$this->createMock(ICacheFactory::class),
+				$this->createMock(IEventDispatcher::class),
+			])
+			->getMock();
+		$userSession = new Session($manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher);
+
+		$session->expects($this->never())
+			->method('set');
+		$session->expects($this->once())
+			->method('regenerateId');
+		$token = new PublicKeyToken();
+		$token->setLoginName('foo');
+		$token->setLastCheck(0); // Never
+		$token->setUid('foo');
+		$this->tokenProvider
+			->method('getPassword')
+			->with($token)
+			->willThrowException(new PasswordlessTokenException());
+		$this->tokenProvider
+			->method('getToken')
+			->with('app-password')
+			->willReturn($token);
+		$this->tokenProvider->expects(self::never())
+			->method('updateToken');
+
+		$userSession->login('foo', 'app-password');
+	}
+
+	public function testLoginLastCheckUpdate(): void {
+		$session = $this->getMockBuilder(Memory::class)->setConstructorArgs([''])->getMock();
+		$managerMethods = get_class_methods(Manager::class);
+		// Keep following methods intact in order to ensure hooks are working
+		$mockedManagerMethods = array_diff($managerMethods, ['__construct', 'emit', 'listen']);
+		$manager = $this->getMockBuilder(Manager::class)
+			->setMethods($mockedManagerMethods)
+			->setConstructorArgs([
+				$this->config,
+				$this->createMock(ICacheFactory::class),
+				$this->createMock(IEventDispatcher::class),
+			])
+			->getMock();
+		$userSession = new Session($manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher);
+
+		$session->expects($this->never())
+			->method('set');
+		$session->expects($this->once())
+			->method('regenerateId');
+		$token = new PublicKeyToken();
+		$token->setLoginName('foo');
+		$token->setLastCheck(0); // Never
+		$token->setUid('foo');
+		$this->tokenProvider
+			->method('getPassword')
+			->with($token)
+			->willReturn('secret');
+		$this->tokenProvider
+			->method('getToken')
+			->with('app-password')
+			->willReturn($token);
+		$this->tokenProvider->expects(self::once())
+			->method('updateToken');
+
+		$userSession->login('foo', 'app-password');
+	}
+
 	public function testLoginNonExisting() {
 		$session = $this->getMockBuilder(Memory::class)->setConstructorArgs([''])->getMock();
 		$manager = $this->createMock(Manager::class);
@@ -477,6 +555,56 @@ class SessionTest extends \Test\TestCase {
 			->willReturn(0);
 
 		$userSession->logClientIn('john', 'doe', $request, $this->throttler);
+	}
+
+	public function testTryTokenLoginNoHeaderNoSessionCookie(): void {
+		$request = $this->createMock(IRequest::class);
+		$this->config->expects(self::once())
+			->method('getSystemValueString')
+			->with('instanceid')
+			->willReturn('abc123');
+		$request->method('getHeader')->with('Authorization')->willReturn('');
+		$request->method('getCookie')->with('abc123')->willReturn(null);
+		$this->tokenProvider->expects(self::never())
+			->method('getToken');
+
+		$loginResult = $this->userSession->tryTokenLogin($request);
+
+		self::assertFalse($loginResult);
+	}
+
+	public function testTryTokenLoginAuthorizationHeaderTokenNotFound(): void {
+		$request = $this->createMock(IRequest::class);
+		$request->method('getHeader')->with('Authorization')->willReturn('Bearer abcde-12345');
+		$this->tokenProvider->expects(self::once())
+			->method('getToken')
+			->with('abcde-12345')
+			->willThrowException(new InvalidTokenException());
+
+		$loginResult = $this->userSession->tryTokenLogin($request);
+
+		self::assertFalse($loginResult);
+	}
+
+	public function testTryTokenLoginSessionIdTokenNotFound(): void {
+		$request = $this->createMock(IRequest::class);
+		$this->config->expects(self::once())
+			->method('getSystemValueString')
+			->with('instanceid')
+			->willReturn('abc123');
+		$request->method('getHeader')->with('Authorization')->willReturn('');
+		$request->method('getCookie')->with('abc123')->willReturn('abcde12345');
+		$this->session->expects(self::once())
+			->method('getId')
+			->willReturn('abcde12345');
+		$this->tokenProvider->expects(self::once())
+			->method('getToken')
+			->with('abcde12345')
+			->willThrowException(new InvalidTokenException());
+
+		$loginResult = $this->userSession->tryTokenLogin($request);
+
+		self::assertFalse($loginResult);
 	}
 
 	public function testRememberLoginValidToken() {
@@ -1110,7 +1238,7 @@ class SessionTest extends \Test\TestCase {
 
 		$userSession->expects($this->once())
 			->method('isTokenPassword')
-			->willReturn(true);
+			->willReturn(false);
 		$userSession->expects($this->once())
 			->method('login')
 			->with('john@foo.bar', 'I-AM-AN-PASSWORD')

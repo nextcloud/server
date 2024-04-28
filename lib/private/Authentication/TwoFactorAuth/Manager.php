@@ -29,10 +29,10 @@ namespace OC\Authentication\TwoFactorAuth;
 
 use BadMethodCallException;
 use Exception;
-use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Token\IProvider as TokenProvider;
 use OCP\Activity\IManager;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\Authentication\TwoFactorAuth\IActivatableAtLogin;
 use OCP\Authentication\TwoFactorAuth\IProvider;
 use OCP\Authentication\TwoFactorAuth\IRegistry;
@@ -89,15 +89,15 @@ class Manager {
 	private $userIsTwoFactorAuthenticated = [];
 
 	public function __construct(ProviderLoader $providerLoader,
-								IRegistry $providerRegistry,
-								MandatoryTwoFactor $mandatoryTwoFactor,
-								ISession $session,
-								IConfig $config,
-								IManager $activityManager,
-								LoggerInterface $logger,
-								TokenProvider $tokenProvider,
-								ITimeFactory $timeFactory,
-								IEventDispatcher $eventDispatcher) {
+		IRegistry $providerRegistry,
+		MandatoryTwoFactor $mandatoryTwoFactor,
+		ISession $session,
+		IConfig $config,
+		IManager $activityManager,
+		LoggerInterface $logger,
+		TokenProvider $tokenProvider,
+		ITimeFactory $timeFactory,
+		IEventDispatcher $eventDispatcher) {
 		$this->providerLoader = $providerLoader;
 		$this->providerRegistry = $providerRegistry;
 		$this->mandatoryTwoFactor = $mandatoryTwoFactor;
@@ -313,13 +313,13 @@ class Manager {
 	 * @param IUser $user the currently logged in user
 	 * @return boolean
 	 */
-	public function needsSecondFactor(IUser $user = null): bool {
+	public function needsSecondFactor(?IUser $user = null): bool {
 		if ($user === null) {
 			return false;
 		}
 
-		// If we are authenticated using an app password skip all this
-		if ($this->session->exists('app_password')) {
+		// If we are authenticated using an app password or AppAPI Auth, skip all this
+		if ($this->session->exists('app_password') || $this->session->get('app_api') === true) {
 			return false;
 		}
 

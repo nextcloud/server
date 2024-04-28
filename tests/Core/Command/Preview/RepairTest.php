@@ -10,11 +10,11 @@ use OCP\Files\Node;
 use OCP\IConfig;
 use OCP\Lock\ILockingProvider;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Formatter\OutputFormatterInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
-use Psr\Log\LoggerInterface;
 
 class RepairTest extends TestCase {
 	/** @var IConfig|MockObject */

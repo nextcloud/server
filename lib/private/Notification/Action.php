@@ -25,82 +25,53 @@ declare(strict_types=1);
 namespace OC\Notification;
 
 use OCP\Notification\IAction;
+use OCP\Notification\InvalidValueException;
 
 class Action implements IAction {
-	/** @var string */
-	protected $label;
-
-	/** @var string */
-	protected $labelParsed;
-
-	/** @var string */
-	protected $link;
-
-	/** @var string */
-	protected $requestType;
-
-	/** @var string */
-	protected $icon;
-
-	/** @var bool */
-	protected $primary;
-
-	public function __construct() {
-		$this->label = '';
-		$this->labelParsed = '';
-		$this->link = '';
-		$this->requestType = '';
-		$this->primary = false;
-	}
+	protected string $label = '';
+	protected string $labelParsed = '';
+	protected string $link = '';
+	protected string $requestType = '';
+	protected bool $primary = false;
 
 	/**
-	 * @param string $label
-	 * @return $this
-	 * @throws \InvalidArgumentException if the label is invalid
-	 * @since 8.2.0
+	 * {@inheritDoc}
 	 */
 	public function setLabel(string $label): IAction {
 		if ($label === '' || isset($label[32])) {
-			throw new \InvalidArgumentException('The given label is invalid');
+			throw new InvalidValueException('label');
 		}
 		$this->label = $label;
 		return $this;
 	}
 
 	/**
-	 * @return string
-	 * @since 8.2.0
+	 * {@inheritDoc}
 	 */
 	public function getLabel(): string {
 		return $this->label;
 	}
 
 	/**
-	 * @param string $label
-	 * @return $this
-	 * @throws \InvalidArgumentException if the label is invalid
-	 * @since 8.2.0
+	 * {@inheritDoc}
 	 */
 	public function setParsedLabel(string $label): IAction {
 		if ($label === '') {
-			throw new \InvalidArgumentException('The given parsed label is invalid');
+			throw new InvalidValueException('parsedLabel');
 		}
 		$this->labelParsed = $label;
 		return $this;
 	}
 
 	/**
-	 * @return string
-	 * @since 8.2.0
+	 * {@inheritDoc}
 	 */
 	public function getParsedLabel(): string {
 		return $this->labelParsed;
 	}
 
 	/**
-	 * @param $primary bool
-	 * @return $this
-	 * @since 9.0.0
+	 * {@inheritDoc}
 	 */
 	public function setPrimary(bool $primary): IAction {
 		$this->primary = $primary;
@@ -108,23 +79,18 @@ class Action implements IAction {
 	}
 
 	/**
-	 * @return bool
-	 * @since 9.0.0
+	 * {@inheritDoc}
 	 */
 	public function isPrimary(): bool {
 		return $this->primary;
 	}
 
 	/**
-	 * @param string $link
-	 * @param string $requestType
-	 * @return $this
-	 * @throws \InvalidArgumentException if the link is invalid
-	 * @since 8.2.0
+	 * {@inheritDoc}
 	 */
 	public function setLink(string $link, string $requestType): IAction {
 		if ($link === '' || isset($link[256])) {
-			throw new \InvalidArgumentException('The given link is invalid');
+			throw new InvalidValueException('link');
 		}
 		if (!in_array($requestType, [
 			self::TYPE_GET,
@@ -133,7 +99,7 @@ class Action implements IAction {
 			self::TYPE_DELETE,
 			self::TYPE_WEB,
 		], true)) {
-			throw new \InvalidArgumentException('The given request type is invalid');
+			throw new InvalidValueException('requestType');
 		}
 		$this->link = $link;
 		$this->requestType = $requestType;
@@ -141,30 +107,28 @@ class Action implements IAction {
 	}
 
 	/**
-	 * @return string
-	 * @since 8.2.0
+	 * {@inheritDoc}
 	 */
 	public function getLink(): string {
 		return $this->link;
 	}
 
 	/**
-	 * @return string
-	 * @since 8.2.0
+	 * {@inheritDoc}
 	 */
 	public function getRequestType(): string {
 		return $this->requestType;
 	}
 
 	/**
-	 * @return bool
+	 * {@inheritDoc}
 	 */
 	public function isValid(): bool {
 		return $this->label !== '' && $this->link !== '';
 	}
 
 	/**
-	 * @return bool
+	 * {@inheritDoc}
 	 */
 	public function isValidParsed(): bool {
 		return $this->labelParsed !== '' && $this->link !== '';

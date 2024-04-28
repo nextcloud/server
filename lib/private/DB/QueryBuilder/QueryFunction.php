@@ -31,10 +31,7 @@ class QueryFunction implements IQueryFunction {
 		$this->function = $function;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function __toString() {
+	public function __toString(): string {
 		return (string) $this->function;
 	}
 }

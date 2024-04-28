@@ -30,6 +30,7 @@ use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Platforms\SqlitePlatform;
 use OCP\DB\IPreparedStatement;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class AbstractMapping
@@ -321,7 +322,7 @@ abstract class AbstractMapping {
 		return $this->getXbyY('directory_uuid', 'ldap_dn_hash', $this->getDNHash($dn));
 	}
 
-	public function getList(int $offset = 0, int $limit = null, bool $invalidatedOnly = false): array {
+	public function getList(int $offset = 0, ?int $limit = null, bool $invalidatedOnly = false): array {
 		$select = $this->dbc->getQueryBuilder();
 		$select->selectAlias('ldap_dn', 'dn')
 			->selectAlias('owncloud_name', 'name')
@@ -351,7 +352,7 @@ abstract class AbstractMapping {
 	 */
 	public function map($fdn, $name, $uuid) {
 		if (mb_strlen($fdn) > 4000) {
-			\OC::$server->getLogger()->error(
+			\OCP\Server::get(LoggerInterface::class)->error(
 				'Cannot map, because the DN exceeds 4000 characters: {dn}',
 				[
 					'app' => 'user_ldap',

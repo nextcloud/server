@@ -35,7 +35,7 @@ export const action = new FileAction({
 		if (config.status !== STORAGE_STATUS.SUCCESS) {
 			return t('files_external', 'Examine this faulty external storage configuration')
 		}
-		return t('files', 'Open in files')
+		return t('files', 'Open in Files')
 	},
 	iconSvgInline: () => '',
 

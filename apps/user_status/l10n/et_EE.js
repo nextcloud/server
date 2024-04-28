@@ -7,7 +7,6 @@ OC.L10N.register(
     "Vacationing" : "Puhkusel",
     "Working remotely" : "Kaugtööl",
     "User status" : "Kasutaja staatus",
-    "View profile" : "Vaata profiili",
     "Clear status after" : "Tühjenda staatus pärast",
     "Emoji for your status message" : "Staatuse teate emoji",
     "What is your status?" : "Mis on su staatus?",
@@ -25,6 +24,7 @@ OC.L10N.register(
     "30 minutes" : "30 minutit",
     "1 hour" : "1 tund",
     "4 hours" : "4 tundi",
-    "Mute all notifications" : "Vaigista kõik teavituse"
+    "Mute all notifications" : "Vaigista kõik teavituse",
+    "View profile" : "Vaata profiili"
 },
 "nplurals=2; plural=(n != 1);");

@@ -52,10 +52,6 @@ class HostnameClassifier {
 	 * Check host identifier for local hostname
 	 *
 	 * IP addresses are not considered local. Use the IpAddressClassifier for those.
-	 *
-	 * @param string $hostname
-	 *
-	 * @return bool
 	 */
 	public function isLocalHostname(string $hostname): bool {
 		// Disallow local network top-level domains from RFC 6762

@@ -65,6 +65,7 @@
  */
 
 use bantu\IniGetWrapper\IniGetWrapper;
+use OC\Authentication\TwoFactorAuth\Manager as TwoFactorAuthManager;
 use OC\Files\SetupManager;
 use OCP\Files\Template\ITemplateManager;
 use OCP\IConfig;
@@ -513,15 +514,7 @@ class OC_Util {
 		}
 
 		$webServerRestart = false;
-		$setup = new \OC\Setup(
-			$config,
-			\OC::$server->get(IniGetWrapper::class),
-			\OC::$server->getL10N('lib'),
-			\OC::$server->get(\OCP\Defaults::class),
-			\OC::$server->get(LoggerInterface::class),
-			\OC::$server->getSecureRandom(),
-			\OC::$server->get(\OC\Installer::class)
-		);
+		$setup = \OCP\Server::get(\OC\Setup::class);
 
 		$urlGenerator = \OC::$server->getURLGenerator();
 
@@ -740,8 +733,8 @@ class OC_Util {
 			if ($perms[2] !== '0') {
 				$l = \OC::$server->getL10N('lib');
 				return [[
-					'error' => $l->t('Your data directory is readable by other users.'),
-					'hint' => $l->t('Please change the permissions to 0770 so that the directory cannot be listed by other users.'),
+					'error' => $l->t('Your data directory is readable by other people.'),
+					'hint' => $l->t('Please change the permissions to 0770 so that the directory cannot be listed by other people.'),
 				]];
 			}
 		}
@@ -793,7 +786,7 @@ class OC_Util {
 			exit();
 		}
 		// Redirect to 2FA challenge selection if 2FA challenge was not solved yet
-		if (\OC::$server->getTwoFactorAuthManager()->needsSecondFactor(\OC::$server->getUserSession()->getUser())) {
+		if (\OC::$server->get(TwoFactorAuthManager::class)->needsSecondFactor(\OC::$server->getUserSession()->getUser())) {
 			header('Location: ' . \OC::$server->getURLGenerator()->linkToRoute('core.TwoFactorChallenge.selectChallenge'));
 			exit();
 		}
@@ -977,11 +970,11 @@ class OC_Util {
 	 */
 	private static function isNonUTF8Locale() {
 		if (function_exists('escapeshellcmd')) {
-			return '' === escapeshellcmd('§');
+			return escapeshellcmd('§') === '';
 		} elseif (function_exists('escapeshellarg')) {
-			return '\'\'' === escapeshellarg('§');
+			return escapeshellarg('§') === '\'\'';
 		} else {
-			return 0 === preg_match('/utf-?8/i', setlocale(LC_CTYPE, 0));
+			return preg_match('/utf-?8/i', setlocale(LC_CTYPE, 0)) === 0;
 		}
 	}
 
@@ -1120,8 +1113,8 @@ class OC_Util {
 			return false;
 		}
 
-		foreach (str_split($trimmed) as $char) {
-			if (str_contains(\OCP\Constants::FILENAME_INVALID_CHARS, $char)) {
+		foreach (\OCP\Util::getForbiddenFileNameChars() as $char) {
+			if (str_contains($trimmed, $char)) {
 				return false;
 			}
 		}

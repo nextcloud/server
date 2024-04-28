@@ -46,7 +46,7 @@ class DirectEditingController extends OCSController {
 		private IManager $directEditingManager,
 		private DirectEditingService $directEditingService,
 		private LoggerInterface $logger
-		) {
+	) {
 		parent::__construct($appName, $request, $corsMethods, $corsAllowedHeaders, $corsMaxAge);
 	}
 
@@ -79,7 +79,7 @@ class DirectEditingController extends OCSController {
 	 * 200: URL for direct editing returned
 	 * 403: Opening file is not allowed
 	 */
-	public function create(string $path, string $editorId, string $creatorId, string $templateId = null): DataResponse {
+	public function create(string $path, string $editorId, string $creatorId, ?string $templateId = null): DataResponse {
 		if (!$this->directEditingManager->isEnabled()) {
 			return new DataResponse(['message' => 'Direct editing is not enabled'], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
@@ -115,7 +115,7 @@ class DirectEditingController extends OCSController {
 	 * 200: URL for direct editing returned
 	 * 403: Opening file is not allowed
 	 */
-	public function open(string $path, string $editorId = null, ?int $fileId = null): DataResponse {
+	public function open(string $path, ?string $editorId = null, ?int $fileId = null): DataResponse {
 		if (!$this->directEditingManager->isEnabled()) {
 			return new DataResponse(['message' => 'Direct editing is not enabled'], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}

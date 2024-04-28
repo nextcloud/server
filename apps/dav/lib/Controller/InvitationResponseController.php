@@ -30,7 +30,7 @@ namespace OCA\DAV\Controller;
 
 use OCA\DAV\CalDAV\InvitationResponse\InvitationResponseServer;
 use OCP\AppFramework\Controller;
-use OCP\AppFramework\Http\Attribute\IgnoreOpenAPI;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IDBConnection;
@@ -38,7 +38,7 @@ use OCP\IRequest;
 use Sabre\VObject\ITip\Message;
 use Sabre\VObject\Reader;
 
-#[IgnoreOpenAPI]
+#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class InvitationResponseController extends Controller {
 
 	/** @var IDBConnection */
@@ -60,8 +60,8 @@ class InvitationResponseController extends Controller {
 	 * @param InvitationResponseServer $responseServer
 	 */
 	public function __construct(string $appName, IRequest $request,
-								IDBConnection $db, ITimeFactory $timeFactory,
-								InvitationResponseServer $responseServer) {
+		IDBConnection $db, ITimeFactory $timeFactory,
+		InvitationResponseServer $responseServer) {
 		parent::__construct($appName, $request);
 		$this->db = $db;
 		$this->timeFactory = $timeFactory;

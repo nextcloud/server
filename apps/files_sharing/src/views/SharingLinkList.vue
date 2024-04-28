@@ -46,6 +46,8 @@
 </template>
 
 <script>
+import { getCapabilities } from '@nextcloud/capabilities'
+
 // eslint-disable-next-line no-unused-vars
 import Share from '../models/Share.js'
 import ShareTypes from '../mixins/ShareTypes.js'
@@ -80,7 +82,7 @@ export default {
 
 	data() {
 		return {
-			canLinkShare: OC.getCapabilities().files_sharing.public.enabled,
+			canLinkShare: getCapabilities().files_sharing.public.enabled,
 		}
 	},
 

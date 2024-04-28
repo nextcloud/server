@@ -162,7 +162,6 @@ export default {
 		height: 70px;
 		border-radius: var(--border-radius-large) var(--border-radius-large) 0 0;
 		background-color: var(--color-primary-element);
-		background-image: var(--gradient-primary-background);
 
 		span {
 			bottom: 0;

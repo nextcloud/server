@@ -35,7 +35,7 @@ class DummyJobList extends \OC\BackgroundJob\JobList {
 	 * @param IJob|class-string<IJob> $job
 	 * @param mixed $argument
 	 */
-	public function add($job, $argument = null, int $firstCheck = null): void {
+	public function add($job, $argument = null, ?int $firstCheck = null): void {
 		if (is_string($job)) {
 			/** @var IJob $job */
 			$job = \OCP\Server::get($job);
@@ -116,7 +116,7 @@ class DummyJobList extends \OC\BackgroundJob\JobList {
 	/**
 	 * set the job that was last ran
 	 *
-	 * @param \OC\BackgroundJob\Job $job
+	 * @param \OCP\BackgroundJob\Job $job
 	 */
 	public function setLastJob(IJob $job): void {
 		$i = array_search($job, $this->jobs);

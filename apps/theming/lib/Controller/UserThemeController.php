@@ -64,12 +64,12 @@ class UserThemeController extends OCSController {
 	private BackgroundService $backgroundService;
 
 	public function __construct(string $appName,
-								IRequest $request,
-								IConfig $config,
-								IUserSession $userSession,
-								ThemesService $themesService,
-								ThemingDefaults $themingDefaults,
-								BackgroundService $backgroundService) {
+		IRequest $request,
+		IConfig $config,
+		IUserSession $userSession,
+		ThemesService $themesService,
+		ThemingDefaults $themingDefaults,
+		BackgroundService $backgroundService) {
 		parent::__construct($appName, $request);
 		$this->config = $config;
 		$this->userSession = $userSession;
@@ -204,7 +204,7 @@ class UserThemeController extends OCSController {
 	 * 200: Background set successfully
 	 * 400: Setting background is not possible
 	 */
-	public function setBackground(string $type = BackgroundService::BACKGROUND_DEFAULT, string $value = '', string $color = null): JSONResponse {
+	public function setBackground(string $type = BackgroundService::BACKGROUND_DEFAULT, string $value = '', ?string $color = null): JSONResponse {
 		$currentVersion = (int)$this->config->getUserValue($this->userId, Application::APP_ID, 'userCacheBuster', '0');
 
 		// Set color if provided

@@ -19,11 +19,11 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+import { View, getNavigation } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 import HistorySvg from '@mdi/svg/svg/history.svg?raw'
 
 import { getContents } from '../services/Recent'
-import { View, getNavigation } from '@nextcloud/files'
 
 export default () => {
 	const Navigation = getNavigation()
@@ -36,7 +36,7 @@ export default () => {
 		emptyCaption: t('files', 'Files and folders you recently modified will show up here.'),
 
 		icon: HistorySvg,
-		order: 2,
+		order: 10,
 
 		defaultSortKey: 'mtime',
 

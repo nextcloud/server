@@ -30,4 +30,4 @@
 	if (isset($form['form'])) {?>
 		<div id="<?php isset($form['anchor']) ? p($form['anchor']) : p('');?>"><?php print_unescaped($form['form']);?></div>
 	<?php }
-} ?>
+	} ?>

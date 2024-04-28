@@ -21,10 +21,8 @@
  */
 import { User } from '@nextcloud/cypress'
 
-import { pickRandomColor, validateBodyThemingCss } from './themingUtils'
+import { defaultPrimary, defaultBackground, pickRandomColor, validateBodyThemingCss } from './themingUtils'
 
-const defaultPrimary = '#006aa3'
-const defaultBackground = 'kamil-porembinski-clouds.jpg'
 const admin = new User('admin', 'admin')
 
 describe('User default background settings', function() {
@@ -97,7 +95,7 @@ describe('User select shipped backgrounds and remove background', function() {
 
 		// Validate changed background and primary
 		cy.wait('@setBackground')
-		cy.waitUntil(() => validateBodyThemingCss('#56633d', background))
+		cy.waitUntil(() => validateBodyThemingCss('#869171', background))
 	})
 
 	it('Remove background', function() {
@@ -111,7 +109,7 @@ describe('User select shipped backgrounds and remove background', function() {
 
 		// Validate clear background
 		cy.wait('@clearBackground')
-		cy.waitUntil(() => validateBodyThemingCss('#56633d', ''))
+		cy.waitUntil(() => validateBodyThemingCss('#869171', null))
 	})
 })
 
@@ -131,13 +129,13 @@ describe('User select a custom color', function() {
 	it('Select a custom color', function() {
 		cy.intercept('*/apps/theming/background/color').as('setColor')
 
-		pickRandomColor('[data-user-theming-background-color]')
+		pickRandomColor()
 
 		// Validate custom colour change
 		cy.wait('@setColor')
 		cy.waitUntil(() => cy.window().then((win) => {
 			const primary = getComputedStyle(win.document.body).getPropertyValue('--color-primary')
-			return primary !== defaultPrimary
+			return primary !== defaultPrimary && primary !== defaultPrimary
 		}))
 	})
 })
@@ -163,14 +161,14 @@ describe('User select a bright custom color and remove background', function() {
 
 		// Validate clear background
 		cy.wait('@clearBackground')
-		cy.waitUntil(() => validateBodyThemingCss(undefined, ''))
+		cy.waitUntil(() => validateBodyThemingCss(undefined, null))
 	})
 
 	it('Select a custom color', function() {
 		cy.intercept('*/apps/theming/background/color').as('setColor')
 
 		// Pick one of the bright color preset
-		cy.get('[data-user-theming-background-color]').click()
+		cy.contains('button', 'Change color').click()
 		cy.get('.color-picker__simple-color-circle:eq(4)').click()
 
 		// Validate custom colour change
@@ -187,7 +185,7 @@ describe('User select a bright custom color and remove background', function() {
 		}))
 	})
 
-	it('Select a shipped background', function() {
+	it('Select another but non-bright shipped background', function() {
 		const background = 'anatoly-mikhaltsov-butterfly-wing-scale.jpg'
 		cy.intercept('*/apps/theming/background/shipped').as('setBackground')
 
@@ -199,7 +197,7 @@ describe('User select a bright custom color and remove background', function() {
 		cy.waitUntil(() => validateBodyThemingCss('#a53c17', background))
 	})
 
-	it('See the header NOT being inverted', function() {
+	it('See the header NOT being inverted this time', function() {
 		cy.waitUntil(() => cy.window().then((win) => {
 			const firstEntry = win.document.querySelector('.app-menu-main li')
 			if (!firstEntry) {
@@ -288,7 +286,7 @@ describe('User changes settings and reload the page', function() {
 	it('Select a custom color', function() {
 		cy.intercept('*/apps/theming/background/color').as('setColor')
 
-		cy.get('[data-user-theming-background-color]').click()
+		cy.contains('button', 'Change color').click()
 		cy.get('.color-picker__simple-color-circle:eq(5)').click()
 
 		// Validate clear background

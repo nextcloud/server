@@ -10,6 +10,7 @@ return array(
     'OCA\\WeatherStatus\\AppInfo\\Application' => $baseDir . '/../lib/AppInfo/Application.php',
     'OCA\\WeatherStatus\\Capabilities' => $baseDir . '/../lib/Capabilities.php',
     'OCA\\WeatherStatus\\Controller\\WeatherStatusController' => $baseDir . '/../lib/Controller/WeatherStatusController.php',
+    'OCA\\WeatherStatus\\Listeners\\BeforeTemplateRenderedListener' => $baseDir . '/../lib/Listeners/BeforeTemplateRenderedListener.php',
     'OCA\\WeatherStatus\\ResponseDefinitions' => $baseDir . '/../lib/ResponseDefinitions.php',
     'OCA\\WeatherStatus\\Service\\WeatherStatusService' => $baseDir . '/../lib/Service/WeatherStatusService.php',
 );

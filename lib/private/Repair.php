@@ -34,19 +34,15 @@
  */
 namespace OC;
 
-use OC\Repair\AddRemoveOldTasksBackgroundJob;
-use OC\Repair\CleanUpAbandonedApps;
-use OCP\AppFramework\QueryException;
-use OCP\AppFramework\Utility\ITimeFactory;
-use OCP\Collaboration\Resources\IManager;
-use OCP\EventDispatcher\IEventDispatcher;
-use OCP\Migration\IOutput;
-use OCP\Migration\IRepairStep;
 use OC\DB\Connection;
 use OC\DB\ConnectionAdapter;
+use OC\Repair\AddAppConfigLazyMigration;
 use OC\Repair\AddBruteForceCleanupJob;
 use OC\Repair\AddCleanupUpdaterBackupsJob;
+use OC\Repair\AddMetadataGenerationJob;
+use OC\Repair\AddRemoveOldTasksBackgroundJob;
 use OC\Repair\CleanTags;
+use OC\Repair\CleanUpAbandonedApps;
 use OC\Repair\ClearFrontendCaches;
 use OC\Repair\ClearGeneratedAvatarCache;
 use OC\Repair\Collation;
@@ -85,28 +81,30 @@ use OC\Repair\RepairDavShares;
 use OC\Repair\RepairInvalidShares;
 use OC\Repair\RepairMimeTypes;
 use OC\Template\JSCombiner;
+use OCP\AppFramework\QueryException;
+use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Collaboration\Resources\IManager;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Migration\IOutput;
+use OCP\Migration\IRepairStep;
 use Psr\Log\LoggerInterface;
 use Throwable;
 
 class Repair implements IOutput {
 	/** @var IRepairStep[] */
-	private array $repairSteps;
-
-	private IEventDispatcher $dispatcher;
+	private array $repairSteps = [];
 
 	private string $currentStep;
 
-	private LoggerInterface $logger;
+	public function __construct(
+		private IEventDispatcher $dispatcher,
+		private LoggerInterface $logger
+	) {
+	}
 
-	/**
-	 * Creates a new repair step runner
-	 *
-	 * @param IRepairStep[] $repairSteps array of RepairStep instances
-	 */
-	public function __construct(array $repairSteps, IEventDispatcher $dispatcher, LoggerInterface $logger) {
+	/** @param IRepairStep[] $repairSteps */
+	public function setRepairSteps(array $repairSteps): void {
 		$this->repairSteps = $repairSteps;
-		$this->dispatcher = $dispatcher;
-		$this->logger = $logger;
 	}
 
 	/**
@@ -211,6 +209,8 @@ class Repair implements IOutput {
 			\OCP\Server::get(CleanUpAbandonedApps::class),
 			\OCP\Server::get(AddMissingSecretJob::class),
 			\OCP\Server::get(AddRemoveOldTasksBackgroundJob::class),
+			\OCP\Server::get(AddMetadataGenerationJob::class),
+			\OCP\Server::get(AddAppConfigLazyMigration::class),
 		];
 	}
 
@@ -244,6 +244,9 @@ class Repair implements IOutput {
 		];
 
 		return $steps;
+	}
+
+	public function debug(string $message): void {
 	}
 
 	/**

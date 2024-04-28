@@ -31,6 +31,7 @@
                         "required": [
                             "bigfilechunking",
                             "blacklisted_files",
+                            "forbidden_filename_characters",
                             "directEditing"
                         ],
                         "properties": {
@@ -41,6 +42,12 @@
                                 "type": "array",
                                 "items": {
                                     "type": "object"
+                                }
+                            },
+                            "forbidden_filename_characters": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
                                 }
                             },
                             "directEditing": {
@@ -87,65 +94,6 @@
                     },
                     "itemsperpage": {
                         "type": "string"
-                    }
-                }
-            },
-            "Template": {
-                "type": "object",
-                "required": [
-                    "templateType",
-                    "templateId",
-                    "basename",
-                    "etag",
-                    "fileid",
-                    "filename",
-                    "lastmod",
-                    "mime",
-                    "size",
-                    "type",
-                    "hasPreview",
-                    "previewUrl"
-                ],
-                "properties": {
-                    "templateType": {
-                        "type": "string"
-                    },
-                    "templateId": {
-                        "type": "string"
-                    },
-                    "basename": {
-                        "type": "string"
-                    },
-                    "etag": {
-                        "type": "string"
-                    },
-                    "fileid": {
-                        "type": "integer",
-                        "format": "int64"
-                    },
-                    "filename": {
-                        "type": "string"
-                    },
-                    "lastmod": {
-                        "type": "integer",
-                        "format": "int64"
-                    },
-                    "mime": {
-                        "type": "string"
-                    },
-                    "size": {
-                        "type": "integer",
-                        "format": "int64"
-                    },
-                    "type": {
-                        "type": "string"
-                    },
-                    "hasPreview": {
-                        "type": "boolean"
-                    },
-                    "previewUrl": {
-                        "type": "string",
-                        "nullable": true
                     }
                 }
             },
@@ -203,6 +151,7 @@
                     "label",
                     "extension",
                     "iconClass",
+                    "iconSvgInline",
                     "mimetypes",
                     "ratio",
                     "actionLabel"
@@ -221,6 +170,10 @@
                         "type": "string",
                         "nullable": true
                     },
+                    "iconSvgInline": {
+                        "type": "string",
+                        "nullable": true
+                    },
                     "mimetypes": {
                         "type": "array",
                         "items": {
@@ -229,7 +182,7 @@
                     },
                     "ratio": {
                         "type": "number",
-                        "format": "float",
+                        "format": "double",
                         "nullable": true
                     },
                     "actionLabel": {
@@ -1131,9 +1084,27 @@
                     "403": {
                         "description": "Creating template is not allowed",
                         "content": {
-                            "text/plain": {
+                            "application/json": {
                                 "schema": {
-                                    "type": "string"
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -1172,7 +1143,11 @@
                         "description": "Whether to copy the system templates to the template directory",
                         "schema": {
                             "type": "integer",
-                            "default": 0
+                            "default": 0,
+                            "enum": [
+                                0,
+                                1
+                            ]
                         }
                     },
                     {
@@ -1235,9 +1210,27 @@
                     "403": {
                         "description": "Initializing the template directory is not allowed",
                         "content": {
-                            "text/plain": {
+                            "application/json": {
                                 "schema": {
-                                    "type": "string"
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }

@@ -29,24 +29,27 @@
 			@change="onChange">
 		<label :for="id" class="user-status-online-select__label">
 			{{ label }}
-			<span :class="icon" aria-hidden="true" role="img" />
+			<NcUserStatusIcon :status="type"
+				aria-hidden="true" />
 			<em class="user-status-online-select__subline">{{ subline }}</em>
 		</label>
 	</div>
 </template>
 
 <script>
+import NcUserStatusIcon from '@nextcloud/vue/dist/Components/NcUserStatusIcon.js'
+
 export default {
 	name: 'OnlineStatusSelect',
+
+	components: {
+		NcUserStatusIcon,
+	},
 
 	props: {
 		checked: {
 			type: Boolean,
 			default: false,
-		},
-		icon: {
-			type: String,
-			required: true,
 		},
 		type: {
 			type: String,
@@ -101,8 +104,8 @@ $label-padding: 8px;
 
 		span {
 			position: absolute;
-			top: calc(50% - math.div($icon-size, 2));
-			left: $label-padding;
+			top: calc(50% - 10px);
+			left: 10px;
 			display: block;
 			width: $icon-size;
 			height: $icon-size;
@@ -123,5 +126,4 @@ $label-padding: 8px;
 		color: var(--color-text-lighter);
 	}
 }
-
 </style>

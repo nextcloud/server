@@ -153,8 +153,6 @@ class Config {
 	 * @throws HintException
 	 */
 	protected function set($key, $value) {
-		$this->checkReadOnly();
-
 		if (!isset($this->cache[$key]) || $this->cache[$key] !== $value) {
 			// Add change
 			$this->cache[$key] = $value;
@@ -185,8 +183,6 @@ class Config {
 	 * @throws HintException
 	 */
 	protected function delete($key) {
-		$this->checkReadOnly();
-
 		if (isset($this->cache[$key])) {
 			// Delete key from cache
 			unset($this->cache[$key]);
@@ -215,13 +211,24 @@ class Config {
 
 		// Include file and merge config
 		foreach ($configFiles as $file) {
-			$fileExistsAndIsReadable = file_exists($file) && is_readable($file);
-			$filePointer = $fileExistsAndIsReadable ? fopen($file, 'r') : false;
-			if ($file === $this->configFilePath &&
-				$filePointer === false) {
-				// Opening the main config might not be possible, e.g. if the wrong
-				// permissions are set (likely on a new installation)
-				continue;
+			unset($CONFIG);
+
+			// Invalidate opcache (only if the timestamp changed)
+			if (function_exists('opcache_invalidate')) {
+				opcache_invalidate($file, false);
+			}
+
+			$filePointer = @fopen($file, 'r');
+			if ($filePointer === false) {
+				// e.g. wrong permissions are set
+				if ($file === $this->configFilePath) {
+					// opening the main config file might not be possible
+					// (likely on a new installation)
+					continue;
+				}
+
+				http_response_code(500);
+				die(sprintf('FATAL: Could not open the config file %s', $file));
 			}
 
 			// Try to acquire a file lock
@@ -229,8 +236,14 @@ class Config {
 				throw new \Exception(sprintf('Could not acquire a shared lock on the config file %s', $file));
 			}
 
-			unset($CONFIG);
-			include $file;
+			try {
+				include $file;
+			} finally {
+				// Close the file pointer and release the lock
+				flock($filePointer, LOCK_UN);
+				fclose($filePointer);
+			}
+
 			if (!defined('PHPUNIT_RUN') && headers_sent()) {
 				// syntax issues in the config file like leading spaces causing PHP to send output
 				$errorMessage = sprintf('Config file has leading content, please remove everything before "<?php" in %s', basename($file));
@@ -242,10 +255,6 @@ class Config {
 			if (isset($CONFIG) && is_array($CONFIG)) {
 				$this->cache = array_merge($this->cache, $CONFIG);
 			}
-
-			// Close the file pointer and release the lock
-			flock($filePointer, LOCK_UN);
-			fclose($filePointer);
 		}
 
 		$this->envCache = getenv();

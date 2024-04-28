@@ -20,6 +20,7 @@ $config
 	->notPath('composer')
 	->notPath('node_modules')
 	->notPath('vendor')
+	->in('apps')
 	->in(__DIR__);
 
 // Ignore additional app directories

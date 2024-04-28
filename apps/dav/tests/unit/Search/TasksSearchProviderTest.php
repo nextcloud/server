@@ -213,10 +213,10 @@ class TasksSearchProviderTest extends TestCase {
 			]);
 		$this->backend->expects($this->once())
 			->method('searchPrincipalUri')
-			->with('principals/users/john.doe', 'search term', ['VTODO'],
+			->with('principals/users/john.doe', '', ['VTODO'],
 				['SUMMARY', 'DESCRIPTION', 'CATEGORIES'],
 				[],
-				['limit' => 5, 'offset' => 20])
+				['limit' => 5, 'offset' => 20, 'since' => null, 'until' => null])
 			->willReturn([
 				[
 					'calendarid' => 99,

@@ -84,8 +84,8 @@ class WizardTest extends TestCase {
 	private function prepareLdapWrapperForConnections(MockObject &$ldap) {
 		$ldap->expects($this->once())
 			->method('connect')
-			//dummy value, usually invalid
-			->willReturn(true);
+			//dummy value
+			->willReturn(ldap_connect('ldap://example.com'));
 
 		$ldap->expects($this->exactly(3))
 			->method('setOption')
@@ -173,7 +173,7 @@ class WizardTest extends TestCase {
 		$ldap->expects($this->any())
 			->method('isResource')
 			->willReturnCallback(function ($r) {
-				if ($r === true) {
+				if ($r instanceof \LDAP\Connection) {
 					return true;
 				}
 				if ($r % 24 === 0) {

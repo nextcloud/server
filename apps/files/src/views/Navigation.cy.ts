@@ -7,11 +7,15 @@ import router from '../router/router'
 import { useViewConfigStore } from '../store/viewConfig'
 import { Folder, View, getNavigation } from '@nextcloud/files'
 
+import Vue from 'vue'
+
 describe('Navigation renders', () => {
 	delete window._nc_navigation
 	const Navigation = getNavigation()
 
 	before(() => {
+		Vue.prototype.$navigation = Navigation
+
 		cy.mockInitialState('files', 'storageStats', {
 			used: 1000 * 1000 * 1000,
 			quota: -1,
@@ -22,9 +26,6 @@ describe('Navigation renders', () => {
 
 	it('renders', () => {
 		cy.mount(NavigationView, {
-			propsData: {
-				Navigation,
-			},
 			global: {
 				plugins: [createTestingPinia({
 					createSpy: cy.spy,
@@ -42,6 +43,10 @@ describe('Navigation API', () => {
 	delete window._nc_navigation
 	const Navigation = getNavigation()
 
+	before(() => {
+		Vue.prototype.$navigation = Navigation
+	})
+
 	it('Check API entries rendering', () => {
 		Navigation.register(new View({
 			id: 'files',
@@ -52,9 +57,6 @@ describe('Navigation API', () => {
 		}))
 
 		cy.mount(NavigationView, {
-			propsData: {
-				Navigation,
-			},
 			global: {
 				plugins: [createTestingPinia({
 					createSpy: cy.spy,
@@ -79,9 +81,6 @@ describe('Navigation API', () => {
 		}))
 
 		cy.mount(NavigationView, {
-			propsData: {
-				Navigation,
-			},
 			global: {
 				plugins: [createTestingPinia({
 					createSpy: cy.spy,
@@ -107,9 +106,6 @@ describe('Navigation API', () => {
 		}))
 
 		cy.mount(NavigationView, {
-			propsData: {
-				Navigation,
-			},
 			global: {
 				plugins: [createTestingPinia({
 					createSpy: cy.spy,
@@ -159,13 +155,14 @@ describe('Quota rendering', () => {
 	delete window._nc_navigation
 	const Navigation = getNavigation()
 
+	before(() => {
+		Vue.prototype.$navigation = Navigation
+	})
+
 	afterEach(() => cy.unmockInitialState())
 
 	it('Unknown quota', () => {
 		cy.mount(NavigationView, {
-			propsData: {
-				Navigation,
-			},
 			global: {
 				plugins: [createTestingPinia({
 					createSpy: cy.spy,
@@ -178,14 +175,11 @@ describe('Quota rendering', () => {
 
 	it('Unlimited quota', () => {
 		cy.mockInitialState('files', 'storageStats', {
-			used: 1000 * 1000 * 1000,
+			used: 1024 * 1024 * 1024,
 			quota: -1,
 		})
 
 		cy.mount(NavigationView, {
-			propsData: {
-				Navigation,
-			},
 			global: {
 				plugins: [createTestingPinia({
 					createSpy: cy.spy,
@@ -200,15 +194,12 @@ describe('Quota rendering', () => {
 
 	it('Non-reached quota', () => {
 		cy.mockInitialState('files', 'storageStats', {
-			used: 1000 * 1000 * 1000,
-			quota: 5 * 1000 * 1000 * 1000,
+			used: 1024 * 1024 * 1024,
+			quota: 5 * 1024 * 1024 * 1024,
 			relative: 20, // percent
 		})
 
 		cy.mount(NavigationView, {
-			propsData: {
-				Navigation,
-			},
 			global: {
 				plugins: [createTestingPinia({
 					createSpy: cy.spy,
@@ -224,15 +215,12 @@ describe('Quota rendering', () => {
 
 	it('Reached quota', () => {
 		cy.mockInitialState('files', 'storageStats', {
-			used: 5 * 1000 * 1000 * 1000,
-			quota: 1000 * 1000 * 1000,
+			used: 5 * 1024 * 1024 * 1024,
+			quota: 1024 * 1024 * 1024,
 			relative: 500, // percent
 		})
 
 		cy.mount(NavigationView, {
-			propsData: {
-				Navigation,
-			},
 			global: {
 				plugins: [createTestingPinia({
 					createSpy: cy.spy,

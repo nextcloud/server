@@ -23,6 +23,9 @@
 
 namespace Test\Collaboration\Collaborators;
 
+use OC\Collaboration\Collaborators\SearchResult;
+use OC\Collaboration\Collaborators\UserPlugin;
+use OC\KnownUser\KnownUserService;
 use OCP\Collaboration\Collaborators\ISearchResult;
 use OCP\IConfig;
 use OCP\IGroup;
@@ -32,9 +35,6 @@ use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\Share\IShare;
 use OCP\UserStatus\IManager as IUserStatusManager;
-use OC\Collaboration\Collaborators\SearchResult;
-use OC\Collaboration\Collaborators\UserPlugin;
-use OC\KnownUser\KnownUserService;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 

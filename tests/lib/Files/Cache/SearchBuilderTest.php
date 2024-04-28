@@ -154,6 +154,7 @@ class SearchBuilderTest extends TestCase {
 			[new SearchComparison(ISearchComparison::COMPARE_LIKE, 'name', 'foo%'), [0, 1]],
 			[new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'mimetype', 'image/jpg'), [0]],
 			[new SearchComparison(ISearchComparison::COMPARE_LIKE, 'mimetype', 'image/%'), [0, 1]],
+			[new SearchComparison(ISearchComparison::COMPARE_IN, 'mimetype', ['image/jpg', 'image/png']), [0, 1]],
 			[new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_AND, [
 				new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'size', 50),
 				new SearchComparison(ISearchComparison::COMPARE_LESS_THAN, 'mtime', 125)

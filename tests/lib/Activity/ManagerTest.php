@@ -23,6 +23,7 @@
 
 namespace Test\Activity;
 
+use OCP\Activity\Exceptions\IncompleteActivityException;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
@@ -167,7 +168,7 @@ class ManagerTest extends TestCase {
 
 
 	public function testPublishExceptionNoApp() {
-		$this->expectException(\BadMethodCallException::class);
+		$this->expectException(IncompleteActivityException::class);
 
 		$event = $this->activityManager->generateEvent();
 		$this->activityManager->publish($event);
@@ -175,7 +176,7 @@ class ManagerTest extends TestCase {
 
 
 	public function testPublishExceptionNoType() {
-		$this->expectException(\BadMethodCallException::class);
+		$this->expectException(IncompleteActivityException::class);
 
 		$event = $this->activityManager->generateEvent();
 		$event->setApp('test');
@@ -184,7 +185,7 @@ class ManagerTest extends TestCase {
 
 
 	public function testPublishExceptionNoAffectedUser() {
-		$this->expectException(\BadMethodCallException::class);
+		$this->expectException(IncompleteActivityException::class);
 
 		$event = $this->activityManager->generateEvent();
 		$event->setApp('test')
@@ -194,7 +195,7 @@ class ManagerTest extends TestCase {
 
 
 	public function testPublishExceptionNoSubject() {
-		$this->expectException(\BadMethodCallException::class);
+		$this->expectException(IncompleteActivityException::class);
 
 		$event = $this->activityManager->generateEvent();
 		$event->setApp('test')

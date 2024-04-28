@@ -62,16 +62,26 @@ export const action = new FileAction({
 		const ownerId = node?.attributes?.['owner-id']
 		const ownerDisplayName = node?.attributes?.['owner-display-name']
 
+		// Mixed share types
+		if (Array.isArray(node.attributes?.['share-types'])) {
+			return t('files_sharing', 'Shared multiple times with different people')
+		}
+
 		if (ownerId && ownerId !== getCurrentUser()?.uid) {
 			return t('files_sharing', 'Shared by {ownerDisplayName}', { ownerDisplayName })
 		}
 
-		return ''
+		return t('files_sharing', 'Show sharing options')
 	},
 
 	iconSvgInline(nodes: Node[]) {
 		const node = nodes[0]
 		const shareTypes = Object.values(node?.attributes?.['share-types'] || {}).flat() as number[]
+
+		// Mixed share types
+		if (Array.isArray(node.attributes?.['share-types'])) {
+			return AccountPlusSvg
+		}
 
 		// Link shares
 		if (shareTypes.includes(Type.SHARE_TYPE_LINK)
@@ -105,6 +115,15 @@ export const action = new FileAction({
 
 		const node = nodes[0]
 		const ownerId = node?.attributes?.['owner-id']
+		const isMixed = Array.isArray(node.attributes?.['share-types'])
+
+		// If the node is shared multiple times with
+		// different share types to the current user
+		if (isMixed) {
+			return true
+		}
+
+		// If the node is shared by someone else
 		if (ownerId && ownerId !== getCurrentUser()?.uid) {
 			return true
 		}

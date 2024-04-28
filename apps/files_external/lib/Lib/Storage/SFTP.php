@@ -39,7 +39,6 @@ namespace OCA\Files_External\Lib\Storage;
 use Icewind\Streams\CountWrapper;
 use Icewind\Streams\IteratorDirectory;
 use Icewind\Streams\RetryWrapper;
-use OC\Files\Filesystem;
 use OC\Files\Storage\Common;
 use OCP\Constants;
 use OCP\Files\FileInfo;
@@ -64,7 +63,7 @@ class SFTP extends Common {
 	protected $client;
 	private IMimeTypeDetector $mimeTypeDetector;
 
-	const COPY_CHUNK_SIZE = 8 * 1024 * 1024;
+	public const COPY_CHUNK_SIZE = 8 * 1024 * 1024;
 
 	/**
 	 * @param string $host protocol://server:port
@@ -501,7 +500,7 @@ class SFTP extends Common {
 		}
 	}
 
-	public function writeStream(string $path, $stream, int $size = null): int {
+	public function writeStream(string $path, $stream, ?int $size = null): int {
 		if ($size === null) {
 			$stream = CountWrapper::wrap($stream, function (int $writtenSize) use (&$size) {
 				$size = $writtenSize;

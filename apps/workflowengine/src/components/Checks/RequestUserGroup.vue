@@ -22,20 +22,25 @@
 
 <template>
 	<div>
-		<NcSelect :value="currentValue"
-			:loading="status.isLoading && groups.length === 0"
-			:options="groups"
+		<NcSelect :aria-label-combobox="t('workflowengine', 'Select groups')"
+			:aria-label-listbox="t('workflowengine', 'Groups')"
 			:clearable="false"
+			:loading="status.isLoading && groups.length === 0"
+			:placeholder="t('workflowengine', 'Type to search for group …')"
+			:options="groups"
+			:value="currentValue"
 			label="displayname"
-			@search-change="searchAsync"
+			@search="searchAsync"
 			@input="(value) => $emit('input', value.id)" />
 	</div>
 </template>
 
 <script>
-import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
-import axios from '@nextcloud/axios'
+import { translate as t } from '@nextcloud/l10n'
 import { generateOcsUrl } from '@nextcloud/router'
+
+import axios from '@nextcloud/axios'
+import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
 
 const groups = []
 const status = {
@@ -69,14 +74,18 @@ export default {
 		},
 	},
 	async mounted() {
+		// If empty, load first chunk of groups
 		if (this.groups.length === 0) {
 			await this.searchAsync('')
 		}
-		if (this.currentValue === null) {
+		// If a current group is set but not in our list of groups then search for that group
+		if (this.currentValue === null && this.value) {
 			await this.searchAsync(this.value)
 		}
 	},
 	methods: {
+		t,
+
 		searchAsync(searchQuery) {
 			if (this.status.isLoading) {
 				return

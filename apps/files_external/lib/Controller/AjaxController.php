@@ -55,11 +55,11 @@ class AjaxController extends Controller {
 	 * @param IGroupManager $groupManager
 	 */
 	public function __construct($appName,
-								IRequest $request,
-								RSA $rsaMechanism,
-								GlobalAuth $globalAuth,
-								IUserSession $userSession,
-								IGroupManager $groupManager) {
+		IRequest $request,
+		RSA $rsaMechanism,
+		GlobalAuth $globalAuth,
+		IUserSession $userSession,
+		IGroupManager $groupManager) {
 		parent::__construct($appName, $request);
 		$this->rsaMechanism = $rsaMechanism;
 		$this->globalAuth = $globalAuth;

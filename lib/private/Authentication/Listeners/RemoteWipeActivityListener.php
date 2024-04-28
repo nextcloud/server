@@ -46,7 +46,7 @@ class RemoteWipeActivityListener implements IEventListener {
 	private $logger;
 
 	public function __construct(IActvityManager $activityManager,
-								LoggerInterface $logger) {
+		LoggerInterface $logger) {
 		$this->activityManager = $activityManager;
 		$this->logger = $logger;
 	}

@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2018 Robin Appelman <robin@icewind.nl>
  *
+ * @author Maxence Lange <maxence@artificial-owl.com>
  * @author Robin Appelman <robin@icewind.nl>
  *
  * @license GNU AGPL version 3 or any later version
@@ -26,33 +27,16 @@ use OCP\Files\FileInfo;
 use OCP\IUser;
 
 class TrashItem implements ITrashItem {
-	/** @var ITrashBackend */
-	private $backend;
-	/** @var string */
-	private $orignalLocation;
-	/** @var int */
-	private $deletedTime;
-	/** @var string */
-	private $trashPath;
-	/** @var FileInfo */
-	private $fileInfo;
-	/** @var IUser */
-	private $user;
 
 	public function __construct(
-		ITrashBackend $backend,
-		string $originalLocation,
-		int $deletedTime,
-		string $trashPath,
-		FileInfo $fileInfo,
-		IUser $user
+		private ITrashBackend $backend,
+		private string $originalLocation,
+		private int $deletedTime,
+		private string $trashPath,
+		private FileInfo $fileInfo,
+		private IUser $user,
+		private ?IUser $deletedBy,
 	) {
-		$this->backend = $backend;
-		$this->orignalLocation = $originalLocation;
-		$this->deletedTime = $deletedTime;
-		$this->trashPath = $trashPath;
-		$this->fileInfo = $fileInfo;
-		$this->user = $user;
 	}
 
 	public function getTrashBackend(): ITrashBackend {
@@ -60,7 +44,7 @@ class TrashItem implements ITrashItem {
 	}
 
 	public function getOriginalLocation(): string {
-		return $this->orignalLocation;
+		return $this->originalLocation;
 	}
 
 	public function getDeletedTime(): int {
@@ -189,5 +173,17 @@ class TrashItem implements ITrashItem {
 
 	public function getParentId(): int {
 		return $this->fileInfo->getParentId();
+	}
+
+	public function getDeletedBy(): ?IUser {
+		return $this->deletedBy;
+	}
+
+	/**
+	 * @inheritDoc
+	 * @return array<string, int|string|bool|float|string[]|int[]>
+	 */
+	public function getMetadata(): array {
+		return $this->fileInfo->getMetadata();
 	}
 }

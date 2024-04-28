@@ -29,13 +29,19 @@
 			<Contacts :size="20" />
 		</template>
 		<div class="contactsmenu__menu">
-			<label for="contactsmenu__menu__search">{{ t('core', 'Search contacts') }}</label>
-			<input id="contactsmenu__menu__search"
-				v-model="searchTerm"
-				class="contactsmenu__menu__search"
-				type="search"
-				:placeholder="t('core', 'Search contacts …')"
-				@input="onInputDebounced">
+			<div class="contactsmenu__menu__input-wrapper">
+				<NcTextField :value.sync="searchTerm"
+					trailing-button-icon="close"
+					ref="contactsMenuInput"
+					:label="t('core', 'Search contacts')"
+					:trailing-button-label="t('core','Reset search')"
+					:show-trailing-button="searchTerm !== ''"
+					:placeholder="t('core', 'Search contacts …')"
+					id="contactsmenu__menu__search"
+					class="contactsmenu__menu__search"
+					@input="onInputDebounced"
+					@trailing-button-click="onReset" />
+			</div>
 			<NcEmptyContent v-if="error" :name="t('core', 'Could not load your contacts')">
 				<template #icon>
 					<Magnify />
@@ -58,10 +64,14 @@
 					</ul>
 				</div>
 				<div v-if="contactsAppEnabled" class="contactsmenu__menu__content__footer">
-					<a :href="contactsAppURL">{{ t('core', 'Show all contacts …') }}</a>
+					<NcButton type="tertiary" :href="contactsAppURL">
+						{{ t('core', 'Show all contacts') }}
+					</NcButton>
 				</div>
 				<div v-else-if="canInstallApp" class="contactsmenu__menu__content__footer">
-					<a :href="contactsAppMgmtURL">{{ t('core', 'Install the Contacts app') }}</a>
+					<NcButton type="tertiary" :href="contactsAppMgmtURL">
+						{{ t('core', 'Install the Contacts app') }}
+					</NcButton>
 				</div>
 			</div>
 		</div>
@@ -75,6 +85,7 @@ import debounce from 'debounce'
 import { getCurrentUser } from '@nextcloud/auth'
 import { generateUrl } from '@nextcloud/router'
 import Magnify from 'vue-material-design-icons/Magnify.vue'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
 import NcHeaderMenu from '@nextcloud/vue/dist/Components/NcHeaderMenu.js'
 import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
@@ -83,6 +94,7 @@ import { translate as t } from '@nextcloud/l10n'
 import Contact from '../components/ContactsMenu/Contact.vue'
 import logger from '../logger.js'
 import Nextcloud from '../mixins/Nextcloud.js'
+import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
 
 export default {
 	name: 'ContactsMenu',
@@ -91,9 +103,11 @@ export default {
 		Contact,
 		Contacts,
 		Magnify,
+		NcButton,
 		NcEmptyContent,
 		NcHeaderMenu,
 		NcLoadingIcon,
+		NcTextField,
 	},
 
 	mixins: [Nextcloud],
@@ -146,18 +160,40 @@ export default {
 		onInputDebounced: debounce(function() {
 			this.getContacts(this.searchTerm)
 		}, 500),
+
+		/**
+		 * Reset the search state
+		 */
+		onReset() {
+			this.searchTerm = ''
+			this.contacts = []
+			this.focusInput()
+		},
+
+		/**
+		 * Focus the search input on next tick
+		 */
+		focusInput() {
+			this.$nextTick(() => {
+				this.$refs.contactsMenuInput.focus()
+				this.$refs.contactsMenuInput.select()
+			})
+		},
+
 	},
 }
 </script>
 
 <style lang="scss" scoped>
 .contactsmenu {
+	overflow-y: hidden;
+
 	&__menu {
-		/* show 2.5 to 4.5 entries depending on the screen height */
-		height: calc(100vh - 50px * 3);
-		max-height: calc(50px * 6 + 2px + 26px);
-		min-height: calc(50px * 3.5);
-		width: 350px;
+		display: flex;
+		flex-direction: column;
+		overflow: hidden;
+		height: calc(50px * 6 + 2px + 26px);
+		max-height: inherit;
 
 		label[for="contactsmenu__menu__search"] {
 			font-weight: bold;
@@ -165,28 +201,27 @@ export default {
 			margin-left: 13px;
 		}
 
+		&__input-wrapper {
+			padding: 10px;
+			z-index: 2;
+			top: 0;
+		}
+
 		&__search {
 			width: 100%;
 			height: 34px;
-			margin: 8px 0;
+			margin-top: 0!important;
 		}
 
 		&__content {
-			/* fixed max height of the parent container without the search input */
-			height: calc(100vh - 50px * 3 - 60px);
-			max-height: calc(50px * 5);
-			min-height: calc(50px * 3.5 - 50px);
 			overflow-y: auto;
+			margin-top: 10px;
+			flex: 1 1 auto;
 
 			&__footer {
-				text-align: center;
-
-				a {
-					display: block;
-					width: 100%;
-					padding: 12px 0;
-					opacity: .5;
-				}
+				display: flex;
+				flex-direction: column;
+				align-items: center;
 			}
 		}
 

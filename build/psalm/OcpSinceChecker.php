@@ -39,7 +39,11 @@ class OcpSinceChecker implements Psalm\Plugin\EventHandler\AfterClassLikeVisitIn
 		self::checkClassComment($stmt, $statementsSource);
 
 		foreach ($stmt->getMethods() as $method) {
-			self::checkMethodComment($method, $statementsSource);
+			self::checkMethodOrConstantComment($method, $statementsSource, 'method');
+		}
+
+		foreach ($stmt->getConstants() as $constant) {
+			self::checkMethodOrConstantComment($constant, $statementsSource, 'constant');
 		}
 	}
 
@@ -76,15 +80,24 @@ class OcpSinceChecker implements Psalm\Plugin\EventHandler\AfterClassLikeVisitIn
 				)
 			);
 		}
+
+		if (isset($parsedDocblock->tags['depreacted'])) {
+			IssueBuffer::maybeAdd(
+				new InvalidDocblock(
+					'Typo in @deprecated for classes/interfaces in OCP.',
+					new CodeLocation($statementsSource, $stmt)
+				)
+			);
+		}
 	}
 
-	private static function checkMethodComment(Stmt $stmt, FileSource $statementsSource): void {
+	private static function checkMethodOrConstantComment(Stmt $stmt, FileSource $statementsSource, string $type): void {
 		$docblock = $stmt->getDocComment();
 
 		if ($docblock === null) {
 			IssueBuffer::maybeAdd(
 				new InvalidDocblock(
-					'PHPDoc is required for methods in OCP.',
+					'PHPDoc is required for ' . $type . 's in OCP.',
 					new CodeLocation($statementsSource, $stmt)
 				),
 			);
@@ -106,7 +119,16 @@ class OcpSinceChecker implements Psalm\Plugin\EventHandler\AfterClassLikeVisitIn
 		if (!isset($parsedDocblock->tags['since'])) {
 			IssueBuffer::maybeAdd(
 				new InvalidDocblock(
-					'@since is required for methods in OCP.',
+					'@since is required for ' . $type . 's in OCP.',
+					new CodeLocation($statementsSource, $stmt)
+				)
+			);
+		}
+
+		if (isset($parsedDocblock->tags['depreacted'])) {
+			IssueBuffer::maybeAdd(
+				new InvalidDocblock(
+					'Typo in @deprecated for ' . $type . ' in OCP.',
 					new CodeLocation($statementsSource, $stmt)
 				)
 			);

@@ -27,14 +27,15 @@ declare(strict_types=1);
 namespace OC\Core\Controller;
 
 use OCP\AppFramework\Controller;
-use OCP\AppFramework\Http\Attribute\IgnoreOpenAPI;
+use OCP\AppFramework\Http\Attribute\FrontpageRoute;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\StandaloneTemplateResponse;
 use OCP\IInitialStateService;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 
-#[IgnoreOpenAPI]
+#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class RecommendedAppsController extends Controller {
 	public function __construct(
 		IRequest $request,
@@ -48,6 +49,7 @@ class RecommendedAppsController extends Controller {
 	 * @NoCSRFRequired
 	 * @return Response
 	 */
+	#[FrontpageRoute(verb: 'GET', url: '/core/apps/recommended')]
 	public function index(): Response {
 		$defaultPageUrl = $this->urlGenerator->linkToDefaultPageUrl();
 		$this->initialStateService->provideInitialState('core', 'defaultPageUrl', $defaultPageUrl);

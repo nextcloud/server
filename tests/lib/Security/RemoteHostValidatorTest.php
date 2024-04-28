@@ -60,8 +60,17 @@ class RemoteHostValidatorTest extends TestCase {
 		);
 	}
 
-	public function testValid(): void {
-		$host = 'nextcloud.com';
+	public function dataValid(): array {
+		return [
+			['nextcloud.com', true],
+			['com.one-.nextcloud-one.com', false],
+		];
+	}
+
+	/**
+	 * @dataProvider dataValid
+	 */
+	public function testValid(string $host, bool $expected): void {
 		$this->hostnameClassifier
 			->method('isLocalHostname')
 			->with($host)
@@ -73,7 +82,7 @@ class RemoteHostValidatorTest extends TestCase {
 
 		$valid = $this->validator->isValid($host);
 
-		self::assertTrue($valid);
+		self::assertSame($expected, $valid);
 	}
 
 	public function testLocalHostname(): void {

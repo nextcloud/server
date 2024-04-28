@@ -39,8 +39,8 @@ class GenerateBirthdayCalendarBackgroundJob extends QueuedJob {
 	private $config;
 
 	public function __construct(ITimeFactory $time,
-								BirthdayService $birthdayService,
-								IConfig $config) {
+		BirthdayService $birthdayService,
+		IConfig $config) {
 		parent::__construct($time);
 
 		$this->birthdayService = $birthdayService;

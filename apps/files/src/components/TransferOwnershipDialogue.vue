@@ -33,7 +33,6 @@
 				<NcButton v-else @click.prevent="start">
 					{{ t('files', 'Change') }}
 				</NcButton>
-				<span class="error">{{ directoryPickerError }}</span>
 			</p>
 			<p class="new-owner-row">
 				<label for="targetUser">
@@ -50,11 +49,11 @@
 					@search="findUserDebounced" />
 			</p>
 			<p>
-				<input type="submit"
-					class="primary"
-					:value="submitButtonText"
+				<NcButton native-type="submit"
+					type="primary"
 					:disabled="!canSubmit">
-				<span class="error">{{ submitError }}</span>
+					{{ submitButtonText }}
+				</NcButton>
 			</p>
 		</form>
 	</div>
@@ -64,7 +63,7 @@
 import axios from '@nextcloud/axios'
 import debounce from 'debounce'
 import { generateOcsUrl } from '@nextcloud/router'
-import { getFilePickerBuilder, showSuccess } from '@nextcloud/dialogs'
+import { getFilePickerBuilder, showSuccess, showError } from '@nextcloud/dialogs'
 import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
 import Vue from 'vue'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
@@ -146,6 +145,7 @@ export default {
 					logger.error(`Selecting object for transfer aborted: ${error.message || 'Unknown error'}`, { error })
 
 					this.directoryPickerError = error.message || t('files', 'Unknown error')
+					showError(this.directoryPickerError)
 				})
 		},
 		async findUser(query) {
@@ -211,6 +211,7 @@ export default {
 					} else {
 						this.submitError = error.message || t('files', 'Unknown error')
 					}
+					showError(this.submitError)
 				})
 		},
 	},

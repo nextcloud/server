@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2018, michag86 (michag86@arcor.de)
  *
@@ -45,7 +48,7 @@ class Update extends Command {
 		parent::__construct();
 	}
 
-	protected function configure() {
+	protected function configure(): void {
 		$this
 			->setName('app:update')
 			->setDescription('update an app or all apps')
@@ -77,6 +80,7 @@ class Update extends Command {
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$singleAppId = $input->getArgument('app-id');
+		$updateFound = false;
 
 		if ($singleAppId) {
 			$apps = [$singleAppId];
@@ -97,6 +101,7 @@ class Update extends Command {
 		foreach ($apps as $appId) {
 			$newVersion = $this->installer->isUpdateAvailable($appId, $input->getOption('allow-unstable'));
 			if ($newVersion) {
+				$updateFound = true;
 				$output->writeln($appId . ' new version available: ' . $newVersion);
 
 				if (!$input->getOption('showonly')) {
@@ -108,16 +113,25 @@ class Update extends Command {
 							'exception' => $e,
 						]);
 						$output->writeln('Error: ' . $e->getMessage());
+						$result = false;
 						$return = 1;
 					}
 
 					if ($result === false) {
 						$output->writeln($appId . ' couldn\'t be updated');
 						$return = 1;
-					} elseif ($result === true) {
+					} else {
 						$output->writeln($appId . ' updated');
 					}
 				}
+			}
+		}
+
+		if (!$updateFound) {
+			if ($singleAppId) {
+				$output->writeln($singleAppId . ' is up-to-date or no updates could be found');
+			} else {
+				$output->writeln('All apps are up-to-date or no updates could be found');
 			}
 		}
 

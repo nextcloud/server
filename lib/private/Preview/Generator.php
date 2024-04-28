@@ -221,7 +221,7 @@ class Generator {
 	 *
 	 * @param int $semId
 	 * @param int $concurrency
-	 * @return false|resource the semaphore on success or false on failure
+	 * @return false|\SysvSemaphore the semaphore on success or false on failure
 	 */
 	public static function guardWithSemaphore(int $semId, int $concurrency) {
 		if (!extension_loaded('sysvsem')) {
@@ -240,11 +240,11 @@ class Generator {
 	/**
 	 * Releases the semaphore acquired from {@see Generator::guardWithSemaphore()}.
 	 *
-	 * @param resource|bool $semId the semaphore identifier returned by guardWithSemaphore
+	 * @param false|\SysvSemaphore $semId the semaphore identifier returned by guardWithSemaphore
 	 * @return bool
 	 */
-	public static function unguardWithSemaphore($semId): bool {
-		if (!is_resource($semId) || !extension_loaded('sysvsem')) {
+	public static function unguardWithSemaphore(false|\SysvSemaphore $semId): bool {
+		if ($semId === false || !($semId instanceof \SysvSemaphore)) {
 			return false;
 		}
 		return sem_release($semId);
@@ -257,9 +257,15 @@ class Generator {
 	 */
 	public static function getHardwareConcurrency(): int {
 		static $width;
+
 		if (!isset($width)) {
-			if (is_file("/proc/cpuinfo")) {
-				$width = substr_count(file_get_contents("/proc/cpuinfo"), "processor");
+			if (function_exists('ini_get')) {
+				$openBasedir = ini_get('open_basedir');
+				if (empty($openBasedir) || strpos($openBasedir, '/proc/cpuinfo') !== false) {
+					$width = is_readable('/proc/cpuinfo') ? substr_count(file_get_contents('/proc/cpuinfo'), 'processor') : 0;
+				} else {
+					$width = 0;
+				}
 			} else {
 				$width = 0;
 			}
@@ -283,7 +289,7 @@ class Generator {
 	 * @return int number of concurrent preview generations, or -1 if $type is invalid
 	 */
 	public function getNumConcurrentPreviews(string $type): int {
-		static $cached = array();
+		static $cached = [];
 		if (array_key_exists($type, $cached)) {
 			return $cached[$type];
 		}

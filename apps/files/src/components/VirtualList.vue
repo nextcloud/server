@@ -1,42 +1,54 @@
 <template>
-	<table class="files-list" data-cy-files-list>
+	<div class="files-list" data-cy-files-list>
 		<!-- Header -->
 		<div ref="before" class="files-list__before">
 			<slot name="before" />
 		</div>
 
-		<!-- Header -->
-		<thead ref="thead" class="files-list__thead" data-cy-files-list-thead>
-			<slot name="header" />
-		</thead>
+		<div v-if="!!$scopedSlots['header-overlay']" class="files-list__thead-overlay">
+			<slot name="header-overlay" />
+		</div>
 
-		<!-- Body -->
-		<tbody :style="tbodyStyle"
-			class="files-list__tbody"
-			:class="gridMode ? 'files-list__tbody--grid' : 'files-list__tbody--list'"
-			data-cy-files-list-tbody>
-			<component :is="dataComponent"
-				v-for="({key, item}, i) in renderedItems"
-				:key="key"
-				:visible="(i >= bufferItems - 1 || index <= bufferItems) && (i <= shownItems - bufferItems)"
-				:source="item"
-				:index="i"
-				v-bind="extraProps" />
-		</tbody>
+		<table class="files-list__table" :class="{ 'files-list__table--with-thead-overlay': !!$scopedSlots['header-overlay'] }">
+			<!-- Accessibility table caption for screen readers -->
+			<caption v-if="caption" class="hidden-visually">
+				{{ caption }}
+			</caption>
 
-		<!-- Footer -->
-		<tfoot v-show="isReady"
-			class="files-list__tfoot"
-			data-cy-files-list-tfoot>
-			<slot name="footer" />
-		</tfoot>
-	</table>
+			<!-- Header -->
+			<thead ref="thead" class="files-list__thead" data-cy-files-list-thead>
+				<slot name="header" />
+			</thead>
+
+			<!-- Body -->
+			<tbody :style="tbodyStyle"
+				class="files-list__tbody"
+				:class="gridMode ? 'files-list__tbody--grid' : 'files-list__tbody--list'"
+				data-cy-files-list-tbody>
+				<component :is="dataComponent"
+					v-for="({key, item}, i) in renderedItems"
+					:key="key"
+					:source="item"
+					:index="i"
+					v-bind="extraProps" />
+			</tbody>
+
+			<!-- Footer -->
+			<tfoot v-show="isReady"
+				class="files-list__tfoot"
+				data-cy-files-list-tfoot>
+				<slot name="footer" />
+			</tfoot>
+		</table>
+	</div>
 </template>
 
 <script lang="ts">
 import type { File, Folder, Node } from '@nextcloud/files'
+import type { PropType } from 'vue'
+
 import { debounce } from 'debounce'
-import Vue, { PropType } from 'vue'
+import Vue from 'vue'
 
 import filesListWidthMixin from '../mixins/filesListWidth.ts'
 import logger from '../logger.js'
@@ -76,6 +88,13 @@ export default Vue.extend({
 			type: Boolean,
 			default: false,
 		},
+		/**
+		 * Visually hidden caption for the table accesibility
+		 */
+		caption: {
+			type: String,
+			default: '',
+		},
 	},
 
 	data() {
@@ -105,7 +124,7 @@ export default Vue.extend({
 		itemHeight() {
 			// Align with css in FilesListVirtual
 			// 138px + 44px (name) + 15px (grid gap)
-			return this.gridMode ? (160 + 44 + 15) : 56
+			return this.gridMode ? (138 + 44 + 15) : 55
 		},
 		// Grid mode only
 		itemWidth() {
@@ -211,7 +230,7 @@ export default Vue.extend({
 		}
 
 		// Adding scroll listener AFTER the initial scroll to index
-		this.$el.addEventListener('scroll', this.onScroll)
+		this.$el.addEventListener('scroll', this.onScroll, { passive: true })
 
 		this.$_recycledPool = {} as Record<string, any>
 	},
@@ -224,6 +243,11 @@ export default Vue.extend({
 
 	methods: {
 		scrollTo(index: number) {
+			const targetRow = Math.ceil(this.dataSources.length / this.columnCount)
+			if (targetRow < this.rowCount) {
+				logger.debug('VirtualList: Skip scrolling. nothing to scroll', { index, targetRow, rowCount: this.rowCount })
+				return
+			}
 			this.index = index
 			// Scroll to one row and a half before the index
 			const scrollTop = (Math.floor(index / this.columnCount) - 0.5) * this.itemHeight + this.beforeHeight
@@ -232,11 +256,14 @@ export default Vue.extend({
 		},
 
 		onScroll() {
-			const topScroll = this.$el.scrollTop - this.beforeHeight
-			const index = Math.floor(topScroll / this.itemHeight) * this.columnCount
-			// Max 0 to prevent negative index
-			this.index = Math.max(0, index)
-			this.$emit('scroll')
+			this._onScrollHandle ??= requestAnimationFrame(() => {
+				this._onScrollHandle = null
+				const topScroll = this.$el.scrollTop - this.beforeHeight
+				const index = Math.floor(topScroll / this.itemHeight) * this.columnCount
+				// Max 0 to prevent negative index
+				this.index = Math.max(0, index)
+				this.$emit('scroll')
+			})
 		},
 	},
 })

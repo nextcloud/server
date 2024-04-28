@@ -29,6 +29,7 @@ use OC\Avatar\PlaceholderAvatar;
 use OC\Avatar\UserAvatar;
 use OC\KnownUser\KnownUserService;
 use OC\User\Manager;
+use OC\User\User;
 use OCP\Accounts\IAccount;
 use OCP\Accounts\IAccountManager;
 use OCP\Accounts\IAccountProperty;
@@ -37,7 +38,6 @@ use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IUser;
-use OC\User\User;
 use OCP\IUserSession;
 use Psr\Log\LoggerInterface;
 
@@ -108,6 +108,11 @@ class AvatarManagerTest extends \Test\TestCase {
 			->method('getUID')
 			->willReturn('valid-user');
 
+		$user
+			->expects($this->any())
+			->method('isEnabled')
+			->willReturn(true);
+
 		// requesting user
 		$this->userSession->expects($this->once())
 			->method('getUser')
@@ -161,6 +166,11 @@ class AvatarManagerTest extends \Test\TestCase {
 		$user->expects($this->once())
 			->method('getUID')
 			->willReturn('valid-user');
+
+		$user
+			->expects($this->any())
+			->method('isEnabled')
+			->willReturn(true);
 
 		$this->userSession->expects($this->once())
 			->method('getUser')
@@ -231,6 +241,12 @@ class AvatarManagerTest extends \Test\TestCase {
 			->expects($this->once())
 			->method('getUID')
 			->willReturn('valid-user');
+
+		$user
+			->expects($this->any())
+			->method('isEnabled')
+			->willReturn(true);
+
 		$this->userManager
 			->expects($this->once())
 			->method('get')

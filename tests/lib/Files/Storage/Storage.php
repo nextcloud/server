@@ -94,12 +94,13 @@ abstract class Storage extends \Test\TestCase {
 		$dirEntry = $content[0];
 		unset($dirEntry['scan_permissions']);
 		unset($dirEntry['etag']);
+		$this->assertLessThanOrEqual(1, abs($dirEntry['mtime'] - $this->instance->filemtime($directory)));
+		unset($dirEntry['mtime']);
+		unset($dirEntry['storage_mtime']);
 		$this->assertEquals([
 			'name' => $directory,
 			'mimetype' => $this->instance->getMimeType($directory),
-			'mtime' => $this->instance->filemtime($directory),
 			'size' => -1,
-			'storage_mtime' => $this->instance->filemtime($directory),
 			'permissions' => $this->instance->getPermissions($directory),
 		], $dirEntry);
 

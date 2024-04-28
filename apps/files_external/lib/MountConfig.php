@@ -88,7 +88,7 @@ class MountConfig {
 	 * @throws \OCP\AppFramework\QueryException
 	 * @since 16.0.0
 	 */
-	public static function substitutePlaceholdersInConfig($input, string $userId = null) {
+	public static function substitutePlaceholdersInConfig($input, ?string $userId = null) {
 		/** @var BackendService $backendService */
 		$backendService = \OC::$server->get(BackendService::class);
 		/** @var IConfigHandler[] $handlers */
@@ -152,7 +152,7 @@ class MountConfig {
 	 * @param Backend[] $backends
 	 */
 	public static function dependencyMessage(array $backends): string {
-		$l = \OC::$server->getL10N('files_external');
+		$l = \OCP\Util::getL10N('files_external');
 		$message = '';
 		$dependencyGroups = [];
 

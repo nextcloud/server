@@ -31,10 +31,7 @@ class Parameter implements IParameter {
 		$this->name = $name;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function __toString() {
+	public function __toString(): string {
 		return (string) $this->name;
 	}
 }

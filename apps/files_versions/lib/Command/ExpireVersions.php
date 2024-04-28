@@ -50,7 +50,7 @@ class ExpireVersions extends Command {
 			->addArgument(
 				'user_id',
 				InputArgument::OPTIONAL | InputArgument::IS_ARRAY,
-				'expire file versions of the given user(s), if no user is given file versions for all users will be expired.'
+				'expire file versions of the given account(s), if no account is given file versions for all accounts will be expired.'
 			);
 	}
 
@@ -65,7 +65,7 @@ class ExpireVersions extends Command {
 		if (!empty($users)) {
 			foreach ($users as $user) {
 				if (!$this->userManager->userExists($user)) {
-					$output->writeln("<error>Unknown user $user</error>");
+					$output->writeln("<error>Unknown account $user</error>");
 					return self::FAILURE;
 				}
 

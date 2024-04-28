@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -26,6 +29,7 @@ namespace OC\Core\Command\L10n;
 
 use DirectoryIterator;
 
+use OCP\App\IAppManager;
 use Stecman\Component\Symfony\Console\BashCompletion\Completion\CompletionAwareInterface;
 use Stecman\Component\Symfony\Console\BashCompletion\CompletionContext;
 use Symfony\Component\Console\Command\Command;
@@ -35,6 +39,12 @@ use Symfony\Component\Console\Output\OutputInterface;
 use UnexpectedValueException;
 
 class CreateJs extends Command implements CompletionAwareInterface {
+	public function __construct(
+		protected IAppManager $appManager,
+	) {
+		parent::__construct();
+	}
+
 	protected function configure() {
 		$this
 			->setName('l10n:createjs')
@@ -55,11 +65,7 @@ class CreateJs extends Command implements CompletionAwareInterface {
 		$app = $input->getArgument('app');
 		$lang = $input->getArgument('lang');
 
-		$path = \OC_App::getAppPath($app);
-		if ($path === false) {
-			$output->writeln("The app <$app> is unknown.");
-			return 1;
-		}
+		$path = $this->appManager->getAppPath($app);
 		$languages = $lang;
 		if (empty($lang)) {
 			$languages = $this->getAllLanguages($path);

@@ -29,7 +29,7 @@
 			:menu-position="'left'"
 			:url="share.shareWithAvatar" />
 
-		<div class="sharing-entry__summary" @click.prevent="toggleQuickShareSelect">
+		<div class="sharing-entry__summary">
 			<component :is="share.shareWithLink ? 'a' : 'div'"
 				:title="tooltip"
 				:aria-label="tooltip"
@@ -41,14 +41,14 @@
 					<small v-if="hasStatus && share.status.message">({{ share.status.message }})</small>
 				</span>
 			</component>
-			<QuickShareSelect :share="share"
+			<SharingEntryQuickShareSelect :share="share"
 				:file-info="fileInfo"
-				:toggle="showDropdown"
 				@open-sharing-details="openShareDetailsForCustomSettings(share)" />
 		</div>
 		<NcButton class="sharing-entry__action"
+			data-cy-files-sharing-share-actions
 			:aria-label="t('files_sharing', 'Open Sharing Details')"
-			type="tertiary-no-background"
+			type="tertiary"
 			@click="openSharingDetails(share)">
 			<template #icon>
 				<DotsHorizontalIcon :size="20" />
@@ -63,7 +63,7 @@ import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
 import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
 import DotsHorizontalIcon from 'vue-material-design-icons/DotsHorizontal.vue'
 
-import QuickShareSelect from './SharingEntryQuickShareSelect.vue'
+import SharingEntryQuickShareSelect from './SharingEntryQuickShareSelect.vue'
 
 import SharesMixin from '../mixins/SharesMixin.js'
 import ShareDetails from '../mixins/ShareDetails.js'
@@ -76,16 +76,11 @@ export default {
 		NcAvatar,
 		DotsHorizontalIcon,
 		NcSelect,
-		QuickShareSelect,
+		SharingEntryQuickShareSelect,
 	},
 
 	mixins: [SharesMixin, ShareDetails],
 
-	data() {
-		return {
-			showDropdown: false,
-		}
-	},
 	computed: {
 		title() {
 			let title = this.share.shareWithDisplayName
@@ -140,9 +135,6 @@ export default {
 		onMenuClose() {
 			this.onNoteSubmit()
 		},
-		toggleQuickShareSelect() {
-			this.showDropdown = !this.showDropdown
-		},
 	},
 }
 </script>
@@ -158,8 +150,9 @@ export default {
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
-		width: 80%;
-		min-width: 80%;
+		align-items: flex-start;
+		flex: 1 0;
+		min-width: 0;
 
 		&__desc {
 			display: inline-block;

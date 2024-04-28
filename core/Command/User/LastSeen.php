@@ -31,6 +31,7 @@ use OCP\IUserManager;
 use Stecman\Component\Symfony\Console\BashCompletion\CompletionContext;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class LastSeen extends Base {
@@ -40,34 +41,60 @@ class LastSeen extends Base {
 		parent::__construct();
 	}
 
-	protected function configure() {
+	protected function configure(): void {
 		$this
 			->setName('user:lastseen')
 			->setDescription('shows when the user was logged in last time')
 			->addArgument(
 				'uid',
-				InputArgument::REQUIRED,
+				InputArgument::OPTIONAL,
 				'the username'
-			);
+			)
+			->addOption(
+				'all',
+				null,
+				InputOption::VALUE_NONE,
+				'shows a list of when all users were last logged in'
+			)
+		;
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
-		$user = $this->userManager->get($input->getArgument('uid'));
-		if (is_null($user)) {
-			$output->writeln('<error>User does not exist</error>');
+		$singleUserId = $input->getArgument('uid');
+		if ($singleUserId) {
+			$user = $this->userManager->get($singleUserId);
+			if (is_null($user)) {
+				$output->writeln('<error>User does not exist</error>');
+				return 1;
+			}
+
+			$lastLogin = $user->getLastLogin();
+			if ($lastLogin === 0) {
+				$output->writeln($user->getUID() . ' has never logged in.');
+			} else {
+				$date = new \DateTime();
+				$date->setTimestamp($lastLogin);
+				$output->writeln($user->getUID() . "'s last login: " . $date->format('Y-m-d H:i'));
+			}
+
+			return 0;
+		}
+
+		if (!$input->getOption('all')) {
+			$output->writeln("<error>Please specify a username, or \"--all\" to list all</error>");
 			return 1;
 		}
 
-		$lastLogin = $user->getLastLogin();
-		if ($lastLogin === 0) {
-			$output->writeln('User ' . $user->getUID() .
-				' has never logged in, yet.');
-		} else {
-			$date = new \DateTime();
-			$date->setTimestamp($lastLogin);
-			$output->writeln($user->getUID() .
-				'`s last login: ' . $date->format('d.m.Y H:i'));
-		}
+		$this->userManager->callForAllUsers(static function (IUser $user) use ($output) {
+			$lastLogin = $user->getLastLogin();
+			if ($lastLogin === 0) {
+				$output->writeln($user->getUID() . ' has never logged in.');
+			} else {
+				$date = new \DateTime();
+				$date->setTimestamp($lastLogin);
+				$output->writeln($user->getUID() . "'s last login: " . $date->format('Y-m-d H:i'));
+			}
+		});
 		return 0;
 	}
 

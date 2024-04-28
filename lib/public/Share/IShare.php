@@ -213,7 +213,7 @@ interface IShare {
 	 * @since 9.0.0
 	 * @throws NotFoundException
 	 */
-	public function getNodeId();
+	public function getNodeId(): int;
 
 	/**
 	 * Set the type of node (file/folder)
@@ -394,7 +394,7 @@ interface IShare {
 	/**
 	 * Get the expiration date
 	 *
-	 * @return \DateTime
+	 * @return null|\DateTime
 	 * @since 9.0.0
 	 */
 	public function getExpirationDate();
@@ -474,7 +474,7 @@ interface IShare {
 	 * If this share is obtained via a shareprovider the password is
 	 * hashed.
 	 *
-	 * @return string
+	 * @return string|null
 	 * @since 9.0.0
 	 */
 	public function getPassword();

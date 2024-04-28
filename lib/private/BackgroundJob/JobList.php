@@ -59,7 +59,7 @@ class JobList implements IJobList {
 		$this->logger = $logger;
 	}
 
-	public function add($job, $argument = null, int $firstCheck = null): void {
+	public function add($job, $argument = null, ?int $firstCheck = null): void {
 		if ($firstCheck === null) {
 			$firstCheck = $this->timeFactory->getTime();
 		}
@@ -88,6 +88,7 @@ class JobList implements IJobList {
 			$query->update('jobs')
 				->set('reserved_at', $query->expr()->literal(0, IQueryBuilder::PARAM_INT))
 				->set('last_checked', $query->createNamedParameter($firstCheck, IQueryBuilder::PARAM_INT))
+				->set('last_run', $query->createNamedParameter(0, IQueryBuilder::PARAM_INT))
 				->where($query->expr()->eq('class', $query->createNamedParameter($class)))
 				->andWhere($query->expr()->eq('argument_hash', $query->createNamedParameter(md5($argumentJson))));
 		}
@@ -391,6 +392,7 @@ class JobList implements IJobList {
 		$query = $this->connection->getQueryBuilder();
 		$query->update('jobs')
 			->set('execution_duration', $query->createNamedParameter($timeTaken, IQueryBuilder::PARAM_INT))
+			->set('reserved_at', $query->createNamedParameter(0, IQueryBuilder::PARAM_INT))
 			->where($query->expr()->eq('id', $query->createNamedParameter($job->getId(), IQueryBuilder::PARAM_INT)));
 		$query->executeStatement();
 	}
@@ -413,7 +415,7 @@ class JobList implements IJobList {
 		$query = $this->connection->getQueryBuilder();
 		$query->select('*')
 			->from('jobs')
-			->where($query->expr()->neq('reserved_at', $query->createNamedParameter(0, IQueryBuilder::PARAM_INT)))
+			->where($query->expr()->gt('reserved_at', $query->createNamedParameter($this->timeFactory->getTime() - 6 * 3600, IQueryBuilder::PARAM_INT)))
 			->setMaxResults(1);
 
 		if ($className !== null) {

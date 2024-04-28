@@ -303,9 +303,11 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 			$fileIds = [$node->getId()];
 
 			// note: pre-fetching only supported for depth <= 1
-			$folderContent = $node->getNode()->getDirectoryListing();
+			$folderContent = $node->getChildren();
 			foreach ($folderContent as $info) {
-				$fileIds[] = $info->getId();
+				if ($info instanceof Node) {
+					$fileIds[] = $info->getId();
+				}
 			}
 
 			$tags = $this->tagMapper->getTagIdsForObjects($fileIds, 'files');
@@ -351,11 +353,11 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 			}
 		}
 
-		$tags = array_filter(array_map(function(string $tagId) {
+		$tags = array_filter(array_map(function (string $tagId) {
 			return $this->cachedTags[$tagId] ?? null;
 		}, $tagIds));
 
-		$uncachedTagIds = array_filter($tagIds, function(string $tagId): bool {
+		$uncachedTagIds = array_filter($tagIds, function (string $tagId): bool {
 			return !isset($this->cachedTags[$tagId]);
 		});
 
@@ -367,7 +369,7 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 			$tags += $retrievedTags;
 		}
 
-		return array_filter($tags, function(ISystemTag $tag) use ($user) {
+		return array_filter($tags, function (ISystemTag $tag) use ($user) {
 			return $this->tagManager->canUserSeeTag($tag, $user);
 		});
 	}

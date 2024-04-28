@@ -24,9 +24,9 @@ declare(strict_types=1);
 namespace OC\Core\Command\Preview;
 
 use OCP\Files\Config\IUserMountCache;
+use OCP\Files\File;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
-use OCP\Files\File;
 use OCP\Files\NotFoundException;
 use OCP\IPreview;
 use Symfony\Component\Console\Command\Command;
@@ -121,11 +121,7 @@ class Generate extends Command {
 			}
 			$mount = $mounts[0];
 			$userFolder = $this->rootFolder->getUserFolder($mount->getUser()->getUID());
-			$nodes = $userFolder->getById((int)$fileInput);
-			if (!$nodes) {
-				return null;
-			}
-			return $nodes[0];
+			return $userFolder->getFirstNodeById((int)$fileInput);
 		} else {
 			try {
 				return $this->rootFolder->get($fileInput);

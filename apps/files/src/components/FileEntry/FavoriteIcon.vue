@@ -20,10 +20,13 @@
   -
   -->
 <template>
-	<NcIconSvgWrapper class="favorite-marker-icon" :svg="StarSvg" />
+	<NcIconSvgWrapper class="favorite-marker-icon" :name="t('files', 'Favorite')" :svg="StarSvg" />
 </template>
 
-<script>
+<script lang="ts">
+import { translate as t } from '@nextcloud/l10n'
+import { defineComponent } from 'vue'
+
 import StarSvg from '@mdi/svg/svg/star.svg?raw'
 import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
 
@@ -38,7 +41,7 @@ import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js
  * }
  * ```
  */
-export default {
+export default defineComponent({
 	name: 'FavoriteIcon',
 	components: {
 		NcIconSvgWrapper,
@@ -50,15 +53,19 @@ export default {
 	},
 	async mounted() {
 		await this.$nextTick()
-		// MDI default viewbox is "0 0 24 24" but we add a stroke of 10px so we must adjust it
+		// MDI default viewBox is "0 0 24 24" but we add a stroke of 10px so we must adjust it
 		const el = this.$el.querySelector('svg')
-		el.setAttribute('viewBox', '-4 -4 30 30')
+		el?.setAttribute?.('viewBox', '-4 -4 30 30')
 	},
-}
+	methods: {
+		t,
+	},
+})
 </script>
+
 <style lang="scss" scoped>
 .favorite-marker-icon {
-	color: #a08b00;
+	color: var(--color-favorite);
 	// Override NcIconSvgWrapper defaults (clickable area)
 	min-width: unset !important;
     min-height: unset !important;

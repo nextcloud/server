@@ -20,19 +20,20 @@
   -
   -->
 <template>
-	<td class="files-list__row-checkbox">
+	<td class="files-list__row-checkbox"
+		@keyup.esc.exact="resetSelection">
 		<NcLoadingIcon v-if="isLoading" />
 		<NcCheckboxRadioSwitch v-else
-			:aria-label="t('files', 'Select the row for {displayName}', { displayName })"
+			:aria-label="ariaLabel"
 			:checked="isSelected"
 			@update:checked="onSelectionChange" />
 	</td>
 </template>
 
 <script lang="ts">
-import { Node } from '@nextcloud/files'
+import { Node, FileType } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
-import Vue, { PropType } from 'vue'
+import { type PropType, defineComponent } from 'vue'
 
 import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
 import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
@@ -41,7 +42,7 @@ import { useKeyboardStore } from '../../store/keyboard.ts'
 import { useSelectionStore } from '../../store/selection.ts'
 import logger from '../../logger.js'
 
-export default Vue.extend({
+export default defineComponent({
 	name: 'FileEntryCheckbox',
 
 	components: {
@@ -50,12 +51,8 @@ export default Vue.extend({
 	},
 
 	props: {
-		displayName: {
-			type: String,
-			required: true,
-		},
 		fileid: {
-			type: String,
+			type: Number,
 			required: true,
 		},
 		isLoading: {
@@ -64,6 +61,10 @@ export default Vue.extend({
 		},
 		nodes: {
 			type: Array as PropType<Node[]>,
+			required: true,
+		},
+		source: {
+			type: Object as PropType<Node>,
 			required: true,
 		},
 	},
@@ -85,7 +86,15 @@ export default Vue.extend({
 			return this.selectedFiles.includes(this.fileid)
 		},
 		index() {
-			return this.nodes.findIndex((node: Node) => node.fileid === parseInt(this.fileid))
+			return this.nodes.findIndex((node: Node) => node.fileid === this.fileid)
+		},
+		isFile() {
+			return this.source.type === FileType.File
+		},
+		ariaLabel() {
+			return this.isFile
+				? t('files', 'Toggle selection for file "{displayName}"', { displayName: this.source.basename })
+				: t('files', 'Toggle selection for folder "{displayName}"', { displayName: this.source.basename })
 		},
 	},
 
@@ -103,8 +112,9 @@ export default Vue.extend({
 
 				const lastSelection = this.selectionStore.lastSelection
 				const filesToSelect = this.nodes
-					.map(file => file.fileid?.toString?.())
+					.map(file => file.fileid)
 					.slice(start, end + 1)
+					.filter(Boolean) as number[]
 
 				// If already selected, update the new selection _without_ the current file
 				const selection = [...lastSelection, ...filesToSelect]
@@ -123,6 +133,10 @@ export default Vue.extend({
 			logger.debug('Updating selection', { selection })
 			this.selectionStore.set(selection)
 			this.selectionStore.setLastIndex(newSelectedIndex)
+		},
+
+		resetSelection() {
+			this.selectionStore.reset()
 		},
 
 		t,

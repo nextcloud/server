@@ -38,24 +38,29 @@ namespace OC\DB;
 use Doctrine\Common\EventManager;
 use Doctrine\DBAL\Cache\QueryCacheProfile;
 use Doctrine\DBAL\Configuration;
+use Doctrine\DBAL\Connections\PrimaryReadReplicaConnection;
 use Doctrine\DBAL\Driver;
 use Doctrine\DBAL\Exception;
+use Doctrine\DBAL\Exception\ConnectionLost;
 use Doctrine\DBAL\Platforms\MySQLPlatform;
 use Doctrine\DBAL\Platforms\OraclePlatform;
 use Doctrine\DBAL\Platforms\SqlitePlatform;
 use Doctrine\DBAL\Result;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Statement;
+use OC\DB\QueryBuilder\QueryBuilder;
+use OC\SystemConfig;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Diagnostics\IEventLogger;
 use OCP\IRequestId;
 use OCP\PreConditionNotMetException;
 use OCP\Profiler\IProfiler;
-use OC\DB\QueryBuilder\QueryBuilder;
-use OC\SystemConfig;
+use OCP\Server;
+use Psr\Clock\ClockInterface;
 use Psr\Log\LoggerInterface;
+use function in_array;
 
-class Connection extends \Doctrine\DBAL\Connection {
+class Connection extends PrimaryReadReplicaConnection {
 	/** @var string */
 	protected $tablePrefix;
 
@@ -64,6 +69,8 @@ class Connection extends \Doctrine\DBAL\Connection {
 
 	/** @var SystemConfig */
 	private $systemConfig;
+
+	private ClockInterface $clock;
 
 	private LoggerInterface $logger;
 
@@ -77,6 +84,15 @@ class Connection extends \Doctrine\DBAL\Connection {
 
 	/** @var DbDataCollector|null */
 	protected $dbDataCollector = null;
+	private array $lastConnectionCheck = [];
+
+	protected ?float $transactionActiveSince = null;
+
+	/** @var array<string, int> */
+	protected $tableDirtyWrites = [];
+
+	protected bool $logRequestId;
+	protected string $requestId;
 
 	/**
 	 * Initializes a new instance of the Connection class.
@@ -103,10 +119,14 @@ class Connection extends \Doctrine\DBAL\Connection {
 		$this->tablePrefix = $params['tablePrefix'];
 
 		$this->systemConfig = \OC::$server->getSystemConfig();
-		$this->logger = \OC::$server->get(LoggerInterface::class);
+		$this->clock = Server::get(ClockInterface::class);
+		$this->logger = Server::get(LoggerInterface::class);
+
+		$this->logRequestId = $this->systemConfig->getValue('db.log_request_id', false);
+		$this->requestId = Server::get(IRequestId::class)->getId();
 
 		/** @var \OCP\Profiler\IProfiler */
-		$profiler = \OC::$server->get(IProfiler::class);
+		$profiler = Server::get(IProfiler::class);
 		if ($profiler->isEnabled()) {
 			$this->dbDataCollector = new DbDataCollector($this);
 			$profiler->add($this->dbDataCollector);
@@ -119,15 +139,18 @@ class Connection extends \Doctrine\DBAL\Connection {
 	/**
 	 * @throws Exception
 	 */
-	public function connect() {
+	public function connect($connectionName = null) {
 		try {
 			if ($this->_conn) {
+				$this->reconnectIfNeeded();
 				/** @psalm-suppress InternalMethod */
 				return parent::connect();
 			}
 
+			$this->lastConnectionCheck[$this->getConnectionName()] = time();
+
 			// Only trigger the event logger for the initial connect call
-			$eventLogger = \OC::$server->get(IEventLogger::class);
+			$eventLogger = Server::get(IEventLogger::class);
 			$eventLogger->start('connect:db', 'db connection opened');
 			/** @psalm-suppress InternalMethod */
 			$status = parent::connect();
@@ -232,8 +255,7 @@ class Connection extends \Doctrine\DBAL\Connection {
 			$platform = $this->getDatabasePlatform();
 			$sql = $platform->modifyLimitQuery($sql, $limit, $offset);
 		}
-		$statement = $this->replaceTablePrefix($sql);
-		$statement = $this->adapter->fixupStatement($statement);
+		$statement = $this->finishQuery($sql);
 
 		return parent::prepare($statement);
 	}
@@ -253,20 +275,64 @@ class Connection extends \Doctrine\DBAL\Connection {
 	 *
 	 * @throws \Doctrine\DBAL\Exception
 	 */
-	public function executeQuery(string $sql, array $params = [], $types = [], QueryCacheProfile $qcp = null): Result {
-		$sql = $this->replaceTablePrefix($sql);
-		$sql = $this->adapter->fixupStatement($sql);
+	public function executeQuery(string $sql, array $params = [], $types = [], ?QueryCacheProfile $qcp = null): Result {
+		$tables = $this->getQueriedTables($sql);
+		$now = $this->clock->now()->getTimestamp();
+		$dirtyTableWrites = [];
+		foreach ($tables as $table) {
+			$lastAccess = $this->tableDirtyWrites[$table] ?? 0;
+			// Only very recent writes are considered dirty
+			if ($lastAccess >= ($now - 3)) {
+				$dirtyTableWrites[] = $table;
+			}
+		}
+		if ($this->isTransactionActive()) {
+			// Transacted queries go to the primary. The consistency of the primary guarantees that we can not run
+			// into a dirty read.
+		} elseif (count($dirtyTableWrites) === 0) {
+			// No tables read that could have been written already in the same request and no transaction active
+			// so we can switch back to the replica for reading as long as no writes happen that switch back to the primary
+			// We cannot log here as this would log too early in the server boot process
+			$this->ensureConnectedToReplica();
+		} else {
+			// Read to a table that has been written to previously
+			// While this might not necessarily mean that we did a read after write it is an indication for a code path to check
+			$this->logger->log(
+				(int) ($this->systemConfig->getValue('loglevel_dirty_database_queries', null) ?? 0),
+				'dirty table reads: ' . $sql,
+				[
+					'tables' => array_keys($this->tableDirtyWrites),
+					'reads' => $tables,
+					'exception' => new \Exception('dirty table reads: ' . $sql),
+				],
+			);
+			// To prevent a dirty read on a replica that is slightly out of sync, we
+			// switch back to the primary. This is detrimental for performance but
+			// safer for consistency.
+			$this->ensureConnectedToPrimary();
+		}
+
+		$sql = $this->finishQuery($sql);
 		$this->queriesExecuted++;
 		$this->logQueryToFile($sql);
 		return parent::executeQuery($sql, $params, $types, $qcp);
 	}
 
 	/**
+	 * Helper function to get the list of tables affected by a given query
+	 * used to track dirty tables that received a write with the current request
+	 */
+	private function getQueriedTables(string $sql): array {
+		$re = '/(\*PREFIX\*\w+)/mi';
+		preg_match_all($re, $sql, $matches);
+		return array_map([$this, 'replaceTablePrefix'], $matches[0] ?? []);
+	}
+
+	/**
 	 * @throws Exception
 	 */
 	public function executeUpdate(string $sql, array $params = [], array $types = []): int {
-		$sql = $this->replaceTablePrefix($sql);
-		$sql = $this->adapter->fixupStatement($sql);
+		$sql = $this->finishQuery($sql);
 		$this->queriesExecuted++;
 		$this->logQueryToFile($sql);
 		return parent::executeUpdate($sql, $params, $types);
@@ -287,8 +353,11 @@ class Connection extends \Doctrine\DBAL\Connection {
 	 * @throws \Doctrine\DBAL\Exception
 	 */
 	public function executeStatement($sql, array $params = [], array $types = []): int {
-		$sql = $this->replaceTablePrefix($sql);
-		$sql = $this->adapter->fixupStatement($sql);
+		$tables = $this->getQueriedTables($sql);
+		foreach ($tables as $table) {
+			$this->tableDirtyWrites[$table] = $this->clock->now()->getTimestamp();
+		}
+		$sql = $this->finishQuery($sql);
 		$this->queriesExecuted++;
 		$this->logQueryToFile($sql);
 		return (int)parent::executeStatement($sql, $params, $types);
@@ -299,8 +368,13 @@ class Connection extends \Doctrine\DBAL\Connection {
 		if ($logFile !== '' && is_writable(dirname($logFile)) && (!file_exists($logFile) || is_writable($logFile))) {
 			$prefix = '';
 			if ($this->systemConfig->getValue('query_log_file_requestid') === 'yes') {
-				$prefix .= \OC::$server->get(IRequestId::class)->getId() . "\t";
+				$prefix .= Server::get(IRequestId::class)->getId() . "\t";
 			}
+
+			// FIXME:  Improve to log the actual target db host
+			$isPrimary = $this->connections['primary'] === $this->_conn;
+			$prefix .= ' ' . ($isPrimary === true ? 'primary' : 'replica') . ' ';
+			$prefix .= ' ' . $this->getTransactionNestingLevel() . ' ';
 
 			file_put_contents(
 				$this->systemConfig->getValue('query_log_file', ''),
@@ -352,7 +426,7 @@ class Connection extends \Doctrine\DBAL\Connection {
 	 * @throws \Doctrine\DBAL\Exception
 	 * @deprecated 15.0.0 - use unique index and "try { $db->insert() } catch (UniqueConstraintViolationException $e) {}" instead, because it is more reliable and does not have the risk for deadlocks - see https://github.com/nextcloud/server/pull/12371
 	 */
-	public function insertIfNotExist($table, $input, array $compare = null) {
+	public function insertIfNotExist($table, $input, ?array $compare = null) {
 		return $this->adapter->insertIfNotExist($table, $input, $compare);
 	}
 
@@ -515,6 +589,16 @@ class Connection extends \Doctrine\DBAL\Connection {
 		return $schema->tablesExist([$table]);
 	}
 
+	protected function finishQuery(string $statement): string {
+		$statement = $this->replaceTablePrefix($statement);
+		$statement = $this->adapter->fixupStatement($statement);
+		if ($this->logRequestId) {
+			return $statement . " /* reqid: " . $this->requestId . " */";
+		} else {
+			return $statement;
+		}
+	}
+
 	// internal use
 	/**
 	 * @param string $statement
@@ -594,7 +678,7 @@ class Connection extends \Doctrine\DBAL\Connection {
 		$random = \OC::$server->getSecureRandom();
 		$platform = $this->getDatabasePlatform();
 		$config = \OC::$server->getConfig();
-		$dispatcher = \OC::$server->get(\OCP\EventDispatcher\IEventDispatcher::class);
+		$dispatcher = Server::get(\OCP\EventDispatcher\IEventDispatcher::class);
 		if ($platform instanceof SqlitePlatform) {
 			return new SQLiteMigrator($this, $config, $dispatcher);
 		} elseif ($platform instanceof OraclePlatform) {
@@ -602,5 +686,58 @@ class Connection extends \Doctrine\DBAL\Connection {
 		} else {
 			return new Migrator($this, $config, $dispatcher);
 		}
+	}
+
+	public function beginTransaction() {
+		if (!$this->inTransaction()) {
+			$this->transactionActiveSince = microtime(true);
+		}
+		return parent::beginTransaction();
+	}
+
+	public function commit() {
+		$result = parent::commit();
+		if ($this->getTransactionNestingLevel() === 0) {
+			$timeTook = microtime(true) - $this->transactionActiveSince;
+			$this->transactionActiveSince = null;
+			if ($timeTook > 1) {
+				$this->logger->warning('Transaction took ' . $timeTook . 's', ['exception' => new \Exception('Transaction took ' . $timeTook . 's')]);
+			}
+		}
+		return $result;
+	}
+
+	public function rollBack() {
+		$result = parent::rollBack();
+		if ($this->getTransactionNestingLevel() === 0) {
+			$timeTook = microtime(true) - $this->transactionActiveSince;
+			$this->transactionActiveSince = null;
+			if ($timeTook > 1) {
+				$this->logger->warning('Transaction rollback took longer than 1s: ' . $timeTook, ['exception' => new \Exception('Long running transaction rollback')]);
+			}
+		}
+		return $result;
+	}
+
+	private function reconnectIfNeeded(): void {
+		if (
+			!isset($this->lastConnectionCheck[$this->getConnectionName()]) ||
+			time() <= $this->lastConnectionCheck[$this->getConnectionName()] + 30 ||
+			$this->isTransactionActive()
+		) {
+			return;
+		}
+
+		try {
+			$this->_conn->query($this->getDriver()->getDatabasePlatform()->getDummySelectSQL());
+			$this->lastConnectionCheck[$this->getConnectionName()] = time();
+		} catch (ConnectionLost|\Exception $e) {
+			$this->logger->warning('Exception during connectivity check, closing and reconnecting', ['exception' => $e]);
+			$this->close();
+		}
+	}
+
+	private function getConnectionName(): string {
+		return $this->isConnectedToPrimary() ? 'primary' : 'replica';
 	}
 }

@@ -27,9 +27,15 @@ class ComposerStaticInitTesting
         'OCA\\Testing\\Controller\\ConfigController' => __DIR__ . '/..' . '/../lib/Controller/ConfigController.php',
         'OCA\\Testing\\Controller\\LockingController' => __DIR__ . '/..' . '/../lib/Controller/LockingController.php',
         'OCA\\Testing\\Controller\\RateLimitTestController' => __DIR__ . '/..' . '/../lib/Controller/RateLimitTestController.php',
+        'OCA\\Testing\\Listener\\GetDeclarativeSettingsValueListener' => __DIR__ . '/..' . '/../lib/Listener/GetDeclarativeSettingsValueListener.php',
+        'OCA\\Testing\\Listener\\RegisterDeclarativeSettingsListener' => __DIR__ . '/..' . '/../lib/Listener/RegisterDeclarativeSettingsListener.php',
+        'OCA\\Testing\\Listener\\SetDeclarativeSettingsValueListener' => __DIR__ . '/..' . '/../lib/Listener/SetDeclarativeSettingsValueListener.php',
         'OCA\\Testing\\Locking\\FakeDBLockingProvider' => __DIR__ . '/..' . '/../lib/Locking/FakeDBLockingProvider.php',
+        'OCA\\Testing\\Provider\\FakeText2ImageProvider' => __DIR__ . '/..' . '/../lib/Provider/FakeText2ImageProvider.php',
         'OCA\\Testing\\Provider\\FakeTextProcessingProvider' => __DIR__ . '/..' . '/../lib/Provider/FakeTextProcessingProvider.php',
+        'OCA\\Testing\\Provider\\FakeTextProcessingProviderSync' => __DIR__ . '/..' . '/../lib/Provider/FakeTextProcessingProviderSync.php',
         'OCA\\Testing\\Provider\\FakeTranslationProvider' => __DIR__ . '/..' . '/../lib/Provider/FakeTranslationProvider.php',
+        'OCA\\Testing\\Settings\\DeclarativeSettingsForm' => __DIR__ . '/..' . '/../lib/Settings/DeclarativeSettingsForm.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

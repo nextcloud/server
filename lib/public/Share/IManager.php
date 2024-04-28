@@ -256,9 +256,10 @@ interface IManager {
 	 *  |-folder2 (32)
 	 *   |-fileA (42)
 	 *
-	 * fileA is shared with user1 and user1@server1
+	 * fileA is shared with user1 and user1@server1 and email1@maildomain1
 	 * folder2 is shared with group2 (user4 is a member of group2)
 	 * folder1 is shared with user2 (renamed to "folder (1)") and user2@server2
+	 *                        and email2@maildomain2
 	 *
 	 * Then the access list to '/folder1/folder2/fileA' with $currentAccess is:
 	 * [
@@ -272,15 +273,17 @@ interface IManager {
 	 *      'user2@server2' => ['node_id' => 23, 'token' => 'FooBaR'],
 	 *  ],
 	 *  public => bool
-	 *  mail => bool
-	 * ]
+	 *  mail => [
+	 *      'email1@maildomain1' => ['node_id' => 42, 'token' => 'aBcDeFg'],
+	 *      'email2@maildomain2' => ['node_id' => 23, 'token' => 'hIjKlMn'],
+	 *  ]
 	 *
 	 * The access list to '/folder1/folder2/fileA' **without** $currentAccess is:
 	 * [
 	 *  users  => ['user1', 'user2', 'user4'],
 	 *  remote => bool,
 	 *  public => bool
-	 *  mail => bool
+	 *  mail => ['email1@maildomain1', 'email2@maildomain2']
 	 * ]
 	 *
 	 * This is required for encryption/activity
@@ -414,6 +417,15 @@ interface IManager {
 	 * @since 9.0.0
 	 */
 	public function shareWithGroupMembersOnly();
+
+	/**
+	 * If shareWithGroupMembersOnly is enabled, return an optional
+	 * list of groups that must be excluded from the principle of
+	 * belonging to the same group.
+	 * @return array
+	 * @since 27.0.0
+	 */
+	public function shareWithGroupMembersOnlyExcludeGroupsList();
 
 	/**
 	 * Check if users can share with groups

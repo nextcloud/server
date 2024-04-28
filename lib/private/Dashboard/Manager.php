@@ -33,8 +33,8 @@ use OCP\Dashboard\IManager;
 use OCP\Dashboard\IWidget;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
-use Throwable;
 use Psr\Log\LoggerInterface;
+use Throwable;
 
 class Manager implements IManager {
 	/** @var array */
@@ -115,7 +115,7 @@ class Manager implements IManager {
 				$endTime = microtime(true);
 				$duration = $endTime - $startTime;
 				if ($duration > 1) {
-					\OC::$server->get(LoggerInterface::class)->error(
+					\OC::$server->get(LoggerInterface::class)->info(
 						'Dashboard widget {widget} took {duration} seconds to load.',
 						[
 							'widget' => $widget->getId(),

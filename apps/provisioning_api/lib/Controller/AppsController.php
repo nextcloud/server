@@ -30,7 +30,6 @@ declare(strict_types=1);
 namespace OCA\Provisioning_API\Controller;
 
 use OC_App;
-use OCA\Provisioning_API\ResponseDefinitions;
 use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
@@ -39,9 +38,6 @@ use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCSController;
 use OCP\IRequest;
 
-/**
- * @psalm-import-type ProvisioningApiAppInfo from ResponseDefinitions
- */
 class AppsController extends OCSController {
 	/** @var IAppManager */
 	private $appManager;
@@ -94,7 +90,7 @@ class AppsController extends OCSController {
 	 * Get the app info for an app
 	 *
 	 * @param string $app ID of the app
-	 * @return DataResponse<Http::STATUS_OK, ProvisioningApiAppInfo, array{}>
+	 * @return DataResponse<Http::STATUS_OK, array<string, ?mixed>, array{}>
 	 * @throws OCSException
 	 *
 	 * 200: App info returned

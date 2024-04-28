@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -103,7 +106,7 @@ class Enable extends Command implements CompletionAwareInterface {
 			/** @var Installer $installer */
 			$installer = \OC::$server->query(Installer::class);
 
-			if (false === $installer->isDownloaded($appId)) {
+			if ($installer->isDownloaded($appId) === false) {
 				$installer->downloadApp($appId);
 			}
 
@@ -146,7 +149,7 @@ class Enable extends Command implements CompletionAwareInterface {
 	 * @param CompletionContext $context
 	 * @return string[]
 	 */
-	public function completeOptionValues($optionName, CompletionContext $context) {
+	public function completeOptionValues($optionName, CompletionContext $context): array {
 		if ($optionName === 'groups') {
 			return array_map(function (IGroup $group) {
 				return $group->getGID();
@@ -160,7 +163,7 @@ class Enable extends Command implements CompletionAwareInterface {
 	 * @param CompletionContext $context
 	 * @return string[]
 	 */
-	public function completeArgumentValues($argumentName, CompletionContext $context) {
+	public function completeArgumentValues($argumentName, CompletionContext $context): array {
 		if ($argumentName === 'app-id') {
 			$allApps = \OC_App::getAllApps();
 			return array_diff($allApps, \OC_App::getEnabledApps(true, true));

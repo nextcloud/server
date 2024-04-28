@@ -36,6 +36,8 @@ use OC\Files\Stream\SeekableHttpStream;
 use Psr\Http\Message\StreamInterface;
 
 trait S3ObjectTrait {
+	use S3ConfigTrait;
+
 	/**
 	 * Returns the connection
 	 *
@@ -104,7 +106,7 @@ trait S3ObjectTrait {
 	 * @param string|null $mimetype the mimetype to set for the remove object @since 22.0.0
 	 * @throws \Exception when something goes wrong, message will be logged
 	 */
-	protected function writeSingle(string $urn, StreamInterface $stream, string $mimetype = null): void {
+	protected function writeSingle(string $urn, StreamInterface $stream, ?string $mimetype = null): void {
 		$this->getConnection()->putObject([
 			'Bucket' => $this->bucket,
 			'Key' => $urn,
@@ -124,9 +126,10 @@ trait S3ObjectTrait {
 	 * @param string|null $mimetype the mimetype to set for the remove object
 	 * @throws \Exception when something goes wrong, message will be logged
 	 */
-	protected function writeMultiPart(string $urn, StreamInterface $stream, string $mimetype = null): void {
+	protected function writeMultiPart(string $urn, StreamInterface $stream, ?string $mimetype = null): void {
 		$uploader = new MultipartUploader($this->getConnection(), $stream, [
 			'bucket' => $this->bucket,
+			'concurrency' => $this->concurrency,
 			'key' => $urn,
 			'part_size' => $this->uploadPartSize,
 			'params' => [
@@ -156,7 +159,7 @@ trait S3ObjectTrait {
 	 * @throws \Exception when something goes wrong, message will be logged
 	 * @since 7.0.0
 	 */
-	public function writeObject($urn, $stream, string $mimetype = null) {
+	public function writeObject($urn, $stream, ?string $mimetype = null) {
 		$psrStream = Utils::streamFor($stream);
 
 		// ($psrStream->isSeekable() && $psrStream->getSize() !== null) evaluates to true for a On-Seekable stream
@@ -191,15 +194,30 @@ trait S3ObjectTrait {
 	}
 
 	public function copyObject($from, $to, array $options = []) {
-		$copy = new MultipartCopy($this->getConnection(), [
-			"source_bucket" => $this->getBucket(),
-			"source_key" => $from
-		], array_merge([
-			"bucket" => $this->getBucket(),
-			"key" => $to,
-			"acl" => "private",
-			"params" => $this->getSSECParameters() + $this->getSSECParameters(true)
-		], $options));
-		$copy->copy();
+		$sourceMetadata = $this->getConnection()->headObject([
+			'Bucket' => $this->getBucket(),
+			'Key' => $from,
+		] + $this->getSSECParameters());
+
+		$size = (int)($sourceMetadata->get('Size') ?? $sourceMetadata->get('ContentLength'));
+
+		if ($this->useMultipartCopy && $size > $this->copySizeLimit) {
+			$copy = new MultipartCopy($this->getConnection(), [
+				"source_bucket" => $this->getBucket(),
+				"source_key" => $from
+			], array_merge([
+				"bucket" => $this->getBucket(),
+				"key" => $to,
+				"acl" => "private",
+				"params" => $this->getSSECParameters() + $this->getSSECParameters(true),
+				"source_metadata" => $sourceMetadata
+			], $options));
+			$copy->copy();
+		} else {
+			$this->getConnection()->copy($this->getBucket(), $from, $this->getBucket(), $to, 'private', array_merge([
+				'params' => $this->getSSECParameters() + $this->getSSECParameters(true),
+				'mup_threshold' => PHP_INT_MAX,
+			], $options));
+		}
 	}
 }

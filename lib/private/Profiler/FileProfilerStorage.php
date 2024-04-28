@@ -45,12 +45,12 @@ class FileProfilerStorage {
 	public function __construct(string $folder) {
 		$this->folder = $folder;
 
-		if (!is_dir($this->folder) && false === @mkdir($this->folder, 0777, true) && !is_dir($this->folder)) {
+		if (!is_dir($this->folder) && @mkdir($this->folder, 0777, true) === false && !is_dir($this->folder)) {
 			throw new \RuntimeException(sprintf('Unable to create the storage directory (%s).', $this->folder));
 		}
 	}
 
-	public function find(?string $url, ?int $limit, ?string $method, int $start = null, int $end = null, string $statusCode = null): array {
+	public function find(?string $url, ?int $limit, ?string $method, ?int $start = null, ?int $end = null, ?string $statusCode = null): array {
 		$file = $this->getIndexFilename();
 
 		if (!file_exists($file)) {
@@ -130,7 +130,7 @@ class FileProfilerStorage {
 		if (!$profileIndexed) {
 			// Create directory
 			$dir = \dirname($file);
-			if (!is_dir($dir) && false === @mkdir($dir, 0777, true) && !is_dir($dir)) {
+			if (!is_dir($dir) && @mkdir($dir, 0777, true) === false && !is_dir($dir)) {
 				throw new \RuntimeException(sprintf('Unable to create the storage directory (%s).', $dir));
 			}
 		}
@@ -162,7 +162,7 @@ class FileProfilerStorage {
 			stream_context_set_option($context, 'zlib', 'level', 3);
 		}
 
-		if (false === file_put_contents($file, serialize($data), 0, $context)) {
+		if (file_put_contents($file, serialize($data), 0, $context) === false) {
 			return false;
 		}
 
@@ -221,7 +221,7 @@ class FileProfilerStorage {
 		$line = '';
 		$position = ftell($file);
 
-		if (0 === $position) {
+		if ($position === 0) {
 			return null;
 		}
 
@@ -230,7 +230,7 @@ class FileProfilerStorage {
 			$position -= $chunkSize;
 			fseek($file, $position);
 
-			if (0 === $chunkSize) {
+			if ($chunkSize === 0) {
 				// bof reached
 				break;
 			}
@@ -246,15 +246,15 @@ class FileProfilerStorage {
 			$line = substr($buffer, $upTo + 1).$line;
 			fseek($file, max(0, $position), \SEEK_SET);
 
-			if ('' !== $line) {
+			if ($line !== '') {
 				break;
 			}
 		}
 
-		return '' === $line ? null : $line;
+		return $line === '' ? null : $line;
 	}
 
-	protected function createProfileFromData(string $token, array $data, IProfile $parent = null): IProfile {
+	protected function createProfileFromData(string $token, array $data, ?IProfile $parent = null): IProfile {
 		$profile = new Profile($token);
 		$profile->setMethod($data['method']);
 		$profile->setUrl($data['url']);

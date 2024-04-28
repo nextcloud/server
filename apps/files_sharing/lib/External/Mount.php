@@ -26,8 +26,9 @@ namespace OCA\Files_Sharing\External;
 
 use OC\Files\Mount\MountPoint;
 use OC\Files\Mount\MoveableMount;
+use OCA\Files_Sharing\ISharedMountPoint;
 
-class Mount extends MountPoint implements MoveableMount {
+class Mount extends MountPoint implements MoveableMount, ISharedMountPoint {
 
 	/**
 	 * @var \OCA\Files_Sharing\External\Manager

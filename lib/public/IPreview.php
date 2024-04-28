@@ -38,7 +38,14 @@ use OCP\Files\SimpleFS\ISimpleFile;
  * @since 6.0.0
  */
 interface IPreview {
+	/**
+	 * @since 11.0.0
+	 */
 	public const MODE_FILL = 'fill';
+
+	/**
+	 * @since 11.0.0
+	 */
 	public const MODE_COVER = 'cover';
 
 	/**

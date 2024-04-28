@@ -20,6 +20,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+import { registerDavProperty } from '@nextcloud/files'
 import registerSharingViews from './views/shares'
 
 import './actions/acceptShareAction'
@@ -29,3 +30,7 @@ import './actions/restoreShareAction'
 import './actions/sharingStatusAction'
 
 registerSharingViews()
+
+registerDavProperty('nc:share-attributes', { nc: 'http://nextcloud.org/ns' })
+registerDavProperty('oc:share-types', { oc: 'http://owncloud.org/ns' })
+registerDavProperty('ocs:share-permissions', { ocs: 'http://open-collaboration-services.org/ns' })

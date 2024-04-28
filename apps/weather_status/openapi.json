@@ -70,69 +70,28 @@
                                             "air_pressure_at_sea_level",
                                             "air_temperature",
                                             "cloud_area_fraction",
-                                            "cloud_area_fraction_high",
-                                            "cloud_area_fraction_low",
-                                            "cloud_area_fraction_medium",
-                                            "dew_point_temperature",
-                                            "fog_area_fraction",
                                             "relative_humidity",
-                                            "ultraviolet_index_clear_sky",
                                             "wind_from_direction",
-                                            "wind_speed",
-                                            "wind_speed_of_gust"
+                                            "wind_speed"
                                         ],
                                         "properties": {
                                             "air_pressure_at_sea_level": {
-                                                "type": "number",
-                                                "format": "float"
+                                                "type": "number"
                                             },
                                             "air_temperature": {
-                                                "type": "number",
-                                                "format": "float"
+                                                "type": "number"
                                             },
                                             "cloud_area_fraction": {
-                                                "type": "number",
-                                                "format": "float"
-                                            },
-                                            "cloud_area_fraction_high": {
-                                                "type": "number",
-                                                "format": "float"
-                                            },
-                                            "cloud_area_fraction_low": {
-                                                "type": "number",
-                                                "format": "float"
-                                            },
-                                            "cloud_area_fraction_medium": {
-                                                "type": "number",
-                                                "format": "float"
-                                            },
-                                            "dew_point_temperature": {
-                                                "type": "number",
-                                                "format": "float"
-                                            },
-                                            "fog_area_fraction": {
-                                                "type": "number",
-                                                "format": "float"
+                                                "type": "number"
                                             },
                                             "relative_humidity": {
-                                                "type": "number",
-                                                "format": "float"
-                                            },
-                                            "ultraviolet_index_clear_sky": {
-                                                "type": "number",
-                                                "format": "float"
+                                                "type": "number"
                                             },
                                             "wind_from_direction": {
-                                                "type": "number",
-                                                "format": "float"
+                                                "type": "number"
                                             },
                                             "wind_speed": {
-                                                "type": "number",
-                                                "format": "float"
-                                            },
-                                            "wind_speed_of_gust": {
-                                                "type": "number",
-                                                "format": "float"
+                                                "type": "number"
                                             }
                                         }
                                     }
@@ -158,13 +117,9 @@
                                     },
                                     "details": {
                                         "type": "object",
-                                        "required": [
-                                            "probability_of_precipitation"
-                                        ],
                                         "properties": {
-                                            "probability_of_precipitation": {
-                                                "type": "number",
-                                                "format": "float"
+                                            "precipitation_amount": {
+                                                "type": "number"
                                             }
                                         }
                                     }
@@ -190,33 +145,9 @@
                                     },
                                     "details": {
                                         "type": "object",
-                                        "required": [
-                                            "precipitation_amount",
-                                            "precipitation_amount_max",
-                                            "precipitation_amount_min",
-                                            "probability_of_precipitation",
-                                            "probability_of_thunder"
-                                        ],
                                         "properties": {
                                             "precipitation_amount": {
-                                                "type": "number",
-                                                "format": "float"
-                                            },
-                                            "precipitation_amount_max": {
-                                                "type": "number",
-                                                "format": "float"
-                                            },
-                                            "precipitation_amount_min": {
-                                                "type": "number",
-                                                "format": "float"
-                                            },
-                                            "probability_of_precipitation": {
-                                                "type": "number",
-                                                "format": "float"
-                                            },
-                                            "probability_of_thunder": {
-                                                "type": "number",
-                                                "format": "float"
+                                                "type": "number"
                                             }
                                         }
                                     }
@@ -242,44 +173,62 @@
                                     },
                                     "details": {
                                         "type": "object",
-                                        "required": [
-                                            "air_temperature_max",
-                                            "air_temperature_min",
-                                            "precipitation_amount",
-                                            "precipitation_amount_max",
-                                            "precipitation_amount_min",
-                                            "probability_of_precipitation"
-                                        ],
                                         "properties": {
-                                            "air_temperature_max": {
-                                                "type": "number",
-                                                "format": "float"
-                                            },
-                                            "air_temperature_min": {
-                                                "type": "number",
-                                                "format": "float"
-                                            },
                                             "precipitation_amount": {
-                                                "type": "number",
-                                                "format": "float"
-                                            },
-                                            "precipitation_amount_max": {
-                                                "type": "number",
-                                                "format": "float"
-                                            },
-                                            "precipitation_amount_min": {
-                                                "type": "number",
-                                                "format": "float"
-                                            },
-                                            "probability_of_precipitation": {
-                                                "type": "number",
-                                                "format": "float"
+                                                "type": "number"
                                             }
                                         }
                                     }
                                 }
                             }
                         }
+                    }
+                }
+            },
+            "Location": {
+                "type": "object",
+                "properties": {
+                    "lat": {
+                        "type": "string"
+                    },
+                    "lon": {
+                        "type": "string"
+                    },
+                    "address": {
+                        "type": "string",
+                        "nullable": true
+                    }
+                }
+            },
+            "LocationWithMode": {
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/Location"
+                    },
+                    {
+                        "$ref": "#/components/schemas/Mode"
+                    }
+                ]
+            },
+            "LocationWithSuccess": {
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/Location"
+                    },
+                    {
+                        "$ref": "#/components/schemas/Success"
+                    }
+                ]
+            },
+            "Mode": {
+                "type": "object",
+                "required": [
+                    "mode"
+                ],
+                "properties": {
+                    "mode": {
+                        "type": "integer",
+                        "format": "int64"
                     }
                 }
             },
@@ -304,6 +253,17 @@
                     },
                     "itemsperpage": {
                         "type": "string"
+                    }
+                }
+            },
+            "Success": {
+                "type": "object",
+                "required": [
+                    "success"
+                ],
+                "properties": {
+                    "success": {
+                        "type": "boolean"
                     }
                 }
             }
@@ -369,15 +329,7 @@
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
                                                 "data": {
-                                                    "type": "object",
-                                                    "required": [
-                                                        "success"
-                                                    ],
-                                                    "properties": {
-                                                        "success": {
-                                                            "type": "boolean"
-                                                        }
-                                                    }
+                                                    "$ref": "#/components/schemas/Success"
                                                 }
                                             }
                                         }
@@ -438,32 +390,7 @@
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
                                                 "data": {
-                                                    "type": "object",
-                                                    "required": [
-                                                        "success",
-                                                        "lat",
-                                                        "lon",
-                                                        "address"
-                                                    ],
-                                                    "properties": {
-                                                        "success": {
-                                                            "type": "boolean"
-                                                        },
-                                                        "lat": {
-                                                            "type": "number",
-                                                            "format": "float",
-                                                            "nullable": true
-                                                        },
-                                                        "lon": {
-                                                            "type": "number",
-                                                            "format": "float",
-                                                            "nullable": true
-                                                        },
-                                                        "address": {
-                                                            "type": "string",
-                                                            "nullable": true
-                                                        }
-                                                    }
+                                                    "$ref": "#/components/schemas/LocationWithSuccess"
                                                 }
                                             }
                                         }
@@ -524,30 +451,7 @@
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
                                                 "data": {
-                                                    "type": "object",
-                                                    "required": [
-                                                        "lat",
-                                                        "lon",
-                                                        "address",
-                                                        "mode"
-                                                    ],
-                                                    "properties": {
-                                                        "lat": {
-                                                            "type": "number",
-                                                            "format": "float"
-                                                        },
-                                                        "lon": {
-                                                            "type": "number",
-                                                            "format": "float"
-                                                        },
-                                                        "address": {
-                                                            "type": "string"
-                                                        },
-                                                        "mode": {
-                                                            "type": "integer",
-                                                            "format": "int64"
-                                                        }
-                                                    }
+                                                    "$ref": "#/components/schemas/LocationWithMode"
                                                 }
                                             }
                                         }
@@ -588,7 +492,7 @@
                         "description": "Latitude in decimal degree format",
                         "schema": {
                             "type": "number",
-                            "format": "float",
+                            "format": "double",
                             "nullable": true
                         }
                     },
@@ -598,7 +502,7 @@
                         "description": "Longitude in decimal degree format",
                         "schema": {
                             "type": "number",
-                            "format": "float",
+                            "format": "double",
                             "nullable": true
                         }
                     },
@@ -635,32 +539,7 @@
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
                                                 "data": {
-                                                    "type": "object",
-                                                    "required": [
-                                                        "success",
-                                                        "lat",
-                                                        "lon",
-                                                        "address"
-                                                    ],
-                                                    "properties": {
-                                                        "success": {
-                                                            "type": "boolean"
-                                                        },
-                                                        "lat": {
-                                                            "type": "number",
-                                                            "format": "float",
-                                                            "nullable": true
-                                                        },
-                                                        "lon": {
-                                                            "type": "number",
-                                                            "format": "float",
-                                                            "nullable": true
-                                                        },
-                                                        "address": {
-                                                            "type": "string",
-                                                            "nullable": true
-                                                        }
-                                                    }
+                                                    "$ref": "#/components/schemas/LocationWithSuccess"
                                                 }
                                             }
                                         }
@@ -721,10 +600,25 @@
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
                                                 "data": {
-                                                    "type": "array",
-                                                    "items": {
-                                                        "$ref": "#/components/schemas/Forecast"
-                                                    }
+                                                    "oneOf": [
+                                                        {
+                                                            "type": "array",
+                                                            "items": {
+                                                                "$ref": "#/components/schemas/Forecast"
+                                                            }
+                                                        },
+                                                        {
+                                                            "type": "object",
+                                                            "required": [
+                                                                "error"
+                                                            ],
+                                                            "properties": {
+                                                                "error": {
+                                                                    "type": "string"
+                                                                }
+                                                            }
+                                                        }
+                                                    ]
                                                 }
                                             }
                                         }
@@ -754,15 +648,7 @@
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
                                                 "data": {
-                                                    "type": "object",
-                                                    "required": [
-                                                        "success"
-                                                    ],
-                                                    "properties": {
-                                                        "success": {
-                                                            "type": "boolean"
-                                                        }
-                                                    }
+                                                    "$ref": "#/components/schemas/Success"
                                                 }
                                             }
                                         }
@@ -897,15 +783,7 @@
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
                                                 "data": {
-                                                    "type": "object",
-                                                    "required": [
-                                                        "success"
-                                                    ],
-                                                    "properties": {
-                                                        "success": {
-                                                            "type": "boolean"
-                                                        }
-                                                    }
+                                                    "$ref": "#/components/schemas/Success"
                                                 }
                                             }
                                         }

@@ -43,10 +43,11 @@
 use bantu\IniGetWrapper\IniGetWrapper;
 use OC\Files\View;
 use OC\Streamer;
-use OCP\Lock\ILockingProvider;
-use OCP\Files\Events\BeforeZipCreatedEvent;
-use OCP\Files\Events\BeforeDirectFileDownloadEvent;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\Events\BeforeDirectFileDownloadEvent;
+use OCP\Files\Events\BeforeZipCreatedEvent;
+use OCP\Files\IRootFolder;
+use OCP\Lock\ILockingProvider;
 
 /**
  * Class for file server access
@@ -86,7 +87,7 @@ class OC_Files {
 				header('Accept-Ranges: bytes', true);
 				if (count($rangeArray) > 1) {
 					$type = 'multipart/byteranges; boundary='.self::getBoundary();
-				// no Content-Length header here
+					// no Content-Length header here
 				} else {
 					header(sprintf('Content-Range: bytes %d-%d/%d', $rangeArray[0]['from'], $rangeArray[0]['to'], $fileSize), true);
 					OC_Response::setContentLengthHeader($rangeArray[0]['to'] - $rangeArray[0]['from'] + 1);
@@ -187,7 +188,7 @@ class OC_Files {
 				foreach ($files as $file) {
 					$file = $dir . '/' . $file;
 					if (\OC\Files\Filesystem::is_file($file)) {
-						$userFolder = \OC::$server->getRootFolder()->get(\OC\Files\Filesystem::getRoot());
+						$userFolder = \OC::$server->get(IRootFolder::class)->get(\OC\Files\Filesystem::getRoot());
 						$file = $userFolder->get($file);
 						if ($file instanceof \OC\Files\Node\File) {
 							try {
@@ -307,7 +308,7 @@ class OC_Files {
 		$file = null;
 
 		try {
-			$userFolder = \OC::$server->getRootFolder()->get(\OC\Files\Filesystem::getRoot());
+			$userFolder = \OC::$server->get(IRootFolder::class)->get(\OC\Files\Filesystem::getRoot());
 			$file = $userFolder->get($filename);
 			if (!$file instanceof \OC\Files\Node\File || !$file->isReadable()) {
 				http_response_code(403);

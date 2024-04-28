@@ -37,11 +37,6 @@
       <code>\OC</code>
     </UndefinedClass>
   </file>
-  <file src="lib/public/Cache/CappedMemoryCache.php">
-    <MissingTemplateParam>
-      <code>\ArrayAccess</code>
-    </MissingTemplateParam>
-  </file>
   <file src="lib/public/Defaults.php">
     <UndefinedClass>
       <code>\OC</code>
@@ -58,70 +53,10 @@
       <code>IteratorAggregate</code>
     </MissingTemplateParam>
   </file>
-  <file src="lib/public/Federation/Exceptions/ActionNotSupportedException.php">
-    <UndefinedClass>
-      <code>\OC</code>
-    </UndefinedClass>
-  </file>
-  <file src="lib/public/Federation/Exceptions/AuthenticationFailedException.php">
-    <UndefinedClass>
-      <code>\OC</code>
-    </UndefinedClass>
-  </file>
-  <file src="lib/public/Federation/Exceptions/BadRequestException.php">
-    <UndefinedClass>
-      <code>\OC</code>
-    </UndefinedClass>
-  </file>
-  <file src="lib/public/Federation/Exceptions/ProviderAlreadyExistsException.php">
-    <UndefinedClass>
-      <code>\OC</code>
-    </UndefinedClass>
-  </file>
-  <file src="lib/public/Federation/Exceptions/ProviderDoesNotExistsException.php">
-    <UndefinedClass>
-      <code>\OC</code>
-    </UndefinedClass>
-  </file>
   <file src="lib/public/Files.php">
     <FalsableReturnStatement>
       <code>\OC_App::getStorage($app)</code>
     </FalsableReturnStatement>
-    <UndefinedClass>
-      <code>\OC</code>
-    </UndefinedClass>
-  </file>
-  <file src="lib/public/Files/Cache/ICacheEntry.php">
-    <MissingTemplateParam>
-      <code>ArrayAccess</code>
-    </MissingTemplateParam>
-  </file>
-  <file src="lib/public/Files/LockNotAcquiredException.php">
-    <UndefinedClass>
-      <code>\OC</code>
-    </UndefinedClass>
-  </file>
-  <file src="lib/public/Files/StorageAuthException.php">
-    <UndefinedClass>
-      <code>\OC</code>
-    </UndefinedClass>
-  </file>
-  <file src="lib/public/Files/StorageBadConfigException.php">
-    <UndefinedClass>
-      <code>\OC</code>
-    </UndefinedClass>
-  </file>
-  <file src="lib/public/Files/StorageConnectionException.php">
-    <UndefinedClass>
-      <code>\OC</code>
-    </UndefinedClass>
-  </file>
-  <file src="lib/public/Files/StorageNotAvailableException.php">
-    <UndefinedClass>
-      <code>\OC</code>
-    </UndefinedClass>
-  </file>
-  <file src="lib/public/Files/StorageTimeoutException.php">
     <UndefinedClass>
       <code>\OC</code>
     </UndefinedClass>

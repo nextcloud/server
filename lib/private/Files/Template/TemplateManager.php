@@ -31,8 +31,8 @@ use OC\AppFramework\Bootstrap\Coordinator;
 use OC\Files\Cache\Scanner;
 use OC\Files\Filesystem;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\Files\Folder;
 use OCP\Files\File;
+use OCP\Files\Folder;
 use OCP\Files\GenericFileException;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
@@ -262,7 +262,7 @@ class TemplateManager implements ITemplateManager {
 		return $this->config->getUserValue($this->userId, 'core', 'templateDirectory', '');
 	}
 
-	public function initializeTemplateDirectory(string $path = null, string $userId = null, $copyTemplates = true): string {
+	public function initializeTemplateDirectory(?string $path = null, ?string $userId = null, $copyTemplates = true): string {
 		if ($userId !== null) {
 			$this->userId = $userId;
 		}
@@ -274,6 +274,11 @@ class TemplateManager implements ITemplateManager {
 		$isDefaultSkeleton = $skeletonPath === $defaultSkeletonDirectory;
 		$isDefaultTemplates = $skeletonTemplatePath === $defaultTemplateDirectory;
 		$userLang = $this->l10nFactory->getUserLanguage($this->userManager->get($this->userId));
+
+		if ($skeletonTemplatePath === '') {
+			$this->setTemplatePath('');
+			return '';
+		}
 
 		try {
 			$l10n = $this->l10nFactory->get('lib', $userLang);

@@ -29,7 +29,8 @@ namespace OC\Core\Controller;
 use OC\Authentication\TwoFactorAuth\Manager;
 use OC_User;
 use OCP\AppFramework\Controller;
-use OCP\AppFramework\Http\Attribute\IgnoreOpenAPI;
+use OCP\AppFramework\Http\Attribute\FrontpageRoute;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\Attribute\UseSession;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\StandaloneTemplateResponse;
@@ -43,7 +44,7 @@ use OCP\IURLGenerator;
 use OCP\IUserSession;
 use Psr\Log\LoggerInterface;
 
-#[IgnoreOpenAPI]
+#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class TwoFactorChallengeController extends Controller {
 	public function __construct(
 		string $appName,
@@ -89,6 +90,7 @@ class TwoFactorChallengeController extends Controller {
 	 * @param string $redirect_url
 	 * @return StandaloneTemplateResponse
 	 */
+	#[FrontpageRoute(verb: 'GET', url: '/login/selectchallenge')]
 	public function selectChallenge($redirect_url) {
 		$user = $this->userSession->getUser();
 		$providerSet = $this->twoFactorManager->getProviderSet($user);
@@ -117,6 +119,7 @@ class TwoFactorChallengeController extends Controller {
 	 * @return StandaloneTemplateResponse|RedirectResponse
 	 */
 	#[UseSession]
+	#[FrontpageRoute(verb: 'GET', url: '/login/challenge/{challengeProviderId}')]
 	public function showChallenge($challengeProviderId, $redirect_url) {
 		$user = $this->userSession->getUser();
 		$providerSet = $this->twoFactorManager->getProviderSet($user);
@@ -171,6 +174,7 @@ class TwoFactorChallengeController extends Controller {
 	 * @return RedirectResponse
 	 */
 	#[UseSession]
+	#[FrontpageRoute(verb: 'POST', url: '/login/challenge/{challengeProviderId}')]
 	public function solveChallenge($challengeProviderId, $challenge, $redirect_url = null) {
 		$user = $this->userSession->getUser();
 		$provider = $this->twoFactorManager->getProvider($user, $challengeProviderId);
@@ -208,13 +212,15 @@ class TwoFactorChallengeController extends Controller {
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 */
-	public function setupProviders(): StandaloneTemplateResponse {
+	#[FrontpageRoute(verb: 'GET', url: 'login/setupchallenge')]
+	public function setupProviders(?string $redirect_url = null): StandaloneTemplateResponse {
 		$user = $this->userSession->getUser();
 		$setupProviders = $this->twoFactorManager->getLoginSetupProviders($user);
 
 		$data = [
 			'providers' => $setupProviders,
 			'logout_url' => $this->getLogoutUrl(),
+			'redirect_url' => $redirect_url,
 		];
 
 		return new StandaloneTemplateResponse($this->appName, 'twofactorsetupselection', $data, 'guest');
@@ -224,7 +230,8 @@ class TwoFactorChallengeController extends Controller {
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 */
-	public function setupProvider(string $providerId) {
+	#[FrontpageRoute(verb: 'GET', url: 'login/setupchallenge/{providerId}')]
+	public function setupProvider(string $providerId, ?string $redirect_url = null) {
 		$user = $this->userSession->getUser();
 		$providers = $this->twoFactorManager->getLoginSetupProviders($user);
 
@@ -245,6 +252,7 @@ class TwoFactorChallengeController extends Controller {
 		$data = [
 			'provider' => $provider,
 			'logout_url' => $this->getLogoutUrl(),
+			'redirect_url' => $redirect_url,
 			'template' => $tmpl->fetchPage(),
 		];
 		$response = new StandaloneTemplateResponse($this->appName, 'twofactorsetupchallenge', $data, 'guest');
@@ -257,11 +265,13 @@ class TwoFactorChallengeController extends Controller {
 	 *
 	 * @todo handle the extreme edge case of an invalid provider ID and redirect to the provider selection page
 	 */
-	public function confirmProviderSetup(string $providerId) {
+	#[FrontpageRoute(verb: 'POST', url: 'login/setupchallenge/{providerId}')]
+	public function confirmProviderSetup(string $providerId, ?string $redirect_url = null) {
 		return new RedirectResponse($this->urlGenerator->linkToRoute(
 			'core.TwoFactorChallenge.showChallenge',
 			[
 				'challengeProviderId' => $providerId,
+				'redirect_url' => $redirect_url,
 			]
 		));
 	}

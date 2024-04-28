@@ -43,7 +43,7 @@ class WatcherConnector {
 	 * @param SystemConfig $config
 	 */
 	public function __construct(IRootFolder $root,
-								SystemConfig $config) {
+		SystemConfig $config) {
 		$this->root = $root;
 		$this->config = $config;
 	}

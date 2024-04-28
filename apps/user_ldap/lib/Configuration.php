@@ -35,6 +35,8 @@
  */
 namespace OCA\User_LDAP;
 
+use Psr\Log\LoggerInterface;
+
 /**
  * @property int ldapPagingSize holds an integer
  * @property string ldapUserAvatarRule
@@ -134,6 +136,7 @@ class Configuration {
 		'ldapAttributeRole' => null,
 		'ldapAttributeHeadline' => null,
 		'ldapAttributeBiography' => null,
+		'ldapAdminGroup' => '',
 	];
 
 	public function __construct(string $configPrefix, bool $autoRead = true) {
@@ -174,7 +177,7 @@ class Configuration {
 	 * array
 	 * @param array &$applied optional; array where the set fields will be given to
 	 */
-	public function setConfiguration(array $config, array &$applied = null): void {
+	public function setConfiguration(array $config, ?array &$applied = null): void {
 		$cta = $this->getConfigTranslationArray();
 		foreach ($config as $inputKey => $val) {
 			if (str_contains($inputKey, '_') && array_key_exists($inputKey, $cta)) {
@@ -490,6 +493,7 @@ class Configuration {
 			'ldap_attr_role' => '',
 			'ldap_attr_headline' => '',
 			'ldap_attr_biography' => '',
+			'ldap_admin_group' => '',
 		];
 	}
 
@@ -566,6 +570,7 @@ class Configuration {
 			'ldap_attr_role' => 'ldapAttributeRole',
 			'ldap_attr_headline' => 'ldapAttributeHeadline',
 			'ldap_attr_biography' => 'ldapAttributeBiography',
+			'ldap_admin_group' => 'ldapAdminGroup',
 		];
 		return $array;
 	}
@@ -595,7 +600,7 @@ class Configuration {
 			return [strtolower($attribute)];
 		}
 		if ($value !== self::AVATAR_PREFIX_DEFAULT) {
-			\OC::$server->getLogger()->warning('Invalid config value to ldapUserAvatarRule; falling back to default.');
+			\OCP\Server::get(LoggerInterface::class)->warning('Invalid config value to ldapUserAvatarRule; falling back to default.');
 		}
 		return $defaultAttributes;
 	}
@@ -604,6 +609,7 @@ class Configuration {
 	 * Returns TRUE if the ldapHost variable starts with 'ldapi://'
 	 */
 	public function usesLdapi(): bool {
-		return (substr($this->config['ldapHost'], 0, strlen('ldapi://')) === 'ldapi://');
+		$host = $this->config['ldapHost'];
+		return is_string($host) && (substr($host, 0, strlen('ldapi://')) === 'ldapi://');
 	}
 }

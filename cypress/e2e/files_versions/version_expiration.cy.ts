@@ -49,7 +49,7 @@ describe('Versions expiration', () => {
 			cy.get('[data-files-versions-version]').eq(0).contains('Current version')
 		})
 
-		assertVersionContent(randomFileName, 0, 'v3')
+		assertVersionContent(0, 'v3')
 	})
 
 	it('Expire versions v2', () => {
@@ -67,7 +67,7 @@ describe('Versions expiration', () => {
 			cy.get('[data-files-versions-version]').eq(1).contains('v1')
 		})
 
-		assertVersionContent(randomFileName, 0, 'v3')
-		assertVersionContent(randomFileName, 1, 'v1')
+		assertVersionContent(0, 'v3')
+		assertVersionContent(1, 'v1')
 	})
 })

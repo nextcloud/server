@@ -44,7 +44,7 @@ class UserDeletedTokenCleanupListener implements IEventListener {
 	private $logger;
 
 	public function __construct(Manager $manager,
-								LoggerInterface $logger) {
+		LoggerInterface $logger) {
 		$this->manager = $manager;
 		$this->logger = $logger;
 	}

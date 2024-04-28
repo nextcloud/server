@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -26,21 +27,6 @@ declare(strict_types=1);
 namespace OCA\Files;
 
 /**
- * @psalm-type FilesTemplate = array{
- *     templateType: string,
- *     templateId: string,
- *     basename: string,
- *     etag: string,
- *     fileid: int,
- *     filename: string,
- *     lastmod: int,
- *     mime: string,
- *     size: int,
- *     type: string,
- *     hasPreview: bool,
- *     previewUrl: ?string,
- * }
- *
  * @psalm-type FilesTemplateFile = array{
  *     basename: string,
  *     etag: string,
@@ -58,6 +44,7 @@ namespace OCA\Files;
  *     label: string,
  *     extension: string,
  *     iconClass: ?string,
+ *     iconSvgInline: ?string,
  *     mimetypes: string[],
  *     ratio: ?float,
  *     actionLabel: string,

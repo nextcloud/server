@@ -31,7 +31,6 @@ use OCP\Collaboration\Reference\Reference;
 use OCP\Files\IMimeTypeDetector;
 use OCP\Files\InvalidPathException;
 use OCP\Files\IRootFolder;
-use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\IL10N;
@@ -121,14 +120,11 @@ class FileReferenceProvider extends ADiscoverableReferenceProvider {
 
 		try {
 			$userFolder = $this->rootFolder->getUserFolder($this->userId);
-			$files = $userFolder->getById($fileId);
+			$file = $userFolder->getFirstNodeById($fileId);
 
-			if (empty($files)) {
+			if (!$file) {
 				throw new NotFoundException();
 			}
-
-			/** @var Node $file */
-			$file = array_shift($files);
 
 			$reference->setTitle($file->getName());
 			$reference->setDescription($file->getMimetype());
