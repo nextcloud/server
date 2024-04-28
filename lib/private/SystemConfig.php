@@ -64,6 +64,8 @@ class SystemConfig {
 		'zammad.secret' => true,
 		'github.client_id' => true,
 		'github.client_secret' => true,
+		'trusted_domains' => true,
+		'overwrite.cli.url' => true,
 		'log.condition' => [
 			'shared_secret' => true,
 		],
