@@ -109,7 +109,6 @@ class LoginController extends Controller {
 			['clear' => true] // this param the code in login.js may be removed when the "Clear-Site-Data" is working in the browsers
 		));
 
-		$this->session->set('clearingExecutionContexts', '1');
 		$this->session->close();
 
 		if (
