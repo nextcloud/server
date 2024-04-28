@@ -126,6 +126,11 @@ class Application extends App {
 				'fs_parent',
 				['parent']
 			);
+			$event->addMissingIndex(
+				'filecache',
+				'fs_name_hash',
+				['name']
+			);
 
 			$event->addMissingIndex(
 				'twofactor_providers',
