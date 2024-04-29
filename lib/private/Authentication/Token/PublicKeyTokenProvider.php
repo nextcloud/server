@@ -189,11 +189,11 @@ class PublicKeyTokenProvider implements IProvider {
 	 */
 	private function getTokenFromCache(string $tokenHash): ?PublicKeyToken {
 		$serializedToken = $this->cache->get($tokenHash);
-		if (null === $serializedToken) {
-			if ($this->cache->hasKey($tokenHash)) {
-				throw new InvalidTokenException('Token does not exist: ' . $tokenHash);
-			}
+		if ($serializedToken === false) {
+			throw new InvalidTokenException('Token does not exist: ' . $tokenHash);
+		}
 
+		if ($serializedToken === null) {
 			return null;
 		}
 
@@ -208,9 +208,9 @@ class PublicKeyTokenProvider implements IProvider {
 		$this->cache->set($token->getToken(), serialize($token), self::TOKEN_CACHE_TTL);
 	}
 
-	private function cacheInvalidHash(string $tokenHash) {
+	private function cacheInvalidHash(string $tokenHash): void {
 		// Invalid entries can be kept longer in cache since it’s unlikely to reuse them
-		$this->cache->set($tokenHash, null, self::TOKEN_CACHE_TTL * 2);
+		$this->cache->set($tokenHash, false, self::TOKEN_CACHE_TTL * 2);
 	}
 
 	public function getTokenById(int $tokenId): IToken {
