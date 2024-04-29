@@ -39,6 +39,7 @@ namespace OCA\DAV;
 use OCA\DAV\AppInfo\PluginManager;
 use OCA\DAV\BulkUpload\BulkUploadPlugin;
 use OCA\DAV\CalDAV\BirthdayService;
+use OCA\DAV\CalDAV\Schedule\IMipPlugin;
 use OCA\DAV\CalDAV\Security\RateLimitingPlugin;
 use OCA\DAV\CardDAV\HasPhotoPlugin;
 use OCA\DAV\CardDAV\ImageExportPlugin;
@@ -176,12 +177,10 @@ class Server {
 
 		// calendar plugins
 		if ($this->requestIsForSubtree(['calendars', 'public-calendars', 'system-calendars', 'principals'])) {
+			$this->server->addPlugin(new DAV\Sharing\Plugin($authBackend, \OC::$server->getRequest(), \OC::$server->getConfig()));
 			$this->server->addPlugin(new \OCA\DAV\CalDAV\Plugin());
 			$this->server->addPlugin(new \OCA\DAV\CalDAV\ICSExportPlugin\ICSExportPlugin(\OC::$server->getConfig(), $logger));
 			$this->server->addPlugin(new \OCA\DAV\CalDAV\Schedule\Plugin(\OC::$server->getConfig(), \OC::$server->get(LoggerInterface::class)));
-			if (\OC::$server->getConfig()->getAppValue('dav', 'sendInvitations', 'yes') === 'yes') {
-				$this->server->addPlugin(\OC::$server->query(\OCA\DAV\CalDAV\Schedule\IMipPlugin::class));
-			}
 
 			$this->server->addPlugin(\OC::$server->get(\OCA\DAV\CalDAV\Trashbin\Plugin::class));
 			$this->server->addPlugin(new \OCA\DAV\CalDAV\WebcalCaching\Plugin($request));
@@ -190,7 +189,6 @@ class Server {
 			}
 
 			$this->server->addPlugin(new \Sabre\CalDAV\Notifications\Plugin());
-			$this->server->addPlugin(new DAV\Sharing\Plugin($authBackend, \OC::$server->getRequest(), \OC::$server->getConfig()));
 			$this->server->addPlugin(new \OCA\DAV\CalDAV\Publishing\PublishPlugin(
 				\OC::$server->getConfig(),
 				\OC::$server->getURLGenerator()
@@ -304,6 +302,19 @@ class Server {
 					\OC::$server->getCommentsManager(),
 					$userSession
 				));
+				if (\OC::$server->getConfig()->getAppValue('dav', 'sendInvitations', 'yes') === 'yes') {
+					$this->server->addPlugin(new IMipPlugin(
+						\OC::$server->getConfig(),
+						\OC::$server->getMailer(),
+						\OC::$server->get(LoggerInterface::class),
+						\OC::$server->get(\OCP\AppFramework\Utility\ITimeFactory::class),
+						\OC::$server->get(\OCP\Defaults::class),
+						\OC::$server->get(\OCP\IUserManager::class),
+						$user->getUid(),
+						\OC::$server->get(\OCA\DAV\CalDAV\Schedule\IMipService::class),
+						\OC::$server->get(\OCA\DAV\CalDAV\EventComparisonService::class)
+					));
+				}
 				$this->server->addPlugin(new \OCA\DAV\CalDAV\Search\SearchPlugin());
 				if ($view !== null) {
 					$this->server->addPlugin(new FilesReportPlugin(
