@@ -464,6 +464,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Files\\Template\\FileCreatedFromTemplateEvent' => __DIR__ . '/../../..' . '/lib/public/Files/Template/FileCreatedFromTemplateEvent.php',
         'OCP\\Files\\Template\\ICustomTemplateProvider' => __DIR__ . '/../../..' . '/lib/public/Files/Template/ICustomTemplateProvider.php',
         'OCP\\Files\\Template\\ITemplateManager' => __DIR__ . '/../../..' . '/lib/public/Files/Template/ITemplateManager.php',
+        'OCP\\Files\\Template\\RegisterTemplateCreatorEvent' => __DIR__ . '/../../..' . '/lib/public/Files/Template/RegisterTemplateCreatorEvent.php',
         'OCP\\Files\\Template\\Template' => __DIR__ . '/../../..' . '/lib/public/Files/Template/Template.php',
         'OCP\\Files\\Template\\TemplateFileCreator' => __DIR__ . '/../../..' . '/lib/public/Files/Template/TemplateFileCreator.php',
         'OCP\\Files\\UnseekableException' => __DIR__ . '/../../..' . '/lib/public/Files/UnseekableException.php',

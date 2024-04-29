@@ -40,6 +40,7 @@ use OCP\Files\NotFoundException;
 use OCP\Files\Template\FileCreatedFromTemplateEvent;
 use OCP\Files\Template\ICustomTemplateProvider;
 use OCP\Files\Template\ITemplateManager;
+use OCP\Files\Template\RegisterTemplateCreatorEvent;
 use OCP\Files\Template\Template;
 use OCP\Files\Template\TemplateFileCreator;
 use OCP\IConfig;
@@ -119,6 +120,7 @@ class TemplateManager implements ITemplateManager {
 		if (!empty($this->types)) {
 			return $this->types;
 		}
+		$this->eventDispatcher->dispatchTyped(new RegisterTemplateCreatorEvent($this));
 		foreach ($this->registeredTypes as $registeredType) {
 			$this->types[] = $registeredType();
 		}

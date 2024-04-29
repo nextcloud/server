@@ -431,6 +431,7 @@ return array(
     'OCP\\Files\\Template\\FileCreatedFromTemplateEvent' => $baseDir . '/lib/public/Files/Template/FileCreatedFromTemplateEvent.php',
     'OCP\\Files\\Template\\ICustomTemplateProvider' => $baseDir . '/lib/public/Files/Template/ICustomTemplateProvider.php',
     'OCP\\Files\\Template\\ITemplateManager' => $baseDir . '/lib/public/Files/Template/ITemplateManager.php',
+    'OCP\\Files\\Template\\RegisterTemplateCreatorEvent' => $baseDir . '/lib/public/Files/Template/RegisterTemplateCreatorEvent.php',
     'OCP\\Files\\Template\\Template' => $baseDir . '/lib/public/Files/Template/Template.php',
     'OCP\\Files\\Template\\TemplateFileCreator' => $baseDir . '/lib/public/Files/Template/TemplateFileCreator.php',
     'OCP\\Files\\UnseekableException' => $baseDir . '/lib/public/Files/UnseekableException.php',
