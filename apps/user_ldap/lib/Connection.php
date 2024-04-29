@@ -483,7 +483,7 @@ class Connection extends LDAPUtility {
 
 		if ((stripos((string)$this->configuration->ldapHost, 'ldaps://') === 0)
 			&& $this->configuration->ldapTLS) {
-			$this->configuration->ldapTLS = false;
+			$this->configuration->ldapTLS = (string)false;
 			$this->logger->info(
 				'LDAPS (already using secure connection) and TLS do not work together. Switched off TLS.',
 				['app' => 'user_ldap']
