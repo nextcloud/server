@@ -48,7 +48,7 @@ $configuration = new \OCA\User_LDAP\Configuration($prefix);
 
 $con = new \OCA\User_LDAP\Connection($ldapWrapper, $prefix, null);
 $con->setConfiguration($configuration->getConfiguration());
-$con->ldapConfigurationActive = true;
+$con->ldapConfigurationActive = (string)true;
 $con->setIgnoreValidation(true);
 
 $factory = \OC::$server->get(\OCA\User_LDAP\AccessFactory::class);

@@ -169,7 +169,7 @@ class Sync extends TimedJob {
 		$results = $access->fetchListOfUsers(
 			$filter,
 			$access->userManager->getAttributes(),
-			$connection->ldapPagingSize,
+			(int)$connection->ldapPagingSize,
 			$cycleData['offset'],
 			true
 		);
