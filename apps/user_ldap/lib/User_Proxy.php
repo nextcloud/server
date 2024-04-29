@@ -97,7 +97,7 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IUserLDAP
 			);
 
 			if (is_null($this->refBackend)) {
-				$this->refBackend = &$this->backends[$configPrefix];
+				$this->refBackend = $this->backends[$configPrefix];
 			}
 		}
 
