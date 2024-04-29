@@ -391,6 +391,7 @@ export default {
 					subname: contact.emailAddresses[0] ? contact.emailAddresses[0] : '',
 					icon: '',
 					user: contact.id,
+					isUser: contact.isUser,
 				}
 			})
 		},
