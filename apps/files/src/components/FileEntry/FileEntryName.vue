@@ -70,7 +70,7 @@ import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
 import { useRenamingStore } from '../../store/renaming.ts'
 import logger from '../../logger.js'
 
-const forbiddenCharacters = loadState('files', 'forbiddenCharacters', '') as string
+const forbiddenCharacters = loadState<string[]>('files', 'forbiddenCharacters', [])
 
 export default Vue.extend({
 	name: 'FileEntryName',
@@ -230,12 +230,10 @@ export default Vue.extend({
 				throw new Error(t('files', '{newName} already exists.', { newName: name }))
 			}
 
-			const toCheck = trimmedName.split('')
-			toCheck.forEach(char => {
-				if (forbiddenCharacters.indexOf(char) !== -1) {
-					throw new Error(this.t('files', '"{char}" is not allowed inside a file name.', { char }))
-				}
-			})
+			const char = forbiddenCharacters.find((char) => trimmedName.includes(char))
+			if (char) {
+				throw new Error(t('files', '"{char}" is not allowed inside a file name.', { char }))
+			}
 
 			return true
 		},

@@ -253,7 +253,7 @@ class ViewController extends Controller {
 
 		// Forbidden file characters
 		$forbiddenCharacters = \OCP\Util::getForbiddenFileNameChars();
-		$this->initialState->provideInitialState('forbiddenCharacters', implode('', $forbiddenCharacters));
+		$this->initialState->provideInitialState('forbiddenCharacters', $forbiddenCharacters);
 
 		$event = new LoadAdditionalScriptsEvent();
 		$this->eventDispatcher->dispatchTyped($event);
