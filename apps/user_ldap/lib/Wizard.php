@@ -414,7 +414,7 @@ class Wizard extends LDAPUtility {
 		$this->fetchGroups($dbKey, $confKey);
 
 		if ($testMemberOf) {
-			$this->configuration->hasMemberOfFilterSupport = $this->testMemberOf();
+			$this->configuration->hasMemberOfFilterSupport = (string)$this->testMemberOf();
 			$this->result->markChange();
 			if (!$this->configuration->hasMemberOfFilterSupport) {
 				throw new \Exception('memberOf is not supported by the server');
@@ -700,8 +700,8 @@ class Wizard extends LDAPUtility {
 
 			if ($settingsFound === true) {
 				$config = [
-					'ldapPort' => $p,
-					'ldapTLS' => (int)$t
+					'ldapPort' => (string)$p,
+					'ldapTLS' => (string)$t,
 				];
 				$this->configuration->setConfiguration($config);
 				$this->logger->debug(
@@ -1322,7 +1322,7 @@ class Wizard extends LDAPUtility {
 		$this->ldap->setOption($cr, LDAP_OPT_PROTOCOL_VERSION, 3);
 		$this->ldap->setOption($cr, LDAP_OPT_REFERRALS, 0);
 		$this->ldap->setOption($cr, LDAP_OPT_NETWORK_TIMEOUT, self::LDAP_NW_TIMEOUT);
-		if ($this->configuration->ldapTLS === 1) {
+		if ($this->configuration->ldapTLS) {
 			$this->ldap->startTls($cr);
 		}
 
@@ -1337,6 +1337,9 @@ class Wizard extends LDAPUtility {
 		return false;
 	}
 
+	/**
+	 * @return array<array{port:int,tls:bool}>
+	 */
 	private function getDefaultLdapPortSettings(): array {
 		static $settings = [
 			['port' => 7636, 'tls' => false],
@@ -1349,6 +1352,9 @@ class Wizard extends LDAPUtility {
 		return $settings;
 	}
 
+	/**
+	 * @return array<array{port:int,tls:bool}>
+	 */
 	private function getPortSettingsToTry(): array {
 		//389 ← LDAP / Unencrypted or StartTLS
 		//636 ← LDAPS / SSL
@@ -1367,7 +1373,7 @@ class Wizard extends LDAPUtility {
 			}
 			$portSettings[] = ['port' => $port, 'tls' => false];
 		} elseif ($this->configuration->usesLdapi()) {
-			$portSettings[] = ['port' => '', 'tls' => false];
+			$portSettings[] = ['port' => 0, 'tls' => false];
 		}
 
 		//default ports
