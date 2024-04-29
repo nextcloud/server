@@ -73,7 +73,7 @@ class App {
 	 */
 	public function __construct(string $appName, array $urlParams = []) {
 		$runIsSetupDirectly = \OC::$server->getConfig()->getSystemValueBool('debug')
-			&& (PHP_VERSION_ID < 70400 || (PHP_VERSION_ID >= 70400 && !ini_get('zend.exception_ignore_args')));
+			&& !ini_get('zend.exception_ignore_args');
 
 		if ($runIsSetupDirectly) {
 			$applicationClassName = get_class($this);
