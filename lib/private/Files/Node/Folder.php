@@ -317,7 +317,7 @@ class Folder extends Node implements \OCP\Files\Folder {
 		return current($this->getById($id)) ?: null;
 	}
 
-	protected function getAppDataDirectoryName(): string {
+	public function getAppDataDirectoryName(): string {
 		$instanceId = \OC::$server->getConfig()->getSystemValueString('instanceid');
 		return 'appdata_' . $instanceId;
 	}
