@@ -100,20 +100,20 @@ class Manager extends PublicEmitter implements IGroupManager {
 
 		$cachedGroups = &$this->cachedGroups;
 		$cachedUserGroups = &$this->cachedUserGroups;
-		$this->listen('\OC\Group', 'postDelete', function ($group) use (&$cachedGroups, &$cachedUserGroups) {
+		$this->listen('\OC\Group', 'preDelete', function ($group) use (&$cachedGroups, &$cachedUserGroups) {
 			/**
 			 * @var \OC\Group\Group $group
 			 */
 			unset($cachedGroups[$group->getGID()]);
 			$cachedUserGroups = [];
 		});
-		$this->listen('\OC\Group', 'postAddUser', function ($group) use (&$cachedUserGroups) {
+		$this->listen('\OC\Group', 'preAddUser', function ($group) use (&$cachedUserGroups) {
 			/**
 			 * @var \OC\Group\Group $group
 			 */
 			$cachedUserGroups = [];
 		});
-		$this->listen('\OC\Group', 'postRemoveUser', function ($group) use (&$cachedUserGroups) {
+		$this->listen('\OC\Group', 'preRemoveUser', function ($group) use (&$cachedUserGroups) {
 			/**
 			 * @var \OC\Group\Group $group
 			 */
