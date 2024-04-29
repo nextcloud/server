@@ -297,10 +297,9 @@ class Manager implements IManager {
 	}
 
 	/**
-	 * @param $userId
-	 * @param $fileId
-	 * @param null $filePath
-	 * @return Node
+	 * @param string $userId
+	 * @param int $fileId
+	 * @param ?string $filePath
 	 * @throws NotFoundException
 	 */
 	public function getFileForToken($userId, $fileId, $filePath = null): Node {
