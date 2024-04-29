@@ -52,7 +52,6 @@ use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\Collaboration\Resources\LoadAdditionalScriptsEvent as ResourcesLoadAdditionalScriptsEvent;
-use OCP\Constants;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
@@ -253,9 +252,8 @@ class ViewController extends Controller {
 		$this->initialState->provideInitialState('filesSortingConfig', $filesSortingConfig);
 
 		// Forbidden file characters
-		/** @var string[] */
-		$forbiddenCharacters = $this->config->getSystemValue('forbidden_chars', []);
-		$this->initialState->provideInitialState('forbiddenCharacters', Constants::FILENAME_INVALID_CHARS . implode('', $forbiddenCharacters));
+		$forbiddenCharacters = \OCP\Util::getForbiddenFileNameChars();
+		$this->initialState->provideInitialState('forbiddenCharacters', $forbiddenCharacters);
 
 		$event = new LoadAdditionalScriptsEvent();
 		$this->eventDispatcher->dispatchTyped($event);
