@@ -32,6 +32,7 @@ use OC\Authentication\Token\IToken;
 use OC\Authentication\Token\Manager;
 use OC\Authentication\Token\PublicKeyToken;
 use OC\Authentication\Token\PublicKeyTokenProvider;
+use OC\DB\Exceptions\DbalException;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
@@ -79,8 +80,9 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testGenerateConflictingToken() {
-		/** @var MockObject|UniqueConstraintViolationException $exception */
-		$exception = $this->createMock(UniqueConstraintViolationException::class);
+		/** @var MockObject|UniqueConstraintViolationException $parent */
+		$parent = $this->createMock(UniqueConstraintViolationException::class);
+		$exception = DbalException::wrap($parent);
 
 		$token = new PublicKeyToken();
 		$token->setUid('uid');
