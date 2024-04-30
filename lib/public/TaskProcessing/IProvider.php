@@ -26,9 +26,6 @@ declare(strict_types=1);
 
 namespace OCP\TaskProcessing;
 
-use OCP\TextProcessing\ITaskType;
-use RuntimeException;
-
 /**
  * This is the interface that is implemented by apps that
  * implement a task processing provider
@@ -66,7 +63,7 @@ interface IProvider {
 	 * Returns the shape of optional input parameters
 	 *
 	 * @since 30.0.0
-	 * @psalm-return array{string, ShapeDescriptor}
+	 * @psalm-return ShapeDescriptor[]
 	 */
 	public function getOptionalInputShape(): array;
 
@@ -74,7 +71,7 @@ interface IProvider {
 	 * Returns the shape of optional output parameters
 	 *
 	 * @since 30.0.0
-	 * @psalm-return array{string, ShapeDescriptor}
+	 * @psalm-return ShapeDescriptor[]
 	 */
 	public function getOptionalOutputShape(): array;
 }

@@ -26,11 +26,6 @@ declare(strict_types=1);
 namespace OCP\TaskProcessing;
 
 use DateTime;
-use OCP\Files\AppData\IAppDataFactory;
-use OCP\Files\NotFoundException;
-use OCP\Files\NotPermittedException;
-use OCP\IImage;
-use OCP\Image;
 use OCP\TaskProcessing\Exception\ValidationException;
 
 /**
@@ -158,6 +153,7 @@ final class Task implements \JsonSerializable {
 	}
 
 	/**
+	 * @return array<string, mixed>|null
 	 * @since 30.0.0
 	 */
 	final public function getOutput(): ?array {
@@ -165,7 +161,7 @@ final class Task implements \JsonSerializable {
 	}
 
 	/**
-	 * @return string
+	 * @return array<string, mixed>
 	 * @since 30.0.0
 	 */
 	final public function getInput(): array {

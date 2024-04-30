@@ -26,6 +26,7 @@ declare(strict_types=1);
 namespace OC\TaskProcessing;
 
 use OC\AppFramework\Bootstrap\Coordinator;
+use OC\Files\SimpleFS\SimpleFile;
 use OC\TaskProcessing\Db\TaskMapper;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
@@ -33,7 +34,6 @@ use OCP\BackgroundJob\IJobList;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\AppData\IAppDataFactory;
 use OCP\Files\File;
-use OCP\Files\Folder;
 use OCP\Files\GenericFileException;
 use OCP\Files\IAppData;
 use OCP\Files\IRootFolder;
@@ -47,7 +47,6 @@ use OCP\SpeechToText\ISpeechToTextProviderWithUserId;
 use OCP\TaskProcessing\EShapeType;
 use OCP\TaskProcessing\Events\TaskFailedEvent;
 use OCP\TaskProcessing\Events\TaskSuccessfulEvent;
-use OCP\TaskProcessing\Exception\Exception;
 use OCP\TaskProcessing\Exception\NotFoundException;
 use OCP\TaskProcessing\Exception\ProcessingException;
 use OCP\TaskProcessing\Exception\ValidationException;
@@ -71,7 +70,7 @@ class Manager implements IManager {
 	public const LEGACY_PREFIX_TEXTTOIMAGE = 'legacy:TextToImage:';
 	public const LEGACY_PREFIX_SPEECHTOTEXT = 'legacy:SpeechToText:';
 
-	/** @var |null  */
+	/** @var list<IProvider>|null  */
 	private ?array $providers = null;
 
 	/** @var array<string,array{name: string, description: string, inputShape: array<string, ShapeDescriptor>, optionalInputShape: array<string, ShapeDescriptor>, outputShape: array<string, ShapeDescriptor>, optionalOutputShape: array<string, ShapeDescriptor>}>|null  */
@@ -281,10 +280,10 @@ class Manager implements IManager {
 					}
 					try {
 						$this->provider->generate($input['input'], $resources);
-					}catch (\RuntimeException $e) {
+					} catch (\RuntimeException $e) {
 						throw new ProcessingException($e->getMessage(), 0, $e);
 					}
-					return ['images' => array_map(fn(File $file) => base64_encode($file->getContent()), $files)];
+					return ['images' => array_map(fn (File $file) => base64_encode($file->getContent()), $files)];
 				}
 			};
 			$newProviders[$newProvider->getId()] = $newProvider;
@@ -358,7 +357,7 @@ class Manager implements IManager {
 					}
 					try {
 						$result = $this->provider->transcribeFile($file);
-					}catch (\RuntimeException $e) {
+					} catch (\RuntimeException $e) {
 						throw new ProcessingException($e->getMessage(), 0, $e);
 					}
 					return ['output' => $result];
@@ -443,7 +442,7 @@ class Manager implements IManager {
 	 * @return IProvider
 	 * @throws \OCP\TaskProcessing\Exception\Exception
 	 */
-	private function _getPreferredProvider(string $taskType){
+	private function _getPreferredProvider(string $taskType) {
 		$providers = $this->getProviders();
 		foreach ($providers as $provider) {
 			if ($provider->getTaskType() === $taskType) {
@@ -454,12 +453,12 @@ class Manager implements IManager {
 	}
 
 	/**
-	 * @param array<string, ShapeDescriptor> $spec
-	 * @param array<string, mixed> $io
+	 * @param ShapeDescriptor[] $spec
+	 * @param array $io
 	 * @return void
 	 * @throws ValidationException
 	 */
-	private function validateInput(array $spec, array $io, bool $optional = false) {
+	private function validateInput(array $spec, array $io, bool $optional = false): void {
 		foreach ($spec as $key => $descriptor) {
 			$type = $descriptor->getShapeType();
 			if (!isset($io[$key])) {
@@ -471,49 +470,50 @@ class Manager implements IManager {
 			if ($type === EShapeType::Text && !is_string($io[$key])) {
 				throw new \OCP\TaskProcessing\Exception\ValidationException('Non-text item provided for Text key: "' . $key . '"');
 			}
-			if ($type === EShapeType::ListOfTexts && (!is_array($io[$key]) || count(array_filter($io[$key], fn($item) => !is_string($item))) > 0)) {
+			if ($type === EShapeType::ListOfTexts && (!is_array($io[$key]) || count(array_filter($io[$key], fn ($item) => !is_string($item))) > 0)) {
 				throw new \OCP\TaskProcessing\Exception\ValidationException('None-text list item provided for ListOfTexts key: "' . $key . '"');
 			}
 			if ($type === EShapeType::Number && !is_numeric($io[$key])) {
 				throw new \OCP\TaskProcessing\Exception\ValidationException('None-numeric item provided for Number key: "' . $key . '"');
 			}
-			if ($type === EShapeType::ListOfNumbers && (!is_array($io[$key]) || count(array_filter($io[$key], fn($item) => !is_numeric($item))) > 0)) {
+			if ($type === EShapeType::ListOfNumbers && (!is_array($io[$key]) || count(array_filter($io[$key], fn ($item) => !is_numeric($item))) > 0)) {
 				throw new \OCP\TaskProcessing\Exception\ValidationException('None-numeric list item provided for ListOfNumbers key: "' . $key . '"');
 			}
 			if ($type === EShapeType::Image && !is_numeric($io[$key])) {
 				throw new \OCP\TaskProcessing\Exception\ValidationException('None-image item provided for Image key: "' . $key . '"');
 			}
-			if ($type === EShapeType::ListOfImages && (!is_array($io[$key]) || count(array_filter($io[$key], fn($item) => !is_numeric($item))) > 0)) {
+			if ($type === EShapeType::ListOfImages && (!is_array($io[$key]) || count(array_filter($io[$key], fn ($item) => !is_numeric($item))) > 0)) {
 				throw new \OCP\TaskProcessing\Exception\ValidationException('None-image list item provided for ListOfImages key: "' . $key . '"');
 			}
 			if ($type === EShapeType::Audio && !is_numeric($io[$key])) {
 				throw new \OCP\TaskProcessing\Exception\ValidationException('None-audio item provided for Audio key: "' . $key . '"');
 			}
-			if ($type === EShapeType::ListOfAudio && (!is_array($io[$key]) || count(array_filter($io[$key], fn($item) => !is_numeric($item))) > 0)) {
+			if ($type === EShapeType::ListOfAudio && (!is_array($io[$key]) || count(array_filter($io[$key], fn ($item) => !is_numeric($item))) > 0)) {
 				throw new \OCP\TaskProcessing\Exception\ValidationException('None-audio list item provided for ListOfAudio key: "' . $key . '"');
 			}
 			if ($type === EShapeType::Video && !is_numeric($io[$key])) {
 				throw new \OCP\TaskProcessing\Exception\ValidationException('None-video item provided for Video key: "' . $key . '"');
 			}
-			if ($type === EShapeType::ListOfVideo && (!is_array($io[$key]) || count(array_filter($io[$key], fn($item) => !is_numeric($item))) > 0)) {
+			if ($type === EShapeType::ListOfVideo && (!is_array($io[$key]) || count(array_filter($io[$key], fn ($item) => !is_numeric($item))) > 0)) {
 				throw new \OCP\TaskProcessing\Exception\ValidationException('None-video list item provided for ListOfTexts key: "' . $key . '"');
 			}
 			if ($type === EShapeType::File && !is_numeric($io[$key])) {
 				throw new \OCP\TaskProcessing\Exception\ValidationException('None-file item provided for File key: "' . $key . '"');
 			}
-			if ($type === EShapeType::ListOfFiles && (!is_array($io[$key]) || count(array_filter($io[$key], fn($item) => !is_numeric($item))) > 0)) {
+			if ($type === EShapeType::ListOfFiles && (!is_array($io[$key]) || count(array_filter($io[$key], fn ($item) => !is_numeric($item))) > 0)) {
 				throw new \OCP\TaskProcessing\Exception\ValidationException('None-audio list item provided for ListOfFiles key: "' . $key . '"');
 			}
 		}
 	}
 
 	/**
-	 * @param array<string, ShapeDescriptor> $spec
+	 * @param ShapeDescriptor[] $spec
 	 * @param array $io
+	 * @param bool $optional
 	 * @return void
 	 * @throws ValidationException
 	 */
-	private function validateOutput(array $spec, array $io, bool $optional = false) {
+	private function validateOutput(array $spec, array $io, bool $optional = false): void {
 		foreach ($spec as $key => $descriptor) {
 			$type = $descriptor->getShapeType();
 			if (!isset($io[$key])) {
@@ -525,37 +525,37 @@ class Manager implements IManager {
 			if ($type === EShapeType::Text && !is_string($io[$key])) {
 				throw new \OCP\TaskProcessing\Exception\ValidationException('Non-text item provided for Text key: "' . $key . '"');
 			}
-			if ($type === EShapeType::ListOfTexts && (!is_array($io[$key]) || count(array_filter($io[$key], fn($item) => !is_string($item))) > 0)) {
+			if ($type === EShapeType::ListOfTexts && (!is_array($io[$key]) || count(array_filter($io[$key], fn ($item) => !is_string($item))) > 0)) {
 				throw new \OCP\TaskProcessing\Exception\ValidationException('None-text list item provided for ListOfTexts key: "' . $key . '"');
 			}
 			if ($type === EShapeType::Number && !is_numeric($io[$key])) {
 				throw new \OCP\TaskProcessing\Exception\ValidationException('None-numeric item provided for Number key: "' . $key . '"');
 			}
-			if ($type === EShapeType::ListOfNumbers && (!is_array($io[$key]) || count(array_filter($io[$key], fn($item) => !is_numeric($item))) > 0)) {
+			if ($type === EShapeType::ListOfNumbers && (!is_array($io[$key]) || count(array_filter($io[$key], fn ($item) => !is_numeric($item))) > 0)) {
 				throw new \OCP\TaskProcessing\Exception\ValidationException('None-numeric list item provided for ListOfNumbers key: "' . $key . '"');
 			}
 			if ($type === EShapeType::Image && !is_string($io[$key])) {
 				throw new \OCP\TaskProcessing\Exception\ValidationException('None-image item provided for Image key: "' . $key . '". Expecting base64 encoded image data.');
 			}
-			if ($type === EShapeType::ListOfImages && (!is_array($io[$key]) || count(array_filter($io[$key], fn($item) => !is_string($item))) > 0)) {
+			if ($type === EShapeType::ListOfImages && (!is_array($io[$key]) || count(array_filter($io[$key], fn ($item) => !is_string($item))) > 0)) {
 				throw new \OCP\TaskProcessing\Exception\ValidationException('None-image list item provided for ListOfImages key: "' . $key . '". Expecting base64 encoded image data.');
 			}
 			if ($type === EShapeType::Audio && !is_string($io[$key])) {
 				throw new \OCP\TaskProcessing\Exception\ValidationException('None-audio item provided for Audio key: "' . $key . '". Expecting base64 encoded audio data.');
 			}
-			if ($type === EShapeType::ListOfAudio && (!is_array($io[$key]) || count(array_filter($io[$key], fn($item) => !is_string($item))) > 0)) {
+			if ($type === EShapeType::ListOfAudio && (!is_array($io[$key]) || count(array_filter($io[$key], fn ($item) => !is_string($item))) > 0)) {
 				throw new \OCP\TaskProcessing\Exception\ValidationException('None-audio list item provided for ListOfAudio key: "' . $key . '". Expecting base64 encoded audio data.');
 			}
 			if ($type === EShapeType::Video && !is_string($io[$key])) {
 				throw new \OCP\TaskProcessing\Exception\ValidationException('None-video item provided for Video key: "' . $key . '". Expecting base64 encoded video data.');
 			}
-			if ($type === EShapeType::ListOfVideo && (!is_array($io[$key]) || count(array_filter($io[$key], fn($item) => !is_string($item))) > 0)) {
+			if ($type === EShapeType::ListOfVideo && (!is_array($io[$key]) || count(array_filter($io[$key], fn ($item) => !is_string($item))) > 0)) {
 				throw new \OCP\TaskProcessing\Exception\ValidationException('None-video list item provided for ListOfTexts key: "' . $key . '". Expecting base64 encoded video data.');
 			}
 			if ($type === EShapeType::File && !is_string($io[$key])) {
 				throw new \OCP\TaskProcessing\Exception\ValidationException('None-file item provided for File key: "' . $key . '". Expecting base64 encoded file data.');
 			}
-			if ($type === EShapeType::ListOfFiles && (!is_array($io[$key]) || count(array_filter($io[$key], fn($item) => !is_string($item))) > 0)) {
+			if ($type === EShapeType::ListOfFiles && (!is_array($io[$key]) || count(array_filter($io[$key], fn ($item) => !is_string($item))) > 0)) {
 				throw new \OCP\TaskProcessing\Exception\ValidationException('None-audio list item provided for ListOfFiles key: "' . $key . '". Expecting base64 encoded image data.');
 			}
 		}
@@ -567,8 +567,8 @@ class Manager implements IManager {
 	 * @return array<string, mixed>
 	 */
 	private function removeSuperfluousArrayKeys(array $array, ...$specs): array {
-		$keys = array_unique(array_reduce($specs, fn($carry, $spec) => $carry + array_keys($spec), []));
-		$values = array_map(fn(string $key) => $array[$key], $keys);
+		$keys = array_unique(array_reduce($specs, fn ($carry, $spec) => $carry + array_keys($spec), []));
+		$values = array_map(fn (string $key) => $array[$key], $keys);
 		return array_combine($keys, $values);
 	}
 
@@ -701,7 +701,7 @@ class Manager implements IManager {
 			$task->setStatus(Task::STATUS_FAILED);
 			$task->setErrorMessage($error);
 			$this->logger->warning('A TaskProcessing ' . $task->getTaskType() . ' task with id ' . $id . ' failed with the following message: ' . $error);
-		} else if ($result !== null) {
+		} elseif ($result !== null) {
 			$taskTypes = $this->getAvailableTaskTypes();
 			$outputShape = $taskTypes[$task->getTaskType()]['outputShape'];
 			$optionalOutputShape = $taskTypes[$task->getTaskType()]['optionalOutputShape'];
@@ -738,7 +738,7 @@ class Manager implements IManager {
 		}
 		if ($task->getStatus() === Task::STATUS_SUCCESSFUL) {
 			$event = new TaskSuccessfulEvent($task);
-		}else{
+		} else {
 			$event = new TaskFailedEvent($task, $error);
 		}
 		$this->dispatcher->dispatchTyped($event);
@@ -773,7 +773,7 @@ class Manager implements IManager {
 	public function getUserTasksByApp(?string $userId, string $appId, ?string $identifier = null): array {
 		try {
 			$taskEntities = $this->taskMapper->findUserTasksByApp($userId, $appId, $identifier);
-			return array_map(fn($taskEntity) => $taskEntity->toPublicTask(), $taskEntities);
+			return array_map(fn ($taskEntity) => $taskEntity->toPublicTask(), $taskEntities);
 		} catch (\OCP\DB\Exception $e) {
 			throw new \OCP\TaskProcessing\Exception\Exception('There was a problem finding a task', 0, $e);
 		} catch (\JsonException $e) {
@@ -784,52 +784,52 @@ class Manager implements IManager {
 	/**
 	 * Takes task input or output data and replaces fileIds with base64 data
 	 *
-	 * @param array<string, ShapeDescriptor> ...$specs the specs
-	 * @param array $inputOutput
-	 * @return array<string, mixed>
+	 * @param ShapeDescriptor[] ...$specs the specs
+	 * @param array $input
+	 * @return array
 	 * @throws GenericFileException
 	 * @throws LockedException
 	 * @throws NotPermittedException
 	 * @throws ValidationException
-     */
-	public function fillInputOutputFileData(array $inputOutput, ...$specs): array {
+	 */
+	public function fillInputFileData(array $input, ...$specs): array {
 		$newInputOutput = [];
-		$spec = array_reduce($specs, fn($carry, $spec) => $carry + $spec, []);
+		$spec = array_reduce($specs, fn ($carry, $spec) => $carry + $spec, []);
 		foreach($spec as $key => $descriptor) {
 			$type = $descriptor->getShapeType();
-			if (!isset($inputOutput[$key])) {
+			if (!isset($input[$key])) {
 				continue;
 			}
 			if (!in_array(EShapeType::from($type->value % 10), [EShapeType::Image, EShapeType::Audio, EShapeType::Video, EShapeType::File], true)) {
-				$newInputOutput[$key] = $inputOutput[$key];
+				$newInputOutput[$key] = $input[$key];
 				continue;
 			}
 			if ($type->value < 10) {
-				$node = $this->rootFolder->getFirstNodeById((int)$inputOutput[$key]);
+				$node = $this->rootFolder->getFirstNodeById((int)$input[$key]);
 				if ($node === null) {
-					$node = $this->rootFolder->getFirstNodeByIdInPath((int)$inputOutput[$key], '/' . $this->rootFolder->getAppDataDirectoryName() . '/');
+					$node = $this->rootFolder->getFirstNodeByIdInPath((int)$input[$key], '/' . $this->rootFolder->getAppDataDirectoryName() . '/');
 					if (!$node instanceof File) {
 						throw new ValidationException('File id given for key "' . $key . '" is not a file');
 					}
-				} else if (!$node instanceof File) {
+				} elseif (!$node instanceof File) {
 					throw new ValidationException('File id given for key "' . $key . '" is not a file');
 				}
 				// TODO: Validate if userId has access to this file
-				$newInputOutput[$key] = base64_encode($node->getContent());
+				$newInputOutput[$key] = $node;
 			} else {
 				$newInputOutput[$key] = [];
-				foreach ($inputOutput[$key] as $item) {
-					$node = $this->rootFolder->getFirstNodeById((int)$inputOutput[$key]);
+				foreach ($input[$key] as $item) {
+					$node = $this->rootFolder->getFirstNodeById((int)$input[$key]);
 					if ($node === null) {
-						$node = $this->rootFolder->getFirstNodeByIdInPath((int)$inputOutput[$key], '/' . $this->rootFolder->getAppDataDirectoryName() . '/');
+						$node = $this->rootFolder->getFirstNodeByIdInPath((int)$input[$key], '/' . $this->rootFolder->getAppDataDirectoryName() . '/');
 						if (!$node instanceof File) {
 							throw new ValidationException('File id given for key "' . $key . '" is not a file');
 						}
-				} else if (!$node instanceof File) {
+					} elseif (!$node instanceof File) {
 						throw new ValidationException('File id given for key "' . $key . '" is not a file');
 					}
 					// TODO: Validate if userId has access to this file
-					$newInputOutput[$key][] = base64_encode($node->getContent());
+					$newInputOutput[$key][] = $node;
 				}
 			}
 		}
@@ -839,40 +839,42 @@ class Manager implements IManager {
 	/**
 	 *Takes task input or output and replaces base64 data with file ids
 	 *
-	 * @param array<string, mixed> $inputOutput
-	 * @param array<string, ShapeDescriptor> ...$specs the specs that define which keys to keep
-	 * @return array<string, mixed>
+	 * @param array $output
+	 * @param ShapeDescriptor[] ...$specs the specs that define which keys to keep
+	 * @return array
 	 * @throws NotPermittedException
 	 */
-	public function encapsulateInputOutputFileData(array $inputOutput, ...$specs): array {
-		$newInputOutput = [];
+	public function encapsulateOutputFileData(array $output, ...$specs): array {
+		$newOutput = [];
 		try {
 			$folder = $this->appData->getFolder('TaskProcessing');
 		} catch (\OCP\Files\NotFoundException) {
 			$folder = $this->appData->newFolder('TaskProcessing');
 		}
-		$spec = array_reduce($specs, fn($carry, $spec) => $carry + $spec, []);
+		$spec = array_reduce($specs, fn ($carry, $spec) => $carry + $spec, []);
 		foreach($spec as $key => $descriptor) {
 			$type = $descriptor->getShapeType();
-			if (!isset($inputOutput[$key])) {
+			if (!isset($output[$key])) {
 				continue;
 			}
 			if (!in_array(EShapeType::from($type->value % 10), [EShapeType::Image, EShapeType::Audio, EShapeType::Video, EShapeType::File], true)) {
-				$newInputOutput[$key] = $inputOutput[$key];
+				$newOutput[$key] = $output[$key];
 				continue;
 			}
 			if ($type->value < 10) {
-				$file = $folder->newFile((string) rand(0, 10000000), base64_decode($inputOutput[$key]));
-				$newInputOutput[$key] = $file->getId();
+				/** @var SimpleFile $file */
+				$file = $folder->newFile((string) rand(0, 10000000), $output[$key]);
+				$newOutput[$key] = $file->getId(); // polymorphic call to SimpleFile
 			} else {
-				$newInputOutput = [];
-				foreach ($inputOutput[$key] as $item) {
-					$file = $folder->newFile((string) rand(0, 10000000), base64_decode($item));
-					$newInputOutput[$key][] = $file->getId();
+				$newOutput = [];
+				foreach ($output[$key] as $item) {
+					/** @var SimpleFile $file */
+					$file = $folder->newFile((string) rand(0, 10000000), $item);
+					$newOutput[$key][] = $file->getId();
 				}
 			}
 		}
-		return $newInputOutput;
+		return $newOutput;
 	}
 
 	public function prepareInputData(Task $task): array {
@@ -884,7 +886,7 @@ class Manager implements IManager {
 		$this->validateInput($inputShape, $input);
 		$this->validateInput($optionalInputShape, $input, true);
 		$input = $this->removeSuperfluousArrayKeys($input, $inputShape, $optionalInputShape);
-		$input = $this->fillInputOutputFileData($input, $inputShape, $optionalInputShape);
+		$input = $this->fillInputFileData($input, $inputShape, $optionalInputShape);
 		return $input;
 	}
 }

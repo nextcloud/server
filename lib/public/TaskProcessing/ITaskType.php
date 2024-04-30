@@ -59,7 +59,7 @@ interface ITaskType {
 	 * Returns the shape of the input array
 	 *
 	 * @since 30.0.0
-	 * @psalm-return array{string, ShapeDescriptor}
+	 * @psalm-return ShapeDescriptor[]
 	 */
 	public function getInputShape(): array;
 
@@ -67,7 +67,7 @@ interface ITaskType {
 	 * Returns the shape of the output array
 	 *
 	 * @since 30.0.0
-	 * @psalm-return array{string, ShapeDescriptor}
+	 * @psalm-return ShapeDescriptor[]
 	 */
 	public function getOutputShape(): array;
 }

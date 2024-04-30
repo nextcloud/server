@@ -121,12 +121,4 @@ interface ISimpleFile {
 	 * @since 14.0.0
 	 */
 	public function write();
-
-	/**
-	 * Returns the file id
-	 *
-	 * @return int
-	 * @since 30.0.0
-	 */
-	public function getId(): int;
 }

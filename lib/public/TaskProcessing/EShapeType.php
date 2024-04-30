@@ -25,6 +25,10 @@ declare(strict_types=1);
 
 namespace OCP\TaskProcessing;
 
+/**
+ * The input and output Shape types
+ * @since 30.0.0
+ */
 enum EShapeType: int {
 	case Number = 0;
 	case Text = 1;
@@ -39,4 +43,3 @@ enum EShapeType: int {
 	case ListOfVideo = 14;
 	case ListOfFiles = 15;
 }
-

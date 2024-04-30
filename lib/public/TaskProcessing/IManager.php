@@ -52,7 +52,7 @@ interface IManager {
 	public function getProviders(): array;
 
 	/**
-	 * @return array<string,array{name: string, description: string, inputShape: array<string, ShapeDescriptor>, optionalInputShape: array<string, ShapeDescriptor>, outputShape: array<string, ShapeDescriptor>, optionalOutputShape: array<string, ShapeDescriptor>}>
+	 * @return array<string,array{name: string, description: string, inputShape: ShapeDescriptor[], optionalInputShape: array<string, ShapeDescriptor>, outputShape: array<string, ShapeDescriptor>, optionalOutputShape: array<string, ShapeDescriptor>}>
 	 * @since 30.0.0
 	 */
 	public function getAvailableTaskTypes(): array;
@@ -109,6 +109,7 @@ interface IManager {
 	 * @throws ValidationException
 	 * @throws Exception
 	 * @throws NotFoundException
+	 * @since 30.0.0
 	 */
 	public function setTaskProgress(int $id, float $progress): bool;
 
@@ -152,6 +153,7 @@ interface IManager {
 	 * @throws GenericFileException
 	 * @throws LockedException
 	 * @throws ValidationException
+	 * @since 30.0.0
 	 */
 	public function prepareInputData(Task $task): array;
 }

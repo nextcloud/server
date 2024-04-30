@@ -13,9 +13,7 @@ use OC\AppFramework\Bootstrap\RegistrationContext;
 use OC\AppFramework\Bootstrap\ServiceRegistration;
 use OC\EventDispatcher\EventDispatcher;
 use OC\TaskProcessing\Db\TaskMapper;
-use OC\TaskProcessing\Db\Task as DbTask;
 use OC\TaskProcessing\Manager;
-use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -43,7 +41,7 @@ use Psr\Log\LoggerInterface;
 use Test\BackgroundJob\DummyJobList;
 
 class AudioToImage implements ITaskType {
-	const ID = 'test:audiotoimage';
+	public const ID = 'test:audiotoimage';
 
 	public function getId(): string {
 		return self::ID;
@@ -135,7 +133,7 @@ class SuccessfulSyncProvider implements IProvider, ISynchronousProvider {
 }
 
 class FailingSyncProvider implements IProvider, ISynchronousProvider {
-	const ERROR_MESSAGE = 'Failure';
+	public const ERROR_MESSAGE = 'Failure';
 	public function getId(): string {
 		return 'test:sync:fail';
 	}
@@ -258,7 +256,7 @@ class TaskProcessingTest extends \Test\TestCase {
 			->with('core', 'ai.textprocessing_provider_preferences', '')
 			->willReturn('');
 
-		$this->eventDispatcher =  $this->createMock(IEventDispatcher::class);
+		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 
 		$this->manager = new Manager(
 			$this->coordinator,

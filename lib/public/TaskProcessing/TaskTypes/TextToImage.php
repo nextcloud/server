@@ -36,7 +36,10 @@ use OCP\TaskProcessing\ShapeDescriptor;
  * @since 30.0.0
  */
 class TextToImage implements ITaskType {
-	const ID = 'core:text2image';
+	/**
+	 * @since 30.0.0
+	 */
+	public const ID = 'core:text2image';
 
 	private IL10N $l;
 
@@ -67,10 +70,18 @@ class TextToImage implements ITaskType {
 		return $this->l->t('Generate an image from a text prompt');
 	}
 
+	/**
+	 * @return string
+	 * @since 30.0.0
+	 */
 	public function getId(): string {
 		return self::ID;
 	}
 
+	/**
+	 * @return ShapeDescriptor[]
+	 * @since 30.0.0
+	 */
 	public function getInputShape(): array {
 		return [
 			'input' => new ShapeDescriptor(
@@ -86,6 +97,10 @@ class TextToImage implements ITaskType {
 		];
 	}
 
+	/**
+	 * @return ShapeDescriptor[]
+	 * @since 30.0.0
+	 */
 	public function getOutputShape(): array {
 		return [
 			'images' => new ShapeDescriptor(
