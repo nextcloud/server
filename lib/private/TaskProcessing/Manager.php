@@ -711,7 +711,7 @@ class Manager implements IManager {
 				$this->validateOutput($optionalOutputShape, $result, true);
 				$output = $this->removeSuperfluousArrayKeys($result, $outputShape, $optionalOutputShape);
 				// extract base64 data and put it in files, replace it with file ids
-				$output = $this->encapsulateInputOutputFileData($output, $outputShape, $optionalOutputShape);
+				$output = $this->encapsulateOutputFileData($output, $outputShape, $optionalOutputShape);
 				$task->setOutput($output);
 				$task->setProgress(1);
 				$task->setStatus(Task::STATUS_SUCCESSFUL);

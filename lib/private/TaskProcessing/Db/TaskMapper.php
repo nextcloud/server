@@ -127,7 +127,7 @@ class TaskMapper extends QBMapper {
 	public function deleteOlderThan(int $timeout): int {
 		$qb = $this->db->getQueryBuilder();
 		$qb->delete($this->tableName)
-			->where($qb->expr()->lt('last_updated', $qb->createPositionalParameter(time() - $timeout)));
+			->where($qb->expr()->lt('last_updated', $qb->createPositionalParameter($this->timeFactory->getDateTime()->getTimestamp() - $timeout)));
 		return $qb->executeStatement();
 	}
 
