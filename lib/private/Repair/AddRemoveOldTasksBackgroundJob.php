@@ -27,6 +27,7 @@ namespace OC\Repair;
 
 use OC\TextProcessing\RemoveOldTasksBackgroundJob as RemoveOldTextProcessingTasksBackgroundJob;
 use OC\TextToImage\RemoveOldTasksBackgroundJob as RemoveOldTextToImageTasksBackgroundJob;
+use OC\TaskProcessing\RemoveOldTasksBackgroundJob;
 use OCP\BackgroundJob\IJobList;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
@@ -39,11 +40,12 @@ class AddRemoveOldTasksBackgroundJob implements IRepairStep {
 	}
 
 	public function getName(): string {
-		return 'Add AI tasks cleanup job';
+		return 'Add AI tasks cleanup jobs';
 	}
 
 	public function run(IOutput $output) {
 		$this->jobList->add(RemoveOldTextProcessingTasksBackgroundJob::class);
 		$this->jobList->add(RemoveOldTextToImageTasksBackgroundJob::class);
+		$this->jobList->add(RemoveOldTasksBackgroundJob::class);
 	}
 }
