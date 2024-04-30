@@ -1,11 +1,12 @@
 <?xml version="1.0"?>
 <psalm
+	phpVersion="8.0"
 	errorLevel="4"
 	resolveFromConfigFile="true"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns="https://getpsalm.org/schema/config"
-	xsi:schemaLocation="https://getpsalm.org/schema/config"
-    errorBaseline="build/psalm-baseline.xml"
+	xsi:schemaLocation="https://getpsalm.org/schema/config vendor-bin/psalm/vendor/vimeo/psalm/config.xsd"
+	errorBaseline="build/psalm-baseline.xml"
 	findUnusedBaselineEntry="false"
 	findUnusedCode="false"
 >
