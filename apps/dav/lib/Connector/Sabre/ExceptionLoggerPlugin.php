@@ -65,6 +65,9 @@ class ExceptionLoggerPlugin extends \Sabre\DAV\ServerPlugin {
 		// forbidden can be expected when trying to upload to
 		// read-only folders for example
 		Forbidden::class => true,
+		// our forbidden is expected when access control is blocking
+		// an item in a folder
+		\OCA\DAV\Connector\Sabre\Exception\Forbidden::class => true,
 		// Happens when an external storage or federated share is temporarily
 		// not available
 		StorageNotAvailableException::class => true,
