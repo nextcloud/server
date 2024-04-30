@@ -1093,35 +1093,6 @@ class OC_Util {
 	}
 
 	/**
-	 * Returns whether the given file name is valid
-	 *
-	 * @param string $file file name to check
-	 * @return bool true if the file name is valid, false otherwise
-	 * @deprecated use \OC\Files\View::verifyPath()
-	 */
-	public static function isValidFileName($file) {
-		$trimmed = trim($file);
-		if ($trimmed === '') {
-			return false;
-		}
-		if (\OC\Files\Filesystem::isIgnoredDir($trimmed)) {
-			return false;
-		}
-
-		// detect part files
-		if (preg_match('/' . \OCP\Files\FileInfo::BLACKLIST_FILES_REGEX . '/', $trimmed) !== 0) {
-			return false;
-		}
-
-		foreach (\OCP\Util::getForbiddenFileNameChars() as $char) {
-			if (str_contains($trimmed, $char)) {
-				return false;
-			}
-		}
-		return true;
-	}
-
-	/**
 	 * Check whether the instance needs to perform an upgrade,
 	 * either when the core version is higher or any app requires
 	 * an upgrade.

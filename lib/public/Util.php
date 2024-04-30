@@ -522,7 +522,27 @@ class Util {
 	}
 
 	/**
+	 * Get a list of reserved file names that must not be used
+	 * @return string[]
+	 * @since 30.0.0
+	 */
+	public static function getForbiddenFilenames(): array {
+		$config = \OCP\Server::get(IConfig::class);
+		$invalidFilenames = $config->getSystemValue('blacklisted_files', ['.htaccess']);
+		if (!is_array($invalidFilenames)) {
+			\OCP\Server::get(LoggerInterface::class)->error('Invalid system config value for "blacklisted_files" is ignored.');
+			$invalidFilenames = [];
+		}
+		return $invalidFilenames;
+
+	}
+
+	/**
 	 * Get a list of characters forbidden in file names
+	 *
+	 * Note: Characters in the range [0-31] are always forbidden,
+	 * even if not inside this list (see OCP\Files\Storage\IStorage::verifyPath).
+	 *
 	 * @return string[]
 	 * @since 29.0.0
 	 */
@@ -551,7 +571,12 @@ class Util {
 	 * @suppress PhanDeprecatedFunction
 	 */
 	public static function isValidFileName($file) {
-		return \OC_Util::isValidFileName($file);
+		$trimmed = trim($file);
+		if ($trimmed === '' || \OC\Files\Filesystem::isIgnoredDir($trimmed)) {
+			return false;
+		}
+
+		return \OC\Files\Filesystem::isFileBlacklisted($file);
 	}
 
 	/**

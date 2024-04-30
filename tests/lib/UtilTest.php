@@ -126,8 +126,6 @@ class UtilTest extends \Test\TestCase {
 	 * @dataProvider filenameValidationProvider
 	 */
 	public function testFilenameValidation($file, $valid) {
-		// private API
-		$this->assertEquals($valid, \OC_Util::isValidFileName($file));
 		// public API
 		$this->assertEquals($valid, \OCP\Util::isValidFileName($file));
 	}
@@ -169,10 +167,8 @@ class UtilTest extends \Test\TestCase {
 			['. ', false],
 			[' .', false],
 
-			// part files not allowed
-			['.part', false],
-			['notallowed.part', false],
-			['neither.filepart', false],
+			// htaccess files not allowed
+			['.htaccess', false],
 
 			// part in the middle is ok
 			['super movie part one.mkv', true],
