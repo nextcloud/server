@@ -1357,8 +1357,18 @@
 		 * @return {Object} jQuery object of the matching row
 		 */
 		findFileEl: function(fileName){
-			// use filterAttr to avoid escaping issues
-			return this.$fileList.find('tr').filterAttr('data-file', fileName);
+			var fileRow = this.$fileList.find('tr').filterAttr('data-file', fileName);
+			if (fileRow.length) {
+				return fileRow;
+			}
+
+			// The row we try to get might not have been rendered due to pagination,
+			// so in case we find the file in the file list return the rendered row instead
+			var fileData = this.files.find(function (el){
+				return el.name === fileName;
+			});
+
+			return fileData ? this._renderRow(fileData, {updateSummary: false, silent: true}) : fileRow;
 		},
 
 		/**
