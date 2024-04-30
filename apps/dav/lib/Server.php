@@ -304,13 +304,12 @@ class Server {
 				));
 				if (\OC::$server->getConfig()->getAppValue('dav', 'sendInvitations', 'yes') === 'yes') {
 					$this->server->addPlugin(new IMipPlugin(
-						\OC::$server->getConfig(),
-						\OC::$server->getMailer(),
+						\OC::$server->get(\OCP\IConfig::class),
+						\OC::$server->get(\OCP\Mail\IMailer::class),
 						\OC::$server->get(LoggerInterface::class),
 						\OC::$server->get(\OCP\AppFramework\Utility\ITimeFactory::class),
 						\OC::$server->get(\OCP\Defaults::class),
-						\OC::$server->get(\OCP\IUserManager::class),
-						$user->getUid(),
+						$userSession,
 						\OC::$server->get(\OCA\DAV\CalDAV\Schedule\IMipService::class),
 						\OC::$server->get(\OCA\DAV\CalDAV\EventComparisonService::class)
 					));
