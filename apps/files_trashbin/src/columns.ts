@@ -23,7 +23,7 @@
 import moment from '@nextcloud/moment'
 import { Column, Node } from '@nextcloud/files'
 import { getCurrentUser } from '@nextcloud/auth'
-import { dirname, joinPaths } from '@nextcloud/paths'
+import { dirname } from '@nextcloud/paths'
 import { translate as t } from '@nextcloud/l10n'
 
 import Vue from 'vue'
@@ -38,7 +38,7 @@ const parseOriginalLocation = (node: Node): string => {
 	if (dir === path) { // Node is in root folder
 		return t('files_trashbin', 'All files')
 	}
-	return joinPaths(t('files_trashbin', 'All files'), dir)
+	return dir.replace(/^\//, '')
 }
 
 interface DeletedBy {
