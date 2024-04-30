@@ -84,86 +84,34 @@ use Psr\Log\LoggerInterface;
  * This class is the communication hub for all sharing related operations.
  */
 class Manager implements IManager {
-	/** @var IProviderFactory */
-	private $factory;
-	private LoggerInterface $logger;
-	/** @var IConfig */
-	private $config;
-	/** @var ISecureRandom */
-	private $secureRandom;
-	/** @var IHasher */
-	private $hasher;
-	/** @var IMountManager */
-	private $mountManager;
-	/** @var IGroupManager */
-	private $groupManager;
-	/** @var IL10N */
-	private $l;
-	/** @var IFactory */
-	private $l10nFactory;
-	/** @var IUserManager */
-	private $userManager;
-	/** @var IRootFolder */
-	private $rootFolder;
-	/** @var LegacyHooks */
-	private $legacyHooks;
-	/** @var IMailer */
-	private $mailer;
-	/** @var IURLGenerator */
-	private $urlGenerator;
-	/** @var \OC_Defaults */
-	private $defaults;
-	/** @var IEventDispatcher */
-	private $dispatcher;
-	/** @var IUserSession */
-	private $userSession;
-	/** @var KnownUserService */
-	private $knownUserService;
-	private ShareDisableChecker $shareDisableChecker;
-	private IDateTimeZone $dateTimeZone;
+
+	private IL10N|null $l;
+	private LegacyHooks $legacyHooks;
 
 	public function __construct(
-		LoggerInterface $logger,
-		IConfig $config,
-		ISecureRandom $secureRandom,
-		IHasher $hasher,
-		IMountManager $mountManager,
-		IGroupManager $groupManager,
-		IFactory $l10nFactory,
-		IProviderFactory $factory,
-		IUserManager $userManager,
-		IRootFolder $rootFolder,
-		IMailer $mailer,
-		IURLGenerator $urlGenerator,
-		\OC_Defaults $defaults,
-		IEventDispatcher $dispatcher,
-		IUserSession $userSession,
-		KnownUserService $knownUserService,
-		ShareDisableChecker $shareDisableChecker,
-		IDateTimeZone $dateTimeZone,
+		private LoggerInterface $logger,
+		private IConfig $config,
+		private ISecureRandom $secureRandom,
+		private IHasher $hasher,
+		private IMountManager $mountManager,
+		private IGroupManager $groupManager,
+		private IFactory $l10nFactory,
+		private IProviderFactory $factory,
+		private IUserManager $userManager,
+		private IRootFolder $rootFolder,
+		private IMailer $mailer,
+		private IURLGenerator $urlGenerator,
+		private \OC_Defaults $defaults,
+		private IEventDispatcher $dispatcher,
+		private IUserSession $userSession,
+		private KnownUserService $knownUserService,
+		private ShareDisableChecker $shareDisableChecker,
+		private IDateTimeZone $dateTimeZone
 	) {
-		$this->logger = $logger;
-		$this->config = $config;
-		$this->secureRandom = $secureRandom;
-		$this->hasher = $hasher;
-		$this->mountManager = $mountManager;
-		$this->groupManager = $groupManager;
-		$this->l = $l10nFactory->get('lib');
-		$this->l10nFactory = $l10nFactory;
-		$this->factory = $factory;
-		$this->userManager = $userManager;
-		$this->rootFolder = $rootFolder;
+		$this->l = $this->l10nFactory->get('lib');
 		// The constructor of LegacyHooks registers the listeners of share events
 		// do not remove if those are not properly migrated
-		$this->legacyHooks = new LegacyHooks($dispatcher);
-		$this->mailer = $mailer;
-		$this->urlGenerator = $urlGenerator;
-		$this->defaults = $defaults;
-		$this->dispatcher = $dispatcher;
-		$this->userSession = $userSession;
-		$this->knownUserService = $knownUserService;
-		$this->shareDisableChecker = $shareDisableChecker;
-		$this->dateTimeZone = $dateTimeZone;
+		$this->legacyHooks = new LegacyHooks($this->dispatcher);
 	}
 
 	/**
