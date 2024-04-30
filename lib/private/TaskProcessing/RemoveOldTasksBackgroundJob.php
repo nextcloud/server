@@ -4,18 +4,7 @@ namespace OC\TaskProcessing;
 
 use OC\TaskProcessing\Db\TaskMapper;
 use OCP\AppFramework\Utility\ITimeFactory;
-use OCP\BackgroundJob\IJobList;
-use OCP\BackgroundJob\QueuedJob;
 use OCP\BackgroundJob\TimedJob;
-use OCP\Files\GenericFileException;
-use OCP\Files\NotPermittedException;
-use OCP\Lock\LockedException;
-use OCP\TaskProcessing\Exception\Exception;
-use OCP\TaskProcessing\Exception\NotFoundException;
-use OCP\TaskProcessing\Exception\ProcessingException;
-use OCP\TaskProcessing\Exception\ValidationException;
-use OCP\TaskProcessing\IManager;
-use OCP\TaskProcessing\ISynchronousProvider;
 use Psr\Log\LoggerInterface;
 
 class RemoveOldTasksBackgroundJob extends TimedJob {

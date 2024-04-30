@@ -25,9 +25,9 @@ declare(strict_types=1);
  */
 namespace OC\Repair;
 
+use OC\TaskProcessing\RemoveOldTasksBackgroundJob;
 use OC\TextProcessing\RemoveOldTasksBackgroundJob as RemoveOldTextProcessingTasksBackgroundJob;
 use OC\TextToImage\RemoveOldTasksBackgroundJob as RemoveOldTextToImageTasksBackgroundJob;
-use OC\TaskProcessing\RemoveOldTasksBackgroundJob;
 use OCP\BackgroundJob\IJobList;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;

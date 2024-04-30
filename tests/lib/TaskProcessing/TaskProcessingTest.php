@@ -466,8 +466,8 @@ class TaskProcessingTest extends \Test\TestCase {
 	public function testOldTasksShouldBeCleanedUp() {
 		$currentTime = new \DateTime('now');
 		$timeFactory = $this->createMock(ITimeFactory::class);
-		$timeFactory->expects($this->any())->method('getDateTime')->willReturnCallback(fn() => $currentTime);
-		$timeFactory->expects($this->any())->method('getTime')->willReturnCallback(fn() => $currentTime->getTimestamp());
+		$timeFactory->expects($this->any())->method('getDateTime')->willReturnCallback(fn () => $currentTime);
+		$timeFactory->expects($this->any())->method('getTime')->willReturnCallback(fn () => $currentTime->getTimestamp());
 
 		$this->taskMapper = new TaskMapper(
 			\OCP\Server::get(IDBConnection::class),

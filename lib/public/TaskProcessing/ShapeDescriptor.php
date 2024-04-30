@@ -6,7 +6,7 @@ namespace OCP\TaskProcessing;
  * Data object for input output shape entries
  * @since 30.0.0
  */
-class ShapeDescriptor {
+class ShapeDescriptor implements \JsonSerializable {
 	/**
 	 * @param string $name
 	 * @param string $description
@@ -42,5 +42,16 @@ class ShapeDescriptor {
 	 */
 	public function getShapeType(): EShapeType {
 		return $this->shapeType;
+	}
+
+	/**
+	 * @return array{name: string, description: string, type: int}
+	 */
+	public function jsonSerialize(): array {
+		return [
+			'name' => $this->getName(),
+			'description' => $this->getDescription(),
+			'type' => $this->getShapeType()->value,
+		];
 	}
 }
