@@ -9,6 +9,7 @@
 namespace Test;
 
 use OC_Util;
+use OCP\IConfig;
 
 /**
  * Class UtilTest
@@ -17,6 +18,25 @@ use OC_Util;
  * @group DB
  */
 class UtilTest extends \Test\TestCase {
+	protected function setUp(): void {
+		parent::setUp();
+		self::resetOCPUtil();
+	}
+
+	protected function tearDown(): void {
+		parent::tearDown();
+		self::resetOCPUtil();
+	}
+
+	protected static function resetOCPUtil() {
+		\OC_Util::$scripts = [];
+		\OC_Util::$styles = [];
+		self::invokePrivate(\OCP\Util::class, 'scripts', [[]]);
+		self::invokePrivate(\OCP\Util::class, 'scriptDeps', [[]]);
+		self::invokePrivate(\OCP\Util::class, 'invalidChars', [[]]);
+		self::invokePrivate(\OCP\Util::class, 'invalidFilenames', [[]]);
+	}
+
 	public function testGetVersion() {
 		$version = \OCP\Util::getVersion();
 		$this->assertTrue(is_array($version));
@@ -122,6 +142,85 @@ class UtilTest extends \Test\TestCase {
 		$this->assertSame(1, $matchesRegex);
 	}
 
+	public function testGetForbiddenCharacters() {
+		$config = \OCP\Server::get(IConfig::class);
+		$backup = $config->getSystemValue('forbidden_chars', []);
+
+		try {
+			// Fake config
+			$config->setSystemValue('forbidden_chars', ['*', '-']);
+			$this->assertEqualsCanonicalizing(
+				[
+					// Added by the test
+					'*',
+					'-',
+					// Always added
+					'/',
+					'\\',
+				],
+				\OCP\Util::getForbiddenFileNameChars(),
+			);
+		} finally {
+			// Reset config
+			$config->setSystemValue('forbidden_chars', $backup);
+		}
+	}
+
+	public function testGetForbiddenCharactersInvalidConfig() {
+		$config = \OCP\Server::get(IConfig::class);
+		$backup = $config->getSystemValue('forbidden_chars', []);
+
+		try {
+			// Fake config
+			$config->setSystemValue('forbidden_chars', 'not an array');
+			$this->assertEqualsCanonicalizing(
+				[
+					// Always added
+					'/',
+					'\\',
+				],
+				\OCP\Util::getForbiddenFileNameChars(),
+			);
+		} finally {
+			// Reset config
+			$config->setSystemValue('forbidden_chars', $backup);
+		}
+	}
+
+	public function testGetForbiddenFilenames() {
+		$config = \OCP\Server::get(IConfig::class);
+		$backup = $config->getSystemValue('blacklisted_files', ['.htaccess']);
+
+		try {
+			// Fake config
+			$config->setSystemValue('blacklisted_files', ['.htaccess', 'foo-bar']);
+			$this->assertEqualsCanonicalizing(
+				['.htaccess', 'foo-bar'],
+				\OCP\Util::getForbiddenFilenames(),
+			);
+		} finally {
+			// Reset config
+			$config->setSystemValue('blacklisted_files', $backup);
+		}
+	}
+
+	public function testGetForbiddenFilenamesInvalidConfig() {
+		$config = \OCP\Server::get(IConfig::class);
+		$backup = $config->getSystemValue('blacklisted_files', ['.htaccess']);
+
+		try {
+			// Fake config
+			$config->setSystemValue('blacklisted_files', 'not an array');
+			$this->assertEqualsCanonicalizing(
+				['.htaccess'],
+				\OCP\Util::getForbiddenFilenames(),
+			);
+		} finally {
+			// Reset config
+			$config->setSystemValue('blacklisted_files', $backup);
+		}
+	}
+
 	/**
 	 * @dataProvider filenameValidationProvider
 	 */
@@ -214,23 +313,6 @@ class UtilTest extends \Test\TestCase {
 
 		$errors = \OC_Util::checkDataDirectoryValidity('relative/path');
 		$this->assertNotEmpty($errors);
-	}
-
-	protected function setUp(): void {
-		parent::setUp();
-
-		\OC_Util::$scripts = [];
-		\OC_Util::$styles = [];
-		self::invokePrivate(\OCP\Util::class, 'scripts', [[]]);
-		self::invokePrivate(\OCP\Util::class, 'scriptDeps', [[]]);
-	}
-	protected function tearDown(): void {
-		parent::tearDown();
-
-		\OC_Util::$scripts = [];
-		\OC_Util::$styles = [];
-		self::invokePrivate(\OCP\Util::class, 'scripts', [[]]);
-		self::invokePrivate(\OCP\Util::class, 'scriptDeps', [[]]);
 	}
 
 	public function testAddScript() {

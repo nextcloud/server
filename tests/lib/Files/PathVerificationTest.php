@@ -27,8 +27,19 @@ class PathVerificationTest extends \Test\TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 		$this->view = new View();
+		self::resetOCPUtil();
 	}
 
+	protected function tearDown(): void {
+		parent::tearDown();
+		self::resetOCPUtil();
+	}
+
+	protected static function resetOCPUtil(): void {
+		// Reset util cache
+		self::invokePrivate(\OCP\Util::class, 'invalidChars', [[]]);
+		self::invokePrivate(\OCP\Util::class, 'invalidFilenames', [[]]);
+	}
 
 	public function testPathVerificationFileNameTooLong() {
 		$this->expectException(\OCP\Files\InvalidPathException::class);

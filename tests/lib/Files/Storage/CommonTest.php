@@ -25,6 +25,8 @@ namespace Test\Files\Storage;
 use OC\Files\Storage\Wrapper\Jail;
 use OC\Files\Storage\Wrapper\Wrapper;
 use OCP\Files\InvalidPathException;
+use OCP\IConfig;
+use OCP\ITempManager;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -44,16 +46,25 @@ class CommonTest extends Storage {
 
 	protected function setUp(): void {
 		parent::setUp();
+		self::resetOCPUtil();
 
-		$this->tmpDir = \OC::$server->getTempManager()->getTemporaryFolder();
+		$this->tmpDir = \OCP\Server::get(ITempManager::class)->getTemporaryFolder();
 		$this->instance = new \OC\Files\Storage\CommonTest(['datadir' => $this->tmpDir]);
-		$this->invalidCharsBackup = \OC::$server->getConfig()->getSystemValue('forbidden_chars', []);
+		$this->invalidCharsBackup = \OCP\Server::get(IConfig::class)->getSystemValue('forbidden_chars', []);
 	}
 
 	protected function tearDown(): void {
 		\OC_Helper::rmdirr($this->tmpDir);
-		\OC::$server->getConfig()->setSystemValue('forbidden_chars', $this->invalidCharsBackup);
+		\OCP\Server::get(IConfig::class)->setSystemValue('forbidden_chars', $this->invalidCharsBackup);
+
 		parent::tearDown();
+		self::resetOCPUtil();
+	}
+
+	protected static function resetOCPUtil(): void {
+		// Reset util cache as we do not want to leak our test values into other tests
+		self::invokePrivate(\OCP\Util::class, 'invalidChars', [[]]);
+		self::invokePrivate(\OCP\Util::class, 'invalidFilenames', [[]]);
 	}
 
 	/**
@@ -68,7 +79,7 @@ class CommonTest extends Storage {
 		$instance->method('copyFromStorage')
 			->willThrowException(new \Exception('copy'));
 
-		\OC::$server->getConfig()->setSystemValue('forbidden_chars', $additionalChars);
+		\OCP\Server::get(IConfig::class)->setSystemValue('forbidden_chars', $additionalChars);
 
 		if ($throws) {
 			$this->expectException(InvalidPathException::class);

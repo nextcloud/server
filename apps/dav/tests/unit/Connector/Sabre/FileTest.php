@@ -91,6 +91,8 @@ class FileTest extends TestCase {
 		$userManager = \OCP\Server::get(IUserManager::class);
 		$userManager->get($this->user)->delete();
 
+		// Reset invalid chars as we touched this during the tests
+		self::invokePrivate(\OCP\Util::class, 'invalidChars', [[]]);
 		parent::tearDown();
 	}
 
@@ -823,7 +825,8 @@ class FileTest extends TestCase {
 	 * Test put file with invalid chars
 	 */
 	public function testSimplePutInvalidChars(): void {
-		// setup
+		// Enforce * as an invalid character
+		self::invokePrivate(\OCP\Util::class, 'invalidChars', [['*', '/', '\\']]);
 		/** @var View|MockObject */
 		$view = $this->getMockBuilder(View::class)
 			->onlyMethods(['getRelativePath'])
@@ -858,12 +861,12 @@ class FileTest extends TestCase {
 
 	/**
 	 * Test setting name with setName() with invalid chars
-	 *
 	 */
 	public function testSetNameInvalidChars(): void {
 		$this->expectException(\OCA\DAV\Connector\Sabre\Exception\InvalidPath::class);
 
-		// setup
+		// Enforce * as an invalid character
+		self::invokePrivate(\OCP\Util::class, 'invalidChars', [['*', '/', '\\']]);
 		/** @var View|MockObject */
 		$view = $this->getMockBuilder(View::class)
 			->onlyMethods(['getRelativePath'])

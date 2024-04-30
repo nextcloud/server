@@ -100,6 +100,12 @@ class DirectoryTest extends \Test\TestCase {
 			->willReturn(Constants::PERMISSION_READ);
 	}
 
+	protected function tearDown(): void {
+		// Reset invalid chars as we touched this during the tests
+		self::invokePrivate(\OCP\Util::class, 'invalidChars', [[]]);
+		parent::tearDown();
+	}
+
 	private function getDir($path = '/') {
 		$this->view->expects($this->once())
 			->method('getRelativePath')
@@ -411,6 +417,9 @@ class DirectoryTest extends \Test\TestCase {
 	 * @dataProvider moveFailedInvalidCharsProvider
 	 */
 	public function testMoveFailedInvalidChars($source, $destination, $updatables, $deletables): void {
+		// Enforce * as an invalid character
+		self::invokePrivate(\OCP\Util::class, 'invalidChars', [['*', '/', '\\']]);
+
 		$this->expectException(\OCA\DAV\Connector\Sabre\Exception\InvalidPath::class);
 
 		$this->moveTest($source, $destination, $updatables, $deletables);
