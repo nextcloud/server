@@ -73,7 +73,7 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface, IGroupLDAP, IGet
 			$this->backends[$configPrefix] =
 				new Group_LDAP($this->getAccess($configPrefix), $this->groupPluginManager, $this->config, $this->ncUserManager);
 			if (is_null($this->refBackend)) {
-				$this->refBackend = &$this->backends[$configPrefix];
+				$this->refBackend = $this->backends[$configPrefix];
 			}
 		}
 

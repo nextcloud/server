@@ -587,6 +587,7 @@ interface IShare {
 	 * Set the cache entry for the shared node
 	 *
 	 * @param ICacheEntry $entry
+	 * @return void
 	 * @since 11.0.0
 	 */
 	public function setNodeCacheEntry(ICacheEntry $entry);

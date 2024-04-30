@@ -513,6 +513,9 @@ class SFTP extends Common {
 		$result = $this->getConnection()->put($this->absPath($path), $stream);
 		fclose($stream);
 		if ($result) {
+			if ($size === null) {
+				throw new \Exception("Failed to get written size from sftp storage wrapper");
+			}
 			return $size;
 		} else {
 			throw new \Exception("Failed to write steam to sftp storage");

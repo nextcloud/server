@@ -41,49 +41,79 @@ use OC\ServerNotAvailableException;
 use Psr\Log\LoggerInterface;
 
 /**
- * magic properties (incomplete)
+ * magic properties
  * responsible for LDAP connections in context with the provided configuration
  *
- * @property string ldapHost
- * @property string ldapPort holds the port number
- * @property string ldapUserFilter
- * @property string ldapUserDisplayName
- * @property string ldapUserDisplayName2
- * @property string ldapUserAvatarRule
- * @property boolean turnOnPasswordChange
- * @property string[] ldapBaseUsers
- * @property int|null ldapPagingSize holds an integer
- * @property bool|mixed|void ldapGroupMemberAssocAttr
- * @property string ldapUuidUserAttribute
- * @property string ldapUuidGroupAttribute
- * @property string ldapExpertUUIDUserAttr
- * @property string ldapExpertUUIDGroupAttr
- * @property string ldapQuotaAttribute
- * @property string ldapQuotaDefault
- * @property string ldapEmailAttribute
- * @property string ldapExtStorageHomeAttribute
- * @property string homeFolderNamingRule
- * @property bool|string markRemnantsAsDisabled
- * @property bool|string ldapNestedGroups
- * @property string[] ldapBaseGroups
- * @property string ldapGroupFilter
- * @property string ldapGroupDisplayName
- * @property string ldapLoginFilter
- * @property string ldapDynamicGroupMemberURL
- * @property string ldapGidNumber
- * @property int hasMemberOfFilterSupport
- * @property int useMemberOfToDetectMembership
- * @property string ldapMatchingRuleInChainState
- * @property string ldapAttributePhone
- * @property string ldapAttributeWebsite
- * @property string ldapAttributeAddress
- * @property string ldapAttributeTwitter
- * @property string ldapAttributeFediverse
- * @property string ldapAttributeOrganisation
- * @property string ldapAttributeRole
- * @property string ldapAttributeHeadline
- * @property string ldapAttributeBiography
- * @property string ldapAdminGroup
+ * @property string $ldapHost
+ * @property string $ldapPort
+ * @property string $ldapBackupHost
+ * @property string $ldapBackupPort
+ * @property string $ldapBackgroundHost
+ * @property string $ldapBackgroundPort
+ * @property array|'' $ldapBase
+ * @property array|'' $ldapBaseUsers
+ * @property array|'' $ldapBaseGroups
+ * @property string $ldapAgentName
+ * @property string $ldapAgentPassword
+ * @property string $ldapTLS
+ * @property string $turnOffCertCheck
+ * @property string $ldapIgnoreNamingRules
+ * @property string $ldapUserDisplayName
+ * @property string $ldapUserDisplayName2
+ * @property string $ldapUserAvatarRule
+ * @property string $ldapGidNumber
+ * @property array|'' $ldapUserFilterObjectclass
+ * @property array|'' $ldapUserFilterGroups
+ * @property string $ldapUserFilter
+ * @property string $ldapUserFilterMode
+ * @property string $ldapGroupFilter
+ * @property string $ldapGroupFilterMode
+ * @property array|'' $ldapGroupFilterObjectclass
+ * @property array|'' $ldapGroupFilterGroups
+ * @property string $ldapGroupDisplayName
+ * @property string $ldapGroupMemberAssocAttr
+ * @property string $ldapLoginFilter
+ * @property string $ldapLoginFilterMode
+ * @property string $ldapLoginFilterEmail
+ * @property string $ldapLoginFilterUsername
+ * @property array|'' $ldapLoginFilterAttributes
+ * @property string $ldapQuotaAttribute
+ * @property string $ldapQuotaDefault
+ * @property string $ldapEmailAttribute
+ * @property string $ldapCacheTTL
+ * @property string $ldapUuidUserAttribute
+ * @property string $ldapUuidGroupAttribute
+ * @property string $ldapOverrideMainServer
+ * @property string $ldapConfigurationActive
+ * @property array|'' $ldapAttributesForUserSearch
+ * @property array|'' $ldapAttributesForGroupSearch
+ * @property string $ldapExperiencedAdmin
+ * @property string $homeFolderNamingRule
+ * @property string $hasMemberOfFilterSupport
+ * @property string $useMemberOfToDetectMembership
+ * @property string $ldapExpertUsernameAttr
+ * @property string $ldapExpertUUIDUserAttr
+ * @property string $ldapExpertUUIDGroupAttr
+ * @property string $markRemnantsAsDisabled
+ * @property string $lastJpegPhotoLookup
+ * @property string $ldapNestedGroups
+ * @property string $ldapPagingSize
+ * @property string $turnOnPasswordChange
+ * @property string $ldapDynamicGroupMemberURL
+ * @property string $ldapDefaultPPolicyDN
+ * @property string $ldapExtStorageHomeAttribute
+ * @property string $ldapMatchingRuleInChainState
+ * @property string $ldapConnectionTimeout
+ * @property string $ldapAttributePhone
+ * @property string $ldapAttributeWebsite
+ * @property string $ldapAttributeAddress
+ * @property string $ldapAttributeTwitter
+ * @property string $ldapAttributeFediverse
+ * @property string $ldapAttributeOrganisation
+ * @property string $ldapAttributeRole
+ * @property string $ldapAttributeHeadline
+ * @property string $ldapAttributeBiography
+ * @property string $ldapAdminGroup
  */
 class Connection extends LDAPUtility {
 	private ?\LDAP\Connection $ldapConnectionRes = null;
@@ -418,7 +448,7 @@ class Connection extends LDAPUtility {
 
 		$backupPort = (int)$this->configuration->ldapBackupPort;
 		if ($backupPort <= 0) {
-			$this->configuration->backupPort = $this->configuration->ldapPort;
+			$this->configuration->ldapBackupPort = $this->configuration->ldapPort;
 		}
 
 		//make sure empty search attributes are saved as simple, empty array
@@ -433,7 +463,7 @@ class Connection extends LDAPUtility {
 
 		if ((stripos((string)$this->configuration->ldapHost, 'ldaps://') === 0)
 			&& $this->configuration->ldapTLS) {
-			$this->configuration->ldapTLS = false;
+			$this->configuration->ldapTLS = (string)false;
 			$this->logger->info(
 				'LDAPS (already using secure connection) and TLS do not work together. Switched off TLS.',
 				['app' => 'user_ldap']

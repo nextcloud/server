@@ -91,27 +91,23 @@ class Share implements IShare {
 	/** @var string */
 	private $label = '';
 
-	/** @var IRootFolder */
-	private $rootFolder;
-
-	/** @var IUserManager */
-	private $userManager;
-
 	/** @var ICacheEntry|null */
 	private $nodeCacheEntry;
 
 	/** @var bool */
 	private $hideDownload = false;
 
-	public function __construct(IRootFolder $rootFolder, IUserManager $userManager) {
-		$this->rootFolder = $rootFolder;
-		$this->userManager = $userManager;
+	public function __construct(
+		private IRootFolder $rootFolder,
+		private IUserManager $userManager,
+	) {
 	}
 
 	/**
 	 * @inheritdoc
 	 */
 	public function setId($id) {
+		/** @var mixed $id Let's be safe until strong typing */
 		if (is_int($id)) {
 			$id = (string)$id;
 		}
@@ -538,7 +534,7 @@ class Share implements IShare {
 	/**
 	 * Set the parent of this share
 	 *
-	 * @param int parent
+	 * @param int $parent
 	 * @return IShare
 	 * @deprecated The new shares do not have parents. This is just here for legacy reasons.
 	 */

@@ -138,7 +138,7 @@ class OC_Helper {
 
 		$bytes = (float)$str;
 
-		if (preg_match('#([kmgtp]?b?)$#si', $str, $matches) && !empty($bytes_array[$matches[1]])) {
+		if (preg_match('#([kmgtp]?b?)$#si', $str, $matches) && isset($bytes_array[$matches[1]])) {
 			$bytes *= $bytes_array[$matches[1]];
 		} else {
 			return false;

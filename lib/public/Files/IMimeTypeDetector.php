@@ -84,7 +84,7 @@ interface IMimeTypeDetector {
 	public function mimeTypeIcon($mimeType);
 
 	/**
-	 * @return string[]
+	 * @return array<string,string>
 	 * @since 28.0.0
 	 */
 	public function getAllAliases(): array;
