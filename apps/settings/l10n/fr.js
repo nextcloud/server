@@ -76,7 +76,7 @@ OC.L10N.register(
     "Invalid mail address" : "Adresse e-mail non valide",
     "Settings saved" : "Paramètres sauvegardés",
     "Unable to change full name" : "Impossible de modifier le nom complet",
-    "Unable to change email address" : "Impossible de modifier l’adresse électronique",
+    "Unable to change email address" : "Impossible de modifier l’adresse e-mail",
     "Unable to set invalid phone number" : "Impossible d'enregistrer un n° de téléphone incorrect",
     "Unable to set invalid website" : "Impossible d'enregistrer un site web incorrect",
     "Some account data was invalid" : "Certaines données du compte ne sont pas valides",
