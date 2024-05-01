@@ -35,23 +35,19 @@ use OCP\IUser;
 use OCP\IUserSession;
 
 class ThemesService {
-	private IUserSession $userSession;
-	private IConfig $config;
-
 	/** @var ITheme[] */
 	private array $themesProviders;
 
-	public function __construct(IUserSession $userSession,
-		IConfig $config,
+	public function __construct(
+		private IUserSession $userSession,
+		private IConfig $config,
 		DefaultTheme $defaultTheme,
 		LightTheme $lightTheme,
 		DarkTheme $darkTheme,
 		HighContrastTheme $highContrastTheme,
 		DarkHighContrastTheme $darkHighContrastTheme,
-		DyslexiaFont $dyslexiaFont) {
-		$this->userSession = $userSession;
-		$this->config = $config;
-
+		DyslexiaFont $dyslexiaFont,
+	) {
 		// Register themes
 		$this->themesProviders = [
 			$defaultTheme->getId() => $defaultTheme,
@@ -86,7 +82,7 @@ class ThemesService {
 			return $themesIds;
 		}
 
-		/** @var ITheme[] */
+		/** @var ITheme[] $themeId */
 		$themes = array_filter(array_map(function ($themeId) {
 			return $this->getThemes()[$themeId];
 		}, $themesIds));
@@ -123,15 +119,13 @@ class ThemesService {
 			$this->setEnabledThemes($enabledThemes);
 			return $enabledThemes;
 		}
-		
+
 		return $themesIds;
 	}
 
 	/**
 	 * Check whether a theme is enabled or not
 	 * for the logged-in user
-	 *
-	 * @return bool
 	 */
 	public function isEnabled(ITheme $theme): bool {
 		$user = $this->userSession->getUser();

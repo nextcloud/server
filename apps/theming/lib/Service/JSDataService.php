@@ -31,21 +31,12 @@ use OCA\Theming\Util;
 use OCP\IConfig;
 
 class JSDataService implements \JsonSerializable {
-	private ThemingDefaults $themingDefaults;
-	private Util $util;
-	private IConfig $appConfig;
-	private ThemesService $themesService;
-
 	public function __construct(
-		ThemingDefaults $themingDefaults,
-		Util $util,
-		IConfig $appConfig,
-		ThemesService $themesService
+		private ThemingDefaults $themingDefaults,
+		private Util $util,
+		private IConfig $appConfig,
+		private ThemesService $themesService,
 	) {
-		$this->themingDefaults = $themingDefaults;
-		$this->util = $util;
-		$this->appConfig = $appConfig;
-		$this->themesService = $themesService;
 	}
 
 	public function jsonSerialize(): array {
