@@ -70,50 +70,33 @@ use ScssPhp\ScssPhp\Compiler;
 class ThemingController extends Controller {
 	public const VALID_UPLOAD_KEYS = ['header', 'logo', 'logoheader', 'background', 'favicon'];
 
-	private ThemingDefaults $themingDefaults;
 	private IL10N $l10n;
-	private IConfig $config;
-	private ITempManager $tempManager;
-	private IAppData $appData;
-	private IURLGenerator $urlGenerator;
-	private IAppManager $appManager;
-	private ImageManager $imageManager;
-	private ThemesService $themesService;
 
 	public function __construct(
 		$appName,
 		IRequest $request,
-		IConfig $config,
-		ThemingDefaults $themingDefaults,
+		private IConfig $config,
+		private ThemingDefaults $themingDefaults,
 		IL10N $l,
-		ITempManager $tempManager,
-		IAppData $appData,
-		IURLGenerator $urlGenerator,
-		IAppManager $appManager,
-		ImageManager $imageManager,
-		ThemesService $themesService
+		private ITempManager $tempManager,
+		private IAppData $appData,
+		private IURLGenerator $urlGenerator,
+		private IAppManager $appManager,
+		private ImageManager $imageManager,
+		private ThemesService $themesService,
 	) {
 		parent::__construct($appName, $request);
 
-		$this->themingDefaults = $themingDefaults;
 		$this->l10n = $l;
-		$this->config = $config;
-		$this->tempManager = $tempManager;
-		$this->appData = $appData;
-		$this->urlGenerator = $urlGenerator;
-		$this->appManager = $appManager;
-		$this->imageManager = $imageManager;
-		$this->themesService = $themesService;
 	}
 
 	/**
 	 * @AuthorizedAdminSetting(settings=OCA\Theming\Settings\Admin)
 	 * @param string $setting
 	 * @param string $value
-	 * @return DataResponse
 	 * @throws NotPermittedException
 	 */
-	public function updateStylesheet($setting, $value) {
+	public function updateStylesheet($setting, $value): DataResponse {
 		$value = trim($value);
 		$error = null;
 		switch ($setting) {
@@ -188,7 +171,7 @@ class ThemingController extends Controller {
 	 * @return DataResponse
 	 * @throws NotPermittedException
 	 */
-	public function updateAppMenu($setting, $value) {
+	public function updateAppMenu($setting, $value): DataResponse {
 		$error = null;
 		switch ($setting) {
 			case 'defaultApps':
@@ -226,8 +209,15 @@ class ThemingController extends Controller {
 	 * Check that a string is a valid http/https url
 	 */
 	private function isValidUrl(string $url): bool {
-		return ((str_starts_with($url, 'http://') || str_starts_with($url, 'https://')) &&
-			filter_var($url, FILTER_VALIDATE_URL) !== false);
+		if (!str_starts_with($url, 'http://') && !str_starts_with($url, 'https://')) {
+			return false;
+		}
+
+		if (filter_var($url, FILTER_VALIDATE_URL) === false) {
+			return false;
+		}
+
+		return true;
 	}
 
 	/**
@@ -369,7 +359,7 @@ class ThemingController extends Controller {
 	 * 200: Image returned
 	 * 404: Image not found
 	 */
-	public function getImage(string $key, bool $useSvg = true) {
+	public function getImage(string $key, bool $useSvg = true): NotFoundResponse|FileDisplayResponse {
 		try {
 			$file = $this->imageManager->getImage($key, $useSvg);
 		} catch (NotFoundException $e) {
@@ -407,7 +397,7 @@ class ThemingController extends Controller {
 	 * 200: Stylesheet returned
 	 * 404: Theme not found
 	 */
-	public function getThemeStylesheet(string $themeId, bool $plain = false, bool $withCustomCss = false) {
+	public function getThemeStylesheet(string $themeId, bool $plain = false, bool $withCustomCss = false): NotFoundResponse|DataDisplayResponse {
 		$themes = $this->themesService->getThemes();
 		if (!in_array($themeId, array_keys($themes))) {
 			return new NotFoundResponse();
@@ -430,7 +420,6 @@ class ThemingController extends Controller {
 			$compiler = new Compiler();
 			$compiledCss = $compiler->compileString("[data-theme-$themeId] { $variables $customCss }");
 			$css = $compiledCss->getCss();
-			;
 		}
 
 		try {
