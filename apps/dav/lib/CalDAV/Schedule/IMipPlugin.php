@@ -206,13 +206,16 @@ class IMipPlugin extends SabreIMipPlugin {
 		// Due to a bug in sabre, the senderName property for an iTIP message can actually also be a VObject Property
 		// If the iTIP message senderName is null or empty use the user session name as the senderName
 		if (($iTipMessage->senderName instanceof Parameter) && !empty(trim($iTipMessage->senderName->getValue()))) {
-			$senderName = $iTipMessage->senderName->getValue();
+			$senderName = trim($iTipMessage->senderName->getValue());
 		}
 		elseif (is_string($iTipMessage->senderName) && !empty(trim($iTipMessage->senderName))) {
-			$senderName = $iTipMessage->senderName;
+			$senderName = trim($iTipMessage->senderName);
+		}
+		elseif ($this->userSession->getUser() !== null) {
+			$senderName = trim($this->userSession->getUser()->getDisplayName());
 		}
 		else {
-			$senderName = $this->userSession->getUser()->getDisplayName();
+			$senderName = '';
 		}
 
 		$sender = substr($iTipMessage->sender, 7);
