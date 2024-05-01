@@ -91,6 +91,7 @@
     "App \"%s\" cannot be installed because it is not compatible with this version of the server." : "Застосунок \"%s\" неможливо встановити, оскільки він не сумісний з цією версією сервера.",
     "__language_name__" : "Українська",
     "This is an automatically sent email, please do not reply." : "Це автоматично надісланий електронний лист, будь ласка, не відповідайте на нього.",
+    "Help & privacy" : "Допомога та приватність",
     "Appearance and accessibility" : "Тема та вигляд",
     "Apps" : "Застосунки",
     "Personal settings" : "Мої налаштування",
