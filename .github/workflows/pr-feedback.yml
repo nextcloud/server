@@ -36,6 +36,6 @@ jobs:
 
             Thank you for contributing to Nextcloud and we hope to hear from you soon!
           days-before-feedback: 14
-          start-date: "2023-07-10"
+          start-date: "2024-04-30"
           exempt-authors: "${{ steps.scrape.outputs.users }},nextcloud-command,nextcloud-android-bot,skjnldsv,datenangebot"
           exempt-bots: true
