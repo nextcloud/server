@@ -56,7 +56,7 @@ class FileAccess implements IFileAccess {
 	}
 
 	public function getByFileIdInStorage(int $fileId, int $storageId): ?CacheEntry {
-		$items = $this->getByFileIdsInStorage([$fileId], $storageId);
+		$items = array_values($this->getByFileIdsInStorage([$fileId], $storageId));
 		return $items[0] ?? null;
 	}
 
@@ -70,7 +70,7 @@ class FileAccess implements IFileAccess {
 	}
 
 	public function getByFileId(int $fileId): ?CacheEntry {
-		$items = $this->getByFileIds([$fileId]);
+		$items = array_values($this->getByFileIds([$fileId]));
 		return $items[0] ?? null;
 	}
 
