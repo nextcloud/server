@@ -558,41 +558,14 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 			throw new FileNameTooLongException();
 		}
 
-		// NOTE: $path will remain unverified for now
-		$this->verifyPosixPath($fileName);
-	}
-
-	/**
-	 * @param string $fileName
-	 * @throws InvalidPathException
-	 */
-	protected function verifyPosixPath($fileName) {
-		$invalidChars = \OCP\Util::getForbiddenFileNameChars();
-		$this->scanForInvalidCharacters($fileName, $invalidChars);
-
-		$fileName = trim($fileName);
-		$reservedNames = ['*'];
-		if (in_array($fileName, $reservedNames)) {
+		if (\OC\Files\Filesystem::isFileBlacklisted($fileName)) {
 			throw new ReservedWordException();
 		}
-	}
 
-	/**
-	 * @param string $fileName
-	 * @param string[] $invalidChars
-	 * @throws InvalidPathException
-	 */
-	private function scanForInvalidCharacters(string $fileName, array $invalidChars) {
-		foreach ($invalidChars as $char) {
-			if (str_contains($fileName, $char)) {
-				throw new InvalidCharacterInPathException();
-			}
-		}
-
-		$sanitizedFileName = filter_var($fileName, FILTER_UNSAFE_RAW, FILTER_FLAG_STRIP_LOW);
-		if ($sanitizedFileName !== $fileName) {
+		if (\OC\Files\Filesystem::hasFilenameInvalidCharacters($fileName)) {
 			throw new InvalidCharacterInPathException();
 		}
+		// NOTE: $path will remain unverified for now
 	}
 
 	/**

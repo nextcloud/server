@@ -459,19 +459,31 @@ class Filesystem {
 	 * @param string $filename
 	 * @return bool
 	 */
-	public static function isFileBlacklisted($filename) {
+	public static function hasFilenameInvalidCharacters(string $filename): bool {
+		$invalidChars = \OCP\Util::getForbiddenFileNameChars();
+		foreach ($invalidChars as $char) {
+			if (str_contains($filename, $char)) {
+				return true;
+			}
+		}
+
+		$sanitizedFileName = filter_var($filename, FILTER_UNSAFE_RAW, FILTER_FLAG_STRIP_LOW);
+		if ($sanitizedFileName !== $filename) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * @param string $filename
+	 * @return bool
+	 */
+	public static function isFileBlacklisted(string $filename): bool {
 		$filename = self::normalizePath($filename);
 		$filename = basename($filename);
 
 		if ($filename === '') {
 			return false;
-		}
-
-		$forbiddenChars = \OCP\Util::getForbiddenFileNameChars();
-		foreach($forbiddenChars as $char) {
-			if (str_contains($filename, $char)) {
-				return false;
-			}
 		}
 
 		$forbiddenNames = \OCP\Util::getForbiddenFilenames();

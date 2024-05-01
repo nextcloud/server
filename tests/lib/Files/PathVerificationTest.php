@@ -126,12 +126,16 @@ class PathVerificationTest extends \Test\TestCase {
 		$storage = new Local(['datadir' => '']);
 
 		$fileName = " 123{$fileName}456 ";
-		self::invokePrivate($storage, 'verifyPosixPath', [$fileName]);
+		$storage->verifyPath('', $fileName);
 	}
 
 	public function providesInvalidCharsPosix() {
 		return [
+			// posix forbidden
 			[\chr(0)],
+			['/'],
+			['\\'],
+			// We restrict also ascii 1-31
 			[\chr(1)],
 			[\chr(2)],
 			[\chr(3)],
@@ -163,8 +167,6 @@ class PathVerificationTest extends \Test\TestCase {
 			[\chr(29)],
 			[\chr(30)],
 			[\chr(31)],
-			['/'],
-			['\\'],
 		];
 	}
 

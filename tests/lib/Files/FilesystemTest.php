@@ -284,7 +284,7 @@ class FilesystemTest extends \Test\TestCase {
 			['/etc/foo\bar/.htaccess/', true],
 			['/etc/foo\bar/.htaccess/foo', false],
 			['//foo//bar/\.htaccess/', true],
-			['\foo\bar\.HTAccess', true],
+			['\foo\bar\.htaccess', true],
 		];
 	}
 
@@ -293,6 +293,46 @@ class FilesystemTest extends \Test\TestCase {
 	 */
 	public function testIsFileBlacklisted($path, $expected) {
 		$this->assertSame($expected, \OC\Files\Filesystem::isFileBlacklisted($path));
+	}
+
+	/**
+	 * @dataProvider hasFilenameInvalidCharactersData
+	 */
+	public function testHasFilenameInvalidCharacters($filename, $expected) {
+		$this->assertSame($expected, \OC\Files\Filesystem::hasFilenameInvalidCharacters($filename));
+	}
+
+	public function hasFilenameInvalidCharactersData(): array {
+		return array_merge(
+			[
+				// slash and backslash are always forbidden
+				['foobar/txt', true],
+				['foobar\\txt', true],
+				// some valid special characters
+				['foobar txt', false],
+				['foobar-txt', false],
+				['foobar_txt', false],
+				// Also unicode is allowed by default
+				['😶‍🌫️.txt', false],
+			],
+			// Always block ascii 0-31
+			array_map(fn (int $i) => ['foo' . chr($i) . 'txt', true], range(0, 31)),
+		);
+	}
+
+	public static function hasFilenameInvalidCharacters(string $filename): bool {
+		$invalidChars = \OCP\Util::getForbiddenFileNameChars();
+		foreach ($invalidChars as $char) {
+			if (str_contains($filename, $char)) {
+				return true;
+			}
+		}
+
+		$sanitizedFileName = filter_var($filename, FILTER_UNSAFE_RAW, FILTER_FLAG_STRIP_LOW);
+		if ($sanitizedFileName !== $filename) {
+			return true;
+		}
+		return false;
 	}
 
 	public function testNormalizePathUTF8() {

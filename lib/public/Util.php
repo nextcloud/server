@@ -589,7 +589,11 @@ class Util {
 			return false;
 		}
 
-		return \OC\Files\Filesystem::isFileBlacklisted($file);
+		if (\OC\Files\Filesystem::isFileBlacklisted($file)) {
+			return false;
+		}
+
+		return !\OC\Files\Filesystem::hasFilenameInvalidCharacters($file);
 	}
 
 	/**
