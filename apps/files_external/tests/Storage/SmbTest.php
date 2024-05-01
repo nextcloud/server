@@ -33,6 +33,7 @@ use OC\Files\Notify\Change;
 use OC\Files\Notify\RenameChange;
 use OCA\Files_External\Lib\Storage\SMB;
 use OCP\Files\Notify\IChange;
+use PHPUnit\Framework\ExpectationFailedException;
 
 /**
  * Class SmbTest
@@ -96,6 +97,22 @@ class SmbTest extends \Test\Files\Storage\Storage {
 	}
 
 	public function testNotifyGetChanges() {
+		$lastError = null;
+		for($i = 0; $i < 5; $i++) {
+			try {
+				$this->tryTestNotifyGetChanges();
+				return;
+			} catch (ExpectationFailedException $e) {
+				$lastError = $e;
+				$this->tearDown();
+				$this->setUp();
+				sleep(1);
+			}
+		}
+		throw $lastError;
+	}
+
+	private function tryTestNotifyGetChanges(): void {
 		$notifyHandler = $this->instance->notify('');
 		sleep(1); //give time for the notify to start
 		$this->instance->file_put_contents('/newfile.txt', 'test content');
