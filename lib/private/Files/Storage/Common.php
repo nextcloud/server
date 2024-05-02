@@ -63,6 +63,7 @@ use OCP\Files\Storage\ILockingStorage;
 use OCP\Files\Storage\IStorage;
 use OCP\Files\Storage\IWriteStreamStorage;
 use OCP\Files\StorageNotAvailableException;
+use OCP\IConfig;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
 use OCP\Server;
@@ -375,7 +376,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 		}
 		if (!isset($this->watcher)) {
 			$this->watcher = new Watcher($storage);
-			$globalPolicy = \OC::$server->getConfig()->getSystemValue('filesystem_check_changes', Watcher::CHECK_NEVER);
+			$globalPolicy = \OCP\Server::get(IConfig::class)->getSystemValue('filesystem_check_changes', Watcher::CHECK_NEVER);
 			$this->watcher->setPolicy((int)$this->getMountOption('filesystem_check_changes', $globalPolicy));
 		}
 		return $this->watcher;
@@ -565,6 +566,32 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 		if (\OC\Files\Filesystem::hasFilenameInvalidCharacters($fileName)) {
 			throw new InvalidCharacterInPathException();
 		}
+
+		$config = \OCP\Server::get(IConfig::class);
+		if ($config->getSystemValueBool('enforce_windows_compatibility', false)) {
+			// Windows does not allow filenames to end with a trailing dot or space
+			if (str_ends_with($fileName, '.') || str_ends_with($fileName, ' ')) {
+				throw new InvalidCharacterInPathException('Filenames must not end with a dot or space');
+			}
+
+			// Windows has path namespaces so e.g. `NUL` is a reserved word,
+			// but `NUL.txt` or `NUL.tar.gz` is considered the same and thus also reserved.
+			$basename = substr($fileName, 0, strpos($fileName, '.') ?: null);
+			if (\OC\Files\Filesystem::isFileBlacklisted($basename)) {
+				throw new ReservedWordException();
+			}
+
+			// Some windows systems are case insensitive,
+			// so to guarantee files can be synced we need to enfore case insensitivity
+			$content = $this->getDirectoryContent(dirname($path));
+			$fileName = strtolower($fileName);
+			foreach ($content as $subPath) {
+				if (strtolower($subPath['name']) === $fileName) {
+					throw new InvalidPathException('Filename is not case insensitivly unique');
+				}
+			}
+		}
+
 		// NOTE: $path will remain unverified for now
 	}
 

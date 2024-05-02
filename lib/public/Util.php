@@ -540,6 +540,20 @@ class Util {
 				\OCP\Server::get(LoggerInterface::class)->error('Invalid system config value for "blacklisted_files" is ignored.');
 				$invalidFilenames = ['.htaccess'];
 			}
+
+			if ($config->getSystemValueBool('enforce_windows_compatibility', false)) {
+				$invalidFilenames = array_merge(
+					$invalidFilenames,
+					[
+						"CON", "PRN", "AUX", "NUL", "COM0",
+						"COM1", "COM2", "COM3", "COM4", "COM5",
+						"COM6", "COM7", "COM8", "COM9", "COM¹",
+						"COM²", "COM³", "LPT0", "LPT1", "LPT2",
+						"LPT3", "LPT4", "LPT5", "LPT6", "LPT7",
+						"LPT8", "LPT9", "LPT¹", "LPT²", "LPT³",
+					],
+				);
+			}
 			self::$invalidFilenames = array_map('mb_strtolower', $invalidFilenames);
 		}
 		return self::$invalidFilenames;
@@ -562,6 +576,17 @@ class Util {
 			$invalidChars = str_split(\OCP\Constants::FILENAME_INVALID_CHARS);
 			if ($invalidChars === false) {
 				$invalidChars = [];
+			}
+
+			// If windows compatibility is enabled we also forbidd reserved win32 API characters
+			if ($config->getSystemValueBool('enforce_windows_compatibility', false)) {
+				$invalidChars = array_merge(
+					$invalidChars,
+					// reserved characters of the win32 API
+					['<', '>', ':', '"', '|', '?', '*'],
+					// character 0-31 are also forbiden on windows but already filtered
+					// see IStorage::verifyPath
+				);
 			}
 
 			// Get admin defined invalid characters

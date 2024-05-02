@@ -1961,6 +1961,21 @@ $CONFIG = [
 'updatedirectory' => '',
 
 /**
+ * Allow to enforce Windows compatible file and folder names.
+ * Nextcloud by default supports all files valid on Linux,
+ * but as Windows has some stricter filename rules this can lead to sync errors when using Windows clients.
+ *
+ * To enforce only Windows compatible filenames, also on the webui, set this value to ``true``.
+ *
+ * This will deny filenames with characters not valid on Windows, as well as some reserved filenames and nameing rules (no trailing dot or space).
+ * Additionally this will enforce files to be case in-sensitivly unique in a folder.
+ * 
+ * Defaults to ``false``
+ * 
+ */
+'enforce_windows_compatibility' => false,
+
+/**
  * Deny a specific file or files and disallow the upload of files
  * with this name. ``.htaccess`` is blocked by default.
  *
