@@ -27,7 +27,6 @@ declare(strict_types=1);
 namespace OC\Core\Controller;
 
 use OCA\Core\ResponseDefinitions;
-use OCA\User_LDAP\Handler\ExtStorageConfigHandler;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\AnonRateLimit;
 use OCP\AppFramework\Http\Attribute\ApiRoute;
@@ -50,8 +49,6 @@ use OCP\TaskProcessing\Exception\Exception;
 use OCP\TaskProcessing\Exception\ValidationException;
 use OCP\TaskProcessing\ShapeDescriptor;
 use OCP\TaskProcessing\Task;
-use Psr\Container\ContainerInterface;
-use Psr\Log\LoggerInterface;
 
 /**
  * @psalm-import-type CoreTaskProcessingTask from ResponseDefinitions

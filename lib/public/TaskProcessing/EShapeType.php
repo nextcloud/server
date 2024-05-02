@@ -55,13 +55,13 @@ enum EShapeType: int {
 		if ($this === EShapeType::Text && !is_string($value)) {
 			throw new ValidationException('Non-text item provided for Text slot');
 		}
-		if ($this === EShapeType::ListOfTexts && (!is_array($value) || count(array_filter($value, fn($item) => !is_string($item))) > 0)) {
+		if ($this === EShapeType::ListOfTexts && (!is_array($value) || count(array_filter($value, fn ($item) => !is_string($item))) > 0)) {
 			throw new ValidationException('Non-text list item provided for ListOfTexts slot');
 		}
 		if ($this === EShapeType::Number && !is_numeric($value)) {
 			throw new ValidationException('Non-numeric item provided for Number slot');
 		}
-		if ($this === EShapeType::ListOfNumbers && (!is_array($value) || count(array_filter($value, fn($item) => !is_numeric($item))) > 0)) {
+		if ($this === EShapeType::ListOfNumbers && (!is_array($value) || count(array_filter($value, fn ($item) => !is_numeric($item))) > 0)) {
 			throw new ValidationException('Non-numeric list item provided for ListOfNumbers slot');
 		}
 	}
@@ -70,6 +70,7 @@ enum EShapeType: int {
 	 * @param mixed $value
 	 * @return void
 	 * @throws Exception\ValidationException
+	 * @since 30.0.0
 	 */
 	public function validateInput(mixed $value): void {
 		$this->validateNonFileType($value);
@@ -101,6 +102,7 @@ enum EShapeType: int {
 
 	/**
 	 * @throws ValidationException
+	 * @since 30.0.0
 	 */
 	public function validateOutput(mixed $value) {
 		$this->validateNonFileType($value);
@@ -130,6 +132,11 @@ enum EShapeType: int {
 		}
 	}
 
+	/**
+	 * @param EShapeType $type
+	 * @return EShapeType
+	 * @since 30.0.0
+	 */
 	public static function getScalarType(EShapeType $type): EShapeType {
 		return EShapeType::from($type->value % 10);
 	}
