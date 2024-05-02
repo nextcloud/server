@@ -171,6 +171,7 @@ OC.L10N.register(
     "Delete slot" : "Elimina slot",
     "No working hours set" : "Orari lavorativi non impostati",
     "Add slot" : "Aggiungi slot",
+    "Weekdays" : "Giorni feriali",
     "Monday" : "Lunedì",
     "Tuesday" : "Martedì",
     "Wednesday" : "Mercoledì",
