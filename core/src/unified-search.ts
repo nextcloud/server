@@ -30,11 +30,11 @@ Vue.mixin({
 
 // Define type structure for unified searc action
 interface UnifiedSearchAction {
-    id: string;
-    appId: string;
-    label: string;
-    icon: string;
-    callback: () => void;
+	id: string;
+	appId: string;
+	label: string;
+	icon: string;
+	callback: () => void;
 }
 
 // Register the add/register filter action API globally
