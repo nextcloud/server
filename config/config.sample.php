@@ -1966,6 +1966,8 @@ $CONFIG = [
  *
  * WARNING: USE THIS ONLY IF YOU KNOW WHAT YOU ARE DOING.
  *
+ * Note that this list is case-insensitive.
+ *
  * Defaults to ``array('.htaccess')``
  */
 'blacklisted_files' => ['.htaccess'],

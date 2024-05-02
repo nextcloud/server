@@ -284,7 +284,7 @@ class FilesystemTest extends \Test\TestCase {
 			['/etc/foo\bar/.htaccess/', true],
 			['/etc/foo\bar/.htaccess/foo', false],
 			['//foo//bar/\.htaccess/', true],
-			['\foo\bar\.htaccess', true],
+			['\foo\bar\.HTAccess', true],
 		];
 	}
 

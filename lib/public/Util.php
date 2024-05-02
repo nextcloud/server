@@ -527,6 +527,7 @@ class Util {
 
 	/**
 	 * Get a list of reserved file names that must not be used
+	 * This list should be checked case-insensitive, all names are returned lowercase.
 	 * @return string[]
 	 * @since 30.0.0
 	 */
@@ -539,7 +540,7 @@ class Util {
 				\OCP\Server::get(LoggerInterface::class)->error('Invalid system config value for "blacklisted_files" is ignored.');
 				$invalidFilenames = ['.htaccess'];
 			}
-			self::$invalidFilenames = $invalidFilenames;
+			self::$invalidFilenames = array_map('mb_strtolower', $invalidFilenames);
 		}
 		return self::$invalidFilenames;
 	}

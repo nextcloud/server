@@ -487,7 +487,7 @@ class Filesystem {
 		}
 
 		$forbiddenNames = \OCP\Util::getForbiddenFilenames();
-		return in_array($filename, $forbiddenNames);
+		return in_array(mb_strtolower($filename), $forbiddenNames);
 	}
 
 	/**
