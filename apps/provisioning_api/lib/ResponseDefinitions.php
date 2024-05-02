@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -26,15 +27,15 @@ declare(strict_types=1);
 namespace OCA\Provisioning_API;
 
 /**
- * @psalm-type ProvisioningApiUserDetailsQuota = array{
- *     free?: float,
- *     quota?: float|string,
- *     relative?: float,
- *     total?: float,
- *     used?: float,
+ * @psalm-type Provisioning_APIUserDetailsQuota = array{
+ *     free?: float|int,
+ *     quota?: float|int|string,
+ *     relative?: float|int,
+ *     total?: float|int,
+ *     used?: float|int,
  * }
  *
- * @psalm-type ProvisioningApiUserDetails = array{
+ * @psalm-type Provisioning_APIUserDetails = array{
  *     additional_mail: string[],
  *     additional_mailScope?: string[],
  *     address: string,
@@ -70,7 +71,7 @@ namespace OCA\Provisioning_API;
  *     phoneScope?: string,
  *     profile_enabled: string,
  *     profile_enabledScope?: string,
- *     quota: ProvisioningApiUserDetailsQuota,
+ *     quota: Provisioning_APIUserDetailsQuota,
  *     role: string,
  *     roleScope?: string,
  *     storageLocation?: string,
@@ -81,49 +82,7 @@ namespace OCA\Provisioning_API;
  *     websiteScope?: string,
  * }
  *
- * @psalm-type ProvisioningApiAppInfo = array{
- *     active: bool|null,
- *     activity: ?mixed,
- *     author: ?mixed,
- *     background-jobs: ?mixed,
- *     bugs: ?mixed,
- *     category: ?mixed,
- *     collaboration: ?mixed,
- *     commands: ?mixed,
- *     default_enable: ?mixed,
- *     dependencies: ?mixed,
- *     description: string,
- *     discussion: ?mixed,
- *     documentation: ?mixed,
- *     groups: ?mixed,
- *     id: string,
- *     info: ?mixed,
- *     internal: bool|null,
- *     level: int|null,
- *     licence: ?mixed,
- *     name: string,
- *     namespace: ?mixed,
- *     navigations: ?mixed,
- *     preview: ?mixed,
- *     previewAsIcon: bool|null,
- *     public: ?mixed,
- *     remote: ?mixed,
- *     removable: bool|null,
- *     repair-steps: ?mixed,
- *     repository: ?mixed,
- *     sabre: ?mixed,
- *     screenshot: ?mixed,
- *     settings: ?mixed,
- *     summary: string,
- *     trash: ?mixed,
- *     two-factor-providers: ?mixed,
- *     types: ?mixed,
- *     version: string,
- *     versions: ?mixed,
- *     website: ?mixed,
- * }
- *
- * @psalm-type ProvisioningApiGroupDetails = array{
+ * @psalm-type Provisioning_APIGroupDetails = array{
  *     id: string,
  *     displayname: string,
  *     usercount: bool|int,

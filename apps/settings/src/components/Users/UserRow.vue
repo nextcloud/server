@@ -2,7 +2,7 @@
   - @copyright Copyright (c) 2019 Gary Kim <gary@garykim.dev>
   - @copyright Copyright (c) 2018 John Molakvoæ <skjnldsv@protonmail.com>
   -
-	- @author Christopher Ng <chrng8@gmail.com>
+  - @author Christopher Ng <chrng8@gmail.com>
   - @author Gary Kim <gary@garykim.dev>
   - @author John Molakvoæ <skjnldsv@protonmail.com>
   -
@@ -24,39 +24,34 @@
   -->
 
 <template>
-	<Fragment>
-		<td class="row__cell row__cell--avatar">
+	<tr class="user-list__row"
+		:data-cy-user-row="user.id">
+		<td class="row__cell row__cell--avatar" data-cy-user-list-cell-avatar>
 			<NcLoadingIcon v-if="isLoadingUser"
-				:name="t('settings', 'Loading user …')"
+				:name="t('settings', 'Loading account …')"
 				:size="32" />
-			<NcAvatar v-else
-				:key="user.id"
+			<NcAvatar v-else-if="visible"
 				disable-menu
 				:show-user-status="false"
 				:user="user.id" />
 		</td>
 
-		<td class="row__cell row__cell--displayname"
-			:data-test="user.id">
-			<template v-if="idState.editing && user.backendCapabilities.setDisplayName">
-				<label class="hidden-visually"
-					:for="'displayName' + uniqueId">
-					{{ t('settings', 'Edit display name') }}
-				</label>
-				<NcTextField :id="'displayName' + uniqueId"
-					ref="displayNameField"
-					data-test="displayNameField"
-					:show-trailing-button="true"
+		<td class="row__cell row__cell--displayname" data-cy-user-list-cell-displayname>
+			<template v-if="editing && user.backendCapabilities.setDisplayName">
+				<NcTextField ref="displayNameField"
 					class="user-row-text-field"
-					:class="{ 'icon-loading-small': idState.loading.displayName }"
-					:disabled="idState.loading.displayName || isLoadingField"
+					data-cy-user-list-input-displayname
+					:data-loading="loading.displayName || undefined"
+					:trailing-button-label="t('settings', 'Submit')"
+					:class="{ 'icon-loading-small': loading.displayName }"
+					:show-trailing-button="true"
+					:disabled="loading.displayName || isLoadingField"
+					:label="t('settings', 'Change display name')"
 					trailing-button-icon="arrowRight"
-					:value.sync="idState.editedDisplayName"
+					:value.sync="editedDisplayName"
 					autocapitalize="off"
 					autocomplete="off"
-					autocorrect="off"
 					spellcheck="false"
-					type="text"
 					@trailing-button-click="updateDisplayName" />
 			</template>
 			<template v-else>
@@ -68,53 +63,48 @@
 			</template>
 		</td>
 
-		<td class="row__cell"
+		<td data-cy-user-list-cell-password
+			class="row__cell"
 			:class="{ 'row__cell--obfuscated': hasObfuscated }">
-			<template v-if="idState.editing && settings.canChangePassword && user.backendCapabilities.setPassword">
-				<label class="hidden-visually"
-					:for="'password' + uniqueId">
-					{{ t('settings', 'Add new password') }}
-				</label>
-				<NcTextField :id="'password' + uniqueId"
+			<template v-if="editing && settings.canChangePassword && user.backendCapabilities.setPassword">
+				<NcTextField class="user-row-text-field"
+					data-cy-user-list-input-password
+					:data-loading="loading.password || undefined"
+					:trailing-button-label="t('settings', 'Submit')"
+					:class="{'icon-loading-small': loading.password}"
 					:show-trailing-button="true"
-					class="user-row-text-field"
-					:class="{'icon-loading-small': idState.loading.password}"
-					:disabled="idState.loading.password || isLoadingField"
+					:disabled="loading.password || isLoadingField"
 					:minlength="minPasswordLength"
 					maxlength="469"
-					:placeholder="t('settings', 'Add new password')"
+					:label="t('settings', 'Set new password')"
 					trailing-button-icon="arrowRight"
-					:value.sync="idState.editedPassword"
+					:value.sync="editedPassword"
 					autocapitalize="off"
 					autocomplete="new-password"
-					autocorrect="off"
 					required
 					spellcheck="false"
 					type="password"
 					@trailing-button-click="updatePassword" />
 			</template>
 			<span v-else-if="isObfuscated">
-				{{ t('settings', 'You do not have permissions to see the details of this user') }}
+				{{ t('settings', 'You do not have permissions to see the details of this account') }}
 			</span>
 		</td>
 
-		<td class="row__cell">
-			<template v-if="idState.editing">
-				<label class="hidden-visually"
-					:for="'mailAddress' + uniqueId">
-					{{ t('settings', 'Add new email address') }}
-				</label>
-				<NcTextField :id="'mailAddress' + uniqueId"
+		<td class="row__cell" data-cy-user-list-cell-email>
+			<template v-if="editing">
+				<NcTextField class="user-row-text-field"
+					:class="{'icon-loading-small': loading.mailAddress}"
+					data-cy-user-list-input-email
+					:data-loading="loading.mailAddress || undefined"
 					:show-trailing-button="true"
-					class="user-row-text-field"
-					:class="{'icon-loading-small': idState.loading.mailAddress}"
-					:disabled="idState.loading.mailAddress || isLoadingField"
-					:placeholder="t('settings', 'Add new email address')"
+					:trailing-button-label="t('settings', 'Submit')"
+					:label="t('settings', 'Set new email address')"
+					:disabled="loading.mailAddress || isLoadingField"
 					trailing-button-icon="arrowRight"
-					:value.sync="idState.editedMail"
+					:value.sync="editedMail"
 					autocapitalize="off"
-					autocomplete="new-password"
-					autocorrect="off"
+					autocomplete="email"
 					spellcheck="false"
 					type="email"
 					@trailing-button-click="updateEmail" />
@@ -125,22 +115,24 @@
 			</span>
 		</td>
 
-		<td class="row__cell row__cell--large row__cell--multiline">
-			<template v-if="idState.editing">
+		<td class="row__cell row__cell--large row__cell--multiline" data-cy-user-list-cell-groups>
+			<template v-if="editing">
 				<label class="hidden-visually"
 					:for="'groups' + uniqueId">
 					{{ t('settings', 'Add user to group') }}
 				</label>
-				<NcSelect :input-id="'groups' + uniqueId"
+				<NcSelect data-cy-user-list-input-groups
+					:data-loading="loading.groups || undefined"
+					:input-id="'groups' + uniqueId"
 					:close-on-select="false"
-					:disabled="idState.loading.groups || isLoadingField"
-					:loading="idState.loading.groups"
+					:disabled="isLoadingField"
+					:loading="loading.groups"
 					:multiple="true"
+					:append-to-body="false"
 					:options="availableGroups"
-					:placeholder="t('settings', 'Add user to group')"
+					:placeholder="t('settings', 'Add account to group')"
 					:taggable="settings.isAdmin"
 					:value="userGroups"
-					class="select-vue"
 					label="name"
 					:no-wrap="true"
 					:create-option="(value) => ({ name: value, isCreating: true })"
@@ -155,23 +147,26 @@
 		</td>
 
 		<td v-if="subAdminsGroups.length > 0 && settings.isAdmin"
+			data-cy-user-list-cell-subadmins
 			class="row__cell row__cell--large row__cell--multiline">
-			<template v-if="idState.editing && settings.isAdmin && subAdminsGroups.length > 0">
+			<template v-if="editing && settings.isAdmin && subAdminsGroups.length > 0">
 				<label class="hidden-visually"
 					:for="'subadmins' + uniqueId">
-					{{ t('settings', 'Set user as admin for') }}
+					{{ t('settings', 'Set account as admin for') }}
 				</label>
-				<NcSelect :id="'subadmins' + uniqueId"
+				<NcSelect data-cy-user-list-input-subadmins
+					:data-loading="loading.subadmins || undefined"
+					:input-id="'subadmins' + uniqueId"
 					:close-on-select="false"
-					:disabled="idState.loading.subadmins || isLoadingField"
-					:loading="idState.loading.subadmins"
+					:disabled="isLoadingField"
+					:loading="loading.subadmins"
 					label="name"
+					:append-to-body="false"
 					:multiple="true"
 					:no-wrap="true"
 					:options="subAdminsGroups"
-					:placeholder="t('settings', 'Set user as admin for')"
+					:placeholder="t('settings', 'Set account as admin for')"
 					:value="userSubAdminsGroups"
-					class="select-vue"
 					@option:deselected="removeUserSubAdmin"
 					@option:selected="options => addUserSubAdmin(options.at(-1))" />
 			</template>
@@ -181,28 +176,30 @@
 			</span>
 		</td>
 
-		<td class="row__cell">
-			<template v-if="idState.editing">
+		<td class="row__cell" data-cy-user-list-cell-quota>
+			<template v-if="editing">
 				<label class="hidden-visually"
 					:for="'quota' + uniqueId">
-					{{ t('settings', 'Select user quota') }}
+					{{ t('settings', 'Select account quota') }}
 				</label>
 				<NcSelect v-model="editedUserQuota"
 					:close-on-select="true"
 					:create-option="validateQuota"
-					:disabled="idState.loading.quota || isLoadingField"
-					:loading="idState.loading.quota"
+					data-cy-user-list-input-quota
+					:data-loading="loading.quota || undefined"
+					:disabled="isLoadingField"
+					:loading="loading.quota"
+					:append-to-body="false"
 					:clearable="false"
 					:input-id="'quota' + uniqueId"
-					class="select-vue"
 					:options="quotaOptions"
-					:placeholder="t('settings', 'Select user quota')"
+					:placeholder="t('settings', 'Select account quota')"
 					:taggable="true"
 					@option:selected="setUserQuota" />
 			</template>
 			<template v-else-if="!isObfuscated">
-				<label :for="'quota-progress' + uniqueId">{{ userQuota }} ({{ usedSpace }})</label>
-				<NcProgressBar :id="'quota-progress' + uniqueId"
+				<span :id="'quota-progress' + uniqueId">{{ userQuota }} ({{ usedSpace }})</span>
+				<NcProgressBar :aria-labelledby="'quota-progress' + uniqueId"
 					class="row__progress"
 					:class="{
 						'row__progress--warn': usedQuota > 80,
@@ -213,22 +210,24 @@
 
 		<td v-if="showConfig.showLanguages"
 			class="row__cell row__cell--large"
-			data-test="language">
-			<template v-if="idState.editing">
+			data-cy-user-list-cell-language>
+			<template v-if="editing">
 				<label class="hidden-visually"
 					:for="'language' + uniqueId">
 					{{ t('settings', 'Set the language') }}
 				</label>
 				<NcSelect :id="'language' + uniqueId"
+					data-cy-user-list-input-language
+					:data-loading="loading.languages || undefined"
 					:allow-empty="false"
-					:disabled="idState.loading.languages || isLoadingField"
-					:loading="idState.loading.languages"
+					:disabled="isLoadingField"
+					:loading="loading.languages"
 					:clearable="false"
+					:append-to-body="false"
 					:options="availableLanguages"
 					:placeholder="t('settings', 'No language set')"
 					:value="userLanguage"
 					label="name"
-					class="select-vue"
 					@input="setUserLanguage" />
 			</template>
 			<span v-else-if="!isObfuscated">
@@ -237,6 +236,7 @@
 		</td>
 
 		<td v-if="showConfig.showUserBackend || showConfig.showStoragePath"
+			data-cy-user-list-cell-storage-location
 			class="row__cell row__cell--large">
 			<template v-if="!isObfuscated">
 				<span v-if="showConfig.showUserBackend">{{ user.backend }}</span>
@@ -251,47 +251,50 @@
 		<td v-if="showConfig.showLastLogin"
 			:title="userLastLoginTooltip"
 			class="row__cell"
-			data-test="lastLogin">
+			data-cy-user-list-cell-last-login>
 			<span v-if="!isObfuscated">{{ userLastLogin }}</span>
 		</td>
 
-		<td class="row__cell row__cell--large">
-			<template v-if="idState.editing">
+		<td class="row__cell row__cell--large row__cell--fill" data-cy-user-list-cell-manager>
+			<template v-if="editing">
 				<label class="hidden-visually"
 					:for="'manager' + uniqueId">
 					{{ managerLabel }}
 				</label>
-				<NcSelect v-model="idState.currentManager"
+				<NcSelect v-model="currentManager"
+					class="select--fill"
+					data-cy-user-list-input-manager
+					:data-loading="loading.manager || undefined"
 					:input-id="'manager' + uniqueId"
 					:close-on-select="true"
-					:disabled="idState.loading.manager || isLoadingField"
-					:loading="idState.loading.manager"
+					:disabled="isLoadingField"
+					:append-to-body="false"
+					:loading="loadingPossibleManagers || loading.manager"
 					label="displayname"
-					:options="idState.possibleManagers"
+					:options="possibleManagers"
 					:placeholder="managerLabel"
-					class="select-vue"
+					@open="searchInitialUserManager"
 					@search="searchUserManager"
-					@option:selected="updateUserManager"
-					@input="updateUserManager" />
+					@option:selected="updateUserManager" />
 			</template>
 			<span v-else-if="!isObfuscated">
 				{{ user.manager }}
 			</span>
 		</td>
 
-		<td class="row__cell row__cell--actions">
-			<UserRowActions v-if="!isObfuscated && canEdit && !idState.loading.all"
+		<td class="row__cell row__cell--actions" data-cy-user-list-cell-actions>
+			<UserRowActions v-if="visible && !isObfuscated && canEdit && !loading.all"
 				:actions="userActions"
 				:disabled="isLoadingField"
-				:edit="idState.editing"
+				:edit="editing"
+				:user="user"
 				@update:edit="toggleEdit" />
 		</td>
-	</Fragment>
+	</tr>
 </template>
 
 <script>
-import { Fragment } from 'vue-frag'
-import { IdState } from 'vue-virtual-scroller'
+import { formatFileSize, parseFileSize } from '@nextcloud/files'
 import { getCurrentUser } from '@nextcloud/auth'
 import { showSuccess, showError } from '@nextcloud/dialogs'
 
@@ -304,13 +307,12 @@ import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
 import UserRowActions from './UserRowActions.vue'
 
 import UserRowMixin from '../../mixins/UserRowMixin.js'
-import { isObfuscated, unlimitedQuota } from '../../utils/userUtils.ts'
+import { isObfuscated, unlimitedQuota } from '../../utils/userUtils.ts';
 
 export default {
 	name: 'UserRow',
 
 	components: {
-		Fragment,
 		NcAvatar,
 		NcLoadingIcon,
 		NcProgressBar,
@@ -320,20 +322,16 @@ export default {
 	},
 
 	mixins: [
-		/**
-		 * Use scoped `idState` instead of `data` which is reused between rows
-		 *
-		 * See https://github.com/Akryum/vue-virtual-scroller/tree/v1/packages/vue-virtual-scroller#why-is-this-useful
-		 */
-		IdState({
-			idProp: vm => vm.user.id,
-		}),
 		UserRowMixin,
 	],
 
 	props: {
 		user: {
 			type: Object,
+			required: true,
+		},
+		visible: {
+			type: Boolean,
 			required: true,
 		},
 		users: {
@@ -370,10 +368,11 @@ export default {
 		},
 	},
 
-	idState() {
+	data() {
 		return {
 			selectedQuota: false,
 			rand: Math.random().toString(36).substring(2),
+			loadingPossibleManagers: false,
 			possibleManagers: [],
 			currentManager: '',
 			editing: false,
@@ -394,12 +393,15 @@ export default {
 			editedDisplayName: this.user.displayname,
 			editedPassword: '',
 			editedMail: this.user.email ?? '',
-			// TRANSLATORS This string describes a manager in the context of an organization
-			managerLabel: t('settings', 'Set user manager'),
 		}
 	},
 
 	computed: {
+		managerLabel() {
+			// TRANSLATORS This string describes a person's manager in the context of an organization
+			return t('settings', 'Set line manager')
+		},
+
 		isObfuscated() {
 			return isObfuscated(this.user)
 		},
@@ -409,15 +411,15 @@ export default {
 		},
 
 		isLoadingUser() {
-			return this.idState.loading.delete || this.idState.loading.disable || this.idState.loading.wipe
+			return this.loading.delete || this.loading.disable || this.loading.wipe
 		},
 
 		isLoadingField() {
-			return this.idState.loading.delete || this.idState.loading.disable || this.idState.loading.all
+			return this.loading.delete || this.loading.disable || this.loading.all
 		},
 
 		uniqueId() {
-			return this.user.id + this.idState.rand
+			return encodeURIComponent(this.user.id + this.rand)
 		},
 
 		userGroupsLabels() {
@@ -434,9 +436,9 @@ export default {
 
 		usedSpace() {
 			if (this.user.quota?.used) {
-				return t('settings', '{size} used', { size: OC.Util.humanFileSize(this.user.quota?.used) })
+				return t('settings', '{size} used', { size: formatFileSize(this.user.quota?.used) })
 			}
-			return t('settings', '{size} used', { size: OC.Util.humanFileSize(0) })
+			return t('settings', '{size} used', { size: formatFileSize(0) })
 		},
 
 		canEdit() {
@@ -450,7 +452,7 @@ export default {
 				quota = this.settings.defaultQuota
 				if (quota !== 'none') {
 					// convert to numeric value to match what the server would usually return
-					quota = OC.Util.computerFileSize(quota)
+					quota = parseFileSize(quota, true)
 				}
 			}
 
@@ -458,26 +460,26 @@ export default {
 			if (quota === 'none' || quota === -3) {
 				return t('settings', 'Unlimited')
 			} else if (quota >= 0) {
-				return OC.Util.humanFileSize(quota)
+				return formatFileSize(quota)
 			}
-			return OC.Util.humanFileSize(0)
+			return formatFileSize(0)
 		},
 
 		userActions() {
 			const actions = [
 				{
 					icon: 'icon-delete',
-					text: t('settings', 'Delete user'),
+					text: t('settings', 'Delete account'),
 					action: this.deleteUser,
 				},
 				{
 					icon: 'icon-delete',
-					text: t('settings', 'Wipe all devices'),
+					text: t('settings', 'Disconnect all devices and delete local data'),
 					action: this.wipeUserDevices,
 				},
 				{
 					icon: this.user.enabled ? 'icon-close' : 'icon-add',
-					text: this.user.enabled ? t('settings', 'Disable user') : t('settings', 'Enable user'),
+					text: this.user.enabled ? t('settings', 'Disable account') : t('settings', 'Enable account'),
 					action: this.enableDisableUser,
 				},
 			]
@@ -494,17 +496,17 @@ export default {
 		// mapping saved values to objects
 		editedUserQuota: {
 			get() {
-				if (this.idState.selectedQuota !== false) {
-					return this.idState.selectedQuota
+				if (this.selectedQuota !== false) {
+					return this.selectedQuota
 				}
-				if (this.settings.defaultQuota !== unlimitedQuota.id && OC.Util.computerFileSize(this.settings.defaultQuota) >= 0) {
+				if (this.settings.defaultQuota !== unlimitedQuota.id && parseFileSize(this.settings.defaultQuota, true) >= 0) {
 					// if value is valid, let's map the quotaOptions or return custom quota
 					return { id: this.settings.defaultQuota, label: this.settings.defaultQuota }
 				}
 				return unlimitedQuota // unlimited
 			},
 			set(quota) {
-				this.idState.selectedQuota = quota
+				this.selectedQuota = quota
 			},
 		},
 
@@ -514,8 +516,6 @@ export default {
 	},
 
 	async beforeMount() {
-		await this.searchUserManager()
-
 		if (this.user.manager) {
 			await this.initManager(this.user.manager)
 		}
@@ -535,13 +535,13 @@ export default {
 				},
 				(result) => {
 					if (result) {
-						this.idState.loading.wipe = true
-						this.idState.loading.all = true
+						this.loading.wipe = true
+						this.loading.all = true
 						this.$store.dispatch('wipeUserDevices', userid)
 							.then(() => showSuccess(t('settings', 'Wiped {userid}\'s devices', { userid })), { timeout: 2000 })
 							.finally(() => {
-								this.idState.loading.wipe = false
-								this.idState.loading.all = false
+								this.loading.wipe = false
+								this.loading.all = false
 							})
 					}
 				},
@@ -555,36 +555,42 @@ export default {
 
 		async initManager(userId) {
 			await this.$store.dispatch('getUser', userId).then(response => {
-				this.idState.currentManager = response?.data.ocs.data
+				this.currentManager = response?.data.ocs.data
 			})
+		},
+
+		async searchInitialUserManager() {
+			this.loadingPossibleManagers = true
+			await this.searchUserManager()
+			this.loadingPossibleManagers = false
 		},
 
 		async searchUserManager(query) {
 			await this.$store.dispatch('searchUsers', { offset: 0, limit: 10, search: query }).then(response => {
 				const users = response?.data ? this.filterManagers(Object.values(response?.data.ocs.data.users)) : []
 				if (users.length > 0) {
-					this.idState.possibleManagers = users
+					this.possibleManagers = users
 				}
 			})
 		},
 
-		updateUserManager(manager) {
+		async updateUserManager(manager) {
 			if (manager === null) {
-				this.idState.currentManager = ''
+				this.currentManager = ''
 			}
-			this.idState.loading.manager = true
+			this.loading.manager = true
 			try {
-				this.$store.dispatch('setUserData', {
+				await this.$store.dispatch('setUserData', {
 					userid: this.user.id,
 					key: 'manager',
-					value: this.idState.currentManager ? this.idState.currentManager.id : '',
+					value: this.currentManager ? this.currentManager.id : '',
 				})
 			} catch (error) {
-				// TRANSLATORS This string describes a manager in the context of an organization
-				showError(t('setting', 'Failed to update user manager'))
+				// TRANSLATORS This string describes a line manager in the context of an organization
+				showError(t('setting', 'Failed to update line manager'))
 				console.error(error)
 			} finally {
-				this.idState.loading.manager = false
+				this.loading.manager = false
 			}
 		},
 
@@ -601,12 +607,12 @@ export default {
 				},
 				(result) => {
 					if (result) {
-						this.idState.loading.delete = true
-						this.idState.loading.all = true
+						this.loading.delete = true
+						this.loading.all = true
 						return this.$store.dispatch('deleteUser', userid)
 							.then(() => {
-								this.idState.loading.delete = false
-								this.idState.loading.all = false
+								this.loading.delete = false
+								this.loading.all = false
 							})
 					}
 				},
@@ -615,8 +621,8 @@ export default {
 		},
 
 		enableDisableUser() {
-			this.idState.loading.delete = true
-			this.idState.loading.all = true
+			this.loading.delete = true
+			this.loading.all = true
 			const userid = this.user.id
 			const enabled = !this.user.enabled
 			return this.$store.dispatch('enableDisableUser', {
@@ -624,8 +630,8 @@ export default {
 				enabled,
 			})
 				.then(() => {
-					this.idState.loading.delete = false
-					this.idState.loading.all = false
+					this.loading.delete = false
+					this.loading.all = false
 				})
 		},
 
@@ -635,14 +641,14 @@ export default {
 		 * @param {string} displayName The display name
 		 */
 		updateDisplayName() {
-			this.idState.loading.displayName = true
+			this.loading.displayName = true
 			this.$store.dispatch('setUserData', {
 				userid: this.user.id,
 				key: 'displayname',
-				value: this.idState.editedDisplayName,
+				value: this.editedDisplayName,
 			}).then(() => {
-				this.idState.loading.displayName = false
-				if (this.idState.editedDisplayName === this.user.displayname) {
+				this.loading.displayName = false
+				if (this.editedDisplayName === this.user.displayname) {
 					showSuccess(t('setting', 'Display name was successfully changed'))
 				}
 			})
@@ -654,18 +660,18 @@ export default {
 		 * @param {string} password The email address
 		 */
 		updatePassword() {
-			this.idState.loading.password = true
-			if (this.idState.editedPassword.length === 0) {
+			this.loading.password = true
+			if (this.editedPassword.length === 0) {
 				showError(t('setting', "Password can't be empty"))
-				this.idState.loading.password = false
+				this.loading.password = false
 			} else {
 				this.$store.dispatch('setUserData', {
 					userid: this.user.id,
 					key: 'password',
-					value: this.idState.editedPassword,
+					value: this.editedPassword,
 				}).then(() => {
-					this.idState.loading.password = false
-					this.idState.editedPassword = ''
+					this.loading.password = false
+					this.editedPassword = ''
 					showSuccess(t('setting', 'Password was successfully changed'))
 				})
 			}
@@ -677,19 +683,19 @@ export default {
 		 * @param {string} mailAddress The email address
 		 */
 		updateEmail() {
-			this.idState.loading.mailAddress = true
-			if (this.idState.editedMail === '') {
+			this.loading.mailAddress = true
+			if (this.editedMail === '') {
 				showError(t('setting', "Email can't be empty"))
-				this.idState.loading.mailAddress = false
-				this.idState.editedMail = this.user.email
+				this.loading.mailAddress = false
+				this.editedMail = this.user.email
 			} else {
 				this.$store.dispatch('setUserData', {
 					userid: this.user.id,
 					key: 'email',
-					value: this.idState.editedMail,
+					value: this.editedMail,
 				}).then(() => {
-					this.idState.loading.mailAddress = false
-					if (this.idState.editedMail === this.user.email) {
+					this.loading.mailAddress = false
+					if (this.editedMail === this.user.email) {
 						showSuccess(t('setting', 'Email was successfully changed'))
 					}
 				})
@@ -702,7 +708,7 @@ export default {
 		 * @param {string} gid Group id
 		 */
 		async createGroup({ name: gid }) {
-			this.idState.loading = { groups: true, subadmins: true }
+			this.loading = { groups: true, subadmins: true }
 			try {
 				await this.$store.dispatch('addGroup', gid)
 				const userid = this.user.id
@@ -710,7 +716,7 @@ export default {
 			} catch (error) {
 				console.error(error)
 			} finally {
-				this.idState.loading = { groups: false, subadmins: false }
+				this.loading = { groups: false, subadmins: false }
 			}
 			return this.$store.getters.getGroups[this.groups.length]
 		},
@@ -726,7 +732,7 @@ export default {
 				// Ignore
 				return
 			}
-			this.idState.loading.groups = true
+			this.loading.groups = true
 			const userid = this.user.id
 			const gid = group.id
 			if (group.canAdd === false) {
@@ -737,7 +743,7 @@ export default {
 			} catch (error) {
 				console.error(error)
 			} finally {
-				this.idState.loading.groups = false
+				this.loading.groups = false
 			}
 		},
 
@@ -750,7 +756,7 @@ export default {
 			if (group.canRemove === false) {
 				return false
 			}
-			this.idState.loading.groups = true
+			this.loading.groups = true
 			const userid = this.user.id
 			const gid = group.id
 			try {
@@ -758,13 +764,13 @@ export default {
 					userid,
 					gid,
 				})
-				this.idState.loading.groups = false
+				this.loading.groups = false
 				// remove user from current list if current list is the removed group
 				if (this.$route.params.selectedGroup === gid) {
 					this.$store.commit('deleteUser', userid)
 				}
 			} catch {
-				this.idState.loading.groups = false
+				this.loading.groups = false
 			}
 		},
 
@@ -774,7 +780,7 @@ export default {
 		 * @param {object} group Group object
 		 */
 		async addUserSubAdmin(group) {
-			this.idState.loading.subadmins = true
+			this.loading.subadmins = true
 			const userid = this.user.id
 			const gid = group.id
 			try {
@@ -782,7 +788,7 @@ export default {
 					userid,
 					gid,
 				})
-				this.idState.loading.subadmins = false
+				this.loading.subadmins = false
 			} catch (error) {
 				console.error(error)
 			}
@@ -794,7 +800,7 @@ export default {
 		 * @param {object} group Group object
 		 */
 		async removeUserSubAdmin(group) {
-			this.idState.loading.subadmins = true
+			this.loading.subadmins = true
 			const userid = this.user.id
 			const gid = group.id
 
@@ -806,7 +812,7 @@ export default {
 			} catch (error) {
 				console.error(error)
 			} finally {
-				this.idState.loading.subadmins = false
+				this.loading.subadmins = false
 			}
 		},
 
@@ -821,20 +827,24 @@ export default {
 			if (quota === 'none') {
 				quota = unlimitedQuota
 			}
-			this.idState.loading.quota = true
+			this.loading.quota = true
+
 			// ensure we only send the preset id
 			quota = quota.id ? quota.id : quota
 
 			try {
+				// If human readable format, convert to raw float format
+				// Else just send the raw string
+				const value = (parseFileSize(quota, true) || quota).toString()
 				await this.$store.dispatch('setUserData', {
 					userid: this.user.id,
 					key: 'quota',
-					value: quota,
+					value,
 				})
 			} catch (error) {
 				console.error(error)
 			} finally {
-				this.idState.loading.quota = false
+				this.loading.quota = false
 			}
 			return quota
 		},
@@ -850,12 +860,12 @@ export default {
 				quota = quota?.id || quota.label
 			}
 			// only used for new presets sent through @Tag
-			const validQuota = OC.Util.computerFileSize(quota)
+			const validQuota = parseFileSize(quota, true)
 			if (validQuota === null) {
 				return unlimitedQuota
 			} else {
 				// unify format output
-				quota = OC.Util.humanFileSize(OC.Util.computerFileSize(quota))
+				quota = formatFileSize(parseFileSize(quota, true))
 				return { id: quota, label: quota }
 			}
 		},
@@ -867,7 +877,7 @@ export default {
 		 * @return {object}
 		 */
 		async setUserLanguage(lang) {
-			this.idState.loading.languages = true
+			this.loading.languages = true
 			// ensure we only send the preset id
 			try {
 				await this.$store.dispatch('setUserData', {
@@ -875,7 +885,7 @@ export default {
 					key: 'language',
 					value: lang.code,
 				})
-				this.idState.loading.languages = false
+				this.loading.languages = false
 			} catch (error) {
 				console.error(error)
 			}
@@ -886,24 +896,24 @@ export default {
 		 * Dispatch new welcome mail request
 		 */
 		sendWelcomeMail() {
-			this.idState.loading.all = true
+			this.loading.all = true
 			this.$store.dispatch('sendWelcomeMail', this.user.id)
 				.then(() => showSuccess(t('setting', 'Welcome mail sent!'), { timeout: 2000 }))
 				.finally(() => {
-					this.idState.loading.all = false
+					this.loading.all = false
 				})
 		},
 
 		async toggleEdit() {
-			this.idState.editing = !this.idState.editing
-			if (this.idState.editing) {
+			this.editing = !this.editing
+			if (this.editing) {
 				await this.$nextTick()
 				this.$refs.displayNameField?.$refs?.inputField?.$refs?.input?.focus()
 			}
-			if (this.idState.editedDisplayName !== this.user.displayname) {
-				this.idState.editedDisplayName = this.user.displayname
-			} else if (this.idState.editedMail !== this.user.email) {
-				this.idState.editedMail = this.user.email ?? ''
+			if (this.editedDisplayName !== this.user.displayname) {
+				this.editedDisplayName = this.user.displayname
+			} else if (this.editedMail !== this.user.email) {
+				this.editedMail = this.user.email ?? ''
 			}
 		},
 	},
@@ -913,21 +923,30 @@ export default {
 <style lang="scss" scoped>
 @import './shared/styles.scss';
 
+.user-list__row {
+	@include row;
+
+	&:hover {
+		background-color: var(--color-background-hover);
+
+		.row__cell:not(.row__cell--actions) {
+			background-color: var(--color-background-hover);
+		}
+	}
+
+	// Limit width of select in fill cell
+	.select--fill {
+		max-width: calc(var(--cell-width-large) - (2 * var(--cell-padding)));
+	}
+}
+
 .row {
 	@include cell;
 
 	&__cell {
+		border-bottom: 1px solid var(--color-border);
+
 		:deep {
-			.input-field,
-			.input-field__main-wrapper,
-			.input-field__input {
-				height: 48px !important;
-			}
-
-			.button-vue--icon-only {
-				height: 44px !important;
-			}
-
 			.v-select.select {
 				min-width: var(--cell-min-width);
 			}

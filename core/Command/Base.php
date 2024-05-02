@@ -26,8 +26,8 @@
 namespace OC\Core\Command;
 
 use OC\Core\Command\User\ListCommand;
-use Stecman\Component\Symfony\Console\BashCompletion\CompletionContext;
 use Stecman\Component\Symfony\Console\BashCompletion\Completion\CompletionAwareInterface;
+use Stecman\Component\Symfony\Console\BashCompletion\CompletionContext;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
@@ -70,7 +70,7 @@ class Base extends Command implements CompletionAwareInterface {
 						$this->writeArrayInOutputFormat($input, $output, $item, '  ' . $prefix);
 						continue;
 					}
-					if (!is_int($key) || ListCommand::class === get_class($this)) {
+					if (!is_int($key) || get_class($this) === ListCommand::class) {
 						$value = $this->valueToString($item);
 						if (!is_null($value)) {
 							$output->writeln($prefix . $key . ': ' . $value);
@@ -161,7 +161,7 @@ class Base extends Command implements CompletionAwareInterface {
 	 *
 	 * Gives a chance to the command to properly terminate what it's doing
 	 */
-	protected function cancelOperation() {
+	public function cancelOperation(): void {
 		$this->interrupted = true;
 	}
 

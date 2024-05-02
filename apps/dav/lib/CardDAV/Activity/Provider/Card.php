@@ -53,12 +53,12 @@ class Card extends Base {
 	protected $appManager;
 
 	public function __construct(IFactory $languageFactory,
-								IURLGenerator $url,
-								IManager $activityManager,
-								IUserManager $userManager,
-								IGroupManager $groupManager,
-								IEventMerger $eventMerger,
-								IAppManager $appManager) {
+		IURLGenerator $url,
+		IManager $activityManager,
+		IUserManager $userManager,
+		IGroupManager $groupManager,
+		IEventMerger $eventMerger,
+		IAppManager $appManager) {
 		parent::__construct($userManager, $groupManager, $url);
 		$this->languageFactory = $languageFactory;
 		$this->activityManager = $activityManager;
@@ -73,7 +73,7 @@ class Card extends Base {
 	 * @return IEvent
 	 * @throws \InvalidArgumentException
 	 */
-	public function parse($language, IEvent $event, IEvent $previousEvent = null): IEvent {
+	public function parse($language, IEvent $event, ?IEvent $previousEvent = null): IEvent {
 		if ($event->getApp() !== 'dav' || $event->getType() !== 'contacts') {
 			throw new \InvalidArgumentException();
 		}

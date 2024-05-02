@@ -20,15 +20,14 @@
  *
  */
 import { encodePath } from '@nextcloud/paths'
-import { Permission, type Node } from '@nextcloud/files'
-import { translate as t } from '@nextcloud/l10n'
-import axios from '@nextcloud/axios'
-import LaptopSvg from '@mdi/svg/svg/laptop.svg?raw'
-
 import { generateOcsUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
-import { registerFileAction, FileAction, DefaultType } from '../services/FileAction'
+import { FileAction, Permission, type Node } from '@nextcloud/files'
 import { showError } from '@nextcloud/dialogs'
+import { translate as t } from '@nextcloud/l10n'
+import axios from '@nextcloud/axios'
+
+import LaptopSvg from '@mdi/svg/svg/laptop.svg?raw'
 
 const openLocalClient = async function(path: string) {
 	const link = generateOcsUrl('apps/files/api/v1') + '/openlocaleditor?format=json'
@@ -67,7 +66,3 @@ export const action = new FileAction({
 
 	order: 25,
 })
-
-if (!/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
-	registerFileAction(action)
-}

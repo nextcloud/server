@@ -563,7 +563,8 @@ EOD;
 		$this->timeFactory->expects($this->once())
 			->method('getDateTime')
 			->with()
-			->willReturn(DateTime::createFromFormat(DateTime::ATOM, '2023-02-03T13:28:00+00:00'));;
+			->willReturn(DateTime::createFromFormat(DateTime::ATOM, '2023-02-03T13:28:00+00:00'));
+		;
 
 		$this->reminderService->onCalendarObjectCreate($objectData);
 	}

@@ -27,17 +27,17 @@ use Symfony\Component\Console\Formatter\OutputFormatterInterface;
 use Symfony\Component\Console\Formatter\OutputFormatterStyleInterface;
 
 class TimestampFormatter implements OutputFormatterInterface {
-	/** @var IConfig */
+	/** @var ?IConfig */
 	protected $config;
 
 	/** @var OutputFormatterInterface */
 	protected $formatter;
 
 	/**
-	 * @param IConfig $config
+	 * @param ?IConfig $config
 	 * @param OutputFormatterInterface $formatter
 	 */
-	public function __construct(IConfig $config, OutputFormatterInterface $formatter) {
+	public function __construct(?IConfig $config, OutputFormatterInterface $formatter) {
 		$this->config = $config;
 		$this->formatter = $formatter;
 	}
@@ -104,11 +104,16 @@ class TimestampFormatter implements OutputFormatterInterface {
 			return $this->formatter->format($message);
 		}
 
-		$timeZone = $this->config->getSystemValue('logtimezone', 'UTC');
-		$timeZone = $timeZone !== null ? new \DateTimeZone($timeZone) : null;
+		if ($this->config instanceof IConfig) {
+			$timeZone = $this->config->getSystemValue('logtimezone', 'UTC');
+			$timeZone = $timeZone !== null ? new \DateTimeZone($timeZone) : null;
 
-		$time = new \DateTime('now', $timeZone);
-		$timestampInfo = $time->format($this->config->getSystemValue('logdateformat', \DateTimeInterface::ATOM));
+			$time = new \DateTime('now', $timeZone);
+			$timestampInfo = $time->format($this->config->getSystemValue('logdateformat', \DateTimeInterface::ATOM));
+		} else {
+			$time = new \DateTime('now');
+			$timestampInfo = $time->format(\DateTimeInterface::ATOM);
+		}
 
 		return $timestampInfo . ' ' . $this->formatter->format($message);
 	}

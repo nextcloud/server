@@ -14,12 +14,12 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        branches: ["master", "stable27", "stable26", "stable25"]
+        branches: ["master", "stable29", "stable28", "stable27"]
 
     name: update-psalm-baseline-${{ matrix.branches }}
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633
         with:
           ref: ${{ matrix.branches }}
           submodules: true
@@ -27,8 +27,8 @@ jobs:
       - name: Set up php
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.0'
-          extensions: ctype,curl,dom,fileinfo,gd,intl,json,mbstring,openssl,pdo_sqlite,posix,sqlite,xml,zip
+          php-version: '8.1'
+          extensions: apcu,ctype,curl,dom,fileinfo,ftp,gd,intl,json,ldap,mbstring,openssl,pdo_sqlite,posix,sqlite,xml,zip
           coverage: none
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -37,11 +37,11 @@ jobs:
         run: composer install
 
       - name: Psalm
-        run: composer run psalm -- --monochrome --no-progress --output-format=text --update-baseline
+        run: composer run psalm:ci -- --monochrome --no-progress --output-format=text --update-baseline
         continue-on-error: true
 
       - name: Psalm OCP
-        run: composer run psalm -- -c psalm-ocp.xml --monochrome --no-progress --output-format=github --update-baseline
+        run: composer run psalm:ci -- -c psalm-ocp.xml --monochrome --no-progress --output-format=github --update-baseline
         continue-on-error: true
 
       - name: Reset composer
@@ -50,10 +50,10 @@ jobs:
           git checkout composer.json composer.lock lib/composer
 
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v4
+        uses: peter-evans/create-pull-request@70a41aba780001da0a30141984ae2a0c95d8704e
         with:
           token: ${{ secrets.COMMAND_BOT_PAT }}
-          commit-message: Update psalm baseline
+          commit-message: "chore(tests): Update psalm baseline"
           committer: GitHub <noreply@github.com>
           author: nextcloud-command <nextcloud-command@users.noreply.github.com>
           signoff: true

@@ -56,32 +56,19 @@ class Detection implements IMimeTypeDetector {
 	private const CUSTOM_MIMETYPEMAPPING = 'mimetypemapping.json';
 	private const CUSTOM_MIMETYPEALIASES = 'mimetypealiases.json';
 
-	protected $mimetypes = [];
-	protected $secureMimeTypes = [];
+	protected array $mimetypes = [];
+	protected array $secureMimeTypes = [];
 
-	protected $mimetypeIcons = [];
-	/** @var string[] */
-	protected $mimeTypeAlias = [];
+	protected array $mimetypeIcons = [];
+	/** @var array<string,string> */
+	protected array $mimeTypeAlias = [];
 
-	/** @var IURLGenerator */
-	private $urlGenerator;
-
-	private LoggerInterface $logger;
-
-	/** @var string */
-	private $customConfigDir;
-
-	/** @var string */
-	private $defaultConfigDir;
-
-	public function __construct(IURLGenerator $urlGenerator,
-								LoggerInterface $logger,
-								string $customConfigDir,
-								string $defaultConfigDir) {
-		$this->urlGenerator = $urlGenerator;
-		$this->logger = $logger;
-		$this->customConfigDir = $customConfigDir;
-		$this->defaultConfigDir = $defaultConfigDir;
+	public function __construct(
+		private IURLGenerator $urlGenerator,
+		private LoggerInterface $logger,
+		private string $customConfigDir,
+		private string $defaultConfigDir,
+	) {
 	}
 
 	/**
@@ -96,8 +83,8 @@ class Detection implements IMimeTypeDetector {
 	 * @param string|null $secureMimeType
 	 */
 	public function registerType(string $extension,
-								 string $mimetype,
-								 ?string $secureMimeType = null): void {
+		string $mimetype,
+		?string $secureMimeType = null): void {
 		$this->mimetypes[$extension] = [$mimetype, $secureMimeType];
 		$this->secureMimeTypes[$mimetype] = $secureMimeType ?: $mimetype;
 	}
@@ -151,7 +138,7 @@ class Detection implements IMimeTypeDetector {
 	}
 
 	/**
-	 * @return string[]
+	 * @return array<string,string>
 	 */
 	public function getAllAliases(): array {
 		$this->loadAliases();

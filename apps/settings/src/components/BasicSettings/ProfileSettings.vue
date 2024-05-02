@@ -28,7 +28,7 @@
 		</h2>
 
 		<p class="settings-hint">
-			{{ t('settings', 'Enable or disable profile by default for new users.') }}
+			{{ t('settings', 'Enable or disable profile by default for new accounts.') }}
 		</p>
 
 		<NcCheckboxRadioSwitch type="switch"
@@ -45,7 +45,7 @@ import { showError } from '@nextcloud/dialogs'
 
 import { saveProfileDefault } from '../../service/ProfileService.js'
 import { validateBoolean } from '../../utils/validate.js'
-import logger from '../../logger.js'
+import logger from '../../logger.ts'
 
 import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
 

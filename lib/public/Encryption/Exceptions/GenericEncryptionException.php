@@ -41,7 +41,7 @@ class GenericEncryptionException extends HintException {
 	 * @param \Exception|null $previous
 	 * @since 8.1.0
 	 */
-	public function __construct($message = '', $hint = '', $code = 0, \Exception $previous = null) {
+	public function __construct($message = '', $hint = '', $code = 0, ?\Exception $previous = null) {
 		if (empty($message)) {
 			$message = 'Unspecified encryption exception';
 		}

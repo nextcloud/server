@@ -57,9 +57,9 @@ class SubscriptionUpdatedEvent extends Event {
 	 * @since 20.0.0
 	 */
 	public function __construct(int $subscriptionId,
-								array $subscriptionData,
-								array $shares,
-								array $mutations) {
+		array $subscriptionData,
+		array $shares,
+		array $mutations) {
 		parent::__construct();
 		$this->subscriptionId = $subscriptionId;
 		$this->subscriptionData = $subscriptionData;

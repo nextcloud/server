@@ -46,8 +46,8 @@
 use bantu\IniGetWrapper\IniGetWrapper;
 use OC\Files\Filesystem;
 use OCP\Files\Mount\IMountPoint;
-use OCP\ICacheFactory;
 use OCP\IBinaryFinder;
+use OCP\ICacheFactory;
 use OCP\IUser;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
@@ -69,6 +69,8 @@ use Psr\Log\LoggerInterface;
  */
 class OC_Helper {
 	private static $templateManager;
+	private static ?ICacheFactory $cacheFactory = null;
+	private static ?bool $quotaIncludeExternalStorage = null;
 
 	/**
 	 * Make a human file size
@@ -136,7 +138,7 @@ class OC_Helper {
 
 		$bytes = (float)$str;
 
-		if (preg_match('#([kmgtp]?b?)$#si', $str, $matches) && !empty($bytes_array[$matches[1]])) {
+		if (preg_match('#([kmgtp]?b?)$#si', $str, $matches) && isset($bytes_array[$matches[1]])) {
 			$bytes *= $bytes_array[$matches[1]];
 		} else {
 			return false;
@@ -475,12 +477,15 @@ class OC_Helper {
 	 * @throws \OCP\Files\NotFoundException
 	 */
 	public static function getStorageInfo($path, $rootInfo = null, $includeMountPoints = true, $useCache = true) {
-		/** @var ICacheFactory $cacheFactory */
-		$cacheFactory = \OC::$server->get(ICacheFactory::class);
-		$memcache = $cacheFactory->createLocal('storage_info');
+		if (!self::$cacheFactory) {
+			self::$cacheFactory = \OC::$server->get(ICacheFactory::class);
+		}
+		$memcache = self::$cacheFactory->createLocal('storage_info');
 
 		// return storage info without adding mount points
-		$includeExtStorage = \OC::$server->getSystemConfig()->getValue('quota_include_external_storage', false);
+		if (self::$quotaIncludeExternalStorage === null) {
+			self::$quotaIncludeExternalStorage = \OC::$server->getSystemConfig()->getValue('quota_include_external_storage', false);
+		}
 
 		$view = Filesystem::getView();
 		if (!$view) {
@@ -497,7 +502,7 @@ class OC_Helper {
 		}
 
 		if (!$rootInfo) {
-			$rootInfo = \OC\Files\Filesystem::getFileInfo($path, $includeExtStorage ? 'ext' : false);
+			$rootInfo = \OC\Files\Filesystem::getFileInfo($path, self::$quotaIncludeExternalStorage ? 'ext' : false);
 		}
 		if (!$rootInfo instanceof \OCP\Files\FileInfo) {
 			throw new \OCP\Files\NotFoundException('The root directory of the user\'s files is missing');
@@ -512,9 +517,9 @@ class OC_Helper {
 		$storage = $mount->getStorage();
 		$sourceStorage = $storage;
 		if ($storage->instanceOfStorage('\OCA\Files_Sharing\SharedStorage')) {
-			$includeExtStorage = false;
+			self::$quotaIncludeExternalStorage = false;
 		}
-		if ($includeExtStorage) {
+		if (self::$quotaIncludeExternalStorage) {
 			if ($storage->instanceOfStorage('\OC\Files\Storage\Home')
 				|| $storage->instanceOfStorage('\OC\Files\ObjectStore\HomeObjectStoreStorage')
 			) {
@@ -590,6 +595,11 @@ class OC_Helper {
 			'mountType' => $mount->getMountType(),
 			'mountPoint' => trim($mountPoint, '/'),
 		];
+
+		if ($ownerId && $path === '/') {
+			// If path is root, store this as last known quota usage for this user
+			\OCP\Server::get(\OCP\IConfig::class)->setUserValue($ownerId, 'files', 'lastSeenQuotaUsage', (string)$relative);
+		}
 
 		$memcache->set($cacheKey, $info, 5 * 60);
 

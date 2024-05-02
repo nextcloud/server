@@ -100,7 +100,10 @@ class TwoFactorMiddleware extends Middleware {
 		if ($this->userSession->isLoggedIn()) {
 			$user = $this->userSession->getUser();
 
-			if ($this->session->exists('app_password') || $this->twoFactorManager->isTwoFactorAuthenticated($user)) {
+			if ($this->session->exists('app_password')  // authenticated using an app password
+				|| $this->session->exists('app_api')  // authenticated using an AppAPI Auth
+				|| $this->twoFactorManager->isTwoFactorAuthenticated($user)) {
+
 				$this->checkTwoFactor($controller, $methodName, $user);
 			} elseif ($controller instanceof TwoFactorChallengeController) {
 				// Allow access to the two-factor controllers only if two-factor authentication
@@ -131,8 +134,10 @@ class TwoFactorMiddleware extends Middleware {
 
 	public function afterException($controller, $methodName, Exception $exception) {
 		if ($exception instanceof TwoFactorAuthRequiredException) {
-			$params = [];
-			if (isset($this->request->server['REQUEST_URI'])) {
+			$params = [
+				'redirect_url' => $this->request->getParam('redirect_url'),
+			];
+			if (!isset($params['redirect_url']) && isset($this->request->server['REQUEST_URI'])) {
 				$params['redirect_url'] = $this->request->server['REQUEST_URI'];
 			}
 			return new RedirectResponse($this->urlGenerator->linkToRoute('core.TwoFactorChallenge.selectChallenge', $params));

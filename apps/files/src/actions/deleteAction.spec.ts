@@ -21,35 +21,109 @@
  */
 import { action } from './deleteAction'
 import { expect } from '@jest/globals'
-import { File, Folder, Permission } from '@nextcloud/files'
-import { FileAction } from '../services/FileAction'
+import { File, Folder, Permission, View, FileAction } from '@nextcloud/files'
 import * as eventBus from '@nextcloud/event-bus'
 import axios from '@nextcloud/axios'
+
 import logger from '../logger'
-import type { Navigation } from '../services/Navigation'
 
 const view = {
 	id: 'files',
 	name: 'Files',
-} as Navigation
+} as View
 
 const trashbinView = {
 	id: 'trashbin',
 	name: 'Trashbin',
-} as Navigation
+} as View
 
 describe('Delete action conditions tests', () => {
+	afterEach(() => {
+		jest.restoreAllMocks()
+	})
+
+	const file = new File({
+		id: 1,
+		source: 'https://cloud.domain.com/remote.php/dav/files/test/foobar.txt',
+		owner: 'test',
+		mime: 'text/plain',
+		permissions: Permission.ALL,
+	})
+
+	const file2 = new File({
+		id: 1,
+		source: 'https://cloud.domain.com/remote.php/dav/files/admin/foobar.txt',
+		owner: 'admin',
+		mime: 'text/plain',
+		permissions: Permission.ALL,
+		attributes: {
+			'is-mount-root': true,
+			'mount-type': 'shared',
+		},
+	})
+
+	const folder = new Folder({
+		id: 1,
+		source: 'https://cloud.domain.com/remote.php/dav/files/admin/Foo',
+		owner: 'admin',
+		mime: 'text/plain',
+		permissions: Permission.ALL,
+	})
+
+	const folder2 = new Folder({
+		id: 1,
+		source: 'https://cloud.domain.com/remote.php/dav/files/admin/Foo',
+		owner: 'admin',
+		mime: 'text/plain',
+		permissions: Permission.ALL,
+		attributes: {
+			'is-mount-root': true,
+			'mount-type': 'shared',
+		},
+	})
+
+	const folder3 = new Folder({
+		id: 1,
+		source: 'https://cloud.domain.com/remote.php/dav/files/admin/Foo',
+		owner: 'admin',
+		mime: 'text/plain',
+		permissions: Permission.ALL,
+		attributes: {
+			'is-mount-root': true,
+			'mount-type': 'external',
+		},
+	})
+
 	test('Default values', () => {
 		expect(action).toBeInstanceOf(FileAction)
 		expect(action.id).toBe('delete')
-		expect(action.displayName([], view)).toBe('Delete')
+		expect(action.displayName([file], view)).toBe('Delete file')
 		expect(action.iconSvgInline([], view)).toBe('<svg>SvgMock</svg>')
 		expect(action.default).toBeUndefined()
 		expect(action.order).toBe(100)
 	})
 
-	test('Default trashbin view values', () => {
-		expect(action.displayName([], trashbinView)).toBe('Delete permanently')
+	test('Default folder displayName', () => {
+		expect(action.displayName([folder], view)).toBe('Delete folder')
+	})
+
+	test('Default trashbin view displayName', () => {
+		expect(action.displayName([file], trashbinView)).toBe('Delete permanently')
+	})
+
+	test('Shared root node displayName', () => {
+		expect(action.displayName([file2], view)).toBe('Leave this share')
+		expect(action.displayName([folder2], view)).toBe('Leave this share')
+		expect(action.displayName([file2, folder2], view)).toBe('Leave these shares')
+	})
+
+	test('External storage root node displayName', () => {
+		expect(action.displayName([folder3], view)).toBe('Disconnect storage')
+		expect(action.displayName([folder3, folder3], view)).toBe('Disconnect storages')
+	})
+
+	test('Shared and owned nodes displayName', () => {
+		expect(action.displayName([file, file2], view)).toBe('Delete and unshare')
 	})
 })
 
@@ -57,8 +131,8 @@ describe('Delete action enabled tests', () => {
 	test('Enabled with DELETE permissions', () => {
 		const file = new File({
 			id: 1,
-			source: 'https://cloud.domain.com/remote.php/dav/files/admin/foobar.txt',
-			owner: 'admin',
+			source: 'https://cloud.domain.com/remote.php/dav/files/test/foobar.txt',
+			owner: 'test',
 			mime: 'text/plain',
 			permissions: Permission.ALL,
 		})
@@ -70,8 +144,8 @@ describe('Delete action enabled tests', () => {
 	test('Disabled without DELETE permissions', () => {
 		const file = new File({
 			id: 1,
-			source: 'https://cloud.domain.com/remote.php/dav/files/admin/foobar.txt',
-			owner: 'admin',
+			source: 'https://cloud.domain.com/remote.php/dav/files/test/foobar.txt',
+			owner: 'test',
 			mime: 'text/plain',
 			permissions: Permission.READ,
 		})
@@ -88,14 +162,14 @@ describe('Delete action enabled tests', () => {
 	test('Disabled if not all nodes can be deleted', () => {
 		const folder1 = new Folder({
 			id: 1,
-			source: 'https://cloud.domain.com/remote.php/dav/files/admin/Foo/',
-			owner: 'admin',
+			source: 'https://cloud.domain.com/remote.php/dav/files/test/Foo/',
+			owner: 'test',
 			permissions: Permission.DELETE,
 		})
 		const folder2 = new Folder({
 			id: 2,
-			source: 'https://cloud.domain.com/remote.php/dav/files/admin/Bar/',
-			owner: 'admin',
+			source: 'https://cloud.domain.com/remote.php/dav/files/test/Bar/',
+			owner: 'test',
 			permissions: Permission.READ,
 		})
 
@@ -113,8 +187,8 @@ describe('Delete action execute tests', () => {
 
 		const file = new File({
 			id: 1,
-			source: 'https://cloud.domain.com/remote.php/dav/files/admin/foobar.txt',
-			owner: 'admin',
+			source: 'https://cloud.domain.com/remote.php/dav/files/test/foobar.txt',
+			owner: 'test',
 			mime: 'text/plain',
 			permissions: Permission.READ | Permission.UPDATE | Permission.DELETE,
 		})
@@ -123,7 +197,7 @@ describe('Delete action execute tests', () => {
 
 		expect(exec).toBe(true)
 		expect(axios.delete).toBeCalledTimes(1)
-		expect(axios.delete).toBeCalledWith('https://cloud.domain.com/remote.php/dav/files/admin/foobar.txt')
+		expect(axios.delete).toBeCalledWith('https://cloud.domain.com/remote.php/dav/files/test/foobar.txt')
 
 		expect(eventBus.emit).toBeCalledTimes(1)
 		expect(eventBus.emit).toBeCalledWith('files:node:deleted', file)
@@ -133,28 +207,34 @@ describe('Delete action execute tests', () => {
 		jest.spyOn(axios, 'delete')
 		jest.spyOn(eventBus, 'emit')
 
+		const confirmMock = jest.fn()
+		window.OC = { dialogs: { confirmDestructive: confirmMock } }
+
 		const file1 = new File({
 			id: 1,
-			source: 'https://cloud.domain.com/remote.php/dav/files/admin/foo.txt',
-			owner: 'admin',
+			source: 'https://cloud.domain.com/remote.php/dav/files/test/foo.txt',
+			owner: 'test',
 			mime: 'text/plain',
 			permissions: Permission.READ | Permission.UPDATE | Permission.DELETE,
 		})
 
 		const file2 = new File({
 			id: 2,
-			source: 'https://cloud.domain.com/remote.php/dav/files/admin/bar.txt',
-			owner: 'admin',
+			source: 'https://cloud.domain.com/remote.php/dav/files/test/bar.txt',
+			owner: 'test',
 			mime: 'text/plain',
 			permissions: Permission.READ | Permission.UPDATE | Permission.DELETE,
 		})
 
 		const exec = await action.execBatch!([file1, file2], view, '/')
 
+		// Not enough nodes to trigger a confirmation dialog
+		expect(confirmMock).toBeCalledTimes(0)
+
 		expect(exec).toStrictEqual([true, true])
 		expect(axios.delete).toBeCalledTimes(2)
-		expect(axios.delete).toHaveBeenNthCalledWith(1, 'https://cloud.domain.com/remote.php/dav/files/admin/foo.txt')
-		expect(axios.delete).toHaveBeenNthCalledWith(2, 'https://cloud.domain.com/remote.php/dav/files/admin/bar.txt')
+		expect(axios.delete).toHaveBeenNthCalledWith(1, 'https://cloud.domain.com/remote.php/dav/files/test/foo.txt')
+		expect(axios.delete).toHaveBeenNthCalledWith(2, 'https://cloud.domain.com/remote.php/dav/files/test/bar.txt')
 
 		expect(eventBus.emit).toBeCalledTimes(2)
 		expect(eventBus.emit).toHaveBeenNthCalledWith(1, 'files:node:deleted', file1)
@@ -167,8 +247,8 @@ describe('Delete action execute tests', () => {
 
 		const file = new File({
 			id: 1,
-			source: 'https://cloud.domain.com/remote.php/dav/files/admin/foobar.txt',
-			owner: 'admin',
+			source: 'https://cloud.domain.com/remote.php/dav/files/test/foobar.txt',
+			owner: 'test',
 			mime: 'text/plain',
 			permissions: Permission.READ | Permission.UPDATE | Permission.DELETE,
 		})
@@ -177,7 +257,7 @@ describe('Delete action execute tests', () => {
 
 		expect(exec).toBe(false)
 		expect(axios.delete).toBeCalledTimes(1)
-		expect(axios.delete).toBeCalledWith('https://cloud.domain.com/remote.php/dav/files/admin/foobar.txt')
+		expect(axios.delete).toBeCalledWith('https://cloud.domain.com/remote.php/dav/files/test/foobar.txt')
 
 		expect(eventBus.emit).toBeCalledTimes(0)
 		expect(logger.error).toBeCalledTimes(1)

@@ -45,6 +45,11 @@ class ListCommand extends Base {
 			->setName('user:list')
 			->setDescription('list configured users')
 			->addOption(
+				'disabled',
+				'd',
+				InputOption::VALUE_NONE,
+				'List disabled users only'
+			)->addOption(
 				'limit',
 				'l',
 				InputOption::VALUE_OPTIONAL,
@@ -71,7 +76,11 @@ class ListCommand extends Base {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
-		$users = $this->userManager->searchDisplayName('', (int) $input->getOption('limit'), (int) $input->getOption('offset'));
+		if ($input->getOption('disabled')) {
+			$users = $this->userManager->getDisabledUsers((int) $input->getOption('limit'), (int) $input->getOption('offset'));
+		} else {
+			$users = $this->userManager->searchDisplayName('', (int) $input->getOption('limit'), (int) $input->getOption('offset'));
+		}
 
 		$this->writeArrayInOutputFormat($input, $output, $this->formatUsers($users, (bool)$input->getOption('info')));
 		return 0;

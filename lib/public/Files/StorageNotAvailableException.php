@@ -36,15 +36,43 @@ use OCP\HintException;
 
 /**
  * Storage is temporarily not available
- * @since 6.0.0 - since 8.2.1 based on HintException
+ * @since 6.0.0
+ * @since 8.2.1 based on HintException
  */
 class StorageNotAvailableException extends HintException {
+	/**
+	 * @since 8.2.0
+	 */
 	public const STATUS_SUCCESS = 0;
+
+	/**
+	 * @since 8.2.0
+	 */
 	public const STATUS_ERROR = 1;
+
+	/**
+	 * @since 8.2.0
+	 */
 	public const STATUS_INDETERMINATE = 2;
+
+	/**
+	 * @since 8.2.0
+	 */
 	public const STATUS_INCOMPLETE_CONF = 3;
+
+	/**
+	 * @since 8.2.0
+	 */
 	public const STATUS_UNAUTHORIZED = 4;
+
+	/**
+	 * @since 8.2.0
+	 */
 	public const STATUS_TIMEOUT = 5;
+
+	/**
+	 * @since 8.2.0
+	 */
 	public const STATUS_NETWORK_ERROR = 6;
 
 	/**
@@ -55,8 +83,8 @@ class StorageNotAvailableException extends HintException {
 	 * @param \Exception|null $previous
 	 * @since 6.0.0
 	 */
-	public function __construct($message = '', $code = self::STATUS_ERROR, \Exception $previous = null) {
-		$l = \OC::$server->getL10N('core');
+	public function __construct($message = '', $code = self::STATUS_ERROR, ?\Exception $previous = null) {
+		$l = \OCP\Util::getL10N('core');
 		parent::__construct($message, $l->t('Storage is temporarily not available'), $code, $previous);
 	}
 

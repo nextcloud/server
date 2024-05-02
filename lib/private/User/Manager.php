@@ -48,13 +48,15 @@ use OCP\IUserManager;
 use OCP\L10N\IFactory;
 use OCP\Server;
 use OCP\Support\Subscription\IAssertion;
-use OCP\User\Backend\IGetRealUIDBackend;
-use OCP\User\Backend\ISearchKnownUsersBackend;
 use OCP\User\Backend\ICheckPasswordBackend;
 use OCP\User\Backend\ICountUsersBackend;
+use OCP\User\Backend\IGetRealUIDBackend;
+use OCP\User\Backend\IProvideEnabledStateBackend;
+use OCP\User\Backend\ISearchKnownUsersBackend;
 use OCP\User\Events\BeforeUserCreatedEvent;
 use OCP\User\Events\UserCreatedEvent;
 use OCP\UserInterface;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class Manager
@@ -77,35 +79,26 @@ class Manager extends PublicEmitter implements IUserManager {
 	/**
 	 * @var \OCP\UserInterface[] $backends
 	 */
-	private $backends = [];
+	private array $backends = [];
 
 	/**
-	 * @var \OC\User\User[] $cachedUsers
+	 * @var array<string,\OC\User\User> $cachedUsers
 	 */
-	private $cachedUsers = [];
+	private array $cachedUsers = [];
 
-	/** @var IConfig */
-	private $config;
-
-	/** @var ICache */
-	private $cache;
-
-	/** @var IEventDispatcher */
-	private $eventDispatcher;
+	private ICache $cache;
 
 	private DisplayNameCache $displayNameCache;
 
-	public function __construct(IConfig $config,
-								ICacheFactory $cacheFactory,
-								IEventDispatcher $eventDispatcher) {
-		$this->config = $config;
+	public function __construct(
+		private IConfig $config,
+		ICacheFactory $cacheFactory,
+		private IEventDispatcher $eventDispatcher,
+	) {
 		$this->cache = new WithLocalCache($cacheFactory->createDistributed('user_backend_map'));
-		$cachedUsers = &$this->cachedUsers;
-		$this->listen('\OC\User', 'postDelete', function ($user) use (&$cachedUsers) {
-			/** @var \OC\User\User $user */
-			unset($cachedUsers[$user->getUID()]);
+		$this->listen('\OC\User', 'postDelete', function (IUser $user): void {
+			unset($this->cachedUsers[$user->getUID()]);
 		});
-		$this->eventDispatcher = $eventDispatcher;
 		$this->displayNameCache = new DisplayNameCache($cacheFactory, $this);
 	}
 
@@ -234,7 +227,7 @@ class Manager extends PublicEmitter implements IUserManager {
 		$result = $this->checkPasswordNoLogging($loginName, $password);
 
 		if ($result === false) {
-			\OC::$server->getLogger()->warning('Login failed: \''. $loginName .'\' (Remote IP: \''. \OC::$server->getRequest()->getRemoteAddress(). '\')', ['app' => 'core']);
+			\OCP\Server::get(LoggerInterface::class)->warning('Login failed: \''. $loginName .'\' (Remote IP: \''. \OC::$server->getRequest()->getRemoteAddress(). '\')', ['app' => 'core']);
 		}
 
 		return $result;
@@ -338,6 +331,35 @@ class Manager extends PublicEmitter implements IUserManager {
 	}
 
 	/**
+	 * @return IUser[]
+	 */
+	public function getDisabledUsers(?int $limit = null, int $offset = 0): array {
+		$users = $this->config->getUsersForUserValue('core', 'enabled', 'false');
+		$users = array_combine(
+			$users,
+			array_map(
+				fn (string $uid): IUser => new LazyUser($uid, $this),
+				$users
+			)
+		);
+
+		$tempLimit = ($limit === null ? null : $limit + $offset);
+		foreach ($this->backends as $backend) {
+			if (($tempLimit !== null) && (count($users) >= $tempLimit)) {
+				break;
+			}
+			if ($backend instanceof IProvideEnabledStateBackend) {
+				$backendUsers = $backend->getDisabledUserList(($tempLimit === null ? null : $tempLimit - count($users)));
+				foreach ($backendUsers as $uid) {
+					$users[$uid] = new LazyUser($uid, $this, null, $backend);
+				}
+			}
+		}
+
+		return array_slice($users, $offset, $limit);
+	}
+
+	/**
 	 * Search known users (from phonebook sync) by displayName
 	 *
 	 * @param string $searcher
@@ -415,7 +437,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * @throws \InvalidArgumentException
 	 */
 	public function createUserFromBackend($uid, $password, UserInterface $backend) {
-		$l = \OC::$server->getL10N('lib');
+		$l = \OCP\Util::getL10N('lib');
 
 		$this->validateUserId($uid, true);
 
@@ -426,7 +448,7 @@ class Manager extends PublicEmitter implements IUserManager {
 
 		// Check if user already exists
 		if ($this->userExists($uid)) {
-			throw new \InvalidArgumentException($l->t('The username is already being used'));
+			throw new \InvalidArgumentException($l->t('The Login is already being used'));
 		}
 
 		/** @deprecated 21.0.0 use BeforeUserCreatedEvent event with the IEventDispatcher instead */
@@ -434,7 +456,7 @@ class Manager extends PublicEmitter implements IUserManager {
 		$this->eventDispatcher->dispatchTyped(new BeforeUserCreatedEvent($uid, $password));
 		$state = $backend->createUser($uid, $password);
 		if ($state === false) {
-			throw new \InvalidArgumentException($l->t('Could not create user'));
+			throw new \InvalidArgumentException($l->t('Could not create account'));
 		}
 		$user = $this->getUserObject($uid, $backend);
 		if ($user instanceof IUser) {
@@ -704,27 +726,27 @@ class Manager extends PublicEmitter implements IUserManager {
 		// Check the name for bad characters
 		// Allowed are: "a-z", "A-Z", "0-9", spaces and "_.@-'"
 		if (preg_match('/[^a-zA-Z0-9 _.@\-\']/', $uid)) {
-			throw new \InvalidArgumentException($l->t('Only the following characters are allowed in a username:'
+			throw new \InvalidArgumentException($l->t('Only the following characters are allowed in an Login:'
 				. ' "a-z", "A-Z", "0-9", spaces and "_.@-\'"'));
 		}
 
 		// No empty username
 		if (trim($uid) === '') {
-			throw new \InvalidArgumentException($l->t('A valid username must be provided'));
+			throw new \InvalidArgumentException($l->t('A valid Login must be provided'));
 		}
 
 		// No whitespace at the beginning or at the end
 		if (trim($uid) !== $uid) {
-			throw new \InvalidArgumentException($l->t('Username contains whitespace at the beginning or at the end'));
+			throw new \InvalidArgumentException($l->t('Login contains whitespace at the beginning or at the end'));
 		}
 
 		// Username only consists of 1 or 2 dots (directory traversal)
 		if ($uid === '.' || $uid === '..') {
-			throw new \InvalidArgumentException($l->t('Username must not consist of dots only'));
+			throw new \InvalidArgumentException($l->t('Login must not consist of dots only'));
 		}
 
 		if (!$this->verifyUid($uid, $checkDataDirectory)) {
-			throw new \InvalidArgumentException($l->t('Username is invalid because files already exist for this user'));
+			throw new \InvalidArgumentException($l->t('Login is invalid because files already exist for this user'));
 		}
 	}
 

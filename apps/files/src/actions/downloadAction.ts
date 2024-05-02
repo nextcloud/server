@@ -19,13 +19,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import { Permission, Node, FileType } from '@nextcloud/files'
+import { generateUrl } from '@nextcloud/router'
+import { FileAction, Permission, Node, FileType, View } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 import ArrowDownSvg from '@mdi/svg/svg/arrow-down.svg?raw'
-
-import { registerFileAction, FileAction, DefaultType } from '../services/FileAction'
-import { generateUrl } from '@nextcloud/router'
-import type { Navigation } from '../services/Navigation'
 
 const triggerDownload = function(url: string) {
 	const hiddenElement = document.createElement('a')
@@ -44,28 +41,55 @@ const downloadNodes = function(dir: string, nodes: Node[]) {
 	triggerDownload(url)
 }
 
+const isDownloadable = function(node: Node) {
+	if ((node.permissions & Permission.READ) === 0) {
+		return false
+	}
+
+	// If the mount type is a share, ensure it got download permissions.
+	if (node.attributes['mount-type'] === 'shared') {
+		const shareAttributes = JSON.parse(node.attributes['share-attributes'] ?? 'null')
+		const downloadAttribute = shareAttributes?.find?.((attribute: { scope: string; key: string }) => attribute.scope === 'permissions' && attribute.key === 'download')
+		if (downloadAttribute !== undefined && downloadAttribute.enabled === false) {
+			return false
+		}
+	}
+
+	return true
+}
+
 export const action = new FileAction({
 	id: 'download',
 	displayName: () => t('files', 'Download'),
 	iconSvgInline: () => ArrowDownSvg,
 
 	enabled(nodes: Node[]) {
-		return nodes.length > 0 && nodes
-			.map(node => node.permissions)
-			.every(permission => (permission & Permission.READ) !== 0)
+		if (nodes.length === 0) {
+			return false
+		}
+
+		// We can download direct dav files. But if we have
+		// some folders, we need to use the /apps/files/ajax/download.php
+		// endpoint, which only supports user root folder.
+		if (nodes.some(node => node.type === FileType.Folder)
+			&& nodes.some(node => !node.root?.startsWith('/files'))) {
+			return false
+		}
+
+		return nodes.every(isDownloadable)
 	},
 
-	async exec(node: Node, view: Navigation, dir: string) {
+	async exec(node: Node, view: View, dir: string) {
 		if (node.type === FileType.Folder) {
 			downloadNodes(dir, [node])
 			return null
 		}
 
-		triggerDownload(node.source)
+		triggerDownload(node.encodedSource)
 		return null
 	},
 
-	async execBatch(nodes: Node[], view: Navigation, dir: string) {
+	async execBatch(nodes: Node[], view: View, dir: string) {
 		if (nodes.length === 1) {
 			this.exec(nodes[0], view, dir)
 			return [null]
@@ -77,5 +101,3 @@ export const action = new FileAction({
 
 	order: 30,
 })
-
-registerFileAction(action)

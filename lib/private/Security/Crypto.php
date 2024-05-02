@@ -32,7 +32,6 @@ namespace OC\Security;
 use Exception;
 use OCP\IConfig;
 use OCP\Security\ICrypto;
-use OCP\Security\ISecureRandom;
 use phpseclib\Crypt\AES;
 use phpseclib\Crypt\Hash;
 
@@ -47,20 +46,13 @@ use phpseclib\Crypt\Hash;
  * @package OC\Security
  */
 class Crypto implements ICrypto {
-	/** @var AES $cipher */
-	private $cipher;
-	/** @var int */
-	private $ivLength = 16;
-	/** @var IConfig */
-	private $config;
+	private AES $cipher;
+	private int $ivLength = 16;
 
-	/**
-	 * @param IConfig $config
-	 * @param ISecureRandom $random
-	 */
-	public function __construct(IConfig $config) {
+	public function __construct(
+		private IConfig $config,
+	) {
 		$this->cipher = new AES();
-		$this->config = $config;
 	}
 
 	/**
@@ -84,7 +76,6 @@ class Crypto implements ICrypto {
 	/**
 	 * Encrypts a value and adds an HMAC (Encrypt-Then-MAC)
 	 *
-	 * @param string $plaintext
 	 * @param string $password Password to encrypt, if not specified the secret from config.php will be taken
 	 * @return string Authenticated ciphertext
 	 * @throws Exception if it was not possible to gather sufficient entropy
@@ -115,9 +106,7 @@ class Crypto implements ICrypto {
 
 	/**
 	 * Decrypts a value and verifies the HMAC (Encrypt-Then-Mac)
-	 * @param string $authenticatedCiphertext
 	 * @param string $password Password to encrypt, if not specified the secret from config.php will be taken
-	 * @return string plaintext
 	 * @throws Exception If the HMAC does not match
 	 * @throws Exception If the decryption failed
 	 */

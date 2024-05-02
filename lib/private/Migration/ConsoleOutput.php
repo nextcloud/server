@@ -34,34 +34,35 @@ use Symfony\Component\Console\Output\OutputInterface;
  * @package OC\Migration
  */
 class ConsoleOutput implements IOutput {
-	/** @var OutputInterface */
-	private $output;
+	private ?ProgressBar $progressBar = null;
 
-	/** @var ProgressBar */
-	private $progressBar;
+	public function __construct(
+		private OutputInterface $output,
+	) {
+	}
 
-	public function __construct(OutputInterface $output) {
-		$this->output = $output;
+	public function debug(string $message): void {
+		$this->output->writeln($message, OutputInterface::VERBOSITY_VERBOSE);
 	}
 
 	/**
 	 * @param string $message
 	 */
-	public function info($message) {
+	public function info($message): void {
 		$this->output->writeln("<info>$message</info>");
 	}
 
 	/**
 	 * @param string $message
 	 */
-	public function warning($message) {
+	public function warning($message): void {
 		$this->output->writeln("<comment>$message</comment>");
 	}
 
 	/**
 	 * @param int $max
 	 */
-	public function startProgress($max = 0) {
+	public function startProgress($max = 0): void {
 		if (!is_null($this->progressBar)) {
 			$this->progressBar->finish();
 		}
@@ -73,7 +74,7 @@ class ConsoleOutput implements IOutput {
 	 * @param int $step
 	 * @param string $description
 	 */
-	public function advance($step = 1, $description = '') {
+	public function advance($step = 1, $description = ''): void {
 		if (is_null($this->progressBar)) {
 			$this->progressBar = new ProgressBar($this->output);
 			$this->progressBar->start();
@@ -84,7 +85,7 @@ class ConsoleOutput implements IOutput {
 		}
 	}
 
-	public function finishProgress() {
+	public function finishProgress(): void {
 		if (is_null($this->progressBar)) {
 			return;
 		}

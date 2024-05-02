@@ -36,7 +36,9 @@ use OCP\Files\Search\ISearchBinaryOperator;
 use OCP\Files\Search\ISearchComparison;
 
 class SystemTagsInFilesDetector {
-	public function __construct(protected QuerySearchHelper $searchHelper) {
+	public function __construct(
+		protected QuerySearchHelper $searchHelper,
+	) {
 	}
 
 	public function detectAssignedSystemTagsIn(

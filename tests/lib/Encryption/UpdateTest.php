@@ -21,14 +21,14 @@
 
 namespace Test\Encryption;
 
+use OC\Encryption\File;
 use OC\Encryption\Update;
 use OC\Encryption\Util;
 use OC\Files\Mount\Manager;
 use OC\Files\View;
+use OCP\Encryption\IEncryptionModule;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
-use OC\Encryption\File;
-use OCP\Encryption\IEncryptionModule;
 
 class UpdateTest extends TestCase {
 	/** @var \OC\Encryption\Update */

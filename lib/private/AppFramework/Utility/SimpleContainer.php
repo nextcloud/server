@@ -37,8 +37,8 @@ use Pimple\Container;
 use Psr\Container\ContainerInterface;
 use ReflectionClass;
 use ReflectionException;
-use ReflectionParameter;
 use ReflectionNamedType;
+use ReflectionParameter;
 use function class_exists;
 
 /**
@@ -60,7 +60,7 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 	 * @psalm-param S $id
 	 * @psalm-return (S is class-string<T> ? T : mixed)
 	 */
-	public function get(string $id) {
+	public function get(string $id): mixed {
 		return $this->query($id);
 	}
 
@@ -105,6 +105,11 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 					try {
 						return $this->query($resolveName);
 					} catch (QueryException $e2) {
+						// Pass null if typed and nullable
+						if ($parameter->allowsNull() && ($parameterType instanceof ReflectionNamedType)) {
+							return null;
+						}
+
 						// don't lose the error we got while trying to query by type
 						throw new QueryException($e->getMessage(), (int) $e->getCode(), $e);
 					}
@@ -223,8 +228,8 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 	/**
 	 * @deprecated 20.0.0 use \OCP\IContainer::registerService
 	 */
-	public function offsetSet($id, $service): void {
-		$this->container->offsetSet($id, $service);
+	public function offsetSet($offset, $value): void {
+		$this->container->offsetSet($offset, $value);
 	}
 
 	/**

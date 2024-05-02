@@ -24,7 +24,6 @@ import Vue from 'vue'
 import { getRequestToken } from '@nextcloud/auth'
 import { loadState } from '@nextcloud/initial-state'
 import { translate as t } from '@nextcloud/l10n'
-import '@nextcloud/dialogs/dist/index.css'
 
 import AvatarSection from './components/PersonalInfo/AvatarSection.vue'
 import DetailsSection from './components/PersonalInfo/DetailsSection.vue'

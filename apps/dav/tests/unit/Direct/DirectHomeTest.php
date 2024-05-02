@@ -27,7 +27,6 @@ declare(strict_types=1);
  */
 namespace OCA\DAV\Tests\Unit\Direct;
 
-use OC\Security\Bruteforce\Throttler;
 use OCA\DAV\Db\Direct;
 use OCA\DAV\Db\DirectMapper;
 use OCA\DAV\Direct\DirectFile;
@@ -37,6 +36,7 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\IRootFolder;
 use OCP\IRequest;
+use OCP\Security\Bruteforce\IThrottler;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\MethodNotAllowed;
 use Sabre\DAV\Exception\NotFound;
@@ -53,7 +53,7 @@ class DirectHomeTest extends TestCase {
 	/** @var ITimeFactory|\PHPUnit\Framework\MockObject\MockObject */
 	private $timeFactory;
 
-	/** @var Throttler|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IThrottler|\PHPUnit\Framework\MockObject\MockObject */
 	private $throttler;
 
 	/** @var IRequest */
@@ -71,7 +71,7 @@ class DirectHomeTest extends TestCase {
 		$this->directMapper = $this->createMock(DirectMapper::class);
 		$this->rootFolder = $this->createMock(IRootFolder::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
-		$this->throttler = $this->createMock(Throttler::class);
+		$this->throttler = $this->createMock(IThrottler::class);
 		$this->request = $this->createMock(IRequest::class);
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 

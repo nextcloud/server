@@ -30,6 +30,7 @@ use OCP\ICache;
  *
  * @since 25.0.0
  * @template T
+ * @template-implements \ArrayAccess<string,T>
  */
 class CappedMemoryCache implements ICache, \ArrayAccess {
 	private int $capacity;

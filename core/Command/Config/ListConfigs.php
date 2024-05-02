@@ -91,9 +91,7 @@ class ListConfigs extends Base {
 
 			default:
 				$configs = [
-					'apps' => [
-						$app => $this->getAppConfigs($app, $noSensitiveValues),
-					],
+					'apps' => [$app => $this->getAppConfigs($app, $noSensitiveValues)],
 				];
 		}
 
@@ -107,7 +105,7 @@ class ListConfigs extends Base {
 	 * @param bool $noSensitiveValues
 	 * @return array
 	 */
-	protected function getSystemConfigs($noSensitiveValues) {
+	protected function getSystemConfigs(bool $noSensitiveValues): array {
 		$keys = $this->systemConfig->getKeys();
 
 		$configs = [];
@@ -133,7 +131,7 @@ class ListConfigs extends Base {
 	 * @param bool $noSensitiveValues
 	 * @return array
 	 */
-	protected function getAppConfigs($app, $noSensitiveValues) {
+	protected function getAppConfigs(string $app, bool $noSensitiveValues) {
 		if ($noSensitiveValues) {
 			return $this->appConfig->getFilteredValues($app, false);
 		} else {

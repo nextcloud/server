@@ -97,7 +97,7 @@ class Event extends Base {
 				// The calendar app needs to be manually loaded for the routes to be loaded
 				OC_App::loadApp('calendar');
 				$linkData = $eventData['link'];
-				$objectId = base64_encode('/remote.php/dav/calendars/' . $linkData['owner'] . '/' . $linkData['calendar_uri'] . '/' . $linkData['object_uri']);
+				$objectId = base64_encode($this->url->getWebroot() . '/remote.php/dav/calendars/' . $linkData['owner'] . '/' . $linkData['calendar_uri'] . '/' . $linkData['object_uri']);
 				$link = [
 					'view' => 'dayGridMonth',
 					'timeRange' => 'now',
@@ -121,7 +121,7 @@ class Event extends Base {
 	 * @throws \InvalidArgumentException
 	 * @since 11.0.0
 	 */
-	public function parse($language, IEvent $event, IEvent $previousEvent = null) {
+	public function parse($language, IEvent $event, ?IEvent $previousEvent = null) {
 		if ($event->getApp() !== 'dav' || $event->getType() !== 'calendar_event') {
 			throw new \InvalidArgumentException();
 		}

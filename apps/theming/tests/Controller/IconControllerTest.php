@@ -33,6 +33,7 @@ use OCA\Theming\Controller\IconController;
 use OCA\Theming\IconBuilder;
 use OCA\Theming\ImageManager;
 use OCA\Theming\ThemingDefaults;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\FileDisplayResponse;
@@ -57,6 +58,8 @@ class IconControllerTest extends TestCase {
 	private $iconBuilder;
 	/** @var FileAccessHelper|\PHPUnit\Framework\MockObject\MockObject */
 	private $fileAccessHelper;
+	/** @var IAppManager|\PHPUnit\Framework\MockObject\MockObject */
+	private $appManager;
 	/** @var ImageManager */
 	private $imageManager;
 
@@ -66,6 +69,7 @@ class IconControllerTest extends TestCase {
 		$this->iconBuilder = $this->createMock(IconBuilder::class);
 		$this->imageManager = $this->createMock(ImageManager::class);
 		$this->fileAccessHelper = $this->createMock(FileAccessHelper::class);
+		$this->appManager = $this->createMock(IAppManager::class);
 
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
 		$this->timeFactory->expects($this->any())
@@ -80,7 +84,8 @@ class IconControllerTest extends TestCase {
 			$this->themingDefaults,
 			$this->iconBuilder,
 			$this->imageManager,
-			$this->fileAccessHelper
+			$this->fileAccessHelper,
+			$this->appManager,
 		);
 
 		parent::setUp();

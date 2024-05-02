@@ -23,14 +23,14 @@ import Vue from 'vue'
 
 import { mapState } from 'pinia'
 import { useViewConfigStore } from '../store/viewConfig'
-import type { Navigation } from '../services/Navigation'
+import { Navigation, View } from '@nextcloud/files'
 
 export default Vue.extend({
 	computed: {
 		...mapState(useViewConfigStore, ['getConfig', 'setSortingBy', 'toggleSortingDirection']),
 
-		currentView(): Navigation {
-			return this.$navigation.active
+		currentView(): View {
+			return (this.$navigation as Navigation).active as View
 		},
 
 		/**
@@ -47,7 +47,7 @@ export default Vue.extend({
 		 */
 		isAscSorting(): boolean {
 			const sortingDirection = this.getConfig(this.currentView.id)?.sorting_direction
-			return sortingDirection === 'asc'
+			return sortingDirection !== 'desc'
 		},
 	},
 

@@ -29,8 +29,11 @@ namespace OC\Contacts\ContactsMenu;
 
 use OCP\Contacts\ContactsMenu\IAction;
 use OCP\Contacts\ContactsMenu\IEntry;
+use function array_merge;
 
 class Entry implements IEntry {
+	public const PROPERTY_STATUS_MESSAGE_TIMESTAMP = 'statusMessageTimestamp';
+
 	/** @var string|int|null */
 	private $id = null;
 
@@ -49,6 +52,11 @@ class Entry implements IEntry {
 	private array $actions = [];
 
 	private array $properties = [];
+
+	private ?string $status = null;
+	private ?string $statusMessage = null;
+	private ?int $statusMessageTimestamp = null;
+	private ?string $statusIcon = null;
 
 	public function setId(string $id): void {
 		$this->id = $id;
@@ -102,6 +110,16 @@ class Entry implements IEntry {
 		$this->sortActions();
 	}
 
+	public function setStatus(string $status,
+		?string $statusMessage = null,
+		?int $statusMessageTimestamp = null,
+		?string $icon = null): void {
+		$this->status = $status;
+		$this->statusMessage = $statusMessage;
+		$this->statusMessageTimestamp = $statusMessageTimestamp;
+		$this->statusIcon = $icon;
+	}
+
 	/**
 	 * @return IAction[]
 	 */
@@ -127,11 +145,15 @@ class Entry implements IEntry {
 		});
 	}
 
+	public function setProperty(string $propertyName, mixed $value) {
+		$this->properties[$propertyName] = $value;
+	}
+
 	/**
-	 * @param array $contact key-value array containing additional properties
+	 * @param array $properties key-value array containing additional properties
 	 */
-	public function setProperties(array $contact): void {
-		$this->properties = $contact;
+	public function setProperties(array $properties): void {
+		$this->properties = array_merge($this->properties, $properties);
 	}
 
 	public function getProperty(string $key): mixed {
@@ -142,7 +164,7 @@ class Entry implements IEntry {
 	}
 
 	/**
-	 * @return array{id: int|string|null, fullName: string, avatar: string|null, topAction: mixed, actions: array, lastMessage: '', emailAddresses: string[], profileTitle: string|null, profileUrl: string|null}
+	 * @return array{id: int|string|null, fullName: string, avatar: string|null, topAction: mixed, actions: array, lastMessage: '', emailAddresses: string[], profileTitle: string|null, profileUrl: string|null, status: string|null, statusMessage: null|string, statusMessageTimestamp: null|int, statusIcon: null|string, isUser: bool, uid: mixed}
 	 */
 	public function jsonSerialize(): array {
 		$topAction = !empty($this->actions) ? $this->actions[0]->jsonSerialize() : null;
@@ -160,6 +182,20 @@ class Entry implements IEntry {
 			'emailAddresses' => $this->getEMailAddresses(),
 			'profileTitle' => $this->profileTitle,
 			'profileUrl' => $this->profileUrl,
+			'status' => $this->status,
+			'statusMessage' => $this->statusMessage,
+			'statusMessageTimestamp' => $this->statusMessageTimestamp,
+			'statusIcon' => $this->statusIcon,
+			'isUser' => $this->getProperty('isUser') === true,
+			'uid' => $this->getProperty('UID'),
 		];
+	}
+
+	public function getStatusMessage(): ?string {
+		return $this->statusMessage;
+	}
+
+	public function getStatusMessageTimestamp(): ?int {
+		return $this->statusMessageTimestamp;
 	}
 }

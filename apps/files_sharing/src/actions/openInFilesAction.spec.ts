@@ -19,32 +19,29 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import { action } from './openInFilesAction'
 import { expect } from '@jest/globals'
-import { File, Permission } from '@nextcloud/files'
-import { DefaultType, FileAction } from '../../../files/src/services/FileAction'
-import * as eventBus from '@nextcloud/event-bus'
-import axios from '@nextcloud/axios'
-import type { Navigation } from '../../../files/src/services/Navigation'
+import { File, Permission, View, DefaultType, FileAction } from '@nextcloud/files'
+
 import '../main'
+import { action } from './openInFilesAction'
 import { deletedSharesViewId, pendingSharesViewId, sharedWithOthersViewId, sharedWithYouViewId, sharesViewId, sharingByLinksViewId } from '../views/shares'
 
 const view = {
 	id: 'files',
 	name: 'Files',
-} as Navigation
+} as View
 
 const validViews = [
 	sharesViewId,
 	sharedWithYouViewId,
 	sharedWithOthersViewId,
 	sharingByLinksViewId,
-].map(id => ({ id, name: id })) as Navigation[]
+].map(id => ({ id, name: id })) as View[]
 
 const invalidViews = [
 	deletedSharesViewId,
 	pendingSharesViewId,
-].map(id => ({ id, name: id })) as Navigation[]
+].map(id => ({ id, name: id })) as View[]
 
 describe('Open in files action conditions tests', () => {
 	test('Default values', () => {
@@ -92,6 +89,6 @@ describe('Open in files action execute tests', () => {
 		// Silent action
 		expect(exec).toBe(null)
 		expect(goToRouteMock).toBeCalledTimes(1)
-		expect(goToRouteMock).toBeCalledWith(null, { fileid: 1, view: 'files' }, { fileid: 1, dir: '/Foo' })
+		expect(goToRouteMock).toBeCalledWith(null, { fileid: 1, view: 'files' }, { dir: '/Foo' })
 	})
 })

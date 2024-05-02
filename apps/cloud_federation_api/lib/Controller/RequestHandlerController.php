@@ -4,6 +4,7 @@
  *
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Maxence Lange <maxence@artificial-owl.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Kate Döen <kate.doeen@nextcloud.com>
  *
@@ -29,6 +30,7 @@ use OCA\CloudFederationAPI\Config;
 use OCA\CloudFederationAPI\ResponseDefinitions;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\Federation\Exceptions\ActionNotSupportedException;
 use OCP\Federation\Exceptions\AuthenticationFailedException;
@@ -50,57 +52,25 @@ use Psr\Log\LoggerInterface;
  *
  * @package OCA\CloudFederationAPI\Controller
  *
- * @psalm-import-type CloudFederationApiAddShare from ResponseDefinitions
- * @psalm-import-type CloudFederationApiValidationError from ResponseDefinitions
- * @psalm-import-type CloudFederationApiError from ResponseDefinitions
+ * @psalm-import-type CloudFederationAPIAddShare from ResponseDefinitions
+ * @psalm-import-type CloudFederationAPIValidationError from ResponseDefinitions
+ * @psalm-import-type CloudFederationAPIError from ResponseDefinitions
  */
+#[OpenAPI(scope: OpenAPI::SCOPE_FEDERATION)]
 class RequestHandlerController extends Controller {
-
-	/** @var LoggerInterface */
-	private $logger;
-
-	/** @var IUserManager */
-	private $userManager;
-
-	/** @var IGroupManager */
-	private $groupManager;
-
-	/** @var IURLGenerator */
-	private $urlGenerator;
-
-	/** @var ICloudFederationProviderManager */
-	private $cloudFederationProviderManager;
-
-	/** @var Config */
-	private $config;
-
-	/** @var ICloudFederationFactory */
-	private $factory;
-
-	/** @var ICloudIdManager */
-	private $cloudIdManager;
-
-	public function __construct($appName,
-								IRequest $request,
-								LoggerInterface $logger,
-								IUserManager $userManager,
-								IGroupManager $groupManager,
-								IURLGenerator $urlGenerator,
-								ICloudFederationProviderManager $cloudFederationProviderManager,
-								Config $config,
-								ICloudFederationFactory $factory,
-								ICloudIdManager $cloudIdManager
+	public function __construct(
+		string $appName,
+		IRequest $request,
+		private LoggerInterface $logger,
+		private IUserManager $userManager,
+		private IGroupManager $groupManager,
+		private IURLGenerator $urlGenerator,
+		private ICloudFederationProviderManager $cloudFederationProviderManager,
+		private Config $config,
+		private ICloudFederationFactory $factory,
+		private ICloudIdManager $cloudIdManager
 	) {
 		parent::__construct($appName, $request);
-
-		$this->logger = $logger;
-		$this->userManager = $userManager;
-		$this->groupManager = $groupManager;
-		$this->urlGenerator = $urlGenerator;
-		$this->cloudFederationProviderManager = $cloudFederationProviderManager;
-		$this->config = $config;
-		$this->factory = $factory;
-		$this->cloudIdManager = $cloudIdManager;
 	}
 
 	/**
@@ -122,13 +92,12 @@ class RequestHandlerController extends Controller {
 	 * @param string $shareType 'group' or 'user' share
 	 * @param string $resourceType 'file', 'calendar',...
 	 *
-	 * @return JSONResponse<Http::STATUS_CREATED, CloudFederationApiAddShare, array{}>|JSONResponse<Http::STATUS_BAD_REQUEST, CloudFederationApiValidationError, array{}>|JSONResponse<Http::STATUS_NOT_IMPLEMENTED, CloudFederationApiError, array{}>
+	 * @return JSONResponse<Http::STATUS_CREATED, CloudFederationAPIAddShare, array{}>|JSONResponse<Http::STATUS_BAD_REQUEST, CloudFederationAPIValidationError, array{}>|JSONResponse<Http::STATUS_NOT_IMPLEMENTED, CloudFederationAPIError, array{}>
 	 * 201: The notification was successfully received. The display name of the recipient might be returned in the body
 	 * 400: Bad request due to invalid parameters, e.g. when `shareWith` is not found or required properties are missing
 	 * 501: Share type or the resource type is not supported
 	 */
 	public function addShare($shareWith, $name, $description, $providerId, $owner, $ownerDisplayName, $sharedBy, $sharedByDisplayName, $protocol, $shareType, $resourceType) {
-
 		// check if all required parameters are set
 		if ($shareWith === null ||
 			$name === null ||
@@ -246,14 +215,13 @@ class RequestHandlerController extends Controller {
 	 * @param string|null $providerId ID of the share
 	 * @param array<string, mixed>|null $notification The actual payload of the notification
 	 *
-	 * @return JSONResponse<Http::STATUS_CREATED, array<string, mixed>, array{}>|JSONResponse<Http::STATUS_BAD_REQUEST, CloudFederationApiValidationError, array{}>|JSONResponse<Http::STATUS_FORBIDDEN|Http::STATUS_NOT_IMPLEMENTED, CloudFederationApiError, array{}>
+	 * @return JSONResponse<Http::STATUS_CREATED, array<string, mixed>, array{}>|JSONResponse<Http::STATUS_BAD_REQUEST, CloudFederationAPIValidationError, array{}>|JSONResponse<Http::STATUS_FORBIDDEN|Http::STATUS_NOT_IMPLEMENTED, CloudFederationAPIError, array{}>
 	 * 201: The notification was successfully received
 	 * 400: Bad request due to invalid parameters, e.g. when `type` is invalid or missing
 	 * 403: Getting resource is not allowed
 	 * 501: The resource type is not supported
 	 */
 	public function receiveNotification($notificationType, $resourceType, $providerId, ?array $notification) {
-
 		// check if all required parameters are set
 		if ($notificationType === null ||
 			$resourceType === null ||
@@ -311,7 +279,7 @@ class RequestHandlerController extends Controller {
 			);
 		}
 
-		return new JSONResponse($result,Http::STATUS_CREATED);
+		return new JSONResponse($result, Http::STATUS_CREATED);
 	}
 
 	/**

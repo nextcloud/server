@@ -38,6 +38,7 @@ use OC\AppFramework\Routing\RouteConfig;
 use OC\Route\Router;
 use OC\ServerContainer;
 use OCP\Route\IRouter;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class App
@@ -72,7 +73,7 @@ class App {
 	 */
 	public function __construct(string $appName, array $urlParams = []) {
 		$runIsSetupDirectly = \OC::$server->getConfig()->getSystemValueBool('debug')
-			&& (PHP_VERSION_ID < 70400 || (PHP_VERSION_ID >= 70400 && !ini_get('zend.exception_ignore_args')));
+			&& !ini_get('zend.exception_ignore_args');
 
 		if ($runIsSetupDirectly) {
 			$applicationClassName = get_class($this);
@@ -98,8 +99,9 @@ class App {
 			}
 
 			if (!$setUpViaQuery && $applicationClassName !== \OCP\AppFramework\App::class) {
-				\OC::$server->getLogger()->logException($e, [
+				\OCP\Server::get(LoggerInterface::class)->error($e->getMessage(), [
 					'app' => $appName,
+					'exception' => $e,
 				]);
 			}
 		}

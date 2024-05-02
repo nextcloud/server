@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright 2016 Roeland Jago Douma <roeland@famdouma.nl>
  *
@@ -23,10 +26,11 @@
  */
 namespace OC\Repair\Owncloud;
 
-use OC\BackgroundJob\QueuedJob;
+use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\BackgroundJob\QueuedJob;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
-use OCP\Files\Storage;
+use OCP\Files\Storage\IStorage;
 use OCP\IAvatarManager;
 use OCP\IUser;
 use OCP\IUserManager;
@@ -34,22 +38,16 @@ use Psr\Log\LoggerInterface;
 use function is_resource;
 
 class MoveAvatarsBackgroundJob extends QueuedJob {
-	/** @var IUserManager */
-	private $userManager;
+	private ?IStorage $owncloudAvatarStorage = null;
 
-	/** @var LoggerInterface */
-	private $logger;
-
-	/** @var IAvatarManager */
-	private $avatarManager;
-
-	/** @var Storage */
-	private $owncloudAvatarStorage;
-
-	public function __construct(IUserManager $userManager, LoggerInterface $logger, IAvatarManager $avatarManager, IRootFolder $rootFolder) {
-		$this->userManager = $userManager;
-		$this->logger = $logger;
-		$this->avatarManager = $avatarManager;
+	public function __construct(
+		private IUserManager $userManager,
+		private LoggerInterface $logger,
+		private IAvatarManager $avatarManager,
+		private IRootFolder $rootFolder,
+		ITimeFactory $time,
+	) {
+		parent::__construct($time);
 		try {
 			$this->owncloudAvatarStorage = $rootFolder->get('avatars')->getStorage();
 		} catch (\Exception $e) {
@@ -69,7 +67,7 @@ class MoveAvatarsBackgroundJob extends QueuedJob {
 		}
 
 		$counter = 0;
-		$this->userManager->callForSeenUsers(function (IUser $user) use ($counter) {
+		$this->userManager->callForSeenUsers(function (IUser $user) use (&$counter) {
 			$uid = $user->getUID();
 
 			$path = 'avatars/' . $this->buildOwnCloudAvatarPath($uid);

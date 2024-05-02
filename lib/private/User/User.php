@@ -40,6 +40,7 @@ use OC\Avatar\AvatarManager;
 use OC\Hooks\Emitter;
 use OC_Helper;
 use OCP\Accounts\IAccountManager;
+use OCP\Comments\ICommentsManager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Group\Events\BeforeUserRemovedEvent;
 use OCP\Group\Events\UserRemovedEvent;
@@ -49,17 +50,17 @@ use OCP\IImage;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserBackend;
+use OCP\User\Backend\IGetHomeBackend;
+use OCP\User\Backend\IProvideAvatarBackend;
+use OCP\User\Backend\IProvideEnabledStateBackend;
+use OCP\User\Backend\ISetDisplayNameBackend;
+use OCP\User\Backend\ISetPasswordBackend;
 use OCP\User\Events\BeforePasswordUpdatedEvent;
 use OCP\User\Events\BeforeUserDeletedEvent;
 use OCP\User\Events\PasswordUpdatedEvent;
 use OCP\User\Events\UserChangedEvent;
 use OCP\User\Events\UserDeletedEvent;
 use OCP\User\GetQuotaEvent;
-use OCP\User\Backend\ISetDisplayNameBackend;
-use OCP\User\Backend\ISetPasswordBackend;
-use OCP\User\Backend\IProvideAvatarBackend;
-use OCP\User\Backend\IProvideEnabledStateBackend;
-use OCP\User\Backend\IGetHomeBackend;
 use OCP\UserInterface;
 use function json_decode;
 use function json_encode;
@@ -102,7 +103,7 @@ class User implements IUser {
 	/** @var IURLGenerator */
 	private $urlGenerator;
 
-	public function __construct(string $uid, ?UserInterface $backend, IEventDispatcher $dispatcher, $emitter = null, IConfig $config = null, $urlGenerator = null) {
+	public function __construct(string $uid, ?UserInterface $backend, IEventDispatcher $dispatcher, $emitter = null, ?IConfig $config = null, $urlGenerator = null) {
 		$this->uid = $uid;
 		$this->backend = $backend;
 		$this->emitter = $emitter;
@@ -290,8 +291,8 @@ class User implements IUser {
 			// Delete the user's keys in preferences
 			\OC::$server->getConfig()->deleteAllUserValues($this->uid);
 
-			\OC::$server->getCommentsManager()->deleteReferencesOfActor('users', $this->uid);
-			\OC::$server->getCommentsManager()->deleteReadMarksFromUser($this);
+			\OC::$server->get(ICommentsManager::class)->deleteReferencesOfActor('users', $this->uid);
+			\OC::$server->get(ICommentsManager::class)->deleteReadMarksFromUser($this);
 
 			/** @var AvatarManager $avatarManager */
 			$avatarManager = \OCP\Server::get(AvatarManager::class);
@@ -576,7 +577,7 @@ class User implements IUser {
 	public function getAvatarImage($size) {
 		// delay the initialization
 		if (is_null($this->avatarManager)) {
-			$this->avatarManager = \OC::$server->getAvatarManager();
+			$this->avatarManager = \OC::$server->get(IAvatarManager::class);
 		}
 
 		$avatar = $this->avatarManager->getAvatar($this->uid);
@@ -597,7 +598,7 @@ class User implements IUser {
 	public function getCloudId() {
 		$uid = $this->getUID();
 		$server = rtrim($this->urlGenerator->getAbsoluteURL('/'), '/');
-		if (substr($server, -10) === '/index.php') {
+		if (str_ends_with($server, '/index.php')) {
 			$server = substr($server, 0, -10);
 		}
 		$server = $this->removeProtocolFromUrl($server);

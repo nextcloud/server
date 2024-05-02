@@ -14,6 +14,8 @@ use OC\App\InfoParser;
 use OC\AppConfig;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IAppConfig;
+use OCP\IURLGenerator;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -537,6 +539,7 @@ class AppTest extends \Test\TestCase {
 
 
 	private function setupAppConfigMock() {
+		/** @var AppConfig|MockObject */
 		$appConfig = $this->getMockBuilder(AppConfig::class)
 			->setMethods(['getValues'])
 			->setConstructorArgs([\OC::$server->getDatabaseConnection()])
@@ -557,11 +560,11 @@ class AppTest extends \Test\TestCase {
 		$this->overwriteService(AppManager::class, new AppManager(
 			\OC::$server->getUserSession(),
 			\OC::$server->getConfig(),
-			$appConfig,
 			\OC::$server->getGroupManager(),
 			\OC::$server->getMemCacheFactory(),
 			\OC::$server->get(IEventDispatcher::class),
-			\OC::$server->get(LoggerInterface::class)
+			\OC::$server->get(LoggerInterface::class),
+			\OC::$server->get(IURLGenerator::class),
 		));
 	}
 

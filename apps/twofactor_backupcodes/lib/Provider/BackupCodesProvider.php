@@ -61,10 +61,10 @@ class BackupCodesProvider implements IDeactivatableByAdmin, IProvidesPersonalSet
 	 * @param AppManager $appManager
 	 */
 	public function __construct(string $appName,
-								BackupCodeStorage $storage,
-								IL10N $l10n,
-								AppManager $appManager,
-								IInitialStateService $initialStateService) {
+		BackupCodeStorage $storage,
+		IL10N $l10n,
+		AppManager $appManager,
+		IInitialStateService $initialStateService) {
 		$this->appName = $appName;
 		$this->l10n = $l10n;
 		$this->storage = $storage;

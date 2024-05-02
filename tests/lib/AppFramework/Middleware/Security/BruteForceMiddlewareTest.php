@@ -24,11 +24,11 @@ namespace Test\AppFramework\Middleware\Security;
 
 use OC\AppFramework\Middleware\Security\BruteForceMiddleware;
 use OC\AppFramework\Utility\ControllerMethodReflector;
-use OC\Security\Bruteforce\Throttler;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\Attribute\BruteForceProtection;
 use OCP\AppFramework\Http\Response;
 use OCP\IRequest;
+use OCP\Security\Bruteforce\IThrottler;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
@@ -55,7 +55,7 @@ class TestController extends Controller {
 class BruteForceMiddlewareTest extends TestCase {
 	/** @var ControllerMethodReflector */
 	private $reflector;
-	/** @var Throttler|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IThrottler|\PHPUnit\Framework\MockObject\MockObject */
 	private $throttler;
 	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
 	private $request;
@@ -67,7 +67,7 @@ class BruteForceMiddlewareTest extends TestCase {
 		parent::setUp();
 
 		$this->reflector = new ControllerMethodReflector();
-		$this->throttler = $this->createMock(Throttler::class);
+		$this->throttler = $this->createMock(IThrottler::class);
 		$this->request = $this->createMock(IRequest::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 

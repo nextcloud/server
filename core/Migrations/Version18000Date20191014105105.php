@@ -29,11 +29,11 @@ declare(strict_types=1);
 namespace OC\Core\Migrations;
 
 use Closure;
-use OCP\DB\Types;
 use OCP\DB\ISchemaWrapper;
+use OCP\DB\Types;
 use OCP\IDBConnection;
-use OCP\Migration\SimpleMigrationStep;
 use OCP\Migration\IOutput;
+use OCP\Migration\SimpleMigrationStep;
 
 class Version18000Date20191014105105 extends SimpleMigrationStep {
 	public function __construct(

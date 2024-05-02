@@ -405,6 +405,11 @@ class CommentsNodeTest extends \Test\TestCase {
 			$ns . 'referenceId' => 'ref',
 			$ns . 'isUnread' => null,
 			$ns . 'reactions' => [],
+			$ns . 'metaData' => [
+				'last_edited_at' => 1702553770,
+				'last_edited_by_id' => 'charly',
+				'last_edited_by_type' => 'user',
+			],
 			$ns . 'expireDate' => new \DateTime('2016-01-12 19:00:00'),
 		];
 
@@ -476,6 +481,10 @@ class CommentsNodeTest extends \Test\TestCase {
 			->willReturn($expected[$ns . 'referenceId']);
 
 		$this->comment->expects($this->once())
+			->method('getMetaData')
+			->willReturn($expected[$ns . 'metaData']);
+
+		$this->comment->expects($this->once())
 			->method('getExpireDate')
 			->willReturn($expected[$ns . 'expireDate']);
 
@@ -494,7 +503,7 @@ class CommentsNodeTest extends \Test\TestCase {
 		$properties = $this->node->getProperties(null);
 
 		foreach ($properties as $name => $value) {
-			$this->assertArrayHasKey($name, $expected);
+			$this->assertArrayHasKey($name, $expected, 'Key not found in the list of $expected');
 			$this->assertSame($expected[$name], $value);
 			unset($expected[$name]);
 		}

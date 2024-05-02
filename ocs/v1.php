@@ -41,8 +41,10 @@ if (\OCP\Util::needUpgrade()
 	exit;
 }
 
-use Symfony\Component\Routing\Exception\ResourceNotFoundException;
+use OCP\Security\Bruteforce\MaxDelayReached;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Routing\Exception\MethodNotAllowedException;
+use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
 /*
  * Try the appframework routes
@@ -62,6 +64,9 @@ try {
 	}
 
 	OC::$server->get(\OC\Route\Router::class)->match('/ocsapp'.\OC::$server->getRequest()->getRawPathInfo());
+} catch (MaxDelayReached $ex) {
+	$format = \OC::$server->getRequest()->getParam('format', 'xml');
+	OC_API::respond(new \OC\OCS\Result(null, OCP\AppFramework\Http::STATUS_TOO_MANY_REQUESTS, $ex->getMessage()), $format);
 } catch (ResourceNotFoundException $e) {
 	OC_API::setContentType();
 
@@ -77,7 +82,7 @@ try {
 } catch (\OC\User\LoginException $e) {
 	OC_API::respond(new \OC\OCS\Result(null, \OCP\AppFramework\OCSController::RESPOND_UNAUTHORISED, 'Unauthorised'));
 } catch (\Exception $e) {
-	\OC::$server->getLogger()->logException($e);
+	\OCP\Server::get(LoggerInterface::class)->error($e->getMessage(), ['exception' => $e]);
 	OC_API::setContentType();
 
 	$format = \OC::$server->getRequest()->getParam('format', 'xml');

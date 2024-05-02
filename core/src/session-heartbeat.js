@@ -128,14 +128,17 @@ const registerAutoLogout = () => {
 		lastActive = e.newValue
 	})
 
-	setInterval(function() {
+	let intervalId = 0
+	const logoutCheck = () => {
 		const timeout = Date.now() - config.session_lifetime * 1000
 		if (lastActive < timeout) {
+			clearTimeout(intervalId)
 			console.info('Inactivity timout reached, logging out')
 			const logoutUrl = generateUrl('/logout') + '?requesttoken=' + encodeURIComponent(getRequestToken())
 			window.location = logoutUrl
 		}
-	}, 1000)
+	}
+	intervalId = setInterval(logoutCheck, 1000)
 }
 
 /**

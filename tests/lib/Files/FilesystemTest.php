@@ -325,14 +325,14 @@ class FilesystemTest extends \Test\TestCase {
 		$rootView->mkdir('/' . $user);
 		$rootView->mkdir('/' . $user . '/files');
 
-//		\OC\Files\Filesystem::file_put_contents('/foo', 'foo');
+		//		\OC\Files\Filesystem::file_put_contents('/foo', 'foo');
 		\OC\Files\Filesystem::mkdir('/bar');
-//		\OC\Files\Filesystem::file_put_contents('/bar//foo', 'foo');
+		//		\OC\Files\Filesystem::file_put_contents('/bar//foo', 'foo');
 
 		$tmpFile = \OC::$server->getTempManager()->getTemporaryFile();
 		file_put_contents($tmpFile, 'foo');
 		$fh = fopen($tmpFile, 'r');
-//		\OC\Files\Filesystem::file_put_contents('/bar//foo', $fh);
+		//		\OC\Files\Filesystem::file_put_contents('/bar//foo', $fh);
 	}
 
 	/**

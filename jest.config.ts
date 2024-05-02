@@ -26,16 +26,26 @@ const ignorePatterns = [
 	'@buttercup/fetch',
 	'@juliushaertl',
 	'@mdi/svg',
+	'@nextcloud/upload',
 	'@nextcloud/vue',
 	'ansi-regex',
+	'camelcase',
 	'char-regex',
+	'hot-patcher',
 	'is-svg',
+	'mime',
+	'p-cancelable',
+	'p-limit',
+	'p-queue',
+	'p-timeout',
 	'splitpanes',
 	'string-length',
 	'strip-ansi',
 	'tributejs',
+	'unist-.+',
 	'vue-material-design-icons',
 	'webdav',
+	'yocto-queue',
 ]
 
 const config: Config = {
@@ -70,6 +80,7 @@ const config: Config = {
 	// Allow mocking svg files
 	moduleNameMapper: {
 		'^.+\\.svg(\\?raw)?$': '<rootDir>/__mocks__/svg.js',
+		'\\.s?css$': '<rootDir>/__mocks__/css.js',
 	},
 	modulePathIgnorePatterns: [
 		'<rootDir>/apps2/',

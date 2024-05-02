@@ -216,7 +216,7 @@ class UserHooks implements IHook {
 		} else { // admin changed the password for a different user, create new keys and re-encrypt file keys
 			$userId = $params['uid'];
 			$this->initMountPoints($userId);
-			$recoveryPassword = isset($params['recoveryPassword']) ? $params['recoveryPassword'] : null;
+			$recoveryPassword = $params['recoveryPassword'] ?? null;
 
 			$recoveryKeyId = $this->keyManager->getRecoveryKeyId();
 			$recoveryKey = $this->keyManager->getSystemPrivateKey($recoveryKeyId);

@@ -33,14 +33,12 @@ use OCP\Share;
 use OCP\Share\IShare;
 
 class RemoteGroupPlugin implements ISearchPlugin {
-	protected $shareeEnumeration;
+	private bool $enabled = false;
 
-	/** @var ICloudIdManager */
-	private $cloudIdManager;
-	/** @var bool */
-	private $enabled = false;
-
-	public function __construct(ICloudFederationProviderManager $cloudFederationProviderManager, ICloudIdManager $cloudIdManager) {
+	public function __construct(
+		ICloudFederationProviderManager $cloudFederationProviderManager,
+		private ICloudIdManager $cloudIdManager,
+	) {
 		try {
 			$fileSharingProvider = $cloudFederationProviderManager->getCloudFederationProvider('file');
 			$supportedShareTypes = $fileSharingProvider->getSupportedShareTypes();
@@ -50,10 +48,9 @@ class RemoteGroupPlugin implements ISearchPlugin {
 		} catch (\Exception $e) {
 			// do nothing, just don't enable federated group shares
 		}
-		$this->cloudIdManager = $cloudIdManager;
 	}
 
-	public function search($search, $limit, $offset, ISearchResult $searchResult) {
+	public function search($search, $limit, $offset, ISearchResult $searchResult): bool {
 		$result = ['wide' => [], 'exact' => []];
 		$resultType = new SearchResultType('remote_groups');
 
@@ -83,7 +80,7 @@ class RemoteGroupPlugin implements ISearchPlugin {
 	 * @return array [user, remoteURL]
 	 * @throws \InvalidArgumentException
 	 */
-	public function splitGroupRemote($address) {
+	public function splitGroupRemote($address): array {
 		try {
 			$cloudId = $this->cloudIdManager->resolveCloudId($address);
 			return [$cloudId->getUser(), $cloudId->getRemote()];

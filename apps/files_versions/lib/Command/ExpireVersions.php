@@ -36,37 +36,21 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class ExpireVersions extends Command {
-
-	/**
-	 * @var Expiration
-	 */
-	private $expiration;
-
-	/**
-	 * @var IUserManager
-	 */
-	private $userManager;
-
-	/**
-	 * @param IUserManager $userManager
-	 * @param Expiration $expiration
-	 */
-	public function __construct(IUserManager $userManager,
-								Expiration $expiration) {
+	public function __construct(
+		private IUserManager $userManager,
+		private Expiration $expiration,
+	) {
 		parent::__construct();
-
-		$this->userManager = $userManager;
-		$this->expiration = $expiration;
 	}
 
-	protected function configure() {
+	protected function configure(): void {
 		$this
 			->setName('versions:expire')
 			->setDescription('Expires the users file versions')
 			->addArgument(
 				'user_id',
 				InputArgument::OPTIONAL | InputArgument::IS_ARRAY,
-				'expire file versions of the given user(s), if no user is given file versions for all users will be expired.'
+				'expire file versions of the given account(s), if no account is given file versions for all accounts will be expired.'
 			);
 	}
 
@@ -74,35 +58,36 @@ class ExpireVersions extends Command {
 		$maxAge = $this->expiration->getMaxAgeAsTimestamp();
 		if (!$maxAge) {
 			$output->writeln("Auto expiration is configured - expiration will be handled automatically according to the expiration patterns detailed at the following link https://docs.nextcloud.com/server/latest/admin_manual/configuration_files/file_versioning.html.");
-			return 1;
+			return self::FAILURE;
 		}
 
 		$users = $input->getArgument('user_id');
 		if (!empty($users)) {
 			foreach ($users as $user) {
-				if ($this->userManager->userExists($user)) {
-					$output->writeln("Remove deleted files of   <info>$user</info>");
-					$userObject = $this->userManager->get($user);
-					$this->expireVersionsForUser($userObject);
-				} else {
-					$output->writeln("<error>Unknown user $user</error>");
-					return 1;
+				if (!$this->userManager->userExists($user)) {
+					$output->writeln("<error>Unknown account $user</error>");
+					return self::FAILURE;
 				}
+
+				$output->writeln("Remove deleted files of   <info>$user</info>");
+				$userObject = $this->userManager->get($user);
+				$this->expireVersionsForUser($userObject);
 			}
-		} else {
-			$p = new ProgressBar($output);
-			$p->start();
-			$this->userManager->callForSeenUsers(function (IUser $user) use ($p) {
-				$p->advance();
-				$this->expireVersionsForUser($user);
-			});
-			$p->finish();
-			$output->writeln('');
+			return self::SUCCESS;
 		}
-		return 0;
+
+		$p = new ProgressBar($output);
+		$p->start();
+		$this->userManager->callForSeenUsers(function (IUser $user) use ($p) {
+			$p->advance();
+			$this->expireVersionsForUser($user);
+		});
+		$p->finish();
+		$output->writeln('');
+		return self::SUCCESS;
 	}
 
-	public function expireVersionsForUser(IUser $user) {
+	public function expireVersionsForUser(IUser $user): void {
 		$uid = $user->getUID();
 		if (!$this->setupFS($uid)) {
 			return;
@@ -112,10 +97,8 @@ class ExpireVersions extends Command {
 
 	/**
 	 * Act on behalf on versions item owner
-	 * @param string $user
-	 * @return boolean
 	 */
-	protected function setupFS($user) {
+	protected function setupFS(string $user): bool {
 		\OC_Util::tearDownFS();
 		\OC_Util::setupFS($user);
 

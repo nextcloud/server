@@ -57,6 +57,8 @@ use Test\TestCase;
  * This file is licensed under the Affero General Public License version 3 or
  * later.
  * See the COPYING-README file.
+ *
+ * @group DB
  */
 class FilesPluginTest extends TestCase {
 	public const GETETAG_PROPERTYNAME = FilesPlugin::GETETAG_PROPERTYNAME;
@@ -423,6 +425,7 @@ class FilesPluginTest extends TestCase {
 			self::LASTMODIFIED_PROPERTYNAME => $testDate,
 			self::CREATIONDATE_PROPERTYNAME => $testCreationDate,
 		]);
+
 
 		$this->plugin->handleUpdateProperties(
 			'/dummypath',

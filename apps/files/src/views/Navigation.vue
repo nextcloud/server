@@ -20,16 +20,18 @@
   -
   -->
 <template>
-	<NcAppNavigation data-cy-files-navigation>
+	<NcAppNavigation data-cy-files-navigation
+		:aria-label="t('files', 'Files')">
 		<template #list>
 			<NcAppNavigationItem v-for="view in parentViews"
 				:key="view.id"
 				:allow-collapse="true"
 				:data-cy-files-navigation-item="view.id"
+				:exact="useExactRouteMatching(view)"
 				:icon="view.iconClass"
+				:name="view.name"
 				:open="isExpanded(view)"
 				:pinned="view.sticky"
-				:name="view.name"
 				:to="generateToNavigation(view)"
 				@update:open="onToggleExpand(view)">
 				<!-- Sanitized icon as svg if provided -->
@@ -39,7 +41,7 @@
 				<NcAppNavigationItem v-for="child in childViews[view.id]"
 					:key="child.id"
 					:data-cy-files-navigation-item="child.id"
-					:exact="true"
+					:exact-path="true"
 					:icon="child.iconClass"
 					:name="child.name"
 					:to="generateToNavigation(child)">
@@ -72,18 +74,18 @@
 	</NcAppNavigation>
 </template>
 
-<script>
-import { emit, subscribe } from '@nextcloud/event-bus'
+<script lang="ts">
+import type { View } from '@nextcloud/files'
+
+import { emit } from '@nextcloud/event-bus'
 import { translate } from '@nextcloud/l10n'
 import Cog from 'vue-material-design-icons/Cog.vue'
 import NcAppNavigation from '@nextcloud/vue/dist/Components/NcAppNavigation.js'
 import NcAppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem.js'
 import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
 
-import { setPageHeading } from '../../../../core/src/OCP/accessibility.js'
 import { useViewConfigStore } from '../store/viewConfig.ts'
 import logger from '../logger.js'
-import Navigation from '../services/Navigation.ts'
 import NavigationQuota from '../components/NavigationQuota.vue'
 import SettingsModal from './Settings.vue'
 
@@ -97,14 +99,6 @@ export default {
 		NcAppNavigationItem,
 		NcIconSvgWrapper,
 		SettingsModal,
-	},
-
-	props: {
-		// eslint-disable-next-line vue/prop-name-casing
-		Navigation: {
-			type: Navigation,
-			required: true,
-		},
 	},
 
 	setup() {
@@ -125,18 +119,15 @@ export default {
 			return this.$route?.params?.view || 'files'
 		},
 
-		/** @return {Navigation} */
-		currentView() {
-			return this.views.find(view => view.id === this.currentViewId)
+		currentView(): View {
+			return this.views.find(view => view.id === this.currentViewId)!
 		},
 
-		/** @return {Navigation[]} */
-		views() {
-			return this.Navigation.views
+		views(): View[] {
+			return this.$navigation.views
 		},
 
-		/** @return {Navigation[]} */
-		parentViews() {
+		parentViews(): View[] {
 			return this.views
 				// filter child views
 				.filter(view => !view.parent)
@@ -146,36 +137,30 @@ export default {
 				})
 		},
 
-		/** @return {Navigation[]} */
-		childViews() {
+		childViews(): Record<string, View[]> {
 			return this.views
 				// filter parent views
 				.filter(view => !!view.parent)
 				// create a map of parents and their children
 				.reduce((list, view) => {
-					list[view.parent] = [...(list[view.parent] || []), view]
+					list[view.parent!] = [...(list[view.parent!] || []), view]
 					// Sort children by order
-					list[view.parent].sort((a, b) => {
+					list[view.parent!].sort((a, b) => {
 						return a.order - b.order
 					})
 					return list
-				}, {})
+				}, {} as Record<string, View[]>)
 		},
 	},
 
 	watch: {
 		currentView(view, oldView) {
-			// If undefined, it means we're initializing the view
-			// This is handled by the legacy-view:initialized event
-			// TODO: remove when legacy views are dropped
-			if (view?.id === oldView?.id) {
-				return
+			if (view.id !== oldView?.id) {
+				this.$navigation.setActive(view)
+				logger.debug(`Navigation changed from ${oldView.id} to ${view.id}`, { from: oldView, to: view })
+
+				this.showView(view)
 			}
-
-			this.Navigation.setActive(view)
-			logger.debug('Navigation changed', { id: view.id, view })
-
-			this.showView(view, oldView)
 		},
 	},
 
@@ -184,70 +169,32 @@ export default {
 			logger.debug('Navigation mounted. Showing requested view', { view: this.currentView })
 			this.showView(this.currentView)
 		}
-
-		subscribe('files:legacy-navigation:changed', this.onLegacyNavigationChanged)
-
-		// TODO: remove this once the legacy navigation is gone
-		subscribe('files:legacy-view:initialized', () => {
-			logger.debug('Legacy view initialized', { ...this.currentView })
-			this.showView(this.currentView)
-		})
 	},
 
 	methods: {
 		/**
-		 * @param {Navigation} view the new active view
-		 * @param {Navigation} oldView the old active view
+		 * Only use exact route matching on routes with child views
+		 * Because if a view does not have children (like the files view) then multiple routes might be matched for it
+		 * Like for the 'files' view this does not work because of optional 'fileid' param so /files and /files/1234 are both in the 'files' view
+		 * @param view The view to check
 		 */
-		showView(view, oldView) {
-			// Closing any opened sidebar
-			window?.OCA?.Files?.Sidebar?.close?.()
-
-			if (view?.legacy) {
-				const newAppContent = document.querySelector('#app-content #app-content-' + this.currentView.id + '.viewcontainer')
-				document.querySelectorAll('#app-content .viewcontainer').forEach(el => {
-					el.classList.add('hidden')
-				})
-				newAppContent.classList.remove('hidden')
-
-				// Triggering legacy navigation events
-				const { dir = '/' } = OC.Util.History.parseUrlQuery()
-				const params = { itemId: view.id, dir }
-
-				logger.debug('Triggering legacy navigation event', params)
-				window.jQuery(newAppContent).trigger(new window.jQuery.Event('show', params))
-				window.jQuery(newAppContent).trigger(new window.jQuery.Event('urlChanged', params))
-			}
-
-			this.Navigation.setActive(view)
-			setPageHeading(view.name)
-			emit('files:navigation:changed', view)
+		useExactRouteMatching(view: View): boolean {
+			return this.childViews[view.id]?.length > 0
 		},
 
-		/**
-		 * Coming from the legacy files app.
-		 * TODO: remove when all views are migrated.
-		 *
-		 * @param {Navigation} view the new active view
-		 */
-		onLegacyNavigationChanged({ id } = { id: 'files' }) {
-			const view = this.Navigation.views.find(view => view.id === id)
-			if (view && view.legacy && view.id !== this.currentView.id) {
-				// Force update the current route as the request comes
-				// from the legacy files app router
-				this.$router.replace({ ...this.$route, params: { view: view.id } })
-				this.Navigation.setActive(view)
-				this.showView(view)
-			}
+		showView(view: View) {
+			// Closing any opened sidebar
+			window?.OCA?.Files?.Sidebar?.close?.()
+			this.$navigation.setActive(view)
+			emit('files:navigation:changed', view)
 		},
 
 		/**
 		 * Expand/collapse a a view with children and permanently
 		 * save this setting in the server.
-		 *
-		 * @param {Navigation} view the view to toggle
+		 * @param view View to toggle
 		 */
-		onToggleExpand(view) {
+		onToggleExpand(view: View) {
 			// Invert state
 			const isExpanded = this.isExpanded(view)
 			// Update the view expanded state, might not be necessary
@@ -258,10 +205,9 @@ export default {
 		/**
 		 * Check if a view is expanded by user config
 		 * or fallback to the default value.
-		 *
-		 * @param {Navigation} view the view to check
+		 * @param view View to check if expanded
 		 */
-		isExpanded(view) {
+		isExpanded(view: View): boolean {
 			return typeof this.viewConfigStore.getConfig(view.id)?.expanded === 'boolean'
 				? this.viewConfigStore.getConfig(view.id).expanded === true
 				: view.expanded === true
@@ -269,13 +215,12 @@ export default {
 
 		/**
 		 * Generate the route to a view
-		 *
-		 * @param {Navigation} view the view to toggle
+		 * @param view View to generate "to" navigation for
 		 */
-		generateToNavigation(view) {
+		generateToNavigation(view: View) {
 			if (view.params) {
-				const { dir, fileid } = view.params
-				return { name: 'filelist', params: view.params, query: { dir, fileid } }
+				const { dir } = view.params
+				return { name: 'filelist', params: view.params, query: { dir } }
 			}
 			return { name: 'filelist', params: { view: view.id } }
 		},
@@ -304,6 +249,10 @@ export default {
 .app-navigation::v-deep .app-navigation-entry-icon {
 	background-repeat: no-repeat;
 	background-position: center;
+}
+
+.app-navigation::v-deep .app-navigation-entry.active .button-vue.icon-collapse:not(:hover) {
+	color: var(--color-primary-element-text);
 }
 
 .app-navigation > ul.app-navigation__list {

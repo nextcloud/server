@@ -32,26 +32,35 @@ use OCP\IURLGenerator;
  * @package OC\OCS
  */
 class CoreCapabilities implements ICapability {
-	/** @var IConfig */
-	private $config;
-
 	/**
 	 * @param IConfig $config
 	 */
-	public function __construct(IConfig $config) {
-		$this->config = $config;
+	public function __construct(
+		private IConfig $config,
+	) {
 	}
 
 	/**
 	 * Return this classes capabilities
+	 *
+	 * @return array{
+	 *     core: array{
+	 *         pollinterval: int,
+	 *         webdav-root: string,
+	 *         reference-api: boolean,
+	 *         reference-regex: string,
+	 *         mod-rewrite-working: boolean,
+	 *     },
+	 * }
 	 */
-	public function getCapabilities() {
+	public function getCapabilities(): array {
 		return [
 			'core' => [
-				'pollinterval' => $this->config->getSystemValue('pollinterval', 60),
-				'webdav-root' => $this->config->getSystemValue('webdav-root', 'remote.php/webdav'),
+				'pollinterval' => $this->config->getSystemValueInt('pollinterval', 60),
+				'webdav-root' => $this->config->getSystemValueString('webdav-root', 'remote.php/webdav'),
 				'reference-api' => true,
 				'reference-regex' => IURLGenerator::URL_REGEX_NO_MODIFIERS,
+				'mod-rewrite-working' => $this->config->getSystemValueBool('htaccess.IgnoreFrontController') || getenv('front_controller_active') === 'true',
 			],
 		];
 	}

@@ -66,7 +66,7 @@ class PushProviderTest extends AbstractNotificationProviderTest {
 	public function testNotSend(): void {
 		$this->config->expects($this->once())
 			->method('getAppValue')
-			->with('dav', 'sendEventRemindersPush', 'no')
+			->with('dav', 'sendEventRemindersPush', 'yes')
 			->willReturn('no');
 
 		$this->manager->expects($this->never())
@@ -92,7 +92,7 @@ class PushProviderTest extends AbstractNotificationProviderTest {
 	public function testSend(): void {
 		$this->config->expects($this->once())
 			->method('getAppValue')
-			->with('dav', 'sendEventRemindersPush', 'no')
+			->with('dav', 'sendEventRemindersPush', 'yes')
 			->willReturn('yes');
 
 		$user1 = $this->createMock(IUser::class);

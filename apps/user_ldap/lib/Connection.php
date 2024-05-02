@@ -41,74 +41,90 @@ use OC\ServerNotAvailableException;
 use Psr\Log\LoggerInterface;
 
 /**
- * magic properties (incomplete)
+ * magic properties
  * responsible for LDAP connections in context with the provided configuration
  *
- * @property string ldapHost
- * @property string ldapPort holds the port number
- * @property string ldapUserFilter
- * @property string ldapUserDisplayName
- * @property string ldapUserDisplayName2
- * @property string ldapUserAvatarRule
- * @property boolean turnOnPasswordChange
- * @property string[] ldapBaseUsers
- * @property int|null ldapPagingSize holds an integer
- * @property bool|mixed|void ldapGroupMemberAssocAttr
- * @property string ldapUuidUserAttribute
- * @property string ldapUuidGroupAttribute
- * @property string ldapExpertUUIDUserAttr
- * @property string ldapExpertUUIDGroupAttr
- * @property string ldapQuotaAttribute
- * @property string ldapQuotaDefault
- * @property string ldapEmailAttribute
- * @property string ldapExtStorageHomeAttribute
- * @property string homeFolderNamingRule
- * @property bool|string markRemnantsAsDisabled
- * @property bool|string ldapNestedGroups
- * @property string[] ldapBaseGroups
- * @property string ldapGroupFilter
- * @property string ldapGroupDisplayName
- * @property string ldapLoginFilter
- * @property string ldapDynamicGroupMemberURL
- * @property string ldapGidNumber
- * @property int hasMemberOfFilterSupport
- * @property int useMemberOfToDetectMembership
- * @property string ldapMatchingRuleInChainState
- * @property string ldapAttributePhone
- * @property string ldapAttributeWebsite
- * @property string ldapAttributeAddress
- * @property string ldapAttributeTwitter
- * @property string ldapAttributeFediverse
- * @property string ldapAttributeOrganisation
- * @property string ldapAttributeRole
- * @property string ldapAttributeHeadline
- * @property string ldapAttributeBiography
+ * @property string $ldapHost
+ * @property string $ldapPort
+ * @property string $ldapBackupHost
+ * @property string $ldapBackupPort
+ * @property string $ldapBackgroundHost
+ * @property string $ldapBackgroundPort
+ * @property array|'' $ldapBase
+ * @property array|'' $ldapBaseUsers
+ * @property array|'' $ldapBaseGroups
+ * @property string $ldapAgentName
+ * @property string $ldapAgentPassword
+ * @property string $ldapTLS
+ * @property string $turnOffCertCheck
+ * @property string $ldapIgnoreNamingRules
+ * @property string $ldapUserDisplayName
+ * @property string $ldapUserDisplayName2
+ * @property string $ldapUserAvatarRule
+ * @property string $ldapGidNumber
+ * @property array|'' $ldapUserFilterObjectclass
+ * @property array|'' $ldapUserFilterGroups
+ * @property string $ldapUserFilter
+ * @property string $ldapUserFilterMode
+ * @property string $ldapGroupFilter
+ * @property string $ldapGroupFilterMode
+ * @property array|'' $ldapGroupFilterObjectclass
+ * @property array|'' $ldapGroupFilterGroups
+ * @property string $ldapGroupDisplayName
+ * @property string $ldapGroupMemberAssocAttr
+ * @property string $ldapLoginFilter
+ * @property string $ldapLoginFilterMode
+ * @property string $ldapLoginFilterEmail
+ * @property string $ldapLoginFilterUsername
+ * @property array|'' $ldapLoginFilterAttributes
+ * @property string $ldapQuotaAttribute
+ * @property string $ldapQuotaDefault
+ * @property string $ldapEmailAttribute
+ * @property string $ldapCacheTTL
+ * @property string $ldapUuidUserAttribute
+ * @property string $ldapUuidGroupAttribute
+ * @property string $ldapOverrideMainServer
+ * @property string $ldapConfigurationActive
+ * @property array|'' $ldapAttributesForUserSearch
+ * @property array|'' $ldapAttributesForGroupSearch
+ * @property string $ldapExperiencedAdmin
+ * @property string $homeFolderNamingRule
+ * @property string $hasMemberOfFilterSupport
+ * @property string $useMemberOfToDetectMembership
+ * @property string $ldapExpertUsernameAttr
+ * @property string $ldapExpertUUIDUserAttr
+ * @property string $ldapExpertUUIDGroupAttr
+ * @property string $markRemnantsAsDisabled
+ * @property string $lastJpegPhotoLookup
+ * @property string $ldapNestedGroups
+ * @property string $ldapPagingSize
+ * @property string $turnOnPasswordChange
+ * @property string $ldapDynamicGroupMemberURL
+ * @property string $ldapDefaultPPolicyDN
+ * @property string $ldapExtStorageHomeAttribute
+ * @property string $ldapMatchingRuleInChainState
+ * @property string $ldapConnectionTimeout
+ * @property string $ldapAttributePhone
+ * @property string $ldapAttributeWebsite
+ * @property string $ldapAttributeAddress
+ * @property string $ldapAttributeTwitter
+ * @property string $ldapAttributeFediverse
+ * @property string $ldapAttributeOrganisation
+ * @property string $ldapAttributeRole
+ * @property string $ldapAttributeHeadline
+ * @property string $ldapAttributeBiography
+ * @property string $ldapAdminGroup
  */
 class Connection extends LDAPUtility {
-	/**
-	 * @var resource|\LDAP\Connection|null
-	 */
-	private $ldapConnectionRes = null;
-
-	/**
-	 * @var string
-	 */
-	private $configPrefix;
-
-	/**
-	 * @var ?string
-	 */
-	private $configID;
-
-	/**
-	 * @var bool
-	 */
-	private $configured = false;
+	private ?\LDAP\Connection $ldapConnectionRes = null;
+	private string $configPrefix;
+	private ?string $configID;
+	private bool $configured = false;
 
 	/**
 	 * @var bool whether connection should be kept on __destruct
 	 */
-	private $dontDestruct = false;
+	private bool $dontDestruct = false;
 
 	/**
 	 * @var bool runtime flag that indicates whether supported primary groups are available
@@ -240,14 +256,11 @@ class Connection extends LDAPUtility {
 	}
 
 	/**
-	 * @return resource|\LDAP\Connection The LDAP resource
+	 * @return \LDAP\Connection The LDAP resource
 	 */
-	public function getConnectionResource() {
+	public function getConnectionResource(): \LDAP\Connection {
 		if (!$this->ldapConnectionRes) {
 			$this->init();
-		} elseif (!$this->ldap->isResource($this->ldapConnectionRes)) {
-			$this->ldapConnectionRes = null;
-			$this->establishConnection();
 		}
 		if (is_null($this->ldapConnectionRes)) {
 			$this->logger->error(
@@ -262,7 +275,7 @@ class Connection extends LDAPUtility {
 	/**
 	 * resets the connection resource
 	 */
-	public function resetConnectionResource() {
+	public function resetConnectionResource(): void {
 		if (!is_null($this->ldapConnectionRes)) {
 			@$this->ldap->unbind($this->ldapConnectionRes);
 			$this->ldapConnectionRes = null;
@@ -272,9 +285,8 @@ class Connection extends LDAPUtility {
 
 	/**
 	 * @param string|null $key
-	 * @return string
 	 */
-	private function getCacheKey($key) {
+	private function getCacheKey($key): string {
 		$prefix = 'LDAP-'.$this->configID.'-'.$this->configPrefix.'-';
 		if (is_null($key)) {
 			return $prefix;
@@ -298,11 +310,15 @@ class Connection extends LDAPUtility {
 		return json_decode(base64_decode($this->cache->get($key) ?? ''), true);
 	}
 
+	public function getConfigPrefix(): string {
+		return $this->configPrefix;
+	}
+
 	/**
 	 * @param string $key
 	 * @param mixed $value
 	 */
-	public function writeToCache($key, $value, int $ttlOverride = null): void {
+	public function writeToCache($key, $value, ?int $ttlOverride = null): void {
 		if (!$this->configured) {
 			$this->readConfiguration();
 		}
@@ -327,9 +343,8 @@ class Connection extends LDAPUtility {
 	 * Caches the general LDAP configuration.
 	 * @param bool $force optional. true, if the re-read should be forced. defaults
 	 * to false.
-	 * @return null
 	 */
-	private function readConfiguration($force = false) {
+	private function readConfiguration(bool $force = false): void {
 		if ((!$this->configured || $force) && !is_null($this->configID)) {
 			$this->configuration->readConfiguration();
 			$this->configured = $this->validateConfiguration();
@@ -401,7 +416,7 @@ class Connection extends LDAPUtility {
 		return $result;
 	}
 
-	private function doSoftValidation() {
+	private function doSoftValidation(): void {
 		//if User or Group Base are not set, take over Base DN setting
 		foreach (['ldapBaseUsers', 'ldapBaseGroups'] as $keyBase) {
 			$val = $this->configuration->$keyBase;
@@ -433,7 +448,7 @@ class Connection extends LDAPUtility {
 
 		$backupPort = (int)$this->configuration->ldapBackupPort;
 		if ($backupPort <= 0) {
-			$this->configuration->backupPort = $this->configuration->ldapPort;
+			$this->configuration->ldapBackupPort = $this->configuration->ldapPort;
 		}
 
 		//make sure empty search attributes are saved as simple, empty array
@@ -448,7 +463,7 @@ class Connection extends LDAPUtility {
 
 		if ((stripos((string)$this->configuration->ldapHost, 'ldaps://') === 0)
 			&& $this->configuration->ldapTLS) {
-			$this->configuration->ldapTLS = false;
+			$this->configuration->ldapTLS = (string)false;
 			$this->logger->info(
 				'LDAPS (already using secure connection) and TLS do not work together. Switched off TLS.',
 				['app' => 'user_ldap']
@@ -456,13 +471,9 @@ class Connection extends LDAPUtility {
 		}
 	}
 
-	/**
-	 * @return bool
-	 */
-	private function doCriticalValidation() {
+	private function doCriticalValidation(): bool {
 		$configurationOK = true;
-		$errorStr = 'Configuration Error (prefix '.
-			(string)$this->configPrefix .'): ';
+		$errorStr = 'Configuration Error (prefix ' . $this->configPrefix . '): ';
 
 		//options that shall not be empty
 		$options = ['ldapHost', 'ldapUserDisplayName',
@@ -547,7 +558,7 @@ class Connection extends LDAPUtility {
 	 * Validates the user specified configuration
 	 * @return bool true if configuration seems OK, false otherwise
 	 */
-	private function validateConfiguration() {
+	private function validateConfiguration(): bool {
 		if ($this->doNotValidate) {
 			//don't do a validation if it is a new configuration with pure
 			//default values. Will be allowed on changes via __set or
@@ -570,7 +581,7 @@ class Connection extends LDAPUtility {
 	 *
 	 * @throws ServerNotAvailableException
 	 */
-	private function establishConnection() {
+	private function establishConnection(): ?bool {
 		if (!$this->configuration->ldapConfigurationActive) {
 			return null;
 		}
@@ -658,15 +669,18 @@ class Connection extends LDAPUtility {
 	/**
 	 * @param string $host
 	 * @param string $port
-	 * @return bool
 	 * @throws \OC\ServerNotAvailableException
 	 */
-	private function doConnect($host, $port) {
+	private function doConnect($host, $port): bool {
 		if ($host === '') {
 			return false;
 		}
 
-		$this->ldapConnectionRes = $this->ldap->connect($host, $port);
+		$this->ldapConnectionRes = $this->ldap->connect($host, $port) ?: null;
+
+		if ($this->ldapConnectionRes === null) {
+			throw new ServerNotAvailableException('Connection failed');
+		}
 
 		if (!$this->ldap->setOption($this->ldapConnectionRes, LDAP_OPT_PROTOCOL_VERSION, 3)) {
 			throw new ServerNotAvailableException('Could not set required LDAP Protocol version.');

@@ -28,6 +28,7 @@ use OCP\Collaboration\Reference\RenderReferenceEvent;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 
+/** @template-implements IEventListener<RenderReferenceEvent> */
 class RenderReferenceEventListener implements IEventListener {
 	public function handle(Event $event): void {
 		if (!$event instanceof RenderReferenceEvent) {

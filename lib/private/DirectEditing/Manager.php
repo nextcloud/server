@@ -26,7 +26,6 @@
 namespace OC\DirectEditing;
 
 use Doctrine\DBAL\FetchMode;
-use \OCP\Files\Folder;
 use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\TemplateResponse;
@@ -34,10 +33,11 @@ use OCP\Constants;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\DirectEditing\ACreateFromTemplate;
 use OCP\DirectEditing\IEditor;
-use \OCP\DirectEditing\IManager;
+use OCP\DirectEditing\IManager;
 use OCP\DirectEditing\IToken;
 use OCP\Encryption\IManager as EncryptionManager;
 use OCP\Files\File;
+use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
@@ -153,7 +153,7 @@ class Manager implements IManager {
 		throw new \RuntimeException('No creator found');
 	}
 
-	public function open(string $filePath, string $editorId = null, ?int $fileId = null): string {
+	public function open(string $filePath, ?string $editorId = null, ?int $fileId = null): string {
 		$userFolder = $this->rootFolder->getUserFolder($this->userId);
 		$file = $userFolder->get($filePath);
 		if ($fileId !== null && $file instanceof Folder) {
@@ -272,16 +272,14 @@ class Manager implements IManager {
 	}
 
 	public function invokeTokenScope($userId): void {
-		\OC_User::setIncognitoMode(true);
 		\OC_User::setUserId($userId);
 	}
 
 	public function revertTokenScope(): void {
 		$this->userSession->setUser(null);
-		\OC_User::setIncognitoMode(false);
 	}
 
-	public function createToken($editorId, File $file, string $filePath, IShare $share = null): string {
+	public function createToken($editorId, File $file, string $filePath, ?IShare $share = null): string {
 		$token = $this->random->generate(64, ISecureRandom::CHAR_HUMAN_READABLE);
 		$query = $this->connection->getQueryBuilder();
 		$query->insert(self::TABLE_TOKENS)
@@ -299,10 +297,9 @@ class Manager implements IManager {
 	}
 
 	/**
-	 * @param $userId
-	 * @param $fileId
-	 * @param null $filePath
-	 * @return Node
+	 * @param string $userId
+	 * @param int $fileId
+	 * @param ?string $filePath
 	 * @throws NotFoundException
 	 */
 	public function getFileForToken($userId, $fileId, $filePath = null): Node {
@@ -310,11 +307,11 @@ class Manager implements IManager {
 		if ($filePath !== null) {
 			return $userFolder->get($filePath);
 		}
-		$files = $userFolder->getById($fileId);
-		if (count($files) === 0) {
+		$file = $userFolder->getFirstNodeById($fileId);
+		if (!$file) {
 			throw new NotFoundException('File nound found by id ' . $fileId);
 		}
-		return $files[0];
+		return $file;
 	}
 
 	public function isEnabled(): bool {

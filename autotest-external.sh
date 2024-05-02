@@ -31,8 +31,13 @@ function print_syntax {
 }
 
 if ! [ -x "$PHPUNIT" ]; then
-	echo "phpunit executable not found, please install phpunit version >= 4.8" >&2
-	exit 3
+	echo "phpunit executable not found, trying local one from build/integration" >&2
+	if [ -x "$PWD/build/integration/vendor/phpunit/phpunit/phpunit" ]; then
+		PHPUNIT="$PWD/build/integration/vendor/phpunit/phpunit/phpunit"
+	else
+		echo "phpunit executable not found, please install phpunit version >= 9.0" >&2
+		exit 3
+	fi
 fi
 
 PHPUNIT_VERSION=$("$PHPUNIT" --version | cut -d" " -f2)

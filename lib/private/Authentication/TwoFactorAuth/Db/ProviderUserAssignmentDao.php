@@ -25,8 +25,6 @@ declare(strict_types=1);
  */
 namespace OC\Authentication\TwoFactorAuth\Db;
 
-use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
-use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use function array_map;
 
@@ -59,7 +57,7 @@ class ProviderUserAssignmentDao {
 		$result = $query->execute();
 		$providers = [];
 		foreach ($result->fetchAll() as $row) {
-			$providers[(string)$row['provider_id']] = 1 === (int)$row['enabled'];
+			$providers[(string)$row['provider_id']] = (int)$row['enabled'] === 1;
 		}
 		$result->closeCursor();
 
@@ -70,31 +68,28 @@ class ProviderUserAssignmentDao {
 	 * Persist a new/updated (provider_id, uid, enabled) tuple
 	 */
 	public function persist(string $providerId, string $uid, int $enabled): void {
-		$qb = $this->conn->getQueryBuilder();
+		$conn = $this->conn;
 
-		try {
-			// Insert a new entry
-			$insertQuery = $qb->insert(self::TABLE_NAME)->values([
-				'provider_id' => $qb->createNamedParameter($providerId),
-				'uid' => $qb->createNamedParameter($uid),
-				'enabled' => $qb->createNamedParameter($enabled, IQueryBuilder::PARAM_INT),
-			]);
-
-			$insertQuery->execute();
-		} catch (UniqueConstraintViolationException $ex) {
-			// There is already an entry -> update it
-			$updateQuery = $qb->update(self::TABLE_NAME)
-				->set('enabled', $qb->createNamedParameter($enabled))
-				->where($qb->expr()->eq('provider_id', $qb->createNamedParameter($providerId)))
-				->andWhere($qb->expr()->eq('uid', $qb->createNamedParameter($uid)));
-			$updateQuery->execute();
+		// Insert a new entry
+		if ($conn->insertIgnoreConflict(self::TABLE_NAME, [
+			'provider_id' => $providerId,
+			'uid' => $uid,
+			'enabled' => $enabled,
+		])) {
+			return;
 		}
+
+		// There is already an entry -> update it
+		$qb = $conn->getQueryBuilder();
+		$updateQuery = $qb->update(self::TABLE_NAME)
+			->set('enabled', $qb->createNamedParameter($enabled))
+			->where($qb->expr()->eq('provider_id', $qb->createNamedParameter($providerId)))
+			->andWhere($qb->expr()->eq('uid', $qb->createNamedParameter($uid)));
+		$updateQuery->executeStatement();
 	}
 
 	/**
 	 * Delete all provider states of a user and return the provider IDs
-	 *
-	 * @param string $uid
 	 *
 	 * @return list<array{provider_id: string, uid: string, enabled: bool}>
 	 */
@@ -103,7 +98,7 @@ class ProviderUserAssignmentDao {
 		$selectQuery = $qb1->select('*')
 			->from(self::TABLE_NAME)
 			->where($qb1->expr()->eq('uid', $qb1->createNamedParameter($uid)));
-		$selectResult = $selectQuery->execute();
+		$selectResult = $selectQuery->executeQuery();
 		$rows = $selectResult->fetchAll();
 		$selectResult->closeCursor();
 
@@ -111,15 +106,15 @@ class ProviderUserAssignmentDao {
 		$deleteQuery = $qb2
 			->delete(self::TABLE_NAME)
 			->where($qb2->expr()->eq('uid', $qb2->createNamedParameter($uid)));
-		$deleteQuery->execute();
+		$deleteQuery->executeStatement();
 
-		return array_map(function (array $row) {
+		return array_values(array_map(function (array $row) {
 			return [
-				'provider_id' => $row['provider_id'],
-				'uid' => $row['uid'],
-				'enabled' => 1 === (int) $row['enabled'],
+				'provider_id' => (string)$row['provider_id'],
+				'uid' => (string)$row['uid'],
+				'enabled' => ((int) $row['enabled']) === 1,
 			];
-		}, $rows);
+		}, $rows));
 	}
 
 	public function deleteAll(string $providerId): void {

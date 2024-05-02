@@ -32,31 +32,24 @@ use OCP\App\IAppManager;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\IUser;
-use OCP\Search\IProvider;
+use OCP\Search\FilterDefinition;
+use OCP\Search\IFilter;
+use OCP\Search\IFilteringProvider;
 use OCP\Search\ISearchQuery;
 use OCP\Search\SearchResult;
 use OCP\Search\SearchResultEntry;
 use Sabre\VObject\Component\VCard;
 use Sabre\VObject\Reader;
 
-class ContactsSearchProvider implements IProvider {
+class ContactsSearchProvider implements IFilteringProvider {
+	private static array $searchPropertiesRestricted = [
+		'N',
+		'FN',
+		'NICKNAME',
+		'EMAIL',
+	];
 
-	/** @var IAppManager */
-	private $appManager;
-
-	/** @var IL10N */
-	private $l10n;
-
-	/** @var IURLGenerator */
-	private $urlGenerator;
-
-	/** @var CardDavBackend */
-	private $backend;
-
-	/**
-	 * @var string[]
-	 */
-	private static $searchProperties = [
+	private static array $searchProperties = [
 		'N',
 		'FN',
 		'NICKNAME',
@@ -68,22 +61,12 @@ class ContactsSearchProvider implements IProvider {
 		'NOTE',
 	];
 
-	/**
-	 * ContactsSearchProvider constructor.
-	 *
-	 * @param IAppManager $appManager
-	 * @param IL10N $l10n
-	 * @param IURLGenerator $urlGenerator
-	 * @param CardDavBackend $backend
-	 */
-	public function __construct(IAppManager $appManager,
-								IL10N $l10n,
-								IURLGenerator $urlGenerator,
-								CardDavBackend $backend) {
-		$this->appManager = $appManager;
-		$this->l10n = $l10n;
-		$this->urlGenerator = $urlGenerator;
-		$this->backend = $backend;
+	public function __construct(
+		private IAppManager $appManager,
+		private IL10N $l10n,
+		private IURLGenerator $urlGenerator,
+		private CardDavBackend $backend,
+	) {
 	}
 
 	/**
@@ -100,19 +83,14 @@ class ContactsSearchProvider implements IProvider {
 		return $this->l10n->t('Contacts');
 	}
 
-	/**
-	 * @inheritDoc
-	 */
-	public function getOrder(string $route, array $routeParameters): int {
-		if ($route === 'contacts.Page.index') {
-			return -1;
+	public function getOrder(string $route, array $routeParameters): ?int {
+		if ($this->appManager->isEnabledForUser('contacts')) {
+			return $route === 'contacts.Page.index' ? -1 : 25;
 		}
-		return 25;
+
+		return null;
 	}
 
-	/**
-	 * @inheritDoc
-	 */
 	public function search(IUser $user, ISearchQuery $query): SearchResult {
 		if (!$this->appManager->isEnabledForUser('contacts', $user)) {
 			return SearchResult::complete($this->getName(), []);
@@ -127,12 +105,16 @@ class ContactsSearchProvider implements IProvider {
 
 		$searchResults = $this->backend->searchPrincipalUri(
 			$principalUri,
-			$query->getTerm(),
-			self::$searchProperties,
+			$query->getFilter('term')?->get() ?? '',
+			$query->getFilter('title-only')?->get() ? self::$searchPropertiesRestricted : self::$searchProperties,
 			[
 				'limit' => $query->getLimit(),
 				'offset' => $query->getCursor(),
-			]
+				'since' => $query->getFilter('since'),
+				'until' => $query->getFilter('until'),
+				'person' => $this->getPersonDisplayName($query->getFilter('person')),
+				'company' => $query->getFilter('company'),
+			],
 		);
 		$formattedResults = \array_map(function (array $contactRow) use ($addressBooksById):SearchResultEntry {
 			$addressBook = $addressBooksById[$contactRow['addressbookid']];
@@ -157,16 +139,19 @@ class ContactsSearchProvider implements IProvider {
 			$query->getCursor() + count($formattedResults)
 		);
 	}
+	private function getPersonDisplayName(?IFilter $person): ?string {
+		$user = $person?->get();
+		if ($user instanceof IUser) {
+			return $user->getDisplayName();
+		}
+		return null;
+	}
 
-	/**
-	 * @param string $principalUri
-	 * @param string $addressBookUri
-	 * @param string $contactsUri
-	 * @return string
-	 */
-	protected function getDavUrlForContact(string $principalUri,
-										   string $addressBookUri,
-										   string $contactsUri): string {
+	protected function getDavUrlForContact(
+		string $principalUri,
+		string $addressBookUri,
+		string $contactsUri,
+	): string {
 		[, $principalType, $principalId] = explode('/', $principalUri, 3);
 
 		return $this->urlGenerator->getAbsoluteURL(
@@ -178,13 +163,10 @@ class ContactsSearchProvider implements IProvider {
 		);
 	}
 
-	/**
-	 * @param string $addressBookUri
-	 * @param string $contactUid
-	 * @return string
-	 */
-	protected function getDeepLinkToContactsApp(string $addressBookUri,
-												string $contactUid): string {
+	protected function getDeepLinkToContactsApp(
+		string $addressBookUri,
+		string $contactUid,
+	): string {
 		return $this->urlGenerator->getAbsoluteURL(
 			$this->urlGenerator->linkToRoute('contacts.contacts.direct', [
 				'contact' => $contactUid . '~' . $addressBookUri
@@ -192,10 +174,6 @@ class ContactsSearchProvider implements IProvider {
 		);
 	}
 
-	/**
-	 * @param VCard $vCard
-	 * @return string
-	 */
 	protected function generateSubline(VCard $vCard): string {
 		$emailAddresses = $vCard->select('EMAIL');
 		if (!is_array($emailAddresses) || empty($emailAddresses)) {
@@ -203,5 +181,25 @@ class ContactsSearchProvider implements IProvider {
 		}
 
 		return (string)$emailAddresses[0];
+	}
+
+	public function getSupportedFilters(): array {
+		return [
+			'term',
+			'since',
+			'until',
+			'person',
+			'title-only',
+		];
+	}
+
+	public function getAlternateIds(): array {
+		return [];
+	}
+
+	public function getCustomFilters(): array {
+		return [
+			new FilterDefinition('company'),
+		];
 	}
 }

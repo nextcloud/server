@@ -35,19 +35,15 @@ use OCP\IUserManager;
 use OCP\L10N\IFactory;
 
 class Provider implements IProvider {
-	protected IFactory $languageFactory;
 	protected ?IL10N $l = null;
-	protected IUrlGenerator $url;
-	protected ICommentsManager $commentsManager;
-	protected IUserManager $userManager;
-	protected IManager $activityManager;
 
-	public function __construct(IFactory $languageFactory, IURLGenerator $url, ICommentsManager $commentsManager, IUserManager $userManager, IManager $activityManager) {
-		$this->languageFactory = $languageFactory;
-		$this->url = $url;
-		$this->commentsManager = $commentsManager;
-		$this->userManager = $userManager;
-		$this->activityManager = $activityManager;
+	public function __construct(
+		protected IFactory $languageFactory,
+		protected IURLGenerator $url,
+		protected ICommentsManager $commentsManager,
+		protected IUserManager $userManager,
+		protected IManager $activityManager,
+	) {
 	}
 
 	/**
@@ -58,7 +54,7 @@ class Provider implements IProvider {
 	 * @throws \InvalidArgumentException
 	 * @since 11.0.0
 	 */
-	public function parse($language, IEvent $event, IEvent $previousEvent = null): IEvent {
+	public function parse($language, IEvent $event, ?IEvent $previousEvent = null): IEvent {
 		if ($event->getApp() !== 'comments') {
 			throw new \InvalidArgumentException();
 		}
@@ -168,7 +164,7 @@ class Provider implements IProvider {
 			return;
 		}
 
-		$commentId = isset($messageParameters['commentId']) ? $messageParameters['commentId'] : $messageParameters[0];
+		$commentId = $messageParameters['commentId'] ?? $messageParameters[0];
 
 		try {
 			$comment = $this->commentsManager->get((string) $commentId);

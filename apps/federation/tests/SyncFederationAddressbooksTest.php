@@ -28,11 +28,11 @@
  */
 namespace OCA\Federation\Tests;
 
-use Psr\Log\LoggerInterface;
 use OC\OCS\DiscoveryService;
 use OCA\Federation\DbHandler;
 use OCA\Federation\SyncFederationAddressBooks;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
 
 class SyncFederationAddressbooksTest extends \Test\TestCase {
 

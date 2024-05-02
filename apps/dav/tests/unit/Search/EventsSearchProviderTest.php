@@ -32,6 +32,7 @@ use OCP\App\IAppManager;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\IUser;
+use OCP\Search\IFilter;
 use OCP\Search\ISearchQuery;
 use OCP\Search\SearchResult;
 use OCP\Search\SearchResultEntry;
@@ -293,7 +294,14 @@ class EventsSearchProviderTest extends TestCase {
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')->willReturn('john.doe');
 		$query = $this->createMock(ISearchQuery::class);
-		$query->method('getTerm')->willReturn('search term');
+		$seachTermFilter = $this->createMock(IFilter::class);
+		$query->method('getFilter')->willReturnCallback(function ($name) use ($seachTermFilter) {
+			return match ($name) {
+				'term' => $seachTermFilter,
+				default => null,
+			};
+		});
+		$seachTermFilter->method('get')->willReturn('search term');
 		$query->method('getLimit')->willReturn(5);
 		$query->method('getCursor')->willReturn(20);
 		$this->appManager->expects($this->once())
@@ -331,7 +339,7 @@ class EventsSearchProviderTest extends TestCase {
 			->with('principals/users/john.doe', 'search term', ['VEVENT'],
 				['SUMMARY', 'LOCATION', 'DESCRIPTION', 'ATTENDEE', 'ORGANIZER', 'CATEGORIES'],
 				['ATTENDEE' => ['CN'], 'ORGANIZER' => ['CN']],
-				['limit' => 5, 'offset' => 20])
+				['limit' => 5, 'offset' => 20, 'timerange' => ['start' => null, 'end' => null]])
 			->willReturn([
 				[
 					'calendarid' => 99,

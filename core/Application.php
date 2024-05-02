@@ -44,22 +44,16 @@ use OC\Authentication\Listeners\UserDeletedWebAuthnCleanupListener;
 use OC\Authentication\Notifications\Notifier as AuthenticationNotifier;
 use OC\Core\Listener\BeforeTemplateRenderedListener;
 use OC\Core\Notification\CoreNotifier;
-use OC\Metadata\FileEventListener;
 use OC\TagManager;
 use OCP\AppFramework\App;
+use OCP\AppFramework\Http\Events\BeforeLoginTemplateRenderedEvent;
 use OCP\AppFramework\Http\Events\BeforeTemplateRenderedEvent;
-use OCP\DB\Events\AddMissingColumnsEvent;
 use OCP\DB\Events\AddMissingIndicesEvent;
 use OCP\DB\Events\AddMissingPrimaryKeyEvent;
-use OCP\DB\Types;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\Files\Events\Node\NodeDeletedEvent;
-use OCP\Files\Events\Node\NodeWrittenEvent;
-use OCP\Files\Events\NodeRemovedFromCache;
 use OCP\User\Events\BeforeUserDeletedEvent;
 use OCP\User\Events\UserDeletedEvent;
 use OCP\Util;
-use OCP\IConfig;
 
 /**
  * Class Application
@@ -132,6 +126,11 @@ class Application extends App {
 				'fs_parent',
 				['parent']
 			);
+			$event->addMissingIndex(
+				'filecache',
+				'fs_name_hash',
+				['name']
+			);
 
 			$event->addMissingIndex(
 				'twofactor_providers',
@@ -169,20 +168,6 @@ class Application extends App {
 				true
 			);
 
-			$event->addMissingIndex(
-				'cards',
-				'cards_abiduri',
-				['addressbookid', 'uri'],
-				[],
-				true
-			);
-			$event->addMissingIndex(
-				'cards',
-				'cards_abid',
-				['addressbookid'],
-				[],
-				true
-			);
 			$event->addMissingIndex(
 				'cards',
 				'cards_abiduri',
@@ -304,19 +289,8 @@ class Application extends App {
 			);
 		});
 
-		$eventDispatcher->addListener(AddMissingColumnsEvent::class, function (AddMissingColumnsEvent $event) {
-			$event->addMissingColumn(
-				'comments',
-				'reference_id',
-				Types::STRING,
-				[
-					'notnull' => false,
-					'length' => 64,
-				]
-			);
-		});
-
 		$eventDispatcher->addServiceListener(BeforeTemplateRenderedEvent::class, BeforeTemplateRenderedListener::class);
+		$eventDispatcher->addServiceListener(BeforeLoginTemplateRenderedEvent::class, BeforeTemplateRenderedListener::class);
 		$eventDispatcher->addServiceListener(RemoteWipeStarted::class, RemoteWipeActivityListener::class);
 		$eventDispatcher->addServiceListener(RemoteWipeStarted::class, RemoteWipeNotificationsListener::class);
 		$eventDispatcher->addServiceListener(RemoteWipeStarted::class, RemoteWipeEmailListener::class);
@@ -328,18 +302,6 @@ class Application extends App {
 		$eventDispatcher->addServiceListener(BeforeUserDeletedEvent::class, UserDeletedFilesCleanupListener::class);
 		$eventDispatcher->addServiceListener(UserDeletedEvent::class, UserDeletedFilesCleanupListener::class);
 		$eventDispatcher->addServiceListener(UserDeletedEvent::class, UserDeletedWebAuthnCleanupListener::class);
-
-		// Metadata
-		/** @var IConfig $config */
-		$config = $container->get(IConfig::class);
-		if ($config->getSystemValueBool('enable_file_metadata', true)) {
-			/** @psalm-suppress InvalidArgument */
-			$eventDispatcher->addServiceListener(NodeDeletedEvent::class, FileEventListener::class);
-			/** @psalm-suppress InvalidArgument */
-			$eventDispatcher->addServiceListener(NodeRemovedFromCache::class, FileEventListener::class);
-			/** @psalm-suppress InvalidArgument */
-			$eventDispatcher->addServiceListener(NodeWrittenEvent::class, FileEventListener::class);
-		}
 
 		// Tags
 		$eventDispatcher->addServiceListener(UserDeletedEvent::class, TagManager::class);

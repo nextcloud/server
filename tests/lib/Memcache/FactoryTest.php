@@ -22,8 +22,8 @@
 namespace Test\Memcache;
 
 use OC\Memcache\NullCache;
-use Psr\Log\LoggerInterface;
 use OCP\Profiler\IProfiler;
+use Psr\Log\LoggerInterface;
 
 class Test_Factory_Available_Cache1 extends NullCache {
 	public function __construct($prefix = '') {
@@ -139,5 +139,16 @@ class FactoryTest extends \Test\TestCase {
 		$logger = $this->getMockBuilder(LoggerInterface::class)->getMock();
 		$profiler = $this->getMockBuilder(IProfiler::class)->getMock();
 		new \OC\Memcache\Factory('abc', $logger, $profiler, $localCache, $distributedCache);
+	}
+
+	public function testCreateInMemory(): void {
+		$logger = $this->getMockBuilder(LoggerInterface::class)->getMock();
+		$profiler = $this->getMockBuilder(IProfiler::class)->getMock();
+		$factory = new \OC\Memcache\Factory('abc', $logger, $profiler, null, null, null);
+
+		$cache = $factory->createInMemory();
+		$cache->set('test', 48);
+
+		self::assertSame(48, $cache->get('test'));
 	}
 }

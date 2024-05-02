@@ -2,6 +2,7 @@
   - @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
   -
   - @author 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
+  - @author Richard Steinmetz <richard@steinmetz.cloud>
   -
   - @license GNU AGPL version 3 or any later version
   -
@@ -31,6 +32,7 @@
 						:errors="errors"
 						:throttle-delay="throttleDelay"
 						:auto-complete-allowed="autoCompleteAllowed"
+						:email-states="emailStates"
 						@submit="loading = true" />
 					<a v-if="canResetPassword && resetPasswordLink !== ''"
 						id="lost-password"
@@ -64,14 +66,13 @@
 					</template>
 				</div>
 				<div v-else-if="!loading && passwordlessLogin"
-					key="reset"
+					key="reset-pw-less"
 					class="login-additional login-passwordless">
 					<PasswordLessLoginForm :username.sync="user"
 						:redirect-url="redirectUrl"
 						:auto-complete-allowed="autoCompleteAllowed"
 						:is-https="isHttps"
 						:is-localhost="isLocalhost"
-						:has-public-key-credential="hasPublicKeyCredential"
 						@submit="loading = true" />
 					<NcButton type="tertiary"
 						:aria-label="t('core', 'Back to login form')"
@@ -81,7 +82,7 @@
 					</NcButton>
 				</div>
 				<div v-else-if="!loading && canResetPassword"
-					key="reset"
+					key="reset-can-reset"
 					class="login-additional">
 					<div class="lost-password-container">
 						<ResetPassword v-if="resetPassword"
@@ -99,8 +100,8 @@
 		</template>
 		<template v-else>
 			<transition name="fade" mode="out-in">
-				<NcNoteCard type="warning" :title="t('core', 'Login form is disabled.')">
-					{{ t('core', 'Please contact your administrator.') }}
+				<NcNoteCard type="info" :title="t('core', 'Login form is disabled.')">
+					{{ t('core', 'The Nextcloud login form is disabled. Use another login option if available or contact your administration.') }}
 				</NcNoteCard>
 			</transition>
 		</template>
@@ -176,8 +177,8 @@ export default {
 			alternativeLogins: loadState('core', 'alternativeLogins', []),
 			isHttps: window.location.protocol === 'https:',
 			isLocalhost: window.location.hostname === 'localhost',
-			hasPublicKeyCredential: typeof (window.PublicKeyCredential) !== 'undefined',
 			hideLoginForm: loadState('core', 'hideLoginForm', false),
+			emailStates: loadState('core', 'emailStates', []),
 		}
 	},
 
@@ -206,33 +207,6 @@ body {
 		font-size: var(--default-font-size);
 		text-align: center;
 		font-weight: normal !important;
-	}
-}
-
-// Same look like a dashboard panel
-.login-box.guest-box, footer {
-	color: var(--color-main-text);
-	background-color: var(--color-main-background-blur);
-	-webkit-backdrop-filter: var(--filter-background-blur);
-	backdrop-filter: var(--filter-background-blur);
-}
-
-footer {
-	// Usually the same size as the login box, but allow longer texts
-	min-width: 320px;
-	box-sizing: border-box;
-	// align with login box
-	box-shadow: 0 0 10px var(--color-box-shadow);
-	// set border to pill style and adjust padding for it
-	border-radius: var(--border-radius-pill);
-	padding: 6px 24px;
-	// always show above bottom
-	margin-bottom: 1rem;
-	min-height: unset;
-
-	// reset margin to reduce height of pill
-	p.info {
-		margin: auto 0px;
 	}
 }
 

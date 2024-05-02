@@ -242,7 +242,7 @@ class Reference implements IReference {
 	 * @since 25.0.0
 	 * @return array{richObjectType: string, richObject: array<string, mixed>, openGraphObject: OpenGraphObject, accessible: bool}
 	 */
-	public function jsonSerialize() {
+	public function jsonSerialize(): array {
 		return [
 			'richObjectType' => $this->getRichObjectType(),
 			'richObject' => $this->getRichObject(),

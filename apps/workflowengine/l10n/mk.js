@@ -47,6 +47,8 @@ OC.L10N.register(
     "Custom mimetype" : "Прилагоден тип на датотеки",
     "Please enter a valid time span" : "Внесете валиден времески осег",
     "Desktop client" : "Клиент за компјутер",
+    "Select groups" : "Одбери групи",
+    "Groups" : "Групи",
     "When" : "Кога",
     "and" : "и",
     "Cancel" : "Откажи",
@@ -82,7 +84,6 @@ OC.L10N.register(
     "between" : "помеѓу",
     "not between" : "не помеѓу",
     "is member of" : "е член на",
-    "is not member of" : "не е член на",
-    "Others" : "Останати"
+    "is not member of" : "не е член на"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

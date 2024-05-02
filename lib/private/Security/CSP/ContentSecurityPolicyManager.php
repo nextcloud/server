@@ -35,25 +35,21 @@ use OCP\Security\IContentSecurityPolicyManager;
 
 class ContentSecurityPolicyManager implements IContentSecurityPolicyManager {
 	/** @var ContentSecurityPolicy[] */
-	private $policies = [];
+	private array $policies = [];
 
-	/** @var IEventDispatcher */
-	private $dispatcher;
-
-	public function __construct(IEventDispatcher $dispatcher) {
-		$this->dispatcher = $dispatcher;
+	public function __construct(
+		private IEventDispatcher $dispatcher,
+	) {
 	}
 
 	/** {@inheritdoc} */
-	public function addDefaultPolicy(EmptyContentSecurityPolicy $policy) {
+	public function addDefaultPolicy(EmptyContentSecurityPolicy $policy): void {
 		$this->policies[] = $policy;
 	}
 
 	/**
 	 * Get the configured default policy. This is not in the public namespace
 	 * as it is only supposed to be used by core itself.
-	 *
-	 * @return ContentSecurityPolicy
 	 */
 	public function getDefaultPolicy(): ContentSecurityPolicy {
 		$event = new AddContentSecurityPolicyEvent($this);
@@ -68,13 +64,11 @@ class ContentSecurityPolicyManager implements IContentSecurityPolicyManager {
 
 	/**
 	 * Merges the first given policy with the second one
-	 *
-	 * @param ContentSecurityPolicy $defaultPolicy
-	 * @param EmptyContentSecurityPolicy $originalPolicy
-	 * @return ContentSecurityPolicy
 	 */
-	public function mergePolicies(ContentSecurityPolicy $defaultPolicy,
-								  EmptyContentSecurityPolicy $originalPolicy): ContentSecurityPolicy {
+	public function mergePolicies(
+		ContentSecurityPolicy $defaultPolicy,
+		EmptyContentSecurityPolicy $originalPolicy,
+	): ContentSecurityPolicy {
 		foreach ((object)(array)$originalPolicy as $name => $value) {
 			$setter = 'set'.ucfirst($name);
 			if (\is_array($value)) {

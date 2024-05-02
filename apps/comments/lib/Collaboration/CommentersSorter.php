@@ -27,10 +27,9 @@ use OCP\Collaboration\AutoComplete\ISorter;
 use OCP\Comments\ICommentsManager;
 
 class CommentersSorter implements ISorter {
-	private ICommentsManager $commentsManager;
-
-	public function __construct(ICommentsManager $commentsManager) {
-		$this->commentsManager = $commentsManager;
+	public function __construct(
+		private ICommentsManager $commentsManager,
+	) {
 	}
 
 	public function getId(): string {

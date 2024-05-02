@@ -47,7 +47,7 @@ class PredefinedStatusServiceTest extends TestCase {
 	}
 
 	public function testGetDefaultStatuses(): void {
-		$this->l10n->expects($this->exactly(6))
+		$this->l10n->expects($this->exactly(7))
 			->method('t')
 			->withConsecutive(
 				['In a meeting'],
@@ -107,6 +107,13 @@ class PredefinedStatusServiceTest extends TestCase {
 				'id' => 'call',
 				'icon' => '💬',
 				'message' => 'In a call',
+				'clearAt' => null,
+				'visible' => false,
+			],
+			[
+				'id' => 'out-of-office',
+				'icon' => '🛑',
+				'message' => 'Out of office',
 				'clearAt' => null,
 				'visible' => false,
 			],
@@ -195,7 +202,7 @@ class PredefinedStatusServiceTest extends TestCase {
 	}
 
 	public function testGetDefaultStatusById(): void {
-		$this->l10n->expects($this->exactly(6))
+		$this->l10n->expects($this->exactly(7))
 			->method('t')
 			->withConsecutive(
 				['In a meeting'],

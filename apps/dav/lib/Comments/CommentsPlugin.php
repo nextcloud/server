@@ -85,7 +85,7 @@ class CommentsPlugin extends ServerPlugin {
 	 */
 	public function initialize(Server $server) {
 		$this->server = $server;
-		if (strpos($this->server->getRequestUri(), 'comments/') !== 0) {
+		if (!str_starts_with($this->server->getRequestUri(), 'comments/')) {
 			return;
 		}
 
@@ -247,7 +247,7 @@ class CommentsPlugin extends ServerPlugin {
 			throw new BadRequest('Invalid input values', 0, $e);
 		} catch (\OCP\Comments\MessageTooLongException $e) {
 			$msg = 'Message exceeds allowed character limit of ';
-			throw new BadRequest($msg . \OCP\Comments\IComment::MAX_MESSAGE_LENGTH, 0,	$e);
+			throw new BadRequest($msg . \OCP\Comments\IComment::MAX_MESSAGE_LENGTH, 0, $e);
 		}
 	}
 }

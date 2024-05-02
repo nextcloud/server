@@ -22,13 +22,11 @@
 namespace Test\Share;
 
 use OC\Share\Share;
-use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserManager;
-use OCP\Share\IShare;
 
 /**
  * Class Test_Share
@@ -125,110 +123,6 @@ class ShareTest extends \Test\TestCase {
 
 		$this->logout();
 		parent::tearDown();
-	}
-
-	public function testGetItemSharedWithUser() {
-		\OC_User::setUserId($this->user1->getUID());
-
-		// add dummy values to the share table
-		$query = $this->connection->getQueryBuilder();
-		$query->insert('share')
-			->values([
-				'item_type' => $query->createParameter('itemType'),
-				'item_source' => $query->createParameter('itemSource'),
-				'item_target' => $query->createParameter('itemTarget'),
-				'share_type' => $query->createParameter('shareType'),
-				'share_with' => $query->createParameter('shareWith'),
-				'uid_owner' => $query->createParameter('uidOwner')
-			]);
-		$args = [
-			['test', 99, 'target1', IShare::TYPE_USER, $this->user2->getUID(), $this->user1->getUID()],
-			['test', 99, 'target2', IShare::TYPE_USER, $this->user4->getUID(), $this->user1->getUID()],
-			['test', 99, 'target3', IShare::TYPE_USER, $this->user3->getUID(), $this->user2->getUID()],
-			['test', 99, 'target4', IShare::TYPE_USER, $this->user3->getUID(), $this->user4->getUID()],
-			['test', 99, 'target4', IShare::TYPE_USER, $this->user6->getUID(), $this->user4->getUID()],
-		];
-		foreach ($args as $row) {
-			$query->setParameter('itemType', $row[0]);
-			$query->setParameter('itemSource', $row[1], IQueryBuilder::PARAM_INT);
-			$query->setParameter('itemTarget', $row[2]);
-			$query->setParameter('shareType', $row[3], IQueryBuilder::PARAM_INT);
-			$query->setParameter('shareWith', $row[4]);
-			$query->setParameter('uidOwner', $row[5]);
-			$query->executeStatement();
-		}
-
-		$result1 = Share::getItemSharedWithUser('test', 99, $this->user2->getUID(), $this->user1->getUID());
-		$this->assertSame(1, count($result1));
-		$this->verifyResult($result1, ['target1']);
-
-		$result2 = Share::getItemSharedWithUser('test', 99, null, $this->user1->getUID());
-		$this->assertSame(2, count($result2));
-		$this->verifyResult($result2, ['target1', 'target2']);
-
-		$result3 = Share::getItemSharedWithUser('test', 99, $this->user3->getUID());
-		$this->assertSame(2, count($result3));
-		$this->verifyResult($result3, ['target3', 'target4']);
-
-		$result4 = Share::getItemSharedWithUser('test', 99, null, null);
-		$this->assertSame(5, count($result4)); // 5 because target4 appears twice
-		$this->verifyResult($result4, ['target1', 'target2', 'target3', 'target4']);
-
-		$result6 = Share::getItemSharedWithUser('test', 99, $this->user6->getUID(), null);
-		$this->assertSame(1, count($result6));
-		$this->verifyResult($result6, ['target4']);
-	}
-
-	public function testGetItemSharedWithUserFromGroupShare() {
-		\OC_User::setUserId($this->user1->getUID());
-
-		// add dummy values to the share table
-		$query = $this->connection->getQueryBuilder();
-		$query->insert('share')
-			->values([
-				'item_type' => $query->createParameter('itemType'),
-				'item_source' => $query->createParameter('itemSource'),
-				'item_target' => $query->createParameter('itemTarget'),
-				'share_type' => $query->createParameter('shareType'),
-				'share_with' => $query->createParameter('shareWith'),
-				'uid_owner' => $query->createParameter('uidOwner')
-			]);
-		$args = [
-			['test', 99, 'target1', IShare::TYPE_GROUP, $this->group1->getGID(), $this->user1->getUID()],
-			['test', 99, 'target2', IShare::TYPE_GROUP, $this->group2->getGID(), $this->user1->getUID()],
-			['test', 99, 'target3', IShare::TYPE_GROUP, $this->group1->getGID(), $this->user2->getUID()],
-			['test', 99, 'target4', IShare::TYPE_GROUP, $this->group1->getGID(), $this->user4->getUID()],
-		];
-		foreach ($args as $row) {
-			$query->setParameter('itemType', $row[0]);
-			$query->setParameter('itemSource', $row[1], IQueryBuilder::PARAM_INT);
-			$query->setParameter('itemTarget', $row[2]);
-			$query->setParameter('shareType', $row[3], IQueryBuilder::PARAM_INT);
-			$query->setParameter('shareWith', $row[4]);
-			$query->setParameter('uidOwner', $row[5]);
-			$query->executeStatement();
-		}
-
-		// user2 is in group1 and group2
-		$result1 = Share::getItemSharedWithUser('test', 99, $this->user2->getUID(), $this->user1->getUID());
-		$this->assertSame(2, count($result1));
-		$this->verifyResult($result1, ['target1', 'target2']);
-
-		$result2 = Share::getItemSharedWithUser('test', 99, null, $this->user1->getUID());
-		$this->assertSame(2, count($result2));
-		$this->verifyResult($result2, ['target1', 'target2']);
-
-		// user3 is in group1 and group2
-		$result3 = Share::getItemSharedWithUser('test', 99, $this->user3->getUID());
-		$this->assertSame(3, count($result3));
-		$this->verifyResult($result3, ['target1', 'target3', 'target4']);
-
-		$result4 = Share::getItemSharedWithUser('test', 99, null, null);
-		$this->assertSame(4, count($result4));
-		$this->verifyResult($result4, ['target1', 'target2', 'target3', 'target4']);
-
-		$result6 = Share::getItemSharedWithUser('test', 99, $this->user6->getUID(), null);
-		$this->assertSame(0, count($result6));
 	}
 
 	public function verifyResult($result, $expected) {

@@ -59,11 +59,11 @@ class PushProvider extends AbstractProvider {
 	private $timeFactory;
 
 	public function __construct(IConfig $config,
-								IManager $manager,
-								LoggerInterface $logger,
-								L10NFactory $l10nFactory,
-								IURLGenerator $urlGenerator,
-								ITimeFactory $timeFactory) {
+		IManager $manager,
+		LoggerInterface $logger,
+		L10NFactory $l10nFactory,
+		IURLGenerator $urlGenerator,
+		ITimeFactory $timeFactory) {
 		parent::__construct($logger, $l10nFactory, $urlGenerator, $config);
 		$this->manager = $manager;
 		$this->timeFactory = $timeFactory;
@@ -79,10 +79,10 @@ class PushProvider extends AbstractProvider {
 	 * @throws \Exception
 	 */
 	public function send(VEvent $vevent,
-						 ?string $calendarDisplayName,
-						 array $principalEmailAddresses,
-						 array $users = []):void {
-		if ($this->config->getAppValue('dav', 'sendEventRemindersPush', 'no') !== 'yes') {
+		?string $calendarDisplayName,
+		array $principalEmailAddresses,
+		array $users = []):void {
+		if ($this->config->getAppValue('dav', 'sendEventRemindersPush', 'yes') !== 'yes') {
 			return;
 		}
 

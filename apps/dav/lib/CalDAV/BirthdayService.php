@@ -67,11 +67,11 @@ class BirthdayService {
 	 * BirthdayService constructor.
 	 */
 	public function __construct(CalDavBackend $calDavBackEnd,
-								CardDavBackend $cardDavBackEnd,
-								GroupPrincipalBackend $principalBackend,
-								IConfig $config,
-								IDBConnection $dbConnection,
-								IL10N $l10n) {
+		CardDavBackend $cardDavBackEnd,
+		GroupPrincipalBackend $principalBackend,
+		IConfig $config,
+		IDBConnection $dbConnection,
+		IL10N $l10n) {
 		$this->calDavBackEnd = $calDavBackEnd;
 		$this->cardDavBackEnd = $cardDavBackEnd;
 		$this->principalBackend = $principalBackend;
@@ -81,8 +81,8 @@ class BirthdayService {
 	}
 
 	public function onCardChanged(int $addressBookId,
-								  string $cardUri,
-								  string $cardData): void {
+		string $cardUri,
+		string $cardData): void {
 		if (!$this->isGloballyEnabled()) {
 			return;
 		}
@@ -117,7 +117,7 @@ class BirthdayService {
 	}
 
 	public function onCardDeleted(int $addressBookId,
-								  string $cardUri): void {
+		string $cardUri): void {
 		if (!$this->isGloballyEnabled()) {
 			return;
 		}
@@ -164,9 +164,9 @@ class BirthdayService {
 	 * @throws InvalidDataException
 	 */
 	public function buildDateFromContact(string  $cardData,
-										 string  $dateField,
-										 string  $postfix,
-										 ?string $reminderOffset):?VCalendar {
+		string  $dateField,
+		string  $postfix,
+		?string $reminderOffset):?VCalendar {
 		if (empty($cardData)) {
 			return null;
 		}
@@ -322,7 +322,7 @@ class BirthdayService {
 	 * @return bool
 	 */
 	public function birthdayEvenChanged(string $existingCalendarData,
-										VCalendar $newCalendarData):bool {
+		VCalendar $newCalendarData):bool {
 		try {
 			$existingBirthday = Reader::read($existingCalendarData);
 		} catch (Exception $ex) {
@@ -366,11 +366,11 @@ class BirthdayService {
 	 * @throws \Sabre\DAV\Exception\BadRequest
 	 */
 	private function updateCalendar(string $cardUri,
-									string $cardData,
-									array $book,
-									int $calendarId,
-									array $type,
-									?string $reminderOffset):void {
+		string $cardData,
+		array $book,
+		int $calendarId,
+		array $type,
+		?string $reminderOffset):void {
 		$objectUri = $book['uri'] . '-' . $cardUri . $type['postfix'] . '.ics';
 		$calendarData = $this->buildDateFromContact($cardData, $type['field'], $type['postfix'], $reminderOffset);
 		$existing = $this->calDavBackEnd->getCalendarObject($calendarId, $objectUri);
@@ -419,7 +419,7 @@ class BirthdayService {
 	 * @return string|null
 	 */
 	private function principalToUserId(string $userPrincipal):?string {
-		if (substr($userPrincipal, 0, 17) === 'principals/users/') {
+		if (str_starts_with($userPrincipal, 'principals/users/')) {
 			return substr($userPrincipal, 17);
 		}
 		return null;
@@ -469,9 +469,9 @@ class BirthdayService {
 	 * @return string The formatted title
 	 */
 	private function formatTitle(string $field,
-								 string $name,
-								 int $year = null,
-								 bool $supports4Byte = true):string {
+		string $name,
+		?int $year = null,
+		bool $supports4Byte = true):string {
 		if ($supports4Byte) {
 			switch ($field) {
 				case 'BDAY':

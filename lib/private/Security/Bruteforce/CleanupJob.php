@@ -32,19 +32,18 @@ use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 
 class CleanupJob extends TimedJob {
-	/** @var IDBConnection */
-	private $connection;
-
-	public function __construct(ITimeFactory $time, IDBConnection $connection) {
+	public function __construct(
+		ITimeFactory $time,
+		private IDBConnection $connection,
+	) {
 		parent::__construct($time);
-		$this->connection = $connection;
 
 		// Run once a day
 		$this->setInterval(3600 * 24);
 		$this->setTimeSensitivity(IJob::TIME_INSENSITIVE);
 	}
 
-	protected function run($argument) {
+	protected function run($argument): void {
 		// Delete all entries more than 48 hours old
 		$time = $this->time->getTime() - (48 * 3600);
 

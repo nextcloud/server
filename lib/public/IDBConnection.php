@@ -46,6 +46,26 @@ use OCP\DB\QueryBuilder\IQueryBuilder;
  */
 interface IDBConnection {
 	/**
+	 * @since 28.0.0
+	 */
+	public const PLATFORM_MYSQL = 'mysql';
+
+	/**
+	 * @since 28.0.0
+	 */
+	public const PLATFORM_ORACLE = 'oracle';
+
+	/**
+	 * @since 28.0.0
+	 */
+	public const PLATFORM_POSTGRES = 'postgres';
+
+	/**
+	 * @since 28.0.0
+	 */
+	public const PLATFORM_SQLITE = 'sqlite';
+
+	/**
 	 * Gets the QueryBuilder for the connection.
 	 *
 	 * @return \OCP\DB\QueryBuilder\IQueryBuilder
@@ -54,7 +74,7 @@ interface IDBConnection {
 	public function getQueryBuilder();
 
 	/**
-	 * Used to abstract the ownCloud database access away
+	 * Used to abstract the Nextcloud database access away
 	 * @param string $sql the sql query with ? placeholder for params
 	 * @param int|null $limit the maximum number of rows
 	 * @param int|null $offset from which row we want to start
@@ -144,7 +164,7 @@ interface IDBConnection {
 	 * @since 6.0.0 - parameter $compare was added in 8.1.0, return type changed from boolean in 8.1.0
 	 * @deprecated 15.0.0 - use unique index and "try { $db->insert() } catch (UniqueConstraintViolationException $e) {}" instead, because it is more reliable and does not have the risk for deadlocks - see https://github.com/nextcloud/server/pull/12371
 	 */
-	public function insertIfNotExist(string $table, array $input, array $compare = null);
+	public function insertIfNotExist(string $table, array $input, ?array $compare = null);
 
 
 	/**
@@ -339,4 +359,12 @@ interface IDBConnection {
 	 * @since 13.0.0
 	 */
 	public function migrateToSchema(Schema $toSchema): void;
+
+	/**
+	 * Returns the database provider name
+	 * @link https://github.com/nextcloud/server/issues/30877
+	 * @since 28.0.0
+	 * @return IDBConnection::PLATFORM_*
+	 */
+	public function getDatabaseProvider(): string;
 }

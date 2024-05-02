@@ -50,19 +50,20 @@ class Version27000Date20230309104325 extends SimpleMigrationStep {
 	 * @return null|ISchemaWrapper
 	 */
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options): ?ISchemaWrapper {
-		/** @var ISchemaWrapper $schema */
-		$schema = $schemaClosure();
-		$metadataTable = $schema->getTable('file_metadata');
+		// /** @var ISchemaWrapper $schema */
+		// $schema = $schemaClosure();
+		// $metadataTable = $schema->getTable('file_metadata');
 
-		if ($metadataTable->hasColumn('value')) {
-			return null;
-		}
+		// if ($metadataTable->hasColumn('value')) {
+		// 	return null;
+		// }
 
-		$metadataTable->addColumn('value', Types::TEXT, [
-			'notnull' => false,
-			'default' => '',
-		]);
-		return $schema;
+		// $metadataTable->addColumn('value', Types::TEXT, [
+		// 	'notnull' => false,
+		// 	'default' => '',
+		// ]);
+		// return $schema;
+		return null;
 	}
 
 
@@ -74,17 +75,17 @@ class Version27000Date20230309104325 extends SimpleMigrationStep {
 	 */
 	public function postSchemaChange(IOutput $output, Closure $schemaClosure, array $options) {
 		/** @var ISchemaWrapper $schema */
-		$schema = $schemaClosure();
-		$metadataTable = $schema->getTable('file_metadata');
+		// $schema = $schemaClosure();
+		// $metadataTable = $schema->getTable('file_metadata');
 
-		if (!$metadataTable->hasColumn('metadata')) {
-			return;
-		}
+		// if (!$metadataTable->hasColumn('metadata')) {
+		// 	return;
+		// }
 
-		$this->connection
-			->getQueryBuilder()
-			->update('file_metadata')
-			->set('value', 'metadata')
-			->executeStatement();
+		// $this->connection
+		// 	->getQueryBuilder()
+		// 	->update('file_metadata')
+		// 	->set('value', 'metadata')
+		// 	->executeStatement();
 	}
 }

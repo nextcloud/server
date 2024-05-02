@@ -36,9 +36,11 @@ declare(strict_types=1);
  */
 namespace OC;
 
-use \OCP\AutoloadNotAllowedException;
-use OCP\ILogger;
+use OCP\App\AppPathNotFoundException;
+use OCP\App\IAppManager;
+use OCP\AutoloadNotAllowedException;
 use OCP\ICache;
+use Psr\Log\LoggerInterface;
 
 class Autoloader {
 	/** @var bool */
@@ -105,7 +107,7 @@ class Autoloader {
 			 * Remove "apps/" from inclusion path for smooth migration to multi app dir
 			 */
 			if (strpos(\OC::$CLASSPATH[$class], 'apps/') === 0) {
-				\OCP\Util::writeLog('core', 'include path for class "' . $class . '" starts with "apps/"', ILogger::DEBUG);
+				\OCP\Server::get(LoggerInterface::class)->debug('include path for class "' . $class . '" starts with "apps/"', ['app' => 'core']);
 				$paths[] = str_replace('apps/', '', \OC::$CLASSPATH[$class]);
 			}
 		} elseif (strpos($class, 'OC_') === 0) {
@@ -113,11 +115,15 @@ class Autoloader {
 		} elseif (strpos($class, 'OCA\\') === 0) {
 			[, $app, $rest] = explode('\\', $class, 3);
 			$app = strtolower($app);
-			$appPath = \OC_App::getAppPath($app);
-			if ($appPath && stream_resolve_include_path($appPath)) {
-				$paths[] = $appPath . '/' . strtolower(str_replace('\\', '/', $rest) . '.php');
-				// If not found in the root of the app directory, insert '/lib' after app id and try again.
-				$paths[] = $appPath . '/lib/' . strtolower(str_replace('\\', '/', $rest) . '.php');
+			try {
+				$appPath = \OCP\Server::get(IAppManager::class)->getAppPath($app);
+				if (stream_resolve_include_path($appPath)) {
+					$paths[] = $appPath . '/' . strtolower(str_replace('\\', '/', $rest) . '.php');
+					// If not found in the root of the app directory, insert '/lib' after app id and try again.
+					$paths[] = $appPath . '/lib/' . strtolower(str_replace('\\', '/', $rest) . '.php');
+				}
+			} catch (AppPathNotFoundException) {
+				// App not found, ignore
 			}
 		} elseif ($class === 'Test\\TestCase') {
 			// This File is considered public API, so we make sure that the class
@@ -185,7 +191,7 @@ class Autoloader {
 	 *
 	 * @param ICache $memoryCache Instance of memory cache.
 	 */
-	public function setMemoryCache(ICache $memoryCache = null): void {
+	public function setMemoryCache(?ICache $memoryCache = null): void {
 		$this->memoryCache = $memoryCache;
 	}
 }

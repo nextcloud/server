@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
+ * @copyright Copyright (c) 2023, Ezhil Shanmugham <ezhil930@gmail.com>
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bjoern Schiessle <bjoern@schiessle.org>
@@ -25,6 +26,7 @@ declare(strict_types=1);
  * @author Tom Needham <tom@owncloud.com>
  * @author Vincent Petry <vincent@nextcloud.com>
  * @author Kate Döen <kate.doeen@nextcloud.com>
+ * @author Ezhil Shanmugham <ezhil930@gmail.com>
  *
  * @license AGPL-3.0
  *
@@ -45,9 +47,6 @@ declare(strict_types=1);
 namespace OCA\Provisioning_API\Controller;
 
 use InvalidArgumentException;
-use libphonenumber\NumberParseException;
-use libphonenumber\PhoneNumberFormat;
-use libphonenumber\PhoneNumberUtil;
 use OC\Authentication\Token\RemoteWipe;
 use OC\KnownUser\KnownUserService;
 use OC\User\Backend;
@@ -60,12 +59,15 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCS\OCSForbiddenException;
+use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\AppFramework\OCSController;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\HintException;
 use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IGroupManager;
+use OCP\IL10N;
+use OCP\IPhoneNumberUtil;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUser;
@@ -78,25 +80,11 @@ use OCP\User\Backend\ISetDisplayNameBackend;
 use Psr\Log\LoggerInterface;
 
 /**
- * @psalm-import-type ProvisioningApiUserDetails from ResponseDefinitions
+ * @psalm-import-type Provisioning_APIUserDetails from ResponseDefinitions
  */
 class UsersController extends AUserData {
-	/** @var IURLGenerator */
-	protected $urlGenerator;
-	/** @var LoggerInterface */
-	private $logger;
-	/** @var IFactory */
-	protected $l10nFactory;
-	/** @var NewUserMailHelper */
-	private $newUserMailHelper;
-	/** @var ISecureRandom */
-	private $secureRandom;
-	/** @var RemoteWipe */
-	private $remoteWipe;
-	/** @var KnownUserService */
-	private $knownUserService;
-	/** @var IEventDispatcher */
-	private $eventDispatcher;
+
+	private IL10N $l10n;
 
 	public function __construct(
 		string $appName,
@@ -106,14 +94,15 @@ class UsersController extends AUserData {
 		IGroupManager $groupManager,
 		IUserSession $userSession,
 		IAccountManager $accountManager,
-		IURLGenerator $urlGenerator,
-		LoggerInterface $logger,
 		IFactory $l10nFactory,
-		NewUserMailHelper $newUserMailHelper,
-		ISecureRandom $secureRandom,
-		RemoteWipe $remoteWipe,
-		KnownUserService $knownUserService,
-		IEventDispatcher $eventDispatcher
+		private IURLGenerator $urlGenerator,
+		private LoggerInterface $logger,
+		private NewUserMailHelper $newUserMailHelper,
+		private ISecureRandom $secureRandom,
+		private RemoteWipe $remoteWipe,
+		private KnownUserService $knownUserService,
+		private IEventDispatcher $eventDispatcher,
+		private IPhoneNumberUtil $phoneNumberUtil,
 	) {
 		parent::__construct(
 			$appName,
@@ -126,14 +115,7 @@ class UsersController extends AUserData {
 			$l10nFactory
 		);
 
-		$this->urlGenerator = $urlGenerator;
-		$this->logger = $logger;
-		$this->l10nFactory = $l10nFactory;
-		$this->newUserMailHelper = $newUserMailHelper;
-		$this->secureRandom = $secureRandom;
-		$this->remoteWipe = $remoteWipe;
-		$this->knownUserService = $knownUserService;
-		$this->eventDispatcher = $eventDispatcher;
+		$this->l10n = $l10nFactory->get($appName);
 	}
 
 	/**
@@ -145,8 +127,10 @@ class UsersController extends AUserData {
 	 * @param int|null $limit Limit the amount of groups returned
 	 * @param int $offset Offset for searching for groups
 	 * @return DataResponse<Http::STATUS_OK, array{users: string[]}, array{}>
+	 *
+	 * 200: Users returned
 	 */
-	public function getUsers(string $search = '', int $limit = null, int $offset = 0): DataResponse {
+	public function getUsers(string $search = '', ?int $limit = null, int $offset = 0): DataResponse {
 		$user = $this->userSession->getUser();
 		$users = [];
 
@@ -183,9 +167,11 @@ class UsersController extends AUserData {
 	 * @param string $search Text to search for
 	 * @param int|null $limit Limit the amount of groups returned
 	 * @param int $offset Offset for searching for groups
-	 * @return DataResponse<Http::STATUS_OK, array{users: array<string, ProvisioningApiUserDetails|array{id: string}>}, array{}>
+	 * @return DataResponse<Http::STATUS_OK, array{users: array<string, Provisioning_APIUserDetails|array{id: string}>}, array{}>
+	 *
+	 * 200: Users details returned
 	 */
-	public function getUsersDetails(string $search = '', int $limit = null, int $offset = 0): DataResponse {
+	public function getUsersDetails(string $search = '', ?int $limit = null, int $offset = 0): DataResponse {
 		$currentUser = $this->userSession->getUser();
 		$users = [];
 
@@ -208,16 +194,102 @@ class UsersController extends AUserData {
 			$users = array_merge(...$users);
 		}
 
-		/** @var array<string, ProvisioningApiUserDetails|array{id: string}> $usersDetails */
 		$usersDetails = [];
 		foreach ($users as $userId) {
 			$userId = (string) $userId;
-			$userData = $this->getUserData($userId);
+			try {
+				$userData = $this->getUserData($userId);
+			} catch (OCSNotFoundException $e) {
+				// We still want to return all other accounts, but this one was removed from the backends
+				// yet they are still in our database. Might be a LDAP remnant.
+				$userData = null;
+				$this->logger->warning('Found one enabled account that is removed from its backend, but still exists in Nextcloud database', ['accountId' => $userId]);
+			}
 			// Do not insert empty entry
 			if ($userData !== null) {
 				$usersDetails[$userId] = $userData;
 			} else {
 				// Logged user does not have permissions to see this user
+				// only showing its id
+				$usersDetails[$userId] = ['id' => $userId];
+			}
+		}
+
+		return new DataResponse([
+			'users' => $usersDetails
+		]);
+	}
+
+	/**
+	 * @NoAdminRequired
+	 *
+	 * Get the list of disabled users and their details
+	 *
+	 * @param ?int $limit Limit the amount of users returned
+	 * @param int $offset Offset
+	 * @return DataResponse<Http::STATUS_OK, array{users: array<string, Provisioning_APIUserDetails|array{id: string}>}, array{}>
+	 *
+	 * 200: Disabled users details returned
+	 */
+	public function getDisabledUsersDetails(?int $limit = null, int $offset = 0): DataResponse {
+		$currentUser = $this->userSession->getUser();
+		if ($currentUser === null) {
+			return new DataResponse(['users' => []]);
+		}
+		if ($limit !== null && $limit < 0) {
+			throw new InvalidArgumentException("Invalid limit value: $limit");
+		}
+		if ($offset < 0) {
+			throw new InvalidArgumentException("Invalid offset value: $offset");
+		}
+
+		$users = [];
+
+		// Admin? Or SubAdmin?
+		$uid = $currentUser->getUID();
+		$subAdminManager = $this->groupManager->getSubAdmin();
+		if ($this->groupManager->isAdmin($uid)) {
+			$users = $this->userManager->getDisabledUsers($limit, $offset);
+			$users = array_map(fn (IUser $user): string => $user->getUID(), $users);
+		} elseif ($subAdminManager->isSubAdmin($currentUser)) {
+			$subAdminOfGroups = $subAdminManager->getSubAdminsGroups($currentUser);
+
+			$users = [];
+			/* We have to handle offset ourselve for correctness */
+			$tempLimit = ($limit === null ? null : $limit + $offset);
+			foreach ($subAdminOfGroups as $group) {
+				$users = array_merge(
+					$users,
+					array_map(
+						fn (IUser $user): string => $user->getUID(),
+						array_filter(
+							$group->searchUsers('', ($tempLimit === null ? null : $tempLimit - count($users))),
+							fn (IUser $user): bool => !$user->isEnabled()
+						)
+					)
+				);
+				if (($tempLimit !== null) && (count($users) >= $tempLimit)) {
+					break;
+				}
+			}
+			$users = array_slice($users, $offset);
+		}
+
+		$usersDetails = [];
+		foreach ($users as $userId) {
+			try {
+				$userData = $this->getUserData($userId);
+			} catch (OCSNotFoundException $e) {
+				// We still want to return all other accounts, but this one was removed from the backends
+				// yet they are still in our database. Might be a LDAP remnant.
+				$userData = null;
+				$this->logger->warning('Found one disabled account that was removed from its backend, but still exists in Nextcloud database', ['accountId' => $userId]);
+			}
+			// Do not insert empty entry
+			if ($userData !== null) {
+				$usersDetails[$userId] = $userData;
+			} else {
+				// Currently logged in user does not have permissions to see this user
 				// only showing its id
 				$usersDetails[$userId] = ['id' => $userId];
 			}
@@ -243,9 +315,7 @@ class UsersController extends AUserData {
 	 * 400: Invalid location
 	 */
 	public function searchByPhoneNumbers(string $location, array $search): DataResponse {
-		$phoneUtil = PhoneNumberUtil::getInstance();
-
-		if ($phoneUtil->getCountryCodeForRegion($location) === 0) {
+		if ($this->phoneNumberUtil->getCountryCodeForRegion($location) === null) {
 			// Not a valid region code
 			return new DataResponse([], Http::STATUS_BAD_REQUEST);
 		}
@@ -258,26 +328,18 @@ class UsersController extends AUserData {
 		$normalizedNumberToKey = [];
 		foreach ($search as $key => $phoneNumbers) {
 			foreach ($phoneNumbers as $phone) {
-				try {
-					$phoneNumber = $phoneUtil->parse($phone, $location);
-					if ($phoneUtil->isValidNumber($phoneNumber)) {
-						$normalizedNumber = $phoneUtil->format($phoneNumber, PhoneNumberFormat::E164);
-						$normalizedNumberToKey[$normalizedNumber] = (string) $key;
-					}
-				} catch (NumberParseException $e) {
+				$normalizedNumber = $this->phoneNumberUtil->convertToStandardFormat($phone, $location);
+				if ($normalizedNumber !== null) {
+					$normalizedNumberToKey[$normalizedNumber] = (string) $key;
 				}
 
-				if ($defaultPhoneRegion !== '' && $defaultPhoneRegion !== $location && strpos($phone, '0') === 0) {
+				if ($defaultPhoneRegion !== '' && $defaultPhoneRegion !== $location && str_starts_with($phone, '0')) {
 					// If the number has a leading zero (no country code),
 					// we also check the default phone region of the instance,
 					// when it's different to the user's given region.
-					try {
-						$phoneNumber = $phoneUtil->parse($phone, $defaultPhoneRegion);
-						if ($phoneUtil->isValidNumber($phoneNumber)) {
-							$normalizedNumber = $phoneUtil->format($phoneNumber, PhoneNumberFormat::E164);
-							$normalizedNumberToKey[$normalizedNumber] = (string) $key;
-						}
-					} catch (NumberParseException $e) {
+					$normalizedNumber = $this->phoneNumberUtil->convertToStandardFormat($phone, $defaultPhoneRegion);
+					if ($normalizedNumber !== null) {
+						$normalizedNumberToKey[$normalizedNumber] = (string) $key;
 					}
 				}
 			}
@@ -327,7 +389,7 @@ class UsersController extends AUserData {
 			}
 			$attempts++;
 		} while ($attempts < 10);
-		throw new OCSException('Could not create non-existing user id', 111);
+		throw new OCSException($this->l10n->t('Could not create non-existing user ID'), 111);
 	}
 
 	/**
@@ -372,21 +434,21 @@ class UsersController extends AUserData {
 
 		if ($this->userManager->userExists($userid)) {
 			$this->logger->error('Failed addUser attempt: User already exists.', ['app' => 'ocs_api']);
-			throw new OCSException($this->l10nFactory->get('provisioning_api')->t('User already exists'), 102);
+			throw new OCSException($this->l10n->t('User already exists'), 102);
 		}
 
 		if ($groups !== []) {
 			foreach ($groups as $group) {
 				if (!$this->groupManager->groupExists($group)) {
-					throw new OCSException('group ' . $group . ' does not exist', 104);
+					throw new OCSException($this->l10n->t('Group %1$s does not exist', [$group]), 104);
 				}
 				if (!$isAdmin && !$subAdminManager->isSubAdminOfGroup($user, $this->groupManager->get($group))) {
-					throw new OCSException('insufficient privileges for group ' . $group, 105);
+					throw new OCSException($this->l10n->t('Insufficient privileges for group %1$s', [$group]), 105);
 				}
 			}
 		} else {
 			if (!$isAdmin) {
-				throw new OCSException('no group specified (required for subadmins)', 106);
+				throw new OCSException($this->l10n->t('No group specified (required for sub-admins)'), 106);
 			}
 		}
 
@@ -396,15 +458,15 @@ class UsersController extends AUserData {
 				$group = $this->groupManager->get($groupid);
 				// Check if group exists
 				if ($group === null) {
-					throw new OCSException('Subadmin group does not exist', 102);
+					throw new OCSException($this->l10n->t('Sub-admin group does not exist'), 102);
 				}
 				// Check if trying to make subadmin of admin group
 				if ($group->getGID() === 'admin') {
-					throw new OCSException('Cannot create subadmins for admin group', 103);
+					throw new OCSException($this->l10n->t('Cannot create sub-admins for admin group'), 103);
 				}
 				// Check if has permission to promote subadmins
 				if (!$subAdminManager->isSubAdminOfGroup($user, $group) && !$isAdmin) {
-					throw new OCSForbiddenException('No permissions to promote subadmins');
+					throw new OCSForbiddenException($this->l10n->t('No permissions to promote sub-admins'));
 				}
 				$subadminGroups[] = $group;
 			}
@@ -412,11 +474,11 @@ class UsersController extends AUserData {
 
 		$generatePasswordResetToken = false;
 		if (strlen($password) > IUserManager::MAX_PASSWORD_LENGTH) {
-			throw new OCSException('Invalid password value', 101);
+			throw new OCSException($this->l10n->t('Invalid password value'), 101);
 		}
 		if ($password === '') {
 			if ($email === '') {
-				throw new OCSException('To send a password link to the user an email address is required.', 108);
+				throw new OCSException($this->l10n->t('To send a password link to the user an email address is required.'), 108);
 			}
 
 			$passwordEvent = new GenerateSecurePasswordEvent();
@@ -435,7 +497,7 @@ class UsersController extends AUserData {
 		}
 
 		if ($email === '' && $this->config->getAppValue('core', 'newUser.requireEmail', 'no') === 'yes') {
-			throw new OCSException('Required email address was not provided', 110);
+			throw new OCSException($this->l10n->t('Required email address was not provided'), 110);
 		}
 
 		try {
@@ -546,8 +608,10 @@ class UsersController extends AUserData {
 	 * Get the details of a user
 	 *
 	 * @param string $userId ID of the user
-	 * @return DataResponse<Http::STATUS_OK, ProvisioningApiUserDetails, array{}>
+	 * @return DataResponse<Http::STATUS_OK, Provisioning_APIUserDetails, array{}>
 	 * @throws OCSException
+	 *
+	 * 200: User returned
 	 */
 	public function getUser(string $userId): DataResponse {
 		$includeScopes = false;
@@ -570,13 +634,15 @@ class UsersController extends AUserData {
 	 *
 	 * Get the details of the current user
 	 *
-	 * @return DataResponse<Http::STATUS_OK, ProvisioningApiUserDetails, array{}>
+	 * @return DataResponse<Http::STATUS_OK, Provisioning_APIUserDetails, array{}>
 	 * @throws OCSException
+	 *
+	 * 200: Current user returned
 	 */
 	public function getCurrentUser(): DataResponse {
 		$user = $this->userSession->getUser();
 		if ($user) {
-			/** @var ProvisioningApiUserDetails $data */
+			/** @var Provisioning_APIUserDetails $data */
 			$data = $this->getUserData($user->getUID(), true);
 			return new DataResponse($data);
 		}
@@ -592,6 +658,8 @@ class UsersController extends AUserData {
 	 *
 	 * @return DataResponse<Http::STATUS_OK, string[], array{}>
 	 * @throws OCSException
+	 *
+	 * 200: Editable fields returned
 	 */
 	public function getEditableFields(): DataResponse {
 		$currentLoggedInUser = $this->userSession->getUser();
@@ -611,6 +679,8 @@ class UsersController extends AUserData {
 	 * @param string $userId ID of the user
 	 * @return DataResponse<Http::STATUS_OK, string[], array{}>
 	 * @throws OCSException
+	 *
+	 * 200: Editable fields for user returned
 	 */
 	public function getEditableFieldsForUser(string $userId): DataResponse {
 		$currentLoggedInUser = $this->userSession->getUser();
@@ -677,6 +747,8 @@ class UsersController extends AUserData {
 	 * @param string $value New value for the key
 	 * @return DataResponse<Http::STATUS_OK, array<empty>, array{}>
 	 * @throws OCSException
+	 *
+	 * 200: User values edited successfully
 	 */
 	public function editUserMultiValue(
 		string $userId,
@@ -776,6 +848,8 @@ class UsersController extends AUserData {
 	 * @param string $value New value for the key
 	 * @return DataResponse<Http::STATUS_OK, array<empty>, array{}>
 	 * @throws OCSException
+	 *
+	 * 200: User value edited successfully
 	 */
 	public function editUser(string $userId, string $key, string $value): DataResponse {
 		$currentLoggedInUser = $this->userSession->getUser();
@@ -847,7 +921,6 @@ class UsersController extends AUserData {
 			if ($this->groupManager->isAdmin($currentLoggedInUser->getUID())) {
 				$permittedFields[] = self::USER_FIELD_QUOTA;
 				$permittedFields[] = self::USER_FIELD_MANAGER;
-
 			}
 		} else {
 			// Check if admin / subadmin
@@ -910,14 +983,14 @@ class UsersController extends AUserData {
 						$quota = \OCP\Util::computerFileSize($quota);
 					}
 					if ($quota === false) {
-						throw new OCSException('Invalid quota value ' . $value, 102);
+						throw new OCSException($this->l10n->t('Invalid quota value: %1$s', [$value]), 102);
 					}
 					if ($quota === -1) {
 						$quota = 'none';
 					} else {
 						$maxQuota = (int) $this->config->getAppValue('files', 'max_quota', '-1');
 						if ($maxQuota !== -1 && $quota > $maxQuota) {
-							throw new OCSException('Invalid quota value. ' . $value . ' is exceeding the maximum quota', 102);
+							throw new OCSException($this->l10n->t('Invalid quota value. %1$s is exceeding the maximum quota', [$value]), 102);
 						}
 						$quota = \OCP\Util::humanFileSize($quota);
 					}
@@ -926,7 +999,7 @@ class UsersController extends AUserData {
 				if ($quota === 'none') {
 					$allowUnlimitedQuota = $this->config->getAppValue('files', 'allow_unlimited_quota', '1') === '1';
 					if (!$allowUnlimitedQuota) {
-						throw new OCSException('Unlimited quota is forbidden on this instance', 102);
+						throw new OCSException($this->l10n->t('Unlimited quota is forbidden on this instance'), 102);
 					}
 				}
 				$targetUser->setQuota($quota);
@@ -937,10 +1010,10 @@ class UsersController extends AUserData {
 			case self::USER_FIELD_PASSWORD:
 				try {
 					if (strlen($value) > IUserManager::MAX_PASSWORD_LENGTH) {
-						throw new OCSException('Invalid password value', 102);
+						throw new OCSException($this->l10n->t('Invalid password value'), 102);
 					}
 					if (!$targetUser->canChangePassword()) {
-						throw new OCSException('Setting the password is not supported by the users backend', 103);
+						throw new OCSException($this->l10n->t('Setting the password is not supported by the users backend'), 103);
 					}
 					$targetUser->setPassword($value);
 				} catch (HintException $e) { // password policy error
@@ -950,13 +1023,13 @@ class UsersController extends AUserData {
 			case self::USER_FIELD_LANGUAGE:
 				$languagesCodes = $this->l10nFactory->findAvailableLanguages();
 				if (!in_array($value, $languagesCodes, true) && $value !== 'en') {
-					throw new OCSException('Invalid language', 102);
+					throw new OCSException($this->l10n->t('Invalid language'), 102);
 				}
 				$this->config->setUserValue($targetUser->getUID(), 'core', 'lang', $value);
 				break;
 			case self::USER_FIELD_LOCALE:
 				if (!$this->l10nFactory->localeExists($value)) {
-					throw new OCSException('Invalid locale', 102);
+					throw new OCSException($this->l10n->t('Invalid locale'), 102);
 				}
 				$this->config->setUserValue($targetUser->getUID(), 'core', 'locale', $value);
 				break;
@@ -1087,6 +1160,8 @@ class UsersController extends AUserData {
 	 * @return DataResponse<Http::STATUS_OK, array<empty>, array{}>
 	 *
 	 * @throws OCSException
+	 *
+	 * 200: Wiped all user devices successfully
 	 */
 	public function wipeUserDevices(string $userId): DataResponse {
 		/** @var IUser $currentLoggedInUser */
@@ -1122,6 +1197,8 @@ class UsersController extends AUserData {
 	 * @param string $userId ID of the user
 	 * @return DataResponse<Http::STATUS_OK, array<empty>, array{}>
 	 * @throws OCSException
+	 *
+	 * 200: User deleted successfully
 	 */
 	public function deleteUser(string $userId): DataResponse {
 		$currentLoggedInUser = $this->userSession->getUser();
@@ -1159,6 +1236,8 @@ class UsersController extends AUserData {
 	 * @param string $userId ID of the user
 	 * @return DataResponse<Http::STATUS_OK, array<empty>, array{}>
 	 * @throws OCSException
+	 *
+	 * 200: User disabled successfully
 	 */
 	public function disableUser(string $userId): DataResponse {
 		return $this->setEnabled($userId, false);
@@ -1173,6 +1252,8 @@ class UsersController extends AUserData {
 	 * @param string $userId ID of the user
 	 * @return DataResponse<Http::STATUS_OK, array<empty>, array{}>
 	 * @throws OCSException
+	 *
+	 * 200: User enabled successfully
 	 */
 	public function enableUser(string $userId): DataResponse {
 		return $this->setEnabled($userId, true);
@@ -1212,6 +1293,8 @@ class UsersController extends AUserData {
 	 * @param string $userId ID of the user
 	 * @return DataResponse<Http::STATUS_OK, array{groups: string[]}, array{}>
 	 * @throws OCSException
+	 *
+	 * 200: Users groups returned
 	 */
 	public function getUsersGroups(string $userId): DataResponse {
 		$loggedInUser = $this->userSession->getUser();
@@ -1260,6 +1343,8 @@ class UsersController extends AUserData {
 	 * @param string $groupid ID of the group
 	 * @return DataResponse<Http::STATUS_OK, array<empty>, array{}>
 	 * @throws OCSException
+	 *
+	 * 200: User added to group successfully
 	 */
 	public function addToGroup(string $userId, string $groupid = ''): DataResponse {
 		if ($groupid === '') {
@@ -1297,6 +1382,8 @@ class UsersController extends AUserData {
 	 * @param string $groupid ID of the group
 	 * @return DataResponse<Http::STATUS_OK, array<empty>, array{}>
 	 * @throws OCSException
+	 *
+	 * 200: User removed from group successfully
 	 */
 	public function removeFromGroup(string $userId, string $groupid): DataResponse {
 		$loggedInUser = $this->userSession->getUser();
@@ -1325,11 +1412,11 @@ class UsersController extends AUserData {
 		if ($targetUser->getUID() === $loggedInUser->getUID()) {
 			if ($this->groupManager->isAdmin($loggedInUser->getUID())) {
 				if ($group->getGID() === 'admin') {
-					throw new OCSException('Cannot remove yourself from the admin group', 105);
+					throw new OCSException($this->l10n->t('Cannot remove yourself from the admin group'), 105);
 				}
 			} else {
 				// Not an admin, so the user must be a subadmin of this group, but that is not allowed.
-				throw new OCSException('Cannot remove yourself from this group as you are a SubAdmin', 105);
+				throw new OCSException($this->l10n->t('Cannot remove yourself from this group as you are a sub-admin'), 105);
 			}
 		} elseif (!$this->groupManager->isAdmin($loggedInUser->getUID())) {
 			/** @var IGroup[] $subAdminGroups */
@@ -1342,7 +1429,7 @@ class UsersController extends AUserData {
 
 			if (count($userSubAdminGroups) <= 1) {
 				// Subadmin must not be able to remove a user from all their subadmin groups.
-				throw new OCSException('Not viable to remove user from the last group you are SubAdmin of', 105);
+				throw new OCSException($this->l10n->t('Not viable to remove user from the last group you are sub-admin of'), 105);
 			}
 		}
 
@@ -1360,6 +1447,8 @@ class UsersController extends AUserData {
 	 * @param string $groupid ID of the group
 	 * @return DataResponse<Http::STATUS_OK, array<empty>, array{}>
 	 * @throws OCSException
+	 *
+	 * 200: User added as group subadmin successfully
 	 */
 	public function addSubAdmin(string $userId, string $groupid): DataResponse {
 		$group = $this->groupManager->get($groupid);
@@ -1367,15 +1456,15 @@ class UsersController extends AUserData {
 
 		// Check if the user exists
 		if ($user === null) {
-			throw new OCSException('User does not exist', 101);
+			throw new OCSException($this->l10n->t('User does not exist'), 101);
 		}
 		// Check if group exists
 		if ($group === null) {
-			throw new OCSException('Group does not exist', 102);
+			throw new OCSException($this->l10n->t('Group does not exist'), 102);
 		}
 		// Check if trying to make subadmin of admin group
 		if ($group->getGID() === 'admin') {
-			throw new OCSException('Cannot create subadmins for admin group', 103);
+			throw new OCSException($this->l10n->t('Cannot create sub-admins for admin group'), 103);
 		}
 
 		$subAdminManager = $this->groupManager->getSubAdmin();
@@ -1398,6 +1487,8 @@ class UsersController extends AUserData {
 	 * @param string $groupid ID of the group
 	 * @return DataResponse<Http::STATUS_OK, array<empty>, array{}>
 	 * @throws OCSException
+	 *
+	 * 200: User removed as group subadmin successfully
 	 */
 	public function removeSubAdmin(string $userId, string $groupid): DataResponse {
 		$group = $this->groupManager->get($groupid);
@@ -1406,15 +1497,15 @@ class UsersController extends AUserData {
 
 		// Check if the user exists
 		if ($user === null) {
-			throw new OCSException('User does not exist', 101);
+			throw new OCSException($this->l10n->t('User does not exist'), 101);
 		}
 		// Check if the group exists
 		if ($group === null) {
-			throw new OCSException('Group does not exist', 101);
+			throw new OCSException($this->l10n->t('Group does not exist'), 101);
 		}
 		// Check if they are a subadmin of this said group
 		if (!$subAdminManager->isSubAdminOfGroup($user, $group)) {
-			throw new OCSException('User is not a subadmin of this group', 102);
+			throw new OCSException($this->l10n->t('User is not a sub-admin of this group'), 102);
 		}
 
 		// Go
@@ -1428,6 +1519,8 @@ class UsersController extends AUserData {
 	 * @param string $userId ID if the user
 	 * @return DataResponse<Http::STATUS_OK, string[], array{}>
 	 * @throws OCSException
+	 *
+	 * 200: User subadmin groups returned
 	 */
 	public function getUserSubAdminGroups(string $userId): DataResponse {
 		$groups = $this->getUserSubAdminGroupsData($userId);
@@ -1443,6 +1536,8 @@ class UsersController extends AUserData {
 	 * @param string $userId ID if the user
 	 * @return DataResponse<Http::STATUS_OK, array<empty>, array{}>
 	 * @throws OCSException
+	 *
+	 * 200: Resent welcome message successfully
 	 */
 	public function resendWelcomeMessage(string $userId): DataResponse {
 		$currentLoggedInUser = $this->userSession->getUser();
@@ -1464,11 +1559,16 @@ class UsersController extends AUserData {
 
 		$email = $targetUser->getEMailAddress();
 		if ($email === '' || $email === null) {
-			throw new OCSException('Email address not available', 101);
+			throw new OCSException($this->l10n->t('Email address not available'), 101);
 		}
 
 		try {
-			$emailTemplate = $this->newUserMailHelper->generateTemplate($targetUser, false);
+			if ($this->config->getUserValue($targetUser->getUID(), 'core', 'lostpassword')) {
+				$emailTemplate = $this->newUserMailHelper->generateTemplate($targetUser, true);
+			} else {
+				$emailTemplate = $this->newUserMailHelper->generateTemplate($targetUser, false);
+			}
+
 			$this->newUserMailHelper->sendMail($targetUser, $emailTemplate);
 		} catch (\Exception $e) {
 			$this->logger->error(
@@ -1478,7 +1578,7 @@ class UsersController extends AUserData {
 					'exception' => $e,
 				]
 			);
-			throw new OCSException('Sending email failed', 102);
+			throw new OCSException($this->l10n->t('Sending email failed'), 102);
 		}
 
 		return new DataResponse();

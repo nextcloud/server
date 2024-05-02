@@ -28,8 +28,8 @@ namespace OCA\Files_Sharing;
 
 use OC\Files\Mount\MountPoint;
 use OCP\Constants;
-use OCP\Share\IShare;
 use OCP\Files\Folder;
+use OCP\Share\IShare;
 
 class Updater {
 

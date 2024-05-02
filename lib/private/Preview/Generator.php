@@ -139,23 +139,6 @@ class Generator {
 			$previewVersion = $file->getPreviewVersion() . '-';
 		}
 
-		// If imaginary is enabled, and we request a small thumbnail,
-		// let's not generate the max preview for performance reasons
-		if (count($specifications) === 1
-			&& ($specifications[0]['width'] <= 256 || $specifications[0]['height'] <= 256)
-			&& preg_match(Imaginary::supportedMimeTypes(), $mimeType)
-			&& $this->config->getSystemValueString('preview_imaginary_url', 'invalid') !== 'invalid') {
-			$crop = $specifications[0]['crop'] ?? false;
-			$preview = $this->getSmallImagePreview($previewFolder, $previewFiles, $file, $mimeType, $previewVersion, $crop);
-
-			if ($preview->getSize() === 0) {
-				$preview->delete();
-				throw new NotFoundException('Cached preview size 0, invalid!');
-			}
-
-			return $preview;
-		}
-
 		// Get the max preview and infer the max preview sizes from that
 		$maxPreview = $this->getMaxPreview($previewFolder, $previewFiles, $file, $mimeType, $previewVersion);
 		$maxPreviewImage = null; // only load the image when we need it
@@ -232,32 +215,13 @@ class Generator {
 	}
 
 	/**
-	 * Generate a small image straight away without generating a max preview first
-	 * Preview generated is 256x256
-	 *
-	 * @param ISimpleFile[] $previewFiles
-	 *
-	 * @throws NotFoundException
-	 */
-	private function getSmallImagePreview(ISimpleFolder $previewFolder, array $previewFiles, File $file, string $mimeType, string $prefix, bool $crop): ISimpleFile {
-		$width = 256;
-		$height = 256;
-
-		try {
-			return $this->getCachedPreview($previewFiles, $width, $height, $crop, $mimeType, $prefix);
-		} catch (NotFoundException $e) {
-			return $this->generateProviderPreview($previewFolder, $file, $width, $height, $crop, false, $mimeType, $prefix);
-		}
-	}
-
-	/**
 	 * Acquire a semaphore of the specified id and concurrency, blocking if necessary.
 	 * Return an identifier of the semaphore on success, which can be used to release it via
 	 * {@see Generator::unguardWithSemaphore()}.
 	 *
 	 * @param int $semId
 	 * @param int $concurrency
-	 * @return false|resource the semaphore on success or false on failure
+	 * @return false|\SysvSemaphore the semaphore on success or false on failure
 	 */
 	public static function guardWithSemaphore(int $semId, int $concurrency) {
 		if (!extension_loaded('sysvsem')) {
@@ -276,11 +240,11 @@ class Generator {
 	/**
 	 * Releases the semaphore acquired from {@see Generator::guardWithSemaphore()}.
 	 *
-	 * @param resource|bool $semId the semaphore identifier returned by guardWithSemaphore
+	 * @param false|\SysvSemaphore $semId the semaphore identifier returned by guardWithSemaphore
 	 * @return bool
 	 */
-	public static function unguardWithSemaphore($semId): bool {
-		if (!is_resource($semId) || !extension_loaded('sysvsem')) {
+	public static function unguardWithSemaphore(false|\SysvSemaphore $semId): bool {
+		if ($semId === false || !($semId instanceof \SysvSemaphore)) {
 			return false;
 		}
 		return sem_release($semId);
@@ -293,9 +257,15 @@ class Generator {
 	 */
 	public static function getHardwareConcurrency(): int {
 		static $width;
+
 		if (!isset($width)) {
-			if (is_file("/proc/cpuinfo")) {
-				$width = substr_count(file_get_contents("/proc/cpuinfo"), "processor");
+			if (function_exists('ini_get')) {
+				$openBasedir = ini_get('open_basedir');
+				if (empty($openBasedir) || strpos($openBasedir, '/proc/cpuinfo') !== false) {
+					$width = is_readable('/proc/cpuinfo') ? substr_count(file_get_contents('/proc/cpuinfo'), 'processor') : 0;
+				} else {
+					$width = 0;
+				}
 			} else {
 				$width = 0;
 			}
@@ -319,7 +289,7 @@ class Generator {
 	 * @return int number of concurrent preview generations, or -1 if $type is invalid
 	 */
 	public function getNumConcurrentPreviews(string $type): int {
-		static $cached = array();
+		static $cached = [];
 		if (array_key_exists($type, $cached)) {
 			return $cached[$type];
 		}
@@ -651,6 +621,8 @@ class Generator {
 				return 'png';
 			case 'image/jpeg':
 				return 'jpg';
+			case 'image/webp':
+				return 'webp';
 			case 'image/gif':
 				return 'gif';
 			default:

@@ -27,16 +27,16 @@ declare(strict_types=1);
 namespace OC\DB;
 
 class MissingIndexInformation {
-	private $listOfMissingIndexes = [];
+	private array $listOfMissingIndices = [];
 
-	public function addHintForMissingSubject(string $tableName, string $indexName) {
-		$this->listOfMissingIndexes[] = [
+	public function addHintForMissingIndex(string $tableName, string $indexName): void {
+		$this->listOfMissingIndices[] = [
 			'tableName' => $tableName,
 			'indexName' => $indexName
 		];
 	}
 
-	public function getListOfMissingIndexes(): array {
-		return $this->listOfMissingIndexes;
+	public function getListOfMissingIndices(): array {
+		return $this->listOfMissingIndices;
 	}
 }

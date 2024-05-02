@@ -46,10 +46,12 @@
 
 namespace OCP;
 
+use bantu\IniGetWrapper\IniGetWrapper;
 use OC\AppScriptDependency;
 use OC\AppScriptSort;
-use bantu\IniGetWrapper\IniGetWrapper;
+use OCP\Share\IManager;
 use Psr\Container\ContainerExceptionInterface;
+use Psr\Log\LoggerInterface;
 
 /**
  * This class provides different helper functions to make the life of a developer easier
@@ -57,17 +59,11 @@ use Psr\Container\ContainerExceptionInterface;
  * @since 4.0.0
  */
 class Util {
-	/** @var \OCP\Share\IManager */
-	private static $shareManager;
+	private static ?IManager $shareManager = null;
 
-	/** @var array */
-	private static $scripts = [];
-
-	/** @var array */
-	private static $scriptDeps = [];
-
-	/** @var array */
-	private static $sortedScriptDeps = [];
+	private static array $scriptsInit = [];
+	private static array $scripts = [];
+	private static array $scriptDeps = [];
 
 	/**
 	 * get the current installed version of Nextcloud
@@ -110,28 +106,15 @@ class Util {
 	}
 
 	/**
-	 * write a message in the log
-	 * @param string $app
-	 * @param string $message
-	 * @param int $level
-	 * @since 4.0.0
-	 * @deprecated 13.0.0 use log of \OCP\ILogger
-	 */
-	public static function writeLog($app, $message, $level) {
-		$context = ['app' => $app];
-		\OC::$server->getLogger()->log($level, $message, $context);
-	}
-
-	/**
 	 * check if sharing is disabled for the current user
 	 *
 	 * @return boolean
 	 * @since 7.0.0
-	 * @deprecated 9.1.0 Use \OC::$server->getShareManager()->sharingDisabledForUser
+	 * @deprecated 9.1.0 Use \OC::$server->get(\OCP\Share\IManager::class)->sharingDisabledForUser
 	 */
 	public static function isSharingDisabledForUser() {
 		if (self::$shareManager === null) {
-			self::$shareManager = \OC::$server->getShareManager();
+			self::$shareManager = \OC::$server->get(IManager::class);
 		}
 
 		$user = \OC::$server->getUserSession()->getUser();
@@ -144,13 +127,10 @@ class Util {
 
 	/**
 	 * get l10n object
-	 * @param string $application
-	 * @param string|null $language
-	 * @return \OCP\IL10N
 	 * @since 6.0.0 - parameter $language was added in 8.0.0
 	 */
-	public static function getL10N($application, $language = null) {
-		return \OC::$server->getL10N($application, $language);
+	public static function getL10N(string $application, ?string $language = null): IL10N {
+		return Server::get(\OCP\L10N\IFactory::class)->get($application, $language);
 	}
 
 	/**
@@ -164,14 +144,40 @@ class Util {
 	}
 
 	/**
+	 * Add a standalone init js file that is loaded for initialization
+	 *
+	 * Be careful loading scripts using this method as they are loaded early
+	 * and block the initial page rendering. They should not have dependencies
+	 * on any other scripts than core-common and core-main.
+	 *
+	 * @since 28.0.0
+	 */
+	public static function addInitScript(string $application, string $file): void {
+		if (!empty($application)) {
+			$path = "$application/js/$file";
+		} else {
+			$path = "js/$file";
+		}
+
+		// We need to handle the translation BEFORE the init script
+		// is loaded, as the init script might use translations
+		if ($application !== 'core' && !str_contains($file, 'l10n')) {
+			self::addTranslations($application, null, true);
+		}
+
+		self::$scriptsInit[] = $path;
+	}
+
+	/**
 	 * add a javascript file
 	 *
 	 * @param string $application
 	 * @param string|null $file
 	 * @param string $afterAppId
+	 * @param bool $prepend
 	 * @since 4.0.0
 	 */
-	public static function addScript(string $application, string $file = null, string $afterAppId = 'core'): void {
+	public static function addScript(string $application, ?string $file = null, string $afterAppId = 'core', bool $prepend = false): void {
 		if (!empty($application)) {
 			$path = "$application/js/$file";
 		} else {
@@ -194,7 +200,11 @@ class Util {
 			self::$scriptDeps[$application]->addDep($afterAppId);
 		}
 
-		self::$scripts[$application][] = $path;
+		if ($prepend) {
+			array_unshift(self::$scripts[$application], $path);
+		} else {
+			self::$scripts[$application][] = $path;
+		}
 	}
 
 	/**
@@ -209,10 +219,16 @@ class Util {
 		$sortedScripts = $scriptSort->sort(self::$scripts, self::$scriptDeps);
 
 		// Flatten array and remove duplicates
-		$sortedScripts = $sortedScripts ? array_merge(...array_values(($sortedScripts))) : [];
+		$sortedScripts = array_merge([self::$scriptsInit], $sortedScripts);
+		$sortedScripts = array_merge(...array_values($sortedScripts));
 
 		// Override core-common and core-main order
-		array_unshift($sortedScripts, 'core/js/common', 'core/js/main');
+		if (in_array('core/js/main', $sortedScripts)) {
+			array_unshift($sortedScripts, 'core/js/main');
+		}
+		if (in_array('core/js/common', $sortedScripts)) {
+			array_unshift($sortedScripts, 'core/js/common');
+		}
 
 		return array_unique($sortedScripts);
 	}
@@ -221,9 +237,10 @@ class Util {
 	 * Add a translation JS file
 	 * @param string $application application id
 	 * @param string $languageCode language code, defaults to the current locale
+	 * @param bool $init whether the translations should be loaded early or not
 	 * @since 8.0.0
 	 */
-	public static function addTranslations($application, $languageCode = null) {
+	public static function addTranslations($application, $languageCode = null, $init = false) {
 		if (is_null($languageCode)) {
 			$languageCode = \OC::$server->getL10NFactory()->findLanguage($application);
 		}
@@ -232,7 +249,12 @@ class Util {
 		} else {
 			$path = "l10n/$languageCode";
 		}
-		self::$scripts[$application][] = $path;
+
+		if ($init) {
+			self::$scriptsInit[] = $path;
+		} else {
+			self::$scripts[$application][] = $path;
+		}
 	}
 
 	/**
@@ -500,10 +522,31 @@ class Util {
 	}
 
 	/**
+	 * Get a list of characters forbidden in file names
+	 * @return string[]
+	 * @since 29.0.0
+	 */
+	public static function getForbiddenFileNameChars(): array {
+		// Get always forbidden characters
+		$invalidChars = str_split(\OCP\Constants::FILENAME_INVALID_CHARS);
+		if ($invalidChars === false) {
+			$invalidChars = [];
+		}
+
+		// Get admin defined invalid characters
+		$additionalChars = \OCP\Server::get(IConfig::class)->getSystemValue('forbidden_chars', []);
+		if (!is_array($additionalChars)) {
+			\OCP\Server::get(LoggerInterface::class)->error('Invalid system config value for "forbidden_chars" is ignored.');
+			$additionalChars = [];
+		}
+		return array_merge($invalidChars, $additionalChars);
+	}
+
+	/**
 	 * Returns whether the given file name is valid
 	 * @param string $file file name to check
 	 * @return bool true if the file name is valid, false otherwise
-	 * @deprecated 8.1.0 use \OC\Files\View::verifyPath()
+	 * @deprecated 8.1.0 use OCP\Files\Storage\IStorage::verifyPath()
 	 * @since 7.0.0
 	 * @suppress PhanDeprecatedFunction
 	 */

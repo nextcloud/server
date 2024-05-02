@@ -63,7 +63,7 @@ class Report extends Command {
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$table = new Table($output);
-		$table->setHeaders(['User Report', '']);
+		$table->setHeaders(['Account Report', '']);
 		$userCountArray = $this->countUsers();
 		$total = 0;
 		if (!empty($userCountArray)) {

@@ -91,14 +91,14 @@ class ThemingDefaults extends \OC_Defaults {
 	 * @param IAppManager $appManager
 	 */
 	public function __construct(IConfig $config,
-								IL10N $l,
-								IUserSession $userSession,
-								IURLGenerator $urlGenerator,
-								ICacheFactory $cacheFactory,
-								Util $util,
-								ImageManager $imageManager,
-								IAppManager $appManager,
-								INavigationManager $navigationManager
+		IL10N $l,
+		IUserSession $userSession,
+		IURLGenerator $urlGenerator,
+		ICacheFactory $cacheFactory,
+		Util $util,
+		ImageManager $imageManager,
+		IAppManager $appManager,
+		INavigationManager $navigationManager
 	) {
 		parent::__construct();
 		$this->config = $config;
@@ -172,11 +172,16 @@ class ThemingDefaults extends \OC_Defaults {
 	public function getShortFooter() {
 		$slogan = $this->getSlogan();
 		$baseUrl = $this->getBaseUrl();
-		if ($baseUrl !== '') {
-			$footer = '<a href="' . $baseUrl . '" target="_blank"' .
-				' rel="noreferrer noopener" class="entity-name">' . $this->getEntity() . '</a>';
-		} else {
-			$footer = '<span class="entity-name">' .$this->getEntity() . '</span>';
+		$entity = $this->getEntity();
+		$footer = '';
+
+		if ($entity !== '') {
+			if ($baseUrl !== '') {
+				$footer = '<a href="' . $baseUrl . '" target="_blank"' .
+					' rel="noreferrer noopener" class="entity-name">' . $entity . '</a>';
+			} else {
+				$footer = '<span class="entity-name">' .$entity . '</span>';
+			}
 		}
 		$footer .= ($slogan !== '' ? ' – ' . $slogan : '');
 
@@ -255,8 +260,9 @@ class ThemingDefaults extends \OC_Defaults {
 	public function getDefaultColorPrimary(): string {
 		$color = $this->config->getAppValue(Application::APP_ID, 'color', '');
 		if (!preg_match('/^\#([0-9a-f]{3}|[0-9a-f]{6})$/i', $color)) {
-			$color = '#0082c9';
+			return BackgroundService::DEFAULT_COLOR;
 		}
+
 		return $color;
 	}
 
@@ -487,6 +493,7 @@ class ThemingDefaults extends \OC_Defaults {
 			case 'background':
 			case 'favicon':
 				$this->imageManager->delete($setting);
+				$this->config->deleteAppValue('theming', $setting . 'Mime');
 				break;
 		}
 

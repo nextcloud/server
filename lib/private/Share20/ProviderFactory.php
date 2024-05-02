@@ -41,9 +41,13 @@ use OCA\FederatedFileSharing\TokenHandler;
 use OCA\ShareByMail\Settings\SettingsManager;
 use OCA\ShareByMail\ShareByMailProvider;
 use OCA\Talk\Share\RoomShareProvider;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Defaults;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Federation\ICloudFederationFactory;
+use OCP\Files\IRootFolder;
 use OCP\IServerContainer;
+use OCP\Security\IHasher;
 use OCP\Share\IManager;
 use OCP\Share\IProviderFactory;
 use OCP\Share\IShare;
@@ -99,12 +103,12 @@ class ProviderFactory implements IProviderFactory {
 				$this->serverContainer->getDatabaseConnection(),
 				$this->serverContainer->getUserManager(),
 				$this->serverContainer->getGroupManager(),
-				$this->serverContainer->getLazyRootFolder(),
+				$this->serverContainer->get(IRootFolder::class),
 				$this->serverContainer->getMailer(),
 				$this->serverContainer->query(Defaults::class),
 				$this->serverContainer->getL10NFactory(),
 				$this->serverContainer->getURLGenerator(),
-				$this->serverContainer->getConfig()
+				$this->serverContainer->query(ITimeFactory::class),
 			);
 		}
 
@@ -141,7 +145,7 @@ class ProviderFactory implements IProviderFactory {
 				$this->serverContainer->query(\OCP\OCS\IDiscoveryService::class),
 				$this->serverContainer->getJobList(),
 				\OC::$server->getCloudFederationProviderManager(),
-				\OC::$server->getCloudFederationFactory(),
+				\OC::$server->get(ICloudFederationFactory::class),
 				$this->serverContainer->query(IEventDispatcher::class),
 				$this->serverContainer->get(LoggerInterface::class),
 			);
@@ -155,7 +159,7 @@ class ProviderFactory implements IProviderFactory {
 				$notifications,
 				$tokenHandler,
 				$l,
-				$this->serverContainer->getLazyRootFolder(),
+				$this->serverContainer->get(IRootFolder::class),
 				$this->serverContainer->getConfig(),
 				$this->serverContainer->getUserManager(),
 				$this->serverContainer->getCloudIdManager(),
@@ -190,15 +194,15 @@ class ProviderFactory implements IProviderFactory {
 				$this->serverContainer->getDatabaseConnection(),
 				$this->serverContainer->getSecureRandom(),
 				$this->serverContainer->getUserManager(),
-				$this->serverContainer->getLazyRootFolder(),
+				$this->serverContainer->get(IRootFolder::class),
 				$this->serverContainer->getL10N('sharebymail'),
-				$this->serverContainer->getLogger(),
+				$this->serverContainer->get(LoggerInterface::class),
 				$this->serverContainer->getMailer(),
 				$this->serverContainer->getURLGenerator(),
 				$this->serverContainer->getActivityManager(),
 				$settingsManager,
 				$this->serverContainer->query(Defaults::class),
-				$this->serverContainer->getHasher(),
+				$this->serverContainer->get(IHasher::class),
 				$this->serverContainer->get(IEventDispatcher::class),
 				$this->serverContainer->get(IManager::class)
 			);
@@ -232,7 +236,7 @@ class ProviderFactory implements IProviderFactory {
 				$this->serverContainer->getDatabaseConnection(),
 				$this->serverContainer->getSecureRandom(),
 				$this->serverContainer->getUserManager(),
-				$this->serverContainer->getLazyRootFolder(),
+				$this->serverContainer->get(IRootFolder::class),
 				$this->serverContainer->getL10N('circles'),
 				$this->serverContainer->getLogger(),
 				$this->serverContainer->getURLGenerator()

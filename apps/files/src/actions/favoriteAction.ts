@@ -21,7 +21,7 @@
  */
 import { emit } from '@nextcloud/event-bus'
 import { generateUrl } from '@nextcloud/router'
-import { Permission, type Node } from '@nextcloud/files'
+import { Permission, type Node, View, FileAction } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 import axios from '@nextcloud/axios'
 import Vue from 'vue'
@@ -29,19 +29,18 @@ import Vue from 'vue'
 import StarOutlineSvg from '@mdi/svg/svg/star-outline.svg?raw'
 import StarSvg from '@mdi/svg/svg/star.svg?raw'
 
-import { registerFileAction, FileAction } from '../services/FileAction'
 import logger from '../logger.js'
-import type { Navigation } from '../services/Navigation'
+import { encodePath } from '@nextcloud/paths'
 
 // If any of the nodes is not favorited, we display the favorite action.
 const shouldFavorite = (nodes: Node[]): boolean => {
 	return nodes.some(node => node.attributes.favorite !== 1)
 }
 
-export const favoriteNode = async (node: Node, view: Navigation, willFavorite: boolean): Promise<boolean> => {
+export const favoriteNode = async (node: Node, view: View, willFavorite: boolean): Promise<boolean> => {
 	try {
 		// TODO: migrate to webdav tags plugin
-		const url = generateUrl('/apps/files/api/v1/files') + node.path
+		const url = generateUrl('/apps/files/api/v1/files') + encodePath(node.path)
 		await axios.post(url, {
 			tags: willFavorite
 				? [window.OC.TAG_FAVORITE]
@@ -92,16 +91,14 @@ export const action = new FileAction({
 			&& nodes.every(node => node.permissions !== Permission.NONE)
 	},
 
-	async exec(node: Node, view: Navigation) {
+	async exec(node: Node, view: View) {
 		const willFavorite = shouldFavorite([node])
 		return await favoriteNode(node, view, willFavorite)
 	},
-	async execBatch(nodes: Node[], view: Navigation) {
+	async execBatch(nodes: Node[], view: View) {
 		const willFavorite = shouldFavorite(nodes)
 		return Promise.all(nodes.map(async node => await favoriteNode(node, view, willFavorite)))
 	},
 
 	order: -50,
 })
-
-registerFileAction(action)

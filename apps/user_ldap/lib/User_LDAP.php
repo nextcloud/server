@@ -622,7 +622,7 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 	 * The cloned connection needs to be closed manually.
 	 * of the current access.
 	 * @param string $uid
-	 * @return resource|\LDAP\Connection The LDAP connection
+	 * @return \LDAP\Connection The LDAP connection
 	 */
 	public function getNewLDAPConnection($uid) {
 		$connection = clone $this->access->getConnection();
@@ -682,7 +682,7 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 		return $enabled;
 	}
 
-	public function getDisabledUserList(int $offset = 0, ?int $limit = null): array {
+	public function getDisabledUserList(?int $limit = null, int $offset = 0): array {
 		throw new \Exception('This is implemented directly in User_Proxy');
 	}
 }

@@ -55,7 +55,7 @@ class DnsPinMiddleware {
 		$second = array_pop($labels);
 
 		$hostname = $second . '.' . $top;
-		$responses = dns_get_record($hostname, DNS_SOA);
+		$responses = $this->dnsGetRecord($hostname, DNS_SOA);
 
 		if ($responses === false || count($responses) === 0) {
 			return null;
@@ -75,13 +75,15 @@ class DnsPinMiddleware {
 		$soaDnsEntry = $this->soaRecord($target);
 		$dnsNegativeTtl = $soaDnsEntry['minimum-ttl'] ?? null;
 
-		$dnsTypes = [DNS_A, DNS_AAAA, DNS_CNAME];
+		$dnsTypes = \defined('AF_INET6') || @inet_pton('::1')
+			? [DNS_A, DNS_AAAA, DNS_CNAME]
+			: [DNS_A, DNS_CNAME];
 		foreach ($dnsTypes as $dnsType) {
 			if ($this->negativeDnsCache->isNegativeCached($target, $dnsType)) {
 				continue;
 			}
 
-			$dnsResponses = dns_get_record($target, $dnsType);
+			$dnsResponses = $this->dnsGetRecord($target, $dnsType);
 			$canHaveCnameRecord = true;
 			if ($dnsResponses !== false && count($dnsResponses) > 0) {
 				foreach ($dnsResponses as $dnsResponse) {
@@ -102,6 +104,13 @@ class DnsPinMiddleware {
 		}
 
 		return $targetIps;
+	}
+
+	/**
+	 * Wrapper for dns_get_record
+	 */
+	protected function dnsGetRecord(string $hostname, int $type): array|false {
+		return \dns_get_record($hostname, $type);
 	}
 
 	public function addDnsPinning() {
@@ -128,6 +137,10 @@ class DnsPinMiddleware {
 
 				$targetIps = $this->dnsResolve(idn_to_utf8($hostName), 0);
 
+				if (empty($targetIps)) {
+					throw new LocalServerException('No DNS record found for ' . $hostName);
+				}
+
 				$curlResolves = [];
 
 				foreach ($ports as $port) {
@@ -136,7 +149,7 @@ class DnsPinMiddleware {
 					foreach ($targetIps as $ip) {
 						if ($this->ipAddressClassifier->isLocalAddress($ip)) {
 							// TODO: continue with all non-local IPs?
-							throw new LocalServerException('Host violates local access rules');
+							throw new LocalServerException('Host "'.$ip.'" ('.$hostName.':'.$port.') violates local access rules');
 						}
 						$curlResolves["$hostName:$port"][] = $ip;
 					}

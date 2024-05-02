@@ -177,7 +177,7 @@ class Folder extends Node implements \OCP\Files\Folder {
 	 * @throws \OCP\Files\NotPermittedException
 	 */
 	public function newFile($path, $content = null) {
-		if (empty($path)) {
+		if ($path === '') {
 			throw new NotPermittedException('Could not create as provided path is empty');
 		}
 		if ($this->checkPermissions(\OCP\Constants::PERMISSION_CREATE)) {
@@ -199,7 +199,7 @@ class Folder extends Node implements \OCP\Files\Folder {
 		throw new NotPermittedException('No create permission for path "' . $path . '"');
 	}
 
-	private function queryFromOperator(ISearchOperator $operator, string $uid = null, int $limit = 0, int $offset = 0): ISearchQuery {
+	private function queryFromOperator(ISearchOperator $operator, ?string $uid = null, int $limit = 0, int $offset = 0): ISearchQuery {
 		if ($uid === null) {
 			$user = null;
 		} else {
@@ -307,10 +307,14 @@ class Folder extends Node implements \OCP\Files\Folder {
 
 	/**
 	 * @param int $id
-	 * @return \OC\Files\Node\Node[]
+	 * @return \OCP\Files\Node[]
 	 */
 	public function getById($id) {
 		return $this->root->getByIdInPath((int)$id, $this->getPath());
+	}
+
+	public function getFirstNodeById(int $id): ?\OCP\Files\Node {
+		return current($this->getById($id)) ?: null;
 	}
 
 	protected function getAppDataDirectoryName(): string {

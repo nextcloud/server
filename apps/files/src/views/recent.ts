@@ -19,17 +19,15 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import type NavigationService from '../services/Navigation'
-import type { Navigation } from '../services/Navigation'
-
+import { View, getNavigation } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 import HistorySvg from '@mdi/svg/svg/history.svg?raw'
 
 import { getContents } from '../services/Recent'
 
 export default () => {
-	const Navigation = window.OCP.Files.Navigation as NavigationService
-	Navigation.register({
+	const Navigation = getNavigation()
+	Navigation.register(new View({
 		id: 'recent',
 		name: t('files', 'Recent'),
 		caption: t('files', 'List of recently modified files and folders.'),
@@ -38,10 +36,10 @@ export default () => {
 		emptyCaption: t('files', 'Files and folders you recently modified will show up here.'),
 
 		icon: HistorySvg,
-		order: 2,
+		order: 10,
 
 		defaultSortKey: 'mtime',
 
 		getContents,
-	} as Navigation)
+	}))
 }

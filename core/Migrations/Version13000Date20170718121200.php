@@ -32,8 +32,8 @@
 namespace OC\Core\Migrations;
 
 use Doctrine\DBAL\Platforms\PostgreSQL94Platform;
-use OCP\DB\Types;
 use OCP\DB\ISchemaWrapper;
+use OCP\DB\Types;
 use OCP\IDBConnection;
 use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
@@ -261,6 +261,7 @@ class Version13000Date20170718121200 extends SimpleMigrationStep {
 			$table->addIndex(['storage', 'size', 'fileid'], 'fs_storage_size');
 			$table->addIndex(['fileid', 'storage', 'size'], 'fs_id_storage_size');
 			$table->addIndex(['parent'], 'fs_parent');
+			$table->addIndex(['name'], 'fs_name_hash');
 			$table->addIndex(['mtime'], 'fs_mtime');
 			$table->addIndex(['size'], 'fs_size');
 			if (!$schema->getDatabasePlatform() instanceof PostgreSQL94Platform) {
@@ -360,7 +361,8 @@ class Version13000Date20170718121200 extends SimpleMigrationStep {
 				'notnull' => true,
 			]);
 			$table->setPrimaryKey(['id']);
-			$table->addIndex(['userid'], 'property_index');
+			// Dropped in Version29000Date20240131122720 because property_index is redundant with properties_path_index
+			// $table->addIndex(['userid'], 'property_index');
 			$table->addIndex(['userid', 'propertypath'], 'properties_path_index');
 			$table->addIndex(['propertypath'], 'properties_pathonly_index');
 		} else {
@@ -751,7 +753,7 @@ class Version13000Date20170718121200 extends SimpleMigrationStep {
 				'unsigned' => true,
 			]);
 			$table->setPrimaryKey(['objecttype', 'objectid', 'systemtagid'], 'som_pk');
-//			$table->addUniqueIndex(['objecttype', 'objectid', 'systemtagid'], 'mapping');
+			//			$table->addUniqueIndex(['objecttype', 'objectid', 'systemtagid'], 'mapping');
 			$table->addIndex(['systemtagid', 'objecttype'], 'systag_by_tagid');
 		}
 
@@ -888,25 +890,25 @@ class Version13000Date20170718121200 extends SimpleMigrationStep {
 			]);
 			$table->addIndex(['object_type', 'object_id'], 'comments_marker_object_index');
 			$table->setPrimaryKey(['user_id', 'object_type', 'object_id'], 'crm_pk');
-//			$table->addUniqueIndex(['user_id', 'object_type', 'object_id'], 'comments_marker_index');
+			//			$table->addUniqueIndex(['user_id', 'object_type', 'object_id'], 'comments_marker_index');
 		}
 
-//		if (!$schema->hasTable('credentials')) {
-//			$table = $schema->createTable('credentials');
-//			$table->addColumn('user', 'string', [
-//				'notnull' => false,
-//				'length' => 64,
-//			]);
-//			$table->addColumn('identifier', 'string', [
-//				'notnull' => true,
-//				'length' => 64,
-//			]);
-//			$table->addColumn('credentials', 'text', [
-//				'notnull' => false,
-//			]);
-//			$table->setPrimaryKey(['user', 'identifier']);
-//			$table->addIndex(['user'], 'credentials_user');
-//		}
+		//		if (!$schema->hasTable('credentials')) {
+		//			$table = $schema->createTable('credentials');
+		//			$table->addColumn('user', 'string', [
+		//				'notnull' => false,
+		//				'length' => 64,
+		//			]);
+		//			$table->addColumn('identifier', 'string', [
+		//				'notnull' => true,
+		//				'length' => 64,
+		//			]);
+		//			$table->addColumn('credentials', 'text', [
+		//				'notnull' => false,
+		//			]);
+		//			$table->setPrimaryKey(['user', 'identifier']);
+		//			$table->addIndex(['user'], 'credentials_user');
+		//		}
 
 		if (!$schema->hasTable('admin_sections')) {
 			$table = $schema->createTable('admin_sections');

@@ -26,15 +26,15 @@ declare(strict_types=1);
 
 namespace Test\Updater;
 
+use OC\Updater\Changes;
 use OC\Updater\ChangesCheck;
 use OC\Updater\ChangesMapper;
-use OC\Updater\Changes;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
 use OCP\Http\Client\IResponse;
-use Test\TestCase;
 use Psr\Log\LoggerInterface;
+use Test\TestCase;
 
 class ChangesCheckTest extends TestCase {
 	/** @var IClientService|\PHPUnit\Framework\MockObject\MockObject */

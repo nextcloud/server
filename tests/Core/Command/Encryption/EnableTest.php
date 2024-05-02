@@ -80,42 +80,40 @@ class EnableTest extends TestCase {
 	 * @param string $expectedDefaultModuleString
 	 */
 	public function testEnable($oldStatus, $defaultModule, $availableModules, $isUpdating, $expectedString, $expectedDefaultModuleString) {
-		$invokeCount = 0;
-		$this->config->expects($this->at($invokeCount))
-			->method('getAppValue')
-			->with('core', 'encryption_enabled', $this->anything())
-			->willReturn($oldStatus);
-		$invokeCount++;
-
 		if ($isUpdating) {
 			$this->config->expects($this->once())
 				->method('setAppValue')
 				->with('core', 'encryption_enabled', 'yes');
-			$invokeCount++;
 		}
 
 		$this->manager->expects($this->atLeastOnce())
 			->method('getEncryptionModules')
 			->willReturn($availableModules);
 
-		if (!empty($availableModules)) {
-			$this->config->expects($this->at($invokeCount))
+		if (empty($availableModules)) {
+			$this->config->expects($this->once())
 				->method('getAppValue')
-				->with('core', 'default_encryption_module', $this->anything())
-				->willReturn($defaultModule);
+				->with('core', 'encryption_enabled', $this->anything())
+				->willReturn($oldStatus);
+		} else {
+			$this->config->expects($this->exactly(2))
+				->method('getAppValue')
+				->withConsecutive(
+					['core', 'encryption_enabled', $this->anything()],
+					['core', 'default_encryption_module', $this->anything()],
+				)->willReturnOnConsecutiveCalls(
+					$oldStatus,
+					$defaultModule,
+				);
 		}
 
-		$this->consoleOutput->expects($this->at(0))
+		$this->consoleOutput->expects($this->exactly(3))
 			->method('writeln')
-			->with($this->stringContains($expectedString));
-
-		$this->consoleOutput->expects($this->at(1))
-			->method('writeln')
-			->with('');
-
-		$this->consoleOutput->expects($this->at(2))
-			->method('writeln')
-			->with($this->stringContains($expectedDefaultModuleString));
+			->withConsecutive(
+				[$this->stringContains($expectedString)],
+				[''],
+				[$this->stringContains($expectedDefaultModuleString)],
+			);
 
 		self::invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]);
 	}

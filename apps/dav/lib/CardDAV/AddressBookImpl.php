@@ -63,10 +63,10 @@ class AddressBookImpl implements IAddressBook {
 	 * @param IUrlGenerator $urlGenerator
 	 */
 	public function __construct(
-			AddressBook $addressBook,
-			array $addressBookInfo,
-			CardDavBackend $backend,
-			IURLGenerator $urlGenerator) {
+		AddressBook $addressBook,
+		array $addressBookInfo,
+		CardDavBackend $backend,
+		IURLGenerator $urlGenerator) {
 		$this->addressBook = $addressBook;
 		$this->addressBookInfo = $addressBookInfo;
 		$this->backend = $backend;

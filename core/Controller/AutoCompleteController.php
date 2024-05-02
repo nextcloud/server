@@ -32,9 +32,11 @@ namespace OC\Core\Controller;
 
 use OCA\Core\ResponseDefinitions;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\ApiRoute;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCSController;
 use OCP\Collaboration\AutoComplete\AutoCompleteEvent;
+use OCP\Collaboration\AutoComplete\AutoCompleteFilterEvent;
 use OCP\Collaboration\AutoComplete\IManager;
 use OCP\Collaboration\Collaborators\ISearch;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -68,7 +70,10 @@ class AutoCompleteController extends OCSController {
 	 * @param int $limit Maximum number of results to return
 	 *
 	 * @return DataResponse<Http::STATUS_OK, CoreAutocompleteResult[], array{}>
+	 *
+	 * 200: Autocomplete results returned
 	 */
+	#[ApiRoute(verb: 'GET', url: '/autocomplete/get', root: '/core')]
 	public function get(string $search, ?string $itemType, ?string $itemId, ?string $sorter = null, array $shareTypes = [IShare::TYPE_USER], int $limit = 10): DataResponse {
 		// if enumeration/user listings are disabled, we'll receive an empty
 		// result from search() – thus nothing else to do here.
@@ -84,6 +89,18 @@ class AutoCompleteController extends OCSController {
 			'limit' => $limit,
 		]);
 		$this->dispatcher->dispatch(IManager::class . '::filterResults', $event);
+		$results = $event->getResults();
+
+		$event = new AutoCompleteFilterEvent(
+			$results,
+			$search,
+			$itemType,
+			$itemId,
+			$sorter,
+			$shareTypes,
+			$limit,
+		);
+		$this->dispatcher->dispatchTyped($event);
 		$results = $event->getResults();
 
 		$exactMatches = $results['exact'];
@@ -121,8 +138,8 @@ class AutoCompleteController extends OCSController {
 				/** @var ?string $subline */
 				$subline = array_key_exists('subline', $result) ? $result['subline'] : null;
 
-				/** @var ?string $status */
-				$status = array_key_exists('status', $result) && is_string($result['status']) ? $result['status'] : null;
+				/** @var ?array{status: string, message: ?string, icon: ?string, clearAt: ?int} $status */
+				$status = array_key_exists('status', $result) && is_array($result['status']) && !empty($result['status']) ? $result['status'] : null;
 
 				/** @var ?string $shareWithDisplayNameUnique */
 				$shareWithDisplayNameUnique = array_key_exists('shareWithDisplayNameUnique', $result) ? $result['shareWithDisplayNameUnique'] : null;

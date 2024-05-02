@@ -26,7 +26,6 @@ namespace Tests\Core\Controller;
 use OC\Core\Controller\PreviewController;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
-use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
@@ -35,6 +34,7 @@ use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\Storage\IStorage;
 use OCP\IPreview;
 use OCP\IRequest;
+use OCP\Preview\IMimeIconProvider;
 
 class PreviewControllerTest extends \Test\TestCase {
 	/** @var IRootFolder|\PHPUnit\Framework\MockObject\MockObject */
@@ -62,7 +62,7 @@ class PreviewControllerTest extends \Test\TestCase {
 			$this->previewManager,
 			$this->rootFolder,
 			$this->userId,
-			$this->createMock(ITimeFactory::class)
+			$this->createMock(IMimeIconProvider::class)
 		);
 	}
 

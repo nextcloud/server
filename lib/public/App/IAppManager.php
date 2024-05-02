@@ -45,8 +45,8 @@ interface IAppManager {
 	/**
 	 * Returns the app information from "appinfo/info.xml".
 	 *
-	 * @param string $appId
-	 * @return mixed
+	 * @param string|null $lang
+	 * @return array|null
 	 * @since 14.0.0
 	 */
 	public function getAppInfo(string $appId, bool $path = false, $lang = null);
@@ -62,10 +62,20 @@ interface IAppManager {
 	public function getAppVersion(string $appId, bool $useCache = true): string;
 
 	/**
+	 * Returns the app icon or null if none is found
+	 *
+	 * @param string $appId
+	 * @param bool $dark Enable to request a dark icon variant, default is a white icon
+	 * @return string|null
+	 * @since 29.0.0
+	 */
+	public function getAppIcon(string $appId, bool $dark = false): string|null;
+
+	/**
 	 * Check if an app is enabled for user
 	 *
 	 * @param string $appId
-	 * @param \OCP\IUser $user (optional) if not defined, the currently loggedin user will be used
+	 * @param \OCP\IUser|null $user (optional) if not defined, the currently loggedin user will be used
 	 * @return bool
 	 * @since 8.0.0
 	 */
@@ -248,7 +258,30 @@ interface IAppManager {
 	 *
 	 * If `user` is not passed, the currently logged in user will be used
 	 *
+	 * @param ?IUser $user User to query default app for
+	 * @param bool $withFallbacks Include fallback values if no default app was configured manually
+	 *                            Before falling back to predefined default apps,
+	 *                            the user defined app order is considered and the first app would be used as the fallback.
+	 *
 	 * @since 25.0.6
+	 * @since 28.0.0 Added optional $withFallbacks parameter
 	 */
-	public function getDefaultAppForUser(?IUser $user = null): string;
+	public function getDefaultAppForUser(?IUser $user = null, bool $withFallbacks = true): string;
+
+	/**
+	 * Get the global default apps with fallbacks
+	 *
+	 * @return string[] The default applications
+	 * @since 28.0.0
+	 */
+	public function getDefaultApps(): array;
+
+	/**
+	 * Set the global default apps with fallbacks
+	 *
+	 * @param string[] $appId
+	 * @throws \InvalidArgumentException If any of the apps is not installed
+	 * @since 28.0.0
+	 */
+	public function setDefaultApps(array $defaultApps): void;
 }

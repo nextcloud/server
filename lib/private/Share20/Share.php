@@ -29,8 +29,8 @@
  */
 namespace OC\Share20;
 
-use OCP\Files\File;
 use OCP\Files\Cache\ICacheEntry;
+use OCP\Files\File;
 use OCP\Files\FileInfo;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
@@ -91,27 +91,23 @@ class Share implements IShare {
 	/** @var string */
 	private $label = '';
 
-	/** @var IRootFolder */
-	private $rootFolder;
-
-	/** @var IUserManager */
-	private $userManager;
-
 	/** @var ICacheEntry|null */
 	private $nodeCacheEntry;
 
 	/** @var bool */
 	private $hideDownload = false;
 
-	public function __construct(IRootFolder $rootFolder, IUserManager $userManager) {
-		$this->rootFolder = $rootFolder;
-		$this->userManager = $userManager;
+	public function __construct(
+		private IRootFolder $rootFolder,
+		private IUserManager $userManager,
+	) {
 	}
 
 	/**
 	 * @inheritdoc
 	 */
 	public function setId($id) {
+		/** @var mixed $id Let's be safe until strong typing */
 		if (is_int($id)) {
 			$id = (string)$id;
 		}
@@ -188,12 +184,12 @@ class Share implements IShare {
 				$userFolder = $this->rootFolder->getUserFolder($this->sharedBy);
 			}
 
-			$nodes = $userFolder->getById($this->fileId);
-			if (empty($nodes)) {
+			$node = $userFolder->getFirstNodeById($this->fileId);
+			if (!$node) {
 				throw new NotFoundException('Node for share not found, fileid: ' . $this->fileId);
 			}
 
-			$this->node = $nodes[0];
+			$this->node = $node;
 		}
 
 		return $this->node;
@@ -211,12 +207,16 @@ class Share implements IShare {
 	/**
 	 * @inheritdoc
 	 */
-	public function getNodeId() {
+	public function getNodeId(): int {
 		if ($this->fileId === null) {
 			$this->fileId = $this->getNode()->getId();
 		}
 
-		return $this->fileId;
+		if ($this->fileId === null) {
+			throw new NotFoundException("Share source not found");
+		} else {
+			return $this->fileId;
+		}
 	}
 
 	/**
@@ -534,7 +534,7 @@ class Share implements IShare {
 	/**
 	 * Set the parent of this share
 	 *
-	 * @param int parent
+	 * @param int $parent
 	 * @return IShare
 	 * @deprecated The new shares do not have parents. This is just here for legacy reasons.
 	 */

@@ -32,6 +32,7 @@ use OCP\IMemcacheTTL;
 
 /**
  * Cache wrapper that logs profiling information
+ * @template-implements \ArrayAccess<string,mixed>
  */
 class ProfilerWrapperCache extends AbstractDataCollector implements IMemcacheTTL, \ArrayAccess {
 	/** @var Redis  $wrappedCache*/
@@ -183,8 +184,16 @@ class ProfilerWrapperCache extends AbstractDataCollector implements IMemcacheTTL
 	}
 
 	/** @inheritDoc */
-	public function setTTL($key, $ttl) {
+	public function setTTL(string $key, int $ttl) {
 		$this->wrappedCache->setTTL($key, $ttl);
+	}
+
+	public function getTTL(string $key): int|false {
+		return $this->wrappedCache->getTTL($key);
+	}
+
+	public function compareSetTTL(string $key, mixed $value, int $ttl): bool {
+		return $this->wrappedCache->compareSetTTL($key, $value, $ttl);
 	}
 
 	public function offsetExists($offset): bool {
@@ -207,7 +216,7 @@ class ProfilerWrapperCache extends AbstractDataCollector implements IMemcacheTTL
 		$this->remove($offset);
 	}
 
-	public function collect(Request $request, Response $response, \Throwable $exception = null): void {
+	public function collect(Request $request, Response $response, ?\Throwable $exception = null): void {
 		// Nothing to do here $data is already ready
 	}
 

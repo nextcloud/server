@@ -24,11 +24,11 @@
 namespace Test\Group;
 
 use OC\Group\Database;
-use OC\User\User;
 use OC\User\Manager;
+use OC\User\User;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\GroupInterface;
 use OCP\Group\Backend\ISearchableGroupBackend;
+use OCP\GroupInterface;
 use OCP\ICacheFactory;
 use OCP\IUser;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -92,6 +92,7 @@ class ManagerTest extends TestCase {
 				'inGroup',
 				'getGroups',
 				'groupExists',
+				'groupsExists',
 				'usersInGroup',
 				'createGroup',
 				'addToGroup',
@@ -361,10 +362,12 @@ class ManagerTest extends TestCase {
 			->method('getGroups')
 			->with('1')
 			->willReturn(['group1']);
+		$backend->expects($this->never())
+			->method('groupExists');
 		$backend->expects($this->once())
-			->method('groupExists')
-			->with('group1')
-			->willReturn(false);
+			->method('getGroupsDetails')
+			->with(['group1'])
+			->willReturn([]);
 
 		/** @var \OC\User\Manager $userManager */
 		$userManager = $this->createMock(Manager::class);

@@ -44,11 +44,12 @@ class SecureRandom implements ISecureRandom {
 	 * @param int $length The length of the generated string
 	 * @param string $characters An optional list of characters to use if no character list is
 	 * 							specified all valid base64 characters are used.
-	 * @return string
 	 * @throws \LengthException if an invalid length is requested
 	 */
-	public function generate(int $length,
-							 string $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'): string {
+	public function generate(
+		int $length,
+		string $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/',
+	): string {
 		if ($length <= 0) {
 			throw new \LengthException('Invalid length specified: ' . $length . ' must be bigger than 0');
 		}

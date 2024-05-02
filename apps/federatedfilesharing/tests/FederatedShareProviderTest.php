@@ -195,9 +195,9 @@ class FederatedShareProviderTest extends \Test\TestCase {
 				$this->equalTo('myFile'),
 				$this->anything(),
 				'shareOwner',
-				'shareOwner@http://localhost/',
+				'shareOwner@http://localhost',
 				'sharedBy',
-				'sharedBy@http://localhost/'
+				'sharedBy@http://localhost'
 			)
 			->willReturn(true);
 
@@ -276,9 +276,9 @@ class FederatedShareProviderTest extends \Test\TestCase {
 				$this->equalTo('myFile'),
 				$this->anything(),
 				'shareOwner',
-				'shareOwner@http://localhost/',
+				'shareOwner@http://localhost',
 				'sharedBy',
-				'sharedBy@http://localhost/'
+				'sharedBy@http://localhost'
 			)->willReturn(false);
 
 		$this->rootFolder->method('getById')
@@ -337,9 +337,9 @@ class FederatedShareProviderTest extends \Test\TestCase {
 				$this->equalTo('myFile'),
 				$this->anything(),
 				'shareOwner',
-				'shareOwner@http://localhost/',
+				'shareOwner@http://localhost',
 				'sharedBy',
-				'sharedBy@http://localhost/'
+				'sharedBy@http://localhost'
 			)->willThrowException(new \Exception('dummy'));
 
 		$this->rootFolder->method('getById')
@@ -397,7 +397,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 			$share = $this->provider->create($share);
 			$this->fail();
 		} catch (\Exception $e) {
-			$this->assertEquals('Not allowed to create a federated share with the same user', $e->getMessage());
+			$this->assertEquals('Not allowed to create a federated share to the same account', $e->getMessage());
 		}
 
 		$qb = $this->connection->getQueryBuilder();
@@ -443,9 +443,9 @@ class FederatedShareProviderTest extends \Test\TestCase {
 				$this->equalTo('myFile'),
 				$this->anything(),
 				'shareOwner',
-				'shareOwner@http://localhost/',
+				'shareOwner@http://localhost',
 				'sharedBy',
-				'sharedBy@http://localhost/'
+				'sharedBy@http://localhost'
 			)->willReturn(true);
 
 		$this->rootFolder->expects($this->never())->method($this->anything());
@@ -459,7 +459,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 		try {
 			$this->provider->create($share);
 		} catch (\Exception $e) {
-			$this->assertEquals('Sharing myFile failed, because this item is already shared with user user@server.com', $e->getMessage());
+			$this->assertEquals('Sharing myFile failed, because this item is already shared with the account user@server.com', $e->getMessage());
 		}
 	}
 
@@ -514,9 +514,9 @@ class FederatedShareProviderTest extends \Test\TestCase {
 				$this->equalTo('myFile'),
 				$this->anything(),
 				$owner,
-				$owner . '@http://localhost/',
+				$owner . '@http://localhost',
 				$sharedBy,
-				$sharedBy . '@http://localhost/'
+				$sharedBy . '@http://localhost'
 			)->willReturn(true);
 
 		if ($owner === $sharedBy) {

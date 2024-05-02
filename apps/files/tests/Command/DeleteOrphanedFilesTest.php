@@ -132,10 +132,11 @@ class DeleteOrphanedFilesTest extends TestCase {
 
 		// parent folder, `files`, ´test` and `welcome.txt` => 4 elements
 		$output
-			->expects($this->exactly(2))
+			->expects($this->exactly(3))
 			->method('writeln')
 			->withConsecutive(
 				['3 orphaned file cache entries deleted'],
+				['0 orphaned file cache extended entries deleted'],
 				['1 orphaned mount entries deleted'],
 			);
 

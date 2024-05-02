@@ -33,14 +33,14 @@ use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\Util;
 
+/** @template-implements IEventListener<LoadAdditionalScriptsEvent> */
 class LoadAdditionalScripts implements IEventListener {
 	public function handle(Event $event): void {
 		if (!($event instanceof LoadAdditionalScriptsEvent)) {
 			return;
 		}
 
-		// TODO: make sure to only include the sidebar script when
-		// we properly split it between files list and sidebar
-		Util::addScript(Application::APP_ID, 'comments');
+		// Adding init script for file list inline actions
+		Util::addInitScript(Application::APP_ID, 'init');
 	}
 }

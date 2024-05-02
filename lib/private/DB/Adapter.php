@@ -30,6 +30,7 @@ namespace OC\DB;
 
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
+use OC\DB\Exceptions\DbalException;
 
 /**
  * This handles the way we use to write queries, into something that can be
@@ -99,7 +100,7 @@ class Adapter {
 	 * @throws Exception
 	 * @deprecated 15.0.0 - use unique index and "try { $db->insert() } catch (UniqueConstraintViolationException $e) {}" instead, because it is more reliable and does not have the risk for deadlocks - see https://github.com/nextcloud/server/pull/12371
 	 */
-	public function insertIfNotExist($table, $input, array $compare = null) {
+	public function insertIfNotExist($table, $input, ?array $compare = null) {
 		if (empty($compare)) {
 			$compare = array_keys($input);
 		}
@@ -142,9 +143,12 @@ class Adapter {
 			foreach ($values as $key => $value) {
 				$builder->setValue($key, $builder->createNamedParameter($value));
 			}
-			return $builder->execute();
-		} catch (UniqueConstraintViolationException $e) {
-			return 0;
+			return $builder->executeStatement();
+		} catch (DbalException $e) {
+			if ($e->getReason() === \OCP\DB\Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
+				return 0;
+			}
+			throw $e;
 		}
 	}
 }

@@ -302,21 +302,6 @@ class QueryBuilder implements IQueryBuilder {
 		throw new \RuntimeException('Invalid return type for query');
 	}
 
-	/**
-	 * Monkey-patched compatibility layer for apps that were adapted for Nextcloud 22 before
-	 * the first beta, where executeStatement was named executeUpdate.
-	 *
-	 * Static analysis should catch those misuses, but until then let's try to keep things
-	 * running.
-	 *
-	 * @internal
-	 * @deprecated
-	 * @todo drop ASAP
-	 */
-	public function executeUpdate(): int {
-		return $this->executeStatement();
-	}
-
 	public function executeStatement(): int {
 		if ($this->getType() === \Doctrine\DBAL\Query\QueryBuilder::SELECT) {
 			throw new \RuntimeException('Invalid query type, expected INSERT, DELETE or UPDATE statement');
@@ -866,7 +851,7 @@ class QueryBuilder implements IQueryBuilder {
 	public function where(...$predicates) {
 		if ($this->getQueryPart('where') !== null && $this->systemConfig->getValue('debug', false)) {
 			// Only logging a warning, not throwing for now.
-			$e = new QueryException('Using where() on non-empty WHERE part, please verify it is intentional to not call whereAnd() or whereOr() instead. Otherwise consider creating a new query builder object or call resetQueryPart(\'where\') first.');
+			$e = new QueryException('Using where() on non-empty WHERE part, please verify it is intentional to not call andWhere() or orWhere() instead. Otherwise consider creating a new query builder object or call resetQueryPart(\'where\') first.');
 			$this->logger->warning($e->getMessage(), ['exception' => $e]);
 		}
 
@@ -975,14 +960,10 @@ class QueryBuilder implements IQueryBuilder {
 	 *
 	 * @return $this This QueryBuilder instance.
 	 */
-	public function addGroupBy(...$groupBys) {
-		if (count($groupBys) === 1 && is_array($groupBys[0])) {
-			$$groupBys = $groupBys[0];
-		}
-
+	public function addGroupBy(...$groupBy) {
 		call_user_func_array(
 			[$this->queryBuilder, 'addGroupBy'],
-			$this->helper->quoteColumnNames($groupBys)
+			$this->helper->quoteColumnNames($groupBy)
 		);
 
 		return $this;
@@ -1202,7 +1183,7 @@ class QueryBuilder implements IQueryBuilder {
 	 * @link http://www.zetacomponents.org
 	 *
 	 * @param mixed $value
-	 * @param mixed $type
+	 * @param IQueryBuilder::PARAM_* $type
 	 * @param string $placeHolder The name to bind with. The string must start with a colon ':'.
 	 *
 	 * @return IParameter the placeholder name used.
@@ -1229,7 +1210,7 @@ class QueryBuilder implements IQueryBuilder {
 	 * </code>
 	 *
 	 * @param mixed $value
-	 * @param integer $type
+	 * @param IQueryBuilder::PARAM_* $type
 	 *
 	 * @return IParameter
 	 */

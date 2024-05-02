@@ -108,7 +108,7 @@ interface IGroupManager {
 	 * @return \OCP\IGroup[]
 	 * @since 8.0.0
 	 */
-	public function getUserGroups(IUser $user = null);
+	public function getUserGroups(?IUser $user = null);
 
 	/**
 	 * @param \OCP\IUser $user

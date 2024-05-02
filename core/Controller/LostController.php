@@ -37,8 +37,15 @@
 namespace OC\Core\Controller;
 
 use Exception;
+use OC\Authentication\TwoFactorAuth\Manager;
+use OC\Core\Events\BeforePasswordResetEvent;
+use OC\Core\Events\PasswordResetEvent;
+use OC\Core\Exception\ResetPasswordException;
+use OC\Security\RateLimiting\Exception\RateLimitExceededException;
+use OC\Security\RateLimiting\Limiter;
 use OCP\AppFramework\Controller;
-use OCP\AppFramework\Http\Attribute\IgnoreOpenAPI;
+use OCP\AppFramework\Http\Attribute\FrontpageRoute;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
@@ -54,14 +61,8 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Mail\IMailer;
-use OCP\Security\VerificationToken\IVerificationToken;
 use OCP\Security\VerificationToken\InvalidTokenException;
-use OC\Authentication\TwoFactorAuth\Manager;
-use OC\Core\Events\BeforePasswordResetEvent;
-use OC\Core\Events\PasswordResetEvent;
-use OC\Core\Exception\ResetPasswordException;
-use OC\Security\RateLimiting\Exception\RateLimitExceededException;
-use OC\Security\RateLimiting\Limiter;
+use OCP\Security\VerificationToken\IVerificationToken;
 use Psr\Log\LoggerInterface;
 use function array_filter;
 use function count;
@@ -74,7 +75,7 @@ use function reset;
  *
  * @package OC\Core\Controller
  */
-#[IgnoreOpenAPI]
+#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class LostController extends Controller {
 	protected string $from;
 
@@ -108,6 +109,7 @@ class LostController extends Controller {
 	 * @BruteForceProtection(action=passwordResetEmail)
 	 * @AnonRateThrottle(limit=10, period=300)
 	 */
+	#[FrontpageRoute(verb: 'GET', url: '/lostpassword/reset/form/{token}/{userId}')]
 	public function resetform(string $token, string $userId): TemplateResponse {
 		try {
 			$this->checkPasswordResetToken($token, $userId);
@@ -172,12 +174,17 @@ class LostController extends Controller {
 	 * @BruteForceProtection(action=passwordResetEmail)
 	 * @AnonRateThrottle(limit=10, period=300)
 	 */
+	#[FrontpageRoute(verb: 'POST', url: '/lostpassword/email')]
 	public function email(string $user): JSONResponse {
 		if ($this->config->getSystemValue('lost_password_link', '') !== '') {
 			return new JSONResponse($this->error($this->l10n->t('Password reset is disabled')));
 		}
 
 		$user = trim($user);
+
+		if (strlen($user) > 255) {
+			return new JSONResponse($this->error($this->l10n->t('Unsupported email length (>255)')));
+		}
 
 		\OCP\Util::emitHook(
 			'\OCA\Files_Sharing\API\Server2Server',
@@ -205,6 +212,7 @@ class LostController extends Controller {
 	 * @BruteForceProtection(action=passwordResetEmail)
 	 * @AnonRateThrottle(limit=10, period=300)
 	 */
+	#[FrontpageRoute(verb: 'POST', url: '/lostpassword/set/{token}/{userId}')]
 	public function setPassword(string $token, string $userId, string $password, bool $proceed): JSONResponse {
 		if ($this->encryptionManager->isEnabled() && !$proceed) {
 			$encryptionModules = $this->encryptionManager->getEncryptionModules();
@@ -318,7 +326,7 @@ class LostController extends Controller {
 		$user = $this->userManager->get($input);
 		if ($user instanceof IUser) {
 			if (!$user->isEnabled()) {
-				throw new ResetPasswordException('User ' . $user->getUID() . ' is disabled');
+				throw new ResetPasswordException('Account ' . $user->getUID() . ' is disabled');
 			}
 
 			return $user;

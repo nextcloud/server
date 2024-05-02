@@ -94,11 +94,11 @@ class MountPoint implements IMountPoint {
 	public function __construct(
 		$storage,
 		string $mountpoint,
-		array $arguments = null,
-		IStorageFactory $loader = null,
-		array $mountOptions = null,
-		int $mountId = null,
-		string $mountProvider = null
+		?array $arguments = null,
+		?IStorageFactory $loader = null,
+		?array $mountOptions = null,
+		?int $mountId = null,
+		?string $mountProvider = null
 	) {
 		if (is_null($arguments)) {
 			$arguments = [];
@@ -272,7 +272,7 @@ class MountPoint implements IMountPoint {
 	 * @return mixed
 	 */
 	public function getOption($name, $default) {
-		return isset($this->mountOptions[$name]) ? $this->mountOptions[$name] : $default;
+		return $this->mountOptions[$name] ?? $default;
 	}
 
 	/**

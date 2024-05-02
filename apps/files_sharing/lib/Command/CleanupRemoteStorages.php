@@ -113,8 +113,9 @@ class CleanupRemoteStorages extends Command {
 				$queryBuilder->createNamedParameter($numericId, IQueryBuilder::PARAM_STR),
 				IQueryBuilder::PARAM_STR)
 			);
-		$result = $queryBuilder->execute();
+		$result = $queryBuilder->executeQuery();
 		$count = $result->fetchOne();
+		$result->closeCursor();
 		$output->writeln("$count files can be deleted for storage $numericId");
 	}
 
@@ -127,7 +128,7 @@ class CleanupRemoteStorages extends Command {
 				IQueryBuilder::PARAM_STR)
 			);
 		$output->write("deleting $id [$numericId] ... ");
-		$count = $queryBuilder->execute();
+		$count = $queryBuilder->executeStatement();
 		$output->writeln("deleted $count storage");
 		$this->deleteFiles($numericId, $output);
 	}
@@ -141,7 +142,7 @@ class CleanupRemoteStorages extends Command {
 				IQueryBuilder::PARAM_STR)
 			);
 		$output->write("deleting files for storage $numericId ... ");
-		$count = $queryBuilder->execute();
+		$count = $queryBuilder->executeStatement();
 		$output->writeln("deleted $count files");
 	}
 
@@ -160,14 +161,16 @@ class CleanupRemoteStorages extends Command {
 				// but not the ones starting with a '/', they are for normal shares
 				$queryBuilder->createNamedParameter($this->connection->escapeLikeParameter('shared::/') . '%'),
 				IQueryBuilder::PARAM_STR)
-			)->orderBy('numeric_id');
-		$query = $queryBuilder->execute();
+			)
+			->orderBy('numeric_id');
+		$result = $queryBuilder->executeQuery();
 
 		$remoteStorages = [];
 
-		while ($row = $query->fetch()) {
+		while ($row = $result->fetch()) {
 			$remoteStorages[$row['id']] = $row['numeric_id'];
 		}
+		$result->closeCursor();
 
 		return $remoteStorages;
 	}
@@ -176,16 +179,17 @@ class CleanupRemoteStorages extends Command {
 		$queryBuilder = $this->connection->getQueryBuilder();
 		$queryBuilder->select(['id', 'share_token', 'owner', 'remote'])
 			->from('share_external');
-		$query = $queryBuilder->execute();
+		$result = $queryBuilder->executeQuery();
 
 		$remoteShareIds = [];
 
-		while ($row = $query->fetch()) {
+		while ($row = $result->fetch()) {
 			$cloudId = $this->cloudIdManager->getCloudId($row['owner'], $row['remote']);
 			$remote = $cloudId->getRemote();
 
 			$remoteShareIds[$row['id']] = 'shared::' . md5($row['share_token'] . '@' . $remote);
 		}
+		$result->closeCursor();
 
 		return $remoteShareIds;
 	}

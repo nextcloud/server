@@ -25,16 +25,18 @@
 			<NcTextField id="user"
 				:value.sync="user"
 				name="user"
+				:maxlength="255"
 				autocapitalize="off"
-				:label="t('core', 'Account name or email')"
-				:label-visible="true"
+				:label="t('core', 'Login or email')"
+				:error="userNameInputLengthIs255"
+				:helper-text="userInputHelperText"
 				required
 				@change="updateUsername" />
 			<LoginButton :value="t('core', 'Reset password')" />
 
 			<NcNoteCard v-if="message === 'send-success'"
 				type="success">
-				{{ t('core', 'If this account exists, a password reset message has been sent to its email address. If you do not receive it, verify your email address and/or account name, check your spam/junk folders or ask your local administration for help.') }}
+				{{ t('core', 'If this account exists, a password reset message has been sent to its email address. If you do not receive it, verify your email address and/or Login, check your spam/junk folders or ask your local administration for help.') }}
 			</NcNoteCard>
 			<NcNoteCard v-else-if="message === 'send-error'"
 				type="error">
@@ -61,6 +63,8 @@ import LoginButton from './LoginButton.vue'
 import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
 import NcNoteCard from '@nextcloud/vue/dist/Components/NcNoteCard.js'
 
+import AuthMixin from '../../mixins/auth.js'
+
 export default {
 	name: 'ResetPassword',
 	components: {
@@ -68,6 +72,7 @@ export default {
 		NcNoteCard,
 		NcTextField,
 	},
+	mixins: [AuthMixin],
 	props: {
 		username: {
 			type: String,

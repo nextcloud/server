@@ -20,27 +20,6 @@
             }
         },
         "schemas": {
-            "Background": {
-                "type": "object",
-                "required": [
-                    "backgroundImage",
-                    "backgroundColor",
-                    "version"
-                ],
-                "properties": {
-                    "backgroundImage": {
-                        "type": "string",
-                        "nullable": true
-                    },
-                    "backgroundColor": {
-                        "type": "string"
-                    },
-                    "version": {
-                        "type": "integer",
-                        "format": "int64"
-                    }
-                }
-            },
             "OCSMeta": {
                 "type": "object",
                 "required": [
@@ -162,7 +141,11 @@
                         "description": "Let the browser decide the CSS priority",
                         "schema": {
                             "type": "integer",
-                            "default": 0
+                            "default": 0,
+                            "enum": [
+                                0,
+                                1
+                            ]
                         }
                     },
                     {
@@ -171,7 +154,11 @@
                         "description": "Include custom CSS",
                         "schema": {
                             "type": "integer",
-                            "default": 0
+                            "default": 0,
+                            "enum": [
+                                0,
+                                1
+                            ]
                         }
                     },
                     {
@@ -232,7 +219,11 @@
                         "description": "Return image as SVG",
                         "schema": {
                             "type": "integer",
-                            "default": 1
+                            "default": 1,
+                            "enum": [
+                                0,
+                                1
+                            ]
                         }
                     },
                     {
@@ -303,13 +294,14 @@
                         "description": "ID of the app",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "string",
+                            "default": "core"
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Manifest returned",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -370,6 +362,16 @@
                                             "type": "string"
                                         }
                                     }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "App not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
                                 }
                             }
                         }
@@ -596,17 +598,6 @@
                         "basic_auth": []
                     }
                 ],
-                "parameters": [
-                    {
-                        "name": "OCS-APIRequest",
-                        "in": "header",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "default": "true"
-                        }
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "Background image returned",
@@ -625,149 +616,6 @@
                             "text/html": {
                                 "schema": {
                                     "type": "string"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/index.php/apps/theming/background/{type}": {
-            "post": {
-                "operationId": "user_theme-set-background",
-                "summary": "Set the background",
-                "tags": [
-                    "user_theme"
-                ],
-                "security": [
-                    {
-                        "bearer_auth": []
-                    },
-                    {
-                        "basic_auth": []
-                    }
-                ],
-                "parameters": [
-                    {
-                        "name": "value",
-                        "in": "query",
-                        "description": "Path of the background image",
-                        "schema": {
-                            "type": "string",
-                            "default": ""
-                        }
-                    },
-                    {
-                        "name": "color",
-                        "in": "query",
-                        "description": "Color for the background",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "type",
-                        "in": "path",
-                        "description": "Type of background",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "OCS-APIRequest",
-                        "in": "header",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "default": "true"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Background set successfully",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Background"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Setting background is not possible",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "required": [
-                                        "error"
-                                    ],
-                                    "properties": {
-                                        "error": {
-                                            "type": "string"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "required": [
-                                        "error"
-                                    ],
-                                    "properties": {
-                                        "error": {
-                                            "type": "string"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/index.php/apps/theming/background/custom": {
-            "delete": {
-                "operationId": "user_theme-delete-background",
-                "summary": "Delete the background",
-                "tags": [
-                    "user_theme"
-                ],
-                "security": [
-                    {
-                        "bearer_auth": []
-                    },
-                    {
-                        "basic_auth": []
-                    }
-                ],
-                "parameters": [
-                    {
-                        "name": "OCS-APIRequest",
-                        "in": "header",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "default": "true"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Background"
                                 }
                             }
                         }
@@ -803,10 +651,11 @@
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
+                        "description": "Required to be true for the API request to pass",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "default": "true"
+                            "type": "boolean",
+                            "default": true
                         }
                     }
                 ],
@@ -842,9 +691,27 @@
                     "400": {
                         "description": "Enabling theme is not possible",
                         "content": {
-                            "text/plain": {
+                            "application/json": {
                                 "schema": {
-                                    "type": "string"
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -890,10 +757,11 @@
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
+                        "description": "Required to be true for the API request to pass",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "default": "true"
+                            "type": "boolean",
+                            "default": true
                         }
                     }
                 ],
@@ -929,9 +797,27 @@
                     "400": {
                         "description": "Disabling theme is not possible",
                         "content": {
-                            "text/plain": {
+                            "application/json": {
                                 "schema": {
-                                    "type": "string"
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }

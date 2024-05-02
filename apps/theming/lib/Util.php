@@ -28,6 +28,7 @@
  */
 namespace OCA\Theming;
 
+use Mexitek\PHPColors\Color;
 use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
 use OCP\Files\IAppData;
@@ -35,7 +36,6 @@ use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\IConfig;
 use OCP\IUserSession;
-use Mexitek\PHPColors\Color;
 
 class Util {
 
@@ -57,7 +57,7 @@ class Util {
 	 * @return bool
 	 */
 	public function invertTextColor(string $color): bool {
-		return $this->isBrightColor($color);
+		return $this->colorContrast($color, '#ffffff') < 4.5;
 	}
 
 	/**
@@ -81,7 +81,30 @@ class Util {
 	 * @param ?bool $brightBackground
 	 * @return string
 	 */
-	public function elementColor($color, ?bool $brightBackground = null) {
+	public function elementColor($color, ?bool $brightBackground = null, ?string $backgroundColor = null, bool $highContrast = false) {
+		if ($backgroundColor !== null) {
+			$brightBackground = $brightBackground ?? $this->isBrightColor($backgroundColor);
+			// Minimal amount that is possible to change the luminance
+			$epsilon = 1.0 / 255.0;
+			// Current iteration to prevent infinite loops
+			$iteration = 0;
+			// We need to keep blurred backgrounds in mind which might be mixed with the background
+			$blurredBackground = $this->mix($backgroundColor, $brightBackground ? $color : '#ffffff', 66);
+			$contrast = $this->colorContrast($color, $blurredBackground);
+
+			// Min. element contrast is 3:1 but we need to keep hover states in mind -> min 3.2:1
+			$minContrast = $highContrast ? 5.5 : 3.2;
+
+			while ($contrast < $minContrast && $iteration++ < 100) {
+				$hsl = Color::hexToHsl($color);
+				$hsl['L'] = max(0, min(1, $hsl['L'] + ($brightBackground ? -$epsilon : $epsilon)));
+				$color = '#' . Color::hslToHex($hsl);
+				$contrast = $this->colorContrast($color, $blurredBackground);
+			}
+			return $color;
+		}
+
+		// Fallback for legacy calling
 		$luminance = $this->calculateLuminance($color);
 
 		if ($brightBackground !== false && $luminance > 0.8) {
@@ -139,12 +162,38 @@ class Util {
 	}
 
 	/**
+	 * Calculate the Luma according to WCAG 2
+	 * http://www.w3.org/TR/WCAG20/#relativeluminancedef
 	 * @param string $color rgb color value
 	 * @return float
 	 */
 	public function calculateLuma(string $color): float {
-		[$red, $green, $blue] = $this->hexToRGB($color);
-		return (0.2126 * $red + 0.7152 * $green + 0.0722 * $blue) / 255;
+		$rgb = $this->hexToRGB($color);
+
+		// Normalize the values by converting to float and applying the rules from WCAG2.0
+		$rgb = array_map(function (int $color) {
+			$color = $color / 255.0;
+			if ($color <= 0.03928) {
+				return $color / 12.92;
+			} else {
+				return pow((($color + 0.055) / 1.055), 2.4);
+			}
+		}, $rgb);
+
+		[$red, $green, $blue] = $rgb;
+		return (0.2126 * $red + 0.7152 * $green + 0.0722 * $blue);
+	}
+
+	/**
+	 * Calculat the color contrast according to WCAG 2
+	 * http://www.w3.org/TR/WCAG20/#contrast-ratiodef
+	 * @param string $color1 The first color
+	 * @param string $color2 The second color
+	 */
+	public function colorContrast(string $color1, string $color2): float {
+		$luminance1 = $this->calculateLuma($color1) + 0.05;
+		$luminance2 = $this->calculateLuma($color2) + 0.05;
+		return max($luminance1, $luminance2) / min($luminance1, $luminance2);
 	}
 
 	/**
@@ -169,7 +218,7 @@ class Util {
 
 
 	/**
-	 * @param $app string app name
+	 * @param string $app app name
 	 * @return string|ISimpleFile path to app icon / file of logo
 	 */
 	public function getAppIcon($app) {
@@ -199,8 +248,8 @@ class Util {
 	}
 
 	/**
-	 * @param $app string app name
-	 * @param $image string relative path to image in app folder
+	 * @param string $app app name
+	 * @param string $image relative path to image in app folder
 	 * @return string|false absolute path to image
 	 */
 	public function getAppImage($app, $image) {
@@ -246,8 +295,8 @@ class Util {
 	/**
 	 * replace default color with a custom one
 	 *
-	 * @param $svg string content of a svg file
-	 * @param $color string color to match
+	 * @param string $svg content of a svg file
+	 * @param string $color color to match
 	 * @return string
 	 */
 	public function colorizeSvg($svg, $color) {

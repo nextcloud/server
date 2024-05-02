@@ -83,15 +83,15 @@ class Manager {
 	public function startRegistration(IUser $user, string $serverHost): PublicKeyCredentialCreationOptions {
 		$rpEntity = new PublicKeyCredentialRpEntity(
 			'Nextcloud', //Name
-			$this->stripPort($serverHost),        //ID
+			$this->stripPort($serverHost),  //ID
 			null                            //Icon
 		);
 
 		$userEntity = new PublicKeyCredentialUserEntity(
-			$user->getUID(),                              //Name
-			$user->getUID(),                              //ID
-			$user->getDisplayName()                      //Display name
-//            'https://foo.example.co/avatar/123e4567-e89b-12d3-a456-426655440000' //Icon
+			$user->getUID(),                             // Name
+			$user->getUID(),                             // ID
+			$user->getDisplayName()                      // Display name
+			//            'https://foo.example.co/avatar/123e4567-e89b-12d3-a456-426655440000' //Icon
 		);
 
 		$challenge = random_bytes(32);
@@ -108,8 +108,9 @@ class Manager {
 
 		$authenticatorSelectionCriteria = new AuthenticatorSelectionCriteria(
 			null,
+			AuthenticatorSelectionCriteria::USER_VERIFICATION_REQUIREMENT_DISCOURAGED,
+			null,
 			false,
-			AuthenticatorSelectionCriteria::USER_VERIFICATION_REQUIREMENT_DISCOURAGED
 		);
 
 		return new PublicKeyCredentialCreationOptions(
@@ -117,11 +118,10 @@ class Manager {
 			$userEntity,
 			$challenge,
 			$publicKeyCredentialParametersList,
-			$timeout,
-			$excludedPublicKeyDescriptors,
 			$authenticatorSelectionCriteria,
 			PublicKeyCredentialCreationOptions::ATTESTATION_CONVEYANCE_PREFERENCE_NONE,
-			null
+			$excludedPublicKeyDescriptors,
+			$timeout,
 		);
 	}
 
@@ -149,7 +149,7 @@ class Manager {
 		try {
 			// Load the data
 			$publicKeyCredential = $publicKeyCredentialLoader->load($data);
-			$response = $publicKeyCredential->getResponse();
+			$response = $publicKeyCredential->response;
 
 			// Check if the response is an Authenticator Attestation Response
 			if (!$response instanceof AuthenticatorAttestationResponse) {
@@ -162,7 +162,9 @@ class Manager {
 			$publicKeyCredentialSource = $authenticatorAttestationResponseValidator->check(
 				$response,
 				$publicKeyCredentialCreationOptions,
-				$request);
+				$request,
+				['localhost'],
+			);
 		} catch (\Throwable $exception) {
 			throw $exception;
 		}
@@ -180,18 +182,18 @@ class Manager {
 		$registeredPublicKeyCredentialDescriptors = array_map(function (PublicKeyCredentialEntity $entity) {
 			$credential = $entity->toPublicKeyCredentialSource();
 			return new PublicKeyCredentialDescriptor(
-				$credential->getType(),
-				$credential->getPublicKeyCredentialId()
+				$credential->type,
+				$credential->publicKeyCredentialId,
 			);
 		}, $this->credentialMapper->findAllForUid($uid));
 
 		// Public Key Credential Request Options
 		return new PublicKeyCredentialRequestOptions(
-			random_bytes(32),                                                    // Challenge
-			60000,                                                              // Timeout
-			$this->stripPort($serverHost),                                                                  // Relying Party ID
-			$registeredPublicKeyCredentialDescriptors,                                  // Registered PublicKeyCredentialDescriptor classes
-			AuthenticatorSelectionCriteria::USER_VERIFICATION_REQUIREMENT_DISCOURAGED
+			random_bytes(32),                                                          // Challenge
+			$this->stripPort($serverHost),                                             // Relying Party ID
+			$registeredPublicKeyCredentialDescriptors,                                 // Registered PublicKeyCredentialDescriptor classes
+			AuthenticatorSelectionCriteria::USER_VERIFICATION_REQUIREMENT_DISCOURAGED,
+			60000,                                                                     // Timeout
 		);
 	}
 
@@ -213,16 +215,15 @@ class Manager {
 			$tokenBindingHandler,
 			$extensionOutputCheckerHandler,
 			$algorithmManager,
-			null,
-			$this->logger,
 		);
+		$authenticatorAssertionResponseValidator->setLogger($this->logger);
 
 		try {
 			$this->logger->debug('Loading publickey credentials from: ' . $data);
 
 			// Load the data
 			$publicKeyCredential = $publicKeyCredentialLoader->load($data);
-			$response = $publicKeyCredential->getResponse();
+			$response = $publicKeyCredential->response;
 
 			// Check if the response is an Authenticator Attestation Response
 			if (!$response instanceof AuthenticatorAssertionResponse) {
@@ -233,17 +234,16 @@ class Manager {
 			$request = ServerRequest::fromGlobals();
 
 			$publicKeyCredentialSource = $authenticatorAssertionResponseValidator->check(
-				$publicKeyCredential->getRawId(),
+				$publicKeyCredential->rawId,
 				$response,
 				$publicKeyCredentialRequestOptions,
 				$request,
-				$uid
+				$uid,
+				['localhost'],
 			);
 		} catch (\Throwable $e) {
 			throw $e;
 		}
-
-
 
 		return true;
 	}

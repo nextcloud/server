@@ -33,13 +33,17 @@ use OCP\Lock\ILockingProvider;
  * to release any leftover locks at the end of the request
  */
 abstract class AbstractLockingProvider implements ILockingProvider {
-	/** how long until we clear stray locks in seconds */
-	protected int $ttl;
-
-	protected $acquiredLocks = [
+	protected array $acquiredLocks = [
 		'shared' => [],
 		'exclusive' => []
 	];
+
+	/**
+	 *
+	 * @param int $ttl how long until we clear stray locks in seconds
+	 */
+	public function __construct(protected int $ttl) {
+	}
 
 	/** @inheritDoc */
 	protected function hasAcquiredLock(string $path, int $type): bool {

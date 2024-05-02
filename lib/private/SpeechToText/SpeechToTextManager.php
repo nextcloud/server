@@ -36,9 +36,12 @@ use OCP\Files\InvalidPathException;
 use OCP\Files\NotFoundException;
 use OCP\IConfig;
 use OCP\IServerContainer;
+use OCP\IUserSession;
 use OCP\PreConditionNotMetException;
 use OCP\SpeechToText\ISpeechToTextManager;
 use OCP\SpeechToText\ISpeechToTextProvider;
+use OCP\SpeechToText\ISpeechToTextProviderWithId;
+use OCP\SpeechToText\ISpeechToTextProviderWithUserId;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Psr\Log\LoggerInterface;
@@ -55,6 +58,7 @@ class SpeechToTextManager implements ISpeechToTextManager {
 		private LoggerInterface $logger,
 		private IJobList $jobList,
 		private IConfig $config,
+		private IUserSession $userSession,
 	) {
 	}
 
@@ -108,6 +112,24 @@ class SpeechToTextManager implements ISpeechToTextManager {
 		}
 	}
 
+	public function cancelScheduledFileTranscription(File $file, ?string $userId, string $appId): void {
+		try {
+			$jobArguments = [
+				'fileId' => $file->getId(),
+				'owner' => $file->getOwner()->getUID(),
+				'userId' => $userId,
+				'appId' => $appId,
+			];
+			if (!$this->jobList->has(TranscriptionJob::class, $jobArguments)) {
+				$this->logger->debug('Failed to cancel a Speech-to-text job for file ' . $file->getId() . '. No related job was found.');
+				return;
+			}
+			$this->jobList->remove(TranscriptionJob::class, $jobArguments);
+		} catch (NotFoundException|InvalidPathException $e) {
+			throw new InvalidArgumentException('Invalid file provided to cancel file transcription: ' . $e->getMessage());
+		}
+	}
+
 	public function transcribeFile(File $file): string {
 		if (!$this->hasProviders()) {
 			throw new PreConditionNotMetException('No SpeechToText providers have been registered');
@@ -117,8 +139,13 @@ class SpeechToTextManager implements ISpeechToTextManager {
 
 		$json = $this->config->getAppValue('core', 'ai.stt_provider', '');
 		if ($json !== '') {
-			$className = json_decode($json, true);
-			$provider = current(array_filter($providers, fn ($provider) => $provider::class === $className));
+			$classNameOrId = json_decode($json, true);
+			$provider = current(array_filter($providers, function ($provider) use ($classNameOrId) {
+				if ($provider instanceof ISpeechToTextProviderWithId) {
+					return $provider->getId() === $classNameOrId;
+				}
+				return $provider::class === $classNameOrId;
+			}));
 			if ($provider !== false) {
 				$providers = [$provider];
 			}
@@ -126,9 +153,13 @@ class SpeechToTextManager implements ISpeechToTextManager {
 
 		foreach ($providers as $provider) {
 			try {
+				if ($provider instanceof ISpeechToTextProviderWithUserId) {
+					$provider->setUserId($this->userSession->getUser()?->getUID());
+				}
 				return $provider->transcribeFile($file);
 			} catch (\Throwable $e) {
 				$this->logger->info('SpeechToText transcription using provider ' . $provider->getName() . ' failed', ['exception' => $e]);
+				throw new RuntimeException('SpeechToText transcription using provider "' . $provider->getName() . '" failed: ' . $e->getMessage());
 			}
 		}
 

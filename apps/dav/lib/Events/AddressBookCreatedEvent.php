@@ -49,7 +49,7 @@ class AddressBookCreatedEvent extends Event {
 	 * @since 20.0.0
 	 */
 	public function __construct(int $addressBookId,
-								array $addressBookData) {
+		array $addressBookData) {
 		parent::__construct();
 		$this->addressBookId = $addressBookId;
 		$this->addressBookData = $addressBookData;

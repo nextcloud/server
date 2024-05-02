@@ -34,19 +34,22 @@ namespace OCA\DAV\Connector\Sabre;
 
 use OC\Files\Mount\MoveableMount;
 use OC\Files\View;
-use OC\Metadata\FileMetadata;
+use OCA\DAV\AppInfo\Application;
 use OCA\DAV\Connector\Sabre\Exception\FileLocked;
 use OCA\DAV\Connector\Sabre\Exception\Forbidden;
 use OCA\DAV\Connector\Sabre\Exception\InvalidPath;
-use OCA\DAV\Upload\FutureFile;
 use OCP\Files\FileInfo;
 use OCP\Files\Folder;
 use OCP\Files\ForbiddenException;
 use OCP\Files\InvalidPathException;
 use OCP\Files\NotPermittedException;
 use OCP\Files\StorageNotAvailableException;
+use OCP\IL10N;
+use OCP\IRequest;
+use OCP\L10N\IFactory;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
+use OCP\Share\IManager as IShareManager;
 use Psr\Log\LoggerInterface;
 use Sabre\DAV\Exception\BadRequest;
 use Sabre\DAV\Exception\Locked;
@@ -54,7 +57,6 @@ use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\Exception\ServiceUnavailable;
 use Sabre\DAV\IFile;
 use Sabre\DAV\INode;
-use OCP\Share\IManager as IShareManager;
 
 class Directory extends \OCA\DAV\Connector\Sabre\Node implements \Sabre\DAV\ICollection, \Sabre\DAV\IQuota, \Sabre\DAV\IMoveTarget, \Sabre\DAV\ICopyTarget {
 	/**
@@ -67,13 +69,10 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node implements \Sabre\DAV\ICol
 	private ?array $quotaInfo = null;
 	private ?CachingTree $tree = null;
 
-	/** @var array<string, array<int, FileMetadata>> */
-	private array $metadata = [];
-
 	/**
 	 * Sets up the node, expects a full path name
 	 */
-	public function __construct(View $view, FileInfo $info, ?CachingTree $tree = null, IShareManager $shareManager = null) {
+	public function __construct(View $view, FileInfo $info, ?CachingTree $tree = null, ?IShareManager $shareManager = null) {
 		parent::__construct($view, $info, $shareManager);
 		$this->tree = $tree;
 	}
@@ -203,7 +202,7 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node implements \Sabre\DAV\ICol
 	 * @throws \Sabre\DAV\Exception\NotFound
 	 * @throws \Sabre\DAV\Exception\ServiceUnavailable
 	 */
-	public function getChild($name, $info = null) {
+	public function getChild($name, $info = null, ?IRequest $request = null, ?IL10N $l10n = null) {
 		if (!$this->info->isReadable()) {
 			// avoid detecting files through this way
 			throw new NotFound();
@@ -230,7 +229,7 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node implements \Sabre\DAV\ICol
 		if ($info->getMimeType() === FileInfo::MIMETYPE_FOLDER) {
 			$node = new \OCA\DAV\Connector\Sabre\Directory($this->fileView, $info, $this->tree, $this->shareManager);
 		} else {
-			$node = new \OCA\DAV\Connector\Sabre\File($this->fileView, $info, $this->shareManager);
+			$node = new \OCA\DAV\Connector\Sabre\File($this->fileView, $info, $this->shareManager, $request, $l10n);
 		}
 		if ($this->tree) {
 			$this->tree->cacheNode($node);
@@ -265,8 +264,11 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node implements \Sabre\DAV\ICol
 		}
 
 		$nodes = [];
+		$request = \OC::$server->get(IRequest::class);
+		$l10nFactory = \OC::$server->get(IFactory::class);
+		$l10n = $l10nFactory->get(Application::APP_ID);
 		foreach ($folderContent as $info) {
-			$node = $this->getChild($info->getName(), $info);
+			$node = $this->getChild($info->getName(), $info, $request, $l10n);
 			$nodes[] = $node;
 		}
 		$this->dirContent = $nodes;
@@ -315,20 +317,22 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node implements \Sabre\DAV\ICol
 		}
 	}
 
+	private function getLogger(): LoggerInterface {
+		return \OC::$server->get(LoggerInterface::class);
+	}
+
 	/**
 	 * Returns available diskspace information
 	 *
 	 * @return array
 	 */
 	public function getQuotaInfo() {
-		/** @var LoggerInterface $logger */
-		$logger = \OC::$server->get(LoggerInterface::class);
 		if ($this->quotaInfo) {
 			return $this->quotaInfo;
 		}
 		$relativePath = $this->fileView->getRelativePath($this->info->getPath());
 		if ($relativePath === null) {
-			$logger->warning("error while getting quota as the relative path cannot be found");
+			$this->getLogger()->warning("error while getting quota as the relative path cannot be found");
 			return [0, 0];
 		}
 
@@ -345,13 +349,13 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node implements \Sabre\DAV\ICol
 			];
 			return $this->quotaInfo;
 		} catch (\OCP\Files\NotFoundException $e) {
-			$logger->warning("error while getting quota into", ['exception' => $e]);
+			$this->getLogger()->warning("error while getting quota into", ['exception' => $e]);
 			return [0, 0];
 		} catch (\OCP\Files\StorageNotAvailableException $e) {
-			$logger->warning("error while getting quota into", ['exception' => $e]);
+			$this->getLogger()->warning("error while getting quota into", ['exception' => $e]);
 			return [0, 0];
 		} catch (NotPermittedException $e) {
-			$logger->warning("error while getting quota into", ['exception' => $e]);
+			$this->getLogger()->warning("error while getting quota into", ['exception' => $e]);
 			return [0, 0];
 		}
 	}
@@ -465,20 +469,28 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node implements \Sabre\DAV\ICol
 
 	public function copyInto($targetName, $sourcePath, INode $sourceNode) {
 		if ($sourceNode instanceof File || $sourceNode instanceof Directory) {
-			$destinationPath = $this->getPath() . '/' . $targetName;
-			$sourcePath = $sourceNode->getPath();
-
-			if (!$this->fileView->isCreatable($this->getPath())) {
-				throw new \Sabre\DAV\Exception\Forbidden();
-			}
-
 			try {
-				$this->fileView->verifyPath($this->getPath(), $targetName);
-			} catch (InvalidPathException $ex) {
-				throw new InvalidPath($ex->getMessage());
-			}
+				$destinationPath = $this->getPath() . '/' . $targetName;
+				$sourcePath = $sourceNode->getPath();
 
-			return $this->fileView->copy($sourcePath, $destinationPath);
+				if (!$this->fileView->isCreatable($this->getPath())) {
+					throw new \Sabre\DAV\Exception\Forbidden();
+				}
+
+				try {
+					$this->fileView->verifyPath($this->getPath(), $targetName);
+				} catch (InvalidPathException $ex) {
+					throw new InvalidPath($ex->getMessage());
+				}
+
+				return $this->fileView->copy($sourcePath, $destinationPath);
+			} catch (StorageNotAvailableException $e) {
+				throw new ServiceUnavailable($e->getMessage());
+			} catch (ForbiddenException $ex) {
+				throw new Forbidden($ex->getMessage(), $ex->getRetry());
+			} catch (LockedException $e) {
+				throw new FileLocked($e->getMessage(), $e->getCode(), $e);
+			}
 		}
 
 		return false;

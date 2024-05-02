@@ -21,17 +21,18 @@
  */
 import { action } from './downloadAction'
 import { expect } from '@jest/globals'
-import { File, Folder, Permission } from '@nextcloud/files'
-import { FileAction } from '../services/FileAction'
-import * as eventBus from '@nextcloud/event-bus'
-import axios from '@nextcloud/axios'
-import type { Navigation } from '../services/Navigation'
-import logger from '../logger'
+import { File, Folder, Permission, View, FileAction } from '@nextcloud/files'
 
 const view = {
 	id: 'files',
 	name: 'Files',
-} as Navigation
+} as View
+
+// Mock webroot variable
+beforeAll(() => {
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	(window as any)._oc_webroot = ''
+})
 
 describe('Download action conditions tests', () => {
 	test('Default values', () => {

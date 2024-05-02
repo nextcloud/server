@@ -48,15 +48,9 @@ class TAR extends Archive {
 	 */
 	private $cachedHeaders = false;
 
-	/**
-	 * @var \Archive_Tar
-	 */
-	private $tar = null;
+	private \Archive_Tar $tar;
 
-	/**
-	 * @var string
-	 */
-	private $path;
+	private string $path;
 
 	public function __construct(string $source) {
 		$types = [null, 'gz', 'bz2'];
@@ -137,7 +131,7 @@ class TAR extends Archive {
 		$tmp = \OC::$server->getTempManager()->getTemporaryFolder();
 		$this->tar->extract($tmp);
 		rename($tmp . $source, $tmp . $dest);
-		$this->tar = null;
+		$this->tar->_close();
 		unlink($this->path);
 		$types = [null, 'gz', 'bz'];
 		$this->tar = new \Archive_Tar($this->path, $types[self::getTarType($this->path)]);
@@ -197,7 +191,7 @@ class TAR extends Archive {
 				if ($pos = strpos($result, '/')) {
 					$result = substr($result, 0, $pos + 1);
 				}
-				if (array_search($result, $folderContent) === false) {
+				if (!in_array($result, $folderContent)) {
 					$folderContent[] = $result;
 				}
 			}
@@ -209,11 +203,16 @@ class TAR extends Archive {
 	 * get all files in the archive
 	 */
 	public function getFiles(): array {
-		if ($this->fileList) {
+		if ($this->fileList !== false) {
 			return $this->fileList;
 		}
-		if (!$this->cachedHeaders) {
-			$this->cachedHeaders = $this->tar->listContent();
+		if ($this->cachedHeaders === false) {
+			$headers = $this->tar->listContent();
+			if (is_array($headers)) {
+				$this->cachedHeaders = $headers;
+			} else {
+				return [];
+			}
 		}
 		$files = [];
 		foreach ($this->cachedHeaders as $header) {
@@ -230,6 +229,7 @@ class TAR extends Archive {
 	 */
 	public function getFile(string $path) {
 		$string = $this->tar->extractInString($path);
+		/** @var ?string $string */
 		if (is_string($string)) {
 			return $string;
 		} else {
@@ -269,7 +269,7 @@ class TAR extends Archive {
 	 */
 	public function fileExists(string $path): bool {
 		$files = $this->getFiles();
-		if ((array_search($path, $files) !== false) or (array_search($path . '/', $files) !== false)) {
+		if ((in_array($path, $files)) or (in_array($path . '/', $files))) {
 			return true;
 		} else {
 			$folderPath = rtrim($path, '/') . '/';
@@ -300,7 +300,6 @@ class TAR extends Archive {
 		$tmp = \OC::$server->getTempManager()->getTemporaryFolder();
 		$this->tar->extract($tmp);
 		\OCP\Files::rmdirr($tmp . $path);
-		$this->tar = null;
 		unlink($this->path);
 		$this->reopen();
 		$this->tar->createModify([$tmp], '', $tmp);
@@ -347,10 +346,7 @@ class TAR extends Archive {
 	 * reopen the archive to ensure everything is written
 	 */
 	private function reopen(): void {
-		if ($this->tar) {
-			$this->tar->_close();
-			$this->tar = null;
-		}
+		$this->tar->_close();
 		$types = [null, 'gz', 'bz'];
 		$this->tar = new \Archive_Tar($this->path, $types[self::getTarType($this->path)]);
 	}
@@ -359,7 +355,7 @@ class TAR extends Archive {
 	 * Get error object from archive_tar.
 	 */
 	public function getError(): ?\PEAR_Error {
-		if ($this->tar instanceof \Archive_Tar && $this->tar->error_object instanceof \PEAR_Error) {
+		if ($this->tar->error_object instanceof \PEAR_Error) {
 			return $this->tar->error_object;
 		}
 		return null;

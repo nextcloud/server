@@ -40,8 +40,8 @@ class EventReminderJob extends TimedJob {
 	private $config;
 
 	public function __construct(ITimeFactory $time,
-								ReminderService $reminderService,
-								IConfig $config) {
+		ReminderService $reminderService,
+		IConfig $config) {
 		parent::__construct($time);
 		$this->reminderService = $reminderService;
 		$this->config = $config;

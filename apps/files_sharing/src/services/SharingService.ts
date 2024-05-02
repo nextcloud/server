@@ -21,26 +21,16 @@
  */
 /* eslint-disable camelcase, n/no-extraneous-import */
 import type { AxiosPromise } from 'axios'
-import type { ContentsWithRoot } from '../../../files/src/services/Navigation'
+import type { OCSResponse } from '@nextcloud/typings/ocs'
 
-import { Folder, File } from '@nextcloud/files'
-import { generateOcsUrl, generateRemoteUrl, generateUrl } from '@nextcloud/router'
+import { Folder, File, type ContentsWithRoot } from '@nextcloud/files'
+import { generateOcsUrl, generateRemoteUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
 import axios from '@nextcloud/axios'
+
 import logger from './logger'
 
 export const rootPath = `/files/${getCurrentUser()?.uid}`
-
-export type OCSResponse<T> = {
-	ocs: {
-		meta: {
-			status: string
-			statuscode: number
-			message: string
-		},
-		data: T[]
-	}
-}
 
 const headers = {
 	'Content-Type': 'application/json',
@@ -76,6 +66,10 @@ const ocsEntryToNode = function(ocsEntry: any): Folder | File | null {
 			attributes: {
 				...ocsEntry,
 				'has-preview': hasPreview,
+				// Also check the sharingStatusAction.ts code
+				'owner-id': ocsEntry?.uid_owner,
+				'owner-display-name': ocsEntry?.displayname_owner,
+				'share-types': ocsEntry?.share_type,
 				favorite: ocsEntry?.tags?.includes(window.OC.TAG_FAVORITE) ? 1 : 0,
 			},
 		})
@@ -144,6 +138,17 @@ const getDeletedShares = function(): AxiosPromise<OCSResponse<any>> {
 	})
 }
 
+/**
+ * Group an array of objects (here Nodes) by a key
+ * and return an array of arrays of them.
+ */
+const groupBy = function(nodes: (Folder | File)[], key: string) {
+	return Object.values(nodes.reduce(function(acc, curr) {
+		(acc[curr[key]] = acc[curr[key]] || []).push(curr)
+		return acc
+	}, {})) as (Folder | File)[][]
+}
+
 export const getContents = async (sharedWithYou = true, sharedWithOthers = true, pendingShares = false, deletedshares = false, filterTypes: number[] = []): Promise<ContentsWithRoot> => {
 	const promises = [] as AxiosPromise<OCSResponse<any>>[]
 
@@ -162,11 +167,20 @@ export const getContents = async (sharedWithYou = true, sharedWithOthers = true,
 
 	const responses = await Promise.all(promises)
 	const data = responses.map((response) => response.data.ocs.data).flat()
-	let contents = data.map(ocsEntryToNode).filter((node) => node !== null) as (Folder | File)[]
+	let contents = data.map(ocsEntryToNode)
+		.filter((node) => node !== null) as (Folder | File)[]
 
 	if (filterTypes.length > 0) {
 		contents = contents.filter((node) => filterTypes.includes(node.attributes?.share_type))
 	}
+
+	// Merge duplicate shares and group their attributes
+	// Also check the sharingStatusAction.ts code
+	contents = groupBy(contents, 'source').map((nodes) => {
+		const node = nodes[0]
+		node.attributes['share-types'] = nodes.map(node => node.attributes['share-types'])
+		return node
+	})
 
 	return {
 		folder: new Folder({

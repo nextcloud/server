@@ -27,17 +27,21 @@
 namespace OC\Updater;
 
 use OCP\Http\Client\IClientService;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IUserManager;
 use OCP\Support\Subscription\IRegistry;
 use OCP\Util;
+use Psr\Log\LoggerInterface;
 
 class VersionCheck {
 	public function __construct(
 		private IClientService $clientService,
 		private IConfig $config,
+		private IAppConfig $appConfig,
 		private IUserManager $userManager,
 		private IRegistry $registry,
+		private LoggerInterface $logger,
 	) {
 	}
 
@@ -54,13 +58,13 @@ class VersionCheck {
 		}
 
 		// Look up the cache - it is invalidated all 30 minutes
-		if (((int)$this->config->getAppValue('core', 'lastupdatedat') + 1800) > time()) {
+		if (($this->appConfig->getValueInt('core', 'lastupdatedat') + 1800) > time()) {
 			return json_decode($this->config->getAppValue('core', 'lastupdateResult'), true);
 		}
 
 		$updaterUrl = $this->config->getSystemValueString('updater.server.url', 'https://updates.nextcloud.com/updater_server/');
 
-		$this->config->setAppValue('core', 'lastupdatedat', (string)time());
+		$this->appConfig->setValueInt('core', 'lastupdatedat', time());
 
 		if ($this->config->getAppValue('core', 'installedat', '') === '') {
 			$this->config->setAppValue('core', 'installedat', (string)microtime(true));
@@ -68,7 +72,7 @@ class VersionCheck {
 
 		$version = Util::getVersion();
 		$version['installed'] = $this->config->getAppValue('core', 'installedat');
-		$version['updated'] = $this->config->getAppValue('core', 'lastupdatedat');
+		$version['updated'] = $this->appConfig->getValueInt('core', 'lastupdatedat');
 		$version['updatechannel'] = \OC_Util::getChannel();
 		$version['edition'] = '';
 		$version['build'] = \OC_Util::getBuild();
@@ -86,6 +90,8 @@ class VersionCheck {
 		try {
 			$xml = $this->getUrlContent($url);
 		} catch (\Exception $e) {
+			$this->logger->info('Version could not be fetched from updater server: ' . $url, ['exception' => $e]);
+
 			return false;
 		}
 
@@ -123,7 +129,9 @@ class VersionCheck {
 	 */
 	protected function getUrlContent($url) {
 		$client = $this->clientService->newClient();
-		$response = $client->get($url);
+		$response = $client->get($url, [
+			'timeout' => 5,
+		]);
 		return $response->getBody();
 	}
 

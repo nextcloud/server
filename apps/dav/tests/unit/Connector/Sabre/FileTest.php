@@ -73,9 +73,6 @@ class FileTest extends TestCase {
 
 	protected function setUp(): void {
 		parent::setUp();
-		unset($_SERVER['HTTP_OC_CHUNKED']);
-		unset($_SERVER['CONTENT_LENGTH']);
-		unset($_SERVER['REQUEST_METHOD']);
 
 		\OC_Hook::clear();
 
@@ -91,7 +88,6 @@ class FileTest extends TestCase {
 	protected function tearDown(): void {
 		$userManager = \OC::$server->getUserManager();
 		$userManager->get($this->user)->delete();
-		unset($_SERVER['HTTP_OC_CHUNKED']);
 
 		parent::tearDown();
 	}
@@ -271,13 +267,17 @@ class FileTest extends TestCase {
 			->method('getRelativePath')
 			->willReturnArgument(0);
 
-		$_SERVER['HTTP_OC_CHUNKED'] = true;
+		$request = new Request([
+			'server' => [
+				'HTTP_OC_CHUNKED' => 'true'
+			]
+		], $this->requestId, $this->config, null);
 
 		$info = new \OC\Files\FileInfo('/test.txt-chunking-12345-2-0', $this->getMockStorage(), null, [
 			'permissions' => \OCP\Constants::PERMISSION_ALL,
 			'type' => FileInfo::TYPE_FOLDER,
 		], null);
-		$file = new \OCA\DAV\Connector\Sabre\File($view, $info);
+		$file = new \OCA\DAV\Connector\Sabre\File($view, $info, null, $request);
 
 		// put first chunk
 		$file->acquireLock(ILockingProvider::LOCK_SHARED);
@@ -288,7 +288,7 @@ class FileTest extends TestCase {
 			'permissions' => \OCP\Constants::PERMISSION_ALL,
 			'type' => FileInfo::TYPE_FOLDER,
 		], null);
-		$file = new \OCA\DAV\Connector\Sabre\File($view, $info);
+		$file = new \OCA\DAV\Connector\Sabre\File($view, $info, null, $request);
 
 		// action
 		$caughtException = null;
@@ -318,7 +318,7 @@ class FileTest extends TestCase {
 	 *
 	 * @return null|string of the PUT operation which is usually the etag
 	 */
-	private function doPut($path, $viewRoot = null, Request $request = null) {
+	private function doPut($path, $viewRoot = null, ?Request $request = null) {
 		$view = \OC\Files\Filesystem::getView();
 		if (!is_null($viewRoot)) {
 			$view = new \OC\Files\View($viewRoot);
@@ -421,7 +421,7 @@ class FileTest extends TestCase {
 	public function testPutSingleFileLegalMtime($requestMtime, $resultMtime): void {
 		$request = new Request([
 			'server' => [
-				'HTTP_X_OC_MTIME' => $requestMtime,
+				'HTTP_X_OC_MTIME' => (string)$requestMtime,
 			]
 		], $this->requestId, $this->config, null);
 		$file = 'foo.txt';
@@ -444,11 +444,11 @@ class FileTest extends TestCase {
 	public function testChunkedPutLegalMtime($requestMtime, $resultMtime): void {
 		$request = new Request([
 			'server' => [
-				'HTTP_X_OC_MTIME' => $requestMtime,
+				'HTTP_X_OC_MTIME' => (string)$requestMtime,
+				'HTTP_OC_CHUNKED' => 'true'
 			]
 		], $this->requestId, $this->config, null);
 
-		$_SERVER['HTTP_OC_CHUNKED'] = true;
 		$file = 'foo.txt';
 
 		if ($resultMtime === null) {
@@ -467,9 +467,13 @@ class FileTest extends TestCase {
 	 * Test putting a file using chunking
 	 */
 	public function testChunkedPut(): void {
-		$_SERVER['HTTP_OC_CHUNKED'] = true;
-		$this->assertNull($this->doPut('/test.txt-chunking-12345-2-0'));
-		$this->assertNotEmpty($this->doPut('/test.txt-chunking-12345-2-1'));
+		$request = new Request([
+			'server' => [
+				'HTTP_OC_CHUNKED' => 'true'
+			]
+		], $this->requestId, $this->config, null);
+		$this->assertNull($this->doPut('/test.txt-chunking-12345-2-0', null, $request));
+		$this->assertNotEmpty($this->doPut('/test.txt-chunking-12345-2-1', null, $request));
 	}
 
 	/**
@@ -580,9 +584,13 @@ class FileTest extends TestCase {
 	public function testPutChunkedFileTriggersHooks(): void {
 		HookHelper::setUpHooks();
 
-		$_SERVER['HTTP_OC_CHUNKED'] = true;
-		$this->assertNull($this->doPut('/foo.txt-chunking-12345-2-0'));
-		$this->assertNotEmpty($this->doPut('/foo.txt-chunking-12345-2-1'));
+		$request = new Request([
+			'server' => [
+				'HTTP_OC_CHUNKED' => 'true'
+			]
+		], $this->requestId, $this->config, null);
+		$this->assertNull($this->doPut('/foo.txt-chunking-12345-2-0', null, $request));
+		$this->assertNotEmpty($this->doPut('/foo.txt-chunking-12345-2-1', null, $request));
 
 		$this->assertCount(4, HookHelper::$hookCalls);
 		$this->assertHookCall(
@@ -616,9 +624,13 @@ class FileTest extends TestCase {
 
 		HookHelper::setUpHooks();
 
-		$_SERVER['HTTP_OC_CHUNKED'] = true;
-		$this->assertNull($this->doPut('/foo.txt-chunking-12345-2-0'));
-		$this->assertNotEmpty($this->doPut('/foo.txt-chunking-12345-2-1'));
+		$request = new Request([
+			'server' => [
+				'HTTP_OC_CHUNKED' => 'true'
+			]
+		], $this->requestId, $this->config, null);
+		$this->assertNull($this->doPut('/foo.txt-chunking-12345-2-0', null, $request));
+		$this->assertNotEmpty($this->doPut('/foo.txt-chunking-12345-2-1', null, $request));
 
 		$this->assertCount(4, HookHelper::$hookCalls);
 		$this->assertHookCall(
@@ -693,15 +705,19 @@ class FileTest extends TestCase {
 			->method('filesize')
 			->willReturn(123456);
 
-		$_SERVER['CONTENT_LENGTH'] = 123456;
-		$_SERVER['REQUEST_METHOD'] = 'PUT';
+		$request = new Request([
+			'server' => [
+				'CONTENT_LENGTH' => '123456',
+			],
+			'method' => 'PUT',
+		], $this->requestId, $this->config, null);
 
 		$info = new \OC\Files\FileInfo('/test.txt', $this->getMockStorage(), null, [
 			'permissions' => \OCP\Constants::PERMISSION_ALL,
 			'type' => FileInfo::TYPE_FOLDER,
 		], null);
 
-		$file = new \OCA\DAV\Connector\Sabre\File($view, $info);
+		$file = new \OCA\DAV\Connector\Sabre\File($view, $info, null, $request);
 
 		// action
 		$thrown = false;
@@ -764,13 +780,17 @@ class FileTest extends TestCase {
 		// simulate situation where the target file is locked
 		$view->lockFile('/test.txt', ILockingProvider::LOCK_EXCLUSIVE);
 
-		$_SERVER['HTTP_OC_CHUNKED'] = true;
+		$request = new Request([
+			'server' => [
+				'HTTP_OC_CHUNKED' => 'true'
+			]
+		], $this->requestId, $this->config, null);
 
 		$info = new \OC\Files\FileInfo('/' . $this->user . '/files/test.txt-chunking-12345-2-0', $this->getMockStorage(), null, [
 			'permissions' => \OCP\Constants::PERMISSION_ALL,
 			'type' => FileInfo::TYPE_FOLDER,
 		], null);
-		$file = new \OCA\DAV\Connector\Sabre\File($view, $info);
+		$file = new \OCA\DAV\Connector\Sabre\File($view, $info, null, $request);
 		$file->acquireLock(ILockingProvider::LOCK_SHARED);
 		$this->assertNull($file->put('test data one'));
 		$file->releaseLock(ILockingProvider::LOCK_SHARED);
@@ -779,7 +799,7 @@ class FileTest extends TestCase {
 			'permissions' => \OCP\Constants::PERMISSION_ALL,
 			'type' => FileInfo::TYPE_FOLDER,
 		], null);
-		$file = new \OCA\DAV\Connector\Sabre\File($view, $info);
+		$file = new \OCA\DAV\Connector\Sabre\File($view, $info, null, $request);
 
 		// action
 		$thrown = false;
@@ -872,15 +892,19 @@ class FileTest extends TestCase {
 			->method('filesize')
 			->willReturn(123456);
 
-		$_SERVER['CONTENT_LENGTH'] = 12345;
-		$_SERVER['REQUEST_METHOD'] = 'PUT';
+		$request = new Request([
+			'server' => [
+				'CONTENT_LENGTH' => '123456',
+			],
+			'method' => 'PUT',
+		], $this->requestId, $this->config, null);
 
 		$info = new \OC\Files\FileInfo('/test.txt', $this->getMockStorage(), null, [
 			'permissions' => \OCP\Constants::PERMISSION_ALL,
 			'type' => FileInfo::TYPE_FOLDER,
 		], null);
 
-		$file = new \OCA\DAV\Connector\Sabre\File($view, $info);
+		$file = new \OCA\DAV\Connector\Sabre\File($view, $info, null, $request);
 
 		// action
 		$thrown = false;
@@ -1100,7 +1124,7 @@ class FileTest extends TestCase {
 	 *
 	 * @return array list of part files
 	 */
-	private function listPartFiles(\OC\Files\View $userView = null, $path = '') {
+	private function listPartFiles(?\OC\Files\View $userView = null, $path = '') {
 		if ($userView === null) {
 			$userView = \OC\Files\Filesystem::getView();
 		}
@@ -1110,7 +1134,7 @@ class FileTest extends TestCase {
 			$realPath = $storage->getSourcePath($internalPath);
 			$dh = opendir($realPath);
 			while (($file = readdir($dh)) !== false) {
-				if (substr($file, strlen($file) - 5, 5) === '.part') {
+				if (str_ends_with($file, '.part')) {
 					$files[] = $file;
 				}
 			}
@@ -1126,7 +1150,7 @@ class FileTest extends TestCase {
 	 * @param View $userView
 	 * @return array
 	 */
-	private function getFileInfos($path = '', View $userView = null) {
+	private function getFileInfos($path = '', ?View $userView = null) {
 		if ($userView === null) {
 			$userView = Filesystem::getView();
 		}

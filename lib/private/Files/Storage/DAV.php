@@ -55,11 +55,11 @@ use OCP\ICertificateManager;
 use OCP\IConfig;
 use OCP\Util;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Log\LoggerInterface;
 use Sabre\DAV\Client;
 use Sabre\DAV\Xml\Property\ResourceType;
 use Sabre\HTTP\ClientException;
 use Sabre\HTTP\ClientHttpException;
-use Psr\Log\LoggerInterface;
 use Sabre\HTTP\RequestInterface;
 
 /**
@@ -120,9 +120,9 @@ class DAV extends Common {
 		if (isset($params['host']) && isset($params['user']) && isset($params['password'])) {
 			$host = $params['host'];
 			//remove leading http[s], will be generated in createBaseUri()
-			if (substr($host, 0, 8) == "https://") {
+			if (str_starts_with($host, "https://")) {
 				$host = substr($host, 8);
-			} elseif (substr($host, 0, 7) == "http://") {
+			} elseif (str_starts_with($host, "http://")) {
 				$host = substr($host, 7);
 			}
 			$this->host = $host;
@@ -470,9 +470,6 @@ class DAV extends Common {
 				$this->client->proppatch($this->encodePath($path), ['{DAV:}lastmodified' => $mtime]);
 				// non-owncloud clients might not have accepted the property, need to recheck it
 				$response = $this->client->propfind($this->encodePath($path), ['{DAV:}getlastmodified'], 0);
-				if ($response === false) {
-					return false;
-				}
 				if (isset($response['{DAV:}getlastmodified'])) {
 					$remoteMtime = strtotime($response['{DAV:}getlastmodified']);
 					if ($remoteMtime !== $mtime) {
@@ -911,9 +908,6 @@ class DAV extends Common {
 				self::PROPFIND_PROPS,
 				1
 			);
-			if ($responses === false) {
-				return;
-			}
 
 			array_shift($responses); //the first entry is the current directory
 			if (!$this->statCache->hasKey($directory)) {
@@ -921,7 +915,7 @@ class DAV extends Common {
 			}
 
 			foreach ($responses as $file => $response) {
-				$file = urldecode($file);
+				$file = rawurldecode($file);
 				$file = substr($file, strlen($this->root));
 				$file = $this->cleanPath($file);
 				$this->statCache->set($file, $response);

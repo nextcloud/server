@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2022 Joas Schilling <coding@schilljs.com>
@@ -32,10 +33,6 @@ class DarkTheme extends DefaultTheme implements ITheme {
 		return 'dark';
 	}
 
-	public function getMediaQuery(): string {
-		return '(prefers-color-scheme: dark)';
-	}
-
 	public function getTitle(): string {
 		return $this->l->t('Dark theme');
 	}
@@ -48,21 +45,33 @@ class DarkTheme extends DefaultTheme implements ITheme {
 		return $this->l->t('A dark theme to ease your eyes by reducing the overall luminosity and brightness.');
 	}
 
+	public function getMediaQuery(): string {
+		return '(prefers-color-scheme: dark)';
+	}
+
+	public function getMeta(): array {
+		// https://html.spec.whatwg.org/multipage/semantics.html#meta-color-scheme
+		return [[
+			'name' => 'color-scheme',
+			'content' => 'dark',
+		]];
+	}
+
 	public function getCSSVariables(): array {
 		$defaultVariables = parent::getCSSVariables();
 
-		$colorMainText = '#D8D8D8';
+		$colorMainText = '#EBEBEB';
 		$colorMainBackground = '#171717';
 		$colorMainBackgroundRGB = join(',', $this->util->hexToRGB($colorMainBackground));
-		$colorTextMaxcontrast = $this->util->darken($colorMainText, 30);
+		$colorTextMaxcontrast = $this->util->darken($colorMainText, 32);
 
 		$colorBoxShadow = $this->util->darken($colorMainBackground, 70);
 		$colorBoxShadowRGB = join(',', $this->util->hexToRGB($colorBoxShadow));
 
-		$colorError = '#e9322d';
-		$colorWarning = '#c28900';
-		$colorSuccess = '#3fa857';
-		$colorInfo = '#006aa3';
+		$colorError = '#FF3333';
+		$colorWarning = '#FFCC00';
+		$colorSuccess = '#3B973B';
+		$colorInfo = '#00AEFF';
 
 		return array_merge(
 			$defaultVariables,
@@ -71,6 +80,7 @@ class DarkTheme extends DefaultTheme implements ITheme {
 				'--color-main-text' => $colorMainText,
 				'--color-main-background' => $colorMainBackground,
 				'--color-main-background-rgb' => $colorMainBackgroundRGB,
+				'--color-main-background-blur' => 'rgba(var(--color-main-background-rgb), .85)',
 
 				'--color-scrollbar' => $this->util->lighten($colorMainBackground, 15),
 
@@ -83,26 +93,27 @@ class DarkTheme extends DefaultTheme implements ITheme {
 
 				'--color-text-maxcontrast' => $colorTextMaxcontrast,
 				'--color-text-maxcontrast-default' => $colorTextMaxcontrast,
-				'--color-text-maxcontrast-background-blur' => $this->util->lighten($colorTextMaxcontrast, 2),
-				'--color-text-light' => $this->util->darken($colorMainText, 10),
-				'--color-text-lighter' => $this->util->darken($colorMainText, 20),
+				'--color-text-maxcontrast-background-blur' => $this->util->lighten($colorTextMaxcontrast, 6),
+				'--color-text-light' => 'var(--color-main-text)', // deprecated
+				'--color-text-lighter' => 'var(--color-text-maxcontrast)', // deprecated
 
 				'--color-error' => $colorError,
 				'--color-error-rgb' => join(',', $this->util->hexToRGB($colorError)),
-				'--color-error-hover' => $this->util->mix($colorError, $colorMainBackground, 60),
-				'--color-error-text' => $this->util->lighten($colorError, 3),
+				'--color-error-hover' => $this->util->lighten($colorError, 10),
+				'--color-error-text' => $this->util->lighten($colorError, 15),
 				'--color-warning' => $colorWarning,
 				'--color-warning-rgb' => join(',', $this->util->hexToRGB($colorWarning)),
-				'--color-warning-hover' => $this->util->mix($colorWarning, $colorMainBackground, 60),
+				'--color-warning-hover' => $this->util->lighten($colorWarning, 10),
 				'--color-warning-text' => $colorWarning,
 				'--color-success' => $colorSuccess,
 				'--color-success-rgb' => join(',', $this->util->hexToRGB($colorSuccess)),
-				'--color-success-hover' => $this->util->mix($colorSuccess, $colorMainBackground, 60),
-				'--color-success-text' => $colorSuccess,
+				'--color-success-hover' => $this->util->lighten($colorSuccess, 10),
+				'--color-success-text' => $this->util->lighten($colorSuccess, 15),
 				'--color-info' => $colorInfo,
 				'--color-info-rgb' => join(',', $this->util->hexToRGB($colorInfo)),
-				'--color-info-hover' => $this->util->mix($colorInfo, $colorMainBackground, 60),
-				'--color-info-text' => $this->util->lighten($colorInfo, 9),
+				'--color-info-hover' => $this->util->lighten($colorInfo, 10),
+				'--color-info-text' => $colorInfo,
+				'--color-favorite' => '#ffde00',
 
 				// used for the icon loading animation
 				'--color-loading-light' => '#777',
@@ -113,7 +124,7 @@ class DarkTheme extends DefaultTheme implements ITheme {
 
 				'--color-border' => $this->util->lighten($colorMainBackground, 7),
 				'--color-border-dark' => $this->util->lighten($colorMainBackground, 14),
-				'--color-border-maxcontrast' => $this->util->lighten($colorMainBackground, 30),
+				'--color-border-maxcontrast' => $this->util->lighten($colorMainBackground, 40),
 
 				'--background-invert-if-dark' => 'invert(100%)',
 				'--background-invert-if-bright' => 'no',

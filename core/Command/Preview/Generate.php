@@ -24,9 +24,9 @@ declare(strict_types=1);
 namespace OC\Core\Command\Preview;
 
 use OCP\Files\Config\IUserMountCache;
+use OCP\Files\File;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
-use OCP\Files\File;
 use OCP\Files\NotFoundException;
 use OCP\IPreview;
 use Symfony\Component\Console\Command\Command;
@@ -57,13 +57,13 @@ class Generate extends Command {
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$fileInput = $input->getArgument("file");
 		$sizes = $input->getOption("size");
-		$sizes = array_map(function (string $size) use ($output, &$error) {
+		$sizes = array_map(function (string $size) use ($output) {
 			if (str_contains($size, 'x')) {
 				$sizeParts = explode('x', $size, 2);
 			} else {
 				$sizeParts = [$size, $size];
 			}
-			if (!is_numeric($sizeParts[0]) || !is_numeric($sizeParts[1])) {
+			if (!is_numeric($sizeParts[0]) || !is_numeric($sizeParts[1] ?? null)) {
 				$output->writeln("<error>Invalid size $size</error>");
 				return null;
 			}
@@ -121,11 +121,7 @@ class Generate extends Command {
 			}
 			$mount = $mounts[0];
 			$userFolder = $this->rootFolder->getUserFolder($mount->getUser()->getUID());
-			$nodes = $userFolder->getById((int)$fileInput);
-			if (!$nodes) {
-				return null;
-			}
-			return $nodes[0];
+			return $userFolder->getFirstNodeById((int)$fileInput);
 		} else {
 			try {
 				return $this->rootFolder->get($fileInput);

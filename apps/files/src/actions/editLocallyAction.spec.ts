@@ -21,16 +21,20 @@
  */
 import { action } from './editLocallyAction'
 import { expect } from '@jest/globals'
-import { File, Permission } from '@nextcloud/files'
-import { DefaultType, FileAction } from '../services/FileAction'
+import { File, Permission, View, FileAction } from '@nextcloud/files'
 import * as ncDialogs from '@nextcloud/dialogs'
 import axios from '@nextcloud/axios'
-import type { Navigation } from '../services/Navigation'
 
 const view = {
 	id: 'files',
 	name: 'Files',
-} as Navigation
+} as View
+
+// Mock webroot variable
+beforeAll(() => {
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	(window as any)._oc_webroot = ''
+})
 
 describe('Edit locally action conditions tests', () => {
 	test('Default values', () => {

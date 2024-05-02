@@ -326,7 +326,7 @@ class QueryBuilderTest extends \Test\TestCase {
 				'appid',
 				$this->queryBuilder->expr()->literal('testFirstResult1')
 			))
-			->orderBy('appid', 'DESC');
+			->orderBy('configkey', 'ASC');
 
 		$query = $this->queryBuilder->execute();
 		$rows = $query->fetchAll();

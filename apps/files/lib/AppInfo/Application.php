@@ -40,10 +40,12 @@ use OCA\Files\Collaboration\Resources\Listener;
 use OCA\Files\Collaboration\Resources\ResourceProvider;
 use OCA\Files\Controller\ApiController;
 use OCA\Files\DirectEditingCapabilities;
-use OCA\Files\Event\LoadAdditionalScriptsEvent;
+use OCA\Files\Event\LoadSearchPlugins;
 use OCA\Files\Event\LoadSidebar;
+use OCA\Files\Listener\LoadSearchPluginsListener;
 use OCA\Files\Listener\LoadSidebarListener;
 use OCA\Files\Listener\RenderReferenceEventListener;
+use OCA\Files\Listener\SyncLivePhotosListener;
 use OCA\Files\Notification\Notifier;
 use OCA\Files\Search\FilesSearchProvider;
 use OCA\Files\Service\TagService;
@@ -57,11 +59,15 @@ use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\Collaboration\Reference\RenderReferenceEvent;
 use OCP\Collaboration\Resources\IProviderManager;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\Cache\CacheEntryRemovedEvent;
+use OCP\Files\Events\Node\BeforeNodeCopiedEvent;
+use OCP\Files\Events\Node\BeforeNodeDeletedEvent;
+use OCP\Files\Events\Node\BeforeNodeRenamedEvent;
+use OCP\Files\Events\Node\NodeCopiedEvent;
 use OCP\IConfig;
-use OCP\IL10N;
 use OCP\IPreview;
-use OCP\ISearch;
 use OCP\IRequest;
+use OCP\ISearch;
 use OCP\IServerContainer;
 use OCP\ITagManager;
 use OCP\IUserSession;
@@ -122,6 +128,12 @@ class Application extends App implements IBootstrap {
 
 		$context->registerEventListener(LoadSidebar::class, LoadSidebarListener::class);
 		$context->registerEventListener(RenderReferenceEvent::class, RenderReferenceEventListener::class);
+		$context->registerEventListener(BeforeNodeRenamedEvent::class, SyncLivePhotosListener::class);
+		$context->registerEventListener(BeforeNodeDeletedEvent::class, SyncLivePhotosListener::class);
+		$context->registerEventListener(CacheEntryRemovedEvent::class, SyncLivePhotosListener::class);
+		$context->registerEventListener(BeforeNodeCopiedEvent::class, SyncLivePhotosListener::class);
+		$context->registerEventListener(NodeCopiedEvent::class, SyncLivePhotosListener::class);
+		$context->registerEventListener(LoadSearchPlugins::class, LoadSearchPluginsListener::class);
 
 		$context->registerSearchProvider(FilesSearchProvider::class);
 
@@ -133,7 +145,6 @@ class Application extends App implements IBootstrap {
 		$context->injectFn([Listener::class, 'register']);
 		$context->injectFn(Closure::fromCallable([$this, 'registerSearchProvider']));
 		$this->registerTemplates();
-		$context->injectFn(Closure::fromCallable([$this, 'registerNavigation']));
 		$this->registerHooks();
 	}
 
@@ -150,18 +161,6 @@ class Application extends App implements IBootstrap {
 		$templateManager->registerTemplate('application/vnd.oasis.opendocument.presentation', 'core/templates/filetemplates/template.odp');
 		$templateManager->registerTemplate('application/vnd.oasis.opendocument.text', 'core/templates/filetemplates/template.odt');
 		$templateManager->registerTemplate('application/vnd.oasis.opendocument.spreadsheet', 'core/templates/filetemplates/template.ods');
-	}
-
-	private function registerNavigation(IL10N $l10n): void {
-		\OCA\Files\App::getNavigationManager()->add(function () use ($l10n) {
-			return [
-				'id' => 'files',
-				'appname' => 'files',
-				'script' => 'list.php',
-				'order' => 0,
-				'name' => $l10n->t('All files')
-			];
-		});
 	}
 
 	private function registerHooks(): void {

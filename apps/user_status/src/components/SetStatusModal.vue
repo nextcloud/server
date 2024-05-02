@@ -22,6 +22,7 @@
 <template>
 	<NcModal size="normal"
 		:name="$t('user_status', 'Set status')"
+		:set-return-focus="setReturnFocus"
 		@close="closeModal">
 		<div class="set-status-modal">
 			<!-- Status selector -->
@@ -58,7 +59,7 @@
 					:icon="backupIcon"
 					:message="backupMessage"
 					@select="revertBackupFromServer" />
-				<PredefinedStatusesList :is-custom-status="isCustomStatus" @select-status="selectPredefinedMessage" />
+				<PredefinedStatusesList @select-status="selectPredefinedMessage" />
 				<ClearAtSelect :clear-at="clearAt"
 					@select-clear-at="setClearAt" />
 				<div class="status-buttons">
@@ -108,11 +109,22 @@ export default {
 	},
 	mixins: [OnlineStatusMixin],
 
+	props: {
+		/**
+		 * Whether the component should be rendered as a Dashboard Status or a User Menu Entries
+		 * true = Dashboard Status
+		 * false = User Menu Entries
+		 */
+		inline: {
+			type: Boolean,
+			default: false,
+		},
+	},
+
 	data() {
 		return {
 			clearAt: null,
 			editedMessage: '',
-			isCustomStatus: true,
 			isSavingStatus: false,
 			statuses: getAllStatusOptions(),
 		}
@@ -156,6 +168,13 @@ export default {
 
 			return this.$t('user_status', 'Reset status')
 		},
+
+		setReturnFocus() {
+			if (this.inline) {
+				return undefined
+			}
+			return document.querySelector('[aria-controls="header-menu-user-menu"]') ?? undefined
+		},
 	},
 
 	watch: {
@@ -193,7 +212,6 @@ export default {
 		 * @param {string} icon The new icon
 		 */
 		setIcon(icon) {
-			this.isCustomStatus = true
 			this.$store.dispatch('setCustomMessage', {
 				message: this.message,
 				icon,
@@ -209,7 +227,6 @@ export default {
 		 * @param {string} message The new message
 		 */
 		setMessage(message) {
-			this.isCustomStatus = true
 			this.editedMessage = message
 		},
 		/**
@@ -226,7 +243,6 @@ export default {
 		 * @param {object} status The predefined status object
 		 */
 		selectPredefinedMessage(status) {
-			this.isCustomStatus = false
 			this.clearAt = status.clearAt
 			this.$store.dispatch('setPredefinedMessage', {
 				messageId: status.id,
@@ -246,13 +262,11 @@ export default {
 			try {
 				this.isSavingStatus = true
 
-				if (this.isCustomStatus) {
-					await this.$store.dispatch('setCustomMessage', {
-						message: this.editedMessage,
-						icon: this.icon,
-						clearAt: this.clearAt,
-					})
-				}
+				await this.$store.dispatch('setCustomMessage', {
+					message: this.editedMessage,
+					icon: this.icon,
+					clearAt: this.clearAt,
+				})
 			} catch (err) {
 				showError(this.$t('user_status', 'There was an error saving the status'))
 				console.debug(err)

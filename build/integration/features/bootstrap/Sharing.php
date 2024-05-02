@@ -187,8 +187,8 @@ trait Sharing {
 			$token = $this->lastShareData->data->token;
 		}
 
-		$fullUrl = substr($this->baseUrl, 0, -4) . "public.php/webdav";
-		$this->checkDownload($fullUrl, [$token, $password], 'text/plain');
+		$fullUrl = substr($this->baseUrl, 0, -4) . "public.php/dav/files/$token/";
+		$this->checkDownload($fullUrl, ['', $password], 'text/plain');
 	}
 
 	private function checkDownload($url, $auth = null, $mimeType = null) {
@@ -270,13 +270,13 @@ trait Sharing {
 	}
 
 	public function createShare($user,
-								$path = null,
-								$shareType = null,
-								$shareWith = null,
-								$publicUpload = null,
-								$password = null,
-								$permissions = null,
-								$viewOnly = false) {
+		$path = null,
+		$shareType = null,
+		$shareWith = null,
+		$publicUpload = null,
+		$password = null,
+		$permissions = null,
+		$viewOnly = false) {
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/apps/files_sharing/api/v{$this->sharingApiVersion}/shares";
 		$client = new Client();
 		$options = [
@@ -353,7 +353,7 @@ trait Sharing {
 				return is_numeric((string)$data->$field);
 			} elseif ($contentExpected == "AN_URL") {
 				return $this->isExpectedUrl((string)$data->$field, "index.php/s/");
-			} elseif ($data->$field == $contentExpected) {
+			} elseif ($contentExpected == $data->$field) {
 				return true;
 			}
 			return false;

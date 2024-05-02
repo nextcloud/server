@@ -38,27 +38,16 @@ use OCP\IRequest;
  * @package OC\Security\CSP
  */
 class ContentSecurityPolicyNonceManager {
-	/** @var CsrfTokenManager */
-	private $csrfTokenManager;
-	/** @var IRequest */
-	private $request;
-	/** @var string */
-	private $nonce = '';
+	private string $nonce = '';
 
-	/**
-	 * @param CsrfTokenManager $csrfTokenManager
-	 * @param IRequest $request
-	 */
-	public function __construct(CsrfTokenManager $csrfTokenManager,
-								IRequest $request) {
-		$this->csrfTokenManager = $csrfTokenManager;
-		$this->request = $request;
+	public function __construct(
+		private CsrfTokenManager $csrfTokenManager,
+		private IRequest $request,
+	) {
 	}
 
 	/**
-	 * Returns the current CSP nounce
-	 *
-	 * @return string
+	 * Returns the current CSP nonce
 	 */
 	public function getNonce(): string {
 		if ($this->nonce === '') {
@@ -74,20 +63,16 @@ class ContentSecurityPolicyNonceManager {
 
 	/**
 	 * Check if the browser supports CSP v3
-	 *
-	 * @return bool
 	 */
 	public function browserSupportsCspV3(): bool {
-		$browserWhitelist = [
-			Request::USER_AGENT_CHROME,
-			Request::USER_AGENT_FIREFOX,
-			Request::USER_AGENT_SAFARI,
+		$browserBlocklist = [
+			Request::USER_AGENT_IE,
 		];
 
-		if ($this->request->isUserAgent($browserWhitelist)) {
-			return true;
+		if ($this->request->isUserAgent($browserBlocklist)) {
+			return false;
 		}
 
-		return false;
+		return true;
 	}
 }

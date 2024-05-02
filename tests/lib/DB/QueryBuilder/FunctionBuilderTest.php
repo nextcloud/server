@@ -50,6 +50,7 @@ class FunctionBuilderTest extends TestCase {
 		if ($real) {
 			$this->addDummyData();
 			$query->where($query->expr()->eq('appid', $query->createNamedParameter('group_concat')));
+			$query->orderBy('configkey', 'asc');
 		}
 
 		$query->select($query->func()->concat(...$arguments));

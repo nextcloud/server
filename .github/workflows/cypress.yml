@@ -1,12 +1,10 @@
 name: Cypress
 
-on:
-  pull_request:
-  push:
-    branches:
-      - main
-      - master
-      - stable*
+on: pull_request
+
+concurrency:
+  group: cypress-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
 
 env:
   # Adjust APP_NAME if your repository name is different
@@ -21,13 +19,19 @@ jobs:
       nodeVersion: ${{ steps.versions.outputs.nodeVersion }}
       npmVersion: ${{ steps.versions.outputs.npmVersion }}
 
+    env:
+      PUPPETEER_SKIP_DOWNLOAD: true
+
     steps:
-      - name: Checkout app
-        uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
+      - name: Checkout server
+        uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633 # v4.1.2
+        with:
+          # We need to checkout submodules for 3rdparty
+          submodules: true
 
       - name: Check composer.json
         id: check_composer
-        uses: andstor/file-existence-action@20b4d2e596410855db8f9ca21e96fbe18e12930b # v2
+        uses: andstor/file-existence-action@076e0072799f4942c8bc574a82233e1e4d13e9d6 # v2
         with:
           files: "composer.json"
 
@@ -36,14 +40,14 @@ jobs:
         run: composer install --no-dev
 
       - name: Read package.json node and npm engines version
-        uses: skjnldsv/read-package-engines-version-actions@0ce2ed60f6df073a62a77c0a4958dd0fc68e32e7 # v2.1
+        uses: skjnldsv/read-package-engines-version-actions@8205673bab74a63eb9b8093402fd9e0e018663a1 # v2.2
         id: versions
         with:
-          fallbackNode: "^14"
-          fallbackNpm: "^7"
+          fallbackNode: "^20"
+          fallbackNpm: "^9"
 
       - name: Set up node ${{ steps.versions.outputs.nodeVersion }}
-        uses: actions/setup-node@64ed1c7eab4cce3362f8c340dee64e5eaeef8f7c # v3.6.0
+        uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4.0.2
         with:
           node-version: ${{ steps.versions.outputs.nodeVersion }}
 
@@ -54,6 +58,9 @@ jobs:
         run: |
           npm ci
           TESTING=true npm run build --if-present
+
+      - name: Show cypress version
+        run: npm run cypress:version
 
       - name: Save context
         uses: buildjet/cache/save@e376f15c6ec6dc595375c78633174c7e5f92dc0e # v3
@@ -69,8 +76,11 @@ jobs:
       fail-fast: false
       matrix:
         # Run multiple copies of the current job in parallel
-        # Please increase the number or runners as your tests suite grows
-        containers: ["component", 1, 2]
+        # Please increase the number or runners as your tests suite grows (0 based index for e2e tests)
+        containers: ["component", 0, 1, 2, 3, 4, 5]
+        # Hack as strategy.job-total includes the component and GitHub does not allow math expressions
+        # Always aling this number with the total of e2e runners (max. index + 1)
+        total-containers: [6]
 
     name: runner ${{ matrix.containers }}
 
@@ -83,7 +93,7 @@ jobs:
           path: ./
 
       - name: Set up node ${{ needs.init.outputs.nodeVersion }}
-        uses: actions/setup-node@64ed1c7eab4cce3362f8c340dee64e5eaeef8f7c # v3.6.0
+        uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4.0.2
         with:
           node-version: ${{ needs.init.outputs.nodeVersion }}
 
@@ -91,16 +101,13 @@ jobs:
         run: npm i -g npm@"${{ needs.init.outputs.npmVersion }}"
 
       - name: Run ${{ matrix.containers == 'component' && 'component' || 'E2E' }} cypress tests
-        uses: cypress-io/github-action@d69252d52b9a31bad4f418f05ba2bc83687a02eb # v5.8.3
+        uses: cypress-io/github-action@1b70233146622b69e789ccdd4f9452adc638d25a # v6.6.1
         with:
-          record: true
-          parallel: true
-          # cypress run type
           component: ${{ matrix.containers == 'component' }}
-          group: Run ${{ matrix.containers == 'component' && 'component' || 'E2E' }}
+          group: ${{ matrix.use-cypress-cloud && matrix.containers == 'component' && 'Run component' || matrix.use-cypress-cloud && 'Run E2E' || '' }}
           # cypress env
-          ci-build-id: ${{ github.sha }}-${{ github.run_number }}
-          tag: ${{ github.event_name }}
+          ci-build-id: ${{ matrix.use-cypress-cloud && format('{0}-{1}', github.sha, github.run_number) || '' }}
+          tag: ${{ matrix.use-cypress-cloud && github.event_name || '' }}
         env:
           # Needs to be prefixed with CYPRESS_
           CYPRESS_BRANCH: ${{ env.BRANCH }}
@@ -110,9 +117,11 @@ jobs:
           TESTING: true
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          SPLIT: ${{ matrix.total-containers }}
+          SPLIT_INDEX: ${{ matrix.containers == 'component' && 0 || matrix.containers }}
 
       - name: Upload snapshots
-        uses: actions/upload-artifact@0b7f8abb1508181956e8e162db84b466c27e18ce # v3.1.2
+        uses: actions/upload-artifact@5d5d22a31266ced268874388b861e4b58bb5c2f3 # v4.3.1
         if: always()
         with:
           name: snapshots_${{ matrix.containers }}
@@ -123,7 +132,7 @@ jobs:
         run: docker logs nextcloud-cypress-tests-${{ env.APP_NAME }} > nextcloud.log
 
       - name: Upload NC logs
-        uses: actions/upload-artifact@0b7f8abb1508181956e8e162db84b466c27e18ce # v3.1.2
+        uses: actions/upload-artifact@5d5d22a31266ced268874388b861e4b58bb5c2f3 # v4.3.1
         if: failure() && matrix.containers != 'component'
         with:
           name: nc_logs_${{ matrix.containers }}
@@ -134,14 +143,14 @@ jobs:
         run: docker exec nextcloud-cypress-tests-server tar -cvjf - data > data.tar
 
       - name: Upload data dir archive
-        uses: actions/upload-artifact@0b7f8abb1508181956e8e162db84b466c27e18ce # v3.1.2
+        uses: actions/upload-artifact@5d5d22a31266ced268874388b861e4b58bb5c2f3 # v4.3.1
         if: failure() && matrix.containers != 'component'
         with:
           name: nc_data_${{ matrix.containers }}
           path: data.tar
 
   summary:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest-low
     needs: [init, cypress]
 
     if: always()

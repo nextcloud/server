@@ -22,7 +22,7 @@
 
 <template>
 	<section>
-		<HeaderBar :readable="propertyReadable" />
+		<HeaderBar :is-heading="true" :readable="propertyReadable" />
 
 		<ProfileCheckbox :profile-enabled.sync="profileEnabled" />
 

@@ -43,10 +43,11 @@
 use bantu\IniGetWrapper\IniGetWrapper;
 use OC\Files\View;
 use OC\Streamer;
-use OCP\Lock\ILockingProvider;
-use OCP\Files\Events\BeforeZipCreatedEvent;
-use OCP\Files\Events\BeforeDirectFileDownloadEvent;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\Events\BeforeDirectFileDownloadEvent;
+use OCP\Files\Events\BeforeZipCreatedEvent;
+use OCP\Files\IRootFolder;
+use OCP\Lock\ILockingProvider;
 
 /**
  * Class for file server access
@@ -76,7 +77,6 @@ class OC_Files {
 	private static function sendHeaders($filename, $name, array $rangeArray): void {
 		OC_Response::setContentDispositionHeader($name, 'attachment');
 		header('Content-Transfer-Encoding: binary', true);
-		header('Pragma: public');// enable caching in IE
 		header('Expires: 0');
 		header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 		$fileSize = \OC\Files\Filesystem::filesize($filename);
@@ -87,7 +87,7 @@ class OC_Files {
 				header('Accept-Ranges: bytes', true);
 				if (count($rangeArray) > 1) {
 					$type = 'multipart/byteranges; boundary='.self::getBoundary();
-				// no Content-Length header here
+					// no Content-Length header here
 				} else {
 					header(sprintf('Content-Range: bytes %d-%d/%d', $rangeArray[0]['from'], $rangeArray[0]['to'], $fileSize), true);
 					OC_Response::setContentLengthHeader($rangeArray[0]['to'] - $rangeArray[0]['from'] + 1);
@@ -104,7 +104,7 @@ class OC_Files {
 	 * return the content of a file or return a zip file containing multiple files
 	 *
 	 * @param string $dir
-	 * @param string $files ; separated list of files to download
+	 * @param string|array $files ; separated list of files to download
 	 * @param array $params ; 'head' boolean to only send header of the request ; 'range' http range header
 	 */
 	public static function get($dir, $files, $params = null) {
@@ -188,7 +188,7 @@ class OC_Files {
 				foreach ($files as $file) {
 					$file = $dir . '/' . $file;
 					if (\OC\Files\Filesystem::is_file($file)) {
-						$userFolder = \OC::$server->getRootFolder()->get(\OC\Files\Filesystem::getRoot());
+						$userFolder = \OC::$server->get(IRootFolder::class)->get(\OC\Files\Filesystem::getRoot());
 						$file = $userFolder->get($file);
 						if ($file instanceof \OC\Files\Node\File) {
 							try {
@@ -230,6 +230,10 @@ class OC_Files {
 			OC::$server->getLogger()->logException($ex);
 			$l = \OC::$server->getL10N('lib');
 			\OC_Template::printErrorPage($l->t('Cannot download file'), $ex->getMessage(), 200);
+		} catch (\OCP\Files\ConnectionLostException $ex) {
+			self::unlockAllTheFiles($dir, $files, $getType, $view, $filename);
+			OC::$server->getLogger()->logException($ex, ['level' => \OCP\ILogger::DEBUG]);
+			\OC_Template::printErrorPage('Connection lost', $ex->getMessage(), 200);
 		} catch (\Exception $ex) {
 			self::unlockAllTheFiles($dir, $files, $getType, $view, $filename);
 			OC::$server->getLogger()->logException($ex);
@@ -304,7 +308,7 @@ class OC_Files {
 		$file = null;
 
 		try {
-			$userFolder = \OC::$server->getRootFolder()->get(\OC\Files\Filesystem::getRoot());
+			$userFolder = \OC::$server->get(IRootFolder::class)->get(\OC\Files\Filesystem::getRoot());
 			$file = $userFolder->get($filename);
 			if (!$file instanceof \OC\Files\Node\File || !$file->isReadable()) {
 				http_response_code(403);

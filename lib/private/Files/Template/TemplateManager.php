@@ -31,8 +31,8 @@ use OC\AppFramework\Bootstrap\Coordinator;
 use OC\Files\Cache\Scanner;
 use OC\Files\Filesystem;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\Files\Folder;
 use OCP\Files\File;
+use OCP\Files\Folder;
 use OCP\Files\GenericFileException;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
@@ -40,6 +40,7 @@ use OCP\Files\NotFoundException;
 use OCP\Files\Template\FileCreatedFromTemplateEvent;
 use OCP\Files\Template\ICustomTemplateProvider;
 use OCP\Files\Template\ITemplateManager;
+use OCP\Files\Template\RegisterTemplateCreatorEvent;
 use OCP\Files\Template\Template;
 use OCP\Files\Template\TemplateFileCreator;
 use OCP\IConfig;
@@ -119,6 +120,7 @@ class TemplateManager implements ITemplateManager {
 		if (!empty($this->types)) {
 			return $this->types;
 		}
+		$this->eventDispatcher->dispatchTyped(new RegisterTemplateCreatorEvent($this));
 		foreach ($this->registeredTypes as $registeredType) {
 			$this->types[] = $registeredType();
 		}
@@ -240,7 +242,8 @@ class TemplateManager implements ITemplateManager {
 			'mime' => $file->getMimetype(),
 			'size' => $file->getSize(),
 			'type' => $file->getType(),
-			'hasPreview' => $this->previewManager->isAvailable($file)
+			'hasPreview' => $this->previewManager->isAvailable($file),
+			'permissions' => $file->getPermissions(),
 		];
 	}
 
@@ -261,7 +264,7 @@ class TemplateManager implements ITemplateManager {
 		return $this->config->getUserValue($this->userId, 'core', 'templateDirectory', '');
 	}
 
-	public function initializeTemplateDirectory(string $path = null, string $userId = null, $copyTemplates = true): string {
+	public function initializeTemplateDirectory(?string $path = null, ?string $userId = null, $copyTemplates = true): string {
 		if ($userId !== null) {
 			$this->userId = $userId;
 		}
@@ -273,6 +276,11 @@ class TemplateManager implements ITemplateManager {
 		$isDefaultSkeleton = $skeletonPath === $defaultSkeletonDirectory;
 		$isDefaultTemplates = $skeletonTemplatePath === $defaultTemplateDirectory;
 		$userLang = $this->l10nFactory->getUserLanguage($this->userManager->get($this->userId));
+
+		if ($skeletonTemplatePath === '') {
+			$this->setTemplatePath('');
+			return '';
+		}
 
 		try {
 			$l10n = $this->l10nFactory->get('lib', $userLang);

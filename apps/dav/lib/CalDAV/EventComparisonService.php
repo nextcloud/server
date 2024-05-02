@@ -25,15 +25,9 @@ declare(strict_types=1);
  */
 namespace OCA\DAV\CalDAV;
 
-use OCA\DAV\AppInfo\Application;
 use OCA\DAV\CalDAV\Schedule\IMipService;
-use OCP\AppFramework\Utility\ITimeFactory;
-use OCP\IConfig;
 use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Component\VEvent;
-use Sabre\VObject\Component\VTimeZone;
-use Sabre\VObject\Component\VTodo;
-use function max;
 
 class EventComparisonService {
 
@@ -71,7 +65,7 @@ class EventComparisonService {
 				$eventToFilterData[] = IMipService::readPropertyWithDefault($eventToFilter, $eventDiff, '');
 			}
 			// events are identical and can be removed
-			if (empty(array_diff($filterEventData, $eventToFilterData))) {
+			if ($filterEventData === $eventToFilterData) {
 				unset($eventsToFilter[$k]);
 				return true;
 			}

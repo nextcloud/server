@@ -7,6 +7,9 @@ const NodePolyfillPlugin = require('node-polyfill-webpack-plugin')
 const WorkboxPlugin = require('workbox-webpack-plugin')
 
 const modules = require('./webpack.modules.js')
+const { readFileSync } = require('fs')
+
+const appVersion = readFileSync('./version.php').toString().match(/OC_VersionString[^']+'([^']+)/)?.[1] ?? 'unknown'
 
 const formatOutputFromModules = (modules) => {
 	// merge all configs into one object, and use AppID to generate the fileNames
@@ -109,7 +112,6 @@ module.exports = {
 				exclude: BabelLoaderExcludeNodeModulesExcept([
 					'@nextcloud/dialogs',
 					'@nextcloud/event-bus',
-					'@nextcloud/vue-dashboard',
 					'davclient.js',
 					'nextcloud-vue-collections',
 					'p-finally',
@@ -165,12 +167,6 @@ module.exports = {
 			// We need to provide the path to node_moduels as otherwise npm link will fail due
 			// to tribute.js checking for jQuery in @nextcloud/vue
 			jQuery: path.resolve(path.join(__dirname, 'node_modules/jquery')),
-
-			// Shim ICAL to prevent using the global object (window.ICAL).
-			// The library ical.js heavily depends on instanceof checks which will
-			// break if two separate versions of the library are used (e.g. bundled one
-			// and global one).
-			ICAL: 'ical.js',
 		}),
 
 		new WorkboxPlugin.GenerateSW({
@@ -205,6 +201,19 @@ module.exports = {
 					},
 				},
 			}],
+		}),
+
+		// Make appName & appVersion available as a constants for '@nextcloud/vue' components
+		new webpack.DefinePlugin({ appName: JSON.stringify('Nextcloud') }),
+		new webpack.DefinePlugin({ appVersion: JSON.stringify(appVersion) }),
+
+		// @nextcloud/moment since v1.3.0 uses `moment/min/moment-with-locales.js`
+		// Which works only in Node.js and is not compatible with Webpack bundling
+		// It has an unused function `localLocale` that requires locales by invalid relative path `./locale`
+		// Though it is not used, Webpack tries to resolve it with `require.context` and fails
+		new webpack.IgnorePlugin({
+			resourceRegExp: /^\.\/locale$/,
+			contextRegExp: /moment\/min$/,
 		}),
 	],
 	externals: {

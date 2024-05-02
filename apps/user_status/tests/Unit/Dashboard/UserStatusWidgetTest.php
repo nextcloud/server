@@ -7,6 +7,7 @@ declare(strict_types=1);
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author Richard Steinmetz <richard@steinmetz.cloud>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -27,13 +28,11 @@ declare(strict_types=1);
 namespace OCA\UserStatus\Tests\Dashboard;
 
 use OCA\UserStatus\Dashboard\UserStatusWidget;
-use OCA\UserStatus\Db\UserStatus;
 use OCA\UserStatus\Service\StatusService;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\IDateTimeFormatter;
 use OCP\IL10N;
 use OCP\IURLGenerator;
-use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use Test\TestCase;
@@ -100,173 +99,5 @@ class UserStatusWidgetTest extends TestCase {
 
 	public function testGetUrl(): void {
 		$this->assertNull($this->widget->getUrl());
-	}
-
-	public function testLoadNoUserSession(): void {
-		$this->userSession->expects($this->once())
-			->method('getUser')
-			->willReturn(null);
-
-		$this->initialState->expects($this->once())
-			->method('provideInitialState')
-			->with('dashboard_data', []);
-
-		$this->service->expects($this->never())
-			->method('findAllRecentStatusChanges');
-
-		$this->widget->load();
-	}
-
-	public function testLoadWithCurrentUser(): void {
-		$user = $this->createMock(IUser::class);
-		$user->method('getUid')->willReturn('john.doe');
-		$this->userSession->expects($this->once())
-			->method('getUser')
-			->willReturn($user);
-
-		$user1 = $this->createMock(IUser::class);
-		$user1->method('getDisplayName')->willReturn('User No. 1');
-
-		$this->userManager
-			->method('get')
-			->willReturnMap([
-				['user_1', $user1],
-				['user_2', null],
-				['user_3', null],
-				['user_4', null],
-				['user_5', null],
-				['user_6', null],
-				['user_7', null],
-			]);
-
-		$userStatuses = [
-			UserStatus::fromParams([
-				'userId' => 'user_1',
-				'status' => 'online',
-				'customIcon' => '💻',
-				'customMessage' => 'Working',
-				'statusTimestamp' => 5000,
-			]),
-			UserStatus::fromParams([
-				'userId' => 'user_2',
-				'status' => 'away',
-				'customIcon' => '☕️',
-				'customMessage' => 'Office Hangout',
-				'statusTimestamp' => 6000,
-			]),
-			UserStatus::fromParams([
-				'userId' => 'user_3',
-				'status' => 'dnd',
-				'customIcon' => null,
-				'customMessage' => null,
-				'statusTimestamp' => 7000,
-			]),
-			UserStatus::fromParams([
-				'userId' => 'john.doe',
-				'status' => 'away',
-				'customIcon' => '☕️',
-				'customMessage' => 'Office Hangout',
-				'statusTimestamp' => 90000,
-			]),
-			UserStatus::fromParams([
-				'userId' => 'user_4',
-				'status' => 'dnd',
-				'customIcon' => null,
-				'customMessage' => null,
-				'statusTimestamp' => 7000,
-			]),
-			UserStatus::fromParams([
-				'userId' => 'user_5',
-				'status' => 'invisible',
-				'customIcon' => '🏝',
-				'customMessage' => 'On vacation',
-				'statusTimestamp' => 7000,
-			]),
-			UserStatus::fromParams([
-				'userId' => 'user_6',
-				'status' => 'offline',
-				'customIcon' => null,
-				'customMessage' => null,
-				'statusTimestamp' => 7000,
-			]),
-			UserStatus::fromParams([
-				'userId' => 'user_7',
-				'status' => 'invisible',
-				'customIcon' => null,
-				'customMessage' => null,
-				'statusTimestamp' => 7000,
-			]),
-		];
-
-		$this->service->expects($this->once())
-			->method('findAllRecentStatusChanges')
-			->with(8, 0)
-			->willReturn($userStatuses);
-
-		$this->initialState->expects($this->once())
-			->method('provideInitialState')
-			->with('dashboard_data', $this->callback(function ($data): bool {
-				$this->assertEquals([
-					[
-						'userId' => 'user_1',
-						'displayName' => 'User No. 1',
-						'status' => 'online',
-						'icon' => '💻',
-						'message' => 'Working',
-						'timestamp' => 5000,
-					],
-					[
-						'userId' => 'user_2',
-						'displayName' => 'user_2',
-						'status' => 'away',
-						'icon' => '☕️',
-						'message' => 'Office Hangout',
-						'timestamp' => 6000,
-					],
-					[
-						'userId' => 'user_3',
-						'displayName' => 'user_3',
-						'status' => 'dnd',
-						'icon' => null,
-						'message' => null,
-						'timestamp' => 7000,
-					],
-					[
-						'userId' => 'user_4',
-						'displayName' => 'user_4',
-						'status' => 'dnd',
-						'icon' => null,
-						'message' => null,
-						'timestamp' => 7000,
-					],
-					[
-						'userId' => 'user_5',
-						'displayName' => 'user_5',
-						'status' => 'offline',
-						'icon' => '🏝',
-						'message' => 'On vacation',
-						'timestamp' => 7000,
-					],
-					[
-						'userId' => 'user_6',
-						'displayName' => 'user_6',
-						'status' => 'offline',
-						'icon' => null,
-						'message' => null,
-						'timestamp' => 7000,
-					],
-					[
-						'userId' => 'user_7',
-						'displayName' => 'user_7',
-						'status' => 'offline',
-						'icon' => null,
-						'message' => null,
-						'timestamp' => 7000,
-					],
-				], $data);
-				return true;
-			}));
-
-		$this->widget->load();
 	}
 }

@@ -30,8 +30,8 @@
 
 namespace OCP\Files;
 
-use OCP\Lock\LockedException;
 use OCP\Files\Storage\IStorage;
+use OCP\Lock\LockedException;
 
 /**
  * Interface Node

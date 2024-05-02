@@ -22,9 +22,14 @@
 
 <template>
 	<div id="app-content-inner">
-		<div id="apps-list" class="apps-list" :class="{installed: (useBundleView || useListView), store: useAppStoreView}">
+		<div id="apps-list"
+			class="apps-list"
+			:class="{
+				'apps-list--list-view': (useBundleView || useListView),
+				'apps-list--store-view': useAppStoreView,
+			}">
 			<template v-if="useListView">
-				<div v-if="showUpdateAll" class="toolbar">
+				<div v-if="showUpdateAll" class="apps-list__toolbar">
 					{{ n('settings', '%n app has an update available', '%n apps have an update available', counter) }}
 					<NcButton v-if="showUpdateAll"
 						id="app-list-update-all"
@@ -34,63 +39,112 @@
 					</NcButton>
 				</div>
 
-				<div v-if="!showUpdateAll" class="toolbar">
+				<div v-if="!showUpdateAll" class="apps-list__toolbar">
 					{{ t('settings', 'All apps are up-to-date.') }}
 				</div>
 
-				<transition-group name="app-list" tag="div" class="apps-list-container">
+				<TransitionGroup name="apps-list" tag="table" class="apps-list__list-container">
+					<tr key="app-list-view-header">
+						<th>
+							<span class="hidden-visually">{{ t('settings', 'Icon') }}</span>
+						</th>
+						<th>
+							<span class="hidden-visually">{{ t('settings', 'Name') }}</span>
+						</th>
+						<th>
+							<span class="hidden-visually">{{ t('settings', 'Version') }}</span>
+						</th>
+						<th>
+							<span class="hidden-visually">{{ t('settings', 'Level') }}</span>
+						</th>
+						<th>
+							<span class="hidden-visually">{{ t('settings', 'Actions') }}</span>
+						</th>
+					</tr>
 					<AppItem v-for="app in apps"
 						:key="app.id"
 						:app="app"
 						:category="category" />
-				</transition-group>
+				</TransitionGroup>
 			</template>
 
-			<transition-group v-if="useBundleView"
-				name="app-list"
-				tag="div"
-				class="apps-list-container">
+			<table v-if="useBundleView"
+				class="apps-list__list-container">
+				<tr key="app-list-view-header">
+					<th id="app-table-col-icon">
+						<span class="hidden-visually">{{ t('settings', 'Icon') }}</span>
+					</th>
+					<th id="app-table-col-name">
+						<span class="hidden-visually">{{ t('settings', 'Name') }}</span>
+					</th>
+					<th id="app-table-col-version">
+						<span class="hidden-visually">{{ t('settings', 'Version') }}</span>
+					</th>
+					<th id="app-table-col-level">
+						<span class="hidden-visually">{{ t('settings', 'Level') }}</span>
+					</th>
+					<th id="app-table-col-actions">
+						<span class="hidden-visually">{{ t('settings', 'Actions') }}</span>
+					</th>
+				</tr>
 				<template v-for="bundle in bundles">
-					<div :key="bundle.id" class="apps-header">
-						<div class="app-image" />
-						<h2>{{ bundle.name }} <input type="button" :value="bundleToggleText(bundle.id)" @click="toggleBundle(bundle.id)"></h2>
-						<div class="app-version" />
-						<div class="app-level" />
-						<div class="app-groups" />
-						<div class="actions">
-							&nbsp;
-						</div>
-					</div>
+					<tr :key="bundle.id">
+						<th :id="`app-table-rowgroup-${bundle.id}`" colspan="5" scope="rowgroup">
+							<div class="apps-list__bundle-heading">
+								<span class="apps-list__bundle-header">
+									{{ bundle.name }}
+								</span>
+								<NcButton type="secondary" @click="toggleBundle(bundle.id)">
+									{{ t('settings', bundleToggleText(bundle.id)) }}
+								</NcButton>
+							</div>
+						</th>
+					</tr>
 					<AppItem v-for="app in bundleApps(bundle.id)"
 						:key="bundle.id + app.id"
+						:use-bundle-view="true"
+						:headers="`app-table-rowgroup-${bundle.id}`"
 						:app="app"
 						:category="category" />
 				</template>
-			</transition-group>
-			<template v-if="useAppStoreView">
+			</table>
+			<ul v-if="useAppStoreView" class="apps-list__store-container">
 				<AppItem v-for="app in apps"
 					:key="app.id"
 					:app="app"
 					:category="category"
 					:list-view="false" />
-			</template>
+			</ul>
 		</div>
 
-		<div id="apps-list-search" class="apps-list installed">
-			<div class="apps-list-container">
-				<template v-if="search !== '' && searchApps.length > 0">
-					<div class="section">
-						<div />
-						<td colspan="5">
-							<h2>{{ t('settings', 'Results from other categories') }}</h2>
-						</td>
-					</div>
+		<div id="apps-list-search" class="apps-list apps-list--list-view">
+			<div class="apps-list__list-container">
+				<table v-if="search !== '' && searchApps.length > 0" class="apps-list__list-container">
+					<caption class="apps-list__bundle-header">
+						{{ t('settings', 'Results from other categories') }}
+					</caption>
+					<tr key="app-list-view-header">
+						<th>
+							<span class="hidden-visually">{{ t('settings', 'Icon') }}</span>
+						</th>
+						<th>
+							<span class="hidden-visually">{{ t('settings', 'Name') }}</span>
+						</th>
+						<th>
+							<span class="hidden-visually">{{ t('settings', 'Version') }}</span>
+						</th>
+						<th>
+							<span class="hidden-visually">{{ t('settings', 'Level') }}</span>
+						</th>
+						<th>
+							<span class="hidden-visually">{{ t('settings', 'Actions') }}</span>
+						</th>
+					</tr>
 					<AppItem v-for="app in searchApps"
 						:key="app.id"
 						:app="app"
-						:category="category"
-						:list-view="true" />
-				</template>
+						:category="category" />
+				</table>
 			</div>
 		</div>
 
@@ -98,14 +152,12 @@
 			<div id="app-list-empty-icon" class="icon-settings-dark" />
 			<h2>{{ t('settings', 'No apps found for your version') }}</h2>
 		</div>
-
-		<div id="searchresults" />
 	</div>
 </template>
 
 <script>
+import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 import AppItem from './AppList/AppItem.vue'
-import PrefixMixin from './PrefixMixin.vue'
 import pLimit from 'p-limit'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 
@@ -115,8 +167,19 @@ export default {
 		AppItem,
 		NcButton,
 	},
-	mixins: [PrefixMixin],
-	props: ['category', 'app', 'search'],
+
+	props: {
+		category: {
+			type: String,
+			required: true,
+		},
+	},
+
+	data() {
+		return {
+			search: '',
+		}
+	},
 	computed: {
 		counter() {
 			return this.apps.filter(app => app.update).length
@@ -162,6 +225,7 @@ export default {
 				// An app level of `200` will be set for apps featured on the app store
 				return apps.filter(app => app.level === 200)
 			}
+
 			// filter app store categories
 			return apps.filter(app => {
 				return app.appstore && app.category !== undefined
@@ -169,7 +233,7 @@ export default {
 			})
 		},
 		bundles() {
-			return this.$store.getters.getServerData.bundles.filter(bundle => this.bundleApps(bundle.id).length > 0)
+			return this.$store.getters.getAppBundles.filter(bundle => this.bundleApps(bundle.id).length > 0)
 		},
 		bundleApps() {
 			return function(bundle) {
@@ -210,11 +274,28 @@ export default {
 				if (this.allBundlesEnabled(id)) {
 					return t('settings', 'Disable all')
 				}
-				return t('settings', 'Enable all')
+				return t('settings', 'Download and enable all')
 			}
 		},
 	},
+
+	beforeDestroy() {
+		unsubscribe('nextcloud:unified-search.search', this.setSearch)
+		unsubscribe('nextcloud:unified-search.reset', this.resetSearch)
+	},
+
+	mounted() {
+		subscribe('nextcloud:unified-search.search', this.setSearch)
+		subscribe('nextcloud:unified-search.reset', this.resetSearch)
+	},
+
 	methods: {
+		setSearch({ query }) {
+			this.search = query
+		},
+		resetSearch() {
+			this.search = ''
+		},
 		toggleBundle(id) {
 			if (this.allBundlesEnabled(id)) {
 				return this.disableBundle(id)
@@ -240,9 +321,80 @@ export default {
 			const limit = pLimit(1)
 			this.apps
 				.filter(app => app.update)
-				.map(app => limit(() => this.$store.dispatch('updateApp', { appId: app.id }))
+				.map(app => limit(() => this.$store.dispatch('updateApp', { appId: app.id })),
 				)
 		},
 	},
 }
 </script>
+
+<style lang="scss" scoped>
+$toolbar-padding: 8px;
+$toolbar-height: 44px + $toolbar-padding * 2;
+
+.apps-list {
+	display: flex;
+	flex-wrap: wrap;
+	align-content: flex-start;
+
+	// For transition group
+	&--move {
+		transition: transform 1s;
+	}
+
+	#app-list-update-all {
+		margin-left: 10px;
+	}
+
+	&__toolbar {
+		height: $toolbar-height;
+		padding: $toolbar-padding;
+		// Leave room for app-navigation-toggle
+		padding-left: $toolbar-height;
+		width: 100%;
+		background-color: var(--color-main-background);
+		position: sticky;
+		top: 0;
+		z-index: 1;
+		display: flex;
+		align-items: center;
+	}
+
+	&--list-view {
+		margin-bottom: 100px;
+		// For positioning link overlay on rows
+		position: relative;
+	}
+
+	&__list-container {
+		width: 100%;
+	}
+
+	&__store-container {
+		display: flex;
+		flex-wrap: wrap;
+	}
+
+	&__bundle-heading {
+		display: flex;
+		align-items: center;
+		margin: 20px 10px 20px 0;
+	}
+
+	&__bundle-header {
+		margin: 0 10px 0 50px;
+		font-weight: bold;
+		font-size: 20px;
+		line-height: 30px;
+		color: var(--color-text-light);
+	}
+}
+
+#apps-list-search {
+	.app-item {
+		h2 {
+			margin-bottom: 0;
+		}
+	}
+}
+</style>

@@ -19,20 +19,21 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import type NavigationService from '../../files/src/services/Navigation'
-import type { Navigation } from '../../files/src/services/Navigation'
 
-import { translate as t, translate } from '@nextcloud/l10n'
+import './trashbin.scss'
+
+import { translate as t } from '@nextcloud/l10n'
 import DeleteSvg from '@mdi/svg/svg/delete.svg?raw'
-import moment from '@nextcloud/moment'
 
 import { getContents } from './services/trashbin'
+import { columns } from './columns.ts'
 
 // Register restore action
 import './actions/restoreAction'
+import { View, getNavigation } from '@nextcloud/files'
 
-const Navigation = window.OCP.Files.Navigation as NavigationService
-Navigation.register({
+const Navigation = getNavigation()
+Navigation.register(new View({
 	id: 'trashbin',
 	name: t('files_trashbin', 'Deleted files'),
 	caption: t('files_trashbin', 'List of files that have been deleted.'),
@@ -46,30 +47,7 @@ Navigation.register({
 
 	defaultSortKey: 'deleted',
 
-	columns: [
-		{
-			id: 'deleted',
-			title: t('files_trashbin', 'Deleted'),
-			render(node) {
-				const deletionTime = node.attributes?.['trashbin-deletion-time']
-				const span = document.createElement('span')
-				if (deletionTime) {
-					span.title = moment.unix(deletionTime).format('LLL')
-					span.textContent = moment.unix(deletionTime).fromNow()
-					return span
-				}
-
-				// Unknown deletion time
-				span.textContent = translate('files_trashbin', 'A long time ago')
-				return span
-			},
-			sort(nodeA, nodeB) {
-				const deletionTimeA = nodeA.attributes?.['trashbin-deletion-time'] || nodeA?.mtime || 0
-				const deletionTimeB = nodeB.attributes?.['trashbin-deletion-time'] || nodeB?.mtime || 0
-				return deletionTimeB - deletionTimeA
-			},
-		},
-	],
+	columns,
 
 	getContents,
-} as Navigation)
+}))

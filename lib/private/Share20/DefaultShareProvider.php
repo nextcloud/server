@@ -38,12 +38,12 @@ use OC\Files\Cache\Cache;
 use OC\Share20\Exception\BackendError;
 use OC\Share20\Exception\InvalidShare;
 use OC\Share20\Exception\ProviderException;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Defaults;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
-use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\IURLGenerator;
@@ -55,6 +55,7 @@ use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IAttributes;
 use OCP\Share\IShare;
 use OCP\Share\IShareProvider;
+use Psr\Log\LoggerInterface;
 use function str_starts_with;
 
 /**
@@ -90,19 +91,19 @@ class DefaultShareProvider implements IShareProvider {
 	/** @var IURLGenerator */
 	private $urlGenerator;
 
-	/** @var IConfig */
-	private $config;
+	private ITimeFactory $timeFactory;
 
 	public function __construct(
-			IDBConnection $connection,
-			IUserManager $userManager,
-			IGroupManager $groupManager,
-			IRootFolder $rootFolder,
-			IMailer $mailer,
-			Defaults $defaults,
-			IFactory $l10nFactory,
-			IURLGenerator $urlGenerator,
-			IConfig $config) {
+		IDBConnection $connection,
+		IUserManager $userManager,
+		IGroupManager $groupManager,
+		IRootFolder $rootFolder,
+		IMailer $mailer,
+		Defaults $defaults,
+		IFactory $l10nFactory,
+		IURLGenerator $urlGenerator,
+		ITimeFactory $timeFactory,
+	) {
 		$this->dbConn = $connection;
 		$this->userManager = $userManager;
 		$this->groupManager = $groupManager;
@@ -111,7 +112,7 @@ class DefaultShareProvider implements IShareProvider {
 		$this->defaults = $defaults;
 		$this->l10nFactory = $l10nFactory;
 		$this->urlGenerator = $urlGenerator;
-		$this->config = $config;
+		$this->timeFactory = $timeFactory;
 	}
 
 	/**
@@ -216,32 +217,22 @@ class DefaultShareProvider implements IShareProvider {
 		}
 
 		// Set the time this share was created
-		$qb->setValue('stime', $qb->createNamedParameter(time()));
+		$shareTime = $this->timeFactory->now();
+		$qb->setValue('stime', $qb->createNamedParameter($shareTime->getTimestamp()));
 
 		// insert the data and fetch the id of the share
-		$this->dbConn->beginTransaction();
-		$qb->execute();
-		$id = $this->dbConn->lastInsertId('*PREFIX*share');
+		$qb->executeStatement();
 
-		// Now fetch the inserted share and create a complete share object
-		$qb = $this->dbConn->getQueryBuilder();
-		$qb->select('*')
-			->from('share')
-			->where($qb->expr()->eq('id', $qb->createNamedParameter($id)));
+		// Update mandatory data
+		$id = $qb->getLastInsertId();
+		$share->setId((string)$id);
+		$share->setProviderId($this->identifier());
 
-		$cursor = $qb->execute();
-		$data = $cursor->fetch();
-		$this->dbConn->commit();
-		$cursor->closeCursor();
-
-		if ($data === false) {
-			throw new ShareNotFound('Newly created share could not be found');
-		}
+		$share->setShareTime(\DateTime::createFromImmutable($shareTime));
 
 		$mailSendValue = $share->getMailSend();
-		$data['mail_send'] = ($mailSendValue === null) ? true : $mailSendValue;
+		$share->setMailSend(($mailSendValue === null) ? true : $mailSendValue);
 
-		$share = $this->createShare($data);
 		return $share;
 	}
 
@@ -701,17 +692,24 @@ class DefaultShareProvider implements IShareProvider {
 		}, $childMountNodes);
 
 		$qb->innerJoin('s', 'filecache', 'f', $qb->expr()->eq('s.file_source', 'f.fileid'));
+		$storageFilter = $qb->expr()->eq('f.storage', $qb->createNamedParameter($node->getMountPoint()->getNumericStorageId(), IQueryBuilder::PARAM_INT));
 		if ($shallow) {
 			$qb->andWhere(
 				$qb->expr()->orX(
-					$qb->expr()->eq('f.parent', $qb->createNamedParameter($node->getId())),
+					$qb->expr()->andX(
+						$storageFilter,
+						$qb->expr()->eq('f.parent', $qb->createNamedParameter($node->getId())),
+					),
 					$qb->expr()->in('f.fileid', $qb->createParameter('chunk'))
 				)
 			);
 		} else {
 			$qb->andWhere(
 				$qb->expr()->orX(
-					$qb->expr()->like('f.path', $qb->createNamedParameter($this->dbConn->escapeLikeParameter($node->getInternalPath()) . '/%')),
+					$qb->expr()->andX(
+						$storageFilter,
+						$qb->expr()->like('f.path', $qb->createNamedParameter($this->dbConn->escapeLikeParameter($node->getInternalPath()) . '/%')),
+					),
 					$qb->expr()->in('f.fileid', $qb->createParameter('chunk'))
 				)
 			);
@@ -831,7 +829,7 @@ class DefaultShareProvider implements IShareProvider {
 
 		// If the recipient is set for a group share resolve to that user
 		if ($recipientId !== null && $share->getShareType() === IShare::TYPE_GROUP) {
-			$share = $this->resolveGroupShares([$share], $recipientId)[0];
+			$share = $this->resolveGroupShares([(int) $share->getId() => $share], $recipientId)[0];
 		}
 
 		return $share;
@@ -1008,7 +1006,8 @@ class DefaultShareProvider implements IShareProvider {
 					}
 
 					if ($this->isAccessibleResult($data)) {
-						$shares2[] = $this->createShare($data);
+						$share = $this->createShare($data);
+						$shares2[$share->getId()] = $share;
 					}
 				}
 				$cursor->closeCursor();
@@ -1129,61 +1128,40 @@ class DefaultShareProvider implements IShareProvider {
 	}
 
 	/**
-	 * @param Share[] $shares
+	 * Update the data from group shares with any per-user modifications
+	 *
+	 * @param array<int, Share> $shareMap shares indexed by share id
 	 * @param $userId
 	 * @return Share[] The updates shares if no update is found for a share return the original
 	 */
-	private function resolveGroupShares($shares, $userId) {
-		$result = [];
+	private function resolveGroupShares($shareMap, $userId) {
+		$qb = $this->dbConn->getQueryBuilder();
+		$query = $qb->select('*')
+			->from('share')
+			->where($qb->expr()->eq('share_with', $qb->createNamedParameter($userId)))
+			->andWhere($qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_USERGROUP)))
+			->andWhere($qb->expr()->in('item_type', [$qb->createNamedParameter('file'), $qb->createNamedParameter('folder')]));
 
-		$start = 0;
-		while (true) {
-			/** @var Share[] $shareSlice */
-			$shareSlice = array_slice($shares, $start, 100);
-			$start += 100;
+		// this is called with either all group shares or one group share.
+		// for all shares it's easier to just only search by share_with,
+		// for a single share it's efficient to filter by parent
+		if (count($shareMap) === 1) {
+			$share = reset($shareMap);
+			$query->andWhere($qb->expr()->eq('parent', $qb->createNamedParameter($share->getId())));
+		}
 
-			if ($shareSlice === []) {
-				break;
-			}
+		$stmt = $query->execute();
 
-			/** @var int[] $ids */
-			$ids = [];
-			/** @var Share[] $shareMap */
-			$shareMap = [];
-
-			foreach ($shareSlice as $share) {
-				$ids[] = (int)$share->getId();
-				$shareMap[$share->getId()] = $share;
-			}
-
-			$qb = $this->dbConn->getQueryBuilder();
-
-			$query = $qb->select('*')
-				->from('share')
-				->where($qb->expr()->in('parent', $qb->createNamedParameter($ids, IQueryBuilder::PARAM_INT_ARRAY)))
-				->andWhere($qb->expr()->eq('share_with', $qb->createNamedParameter($userId)))
-				->andWhere($qb->expr()->orX(
-					$qb->expr()->eq('item_type', $qb->createNamedParameter('file')),
-					$qb->expr()->eq('item_type', $qb->createNamedParameter('folder'))
-				));
-
-			$stmt = $query->execute();
-
-			while ($data = $stmt->fetch()) {
+		while ($data = $stmt->fetch()) {
+			if (array_key_exists($data['parent'], $shareMap)) {
 				$shareMap[$data['parent']]->setPermissions((int)$data['permissions']);
 				$shareMap[$data['parent']]->setStatus((int)$data['accepted']);
 				$shareMap[$data['parent']]->setTarget($data['file_target']);
 				$shareMap[$data['parent']]->setParent($data['parent']);
 			}
-
-			$stmt->closeCursor();
-
-			foreach ($shareMap as $share) {
-				$result[] = $share;
-			}
 		}
 
-		return $result;
+		return array_values($shareMap);
 	}
 
 	/**
@@ -1247,7 +1225,8 @@ class DefaultShareProvider implements IShareProvider {
 				)
 			);
 		} else {
-			\OC::$server->getLogger()->logException(new \InvalidArgumentException('Default share provider tried to delete all shares for type: ' . $shareType));
+			$e = new \InvalidArgumentException('Default share provider tried to delete all shares for type: ' . $shareType);
+			\OCP\Server::get(LoggerInterface::class)->error($e->getMessage(), ['exception' => $e]);
 			return;
 		}
 
@@ -1374,7 +1353,7 @@ class DefaultShareProvider implements IShareProvider {
 			$type = (int)$row['share_type'];
 			if ($type === IShare::TYPE_USER) {
 				$uid = $row['share_with'];
-				$users[$uid] = isset($users[$uid]) ? $users[$uid] : [];
+				$users[$uid] = $users[$uid] ?? [];
 				$users[$uid][$row['id']] = $row;
 			} elseif ($type === IShare::TYPE_GROUP) {
 				$gid = $row['share_with'];
@@ -1387,14 +1366,14 @@ class DefaultShareProvider implements IShareProvider {
 				$userList = $group->getUsers();
 				foreach ($userList as $user) {
 					$uid = $user->getUID();
-					$users[$uid] = isset($users[$uid]) ? $users[$uid] : [];
+					$users[$uid] = $users[$uid] ?? [];
 					$users[$uid][$row['id']] = $row;
 				}
 			} elseif ($type === IShare::TYPE_LINK) {
 				$link = true;
 			} elseif ($type === IShare::TYPE_USERGROUP && $currentAccess === true) {
 				$uid = $row['share_with'];
-				$users[$uid] = isset($users[$uid]) ? $users[$uid] : [];
+				$users[$uid] = $users[$uid] ?? [];
 				$users[$uid][$row['id']] = $row;
 			}
 		}

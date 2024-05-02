@@ -38,8 +38,8 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
-use OCP\Share\IShare;
 use OCP\Mail\IMailer;
+use OCP\Share\IShare;
 use Test\TestCase;
 
 class MailPluginTest extends TestCase {

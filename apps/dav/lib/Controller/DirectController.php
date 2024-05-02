@@ -32,11 +32,10 @@ use OCA\DAV\Db\DirectMapper;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSBadRequestException;
-use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\AppFramework\OCS\OCSForbiddenException;
+use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\AppFramework\OCSController;
 use OCP\AppFramework\Utility\ITimeFactory;
-use OCP\EventDispatcher\GenericEvent;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Events\BeforeDirectFileDownloadEvent;
 use OCP\Files\File;
@@ -69,14 +68,14 @@ class DirectController extends OCSController {
 	private $eventDispatcher;
 
 	public function __construct(string $appName,
-								IRequest $request,
-								IRootFolder $rootFolder,
-								string $userId,
-								DirectMapper $mapper,
-								ISecureRandom $random,
-								ITimeFactory $timeFactory,
-								IURLGenerator $urlGenerator,
-								IEventDispatcher $eventDispatcher) {
+		IRequest $request,
+		IRootFolder $rootFolder,
+		string $userId,
+		DirectMapper $mapper,
+		ISecureRandom $random,
+		ITimeFactory $timeFactory,
+		IURLGenerator $urlGenerator,
+		IEventDispatcher $eventDispatcher) {
 		parent::__construct($appName, $request);
 
 		$this->rootFolder = $rootFolder;
@@ -105,9 +104,9 @@ class DirectController extends OCSController {
 	public function getUrl(int $fileId, int $expirationTime = 60 * 60 * 8): DataResponse {
 		$userFolder = $this->rootFolder->getUserFolder($this->userId);
 
-		$files = $userFolder->getById($fileId);
+		$file = $userFolder->getFirstNodeById($fileId);
 
-		if ($files === []) {
+		if (!$file) {
 			throw new OCSNotFoundException();
 		}
 
@@ -115,7 +114,6 @@ class DirectController extends OCSController {
 			throw new OCSBadRequestException('Expiration time should be greater than 0 and less than or equal to ' . (60 * 60 * 24));
 		}
 
-		$file = array_shift($files);
 		if (!($file instanceof File)) {
 			throw new OCSBadRequestException('Direct download only works for files');
 		}

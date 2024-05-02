@@ -32,8 +32,9 @@ namespace OCP\Notification;
 interface IApp {
 	/**
 	 * @param INotification $notification
-	 * @throws \InvalidArgumentException When the notification is not valid
+	 * @throws IncompleteNotificationException When the notification does not have all required fields set
 	 * @since 9.0.0
+	 * @since 30.0.0 throws {@see IncompleteNotificationException} instead of \InvalidArgumentException
 	 */
 	public function notify(INotification $notification): void;
 

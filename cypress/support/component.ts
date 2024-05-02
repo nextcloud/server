@@ -19,6 +19,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+import 'cypress-axe'
+
 /* eslint-disable */
 import { mount } from '@cypress/vue2'
 
@@ -34,7 +36,7 @@ Cypress.Commands.add('mount', (component, optionsOrProps) => {
 		// eslint-disable-next-line
 		instance = this
 		if (oldMounted) {
-			oldMounted()
+			oldMounted.call(instance)
 		}
 	}
 

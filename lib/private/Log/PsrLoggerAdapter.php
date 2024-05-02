@@ -7,7 +7,7 @@ declare(strict_types=1);
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -31,19 +31,18 @@ use OCP\ILogger;
 use OCP\Log\IDataLogger;
 use Psr\Log\InvalidArgumentException;
 use Psr\Log\LoggerInterface;
+use Stringable;
 use Throwable;
 use function array_key_exists;
 use function array_merge;
 
 final class PsrLoggerAdapter implements LoggerInterface, IDataLogger {
-	/** @var Log */
-	private $logger;
-
-	public function __construct(Log $logger) {
-		$this->logger = $logger;
+	public function __construct(
+		private Log $logger,
+	) {
 	}
 
-	public function setEventDispatcher(IEventDispatcher $eventDispatcher) {
+	public function setEventDispatcher(IEventDispatcher $eventDispatcher): void {
 		$this->logger->setEventDispatcher($eventDispatcher);
 	}
 
@@ -54,22 +53,20 @@ final class PsrLoggerAdapter implements LoggerInterface, IDataLogger {
 	/**
 	 * System is unusable.
 	 *
-	 * @param string $message
-	 * @param array $context
-	 *
-	 * @return void
+	 * @param string|Stringable $message
+	 * @param mixed[] $context
 	 */
-	public function emergency($message, array $context = []): void {
+	public function emergency(string|Stringable $message, array $context = []): void {
 		if ($this->containsThrowable($context)) {
 			$this->logger->logException($context['exception'], array_merge(
 				[
-					'message' => $message,
+					'message' => (string)$message,
 					'level' => ILogger::FATAL,
 				],
 				$context
 			));
 		} else {
-			$this->logger->emergency($message, $context);
+			$this->logger->emergency((string)$message, $context);
 		}
 	}
 
@@ -79,22 +76,20 @@ final class PsrLoggerAdapter implements LoggerInterface, IDataLogger {
 	 * Example: Entire website down, database unavailable, etc. This should
 	 * trigger the SMS alerts and wake you up.
 	 *
-	 * @param string $message
-	 * @param array $context
-	 *
-	 * @return void
+	 * @param string|Stringable $message
+	 * @param mixed[] $context
 	 */
-	public function alert($message, array $context = []) {
+	public function alert(string|Stringable $message, array $context = []): void {
 		if ($this->containsThrowable($context)) {
 			$this->logger->logException($context['exception'], array_merge(
 				[
-					'message' => $message,
+					'message' => (string)$message,
 					'level' => ILogger::ERROR,
 				],
 				$context
 			));
 		} else {
-			$this->logger->alert($message, $context);
+			$this->logger->alert((string)$message, $context);
 		}
 	}
 
@@ -103,22 +98,20 @@ final class PsrLoggerAdapter implements LoggerInterface, IDataLogger {
 	 *
 	 * Example: Application component unavailable, unexpected exception.
 	 *
-	 * @param string $message
-	 * @param array $context
-	 *
-	 * @return void
+	 * @param string|Stringable $message
+	 * @param mixed[] $context
 	 */
-	public function critical($message, array $context = []) {
+	public function critical(string|Stringable $message, array $context = []): void {
 		if ($this->containsThrowable($context)) {
 			$this->logger->logException($context['exception'], array_merge(
 				[
-					'message' => $message,
+					'message' => (string)$message,
 					'level' => ILogger::ERROR,
 				],
 				$context
 			));
 		} else {
-			$this->logger->critical($message, $context);
+			$this->logger->critical((string)$message, $context);
 		}
 	}
 
@@ -126,22 +119,20 @@ final class PsrLoggerAdapter implements LoggerInterface, IDataLogger {
 	 * Runtime errors that do not require immediate action but should typically
 	 * be logged and monitored.
 	 *
-	 * @param string $message
-	 * @param array $context
-	 *
-	 * @return void
+	 * @param string|Stringable $message
+	 * @param mixed[] $context
 	 */
-	public function error($message, array $context = []) {
+	public function error(string|Stringable $message, array $context = []): void {
 		if ($this->containsThrowable($context)) {
 			$this->logger->logException($context['exception'], array_merge(
 				[
-					'message' => $message,
+					'message' => (string)$message,
 					'level' => ILogger::ERROR,
 				],
 				$context
 			));
 		} else {
-			$this->logger->error($message, $context);
+			$this->logger->error((string)$message, $context);
 		}
 	}
 
@@ -151,44 +142,40 @@ final class PsrLoggerAdapter implements LoggerInterface, IDataLogger {
 	 * Example: Use of deprecated APIs, poor use of an API, undesirable things
 	 * that are not necessarily wrong.
 	 *
-	 * @param string $message
-	 * @param array $context
-	 *
-	 * @return void
+	 * @param string|Stringable $message
+	 * @param mixed[] $context
 	 */
-	public function warning($message, array $context = []) {
+	public function warning(string|Stringable $message, array $context = []): void {
 		if ($this->containsThrowable($context)) {
 			$this->logger->logException($context['exception'], array_merge(
 				[
-					'message' => $message,
+					'message' => (string)$message,
 					'level' => ILogger::WARN,
 				],
 				$context
 			));
 		} else {
-			$this->logger->warning($message, $context);
+			$this->logger->warning((string)$message, $context);
 		}
 	}
 
 	/**
 	 * Normal but significant events.
 	 *
-	 * @param string $message
-	 * @param array $context
-	 *
-	 * @return void
+	 * @param string|Stringable $message
+	 * @param mixed[] $context
 	 */
-	public function notice($message, array $context = []) {
+	public function notice(string|Stringable $message, array $context = []): void {
 		if ($this->containsThrowable($context)) {
 			$this->logger->logException($context['exception'], array_merge(
 				[
-					'message' => $message,
+					'message' => (string)$message,
 					'level' => ILogger::INFO,
 				],
 				$context
 			));
 		} else {
-			$this->logger->notice($message, $context);
+			$this->logger->notice((string)$message, $context);
 		}
 	}
 
@@ -197,44 +184,40 @@ final class PsrLoggerAdapter implements LoggerInterface, IDataLogger {
 	 *
 	 * Example: User logs in, SQL logs.
 	 *
-	 * @param string $message
-	 * @param array $context
-	 *
-	 * @return void
+	 * @param string|Stringable $message
+	 * @param mixed[] $context
 	 */
-	public function info($message, array $context = []) {
+	public function info(string|Stringable $message, array $context = []): void {
 		if ($this->containsThrowable($context)) {
 			$this->logger->logException($context['exception'], array_merge(
 				[
-					'message' => $message,
+					'message' => (string)$message,
 					'level' => ILogger::INFO,
 				],
 				$context
 			));
 		} else {
-			$this->logger->info($message, $context);
+			$this->logger->info((string)$message, $context);
 		}
 	}
 
 	/**
 	 * Detailed debug information.
 	 *
-	 * @param string $message
-	 * @param array $context
-	 *
-	 * @return void
+	 * @param string|Stringable $message
+	 * @param mixed[] $context
 	 */
-	public function debug($message, array $context = []) {
+	public function debug(string|Stringable $message, array $context = []): void {
 		if ($this->containsThrowable($context)) {
 			$this->logger->logException($context['exception'], array_merge(
 				[
-					'message' => $message,
+					'message' => (string)$message,
 					'level' => ILogger::DEBUG,
 				],
 				$context
 			));
 		} else {
-			$this->logger->debug($message, $context);
+			$this->logger->debug((string)$message, $context);
 		}
 	}
 
@@ -242,27 +225,25 @@ final class PsrLoggerAdapter implements LoggerInterface, IDataLogger {
 	 * Logs with an arbitrary level.
 	 *
 	 * @param mixed $level
-	 * @param string $message
-	 * @param array $context
-	 *
-	 * @return void
+	 * @param string|Stringable $message
+	 * @param mixed[] $context
 	 *
 	 * @throws InvalidArgumentException
 	 */
-	public function log($level, $message, array $context = []) {
+	public function log($level, string|Stringable $message, array $context = []): void {
 		if (!is_int($level) || $level < ILogger::DEBUG || $level > ILogger::FATAL) {
 			throw new InvalidArgumentException('Nextcloud allows only integer log levels');
 		}
 		if ($this->containsThrowable($context)) {
 			$this->logger->logException($context['exception'], array_merge(
 				[
-					'message' => $message,
+					'message' => (string)$message,
 					'level' => $level,
 				],
 				$context
 			));
 		} else {
-			$this->logger->log($level, $message, $context);
+			$this->logger->log($level, (string)$message, $context);
 		}
 	}
 
