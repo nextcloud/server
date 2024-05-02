@@ -36,6 +36,7 @@ namespace OC\Session;
 use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Token\IProvider;
 use OCP\Session\Exceptions\SessionNotAvailableException;
+use function OCP\Log\logger;
 
 /**
  * Class Internal
@@ -221,6 +222,10 @@ class Internal extends Session {
 				return call_user_func_array($functionName, $parameters);
 			}
 		} catch (\Error $e) {
+			logger('core')->error('trapping a session error', [
+				'loginFlow' => '?',
+				'exception' => $e,
+			]);
 			$this->trapError($e->getCode(), $e->getMessage());
 		}
 	}

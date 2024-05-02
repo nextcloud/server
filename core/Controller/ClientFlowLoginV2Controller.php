@@ -125,11 +125,32 @@ class ClientFlowLoginV2Controller extends Controller {
 			return $this->loginTokenForbiddenResponse();
 		}
 
+		$oldStateToken = $this->session->get(self::STATE_NAME);
+		logger('core')->error('Fetching old state token - expected to be null', [
+			'loginFlow' => 'v2',
+			'existingStateToken' => $oldStateToken,
+		]);
+
 		$stateToken = $this->random->generate(
 			64,
 			ISecureRandom::CHAR_LOWER.ISecureRandom::CHAR_UPPER.ISecureRandom::CHAR_DIGITS
 		);
 		$this->session->set(self::STATE_NAME, $stateToken);
+
+		$setStateToken = $this->session->get(self::STATE_NAME);
+		logger('core')->error('Fetching set state token - expected to match generated one', [
+			'loginFlow' => 'v2',
+			'generatedStateToken' => $stateToken,
+			'setStateToken' => $setStateToken,
+		]);
+
+		if ($stateToken !== $setStateToken) {
+			logger('core')->error('Generate and set state token mismatch, trying to set it again one more time', [
+				'loginFlow' => 'v2',
+				'stateToken' => $stateToken,
+			]);
+			$this->session->set(self::STATE_NAME, $stateToken);
+		}
 
 		return new StandaloneTemplateResponse(
 			$this->appName,
