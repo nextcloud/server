@@ -256,7 +256,7 @@ class OwnershipTransferService {
 
 		$encryptedFiles = [];
 		$this->walkFiles($view, $sourcePath,
-			function (FileInfo $fileInfo) use ($progress) {
+			function (FileInfo $fileInfo) use ($progress, &$encryptedFiles) {
 				if ($fileInfo->getType() === FileInfo::TYPE_FOLDER) {
 					// only analyze into folders from main storage,
 					if (!$fileInfo->getStorage()->instanceOfStorage(IHomeStorage::class)) {
