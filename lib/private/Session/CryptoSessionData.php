@@ -110,12 +110,27 @@ class CryptoSessionData implements \ArrayAccess, ISession {
 	 * @param mixed $value
 	 */
 	public function set(string $key, $value) {
-		if ($this->get($key) === $value) {
+		$existingValue = $this->get($key);
+		if ($existingValue === $value) {
+			if ($key === 'client.flow.v2.state.token' || $key === 'client.flow.state.token') {
+				logger('core')->error('State token value is already present!', [
+					'loginFlow' => str_contains($key, 'v2') ? 'v2' : 'v1',
+					'stateToken' => $value,
+					'existingStateToken' => $existingValue,
+				]);
+			}
 			// Do not write the session if the value hasn't changed to avoid reopening
 			return;
 		}
 
 		$reopened = $this->reopen();
+		if ($key === 'client.flow.v2.state.token' || $key === 'client.flow.state.token') {
+			logger('core')->error('Reporting on whether session was reopened', [
+				'loginFlow' => str_contains($key, 'v2') ? 'v2' : 'v1',
+				'sessionReopened' => $reopened,
+			]);
+		}
+
 		$this->sessionValues[$key] = $value;
 		if ($key === 'client.flow.v2.state.token' || $key === 'client.flow.state.token') {
 			logger('core')->error('Saving state token with session', [
