@@ -71,15 +71,11 @@ class ImageManager {
 			return $this->urlGenerator->linkToRoute('theming.Theming.getImage', [ 'key' => $key ]) . '?v=' . $cacheBusterCounter;
 		}
 
-		switch ($key) {
-			case 'logo':
-			case 'logoheader':
-			case 'favicon':
-				return $this->urlGenerator->imagePath('core', 'logo/logo.png') . '?v=' . $cacheBusterCounter;
-			case 'background':
-				return $this->urlGenerator->linkTo(Application::APP_ID, 'img/background/' . BackgroundService::DEFAULT_BACKGROUND_IMAGE);
-		}
-		return '';
+		return match ($key) {
+			'logo', 'logoheader', 'favicon' => $this->urlGenerator->imagePath('core', 'logo/logo.png') . '?v=' . $cacheBusterCounter,
+			'background' => $this->urlGenerator->linkTo(Application::APP_ID, 'img/background/' . BackgroundService::DEFAULT_BACKGROUND_IMAGE),
+			default => '',
+		};
 	}
 
 	/**
@@ -166,8 +162,8 @@ class ImageManager {
 	 * Get a file from AppData
 	 *
 	 * @param string $filename
+	 * @return ISimpleFile
 	 * @throws NotFoundException
-	 * @return \OCP\Files\SimpleFS\ISimpleFile
 	 * @throws NotPermittedException
 	 */
 	public function getCachedImage(string $filename): ISimpleFile {
@@ -178,9 +174,6 @@ class ImageManager {
 	/**
 	 * Store a file for theming in AppData
 	 *
-	 * @param string $filename
-	 * @param string $data
-	 * @return \OCP\Files\SimpleFS\ISimpleFile
 	 * @throws NotFoundException
 	 * @throws NotPermittedException
 	 */
@@ -342,10 +335,8 @@ class ImageManager {
 	/**
 	 * Check if Imagemagick is enabled and if SVG is supported
 	 * otherwise we can't render custom icons
-	 *
-	 * @return bool
 	 */
-	public function shouldReplaceIcons() {
+	public function shouldReplaceIcons(): bool {
 		$cache = $this->cacheFactory->createDistributed('theming-' . $this->urlGenerator->getBaseUrl());
 		if ($value = $cache->get('shouldReplaceIcons')) {
 			return (bool)$value;

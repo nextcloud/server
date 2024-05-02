@@ -41,33 +41,13 @@ use OCP\IUserSession;
  * @package OCA\Theming
  */
 class Capabilities implements IPublicCapability {
-
-	/** @var ThemingDefaults */
-	protected $theming;
-
-	/** @var Util */
-	protected $util;
-
-	/** @var IURLGenerator */
-	protected $url;
-
-	/** @var IConfig */
-	protected $config;
-
-	protected IUserSession $userSession;
-
-	/**
-	 * @param ThemingDefaults $theming
-	 * @param Util $util
-	 * @param IURLGenerator $url
-	 * @param IConfig $config
-	 */
-	public function __construct(ThemingDefaults $theming, Util $util, IURLGenerator $url, IConfig $config, IUserSession $userSession) {
-		$this->theming = $theming;
-		$this->util = $util;
-		$this->url = $url;
-		$this->config = $config;
-		$this->userSession = $userSession;
+	public function __construct(
+		protected ThemingDefaults $theming,
+		protected Util $util,
+		protected IURLGenerator $url,
+		protected IConfig $config,
+		protected IUserSession $userSession,
+	) {
 	}
 
 	/**
@@ -92,7 +72,7 @@ class Capabilities implements IPublicCapability {
 	 *     },
 	 * }
 	 */
-	public function getCapabilities() {
+	public function getCapabilities(): array {
 		$color = $this->theming->getDefaultColorPrimary();
 		// Same as in DefaultTheme
 		if ($color === BackgroundService::DEFAULT_COLOR) {

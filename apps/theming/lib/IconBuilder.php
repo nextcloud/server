@@ -31,35 +31,18 @@ use ImagickPixel;
 use OCP\Files\SimpleFS\ISimpleFile;
 
 class IconBuilder {
-	/** @var ThemingDefaults */
-	private $themingDefaults;
-	/** @var Util */
-	private $util;
-	/** @var ImageManager */
-	private $imageManager;
-
-	/**
-	 * IconBuilder constructor.
-	 *
-	 * @param ThemingDefaults $themingDefaults
-	 * @param Util $util
-	 * @param ImageManager $imageManager
-	 */
 	public function __construct(
-		ThemingDefaults $themingDefaults,
-		Util $util,
-		ImageManager $imageManager
+		private ThemingDefaults $themingDefaults,
+		private Util $util,
+		private ImageManager $imageManager,
 	) {
-		$this->themingDefaults = $themingDefaults;
-		$this->util = $util;
-		$this->imageManager = $imageManager;
 	}
 
 	/**
 	 * @param $app string app name
 	 * @return string|false image blob
 	 */
-	public function getFavicon($app) {
+	public function getFavicon($app): bool|string {
 		if (!$this->imageManager->shouldReplaceIcons()) {
 			return false;
 		}
@@ -102,7 +85,7 @@ class IconBuilder {
 	 * @param $app string app name
 	 * @return string|false image blob
 	 */
-	public function getTouchIcon($app) {
+	public function getTouchIcon($app): bool|string {
 		try {
 			$icon = $this->renderAppIcon($app, 512);
 			if ($icon === false) {
@@ -125,11 +108,8 @@ class IconBuilder {
 	 * @param $size int size of the icon in px
 	 * @return Imagick|false
 	 */
-	public function renderAppIcon($app, $size) {
+	public function renderAppIcon($app, $size): Imagick|bool {
 		$appIcon = $this->util->getAppIcon($app);
-		if ($appIcon === false) {
-			return false;
-		}
 		if ($appIcon instanceof ISimpleFile) {
 			$appIconContent = $appIcon->getContent();
 			$mime = $appIcon->getMimeType();
@@ -150,8 +130,8 @@ class IconBuilder {
 			'<rect x="0" y="0" rx="100" ry="100" width="512" height="512" style="fill:' . $color . ';" />' .
 			'</svg>';
 		// resize svg magic as this seems broken in Imagemagick
-		if ($mime === "image/svg+xml" || substr($appIconContent, 0, 4) === "<svg") {
-			if (substr($appIconContent, 0, 5) !== "<?xml") {
+		if ($mime === "image/svg+xml" || str_starts_with($appIconContent, "<svg")) {
+			if (!str_starts_with($appIconContent, "<?xml")) {
 				$svg = "<?xml version=\"1.0\"?>".$appIconContent;
 			} else {
 				$svg = $appIconContent;
@@ -163,11 +143,7 @@ class IconBuilder {
 			$res = $tmp->getImageResolution();
 			$tmp->destroy();
 
-			if ($x > $y) {
-				$max = $x;
-			} else {
-				$max = $y;
-			}
+			$max = max($x, $y);
 
 			// convert svg to resized image
 			$appIconFile = new Imagick();
@@ -227,7 +203,7 @@ class IconBuilder {
 	 * @param $image string relative path to svg file in app directory
 	 * @return string|false content of a colorized svg file
 	 */
-	public function colorSvg($app, $image) {
+	public function colorSvg($app, $image): bool|string {
 		$imageFile = $this->util->getAppImage($app, $image);
 		if ($imageFile === false || $imageFile === "") {
 			return false;

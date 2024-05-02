@@ -54,17 +54,6 @@ use OCP\IURLGenerator;
 use OCP\IUserSession;
 
 class ThemingDefaults extends \OC_Defaults {
-
-	private IConfig $config;
-	private IL10N $l;
-	private ImageManager $imageManager;
-	private IUserSession $userSession;
-	private IURLGenerator $urlGenerator;
-	private ICacheFactory $cacheFactory;
-	private Util $util;
-	private IAppManager $appManager;
-	private INavigationManager $navigationManager;
-
 	private string $name;
 	private string $title;
 	private string $entity;
@@ -78,38 +67,18 @@ class ThemingDefaults extends \OC_Defaults {
 	private string $AndroidClientUrl;
 	private string $FDroidClientUrl;
 
-	/**
-	 * ThemingDefaults constructor.
-	 *
-	 * @param IConfig $config
-	 * @param IL10N $l
-	 * @param ImageManager $imageManager
-	 * @param IUserSession $userSession
-	 * @param IURLGenerator $urlGenerator
-	 * @param ICacheFactory $cacheFactory
-	 * @param Util $util
-	 * @param IAppManager $appManager
-	 */
-	public function __construct(IConfig $config,
-		IL10N $l,
-		IUserSession $userSession,
-		IURLGenerator $urlGenerator,
-		ICacheFactory $cacheFactory,
-		Util $util,
-		ImageManager $imageManager,
-		IAppManager $appManager,
-		INavigationManager $navigationManager
+	public function __construct(
+		private IConfig $config,
+		private IL10N $l,
+		private IUserSession $userSession,
+		private IURLGenerator $urlGenerator,
+		private ICacheFactory $cacheFactory,
+		private Util $util,
+		private ImageManager $imageManager,
+		private IAppManager $appManager,
+		private INavigationManager $navigationManager,
 	) {
 		parent::__construct();
-		$this->config = $config;
-		$this->l = $l;
-		$this->imageManager = $imageManager;
-		$this->userSession = $userSession;
-		$this->urlGenerator = $urlGenerator;
-		$this->cacheFactory = $cacheFactory;
-		$this->util = $util;
-		$this->appManager = $appManager;
-		$this->navigationManager = $navigationManager;
 
 		$this->name = parent::getName();
 		$this->title = parent::getTitle();
@@ -124,27 +93,27 @@ class ThemingDefaults extends \OC_Defaults {
 		$this->docBaseUrl = parent::getDocBaseUrl();
 	}
 
-	public function getName() {
+	public function getName(): string {
 		return strip_tags($this->config->getAppValue('theming', 'name', $this->name));
 	}
 
-	public function getHTMLName() {
+	public function getHTMLName(): string {
 		return $this->config->getAppValue('theming', 'name', $this->name);
 	}
 
-	public function getTitle() {
+	public function getTitle(): string {
 		return strip_tags($this->config->getAppValue('theming', 'name', $this->title));
 	}
 
-	public function getEntity() {
+	public function getEntity(): string {
 		return strip_tags($this->config->getAppValue('theming', 'name', $this->entity));
 	}
 
-	public function getProductName() {
+	public function getProductName(): string {
 		return strip_tags($this->config->getAppValue('theming', 'productName', $this->productName));
 	}
 
-	public function getBaseUrl() {
+	public function getBaseUrl(): string {
 		return $this->config->getAppValue('theming', 'url', $this->url);
 	}
 
@@ -157,19 +126,19 @@ class ThemingDefaults extends \OC_Defaults {
 		return \OCP\Util::sanitizeHTML($this->config->getAppValue('theming', 'slogan', parent::getSlogan($lang)));
 	}
 
-	public function getImprintUrl() {
-		return (string)$this->config->getAppValue('theming', 'imprintUrl', '');
+	public function getImprintUrl(): string {
+		return $this->config->getAppValue('theming', 'imprintUrl', '');
 	}
 
-	public function getPrivacyUrl() {
-		return (string)$this->config->getAppValue('theming', 'privacyUrl', '');
+	public function getPrivacyUrl(): string {
+		return $this->config->getAppValue('theming', 'privacyUrl', '');
 	}
 
-	public function getDocBaseUrl() {
-		return (string)$this->config->getAppValue('theming', 'docBaseUrl', $this->docBaseUrl);
+	public function getDocBaseUrl(): string {
+		return $this->config->getAppValue('theming', 'docBaseUrl', $this->docBaseUrl);
 	}
 
-	public function getShortFooter() {
+	public function getShortFooter(): string {
 		$slogan = $this->getSlogan();
 		$baseUrl = $this->getBaseUrl();
 		$entity = $this->getEntity();
@@ -188,11 +157,11 @@ class ThemingDefaults extends \OC_Defaults {
 		$links = [
 			[
 				'text' => $this->l->t('Legal notice'),
-				'url' => (string)$this->getImprintUrl()
+				'url' => $this->getImprintUrl()
 			],
 			[
 				'text' => $this->l->t('Privacy policy'),
-				'url' => (string)$this->getPrivacyUrl()
+				'url' => $this->getPrivacyUrl()
 			],
 		];
 
@@ -307,45 +276,31 @@ class ThemingDefaults extends \OC_Defaults {
 
 	/**
 	 * Themed background image url
-	 *
-	 * @return string
 	 */
 	public function getBackground(): string {
 		return $this->imageManager->getImageUrl('background');
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getiTunesAppId() {
+	public function getiTunesAppId(): string {
 		return $this->config->getAppValue('theming', 'iTunesAppId', $this->iTunesAppId);
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getiOSClientUrl() {
+	public function getiOSClientUrl(): string {
 		return $this->config->getAppValue('theming', 'iOSClientUrl', $this->iOSClientUrl);
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getAndroidClientUrl() {
+	public function getAndroidClientUrl(): string {
 		return $this->config->getAppValue('theming', 'AndroidClientUrl', $this->AndroidClientUrl);
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getFDroidClientUrl() {
+	public function getFDroidClientUrl(): string {
 		return $this->config->getAppValue('theming', 'FDroidClientUrl', $this->FDroidClientUrl);
 	}
 
 	/**
 	 * @return array scss variables to overwrite
 	 */
-	public function getScssVariables() {
+	public function getScssVariables(): array {
 		$cacheBuster = $this->config->getAppValue('theming', 'cachebuster', '0');
 		$cache = $this->cacheFactory->createDistributed('theming-' . $cacheBuster . '-' . $this->urlGenerator->getBaseUrl());
 		if ($value = $cache->get('getScssVariables')) {
@@ -391,9 +346,9 @@ class ThemingDefaults extends \OC_Defaults {
 	 *
 	 * @param string $app name of the app
 	 * @param string $image filename of the image
-	 * @return bool|string false if image should not replaced, otherwise the location of the image
+	 * @return bool|string false if image should not be replaced, otherwise the location of the image
 	 */
-	public function replaceImagePath($app, $image) {
+	public function replaceImagePath($app, $image): bool|string {
 		if ($app === '' || $app === 'files_sharing') {
 			$app = 'core';
 		}
@@ -502,19 +457,15 @@ class ThemingDefaults extends \OC_Defaults {
 
 	/**
 	 * Color of text in the header and primary buttons
-	 *
-	 * @return string
 	 */
-	public function getTextColorPrimary() {
+	public function getTextColorPrimary(): string {
 		return $this->util->invertTextColor($this->getColorPrimary()) ? '#000000' : '#ffffff';
 	}
 
 	/**
 	 * Color of text in the header and primary buttons
-	 *
-	 * @return string
 	 */
-	public function getDefaultTextColorPrimary() {
+	public function getDefaultTextColorPrimary(): string {
 		return $this->util->invertTextColor($this->getDefaultColorPrimary()) ? '#000000' : '#ffffff';
 	}
 

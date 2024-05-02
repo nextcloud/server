@@ -28,7 +28,6 @@ namespace OCA\Theming\Themes;
 use OCA\Theming\ITheme;
 
 class DyslexiaFont extends DefaultTheme implements ITheme {
-
 	public function getId(): string {
 		return 'opendyslexic';
 	}
@@ -77,7 +76,7 @@ class DyslexiaFont extends DefaultTheme implements ITheme {
 					 url('$fontPathOtf') format('opentype'),
 					 url('$fontPathTtf') format('truetype');
 			}
-			
+
 			@font-face {
 				font-family: 'OpenDyslexic';
 				font-style: normal;
