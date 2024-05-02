@@ -122,9 +122,10 @@
 </template>
 
 <script>
-import { generateUrl, generateOcsUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
 import { loadState } from '@nextcloud/initial-state'
+import { translate as t } from '@nextcloud/l10n'
+import { generateUrl, generateOcsUrl } from '@nextcloud/router'
 import axios from '@nextcloud/axios'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import Draggable from 'vuedraggable'
@@ -308,6 +309,8 @@ export default {
 	},
 
 	methods: {
+		t,
+
 		/**
 		 * Method to register panels that will be called by the integrating apps
 		 *

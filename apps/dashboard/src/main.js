@@ -8,12 +8,6 @@ import 'vite/modulepreload-polyfill'
 
 import Vue from 'vue'
 import DashboardApp from './DashboardApp.vue'
-import { translate as t } from '@nextcloud/l10n'
-import VTooltip from '@nextcloud/vue/dist/Directives/Tooltip.js'
-
-Vue.directive('Tooltip', VTooltip)
-
-Vue.prototype.t = t
 
 const Dashboard = Vue.extend(DashboardApp)
 const Instance = new Dashboard({}).$mount('#app-content-vue')
