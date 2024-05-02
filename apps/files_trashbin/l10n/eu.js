@@ -7,6 +7,7 @@ OC.L10N.register(
     "Restore" : "Leheneratu",
     "Unknown" : "Ezezaguna",
     "All files" : "Fitxategi guztiak",
+    "You" : "Zu ",
     "Deleted" : "Ezabatuta",
     "A long time ago" : "Orain dela denbora asko",
     "List of files that have been deleted." : "Ezabatu diren fitxategien zerrenda.",
