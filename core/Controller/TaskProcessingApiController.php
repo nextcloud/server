@@ -78,23 +78,27 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 	public function taskTypes(): DataResponse {
 		$taskTypes = $this->taskProcessingManager->getAvailableTaskTypes();
 
-		/** @var string $typeClass */
-		foreach ($taskTypes as $taskType) {
-			$taskType['inputShape'] = array_map(fn (ShapeDescriptor $descriptor) => $descriptor->jsonSerialize(), $taskType['inputShape']);
-			$taskType['optionalInputShape'] = array_map(fn (ShapeDescriptor $descriptor) => $descriptor->jsonSerialize(), $taskType['optionalInputShape']);
-			$taskType['outputShape'] = array_map(fn (ShapeDescriptor $descriptor) => $descriptor->jsonSerialize(), $taskType['outputShape']);
-			$taskType['optionalOutputShape'] = array_map(fn (ShapeDescriptor $descriptor) => $descriptor->jsonSerialize(), $taskType['optionalOutputShape']);
+		$serializedTaskTypes = [];
+		foreach ($taskTypes as $key => $taskType) {
+			$serializedTaskTypes[$key] = [
+				'name' => $taskType['name'],
+				'description' => $taskType['description'],
+				'inputShape' => array_map(fn (ShapeDescriptor $descriptor) => $descriptor->jsonSerialize(), $taskType['inputShape']),
+				'optionalInputShape' => array_map(fn (ShapeDescriptor $descriptor) => $descriptor->jsonSerialize(), $taskType['optionalInputShape']),
+				'outputShape' => array_map(fn (ShapeDescriptor $descriptor) => $descriptor->jsonSerialize(), $taskType['outputShape']),
+				'optionalOutputShape' => array_map(fn (ShapeDescriptor $descriptor) => $descriptor->jsonSerialize(), $taskType['optionalOutputShape']),
+			];
 		}
 
 		return new DataResponse([
-			'types' => $taskTypes,
+			'types' => $serializedTaskTypes,
 		]);
 	}
 
 	/**
 	 * This endpoint allows scheduling a task
 	 *
-	 * @param string $input Input text
+	 * @param array<array-key, mixed> $input Input text
 	 * @param string $type Type of the task
 	 * @param string $appId ID of the app that will execute the task
 	 * @param string $identifier An arbitrary identifier for the task
@@ -162,10 +166,9 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 	 *
 	 * @param int $id The id of the task
 	 *
-	 * @return DataResponse<Http::STATUS_OK, array{task: CoreTaskProcessingTask}, array{}>|DataResponse<Http::STATUS_NOT_FOUND|Http::STATUS_INTERNAL_SERVER_ERROR, array{message: string}, array{}>
+	 * @return DataResponse<Http::STATUS_OK, array{}, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR, array{message: string}, array{}>
 	 *
 	 * 200: Task returned
-	 * 404: Task not found
 	 */
 	#[NoAdminRequired]
 	#[ApiRoute(verb: 'DELETE', url: '/task/{id}', root: '/taskprocessing')]
@@ -175,13 +178,9 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 
 			$this->taskProcessingManager->deleteTask($task);
 
-			$json = $task->jsonSerialize();
-
-			return new DataResponse([
-				'task' => $json,
-			]);
+			return new DataResponse([]);
 		} catch (\OCP\TaskProcessing\Exception\NotFoundException $e) {
-			return new DataResponse(['message' => $this->l->t('Task not found')], Http::STATUS_NOT_FOUND);
+			return new DataResponse([]);
 		} catch (\OCP\TaskProcessing\Exception\Exception $e) {
 			return new DataResponse(['message' => $this->l->t('Internal error')], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}

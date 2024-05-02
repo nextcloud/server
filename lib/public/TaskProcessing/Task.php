@@ -153,7 +153,7 @@ final class Task implements \JsonSerializable {
 	}
 
 	/**
-	 * @return array<string, mixed>|null
+	 * @return array<array-key, mixed>|null
 	 * @since 30.0.0
 	 */
 	final public function getOutput(): ?array {
@@ -161,7 +161,7 @@ final class Task implements \JsonSerializable {
 	}
 
 	/**
-	 * @return array<string, mixed>
+	 * @return array<array-key, mixed>
 	 * @since 30.0.0
 	 */
 	final public function getInput(): array {
@@ -193,7 +193,7 @@ final class Task implements \JsonSerializable {
 	}
 
 	/**
-	 * @psalm-return array{id: ?int, status: self::STATUS_*, userId: ?string, appId: string, input: ?array, output: ?array, identifier: ?string, completionExpectedAt: ?int, progress: ?float}
+	 * @psalm-return array{id: ?int, status: self::STATUS_*, userId: ?string, appId: string, input: ?array<array-key, mixed>, output: ?array<array-key, mixed>, identifier: ?string, completionExpectedAt: ?int, progress: ?float}
 	 * @since 30.0.0
 	 */
 	public function jsonSerialize(): array {

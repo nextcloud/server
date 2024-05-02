@@ -52,7 +52,7 @@ interface IManager {
 	public function getProviders(): array;
 
 	/**
-	 * @return array<string,array{name: string, description: string, inputShape: ShapeDescriptor[], optionalInputShape: array<string, ShapeDescriptor>, outputShape: array<string, ShapeDescriptor>, optionalOutputShape: array<string, ShapeDescriptor>}>
+	 * @return array<string,array{name: string, description: string, inputShape: ShapeDescriptor[], optionalInputShape: ShapeDescriptor[], outputShape: ShapeDescriptor[], optionalOutputShape: ShapeDescriptor[]}>
 	 * @since 30.0.0
 	 */
 	public function getAvailableTaskTypes(): array;

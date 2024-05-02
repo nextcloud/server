@@ -162,7 +162,7 @@ class Manager implements IManager {
 	}
 
 	/**
-	 * @return IProvider[]
+	 * @return ITaskType[]
 	 */
 	private function _getTextProcessingTaskTypes(): array {
 		$oldProviders = $this->textProcessingManager->getProviders();
@@ -303,6 +303,8 @@ class Manager implements IManager {
 			$newProvider = new class($oldProvider, $this->rootFolder, $this->appData) implements IProvider, ISynchronousProvider {
 				private ISpeechToTextProvider $provider;
 				private IAppData $appData;
+
+				private IRootFolder $rootFolder;
 
 				public function __construct(ISpeechToTextProvider $provider, IRootFolder $rootFolder, IAppData $appData) {
 					$this->provider = $provider;
@@ -711,7 +713,7 @@ class Manager implements IManager {
 	public function getUserTasksByApp(?string $userId, string $appId, ?string $identifier = null): array {
 		try {
 			$taskEntities = $this->taskMapper->findUserTasksByApp($userId, $appId, $identifier);
-			return array_map(fn ($taskEntity) => $taskEntity->toPublicTask(), $taskEntities);
+			return array_map(fn ($taskEntity): Task => $taskEntity->toPublicTask(), $taskEntities);
 		} catch (\OCP\DB\Exception $e) {
 			throw new \OCP\TaskProcessing\Exception\Exception('There was a problem finding a task', 0, $e);
 		} catch (\JsonException $e) {

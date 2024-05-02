@@ -194,11 +194,11 @@ namespace OCA\Core;
  *
  * @psalm-type CoreTaskProcessingTask = array{
  *     id: ?int,
- *     status: int,
+ *     status: 0|1|2|3|4|5,
  *     userId: ?string,
  *     appId: string,
- *     input: array<string, mixed>,
- *     output: ?array<string, mixed>,
+ *     input: ?array<array-key, mixed>,
+ *     output: ?array<array-key, mixed>,
  *     identifier: ?string,
  *     completionExpectedAt: ?int,
  *     progress: ?float

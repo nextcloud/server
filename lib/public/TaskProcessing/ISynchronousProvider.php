@@ -40,8 +40,8 @@ interface ISynchronousProvider extends IProvider {
 	 *
 	 * @since 30.0.0
 	 * @param null|string $userId The user that created the current task
-	 * @param array<string, string> $input The task input
-	 * @psalm-return array<string, string>
+	 * @param array<string, mixed> $input The task input
+	 * @psalm-return array<string, mixed>
 	 * @throws ProcessingException
 	 */
 	public function process(?string $userId, array $input): array;

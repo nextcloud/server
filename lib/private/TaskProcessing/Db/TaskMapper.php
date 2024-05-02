@@ -104,7 +104,7 @@ class TaskMapper extends QBMapper {
 	 * @param string $userId
 	 * @param string $appId
 	 * @param string|null $identifier
-	 * @return array
+	 * @return list<Task>
 	 * @throws Exception
 	 */
 	public function findUserTasksByApp(string $userId, string $appId, ?string $identifier = null): array {
@@ -116,7 +116,7 @@ class TaskMapper extends QBMapper {
 		if ($identifier !== null) {
 			$qb->andWhere($qb->expr()->eq('identifier', $qb->createPositionalParameter($identifier)));
 		}
-		return $this->findEntities($qb);
+		return array_values($this->findEntities($qb));
 	}
 
 	/**
