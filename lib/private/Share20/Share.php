@@ -41,61 +41,34 @@ use OCP\Share\IAttributes;
 use OCP\Share\IShare;
 
 class Share implements IShare {
-	/** @var string */
-	private $id;
-	/** @var string */
-	private $providerId;
-	/** @var Node */
-	private $node;
-	/** @var int */
-	private $fileId;
-	/** @var string */
-	private $nodeType;
-	/** @var int */
-	private $shareType;
-	/** @var string */
-	private $sharedWith;
-	/** @var string */
-	private $sharedWithDisplayName;
-	/** @var string */
-	private $sharedWithAvatar;
-	/** @var string */
-	private $sharedBy;
-	/** @var string */
-	private $shareOwner;
-	/** @var int */
-	private $permissions;
-	/** @var IAttributes */
-	private $attributes;
-	/** @var int */
-	private $status;
-	/** @var string */
-	private $note = '';
-	/** @var \DateTime */
-	private $expireDate;
-	/** @var string */
-	private $password;
+	private ?string $id = null;
+	private ?string $providerId = null;
+	private ?Node $node = null;
+	private ?int $fileId = null;
+	private ?string $nodeType = null;
+	private ?int $shareType = null;
+	private ?string $sharedWith = null;
+	private ?string $sharedWithDisplayName = null;
+	private ?string $sharedWithAvatar = null;
+	private ?string $sharedBy = null;
+	private ?string $shareOwner = null;
+	private ?int $permissions = null;
+	private ?IAttributes $attributes = null;
+	private ?int $status = null;
+	private ?string $note = null;
+	private ?\DateTime $expireDate = null;
+	private bool $overwriteFalsyExpirationDate = true;
+	private ?string $password = null;
 	private ?\DateTimeInterface $passwordExpirationTime = null;
-	/** @var bool */
-	private $sendPasswordByTalk = false;
-	/** @var string */
-	private $token;
-	/** @var int */
-	private $parent;
-	/** @var string */
-	private $target;
-	/** @var \DateTime */
-	private $shareTime;
-	/** @var bool */
-	private $mailSend;
-	/** @var string */
-	private $label = '';
-
-	/** @var ICacheEntry|null */
-	private $nodeCacheEntry;
-
-	/** @var bool */
-	private $hideDownload = false;
+	private bool $sendPasswordByTalk = false;
+	private ?string $token = null;
+	private ?int $parent = null;
+	private ?string $target = null;
+	private ?\DateTime $shareTime = null;
+	private bool $mailSend = false;
+	private ?string $label = '';
+	private ?ICacheEntry $nodeCacheEntry = null;
+	private bool $hideDownload = false;
 
 	public function __construct(
 		private IRootFolder $rootFolder,
