@@ -27,26 +27,31 @@
 namespace OC;
 
 use OCP\Diagnostics\IEventLogger;
+use Psr\Log\LoggerInterface;
 
 class RedisFactory {
 	public const REDIS_MINIMAL_VERSION = '3.1.3';
 	public const REDIS_EXTRA_PARAMETERS_MINIMAL_VERSION = '5.3.0';
+	public const REDIS_CONNECTION_COOLDOWN = 30; // 30 seconds
 
-	/** @var  \Redis|\RedisCluster */
+	/** @var  \Redis|\RedisCluster|null */
 	private $instance;
 
 	private SystemConfig $config;
 
 	private IEventLogger $eventLogger;
 
+	private LoggerInterface $logger;
+
 	/**
 	 * RedisFactory constructor.
 	 *
 	 * @param SystemConfig $config
 	 */
-	public function __construct(SystemConfig $config, IEventLogger $eventLogger) {
+	public function __construct(SystemConfig $config, IEventLogger $eventLogger, LoggerInterface $logger) {
 		$this->config = $config;
 		$this->eventLogger = $eventLogger;
+		$this->logger = $logger;
 	}
 
 	private function create() {
@@ -150,12 +155,44 @@ class RedisFactory {
 		return null;
 	}
 
-	public function getInstance() {
+	public function getInstance(bool $retry = true) {
 		if (!$this->isAvailable()) {
 			throw new \Exception('Redis support is not available');
 		}
-		if (!$this->instance instanceof \Redis) {
+
+		if ($this->instance !== null) {
+			return $this->instance;
+		}
+
+		try {
+			// REDIS_CONNECTION_COOLDOWN seconds absolute cooldown before trying to reconnect in a different request
+			$cooldown = $this->config->getValue('redis.conn_cooldown', 0);
+			if (\time() - $cooldown < self::REDIS_CONNECTION_COOLDOWN) {
+				$this->logger->info('Redis connection is in cooldown, skipping connection attempt');
+				$this->instance = null;
+				return null;
+			}
+
 			$this->create();
+			$this->config->deleteValue('redis.conn_cooldown');
+		} catch (\RedisException $e) {
+			$this->instance = null;
+
+			if ($retry) {
+				// Retry once
+				$this->logger->info(
+					'Failed to connect to Redis, retrying once before entering cooldown',
+					['app' => 'core', 'exception' => $e],
+				);
+				usleep(300000); // 300ms
+				return $this->getInstance(false);
+			}
+
+			$this->logger->error(
+				'Failed to connect to Redis, entering cooldown of ' . self::REDIS_CONNECTION_COOLDOWN . ' seconds before retrying',
+				['app' => 'core', 'exception' => $e],
+			);
+			$this->config->setValue('redis.conn_cooldown', \time());
 		}
 
 		return $this->instance;
