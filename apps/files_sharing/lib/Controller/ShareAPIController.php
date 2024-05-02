@@ -616,11 +616,11 @@ class ShareAPIController extends OCSController {
 		try {
 			$this->lock($share->getNode());
 		} catch (LockedException $e) {
-			throw new OCSNotFoundException($this->l->t('Could not create share'));
+			throw new GenericShareException($this->l->t('Could not create share'));
 		}
 
 		if ($permissions < 0 || $permissions > Constants::PERMISSION_ALL) {
-			throw new OCSNotFoundException($this->l->t('Invalid permissions'));
+			throw new OCSBadRequestException$this->l->t('Invalid permissions'));
 		}
 
 		// Shares always require read permissions
@@ -651,7 +651,7 @@ class ShareAPIController extends OCSController {
 				$expireDateTime = $this->parseDate($expireDate);
 				$share->setExpirationDate($expireDateTime);
 			} catch (\Exception $e) {
-				throw new OCSNotFoundException($this->l->t('Invalid date, date format must be YYYY-MM-DD'));
+				throw new OCSBadRequestException($this->l->t('Invalid date, date format must be YYYY-MM-DD'));
 			}
 		}
 
@@ -661,18 +661,18 @@ class ShareAPIController extends OCSController {
 		if ($shareType === IShare::TYPE_USER) {
 			// Valid user is required to share
 			if ($shareWith === null || !$this->userManager->userExists($shareWith)) {
-				throw new OCSNotFoundException($this->l->t('Please specify a valid account to share with'));
+				throw new OCSBadRequestException($this->l->t('Please specify a valid account to share with'));
 			}
 			$share->setSharedWith($shareWith);
 			$share->setPermissions($permissions);
 		} elseif ($shareType === IShare::TYPE_GROUP) {
 			if (!$this->shareManager->allowGroupSharing()) {
-				throw new OCSNotFoundException($this->l->t('Group sharing is disabled by the administrator'));
+				throw new OCSBadRequestException($this->l->t('Group sharing is disabled by the administrator'));
 			}
 
 			// Valid group is required to share
 			if ($shareWith === null || !$this->groupManager->groupExists($shareWith)) {
-				throw new OCSNotFoundException($this->l->t('Please specify a valid group'));
+				throw new OCSBadRequestException($this->l->t('Please specify a valid group'));
 			}
 			$share->setSharedWith($shareWith);
 			$share->setPermissions($permissions);
@@ -681,7 +681,7 @@ class ShareAPIController extends OCSController {
 
 			// Can we even share links?
 			if (!$this->shareManager->shareApiAllowLinks()) {
-				throw new OCSNotFoundException($this->l->t('Public link sharing is disabled by the administrator'));
+				throw new OCSForbiddenException($this->l->t('Public link sharing is disabled by the administrator'));
 			}
 
 			if ($publicUpload === 'true') {
@@ -692,7 +692,7 @@ class ShareAPIController extends OCSController {
 
 				// Public upload can only be set for folders
 				if ($node instanceof \OCP\Files\File) {
-					throw new OCSNotFoundException($this->l->t('Public upload is only possible for publicly shared folders'));
+					throw new OCSForbiddenException($this->l->t('Public upload is only possible for publicly shared folders'));
 				}
 
 				$permissions = Constants::PERMISSION_READ |
@@ -736,7 +736,7 @@ class ShareAPIController extends OCSController {
 			}
 
 			if ($shareWith === null) {
-				throw new OCSNotFoundException($this->l->t('Please specify a valid federated account ID'));
+				throw new OCSBadRequestException($this->l->t('Please specify a valid federated account ID'));
 			}
 
 			$share->setSharedWith($shareWith);
@@ -748,21 +748,21 @@ class ShareAPIController extends OCSController {
 			}
 
 			if ($shareWith === null) {
-				throw new OCSNotFoundException($this->l->t('Please specify a valid federated group ID'));
+				throw new OCSBadRequestException($this->l->t('Please specify a valid federated group ID'));
 			}
 
 			$share->setSharedWith($shareWith);
 			$share->setPermissions($permissions);
 		} elseif ($shareType === IShare::TYPE_CIRCLE) {
 			if (!\OC::$server->getAppManager()->isEnabledForUser('circles') || !class_exists('\OCA\Circles\ShareByCircleProvider')) {
-				throw new OCSNotFoundException($this->l->t('You cannot share to a Circle if the app is not enabled'));
+				throw new OCSForbiddenException($this->l->t('You cannot share to a Circle if the app is not enabled'));
 			}
 
 			$circle = \OCA\Circles\Api\v1\Circles::detailsCircle($shareWith);
 
 			// Valid circle is required to share
 			if ($circle === null) {
-				throw new OCSNotFoundException($this->l->t('Please specify a valid circle'));
+				throw new OCSBadRequestException($this->l->t('Please specify a valid circle'));
 			}
 			$share->setSharedWith($shareWith);
 			$share->setPermissions($permissions);
