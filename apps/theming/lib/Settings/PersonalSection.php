@@ -28,39 +28,23 @@ use OCP\IURLGenerator;
 use OCP\Settings\IIconSection;
 
 class PersonalSection implements IIconSection {
-
-	/** @var string */
-	protected $appName;
-
-	/** @var IURLGenerator */
-	private $urlGenerator;
-
-	/** @var IL10N */
-	private $l;
-
 	/**
 	 * Personal Section constructor.
-	 *
-	 * @param string $appName
-	 * @param IURLGenerator $urlGenerator
-	 * @param IL10N $l
 	 */
-	public function __construct(string $appName,
-		IURLGenerator $urlGenerator,
-		IL10N $l) {
-		$this->appName = $appName;
-		$this->urlGenerator = $urlGenerator;
-		$this->l = $l;
+	public function __construct(
+		protected string $appName,
+		private IURLGenerator $urlGenerator,
+		private IL10N $l,
+	) {
 	}
 
 	/**
 	 * returns the relative path to an 16*16 icon describing the section.
 	 * e.g. '/core/img/places/files.svg'
 	 *
-	 * @returns string
 	 * @since 13.0.0
 	 */
-	public function getIcon() {
+	public function getIcon(): string {
 		return $this->urlGenerator->imagePath($this->appName, 'accessibility-dark.svg');
 	}
 
@@ -68,10 +52,9 @@ class PersonalSection implements IIconSection {
 	 * returns the ID of the section. It is supposed to be a lower case string,
 	 * e.g. 'ldap'
 	 *
-	 * @returns string
 	 * @since 9.1
 	 */
-	public function getID() {
+	public function getID(): string {
 		return $this->appName;
 	}
 
@@ -79,10 +62,9 @@ class PersonalSection implements IIconSection {
 	 * returns the translated name as it should be displayed, e.g. 'LDAP / AD
 	 * integration'. Use the L10N service to translate it.
 	 *
-	 * @return string
 	 * @since 9.1
 	 */
-	public function getName() {
+	public function getName(): string {
 		return $this->l->t('Appearance and accessibility');
 	}
 
@@ -94,7 +76,7 @@ class PersonalSection implements IIconSection {
 	 * E.g.: 70
 	 * @since 9.1
 	 */
-	public function getPriority() {
+	public function getPriority(): int {
 		return 15;
 	}
 }

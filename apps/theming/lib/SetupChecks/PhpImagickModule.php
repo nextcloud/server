@@ -51,13 +51,15 @@ class PhpImagickModule implements ISetupCheck {
 				$this->l10n->t('The PHP module "imagick" is not enabled although the theming app is. For favicon generation to work correctly, you need to install and enable this module.'),
 				$this->urlGenerator->linkToDocs('admin-php-modules')
 			);
-		} elseif (count(\Imagick::queryFormats('SVG')) === 0) {
+		}
+
+		if (count(\Imagick::queryFormats('SVG')) === 0) {
 			return SetupResult::info(
 				$this->l10n->t('The PHP module "imagick" in this instance has no SVG support. For better compatibility it is recommended to install it.'),
 				$this->urlGenerator->linkToDocs('admin-php-modules')
 			);
-		} else {
-			return SetupResult::success();
 		}
+
+		return SetupResult::success();
 	}
 }

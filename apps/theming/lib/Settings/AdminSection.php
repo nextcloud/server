@@ -27,33 +27,26 @@ use OCP\IURLGenerator;
 use OCP\Settings\IIconSection;
 
 class AdminSection implements IIconSection {
-	private string $appName;
-	private IL10N $l;
-	private IURLGenerator $url;
-
-	public function __construct(string $appName, IURLGenerator $url, IL10N $l) {
-		$this->appName = $appName;
-		$this->url = $url;
-		$this->l = $l;
+	public function __construct(
+		private string $appName,
+		private IURLGenerator $url,
+		private IL10N $l,
+	) {
 	}
 
 	/**
 	 * returns the ID of the section. It is supposed to be a lower case string,
 	 * e.g. 'ldap'
-	 *
-	 * @returns string
 	 */
-	public function getID() {
+	public function getID(): string {
 		return $this->appName;
 	}
 
 	/**
 	 * returns the translated name as it should be displayed, e.g. 'LDAP / AD
 	 * integration'. Use the L10N service to translate it.
-	 *
-	 * @return string
 	 */
-	public function getName() {
+	public function getName(): string {
 		return $this->l->t('Theming');
 	}
 
@@ -64,14 +57,14 @@ class AdminSection implements IIconSection {
 	 *
 	 * E.g.: 70
 	 */
-	public function getPriority() {
+	public function getPriority(): int {
 		return 30;
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getIcon() {
+	public function getIcon(): string {
 		return $this->url->imagePath($this->appName, 'app-dark.svg');
 	}
 }
