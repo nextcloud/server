@@ -168,7 +168,10 @@ class JSConfigHelper {
 
 		$config = [
 			'auto_logout' => $this->config->getSystemValue('auto_logout', false),
+			// deprecated
 			'blacklist_files_regex' => FileInfo::BLACKLIST_FILES_REGEX,
+			'forbidden_filenames' => \OCP\Util::getForbiddenFilenames(),
+			'forbidden_filename_characters' => \OCP\Util::getForbiddenFileNameChars(),
 			'loglevel' => $this->config->getSystemValue('loglevel_frontend',
 				$this->config->getSystemValue('loglevel', ILogger::WARN)
 			),
