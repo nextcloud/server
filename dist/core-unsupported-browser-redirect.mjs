@@ -1,0 +1,3 @@
+const __vite__fileDeps=["./chunks/RedirectUnsupportedBrowsers-BjoWmJp7.mjs","./core-common.mjs","./chunks/index-PaKKd09k.mjs","./chunks/logger-7CwbMBAx.mjs","./chunks/index-CiG5J8j_.mjs"],__vite__mapDeps=i=>i.map(i=>__vite__fileDeps[i]);
+/*! third party licenses: dist/vendor.LICENSE.txt */
+import{_ as n}from"./chunks/preload-helper-BG02UnR2.mjs";var t;!window.TESTING&&!((t=OC==null?void 0:OC.config)!=null&&t.no_unsupported_browser_warning)&&window.addEventListener("DOMContentLoaded",async function(){const{testSupportedBrowser:o}=await n(async()=>{const{testSupportedBrowser:r}=await import("./chunks/RedirectUnsupportedBrowsers-BjoWmJp7.mjs").then(e=>e.R);return{testSupportedBrowser:r}},__vite__mapDeps([0,1,2,3,4]),import.meta.url);o()});

@@ -1,0 +1,2 @@
+/*! third party licenses: dist/vendor.LICENSE.txt */
+import{bO as o,bR as t}from"./core-common.mjs";const i=o()+"/status.php",e=()=>{console.info("checking the Nextcloud maintenance status"),t.get(i).then(n=>n.data).then(n=>{if(n.maintenance===!1){console.info("Nextcloud is not in maintenance mode anymore -> reloading"),window.location.reload();return}console.info("Nextcloud is still in maintenance mode"),setTimeout(e,20*1e3)}).catch(console.error.bind(void 0))};e();

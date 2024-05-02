@@ -1,0 +1,2 @@
+/*! third party licenses: dist/vendor.LICENSE.txt */
+import{_ as c,i as e}from"./_setToArray-V03nfpyh.mjs";import{_ as a}from"./_overRest-DjFtaWRq.mjs";var i=c,u=a,l=e,p="[object Object]",s=Function.prototype,f=Object.prototype,n=s.toString,b=f.hasOwnProperty,j=n.call(Object);function v(r){if(!l(r)||i(r)!=p)return!1;var o=u(r);if(o===null)return!0;var t=b.call(o,"constructor")&&o.constructor;return typeof t=="function"&&t instanceof t&&n.call(t)==j}var y=v;export{y as i};

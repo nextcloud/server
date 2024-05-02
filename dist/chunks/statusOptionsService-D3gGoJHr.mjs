@@ -1,0 +1,2 @@
+/*! third party licenses: dist/vendor.LICENSE.txt */
+import{bS as s}from"../core-common.mjs";const e=()=>[{type:"online",label:s("user_status","Online")},{type:"away",label:s("user_status","Away")},{type:"dnd",label:s("user_status","Do not disturb"),subline:s("user_status","Mute all notifications")},{type:"invisible",label:s("user_status","Invisible"),subline:s("user_status","Appear offline")}];export{e as g};
