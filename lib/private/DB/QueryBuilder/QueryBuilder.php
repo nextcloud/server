@@ -302,21 +302,6 @@ class QueryBuilder implements IQueryBuilder {
 		throw new \RuntimeException('Invalid return type for query');
 	}
 
-	/**
-	 * Monkey-patched compatibility layer for apps that were adapted for Nextcloud 22 before
-	 * the first beta, where executeStatement was named executeUpdate.
-	 *
-	 * Static analysis should catch those misuses, but until then let's try to keep things
-	 * running.
-	 *
-	 * @internal
-	 * @deprecated
-	 * @todo drop ASAP
-	 */
-	public function executeUpdate(): int {
-		return $this->executeStatement();
-	}
-
 	public function executeStatement(): int {
 		if ($this->getType() === \Doctrine\DBAL\Query\QueryBuilder::SELECT) {
 			throw new \RuntimeException('Invalid query type, expected INSERT, DELETE or UPDATE statement');
