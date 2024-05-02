@@ -1,4 +1,4 @@
-FROM ubuntu:jammy
+FROM ubuntu:noble
 
 ARG DEBIAN_FRONTEND=noninteractive
 
@@ -7,28 +7,28 @@ RUN apt-get update -y && \
     apt install -y apache2 vim software-properties-common sudo nano gnupg2
 
 RUN apt-get install --no-install-recommends -y \
-    php8.1 \
-    php8.1-common \
-    php8.1-gd \
-    php8.1-zip \
-    php8.1-curl \
-    php8.1-xml \
-    php8.1-xmlrpc \
-    php8.1-mbstring \
-    php8.1-sqlite \
-    php8.1-xdebug \
-    php8.1-pgsql \
-    php8.1-intl \
-    php8.1-imagick \
-    php8.1-gmp \
-    php8.1-apcu \
-    php8.1-bcmath \
-    php8.1-redis \
-    php8.1-soap \
-    php8.1-imap \
-    php8.1-opcache \
-    php8.1-cli \
-    php8.1-dev \
+    php8.3 \
+    php8.3-common \
+    php8.3-gd \
+    php8.3-zip \
+    php8.3-curl \
+    php8.3-xml \
+    php8.3-xmlrpc \
+    php8.3-mbstring \
+    php8.3-sqlite \
+    php8.3-xdebug \
+    php8.3-pgsql \
+    php8.3-intl \
+    php8.3-imagick \
+    php8.3-gmp \
+    php8.3-apcu \
+    php8.3-bcmath \
+    php8.3-redis \
+    php8.3-soap \
+    php8.3-imap \
+    php8.3-opcache \
+    php8.3-cli \
+    php8.3-dev \
     libmagickcore-6.q16-3-extra \
     curl \
     lsof \
@@ -42,15 +42,15 @@ RUN curl -sS https://getcomposer.org/installer -o /tmp/composer-setup.php && \
     php /tmp/composer-setup.php --install-dir=/usr/local/bin --filename=composer && \
     rm /tmp/composer-setup.php /tmp/composer-setup.sig
 
-RUN echo "xdebug.remote_enable = 1" >> /etc/php/8.1/cli/conf.d/20-xdebug.ini && \
-    echo "xdebug.remote_autostart = 1" >> /etc/php/8.1/cli/conf.d/20-xdebug.ini && \
-	echo "apc.enable_cli=1" >> /etc/php/8.1/cli/conf.d/20-apcu.ini
+RUN echo "xdebug.remote_enable = 1" >> /etc/php/8.3/cli/conf.d/20-xdebug.ini && \
+    echo "xdebug.remote_autostart = 1" >> /etc/php/8.3/cli/conf.d/20-xdebug.ini && \
+	echo "apc.enable_cli=1" >> /etc/php/8.3/cli/conf.d/20-apcu.ini
 
 # Autostart XDebug for apache
 RUN { \
 	echo "xdebug.mode=debug"; \
 	echo "xdebug.start_with_request=yes"; \
-} >> /etc/php/8.1/apache2/conf.d/20-xdebug.ini
+} >> /etc/php/8.3/apache2/conf.d/20-xdebug.ini
 
 # Docker
 RUN apt-get -y install \
