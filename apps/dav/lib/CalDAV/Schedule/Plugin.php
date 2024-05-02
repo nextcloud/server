@@ -57,7 +57,7 @@ use Sabre\VObject\ITip\SameOrganizerForAllComponentsException;
 use Sabre\VObject\Parameter;
 use Sabre\VObject\Property;
 use Sabre\VObject\Reader;
-use function \Sabre\Uri\split;
+use function Sabre\Uri\split;
 
 class Plugin extends \Sabre\CalDAV\Schedule\Plugin {
 
@@ -95,6 +95,13 @@ class Plugin extends \Sabre\CalDAV\Schedule\Plugin {
 		$server->on('propFind', [$this, 'propFindDefaultCalendarUrl'], 90);
 		$server->on('afterWriteContent', [$this, 'dispatchSchedulingResponses']);
 		$server->on('afterCreateFile', [$this, 'dispatchSchedulingResponses']);
+
+		// We allow mutating the default calendar URL through the CustomPropertiesBackend
+		// (oc_properties table)
+		$server->protectedProperties = array_filter(
+			$server->protectedProperties,
+			static fn (string $property) => $property !== self::SCHEDULE_DEFAULT_CALENDAR_URL,
+		);
 	}
 
 	/**
@@ -450,7 +457,7 @@ EOF;
 	 * @param Property|null $attendee
 	 * @return bool
 	 */
-	private function getAttendeeRSVP(Property $attendee = null):bool {
+	private function getAttendeeRSVP(?Property $attendee = null):bool {
 		if ($attendee !== null) {
 			$rsvp = $attendee->offsetGet('RSVP');
 			if (($rsvp instanceof Parameter) && (strcasecmp($rsvp->getValue(), 'TRUE') === 0)) {

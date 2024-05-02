@@ -5,7 +5,7 @@ script('core', 'install');
 <input type='hidden' id='hasSQLite' value='<?php p($_['hasSQLite']) ?>'>
 <input type='hidden' id='hasPostgreSQL' value='<?php p($_['hasPostgreSQL']) ?>'>
 <input type='hidden' id='hasOracle' value='<?php p($_['hasOracle']) ?>'>
-<form action="index.php" method="post" class="guest-box install-form">
+<form method="post" class="guest-box install-form">
 <input type="hidden" name="install" value="true">
 	<?php if (count($_['errors']) > 0): ?>
 	<fieldset class="warning">

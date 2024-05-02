@@ -110,6 +110,8 @@ class HighContrastTheme extends DefaultTheme implements ITheme {
 				'--color-success-hover' => $this->util->darken($colorSuccess, 7),
 				'--color-success-text' => $this->util->darken($colorSuccess, 14),
 
+				'--color-favorite' => '#936B06',
+
 				'--color-scrollbar' => $this->util->darken($colorMainBackground, 25),
 
 				// used for the icon loading animation

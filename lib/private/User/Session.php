@@ -43,6 +43,7 @@ use OC\Authentication\Exceptions\PasswordlessTokenException;
 use OC\Authentication\Exceptions\PasswordLoginForbiddenException;
 use OC\Authentication\Token\IProvider;
 use OC\Authentication\Token\IToken;
+use OC\Authentication\TwoFactorAuth\Manager as TwoFactorAuthManager;
 use OC\Hooks\Emitter;
 use OC\Hooks\PublicEmitter;
 use OC_User;
@@ -161,7 +162,7 @@ class Session implements IUserSession, Emitter {
 	 * @param string $method optional
 	 * @param callable $callback optional
 	 */
-	public function removeListener($scope = null, $method = null, callable $callback = null) {
+	public function removeListener($scope = null, $method = null, ?callable $callback = null) {
 		$this->manager->removeListener($scope, $method, $callback);
 	}
 
@@ -207,6 +208,15 @@ class Session implements IUserSession, Emitter {
 		} else {
 			$this->session->set('user_id', $user->getUID());
 		}
+		$this->activeUser = $user;
+	}
+
+	/**
+	 * Temporarily set the currently active user without persisting in the session
+	 *
+	 * @param IUser|null $user
+	 */
+	public function setVolatileActiveUser(?IUser $user): void {
 		$this->activeUser = $user;
 	}
 
@@ -524,7 +534,7 @@ class Session implements IUserSession, Emitter {
 			$user = $users[0];
 		}
 		// DI not possible due to cyclic dependencies :'-/
-		return OC::$server->getTwoFactorAuthManager()->isTwoFactorAuthenticated($user);
+		return OC::$server->get(TwoFactorAuthManager::class)->isTwoFactorAuthenticated($user);
 	}
 
 	/**
@@ -757,8 +767,6 @@ class Session implements IUserSession, Emitter {
 				return false;
 			}
 
-			$dbToken->setLastCheck($now);
-			$this->tokenProvider->updateToken($dbToken);
 			return true;
 		}
 

@@ -98,26 +98,15 @@ class Manager extends PublicEmitter implements IGroupManager {
 		$this->logger = $logger;
 		$this->displayNameCache = new DisplayNameCache($cacheFactory, $this);
 
-		$cachedGroups = &$this->cachedGroups;
-		$cachedUserGroups = &$this->cachedUserGroups;
-		$this->listen('\OC\Group', 'postDelete', function ($group) use (&$cachedGroups, &$cachedUserGroups) {
-			/**
-			 * @var \OC\Group\Group $group
-			 */
-			unset($cachedGroups[$group->getGID()]);
-			$cachedUserGroups = [];
+		$this->listen('\OC\Group', 'postDelete', function (IGroup $group): void {
+			unset($this->cachedGroups[$group->getGID()]);
+			$this->cachedUserGroups = [];
 		});
-		$this->listen('\OC\Group', 'postAddUser', function ($group) use (&$cachedUserGroups) {
-			/**
-			 * @var \OC\Group\Group $group
-			 */
-			$cachedUserGroups = [];
+		$this->listen('\OC\Group', 'postAddUser', function (IGroup $group): void {
+			$this->cachedUserGroups = [];
 		});
-		$this->listen('\OC\Group', 'postRemoveUser', function ($group) use (&$cachedUserGroups) {
-			/**
-			 * @var \OC\Group\Group $group
-			 */
-			$cachedUserGroups = [];
+		$this->listen('\OC\Group', 'postRemoveUser', function (IGroup $group): void {
+			$this->cachedUserGroups = [];
 		});
 	}
 
@@ -323,7 +312,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 	 * @param IUser|null $user
 	 * @return \OC\Group\Group[]
 	 */
-	public function getUserGroups(IUser $user = null) {
+	public function getUserGroups(?IUser $user = null) {
 		if (!$user instanceof IUser) {
 			return [];
 		}

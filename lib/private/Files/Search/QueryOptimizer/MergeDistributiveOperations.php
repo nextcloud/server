@@ -18,21 +18,19 @@ use OCP\Files\Search\ISearchOperator;
  */
 class MergeDistributiveOperations extends ReplacingOptimizerStep {
 	public function processOperator(ISearchOperator &$operator): bool {
-		if (
-			$operator instanceof SearchBinaryOperator &&
-			$this->isAllSameBinaryOperation($operator->getArguments())
-		) {
+		if ($operator instanceof SearchBinaryOperator) {
 			// either 'AND' or 'OR'
 			$topLevelType = $operator->getType();
 
 			// split the arguments into groups that share a first argument
-			// (we already know that all arguments are binary operators with at least 1 child)
 			$groups = $this->groupBinaryOperatorsByChild($operator->getArguments(), 0);
 			$outerOperations = array_map(function (array $operators) use ($topLevelType) {
 				// no common operations, no need to change anything
 				if (count($operators) === 1) {
 					return $operators[0];
 				}
+
+				// for groups with size >1 we know they are binary operators with at least 1 child
 				/** @var ISearchBinaryOperator $firstArgument */
 				$firstArgument = $operators[0];
 
@@ -73,45 +71,24 @@ class MergeDistributiveOperations extends ReplacingOptimizerStep {
 	}
 
 	/**
-	 * Check that a list of operators is all the same type of (non-empty) binary operators
-	 *
-	 * @param ISearchOperator[] $operators
-	 * @return bool
-	 * @psalm-assert-if-true SearchBinaryOperator[] $operators
-	 */
-	private function isAllSameBinaryOperation(array $operators): bool {
-		$operation = null;
-		foreach ($operators as $operator) {
-			if (!$operator instanceof SearchBinaryOperator) {
-				return false;
-			}
-			if (!$operator->getArguments()) {
-				return false;
-			}
-			if ($operation === null) {
-				$operation = $operator->getType();
-			} else {
-				if ($operation !== $operator->getType()) {
-					return false;
-				}
-			}
-		}
-		return true;
-	}
-
-	/**
 	 * Group a list of binary search operators that have a common argument
 	 *
-	 * @param SearchBinaryOperator[] $operators
-	 * @return SearchBinaryOperator[][]
+	 * Non-binary operators, or empty binary operators will each get their own 1-sized group
+	 *
+	 * @param ISearchOperator[] $operators
+	 * @return ISearchOperator[][]
 	 */
 	private function groupBinaryOperatorsByChild(array $operators, int $index = 0): array {
 		$result = [];
 		foreach ($operators as $operator) {
-			/** @var SearchBinaryOperator|SearchComparison $child */
-			$child = $operator->getArguments()[$index];
-			$childKey = (string) $child;
-			$result[$childKey][] = $operator;
+			if ($operator instanceof ISearchBinaryOperator && count($operator->getArguments()) > 0) {
+				/** @var SearchBinaryOperator|SearchComparison $child */
+				$child = $operator->getArguments()[$index];
+				$childKey = (string)$child;
+				$result[$childKey][] = $operator;
+			} else {
+				$result[] = [$operator];
+			}
 		}
 		return array_values($result);
 	}

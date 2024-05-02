@@ -15,13 +15,13 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-versions: ['8.0']
+        php-versions: ['8.1']
 
     name: performance-${{ matrix.php-versions }}
 
     steps:
       - name: Checkout server before PR
-        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
+        uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633
         with:
           submodules: true
           ref: ${{ github.event.pull_request.base.ref }}

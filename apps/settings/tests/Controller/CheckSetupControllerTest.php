@@ -163,8 +163,6 @@ class CheckSetupControllerTest extends TestCase {
 
 		$expected = new DataResponse(
 			[
-				'reverseProxyDocs' => 'reverse-proxy-doc-link',
-				'reverseProxyGeneratedURL' => 'https://server/index.php',
 				'generic' => [],
 			]
 		);

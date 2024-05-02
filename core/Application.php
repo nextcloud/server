@@ -126,6 +126,11 @@ class Application extends App {
 				'fs_parent',
 				['parent']
 			);
+			$event->addMissingIndex(
+				'filecache',
+				'fs_name_hash',
+				['name']
+			);
 
 			$event->addMissingIndex(
 				'twofactor_providers',
@@ -163,13 +168,6 @@ class Application extends App {
 				true
 			);
 
-			$event->addMissingIndex(
-				'cards',
-				'cards_abid',
-				['addressbookid'],
-				[],
-				true
-			);
 			$event->addMissingIndex(
 				'cards',
 				'cards_abiduri',

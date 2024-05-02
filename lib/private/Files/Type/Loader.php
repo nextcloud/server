@@ -38,14 +38,13 @@ use OCP\IDBConnection;
 class Loader implements IMimeTypeLoader {
 	use TTransactional;
 
-	/** @var IDBConnection */
-	private $dbConnection;
+	private IDBConnection $dbConnection;
 
-	/** @var array [id => mimetype] */
-	protected $mimetypes;
+	/** @psalm-var array<int, string> */
+	protected array $mimetypes;
 
-	/** @var array [mimetype => id] */
-	protected $mimetypeIds;
+	/** @psalm-var array<string, int> */
+	protected array $mimetypeIds;
 
 	/**
 	 * @param IDBConnection $dbConnection
@@ -58,11 +57,8 @@ class Loader implements IMimeTypeLoader {
 
 	/**
 	 * Get a mimetype from its ID
-	 *
-	 * @param int $id
-	 * @return string|null
 	 */
-	public function getMimetypeById($id) {
+	public function getMimetypeById(int $id): ?string {
 		if (!$this->mimetypes) {
 			$this->loadMimetypes();
 		}
@@ -74,11 +70,8 @@ class Loader implements IMimeTypeLoader {
 
 	/**
 	 * Get a mimetype ID, adding the mimetype to the DB if it does not exist
-	 *
-	 * @param string $mimetype
-	 * @return int
 	 */
-	public function getId($mimetype) {
+	public function getId(string $mimetype): int {
 		if (!$this->mimetypeIds) {
 			$this->loadMimetypes();
 		}
@@ -90,11 +83,8 @@ class Loader implements IMimeTypeLoader {
 
 	/**
 	 * Test if a mimetype exists in the database
-	 *
-	 * @param string $mimetype
-	 * @return bool
 	 */
-	public function exists($mimetype) {
+	public function exists(string $mimetype): bool {
 		if (!$this->mimetypeIds) {
 			$this->loadMimetypes();
 		}
@@ -104,7 +94,7 @@ class Loader implements IMimeTypeLoader {
 	/**
 	 * Clear all loaded mimetypes, allow for re-loading
 	 */
-	public function reset() {
+	public function reset(): void {
 		$this->mimetypes = [];
 		$this->mimetypeIds = [];
 	}
@@ -115,7 +105,7 @@ class Loader implements IMimeTypeLoader {
 	 * @param string $mimetype
 	 * @return int inserted ID
 	 */
-	protected function store($mimetype) {
+	protected function store(string $mimetype): int {
 		try {
 			$mimetypeId = $this->atomic(function () use ($mimetype) {
 				$insert = $this->dbConnection->getQueryBuilder();
@@ -153,29 +143,27 @@ class Loader implements IMimeTypeLoader {
 	/**
 	 * Load all mimetypes from DB
 	 */
-	private function loadMimetypes() {
+	private function loadMimetypes(): void {
 		$qb = $this->dbConnection->getQueryBuilder();
 		$qb->select('id', 'mimetype')
 			->from('mimetypes');
 
-		$result = $qb->execute();
+		$result = $qb->executeQuery();
 		$results = $result->fetchAll();
 		$result->closeCursor();
 
 		foreach ($results as $row) {
-			$this->mimetypes[$row['id']] = $row['mimetype'];
-			$this->mimetypeIds[$row['mimetype']] = $row['id'];
+			$this->mimetypes[(int) $row['id']] = $row['mimetype'];
+			$this->mimetypeIds[$row['mimetype']] = (int) $row['id'];
 		}
 	}
 
 	/**
 	 * Update filecache mimetype based on file extension
 	 *
-	 * @param string $ext file extension
-	 * @param int $mimeTypeId
 	 * @return int number of changed rows
 	 */
-	public function updateFilecache($ext, $mimeTypeId) {
+	public function updateFilecache(string $ext, int $mimeTypeId): int {
 		$folderMimeTypeId = $this->getId('httpd/unix-directory');
 		$update = $this->dbConnection->getQueryBuilder();
 		$update->update('filecache')

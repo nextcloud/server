@@ -367,7 +367,7 @@ class EmailProviderTest extends AbstractNotificationProviderTest {
 	 * @param array|null $replyTo
 	 * @return IMessage
 	 */
-	private function getMessageMock(string $toMail, IEMailTemplate $templateMock, array $replyTo = null):IMessage {
+	private function getMessageMock(string $toMail, IEMailTemplate $templateMock, ?array $replyTo = null):IMessage {
 		$message = $this->createMock(IMessage::class);
 		$i = 0;
 

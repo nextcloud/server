@@ -44,6 +44,7 @@ use Psr\Log\LoggerInterface;
 abstract class Fetcher {
 	public const INVALIDATE_AFTER_SECONDS = 3600;
 	public const RETRY_AFTER_FAILURE_SECONDS = 300;
+	public const APP_STORE_URL = 'https://apps.nextcloud.com/api/v1';
 
 	/** @var IAppData */
 	protected $appData;
@@ -96,7 +97,7 @@ abstract class Fetcher {
 			];
 		}
 
-		if ($this->config->getSystemValueString('appstoreurl', 'https://apps.nextcloud.com/api/v1') === 'https://apps.nextcloud.com/api/v1') {
+		if ($this->config->getSystemValueString('appstoreurl', self::APP_STORE_URL) === self::APP_STORE_URL) {
 			// If we have a valid subscription key, send it to the appstore
 			$subscriptionKey = $this->config->getAppValue('support', 'subscription_key');
 			if ($this->registry->delegateHasValidSubscription() && $subscriptionKey) {
@@ -132,7 +133,7 @@ abstract class Fetcher {
 	}
 
 	/**
-	 * Returns the array with the categories on the appstore server
+	 * Returns the array with the entries on the appstore server
 	 *
 	 * @param bool [$allowUnstable] Allow unstable releases
 	 * @return array
@@ -140,8 +141,9 @@ abstract class Fetcher {
 	public function get($allowUnstable = false) {
 		$appstoreenabled = $this->config->getSystemValueBool('appstoreenabled', true);
 		$internetavailable = $this->config->getSystemValueBool('has_internet_connection', true);
+		$isDefaultAppStore = $this->config->getSystemValueString('appstoreurl', self::APP_STORE_URL) === self::APP_STORE_URL;
 
-		if (!$appstoreenabled || !$internetavailable) {
+		if (!$appstoreenabled || (!$internetavailable && $isDefaultAppStore)) {
 			return [];
 		}
 
@@ -179,7 +181,7 @@ abstract class Fetcher {
 		try {
 			$responseJson = $this->fetch($ETag, $content, $allowUnstable);
 
-			if (empty($responseJson)) {
+			if (empty($responseJson) || empty($responseJson['data'])) {
 				return [];
 			}
 

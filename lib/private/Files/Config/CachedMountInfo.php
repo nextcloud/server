@@ -53,7 +53,7 @@ class CachedMountInfo implements ICachedMountInfo {
 		int $rootId,
 		string $mountPoint,
 		string $mountProvider,
-		int $mountId = null,
+		?int $mountId = null,
 		string $rootInternalPath = ''
 	) {
 		$this->user = $user;
@@ -97,12 +97,7 @@ class CachedMountInfo implements ICachedMountInfo {
 		// TODO injection etc
 		Filesystem::initMountPoints($this->getUser()->getUID());
 		$userNode = \OC::$server->getUserFolder($this->getUser()->getUID());
-		$nodes = $userNode->getParent()->getById($this->getRootId());
-		if (count($nodes) > 0) {
-			return $nodes[0];
-		} else {
-			return null;
-		}
+		return $userNode->getParent()->getFirstNodeById($this->getRootId());
 	}
 
 	/**

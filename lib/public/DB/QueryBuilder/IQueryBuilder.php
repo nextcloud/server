@@ -990,7 +990,7 @@ interface IQueryBuilder {
 	 * @return IQueryFunction
 	 * @since 8.2.0
 	 *
-	 * @psalm-taint-sink sql
+	 * @psalm-taint-sink sql $call
 	 */
 	public function createFunction($call);
 

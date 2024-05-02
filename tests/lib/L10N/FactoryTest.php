@@ -13,6 +13,8 @@ namespace Test\L10N;
 
 use OC\L10N\Factory;
 use OC\L10N\LanguageNotFoundException;
+use OCP\App\AppPathNotFoundException;
+use OCP\App\IAppManager;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IRequest;
@@ -38,6 +40,9 @@ class FactoryTest extends TestCase {
 	/** @var string */
 	protected $serverRoot;
 
+	/** @var IAppManager|MockObject */
+	protected IAppManager $appManager;
+
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -45,6 +50,7 @@ class FactoryTest extends TestCase {
 		$this->request = $this->createMock(IRequest::class);
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->cacheFactory = $this->createMock(ICacheFactory::class);
+		$this->appManager = $this->createMock(IAppManager::class);
 
 		$this->serverRoot = \OC::$SERVERROOT;
 
@@ -76,12 +82,13 @@ class FactoryTest extends TestCase {
 					$this->userSession,
 					$this->cacheFactory,
 					$this->serverRoot,
+					$this->appManager,
 				])
 				->setMethods($methods)
 				->getMock();
 		}
 
-		return new Factory($this->config, $this->request, $this->userSession, $this->cacheFactory, $this->serverRoot);
+		return new Factory($this->config, $this->request, $this->userSession, $this->cacheFactory, $this->serverRoot, $this->appManager);
 	}
 
 	public function dataFindAvailableLanguages(): array {
@@ -402,7 +409,7 @@ class FactoryTest extends TestCase {
 
 	public function dataGetL10nFilesForApp(): array {
 		return [
-			[null, 'de', [\OC::$SERVERROOT . '/core/l10n/de.json']],
+			['', 'de', [\OC::$SERVERROOT . '/core/l10n/de.json']],
 			['core', 'ru', [\OC::$SERVERROOT . '/core/l10n/ru.json']],
 			['lib', 'ru', [\OC::$SERVERROOT . '/lib/l10n/ru.json']],
 			['settings', 'de', [\OC::$SERVERROOT . '/apps/settings/l10n/de.json']],
@@ -415,17 +422,28 @@ class FactoryTest extends TestCase {
 	/**
 	 * @dataProvider dataGetL10nFilesForApp
 	 *
-	 * @param string|null $app
+	 * @param string $app
 	 * @param string $expected
 	 */
 	public function testGetL10nFilesForApp($app, $lang, $expected): void {
 		$factory = $this->getFactory();
+		if (in_array($app, ['settings','files'])) {
+			$this->appManager
+				->method('getAppPath')
+				->with($app)
+				->willReturn(\OC::$SERVERROOT . '/apps/' . $app);
+		} else {
+			$this->appManager
+				->method('getAppPath')
+				->with($app)
+				->willThrowException(new AppPathNotFoundException());
+		}
 		self::assertSame($expected, $this->invokePrivate($factory, 'getL10nFilesForApp', [$app, $lang]));
 	}
 
 	public function dataFindL10NDir(): array {
 		return [
-			[null, \OC::$SERVERROOT . '/core/l10n/'],
+			['', \OC::$SERVERROOT . '/core/l10n/'],
 			['core', \OC::$SERVERROOT . '/core/l10n/'],
 			['lib', \OC::$SERVERROOT . '/lib/l10n/'],
 			['settings', \OC::$SERVERROOT . '/apps/settings/l10n/'],
@@ -437,11 +455,22 @@ class FactoryTest extends TestCase {
 	/**
 	 * @dataProvider dataFindL10NDir
 	 *
-	 * @param string|null $app
+	 * @param string $app
 	 * @param string $expected
 	 */
 	public function testFindL10NDir($app, $expected): void {
 		$factory = $this->getFactory();
+		if (in_array($app, ['settings','files'])) {
+			$this->appManager
+				->method('getAppPath')
+				->with($app)
+				->willReturn(\OC::$SERVERROOT . '/apps/' . $app);
+		} else {
+			$this->appManager
+				->method('getAppPath')
+				->with($app)
+				->willThrowException(new AppPathNotFoundException());
+		}
 		self::assertSame($expected, $this->invokePrivate($factory, 'findL10nDir', [$app]));
 	}
 
@@ -683,7 +712,7 @@ class FactoryTest extends TestCase {
 	/**
 	 * @dataProvider languageIteratorRequestProvider
 	 */
-	public function testGetLanguageIterator(bool $hasSession, IUser $iUserMock = null): void {
+	public function testGetLanguageIterator(bool $hasSession, ?IUser $iUserMock = null): void {
 		$factory = $this->getFactory();
 
 		if ($iUserMock === null) {

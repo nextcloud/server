@@ -1,10 +1,10 @@
 OC.L10N.register(
     "twofactor_backupcodes",
     {
-    "You created two-factor backup codes for your account" : "你的賬戶已建立雙重認證的備用碼。",
+    "You created two-factor backup codes for your account" : "你的帳戶已建立雙重認證的備用碼。",
     "Second-factor backup codes" : "第二階段備用驗證碼",
     "Generate backup codes" : "產生備用驗證碼",
-    "You enabled two-factor authentication but did not generate backup codes yet. They are needed to restore access to your account in case you lose your second factor." : "你已經啟用了雙重認證但並未産生雙重認證備用碼。若你遺失了你的第二驗證因數，你會需要雙重認證備用碼來復原你賬戶的存取權。",
+    "You enabled two-factor authentication but did not generate backup codes yet. They are needed to restore access to your account in case you lose your second factor." : "你已經啟用了雙重認證但並未産生雙重認證備用碼。若你遺失了你的第二驗證因數，你會需要雙重認證備用碼來復原你帳戶的存取權。",
     "Backup code" : "備用驗證碼",
     "Use backup code" : "使用備用驗證碼",
     "Two factor backup codes" : "雙重備用驗證碼",

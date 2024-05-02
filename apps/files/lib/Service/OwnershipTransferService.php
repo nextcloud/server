@@ -12,6 +12,7 @@ declare(strict_types=1);
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Sascha Wiswedel <sascha.wiswedel@nextcloud.com>
  * @author Tobia De Koninck <LEDfan@users.noreply.github.com>
+ * @author Ferdinand Thiessen <opensource@fthiessen.de>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -33,6 +34,7 @@ declare(strict_types=1);
 namespace OCA\Files\Service;
 
 use Closure;
+use OC\Encryption\Manager as EncryptionManager;
 use OC\Files\Filesystem;
 use OC\Files\View;
 use OCA\Files\Exception\TransferOwnershipException;
@@ -41,6 +43,7 @@ use OCP\Files\Config\IUserMountCache;
 use OCP\Files\FileInfo;
 use OCP\Files\IHomeStorage;
 use OCP\Files\InvalidPathException;
+use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountManager;
 use OCP\IUser;
 use OCP\IUserManager;
@@ -58,31 +61,16 @@ use function rtrim;
 
 class OwnershipTransferService {
 
-	/** @var IEncryptionManager */
-	private $encryptionManager;
+	private IEncryptionManager|EncryptionManager $encryptionManager;
 
-	/** @var IShareManager */
-	private $shareManager;
-
-	/** @var IMountManager */
-	private $mountManager;
-
-	/** @var IUserMountCache */
-	private $userMountCache;
-
-	/** @var IUserManager */
-	private $userManager;
-
-	public function __construct(IEncryptionManager $manager,
-		IShareManager $shareManager,
-		IMountManager $mountManager,
-		IUserMountCache $userMountCache,
-		IUserManager $userManager) {
-		$this->encryptionManager = $manager;
-		$this->shareManager = $shareManager;
-		$this->mountManager = $mountManager;
-		$this->userMountCache = $userMountCache;
-		$this->userManager = $userManager;
+	public function __construct(
+		IEncryptionManager $encryptionManager,
+		private IShareManager $shareManager,
+		private IMountManager $mountManager,
+		private IUserMountCache $userMountCache,
+		private IUserManager $userManager,
+	) {
+		$this->encryptionManager = $encryptionManager;
 	}
 
 	/**
@@ -95,13 +83,15 @@ class OwnershipTransferService {
 	 * @throws TransferOwnershipException
 	 * @throws \OC\User\NoUserException
 	 */
-	public function transfer(IUser $sourceUser,
+	public function transfer(
+		IUser $sourceUser,
 		IUser $destinationUser,
 		string $path,
 		?OutputInterface $output = null,
 		bool $move = false,
 		bool $firstLogin = false,
-		bool $transferIncomingShares = false): void {
+		bool $transferIncomingShares = false,
+	): void {
 		$output = $output ?? new NullOutput();
 		$sourceUid = $sourceUser->getUID();
 		$destinationUid = $destinationUser->getUID();
@@ -183,10 +173,12 @@ class OwnershipTransferService {
 			$output
 		);
 
+		$destinationPath = $finalTarget . '/' . $path;
 		// restore the shares
 		$this->restoreShares(
 			$sourceUid,
 			$destinationUid,
+			$destinationPath,
 			$shares,
 			$output
 		);
@@ -252,7 +244,7 @@ class OwnershipTransferService {
 
 		$encryptedFiles = [];
 		$this->walkFiles($view, $sourcePath,
-			function (FileInfo $fileInfo) use ($progress) {
+			function (FileInfo $fileInfo) use ($progress, &$encryptedFiles) {
 				if ($fileInfo->getType() === FileInfo::TYPE_FOLDER) {
 					// only analyze into folders from main storage,
 					if (!$fileInfo->getStorage()->instanceOfStorage(IHomeStorage::class)) {
@@ -280,16 +272,35 @@ class OwnershipTransferService {
 		}
 	}
 
-	private function collectUsersShares(string $sourceUid,
+	/**
+	 * @return array<array{share: IShare, suffix: string}>
+	 */
+	private function collectUsersShares(
+		string $sourceUid,
 		OutputInterface $output,
 		View $view,
-		string $path): array {
+		string $path,
+	): array {
 		$output->writeln("Collecting all share information for files and folders of $sourceUid ...");
 
 		$shares = [];
 		$progress = new ProgressBar($output);
 
-		foreach ([IShare::TYPE_GROUP, IShare::TYPE_USER, IShare::TYPE_LINK, IShare::TYPE_REMOTE, IShare::TYPE_ROOM, IShare::TYPE_EMAIL, IShare::TYPE_CIRCLE, IShare::TYPE_DECK, IShare::TYPE_SCIENCEMESH] as $shareType) {
+		$normalizedPath = Filesystem::normalizePath($path);
+
+		$supportedShareTypes = [
+			IShare::TYPE_GROUP,
+			IShare::TYPE_USER,
+			IShare::TYPE_LINK,
+			IShare::TYPE_REMOTE,
+			IShare::TYPE_ROOM,
+			IShare::TYPE_EMAIL,
+			IShare::TYPE_CIRCLE,
+			IShare::TYPE_DECK,
+			IShare::TYPE_SCIENCEMESH,
+		];
+
+		foreach ($supportedShareTypes as $shareType) {
 			$offset = 0;
 			while (true) {
 				$sharePage = $this->shareManager->getSharesBy($sourceUid, $shareType, null, true, 50, $offset);
@@ -298,17 +309,17 @@ class OwnershipTransferService {
 					break;
 				}
 				if ($path !== "$sourceUid/files") {
-					$sharePage = array_filter($sharePage, function (IShare $share) use ($view, $path) {
+					$sharePage = array_filter($sharePage, function (IShare $share) use ($view, $normalizedPath) {
 						try {
 							$relativePath = $view->getPath($share->getNodeId());
-							$singleFileTranfer = $view->is_file($path);
+							$singleFileTranfer = $view->is_file($normalizedPath);
 							if ($singleFileTranfer) {
-								return Filesystem::normalizePath($relativePath) === Filesystem::normalizePath($path);
+								return Filesystem::normalizePath($relativePath) === $normalizedPath;
 							}
 
 							return mb_strpos(
 								Filesystem::normalizePath($relativePath . '/', false),
-								Filesystem::normalizePath($path . '/', false)) === 0;
+								$normalizedPath . '/') === 0;
 						} catch (\Exception $e) {
 							return false;
 						}
@@ -321,7 +332,11 @@ class OwnershipTransferService {
 
 		$progress->finish();
 		$output->writeln('');
-		return $shares;
+
+		return array_map(fn (IShare $share) => [
+			'share' => $share,
+			'suffix' => substr(Filesystem::normalizePath($view->getPath($share->getNodeId())), strlen($normalizedPath)),
+		], $shares);
 	}
 
 	private function collectIncomingShares(string $sourceUid,
@@ -384,14 +399,22 @@ class OwnershipTransferService {
 		}
 	}
 
-	private function restoreShares(string $sourceUid,
+	/**
+	 * @param string $targetLocation New location of the transfered node
+	 * @param array<array{share: IShare, suffix: string}> $shares previously collected share information
+	 */
+	private function restoreShares(
+		string $sourceUid,
 		string $destinationUid,
+		string $targetLocation,
 		array $shares,
-		OutputInterface $output) {
+		OutputInterface $output,
+	):void {
 		$output->writeln("Restoring shares ...");
 		$progress = new ProgressBar($output, count($shares));
+		$rootFolder = \OCP\Server::get(IRootFolder::class);
 
-		foreach ($shares as $share) {
+		foreach ($shares as ['share' => $share, 'suffix' => $suffix]) {
 			try {
 				if ($share->getShareType() === IShare::TYPE_USER &&
 					$share->getSharedWith() === $destinationUid) {
@@ -419,7 +442,19 @@ class OwnershipTransferService {
 						// trigger refetching of the node so that the new owner and mountpoint are taken into account
 						// otherwise the checks on the share update will fail due to the original node not being available in the new user scope
 						$this->userMountCache->clear();
-						$share->setNodeId($share->getNode()->getId());
+
+						try {
+							// Try to get the "old" id.
+							// Normally the ID is preserved,
+							// but for transferes between different storages the ID might change
+							$newNodeId = $share->getNode()->getId();
+						} catch (\OCP\Files\NotFoundException) {
+							// ID has changed due to transfer between different storages
+							// Try to get the new ID from the target path and suffix of the share
+							$node = $rootFolder->get(Filesystem::normalizePath($targetLocation . '/' . $suffix));
+							$newNodeId = $node->getId();
+						}
+						$share->setNodeId($newNodeId);
 
 						$this->shareManager->updateShare($share);
 					}

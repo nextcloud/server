@@ -83,7 +83,6 @@
     "App \"%s\" cannot be installed because it is not compatible with this version of the server." : "Aplikaciju „%s” nije moguće instalirati jer nije kompatibilna s ovom inačicom poslužitelja.",
     "__language_name__" : "Hrvatski",
     "This is an automatically sent email, please do not reply." : "Ovo je automatski poslana poruka e-pošte, nemojte odgovarati.",
-    "Help" : "Pomoć",
     "Apps" : "Aplikacije",
     "Settings" : "Postavke",
     "Log out" : "Odjava",
@@ -206,11 +205,10 @@
     "Storage connection error. %s" : "Pogreška veze pohrane. %s",
     "Storage is temporarily not available" : "Pohrana privremeno nije dostupna",
     "Storage connection timeout. %s" : "Istek veze pohrane. %s",
-    "The files of the app %1$s were not replaced correctly. Make sure it is a version compatible with the server." : "Datoteke aplikacije %1$s nisu ispravno zamijenjene. Provjerite je li inačica kompatibilna s poslužiteljem.",
     "Logged in user must be an admin, a sub admin or gotten special right to access this setting" : "Prijavljeni korisnik mora biti administrator, podadministrator ili imati posebna prava za pristupanje ovoj postavci",
     "Logged in user must be an admin or sub admin" : "Prijavljeni korisnik mora biti administrator ili podadministrator",
     "Logged in user must be an admin" : "Korisnik koji je prijavljen mora biti administrator",
-    "Full name" : "Puno ime",
+    "Help" : "Pomoć",
     "Unknown user" : "Nepoznat korisnik",
     "MySQL username and/or password not valid" : "Neispravno korisničko ime i/ili zaporka baze podataka MySQL",
     "Oracle username and/or password not valid" : "Neispravno korisničko ime i/ili zaporka baze podataka Oracle",
@@ -224,8 +222,6 @@
     "Username must not consist of dots only" : "Korisničko ime ne smije se sastojati samo od točkica",
     "Username is invalid because files already exist for this user" : "Korisničko ime je nevažeće jer već postoje datoteke za ovog korisnika",
     "User disabled" : "Korisnik je onemogućen",
-    "libxml2 2.7.0 is at least required. Currently %s is installed." : "Potreban je barem Libxml2 2.7.0. Trenutno je instalirana inačica %s.",
-    "To fix this issue update your libxml2 version and restart your web server." : "Kako biste riješili ovaj problem, ažurirajte svoju inačicu libxml2 i ponovno pokrenite web poslužitelj.",
     "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Promijenite dozvole na 0770 tako da se tim direktorijem ne mogu služiti drugi korisnici."
 },"pluralForm" :"nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;"
 }

@@ -38,6 +38,7 @@ namespace OCA\Files\Controller;
 use OCA\Files\Activity\Helper;
 use OCA\Files\AppInfo\Application;
 use OCA\Files\Event\LoadAdditionalScriptsEvent;
+use OCA\Files\Event\LoadSearchPlugins;
 use OCA\Files\Event\LoadSidebar;
 use OCA\Files\Service\UserConfig;
 use OCA\Files\Service\ViewConfig;
@@ -51,7 +52,6 @@ use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\Collaboration\Resources\LoadAdditionalScriptsEvent as ResourcesLoadAdditionalScriptsEvent;
-use OCP\Constants;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
@@ -134,7 +134,7 @@ class ViewController extends Controller {
 	 * @param string $fileid
 	 * @return TemplateResponse|RedirectResponse
 	 */
-	public function showFile(string $fileid = null): Response {
+	public function showFile(?string $fileid = null): Response {
 		if (!$fileid) {
 			return new RedirectResponse($this->urlGenerator->linkToRoute('files.view.index'));
 		}
@@ -252,14 +252,14 @@ class ViewController extends Controller {
 		$this->initialState->provideInitialState('filesSortingConfig', $filesSortingConfig);
 
 		// Forbidden file characters
-		/** @var string[] */
-		$forbiddenCharacters = $this->config->getSystemValue('forbidden_chars', []);
-		$this->initialState->provideInitialState('forbiddenCharacters', Constants::FILENAME_INVALID_CHARS . implode('', $forbiddenCharacters));
+		$forbiddenCharacters = \OCP\Util::getForbiddenFileNameChars();
+		$this->initialState->provideInitialState('forbiddenCharacters', $forbiddenCharacters);
 
 		$event = new LoadAdditionalScriptsEvent();
 		$this->eventDispatcher->dispatchTyped($event);
 		$this->eventDispatcher->dispatchTyped(new ResourcesLoadAdditionalScriptsEvent());
 		$this->eventDispatcher->dispatchTyped(new LoadSidebar());
+		$this->eventDispatcher->dispatchTyped(new LoadSearchPlugins());
 		// Load Viewer scripts
 		if (class_exists(LoadViewer::class)) {
 			$this->eventDispatcher->dispatchTyped(new LoadViewer());
@@ -302,8 +302,7 @@ class ViewController extends Controller {
 
 		$uid = $user->getUID();
 		$userFolder = $this->rootFolder->getUserFolder($uid);
-		$nodes = $userFolder->getById((int) $fileid);
-		$node = array_shift($nodes);
+		$node = $userFolder->getFirstNodeById((int) $fileid);
 
 		if ($node === null) {
 			return;
@@ -343,17 +342,16 @@ class ViewController extends Controller {
 	private function redirectToFileIfInTrashbin($fileId): RedirectResponse {
 		$uid = $this->userSession->getUser()->getUID();
 		$baseFolder = $this->rootFolder->getUserFolder($uid);
-		$nodes = $baseFolder->getById($fileId);
+		$node = $baseFolder->getFirstNodeById($fileId);
 		$params = [];
 
-		if (empty($nodes) && $this->appManager->isEnabledForUser('files_trashbin')) {
+		if (!$node && $this->appManager->isEnabledForUser('files_trashbin')) {
 			/** @var Folder */
 			$baseFolder = $this->rootFolder->get($uid . '/files_trashbin/files/');
-			$nodes = $baseFolder->getById($fileId);
+			$node = $baseFolder->getFirstNodeById($fileId);
 			$params['view'] = 'trashbin';
 
-			if (!empty($nodes)) {
-				$node = current($nodes);
+			if ($node) {
 				$params['fileid'] = $fileId;
 				if ($node instanceof Folder) {
 					// set the full path to enter the folder
@@ -378,7 +376,7 @@ class ViewController extends Controller {
 	private function redirectToFile(int $fileId) {
 		$uid = $this->userSession->getUser()->getUID();
 		$baseFolder = $this->rootFolder->getUserFolder($uid);
-		$nodes = $baseFolder->getById($fileId);
+		$node = $baseFolder->getFirstNodeById($fileId);
 		$params = ['view' => 'files'];
 
 		try {
@@ -386,8 +384,7 @@ class ViewController extends Controller {
 		} catch (NotFoundException $e) {
 		}
 
-		if (!empty($nodes)) {
-			$node = current($nodes);
+		if ($node) {
 			$params['fileid'] = $fileId;
 			if ($node instanceof Folder) {
 				// set the full path to enter the folder

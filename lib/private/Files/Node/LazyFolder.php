@@ -101,7 +101,7 @@ class LazyFolder implements Folder {
 	/**
 	 * @inheritDoc
 	 */
-	public function removeListener($scope = null, $method = null, callable $callback = null) {
+	public function removeListener($scope = null, $method = null, ?callable $callback = null) {
 		$this->__call(__FUNCTION__, func_get_args());
 	}
 
@@ -492,7 +492,11 @@ class LazyFolder implements Folder {
 	 * @inheritDoc
 	 */
 	public function getById($id) {
-		return $this->__call(__FUNCTION__, func_get_args());
+		return $this->getRootFolder()->getByIdInPath((int)$id, $this->getPath());
+	}
+
+	public function getFirstNodeById(int $id): ?\OCP\Files\Node {
+		return $this->getRootFolder()->getFirstNodeByIdInPath($id, $this->getPath());
 	}
 
 	/**

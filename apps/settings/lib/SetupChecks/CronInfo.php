@@ -26,6 +26,7 @@ declare(strict_types=1);
 
 namespace OCA\Settings\SetupChecks;
 
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IDateTimeFormatter;
 use OCP\IL10N;
@@ -37,6 +38,7 @@ class CronInfo implements ISetupCheck {
 	public function __construct(
 		private IL10N $l10n,
 		private IConfig $config,
+		private IAppConfig $appConfig,
 		private IURLGenerator $urlGenerator,
 		private IDateTimeFormatter $dateTimeFormatter,
 	) {
@@ -51,7 +53,7 @@ class CronInfo implements ISetupCheck {
 	}
 
 	public function run(): SetupResult {
-		$lastCronRun = (int)$this->config->getAppValue('core', 'lastcron', '0');
+		$lastCronRun = $this->appConfig->getValueInt('core', 'lastcron', 0);
 		$relativeTime = $this->dateTimeFormatter->formatTimeSpan($lastCronRun);
 
 		if ((time() - $lastCronRun) > 3600) {

@@ -9,6 +9,7 @@ OC.L10N.register(
     "%1$s commented on %2$s" : "%1$s 已對 %2$s 留言",
     "{author} commented on {file}" : "{author} 已對 {file} 留言",
     "<strong>Comments</strong> for files" : "檔案的<strong>留言</strong>",
+    "You were mentioned on \"{file}\", in a comment by an account that has since been deleted" : "一個已刪除的帳號在「{file}」的留言中提及您。",
     "{user} mentioned you in a comment on \"{file}\"" : "{user} 在「{file}」的留言中提到您",
     "Files app plugin to add comments to files" : "用於對檔案加入留言的檔案應用程式擴充元件",
     "Edit comment" : "編輯留言",
@@ -31,6 +32,8 @@ OC.L10N.register(
     "An error occurred while trying to delete the comment" : "嘗試刪除留言時發生錯誤",
     "An error occurred while trying to create the comment" : "嘗試建立留言時發生錯誤",
     "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "一個已被刪除的使用者在「{file}」的留言中提到您",
+    "Write a message …" : "撰寫訊息……",
+    "\"@\" for mentions, \":\" for emoji, \"/\" for smart picker" : "「@」表示提及、「:」表示表情符號、「/」表示智慧型選取程式",
     "_%n unread comment_::_%n unread comments_" : ["%n 則未讀留言"]
 },
 "nplurals=1; plural=0;");

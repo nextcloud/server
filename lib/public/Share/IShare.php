@@ -213,7 +213,7 @@ interface IShare {
 	 * @since 9.0.0
 	 * @throws NotFoundException
 	 */
-	public function getNodeId();
+	public function getNodeId(): int;
 
 	/**
 	 * Set the type of node (file/folder)
@@ -587,6 +587,7 @@ interface IShare {
 	 * Set the cache entry for the shared node
 	 *
 	 * @param ICacheEntry $entry
+	 * @return void
 	 * @since 11.0.0
 	 */
 	public function setNodeCacheEntry(ICacheEntry $entry);

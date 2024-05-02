@@ -45,14 +45,20 @@ const mutations = {
 	},
 }
 
-export default new Store({
-	modules: {
-		users,
-		apps,
-		settings,
-		oc,
-	},
-	strict: debug,
+let store = null
 
-	mutations,
-})
+export const useStore = () => {
+	if (store === null) {
+		store = new Store({
+			modules: {
+				users,
+				apps,
+				settings,
+				oc,
+			},
+			strict: debug,
+			mutations,
+		})
+	}
+	return store
+}

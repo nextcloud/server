@@ -52,6 +52,8 @@ OC.L10N.register(
     "Desktop client" : "Labortabla kliento",
     "Thunderbird & Outlook addons" : "Thunderbird-a kaj Outlook-a aldonaĵo",
     "Custom user agent" : "Propra retumil-identigilo („user-agent“)",
+    "Select groups" : "Elekti grupojn",
+    "Groups" : "Grupoj",
     "When" : "Kiam",
     "and" : "kaj",
     "Cancel" : "Nuligi",

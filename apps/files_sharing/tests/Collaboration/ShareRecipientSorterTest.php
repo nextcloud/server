@@ -77,9 +77,9 @@ class ShareRecipientSorterTest extends TestCase {
 
 		if ($data['context']['itemType'] === 'files') {
 			$folder->expects($this->once())
-				->method('getById')
+				->method('getFirstNodeById')
 				->with($data['context']['itemId'])
-				->willReturn([$node]);
+				->willReturn($node);
 
 			$this->shareManager->expects($this->once())
 				->method('getAccessList')
@@ -87,7 +87,7 @@ class ShareRecipientSorterTest extends TestCase {
 				->willReturn($data['accessList']);
 		} else {
 			$folder->expects($this->never())
-				->method('getById');
+				->method('getFirstNodeById');
 			$this->shareManager->expects($this->never())
 				->method('getAccessList');
 		}
@@ -106,8 +106,8 @@ class ShareRecipientSorterTest extends TestCase {
 			->willReturn($folder);
 
 		$folder->expects($this->once())
-			->method('getById')
-			->willReturn([]);
+			->method('getFirstNodeById')
+			->willReturn(null);
 
 		$user = $this->createMock(IUser::class);
 		$user->expects($this->any())

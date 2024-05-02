@@ -2,7 +2,7 @@ OC.L10N.register(
     "theming",
     {
     "The given name is too long" : "Le nom donné est trop long",
-    "The given web address is too long" : "L'adresse web donnée est trop longue",
+    "The given web address is too long" : "L’adresse web donnée est trop longue",
     "The given web address is not a valid URL" : "L'adresse web n'est pas une URL valide",
     "The given legal notice address is too long" : "L'adresse fournie pour la notice légale est trop longue",
     "The given legal notice address is not a valid URL" : "L'adresse de la notice légale n'est pas une URL valide",
@@ -28,7 +28,7 @@ OC.L10N.register(
     "Theming" : "Personnaliser l'apparence",
     "Appearance and accessibility" : "Apparence et accessibilité",
     "PHP Imagick module" : "Module PHP Imagick",
-    "The PHP module \"imagick\" is not enabled although the theming app is. For favicon generation to work correctly, you need to install and enable this module." : "Le module PHP \"imagick\" n'est pas actif mais l'application Theming est activée. Pour que la génération du Favicon fonctionne correctement, ce module doit être installé et actif.",
+    "The PHP module \"imagick\" is not enabled although the theming app is. For favicon generation to work correctly, you need to install and enable this module." : "Le module PHP \"imagick\" n’est pas actif mais l’application Theming est activée. Pour que la génération du Favicon fonctionne correctement, ce module doit être installé et actif.",
     "The PHP module \"imagick\" in this instance has no SVG support. For better compatibility it is recommended to install it." : "Le module PHP « imagick » n’a aucun support SVG dans cette instance. Pour une meilleure compatibilité, il est recommandé de l’installer.",
     "Dark theme with high contrast mode" : "Thème sombre avec mode de contraste élevé",
     "Enable dark high contrast mode" : "Activer le mode sombre à contraste élevé",
@@ -72,7 +72,7 @@ OC.L10N.register(
     "User settings" : "Paramètres utilisateurs",
     "Disable user theming" : "Désactiver la gestion du thème par l'utilisateur",
     "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can toggle this on." : "Bien que vous puissiez sélectionner et personnaliser votre instance, les utilisateurs peuvent modifier leur arrière-plan et leurs couleurs. Si vous voulez imposer votre personnalisation, vous pouvez activer cette option.",
-    "Appearance and accessibility settings" : "Paramètres d'apparence et d'accessibilité",
+    "Appearance and accessibility settings" : "Paramètres d’apparence et d’accessibilité",
     "Background" : "Arrière-plan",
     "Customization has been disabled by your administrator" : "La personnalisation a été désactivée par votre administrateur",
     "Set a custom background" : "Définir un arrière-plan personnalisé",
@@ -110,8 +110,6 @@ OC.L10N.register(
     "Reset to default" : "Restaurer les valeurs par défaut",
     "Upload" : "Téléverser",
     "Remove background image" : "Retirer l'image d'arrière-plan",
-    "Failed to clean up the old administration theming images folder" : "Échec du nettoyage du dossier d'images de l'ancien thème d'administration",
-    "Failed to clean up the old administration image folder" : "Échec du nettoyage de l'ancien dossier d'images d'administration",
     "Select a custom color" : "Sélectionnez une couleur personnalisée"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

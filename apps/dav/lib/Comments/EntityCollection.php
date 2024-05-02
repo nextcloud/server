@@ -130,7 +130,7 @@ class EntityCollection extends RootCollection implements IProperties {
 	 * @param \DateTime|null $datetime
 	 * @return CommentNode[]
 	 */
-	public function findChildren($limit = 0, $offset = 0, \DateTime $datetime = null) {
+	public function findChildren($limit = 0, $offset = 0, ?\DateTime $datetime = null) {
 		$comments = $this->commentsManager->getForObject($this->name, $this->id, $limit, $offset, $datetime);
 		$result = [];
 		foreach ($comments as $comment) {

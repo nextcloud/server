@@ -320,14 +320,14 @@ class FilesReportPluginTest extends \Test\TestCase {
 			->willReturn('/');
 
 		$this->userFolder->expects($this->exactly(2))
-			->method('getById')
+			->method('getFirstNodeById')
 			->withConsecutive(
 				['111'],
 				['222'],
 			)
 			->willReturnOnConsecutiveCalls(
-				[$filesNode1],
-				[$filesNode2],
+				$filesNode1,
+				$filesNode2,
 			);
 
 		/** @var \OCA\DAV\Connector\Sabre\Directory|MockObject $reportTargetNode */
@@ -373,14 +373,14 @@ class FilesReportPluginTest extends \Test\TestCase {
 			->willReturn($subNode);
 
 		$subNode->expects($this->exactly(2))
-			->method('getById')
+			->method('getFirstNodeById')
 			->withConsecutive(
 				['111'],
 				['222'],
 			)
 			->willReturnOnConsecutiveCalls(
-				[$filesNode1],
-				[$filesNode2],
+				$filesNode1,
+				$filesNode2,
 			);
 
 		/** @var \OCA\DAV\Connector\Sabre\Directory|MockObject $reportTargetNode */

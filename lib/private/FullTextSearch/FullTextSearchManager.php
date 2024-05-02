@@ -39,11 +39,11 @@ use OCP\FullTextSearch\Service\ISearchService;
  * @package OC\FullTextSearch
  */
 class FullTextSearchManager implements IFullTextSearchManager {
-	private ?IProviderService $providerService;
+	private ?IProviderService $providerService = null;
 
-	private ?IIndexService $indexService;
+	private ?IIndexService $indexService = null;
 
-	private ?ISearchService $searchService;
+	private ?ISearchService $searchService = null;
 
 	/**
 	 * @since 15.0.0

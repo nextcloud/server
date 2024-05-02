@@ -33,12 +33,12 @@ import { getVerboseDateString } from '../shared/utils.ts'
 export const action = new FileAction({
 	id: 'clear-reminder',
 
-	displayName: () => t('files', 'Clear reminder'),
+	displayName: () => t('files_reminders', 'Clear reminder'),
 
 	title: (nodes: Node[]) => {
 		const node = nodes.at(0)!
 		const dueDate = new Date(node.attributes['reminder-due-date'])
-		return `${t('files', 'Clear reminder')} – ${getVerboseDateString(dueDate)}`
+		return `${t('files_reminders', 'Clear reminder')} – ${getVerboseDateString(dueDate)}`
 	},
 
 	iconSvgInline: () => AlarmOffSvg,

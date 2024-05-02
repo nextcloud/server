@@ -89,7 +89,7 @@ class File extends Node implements IFile {
 	 * @param ?IRequest $request
 	 * @param ?IL10N $l10n
 	 */
-	public function __construct(View $view, FileInfo $info, IManager $shareManager = null, IRequest $request = null, IL10N $l10n = null) {
+	public function __construct(View $view, FileInfo $info, ?IManager $shareManager = null, ?IRequest $request = null, ?IL10N $l10n = null) {
 		parent::__construct($view, $info, $shareManager);
 
 		if ($l10n) {
@@ -125,7 +125,7 @@ class File extends Node implements IFile {
 	 * different object on a subsequent GET you are strongly recommended to not
 	 * return an ETag, and just return null.
 	 *
-	 * @param resource $data
+	 * @param resource|string $data
 	 *
 	 * @throws Forbidden
 	 * @throws UnsupportedMediaType

@@ -40,7 +40,7 @@ class FailDeleteObjectStore implements IObjectStore {
 		return $this->objectStore->readObject($urn);
 	}
 
-	public function writeObject($urn, $stream, string $mimetype = null) {
+	public function writeObject($urn, $stream, ?string $mimetype = null) {
 		return $this->objectStore->writeObject($urn, $stream, $mimetype);
 	}
 

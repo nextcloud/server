@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2020 Robin Appelman <robin@icewind.nl>
  *
@@ -27,8 +28,7 @@ namespace OCA\Files_External\Lib\Storage;
  * Low level wrapper around the ftp functions that smooths over some difference between servers
  */
 class FtpConnection {
-	/** @var resource|\FTP\Connection */
-	private $connection;
+	private \FTP\Connection $connection;
 
 	public function __construct(bool $secure, string $hostname, int $port, string $username, string $password) {
 		if ($secure) {
@@ -50,10 +50,7 @@ class FtpConnection {
 	}
 
 	public function __destruct() {
-		if ($this->connection) {
-			ftp_close($this->connection);
-		}
-		$this->connection = null;
+		ftp_close($this->connection);
 	}
 
 	public function setUtf8Mode(): bool {

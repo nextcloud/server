@@ -65,6 +65,7 @@
  */
 
 use bantu\IniGetWrapper\IniGetWrapper;
+use OC\Authentication\TwoFactorAuth\Manager as TwoFactorAuthManager;
 use OC\Files\SetupManager;
 use OCP\Files\Template\ITemplateManager;
 use OCP\IConfig;
@@ -785,7 +786,7 @@ class OC_Util {
 			exit();
 		}
 		// Redirect to 2FA challenge selection if 2FA challenge was not solved yet
-		if (\OC::$server->getTwoFactorAuthManager()->needsSecondFactor(\OC::$server->getUserSession()->getUser())) {
+		if (\OC::$server->get(TwoFactorAuthManager::class)->needsSecondFactor(\OC::$server->getUserSession()->getUser())) {
 			header('Location: ' . \OC::$server->getURLGenerator()->linkToRoute('core.TwoFactorChallenge.selectChallenge'));
 			exit();
 		}
@@ -969,11 +970,11 @@ class OC_Util {
 	 */
 	private static function isNonUTF8Locale() {
 		if (function_exists('escapeshellcmd')) {
-			return '' === escapeshellcmd('§');
+			return escapeshellcmd('§') === '';
 		} elseif (function_exists('escapeshellarg')) {
-			return '\'\'' === escapeshellarg('§');
+			return escapeshellarg('§') === '\'\'';
 		} else {
-			return 0 === preg_match('/utf-?8/i', setlocale(LC_CTYPE, 0));
+			return preg_match('/utf-?8/i', setlocale(LC_CTYPE, 0)) === 0;
 		}
 	}
 
@@ -1112,8 +1113,8 @@ class OC_Util {
 			return false;
 		}
 
-		foreach (str_split($trimmed) as $char) {
-			if (str_contains(\OCP\Constants::FILENAME_INVALID_CHARS, $char)) {
+		foreach (\OCP\Util::getForbiddenFileNameChars() as $char) {
+			if (str_contains($trimmed, $char)) {
 				return false;
 			}
 		}

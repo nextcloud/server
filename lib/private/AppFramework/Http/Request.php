@@ -57,18 +57,18 @@ use Symfony\Component\HttpFoundation\IpUtils;
  * Class for accessing variables in the request.
  * This class provides an immutable object with request variables.
  *
- * @property mixed[] cookies
- * @property mixed[] env
- * @property mixed[] files
- * @property string method
- * @property mixed[] parameters
- * @property mixed[] server
+ * @property mixed[] $cookies
+ * @property mixed[] $env
+ * @property mixed[] $files
+ * @property string $method
+ * @property mixed[] $parameters
+ * @property mixed[] $server
  * @template-implements \ArrayAccess<string,mixed>
  */
 class Request implements \ArrayAccess, \Countable, IRequest {
 	public const USER_AGENT_IE = '/(MSIE)|(Trident)/';
 	// Microsoft Edge User Agent from https://msdn.microsoft.com/en-us/library/hh869301(v=vs.85).aspx
-	public const USER_AGENT_MS_EDGE = '/^Mozilla\/5\.0 \([^)]+\) AppleWebKit\/[0-9.]+ \(KHTML, like Gecko\) Chrome\/[0-9.]+ (Mobile Safari|Safari)\/[0-9.]+ Edge\/[0-9.]+$/';
+	public const USER_AGENT_MS_EDGE = '/^Mozilla\/5\.0 \([^)]+\) AppleWebKit\/[0-9.]+ \(KHTML, like Gecko\) Chrome\/[0-9.]+ (Mobile Safari|Safari)\/[0-9.]+ Edge?\/[0-9.]+$/';
 	// Firefox User Agent from https://developer.mozilla.org/en-US/docs/Web/HTTP/Gecko_user_agent_string_reference
 	public const USER_AGENT_FIREFOX = '/^Mozilla\/5\.0 \([^)]+\) Gecko\/[0-9.]+ Firefox\/[0-9.]+$/';
 	// Chrome User Agent from https://developer.chrome.com/multidevice/user-agent
@@ -121,7 +121,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	public function __construct(array $vars,
 		IRequestId $requestId,
 		IConfig $config,
-		CsrfTokenManager $csrfTokenManager = null,
+		?CsrfTokenManager $csrfTokenManager = null,
 		string $stream = 'php://input') {
 		$this->inputStream = $stream;
 		$this->items['params'] = [];
@@ -432,8 +432,8 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 					$this->items['post'] = $params;
 				}
 			}
-		// Handle application/x-www-form-urlencoded for methods other than GET
-		// or post correctly
+			// Handle application/x-www-form-urlencoded for methods other than GET
+			// or post correctly
 		} elseif ($this->method !== 'GET'
 				&& $this->method !== 'POST'
 				&& str_contains($this->getHeader('Content-Type'), 'application/x-www-form-urlencoded')) {

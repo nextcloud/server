@@ -86,6 +86,42 @@
                     }
                 }
             },
+            "Capabilities": {
+                "type": "object",
+                "required": [
+                    "core"
+                ],
+                "properties": {
+                    "core": {
+                        "type": "object",
+                        "required": [
+                            "pollinterval",
+                            "webdav-root",
+                            "reference-api",
+                            "reference-regex",
+                            "mod-rewrite-working"
+                        ],
+                        "properties": {
+                            "pollinterval": {
+                                "type": "integer",
+                                "format": "int64"
+                            },
+                            "webdav-root": {
+                                "type": "string"
+                            },
+                            "reference-api": {
+                                "type": "boolean"
+                            },
+                            "reference-regex": {
+                                "type": "string"
+                            },
+                            "mod-rewrite-working": {
+                                "type": "boolean"
+                            }
+                        }
+                    }
+                }
+            },
             "Collection": {
                 "type": "object",
                 "required": [
@@ -283,6 +319,30 @@
                     }
                 }
             },
+            "PublicCapabilities": {
+                "type": "object",
+                "required": [
+                    "bruteforce"
+                ],
+                "properties": {
+                    "bruteforce": {
+                        "type": "object",
+                        "required": [
+                            "delay",
+                            "allow-listed"
+                        ],
+                        "properties": {
+                            "delay": {
+                                "type": "integer",
+                                "format": "int64"
+                            },
+                            "allow-listed": {
+                                "type": "boolean"
+                            }
+                        }
+                    }
+                }
+            },
             "Reference": {
                 "type": "object",
                 "required": [
@@ -403,6 +463,60 @@
                     },
                     "extendedSupport": {
                         "type": "boolean"
+                    }
+                }
+            },
+            "Team": {
+                "type": "object",
+                "required": [
+                    "id",
+                    "name",
+                    "icon"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "icon": {
+                        "type": "string"
+                    }
+                }
+            },
+            "TeamResource": {
+                "type": "object",
+                "required": [
+                    "id",
+                    "label",
+                    "url",
+                    "iconSvg",
+                    "iconURL",
+                    "iconEmoji"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "label": {
+                        "type": "string"
+                    },
+                    "url": {
+                        "type": "string"
+                    },
+                    "iconSvg": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "iconURL": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "iconEmoji": {
+                        "type": "string",
+                        "nullable": true
                     }
                 }
             },
@@ -643,6 +757,7 @@
             "get": {
                 "operationId": "app_password-get-app-password",
                 "summary": "Create app password",
+                "description": "This endpoint requires password confirmation",
                 "tags": [
                     "app_password"
                 ],
@@ -708,9 +823,27 @@
                     "403": {
                         "description": "Creating app password is not allowed",
                         "content": {
-                            "text/plain": {
+                            "application/json": {
                                 "schema": {
-                                    "type": "string"
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -777,9 +910,27 @@
                     "403": {
                         "description": "Deleting app password is not allowed",
                         "content": {
-                            "text/plain": {
+                            "application/json": {
                                 "schema": {
-                                    "type": "string"
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -856,9 +1007,27 @@
                     "403": {
                         "description": "Rotating app password is not allowed",
                         "content": {
-                            "text/plain": {
+                            "application/json": {
                                 "schema": {
-                                    "type": "string"
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -2218,32 +2387,7 @@
                         }
                     },
                     "304": {
-                        "description": "No apps navigation changed",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "required": [
-                                        "ocs"
-                                    ],
-                                    "properties": {
-                                        "ocs": {
-                                            "type": "object",
-                                            "required": [
-                                                "meta",
-                                                "data"
-                                            ],
-                                            "properties": {
-                                                "meta": {
-                                                    "$ref": "#/components/schemas/OCSMeta"
-                                                },
-                                                "data": {}
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
+                        "description": "No apps navigation changed"
                     }
                 }
             }
@@ -2323,32 +2467,7 @@
                         }
                     },
                     "304": {
-                        "description": "No apps navigation changed",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "required": [
-                                        "ocs"
-                                    ],
-                                    "properties": {
-                                        "ocs": {
-                                            "type": "object",
-                                            "required": [
-                                                "meta",
-                                                "data"
-                                            ],
-                                            "properties": {
-                                                "meta": {
-                                                    "$ref": "#/components/schemas/OCSMeta"
-                                                },
-                                                "data": {}
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
+                        "description": "No apps navigation changed"
                     }
                 }
             }
@@ -2465,6 +2584,7 @@
             "put": {
                 "operationId": "profile_api-set-visibility",
                 "summary": "Update the visibility of a parameter",
+                "description": "This endpoint requires password confirmation",
                 "tags": [
                     "profile_api"
                 ],
@@ -2547,9 +2667,27 @@
                     "400": {
                         "description": "Updating visibility is not possible",
                         "content": {
-                            "text/plain": {
+                            "application/json": {
                                 "schema": {
-                                    "type": "string"
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -2557,9 +2695,27 @@
                     "403": {
                         "description": "Not allowed to edit other users visibility",
                         "content": {
-                            "text/plain": {
+                            "application/json": {
                                 "schema": {
-                                    "type": "string"
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -2567,9 +2723,27 @@
                     "404": {
                         "description": "Account not found",
                         "content": {
-                            "text/plain": {
+                            "application/json": {
                                 "schema": {
-                                    "type": "string"
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -2996,6 +3170,177 @@
                                                     "properties": {
                                                         "success": {
                                                             "type": "boolean"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ocs/v2.php/teams/{teamId}/resources": {
+            "get": {
+                "operationId": "teams_api-resolve-one",
+                "summary": "Get all resources of a team",
+                "tags": [
+                    "teams_api"
+                ],
+                "security": [
+                    {
+                        "bearer_auth": []
+                    },
+                    {
+                        "basic_auth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "teamId",
+                        "in": "path",
+                        "description": "Unique id of the team",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "OCS-APIRequest",
+                        "in": "header",
+                        "description": "Required to be true for the API request to pass",
+                        "required": true,
+                        "schema": {
+                            "type": "boolean",
+                            "default": true
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Resources returned",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "required": [
+                                                        "resources"
+                                                    ],
+                                                    "properties": {
+                                                        "resources": {
+                                                            "type": "array",
+                                                            "items": {
+                                                                "$ref": "#/components/schemas/TeamResource"
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ocs/v2.php/teams/resources/{providerId}/{resourceId}": {
+            "get": {
+                "operationId": "teams_api-list-teams",
+                "summary": "Get all teams of a resource",
+                "tags": [
+                    "teams_api"
+                ],
+                "security": [
+                    {
+                        "bearer_auth": []
+                    },
+                    {
+                        "basic_auth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "providerId",
+                        "in": "path",
+                        "description": "Identifier of the provider (e.g. deck, talk, collectives)",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "resourceId",
+                        "in": "path",
+                        "description": "Unique id of the resource to list teams for (e.g. deck board id)",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "OCS-APIRequest",
+                        "in": "header",
+                        "description": "Required to be true for the API request to pass",
+                        "required": true,
+                        "schema": {
+                            "type": "boolean",
+                            "default": true
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Teams returned",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "required": [
+                                                        "teams"
+                                                    ],
+                                                    "properties": {
+                                                        "teams": {
+                                                            "type": "array",
+                                                            "items": {
+                                                                "$ref": "#/components/schemas/Team"
+                                                            }
                                                         }
                                                     }
                                                 }
@@ -5234,32 +5579,7 @@
                         }
                     },
                     "204": {
-                        "description": "No changes",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "required": [
-                                        "ocs"
-                                    ],
-                                    "properties": {
-                                        "ocs": {
-                                            "type": "object",
-                                            "required": [
-                                                "meta",
-                                                "data"
-                                            ],
-                                            "properties": {
-                                                "meta": {
-                                                    "$ref": "#/components/schemas/OCSMeta"
-                                                },
-                                                "data": {}
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
+                        "description": "No changes"
                     }
                 }
             },

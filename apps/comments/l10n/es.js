@@ -9,7 +9,8 @@ OC.L10N.register(
     "%1$s commented on %2$s" : "%1$s comentados en %2$s",
     "{author} commented on {file}" : "{author} comentó en {file}",
     "<strong>Comments</strong> for files" : "<strong>Comentarios</strong> para archivos",
-    "{user} mentioned you in a comment on \"{file}\"" : "{user} te mencionó en un comentario en “{file}”",
+    "You were mentioned on \"{file}\", in a comment by an account that has since been deleted" : "Fue mencionado en \"{file}\", en un comentario realizado por un usuario que ha sido eliminado",
+    "{user} mentioned you in a comment on \"{file}\"" : "{user} le mencionó en un comentario en “{file}”",
     "Files app plugin to add comments to files" : "Plugin de la app de Archivos para añadir comentarios a archivos.",
     "Edit comment" : "Editar comentario",
     "Delete comment" : "Borrar comentario",
@@ -30,7 +31,9 @@ OC.L10N.register(
     "Comment deleted" : "Comentario borrado",
     "An error occurred while trying to delete the comment" : "Ocurrió un error intentando borrar el comentario",
     "An error occurred while trying to create the comment" : "Ocurrió un error intentando crear el comentario",
-    "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "Te han mencionado en \"{file}\", en un comentario de un usuario que después ha sido eliminado",
+    "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "Le han mencionado en \"{file}\", en un comentario de un usuario que ha sido eliminado desde entonces",
+    "Write a message …" : "Escribir un mensaje …",
+    "\"@\" for mentions, \":\" for emoji, \"/\" for smart picker" : "\"@\" para menciones, \":\" para emojis, \"/\" para selector inteligente",
     "_%n unread comment_::_%n unread comments_" : ["%n comentario sin leer","%n comentarios no leídos","%n comentarios no leídos"]
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

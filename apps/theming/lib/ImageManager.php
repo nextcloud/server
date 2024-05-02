@@ -240,7 +240,7 @@ class ImageManager {
 				imagesavealpha($newImage, true);
 				imagealphablending($newImage, true);
 
-				$newWidth = (int)(imagesx($newImage) < 4096 ? imagesx($newImage) : 4096);
+				$newWidth = (imagesx($newImage) < 4096 ? imagesx($newImage) : 4096);
 				$newHeight = (int)(imagesy($newImage) / (imagesx($newImage) / $newWidth));
 				$outputImage = imagescale($newImage, $newWidth, $newHeight);
 				if ($outputImage === false) {
@@ -248,7 +248,7 @@ class ImageManager {
 				}
 
 				$newTmpFile = $this->tempManager->getTemporaryFile();
-				imageinterlace($outputImage, 1);
+				imageinterlace($outputImage, true);
 				// Keep jpeg images encoded as jpeg
 				if (str_contains($detectedMimeType, 'image/jpeg')) {
 					if (!imagejpeg($outputImage, $newTmpFile, 90)) {

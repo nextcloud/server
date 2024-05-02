@@ -34,7 +34,6 @@
     "File already exists" : "Tệp đã tồn tại",
     "Templates" : "‎Mẫu‎",
     "__language_name__" : "Tiếng Việt",
-    "Help" : "Giúp đỡ",
     "Appearance and accessibility" : "Ngoại hình và khả năng tiếp cận",
     "Apps" : "Ứng dụng",
     "Settings" : "Thiết lập",
@@ -101,7 +100,7 @@
     "Token expired. Please reload page." : "Mã Token đã hết hạn. Hãy tải lại trang.",
     "PHP module %s not installed." : "PHP mô đun %s chưa được cài đặt",
     "Storage is temporarily not available" : "Kho lưu trữ tạm thời không khả dụng",
-    "Full name" : "Tên đầy đủ",
+    "Help" : "Giúp đỡ",
     "Unknown user" : "Người dùng không tồn tại",
     "The username is already being used" : "Tên đăng nhập đã được sử dụng",
     "User disabled" : "Vô hiệu hóa sử dụng"

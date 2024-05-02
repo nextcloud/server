@@ -204,6 +204,7 @@ class LDAP implements ILDAPWrapper {
 			$serverControls = [];
 		}
 
+		/** @psalm-suppress UndefinedVariable $oldHandler is defined when the closure is called but psalm fails to get that */
 		$oldHandler = set_error_handler(function ($no, $message, $file, $line) use (&$oldHandler) {
 			if (str_contains($message, 'Partial search results returned: Sizelimit exceeded')) {
 				return true;
@@ -360,7 +361,7 @@ class LDAP implements ILDAPWrapper {
 	/**
 	 * Analyzes the returned LDAP error and acts accordingly if not 0
 	 *
-	 * @param resource|\LDAP\Connection $resource the LDAP Connection resource
+	 * @param \LDAP\Connection $resource the LDAP Connection resource
 	 * @throws ConstraintViolationException
 	 * @throws ServerNotAvailableException
 	 * @throws \Exception

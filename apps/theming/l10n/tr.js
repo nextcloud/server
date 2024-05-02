@@ -110,8 +110,6 @@ OC.L10N.register(
     "Reset to default" : "Varsayılanlara dön",
     "Upload" : "Yükle",
     "Remove background image" : "Arka plan görselini kaldır",
-    "Failed to clean up the old administration theming images folder" : "Eski yönetim temasının images klasörü temizlenemedi",
-    "Failed to clean up the old administration image folder" : "Eski yönetim image klasörü temizlenemedi",
     "Select a custom color" : "Özel bir renk seçin"
 },
 "nplurals=2; plural=(n > 1);");

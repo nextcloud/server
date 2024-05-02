@@ -62,6 +62,17 @@ interface ISpeechToTextManager {
 	public function scheduleFileTranscription(File $file, ?string $userId, string $appId): void;
 
 	/**
+	 * Will cancel a scheduled transcription process
+	 *
+	 * @param File $file The media file involved in the transcription
+	 * @param ?string $userId The user that triggered this request
+	 * @param string $appId The app that triggered this request
+	 * @throws InvalidArgumentException If the file could not be found or is not of a supported type
+	 * @since 29.0.0
+	 */
+	public function cancelScheduledFileTranscription(File $file, ?string $userId, string $appId): void;
+
+	/**
 	 * @param File $file The media file to transcribe
 	 * @returns string The transcription of the passed media file
 	 * @throws PreConditionNotMetException If no provider was registered but this method was still called

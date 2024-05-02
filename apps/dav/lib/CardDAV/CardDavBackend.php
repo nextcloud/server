@@ -331,24 +331,24 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 * @return void
 	 */
 	public function updateAddressBook($addressBookId, \Sabre\DAV\PropPatch $propPatch) {
-		$this->atomic(function () use ($addressBookId, $propPatch) {
-			$supportedProperties = [
-				'{DAV:}displayname',
-				'{' . Plugin::NS_CARDDAV . '}addressbook-description',
-			];
+		$supportedProperties = [
+			'{DAV:}displayname',
+			'{' . Plugin::NS_CARDDAV . '}addressbook-description',
+		];
 
-			$propPatch->handle($supportedProperties, function ($mutations) use ($addressBookId) {
-				$updates = [];
-				foreach ($mutations as $property => $newValue) {
-					switch ($property) {
-						case '{DAV:}displayname':
-							$updates['displayname'] = $newValue;
-							break;
-						case '{' . Plugin::NS_CARDDAV . '}addressbook-description':
-							$updates['description'] = $newValue;
-							break;
-					}
+		$propPatch->handle($supportedProperties, function ($mutations) use ($addressBookId) {
+			$updates = [];
+			foreach ($mutations as $property => $newValue) {
+				switch ($property) {
+					case '{DAV:}displayname':
+						$updates['displayname'] = $newValue;
+						break;
+					case '{' . Plugin::NS_CARDDAV . '}addressbook-description':
+						$updates['description'] = $newValue;
+						break;
 				}
+			}
+			[$addressBookRow, $shares] = $this->atomic(function () use ($addressBookId, $updates) {
 				$query = $this->db->getQueryBuilder();
 				$query->update('addressbooks');
 
@@ -362,11 +362,13 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 
 				$addressBookRow = $this->getAddressBookById((int)$addressBookId);
 				$shares = $this->getShares((int)$addressBookId);
-				$this->dispatcher->dispatchTyped(new AddressBookUpdatedEvent((int)$addressBookId, $addressBookRow, $shares, $mutations));
+				return [$addressBookRow, $shares];
+			}, $this->db);
 
-				return true;
-			});
-		}, $this->db);
+			$this->dispatcher->dispatchTyped(new AddressBookUpdatedEvent((int)$addressBookId, $addressBookRow, $shares, $mutations));
+
+			return true;
+		});
 	}
 
 	/**
@@ -981,6 +983,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 					'synctoken' => $query->createNamedParameter($syncToken),
 					'addressbookid' => $query->createNamedParameter($addressBookId),
 					'operation' => $query->createNamedParameter($operation),
+					'created_at' => time(),
 				])
 				->executeStatement();
 
@@ -1148,7 +1151,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			->andWhere($query2->expr()->in('cp.name', $query2->createNamedParameter($searchProperties, IQueryBuilder::PARAM_STR_ARRAY)));
 
 		// No need for like when the pattern is empty
-		if ('' !== $pattern) {
+		if ($pattern !== '') {
 			if (!$useWildcards) {
 				$query2->andWhere($query2->expr()->eq('cp.value', $query2->createNamedParameter($pattern)));
 			} elseif (!$escapePattern) {
@@ -1413,7 +1416,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	/**
 	 * @throws \InvalidArgumentException
 	 */
-	public function pruneOutdatedSyncTokens(int $keep = 10_000): int {
+	public function pruneOutdatedSyncTokens(int $keep, int $retention): int {
 		if ($keep < 0) {
 			throw new \InvalidArgumentException();
 		}
@@ -1431,7 +1434,10 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 
 		$query = $this->db->getQueryBuilder();
 		$query->delete('addressbookchanges')
-			->where($query->expr()->lte('id', $query->createNamedParameter($maxId - $keep, IQueryBuilder::PARAM_INT), IQueryBuilder::PARAM_INT));
+			->where(
+				$query->expr()->lte('id', $query->createNamedParameter($maxId - $keep, IQueryBuilder::PARAM_INT), IQueryBuilder::PARAM_INT),
+				$query->expr()->lte('created_at', $query->createNamedParameter($retention)),
+			);
 		return $query->executeStatement();
 	}
 

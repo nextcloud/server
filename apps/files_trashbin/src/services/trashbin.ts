@@ -35,6 +35,8 @@ const data = `<?xml version="1.0"?>
 		<nc:trashbin-deletion-time />
 		<nc:trashbin-original-location />
 		<nc:trashbin-title />
+		<nc:trashbin-deleted-by-id />
+		<nc:trashbin-deleted-by-display-name />
 		${getDavProperties()}
 	</d:prop>
 </d:propfind>`

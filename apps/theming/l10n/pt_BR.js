@@ -27,7 +27,9 @@ OC.L10N.register(
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "Você já está usando um tema personalizado. As configurações do aplicativo Theming podem ser sobrescritas por isso.",
     "Theming" : "Personalização",
     "Appearance and accessibility" : "Aparência e acessibilidade",
+    "PHP Imagick module" : "Módulo PHP Imageck",
     "The PHP module \"imagick\" is not enabled although the theming app is. For favicon generation to work correctly, you need to install and enable this module." : "O módulo PHP \"imagick\" não está habilitado, embora o aplicativo de temas esteja. Para que a geração de favicon funcione corretamente, você precisa instalar e habilitar este módulo.",
+    "The PHP module \"imagick\" in this instance has no SVG support. For better compatibility it is recommended to install it." : "O módulo PHP \"imagick\" neste caso não tem suporte a SVG. Para melhor compatibilidade é recomendado instalá-lo.",
     "Dark theme with high contrast mode" : "Tema escuro com modo de alto contraste",
     "Enable dark high contrast mode" : "Ative o modo escuro de alto contraste",
     "Similar to the high contrast mode, but with dark colours." : "Semelhante ao modo de alto contraste, mas com cores escuras.",
@@ -70,6 +72,7 @@ OC.L10N.register(
     "User settings" : "Configurações de usuário",
     "Disable user theming" : "Desabilitar temas do usuário",
     "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can toggle this on." : "Embora você possa selecionar e personalizar a sua instância, os usuários podem alterar seu plano de fundo e as cores. Se você quiser forçar a sua personalização, marque esta caixa.",
+    "Appearance and accessibility settings" : "Configurações de aparência e acessibilidade",
     "Background" : "Fundo",
     "Customization has been disabled by your administrator" : "A personalização foi desativada pelo seu administrador",
     "Set a custom background" : "Defina um plano de fundo personalizado",
@@ -107,8 +110,6 @@ OC.L10N.register(
     "Reset to default" : "Redefinir para o padrão",
     "Upload" : "Enviar",
     "Remove background image" : "Excluir a imagem de fundo",
-    "Failed to clean up the old administration theming images folder" : "Falha ao limpar a antiga pasta de imagens temáticas da administração",
-    "Failed to clean up the old administration image folder" : "Falha ao limpar a pasta de imagem de administração antiga",
     "Select a custom color" : "Selecione uma cor personalizada"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

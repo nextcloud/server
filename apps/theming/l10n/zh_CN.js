@@ -85,8 +85,6 @@ OC.L10N.register(
     "Reset to default" : "重置为默认设置",
     "Upload" : "上传",
     "Remove background image" : "删除背景图片",
-    "Failed to clean up the old administration theming images folder" : "无法清除旧的管理主题图片文件夹",
-    "Failed to clean up the old administration image folder" : "无法清除旧的管理图片文件夹",
     "Select a custom color" : "自定义颜色"
 },
 "nplurals=1; plural=0;");

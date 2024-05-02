@@ -61,14 +61,14 @@ class TransferOwnership extends QueuedJob {
 		$fileId = $transfer->getFileId();
 
 		$userFolder = $this->rootFolder->getUserFolder($sourceUser);
-		$nodes = $userFolder->getById($fileId);
+		$node = $userFolder->getFirstNodeById($fileId);
 
-		if (empty($nodes)) {
+		if (!$node) {
 			$this->logger->alert('Could not transfer ownership: Node not found');
 			$this->failedNotication($transfer);
 			return;
 		}
-		$path = $userFolder->getRelativePath($nodes[0]->getPath());
+		$path = $userFolder->getRelativePath($node->getPath());
 
 		$sourceUserObject = $this->userManager->get($sourceUser);
 		$destinationUserObject = $this->userManager->get($destinationUser);

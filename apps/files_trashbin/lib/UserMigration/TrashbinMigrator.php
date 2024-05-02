@@ -96,7 +96,15 @@ class TrashbinMigrator implements IMigrator, ISizeEstimationMigrator {
 			}
 			$output->writeln("Exporting trashbin files…");
 			$exportDestination->copyFolder($trashbinFolder, static::PATH_FILES_FOLDER);
-			$originalLocations = \OCA\Files_Trashbin\Trashbin::getLocations($uid);
+			$originalLocations = [];
+			// TODO Export all extra data and bump migrator to v2
+			foreach (\OCA\Files_Trashbin\Trashbin::getExtraData($uid) as $filename => $extraData) {
+				$locationData = [];
+				foreach ($extraData as $timestamp => ['location' => $location]) {
+					$locationData[$timestamp] = $location;
+				}
+				$originalLocations[$filename] = $locationData;
+			}
 			$exportDestination->addFileContents(static::PATH_LOCATIONS_FILE, json_encode($originalLocations));
 		} catch (NotFoundException $e) {
 			$output->writeln("No trashbin to export…");

@@ -339,6 +339,41 @@ class Client implements IClient {
 	}
 
 	/**
+	 * Sends a PATCH request
+	 *
+	 * @param string $uri
+	 * @param array $options Array such as
+	 *              'body' => [
+	 *                  'field' => 'abc',
+	 *                  'other_field' => '123',
+	 *                  'file_name' => fopen('/path/to/file', 'r'),
+	 *              ],
+	 *              'headers' => [
+	 *                  'foo' => 'bar',
+	 *              ],
+	 *              'cookies' => [
+	 *                  'foo' => 'bar',
+	 *              ],
+	 *              'allow_redirects' => [
+	 *                   'max'       => 10,  // allow at most 10 redirects.
+	 *                   'strict'    => true,     // use "strict" RFC compliant redirects.
+	 *                   'referer'   => true,     // add a Referer header
+	 *                   'protocols' => ['https'] // only allow https URLs
+	 *              ],
+	 *              'sink' => '/path/to/file', // save to a file or a stream
+	 *              'verify' => true, // bool or string to CA file
+	 *              'debug' => true,
+	 *              'timeout' => 5,
+	 * @return IResponse
+	 * @throws \Exception If the request could not get completed
+	 */
+	public function patch(string $uri, array $options = []): IResponse {
+		$this->preventLocalAddress($uri, $options);
+		$response = $this->client->request('patch', $uri, $this->buildRequestOptions($options));
+		return new Response($response);
+	}
+
+	/**
 	 * Sends a DELETE request
 	 *
 	 * @param string $uri
@@ -406,6 +441,59 @@ class Client implements IClient {
 		$this->preventLocalAddress($uri, $options);
 		$response = $this->client->request('options', $uri, $this->buildRequestOptions($options));
 		return new Response($response);
+	}
+
+	/**
+	 * Get the response of a Throwable thrown by the request methods when possible
+	 *
+	 * @param \Throwable $e
+	 * @return IResponse
+	 * @throws \Throwable When $e did not have a response
+	 * @since 29.0.0
+	 */
+	public function getResponseFromThrowable(\Throwable $e): IResponse {
+		if (method_exists($e, 'hasResponse') && method_exists($e, 'getResponse') && $e->hasResponse()) {
+			return new Response($e->getResponse());
+		}
+
+		throw $e;
+	}
+
+	/**
+	 * Sends a HTTP request
+	 *
+	 * @param string $method The HTTP method to use
+	 * @param string $uri
+	 * @param array $options Array such as
+	 *              'query' => [
+	 *                  'field' => 'abc',
+	 *                  'other_field' => '123',
+	 *                  'file_name' => fopen('/path/to/file', 'r'),
+	 *              ],
+	 *              'headers' => [
+	 *                  'foo' => 'bar',
+	 *              ],
+	 *              'cookies' => [
+	 *                  'foo' => 'bar',
+	 *              ],
+	 *              'allow_redirects' => [
+	 *                   'max'       => 10,  // allow at most 10 redirects.
+	 *                   'strict'    => true,     // use "strict" RFC compliant redirects.
+	 *                   'referer'   => true,     // add a Referer header
+	 *                   'protocols' => ['https'] // only allow https URLs
+	 *              ],
+	 *              'sink' => '/path/to/file', // save to a file or a stream
+	 *              'verify' => true, // bool or string to CA file
+	 *              'debug' => true,
+	 *              'timeout' => 5,
+	 * @return IResponse
+	 * @throws \Exception If the request could not get completed
+	 */
+	public function request(string $method, string $uri, array $options = []): IResponse {
+		$this->preventLocalAddress($uri, $options);
+		$response = $this->client->request($method, $uri, $this->buildRequestOptions($options));
+		$isStream = isset($options['stream']) && $options['stream'];
+		return new Response($response, $isStream);
 	}
 
 	protected function wrapGuzzlePromise(PromiseInterface $promise): IPromise {

@@ -141,7 +141,7 @@ class Response {
 	 * @return $this
 	 * @since 8.0.0
 	 */
-	public function addCookie($name, $value, \DateTime $expireDate = null, $sameSite = 'Lax') {
+	public function addCookie($name, $value, ?\DateTime $expireDate = null, $sameSite = 'Lax') {
 		$this->cookies[$name] = ['value' => $value, 'expireDate' => $expireDate, 'sameSite' => $sameSite];
 		return $this;
 	}
@@ -211,7 +211,7 @@ class Response {
 			$config = \OC::$server->get(IConfig::class);
 
 			if ($config->getSystemValueBool('debug', false)) {
-				\OC::$server->get(LoggerInterface::class)->error('Setting custom header on a 204 or 304 is not supported (Header: {header})', [
+				\OC::$server->get(LoggerInterface::class)->error('Setting custom header on a 304 is not supported (Header: {header})', [
 					'header' => $name,
 				]);
 			}

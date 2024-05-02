@@ -567,7 +567,9 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 	 * @throws InvalidPathException
 	 */
 	protected function verifyPosixPath($fileName) {
-		$this->scanForInvalidCharacters($fileName, "\\/");
+		$invalidChars = \OCP\Util::getForbiddenFileNameChars();
+		$this->scanForInvalidCharacters($fileName, $invalidChars);
+
 		$fileName = trim($fileName);
 		$reservedNames = ['*'];
 		if (in_array($fileName, $reservedNames)) {
@@ -577,11 +579,11 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 
 	/**
 	 * @param string $fileName
-	 * @param string $invalidChars
+	 * @param string[] $invalidChars
 	 * @throws InvalidPathException
 	 */
-	private function scanForInvalidCharacters($fileName, $invalidChars) {
-		foreach (str_split($invalidChars) as $char) {
+	private function scanForInvalidCharacters(string $fileName, array $invalidChars) {
+		foreach ($invalidChars as $char) {
 			if (str_contains($fileName, $char)) {
 				throw new InvalidCharacterInPathException();
 			}
@@ -668,7 +670,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 	private function isSameStorage(IStorage $storage): bool {
 		while ($storage->instanceOfStorage(Wrapper::class)) {
 			/**
-			 * @var Wrapper $sourceStorage
+			 * @var Wrapper $storage
 			 */
 			$storage = $storage->getWrapperStorage();
 		}
@@ -866,6 +868,19 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 	}
 
 	/**
+	 * Allow setting the storage owner
+	 *
+	 * This can be used for storages that do not have a dedicated owner, where we want to
+	 * pass the user that we setup the mountpoint for along to the storage layer
+	 *
+	 * @param string|null $user
+	 * @return void
+	 */
+	public function setOwner(?string $user): void {
+		$this->owner = $user;
+	}
+
+	/**
 	 * @return bool
 	 */
 	public function needsPartFile() {
@@ -880,7 +895,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 	 * @param int $size
 	 * @return int
 	 */
-	public function writeStream(string $path, $stream, int $size = null): int {
+	public function writeStream(string $path, $stream, ?int $size = null): int {
 		$target = $this->fopen($path, 'w');
 		if (!$target) {
 			throw new GenericFileException("Failed to open $path for writing");

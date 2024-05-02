@@ -41,7 +41,8 @@ class File extends Command {
 			->setName('info:file')
 			->setDescription('get information for a file')
 			->addArgument('file', InputArgument::REQUIRED, "File id or path")
-			->addOption('children', 'c', InputOption::VALUE_NONE, "List children of folders");
+			->addOption('children', 'c', InputOption::VALUE_NONE, "List children of folders")
+			->addOption('storage-tree', null, InputOption::VALUE_NONE, "Show storage and cache wrapping tree");
 	}
 
 	public function execute(InputInterface $input, OutputInterface $output): int {
@@ -86,7 +87,7 @@ class File extends Command {
 				$output->writeln("  children: " . count($children) . " (use <info>--children</info> option to list)");
 			}
 		}
-		$this->outputStorageDetails($node->getMountPoint(), $node, $output);
+		$this->outputStorageDetails($node->getMountPoint(), $node, $input, $output);
 
 		$filesPerUser = $this->fileUtils->getFilesByUser($node);
 		$output->writeln("");
@@ -108,7 +109,7 @@ class File extends Command {
 	 * @psalm-suppress UndefinedClass
 	 * @psalm-suppress UndefinedInterfaceMethod
 	 */
-	private function outputStorageDetails(IMountPoint $mountPoint, Node $node, OutputInterface $output): void {
+	private function outputStorageDetails(IMountPoint $mountPoint, Node $node, InputInterface $input, OutputInterface $output): void {
 		$storage = $mountPoint->getStorage();
 		if (!$storage) {
 			return;
@@ -151,5 +152,15 @@ class File extends Command {
 		} elseif ($mountPoint instanceof GroupMountPoint) {
 			$output->writeln("  groupfolder id: " . $mountPoint->getFolderId());
 		}
+		if ($input->getOption('storage-tree')) {
+			$storageTmp = $storage;
+			$storageClass = get_class($storageTmp).' (cache:'.get_class($storageTmp->getCache()).')';
+			while ($storageTmp instanceof \OC\Files\Storage\Wrapper\Wrapper) {
+				$storageTmp = $storageTmp->getWrapperStorage();
+				$storageClass .= "\n\t".'> '.get_class($storageTmp).' (cache:'.get_class($storageTmp->getCache()).')';
+			}
+			$output->writeln("  storage wrapping: " . $storageClass);
+		}
+
 	}
 }

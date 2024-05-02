@@ -27,6 +27,8 @@ declare(strict_types=1);
 namespace OCA\Files_Versions\Sabre;
 
 use OCA\Files_Versions\Versions\IDeletableVersionBackend;
+use OCA\Files_Versions\Versions\IMetadataVersion;
+use OCA\Files_Versions\Versions\IMetadataVersionBackend;
 use OCA\Files_Versions\Versions\INameableVersion;
 use OCA\Files_Versions\Versions\INameableVersionBackend;
 use OCA\Files_Versions\Versions\IVersion;
@@ -37,15 +39,10 @@ use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\IFile;
 
 class VersionFile implements IFile {
-	/** @var IVersion */
-	private $version;
-
-	/** @var IVersionManager */
-	private $versionManager;
-
-	public function __construct(IVersion $version, IVersionManager $versionManager) {
-		$this->version = $version;
-		$this->versionManager = $versionManager;
+	public function __construct(
+		private IVersion $version,
+		private IVersionManager $versionManager
+	) {
 	}
 
 	public function put($data) {
@@ -92,21 +89,27 @@ class VersionFile implements IFile {
 		throw new Forbidden();
 	}
 
-	public function getLabel(): ?string {
-		if ($this->version instanceof INameableVersion && $this->version->getSourceFile()->getSize() > 0) {
-			return $this->version->getLabel();
-		} else {
-			return null;
-		}
-	}
+	public function setMetadataValue(string $key, string $value): bool {
+		$backend = $this->version->getBackend();
 
-	public function setLabel($label): bool {
-		if ($this->versionManager instanceof INameableVersionBackend) {
-			$this->versionManager->setVersionLabel($this->version, $label);
+		if ($backend instanceof IMetadataVersionBackend) {
+			$backend->setMetadataValue($this->version->getSourceFile(), $this->version->getRevisionId(), $key, $value);
+			return true;
+		} elseif ($key === 'label' && $backend instanceof INameableVersionBackend) {
+			$backend->setVersionLabel($this->version, $value);
 			return true;
 		} else {
 			return false;
 		}
+	}
+
+	public function getMetadataValue(string $key): ?string {
+		if ($this->version instanceof IMetadataVersion) {
+			return $this->version->getMetadataValue($key);
+		} elseif ($key === 'label' && $this->version instanceof INameableVersion) {
+			return $this->version->getLabel();
+		}
+		return null;
 	}
 
 	public function getLastModified(): int {

@@ -41,7 +41,7 @@ declare(strict_types=1);
 		//Handle 2FA provider icons and theme
 		if ($provider instanceof \OCP\Authentication\TwoFactorAuth\IProvidesIcons) {
 			$icon = $provider->getDarkIcon();
-		//fallback icon if the 2factor provider doesn't provide an icon.
+			//fallback icon if the 2factor provider doesn't provide an icon.
 		} else {
 			$icon = image_path('core', 'actions/password.svg');
 		}
@@ -57,4 +57,3 @@ declare(strict_types=1);
 	<?php } ?>
 	</ul>
 </div>
-

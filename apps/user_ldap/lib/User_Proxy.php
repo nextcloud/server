@@ -97,7 +97,7 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IUserLDAP
 			);
 
 			if (is_null($this->refBackend)) {
-				$this->refBackend = &$this->backends[$configPrefix];
+				$this->refBackend = $this->backends[$configPrefix];
 			}
 		}
 
@@ -438,7 +438,7 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IUserLDAP
 	 * The connection needs to be closed manually.
 	 *
 	 * @param string $uid
-	 * @return resource|\LDAP\Connection The LDAP connection
+	 * @return \LDAP\Connection The LDAP connection
 	 */
 	public function getNewLDAPConnection($uid) {
 		return $this->handleRequest($uid, 'getNewLDAPConnection', [$uid]);

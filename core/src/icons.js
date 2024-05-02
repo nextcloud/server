@@ -99,6 +99,7 @@ const icons = {
 	'tablet': path.join(__dirname, '../img', 'clients', 'tablet.svg'),
 	'tag': path.join(__dirname, '../img', 'actions', 'tag.svg'),
 	'talk': path.join(__dirname, '../img', 'apps', 'spreed.svg'),
+	'teams': path.join(__dirname, '../img', 'apps', 'circles.svg'),
 	'template-add': path.join(__dirname, '../img', 'actions', 'template-add.svg'),
 	'timezone': path.join(__dirname, '../img', 'actions', 'timezone.svg'),
 	'toggle-background': path.join(__dirname, '../img', 'actions', 'toggle-background.svg'),
@@ -124,6 +125,10 @@ const icons = {
 }
 
 const iconsColor = {
+	'add-folder-description': {
+		path: path.join(__dirname, '../img', 'actions', 'add-folder-description.svg'),
+		color: 'grey',
+	},
 	'settings': {
 		path: path.join(__dirname, '../img', 'actions', 'settings.svg'),
 		color: 'black',
@@ -165,6 +170,10 @@ const iconsColor = {
 		path: path.join(__dirname, '../img', 'filetypes', 'folder-drag-accept.svg'),
 		// TODO: replace primary ?
 		color: 'primary',
+	},
+	'filetype-text': {
+		path: path.join(__dirname, '../img', 'filetypes', 'text.svg'),
+		color: 'grey',
 	},
 }
 
@@ -209,7 +218,6 @@ const iconsAliases = {
 	'icon-category-security': 'icon-password-dark',
 	'icon-category-search': 'icon-search-dark',
 	'icon-category-tools': 'icon-settings-dark',
-	'icon-filetype-text': 'icon-file-grey',
 	'nav-icon-systemtagsfilter': 'icon-tag-dark',
 }
 

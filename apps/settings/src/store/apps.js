@@ -34,7 +34,6 @@ const state = {
 	categories: [],
 	updateCount: loadState('settings', 'appstoreUpdateCount', 0),
 	loading: {},
-	loadingList: false,
 	gettingCategoriesPromise: null,
 }
 
@@ -210,7 +209,7 @@ const actions = {
 										onClick: () => window.location.reload(),
 										close: false,
 
-									}
+									},
 								)
 								setTimeout(function() {
 									location.reload()
@@ -219,10 +218,12 @@ const actions = {
 						})
 						.catch(() => {
 							if (!Array.isArray(appId)) {
+								showError(t('settings', 'Error: This app cannot be enabled because it makes the server unstable'))
 								context.commit('setError', {
 									appId: apps,
 									error: t('settings', 'Error: This app cannot be enabled because it makes the server unstable'),
 								})
+								context.dispatch('disableApp', { appId })
 							}
 						})
 				})

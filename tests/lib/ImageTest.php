@@ -149,8 +149,7 @@ class ImageTest extends \Test\TestCase {
 		$img = new \OC_Image(null, null, $config);
 		$img->loadFromFile(OC::$SERVERROOT.'/tests/data/testimage.jpg');
 		$raw = imagecreatefromstring(file_get_contents(OC::$SERVERROOT.'/tests/data/testimage.jpg'));
-		/** @psalm-suppress InvalidScalarArgument */
-		imageinterlace($raw, (PHP_VERSION_ID >= 80000 ? true : 1));
+		imageinterlace($raw, true);
 		ob_start();
 		imagejpeg($raw, null, 80);
 		$expected = ob_get_clean();

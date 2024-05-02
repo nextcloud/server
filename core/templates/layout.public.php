@@ -4,7 +4,7 @@
 	<meta charset="utf-8">
 	<title>
 		<?php
-		p(!empty($_['application'])?$_['application'].' - ':'');
+			p(!empty($_['application']) ? $_['application'].' - ' : '');
 p($theme->getTitle());
 ?>
 	</title>
@@ -48,17 +48,21 @@ p($theme->getTitle());
 					<div class="logo logo-icon"></div>
 				<?php endif; ?>
 
-				<?php if (isset($template) && $template->getHeaderTitle() !== '') { ?>
-					<?php p($template->getHeaderTitle()); ?>
-				<?php } else { ?>
-					<?php	p($theme->getName()); ?>
-				<?php } ?>
-			</div>
-			<?php if (isset($template) && $template->getHeaderDetails() !== '') { ?>
-				<div class="header-shared-by">
-					<?php p($template->getHeaderDetails()); ?>
+				<div class="header-info">
+					<span class="header-title">
+						<?php if (isset($template) && $template->getHeaderTitle() !== '') { ?>
+							<?php p($template->getHeaderTitle()); ?>
+						<?php } else { ?>
+							<?php	p($theme->getName()); ?>
+						<?php } ?>
+					</span>
+					<?php if (isset($template) && $template->getHeaderDetails() !== '') { ?>
+						<span class="header-shared-by">
+							<?php p($template->getHeaderDetails()); ?>
+						</span>
+					<?php } ?>
 				</div>
-			<?php } ?>
+			</div>
 		</div>
 
 		<div class="header-right">

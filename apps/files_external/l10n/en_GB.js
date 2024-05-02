@@ -79,6 +79,7 @@ OC.L10N.register(
     "Enable SSL" : "Enable SSL",
     "Enable Path Style" : "Enable Path Style",
     "Legacy (v2) authentication" : "Legacy (v2) authentication",
+    "Enable multipart copy" : "Enable multipart copy",
     "WebDAV" : "WebDAV",
     "URL" : "URL",
     "Remote subfolder" : "Remote subfolder",

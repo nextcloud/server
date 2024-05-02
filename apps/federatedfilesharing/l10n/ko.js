@@ -13,6 +13,8 @@ OC.L10N.register(
     "Federated Share request sent, you will receive an invitation. Check your notifications." : "연합 공유 요청을 보냈으며 초대장을 받을 것입니다. 알림을 확인하십시오.",
     "Couldn't establish a federated share, it looks like the server to federate with is too old (Nextcloud <= 9)." : "연합 공유를 설정할 수 없습니다. 연합하려고 하는 서버가 너무 오래되었습니다(Nextcloud 9 이하).",
     "It is not allowed to send federated group shares from this server." : "이 서버에서 연합 공유를 보낼 수 없습니다.",
+    "Sharing %1$s failed, because this item is already shared with the account %2$s" : "%1$s을(를) 공유할 수 없습니다. 이 항목을 이미 %2$s 계정과 공유하고 있습니다",
+    "Not allowed to create a federated share to the same account" : "같은 계정과 연합 공유를 만들 수 없음",
     "Federated shares require read permissions" : "연합 공유는 읽기 권한이 필요합니다",
     "File is already shared with %s" : "파일이 %s와(과) 이미 공유됨",
     "Sharing %1$s failed, could not find %2$s, maybe the server is currently unreachable or uses a self-signed certificate." : "%1$s 공유 실패. %2$s을(를) 찾을 수 없습니다. 서버에 접근할 수 없거나 자가 서명된 인증서를 사용하고 있을 수도 있습니다.",

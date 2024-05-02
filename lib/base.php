@@ -35,6 +35,7 @@ declare(strict_types=1);
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author MartB <mart.b@outlook.de>
  * @author Michael Gapczynski <GapczynskiM@gmail.com>
+ * @author MichaIng <micha@dietpi.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Owen Winkler <a_github@midnightcircus.com>
  * @author Phil Davis <phil.davis@inf.org>
@@ -388,10 +389,15 @@ class OC {
 		$ocVersion = \OCP\Util::getVersion();
 		$ocVersion = implode('.', $ocVersion);
 		$incompatibleApps = $appManager->getIncompatibleApps($ocVersion);
+		$incompatibleOverwrites = $systemConfig->getValue('app_install_overwrite', []);
 		$incompatibleShippedApps = [];
+		$incompatibleDisabledApps = [];
 		foreach ($incompatibleApps as $appInfo) {
 			if ($appManager->isShipped($appInfo['id'])) {
 				$incompatibleShippedApps[] = $appInfo['name'] . ' (' . $appInfo['id'] . ')';
+			}
+			if (!in_array($appInfo['id'], $incompatibleOverwrites)) {
+				$incompatibleDisabledApps[] = $appInfo;
 			}
 		}
 
@@ -402,7 +408,7 @@ class OC {
 		}
 
 		$tmpl->assign('appsToUpgrade', $appManager->getAppsNeedingUpgrade($ocVersion));
-		$tmpl->assign('incompatibleAppsList', $incompatibleApps);
+		$tmpl->assign('incompatibleAppsList', $incompatibleDisabledApps);
 		try {
 			$defaults = new \OC_Defaults();
 			$tmpl->assign('productName', $defaults->getName());
@@ -459,7 +465,6 @@ class OC {
 
 		//try to set the session lifetime
 		$sessionLifeTime = self::getSessionLifeTime();
-		@ini_set('gc_maxlifetime', (string)$sessionLifeTime);
 
 		// session timeout
 		if ($session->exists('LAST_ACTIVITY') && (time() - $session->get('LAST_ACTIVITY') > $sessionLifeTime)) {
@@ -656,11 +661,11 @@ class OC {
 		//this doesn´t work always depending on the webserver and php configuration.
 		//Let´s try to overwrite some defaults if they are smaller than 1 hour
 
-		if (intval(@ini_get('max_execution_time') ?? 0) < 3600) {
+		if (intval(@ini_get('max_execution_time') ?: 0) < 3600) {
 			@ini_set('max_execution_time', strval(3600));
 		}
 
-		if (intval(@ini_get('max_input_time') ?? 0) < 3600) {
+		if (intval(@ini_get('max_input_time') ?: 0) < 3600) {
 			@ini_set('max_input_time', strval(3600));
 		}
 
@@ -1010,21 +1015,6 @@ class OC {
 					exit();
 				}
 			}
-		}
-
-		// emergency app disabling
-		if ($requestPath === '/disableapp'
-			&& $request->getMethod() === 'POST'
-		) {
-			\OC_JSON::callCheck();
-			\OC_JSON::checkAdminUser();
-			$appIds = (array)$request->getParam('appid');
-			foreach ($appIds as $appId) {
-				$appId = \OC_App::cleanAppId($appId);
-				Server::get(\OCP\App\IAppManager::class)->disableApp($appId);
-			}
-			\OC_JSON::success();
-			exit();
 		}
 
 		// Always load authentication apps

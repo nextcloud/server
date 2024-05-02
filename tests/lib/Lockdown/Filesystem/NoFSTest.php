@@ -39,7 +39,7 @@ class NoFSTest extends \Test\TestCase {
 		$token->setScope([
 			'filesystem' => true
 		]);
-		\OC::$server->getLockdownManager()->setToken($token);
+		\OC::$server->get('LockdownManager')->setToken($token);
 		parent::tearDown();
 	}
 
@@ -50,7 +50,7 @@ class NoFSTest extends \Test\TestCase {
 			'filesystem' => false
 		]);
 
-		\OC::$server->getLockdownManager()->setToken($token);
+		\OC::$server->get('LockdownManager')->setToken($token);
 		$this->createUser('foo', 'var');
 	}
 

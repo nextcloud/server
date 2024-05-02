@@ -45,9 +45,9 @@ class GenerateCommand extends Command implements CompletionAwareInterface {
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) {{year}} Your name <your@email.com>
+ * @copyright Copyright (c) {{year}} FIXME Your name <your@email.com>
  *
- * @author Your name <your@email.com>
+ * FIXME @author Your name <your@email.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -74,7 +74,7 @@ use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
 
 /**
- * Auto-generated migration step: Please modify to your needs!
+ * FIXME Auto-generated migration step: Please modify to your needs!
  */
 class {{classname}} extends SimpleMigrationStep {
 

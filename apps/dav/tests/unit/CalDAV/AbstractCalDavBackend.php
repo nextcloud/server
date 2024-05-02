@@ -39,6 +39,7 @@ use OCP\App\IAppManager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\ICacheFactory;
 use OCP\IConfig;
+use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\IUserManager;
 use OCP\IUserSession;
@@ -70,6 +71,7 @@ abstract class AbstractCalDavBackend extends TestCase {
 	private IConfig|MockObject $config;
 	private ISecureRandom $random;
 	protected SharingBackend $sharingBackend;
+	protected IDBConnection $db;
 	public const UNIT_TEST_USER = 'principals/users/caldav-unit-test';
 	public const UNIT_TEST_USER1 = 'principals/users/caldav-unit-test1';
 	public const UNIT_TEST_GROUP = 'principals/groups/caldav-unit-test-group';
@@ -105,7 +107,7 @@ abstract class AbstractCalDavBackend extends TestCase {
 			->withAnyParameters()
 			->willReturn([self::UNIT_TEST_GROUP, self::UNIT_TEST_GROUP2]);
 
-		$db = \OC::$server->getDatabaseConnection();
+		$this->db = \OC::$server->getDatabaseConnection();
 		$this->random = \OC::$server->getSecureRandom();
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->config = $this->createMock(IConfig::class);
@@ -114,10 +116,10 @@ abstract class AbstractCalDavBackend extends TestCase {
 			$this->groupManager,
 			$this->principal,
 			$this->createMock(ICacheFactory::class),
-			new Service(new SharingMapper($db)),
+			new Service(new SharingMapper($this->db)),
 			$this->logger);
 		$this->backend = new CalDavBackend(
-			$db,
+			$this->db,
 			$this->principal,
 			$this->userManager,
 			$this->random,

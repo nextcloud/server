@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2018, michag86 (michag86@arcor.de)
  *
@@ -117,7 +120,7 @@ class Update extends Command {
 					if ($result === false) {
 						$output->writeln($appId . ' couldn\'t be updated');
 						$return = 1;
-					} elseif ($result === true) {
+					} else {
 						$output->writeln($appId . ' updated');
 					}
 				}

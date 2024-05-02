@@ -169,7 +169,7 @@ class Sync extends TimedJob {
 		$results = $access->fetchListOfUsers(
 			$filter,
 			$access->userManager->getAttributes(),
-			$connection->ldapPagingSize,
+			(int)$connection->ldapPagingSize,
 			$cycleData['offset'],
 			true
 		);
@@ -224,7 +224,7 @@ class Sync extends TimedJob {
 	 * @param array|null $cycleData the old cycle
 	 * @return array|null
 	 */
-	public function determineNextCycle(array $cycleData = null) {
+	public function determineNextCycle(?array $cycleData = null) {
 		$prefixes = $this->ldapHelper->getServerConfigurationPrefixes(true);
 		if (count($prefixes) === 0) {
 			return null;

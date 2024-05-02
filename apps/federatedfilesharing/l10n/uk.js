@@ -13,6 +13,7 @@ OC.L10N.register(
     "Federated Share request sent, you will receive an invitation. Check your notifications." : "Запит на Federated Share надіслано, ви отримаєте запрошення. Перевірте сповіщення.",
     "Couldn't establish a federated share, it looks like the server to federate with is too old (Nextcloud <= 9)." : "Не вдалося встановити об’єднаний ресурс, схоже, сервер, з яким потрібно об’єднатися, застарий (Nextcloud <= 9).",
     "It is not allowed to send federated group shares from this server." : "Заборонено надсилати об’єднані спільні групи з цього сервера.",
+    "Sharing %1$s failed, because this item is already shared with the account %2$s" : "Не вдалося надати %1$s у спільний доступ, оскільки цей ресурс вже надано у спільний доступ користувачеві %2$s",
     "Federated shares require read permissions" : "Об’єднані спільні ресурси потребують дозволу на читання",
     "File is already shared with %s" : "Файл вже в загальному доступі з %s",
     "Sharing %1$s failed, could not find %2$s, maybe the server is currently unreachable or uses a self-signed certificate." : "Помилка спільного доступу %1$s, не вдалося знайти %2$s, можливо, сервер наразі недоступний або використовує самопідписаний сертифікат.",

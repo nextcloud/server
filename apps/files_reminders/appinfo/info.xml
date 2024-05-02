@@ -8,21 +8,17 @@
 
 Set file reminders.
 	]]></description>
-	<version>1.2.0</version>
+	<version>1.3.0</version>
 	<licence>agpl</licence>
 	<author>Christopher Ng</author>
 	<namespace>FilesReminders</namespace>
-
-	<types>
-		<dav />
-	</types>
 
 	<category>files</category>
 
 	<bugs>https://github.com/nextcloud/server/issues</bugs>
 
 	<dependencies>
-		<nextcloud min-version="29" max-version="29"/>
+		<nextcloud min-version="30" max-version="30"/>
 	</dependencies>
 
 	<background-jobs>
@@ -33,10 +29,4 @@ Set file reminders.
 	<commands>
 		<command>OCA\FilesReminders\Command\ListCommand</command>
 	</commands>
-
-	<sabre>
-		<plugins>
-			<plugin>OCA\FilesReminders\Dav\PropFindPlugin</plugin>
-		</plugins>
-	</sabre>
  </info>

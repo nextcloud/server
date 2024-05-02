@@ -3,6 +3,7 @@
     "See %s" : "Vidi %s",
     "Sample configuration detected" : "Ekzempla agordo trovita",
     "It has been detected that the sample configuration has been copied. This can break your installation and is unsupported. Please read the documentation before performing changes on config.php" : "Ekzempla agordo estis kopiita en via sistemo. Tio povas paneigi vian instalaĵon, kaj ne estas subtenata. Bv. legi la dokumentaron antaŭ ol fari ŝanĝojn en config.php",
+    "The page could not be found on the server." : "La paĝo ne povis esti trovita en la servilo.",
     "Other activities" : "Alia aktivado",
     "%1$s and %2$s" : "%1$s kaj %2$s",
     "%1$s, %2$s and %3$s" : "%1$s, %2$s kaj %3$s",
@@ -75,7 +76,6 @@
     "App \"%s\" cannot be installed because it is not compatible with this version of the server." : "La aplikaĵo „%s“ ne instaleblas, ĉar ĝi ne kongruas kun tiu servila versio.",
     "__language_name__" : "Esperanto",
     "This is an automatically sent email, please do not reply." : "Tio estas aŭtomate sendita retpoŝtmesaĝo; bv. ne respondi.",
-    "Help" : "Helpo",
     "Apps" : "Aplikaĵoj",
     "Settings" : "Agordo",
     "Log out" : "Elsaluti",
@@ -187,10 +187,9 @@
     "Storage connection error. %s" : "Konekta eraro al konservejo. %s",
     "Storage is temporarily not available" : "Konservejo provizore ne disponeblas",
     "Storage connection timeout. %s" : "Konekto al konservejo eltempiĝis. %s",
-    "The files of the app %1$s were not replaced correctly. Make sure it is a version compatible with the server." : "La dosieroj de la aplikaĵo %1$s ne estis ĝuste anstataŭigitaj. Certigu, ke tiu aplikaĵa versio kongruas la servilon.",
     "Logged in user must be an admin or sub admin" : "La ensalutanta uzanto estu administranto aŭ subadministranto",
     "Logged in user must be an admin" : "La ensalutanta uzanto estu administranto",
-    "Full name" : "Plena nomo",
+    "Help" : "Helpo",
     "Unknown user" : "Nekonata uzanto",
     "MySQL username and/or password not valid" : "La uzantnomo kaj/aŭ pasvorto de MySQL ne estas valida",
     "Oracle username and/or password not valid" : "La uzantnomo kaj/aŭ la pasvorto de Oracle ne estas valida",
@@ -204,8 +203,6 @@
     "Username must not consist of dots only" : "Uzantnomo ne povas enhavi nur punktojn",
     "Username is invalid because files already exist for this user" : "La uzantnomo ne estas valida pro dosieroj por la uzanto jam ekzistas",
     "User disabled" : "Uzanto malebligita",
-    "libxml2 2.7.0 is at least required. Currently %s is installed." : "libxml2 2.7.0 almenaŭ necesas. Nun %s estas instalita.",
-    "To fix this issue update your libxml2 version and restart your web server." : "Por ripari tiun problemon, ĝisdatigu vian version de libxml2, kaj restartigu la TTT-servilon.",
     "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Bv. ŝanĝi la permesojn al 0770, tiel la dosierujo ne listigeblas de aliaj uzantoj."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

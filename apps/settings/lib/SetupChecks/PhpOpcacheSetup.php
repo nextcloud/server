@@ -102,9 +102,11 @@ class PhpOpcacheSetup implements ISetupCheck {
 				$recommendations[] = $this->l10n->t('The OPcache buffer is nearly full. To assure that all scripts can be hold in cache, it is recommended to apply "opcache.memory_consumption" to your PHP configuration with a value higher than "%s".', [($this->iniGetWrapper->getNumeric('opcache.memory_consumption') ?: 'currently')]);
 			}
 
+			$interned_strings_buffer = $this->iniGetWrapper->getNumeric('opcache.interned_strings_buffer') ?? 0;
+			$memory_consumption = $this->iniGetWrapper->getNumeric('opcache.memory_consumption') ?? 0;
 			if (
 				// Do not recommend to raise the interned strings buffer size above a quarter of the total OPcache size
-				($this->iniGetWrapper->getNumeric('opcache.interned_strings_buffer') ?? 0 < $this->iniGetWrapper->getNumeric('opcache.memory_consumption') ?? 0 / 4) &&
+				($interned_strings_buffer < ($memory_consumption / 4)) &&
 				(
 					empty($status['interned_strings_usage']['free_memory']) ||
 					($status['interned_strings_usage']['used_memory'] / $status['interned_strings_usage']['free_memory'] > 9)

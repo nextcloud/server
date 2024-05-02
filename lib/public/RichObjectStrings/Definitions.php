@@ -85,7 +85,8 @@ class Definitions {
 			'parameters' => [
 				'id' => [
 					'since' => '11.0.0',
-					'required' => true, 'description' => 'The id used to identify the announcement on the instance',
+					'required' => true,
+					'description' => 'The id used to identify the announcement on the instance',
 					'example' => '42',
 				],
 				'name' => [
@@ -109,7 +110,8 @@ class Definitions {
 			'parameters' => [
 				'id' => [
 					'since' => '11.0.0',
-					'required' => true, 'description' => 'The app id',
+					'required' => true,
+					'description' => 'The app id',
 					'example' => 'updatenotification',
 				],
 				'name' => [

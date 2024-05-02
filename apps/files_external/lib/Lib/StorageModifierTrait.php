@@ -46,10 +46,11 @@ trait StorageModifierTrait {
 	 *
 	 * @param StorageConfig $storage
 	 * @param IUser $user User the storage is being used as
+	 * @return void
 	 * @throws InsufficientDataForMeaningfulAnswerException
 	 * @throws StorageNotAvailableException
 	 */
-	public function manipulateStorageConfig(StorageConfig &$storage, IUser $user = null) {
+	public function manipulateStorageConfig(StorageConfig &$storage, ?IUser $user = null) {
 	}
 
 	/**
