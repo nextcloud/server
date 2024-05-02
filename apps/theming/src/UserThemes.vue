@@ -53,14 +53,14 @@
 			</div>
 		</NcSettingsSection>
 
-		<NcSettingsSection :name="t('theming', 'Background')"
+		<NcSettingsSection :name="t('theming', 'Background and color')"
 			class="background"
 			data-user-theming-background-disabled>
 			<template v-if="isUserThemingDisabled">
 				<p>{{ t('theming', 'Customization has been disabled by your administrator') }}</p>
 			</template>
 			<template v-else>
-				<p>{{ t('theming', 'Set a custom background') }}</p>
+				<p>{{ t('theming', 'The background can be set to an image from the default set, a custom uploaded image, or a plain color. The primary color will automatically be adapted based on this and used for elements like folder icons, primary buttons and highlights.') }}</p>
 				<BackgroundSettings class="background__grid" @update:background="refreshGlobalStyles" />
 			</template>
 		</NcSettingsSection>
