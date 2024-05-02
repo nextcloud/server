@@ -55,15 +55,17 @@
 </template>
 
 <script lang="ts">
+import type { Node, View } from '@nextcloud/files'
 import type { PropType } from 'vue'
 
+import { showError, showSuccess } from '@nextcloud/dialogs'
 import { emit } from '@nextcloud/event-bus'
 import { FileType, NodeStatus, Permission } from '@nextcloud/files'
 import { loadState } from '@nextcloud/initial-state'
-import { showError, showSuccess } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
 import axios from '@nextcloud/axios'
-import Vue from 'vue'
+import { isAxiosError } from 'axios'
+import Vue, { defineComponent } from 'vue'
 
 import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
 
@@ -72,7 +74,7 @@ import logger from '../../logger.js'
 
 const forbiddenCharacters = loadState<string[]>('files', 'forbiddenCharacters', [])
 
-export default Vue.extend({
+export default defineComponent({
 	name: 'FileEntryName',
 
 	components: {
@@ -114,6 +116,10 @@ export default Vue.extend({
 	},
 
 	computed: {
+		currentView(): View {
+			return this.$navigation.active as View
+		},
+
 		isRenaming() {
 			return this.renamingStore.renamingNode === this.source
 		},
@@ -201,7 +207,7 @@ export default Vue.extend({
 		 * input validity using browser's native validation.
 		 * @param event the keyup event
 		 */
-		checkInputValidity(event?: KeyboardEvent) {
+		checkInputValidity(event: KeyboardEvent) {
 			const input = event.target as HTMLInputElement
 			const newName = this.newName.trim?.() || ''
 			logger.debug('Checking input validity', { newName })
@@ -210,13 +216,18 @@ export default Vue.extend({
 				input.setCustomValidity('')
 				input.title = ''
 			} catch (e) {
-				input.setCustomValidity(e.message)
-				input.title = e.message
+				if (e instanceof Error) {
+					input.setCustomValidity(e.message)
+					input.title = e.message
+				} else {
+					input.setCustomValidity(t('files', 'Invalid file name'))
+				}
 			} finally {
 				input.reportValidity()
 			}
 		},
-		isFileNameValid(name) {
+
+		isFileNameValid(name: string) {
 			const trimmedName = name.trim()
 			if (trimmedName === '.' || trimmedName === '..') {
 				throw new Error(t('files', '"{name}" is an invalid file name.', { name }))
@@ -224,7 +235,7 @@ export default Vue.extend({
 				throw new Error(t('files', 'File name cannot be empty.'))
 			} else if (trimmedName.indexOf('/') !== -1) {
 				throw new Error(t('files', '"/" is not allowed inside a file name.'))
-			} else if (trimmedName.match(OC.config.blacklist_files_regex)) {
+			} else if (trimmedName.match(window.OC.config.blacklist_files_regex)) {
 				throw new Error(t('files', '"{name}" is not an allowed filetype.', { name }))
 			} else if (this.checkIfNodeExists(name)) {
 				throw new Error(t('files', '{newName} already exists.', { newName: name }))
@@ -237,7 +248,8 @@ export default Vue.extend({
 
 			return true
 		},
-		checkIfNodeExists(name) {
+
+		checkIfNodeExists(name: string) {
 			return this.nodes.find(node => node.basename === name && node !== this.source)
 		},
 
@@ -289,7 +301,6 @@ export default Vue.extend({
 			}
 
 			// Set loading state
-			this.loading = 'renaming'
 			Vue.set(this.source, 'status', NodeStatus.LOADING)
 
 			// Update node
@@ -314,26 +325,27 @@ export default Vue.extend({
 				// Reset the renaming store
 				this.stopRenaming()
 				this.$nextTick(() => {
-					this.$refs.basename.focus()
+					this.$refs.basename?.focus()
 				})
 			} catch (error) {
 				logger.error('Error while renaming file', { error })
 				this.source.rename(oldName)
-				this.$refs.renameInput.focus()
+				this.$refs.renameInput?.focus()
 
-				// TODO: 409 means current folder does not exist, redirect ?
-				if (error?.response?.status === 404) {
-					showError(t('files', 'Could not rename "{oldName}", it does not exist any more', { oldName }))
-					return
-				} else if (error?.response?.status === 412) {
-					showError(t('files', 'The name "{newName}" is already used in the folder "{dir}". Please choose a different name.', { newName, dir: this.currentDir }))
-					return
+				if (isAxiosError(error)) {
+					// TODO: 409 means current folder does not exist, redirect ?
+					if (error?.response?.status === 404) {
+						showError(t('files', 'Could not rename "{oldName}", it does not exist any more', { oldName }))
+						return
+					} else if (error?.response?.status === 412) {
+						showError(t('files', 'The name "{newName}" is already used in the folder "{dir}". Please choose a different name.', { newName, dir: this.currentDir }))
+						return
+					}
 				}
 
 				// Unknown error
 				showError(t('files', 'Could not rename "{oldName}"', { oldName }))
 			} finally {
-				this.loading = false
 				Vue.set(this.source, 'status', undefined)
 			}
 		},
