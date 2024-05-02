@@ -5,9 +5,9 @@
  */
 
 /* eslint-disable */
-import templateResult from './templates/result.handlebars'
-import templateResultForm from './templates/result_form.handlebars'
-import templateSelection from './templates/selection.handlebars'
+import templateResult from './templates/result.handlebars.cjs'
+import templateResultForm from './templates/result_form.handlebars.cjs'
+import templateSelection from './templates/selection.handlebars.cjs'
 
 (function(OC) {
 

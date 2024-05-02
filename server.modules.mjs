@@ -43,7 +43,7 @@ export default {
 		maintenance: join(__dirname, 'core/src', 'maintenance.js'),
 		profile: join(__dirname, 'core/src', 'profile.ts'),
 		recommendedapps: join(__dirname, 'core/src', 'recommendedapps.js'),
-		// systemtags: resolve(__dirname, 'core/src', 'systemtags/merged-systemtags.js'),
+		systemtags: join(__dirname, 'core/src', 'systemtags/merged-systemtags.js'),
 		'unified-search': join(__dirname, 'core/src', 'unified-search.ts'),
 		'legacy-unified-search': join(__dirname, 'core/src', 'legacy-unified-search.js'),
 		'unsupported-browser': join(__dirname, 'core/src', 'unsupported-browser.js'),
