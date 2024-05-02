@@ -53,7 +53,7 @@ import HeaderBar from '../shared/HeaderBar.vue'
 import { ACCOUNT_PROPERTY_READABLE_ENUM, DEFAULT_ADDITIONAL_EMAIL_SCOPE, NAME_READABLE_ENUM } from '../../../constants/AccountPropertyConstants.js'
 import { savePrimaryEmail, removeAdditionalEmail } from '../../../service/PersonalInfo/EmailService.js'
 import { validateEmail } from '../../../utils/validate.js'
-import { handleError } from '../../../utils/handlers.js'
+import { handleError } from '../../../utils/handlers.ts'
 
 const { emailMap: { additionalEmails, primaryEmail, notificationEmail } } = loadState('settings', 'personalInfoParameters', {})
 const { displayNameChangeSupported } = loadState('settings', 'accountParameters', {})

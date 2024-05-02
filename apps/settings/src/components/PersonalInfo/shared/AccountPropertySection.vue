@@ -52,7 +52,7 @@ import NcTextArea from '@nextcloud/vue/dist/Components/NcTextArea.js'
 import HeaderBar from './HeaderBar.vue'
 
 import { savePrimaryAccountProperty } from '../../../service/PersonalInfo/PersonalInfoService.js'
-import { handleError } from '../../../utils/handlers.js'
+import { handleError } from '../../../utils/handlers.ts'
 
 export default {
 	name: 'AccountPropertySection',

@@ -27,7 +27,7 @@ import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
 
 import { saveProfileParameterVisibility } from '../../../service/ProfileService.js'
 import { VISIBILITY_PROPERTY_ENUM } from '../../../constants/ProfileConstants.js'
-import { handleError } from '../../../utils/handlers.js'
+import { handleError } from '../../../utils/handlers.ts'
 
 const { profileEnabled } = loadState('settings', 'personalInfoParameters', false)
 
