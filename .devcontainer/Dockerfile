@@ -29,7 +29,7 @@ RUN apt-get install --no-install-recommends -y \
     php8.3-opcache \
     php8.3-cli \
     php8.3-dev \
-    libmagickcore-6.q16-3-extra \
+    libmagickcore-6.q16-7-extra \
     curl \
     lsof \
     make \
