@@ -27,17 +27,26 @@ declare(strict_types=1);
 namespace OC\Core\Controller;
 
 use OCA\Core\ResponseDefinitions;
+use OCA\User_LDAP\Handler\ExtStorageConfigHandler;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\AnonRateLimit;
 use OCP\AppFramework\Http\Attribute\ApiRoute;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\Attribute\UserRateLimit;
+use OCP\AppFramework\Http\DataDownloadResponse;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\Common\Exception\NotFoundException;
+use OCP\Files\File;
+use OCP\Files\GenericFileException;
+use OCP\Files\IRootFolder;
+use OCP\Files\NotPermittedException;
 use OCP\IL10N;
 use OCP\IRequest;
+use OCP\Lock\LockedException;
 use OCP\PreConditionNotMetException;
+use OCP\TaskProcessing\EShapeType;
+use OCP\TaskProcessing\Exception\Exception;
 use OCP\TaskProcessing\Exception\ValidationException;
 use OCP\TaskProcessing\ShapeDescriptor;
 use OCP\TaskProcessing\Task;
@@ -50,13 +59,12 @@ use Psr\Log\LoggerInterface;
  */
 class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 	public function __construct(
-		string                     $appName,
-		IRequest                   $request,
-		private \OCP\TaskProcessing\IManager           $taskProcessingManager,
-		private IL10N              $l,
-		private ?string            $userId,
-		private ContainerInterface $container,
-		private LoggerInterface    $logger,
+		string $appName,
+		IRequest $request,
+		private \OCP\TaskProcessing\IManager $taskProcessingManager,
+		private IL10N $l,
+		private ?string $userId,
+		private IRootFolder $rootFolder,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -207,8 +215,70 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 			return new DataResponse([
 				'tasks' => $json,
 			]);
-		} catch (\RuntimeException $e) {
+		} catch (Exception $e) {
+			return new DataResponse(['message' => $this->l->t('Internal error')], Http::STATUS_INTERNAL_SERVER_ERROR);
+		} catch (\JsonException $e) {
 			return new DataResponse(['message' => $this->l->t('Internal error')], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
+	}
+
+	/**
+	 * This endpoint returns the contents of a file referenced in a task
+	 *
+	 * @param int $taskId
+	 * @param int $fileId
+	 * @return DataDownloadResponse<Http::STATUS_OK, string, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR|Http::STATUS_NOT_FOUND, array{message: string}, array{}>
+	 *
+	 *  200: File content returned
+	 */
+	#[NoAdminRequired]
+	#[ApiRoute(verb: 'GET', url: '/tasks/{taskId}/file/{fileId}', root: '/taskprocessing')]
+	public function getFileContents(int $taskId, int $fileId): Http\DataDownloadResponse|DataResponse {
+		try {
+			$task = $this->taskProcessingManager->getUserTask($taskId, $this->userId);
+			$ids = $this->extractFileIdsFromTask($task);
+			if (!in_array($fileId, $ids)) {
+				return new DataResponse(['message' => $this->l->t('Not found')], Http::STATUS_NOT_FOUND);
+			}
+			$node = $this->rootFolder->getFirstNodeById($fileId);
+			if ($node === null) {
+				$node = $this->rootFolder->getFirstNodeByIdInPath($fileId, '/' . $this->rootFolder->getAppDataDirectoryName() . '/');
+				if (!$node instanceof File) {
+					throw new \OCP\TaskProcessing\Exception\NotFoundException('Node is not a file');
+				}
+			} elseif (!$node instanceof File) {
+				throw new \OCP\TaskProcessing\Exception\NotFoundException('Node is not a file');
+			}
+			return new Http\DataDownloadResponse($node->getContent(), $node->getName(), $node->getMimeType());
+		} catch (\OCP\TaskProcessing\Exception\NotFoundException $e) {
+			return new DataResponse(['message' => $this->l->t('Not found')], Http::STATUS_NOT_FOUND);
+		} catch (GenericFileException|NotPermittedException|LockedException|Exception $e) {
+			return new DataResponse(['message' => $this->l->t('Internal error')], Http::STATUS_INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	/**
+	 * @param Task $task
+	 * @return array
+	 * @throws \OCP\TaskProcessing\Exception\NotFoundException
+	 */
+	private function extractFileIdsFromTask(Task $task) {
+		$ids = [];
+		$taskTypes = $this->taskProcessingManager->getAvailableTaskTypes();
+		if (!isset($taskTypes[$task->getTaskType()])) {
+			throw new \OCP\TaskProcessing\Exception\NotFoundException('Could not find task type');
+		}
+		$taskType = $taskTypes[$task->getTaskType()];
+		foreach ($taskType['inputShape'] + $taskType['optionalInputShape'] as $key => $descriptor) {
+			if (in_array(EShapeType::getScalarType($descriptor->getShapeType()), [EShapeType::File, EShapeType::Image, EShapeType::Audio, EShapeType::Video], true)) {
+				$ids[] = $task->getInput()[$key];
+			}
+		}
+		foreach ($taskType['outputShape'] + $taskType['optionalOutputShape'] as $key => $descriptor) {
+			if (in_array(EShapeType::getScalarType($descriptor->getShapeType()), [EShapeType::File, EShapeType::Image, EShapeType::Audio, EShapeType::Video], true)) {
+				$ids[] = $task->getOutput()[$key];
+			}
+		}
+		return $ids;
 	}
 }
