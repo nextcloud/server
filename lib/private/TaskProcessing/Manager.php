@@ -465,43 +465,12 @@ class Manager implements IManager {
 				if ($optional) {
 					continue;
 				}
-				throw new \OCP\TaskProcessing\Exception\ValidationException('Missing key: "' . $key . '"');
+				throw new ValidationException('Missing key: "' . $key . '"');
 			}
-			if ($type === EShapeType::Text && !is_string($io[$key])) {
-				throw new \OCP\TaskProcessing\Exception\ValidationException('Non-text item provided for Text key: "' . $key . '"');
-			}
-			if ($type === EShapeType::ListOfTexts && (!is_array($io[$key]) || count(array_filter($io[$key], fn ($item) => !is_string($item))) > 0)) {
-				throw new \OCP\TaskProcessing\Exception\ValidationException('None-text list item provided for ListOfTexts key: "' . $key . '"');
-			}
-			if ($type === EShapeType::Number && !is_numeric($io[$key])) {
-				throw new \OCP\TaskProcessing\Exception\ValidationException('None-numeric item provided for Number key: "' . $key . '"');
-			}
-			if ($type === EShapeType::ListOfNumbers && (!is_array($io[$key]) || count(array_filter($io[$key], fn ($item) => !is_numeric($item))) > 0)) {
-				throw new \OCP\TaskProcessing\Exception\ValidationException('None-numeric list item provided for ListOfNumbers key: "' . $key . '"');
-			}
-			if ($type === EShapeType::Image && !is_numeric($io[$key])) {
-				throw new \OCP\TaskProcessing\Exception\ValidationException('None-image item provided for Image key: "' . $key . '"');
-			}
-			if ($type === EShapeType::ListOfImages && (!is_array($io[$key]) || count(array_filter($io[$key], fn ($item) => !is_numeric($item))) > 0)) {
-				throw new \OCP\TaskProcessing\Exception\ValidationException('None-image list item provided for ListOfImages key: "' . $key . '"');
-			}
-			if ($type === EShapeType::Audio && !is_numeric($io[$key])) {
-				throw new \OCP\TaskProcessing\Exception\ValidationException('None-audio item provided for Audio key: "' . $key . '"');
-			}
-			if ($type === EShapeType::ListOfAudio && (!is_array($io[$key]) || count(array_filter($io[$key], fn ($item) => !is_numeric($item))) > 0)) {
-				throw new \OCP\TaskProcessing\Exception\ValidationException('None-audio list item provided for ListOfAudio key: "' . $key . '"');
-			}
-			if ($type === EShapeType::Video && !is_numeric($io[$key])) {
-				throw new \OCP\TaskProcessing\Exception\ValidationException('None-video item provided for Video key: "' . $key . '"');
-			}
-			if ($type === EShapeType::ListOfVideo && (!is_array($io[$key]) || count(array_filter($io[$key], fn ($item) => !is_numeric($item))) > 0)) {
-				throw new \OCP\TaskProcessing\Exception\ValidationException('None-video list item provided for ListOfTexts key: "' . $key . '"');
-			}
-			if ($type === EShapeType::File && !is_numeric($io[$key])) {
-				throw new \OCP\TaskProcessing\Exception\ValidationException('None-file item provided for File key: "' . $key . '"');
-			}
-			if ($type === EShapeType::ListOfFiles && (!is_array($io[$key]) || count(array_filter($io[$key], fn ($item) => !is_numeric($item))) > 0)) {
-				throw new \OCP\TaskProcessing\Exception\ValidationException('None-audio list item provided for ListOfFiles key: "' . $key . '"');
+			try {
+				$type->validateInput($io[$key]);
+			} catch (ValidationException $e) {
+				throw new ValidationException('Failed to validate input key "' . $key . '": ' . $e->getMessage());
 			}
 		}
 	}
@@ -520,43 +489,12 @@ class Manager implements IManager {
 				if ($optional) {
 					continue;
 				}
-				throw new \OCP\TaskProcessing\Exception\ValidationException('Missing key: "' . $key . '"');
+				throw new ValidationException('Missing key: "' . $key . '"');
 			}
-			if ($type === EShapeType::Text && !is_string($io[$key])) {
-				throw new \OCP\TaskProcessing\Exception\ValidationException('Non-text item provided for Text key: "' . $key . '"');
-			}
-			if ($type === EShapeType::ListOfTexts && (!is_array($io[$key]) || count(array_filter($io[$key], fn ($item) => !is_string($item))) > 0)) {
-				throw new \OCP\TaskProcessing\Exception\ValidationException('None-text list item provided for ListOfTexts key: "' . $key . '"');
-			}
-			if ($type === EShapeType::Number && !is_numeric($io[$key])) {
-				throw new \OCP\TaskProcessing\Exception\ValidationException('None-numeric item provided for Number key: "' . $key . '"');
-			}
-			if ($type === EShapeType::ListOfNumbers && (!is_array($io[$key]) || count(array_filter($io[$key], fn ($item) => !is_numeric($item))) > 0)) {
-				throw new \OCP\TaskProcessing\Exception\ValidationException('None-numeric list item provided for ListOfNumbers key: "' . $key . '"');
-			}
-			if ($type === EShapeType::Image && !is_string($io[$key])) {
-				throw new \OCP\TaskProcessing\Exception\ValidationException('None-image item provided for Image key: "' . $key . '". Expecting base64 encoded image data.');
-			}
-			if ($type === EShapeType::ListOfImages && (!is_array($io[$key]) || count(array_filter($io[$key], fn ($item) => !is_string($item))) > 0)) {
-				throw new \OCP\TaskProcessing\Exception\ValidationException('None-image list item provided for ListOfImages key: "' . $key . '". Expecting base64 encoded image data.');
-			}
-			if ($type === EShapeType::Audio && !is_string($io[$key])) {
-				throw new \OCP\TaskProcessing\Exception\ValidationException('None-audio item provided for Audio key: "' . $key . '". Expecting base64 encoded audio data.');
-			}
-			if ($type === EShapeType::ListOfAudio && (!is_array($io[$key]) || count(array_filter($io[$key], fn ($item) => !is_string($item))) > 0)) {
-				throw new \OCP\TaskProcessing\Exception\ValidationException('None-audio list item provided for ListOfAudio key: "' . $key . '". Expecting base64 encoded audio data.');
-			}
-			if ($type === EShapeType::Video && !is_string($io[$key])) {
-				throw new \OCP\TaskProcessing\Exception\ValidationException('None-video item provided for Video key: "' . $key . '". Expecting base64 encoded video data.');
-			}
-			if ($type === EShapeType::ListOfVideo && (!is_array($io[$key]) || count(array_filter($io[$key], fn ($item) => !is_string($item))) > 0)) {
-				throw new \OCP\TaskProcessing\Exception\ValidationException('None-video list item provided for ListOfTexts key: "' . $key . '". Expecting base64 encoded video data.');
-			}
-			if ($type === EShapeType::File && !is_string($io[$key])) {
-				throw new \OCP\TaskProcessing\Exception\ValidationException('None-file item provided for File key: "' . $key . '". Expecting base64 encoded file data.');
-			}
-			if ($type === EShapeType::ListOfFiles && (!is_array($io[$key]) || count(array_filter($io[$key], fn ($item) => !is_string($item))) > 0)) {
-				throw new \OCP\TaskProcessing\Exception\ValidationException('None-audio list item provided for ListOfFiles key: "' . $key . '". Expecting base64 encoded image data.');
+			try {
+				$type->validateOutput($io[$key]);
+			} catch (ValidationException $e) {
+				throw new ValidationException('Failed to validate output key "' . $key . '": ' . $e->getMessage());
 			}
 		}
 	}
@@ -800,7 +738,7 @@ class Manager implements IManager {
 			if (!isset($input[$key])) {
 				continue;
 			}
-			if (!in_array(EShapeType::from($type->value % 10), [EShapeType::Image, EShapeType::Audio, EShapeType::Video, EShapeType::File], true)) {
+			if (!in_array(EShapeType::getScalarType($type), [EShapeType::Image, EShapeType::Audio, EShapeType::Video, EShapeType::File], true)) {
 				$newInputOutput[$key] = $input[$key];
 				continue;
 			}
@@ -857,7 +795,7 @@ class Manager implements IManager {
 			if (!isset($output[$key])) {
 				continue;
 			}
-			if (!in_array(EShapeType::from($type->value % 10), [EShapeType::Image, EShapeType::Audio, EShapeType::Video, EShapeType::File], true)) {
+			if (!in_array(EShapeType::getScalarType($type), [EShapeType::Image, EShapeType::Audio, EShapeType::Video, EShapeType::File], true)) {
 				$newOutput[$key] = $output[$key];
 				continue;
 			}

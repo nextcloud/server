@@ -138,7 +138,7 @@ interface IManager {
 	 * @param string|null $identifier
 	 * @return list<Task>
 	 * @throws Exception If the query failed
-	 * @throws NotFoundException If the task could not be found
+	 * @throws \JsonException If parsing the task input and output failed
 	 * @since 30.0.0
 	 */
 	public function getUserTasksByApp(?string $userId, string $appId, ?string $identifier = null): array;
