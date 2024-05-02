@@ -69,8 +69,7 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 	/**
 	 * This endpoint returns all available TaskProcessing task types
 	 *
-	 * @return DataResponse<Http::STATUS_OK, array{types: array<string, CoreTaskProcessingTaskType>}>
-	 * []}, array{}>
+	 * @return DataResponse<Http::STATUS_OK, array{types: array<string, CoreTaskProcessingTaskType>}, array{}>
 	 *
 	 * 200: Task types returned
 	 */
@@ -131,7 +130,7 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 
 	/**
 	 * This endpoint allows checking the status and results of a task.
-	 * Tasks are removed 1 week after receiving their last update.
+	 * Tasks are removed 1 week after receiving their last update
 	 *
 	 * @param int $id The id of the task
 	 *
@@ -222,11 +221,12 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 	/**
 	 * This endpoint returns the contents of a file referenced in a task
 	 *
-	 * @param int $taskId
-	 * @param int $fileId
+	 * @param int $taskId The id of the task
+	 * @param int $fileId The file id of the file to retrieve
 	 * @return DataDownloadResponse<Http::STATUS_OK, string, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR|Http::STATUS_NOT_FOUND, array{message: string}, array{}>
 	 *
 	 *  200: File content returned
+	 *  404: Task or file not found
 	 */
 	#[NoAdminRequired]
 	#[ApiRoute(verb: 'GET', url: '/tasks/{taskId}/file/{fileId}', root: '/taskprocessing')]
