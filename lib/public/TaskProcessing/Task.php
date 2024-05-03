@@ -82,7 +82,7 @@ final class Task implements \JsonSerializable {
 	 * @since 30.0.0
 	 */
 	final public function __construct(
-		protected readonly string $taskType,
+		protected readonly string $taskTypeId,
 		protected array $input,
 		protected readonly string $appId,
 		protected readonly ?string $userId,
@@ -93,8 +93,8 @@ final class Task implements \JsonSerializable {
 	/**
 	 * @since 30.0.0
 	 */
-	final public function getTaskType(): string {
-		return $this->taskType;
+	final public function getTaskTypeId(): string {
+		return $this->taskTypeId;
 	}
 
 	/**

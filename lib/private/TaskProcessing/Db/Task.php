@@ -102,7 +102,7 @@ class Task extends Entity {
 		/** @var Task $taskEntity */
 		$taskEntity = Task::fromParams([
 			'id' => $task->getId(),
-			'type' => $task->getTaskType(),
+			'type' => $task->getTaskTypeId(),
 			'lastUpdated' => time(),
 			'status' => $task->getStatus(),
 			'input' => json_encode($task->getInput(), JSON_THROW_ON_ERROR),

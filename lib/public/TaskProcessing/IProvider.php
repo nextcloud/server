@@ -51,7 +51,7 @@ interface IProvider {
 	 * @since 30.0.0
 	 * @return string
 	 */
-	public function getTaskType(): string;
+	public function getTaskTypeId(): string;
 
 	/**
 	 * @return int The expected average runtime of a task in seconds

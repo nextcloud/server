@@ -263,10 +263,10 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 	private function extractFileIdsFromTask(Task $task) {
 		$ids = [];
 		$taskTypes = $this->taskProcessingManager->getAvailableTaskTypes();
-		if (!isset($taskTypes[$task->getTaskType()])) {
+		if (!isset($taskTypes[$task->getTaskTypeId()])) {
 			throw new \OCP\TaskProcessing\Exception\NotFoundException('Could not find task type');
 		}
-		$taskType = $taskTypes[$task->getTaskType()];
+		$taskType = $taskTypes[$task->getTaskTypeId()];
 		foreach ($taskType['inputShape'] + $taskType['optionalInputShape'] as $key => $descriptor) {
 			if (in_array(EShapeType::getScalarType($descriptor->getShapeType()), [EShapeType::File, EShapeType::Image, EShapeType::Audio, EShapeType::Video], true)) {
 				$ids[] = $task->getInput()[$key];

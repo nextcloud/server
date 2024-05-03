@@ -80,7 +80,7 @@ class AsyncProvider implements IProvider {
 		return self::class;
 	}
 
-	public function getTaskType(): string {
+	public function getTaskTypeId(): string {
 		return AudioToImage::ID;
 	}
 
@@ -110,7 +110,7 @@ class SuccessfulSyncProvider implements IProvider, ISynchronousProvider {
 		return self::class;
 	}
 
-	public function getTaskType(): string {
+	public function getTaskTypeId(): string {
 		return TextToText::ID;
 	}
 
@@ -145,7 +145,7 @@ class FailingSyncProvider implements IProvider, ISynchronousProvider {
 		return self::class;
 	}
 
-	public function getTaskType(): string {
+	public function getTaskTypeId(): string {
 		return TextToText::ID;
 	}
 
@@ -179,7 +179,7 @@ class BrokenSyncProvider implements IProvider, ISynchronousProvider {
 		return self::class;
 	}
 
-	public function getTaskType(): string {
+	public function getTaskTypeId(): string {
 		return TextToText::ID;
 	}
 

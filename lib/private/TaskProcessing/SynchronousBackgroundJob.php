@@ -37,7 +37,7 @@ class SynchronousBackgroundJob extends QueuedJob {
 			if (!$provider instanceof ISynchronousProvider) {
 				continue;
 			}
-			$taskType = $provider->getTaskType();
+			$taskType = $provider->getTaskTypeId();
 			try {
 				$task = $this->taskProcessingManager->getNextScheduledTask($taskType);
 			} catch (NotFoundException $e) {
