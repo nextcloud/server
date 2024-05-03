@@ -67,9 +67,7 @@ OC.L10N.register(
     "User settings" : "Uporabniške nastavitve",
     "Disable user theming" : "Onemogoči uporabniške teme",
     "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can toggle this on." : "Čeprav je mogoče izbirati in prilagajati vmesnik, lahko uporabniki spremenijo ozadje in barve. Če želite vsiliti prilagoditve, preklopite možnost na omogočeno.",
-    "Background" : "Ozadje",
     "Customization has been disabled by your administrator" : "Prilagajanje je skrbniško onemogočeno.",
-    "Set a custom background" : "Nastavi ozadje po meri",
     "Keyboard shortcuts" : "Tipkovne bližnjice",
     "In some cases keyboard shortcuts can interfere with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps." : "V nekaterih primerih delovanje tipkovnih bližnjic motijo orodja za dostopnost. Za pravilno delo z orodji je mogoče vse tipkovne bližnjice onemogočiti, s tem pa tudi vse bližnjice programov.",
     "Disable all keyboard shortcuts" : "Onemogoči vse tipkovne bližnjice",
@@ -86,6 +84,8 @@ OC.L10N.register(
     "Reset to default" : "Ponastavi na privzeto",
     "Upload" : "Pošlji",
     "Remove background image" : "Odstrani sliko ozadja",
+    "Background" : "Ozadje",
+    "Set a custom background" : "Nastavi ozadje po meri",
     "Select a custom color" : "Izbor barve po meri"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

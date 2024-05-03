@@ -70,9 +70,7 @@ OC.L10N.register(
     "Disable user theming" : "Inaktivera teman för användare",
     "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can toggle this on." : "Även om du kan välja och anpassa din instans kan användare ändra sin bakgrund och färger. Om du vill genomdriva din anpassning kan du aktivera detta.",
     "Appearance and accessibility settings" : "Utseende och tillgänglighetsinställningar",
-    "Background" : "Bakgrund",
     "Customization has been disabled by your administrator" : "Anpassning har inaktiverats av din administratör",
-    "Set a custom background" : "Ställ in en anpassad bakgrund",
     "Keyboard shortcuts" : "Tangentbordsgenvägar",
     "In some cases keyboard shortcuts can interfere with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps." : "I vissa fall kan tangentbordsgenvägar störa tillgänglighetsverktyg. För att kunna fokusera på ditt verktyg korrekt kan du inaktivera alla tangentbordsgenvägar här. Detta kommer också att inaktivera alla tillgängliga genvägar i appar.",
     "Disable all keyboard shortcuts" : "Inaktivera alla tangentbordsgenvägar",
@@ -107,6 +105,8 @@ OC.L10N.register(
     "Reset to default" : "Återställ till grundinställningar",
     "Upload" : "Ladda upp",
     "Remove background image" : "Ta bort bakgrundsbild",
+    "Background" : "Bakgrund",
+    "Set a custom background" : "Ställ in en anpassad bakgrund",
     "Select a custom color" : "Välj en anpassad färg"
 },
 "nplurals=2; plural=(n != 1);");

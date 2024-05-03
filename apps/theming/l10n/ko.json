@@ -56,8 +56,6 @@
     "Disable user theming" : "사용자 테마 설정 권한 비활성화",
     "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can toggle this on." : "관리자의 테마 설정과 무관하게, 각 사용자는 해당 계정의 배경과 색상을 변경할 수 있습니다. 지정한 테마를 강제하고자 할 경우 이 토글을 켜십시오.",
     "Appearance and accessibility settings" : "외형과 접근성 설정",
-    "Background" : "배경",
-    "Set a custom background" : "나만의 배경화면 설정",
     "Keyboard shortcuts" : "키보드 단축키",
     "In some cases keyboard shortcuts can interfere with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps." : "특정 상황에서, 키보드 단축키는 접근성 도구의 동작과 간섭을 일으킬 수 있습니다. 간섭 방지와 접근성 도구의 정확한 동작을 위해, 이곳에서 모든 키보드 단축키를 비활성화할 수 있습니다. 이는 앱에서 사용할 수 있는 모든 단축키 또한 비활성화합니다.",
     "Disable all keyboard shortcuts" : "모든 키보드 단축키 비활성화",
@@ -80,6 +78,8 @@
     "Could not set global default apps" : "모든 계정에 적용될 기본 앱을 적용할 수 없음",
     "Reset to default" : "기본값으로 초기화",
     "Upload" : "업로드",
-    "Remove background image" : "배경 그림 삭제"
+    "Remove background image" : "배경 그림 삭제",
+    "Background" : "배경",
+    "Set a custom background" : "나만의 배경화면 설정"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

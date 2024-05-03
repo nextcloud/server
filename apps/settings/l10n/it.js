@@ -548,6 +548,7 @@ OC.L10N.register(
     "Featured apps" : "Applicazioni in evidenza",
     "Supported apps" : "Applicazioni supportate",
     "Show to everyone" : "Mostra a tutti",
+    "Show to logged in accounts only" : "Mostra solo agli account che hanno effettuato l'accesso",
     "Hide" : "Nascondi",
     "Download and enable" : "Scarica e abilita",
     "Allow untested app" : "Consenti applicazione non verificata",
