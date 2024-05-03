@@ -7,7 +7,7 @@ use OCP\TaskProcessing\Task;
 /**
  * @since 30.0.0
  */
-class TaskFailedEvent extends AbstractTextProcessingEvent {
+class TaskFailedEvent extends AbstractTaskProcessingEvent {
 	/**
 	 * @param Task $task
 	 * @param string $errorMessage

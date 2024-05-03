@@ -31,7 +31,7 @@ use OCP\TaskProcessing\Task;
 /**
  * @since 30.0.0
  */
-abstract class AbstractTextProcessingEvent extends Event {
+abstract class AbstractTaskProcessingEvent extends Event {
 	/**
 	 * @since 30.0.0
 	 */
