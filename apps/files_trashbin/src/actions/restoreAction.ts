@@ -22,13 +22,19 @@
 import { emit } from '@nextcloud/event-bus'
 import { generateRemoteUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
-import { Permission, Node, View, registerFileAction, FileAction } from '@nextcloud/files'
+import { Permission, Node, View, registerFileAction, FileAction, FileType } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 import axios from '@nextcloud/axios'
 import History from '@mdi/svg/svg/history.svg?raw'
 
 import logger from '../../../files/src/logger.js'
 import { encodePath } from '@nextcloud/paths'
+
+const sortByDeletionTime = (a: Node, b: Node) => {
+	const deletionTimeA = a.attributes?.['trashbin-deletion-time'] || a?.mtime || 0
+	const deletionTimeB = b.attributes?.['trashbin-deletion-time'] || b?.mtime || 0
+	return deletionTimeB - deletionTimeA
+}
 
 registerFileAction(new FileAction({
 	id: 'restore',
@@ -69,8 +75,22 @@ registerFileAction(new FileAction({
 			return false
 		}
 	},
+
 	async execBatch(nodes: Node[], view: View, dir: string) {
-		return Promise.all(nodes.map(node => this.exec(node, view, dir)))
+		// Restore folders sequentially by deletion time to preserve original directory structure
+		const sortedFolderNodes = nodes
+			.filter(node => node.type === FileType.Folder)
+			.toSorted(sortByDeletionTime)
+		const folderResults: boolean[] = []
+		for (const node of sortedFolderNodes) {
+			folderResults.push(await this.exec(node, view, dir) as boolean)
+		}
+		const fileResults = await Promise.all(
+			nodes
+				.filter(node => node.type === FileType.File)
+				.map(node => this.exec(node, view, dir)),
+		)
+		return [...folderResults, ...fileResults]
 	},
 
 	order: 1,
