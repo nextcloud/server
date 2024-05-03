@@ -73,9 +73,7 @@ OC.L10N.register(
     "Disable user theming" : "Inhabilita els temes d'usuari",
     "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can toggle this on." : "Tot i que podeu seleccionar i personalitzar la instància, els usuaris poden canviar el fons i els colors. Si voleu forçar la vostra personalització, podeu activar-ho.",
     "Appearance and accessibility settings" : "Paràmetres d'aparença i accessibilitat",
-    "Background" : "Fons",
     "Customization has been disabled by your administrator" : "L'administrador ha inhabilitat la personalització",
-    "Set a custom background" : "Definiu un fons personalitzat",
     "Keyboard shortcuts" : "Dreceres de teclat",
     "In some cases keyboard shortcuts can interfere with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps." : "En alguns casos, les dreceres de teclat poden interferir amb les eines d'accessibilitat. Per a permetre centrar-vos correctament en la vostra eina, podeu inhabilitar totes les dreceres de teclat aquí. Això també inhabilitarà totes les dreceres disponibles en les aplicacions.",
     "Disable all keyboard shortcuts" : "Inhabilita totes les dreceres de teclat",
@@ -110,6 +108,8 @@ OC.L10N.register(
     "Reset to default" : "Reinicialitza els valors per defecte",
     "Upload" : "Puja",
     "Remove background image" : "Suprimeix la imatge de fons",
+    "Background" : "Fons",
+    "Set a custom background" : "Definiu un fons personalitzat",
     "Select a custom color" : "Selecciona un color personalitzat"
 },
 "nplurals=2; plural=(n != 1);");

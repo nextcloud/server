@@ -63,8 +63,6 @@ OC.L10N.register(
     "Upload new favicon" : "Μεταφόρτωση νέου favicon",
     "User settings" : "Ρυθμίσεις χρήστη",
     "Disable user theming" : "Απενεργοποίηση θεμάτων χρήστη",
-    "Background" : "Φόντο",
-    "Set a custom background" : "Ορισμός προσαρμοσμένου φόντου",
     "Keyboard shortcuts" : "Συντομεύσεις πληκτρολογίου",
     "In some cases keyboard shortcuts can interfere with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps." : "Σε ορισμένες περιπτώσεις, οι συντομεύσεις πληκτρολογίου μπορεί να επηρεάσουν τα εργαλεία προσβασιμότητας. Για να επιτρέψετε τη σωστή εστίαση στο εργαλείο σας, μπορείτε να απενεργοποιήσετε όλες τις συντομεύσεις πληκτρολογίου εδώ. Αυτό θα απενεργοποιήσει επίσης όλες τις διαθέσιμες συντομεύσεις στις εφαρμογές.",
     "Disable all keyboard shortcuts" : "Απενεργοποίηση των συντομεύσεων πληκτρολογίου",
@@ -76,6 +74,8 @@ OC.L10N.register(
     "Reset to default" : "Επαναφορά στα προεπιλεγμένα",
     "Upload" : "Μεταφόρτωση",
     "Remove background image" : "Αφαίρεση εικόνας παρασκηνίου",
+    "Background" : "Φόντο",
+    "Set a custom background" : "Ορισμός προσαρμοσμένου φόντου",
     "Select a custom color" : "Επιλογή προσαρμοσμένου χρώματος"
 },
 "nplurals=2; plural=(n != 1);");

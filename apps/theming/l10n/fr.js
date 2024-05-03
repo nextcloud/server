@@ -73,9 +73,7 @@ OC.L10N.register(
     "Disable user theming" : "Désactiver la gestion du thème par l'utilisateur",
     "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can toggle this on." : "Bien que vous puissiez sélectionner et personnaliser votre instance, les utilisateurs peuvent modifier leur arrière-plan et leurs couleurs. Si vous voulez imposer votre personnalisation, vous pouvez activer cette option.",
     "Appearance and accessibility settings" : "Paramètres d’apparence et d’accessibilité",
-    "Background" : "Arrière-plan",
     "Customization has been disabled by your administrator" : "La personnalisation a été désactivée par votre administrateur",
-    "Set a custom background" : "Définir un arrière-plan personnalisé",
     "Keyboard shortcuts" : "Raccourcis clavier",
     "In some cases keyboard shortcuts can interfere with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps." : "Dans certains cas, les raccourcis clavier peuvent interférer avec les outils d'accessibilité. Afin de vous permettre de vous concentrer correctement sur votre outil, vous pouvez désactiver tous les raccourcis clavier ici. Cela désactivera également tous les raccourcis disponibles dans les applications.",
     "Disable all keyboard shortcuts" : "Désactiver tous les raccourcis clavier",
@@ -110,6 +108,8 @@ OC.L10N.register(
     "Reset to default" : "Restaurer les valeurs par défaut",
     "Upload" : "Téléverser",
     "Remove background image" : "Retirer l'image d'arrière-plan",
+    "Background" : "Arrière-plan",
+    "Set a custom background" : "Définir un arrière-plan personnalisé",
     "Select a custom color" : "Sélectionnez une couleur personnalisée"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

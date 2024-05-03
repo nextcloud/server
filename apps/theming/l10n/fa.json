@@ -65,9 +65,7 @@
     "User settings" : "تنظمبات کاربری",
     "Disable user theming" : "از کار انداختن زمینش کاربری",
     "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can toggle this on." : "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can toggle this on.",
-    "Background" : "پس‌زمینه",
     "Customization has been disabled by your administrator" : "شخصی‌سازی به دست مدیرتان از کار افتاده",
-    "Set a custom background" : "تنظیم پس‌زمینه‌ای شخصی",
     "Keyboard shortcuts" : "میان‌برهای صفحه‌کلید",
     "In some cases keyboard shortcuts can interfere with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps." : "In some cases keyboard shortcuts can interfere with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps.",
     "Disable all keyboard shortcuts" : "از کار انداختن تمامی میان‌برهای صفحه‌کلید",
@@ -84,6 +82,8 @@
     "Reset to default" : "بازنشانی به پیش‌گزیده",
     "Upload" : "بارگذاری",
     "Remove background image" : "برداشتن تصویر پس‌زمینه",
+    "Background" : "پس‌زمینه",
+    "Set a custom background" : "تنظیم پس‌زمینه‌ای شخصی",
     "Select a custom color" : "گزینش رنگی شخصی"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

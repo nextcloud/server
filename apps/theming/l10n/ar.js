@@ -73,9 +73,7 @@ OC.L10N.register(
     "Disable user theming" : "إيقاف تصرف المستخدم في الثيمات",
     "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can toggle this on." : "على الرغم من أنه يمكنك تحديد وتخصيص الخادوم الخاص بك، فإنه يمكن للمستخدمين تغيير صور خلفيات شاشاتهم وألوانهم. إذا كنت تريد فرض التخصيص الخاص بك ، فيمكنك التبديل إلى هذا.",
     "Appearance and accessibility settings" : "إعدادات المظهر و سهولة الوصول",
-    "Background" : "خلفية الشاشة",
     "Customization has been disabled by your administrator" : "التخصيص موقوف من قِبَل المُشرف",
-    "Set a custom background" : "عيّن خلفيةً مُخصصةً",
     "Keyboard shortcuts" : "إختصارات لوحة المفاتيح",
     "In some cases keyboard shortcuts can interfere with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps." : "في بعض الحالات، يمكن أن تتداخل اختصارات لوحة المفاتيح مع أدوات تسهيل الوصول. للسماح بالتركيز على أداتك بشكل صحيح، يُمكنك تعطيل جميع اختصارات لوحة المفاتيح هنا. سيؤدي هذا أيضًا إلى تعطيل جميع الاختصارات المتاحة في التطبيقات.",
     "Disable all keyboard shortcuts" : "إيقاف كل اختصارات لوحة المفاتيح",
@@ -110,6 +108,8 @@ OC.L10N.register(
     "Reset to default" : "اعادة تعيين الافتراضيات",
     "Upload" : "تحميل",
     "Remove background image" : "إزالة صورة الخلفية",
+    "Background" : "خلفية الشاشة",
+    "Set a custom background" : "عيّن خلفيةً مُخصصةً",
     "Select a custom color" : "إختر لوناً مُخصّصاً"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

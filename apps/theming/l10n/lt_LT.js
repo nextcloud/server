@@ -59,9 +59,7 @@ OC.L10N.register(
     "Favicon" : "Svetainės piktograma",
     "Upload new favicon" : "Įkelti naują svetainės piktogramą",
     "User settings" : "Naudotojo nustatymai",
-    "Background" : "Fonas",
     "Customization has been disabled by your administrator" : "Administratorius yra išjungęs tinkinimus",
-    "Set a custom background" : "Nustatyti tinkintą foną",
     "Keyboard shortcuts" : "Spartieji klavišai",
     "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Mums universalioji prieiga yra labai svarbi. Mes sekame saityno standartus ir stengiamės, kad būtų galima viskuobe pelės ir pagalbinės programinės įrangos, tokios kaip ekrano skaitytuvė. Stengiamės atitikti {guidelines}Saityno turinio prieinamumo gairėms{linkend} 2.1 pagal AA lygmenį, o su didelio kontrasto apipavidalinimu netgi pagal AAA lygmenį.",
     "Move up" : "Pakelti",
@@ -71,6 +69,8 @@ OC.L10N.register(
     "Change color" : "Keisti spalvą",
     "Reset to default" : "Atstatyti į numatytąjį",
     "Upload" : "Įkelti",
-    "Remove background image" : "Šalinti foninį paveikslą"
+    "Remove background image" : "Šalinti foninį paveikslą",
+    "Background" : "Fonas",
+    "Set a custom background" : "Nustatyti tinkintą foną"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");
