@@ -73,9 +73,7 @@ OC.L10N.register(
     "Disable user theming" : "Deaktiver brukertema",
     "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can toggle this on." : "Selv om du kan velge og tilpasse forekomsten, kan brukerne endre bakgrunn og farger. Hvis du vil håndheve tilpasningen din, kan du slå på dette.",
     "Appearance and accessibility settings" : "Innstilinger for utseende og tilgjengelighet",
-    "Background" : "Bakgrunn",
     "Customization has been disabled by your administrator" : "Tilpassing er deaktivert av systemansvarlig",
-    "Set a custom background" : "Angi en egendefinert bakgrunn",
     "Keyboard shortcuts" : "Tastatursnarveier",
     "In some cases keyboard shortcuts can interfere with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps." : "I noen tilfeller kan hurtigtaster forstyrre tilgjengelighetsverktøy. For å tillate fokus på verktøyet ditt riktig, kan du deaktivere alle hurtigtaster her. Dette vil også deaktivere alle tilgjengelige snarveier i apper.",
     "Disable all keyboard shortcuts" : "Deaktiver alle tastatursnarveier",
@@ -110,6 +108,8 @@ OC.L10N.register(
     "Reset to default" : "Tilbakestill til standard",
     "Upload" : "Last opp",
     "Remove background image" : "Fjern bakgrunnsbilde",
+    "Background" : "Bakgrunn",
+    "Set a custom background" : "Angi en egendefinert bakgrunn",
     "Select a custom color" : "Velg en tilpasset farge"
 },
 "nplurals=2; plural=(n != 1);");

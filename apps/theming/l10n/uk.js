@@ -73,9 +73,7 @@ OC.L10N.register(
     "Disable user theming" : "Вимкнути можливість користувачів змінювати оформлення",
     "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can toggle this on." : "На додаток до встановлення оформлення вашої хмари користувачі також можуть змінювати тло та кольорову гаму. Тут ви можете встановити оформлення однаковим для всіх користувачів.",
     "Appearance and accessibility settings" : "Налаштування оформлення та доступности",
-    "Background" : "Тло",
     "Customization has been disabled by your administrator" : "Налаштування персоналізації вимкнено адміністатором.",
-    "Set a custom background" : "Встановити спеціальне зображення тла",
     "Keyboard shortcuts" : "Скорочення",
     "In some cases keyboard shortcuts can interfere with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps." : "У деяких випадках комбінації клавіш можуть заважати роботі з інструментами доступності. Щоб правильно зосередитися на інструменті, ви можете вимкнути всі комбінації клавіш тут. Це також вимкне всі доступні комбінації клавіш у застосунках.",
     "Disable all keyboard shortcuts" : "Вимкнути всі комбінації клавіш",
@@ -110,6 +108,8 @@ OC.L10N.register(
     "Reset to default" : "Скинути до типового",
     "Upload" : "Завантажити",
     "Remove background image" : "Вилучити зображення тла",
+    "Background" : "Тло",
+    "Set a custom background" : "Встановити спеціальне зображення тла",
     "Select a custom color" : "Виберіть власний колір"
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

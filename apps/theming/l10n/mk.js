@@ -65,9 +65,7 @@ OC.L10N.register(
     "User settings" : "Кориснички параметри",
     "Disable user theming" : "Оневозможи кориснички теми",
     "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can toggle this on." : "Иако можете да изберете и да ја прилагодите вашата истанца, корисниците можат да ја менуваат нивната позадина и бои. Ако сакате да го наметнете вашето прилагодување, можете да го вклучите ова.",
-    "Background" : "Позадина",
     "Customization has been disabled by your administrator" : "Уредувањето е оневозможено од администраторот",
-    "Set a custom background" : "Постави позадина",
     "Keyboard shortcuts" : "Кратенки преку тастатура",
     "In some cases keyboard shortcuts can interfere with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps." : "Во некои случаи, кратенките на тастатурата може да се мешаат со алатките за пристапност. За да овозможите правилно фокусирање на вашата алатка, можете да ги оневозможите сите кратенки на тастатурата овде. Ова исто така ќе ги оневозможи сите достапни кратенки во апликациите.",
     "Disable all keyboard shortcuts" : "Оневозможи ги сите кратенки преку тастатурата",
@@ -86,6 +84,8 @@ OC.L10N.register(
     "Reset to default" : "Ресетирај на стандардно",
     "Upload" : "Прикачи",
     "Remove background image" : "Избриши ја позадинската слика",
+    "Background" : "Позадина",
+    "Set a custom background" : "Постави позадина",
     "Select a custom color" : "Избери боја"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");
