@@ -197,8 +197,8 @@ namespace OCA\Core;
  *     status: 0|1|2|3|4|5,
  *     userId: ?string,
  *     appId: string,
- *     input: ?array<array-key, mixed>,
- *     output: ?array<array-key, mixed>,
+ *     input: ?array<string, mixed>,
+ *     output: ?array<string, mixed>,
  *     identifier: ?string,
  *     completionExpectedAt: ?int,
  *     progress: ?float

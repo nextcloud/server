@@ -98,7 +98,7 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 	/**
 	 * This endpoint allows scheduling a task
 	 *
-	 * @param array<array-key, mixed> $input Input text
+	 * @param array<string, mixed> $input Input text
 	 * @param string $type Type of the task
 	 * @param string $appId ID of the app that will execute the task
 	 * @param string $identifier An arbitrary identifier for the task
@@ -118,6 +118,7 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 		try {
 			$this->taskProcessingManager->scheduleTask($task);
 
+			/** @var CoreTaskProcessingTask $json */
 			$json = $task->jsonSerialize();
 
 			return new DataResponse([
@@ -149,6 +150,7 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 		try {
 			$task = $this->taskProcessingManager->getUserTask($id, $this->userId);
 
+			/** @var CoreTaskProcessingTask $json */
 			$json = $task->jsonSerialize();
 
 			return new DataResponse([
@@ -255,7 +257,7 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 
 	/**
 	 * @param Task $task
-	 * @return array
+	 * @return list<mixed>
 	 * @throws \OCP\TaskProcessing\Exception\NotFoundException
 	 */
 	private function extractFileIdsFromTask(Task $task) {
@@ -270,11 +272,75 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 				$ids[] = $task->getInput()[$key];
 			}
 		}
-		foreach ($taskType['outputShape'] + $taskType['optionalOutputShape'] as $key => $descriptor) {
-			if (in_array(EShapeType::getScalarType($descriptor->getShapeType()), [EShapeType::File, EShapeType::Image, EShapeType::Audio, EShapeType::Video], true)) {
-				$ids[] = $task->getOutput()[$key];
+		if ($task->getOutput() !== null) {
+			foreach ($taskType['outputShape'] + $taskType['optionalOutputShape'] as $key => $descriptor) {
+				if (in_array(EShapeType::getScalarType($descriptor->getShapeType()), [EShapeType::File, EShapeType::Image, EShapeType::Audio, EShapeType::Video], true)) {
+					$ids[] = $task->getOutput()[$key];
+				}
 			}
 		}
 		return $ids;
+	}
+
+	/**
+	 * This endpoint sets the task progress
+	 *
+	 * @param int $taskId The id of the task
+	 * @param float $progress The progress
+	 * @return DataResponse<Http::STATUS_OK, array{task: CoreTaskProcessingTask}, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR|Http::STATUS_NOT_FOUND, array{message: string}, array{}>
+	 *
+	 *  200: File content returned
+	 *  404: Task not found
+	 */
+	#[NoAdminRequired]
+	#[ApiRoute(verb: 'POST', url: '/tasks/{taskId}/progress', root: '/taskprocessing')]
+	public function setProgress(int $taskId, float $progress): DataResponse {
+		try {
+			$this->taskProcessingManager->setTaskProgress($taskId, $progress);
+			$task = $this->taskProcessingManager->getUserTask($taskId, $this->userId);
+
+			/** @var CoreTaskProcessingTask $json */
+			$json = $task->jsonSerialize();
+
+			return new DataResponse([
+				'task' => $json,
+			]);
+		} catch (\OCP\TaskProcessing\Exception\NotFoundException $e) {
+			return new DataResponse(['message' => $this->l->t('Not found')], Http::STATUS_NOT_FOUND);
+		} catch (Exception $e) {
+			return new DataResponse(['message' => $this->l->t('Internal error')], Http::STATUS_INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	/**
+	 * This endpoint sets the task progress
+	 *
+	 * @param int $taskId The id of the task
+	 * @param array<string,mixed>|null $output The resulting task output
+	 * @param string|null $errorMessage An error message if the task failed
+	 * @return DataResponse<Http::STATUS_OK, array{task: CoreTaskProcessingTask}, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR|Http::STATUS_NOT_FOUND, array{message: string}, array{}>
+	 *
+	 *  200: File content returned
+	 *  404: Task not found
+	 */
+	#[NoAdminRequired]
+	#[ApiRoute(verb: 'POST', url: '/tasks/{taskId}/result', root: '/taskprocessing')]
+	public function setResult(int $taskId, ?array $output = null, ?string $errorMessage = null): DataResponse {
+		try {
+			$this->taskProcessingManager->getUserTask($taskId, $this->userId);
+			$this->taskProcessingManager->setTaskResult($taskId, $errorMessage, $output);
+			$task = $this->taskProcessingManager->getUserTask($taskId, $this->userId);
+
+			/** @var CoreTaskProcessingTask $json */
+			$json = $task->jsonSerialize();
+
+			return new DataResponse([
+				'task' => $json,
+			]);
+		} catch (\OCP\TaskProcessing\Exception\NotFoundException $e) {
+			return new DataResponse(['message' => $this->l->t('Not found')], Http::STATUS_NOT_FOUND);
+		} catch (Exception $e) {
+			return new DataResponse(['message' => $this->l->t('Internal error')], Http::STATUS_INTERNAL_SERVER_ERROR);
+		}
 	}
 }
