@@ -262,15 +262,10 @@ class Manager implements IManager {
 					} catch(\OCP\Files\NotFoundException) {
 						$folder = $this->appData->newFolder('text2image');
 					}
-					try {
-						$folder = $folder->getFolder((string) rand(1, 100000));
-					} catch(\OCP\Files\NotFoundException) {
-						$folder = $folder->newFolder((string) rand(1, 100000));
-					}
 					$resources = [];
 					$files = [];
 					for ($i = 0; $i < $input['numberOfImages']; $i++) {
-						$file = $folder->newFile((string) $i);
+						$file = $folder->newFile( time() . '-' . rand(1, 100000) . '-' .  $i);
 						$files[] = $file;
 						$resource = $file->write();
 						if ($resource !== false && $resource !== true && is_resource($resource)) {
@@ -349,12 +344,8 @@ class Manager implements IManager {
 					} catch(\OCP\Files\NotFoundException) {
 						$folder = $this->appData->newFolder('audio2text');
 					}
-					try {
-						$folder = $folder->getFolder((string) rand(1, 100000));
-					} catch(\OCP\Files\NotFoundException) {
-						$folder = $folder->newFolder((string) rand(1, 100000));
-					}
-					$simpleFile = $folder->newFile((string) rand(0, 100000), base64_decode($input['input']));
+					/** @var SimpleFile $file */
+					$simpleFile = $folder->newFile(time() . '-' . rand(0, 100000), $input['input']->getContent());
 					$id = $simpleFile->getId();
 					/** @var File $file */
 					$file = current($this->rootFolder->getById($id));
