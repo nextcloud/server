@@ -38,7 +38,9 @@ use OCP\Files\GenericFileException;
 use OCP\Files\IAppData;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotPermittedException;
+use OCP\IL10N;
 use OCP\IServerContainer;
+use OCP\L10N\IFactory;
 use OCP\Lock\LockedException;
 use OCP\PreConditionNotMetException;
 use OCP\SpeechToText\ISpeechToTextProvider;
@@ -180,10 +182,12 @@ class Manager implements IManager {
 			$taskType = new class($oldProvider->getTaskType()) implements ITaskType {
 				private string $oldTaskTypeClass;
 				private \OCP\TextProcessing\ITaskType $oldTaskType;
+				private IL10N $l;
 
 				public function __construct(string $oldTaskTypeClass) {
 					$this->oldTaskTypeClass = $oldTaskTypeClass;
 					$this->oldTaskType = \OCP\Server::get($oldTaskTypeClass);
+					$this->l = \OCP\Server::get(IFactory::class)->get('core');
 				}
 
 				public function getId(): string {
@@ -199,11 +203,11 @@ class Manager implements IManager {
 				}
 
 				public function getInputShape(): array {
-					return ['input' => EShapeType::Text];
+					return ['input' => new ShapeDescriptor($this->l->t('Input text'), $this->l->t('The input text'), EShapeType::Text)];
 				}
 
 				public function getOutputShape(): array {
-					return ['output' => EShapeType::Text];
+					return ['output' => new ShapeDescriptor($this->l->t('Input text'), $this->l->t('The input text'), EShapeType::Text)];
 				}
 			};
 			$newTaskTypes[$taskType->getId()] = $taskType;
@@ -283,7 +287,7 @@ class Manager implements IManager {
 					} catch (\RuntimeException $e) {
 						throw new ProcessingException($e->getMessage(), 0, $e);
 					}
-					return ['images' => array_map(fn (File $file) => base64_encode($file->getContent()), $files)];
+					return ['images' => array_map(fn (File $file) => $file->getContent(), $files)];
 				}
 			};
 			$newProviders[$newProvider->getId()] = $newProvider;

@@ -50,6 +50,7 @@ enum EShapeType: int {
 	 * @param mixed $value
 	 * @return void
 	 * @throws ValidationException
+	 * @since 30.0.0
 	 */
 	private function validateNonFileType(mixed $value): void {
 		if ($this === EShapeType::Text && !is_string($value)) {

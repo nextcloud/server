@@ -46,6 +46,7 @@ class ShapeDescriptor implements \JsonSerializable {
 
 	/**
 	 * @return array{name: string, description: string, type: int}
+	 * @since 30.0.0
 	 */
 	public function jsonSerialize(): array {
 		return [
