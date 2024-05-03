@@ -345,7 +345,7 @@ class Manager implements IManager {
 					} catch(\OCP\Files\NotFoundException) {
 						$folder = $this->appData->newFolder('audio2text');
 					}
-					/** @var SimpleFile $file */
+					/** @var SimpleFile $simpleFile */
 					$simpleFile = $folder->newFile(time() . '-' . rand(0, 100000), $input['input']->getContent());
 					$id = $simpleFile->getId();
 					/** @var File $file */
