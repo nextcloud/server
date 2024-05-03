@@ -64,4 +64,8 @@ class LazyRoot extends LazyFolder implements IRootFolder {
 	public function getNodeFromCacheEntryAndMount(ICacheEntry $cacheEntry, IMountPoint $mountPoint): INode {
 		return $this->getRootFolder()->getNodeFromCacheEntryAndMount($cacheEntry, $mountPoint);
 	}
+
+	public function getAppDataDirectoryName(): string {
+		return $this->__call(__FUNCTION__, func_get_args());
+	}
 }
