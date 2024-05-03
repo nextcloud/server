@@ -70,9 +70,7 @@ OC.L10N.register(
     "User settings" : "Axustes de usuario",
     "Disable user theming" : "Desactivar o tema do usuario",
     "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can toggle this on." : "Aínda que pode seleccionar e personalizar a súa instancia, os usuarios poden cambiar o seu fondo e cores. Se quere impor a súa personalización, pode activar esta opción.",
-    "Background" : "Fondo",
     "Customization has been disabled by your administrator" : "O seu administrador desactivou a personalización",
-    "Set a custom background" : "Estabelecer un fondo personalizado",
     "Keyboard shortcuts" : "Atallos de teclado",
     "In some cases keyboard shortcuts can interfere with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps." : "Nalgúns casos, os atallos de teclado poden interferir coas ferramentas de accesibilidade. Para poder centrarse na súa ferramenta correctamente, pode desactivar aquí todos os atallos de teclado. Isto tamén desactivará todos os atallos dispoñíbeis nas aplicacións.",
     "Disable all keyboard shortcuts" : "Desactivar todos os atallos de teclado",
@@ -107,6 +105,8 @@ OC.L10N.register(
     "Reset to default" : "Restabelecer os valores predeterminados",
     "Upload" : "Enviar",
     "Remove background image" : "Retirar a imaxe de fondo",
+    "Background" : "Fondo",
+    "Set a custom background" : "Estabelecer un fondo personalizado",
     "Select a custom color" : "Seleccione unha cor personalizada"
 },
 "nplurals=2; plural=(n != 1);");

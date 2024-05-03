@@ -64,9 +64,7 @@ OC.L10N.register(
     "Upload new favicon" : "Upload een nieuwe favorietenpictogram",
     "User settings" : "Instellingen gebruiker",
     "Disable user theming" : "Gebruiker thema's uitschakelen",
-    "Background" : "Achtergrond",
     "Customization has been disabled by your administrator" : "Maatwerk is uitgeschakeld door uw beheerder",
-    "Set a custom background" : "Stel persoonlijke achtergrond in",
     "Keyboard shortcuts" : "Toetsenbord sneltoetsen",
     "In some cases keyboard shortcuts can interfere with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps." : "In sommige gevallen kunnen sneltoetsen interfereren met toegankelijkheidstools. Om de juiste focus op uw hulpmiddel mogelijk te maken, kunt u hier alle sneltoetsen uitschakelen. Dit zal ook alle beschikbare sneltoetsen in apps uitschakelen.",
     "Disable all keyboard shortcuts" : "Schakel alle sneltoetsen uit",
@@ -83,6 +81,8 @@ OC.L10N.register(
     "Reset to default" : "Herstellen naar standaard",
     "Upload" : "Uploaden",
     "Remove background image" : "Achtergrond beeld verwijderen",
+    "Background" : "Achtergrond",
+    "Set a custom background" : "Stel persoonlijke achtergrond in",
     "Select a custom color" : "Selecteer een aangepaste kleur"
 },
 "nplurals=2; plural=(n != 1);");

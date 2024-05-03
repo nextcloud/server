@@ -70,9 +70,7 @@ OC.L10N.register(
     "User settings" : "User settings",
     "Disable user theming" : "Disable user theming",
     "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can toggle this on." : "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can toggle this on.",
-    "Background" : "Background",
     "Customization has been disabled by your administrator" : "Customization has been disabled by your administrator",
-    "Set a custom background" : "Set a custom background",
     "Keyboard shortcuts" : "Keyboard shortcuts",
     "In some cases keyboard shortcuts can interfere with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps." : "In some cases keyboard shortcuts can interfere with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps.",
     "Disable all keyboard shortcuts" : "Disable all keyboard shortcuts",
@@ -107,6 +105,8 @@ OC.L10N.register(
     "Reset to default" : "Reset to default",
     "Upload" : "Upload",
     "Remove background image" : "Remove background image",
+    "Background" : "Background",
+    "Set a custom background" : "Set a custom background",
     "Select a custom color" : "Select a custom color"
 },
 "nplurals=2; plural=(n!=1);");

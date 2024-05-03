@@ -70,9 +70,7 @@ OC.L10N.register(
     "User settings" : "Ustawienia użytkownika",
     "Disable user theming" : "Wyłącz motywy użytkownika",
     "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can toggle this on." : "Chociaż możesz wybrać i dostosować swoją instancję, użytkownicy mogą zmieniać swoje tło i kolory. Jeśli chcesz wymusić dostosowanie, możesz to włączyć.",
-    "Background" : "Tło",
     "Customization has been disabled by your administrator" : "Dostosowanie zostało wyłączone przez administratora",
-    "Set a custom background" : "Ustaw niestandardowe tło",
     "Keyboard shortcuts" : "Skróty klawiaturowe",
     "In some cases keyboard shortcuts can interfere with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps." : "W niektórych przypadkach skróty klawiaturowe mogą kolidować z narzędziami ułatwień dostępu. Aby umożliwić prawidłowe skupienie się na narzędziu, możesz tutaj wyłączyć wszystkie skróty klawiaturowe. Spowoduje to również wyłączenie wszystkich dostępnych skrótów w aplikacjach.",
     "Disable all keyboard shortcuts" : "Wyłącz wszystkie skróty klawiaturowe",
@@ -107,6 +105,8 @@ OC.L10N.register(
     "Reset to default" : "Przywróć domyślne",
     "Upload" : "Wyślij",
     "Remove background image" : "Usuń obraz tła",
+    "Background" : "Tło",
+    "Set a custom background" : "Ustaw niestandardowe tło",
     "Select a custom color" : "Wybierz kolor niestandardowy"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

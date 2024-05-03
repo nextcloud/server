@@ -65,9 +65,7 @@
     "User settings" : "Configuración de usuario",
     "Disable user theming" : "Deshabilitar la personalización del usuario",
     "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can toggle this on." : "Aunque puedes seleccionar y personalizar tu instancia, los usuarios pueden cambiar su fondo y colores. Si deseas aplicar tu personalización, puedes activar esta opción.",
-    "Background" : "Fondo",
     "Customization has been disabled by your administrator" : "La personalización ha sido deshabilitada por tu administrador",
-    "Set a custom background" : "Establecer un fondo personalizado",
     "Keyboard shortcuts" : "Atajos del teclado",
     "In some cases keyboard shortcuts can interfere with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps." : "En algunos casos, los atajos de teclado pueden interferir con las herramientas de accesibilidad. Para permitir el enfoque correcto en tu herramienta, puedes desactivar todos los atajos de teclado aquí. Esto también deshabilitará todos los atajos disponibles en las aplicaciones.",
     "Disable all keyboard shortcuts" : "Deshabilitar todos los atajos de teclado",
@@ -84,6 +82,8 @@
     "Reset to default" : "Restablecer al predeterminado",
     "Upload" : "Cargar",
     "Remove background image" : "Eliminar imagen de fondo",
+    "Background" : "Fondo",
+    "Set a custom background" : "Establecer un fondo personalizado",
     "Select a custom color" : "Seleccionar un color personalizado"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }
