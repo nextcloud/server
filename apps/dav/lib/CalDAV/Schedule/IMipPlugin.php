@@ -207,14 +207,11 @@ class IMipPlugin extends SabreIMipPlugin {
 		// If the iTIP message senderName is null or empty use the user session name as the senderName
 		if (($iTipMessage->senderName instanceof Parameter) && !empty(trim($iTipMessage->senderName->getValue()))) {
 			$senderName = trim($iTipMessage->senderName->getValue());
-		}
-		elseif (is_string($iTipMessage->senderName) && !empty(trim($iTipMessage->senderName))) {
+		} elseif (is_string($iTipMessage->senderName) && !empty(trim($iTipMessage->senderName))) {
 			$senderName = trim($iTipMessage->senderName);
-		}
-		elseif ($this->userSession->getUser() !== null) {
+		} elseif ($this->userSession->getUser() !== null) {
 			$senderName = trim($this->userSession->getUser()->getDisplayName());
-		}
-		else {
+		} else {
 			$senderName = '';
 		}
 
