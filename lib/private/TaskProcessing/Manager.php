@@ -38,6 +38,7 @@ use OCP\Files\GenericFileException;
 use OCP\Files\IAppData;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotPermittedException;
+use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\IL10N;
 use OCP\IServerContainer;
 use OCP\L10N\IFactory;
@@ -265,7 +266,7 @@ class Manager implements IManager {
 					$resources = [];
 					$files = [];
 					for ($i = 0; $i < $input['numberOfImages']; $i++) {
-						$file = $folder->newFile( time() . '-' . rand(1, 100000) . '-' .  $i);
+						$file = $folder->newFile(time() . '-' . rand(1, 100000) . '-' .  $i);
 						$files[] = $file;
 						$resource = $file->write();
 						if ($resource !== false && $resource !== true && is_resource($resource)) {
@@ -282,7 +283,7 @@ class Manager implements IManager {
 					} catch (\RuntimeException $e) {
 						throw new ProcessingException($e->getMessage(), 0, $e);
 					}
-					return ['images' => array_map(fn (File $file) => $file->getContent(), $files)];
+					return ['images' => array_map(fn (ISimpleFile $file) => $file->getContent(), $files)];
 				}
 			};
 			$newProviders[$newProvider->getId()] = $newProvider;
