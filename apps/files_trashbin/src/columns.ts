@@ -29,6 +29,8 @@ import { translate as t } from '@nextcloud/l10n'
 import Vue from 'vue'
 import NcUserBubble from '@nextcloud/vue/dist/Components/NcUserBubble.js'
 
+import { sortByDeletionTime } from './utils.ts'
+
 const parseOriginalLocation = (node: Node): string => {
 	const path = node.attributes?.['trashbin-original-location'] !== undefined ? String(node.attributes?.['trashbin-original-location']) : null
 	if (!path) {
@@ -129,11 +131,7 @@ const deleted = new Column({
 		span.textContent = t('files_trashbin', 'A long time ago')
 		return span
 	},
-	sort(nodeA, nodeB) {
-		const deletionTimeA = nodeA.attributes?.['trashbin-deletion-time'] || nodeA?.mtime || 0
-		const deletionTimeB = nodeB.attributes?.['trashbin-deletion-time'] || nodeB?.mtime || 0
-		return deletionTimeB - deletionTimeA
-	},
+	sort: sortByDeletionTime,
 })
 
 export const columns = [

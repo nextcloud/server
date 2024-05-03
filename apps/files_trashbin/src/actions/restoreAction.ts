@@ -19,21 +19,107 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
+import type { Node } from '@nextcloud/files'
+
 import { emit } from '@nextcloud/event-bus'
 import { generateRemoteUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
-import { Permission, Node, View, registerFileAction, FileAction, FileType } from '@nextcloud/files'
+import { Permission, registerFileAction, FileAction, FileType } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 import axios from '@nextcloud/axios'
 import History from '@mdi/svg/svg/history.svg?raw'
 
 import logger from '../../../files/src/logger.js'
 import { encodePath } from '@nextcloud/paths'
+import { RestoreParents, parseOriginalLocation, sortByDeletionTime } from '../utils.js'
+import { confirmRestoration } from '../services/restoreDialog.ts'
+import { useTrashbinStore } from '../store/trashbin.ts'
 
-const sortByDeletionTime = (a: Node, b: Node) => {
-	const deletionTimeA = a.attributes?.['trashbin-deletion-time'] || a?.mtime || 0
-	const deletionTimeB = b.attributes?.['trashbin-deletion-time'] || b?.mtime || 0
-	return deletionTimeB - deletionTimeA
+type Nullable<T> = null | T
+
+const store = useTrashbinStore() // Use store to reduce DAV calls
+
+/**
+ * Return original parents of node sorted by most recently deleted
+ *
+ * @param node the node
+ * @param nodes the other trash nodes
+ */
+const getOriginalParents = (node: Node, nodes: Node[]) => {
+	const sortedNodes = nodes.toSorted(sortByDeletionTime)
+	const originalParents = sortedNodes
+		.filter(otherNode => {
+			const originalPath = parseOriginalLocation(node, true)
+			if (otherNode.type === FileType.File) {
+				return false
+			}
+			const otherPath = parseOriginalLocation(otherNode, true)
+			if (originalPath === otherPath) {
+				return false
+			}
+			return originalPath.startsWith(otherPath)
+		}).filter((otherNode, index, arr) => { // Filter out duplicates except the most recently deleted one
+			const originalPath = parseOriginalLocation(otherNode, true)
+			const firstIndexOfPath = arr.findIndex(node => originalPath === parseOriginalLocation(node, true))
+			return firstIndexOfPath === index
+		})
+	return originalParents
+}
+
+const restore = async (node: Node): Promise<boolean> => {
+	try {
+		const destination = generateRemoteUrl(encodePath(`dav/trashbin/${getCurrentUser()?.uid}/restore/${node.basename}`))
+		await axios({
+			method: 'MOVE',
+			url: node.encodedSource,
+			headers: {
+				destination,
+			},
+		})
+
+		// Let's pretend the file is deleted since
+		// we don't know the restored location
+		emit('files:node:deleted', node)
+		return true
+	} catch (error) {
+		logger.error(error)
+		return false
+	}
+}
+
+const restoreSequentially = async (nodes: Node[], withParents: boolean = true): Promise<Nullable<boolean>[]> => {
+	const results: Nullable<boolean>[] = []
+	for (const node of nodes) {
+		if (withParents) {
+			results.push(await restoreWithParents(node))
+			continue
+		}
+		results.push(await restore(node))
+	}
+	return results
+}
+
+const restoreWithParents = async (node: Node): Promise<Nullable<boolean>> => {
+	const otherNodes = (store.nodes.value as Node[]).filter(trashNode => trashNode.fileid !== node.fileid)
+	const originalParents = getOriginalParents(node, otherNodes)
+	if (originalParents.length === 0) {
+		return restore(node)
+	}
+	const result = await confirmRestoration(node, originalParents)
+	if (result === RestoreParents.Cancel) {
+		return null
+	}
+	if (result === RestoreParents.Skip) {
+		return restore(node)
+	}
+	const parentResults: Nullable<boolean>[] = await restoreSequentially(originalParents, false) // Bypass restoration with parents to avoid attempting to restore duplicates
+	const restored = await restore(node)
+	return restored && parentResults.every(Boolean)
+}
+
+const restoreBatchWithParents = async (nodes: Node[]): Promise<Nullable<boolean>[]> => {
+	return restoreSequentially(nodes)
 }
 
 registerFileAction(new FileAction({
@@ -56,41 +142,17 @@ registerFileAction(new FileAction({
 	},
 
 	async exec(node: Node) {
-		try {
-			const destination = generateRemoteUrl(encodePath(`dav/trashbin/${getCurrentUser()?.uid}/restore/${node.basename}`))
-			await axios({
-				method: 'MOVE',
-				url: node.encodedSource,
-				headers: {
-					destination,
-				},
-			})
-
-			// Let's pretend the file is deleted since
-			// we don't know the restored location
-			emit('files:node:deleted', node)
-			return true
-		} catch (error) {
-			logger.error(error)
-			return false
-		}
+		await store.init()
+		const result = await restoreWithParents(node)
+		store.reset()
+		return result
 	},
 
-	async execBatch(nodes: Node[], view: View, dir: string) {
-		// Restore folders sequentially by deletion time to preserve original directory structure
-		const sortedFolderNodes = nodes
-			.filter(node => node.type === FileType.Folder)
-			.toSorted(sortByDeletionTime)
-		const folderResults: boolean[] = []
-		for (const node of sortedFolderNodes) {
-			folderResults.push(await this.exec(node, view, dir) as boolean)
-		}
-		const fileResults = await Promise.all(
-			nodes
-				.filter(node => node.type === FileType.File)
-				.map(node => this.exec(node, view, dir)),
-		)
-		return [...folderResults, ...fileResults]
+	async execBatch(nodes: Node[]) {
+		await store.init()
+		const result = await restoreBatchWithParents(nodes)
+		store.reset()
+		return result
 	},
 
 	order: 1,
