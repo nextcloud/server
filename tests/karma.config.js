@@ -99,10 +99,12 @@ module.exports = function(config) {
 	}
 
 	files.push('core/js/tests/html-domparser.js');
-	files.push('dist/core-main.js');
-	files.push('dist/core-files_fileinfo.js');
-	files.push('dist/core-files_client.js');
-	files.push('dist/core-systemtags.js');
+	files.push({ pattern: 'dist/core-main.mjs', type: 'module' });
+	files.push({ pattern: 'dist/core-common.mjs', type: 'module' });
+	files.push('dist/core-legacy.js');
+	files.push({ pattern: 'dist/core-files_fileinfo.mjs', type: 'module' });
+	files.push({ pattern: 'dist/core-files_client.mjs', type: 'module' });
+	files.push({ pattern: 'dist/core-systemtags.mjs', type: 'module' });
 
 	// core mocks
 	files.push('core/js/tests/specHelper.js');
@@ -110,7 +112,7 @@ module.exports = function(config) {
 	// add core modules files
 	for (i = 0; i < coreModule.modules.length; i++) {
 		srcFile = corePath + coreModule.modules[i];
-		files.push(srcFile);
+		files.push({ pattern: srcFile, type: srcFile.endsWith('mjs') ? 'module' : 'js' });
 		if (enableCoverage) {
 			preprocessors[srcFile] = 'coverage';
 		}
@@ -134,7 +136,7 @@ module.exports = function(config) {
 		}
 
 		// add source files/patterns
-		files = files.concat(app.srcFiles || []);
+		files.push(...app.srcFiles.map((file) => ({ pattern: file, type: file.endsWith('mjs') ? 'module' : 'js' })));
 		// add test files/patterns
 		files = files.concat(app.testFiles || []);
 		if (enableCoverage) {
@@ -166,9 +168,25 @@ module.exports = function(config) {
 		served: true
 	});
 
+	// include server CSS
+	files.push({
+		pattern: 'dist/*.css',
+		watched: true,
+		included: true,
+		served: true
+	});
+
 	// Allow fonts
 	files.push({
 		pattern: 'core/fonts/*',
+		watched: false,
+		included: false,
+		served: true
+	});
+
+	files.push({
+		pattern: 'dist/chunks/*',
+		type: 'module',
 		watched: false,
 		included: false,
 		served: true
@@ -186,6 +204,10 @@ module.exports = function(config) {
 		// list of files / patterns to load in the browser
 		files: files,
 
+		mime: {
+			'text/javascript': ['js','mjs'],
+		},
+
 		// list of files to exclude
 		exclude: [],
 
@@ -196,7 +218,7 @@ module.exports = function(config) {
 			'/base/core/css/images/': 'http://localhost:9876/base/core/css/images/',
 			'/actions/': 'http://localhost:9876/base/core/img/actions/',
 			'/base/core/fonts/': 'http://localhost:9876/base/core/fonts/',
-			'/svg/': '../core/img/'
+			'/svg/': '../core/img/',
 		},
 
 		// test results reporter to use
