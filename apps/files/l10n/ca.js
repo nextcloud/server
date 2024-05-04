@@ -184,6 +184,7 @@ OC.L10N.register(
     "Folder name" : "Nom de la carpeta",
     "This node is unavailable" : "Aquest node no està disponible",
     "Download file {name}" : "Baixa el fitxer {name}",
+    "Invalid file name" : "El nom del fitxer no és vàlid",
     "\"{name}\" is not an allowed filetype." : "«{name}» no és un tipus de fitxer permès.",
     "{newName} already exists." : "{newName} ja existeix.",
     "\"{char}\" is not allowed inside a file name." : "El caràcter «{char}» no es pot utilitzar en el nom dels fitxers.",

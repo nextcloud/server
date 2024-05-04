@@ -182,6 +182,7 @@
     "Folder name" : "Folder name",
     "This node is unavailable" : "This node is unavailable",
     "Download file {name}" : "Download file {name}",
+    "Invalid file name" : "Invalid file name",
     "\"{name}\" is not an allowed filetype." : "\"{name}\" is not an allowed filetype.",
     "{newName} already exists." : "{newName} already exists.",
     "\"{char}\" is not allowed inside a file name." : "\"{char}\" is not allowed inside a file name.",

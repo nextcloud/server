@@ -184,6 +184,7 @@ OC.L10N.register(
     "Folder name" : "Klasör adı",
     "This node is unavailable" : "Bu düğüm kullanılamıyor",
     "Download file {name}" : "{name} dosyasını indir",
+    "Invalid file name" : "Dosya adı geçersiz",
     "\"{name}\" is not an allowed filetype." : "\"{name}\" dosya türüne izin verilmiyor.",
     "{newName} already exists." : "{newName} zaten var.",
     "\"{char}\" is not allowed inside a file name." : "Dosya adlarında \"{char}\" karakteri kullanılamaz.",

@@ -184,6 +184,7 @@ OC.L10N.register(
     "Folder name" : "資料夾名稱",
     "This node is unavailable" : "此節點不可用",
     "Download file {name}" : "下載檔案 {name}",
+    "Invalid file name" : "檔案名稱無效",
     "\"{name}\" is not an allowed filetype." : "「{name}」是不允許的檔案類型。",
     "{newName} already exists." : "{newName} 已經存在。",
     "\"{char}\" is not allowed inside a file name." : "不允許檔案名稱中出現 \"{char}\"。",
