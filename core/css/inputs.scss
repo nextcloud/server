@@ -323,6 +323,10 @@ input[type='reset'] {
 		background-color: var(--color-error) !important;
 		border-color: var(--color-error) !important;
 		color: #fff !important;
+		&:hover{
+			background-color: var(--color-error-hover) !important;
+			border-color: var(--color-main-text) !important;
+		}
 	}
 }
 button:not(
