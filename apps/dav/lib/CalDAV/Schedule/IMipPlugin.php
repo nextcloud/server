@@ -41,7 +41,7 @@ use OCA\DAV\CalDAV\EventComparisonService;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Defaults;
 use OCP\IConfig;
-use OCP\IUserManager;
+use OCP\IUserSession;
 use OCP\Mail\IMailer;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
@@ -69,13 +69,12 @@ use Sabre\VObject\Reader;
  * @license http://sabre.io/license/ Modified BSD License
  */
 class IMipPlugin extends SabreIMipPlugin {
-	private ?string $userId;
+	private IUserSession $userSession;
 	private IConfig $config;
 	private IMailer $mailer;
 	private LoggerInterface $logger;
 	private ITimeFactory $timeFactory;
 	private Defaults $defaults;
-	private IUserManager $userManager;
 	private ?VCalendar $vCalendar = null;
 	private IMipService $imipService;
 	public const MAX_DATE = '2038-01-01';
@@ -90,18 +89,16 @@ class IMipPlugin extends SabreIMipPlugin {
 		LoggerInterface $logger,
 		ITimeFactory $timeFactory,
 		Defaults $defaults,
-		IUserManager $userManager,
-		$userId,
+		IUserSession $userSession,
 		IMipService $imipService,
 		EventComparisonService $eventComparisonService) {
 		parent::__construct('');
-		$this->userId = $userId;
+		$this->userSession = $userSession;
 		$this->config = $config;
 		$this->mailer = $mailer;
 		$this->logger = $logger;
 		$this->timeFactory = $timeFactory;
 		$this->defaults = $defaults;
-		$this->userManager = $userManager;
 		$this->imipService = $imipService;
 		$this->eventComparisonService = $eventComparisonService;
 	}
@@ -206,17 +203,16 @@ class IMipPlugin extends SabreIMipPlugin {
 		$this->imipService->setL10n($attendee);
 
 		// Build the sender name.
-		// Due to a bug in sabre, the senderName property for an iTIP message
-		// can actually also be a VObject Property
-		/** @var Parameter|string|null $senderName */
-		$senderName = $iTipMessage->senderName ?: null;
-		if($senderName instanceof Parameter) {
-			$senderName = $senderName->getValue() ?? null;
-		}
-
-		// Try to get the sender name from the current user id if available.
-		if ($this->userId !== null && ($senderName === null || empty(trim($senderName)))) {
-			$senderName = $this->userManager->getDisplayName($this->userId);
+		// Due to a bug in sabre, the senderName property for an iTIP message can actually also be a VObject Property
+		// If the iTIP message senderName is null or empty use the user session name as the senderName
+		if (($iTipMessage->senderName instanceof Parameter) && !empty(trim($iTipMessage->senderName->getValue()))) {
+			$senderName = trim($iTipMessage->senderName->getValue());
+		} elseif (is_string($iTipMessage->senderName) && !empty(trim($iTipMessage->senderName))) {
+			$senderName = trim($iTipMessage->senderName);
+		} elseif ($this->userSession->getUser() !== null) {
+			$senderName = trim($this->userSession->getUser()->getDisplayName());
+		} else {
+			$senderName = '';
 		}
 
 		$sender = substr($iTipMessage->sender, 7);
