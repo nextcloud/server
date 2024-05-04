@@ -184,6 +184,7 @@ OC.L10N.register(
     "Folder name" : "Nom du dossier",
     "This node is unavailable" : "Ce nœud est indisponible ",
     "Download file {name}" : "Télécharger le fichier {name}",
+    "Invalid file name" : "Nom de fichier invalide",
     "\"{name}\" is not an allowed filetype." : "\"{name}\" n'est pas un type de fichier autorisé.",
     "{newName} already exists." : "{newName} existe déjà.",
     "\"{char}\" is not allowed inside a file name." : "\"{char}\" n'est pas autorisé dans un nom de fichier.",

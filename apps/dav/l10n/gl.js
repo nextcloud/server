@@ -173,7 +173,7 @@ OC.L10N.register(
     "Delete slot" : "Eliminar franxa horaria",
     "No working hours set" : "Sen horario de traballo estabelecido",
     "Add slot" : "Engadir franxa horaria",
-    "Weekdays" : "Días laborables",
+    "Weekdays" : "Días laborábeis",
     "Monday" : "luns",
     "Tuesday" : "martes",
     "Wednesday" : "mércores",
