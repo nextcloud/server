@@ -454,7 +454,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * Checks if the request passes the CSRF checks.
 	 *
 	 * A request must always pass the strict cookie check, unless it has the OCS-APIRequest set or no session (@see cookieCheckRequired).
-	 * If the OCS-APIRequest is set or a valid CSRF token is sent the request will to pass.
+	 * If the OCS-APIRequest is set or a valid CSRF token is sent the check will succeed.
 	 */
 	public function passesCSRFCheck(): bool {
 		if ($this->csrfTokenManager === null) {
