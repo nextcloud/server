@@ -7,7 +7,7 @@ OC.L10N.register(
     "Restore" : "Wiederherstellen",
     "Unknown" : "Unbekannt",
     "All files" : "Alle Dateien",
-    "You" : "Benötigt keine Übersetzung. Für Android wird nur die formelle Übersetzung verwendet (de_DE).",
+    "You" : "Du",
     "Deleted" : "gelöscht",
     "A long time ago" : "Vor langer Zeit",
     "List of files that have been deleted." : "Liste der gelöschten Dateien.",
