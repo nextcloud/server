@@ -184,6 +184,7 @@ OC.L10N.register(
     "Folder name" : "Ordnername",
     "This node is unavailable" : "Dieser Knoten ist nicht verfügbar",
     "Download file {name}" : "Datei {name} herunterladen",
+    "Invalid file name" : "Ungültiger Dateiname",
     "\"{name}\" is not an allowed filetype." : "\"{name}\" ist kein zulässiger Dateityp.",
     "{newName} already exists." : "{newName} existiert bereits.",
     "\"{char}\" is not allowed inside a file name." : "\"{char}“ ist innerhalb eines Dateinamens nicht zulässig.",
