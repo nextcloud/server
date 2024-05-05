@@ -487,7 +487,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	/**
 	 * Whether the cookie checks are required
 	 *
-	 * In case the OCS-APIRequest header is set or the user has no session, we don't to check the cookies because the client is not a browser and thus doesn't need CSRF checks.
+	 * In case the OCS-APIRequest header is set or the user has no session, we don't need to check the cookies because the client is not a browser and thus doesn't need CSRF checks.
 	 *
 	 * @return bool
 	 */
