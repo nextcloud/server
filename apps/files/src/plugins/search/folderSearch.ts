@@ -25,7 +25,6 @@ import { getFilePickerBuilder } from '@nextcloud/dialogs';
 import { imagePath } from '@nextcloud/router'
 import { translate as t } from '@nextcloud/l10n'
 import logger from '../../logger'
-import '@nextcloud/dialogs/style.css'
 
 /**
  * Initialize the unified search plugin.
@@ -33,7 +32,7 @@ import '@nextcloud/dialogs/style.css'
 function init() {
 	const OCA = window.OCA
 	if (!OCA.UnifiedSearch) {
-		return;
+		return
 	}
 
 	logger.info('Initializing unified search plugin: folder search from files app');
@@ -65,4 +64,4 @@ function init() {
 	})
 }
 
-document.addEventListener('DOMContentLoaded', init);
+document.addEventListener('DOMContentLoaded', init)

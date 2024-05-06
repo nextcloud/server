@@ -20,8 +20,6 @@
  *
  */
 
-import '@nextcloud/dialogs/style.css'
-
 import type { Folder, Node } from '@nextcloud/files'
 import { Permission } from '@nextcloud/files'
 import PQueue from 'p-queue'
