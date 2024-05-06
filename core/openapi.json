@@ -490,6 +490,7 @@
                 "type": "object",
                 "required": [
                     "id",
+                    "type",
                     "status",
                     "userId",
                     "appId",
@@ -504,6 +505,9 @@
                         "type": "integer",
                         "format": "int64",
                         "nullable": true
+                    },
+                    "type": {
+                        "type": "string"
                     },
                     "status": {
                         "type": "integer",
