@@ -31,6 +31,7 @@ use OCP\TaskProcessing\Events\TaskFailedEvent;
 use OCP\TaskProcessing\Events\TaskSuccessfulEvent;
 use OCP\TaskProcessing\Exception\NotFoundException;
 use OCP\TaskProcessing\Exception\ProcessingException;
+use OCP\TaskProcessing\Exception\UnauthorizedException;
 use OCP\TaskProcessing\Exception\ValidationException;
 use OCP\TaskProcessing\IManager;
 use OCP\TaskProcessing\IProvider;
@@ -362,6 +363,7 @@ class TaskProcessingTest extends \Test\TestCase {
 			\OC::$server->get(IAppDataFactory::class),
 		);
 
+		$this->shareManager = $this->createMock(\OCP\Share\IManager::class);
 
 		$this->manager = new Manager(
 			$this->coordinator,
@@ -375,6 +377,7 @@ class TaskProcessingTest extends \Test\TestCase {
 			$textProcessingManager,
 			$text2imageManager,
 			\OC::$server->get(ISpeechToTextManager::class),
+			$this->shareManager,
 		);
 	}
 
@@ -399,7 +402,7 @@ class TaskProcessingTest extends \Test\TestCase {
 		$this->registrationContext->expects($this->any())->method('getTaskProcessingProviders')->willReturn([]);
 		self::assertCount(0, $this->manager->getAvailableTaskTypes());
 		self::assertFalse($this->manager->hasProviders());
-		self::expectException(PreConditionNotMetException::class);
+		self::expectException(\OCP\TaskProcessing\Exception\PreConditionNotMetException::class);
 		$this->manager->scheduleTask(new Task(TextToText::ID, ['input' => 'Hello'], 'test', null));
 	}
 
@@ -412,6 +415,26 @@ class TaskProcessingTest extends \Test\TestCase {
 		$task = new Task(TextToText::ID, ['wrongInputKey' => 'Hello'], 'test', null);
 		self::assertNull($task->getId());
 		self::expectException(ValidationException::class);
+		$this->manager->scheduleTask($task);
+	}
+
+	public function testProviderShouldBeRegisteredAndTaskWithFilesFailValidation() {
+		$this->shareManager->expects($this->any())->method('getAccessList')->willReturn(['users' => []]);
+		$this->registrationContext->expects($this->any())->method('getTaskProcessingTaskTypes')->willReturn([
+			new ServiceRegistration('test', AudioToImage::class)
+		]);
+		$this->registrationContext->expects($this->any())->method('getTaskProcessingProviders')->willReturn([
+			new ServiceRegistration('test', AsyncProvider::class)
+		]);
+		$this->shareManager->expects($this->any())->method('getAccessList')->willReturn(['users' => [null]]);
+		self::assertCount(1, $this->manager->getAvailableTaskTypes());
+
+		self::assertTrue($this->manager->hasProviders());
+		$audioId = $this->getFile('audioInput', 'Hello')->getId();
+		$task = new Task(AudioToImage::ID, ['audio' => $audioId], 'test', null);
+		self::assertNull($task->getId());
+		self::assertEquals(Task::STATUS_UNKNOWN, $task->getStatus());
+		self::expectException(UnauthorizedException::class);
 		$this->manager->scheduleTask($task);
 	}
 
@@ -524,11 +547,12 @@ class TaskProcessingTest extends \Test\TestCase {
 		$this->registrationContext->expects($this->any())->method('getTaskProcessingProviders')->willReturn([
 			new ServiceRegistration('test', AsyncProvider::class)
 		]);
+		$this->shareManager->expects($this->any())->method('getAccessList')->willReturn(['users' => ['testuser' => 1]]);
 		self::assertCount(1, $this->manager->getAvailableTaskTypes());
 
 		self::assertTrue($this->manager->hasProviders());
 		$audioId = $this->getFile('audioInput', 'Hello')->getId();
-		$task = new Task(AudioToImage::ID, ['audio' => $audioId], 'test', null);
+		$task = new Task(AudioToImage::ID, ['audio' => $audioId], 'test', 'testuser');
 		self::assertNull($task->getId());
 		self::assertEquals(Task::STATUS_UNKNOWN, $task->getStatus());
 		$this->manager->scheduleTask($task);
@@ -606,6 +630,7 @@ class TaskProcessingTest extends \Test\TestCase {
 			$timeFactory,
 			$this->taskMapper,
 			\OC::$server->get(LoggerInterface::class),
+			\OCP\Server::get(IAppDataFactory::class),
 		);
 		$bgJob->setArgument([]);
 		$bgJob->start($this->jobList);
