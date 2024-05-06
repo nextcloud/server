@@ -112,8 +112,8 @@ class ProviderUserAssignmentDao {
 
 		return array_map(function (array $row) {
 			return [
-				'provider_id' => $row['provider_id'],
-				'uid' => $row['uid'],
+				'provider_id' => (string) $row['provider_id'],
+				'uid' => (string) $row['uid'],
 				'enabled' => (int) $row['enabled'] === 1,
 			];
 		}, $rows);

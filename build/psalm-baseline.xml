@@ -123,86 +123,6 @@
       <code>VCalendar</code>
     </MoreSpecificReturnType>
     <NullableReturnStatement>
-      <code><![CDATA[$this->atomic(function () use ($calendarId, $syncToken, $syncLevel, $limit, $calendarType) {
-			// Current synctoken
-			$qb = $this->db->getQueryBuilder();
-			$qb->select('synctoken')
-				->from('calendars')
-				->where(
-					$qb->expr()->eq('id', $qb->createNamedParameter($calendarId))
-				);
-			$stmt = $qb->executeQuery();
-			$currentToken = $stmt->fetchOne();
-
-			if ($currentToken === false) {
-				return null;
-			}
-
-			$result = [
-				'syncToken' => $currentToken,
-				'added' => [],
-				'modified' => [],
-				'deleted' => [],
-			];
-
-			if ($syncToken) {
-				$qb = $this->db->getQueryBuilder();
-
-				$qb->select('uri', 'operation')
-					->from('calendarchanges')
-					->where(
-						$qb->expr()->andX(
-							$qb->expr()->gte('synctoken', $qb->createNamedParameter($syncToken)),
-							$qb->expr()->lt('synctoken', $qb->createNamedParameter($currentToken)),
-							$qb->expr()->eq('calendarid', $qb->createNamedParameter($calendarId)),
-							$qb->expr()->eq('calendartype', $qb->createNamedParameter($calendarType))
-						)
-					)->orderBy('synctoken');
-				if (is_int($limit) && $limit > 0) {
-					$qb->setMaxResults($limit);
-				}
-
-				// Fetching all changes
-				$stmt = $qb->executeQuery();
-				$changes = [];
-
-				// This loop ensures that any duplicates are overwritten, only the
-				// last change on a node is relevant.
-				while ($row = $stmt->fetch()) {
-					$changes[$row['uri']] = $row['operation'];
-				}
-				$stmt->closeCursor();
-
-				foreach ($changes as $uri => $operation) {
-					switch ($operation) {
-						case 1:
-							$result['added'][] = $uri;
-							break;
-						case 2:
-							$result['modified'][] = $uri;
-							break;
-						case 3:
-							$result['deleted'][] = $uri;
-							break;
-					}
-				}
-			} else {
-				// No synctoken supplied, this is the initial sync.
-				$qb = $this->db->getQueryBuilder();
-				$qb->select('uri')
-					->from('calendarobjects')
-					->where(
-						$qb->expr()->andX(
-							$qb->expr()->eq('calendarid', $qb->createNamedParameter($calendarId)),
-							$qb->expr()->eq('calendartype', $qb->createNamedParameter($calendarType))
-						)
-					);
-				$stmt = $qb->executeQuery();
-				$result['added'] = $stmt->fetchAll(\PDO::FETCH_COLUMN);
-				$stmt->closeCursor();
-			}
-			return $result;
-		}, $this->db)]]></code>
       <code>null</code>
     </NullableReturnStatement>
   </file>
@@ -312,7 +232,7 @@
     </RedundantCast>
     <RedundantCondition>
       <code><![CDATA[!empty($modified['old']) && is_array($modified['old'])]]></code>
-      <code>is_array($modified['old'])</code>
+      <code><![CDATA[is_array($modified['old'])]]></code>
     </RedundantCondition>
   </file>
   <file src="apps/dav/lib/CalDAV/Schedule/IMipService.php">
@@ -323,8 +243,8 @@
   </file>
   <file src="apps/dav/lib/CalDAV/Schedule/Plugin.php">
     <InvalidArgument>
-      <code>[$aclPlugin, 'propFind']</code>
-      <code>[$aclPlugin, 'propFind']</code>
+      <code><![CDATA[[$aclPlugin, 'propFind']]]></code>
+      <code><![CDATA[[$aclPlugin, 'propFind']]]></code>
     </InvalidArgument>
     <LessSpecificReturnStatement>
       <code><![CDATA[$vevent->DTEND]]></code>
@@ -359,12 +279,12 @@
   </file>
   <file src="apps/dav/lib/CalDAV/Search/Xml/Request/CalendarSearchReport.php">
     <TypeDoesNotContainType>
-      <code>!is_array($newProps['filters']['comps'])</code>
-      <code>!is_array($newProps['filters']['params'])</code>
-      <code>!is_array($newProps['filters']['props'])</code>
-      <code>!isset($newProps['filters']['comps']) || !is_array($newProps['filters']['comps'])</code>
-      <code>!isset($newProps['filters']['params']) || !is_array($newProps['filters']['params'])</code>
-      <code>!isset($newProps['filters']['props']) || !is_array($newProps['filters']['props'])</code>
+      <code><![CDATA[!is_array($newProps['filters']['comps'])]]></code>
+      <code><![CDATA[!is_array($newProps['filters']['params'])]]></code>
+      <code><![CDATA[!is_array($newProps['filters']['props'])]]></code>
+      <code><![CDATA[!isset($newProps['filters']['comps']) || !is_array($newProps['filters']['comps'])]]></code>
+      <code><![CDATA[!isset($newProps['filters']['params']) || !is_array($newProps['filters']['params'])]]></code>
+      <code><![CDATA[!isset($newProps['filters']['props']) || !is_array($newProps['filters']['props'])]]></code>
     </TypeDoesNotContainType>
   </file>
   <file src="apps/dav/lib/CalDAV/WebcalCaching/RefreshWebcalService.php">
@@ -400,7 +320,7 @@
       <code>VCard</code>
     </MoreSpecificReturnType>
     <TypeDoesNotContainType>
-      <code>$addressBooks[$row['id']][$readOnlyPropertyName] === 0</code>
+      <code><![CDATA[$addressBooks[$row['id']][$readOnlyPropertyName] === 0]]></code>
     </TypeDoesNotContainType>
   </file>
   <file src="apps/dav/lib/CardDAV/MultiGetExportPlugin.php">
@@ -502,13 +422,12 @@
       <code>bool</code>
     </InvalidNullableReturnType>
     <TooManyArguments>
-      <code>new PreconditionFailed('Cannot filter by non-existing tag', 0, $e)</code>
+      <code><![CDATA[new PreconditionFailed('Cannot filter by non-existing tag', 0, $e)]]></code>
     </TooManyArguments>
     <UndefinedClass>
       <code>\OCA\Circles\Api\v1\Circles</code>
     </UndefinedClass>
     <UndefinedInterfaceMethod>
-      <code>getById</code>
       <code>getPath</code>
     </UndefinedInterfaceMethod>
   </file>
@@ -768,7 +687,7 @@
   </file>
   <file src="apps/encryption/lib/Crypto/Crypt.php">
     <TypeDoesNotContainType>
-      <code>get_class($res) === 'OpenSSLAsymmetricKey'</code>
+      <code><![CDATA[get_class($res) === 'OpenSSLAsymmetricKey']]></code>
     </TypeDoesNotContainType>
   </file>
   <file src="apps/encryption/lib/Crypto/Encryption.php">
@@ -783,7 +702,7 @@
   </file>
   <file src="apps/encryption/lib/Session.php">
     <TooManyArguments>
-      <code>new Exceptions\PrivateKeyMissingException('please try to log-out and log-in again', 0)</code>
+      <code><![CDATA[new Exceptions\PrivateKeyMissingException('please try to log-out and log-in again', 0)]]></code>
     </TooManyArguments>
   </file>
   <file src="apps/encryption/lib/Util.php">
@@ -811,14 +730,8 @@
       <code>$shareId</code>
       <code>$shareId</code>
       <code>$shareId</code>
-      <code>(int)$data['id']</code>
+      <code><![CDATA[(int)$data['id']]]></code>
     </InvalidArgument>
-    <LessSpecificReturnStatement>
-      <code>$nodes[0]</code>
-    </LessSpecificReturnStatement>
-    <MoreSpecificReturnType>
-      <code>\OCP\Files\File|\OCP\Files\Folder</code>
-    </MoreSpecificReturnType>
   </file>
   <file src="apps/federatedfilesharing/lib/Notifications.php">
     <InvalidReturnType>
@@ -841,7 +754,7 @@
       <code>string</code>
     </InvalidReturnType>
     <InvalidScalarArgument>
-      <code>(int)$share['id']</code>
+      <code><![CDATA[(int)$share['id']]]></code>
     </InvalidScalarArgument>
   </file>
   <file src="apps/federation/lib/DbHandler.php">
@@ -918,9 +831,6 @@
     </UndefinedInterfaceMethod>
   </file>
   <file src="apps/files/lib/Service/OwnershipTransferService.php">
-    <TypeDoesNotContainType>
-      <code>empty($encryptedFiles)</code>
-    </TypeDoesNotContainType>
     <UndefinedInterfaceMethod>
       <code>isReadyForUser</code>
     </UndefinedInterfaceMethod>
@@ -1070,7 +980,7 @@
   </file>
   <file src="apps/files_sharing/templates/public.php">
     <RedundantCondition>
-      <code>$_['hideFileList'] !== true</code>
+      <code><![CDATA[$_['hideFileList'] !== true]]></code>
       <code><![CDATA[isset($_['hideFileList']) && $_['hideFileList'] !== true]]></code>
     </RedundantCondition>
   </file>
@@ -1112,15 +1022,8 @@
     </InvalidReturnType>
   </file>
   <file src="apps/files_trashbin/lib/Trash/LegacyTrashBackend.php">
-    <RedundantCondition>
-      <code>$trashFiles</code>
-    </RedundantCondition>
-    <TypeDoesNotContainType>
-      <code>null</code>
-    </TypeDoesNotContainType>
     <UndefinedInterfaceMethod>
       <code>$file</code>
-      <code>getById</code>
     </UndefinedInterfaceMethod>
   </file>
   <file src="apps/files_trashbin/lib/Trashbin.php">
@@ -1207,7 +1110,7 @@
   <file src="apps/sharebymail/lib/ShareByMailProvider.php">
     <InvalidArgument>
       <code><![CDATA[$share->getId()]]></code>
-      <code>(int)$data['id']</code>
+      <code><![CDATA[(int)$data['id']]]></code>
     </InvalidArgument>
   </file>
   <file src="apps/systemtags/lib/Activity/Listener.php">
@@ -1228,14 +1131,6 @@
     <InvalidReturnType>
       <code>array{0: int, 1: int, 2: int}</code>
     </InvalidReturnType>
-  </file>
-  <file src="apps/updatenotification/lib/Notification/BackgroundJob.php">
-    <InvalidArgument>
-      <code>false</code>
-    </InvalidArgument>
-    <InvalidPropertyAssignmentValue>
-      <code><![CDATA[$this->users]]></code>
-    </InvalidPropertyAssignmentValue>
   </file>
   <file src="apps/user_ldap/ajax/getNewServerConfigPrefix.php">
     <InvalidScalarArgument>
@@ -1416,17 +1311,7 @@
       <code>isUserScopeEnabled</code>
     </UndefinedInterfaceMethod>
   </file>
-  <file src="core/BackgroundJobs/BackgroundCleanupUpdaterBackupsJob.php">
-    <ParamNameMismatch>
-      <code>$arguments</code>
-    </ParamNameMismatch>
-  </file>
   <file src="core/BackgroundJobs/CheckForUserCertificates.php">
-    <ParamNameMismatch>
-      <code>$arguments</code>
-    </ParamNameMismatch>
-  </file>
-  <file src="core/BackgroundJobs/LookupServerSendCheckBackgroundJob.php">
     <ParamNameMismatch>
       <code>$arguments</code>
     </ParamNameMismatch>
@@ -1714,7 +1599,7 @@
   </file>
   <file src="lib/private/AppFramework/Routing/RouteConfig.php">
     <InvalidArrayOffset>
-      <code>$action['url-postfix']</code>
+      <code><![CDATA[$action['url-postfix']]]></code>
     </InvalidArrayOffset>
   </file>
   <file src="lib/private/AppFramework/Services/AppConfig.php">
@@ -1805,15 +1690,7 @@
     </UndefinedMagicMethod>
   </file>
   <file src="lib/private/Authentication/TwoFactorAuth/Db/ProviderUserAssignmentDao.php">
-    <LessSpecificReturnStatement>
-      <code><![CDATA[array_map(function (array $row) {
-			return [
-				'provider_id' => $row['provider_id'],
-				'uid' => $row['uid'],
-				'enabled' => 1 === (int) $row['enabled'],
-			];
-		}, $rows)]]></code>
-    </LessSpecificReturnStatement>
+    <LessSpecificReturnStatement/>
     <MoreSpecificReturnType>
       <code><![CDATA[list<array{provider_id: string, uid: string, enabled: bool}>]]></code>
     </MoreSpecificReturnType>
@@ -1938,7 +1815,7 @@
       <code>getParams</code>
     </InternalMethod>
     <InvalidArrayOffset>
-      <code>$params['collation']</code>
+      <code><![CDATA[$params['collation']]]></code>
     </InvalidArrayOffset>
   </file>
   <file src="lib/private/DB/Connection.php">
@@ -1949,8 +1826,8 @@
       <code>$params</code>
     </InvalidArgument>
     <InvalidArrayOffset>
-      <code>$params['adapter']</code>
-      <code>$params['tablePrefix']</code>
+      <code><![CDATA[$params['adapter']]]></code>
+      <code><![CDATA[$params['tablePrefix']]]></code>
     </InvalidArrayOffset>
   </file>
   <file src="lib/private/DB/Exceptions/DbalException.php">
@@ -1983,7 +1860,7 @@
       <code>getParams</code>
     </InternalMethod>
     <InvalidArrayOffset>
-      <code>$params['collation']</code>
+      <code><![CDATA[$params['collation']]]></code>
     </InvalidArrayOffset>
   </file>
   <file src="lib/private/DB/QueryBuilder/QueryBuilder.php">
@@ -1994,7 +1871,6 @@
       <code>$alias</code>
     </NullableReturnStatement>
     <ParamNameMismatch>
-      <code>$groupBys</code>
       <code>$selects</code>
     </ParamNameMismatch>
   </file>
@@ -2012,10 +1888,7 @@
 			'width' => $format,
 		])]]></code>
     </FalsableReturnStatement>
-    <InvalidDocblock>
-      <code>public function formatDateSpan($timestamp, $baseTimestamp = null, \OCP\IL10N $l = null) {</code>
-      <code>public function formatTimeSpan($timestamp, $baseTimestamp = null, \OCP\IL10N $l = null) {</code>
-    </InvalidDocblock>
+    <InvalidDocblock/>
     <InvalidReturnStatement>
       <code><![CDATA[$l->l($type, $timestamp, [
 			'width' => $format,
@@ -2178,10 +2051,10 @@
       <code>$user</code>
     </InvalidOperand>
     <RedundantCondition>
-      <code>get_class($provider) !== 'OCA\Files_Sharing\MountProvider'</code>
+      <code><![CDATA[get_class($provider) !== 'OCA\Files_Sharing\MountProvider']]></code>
     </RedundantCondition>
     <TypeDoesNotContainType>
-      <code>get_class($provider) === 'OCA\Files_Sharing\MountProvider'</code>
+      <code><![CDATA[get_class($provider) === 'OCA\Files_Sharing\MountProvider']]></code>
     </TypeDoesNotContainType>
   </file>
   <file src="lib/private/Files/Config/UserMountCache.php">
@@ -2238,7 +2111,6 @@
   <file src="lib/private/Files/Node/Folder.php">
     <LessSpecificReturnStatement>
       <code><![CDATA[$this->root->get($this->getFullPath($path))]]></code>
-      <code><![CDATA[$this->root->getByIdInPath((int)$id, $this->getPath())]]></code>
       <code><![CDATA[array_map(function (FileInfo $file) {
 			return $this->createNode($file->getPath(), $file);
 		}, $files)]]></code>
@@ -2346,7 +2218,7 @@
       <code>Promise\promise_for(
 					new Credentials($key, $secret)
 				)</code>
-      <code>\Aws\or_chain([self::class, 'legacySignatureProvider'], ClientResolver::_default_signature_provider())</code>
+      <code><![CDATA[\Aws\or_chain([self::class, 'legacySignatureProvider'], ClientResolver::_default_signature_provider())]]></code>
     </UndefinedFunction>
   </file>
   <file src="lib/private/Files/ObjectStore/S3ObjectTrait.php">
@@ -2594,8 +2466,8 @@
       <code>false</code>
     </InvalidArgument>
     <InvalidArrayOffset>
-      <code>$app['path']</code>
-      <code>$app['path']</code>
+      <code><![CDATA[$app['path']]]></code>
+      <code><![CDATA[$app['path']]]></code>
     </InvalidArrayOffset>
     <NullArgument>
       <code>null</code>
@@ -2917,7 +2789,7 @@
   </file>
   <file src="lib/private/Setup.php">
     <RedundantCondition>
-      <code>$type === 'pdo'</code>
+      <code><![CDATA[$type === 'pdo']]></code>
     </RedundantCondition>
     <UndefinedVariable>
       <code>$vendor</code>
@@ -2934,20 +2806,11 @@
       <code><![CDATA[$this->dbprettyname]]></code>
     </UndefinedThisPropertyFetch>
   </file>
-  <file src="lib/private/Share/Share.php">
-    <InvalidOperand>
-      <code>!self::isResharingAllowed()</code>
-    </InvalidOperand>
-    <UndefinedInterfaceMethod>
-      <code>getParents</code>
-      <code>getParents</code>
-    </UndefinedInterfaceMethod>
-  </file>
   <file src="lib/private/Share20/DefaultShareProvider.php">
     <InvalidArgument>
       <code><![CDATA[$share->getId()]]></code>
       <code><![CDATA[$share->getId()]]></code>
-      <code>(int)$data['id']</code>
+      <code><![CDATA[(int)$data['id']]]></code>
     </InvalidArgument>
     <TooManyArguments>
       <code>set</code>
@@ -3004,12 +2867,6 @@
       <code>private $roomShareProvider = null;</code>
       <code>private $shareByCircleProvider = null;</code>
     </UndefinedDocblockClass>
-    <UndefinedInterfaceMethod>
-      <code>getLazyRootFolder</code>
-      <code>getLazyRootFolder</code>
-      <code>getLazyRootFolder</code>
-      <code>getLazyRootFolder</code>
-    </UndefinedInterfaceMethod>
   </file>
   <file src="lib/private/Share20/Share.php">
     <LessSpecificReturnStatement>
@@ -3145,8 +3002,8 @@
       <code>$groupsList</code>
     </InvalidArgument>
     <InvalidArrayOffset>
-      <code>$dir['path']</code>
-      <code>$dir['url']</code>
+      <code><![CDATA[$dir['path']]]></code>
+      <code><![CDATA[$dir['url']]]></code>
     </InvalidArrayOffset>
     <NullArgument>
       <code>null</code>
