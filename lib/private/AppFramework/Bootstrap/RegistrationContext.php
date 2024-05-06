@@ -164,10 +164,10 @@ class RegistrationContext {
 	private array $teamResourceProviders = [];
 
 	/** @var ServiceRegistration<\OCP\TaskProcessing\IProvider>[] */
-	private $taskProcessingProviders = [];
+	private array $taskProcessingProviders = [];
 
 	/** @var ServiceRegistration<\OCP\TaskProcessing\ITaskType>[] */
-	private $taskProcessingTaskTypes = [];
+	private array $taskProcessingTaskTypes = [];
 
 	public function __construct(LoggerInterface $logger) {
 		$this->logger = $logger;

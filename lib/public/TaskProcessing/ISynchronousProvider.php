@@ -26,6 +26,7 @@ declare(strict_types=1);
 
 namespace OCP\TaskProcessing;
 
+use OCP\Files\File;
 use OCP\TaskProcessing\Exception\ProcessingException;
 
 /**
@@ -38,11 +39,11 @@ interface ISynchronousProvider extends IProvider {
 	/**
 	 * Returns the shape of optional output parameters
 	 *
-	 * @since 30.0.0
 	 * @param null|string $userId The user that created the current task
-	 * @param array<string, mixed> $input The task input
-	 * @psalm-return array<string, mixed>
+	 * @param array<string, list<numeric|string|File>|numeric|string|File> $input The task input
+	 * @psalm-return array<string, list<numeric|string>|numeric|string>
 	 * @throws ProcessingException
+	 *@since 30.0.0
 	 */
 	public function process(?string $userId, array $input): array;
 }

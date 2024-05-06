@@ -98,7 +98,7 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 	/**
 	 * This endpoint allows scheduling a task
 	 *
-	 * @param array<string, mixed> $input Input text
+	 * @param array<string, mixed> $input Task's input parameters
 	 * @param string $type Type of the task
 	 * @param string $appId ID of the app that will execute the task
 	 * @param string $identifier An arbitrary identifier for the task
@@ -171,7 +171,7 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 	 *
 	 * @param int $id The id of the task
 	 *
-	 * @return DataResponse<Http::STATUS_OK, array{}, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR, array{message: string}, array{}>
+	 * @return DataResponse<Http::STATUS_OK, null, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR, array{message: string}, array{}>
 	 *
 	 * 200: Task returned
 	 */
@@ -260,10 +260,10 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 
 	/**
 	 * @param Task $task
-	 * @return list<mixed>
+	 * @return list<int>
 	 * @throws \OCP\TaskProcessing\Exception\NotFoundException
 	 */
-	private function extractFileIdsFromTask(Task $task) {
+	private function extractFileIdsFromTask(Task $task): array {
 		$ids = [];
 		$taskTypes = $this->taskProcessingManager->getAvailableTaskTypes();
 		if (!isset($taskTypes[$task->getTaskTypeId()])) {
@@ -272,6 +272,7 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 		$taskType = $taskTypes[$task->getTaskTypeId()];
 		foreach ($taskType['inputShape'] + $taskType['optionalInputShape'] as $key => $descriptor) {
 			if (in_array(EShapeType::getScalarType($descriptor->getShapeType()), [EShapeType::File, EShapeType::Image, EShapeType::Audio, EShapeType::Video], true)) {
+				/** @var int|list<int> $inputSlot */
 				$inputSlot = $task->getInput()[$key];
 				if (is_array($inputSlot)) {
 					$ids += $inputSlot;
@@ -283,6 +284,7 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 		if ($task->getOutput() !== null) {
 			foreach ($taskType['outputShape'] + $taskType['optionalOutputShape'] as $key => $descriptor) {
 				if (in_array(EShapeType::getScalarType($descriptor->getShapeType()), [EShapeType::File, EShapeType::Image, EShapeType::Audio, EShapeType::Video], true)) {
+					/** @var int|list<int> $outputSlot */
 					$outputSlot = $task->getOutput()[$key];
 					if (is_array($outputSlot)) {
 						$ids += $outputSlot;
@@ -292,7 +294,7 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 				}
 			}
 		}
-		return $ids;
+		return array_values($ids);
 	}
 
 	/**

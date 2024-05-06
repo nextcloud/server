@@ -26,6 +26,7 @@ declare(strict_types=1);
 
 namespace OCP\TaskProcessing;
 
+use OCP\Files\File;
 use OCP\Files\GenericFileException;
 use OCP\Files\NotPermittedException;
 use OCP\Lock\LockedException;
@@ -150,7 +151,7 @@ interface IManager {
 	 * ie. this replaces file ids with base64 data
 	 *
 	 * @param Task $task
-	 * @return array<string, mixed>
+	 * @return array<array-key, list<numeric|string|File>|numeric|string|File>
 	 * @throws NotPermittedException
 	 * @throws GenericFileException
 	 * @throws LockedException

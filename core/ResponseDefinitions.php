@@ -195,11 +195,11 @@ namespace OCA\Core;
  * @psalm-type CoreTaskProcessingTask = array{
  *     id: int,
  *     type: string,
- *     status: 0|1|2|3|4|5,
+ *     status: 'STATUS_CANCELLED'|'STATUS_FAILED'|'STATUS_SUCCESSFUL'|'STATUS_RUNNING'|'STATUS_SCHEDULED'|'STATUS_UNKNOWN',
  *     userId: ?string,
  *     appId: string,
- *     input: ?array<string, mixed>,
- *     output: ?array<string, mixed>,
+ *     input: array<string, numeric|list<numeric>|string|list<string>>,
+ *     output: ?array<string, numeric|list<numeric>|string|list<string>>,
  *     identifier: ?string,
  *     completionExpectedAt: ?int,
  *     progress: ?float

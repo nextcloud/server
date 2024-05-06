@@ -75,7 +75,8 @@ final class Task implements \JsonSerializable {
 	protected int $status = self::STATUS_UNKNOWN;
 
 	/**
-	 * @param array<string,mixed> $input
+	 * @param string $taskTypeId
+	 * @param array<string,list<numeric|string>|numeric|string> $input
 	 * @param string $appId
 	 * @param string|null $userId
 	 * @param null|string $identifier An arbitrary identifier for this task. max length: 255 chars
@@ -146,6 +147,7 @@ final class Task implements \JsonSerializable {
 	}
 
 	/**
+	 * @param null|array<array-key, list<numeric|string>|numeric|string> $output
 	 * @since 30.0.0
 	 */
 	final public function setOutput(?array $output): void {
@@ -153,7 +155,7 @@ final class Task implements \JsonSerializable {
 	}
 
 	/**
-	 * @return array<array-key, mixed>|null
+	 * @return array<array-key, list<numeric|string>|numeric|string>|null
 	 * @since 30.0.0
 	 */
 	final public function getOutput(): ?array {
@@ -161,7 +163,7 @@ final class Task implements \JsonSerializable {
 	}
 
 	/**
-	 * @return array<array-key, mixed>
+	 * @return array<array-key, list<numeric|string>|numeric|string>
 	 * @since 30.0.0
 	 */
 	final public function getInput(): array {
@@ -193,20 +195,20 @@ final class Task implements \JsonSerializable {
 	}
 
 	/**
-	 * @psalm-return array{id: ?int, type: string, status: self::STATUS_*, userId: ?string, appId: string, input: ?array<array-key, mixed>, output: ?array<array-key, mixed>, identifier: ?string, completionExpectedAt: ?int, progress: ?float}
+	 * @psalm-return array{id: ?int, type: string, status: 'STATUS_CANCELLED'|'STATUS_FAILED'|'STATUS_SUCCESSFUL'|'STATUS_RUNNING'|'STATUS_SCHEDULED'|'STATUS_UNKNOWN', userId: ?string, appId: string, input: array<array-key, list<numeric|string>|numeric|string>, output: ?array<array-key, list<numeric|string>|numeric|string>, identifier: ?string, completionExpectedAt: ?int, progress: ?float}
 	 * @since 30.0.0
 	 */
-	public function jsonSerialize(): array {
+	final public function jsonSerialize(): array {
 		return [
 			'id' => $this->getId(),
 			'type' => $this->getTaskTypeId(),
-			'status' => $this->getStatus(),
+			'status' => self::statusToString($this->getStatus()),
 			'userId' => $this->getUserId(),
 			'appId' => $this->getAppId(),
 			'input' => $this->getInput(),
 			'output' => $this->getOutput(),
 			'identifier' => $this->getIdentifier(),
-			'completionExpectedAt' => $this->getCompletionExpectedAt()->getTimestamp(),
+			'completionExpectedAt' => $this->getCompletionExpectedAt()?->getTimestamp(),
 			'progress' => $this->getProgress(),
 		];
 	}
@@ -216,7 +218,7 @@ final class Task implements \JsonSerializable {
 	 * @return void
 	 * @since 30.0.0
 	 */
-	public function setErrorMessage(?string $error) {
+	final public function setErrorMessage(?string $error) {
 		$this->errorMessage = $error;
 	}
 
@@ -224,7 +226,7 @@ final class Task implements \JsonSerializable {
 	 * @return string|null
 	 * @since 30.0.0
 	 */
-	public function getErrorMessage(): ?string {
+	final public function getErrorMessage(): ?string {
 		return $this->errorMessage;
 	}
 
@@ -233,7 +235,7 @@ final class Task implements \JsonSerializable {
 	 * @return void
 	 * @since 30.0.0
 	 */
-	public function setInput(array $input): void {
+	final public function setInput(array $input): void {
 		$this->input = $input;
 	}
 
@@ -243,7 +245,7 @@ final class Task implements \JsonSerializable {
 	 * @throws ValidationException
 	 * @since 30.0.0
 	 */
-	public function setProgress(?float $progress): void {
+	final public function setProgress(?float $progress): void {
 		if ($progress < 0 || $progress > 1.0) {
 			throw new ValidationException('Progress must be between 0.0 and 1.0 inclusively; ' . $progress . ' given');
 		}
@@ -254,7 +256,23 @@ final class Task implements \JsonSerializable {
 	 * @return float|null
 	 * @since 30.0.0
 	 */
-	public function getProgress(): ?float {
+	final public function getProgress(): ?float {
 		return $this->progress;
+	}
+
+	/**
+	 * @param int $status
+	 * @return 'STATUS_CANCELLED'|'STATUS_FAILED'|'STATUS_SUCCESSFUL'|'STATUS_RUNNING'|'STATUS_SCHEDULED'|'STATUS_UNKNOWN'
+	 * @since 30.0.0
+	 */
+	final public static function statusToString(int $status): string {
+		return match ($status) {
+			self::STATUS_CANCELLED => 'STATUS_CANCELLED',
+			self::STATUS_FAILED => 'STATUS_FAILED',
+			self::STATUS_SUCCESSFUL => 'STATUS_SUCCESSFUL',
+			self::STATUS_RUNNING => 'STATUS_RUNNING',
+			self::STATUS_SCHEDULED => 'STATUS_SCHEDULED',
+			default => 'STATUS_UNKNOWN',
+		};
 	}
 }

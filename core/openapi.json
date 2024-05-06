@@ -509,15 +509,14 @@
                         "type": "string"
                     },
                     "status": {
-                        "type": "integer",
-                        "format": "int64",
+                        "type": "string",
                         "enum": [
-                            0,
-                            1,
-                            2,
-                            3,
-                            4,
-                            5
+                            "STATUS_CANCELLED",
+                            "STATUS_FAILED",
+                            "STATUS_SUCCESSFUL",
+                            "STATUS_RUNNING",
+                            "STATUS_SCHEDULED",
+                            "STATUS_UNKNOWN"
                         ]
                     },
                     "userId": {
@@ -529,16 +528,53 @@
                     },
                     "input": {
                         "type": "object",
-                        "nullable": true,
                         "additionalProperties": {
-                            "type": "object"
+                            "anyOf": [
+                                {
+                                    "type": "number"
+                                },
+                                {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "number"
+                                    }
+                                },
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                }
+                            ]
                         }
                     },
                     "output": {
                         "type": "object",
                         "nullable": true,
                         "additionalProperties": {
-                            "type": "object"
+                            "anyOf": [
+                                {
+                                    "type": "number"
+                                },
+                                {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "number"
+                                    }
+                                },
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                }
+                            ]
                         }
                     },
                     "identifier": {
@@ -3410,7 +3446,7 @@
                     {
                         "name": "input",
                         "in": "query",
-                        "description": "Input text",
+                        "description": "Task's input parameters",
                         "required": true,
                         "schema": {
                             "type": "string"
@@ -3861,7 +3897,7 @@
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
                                                 "data": {
-                                                    "type": "object"
+                                                    "nullable": true
                                                 }
                                             }
                                         }

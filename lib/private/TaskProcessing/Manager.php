@@ -505,9 +505,10 @@ class Manager implements IManager {
 	}
 
 	/**
-	 * @param array<string,mixed> $array The array to filter
-	 * @param array<string, mixed> ...$specs the specs that define which keys to keep
-	 * @return array<string, mixed>
+	 * @param array<array-key, T> $array The array to filter
+	 * @param ShapeDescriptor[] ...$specs the specs that define which keys to keep
+	 * @return array<array-key, T>
+	 * @psalm-template T
 	 */
 	private function removeSuperfluousArrayKeys(array $array, ...$specs): array {
 		$keys = array_unique(array_reduce($specs, fn ($carry, $spec) => $carry + array_keys($spec), []));
@@ -679,7 +680,7 @@ class Manager implements IManager {
 				$this->validateOutput($outputShape, $result);
 				$this->validateOutput($optionalOutputShape, $result, true);
 				$output = $this->removeSuperfluousArrayKeys($result, $outputShape, $optionalOutputShape);
-				// extract base64 data and put it in files, replace it with file ids
+				// extract raw data and put it in files, replace it with file ids
 				$output = $this->encapsulateOutputFileData($output, $outputShape, $optionalOutputShape);
 				$task->setOutput($output);
 				$task->setProgress(1);
@@ -726,36 +727,12 @@ class Manager implements IManager {
 		}
 	}
 
-	public function getUserTask(int $id, ?string $userId): Task {
-		try {
-			$taskEntity = $this->taskMapper->findByIdAndUser($id, $userId);
-			return $taskEntity->toPublicTask();
-		} catch (DoesNotExistException $e) {
-			throw new \OCP\TaskProcessing\Exception\NotFoundException('Could not find the task', 0, $e);
-		} catch (MultipleObjectsReturnedException|\OCP\DB\Exception $e) {
-			throw new \OCP\TaskProcessing\Exception\Exception('There was a problem finding the task', 0, $e);
-		} catch (\JsonException $e) {
-			throw new \OCP\TaskProcessing\Exception\Exception('There was a problem parsing JSON after finding the task', 0, $e);
-		}
-	}
-
-	public function getUserTasksByApp(?string $userId, string $appId, ?string $identifier = null): array {
-		try {
-			$taskEntities = $this->taskMapper->findUserTasksByApp($userId, $appId, $identifier);
-			return array_map(fn ($taskEntity): Task => $taskEntity->toPublicTask(), $taskEntities);
-		} catch (\OCP\DB\Exception $e) {
-			throw new \OCP\TaskProcessing\Exception\Exception('There was a problem finding a task', 0, $e);
-		} catch (\JsonException $e) {
-			throw new \OCP\TaskProcessing\Exception\Exception('There was a problem parsing JSON after finding a task', 0, $e);
-		}
-	}
-
 	/**
 	 * Takes task input or output data and replaces fileIds with base64 data
 	 *
+	 * @param array<array-key, list<numeric|string>|numeric|string> $input
 	 * @param ShapeDescriptor[] ...$specs the specs
-	 * @param array $input
-	 * @return array
+	 * @return array<array-key, list<File|numeric|string>|numeric|string|File>
 	 * @throws GenericFileException
 	 * @throws LockedException
 	 * @throws NotPermittedException
@@ -805,6 +782,30 @@ class Manager implements IManager {
 		return $newInputOutput;
 	}
 
+	public function getUserTask(int $id, ?string $userId): Task {
+		try {
+			$taskEntity = $this->taskMapper->findByIdAndUser($id, $userId);
+			return $taskEntity->toPublicTask();
+		} catch (DoesNotExistException $e) {
+			throw new \OCP\TaskProcessing\Exception\NotFoundException('Could not find the task', 0, $e);
+		} catch (MultipleObjectsReturnedException|\OCP\DB\Exception $e) {
+			throw new \OCP\TaskProcessing\Exception\Exception('There was a problem finding the task', 0, $e);
+		} catch (\JsonException $e) {
+			throw new \OCP\TaskProcessing\Exception\Exception('There was a problem parsing JSON after finding the task', 0, $e);
+		}
+	}
+
+	public function getUserTasksByApp(?string $userId, string $appId, ?string $identifier = null): array {
+		try {
+			$taskEntities = $this->taskMapper->findUserTasksByApp($userId, $appId, $identifier);
+			return array_map(fn ($taskEntity): Task => $taskEntity->toPublicTask(), $taskEntities);
+		} catch (\OCP\DB\Exception $e) {
+			throw new \OCP\TaskProcessing\Exception\Exception('There was a problem finding a task', 0, $e);
+		} catch (\JsonException $e) {
+			throw new \OCP\TaskProcessing\Exception\Exception('There was a problem parsing JSON after finding a task', 0, $e);
+		}
+	}
+
 	/**
 	 *Takes task input or output and replaces base64 data with file ids
 	 *
@@ -846,6 +847,14 @@ class Manager implements IManager {
 		return $newOutput;
 	}
 
+	/**
+	 * @param Task $task
+	 * @return array<array-key, list<numeric|string|File>|numeric|string|File>
+	 * @throws GenericFileException
+	 * @throws LockedException
+	 * @throws NotPermittedException
+	 * @throws ValidationException
+	 */
 	public function prepareInputData(Task $task): array {
 		$taskTypes = $this->getAvailableTaskTypes();
 		$inputShape = $taskTypes[$task->getTaskTypeId()]['inputShape'];
