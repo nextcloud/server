@@ -43,7 +43,6 @@ use OCP\Files\NotPermittedException;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\Lock\LockedException;
-use OCP\PreConditionNotMetException;
 use OCP\TaskProcessing\EShapeType;
 use OCP\TaskProcessing\Exception\Exception;
 use OCP\TaskProcessing\Exception\UnauthorizedException;

@@ -24,7 +24,6 @@ use OCP\Files\IRootFolder;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IServerContainer;
-use OCP\PreConditionNotMetException;
 use OCP\SpeechToText\ISpeechToTextManager;
 use OCP\TaskProcessing\EShapeType;
 use OCP\TaskProcessing\Events\TaskFailedEvent;

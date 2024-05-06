@@ -43,7 +43,6 @@ use OCP\IL10N;
 use OCP\IServerContainer;
 use OCP\L10N\IFactory;
 use OCP\Lock\LockedException;
-use OCP\PreConditionNotMetException;
 use OCP\SpeechToText\ISpeechToTextProvider;
 use OCP\SpeechToText\ISpeechToTextProviderWithId;
 use OCP\SpeechToText\ISpeechToTextProviderWithUserId;
