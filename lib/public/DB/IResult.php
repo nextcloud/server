@@ -63,7 +63,7 @@ interface IResult {
 	/**
 	 * @param int $fetchMode (one of PDO::FETCH_ASSOC, PDO::FETCH_NUM or PDO::FETCH_COLUMN (2, 3 or 7)
 	 *
-	 * @return mixed[]
+	 * @return list<mixed>
 	 *
 	 * @since 21.0.0
 	 */
