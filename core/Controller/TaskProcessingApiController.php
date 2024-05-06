@@ -108,6 +108,7 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 	 * 200: Task scheduled successfully
 	 * 400: Scheduling task is not possible
 	 * 412: Scheduling task is not possible
+	 * 401: Cannot schedule task because it references files in its input that the user doesn't have access to
 	 */
 	#[PublicPage]
 	#[UserRateLimit(limit: 20, period: 120)]
