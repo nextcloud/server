@@ -467,20 +467,28 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node implements \Sabre\DAV\ICol
 
 	public function copyInto($targetName, $sourcePath, INode $sourceNode) {
 		if ($sourceNode instanceof File || $sourceNode instanceof Directory) {
-			$destinationPath = $this->getPath() . '/' . $targetName;
-			$sourcePath = $sourceNode->getPath();
-
-			if (!$this->fileView->isCreatable($this->getPath())) {
-				throw new \Sabre\DAV\Exception\Forbidden();
-			}
-
 			try {
-				$this->fileView->verifyPath($this->getPath(), $targetName);
-			} catch (InvalidPathException $ex) {
-				throw new InvalidPath($ex->getMessage());
-			}
+				$destinationPath = $this->getPath() . '/' . $targetName;
+				$sourcePath = $sourceNode->getPath();
 
-			return $this->fileView->copy($sourcePath, $destinationPath);
+				if (!$this->fileView->isCreatable($this->getPath())) {
+					throw new \Sabre\DAV\Exception\Forbidden();
+				}
+
+				try {
+					$this->fileView->verifyPath($this->getPath(), $targetName);
+				} catch (InvalidPathException $ex) {
+					throw new InvalidPath($ex->getMessage());
+				}
+
+				return $this->fileView->copy($sourcePath, $destinationPath);
+			} catch (StorageNotAvailableException $e) {
+				throw new ServiceUnavailable($e->getMessage());
+			} catch (ForbiddenException $ex) {
+				throw new Forbidden($ex->getMessage(), $ex->getRetry());
+			} catch (LockedException $e) {
+				throw new FileLocked($e->getMessage(), $e->getCode(), $e);
+			}
 		}
 
 		return false;
