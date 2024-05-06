@@ -300,6 +300,8 @@ class TaskProcessingTest extends \Test\TestCase {
 	private IJobList $jobList;
 	private IAppData $appData;
 
+	private \OCP\Share\IManager $shareManager;
+
 	protected function setUp(): void {
 		parent::setUp();
 
