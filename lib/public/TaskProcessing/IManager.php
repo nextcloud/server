@@ -29,9 +29,10 @@ namespace OCP\TaskProcessing;
 use OCP\Files\GenericFileException;
 use OCP\Files\NotPermittedException;
 use OCP\Lock\LockedException;
-use OCP\PreConditionNotMetException;
+use OCP\TaskProcessing\Exception\PreConditionNotMetException;
 use OCP\TaskProcessing\Exception\Exception;
 use OCP\TaskProcessing\Exception\NotFoundException;
+use OCP\TaskProcessing\Exception\UnauthorizedException;
 use OCP\TaskProcessing\Exception\ValidationException;
 
 /**
@@ -62,6 +63,7 @@ interface IManager {
 	 * @throws PreConditionNotMetException If no or not the requested provider was registered but this method was still called
 	 * @throws ValidationException the given task input didn't pass validation against the task type's input shape and/or the providers optional input shape specs
 	 * @throws Exception storing the task in the database failed
+	 * @throws UnauthorizedException the user scheduling the task does not have access to the files used in the input
 	 * @since 30.0.0
 	 */
 	public function scheduleTask(Task $task): void;

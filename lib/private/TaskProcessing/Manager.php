@@ -52,6 +52,7 @@ use OCP\TaskProcessing\Events\TaskFailedEvent;
 use OCP\TaskProcessing\Events\TaskSuccessfulEvent;
 use OCP\TaskProcessing\Exception\NotFoundException;
 use OCP\TaskProcessing\Exception\ProcessingException;
+use OCP\TaskProcessing\Exception\UnauthorizedException;
 use OCP\TaskProcessing\Exception\ValidationException;
 use OCP\TaskProcessing\IManager;
 use OCP\TaskProcessing\IProvider;
@@ -93,6 +94,7 @@ class Manager implements IManager {
 		private \OCP\TextProcessing\IManager $textProcessingManager,
 		private \OCP\TextToImage\IManager $textToImageManager,
 		private \OCP\SpeechToText\ISpeechToTextManager $speechToTextManager,
+		private \OCP\Share\IManager $shareManager,
 	) {
 		$this->appData = $appDataFactory->get('core');
 	}
@@ -553,7 +555,7 @@ class Manager implements IManager {
 
 	public function scheduleTask(Task $task): void {
 		if (!$this->canHandleTask($task)) {
-			throw new PreConditionNotMetException('No task processing provider is installed that can handle this task type: ' . $task->getTaskTypeId());
+			throw new \OCP\TaskProcessing\Exception\PreConditionNotMetException('No task processing provider is installed that can handle this task type: ' . $task->getTaskTypeId());
 		}
 		$taskTypes = $this->getAvailableTaskTypes();
 		$inputShape = $taskTypes[$task->getTaskTypeId()]['inputShape'];
@@ -561,6 +563,32 @@ class Manager implements IManager {
 		// validate input
 		$this->validateInput($inputShape, $task->getInput());
 		$this->validateInput($optionalInputShape, $task->getInput(), true);
+		// authenticate access to mentioned files
+		$ids = [];
+		foreach ($inputShape + $optionalInputShape as $key => $descriptor) {
+			if (in_array(EShapeType::getScalarType($descriptor->getShapeType()), [EShapeType::File, EShapeType::Image, EShapeType::Audio, EShapeType::Video], true)) {
+				if (is_array($task->getInput()[$key])) {
+					$ids += $task->getInput()[$key];
+				} else {
+					$ids[] = $task->getInput()[$key];
+				}
+			}
+		}
+		foreach ($ids as $fileId) {
+			$node = $this->rootFolder->getFirstNodeById($fileId);
+			if ($node === null) {
+				$node = $this->rootFolder->getFirstNodeByIdInPath($fileId, '/' . $this->rootFolder->getAppDataDirectoryName() . '/');
+				if ($node === null) {
+					throw new ValidationException('Could not find file ' . $fileId);
+				}
+			}
+			/** @var array{users:array<string,array{node_id:int, node_path: string}>, remote: array<string,array{node_id:int, node_path: string}>, mail: array<string,array{node_id:int, node_path: string}>} $accessList */
+			$accessList = $this->shareManager->getAccessList($node, true, true);
+			$userIds = array_map(fn ($id) => strval($id), array_keys($accessList['users']));
+			if (!in_array($task->getUserId(), $userIds)) {
+				throw new UnauthorizedException('User ' . $task->getUserId() . ' does not have access to file ' . $fileId);
+			}
+		}
 		// remove superfluous keys and set input
 		$task->setInput($this->removeSuperfluousArrayKeys($task->getInput(), $inputShape, $optionalInputShape));
 		$task->setStatus(Task::STATUS_SCHEDULED);

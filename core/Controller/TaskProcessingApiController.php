@@ -46,6 +46,7 @@ use OCP\Lock\LockedException;
 use OCP\PreConditionNotMetException;
 use OCP\TaskProcessing\EShapeType;
 use OCP\TaskProcessing\Exception\Exception;
+use OCP\TaskProcessing\Exception\UnauthorizedException;
 use OCP\TaskProcessing\Exception\ValidationException;
 use OCP\TaskProcessing\ShapeDescriptor;
 use OCP\TaskProcessing\Task;
@@ -124,10 +125,12 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 			return new DataResponse([
 				'task' => $json,
 			]);
-		} catch (PreConditionNotMetException) {
+		} catch (\OCP\TaskProcessing\Exception\PreConditionNotMetException) {
 			return new DataResponse(['message' => $this->l->t('The given provider is not available')], Http::STATUS_PRECONDITION_FAILED);
 		} catch (ValidationException $e) {
 			return new DataResponse(['message' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
+		} catch (UnauthorizedException $e) {
+			return new DataResponse(['message' => 'User does not have access to the files mentioned in the task input'], Http::STATUS_UNAUTHORIZED);
 		} catch (\OCP\TaskProcessing\Exception\Exception $e) {
 			return new DataResponse(['message' => 'Internal server error'], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
@@ -269,13 +272,21 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 		$taskType = $taskTypes[$task->getTaskTypeId()];
 		foreach ($taskType['inputShape'] + $taskType['optionalInputShape'] as $key => $descriptor) {
 			if (in_array(EShapeType::getScalarType($descriptor->getShapeType()), [EShapeType::File, EShapeType::Image, EShapeType::Audio, EShapeType::Video], true)) {
-				$ids[] = $task->getInput()[$key];
+				if (is_array($task->getInput()[$key])) {
+					$ids += $task->getInput()[$key];
+				} else {
+					$ids[] = $task->getInput()[$key];
+				}
 			}
 		}
 		if ($task->getOutput() !== null) {
 			foreach ($taskType['outputShape'] + $taskType['optionalOutputShape'] as $key => $descriptor) {
 				if (in_array(EShapeType::getScalarType($descriptor->getShapeType()), [EShapeType::File, EShapeType::Image, EShapeType::Audio, EShapeType::Video], true)) {
-					$ids[] = $task->getOutput()[$key];
+					if (is_array($task->getInput()[$key])) {
+						$ids += $task->getOutput()[$key];
+					} else {
+						$ids[] = $task->getOutput()[$key];
+					}
 				}
 			}
 		}
