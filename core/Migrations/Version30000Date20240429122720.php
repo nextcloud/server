@@ -80,7 +80,7 @@ class Version30000Date20240429122720 extends SimpleMigrationStep {
 				'default' => '',
 			]);
 			$table->addColumn('identifier', Types::STRING, [
-				'notnull' => true,
+				'notnull' => false,
 				'length' => 255,
 				'default' => '',
 			]);
@@ -95,6 +95,7 @@ class Version30000Date20240429122720 extends SimpleMigrationStep {
 			]);
 			$table->addColumn('progress', Types::FLOAT, [
 				'notnull' => false,
+				'default' => 0,
 			]);
 			$table->addColumn('error_message', Types::STRING, [
 				'notnull' => false,
