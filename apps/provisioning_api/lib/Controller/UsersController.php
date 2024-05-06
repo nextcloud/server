@@ -137,7 +137,7 @@ class UsersController extends AUserData {
 	 *
 	 * 200: Users details returned
 	 */
-	public function getUsersDetails(string $search = '', ?int $limit = null, int $offset = 0, string $orderBy = 'displayName', string $sort = 'ASC'): DataResponse {
+	public function getUsersDetails(string $search = '', ?int $limit = null, int $offset = 0, string $orderBy = 'last_login', string $sort = 'DESC'): DataResponse {
 		$currentUser = $this->userSession->getUser();
 		$users = [];
 
