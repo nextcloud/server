@@ -193,12 +193,13 @@ final class Task implements \JsonSerializable {
 	}
 
 	/**
-	 * @psalm-return array{id: ?int, status: self::STATUS_*, userId: ?string, appId: string, input: ?array<array-key, mixed>, output: ?array<array-key, mixed>, identifier: ?string, completionExpectedAt: ?int, progress: ?float}
+	 * @psalm-return array{id: ?int, type: string, status: self::STATUS_*, userId: ?string, appId: string, input: ?array<array-key, mixed>, output: ?array<array-key, mixed>, identifier: ?string, completionExpectedAt: ?int, progress: ?float}
 	 * @since 30.0.0
 	 */
 	public function jsonSerialize(): array {
 		return [
 			'id' => $this->getId(),
+			'type' => $this->getTaskTypeId(),
 			'status' => $this->getStatus(),
 			'userId' => $this->getUserId(),
 			'appId' => $this->getAppId(),

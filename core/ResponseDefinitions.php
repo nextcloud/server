@@ -194,6 +194,7 @@ namespace OCA\Core;
  *
  * @psalm-type CoreTaskProcessingTask = array{
  *     id: ?int,
+ *     type: string,
  *     status: 0|1|2|3|4|5,
  *     userId: ?string,
  *     appId: string,
