@@ -437,7 +437,7 @@ class Connection extends LDAPUtility {
 
 		$backupPort = (int)$this->configuration->ldapBackupPort;
 		if ($backupPort <= 0) {
-			$this->configuration->backupPort = $this->configuration->ldapPort;
+			$this->configuration->ldapBackupPort = $this->configuration->ldapPort;
 		}
 
 		//make sure empty search attributes are saved as simple, empty array
