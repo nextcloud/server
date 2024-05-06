@@ -102,10 +102,10 @@ class Version30000Date20240429122720 extends SimpleMigrationStep {
 				'length' => 255,
 			]);
 
-			$table->setPrimaryKey(['id'], 'tasks_id_index');
-			$table->addIndex(['status', 'type'], 'tasks_status_type');
-			$table->addIndex(['last_updated'], 'tasks_updated');
-			$table->addIndex(['user_id', 'app_id', 'identifier'], 'tasks_uid_appid_ident');
+			$table->setPrimaryKey(['id'], 'taskp_tasks_id_index');
+			$table->addIndex(['status', 'type'], 'taskp_tasks_status_type');
+			$table->addIndex(['last_updated'], 'taskp_tasks_updated');
+			$table->addIndex(['user_id', 'app_id', 'identifier'], 'taskp_tasks_uid_appid_ident');
 
 			return $schema;
 		}
