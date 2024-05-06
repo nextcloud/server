@@ -385,6 +385,9 @@ class Manager implements IManager {
 			try {
 				/** @var IProvider $provider */
 				$provider = $this->serverContainer->get($class);
+				if (isset($providers[$provider->getId()])) {
+					$this->logger->warning('Task processing provider ' . $class . ' is using ID ' . $provider->getId() . ' which is already used by ' . $providers[$provider->getId()]::class);
+				}
 				$providers[$provider->getId()] = $provider;
 			} catch (\Throwable $e) {
 				$this->logger->error('Failed to load task processing provider ' . $class, [
@@ -423,6 +426,9 @@ class Manager implements IManager {
 			try {
 				/** @var ITaskType $provider */
 				$taskType = $this->serverContainer->get($class);
+				if (isset($taskTypes[$taskType->getId()])) {
+					$this->logger->warning('Task processing task type ' . $class . ' is using ID ' . $taskType->getId() . ' which is already used by ' . $taskTypes[$taskType->getId()]::class);
+				}
 				$taskTypes[$taskType->getId()] = $taskType;
 			} catch (\Throwable $e) {
 				$this->logger->error('Failed to load task processing task type ' . $class, [

@@ -40,7 +40,15 @@ class RemoveOldTasksBackgroundJob extends TimedJob {
 		}
 		try {
 			$this->clearFilesOlderThan($this->appData->getFolder('text2image'), self::MAX_TASK_AGE_SECONDS);
+		} catch (NotFoundException $e) {
+			// noop
+		}
+		try {
 			$this->clearFilesOlderThan($this->appData->getFolder('audio2text'), self::MAX_TASK_AGE_SECONDS);
+		} catch (NotFoundException $e) {
+			// noop
+		}
+		try {
 			$this->clearFilesOlderThan($this->appData->getFolder('TaskProcessing'), self::MAX_TASK_AGE_SECONDS);
 		} catch (NotFoundException $e) {
 			// noop

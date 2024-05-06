@@ -183,9 +183,9 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 
 			$this->taskProcessingManager->deleteTask($task);
 
-			return new DataResponse([]);
+			return new DataResponse(null);
 		} catch (\OCP\TaskProcessing\Exception\NotFoundException $e) {
-			return new DataResponse([]);
+			return new DataResponse(null);
 		} catch (\OCP\TaskProcessing\Exception\Exception $e) {
 			return new DataResponse(['message' => $this->l->t('Internal error')], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
@@ -272,20 +272,22 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 		$taskType = $taskTypes[$task->getTaskTypeId()];
 		foreach ($taskType['inputShape'] + $taskType['optionalInputShape'] as $key => $descriptor) {
 			if (in_array(EShapeType::getScalarType($descriptor->getShapeType()), [EShapeType::File, EShapeType::Image, EShapeType::Audio, EShapeType::Video], true)) {
-				if (is_array($task->getInput()[$key])) {
-					$ids += $task->getInput()[$key];
+				$inputSlot = $task->getInput()[$key];
+				if (is_array($inputSlot)) {
+					$ids += $inputSlot;
 				} else {
-					$ids[] = $task->getInput()[$key];
+					$ids[] = $inputSlot;
 				}
 			}
 		}
 		if ($task->getOutput() !== null) {
 			foreach ($taskType['outputShape'] + $taskType['optionalOutputShape'] as $key => $descriptor) {
 				if (in_array(EShapeType::getScalarType($descriptor->getShapeType()), [EShapeType::File, EShapeType::Image, EShapeType::Audio, EShapeType::Video], true)) {
-					if (is_array($task->getInput()[$key])) {
-						$ids += $task->getOutput()[$key];
+					$outputSlot = $task->getOutput()[$key];
+					if (is_array($outputSlot)) {
+						$ids += $outputSlot;
 					} else {
-						$ids[] = $task->getOutput()[$key];
+						$ids[] = $outputSlot;
 					}
 				}
 			}
@@ -338,7 +340,9 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 	#[ApiRoute(verb: 'POST', url: '/tasks/{taskId}/result', root: '/taskprocessing')]
 	public function setResult(int $taskId, ?array $output = null, ?string $errorMessage = null): DataResponse {
 		try {
+			// Check if the current user can access the task
 			$this->taskProcessingManager->getUserTask($taskId, $this->userId);
+			// set result
 			$this->taskProcessingManager->setTaskResult($taskId, $errorMessage, $output);
 			$task = $this->taskProcessingManager->getUserTask($taskId, $this->userId);
 

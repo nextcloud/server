@@ -503,8 +503,7 @@
                 "properties": {
                     "id": {
                         "type": "integer",
-                        "format": "int64",
-                        "nullable": true
+                        "format": "int64"
                     },
                     "type": {
                         "type": "string"

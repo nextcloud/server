@@ -98,9 +98,9 @@ class Task extends Entity {
 		}, self::$fields));
 	}
 
-	public static function fromPublicTask(OCPTask $task): Task {
+	public static function fromPublicTask(OCPTask $task): self {
 		/** @var Task $taskEntity */
-		$taskEntity = Task::fromParams([
+		$taskEntity = self::fromParams([
 			'id' => $task->getId(),
 			'type' => $task->getTaskTypeId(),
 			'lastUpdated' => time(),
