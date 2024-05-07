@@ -1689,12 +1689,6 @@
       <code>setType</code>
     </UndefinedMagicMethod>
   </file>
-  <file src="lib/private/Authentication/TwoFactorAuth/Db/ProviderUserAssignmentDao.php">
-    <LessSpecificReturnStatement/>
-    <MoreSpecificReturnType>
-      <code><![CDATA[list<array{provider_id: string, uid: string, enabled: bool}>]]></code>
-    </MoreSpecificReturnType>
-  </file>
   <file src="lib/private/Authentication/TwoFactorAuth/ProviderSet.php">
     <InvalidArgument>
       <code><![CDATA[$this->providers]]></code>
@@ -1888,7 +1882,6 @@
 			'width' => $format,
 		])]]></code>
     </FalsableReturnStatement>
-    <InvalidDocblock/>
     <InvalidReturnStatement>
       <code><![CDATA[$l->l($type, $timestamp, [
 			'width' => $format,
