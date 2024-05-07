@@ -138,13 +138,13 @@ interface IManager {
 	/**
 	 * @param string|null $userId
 	 * @param string $appId
-	 * @param string|null $identifier
+	 * @param string|null $customId
 	 * @return list<Task>
 	 * @throws Exception If the query failed
 	 * @throws \JsonException If parsing the task input and output failed
 	 * @since 30.0.0
 	 */
-	public function getUserTasksByApp(?string $userId, string $appId, ?string $identifier = null): array;
+	public function getUserTasksByApp(?string $userId, string $appId, ?string $customId = null): array;
 
 	/**
 	 * Prepare the task's input data, so it can be processed by the provider

@@ -57,7 +57,7 @@ class SynchronousBackgroundJob extends QueuedJob {
 					return;
 				}
 				try {
-					$output = $provider->process($task->getUserId(), $input);
+					$output = $provider->process($task->getUserId(), $input, fn(float $progress) => $this->taskProcessingManager->setTaskProgress($task->getId(), $progress));
 				} catch (ProcessingException $e) {
 					$this->logger->warning('Failed to process a TaskProcessing task with synchronous provider ' . $provider->getId(), ['exception' => $e]);
 					$this->taskProcessingManager->setTaskResult($task->getId(), $e->getMessage(), null);

@@ -114,8 +114,8 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 	#[UserRateLimit(limit: 20, period: 120)]
 	#[AnonRateLimit(limit: 5, period: 120)]
 	#[ApiRoute(verb: 'POST', url: '/schedule', root: '/taskprocessing')]
-	public function schedule(array $input, string $type, string $appId, string $identifier = ''): DataResponse {
-		$task = new Task($type, $input, $appId, $this->userId, $identifier);
+	public function schedule(array $input, string $type, string $appId, string $customId = ''): DataResponse {
+		$task = new Task($type, $input, $appId, $this->userId, $customId);
 		try {
 			$this->taskProcessingManager->scheduleTask($task);
 

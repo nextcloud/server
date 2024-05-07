@@ -43,7 +43,7 @@ use OCP\TaskProcessing\Task as OCPTask;
  * @method string|null getUserId()
  * @method setAppId(string $type)
  * @method string getAppId()
- * @method setIdentifier(string $identifier)
+ * @method setIdentifier(string $customId)
  * @method string getIdentifier()
  * @method setCompletionExpectedAt(null|\DateTime $completionExpectedAt)
  * @method null|\DateTime getCompletionExpectedAt()
@@ -60,7 +60,7 @@ class Task extends Entity {
 	protected $status;
 	protected $userId;
 	protected $appId;
-	protected $identifier;
+	protected $customId;
 	protected $completionExpectedAt;
 	protected $errorMessage;
 	protected $progress;
@@ -68,12 +68,12 @@ class Task extends Entity {
 	/**
 	 * @var string[]
 	 */
-	public static array $columns = ['id', 'last_updated', 'type', 'input', 'output', 'status', 'user_id', 'app_id', 'identifier', 'completion_expected_at', 'error_message', 'progress'];
+	public static array $columns = ['id', 'last_updated', 'type', 'input', 'output', 'status', 'user_id', 'app_id', 'custom_id', 'completion_expected_at', 'error_message', 'progress'];
 
 	/**
 	 * @var string[]
 	 */
-	public static array $fields = ['id', 'lastUpdated', 'type', 'input', 'output', 'status', 'userId', 'appId', 'identifier', 'completionExpectedAt', 'errorMessage', 'progress'];
+	public static array $fields = ['id', 'lastUpdated', 'type', 'input', 'output', 'status', 'userId', 'appId', 'customId', 'completionExpectedAt', 'errorMessage', 'progress'];
 
 
 	public function __construct() {
@@ -86,7 +86,7 @@ class Task extends Entity {
 		$this->addType('status', 'integer');
 		$this->addType('userId', 'string');
 		$this->addType('appId', 'string');
-		$this->addType('identifier', 'string');
+		$this->addType('customId', 'string');
 		$this->addType('completionExpectedAt', 'datetime');
 		$this->addType('errorMessage', 'string');
 		$this->addType('progress', 'float');
@@ -110,7 +110,7 @@ class Task extends Entity {
 			'errorMessage' => $task->getErrorMessage(),
 			'userId' => $task->getUserId(),
 			'appId' => $task->getAppId(),
-			'identifier' => $task->getIdentifier(),
+			'customId' => $task->getIdentifier(),
 			'completionExpectedAt' => $task->getCompletionExpectedAt(),
 			'progress' => $task->getProgress(),
 		]);

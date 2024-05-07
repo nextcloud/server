@@ -797,9 +797,9 @@ class Manager implements IManager {
 		}
 	}
 
-	public function getUserTasksByApp(?string $userId, string $appId, ?string $identifier = null): array {
+	public function getUserTasksByApp(?string $userId, string $appId, ?string $customId = null): array {
 		try {
-			$taskEntities = $this->taskMapper->findUserTasksByApp($userId, $appId, $identifier);
+			$taskEntities = $this->taskMapper->findUserTasksByApp($userId, $appId, $customId);
 			return array_map(fn ($taskEntity): Task => $taskEntity->toPublicTask(), $taskEntities);
 		} catch (\OCP\DB\Exception $e) {
 			throw new \OCP\TaskProcessing\Exception\Exception('There was a problem finding a task', 0, $e);

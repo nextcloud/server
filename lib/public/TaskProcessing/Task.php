@@ -79,7 +79,7 @@ final class Task implements \JsonSerializable {
 	 * @param array<string,list<numeric|string>|numeric|string> $input
 	 * @param string $appId
 	 * @param string|null $userId
-	 * @param null|string $identifier An arbitrary identifier for this task. max length: 255 chars
+	 * @param null|string $customId An arbitrary customId for this task. max length: 255 chars
 	 * @since 30.0.0
 	 */
 	final public function __construct(
@@ -87,7 +87,7 @@ final class Task implements \JsonSerializable {
 		protected array $input,
 		protected readonly string $appId,
 		protected readonly ?string $userId,
-		protected readonly ?string $identifier = '',
+		protected readonly ?string $customId = '',
 	) {
 	}
 
@@ -182,8 +182,8 @@ final class Task implements \JsonSerializable {
 	 * @return null|string
 	 * @since 30.0.0
 	 */
-	final public function getIdentifier(): ?string {
-		return $this->identifier;
+	final public function getCustomId(): ?string {
+		return $this->customId;
 	}
 
 	/**
@@ -195,7 +195,7 @@ final class Task implements \JsonSerializable {
 	}
 
 	/**
-	 * @psalm-return array{id: ?int, type: string, status: 'STATUS_CANCELLED'|'STATUS_FAILED'|'STATUS_SUCCESSFUL'|'STATUS_RUNNING'|'STATUS_SCHEDULED'|'STATUS_UNKNOWN', userId: ?string, appId: string, input: array<array-key, list<numeric|string>|numeric|string>, output: ?array<array-key, list<numeric|string>|numeric|string>, identifier: ?string, completionExpectedAt: ?int, progress: ?float}
+	 * @psalm-return array{id: ?int, type: string, status: 'STATUS_CANCELLED'|'STATUS_FAILED'|'STATUS_SUCCESSFUL'|'STATUS_RUNNING'|'STATUS_SCHEDULED'|'STATUS_UNKNOWN', userId: ?string, appId: string, input: array<array-key, list<numeric|string>|numeric|string>, output: ?array<array-key, list<numeric|string>|numeric|string>, customId: ?string, completionExpectedAt: ?int, progress: ?float}
 	 * @since 30.0.0
 	 */
 	final public function jsonSerialize(): array {
@@ -207,7 +207,7 @@ final class Task implements \JsonSerializable {
 			'appId' => $this->getAppId(),
 			'input' => $this->getInput(),
 			'output' => $this->getOutput(),
-			'identifier' => $this->getIdentifier(),
+			'customId' => $this->getCustomId(),
 			'completionExpectedAt' => $this->getCompletionExpectedAt()?->getTimestamp(),
 			'progress' => $this->getProgress(),
 		];
