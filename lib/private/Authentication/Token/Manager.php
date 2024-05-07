@@ -55,6 +55,7 @@ class Manager implements IProvider, OCPIProvider {
 	 * @param int $type token type
 	 * @param int $remember whether the session token should be used for remember-me
 	 * @return OCPIToken
+	 * @throws Exception
 	 */
 	public function generateToken(string $token,
 		string $uid,
