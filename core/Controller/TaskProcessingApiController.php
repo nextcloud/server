@@ -101,7 +101,7 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 	 * @param array<string, mixed> $input Task's input parameters
 	 * @param string $type Type of the task
 	 * @param string $appId ID of the app that will execute the task
-	 * @param string $identifier An arbitrary identifier for the task
+	 * @param string $customId An arbitrary identifier for the task
 	 *
 	 * @return DataResponse<Http::STATUS_OK, array{task: CoreTaskProcessingTask}, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR|Http::STATUS_BAD_REQUEST|Http::STATUS_PRECONDITION_FAILED|Http::STATUS_UNAUTHORIZED, array{message: string}, array{}>
 	 *

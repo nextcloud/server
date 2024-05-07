@@ -496,7 +496,7 @@
                     "appId",
                     "input",
                     "output",
-                    "identifier",
+                    "customId",
                     "completionExpectedAt",
                     "progress"
                 ],
@@ -577,7 +577,7 @@
                             ]
                         }
                     },
-                    "identifier": {
+                    "customId": {
                         "type": "string",
                         "nullable": true
                     },
@@ -3471,7 +3471,7 @@
                         }
                     },
                     {
-                        "name": "identifier",
+                        "name": "customId",
                         "in": "query",
                         "description": "An arbitrary identifier for the task",
                         "schema": {
