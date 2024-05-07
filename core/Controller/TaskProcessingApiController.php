@@ -360,4 +360,36 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 			return new DataResponse(['message' => $this->l->t('Internal error')], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 	}
+
+	/**
+	 * This endpoint cancels a task
+	 *
+	 * @param int $taskId The id of the task
+	 * @return DataResponse<Http::STATUS_OK, array{task: CoreTaskProcessingTask}, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR|Http::STATUS_NOT_FOUND, array{message: string}, array{}>
+	 *
+	 *  200: File content returned
+	 *  404: Task not found
+	 */
+	#[NoAdminRequired]
+	#[ApiRoute(verb: 'POST', url: '/tasks/{taskId}/cancel', root: '/taskprocessing')]
+	public function cancelTask(int $taskId): DataResponse {
+		try {
+			// Check if the current user can access the task
+			$this->taskProcessingManager->getUserTask($taskId, $this->userId);
+			// set result
+			$this->taskProcessingManager->cancelTask($taskId);
+			$task = $this->taskProcessingManager->getUserTask($taskId, $this->userId);
+
+			/** @var CoreTaskProcessingTask $json */
+			$json = $task->jsonSerialize();
+
+			return new DataResponse([
+				'task' => $json,
+			]);
+		} catch (\OCP\TaskProcessing\Exception\NotFoundException $e) {
+			return new DataResponse(['message' => $this->l->t('Not found')], Http::STATUS_NOT_FOUND);
+		} catch (Exception $e) {
+			return new DataResponse(['message' => $this->l->t('Internal error')], Http::STATUS_INTERNAL_SERVER_ERROR);
+		}
+	}
 }

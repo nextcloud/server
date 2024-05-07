@@ -636,6 +636,9 @@ class Manager implements IManager {
 
 	public function cancelTask(int $id): void {
 		$task = $this->getTask($id);
+		if ($task->getStatus() !== Task::STATUS_SCHEDULED && $task->getStatus() !== Task::STATUS_RUNNING) {
+			return;
+		}
 		$task->setStatus(Task::STATUS_CANCELLED);
 		$taskEntity = \OC\TaskProcessing\Db\Task::fromPublicTask($task);
 		try {
