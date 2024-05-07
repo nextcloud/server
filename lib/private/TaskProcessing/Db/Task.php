@@ -43,8 +43,8 @@ use OCP\TaskProcessing\Task as OCPTask;
  * @method string|null getUserId()
  * @method setAppId(string $type)
  * @method string getAppId()
- * @method setIdentifier(string $customId)
- * @method string getIdentifier()
+ * @method setCustomId(string $customId)
+ * @method string getCustomId()
  * @method setCompletionExpectedAt(null|\DateTime $completionExpectedAt)
  * @method null|\DateTime getCompletionExpectedAt()
  * @method setErrorMessage(null|string $error)
@@ -110,7 +110,7 @@ class Task extends Entity {
 			'errorMessage' => $task->getErrorMessage(),
 			'userId' => $task->getUserId(),
 			'appId' => $task->getAppId(),
-			'customId' => $task->getIdentifier(),
+			'customId' => $task->getCustomId(),
 			'completionExpectedAt' => $task->getCompletionExpectedAt(),
 			'progress' => $task->getProgress(),
 		]);
@@ -122,7 +122,7 @@ class Task extends Entity {
 	 * @throws \JsonException
 	 */
 	public function toPublicTask(): OCPTask {
-		$task = new OCPTask($this->getType(), json_decode($this->getInput(), true, 512, JSON_THROW_ON_ERROR), $this->getAppId(), $this->getuserId(), $this->getIdentifier());
+		$task = new OCPTask($this->getType(), json_decode($this->getInput(), true, 512, JSON_THROW_ON_ERROR), $this->getAppId(), $this->getuserId(), $this->getCustomId());
 		$task->setId($this->getId());
 		$task->setStatus($this->getStatus());
 		$task->setOutput(json_decode($this->getOutput(), true, 512, JSON_THROW_ON_ERROR));

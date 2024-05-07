@@ -148,7 +148,7 @@ class Manager implements IManager {
 					return [];
 				}
 
-				public function process(?string $userId, array $input): array {
+				public function process(?string $userId, array $input, callable $reportProgress): array {
 					if ($this->provider instanceof \OCP\TextProcessing\IProviderWithUserId) {
 						$this->provider->setUserId($userId);
 					}
@@ -258,7 +258,7 @@ class Manager implements IManager {
 					return [];
 				}
 
-				public function process(?string $userId, array $input): array {
+				public function process(?string $userId, array $input, callable $reportProgress): array {
 					try {
 						$folder = $this->appData->getFolder('text2image');
 					} catch(\OCP\Files\NotFoundException) {
@@ -340,7 +340,7 @@ class Manager implements IManager {
 					return [];
 				}
 
-				public function process(?string $userId, array $input): array {
+				public function process(?string $userId, array $input, callable $reportProgress): array {
 					try {
 						$folder = $this->appData->getFolder('audio2text');
 					} catch(\OCP\Files\NotFoundException) {
