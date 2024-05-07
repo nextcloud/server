@@ -21,7 +21,7 @@
  */
 
 import Vue from 'vue'
-import type { Node } from '@nextcloud/files'
+import type { Node, View } from '@nextcloud/files'
 
 import { FileAction } from '@nextcloud/files'
 import { emit } from '@nextcloud/event-bus'
@@ -91,7 +91,13 @@ const generateFileAction = (option: ReminderOption): FileAction|null => {
 		// Empty svg to hide the icon
 		iconSvgInline: () => '<svg></svg>',
 
-		enabled: () => Boolean(getDateTime(option.dateTimePreset)),
+		enabled: (_nodes: Node[], view: View) => {
+			if (view.id === 'trashbin') {
+				return false
+			}
+			return Boolean(getDateTime(option.dateTimePreset))
+		},
+
 		parent: SET_REMINDER_MENU_ID,
 
 		async exec(node: Node) {

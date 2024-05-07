@@ -19,6 +19,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
+import type { Node, View } from '@nextcloud/files'
+
 import { FileAction } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 import AlarmSvg from '@mdi/svg/svg/alarm.svg?raw'
@@ -30,7 +33,9 @@ export const action = new FileAction({
 	displayName: () => t('files_reminders', 'Set reminder'),
 	iconSvgInline: () => AlarmSvg,
 
-	enabled: () => true,
+	enabled: (_nodes: Node[], view: View) => {
+		return view.id !== 'trashbin'
+	},
 
 	async exec() {
 		return null
