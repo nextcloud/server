@@ -39,7 +39,7 @@ interface IManager {
 	 * Gets the statuses for all users in $users
 	 *
 	 * @param string[] $userIds
-	 * @return IUserStatus[]
+	 * @return array<string, IUserStatus> array key being the userid, users without a status will not be in the returned array
 	 * @since 20.0.0
 	 */
 	public function getUserStatuses(array $userIds): array;
