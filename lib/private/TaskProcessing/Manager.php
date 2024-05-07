@@ -573,10 +573,12 @@ class Manager implements IManager {
 		$ids = [];
 		foreach ($inputShape + $optionalInputShape as $key => $descriptor) {
 			if (in_array(EShapeType::getScalarType($descriptor->getShapeType()), [EShapeType::File, EShapeType::Image, EShapeType::Audio, EShapeType::Video], true)) {
-				if (is_array($task->getInput()[$key])) {
-					$ids += $task->getInput()[$key];
+				/** @var list<int>|int $inputSlot */
+				$inputSlot = $task->getInput()[$key];
+				if (is_array($inputSlot)) {
+					$ids += $inputSlot;
 				} else {
-					$ids[] = $task->getInput()[$key];
+					$ids[] = $inputSlot;
 				}
 			}
 		}
