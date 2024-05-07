@@ -227,7 +227,7 @@ class PublicKeyTokenMapperTest extends TestCase {
 		$this->assertCount(0, $this->mapper->getTokenByUser('user1000'));
 	}
 
-	public function testDeleteById() {
+	public function testGetById() {
 		/** @var IUser|\PHPUnit\Framework\MockObject\MockObject $user */
 		$user = $this->createMock(IUser::class);
 		$qb = $this->dbConnection->getQueryBuilder();
@@ -237,17 +237,8 @@ class PublicKeyTokenMapperTest extends TestCase {
 		$result = $qb->execute();
 		$id = $result->fetch()['id'];
 
-		$this->mapper->deleteById('user1', (int)$id);
-		$this->assertEquals(3, $this->getNumberOfTokens());
-	}
-
-	public function testDeleteByIdWrongUser() {
-		/** @var IUser|\PHPUnit\Framework\MockObject\MockObject $user */
-		$user = $this->createMock(IUser::class);
-		$id = 33;
-
-		$this->mapper->deleteById('user1000', $id);
-		$this->assertEquals(4, $this->getNumberOfTokens());
+		$token = $this->mapper->getTokenById((int)$id);
+		$this->assertEquals('user1', $token->getUID());
 	}
 
 	public function testDeleteByName() {
