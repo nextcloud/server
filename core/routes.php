@@ -40,3 +40,5 @@ declare(strict_types=1);
 // Routing
 $this->create('core_ajax_update', '/core/ajax/update.php')
 	->actionInclude('core/ajax/update.php');
+
+$this->create('heartbeat', '/heartbeat')->get();
