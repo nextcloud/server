@@ -769,6 +769,8 @@ class Manager extends PublicEmitter implements IUserManager {
 			'.ocdata',
 			'owncloud.log',
 			'nextcloud.log',
+			'updater.log',
+			'audit.log',
 			$appdata], true)) {
 			return false;
 		}
