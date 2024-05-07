@@ -42,6 +42,7 @@ use OCA\Files_Sharing\Listener\LoadAdditionalListener;
 use OCA\Files_Sharing\Listener\LoadSidebarListener;
 use OCA\Files_Sharing\Listener\ShareInteractionListener;
 use OCA\Files_Sharing\Listener\UserAddedToGroupListener;
+use OCA\Files_Sharing\Listener\UserRemoveFromGroupListener;
 use OCA\Files_Sharing\Listener\UserShareAcceptanceListener;
 use OCA\Files_Sharing\Middleware\OCSShareAPIMiddleware;
 use OCA\Files_Sharing\Middleware\ShareInfoMiddleware;
@@ -66,6 +67,7 @@ use OCP\Files\IRootFolder;
 use OCP\Group\Events\GroupChangedEvent;
 use OCP\Group\Events\GroupDeletedEvent;
 use OCP\Group\Events\UserAddedEvent;
+use OCP\Group\Events\UserRemovedEvent;
 use OCP\IDBConnection;
 use OCP\IGroup;
 use OCP\IUserSession;
@@ -134,6 +136,7 @@ class Application extends App implements IBootstrap {
 		$dispatcher->addServiceListener(ShareCreatedEvent::class, ShareInteractionListener::class);
 		$dispatcher->addServiceListener(ShareCreatedEvent::class, UserShareAcceptanceListener::class);
 		$dispatcher->addServiceListener(UserAddedEvent::class, UserAddedToGroupListener::class);
+		$dispatcher->addServiceListener(UserRemovedEvent::class, UserRemoveFromGroupListener::class);
 		$dispatcher->addListener(ResourcesLoadAdditionalScriptsEvent::class, function () {
 			\OCP\Util::addScript('files_sharing', 'collaboration');
 		});

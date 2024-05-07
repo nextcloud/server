@@ -60,6 +60,7 @@ return array(
     'OCA\\Files_Sharing\\Listener\\LoadSidebarListener' => $baseDir . '/../lib/Listener/LoadSidebarListener.php',
     'OCA\\Files_Sharing\\Listener\\ShareInteractionListener' => $baseDir . '/../lib/Listener/ShareInteractionListener.php',
     'OCA\\Files_Sharing\\Listener\\UserAddedToGroupListener' => $baseDir . '/../lib/Listener/UserAddedToGroupListener.php',
+    'OCA\\Files_Sharing\\Listener\\UserRemoveFromGroupListener' => $baseDir . '/../lib/Listener/UserRemoveFromGroupListener.php',
     'OCA\\Files_Sharing\\Listener\\UserShareAcceptanceListener' => $baseDir . '/../lib/Listener/UserShareAcceptanceListener.php',
     'OCA\\Files_Sharing\\Middleware\\OCSShareAPIMiddleware' => $baseDir . '/../lib/Middleware/OCSShareAPIMiddleware.php',
     'OCA\\Files_Sharing\\Middleware\\ShareInfoMiddleware' => $baseDir . '/../lib/Middleware/ShareInfoMiddleware.php',
