@@ -133,7 +133,7 @@ class SuccessfulSyncProvider implements IProvider, ISynchronousProvider {
 		];
 	}
 
-	public function process(?string $userId, array $input): array {
+	public function process(?string $userId, array $input, callable $reportProgress): array {
 		return ['output' => $input['input']];
 	}
 }
@@ -168,7 +168,7 @@ class FailingSyncProvider implements IProvider, ISynchronousProvider {
 		];
 	}
 
-	public function process(?string $userId, array $input): array {
+	public function process(?string $userId, array $input, callable $reportProgress): array {
 		throw new ProcessingException(self::ERROR_MESSAGE);
 	}
 }
@@ -202,7 +202,7 @@ class BrokenSyncProvider implements IProvider, ISynchronousProvider {
 		];
 	}
 
-	public function process(?string $userId, array $input): array {
+	public function process(?string $userId, array $input, callable $reportProgress): array {
 		return [];
 	}
 }
