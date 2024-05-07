@@ -61,6 +61,11 @@ class CachedSubscriptionTest extends \Test\TestCase {
 				'principal' => '{DAV:}authenticated',
 				'protected' => true,
 			],
+			[
+				'privilege' => '{DAV:}write-properties',
+				'principal' => 'user1',
+				'protected' => 'true'
+			]
 		], $calendar->getACL());
 	}
 
