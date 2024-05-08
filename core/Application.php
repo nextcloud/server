@@ -208,6 +208,12 @@ class Application extends App {
 			);
 
 			$event->addMissingIndex(
+				'schedulingobjects',
+				'schedulobj_lastmodified_idx',
+				['lastmodified']
+			);
+
+			$event->addMissingIndex(
 				'properties',
 				'properties_path_index',
 				['userid', 'propertypath']
