@@ -262,10 +262,10 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * @return IUser[]
 	 * @deprecated since 27.0.0, use searchDisplayName instead
 	 */
-	public function search($pattern, $limit = null, $offset = null, $orderBy = 'uid', $sort = 'ASC') {
+	public function search($pattern, $limit = null, $offset = null, $orderBy = 'uid', $sort = 'ASC'): array {
 		$users = [];
 		foreach ($this->backends as $backend) {
-			$backendUsers = $backend->getUsers($pattern, $limit, $offset);
+			$backendUsers = $backend->getUsers($pattern, $limit, $offset, $orderBy, $sort);
 			if (is_array($backendUsers)) {
 				foreach ($backendUsers as $uid) {
 					$users[$uid] = new LazyUser($uid, $this, null, $backend);
@@ -278,12 +278,12 @@ class Manager extends PublicEmitter implements IUserManager {
 					return strcasecmp($b->getUID(), $a->getUID());
 				});
 				break;
-			case 'last_login ASC':
+			case 'lastLogin ASC':
 				uasort($users, function (IUser $a, IUser $b) {
 					return $a->getLastLogin() - $b->getLastLogin();
 				});
 				break;
-			case 'last_login DESC':
+			case 'lastLogin DESC':
 				uasort($users, function (IUser $a, IUser $b) {
 					return $b->getLastLogin() - $a->getLastLogin();
 				});
@@ -338,12 +338,12 @@ class Manager extends PublicEmitter implements IUserManager {
 					return strcasecmp($b->getUID(), $a->getUID());
 				});
 				break;
-			case 'last_login ASC':
+			case 'lastLogin ASC':
 				uasort($users, function (IUser $a, IUser $b) {
 					return $a->getLastLogin() - $b->getLastLogin();
 				});
 				break;
-			case 'last_login DESC':
+			case 'lastLogin DESC':
 				uasort($users, function (IUser $a, IUser $b) {
 					return $b->getLastLogin() - $a->getLastLogin();
 				});

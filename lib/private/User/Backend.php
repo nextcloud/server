@@ -89,9 +89,11 @@ abstract class Backend implements UserInterface {
 	 * @param string $search
 	 * @param null|int $limit
 	 * @param null|int $offset
+	 * @param string $orderBy
+	 * @param string $sort
 	 * @return string[] an array of all uids
 	 */
-	public function getUsers($search = '', $limit = null, $offset = null) {
+	public function getUsers($search = '', $limit = null, $offset = null, $orderBy = 'lastLogin', $sort = 'DESC'): array {
 		return [];
 	}
 
@@ -128,9 +130,11 @@ abstract class Backend implements UserInterface {
 	 * @param string $search
 	 * @param int|null $limit
 	 * @param int|null $offset
+	 * @param string $orderBy
+	 * @param string $sort
 	 * @return array an array of all displayNames (value) and the corresponding uids (key)
 	 */
-	public function getDisplayNames($search = '', $limit = null, $offset = null) {
+	public function getDisplayNames($search = '', $limit = null, $offset = null, string $orderBy = 'lastLogin', string $sort = 'DESC'): array {
 		$displayNames = [];
 		$users = $this->getUsers($search, $limit, $offset);
 		foreach ($users as $user) {

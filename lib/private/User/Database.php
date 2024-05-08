@@ -227,27 +227,34 @@ class Database extends ABackend implements
 	 * @param string $search
 	 * @param int|null $limit
 	 * @param int|null $offset
+	 * @param string $orderBy
+	 * @param string $sort
 	 * @return array an array of all displayNames (value) and the corresponding uids (key)
 	 */
-	public function getDisplayNames($search = '', $limit = null, $offset = null) {
+	public function getDisplayNames($search = '', $limit = null, $offset = null, string $orderBy = 'lastLogin', string $sort = 'DESC'): array {
 		$limit = $this->fixLimit($limit);
 
 		$this->fixDI();
 
 		$query = $this->dbConn->getQueryBuilder();
 
+		$appId = 'settings'; $configKey = 'email';
+		if($orderBy == 'lastLogin') {
+			$appId = 'login'; $configKey = 'lastLogin';
+		}
+
 		$query->select('uid', 'displayname')
 			->from($this->table, 'u')
 			->leftJoin('u', 'preferences', 'p', $query->expr()->andX(
 				$query->expr()->eq('userid', 'uid'),
-				$query->expr()->eq('appid', $query->expr()->literal('settings')),
-				$query->expr()->eq('configkey', $query->expr()->literal('email')))
+				$query->expr()->eq('appid', $query->expr()->literal($appId)),
+				$query->expr()->eq('configkey', $query->expr()->literal($configKey)))
 			)
 			// sqlite doesn't like re-using a single named parameter here
 			->where($query->expr()->iLike('uid', $query->createPositionalParameter('%' . $this->dbConn->escapeLikeParameter($search) . '%')))
 			->orWhere($query->expr()->iLike('displayname', $query->createPositionalParameter('%' . $this->dbConn->escapeLikeParameter($search) . '%')))
 			->orWhere($query->expr()->iLike('configvalue', $query->createPositionalParameter('%' . $this->dbConn->escapeLikeParameter($search) . '%')))
-			->orderBy($query->func()->lower('displayname'), 'ASC')
+			->orderBy($query->func()->lower('configvalue'), $sort)
 			->addOrderBy('uid_lower', 'ASC')
 			->setMaxResults($limit)
 			->setFirstResult($offset);
@@ -381,10 +388,10 @@ class Database extends ABackend implements
 	 * @param null|int $offset
 	 * @return string[] an array of all uids
 	 */
-	public function getUsers($search = '', $limit = null, $offset = null) {
+	public function getUsers($search = '', $limit = null, $offset = null, $orderBy = 'lastLogin', $sort = 'DESC'): array {
 		$limit = $this->fixLimit($limit);
 
-		$users = $this->getDisplayNames($search, $limit, $offset);
+		$users = $this->getDisplayNames($search, $limit, $offset, $orderBy, $sort);
 		$userIds = array_map(function ($uid) {
 			return (string)$uid;
 		}, array_keys($users));
