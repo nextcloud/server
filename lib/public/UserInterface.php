@@ -45,7 +45,7 @@ interface UserInterface {
 	 * @return string[] an array of all uids
 	 * @since 4.5.0
 	 */
-	public function getUsers($search = '', $limit = null, $offset = null, $orderBy = 'lastLogin', $sort = 'DESC'): array;
+	public function getUsers($search = '', $limit = null, $offset = null, $orderBy = 'lastLogin', $sort = 'DESC');
 
 	/**
 	 * check if a user exists

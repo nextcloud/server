@@ -93,7 +93,7 @@ abstract class Backend implements UserInterface {
 	 * @param string $sort
 	 * @return string[] an array of all uids
 	 */
-	public function getUsers($search = '', $limit = null, $offset = null, $orderBy = 'lastLogin', $sort = 'DESC'): array {
+	public function getUsers($search = '', $limit = null, $offset = null, $orderBy = 'lastLogin', $sort = 'DESC') {
 		return [];
 	}
 

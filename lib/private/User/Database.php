@@ -238,9 +238,11 @@ class Database extends ABackend implements
 
 		$query = $this->dbConn->getQueryBuilder();
 
-		$appId = 'settings'; $configKey = 'email';
+		$appId = 'settings';
+		$configKey = 'email';
 		if($orderBy == 'lastLogin') {
-			$appId = 'login'; $configKey = 'lastLogin';
+			$appId = 'login';
+			$configKey = 'lastLogin';
 		}
 
 		$query->select('uid', 'displayname')
