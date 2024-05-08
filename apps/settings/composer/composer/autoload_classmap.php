@@ -79,6 +79,7 @@ return array(
     'OCA\\Settings\\SetupChecks\\NeedsSystemAddressBookSync' => $baseDir . '/../lib/SetupChecks/NeedsSystemAddressBookSync.php',
     'OCA\\Settings\\SetupChecks\\PhpDefaultCharset' => $baseDir . '/../lib/SetupChecks/PhpDefaultCharset.php',
     'OCA\\Settings\\SetupChecks\\PhpOutputBuffering' => $baseDir . '/../lib/SetupChecks/PhpOutputBuffering.php',
+    'OCA\\Settings\\SetupChecks\\SchedulingTableSize' => $baseDir . '/../lib/SetupChecks/SchedulingTableSize.php',
     'OCA\\Settings\\SetupChecks\\SupportedDatabase' => $baseDir . '/../lib/SetupChecks/SupportedDatabase.php',
     'OCA\\Settings\\UserMigration\\AccountMigrator' => $baseDir . '/../lib/UserMigration/AccountMigrator.php',
     'OCA\\Settings\\UserMigration\\AccountMigratorException' => $baseDir . '/../lib/UserMigration/AccountMigratorException.php',

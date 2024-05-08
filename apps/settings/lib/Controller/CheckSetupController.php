@@ -68,6 +68,7 @@ use OCA\Settings\SetupChecks\LegacySSEKeyFormat;
 use OCA\Settings\SetupChecks\PhpDefaultCharset;
 use OCA\Settings\SetupChecks\PhpOutputBuffering;
 use OCA\Settings\SetupChecks\SupportedDatabase;
+use OCA\Settings\SetupChecks\SchedulingTableSize;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\DataDisplayResponse;
@@ -902,6 +903,7 @@ Raw output
 		$supportedDatabases = new SupportedDatabase($this->l10n, $this->connection);
 		$ldapInvalidUuids = new LdapInvalidUuids($this->appManager, $this->l10n, $this->serverContainer);
 		$needsSystemAddressBookSync = new NeedsSystemAddressBookSync($this->config, $this->l10n);
+		$schedulingTableSize = new SchedulingTableSize($this->l10n, $this->connection);
 
 		return new DataResponse(
 			[
@@ -958,6 +960,7 @@ Raw output
 				'temporaryDirectoryWritable' => $this->isTemporaryDirectoryWritable(),
 				LdapInvalidUuids::class => ['pass' => $ldapInvalidUuids->run(), 'description' => $ldapInvalidUuids->description(), 'severity' => $ldapInvalidUuids->severity()],
 				NeedsSystemAddressBookSync::class => ['pass' => $needsSystemAddressBookSync->run(), 'description' => $needsSystemAddressBookSync->description(), 'severity' => $needsSystemAddressBookSync->severity()],
+				SchedulingTableSize::class => ['pass' => $schedulingTableSize->run(), 'description' => $schedulingTableSize->description(), 'severity' => $schedulingTableSize->severity()],
 			]
 		);
 	}

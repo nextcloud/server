@@ -201,6 +201,10 @@ class Application extends App {
 					if (!$table->hasIndex('schedulobj_principuri_index')) {
 						$subject->addHintForMissingSubject($table->getName(), 'schedulobj_principuri_index');
 					}
+					$table = $schema->getTable('schedulingobjects');
+					if (!$table->hasIndex('schedulobj_lastmodified_idx')) {
+						$subject->addHintForMissingSubject($table->getName(), 'schedulobj_lastmodified_idx');
+					}
 				}
 
 				if ($schema->hasTable('properties')) {

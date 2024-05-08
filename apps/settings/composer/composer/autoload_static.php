@@ -94,6 +94,7 @@ class ComposerStaticInitSettings
         'OCA\\Settings\\SetupChecks\\NeedsSystemAddressBookSync' => __DIR__ . '/..' . '/../lib/SetupChecks/NeedsSystemAddressBookSync.php',
         'OCA\\Settings\\SetupChecks\\PhpDefaultCharset' => __DIR__ . '/..' . '/../lib/SetupChecks/PhpDefaultCharset.php',
         'OCA\\Settings\\SetupChecks\\PhpOutputBuffering' => __DIR__ . '/..' . '/../lib/SetupChecks/PhpOutputBuffering.php',
+        'OCA\\Settings\\SetupChecks\\SchedulingTableSize' => __DIR__ . '/..' . '/../lib/SetupChecks/SchedulingTableSize.php',
         'OCA\\Settings\\SetupChecks\\SupportedDatabase' => __DIR__ . '/..' . '/../lib/SetupChecks/SupportedDatabase.php',
         'OCA\\Settings\\UserMigration\\AccountMigrator' => __DIR__ . '/..' . '/../lib/UserMigration/AccountMigrator.php',
         'OCA\\Settings\\UserMigration\\AccountMigratorException' => __DIR__ . '/..' . '/../lib/UserMigration/AccountMigratorException.php',

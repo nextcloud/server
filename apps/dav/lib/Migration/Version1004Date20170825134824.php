@@ -383,6 +383,7 @@ class Version1004Date20170825134824 extends SimpleMigrationStep {
 			]);
 			$table->setPrimaryKey(['id']);
 			$table->addIndex(['principaluri'], 'schedulobj_principuri_index');
+			$table->addIndex(['lastmodified'], 'schedulobj_lastmodified_idx');
 		}
 
 		if (!$schema->hasTable('cards_properties')) {

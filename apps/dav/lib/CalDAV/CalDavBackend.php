@@ -2723,6 +2723,44 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	}
 
 	/**
+	 * Deletes all scheduling objects last modified before $modifiedBefore from the inbox collection.
+	 *
+	 * @param int $modifiedBefore
+	 * @param int $limit
+	 * @return void
+	 */
+	public function deleteOutdatedSchedulingObjects(int $modifiedBefore, int $limit): void {
+		$query = $this->db->getQueryBuilder();
+		$query->select('id')
+			->from('schedulingobjects')
+			->where($query->expr()->lt('lastmodified', $query->createNamedParameter($modifiedBefore)))
+			->setMaxResults($limit);
+		$result = $query->executeQuery();
+		$count = $result->rowCount();
+		if($count === 0) {
+			return;
+		}
+		$ids = array_map(static function (array $id) {
+			return (int)$id[0];
+		}, $result->fetchAll(\PDO::FETCH_NUM));
+		$result->closeCursor();
+
+		$numDeleted = 0;
+		$deleteQuery = $this->db->getQueryBuilder();
+		$deleteQuery->delete('schedulingobjects')
+			->where($deleteQuery->expr()->in('id', $deleteQuery->createParameter('ids'), IQueryBuilder::PARAM_INT_ARRAY));
+		foreach(array_chunk($ids, 1000) as $chunk) {
+			$deleteQuery->setParameter('ids', $chunk, IQueryBuilder::PARAM_INT_ARRAY);
+			$numDeleted += $deleteQuery->executeStatement();
+		}
+
+		if($numDeleted === $limit) {
+			$this->logger->info("Deleted $limit scheduling objects, continuing with next batch");
+			$this->deleteOutdatedSchedulingObjects($modifiedBefore, $limit);
+		}
+	}
+
+	/**
 	 * Creates a new scheduling object. This should land in a users' inbox.
 	 *
 	 * @param string $principalUri
