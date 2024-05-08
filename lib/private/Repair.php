@@ -81,6 +81,7 @@ use OC\Repair\RepairDavShares;
 use OC\Repair\RepairInvalidShares;
 use OC\Repair\RepairMimeTypes;
 use OC\Template\JSCombiner;
+use OCA\DAV\Migration\DeleteSchedulingObjects;
 use OCP\AppFramework\QueryException;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Collaboration\Resources\IManager;
@@ -224,6 +225,7 @@ class Repair implements IOutput {
 		return [
 			new OldGroupMembershipShares(\OC::$server->getDatabaseConnection(), \OC::$server->getGroupManager()),
 			\OC::$server->get(ValidatePhoneNumber::class),
+			\OC::$server->get(DeleteSchedulingObjects::class),
 		];
 	}
 
