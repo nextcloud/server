@@ -180,16 +180,15 @@ namespace OCA\Core;
  * @psalm-type CoreTaskProcessingShape = array{
  *     name: string,
  *     description: string,
- *     type: int
+ *     type: int,
+ *     mandatory: bool,
  * }
  *
  * @psalm-type CoreTaskProcessingTaskType = array{
  *     name: string,
  *     description: string,
  *     inputShape: CoreTaskProcessingShape[],
- *     optionalInputShape: CoreTaskProcessingShape[],
  *     outputShape: CoreTaskProcessingShape[],
- *     optionalOutputShape: CoreTaskProcessingShape[],
  * }
  *
  * @psalm-type CoreTaskProcessingTask = array{

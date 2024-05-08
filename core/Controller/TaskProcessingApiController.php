@@ -83,10 +83,14 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 			$serializedTaskTypes[$key] = [
 				'name' => $taskType['name'],
 				'description' => $taskType['description'],
-				'inputShape' => array_map(fn (ShapeDescriptor $descriptor) => $descriptor->jsonSerialize(), $taskType['inputShape']),
-				'optionalInputShape' => array_map(fn (ShapeDescriptor $descriptor) => $descriptor->jsonSerialize(), $taskType['optionalInputShape']),
-				'outputShape' => array_map(fn (ShapeDescriptor $descriptor) => $descriptor->jsonSerialize(), $taskType['outputShape']),
-				'optionalOutputShape' => array_map(fn (ShapeDescriptor $descriptor) => $descriptor->jsonSerialize(), $taskType['optionalOutputShape']),
+				'inputShape' => array_map(fn (ShapeDescriptor $descriptor) =>
+					$descriptor->jsonSerialize() + ['mandatory' => true], $taskType['inputShape'])
+					+ array_map(fn (ShapeDescriptor $descriptor) =>
+					$descriptor->jsonSerialize() + ['mandatory' => false], $taskType['optionalInputShape']),
+				'outputShape' => array_map(fn (ShapeDescriptor $descriptor) =>
+					$descriptor->jsonSerialize() + ['mandatory' => true], $taskType['outputShape'])
+					+ array_map(fn (ShapeDescriptor $descriptor) =>
+					$descriptor->jsonSerialize() + ['mandatory' => false], $taskType['optionalOutputShape']),
 			];
 		}
 

@@ -471,7 +471,8 @@
                 "required": [
                     "name",
                     "description",
-                    "type"
+                    "type",
+                    "mandatory"
                 ],
                 "properties": {
                     "name": {
@@ -483,6 +484,9 @@
                     "type": {
                         "type": "integer",
                         "format": "int64"
+                    },
+                    "mandatory": {
+                        "type": "boolean"
                     }
                 }
             },
@@ -599,9 +603,7 @@
                     "name",
                     "description",
                     "inputShape",
-                    "optionalInputShape",
-                    "outputShape",
-                    "optionalOutputShape"
+                    "outputShape"
                 ],
                 "properties": {
                     "name": {
@@ -616,19 +618,7 @@
                             "$ref": "#/components/schemas/TaskProcessingShape"
                         }
                     },
-                    "optionalInputShape": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/TaskProcessingShape"
-                        }
-                    },
                     "outputShape": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/TaskProcessingShape"
-                        }
-                    },
-                    "optionalOutputShape": {
                         "type": "array",
                         "items": {
                             "$ref": "#/components/schemas/TaskProcessingShape"
