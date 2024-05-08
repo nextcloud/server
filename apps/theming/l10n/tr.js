@@ -73,9 +73,9 @@ OC.L10N.register(
     "Disable user theming" : "Kullanıcı teması devre dışı bırakılsın",
     "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can toggle this on." : "Kopyanızı seçip özelleştirebilmenize rağmen, kullanıcılar arka planlarını ve renklerini değiştirebilir. Özelleştirmenizi dayatmak istiyorsanız, bu seçeneği etkinleştirebilirsiniz.",
     "Appearance and accessibility settings" : "Görünüm ve erişilebilirlik ayarları",
-    "Background" : "Arka plan",
+    "Background and color" : "Arka plan ve renk",
     "Customization has been disabled by your administrator" : "Özelleştirme yöneticiniz tarafından devre dışı bırakılmış",
-    "Set a custom background" : "Özel bir arka plan ayarlayın",
+    "The background can be set to an image from the default set, a custom uploaded image, or a plain color. The primary color will automatically be adapted based on this and used for elements like folder icons, primary buttons and highlights." : "Arka plan, varsayılan ayar yerine bir görsele, özel olarak yüklenmiş bir görsele veya düz bir renge ayarlanabilir. Ana renk buna göre otomatik olarak uyarlanır ve klasör simgeleri, birincil düğmeler ve vurgular gibi ögeler için kullanılır.",
     "Keyboard shortcuts" : "Kısayol tuşları",
     "In some cases keyboard shortcuts can interfere with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps." : "Bazı durumlarda klavye kısayolları erişilebilirlik araçlarına etki edebilir. Aracınıza doğru şekilde odaklanmanızı sağlamak için tüm klavye kısayollarını buradan devre dışı bırakabilirsiniz. Bu aynı zamanda uygulamalarda var olan tüm kısayolları da devre dışı bırakır.",
     "Disable all keyboard shortcuts" : "Tüm klavye kısayolları devre dışı bırakılsın",
@@ -110,6 +110,8 @@ OC.L10N.register(
     "Reset to default" : "Varsayılanlara dön",
     "Upload" : "Yükle",
     "Remove background image" : "Arka plan görselini kaldır",
+    "Background" : "Arka plan",
+    "Set a custom background" : "Özel bir arka plan ayarlayın",
     "Select a custom color" : "Özel bir renk seçin"
 },
 "nplurals=2; plural=(n > 1);");

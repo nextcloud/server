@@ -208,8 +208,10 @@ OC.L10N.register(
     "Share" : "Comparteix",
     "Delete share" : "Suprimeix l'element compartit",
     "Share with {userName}" : "Comparteix amb {userName}",
+    "Share with email {email}" : "Comparteix amb l'adreça electrònica {email}",
     "Share with group" : "Comparteix amb el grup",
     "Share in conversation" : "Comparteix en la conversa",
+    "Share with {user} on remote server {server}" : "Comparteix amb {user} en el servidor remot {server}",
     "Share with remote group" : "Comparteix amb el grup remot",
     "Share with guest" : "Comparteix amb el convidat",
     "Update share" : "Actualitza l'element compartit",
@@ -312,8 +314,6 @@ OC.L10N.register(
     "the item was removed" : "S'ha suprimit l'element.",
     "the link expired" : "L'enllaç ha caducat.",
     "sharing is disabled" : "S'ha inhabilitat l'ús compartit.",
-    "For more info, please ask the person who sent this link." : "Per a més informació, contacteu amb qui us hagi enviat l'enllaç.",
-    "Share with remote" : "Comparteix en remot",
-    "Share with" : "Comparteix amb"
+    "For more info, please ask the person who sent this link." : "Per a més informació, contacteu amb qui us hagi enviat l'enllaç."
 },
 "nplurals=2; plural=(n != 1);");

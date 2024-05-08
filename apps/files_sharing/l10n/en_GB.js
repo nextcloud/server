@@ -208,8 +208,10 @@ OC.L10N.register(
     "Share" : "Share",
     "Delete share" : "Delete share",
     "Share with {userName}" : "Share with {userName}",
+    "Share with email {email}" : "Share with email {email}",
     "Share with group" : "Share with group",
     "Share in conversation" : "Share in conversation",
+    "Share with {user} on remote server {server}" : "Share with {user} on remote server {server}",
     "Share with remote group" : "Share with remote group",
     "Share with guest" : "Share with guest",
     "Update share" : "Update share",
@@ -312,8 +314,6 @@ OC.L10N.register(
     "the item was removed" : "the item was removed",
     "the link expired" : "the link expired",
     "sharing is disabled" : "sharing is disabled",
-    "For more info, please ask the person who sent this link." : "For more info, please ask the person who sent this link.",
-    "Share with remote" : "Share with remote",
-    "Share with" : "Share with"
+    "For more info, please ask the person who sent this link." : "For more info, please ask the person who sent this link."
 },
 "nplurals=2; plural=(n != 1);");

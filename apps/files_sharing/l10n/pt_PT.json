@@ -161,7 +161,6 @@
     "the item was removed" : "o item foi removido",
     "the link expired" : "a hiperligação expirou",
     "sharing is disabled" : "a partilha está desativada",
-    "For more info, please ask the person who sent this link." : "Para mais informação, por favor, pergunte à pessoa que lhe enviou esta hiperligação.",
-    "Share with" : "Partilhar com"
+    "For more info, please ask the person who sent this link." : "Para mais informação, por favor, pergunte à pessoa que lhe enviou esta hiperligação."
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

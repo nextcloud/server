@@ -208,8 +208,10 @@ OC.L10N.register(
     "Share" : "مُشارَكة",
     "Delete share" : "حذف المشاركة",
     "Share with {userName}" : "شارِك مع {userName}",
+    "Share with email {email}" : "مشاركة مع صاحب البريد الإلكتروني {email}",
     "Share with group" : "شارِك مع مجموعة",
     "Share in conversation" : "شارِك في محادثة",
+    "Share with {user} on remote server {server}" : "مشاركة مع المستخدِم {user} على الخادوم القَصِي {server}",
     "Share with remote group" : "شارِك مع مجموعة قَصِيّة",
     "Share with guest" : "شارِك مع ضيف",
     "Update share" : "تحديث المشاركة",
@@ -312,8 +314,6 @@ OC.L10N.register(
     "the item was removed" : "تمّ حذف العنصر ",
     "the link expired" : "إنتَهَت صلاحية الرابط",
     "sharing is disabled" : "المُشارَكة مُعطّلة",
-    "For more info, please ask the person who sent this link." : "لمزيد من المعلومات، يرجى سؤال الشخص الذي أرسل هذا الرابط",
-    "Share with remote" : "شارِك مع موقعٍ قَصِي",
-    "Share with" : "شارِكه مع"
+    "For more info, please ask the person who sent this link." : "لمزيد من المعلومات، يرجى سؤال الشخص الذي أرسل هذا الرابط"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

@@ -25,7 +25,6 @@
     "File already exists" : "Lo fichièr existís ja",
     "Templates" : "Modèls",
     "__language_name__" : "Occitan",
-    "Help" : "Ajuda",
     "Apps" : "Aplicacions",
     "Settings" : "Paramètres",
     "Log out" : "Desconnexion",
@@ -70,6 +69,7 @@
     "a safe home for all your data" : "un ostal segur per vòstras donadas",
     "Authentication error" : "Error d’autentificacion",
     "Storage is temporarily not available" : "Emmagazinatge temporàriament indisponible",
+    "Help" : "Ajuda",
     "User disabled" : "Utilizaire desactivat"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

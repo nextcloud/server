@@ -1,9 +1,20 @@
+# This workflow is provided via the organization template repository
+#
+# https://github.com/nextcloud/.github
+# https://docs.github.com/en/actions/learn-github-actions/sharing-workflows-with-your-organization
+#
+# SPDX-FileCopyrightText: 2023-2024 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: MIT
+
 name: Node tests
 
 on:
   pull_request:
   schedule:
     - cron: "5 2 * * *"
+
+permissions:
+  contents: read
 
 concurrency:
   group: node-tests-${{ github.head_ref || github.run_id }}
@@ -26,18 +37,18 @@ jobs:
               - '.github/workflows/**'
               - '**/__tests__/**'
               - '**/__mocks__/**'
-              - '**/src/**'
-              - '**/appinfo/info.xml'
+              - 'apps/*/src/**'
+              - 'apps/*/appinfo/info.xml'
+              - 'core/src/**'
               - 'package.json'
               - 'package-lock.json'
               - 'tsconfig.json'
               - '**.js'
               - '**.ts'
               - '**.vue'
-              - '**.handlebars'
 
   versions:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest-low
     needs: changes
 
     if: ${{ github.repository_owner != 'nextcloud-gmbh' && needs.changes.outputs.src != 'false' }}
@@ -48,14 +59,14 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633
+        uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b # v4.1.4
 
       - name: Read package.json node and npm engines version
-        uses: skjnldsv/read-package-engines-version-actions@8205673bab74a63eb9b8093402fd9e0e018663a1
+        uses: skjnldsv/read-package-engines-version-actions@06d6baf7d8f41934ab630e97d9e6c0bc9c9ac5e4 # v3
         id: versions
         with:
           fallbackNode: '^20'
-          fallbackNpm: '^9'
+          fallbackNpm: '^10'
 
   test:
     runs-on: ubuntu-latest
@@ -69,27 +80,26 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633
+        uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b # v4.1.4
 
       - name: Set up node ${{ needs.versions.outputs.nodeVersion }}
-        uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8
+        uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4.0.2
         with:
           node-version: ${{ needs.versions.outputs.nodeVersion }}
 
       - name: Set up npm ${{ needs.versions.outputs.npmVersion }}
         run: npm i -g npm@"${{ needs.versions.outputs.npmVersion }}"
 
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Show cypress version
-        run: npm run cypress:version
+      - name: Install dependencies & build
+        run: |
+          npm ci
+          npm run build --if-present
 
       - name: Test and process coverage
-        run: npm run test:coverage
+        run: npm run test:coverage --if-present
 
       - name: Collect coverage
-        uses: codecov/codecov-action@c16abc29c95fcf9174b58eb7e1abf4c866893bc8 # v4.1.1
+        uses: codecov/codecov-action@5ecb98a3c6b747ed38dc09f787459979aebb39be # v4.3.1
         with:
           files: ./coverage/lcov.info
 
@@ -104,10 +114,10 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633
+        uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b # v4.1.4
 
       - name: Set up node ${{ needs.versions.outputs.nodeVersion }}
-        uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8
+        uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4.0.2
         with:
           node-version: ${{ needs.versions.outputs.nodeVersion }}
 
@@ -116,9 +126,6 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
-
-      - name: Show cypress version
-        run: npm run cypress:version
 
       - name: Test
         run: npm run test:jsunit
@@ -135,10 +142,10 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633
+        uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b # v4.1.4
 
       - name: Set up node ${{ needs.versions.outputs.nodeVersion }}
-        uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8
+        uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4.0.2
         with:
           node-version: ${{ needs.versions.outputs.nodeVersion }}
 
@@ -147,9 +154,6 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
-
-      - name: Show cypress version
-        run: npm run cypress:version
 
       - name: Run compile
         run: ./build/compile-handlebars-templates.sh

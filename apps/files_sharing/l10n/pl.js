@@ -80,6 +80,7 @@ OC.L10N.register(
     "Could not create share" : "Nie można utworzyć udostępnienia",
     "Invalid permissions" : "Nieprawidłowe uprawnienia",
     "Invalid date, date format must be YYYY-MM-DD" : "Nieprawidłowa data, data musi być w formacie RRRR-MM-DD",
+    "Please specify a valid account to share with" : "Podaj prawidłowe konto, któremu chcesz udostępnić",
     "Group sharing is disabled by the administrator" : "Udostępnianie grupowe jest wyłączone przez administratora",
     "Please specify a valid group" : "Podaj prawidłową grupę",
     "Public link sharing is disabled by the administrator" : "Udostępnianie linków publicznych zostało wyłączone przez administratora",
@@ -87,6 +88,7 @@ OC.L10N.register(
     "Public upload is only possible for publicly shared folders" : "Przesyłanie publiczne jest możliwe tylko w przypadku katalogów udostępnianych publicznie",
     "Sharing %s sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Udostępnienie %s wysyłanego hasła przez Nextcloud Talk nie powiodło się, ponieważ Nextcloud Talk nie jest włączony",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Udostępnienie %1$s nie powiodło się, ponieważ zaplecze nie zezwala na udostępnianie typu %2$s",
+    "Please specify a valid federated account ID" : "Podaj prawidłowy identyfikator konta federacyjnego",
     "Please specify a valid federated group ID" : "Podaj prawidłowy ID grupy federacyjnej",
     "You cannot share to a Circle if the app is not enabled" : "Nie możesz udostępnić w Kręgach, jeśli aplikacja jest wyłączona",
     "Please specify a valid circle" : "Podaj prawidłowy krąg",
@@ -112,7 +114,9 @@ OC.L10N.register(
     "You received {share} to group {group} as a share by {user}" : "Otrzymałeś {share} do grupy {group} udostępnione przez {user}",
     "Accept" : "Akceptuj",
     "Decline" : "Odrzuć",
+    "This application enables people to share files within Nextcloud. If enabled, the admin can choose which groups can share files. The applicable people can then share files and folders with other accounts and groups within Nextcloud. In addition, if the admin enables the share link feature, an external link can be used to share files with other people outside of Nextcloud. Admins can also enforce passwords, expirations dates, and enable server to server sharing via share links, as well as sharing from mobile devices.\nTurning the feature off removes shared files and folders on the server for all share recipients, and also on the sync clients and mobile apps. More information is available in the Nextcloud Documentation." : "Aplikacja umożliwia ludziom udostępnianie plików w Nextcloud. Jeśli ta opcja jest włączona, administrator może wybrać, które grupy mogą udostępniać pliki. Odpowiedni ludzie mogą następnie udostępniać pliki i katalogi innym kontom i grupom w Nextcloud. Ponadto, jeśli administrator włączy funkcję udostępniania przez odnośnik, można użyć zewnętrznego odnośnika do udostępniania plików innym ludziom poza Nextcloud. Administratorzy mogą również wymuszać hasła, daty wygaśnięcia i udostępnienia między serwerami za pośrednictwem odnośników udostępnienia, a także udostępnienia z urządzeń mobilnych.\nWyłączenie tej funkcji powoduje usunięcie udostępnionych plików i katalogów na serwerze dla wszystkich odbiorców, a także klientów synchronizacji i aplikacji mobilnych. Więcej informacji można znaleźć w dokumentacji Nextcloud.",
     "Sharing" : "Udostępnianie",
+    "Accept shares from other accounts and groups by default" : "Domyślnie akceptuj współdzielenie z innych kont i grup",
     "Error while toggling options" : "Błąd podczas przełączania opcji",
     "Set default folder for accepted shares" : "Ustaw domyślny katalog dla zaakceptowanych udostępnień",
     "Reset" : "Resetuj",
@@ -202,6 +206,7 @@ OC.L10N.register(
     "Update share" : "Zaktualizuj udostępnienie",
     "Save share" : "Zapisz udostępnienie",
     "Others with access" : "Inni z dostępem",
+    "No other accounts with access found" : "Nie znaleziono innych kont z dostępem",
     "Toggle list of others with access to this directory" : "Przełącz listę innych z dostępem do tego katalogu",
     "Toggle list of others with access to this file" : "Przełącz listę innych z dostępem do tego pliku",
     "Unable to fetch inherited shares" : "Nie można pobrać odziedziczonych udostępnień",
@@ -297,7 +302,6 @@ OC.L10N.register(
     "the item was removed" : "element został usunięty",
     "the link expired" : "link wygasł",
     "sharing is disabled" : "udostępnianie jest wyłączone",
-    "For more info, please ask the person who sent this link." : "Aby uzyskać więcej informacji, zapytaj osobę, która wysłała ten link.",
-    "Share with" : "Udostępnij dla"
+    "For more info, please ask the person who sent this link." : "Aby uzyskać więcej informacji, zapytaj osobę, która wysłała ten link."
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

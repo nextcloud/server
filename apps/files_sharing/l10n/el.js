@@ -288,7 +288,6 @@ OC.L10N.register(
     "the item was removed" : "το αντικείμενο απομακρύνθηκε",
     "the link expired" : "ο σύνδεσμος έληξε",
     "sharing is disabled" : "ο διαμοιρασμός απενεργοποιήθηκε",
-    "For more info, please ask the person who sent this link." : "Για περισσότερες πληροφορίες, παρακαλούμε ρωτήστε το άτομο που σας έστειλε αυτόν τον σύνδεσμο.",
-    "Share with" : "Διαμοιρασμός με"
+    "For more info, please ask the person who sent this link." : "Για περισσότερες πληροφορίες, παρακαλούμε ρωτήστε το άτομο που σας έστειλε αυτόν τον σύνδεσμο."
 },
 "nplurals=2; plural=(n != 1);");

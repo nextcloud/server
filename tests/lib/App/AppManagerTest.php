@@ -99,7 +99,7 @@ class AppManagerTest extends TestCase {
 	/** @var LoggerInterface|MockObject */
 	protected $logger;
 
-	protected IURLGenerator|MockObject $urlGenerator;
+	protected IURLGenerator&MockObject $urlGenerator;
 
 	/** @var IAppManager */
 	protected $manager;
@@ -116,19 +116,27 @@ class AppManagerTest extends TestCase {
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
+
+		$this->overwriteService(AppConfig::class, $this->appConfig);
+		$this->overwriteService(IURLGenerator::class, $this->urlGenerator);
+
 		$this->cacheFactory->expects($this->any())
 			->method('createDistributed')
 			->with('settings')
 			->willReturn($this->cache);
+
+		$this->config
+			->method('getSystemValueBool')
+			->with('installed', false)
+			->willReturn(true);
+
 		$this->manager = new AppManager(
 			$this->userSession,
 			$this->config,
-			$this->appConfig,
 			$this->groupManager,
 			$this->cacheFactory,
 			$this->eventDispatcher,
 			$this->logger,
-			$this->urlGenerator,
 		);
 	}
 
@@ -267,12 +275,10 @@ class AppManagerTest extends TestCase {
 			->setConstructorArgs([
 				$this->userSession,
 				$this->config,
-				$this->appConfig,
 				$this->groupManager,
 				$this->cacheFactory,
 				$this->eventDispatcher,
 				$this->logger,
-				$this->urlGenerator,
 			])
 			->onlyMethods([
 				'getAppPath',
@@ -322,12 +328,10 @@ class AppManagerTest extends TestCase {
 			->setConstructorArgs([
 				$this->userSession,
 				$this->config,
-				$this->appConfig,
 				$this->groupManager,
 				$this->cacheFactory,
 				$this->eventDispatcher,
 				$this->logger,
-				$this->urlGenerator,
 			])
 			->onlyMethods([
 				'getAppPath',
@@ -385,12 +389,10 @@ class AppManagerTest extends TestCase {
 			->setConstructorArgs([
 				$this->userSession,
 				$this->config,
-				$this->appConfig,
 				$this->groupManager,
 				$this->cacheFactory,
 				$this->eventDispatcher,
 				$this->logger,
-				$this->urlGenerator,
 			])
 			->onlyMethods([
 				'getAppPath',
@@ -589,12 +591,10 @@ class AppManagerTest extends TestCase {
 			->setConstructorArgs([
 				$this->userSession,
 				$this->config,
-				$this->appConfig,
 				$this->groupManager,
 				$this->cacheFactory,
 				$this->eventDispatcher,
 				$this->logger,
-				$this->urlGenerator,
 			])
 			->onlyMethods(['getAppInfo'])
 			->getMock();
@@ -649,12 +649,10 @@ class AppManagerTest extends TestCase {
 			->setConstructorArgs([
 				$this->userSession,
 				$this->config,
-				$this->appConfig,
 				$this->groupManager,
 				$this->cacheFactory,
 				$this->eventDispatcher,
 				$this->logger,
-				$this->urlGenerator,
 			])
 			->onlyMethods(['getAppInfo'])
 			->getMock();

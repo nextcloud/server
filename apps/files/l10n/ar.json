@@ -182,6 +182,7 @@
     "Folder name" : "اسم المجلد",
     "This node is unavailable" : "هذه العُقْدَة node غير متوفرة ",
     "Download file {name}" : " تنزيل الملف {name}",
+    "Invalid file name" : "اسم الملف غير صحيح",
     "\"{name}\" is not an allowed filetype." : "\"{name}\" ليس نوع ملف مسموحًا به.",
     "{newName} already exists." : "{newName} موجود بالفعل.",
     "\"{char}\" is not allowed inside a file name." : "\"{char}\" حرفٌ غير مسموح به في اسم الملف.",

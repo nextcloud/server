@@ -208,8 +208,10 @@ OC.L10N.register(
     "Share" : "Teilen",
     "Delete share" : "Freigabe löschen",
     "Share with {userName}" : "Mit {userName} teilen",
+    "Share with email {email}" : "Mit E-Mail {email} teilen",
     "Share with group" : "Mit Gruppe teilen",
     "Share in conversation" : "In Unterhaltungen teilen",
+    "Share with {user} on remote server {server}" : "Mit {user} auf dem Remote-Server {server} teilen",
     "Share with remote group" : "Mit entfernter Gruppe teilen",
     "Share with guest" : "Mit Gast teilen",
     "Update share" : "Freigabe aktualisieren",
@@ -312,8 +314,6 @@ OC.L10N.register(
     "the item was removed" : "Das Element wurde entfernt",
     "the link expired" : "Der Link ist abgelaufen",
     "sharing is disabled" : "Teilen ist deaktiviert",
-    "For more info, please ask the person who sent this link." : "Um nähere Informationen zu erhalten, wenden Sie sich bitte an die Person, die Ihnen diesen Link geschickt hat.",
-    "Share with remote" : "Mit Entfernten teilen",
-    "Share with" : "Teilen mit"
+    "For more info, please ask the person who sent this link." : "Um nähere Informationen zu erhalten, wenden Sie sich bitte an die Person, die Ihnen diesen Link geschickt hat."
 },
 "nplurals=2; plural=(n != 1);");

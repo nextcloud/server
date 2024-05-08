@@ -494,8 +494,9 @@ OC.L10N.register(
     "Account documentation" : "Fiók dokumentációja",
     "Administration documentation" : "Rengszergazdai dokumentáció",
     "Forum" : "Fórum",
-    "Nextcloud help resources" : "Nextcloud súgóerőforrások",
     "General documentation" : "Általános dokumentáció",
+    "Legal notice" : "Jogi nyilatkozat",
+    "Privacy policy" : "Adatvédelmi irányelvek",
     "None/STARTTLS" : "Semmi/STARTTLS",
     "SSL" : "SSL",
     "Open documentation" : "Dokumentáció megnyitása",
@@ -634,6 +635,7 @@ OC.L10N.register(
     "Failed to update user manager" : "A felhasználókezelő frissítése sikertelen",
     "User management settings" : "Felhasználókezelő beállításai",
     "Send welcome email to new users" : "Üdvözlő e-mail küldése az új felhasználóknak",
-    "Creating group …" : "Csoport létrehozása…"
+    "Creating group …" : "Csoport létrehozása…",
+    "Nextcloud help resources" : "Nextcloud súgóerőforrások"
 },
 "nplurals=2; plural=(n != 1);");

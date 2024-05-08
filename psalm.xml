@@ -8,6 +8,7 @@
     errorBaseline="build/psalm-baseline.xml"
 	findUnusedBaselineEntry="false"
 	findUnusedCode="false"
+	phpVersion="8.1"
 >
 	<plugins>
 		<plugin filename="build/psalm/AppFrameworkTainter.php" />

@@ -722,6 +722,9 @@ OC.L10N.register(
     "The app will be downloaded from the App Store" : "Appen vil bli lastet ned fra app-butikken",
     "This app is not marked as compatible with your Nextcloud version. If you continue you will still be able to install the app. Note that the app might not work as expected." : "Denne appen er ikke merket som kompatibel med Nextcloud-versjonen. Hvis du fortsetter, vil du fortsatt kunne installere appen. Vær oppmerksom på at appen kanskje ikke fungerer som forventet.",
     "Never" : "Aldri",
+    "Could not register device: Network error" : "Kunne ikke registrere enheten: nettverksfeil",
+    "Could not register device: Probably already registered" : "Kunne ikke registrere enheten: trolig allerede registrert",
+    "Could not register device" : "Kunne ikke registrere enheten",
     "An error occurred during the request. Unable to proceed." : "En feil oppstod under forespørselen. Kan ikke fortsette.",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "Appen er aktivert men må oppdateres. Du vil bli videresendt til oppdateringssiden om 5 sekunder.",
     "Error: This app cannot be enabled because it makes the server unstable" : "Feil: denne appen kan ikke aktiveres fordi det gjør serveren ustabil",
@@ -736,8 +739,9 @@ OC.L10N.register(
     "Account documentation" : "Kontodokumentasjon",
     "Administration documentation" : "Dokumentasjon for administrasjon",
     "Forum" : "Forum",
-    "Nextcloud help resources" : "Hjelperessurser for Nextcloud",
     "General documentation" : "Generell dokumentasjon",
+    "Legal notice" : "Juridisk varsel",
+    "Privacy policy" : "Personvern politikk",
     "None/STARTTLS" : "None/STARTTLS",
     "SSL" : "SSL",
     "Open documentation" : "Åpne dokumentasjonen",
@@ -883,6 +887,7 @@ OC.L10N.register(
     "Send welcome email to new users" : "Sende velkomst-e-post til nye brukere",
     "User management" : "Brukeradministrasjon",
     "Creating group …" : "Oppretter gruppe...",
-    "User group: {group}" : "Brukergruppe: {group}"
+    "User group: {group}" : "Brukergruppe: {group}",
+    "Nextcloud help resources" : "Hjelperessurser for Nextcloud"
 },
 "nplurals=2; plural=(n != 1);");

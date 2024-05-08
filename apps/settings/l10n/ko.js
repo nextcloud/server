@@ -167,6 +167,7 @@ OC.L10N.register(
     "The database is used for transactional file locking. To enhance performance, please configure memcache, if available." : "데이터베이스가 트랜잭션 파일 잠금에 사용됩니다. 성능을 향상하려면, 가능한 경우 memcache를 설정하십시오.",
     "Forwarded for headers" : "헤더에 전달됨",
     "Your \"trusted_proxies\" setting is not correctly set, it should be an array." : "\"trusted_proxies\" 설정이 바르지 않습니다. 배열(array) 형식으로 설정해야 합니다.",
+    "Your \"trusted_proxies\" setting is not correctly set, it should be an array of IP addresses - optionally with range in CIDR notation." : "\"trusted_proxies\" 설정이 올바르지 않습니다. IP 주소의 열(arrary)로 지정되어야 합니다. CIDR 표기법을 통해 IP주소의 범위 형태로도 설정할 수 있습니다.",
     "The reverse proxy header configuration is incorrect. This is a security issue and can allow an attacker to spoof their IP address as visible to the Nextcloud." : "역방향 프록시 헤더 설정이 잘못되었습니다. 이는 보안과 관련된 문제이며, 공격자가 Nextcloud 상에서 IP 주소를 스푸핑할 수 있습니다.",
     "Your IP address was resolved as %s" : "IP 주소가 %s(으)로 resolve 됨",
     "The reverse proxy header configuration is incorrect, or you are accessing Nextcloud from a trusted proxy. If not, this is a security issue and can allow an attacker to spoof their IP address as visible to the Nextcloud." : "역방향 프록시 헤더 설정이 올바르지 않거나 신뢰하는 프록시를 통해 Nextcloud에 접근하고 있을 수 있습니다. 그렇지 않다면, 이는 보안 문제이며 공격자가 Nextcloud 상에서 IP 주소를 스푸핑할 수 있습니다. ",
@@ -652,8 +653,9 @@ OC.L10N.register(
     "Account documentation" : "계정 문서",
     "Administration documentation" : "관리 문서",
     "Forum" : "포럼",
-    "Nextcloud help resources" : "Nextcloud 도움말 자원",
     "General documentation" : "일반 문서",
+    "Legal notice" : "법적 고지",
+    "Privacy policy" : "개인 정보 취급 방침",
     "None/STARTTLS" : "없음/STARTTLS",
     "SSL" : "SSL",
     "Open documentation" : "문서 열기",
@@ -796,6 +798,7 @@ OC.L10N.register(
     "Send welcome email to new users" : "새 사용자에게 환영 이메일 보내기",
     "User management" : "사용자 관리",
     "Creating group …" : "그룹 생성 ...",
-    "User group: {group}" : "사용자 그룹: {group}"
+    "User group: {group}" : "사용자 그룹: {group}",
+    "Nextcloud help resources" : "Nextcloud 도움말 자원"
 },
 "nplurals=1; plural=0;");

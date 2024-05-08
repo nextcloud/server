@@ -737,8 +737,10 @@
     "Account documentation" : "وثائق الحساب",
     "Administration documentation" : "وثائق الإشراف",
     "Forum" : "المُنتَدَى",
-    "Nextcloud help resources" : "موارد \"مُساعَدَة نكست كلاود\"",
+    "Nextcloud help & privacy resources" : "مصادر للمساعدة و الخصوصية حول نكست كلاود",
     "General documentation" : "وثائق عامة",
+    "Legal notice" : "ملاحظة قانونية",
+    "Privacy policy" : "سياسة الخصوصية",
     "None/STARTTLS" : "لا شيء / بروتوكول STARTTLS",
     "SSL" : "SSL",
     "Open documentation" : "فتح توثيق النظام",
@@ -884,6 +886,7 @@
     "Send welcome email to new users" : "أرسِل إيميل ترحيبي للمستخدِمين الجُدُد",
     "User management" : "إدارة المستخدِمين",
     "Creating group …" : "إنشاء مجموعة ...",
-    "User group: {group}" : "مجموعة المستخدِم: {group}"
+    "User group: {group}" : "مجموعة المستخدِم: {group}",
+    "Nextcloud help resources" : "موارد \"مُساعَدَة نكست كلاود\""
 },"pluralForm" :"nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;"
 }

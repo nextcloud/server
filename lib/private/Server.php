@@ -653,7 +653,8 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->getRequest(),
 				$c->get(IUserSession::class),
 				$c->get(ICacheFactory::class),
-				\OC::$SERVERROOT
+				\OC::$SERVERROOT,
+				$c->get(IAppManager::class),
 			);
 		});
 		/** @deprecated 19.0.0 */
@@ -892,12 +893,10 @@ class Server extends ServerContainer implements IServerContainer {
 			return new \OC\App\AppManager(
 				$c->get(IUserSession::class),
 				$c->get(\OCP\IConfig::class),
-				$c->get(\OC\AppConfig::class),
 				$c->get(IGroupManager::class),
 				$c->get(ICacheFactory::class),
 				$c->get(IEventDispatcher::class),
 				$c->get(LoggerInterface::class),
-				$c->get(IURLGenerator::class),
 			);
 		});
 		/** @deprecated 19.0.0 */

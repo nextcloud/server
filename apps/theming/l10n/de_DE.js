@@ -73,9 +73,9 @@ OC.L10N.register(
     "Disable user theming" : "Benutzer-Design deaktivieren",
     "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can toggle this on." : "Trotz der von Ihnen vorgenommenen Auswahl und Anpassung, können Benutzer ihren Hintergrund und ihre Farben ändern. Wenn Sie Ihre Anpassung erzwingen möchten, können Sie dies hier aktivieren.",
     "Appearance and accessibility settings" : "Aussehen- und Barrierefreiheitseinstellungen",
-    "Background" : "Hintergrund",
+    "Background and color" : "Hintergrund und Farbe",
     "Customization has been disabled by your administrator" : "Diese Anpassungsmöglichkeit wurde von Ihrer Administration deaktiviert",
-    "Set a custom background" : "Einen benutzerdefinierten Hintergrund setzen",
+    "The background can be set to an image from the default set, a custom uploaded image, or a plain color. The primary color will automatically be adapted based on this and used for elements like folder icons, primary buttons and highlights." : "Der Hintergrund kann als ein Bild aus dem Standardsatz, ein benutzerdefiniertes hochgeladenes Bild oder eine einfache Farbe eingestellt werden. Die Primärfarbe wird auf dieser Grundlage automatisch angepasst und für Elemente wie Ordnersymbole, primäre Schaltflächen und Hervorhebungen verwendet.",
     "Keyboard shortcuts" : "Tastaturkürzel",
     "In some cases keyboard shortcuts can interfere with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps." : "In einigen Fällen können Tastenkombinationen Barrierefreiheits-Tools beeinträchtigen. Damit Sie sich richtig auf Ihr Werkzeug konzentrieren können, können Sie hier alle Tastaturkürzel deaktivieren. Dadurch werden auch alle verfügbaren Verknüpfungen in Apps deaktiviert.",
     "Disable all keyboard shortcuts" : "Alle Tastenkombinationen deaktivieren",
@@ -110,6 +110,8 @@ OC.L10N.register(
     "Reset to default" : " Auf Standard zurücksetzen ",
     "Upload" : "Hochladen",
     "Remove background image" : "Hintergrundbild entfernen",
+    "Background" : "Hintergrund",
+    "Set a custom background" : "Einen benutzerdefinierten Hintergrund setzen",
     "Select a custom color" : "Eine benutzerdefinierte Farbe auswählen"
 },
 "nplurals=2; plural=(n != 1);");

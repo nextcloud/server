@@ -65,9 +65,7 @@
     "User settings" : "用户设置",
     "Disable user theming" : "禁用用户自定义主题",
     "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can toggle this on." : "除了您在此处对实例外观进行的定制外，实例上的用户也可以选择他们自己的背景和主题色。启用此选项可阻止用户自定义外观。",
-    "Background" : "背景",
     "Customization has been disabled by your administrator" : "管理员已禁用自定义功能",
-    "Set a custom background" : "选择自定义背景",
     "Keyboard shortcuts" : "键盘快捷键",
     "In some cases keyboard shortcuts can interfere with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps." : "某些情况下，键盘快捷键会干扰无障碍浏览工具。该设置可禁用所有键盘快捷键，以便您控制这些工具的焦点。启用该设置将同时禁用所有应用中的快捷键。",
     "Disable all keyboard shortcuts" : "禁用所有键盘快捷键",
@@ -83,6 +81,8 @@
     "Reset to default" : "重置为默认设置",
     "Upload" : "上传",
     "Remove background image" : "删除背景图片",
+    "Background" : "背景",
+    "Set a custom background" : "选择自定义背景",
     "Select a custom color" : "自定义颜色"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

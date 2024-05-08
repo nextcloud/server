@@ -294,8 +294,7 @@ class OC_Image implements \OCP\IImage {
 				$retVal = imagegif($this->resource, $filePath);
 				break;
 			case IMAGETYPE_JPEG:
-				/** @psalm-suppress InvalidScalarArgument */
-				imageinterlace($this->resource, (PHP_VERSION_ID >= 80000 ? true : 1));
+				imageinterlace($this->resource, true);
 				$retVal = imagejpeg($this->resource, $filePath, $this->getJpegQuality());
 				break;
 			case IMAGETYPE_PNG:
@@ -1149,7 +1148,7 @@ if (!function_exists('exif_imagetype')) {
 	 *
 	 * @link https://www.php.net/manual/en/function.exif-imagetype.php#80383
 	 * @param string $fileName
-	 * @return string|boolean
+	 * @return int|false
 	 */
 	function exif_imagetype(string $fileName) {
 		if (($info = getimagesize($fileName)) !== false) {

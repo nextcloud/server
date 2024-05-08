@@ -67,9 +67,7 @@ OC.L10N.register(
     "User settings" : "Потребителски настройки",
     "Disable user theming" : "Деактивиране на тематичните настройки на потребителите",
     "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can toggle this on." : "Въпреки че можете да изберете и персонализирате вашият екземпляр, потребителите могат да променят своя фон и цветове. Ако искате да наложите персонализирането си, можете да включите тази опция.",
-    "Background" : "Фон",
     "Customization has been disabled by your administrator" : "Възможността за персонализация е била деактивирана от вашия администратор",
-    "Set a custom background" : "Задаване на персонализиран фон",
     "Keyboard shortcuts" : "Бързи клавиши",
     "In some cases keyboard shortcuts can interfere with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps." : "В някои случаи бързите клавишни комбинации могат да пречат на инструментите за достъпност. За да се позволи правилно фокусиране върху инструмента, можете да деактивирате всички клавишни комбинации тук. Това ще деактивира и всички налични преки пътища в приложенията.",
     "Disable all keyboard shortcuts" : "Деактивиране на всички бързи клавишни комбинации",
@@ -86,6 +84,8 @@ OC.L10N.register(
     "Reset to default" : "Настройки по подразбиране",
     "Upload" : "Качване",
     "Remove background image" : "Премахни фоновото изображение",
+    "Background" : "Фон",
+    "Set a custom background" : "Задаване на персонализиран фон",
     "Select a custom color" : "Избор на персонализиран цвят"
 },
 "nplurals=2; plural=(n != 1);");

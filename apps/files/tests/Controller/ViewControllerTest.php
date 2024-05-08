@@ -153,11 +153,6 @@ class ViewControllerTest extends TestCase {
 			]);
 
 		$this->config
-		->expects($this->any())
-			->method('getSystemValue')
-			->with('forbidden_chars', [])
-			->willReturn([]);
-		$this->config
 			->method('getUserValue')
 			->willReturnMap([
 				[$this->user->getUID(), 'files', 'file_sorting', 'name', 'name'],

@@ -126,24 +126,23 @@ class Trashbin {
 	}
 
 	/**
-	 * get original location of files for user
+	 * get original location and deleted by of files for user
 	 *
 	 * @param string $user
-	 * @return array (filename => array (timestamp => original location))
+	 * @return array<string, array<string, array{location: string, deletedBy: string}>>
 	 */
-	public static function getLocations($user) {
+	public static function getExtraData($user) {
 		$query = \OC::$server->getDatabaseConnection()->getQueryBuilder();
-		$query->select('id', 'timestamp', 'location')
+		$query->select('id', 'timestamp', 'location', 'deleted_by')
 			->from('files_trash')
 			->where($query->expr()->eq('user', $query->createNamedParameter($user)));
 		$result = $query->executeQuery();
 		$array = [];
 		while ($row = $result->fetch()) {
-			if (isset($array[$row['id']])) {
-				$array[$row['id']][$row['timestamp']] = $row['location'];
-			} else {
-				$array[$row['id']] = [$row['timestamp'] => $row['location']];
-			}
+			$array[$row['id']][$row['timestamp']] = [
+				'location' => (string)$row['location'],
+				'deletedBy' => (string)$row['deleted_by'],
+			];
 		}
 		$result->closeCursor();
 		return $array;
@@ -228,7 +227,8 @@ class Trashbin {
 				->setValue('id', $query->createNamedParameter($targetFilename))
 				->setValue('timestamp', $query->createNamedParameter($timestamp))
 				->setValue('location', $query->createNamedParameter($targetLocation))
-				->setValue('user', $query->createNamedParameter($user));
+				->setValue('user', $query->createNamedParameter($user))
+				->setValue('deleted_by', $query->createNamedParameter($user));
 			$result = $query->executeStatement();
 			if (!$result) {
 				\OC::$server->get(LoggerInterface::class)->error('trash bin database couldn\'t be updated for the files owner', ['app' => 'files_trashbin']);
@@ -358,7 +358,8 @@ class Trashbin {
 				->setValue('id', $query->createNamedParameter($filename))
 				->setValue('timestamp', $query->createNamedParameter($timestamp))
 				->setValue('location', $query->createNamedParameter($location))
-				->setValue('user', $query->createNamedParameter($owner));
+				->setValue('user', $query->createNamedParameter($owner))
+				->setValue('deleted_by', $query->createNamedParameter($user));
 			$result = $query->executeStatement();
 			if (!$result) {
 				\OC::$server->get(LoggerInterface::class)->error('trash bin database couldn\'t be updated', ['app' => 'files_trashbin']);

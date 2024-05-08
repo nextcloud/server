@@ -560,7 +560,6 @@ class AppTest extends \Test\TestCase {
 		$this->overwriteService(AppManager::class, new AppManager(
 			\OC::$server->getUserSession(),
 			\OC::$server->getConfig(),
-			$appConfig,
 			\OC::$server->getGroupManager(),
 			\OC::$server->getMemCacheFactory(),
 			\OC::$server->get(IEventDispatcher::class),

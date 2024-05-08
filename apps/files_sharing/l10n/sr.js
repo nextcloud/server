@@ -208,8 +208,10 @@ OC.L10N.register(
     "Share" : "Подели",
     "Delete share" : "Обриши дељење",
     "Share with {userName}" : "Подели са {userName}",
+    "Share with email {email}" : "Подели и-мејлом {email}",
     "Share with group" : "Подели са групом",
     "Share in conversation" : "Подели у разговор",
+    "Share with {user} on remote server {server}" : "Дели са {user} на удаљеном серверу {server}",
     "Share with remote group" : "Подели са удаљеном групом",
     "Share with guest" : "Подели са гостом",
     "Update share" : "Ажурирај дељење",
@@ -312,8 +314,6 @@ OC.L10N.register(
     "the item was removed" : "ставка је уклоњена",
     "the link expired" : "веза је истекла",
     "sharing is disabled" : "дељење је искључено",
-    "For more info, please ask the person who sent this link." : "За више информација, питајте особу која вам је послала везу.",
-    "Share with remote" : "Подели са удаљеним",
-    "Share with" : "Подели са"
+    "For more info, please ask the person who sent this link." : "За више информација, питајте особу која вам је послала везу."
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

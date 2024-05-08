@@ -208,8 +208,10 @@ OC.L10N.register(
     "Share" : "分享",
     "Delete share" : "刪除分享",
     "Share with {userName}" : "與 {userName} 分享",
+    "Share with email {email}" : "與電郵地址 {email} 分享",
     "Share with group" : "與群組分享",
     "Share in conversation" : "在對話中分享",
+    "Share with {user} on remote server {server}" : "與遠端伺服器 {server} 上的 {user} 分享",
     "Share with remote group" : "與遠端群組分享",
     "Share with guest" : "與訪客分享",
     "Update share" : "更新分享",
@@ -312,8 +314,6 @@ OC.L10N.register(
     "the item was removed" : "項目已經移除",
     "the link expired" : "連結已過期",
     "sharing is disabled" : "分享功能已停用",
-    "For more info, please ask the person who sent this link." : "請詢問告訴您此連結的人以瞭解更多",
-    "Share with remote" : "與遠端分享",
-    "Share with" : "分享與"
+    "For more info, please ask the person who sent this link." : "請詢問告訴您此連結的人以瞭解更多"
 },
 "nplurals=1; plural=0;");

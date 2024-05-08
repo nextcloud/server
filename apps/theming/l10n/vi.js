@@ -70,9 +70,7 @@ OC.L10N.register(
     "User settings" : "Thiết lập người dùng",
     "Disable user theming" : "Tắt chủ đề người dùng",
     "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can toggle this on." : "Mặc dù bạn có thể chọn và tùy chỉnh phiên bản của mình nhưng người dùng có thể thay đổi nền và màu sắc của họ. Nếu bạn muốn thực thi tùy chỉnh của mình, bạn có thể bật tính năng này.",
-    "Background" : "Nền",
     "Customization has been disabled by your administrator" : "Tùy chỉnh đã bị quản trị viên của bạn vô hiệu hóa",
-    "Set a custom background" : "Đặt nền tùy chỉnh",
     "Keyboard shortcuts" : "Phím tắt",
     "In some cases keyboard shortcuts can interfere with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps." : "Trong một số trường hợp, phím tắt có thể ảnh hưởng đến các công cụ trợ năng. Để cho phép tập trung vào công cụ của bạn một cách chính xác, bạn có thể tắt tất cả các phím tắt tại đây. Điều này cũng sẽ vô hiệu hóa tất cả các phím tắt có sẵn trong ứng dụng.",
     "Disable all keyboard shortcuts" : "Vô hiệu hóa tất cả các phím tắt",
@@ -106,6 +104,8 @@ OC.L10N.register(
     "Reset to default" : "Đặt lại về mặc định",
     "Upload" : "Tải lên",
     "Remove background image" : "Xóa bỏ ảnh nền",
+    "Background" : "Nền",
+    "Set a custom background" : "Đặt nền tùy chỉnh",
     "Select a custom color" : "Chọn màu tùy chỉnh"
 },
 "nplurals=1; plural=0;");

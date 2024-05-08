@@ -524,6 +524,7 @@ class Local extends \OC\Files\Storage\Common {
 		$realPath = realpath($pathToResolve);
 		while ($realPath === false) { // for non existing files check the parent directory
 			$currentPath = dirname($currentPath);
+			/** @psalm-suppress TypeDoesNotContainType Let's be extra cautious and still check for empty string */
 			if ($currentPath === '' || $currentPath === '.') {
 				return $fullPath;
 			}

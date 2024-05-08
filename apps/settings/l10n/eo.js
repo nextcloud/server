@@ -270,6 +270,8 @@ OC.L10N.register(
     "Error while updating device token scope" : "Eraro dum ĝisdatigo de la amplekso de la aparataj ĵetonoj",
     "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "Estis tro multaj petoj de via reto. Reprovu poste aŭ kontaktu vian administranton se tio estas eraro.",
     "Forum" : "Forumo",
+    "Legal notice" : "Leĝa regularo",
+    "Privacy policy" : "Privateca regularo",
     "SSL" : "SSL",
     "Open documentation" : "Malfermi la dokumentaron",
     "It is important to set up this server to be able to send emails, like for password reset and notifications." : "Gravas agordi tiun ĉi servilon por povi sendi retpoŝtmesaĝojn, ekz. por restarigo de pasvorto aŭ sciigoj.",

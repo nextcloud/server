@@ -293,6 +293,8 @@ OC.L10N.register(
     "Error while updating device token scope" : "Galat saat memperbarui bidang token perangkat",
     "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "Ada terlalu banyak permintaan dari jaringan Anda. Coba lagi nanti atau hubungi administrator Anda jika ini adalah kesalahan.",
     "Forum" : "Forum",
+    "Legal notice" : "Pemberitahuan hukum",
+    "Privacy policy" : "Kebijakan privasi",
     "SSL" : "SSL",
     "Open documentation" : "Buka dokumentasi",
     "It is important to set up this server to be able to send emails, like for password reset and notifications." : "Sangat penting untuk mengatur server ini untuk dapat mengirim surat, seperti melakukan reset kata sandi dan notifikasi.",

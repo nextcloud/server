@@ -211,10 +211,9 @@ class JobList implements IJobList {
 	}
 
 	/**
-	 * Get the next job in the list
-	 * @return ?IJob the next job to run. Beware that this object may be a singleton and may be modified by the next call to buildJob.
+	 * @inheritDoc
 	 */
-	public function getNext(bool $onlyTimeSensitive = false): ?IJob {
+	public function getNext(bool $onlyTimeSensitive = false, ?array $jobClasses = null): ?IJob {
 		$query = $this->connection->getQueryBuilder();
 		$query->select('*')
 			->from('jobs')
@@ -225,6 +224,14 @@ class JobList implements IJobList {
 
 		if ($onlyTimeSensitive) {
 			$query->andWhere($query->expr()->eq('time_sensitive', $query->createNamedParameter(IJob::TIME_SENSITIVE, IQueryBuilder::PARAM_INT)));
+		}
+
+		if ($jobClasses !== null && count($jobClasses) > 0) {
+			$orClasses = $query->expr()->orx();
+			foreach ($jobClasses as $jobClass) {
+				$orClasses->add($query->expr()->eq('class', $query->createNamedParameter($jobClass, IQueryBuilder::PARAM_STR)));
+			}
+			$query->andWhere($orClasses);
 		}
 
 		$result = $query->executeQuery();
@@ -261,7 +268,7 @@ class JobList implements IJobList {
 
 			if ($count === 0) {
 				// Background job already executed elsewhere, try again.
-				return $this->getNext($onlyTimeSensitive);
+				return $this->getNext($onlyTimeSensitive, $jobClasses);
 			}
 
 			if ($job === null) {
@@ -274,7 +281,7 @@ class JobList implements IJobList {
 				$reset->executeStatement();
 
 				// Background job from disabled app, try again.
-				return $this->getNext($onlyTimeSensitive);
+				return $this->getNext($onlyTimeSensitive, $jobClasses);
 			}
 
 			return $job;
@@ -431,5 +438,27 @@ class JobList implements IJobList {
 			$this->logger->debug('Querying reserved jobs failed', ['exception' => $e]);
 			return false;
 		}
+	}
+
+	public function countByClass(): array {
+		$query = $this->connection->getQueryBuilder();
+		$query->select('class')
+			->selectAlias($query->func()->count('id'), 'count')
+			->from('jobs')
+			->orderBy('count')
+			->groupBy('class');
+
+		$result = $query->executeQuery();
+
+		$jobs = [];
+
+		while (($row = $result->fetch()) !== false) {
+			/**
+			 * @var array{count:int, class:class-string} $row
+			 */
+			$jobs[] = $row;
+		}
+
+		return $jobs;
 	}
 }

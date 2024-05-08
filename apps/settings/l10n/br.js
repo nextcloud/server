@@ -283,6 +283,7 @@ OC.L10N.register(
     "Error while updating device token scope" : "Ur fazi a zo bet en ur adnevesiñ pellder ar jedouer",
     "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "Re a goulennoù a zo bet eus ar rouedat. Klaskit en dro diwezhatoc'h pe galvit ho merour m'az eus ur fazi.",
     "Forum" : "Forum",
+    "Legal notice" : "Meneg lezenn",
     "Open documentation" : "Digeriñ an dielvadur",
     "It is important to set up this server to be able to send emails, like for password reset and notifications." : "Pouezus eo stummañ ar servijour avit ma c'helfe kas posteloù, evit kemenadennoù pe posteloù evit cheñch ar ger-tremen.",
     "Send mode" : "Mod kas",

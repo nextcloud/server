@@ -850,11 +850,10 @@ class AppConfig implements IAppConfig {
 
 		// update local cache
 		if ($lazy) {
-			$cache = &$this->lazyCache;
+			$this->lazyCache[$app][$key] = $value;
 		} else {
-			$cache = &$this->fastCache;
+			$this->fastCache[$app][$key] = $value;
 		}
-		$cache[$app][$key] = $value;
 		$this->valueTypes[$app][$key] = $type;
 
 		return true;
@@ -1264,11 +1263,10 @@ class AppConfig implements IAppConfig {
 		foreach ($rows as $row) {
 			// most of the time, 'lazy' is not in the select because its value is already known
 			if (($row['lazy'] ?? ($lazy ?? 0) ? 1 : 0) === 1) {
-				$cache = &$this->lazyCache;
+				$this->lazyCache[$row['appid']][$row['configkey']] = $row['configvalue'] ?? '';
 			} else {
-				$cache = &$this->fastCache;
+				$this->fastCache[$row['appid']][$row['configkey']] = $row['configvalue'] ?? '';
 			}
-			$cache[$row['appid']][$row['configkey']] = $row['configvalue'] ?? '';
 			$this->valueTypes[$row['appid']][$row['configkey']] = (int)($row['type'] ?? 0);
 		}
 		$result->closeCursor();

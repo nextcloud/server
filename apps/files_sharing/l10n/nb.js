@@ -208,8 +208,10 @@ OC.L10N.register(
     "Share" : "Del",
     "Delete share" : "Slett delt ressurs",
     "Share with {userName}" : "Del med {userName}",
+    "Share with email {email}" : "Del med e-post {email}",
     "Share with group" : "Del med gruppe",
     "Share in conversation" : "Del i samtalen",
+    "Share with {user} on remote server {server}" : "Del med {user} på ekstern server {server}",
     "Share with remote group" : "Del med fjerngruppe",
     "Share with guest" : "Del med gjest",
     "Update share" : "Oppdater delt ressurs",
@@ -312,8 +314,6 @@ OC.L10N.register(
     "the item was removed" : "elementet er fjernet",
     "the link expired" : "lenken er utløpt",
     "sharing is disabled" : "deling er avskrudd",
-    "For more info, please ask the person who sent this link." : "For mer informasjon, spør personen som sendte lenken.",
-    "Share with remote" : "Del med ekstern",
-    "Share with" : "Del med"
+    "For more info, please ask the person who sent this link." : "For mer informasjon, spør personen som sendte lenken."
 },
 "nplurals=2; plural=(n != 1);");

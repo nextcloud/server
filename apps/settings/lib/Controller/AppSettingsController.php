@@ -402,7 +402,7 @@ class AppSettingsController extends Controller {
 			try {
 				$this->appManager->getAppPath($app['id']);
 				$existsLocally = true;
-			} catch (AppPathNotFoundException $e) {
+			} catch (AppPathNotFoundException) {
 				$existsLocally = false;
 			}
 

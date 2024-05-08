@@ -1,12 +1,12 @@
 { "translations": {
     "Files" : "Faýllar",
     "seconds ago" : "Sekunt öň",
-    "Help" : "Kömek",
     "Settings" : "Sazlamalar",
     "Log out" : "Hasapdan çykmak",
     "Twitter" : "Twitter",
     "Website" : "Website",
     "Address" : "Salgysy",
-    "About" : "Hakynda"
+    "About" : "Hakynda",
+    "Help" : "Kömek"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

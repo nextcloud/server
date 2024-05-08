@@ -737,8 +737,10 @@
     "Account documentation" : "Account documentation",
     "Administration documentation" : "Administration documentation",
     "Forum" : "Forum",
-    "Nextcloud help resources" : "Nextcloud help resources",
+    "Nextcloud help & privacy resources" : "Nextcloud help & privacy resources",
     "General documentation" : "General documentation",
+    "Legal notice" : "Legal notice",
+    "Privacy policy" : "Privacy policy",
     "None/STARTTLS" : "None/STARTTLS",
     "SSL" : "SSL",
     "Open documentation" : "Open documentation",
@@ -884,6 +886,7 @@
     "Send welcome email to new users" : "Send welcome email to new users",
     "User management" : "User management",
     "Creating group …" : "Creating group …",
-    "User group: {group}" : "User group: {group}"
+    "User group: {group}" : "User group: {group}",
+    "Nextcloud help resources" : "Nextcloud help resources"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

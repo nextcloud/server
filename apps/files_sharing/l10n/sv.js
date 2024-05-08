@@ -208,8 +208,10 @@ OC.L10N.register(
     "Share" : "Dela",
     "Delete share" : "Ta bort delning",
     "Share with {userName}" : "Dela med {userName}",
+    "Share with email {email}" : "Dela med e-post {email}",
     "Share with group" : "Dela med grupp",
     "Share in conversation" : "Dela i konversation",
+    "Share with {user} on remote server {server}" : "Dela med {user} på fjärrserver {server}",
     "Share with remote group" : "Dela med remote grupp",
     "Share with guest" : "Dela med gäst",
     "Update share" : "Uppdatera delning",
@@ -312,8 +314,6 @@ OC.L10N.register(
     "the item was removed" : "objektet togs bort",
     "the link expired" : "giltighet för länken har gått ut",
     "sharing is disabled" : "delning är inaktiverat",
-    "For more info, please ask the person who sent this link." : "För mer information, kontakta den person som skickade den här länken.",
-    "Share with remote" : "Dela med remote",
-    "Share with" : "Dela med"
+    "For more info, please ask the person who sent this link." : "För mer information, kontakta den person som skickade den här länken."
 },
 "nplurals=2; plural=(n != 1);");

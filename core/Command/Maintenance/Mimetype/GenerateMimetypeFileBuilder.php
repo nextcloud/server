@@ -31,7 +31,7 @@ class GenerateMimetypeFileBuilder {
 	/**
 	 * Generate mime type list file
 	 *
-	 * @param array $aliases
+	 * @param array<string,string> $aliases
 	 * @return string
 	 */
 	public function generateFile(array $aliases): string {

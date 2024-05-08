@@ -167,12 +167,6 @@ module.exports = {
 			// We need to provide the path to node_moduels as otherwise npm link will fail due
 			// to tribute.js checking for jQuery in @nextcloud/vue
 			jQuery: path.resolve(path.join(__dirname, 'node_modules/jquery')),
-
-			// Shim ICAL to prevent using the global object (window.ICAL).
-			// The library ical.js heavily depends on instanceof checks which will
-			// break if two separate versions of the library are used (e.g. bundled one
-			// and global one).
-			ICAL: 'ical.js',
 		}),
 
 		new WorkboxPlugin.GenerateSW({

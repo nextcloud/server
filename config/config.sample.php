@@ -160,6 +160,13 @@ $CONFIG = [
 ],
 
 /**
+ * Add request id to the database query in a comment.
+ *
+ * This can be enabled to assist in mapping database logs to Nextcloud logs.
+ */
+'db.log_request_id' => false,
+
+/**
  * Indicates whether the Nextcloud instance was installed successfully; ``true``
  * indicates a successful installation, and ``false`` indicates an unsuccessful
  * installation.
@@ -1965,7 +1972,7 @@ $CONFIG = [
 /**
  * Blacklist characters from being used in filenames. This is useful if you
  * have a filesystem or OS which does not support certain characters like windows.
- * 
+ *
  * The '/' and '\' characters are always forbidden.
  *
  * Example for windows systems: ``array('?', '<', '>', ':', '*', '|', '"', chr(0), "\n", "\r")``
@@ -2311,7 +2318,7 @@ $CONFIG = [
 /**
  * Timeout for the login form, after this time the login form is reset.
  * This prevents password leaks on public devices if the user forgots to clear the form.
- * 
+ *
  * Default is 5 minutes (300 seconds), a value of 0 means no timeout.
  */
 'login_form_timeout' => 300,

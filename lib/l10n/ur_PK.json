@@ -7,7 +7,6 @@
     "last year" : "پچھلے سال",
     "seconds ago" : "سیکنڈز پہلے",
     "__language_name__" : "اردو",
-    "Help" : "مدد",
     "Apps" : "ایپز",
     "Settings" : "سیٹینگز",
     "Log out" : "لاگ آؤٹ",
@@ -31,6 +30,7 @@
     "September" : "ستمبر",
     "October" : "اکتوبر",
     "November" : "نومبر",
-    "December" : "دسمبر"
+    "December" : "دسمبر",
+    "Help" : "مدد"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

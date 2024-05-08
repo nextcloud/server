@@ -467,8 +467,9 @@ OC.L10N.register(
     "Account documentation" : "Tài liệu tài khoản",
     "Administration documentation" : "Tài liệu hành chính",
     "Forum" : "Diễn đàn",
-    "Nextcloud help resources" : "Tài nguyên trợ giúp của Nextcloud",
     "General documentation" : "Tài liệu chung",
+    "Legal notice" : "Thông cáo pháp lý",
+    "Privacy policy" : "Chính sách riêng tư",
     "Open documentation" : "Mở tài liệu",
     "It is important to set up this server to be able to send emails, like for password reset and notifications." : "Điều quan trọng là phải thiết lập máy chủ này để có thể gửi email, chẳng hạn như để đặt lại mật khẩu và thông báo.",
     "Send mode" : "Chế độ gửi",
@@ -589,6 +590,7 @@ OC.L10N.register(
     "Failed to update user manager" : "Không cập nhật được trình quản lý người dùng",
     "User management settings" : "Cài đặt quản lý người dùng",
     "Send welcome email to new users" : "Gửi email chào mừng tới người dùng mới",
-    "Creating group …" : "Đang tạo nhóm…"
+    "Creating group …" : "Đang tạo nhóm…",
+    "Nextcloud help resources" : "Tài nguyên trợ giúp của Nextcloud"
 },
 "nplurals=1; plural=0;");

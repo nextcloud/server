@@ -205,8 +205,10 @@
     "Share" : "Спільне",
     "Delete share" : "Вилучити зі спільного доступу",
     "Share with {userName}" : "Поділитися з {userName}",
+    "Share with email {email}" : "Поділитися через ел.пошту {email}",
     "Share with group" : "Поділитися з групою",
     "Share in conversation" : "Поширити в розмові ",
+    "Share with {user} on remote server {server}" : "Поділитися з {user} на віддаленому сервері {server}",
     "Share with remote group" : "Поділитися з віддаленою групою",
     "Share with guest" : "Поділитися з гостем",
     "Update share" : "Оновити спільний ресурс",
@@ -309,8 +311,6 @@
     "the item was removed" : "цей ресурс було вилучено",
     "the link expired" : "термін дії посилання вичерпано",
     "sharing is disabled" : "спільний доступ заборонено",
-    "For more info, please ask the person who sent this link." : "За додатковою інформацією, будь ласка, зверніться до особи, від якої ви отримали це посилання.",
-    "Share with remote" : "Поділитися з віддаленим",
-    "Share with" : "Поділитися з"
+    "For more info, please ask the person who sent this link." : "За додатковою інформацією, будь ласка, зверніться до особи, від якої ви отримали це посилання."
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);"
 }

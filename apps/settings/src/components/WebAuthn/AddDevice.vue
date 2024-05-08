@@ -2,6 +2,7 @@
   - @copyright 2020, Roeland Jago Douma <roeland@famdouma.nl>
   -
   - @author Roeland Jago Douma <roeland@famdouma.nl>
+  - @author 2024 Richard Steinmetz <richard@steinmetz.cloud>
   -
   - @license GNU AGPL version 3 or any later version
   -
@@ -39,14 +40,16 @@
 		<div v-else-if="step === RegistrationSteps.NAMING"
 			class="new-webauthn-device">
 			<span class="icon-loading-small webauthn-loading" />
-			<NcTextField ref="nameInput"
-				class="new-webauthn-device__name"
-				:label="t('settings', 'Device name')"
-				:value.sync="name"
-				show-trailing-button
-				:trailing-button-label="t('settings', 'Add')"
-				trailing-button-icon="arrowRight"
-				@trailing-button-click="submit" />
+			<form @submit.prevent="submit">
+				<NcTextField ref="nameInput"
+					class="new-webauthn-device__name"
+					:label="t('settings', 'Device name')"
+					:value.sync="name"
+					show-trailing-button
+					:trailing-button-label="t('settings', 'Add')"
+					trailing-button-icon="arrowRight"
+					@trailing-button-click="submit" />
+			</form>
 		</div>
 
 		<div v-else-if="step === RegistrationSteps.PERSIST"

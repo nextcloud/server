@@ -722,6 +722,9 @@ OC.L10N.register(
     "The app will be downloaded from the App Store" : "Uygulama uygulama mağazasından indirilecek",
     "This app is not marked as compatible with your Nextcloud version. If you continue you will still be able to install the app. Note that the app might not work as expected." : "Bu uygulamanın kullandığınız Nextcloud sürümü ile uyumluluğu denetlenmemiş. İşlemi sürdürerek uygulamayı kurabilirsiniz. Ancak uygulama beklendiği gibi çalışmayabilir.",
     "Never" : "Asla",
+    "Could not register device: Network error" : "Aygıt kaydedilemedi: Ağ sorunu",
+    "Could not register device: Probably already registered" : "Aygıt kaydedilemedi: Büyük olasılıkla zaten kayıtlı",
+    "Could not register device" : "Aygıt kaydedilemedi",
     "An error occurred during the request. Unable to proceed." : "İstek sırasında bir sorun çıktı. İşlem sürdürülemiyor.",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "Uygulama etkinleştirilmiş fakat güncellenmesi gerekiyor. 5 saniye içinde güncelleme sayfasına yönlendirileceksiniz.",
     "Error: This app cannot be enabled because it makes the server unstable" : "Hata: Bu uygulama sunucuda kararsızlığa yol açtığından etkinleştirilemez",
@@ -736,8 +739,10 @@ OC.L10N.register(
     "Account documentation" : "Hesap belgeleri",
     "Administration documentation" : "Yönetim belgeleri",
     "Forum" : "Forum",
-    "Nextcloud help resources" : "Nextcloud yardım kaynakları",
+    "Nextcloud help & privacy resources" : "Nextcloud yardım ve gizlilik kaynakları",
     "General documentation" : "Genel belgeler",
+    "Legal notice" : "Yasal bildirim",
+    "Privacy policy" : "Gizlilik ilkesi",
     "None/STARTTLS" : "Yok/STARTTLS",
     "SSL" : "SSL",
     "Open documentation" : "Belgeleri aç",
@@ -870,6 +875,7 @@ OC.L10N.register(
     "These groups will still be able to receive shares, but not to initiate them." : "Bu gruplar paylaşımları alabilir ancak başlatamaz.",
     "Old user imported certificates" : "Kullanıcının içe aktardığı eski sertifikalar",
     "Could not check for JavaScript support. Please check manually if your webserver serves `.mjs` files using the JavaScript MIME type." : "JavaScript desteği kontrol edilemedi. Lütfen site sunucunuzun JavaScript MIME türünü kullanarak `.mjs` dosyalarını sunup sunmadığını el ile denetleyin.",
+    "MySQL unicode support" : "MySQL unikod desteği",
     "Overwrite cli URL" : "CLI adresi değişikliği",
     "You are currently running PHP %s. PHP 8.0 is now deprecated in Nextcloud 27. Nextcloud 28 may require at least PHP 8.1. Please upgrade to one of the officially supported PHP versions provided by the PHP Group as soon as possible." : "Şu anda PHP %s kullanıyorsunuz. PHP 8.0 son olarak Nextcloud 27 sürümünde destekleniyor. Nextcloud 28 için en az PHP 8.1 gerekebilir. Lütfen olabilecek en kısa sürede PHP Group tarafından sağlanan resmi olarak desteklenen PHP sürümlerinden birine yükseltin.",
     "Rating: {score}/10" : "Değerlendirme: {score}/10",
@@ -882,6 +888,7 @@ OC.L10N.register(
     "Send welcome email to new users" : "Yeni kullanıcılara hoş geldiniz e-postası gönderilsin",
     "User management" : "Kullanıcı yönetimi",
     "Creating group …" : "Grup ekleniyor…",
-    "User group: {group}" : "Kullanıcı grubu: {group}"
+    "User group: {group}" : "Kullanıcı grubu: {group}",
+    "Nextcloud help resources" : "Nextcloud yardım kaynakları"
 },
 "nplurals=2; plural=(n > 1);");

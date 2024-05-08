@@ -312,8 +312,6 @@ OC.L10N.register(
     "the item was removed" : "o item foi removido",
     "the link expired" : "o link expirou",
     "sharing is disabled" : "o compartilhamento está desativado",
-    "For more info, please ask the person who sent this link." : "Para mais informações, pergunte à pessoa que lhe enviou o link.",
-    "Share with remote" : "Compartilhar com controle remoto",
-    "Share with" : "Compartilhar com"
+    "For more info, please ask the person who sent this link." : "Para mais informações, pergunte à pessoa que lhe enviou o link."
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
