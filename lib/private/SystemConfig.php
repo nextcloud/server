@@ -54,6 +54,7 @@ class SystemConfig {
 		'passwordsalt' => true,
 		'secret' => true,
 		'updater.secret' => true,
+		'updater.server.url' => true,
 		'trusted_proxies' => true,
 		'preview_imaginary_url' => true,
 		'proxyuserpwd' => true,
