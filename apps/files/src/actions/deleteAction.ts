@@ -22,7 +22,7 @@
 import { emit } from '@nextcloud/event-bus'
 import { Permission, Node, View, FileAction, FileType } from '@nextcloud/files'
 import { showInfo } from '@nextcloud/dialogs'
-import { translate as t, translatePlural as n } from '@nextcloud/l10n'
+import { translate as t } from '@nextcloud/l10n'
 import axios from '@nextcloud/axios'
 
 import CloseSvg from '@mdi/svg/svg/close.svg?raw'
