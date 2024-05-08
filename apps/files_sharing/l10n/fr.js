@@ -208,7 +208,7 @@ OC.L10N.register(
     "Share" : "Partager",
     "Delete share" : "Supprimer le partage",
     "Share with {userName}" : "Partager avec {userName}",
-    "Share with email {email}" : "Partager avec l’adresse électronique {email}",
+    "Share with email {email}" : "Partager avec l'e-mail {email}",
     "Share with group" : "Partager avec le groupe",
     "Share in conversation" : "Partager dans la conversation",
     "Share with {user} on remote server {server}" : "Partager avec {user} sur le serveur distant {server}",
