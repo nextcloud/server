@@ -92,7 +92,7 @@
     "When logging in, %s will find the user based on the following attributes:" : "À la connexion, %s cherchera l'utilisateur sur la base des attributs suivant :",
     "LDAP/AD Username:" : "Nom d’utilisateur LDAP/AD :",
     "Allows login against the LDAP/AD username, which is either \"uid\" or \"sAMAccountName\" and will be detected." : "Autorise l'authentification à partir du nom d'utilisateur LDAP/AD.Celui-ci sera détecté et pourra être soit \"uid\", soit \"sAMAccountName\".",
-    "LDAP/AD Email Address:" : "Adresse électronique LDAP/AD :",
+    "LDAP/AD Email Address:" : "Adresse e-mail LDAP/AD :",
     "Allows login against an email attribute. \"mail\" and \"mailPrimaryAddress\" allowed." : "Autorise l'authentification par adresse e-mail. \"mail\" et \"mailPrimaryAddress\" sont autorisés.",
     "Other Attributes:" : "Autres attributs :",
     "Defines the filter to apply, when login is attempted. \"%%uid\" replaces the username in the login action. Example: \"uid=%%uid\"" : "Définit le filtre à appliquer lors de la tentative de connexion. \"%%uid\" remplace le nom d'utilisateur lors de l'authentification. Exemple: \"uid=%%uid\"",
