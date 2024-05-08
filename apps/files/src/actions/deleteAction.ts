@@ -30,6 +30,7 @@ import NetworkOffSvg from '@mdi/svg/svg/network-off.svg?raw'
 import TrashCanSvg from '@mdi/svg/svg/trash-can.svg?raw'
 
 import logger from '../logger.js'
+import PQueue from 'p-queue'
 
 const canUnshareOnly = (nodes: Node[]) => {
 	return nodes.every(node => node.attributes['is-mount-root'] === true
@@ -119,6 +120,8 @@ const displayName = (nodes: Node[], view: View) => {
 	return t('files', 'Delete')
 }
 
+const queue = new PQueue({ concurrency: 1 })
+
 export const action = new FileAction({
 	id: 'delete',
 	displayName,
@@ -183,7 +186,19 @@ export const action = new FileAction({
 			return Promise.all(nodes.map(() => false))
 		}
 
-		return Promise.all(nodes.map(node => this.exec(node, view, dir)))
+		// Map each node to a promise that resolves with the result of exec(node)
+		const promises = nodes.map(node => {
+		    // Create a promise that resolves with the result of exec(node)
+		    const promise = new Promise<boolean>(resolve => {
+				queue.add(async () => {
+					const result = await this.exec(node, view, dir)
+					resolve(result !== null ? result : false)
+				})
+			})
+			return promise
+		})
+
+		return Promise.all(promises)
 	},
 
 	order: 100,
