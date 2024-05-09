@@ -184,6 +184,7 @@ OC.L10N.register(
     "Folder name" : "Mappnamn",
     "This node is unavailable" : "Den här noden är inte tillgänglig",
     "Download file {name}" : "Ladda ner filen {name}",
+    "Invalid file name" : "Ogiltigt filnamn",
     "\"{name}\" is not an allowed filetype." : "\"{name}\" är inte en tillåten filtyp.",
     "{newName} already exists." : "{newName} finns redan.",
     "\"{char}\" is not allowed inside a file name." : "\"{char}\" är inte tillåtet i ett filnamn.",
