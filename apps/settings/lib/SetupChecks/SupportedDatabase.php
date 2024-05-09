@@ -64,12 +64,12 @@ class SupportedDatabase implements ISetupCheck {
 			$versionlc = strtolower($version);
 
 			if (str_contains($versionlc, 'mariadb')) {
-				if (version_compare($versionlc, '10.2', '<')) {
-					return SetupResult::warning($this->l10n->t('MariaDB version "%s" is used. Nextcloud 21 and higher do not support this version and require MariaDB 10.2 or higher.', $version));
+				if (version_compare($versionlc, '10.3', '<') || version_compare($versionlc, '10.11', '>')) {
+					return SetupResult::warning($this->l10n->t('MariaDB version "%s" detected. MariaDB >=10.3 and <=10.11 is suggested for best performance, stability and functionality with this version of Nextcloud.', $version));
 				}
 			} else {
-				if (version_compare($versionlc, '8', '<')) {
-					return SetupResult::warning($this->l10n->t('MySQL version "%s" is used. Nextcloud 21 and higher do not support this version and require MySQL 8.0 or MariaDB 10.2 or higher.', $version));
+				if (version_compare($versionlc, '8.0', '<') || version_compare($versionlc, '8.3', '>')) {
+					return SetupResult::warning($this->l10n->t('MySQL version "%s" detected. MySQL >=8.0 and <=8.3 is suggested for best performance, stability and functionality with this version of Nextcloud.', $version));
 				}
 			}
 		} elseif ($databasePlatform instanceof PostgreSQLPlatform) {
@@ -77,8 +77,8 @@ class SupportedDatabase implements ISetupCheck {
 			$result->execute();
 			$row = $result->fetch();
 			$version = $row['server_version'];
-			if (version_compare(strtolower($version), '9.6', '<')) {
-				return SetupResult::warning($this->l10n->t('PostgreSQL version "%s" is used. Nextcloud 21 and higher do not support this version and require PostgreSQL 9.6 or higher.', $version));
+			if (version_compare(strtolower($version), '12', '<') || version_compare(strtolower($version, '16', '>') {
+				return SetupResult::warning($this->l10n->t('PostgreSQL version "%s" detected. PostgreSQL >=12 and <=16 is suggested for best performance, stability and functionality with this version of Nextcloud.', $version));
 			}
 		} elseif ($databasePlatform instanceof OraclePlatform) {
 			$version = 'Oracle';
