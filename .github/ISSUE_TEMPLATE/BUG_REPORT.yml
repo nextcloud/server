@@ -9,6 +9,14 @@ body:
         ### 👍 Thank you for contributing to our project!
         Please note this is a **free and open-source** project. Most people take on their own time to help you, so please, be patient.
         You can obtain [Enterprise support](https://nextcloud.com/support/) if you run Nextcloud Server in a mission critical environment.
+  - type: markdown
+    attributes:
+      value: |
+        ### 🚨 SECURITY INFO
+        If you are reporting a security concern, please report it via [our HackerOne page](https://hackerone.com/nextcloud) instead and review our [security policy](https://nextcloud.com/security/).
+        This allows us to coordinate the fix and release without potentially exposing all Nextcloud servers and users in the meantime.
+        It also may qualify your report for a bug bounty reward.
+        Thank you for helping make Nextcloud more secure!
   - type: checkboxes
     id: before-posting
     attributes:
