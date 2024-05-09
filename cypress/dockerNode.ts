@@ -23,119 +23,28 @@
 /* eslint-disable n/no-unpublished-import */
 /* eslint-disable n/no-extraneous-import */
 
-import Docker from 'dockerode'
-import waitOn from 'wait-on'
-import tar from 'tar'
+import type { Container } from 'dockerode'
+
 import { execSync } from 'child_process'
+import { docker, startNextcloud } from '@nextcloud/cypress/docker'
 
-export const docker = new Docker()
+import tar from 'tar'
 
-const CONTAINER_NAME = 'nextcloud-cypress-tests-server'
-const SERVER_IMAGE = 'ghcr.io/nextcloud/continuous-integration-shallow-server'
+const CONTAINER_NAME = 'nextcloud-cypress-tests'
 
 /**
- * Start the testing container
- *
- * @param {string} branch the branch of your current work
+ * Start the Nextcloud docker container
+ * @param branch Branch to run (leave empty to autodetect)
  */
-export const startNextcloud = async function(branch: string = getCurrentGitBranch()): Promise<any> {
+export const startDockerServer = (branch?: string): string => startNextcloud(branch ?? getCurrentGitBranch(), false)
 
-	try {
-		try {
-			// Pulling images
-			console.log('\nPulling images... ⏳')
-			await new Promise((resolve, reject): any => docker.pull(SERVER_IMAGE, (err, stream) => {
-				if (err) {
-					reject(err)
-				}
-				if (stream === null) {
-					reject(new Error('Could not connect to docker, ensure docker is running.'))
-					return
-				}
-
-				// https://github.com/apocas/dockerode/issues/357
-				docker.modem.followProgress(stream, onFinished)
-
-				/**
-				 *
-				 * @param err
-				 */
-				function onFinished(err) {
-					if (!err) {
-						resolve(true)
-						return
-					}
-					reject(err)
-				}
-			}))
-			console.log('└─ Done')
-		} catch (e) {
-			console.log('└─ Failed to pull images')
-			throw e
-		}
-
-		// Remove old container if exists
-		console.log('\nChecking running containers... 🔍')
-		try {
-			const oldContainer = docker.getContainer(CONTAINER_NAME)
-			const oldContainerData = await oldContainer.inspect()
-			if (oldContainerData) {
-				console.log('├─ Existing running container found')
-				console.log('├─ Removing... ⏳')
-				// Forcing any remnants to be removed just in case
-				await oldContainer.remove({ force: true })
-				console.log('└─ Done')
-			}
-		} catch (error) {
-			console.log('└─ None found!')
-		}
-
-		// Starting container
-		console.log('\nStarting Nextcloud container... 🚀')
-		console.log(`├─ Using branch '${branch}'`)
-		const container = await docker.createContainer({
-			Image: SERVER_IMAGE,
-			name: CONTAINER_NAME,
-			HostConfig: {
-				Binds: [],
-			},
-			Env: [
-				`BRANCH=${branch}`,
-			],
-		})
-		await container.start()
-
-		// Get container's IP
-		const ip = await getContainerIP(container)
-
-		console.log(`├─ Nextcloud container's IP is ${ip} 🌏`)
-		return ip
-	} catch (err) {
-		console.log('└─ Unable to start the container 🛑')
-		console.log('\n', err, '\n')
-		stopNextcloud()
-		throw new Error('Unable to start the container')
+const getCurrentGitBranch = function() {
+	const branch = execSync('git rev-parse --abbrev-ref HEAD').toString().trim() || 'master'
+	const match = branch.match(/(master|main|stable\d+)/)
+	if (match) {
+		return match[1]
 	}
-}
-
-/**
- * Configure Nextcloud
- */
-export const configureNextcloud = async function() {
-	console.log('\nConfiguring nextcloud...')
-	const container = docker.getContainer(CONTAINER_NAME)
-	await runExec(container, ['php', 'occ', '--version'], true)
-
-	// Be consistent for screenshots
-	await runExec(container, ['php', 'occ', 'config:system:set', 'default_language', '--value', 'en'], true)
-	await runExec(container, ['php', 'occ', 'config:system:set', 'force_language', '--value', 'en'], true)
-	await runExec(container, ['php', 'occ', 'config:system:set', 'default_locale', '--value', 'en_US'], true)
-	await runExec(container, ['php', 'occ', 'config:system:set', 'force_locale', '--value', 'en_US'], true)
-	await runExec(container, ['php', 'occ', 'config:system:set', 'enforce_theme', '--value', 'light'], true)
-	// Speed up test and make them less flaky. If a cron execution is needed, it can be triggered manually.
-	await runExec(container, ['php', 'occ', 'background:cron'], true)
-
-	console.log('└─ Nextcloud is now ready to use 🎉')
+	return 'master'
 }
 
 /**
@@ -146,7 +55,7 @@ export const configureNextcloud = async function() {
  */
 export const applyChangesToNextcloud = async function() {
 	console.log('\nApply local changes to nextcloud...')
-	const container = docker.getContainer(CONTAINER_NAME)
+	const container = docker.getContainer(CONTAINER_NAME) as Container
 
 	const htmlPath = '/var/www/html'
 	const folderPaths = [
@@ -184,71 +93,8 @@ export const applyChangesToNextcloud = async function() {
 	console.log('└─ Changes applied successfully 🎉')
 }
 
-/**
- * Force stop the testing container
- */
-export const stopNextcloud = async function() {
-	try {
-		const container = docker.getContainer(CONTAINER_NAME)
-		console.log('Stopping Nextcloud container...')
-		container.remove({ force: true })
-		console.log('└─ Nextcloud container removed 🥀')
-	} catch (err) {
-		console.log(err)
-	}
-}
-
-/**
- * Get the testing container's IP
- *
- * @param {Docker.Container} container the container to get the IP from
- */
-export const getContainerIP = async function(
-	container = docker.getContainer(CONTAINER_NAME),
-): Promise<string> {
-	let ip = ''
-	let tries = 0
-	while (ip === '' && tries < 10) {
-		tries++
-
-		await container.inspect(function(err, data) {
-			if (err) {
-				throw err
-			}
-			ip = data?.NetworkSettings?.IPAddress || ''
-		})
-
-		if (ip !== '') {
-			break
-		}
-
-		await sleep(1000 * tries)
-	}
-
-	return ip
-}
-
-// Would be simpler to start the container from cypress.config.ts,
-// but when checking out different branches, it can take a few seconds
-// Until we can properly configure the baseUrl retry intervals,
-// We need to make sure the server is already running before cypress
-// https://github.com/cypress-io/cypress/issues/22676
-export const waitOnNextcloud = async function(ip: string) {
-	console.log('├─ Waiting for Nextcloud to be ready... ⏳')
-	await waitOn({
-		resources: [`http://${ip}/index.php`],
-		// wait for nextcloud to  be up and return any non error status
-		validateStatus: (status) => status >= 200 && status < 400,
-		// timout in ms
-		timeout: 5 * 60 * 1000,
-		// timeout for a single HTTP request
-		httpTimeout: 60 * 1000,
-	})
-	console.log('└─ Done')
-}
-
 const runExec = async function(
-	container: Docker.Container,
+	container: Container,
 	command: string[],
 	verbose = false,
 	user = 'www-data',
@@ -276,12 +122,4 @@ const runExec = async function(
 			}
 		})
 	})
-}
-
-const sleep = function(milliseconds: number) {
-	return new Promise((resolve) => setTimeout(resolve, milliseconds))
-}
-
-const getCurrentGitBranch = function() {
-	return execSync('git rev-parse --abbrev-ref HEAD').toString().trim() || 'master'
 }
