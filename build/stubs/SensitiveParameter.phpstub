@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
 #[\Attribute(Attribute::TARGET_PARAMETER)]
 class SensitiveParameter {
 }

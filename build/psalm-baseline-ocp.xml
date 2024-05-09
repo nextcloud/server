@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+ - SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <files psalm-version="5.24.0@462c80e31c34e58cc4f750c656be3927e80e550e">
   <file src="lib/private/legacy/OC_Template.php">
     <UndefinedClass>

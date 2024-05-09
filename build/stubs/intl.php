@@ -1,5 +1,8 @@
 <?php
-
+/**
+ * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
 // Start of intl v.1.1.0
 
 class Collator {

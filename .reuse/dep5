@@ -1,0 +1,16 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: nextcloud
+Upstream-Contact: Nextcloud <info@nextcloud.com>
+Source: https://github.com/nextcloud/server
+
+Files: lib/l10n/*.js lib/l10n/*.json core/l10n/*.js core/l10n/*.json apps/admin_audit/l10n/*.js apps/admin_audit/l10n/*.json apps/comments/l10n/*.js apps/comments/l10n/*.json apps/dav/l10n/*.js apps/dav/l10n/*.json apps/encryption/l10n/*.js apps/encryption/l10n/*.json apps/federatedfilesharing/l10n/*.js apps/federatedfilesharing/l10n/*.json apps/federation/l10n/*.js apps/federation/l10n/*.json apps/files/l10n/*.js apps/files/l10n/*.json apps/files_external/l10n/*.js apps/files_external/l10n/*.json apps/files_sharing/l10n/*.js apps/files_sharing/l10n/*.json apps/files_trashbin/l10n/*.js apps/files_trashbin/l10n/*.json apps/files_versions/l10n/*.js apps/files_versions/l10n/*.json apps/provisioning_api/l10n/*.js apps/provisioning_api/l10n/*.json apps/settings/l10n/*.js apps/settings/l10n/*.json apps/systemtags/l10n/*.js apps/systemtags/l10n/*.json apps/testing/l10n/*.js apps/testing/l10n/*.json apps/updatenotification/l10n/*.js apps/updatenotification/l10n/*.json apps/user_ldap/l10n/*.js apps/user_ldap/l10n/*.json
+Copyright: 2016 ownCloud, Inc., 2016-2024 Nextcloud translators
+License: AGPL-3.0-only OR AGPL-3.0-or-later
+
+Files: apps/cloud_federation_api/l10n/*.js apps/cloud_federation_api/l10n/*.json apps/contactsinteraction/l10n/*.js apps/contactsinteraction/l10n/*.json apps/dashboard/l10n/*.js apps/dashboard/l10n/*.json apps/files_reminders/l10n/*.js apps/files_reminders/l10n/*.json apps/lookup_server_connector/l10n/*.js apps/lookup_server_connector/l10n/*.json apps/oauth2 apps/sharebymail/l10n/*.js apps/oauth2 apps/sharebymail/l10n/*.json apps/theming/l10n/*.js apps/theming/l10n/*.json apps/twofactor_backupcodes/l10n/*.js apps/twofactor_backupcodes/l10n/*.json apps/user_status/l10n/*.js apps/user_status/l10n/*.json apps/weather_status/l10n/*.js apps/weather_status/l10n/*.json apps/workflowengine/l10n/*.js apps/workflowengine/l10n/*.json
+Copyright: 2016-2024 Nextcloud translators
+License: AGPL-3.0-or-later
+
+Files: .gitattributes composer.json composer.lock .github/CODEOWNERS __tests__/tsconfig.json tsconfig.json build/integration/composer.* build/integration/data/*.png
+Copyright: 2011-2016 ownCloud, Inc., 2016-2024 Nextcloud GmbH and Nextcloud contributors
+License: AGPL-3.0-only OR AGPL-3.0-or-later

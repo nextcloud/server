@@ -1,4 +1,8 @@
 /* eslint-disable camelcase */
+/**
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
 const { VueLoaderPlugin } = require('vue-loader')
 const path = require('path')
 const BabelLoaderExcludeNodeModulesExcept = require('babel-loader-exclude-node-modules-except')
