@@ -46,7 +46,7 @@ body:
       label: Steps to reproduce
       description: |
         Describe the steps to reproduce the bug.
-        The better your description is _(go 'here', click 'there'...)_ the fastest you'll get an _(accurate)_ answer. 
+        The better your description is _(go 'here', click 'there'...)_ the fastest you'll get an _(accurate)_ answer.
       value: |
         1.
         2.
@@ -205,7 +205,7 @@ body:
         Provide Nextcloud Signing status.
         First, login as Admin user into your Nextcloud, then access this URL:
         ```shell
-        https://yournextcloud.tld/index.php/settings/integrity/failed 
+        https://yournextcloud.tld/index.php/settings/integrity/failed
         ```
         > NOTE: This will be automatically formatted into code for better readability.
       render: shell
