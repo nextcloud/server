@@ -59,7 +59,7 @@ jobs:
           zip -r "${{ env.TARGET_PACKAGE_NAME }}" \
             3rdparty/ \
             apps/ \
-            custom-apps/ \
+            apps-custom/ \
             apps-external/ \
             config/ \
             core/ \
