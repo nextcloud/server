@@ -101,13 +101,34 @@ class TaskMapper extends QBMapper {
 	}
 
 	/**
+	 * @param string|null $userId
+	 * @param string|null $taskType
+	 * @param string|null $customId
+	 * @return list<Task>
+	 * @throws Exception
+	 */
+	public function findByUserAndTaskType(?string $userId, ?string $taskType = null, ?string $customId = null): array {
+		$qb = $this->db->getQueryBuilder();
+		$qb->select(Task::$columns)
+			->from($this->tableName)
+			->where($qb->expr()->eq('user_id', $qb->createPositionalParameter($userId)));
+		if ($taskType !== null) {
+			$qb->andWhere($qb->expr()->eq('type', $qb->createPositionalParameter($taskType)));
+		}
+		if ($customId !== null) {
+			$qb->andWhere($qb->expr()->eq('custom_id', $qb->createPositionalParameter($customId)));
+		}
+		return array_values($this->findEntities($qb));
+	}
+
+	/**
 	 * @param string $userId
 	 * @param string $appId
 	 * @param string|null $customId
 	 * @return list<Task>
 	 * @throws Exception
 	 */
-	public function findUserTasksByApp(string $userId, string $appId, ?string $customId = null): array {
+	public function findUserTasksByApp(?string $userId, string $appId, ?string $customId = null): array {
 		$qb = $this->db->getQueryBuilder();
 		$qb->select(Task::$columns)
 			->from($this->tableName)

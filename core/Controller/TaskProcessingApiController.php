@@ -201,16 +201,46 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 	 * with a specific appId and optionally with an identifier
 	 *
 	 * @param string $appId ID of the app
-	 * @param string|null $identifier An arbitrary identifier for the task
+	 * @param string|null $customId An arbitrary identifier for the task
 	 * @return DataResponse<Http::STATUS_OK, array{tasks: CoreTaskProcessingTask[]}, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR, array{message: string}, array{}>
 	 *
 	 *  200: Task list returned
 	 */
 	#[NoAdminRequired]
 	#[ApiRoute(verb: 'GET', url: '/tasks/app/{appId}', root: '/taskprocessing')]
-	public function listTasksByApp(string $appId, ?string $identifier = null): DataResponse {
+	public function listTasksByApp(string $appId, ?string $customId = null): DataResponse {
 		try {
-			$tasks = $this->taskProcessingManager->getUserTasksByApp($this->userId, $appId, $identifier);
+			$tasks = $this->taskProcessingManager->getUserTasksByApp($this->userId, $appId, $customId);
+			/** @var CoreTaskProcessingTask[] $json */
+			$json = array_map(static function (Task $task) {
+				return $task->jsonSerialize();
+			}, $tasks);
+
+			return new DataResponse([
+				'tasks' => $json,
+			]);
+		} catch (Exception $e) {
+			return new DataResponse(['message' => $this->l->t('Internal error')], Http::STATUS_INTERNAL_SERVER_ERROR);
+		} catch (\JsonException $e) {
+			return new DataResponse(['message' => $this->l->t('Internal error')], Http::STATUS_INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	/**
+	 * This endpoint returns a list of tasks of a user that are related
+	 * with a specific appId and optionally with an identifier
+	 *
+	 * @param string|null $taskType The task type to filter by
+	 * @param string|null $customId An arbitrary identifier for the task
+	 * @return DataResponse<Http::STATUS_OK, array{tasks: CoreTaskProcessingTask[]}, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR, array{message: string}, array{}>
+	 *
+	 *  200: Task list returned
+	 */
+	#[NoAdminRequired]
+	#[ApiRoute(verb: 'GET', url: '/tasks', root: '/taskprocessing')]
+	public function listTasksByUser(?string $taskType, ?string $customId = null): DataResponse {
+		try {
+			$tasks = $this->taskProcessingManager->getUserTasks($this->userId, $taskType, $customId);
 			/** @var CoreTaskProcessingTask[] $json */
 			$json = array_map(static function (Task $task) {
 				return $task->jsonSerialize();

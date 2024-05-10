@@ -136,6 +136,16 @@ interface IManager {
 	public function getUserTask(int $id, ?string $userId): Task;
 
 	/**
+	 * @param string|null $userId The user id that scheduled the task
+	 * @param string|null $taskTypeId The task type id to filter by
+	 * @return list<Task>
+	 * @throws Exception If the query failed
+	 * @throws NotFoundException If the task could not be found
+	 * @since 30.0.0
+	 */
+	public function getUserTasks(?string $userId, ?string $taskTypeId = null, ?string $customId = null): array;
+
+	/**
 	 * @param string|null $userId
 	 * @param string $appId
 	 * @param string|null $customId
