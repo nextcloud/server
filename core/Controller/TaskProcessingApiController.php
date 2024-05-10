@@ -237,6 +237,7 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 	 *  404: Task or file not found
 	 */
 	#[NoAdminRequired]
+	#[Http\Attribute\NoCSRFRequired]
 	#[ApiRoute(verb: 'GET', url: '/tasks/{taskId}/file/{fileId}', root: '/taskprocessing')]
 	public function getFileContents(int $taskId, int $fileId): Http\DataDownloadResponse|DataResponse {
 		try {
