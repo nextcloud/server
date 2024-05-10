@@ -1,7 +1,7 @@
 <?php
 
 /**
- * SPDX-FileCopyrightText: 2020 Lukas Reschke <lukas@statuscode.ch>
+ * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: MIT
  */
 use Psalm\CodeLocation;

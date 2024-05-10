@@ -1,8 +1,5 @@
 <?php
-/**
- * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
- * SPDX-License-Identifier: AGPL-3.0-or-later
- */
+
 define('NET_SSH2_MSG_DISCONNECT', 1);
 define('NET_SSH2_MSG_IGNORE', 2);
 define('NET_SSH2_MSG_UNIMPLEMENTED', 3);

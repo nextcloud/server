@@ -1,8 +1,5 @@
 <?php
-/**
- * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
- * SPDX-License-Identifier: AGPL-3.0-or-later
- */
+
 /**
  * <p>IntlChar provides access to a number of utility methods that can be used to access information about Unicode characters.</p>
  * <p>The methods and constants adhere closely to the names and behavior used by the underlying ICU library.</p>

@@ -1,8 +1,5 @@
 <?php
-/**
- * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
- * SPDX-License-Identifier: AGPL-3.0-or-later
- */
+
 define('NET_SFTP_INIT', 1);
 define('NET_SFTP_VERSION', 2);
 define('NET_SFTP_OPEN', 3);

@@ -1,8 +1,6 @@
 <?php
-/**
- * SPDX-FileCopyrightText: 2022 JetBrains
- * SPDX-License-Identifier: Apache-2.0
- */
+
+// Licensed under Apache-2.0
 // Copied from https://github.com/JetBrains/phpstorm-stubs/blob/master/zip/zip.php
 // Removed attributes
 

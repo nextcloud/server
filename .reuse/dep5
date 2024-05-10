@@ -7,6 +7,22 @@ Files: lib/l10n/*.js lib/l10n/*.json core/l10n/*.js core/l10n/*.json apps/admin_
 Copyright: 2016 ownCloud, Inc., 2016-2024 Nextcloud translators
 License: AGPL-3.0-only OR AGPL-3.0-or-later
 
+Files: build/psalm-baseline-ocp.xml build/psalm-baseline.xml build/stubs/xsl.php build/stubs/gd.php build/stubs/imagick.php build/stubs/intl.php build/stubs/IntlChar.php build/stubs/ldap.php build/stubs/memcached.php build/stubs/redis.php build/stubs/redis_cluster.php build/stubs/sftp.php build/stubs/ssh2.php build/stubs/apcu.php
+Copyright: 2020 Nextcloud GmbH and Nextcloud contributors
+License: AGPL-3.0-or-later
+
+Files: build/stubs/pcntl.php build/stubs/zip.php
+Copyright: 2022 JetBrains
+License: Apache-2.0
+
+Files: build/stubs/ftp.php
+Copyright: 2022 Nextcloud GmbH and Nextcloud contributors
+License: AGPL-3.0-or-later
+
+Files: build/stubs/app_api.php build/stubs/SensitiveParameter.phpstub build/stubs/psr_container.php
+Copyright: 2023 Nextcloud GmbH and Nextcloud contributors
+License: AGPL-3.0-or-later
+
 Files: apps/cloud_federation_api/l10n/*.js apps/cloud_federation_api/l10n/*.json apps/contactsinteraction/l10n/*.js apps/contactsinteraction/l10n/*.json apps/dashboard/l10n/*.js apps/dashboard/l10n/*.json apps/files_reminders/l10n/*.js apps/files_reminders/l10n/*.json apps/lookup_server_connector/l10n/*.js apps/lookup_server_connector/l10n/*.json apps/oauth2 apps/sharebymail/l10n/*.js apps/oauth2 apps/sharebymail/l10n/*.json apps/theming/l10n/*.js apps/theming/l10n/*.json apps/twofactor_backupcodes/l10n/*.js apps/twofactor_backupcodes/l10n/*.json apps/user_status/l10n/*.js apps/user_status/l10n/*.json apps/weather_status/l10n/*.js apps/weather_status/l10n/*.json apps/workflowengine/l10n/*.js apps/workflowengine/l10n/*.json
 Copyright: 2016-2024 Nextcloud translators
 License: AGPL-3.0-or-later
