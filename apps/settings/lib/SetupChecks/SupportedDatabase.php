@@ -80,6 +80,9 @@ class SupportedDatabase implements ISetupCheck {
 			$row = $result->fetch();
 			$version = $row['server_version'];
 			$versionlc = strtolower($version);
+			// we only care about X not X.Y or X.Y.Z differences
+			[$major, ] = explode('.', $versionlc);
+			$versionlc = $major;
 			if (version_compare($versionlc, '12', '<') || version_compare($versionlc, '16', '>')) {
 				return SetupResult::warning($this->l10n->t('PostgreSQL version "%s" detected. PostgreSQL >=12 and <=16 is suggested for best performance, stability and functionality with this version of Nextcloud.', $version));
 			}
