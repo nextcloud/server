@@ -1,0 +1,2224 @@
+[
+	{
+		"name": "@babel/runtime",
+		"version": "7.23.9",
+		"author": "The Babel Team (https://babel.dev/team)",
+		"repository": "https://github.com/babel/babel.git",
+		"source": "https://registry.npmjs.org/@babel/runtime/-/runtime-7.23.9.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "@chenfengyuan/vue-qrcode",
+		"version": "1.0.2",
+		"author": "Chen Fengyuan (https://chenfengyuan.com/)",
+		"repository": "fengyuanchen/vue-qrcode",
+		"source": "https://registry.npmjs.org/@chenfengyuan/vue-qrcode/-/vue-qrcode-1.0.2.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "@floating-ui/core",
+		"version": "0.3.1",
+		"author": "atomiks",
+		"repository": "https://github.com/floating-ui/floating-ui.git",
+		"source": "https://registry.npmjs.org/@floating-ui/core/-/core-0.3.1.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "@floating-ui/core",
+		"version": "1.6.0",
+		"author": "atomiks",
+		"repository": "https://github.com/floating-ui/floating-ui.git",
+		"source": "https://registry.npmjs.org/@floating-ui/core/-/core-1.6.0.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "@floating-ui/dom",
+		"version": "0.1.10",
+		"author": "atomiks",
+		"repository": "https://github.com/floating-ui/floating-ui.git",
+		"source": "https://registry.npmjs.org/@floating-ui/dom/-/dom-0.1.10.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "@floating-ui/dom",
+		"version": "1.6.3",
+		"author": "atomiks",
+		"repository": "https://github.com/floating-ui/floating-ui.git",
+		"source": "https://registry.npmjs.org/@floating-ui/dom/-/dom-1.6.3.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "@floating-ui/utils",
+		"version": "0.2.1",
+		"author": "atomiks",
+		"repository": "https://github.com/floating-ui/floating-ui.git",
+		"source": "https://registry.npmjs.org/@floating-ui/utils/-/utils-0.2.1.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "@linusborg/vue-simple-portal",
+		"version": "0.1.5",
+		"author": "Thorsten Lünborg (https://www.github.com/linusborg)",
+		"repository": "https://github.com/linusborg/vue-simple-portal",
+		"source": "https://registry.npmjs.org/@linusborg/vue-simple-portal/-/vue-simple-portal-0.1.5.tgz",
+		"license": "Apache-2.0"
+	},
+	{
+		"name": "@mapbox/hast-util-table-cell-style",
+		"version": "0.2.1",
+		"author": "Mapbox",
+		"repository": "git+https://github.com/mapbox/hast-util-table-cell-style.git",
+		"source": "https://registry.npmjs.org/@mapbox/hast-util-table-cell-style/-/hast-util-table-cell-style-0.2.1.tgz",
+		"license": "BSD-2-Clause"
+	},
+	{
+		"name": "@mdi/js",
+		"version": "7.4.47",
+		"author": "Austin Andrews",
+		"repository": "git+https://github.com/Templarian/MaterialDesign-JS.git",
+		"source": "https://registry.npmjs.org/@mdi/js/-/js-7.4.47.tgz",
+		"license": "Apache-2.0"
+	},
+	{
+		"name": "@mdi/svg",
+		"version": "7.4.47",
+		"author": "Austin Andrews",
+		"repository": "git+https://github.com/Templarian/MaterialDesign-SVG.git",
+		"source": "https://registry.npmjs.org/@mdi/svg/-/svg-7.4.47.tgz",
+		"license": "Apache-2.0"
+	},
+	{
+		"name": "@nextcloud/auth",
+		"version": "2.2.1",
+		"author": "Christoph Wurst",
+		"repository": "https://github.com/nextcloud/nextcloud-auth",
+		"source": "https://registry.npmjs.org/@nextcloud/auth/-/auth-2.2.1.tgz",
+		"license": "GPL-3.0-or-later"
+	},
+	{
+		"name": "@nextcloud/axios",
+		"version": "2.4.0",
+		"author": "Christoph Wurst",
+		"repository": "git+https://github.com/nextcloud/nextcloud-axios.git",
+		"source": "https://registry.npmjs.org/@nextcloud/axios/-/axios-2.4.0.tgz",
+		"license": "GPL-3.0"
+	},
+	{
+		"name": "@nextcloud/browser-storage",
+		"version": "0.3.0",
+		"author": "Christoph Wurst",
+		"repository": "https://github.com/nextcloud/nextcloud-browser-storage",
+		"source": "https://registry.npmjs.org/@nextcloud/browser-storage/-/browser-storage-0.3.0.tgz",
+		"license": "GPL-3.0-or-later"
+	},
+	{
+		"name": "@nextcloud/browserslist-config",
+		"version": "3.0.0",
+		"author": "Christoph Wurst",
+		"repository": "https://github.com/nextcloud/browserslist-config",
+		"source": "https://registry.npmjs.org/@nextcloud/browserslist-config/-/browserslist-config-3.0.0.tgz",
+		"license": "GPL-3.0-or-later"
+	},
+	{
+		"name": "@nextcloud/calendar-availability-vue",
+		"version": "2.2.0",
+		"author": "Christoph Wurst",
+		"repository": "git+https://github.com/nextcloud/calendar-availability-vue.git",
+		"source": "https://registry.npmjs.org/@nextcloud/calendar-availability-vue/-/calendar-availability-vue-2.2.0.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "@nextcloud/calendar-js",
+		"version": "6.1.0",
+		"author": "Christoph Wurst",
+		"repository": "git+https://github.com/nextcloud/calendar-js.git",
+		"source": "https://registry.npmjs.org/@nextcloud/calendar-js/-/calendar-js-6.1.0.tgz",
+		"license": "AGPL-3.0-or-later"
+	},
+	{
+		"name": "@nextcloud/capabilities",
+		"version": "1.2.0",
+		"author": "Roeland Jago Douma",
+		"repository": "https://github.com/nextcloud-libraries/nextcloud-capabilities",
+		"source": "https://registry.npmjs.org/@nextcloud/capabilities/-/capabilities-1.2.0.tgz",
+		"license": "GPL-3.0-or-later"
+	},
+	{
+		"name": "@nextcloud/dialogs",
+		"version": "5.3.1",
+		"repository": "https://github.com/nextcloud-libraries/nextcloud-dialogs",
+		"source": "https://registry.npmjs.org/@nextcloud/dialogs/-/dialogs-5.3.1.tgz",
+		"license": "GPL-3.0-or-later"
+	},
+	{
+		"name": "@nextcloud/event-bus",
+		"version": "3.1.0",
+		"author": "Christoph Wurst",
+		"repository": "https://github.com/nextcloud/nextcloud-event-bus",
+		"source": "https://registry.npmjs.org/@nextcloud/event-bus/-/event-bus-3.1.0.tgz",
+		"license": "GPL-3.0-or-later"
+	},
+	{
+		"name": "@nextcloud/files",
+		"version": "3.2.1",
+		"author": "Christoph Wurst <christoph@winzerhof-wurst.at>",
+		"repository": "https://github.com/nextcloud-libraries/nextcloud-files.git",
+		"source": "https://registry.npmjs.org/@nextcloud/files/-/files-3.2.1.tgz",
+		"license": "AGPL-3.0-or-later"
+	},
+	{
+		"name": "@nextcloud/initial-state",
+		"version": "2.1.0",
+		"author": "Christoph Wurst",
+		"repository": "https://github.com/nextcloud/nextcloud-initial-state",
+		"source": "https://registry.npmjs.org/@nextcloud/initial-state/-/initial-state-2.1.0.tgz",
+		"license": "GPL-3.0-or-later"
+	},
+	{
+		"name": "@nextcloud/l10n",
+		"version": "2.2.0",
+		"author": "Christoph Wurst",
+		"repository": "https://github.com/nextcloud/nextcloud-l10n",
+		"source": "https://registry.npmjs.org/@nextcloud/l10n/-/l10n-2.2.0.tgz",
+		"license": "GPL-3.0-or-later"
+	},
+	{
+		"name": "@nextcloud/logger",
+		"version": "2.7.0",
+		"author": "Christoph Wurst",
+		"repository": "https://github.com/nextcloud/nextcloud-logger",
+		"source": "https://registry.npmjs.org/@nextcloud/logger/-/logger-2.7.0.tgz",
+		"license": "GPL-3.0-or-later"
+	},
+	{
+		"name": "@nextcloud/moment",
+		"version": "1.3.1",
+		"author": "Christoph Wurst",
+		"repository": "https://github.com/nextcloud/nextcloud-moment",
+		"source": "https://registry.npmjs.org/@nextcloud/moment/-/moment-1.3.1.tgz",
+		"license": "GPL-3.0-or-later"
+	},
+	{
+		"name": "@nextcloud/password-confirmation",
+		"version": "5.1.0",
+		"repository": "github:nextcloud-libraries/nextcloud-password-confirmation",
+		"source": "https://registry.npmjs.org/@nextcloud/password-confirmation/-/password-confirmation-5.1.0.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "@nextcloud/paths",
+		"version": "2.1.0",
+		"author": "Christoph Wurst",
+		"repository": "https://github.com/nextcloud/nextcloud-paths",
+		"source": "https://registry.npmjs.org/@nextcloud/paths/-/paths-2.1.0.tgz",
+		"license": "GPL-3.0-or-later"
+	},
+	{
+		"name": "@nextcloud/router",
+		"version": "2.2.1",
+		"author": "Christoph Wurst",
+		"repository": "https://github.com/nextcloud/nextcloud-router",
+		"source": "https://registry.npmjs.org/@nextcloud/router/-/router-2.2.1.tgz",
+		"license": "GPL-3.0-or-later"
+	},
+	{
+		"name": "@nextcloud/router",
+		"version": "2.2.0",
+		"author": "Christoph Wurst",
+		"repository": "https://github.com/nextcloud/nextcloud-router",
+		"source": "https://registry.npmjs.org/@nextcloud/router/-/router-2.2.0.tgz",
+		"license": "GPL-3.0-or-later"
+	},
+	{
+		"name": "@nextcloud/router",
+		"version": "3.0.0",
+		"author": "Christoph Wurst",
+		"repository": "https://github.com/nextcloud/nextcloud-router",
+		"source": "https://registry.npmjs.org/@nextcloud/router/-/router-3.0.0.tgz",
+		"license": "GPL-3.0-or-later"
+	},
+	{
+		"name": "@nextcloud/sharing",
+		"version": "0.1.0",
+		"author": "Christoph Wurst",
+		"repository": null,
+		"source": "https://registry.npmjs.org/@nextcloud/sharing/-/sharing-0.1.0.tgz",
+		"license": "GPL-3.0-or-later"
+	},
+	{
+		"name": "@nextcloud/upload",
+		"version": "1.1.1",
+		"author": "John Molakvoæ <skjnldsv@protonmail.com>",
+		"repository": "https://github.com/skjnldsv/nextcloud-upload.git",
+		"source": "https://registry.npmjs.org/@nextcloud/upload/-/upload-1.1.1.tgz",
+		"license": "AGPL-3.0-or-later"
+	},
+	{
+		"name": "@nextcloud/vue",
+		"version": "8.11.2",
+		"author": "John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>",
+		"repository": "https://github.com/nextcloud-libraries/nextcloud-vue",
+		"source": "https://registry.npmjs.org/@nextcloud/vue/-/vue-8.11.2.tgz",
+		"license": "AGPL-3.0"
+	},
+	{
+		"name": "@nextcloud/vue-select",
+		"version": "3.25.0",
+		"author": "Jeff Sagal <sagalbot@gmail.com>",
+		"repository": "https://github.com/nextcloud-deps/vue-select.git",
+		"source": "https://registry.npmjs.org/@nextcloud/vue-select/-/vue-select-3.25.0.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "@simplewebauthn/browser",
+		"version": "10.0.0",
+		"author": "Matthew Miller <matthew@millerti.me>",
+		"repository": "git+https://github.com/MasterKale/SimpleWebAuthn.git",
+		"source": "https://registry.npmjs.org/@simplewebauthn/browser/-/browser-10.0.0.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "@skjnldsv/sanitize-svg",
+		"version": "1.0.2",
+		"author": "Matt Krick <matt.krick@gmail.com>",
+		"repository": "https://github.com/skjnldsv/sanitize-svg.git",
+		"source": "https://registry.npmjs.org/@skjnldsv/sanitize-svg/-/sanitize-svg-1.0.2.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "@ungap/structured-clone",
+		"version": "1.2.0",
+		"author": "Andrea Giammarchi",
+		"repository": "git+https://github.com/ungap/structured-clone.git",
+		"source": "https://registry.npmjs.org/@ungap/structured-clone/-/structured-clone-1.2.0.tgz",
+		"license": "ISC"
+	},
+	{
+		"name": "@vue/devtools-api",
+		"version": "6.6.1",
+		"author": "Guillaume Chau",
+		"repository": "https://github.com/vuejs/vue-devtools.git",
+		"source": "https://registry.npmjs.org/@vue/devtools-api/-/devtools-api-6.6.1.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "@vueuse/components",
+		"version": "10.9.0",
+		"author": "Jacob Clevenger<https://github.com/wheatjs>",
+		"repository": "git+https://github.com/vueuse/vueuse.git",
+		"source": "https://registry.npmjs.org/@vueuse/components/-/components-10.9.0.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "@vueuse/core",
+		"version": "10.9.0",
+		"author": "Anthony Fu <https://github.com/antfu>",
+		"repository": "git+https://github.com/vueuse/vueuse.git",
+		"source": "https://registry.npmjs.org/@vueuse/core/-/core-10.9.0.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "@vueuse/integrations",
+		"version": "10.9.0",
+		"author": "Anthony Fu <https://github.com/antfu>",
+		"repository": "git+https://github.com/vueuse/vueuse.git",
+		"source": "https://registry.npmjs.org/@vueuse/integrations/-/integrations-10.9.0.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "@vueuse/shared",
+		"version": "10.9.0",
+		"author": "Anthony Fu <https://github.com/antfu>",
+		"repository": "git+https://github.com/vueuse/vueuse.git",
+		"source": "https://registry.npmjs.org/@vueuse/shared/-/shared-10.9.0.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "ansi-regex",
+		"version": "6.0.1",
+		"author": "Sindre Sorhus <sindresorhus@gmail.com> (https://sindresorhus.com)",
+		"repository": "chalk/ansi-regex",
+		"source": "https://registry.npmjs.org/ansi-regex/-/ansi-regex-6.0.1.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "assert",
+		"version": "2.1.0",
+		"repository": "browserify/commonjs-assert",
+		"source": "https://registry.npmjs.org/assert/-/assert-2.1.0.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "available-typed-arrays",
+		"version": "1.0.7",
+		"author": "Jordan Harband <ljharb@gmail.com>",
+		"repository": "git+https://github.com/inspect-js/available-typed-arrays.git",
+		"source": "https://registry.npmjs.org/available-typed-arrays/-/available-typed-arrays-1.0.7.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "axios",
+		"version": "1.6.8",
+		"author": "Matt Zabriskie",
+		"repository": "https://github.com/axios/axios.git",
+		"source": "https://registry.npmjs.org/axios/-/axios-1.6.8.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "backbone",
+		"version": "1.6.0",
+		"author": "Jeremy Ashkenas",
+		"repository": "https://github.com/jashkenas/backbone.git",
+		"source": "https://registry.npmjs.org/backbone/-/backbone-1.6.0.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "bail",
+		"version": "2.0.2",
+		"author": "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
+		"repository": "wooorm/bail",
+		"source": "https://registry.npmjs.org/bail/-/bail-2.0.2.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "balanced-match",
+		"version": "1.0.2",
+		"author": "Julian Gruber <mail@juliangruber.com> (http://juliangruber.com)",
+		"repository": "git://github.com/juliangruber/balanced-match.git",
+		"source": "https://registry.npmjs.org/balanced-match/-/balanced-match-1.0.2.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "base64-js",
+		"version": "1.5.1",
+		"author": "T. Jameson Little <t.jameson.little@gmail.com>",
+		"repository": "git://github.com/beatgammit/base64-js.git",
+		"source": "https://registry.npmjs.org/base64-js/-/base64-js-1.5.1.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "blueimp-md5",
+		"version": "2.19.0",
+		"author": "Sebastian Tschan (https://blueimp.net)",
+		"repository": "git://github.com/blueimp/JavaScript-MD5.git",
+		"source": "https://registry.npmjs.org/blueimp-md5/-/blueimp-md5-2.19.0.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "brace-expansion",
+		"version": "2.0.1",
+		"author": "Julian Gruber <mail@juliangruber.com> (http://juliangruber.com)",
+		"repository": "git://github.com/juliangruber/brace-expansion.git",
+		"source": "https://registry.npmjs.org/brace-expansion/-/brace-expansion-2.0.1.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "browserslist",
+		"version": "4.23.0",
+		"author": "Andrey Sitnik <andrey@sitnik.ru>",
+		"repository": "browserslist/browserslist",
+		"source": "https://registry.npmjs.org/browserslist/-/browserslist-4.23.0.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "browserslist-useragent-regexp",
+		"version": "4.1.1",
+		"author": "dangreen",
+		"repository": "https://github.com/browserslist/browserslist-useragent-regexp",
+		"source": "https://registry.npmjs.org/browserslist-useragent-regexp/-/browserslist-useragent-regexp-4.1.1.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "buffer",
+		"version": "6.0.3",
+		"author": "Feross Aboukhadijeh <feross@feross.org> (https://feross.org)",
+		"repository": "git://github.com/feross/buffer.git",
+		"source": "https://registry.npmjs.org/buffer/-/buffer-6.0.3.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "call-bind",
+		"version": "1.0.7",
+		"author": "Jordan Harband <ljharb@gmail.com>",
+		"repository": "git+https://github.com/ljharb/call-bind.git",
+		"source": "https://registry.npmjs.org/call-bind/-/call-bind-1.0.7.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "camelcase",
+		"version": "8.0.0",
+		"author": "Sindre Sorhus <sindresorhus@gmail.com> (https://sindresorhus.com)",
+		"repository": "sindresorhus/camelcase",
+		"source": "https://registry.npmjs.org/camelcase/-/camelcase-8.0.0.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "cancelable-promise",
+		"version": "4.3.1",
+		"author": "Alkemics",
+		"repository": "git+https://github.com/alkemics/CancelablePromise.git",
+		"source": "https://registry.npmjs.org/cancelable-promise/-/cancelable-promise-4.3.1.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "caniuse-lite",
+		"version": "1.0.30001589",
+		"author": "Ben Briggs <beneb.info@gmail.com> (http://beneb.info)",
+		"repository": "browserslist/caniuse-lite",
+		"source": "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001589.tgz",
+		"license": "CC-BY-4.0"
+	},
+	{
+		"name": "ccount",
+		"version": "2.0.1",
+		"author": "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
+		"repository": "wooorm/ccount",
+		"source": "https://registry.npmjs.org/ccount/-/ccount-2.0.1.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "char-regex",
+		"version": "2.0.1",
+		"author": "Richie Bendall <richiebendall@gmail.com>",
+		"repository": "Richienb/char-regex",
+		"source": "https://registry.npmjs.org/char-regex/-/char-regex-2.0.1.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "charenc",
+		"version": "0.0.2",
+		"author": "Paul Vorbach <paul@vorb.de> (http://vorb.de)",
+		"repository": "git://github.com/pvorb/node-charenc.git",
+		"source": "https://registry.npmjs.org/charenc/-/charenc-0.0.2.tgz",
+		"license": "BSD-3-Clause"
+	},
+	{
+		"name": "clipboard",
+		"version": "2.0.11",
+		"repository": "zenorocha/clipboard.js",
+		"source": "https://registry.npmjs.org/clipboard/-/clipboard-2.0.11.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "comma-separated-tokens",
+		"version": "2.0.3",
+		"author": "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
+		"repository": "wooorm/comma-separated-tokens",
+		"source": "https://registry.npmjs.org/comma-separated-tokens/-/comma-separated-tokens-2.0.3.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "console-browserify",
+		"version": "1.2.0",
+		"author": "Raynos <raynos2@gmail.com>",
+		"repository": "git://github.com/browserify/console-browserify.git",
+		"source": "https://registry.npmjs.org/console-browserify/-/console-browserify-1.2.0.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "core-js",
+		"version": "3.37.0",
+		"author": "Denis Pushkarev <zloirock@zloirock.ru> (http://zloirock.ru)",
+		"repository": "https://github.com/zloirock/core-js.git",
+		"source": "https://registry.npmjs.org/core-js/-/core-js-3.37.0.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "cropperjs",
+		"version": "1.6.1",
+		"author": "Chen Fengyuan (https://chenfengyuan.com/)",
+		"repository": "git+https://github.com/fengyuanchen/cropperjs.git",
+		"source": "https://registry.npmjs.org/cropperjs/-/cropperjs-1.6.1.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "crypt",
+		"version": "0.0.2",
+		"author": "Paul Vorbach <paul@vorb.de> (http://vorb.de)",
+		"repository": "git://github.com/pvorb/node-crypt.git",
+		"source": "https://registry.npmjs.org/crypt/-/crypt-0.0.2.tgz",
+		"license": "BSD-3-Clause"
+	},
+	{
+		"name": "css-loader",
+		"version": "6.10.0",
+		"author": "Tobias Koppers @sokra",
+		"repository": "webpack-contrib/css-loader",
+		"source": "https://registry.npmjs.org/css-loader/-/css-loader-6.10.0.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "date-format-parse",
+		"version": "0.2.7",
+		"author": "xiemengxiong",
+		"repository": "git+https://github.com/mengxiong10/date-format-parse.git",
+		"source": "https://registry.npmjs.org/date-format-parse/-/date-format-parse-0.2.7.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "davclient.js",
+		"version": "0.2.1",
+		"author": "Evert Pot",
+		"repository": "https://github.com/owncloud/davclient.js.git",
+		"source": "https://registry.npmjs.org/davclient.js/-/davclient.js-0.2.1.tgz",
+		"license": "BSD-3-Clause"
+	},
+	{
+		"name": "debounce",
+		"version": "2.0.0",
+		"repository": "sindresorhus/debounce",
+		"source": "https://registry.npmjs.org/debounce/-/debounce-2.0.0.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "debounce",
+		"version": "1.2.1",
+		"repository": "git://github.com/component/debounce",
+		"source": "https://registry.npmjs.org/debounce/-/debounce-1.2.1.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "decode-named-character-reference",
+		"version": "1.0.2",
+		"author": "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
+		"repository": "wooorm/decode-named-character-reference",
+		"source": "https://registry.npmjs.org/decode-named-character-reference/-/decode-named-character-reference-1.0.2.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "decode-uri-component",
+		"version": "0.4.1",
+		"author": "Sam Verschueren <sam.verschueren@gmail.com> (github.com/SamVerschueren)",
+		"repository": "SamVerschueren/decode-uri-component",
+		"source": "https://registry.npmjs.org/decode-uri-component/-/decode-uri-component-0.4.1.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "define-data-property",
+		"version": "1.1.4",
+		"author": "Jordan Harband <ljharb@gmail.com>",
+		"repository": "git+https://github.com/ljharb/define-data-property.git",
+		"source": "https://registry.npmjs.org/define-data-property/-/define-data-property-1.1.4.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "define-properties",
+		"version": "1.2.1",
+		"author": "Jordan Harband <ljharb@gmail.com>",
+		"repository": "git://github.com/ljharb/define-properties.git",
+		"source": "https://registry.npmjs.org/define-properties/-/define-properties-1.2.1.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "devlop",
+		"version": "1.1.0",
+		"author": "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
+		"repository": "wooorm/devlop",
+		"source": "https://registry.npmjs.org/devlop/-/devlop-1.1.0.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "dompurify",
+		"version": "3.0.11",
+		"author": "Dr.-Ing. Mario Heiderich, Cure53 <mario@cure53.de> (https://cure53.de/)",
+		"repository": "git://github.com/cure53/DOMPurify.git",
+		"source": "https://registry.npmjs.org/dompurify/-/dompurify-3.0.11.tgz",
+		"license": "(MPL-2.0 OR Apache-2.0)"
+	},
+	{
+		"name": "electron-to-chromium",
+		"version": "1.4.680",
+		"author": "Kilian Valkhof",
+		"repository": "https://github.com/kilian/electron-to-chromium/",
+		"source": "https://registry.npmjs.org/electron-to-chromium/-/electron-to-chromium-1.4.680.tgz",
+		"license": "ISC"
+	},
+	{
+		"name": "emoji-mart-vue-fast",
+		"version": "15.0.1",
+		"author": "Borys Serebrov",
+		"repository": "git@github.com:serebrov/emoji-mart-vue.git",
+		"source": "https://registry.npmjs.org/emoji-mart-vue-fast/-/emoji-mart-vue-fast-15.0.1.tgz",
+		"license": "BSD-3-Clause"
+	},
+	{
+		"name": "es-define-property",
+		"version": "1.0.0",
+		"author": "Jordan Harband <ljharb@gmail.com>",
+		"repository": "git+https://github.com/ljharb/es-define-property.git",
+		"source": "https://registry.npmjs.org/es-define-property/-/es-define-property-1.0.0.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "es-errors",
+		"version": "1.3.0",
+		"author": "Jordan Harband <ljharb@gmail.com>",
+		"repository": "git+https://github.com/ljharb/es-errors.git",
+		"source": "https://registry.npmjs.org/es-errors/-/es-errors-1.3.0.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "escape-html",
+		"version": "1.0.3",
+		"repository": "component/escape-html",
+		"source": "https://registry.npmjs.org/escape-html/-/escape-html-1.0.3.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "escape-string-regexp",
+		"version": "5.0.0",
+		"author": "Sindre Sorhus <sindresorhus@gmail.com> (https://sindresorhus.com)",
+		"repository": "sindresorhus/escape-string-regexp",
+		"source": "https://registry.npmjs.org/escape-string-regexp/-/escape-string-regexp-5.0.0.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "eventemitter3",
+		"version": "5.0.1",
+		"author": "Arnout Kazemier",
+		"repository": "git://github.com/primus/eventemitter3.git",
+		"source": "https://registry.npmjs.org/eventemitter3/-/eventemitter3-5.0.1.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "events",
+		"version": "3.3.0",
+		"author": "Irakli Gozalishvili <rfobic@gmail.com> (http://jeditoolkit.com)",
+		"repository": "git://github.com/Gozala/events.git",
+		"source": "https://registry.npmjs.org/events/-/events-3.3.0.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "extend",
+		"version": "3.0.2",
+		"author": "Stefan Thomas <justmoon@members.fsf.org> (http://www.justmoon.net)",
+		"repository": "https://github.com/justmoon/node-extend.git",
+		"source": "https://registry.npmjs.org/extend/-/extend-3.0.2.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "fast-xml-parser",
+		"version": "4.3.4",
+		"author": "Amit Gupta (https://solothought.com)",
+		"repository": "https://github.com/NaturalIntelligence/fast-xml-parser",
+		"source": "https://registry.npmjs.org/fast-xml-parser/-/fast-xml-parser-4.3.4.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "filter-obj",
+		"version": "5.1.0",
+		"author": "Sindre Sorhus <sindresorhus@gmail.com> (https://sindresorhus.com)",
+		"repository": "sindresorhus/filter-obj",
+		"source": "https://registry.npmjs.org/filter-obj/-/filter-obj-5.1.0.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "floating-vue",
+		"version": "1.0.0-beta.19",
+		"author": "Guillaume Chau <guillaume.b.chau@gmail.com>",
+		"repository": "git+https://github.com/Akryum/floating-vue.git",
+		"source": "https://registry.npmjs.org/floating-vue/-/floating-vue-1.0.0-beta.19.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "focus-trap",
+		"version": "7.5.4",
+		"author": "David Clark (http://davidtheclark.com/)",
+		"repository": "git+https://github.com/focus-trap/focus-trap.git",
+		"source": "https://registry.npmjs.org/focus-trap/-/focus-trap-7.5.4.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "for-each",
+		"version": "0.3.3",
+		"author": "Raynos <raynos2@gmail.com>",
+		"repository": "git://github.com/Raynos/for-each.git",
+		"source": "https://registry.npmjs.org/for-each/-/for-each-0.3.3.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "function-bind",
+		"version": "1.1.2",
+		"author": "Raynos <raynos2@gmail.com>",
+		"repository": "https://github.com/Raynos/function-bind.git",
+		"source": "https://registry.npmjs.org/function-bind/-/function-bind-1.1.2.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "get-intrinsic",
+		"version": "1.2.4",
+		"author": "Jordan Harband <ljharb@gmail.com>",
+		"repository": "git+https://github.com/ljharb/get-intrinsic.git",
+		"source": "https://registry.npmjs.org/get-intrinsic/-/get-intrinsic-1.2.4.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "gopd",
+		"version": "1.0.1",
+		"author": "Jordan Harband <ljharb@gmail.com>",
+		"repository": "git+https://github.com/ljharb/gopd.git",
+		"source": "https://registry.npmjs.org/gopd/-/gopd-1.0.1.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "handlebars",
+		"version": "4.7.8",
+		"author": "Yehuda Katz",
+		"repository": "https://github.com/handlebars-lang/handlebars.js.git",
+		"source": "https://registry.npmjs.org/handlebars/-/handlebars-4.7.8.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "has-property-descriptors",
+		"version": "1.0.2",
+		"author": "Jordan Harband <ljharb@gmail.com>",
+		"repository": "git+https://github.com/inspect-js/has-property-descriptors.git",
+		"source": "https://registry.npmjs.org/has-property-descriptors/-/has-property-descriptors-1.0.2.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "has-proto",
+		"version": "1.0.3",
+		"author": "Jordan Harband <ljharb@gmail.com>",
+		"repository": "git+https://github.com/inspect-js/has-proto.git",
+		"source": "https://registry.npmjs.org/has-proto/-/has-proto-1.0.3.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "has-symbols",
+		"version": "1.0.3",
+		"author": "Jordan Harband <ljharb@gmail.com> (http://ljharb.codes)",
+		"repository": "git://github.com/inspect-js/has-symbols.git",
+		"source": "https://registry.npmjs.org/has-symbols/-/has-symbols-1.0.3.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "has-tostringtag",
+		"version": "1.0.2",
+		"author": "Jordan Harband <ljharb@gmail.com> (http://ljharb.codes)",
+		"repository": "git+https://github.com/inspect-js/has-tostringtag.git",
+		"source": "https://registry.npmjs.org/has-tostringtag/-/has-tostringtag-1.0.2.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "hasown",
+		"version": "2.0.1",
+		"author": "Jordan Harband <ljharb@gmail.com>",
+		"repository": "git+https://github.com/inspect-js/hasOwn.git",
+		"source": "https://registry.npmjs.org/hasown/-/hasown-2.0.1.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "hast-to-hyperscript",
+		"version": "10.0.3",
+		"author": "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
+		"repository": "syntax-tree/hast-to-hyperscript",
+		"source": "https://registry.npmjs.org/hast-to-hyperscript/-/hast-to-hyperscript-10.0.3.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "hast-util-is-element",
+		"version": "3.0.0",
+		"author": "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
+		"repository": "syntax-tree/hast-util-is-element",
+		"source": "https://registry.npmjs.org/hast-util-is-element/-/hast-util-is-element-3.0.0.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "hast-util-whitespace",
+		"version": "2.0.1",
+		"author": "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
+		"repository": "syntax-tree/hast-util-whitespace",
+		"source": "https://registry.npmjs.org/hast-util-whitespace/-/hast-util-whitespace-2.0.1.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "ical.js",
+		"version": "1.5.0",
+		"author": "Philipp Kewisch",
+		"repository": "https://github.com/mozilla-comm/ical.js.git",
+		"source": "https://registry.npmjs.org/ical.js/-/ical.js-1.5.0.tgz",
+		"license": "MPL-2.0"
+	},
+	{
+		"name": "icalzone",
+		"version": "0.0.1",
+		"author": "Nick Singleton",
+		"repository": "https://github.com/Manc/icalzone.git",
+		"source": "https://registry.npmjs.org/icalzone/-/icalzone-0.0.1.tgz",
+		"license": "ISC"
+	},
+	{
+		"name": "ieee754",
+		"version": "1.2.1",
+		"author": "Feross Aboukhadijeh <feross@feross.org> (https://feross.org)",
+		"repository": "git://github.com/feross/ieee754.git",
+		"source": "https://registry.npmjs.org/ieee754/-/ieee754-1.2.1.tgz",
+		"license": "BSD-3-Clause"
+	},
+	{
+		"name": "inherits",
+		"version": "2.0.4",
+		"repository": "git://github.com/isaacs/inherits",
+		"source": "https://registry.npmjs.org/inherits/-/inherits-2.0.4.tgz",
+		"license": "ISC"
+	},
+	{
+		"name": "inherits",
+		"version": "2.0.3",
+		"repository": "git://github.com/isaacs/inherits",
+		"source": "https://registry.npmjs.org/inherits/-/inherits-2.0.3.tgz",
+		"license": "ISC"
+	},
+	{
+		"name": "inline-style-parser",
+		"version": "0.1.1",
+		"repository": "https://github.com/remarkablemark/inline-style-parser",
+		"source": "https://registry.npmjs.org/inline-style-parser/-/inline-style-parser-0.1.1.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "is-absolute-url",
+		"version": "4.0.1",
+		"author": "Sindre Sorhus <sindresorhus@gmail.com> (https://sindresorhus.com)",
+		"repository": "sindresorhus/is-absolute-url",
+		"source": "https://registry.npmjs.org/is-absolute-url/-/is-absolute-url-4.0.1.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "is-arguments",
+		"version": "1.1.1",
+		"author": "Jordan Harband <ljharb@gmail.com> (http://ljharb.codes)",
+		"repository": "git://github.com/inspect-js/is-arguments.git",
+		"source": "https://registry.npmjs.org/is-arguments/-/is-arguments-1.1.1.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "is-buffer",
+		"version": "1.1.6",
+		"author": "Feross Aboukhadijeh <feross@feross.org> (http://feross.org/)",
+		"repository": "git://github.com/feross/is-buffer.git",
+		"source": "https://registry.npmjs.org/is-buffer/-/is-buffer-1.1.6.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "is-callable",
+		"version": "1.2.7",
+		"author": "Jordan Harband <ljharb@gmail.com> (http://ljharb.codes)",
+		"repository": "git://github.com/inspect-js/is-callable.git",
+		"source": "https://registry.npmjs.org/is-callable/-/is-callable-1.2.7.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "is-generator-function",
+		"version": "1.0.10",
+		"author": "Jordan Harband <ljharb@gmail.com>",
+		"repository": "git://github.com/inspect-js/is-generator-function.git",
+		"source": "https://registry.npmjs.org/is-generator-function/-/is-generator-function-1.0.10.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "is-nan",
+		"version": "1.3.2",
+		"author": "Jordan Harband",
+		"repository": "git://github.com/es-shims/is-nan.git",
+		"source": "https://registry.npmjs.org/is-nan/-/is-nan-1.3.2.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "is-plain-obj",
+		"version": "4.1.0",
+		"author": "Sindre Sorhus <sindresorhus@gmail.com> (https://sindresorhus.com)",
+		"repository": "sindresorhus/is-plain-obj",
+		"source": "https://registry.npmjs.org/is-plain-obj/-/is-plain-obj-4.1.0.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "is-svg",
+		"version": "4.4.0",
+		"author": "Sindre Sorhus <sindresorhus@gmail.com> (https://sindresorhus.com)",
+		"repository": "sindresorhus/is-svg",
+		"source": "https://registry.npmjs.org/is-svg/-/is-svg-4.4.0.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "is-typed-array",
+		"version": "1.1.13",
+		"author": "Jordan Harband <ljharb@gmail.com> (http://ljharb.codes)",
+		"repository": "git://github.com/inspect-js/is-typed-array.git",
+		"source": "https://registry.npmjs.org/is-typed-array/-/is-typed-array-1.1.13.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "jquery",
+		"version": "3.7.1",
+		"author": "OpenJS Foundation and other contributors (https://github.com/jquery/jquery/blob/3.7.1/AUTHORS.txt)",
+		"repository": "https://github.com/jquery/jquery.git",
+		"source": "https://registry.npmjs.org/jquery/-/jquery-3.7.1.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "jquery-ui",
+		"version": "1.13.2",
+		"author": "jQuery Foundation and other contributors (https://github.com/jquery/jquery-ui/blob/1.13.2/AUTHORS.txt)",
+		"repository": "git://github.com/jquery/jquery-ui.git",
+		"source": "https://registry.npmjs.org/jquery-ui/-/jquery-ui-1.13.2.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "jquery-ui-dist",
+		"version": "1.13.2",
+		"author": "jQuery Foundation and other contributors (https://github.com/jquery/jquery-ui/blob/1.13.2/AUTHORS.txt)",
+		"repository": "git://github.com/jquery/jquery-ui.git",
+		"source": "https://registry.npmjs.org/jquery-ui-dist/-/jquery-ui-dist-1.13.2.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "layerr",
+		"version": "2.0.1",
+		"author": "Perry Mitchell <perry@perrymitchell.net>",
+		"repository": "git+https://github.com/perry-mitchell/layerr.git",
+		"source": "https://registry.npmjs.org/layerr/-/layerr-2.0.1.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "libphonenumber-js",
+		"version": "1.10.60",
+		"author": "catamphetamine <purecatamphetamine@gmail.com>",
+		"repository": "git+https://gitlab.com/catamphetamine/libphonenumber-js.git",
+		"source": "https://registry.npmjs.org/libphonenumber-js/-/libphonenumber-js-1.10.60.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "linkify-string",
+		"version": "4.1.3",
+		"author": "Hypercontext",
+		"repository": "git+https://github.com/Hypercontext/linkifyjs.git",
+		"source": "https://registry.npmjs.org/linkify-string/-/linkify-string-4.1.3.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "linkifyjs",
+		"version": "4.1.3",
+		"author": "Hypercontext",
+		"repository": "git+https://github.com/Hypercontext/linkifyjs.git",
+		"source": "https://registry.npmjs.org/linkifyjs/-/linkifyjs-4.1.3.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "lodash",
+		"version": "4.17.21",
+		"author": "John-David Dalton <john.david.dalton@gmail.com>",
+		"repository": "lodash/lodash",
+		"source": "https://registry.npmjs.org/lodash/-/lodash-4.17.21.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "lodash-es",
+		"version": "4.17.21",
+		"author": "John-David Dalton <john.david.dalton@gmail.com>",
+		"repository": "lodash/lodash",
+		"source": "https://registry.npmjs.org/lodash-es/-/lodash-es-4.17.21.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "lodash.get",
+		"version": "4.4.2",
+		"author": "John-David Dalton <john.david.dalton@gmail.com> (http://allyoucanleet.com/)",
+		"repository": "lodash/lodash",
+		"source": "https://registry.npmjs.org/lodash.get/-/lodash.get-4.4.2.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "longest-streak",
+		"version": "3.1.0",
+		"author": "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
+		"repository": "wooorm/longest-streak",
+		"source": "https://registry.npmjs.org/longest-streak/-/longest-streak-3.1.0.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "markdown-table",
+		"version": "3.0.3",
+		"author": "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
+		"repository": "wooorm/markdown-table",
+		"source": "https://registry.npmjs.org/markdown-table/-/markdown-table-3.0.3.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "marked",
+		"version": "11.2.0",
+		"author": "Christopher Jeffrey",
+		"repository": "git://github.com/markedjs/marked.git",
+		"source": "https://registry.npmjs.org/marked/-/marked-11.2.0.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "md5",
+		"version": "2.3.0",
+		"author": "Paul Vorbach <paul@vorba.ch> (http://paul.vorba.ch)",
+		"repository": "git://github.com/pvorb/node-md5.git",
+		"source": "https://registry.npmjs.org/md5/-/md5-2.3.0.tgz",
+		"license": "BSD-3-Clause"
+	},
+	{
+		"name": "mdast-util-find-and-replace",
+		"version": "3.0.1",
+		"author": "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
+		"repository": "syntax-tree/mdast-util-find-and-replace",
+		"source": "https://registry.npmjs.org/mdast-util-find-and-replace/-/mdast-util-find-and-replace-3.0.1.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "mdast-util-from-markdown",
+		"version": "2.0.0",
+		"author": "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
+		"repository": "syntax-tree/mdast-util-from-markdown",
+		"source": "https://registry.npmjs.org/mdast-util-from-markdown/-/mdast-util-from-markdown-2.0.0.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "mdast-util-gfm",
+		"version": "3.0.0",
+		"author": "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
+		"repository": "syntax-tree/mdast-util-gfm",
+		"source": "https://registry.npmjs.org/mdast-util-gfm/-/mdast-util-gfm-3.0.0.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "mdast-util-gfm-autolink-literal",
+		"version": "2.0.0",
+		"author": "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
+		"repository": "syntax-tree/mdast-util-gfm-autolink-literal",
+		"source": "https://registry.npmjs.org/mdast-util-gfm-autolink-literal/-/mdast-util-gfm-autolink-literal-2.0.0.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "mdast-util-gfm-footnote",
+		"version": "2.0.0",
+		"author": "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
+		"repository": "syntax-tree/mdast-util-gfm-footnote",
+		"source": "https://registry.npmjs.org/mdast-util-gfm-footnote/-/mdast-util-gfm-footnote-2.0.0.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "mdast-util-gfm-strikethrough",
+		"version": "2.0.0",
+		"author": "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
+		"repository": "syntax-tree/mdast-util-gfm-strikethrough",
+		"source": "https://registry.npmjs.org/mdast-util-gfm-strikethrough/-/mdast-util-gfm-strikethrough-2.0.0.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "mdast-util-gfm-table",
+		"version": "2.0.0",
+		"author": "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
+		"repository": "syntax-tree/mdast-util-gfm-table",
+		"source": "https://registry.npmjs.org/mdast-util-gfm-table/-/mdast-util-gfm-table-2.0.0.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "mdast-util-gfm-task-list-item",
+		"version": "2.0.0",
+		"author": "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
+		"repository": "syntax-tree/mdast-util-gfm-task-list-item",
+		"source": "https://registry.npmjs.org/mdast-util-gfm-task-list-item/-/mdast-util-gfm-task-list-item-2.0.0.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "mdast-util-newline-to-break",
+		"version": "2.0.0",
+		"author": "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
+		"repository": "syntax-tree/mdast-util-newline-to-break",
+		"source": "https://registry.npmjs.org/mdast-util-newline-to-break/-/mdast-util-newline-to-break-2.0.0.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "mdast-util-phrasing",
+		"version": "4.1.0",
+		"author": "Victor Felder <victor@draft.li> (https://draft.li)",
+		"repository": "syntax-tree/mdast-util-phrasing",
+		"source": "https://registry.npmjs.org/mdast-util-phrasing/-/mdast-util-phrasing-4.1.0.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "mdast-util-to-hast",
+		"version": "13.1.0",
+		"author": "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
+		"repository": "syntax-tree/mdast-util-to-hast",
+		"source": "https://registry.npmjs.org/mdast-util-to-hast/-/mdast-util-to-hast-13.1.0.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "mdast-util-to-markdown",
+		"version": "2.1.0",
+		"author": "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
+		"repository": "syntax-tree/mdast-util-to-markdown",
+		"source": "https://registry.npmjs.org/mdast-util-to-markdown/-/mdast-util-to-markdown-2.1.0.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "mdast-util-to-string",
+		"version": "4.0.0",
+		"author": "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
+		"repository": "syntax-tree/mdast-util-to-string",
+		"source": "https://registry.npmjs.org/mdast-util-to-string/-/mdast-util-to-string-4.0.0.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "micromark",
+		"version": "4.0.0",
+		"author": "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
+		"repository": "https://github.com/micromark/micromark/tree/main/packages/micromark",
+		"source": "https://registry.npmjs.org/micromark/-/micromark-4.0.0.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "micromark-core-commonmark",
+		"version": "2.0.0",
+		"author": "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
+		"repository": "https://github.com/micromark/micromark/tree/main/packages/micromark-core-commonmark",
+		"source": "https://registry.npmjs.org/micromark-core-commonmark/-/micromark-core-commonmark-2.0.0.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "micromark-extension-gfm",
+		"version": "3.0.0",
+		"author": "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
+		"repository": "micromark/micromark-extension-gfm",
+		"source": "https://registry.npmjs.org/micromark-extension-gfm/-/micromark-extension-gfm-3.0.0.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "micromark-extension-gfm-autolink-literal",
+		"version": "2.0.0",
+		"author": "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
+		"repository": "micromark/micromark-extension-gfm-autolink-literal",
+		"source": "https://registry.npmjs.org/micromark-extension-gfm-autolink-literal/-/micromark-extension-gfm-autolink-literal-2.0.0.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "micromark-extension-gfm-footnote",
+		"version": "2.0.0",
+		"author": "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
+		"repository": "micromark/micromark-extension-gfm-footnote",
+		"source": "https://registry.npmjs.org/micromark-extension-gfm-footnote/-/micromark-extension-gfm-footnote-2.0.0.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "micromark-extension-gfm-strikethrough",
+		"version": "2.0.0",
+		"author": "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
+		"repository": "micromark/micromark-extension-gfm-strikethrough",
+		"source": "https://registry.npmjs.org/micromark-extension-gfm-strikethrough/-/micromark-extension-gfm-strikethrough-2.0.0.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "micromark-extension-gfm-table",
+		"version": "2.0.0",
+		"author": "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
+		"repository": "micromark/micromark-extension-gfm-table",
+		"source": "https://registry.npmjs.org/micromark-extension-gfm-table/-/micromark-extension-gfm-table-2.0.0.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "micromark-extension-gfm-task-list-item",
+		"version": "2.0.1",
+		"author": "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
+		"repository": "micromark/micromark-extension-gfm-task-list-item",
+		"source": "https://registry.npmjs.org/micromark-extension-gfm-task-list-item/-/micromark-extension-gfm-task-list-item-2.0.1.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "micromark-factory-destination",
+		"version": "2.0.0",
+		"author": "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
+		"repository": "https://github.com/micromark/micromark/tree/main/packages/micromark-factory-destination",
+		"source": "https://registry.npmjs.org/micromark-factory-destination/-/micromark-factory-destination-2.0.0.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "micromark-factory-label",
+		"version": "2.0.0",
+		"author": "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
+		"repository": "https://github.com/micromark/micromark/tree/main/packages/micromark-factory-label",
+		"source": "https://registry.npmjs.org/micromark-factory-label/-/micromark-factory-label-2.0.0.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "micromark-factory-space",
+		"version": "2.0.0",
+		"author": "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
+		"repository": "https://github.com/micromark/micromark/tree/main/packages/micromark-factory-space",
+		"source": "https://registry.npmjs.org/micromark-factory-space/-/micromark-factory-space-2.0.0.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "micromark-factory-title",
+		"version": "2.0.0",
+		"author": "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
+		"repository": "https://github.com/micromark/micromark/tree/main/packages/micromark-factory-title",
+		"source": "https://registry.npmjs.org/micromark-factory-title/-/micromark-factory-title-2.0.0.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "micromark-factory-whitespace",
+		"version": "2.0.0",
+		"author": "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
+		"repository": "https://github.com/micromark/micromark/tree/main/packages/micromark-factory-whitespace",
+		"source": "https://registry.npmjs.org/micromark-factory-whitespace/-/micromark-factory-whitespace-2.0.0.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "micromark-util-character",
+		"version": "2.1.0",
+		"author": "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
+		"repository": "https://github.com/micromark/micromark/tree/main/packages/micromark-util-character",
+		"source": "https://registry.npmjs.org/micromark-util-character/-/micromark-util-character-2.1.0.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "micromark-util-chunked",
+		"version": "2.0.0",
+		"author": "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
+		"repository": "https://github.com/micromark/micromark/tree/main/packages/micromark-util-chunked",
+		"source": "https://registry.npmjs.org/micromark-util-chunked/-/micromark-util-chunked-2.0.0.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "micromark-util-classify-character",
+		"version": "2.0.0",
+		"author": "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
+		"repository": "https://github.com/micromark/micromark/tree/main/packages/micromark-util-classify-character",
+		"source": "https://registry.npmjs.org/micromark-util-classify-character/-/micromark-util-classify-character-2.0.0.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "micromark-util-combine-extensions",
+		"version": "2.0.0",
+		"author": "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
+		"repository": "https://github.com/micromark/micromark/tree/main/packages/micromark-util-combine-extensions",
+		"source": "https://registry.npmjs.org/micromark-util-combine-extensions/-/micromark-util-combine-extensions-2.0.0.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "micromark-util-decode-numeric-character-reference",
+		"version": "2.0.1",
+		"author": "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
+		"repository": "https://github.com/micromark/micromark/tree/main/packages/micromark-util-decode-numeric-character-reference",
+		"source": "https://registry.npmjs.org/micromark-util-decode-numeric-character-reference/-/micromark-util-decode-numeric-character-reference-2.0.1.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "micromark-util-decode-string",
+		"version": "2.0.0",
+		"author": "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
+		"repository": "https://github.com/micromark/micromark/tree/main/packages/micromark-util-decode-string",
+		"source": "https://registry.npmjs.org/micromark-util-decode-string/-/micromark-util-decode-string-2.0.0.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "micromark-util-html-tag-name",
+		"version": "2.0.0",
+		"author": "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
+		"repository": "https://github.com/micromark/micromark/tree/main/packages/micromark-util-html-tag-name",
+		"source": "https://registry.npmjs.org/micromark-util-html-tag-name/-/micromark-util-html-tag-name-2.0.0.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "micromark-util-normalize-identifier",
+		"version": "2.0.0",
+		"author": "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
+		"repository": "https://github.com/micromark/micromark/tree/main/packages/micromark-util-normalize-identifier",
+		"source": "https://registry.npmjs.org/micromark-util-normalize-identifier/-/micromark-util-normalize-identifier-2.0.0.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "micromark-util-resolve-all",
+		"version": "2.0.0",
+		"author": "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
+		"repository": "https://github.com/micromark/micromark/tree/main/packages/micromark-util-resolve-all",
+		"source": "https://registry.npmjs.org/micromark-util-resolve-all/-/micromark-util-resolve-all-2.0.0.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "micromark-util-sanitize-uri",
+		"version": "2.0.0",
+		"author": "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
+		"repository": "https://github.com/micromark/micromark/tree/main/packages/micromark-util-sanitize-uri",
+		"source": "https://registry.npmjs.org/micromark-util-sanitize-uri/-/micromark-util-sanitize-uri-2.0.0.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "micromark-util-subtokenize",
+		"version": "2.0.0",
+		"author": "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
+		"repository": "https://github.com/micromark/micromark/tree/main/packages/micromark-util-subtokenize",
+		"source": "https://registry.npmjs.org/micromark-util-subtokenize/-/micromark-util-subtokenize-2.0.0.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "minimatch",
+		"version": "7.4.6",
+		"author": "Isaac Z. Schlueter <i@izs.me> (http://blog.izs.me)",
+		"repository": "git://github.com/isaacs/minimatch.git",
+		"source": "https://registry.npmjs.org/minimatch/-/minimatch-7.4.6.tgz",
+		"license": "ISC"
+	},
+	{
+		"name": "moment",
+		"version": "2.30.1",
+		"author": "Iskren Ivov Chernev <iskren.chernev@gmail.com> (https://github.com/ichernev)",
+		"repository": "https://github.com/moment/moment.git",
+		"source": "https://registry.npmjs.org/moment/-/moment-2.30.1.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "moment-timezone",
+		"version": "0.5.45",
+		"author": "Tim Wood <washwithcare@gmail.com> (http://timwoodcreates.com/)",
+		"repository": "https://github.com/moment/moment-timezone.git",
+		"source": "https://registry.npmjs.org/moment-timezone/-/moment-timezone-0.5.45.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "nanoid",
+		"version": "3.3.7",
+		"author": "Andrey Sitnik <andrey@sitnik.ru>",
+		"repository": "ai/nanoid",
+		"source": "https://registry.npmjs.org/nanoid/-/nanoid-3.3.7.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "natural-orderby",
+		"version": "3.0.2",
+		"author": "Olaf Ennen <olaf.ennen@gmail.com>",
+		"repository": "https://github.com/yobacca/natural-orderby.git",
+		"source": "https://registry.npmjs.org/natural-orderby/-/natural-orderby-3.0.2.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "nested-property",
+		"version": "4.0.0",
+		"author": "Olivier Scherrer <pode.fr@gmail.com>",
+		"repository": "git@github.com:cosmosio/nested-property.git",
+		"source": "https://registry.npmjs.org/nested-property/-/nested-property-4.0.0.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "nextcloud-vue-collections",
+		"version": "0.12.0",
+		"author": "Julius Härtl <jus@bitgrid.net>",
+		"repository": "https://github.com/nextcloud/nextcloud-vue-collections",
+		"source": "https://registry.npmjs.org/nextcloud-vue-collections/-/nextcloud-vue-collections-0.12.0.tgz",
+		"license": "AGPL-3.0"
+	},
+	{
+		"name": "node-gettext",
+		"version": "3.0.0",
+		"author": "Andris Reinman",
+		"repository": "http://github.com/alexanderwallin/node-gettext.git",
+		"source": "https://registry.npmjs.org/node-gettext/-/node-gettext-3.0.0.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "node-releases",
+		"version": "2.0.14",
+		"author": "Sergey Rubanov <chi187@gmail.com>",
+		"repository": "chicoxyzzy/node-releases",
+		"source": "https://registry.npmjs.org/node-releases/-/node-releases-2.0.14.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "node-vibrant",
+		"version": "3.1.6",
+		"author": "akfish",
+		"repository": "https://github.com/akfish/node-vibrant.git",
+		"source": "https://registry.npmjs.org/node-vibrant/-/node-vibrant-3.1.6.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "object-inspect",
+		"version": "1.13.1",
+		"author": "James Halliday <mail@substack.net> (http://substack.net)",
+		"repository": "git://github.com/inspect-js/object-inspect.git",
+		"source": "https://registry.npmjs.org/object-inspect/-/object-inspect-1.13.1.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "object-is",
+		"version": "1.1.5",
+		"author": "Jordan Harband",
+		"repository": "git://github.com/es-shims/object-is.git",
+		"source": "https://registry.npmjs.org/object-is/-/object-is-1.1.5.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "object-keys",
+		"version": "1.1.1",
+		"author": "Jordan Harband <ljharb@gmail.com> (http://ljharb.codes)",
+		"repository": "git://github.com/ljharb/object-keys.git",
+		"source": "https://registry.npmjs.org/object-keys/-/object-keys-1.1.1.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "object.assign",
+		"version": "4.1.5",
+		"author": "Jordan Harband",
+		"repository": "git://github.com/ljharb/object.assign.git",
+		"source": "https://registry.npmjs.org/object.assign/-/object.assign-4.1.5.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "p-cancelable",
+		"version": "4.0.1",
+		"author": "Sindre Sorhus <sindresorhus@gmail.com> (https://sindresorhus.com)",
+		"repository": "sindresorhus/p-cancelable",
+		"source": "https://registry.npmjs.org/p-cancelable/-/p-cancelable-4.0.1.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "p-limit",
+		"version": "4.0.0",
+		"author": "Sindre Sorhus <sindresorhus@gmail.com> (https://sindresorhus.com)",
+		"repository": "sindresorhus/p-limit",
+		"source": "https://registry.npmjs.org/p-limit/-/p-limit-4.0.0.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "p-queue",
+		"version": "8.0.1",
+		"repository": "sindresorhus/p-queue",
+		"source": "https://registry.npmjs.org/p-queue/-/p-queue-8.0.1.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "p-queue",
+		"version": "7.4.1",
+		"repository": "sindresorhus/p-queue",
+		"source": "https://registry.npmjs.org/p-queue/-/p-queue-7.4.1.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "p-timeout",
+		"version": "6.1.2",
+		"author": "Sindre Sorhus <sindresorhus@gmail.com> (https://sindresorhus.com)",
+		"repository": "sindresorhus/p-timeout",
+		"source": "https://registry.npmjs.org/p-timeout/-/p-timeout-6.1.2.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "p-timeout",
+		"version": "5.1.0",
+		"author": "Sindre Sorhus <sindresorhus@gmail.com> (https://sindresorhus.com)",
+		"repository": "sindresorhus/p-timeout",
+		"source": "https://registry.npmjs.org/p-timeout/-/p-timeout-5.1.0.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "path",
+		"version": "0.12.7",
+		"author": "Joyent (http://www.joyent.com)",
+		"repository": "git://github.com/jinder/path.git",
+		"source": "https://registry.npmjs.org/path/-/path-0.12.7.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "path-posix",
+		"version": "1.0.0",
+		"author": "jden <jason@denizac.org>",
+		"repository": "git@github.com:jden/node-path-posix.git",
+		"source": "https://registry.npmjs.org/path-posix/-/path-posix-1.0.0.tgz",
+		"license": "ISC"
+	},
+	{
+		"name": "pinia",
+		"version": "2.1.7",
+		"author": "Eduardo San Martin Morote <posva13@gmail.com>",
+		"repository": "git+https://github.com/vuejs/pinia.git",
+		"source": "https://registry.npmjs.org/pinia/-/pinia-2.1.7.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "popper.js",
+		"version": "1.16.1",
+		"author": "Federico Zivolo <federico.zivolo@gmail.com>",
+		"repository": "git+https://github.com/FezVrasta/popper.js.git",
+		"source": "https://registry.npmjs.org/popper.js/-/popper.js-1.16.1.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "possible-typed-array-names",
+		"version": "1.0.0",
+		"author": "Jordan Harband <ljharb@gmail.com>",
+		"repository": "git+https://github.com/ljharb/possible-typed-array-names.git",
+		"source": "https://registry.npmjs.org/possible-typed-array-names/-/possible-typed-array-names-1.0.0.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "process",
+		"version": "0.11.10",
+		"author": "Roman Shtylman <shtylman@gmail.com>",
+		"repository": "git://github.com/shtylman/node-process.git",
+		"source": "https://registry.npmjs.org/process/-/process-0.11.10.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "property-information",
+		"version": "6.4.1",
+		"author": "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
+		"repository": "wooorm/property-information",
+		"source": "https://registry.npmjs.org/property-information/-/property-information-6.4.1.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "punycode",
+		"version": "1.4.1",
+		"author": "Mathias Bynens (https://mathiasbynens.be/)",
+		"repository": "https://github.com/bestiejs/punycode.js.git",
+		"source": "https://registry.npmjs.org/punycode/-/punycode-1.4.1.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "qs",
+		"version": "6.11.2",
+		"repository": "https://github.com/ljharb/qs.git",
+		"source": "https://registry.npmjs.org/qs/-/qs-6.11.2.tgz",
+		"license": "BSD-3-Clause"
+	},
+	{
+		"name": "query-string",
+		"version": "9.0.0",
+		"author": "Sindre Sorhus <sindresorhus@gmail.com> (https://sindresorhus.com)",
+		"repository": "sindresorhus/query-string",
+		"source": "https://registry.npmjs.org/query-string/-/query-string-9.0.0.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "readable-stream",
+		"version": "3.6.2",
+		"repository": "git://github.com/nodejs/readable-stream",
+		"source": "https://registry.npmjs.org/readable-stream/-/readable-stream-3.6.2.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "regenerator-runtime",
+		"version": "0.14.1",
+		"author": "Ben Newman <bn@cs.stanford.edu>",
+		"repository": "https://github.com/facebook/regenerator/tree/main/packages/runtime",
+		"source": "https://registry.npmjs.org/regenerator-runtime/-/regenerator-runtime-0.14.1.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "regexp-tree",
+		"version": "0.1.27",
+		"author": "Dmitry Soshnikov",
+		"repository": "DmitrySoshnikov/regexp-tree",
+		"source": "https://registry.npmjs.org/regexp-tree/-/regexp-tree-0.1.27.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "rehype-external-links",
+		"version": "3.0.0",
+		"author": "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
+		"repository": "rehypejs/rehype-external-links",
+		"source": "https://registry.npmjs.org/rehype-external-links/-/rehype-external-links-3.0.0.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "rehype-react",
+		"version": "7.2.0",
+		"author": "rhysd <lin90162@yahoo.co.jp>",
+		"repository": "rehypejs/rehype-react",
+		"source": "https://registry.npmjs.org/rehype-react/-/rehype-react-7.2.0.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "remark-breaks",
+		"version": "4.0.0",
+		"author": "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
+		"repository": "remarkjs/remark-breaks",
+		"source": "https://registry.npmjs.org/remark-breaks/-/remark-breaks-4.0.0.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "remark-gfm",
+		"version": "4.0.0",
+		"author": "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
+		"repository": "remarkjs/remark-gfm",
+		"source": "https://registry.npmjs.org/remark-gfm/-/remark-gfm-4.0.0.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "remark-parse",
+		"version": "11.0.0",
+		"author": "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
+		"repository": "https://github.com/remarkjs/remark/tree/main/packages/remark-parse",
+		"source": "https://registry.npmjs.org/remark-parse/-/remark-parse-11.0.0.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "remark-rehype",
+		"version": "11.1.0",
+		"author": "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
+		"repository": "remarkjs/remark-rehype",
+		"source": "https://registry.npmjs.org/remark-rehype/-/remark-rehype-11.1.0.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "safe-buffer",
+		"version": "5.2.1",
+		"author": "Feross Aboukhadijeh <feross@feross.org> (https://feross.org)",
+		"repository": "git://github.com/feross/safe-buffer.git",
+		"source": "https://registry.npmjs.org/safe-buffer/-/safe-buffer-5.2.1.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "sax",
+		"version": "1.3.0",
+		"author": "Isaac Z. Schlueter <i@izs.me> (http://blog.izs.me/)",
+		"repository": "git://github.com/isaacs/sax-js.git",
+		"source": "https://registry.npmjs.org/sax/-/sax-1.3.0.tgz",
+		"license": "ISC"
+	},
+	{
+		"name": "select2",
+		"version": "3.5.1",
+		"author": "Igor Vaynberg",
+		"repository": "git://github.com/ivaynberg/select2.git",
+		"source": "https://registry.npmjs.org/select2/-/select2-3.5.1.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "semver",
+		"version": "7.6.0",
+		"author": "GitHub Inc.",
+		"repository": "https://github.com/npm/node-semver.git",
+		"source": "https://registry.npmjs.org/semver/-/semver-7.6.0.tgz",
+		"license": "ISC"
+	},
+	{
+		"name": "set-function-length",
+		"version": "1.2.1",
+		"author": "Jordan Harband <ljharb@gmail.com>",
+		"repository": "git+https://github.com/ljharb/set-function-length.git",
+		"source": "https://registry.npmjs.org/set-function-length/-/set-function-length-1.2.1.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "setimmediate",
+		"version": "1.0.5",
+		"author": "YuzuJS",
+		"repository": "YuzuJS/setImmediate",
+		"source": "https://registry.npmjs.org/setimmediate/-/setimmediate-1.0.5.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "side-channel",
+		"version": "1.0.5",
+		"author": "Jordan Harband <ljharb@gmail.com>",
+		"repository": "git+https://github.com/ljharb/side-channel.git",
+		"source": "https://registry.npmjs.org/side-channel/-/side-channel-1.0.5.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "simple-eta",
+		"version": "3.0.2",
+		"author": "Stefan-Gabriel Muscalu <stefan.gabriel.muscalu@gmail.com>",
+		"repository": "git@github.com:legraphista/eta.git",
+		"source": "https://registry.npmjs.org/simple-eta/-/simple-eta-3.0.2.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "snap.js",
+		"version": "2.0.9",
+		"author": "Joey Andres",
+		"repository": "https://github.com/JoeyAndres/Snap.js.git",
+		"source": "https://registry.npmjs.org/snap.js/-/snap.js-2.0.9.tgz",
+		"license": "ISC"
+	},
+	{
+		"name": "sortablejs",
+		"version": "1.10.2",
+		"repository": "git://github.com/SortableJS/Sortable.git",
+		"source": "https://registry.npmjs.org/sortablejs/-/sortablejs-1.10.2.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "space-separated-tokens",
+		"version": "2.0.2",
+		"author": "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
+		"repository": "wooorm/space-separated-tokens",
+		"source": "https://registry.npmjs.org/space-separated-tokens/-/space-separated-tokens-2.0.2.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "split-on-first",
+		"version": "3.0.0",
+		"author": "Sindre Sorhus <sindresorhus@gmail.com> (https://sindresorhus.com)",
+		"repository": "sindresorhus/split-on-first",
+		"source": "https://registry.npmjs.org/split-on-first/-/split-on-first-3.0.0.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "splitpanes",
+		"version": "2.4.1",
+		"author": "Antoni Andre <antoniandre.web@gmail.com>",
+		"repository": "https://github.com/antoniandre/splitpanes",
+		"source": "https://registry.npmjs.org/splitpanes/-/splitpanes-2.4.1.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "stream-browserify",
+		"version": "3.0.0",
+		"author": "James Halliday <mail@substack.net> (http://substack.net)",
+		"repository": "git://github.com/browserify/stream-browserify.git",
+		"source": "https://registry.npmjs.org/stream-browserify/-/stream-browserify-3.0.0.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "strengthify",
+		"version": "0.5.9",
+		"author": "Morris Jobke",
+		"repository": "git+https://github.com/MorrisJobke/strengthify.git",
+		"source": "https://registry.npmjs.org/strengthify/-/strengthify-0.5.9.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "string_decoder",
+		"version": "1.3.0",
+		"repository": "git://github.com/nodejs/string_decoder.git",
+		"source": "https://registry.npmjs.org/string_decoder/-/string_decoder-1.3.0.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "string-length",
+		"version": "5.0.1",
+		"author": "Sindre Sorhus <sindresorhus@gmail.com> (https://sindresorhus.com)",
+		"repository": "sindresorhus/string-length",
+		"source": "https://registry.npmjs.org/string-length/-/string-length-5.0.1.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "strip-ansi",
+		"version": "7.1.0",
+		"author": "Sindre Sorhus <sindresorhus@gmail.com> (https://sindresorhus.com)",
+		"repository": "chalk/strip-ansi",
+		"source": "https://registry.npmjs.org/strip-ansi/-/strip-ansi-7.1.0.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "striptags",
+		"version": "3.2.0",
+		"author": "Eric Norris (https://github.com/ericnorris)",
+		"repository": "https://github.com/ericnorris/striptags.git",
+		"source": "https://registry.npmjs.org/striptags/-/striptags-3.2.0.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "strnum",
+		"version": "1.0.5",
+		"author": "Amit Gupta (https://amitkumargupta.work/)",
+		"repository": "https://github.com/NaturalIntelligence/strnum",
+		"source": "https://registry.npmjs.org/strnum/-/strnum-1.0.5.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "style-loader",
+		"version": "3.3.4",
+		"author": "Tobias Koppers @sokra",
+		"repository": "webpack-contrib/style-loader",
+		"source": "https://registry.npmjs.org/style-loader/-/style-loader-3.3.4.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "style-to-object",
+		"version": "0.4.4",
+		"author": "Mark <mark@remarkablemark.org>",
+		"repository": "https://github.com/remarkablemark/style-to-object",
+		"source": "https://registry.npmjs.org/style-to-object/-/style-to-object-0.4.4.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "tabbable",
+		"version": "6.2.0",
+		"author": "David Clark (http://davidtheclark.com/)",
+		"repository": "git+https://github.com/focus-trap/tabbable.git",
+		"source": "https://registry.npmjs.org/tabbable/-/tabbable-6.2.0.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "throttle-debounce",
+		"version": "5.0.0",
+		"author": "Ivan Nikolić <niksy5@gmail.com> (http://ivannikolic.com)",
+		"repository": "git+https://github.com/niksy/throttle-debounce.git",
+		"source": "https://registry.npmjs.org/throttle-debounce/-/throttle-debounce-5.0.0.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "timers-browserify",
+		"version": "2.0.12",
+		"author": "J. Ryan Stinnett <jryans@gmail.com> (https://convolv.es/)",
+		"repository": "git://github.com/jryans/timers-browserify.git",
+		"source": "https://registry.npmjs.org/timers-browserify/-/timers-browserify-2.0.12.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "toastify-js",
+		"version": "1.12.0",
+		"author": "Varun A P",
+		"repository": "git+https://github.com/apvarun/toastify-js.git",
+		"source": "https://registry.npmjs.org/toastify-js/-/toastify-js-1.12.0.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "tributejs",
+		"version": "5.1.3",
+		"author": "Jordan Humphreys <jordan@zurb.com>",
+		"repository": "git://github.com/zurb/tribute.git",
+		"source": "https://registry.npmjs.org/tributejs/-/tributejs-5.1.3.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "trim-lines",
+		"version": "3.0.1",
+		"author": "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
+		"repository": "wooorm/trim-lines",
+		"source": "https://registry.npmjs.org/trim-lines/-/trim-lines-3.0.1.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "trough",
+		"version": "2.2.0",
+		"author": "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
+		"repository": "wooorm/trough",
+		"source": "https://registry.npmjs.org/trough/-/trough-2.2.0.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "ua-regexes-lite",
+		"version": "1.2.1",
+		"author": "dangreen",
+		"repository": "https://github.com/TrigenSoftware/ua-regexes-lite.git",
+		"source": "https://registry.npmjs.org/ua-regexes-lite/-/ua-regexes-lite-1.2.1.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "underscore",
+		"version": "1.13.6",
+		"author": "Jeremy Ashkenas <jeremy@documentcloud.org>",
+		"repository": "git://github.com/jashkenas/underscore.git",
+		"source": "https://registry.npmjs.org/underscore/-/underscore-1.13.6.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "unified",
+		"version": "11.0.4",
+		"author": "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
+		"repository": "unifiedjs/unified",
+		"source": "https://registry.npmjs.org/unified/-/unified-11.0.4.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "unist-builder",
+		"version": "4.0.0",
+		"author": "Eugene Sharygin <eush77@gmail.com>",
+		"repository": "syntax-tree/unist-builder",
+		"source": "https://registry.npmjs.org/unist-builder/-/unist-builder-4.0.0.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "unist-util-is",
+		"version": "3.0.0",
+		"author": "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
+		"repository": "syntax-tree/unist-util-is",
+		"source": "https://registry.npmjs.org/unist-util-is/-/unist-util-is-3.0.0.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "unist-util-is",
+		"version": "6.0.0",
+		"author": "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
+		"repository": "syntax-tree/unist-util-is",
+		"source": "https://registry.npmjs.org/unist-util-is/-/unist-util-is-6.0.0.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "unist-util-position",
+		"version": "5.0.0",
+		"author": "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
+		"repository": "syntax-tree/unist-util-position",
+		"source": "https://registry.npmjs.org/unist-util-position/-/unist-util-position-5.0.0.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "unist-util-stringify-position",
+		"version": "4.0.0",
+		"author": "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
+		"repository": "syntax-tree/unist-util-stringify-position",
+		"source": "https://registry.npmjs.org/unist-util-stringify-position/-/unist-util-stringify-position-4.0.0.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "unist-util-visit",
+		"version": "1.4.1",
+		"author": "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
+		"repository": "syntax-tree/unist-util-visit",
+		"source": "https://registry.npmjs.org/unist-util-visit/-/unist-util-visit-1.4.1.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "unist-util-visit",
+		"version": "5.0.0",
+		"author": "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
+		"repository": "syntax-tree/unist-util-visit",
+		"source": "https://registry.npmjs.org/unist-util-visit/-/unist-util-visit-5.0.0.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "unist-util-visit-parents",
+		"version": "2.1.2",
+		"author": "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
+		"repository": "syntax-tree/unist-util-visit-parents",
+		"source": "https://registry.npmjs.org/unist-util-visit-parents/-/unist-util-visit-parents-2.1.2.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "unist-util-visit-parents",
+		"version": "6.0.1",
+		"author": "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
+		"repository": "syntax-tree/unist-util-visit-parents",
+		"source": "https://registry.npmjs.org/unist-util-visit-parents/-/unist-util-visit-parents-6.0.1.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "url",
+		"version": "0.11.3",
+		"author": "defunctzombie",
+		"repository": "https://github.com/defunctzombie/node-url.git",
+		"source": "https://registry.npmjs.org/url/-/url-0.11.3.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "url-search-params-polyfill",
+		"version": "8.2.5",
+		"author": "Jerry Bendy <jerry@icewingcc.com>",
+		"repository": "git://github.com/jerrybendy/url-search-params-polyfill.git",
+		"source": "https://registry.npmjs.org/url-search-params-polyfill/-/url-search-params-polyfill-8.2.5.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "util",
+		"version": "0.10.4",
+		"author": "Joyent (http://www.joyent.com)",
+		"repository": "git://github.com/defunctzombie/node-util",
+		"source": "https://registry.npmjs.org/util/-/util-0.10.4.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "util",
+		"version": "0.12.5",
+		"author": "Joyent (http://www.joyent.com)",
+		"repository": "git://github.com/browserify/node-util",
+		"source": "https://registry.npmjs.org/util/-/util-0.12.5.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "util-deprecate",
+		"version": "1.0.2",
+		"author": "Nathan Rajlich <nathan@tootallnate.net> (http://n8.io/)",
+		"repository": "git://github.com/TooTallNate/util-deprecate.git",
+		"source": "https://registry.npmjs.org/util-deprecate/-/util-deprecate-1.0.2.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "uuid",
+		"version": "9.0.1",
+		"repository": "https://github.com/uuidjs/uuid.git",
+		"source": "https://registry.npmjs.org/uuid/-/uuid-9.0.1.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "v-tooltip",
+		"version": "2.1.3",
+		"author": "Guillaume Chau <guillaume.b.chau@gmail.com>",
+		"repository": "git+https://github.com/Akryum/vue-tooltip.git",
+		"source": "https://registry.npmjs.org/v-tooltip/-/v-tooltip-2.1.3.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "vfile",
+		"version": "6.0.1",
+		"author": "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
+		"repository": "vfile/vfile",
+		"source": "https://registry.npmjs.org/vfile/-/vfile-6.0.1.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "vfile-message",
+		"version": "4.0.2",
+		"author": "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
+		"repository": "vfile/vfile-message",
+		"source": "https://registry.npmjs.org/vfile-message/-/vfile-message-4.0.2.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "vue",
+		"version": "2.7.16",
+		"author": "Evan You",
+		"repository": "git+https://github.com/vuejs/vue.git",
+		"source": "https://registry.npmjs.org/vue/-/vue-2.7.16.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "vue-click-outside",
+		"version": "1.1.0",
+		"author": "Fangdun Cai <cfddream@gmail.com>",
+		"repository": "vue-bulma/click-outside",
+		"source": "https://registry.npmjs.org/vue-click-outside/-/vue-click-outside-1.1.0.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "vue-color",
+		"version": "2.8.1",
+		"author": "xiaokai <kexiaokai@gmail.com>",
+		"repository": "https://github.com/xiaokaike/vue-color",
+		"source": "https://registry.npmjs.org/vue-color/-/vue-color-2.8.1.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "vue-cropperjs",
+		"version": "4.2.0",
+		"author": "Iftekhar Rifat <rifat662@gmail.com> (https://github.com/Agontuk)",
+		"repository": "https://github.com/Agontuk/vue-cropperjs.git",
+		"source": "https://registry.npmjs.org/vue-cropperjs/-/vue-cropperjs-4.2.0.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "vue-demi",
+		"version": "0.14.7",
+		"author": "Anthony Fu <anthonyfu117@hotmail.com>",
+		"repository": "https://github.com/antfu/vue-demi.git",
+		"source": "https://registry.npmjs.org/vue-demi/-/vue-demi-0.14.7.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "vue-frag",
+		"version": "1.4.3",
+		"author": "Hiroki Osame <hiroki.osame@gmail.com>",
+		"repository": "privatenumber/vue-frag",
+		"source": "https://registry.npmjs.org/vue-frag/-/vue-frag-1.4.3.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "vue-loader",
+		"version": "15.11.1",
+		"author": "Evan You",
+		"repository": "https://github.com/vuejs/vue-loader.git",
+		"source": "https://registry.npmjs.org/vue-loader/-/vue-loader-15.11.1.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "vue-material-design-icons",
+		"version": "5.3.0",
+		"author": "Rob Cresswell <robcresswell@pm.me>",
+		"repository": "github:robcresswell/vue-material-design-icons",
+		"source": "https://registry.npmjs.org/vue-material-design-icons/-/vue-material-design-icons-5.3.0.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "vue-resize",
+		"version": "1.0.1",
+		"author": "Guillaume Chau <guillaume.b.chau@gmail.com>",
+		"repository": "git+https://github.com/Akryum/vue-resize.git",
+		"source": "https://registry.npmjs.org/vue-resize/-/vue-resize-1.0.1.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "vue-router",
+		"version": "3.6.5",
+		"author": "Evan You",
+		"repository": "https://github.com/vuejs/vue-router.git",
+		"source": "https://registry.npmjs.org/vue-router/-/vue-router-3.6.5.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "vue2-datepicker",
+		"version": "3.11.1",
+		"author": "xiemengxiong",
+		"repository": "git+https://github.com/mengxiong10/vue2-datepicker.git",
+		"source": "https://registry.npmjs.org/vue2-datepicker/-/vue2-datepicker-3.11.1.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "vuedraggable",
+		"version": "2.24.3",
+		"repository": "https://github.com/SortableJS/Vue.Draggable.git",
+		"source": "https://registry.npmjs.org/vuedraggable/-/vuedraggable-2.24.3.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "vuex",
+		"version": "3.6.2",
+		"author": "Evan You",
+		"repository": "git+https://github.com/vuejs/vuex.git",
+		"source": "https://registry.npmjs.org/vuex/-/vuex-3.6.2.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "vuex-router-sync",
+		"version": "5.0.0",
+		"author": "Evan You",
+		"repository": "git+https://github.com/vuejs/vuex-router-sync.git",
+		"source": "https://registry.npmjs.org/vuex-router-sync/-/vuex-router-sync-5.0.0.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "web-namespaces",
+		"version": "2.0.1",
+		"author": "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
+		"repository": "wooorm/web-namespaces",
+		"source": "https://registry.npmjs.org/web-namespaces/-/web-namespaces-2.0.1.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "webdav",
+		"version": "5.5.0",
+		"author": "Perry Mitchell <perry@perrymitchell.net>",
+		"repository": "git+https://github.com/perry-mitchell/webdav-client.git",
+		"source": "https://registry.npmjs.org/webdav/-/webdav-5.5.0.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "which-typed-array",
+		"version": "1.1.14",
+		"author": "Jordan Harband <ljharb@gmail.com> (http://ljharb.codes)",
+		"repository": "git://github.com/inspect-js/which-typed-array.git",
+		"source": "https://registry.npmjs.org/which-typed-array/-/which-typed-array-1.1.14.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "xml2js",
+		"version": "0.6.2",
+		"author": "Marek Kubica <marek@xivilization.net> (https://xivilization.net)",
+		"repository": "https://github.com/Leonidas-from-XIV/node-xml2js.git",
+		"source": "https://registry.npmjs.org/xml2js/-/xml2js-0.6.2.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "xmlbuilder",
+		"version": "11.0.1",
+		"author": "Ozgur Ozcitak <oozcitak@gmail.com>",
+		"repository": "git://github.com/oozcitak/xmlbuilder-js.git",
+		"source": "https://registry.npmjs.org/xmlbuilder/-/xmlbuilder-11.0.1.tgz",
+		"license": "MIT"
+	},
+	{
+		"name": "yocto-queue",
+		"version": "1.0.0",
+		"author": "Sindre Sorhus <sindresorhus@gmail.com> (https://sindresorhus.com)",
+		"repository": "sindresorhus/yocto-queue",
+		"source": "https://registry.npmjs.org/yocto-queue/-/yocto-queue-1.0.0.tgz",
+		"license": "MIT"
+	}
+]
