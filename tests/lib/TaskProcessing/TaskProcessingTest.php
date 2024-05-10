@@ -24,6 +24,7 @@ use OCP\Files\IRootFolder;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IServerContainer;
+use OCP\IUserManager;
 use OCP\SpeechToText\ISpeechToTextManager;
 use OCP\TaskProcessing\EShapeType;
 use OCP\TaskProcessing\Events\TaskFailedEvent;
@@ -301,6 +302,8 @@ class TaskProcessingTest extends \Test\TestCase {
 	private \OCP\Share\IManager $shareManager;
 	private IRootFolder $rootFolder;
 
+	const TEST_USER = 'testuser';
+
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -315,6 +318,11 @@ class TaskProcessingTest extends \Test\TestCase {
 			SuccessfulTextToImageProvider::class => new SuccessfulTextToImageProvider(),
 			FailingTextToImageProvider::class => new FailingTextToImageProvider(),
 		];
+
+		$userManager = \OCP\Server::get(IUserManager::class);
+		if (!$userManager->userExists(self::TEST_USER)) {
+			$userManager->createUser(self::TEST_USER, 'test');
+		}
 
 		$this->serverContainer = $this->createMock(IServerContainer::class);
 		$this->serverContainer->expects($this->any())->method('get')->willReturnCallback(function ($class) {
@@ -384,18 +392,9 @@ class TaskProcessingTest extends \Test\TestCase {
 	}
 
 	private function getFile(string $name, string $content): \OCP\Files\File {
-		$this->appData = \OC::$server->get(IAppDataFactory::class)->get('core');
-		try {
-			$folder = $this->appData->getFolder('test');
-		} catch (\OCP\Files\NotFoundException $e) {
-			$folder = $this->appData->newFolder('test');
-		}
+		$folder = $this->rootFolder->getUserFolder(self::TEST_USER);
 		$file = $folder->newFile($name, $content);
-		$inputFile = current($this->rootFolder->getByIdInPath($file->getId(), '/' . $this->rootFolder->getAppDataDirectoryName() . '/'));
-		if (!$inputFile instanceof \OCP\Files\File) {
-			throw new \Exception('PEBCAK');
-		}
-		return $inputFile;
+		return $file;
 	}
 
 	public function testShouldNotHaveAnyProviders() {
