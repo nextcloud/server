@@ -29,7 +29,9 @@ declare(strict_types=1);
 namespace OCA\Dashboard\Controller;
 
 use OCA\Dashboard\ResponseDefinitions;
+use OCA\Dashboard\Service\DashboardService;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\ApiRoute;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCSController;
 use OCP\Dashboard\IAPIWidget;
@@ -60,6 +62,7 @@ class DashboardApiController extends OCSController {
 		private IManager $dashboardManager,
 		private IConfig $config,
 		private ?string $userId,
+		private DashboardService $service,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -96,6 +99,7 @@ class DashboardApiController extends OCSController {
 	 *
 	 * 200: Widget items returned
 	 */
+	#[ApiRoute(verb: 'GET', url: '/api/v1/widget-items')]
 	public function getWidgetItems(array $sinceIds = [], int $limit = 7, array $widgets = []): DataResponse {
 		$items = [];
 		$widgets = $this->getShownWidgets($widgets);
@@ -124,6 +128,7 @@ class DashboardApiController extends OCSController {
 	 *
 	 * 200: Widget items returned
 	 */
+	#[ApiRoute(verb: 'GET', url: '/api/v2/widget-items')]
 	public function getWidgetItemsV2(array $sinceIds = [], int $limit = 7, array $widgets = []): DataResponse {
 		$items = [];
 		$widgets = $this->getShownWidgets($widgets);
@@ -148,6 +153,7 @@ class DashboardApiController extends OCSController {
 	 *
 	 * 200: Widgets returned
 	 */
+	#[ApiRoute(verb: 'GET', url: '/api/v1/widgets')]
 	public function getWidgets(): DataResponse {
 		$widgets = $this->dashboardManager->getWidgets();
 
@@ -188,5 +194,61 @@ class DashboardApiController extends OCSController {
 		}, $widgets);
 
 		return new DataResponse($items);
+	}
+
+	/**
+	 * Get the layout
+	 *
+	 * @NoAdminRequired
+	 * @return DataResponse<Http::STATUS_OK, array{layout: list<string>}, array{}>
+	 *
+	 * 200: Layout returned
+	 */
+	#[ApiRoute(verb: 'GET', url: '/api/v3/layout')]
+	public function getLayout(): DataResponse {
+		return new DataResponse(['layout' => $this->service->getLayout()]);
+	}
+
+	/**
+	 * Update the layout
+	 *
+	 * @NoAdminRequired
+	 * @param list<string> $layout The new layout
+	 * @return DataResponse<Http::STATUS_OK, array{layout: list<string>}, array{}>
+	 *
+	 * 200: Statuses updated successfully
+	 */
+	#[ApiRoute(verb: 'POST', url: '/api/v3/layout')]
+	public function updateLayout(array $layout): DataResponse {
+		$this->config->setUserValue($this->userId, 'dashboard', 'layout', implode(',', $layout));
+		return new DataResponse(['layout' => $layout]);
+	}
+
+	/**
+	 * Get the statuses
+	 *
+	 * @NoAdminRequired
+	 * @return DataResponse<Http::STATUS_OK, array{statuses: list<string>}, array{}>
+	 *
+	 * 200: Statuses returned
+	 */
+	#[ApiRoute(verb: 'GET', url: '/api/v3/statuses')]
+	public function getStatuses(): DataResponse {
+		return new DataResponse(['statuses' => $this->service->getStatuses()]);
+	}
+
+	/**
+	 * Update the statuses
+	 *
+	 * @NoAdminRequired
+	 * @param list<string> $statuses The new statuses
+	 * @return DataResponse<Http::STATUS_OK, array{statuses: list<string>}, array{}>
+	 *
+	 * 200: Statuses updated successfully
+	 */
+	#[ApiRoute(verb: 'POST', url: '/api/v3/statuses')]
+	public function updateStatuses(array $statuses): DataResponse {
+		$this->config->setUserValue($this->userId, 'dashboard', 'statuses', implode(',', $statuses));
+		return new DataResponse(['statuses' => $statuses]);
 	}
 }

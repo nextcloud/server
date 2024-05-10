@@ -30,10 +30,11 @@ declare(strict_types=1);
  */
 namespace OCA\Dashboard\Controller;
 
+use OCA\Dashboard\Service\DashboardService;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\FrontpageRoute;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
-use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\Dashboard\IManager;
@@ -54,7 +55,8 @@ class DashboardController extends Controller {
 		private IManager $dashboardManager,
 		private IConfig $config,
 		private IL10N $l10n,
-		private ?string $userId
+		private ?string $userId,
+		private DashboardService $service,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -64,12 +66,11 @@ class DashboardController extends Controller {
 	 * @NoAdminRequired
 	 * @return TemplateResponse
 	 */
+	#[FrontpageRoute(verb: 'GET', url: '/')]
 	public function index(): TemplateResponse {
 		\OCP\Util::addStyle('dashboard', 'dashboard');
 		\OCP\Util::addScript('dashboard', 'main', 'theming');
 
-		$systemDefault = $this->config->getAppValue('dashboard', 'layout', 'recommendations,spreed,mail,calendar');
-		$userLayout = explode(',', $this->config->getUserValue($this->userId, 'dashboard', 'layout', $systemDefault));
 		$widgets = array_map(function (IWidget $widget) {
 			return [
 				'id' => $widget->getId(),
@@ -78,15 +79,10 @@ class DashboardController extends Controller {
 				'url' => $widget->getUrl()
 			];
 		}, $this->dashboardManager->getWidgets());
-		$configStatuses = $this->config->getUserValue($this->userId, 'dashboard', 'statuses', '');
-		$statuses = json_decode($configStatuses, true);
-		// We avoid getting an empty array as it will not produce an object in UI's JS
-		// It does not matter if some statuses are missing from the array, missing ones are considered enabled
-		$statuses = ($statuses && count($statuses) > 0) ? $statuses : ['weather' => true];
 
 		$this->initialState->provideInitialState('panels', $widgets);
-		$this->initialState->provideInitialState('statuses', $statuses);
-		$this->initialState->provideInitialState('layout', $userLayout);
+		$this->initialState->provideInitialState('statuses', $this->service->getStatuses());
+		$this->initialState->provideInitialState('layout', $this->service->getLayout());
 		$this->initialState->provideInitialState('appStoreEnabled', $this->config->getSystemValueBool('appstoreenabled', true));
 		$this->initialState->provideInitialState('firstRun', $this->config->getUserValue($this->userId, 'dashboard', 'firstRun', '1') === '1');
 		$this->config->setUserValue($this->userId, 'dashboard', 'firstRun', '0');
@@ -103,25 +99,5 @@ class DashboardController extends Controller {
 		$response->setFeaturePolicy($featurePolicy);
 
 		return $response;
-	}
-
-	/**
-	 * @NoAdminRequired
-	 * @param string $layout
-	 * @return JSONResponse
-	 */
-	public function updateLayout(string $layout): JSONResponse {
-		$this->config->setUserValue($this->userId, 'dashboard', 'layout', $layout);
-		return new JSONResponse(['layout' => $layout]);
-	}
-
-	/**
-	 * @NoAdminRequired
-	 * @param string $statuses
-	 * @return JSONResponse
-	 */
-	public function updateStatuses(string $statuses): JSONResponse {
-		$this->config->setUserValue($this->userId, 'dashboard', 'statuses', $statuses);
-		return new JSONResponse(['statuses' => $statuses]);
 	}
 }
