@@ -47,7 +47,7 @@ trait CheckServerResponseTrait {
 	 * Common helper string in case a check could not fetch any results
 	 */
 	protected function serverConfigHelp(): string {
-		return $this->l10n->t('To allow this check to run you have to make sure that your webserver can connect to itself. Therefor it must be able to resolve and connect to at least one its `trusted_domains` or the `overwrite.cli.url`.');
+		return $this->l10n->t('To allow this check to run you have to make sure that your Web server can connect to itself. Therefore it must be able to resolve and connect to at least one of its `trusted_domains` or the `overwrite.cli.url`. This failure may be the result of a server-side DNS mismatch or outbound firewall rule.');
 	}
 
 	/**
