@@ -975,14 +975,10 @@ class QueryBuilder implements IQueryBuilder {
 	 *
 	 * @return $this This QueryBuilder instance.
 	 */
-	public function addGroupBy(...$groupBys) {
-		if (count($groupBys) === 1 && is_array($groupBys[0])) {
-			$$groupBys = $groupBys[0];
-		}
-
+	public function addGroupBy(...$groupBy) {
 		call_user_func_array(
 			[$this->queryBuilder, 'addGroupBy'],
-			$this->helper->quoteColumnNames($groupBys)
+			$this->helper->quoteColumnNames($groupBy)
 		);
 
 		return $this;
