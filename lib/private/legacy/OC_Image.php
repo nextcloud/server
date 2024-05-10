@@ -1167,7 +1167,7 @@ if (!function_exists('exif_imagetype')) {
 	 *
 	 * @link https://www.php.net/manual/en/function.exif-imagetype.php#80383
 	 * @param string $fileName
-	 * @return string|boolean
+	 * @return int|false
 	 */
 	function exif_imagetype(string $fileName) {
 		if (($info = getimagesize($fileName)) !== false) {
