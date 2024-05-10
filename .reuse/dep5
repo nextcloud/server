@@ -7,6 +7,14 @@ Files: lib/l10n/*.js lib/l10n/*.json core/l10n/*.js core/l10n/*.json apps/admin_
 Copyright: 2016 ownCloud, Inc., 2016-2024 Nextcloud translators
 License: AGPL-3.0-only OR AGPL-3.0-or-later
 
+Files: core/img/favicon*.* core/img/logo/logo*.*
+Copyright: 2016-2024 Nextcloud GmbH
+License: LicenseRef-NextcloudTrademarks
+
+Files: core/css/*.css core/css/*.css.map
+Copyright: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+License: AGPL-3.0-or-later
+
 Files: build/psalm-baseline-ocp.xml build/psalm-baseline.xml build/stubs/xsl.php build/stubs/gd.php build/stubs/imagick.php build/stubs/intl.php build/stubs/IntlChar.php build/stubs/ldap.php build/stubs/memcached.php build/stubs/redis.php build/stubs/redis_cluster.php build/stubs/sftp.php build/stubs/ssh2.php build/stubs/apcu.php
 Copyright: 2020 Nextcloud GmbH and Nextcloud contributors
 License: AGPL-3.0-or-later
@@ -14,6 +22,22 @@ License: AGPL-3.0-or-later
 Files: build/stubs/pcntl.php build/stubs/zip.php
 Copyright: 2022 JetBrains
 License: Apache-2.0
+
+Files: core/js/mimetypelist.js core/js/core.json themes/example/core/img
+Copyright: 2016 ownCloud, Inc., 2016-2024 Nextcloud GmbH and Nextcloud contributors
+License: AGPL-3.0-only
+
+Files: core/js/merged-template-prepend.json
+Copyright: Inc., 2017 Nextcloud GmbH and Nextcloud contributors
+License: AGPL-3.0-or-later
+
+Files: core/src/systemtags/templates/result.handlebars core/src/systemtags/templates/result_form.handlebars core/src/systemtags/templates/selection.handlebars
+Copyright: 2018 Nextcloud GmbH and Nextcloud contributors
+License: AGPL-3.0-or-later
+
+Files: core/src/jquery/contactsmenu/jquery_entry.handlebars tests/data/integritycheck/mimetypeListModified/core/js/mimetypelist.js
+Copyright: 2019 Nextcloud GmbH and Nextcloud contributors
+License: AGPL-3.0-or-later
 
 Files: build/stubs/ftp.php
 Copyright: 2022 Nextcloud GmbH and Nextcloud contributors
@@ -30,3 +54,27 @@ License: AGPL-3.0-or-later
 Files: .gitattributes composer.json composer.lock .github/CODEOWNERS __tests__/tsconfig.json tsconfig.json build/integration/composer.* build/integration/data/*.png
 Copyright: 2011-2016 ownCloud, Inc., 2016-2024 Nextcloud GmbH and Nextcloud contributors
 License: AGPL-3.0-only OR AGPL-3.0-or-later
+
+Files: core/img/twitter.svg
+Copyright: X Corp. 
+License: LicenseRef-XTrademarks
+
+Files: core/img/facebook.svg
+Copyright: 2024 Meta
+License: LicenseRef-FacebookTrademarks
+
+Files: core/img/mastodon.svg
+Copyright: 2024 Mastodon gGmbH
+License: LicenseRef-MastodonTrademarks
+
+Files: core/img/googleplay.png
+Copyright: 2024 Google LLC.
+License: LicenseRef-GooglePlayBadge
+
+Files: core/img/appstore.svg
+Copyright: 2024 Apple Inc.
+License: LicenseRef-AppleAppStoreBadge
+
+Files: core/img/fdroid.svg
+Copyright: 2016 Andrew Nayenko <relan@airpost.net>
+License: CC-BY-SA-3.0 OR GPL-3.0-or-later

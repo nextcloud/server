@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
+<!--
+ - SPDX-FileCopyrightText: 2014-2016 ownCloud, Inc.
+ - SPDX-License-Identifier: AGPL-3.0-only
+-->
 <phpunit bootstrap="bootstrap.php"
 		 verbose="true"
 		 timeoutForSmallTests="900"

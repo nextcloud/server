@@ -1,11 +1,7 @@
 /**
- * Copyright (c) 2015 Lukas Reschke <lukas@owncloud.com>
- *
- * This file is licensed under the Affero General Public License version 3
- * or later.
- *
- * See the COPYING-README file.
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2015 ownCloud Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 describe('OC.SetupChecks tests', function() {

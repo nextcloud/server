@@ -1,13 +1,9 @@
 <?php
 /**
- * @author Thomas Müller
- * @author Lukas Reschke
- * @copyright 2014 Thomas Müller deepdiver@owncloud.com
- * @copyright 2016 Lukas Reschke <lukas@statuscode.ch>
- *
- * See the COPYING-README file.
+ * SPDX-FileCopyrightText: 2016-2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2014-2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
-
 namespace Test\App;
 
 use OC\App\DependencyAnalyzer;
