@@ -284,6 +284,12 @@ class Manager implements IManager {
 					} catch (\RuntimeException $e) {
 						throw new ProcessingException($e->getMessage(), 0, $e);
 					}
+					for ($i = 0; $i < $input['numberOfImages']; $i++) {
+						if (is_resource($resources[$i])) {
+							// If $resource hasn't been closed yet, we'll do that here
+							fclose($resources[$i]);
+						}
+					}
 					return ['images' => array_map(fn (ISimpleFile $file) => $file->getContent(), $files)];
 				}
 			};

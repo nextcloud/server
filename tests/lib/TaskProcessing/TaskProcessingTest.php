@@ -256,7 +256,6 @@ class SuccessfulTextToImageProvider implements \OCP\TextToImage\IProvider {
 		$this->ran = true;
 		foreach($resources as $resource) {
 			fwrite($resource, 'test');
-			fclose($resource);
 		}
 	}
 
@@ -299,8 +298,8 @@ class TaskProcessingTest extends \Test\TestCase {
 	private TaskMapper $taskMapper;
 	private IJobList $jobList;
 	private IAppData $appData;
-
 	private \OCP\Share\IManager $shareManager;
+	private IRootFolder $rootFolder;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -331,6 +330,8 @@ class TaskProcessingTest extends \Test\TestCase {
 		$this->registrationContext = $this->createMock(RegistrationContext::class);
 		$this->coordinator = $this->createMock(Coordinator::class);
 		$this->coordinator->expects($this->any())->method('getRegistrationContext')->willReturn($this->registrationContext);
+
+		$this->rootFolder = \OCP\Server::get(IRootFolder::class);
 
 		$this->taskMapper = \OCP\Server::get(TaskMapper::class);
 
@@ -383,8 +384,6 @@ class TaskProcessingTest extends \Test\TestCase {
 	}
 
 	private function getFile(string $name, string $content): \OCP\Files\File {
-		/** @var IRootFolder $rootFolder */
-		$rootFolder = \OC::$server->get(IRootFolder::class);
 		$this->appData = \OC::$server->get(IAppDataFactory::class)->get('core');
 		try {
 			$folder = $this->appData->getFolder('test');
@@ -392,7 +391,7 @@ class TaskProcessingTest extends \Test\TestCase {
 			$folder = $this->appData->newFolder('test');
 		}
 		$file = $folder->newFile($name, $content);
-		$inputFile = current($rootFolder->getByIdInPath($file->getId(), '/' . $rootFolder->getAppDataDirectoryName() . '/'));
+		$inputFile = current($this->rootFolder->getByIdInPath($file->getId(), '/' . $this->rootFolder->getAppDataDirectoryName() . '/'));
 		if (!$inputFile instanceof \OCP\Files\File) {
 			throw new \Exception('PEBCAK');
 		}
@@ -581,12 +580,10 @@ class TaskProcessingTest extends \Test\TestCase {
 		self::assertEquals(Task::STATUS_SUCCESSFUL, $task->getStatus());
 		self::assertEquals(1, $task->getProgress());
 		self::assertTrue(isset($task->getOutput()['spectrogram']));
-		$root = \OCP\Server::get(IRootFolder::class);
-		$node = $root->getFirstNodeByIdInPath($task->getOutput()['spectrogram'], '/' . $root->getAppDataDirectoryName() . '/');
+		$node = $this->rootFolder->getFirstNodeByIdInPath($task->getOutput()['spectrogram'], '/' . $this->rootFolder->getAppDataDirectoryName() . '/');
 		self::assertNotNull($node);
 		self::assertInstanceOf(\OCP\Files\File::class, $node);
 		self::assertEquals('World', $node->getContent());
-
 	}
 
 	public function testNonexistentTask() {
@@ -731,6 +728,10 @@ class TaskProcessingTest extends \Test\TestCase {
 		self::assertIsArray($task->getOutput()['images']);
 		self::assertCount(3, $task->getOutput()['images']);
 		self::assertTrue($this->providers[SuccessfulTextToImageProvider::class]->ran);
+		$node = $this->rootFolder->getFirstNodeByIdInPath($task->getOutput()['images'][0], '/' . $this->rootFolder->getAppDataDirectoryName() . '/');
+		self::assertNotNull($node);
+		self::assertInstanceOf(\OCP\Files\File::class, $node);
+		self::assertEquals('test', $node->getContent());
 	}
 
 	public function testShouldTransparentlyHandleFailingText2ImageProviders() {
