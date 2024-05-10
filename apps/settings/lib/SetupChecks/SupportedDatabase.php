@@ -64,13 +64,13 @@ class SupportedDatabase implements ISetupCheck {
 			$versionlc = strtolower($version);
 			// we only care about X.Y not X.Y.Z differences
 			[$major, $minor, ] = explode('.', $versionlc);
-			$versionlc = $major . '.' . $minor;
+			$versionConcern = $major . '.' . $minor;
 			if (str_contains($versionlc, 'mariadb')) {
-				if (version_compare($versionlc, '10.3', '<') || version_compare($versionlc, '10.11', '>')) {
+				if (version_compare($versionConcern, '10.3', '<') || version_compare($versionConcern, '10.11', '>')) {
 					return SetupResult::warning($this->l10n->t('MariaDB version "%s" detected. MariaDB >=10.3 and <=10.11 is suggested for best performance, stability and functionality with this version of Nextcloud.', $version));
 				}
 			} else {
-				if (version_compare($versionlc, '8.0', '<') || version_compare($versionlc, '8.3', '>')) {
+				if (version_compare($versionConcern, '8.0', '<') || version_compare($versionConcern, '8.3', '>')) {
 					return SetupResult::warning($this->l10n->t('MySQL version "%s" detected. MySQL >=8.0 and <=8.3 is suggested for best performance, stability and functionality with this version of Nextcloud.', $version));
 				}
 			}
@@ -82,8 +82,8 @@ class SupportedDatabase implements ISetupCheck {
 			$versionlc = strtolower($version);
 			// we only care about X not X.Y or X.Y.Z differences
 			[$major, ] = explode('.', $versionlc);
-			$versionlc = $major;
-			if (version_compare($versionlc, '12', '<') || version_compare($versionlc, '16', '>')) {
+			$versionConcern = $major;
+			if (version_compare($versionConcern, '12', '<') || version_compare($versionConcern, '16', '>')) {
 				return SetupResult::warning($this->l10n->t('PostgreSQL version "%s" detected. PostgreSQL >=12 and <=16 is suggested for best performance, stability and functionality with this version of Nextcloud.', $version));
 			}
 		} elseif ($databasePlatform instanceof OraclePlatform) {
