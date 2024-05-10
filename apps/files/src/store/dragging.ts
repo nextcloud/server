@@ -21,7 +21,7 @@
  */
 import { defineStore } from 'pinia'
 import Vue from 'vue'
-import type { FileId, DragAndDropStore } from '../types'
+import type { DragAndDropStore, FileSource } from '../types'
 
 export const useDragAndDropStore = defineStore('dragging', {
 	state: () => ({
@@ -32,7 +32,7 @@ export const useDragAndDropStore = defineStore('dragging', {
 		/**
 		 * Set the selection of fileIds
 		 */
-		set(selection = [] as FileId[]) {
+		set(selection = [] as FileSource[]) {
 			Vue.set(this, 'dragging', selection)
 		},
 

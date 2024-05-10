@@ -41,6 +41,7 @@ import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
 import { useKeyboardStore } from '../../store/keyboard.ts'
 import { useSelectionStore } from '../../store/selection.ts'
 import logger from '../../logger.js'
+import type { FileSource } from '../../types.ts'
 
 export default defineComponent({
 	name: 'FileEntryCheckbox',
@@ -83,10 +84,10 @@ export default defineComponent({
 			return this.selectionStore.selected
 		},
 		isSelected() {
-			return this.selectedFiles.includes(this.fileid)
+			return this.selectedFiles.includes(this.source.source)
 		},
 		index() {
-			return this.nodes.findIndex((node: Node) => node.fileid === this.fileid)
+			return this.nodes.findIndex((node: Node) => node.source === this.source.source)
 		},
 		isFile() {
 			return this.source.type === FileType.File
@@ -105,20 +106,20 @@ export default defineComponent({
 
 			// Get the last selected and select all files in between
 			if (this.keyboardStore?.shiftKey && lastSelectedIndex !== null) {
-				const isAlreadySelected = this.selectedFiles.includes(this.fileid)
+				const isAlreadySelected = this.selectedFiles.includes(this.source.source)
 
 				const start = Math.min(newSelectedIndex, lastSelectedIndex)
 				const end = Math.max(lastSelectedIndex, newSelectedIndex)
 
 				const lastSelection = this.selectionStore.lastSelection
 				const filesToSelect = this.nodes
-					.map(file => file.fileid)
+					.map(file => file.source)
 					.slice(start, end + 1)
-					.filter(Boolean) as number[]
+					.filter(Boolean) as FileSource[]
 
 				// If already selected, update the new selection _without_ the current file
 				const selection = [...lastSelection, ...filesToSelect]
-					.filter(fileid => !isAlreadySelected || fileid !== this.fileid)
+					.filter(source => !isAlreadySelected || source !== this.source.source)
 
 				logger.debug('Shift key pressed, selecting all files in between', { start, end, filesToSelect, isAlreadySelected })
 				// Keep previous lastSelectedIndex to be use for further shift selections
@@ -127,8 +128,8 @@ export default defineComponent({
 			}
 
 			const selection = selected
-				? [...this.selectedFiles, this.fileid]
-				: this.selectedFiles.filter(fileid => fileid !== this.fileid)
+				? [...this.selectedFiles, this.source.source]
+				: this.selectedFiles.filter(source => source !== this.source.source)
 
 			logger.debug('Updating selection', { selection })
 			this.selectionStore.set(selection)

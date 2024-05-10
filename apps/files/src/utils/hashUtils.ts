@@ -21,8 +21,9 @@
  */
 
 export const hashCode = function(str: string): number {
-	return str.split('').reduce(function(a, b) {
-		a = ((a << 5) - a) + b.charCodeAt(0)
-		return a & a
-	}, 0)
+	let hash = 0
+	for (let i = 0; i < str.length; i++) {
+		hash = ((hash << 5) - hash + str.charCodeAt(i)) | 0
+	}
+	return (hash >>> 0)
 }
