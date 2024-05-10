@@ -7,6 +7,7 @@ const { VueLoaderPlugin } = require('vue-loader')
 const path = require('path')
 const BabelLoaderExcludeNodeModulesExcept = require('babel-loader-exclude-node-modules-except')
 const webpack = require('webpack')
+const LicensePlugin = require('webpack-license-plugin')
 const NodePolyfillPlugin = require('node-polyfill-webpack-plugin')
 const WorkboxPlugin = require('workbox-webpack-plugin')
 
@@ -147,6 +148,23 @@ module.exports = {
 	},
 
 	optimization: {
+		minimizer: [{
+			apply: (compiler) => {
+				// Lazy load the Terser plugin
+				const TerserPlugin = require('terser-webpack-plugin')
+				new TerserPlugin({
+					extractComments: false,
+					terserOptions: {
+						compress: {
+							passes: 2,
+						},
+						format: {
+							comments: false,
+						},
+					},
+			  }).apply(compiler)
+			},
+		}],
 		splitChunks: {
 			automaticNameDelimiter: '-',
 			minChunks: 3, // minimum number of chunks that must share the module
@@ -171,6 +189,20 @@ module.exports = {
 			// We need to provide the path to node_moduels as otherwise npm link will fail due
 			// to tribute.js checking for jQuery in @nextcloud/vue
 			jQuery: path.resolve(path.join(__dirname, 'node_modules/jquery')),
+		}),
+		new LicensePlugin({
+			outputFilename: 'vendor.LICENSE.json',
+			additionalFiles: {
+				'vendor.LICENSE.json': (packages) => JSON.stringify(
+					packages.map((pkg) => { delete pkg.licenseText; return pkg }),
+					undefined,
+					'\t',
+				),
+			},
+			licenseOverrides: {
+				// is MIT but not defined in package...
+				'select2@3.5.1': 'MIT',
+			},
 		}),
 
 		new WorkboxPlugin.GenerateSW({
