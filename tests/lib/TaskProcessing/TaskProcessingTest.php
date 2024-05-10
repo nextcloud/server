@@ -302,7 +302,7 @@ class TaskProcessingTest extends \Test\TestCase {
 	private \OCP\Share\IManager $shareManager;
 	private IRootFolder $rootFolder;
 
-	const TEST_USER = 'testuser';
+	public const TEST_USER = 'testuser';
 
 	protected function setUp(): void {
 		parent::setUp();
