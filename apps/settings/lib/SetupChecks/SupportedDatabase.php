@@ -79,7 +79,8 @@ class SupportedDatabase implements ISetupCheck {
 			$result->execute();
 			$row = $result->fetch();
 			$version = $row['server_version'];
-			if (version_compare(strtolower($version), '12', '<') || version_compare(strtolower($version, '16', '>') {
+			$versionlc = strtolower($version);
+			if (version_compare($versionlc, '12', '<') || version_compare($versionlc, '16', '>')) {
 				return SetupResult::warning($this->l10n->t('PostgreSQL version "%s" detected. PostgreSQL >=12 and <=16 is suggested for best performance, stability and functionality with this version of Nextcloud.', $version));
 			}
 		} elseif ($databasePlatform instanceof OraclePlatform) {
