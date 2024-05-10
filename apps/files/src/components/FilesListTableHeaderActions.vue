@@ -56,7 +56,7 @@ import { useFilesStore } from '../store/files.ts'
 import { useSelectionStore } from '../store/selection.ts'
 import filesListWidthMixin from '../mixins/filesListWidth.ts'
 import logger from '../logger.js'
-import type { FileId } from '../types'
+import type { FileSource } from '../types'
 
 // The registered actions list
 const actions = getFileActions()
@@ -81,7 +81,7 @@ export default defineComponent({
 			required: true,
 		},
 		selectedNodes: {
-			type: Array as PropType<FileId[]>,
+			type: Array as PropType<FileSource[]>,
 			default: () => ([]),
 		},
 	},
@@ -117,7 +117,7 @@ export default defineComponent({
 
 		nodes() {
 			return this.selectedNodes
-				.map(fileid => this.getNode(fileid))
+				.map(source => this.getNode(source))
 				.filter(Boolean) as Node[]
 		},
 
@@ -161,7 +161,7 @@ export default defineComponent({
 
 		async onActionClick(action) {
 			const displayName = action.displayName(this.nodes, this.currentView)
-			const selectionIds = this.selectedNodes
+			const selectionSources = this.selectedNodes
 			try {
 				// Set loading markers
 				this.loading = action.id
@@ -182,9 +182,9 @@ export default defineComponent({
 				// Handle potential failures
 				if (results.some(result => result === false)) {
 					// Remove the failed ids from the selection
-					const failedIds = selectionIds
-						.filter((fileid, index) => results[index] === false)
-					this.selectionStore.set(failedIds)
+					const failedSources = selectionSources
+						.filter((source, index) => results[index] === false)
+					this.selectionStore.set(failedSources)
 
 					if (results.some(result => result === null)) {
 						// If some actions returned null, we assume that the dev
