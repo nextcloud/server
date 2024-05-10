@@ -57,6 +57,7 @@ jobs:
 
           echo "zip relevant files to ${{ env.TARGET_PACKAGE_NAME }}"
           zip -r "${{ env.TARGET_PACKAGE_NAME }}" \
+            IONOS/ \
             3rdparty/ \
             apps/ \
             apps-custom/ \
