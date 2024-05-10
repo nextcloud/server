@@ -157,7 +157,7 @@ class Router implements IRouter {
 		}
 		$this->eventLogger->start('route:load:' . $requestedApp, 'Loading Routes for ' . $requestedApp);
 
-		if ($requestedApp !== null) {
+		if ($requestedApp !== null && in_array($requestedApp, \OC_App::getEnabledApps())) {
 			$routes = $this->getAttributeRoutes($requestedApp);
 			if (count($routes) > 0) {
 				$this->useCollection($requestedApp);
