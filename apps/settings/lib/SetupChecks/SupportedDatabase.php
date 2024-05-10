@@ -62,7 +62,9 @@ class SupportedDatabase implements ISetupCheck {
 			$row = $result->fetch();
 			$version = $row['Value'];
 			$versionlc = strtolower($version);
-
+			// we only care about X.Y not X.Y.Z differences
+			[$major, $minor, ] = explode('.', $versionlc);
+			$versionlc = $major . '.' . $minor;
 			if (str_contains($versionlc, 'mariadb')) {
 				if (version_compare($versionlc, '10.3', '<') || version_compare($versionlc, '10.11', '>')) {
 					return SetupResult::warning($this->l10n->t('MariaDB version "%s" detected. MariaDB >=10.3 and <=10.11 is suggested for best performance, stability and functionality with this version of Nextcloud.', $version));
