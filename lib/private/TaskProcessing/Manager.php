@@ -749,7 +749,11 @@ class Manager implements IManager {
 	 * @throws NotPermittedException
 	 * @throws ValidationException
 	 */
-	public function fillInputFileData(array $input, ...$specs): array {
+	public function fillInputFileData(?string $userId, array $input, ...$specs): array {
+		if ($userId !== null) {
+			// load user folder for later
+			$this->rootFolder->getUserFolder($userId);
+		}
 		$newInputOutput = [];
 		$spec = array_reduce($specs, fn ($carry, $spec) => $carry + $spec, []);
 		foreach($spec as $key => $descriptor) {
@@ -886,7 +890,7 @@ class Manager implements IManager {
 		$this->validateInput($inputShape, $input);
 		$this->validateInput($optionalInputShape, $input, true);
 		$input = $this->removeSuperfluousArrayKeys($input, $inputShape, $optionalInputShape);
-		$input = $this->fillInputFileData($input, $inputShape, $optionalInputShape);
+		$input = $this->fillInputFileData($task->getUserId(), $input, $inputShape, $optionalInputShape);
 		return $input;
 	}
 }
