@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import type { Folder, Node } from '@nextcloud/files'
-import type { FilesStore, RootsStore, RootOptions, Service, FilesState, FileId } from '../types'
+import type { FilesStore, RootsStore, RootOptions, Service, FilesState, FileSource } from '../types'
 
 import { defineStore } from 'pinia'
 import { subscribe } from '@nextcloud/event-bus'
@@ -19,19 +19,20 @@ export const useFilesStore = function(...args) {
 
 		getters: {
 			/**
-			 * Get a file or folder by id
+			 * Get a file or folder by its source
 			 */
-			getNode: (state) => (id: FileId): Node|undefined => state.files[id],
+			getNode: (state) => (source: FileSource): Node|undefined => state.files[source],
 
 			/**
 			 * Get a list of files or folders by their IDs
-			 * Does not return undefined values
+			 * Note: does not return undefined values
 			 */
-			getNodes: (state) => (ids: FileId[]): Node[] => ids
-				.map(id => state.files[id])
+			getNodes: (state) => (sources: FileSource[]): Node[] => sources
+				.map(source => state.files[source])
 				.filter(Boolean),
+
 			/**
-			 * Get a file or folder by id
+			 * Get the root folder of a service
 			 */
 			getRoot: (state) => (service: Service): Folder|undefined => state.roots[service],
 		},
@@ -41,10 +42,11 @@ export const useFilesStore = function(...args) {
 				// Update the store all at once
 				const files = nodes.reduce((acc, node) => {
 					if (!node.fileid) {
-						logger.error('Trying to update/set a node without fileid', node)
+						logger.error('Trying to update/set a node without fileid', { node })
 						return acc
 					}
-					acc[node.fileid] = node
+
+					acc[node.source] = node
 					return acc
 				}, {} as FilesStore)
 
@@ -53,8 +55,8 @@ export const useFilesStore = function(...args) {
 
 			deleteNodes(nodes: Node[]) {
 				nodes.forEach(node => {
-					if (node.fileid) {
-						Vue.delete(this.files, node.fileid)
+					if (node.source) {
+						Vue.delete(this.files, node.source)
 					}
 				})
 			},
