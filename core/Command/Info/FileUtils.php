@@ -85,7 +85,7 @@ class FileUtils {
 			if (!$mounts) {
 				return null;
 			}
-			$mount = $mounts[0];
+			$mount = reset($mounts);
 			$userFolder = $this->rootFolder->getUserFolder($mount->getUser()->getUID());
 			return $userFolder->getFirstNodeById((int)$fileInput);
 		} else {
