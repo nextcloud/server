@@ -129,7 +129,7 @@
     "@nextcloud/webpack-vue-config": "^6.0.1",
     "@pinia/testing": "^0.1.2",
     "@simplewebauthn/types": "^9.0.1",
-    "@testing-library/jest-dom": "^6.1.5",
+    "@testing-library/jest-dom": "^6.4.5",
     "@testing-library/user-event": "^14.4.3",
     "@testing-library/vue": "^5.8.3",
     "@types/dockerode": "^3.3.28",
