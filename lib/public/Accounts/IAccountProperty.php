@@ -50,6 +50,7 @@ interface IAccountProperty extends \JsonSerializable {
 	 * @since 15.0.0
 	 *
 	 * @param string $scope
+	 * @psalm-param IAccountManager::SCOPE_* $scope
 	 * @return IAccountProperty
 	 * @throws InvalidArgumentException (since 22.0.0)
 	 */
@@ -89,6 +90,7 @@ interface IAccountProperty extends \JsonSerializable {
 	 * @since 15.0.0
 	 *
 	 * @return string
+	 * @psalm-return IAccountManager::SCOPE_*
 	 */
 	public function getScope(): string;
 
