@@ -32,6 +32,9 @@ use OCP\Accounts\IAccountManager;
 use OCP\Accounts\IAccountProperty;
 
 class AccountProperty implements IAccountProperty {
+	/**
+	 * @var IAccountManager::SCOPE_*
+	 */
 	private string $scope;
 	private string $locallyVerified = IAccountManager::NOT_VERIFIED;
 
