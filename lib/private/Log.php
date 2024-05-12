@@ -14,6 +14,7 @@ use OC\AppFramework\Bootstrap\Coordinator;
 use OC\Log\ExceptionSerializer;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\ILogger;
+use OCP\IRequest;
 use OCP\IUserSession;
 use OCP\Log\BeforeMessageLoggedEvent;
 use OCP\Log\IDataLogger;
@@ -153,7 +154,7 @@ class Log implements ILogger, IDataLogger {
 	 * @param array $context
 	 */
 	public function log(int $level, string $message, array $context = []): void {
-		$minLevel = $this->getLogLevel($context);
+		$minLevel = $this->getLogLevel($context, $message);
 		if ($level < $minLevel
 			&& (($this->crashReporters?->hasReporters() ?? false) === false)
 			&& (($this->eventDispatcher?->hasListeners(BeforeMessageLoggedEvent::class) ?? false) === false)) {
@@ -194,8 +195,24 @@ class Log implements ILogger, IDataLogger {
 		}
 	}
 
-	public function getLogLevel($context): int {
+	public function getLogLevel(array $context, string $message): int {
+		/**
+		 * @psalm-var array{
+		 *   shared_secret?: string,
+		 *   users?: string[],
+		 *   apps?: string[],
+		 *   matches?: array<array-key, array{
+		 *     shared_secret?: string,
+		 *     users?: string[],
+		 *     apps?: string[],
+		 *     message?: string,
+		 *     loglevel: 0|1|2|3|4,
+		 *   }>
+		 * } $logCondition
+		 */
 		$logCondition = $this->config->getValue('log.condition', []);
+
+		$userId = false;
 
 		/**
 		 * check for a special log condition - this enables an increased log on
@@ -206,21 +223,8 @@ class Log implements ILogger, IDataLogger {
 			$this->logConditionSatisfied = false;
 			if (!empty($logCondition)) {
 				// check for secret token in the request
-				if (isset($logCondition['shared_secret'])) {
-					$request = \OC::$server->getRequest();
-
-					if ($request->getMethod() === 'PUT' &&
-						!str_contains($request->getHeader('Content-Type'), 'application/x-www-form-urlencoded') &&
-						!str_contains($request->getHeader('Content-Type'), 'application/json')) {
-						$logSecretRequest = '';
-					} else {
-						$logSecretRequest = $request->getParam('log_secret', '');
-					}
-
-					// if token is found in the request change set the log condition to satisfied
-					if ($request && hash_equals($logCondition['shared_secret'], $logSecretRequest)) {
-						$this->logConditionSatisfied = true;
-					}
+				if (isset($logCondition['shared_secret']) && $this->checkLogSecret($logCondition['shared_secret'])) {
+					$this->logConditionSatisfied = true;
 				}
 
 				// check for user
@@ -233,6 +237,8 @@ class Log implements ILogger, IDataLogger {
 					} elseif (in_array($user->getUID(), $logCondition['users'], true)) {
 						// if the user matches set the log condition to satisfied
 						$this->logConditionSatisfied = true;
+					} else {
+						$userId = $user->getUID();
 					}
 				}
 			}
@@ -241,6 +247,11 @@ class Log implements ILogger, IDataLogger {
 		// if log condition is satisfied change the required log level to DEBUG
 		if ($this->logConditionSatisfied) {
 			return ILogger::DEBUG;
+		}
+
+		if ($userId === false && isset($logCondition['matches'])) {
+			$user = \OCP\Server::get(IUserSession::class)->getUser();
+			$userId = $user === null ? false : $user->getUID();
 		}
 
 		if (isset($context['app'])) {
@@ -253,14 +264,47 @@ class Log implements ILogger, IDataLogger {
 			}
 		}
 
-		$configLogLevel = $this->config->getValue('loglevel', ILogger::WARN);
-		if (is_numeric($configLogLevel)) {
-			return min((int)$configLogLevel, ILogger::FATAL);
+		if (!isset($logCondition['matches'])) {
+			$configLogLevel = $this->config->getValue('loglevel', ILogger::WARN);
+			if (is_numeric($configLogLevel)) {
+				return min((int)$configLogLevel, ILogger::FATAL);
+			}
+
+			// Invalid configuration, warn the user and fall back to default level of WARN
+			error_log('Nextcloud configuration: "loglevel" is not a valid integer');
+			return ILogger::WARN;
 		}
 
-		// Invalid configuration, warn the user and fall back to default level of WARN
-		error_log('Nextcloud configuration: "loglevel" is not a valid integer');
+		foreach ($logCondition['matches'] as $option) {
+			if (
+				(!isset($option['shared_secret']) || $this->checkLogSecret($option['shared_secret']))
+				&& (!isset($option['users']) || in_array($userId, $option['users'], true))
+				&& (!isset($option['apps']) || (isset($context['app']) && in_array($context['app'], $option['apps'], true)))
+				&& (!isset($option['message']) || str_contains($message, $option['message']))
+			) {
+				if (!isset($option['apps']) && !isset($option['loglevel']) && !isset($option['message'])) {
+					/* Only user and/or secret are listed as conditions, we can cache the result for the rest of the request */
+					$this->logConditionSatisfied = true;
+					return ILogger::DEBUG;
+				}
+				return $option['loglevel'] ?? ILogger::DEBUG;
+			}
+		}
+
 		return ILogger::WARN;
+	}
+
+	protected function checkLogSecret(string $conditionSecret): bool {
+		$request = \OCP\Server::get(IRequest::class);
+
+		if ($request->getMethod() === 'PUT' &&
+			!str_contains($request->getHeader('Content-Type'), 'application/x-www-form-urlencoded') &&
+			!str_contains($request->getHeader('Content-Type'), 'application/json')) {
+			return hash_equals($conditionSecret, '');
+		}
+
+		// if token is found in the request change set the log condition to satisfied
+		return hash_equals($conditionSecret, $request->getParam('log_secret', ''));
 	}
 
 	/**
@@ -275,7 +319,7 @@ class Log implements ILogger, IDataLogger {
 		$app = $context['app'] ?? 'no app in context';
 		$level = $context['level'] ?? ILogger::ERROR;
 
-		$minLevel = $this->getLogLevel($context);
+		$minLevel = $this->getLogLevel($context, $context['message'] ?? $exception->getMessage());
 		if ($level < $minLevel
 			&& (($this->crashReporters?->hasReporters() ?? false) === false)
 			&& (($this->eventDispatcher?->hasListeners(BeforeMessageLoggedEvent::class) ?? false) === false)) {
@@ -320,7 +364,7 @@ class Log implements ILogger, IDataLogger {
 		$app = $context['app'] ?? 'no app in context';
 		$level = $context['level'] ?? ILogger::ERROR;
 
-		$minLevel = $this->getLogLevel($context);
+		$minLevel = $this->getLogLevel($context, $message);
 
 		array_walk($context, [$this->normalizer, 'format']);
 
