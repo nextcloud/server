@@ -410,4 +410,15 @@ interface IRegistrationContext {
 	 * @since 29.0.0
 	 */
 	public function registerDeclarativeSettings(string $declarativeSettingsClass): void;
+
+	/**
+	 * Register an implementation of \OCP\ConfigLexicon\IConfigLexicon that
+	 * will handle the implementation of config lexicon
+	 *
+	 * @param string $configLexiconClass
+	 * @psalm-param class-string<\OCP\ConfigLexicon\IConfigLexicon> $configLexiconClass
+	 * @return void
+	 * @since 30.0.0
+	 */
+	public function registerConfigLexicon(string $configLexiconClass): void;
 }

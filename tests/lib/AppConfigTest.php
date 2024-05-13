@@ -9,6 +9,7 @@ namespace Test;
 
 use InvalidArgumentException;
 use OC\AppConfig;
+use OC\AppFramework\Bootstrap\Coordinator;
 use OCP\Exceptions\AppConfigTypeConflictException;
 use OCP\Exceptions\AppConfigUnknownKeyException;
 use OCP\IAppConfig;
@@ -28,6 +29,8 @@ class AppConfigTest extends TestCase {
 	protected IDBConnection $connection;
 	private LoggerInterface $logger;
 	private ICrypto $crypto;
+	private Coordinator $coordinator;
+
 	private array $originalConfig;
 
 	/**
@@ -88,6 +91,7 @@ class AppConfigTest extends TestCase {
 		$this->connection = \OCP\Server::get(IDBConnection::class);
 		$this->logger = \OCP\Server::get(LoggerInterface::class);
 		$this->crypto = \OCP\Server::get(ICrypto::class);
+		$this->coordinator = \OCP\Server::get(Coordinator::class);
 
 		// storing current config and emptying the data table
 		$sql = $this->connection->getQueryBuilder();
@@ -178,6 +182,7 @@ class AppConfigTest extends TestCase {
 			$this->connection,
 			$this->logger,
 			$this->crypto,
+			$this->coordinator
 		);
 		$msg = ' generateAppConfig() failed to confirm cache status';
 
