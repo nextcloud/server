@@ -348,20 +348,7 @@ class Manager implements IManager {
 
 				public function process(?string $userId, array $input, callable $reportProgress): array {
 					try {
-						$folder = $this->appData->getFolder('audio2text');
-					} catch(\OCP\Files\NotFoundException) {
-						$folder = $this->appData->newFolder('audio2text');
-					}
-					/** @var SimpleFile $simpleFile */
-					$simpleFile = $folder->newFile(time() . '-' . rand(0, 100000), $input['input']->getContent());
-					$id = $simpleFile->getId();
-					/** @var File $file */
-					$file = current($this->rootFolder->getById($id));
-					if ($this->provider instanceof ISpeechToTextProviderWithUserId) {
-						$this->provider->setUserId($userId);
-					}
-					try {
-						$result = $this->provider->transcribeFile($file);
+						$result = $this->provider->transcribeFile($input['input']);
 					} catch (\RuntimeException $e) {
 						throw new ProcessingException($e->getMessage(), 0, $e);
 					}
