@@ -741,6 +741,7 @@ class Manager implements IManager {
 	/**
 	 * Takes task input or output data and replaces fileIds with base64 data
 	 *
+	 * @param string|null $userId
 	 * @param array<array-key, list<numeric|string>|numeric|string> $input
 	 * @param ShapeDescriptor[] ...$specs the specs
 	 * @return array<array-key, list<File|numeric|string>|numeric|string|File>
@@ -751,8 +752,7 @@ class Manager implements IManager {
 	 */
 	public function fillInputFileData(?string $userId, array $input, ...$specs): array {
 		if ($userId !== null) {
-			// load user folder for later
-			$this->rootFolder->getUserFolder($userId);
+			\OC_Util::setupFS($userId);
 		}
 		$newInputOutput = [];
 		$spec = array_reduce($specs, fn ($carry, $spec) => $carry + $spec, []);
@@ -780,9 +780,9 @@ class Manager implements IManager {
 			} else {
 				$newInputOutput[$key] = [];
 				foreach ($input[$key] as $item) {
-					$node = $this->rootFolder->getFirstNodeById((int)$input[$key]);
+					$node = $this->rootFolder->getFirstNodeById((int)$item);
 					if ($node === null) {
-						$node = $this->rootFolder->getFirstNodeByIdInPath((int)$input[$key], '/' . $this->rootFolder->getAppDataDirectoryName() . '/');
+						$node = $this->rootFolder->getFirstNodeByIdInPath((int)$item, '/' . $this->rootFolder->getAppDataDirectoryName() . '/');
 						if (!$node instanceof File) {
 							throw new ValidationException('File id given for key "' . $key . '" is not a file');
 						}
