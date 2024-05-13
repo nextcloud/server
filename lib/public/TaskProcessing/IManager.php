@@ -138,6 +138,7 @@ interface IManager {
 	/**
 	 * @param string|null $userId The user id that scheduled the task
 	 * @param string|null $taskTypeId The task type id to filter by
+	 * @param string|null $customId
 	 * @return list<Task>
 	 * @throws Exception If the query failed
 	 * @throws NotFoundException If the task could not be found
