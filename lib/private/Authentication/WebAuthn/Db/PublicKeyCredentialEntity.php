@@ -41,6 +41,9 @@ use Webauthn\PublicKeyCredentialSource;
  * @method void setPublicKeyCredentialId(string $id);
  * @method string getData();
  * @method void setData(string $data);
+ * @since 30.0.0
+ * @method bool|null getUserVerification();
+ * @method void setUserVerification(bool $userVerification);
  */
 class PublicKeyCredentialEntity extends Entity implements JsonSerializable {
 	/** @var string */
@@ -55,20 +58,25 @@ class PublicKeyCredentialEntity extends Entity implements JsonSerializable {
 	/** @var string */
 	protected $data;
 
+	/** @var bool|null */
+	protected $userVerification;
+
 	public function __construct() {
 		$this->addType('name', 'string');
 		$this->addType('uid', 'string');
 		$this->addType('publicKeyCredentialId', 'string');
 		$this->addType('data', 'string');
+		$this->addType('userVerification', 'boolean');
 	}
 
-	public static function fromPublicKeyCrendentialSource(string $name, PublicKeyCredentialSource $publicKeyCredentialSource): PublicKeyCredentialEntity {
+	public static function fromPublicKeyCrendentialSource(string $name, PublicKeyCredentialSource $publicKeyCredentialSource, bool $userVerification): PublicKeyCredentialEntity {
 		$publicKeyCredentialEntity = new self();
 
 		$publicKeyCredentialEntity->setName($name);
 		$publicKeyCredentialEntity->setUid($publicKeyCredentialSource->getUserHandle());
 		$publicKeyCredentialEntity->setPublicKeyCredentialId(base64_encode($publicKeyCredentialSource->getPublicKeyCredentialId()));
 		$publicKeyCredentialEntity->setData(json_encode($publicKeyCredentialSource));
+		$publicKeyCredentialEntity->setUserVerification($userVerification);
 
 		return $publicKeyCredentialEntity;
 	}
