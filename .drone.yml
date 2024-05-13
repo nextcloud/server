@@ -2,6 +2,9 @@
 kind: pipeline
 name: litmus
 
+# SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
 steps:
 - name: submodules
   image: ghcr.io/nextcloud/continuous-integration-alpine-git:latest
@@ -124,4 +127,6 @@ trigger:
 
 ---
 kind: signature
-hmac: 1c487e85d1dba3fec3151868f8f94fc46b4ecb0f821c35516c193700cdbc2a9c
+hmac: 06ddea3f1885983230fcc996e805245357ac90e39599ed11a70161a7c09746d7
+
+...
