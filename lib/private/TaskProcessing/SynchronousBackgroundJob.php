@@ -79,7 +79,24 @@ class SynchronousBackgroundJob extends QueuedJob {
 			}
 		}
 
-		// Schedule again
-		$this->jobList->add(self::class, $argument);
+		$synchronousProviders = array_filter($providers, fn ($provider) =>
+			$provider instanceof ISynchronousProvider);
+		$taskTypes = array_values(array_map(fn ($provider) =>
+			$provider->getTaskTypeId(),
+			$synchronousProviders
+		));
+		$taskTypesWithTasks = array_filter($taskTypes, function ($taskType) {
+			try {
+				$this->taskProcessingManager->getNextScheduledTask($taskType);
+				return true;
+			} catch (NotFoundException|Exception $e) {
+				return false;
+			}
+		});
+
+		if (count($taskTypesWithTasks) > 0) {
+			// Schedule again
+			$this->jobList->add(self::class, $argument);
+		}
 	}
 }
