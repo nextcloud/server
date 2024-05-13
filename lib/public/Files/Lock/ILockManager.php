@@ -42,8 +42,16 @@ interface ILockManager extends ILockProvider {
 	/**
 	 * @throws PreConditionNotMetException if there is already a lock provider registered
 	 * @since 24.0.0
+	 * @deprecated 30.0.0 Use registerLazyLockProvider
 	 */
 	public function registerLockProvider(ILockProvider $lockProvider): void;
+
+	/**
+	 * @param string $lockProviderClass
+	 * @return void
+	 * @since 30.0.0
+	 */
+	public function registerLazyLockProvider(string $lockProviderClass): void;
 
 	/**
 	 * @return bool

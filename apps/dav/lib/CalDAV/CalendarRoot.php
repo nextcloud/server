@@ -32,6 +32,8 @@ use Sabre\DAVACL\PrincipalBackend;
 class CalendarRoot extends \Sabre\CalDAV\CalendarRoot {
 	private LoggerInterface $logger;
 
+	private array $returnCachedSubscriptions = [];
+
 	public function __construct(
 		PrincipalBackend\BackendInterface $principalBackend,
 		Backend\BackendInterface $caldavBackend,
@@ -43,7 +45,12 @@ class CalendarRoot extends \Sabre\CalDAV\CalendarRoot {
 	}
 
 	public function getChildForPrincipal(array $principal) {
-		return new CalendarHome($this->caldavBackend, $principal, $this->logger);
+		return new CalendarHome(
+			$this->caldavBackend,
+			$principal,
+			$this->logger,
+			array_key_exists($principal['uri'], $this->returnCachedSubscriptions)
+		);
 	}
 
 	public function getName() {
@@ -55,5 +62,9 @@ class CalendarRoot extends \Sabre\CalDAV\CalendarRoot {
 		}
 
 		return parent::getName();
+	}
+
+	public function enableReturnCachedSubscriptions(string $principalUri): void {
+		$this->returnCachedSubscriptions['principals/users/' . $principalUri] = true;
 	}
 }

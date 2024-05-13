@@ -1,3 +1,7 @@
+<!--
+ - SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 # How to apply a license
 
 Originally Nextcloud was licensed under the GNU AGPLv3 only. From

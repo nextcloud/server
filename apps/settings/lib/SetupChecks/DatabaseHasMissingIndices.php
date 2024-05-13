@@ -31,6 +31,7 @@ use OC\DB\SchemaWrapper;
 use OCP\DB\Events\AddMissingIndicesEvent;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IL10N;
+use OCP\IURLGenerator;
 use OCP\SetupCheck\ISetupCheck;
 use OCP\SetupCheck\SetupResult;
 
@@ -39,6 +40,7 @@ class DatabaseHasMissingIndices implements ISetupCheck {
 		private IL10N $l10n,
 		private Connection $connection,
 		private IEventDispatcher $dispatcher,
+		private IURLGenerator $urlGenerator,
 	) {
 	}
 
@@ -90,12 +92,18 @@ class DatabaseHasMissingIndices implements ISetupCheck {
 		if (empty($missingIndices)) {
 			return SetupResult::success('None');
 		} else {
-			$list = '';
+			$processed = 0;
+			$list = $this->l10n->t('Missing indices:');
 			foreach ($missingIndices as $missingIndex) {
-				$list .= "\n".$this->l10n->t('Missing optional index "%s" in table "%s".', [$missingIndex['indexName'], $missingIndex['tableName']]);
+				$processed++;
+				$list .= "\n " . $this->l10n->t('"%s" in table "%s"', [$missingIndex['indexName'], $missingIndex['tableName']]);
+				if (count($missingIndices) > $processed) {
+					$list .= ", ";
+				}
 			}
 			return SetupResult::warning(
-				$this->l10n->t('The database is missing some indexes. Due to the fact that adding indexes on big tables could take some time they were not added automatically. By running "occ db:add-missing-indices" those missing indexes could be added manually while the instance keeps running. Once the indexes are added queries to those tables are usually much faster.').$list
+				$this->l10n->t('Detected some missing optional indices. Occasionally new indices are added (by Nextcloud or installed applications) to improve database performance. Adding indices can sometimes take awhile and temporarily hurt performance so this is not done automatically during upgrades. Once the indices are added, queries to those tables should be faster. Use the command `occ db:add-missing-indices` to add them. ') . $list . '.',
+				$this->urlGenerator->linkToDocs('admin-long-running-migration-steps')
 			);
 		}
 	}
