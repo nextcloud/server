@@ -726,6 +726,8 @@ return array(
     'OCP\\TaskProcessing\\ShapeDescriptor' => $baseDir . '/lib/public/TaskProcessing/ShapeDescriptor.php',
     'OCP\\TaskProcessing\\Task' => $baseDir . '/lib/public/TaskProcessing/Task.php',
     'OCP\\TaskProcessing\\TaskTypes\\AudioToText' => $baseDir . '/lib/public/TaskProcessing/TaskTypes/AudioToText.php',
+    'OCP\\TaskProcessing\\TaskTypes\\ContextWrite' => $baseDir . '/lib/public/TaskProcessing/TaskTypes/ContextWrite.php',
+    'OCP\\TaskProcessing\\TaskTypes\\GenerateEmoji' => $baseDir . '/lib/public/TaskProcessing/TaskTypes/GenerateEmoji.php',
     'OCP\\TaskProcessing\\TaskTypes\\TextToImage' => $baseDir . '/lib/public/TaskProcessing/TaskTypes/TextToImage.php',
     'OCP\\TaskProcessing\\TaskTypes\\TextToText' => $baseDir . '/lib/public/TaskProcessing/TaskTypes/TextToText.php',
     'OCP\\TaskProcessing\\TaskTypes\\TextToTextHeadline' => $baseDir . '/lib/public/TaskProcessing/TaskTypes/TextToTextHeadline.php',
