@@ -186,7 +186,7 @@ const actions = {
 					})
 
 					// check for server health
-					return api.get(generateUrl('apps/files'))
+					return api.get(generateUrl('apps/files/'))
 						.then(() => {
 							if (response.data.update_required) {
 								showInfo(
