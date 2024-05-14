@@ -35,7 +35,11 @@
 			<strong>
 				{{ t('settings', 'Display name') }}
 			</strong>
-			<span class="header__subtitle">
+		</th>
+		<th class="header__cell header__cell--username"
+			data-cy-user-list-header-username
+			scope="col">
+			<span>
 				{{ t('settings', 'Username') }}
 			</span>
 		</th>
