@@ -198,7 +198,7 @@ namespace OCA\Core;
  *     userId: ?string,
  *     appId: string,
  *     input: array<string, numeric|list<numeric>|string|list<string>>,
- *     output: ?array<string, numeric|list<numeric>|string|list<string>>,
+ *     output: null|array<string, numeric|list<numeric>|string|list<string>>,
  *     customId: ?string,
  *     completionExpectedAt: ?int,
  *     progress: ?float
