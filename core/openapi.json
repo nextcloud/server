@@ -466,6 +466,31 @@
                     }
                 }
             },
+            "TaskProcessingIO": {
+                "type": "object",
+                "additionalProperties": {
+                    "anyOf": [
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "array",
+                            "items": {
+                                "type": "number"
+                            }
+                        },
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    ]
+                }
+            },
             "TaskProcessingShape": {
                 "type": "object",
                 "required": [
@@ -482,8 +507,21 @@
                         "type": "string"
                     },
                     "type": {
-                        "type": "integer",
-                        "format": "int64"
+                        "type": "string",
+                        "enum": [
+                            "Number",
+                            "Text",
+                            "Audio",
+                            "Image",
+                            "Video",
+                            "File",
+                            "ListOfNumbers",
+                            "ListOfTexts",
+                            "ListOfImages",
+                            "ListOfAudios",
+                            "ListOfVideos",
+                            "ListOfFiles"
+                        ]
                     },
                     "mandatory": {
                         "type": "boolean"
@@ -531,55 +569,11 @@
                         "type": "string"
                     },
                     "input": {
-                        "type": "object",
-                        "additionalProperties": {
-                            "anyOf": [
-                                {
-                                    "type": "number"
-                                },
-                                {
-                                    "type": "array",
-                                    "items": {
-                                        "type": "number"
-                                    }
-                                },
-                                {
-                                    "type": "string"
-                                },
-                                {
-                                    "type": "array",
-                                    "items": {
-                                        "type": "string"
-                                    }
-                                }
-                            ]
-                        }
+                        "$ref": "#/components/schemas/TaskProcessingIO"
                     },
                     "output": {
-                        "type": "object",
-                        "nullable": true,
-                        "additionalProperties": {
-                            "anyOf": [
-                                {
-                                    "type": "number"
-                                },
-                                {
-                                    "type": "array",
-                                    "items": {
-                                        "type": "number"
-                                    }
-                                },
-                                {
-                                    "type": "string"
-                                },
-                                {
-                                    "type": "array",
-                                    "items": {
-                                        "type": "string"
-                                    }
-                                }
-                            ]
-                        }
+                        "$ref": "#/components/schemas/TaskProcessingIO",
+                        "nullable": true
                     },
                     "customId": {
                         "type": "string",

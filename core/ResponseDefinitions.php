@@ -180,7 +180,7 @@ namespace OCA\Core;
  * @psalm-type CoreTaskProcessingShape = array{
  *     name: string,
  *     description: string,
- *     type: int,
+ *     type: "Number"|"Text"|"Audio"|"Image"|"Video"|"File"|"ListOfNumbers"|"ListOfTexts"|"ListOfImages"|"ListOfAudios"|"ListOfVideos"|"ListOfFiles",
  *     mandatory: bool,
  * }
  *
@@ -191,14 +191,16 @@ namespace OCA\Core;
  *     outputShape: CoreTaskProcessingShape[],
  * }
  *
+ * @psalm-type CoreTaskProcessingIO = array<string, numeric|list<numeric>|string|list<string>>
+ *
  * @psalm-type CoreTaskProcessingTask = array{
  *     id: int,
  *     type: string,
  *     status: 'STATUS_CANCELLED'|'STATUS_FAILED'|'STATUS_SUCCESSFUL'|'STATUS_RUNNING'|'STATUS_SCHEDULED'|'STATUS_UNKNOWN',
  *     userId: ?string,
  *     appId: string,
- *     input: array<string, numeric|list<numeric>|string|list<string>>,
- *     output: null|array<string, numeric|list<numeric>|string|list<string>>,
+ *     input: CoreTaskProcessingIO,
+ *     output: null|CoreTaskProcessingIO,
  *     customId: ?string,
  *     completionExpectedAt: ?int,
  *     progress: ?float

@@ -45,7 +45,6 @@ use OCP\L10N\IFactory;
 use OCP\Lock\LockedException;
 use OCP\SpeechToText\ISpeechToTextProvider;
 use OCP\SpeechToText\ISpeechToTextProviderWithId;
-use OCP\SpeechToText\ISpeechToTextProviderWithUserId;
 use OCP\TaskProcessing\EShapeType;
 use OCP\TaskProcessing\Events\TaskFailedEvent;
 use OCP\TaskProcessing\Events\TaskSuccessfulEvent;

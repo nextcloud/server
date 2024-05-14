@@ -42,8 +42,8 @@ enum EShapeType: int {
 	case ListOfNumbers = 10;
 	case ListOfTexts = 11;
 	case ListOfImages = 12;
-	case ListOfAudio = 13;
-	case ListOfVideo = 14;
+	case ListOfAudios = 13;
+	case ListOfVideos = 14;
 	case ListOfFiles = 15;
 
 	/**
@@ -84,13 +84,13 @@ enum EShapeType: int {
 		if ($this === EShapeType::Audio && !is_numeric($value)) {
 			throw new ValidationException('Non-audio item provided for Audio slot');
 		}
-		if ($this === EShapeType::ListOfAudio && (!is_array($value) || count(array_filter($value, fn ($item) => !is_numeric($item))) > 0)) {
+		if ($this === EShapeType::ListOfAudios && (!is_array($value) || count(array_filter($value, fn ($item) => !is_numeric($item))) > 0)) {
 			throw new ValidationException('Non-audio list item provided for ListOfAudio slot');
 		}
 		if ($this === EShapeType::Video && !is_numeric($value)) {
 			throw new ValidationException('Non-video item provided for Video slot');
 		}
-		if ($this === EShapeType::ListOfVideo && (!is_array($value) || count(array_filter($value, fn ($item) => !is_numeric($item))) > 0)) {
+		if ($this === EShapeType::ListOfVideos && (!is_array($value) || count(array_filter($value, fn ($item) => !is_numeric($item))) > 0)) {
 			throw new ValidationException('Non-video list item provided for ListOfTexts slot');
 		}
 		if ($this === EShapeType::File && !is_numeric($value)) {
@@ -116,13 +116,13 @@ enum EShapeType: int {
 		if ($this === EShapeType::Audio && !is_string($value)) {
 			throw new ValidationException('Non-audio item provided for Audio slot');
 		}
-		if ($this === EShapeType::ListOfAudio && (!is_array($value) || count(array_filter($value, fn ($item) => !is_string($item))) > 0)) {
+		if ($this === EShapeType::ListOfAudios && (!is_array($value) || count(array_filter($value, fn ($item) => !is_string($item))) > 0)) {
 			throw new ValidationException('Non-audio list item provided for ListOfAudio slot');
 		}
 		if ($this === EShapeType::Video && !is_string($value)) {
 			throw new ValidationException('Non-video item provided for Video slot');
 		}
-		if ($this === EShapeType::ListOfVideo && (!is_array($value) || count(array_filter($value, fn ($item) => !is_string($item))) > 0)) {
+		if ($this === EShapeType::ListOfVideos && (!is_array($value) || count(array_filter($value, fn ($item) => !is_string($item))) > 0)) {
 			throw new ValidationException('Non-video list item provided for ListOfTexts slot');
 		}
 		if ($this === EShapeType::File && !is_string($value)) {
