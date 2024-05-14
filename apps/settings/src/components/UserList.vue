@@ -22,12 +22,12 @@
 
 <template>
 	<Fragment>
-		<NewUserModal v-if="showConfig.showNewUserForm"
+		<NewUserDialog v-if="showConfig.showNewUserForm"
 			:loading="loading"
 			:new-user="newUser"
 			:quota-options="quotaOptions"
 			@reset="resetForm"
-			@close="closeModal" />
+			@closing="closeDialog" />
 
 		<NcEmptyContent v-if="filteredUsers.length === 0"
 			class="empty"
@@ -88,7 +88,7 @@ import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js
 import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
 
 import VirtualList from './Users/VirtualList.vue'
-import NewUserModal from './Users/NewUserModal.vue'
+import NewUserDialog from './Users/NewUserDialog.vue'
 import UserListFooter from './Users/UserListFooter.vue'
 import UserListHeader from './Users/UserListHeader.vue'
 import UserRow from './Users/UserRow.vue'
@@ -119,7 +119,7 @@ export default {
 		NcEmptyContent,
 		NcIconSvgWrapper,
 		NcLoadingIcon,
-		NewUserModal,
+		NewUserDialog,
 		UserListFooter,
 		UserListHeader,
 		VirtualList,
@@ -332,7 +332,7 @@ export default {
 			this.isInitialLoad = false
 		},
 
-		closeModal() {
+		closeDialog() {
 			this.$store.commit('setShowConfig', {
 				key: 'showNewUserForm',
 				value: false,
