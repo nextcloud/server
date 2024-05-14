@@ -259,6 +259,10 @@ export default {
 		await this.searchUserManager()
 	},
 
+	mounted() {
+		this.$refs.username?.focus?.()
+	},
+
 	methods: {
 		async createUser() {
 			this.loading.all = true
