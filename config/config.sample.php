@@ -941,6 +941,15 @@ $CONFIG = [
 'config_is_read_only' => false,
 
 /**
+ * In certain environments it is desired to set the config.php owner to
+ * something else than the user that is running the php process.
+ * In that case in order to determine the user that the php process uses,
+ * you can overwrite the user with this config flag for console.php and cron.php
+ * Defaults to ``''`` (empty string)
+ */
+'php.user' => '',
+
+/**
  * Logging
  */
 
