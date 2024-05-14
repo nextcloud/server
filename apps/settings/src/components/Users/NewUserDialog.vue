@@ -280,7 +280,7 @@ export default {
 				})
 
 				this.$emit('reset')
-				this.$refs.username?.$refs?.inputField?.$refs?.input?.focus?.()
+				this.$refs.username?.focus?.()
 				this.$emit('closing')
 			} catch (error) {
 				this.loading.all = false
@@ -288,10 +288,10 @@ export default {
 					const statuscode = error.response.data.ocs.meta.statuscode
 					if (statuscode === 102) {
 						// wrong username
-						this.$refs.username?.$refs?.inputField?.$refs?.input?.focus?.()
+						this.$refs.username?.focus?.()
 					} else if (statuscode === 107) {
 						// wrong password
-						this.$refs.password?.$refs?.inputField?.$refs?.input?.focus?.()
+						this.$refs.password?.focus?.()
 					}
 				}
 			}
