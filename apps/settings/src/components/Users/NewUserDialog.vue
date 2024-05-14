@@ -23,7 +23,7 @@
 <template>
 	<NcDialog class="dialog"
 		size="small"
-		:name="t('settings', 'New user')"
+		:name="t('settings', 'New account')"
 		out-transition
 		v-on="$listeners">
 		<form id="new-user-form"
@@ -83,7 +83,7 @@
 				</label>
 				<NcSelect class="dialog__select"
 					input-id="new-user-groups"
-					:placeholder="t('settings', 'Set user groups')"
+					:placeholder="t('settings', 'Set account groups')"
 					:disabled="loading.groups || loading.all"
 					:options="canAddGroups"
 					:value="newUser.groups"
@@ -107,7 +107,7 @@
 				<NcSelect v-model="newUser.subAdminsGroups"
 					class="dialog__select"
 					input-id="new-user-sub-admin"
-					:placeholder="t('settings', 'Set user as admin for …')"
+					:placeholder="t('settings', 'Set account as admin for …')"
 					:options="subAdminsGroups"
 					:close-on-select="false"
 					:multiple="true"
@@ -121,7 +121,7 @@
 				<NcSelect v-model="newUser.quota"
 					class="dialog__select"
 					input-id="new-user-quota"
-					:placeholder="t('settings', 'Set user quota')"
+					:placeholder="t('settings', 'Set account quota')"
 					:options="quotaOptions"
 					:clearable="false"
 					:taggable="true"
@@ -166,7 +166,7 @@
 				form="new-user-form"
 				type="primary"
 				native-type="submit">
-				{{ t('settings', 'Add new user') }}
+				{{ t('settings', 'Add new account') }}
 			</NcButton>
 		</template>
 	</NcDialog>
@@ -211,7 +211,7 @@ export default {
 		return {
 			possibleManagers: [],
 			// TRANSLATORS This string describes a manager in the context of an organization
-			managerLabel: t('settings', 'Set user manager'),
+			managerLabel: t('settings', 'Set account manager'),
 		}
 	},
 
