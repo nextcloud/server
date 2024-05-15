@@ -97,6 +97,9 @@ class UnifiedSearchController extends OCSController {
 		}
 		[$route, $routeParameters] = $this->getRouteInformation($from);
 
+		$limit ??= SearchQuery::LIMIT_DEFAULT;
+		$limit = max(1, min($limit, 25));
+
 		return new DataResponse(
 			$this->composer->search(
 				$this->userSession->getUser(),
@@ -104,7 +107,7 @@ class UnifiedSearchController extends OCSController {
 				new SearchQuery(
 					$term,
 					$sortOrder ?? ISearchQuery::SORT_DATE_DESC,
-					$limit ?? SearchQuery::LIMIT_DEFAULT,
+					$limit,
 					$cursor,
 					$route,
 					$routeParameters
