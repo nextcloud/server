@@ -163,6 +163,12 @@ class RegistrationContext {
 	/** @var ServiceRegistration<ITeamResourceProvider>[] */
 	private array $teamResourceProviders = [];
 
+	/** @var ServiceRegistration<\OCP\TaskProcessing\IProvider>[] */
+	private array $taskProcessingProviders = [];
+
+	/** @var ServiceRegistration<\OCP\TaskProcessing\ITaskType>[] */
+	private array $taskProcessingTaskTypes = [];
+
 	public function __construct(LoggerInterface $logger) {
 		$this->logger = $logger;
 	}
@@ -411,6 +417,20 @@ class RegistrationContext {
 					$declarativeSettingsClass
 				);
 			}
+
+			public function registerTaskProcessingProvider(string $taskProcessingProviderClass): void {
+				$this->context->registerTaskProcessingProvider(
+					$this->appId,
+					$taskProcessingProviderClass
+				);
+			}
+
+			public function registerTaskProcessingTaskType(string $taskProcessingTaskTypeClass): void {
+				$this->context->registerTaskProcessingTaskType(
+					$this->appId,
+					$taskProcessingTaskTypeClass
+				);
+			}
 		};
 	}
 
@@ -588,6 +608,20 @@ class RegistrationContext {
 	 */
 	public function registerDeclarativeSettings(string $appId, string $declarativeSettingsClass): void {
 		$this->declarativeSettings[] = new ServiceRegistration($appId, $declarativeSettingsClass);
+	}
+
+	/**
+	 * @psalm-param class-string<\OCP\TaskProcessing\IProvider> $declarativeSettingsClass
+	 */
+	public function registerTaskProcessingProvider(string $appId, string $taskProcessingProviderClass): void {
+		$this->taskProcessingProviders[] = new ServiceRegistration($appId, $taskProcessingProviderClass);
+	}
+
+	/**
+	 * @psalm-param class-string<\OCP\TaskProcessing\ITaskType> $declarativeSettingsClass
+	 */
+	public function registerTaskProcessingTaskType(string $appId, string $taskProcessingTaskTypeClass) {
+		$this->taskProcessingTaskTypes[] = new ServiceRegistration($appId, $taskProcessingTaskTypeClass);
 	}
 
 	/**
@@ -919,5 +953,19 @@ class RegistrationContext {
 	 */
 	public function getDeclarativeSettings(): array {
 		return $this->declarativeSettings;
+	}
+
+	/**
+	 * @return ServiceRegistration<\OCP\TaskProcessing\IProvider>[]
+	 */
+	public function getTaskProcessingProviders(): array {
+		return $this->taskProcessingProviders;
+	}
+
+	/**
+	 * @return ServiceRegistration<\OCP\TaskProcessing\ITaskType>[]
+	 */
+	public function getTaskProcessingTaskTypes(): array {
+		return $this->taskProcessingTaskTypes;
 	}
 }

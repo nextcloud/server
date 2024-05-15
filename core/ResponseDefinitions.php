@@ -176,6 +176,37 @@ namespace OCA\Core;
  *       iconURL: ?string,
  *       iconEmoji: ?string,
  *   }
+ *
+ * @psalm-type CoreTaskProcessingShape = array{
+ *     name: string,
+ *     description: string,
+ *     type: "Number"|"Text"|"Audio"|"Image"|"Video"|"File"|"ListOfNumbers"|"ListOfTexts"|"ListOfImages"|"ListOfAudios"|"ListOfVideos"|"ListOfFiles",
+ *     mandatory: bool,
+ * }
+ *
+ * @psalm-type CoreTaskProcessingTaskType = array{
+ *     name: string,
+ *     description: string,
+ *     inputShape: CoreTaskProcessingShape[],
+ *     outputShape: CoreTaskProcessingShape[],
+ * }
+ *
+ * @psalm-type CoreTaskProcessingIO = array<string, numeric|list<numeric>|string|list<string>>
+ *
+ * @psalm-type CoreTaskProcessingTask = array{
+ *     id: int,
+ *     lastUpdated: int,
+ *     type: string,
+ *     status: 'STATUS_CANCELLED'|'STATUS_FAILED'|'STATUS_SUCCESSFUL'|'STATUS_RUNNING'|'STATUS_SCHEDULED'|'STATUS_UNKNOWN',
+ *     userId: ?string,
+ *     appId: string,
+ *     input: CoreTaskProcessingIO,
+ *     output: null|CoreTaskProcessingIO,
+ *     customId: ?string,
+ *     completionExpectedAt: ?int,
+ *     progress: ?float
+ * }
+ *
  */
 class ResponseDefinitions {
 }

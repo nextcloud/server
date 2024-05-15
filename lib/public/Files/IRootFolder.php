@@ -98,4 +98,10 @@ interface IRootFolder extends Folder, Emitter {
 	 * @since 28.0.0
 	 */
 	public function getMount(string $mountPoint): IMountPoint;
+
+	/**
+	 * @return string
+	 * @since 30.0.0
+	 */
+	public function getAppDataDirectoryName(): string;
 }

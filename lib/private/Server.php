@@ -1433,6 +1433,8 @@ class Server extends ServerContainer implements IServerContainer {
 
 		$this->registerAlias(IDeclarativeManager::class, DeclarativeManager::class);
 
+		$this->registerAlias(\OCP\TaskProcessing\IManager::class, \OC\TaskProcessing\Manager::class);
+
 		$this->connectDispatcher();
 	}
 
