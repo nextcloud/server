@@ -65,7 +65,7 @@ interface ICalendar {
 	 * 	['timerange' => ['start' => new DateTime(...), 'end' => new DateTime(...)]]
 	 * @param int|null $limit - limit number of search results
 	 * @param int|null $offset - offset for paging of search results
-	 * @return array an array of events/journals/todos which are arrays of key-value-pairs
+	 * @return array an array of events/journals/todos which are arrays of key-value-pairs. the events are sorted by start date (closest first, furthest last)
 	 * @since 13.0.0
 	 */
 	public function search(string $pattern, array $searchProperties = [], array $options = [], ?int $limit = null, ?int $offset = null): array;

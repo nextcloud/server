@@ -40,6 +40,7 @@
 namespace OCA\DAV\CalDAV;
 
 use DateTime;
+use DateTimeImmutable;
 use DateTimeInterface;
 use OCA\DAV\AppInfo\Application;
 use OCA\DAV\Connector\Sabre\Principal;
@@ -1965,6 +1966,10 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 
 		$outerQuery->andWhere($outerQuery->expr()->in('c.id', $outerQuery->createFunction($innerQuery->getSQL())));
 
+		// Without explicit order by its undefined in which order the SQL server returns the events.
+		// For the pagination with hasLimit and hasTimeRange, a stable ordering is helpful.
+		$outerQuery->addOrderBy('id');
+
 		$offset = (int)$offset;
 		$outerQuery->setFirstResult($offset);
 
@@ -2000,7 +2005,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			$calendarObjects = $this->searchCalendarObjects($outerQuery, $start, $end);
 		}
 
-		return array_map(function ($o) use ($options) {
+		$calendarObjects = array_map(function ($o) use ($options) {
 			$calendarData = Reader::read($o['calendardata']);
 
 			// Expand recurrences if an explicit time range is requested
@@ -2036,6 +2041,17 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				}, $timezones),
 			];
 		}, $calendarObjects);
+
+		usort($calendarObjects, function (array $a, array $b) {
+			/** @var DateTimeImmutable $startA */
+			$startA = $a['objects'][0]['DTSTART'][0] ?? new DateTimeImmutable(self::MAX_DATE);
+			/** @var DateTimeImmutable $startB */
+			$startB = $b['objects'][0]['DTSTART'][0] ?? new DateTimeImmutable(self::MAX_DATE);
+
+			return $startA->getTimestamp() <=> $startB->getTimestamp();
+		});
+
+		return $calendarObjects;
 	}
 
 	private function searchCalendarObjects(IQueryBuilder $query, DateTimeInterface|null $start, DateTimeInterface|null $end): array {
