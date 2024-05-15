@@ -90,7 +90,7 @@ class UnifiedSearchController extends OCSController {
 	 * @param string $providerId ID of the provider
 	 * @param string $term Term to search
 	 * @param int|null $sortOrder Order of entries
-	 * @param int|null $limit Maximum amount of entries
+	 * @param int|null $limit Maximum amount of entries, limited to 25
 	 * @param int|string|null $cursor Offset for searching
 	 * @param string $from The current user URL
 	 *
@@ -110,6 +110,9 @@ class UnifiedSearchController extends OCSController {
 	): DataResponse {
 		[$route, $routeParameters] = $this->getRouteInformation($from);
 
+		$limit ??= SearchQuery::LIMIT_DEFAULT;
+		$limit = max(1, min($limit, 25));
+
 		try {
 			$filters = $this->composer->buildFilterList($providerId, $this->request->getParams());
 		} catch (UnsupportedFilter|InvalidArgumentException $e) {
@@ -122,7 +125,7 @@ class UnifiedSearchController extends OCSController {
 				new SearchQuery(
 					$filters,
 					$sortOrder ?? ISearchQuery::SORT_DATE_DESC,
-					$limit ?? SearchQuery::LIMIT_DEFAULT,
+					$limit,
 					$cursor,
 					$route,
 					$routeParameters
