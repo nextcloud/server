@@ -50,7 +50,7 @@ class SVG extends ProviderV2 {
 			}
 
 			// Do not parse SVG files with references
-			if (stripos($content, 'xlink:href') !== false) {
+			if (preg_match('/["\s](xlink:)?href\s*=/i', $content)) {
 				return null;
 			}
 
