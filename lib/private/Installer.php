@@ -296,7 +296,7 @@ class Installer {
 
 				// Check if the signature actually matches the downloaded content
 				$certificate = openssl_get_publickey($app['certificate']);
-				$verified = (bool)openssl_verify(file_get_contents($tempFile), base64_decode($app['releases'][0]['signature']), $certificate, OPENSSL_ALGO_SHA512);
+				$verified = openssl_verify(file_get_contents($tempFile), base64_decode($app['releases'][0]['signature']), $certificate, OPENSSL_ALGO_SHA512) === 1;
 				// PHP 8+ deprecates openssl_free_key and automatically destroys the key instance when it goes out of scope
 				if ((PHP_VERSION_ID < 80000)) {
 					openssl_free_key($certificate);
