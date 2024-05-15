@@ -65,26 +65,15 @@ try {
 		exit(1);
 	}
 
-	// Check if the data directory is available and the server is installed
-	$dataDirectory = $config->getSystemValueString('datadirectory', \OC::$SERVERROOT . '/data');
-	if ($config->getSystemValueBool('installed', false) && !is_dir($dataDirectory)) {
-		echo "Data directory (" . $dataDirectory . ") not found" . PHP_EOL;
+	$user = posix_getuid();
+	$configUser = fileowner(OC::$configDir . 'config.php');
+	if ($user !== $configUser) {
+		echo "Console has to be executed with the user that owns the file config/config.php" . PHP_EOL;
+		echo "Current user id: " . $user . PHP_EOL;
+		echo "Owner id of config.php: " . $configUser . PHP_EOL;
+		echo "Try adding 'sudo -u #" . $configUser . "' to the beginning of the command (without the single quotes)" . PHP_EOL;
+		echo "If running with 'docker exec' try adding the option '-u " . $configUser . "' to the docker command (without the single quotes)" . PHP_EOL;
 		exit(1);
-	}
-
-	// Check if the user running the console is the same as the user that owns the data directory
-	// If the data directory does not exist, the server is not setup yet and we can skip.
-	if (is_dir($dataDirectory)) {
-		$user = posix_getuid();
-		$dataDirectoryUser = fileowner($dataDirectory);
-		if ($user !== $dataDirectoryUser) {
-			echo "Console has to be executed with the user that owns the data directory" . PHP_EOL;
-			echo "Current user id: " . $user . PHP_EOL;
-			echo "Owner id of the data directory: " . $dataDirectoryUser . PHP_EOL;
-			echo "Try adding 'sudo -u #" . $dataDirectoryUser . "' to the beginning of the command (without the single quotes)" . PHP_EOL;
-			echo "If running with 'docker exec' try adding the option '-u " . $dataDirectoryUser . "' to the docker command (without the single quotes)" . PHP_EOL;
-			exit(1);
-		}
 	}
 
 	$oldWorkingDir = getcwd();
