@@ -43,4 +43,33 @@ class SVGTest extends Provider {
 			$this->markTestSkipped('No SVG provider present');
 		}
 	}
+
+	public function dataGetThumbnailSVGHref(): array {
+		return [
+			['href'],
+			[' href'],
+			["\nhref"],
+			['xlink:href'],
+			[' xlink:href'],
+			["\nxlink:href"],
+		];
+	}
+
+	/**
+	 * @dataProvider dataGetThumbnailSVGHref
+	 * @requires extension imagick
+	 */
+	public function testGetThumbnailSVGHref(string $content): void {
+		$handle = fopen('php://temp', 'w+');
+		fwrite($handle, '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <image x="0" y="0"' . $content . '="fxlogo.png" height="100" width="100" />
+</svg>');
+		rewind($handle);
+
+		$file = $this->createMock(\OCP\Files\File::class);
+		$file->method('fopen')
+			->willReturn($handle);
+
+		self::assertNull($this->provider->getThumbnail($file, 512, 512));
+	}
 }
