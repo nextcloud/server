@@ -532,6 +532,7 @@
                 "type": "object",
                 "required": [
                     "id",
+                    "lastUpdated",
                     "type",
                     "status",
                     "userId",
@@ -544,6 +545,10 @@
                 ],
                 "properties": {
                     "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "lastUpdated": {
                         "type": "integer",
                         "format": "int64"
                     },

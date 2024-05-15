@@ -195,6 +195,7 @@ namespace OCA\Core;
  *
  * @psalm-type CoreTaskProcessingTask = array{
  *     id: int,
+ *     lastUpdated: int,
  *     type: string,
  *     status: 'STATUS_CANCELLED'|'STATUS_FAILED'|'STATUS_SUCCESSFUL'|'STATUS_RUNNING'|'STATUS_SCHEDULED'|'STATUS_UNKNOWN',
  *     userId: ?string,

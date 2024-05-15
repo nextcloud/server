@@ -125,6 +125,7 @@ class Task extends Entity {
 		$task = new OCPTask($this->getType(), json_decode($this->getInput(), true, 512, JSON_THROW_ON_ERROR), $this->getAppId(), $this->getuserId(), $this->getCustomId());
 		$task->setId($this->getId());
 		$task->setStatus($this->getStatus());
+		$task->setLastUpdated($this->getLastUpdated());
 		$task->setOutput(json_decode($this->getOutput(), true, 512, JSON_THROW_ON_ERROR));
 		$task->setCompletionExpectedAt($this->getCompletionExpectedAt());
 		$task->setErrorMessage($this->getErrorMessage());

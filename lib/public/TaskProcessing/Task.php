@@ -44,6 +44,8 @@ final class Task implements \JsonSerializable {
 
 	protected ?float $progress = null;
 
+	protected int $lastUpdated;
+
 	/**
 	 * @since 30.0.0
 	 */
@@ -89,6 +91,7 @@ final class Task implements \JsonSerializable {
 		protected readonly ?string $userId,
 		protected readonly ?string $customId = '',
 	) {
+		$this->lastUpdated = time();
 	}
 
 	/**
@@ -195,13 +198,30 @@ final class Task implements \JsonSerializable {
 	}
 
 	/**
-	 * @psalm-return array{id: ?int, type: string, status: 'STATUS_CANCELLED'|'STATUS_FAILED'|'STATUS_SUCCESSFUL'|'STATUS_RUNNING'|'STATUS_SCHEDULED'|'STATUS_UNKNOWN', userId: ?string, appId: string, input: array<array-key, list<numeric|string>|numeric|string>, output: ?array<array-key, list<numeric|string>|numeric|string>, customId: ?string, completionExpectedAt: ?int, progress: ?float}
+	 * @return int
+	 * @since 30.0.0
+	 */
+	final public function getLastUpdated(): int {
+		return $this->lastUpdated;
+	}
+
+	/**
+	 * @param int $lastUpdated
+	 * @since 30.0.0
+	 */
+	final public function setLastUpdated(int $lastUpdated): void {
+		$this->lastUpdated = $lastUpdated;
+	}
+
+	/**
+	 * @psalm-return array{id: ?int, lastUpdated: int, type: string, status: 'STATUS_CANCELLED'|'STATUS_FAILED'|'STATUS_SUCCESSFUL'|'STATUS_RUNNING'|'STATUS_SCHEDULED'|'STATUS_UNKNOWN', userId: ?string, appId: string, input: array<array-key, list<numeric|string>|numeric|string>, output: ?array<array-key, list<numeric|string>|numeric|string>, customId: ?string, completionExpectedAt: ?int, progress: ?float}
 	 * @since 30.0.0
 	 */
 	final public function jsonSerialize(): array {
 		return [
 			'id' => $this->getId(),
 			'type' => $this->getTaskTypeId(),
+			'lastUpdated' => $this->getLastUpdated(),
 			'status' => self::statusToString($this->getStatus()),
 			'userId' => $this->getUserId(),
 			'appId' => $this->getAppId(),
