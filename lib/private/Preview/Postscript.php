@@ -31,4 +31,11 @@ class Postscript extends Bitmap {
 	public function getMimeType(): string {
 		return '/application\/postscript/';
 	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	protected function getAllowedMimeTypes(): string {
+		return '/application\/postscript/';
+	}
 }
