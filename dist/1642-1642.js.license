@@ -35,11 +35,8 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/auth
 	- version: 2.3.0
 	- license: GPL-3.0-or-later
-- @nextcloud/router
-	- version: 2.2.0
-	- license: GPL-3.0-or-later
 - @nextcloud/axios
-	- version: 2.4.0
+	- version: 2.5.0
 	- license: GPL-3.0-or-later
 - semver
 	- version: 7.6.2
@@ -62,6 +59,9 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/logger
 	- version: 2.7.0
 	- license: GPL-3.0-or-later
+- core-js
+	- version: 3.33.0
+	- license: MIT
 - debounce
 	- version: 2.0.0
 	- license: MIT
@@ -94,9 +94,6 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - console-browserify
 	- version: 1.2.0
-	- license: MIT
-- core-js
-	- version: 3.37.1
 	- license: MIT
 - css-loader
 	- version: 6.10.0

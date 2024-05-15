@@ -35,7 +35,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.3.0
 	- license: GPL-3.0-or-later
 - @nextcloud/browser-storage
-	- version: 0.3.0
+	- version: 0.4.0
 	- license: GPL-3.0-or-later
 - @nextcloud/browserslist-config
 	- version: 3.0.1

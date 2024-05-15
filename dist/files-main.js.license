@@ -57,14 +57,8 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/auth
 	- version: 2.3.0
 	- license: GPL-3.0-or-later
-- @nextcloud/router
-	- version: 2.2.0
-	- license: GPL-3.0-or-later
 - @nextcloud/axios
-	- version: 2.4.0
-	- license: GPL-3.0-or-later
-- @nextcloud/browser-storage
-	- version: 0.3.0
+	- version: 2.5.0
 	- license: GPL-3.0-or-later
 - @nextcloud/capabilities
 	- version: 1.2.0
@@ -117,6 +111,9 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/upload
 	- version: 1.1.1
 	- license: AGPL-3.0-or-later
+- @nextcloud/browser-storage
+	- version: 0.3.0
+	- license: GPL-3.0-or-later
 - debounce
 	- version: 2.0.0
 	- license: MIT
