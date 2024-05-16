@@ -17,10 +17,6 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
             'OC\\' => 3,
             'OCP\\' => 4,
         ),
-        'B' => 
-        array (
-            'Bamarni\\Composer\\Bin\\' => 21,
-        ),
     );
 
     public static $prefixDirsPsr4 = array (
@@ -35,10 +31,6 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\' => 
         array (
             0 => __DIR__ . '/../../..' . '/lib/public',
-        ),
-        'Bamarni\\Composer\\Bin\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/bamarni/composer-bin-plugin/src',
         ),
     );
 
@@ -602,6 +594,12 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Mail\\IEMailTemplate' => __DIR__ . '/../../..' . '/lib/public/Mail/IEMailTemplate.php',
         'OCP\\Mail\\IMailer' => __DIR__ . '/../../..' . '/lib/public/Mail/IMailer.php',
         'OCP\\Mail\\IMessage' => __DIR__ . '/../../..' . '/lib/public/Mail/IMessage.php',
+        'OCP\\Mail\\Provider\\IManager' => __DIR__ . '/../../..' . '/lib/public/Mail/Provider/IManager.php',
+        'OCP\\Mail\\Provider\\IMessageSend' => __DIR__ . '/../../..' . '/lib/public/Mail/Provider/IMessageSend.php',
+        'OCP\\Mail\\Provider\\IProvider' => __DIR__ . '/../../..' . '/lib/public/Mail/Provider/IProvider.php',
+        'OCP\\Mail\\Provider\\IService' => __DIR__ . '/../../..' . '/lib/public/Mail/Provider/IService.php',
+        'OCP\\Mail\\Provider\\IServiceIdentity' => __DIR__ . '/../../..' . '/lib/public/Mail/Provider/IServiceIdentity.php',
+        'OCP\\Mail\\Provider\\IServiceLocation' => __DIR__ . '/../../..' . '/lib/public/Mail/Provider/IServiceLocation.php',
         'OCP\\Migration\\BigIntMigration' => __DIR__ . '/../../..' . '/lib/public/Migration/BigIntMigration.php',
         'OCP\\Migration\\IMigrationStep' => __DIR__ . '/../../..' . '/lib/public/Migration/IMigrationStep.php',
         'OCP\\Migration\\IOutput' => __DIR__ . '/../../..' . '/lib/public/Migration/IOutput.php',
@@ -1630,6 +1628,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Mail\\EMailTemplate' => __DIR__ . '/../../..' . '/lib/private/Mail/EMailTemplate.php',
         'OC\\Mail\\Mailer' => __DIR__ . '/../../..' . '/lib/private/Mail/Mailer.php',
         'OC\\Mail\\Message' => __DIR__ . '/../../..' . '/lib/private/Mail/Message.php',
+        'OC\\Mail\\Provider\\Manager' => __DIR__ . '/../../..' . '/lib/private/Mail/Provider/Manager.php',
         'OC\\Memcache\\APCu' => __DIR__ . '/../../..' . '/lib/private/Memcache/APCu.php',
         'OC\\Memcache\\ArrayCache' => __DIR__ . '/../../..' . '/lib/private/Memcache/ArrayCache.php',
         'OC\\Memcache\\CADTrait' => __DIR__ . '/../../..' . '/lib/private/Memcache/CADTrait.php',

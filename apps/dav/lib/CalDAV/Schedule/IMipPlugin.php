@@ -43,6 +43,8 @@ use OCP\Defaults;
 use OCP\IConfig;
 use OCP\IUserSession;
 use OCP\Mail\IMailer;
+use OCP\Mail\Provider\Manager as MailManager;
+use OCP\Mail\Provider\IMessageSend;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
 use Sabre\CalDAV\Schedule\IMipPlugin as SabreIMipPlugin;
@@ -307,7 +309,19 @@ class IMipPlugin extends SabreIMipPlugin {
 		);
 
 		try {
-			$failed = $this->mailer->send($message);
+			
+			// load mail provider manager
+			$manager = \OC::$server->get(\OC\Mail\Provider\Manager::class);
+			// retrieve all services
+			$service = $manager->findService($this->userSession->getUser()->getUID(), $sender);
+			// evaluate if a mail service was found with the correct address
+			if ($service) {
+				$message->setFrom((($senderName !== null) ? [$sender => $senderName] : [$sender]));
+				$failed = $service->messageSend($message);
+			} else {
+				$failed = $this->mailer->send($message);
+			}
+
 			$iTipMessage->scheduleStatus = '1.1; Scheduling message is sent via iMip';
 			if (!empty($failed)) {
 				$this->logger->error('Unable to deliver message to {failed}', ['app' => 'dav', 'failed' => implode(', ', $failed)]);

@@ -38,6 +38,7 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Template\ICustomTemplateProvider;
 use OCP\IContainer;
 use OCP\Notification\INotifier;
+use OCP\Mail\Provider\IProvider as IMailProvider;
 use OCP\Preview\IProviderV2;
 use OCP\SpeechToText\ISpeechToTextProvider;
 use OCP\TextProcessing\IProvider as ITextProcessingProvider;
@@ -432,4 +433,14 @@ interface IRegistrationContext {
 	 * @since 30.0.0
 	 */
 	public function registerTaskProcessingTaskType(string $taskProcessingTaskTypeClass): void;
+
+	/**
+	 * Register a mail provider
+	 *
+	 * @param string $class
+	 * @psalm-param class-string<IMailProvider> $class
+	 * @since 30.0.0
+	 */
+	public function registerMailProvider(string $class): void;
+
 }
