@@ -49,6 +49,9 @@
   --default-font-size: 15px;
   --animation-quick: 100ms;
   --animation-slow: 300ms;
+  /** Border width for input elements such as text fields and selects */
+  --border-width-input: 1px;
+  --border-width-input-focused: 2px;
   --border-radius: 3px;
   --border-radius-large: 10px;
   --border-radius-rounded: 28px;
