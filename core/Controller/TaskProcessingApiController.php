@@ -178,7 +178,7 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 	 *
 	 * @return DataResponse<Http::STATUS_OK, null, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR, array{message: string}, array{}>
 	 *
-	 * 200: Task returned
+	 * 200: Task deleted
 	 */
 	#[NoAdminRequired]
 	#[ApiRoute(verb: 'DELETE', url: '/task/{id}', root: '/taskprocessing')]
@@ -204,7 +204,7 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 	 * @param string|null $customId An arbitrary identifier for the task
 	 * @return DataResponse<Http::STATUS_OK, array{tasks: CoreTaskProcessingTask[]}, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR, array{message: string}, array{}>
 	 *
-	 *  200: Task list returned
+	 *  200: Tasks returned
 	 */
 	#[NoAdminRequired]
 	#[ApiRoute(verb: 'GET', url: '/tasks/app/{appId}', root: '/taskprocessing')]
@@ -233,7 +233,7 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 	 * @param string|null $customId An arbitrary identifier for the task
 	 * @return DataResponse<Http::STATUS_OK, array{tasks: CoreTaskProcessingTask[]}, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR, array{message: string}, array{}>
 	 *
-	 *  200: Task list returned
+	 *  200: Tasks returned
 	 */
 	#[NoAdminRequired]
 	#[ApiRoute(verb: 'GET', url: '/tasks', root: '/taskprocessing')]
@@ -338,7 +338,7 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 	 * @param float $progress The progress
 	 * @return DataResponse<Http::STATUS_OK, array{task: CoreTaskProcessingTask}, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR|Http::STATUS_NOT_FOUND, array{message: string}, array{}>
 	 *
-	 *  200: File content returned
+	 *  200: Progress updated successfully
 	 *  404: Task not found
 	 */
 	#[NoAdminRequired]
@@ -369,7 +369,7 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 	 * @param string|null $errorMessage An error message if the task failed
 	 * @return DataResponse<Http::STATUS_OK, array{task: CoreTaskProcessingTask}, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR|Http::STATUS_NOT_FOUND, array{message: string}, array{}>
 	 *
-	 *  200: File content returned
+	 *  200: Result updated successfully
 	 *  404: Task not found
 	 */
 	#[NoAdminRequired]
@@ -401,7 +401,7 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 	 * @param int $taskId The id of the task
 	 * @return DataResponse<Http::STATUS_OK, array{task: CoreTaskProcessingTask}, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR|Http::STATUS_NOT_FOUND, array{message: string}, array{}>
 	 *
-	 *  200: File content returned
+	 *  200: Task canceled successfully
 	 *  404: Task not found
 	 */
 	#[NoAdminRequired]

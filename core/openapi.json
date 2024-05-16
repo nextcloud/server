@@ -3867,7 +3867,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Task returned",
+                        "description": "Task deleted",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -3984,7 +3984,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Task list returned",
+                        "description": "Tasks returned",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -4112,7 +4112,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Task list returned",
+                        "description": "Tasks returned",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -4380,7 +4380,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "File content returned",
+                        "description": "Progress updated successfully",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -4553,7 +4553,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "File content returned",
+                        "description": "Result updated successfully",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -4708,7 +4708,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "File content returned",
+                        "description": "Task canceled successfully",
                         "content": {
                             "application/json": {
                                 "schema": {
