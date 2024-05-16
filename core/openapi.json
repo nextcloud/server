@@ -3345,7 +3345,7 @@
         "/ocs/v2.php/taskprocessing/tasktypes": {
             "get": {
                 "operationId": "task_processing_api-task-types",
-                "summary": "This endpoint returns all available TaskProcessing task types",
+                "summary": "Returns all available TaskProcessing task types",
                 "tags": [
                     "task_processing_api"
                 ],
@@ -3418,7 +3418,7 @@
         "/ocs/v2.php/taskprocessing/schedule": {
             "post": {
                 "operationId": "task_processing_api-schedule",
-                "summary": "This endpoint allows scheduling a task",
+                "summary": "Schedules a task",
                 "tags": [
                     "task_processing_api"
                 ],
@@ -3676,7 +3676,8 @@
         "/ocs/v2.php/taskprocessing/task/{id}": {
             "get": {
                 "operationId": "task_processing_api-get-task",
-                "summary": "This endpoint allows checking the status and results of a task. Tasks are removed 1 week after receiving their last update",
+                "summary": "Gets a task including status and result",
+                "description": "Tasks are removed 1 week after receiving their last update",
                 "tags": [
                     "task_processing_api"
                 ],
@@ -3830,7 +3831,7 @@
             },
             "delete": {
                 "operationId": "task_processing_api-delete-task",
-                "summary": "This endpoint allows to delete a scheduled task for a user",
+                "summary": "Deletes a task",
                 "tags": [
                     "task_processing_api"
                 ],
@@ -3939,7 +3940,7 @@
         "/ocs/v2.php/taskprocessing/tasks/app/{appId}": {
             "get": {
                 "operationId": "task_processing_api-list-tasks-by-app",
-                "summary": "This endpoint returns a list of tasks of a user that are related with a specific appId and optionally with an identifier",
+                "summary": "Returns tasks for the current user filtered by the appId and optional customId",
                 "tags": [
                     "task_processing_api"
                 ],
@@ -4066,8 +4067,8 @@
         },
         "/ocs/v2.php/taskprocessing/tasks": {
             "get": {
-                "operationId": "task_processing_api-list-tasks-by-user",
-                "summary": "This endpoint returns a list of tasks of a user that are related with a specific appId and optionally with an identifier",
+                "operationId": "task_processing_api-list-tasks",
+                "summary": "Returns tasks for the current user filtered by the optional taskType and optional customId",
                 "tags": [
                     "task_processing_api"
                 ],
@@ -4195,7 +4196,7 @@
         "/ocs/v2.php/taskprocessing/tasks/{taskId}/file/{fileId}": {
             "get": {
                 "operationId": "task_processing_api-get-file-contents",
-                "summary": "This endpoint returns the contents of a file referenced in a task",
+                "summary": "Returns the contents of a file referenced in a task",
                 "tags": [
                     "task_processing_api"
                 ],
@@ -4333,7 +4334,7 @@
         "/ocs/v2.php/taskprocessing/tasks/{taskId}/progress": {
             "post": {
                 "operationId": "task_processing_api-set-progress",
-                "summary": "This endpoint sets the task progress",
+                "summary": "Sets the task progress",
                 "tags": [
                     "task_processing_api"
                 ],
@@ -4498,7 +4499,7 @@
         "/ocs/v2.php/taskprocessing/tasks/{taskId}/result": {
             "post": {
                 "operationId": "task_processing_api-set-result",
-                "summary": "This endpoint sets the task result",
+                "summary": "Sets the task result",
                 "tags": [
                     "task_processing_api"
                 ],
@@ -4671,7 +4672,7 @@
         "/ocs/v2.php/taskprocessing/tasks/{taskId}/cancel": {
             "post": {
                 "operationId": "task_processing_api-cancel-task",
-                "summary": "This endpoint cancels a task",
+                "summary": "Cancels a task",
                 "tags": [
                     "task_processing_api"
                 ],

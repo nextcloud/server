@@ -67,7 +67,7 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 	}
 
 	/**
-	 * This endpoint returns all available TaskProcessing task types
+	 * Returns all available TaskProcessing task types
 	 *
 	 * @return DataResponse<Http::STATUS_OK, array{types: array<string, CoreTaskProcessingTaskType>}, array{}>
 	 *
@@ -100,7 +100,7 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 	}
 
 	/**
-	 * This endpoint allows scheduling a task
+	 * Schedules a task
 	 *
 	 * @param array<string, mixed> $input Task's input parameters
 	 * @param string $type Type of the task
@@ -141,7 +141,8 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 	}
 
 	/**
-	 * This endpoint allows checking the status and results of a task.
+	 * Gets a task including status and result
+	 *
 	 * Tasks are removed 1 week after receiving their last update
 	 *
 	 * @param int $id The id of the task
@@ -171,7 +172,7 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 	}
 
 	/**
-	 * This endpoint allows to delete a scheduled task for a user
+	 * Deletes a task
 	 *
 	 * @param int $id The id of the task
 	 *
@@ -197,8 +198,7 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 
 
 	/**
-	 * This endpoint returns a list of tasks of a user that are related
-	 * with a specific appId and optionally with an identifier
+	 * Returns tasks for the current user filtered by the appId and optional customId
 	 *
 	 * @param string $appId ID of the app
 	 * @param string|null $customId An arbitrary identifier for the task
@@ -227,8 +227,7 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 	}
 
 	/**
-	 * This endpoint returns a list of tasks of a user that are related
-	 * with a specific appId and optionally with an identifier
+	 * Returns tasks for the current user filtered by the optional taskType and optional customId
 	 *
 	 * @param string|null $taskType The task type to filter by
 	 * @param string|null $customId An arbitrary identifier for the task
@@ -238,7 +237,7 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 	 */
 	#[NoAdminRequired]
 	#[ApiRoute(verb: 'GET', url: '/tasks', root: '/taskprocessing')]
-	public function listTasksByUser(?string $taskType, ?string $customId = null): DataResponse {
+	public function listTasks(?string $taskType, ?string $customId = null): DataResponse {
 		try {
 			$tasks = $this->taskProcessingManager->getUserTasks($this->userId, $taskType, $customId);
 			/** @var CoreTaskProcessingTask[] $json */
@@ -257,7 +256,7 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 	}
 
 	/**
-	 * This endpoint returns the contents of a file referenced in a task
+	 * Returns the contents of a file referenced in a task
 	 *
 	 * @param int $taskId The id of the task
 	 * @param int $fileId The file id of the file to retrieve
@@ -333,7 +332,7 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 	}
 
 	/**
-	 * This endpoint sets the task progress
+	 * Sets the task progress
 	 *
 	 * @param int $taskId The id of the task
 	 * @param float $progress The progress
@@ -363,7 +362,7 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 	}
 
 	/**
-	 * This endpoint sets the task result
+	 * Sets the task result
 	 *
 	 * @param int $taskId The id of the task
 	 * @param array<string,mixed>|null $output The resulting task output
@@ -397,7 +396,7 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 	}
 
 	/**
-	 * This endpoint cancels a task
+	 * Cancels a task
 	 *
 	 * @param int $taskId The id of the task
 	 * @return DataResponse<Http::STATUS_OK, array{task: CoreTaskProcessingTask}, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR|Http::STATUS_NOT_FOUND, array{message: string}, array{}>
