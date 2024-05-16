@@ -410,4 +410,26 @@ interface IRegistrationContext {
 	 * @since 29.0.0
 	 */
 	public function registerDeclarativeSettings(string $declarativeSettingsClass): void;
+
+	/**
+	 * Register an implementation of \OCP\TaskProcessing\IProvider that
+	 * will handle the implementation of task processing
+	 *
+	 * @param string $taskProcessingProviderClass
+	 * @psalm-param class-string<\OCP\TaskProcessing\IProvider> $taskProcessingProviderClass
+	 * @return void
+	 * @since 30.0.0
+	 */
+	public function registerTaskProcessingProvider(string $taskProcessingProviderClass): void;
+
+	/**
+	 * Register an implementation of \OCP\TaskProcessing\ITaskType that
+	 * will handle the implementation of a task processing type
+	 *
+	 * @param string $taskProcessingTaskTypeClass
+	 * @psalm-param class-string<\OCP\TaskProcessing\ITaskType> $taskProcessingTaskTypeClass
+	 * @return void
+	 * @since 30.0.0
+	 */
+	public function registerTaskProcessingTaskType(string $taskProcessingTaskTypeClass): void;
 }
