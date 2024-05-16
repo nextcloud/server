@@ -28,6 +28,13 @@ class SGI extends Bitmap {
 	 * {@inheritDoc}
 	 */
 	public function getMimeType(): string {
-		return '/image\/sgi/';
+		return '/image\/(x-)?sgi/';
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	protected function getAllowedMimeTypes(): string {
+		return '/image\/(x-)?sgi/';
 	}
 }
