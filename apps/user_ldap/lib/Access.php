@@ -387,10 +387,11 @@ class Access extends LDAPUtility {
 	 *
 	 * @param string $fdn the dn of the group object
 	 * @param string $ldapName optional, the display name of the object
+	 * @param bool $autoMapping Should the group be mapped if not yet mapped
 	 * @return string|false with the name to use in Nextcloud, false on DN outside of search DN
 	 * @throws \Exception
 	 */
-	public function dn2groupname($fdn, $ldapName = null) {
+	public function dn2groupname($fdn, $ldapName = null, bool $autoMapping = true) {
 		//To avoid bypassing the base DN settings under certain circumstances
 		//with the group support, check whether the provided DN matches one of
 		//the given Bases
@@ -398,7 +399,7 @@ class Access extends LDAPUtility {
 			return false;
 		}
 
-		return $this->dn2ocname($fdn, $ldapName, false);
+		return $this->dn2ocname($fdn, $ldapName, false, autoMapping:$autoMapping);
 	}
 
 	/**
@@ -428,10 +429,11 @@ class Access extends LDAPUtility {
 	 * @param bool $isUser optional, whether it is a user object (otherwise group assumed)
 	 * @param bool|null $newlyMapped
 	 * @param array|null $record
+	 * @param bool $autoMapping Should the group be mapped if not yet mapped
 	 * @return false|string with with the name to use in Nextcloud
 	 * @throws \Exception
 	 */
-	public function dn2ocname($fdn, $ldapName = null, $isUser = true, &$newlyMapped = null, ?array $record = null) {
+	public function dn2ocname($fdn, $ldapName = null, $isUser = true, &$newlyMapped = null, ?array $record = null, bool $autoMapping = true) {
 		static $intermediates = [];
 		if (isset($intermediates[($isUser ? 'user-' : 'group-') . $fdn])) {
 			return false; // is a known intermediate
@@ -452,6 +454,11 @@ class Access extends LDAPUtility {
 		$ncName = $mapper->getNameByDN($fdn);
 		if (is_string($ncName)) {
 			return $ncName;
+		}
+
+		if (!$autoMapping) {
+			/* If no auto mapping, stop there */
+			return false;
 		}
 
 		//second try: get the UUID and check if it is known. Then, update the DN and return the name.
