@@ -151,6 +151,7 @@ use OC\SystemTag\ManagerFactory as SystemTagManagerFactory;
 use OC\Tagging\TagMapper;
 use OC\Talk\Broker;
 use OC\Template\JSCombiner;
+use OC\User\Listeners\BeforeUserDeletedListener;
 use OCA\Theming\ImageManager;
 use OCA\Theming\ThemingDefaults;
 use OCA\Theming\Util;
@@ -244,6 +245,7 @@ use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ISystemTagObjectMapper;
 use OCP\Talk\IBroker;
 use OCP\User\Events\BeforePasswordUpdatedEvent;
+use OCP\User\Events\BeforeUserDeletedEvent;
 use OCP\User\Events\BeforeUserLoggedInEvent;
 use OCP\User\Events\BeforeUserLoggedInWithCookieEvent;
 use OCP\User\Events\BeforeUserLoggedOutEvent;
@@ -1522,6 +1524,8 @@ class Server extends ServerContainer implements IServerContainer {
 		$eventDispatched = $this->get(IEventDispatcher::class);
 		$eventDispatched->addServiceListener(LoginFailed::class, LoginFailedListener::class);
 		$eventDispatched->addServiceListener(PostLoginEvent::class, UserLoggedInListener::class);
+		$eventDispatched->addServiceListener(BeforeUserDeletedEvent::class, BeforeUserDeletedListener::class);
+
 	}
 
 	/**
