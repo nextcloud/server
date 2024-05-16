@@ -35,14 +35,10 @@ use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\Attribute\UserRateLimit;
 use OCP\AppFramework\Http\DataDownloadResponse;
 use OCP\AppFramework\Http\DataResponse;
-use OCP\Common\Exception\NotFoundException;
 use OCP\Files\File;
-use OCP\Files\GenericFileException;
 use OCP\Files\IRootFolder;
-use OCP\Files\NotPermittedException;
 use OCP\IL10N;
 use OCP\IRequest;
-use OCP\Lock\LockedException;
 use OCP\TaskProcessing\EShapeType;
 use OCP\TaskProcessing\Exception\Exception;
 use OCP\TaskProcessing\Exception\UnauthorizedException;
@@ -164,7 +160,7 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 			return new DataResponse([
 				'task' => $json,
 			]);
-		} catch (NotFoundException $e) {
+		} catch (\OCP\TaskProcessing\Exception\NotFoundException $e) {
 			return new DataResponse(['message' => $this->l->t('Task not found')], Http::STATUS_NOT_FOUND);
 		} catch (\RuntimeException $e) {
 			return new DataResponse(['message' => $this->l->t('Internal error')], Http::STATUS_INTERNAL_SERVER_ERROR);
@@ -221,8 +217,6 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 			]);
 		} catch (Exception $e) {
 			return new DataResponse(['message' => $this->l->t('Internal error')], Http::STATUS_INTERNAL_SERVER_ERROR);
-		} catch (\JsonException $e) {
-			return new DataResponse(['message' => $this->l->t('Internal error')], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -249,8 +243,6 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 				'tasks' => $json,
 			]);
 		} catch (Exception $e) {
-			return new DataResponse(['message' => $this->l->t('Internal error')], Http::STATUS_INTERNAL_SERVER_ERROR);
-		} catch (\JsonException $e) {
 			return new DataResponse(['message' => $this->l->t('Internal error')], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 	}
@@ -287,7 +279,7 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 			return new Http\DataDownloadResponse($node->getContent(), $node->getName(), $node->getMimeType());
 		} catch (\OCP\TaskProcessing\Exception\NotFoundException $e) {
 			return new DataResponse(['message' => $this->l->t('Not found')], Http::STATUS_NOT_FOUND);
-		} catch (GenericFileException|NotPermittedException|LockedException|Exception $e) {
+		} catch (Exception $e) {
 			return new DataResponse(['message' => $this->l->t('Internal error')], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 	}
