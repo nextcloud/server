@@ -471,7 +471,8 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IUserLDAP
 				fn (OfflineUser $user): bool =>
 					mb_stripos($user->getOCName(), $search) !== false ||
 					mb_stripos($user->getUID(), $search) !== false ||
-					mb_stripos($user->getDisplayName(), $search) !== false,
+					mb_stripos($user->getDisplayName(), $search) !== false ||
+					mb_stripos($user->getEmail(), $search) !== false,
 			);
 		}
 		return array_map(

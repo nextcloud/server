@@ -356,7 +356,8 @@ class Manager extends PublicEmitter implements IUserManager {
 				$users,
 				fn (IUser $user): bool =>
 					mb_stripos($user->getUID(), $search) !== false ||
-					mb_stripos($user->getDisplayName(), $search) !== false,
+					mb_stripos($user->getDisplayName(), $search) !== false ||
+					mb_stripos($user->getEMailAddress() ?? '', $search) !== false,
 			);
 		}
 
