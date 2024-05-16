@@ -1026,6 +1026,9 @@ class Server extends ServerContainer implements IServerContainer {
 		/** @deprecated 19.0.0 */
 		$this->registerDeprecatedAlias('Mailer', IMailer::class);
 
+		/** @since 30.0.0 */
+		$this->registerAlias(\OCP\Mail\Provider\IManager::class, \OC\Mail\Provider\Manager::class);
+
 		/** @deprecated 21.0.0 */
 		$this->registerDeprecatedAlias('LDAPProvider', ILDAPProvider::class);
 
