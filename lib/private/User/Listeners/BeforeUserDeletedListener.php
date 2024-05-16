@@ -25,9 +25,10 @@ namespace OC\User\Listeners;
 
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
-use OCP\User\Events\BeforeUserDeletedEvent;
 use OCP\Files\NotFoundException;
 use OCP\IAvatarManager;
+use OCP\Security\ICredentialsManager;
+use OCP\User\Events\BeforeUserDeletedEvent;
 use Psr\Log\LoggerInterface;
 
 /**
