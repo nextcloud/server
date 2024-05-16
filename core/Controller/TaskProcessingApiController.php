@@ -363,7 +363,7 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 	}
 
 	/**
-	 * This endpoint sets the task progress
+	 * This endpoint sets the task result
 	 *
 	 * @param int $taskId The id of the task
 	 * @param array<string,mixed>|null $output The resulting task output

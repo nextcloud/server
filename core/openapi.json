@@ -4498,7 +4498,7 @@
         "/ocs/v2.php/taskprocessing/tasks/{taskId}/result": {
             "post": {
                 "operationId": "task_processing_api-set-result",
-                "summary": "This endpoint sets the task progress",
+                "summary": "This endpoint sets the task result",
                 "tags": [
                     "task_processing_api"
                 ],
