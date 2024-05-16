@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2023 Daniel Kesselberg <mail@danielkesselberg.de>
  *

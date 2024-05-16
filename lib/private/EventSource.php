@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -34,28 +36,16 @@ use OCP\IEventSource;
 use OCP\IRequest;
 
 class EventSource implements IEventSource {
-	/**
-	 * @var bool
-	 */
-	private $fallback;
+	private bool $fallback = false;
+	private int $fallBackId = 0;
+	private bool $started = false;
 
-	/**
-	 * @var int
-	 */
-	private $fallBackId = 0;
-
-	/**
-	 * @var bool
-	 */
-	private $started = false;
-
-	private IRequest $request;
-
-	public function __construct(IRequest $request) {
-		$this->request = $request;
+	public function __construct(
+		private IRequest $request,
+	) {
 	}
 
-	protected function init() {
+	protected function init(): void {
 		if ($this->started) {
 			return;
 		}
@@ -108,7 +98,7 @@ class EventSource implements IEventSource {
 	 */
 	public function send($type, $data = null) {
 		if ($data and !preg_match('/^[A-Za-z0-9_]+$/', $type)) {
-			throw new BadMethodCallException('Type needs to be alphanumeric ('. $type .')');
+			throw new \BadMethodCallException('Type needs to be alphanumeric ('. $type .')');
 		}
 		$this->init();
 		if (is_null($data)) {
