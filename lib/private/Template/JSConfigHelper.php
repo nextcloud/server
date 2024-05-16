@@ -169,6 +169,7 @@ class JSConfigHelper {
 		$config = [
 			'auto_logout' => $this->config->getSystemValue('auto_logout', false),
 			'blacklist_files_regex' => FileInfo::BLACKLIST_FILES_REGEX,
+			'forbidden_filename_characters' => Util::getForbiddenFileNameChars(),
 			'loglevel' => $this->config->getSystemValue('loglevel_frontend',
 				$this->config->getSystemValue('loglevel', ILogger::WARN)
 			),
