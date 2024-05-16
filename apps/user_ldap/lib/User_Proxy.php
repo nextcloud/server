@@ -464,6 +464,9 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IUserLDAP
 	}
 
 	public function getDisabledUserList(?int $limit = null, int $offset = 0, string $search = ''): array {
+		if ((int)$this->getAccess(array_key_first($this->backends) ?? '')->connection->markRemnantsAsDisabled !== 1) {
+			return [];
+		}
 		$disabledUsers = $this->deletedUsersIndex->getUsers();
 		if ($search !== '') {
 			$disabledUsers = array_filter(
