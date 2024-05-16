@@ -35,10 +35,12 @@ use Psr\Log\LoggerInterface;
  */
 class BeforeUserDeletedListener implements IEventListener {
 	private IAvatarManager $avatarManager;
+	private ICredentialsManager $credentialsManager;
 	private LoggerInterface $logger;
 
-	public function __construct(LoggerInterface $logger, IAvatarManager $avatarManager) {
+	public function __construct(LoggerInterface $logger, IAvatarManager $avatarManager, ICredentialsManager $credentialsManager) {
 		$this->avatarManager = $avatarManager;
+		$this->credentialsManager = $credentialsManager;
 		$this->logger = $logger;
 	}
 
@@ -61,5 +63,7 @@ class BeforeUserDeletedListener implements IEventListener {
 				'exception' => $e,
 			]);
 		}
+		// Delete storages credentials on user deletion
+		$this->credentialsManager->erase($user->getUID());
 	}
 }
