@@ -180,6 +180,9 @@ class DefaultTheme implements ITheme {
 			'--animation-slow' => '300ms',
 
 			// Default variables --------------------------------------------
+			// Border width for input elements such as text fields and selects
+			'--border-width-input' => '1px',
+			'--border-width-input-focused' => '2px',
 			'--border-radius' => '3px',
 			'--border-radius-large' => '10px',
 			'--border-radius-rounded' => '28px',
