@@ -35,14 +35,10 @@ use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\Attribute\UserRateLimit;
 use OCP\AppFramework\Http\DataDownloadResponse;
 use OCP\AppFramework\Http\DataResponse;
-use OCP\Common\Exception\NotFoundException;
 use OCP\Files\File;
-use OCP\Files\GenericFileException;
 use OCP\Files\IRootFolder;
-use OCP\Files\NotPermittedException;
 use OCP\IL10N;
 use OCP\IRequest;
-use OCP\Lock\LockedException;
 use OCP\TaskProcessing\EShapeType;
 use OCP\TaskProcessing\Exception\Exception;
 use OCP\TaskProcessing\Exception\UnauthorizedException;
@@ -67,7 +63,7 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 	}
 
 	/**
-	 * This endpoint returns all available TaskProcessing task types
+	 * Returns all available TaskProcessing task types
 	 *
 	 * @return DataResponse<Http::STATUS_OK, array{types: array<string, CoreTaskProcessingTaskType>}, array{}>
 	 *
@@ -100,7 +96,7 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 	}
 
 	/**
-	 * This endpoint allows scheduling a task
+	 * Schedules a task
 	 *
 	 * @param array<string, mixed> $input Task's input parameters
 	 * @param string $type Type of the task
@@ -141,7 +137,8 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 	}
 
 	/**
-	 * This endpoint allows checking the status and results of a task.
+	 * Gets a task including status and result
+	 *
 	 * Tasks are removed 1 week after receiving their last update
 	 *
 	 * @param int $id The id of the task
@@ -163,7 +160,7 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 			return new DataResponse([
 				'task' => $json,
 			]);
-		} catch (NotFoundException $e) {
+		} catch (\OCP\TaskProcessing\Exception\NotFoundException $e) {
 			return new DataResponse(['message' => $this->l->t('Task not found')], Http::STATUS_NOT_FOUND);
 		} catch (\RuntimeException $e) {
 			return new DataResponse(['message' => $this->l->t('Internal error')], Http::STATUS_INTERNAL_SERVER_ERROR);
@@ -171,13 +168,13 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 	}
 
 	/**
-	 * This endpoint allows to delete a scheduled task for a user
+	 * Deletes a task
 	 *
 	 * @param int $id The id of the task
 	 *
 	 * @return DataResponse<Http::STATUS_OK, null, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR, array{message: string}, array{}>
 	 *
-	 * 200: Task returned
+	 * 200: Task deleted
 	 */
 	#[NoAdminRequired]
 	#[ApiRoute(verb: 'DELETE', url: '/task/{id}', root: '/taskprocessing')]
@@ -197,14 +194,13 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 
 
 	/**
-	 * This endpoint returns a list of tasks of a user that are related
-	 * with a specific appId and optionally with an identifier
+	 * Returns tasks for the current user filtered by the appId and optional customId
 	 *
 	 * @param string $appId ID of the app
 	 * @param string|null $customId An arbitrary identifier for the task
 	 * @return DataResponse<Http::STATUS_OK, array{tasks: CoreTaskProcessingTask[]}, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR, array{message: string}, array{}>
 	 *
-	 *  200: Task list returned
+	 *  200: Tasks returned
 	 */
 	#[NoAdminRequired]
 	#[ApiRoute(verb: 'GET', url: '/tasks/app/{appId}', root: '/taskprocessing')]
@@ -221,24 +217,21 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 			]);
 		} catch (Exception $e) {
 			return new DataResponse(['message' => $this->l->t('Internal error')], Http::STATUS_INTERNAL_SERVER_ERROR);
-		} catch (\JsonException $e) {
-			return new DataResponse(['message' => $this->l->t('Internal error')], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 	}
 
 	/**
-	 * This endpoint returns a list of tasks of a user that are related
-	 * with a specific appId and optionally with an identifier
+	 * Returns tasks for the current user filtered by the optional taskType and optional customId
 	 *
 	 * @param string|null $taskType The task type to filter by
 	 * @param string|null $customId An arbitrary identifier for the task
 	 * @return DataResponse<Http::STATUS_OK, array{tasks: CoreTaskProcessingTask[]}, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR, array{message: string}, array{}>
 	 *
-	 *  200: Task list returned
+	 *  200: Tasks returned
 	 */
 	#[NoAdminRequired]
 	#[ApiRoute(verb: 'GET', url: '/tasks', root: '/taskprocessing')]
-	public function listTasksByUser(?string $taskType, ?string $customId = null): DataResponse {
+	public function listTasks(?string $taskType, ?string $customId = null): DataResponse {
 		try {
 			$tasks = $this->taskProcessingManager->getUserTasks($this->userId, $taskType, $customId);
 			/** @var CoreTaskProcessingTask[] $json */
@@ -251,13 +244,11 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 			]);
 		} catch (Exception $e) {
 			return new DataResponse(['message' => $this->l->t('Internal error')], Http::STATUS_INTERNAL_SERVER_ERROR);
-		} catch (\JsonException $e) {
-			return new DataResponse(['message' => $this->l->t('Internal error')], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 	}
 
 	/**
-	 * This endpoint returns the contents of a file referenced in a task
+	 * Returns the contents of a file referenced in a task
 	 *
 	 * @param int $taskId The id of the task
 	 * @param int $fileId The file id of the file to retrieve
@@ -288,7 +279,7 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 			return new Http\DataDownloadResponse($node->getContent(), $node->getName(), $node->getMimeType());
 		} catch (\OCP\TaskProcessing\Exception\NotFoundException $e) {
 			return new DataResponse(['message' => $this->l->t('Not found')], Http::STATUS_NOT_FOUND);
-		} catch (GenericFileException|NotPermittedException|LockedException|Exception $e) {
+		} catch (Exception $e) {
 			return new DataResponse(['message' => $this->l->t('Internal error')], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 	}
@@ -333,13 +324,13 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 	}
 
 	/**
-	 * This endpoint sets the task progress
+	 * Sets the task progress
 	 *
 	 * @param int $taskId The id of the task
 	 * @param float $progress The progress
 	 * @return DataResponse<Http::STATUS_OK, array{task: CoreTaskProcessingTask}, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR|Http::STATUS_NOT_FOUND, array{message: string}, array{}>
 	 *
-	 *  200: File content returned
+	 *  200: Progress updated successfully
 	 *  404: Task not found
 	 */
 	#[NoAdminRequired]
@@ -363,14 +354,14 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 	}
 
 	/**
-	 * This endpoint sets the task progress
+	 * Sets the task result
 	 *
 	 * @param int $taskId The id of the task
 	 * @param array<string,mixed>|null $output The resulting task output
 	 * @param string|null $errorMessage An error message if the task failed
 	 * @return DataResponse<Http::STATUS_OK, array{task: CoreTaskProcessingTask}, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR|Http::STATUS_NOT_FOUND, array{message: string}, array{}>
 	 *
-	 *  200: File content returned
+	 *  200: Result updated successfully
 	 *  404: Task not found
 	 */
 	#[NoAdminRequired]
@@ -397,12 +388,12 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 	}
 
 	/**
-	 * This endpoint cancels a task
+	 * Cancels a task
 	 *
 	 * @param int $taskId The id of the task
 	 * @return DataResponse<Http::STATUS_OK, array{task: CoreTaskProcessingTask}, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR|Http::STATUS_NOT_FOUND, array{message: string}, array{}>
 	 *
-	 *  200: File content returned
+	 *  200: Task canceled successfully
 	 *  404: Task not found
 	 */
 	#[NoAdminRequired]
