@@ -469,7 +469,7 @@ interface IStorage {
 	 *
 	 * @param string|null $user Owner user id
 	 * @return void
-	 * @since 29.0.0
+	 * @since 30.0.0
 	 */
 	public function setOwner(?string $user): void;
 }
