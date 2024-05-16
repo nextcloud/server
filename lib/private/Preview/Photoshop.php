@@ -31,4 +31,11 @@ class Photoshop extends Bitmap {
 	public function getMimeType(): string {
 		return '/application\/x-photoshop/';
 	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	protected function getAllowedMimeTypes(): string {
+		return '/(application|image)\/(x-photoshop|x-psd)/';
+	}
 }
