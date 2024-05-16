@@ -30,4 +30,11 @@ class Font extends Bitmap {
 	public function getMimeType(): string {
 		return '/application\/(?:font-sfnt|x-font$)/';
 	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	protected function getAllowedMimeTypes(): string {
+		return '/(application|image)\/(?:font-sfnt|x-font|x-otf|x-ttf|x-pfb$)/';
+	}
 }

@@ -38,6 +38,18 @@ use Psr\Log\LoggerInterface;
  */
 abstract class Bitmap extends ProviderV2 {
 	/**
+	 * List of MIME types that this preview provider is allowed to process.
+	 *
+	 * These should correspond to the MIME types *identified* by Imagemagick
+	 * for files to be processed by this provider. These do / will not
+	 * necessarily need to match the MIME types stored in the database
+	 * (which are identified by IMimeTypeDetector).
+	 *
+	 * @return string Regular expression
+	 */
+	abstract protected function getAllowedMimeTypes(): string;
+
+	/**
 	 * {@inheritDoc}
 	 */
 	public function getThumbnail(File $file, int $maxX, int $maxY): ?IImage {
@@ -86,9 +98,18 @@ abstract class Bitmap extends ProviderV2 {
 	 * @param int $maxY
 	 *
 	 * @return \Imagick
+	 *
+	 * @throws \Exception
 	 */
 	private function getResizedPreview($tmpPath, $maxX, $maxY) {
 		$bp = new Imagick();
+
+		// Validate mime type
+		$bp->pingImage($tmpPath . '[0]');
+		$mimeType = $bp->getImageMimeType();
+		if (!preg_match($this->getAllowedMimeTypes(), $mimeType)) {
+			throw new \Exception('File mime type does not match the preview provider: ' . $mimeType);
+		}
 
 		// Layer 0 contains either the bitmap or a flat representation of all vector layers
 		$bp->readImage($tmpPath . '[0]');
