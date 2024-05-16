@@ -83,6 +83,7 @@ return array(
     'OCA\\Settings\\SetupChecks\\CheckServerResponseTrait' => $baseDir . '/../lib/SetupChecks/CheckServerResponseTrait.php',
     'OCA\\Settings\\SetupChecks\\CheckUserCertificates' => $baseDir . '/../lib/SetupChecks/CheckUserCertificates.php',
     'OCA\\Settings\\SetupChecks\\CodeIntegrity' => $baseDir . '/../lib/SetupChecks/CodeIntegrity.php',
+    'OCA\\Settings\\SetupChecks\\ConfigValidation' => $baseDir . '/../lib/SetupChecks/ConfigValidation.php',
     'OCA\\Settings\\SetupChecks\\CronErrors' => $baseDir . '/../lib/SetupChecks/CronErrors.php',
     'OCA\\Settings\\SetupChecks\\CronInfo' => $baseDir . '/../lib/SetupChecks/CronInfo.php',
     'OCA\\Settings\\SetupChecks\\DataDirectoryProtected' => $baseDir . '/../lib/SetupChecks/DataDirectoryProtected.php',
