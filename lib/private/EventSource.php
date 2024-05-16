@@ -1,7 +1,5 @@
 <?php
 
-use OCP\IRequest;
-
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -29,7 +27,13 @@ use OCP\IRequest;
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-class OC_EventSource implements \OCP\IEventSource {
+
+namespace OC;
+
+use OCP\IEventSource;
+use OCP\IRequest;
+
+class EventSource implements IEventSource {
 	/**
 	 * @var bool
 	 */
@@ -58,7 +62,7 @@ class OC_EventSource implements \OCP\IEventSource {
 		$this->started = true;
 
 		// prevent php output buffering, caching and nginx buffering
-		OC_Util::obEnd();
+		\OC_Util::obEnd();
 		header('Cache-Control: no-cache');
 		header('X-Accel-Buffering: no');
 		$this->fallback = isset($_GET['fallback']) and $_GET['fallback'] == 'true';
