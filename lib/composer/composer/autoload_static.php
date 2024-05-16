@@ -503,6 +503,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Group\\Backend\\ICountDisabledInGroup' => __DIR__ . '/../../..' . '/lib/public/Group/Backend/ICountDisabledInGroup.php',
         'OCP\\Group\\Backend\\ICountUsersBackend' => __DIR__ . '/../../..' . '/lib/public/Group/Backend/ICountUsersBackend.php',
         'OCP\\Group\\Backend\\ICreateGroupBackend' => __DIR__ . '/../../..' . '/lib/public/Group/Backend/ICreateGroupBackend.php',
+        'OCP\\Group\\Backend\\ICreateNamedGroupBackend' => __DIR__ . '/../../..' . '/lib/public/Group/Backend/ICreateNamedGroupBackend.php',
         'OCP\\Group\\Backend\\IDeleteGroupBackend' => __DIR__ . '/../../..' . '/lib/public/Group/Backend/IDeleteGroupBackend.php',
         'OCP\\Group\\Backend\\IGetDisplayNameBackend' => __DIR__ . '/../../..' . '/lib/public/Group/Backend/IGetDisplayNameBackend.php',
         'OCP\\Group\\Backend\\IGroupDetailsBackend' => __DIR__ . '/../../..' . '/lib/public/Group/Backend/IGroupDetailsBackend.php',

@@ -18,10 +18,8 @@ class DatabaseTest extends Backend {
 	/**
 	 * get a new unique group name
 	 * test cases can override this in order to clean up created groups
-	 *
-	 * @return string
 	 */
-	public function getGroupName($name = null) {
+	public function getGroupName($name = null): string {
 		$name = parent::getGroupName($name);
 		$this->groups[] = $name;
 		return $name;
@@ -39,12 +37,22 @@ class DatabaseTest extends Backend {
 		parent::tearDown();
 	}
 
-	public function testAddDoubleNoCache() {
+	public function testAddDoubleNoCache(): void {
 		$group = $this->getGroupName();
 
 		$this->backend->createGroup($group);
 
 		$backend = new \OC\Group\Database();
-		$this->assertFalse($backend->createGroup($group));
+		$this->assertNull($backend->createGroup($group));
+	}
+
+	public function testAddLongGroupName(): void {
+		$groupName = $this->getUniqueID('test_', 100);
+
+		$gidCreated = $this->backend->createGroup($groupName);
+		$this->assertEquals(64, strlen($gidCreated));
+
+		$group = $this->backend->getGroupDetails($gidCreated);
+		$this->assertEquals(['displayName' => $groupName], $group);
 	}
 }
