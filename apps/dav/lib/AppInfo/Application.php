@@ -68,6 +68,7 @@ use OCA\DAV\Events\CalendarUpdatedEvent;
 use OCA\DAV\Events\CardCreatedEvent;
 use OCA\DAV\Events\CardDeletedEvent;
 use OCA\DAV\Events\CardUpdatedEvent;
+use OCA\DAV\Events\ScheduleResourcesRoomsUpdateEvent;
 use OCA\DAV\Events\SubscriptionCreatedEvent;
 use OCA\DAV\Events\SubscriptionDeletedEvent;
 use OCA\DAV\HookManager;
@@ -84,6 +85,7 @@ use OCA\DAV\Listener\ClearPhotoCacheListener;
 use OCA\DAV\Listener\OutOfOfficeListener;
 use OCA\DAV\Listener\SubscriptionListener;
 use OCA\DAV\Listener\TrustedServerRemovedListener;
+use OCA\DAV\Listener\UpdateCalendarResourcesRoomsListener;
 use OCA\DAV\Listener\UserPreferenceListener;
 use OCA\DAV\Search\ContactsSearchProvider;
 use OCA\DAV\Search\EventsSearchProvider;
@@ -204,6 +206,8 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(OutOfOfficeChangedEvent::class, OutOfOfficeListener::class);
 		$context->registerEventListener(OutOfOfficeClearedEvent::class, OutOfOfficeListener::class);
 		$context->registerEventListener(OutOfOfficeScheduledEvent::class, OutOfOfficeListener::class);
+
+		$context->registerEventListener(ScheduleResourcesRoomsUpdateEvent::class, UpdateCalendarResourcesRoomsListener::class);
 
 		$context->registerNotifierService(Notifier::class);
 
