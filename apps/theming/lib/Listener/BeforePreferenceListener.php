@@ -34,6 +34,12 @@ use OCP\EventDispatcher\IEventListener;
 
 /** @template-implements IEventListener<BeforePreferenceDeletedEvent|BeforePreferenceSetEvent> */
 class BeforePreferenceListener implements IEventListener {
+
+	/**
+	 * @var string[]
+	 */
+	private const ALLOWED_KEYS = ['force_enable_blur_filter', 'shortcuts_disabled'];
+
 	public function __construct(
 		private IAppManager $appManager,
 	) {
@@ -55,13 +61,22 @@ class BeforePreferenceListener implements IEventListener {
 	}
 
 	private function handleThemingValues(BeforePreferenceSetEvent|BeforePreferenceDeletedEvent $event): void {
-		if ($event->getConfigKey() !== 'shortcuts_disabled') {
+		if (!in_array($event->getConfigKey(), self::ALLOWED_KEYS)) {
 			// Not allowed config key
 			return;
 		}
 
 		if ($event instanceof BeforePreferenceSetEvent) {
-			$event->setValid($event->getConfigValue() === 'yes');
+			switch ($event->getConfigKey()) {
+				case 'force_enable_blur_filter':
+					$event->setValid($event->getConfigValue() === 'yes' || $event->getConfigValue() === 'no');
+					break;
+				case 'shortcuts_disabled':
+					$event->setValid($event->getConfigValue() === 'yes');
+					break;
+				default:
+					$event->setValid(false);
+			}
 			return;
 		}
 
