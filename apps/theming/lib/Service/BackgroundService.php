@@ -183,11 +183,13 @@ class BackgroundService {
 	private string $userId;
 	private ThemingDefaults $themingDefaults;
 
-	public function __construct(IRootFolder $rootFolder,
+	public function __construct(
+		IRootFolder $rootFolder,
 		IAppData $appData,
 		IConfig $config,
 		?string $userId,
-		ThemingDefaults $themingDefaults) {
+		ThemingDefaults $themingDefaults,
+	) {
 		if ($userId === null) {
 			return;
 		}

@@ -30,31 +30,17 @@ use OCP\IURLGenerator;
 use OCP\IUserSession;
 
 class ThemeInjectionService {
+	private ?string $userId = null;
 
-	private IURLGenerator $urlGenerator;
-	private ThemesService $themesService;
-	private DefaultTheme $defaultTheme;
-	private Util $util;
-	private IConfig $config;
-	private ?string $userId;
-
-	public function __construct(IURLGenerator $urlGenerator,
-		ThemesService $themesService,
-		DefaultTheme $defaultTheme,
-		Util $util,
-		IConfig $config,
-		IUserSession $userSession) {
-		$this->urlGenerator = $urlGenerator;
-		$this->themesService = $themesService;
-		$this->defaultTheme = $defaultTheme;
-		$this->util = $util;
-		$this->config = $config;
-
-		if ($userSession->getUser() !== null) {
-			$this->userId = $userSession->getUser()->getUID();
-		} else {
-			$this->userId = null;
-		}
+	public function __construct(
+		private IURLGenerator $urlGenerator,
+		private ThemesService $themesService,
+		private DefaultTheme  $defaultTheme,
+		private Util $util,
+		private IConfig $config,
+		IUserSession $userSession,
+	) {
+		$this->userId = $userSession->getUser()?->getUID();
 	}
 
 	public function injectHeaders(): void {
@@ -69,12 +55,12 @@ class ThemeInjectionService {
 		$this->addThemeHeaders($defaultTheme);
 
 		// Themes applied by media queries
-		foreach($mediaThemes as $theme) {
+		foreach ($mediaThemes as $theme) {
 			$this->addThemeHeaders($theme, true, $theme->getMediaQuery());
 		}
 
 		// Themes
-		foreach($this->themesService->getThemes() as $theme) {
+		foreach ($this->themesService->getThemes() as $theme) {
 			// Ignore default theme as already processed first
 			if ($theme->getId() === $this->defaultTheme->getId()) {
 				continue;
@@ -116,9 +102,9 @@ class ThemeInjectionService {
 		$metaHeaders = [];
 
 		// Meta headers
-		foreach($this->themesService->getThemes() as $theme) {
+		foreach ($this->themesService->getThemes() as $theme) {
 			if (!empty($theme->getMeta())) {
-				foreach($theme->getMeta() as $meta) {
+				foreach ($theme->getMeta() as $meta) {
 					if (!isset($meta['name']) || !isset($meta['content'])) {
 						continue;
 					}
@@ -131,7 +117,7 @@ class ThemeInjectionService {
 			}
 		}
 
-		foreach($metaHeaders as $name => $content) {
+		foreach ($metaHeaders as $name => $content) {
 			\OCP\Util::addHeader('meta', [
 				'name' => $name,
 				'content' => join(' ', array_unique($content)),
