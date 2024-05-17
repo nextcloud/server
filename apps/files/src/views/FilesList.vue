@@ -214,7 +214,7 @@ export default defineComponent({
 			promise: null,
 			Type,
 
-			_unsubscribeStore: () => {},
+			unsubscribeStoreCallback: () => {},
 		}
 	},
 
@@ -457,14 +457,14 @@ export default defineComponent({
 		subscribe('nextcloud:unified-search.reset', this.onSearch)
 
 		// reload on settings change
-		this._unsubscribeStore = this.userConfigStore.$subscribe(() => this.fetchContent(), { deep: true })
+		this.unsubscribeStoreCallback = this.userConfigStore.$subscribe(() => this.fetchContent(), { deep: true })
 	},
 
 	unmounted() {
 		unsubscribe('files:node:updated', this.onUpdatedNode)
 		unsubscribe('nextcloud:unified-search.search', this.onSearch)
 		unsubscribe('nextcloud:unified-search.reset', this.onSearch)
-		this._unsubscribeStore()
+		this.unsubscribeStoreCallback()
 	},
 
 	methods: {
