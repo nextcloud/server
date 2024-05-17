@@ -40,7 +40,7 @@
 			data-cy-user-list-header-username
 			scope="col">
 			<span>
-				{{ t('settings', 'Username') }}
+				{{ t('settings', 'Account name') }}
 			</span>
 		</th>
 		<th class="header__cell"
