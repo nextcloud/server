@@ -121,14 +121,13 @@ import type { Upload } from '@nextcloud/upload'
 import type { UserConfig } from '../types.ts'
 import type { View, ContentsWithRoot } from '@nextcloud/files'
 
+import { getCapabilities } from '@nextcloud/capabilities'
 import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { Folder, Node, Permission } from '@nextcloud/files'
-import { getCapabilities } from '@nextcloud/capabilities'
+import { translate as t } from '@nextcloud/l10n'
 import { join, dirname } from 'path'
 import { orderBy } from 'natural-orderby'
-import { Parser } from 'xml2js'
 import { showError } from '@nextcloud/dialogs'
-import { translate, translatePlural } from '@nextcloud/l10n'
 import { Type } from '@nextcloud/sharing'
 import { UploadPicker } from '@nextcloud/upload'
 import { loadState } from '@nextcloud/initial-state'
@@ -469,6 +468,8 @@ export default defineComponent({
 	},
 
 	methods: {
+		t,
+
 		async fetchContent() {
 			this.loading = true
 			const dir = this.dir
@@ -569,17 +570,19 @@ export default defineComponent({
 			}
 
 			// Else we try to parse the response error message
-			try {
-				const parser = new Parser({ trim: true, explicitRoot: false })
-				const response = await parser.parseStringPromise(upload.response?.data)
-				const message = response['s:message'][0] as string
-				if (typeof message === 'string' && message.trim() !== '') {
-					// The server message is also translated
-					showError(this.t('files', 'Error during upload: {message}', { message }))
-					return
+			if (typeof upload.response?.data === 'string') {
+				try {
+					const parser = new DOMParser()
+					const doc = parser.parseFromString(upload.response.data, 'text/xml')
+					const message = doc.getElementsByTagName('s:message')[0]?.textContent ?? ''
+					if (message.trim() !== '') {
+						// The server message is also translated
+						showError(t('files', 'Error during upload: {message}', { message }))
+						return
+					}
+				} catch (error) {
+					logger.error('Could not parse message', { error })
 				}
-			} catch (error) {
-				logger.error('Error while parsing', { error })
 			}
 
 			// Finally, check the status code if we have one
@@ -632,9 +635,6 @@ export default defineComponent({
 		toggleGridView() {
 			this.userConfigStore.update('grid_view', !this.userConfig.grid_view)
 		},
-
-		t: translate,
-		n: translatePlural,
 	},
 })
 </script>
