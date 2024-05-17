@@ -223,6 +223,16 @@ export default defineComponent({
 	},
 
 	computed: {
+		/**
+		 * Handle search event from unified search.
+		 */
+		onSearch() {
+			return debounce((searchEvent: { query: string }) => {
+				console.debug('Files app handling search event from unified search...', searchEvent)
+				this.filterText = searchEvent.query
+			}, 500)
+		},
+
 		userConfig(): UserConfig {
 			return this.userConfigStore.userConfig
 		},
@@ -613,15 +623,6 @@ export default defineComponent({
 				this.fetchContent()
 			}
 		},
-		/**
-		 * Handle search event from unified search.
-		 *
-		 * @param searchEvent is event object.
-		 */
-		onSearch: debounce(function(searchEvent) {
-			console.debug('Files app handling search event from unified search...', searchEvent)
-			this.filterText = searchEvent.query
-		}, 500),
 
 		/**
 		 * Reset the search query
