@@ -1,6 +1,7 @@
 OC.L10N.register(
     "viewer",
     {
+    "Edit" : "Cuir in eagar",
     "Download" : "Íoslódáil",
     "Delete" : "Scrios",
     "Name" : "Ainm",
