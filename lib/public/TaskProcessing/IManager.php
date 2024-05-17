@@ -38,6 +38,14 @@ interface IManager {
 	public function getProviders(): array;
 
 	/**
+	 * @param string $taskType
+	 * @return IProvider
+	 * @throws Exception
+	 * @since 30.0.0
+	 */
+	public function getPreferredProvider(string $taskType);
+
+	/**
 	 * @return array<string,array{name: string, description: string, inputShape: ShapeDescriptor[], optionalInputShape: ShapeDescriptor[], outputShape: ShapeDescriptor[], optionalOutputShape: ShapeDescriptor[]}>
 	 * @since 30.0.0
 	 */
@@ -101,13 +109,14 @@ interface IManager {
 	public function setTaskProgress(int $id, float $progress): bool;
 
 	/**
-	 * @param string|null $taskTypeId
+	 * @param list<string> $taskTypeIds
+	 * @param list<int> $taskIdsToIgnore
 	 * @return Task
 	 * @throws Exception If the query failed
 	 * @throws NotFoundException If no task could not be found
 	 * @since 30.0.0
 	 */
-	public function getNextScheduledTask(?string $taskTypeId = null): Task;
+	public function getNextScheduledTask(array $taskTypeIds = [], array $taskIdsToIgnore = []): Task;
 
 	/**
 	 * @param int $id The id of the task
@@ -154,4 +163,13 @@ interface IManager {
 	 * @since 30.0.0
 	 */
 	public function prepareInputData(Task $task): array;
+
+	/**
+	 * Changes the task status to STATUS_RUNNING and, if successful, returns True.
+	 *
+	 * @param Task $task
+	 * @return bool
+	 * @since 30.0.0
+	 */
+	public function lockTask(Task $task): bool;
 }
