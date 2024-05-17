@@ -116,16 +116,18 @@ class PersonalTest extends TestCase {
 			->with('enforce_theme', '')
 			->willReturn($enforcedTheme);
 
-		$this->config->expects($this->once())
+		$this->config->expects($this->exactly(2))
 			->method('getUserValue')
-			->with('admin', 'core', 'apporder')
-			->willReturn('[]');
+			->willReturnMap([
+				['admin', 'core', 'apporder', '[]', '[]'],
+				['admin', 'theming', 'force_enable_blur_filter', '', ''],
+			]);
 
 		$this->appManager->expects($this->once())
 			->method('getDefaultAppForUser')
 			->willReturn('forcedapp');
 
-		$this->initialStateService->expects($this->exactly(4))
+		$this->initialStateService->expects($this->exactly(5))
 			->method('provideInitialState')
 			->withConsecutive(
 				['themes', $themesState],
