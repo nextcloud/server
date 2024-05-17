@@ -332,6 +332,7 @@ class ThemesServiceTest extends TestCase {
 				$this->config,
 				$l10n,
 				$appManager,
+				null,
 			),
 			'light' => new LightTheme(
 				$util,
@@ -342,6 +343,7 @@ class ThemesServiceTest extends TestCase {
 				$this->config,
 				$l10n,
 				$appManager,
+				null,
 			),
 			'dark' => new DarkTheme(
 				$util,
@@ -352,6 +354,7 @@ class ThemesServiceTest extends TestCase {
 				$this->config,
 				$l10n,
 				$appManager,
+				null,
 			),
 			'light-highcontrast' => new HighContrastTheme(
 				$util,
@@ -362,6 +365,7 @@ class ThemesServiceTest extends TestCase {
 				$this->config,
 				$l10n,
 				$appManager,
+				null,
 			),
 			'dark-highcontrast' => new DarkHighContrastTheme(
 				$util,
@@ -372,6 +376,7 @@ class ThemesServiceTest extends TestCase {
 				$this->config,
 				$l10n,
 				$appManager,
+				null,
 			),
 			'opendyslexic' => new DyslexiaFont(
 				$util,
@@ -382,6 +387,7 @@ class ThemesServiceTest extends TestCase {
 				$this->config,
 				$l10n,
 				$appManager,
+				null,
 			),
 		];
 	}
