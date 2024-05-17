@@ -28,7 +28,11 @@ import TrashCan from '@mdi/svg/svg/trash-can.svg?raw'
 import { registerFileAction, FileAction } from '../services/FileAction.ts'
 import logger from '../logger.js'
 import type { Navigation } from '../services/Navigation.ts'
-import { encodePath } from '@nextcloud/paths';
+import { encodePath } from '@nextcloud/paths'
+
+import PQueue from 'p-queue'
+
+const queue = new PQueue({ concurrency: 1 })
 
 registerFileAction(new FileAction({
 	id: 'delete',
@@ -63,7 +67,19 @@ registerFileAction(new FileAction({
 		}
 	},
 	async execBatch(nodes: Node[], view: Navigation, dir: string) {
-		return Promise.all(nodes.map(node => this.exec(node, view, dir)))
+		// Map each node to a promise that resolves with the result of exec(node)
+		const promises = nodes.map(node => {
+		    // Create a promise that resolves with the result of exec(node)
+		    const promise = new Promise<boolean>(resolve => {
+				queue.add(async () => {
+					const result = await this.exec(node, view, dir)
+					resolve(result !== null ? result : false)
+				})
+			})
+			return promise
+		})
+
+		return Promise.all(promises)
 	},
 
 	order: 100,
