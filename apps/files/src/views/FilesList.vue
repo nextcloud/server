@@ -116,10 +116,12 @@
 </template>
 
 <script lang="ts">
-import type { Route } from 'vue-router'
-import type { Upload } from '@nextcloud/upload'
-import type { UserConfig } from '../types.ts'
 import type { View, ContentsWithRoot } from '@nextcloud/files'
+import type { Upload } from '@nextcloud/upload'
+import type { CancelablePromise } from 'cancelable-promise'
+import type { Order } from 'natural-orderby'
+import type { Route } from 'vue-router'
+import type { UserConfig } from '../types.ts'
 
 import { getCapabilities } from '@nextcloud/capabilities'
 import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
@@ -204,6 +206,9 @@ export default defineComponent({
 			userConfigStore,
 			viewConfigStore,
 			enableGridView,
+
+			// non reactive data
+			Type,
 		}
 	},
 
@@ -211,8 +216,7 @@ export default defineComponent({
 		return {
 			filterText: '',
 			loading: true,
-			promise: null,
-			Type,
+			promise: null as CancelablePromise<ContentsWithRoot> | Promise<ContentsWithRoot> | null,
 
 			unsubscribeStoreCallback: () => {},
 		}
@@ -224,7 +228,7 @@ export default defineComponent({
 		},
 
 		currentView(): View {
-			return this.$navigation.active || this.$navigation.views.find((view) => view.id === (this.$route.params?.view ?? 'files'))
+			return this.$navigation.active || this.$navigation.views.find((view) => view.id === (this.$route.params?.view ?? 'files'))!
 		},
 
 		pageHeading(): string {
@@ -251,7 +255,11 @@ export default defineComponent({
 				return this.filesStore.getRoot(this.currentView.id)
 			}
 			const fileId = this.pathsStore.getPath(this.currentView.id, this.dir)
-			return this.filesStore.getNode(fileId)
+			if (fileId === undefined) {
+				return
+			}
+
+			return this.filesStore.getNode(fileId) as Folder
 		},
 
 		/**
@@ -284,7 +292,7 @@ export default defineComponent({
 				this.isAscSorting ? 'asc' : 'desc',
 				// for 5: use configured sorting direction
 				this.isAscSorting ? 'asc' : 'desc',
-			]
+			] as Order[]
 			return [identifiers, orders] as const
 		},
 
@@ -481,7 +489,7 @@ export default defineComponent({
 			}
 
 			// If we have a cancellable promise ongoing, cancel it
-			if (typeof this.promise?.cancel === 'function') {
+			if (this.promise && 'cancel' in this.promise) {
 				this.promise.cancel()
 				logger.debug('Cancelled previous ongoing fetch')
 			}
@@ -509,14 +517,15 @@ export default defineComponent({
 						this.pathsStore.addPath({ service: currentView.id, fileid: folder.fileid, path: dir })
 					} else {
 						// If we're here, the view API messed up
-						logger.error('Invalid root folder returned', { dir, folder, currentView })
+						logger.fatal('Invalid root folder returned', { dir, folder, currentView })
 					}
 				}
 
 				// Update paths store
 				const folders = contents.filter(node => node.type === 'folder')
-				folders.forEach(node => {
-					this.pathsStore.addPath({ service: currentView.id, fileid: node.fileid, path: join(dir, node.basename) })
+				folders.forEach((node) => {
+					// Folders from API always have the fileID set
+					this.pathsStore.addPath({ service: currentView.id, fileid: node.fileid!, path: join(dir, node.basename) })
 				})
 			} catch (error) {
 				logger.error('Error while fetching content', { error })
