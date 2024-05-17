@@ -30,7 +30,6 @@ namespace OCA\Theming;
  * @since 25.0.0
  */
 interface ITheme {
-
 	public const TYPE_THEME = 1;
 	public const TYPE_FONT = 2;
 

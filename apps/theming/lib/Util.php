@@ -38,23 +38,17 @@ use OCP\IConfig;
 use OCP\IUserSession;
 
 class Util {
-
-	private IConfig $config;
-	private IAppManager $appManager;
-	private IAppData $appData;
-	private ImageManager $imageManager;
-
-	public function __construct(IConfig $config, IAppManager $appManager, IAppData $appData, ImageManager $imageManager) {
-		$this->config = $config;
-		$this->appManager = $appManager;
-		$this->appData = $appData;
-		$this->imageManager = $imageManager;
+	public function __construct(
+		private IConfig $config,
+		private IAppManager $appManager,
+		private IAppData $appData,
+		private ImageManager $imageManager,
+	) {
 	}
 
 	/**
 	 * Should we invert the text on this background color?
 	 * @param string $color rgb color value
-	 * @return bool
 	 */
 	public function invertTextColor(string $color): bool {
 		return $this->colorContrast($color, '#ffffff') < 4.5;
@@ -63,25 +57,17 @@ class Util {
 	/**
 	 * Is this color too bright ?
 	 * @param string $color rgb color value
-	 * @return bool
 	 */
 	public function isBrightColor(string $color): bool {
-		$l = $this->calculateLuma($color);
-		if ($l > 0.6) {
-			return true;
-		} else {
-			return false;
-		}
+		return $this->calculateLuma($color) > 0.6;
 	}
 
 	/**
 	 * get color for on-page elements:
 	 * theme color by default, grey if theme color is to bright
 	 * @param string $color
-	 * @param ?bool $brightBackground
-	 * @return string
 	 */
-	public function elementColor($color, ?bool $brightBackground = null, ?string $backgroundColor = null, bool $highContrast = false) {
+	public function elementColor($color, ?bool $brightBackground = null, ?string $backgroundColor = null, bool $highContrast = false): string {
 		if ($backgroundColor !== null) {
 			$brightBackground = $brightBackground ?? $this->isBrightColor($backgroundColor);
 			// Minimal amount that is possible to change the luminance
@@ -139,10 +125,6 @@ class Util {
 	 * Convert RGB to HSL
 	 *
 	 * Copied from cssphp, copyright Leaf Corcoran, licensed under MIT
-	 *
-	 * @param int $red
-	 * @param int $green
-	 * @param int $blue
 	 *
 	 * @return float[]
 	 */
@@ -210,7 +192,7 @@ class Util {
 	 * @param $color
 	 * @return string base64 encoded radio button svg
 	 */
-	public function generateRadioButton($color) {
+	public function generateRadioButton($color): string {
 		$radioButtonIcon = '<svg xmlns="http://www.w3.org/2000/svg" height="16" width="16">' .
 			'<path d="M8 1a7 7 0 0 0-7 7 7 7 0 0 0 7 7 7 7 0 0 0 7-7 7 7 0 0 0-7-7zm0 1a6 6 0 0 1 6 6 6 6 0 0 1-6 6 6 6 0 0 1-6-6 6 6 0 0 1 6-6zm0 2a4 4 0 1 0 0 8 4 4 0 0 0 0-8z" fill="'.$color.'"/></svg>';
 		return base64_encode($radioButtonIcon);
@@ -221,7 +203,7 @@ class Util {
 	 * @param string $app app name
 	 * @return string|ISimpleFile path to app icon / file of logo
 	 */
-	public function getAppIcon($app) {
+	public function getAppIcon($app): ISimpleFile|string {
 		$app = str_replace(['\0', '/', '\\', '..'], '', $app);
 		try {
 			$appPath = $this->appManager->getAppPath($app);
@@ -237,7 +219,6 @@ class Util {
 		}
 
 		if ($this->config->getAppValue('theming', 'logoMime', '') !== '') {
-			$logoFile = null;
 			try {
 				$folder = $this->appData->getFolder('global/images');
 				return $folder->getFile('logo');
@@ -252,7 +233,7 @@ class Util {
 	 * @param string $image relative path to image in app folder
 	 * @return string|false absolute path to image
 	 */
-	public function getAppImage($app, $image) {
+	public function getAppImage($app, $image): bool|string {
 		$app = str_replace(['\0', '/', '\\', '..'], '', $app);
 		$image = str_replace(['\0', '\\', '..'], '', $image);
 		if ($app === "core") {
@@ -297,32 +278,24 @@ class Util {
 	 *
 	 * @param string $svg content of a svg file
 	 * @param string $color color to match
-	 * @return string
 	 */
-	public function colorizeSvg($svg, $color) {
-		$svg = preg_replace('/#0082c9/i', $color, $svg);
-		return $svg;
+	public function colorizeSvg($svg, $color): string {
+		return preg_replace('/#0082c9/i', $color, $svg);
 	}
 
 	/**
 	 * Check if a custom theme is set in the server configuration
-	 *
-	 * @return bool
 	 */
-	public function isAlreadyThemed() {
-		$theme = $this->config->getSystemValue('theme', '');
-		if ($theme !== '') {
-			return true;
-		}
-		return false;
+	public function isAlreadyThemed(): bool {
+		return $this->config->getSystemValue('theme', '') !== '';
 	}
 
-	public function isBackgroundThemed() {
+	public function isBackgroundThemed(): bool {
 		$backgroundLogo = $this->config->getAppValue('theming', 'backgroundMime', '');
 		return $backgroundLogo !== '' && $backgroundLogo !== 'backgroundColor';
 	}
 
-	public function isLogoThemed() {
+	public function isLogoThemed(): bool {
 		return $this->imageManager->hasImage('logo')
 			|| $this->imageManager->hasImage('logoheader');
 	}

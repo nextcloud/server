@@ -28,7 +28,6 @@ namespace OCA\Theming\Themes;
 use OCA\Theming\ITheme;
 
 class DarkTheme extends DefaultTheme implements ITheme {
-
 	public function getId(): string {
 		return 'dark';
 	}

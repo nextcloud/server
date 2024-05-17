@@ -39,35 +39,19 @@ use OCP\IUserSession;
 class DefaultTheme implements ITheme {
 	use CommonThemeTrait;
 
-	public Util $util;
-	public ThemingDefaults $themingDefaults;
-	public IUserSession $userSession;
-	public IURLGenerator $urlGenerator;
-	public ImageManager $imageManager;
-	public IConfig $config;
-	public IL10N $l;
-	public IAppManager $appManager;
-
 	public string $defaultPrimaryColor;
 	public string $primaryColor;
 
-	public function __construct(Util $util,
-		ThemingDefaults $themingDefaults,
-		IUserSession $userSession,
-		IURLGenerator $urlGenerator,
-		ImageManager $imageManager,
-		IConfig $config,
-		IL10N $l,
-		IAppManager $appManager) {
-		$this->util = $util;
-		$this->themingDefaults = $themingDefaults;
-		$this->userSession = $userSession;
-		$this->urlGenerator = $urlGenerator;
-		$this->imageManager = $imageManager;
-		$this->config = $config;
-		$this->l = $l;
-		$this->appManager = $appManager;
-
+	public function __construct(
+		public Util $util,
+		public ThemingDefaults $themingDefaults,
+		public IUserSession $userSession,
+		public IURLGenerator $urlGenerator,
+		public ImageManager $imageManager,
+		public IConfig $config,
+		public IL10N $l,
+		public IAppManager $appManager,
+	) {
 		$this->defaultPrimaryColor = $this->themingDefaults->getDefaultColorPrimary();
 		$this->primaryColor = $this->themingDefaults->getColorPrimary();
 
