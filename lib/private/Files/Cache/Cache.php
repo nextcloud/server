@@ -278,6 +278,12 @@ class Cache implements ICache {
 	 * @throws \RuntimeException
 	 */
 	public function insert($file, array $data) {
+		// Some storage always return mtime at 0.
+		// Use now as time if nothing else is provided
+		if (array_key_exists('mtime', $data) && $data["mtime"] === 0) {
+			$data["mtime"] = time();
+		}
+
 		// normalize file
 		$file = $this->normalize($file);
 
@@ -438,7 +444,8 @@ class Cache implements ICache {
 		$extensionFields = ['metadata_etag', 'creation_time', 'upload_time'];
 
 		$doNotCopyStorageMTime = false;
-		if (array_key_exists('mtime', $data) && $data['mtime'] === null) {
+		// some storage always have mtime null or zero, do use that
+		if (array_key_exists('mtime', $data) && ($data['mtime'] === null || $data['mtime'] === 0)) {
 			// this horrific magic tells it to not copy storage_mtime to mtime
 			unset($data['mtime']);
 			$doNotCopyStorageMTime = true;
