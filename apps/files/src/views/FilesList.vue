@@ -232,7 +232,7 @@ export default defineComponent({
 		},
 
 		pageHeading(): string {
-			return this.currentView?.name ?? this.t('files', 'Files')
+			return this.currentView?.name ?? t('files', 'Files')
 		},
 
 		/**
@@ -375,13 +375,13 @@ export default defineComponent({
 		},
 		shareButtonLabel() {
 			if (!this.shareAttributes) {
-				return this.t('files', 'Share')
+				return t('files', 'Share')
 			}
 
 			if (this.shareButtonType === Type.SHARE_TYPE_LINK) {
-				return this.t('files', 'Shared by link')
+				return t('files', 'Shared by link')
 			}
-			return this.t('files', 'Shared')
+			return t('files', 'Shared')
 		},
 		shareButtonType(): Type | null {
 			if (!this.shareAttributes) {
@@ -398,8 +398,8 @@ export default defineComponent({
 
 		gridViewButtonLabel() {
 			return this.userConfig.grid_view
-				? this.t('files', 'Switch to list view')
-				: this.t('files', 'Switch to grid view')
+				? t('files', 'Switch to list view')
+				: t('files', 'Switch to grid view')
 		},
 
 		/**
@@ -413,9 +413,9 @@ export default defineComponent({
 		},
 		cantUploadLabel() {
 			if (this.isQuotaExceeded) {
-				return this.t('files', 'Your have used your space quota and cannot upload files anymore')
+				return t('files', 'Your have used your space quota and cannot upload files anymore')
 			}
-			return this.t('files', 'You don’t have permission to upload or create files here')
+			return t('files', 'You don’t have permission to upload or create files here')
 		},
 
 		/**
@@ -568,13 +568,13 @@ export default defineComponent({
 
 			// Check known status codes
 			if (status === 507) {
-				showError(this.t('files', 'Not enough free space'))
+				showError(t('files', 'Not enough free space'))
 				return
 			} else if (status === 404 || status === 409) {
-				showError(this.t('files', 'Target folder does not exist any more'))
+				showError(t('files', 'Target folder does not exist any more'))
 				return
 			} else if (status === 403) {
-				showError(this.t('files', 'Operation is blocked by access control'))
+				showError(t('files', 'Operation is blocked by access control'))
 				return
 			}
 
@@ -596,11 +596,11 @@ export default defineComponent({
 
 			// Finally, check the status code if we have one
 			if (status !== 0) {
-				showError(this.t('files', 'Error during upload, status code {status}', { status }))
+				showError(t('files', 'Error during upload, status code {status}', { status }))
 				return
 			}
 
-			showError(this.t('files', 'Unknown error during upload'))
+			showError(t('files', 'Unknown error during upload'))
 		},
 
 		/**
