@@ -1,11 +1,13 @@
 OC.L10N.register(
     "viewer",
     {
+    "Image saved" : "Sábháladh an íomhá",
     "Edit" : "Cuir in eagar",
     "Download" : "Íoslódáil",
     "Delete" : "Scrios",
     "Name" : "Ainm",
     "Save" : "Sábháil",
+    "Loading …" : "Á lódáil…",
     "Cancel" : "Cealaigh",
     "Size" : "Méid"
 },
