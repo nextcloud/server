@@ -179,7 +179,7 @@ class ConvertType extends Command implements CompletionAwareInterface {
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		// WARNING:
 		// Leave in place until #45257 is addressed to prevent data loss (hopefully in time for the next maintenance release)
-		// 
+		//
 		throw new \InvalidArgumentException(
 			'This command is temporarily disabled (until the next maintenance release).'
 		);
