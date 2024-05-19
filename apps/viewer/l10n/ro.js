@@ -10,6 +10,7 @@ OC.L10N.register(
     "Error saving image" : "Eroare la salvarea imaginii",
     "Unsaved changes" : "Modificări nesalvate",
     "Drop changes" : "Elimină modificările",
+    "LIVE" : "LIVE",
     "Your browser does not support videos." : "Browser-ul tău nu suportă video.",
     "Edit" : "Editează",
     "Exit full screen" : "Părăsire ecran complet",
