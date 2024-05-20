@@ -214,5 +214,9 @@ export default {
 			}
 		}
 	}
+
+	:deep(.empty-content) {
+		margin: 0 !important;
+	}
 }
 </style>
