@@ -41,6 +41,7 @@ use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\IConfig;
 use OCP\Lock\LockedException;
 use OCP\PreConditionNotMetException;
+use RuntimeException;
 
 class BackgroundService {
 	public const DEFAULT_COLOR = '#00679e';
@@ -231,6 +232,9 @@ class BackgroundService {
 	 * @throws NoUserException
 	 */
 	public function setFileBackground($path): void {
+		if ($this->userId === null) {
+			throw new RuntimeException('No currently logged-in user');
+		}
 		$userFolder = $this->rootFolder->getUserFolder($this->userId);
 
 		/** @var File $file */
@@ -251,6 +255,9 @@ class BackgroundService {
 	}
 
 	public function setShippedBackground($fileName): void {
+		if ($this->userId === null) {
+			throw new RuntimeException('No currently logged-in user');
+		}
 		if (!array_key_exists($fileName, self::SHIPPED_BACKGROUNDS)) {
 			throw new InvalidArgumentException('The given file name is invalid');
 		}
@@ -263,6 +270,9 @@ class BackgroundService {
 	 * Set the background to color only
 	 */
 	public function setColorBackground(string $color): void {
+		if ($this->userId === null) {
+			throw new RuntimeException('No currently logged-in user');
+		}
 		if (!preg_match('/^#([0-9a-f]{3}|[0-9a-f]{6})$/i', $color)) {
 			throw new InvalidArgumentException('The given color is invalid');
 		}
@@ -271,6 +281,9 @@ class BackgroundService {
 	}
 
 	public function deleteBackgroundImage(): void {
+		if ($this->userId === null) {
+			throw new RuntimeException('No currently logged-in user');
+		}
 		$this->config->setUserValue($this->userId, Application::APP_ID, 'background_image', self::BACKGROUND_COLOR);
 	}
 
@@ -314,7 +327,7 @@ class BackgroundService {
 		/**
 		 * Small helper to ensure one channel is returned as 8byte hex
 		 */
-		function toHex(int $channel) {
+		function toHex(int $channel): string {
 			$hex = dechex($channel);
 			return match (strlen($hex)) {
 				0 => '00',
