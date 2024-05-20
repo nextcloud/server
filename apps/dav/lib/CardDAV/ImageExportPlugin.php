@@ -25,11 +25,13 @@
 namespace OCA\DAV\CardDAV;
 
 use OCP\Files\NotFoundException;
+use OCP\IAvatarManager;
 use Sabre\CardDAV\Card;
 use Sabre\DAV\Server;
 use Sabre\DAV\ServerPlugin;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
+use Sabre\VObject\Reader;
 
 class ImageExportPlugin extends ServerPlugin {
 
@@ -38,13 +40,14 @@ class ImageExportPlugin extends ServerPlugin {
 	/** @var PhotoCache */
 	private $cache;
 
+	private IAvatarManager $avatarManager;
+
 	/**
 	 * ImageExportPlugin constructor.
-	 *
-	 * @param PhotoCache $cache
 	 */
-	public function __construct(PhotoCache $cache) {
+	public function __construct(PhotoCache $cache, IAvatarManager $avatarManager) {
 		$this->cache = $cache;
+		$this->avatarManager = $avatarManager;
 	}
 
 	/**
@@ -99,6 +102,7 @@ class ImageExportPlugin extends ServerPlugin {
 		$response->setHeader('Cache-Control', 'private, max-age=3600, must-revalidate');
 		$response->setHeader('Etag', $node->getETag());
 
+		// Try to use embedded avatar image
 		try {
 			$file = $this->cache->get($addressbook->getResourceId(), $node->getName(), $size, $node);
 			$response->setHeader('Content-Type', $file->getMimeType());
@@ -107,9 +111,28 @@ class ImageExportPlugin extends ServerPlugin {
 			$response->setStatus(200);
 
 			$response->setBody($file->getContent());
+			return false;
 		} catch (NotFoundException $e) {
-			$response->setStatus(404);
+			// Fall back to generated avatar
 		}
+
+		$name = '?';
+		$vObject = Reader::read($node->get());
+		if (isset($vObject->FN)) {
+			$name = $vObject->FN->getValue();
+		} elseif (isset($vObject->N)) {
+			[$lastName, $firstName] = $vObject->N->getParts();
+			$name = "$firstName $lastName";
+		}
+
+		$avatar = $this->avatarManager->getGuestAvatar($name);
+		$image = $avatar->get($size);
+
+		$response->setHeader('Content-Type', $image->mimeType());
+		$fileName = $node->getName() . '.' . PhotoCache::ALLOWED_CONTENT_TYPES[$image->mimeType()];
+		$response->setHeader('Content-Disposition', "attachment; filename=$fileName");
+		$response->setStatus(200);
+		$response->setBody($image->data());
 
 		return false;
 	}

@@ -30,6 +30,7 @@ use OCA\DAV\CardDAV\ImageExportPlugin;
 use OCA\DAV\CardDAV\PhotoCache;
 use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
+use OCP\IAvatarManager;
 use Sabre\CardDAV\Card;
 use Sabre\DAV\Node;
 use Sabre\DAV\Server;
@@ -51,6 +52,8 @@ class ImageExportPluginTest extends TestCase {
 	private $tree;
 	/** @var PhotoCache|\PHPUnit\Framework\MockObject\MockObject */
 	private $cache;
+	/** @var IAvatarManager|\PHPUnit\Framework\MockObject\MockObject */
+	private $avatarManager;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -61,10 +64,11 @@ class ImageExportPluginTest extends TestCase {
 		$this->tree = $this->createMock(Tree::class);
 		$this->server->tree = $this->tree;
 		$this->cache = $this->createMock(PhotoCache::class);
+		$this->avatarManager = $this->createMock(IAvatarManager::class);
 
 		$this->plugin = $this->getMockBuilder(ImageExportPlugin::class)
 			->setMethods(['getPhoto'])
-			->setConstructorArgs([$this->cache])
+			->setConstructorArgs([$this->cache, $this->avatarManager])
 			->getMock();
 		$this->plugin->initialize($this->server);
 	}

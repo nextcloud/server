@@ -39,6 +39,7 @@ use OCA\DAV\Connector\Sabre\MaintenancePlugin;
 use OCA\DAV\Connector\Sabre\Principal;
 use OCP\Accounts\IAccountManager;
 use OCP\App\IAppManager;
+use OCP\IAvatarManager;
 use Psr\Log\LoggerInterface;
 use Sabre\CardDAV\Plugin;
 
@@ -104,10 +105,13 @@ if ($debugging) {
 
 $server->addPlugin(new \Sabre\DAV\Sync\Plugin());
 $server->addPlugin(new \Sabre\CardDAV\VCFExportPlugin());
-$server->addPlugin(new \OCA\DAV\CardDAV\ImageExportPlugin(new \OCA\DAV\CardDAV\PhotoCache(
-	\OC::$server->getAppDataDir('dav-photocache'),
-	\OC::$server->get(LoggerInterface::class)
-)));
+$server->addPlugin(new \OCA\DAV\CardDAV\ImageExportPlugin(
+	new \OCA\DAV\CardDAV\PhotoCache(
+		\OC::$server->getAppDataDir('dav-photocache'),
+		\OC::$server->get(LoggerInterface::class)
+	),
+	\OC::$server->get(IAvatarManager::class),
+));
 $server->addPlugin(new ExceptionLoggerPlugin('carddav', \OC::$server->get(LoggerInterface::class)));
 
 // And off we go!
