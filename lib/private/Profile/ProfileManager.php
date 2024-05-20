@@ -341,12 +341,17 @@ class ProfileManager implements IProfileManager {
 				$config = $this->configMapper->get($targetUser->getUID());
 				$this->configCache[$targetUser->getUID()] = $config;
 			}
+
 			// Merge defaults with the existing config in case the defaults are missing
-			$config->setConfigArray(array_merge(
-				$defaultProfileConfig,
-				$this->filterNotStoredProfileConfig($config->getConfigArray()),
-			));
-			$this->configMapper->update($config);
+			$existingConfigArray = $this->filterNotStoredProfileConfig($config->getConfigArray());
+			$mergedConfigArray = array_merge($defaultProfileConfig, $existingConfigArray);
+
+			// Only update if the merged config is different from the existing config
+			if ($mergedConfigArray !== $existingConfigArray) {
+				$config->setConfigArray($mergedConfigArray);
+				$this->configMapper->update($config);
+			}
+
 			$configArray = $config->getConfigArray();
 		} catch (DoesNotExistException $e) {
 			// Create a new default config if it does not exist
