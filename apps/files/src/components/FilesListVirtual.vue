@@ -550,12 +550,6 @@ export default defineComponent({
 				// Center and contain the preview
 				object-fit: contain;
 				object-position: center;
-
-				/* Preview not loaded animation effect */
-				&:not(.files-list__row-icon-preview--loaded) {
-					background: var(--color-loading-dark);
-					// animation: preview-gradient-fade 1.2s ease-in-out infinite;
-				}
 			}
 
 			&-favorite {

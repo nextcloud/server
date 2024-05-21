@@ -31,16 +31,13 @@
 			</template>
 		</template>
 
+		<NcLoadingIcon v-else-if="!error && !loaded" />
+
 		<!-- Decorative image, should not be aria documented -->
-		<img v-else-if="previewUrl && backgroundFailed !== true"
-			ref="previewImg"
+		<img v-else-if="previewUrl && loaded"
 			alt=""
 			class="files-list__row-icon-preview"
-			:class="{'files-list__row-icon-preview--loaded': backgroundFailed === false}"
-			loading="lazy"
-			:src="previewUrl"
-			@error="onBackgroundError"
-			@load="backgroundFailed = false">
+			:src="previewUrl">
 
 		<FileIcon v-else v-once />
 
@@ -65,6 +62,7 @@ import { translate as t } from '@nextcloud/l10n'
 import { Type as ShareType } from '@nextcloud/sharing'
 
 import Vue from 'vue'
+import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
 import AccountGroupIcon from 'vue-material-design-icons/AccountGroup.vue'
 import AccountPlusIcon from 'vue-material-design-icons/AccountPlus.vue'
 import FileIcon from 'vue-material-design-icons/File.vue'
@@ -95,6 +93,7 @@ export default Vue.extend({
 		KeyIcon,
 		LinkIcon,
 		NetworkIcon,
+		NcLoadingIcon,
 		TagIcon,
 	},
 
@@ -122,7 +121,8 @@ export default Vue.extend({
 
 	data() {
 		return {
-			backgroundFailed: undefined as boolean | undefined,
+			loaded: false,
+			error: false,
 		}
 	},
 
@@ -143,10 +143,6 @@ export default Vue.extend({
 
 		previewUrl() {
 			if (this.source.type === FileType.Folder) {
-				return null
-			}
-
-			if (this.backgroundFailed === true) {
 				return null
 			}
 
@@ -218,22 +214,28 @@ export default Vue.extend({
 		},
 	},
 
+	watch: {
+		previewUrl: {
+			immediate: true,
+			handler() {
+				this.error = false
+				this.loaded = false
+				if (this.previewUrl) {
+					const img = new Image()
+					img.onload = () => { this.loaded = true }
+					img.onerror = () => { this.error = true }
+					img.src = this.previewUrl
+				}
+			},
+		},
+	},
+
 	methods: {
 		// Called from FileEntry
 		reset() {
 			// Reset background state to cancel any ongoing requests
-			this.backgroundFailed = undefined
-			if (this.$refs.previewImg) {
-				this.$refs.previewImg.src = ''
-			}
-		},
-
-		onBackgroundError(event) {
-			// Do not fail if we just reset the background
-			if (event.target?.src === '') {
-				return
-			}
-			this.backgroundFailed = true
+			this.loaded = false
+			this.error = false
 		},
 
 		t,
