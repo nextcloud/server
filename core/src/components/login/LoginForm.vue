@@ -238,9 +238,9 @@ export default {
 		},
 		loginText() {
 			if (this.emailEnabled) {
-				return t('core', 'Login with account name or email')
+				return t('core', 'Account name or email')
 			}
-			return t('core', 'Login with account name')
+			return t('core', 'Account name')
 		},
 	},
 
