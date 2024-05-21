@@ -26,6 +26,9 @@
  */
 namespace OC\Collaboration\Collaborators;
 
+use Egulias\EmailValidator\EmailValidator;
+use Egulias\EmailValidator\Validation\NoRFCWarningsValidation;
+use Egulias\EmailValidator\Validation\RFCValidation;
 use OC\KnownUser\KnownUserService;
 use OCP\Collaboration\Collaborators\ISearchPlugin;
 use OCP\Collaboration\Collaborators\ISearchResult;
@@ -251,15 +254,21 @@ class MailPlugin implements ISearchPlugin {
 			$userResults['wide'] = array_slice($userResults['wide'], $offset, $limit);
 		}
 
-		if (!$searchResult->hasExactIdMatch($emailType) && $this->mailer->validateMailAddress($search)) {
-			$result['exact'][] = [
-				'label' => $search,
-				'uuid' => $search,
-				'value' => [
-					'shareType' => IShare::TYPE_EMAIL,
-					'shareWith' => $search,
-				],
-			];
+		if ($search && !$searchResult->hasExactIdMatch($emailType)) {
+			$strictMailCheck = $this->config->getAppValue('core', 'shareapi_enforce_strict_email', 'yes') === 'yes';
+			$validator = new EmailValidator();
+			$validation = $strictMailCheck ? new RFCValidation() : new NoRFCWarningsValidation();
+
+			if ($validator->isValid($search, $validation)) {
+				$result['exact'][] = [
+					'label' => $search,
+					'uuid' => $search,
+					'value' => [
+						'shareType' => IShare::TYPE_EMAIL,
+						'shareWith' => $search,
+					],
+				];
+			}
 		}
 
 		if (!empty($userResults['wide'])) {
