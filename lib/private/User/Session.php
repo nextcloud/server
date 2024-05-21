@@ -43,6 +43,7 @@ use OC\Authentication\Exceptions\PasswordlessTokenException;
 use OC\Authentication\Exceptions\PasswordLoginForbiddenException;
 use OC\Authentication\Token\IProvider;
 use OC\Authentication\Token\IToken;
+use OC\Authentication\Token\PublicKeyToken;
 use OC\Hooks\Emitter;
 use OC\Hooks\PublicEmitter;
 use OC_User;
@@ -774,6 +775,9 @@ class Session implements IUserSession, Emitter {
 		}
 
 		$dbToken->setLastCheck($now);
+		if ($dbToken instanceof PublicKeyToken) {
+			$dbToken->setLastActivity($now);
+		}
 		$this->tokenProvider->updateToken($dbToken);
 		return true;
 	}
