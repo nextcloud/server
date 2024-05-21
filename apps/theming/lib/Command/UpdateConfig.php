@@ -36,19 +36,15 @@ class UpdateConfig extends Command {
 		'name', 'url', 'imprintUrl', 'privacyUrl', 'slogan', 'color', 'disable-user-theming'
 	];
 
-	private $themingDefaults;
-	private $imageManager;
-	private $config;
-
-	public function __construct(ThemingDefaults $themingDefaults, ImageManager $imageManager, IConfig $config) {
+	public function __construct(
+		private ThemingDefaults $themingDefaults,
+		private ImageManager $imageManager,
+		private IConfig $config,
+	) {
 		parent::__construct();
-
-		$this->themingDefaults = $themingDefaults;
-		$this->imageManager = $imageManager;
-		$this->config = $config;
 	}
 
-	protected function configure() {
+	protected function configure(): void {
 		$this
 			->setName('theming:config')
 			->setDescription('Set theming app config values')
@@ -87,18 +83,18 @@ class UpdateConfig extends Command {
 				$value = $this->config->getAppValue('theming', $key . 'Mime', '');
 				$output->writeln('- ' . $key . ': ' . $value . '');
 			}
-			return 0;
+			return self::SUCCESS;
 		}
 
 		if (!in_array($key, self::SUPPORTED_KEYS, true) && !in_array($key, ImageManager::SUPPORTED_IMAGE_KEYS, true)) {
 			$output->writeln('<error>Invalid config key provided</error>');
-			return 1;
+			return self::FAILURE;
 		}
 
 		if ($input->getOption('reset')) {
 			$defaultValue = $this->themingDefaults->undo($key);
 			$output->writeln('<info>Reset ' . $key . ' to ' . $defaultValue . '</info>');
-			return 0;
+			return self::SUCCESS;
 		}
 
 		if ($value === null) {
@@ -108,7 +104,7 @@ class UpdateConfig extends Command {
 			} else {
 				$output->writeln('<info>' . $key . ' is currently not set</info>');
 			}
-			return 0;
+			return self::SUCCESS;
 		}
 
 		if ($key === 'background' && $value === 'backgroundColor') {
@@ -119,11 +115,11 @@ class UpdateConfig extends Command {
 		if (in_array($key, ImageManager::SUPPORTED_IMAGE_KEYS, true)) {
 			if (!str_starts_with($value, '/')) {
 				$output->writeln('<error>The image file needs to be provided as an absolute path: ' . $value . '.</error>');
-				return 1;
+				return self::FAILURE;
 			}
 			if (!file_exists($value)) {
 				$output->writeln('<error>File could not be found: ' . $value . '.</error>');
-				return 1;
+				return self::FAILURE;
 			}
 			$value = $this->imageManager->updateImage($key, $value);
 			$key = $key . 'Mime';
@@ -131,12 +127,12 @@ class UpdateConfig extends Command {
 
 		if ($key === 'color' && !preg_match('/^\#([0-9a-f]{3}|[0-9a-f]{6})$/i', $value)) {
 			$output->writeln('<error>The given color is invalid: ' . $value . '</error>');
-			return 1;
+			return self::FAILURE;
 		}
 
 		$this->themingDefaults->set($key, $value);
 		$output->writeln('<info>Updated ' . $key . ' to ' . $value . '</info>');
 
-		return 0;
+		return self::SUCCESS;
 	}
 }

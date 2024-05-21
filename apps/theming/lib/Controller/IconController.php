@@ -43,33 +43,16 @@ use OCP\Files\NotFoundException;
 use OCP\IRequest;
 
 class IconController extends Controller {
-	/** @var ThemingDefaults */
-	private $themingDefaults;
-	/** @var IconBuilder */
-	private $iconBuilder;
-	/** @var ImageManager */
-	private $imageManager;
-	/** @var FileAccessHelper */
-	private $fileAccessHelper;
-	/** @var IAppManager */
-	private $appManager;
-
 	public function __construct(
 		$appName,
 		IRequest $request,
-		ThemingDefaults $themingDefaults,
-		IconBuilder $iconBuilder,
-		ImageManager $imageManager,
-		FileAccessHelper $fileAccessHelper,
-		IAppManager $appManager
+		private ThemingDefaults $themingDefaults,
+		private IconBuilder $iconBuilder,
+		private ImageManager $imageManager,
+		private FileAccessHelper $fileAccessHelper,
+		private IAppManager $appManager
 	) {
 		parent::__construct($appName, $request);
-
-		$this->themingDefaults = $themingDefaults;
-		$this->iconBuilder = $iconBuilder;
-		$this->imageManager = $imageManager;
-		$this->fileAccessHelper = $fileAccessHelper;
-		$this->appManager = $appManager;
 	}
 
 	/**

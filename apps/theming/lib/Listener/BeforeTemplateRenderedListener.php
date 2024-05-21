@@ -41,25 +41,13 @@ use Psr\Container\ContainerInterface;
 
 /** @template-implements IEventListener<BeforeTemplateRenderedEvent|BeforeLoginTemplateRenderedEvent> */
 class BeforeTemplateRenderedListener implements IEventListener {
-
-	private IInitialState $initialState;
-	private ContainerInterface $container;
-	private ThemeInjectionService $themeInjectionService;
-	private IUserSession $userSession;
-	private IConfig $config;
-
 	public function __construct(
-		IInitialState $initialState,
-		ContainerInterface $container,
-		ThemeInjectionService $themeInjectionService,
-		IUserSession $userSession,
-		IConfig $config
+		private IInitialState $initialState,
+		private ContainerInterface $container,
+		private ThemeInjectionService $themeInjectionService,
+		private IUserSession $userSession,
+		private IConfig $config,
 	) {
-		$this->initialState = $initialState;
-		$this->container = $container;
-		$this->themeInjectionService = $themeInjectionService;
-		$this->userSession = $userSession;
-		$this->config = $config;
 	}
 
 	public function handle(Event $event): void {
