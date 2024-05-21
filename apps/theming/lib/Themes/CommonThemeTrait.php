@@ -113,6 +113,7 @@ trait CommonThemeTrait {
 			$variables['--image-background'] = 'no';
 			// If no background image is set, we need to check against the shown primary colour
 			$variables['--background-image-invert-if-bright'] = $isPrimaryBright ? 'invert(100%)' : 'no';
+			$variables['--background-image-color-text'] = $isPrimaryBright ? '#000000' : '#ffffff';
 		}
 
 		if ($hasCustomLogoHeader) {
@@ -143,6 +144,7 @@ trait CommonThemeTrait {
 					'--color-background-plain' => $this->primaryColor,
 					// If no background image is set, we need to check against the shown primary colour
 					'--background-image-invert-if-bright' => $isPrimaryBright ? 'invert(100%)' : 'no',
+					'--background-image-color-text' => $isPrimaryBright ? '#000000' : '#ffffff',
 				];
 			}
 
@@ -161,6 +163,7 @@ trait CommonThemeTrait {
 					// --image-background is not defined in this case
 					'--color-background-plain' => $this->primaryColor,
 					'--background-image-invert-if-bright' => $isPrimaryBright ? 'invert(100%)' : 'no',
+					'--background-image-color-text' => $isPrimaryBright ? '#000000' : '#ffffff',
 				];
 			}
 
@@ -170,6 +173,7 @@ trait CommonThemeTrait {
 					'--image-background' => "url('" . $this->urlGenerator->linkTo(Application::APP_ID, "img/background/$backgroundImage") . "')",
 					'--color-background-plain' => $this->primaryColor,
 					'--background-image-invert-if-bright' => BackgroundService::SHIPPED_BACKGROUNDS[$backgroundImage]['theming'] ?? null === BackgroundService::THEMING_MODE_DARK ? 'invert(100%)' : 'no',
+					'--background-image-color-text' => BackgroundService::SHIPPED_BACKGROUNDS[$backgroundImage]['theming'] ?? null === BackgroundService::THEMING_MODE_DARK ? '#000000' : '#ffffff',
 				];
 			}
 		}
