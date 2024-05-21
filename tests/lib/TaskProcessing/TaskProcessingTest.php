@@ -1,11 +1,8 @@
 <?php
 /**
- * Copyright (c) 2024 Marcel Klehr <mklehr@gmx.net>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
+ * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-
 namespace Test\TextProcessing;
 
 use OC\AppFramework\Bootstrap\Coordinator;

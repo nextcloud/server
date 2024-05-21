@@ -7,7 +7,55 @@ Files: lib/l10n/*.js lib/l10n/*.json core/l10n/*.js core/l10n/*.json apps/admin_
 Copyright: 2016 ownCloud, Inc., 2016-2024 Nextcloud translators
 License: AGPL-3.0-only OR AGPL-3.0-or-later
 
-Files: core/img/favicon*.* core/img/logo/logo*.*
+Files: tests/data/block-aligned-plus-one.txt tests/data/block-aligned.txt tests/data/data.tar.gz tests/data/data.zip tests/data/desktopapp.png tests/data/desktopapp.svg tests/data/certificates/badCertificate.crt tests/data/certificates/expiredCertificate.crt tests/data/certificates/goodCertificate.crt tests/data/integritycheck/app/AnotherFile.txt tests/data/integritycheck/app/subfolder/file.txt tests/data/integritycheck/appWithInvalidData/AnotherFile.txt tests/data/integritycheck/appWithInvalidData/UnecessaryFile
+Copyright: 2015 ownCloud, Inc.
+License: AGPL-3.0-only
+
+Files: tests/data/integritycheck/htaccessUnmodified/.htaccess tests/data/integritycheck/htaccessUnmodified/subfolder/.htaccess tests/data/integritycheck/htaccessWithInvalidModifiedContent/.htaccess tests/data/integritycheck/htaccessWithValidModifiedContent/subfolder/.htaccess
+Copyright: 2016 ownCloud, Inc.
+License: AGPL-3.0-only
+
+Files: tests/data/l10n/cs.json tests/data/l10n/de.json tests/data/l10n/ru.json
+Copyright: 2015 ownCloud, Inc., 2021 Nextcloud GmbH and Nextcloud contributors
+License: AGPL-3.0-only
+
+Files: tests/data/lorem.txt
+Copyright: 2012 ownCloud, Inc.
+License: AGPL-3.0-only
+
+Files: tests/data/testavatar.png tests/data/testimage.gif tests/data/testimage.jpg tests/data/testimage.png
+Copyright: 2013 ownCloud, Inc.
+License: AGPL-3.0-only
+
+Files: tests/data/lorem-big.txt tests/data/strängé*filename*(duplicate*#2).txt tests/data/strõngÚ*filename*(duplicate*#2).txt
+Copyright: 2014 ownCloud, Inc.
+License: AGPL-3.0-only
+
+Files: tests/data/testimagelarge.svg
+Copyright: 2015 ownCloud, Inc., 2016 Nextcloud GmbH and Nextcloud contributors
+License: AGPL-3.0-only
+
+Files: tests/data/setUploadLimit/htaccess tests/data/setUploadLimit/user.ini
+Copyright: 2015 ownCloud, Inc., 2018 Nextcloud GmbH and Nextcloud contributors
+License: AGPL-3.0-only
+
+Files: tests/data/testimage-wide.png tests/data/testimage.eps tests/data/testimage.mp3 tests/data/testimage.mp4 tests/data/testimage.odt
+Copyright: 2015 ownCloud, Inc.
+License: AGPL-3.0-only
+
+Files: tests/data/testapp.zip tests/data/testapp2.zip tests/docker/mariadb/oc.cnf
+Copyright: 2016 ownCloud, Inc.
+License: AGPL-3.0-only
+
+Files: tests/docker/mysqlmb4/mb4.cnf
+Copyright: 2016 ownCloud, Inc., 2017 Nextcloud GmbH and Nextcloud contributors
+License: AGPL-3.0-only
+
+Files: tests/data/integritycheck/htaccessWithValidModifiedContent/.htaccess
+Copyright: 2016 ownCloud, Inc., 2019 Nextcloud GmbH and Nextcloud contributors
+License: AGPL-3.0-only
+
+Files: core/img/favicon*.* core/img/logo/logo*.* tests/data/testimage.webp
 Copyright: 2016-2024 Nextcloud GmbH
 License: LicenseRef-NextcloudTrademarks
 
@@ -27,23 +75,31 @@ Files: core/js/mimetypelist.js core/js/core.json themes/example/core/img
 Copyright: 2016 ownCloud, Inc., 2016-2024 Nextcloud GmbH and Nextcloud contributors
 License: AGPL-3.0-only
 
-Files: core/js/merged-template-prepend.json
-Copyright: Inc., 2017 Nextcloud GmbH and Nextcloud contributors
+Files: tests/data/testapp.0.8.tar.gz tests/data/testapp.tar.gz tests/data/testapp1.tar.gz
+Copyright: 2016 Nextcloud GmbH and Nextcloud contributors
 License: AGPL-3.0-or-later
 
-Files: core/src/systemtags/templates/result.handlebars core/src/systemtags/templates/result_form.handlebars core/src/systemtags/templates/selection.handlebars
+Files: core/js/merged-template-prepend.json tests/data/certificates/goodCertificate.crt tests/data/emails/new-account-email-custom-text-alternative.txt tests/data/emails/new-account-email-custom.html tests/data/emails/new-account-email-custom.txt tests/data/emails/new-account-email-single-button.html tests/data/emails/new-account-email-single-button.txt tests/data/emails/new-account-email.html tests/data/emails/new-account-email.txt
+Copyright: 2017 Nextcloud GmbH and Nextcloud contributors
+License: AGPL-3.0-or-later
+
+Files: core/src/systemtags/templates/result.handlebars core/src/systemtags/templates/result_form.handlebars core/src/systemtags/templates/selection.handlebars tests/data/testimage.heic
 Copyright: 2018 Nextcloud GmbH and Nextcloud contributors
 License: AGPL-3.0-or-later
 
-Files: core/src/jquery/contactsmenu/jquery_entry.handlebars tests/data/integritycheck/mimetypeListModified/core/js/mimetypelist.js
+Files: core/src/jquery/contactsmenu/jquery_entry.handlebars tests/data/integritycheck/mimetypeListModified/core/js/mimetypelist.js tests/data/integritycheck/mimetypeListModified/core/signature.json tests/data/guest_avatar_einstein_32.png tests/data/guest_avatar_einstein_32.svg tests/data/test.pdf
 Copyright: 2019 Nextcloud GmbH and Nextcloud contributors
 License: AGPL-3.0-or-later
 
-Files: build/stubs/ftp.php
+Files: tests/data/testimage-badheader.jpg
+Copyright: 2021 Nextcloud GmbH and Nextcloud contributors
+License: AGPL-3.0-or-later
+
+Files: build/stubs/ftp.php tests/data/integritycheck/mimetypeListModified/coresignature.json
 Copyright: 2022 Nextcloud GmbH and Nextcloud contributors
 License: AGPL-3.0-or-later
 
-Files: build/stubs/app_api.php build/stubs/SensitiveParameter.phpstub build/stubs/psr_container.php
+Files: build/stubs/app_api.php build/stubs/SensitiveParameter.phpstub build/stubs/psr_container.php tests/data/testimage-large.jpg
 Copyright: 2023 Nextcloud GmbH and Nextcloud contributors
 License: AGPL-3.0-or-later
 

@@ -1,6 +1,8 @@
 #!/bin/bash
 #
-# ownCloud
+# SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+# SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+# SPDX-License-Identifier: AGPL-3.0-only
 #
 # @author Thomas Müller
 # @copyright 2014 Thomas Müller thomas.mueller@tmit.eu
