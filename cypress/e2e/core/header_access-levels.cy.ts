@@ -108,7 +108,7 @@ describe('Header: Ensure regular users do not have admin settings in the Setting
 			// I see that the "Apps" item in the Settings menu is shown
 			cy.contains('li', 'Apps').should('be.visible')
 			// I see that the "Users" item in the Settings menu is shown
-			cy.contains('li', 'Users').should('be.visible')
+			cy.contains('li', 'Accounts').should('be.visible')
 			// I see that the "Help" item in the Settings menu is shown
 			cy.contains('li', 'Help').should('be.visible')
 			// I see that the "Log out" item in the Settings menu is shown
