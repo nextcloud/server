@@ -82,6 +82,11 @@ class Util {
 	 * @return string
 	 */
 	public function elementColor($color, ?bool $brightBackground = null) {
+		// Disable color luminance check if the feature is disabled. 27 ONLY!
+		if ($this->config->getSystemValueBool('27-disable-accessible-theming-color') === true) {
+			return $color;
+		}
+
 		$luminance = $this->calculateLuminance($color);
 
 		if ($brightBackground !== false && $luminance > 0.8) {
