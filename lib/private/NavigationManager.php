@@ -326,7 +326,7 @@ class NavigationManager implements INavigationManager {
 					'id' => 'core_users',
 					'order' => 6,
 					'href' => $this->urlGenerator->linkToRoute('settings.Users.usersList'),
-					'name' => $l->t('Users'),
+					'name' => $l->t('Accounts'),
 					'icon' => $this->urlGenerator->imagePath('settings', 'users.svg'),
 				]);
 			}
