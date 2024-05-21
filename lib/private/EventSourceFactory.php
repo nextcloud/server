@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2023 Daniel Kesselberg <mail@danielkesselberg.de>
  *
@@ -27,20 +30,12 @@ use OCP\IEventSourceFactory;
 use OCP\IRequest;
 
 class EventSourceFactory implements IEventSourceFactory {
-	private IRequest $request;
-
-
-	public function __construct(IRequest $request) {
-		$this->request = $request;
+	public function __construct(
+		private IRequest $request,
+	) {
 	}
 
-	/**
-	 * Create a new event source
-	 *
-	 * @return IEventSource
-	 * @since 28.0.0
-	 */
 	public function create(): IEventSource {
-		return new \OC_EventSource($this->request);
+		return new EventSource($this->request);
 	}
 }

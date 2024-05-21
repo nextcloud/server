@@ -37,6 +37,7 @@ interface IEventSource {
 	 *
 	 * @param string $type One of success, notice, error, failure and done. Used in core/js/update.js
 	 * @param mixed $data
+	 * @return void
 	 *
 	 * if only one parameter is given, a typeless message will be send with that parameter as data
 	 * @since 8.0.0
@@ -45,6 +46,7 @@ interface IEventSource {
 
 	/**
 	 * close the connection of the event source
+	 * @return void
 	 * @since 8.0.0
 	 */
 	public function close();

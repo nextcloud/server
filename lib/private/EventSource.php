@@ -1,6 +1,6 @@
 <?php
 
-use OCP\IRequest;
+declare(strict_types=1);
 
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
@@ -29,36 +29,30 @@ use OCP\IRequest;
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-class OC_EventSource implements \OCP\IEventSource {
-	/**
-	 * @var bool
-	 */
-	private $fallback;
 
-	/**
-	 * @var int
-	 */
-	private $fallBackId = 0;
+namespace OC;
 
-	/**
-	 * @var bool
-	 */
-	private $started = false;
+use OCP\IEventSource;
+use OCP\IRequest;
 
-	private IRequest $request;
+class EventSource implements IEventSource {
+	private bool $fallback = false;
+	private int $fallBackId = 0;
+	private bool $started = false;
 
-	public function __construct(IRequest $request) {
-		$this->request = $request;
+	public function __construct(
+		private IRequest $request,
+	) {
 	}
 
-	protected function init() {
+	protected function init(): void {
 		if ($this->started) {
 			return;
 		}
 		$this->started = true;
 
 		// prevent php output buffering, caching and nginx buffering
-		OC_Util::obEnd();
+		\OC_Util::obEnd();
 		header('Cache-Control: no-cache');
 		header('X-Accel-Buffering: no');
 		$this->fallback = isset($_GET['fallback']) and $_GET['fallback'] == 'true';
@@ -104,7 +98,7 @@ class OC_EventSource implements \OCP\IEventSource {
 	 */
 	public function send($type, $data = null) {
 		if ($data and !preg_match('/^[A-Za-z0-9_]+$/', $type)) {
-			throw new BadMethodCallException('Type needs to be alphanumeric ('. $type .')');
+			throw new \BadMethodCallException('Type needs to be alphanumeric ('. $type .')');
 		}
 		$this->init();
 		if (is_null($data)) {
