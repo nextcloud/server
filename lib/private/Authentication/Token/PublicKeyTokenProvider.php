@@ -300,8 +300,6 @@ class PublicKeyTokenProvider implements IProvider {
 		if (!($token instanceof PublicKeyToken)) {
 			throw new InvalidTokenException("Invalid token type");
 		}
-		$now = $this->time->getTime();
-		$token->setLastActivity($now);
 		$this->mapper->update($token);
 		$this->cacheToken($token);
 	}
