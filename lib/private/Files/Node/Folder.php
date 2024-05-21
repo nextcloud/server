@@ -158,7 +158,7 @@ class Folder extends Node implements \OCP\Files\Folder {
 			$fullPath = $this->getFullPath($path);
 			$nonExisting = new NonExistingFolder($this->root, $this->view, $fullPath);
 			$this->sendHooks(['preWrite', 'preCreate'], [$nonExisting]);
-			if (!$this->view->mkdir($fullPath)) {
+			if (!$this->view->is_dir($fullPath) && !$this->view->mkdir($fullPath)) {
 				throw new NotPermittedException('Could not create folder "' . $fullPath . '"');
 			}
 			$parent = dirname($fullPath) === $this->getPath() ? $this : null;
