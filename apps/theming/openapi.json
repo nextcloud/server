@@ -63,6 +63,7 @@
                             "color-element-dark",
                             "logo",
                             "background",
+                            "background-text",
                             "background-plain",
                             "background-default",
                             "logoheader",
@@ -97,6 +98,9 @@
                                 "type": "string"
                             },
                             "background": {
+                                "type": "string"
+                            },
+                            "background-text": {
                                 "type": "string"
                             },
                             "background-plain": {

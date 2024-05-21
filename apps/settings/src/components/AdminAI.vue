@@ -190,9 +190,9 @@ export default {
 
 .draggable__number {
 	border-radius: 20px;
-	border: 2px solid var(--color-primary-default);
-	color: var(--color-primary-default);
-  padding: 0px 7px;
+	border: 2px solid var(--color-primary-element);
+	color: var(--color-primary-element);
+	padding: 0px 7px;
 	margin-right: 3px;
 }
 

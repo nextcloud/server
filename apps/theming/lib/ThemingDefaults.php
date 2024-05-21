@@ -7,6 +7,7 @@
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
+ * @author Ferdinand Thiessen <opensource@fthiessen.de>
  * @author Guillaume COMPAGNON <gcompagnon@outlook.com>
  * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
  * @author Joachim Bauch <bauch@struktur.de>
@@ -55,22 +56,13 @@ use OCP\IUserSession;
 
 class ThemingDefaults extends \OC_Defaults {
 
-	private IConfig $config;
-	private IL10N $l;
-	private ImageManager $imageManager;
-	private IUserSession $userSession;
-	private IURLGenerator $urlGenerator;
-	private ICacheFactory $cacheFactory;
-	private Util $util;
-	private IAppManager $appManager;
-	private INavigationManager $navigationManager;
-
 	private string $name;
 	private string $title;
 	private string $entity;
 	private string $productName;
 	private string $url;
-	private string $color;
+	private string $backgroundColor;
+	private string $primaryColor;
 	private string $docBaseUrl;
 
 	private string $iTunesAppId;
@@ -80,43 +72,28 @@ class ThemingDefaults extends \OC_Defaults {
 
 	/**
 	 * ThemingDefaults constructor.
-	 *
-	 * @param IConfig $config
-	 * @param IL10N $l
-	 * @param ImageManager $imageManager
-	 * @param IUserSession $userSession
-	 * @param IURLGenerator $urlGenerator
-	 * @param ICacheFactory $cacheFactory
-	 * @param Util $util
-	 * @param IAppManager $appManager
 	 */
-	public function __construct(IConfig $config,
-		IL10N $l,
-		IUserSession $userSession,
-		IURLGenerator $urlGenerator,
-		ICacheFactory $cacheFactory,
-		Util $util,
-		ImageManager $imageManager,
-		IAppManager $appManager,
-		INavigationManager $navigationManager
+	public function __construct(
+		private IConfig $config,
+		private IL10N $l,
+		private IUserSession $userSession,
+		private IURLGenerator $urlGenerator,
+		private ICacheFactory $cacheFactory,
+		private Util $util,
+		private ImageManager $imageManager,
+		private IAppManager $appManager,
+		private INavigationManager $navigationManager,
+		private BackgroundService $backgroundService,
 	) {
 		parent::__construct();
-		$this->config = $config;
-		$this->l = $l;
-		$this->imageManager = $imageManager;
-		$this->userSession = $userSession;
-		$this->urlGenerator = $urlGenerator;
-		$this->cacheFactory = $cacheFactory;
-		$this->util = $util;
-		$this->appManager = $appManager;
-		$this->navigationManager = $navigationManager;
 
 		$this->name = parent::getName();
 		$this->title = parent::getTitle();
 		$this->entity = parent::getEntity();
 		$this->productName = parent::getProductName();
 		$this->url = parent::getBaseUrl();
-		$this->color = parent::getColorPrimary();
+		$this->primaryColor = parent::getColorPrimary();
+		$this->backgroundColor = parent::getColorBackground();
 		$this->iTunesAppId = parent::getiTunesAppId();
 		$this->iOSClientUrl = parent::getiOSClientUrl();
 		$this->AndroidClientUrl = parent::getAndroidClientUrl();
@@ -224,7 +201,8 @@ class ThemingDefaults extends \OC_Defaults {
 	}
 
 	/**
-	 * Color that is used for the header as well as for mail headers
+	 * Color that is used for highlighting elements like important buttons
+	 * If user theming is enabled then the user defined value is returned
 	 */
 	public function getColorPrimary(): string {
 		$user = $this->userSession->getUser();
@@ -238,16 +216,10 @@ class ThemingDefaults extends \OC_Defaults {
 
 		// user-defined primary color
 		if (!empty($user)) {
-			$themingBackgroundColor = $this->config->getUserValue($user->getUID(), Application::APP_ID, 'background_color', '');
-			// If the user selected a specific colour
-			if (preg_match('/^\#([0-9a-f]{3}|[0-9a-f]{6})$/i', $themingBackgroundColor)) {
-				return $themingBackgroundColor;
+			$userPrimaryColor = $this->config->getUserValue($user->getUID(), Application::APP_ID, 'primary_color', '');
+			if (preg_match('/^\#([0-9a-f]{3}|[0-9a-f]{6})$/i', $userPrimaryColor)) {
+				return $userPrimaryColor;
 			}
-		}
-
-		// If the default color is not valid, return the default background one
-		if (!preg_match('/^\#([0-9a-f]{3}|[0-9a-f]{6})$/i', $defaultColor)) {
-			return BackgroundService::DEFAULT_COLOR;
 		}
 
 		// Finally, return the system global primary color
@@ -255,15 +227,55 @@ class ThemingDefaults extends \OC_Defaults {
 	}
 
 	/**
-	 * Return the default color primary
+	 * Color that is used for the page background (e.g. the header)
+	 * If user theming is enabled then the user defined value is returned
 	 */
-	public function getDefaultColorPrimary(): string {
-		$color = $this->config->getAppValue(Application::APP_ID, 'color', '');
-		if (!preg_match('/^\#([0-9a-f]{3}|[0-9a-f]{6})$/i', $color)) {
-			return BackgroundService::DEFAULT_COLOR;
+	public function getColorBackground(): string {
+		$user = $this->userSession->getUser();
+
+		// admin-defined background color
+		$defaultColor = $this->getDefaultColorBackground();
+
+		if ($this->isUserThemingDisabled()) {
+			return $defaultColor;
 		}
 
-		return $color;
+		// user-defined background color
+		if (!empty($user)) {
+			$userPrimaryColor = $this->config->getUserValue($user->getUID(), Application::APP_ID, 'background_color', '');
+			if (preg_match('/^\#([0-9a-f]{3}|[0-9a-f]{6})$/i', $userPrimaryColor)) {
+				return $userPrimaryColor;
+			}
+		}
+
+		// Finally, return the system global background color
+		return $defaultColor;
+	}
+
+	/**
+	 * Return the default primary color - only taking admin setting into account
+	 */
+	public function getDefaultColorPrimary(): string {
+		// try admin color
+		$defaultColor = $this->config->getAppValue(Application::APP_ID, 'primary_color', '');
+		if (preg_match('/^\#([0-9a-f]{3}|[0-9a-f]{6})$/i', $defaultColor)) {
+			return $defaultColor;
+		}
+
+		// fall back to default primary color
+		return $this->primaryColor;
+	}
+
+	/**
+	 * Default background color only taking admin setting into account
+	 */
+	public function getDefaultColorBackground(): string {
+		$defaultColor = $this->config->getAppValue(Application::APP_ID, 'background_color', '');
+		if (preg_match('/^\#([0-9a-f]{3}|[0-9a-f]{6})$/i', $defaultColor)) {
+			return $defaultColor;
+		}
+
+		return $this->backgroundColor;
 	}
 
 	/**
@@ -344,6 +356,7 @@ class ThemingDefaults extends \OC_Defaults {
 
 	/**
 	 * @return array scss variables to overwrite
+	 * @deprecated since Nextcloud 22 - https://github.com/nextcloud/server/issues/9940
 	 */
 	public function getScssVariables() {
 		$cacheBuster = $this->config->getAppValue('theming', 'cachebuster', '0');
@@ -366,7 +379,7 @@ class ThemingDefaults extends \OC_Defaults {
 		$variables['image-login-background'] = "url('".$this->imageManager->getImageUrl('background')."')";
 		$variables['image-login-plain'] = 'false';
 
-		if ($this->config->getAppValue('theming', 'color', '') !== '') {
+		if ($this->config->getAppValue('theming', 'primary_color', '') !== '') {
 			$variables['color-primary'] = $this->getColorPrimary();
 			$variables['color-primary-text'] = $this->getTextColorPrimary();
 			$variables['color-primary-element'] = $this->util->elementColor($this->getColorPrimary());
@@ -465,7 +478,7 @@ class ThemingDefaults extends \OC_Defaults {
 	}
 
 	/**
-	 * Revert settings to the default value
+	 * Revert admin settings to the default value
 	 *
 	 * @param string $setting setting which should be reverted
 	 * @return string default value
@@ -485,8 +498,15 @@ class ThemingDefaults extends \OC_Defaults {
 			case 'slogan':
 				$returnValue = $this->getSlogan();
 				break;
-			case 'color':
-				$returnValue = $this->getDefaultColorPrimary();
+			case 'primary_color':
+				$returnValue = BackgroundService::DEFAULT_COLOR;
+				break;
+			case 'background_color':
+				// If a background image is set we revert to the mean image color
+				if ($this->imageManager->hasImage('background')) {
+					$file = $this->imageManager->getImage('background');
+					$returnValue = $this->backgroundService->setGlobalBackground($file->read()) ?? '';
+				}
 				break;
 			case 'logo':
 			case 'logoheader':
@@ -501,7 +521,16 @@ class ThemingDefaults extends \OC_Defaults {
 	}
 
 	/**
-	 * Color of text in the header and primary buttons
+	 * Color of text in the header menu
+	 *
+	 * @return string
+	 */
+	public function getTextColorBackground() {
+		return $this->util->invertTextColor($this->getColorBackground()) ? '#000000' : '#ffffff';
+	}
+
+	/**
+	 * Color of text on primary buttons and other elements
 	 *
 	 * @return string
 	 */

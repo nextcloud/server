@@ -25,17 +25,14 @@ body {
 	font-size: .875em;
 	line-height: 1.6em;
 	font-family: system-ui, -apple-system, "Segoe UI", Roboto, Oxygen-Sans, Cantarell, Ubuntu, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-	color: var(--color-text);
+	color: var(--color-background-plain-text, #ffffff);
 	text-align: center;
-	/* As guest, there is no color-background-plain */
-	background-color: var(--color-background-plain, var(--color-primary-element-default, #0082c9));
-	/* As guest, there is no user background (--image-background)
-	1. User background if logged in ('no' if removed, that way the variable is _defined_)
-	2. Empty background if enabled ('yes' is used, that way the variable is _defined_)
-	3. Else default background
-	4. Finally default gradient (should not happened, the background is always defined anyway) */
-	background-image: var(--image-background, var(--image-background-plain, var(--image-background-default, linear-gradient(40deg, #0082c9 0%, #30b6ff 100%))));
-    background-attachment: fixed;
+	background-color: var(--color-background-plain, #0082c9);
+	/* 
+	User background if logged in ('no' if removed, that way the variable is _defined_)
+	Fallback to default gradient (should not happened, the background is always defined anyway) */
+	background-image: var(--image-background, linear-gradient(40deg, #0082c9 0%, #30b6ff 100%));
+	background-attachment: fixed;
 	min-height: 100%; /* fix sticky footer */
 	height: auto;
 	overflow: auto;

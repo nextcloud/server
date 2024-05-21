@@ -9,7 +9,7 @@
 		:aria-label="t('core', 'Search contacts')"
 		@open="handleOpen">
 		<template #trigger>
-			<Contacts :size="20" />
+			<Contacts class="contactsmenu__trigger-icon" :size="20" />
 		</template>
 		<div class="contactsmenu__menu">
 			<div class="contactsmenu__menu__input-wrapper">
@@ -170,6 +170,10 @@ export default {
 <style lang="scss" scoped>
 .contactsmenu {
 	overflow-y: hidden;
+
+	&__trigger-icon {
+		color: var(--color-background-plain-text) !important;
+	}
 
 	&__menu {
 		display: flex;
