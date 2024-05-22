@@ -53,6 +53,7 @@ use OCP\L10N\IFactory;
 use OCP\Mail\IMailer;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IAttributes;
+use OCP\Share\IManager;
 use OCP\Share\IShare;
 use OCP\Share\IShareProvider;
 use function str_starts_with;
@@ -94,15 +95,17 @@ class DefaultShareProvider implements IShareProvider {
 	private $config;
 
 	public function __construct(
-			IDBConnection $connection,
-			IUserManager $userManager,
-			IGroupManager $groupManager,
-			IRootFolder $rootFolder,
-			IMailer $mailer,
-			Defaults $defaults,
-			IFactory $l10nFactory,
-			IURLGenerator $urlGenerator,
-			IConfig $config) {
+		IDBConnection $connection,
+		IUserManager $userManager,
+		IGroupManager $groupManager,
+		IRootFolder $rootFolder,
+		IMailer $mailer,
+		Defaults $defaults,
+		IFactory $l10nFactory,
+		IURLGenerator $urlGenerator,
+		IConfig $config,
+		private IManager $shareManager,
+	) {
 		$this->dbConn = $connection;
 		$this->userManager = $userManager;
 		$this->groupManager = $groupManager;
@@ -1313,7 +1316,7 @@ class DefaultShareProvider implements IShareProvider {
 			->where($qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_GROUP)))
 			->andWhere($qb->expr()->eq('share_with', $qb->createNamedParameter($gid)));
 
-		$cursor = $qb->execute();
+		$cursor = $qb->executeQuery();
 		$ids = [];
 		while ($row = $cursor->fetch()) {
 			$ids[] = (int)$row['id'];
@@ -1330,8 +1333,50 @@ class DefaultShareProvider implements IShareProvider {
 					->where($qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_USERGROUP)))
 					->andWhere($qb->expr()->eq('share_with', $qb->createNamedParameter($uid)))
 					->andWhere($qb->expr()->in('parent', $qb->createNamedParameter($chunk, IQueryBuilder::PARAM_INT_ARRAY)));
-				$qb->execute();
+				$qb->executeStatement();
 			}
+		}
+
+		if ($this->shareManager->shareWithGroupMembersOnly()) {
+			$deleteQuery = $this->dbConn->getQueryBuilder();
+			$deleteQuery->delete('share')
+				->where($deleteQuery->expr()->in('id', $deleteQuery->createParameter('id')));
+
+			// Delete direct shares received by the user from users in the group.
+			$selectInboundShares = $this->dbConn->getQueryBuilder();
+			$selectInboundShares->select('id')
+				->from('share', 's')
+				->join('s', 'group_user', 'g', 's.uid_initiator = g.uid')
+				->where($selectInboundShares->expr()->eq('share_type', $selectInboundShares->createNamedParameter(IShare::TYPE_USER)))
+				->andWhere($selectInboundShares->expr()->eq('share_with', $selectInboundShares->createNamedParameter($uid)))
+				->andWhere($selectInboundShares->expr()->eq('gid', $selectInboundShares->createNamedParameter($gid)))
+				->setMaxResults(1000)
+				->executeQuery();
+
+			do {
+				$rows = $selectInboundShares->executeQuery();
+				$ids = $rows->fetchAll();
+				$deleteQuery->setParameter('id', array_column($ids, 'id'), IQueryBuilder::PARAM_INT_ARRAY);
+				$deleteQuery->executeStatement();
+			} while (count($ids) > 0);
+
+			// Delete direct shares from the user to users in the group.
+			$selectOutboundShares = $this->dbConn->getQueryBuilder();
+			$selectOutboundShares->select('id')
+				->from('share', 's')
+				->join('s', 'group_user', 'g', 's.share_with = g.uid')
+				->where($selectOutboundShares->expr()->eq('share_type', $selectOutboundShares->createNamedParameter(IShare::TYPE_USER)))
+				->andWhere($selectOutboundShares->expr()->eq('uid_initiator', $selectOutboundShares->createNamedParameter($uid)))
+				->andWhere($selectOutboundShares->expr()->eq('gid', $selectOutboundShares->createNamedParameter($gid)))
+				->setMaxResults(1000)
+				->executeQuery();
+
+			do {
+				$rows = $selectOutboundShares->executeQuery();
+				$ids = $rows->fetchAll();
+				$deleteQuery->setParameter('id', array_column($ids, 'id'), IQueryBuilder::PARAM_INT_ARRAY);
+				$deleteQuery->executeStatement();
+			} while (count($ids) > 0);
 		}
 	}
 
