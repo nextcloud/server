@@ -104,7 +104,8 @@ class ProviderFactory implements IProviderFactory {
 				$this->serverContainer->query(Defaults::class),
 				$this->serverContainer->getL10NFactory(),
 				$this->serverContainer->getURLGenerator(),
-				$this->serverContainer->getConfig()
+				$this->serverContainer->getConfig(),
+				$this->serverContainer->get(IManager::class),
 			);
 		}
 
