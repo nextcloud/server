@@ -25,6 +25,10 @@ declare(strict_types=1);
 namespace OCP\Mail\Provider;
 
 /**
+ * Mail Service Interface
+ * 
+ * This interface is used for defining individual services that are configured for a provider
+ * 
  * @since 30.0.0
  */
 interface IService {
@@ -33,27 +37,31 @@ interface IService {
 	 * An arbitrary unique text string identifying this service
 	 * 
 	 * @since 30.0.0
+	 * @return string			id of this service (e.g. 1 or service1 or anything else)
 	 */
 	public function id(): string;
 
 	/**
-	 * The localized human frendly name of this service
+	 * gets the localized human frendly name of this service
 	 * 
 	 * @since 30.0.0
+	 * @return string			label/name of service (e.g. ACME Company Mail Service)
 	 */
 	public function getLabel(): string;
 
 	/**
-	 * The localized human frendly name of this service
+	 * sets the localized human frendly name of this service
 	 * 
 	 * @since 30.0.0
+	 * @param string $value		label/name of service (e.g. ACME Company Mail Service)
 	 */
-	public function setLabel(string $name);
+	public function setLabel(string $value);
 
 	/**
 	 * get service itentity
 	 * 
 	 * @since 30.0.0
+	 * @return IServiceIdentity				service identity object
 	 */
 	public function getIdentity(): IServiceIdentity;
 
@@ -61,6 +69,7 @@ interface IService {
 	 * set service identity
 	 * 
 	 * @since 30.0.0
+	 * @param IServiceIdentity $identity	service identity object
 	 */
 	public function setIdentity(IServiceIdentity $identity);
 
@@ -68,6 +77,7 @@ interface IService {
 	 * get service location
 	 * 
 	 * @since 30.0.0
+	 * @return IServiceLocation				service location object
 	 */
 	public function getLocation(): IServiceLocation;
 
@@ -75,6 +85,7 @@ interface IService {
 	 * set service location
 	 * 
 	 * @since 30.0.0
+	 * @param IServiceLocation $location	service location object
 	 */
 	public function setLocation(IServiceLocation $location);
 

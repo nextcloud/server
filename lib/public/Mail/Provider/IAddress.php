@@ -24,23 +24,19 @@ declare(strict_types=1);
 */
 namespace OCP\Mail\Provider;
 
-use OCP\Mail\Provider\IMessage;
-
 /**
- * Mail Message Send Interface
- * 
- * This interface is used for extending the IService interface with specific functionality
- * 
+ * Interface IMessage
+ *
  * @since 30.0.0
  */
-interface IMessageSend {
+interface IAddress {
+	
+	public function setAddress(string $value): self;
 
-	/**
-	 * Send a message 
-	 * 
-	 * @since 30.0.0
-	 * @param IMessage $message
-	 */
-	public function messageSend(IMessage $message, array $option = []): void;
+	public function getAddress(): string;
+
+	public function setName(string $value): self;
+
+	public function getName(): string;
 
 }

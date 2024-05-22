@@ -242,21 +242,6 @@ class IMipPlugin extends SabreIMipPlugin {
 		$fromEMail = Util::getDefaultEmailAddress('invitations-noreply');
 		$fromName = $this->imipService->getFrom($senderName, $this->defaults->getName());
 
-		$message = $this->mailer->createMessage()
-			->setFrom([$fromEMail => $fromName]);
-
-		if ($recipientName !== null) {
-			$message->setTo([$recipient => $recipientName]);
-		} else {
-			$message->setTo([$recipient]);
-		}
-
-		if ($senderName !== null) {
-			$message->setReplyTo([$sender => $senderName]);
-		} else {
-			$message->setReplyTo([$sender]);
-		}
-
 		$template = $this->mailer->createEMailTemplate('dav.calendarInvite.' . $method, $data);
 		$template->addHeader();
 
@@ -298,27 +283,50 @@ class IMipPlugin extends SabreIMipPlugin {
 		}
 
 		$template->addFooter();
-
-		$message->useTemplate($template);
-
+		// convert iTip Message to string
 		$itip_msg = $iTipMessage->message->serialize();
-		$message->attachInline(
-			$itip_msg,
-			'event.ics',
-			'text/calendar; method=' . $iTipMessage->method,
-		);
 
 		try {
-			
 			// load mail provider manager
 			$manager = \OC::$server->get(\OC\Mail\Provider\Manager::class);
 			// retrieve all services
 			$service = $manager->findService($this->userSession->getUser()->getUID(), $sender);
 			// evaluate if a mail service was found with the correct address
 			if ($service) {
-				$message->setFrom((($senderName !== null) ? [$sender => $senderName] : [$sender]));
+				// construct mail provider message and set required parameters
+				$message = new \OC\Mail\Provider\Message();
+				$message->setFrom(
+					(new \OC\Mail\Provider\Address($sender, $fromName))
+				);
+				$message->setTo(
+					(new \OC\Mail\Provider\Address($recipient, $recipientName))
+				);
+				$message->setSubject($template->renderSubject());
+				$message->setBodyPlain($template->renderText());
+				$message->setBodyHtml($template->renderHtml());
+				$message->setAttachments((new \OC\Mail\Provider\Attachment(
+					$itip_msg,
+					'event.ics',
+					'text/calendar; method=' . $iTipMessage->method,
+					true
+				)));
 				$failed = $service->messageSend($message);
 			} else {
+				// construct symfony mailer message and set required parameters
+				$message = $this->mailer->createMessage();
+				$message->setFrom([$fromEMail => $fromName]);
+				$message->setTo(
+					(($recipientName !== null) ? [$recipient => $recipientName] : [$recipient])
+				);
+				$message->setReplyTo(
+					(($senderName !== null) ? [$sender => $senderName] : [$sender])
+				);
+				$message->useTemplate($template);
+				$message->attachInline(
+					$itip_msg, 
+					'event.ics', 
+					'text/calendar; method=' . $iTipMessage->method
+				);
 				$failed = $this->mailer->send($message);
 			}
 

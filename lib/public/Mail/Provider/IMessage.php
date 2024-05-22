@@ -24,23 +24,45 @@ declare(strict_types=1);
 */
 namespace OCP\Mail\Provider;
 
-use OCP\Mail\Provider\IMessage;
+use OCP\Mail\Provider\IAddress;
+use OCP\Mail\Provider\IAttachment;
 
 /**
- * Mail Message Send Interface
- * 
- * This interface is used for extending the IService interface with specific functionality
- * 
+ * Interface IMessage
+ *
  * @since 30.0.0
  */
-interface IMessageSend {
+interface IMessage {
+	
+	public function setFrom(IAddress $value): self;
 
-	/**
-	 * Send a message 
-	 * 
-	 * @since 30.0.0
-	 * @param IMessage $message
-	 */
-	public function messageSend(IMessage $message, array $option = []): void;
+	public function getFrom(): IAddress;
 
+	public function setReplyTo(IAddress $value): self;
+
+	public function getReplyTo(): IAddress;
+
+	public function setTo(IAddress ...$value): self;
+
+	public function getTo(): array | null;
+
+	public function setCc(IAddress ...$value): self;
+
+	public function getCc(): array | null;
+
+	public function setBcc(IAddress ...$value): self;
+	
+	public function getBcc(): array | null;
+
+	public function setSubject(string $value): self;
+
+	public function setBody(string $value, bool $html): self;
+
+	public function setBodyPlain(string $value): self;
+
+	public function setBodyHtml(string $value): self;
+
+	public function setAttachments(IAttachment ...$value): self;
+
+    public function getAttachments(): array | null;
 }

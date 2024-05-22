@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
-* @copyright Copyright (c) 2023 Sebastian Krupinski <krupinski01@gmail.com>
+* @copyright Copyright (c) 2024 Sebastian Krupinski <krupinski01@gmail.com>
 *
 * @author Sebastian Krupinski <krupinski01@gmail.com>
 *
@@ -22,25 +22,32 @@ declare(strict_types=1);
 * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *
 */
-namespace OCP\Mail\Provider;
+namespace OC\Mail\Provider;
 
-use OCP\Mail\Provider\IMessage;
+class Address implements \OCP\Mail\Provider\IAddress {
 
-/**
- * Mail Message Send Interface
- * 
- * This interface is used for extending the IService interface with specific functionality
- * 
- * @since 30.0.0
- */
-interface IMessageSend {
+    protected string $address;
+    protected string $name;
 
-	/**
-	 * Send a message 
-	 * 
-	 * @since 30.0.0
-	 * @param IMessage $message
-	 */
-	public function messageSend(IMessage $message, array $option = []): void;
+    public function __construct(string $address = '', string $name = '') {
+        $this->address = $address;
+        $this->name = $name;
+    }
+
+    public function setAddress(string $value): self {
+        $this->address = $value;
+    }
+
+    public function getAddress() : string {
+        return $this->address;        
+    }
+
+    public function setName(string $value): self {
+        $this->name = $value;
+    }
+
+    public function getName() : string {
+        return $this->name;        
+    }
 
 }

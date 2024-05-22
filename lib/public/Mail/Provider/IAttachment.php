@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
-* @copyright Copyright (c) 2023 Sebastian Krupinski <krupinski01@gmail.com>
+* @copyright Copyright (c) 2024 Sebastian Krupinski <krupinski01@gmail.com>
 *
 * @author Sebastian Krupinski <krupinski01@gmail.com>
 *
@@ -24,60 +24,54 @@ declare(strict_types=1);
 */
 namespace OCP\Mail\Provider;
 
-/**
- * Mail Provider Manager Interface
- * 
- * @since 30.0.0
- */
-interface IManager {
-	
-	/**
-	 * Register a mail provider
-	 * 
+interface IAttachment {
+
+    /**
+	 * @return $this
 	 * @since 30.0.0
 	 */
-	public function register($provider): void;
+	public function setName(string $value): self;
+
+    /**
+	 * @return string | null
+	 * @since 30.0.0
+	 */
+	public function getName(): string | null;
 
 	/**
-	 * Determain if any mail providers are registered
-	 * 
+	 * @return $this
 	 * @since 30.0.0
 	 */
-	public function has(): bool;
+	public function setType(string $value): self;
+
+    /**
+	 * @return string | null
+	 * @since 30.0.0
+	 */
+	public function getType(): string | null;
 
 	/**
-	 * Retrieve a count of how many mail providers are registered
-	 * 
+	 * @return $this
 	 * @since 30.0.0
 	 */
-	public function count(): int;
+	public function setContents(string $value): self;
 
-	/**
-	 * Retrieve which mail providers are registered
-	 * 
+    /**
+	 * @return string | null
 	 * @since 30.0.0
 	 */
-	public function types(): array;
+	public function getContents(): string | null;
 
-	/**
-	 * Retrieve all registered mail providers
-	 * 
+    /**
+	 * @return $this
 	 * @since 30.0.0
 	 */
-	public function providers(): array;
+	public function setInline(bool $value): self;
 
-	/**
-	 * Retrieve all services for all registered mail providers
-	 * 
+    /**
+	 * @return string | null
 	 * @since 30.0.0
 	 */
-	public function services(string $uid): array;
-
-	/**
-	 * Retrieve a service for a specific mail address
-	 * 
-	 * @since 30.0.0
-	 */
-	public function findService(string $uid, string $address);
+	public function getInline(): bool | null;
 
 }

@@ -29,7 +29,7 @@ use RuntimeException;
 /**
  * This is the interface that is implemented by apps that
  * implement a mail provider
- * @since 30.0.0
+ * @since 30
  */
 interface IServiceIdentity {
 
