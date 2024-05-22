@@ -104,7 +104,7 @@ class CalendarObject extends \Sabre\CalDAV\CalendarObject {
 		});
 
 		foreach ($vElements as $vElement) {
-			if (empty($vElement->select('SUMMARY'))) {
+			if (empty(trim($vElement->select('SUMMARY')))) {
 				$vElement->add('SUMMARY', $this->l10n->t('Busy')); // This is needed to mask "Untitled Event" events
 			}
 			foreach ($vElement->children() as &$property) {
