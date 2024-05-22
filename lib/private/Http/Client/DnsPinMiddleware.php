@@ -117,7 +117,9 @@ class DnsPinMiddleware {
 	 */
 	protected function dnsGetRecord(string $hostname, int $type): array|false {
 		// don't bother retreiving RRs via the noiser dns_get_record() if there aren't any to retrieve
-		return \checkdnsrr($hostname, "ANY") && \dns_get_record($hostname, $type);
+		if (\checkdnsrr($hostname, "ANY") !== false) {
+			return \dns_get_record($hostname, $type);
+		}
 	}
 
 	public function addDnsPinning() {
