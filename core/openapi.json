@@ -182,7 +182,6 @@
                 "type": "object",
                 "required": [
                     "id",
-                    "order",
                     "href",
                     "icon",
                     "type",
@@ -210,6 +209,12 @@
                     },
                     "name": {
                         "type": "string"
+                    },
+                    "app": {
+                        "type": "string"
+                    },
+                    "default": {
+                        "type": "boolean"
                     },
                     "active": {
                         "type": "boolean"
