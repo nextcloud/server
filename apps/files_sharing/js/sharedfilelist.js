@@ -390,7 +390,8 @@
 							icon: OC.MimeType.getIconUrl(share.mimetype),
 							mimetype: share.mimetype,
 							hasPreview: share.has_preview,
-							tags: share.tags || []
+							tags: share.tags || [],
+							shareAttributes: JSON.parse(share.attributes),
 						}
 						if (share.item_type === 'folder') {
 							file.type = 'dir'
