@@ -33,12 +33,10 @@
 namespace OCP;
 
 /**
- * @psalm-type NavigationEntry = array{id: string, order: int, href: string, name: string, app?: string, icon?: string, classes?: string, type?: string}
- */
-
-/**
  * Manages the ownCloud navigation
  * @since 6.0.0
+ *
+ * @psalm-type NavigationEntry = array{id: string, order: int, href: string, name: string, app?: string, icon?: string, classes?: string, type?: string}
  */
 interface INavigationManager {
 	/**
