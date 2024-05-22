@@ -42,7 +42,7 @@ try {
 	}
 
 	$user = posix_getuid();
-	$userName = posix_getpwuid($user)['name'];
+	$userName = posix_getpwuid($user) !== false ? posix_getpwuid($user)['name'] : '';
 	$configUser = fileowner(OC::$configDir . 'config.php');
 	$configuredUser = $config->getSystemValueString('php.user', '');
 	if ($user !== $configUser && $userName !== $configuredUser) {
