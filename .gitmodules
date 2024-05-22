@@ -4,3 +4,9 @@
 [submodule "IONOS"]
 	path = IONOS
 	url = git@github.com:IONOS-Productivity/easystorage-config.git
+[submodule "apps-external/extract"]
+	path = apps-external/extract
+	url = https://github.com/PaulLereverend/NextcloudExtract
+[submodule "apps-external/viewer"]
+	path = apps-external/viewer
+	url = https://github.com/nextcloud/viewer.git
