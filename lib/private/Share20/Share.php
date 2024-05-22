@@ -29,8 +29,8 @@
  */
 namespace OC\Share20;
 
-use OCP\Files\File;
 use OCP\Files\Cache\ICacheEntry;
+use OCP\Files\File;
 use OCP\Files\FileInfo;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
@@ -101,6 +101,8 @@ class Share implements IShare {
 	private $nodeCacheEntry;
 	/** @var bool */
 	private $hideDownload = false;
+
+	private bool $noExpirationDate = false;
 
 	public function __construct(IRootFolder $rootFolder, IUserManager $userManager) {
 		$this->rootFolder = $rootFolder;
