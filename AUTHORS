@@ -19,6 +19,8 @@
  - Aldo "xoen" Giambelluca <xoen@xoen.org>
  - Alecks Gates <alecks.g@gmail.com>
  - Alejandro Varela <epma01@gmail.com>
+ - Alexander A. Klimov <grandmaster@al2klimov.de>
+ - Alexandre Salomé <alexandre.salome@gmail.com>
  - Alex Harpin <development@landsofshadow.co.uk>
  - Alex Weirig <alex.weirig@technolink.lu>
  - Alexander Bergolth <leo@strike.wu.ac.at>
@@ -31,10 +33,13 @@
  - Andrey Borysenko <andrey.borysenko@nextcloud.com>
  - Andy Xheli <axheli@axtsolutions.com>
  - Anna Larch <anna@nextcloud.com>
+ - Anna Larch <anna.larch@gmx.net>
+ - Anupam Kumar <kyteinsky@gmail.com>
  - ArcticFall <23174635+ArcticFall@users.noreply.github.com>
  - Ardinis <Ardinis@users.noreply.github.com>
  - Ari Selseng <ari@selseng.net>
  - Arne Hamann <kontakt+github@arne.email>
+ - Arne Hamann <github@arne.email>
  - Artem Kochnev <MrJeos@gmail.com>
  - Artem Sidorenko <artem@posteo.de>
  - Arthur Schiwon <blizzz@arthur-schiwon.de>
@@ -49,6 +54,7 @@
  - Bastien Durel <bastien@durel.org>
  - Bastien Ho <bastienho@urbancube.fr>
  - Benjamin Diele <benjamin@diele.be>
+ - Benjamin Gaussorgues <benjamin.gaussorgues@nextcloud.com>
  - Benjamin Liles <benliles@arch.tamu.edu>
  - Bennet Becker <bbecker@pks.mpg.de>
  - Bennet Becker <dev@bennet.cc>
@@ -70,6 +76,7 @@
  - Brandon Kirsch <brandonkirsch@github.com>
  - Branko Kokanovic <branko@kokanovic.org>
  - Brice Maron <brice@bmaron.net>
+ - Byron Marohn <combustible@live.com>
  - CRA Yoshihito Nakatani <yoshihito.nakatani@craftsman-software.com>
  - Carl Csaposs <carl@csaposs.com>
  - Carl Schwan <carl@carlschwan.eu>
@@ -82,6 +89,7 @@
  - Christian Berendt <berendt@b1-systems.de>
  - Christian Jürges <christian@eqipe.ch>
  - Christian Kampka <christian@kampka.net>
+ - Christian Oliff <christianoliff@yahoo.com>
  - Christian Weiske <cweiske@cweiske.de>
  - Christoph Schaefer "christophł@wolkesicher.de"
  - Christoph Seitz <christoph.seitz@posteo.de>
@@ -124,7 +132,9 @@
  - Eric Masseran <rico.masseran@gmail.com>
  - Erik van Velzen <erik@evanv.nl>
  - Evgeny Golyshev <eugulixes@gmail.com>
+ - Fabien Potencier <fabien@symfony.com>
  - Fabrizio Steiner <fabrizio.steiner@gmail.com>
+ - Faraz Samapoor <f.samapoor@gmail.com>
  - Felix Epp <work@felixepp.de>
  - Felix Heidecke <felix@heidecke.me>
  - Felix Moeller <mail@felixmoeller.de>
@@ -138,6 +148,7 @@
  - Florian Schunk <florian.schunk@rwth-aachen.de>
  - Florin Peter <github@florin-peter.de>
  - Fon E. Noel NFEBE <opensource@nfebe.com>
+ - Frank Isemann <frank@isemann.name>
  - Frank Karlitschek <frank@karlitschek.de>
  - François Freitag <mail@franek.fr>
  - François Kubler <francois@kubler.org>
@@ -165,6 +176,7 @@
  - Ilya Apasov <apasov@users.noreply.github.com>
  - Immanuel Pasanec <immanuel.pasanec@compaso.de>
  - Individual IT Services <info@individual-it.net>
+ - Informatyka Boguslawski sp. z o.o. sp.k., http://www.ib.pl/
  - Iscle <albertiscle9@gmail.com>
  - J0WI <J0WI@users.noreply.github.com>
  - Jaakko Salo <jaakkos@gmail.com>
@@ -173,11 +185,13 @@
  - Jakub Onderka <ahoj@jakubonderka.cz>
  - James Guo <i@ze3kr.com>
  - Jan C. Borchardt <hey@jancborchardt.net>
+ - James Letendre <James.Letendre@gmail.com>
  - Jan Messer <jan@mtec-studios.ch>
  - Jan-Christoph Borchardt <hey@jancborchardt.net>
  - Jan-Philipp Litza <jpl@plutex.de>
  - Jan-Philipp Litza <jplitza@users.noreply.github.com>
  - JanBartels <j.bartels@arcor.de>
+ - Jared Boone <jared.boone@gmail.com>
  - Jarkko Lehtoranta <devel@jlranta.com>
  - Jasper Weyne <jasperweyne@gmail.com>
  - Jean-Louis Dupond <jean-louis@dupond.be>
@@ -204,7 +218,6 @@
  - Jose Quinteiro <github@quinteiro.org>
  - Josh Richards <josh.t.richards@gmail.com>
  - Joshua Trees <me@jtrees.io>
- - Juan Pablo Villafañez <jvillafanez@solidgear.es>
  - Juan Pablo Villafáñez <jvillafanez@solidgear.es>
  - Julien Lutran <julien.lutran@corp.ovh.com>
  - Julien Veyssier <eneiluj@posteo.net>
@@ -216,8 +229,10 @@
  - KB7777 <k.burkowski@gmail.com>
  - Kamil Domanski <kdomanski@kdemail.net>
  - Karel Hink <info@karelhink.cz>
+ - Kate Döen <kate.doeen@nextcloud.com>
  - Kawohl <john@owncloud.com>
  - Kenneth Newwood <kenneth@newwood.name>
+ - Kevin Lanni <therealklanni@gmail.com>
  - Kevin Ndung'u <kevgathuku@gmail.com>
  - Kevin Niehage <k.niehage@syseleven.de>
  - Kirill Popov <kirill.s.popov@gmail.com>
@@ -273,6 +288,7 @@
  - Martin Konrad <info@martin-konrad.net>
  - Martin Konrad <konrad@frib.msu.edu>
  - Martin Mattel <martin.mattel@diemattels.at>
+ - Marvin Thomas Rabe <mrabe@marvinrabe.de>
  - Masaki Kawabata Neto <masaki.kawabata@gmail.com>
  - MasterOfDeath <rinat.gumirov@mail.ru>
  - Matthew Setter <matthew@matthewsetter.com>
@@ -321,6 +337,7 @@
  - Nils <git@to.nilsschnabel.de>
  - Nils Wittenbrink <nilswittenbrink@web.de>
  - Nina Pypchenko <22447785+nina-py@users.noreply.github.com>
+ - Nmz <nemesiz@nmz.lt>
  - NoSleep82 <52562874+NoSleep82@users.noreply.github.com>
  - Noveen Sachdeva <noveen.sachdeva@research.iiit.ac.in>
  - Ole Ostergaard <ole.c.ostergaard@gmail.com>
@@ -350,6 +367,7 @@
  - Piotr Filiciak <piotr@filiciak.pl>
  - Piotr M <mrow4a@yahoo.com>
  - Piotr Mrowczynski <mrow4a@yahoo.com>
+ - Piotr Mrowczynski <piotr@owncloud.com>
  - Piotr Mrówczyński <mrow4a@yahoo.com>
  - Pytal <24800714+Pytal@users.noreply.github.com>
  - Qingping Hou <dave2008713@gmail.com>
@@ -394,6 +412,7 @@
  - Sascha Wiswedel <sascha.wiswedel@nextcloud.com>
  - Scott Dutton <exussum12@users.noreply.github.com>
  - Scott Dutton <scott@exussum.co.uk>
+ - Scott Shambarger <devel@shambarger.net>
  - Sean Comeau <sean@ftlnetworks.ca>
  - Sean Molenaar <sean@seanmolenaar.eu>
  - Sebastian Döll <sebastian.doell@libasys.de>
@@ -425,6 +444,7 @@
  - Stefan Weil <sw@weilnetz.de>
  - Steffen Lindner <mail@steffen-lindner.de>
  - Stephan Müller <mail@stephanmueller.eu>
+ - Stephan Orbaugh <stephan.orbaugh@nextcloud.com>
  - Stephan Peijnik <speijnik@anexia-it.com>
  - Stephen Cuppett <steve@cuppett.com>
  - Steven Bühner <buehner@me.com>
@@ -469,6 +489,7 @@
  - Victor Dubiniuk <dubiniuk@owncloud.com>
  - Viktor Szépe <viktor@szepe.net>
  - Vincent Chan <plus.vincchan@gmail.com>
+ - Vincent Petry <pvince81@owncloud.com>
  - Vincent Petry <vincent@nextcloud.com>
  - Vincent Van Houtte <vvh@aplusv.be>
  - Vinicius Cubas Brand <vinicius@eita.org.br>
@@ -515,8 +536,10 @@
  - fnuesse <felix.nuesse@t-online.de>
  - fnuesse <fnuesse@techfak.uni-bielefeld.de>
  - greta <gretadoci@gmail.com>
+ - helix84 <helix84@centrum.sk>
  - hkjolhede <hkjolhede@gmail.com>
  - hoellen <dev@hoellen.eu>
+ - hosting.de, Johannes Leuker <developers@hosting.de>
  - howardZa <33491519+howardZa@users.noreply.github.com>
  - ideaship <ideaship@users.noreply.github.com>
  - j-ed <juergen@eisfair.org>
@@ -581,6 +604,9 @@
  - zorn-v <zorn7@yandex.ru>
  - zulan <git@zulan.net>
  - Łukasz Buśko <busko.lukasz@pm.me>
+ - Nextcloud GmbH
+ - ownCloud GmbH
+ - ownCloud, Inc.
 
 With help from many libraries and frameworks including:
 	Open Collaboration Services
