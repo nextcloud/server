@@ -90,12 +90,12 @@ class Share implements IShare {
 	private $mailSend;
 	/** @var string */
 	private $label = '';
-
 	/** @var ICacheEntry|null */
 	private $nodeCacheEntry;
-
 	/** @var bool */
 	private $hideDownload = false;
+
+	private bool $noExpirationDate = false;
 
 	public function __construct(
 		private IRootFolder $rootFolder,
@@ -419,6 +419,21 @@ class Share implements IShare {
 	 */
 	public function getExpirationDate() {
 		return $this->expireDate;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function setNoExpirationDate(bool $noExpirationDate) {
+		$this->noExpirationDate = $noExpirationDate;
+		return $this;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getNoExpirationDate(): bool {
+		return $this->noExpirationDate;
 	}
 
 	/**
