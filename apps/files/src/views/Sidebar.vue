@@ -335,7 +335,8 @@ export default {
 
 		getPreviewIfAny(fileInfo) {
 			if (fileInfo?.hasPreview && !this.isFullScreen) {
-				return generateUrl(`/core/preview?fileId=${fileInfo.id}&x=${screen.width}&y=${screen.height}&a=true`)
+				const etag = fileInfo?.etag || ''
+				return generateUrl(`/core/preview?fileId=${fileInfo.id}&x=${screen.width}&y=${screen.height}&a=true&v=${etag.slice(0, 6)}`)
 			}
 			return this.getIconUrl(fileInfo)
 		},
