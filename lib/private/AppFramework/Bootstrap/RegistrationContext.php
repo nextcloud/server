@@ -81,6 +81,9 @@ class RegistrationContext {
 	/** @var EventListenerRegistration[] */
 	private $eventListeners = [];
 
+	/** @var WebhookEventListenerRegistration[] */
+	private $webhookEventListeners = [];
+
 	/** @var MiddlewareRegistration[] */
 	private $middlewares = [];
 
@@ -218,6 +221,17 @@ class RegistrationContext {
 					$event,
 					$listener,
 					$priority
+				);
+			}
+
+			public function registerWebhookEventListener(string $event, string $method, string $listenerUri, array $options = [], int $priority = 0): void {
+				$this->context->registerWebhookEventListener(
+					$this->appId,
+					$event,
+					$method,
+					$listenerUri,
+					$options,
+					$priority,
 				);
 			}
 
@@ -451,6 +465,10 @@ class RegistrationContext {
 		$this->eventListeners[] = new EventListenerRegistration($appId, $event, $listener, $priority);
 	}
 
+	public function registerWebhookEventListener(string $appId, string $event, string $method, string $listenerUri, array $options, int $priority = 0): void {
+		$this->webhookEventListeners[] = new WebhookEventListenerRegistration($appId, $event, $method, $listenerUri, $options, $priority);
+	}
+
 	/**
 	 * @psalm-param class-string<Middleware> $class
 	 */
@@ -670,6 +688,20 @@ class RegistrationContext {
 			} catch (Throwable $e) {
 				$appId = $registration->getAppId();
 				$this->logger->error("Error during event listener registration of $appId: " . $e->getMessage(), [
+					'exception' => $e,
+				]);
+			}
+		}
+		while (($registration = array_shift($this->webhookEventListeners)) !== null) {
+			try {
+				$eventDispatcher->addListener(
+					$registration->getEvent(),
+					$registration->getCallable(),
+					$registration->getPriority()
+				);
+			} catch (Throwable $e) {
+				$appId = $registration->getAppId();
+				$this->logger->error("Error during event webhook listener registration of $appId: " . $e->getMessage(), [
 					'exception' => $e,
 				]);
 			}
