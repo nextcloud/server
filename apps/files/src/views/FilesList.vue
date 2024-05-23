@@ -116,10 +116,12 @@
 </template>
 
 <script lang="ts">
-import type { Route } from 'vue-router'
-import type { Upload } from '@nextcloud/upload'
-import type { UserConfig } from '../types.ts'
 import type { View, ContentsWithRoot } from '@nextcloud/files'
+import type { Upload } from '@nextcloud/upload'
+import type { CancelablePromise } from 'cancelable-promise'
+import type { Order } from 'natural-orderby'
+import type { Route } from 'vue-router'
+import type { UserConfig } from '../types.ts'
 
 import { getCapabilities } from '@nextcloud/capabilities'
 import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
@@ -204,6 +206,9 @@ export default defineComponent({
 			userConfigStore,
 			viewConfigStore,
 			enableGridView,
+
+			// non reactive data
+			Type,
 		}
 	},
 
@@ -211,24 +216,33 @@ export default defineComponent({
 		return {
 			filterText: '',
 			loading: true,
-			promise: null,
-			Type,
+			promise: null as CancelablePromise<ContentsWithRoot> | Promise<ContentsWithRoot> | null,
 
-			_unsubscribeStore: () => {},
+			unsubscribeStoreCallback: () => {},
 		}
 	},
 
 	computed: {
+		/**
+		 * Handle search event from unified search.
+		 */
+		onSearch() {
+			return debounce((searchEvent: { query: string }) => {
+				console.debug('Files app handling search event from unified search...', searchEvent)
+				this.filterText = searchEvent.query
+			}, 500)
+		},
+
 		userConfig(): UserConfig {
 			return this.userConfigStore.userConfig
 		},
 
 		currentView(): View {
-			return this.$navigation.active || this.$navigation.views.find((view) => view.id === (this.$route.params?.view ?? 'files'))
+			return this.$navigation.active || this.$navigation.views.find((view) => view.id === (this.$route.params?.view ?? 'files'))!
 		},
 
 		pageHeading(): string {
-			return this.currentView?.name ?? this.t('files', 'Files')
+			return this.currentView?.name ?? t('files', 'Files')
 		},
 
 		/**
@@ -251,7 +265,11 @@ export default defineComponent({
 				return this.filesStore.getRoot(this.currentView.id)
 			}
 			const fileId = this.pathsStore.getPath(this.currentView.id, this.dir)
-			return this.filesStore.getNode(fileId)
+			if (fileId === undefined) {
+				return
+			}
+
+			return this.filesStore.getNode(fileId) as Folder
 		},
 
 		/**
@@ -284,7 +302,7 @@ export default defineComponent({
 				this.isAscSorting ? 'asc' : 'desc',
 				// for 5: use configured sorting direction
 				this.isAscSorting ? 'asc' : 'desc',
-			]
+			] as Order[]
 			return [identifiers, orders] as const
 		},
 
@@ -367,13 +385,13 @@ export default defineComponent({
 		},
 		shareButtonLabel() {
 			if (!this.shareAttributes) {
-				return this.t('files', 'Share')
+				return t('files', 'Share')
 			}
 
 			if (this.shareButtonType === Type.SHARE_TYPE_LINK) {
-				return this.t('files', 'Shared by link')
+				return t('files', 'Shared by link')
 			}
-			return this.t('files', 'Shared')
+			return t('files', 'Shared')
 		},
 		shareButtonType(): Type | null {
 			if (!this.shareAttributes) {
@@ -390,8 +408,8 @@ export default defineComponent({
 
 		gridViewButtonLabel() {
 			return this.userConfig.grid_view
-				? this.t('files', 'Switch to list view')
-				: this.t('files', 'Switch to grid view')
+				? t('files', 'Switch to list view')
+				: t('files', 'Switch to grid view')
 		},
 
 		/**
@@ -405,9 +423,9 @@ export default defineComponent({
 		},
 		cantUploadLabel() {
 			if (this.isQuotaExceeded) {
-				return this.t('files', 'Your have used your space quota and cannot upload files anymore')
+				return t('files', 'Your have used your space quota and cannot upload files anymore')
 			}
-			return this.t('files', 'You don’t have permission to upload or create files here')
+			return t('files', 'You don’t have permission to upload or create files here')
 		},
 
 		/**
@@ -457,14 +475,14 @@ export default defineComponent({
 		subscribe('nextcloud:unified-search.reset', this.onSearch)
 
 		// reload on settings change
-		this._unsubscribeStore = this.userConfigStore.$subscribe(() => this.fetchContent(), { deep: true })
+		this.unsubscribeStoreCallback = this.userConfigStore.$subscribe(() => this.fetchContent(), { deep: true })
 	},
 
 	unmounted() {
 		unsubscribe('files:node:updated', this.onUpdatedNode)
 		unsubscribe('nextcloud:unified-search.search', this.onSearch)
 		unsubscribe('nextcloud:unified-search.reset', this.onSearch)
-		this._unsubscribeStore()
+		this.unsubscribeStoreCallback()
 	},
 
 	methods: {
@@ -481,7 +499,7 @@ export default defineComponent({
 			}
 
 			// If we have a cancellable promise ongoing, cancel it
-			if (typeof this.promise?.cancel === 'function') {
+			if (this.promise && 'cancel' in this.promise) {
 				this.promise.cancel()
 				logger.debug('Cancelled previous ongoing fetch')
 			}
@@ -509,14 +527,15 @@ export default defineComponent({
 						this.pathsStore.addPath({ service: currentView.id, fileid: folder.fileid, path: dir })
 					} else {
 						// If we're here, the view API messed up
-						logger.error('Invalid root folder returned', { dir, folder, currentView })
+						logger.fatal('Invalid root folder returned', { dir, folder, currentView })
 					}
 				}
 
 				// Update paths store
 				const folders = contents.filter(node => node.type === 'folder')
-				folders.forEach(node => {
-					this.pathsStore.addPath({ service: currentView.id, fileid: node.fileid, path: join(dir, node.basename) })
+				folders.forEach((node) => {
+					// Folders from API always have the fileID set
+					this.pathsStore.addPath({ service: currentView.id, fileid: node.fileid!, path: join(dir, node.basename) })
 				})
 			} catch (error) {
 				logger.error('Error while fetching content', { error })
@@ -559,13 +578,13 @@ export default defineComponent({
 
 			// Check known status codes
 			if (status === 507) {
-				showError(this.t('files', 'Not enough free space'))
+				showError(t('files', 'Not enough free space'))
 				return
 			} else if (status === 404 || status === 409) {
-				showError(this.t('files', 'Target folder does not exist any more'))
+				showError(t('files', 'Target folder does not exist any more'))
 				return
 			} else if (status === 403) {
-				showError(this.t('files', 'Operation is blocked by access control'))
+				showError(t('files', 'Operation is blocked by access control'))
 				return
 			}
 
@@ -587,11 +606,11 @@ export default defineComponent({
 
 			// Finally, check the status code if we have one
 			if (status !== 0) {
-				showError(this.t('files', 'Error during upload, status code {status}', { status }))
+				showError(t('files', 'Error during upload, status code {status}', { status }))
 				return
 			}
 
-			showError(this.t('files', 'Unknown error during upload'))
+			showError(t('files', 'Unknown error during upload'))
 		},
 
 		/**
@@ -604,15 +623,6 @@ export default defineComponent({
 				this.fetchContent()
 			}
 		},
-		/**
-		 * Handle search event from unified search.
-		 *
-		 * @param searchEvent is event object.
-		 */
-		onSearch: debounce(function(searchEvent) {
-			console.debug('Files app handling search event from unified search...', searchEvent)
-			this.filterText = searchEvent.query
-		}, 500),
 
 		/**
 		 * Reset the search query
