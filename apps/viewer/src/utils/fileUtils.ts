@@ -61,7 +61,8 @@ const sortCompare = function(fileInfo1, fileInfo2, key, asc = true) {
 
 	// if this is a number, let's sort by integer
 	if (isNumber(fileInfo1[key]) && isNumber(fileInfo2[key])) {
-		return Number(fileInfo1[key]) - Number(fileInfo2[key])
+		const result = Number(fileInfo1[key]) - Number(fileInfo2[key])
+		return asc ? result : -result
 	}
 
 	// else we sort by string, so let's sort directories first
@@ -70,7 +71,11 @@ const sortCompare = function(fileInfo1, fileInfo2, key, asc = true) {
 	} else if (fileInfo1.type !== 'directory' && fileInfo2.type === 'directory') {
 		return 1
 	}
-
+	// sort by date if key is lastmod
+	if (key === 'lastmod') {
+		const result = new Date(fileInfo1[key]).getTime() - new Date(fileInfo2[key]).getTime()
+		return asc ? -result : result
+	}
 	// finally sort by name
 	return asc
 		? fileInfo1[key].localeCompare(fileInfo2[key], OC.getLanguage(), { numeric: true })
