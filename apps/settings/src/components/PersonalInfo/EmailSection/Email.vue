@@ -356,6 +356,9 @@ export default {
 		handleDeleteAdditionalEmail(status) {
 			if (status === 'ok') {
 				this.$emit('delete-additional-email')
+				if (this.isNotificationEmail) {
+					this.$emit('update:notification-email', '')
+				}
 			} else {
 				this.handleResponse({
 					errorMessage: t('settings', 'Unable to delete additional email address'),
