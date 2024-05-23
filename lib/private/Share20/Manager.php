@@ -45,7 +45,6 @@ use OC\Files\Mount\MoveableMount;
 use OC\KnownUser\KnownUserService;
 use OC\Share20\Exception\ProviderException;
 use OCA\Files_Sharing\AppInfo\Application;
-use OCA\Files_Sharing\ISharedStorage;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
 use OCP\Files\Folder;
@@ -296,56 +295,15 @@ class Manager implements IManager {
 			throw new \InvalidArgumentException('A share requires permissions');
 		}
 
-		$isFederatedShare = $share->getNode()->getStorage()->instanceOfStorage('\OCA\Files_Sharing\External\Storage');
 		$permissions = 0;
-		
-		$isReshare = $share->getNode()->getOwner() && $share->getNode()->getOwner()->getUID() !== $share->getSharedBy();
-		if (!$isReshare && $isUpdate) {
-			// in case of update on owner-less filesystem, we use share owner to improve reshare detection
-			$isReshare = $share->getShareOwner() !== $share->getSharedBy();
-		}
-
-		if (!$isFederatedShare && $isReshare) {
-			$userMounts = array_filter($userFolder->getById($share->getNode()->getId()), function ($mount) {
-				// We need to filter since there might be other mountpoints that contain the file
-				// e.g. if the user has access to the same external storage that the file is originating from
-				return $mount->getStorage()->instanceOfStorage(ISharedStorage::class);
-			});
-			$userMount = array_shift($userMounts);
-			if ($userMount === null) {
-				throw new GenericShareException('Could not get proper share mount for ' . $share->getNode()->getId() . '. Failing since else the next calls are called with null');
-			}
-			$mount = $userMount->getMountPoint();
-			// When it's a reshare use the parent share permissions as maximum
-			$userMountPointId = $mount->getStorageRootId();
-			$userMountPoints = $userFolder->getById($userMountPointId);
-			$userMountPoint = array_shift($userMountPoints);
-
-			if ($userMountPoint === null) {
-				throw new GenericShareException('Could not get proper user mount for ' . $userMountPointId . '. Failing since else the next calls are called with null');
-			}
-
-			/* Check if this is an incoming share */
-			$incomingShares = $this->getSharedWith($share->getSharedBy(), IShare::TYPE_USER, $userMountPoint, -1, 0);
-			$incomingShares = array_merge($incomingShares, $this->getSharedWith($share->getSharedBy(), IShare::TYPE_GROUP, $userMountPoint, -1, 0));
-			$incomingShares = array_merge($incomingShares, $this->getSharedWith($share->getSharedBy(), IShare::TYPE_CIRCLE, $userMountPoint, -1, 0));
-			$incomingShares = array_merge($incomingShares, $this->getSharedWith($share->getSharedBy(), IShare::TYPE_ROOM, $userMountPoint, -1, 0));
-
-			/** @var IShare[] $incomingShares */
-			if (!empty($incomingShares)) {
-				foreach ($incomingShares as $incomingShare) {
-					$permissions |= $incomingShare->getPermissions();
-				}
-			}
-		} else {
-			/*
-			 * Quick fix for #23536
-			 * Non moveable mount points do not have update and delete permissions
-			 * while we 'most likely' do have that on the storage.
-			 */
-			$permissions = $share->getNode()->getPermissions();
-			if (!($share->getNode()->getMountPoint() instanceof MoveableMount)) {
-				$permissions |= \OCP\Constants::PERMISSION_DELETE | \OCP\Constants::PERMISSION_UPDATE;
+		$nodesForUser = $userFolder->getById($share->getNodeId());
+		foreach ($nodesForUser as $node) {
+			if ($node->getInternalPath() === '' && !$node->getMountPoint() instanceof MoveableMount) {
+				// for the root of non-movable mount, the permissions we see if limited by the mount itself,
+				// so we instead use the "raw" permissions from the storage
+				$permissions |= $node->getStorage()->getPermissions('');
+			} else {
+				$permissions |= $node->getPermissions();
 			}
 		}
 
