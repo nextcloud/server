@@ -1354,6 +1354,15 @@
                 ],
                 "parameters": [
                     {
+                        "name": "search",
+                        "in": "query",
+                        "description": "Text to search for",
+                        "schema": {
+                            "type": "string",
+                            "default": ""
+                        }
+                    },
+                    {
                         "name": "limit",
                         "in": "query",
                         "description": "Limit the amount of users returned",

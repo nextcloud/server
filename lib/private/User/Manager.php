@@ -333,7 +333,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	/**
 	 * @return IUser[]
 	 */
-	public function getDisabledUsers(?int $limit = null, int $offset = 0): array {
+	public function getDisabledUsers(?int $limit = null, int $offset = 0, string $search = ''): array {
 		$users = $this->config->getUsersForUserValue('core', 'enabled', 'false');
 		$users = array_combine(
 			$users,
@@ -342,6 +342,15 @@ class Manager extends PublicEmitter implements IUserManager {
 				$users
 			)
 		);
+		if ($search !== '') {
+			$users = array_filter(
+				$users,
+				fn (IUser $user): bool =>
+					mb_stripos($user->getUID(), $search) !== false ||
+					mb_stripos($user->getDisplayName(), $search) !== false ||
+					mb_stripos($user->getEMailAddress() ?? '', $search) !== false,
+			);
+		}
 
 		$tempLimit = ($limit === null ? null : $limit + $offset);
 		foreach ($this->backends as $backend) {
@@ -349,7 +358,7 @@ class Manager extends PublicEmitter implements IUserManager {
 				break;
 			}
 			if ($backend instanceof IProvideEnabledStateBackend) {
-				$backendUsers = $backend->getDisabledUserList(($tempLimit === null ? null : $tempLimit - count($users)));
+				$backendUsers = $backend->getDisabledUserList(($tempLimit === null ? null : $tempLimit - count($users)), 0, $search);
 				foreach ($backendUsers as $uid) {
 					$users[$uid] = new LazyUser($uid, $this, null, $backend);
 				}
