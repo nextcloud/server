@@ -93,12 +93,12 @@ class Signer {
 			$user = $this->userManager->get($userId);
 			if ($user !== null) {
 				$key = $this->keyManager->getKey($user);
-				return (bool)openssl_verify(
+				return openssl_verify(
 					json_encode($data['message']),
 					base64_decode($data['signature']),
 					$key->getPublic(),
 					OPENSSL_ALGO_SHA512
-				);
+				) === 1;
 			}
 		}
 
