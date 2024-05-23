@@ -653,6 +653,13 @@
 						context.fileList.showFileBusyState(filename, true);
 						OCA.Files.Files.handleDownload(url, disableLoadingState);
 					}
+				},
+				shouldRender: function(context) {
+					var fileData = context.fileInfoModel
+					if (_.isFunction(fileData.canDownload) && !fileData.canDownload()) {
+						return false;
+					}
+					return true;
 				}
 			});
 
@@ -707,6 +714,13 @@
 							}
 							context.fileList.dirInfo.dirLastCopiedTo = targetPath;
 						}, false, "httpd/unix-directory", true, actions, dialogDir);
+				},
+				shouldRender: function(context) {
+					var fileData = context.fileInfoModel
+					if (_.isFunction(fileData.canDownload) && !fileData.canDownload()) {
+						return false;
+					}
+					return true;
 				}
 			});
 

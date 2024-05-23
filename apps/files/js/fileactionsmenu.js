@@ -82,6 +82,12 @@
 			var defaultAction = fileActions.getCurrentDefaultFileAction();
 
 			var items = _.filter(actions, function(actionSpec) {
+				if (actionSpec.shouldRender) {
+					if (!actionSpec.shouldRender(self._context)) {
+						return false;
+					}
+				}
+
 				return !defaultAction || actionSpec.name !== defaultAction.name;
 			});
 			items = _.map(items, function(item) {
