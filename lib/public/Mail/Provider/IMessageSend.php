@@ -29,17 +29,18 @@ use OCP\Mail\Provider\IMessage;
 /**
  * Mail Message Send Interface
  * 
- * This interface is used for extending the IService interface with specific functionality
+ * This interface is the required set of methods and functionality used to extend IService with message sending functionality
  * 
  * @since 30.0.0
  */
 interface IMessageSend {
 
 	/**
-	 * Send a message 
+	 * Sends an outbound message 
 	 * 
 	 * @since 30.0.0
-	 * @param IMessage $message
+	 * @param IMessage $message			mail message object with all required parameters to send a message
+	 * @param array $options			array of options reserved for future use
 	 */
 	public function messageSend(IMessage $message, array $option = []): void;
 

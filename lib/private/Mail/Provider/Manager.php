@@ -29,6 +29,7 @@ use OCP\IConfig;
 use OCP\IServerContainer;
 use OCP\Mail\Provider\IManager;
 use OCP\Mail\Provider\IProvider;
+use OCP\Mail\Provider\IService;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
@@ -36,6 +37,8 @@ use Throwable;
 
 class Manager implements IManager {
 	
+	protected ?array $providersCollection = null;
+
 	public function __construct(
 		private Coordinator $coordinator,
 		private ContainerInterface $container,
@@ -43,24 +46,24 @@ class Manager implements IManager {
 	) {
 	}
 
-	public function register($provider): void {
+	public function register(IProvider $provider): void {
 
 		// add provider to internal collection
-		$this->_providers[$provider->id()] = $provider;
+		$this->providersCollection[$provider->id()] = $provider;
 		
 	}
 
 	public function has(): bool {
 
 		// return true if collection has any providers
-		return count($this->_providers) > 0;
+		return count($this->providers()) > 0;
 
 	}
 
 	public function count(): int {
 
 		// return count of providers in collection
-		return count($this->_providers);
+		return count($this->providers());
 
 	}
 
@@ -69,8 +72,8 @@ class Manager implements IManager {
 		// construct types collection
 		$types = [];
 		// extract id and name from providers collection
-		foreach ($this->_providers as $entry) {
-			$types[$entry->id()] = $entry->name(); 
+		foreach ($this->providers() as $entry) {
+			$types[$entry->id()] = $entry->label(); 
 		}
 		// return types collection
 		return $types;
@@ -79,26 +82,32 @@ class Manager implements IManager {
 
 	public function providers(): array {
 
+		// evaluate if we already have a cached collection of providers and return the collection if we do
+		if (is_array($this->providersCollection)) {
+			return $this->providersCollection;
+		}
+		// retrieve server registration context
 		$context = $this->coordinator->getRegistrationContext();
-
+		// evaluate if registration context was returned
 		if ($context === null) {
 			return [];
 		}
-
-		$providers = [];
-
+		// initilize cached collection
+		$this->providersCollection = [];
+		// iterate through all registered mail providers
 		foreach ($context->getMailProviders() as $entry) {
 			try {
 				/** @var IMailProvider $provider */
-				$providers[] = $this->container->get($entry->getService());
+				$this->providersCollection[] = $this->container->get($entry->getService());
 			} catch (Throwable $e) {
 				$this->logger->error('Could not load mail provider ' . $entry->getService() . ': ' . $e->getMessage(), [
 					'exception' => $e,
 				]);
 			}
 		}
+		// return mail provider collection
+		return $this->providersCollection;
 
-		return $providers;
 	}
 
 	public function services(string $uid): array {
@@ -115,14 +124,14 @@ class Manager implements IManager {
 		
 	}
 
-	public function findService(string $uid, string $address) {
+	public function findService(string $uid, string $address): IService | null {
 		
 		// retrieve and iterate through mail providers
 		foreach ($this->providers() as $provider) {
 			// retrieve and iterate through mail services
 			foreach ($provider->listServices($uid) as $service) {
 				// evaluate if primary mail address matches
-				if ($service->getPrimaryAddress() == $address) {
+				if ($service->getPrimaryAddress()->getAddress() == $address) {
 					return $service;
 				}
 			}
@@ -131,6 +140,4 @@ class Manager implements IManager {
 		return null;
 
 	}
-
-	
 }

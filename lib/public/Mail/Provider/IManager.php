@@ -24,8 +24,12 @@ declare(strict_types=1);
 */
 namespace OCP\Mail\Provider;
 
+use OCP\Mail\Provider\IProvider;
+
 /**
  * Mail Provider Manager Interface
+ * 
+ * This interface is a base requirement of methods and functionality used to construct a mail provider manager object
  * 
  * @since 30.0.0
  */
@@ -36,12 +40,13 @@ interface IManager {
 	 * 
 	 * @since 30.0.0
 	 */
-	public function register($provider): void;
+	public function register(IProvider $value): void;
 
 	/**
 	 * Determain if any mail providers are registered
 	 * 
 	 * @since 30.0.0
+	 * @return bool
 	 */
 	public function has(): bool;
 
@@ -49,6 +54,7 @@ interface IManager {
 	 * Retrieve a count of how many mail providers are registered
 	 * 
 	 * @since 30.0.0
+	 * @return int
 	 */
 	public function count(): int;
 
@@ -56,6 +62,7 @@ interface IManager {
 	 * Retrieve which mail providers are registered
 	 * 
 	 * @since 30.0.0
+	 * @return array<int,String>
 	 */
 	public function types(): array;
 
@@ -63,6 +70,7 @@ interface IManager {
 	 * Retrieve all registered mail providers
 	 * 
 	 * @since 30.0.0
+	 * @return array<int,IProvider>
 	 */
 	public function providers(): array;
 
@@ -70,14 +78,20 @@ interface IManager {
 	 * Retrieve all services for all registered mail providers
 	 * 
 	 * @since 30.0.0
+	 * @param string $uid				user id
+	 * @return array<int,IService>		returns collection of service objects or null if non found
 	 */
 	public function services(string $uid): array;
 
 	/**
 	 * Retrieve a service for a specific mail address
+	 * returns first service with specific primary address
 	 * 
 	 * @since 30.0.0
+	 * @param string $uid				user id
+	 * @param string $address			mail address (e.g. test@example.com)
+	 * @return IService					returns service object or null if non found
 	 */
-	public function findService(string $uid, string $address);
+	public function findService(string $uid, string $address): IService | null;
 
 }

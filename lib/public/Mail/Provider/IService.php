@@ -27,7 +27,7 @@ namespace OCP\Mail\Provider;
 /**
  * Mail Service Interface
  * 
- * This interface is used for defining individual services that are configured for a provider
+ * This interface is a base requirement of methods and functionality used to construct a mail service object
  * 
  * @since 30.0.0
  */
@@ -45,7 +45,7 @@ interface IService {
 	 * gets the localized human frendly name of this service
 	 * 
 	 * @since 30.0.0
-	 * @return string			label/name of service (e.g. ACME Company Mail Service)
+	 * @return string						label/name of service (e.g. ACME Company Mail Service)
 	 */
 	public function getLabel(): string;
 
@@ -53,40 +53,72 @@ interface IService {
 	 * sets the localized human frendly name of this service
 	 * 
 	 * @since 30.0.0
-	 * @param string $value		label/name of service (e.g. ACME Company Mail Service)
+	 * @param string $value					label/name of service (e.g. ACME Company Mail Service)
 	 */
-	public function setLabel(string $value);
+	public function setLabel(string $value): self;
 
 	/**
-	 * get service itentity
+	 * gets service itentity
 	 * 
 	 * @since 30.0.0
 	 * @return IServiceIdentity				service identity object
 	 */
-	public function getIdentity(): IServiceIdentity;
+	public function getIdentity(): IServiceIdentity | null;
 
 	/**
-	 * set service identity
+	 * sets service identity
 	 * 
 	 * @since 30.0.0
 	 * @param IServiceIdentity $identity	service identity object
 	 */
-	public function setIdentity(IServiceIdentity $identity);
+	public function setIdentity(IServiceIdentity $identity): self;
 
 	/**
-	 * get service location
+	 * gets service location
 	 * 
 	 * @since 30.0.0
 	 * @return IServiceLocation				service location object
 	 */
-	public function getLocation(): IServiceLocation;
+	public function getLocation(): IServiceLocation | null;
 
 	/**
-	 * set service location
+	 * sets service location
 	 * 
 	 * @since 30.0.0
 	 * @param IServiceLocation $location	service location object
 	 */
-	public function setLocation(IServiceLocation $location);
+	public function setLocation(IServiceLocation $location): self;
+
+	/**
+	 * gets the primary mailing address for this service
+	 * 
+	 * @since 30.0.0
+	 * @return IAddress						mail address object
+	 */
+	public function getPrimaryAddress(): IAddress;
+
+	/**
+	 * sets the primary mailing address for this service
+	 * 
+	 * @since 30.0.0
+	 * @param IAddress $value				mail address object
+	 */
+	public function setPrimaryAddress(IAddress $value): self;
+
+	/**
+	 * gets the secondary mailing addresses (aliases) collection for this service
+	 * 
+	 * @since 30.0.0
+	 * @return array<int, IAddress[]>		collection of mail address objects
+	 */
+	public function getSecondaryAddress(): array | null;
+
+	/**
+	 * sets the secondary mailing addresses (aliases) for this service
+	 * 
+	 * @since 30.0.0
+	 * @param IAddress[]|...IAddress $value		collection of or one or more mail address objects
+	 */
+	public function setSecondaryAddress(IAddress ...$value): self;
 
 }

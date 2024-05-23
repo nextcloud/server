@@ -24,54 +24,81 @@ declare(strict_types=1);
 */
 namespace OCP\Mail\Provider;
 
+/**
+ * Mail Attachment Interface
+ * 
+ * This interface is used for defining individual attachments that are attached to a message
+ * 
+ * @since 30.0.0
+ */
 interface IAttachment {
 
     /**
-	 * @return $this
+	 * sets the attachment file name
+	 * 
 	 * @since 30.0.0
+	 * @param string $value     file name (e.g example.txt)
+	 * @return self				returns the current object
 	 */
 	public function setName(string $value): self;
 
     /**
-	 * @return string | null
+	 * gets the attachment file name
+	 * 
 	 * @since 30.0.0
+	 * @return string | null	returns the attachment file name or null if one is not set
 	 */
 	public function getName(): string | null;
 
 	/**
-	 * @return $this
+	 * sets the attachment mime type
+	 * 
 	 * @since 30.0.0
+	 * @param string $value     mime type (e.g. text/plain)
+	 * @return self				returns the current object
 	 */
 	public function setType(string $value): self;
 
     /**
-	 * @return string | null
+	 * gets the attachment mime type
+	 * 
 	 * @since 30.0.0
+	 * @return string | null	returns the attachment mime type or null if not set
 	 */
 	public function getType(): string | null;
 
 	/**
-	 * @return $this
+	 * sets the attachment contents (actual data)
+	 * 
 	 * @since 30.0.0
+	 * @param string $value     binary contents of file
+	 * @return self				returns the current object
 	 */
 	public function setContents(string $value): self;
 
     /**
-	 * @return string | null
+	 * gets the attachment contents (actual data)
+	 * 
 	 * @since 30.0.0
+	 * @return string | null	returns the attachment contents or null if not set
 	 */
 	public function getContents(): string | null;
 
     /**
-	 * @return $this
+	 * sets the embedded status of the attachment
+	 * 
 	 * @since 30.0.0
+	 * @param bool $value		true - embedded / false - not embedded
+	 * @return self				returns the current object
 	 */
-	public function setInline(bool $value): self;
+	public function setEmbedded(bool $value): self;
 
     /**
-	 * @return string | null
+	 * gets the embedded status of the attachment
+	 * 
 	 * @since 30.0.0
+	 * @return bool			embedded status of the attachment
 	 */
-	public function getInline(): bool | null;
+	public function getEmbedded(): bool;
 
 }

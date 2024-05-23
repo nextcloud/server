@@ -294,17 +294,17 @@ class IMipPlugin extends SabreIMipPlugin {
 			// evaluate if a mail service was found with the correct address
 			if ($service) {
 				// construct mail provider message and set required parameters
-				$message = new \OC\Mail\Provider\Message();
+				$message = new \OCP\Mail\Provider\Message();
 				$message->setFrom(
-					(new \OC\Mail\Provider\Address($sender, $fromName))
+					(new \OCP\Mail\Provider\Address($sender, $fromName))
 				);
 				$message->setTo(
-					(new \OC\Mail\Provider\Address($recipient, $recipientName))
+					(new \OCP\Mail\Provider\Address($recipient, $recipientName))
 				);
 				$message->setSubject($template->renderSubject());
 				$message->setBodyPlain($template->renderText());
 				$message->setBodyHtml($template->renderHtml());
-				$message->setAttachments((new \OC\Mail\Provider\Attachment(
+				$message->setAttachments((new \OCP\Mail\Provider\Attachment(
 					$itip_msg,
 					'event.ics',
 					'text/calendar; method=' . $iTipMessage->method,

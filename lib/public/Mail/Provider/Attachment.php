@@ -22,21 +22,40 @@ declare(strict_types=1);
 * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *
 */
-namespace OC\Mail\Provider;
+namespace OCP\Mail\Provider;
 
+/**
+ * Mail Attachment Object
+ * 
+ * This object is used to define the parameters of a mail attachment
+ * 
+ * @since 30.0.0
+ */
 class Attachment implements \OCP\Mail\Provider\IAttachment {
 
+	/**
+	 * initialize the mail attachment object
+	 * 
+	 * @since 30.0.0
+     * @param string|null $contents		binary contents of file
+     * @param string|null $name			file name (e.g example.txt)
+	 * @param string|null $type			mime type (e.g. text/plain)
+	 * @param string|null $embedded
+	 */
     public function __construct(
         protected ?string $contents,
 		protected ?string $name,
 		protected ?string $type,
-        protected bool $inline = false
+        protected bool $embedded = false
     ) {
     }
 
     /**
-	 * @return $this
+	 * sets the attachment file name
+	 * 
 	 * @since 30.0.0
+	 * @param string $value     file name (e.g example.txt)
+	 * @return self				returns the current object
 	 */
 	public function setName(string $value): self {
 		$this->name = $value;
@@ -44,16 +63,21 @@ class Attachment implements \OCP\Mail\Provider\IAttachment {
     }
 
     /**
-	 * @return string | null
+	 * gets the attachment file name
+	 * 
 	 * @since 30.0.0
+	 * @return string | null	returns the attachment file name or null if not set
 	 */
 	public function getName(): string | null {
 		return $this->name;
 	}
 
 	/**
-	 * @return $this
+	 * sets the attachment mime type
+	 * 
 	 * @since 30.0.0
+	 * @param string $value     mime type (e.g. text/plain)
+	 * @return self				returns the current object
 	 */
 	public function setType(string $value): self {
 		$this->type = $value;
@@ -61,16 +85,21 @@ class Attachment implements \OCP\Mail\Provider\IAttachment {
 	}
 
     /**
-	 * @return string | null
+	 * gets the attachment mime type
+	 * 
 	 * @since 30.0.0
+	 * @return string | null	returns the attachment mime type or null if not set
 	 */
 	public function getType(): string | null {
 		return $this->type;
 	}
 
 	/**
-	 * @return $this
+	 * sets the attachment contents (actual data)
+	 * 
 	 * @since 30.0.0
+	 * @param string $value     binary contents of file
+	 * @return self				returns the current object
 	 */
 	public function setContents(string $value): self {
 		$this->contents = $value;
@@ -78,28 +107,35 @@ class Attachment implements \OCP\Mail\Provider\IAttachment {
 	}
 
     /**
-	 * @return string | null
+	 * gets the attachment contents (actual data)
+	 * 
 	 * @since 30.0.0
+	 * @return string | null	returns the attachment contents or null if not set
 	 */
 	public function getContents(): string | null {
 		return $this->contents;
 	}
 
     /**
-	 * @return $this
+	 * sets the embedded status of the attachment
+	 * 
 	 * @since 30.0.0
+	 * @param bool $value		true - embedded / false - not embedded
+	 * @return self				returns the current object
 	 */
-	public function setInline(bool $value): self {
-		$this->inline = $value;
+	public function setEmbedded(bool $value): self {
+		$this->embedded = $value;
 		return $this;
 	}
 
     /**
-	 * @return string | null
+	 * gets the embedded status of the attachment
+	 * 
 	 * @since 30.0.0
+	 * @return bool			embedded status of the attachment
 	 */
-	public function getInline(): bool | null {
-		return $this->inline;
+	public function getEmbedded(): bool {
+		return $this->embedded;
 	}
 
 }
