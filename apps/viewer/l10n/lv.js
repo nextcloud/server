@@ -4,7 +4,7 @@ OC.L10N.register(
     "Viewer" : "Skatītājs",
     "Simple file viewer with slideshow for media" : "Vienkāršs datņu skatītājs ar slaidrādi multividei",
     "Error loading {name}" : "Kļūda ielādējot {name}",
-    "Edit" : "Rediģēt",
+    "Edit" : "Labot",
     "Open sidebar" : "Atvērt sānjoslu",
     "Download" : "Lejupielādēt",
     "Delete" : "Dzēst",
