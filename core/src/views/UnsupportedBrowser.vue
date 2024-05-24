@@ -130,12 +130,22 @@ export default {
 			// Redirect if there is the data
 			const urlParams = new URLSearchParams(window.location.search)
 			if (urlParams.has('redirect_url')) {
-				const redirectPath = Buffer.from(urlParams.get('redirect_url'), 'base64').toString() || '/'
+				let redirectPath = Buffer.from(urlParams.get('redirect_url'), 'base64').toString() || '/'
+
+				// remove index.php and double slashes
+				redirectPath = redirectPath
+					.replace('index.php', '')
+					.replace(getRootUrl(), '')
+					.replace(/\/\//g, '/')
+
+				// if we have a valid redirect url, use it
 				if (redirectPath.startsWith('/')) {
 					window.location = generateUrl(redirectPath)
 					return
 				}
 			}
+
+			// else redirect to root
 			window.location = generateUrl('/')
 		},
 
