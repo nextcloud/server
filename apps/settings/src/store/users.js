@@ -34,7 +34,7 @@ import { showError } from '@nextcloud/dialogs'
 import { generateOcsUrl, generateUrl } from '@nextcloud/router'
 import axios from '@nextcloud/axios'
 
-import { GroupSorting } from '../constants/GroupManagement.ts'
+import { GroupSorting } from '../constants/UserManagement.ts'
 import api from './api.js'
 import logger from '../logger.ts'
 
@@ -373,6 +373,7 @@ const actions = {
 
 		group = typeof group === 'string' ? group : ''
 		if (group !== '') {
+			// TODO add sort params
 			return api.get(generateOcsUrl('cloud/groups/{group}/users/details?offset={offset}&limit={limit}&search={search}', { group: encodeURIComponent(group), offset, limit, search }), {
 				cancelToken: searchRequestCancelSource.token,
 			})
@@ -390,6 +391,7 @@ const actions = {
 				})
 		}
 
+		// TODO add sort params
 		return api.get(generateOcsUrl('cloud/users/details?offset={offset}&limit={limit}&search={search}', { offset, limit, search }), {
 			cancelToken: searchRequestCancelSource.token,
 		})
@@ -417,6 +419,7 @@ const actions = {
 	 * @return {Promise<number>}
 	 */
 	async getDisabledUsers(context, { offset, limit, search }) {
+		// TODO add sort params
 		const url = generateOcsUrl('cloud/users/disabled?offset={offset}&limit={limit}&search={search}', { offset, limit, search })
 		try {
 			const response = await api.get(url)

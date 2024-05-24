@@ -225,6 +225,9 @@ class UsersController extends Controller {
 			? \OC\Group\MetaData::SORT_GROUPNAME
 			: (int)$this->config->getAppValue('core', 'group.sortBy', (string)\OC\Group\MetaData::SORT_USERCOUNT);
 		$serverData['forceSortGroupByName'] = $forceSortGroupByName;
+		// TODO refactor to IAppConfig
+		$serverData['sortMode'] = $this->config->getAppValue('core', 'user.sortMode', 'userId');
+		$serverData['sortOrder'] = $this->config->getAppValue('core', 'user.sortOrder', 'asc');
 		$serverData['quotaPreset'] = $quotaPreset;
 		$serverData['allowUnlimitedQuota'] = $allowUnlimitedQuota;
 		$serverData['userCount'] = $userCount;
@@ -253,7 +256,12 @@ class UsersController extends Controller {
 	 * @return JSONResponse
 	 */
 	public function setPreference(string $key, string $value): JSONResponse {
-		$allowed = ['newUser.sendEmail', 'group.sortBy'];
+		$allowed = [
+			'newUser.sendEmail',
+			'group.sortBy',
+			'user.sortMode',
+			'user.sortOrder',
+		];
 		if (!in_array($key, $allowed, true)) {
 			return new JSONResponse([], Http::STATUS_FORBIDDEN);
 		}

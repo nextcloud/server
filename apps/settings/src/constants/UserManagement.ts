@@ -27,3 +27,8 @@ export enum GroupSorting {
 	UserCount = 1,
 	GroupName = 2
 }
+
+export enum UserSortMode {
+	UserId = 'userId',
+	LastLogin = 'lastLogin',
+}

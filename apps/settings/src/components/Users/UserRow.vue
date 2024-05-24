@@ -36,7 +36,7 @@
 				:user="user.id" />
 		</td>
 
-		<td class="row__cell row__cell--displayname" data-cy-user-list-cell-displayname>
+		<td class="row__cell row__cell--displayname row__cell--sortable" data-cy-user-list-cell-displayname>
 			<template v-if="editing && user.backendCapabilities.setDisplayName">
 				<NcTextField ref="displayNameField"
 					class="user-row-text-field"
@@ -60,7 +60,7 @@
 			</strong>
 		</td>
 
-		<td class="row__cell row__cell--username" data-cy-user-list-cell-username>
+		<td class="row__cell row__cell--username row__cell--sortable" data-cy-user-list-cell-username>
 			<span class="row__subtitle">{{ user.id }}</span>
 		</td>
 
@@ -251,7 +251,7 @@
 
 		<td v-if="showConfig.showLastLogin"
 			:title="userLastLoginTooltip"
-			class="row__cell"
+			class="row__cell row__cell--sortable"
 			data-cy-user-list-cell-last-login>
 			<span v-if="!isObfuscated">{{ userLastLogin }}</span>
 		</td>
@@ -946,6 +946,10 @@ export default {
 
 	&__cell {
 		border-bottom: 1px solid var(--color-border);
+
+		&--sortable {
+			padding-left: calc(var(--default-grid-baseline) * 6); // Align with header sort button text
+		}
 
 		:deep {
 			.v-select.select {

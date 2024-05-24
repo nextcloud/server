@@ -94,6 +94,7 @@ import UserListHeader from './Users/UserListHeader.vue'
 import UserRow from './Users/UserRow.vue'
 
 import { defaultQuota, isObfuscated, unlimitedQuota } from '../utils/userUtils.ts'
+import { useSort } from '../composables/useSort.ts'
 import logger from '../logger.ts'
 
 const newUser = Object.freeze({
@@ -137,10 +138,13 @@ export default {
 	},
 
 	setup() {
+		const { sortMode, sortOrder } = useSort()
 		// non reactive properties
 		return {
 			mdiAccountGroup,
 			rowHeight: 55,
+			sortMode,
+			sortOrder,
 
 			UserRow,
 		}
@@ -268,6 +272,14 @@ export default {
 		filteredUsers(filteredUsers) {
 			logger.debug(`${filteredUsers.length} filtered user(s)`)
 		},
+
+		async sortMode() {
+			await this.loadUsers()
+		},
+
+		async sortOrder() {
+			await this.loadUsers()
+		},
 	},
 
 	async created() {
@@ -321,6 +333,7 @@ export default {
 						limit: this.usersLimit,
 						group: this.selectedGroup,
 						search: this.searchQuery,
+						// TODO query with sort params
 					})
 				}
 				logger.debug(`${this.users.length} total user(s) loaded`)

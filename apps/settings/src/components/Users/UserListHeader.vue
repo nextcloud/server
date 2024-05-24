@@ -89,10 +89,23 @@
 			</span>
 		</th>
 		<th v-if="showConfig.showLastLogin"
-			class="header__cell"
+			class="header__cell header__cell--sortable"
 			data-cy-user-list-header-last-login
-			scope="col">
-			<span>{{ t('settings', 'Last login') }}</span>
+			scope="col"
+			:aria-sort="ariaSortForMode(UserSortMode.LastLogin)">
+			<NcButton class="header__sort"
+				:class="{
+					'header__sort--active': sortMode === UserSortMode.LastLogin,
+				}"
+				type="tertiary"
+				alignment="start-reverse"
+				@click="toggleSortMode(UserSortMode.LastLogin)">
+				<template #icon>
+					<MenuUp v-if="isAscOrder" class="header__sort-icon" />
+					<MenuDown v-else class="header__sort-icon" />
+				</template>
+				<span class="header__sort-text">{{ t('settings', 'Last login') }}</span>
+			</NcButton>
 		</th>
 		<th class="header__cell header__cell--large header__cell--fill"
 			data-cy-user-list-header-manager
@@ -113,16 +126,40 @@
 <script lang="ts">
 import Vue from 'vue'
 
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import MenuUp from 'vue-material-design-icons/MenuUp.vue'
+import MenuDown from 'vue-material-design-icons/MenuDown.vue'
+
 import { translate as t } from '@nextcloud/l10n'
+import { UserSortMode } from '../../constants/UserManagement.ts'
+import { useSort } from '../../composables/useSort.ts'
 
 export default Vue.extend({
 	name: 'UserListHeader',
+
+	components: {
+		MenuUp,
+		MenuDown,
+		NcButton,
+	},
 
 	props: {
 		hasObfuscated: {
 			type: Boolean,
 			required: true,
 		},
+	},
+
+	setup() {
+		const { sortMode, sortOrder, isAscOrder, toggleSortOrder, toggleSortMode } = useSort()
+		return {
+			UserSortMode,
+			sortMode,
+			sortOrder,
+			isAscOrder,
+			toggleSortOrder,
+			toggleSortMode,
+		}
 	},
 
 	computed: {
@@ -152,6 +189,13 @@ export default Vue.extend({
 
 	methods: {
 		t,
+
+		ariaSortForMode(mode: UserSortMode): ARIAMixin['ariaSort'] {
+			if (this.sortMode !== mode) {
+				return null
+			}
+			return this.isAscOrder ? 'ascending' : 'descending'
+		},
 	},
 })
 </script>
@@ -164,5 +208,23 @@ export default Vue.extend({
 	@include cell;
 
 	border-bottom: 1px solid var(--color-border);
+
+	&__sort {
+		&-icon {
+			opacity: 0;
+			transition: opacity var(--animation-quick);
+		}
+
+		&-text {
+			font-weight: normal;
+		}
+
+		&--active &-icon,
+		&:hover &-icon,
+		&:focus &-icon,
+		&:active &-icon {
+			opacity: 1;
+		}
+	}
 }
 </style>

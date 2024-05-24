@@ -110,7 +110,7 @@ import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadi
 import NcNoteCard from '@nextcloud/vue/dist/Components/NcNoteCard.js'
 import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
 
-import { GroupSorting } from '../../constants/GroupManagement.ts'
+import { GroupSorting } from '../../constants/UserManagement.ts'
 import { unlimitedQuota } from '../../utils/userUtils.ts'
 
 export default {
