@@ -104,7 +104,7 @@
 			data-cy-user-list-header-actions
 			scope="col">
 			<span class="hidden-visually">
-				{{ t('settings', 'User actions') }}
+				{{ t('settings', 'Account actions') }}
 			</span>
 		</th>
 	</tr>
