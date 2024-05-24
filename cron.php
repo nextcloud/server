@@ -131,12 +131,13 @@ Options:
 
 		$user = posix_getuid();
 		$userNameArray = posix_getpwuid($user);
-		if ($userNameArray !== false)) {
+		$username = null;
+		if ($userNameArray !== false) {
 			$userName = $userNameArray['name'];
 		}
 		$configUser = fileowner(OC::$configDir . 'config.php');
 		$configuredUser = $config->getSystemValueString('php.user', '');
-		if ($user !== $configUser && $userName !== $configuredUser) {
+		if ($user !== $configUser && $username !== null && $userName !== $configuredUser) {
 			echo "Console has to be executed with the user that owns the file config/config.php" . PHP_EOL;
 			echo "Current user id: " . $user . PHP_EOL;
 			echo "Owner id of config.php: " . $configUser . PHP_EOL;
