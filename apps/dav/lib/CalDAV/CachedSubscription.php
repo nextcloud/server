@@ -73,6 +73,11 @@ class CachedSubscription extends \Sabre\CalDAV\Calendar {
 				'principal' => '{DAV:}authenticated',
 				'protected' => true,
 			],
+			[
+				'privilege' => '{DAV:}write-properties',
+				'principal' => $this->getOwner(),
+				'protected' => true,
+			]
 		];
 	}
 
@@ -97,7 +102,6 @@ class CachedSubscription extends \Sabre\CalDAV\Calendar {
 				'principal' => $this->getOwner() . '/calendar-proxy-read',
 				'protected' => true,
 			],
-
 		];
 	}
 
