@@ -33,6 +33,8 @@ class UnsupportedBrowserController extends Controller {
 	public function index(): Response {
 		Util::addScript('core', 'unsupported-browser');
 		Util::addStyle('core', 'icons');
-		return new TemplateResponse('core', 'unsupportedbrowser', [], TemplateResponse::RENDER_AS_ERROR);
+
+		// not using RENDER_AS_ERROR as we need the JSConfigHelper for url generation
+		return new TemplateResponse('core', 'unsupportedbrowser', [], TemplateResponse::RENDER_AS_GUEST);
 	}
 }
