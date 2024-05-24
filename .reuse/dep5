@@ -11,6 +11,22 @@ Files: tests/data/block-aligned-plus-one.txt tests/data/block-aligned.txt tests/
 Copyright: 2015 ownCloud, Inc.
 License: AGPL-3.0-only
 
+Files: .tx/config
+Copyright: 2011-2012 ownCloud, Inc., 2017-2023 Nextcloud GmbH and Nextcloud contributors
+License: AGPL-3.0-only
+
+Files: .htaccess 
+Copyright: 2011-2016 ownCloud, Inc., 2016-2024 Nextcloud GmbH and Nextcloud contributors
+License: AGPL-3.0-only
+
+Files: .jshintrc
+Copyright: 2014 ownCloud, Inc., 2017 Nextcloud GmbH and Nextcloud contributors
+License: AGPL-3.0-only
+
+Files: .mailmap
+Copyright: 2015-2016 ownCloud, Inc., 2016-2021 Nextcloud GmbH and Nextcloud contributors
+License: AGPL-3.0-only
+
 Files: tests/data/integritycheck/htaccessUnmodified/.htaccess tests/data/integritycheck/htaccessUnmodified/subfolder/.htaccess tests/data/integritycheck/htaccessWithInvalidModifiedContent/.htaccess tests/data/integritycheck/htaccessWithValidModifiedContent/subfolder/.htaccess
 Copyright: 2016 ownCloud, Inc.
 License: AGPL-3.0-only
@@ -23,11 +39,11 @@ Files: tests/data/lorem.txt
 Copyright: 2012 ownCloud, Inc.
 License: AGPL-3.0-only
 
-Files: tests/data/testavatar.png tests/data/testimage.gif tests/data/testimage.jpg tests/data/testimage.png
+Files: robots.txt tests/data/testavatar.png tests/data/testimage.gif tests/data/testimage.jpg tests/data/testimage.png
 Copyright: 2013 ownCloud, Inc.
 License: AGPL-3.0-only
 
-Files: tests/data/lorem-big.txt tests/data/strängé*filename*(duplicate*#2).txt tests/data/strõngÚ*filename*(duplicate*#2).txt
+Files: .tag tests/data/lorem-big.txt tests/data/strängé*filename*(duplicate*#2).txt tests/data/strõngÚ*filename*(duplicate*#2).txt
 Copyright: 2014 ownCloud, Inc.
 License: AGPL-3.0-only
 
@@ -67,6 +83,10 @@ Files: build/psalm-baseline-ocp.xml build/psalm-baseline.xml build/stubs/xsl.php
 Copyright: 2020 Nextcloud GmbH and Nextcloud contributors
 License: AGPL-3.0-or-later
 
+Files: cypress/tsconfig.json
+Copyright: 2022 Nextcloud GmbH and Nextcloud contributors
+License: AGPL-3.0-or-later
+
 Files: build/stubs/pcntl.php build/stubs/zip.php
 Copyright: 2022 JetBrains
 License: Apache-2.0
@@ -83,7 +103,7 @@ Files: core/js/merged-template-prepend.json tests/data/certificates/goodCertific
 Copyright: 2017 Nextcloud GmbH and Nextcloud contributors
 License: AGPL-3.0-or-later
 
-Files: core/src/systemtags/templates/result.handlebars core/src/systemtags/templates/result_form.handlebars core/src/systemtags/templates/selection.handlebars tests/data/testimage.heic
+Files: core/src/systemtags/templates/result.handlebars core/src/systemtags/templates/result_form.handlebars core/src/systemtags/templates/selection.handlebars tests/data/testimage.heic package.json package-lock.json
 Copyright: 2018 Nextcloud GmbH and Nextcloud contributors
 License: AGPL-3.0-or-later
 
@@ -91,7 +111,7 @@ Files: core/src/jquery/contactsmenu/jquery_entry.handlebars tests/data/integrity
 Copyright: 2019 Nextcloud GmbH and Nextcloud contributors
 License: AGPL-3.0-or-later
 
-Files: tests/data/testimage-badheader.jpg
+Files: .npmignore tests/data/testimage-badheader.jpg
 Copyright: 2021 Nextcloud GmbH and Nextcloud contributors
 License: AGPL-3.0-or-later
 
@@ -138,3 +158,7 @@ License: LicenseRef-AppleAppStoreBadge
 Files: core/img/fdroid.svg
 Copyright: 2016 Andrew Nayenko <relan@airpost.net>
 License: CC-BY-SA-3.0 OR GPL-3.0-or-later
+
+Files: cypress/fixtures/image.jpg
+Copyright: 2019 Tom Gainor <https://unsplash.com/@its_tgain> <https://unsplash.com/photos/mountain-cliff-under-starry-night-KidY3t8O4PE>
+License: LicenseRef-Unsplash
