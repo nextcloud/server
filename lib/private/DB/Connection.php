@@ -680,7 +680,7 @@ class Connection extends PrimaryReadReplicaConnection {
 			$timeTook = microtime(true) - $this->transactionActiveSince;
 			$this->transactionActiveSince = null;
 			if ($timeTook > 1) {
-				$this->logger->warning('Transaction took ' . $timeTook . 's', ['exception' => new \Exception('Transaction took ' . $timeTook . 's')]);
+				$this->logger->debug('Transaction took ' . $timeTook . 's', ['exception' => new \Exception('Transaction took ' . $timeTook . 's')]);
 			}
 		}
 		return $result;
@@ -692,7 +692,7 @@ class Connection extends PrimaryReadReplicaConnection {
 			$timeTook = microtime(true) - $this->transactionActiveSince;
 			$this->transactionActiveSince = null;
 			if ($timeTook > 1) {
-				$this->logger->warning('Transaction rollback took longer than 1s: ' . $timeTook, ['exception' => new \Exception('Long running transaction rollback')]);
+				$this->logger->debug('Transaction rollback took longer than 1s: ' . $timeTook, ['exception' => new \Exception('Long running transaction rollback')]);
 			}
 		}
 		return $result;
