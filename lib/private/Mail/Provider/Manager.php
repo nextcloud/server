@@ -126,7 +126,7 @@ class Manager implements IManager {
 		// iterate through all registered mail providers
 		foreach ($context->getMailProviders() as $entry) {
 			try {
-				/** @var IMailProvider $provider */
+				/** @var IProvider $provider */
 				// instance provider
 				$provider = $this->container->get($entry->getService());
 				// add provider to cache collection

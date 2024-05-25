@@ -59,7 +59,7 @@ interface IMessage {
 	 * @since 30.0.0
 	 * @param IAddress|null                     sender's mail address object
 	 */
-	public function getFrom(): IAddress;
+	public function getFrom(): IAddress | null;
 
 	/**
 	 * sets the sender's reply to address of this message
@@ -76,7 +76,7 @@ interface IMessage {
 	 * @since 30.0.0
 	 * @param IAddress|null                     sender's mail address object
 	 */
-	public function getReplyTo(): IAddress;
+	public function getReplyTo(): IAddress | null;
 
 	/**
 	 * sets the recipient(s) of this message
