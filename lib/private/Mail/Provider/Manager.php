@@ -54,7 +54,7 @@ class Manager implements IManager {
 	public function register(IProvider $value): void {
 
 		// add provider to internal collection
-		$this->providersCollection[$provider->id()] = $value;
+		$this->providersCollection[$value->id()] = $value;
 		
 	}
 
@@ -107,7 +107,7 @@ class Manager implements IManager {
 	 * Retrieve all registered mail providers
 	 * 
 	 * @since 30.0.0
-	 * @return array<int,IProvider>
+	 * @return array<string,IProvider>
 	 */
 	public function providers(): array {
 
@@ -169,7 +169,7 @@ class Manager implements IManager {
 	 * 
 	 * @since 30.0.0
 	 * @param string $uid				user id
-	 * @return array<int,IService>		returns collection of service objects or null if non found
+	 * @return array<string,IService>		returns collection of service objects or null if non found
 	 */
 	public function services(string $uid): array {
 		

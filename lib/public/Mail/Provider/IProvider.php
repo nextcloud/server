@@ -61,7 +61,7 @@ interface IProvider {
 	 * retrieve collection of services for a specific user
 	 * 
 	 * @since 30.0.0
-	 * @return array<int, IService>		collection of service objects
+	 * @return array<string,IService>		collection of service objects
 	 */
 	public function listServices(string $uid): array;
 
