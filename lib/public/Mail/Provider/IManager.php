@@ -62,7 +62,7 @@ interface IManager {
 	 * Retrieve which mail providers are registered
 	 * 
 	 * @since 30.0.0
-	 * @return array<int,String>
+	 * @return array<string,String>
 	 */
 	public function types(): array;
 
@@ -75,6 +75,14 @@ interface IManager {
 	public function providers(): array;
 
 	/**
+	 * Retrieve a provider with a specific id
+	 * 
+	 * @since 30.0.0
+	 * @return IProvider|null
+	 */
+	public function findProviderById(string $id): IProvider | null;
+
+	/**
 	 * Retrieve all services for all registered mail providers
 	 * 
 	 * @since 30.0.0
@@ -82,6 +90,17 @@ interface IManager {
 	 * @return array<int,IService>		returns collection of service objects or null if non found
 	 */
 	public function services(string $uid): array;
+
+	/**
+	 * Retrieve a service with a specific id
+	 * 
+	 * @since 30.0.0
+	 * @param string $uid				user id
+	 * @param string $sid				service id
+	 * @param string $pid				provider id
+	 * @return IService|null			returns service object or null if non found
+	 */
+	public function findServiceById(string $uid, string $sid, string $pid = null): IService | null;
 
 	/**
 	 * Retrieve a service for a specific mail address
@@ -92,6 +111,6 @@ interface IManager {
 	 * @param string $address			mail address (e.g. test@example.com)
 	 * @return IService					returns service object or null if non found
 	 */
-	public function findService(string $uid, string $address): IService | null;
+	public function findServiceByAddress(string $uid, string $address): IService | null;
 
 }

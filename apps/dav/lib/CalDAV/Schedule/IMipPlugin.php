@@ -290,7 +290,7 @@ class IMipPlugin extends SabreIMipPlugin {
 			// load mail provider manager
 			$manager = \OC::$server->get(\OC\Mail\Provider\Manager::class);
 			// retrieve all services
-			$service = $manager->findService($this->userSession->getUser()->getUID(), $sender);
+			$service = $manager->findServiceByAddress($this->userSession->getUser()->getUID(), $sender);
 			// evaluate if a mail service was found with the correct address
 			if ($service) {
 				// construct mail provider message and set required parameters

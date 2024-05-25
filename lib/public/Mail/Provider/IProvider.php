@@ -66,6 +66,26 @@ interface IProvider {
 	public function listServices(string $uid): array;
 
 	/**
+	 * Retrieve a service with a specific id
+	 * 
+	 * @since 30.0.0
+	 * @param string $uid				user id
+	 * @param string $id				service id
+	 * @return IService|null			returns service object or null if non found
+	 */
+	public function findServiceById(string $uid, string $id): IService | null;
+
+	/**
+	 * Retrieve a service for a specific mail address
+	 * 
+	 * @since 30.0.0
+	 * @param string $uid				user id
+	 * @param string $address			mail address (e.g. test@example.com)
+	 * @return IService					returns service object or null if non found
+	 */
+	public function findServiceByAddress(string $uid, string $address): IService | null;
+
+	/**
 	 * create a service configuration for a specific user
 	 * 
 	 * @since 30.0.0

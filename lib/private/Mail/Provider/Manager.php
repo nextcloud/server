@@ -88,7 +88,7 @@ class Manager implements IManager {
 	 * Retrieve which mail providers are registered
 	 * 
 	 * @since 30.0.0
-	 * @return array<int,String>
+	 * @return array<string,String>
 	 */
 	public function types(): array {
 		
@@ -127,15 +127,40 @@ class Manager implements IManager {
 		foreach ($context->getMailProviders() as $entry) {
 			try {
 				/** @var IMailProvider $provider */
-				$this->providersCollection[] = $this->container->get($entry->getService());
+				// instance provider
+				$provider = $this->container->get($entry->getService());
+				// add provider to cache collection
+				$this->providersCollection[$provider->id()] = $provider;
 			} catch (Throwable $e) {
-				$this->logger->error('Could not load mail provider ' . $entry->getService() . ': ' . $e->getMessage(), [
-					'exception' => $e,
-				]);
+				$this->logger->error(
+					'Could not load mail provider ' . $entry->getService() . ': ' . $e->getMessage(),
+					['exception' => $e]
+				);
 			}
 		}
 		// return mail provider collection
 		return $this->providersCollection;
+
+	}
+
+	/**
+	 * Retrieve a provider with a specific id
+	 * 
+	 * @since 30.0.0
+	 * @return IProvider|null
+	 */
+	public function findProviderById(string $id): IProvider | null {
+
+		// evaluate if we already have a cached collection of providers and return the collection if we do
+		if (!is_array($this->providersCollection)) {
+			$this->providers();
+		}
+		
+		if (isset($this->providersCollection[$id])) {
+			return $this->providersCollection[$id];
+		}
+		// return null if provider was not found
+		return null;
 
 	}
 
@@ -161,24 +186,61 @@ class Manager implements IManager {
 	}
 
 	/**
+	 * Retrieve a service with a specific id
+	 * 
+	 * @since 30.0.0
+	 * @param string $uid				user id
+	 * @param string $sid				service id
+	 * @param string $pid				provider id
+	 * @return IService|null			returns service object or null if non found
+	 */
+	public function findServiceById(string $uid, string $sid, string $pid = null): IService | null {
+		
+		// evaluate if provider id was specified
+		if ($pid !== null) {
+			// find provider
+			$provider = $this->findProviderById($pid);
+			// query provider for service with specific mail address
+			$service = $provider->findServiceById($uid, $sid);
+			// evaluate if mail service was found
+			if ($service instanceof IService) {
+				return $service;
+			}
+		} else {
+			// retrieve and iterate through mail providers
+			foreach ($this->providers() as $provider) {
+				// query provider for service with specific mail address
+				$service = $provider->findServiceById($uid, $sid);
+				// evaluate if mail service was found
+				if ($service instanceof IService) {
+					return $service;
+				}
+			}
+		}
+		
+		// return null if no match was found
+		return null;
+
+	}
+
+	/**
 	 * Retrieve a service for a specific mail address
 	 * returns first service with specific primary address
 	 * 
 	 * @since 30.0.0
 	 * @param string $uid				user id
 	 * @param string $address			mail address (e.g. test@example.com)
-	 * @return IService					returns service object or null if non found
+	 * @return IService|null			returns service object or null if non found
 	 */
-	public function findService(string $uid, string $address): IService | null {
+	public function findServiceByAddress(string $uid, string $address): IService | null {
 		
 		// retrieve and iterate through mail providers
 		foreach ($this->providers() as $provider) {
-			// retrieve and iterate through mail services
-			foreach ($provider->listServices($uid) as $service) {
-				// evaluate if primary mail address matches
-				if ($service->getPrimaryAddress()->getAddress() == $address) {
-					return $service;
-				}
+			// query provider for service with specific mail address
+			$service = $provider->findServiceByAddress($uid, $address);
+			// evaluate if mail service was found
+			if ($service instanceof IService) {
+				return $service;
 			}
 		}
 		// return null if no match was found
