@@ -51,10 +51,11 @@ class Address implements \OCP\Mail\Provider\IAddress {
 	 * 
 	 * @since 30.0.0
      * @param string $value     mail address (e.g. test@example.com)
-	 * @return self		        returns the current object
+	 * @return self             return this object for command chaining
 	 */
     public function setAddress(string $value): self {
         $this->address = $value;
+        return $this;
     }
 
     /**
@@ -72,10 +73,11 @@ class Address implements \OCP\Mail\Provider\IAddress {
 	 * 
 	 * @since 30.0.0
      * @param string $value     mail address label/name
-	 * @return self			    returns the current object
+	 * @return self             return this object for command chaining
 	 */
     public function setLabel(string $value): self {
         $this->label = $value;
+        return $this;
     }
 
     /**

@@ -38,7 +38,7 @@ interface IAddress {
 	 * 
 	 * @since 30.0.0
 	 * @param string $value     mail address (test@example.com)
-	 * @return self				returns the current object
+	 * @return self             return this object for command chaining
 	 */
 	public function setAddress(string $value): self;
 
@@ -55,7 +55,7 @@ interface IAddress {
 	 * 
 	 * @since 30.0.0
 	 * @param string $value     mail address label/name
-	 * @return self				returns the current object
+	 * @return self             return this object for command chaining
 	 */
 	public function setLabel(string $value): self;
 

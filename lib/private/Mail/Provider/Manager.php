@@ -46,13 +46,24 @@ class Manager implements IManager {
 	) {
 	}
 
-	public function register(IProvider $provider): void {
+	/**
+	 * Register a mail provider
+	 * 
+	 * @since 30.0.0
+	 */
+	public function register(IProvider $value): void {
 
 		// add provider to internal collection
-		$this->providersCollection[$provider->id()] = $provider;
+		$this->providersCollection[$provider->id()] = $value;
 		
 	}
 
+	/**
+	 * Determain if any mail providers are registered
+	 * 
+	 * @since 30.0.0
+	 * @return bool
+	 */
 	public function has(): bool {
 
 		// return true if collection has any providers
@@ -60,6 +71,12 @@ class Manager implements IManager {
 
 	}
 
+	/**
+	 * Retrieve a count of how many mail providers are registered
+	 * 
+	 * @since 30.0.0
+	 * @return int
+	 */
 	public function count(): int {
 
 		// return count of providers in collection
@@ -67,6 +84,12 @@ class Manager implements IManager {
 
 	}
 
+	/**
+	 * Retrieve which mail providers are registered
+	 * 
+	 * @since 30.0.0
+	 * @return array<int,String>
+	 */
 	public function types(): array {
 		
 		// construct types collection
@@ -80,6 +103,12 @@ class Manager implements IManager {
 		
 	}
 
+	/**
+	 * Retrieve all registered mail providers
+	 * 
+	 * @since 30.0.0
+	 * @return array<int,IProvider>
+	 */
 	public function providers(): array {
 
 		// evaluate if we already have a cached collection of providers and return the collection if we do
@@ -110,6 +139,13 @@ class Manager implements IManager {
 
 	}
 
+	/**
+	 * Retrieve all services for all registered mail providers
+	 * 
+	 * @since 30.0.0
+	 * @param string $uid				user id
+	 * @return array<int,IService>		returns collection of service objects or null if non found
+	 */
 	public function services(string $uid): array {
 		
 		// initilize collection
@@ -124,6 +160,15 @@ class Manager implements IManager {
 		
 	}
 
+	/**
+	 * Retrieve a service for a specific mail address
+	 * returns first service with specific primary address
+	 * 
+	 * @since 30.0.0
+	 * @param string $uid				user id
+	 * @param string $address			mail address (e.g. test@example.com)
+	 * @return IService					returns service object or null if non found
+	 */
 	public function findService(string $uid, string $address): IService | null {
 		
 		// retrieve and iterate through mail providers

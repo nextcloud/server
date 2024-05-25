@@ -54,6 +54,7 @@ interface IService {
 	 * 
 	 * @since 30.0.0
 	 * @param string $value					label/name of service (e.g. ACME Company Mail Service)
+	 * @return self                         return this object for command chaining
 	 */
 	public function setLabel(string $value): self;
 
@@ -70,6 +71,7 @@ interface IService {
 	 * 
 	 * @since 30.0.0
 	 * @param IServiceIdentity $identity	service identity object
+	 * @return self                         return this object for command chaining
 	 */
 	public function setIdentity(IServiceIdentity $identity): self;
 
@@ -86,6 +88,7 @@ interface IService {
 	 * 
 	 * @since 30.0.0
 	 * @param IServiceLocation $location	service location object
+	 * @return self                         return this object for command chaining
 	 */
 	public function setLocation(IServiceLocation $location): self;
 
@@ -102,6 +105,7 @@ interface IService {
 	 * 
 	 * @since 30.0.0
 	 * @param IAddress $value				mail address object
+	 * @return self                         return this object for command chaining
 	 */
 	public function setPrimaryAddress(IAddress $value): self;
 
@@ -109,7 +113,7 @@ interface IService {
 	 * gets the secondary mailing addresses (aliases) collection for this service
 	 * 
 	 * @since 30.0.0
-	 * @return array<int, IAddress[]>		collection of mail address objects
+	 * @return array<int, IAddress>			collection of mail address objects
 	 */
 	public function getSecondaryAddress(): array | null;
 
@@ -117,7 +121,8 @@ interface IService {
 	 * sets the secondary mailing addresses (aliases) for this service
 	 * 
 	 * @since 30.0.0
-	 * @param IAddress[]|...IAddress $value		collection of or one or more mail address objects
+	 * @param IAddress[]|IAddress ...$value		collection of or one or more mail address objects
+	 * @return self                         	return this object for command chaining
 	 */
 	public function setSecondaryAddress(IAddress ...$value): self;
 

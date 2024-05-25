@@ -38,7 +38,7 @@ interface IAttachment {
 	 * 
 	 * @since 30.0.0
 	 * @param string $value     file name (e.g example.txt)
-	 * @return self				returns the current object
+	 * @return self             return this object for command chaining
 	 */
 	public function setName(string $value): self;
 
@@ -55,7 +55,7 @@ interface IAttachment {
 	 * 
 	 * @since 30.0.0
 	 * @param string $value     mime type (e.g. text/plain)
-	 * @return self				returns the current object
+	 * @return self             return this object for command chaining
 	 */
 	public function setType(string $value): self;
 
@@ -72,7 +72,7 @@ interface IAttachment {
 	 * 
 	 * @since 30.0.0
 	 * @param string $value     binary contents of file
-	 * @return self				returns the current object
+	 * @return self             return this object for command chaining
 	 */
 	public function setContents(string $value): self;
 
@@ -89,7 +89,7 @@ interface IAttachment {
 	 * 
 	 * @since 30.0.0
 	 * @param bool $value		true - embedded / false - not embedded
-	 * @return self				returns the current object
+	 * @return self             return this object for command chaining
 	 */
 	public function setEmbedded(bool $value): self;
 

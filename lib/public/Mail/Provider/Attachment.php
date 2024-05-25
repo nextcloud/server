@@ -40,7 +40,7 @@ class Attachment implements \OCP\Mail\Provider\IAttachment {
      * @param string|null $contents		binary contents of file
      * @param string|null $name			file name (e.g example.txt)
 	 * @param string|null $type			mime type (e.g. text/plain)
-	 * @param string|null $embedded
+	 * @param bool $embedded			embedded status of the attachment, default is false
 	 */
     public function __construct(
         protected ?string $contents,
@@ -55,7 +55,7 @@ class Attachment implements \OCP\Mail\Provider\IAttachment {
 	 * 
 	 * @since 30.0.0
 	 * @param string $value     file name (e.g example.txt)
-	 * @return self				returns the current object
+	 * @return self             return this object for command chaining
 	 */
 	public function setName(string $value): self {
 		$this->name = $value;
@@ -77,7 +77,7 @@ class Attachment implements \OCP\Mail\Provider\IAttachment {
 	 * 
 	 * @since 30.0.0
 	 * @param string $value     mime type (e.g. text/plain)
-	 * @return self				returns the current object
+	 * @return self             return this object for command chaining
 	 */
 	public function setType(string $value): self {
 		$this->type = $value;
@@ -99,7 +99,7 @@ class Attachment implements \OCP\Mail\Provider\IAttachment {
 	 * 
 	 * @since 30.0.0
 	 * @param string $value     binary contents of file
-	 * @return self				returns the current object
+	 * @return self             return this object for command chaining
 	 */
 	public function setContents(string $value): self {
 		$this->contents = $value;
@@ -121,7 +121,7 @@ class Attachment implements \OCP\Mail\Provider\IAttachment {
 	 * 
 	 * @since 30.0.0
 	 * @param bool $value		true - embedded / false - not embedded
-	 * @return self				returns the current object
+	 * @return self             return this object for command chaining
 	 */
 	public function setEmbedded(bool $value): self {
 		$this->embedded = $value;

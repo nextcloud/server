@@ -118,7 +118,7 @@ class Message implements \OCP\Mail\Provider\IMessage {
 	 * sets the recipient(s) of this message
 	 * 
 	 * @since 30.0.0
-	 * @param IAddress[]|...IAddress $value		collection of or one or more mail address objects
+	 * @param IAddress[]|IAddress ...$value		collection of or one or more mail address objects
      * @return self                             return this object for command chaining
 	 */
     public function setTo(IAddress ...$value): self {
@@ -136,7 +136,7 @@ class Message implements \OCP\Mail\Provider\IMessage {
 	 * gets the recipient(s) of this message
 	 * 
 	 * @since 30.0.0
-	 * @param array<int,IAttachment>|null       collection of all recipient mail address objects
+	 * @param array<int,IAddress>|null          collection of all recipient mail address objects
 	 */
     public function getTo(): array | null {
         // evaluate if data store field exists and return value(s) or null otherwise
@@ -147,7 +147,7 @@ class Message implements \OCP\Mail\Provider\IMessage {
 	 * sets the copy to recipient(s) of this message
 	 * 
 	 * @since 30.0.0
-	 * @param IAddress[]|...IAddress $value		collection of or one or more mail address objects
+	 * @param IAddress[]|IAddress ...$value		collection of or one or more mail address objects
      * @return self                             return this object for command chaining
 	 */
     public function setCc(IAddress ...$value): self {
@@ -165,7 +165,7 @@ class Message implements \OCP\Mail\Provider\IMessage {
 	 * gets the copy to recipient(s) of this message
 	 * 
 	 * @since 30.0.0
-	 * @param array<int,IAttachment>|null       collection of all copied recipient mail address objects
+	 * @param array<int,IAddress>|null          collection of all copied recipient mail address objects
 	 */
     public function getCc(): array | null {
         // evaluate if data store field exists and return value(s) or null otherwise
@@ -176,7 +176,7 @@ class Message implements \OCP\Mail\Provider\IMessage {
 	 * sets the blind copy to recipient(s) of this message
 	 * 
 	 * @since 30.0.0
-	 * @param IAddress[]|...IAddress $value		collection of or one or more mail address objects
+	 * @param IAddress[]|IAddress ...$value		collection of or one or more mail address objects
      * @return self                             return this object for command chaining
 	 */
     public function setBcc(IAddress ...$value): self {
@@ -194,7 +194,7 @@ class Message implements \OCP\Mail\Provider\IMessage {
 	 * gets the blind copy to recipient(s) of this message
 	 * 
 	 * @since 30.0.0
-	 * @param array<int,IAttachment>|null       collection of all blind copied recipient mail address objects
+	 * @param array<int,IAddress>|null          collection of all blind copied recipient mail address objects
 	 */
     public function getBcc(): array | null {
         // evaluate if data store field exists and return value(s) or null otherwise
@@ -231,7 +231,7 @@ class Message implements \OCP\Mail\Provider\IMessage {
 	 * 
 	 * @since 30.0.0
 	 * @param string $value                     text or html body of message
-     * @param string $html                      html flag - true for html
+     * @param bool $html                        html flag - true for html
      * @return self                             return this object for command chaining
 	 */
     public function setBody(string $value, bool $html = false): self {
@@ -318,7 +318,7 @@ class Message implements \OCP\Mail\Provider\IMessage {
 	 * sets the attachments of this message
 	 * 
 	 * @since 30.0.0
-	 * @param IAttachment[]|...IAttachment $value		collection of or one or more mail attachment objects
+	 * @param IAttachment[]|IAttachment ...$value		collection of or one or more mail attachment objects
      * @return self                                     return this object for command chaining
 	 */
     public function setAttachments(IAttachment ...$value): self {
