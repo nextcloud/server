@@ -82,7 +82,7 @@ interface IMessage {
 	 * sets the recipient(s) of this message
 	 * 
 	 * @since 30.0.0
-	 * @param IAddress[]|IAddress ...$value		collection of or one or more mail address objects
+	 * @param IAddress ...$value				collection of or one or more mail address objects
      * @return self                             return this object for command chaining
 	 */
 	public function setTo(IAddress ...$value): self;
@@ -99,7 +99,7 @@ interface IMessage {
 	 * sets the copy to recipient(s) of this message
 	 * 
 	 * @since 30.0.0
-	 * @param IAddress[]|IAddress ...$value		collection of or one or more mail address objects
+	 * @param IAddress ...$value				collection of or one or more mail address objects
      * @return self                             return this object for command chaining
 	 */
 	public function setCc(IAddress ...$value): self;
@@ -116,7 +116,7 @@ interface IMessage {
 	 * sets the blind copy to recipient(s) of this message
 	 * 
 	 * @since 30.0.0
-	 * @param IAddress[]|IAddress ...$value		collection of or one or more mail address objects
+	 * @param IAddress ...$value				collection of or one or more mail address objects
      * @return self                             return this object for command chaining
 	 */
 	public function setBcc(IAddress ...$value): self;
@@ -187,8 +187,8 @@ interface IMessage {
 	 * sets the plain text body of this message
 	 * 
 	 * @since 30.0.0
-	 * @param string $value         plain text body of message
-     * @return self                 return this object for command chaining
+	 * @param string $value         			plain text body of message
+     * @return self                 			return this object for command chaining
 	 */
 	public function setBodyPlain(string $value): self;
 
@@ -204,8 +204,8 @@ interface IMessage {
 	 * sets the attachments of this message
 	 * 
 	 * @since 30.0.0
-	 * @param IAttachment[]|IAttachment ...$value		collection of or one or more mail attachment objects
-     * @return self                                     return this object for command chaining
+	 * @param IAttachment ...$value				collection of or one or more mail attachment objects
+     * @return self                             return this object for command chaining
 	 */
 	public function setAttachments(IAttachment ...$value): self;
 
@@ -213,7 +213,7 @@ interface IMessage {
 	 * gets the attachments of this message
 	 * 
 	 * @since 30.0.0
-	 * @param array<int,IAttachment>		collection of all mail attachment objects
+	 * @param array<int,IAttachment>			collection of all mail attachment objects
 	 */
     public function getAttachments(): array | null;
 }

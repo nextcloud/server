@@ -50,7 +50,7 @@ class Message implements \OCP\Mail\Provider\IMessage {
         // initilize data store
         $this->data = [];
         // evaluate if id was passed otherwise generate a new id
-        $data['id'] = isset($id) ? $id : bin2hex(random_bytes(16));
+        $this->data['id'] = isset($id) ? $id : bin2hex(random_bytes(16));
 	}
 
     /**
@@ -61,7 +61,7 @@ class Message implements \OCP\Mail\Provider\IMessage {
 	 */
 	public function id(): string {
         // return id of message
-        return $data['id'];
+        return $this->data['id'];
     }
 
     /**
@@ -84,7 +84,7 @@ class Message implements \OCP\Mail\Provider\IMessage {
 	 * @since 30.0.0
 	 * @param IAddress|null                     sender's mail address object
 	 */
-    public function getFrom(): IAddress {
+    public function getFrom(): IAddress | null {
         // evaluate if data store field exists and return value(s) or null otherwise
         return (isset($this->data['from'])) ? $this->data['from'] : null;
     }
@@ -109,7 +109,7 @@ class Message implements \OCP\Mail\Provider\IMessage {
 	 * @since 30.0.0
 	 * @param IAddress|null                     sender's mail address object
 	 */
-    public function getReplyTo(): IAddress {
+    public function getReplyTo(): IAddress | null {
         // evaluate if data store field exists and return value(s) or null otherwise
         return (isset($this->data['replyTo'])) ? $this->data['replyTo'] : null;
     }
@@ -118,7 +118,7 @@ class Message implements \OCP\Mail\Provider\IMessage {
 	 * sets the recipient(s) of this message
 	 * 
 	 * @since 30.0.0
-	 * @param IAddress[]|IAddress ...$value		collection of or one or more mail address objects
+	 * @param IAddress ...$value		        collection of or one or more mail address objects
      * @return self                             return this object for command chaining
 	 */
     public function setTo(IAddress ...$value): self {
@@ -147,7 +147,7 @@ class Message implements \OCP\Mail\Provider\IMessage {
 	 * sets the copy to recipient(s) of this message
 	 * 
 	 * @since 30.0.0
-	 * @param IAddress[]|IAddress ...$value		collection of or one or more mail address objects
+	 * @param IAddress ...$value		        collection of or one or more mail address objects
      * @return self                             return this object for command chaining
 	 */
     public function setCc(IAddress ...$value): self {
@@ -176,7 +176,7 @@ class Message implements \OCP\Mail\Provider\IMessage {
 	 * sets the blind copy to recipient(s) of this message
 	 * 
 	 * @since 30.0.0
-	 * @param IAddress[]|IAddress ...$value		collection of or one or more mail address objects
+	 * @param IAddress ...$value		        collection of or one or more mail address objects
      * @return self                             return this object for command chaining
 	 */
     public function setBcc(IAddress ...$value): self {
@@ -318,7 +318,7 @@ class Message implements \OCP\Mail\Provider\IMessage {
 	 * sets the attachments of this message
 	 * 
 	 * @since 30.0.0
-	 * @param IAttachment[]|IAttachment ...$value		collection of or one or more mail attachment objects
+	 * @param IAttachment ...$value                     collection of or one or more mail attachment objects
      * @return self                                     return this object for command chaining
 	 */
     public function setAttachments(IAttachment ...$value): self {

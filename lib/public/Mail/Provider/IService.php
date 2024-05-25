@@ -121,7 +121,7 @@ interface IService {
 	 * sets the secondary mailing addresses (aliases) for this service
 	 * 
 	 * @since 30.0.0
-	 * @param IAddress[]|IAddress ...$value		collection of or one or more mail address objects
+	 * @param IAddress ...$value				collection of or one or more mail address objects
 	 * @return self                         	return this object for command chaining
 	 */
 	public function setSecondaryAddress(IAddress ...$value): self;
