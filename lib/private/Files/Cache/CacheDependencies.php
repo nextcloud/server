@@ -16,14 +16,15 @@ use Psr\Log\LoggerInterface;
 
 class CacheDependencies {
 	public function __construct(
-		private IMimeTypeLoader $mimeTypeLoader,
-		private IDBConnection $connection,
-		private IEventDispatcher $eventDispatcher,
-		private QuerySearchHelper $querySearchHelper,
-		private SystemConfig $systemConfig,
-		private LoggerInterface $logger,
+		private IMimeTypeLoader       $mimeTypeLoader,
+		private IDBConnection         $connection,
+		private IEventDispatcher      $eventDispatcher,
+		private QuerySearchHelper     $querySearchHelper,
+		private SystemConfig          $systemConfig,
+		private LoggerInterface       $logger,
 		private IFilesMetadataManager $metadataManager,
-		private DisplayNameCache $displayNameCache,
+		private DisplayNameCache      $displayNameCache,
+		private CacheDatabase         $cacheDb,
 	) {
 	}
 
@@ -57,5 +58,9 @@ class CacheDependencies {
 
 	public function getMetadataManager(): IFilesMetadataManager {
 		return $this->metadataManager;
+	}
+
+	public function getCacheDb(): CacheDatabase {
+		return $this->cacheDb;
 	}
 }

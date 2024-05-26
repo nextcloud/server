@@ -54,6 +54,19 @@ class QueryBuilder implements IQueryBuilder {
 	protected $lastInsertedTable;
 
 	/**
+	 * Tables that require special attention and thus can't be queried by default
+	 *
+	 * @var list<string>
+	 */
+	protected array $shardedTables = [
+		'filecache',
+		'filecache_extended',
+		'files_metadata'
+	];
+
+	protected bool $sharded = false;
+
+	/**
 	 * Initializes a new QueryBuilder.
 	 *
 	 * @param ConnectionAdapter $connection
@@ -640,6 +653,17 @@ class QueryBuilder implements IQueryBuilder {
 	}
 
 	/**
+	 * @param string $table
+	 * @return void
+	 * @throws \Exception
+	 */
+	private function checkTableAccess(string $table) {
+		if (in_array($table, $this->shardedTables) !== $this->sharded) {
+			throw new \Exception("current query isn't allowed to access the $table table");
+		}
+	}
+
+	/**
 	 * Creates and adds a query root corresponding to the table identified by the
 	 * given alias, forming a cartesian product with any existing query roots.
 	 *
@@ -655,6 +679,7 @@ class QueryBuilder implements IQueryBuilder {
 	 * @return $this This QueryBuilder instance.
 	 */
 	public function from($from, $alias = null) {
+		$this->checkTableAccess($from);
 		$this->queryBuilder->from(
 			$this->getTableName($from),
 			$this->quoteAlias($alias)
@@ -681,6 +706,8 @@ class QueryBuilder implements IQueryBuilder {
 	 * @return $this This QueryBuilder instance.
 	 */
 	public function join($fromAlias, $join, $alias, $condition = null) {
+		$this->checkTableAccess($join);
+
 		$this->queryBuilder->join(
 			$this->quoteAlias($fromAlias),
 			$this->getTableName($join),
@@ -709,6 +736,8 @@ class QueryBuilder implements IQueryBuilder {
 	 * @return $this This QueryBuilder instance.
 	 */
 	public function innerJoin($fromAlias, $join, $alias, $condition = null) {
+		$this->checkTableAccess($join);
+
 		$this->queryBuilder->innerJoin(
 			$this->quoteAlias($fromAlias),
 			$this->getTableName($join),
@@ -737,6 +766,8 @@ class QueryBuilder implements IQueryBuilder {
 	 * @return $this This QueryBuilder instance.
 	 */
 	public function leftJoin($fromAlias, $join, $alias, $condition = null) {
+		$this->checkTableAccess($join);
+
 		$this->queryBuilder->leftJoin(
 			$this->quoteAlias($fromAlias),
 			$this->getTableName($join),
@@ -765,6 +796,8 @@ class QueryBuilder implements IQueryBuilder {
 	 * @return $this This QueryBuilder instance.
 	 */
 	public function rightJoin($fromAlias, $join, $alias, $condition = null) {
+		$this->checkTableAccess($join);
+
 		$this->queryBuilder->rightJoin(
 			$this->quoteAlias($fromAlias),
 			$this->getTableName($join),
@@ -1313,5 +1346,21 @@ class QueryBuilder implements IQueryBuilder {
 		}
 
 		return $this->helper->quoteColumnName($alias);
+	}
+
+	public function escapeLikeParameter(string $parameter): string {
+		return $this->connection->escapeLikeParameter($parameter);
+	}
+
+	/**
+	 * Mark the query as accessing the sharded tables
+	 *
+	 * Proper attention needs to be given to ensure that all requirements for accessing the sharded tables
+	 *
+	 * @param bool $sharded
+	 * @return void
+	 */
+	public function setSharded(bool $sharded): void {
+		$this->sharded = $sharded;
 	}
 }

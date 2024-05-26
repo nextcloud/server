@@ -1405,6 +1405,7 @@ return array(
     'OC\\Files\\Cache\\CacheDependencies' => $baseDir . '/lib/private/Files/Cache/CacheDependencies.php',
     'OC\\Files\\Cache\\CacheEntry' => $baseDir . '/lib/private/Files/Cache/CacheEntry.php',
     'OC\\Files\\Cache\\CacheQueryBuilder' => $baseDir . '/lib/private/Files/Cache/CacheQueryBuilder.php',
+    'OC\\Files\\Cache\\Database' => $baseDir . '/lib/private/Files/Cache/Database.php',
     'OC\\Files\\Cache\\FailedCache' => $baseDir . '/lib/private/Files/Cache/FailedCache.php',
     'OC\\Files\\Cache\\FileAccess' => $baseDir . '/lib/private/Files/Cache/FileAccess.php',
     'OC\\Files\\Cache\\HomeCache' => $baseDir . '/lib/private/Files/Cache/HomeCache.php',

@@ -18,6 +18,13 @@ interface ISearchQuery {
 	public function getSearchOperation();
 
 	/**
+	 * @param ISearchOperator $operator
+	 * @return void
+	 * @since 29.0.0
+	 */
+	public function setSearchOperation(ISearchOperator $operator): void;
+
+	/**
 	 * Get the maximum number of results to return
 	 *
 	 * @return integer

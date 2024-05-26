@@ -506,17 +506,6 @@ class CacheTest extends \Test\TestCase {
 		$this->assertEquals([], $this->cache->getFolderContents('foo'));
 	}
 
-	public function testGetById() {
-		$storageId = $this->storage->getId();
-		$data = ['size' => 1000, 'mtime' => 20, 'mimetype' => 'foo/file'];
-		$id = $this->cache->put('foo', $data);
-
-		if (strlen($storageId) > 64) {
-			$storageId = md5($storageId);
-		}
-		$this->assertEquals([$storageId, 'foo'], \OC\Files\Cache\Cache::getById($id));
-	}
-
 	public function testStorageMTime() {
 		$data = ['size' => 1000, 'mtime' => 20, 'mimetype' => 'foo/file'];
 		$this->cache->put('foo', $data);
@@ -532,15 +521,6 @@ class CacheTest extends \Test\TestCase {
 		$cachedData = $this->cache->get('foo');
 		$this->assertEquals(30, $cachedData['storage_mtime']);
 		$this->assertEquals(25, $cachedData['mtime']);
-	}
-
-	public function testLongId() {
-		$storage = new LongId([]);
-		$cache = $storage->getCache();
-		$storageId = $storage->getId();
-		$data = ['size' => 1000, 'mtime' => 20, 'mimetype' => 'foo/file'];
-		$id = $cache->put('foo', $data);
-		$this->assertEquals([md5($storageId), 'foo'], \OC\Files\Cache\Cache::getById($id));
 	}
 
 	/**

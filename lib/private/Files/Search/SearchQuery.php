@@ -56,6 +56,10 @@ class SearchQuery implements ISearchQuery {
 		return $this->searchOperation;
 	}
 
+	public function setSearchOperation(ISearchOperator $operator): void {
+		$this->searchOperation = $operator;
+	}
+
 	/**
 	 * @return int
 	 */

@@ -7,11 +7,14 @@
 
 namespace Test\Files\Config;
 
+use OC\DB\Exceptions\DbalException;
 use OC\DB\QueryBuilder\Literal;
+use OC\Files\Cache\FileAccess;
 use OC\Files\Mount\MountPoint;
 use OC\Files\Storage\Storage;
 use OC\User\Manager;
 use OCP\Cache\CappedMemoryCache;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Diagnostics\IEventLogger;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Config\ICachedMountInfo;
@@ -19,6 +22,7 @@ use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IUserManager;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 use Test\Util\User\Dummy;
@@ -27,10 +31,8 @@ use Test\Util\User\Dummy;
  * @group DB
  */
 class UserMountCacheTest extends TestCase {
-	/**
-	 * @var IDBConnection
-	 */
-	private $connection;
+	private IDBConnection $connection;
+	private FileAccess $cacheAccess;
 
 	/**
 	 * @var IUserManager
@@ -48,7 +50,8 @@ class UserMountCacheTest extends TestCase {
 		parent::setUp();
 
 		$this->fileIds = [];
-		$this->connection = \OC::$server->getDatabaseConnection();
+		$this->connection = Server::get(IDBConnection::class);
+		$this->cacheAccess = Server::get(FileAccess::class);
 		$config = $this->getMockBuilder(IConfig::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -66,7 +69,13 @@ class UserMountCacheTest extends TestCase {
 		$userBackend->createUser('u2', '');
 		$userBackend->createUser('u3', '');
 		$this->userManager->registerBackend($userBackend);
-		$this->cache = new \OC\Files\Config\UserMountCache($this->connection, $this->userManager, $this->createMock(LoggerInterface::class), $this->createMock(IEventLogger::class));
+		$this->cache = new \OC\Files\Config\UserMountCache(
+			$this->connection,
+			$this->userManager,
+			$this->createMock(LoggerInterface::class),
+			$this->createMock(IEventLogger::class),
+			$this->cacheAccess,
+		);
 	}
 
 	protected function tearDown(): void {
@@ -335,31 +344,36 @@ class UserMountCacheTest extends TestCase {
 
 	private function createCacheEntry($internalPath, $storageId, $size = 0) {
 		$internalPath = trim($internalPath, '/');
-		$inserted = $this->connection->insertIfNotExist('*PREFIX*filecache', [
-			'storage' => $storageId,
-			'path' => $internalPath,
-			'path_hash' => md5($internalPath),
-			'parent' => -1,
-			'name' => basename($internalPath),
-			'mimetype' => 0,
-			'mimepart' => 0,
-			'size' => $size,
-			'storage_mtime' => 0,
-			'encrypted' => 0,
-			'unencrypted_size' => 0,
-			'etag' => '',
-			'permissions' => 31
-		], ['storage', 'path_hash']);
-		if ($inserted) {
-			$id = (int)$this->connection->lastInsertId('*PREFIX*filecache');
+		$query = $this->connection->getQueryBuilder();
+		$query->insert('filecache')
+			->values([
+				'storage' => $query->createNamedParameter($storageId, IQueryBuilder::PARAM_INT),
+				'path' => $query->createNamedParameter($internalPath),
+				'path_hash' => $query->createNamedParameter(md5($internalPath)),
+				'parent' => $query->createNamedParameter(-1, IQueryBuilder::PARAM_INT),
+				'name' => $query->createNamedParameter(basename($internalPath)),
+				'mimetype' => $query->createNamedParameter(0, IQueryBuilder::PARAM_INT),
+				'mimepart' => $query->createNamedParameter(0, IQueryBuilder::PARAM_INT),
+				'size' => $query->createNamedParameter($size, IQueryBuilder::PARAM_INT),
+				'storage_mtime' => $query->createNamedParameter(0, IQueryBuilder::PARAM_INT),
+				'encrypted' => $query->createNamedParameter(0, IQueryBuilder::PARAM_INT),
+				'unencrypted_size' => $query->createNamedParameter(0, IQueryBuilder::PARAM_INT),
+				'etag' => $query->createNamedParameter(''),
+				'permissions' => $query->createNamedParameter(31, IQueryBuilder::PARAM_INT),
+			]);
+		try {
+			$query->executeStatement();
+			$id = (int)$query->getLastInsertId();
 			$this->fileIds[] = $id;
-		} else {
-			$sql = 'SELECT `fileid` FROM `*PREFIX*filecache` WHERE `storage` = ? AND `path_hash` =?';
-			$query = $this->connection->prepare($sql);
-			$query->execute([$storageId, md5($internalPath)]);
-			return (int)$query->fetchOne();
+			return $id;
+		} catch (DbalException $e) {
+			$query = $this->connection->getQueryBuilder();
+			$query->select('fileid')
+				->from('filecache')
+				->where($query->expr()->eq('storage', $query->createNamedParameter($storageId, IQueryBuilder::PARAM_INT)))
+				->andWhere($query->expr()->eq('path_hash', $query->createNamedParameter(md5($internalPath))));
+			return (int)$query->executeQuery()->fetchOne();
 		}
-		return $id;
 	}
 
 	public function testGetMountsForFileIdRootId() {
