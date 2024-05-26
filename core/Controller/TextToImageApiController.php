@@ -10,8 +10,8 @@ declare(strict_types=1);
 
 namespace OC\Core\Controller;
 
+use OC\Core\ResponseDefinitions;
 use OC\Files\AppData\AppData;
-use OCA\Core\ResponseDefinitions;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\AnonRateLimit;
 use OCP\AppFramework\Http\Attribute\ApiRoute;
