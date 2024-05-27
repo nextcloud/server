@@ -77,7 +77,7 @@ jobs:
           MYSQL_USER: oc_autotest
           MYSQL_PASSWORD: nextcloud
           MYSQL_DATABASE: oc_autotest
-        options: --health-cmd="mysqladmin ping" --health-interval 5s --health-timeout 2s --health-retries 5
+        options: --health-cmd="mysqladmin ping" --health-interval 2s --health-timeout 2s --health-retries 5
 
     steps:
       - name: Checkout server
