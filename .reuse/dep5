@@ -19,6 +19,10 @@ Files: .htaccess
 Copyright: 2011-2016 ownCloud, Inc., 2016-2024 Nextcloud GmbH and Nextcloud contributors
 License: AGPL-3.0-only
 
+Files: core/templates/filetemplates/template.odp core/templates/filetemplates/template.ods core/templates/filetemplates/template.odt
+Copyright: 2013-2016 ownCloud, Inc.
+License: AGPL-3.0-only
+
 Files: .jshintrc
 Copyright: 2014 ownCloud, Inc., 2017 Nextcloud GmbH and Nextcloud contributors
 License: AGPL-3.0-only
@@ -127,12 +131,20 @@ Files: apps/cloud_federation_api/l10n/*.js apps/cloud_federation_api/l10n/*.json
 Copyright: 2016-2024 Nextcloud translators
 License: AGPL-3.0-or-later
 
-Files: .gitattributes composer.json composer.lock .github/CODEOWNERS __tests__/tsconfig.json tsconfig.json build/integration/composer.* build/integration/data/*.png
+Files: .gitattributes composer.json composer.lock .github/CODEOWNERS __tests__/tsconfig.json tsconfig.json build/integration/composer.* build/integration/data/*.png vendor-bin/*/composer.json vendor-bin/*/composer.lock
 Copyright: 2011-2016 ownCloud, Inc., 2016-2024 Nextcloud GmbH and Nextcloud contributors
 License: AGPL-3.0-only OR AGPL-3.0-or-later
 
+Files: vendor-bin/*/composer.json vendor-bin/*/composer.lock
+Copyright: 2021 Nextcloud GmbH and Nextcloud contributors
+License: AGPL-3.0-or-later
+
 Files: lib/composer/*
 Copyright: Nils Adermann, Jordi Boggiano
+License: MIT
+
+Files: core/vendor/zxcvbn/dist/zxcvbn.js
+Copyright: 2012-2016 Dan Wheeler and Dropbox, Inc.
 License: MIT
 
 Files: core/img/twitter.svg
