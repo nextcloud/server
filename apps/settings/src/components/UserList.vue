@@ -313,6 +313,7 @@ export default {
 					await this.$store.dispatch('getDisabledUsers', {
 						offset: this.disabledUsersOffset,
 						limit: this.disabledUsersLimit,
+						search: this.searchQuery,
 					})
 				} else {
 					await this.$store.dispatch('getUsers', {

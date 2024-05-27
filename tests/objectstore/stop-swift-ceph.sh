@@ -1,6 +1,7 @@
 #!/bin/bash
 #
-# ownCloud
+# SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+# SPDX-License-Identifier: AGPL-3.0-only
 #
 # This script stops the docker container the files_external tests were run
 # against. It will also revert the config changes done in start step.

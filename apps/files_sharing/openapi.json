@@ -1781,10 +1781,10 @@
                     {
                         "name": "expireDate",
                         "in": "query",
-                        "description": "Expiry date of the share using user timezone at 00:00. It means date in UTC timezone will be used.",
+                        "description": "The expiry date of the share in the user's timezone (UTC) at 00:00. If $expireDate is not supplied or set to `null`, the system default will be used.",
                         "schema": {
                             "type": "string",
-                            "default": ""
+                            "nullable": true
                         }
                     },
                     {

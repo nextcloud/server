@@ -66,6 +66,10 @@
 			}
 		}
 
+		&--username {
+			padding-left: calc(var(--default-grid-baseline) * 3);
+		}
+
 		&--avatar {
 			min-width: var(--avatar-cell-width);
 			width: var(--avatar-cell-width);

@@ -85,6 +85,7 @@ class Capabilities implements IPublicCapability {
 	 *         color-element-dark: string,
 	 *         logo: string,
 	 *         background: string,
+	 *         background-text: string,
 	 *         background-plain: bool,
 	 *         background-default: bool,
 	 *         logoheader: string,
@@ -94,15 +95,13 @@ class Capabilities implements IPublicCapability {
 	 */
 	public function getCapabilities() {
 		$color = $this->theming->getDefaultColorPrimary();
-		// Same as in DefaultTheme
-		if ($color === BackgroundService::DEFAULT_COLOR) {
-			$color = BackgroundService::DEFAULT_ACCESSIBLE_COLOR;
-		}
 		$colorText = $this->util->invertTextColor($color) ? '#000000' : '#ffffff';
 
 		$backgroundLogo = $this->config->getAppValue('theming', 'backgroundMime', '');
-		$backgroundPlain = $backgroundLogo === 'backgroundColor' || ($backgroundLogo === '' && $color !== '#0082c9');
-		$background = $backgroundPlain ? $color : $this->url->getAbsoluteURL($this->theming->getBackground());
+		$backgroundColor = $this->theming->getColorBackground();
+		$backgroundText = $this->theming->getTextColorBackground();
+		$backgroundPlain = $backgroundLogo === 'backgroundColor' || ($backgroundLogo === '' && $backgroundColor !== BackgroundService::DEFAULT_COLOR);
+		$background = $backgroundPlain ? $backgroundColor : $this->url->getAbsoluteURL($this->theming->getBackground());
 
 		$user = $this->userSession->getUser();
 		if ($user instanceof IUser) {
@@ -112,10 +111,7 @@ class Capabilities implements IPublicCapability {
 			 * @see \OCA\Theming\Themes\CommonThemeTrait::generateUserBackgroundVariables()
 			 */
 			$color = $this->theming->getColorPrimary();
-			if ($color === BackgroundService::DEFAULT_COLOR) {
-				$color = BackgroundService::DEFAULT_ACCESSIBLE_COLOR;
-			}
-			$colorText = $this->util->invertTextColor($color) ? '#000000' : '#ffffff';
+			$colorText = $this->theming->getTextColorPrimary();
 
 			$backgroundImage = $this->config->getUserValue($user->getUID(), Application::APP_ID, 'background_image', BackgroundService::BACKGROUND_DEFAULT);
 			if ($backgroundImage === BackgroundService::BACKGROUND_CUSTOM) {
@@ -126,7 +122,7 @@ class Capabilities implements IPublicCapability {
 				$background = $this->url->linkTo(Application::APP_ID, "img/background/$backgroundImage");
 			} elseif ($backgroundImage !== BackgroundService::BACKGROUND_DEFAULT) {
 				$backgroundPlain = true;
-				$background = $color;
+				$background = $backgroundColor;
 			}
 		}
 
@@ -142,6 +138,7 @@ class Capabilities implements IPublicCapability {
 				'color-element-dark' => $this->util->elementColor($color, false),
 				'logo' => $this->url->getAbsoluteURL($this->theming->getLogo()),
 				'background' => $background,
+				'background-text' => $backgroundText,
 				'background-plain' => $backgroundPlain,
 				'background-default' => !$this->util->isBackgroundThemed(),
 				'logoheader' => $this->url->getAbsoluteURL($this->theming->getLogo()),

@@ -28,38 +28,40 @@ namespace OCA\Theming\Service;
 
 use OCA\Theming\ThemingDefaults;
 use OCA\Theming\Util;
-use OCP\IConfig;
 
 class JSDataService implements \JsonSerializable {
-	private ThemingDefaults $themingDefaults;
-	private Util $util;
-	private IConfig $appConfig;
-	private ThemesService $themesService;
 
 	public function __construct(
-		ThemingDefaults $themingDefaults,
-		Util $util,
-		IConfig $appConfig,
-		ThemesService $themesService
+		private ThemingDefaults $themingDefaults,
+		private Util $util,
+		private ThemesService $themesService,
 	) {
 		$this->themingDefaults = $themingDefaults;
 		$this->util = $util;
-		$this->appConfig = $appConfig;
 		$this->themesService = $themesService;
 	}
 
 	public function jsonSerialize(): array {
 		return [
 			'name' => $this->themingDefaults->getName(),
-			'url' => $this->themingDefaults->getBaseUrl(),
 			'slogan' => $this->themingDefaults->getSlogan(),
-			'color' => $this->themingDefaults->getColorPrimary(),
-			'defaultColor' => $this->themingDefaults->getDefaultColorPrimary(),
+
+			'url' => $this->themingDefaults->getBaseUrl(),
 			'imprintUrl' => $this->themingDefaults->getImprintUrl(),
 			'privacyUrl' => $this->themingDefaults->getPrivacyUrl(),
+
+			'primaryColor' => $this->themingDefaults->getColorPrimary(),
+			'backgroundColor' => $this->themingDefaults->getColorBackground(),
+			'defaultPrimaryColor' => $this->themingDefaults->getDefaultColorPrimary(),
+			'defaultBackgroundColor' => $this->themingDefaults->getDefaultColorBackground(),
 			'inverted' => $this->util->invertTextColor($this->themingDefaults->getColorPrimary()),
+
 			'cacheBuster' => $this->util->getCacheBuster(),
 			'enabledThemes' => $this->themesService->getEnabledThemes(),
+
+			// deprecated use primaryColor
+			'color' => $this->themingDefaults->getColorPrimary(),
+			'' => 'color is deprecated since Nextcloud 29, use primaryColor instead'
 		];
 	}
 }

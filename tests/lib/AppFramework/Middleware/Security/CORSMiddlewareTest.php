@@ -1,14 +1,9 @@
 <?php
 /**
- * ownCloud - App Framework
- *
- * This file is licensed under the Affero General Public License version 3 or
- * later. See the COPYING file.
- *
- * @author Bernhard Posselt <dev@bernhard-posselt.com>
- * @copyright Bernhard Posselt 2014
+ * SPDX-FileCopyrightText: 2016-2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2014-2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-
 namespace Test\AppFramework\Middleware\Security;
 
 use OC\AppFramework\Http\Request;

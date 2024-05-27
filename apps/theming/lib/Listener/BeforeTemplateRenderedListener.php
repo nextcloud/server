@@ -26,7 +26,6 @@ declare(strict_types=1);
 namespace OCA\Theming\Listener;
 
 use OCA\Theming\AppInfo\Application;
-use OCA\Theming\Service\BackgroundService;
 use OCA\Theming\Service\JSDataService;
 use OCA\Theming\Service\ThemeInjectionService;
 use OCP\AppFramework\Http\Events\BeforeLoginTemplateRenderedEvent;
@@ -80,43 +79,6 @@ class BeforeTemplateRenderedListener implements IEventListener {
 		}
 
 		$this->themeInjectionService->injectHeaders();
-
-		$user = $this->userSession->getUser();
-
-		if (!empty($user)) {
-			$userId = $user->getUID();
-
-			/** User background */
-			$this->initialState->provideInitialState(
-				'backgroundImage',
-				$this->config->getUserValue($userId, Application::APP_ID, 'background_image', BackgroundService::BACKGROUND_DEFAULT),
-			);
-
-			/** User color */
-			$this->initialState->provideInitialState(
-				'backgroundColor',
-				$this->config->getUserValue($userId, Application::APP_ID, 'background_color', BackgroundService::DEFAULT_COLOR),
-			);
-
-			/**
-			 * Admin background. `backgroundColor` if disabled,
-			 * mime type if defined and empty by default
-			 */
-			$this->initialState->provideInitialState(
-				'themingDefaultBackground',
-				$this->config->getAppValue('theming', 'backgroundMime', ''),
-			);
-			$this->initialState->provideInitialState(
-				'defaultShippedBackground',
-				BackgroundService::DEFAULT_BACKGROUND_IMAGE,
-			);
-
-			/** List of all shipped backgrounds */
-			$this->initialState->provideInitialState(
-				'shippedBackgrounds',
-				BackgroundService::SHIPPED_BACKGROUNDS,
-			);
-		}
 
 		// Making sure to inject just after core
 		\OCP\Util::addScript('theming', 'theming', 'core');

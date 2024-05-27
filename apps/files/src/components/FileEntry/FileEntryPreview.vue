@@ -76,10 +76,11 @@ import NetworkIcon from 'vue-material-design-icons/Network.vue'
 import TagIcon from 'vue-material-design-icons/Tag.vue'
 import PlayCircleIcon from 'vue-material-design-icons/PlayCircle.vue'
 
-import { useUserConfigStore } from '../../store/userconfig.ts'
 import CollectivesIcon from './CollectivesIcon.vue'
 import FavoriteIcon from './FavoriteIcon.vue'
+
 import { isLivePhoto } from '../../services/LivePhotos'
+import { useUserConfigStore } from '../../store/userconfig.ts'
 
 export default Vue.extend({
 	name: 'FileEntryPreview',
@@ -161,6 +162,10 @@ export default Vue.extend({
 				url.searchParams.set('x', this.gridMode ? '128' : '32')
 				url.searchParams.set('y', this.gridMode ? '128' : '32')
 				url.searchParams.set('mimeFallback', 'true')
+
+				// Etag to force refresh preview on change
+				const etag = this.source?.attributes?.etag || ''
+				url.searchParams.set('v', etag.slice(0, 6))
 
 				// Handle cropping
 				url.searchParams.set('a', this.cropPreviews === true ? '0' : '1')

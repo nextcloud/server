@@ -376,7 +376,7 @@ $CONFIG = [
  * Tokens are still checked every 5 minutes for validity
  * max value: 300
  *
- * Defaults to ``300``
+ * Defaults to ``60``
  */
 'token_auth_activity_update' => 60,
 
@@ -2240,6 +2240,11 @@ $CONFIG = [
  * Allows to modify the cli-upgrade link in order to link to a different documentation
  */
 'upgrade.cli-upgrade-link' => '',
+
+/**
+ * Allows to modify the exception server logs documentation link in order to link to a different documentation
+ */
+'documentation_url.server_logs' => '',
 
 /**
  * Set this Nextcloud instance to debugging mode

@@ -97,19 +97,16 @@ class CalendarObject extends \Sabre\CalDAV\CalendarObject {
 	 * @param Component\VCalendar $vObject
 	 * @return void
 	 */
-	private function createConfidentialObject(Component\VCalendar $vObject) {
+	private function createConfidentialObject(Component\VCalendar $vObject): void {
 		/** @var Component $vElement */
-		$vElement = null;
-		if (isset($vObject->VEVENT)) {
-			$vElement = $vObject->VEVENT;
-		}
-		if (isset($vObject->VJOURNAL)) {
-			$vElement = $vObject->VJOURNAL;
-		}
-		if (isset($vObject->VTODO)) {
-			$vElement = $vObject->VTODO;
-		}
-		if (!is_null($vElement)) {
+		$vElements = array_filter($vObject->getComponents(), static function ($vElement) {
+			return $vElement instanceof Component\VEvent || $vElement instanceof Component\VJournal || $vElement instanceof Component\VTodo;
+		});
+
+		foreach ($vElements as $vElement) {
+			if (empty($vElement->select('SUMMARY'))) {
+				$vElement->add('SUMMARY', $this->l10n->t('Busy')); // This is needed to mask "Untitled Event" events
+			}
 			foreach ($vElement->children() as &$property) {
 				/** @var Property $property */
 				switch ($property->name) {

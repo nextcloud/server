@@ -35,8 +35,12 @@
 			<strong>
 				{{ t('settings', 'Display name') }}
 			</strong>
-			<span class="header__subtitle">
-				{{ t('settings', 'Username') }}
+		</th>
+		<th class="header__cell header__cell--username"
+			data-cy-user-list-header-username
+			scope="col">
+			<span>
+				{{ t('settings', 'Account name') }}
 			</span>
 		</th>
 		<th class="header__cell"
@@ -77,7 +81,7 @@
 			data-cy-user-list-header-storage-location
 			scope="col">
 			<span v-if="showConfig.showUserBackend">
-				{{ t('settings', 'User backend') }}
+				{{ t('settings', 'Account backend') }}
 			</span>
 			<span v-if="showConfig.showStoragePath"
 				class="header__subtitle">

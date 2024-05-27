@@ -30,6 +30,7 @@ namespace OCA\Theming\Tests\Settings;
 use OCA\Theming\AppInfo\Application;
 use OCA\Theming\ImageManager;
 use OCA\Theming\ITheme;
+use OCA\Theming\Service\BackgroundService;
 use OCA\Theming\Service\ThemesService;
 use OCA\Theming\Settings\Personal;
 use OCA\Theming\Themes\DarkHighContrastTheme;
@@ -116,18 +117,23 @@ class PersonalTest extends TestCase {
 			->with('enforce_theme', '')
 			->willReturn($enforcedTheme);
 
-		$this->config->expects($this->once())
+		$this->config->expects($this->any())
 			->method('getUserValue')
-			->with('admin', 'core', 'apporder')
-			->willReturn('[]');
+			->willReturnMap([
+				['admin', 'core', 'apporder', '[]', '[]'],
+				['admin', 'theming', 'background_image', BackgroundService::BACKGROUND_DEFAULT],
+			]);
 
 		$this->appManager->expects($this->once())
 			->method('getDefaultAppForUser')
 			->willReturn('forcedapp');
 
-		$this->initialStateService->expects($this->exactly(4))
+		$this->initialStateService->expects($this->exactly(7))
 			->method('provideInitialState')
 			->withConsecutive(
+				['shippedBackgrounds', BackgroundService::SHIPPED_BACKGROUNDS],
+				['themingDefaults'],
+				['userBackgroundImage'],
 				['themes', $themesState],
 				['enforceTheme', $enforcedTheme],
 				['isUserThemingDisabled', false],

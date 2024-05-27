@@ -1,4 +1,5 @@
 {
+	"esversion": 11,
 	"camelcase": true,
 	"eqeqeq": true,
 	"immed": true,
@@ -11,10 +12,10 @@
 	"maxparams": 5,
 	"curly": true,
 	"jquery": true,
-	"maxlen": 120,
 	"indent": 4,
 	"browser": true,
 	"laxbreak": true,
+	"asi": true,
 	"globals": {
 		"console": true,
 		"it": true,

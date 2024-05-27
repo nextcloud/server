@@ -23,7 +23,7 @@ import { getRequestToken } from '@nextcloud/auth'
 import Vue from 'vue'
 
 import { refreshStyles } from './helpers/refreshStyles.js'
-import App from './UserThemes.vue'
+import App from './UserTheming.vue'
 
 // eslint-disable-next-line camelcase
 __webpack_nonce__ = btoa(getRequestToken())

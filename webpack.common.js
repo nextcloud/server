@@ -147,6 +147,26 @@ module.exports = {
 	},
 
 	optimization: {
+		minimizer: [{
+			apply: (compiler) => {
+				// Lazy load the Terser plugin
+				const TerserPlugin = require('terser-webpack-plugin')
+				new TerserPlugin({
+					extractComments: {
+						condition: /^\**!|@license|@copyright|SPDX-License-Identifier|SPDX-FileCopyrightText/i,
+						filename: (fileData) => {
+						  // The "fileData" argument contains object with "filename", "basename", "query" and "hash"
+						  return `${fileData.filename}.license${fileData.query}`
+						},
+					},
+					terserOptions: {
+						compress: {
+							passes: 2,
+						},
+					},
+			  }).apply(compiler)
+			},
+		}],
 		splitChunks: {
 			automaticNameDelimiter: '-',
 			minChunks: 3, // minimum number of chunks that must share the module

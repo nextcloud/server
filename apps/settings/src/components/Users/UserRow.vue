@@ -54,13 +54,14 @@
 					spellcheck="false"
 					@trailing-button-click="updateDisplayName" />
 			</template>
-			<template v-else>
-				<strong v-if="!isObfuscated"
-					:title="user.displayname?.length > 20 ? user.displayname : null">
-					{{ user.displayname }}
-				</strong>
-				<span class="row__subtitle">{{ user.id }}</span>
-			</template>
+			<strong v-else-if="!isObfuscated"
+				:title="user.displayname?.length > 20 ? user.displayname : null">
+				{{ user.displayname }}
+			</strong>
+		</td>
+
+		<td class="row__cell row__cell--username" data-cy-user-list-cell-username>
+			<span class="row__subtitle">{{ user.id }}</span>
 		</td>
 
 		<td data-cy-user-list-cell-password

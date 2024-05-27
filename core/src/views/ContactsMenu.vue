@@ -1,23 +1,6 @@
 <!--
-  - @copyright 2023 Christopher Ng <chrng8@gmail.com>
-  -
-  - @author Christopher Ng <chrng8@gmail.com>
-  -
-  - @license AGPL-3.0-or-later
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program. If not, see <http://www.gnu.org/licenses/>.
-  -
+  - SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
 <template>
@@ -26,7 +9,7 @@
 		:aria-label="t('core', 'Search contacts')"
 		@open="handleOpen">
 		<template #trigger>
-			<Contacts :size="20" />
+			<Contacts class="contactsmenu__trigger-icon" :size="20" />
 		</template>
 		<div class="contactsmenu__menu">
 			<div class="contactsmenu__menu__input-wrapper">
@@ -188,6 +171,10 @@ export default {
 .contactsmenu {
 	overflow-y: hidden;
 
+	&__trigger-icon {
+		color: var(--color-background-plain-text) !important;
+	}
+
 	&__menu {
 		display: flex;
 		flex-direction: column;
@@ -230,6 +217,10 @@ export default {
 				box-shadow: inset 0 0 0 2px var(--color-main-text) !important; // override rule in core/css/headers.scss #header a:focus-visible
 			}
 		}
+	}
+
+	:deep(.empty-content) {
+		margin: 0 !important;
 	}
 }
 </style>

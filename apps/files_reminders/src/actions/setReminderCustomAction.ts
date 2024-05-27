@@ -19,7 +19,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import { FileAction, Node } from '@nextcloud/files'
+
+import type { Node, View } from '@nextcloud/files'
+
+import { FileAction } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 import CalendarClockSvg from '@mdi/svg/svg/calendar-clock.svg?raw'
 
@@ -32,7 +35,10 @@ export const action = new FileAction({
 	title: () => t('files_reminders', 'Set reminder at custom date & time'),
 	iconSvgInline: () => CalendarClockSvg,
 
-	enabled: () => true,
+	enabled: (_nodes: Node[], view: View) => {
+		return view.id !== 'trashbin'
+	},
+
 	parent: SET_REMINDER_MENU_ID,
 
 	async exec(file: Node) {

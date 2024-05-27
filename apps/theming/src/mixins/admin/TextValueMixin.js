@@ -64,10 +64,14 @@ export default {
 			this.reset()
 			const url = generateUrl('/apps/theming/ajax/undoChanges')
 			try {
-				await axios.post(url, {
+				const { data } = await axios.post(url, {
 					setting: this.name,
 				})
-				this.$emit('update:value', this.defaultValue)
+
+				if (data.data.value) {
+					this.$emit('update:defaultValue', data.data.value)
+				}
+				this.$emit('update:value', data.data.value || this.defaultValue)
 				this.handleSuccess()
 			} catch (e) {
 				this.errorMessage = e.response.data.data?.message

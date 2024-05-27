@@ -58,7 +58,6 @@ class UserThemeController extends OCSController {
 	protected ?string $userId = null;
 
 	private IConfig $config;
-	private IUserSession $userSession;
 	private ThemesService $themesService;
 	private ThemingDefaults $themingDefaults;
 	private BackgroundService $backgroundService;
@@ -72,7 +71,6 @@ class UserThemeController extends OCSController {
 		BackgroundService $backgroundService) {
 		parent::__construct($appName, $request);
 		$this->config = $config;
-		$this->userSession = $userSession;
 		$this->themesService = $themesService;
 		$this->themingDefaults = $themingDefaults;
 		$this->backgroundService = $backgroundService;
@@ -186,7 +184,8 @@ class UserThemeController extends OCSController {
 		$this->backgroundService->deleteBackgroundImage();
 		return new JSONResponse([
 			'backgroundImage' => null,
-			'backgroundColor' => $this->themingDefaults->getColorPrimary(),
+			'backgroundColor' => $this->themingDefaults->getColorBackground(),
+			'primaryColor' => $this->themingDefaults->getColorPrimary(),
 			'version' => $currentVersion,
 		]);
 	}
@@ -241,7 +240,8 @@ class UserThemeController extends OCSController {
 
 		return new JSONResponse([
 			'backgroundImage' => $this->config->getUserValue($this->userId, Application::APP_ID, 'background_image', BackgroundService::BACKGROUND_DEFAULT),
-			'backgroundColor' => $this->themingDefaults->getColorPrimary(),
+			'backgroundColor' => $this->themingDefaults->getColorBackground(),
+			'primaryColor' => $this->themingDefaults->getColorPrimary(),
 			'version' => $currentVersion,
 		]);
 	}
