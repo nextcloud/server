@@ -291,7 +291,7 @@ class IMipPlugin extends SabreIMipPlugin {
 			// retrieve all services
 			$mailService = $mailManager->findServiceByAddress($this->userSession->getUser()->getUID(), $sender);
 			// evaluate if a mail service was found and has sending capabilities
-			if ($mailService->capable('MessageSend')) {
+			if ($mailService !== null && $mailService->capable('MessageSend')) {
 				// construct mail provider message and set required parameters
 				$message = new \OCP\Mail\Provider\Message();
 				$message->setFrom(
