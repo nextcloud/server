@@ -395,8 +395,8 @@ const actions = {
 	 * @param {number} options.limit List number to return from offset
 	 * @return {Promise<number>}
 	 */
-	async getDisabledUsers(context, { offset, limit }) {
-		const url = generateOcsUrl('cloud/users/disabled?offset={offset}&limit={limit}', { offset, limit })
+	async getDisabledUsers(context, { offset, limit, search }) {
+		const url = generateOcsUrl('cloud/users/disabled?offset={offset}&limit={limit}&search={search}', { offset, limit, search })
 		try {
 			const response = await api.get(url)
 			const usersCount = Object.keys(response.data.ocs.data.users).length
