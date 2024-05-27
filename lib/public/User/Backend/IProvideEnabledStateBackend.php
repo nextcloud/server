@@ -49,7 +49,7 @@ interface IProvideEnabledStateBackend {
 	 * Get the list of disabled users, to merge with the ones disabled in database
 	 *
 	 * @since 28.0.0
-	 * @since 30.0.0 $search parameter added
+	 * @since 28.0.7 $search parameter added
 	 *
 	 * @return string[]
 	 */
