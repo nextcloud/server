@@ -49,8 +49,9 @@ interface IProvideEnabledStateBackend {
 	 * Get the list of disabled users, to merge with the ones disabled in database
 	 *
 	 * @since 28.0.0
+	 * @since 29.0.2 $search parameter added
 	 *
 	 * @return string[]
 	 */
-	public function getDisabledUserList(?int $limit = null, int $offset = 0): array;
+	public function getDisabledUserList(?int $limit = null, int $offset = 0, string $search = ''): array;
 }
