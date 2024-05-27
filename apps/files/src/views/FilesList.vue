@@ -119,7 +119,6 @@
 import type { View, ContentsWithRoot } from '@nextcloud/files'
 import type { Upload } from '@nextcloud/upload'
 import type { CancelablePromise } from 'cancelable-promise'
-import type { Order } from 'natural-orderby'
 import type { Route } from 'vue-router'
 import type { UserConfig } from '../types.ts'
 
@@ -302,7 +301,7 @@ export default defineComponent({
 				this.isAscSorting ? 'asc' : 'desc',
 				// for 5: use configured sorting direction
 				this.isAscSorting ? 'asc' : 'desc',
-			] as Order[]
+			] as ('asc'|'desc')[]
 			return [identifiers, orders] as const
 		},
 
