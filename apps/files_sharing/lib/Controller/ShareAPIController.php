@@ -233,7 +233,7 @@ class ShareAPIController extends OCSController {
 			$result['share_with'] = $share->getSharedWith();
 			$result['share_with_displayname'] = $sharedWith !== null ? $sharedWith->getDisplayName() : $share->getSharedWith();
 			$result['share_with_displayname_unique'] = $sharedWith !== null ? (
-				 !empty($sharedWith->getSystemEMailAddress()) ? $sharedWith->getSystemEMailAddress() : $sharedWith->getUID()
+				!empty($sharedWith->getSystemEMailAddress()) ? $sharedWith->getSystemEMailAddress() : $sharedWith->getUID()
 			) : $share->getSharedWith();
 			$result['status'] = [];
 
@@ -332,7 +332,7 @@ class ShareAPIController extends OCSController {
 
 		$result['attributes'] = null;
 		if ($attributes = $share->getAttributes()) {
-			$result['attributes'] =  \json_encode($attributes->toArray());
+			$result['attributes'] = \json_encode($attributes->toArray());
 		}
 
 		return $result;
@@ -579,7 +579,7 @@ class ShareAPIController extends OCSController {
 		string $publicUpload = 'false',
 		string $password = '',
 		string $sendPasswordByTalk = null,
-		string $expireDate = '',
+		string $expireDate = null,
 		string $note = '',
 		string $label = '',
 		string $attributes = null
@@ -651,6 +651,21 @@ class ShareAPIController extends OCSController {
 
 		if ($attributes !== null) {
 			$share = $this->setShareAttributes($share, $attributes);
+		}
+
+		if ($expireDate !== null) {
+			if ($expireDate !== '') {
+				try {
+					$expireDate = $this->parseDate($expireDate);
+					$share->setExpirationDate($expireDate);
+				} catch (\Exception $e) {
+					throw new OCSNotFoundException($this->l->t('Invalid date, date format must be YYYY-MM-DD'));
+				}
+			} else {
+				// Client sent empty string for expire date.
+				// Set noExpirationDate to true so overwrite is prevented.
+				$share->setNoExpirationDate(true);
+			}
 		}
 
 		$share->setSharedBy($this->currentUser);
@@ -739,14 +754,6 @@ class ShareAPIController extends OCSController {
 
 			$share->setSharedWith($shareWith);
 			$share->setPermissions($permissions);
-			if ($expireDate !== '') {
-				try {
-					$expireDate = $this->parseDate($expireDate);
-					$share->setExpirationDate($expireDate);
-				} catch (\Exception $e) {
-					throw new OCSNotFoundException($this->l->t('Invalid date, date format must be YYYY-MM-DD'));
-				}
-			}
 
 			$share->setSharedWithDisplayName($this->getCachedFederatedDisplayName($shareWith, false));
 		} elseif ($shareType === IShare::TYPE_REMOTE_GROUP) {
@@ -760,14 +767,7 @@ class ShareAPIController extends OCSController {
 
 			$share->setSharedWith($shareWith);
 			$share->setPermissions($permissions);
-			if ($expireDate !== '') {
-				try {
-					$expireDate = $this->parseDate($expireDate);
-					$share->setExpirationDate($expireDate);
-				} catch (\Exception $e) {
-					throw new OCSNotFoundException($this->l->t('Invalid date, date format must be YYYY-MM-DD'));
-				}
-			}
+
 		} elseif ($shareType === IShare::TYPE_CIRCLE) {
 			if (!\OC::$server->getAppManager()->isEnabledForUser('circles') || !class_exists('\OCA\Circles\ShareByCircleProvider')) {
 				throw new OCSNotFoundException($this->l->t('You cannot share to a Circle if the app is not enabled'));
@@ -801,16 +801,6 @@ class ShareAPIController extends OCSController {
 			}
 		} else {
 			throw new OCSBadRequestException($this->l->t('Unknown share type'));
-		}
-
-		//Expire date
-		if ($expireDate !== '') {
-			try {
-				$expireDate = $this->parseDate($expireDate);
-				$share->setExpirationDate($expireDate);
-			} catch (\Exception $e) {
-				throw new OCSNotFoundException($this->l->t('Invalid date, date format must be YYYY-MM-DD'));
-			}
 		}
 
 		$share->setShareType($shareType);
@@ -1285,8 +1275,8 @@ class ShareAPIController extends OCSController {
 				}
 
 				if (!$this->hasPermission($newPermissions, Constants::PERMISSION_READ) && (
-						$this->hasPermission($newPermissions, Constants::PERMISSION_UPDATE) || $this->hasPermission($newPermissions, Constants::PERMISSION_DELETE)
-					)) {
+					$this->hasPermission($newPermissions, Constants::PERMISSION_UPDATE) || $this->hasPermission($newPermissions, Constants::PERMISSION_DELETE)
+				)) {
 					throw new OCSBadRequestException($this->l->t('Share must have READ permission if UPDATE or DELETE permission is set'));
 				}
 			}
