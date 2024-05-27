@@ -322,8 +322,8 @@ class IMipPlugin extends SabreIMipPlugin {
 				);
 				$message->useTemplate($template);
 				$message->attachInline(
-					$itip_msg, 
-					'event.ics', 
+					$itip_msg,
+					'event.ics',
 					'text/calendar; method=' . $iTipMessage->method
 				);
 				$failed = $this->mailer->send($message);
