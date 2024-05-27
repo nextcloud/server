@@ -49,6 +49,7 @@
   --default-font-size: 15px;
   --animation-quick: 100ms;
   --animation-slow: 300ms;
+  --border-radius-element: 10px; /** Nextcloud 29+ | temp variable to use old design */
   --border-radius: 3px;
   --border-radius-large: 10px;
   --border-radius-rounded: 28px;
