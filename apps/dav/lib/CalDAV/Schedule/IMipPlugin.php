@@ -44,7 +44,6 @@ use OCP\IConfig;
 use OCP\IUserSession;
 use OCP\Mail\IMailer;
 use OCP\Mail\Provider\Manager as MailManager;
-use OCP\Mail\Provider\IMessageSend;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
 use Sabre\CalDAV\Schedule\IMipPlugin as SabreIMipPlugin;
@@ -288,11 +287,11 @@ class IMipPlugin extends SabreIMipPlugin {
 
 		try {
 			// load mail provider manager
-			$manager = \OC::$server->get(\OC\Mail\Provider\Manager::class);
+			$mailManager = \OC::$server->get(\OC\Mail\Provider\Manager::class);
 			// retrieve all services
-			$service = $manager->findServiceByAddress($this->userSession->getUser()->getUID(), $sender);
-			// evaluate if a mail service was found with the correct address
-			if ($service) {
+			$mailService = $mailManager->findServiceByAddress($this->userSession->getUser()->getUID(), $sender);
+			// evaluate if a mail service was found and has sending capabilities
+			if ($mailService->capable('MessageSend')) {
 				// construct mail provider message and set required parameters
 				$message = new \OCP\Mail\Provider\Message();
 				$message->setFrom(
@@ -310,7 +309,7 @@ class IMipPlugin extends SabreIMipPlugin {
 					'text/calendar; method=' . $iTipMessage->method,
 					true
 				)));
-				$failed = $service->messageSend($message);
+				$failed = $mailService->messageSend($message);
 			} else {
 				// construct symfony mailer message and set required parameters
 				$message = $this->mailer->createMessage();

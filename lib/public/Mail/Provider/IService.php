@@ -37,9 +37,18 @@ interface IService {
 	 * An arbitrary unique text string identifying this service
 	 * 
 	 * @since 30.0.0
-	 * @return string			id of this service (e.g. 1 or service1 or anything else)
+	 * @return string						id of this service (e.g. 1 or service1 or anything else)
 	 */
 	public function id(): string;
+
+	/**
+	 * checks or retrieves what capabilites the service has
+	 * 
+	 * @since 30.0.0
+	 * @param string $ability				required ability e.g. 'MessageSend'
+	 * @return bool|array					true/false if ability is supplied, collection of abilities otherwise
+	 */
+	public function capable(string $ability = null): bool | array;
 
 	/**
 	 * gets the localized human frendly name of this service
