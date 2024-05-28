@@ -26,6 +26,7 @@ declare(strict_types=1);
 namespace OCA\DAV\CalDAV\Schedule;
 
 use OC\URLGenerator;
+use OCA\DAV\CalDAV\EventReader;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IL10N;
@@ -149,7 +150,7 @@ class IMipService {
 	public function buildBodyData(VEvent $vEvent, ?VEvent $oldVEvent): array {
 		$defaultVal = '';
 		$data = [];
-		$data['meeting_when'] = $this->generateWhenString($vEvent);
+		$data['meeting_when'] = isset($vEvent->RRULE) ? $this->generateWhenStringRecurring($vEvent) : $this->generateWhenStringSingular($vEvent);
 
 		foreach(self::STRING_DIFF as $key => $property) {
 			$data[$key] = self::readPropertyWithDefault($vEvent, $property, $defaultVal);
@@ -162,7 +163,7 @@ class IMipService {
 		}
 
 		if(!empty($oldVEvent)) {
-			$oldMeetingWhen = $this->generateWhenString($oldVEvent);
+			$oldMeetingWhen = isset($oldVEvent->RRULE) ? $this->generateWhenStringRecurring($oldVEvent) : $this->generateWhenStringSingular($oldVEvent);
 			$data['meeting_title_html'] = $this->generateDiffString($vEvent, $oldVEvent, 'SUMMARY', $data['meeting_title']);
 			$data['meeting_description_html'] = $this->generateDiffString($vEvent, $oldVEvent, 'DESCRIPTION', $data['meeting_description']);
 			$data['meeting_location_html'] = $this->generateLinkifiedDiffString($vEvent, $oldVEvent, 'LOCATION', $data['meeting_location']);
@@ -175,6 +176,34 @@ class IMipService {
 					? sprintf("<span style='text-decoration: line-through'>%s</span><br />%s", $oldMeetingWhen, $data['meeting_when'])
 					: $data['meeting_when'];
 		}
+
+		if (isset($vEvent->RRULE)) {
+			// construct recurrance iterator
+			$er = new EventReader($vEvent);
+			// current date
+			$dateNow = new \DateTime('NOW');
+			// forward to current date
+			$er->recurrenceAdvanceTo($dateNow);
+			// calculate interval
+			$dateInterval = $dateNow->diff($er->recurrenceDate());
+			// construct occurring message
+			$data['meeting_occurring'] = $this->generateIntervalString($dateInterval, 'In', 'Next') . ' on ' . $this->l10n->l('date', $er->recurrenceDate());
+			// forward one occurance
+			$er->recurrenceAdvance();
+			// evaluate if occurance is valid
+			if ($er->recurrenceDate()) {
+				// add occurance to message
+				$data['meeting_occurring'] .= ' then on ' . $this->l10n->l('date', $er->recurrenceDate());
+				// forward one occurance
+				$er->recurrenceAdvance();
+				// evaluate if occurance is valid
+				if ($er->recurrenceDate()) {
+					// add occurance to message
+					$data['meeting_occurring'] .= ' and ' . $this->l10n->l('date', $er->recurrenceDate());
+				}
+			}
+		}
+		
 		return $data;
 	}
 
@@ -183,7 +212,7 @@ class IMipService {
 	 * @param VEvent $vevent
 	 * @return false|int|string
 	 */
-	public function generateWhenString(VEvent $vevent) {
+	public function generateWhenStringSingular(VEvent $vevent) {
 		/** @var Property\ICalendar\DateTime $dtstart */
 		$dtstart = $vevent->DTSTART;
 		if (isset($vevent->DTEND)) {
@@ -274,6 +303,124 @@ class IMipService {
 	}
 
 	/**
+	 * @param IL10N $this->l10n
+	 * @param VEvent $vevent
+	 * @return false|int|string
+	 */
+	public function generateWhenStringRecurring(VEvent $vevent): string {
+
+		// construct recurrance iterator
+		$er = new EventReader($vevent);
+		
+		switch ($er->recurringPrecision()) {
+			case 'daily':
+				return $this->generateWhenStringRecurringDaily($er);
+				break;
+			case 'weekly':
+				return $this->generateWhenStringRecurringWeekly($er);
+				break;
+			case 'monthly':
+				return $this->generateWhenStringRecurringMonthly($er);
+				break;
+			case 'yearly':
+				return $this->generateWhenStringRecurringYearly($er);
+				break;
+		}
+	}
+
+	public function generateWhenStringRecurringDaily(EventReader $er): string {
+		
+		// initial frequency
+		if ($er->recurringInterval() > 1) {
+			$when = 'Every ' . $er->recurringInterval() . ' Days';
+		} else {
+			$when = 'Daily';
+		}
+		// time of the day
+		$when .= ' between ' . $er->startTime() . (($er->startTimeZone() != $er->endTimeZone()) ? ' (' . $er->startTimeZone() . ')': '');
+		$when .= ' - ' . $er->endTime() . ' (' . $er->endTimeZone() . ')';
+		// conclusion
+		if ($er->recurringConcludes()) {
+			$when .= ' until ' . $this->l10n->l('date', $er->recurringConcludes(), ['width' => 'medium']);
+		}
+
+		return $when;
+	}
+
+	public function generateWhenStringRecurringWeekly(EventReader $er): string {
+		
+		// initial frequency
+		if ($er->recurringInterval() > 1) {
+			$when = 'Every ' . $er->recurringInterval() . ' Weeks On';
+		} else {
+			$when = 'Weekly On ';
+		}
+		// days of the week
+		$when .= implode(', ', $er->recurringDaysOfWeekNamed());
+		// time of the day
+		$when .= ' between ' . $er->startTime() . (($er->startTimeZone() != $er->endTimeZone()) ? ' (' . $er->startTimeZone() . ')': '');
+		$when .= ' - ' . $er->endTime() . ' (' . $er->endTimeZone() . ')';
+		// conclusion
+		if ($er->recurringConcludes()) {
+			$when .= ' until ' . $this->l10n->l('date', $er->recurringConcludes(), ['width' => 'medium']);
+		}
+
+		return $when;
+	}
+
+	public function generateWhenStringRecurringMonthly(EventReader $er): string {
+		
+		// initial frequency
+		if ($er->recurringInterval() > 1) {
+			$when = 'Every ' . $er->recurringInterval() . ' Month on the ';
+		} else {
+			$when = 'Monthly on the ';
+		}
+		// days of month
+		if ($er->isRelative()) {
+			$when .= implode(', ', $er->recurringRelativePositionNamed()) . ' ' . implode(', ', $er->recurringDaysOfWeekNamed());
+		} else {
+			$when .= implode(', ', $er->recurringDaysOfMonth());
+		}
+		// time of the day
+		$when .= ' between ' . $er->startTime() . (($er->startTimeZone() != $er->endTimeZone()) ? ' (' . $er->startTimeZone() . ')': '');
+		$when .= ' - ' . $er->endTime() . ' (' . $er->endTimeZone() . ')';
+		// conclusion
+		if ($er->recurringConcludes()) {
+			$when .= ' until ' . $this->l10n->l('date', $er->recurringConcludes(), ['width' => 'medium']);
+		}
+
+		return $when;
+	}
+
+	public function generateWhenStringRecurringYearly(EventReader $er): string {
+		
+		// initial frequency
+		if ($er->recurringInterval() > 1) {
+			$when = 'Every ' . $er->recurringInterval() . ' Year in ';
+		} else {
+			$when = 'Yearly in ';
+		}
+		// months of year
+		$when .= implode(', ', $er->recurringMonthsOfYearNamed());
+		// days of month
+		if ($er->isRelative()) {
+			$when .= ' on the ' . implode(', ', $er->recurringRelativePositionNamed()) . ' ' . implode(', ', $er->recurringDaysOfWeekNamed());
+		} else {
+			$when .= ' on the ' . $er->startDate('jS');
+		}
+		// time of the day
+		$when .= ' between ' . $er->startTime() . (($er->startTimeZone() != $er->endTimeZone()) ? ' (' . $er->startTimeZone() . ')': '');
+		$when .= ' - ' . $er->endTime() . ' (' . $er->endTimeZone() . ')';
+		// conclusion
+		if ($er->recurringConcludes()) {
+			$when .= ' until ' . $this->l10n->l('date', $er->recurringConcludes(), ['width' => 'medium']);
+		}
+
+		return $when;
+	}
+
+	/**
 	 * @param VEvent $vEvent
 	 * @return array
 	 */
@@ -281,7 +428,7 @@ class IMipService {
 		$defaultVal = '';
 		$strikethrough = "<span style='text-decoration: line-through'>%s</span>";
 
-		$newMeetingWhen = $this->generateWhenString($vEvent);
+		$newMeetingWhen = isset($vEvent->RRULE) ? $this->generateWhenStringRecurring($vEvent) : $this->generateWhenStringSingular($vEvent);
 		$newSummary = isset($vEvent->SUMMARY) && (string)$vEvent->SUMMARY !== '' ? (string)$vEvent->SUMMARY : $this->l10n->t('Untitled event');
 		;
 		$newDescription = isset($vEvent->DESCRIPTION) && (string)$vEvent->DESCRIPTION !== '' ? (string)$vEvent->DESCRIPTION : $defaultVal;
@@ -539,7 +686,7 @@ class IMipService {
 			$data['meeting_title_html'] ?? $data['meeting_title'], $this->l10n->t('Title:'),
 			$this->getAbsoluteImagePath('caldav/title.png'), $data['meeting_title'], '', IMipPlugin::IMIP_INDENT);
 		if ($data['meeting_when'] !== '') {
-			$template->addBodyListItem($data['meeting_when_html'] ?? $data['meeting_when'], $this->l10n->t('Time:'),
+			$template->addBodyListItem($data['meeting_when_html'] ?? $data['meeting_when'], $this->l10n->t('When:'),
 				$this->getAbsoluteImagePath('caldav/time.png'), $data['meeting_when'], '', IMipPlugin::IMIP_INDENT);
 		}
 		if ($data['meeting_location'] !== '') {
@@ -549,6 +696,10 @@ class IMipService {
 		if ($data['meeting_url'] !== '') {
 			$template->addBodyListItem($data['meeting_url_html'] ?? $data['meeting_url'], $this->l10n->t('Link:'),
 				$this->getAbsoluteImagePath('caldav/link.png'), $data['meeting_url'], '', IMipPlugin::IMIP_INDENT);
+		}
+		if (isset($data['meeting_occurring'])) {
+			$template->addBodyListItem($data['meeting_occurring_html'] ?? $data['meeting_occurring'], $this->l10n->t('Occurring:'),
+				$this->getAbsoluteImagePath('caldav/time.png'), $data['meeting_occurring'], '', IMipPlugin::IMIP_INDENT);
 		}
 
 		$this->addAttendees($template, $vevent);
@@ -569,8 +720,11 @@ class IMipService {
 		$vevent = $iTipMessage->message->VEVENT;
 		$attendees = $vevent->select('ATTENDEE');
 		foreach ($attendees as $attendee) {
-			/** @var Property $attendee */
-			if (strcasecmp($attendee->getValue(), $iTipMessage->recipient) === 0) {
+			if ($iTipMessage->method === 'REPLY' && strcasecmp($attendee->getValue(), $iTipMessage->sender) === 0) {
+				/** @var Property $attendee */
+				return $attendee;
+			} elseif (strcasecmp($attendee->getValue(), $iTipMessage->recipient) === 0) {
+				/** @var Property $attendee */
 				return $attendee;
 			}
 		}
@@ -682,10 +836,36 @@ class IMipService {
 			return false;
 		}
 		$type = $cuType->getValue() ?? 'INDIVIDUAL';
-		if (\in_array(strtoupper($type), ['RESOURCE', 'ROOM'], true)) {
+		if (\in_array(strtoupper($type), ['RESOURCE', 'ROOM', 'UNKNOWN'], true)) {
 			// Don't send emails to things
 			return true;
 		}
 		return false;
+	}
+
+	public function generateIntervalString(\DateInterval $dateInterval, string $prefixMoreThan, string $prefixLessThan): string {
+		// evaluate if time interval is in the past
+		if ($dateInterval->invert == 1) {
+			return 'the past';
+		}
+		// evaluate if interval and return smallest time period
+		if ($dateInterval->y > 0) {
+			return ($dateInterval->y > 1) ? $prefixMoreThan . ' ' . $dateInterval->y . ' years' : $prefixLessThan . ' year';
+		}
+		if ($dateInterval->m > 0) {
+			return ($dateInterval->m > 1) ? $prefixMoreThan . ' ' . $dateInterval->m . ' months' : $prefixLessThan . ' month';
+		}
+		if ($dateInterval->d > 7) {
+			return ((int)($dateInterval->d / 7) > 1) ? $prefixMoreThan . ' ' . (int)($dateInterval->d / 7) . ' weeks' : $prefixLessThan . ' week';
+		}
+		if ($dateInterval->d > 0) {
+			return ($dateInterval->d > 1) ? $prefixMoreThan . ' ' . $dateInterval->d . ' days' : $prefixLessThan . ' day';
+		}
+		if ($dateInterval->h > 0) {
+			return ($dateInterval->h > 1) ? $prefixMoreThan . ' ' . $dateInterval->h . ' hours' : $prefixLessThan . ' hour';
+		}
+		if ($dateInterval->i > 0) {
+			return $dateInterval->i . ' minutes';
+		}
 	}
 }
