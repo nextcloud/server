@@ -1,38 +1,10 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- * @copyright Copyright (c) 2017, Georg Ehrke
- * @copyright Copyright (C) 2007-2015 fruux GmbH (https://fruux.com/).
- * @copyright Copyright (C) 2007-2015 fruux GmbH (https://fruux.com/).
- * @copyright 2022 Anna Larch <anna.larch@gmx.net>
- *
- * @author brad2014 <brad2014@users.noreply.github.com>
- * @author Brad Rubenstein <brad@wbr.tech>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Leon Klingele <leon@struktur.de>
- * @author Nick Sweeting <git@sweeting.me>
- * @author rakekniven <mark.ziegler@rakekniven.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Citharel <nextcloud@tcit.fr>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Anna Larch <anna.larch@gmx.net>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-FileCopyrightText: 2007-2015 fruux GmbH (https://fruux.com/)
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\DAV\CalDAV\Schedule;
 
