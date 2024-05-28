@@ -401,7 +401,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 	 * @param int $offset
 	 * @return array an array of display names (value) and user ids (key)
 	 */
-	public function displayNamesInGroup($gid, $search = '', $limit = -1, $offset = 0, $orderBy = 'uid', $sort = 'ASC') {
+	public function displayNamesInGroup($gid, $search = '', $limit = -1, $offset = 0, $sortMode = 'uid', $sortOrder = 'asc') {
 		$group = $this->get($gid);
 		if (is_null($group)) {
 			return [];
@@ -419,7 +419,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 			}
 
 			do {
-				$filteredUsers = $this->userManager->searchDisplayName($search, $searchLimit, $searchOffset, $orderBy, $sort);
+				$filteredUsers = $this->userManager->searchDisplayName($search, $searchLimit, $searchOffset, $sortMode, $sortOrder);
 				foreach ($filteredUsers as $filteredUser) {
 					if ($group->inGroup($filteredUser)) {
 						$groupUsers[] = $filteredUser;

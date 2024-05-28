@@ -104,7 +104,7 @@ interface IUserManager {
 	 * @return \OCP\IUser[]
 	 * @since 8.0.0
 	 */
-	public function search($pattern, $limit = null, $offset = null, $orderBy = 'uid', $sort = 'ASC');
+	public function search($pattern, $limit = null, $offset = null, $sortMode = 'uid', $sortOrder = 'asc');
 
 	/**
 	 * search by displayName

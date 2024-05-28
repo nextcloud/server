@@ -94,7 +94,7 @@ class UsersController extends AUserData {
 	 *
 	 * 200: Users returned
 	 */
-	public function getUsers(string $search = '', ?int $limit = null, int $offset = 0, string $orderBy = 'lastLogin', string $sort = 'DESC'): DataResponse {
+	public function getUsers(string $search = '', ?int $limit = null, int $offset = 0, string $sortMode = 'uid', string $sortOrder = 'asc'): DataResponse {
 		$user = $this->userSession->getUser();
 		$users = [];
 
@@ -102,7 +102,7 @@ class UsersController extends AUserData {
 		$uid = $user->getUID();
 		$subAdminManager = $this->groupManager->getSubAdmin();
 		if ($this->groupManager->isAdmin($uid)) {
-			$users = $this->userManager->search($search, $limit, $offset, $orderBy, $sort);
+			$users = $this->userManager->search($search, $limit, $offset, $sortMode, $sortOrder);
 		} elseif ($subAdminManager->isSubAdmin($user)) {
 			$subAdminOfGroups = $subAdminManager->getSubAdminsGroups($user);
 			foreach ($subAdminOfGroups as $key => $group) {
@@ -131,13 +131,13 @@ class UsersController extends AUserData {
 	 * @param string $search Text to search for
 	 * @param int|null $limit Limit the amount of groups returned
 	 * @param int $offset Offset for searching for groups
-	 * @param string $orderBy Field to order the results with
-	 * @param string $sort ASC or DESC
+	 * @param string $sortMode Field to order the results with
+	 * @param string $sortOrder asc or desc
 	 * @return DataResponse<Http::STATUS_OK, array{users: array<string, Provisioning_APIUserDetails|array{id: string}>}, array{}>
 	 *
 	 * 200: Users details returned
 	 */
-	public function getUsersDetails(string $search = '', ?int $limit = null, int $offset = 0, string $orderBy = 'lastLogin', string $sort = 'DESC'): DataResponse {
+	public function getUsersDetails(string $search = '', ?int $limit = null, int $offset = 0, string $sortMode = 'uid', string $sortOrder = 'asc'): DataResponse {
 		$currentUser = $this->userSession->getUser();
 		$users = [];
 
@@ -145,7 +145,7 @@ class UsersController extends AUserData {
 		$uid = $currentUser->getUID();
 		$subAdminManager = $this->groupManager->getSubAdmin();
 		if ($this->groupManager->isAdmin($uid)) {
-			$users = $this->userManager->search($search, $limit, $offset, $orderBy, $sort);
+			$users = $this->userManager->search($search, $limit, $offset, $sortMode, $sortOrder);
 			$users = array_keys($users);
 		} elseif ($subAdminManager->isSubAdmin($currentUser)) {
 			$subAdminOfGroups = $subAdminManager->getSubAdminsGroups($currentUser);
@@ -155,7 +155,7 @@ class UsersController extends AUserData {
 
 			$users = [];
 			foreach ($subAdminOfGroups as $group) {
-				$users[] = array_keys($this->groupManager->displayNamesInGroup($group, $search, $limit, $offset, $orderBy, $sort));
+				$users[] = array_keys($this->groupManager->displayNamesInGroup($group, $search, $limit, $offset, $sortMode, $sortOrder));
 			}
 			$users = array_merge(...$users);
 		}
