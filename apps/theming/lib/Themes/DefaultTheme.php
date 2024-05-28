@@ -211,6 +211,7 @@ class DefaultTheme implements ITheme {
 			'--background-invert-if-dark' => 'no',
 			'--background-invert-if-bright' => 'invert(100%)',
 			'--background-image-invert-if-bright' => 'no',
+			'--background-image-color-text' => '#ffffff',
 		];
 
 		// Primary variables
