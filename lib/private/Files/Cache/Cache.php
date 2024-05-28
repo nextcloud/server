@@ -620,6 +620,9 @@ class Cache implements ICache {
 		$query->delete('filecache')
 			->whereParentInParameter('parentIds');
 
+		// Sorting before chunking allows the db to find the entries close to each
+		// other in the index
+		sort($parentIds, SORT_NUMERIC);
 		foreach (array_chunk($parentIds, 1000) as $parentIdChunk) {
 			$query->setParameter('parentIds', $parentIdChunk, IQueryBuilder::PARAM_INT_ARRAY);
 			$query->execute();
