@@ -1,5 +1,6 @@
 <!--
   - @copyright Copyright (c) 2023 John Molakvoæ <skjnldsv@protonmail.com>
+  -	@copyright Copyright (c) 2024 Jed Boulahya <jed.boulahya@medtech.tn>
   -
   - @author John Molakvoæ <skjnldsv@protonmail.com>
   -
@@ -88,11 +89,14 @@
 				</a>
 			</em>
 			<br>
-			<em>
-				<a class="setting-link" :href="appPasswordUrl">
-					{{ t('files', 'If you have enabled 2FA, you must create and use a new app password by clicking here.') }} ↗
-				</a>
-			</em>
+			<!-- Conditional rendering based on 2FA -->
+			<template v-if="isTwoFactorEnabled">
+				<em>
+					<a class="setting-link" :href="appPasswordUrl">
+						{{ t('files', 'If you have enabled 2FA, you must create and use a new app password by clicking here.') }} ↗
+					</a>
+				</em>
+			</template>
 		</NcAppSettingsSection>
 	</NcAppSettingsDialog>
 </template>
