@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
 namespace OCA\DAV\Tests\unit\CalDAV\AppCalendar;
 
 use OCA\DAV\CalDAV\AppCalendar\AppCalendar;

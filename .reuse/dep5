@@ -63,7 +63,7 @@ Files: tests/data/testimage-wide.png tests/data/testimage.eps tests/data/testima
 Copyright: 2015 ownCloud, Inc.
 License: AGPL-3.0-only
 
-Files: tests/data/testapp.zip tests/data/testapp2.zip tests/docker/mariadb/oc.cnf
+Files: tests/data/testapp.zip tests/data/testapp2.zip tests/docker/mariadb/oc.cnf apps/dav/tests/travis/caldavtest/data/Resource/CalDAV/reports/put/1.txt apps/dav/tests/travis/caldavtest/data/Resource/CalDAV/reports/put/2.txt apps/dav/tests/travis/caldavtest/data/Resource/CalDAV/reports/put/3.txt apps/dav/tests/travis/caldavtest/data/Resource/CalDAV/reports/put/4.txt apps/dav/tests/travis/caldavtest/data/Resource/CalDAV/reports/put/5.txt apps/dav/tests/travis/caldavtest/data/Resource/CalDAV/reports/put/6.txt apps/dav/tests/travis/caldavtest/data/Resource/CalDAV/sharing/calendars/read-write/5.ics apps/dav/tests/travis/caldavtest/data/Resource/CalDAV/sharing/calendars/read-write/6.ics apps/dav/tests/travis/caldavtest/data/Resource/CalDAV/sharing/calendars/read-write/7.ics apps/dav/tests/travis/caldavtest/data/Resource/CalDAV/sharing/calendars/read-write/8.ics apps/dav/tests/travis/caldavtest/data/Resource/CalDAV/sharing/calendars/read-write/9.ics apps/dav/tests/travis/caldavtest/data/Resource/CardDAV/sharing/read-write/6.vcf apps/dav/tests/travis/caldavtest/data/Resource/CardDAV/sharing/read-write/7.vcf apps/dav/tests/travis/caldavtest/data/Resource/CardDAV/sharing/read-write/8.vcf apps/dav/tests/travis/caldavtest/data/Resource/CardDAV/sharing/read-write/9.vcf apps/dav/tests/travis/caldavtest/data/Resource/CardDAV/vreports/put/1.vcf apps/dav/tests/travis/caldavtest/data/Resource/CardDAV/vreports/put/2.vcf apps/dav/tests/travis/caldavtest/data/Resource/CardDAV/vreports/put/3.vcf
 Copyright: 2016 ownCloud, Inc.
 License: AGPL-3.0-only
 
@@ -123,7 +123,7 @@ Files: build/stubs/ftp.php tests/data/integritycheck/mimetypeListModified/coresi
 Copyright: 2022 Nextcloud GmbH and Nextcloud contributors
 License: AGPL-3.0-or-later
 
-Files: build/stubs/app_api.php build/stubs/SensitiveParameter.phpstub build/stubs/psr_container.php tests/data/testimage-large.jpg
+Files: build/stubs/app_api.php build/stubs/SensitiveParameter.phpstub build/stubs/psr_container.php tests/data/testimage-large.jpg apps/dav/tests/integration/UserMigration/assets/address_books/contact-complex.vcf apps/dav/tests/integration/UserMigration/assets/address_books/contact-multiple-complex.vcf apps/dav/tests/integration/UserMigration/assets/address_books/contact-multiple.vcf apps/dav/tests/integration/UserMigration/assets/address_books/contact.vcf apps/dav/tests/integration/UserMigration/assets/calendars/event-alarms.ics apps/dav/tests/integration/UserMigration/assets/calendars/event-attendees.ics apps/dav/tests/integration/UserMigration/assets/calendars/event-categories.ics apps/dav/tests/integration/UserMigration/assets/calendars/event-complex-alarm-recurring.ics apps/dav/tests/integration/UserMigration/assets/calendars/event-complex-recurrence.ics apps/dav/tests/integration/UserMigration/assets/calendars/event-custom-color.ics apps/dav/tests/integration/UserMigration/assets/calendars/event-multiple-recurring.ics apps/dav/tests/integration/UserMigration/assets/calendars/event-multiple.ics apps/dav/tests/integration/UserMigration/assets/calendars/event-recurring.ics apps/dav/tests/integration/UserMigration/assets/calendars/event-timed.ics apps/dav/tests/integration/UserMigration/assets/calendars/journal-todo-event.ics apps/dav/tests/integration/UserMigration/assets/calendars/journal.ics apps/dav/tests/integration/UserMigration/assets/calendars/todo.ics
 Copyright: 2023 Nextcloud GmbH and Nextcloud contributors
 License: AGPL-3.0-or-later
 
@@ -131,7 +131,7 @@ Files: apps/cloud_federation_api/l10n/*.js apps/cloud_federation_api/l10n/*.json
 Copyright: 2016-2024 Nextcloud translators
 License: AGPL-3.0-or-later
 
-Files: .gitattributes composer.json composer.lock .github/CODEOWNERS __tests__/tsconfig.json tsconfig.json build/integration/composer.* build/integration/data/*.png vendor-bin/*/composer.json vendor-bin/*/composer.lock
+Files: .gitattributes composer.json composer.lock .github/CODEOWNERS __tests__/tsconfig.json tsconfig.json build/integration/composer.* build/integration/data/*.png vendor-bin/*/composer.json vendor-bin/*/composer.lock apps/*/composer/composer.json apps/*/composer/composer.lock apps/*/composer/composer/installed.json
 Copyright: 2011-2016 ownCloud, Inc., 2016-2024 Nextcloud GmbH and Nextcloud contributors
 License: AGPL-3.0-only OR AGPL-3.0-or-later
 
@@ -139,7 +139,7 @@ Files: vendor-bin/*/composer.json vendor-bin/*/composer.lock
 Copyright: 2021 Nextcloud GmbH and Nextcloud contributors
 License: AGPL-3.0-or-later
 
-Files: lib/composer/*
+Files: lib/composer/* apps/*/composer/autoload.php apps/*/composer/composer/*.php
 Copyright: Nils Adermann, Jordi Boggiano
 License: MIT
 
