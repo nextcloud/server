@@ -15,6 +15,7 @@ use OCA\DAV\CardDAV\HasPhotoPlugin;
 use OCA\DAV\CardDAV\ImageExportPlugin;
 use OCA\DAV\CardDAV\MultiGetExportPlugin;
 use OCA\DAV\CardDAV\PhotoCache;
+use OCA\DAV\CardDAV\Security\CardDavRateLimitingPlugin;
 use OCA\DAV\Comments\CommentsPlugin;
 use OCA\DAV\Connector\Sabre\AnonymousOptionsPlugin;
 use OCA\DAV\Connector\Sabre\Auth;
@@ -178,6 +179,8 @@ class Server {
 				\OC::$server->getAppDataDir('dav-photocache'),
 				$logger)
 			));
+
+			$this->server->addPlugin(\OCP\Server::get(CardDavRateLimitingPlugin::class));
 		}
 
 		// system tags plugins
