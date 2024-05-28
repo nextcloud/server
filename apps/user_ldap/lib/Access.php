@@ -1564,7 +1564,7 @@ class Access extends LDAPUtility {
 		if ($term === '') {
 			$result = '*';
 		} elseif ($allowEnum !== 'no') {
-			$result = $term . '*';
+			$result = '*' . $term . '*';
 		}
 		return $result;
 	}
