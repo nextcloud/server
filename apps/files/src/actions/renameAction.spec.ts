@@ -5,7 +5,7 @@
 import { action } from './renameAction'
 import { expect } from '@jest/globals'
 import { File, Permission, View, FileAction } from '@nextcloud/files'
-import * as eventBus from '@nextcloud/event-bus'
+import eventBus from '@nextcloud/event-bus'
 
 const view = {
 	id: 'files',
