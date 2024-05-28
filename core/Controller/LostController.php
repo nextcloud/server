@@ -179,6 +179,10 @@ class LostController extends Controller {
 
 		$user = trim($user);
 
+		if (strlen($user) > 255) {
+			return new JSONResponse($this->error($this->l10n->t('Unsupported email length (>255)')));
+		}
+
 		\OCP\Util::emitHook(
 			'\OCA\Files_Sharing\API\Server2Server',
 			'preLoginNameUsedAsUserName',
