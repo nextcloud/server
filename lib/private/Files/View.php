@@ -732,6 +732,11 @@ class View {
 	public function rename($source, $target) {
 		$absolutePath1 = Filesystem::normalizePath($this->getAbsolutePath($source));
 		$absolutePath2 = Filesystem::normalizePath($this->getAbsolutePath($target));
+
+		if (str_starts_with($absolutePath2, $absolutePath1 . '/')) {
+			throw new ForbiddenException("Moving a folder into a child folder is forbidden", false);
+		}
+
 		$result = false;
 		if (
 			Filesystem::isValidPath($target)
