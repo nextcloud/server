@@ -1,3 +1,11 @@
+<?php
+
+/**
+ * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2013-2017 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+?>
 <fieldset id="ldapWizard1">
 		<p>
 		<select id="ldap_serverconfig_chooser" name="ldap_serverconfig_chooser">

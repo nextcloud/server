@@ -1,3 +1,11 @@
+<?php
+
+/**
+ * SPDX-FileCopyrightText: 2017-2022 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2013-2017 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+?>
 <div class="ldapWizardControls">
 	<span class="ldap_saving hidden"><?php p($l->t('Saving'));?> <img class="wizSpinner" src="<?php p(image_path('core', 'loading.gif')); ?>"/></span>
 	<span class="ldap_config_state_indicator"></span> <span class="ldap_config_state_indicator_sign"></span>
