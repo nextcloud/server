@@ -43,8 +43,7 @@
 		:aria-hidden="isRenaming"
 		class="files-list__row-name-link"
 		data-cy-files-list-row-name-link
-		v-bind="linkTo.params"
-		@click="$emit('click', $event)">
+		v-bind="linkTo.params">
 		<!-- File name -->
 		<span class="files-list__row-name-text">
 			<!-- Keep the displayName stuck to the extension to avoid whitespace rendering issues-->
