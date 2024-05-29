@@ -17,6 +17,7 @@ use Doctrine\DBAL\Exception\DriverException;
 use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
 use Doctrine\DBAL\Exception\InvalidArgumentException;
 use Doctrine\DBAL\Exception\InvalidFieldNameException;
+use Doctrine\DBAL\Exception\LockWaitTimeoutException;
 use Doctrine\DBAL\Exception\NonUniqueFieldNameException;
 use Doctrine\DBAL\Exception\NotNullConstraintViolationException;
 use Doctrine\DBAL\Exception\ServerException;
@@ -45,6 +46,7 @@ class DbalExceptionTest extends \Test\TestCase {
 
 	public function dataDriverException(): array {
 		return [
+			[LockWaitTimeoutException::class, DbalException::REASON_LOCK_WAIT_TIMEOUT],
 			[ForeignKeyConstraintViolationException::class, DbalException::REASON_FOREIGN_KEY_VIOLATION],
 			[NotNullConstraintViolationException::class, DbalException::REASON_NOT_NULL_CONSTRAINT_VIOLATION],
 			[UniqueConstraintViolationException::class, DbalException::REASON_UNIQUE_CONSTRAINT_VIOLATION],
