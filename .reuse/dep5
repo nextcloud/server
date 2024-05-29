@@ -39,7 +39,7 @@ Files: tests/data/l10n/cs.json tests/data/l10n/de.json tests/data/l10n/ru.json
 Copyright: 2015 ownCloud, Inc., 2021 Nextcloud GmbH and Nextcloud contributors
 License: AGPL-3.0-only
 
-Files: tests/data/lorem.txt
+Files: tests/data/lorem.txt apps/files/l10n/xgettextfiles
 Copyright: 2012 ownCloud, Inc.
 License: AGPL-3.0-only
 
@@ -107,7 +107,7 @@ Files: core/js/merged-template-prepend.json tests/data/certificates/goodCertific
 Copyright: 2017 Nextcloud GmbH and Nextcloud contributors
 License: AGPL-3.0-or-later
 
-Files: core/src/systemtags/templates/result.handlebars core/src/systemtags/templates/result_form.handlebars core/src/systemtags/templates/selection.handlebars tests/data/testimage.heic package.json package-lock.json
+Files: core/src/systemtags/templates/result.handlebars core/src/systemtags/templates/result_form.handlebars core/src/systemtags/templates/selection.handlebars apps/files/js/templates.js apps/files/js/templates/detailsview.handlebars apps/files/js/templates/favorite_mark.handlebars apps/files/js/templates/file_action_trigger.handlebars apps/files/js/templates/fileactionsmenu.handlebars apps/files/js/templates/filemultiselectmenu.handlebars apps/files/js/templates/filesummary.handlebars apps/files/js/templates/mainfileinfodetailsview.handlebars apps/files/js/templates/newfilemenu.handlebars apps/files/js/templates/newfilemenu_filename_form.handlebars apps/files/js/templates/operationprogressbar.handlebars apps/files/js/templates/operationprogressbarlabel.handlebars apps/files/js/templates/template_addbutton.handlebars tests/data/testimage.heic package.json package-lock.json
 Copyright: 2018 Nextcloud GmbH and Nextcloud contributors
 License: AGPL-3.0-or-later
 
@@ -147,13 +147,17 @@ Files: core/vendor/zxcvbn/dist/zxcvbn.js
 Copyright: 2012-2016 Dan Wheeler and Dropbox, Inc.
 License: MIT
 
-Files: core/img/twitter.svg
+Files: core/img/twitter.svg apps/federatedfilesharing/img/social-twitter.svg
 Copyright: X Corp. 
 License: LicenseRef-XTrademarks
 
-Files: core/img/facebook.svg
+Files: core/img/facebook.svg apps/federatedfilesharing/img/social-facebook.svg
 Copyright: 2024 Meta
 License: LicenseRef-FacebookTrademarks
+
+Files: apps/federatedfilesharing/img/social-diaspora.svg
+Copyright: 2024 Diaspora
+License: LicenseRef-DiasporaTrademarks
 
 Files: core/img/mastodon.svg
 Copyright: 2024 Mastodon gGmbH
