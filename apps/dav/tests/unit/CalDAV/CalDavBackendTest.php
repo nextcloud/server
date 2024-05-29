@@ -1573,4 +1573,206 @@ EOD;
 		self::assertEqualsCanonicalizing([$uri1, $uri3], $changesAfter['modified']);
 		self::assertEquals([$uri2], $changesAfter['deleted']);
 	}
+
+	public function testSearchWithLimitAndTimeRange() {
+		$calendarId = $this->createTestCalendar();
+		$calendarInfo = [
+			'id' => $calendarId,
+			'principaluri' => 'user1',
+			'{http://owncloud.org/ns}owner-principal' => 'user1',
+		];
+
+		$testFiles = [
+			__DIR__ . '/../../misc/caldav-search-limit-timerange-1.ics',
+			__DIR__ . '/../../misc/caldav-search-limit-timerange-2.ics',
+			__DIR__ . '/../../misc/caldav-search-limit-timerange-3.ics',
+			__DIR__ . '/../../misc/caldav-search-limit-timerange-4.ics',
+			__DIR__ . '/../../misc/caldav-search-limit-timerange-5.ics',
+			__DIR__ . '/../../misc/caldav-search-limit-timerange-6.ics',
+		];
+
+		foreach ($testFiles as $testFile) {
+			$objectUri = static::getUniqueID('search-limit-timerange-');
+			$calendarData = \file_get_contents($testFile);
+			$this->backend->createCalendarObject($calendarId, $objectUri, $calendarData);
+		}
+
+		$start = new DateTimeImmutable('2024-05-06T00:00:00Z');
+		$end = $start->add(new DateInterval('P14D'));
+
+		$results = $this->backend->search(
+			$calendarInfo,
+			'',
+			[],
+			[
+				'timerange' => [
+					'start' => $start,
+					'end' => $end,
+				]
+			],
+			4,
+			null,
+		);
+
+		$this->assertCount(2, $results);
+
+		$this->assertEquals('Cake Tasting', $results[0]['objects'][0]['SUMMARY'][0]);
+		$this->assertGreaterThanOrEqual(
+			$start->getTimestamp(),
+			$results[0]['objects'][0]['DTSTART'][0]->getTimestamp(),
+			'Recurrence starting before requested start',
+		);
+
+		$this->assertEquals('Pasta Day', $results[1]['objects'][0]['SUMMARY'][0]);
+		$this->assertGreaterThanOrEqual(
+			$start->getTimestamp(),
+			$results[1]['objects'][0]['DTSTART'][0]->getTimestamp(),
+			'Recurrence starting before requested start',
+		);
+	}
+
+	public function testSearchWithLimitAndTimeRangeShouldNotReturnMoreObjectsThenLimit() {
+		$calendarId = $this->createTestCalendar();
+		$calendarInfo = [
+			'id' => $calendarId,
+			'principaluri' => 'user1',
+			'{http://owncloud.org/ns}owner-principal' => 'user1',
+		];
+
+		$testFiles = [
+			__DIR__ . '/../../misc/caldav-search-limit-timerange-1.ics',
+			__DIR__ . '/../../misc/caldav-search-limit-timerange-2.ics',
+			__DIR__ . '/../../misc/caldav-search-limit-timerange-3.ics',
+			__DIR__ . '/../../misc/caldav-search-limit-timerange-4.ics',
+			__DIR__ . '/../../misc/caldav-search-limit-timerange-5.ics',
+			__DIR__ . '/../../misc/caldav-search-limit-timerange-6.ics',
+		];
+
+		foreach ($testFiles as $testFile) {
+			$objectUri = static::getUniqueID('search-limit-timerange-');
+			$calendarData = \file_get_contents($testFile);
+			$this->backend->createCalendarObject($calendarId, $objectUri, $calendarData);
+		}
+
+		$start = new DateTimeImmutable('2024-05-06T00:00:00Z');
+		$end = $start->add(new DateInterval('P14D'));
+
+		$results = $this->backend->search(
+			$calendarInfo,
+			'',
+			[],
+			[
+				'timerange' => [
+					'start' => $start,
+					'end' => $end,
+				]
+			],
+			1,
+			null,
+		);
+
+		$this->assertCount(1, $results);
+
+		$this->assertEquals('Cake Tasting', $results[0]['objects'][0]['SUMMARY'][0]);
+		$this->assertGreaterThanOrEqual(
+			$start->getTimestamp(),
+			$results[0]['objects'][0]['DTSTART'][0]->getTimestamp(),
+			'Recurrence starting before requested start',
+		);
+	}
+
+	public function testSearchWithLimitAndTimeRangeShouldReturnObjectsInTheSameOrder() {
+		$calendarId = $this->createTestCalendar();
+		$calendarInfo = [
+			'id' => $calendarId,
+			'principaluri' => 'user1',
+			'{http://owncloud.org/ns}owner-principal' => 'user1',
+		];
+
+		$testFiles = [
+			__DIR__ . '/../../misc/caldav-search-limit-timerange-1.ics',
+			__DIR__ . '/../../misc/caldav-search-limit-timerange-2.ics',
+			__DIR__ . '/../../misc/caldav-search-limit-timerange-3.ics',
+			__DIR__ . '/../../misc/caldav-search-limit-timerange-4.ics',
+			__DIR__ . '/../../misc/caldav-search-limit-timerange-6.ics', // <-- intentional!
+			__DIR__ . '/../../misc/caldav-search-limit-timerange-5.ics',
+		];
+
+		foreach ($testFiles as $testFile) {
+			$objectUri = static::getUniqueID('search-limit-timerange-');
+			$calendarData = \file_get_contents($testFile);
+			$this->backend->createCalendarObject($calendarId, $objectUri, $calendarData);
+		}
+
+		$start = new DateTimeImmutable('2024-05-06T00:00:00Z');
+		$end = $start->add(new DateInterval('P14D'));
+
+		$results = $this->backend->search(
+			$calendarInfo,
+			'',
+			[],
+			[
+				'timerange' => [
+					'start' => $start,
+					'end' => $end,
+				]
+			],
+			2,
+			null,
+		);
+
+		$this->assertCount(2, $results);
+
+		$this->assertEquals('Cake Tasting', $results[0]['objects'][0]['SUMMARY'][0]);
+		$this->assertGreaterThanOrEqual(
+			$start->getTimestamp(),
+			$results[0]['objects'][0]['DTSTART'][0]->getTimestamp(),
+			'Recurrence starting before requested start',
+		);
+
+		$this->assertEquals('Pasta Day', $results[1]['objects'][0]['SUMMARY'][0]);
+		$this->assertGreaterThanOrEqual(
+			$start->getTimestamp(),
+			$results[1]['objects'][0]['DTSTART'][0]->getTimestamp(),
+			'Recurrence starting before requested start',
+		);
+	}
+
+	public function testSearchShouldReturnObjectsInTheSameOrderMissingDate() {
+		$calendarId = $this->createTestCalendar();
+		$calendarInfo = [
+			'id' => $calendarId,
+			'principaluri' => 'user1',
+			'{http://owncloud.org/ns}owner-principal' => 'user1',
+		];
+
+		$testFiles = [
+			__DIR__ . '/../../misc/caldav-search-limit-timerange-6.ics', // <-- intentional!
+			__DIR__ . '/../../misc/caldav-search-limit-timerange-5.ics',
+			__DIR__ . '/../../misc/caldav-search-missing-start-1.ics',
+			__DIR__ . '/../../misc/caldav-search-missing-start-2.ics',
+		];
+
+		foreach ($testFiles as $testFile) {
+			$objectUri = static::getUniqueID('search-return-objects-in-same-order-');
+			$calendarData = \file_get_contents($testFile);
+			$this->backend->createCalendarObject($calendarId, $objectUri, $calendarData);
+		}
+
+		$results = $this->backend->search(
+			$calendarInfo,
+			'',
+			[],
+			[],
+			4,
+			null,
+		);
+
+		$this->assertCount(4, $results);
+
+		$this->assertEquals('Cake Tasting', $results[0]['objects'][0]['SUMMARY'][0]);
+		$this->assertEquals('Pasta Day', $results[1]['objects'][0]['SUMMARY'][0]);
+		$this->assertEquals('Missing DTSTART 1', $results[2]['objects'][0]['SUMMARY'][0]);
+		$this->assertEquals('Missing DTSTART 2', $results[3]['objects'][0]['SUMMARY'][0]);
+	}
 }
