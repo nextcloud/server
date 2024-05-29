@@ -76,11 +76,19 @@
 			:name="currentView?.emptyTitle || t('files', 'No files in here')"
 			:description="currentView?.emptyCaption || t('files', 'Upload some content or sync with your devices!')"
 			data-cy-files-content-empty>
-			<template #action>
-				<NcButton v-if="dir !== '/'"
+			<template v-if="dir !== '/'" #action>
+				<!-- Uploader -->
+				<UploadPicker v-if="currentFolder && canUpload && !isQuotaExceeded"
+					:content="dirContents"
+					:destination="currentFolder"
+					class="files-list__header-upload-button"
+					multiple
+					@failed="onUploadFail"
+					@uploaded="onUpload" />
+				<NcButton v-else
 					:aria-label="t('files', 'Go to the previous folder')"
-					type="primary"
-					:to="toPreviousDir">
+					:to="toPreviousDir"
+					type="primary">
 					{{ t('files', 'Go back') }}
 				</NcButton>
 			</template>
