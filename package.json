@@ -45,9 +45,9 @@
     "@nextcloud/browserslist-config": "^3.0.0",
     "@nextcloud/calendar-availability-vue": "^2.2.0",
     "@nextcloud/capabilities": "^1.0.4",
-    "@nextcloud/dialogs": "^5.1.2",
+    "@nextcloud/dialogs": "^5.3.1",
     "@nextcloud/event-bus": "^3.1.0",
-    "@nextcloud/files": "^3.1.1",
+    "@nextcloud/files": "^3.4.0",
     "@nextcloud/initial-state": "^2.0.0",
     "@nextcloud/l10n": "^2.1.0",
     "@nextcloud/logger": "^2.5.0",
@@ -115,7 +115,7 @@
     "vuedraggable": "^2.24.3",
     "vuex": "^3.6.2",
     "vuex-router-sync": "^5.0.0",
-    "webdav": "^5.3.2",
+    "webdav": "^5.6.0",
     "xml2js": "^0.6.2"
   },
   "devDependencies": {
