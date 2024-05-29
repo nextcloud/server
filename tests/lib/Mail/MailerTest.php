@@ -38,7 +38,7 @@ class MailerTest extends TestCase {
 	private $l10n;
 	/** @var Mailer */
 	private $mailer;
-	/** @var IEventDispatcher */
+	/** @var IEventDispatcher&MockObject */
 	private $dispatcher;
 
 
@@ -193,6 +193,7 @@ class MailerTest extends TestCase {
 			]);
 		$this->expectException(\Exception::class);
 
+		/** @var Message&MockObject */
 		$message = $this->getMockBuilder('\OC\Mail\Message')
 			->disableOriginalConstructor()->getMock();
 		$message->expects($this->once())
@@ -207,20 +208,27 @@ class MailerTest extends TestCase {
 	 */
 	public function mailAddressProvider() {
 		return [
-			['lukas@owncloud.com', true],
-			['lukas@localhost', true],
-			['lukas@192.168.1.1', true],
-			['lukas@éxämplè.com', true],
-			['asdf', false],
-			['', false],
-			['lukas@owncloud.org@owncloud.com', false],
+			['lukas@owncloud.com', true, false],
+			['lukas@localhost', true, false],
+			['lukas@192.168.1.1', true, false],
+			['lukas@éxämplè.com', true, false],
+			['asdf', false, false],
+			['', false, false],
+			['lukas@owncloud.org@owncloud.com', false, false],
+			['test@localhost', true, false],
+			['test@localhost', false, true],
 		];
 	}
 
 	/**
 	 * @dataProvider mailAddressProvider
 	 */
-	public function testValidateMailAddress($email, $expected) {
+	public function testValidateMailAddress($email, $expected, $strict) {
+		$this->config
+			->expects($this->atMost(1))
+			->method('getAppValue')
+			->with('core', 'enforce_strict_email_check')
+			->willReturn($strict ? 'yes' : 'no');
 		$this->assertSame($expected, $this->mailer->validateMailAddress($email));
 	}
 
