@@ -783,19 +783,19 @@ class ShareAPIController extends OCSController {
 			$share->setPermissions($permissions);
 		} elseif ($shareType === IShare::TYPE_ROOM) {
 			try {
-				$this->getRoomShareHelper()->createShare($share, $shareWith, $permissions, $expireDate);
+				$this->getRoomShareHelper()->createShare($share, $shareWith, $permissions, $expireDate ?? '');
 			} catch (QueryException $e) {
 				throw new OCSForbiddenException($this->l->t('Sharing %s failed because the back end does not support room shares', [$node->getPath()]));
 			}
 		} elseif ($shareType === IShare::TYPE_DECK) {
 			try {
-				$this->getDeckShareHelper()->createShare($share, $shareWith, $permissions, $expireDate);
+				$this->getDeckShareHelper()->createShare($share, $shareWith, $permissions, $expireDate ?? '');
 			} catch (QueryException $e) {
 				throw new OCSForbiddenException($this->l->t('Sharing %s failed because the back end does not support room shares', [$node->getPath()]));
 			}
 		} elseif ($shareType === IShare::TYPE_SCIENCEMESH) {
 			try {
-				$this->getSciencemeshShareHelper()->createShare($share, $shareWith, $permissions, $expireDate);
+				$this->getSciencemeshShareHelper()->createShare($share, $shareWith, $permissions, $expireDate ?? '');
 			} catch (QueryException $e) {
 				throw new OCSForbiddenException($this->l->t('Sharing %s failed because the back end does not support ScienceMesh shares', [$node->getPath()]));
 			}
