@@ -1240,74 +1240,76 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		$this->cachedObjects = [];
 		$extraData = $this->getDenormalizedData($calendarData);
 
-		// Try to detect duplicates
-		$qb = $this->db->getQueryBuilder();
-		$qb->select($qb->func()->count('*'))
-			->from('calendarobjects')
-			->where($qb->expr()->eq('calendarid', $qb->createNamedParameter($calendarId)))
-			->andWhere($qb->expr()->eq('uid', $qb->createNamedParameter($extraData['uid'])))
-			->andWhere($qb->expr()->eq('calendartype', $qb->createNamedParameter($calendarType)))
-			->andWhere($qb->expr()->isNull('deleted_at'));
-		$result = $qb->executeQuery();
-		$count = (int) $result->fetchOne();
-		$result->closeCursor();
+		return $this->atomic(function () use ($calendarId, $objectUri, $calendarData, $extraData, $calendarType) {
+			// Try to detect duplicates
+			$qb = $this->db->getQueryBuilder();
+			$qb->select($qb->func()->count('*'))
+				->from('calendarobjects')
+				->where($qb->expr()->eq('calendarid', $qb->createNamedParameter($calendarId)))
+				->andWhere($qb->expr()->eq('uid', $qb->createNamedParameter($extraData['uid'])))
+				->andWhere($qb->expr()->eq('calendartype', $qb->createNamedParameter($calendarType)))
+				->andWhere($qb->expr()->isNull('deleted_at'));
+			$result = $qb->executeQuery();
+			$count = (int) $result->fetchOne();
+			$result->closeCursor();
 
-		if ($count !== 0) {
-			throw new BadRequest('Calendar object with uid already exists in this calendar collection.');
-		}
-		// For a more specific error message we also try to explicitly look up the UID but as a deleted entry
-		$qbDel = $this->db->getQueryBuilder();
-		$qbDel->select('*')
-			->from('calendarobjects')
-			->where($qbDel->expr()->eq('calendarid', $qbDel->createNamedParameter($calendarId)))
-			->andWhere($qbDel->expr()->eq('uid', $qbDel->createNamedParameter($extraData['uid'])))
-			->andWhere($qbDel->expr()->eq('calendartype', $qbDel->createNamedParameter($calendarType)))
-			->andWhere($qbDel->expr()->isNotNull('deleted_at'));
-		$result = $qbDel->executeQuery();
-		$found = $result->fetch();
-		$result->closeCursor();
-		if ($found !== false) {
-			// the object existed previously but has been deleted
-			// remove the trashbin entry and continue as if it was a new object
-			$this->deleteCalendarObject($calendarId, $found['uri']);
-		}
+			if ($count !== 0) {
+				throw new BadRequest('Calendar object with uid already exists in this calendar collection.');
+			}
+			// For a more specific error message we also try to explicitly look up the UID but as a deleted entry
+			$qbDel = $this->db->getQueryBuilder();
+			$qbDel->select('*')
+				->from('calendarobjects')
+				->where($qbDel->expr()->eq('calendarid', $qbDel->createNamedParameter($calendarId)))
+				->andWhere($qbDel->expr()->eq('uid', $qbDel->createNamedParameter($extraData['uid'])))
+				->andWhere($qbDel->expr()->eq('calendartype', $qbDel->createNamedParameter($calendarType)))
+				->andWhere($qbDel->expr()->isNotNull('deleted_at'));
+			$result = $qbDel->executeQuery();
+			$found = $result->fetch();
+			$result->closeCursor();
+			if ($found !== false) {
+				// the object existed previously but has been deleted
+				// remove the trashbin entry and continue as if it was a new object
+				$this->deleteCalendarObject($calendarId, $found['uri']);
+			}
 
-		$query = $this->db->getQueryBuilder();
-		$query->insert('calendarobjects')
-			->values([
-				'calendarid' => $query->createNamedParameter($calendarId),
-				'uri' => $query->createNamedParameter($objectUri),
-				'calendardata' => $query->createNamedParameter($calendarData, IQueryBuilder::PARAM_LOB),
-				'lastmodified' => $query->createNamedParameter(time()),
-				'etag' => $query->createNamedParameter($extraData['etag']),
-				'size' => $query->createNamedParameter($extraData['size']),
-				'componenttype' => $query->createNamedParameter($extraData['componentType']),
-				'firstoccurence' => $query->createNamedParameter($extraData['firstOccurence']),
-				'lastoccurence' => $query->createNamedParameter($extraData['lastOccurence']),
-				'classification' => $query->createNamedParameter($extraData['classification']),
-				'uid' => $query->createNamedParameter($extraData['uid']),
-				'calendartype' => $query->createNamedParameter($calendarType),
-			])
-			->executeStatement();
+			$query = $this->db->getQueryBuilder();
+			$query->insert('calendarobjects')
+				->values([
+					'calendarid' => $query->createNamedParameter($calendarId),
+					'uri' => $query->createNamedParameter($objectUri),
+					'calendardata' => $query->createNamedParameter($calendarData, IQueryBuilder::PARAM_LOB),
+					'lastmodified' => $query->createNamedParameter(time()),
+					'etag' => $query->createNamedParameter($extraData['etag']),
+					'size' => $query->createNamedParameter($extraData['size']),
+					'componenttype' => $query->createNamedParameter($extraData['componentType']),
+					'firstoccurence' => $query->createNamedParameter($extraData['firstOccurence']),
+					'lastoccurence' => $query->createNamedParameter($extraData['lastOccurence']),
+					'classification' => $query->createNamedParameter($extraData['classification']),
+					'uid' => $query->createNamedParameter($extraData['uid']),
+					'calendartype' => $query->createNamedParameter($calendarType),
+				])
+				->executeStatement();
 
-		$this->updateProperties($calendarId, $objectUri, $calendarData, $calendarType);
-		$this->addChange($calendarId, $objectUri, 1, $calendarType);
+			$this->updateProperties($calendarId, $objectUri, $calendarData, $calendarType);
+			$this->addChange($calendarId, $objectUri, 1, $calendarType);
 
-		$objectRow = $this->getCalendarObject($calendarId, $objectUri, $calendarType);
-		assert($objectRow !== null);
+			$objectRow = $this->getCalendarObject($calendarId, $objectUri, $calendarType);
+			assert($objectRow !== null);
 
-		if ($calendarType === self::CALENDAR_TYPE_CALENDAR) {
-			$calendarRow = $this->getCalendarById($calendarId);
-			$shares = $this->getShares($calendarId);
+			if ($calendarType === self::CALENDAR_TYPE_CALENDAR) {
+				$calendarRow = $this->getCalendarById($calendarId);
+				$shares = $this->getShares($calendarId);
 
-			$this->dispatcher->dispatchTyped(new CalendarObjectCreatedEvent($calendarId, $calendarRow, $shares, $objectRow));
-		} else {
-			$subscriptionRow = $this->getSubscriptionById($calendarId);
+				$this->dispatcher->dispatchTyped(new CalendarObjectCreatedEvent($calendarId, $calendarRow, $shares, $objectRow));
+			} else {
+				$subscriptionRow = $this->getSubscriptionById($calendarId);
 
-			$this->dispatcher->dispatchTyped(new CachedCalendarObjectCreatedEvent($calendarId, $subscriptionRow, [], $objectRow));
-		}
+				$this->dispatcher->dispatchTyped(new CachedCalendarObjectCreatedEvent($calendarId, $subscriptionRow, [], $objectRow));
+			}
 
-		return '"' . $extraData['etag'] . '"';
+			return '"' . $extraData['etag'] . '"';
+		}, $this->db);
 	}
 
 	/**
