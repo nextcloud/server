@@ -17,6 +17,7 @@ use Doctrine\DBAL\Exception\DriverException;
 use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
 use Doctrine\DBAL\Exception\InvalidArgumentException;
 use Doctrine\DBAL\Exception\InvalidFieldNameException;
+use Doctrine\DBAL\Exception\LockWaitTimeoutException;
 use Doctrine\DBAL\Exception\NonUniqueFieldNameException;
 use Doctrine\DBAL\Exception\NotNullConstraintViolationException;
 use Doctrine\DBAL\Exception\RetryableException;
@@ -82,6 +83,9 @@ class DbalException extends Exception {
 		/**
 		 * Other server errors
 		 */
+		if ($this->original instanceof LockWaitTimeoutException) {
+			return parent::REASON_LOCK_WAIT_TIMEOUT;
+		}
 		if ($this->original instanceof DatabaseObjectExistsException) {
 			return parent::REASON_DATABASE_OBJECT_EXISTS;
 		}

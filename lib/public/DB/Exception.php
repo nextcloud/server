@@ -121,6 +121,13 @@ class Exception extends BaseException {
 	public const REASON_UNIQUE_CONSTRAINT_VIOLATION = 14;
 
 	/**
+	 * The lock wait timeout was exceeded
+	 *
+	 * @since 30.0.0
+	 */
+	public const REASON_LOCK_WAIT_TIMEOUT = 15;
+
+	/**
 	 * @return int|null
 	 * @psalm-return Exception::REASON_*
 	 * @since 21.0.0
