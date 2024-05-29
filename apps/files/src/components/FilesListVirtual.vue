@@ -191,6 +191,9 @@ export default defineComponent({
 	watch: {
 		fileId(fileId) {
 			this.scrollToFile(fileId, false)
+			if (this.openFile) {
+				this.$nextTick(() => this.handleOpenFile(this.fileId))
+			}
 		},
 
 		openFile(open: boolean) {
