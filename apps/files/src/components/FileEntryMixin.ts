@@ -224,7 +224,8 @@ export default defineComponent({
 		},
 
 		execDefaultAction(event) {
-			if (event.ctrlKey || event.metaKey) {
+			// if ctrl+click or middle mouse button, open in new tab
+			if (event.ctrlKey || event.metaKey || event.button === 1) {
 				event.preventDefault()
 				window.open(generateUrl('/f/{fileId}', { fileId: this.fileid }))
 				return false
