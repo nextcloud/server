@@ -93,6 +93,7 @@
 #header {
 	/* Header menu */
 	$header-menu-entry-height: 44px;
+	--color-primary-text: var(--background-image-color-text, #ffffff);
 
 	.header-right > div > .menu {
 		background-color: var(--color-main-background);
