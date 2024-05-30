@@ -53,7 +53,11 @@ abstract class QueuedJob extends Job {
 	 * @since 25.0.0
 	 */
 	final public function start(IJobList $jobList): void {
-		$jobList->remove($this, $this->argument);
+		if ($this->id) {
+			$jobList->removeById($this->id);
+		} else {
+			$jobList->remove($this, $this->argument);
+		}
 		parent::start($jobList);
 	}
 }
