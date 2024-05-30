@@ -806,6 +806,9 @@ class UsersController extends AUserData {
 					}
 				}
 				$this->accountManager->updateAccount($userAccount);
+				if ($value === '' && $key === $targetUser->getPrimaryEMailAddress()) {
+					$targetUser->setPrimaryEMailAddress('');
+				}
 				break;
 
 			case IAccountManager::COLLECTION_EMAIL . self::SCOPE_SUFFIX:
