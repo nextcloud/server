@@ -101,7 +101,7 @@ export default defineComponent({
 		},
 
 		isActive() {
-			return this.fileid?.toString?.() === this.currentFileId?.toString?.()
+			return String(this.fileid) === String(this.currentFileId)
 		},
 
 		canDrag() {

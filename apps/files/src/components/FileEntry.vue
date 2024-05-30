@@ -219,13 +219,6 @@ export default defineComponent({
 			}
 			return ''
 		},
-
-		/**
-		 * This entry is the current active node
-		 */
-		isActive() {
-			return this.fileid === this.currentFileId?.toString?.()
-		},
 	},
 
 	methods: {
