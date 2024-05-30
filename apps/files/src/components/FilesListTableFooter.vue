@@ -44,7 +44,7 @@
 import type { Node } from '@nextcloud/files'
 import type { PropType } from 'vue'
 
-import { formatFileSize } from '@nextcloud/files'
+import { View, formatFileSize } from '@nextcloud/files'
 import { translate } from '@nextcloud/l10n'
 import { defineComponent } from 'vue'
 
@@ -55,6 +55,10 @@ export default defineComponent({
 	name: 'FilesListTableFooter',
 
 	props: {
+		currentView: {
+			type: View,
+			required: true,
+		},
 		isMtimeAvailable: {
 			type: Boolean,
 			default: false,
@@ -87,10 +91,6 @@ export default defineComponent({
 	},
 
 	computed: {
-		currentView() {
-			return this.$navigation.active
-		},
-
 		dir() {
 			// Remove any trailing slash but leave root slash
 			return (this.$route?.query?.dir || '/').replace(/^(.+)\/$/, '$1')

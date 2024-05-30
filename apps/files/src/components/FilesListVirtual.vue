@@ -43,7 +43,8 @@
 
 		<!-- Tfoot-->
 		<template #footer>
-			<FilesListTableFooter :files-list-width="filesListWidth"
+			<FilesListTableFooter :current-view="currentView"
+				:files-list-width="filesListWidth"
 				:is-mtime-available="isMtimeAvailable"
 				:is-size-available="isSizeAvailable"
 				:nodes="nodes"
