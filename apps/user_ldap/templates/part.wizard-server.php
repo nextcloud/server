@@ -9,16 +9,16 @@
 <fieldset id="ldapWizard1">
 		<p>
 		<select id="ldap_serverconfig_chooser" name="ldap_serverconfig_chooser">
-		<?php
-		$i = 1;
-		$sel = ' selected';
-		foreach ($_['serverConfigurationPrefixes'] as $prefix) {
-			?>
+<?php
+$i = 1;
+$sel = ' selected';
+foreach ($_['serverConfigurationPrefixes'] as $prefix) {
+	?>
 			<option value="<?php p($prefix); ?>"<?php p($sel);
-			$sel = ''; ?>><?php p($l->t('%s. Server:', [$i++])); ?> <?php p(' '.$_['serverConfigurationHosts'][$prefix]); ?></option>
-			<?php
-		}
-		?>
+	$sel = ''; ?>><?php p($l->t('%s. Server:', [$i++])); ?> <?php p(' '.$_['serverConfigurationHosts'][$prefix]); ?></option>
+<?php
+}
+?>
 		</select>
 		<button type="button" id="ldap_action_add_configuration"
 			aria-describedby="ldap_action_add_configuration_instructions"

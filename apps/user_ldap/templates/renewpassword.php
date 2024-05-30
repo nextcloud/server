@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors

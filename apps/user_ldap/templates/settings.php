@@ -5,7 +5,7 @@
  * SPDX-FileCopyrightText: 2011-2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
- 
+
 style('user_ldap', 'vendor/ui-multiselect/jquery.multiselect');
 
 script('user_ldap', [
