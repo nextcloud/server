@@ -22,4 +22,8 @@
 	<dependencies>
 		<nextcloud min-version="30" max-version="30"/>
 	</dependencies>
+
+	<commands>
+		<command>OCA\Webhooks\Command\Index</command>
+	</commands>
 </info>
