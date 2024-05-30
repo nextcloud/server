@@ -20,7 +20,10 @@ use OCP\Defaults;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\ICloudFederationFactory;
 use OCP\Files\IRootFolder;
+use OCP\Http\Client\IClientService;
 use OCP\IServerContainer;
+use OCP\L10N\IFactory;
+use OCP\Mail\IMailer;
 use OCP\Security\IHasher;
 use OCP\Security\ISecureRandom;
 use OCP\Share\IManager;
@@ -79,9 +82,9 @@ class ProviderFactory implements IProviderFactory {
 				$this->serverContainer->getUserManager(),
 				$this->serverContainer->getGroupManager(),
 				$this->serverContainer->get(IRootFolder::class),
-				$this->serverContainer->getMailer(),
+				$this->serverContainer->get(IMailer::class),
 				$this->serverContainer->query(Defaults::class),
-				$this->serverContainer->getL10NFactory(),
+				$this->serverContainer->get(IFactory::class),
 				$this->serverContainer->getURLGenerator(),
 				$this->serverContainer->query(ITimeFactory::class),
 			);
@@ -116,7 +119,7 @@ class ProviderFactory implements IProviderFactory {
 			);
 			$notifications = new Notifications(
 				$addressHandler,
-				$this->serverContainer->getHTTPClientService(),
+				$this->serverContainer->get(IClientService::class),
 				$this->serverContainer->query(\OCP\OCS\IDiscoveryService::class),
 				$this->serverContainer->getJobList(),
 				\OC::$server->getCloudFederationProviderManager(),
@@ -172,7 +175,7 @@ class ProviderFactory implements IProviderFactory {
 				$this->serverContainer->get(IRootFolder::class),
 				$this->serverContainer->getL10N('sharebymail'),
 				$this->serverContainer->get(LoggerInterface::class),
-				$this->serverContainer->getMailer(),
+				$this->serverContainer->get(IMailer::class),
 				$this->serverContainer->getURLGenerator(),
 				$this->serverContainer->getActivityManager(),
 				$settingsManager,
