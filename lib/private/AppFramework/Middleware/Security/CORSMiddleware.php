@@ -1,28 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Bernhard Posselt <dev@bernhard-posselt.com>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author korelstar <korelstar@users.noreply.github.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Stefan Weil <sw@weilnetz.de>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\AppFramework\Middleware\Security;
 
@@ -38,6 +19,7 @@ use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Middleware;
 use OCP\IRequest;
+use OCP\ISession;
 use OCP\Security\Bruteforce\IThrottler;
 use ReflectionMethod;
 
@@ -58,9 +40,9 @@ class CORSMiddleware extends Middleware {
 	private $throttler;
 
 	public function __construct(IRequest $request,
-								ControllerMethodReflector $reflector,
-								Session $session,
-								IThrottler $throttler) {
+		ControllerMethodReflector $reflector,
+		Session $session,
+		IThrottler $throttler) {
 		$this->request = $request;
 		$this->reflector = $reflector;
 		$this->session = $session;
@@ -89,6 +71,10 @@ class CORSMiddleware extends Middleware {
 
 			// Allow to use the current session if a CSRF token is provided
 			if ($this->request->passesCSRFCheck()) {
+				return;
+			}
+			// Skip CORS check for requests with AppAPI auth.
+			if ($this->session->getSession() instanceof ISession && $this->session->getSession()->get('app_api') === true) {
 				return;
 			}
 			$this->session->logout();

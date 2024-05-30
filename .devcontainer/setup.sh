@@ -3,10 +3,6 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../" >/dev/null 2>&1 && pwd )"
 
 cd $DIR/
 
-# Set git safe.directory
-git config --global --add safe.directory /var/www/html
-git config --global --add safe.directory /var/www/html/3rdparty
-
 git submodule update --init
 
 # Codespace config

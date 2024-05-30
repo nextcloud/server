@@ -26,22 +26,49 @@
 <template>
 	<div class="background-selector" data-user-theming-background-settings>
 		<!-- Custom background -->
-		<button class="background background__filepicker"
-			:class="{ 'icon-loading': loading === 'custom', 'background--active': backgroundImage === 'custom' }"
-			:data-color-bright="invertTextColor(Theming.color)"
+		<button :aria-pressed="backgroundImage === 'custom'"
+			:class="{
+				'icon-loading': loading === 'custom',
+				'background background__filepicker': true,
+				'background--active': backgroundImage === 'custom'
+			}"
 			data-user-theming-background-custom
 			tabindex="0"
 			@click="pickFile">
 			{{ t('theming', 'Custom background') }}
-			<ImageEdit v-if="backgroundImage !== 'custom'" :size="26" />
+			<ImageEdit v-if="backgroundImage !== 'custom'" :size="20" />
 			<Check :size="44" />
 		</button>
 
+		<!-- Custom color picker -->
+		<NcColorPicker v-model="Theming.backgroundColor" @update:value="debouncePickColor">
+			<button :class="{
+					'icon-loading': loading === 'color',
+					'background background__color': true,
+					'background--active': backgroundImage === 'color'
+				}"
+				:aria-pressed="backgroundImage === 'color'"
+				:data-color="Theming.backgroundColor"
+				:data-color-bright="invertTextColor(Theming.backgroundColor)"
+				:style="{ backgroundColor: Theming.backgroundColor, '--border-color': Theming.backgroundColor}"
+				data-user-theming-background-color
+				tabindex="0"
+				@click="backgroundImage !== 'color' && debouncePickColor(Theming.backgroundColor)">
+				{{ t('theming', 'Plain background') /* TRANSLATORS: Background using a single color */ }}
+				<ColorPalette v-if="backgroundImage !== 'color'" :size="20" />
+				<Check :size="44" />
+			</button>
+		</NcColorPicker>
+
 		<!-- Default background -->
-		<button class="background background__default"
-			:class="{ 'icon-loading': loading === 'default', 'background--active': backgroundImage === 'default' }"
-			:data-color-bright="invertTextColor(Theming.defaultColor)"
-			:style="{ '--border-color': Theming.defaultColor }"
+		<button :aria-pressed="backgroundImage === 'default'"
+			:class="{
+				'icon-loading': loading === 'default',
+				'background background__default': true,
+				'background--active': backgroundImage === 'default'
+			}"
+			:data-color-bright="invertTextColor(Theming.defaultBackgroundColor)"
+			:style="{ '--border-color': Theming.defaultBackgroundColor }"
 			data-user-theming-background-default
 			tabindex="0"
 			@click="setDefault">
@@ -49,39 +76,20 @@
 			<Check :size="44" />
 		</button>
 
-		<!-- Custom color picker -->
-		<NcColorPicker v-model="Theming.color" @input="debouncePickColor">
-			<button class="background background__color"
-				:data-color="Theming.color"
-				:data-color-bright="invertTextColor(Theming.color)"
-				:style="{ backgroundColor: Theming.color, '--border-color': Theming.color}"
-				data-user-theming-background-color
-				tabindex="0">
-				{{ t('theming', 'Change color') }}
-			</button>
-		</NcColorPicker>
-
-		<!-- Remove background -->
-		<button class="background background__delete"
-			:class="{ 'background--active': isBackgroundDisabled }"
-			data-user-theming-background-clear
-			tabindex="0"
-			@click="removeBackground">
-			{{ t('theming', 'No background') }}
-			<Close v-if="!isBackgroundDisabled" :size="32" />
-			<Check :size="44" />
-		</button>
-
 		<!-- Background set selection -->
 		<button v-for="shippedBackground in shippedBackgrounds"
 			:key="shippedBackground.name"
 			:title="shippedBackground.details.attribution"
-			:aria-label="shippedBackground.details.attribution"
-			:class="{ 'icon-loading': loading === shippedBackground.name, 'background--active': backgroundImage === shippedBackground.name }"
-			:data-color-bright="shippedBackground.details.theming === 'dark'"
+			:aria-label="shippedBackground.details.description"
+			:aria-pressed="backgroundImage === shippedBackground.name"
+			:class="{
+				'background background__shipped': true,
+				'icon-loading': loading === shippedBackground.name,
+				'background--active': backgroundImage === shippedBackground.name
+			}"
+			:data-color-bright="invertTextColor(shippedBackground.details.background_color)"
 			:data-user-theming-background-shipped="shippedBackground.name"
 			:style="{ backgroundImage: 'url(' + shippedBackground.preview + ')', '--border-color': shippedBackground.details.primary_color }"
-			class="background background__shipped"
 			tabindex="0"
 			@click="setShipped(shippedBackground.name)">
 			<Check :size="44" />
@@ -101,13 +109,17 @@ import NcColorPicker from '@nextcloud/vue/dist/Components/NcColorPicker.js'
 import Vibrant from 'node-vibrant'
 
 import Check from 'vue-material-design-icons/Check.vue'
-import Close from 'vue-material-design-icons/Close.vue'
 import ImageEdit from 'vue-material-design-icons/ImageEdit.vue'
+import ColorPalette from 'vue-material-design-icons/Palette.vue'
 
-const backgroundImage = loadState('theming', 'backgroundImage')
 const shippedBackgroundList = loadState('theming', 'shippedBackgrounds')
-const themingDefaultBackground = loadState('theming', 'themingDefaultBackground')
-const defaultShippedBackground = loadState('theming', 'defaultShippedBackground')
+const backgroundImage = loadState('theming', 'userBackgroundImage')
+const {
+	backgroundImage: defaultBackgroundImage,
+	backgroundColor: defaultBackgroundColor,
+	backgroundMime: defaultBackgroundMime,
+	defaultShippedBackground,
+} = loadState('theming', 'themingDefaults')
 
 const prefixWithBaseUrl = (url) => generateFilePath('theming', '', 'img/background/') + url
 
@@ -116,7 +128,7 @@ export default {
 
 	components: {
 		Check,
-		Close,
+		ColorPalette,
 		ImageEdit,
 		NcColorPicker,
 	},
@@ -134,7 +146,12 @@ export default {
 	computed: {
 		shippedBackgrounds() {
 			return Object.keys(shippedBackgroundList)
-				.map(fileName => {
+				.filter((background) => {
+					// If the admin did not changed the global background
+					// let's hide the default background to not show it twice
+					return background !== defaultShippedBackground || !this.isGlobalBackgroundDefault
+				})
+				.map((fileName) => {
 					return {
 						name: fileName,
 						url: prefixWithBaseUrl(fileName),
@@ -142,27 +159,18 @@ export default {
 						details: shippedBackgroundList[fileName],
 					}
 				})
-				.filter(background => {
-					// If the admin did not changed the global background
-					// let's hide the default background to not show it twice
-					if (!this.isGlobalBackgroundDeleted && !this.isGlobalBackgroundDefault) {
-						return background.name !== defaultShippedBackground
-					}
-					return true
-				})
 		},
 
 		isGlobalBackgroundDefault() {
-			return !!themingDefaultBackground
+			return defaultBackgroundMime === ''
 		},
 
 		isGlobalBackgroundDeleted() {
-			return themingDefaultBackground === 'backgroundColor'
+			return defaultBackgroundMime === 'backgroundColor'
 		},
 
-		isBackgroundDisabled() {
-			return this.backgroundImage === 'disabled'
-			|| !this.backgroundImage
+		cssDefaultBackgroundImage() {
+			return `url('${defaultBackgroundImage}')`
 		},
 	},
 
@@ -210,7 +218,7 @@ export default {
 		async update(data) {
 			// Update state
 			this.backgroundImage = data.backgroundImage
-			this.Theming.color = data.backgroundColor
+			this.Theming.backgroundColor = data.backgroundColor
 
 			// Notify parent and reload style
 			this.$emit('update:background')
@@ -241,12 +249,12 @@ export default {
 			this.update(result.data)
 		},
 
-		async pickColor(event) {
+		async pickColor(color) {
 			this.loading = 'color'
-			const color = event?.target?.dataset?.color || this.Theming?.color || '#0082c9'
-			const result = await axios.post(generateUrl('/apps/theming/background/color'), { color })
-			this.update(result.data)
+			const { data } = await axios.post(generateUrl('/apps/theming/background/color'), { color: color || '#0082c9' })
+			this.update(data)
 		},
+
 		debouncePickColor: debounce(function(...args) {
 			this.pickColor(...args)
 		}, 200),
@@ -271,7 +279,7 @@ export default {
 		async applyFile(path) {
 			if (!path || typeof path !== 'string' || path.trim().length === 0 || path === '/') {
 				console.error('No valid background have been selected', { path })
-				showError(t('theming', 'No background have been selected'))
+				showError(t('theming', 'No background has been selected'))
 				return
 			}
 
@@ -326,36 +334,47 @@ export default {
 	flex-wrap: wrap;
 	justify-content: center;
 
+	.background-color {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		width: 176px;
+		height: 96px;
+		margin: 8px;
+		border-radius: var(--border-radius-large);
+		background-color: var(--color-primary);
+	}
+
 	.background {
 		overflow: hidden;
 		width: 176px;
 		height: 96px;
 		margin: 8px;
 		text-align: center;
+		word-wrap: break-word;
+		hyphens: auto;
 		border: 2px solid var(--color-main-background);
 		border-radius: var(--border-radius-large);
 		background-position: center center;
 		background-size: cover;
 
 		&__filepicker {
+			background-color: var(--color-main-text);
+			background-color: var(--color-background-dark);
+
 			&.background--active {
-				color: white;
+				color: var(--color-background-plain-text);
 				background-image: var(--image-background);
 			}
 		}
 
 		&__default {
-			background-color: var(--color-primary-default);
-			background-image: var(--image-background-plain, var(--image-background-default));
+			background-color: var(--color-background-plain);
+			background-image: linear-gradient(to bottom, rgba(23, 23, 23, 0.5), rgba(23, 23, 23, 0.5)), v-bind(cssDefaultBackgroundImage);
 		}
 
 		&__filepicker, &__default, &__color {
 			border-color: var(--color-border);
-		}
-
-		&__color {
-			color: var(--color-primary-text);
-			background-color: var(--color-primary-default);
 		}
 
 		// Over a background image
@@ -372,8 +391,8 @@ export default {
 		&--active,
 		&:hover,
 		&:focus {
-			// Use theme color primary, see inline css variable in template
-			border: 2px solid var(--border-color, var(--color-primary-element)) !important;
+			outline: 2px solid var(--color-main-text) !important;
+			border-color: var(--color-main-background) !important;
 		}
 
 		// Icon

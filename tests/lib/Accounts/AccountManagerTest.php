@@ -1,31 +1,16 @@
 <?php
 
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Björn Schießle <schiessle@owncloud.com>
- * @author Thomas Citharel <nextcloud@tcit.fr>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 
 namespace Test\Accounts;
 
 use OC\Accounts\Account;
 use OC\Accounts\AccountManager;
+use OC\PhoneNumberUtil;
 use OCA\Settings\BackgroundJobs\VerifyUserData;
 use OCP\Accounts\IAccountManager;
 use OCP\Accounts\UserUpdatedEvent;
@@ -34,6 +19,7 @@ use OCP\Defaults;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IDBConnection;
+use OCP\IPhoneNumberUtil;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\L10N\IFactory;
@@ -75,6 +61,8 @@ class AccountManagerTest extends TestCase {
 
 	/** @var IJobList|MockObject */
 	private $jobList;
+	/** @var IPhoneNumberUtil */
+	private $phoneNumberUtil;
 
 	/** accounts table name */
 	private string $table = 'accounts';
@@ -97,6 +85,7 @@ class AccountManagerTest extends TestCase {
 		$this->l10nFactory = $this->createMock(IFactory::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->crypto = $this->createMock(ICrypto::class);
+		$this->phoneNumberUtil = new PhoneNumberUtil();
 
 		$this->accountManager = new AccountManager(
 			$this->connection,
@@ -109,7 +98,8 @@ class AccountManagerTest extends TestCase {
 			$this->defaults,
 			$this->l10nFactory,
 			$this->urlGenerator,
-			$this->crypto
+			$this->crypto,
+			$this->phoneNumberUtil,
 		);
 	}
 
@@ -119,7 +109,7 @@ class AccountManagerTest extends TestCase {
 		$query->delete($this->table)->executeStatement();
 	}
 
-	protected function makeUser(string $uid, string $name, string $email = null): IUser {
+	protected function makeUser(string $uid, string $name, ?string $email = null): IUser {
 		$user = $this->createMock(IUser::class);
 		$user->expects($this->any())
 			->method('getUid')
@@ -473,7 +463,8 @@ class AccountManagerTest extends TestCase {
 				$this->defaults,
 				$this->l10nFactory,
 				$this->urlGenerator,
-				$this->crypto
+				$this->crypto,
+				$this->phoneNumberUtil,
 			])
 			->onlyMethods($mockedMethods)
 			->getMock();
@@ -621,6 +612,12 @@ class AccountManagerTest extends TestCase {
 
 			[
 				'name' => IAccountManager::PROPERTY_BIOGRAPHY,
+				'value' => '',
+				'scope' => IAccountManager::SCOPE_LOCAL,
+			],
+
+			[
+				'name' => IAccountManager::PROPERTY_BIRTHDATE,
 				'value' => '',
 				'scope' => IAccountManager::SCOPE_LOCAL,
 			],

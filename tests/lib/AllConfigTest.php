@@ -1,9 +1,8 @@
 <?php
 /**
- * Copyright (c) 2014 Morris Jobke <hey@morrisjobke.de>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test;
@@ -272,6 +271,31 @@ class AllConfigTest extends \Test\TestCase {
 
 		$value = $config->getUserKeys('userFetch2', 'appFetch');
 		$this->assertEquals(['keyFetch1'], $value);
+
+		// cleanup
+		$this->connection->executeUpdate('DELETE FROM `*PREFIX*preferences`');
+	}
+
+	public function testGetUserKeysAllInts() {
+		$config = $this->getConfig();
+
+		// preparation - add something to the database
+		$data = [
+			['userFetch', 'appFetch1', '123', 'value'],
+			['userFetch', 'appFetch1', '456', 'value'],
+		];
+		foreach ($data as $entry) {
+			$this->connection->executeUpdate(
+				'INSERT INTO `*PREFIX*preferences` (`userid`, `appid`, ' .
+				'`configkey`, `configvalue`) VALUES (?, ?, ?, ?)',
+				$entry
+			);
+		}
+
+		$value = $config->getUserKeys('userFetch', 'appFetch1');
+		$this->assertEquals(['123', '456'], $value);
+		$this->assertIsString($value[0]);
+		$this->assertIsString($value[1]);
 
 		// cleanup
 		$this->connection->executeUpdate('DELETE FROM `*PREFIX*preferences`');

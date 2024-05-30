@@ -3,26 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2020, Georg Ehrke
- *
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\DAV\Tests\unit\Search;
 
@@ -32,6 +14,7 @@ use OCP\App\IAppManager;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\IUser;
+use OCP\Search\IFilter;
 use OCP\Search\ISearchQuery;
 use OCP\Search\SearchResult;
 use OCP\Search\SearchResultEntry;
@@ -293,7 +276,14 @@ class EventsSearchProviderTest extends TestCase {
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')->willReturn('john.doe');
 		$query = $this->createMock(ISearchQuery::class);
-		$query->method('getTerm')->willReturn('search term');
+		$seachTermFilter = $this->createMock(IFilter::class);
+		$query->method('getFilter')->willReturnCallback(function ($name) use ($seachTermFilter) {
+			return match ($name) {
+				'term' => $seachTermFilter,
+				default => null,
+			};
+		});
+		$seachTermFilter->method('get')->willReturn('search term');
 		$query->method('getLimit')->willReturn(5);
 		$query->method('getCursor')->willReturn(20);
 		$this->appManager->expects($this->once())
@@ -331,7 +321,7 @@ class EventsSearchProviderTest extends TestCase {
 			->with('principals/users/john.doe', 'search term', ['VEVENT'],
 				['SUMMARY', 'LOCATION', 'DESCRIPTION', 'ATTENDEE', 'ORGANIZER', 'CATEGORIES'],
 				['ATTENDEE' => ['CN'], 'ORGANIZER' => ['CN']],
-				['limit' => 5, 'offset' => 20])
+				['limit' => 5, 'offset' => 20, 'timerange' => ['start' => null, 'end' => null]])
 			->willReturn([
 				[
 					'calendarid' => 99,

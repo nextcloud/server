@@ -64,6 +64,18 @@ class GroupMembershipMapper extends QBMapper {
 		return $this->findEntities($select);
 	}
 
+	/**
+	 * @return GroupMembership[]
+	 */
+	public function findGroupMembershipsForUser(string $userid): array {
+		$qb = $this->db->getQueryBuilder();
+		$select = $qb->select('*')
+			->from($this->getTableName())
+			->where($qb->expr()->eq('userid', $qb->createNamedParameter($userid)));
+
+		return $this->findEntities($select);
+	}
+
 	public function deleteGroups(array $removedGroups): void {
 		$query = $this->db->getQueryBuilder();
 		$query->delete($this->getTableName())

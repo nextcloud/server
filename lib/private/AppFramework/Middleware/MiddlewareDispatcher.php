@@ -1,33 +1,10 @@
 <?php
 
 declare(strict_types=1);
-
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Stefan Weil <sw@weilnetz.de>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Thomas Tanghus <thomas@tanghus.net>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\AppFramework\Middleware;
 
@@ -40,15 +17,15 @@ use OCP\AppFramework\Middleware;
  */
 class MiddlewareDispatcher {
 	/**
-	 * @var array array containing all the middlewares
+	 * @var Middleware[] array containing all the middlewares
 	 */
-	private $middlewares;
+	private array $middlewares;
 
 	/**
 	 * @var int counter which tells us what middleware was executed once an
 	 *                  exception occurs
 	 */
-	private $middlewareCounter;
+	private int $middlewareCounter;
 
 
 	/**
@@ -64,14 +41,14 @@ class MiddlewareDispatcher {
 	 * Adds a new middleware
 	 * @param Middleware $middleWare the middleware which will be added
 	 */
-	public function registerMiddleware(Middleware $middleWare) {
+	public function registerMiddleware(Middleware $middleWare): void {
 		$this->middlewares[] = $middleWare;
 	}
 
 
 	/**
 	 * returns an array with all middleware elements
-	 * @return array the middlewares
+	 * @return Middleware[] the middlewares
 	 */
 	public function getMiddlewares(): array {
 		return $this->middlewares;
@@ -86,7 +63,7 @@ class MiddlewareDispatcher {
 	 * @param string $methodName the name of the method that will be called on
 	 *                           the controller
 	 */
-	public function beforeController(Controller $controller, string $methodName) {
+	public function beforeController(Controller $controller, string $methodName): void {
 		// we need to count so that we know which middlewares we have to ask in
 		// case there is an exception
 		$middlewareCount = \count($this->middlewares);

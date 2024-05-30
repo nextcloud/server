@@ -1,40 +1,20 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\FederatedFileSharing\Tests;
 
 use OCA\FederatedFileSharing\Controller\RequestHandlerController;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\ICloudFederationFactory;
 use OCP\Federation\ICloudFederationProvider;
 use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Federation\ICloudFederationShare;
 use OCP\Federation\ICloudIdManager;
-use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IDBConnection;
 use OCP\IRequest;
 use OCP\IUserManager;
@@ -153,17 +133,17 @@ class RequestHandlerControllerTest extends \Test\TestCase {
 	public function testCreateShare() {
 		$this->cloudFederationFactory->expects($this->once())->method('getCloudFederationShare')
 			->with(
-					$this->user2,
-					'name',
-					'',
-					1,
-					$this->ownerCloudId,
-					$this->owner,
-					$this->user1CloudId,
-					$this->user1,
-					'token',
-					'user',
-					'file'
+				$this->user2,
+				'name',
+				'',
+				1,
+				$this->ownerCloudId,
+				$this->owner,
+				$this->user1CloudId,
+				$this->user1,
+				'token',
+				'user',
+				'file'
 			)->willReturn($this->cloudFederationShare);
 
 		/** @var ICloudFederationProvider|\PHPUnit\Framework\MockObject\MockObject $provider */

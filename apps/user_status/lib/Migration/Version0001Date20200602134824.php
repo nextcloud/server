@@ -27,8 +27,8 @@ declare(strict_types=1);
  */
 namespace OCA\UserStatus\Migration;
 
-use OCP\DB\Types;
 use OCP\DB\ISchemaWrapper;
+use OCP\DB\Types;
 use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
 

@@ -33,7 +33,7 @@ const shareWithTitle = function(share) {
 				owner: share.ownerDisplayName,
 			},
 			undefined,
-			{ escape: false }
+			{ escape: false },
 		)
 	} else if (share.type === ShareTypes.SHARE_TYPE_CIRCLE) {
 		return t(
@@ -44,7 +44,7 @@ const shareWithTitle = function(share) {
 				owner: share.ownerDisplayName,
 			},
 			undefined,
-			{ escape: false }
+			{ escape: false },
 		)
 	} else if (share.type === ShareTypes.SHARE_TYPE_ROOM) {
 		if (share.shareWithDisplayName) {
@@ -56,7 +56,7 @@ const shareWithTitle = function(share) {
 					owner: share.ownerDisplayName,
 				},
 				undefined,
-				{ escape: false }
+				{ escape: false },
 			)
 		} else {
 			return t(
@@ -66,7 +66,7 @@ const shareWithTitle = function(share) {
 					owner: share.ownerDisplayName,
 				},
 				undefined,
-				{ escape: false }
+				{ escape: false },
 			)
 		}
 	} else {
@@ -75,7 +75,7 @@ const shareWithTitle = function(share) {
 			'Shared with you by {owner}',
 			{ owner: share.ownerDisplayName },
 			undefined,
-			{ escape: false }
+			{ escape: false },
 		)
 	}
 }

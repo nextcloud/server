@@ -1,35 +1,15 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author J0WI <J0WI@users.noreply.github.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Tigran Mkrtchyan <tigran.mkrtchyan@desy.de>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Files\Storage\Wrapper;
 
 use OC\Files\Cache\Wrapper\CacheJail;
 use OC\Files\Cache\Wrapper\JailPropagator;
+use OC\Files\Cache\Wrapper\JailWatcher;
 use OC\Files\Filesystem;
 use OCP\Files\Storage\IStorage;
 use OCP\Files\Storage\IWriteStreamStorage;
@@ -396,10 +376,7 @@ class Jail extends Wrapper {
 	 * @return \OC\Files\Cache\Cache
 	 */
 	public function getCache($path = '', $storage = null) {
-		if (!$storage) {
-			$storage = $this->getWrapperStorage();
-		}
-		$sourceCache = $this->getWrapperStorage()->getCache($this->getUnjailedPath($path), $storage);
+		$sourceCache = $this->getWrapperStorage()->getCache($this->getUnjailedPath($path));
 		return new CacheJail($sourceCache, $this->rootPath);
 	}
 
@@ -421,10 +398,8 @@ class Jail extends Wrapper {
 	 * @return \OC\Files\Cache\Watcher
 	 */
 	public function getWatcher($path = '', $storage = null) {
-		if (!$storage) {
-			$storage = $this;
-		}
-		return $this->getWrapperStorage()->getWatcher($this->getUnjailedPath($path), $storage);
+		$sourceWatcher = $this->getWrapperStorage()->getWatcher($this->getUnjailedPath($path), $this->getWrapperStorage());
+		return new JailWatcher($sourceWatcher, $this->rootPath);
 	}
 
 	/**
@@ -517,7 +492,7 @@ class Jail extends Wrapper {
 		return $this->propagator;
 	}
 
-	public function writeStream(string $path, $stream, int $size = null): int {
+	public function writeStream(string $path, $stream, ?int $size = null): int {
 		$storage = $this->getWrapperStorage();
 		if ($storage->instanceOfStorage(IWriteStreamStorage::class)) {
 			/** @var IWriteStreamStorage $storage */

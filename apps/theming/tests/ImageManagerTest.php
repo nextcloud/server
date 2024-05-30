@@ -28,20 +28,20 @@
 namespace OCA\Theming\Tests;
 
 use OCA\Theming\ImageManager;
+use OCA\Theming\Service\BackgroundService;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\ICacheFactory;
 use OCP\IConfig;
-use OCP\ILogger;
 use OCP\ITempManager;
 use OCP\IURLGenerator;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class ImageManagerTest extends TestCase {
-
 	/** @var IConfig|MockObject */
 	protected $config;
 	/** @var IAppData|MockObject */
@@ -52,12 +52,14 @@ class ImageManagerTest extends TestCase {
 	private $urlGenerator;
 	/** @var ICacheFactory|MockObject */
 	private $cacheFactory;
-	/** @var ILogger|MockObject */
+	/** @var LoggerInterface|MockObject */
 	private $logger;
 	/** @var ITempManager|MockObject */
 	private $tempManager;
 	/** @var ISimpleFolder|MockObject */
 	private $rootFolder;
+	/** @var BackgroundService|MockObject */
+	private $backgroundService;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -65,16 +67,18 @@ class ImageManagerTest extends TestCase {
 		$this->appData = $this->createMock(IAppData::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->cacheFactory = $this->createMock(ICacheFactory::class);
-		$this->logger = $this->createMock(ILogger::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->tempManager = $this->createMock(ITempManager::class);
 		$this->rootFolder = $this->createMock(ISimpleFolder::class);
+		$this->backgroundService = $this->createMock(BackgroundService::class);
 		$this->imageManager = new ImageManager(
 			$this->config,
 			$this->appData,
 			$this->urlGenerator,
 			$this->cacheFactory,
 			$this->logger,
-			$this->tempManager
+			$this->tempManager,
+			$this->backgroundService,
 		);
 		$this->appData
 			->expects($this->any())
@@ -143,7 +147,7 @@ class ImageManagerTest extends TestCase {
 			->withConsecutive(
 				['theming', 'cachebuster', '0'],
 				['theming', 'logoMime', '']
-				)
+			)
 			->willReturn(0);
 		$this->urlGenerator->expects($this->once())
 			->method('linkToRoute')
@@ -322,7 +326,7 @@ class ImageManagerTest extends TestCase {
 		$folders[2]->expects($this->never())->method('delete');
 		$this->config->expects($this->once())
 			->method('getAppValue')
-			->with('theming','cachebuster','0')
+			->with('theming', 'cachebuster', '0')
 			->willReturn('2');
 		$this->rootFolder->expects($this->once())
 			->method('getDirectoryListing')

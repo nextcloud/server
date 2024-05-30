@@ -1,24 +1,7 @@
- <!--
-  - @copyright 2022 John Molakvoæ <skjnldsv@protonmail.com>
-  -
-  - @author John Molakvoæ <skjnldsv@protonmail.com>
-  -
-  - @license GNU AGPL version 3 or any later version
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  -
-  -->
+<!--
+ - SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+ - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <template>
 	<div class="content-unsupported-browser guest-box">
 		<NcEmptyContent>
@@ -53,6 +36,8 @@ import { translate as t, translatePlural as n } from '@nextcloud/l10n'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
 import Web from 'vue-material-design-icons/Web.vue'
+// eslint-disable-next-line n/no-extraneous-import
+import { agents } from 'caniuse-lite/dist/unpacker/agents.js'
 
 import { browserStorageKey } from '../utils/RedirectUnsupportedBrowsers.js'
 import { supportedBrowsers } from '../services/BrowsersListService.js'
@@ -67,12 +52,6 @@ export default {
 		Web,
 		NcButton,
 		NcEmptyContent,
-	},
-
-	data() {
-		return {
-			agents: {},
-		}
 	},
 
 	computed: {
@@ -109,24 +88,17 @@ export default {
 			})
 
 			return Object.keys(list).map(id => {
-				if (!this.agents[id]?.browser) {
+				if (!agents[id]?.browser) {
 					return null
 				}
 
 				const version = list[id]
-				const name = this.agents[id]?.browser
+				const name = agents[id]?.browser
 				return this.t('core', '{name} version {version} and above', {
 					name, version,
 				})
 			}).filter(entry => entry !== null)
 		},
-	},
-
-	async beforeMount() {
-		// Dynamic load big list of user agents
-		// eslint-disable-next-line n/no-extraneous-import
-		const { agents } = await import('caniuse-lite')
-		this.agents = agents
 	},
 
 	methods: {

@@ -24,12 +24,13 @@ declare(strict_types=1);
 namespace OCA\Files_Versions\Versions;
 
 /**
+ * @deprecated 29.0.0
  * @since 26.0.0
  */
 interface INameableVersionBackend {
 	/**
 	 * Set the label for a version.
-	 *
+	 * @deprecated 29.0.0
 	 * @since 26.0.0
 	 */
 	public function setVersionLabel(IVersion $version, string $label): void;

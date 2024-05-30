@@ -36,6 +36,12 @@ const deletedShareView = {
 	name: 'Deleted shares',
 } as View
 
+// Mock webroot variable
+beforeAll(() => {
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	(window as any)._oc_webroot = ''
+})
+
 describe('Restore share action conditions tests', () => {
 	test('Default values', () => {
 		const file = new File({

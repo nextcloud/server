@@ -23,15 +23,9 @@ declare(strict_types=1);
 namespace OCA\Settings\Controller;
 
 use OCP\AppFramework\Controller;
-use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\IConfig;
-use OCP\IL10N;
 use OCP\IRequest;
-use OCP\IURLGenerator;
-use OCP\IUserSession;
-use OCP\Mail\IMailer;
-use function GuzzleHttp\Promise\queue;
 
 class AISettingsController extends Controller {
 
@@ -57,7 +51,7 @@ class AISettingsController extends Controller {
 	 * @return DataResponse
 	 */
 	public function update($settings) {
-		$keys = ['ai.stt_provider', 'ai.textprocessing_provider_preferences', 'ai.translation_provider_preferences'];
+		$keys = ['ai.stt_provider', 'ai.textprocessing_provider_preferences', 'ai.translation_provider_preferences', 'ai.text2image_provider'];
 		foreach ($keys as $key) {
 			if (!isset($settings[$key])) {
 				continue;

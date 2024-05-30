@@ -1,38 +1,12 @@
 <?php
-/**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Bernhard Posselt <dev@bernhard-posselt.com>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Stefan Weil <sw@weilnetz.de>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
- */
 
+/**
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
 namespace OC\Files\Node;
 
-use OCP\Cache\CappedMemoryCache;
 use OC\Files\FileInfo;
 use OC\Files\Mount\Manager;
 use OC\Files\Mount\MountPoint;
@@ -40,7 +14,9 @@ use OC\Files\Utils\PathHelper;
 use OC\Files\View;
 use OC\Hooks\PublicEmitter;
 use OC\User\NoUserException;
+use OCP\Cache\CappedMemoryCache;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Config\IUserMountCache;
 use OCP\Files\Events\Node\FilesystemTornDownEvent;
 use OCP\Files\IRootFolder;
@@ -48,6 +24,8 @@ use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Node as INode;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
+use OCP\ICache;
+use OCP\ICacheFactory;
 use OCP\IUser;
 use OCP\IUserManager;
 use Psr\Log\LoggerInterface;
@@ -80,6 +58,7 @@ class Root extends Folder implements IRootFolder {
 	private LoggerInterface $logger;
 	private IUserManager $userManager;
 	private IEventDispatcher $eventDispatcher;
+	private ICache $pathByIdCache;
 
 	/**
 	 * @param Manager $manager
@@ -93,7 +72,8 @@ class Root extends Folder implements IRootFolder {
 		IUserMountCache $userMountCache,
 		LoggerInterface $logger,
 		IUserManager $userManager,
-		IEventDispatcher $eventDispatcher
+		IEventDispatcher $eventDispatcher,
+		ICacheFactory $cacheFactory,
 	) {
 		parent::__construct($this, $view, '');
 		$this->mountManager = $manager;
@@ -106,6 +86,7 @@ class Root extends Folder implements IRootFolder {
 		$eventDispatcher->addListener(FilesystemTornDownEvent::class, function () {
 			$this->userFolderCache = new CappedMemoryCache();
 		});
+		$this->pathByIdCache = $cacheFactory->createLocal('path-by-id');
 	}
 
 	/**
@@ -131,7 +112,7 @@ class Root extends Folder implements IRootFolder {
 	 * @param string $method optional
 	 * @param callable $callback optional
 	 */
-	public function removeListener($scope = null, $method = null, callable $callback = null) {
+	public function removeListener($scope = null, $method = null, ?callable $callback = null) {
 		$this->emitter->removeListener($scope, $method, $callback);
 	}
 
@@ -382,7 +363,7 @@ class Root extends Folder implements IRootFolder {
 				try {
 					$folder = $this->get('/' . $userId . '/files');
 					if (!$folder instanceof \OCP\Files\Folder) {
-						throw new \Exception("User folder for $userId exists as a file");
+						throw new \Exception("Account folder for \"$userId\" exists as a file");
 					}
 				} catch (NotFoundException $e) {
 					if (!$this->nodeExists('/' . $userId)) {
@@ -402,6 +383,31 @@ class Root extends Folder implements IRootFolder {
 
 	public function getUserMountCache() {
 		return $this->userMountCache;
+	}
+
+	public function getFirstNodeByIdInPath(int $id, string $path): ?INode {
+		// scope the cache by user, so we don't return nodes for different users
+		if ($this->user) {
+			$cachedPath = $this->pathByIdCache->get($this->user->getUID() . '::' . $id);
+			if ($cachedPath && str_starts_with($path, $cachedPath)) {
+				// getting the node by path is significantly cheaper than finding it by id
+				$node = $this->get($cachedPath);
+				// by validating that the cached path still has the requested fileid we can work around the need to invalidate the cached path
+				// if the cached path is invalid or a different file now we fall back to the uncached logic
+				if ($node && $node->getId() === $id) {
+					return $node;
+				}
+			}
+		}
+		$node = current($this->getByIdInPath($id, $path));
+		if (!$node) {
+			return null;
+		}
+
+		if ($this->user) {
+			$this->pathByIdCache->set($this->user->getUID() . '::' . $id, $node->getPath());
+		}
+		return $node;
 	}
 
 	/**
@@ -486,5 +492,30 @@ class Root extends Folder implements IRootFolder {
 			return $b->getPath() <=> $a->getPath();
 		});
 		return $folders;
+	}
+
+	public function getNodeFromCacheEntryAndMount(ICacheEntry $cacheEntry, IMountPoint $mountPoint): INode {
+		$path = $cacheEntry->getPath();
+		$fullPath = $mountPoint->getMountPoint() . $path;
+		// todo: LazyNode?
+		$info = new FileInfo($fullPath, $mountPoint->getStorage(), $path, $cacheEntry, $mountPoint);
+		$parentPath = dirname($fullPath);
+		$parent = new LazyFolder($this, function () use ($parentPath) {
+			$parent = $this->get($parentPath);
+			if ($parent instanceof \OCP\Files\Folder) {
+				return $parent;
+			} else {
+				throw new \Exception("parent $parentPath is not a folder");
+			}
+		}, [
+			'path' => $parentPath,
+		]);
+		$isDir = $info->getType() === FileInfo::TYPE_FOLDER;
+		$view = new View('');
+		if ($isDir) {
+			return new Folder($this, $view, $path, $info, $parent);
+		} else {
+			return new File($this, $view, $path, $info, $parent);
+		}
 	}
 }

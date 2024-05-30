@@ -39,7 +39,6 @@ use OCP\BackgroundJob\IJobList;
 use OCP\BackgroundJob\Job;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
-use OCP\ILogger;
 use OCP\IUser;
 use OCP\IUserManager;
 
@@ -62,11 +61,11 @@ class RetryJob extends Job {
 	 * @param Signer $signer
 	 */
 	public function __construct(ITimeFactory $time,
-								IClientService $clientService,
-								IConfig $config,
-								IUserManager $userManager,
-								IAccountManager $accountManager,
-								Signer $signer) {
+		IClientService $clientService,
+		IConfig $config,
+		IUserManager $userManager,
+		IAccountManager $accountManager,
+		Signer $signer) {
 		parent::__construct($time);
 		$this->clientService = $clientService;
 		$this->config = $config;

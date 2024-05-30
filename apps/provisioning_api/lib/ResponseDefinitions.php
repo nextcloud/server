@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -26,38 +27,40 @@ declare(strict_types=1);
 namespace OCA\Provisioning_API;
 
 /**
- * @psalm-type ProvisioningApiUserDetailsQuota = array{
- *     free?: float,
- *     quota?: float|string,
- *     relative?: float,
- *     total?: float,
- *     used?: float,
+ * @psalm-type Provisioning_APIUserDetailsQuota = array{
+ *     free?: float|int,
+ *     quota?: float|int|string,
+ *     relative?: float|int,
+ *     total?: float|int,
+ *     used?: float|int,
  * }
  *
- * @psalm-type ProvisioningApiUserDetails = array{
+ * @psalm-type Provisioning_APIUserDetailsScope = 'v2-private'|'v2-local'|'v2-federated'|'v2-published'|'private'|'contacts'|'public'
+ *
+ * @psalm-type Provisioning_APIUserDetails = array{
  *     additional_mail: string[],
- *     additional_mailScope?: string[],
+ *     additional_mailScope?: Provisioning_APIUserDetailsScope[],
  *     address: string,
- *     addressScope?: string,
- *     avatarScope?: string,
+ *     addressScope?: Provisioning_APIUserDetailsScope,
+ *     avatarScope?: Provisioning_APIUserDetailsScope,
  *     backend: string,
  *     backendCapabilities: array{
  *         setDisplayName: bool,
  *         setPassword: bool
  *     },
  *     biography: string,
- *     biographyScope?: string,
+ *     biographyScope?: Provisioning_APIUserDetailsScope,
  *     display-name: string,
  *     displayname: string,
- *     displaynameScope?: string,
+ *     displaynameScope?: Provisioning_APIUserDetailsScope,
  *     email: ?string,
- *     emailScope?: string,
+ *     emailScope?: Provisioning_APIUserDetailsScope,
  *     enabled?: bool,
  *     fediverse: string,
- *     fediverseScope?: string,
+ *     fediverseScope?: Provisioning_APIUserDetailsScope,
  *     groups: string[],
  *     headline: string,
- *     headlineScope?: string,
+ *     headlineScope?: Provisioning_APIUserDetailsScope,
  *     id: string,
  *     language: string,
  *     lastLogin: int,
@@ -65,65 +68,23 @@ namespace OCA\Provisioning_API;
  *     manager: string,
  *     notify_email: ?string,
  *     organisation: string,
- *     organisationScope?: string,
+ *     organisationScope?: Provisioning_APIUserDetailsScope,
  *     phone: string,
- *     phoneScope?: string,
+ *     phoneScope?: Provisioning_APIUserDetailsScope,
  *     profile_enabled: string,
- *     profile_enabledScope?: string,
- *     quota: ProvisioningApiUserDetailsQuota,
+ *     profile_enabledScope?: Provisioning_APIUserDetailsScope,
+ *     quota: Provisioning_APIUserDetailsQuota,
  *     role: string,
- *     roleScope?: string,
+ *     roleScope?: Provisioning_APIUserDetailsScope,
  *     storageLocation?: string,
  *     subadmin: string[],
  *     twitter: string,
- *     twitterScope?: string,
+ *     twitterScope?: Provisioning_APIUserDetailsScope,
  *     website: string,
- *     websiteScope?: string,
+ *     websiteScope?: Provisioning_APIUserDetailsScope,
  * }
  *
- * @psalm-type ProvisioningApiAppInfo = array{
- *     active: bool|null,
- *     activity: ?mixed,
- *     author: ?mixed,
- *     background-jobs: ?mixed,
- *     bugs: ?mixed,
- *     category: ?mixed,
- *     collaboration: ?mixed,
- *     commands: ?mixed,
- *     default_enable: ?mixed,
- *     dependencies: ?mixed,
- *     description: string,
- *     discussion: ?mixed,
- *     documentation: ?mixed,
- *     groups: ?mixed,
- *     id: string,
- *     info: ?mixed,
- *     internal: bool|null,
- *     level: int|null,
- *     licence: ?mixed,
- *     name: string,
- *     namespace: ?mixed,
- *     navigations: ?mixed,
- *     preview: ?mixed,
- *     previewAsIcon: bool|null,
- *     public: ?mixed,
- *     remote: ?mixed,
- *     removable: bool|null,
- *     repair-steps: ?mixed,
- *     repository: ?mixed,
- *     sabre: ?mixed,
- *     screenshot: ?mixed,
- *     settings: ?mixed,
- *     summary: string,
- *     trash: ?mixed,
- *     two-factor-providers: ?mixed,
- *     types: ?mixed,
- *     version: string,
- *     versions: ?mixed,
- *     website: ?mixed,
- * }
- *
- * @psalm-type ProvisioningApiGroupDetails = array{
+ * @psalm-type Provisioning_APIGroupDetails = array{
  *     id: string,
  *     displayname: string,
  *     usercount: bool|int,

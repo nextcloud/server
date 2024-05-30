@@ -35,7 +35,6 @@ use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IUserSession;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class GlobalStoragesControllerTest extends StoragesControllerTest {
 	protected function setUp(): void {

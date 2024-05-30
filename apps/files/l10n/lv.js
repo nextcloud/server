@@ -115,6 +115,9 @@ OC.L10N.register(
     "No files in here" : "Šeit nav datņu",
     "Upload some content or sync with your devices!" : "Augšupielādē kaut ko vai sinhronizē saturu ar savām ierīcēm!",
     "Go back" : "Atpakaļ",
+    "Share" : "Dalīties",
+    "Shared by link" : "Koplietots ar saiti",
+    "Shared" : "Koplietots",
     "Files settings" : "Failu iestatījumi",
     "Show hidden files" : "Rādīt slēptās datnes",
     "Crop image previews" : "Apgriezt attēlu priekšskatījumus",
@@ -142,7 +145,6 @@ OC.L10N.register(
     "Shares" : "Koplietots",
     "Shared with others" : "Koplietots ar citiem",
     "Shared with you" : "Koplietots ar tevi",
-    "Shared by link" : "Koplietots ar saiti",
     "Deleted shares" : "Dzēstās koplietotnes",
     "Pending shares" : "Gaidošie koplietojumi",
     "Choose" : "Izvēlies"

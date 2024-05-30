@@ -1,27 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Pierre Ozoux <pierre@ozoux.net>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Core\Command\User;
 
@@ -31,6 +13,7 @@ use OCP\IUserManager;
 use Stecman\Component\Symfony\Console\BashCompletion\CompletionContext;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class LastSeen extends Base {
@@ -40,34 +23,60 @@ class LastSeen extends Base {
 		parent::__construct();
 	}
 
-	protected function configure() {
+	protected function configure(): void {
 		$this
 			->setName('user:lastseen')
 			->setDescription('shows when the user was logged in last time')
 			->addArgument(
 				'uid',
-				InputArgument::REQUIRED,
+				InputArgument::OPTIONAL,
 				'the username'
-			);
+			)
+			->addOption(
+				'all',
+				null,
+				InputOption::VALUE_NONE,
+				'shows a list of when all users were last logged in'
+			)
+		;
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
-		$user = $this->userManager->get($input->getArgument('uid'));
-		if (is_null($user)) {
-			$output->writeln('<error>User does not exist</error>');
+		$singleUserId = $input->getArgument('uid');
+		if ($singleUserId) {
+			$user = $this->userManager->get($singleUserId);
+			if (is_null($user)) {
+				$output->writeln('<error>User does not exist</error>');
+				return 1;
+			}
+
+			$lastLogin = $user->getLastLogin();
+			if ($lastLogin === 0) {
+				$output->writeln($user->getUID() . ' has never logged in.');
+			} else {
+				$date = new \DateTime();
+				$date->setTimestamp($lastLogin);
+				$output->writeln($user->getUID() . "'s last login: " . $date->format('Y-m-d H:i'));
+			}
+
+			return 0;
+		}
+
+		if (!$input->getOption('all')) {
+			$output->writeln("<error>Please specify a username, or \"--all\" to list all</error>");
 			return 1;
 		}
 
-		$lastLogin = $user->getLastLogin();
-		if ($lastLogin === 0) {
-			$output->writeln('User ' . $user->getUID() .
-				' has never logged in, yet.');
-		} else {
-			$date = new \DateTime();
-			$date->setTimestamp($lastLogin);
-			$output->writeln($user->getUID() .
-				'`s last login: ' . $date->format('d.m.Y H:i'));
-		}
+		$this->userManager->callForAllUsers(static function (IUser $user) use ($output) {
+			$lastLogin = $user->getLastLogin();
+			if ($lastLogin === 0) {
+				$output->writeln($user->getUID() . ' has never logged in.');
+			} else {
+				$date = new \DateTime();
+				$date->setTimestamp($lastLogin);
+				$output->writeln($user->getUID() . "'s last login: " . $date->format('Y-m-d H:i'));
+			}
+		});
 		return 0;
 	}
 

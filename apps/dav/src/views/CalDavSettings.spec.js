@@ -1,3 +1,7 @@
+/**
+ * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
 import { render } from '@testing-library/vue'
 import CalDavSettings from './CalDavSettings.vue'
 // eslint-disable-next-line no-unused-vars

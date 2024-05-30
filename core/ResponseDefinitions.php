@@ -3,25 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2023 Kate Döen <kate.doeen@nextcloud.com>
- *
- * @author Kate Döen <kate.doeen@nextcloud.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OCA\Core;
@@ -61,22 +44,24 @@ namespace OCA\Core;
  * }
  *
  * @psalm-type CoreOpenGraphObject = array{
+ *     id: string,
+ *     name: string,
+ *     description: ?string,
+ *     thumb: ?string,
+ *     link: string,
+ * }
+ *
+ * @psalm-type CoreResource = array{
  *     richObjectType: string,
  *     richObject: array<string, mixed>,
- *     openGraphObject: array{
- *         id: string,
- *         name: string,
- *         description: ?string,
- *         thumb: ?string,
- *         link: string,
- *     },
+ *     openGraphObject: CoreOpenGraphObject,
  *     accessible: bool,
  * }
  *
  * @psalm-type CoreCollection = array{
  *     id: int,
  *     name: string,
- *     resources: CoreOpenGraphObject[],
+ *     resources: CoreResource[],
  * }
  *
  * @psalm-type CoreReference = array{
@@ -96,8 +81,13 @@ namespace OCA\Core;
  *
  * @psalm-type CoreUnifiedSearchProvider = array{
  *     id: string,
+ *     appId: string,
  *     name: string,
+ *     icon: string,
  *     order: int,
+ *     triggers: string[],
+ *     filters: array<string, string>,
+ *     inAppSearch: bool,
  * }
  *
  * @psalm-type CoreUnifiedSearchResultEntry = array{
@@ -122,7 +112,12 @@ namespace OCA\Core;
  *     label: string,
  *     icon: string,
  *     source: string,
- *     status: string,
+ *     status: array{
+ *       status: string,
+ *       message: ?string,
+ *       icon: ?string,
+ *       clearAt: ?int,
+ *     }|string,
  *     subline: string,
  *     shareWithDisplayNameUnique: string,
  * }
@@ -136,7 +131,65 @@ namespace OCA\Core;
  *     input: string,
  *     output: ?string,
  *     identifier: string,
+ *     completionExpectedAt: ?int
  * }
+ *
+ * @psalm-type CoreTextToImageTask = array{
+ *      id: ?int,
+ *      status: 0|1|2|3|4,
+ *      userId: ?string,
+ *      appId: string,
+ *      input: string,
+ *      identifier: ?string,
+ *      numberOfImages: int,
+ *      completionExpectedAt: ?int,
+ *  }
+ *
+ * @psalm-type CoreTeam = array{
+ *      id: string,
+ *      name: string,
+ *      icon: string,
+ * }
+ *
+ * @psalm-type CoreTeamResource = array{
+ *       id: int,
+ *       label: string,
+ *       url: string,
+ *       iconSvg: ?string,
+ *       iconURL: ?string,
+ *       iconEmoji: ?string,
+ *   }
+ *
+ * @psalm-type CoreTaskProcessingShape = array{
+ *     name: string,
+ *     description: string,
+ *     type: "Number"|"Text"|"Audio"|"Image"|"Video"|"File"|"ListOfNumbers"|"ListOfTexts"|"ListOfImages"|"ListOfAudios"|"ListOfVideos"|"ListOfFiles",
+ *     mandatory: bool,
+ * }
+ *
+ * @psalm-type CoreTaskProcessingTaskType = array{
+ *     name: string,
+ *     description: string,
+ *     inputShape: CoreTaskProcessingShape[],
+ *     outputShape: CoreTaskProcessingShape[],
+ * }
+ *
+ * @psalm-type CoreTaskProcessingIO = array<string, numeric|list<numeric>|string|list<string>>
+ *
+ * @psalm-type CoreTaskProcessingTask = array{
+ *     id: int,
+ *     lastUpdated: int,
+ *     type: string,
+ *     status: 'STATUS_CANCELLED'|'STATUS_FAILED'|'STATUS_SUCCESSFUL'|'STATUS_RUNNING'|'STATUS_SCHEDULED'|'STATUS_UNKNOWN',
+ *     userId: ?string,
+ *     appId: string,
+ *     input: CoreTaskProcessingIO,
+ *     output: null|CoreTaskProcessingIO,
+ *     customId: ?string,
+ *     completionExpectedAt: ?int,
+ *     progress: ?float
+ * }
+ *
  */
 class ResponseDefinitions {
 }

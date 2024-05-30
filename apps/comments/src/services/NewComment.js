@@ -1,23 +1,6 @@
 /**
- * @copyright Copyright (c) 2020 John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 import { getCurrentUser } from '@nextcloud/auth'
@@ -29,27 +12,27 @@ import client from './DavClient.js'
 /**
  * Retrieve the comments list
  *
- * @param {string} commentsType the ressource type
- * @param {number} ressourceId the ressource ID
+ * @param {string} resourceType the resource type
+ * @param {number} resourceId the resource ID
  * @param {string} message the message
  * @return {object} the new comment
  */
-export default async function(commentsType, ressourceId, message) {
-	const ressourcePath = ['', commentsType, ressourceId].join('/')
+export default async function(resourceType, resourceId, message) {
+	const resourcePath = ['', resourceType, resourceId].join('/')
 
-	const response = await axios.post(getRootPath() + ressourcePath, {
+	const response = await axios.post(getRootPath() + resourcePath, {
 		actorDisplayName: getCurrentUser().displayName,
 		actorId: getCurrentUser().uid,
 		actorType: 'users',
 		creationDateTime: (new Date()).toUTCString(),
 		message,
-		objectType: 'files',
+		objectType: resourceType,
 		verb: 'comment',
 	})
 
-	// Retrieve comment id from ressource location
+	// Retrieve comment id from resource location
 	const commentId = parseInt(response.headers['content-location'].split('/').pop())
-	const commentPath = ressourcePath + '/' + commentId
+	const commentPath = resourcePath + '/' + commentId
 
 	// Fetch newly created comment data
 	const comment = await client.stat(commentPath, {
