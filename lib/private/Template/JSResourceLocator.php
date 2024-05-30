@@ -1,29 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Bart Visscher <bartv@thisnet.nl>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Kyle Fazzari <kyrofa@ubuntu.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Template;
 
@@ -51,6 +31,22 @@ class JSResourceLocator extends ResourceLocator {
 		// Extracting the appId and the script file name
 		$app = substr($script, 0, strpos($script, '/'));
 		$scriptName = basename($script);
+		// Get the app root path
+		$appRoot = $this->serverroot . '/apps/';
+		$appWebRoot = null;
+		try {
+			// We need the dir name as getAppPath appends the appid
+			$appRoot = dirname($this->appManager->getAppPath($app));
+			// Only do this if $app_path is set, because an empty argument to realpath gets turned into cwd.
+			if ($appRoot) {
+				// Handle symlinks
+				$appRoot = realpath($appRoot);
+			}
+			// Get the app webroot
+			$appWebRoot = dirname($this->appManager->getAppWebPath($app));
+		} catch (AppPathNotFoundException $e) {
+			// ignore
+		}
 
 		if (str_contains($script, '/l10n/')) {
 			// For language files we try to load them all, so themes can overwrite
@@ -60,7 +56,7 @@ class JSResourceLocator extends ResourceLocator {
 			$found += $this->appendScriptIfExist($this->serverroot, $theme_dir.'core/'.$script);
 			$found += $this->appendScriptIfExist($this->serverroot, $script);
 			$found += $this->appendScriptIfExist($this->serverroot, $theme_dir.$script);
-			$found += $this->appendScriptIfExist($this->serverroot, 'apps/'.$script);
+			$found += $this->appendScriptIfExist($appRoot, $script, $appWebRoot);
 			$found += $this->appendScriptIfExist($this->serverroot, $theme_dir.'apps/'.$script);
 
 			if ($found) {
@@ -71,8 +67,9 @@ class JSResourceLocator extends ResourceLocator {
 			|| $this->appendScriptIfExist($this->serverroot, $script)
 			|| $this->appendScriptIfExist($this->serverroot, $theme_dir."dist/$app-$scriptName")
 			|| $this->appendScriptIfExist($this->serverroot, "dist/$app-$scriptName")
-			|| $this->appendScriptIfExist($this->serverroot, 'apps/'.$script)
+			|| $this->appendScriptIfExist($appRoot, $script, $appWebRoot)
 			|| $this->cacheAndAppendCombineJsonIfExist($this->serverroot, $script.'.json')
+			|| $this->cacheAndAppendCombineJsonIfExist($appRoot, $script.'.json', $appWebRoot)
 			|| $this->appendScriptIfExist($this->serverroot, $theme_dir.'core/'.$script)
 			|| $this->appendScriptIfExist($this->serverroot, 'core/'.$script)
 			|| (strpos($scriptName, '/') === -1 && ($this->appendScriptIfExist($this->serverroot, $theme_dir."dist/core-$scriptName")
@@ -82,43 +79,13 @@ class JSResourceLocator extends ResourceLocator {
 			return;
 		}
 
-		$script = substr($script, strpos($script, '/') + 1);
-		$app_url = null;
-
-		try {
-			$app_url = $this->appManager->getAppWebPath($app);
-		} catch (AppPathNotFoundException) {
-			// pass
-		}
-
-		try {
-			$app_path = $this->appManager->getAppPath($app);
-
-			// Account for the possibility of having symlinks in app path. Only
-			// do this if $app_path is set, because an empty argument to realpath
-			// gets turned into cwd.
-			$app_path = realpath($app_path);
-
-			// check combined files
-			if (!str_starts_with($script, 'l10n/') && $this->cacheAndAppendCombineJsonIfExist($app_path, $script.'.json', $app)) {
-				return;
-			}
-
-			// fallback to plain file location
-			if ($this->appendScriptIfExist($app_path, $script, $app_url)) {
-				return;
-			}
-		} catch (AppPathNotFoundException) {
-			// pass (general error handling happens below)
-		}
-
 		// missing translations files will be ignored
-		if (str_starts_with($script, 'l10n/')) {
+		if (str_contains($script, '/l10n/')) {
 			return;
 		}
 
 		$this->logger->error('Could not find resource {resource} to load', [
-			'resource' => $app . '/' . $script . '.js',
+			'resource' => $script . '.js',
 			'app' => 'jsresourceloader',
 		]);
 	}
@@ -133,7 +100,7 @@ class JSResourceLocator extends ResourceLocator {
 	 * Try to find ES6 script file (`.mjs`) with fallback to plain javascript (`.js`)
 	 * @see appendIfExist()
 	 */
-	protected function appendScriptIfExist(string $root, string $file, string $webRoot = null) {
+	protected function appendScriptIfExist(string $root, string $file, ?string $webRoot = null) {
 		if (!$this->appendIfExist($root, $file . '.mjs', $webRoot)) {
 			return $this->appendIfExist($root, $file . '.js', $webRoot);
 		}

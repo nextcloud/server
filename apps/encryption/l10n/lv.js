@@ -31,8 +31,6 @@ OC.L10N.register(
     "Current log-in password" : "Pašreizējā pieteikšanās parole",
     "Enable password recovery:" : "Iespējot paroles atjaunošanu:",
     "Enabled" : "Pievienots",
-    "Disabled" : "Atspējots",
-    "The share will expire on %s." : "Koplietošana beigsies %s.",
-    "Cheers!" : "Priekā!"
+    "Disabled" : "Atspējots"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

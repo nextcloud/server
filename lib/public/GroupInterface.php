@@ -1,32 +1,12 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Knut Ahlers <knut@ahlers.me>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 // use OCP namespace for all classes that are considered public.
-// This means that they should be used by apps instead of the internal ownCloud classes
+// This means that they should be used by apps instead of the internal Nextcloud classes
 
 namespace OCP;
 
@@ -38,15 +18,44 @@ namespace OCP;
 interface GroupInterface {
 	/**
 	 * actions that user backends can define
+	 *
+	 * @since 12.0.0
 	 */
 	public const CREATE_GROUP = 0x00000001;
+
+	/**
+	 * @since 12.0.0
+	 */
 	public const DELETE_GROUP = 0x00000010;
+
+	/**
+	 * @since 12.0.0
+	 */
 	public const ADD_TO_GROUP = 0x00000100;
+
+	/**
+	 * @since 12.0.0
+	 * @deprecated  29.0.0
+	 */
 	public const REMOVE_FROM_GOUP = 0x00001000; // oops
+
+	/**
+	 * @since 12.0.0
+	 */
 	public const REMOVE_FROM_GROUP = 0x00001000;
+
 	//OBSOLETE const GET_DISPLAYNAME	= 0x00010000;
+
+	/**
+	 * @since 12.0.0
+	 */
 	public const COUNT_USERS = 0x00100000;
+
+	/**
+	 * @since 12.0.0
+	 */
 	public const GROUP_DETAILS = 0x01000000;
+
 	/**
 	 * @since 13.0.0
 	 */
@@ -86,7 +95,8 @@ interface GroupInterface {
 	public function getUserGroups($uid);
 
 	/**
-	 * get a list of all groups
+	 * @brief Get a list of all groups
+	 *
 	 * @param string $search
 	 * @param int $limit
 	 * @param int $offset
@@ -98,7 +108,8 @@ interface GroupInterface {
 	public function getGroups(string $search = '', int $limit = -1, int $offset = 0);
 
 	/**
-	 * check if a group exists
+	 * @brief Check if a group exists
+	 *
 	 * @param string $gid
 	 * @return bool
 	 * @since 4.5.0

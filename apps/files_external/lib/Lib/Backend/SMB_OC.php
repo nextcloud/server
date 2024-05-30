@@ -46,7 +46,7 @@ class SMB_OC extends Backend {
 			->setText($l->t('SMB/CIFS using OC login'))
 			->addParameters([
 				new DefinitionParameter('host', $l->t('Host')),
-				(new DefinitionParameter('username_as_share', $l->t('Username as share')))
+				(new DefinitionParameter('username_as_share', $l->t('Login as share')))
 					->setType(DefinitionParameter::VALUE_BOOLEAN),
 				(new DefinitionParameter('share', $l->t('Share')))
 					->setFlag(DefinitionParameter::FLAG_OPTIONAL),
@@ -60,7 +60,10 @@ class SMB_OC extends Backend {
 		;
 	}
 
-	public function manipulateStorageConfig(StorageConfig &$storage, IUser $user = null) {
+	/**
+	 * @return void
+	 */
+	public function manipulateStorageConfig(StorageConfig &$storage, ?IUser $user = null) {
 		$username_as_share = ($storage->getBackendOption('username_as_share') === true);
 
 		if ($username_as_share) {

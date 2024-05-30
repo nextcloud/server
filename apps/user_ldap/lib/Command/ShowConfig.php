@@ -36,39 +36,34 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class ShowConfig extends Base {
-	/** @var \OCA\User_LDAP\Helper */
-	protected $helper;
-
-	/**
-	 * @param Helper $helper
-	 */
-	public function __construct(Helper $helper) {
-		$this->helper = $helper;
+	public function __construct(
+		protected Helper $helper,
+	) {
 		parent::__construct();
 	}
 
-	protected function configure() {
+	protected function configure(): void {
 		$this
 			->setName('ldap:show-config')
 			->setDescription('shows the LDAP configuration')
 			->addArgument(
-					'configID',
-					InputArgument::OPTIONAL,
-					'will show the configuration of the specified id'
-					 )
+				'configID',
+				InputArgument::OPTIONAL,
+				'will show the configuration of the specified id'
+			)
 			->addOption(
-					'show-password',
-					null,
-					InputOption::VALUE_NONE,
-					'show ldap bind password'
-					 )
+				'show-password',
+				null,
+				InputOption::VALUE_NONE,
+				'show ldap bind password'
+			)
 			->addOption(
-					'output',
-					null,
-					InputOption::VALUE_OPTIONAL,
-					'Output format (table, plain, json or json_pretty, default is table)',
-					'table'
-					 )
+				'output',
+				null,
+				InputOption::VALUE_OPTIONAL,
+				'Output format (table, plain, json or json_pretty, default is table)',
+				'table'
+			)
 		;
 	}
 
@@ -79,23 +74,26 @@ class ShowConfig extends Base {
 			$configIDs[] = $configID;
 			if (!in_array($configIDs[0], $availableConfigs)) {
 				$output->writeln("Invalid configID");
-				return 1;
+				return self::FAILURE;
 			}
 		} else {
 			$configIDs = $availableConfigs;
 		}
 
 		$this->renderConfigs($configIDs, $input, $output);
-		return 0;
+		return self::SUCCESS;
 	}
 
 	/**
 	 * prints the LDAP configuration(s)
-	 * @param string[] configID(s)
-	 * @param InputInterface $input
-	 * @param OutputInterface $output
+	 *
+	 * @param string[] $configIDs
 	 */
-	protected function renderConfigs($configIDs, $input, $output) {
+	protected function renderConfigs(
+		array $configIDs,
+		InputInterface $input,
+		OutputInterface $output,
+	): void {
 		$renderTable = $input->getOption('output') === 'table' or $input->getOption('output') === null;
 		$showPassword = $input->getOption('show-password');
 
@@ -121,16 +119,17 @@ class ShowConfig extends Base {
 				$table->setHeaders(['Configuration', $id]);
 				$table->setRows($rows);
 				$table->render();
-			} else {
-				foreach ($configuration as $key => $value) {
-					if ($key === 'ldapAgentPassword' && !$showPassword) {
-						$rows[$key] = '***';
-					} else {
-						$rows[$key] = $value;
-					}
-				}
-				$configs[$id] = $rows;
+				continue;
 			}
+
+			foreach ($configuration as $key => $value) {
+				if ($key === 'ldapAgentPassword' && !$showPassword) {
+					$rows[$key] = '***';
+				} else {
+					$rows[$key] = $value;
+				}
+			}
+			$configs[$id] = $rows;
 		}
 		if (!$renderTable) {
 			$this->writeArrayInOutputFormat($input, $output, $configs);

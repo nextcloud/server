@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types = 1);
 /**
  * @copyright 2022 Carl Schwan <carl@carlschwan.eu>
  *
@@ -46,6 +48,6 @@ class LdapDataCollector extends AbstractDataCollector {
 		return 'ldap';
 	}
 
-	public function collect(Request $request, Response $response, \Throwable $exception = null): void {
+	public function collect(Request $request, Response $response, ?\Throwable $exception = null): void {
 	}
 }

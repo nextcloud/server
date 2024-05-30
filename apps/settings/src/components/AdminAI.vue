@@ -31,14 +31,32 @@
 				</NcCheckboxRadioSwitch>
 			</template>
 			<template v-if="!hasStt">
-				<NcCheckboxRadioSwitch disabled type="radio">
+				<NcNoteCard type="info">
 					{{ t('settings', 'None of your currently installed apps provide Speech-To-Text functionality') }}
+				</NcNoteCard>
+			</template>
+		</NcSettingsSection>
+		<NcSettingsSection :name="t('settings', 'Image generation')"
+			:description="t('settings', 'Image generation can be implemented by different apps. Here you can set which app should be used.')">
+			<template v-for="provider in text2imageProviders">
+				<NcCheckboxRadioSwitch :key="provider.id"
+					:checked.sync="settings['ai.text2image_provider']"
+					:value="provider.id"
+					name="text2image_provider"
+					type="radio"
+					@update:checked="saveChanges">
+					{{ provider.name }}
 				</NcCheckboxRadioSwitch>
+			</template>
+			<template v-if="!hasText2ImageProviders">
+				<NcNoteCard type="info">
+					{{ t('settings', 'None of your currently installed apps provide image generation functionality') }}
+				</NcNoteCard>
 			</template>
 		</NcSettingsSection>
 		<NcSettingsSection :name="t('settings', 'Text processing')"
 			:description="t('settings', 'Text processing tasks can be implemented by different apps. Here you can set which app should be used for which task.')">
-			<template v-for="type in Object.keys(settings['ai.textprocessing_provider_preferences'])">
+			<template v-for="type in tpTaskTypes">
 				<div :key="type">
 					<h3>{{ t('settings', 'Task:') }} {{ getTaskType(type).name }}</h3>
 					<p>{{ getTaskType(type).description }}</p>
@@ -58,7 +76,9 @@
 				</div>
 			</template>
 			<template v-if="!hasTextProcessing">
-				<p>{{ t('settings', 'None of your currently installed apps provide Text processing functionality') }}</p>
+				<NcNoteCard type="info">
+					{{ t('settings', 'None of your currently installed apps provide Text processing functionality') }}
+				</NcNoteCard>
 			</template>
 		</NcSettingsSection>
 	</div>
@@ -70,6 +90,7 @@ import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadi
 import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection.js'
 import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import NcNoteCard from '@nextcloud/vue/dist/Components/NcNoteCard.js'
 import draggable from 'vuedraggable'
 import DragVerticalIcon from 'vue-material-design-icons/DragVertical.vue'
 import ArrowDownIcon from 'vue-material-design-icons/ArrowDown.vue'
@@ -88,7 +109,8 @@ export default {
 		DragVerticalIcon,
 		ArrowDownIcon,
 		ArrowUpIcon,
-		NcButton
+		NcButton,
+		NcNoteCard,
 	},
 	data() {
 		return {
@@ -100,6 +122,7 @@ export default {
 			translationProviders: loadState('settings', 'ai-translation-providers'),
 			textProcessingProviders: loadState('settings', 'ai-text-processing-providers'),
 			textProcessingTaskTypes: loadState('settings', 'ai-text-processing-task-types'),
+			text2imageProviders: loadState('settings', 'ai-text2image-providers'),
 			settings: loadState('settings', 'ai-settings'),
 		}
 	},
@@ -110,13 +133,19 @@ export default {
 		hasTextProcessing() {
 			return Object.keys(this.settings['ai.textprocessing_provider_preferences']).length > 0 && Array.isArray(this.textProcessingTaskTypes)
 		},
+		tpTaskTypes() {
+			return Object.keys(this.settings['ai.textprocessing_provider_preferences']).filter(type => !!this.getTaskType(type))
+		},
+		hasText2ImageProviders() {
+		  return this.text2imageProviders.length > 0
+		},
 	},
 	methods: {
 	  moveUp(i) {
 			this.settings['ai.translation_provider_preferences'].splice(
 			  Math.min(i - 1, 0),
 				0,
-				...this.settings['ai.translation_provider_preferences'].splice(i, 1)
+				...this.settings['ai.translation_provider_preferences'].splice(i, 1),
 			)
 			this.saveChanges()
 		},
@@ -124,7 +153,7 @@ export default {
 			this.settings['ai.translation_provider_preferences'].splice(
 				i + 1,
 				0,
-				...this.settings['ai.translation_provider_preferences'].splice(i, 1)
+				...this.settings['ai.translation_provider_preferences'].splice(i, 1),
 			)
 			this.saveChanges()
 		},
@@ -161,9 +190,9 @@ export default {
 
 .draggable__number {
 	border-radius: 20px;
-	border: 2px solid var(--color-primary-default);
-	color: var(--color-primary-default);
-  padding: 0px 7px;
+	border: 2px solid var(--color-primary-element);
+	color: var(--color-primary-element);
+	padding: 0px 7px;
 	margin-right: 3px;
 }
 

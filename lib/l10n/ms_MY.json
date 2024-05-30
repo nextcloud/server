@@ -1,7 +1,6 @@
 { "translations": {
     "Files" : "Fail",
     "__language_name__" : "Bahasa Melayu",
-    "Help" : "Bantuan",
     "Apps" : "Aplikasi",
     "Settings" : "Tetapan",
     "Log out" : "Log keluar",
@@ -49,6 +48,7 @@
     "Oct." : "Okt.",
     "Nov." : "Nov.",
     "Dec." : "Dis.",
-    "Authentication error" : "Ralat pengesahan"
+    "Authentication error" : "Ralat pengesahan",
+    "Help" : "Bantuan"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

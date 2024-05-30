@@ -24,11 +24,11 @@
  */
 namespace OCA\Files_Sharing\External;
 
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Federation\ICloudIdManager;
 use OCP\Files\Config\IMountProvider;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\IDBConnection;
-use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IUser;
 
 class MountProvider implements IMountProvider {

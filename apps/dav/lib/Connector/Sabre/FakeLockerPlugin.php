@@ -1,27 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\DAV\Connector\Sabre;
 
@@ -108,7 +90,7 @@ class FakeLockerPlugin extends ServerPlugin {
 			if (isset($fileCondition['tokens'])) {
 				foreach ($fileCondition['tokens'] as &$token) {
 					if (isset($token['token'])) {
-						if (substr($token['token'], 0, 16) === 'opaquelocktoken:') {
+						if (str_starts_with($token['token'], 'opaquelocktoken:')) {
 							$token['validToken'] = true;
 						}
 					}
@@ -125,7 +107,7 @@ class FakeLockerPlugin extends ServerPlugin {
 	 * @return bool
 	 */
 	public function fakeLockProvider(RequestInterface $request,
-									 ResponseInterface $response) {
+		ResponseInterface $response) {
 		$lockInfo = new LockInfo();
 		$lockInfo->token = md5($request->getPath());
 		$lockInfo->uri = $request->getPath();
@@ -151,7 +133,7 @@ class FakeLockerPlugin extends ServerPlugin {
 	 * @return bool
 	 */
 	public function fakeUnlockProvider(RequestInterface $request,
-									 ResponseInterface $response) {
+		ResponseInterface $response) {
 		$response->setStatus(204);
 		$response->setHeader('Content-Length', '0');
 		return false;

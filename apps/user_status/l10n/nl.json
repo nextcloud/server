@@ -5,10 +5,10 @@
     "Commuting" : "Woon-werk",
     "Out sick" : "Ziek",
     "Vacationing" : "Op vakantie",
+    "Out of office" : "Niet op kantoor",
     "Working remotely" : "Thuiswerken",
     "In a call" : "In gesprek",
     "User status" : "Gebruikersstatus",
-    "View profile" : "Bekijk profiel",
     "Clear status after" : "Maak de status leeg na",
     "What is your status?" : "Wat is jouw status?",
     "Set status" : "Status instellen",
@@ -32,6 +32,6 @@
     "4 hours" : "4 uur",
     "Mute all notifications" : "Onderdruk alle meldingen",
     "Appear offline" : "Toon afwezig",
-    "{status}, {timestamp}" : "{status}, {timestamp}"
+    "View profile" : "Bekijk profiel"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

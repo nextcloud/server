@@ -29,12 +29,14 @@ namespace OCA\Settings\Tests\Controller;
 use OCA\Settings\Controller\AdminSettingsController;
 use OCA\Settings\Settings\Personal\ServerDevNotice;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Services\IInitialState;
 use OCP\Group\ISubAdmin;
 use OCP\IGroupManager;
 use OCP\INavigationManager;
 use OCP\IRequest;
 use OCP\IUser;
 use OCP\IUserSession;
+use OCP\Settings\IDeclarativeManager;
 use OCP\Settings\IManager;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
@@ -62,6 +64,10 @@ class AdminSettingsControllerTest extends TestCase {
 	private $groupManager;
 	/** @var ISubAdmin|MockObject */
 	private $subAdmin;
+	/** @var IDeclarativeManager|MockObject */
+	private $declarativeSettingsManager;
+	/** @var IInitialState|MockObject */
+	private $initialState;
 	/** @var string */
 	private $adminUid = 'lololo';
 
@@ -74,6 +80,8 @@ class AdminSettingsControllerTest extends TestCase {
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->subAdmin = $this->createMock(ISubAdmin::class);
+		$this->declarativeSettingsManager = $this->createMock(IDeclarativeManager::class);
+		$this->initialState = $this->createMock(IInitialState::class);
 
 		$this->adminSettingsController = new AdminSettingsController(
 			'settings',
@@ -82,7 +90,9 @@ class AdminSettingsControllerTest extends TestCase {
 			$this->settingsManager,
 			$this->userSession,
 			$this->groupManager,
-			$this->subAdmin
+			$this->subAdmin,
+			$this->declarativeSettingsManager,
+			$this->initialState,
 		);
 
 		$user = \OC::$server->getUserManager()->createUser($this->adminUid, 'mylongrandompassword');
@@ -123,6 +133,11 @@ class AdminSettingsControllerTest extends TestCase {
 			->method('getAllowedAdminSettings')
 			->with('test')
 			->willReturn([5 => $this->createMock(ServerDevNotice::class)]);
+		$this->declarativeSettingsManager
+			->expects($this->any())
+			->method('getFormIDs')
+			->with($user, 'admin', 'test')
+			->willReturn([]);
 
 		$idx = $this->adminSettingsController->index('test');
 

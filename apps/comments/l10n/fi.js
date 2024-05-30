@@ -13,19 +13,21 @@ OC.L10N.register(
     "Edit comment" : "Muokkaa kommenttia",
     "Delete comment" : "Poista kommentti",
     "Cancel edit" : "Peruuta muokkaus",
+    "New comment" : "Uusi kommentti",
+    "Write a comment …" : "Kirjoita kommentti…",
     "Post comment" : "Lähetä viesti",
     "No comments yet, start the conversation!" : "Ei kommentteja vielä. Aloita keskustelu!",
     "No more messages" : "Ei enempää viestejä",
     "Retry" : "Yritä uudelleen",
     "Failed to mark comments as read" : "Kommenttien merkitseminen luetuksi epäonnistui",
     "Unable to load the comments list" : "Kommenttilistaa ei voitu ladata",
-    "_%n unread comment_::_%n unread comments_" : ["%n lukematon kommentti","%n lukematonta kommenttia"],
     "_1 new comment_::_{unread} new comments_" : ["1 uusi kommentti","{unread} uutta kommenttia"],
     "Comment" : "Kommentti",
     "An error occurred while trying to edit the comment" : "Kommenttia muokatessa tapahtui virhe",
     "Comment deleted" : "Kommentti poistettu",
     "An error occurred while trying to delete the comment" : "Kommenttia poistaessa tapahtui virhe",
     "An error occurred while trying to create the comment" : "Kommenttia luodessa tapahtui virhe",
-    "%1$s commented" : "%1$s kommentoi"
+    "Write a message …" : "Kirjoita viesti…",
+    "_%n unread comment_::_%n unread comments_" : ["%n lukematon kommentti","%n lukematonta kommenttia"]
 },
 "nplurals=2; plural=(n != 1);");

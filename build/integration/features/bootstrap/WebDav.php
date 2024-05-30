@@ -1,39 +1,13 @@
 <?php
 /**
- * @copyright Copyright (c) 2016 Sergio Bertolin <sbertolin@solidgear.es>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author David Toledo <dtoledo@solidgear.es>
- * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Sergio Bertolin <sbertolin@solidgear.es>
- * @author Sergio Bertolín <sbertolin@solidgear.es>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 use GuzzleHttp\Client as GClient;
-use GuzzleHttp\Message\ResponseInterface;
 use PHPUnit\Framework\Assert;
+use Psr\Http\Message\ResponseInterface;
 use Sabre\DAV\Client as SClient;
 use Sabre\DAV\Xml\Property\ResourceType;
 
@@ -43,19 +17,17 @@ require __DIR__ . '/../../vendor/autoload.php';
 trait WebDav {
 	use Sharing;
 
-	/** @var string */
-	private $davPath = "remote.php/webdav";
-	/** @var boolean */
-	private $usingOldDavPath = true;
+	private string $davPath = "remote.php/webdav";
+	private bool $usingOldDavPath = true;
+	private ?array $storedETAG = null; // map with user as key and another map as value, which has path as key and etag as value
+	private ?int $storedFileID = null;
 	/** @var ResponseInterface */
 	private $response;
-	/** @var array map with user as key and another map as value, which has path as key and etag as value */
-	private $storedETAG = null;
-	/** @var int */
-	private $storedFileID = null;
-
+	private array $parsedResponse = [];
 	private string $s3MultipartDestination;
 	private string $uploadId;
+	/** @var string[] */
+	private array $parts = [];
 
 	/**
 	 * @Given /^using dav path "([^"]*)"$/
@@ -171,11 +143,10 @@ trait WebDav {
 	 */
 	public function downloadPublicFileWithRange($range) {
 		$token = $this->lastShareData->data->token;
-		$fullUrl = substr($this->baseUrl, 0, -4) . "public.php/webdav";
+		$fullUrl = substr($this->baseUrl, 0, -4) . "public.php/dav/files/$token";
 
 		$client = new GClient();
 		$options = [];
-		$options['auth'] = [$token, ""];
 		$options['headers'] = [
 			'Range' => $range
 		];
@@ -189,7 +160,7 @@ trait WebDav {
 	 */
 	public function downloadPublicFileInsideAFolderWithRange($path, $range) {
 		$token = $this->lastShareData->data->token;
-		$fullUrl = substr($this->baseUrl, 0, -4) . "public.php/webdav" . "$path";
+		$fullUrl = substr($this->baseUrl, 0, -4) . "public.php/dav/files/$token/$path";
 
 		$client = new GClient();
 		$options = [
@@ -197,7 +168,6 @@ trait WebDav {
 				'Range' => $range
 			]
 		];
-		$options['auth'] = [$token, ""];
 
 		$this->response = $client->request("GET", $fullUrl, $options);
 	}
@@ -228,6 +198,24 @@ trait WebDav {
 	 */
 	public function search(): void {
 		$this->searchFile($this->currentUser);
+		Assert::assertEquals(207, $this->response->getStatusCode());
+	}
+
+	/**
+	 * @Then /^Favorite search should work$/
+	 */
+	public function searchFavorite(): void {
+		$this->searchFile(
+			$this->currentUser,
+			'<oc:favorite/>',
+			null,
+			'<d:eq>
+			<d:prop>
+				<oc:favorite/>
+			</d:prop>
+			<d:literal>yes</d:literal>
+		</d:eq>'
+		);
 		Assert::assertEquals(207, $this->response->getStatusCode());
 	}
 
@@ -316,18 +304,31 @@ trait WebDav {
 	}
 
 	/**
+	 * @Then the response should be empty
+	 * @throws \Exception
+	 */
+	public function theResponseShouldBeEmpty(): void {
+		$response = ($this->response instanceof ResponseInterface) ? $this->convertResponseToDavEntries() : $this->response;
+		if ($response === []) {
+			return;
+		}
+
+		throw new \Exception('response is not empty');
+	}
+
+	/**
 	 * @Then the single response should contain a property :key with value :value
 	 * @param string $key
 	 * @param string $expectedValue
 	 * @throws \Exception
 	 */
 	public function theSingleResponseShouldContainAPropertyWithValue($key, $expectedValue) {
-		$keys = $this->response;
-		if (!array_key_exists($key, $keys)) {
+		$response = ($this->response instanceof ResponseInterface) ? $this->convertResponseToDavSingleEntry() : $this->response;
+		if (!array_key_exists($key, $response)) {
 			throw new \Exception("Cannot find property \"$key\" with \"$expectedValue\"");
 		}
 
-		$value = $keys[$key];
+		$value = $response[$key];
 		if ($value instanceof ResourceType) {
 			$value = $value->getValue();
 			if (empty($value)) {
@@ -448,28 +449,28 @@ trait WebDav {
 			</d:prop>
 			<d:literal>image/png</d:literal>
 		</d:eq>
-	
+
 		<d:eq>
 			<d:prop>
 				<d:getcontenttype/>
 			</d:prop>
 			<d:literal>image/jpeg</d:literal>
 		</d:eq>
-	
+
 		<d:eq>
 			<d:prop>
 				<d:getcontenttype/>
 			</d:prop>
 			<d:literal>image/heic</d:literal>
 		</d:eq>
-	
+
 		<d:eq>
 			<d:prop>
 				<d:getcontenttype/>
 			</d:prop>
 			<d:literal>video/mp4</d:literal>
 		</d:eq>
-	
+
 		<d:eq>
 			<d:prop>
 				<d:getcontenttype/>
@@ -515,6 +516,7 @@ trait WebDav {
 			$this->response = $this->makeDavRequest($user, "SEARCH", '', [
 				'Content-Type' => 'text/xml'
 			], $body, '');
+
 			var_dump((string)$this->response->getBody());
 		} catch (\GuzzleHttp\Exception\ServerException $e) {
 			// 5xx responses cause a server exception
@@ -1093,5 +1095,33 @@ trait WebDav {
 		if ($lastCode === 0) {
 			$this->theHTTPStatusCodeShouldBe(500);
 		}
+	}
+
+	/**
+	 * @return array
+	 * @throws Exception
+	 */
+	private function convertResponseToDavSingleEntry(): array {
+		$results = $this->convertResponseToDavEntries();
+		if (count($results) > 1) {
+			throw new \Exception('result is empty or contain more than one (1) entry');
+		}
+
+		return array_shift($results);
+	}
+
+	/**
+	 * @return array
+	 */
+	private function convertResponseToDavEntries(): array {
+		$client = $this->getSabreClient($this->currentUser);
+		$parsedResponse = $client->parseMultiStatus((string)$this->response->getBody());
+
+		$results = [];
+		foreach ($parsedResponse as $href => $statusList) {
+			$results[$href] = $statusList[200] ?? [];
+		}
+
+		return $results;
 	}
 }

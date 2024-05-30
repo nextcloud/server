@@ -1,9 +1,8 @@
 <?php
 /**
- * Copyright (c) 2015 Robin Appelman <icewind@owncloud.com>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\Files\Node;
@@ -13,6 +12,7 @@ use OC\Files\Node\HookConnector;
 use OC\Files\Node\Root;
 use OC\Files\Storage\Temporary;
 use OC\Files\View;
+use OC\Memcache\ArrayCache;
 use OCP\EventDispatcher\GenericEvent as APIGenericEvent;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Events\Node\AbstractNodeEvent;
@@ -30,6 +30,7 @@ use OCP\Files\Events\Node\NodeRenamedEvent;
 use OCP\Files\Events\Node\NodeTouchedEvent;
 use OCP\Files\Events\Node\NodeWrittenEvent;
 use OCP\Files\Node;
+use OCP\ICacheFactory;
 use OCP\IUserManager;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
@@ -51,6 +52,8 @@ class HookConnectorTest extends TestCase {
 	/** @var IEventDispatcher  */
 	protected $eventDispatcher;
 
+	private LoggerInterface $logger;
+
 	/** @var View */
 	private $view;
 
@@ -67,6 +70,11 @@ class HookConnectorTest extends TestCase {
 		// this will setup the FS
 		$this->loginAsUser($this->userId);
 		$this->registerMount($this->userId, new Temporary(), '/' . $this->userId . '/files/');
+		$cacheFactory = $this->createMock(ICacheFactory::class);
+		$cacheFactory->method('createLocal')
+			->willReturnCallback(function () {
+				return new ArrayCache();
+			});
 		$this->view = new View();
 		$this->root = new Root(
 			Filesystem::getMountManager(),
@@ -75,9 +83,11 @@ class HookConnectorTest extends TestCase {
 			\OC::$server->getUserMountCache(),
 			$this->createMock(LoggerInterface::class),
 			$this->createMock(IUserManager::class),
-			$this->createMock(IEventDispatcher::class)
+			$this->createMock(IEventDispatcher::class),
+			$cacheFactory,
 		);
 		$this->eventDispatcher = \OC::$server->query(IEventDispatcher::class);
+		$this->logger = \OC::$server->query(LoggerInterface::class);
 	}
 
 	protected function tearDown(): void {
@@ -143,7 +153,7 @@ class HookConnectorTest extends TestCase {
 	 * @dataProvider viewToNodeProvider
 	 */
 	public function testViewToNode(callable $operation, $expectedHook, $expectedLegacyEvent, $expectedEvent) {
-		$connector = new HookConnector($this->root, $this->view, $this->eventDispatcher);
+		$connector = new HookConnector($this->root, $this->view, $this->eventDispatcher, $this->logger);
 		$connector->viewToNode();
 		$hookCalled = false;
 		/** @var Node $hookNode */
@@ -212,7 +222,7 @@ class HookConnectorTest extends TestCase {
 	 * @dataProvider viewToNodeProviderCopyRename
 	 */
 	public function testViewToNodeCopyRename(callable $operation, $expectedHook, $expectedLegacyEvent, $expectedEvent) {
-		$connector = new HookConnector($this->root, $this->view, $this->eventDispatcher);
+		$connector = new HookConnector($this->root, $this->view, $this->eventDispatcher, $this->logger);
 		$connector->viewToNode();
 		$hookCalled = false;
 		/** @var Node $hookSourceNode */
@@ -267,7 +277,7 @@ class HookConnectorTest extends TestCase {
 	}
 
 	public function testPostDeleteMeta() {
-		$connector = new HookConnector($this->root, $this->view, $this->eventDispatcher);
+		$connector = new HookConnector($this->root, $this->view, $this->eventDispatcher, $this->logger);
 		$connector->viewToNode();
 		$hookCalled = false;
 		/** @var Node $hookNode */

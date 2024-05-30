@@ -14,3 +14,32 @@
 	border: 0;
 	overflow: auto;
 }
+
+.help-wrapper {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100%;
+	width: 100%;
+}
+
+.help-content__heading {
+	text-align: center;
+	padding: 20px;
+}
+
+.help-content {
+	display: block;
+	padding: 20px;
+}
+
+.help-content__body {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-wrap: wrap;
+}
+
+.help-content__body > .button {
+	margin: 20px;
+}

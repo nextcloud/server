@@ -1,48 +1,14 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Bart Visscher <bartv@thisnet.nl>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Greta Doci <gretadoci@gmail.com>
- * @author hkjolhede <hkjolhede@gmail.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Martin Mattel <martin.mattel@diemattels.at>
- * @author Michael Gapczynski <GapczynskiM@gmail.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Roland Tapken <roland@bitarbeiter.net>
- * @author Sam Tuke <mail@samtuke.com>
- * @author scambra <sergio@entrecables.com>
- * @author Stefan Weil <sw@weilnetz.de>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <vincent@nextcloud.com>
- * @author Vinicius Cubas Brand <vinicius@eita.org.br>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Files\Storage;
 
 use OC\Files\Cache\Cache;
+use OC\Files\Cache\CacheDependencies;
 use OC\Files\Cache\Propagator;
 use OC\Files\Cache\Scanner;
 use OC\Files\Cache\Updater;
@@ -61,8 +27,10 @@ use OCP\Files\ReservedWordException;
 use OCP\Files\Storage\ILockingStorage;
 use OCP\Files\Storage\IStorage;
 use OCP\Files\Storage\IWriteStreamStorage;
+use OCP\Files\StorageNotAvailableException;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -338,12 +306,20 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 		return $this->filemtime($path) > $time;
 	}
 
+	protected function getCacheDependencies(): CacheDependencies {
+		static $dependencies = null;
+		if (!$dependencies) {
+			$dependencies = Server::get(CacheDependencies::class);
+		}
+		return $dependencies;
+	}
+
 	public function getCache($path = '', $storage = null) {
 		if (!$storage) {
 			$storage = $this;
 		}
 		if (!isset($storage->cache)) {
-			$storage->cache = new Cache($storage);
+			$storage->cache = new Cache($storage, $this->getCacheDependencies());
 		}
 		return $storage->cache;
 	}
@@ -398,13 +374,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 	}
 
 	public function getStorageCache($storage = null) {
-		if (!$storage) {
-			$storage = $this;
-		}
-		if (!isset($this->storageCache)) {
-			$this->storageCache = new \OC\Files\Cache\Storage($storage);
-		}
-		return $this->storageCache;
+		return $this->getCache($storage)->getStorageCache();
 	}
 
 	/**
@@ -562,7 +532,9 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 	 * @throws InvalidPathException
 	 */
 	protected function verifyPosixPath($fileName) {
-		$this->scanForInvalidCharacters($fileName, "\\/");
+		$invalidChars = \OCP\Util::getForbiddenFileNameChars();
+		$this->scanForInvalidCharacters($fileName, $invalidChars);
+
 		$fileName = trim($fileName);
 		$reservedNames = ['*'];
 		if (in_array($fileName, $reservedNames)) {
@@ -572,11 +544,11 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 
 	/**
 	 * @param string $fileName
-	 * @param string $invalidChars
+	 * @param string[] $invalidChars
 	 * @throws InvalidPathException
 	 */
-	private function scanForInvalidCharacters($fileName, $invalidChars) {
-		foreach (str_split($invalidChars) as $char) {
+	private function scanForInvalidCharacters(string $fileName, array $invalidChars) {
+		foreach ($invalidChars as $char) {
 			if (str_contains($fileName, $char)) {
 				throw new InvalidCharacterInPathException();
 			}
@@ -601,7 +573,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 	 * @return mixed
 	 */
 	public function getMountOption($name, $default = null) {
-		return isset($this->mountOptions[$name]) ? $this->mountOptions[$name] : $default;
+		return $this->mountOptions[$name] ?? $default;
 	}
 
 	/**
@@ -663,7 +635,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 	private function isSameStorage(IStorage $storage): bool {
 		while ($storage->instanceOfStorage(Wrapper::class)) {
 			/**
-			 * @var Wrapper $sourceStorage
+			 * @var Wrapper $storage
 			 */
 			$storage = $storage->getWrapperStorage();
 		}
@@ -861,6 +833,19 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 	}
 
 	/**
+	 * Allow setting the storage owner
+	 *
+	 * This can be used for storages that do not have a dedicated owner, where we want to
+	 * pass the user that we setup the mountpoint for along to the storage layer
+	 *
+	 * @param string|null $user
+	 * @return void
+	 */
+	public function setOwner(?string $user): void {
+		$this->owner = $user;
+	}
+
+	/**
 	 * @return bool
 	 */
 	public function needsPartFile() {
@@ -875,7 +860,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 	 * @param int $size
 	 * @return int
 	 */
-	public function writeStream(string $path, $stream, int $size = null): int {
+	public function writeStream(string $path, $stream, ?int $size = null): int {
 		$target = $this->fopen($path, 'w');
 		if (!$target) {
 			throw new GenericFileException("Failed to open $path for writing");
@@ -894,6 +879,11 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 
 	public function getDirectoryContent($directory): \Traversable {
 		$dh = $this->opendir($directory);
+
+		if ($dh === false) {
+			throw new StorageNotAvailableException('Directory listing failed');
+		}
+
 		if (is_resource($dh)) {
 			$basePath = rtrim($directory, '/');
 			while (($file = readdir($dh)) !== false) {

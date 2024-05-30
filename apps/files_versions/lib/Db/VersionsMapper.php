@@ -26,10 +26,9 @@ declare(strict_types=1);
 
 namespace OCA\Files_Versions\Db;
 
-use OCA\Files_Versions\Db\VersionEntity;
-use OCP\IDBConnection;
 use OCP\AppFramework\Db\QBMapper;
-use OCP\DB\IResult;
+use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\IDBConnection;
 
 /**
  * @extends QBMapper<VersionEntity>
@@ -84,5 +83,39 @@ class VersionsMapper extends QBMapper {
 		return $qb->delete($this->getTableName())
 			 ->where($qb->expr()->eq('file_id', $qb->createNamedParameter($fileId)))
 			 ->executeStatement();
+	}
+
+	public function deleteAllVersionsForUser(int $storageId, ?string $path = null): void {
+		$fileIdsGenerator = $this->getFileIdsGenerator($storageId, $path);
+
+		$versionEntitiesDeleteQuery = $this->db->getQueryBuilder();
+		$versionEntitiesDeleteQuery->delete($this->getTableName())
+			->where($versionEntitiesDeleteQuery->expr()->in('file_id', $versionEntitiesDeleteQuery->createParameter('file_ids')));
+
+		foreach ($fileIdsGenerator as $fileIds) {
+			$versionEntitiesDeleteQuery->setParameter('file_ids', $fileIds, IQueryBuilder::PARAM_INT_ARRAY);
+			$versionEntitiesDeleteQuery->executeStatement();
+		}
+	}
+
+	private function getFileIdsGenerator(int $storageId, ?string $path): \Generator {
+		$offset = 0;
+		do {
+			$filesIdsSelect = $this->db->getQueryBuilder();
+			$filesIdsSelect->select('fileid')
+				->from('filecache')
+				->where($filesIdsSelect->expr()->eq('storage', $filesIdsSelect->createNamedParameter($storageId, IQueryBuilder::PARAM_STR)))
+				->andWhere($filesIdsSelect->expr()->like('path', $filesIdsSelect->createNamedParameter('files' . ($path ? '/' . $this->db->escapeLikeParameter($path) : '') . '/%', IQueryBuilder::PARAM_STR)))
+				->andWhere($filesIdsSelect->expr()->gt('fileid', $filesIdsSelect->createParameter('offset')))
+				->setMaxResults(1000)
+				->orderBy('fileid', 'ASC');
+
+			$filesIdsSelect->setParameter('offset', $offset, IQueryBuilder::PARAM_INT);
+			$result = $filesIdsSelect->executeQuery();
+			$fileIds = $result->fetchAll(\PDO::FETCH_COLUMN);
+			$offset = end($fileIds);
+
+			yield $fileIds;
+		} while (!empty($fileIds));
 	}
 }

@@ -22,7 +22,6 @@
 <template>
 	<ul v-if="statusesHaveLoaded"
 		class="predefined-statuses-list"
-		role="radiogroup"
 		:aria-label="t('user_status', 'Predefined statuses')">
 		<PredefinedStatus v-for="status in predefinedStatuses"
 			:key="status.id"

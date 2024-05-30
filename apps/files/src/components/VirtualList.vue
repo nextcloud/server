@@ -1,46 +1,71 @@
+<!--
+ - SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ - SPDX-License-Identifier: AGPL-3.0-or-later
+ -->
 <template>
-	<table class="files-list" data-cy-files-list>
+	<div class="files-list" data-cy-files-list>
 		<!-- Header -->
 		<div ref="before" class="files-list__before">
 			<slot name="before" />
 		</div>
 
-		<!-- Header -->
-		<thead ref="thead" class="files-list__thead" data-cy-files-list-thead>
-			<slot name="header" />
-		</thead>
+		<div v-if="!!$scopedSlots['header-overlay']" class="files-list__thead-overlay">
+			<slot name="header-overlay" />
+		</div>
 
-		<!-- Body -->
-		<tbody :style="tbodyStyle" class="files-list__tbody" data-cy-files-list-tbody>
-			<component :is="dataComponent"
-				v-for="(item, i) in renderedItems"
-				:key="i"
-				:visible="(i >= bufferItems || index <= bufferItems) && (i < shownItems - bufferItems)"
-				:source="item"
-				:index="i"
-				v-bind="extraProps" />
-		</tbody>
+		<table class="files-list__table" :class="{ 'files-list__table--with-thead-overlay': !!$scopedSlots['header-overlay'] }">
+			<!-- Accessibility table caption for screen readers -->
+			<caption v-if="caption" class="hidden-visually">
+				{{ caption }}
+			</caption>
 
-		<!-- Footer -->
-		<tfoot v-show="isReady"
-			ref="tfoot"
-			class="files-list__tfoot"
-			data-cy-files-list-tfoot>
-			<slot name="footer" />
-		</tfoot>
-	</table>
+			<!-- Header -->
+			<thead ref="thead" class="files-list__thead" data-cy-files-list-thead>
+				<slot name="header" />
+			</thead>
+
+			<!-- Body -->
+			<tbody :style="tbodyStyle"
+				class="files-list__tbody"
+				:class="gridMode ? 'files-list__tbody--grid' : 'files-list__tbody--list'"
+				data-cy-files-list-tbody>
+				<component :is="dataComponent"
+					v-for="({key, item}, i) in renderedItems"
+					:key="key"
+					:source="item"
+					:index="i"
+					v-bind="extraProps" />
+			</tbody>
+
+			<!-- Footer -->
+			<tfoot v-show="isReady"
+				class="files-list__tfoot"
+				data-cy-files-list-tfoot>
+				<slot name="footer" />
+			</tfoot>
+		</table>
+	</div>
 </template>
 
 <script lang="ts">
-import { File, Folder, debounce } from 'debounce'
+import type { File, Folder, Node } from '@nextcloud/files'
+import type { PropType } from 'vue'
+
+import { debounce } from 'debounce'
 import Vue from 'vue'
+
+import filesListWidthMixin from '../mixins/filesListWidth.ts'
 import logger from '../logger.js'
 
-// Items to render before and after the visible area
-const bufferItems = 3
+interface RecycledPoolItem {
+	key: string,
+	item: Node,
+}
 
 export default Vue.extend({
 	name: 'VirtualList',
+
+	mixins: [filesListWidthMixin],
 
 	props: {
 		dataComponent: {
@@ -52,26 +77,32 @@ export default Vue.extend({
 			required: true,
 		},
 		dataSources: {
-			type: Array as () => (File | Folder)[],
-			required: true,
-		},
-		itemHeight: {
-			type: Number,
+			type: Array as PropType<(File | Folder)[]>,
 			required: true,
 		},
 		extraProps: {
-			type: Object,
+			type: Object as PropType<Record<string, unknown>>,
 			default: () => ({}),
 		},
 		scrollToIndex: {
 			type: Number,
 			default: 0,
 		},
+		gridMode: {
+			type: Boolean,
+			default: false,
+		},
+		/**
+		 * Visually hidden caption for the table accesibility
+		 */
+		caption: {
+			type: String,
+			default: '',
+		},
 	},
 
 	data() {
 		return {
-			bufferItems,
 			index: this.scrollToIndex,
 			beforeHeight: 0,
 			headerHeight: 0,
@@ -86,60 +117,126 @@ export default Vue.extend({
 			return this.tableHeight > 0
 		},
 
+		// Items to render before and after the visible area
+		bufferItems() {
+			if (this.gridMode) {
+				return this.columnCount
+			}
+			return 3
+		},
+
+		itemHeight() {
+			// Align with css in FilesListVirtual
+			// 138px + 44px (name) + 15px (grid gap)
+			return this.gridMode ? (138 + 44 + 15) : 55
+		},
+		// Grid mode only
+		itemWidth() {
+			// 160px + 15px grid gap
+			return 160 + 15
+		},
+
+		rowCount() {
+			return Math.ceil((this.tableHeight - this.headerHeight) / this.itemHeight) + (this.bufferItems / this.columnCount) * 2 + 1
+		},
+		columnCount() {
+			if (!this.gridMode) {
+				return 1
+			}
+			return Math.floor(this.filesListWidth / this.itemWidth)
+		},
+
 		startIndex() {
-			return Math.max(0, this.index - bufferItems)
+			return Math.max(0, this.index - this.bufferItems)
 		},
 		shownItems() {
-			return Math.ceil((this.tableHeight - this.headerHeight) / this.itemHeight) + bufferItems * 2
+			// If in grid mode, we need to multiply the number of rows by the number of columns
+			if (this.gridMode) {
+				return this.rowCount * this.columnCount
+			}
+
+			return this.rowCount
 		},
-		renderedItems(): (File | Folder)[] {
+		renderedItems(): RecycledPoolItem[] {
 			if (!this.isReady) {
 				return []
 			}
-			return this.dataSources.slice(this.startIndex, this.startIndex + this.shownItems)
+
+			const items = this.dataSources.slice(this.startIndex, this.startIndex + this.shownItems) as Node[]
+
+			const oldItems = items.filter(item => Object.values(this.$_recycledPool).includes(item[this.dataKey]))
+			const oldItemsKeys = oldItems.map(item => item[this.dataKey] as string)
+			const unusedKeys = Object.keys(this.$_recycledPool).filter(key => !oldItemsKeys.includes(this.$_recycledPool[key]))
+
+			return items.map(item => {
+				const index = Object.values(this.$_recycledPool).indexOf(item[this.dataKey])
+				// If defined, let's keep the key
+				if (index !== -1) {
+					return {
+						key: Object.keys(this.$_recycledPool)[index],
+						item,
+					}
+				}
+
+				// Get and consume reusable key or generate a new one
+				const key = unusedKeys.pop() || Math.random().toString(36).substr(2)
+				this.$_recycledPool[key] = item[this.dataKey]
+				return { key, item }
+			})
 		},
 
 		tbodyStyle() {
-			const isOverScrolled = this.startIndex + this.shownItems > this.dataSources.length
+			const isOverScrolled = this.startIndex + this.rowCount > this.dataSources.length
 			const lastIndex = this.dataSources.length - this.startIndex - this.shownItems
-			const hiddenAfterItems = Math.min(this.dataSources.length - this.startIndex, lastIndex)
+			const hiddenAfterItems = Math.floor(Math.min(this.dataSources.length - this.startIndex, lastIndex) / this.columnCount)
 			return {
-				paddingTop: `${this.startIndex * this.itemHeight}px`,
+				paddingTop: `${Math.floor(this.startIndex / this.columnCount) * this.itemHeight}px`,
 				paddingBottom: isOverScrolled ? 0 : `${hiddenAfterItems * this.itemHeight}px`,
 			}
 		},
 	},
 	watch: {
-		scrollToIndex() {
-			this.index = this.scrollToIndex
-			this.$el.scrollTop = this.index * this.itemHeight + this.beforeHeight
+		scrollToIndex(index) {
+			this.scrollTo(index)
+		},
+		columnCount(columnCount, oldColumnCount) {
+			if (oldColumnCount === 0) {
+				// We're initializing, the scroll position
+				// is handled on mounted
+				console.debug('VirtualList: columnCount is 0, skipping scroll')
+				return
+			}
+			// If the column count changes in grid view,
+			// update the scroll position again
+			this.scrollTo(this.index)
 		},
 	},
 
 	mounted() {
 		const before = this.$refs?.before as HTMLElement
 		const root = this.$el as HTMLElement
-		const tfoot = this.$refs?.tfoot as HTMLElement
 		const thead = this.$refs?.thead as HTMLElement
 
 		this.resizeObserver = new ResizeObserver(debounce(() => {
 			this.beforeHeight = before?.clientHeight ?? 0
 			this.headerHeight = thead?.clientHeight ?? 0
 			this.tableHeight = root?.clientHeight ?? 0
-			logger.debug('VirtualList resizeObserver updated')
+			logger.debug('VirtualList: resizeObserver updated')
 			this.onScroll()
 		}, 100, false))
 
 		this.resizeObserver.observe(before)
 		this.resizeObserver.observe(root)
-		this.resizeObserver.observe(tfoot)
 		this.resizeObserver.observe(thead)
 
-		this.$el.addEventListener('scroll', this.onScroll)
-
 		if (this.scrollToIndex) {
-			this.$el.scrollTop = this.index * this.itemHeight + this.beforeHeight
+			this.scrollTo(this.scrollToIndex)
 		}
+
+		// Adding scroll listener AFTER the initial scroll to index
+		this.$el.addEventListener('scroll', this.onScroll, { passive: true })
+
+		this.$_recycledPool = {} as Record<string, any>
 	},
 
 	beforeDestroy() {
@@ -149,14 +246,29 @@ export default Vue.extend({
 	},
 
 	methods: {
+		scrollTo(index: number) {
+			const targetRow = Math.ceil(this.dataSources.length / this.columnCount)
+			if (targetRow < this.rowCount) {
+				logger.debug('VirtualList: Skip scrolling. nothing to scroll', { index, targetRow, rowCount: this.rowCount })
+				return
+			}
+			this.index = index
+			// Scroll to one row and a half before the index
+			const scrollTop = (Math.floor(index / this.columnCount) - 0.5) * this.itemHeight + this.beforeHeight
+			logger.debug('VirtualList: scrolling to index ' + index, { scrollTop, columnCount: this.columnCount })
+			this.$el.scrollTop = scrollTop
+		},
+
 		onScroll() {
-			// Max 0 to prevent negative index
-			this.index = Math.max(0, Math.round((this.$el.scrollTop - this.beforeHeight) / this.itemHeight))
+			this._onScrollHandle ??= requestAnimationFrame(() => {
+				this._onScrollHandle = null
+				const topScroll = this.$el.scrollTop - this.beforeHeight
+				const index = Math.floor(topScroll / this.itemHeight) * this.columnCount
+				// Max 0 to prevent negative index
+				this.index = Math.max(0, index)
+				this.$emit('scroll')
+			})
 		},
 	},
 })
 </script>
-
-<style scoped>
-
-</style>

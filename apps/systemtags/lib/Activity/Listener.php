@@ -76,14 +76,14 @@ class Listener {
 	 * @param IShareHelper $shareHelper
 	 */
 	public function __construct(IGroupManager $groupManager,
-								IManager $activityManager,
-								IUserSession $session,
-								IConfig $config,
-								ISystemTagManager $tagManager,
-								IAppManager $appManager,
-								IMountProviderCollection $mountCollection,
-								IRootFolder $rootFolder,
-								IShareHelper $shareHelper) {
+		IManager $activityManager,
+		IUserSession $session,
+		IConfig $config,
+		ISystemTagManager $tagManager,
+		IAppManager $appManager,
+		IMountProviderCollection $mountCollection,
+		IRootFolder $rootFolder,
+		IShareHelper $shareHelper) {
 		$this->groupManager = $groupManager;
 		$this->activityManager = $activityManager;
 		$this->session = $session;

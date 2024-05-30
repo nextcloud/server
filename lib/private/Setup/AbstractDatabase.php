@@ -1,30 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Bart Visscher <bartv@thisnet.nl>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Thomas Pulzer <t.pulzer@kniel.de>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Setup;
 
@@ -33,6 +12,7 @@ use OC\DB\ConnectionFactory;
 use OC\DB\MigrationService;
 use OC\SystemConfig;
 use OCP\IL10N;
+use OCP\Migration\IOutput;
 use OCP\Security\ISecureRandom;
 use Psr\Log\LoggerInterface;
 
@@ -70,9 +50,9 @@ abstract class AbstractDatabase {
 	public function validate($config) {
 		$errors = [];
 		if (empty($config['dbuser']) && empty($config['dbname'])) {
-			$errors[] = $this->trans->t("Enter the database username and name for %s", [$this->dbprettyname]);
+			$errors[] = $this->trans->t("Enter the database Login and name for %s", [$this->dbprettyname]);
 		} elseif (empty($config['dbuser'])) {
-			$errors[] = $this->trans->t("Enter the database username for %s", [$this->dbprettyname]);
+			$errors[] = $this->trans->t("Enter the database Login for %s", [$this->dbprettyname]);
 		} elseif (empty($config['dbname'])) {
 			$errors[] = $this->trans->t("Enter the database name for %s", [$this->dbprettyname]);
 		}
@@ -88,7 +68,7 @@ abstract class AbstractDatabase {
 		$dbName = $config['dbname'];
 		$dbHost = !empty($config['dbhost']) ? $config['dbhost'] : 'localhost';
 		$dbPort = !empty($config['dbport']) ? $config['dbport'] : '';
-		$dbTablePrefix = isset($config['dbtableprefix']) ? $config['dbtableprefix'] : 'oc_';
+		$dbTablePrefix = $config['dbtableprefix'] ?? 'oc_';
 
 		$createUserConfig = $this->config->getValue("setup_create_db_user", true);
 		// accept `false` both as bool and string, since setting config values from env will result in a string
@@ -139,10 +119,12 @@ abstract class AbstractDatabase {
 			}
 			$connectionParams['host'] = $host;
 		}
-
 		$connectionParams = array_merge($connectionParams, $configOverwrite);
+		$connectionParams = array_merge($connectionParams, ['primary' => $connectionParams, 'replica' => [$connectionParams]]);
 		$cf = new ConnectionFactory($this->config);
-		return $cf->getConnection($this->config->getValue('dbtype', 'sqlite'), $connectionParams);
+		$connection = $cf->getConnection($this->config->getValue('dbtype', 'sqlite'), $connectionParams);
+		$connection->ensureConnectedToPrimary();
+		return $connection;
 	}
 
 	/**
@@ -150,11 +132,11 @@ abstract class AbstractDatabase {
 	 */
 	abstract public function setupDatabase($username);
 
-	public function runMigrations() {
+	public function runMigrations(?IOutput $output = null) {
 		if (!is_dir(\OC::$SERVERROOT."/core/Migrations")) {
 			return;
 		}
-		$ms = new MigrationService('core', \OC::$server->get(Connection::class));
+		$ms = new MigrationService('core', \OC::$server->get(Connection::class), $output);
 		$ms->migrate('latest', true);
 	}
 }

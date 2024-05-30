@@ -28,6 +28,7 @@ namespace OCA\Files_Trashbin\Sabre;
 use OCA\Files_Trashbin\Trash\ITrashItem;
 use OCA\Files_Trashbin\Trash\ITrashManager;
 use OCP\Files\FileInfo;
+use OCP\IUser;
 
 abstract class AbstractTrash implements ITrash {
 	/** @var ITrashItem */
@@ -87,6 +88,10 @@ abstract class AbstractTrash implements ITrash {
 
 	public function getTitle(): string {
 		return $this->data->getTitle();
+	}
+
+	public function getDeletedBy(): ?IUser {
+		return $this->data->getDeletedBy();
 	}
 
 	public function delete() {
