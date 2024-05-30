@@ -20,6 +20,7 @@ use OCP\Defaults;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\ICloudFederationFactory;
 use OCP\Files\IRootFolder;
+use OCP\Http\Client\IClientService;
 use OCP\IServerContainer;
 use OCP\Security\IHasher;
 use OCP\Share\IManager;
@@ -115,7 +116,7 @@ class ProviderFactory implements IProviderFactory {
 			);
 			$notifications = new Notifications(
 				$addressHandler,
-				$this->serverContainer->getHTTPClientService(),
+				$this->serverContainer->get(IClientService::class),
 				$this->serverContainer->query(\OCP\OCS\IDiscoveryService::class),
 				$this->serverContainer->getJobList(),
 				\OC::$server->getCloudFederationProviderManager(),

@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 use Behat\Behat\Context\Context;
+use OCP\Http\Client\IClientService;
 use PHPUnit\Framework\Assert;
 
 require __DIR__ . '/../../vendor/autoload.php';
@@ -31,7 +32,7 @@ class RemoteContext implements Context {
 	}
 
 	protected function getApiClient() {
-		return new \OC\Remote\Api\OCS($this->remoteInstance, $this->credentails, \OC::$server->getHTTPClientService());
+		return new \OC\Remote\Api\OCS($this->remoteInstance, $this->credentails, \OC::$server->get(IClientService::class));
 	}
 
 	/**
@@ -47,7 +48,7 @@ class RemoteContext implements Context {
 		}
 		$this->lastException = null;
 		try {
-			$this->remoteInstance = new \OC\Remote\Instance($baseUri, \OC::$server->getMemCacheFactory()->createLocal(), \OC::$server->getHTTPClientService());
+			$this->remoteInstance = new \OC\Remote\Instance($baseUri, \OC::$server->getMemCacheFactory()->createLocal(), \OC::$server->get(IClientService::class));
 			// trigger the status request
 			$this->remoteInstance->getProtocol();
 		} catch (\Exception $e) {

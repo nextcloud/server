@@ -9,6 +9,7 @@ use bantu\IniGetWrapper\IniGetWrapper;
 use OC\Authentication\TwoFactorAuth\Manager as TwoFactorAuthManager;
 use OC\Files\SetupManager;
 use OCP\Files\Template\ITemplateManager;
+use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IURLGenerator;
@@ -877,7 +878,7 @@ class OC_Util {
 		// accessing the file via http
 		$url = \OC::$server->getURLGenerator()->getAbsoluteURL(OC::$WEBROOT . '/data' . $fileName);
 		try {
-			$content = \OC::$server->getHTTPClientService()->newClient()->get($url)->getBody();
+			$content = \OC::$server->get(IClientService::class)->newClient()->get($url)->getBody();
 		} catch (\Exception $e) {
 			$content = false;
 		}
@@ -889,7 +890,7 @@ class OC_Util {
 		}
 
 		try {
-			$fallbackContent = \OC::$server->getHTTPClientService()->newClient()->get($url)->getBody();
+			$fallbackContent = \OC::$server->get(IClientService::class)->newClient()->get($url)->getBody();
 		} catch (\Exception $e) {
 			$fallbackContent = false;
 		}
