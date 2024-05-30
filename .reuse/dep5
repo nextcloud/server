@@ -7,7 +7,7 @@ Files: lib/l10n/*.js lib/l10n/*.json core/l10n/*.js core/l10n/*.json apps/admin_
 Copyright: 2016 ownCloud, Inc., 2016-2024 Nextcloud translators
 License: AGPL-3.0-only OR AGPL-3.0-or-later
 
-Files: tests/data/block-aligned-plus-one.txt tests/data/block-aligned.txt tests/data/data.tar.gz tests/data/data.zip tests/data/desktopapp.png tests/data/desktopapp.svg tests/data/certificates/badCertificate.crt tests/data/certificates/expiredCertificate.crt tests/data/certificates/goodCertificate.crt tests/data/integritycheck/app/AnotherFile.txt tests/data/integritycheck/app/subfolder/file.txt tests/data/integritycheck/appWithInvalidData/AnotherFile.txt tests/data/integritycheck/appWithInvalidData/UnecessaryFile
+Files: tests/data/block-aligned-plus-one.txt tests/data/block-aligned.txt tests/data/data.tar.gz tests/data/data.zip tests/data/desktopapp.png tests/data/desktopapp.svg tests/data/certificates/badCertificate.crt tests/data/certificates/expiredCertificate.crt tests/data/certificates/goodCertificate.crt tests/data/integritycheck/app/AnotherFile.txt tests/data/integritycheck/app/subfolder/file.txt tests/data/integritycheck/appWithInvalidData/AnotherFile.txt tests/data/integritycheck/appWithInvalidData/UnecessaryFile apps/user_ldap/tests/Integration/data/avatar-invalid.gif apps/user_ldap/tests/Integration/data/avatar-valid.jpg apps/user_ldap/img/copy.png apps/user_ldap/img/copy.svg
 Copyright: 2015 ownCloud, Inc.
 License: AGPL-3.0-only
 
@@ -115,6 +115,11 @@ Files: core/src/jquery/contactsmenu/jquery_entry.handlebars tests/data/integrity
 Copyright: 2019 Nextcloud GmbH and Nextcloud contributors
 License: AGPL-3.0-or-later
 
+Files:  apps/user_status/img/app-dark.svg apps/user_status/img/app.svg
+Copyright: 2020 Nextcloud GmbH and Nextcloud contributors
+License: AGPL-3.0-or-later
+
+
 Files: .npmignore tests/data/testimage-badheader.jpg
 Copyright: 2021 Nextcloud GmbH and Nextcloud contributors
 License: AGPL-3.0-or-later
@@ -138,6 +143,10 @@ License: AGPL-3.0-only OR AGPL-3.0-or-later
 Files: vendor-bin/*/composer.json vendor-bin/*/composer.lock
 Copyright: 2021 Nextcloud GmbH and Nextcloud contributors
 License: AGPL-3.0-or-later
+
+Files: apps/user_ldap/img/app-dark.svg apps/user_ldap/img/app.svg
+Copyright: 2018-2024 Google LLC
+License: Apache-2.0
 
 Files: lib/composer/* apps/*/composer/autoload.php apps/*/composer/composer/*.php
 Copyright: Nils Adermann, Jordi Boggiano

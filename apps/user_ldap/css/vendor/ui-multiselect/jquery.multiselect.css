@@ -1,3 +1,7 @@
+/**
+ * SPDX-FileCopyrightText: 2012 Eric Hynds
+ * SPDX-License-Identifier: MIT
+ */
 .ui-multiselect { padding:2px 0 2px 4px; text-align:left; }
 .ui-multiselect span.ui-icon { float:right; }
 .ui-multiselect-single .ui-multiselect-checkboxes input { position:absolute !important; top: auto !important; left:-9999px; }
