@@ -54,13 +54,13 @@
 
 <script lang="ts">
 import type { Node as NcNode } from '@nextcloud/files'
-import type { PropType } from 'vue'
+import type { ComponentPublicInstance, PropType } from 'vue'
 import type { UserConfig } from '../types'
 
 import { getFileListHeaders, Folder, View, getFileActions, FileType } from '@nextcloud/files'
 import { showError } from '@nextcloud/dialogs'
 import { loadState } from '@nextcloud/initial-state'
-import { translate as t, translatePlural as n } from '@nextcloud/l10n'
+import { translate as t } from '@nextcloud/l10n'
 import { defineComponent } from 'vue'
 
 import { action as sidebarAction } from '../actions/sidebarAction.ts'
@@ -280,18 +280,19 @@ export default defineComponent({
 			event.preventDefault()
 			event.stopPropagation()
 
-			const tableTop = this.$refs.table.$el.getBoundingClientRect().top
-			const tableBottom = tableTop + this.$refs.table.$el.getBoundingClientRect().height
+			const tableElement = (this.$refs.table as ComponentPublicInstance<typeof VirtualList>).$el
+			const tableTop = tableElement.getBoundingClientRect().top
+			const tableBottom = tableTop + tableElement.getBoundingClientRect().height
 
 			// If reaching top, scroll up. Using 100 because of the floating header
 			if (event.clientY < tableTop + 100) {
-				this.$refs.table.$el.scrollTop = this.$refs.table.$el.scrollTop - 25
+				tableElement.scrollTop = tableElement.scrollTop - 25
 				return
 			}
 
 			// If reaching bottom, scroll down
 			if (event.clientY > tableBottom - 50) {
-				this.$refs.table.$el.scrollTop = this.$refs.table.$el.scrollTop + 25
+				tableElement.scrollTop = tableElement.scrollTop + 25
 			}
 		},
 
