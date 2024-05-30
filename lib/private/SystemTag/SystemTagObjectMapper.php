@@ -133,6 +133,7 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 		}
 
 		$this->assertTagsExist($tagIds);
+		$this->connection->beginTransaction();
 
 		$query = $this->connection->getQueryBuilder();
 		$query->select('systemtagid')
@@ -142,6 +143,12 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 			->andWhere($query->expr()->eq('objectid', $query->createNamedParameter($objId)));
 		$result = $query->executeQuery();
 		$rows = $result->fetchAll();
+		$existingTags = [];
+		foreach ($rows as $k => $row) {
+			$existingTags[] = $row['systemtagid'];
+		}
+		//filter only tags that do not exist in db
+		$tagIds = array_diff($tagIds, $existingTags);
 
 		$query = $this->connection->getQueryBuilder();
 		$query->insert(self::RELATION_TABLE)
@@ -153,20 +160,16 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 
 		$tagsAssigned = [];
 		foreach ($tagIds as $tagId) {
-			if(!in_array($tagId, array_column($rows, 'systemtagid'))) {
-				// tag not in db so create new one
-				try {
-					$query->setParameter('tagid', $tagId);
-					$query->execute();
-					$tagsAssigned[] = $tagId;
-				} catch (UniqueConstraintViolationException $e) {
-					// ignore existing relations
-				}
-			} else {
-				//tag exists already don't insert
+			try {
+				$query->setParameter('tagid', $tagId);
+				$query->execute();
+				$tagsAssigned[] = $tagId;
+			} catch (UniqueConstraintViolationException $e) {
+				// ignore existing relations
 			}
 		}
 
+		$this->connection->commit();
 		if (empty($tagsAssigned)) {
 			return;
 		}
