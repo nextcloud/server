@@ -217,6 +217,6 @@ class IconBuilderTest extends TestCase {
 		$util->expects($this->once())
 			->method('getAppImage')
 			->willReturn('notexistingfile');
-		$this->assertFalse($iconBuilder->colorSvg('noapp','noimage'));
+		$this->assertFalse($iconBuilder->colorSvg('noapp', 'noimage'));
 	}
 }

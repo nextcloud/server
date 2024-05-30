@@ -35,20 +35,18 @@ namespace OCA\Theming\Tests\Controller;
 
 use OC\L10N\L10N;
 use OCA\Theming\Controller\ThemingController;
-use OCA\Theming\Service\ThemesService;
 use OCA\Theming\ImageManager;
+use OCA\Theming\Service\ThemesService;
 use OCA\Theming\ThemingDefaults;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
-use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
-use OCP\ITempManager;
 use OCP\IURLGenerator;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
@@ -64,17 +62,13 @@ class ThemingControllerTest extends TestCase {
 	private $l10n;
 	/** @var ThemingController */
 	private $themingController;
-	/** @var ITempManager */
-	private $tempManager;
 	/** @var IAppManager|MockObject */
 	private $appManager;
-	/** @var IAppData|MockObject */
-	private $appData;
 	/** @var ImageManager|MockObject */
 	private $imageManager;
 	/** @var IURLGenerator|MockObject */
 	private $urlGenerator;
-	/** @var ThemeService|MockObject */
+	/** @var ThemesService|MockObject */
 	private $themesService;
 
 	protected function setUp(): void {
@@ -82,9 +76,7 @@ class ThemingControllerTest extends TestCase {
 		$this->config = $this->createMock(IConfig::class);
 		$this->themingDefaults = $this->createMock(ThemingDefaults::class);
 		$this->l10n = $this->createMock(L10N::class);
-		$this->appData = $this->createMock(IAppData::class);
 		$this->appManager = $this->createMock(IAppManager::class);
-		$this->tempManager = \OC::$server->getTempManager();
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->imageManager = $this->createMock(ImageManager::class);
 		$this->themesService = $this->createMock(ThemesService::class);
@@ -102,8 +94,6 @@ class ThemingControllerTest extends TestCase {
 			$this->config,
 			$this->themingDefaults,
 			$this->l10n,
-			$this->tempManager,
-			$this->appData,
 			$this->urlGenerator,
 			$this->appManager,
 			$this->imageManager,
@@ -164,9 +154,12 @@ class ThemingControllerTest extends TestCase {
 			['url', str_repeat('a', 501), 'The given web address is not a valid URL'],
 			['url', 'javascript:alert(1)', 'The given web address is not a valid URL'],
 			['slogan', str_repeat('a', 501), 'The given slogan is too long'],
-			['color', '0082C9', 'The given color is invalid'],
-			['color', '#0082Z9', 'The given color is invalid'],
-			['color', 'Nextcloud', 'The given color is invalid'],
+			['primary_color', '0082C9', 'The given color is invalid'],
+			['primary_color', '#0082Z9', 'The given color is invalid'],
+			['primary_color', 'Nextcloud', 'The given color is invalid'],
+			['background_color', '0082C9', 'The given color is invalid'],
+			['background_color', '#0082Z9', 'The given color is invalid'],
+			['background_color', 'Nextcloud', 'The given color is invalid'],
 			['imprintUrl', '0082C9', 'The given legal notice address is not a valid URL'],
 			['imprintUrl', '0082C9', 'The given legal notice address is not a valid URL'],
 			['imprintUrl', 'javascript:foo', 'The given legal notice address is not a valid URL'],

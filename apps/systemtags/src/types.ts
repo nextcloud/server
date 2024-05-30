@@ -36,3 +36,5 @@ export type TagWithId = Required<Tag>
 export type ServerTag = BaseTag & {
 	name: string
 }
+
+export type ServerTagWithId = Required<ServerTag>

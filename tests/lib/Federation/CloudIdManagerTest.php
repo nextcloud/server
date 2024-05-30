@@ -1,22 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2017 Robin Appelman <robin@icewind.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\Federation;
@@ -124,11 +109,15 @@ class CloudIdManagerTest extends TestCase {
 		$this->cloudIdManager->resolveCloudId($cloudId);
 	}
 
-	public function getCloudIdProvider() {
+	public function getCloudIdProvider(): array {
 		return [
 			['test', 'example.com', 'test@example.com'],
+			['test', 'http://example.com', 'test@http://example.com', 'test@example.com'],
+			['test', null, 'test@http://example.com', 'test@example.com', 'http://example.com', 'http://example.com'],
 			['test@example.com', 'example.com', 'test@example.com@example.com'],
-			['test@example.com', null, 'test@example.com@example.com'],
+			['test@example.com', 'https://example.com', 'test@example.com@example.com'],
+			['test@example.com', null, 'test@example.com@example.com', null, 'https://example.com', 'https://example.com'],
+			['test@example.com', 'https://example.com/index.php/s/shareToken', 'test@example.com@example.com', null, 'https://example.com', 'https://example.com'],
 		];
 	}
 
@@ -136,28 +125,30 @@ class CloudIdManagerTest extends TestCase {
 	 * @dataProvider getCloudIdProvider
 	 *
 	 * @param string $user
-	 * @param string $remote
+	 * @param null|string $remote
 	 * @param string $id
 	 */
-	public function testGetCloudId($user, $remote, $id) {
+	public function testGetCloudId(string $user, ?string $remote, string $id, ?string $searchCloudId = null, ?string $localHost = 'https://example.com', ?string $expectedRemoteId = null): void {
 		if ($remote !== null) {
 			$this->contactsManager->expects($this->any())
 				->method('search')
-				->with($id, ['CLOUD'])
+				->with($searchCloudId ?? $id, ['CLOUD'])
 				->willReturn([
 					[
-						'CLOUD' => [$id],
+						'CLOUD' => [$searchCloudId ?? $id],
 						'FN' => 'Ample Ex',
 					]
 				]);
 		} else {
 			$this->urlGenerator->expects(self::once())
 				->method('getAbsoluteUrl')
-				->willReturn('https://example.com');
+				->willReturn($localHost);
 		}
+		$expectedRemoteId ??= $remote;
 
 		$cloudId = $this->cloudIdManager->getCloudId($user, $remote);
 
-		$this->assertEquals($id, $cloudId->getId());
+		$this->assertEquals($id, $cloudId->getId(), 'Cloud ID');
+		$this->assertEquals($expectedRemoteId, $cloudId->getRemote(), 'Remote URL');
 	}
 }

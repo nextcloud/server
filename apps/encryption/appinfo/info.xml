@@ -1,4 +1,9 @@
 <?xml version="1.0"?>
+<!--
+ - SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ - SPDX-FileCopyrightText: 2015-2016 ownCloud, Inc.
+ - SPDX-License-Identifier: AGPL-3.0-only
+ -->
 <info xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
 	  xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
 	<id>encryption</id>
@@ -9,7 +14,7 @@ In order to use this encryption module you need to enable server-side encryption
 The module will not touch existing files, only new files will be encrypted after server-side encryption was enabled. It is also not possible to disable the encryption again and switch back to an unencrypted system.
 Please read the documentation to know all implications before you decide to enable server-side encryption.
 	</description>
-	<version>2.16.0</version>
+	<version>2.18.0</version>
 	<licence>agpl</licence>
 	<author>Bjoern Schiessle</author>
 	<author>Clark Tomlinson</author>
@@ -26,7 +31,7 @@ Please read the documentation to know all implications before you decide to enab
 
 	<dependencies>
 		<lib>openssl</lib>
-		<nextcloud min-version="28" max-version="28"/>
+		<nextcloud min-version="30" max-version="30"/>
 	</dependencies>
 
 	<repair-steps>

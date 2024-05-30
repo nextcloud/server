@@ -45,12 +45,18 @@ export default class ExternalShareActions {
 	}
 
 	/**
+	 * @typedef ExternalShareActionData
+	 * @property {import('vue').Component} is Vue component to render, for advanced actions the `async onSave` method of the component will be called when saved
+	 */
+
+	/**
 	 * Register a new option/entry for the a given share type
 	 *
 	 * @param {object} action new action component to register
 	 * @param {string} action.id unique action id
-	 * @param {Function} action.data data to bind the component to
+	 * @param {(data: any) => ExternalShareActionData & Record<string, unknown>} action.data data to bind the component to
 	 * @param {Array} action.shareType list of \@nextcloud/sharing.Types.SHARE_XXX to be mounted on
+	 * @param {boolean} action.advanced `true` if the action entry should be rendered within advanced settings
 	 * @param {object} action.handlers list of listeners
 	 * @return {boolean}
 	 */

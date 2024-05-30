@@ -53,10 +53,10 @@ class GroupProvider implements IProvider {
 
 
 	public function __construct(L10nFactory $l10n,
-								IURLGenerator $urlGenerator,
-								IManager $activityManager,
-								IUserManager $userManager,
-								IGroupManager $groupManager) {
+		IURLGenerator $urlGenerator,
+		IManager $activityManager,
+		IUserManager $userManager,
+		IGroupManager $groupManager) {
 		$this->urlGenerator = $urlGenerator;
 		$this->l10n = $l10n;
 		$this->activityManager = $activityManager;
@@ -64,7 +64,7 @@ class GroupProvider implements IProvider {
 		$this->groupManager = $groupManager;
 	}
 
-	public function parse($language, IEvent $event, IEvent $previousEvent = null) {
+	public function parse($language, IEvent $event, ?IEvent $previousEvent = null) {
 		if ($event->getType() !== 'group_settings') {
 			throw new InvalidArgumentException();
 		}

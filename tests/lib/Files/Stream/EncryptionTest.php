@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
 namespace Test\Files\Stream;
 
 use OC\Files\Cache\CacheEntry;
@@ -78,13 +82,13 @@ class EncryptionTest extends \Test\TestCase {
 	 * @dataProvider dataProviderStreamOpen()
 	 */
 	public function testStreamOpen($isMasterKeyUsed,
-								   $mode,
-								   $fullPath,
-								   $fileExists,
-								   $expectedSharePath,
-								   $expectedSize,
-								   $expectedUnencryptedSize,
-								   $expectedReadOnly) {
+		$mode,
+		$fullPath,
+		$fileExists,
+		$expectedSharePath,
+		$expectedSize,
+		$expectedUnencryptedSize,
+		$expectedReadOnly) {
 		// build mocks
 		$encryptionModuleMock = $this->getMockBuilder('\OCP\Encryption\IEncryptionModule')
 		->disableOriginalConstructor()->getMock();

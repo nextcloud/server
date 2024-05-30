@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2022 Joas Schilling <coding@schilljs.com>
@@ -26,7 +27,6 @@ namespace OCA\Theming\Themes;
 
 use OCA\Theming\ImageManager;
 use OCA\Theming\ITheme;
-use OCA\Theming\Service\BackgroundService;
 use OCA\Theming\ThemingDefaults;
 use OCA\Theming\Util;
 use OCP\App\IAppManager;
@@ -51,13 +51,13 @@ class DefaultTheme implements ITheme {
 	public string $primaryColor;
 
 	public function __construct(Util $util,
-								ThemingDefaults $themingDefaults,
-								IUserSession $userSession,
-								IURLGenerator $urlGenerator,
-								ImageManager $imageManager,
-								IConfig $config,
-								IL10N $l,
-								IAppManager $appManager) {
+		ThemingDefaults $themingDefaults,
+		IUserSession $userSession,
+		IURLGenerator $urlGenerator,
+		ImageManager $imageManager,
+		IConfig $config,
+		IL10N $l,
+		IAppManager $appManager) {
 		$this->util = $util;
 		$this->themingDefaults = $themingDefaults;
 		$this->userSession = $userSession;
@@ -69,11 +69,6 @@ class DefaultTheme implements ITheme {
 
 		$this->defaultPrimaryColor = $this->themingDefaults->getDefaultColorPrimary();
 		$this->primaryColor = $this->themingDefaults->getColorPrimary();
-
-		// Override default defaultPrimaryColor if set to improve accessibility
-		if ($this->primaryColor === BackgroundService::DEFAULT_COLOR) {
-			$this->primaryColor = BackgroundService::DEFAULT_ACCESSIBLE_COLOR;
-		}
 	}
 
 	public function getId(): string {
@@ -100,17 +95,22 @@ class DefaultTheme implements ITheme {
 		return '';
 	}
 
+	public function getMeta(): array {
+		return [];
+	}
+
 	public function getCSSVariables(): array {
 		$colorMainText = '#222222';
 		$colorMainTextRgb = join(',', $this->util->hexToRGB($colorMainText));
-		$colorTextMaxcontrast = $this->util->lighten($colorMainText, 33);
+		// Color that still provides enough contrast for text, so we need a ratio of 4.5:1 on main background AND hover
+		$colorTextMaxcontrast = '#6b6b6b'; // 4.5 : 1 for hover background and background dark
 		$colorMainBackground = '#ffffff';
 		$colorMainBackgroundRGB = join(',', $this->util->hexToRGB($colorMainBackground));
 		$colorBoxShadow = $this->util->darken($colorMainBackground, 70);
 		$colorBoxShadowRGB = join(',', $this->util->hexToRGB($colorBoxShadow));
 
-		$colorError = '#d91812';
-		$colorWarning = '#c28900';
+		$colorError = '#DB0606';
+		$colorWarning = '#A37200';
 		$colorSuccess = '#2d7b41';
 		$colorInfo = '#0071ad';
 
@@ -137,8 +137,8 @@ class DefaultTheme implements ITheme {
 			'--color-text-maxcontrast' => $colorTextMaxcontrast,
 			'--color-text-maxcontrast-default' => $colorTextMaxcontrast,
 			'--color-text-maxcontrast-background-blur' => $this->util->darken($colorTextMaxcontrast, 7),
-			'--color-text-light' => $colorMainText,
-			'--color-text-lighter' => $this->util->lighten($colorMainText, 33),
+			'--color-text-light' => 'var(--color-main-text)', // deprecated
+			'--color-text-lighter' => 'var(--color-text-maxcontrast)', // deprecated
 
 			'--color-scrollbar' => 'rgba(' . $colorMainTextRgb . ', .15)',
 
@@ -146,19 +146,20 @@ class DefaultTheme implements ITheme {
 			'--color-error' => $colorError,
 			'--color-error-rgb' => join(',', $this->util->hexToRGB($colorError)),
 			'--color-error-hover' => $this->util->mix($colorError, $colorMainBackground, 75),
-			'--color-error-text' => $this->util->darken($colorError, 4),
+			'--color-error-text' => $this->util->darken($colorError, 5),
 			'--color-warning' => $colorWarning,
 			'--color-warning-rgb' => join(',', $this->util->hexToRGB($colorWarning)),
-			'--color-warning-hover' => $this->util->mix($colorWarning, $colorMainBackground, 60),
-			'--color-warning-text' => $this->util->darken($colorWarning, 8),
+			'--color-warning-hover' => $this->util->darken($colorWarning, 5),
+			'--color-warning-text' => $this->util->darken($colorWarning, 7),
 			'--color-success' => $colorSuccess,
 			'--color-success-rgb' => join(',', $this->util->hexToRGB($colorSuccess)),
-			'--color-success-hover' => $this->util->mix($colorSuccess, $colorMainBackground, 78),
+			'--color-success-hover' => $this->util->mix($colorSuccess, $colorMainBackground, 80),
 			'--color-success-text' => $this->util->darken($colorSuccess, 4),
 			'--color-info' => $colorInfo,
 			'--color-info-rgb' => join(',', $this->util->hexToRGB($colorInfo)),
 			'--color-info-hover' => $this->util->mix($colorInfo, $colorMainBackground, 80),
 			'--color-info-text' => $this->util->darken($colorInfo, 4),
+			'--color-favorite' => '#A37200',
 
 			// used for the icon loading animation
 			'--color-loading-light' => '#cccccc',
@@ -169,7 +170,7 @@ class DefaultTheme implements ITheme {
 
 			'--color-border' => $this->util->darken($colorMainBackground, 7),
 			'--color-border-dark' => $this->util->darken($colorMainBackground, 14),
-			'--color-border-maxcontrast' => $this->util->darken($colorMainBackground, 42),
+			'--color-border-maxcontrast' => $this->util->darken($colorMainBackground, 51),
 
 			'--font-face' => "system-ui, -apple-system, 'Segoe UI', Roboto, Oxygen-Sans, Cantarell, Ubuntu, 'Helvetica Neue', 'Noto Sans', 'Liberation Sans', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'",
 			'--default-font-size' => '15px',
@@ -179,9 +180,13 @@ class DefaultTheme implements ITheme {
 			'--animation-slow' => '300ms',
 
 			// Default variables --------------------------------------------
+			// Border width for input elements such as text fields and selects
+			'--border-width-input' => '1px',
+			'--border-width-input-focused' => '2px',
 			'--border-radius' => '3px',
 			'--border-radius-large' => '10px',
 			'--border-radius-rounded' => '28px',
+			'--border-radius-element' => '10px',
 			// pill-style button, value is large so big buttons also have correct roundness
 			'--border-radius-pill' => '100px',
 

@@ -17,7 +17,6 @@
     "File name is too long" : "ගොනුවේ නම දිග වැඩිය",
     "__language_name__" : "සිංහල",
     "This is an automatically sent email, please do not reply." : "මෙය ස්වයංක්‍රීයව යවන ලද විද්‍යුත් තැපෑලකි, කරුණාකර පිළිතුරු නොදෙන්න.",
-    "Help" : "උපකාර",
     "Apps" : "යෙදුම්",
     "Settings" : "සැකසුම්",
     "Log out" : "නික්මෙන්න",
@@ -29,7 +28,6 @@
     "Address" : "ලිපිනය",
     "About" : "පිළිබඳව",
     "Role" : "කාර්යභාරය",
-    "Unknown user" : "නොදන්නා පරිශීලකයෙකි",
     "Additional settings" : "අමතර සැකසුම්",
     "Sunday" : "ඉරිදා",
     "Monday" : "සඳුදා",
@@ -64,6 +62,7 @@
     "October" : "ඔක්තෝම්බර්",
     "November" : "නොවැම්බර්",
     "December" : "දෙසැම්බර්",
-    "Full name" : "සම්පූර්ණ නම"
+    "Help" : "උපකාර",
+    "Unknown user" : "නොදන්නා පරිශීලකයෙකි"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

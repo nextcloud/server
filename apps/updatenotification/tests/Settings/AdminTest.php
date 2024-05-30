@@ -29,9 +29,12 @@ declare(strict_types=1);
  */
 namespace OCA\UpdateNotification\Tests\Settings;
 
+use OC\User\Backend;
 use OCA\UpdateNotification\Settings\Admin;
 use OCA\UpdateNotification\UpdateChecker;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Services\IInitialState;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IDateTimeFormatter;
 use OCP\IGroup;
@@ -40,11 +43,9 @@ use OCP\IUserManager;
 use OCP\L10N\IFactory;
 use OCP\L10N\ILanguageIterator;
 use OCP\Support\Subscription\IRegistry;
-use OCP\UserInterface;
 use OCP\User\Backend\ICountUsersBackend;
-use OCP\AppFramework\Services\IInitialState;
+use OCP\UserInterface;
 use OCP\Util;
-use OC\User\Backend;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
@@ -55,6 +56,8 @@ class AdminTest extends TestCase {
 	private $admin;
 	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $config;
+	/** @var IAppConfig|\PHPUnit\Framework\MockObject\MockObject */
+	private $appConfig;
 	/** @var UpdateChecker|\PHPUnit\Framework\MockObject\MockObject */
 	private $updateChecker;
 	/** @var IGroupManager|\PHPUnit\Framework\MockObject\MockObject */
@@ -74,6 +77,7 @@ class AdminTest extends TestCase {
 		parent::setUp();
 
 		$this->config = $this->createMock(IConfig::class);
+		$this->appConfig = $this->createMock(IAppConfig::class);
 		$this->updateChecker = $this->createMock(UpdateChecker::class);
 		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->dateTimeFormatter = $this->createMock(IDateTimeFormatter::class);
@@ -84,11 +88,12 @@ class AdminTest extends TestCase {
 		$this->initialState = $this->createMock(IInitialState::class);
 
 		$this->admin = new Admin(
-			$this->config, 
-			$this->updateChecker, 
-			$this->groupManager, 
-			$this->dateTimeFormatter, 
-			$this->l10nFactory, 
+			$this->config,
+			$this->appConfig,
+			$this->updateChecker,
+			$this->groupManager,
+			$this->dateTimeFormatter,
+			$this->l10nFactory,
 			$this->subscriptionRegistry,
 			$this->userManager,
 			$this->logger,
@@ -143,14 +148,16 @@ class AdminTest extends TestCase {
 		if ($currentChannel === 'git') {
 			$channels[] = 'git';
 		}
-
+		$this->appConfig
+			->expects($this->once())
+			->method('getValueInt')
+			->with('core', 'lastupdatedat', 0)
+			->willReturn(12345);
 		$this->config
-			->expects($this->exactly(2))
+			->expects($this->once())
 			->method('getAppValue')
-			->willReturnMap([
-				['core', 'lastupdatedat', '', '12345'],
-				['updatenotification', 'notify_groups', '["admin"]', '["admin"]'],
-			]);
+			->with('updatenotification', 'notify_groups', '["admin"]')
+			->willReturn('["admin"]');
 		$this->config
 			->method('getSystemValue')
 			->willReturnMap([
@@ -160,7 +167,7 @@ class AdminTest extends TestCase {
 		$this->dateTimeFormatter
 			->expects($this->once())
 			->method('formatDateTime')
-			->with('12345')
+			->with(12345)
 			->willReturn('LastCheckedReturnValue');
 		$this->updateChecker
 			->expects($this->once())
@@ -268,13 +275,16 @@ class AdminTest extends TestCase {
 			$channels[] = 'git';
 		}
 
+		$this->appConfig
+			->expects($this->once())
+			->method('getValueInt')
+			->with('core', 'lastupdatedat', 0)
+			->willReturn(12345);
 		$this->config
-			->expects($this->exactly(2))
+			->expects($this->once())
 			->method('getAppValue')
-			->willReturnMap([
-				['core', 'lastupdatedat', '', '12345'],
-				['updatenotification', 'notify_groups', '["admin"]', '["admin"]'],
-			]);
+			->with('updatenotification', 'notify_groups', '["admin"]')
+			->willReturn('["admin"]');
 		$this->config
 			->method('getSystemValue')
 			->willReturnMap([
@@ -392,13 +402,16 @@ class AdminTest extends TestCase {
 			$channels[] = 'git';
 		}
 
+		$this->appConfig
+			->expects($this->once())
+			->method('getValueInt')
+			->with('core', 'lastupdatedat', 0)
+			->willReturn(12345);
 		$this->config
-			->expects($this->exactly(2))
+			->expects($this->once())
 			->method('getAppValue')
-			->willReturnMap([
-				['core', 'lastupdatedat', '', '12345'],
-				['updatenotification', 'notify_groups', '["admin"]', '["admin"]'],
-			]);
+			->with('updatenotification', 'notify_groups', '["admin"]')
+			->willReturn('["admin"]');
 		$this->config
 			->method('getSystemValue')
 			->willReturnMap([

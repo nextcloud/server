@@ -63,10 +63,13 @@
     "Desktop client" : "デスクトップクライアント",
     "Thunderbird & Outlook addons" : "Thunderbird & Outlook アドオン",
     "Custom user agent" : "カスタムユーザーエージェント",
+    "Select groups" : "グループを選択",
+    "Groups" : "グループ",
     "At least one event must be selected" : "少なくともイベントを一つ指定してください",
     "Add new flow" : "新しいフローを追加",
     "When" : "いつ",
     "and" : "かつ",
+    "Add a new filter" : "新しいフィルターを追加",
     "Cancel" : "キャンセル",
     "Delete" : "削除",
     "The configuration is invalid" : "設定が正しくありません",
@@ -80,6 +83,7 @@
     "Show more" : "表示を増やす",
     "Configured flows" : "設定済みフロー",
     "Your flows" : "作成したフロー",
+    "No flows configured" : "設定済みのフローはありません。",
     "matches" : "一致",
     "does not match" : "一致しない",
     "is" : "は",
@@ -104,10 +108,8 @@
     "between" : "間",
     "not between" : "間ではない",
     "Request user agent" : "リクエスト時のユーザーエージェント",
-    "User group membership" : "ユーザーがグループのメンバーかどうか",
     "is member of" : "が次のグループのメンバーである",
     "is not member of" : "が次のグループのメンバーではない",
-    "Predefined URLs" : "定義済みのURL",
-    "Others" : "その他"
+    "User group membership" : "ユーザーがグループのメンバーかどうか"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

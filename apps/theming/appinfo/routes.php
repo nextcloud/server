@@ -30,6 +30,11 @@
 return [
 	'routes' => [
 		[
+			'name' => 'Theming#updateAppMenu',
+			'url' => '/ajax/updateAppMenu',
+			'verb' => 'PUT',
+		],
+		[
 			'name' => 'Theming#updateStylesheet',
 			'url' => '/ajax/updateStylesheet',
 			'verb' => 'POST'

@@ -36,7 +36,7 @@ class ScopeContext {
 	/** @var string */
 	private $hash;
 
-	public function __construct(int $scope, string $scopeId = null) {
+	public function __construct(int $scope, ?string $scopeId = null) {
 		$this->scope = $this->evaluateScope($scope);
 		$this->scopeId = $this->evaluateScopeId($scopeId);
 	}
@@ -48,7 +48,7 @@ class ScopeContext {
 		throw new \InvalidArgumentException('Invalid scope');
 	}
 
-	private function evaluateScopeId(string $scopeId = null): string {
+	private function evaluateScopeId(?string $scopeId = null): string {
 		if ($this->scope === IManager::SCOPE_USER
 			&& trim((string)$scopeId) === '') {
 			throw new \InvalidArgumentException('user scope requires a user id');

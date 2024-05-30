@@ -3,27 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright 2019, Georg Ehrke <oc.list@georgehrke.com>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OCA\DAV\BackgroundJob;
@@ -55,10 +36,10 @@ class UpdateCalendarResourcesRoomsBackgroundJob extends TimedJob {
 	private $calDavBackend;
 
 	public function __construct(ITimeFactory $time,
-								IResourceManager $resourceManager,
-								IRoomManager $roomManager,
-								IDBConnection $dbConnection,
-								CalDavBackend $calDavBackend) {
+		IResourceManager $resourceManager,
+		IRoomManager $roomManager,
+		IDBConnection $dbConnection,
+		CalDavBackend $calDavBackend) {
 		parent::__construct($time);
 		$this->resourceManager = $resourceManager;
 		$this->roomManager = $roomManager;
@@ -101,10 +82,10 @@ class UpdateCalendarResourcesRoomsBackgroundJob extends TimedJob {
 	 * @param string $principalPrefix
 	 */
 	private function runForBackend($backendManager,
-								   string $dbTable,
-								   string $dbTableMetadata,
-								   string $foreignKey,
-								   string $principalPrefix): void {
+		string $dbTable,
+		string $dbTableMetadata,
+		string $foreignKey,
+		string $principalPrefix): void {
 		$backends = $backendManager->getBackends();
 
 		foreach ($backends as $backend) {
@@ -194,8 +175,8 @@ class UpdateCalendarResourcesRoomsBackgroundJob extends TimedJob {
 	 * @return int Insert id
 	 */
 	private function addToCache(string $table,
-								string $backendId,
-								$remote): int {
+		string $backendId,
+		$remote): int {
 		$query = $this->dbConnection->getQueryBuilder();
 		$query->insert($table)
 			->values([
@@ -219,9 +200,9 @@ class UpdateCalendarResourcesRoomsBackgroundJob extends TimedJob {
 	 * @param array $metadata
 	 */
 	private function addMetadataToCache(string $table,
-										string $foreignKey,
-										int $foreignId,
-										array $metadata): void {
+		string $foreignKey,
+		int $foreignId,
+		array $metadata): void {
 		foreach ($metadata as $key => $value) {
 			$query = $this->dbConnection->getQueryBuilder();
 			$query->insert($table)
@@ -241,7 +222,7 @@ class UpdateCalendarResourcesRoomsBackgroundJob extends TimedJob {
 	 * @param int $id
 	 */
 	private function deleteFromCache(string $table,
-									 int $id): void {
+		int $id): void {
 		$query = $this->dbConnection->getQueryBuilder();
 		$query->delete($table)
 			->where($query->expr()->eq('id', $query->createNamedParameter($id)))
@@ -254,8 +235,8 @@ class UpdateCalendarResourcesRoomsBackgroundJob extends TimedJob {
 	 * @param int $id
 	 */
 	private function deleteMetadataFromCache(string $table,
-											 string $foreignKey,
-											 int $id): void {
+		string $foreignKey,
+		int $id): void {
 		$query = $this->dbConnection->getQueryBuilder();
 		$query->delete($table)
 			->where($query->expr()->eq($foreignKey, $query->createNamedParameter($id)))
@@ -270,8 +251,8 @@ class UpdateCalendarResourcesRoomsBackgroundJob extends TimedJob {
 	 * @param IResource|IRoom $remote
 	 */
 	private function updateCache(string $table,
-								 int $id,
-								 $remote): void {
+		int $id,
+		$remote): void {
 		$query = $this->dbConnection->getQueryBuilder();
 		$query->update($table)
 			->set('email', $query->createNamedParameter($remote->getEMail()))
@@ -292,10 +273,10 @@ class UpdateCalendarResourcesRoomsBackgroundJob extends TimedJob {
 	 * @param array $cachedMetadata
 	 */
 	private function updateMetadataCache(string $dbTable,
-										 string $foreignKey,
-										 int $id,
-										 array $metadata,
-										 array $cachedMetadata): void {
+		string $foreignKey,
+		int $id,
+		array $metadata,
+		array $cachedMetadata): void {
 		$newMetadata = array_diff_key($metadata, $cachedMetadata);
 		$deletedMetadata = array_diff_key($cachedMetadata, $metadata);
 
@@ -371,8 +352,8 @@ class UpdateCalendarResourcesRoomsBackgroundJob extends TimedJob {
 	 * @return array
 	 */
 	private function getAllMetadataOfCache(string $table,
-										   string $foreignKey,
-										   int $id): array {
+		string $foreignKey,
+		int $id): array {
 		$query = $this->dbConnection->getQueryBuilder();
 		$query->select(['key', 'value'])
 			->from($table)
@@ -398,7 +379,7 @@ class UpdateCalendarResourcesRoomsBackgroundJob extends TimedJob {
 	 * @return array
 	 */
 	private function getAllCachedByBackend(string $tableName,
-										   string $backendId): array {
+		string $backendId): array {
 		$query = $this->dbConnection->getQueryBuilder();
 		$query->select('resource_id')
 			->from($tableName)
@@ -417,7 +398,7 @@ class UpdateCalendarResourcesRoomsBackgroundJob extends TimedJob {
 	 * @param $principalUri
 	 */
 	private function deleteCalendarDataForResource(string $principalPrefix,
-												   string $principalUri): void {
+		string $principalUri): void {
 		$calendar = $this->calDavBackend->getCalendarByUri(
 			implode('/', [$principalPrefix, $principalUri]),
 			CalDavBackend::RESOURCE_BOOKING_CALENDAR_URI);
@@ -438,8 +419,8 @@ class UpdateCalendarResourcesRoomsBackgroundJob extends TimedJob {
 	 * @return int
 	 */
 	private function getIdForBackendAndResource(string $table,
-												string $backendId,
-												string $resourceId): int {
+		string $backendId,
+		string $resourceId): int {
 		$query = $this->dbConnection->getQueryBuilder();
 		$query->select('id')
 			->from($table)

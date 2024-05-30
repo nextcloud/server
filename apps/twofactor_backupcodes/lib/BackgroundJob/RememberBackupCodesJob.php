@@ -49,10 +49,10 @@ class RememberBackupCodesJob extends TimedJob {
 	private $jobList;
 
 	public function __construct(IRegistry $registry,
-								IUserManager $userManager,
-								ITimeFactory $timeFactory,
-								IManager $notificationManager,
-								IJobList $jobList) {
+		IUserManager $userManager,
+		ITimeFactory $timeFactory,
+		IManager $notificationManager,
+		IJobList $jobList) {
 		parent::__construct($timeFactory);
 		$this->registry = $registry;
 		$this->userManager = $userManager;
@@ -70,6 +70,7 @@ class RememberBackupCodesJob extends TimedJob {
 
 		if ($user === null) {
 			// We can't run with an invalid user
+			$this->jobList->remove(self::class, $argument);
 			return;
 		}
 
@@ -94,9 +95,16 @@ class RememberBackupCodesJob extends TimedJob {
 		$notification = $this->notificationManager->createNotification();
 		$notification->setApp('twofactor_backupcodes')
 			->setUser($user->getUID())
-			->setDateTime($date)
 			->setObject('create', 'codes')
 			->setSubject('create_backupcodes');
+		$this->notificationManager->markProcessed($notification);
+
+		if (!$user->isEnabled()) {
+			// Don't recreate a notification for a user that can not read it
+			$this->jobList->remove(self::class, $argument);
+			return;
+		}
+		$notification->setDateTime($date);
 		$this->notificationManager->notify($notification);
 	}
 }

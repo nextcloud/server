@@ -26,10 +26,10 @@ namespace OCA\Settings\Controller;
 use OC\Settings\AuthorizedGroup;
 use OCA\Settings\Service\AuthorizedGroupService;
 use OCA\Settings\Service\NotFoundException;
+use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\DataResponse;
 use OCP\DB\Exception;
 use OCP\IRequest;
-use OCP\AppFramework\Http\DataResponse;
-use OCP\AppFramework\Controller;
 
 class AuthorizedGroupController extends Controller {
 	/** @var AuthorizedGroupService $authorizedGroupService */

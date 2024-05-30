@@ -1,24 +1,9 @@
 <?php
 
 /**
- * ownCloud
- *
- * @copyright (C) 2015 ownCloud, Inc.
- *
- * @author Bjoern Schiessle <schiessle@owncloud.com>
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
- * License as published by the Free Software Foundation; either
- * version 3 of the License, or any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
- *
- * You should have received a copy of the GNU Affero General Public
- * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
+ * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\Encryption\Keys;
@@ -53,6 +38,7 @@ class StorageTest extends TestCase {
 
 		$this->util = $this->getMockBuilder('OC\Encryption\Util')
 			->disableOriginalConstructor()
+			->setMethodsExcept(['getFileKeyDir'])
 			->getMock();
 
 		$this->view = $this->getMockBuilder(View::class)
@@ -581,39 +567,6 @@ class StorageTest extends TestCase {
 		$args = func_get_args();
 		$expected = array_pop($this->mkdirStack);
 		$this->assertSame($expected, $args[0]);
-	}
-
-	/**
-	 * @dataProvider dataTestGetFileKeyDir
-	 *
-	 * @param bool $isSystemWideMountPoint
-	 * @param string $storageRoot
-	 * @param string $expected
-	 */
-	public function testGetFileKeyDir($isSystemWideMountPoint, $storageRoot, $expected) {
-		$path = '/user1/files/foo/bar.txt';
-		$owner = 'user1';
-		$relativePath = '/foo/bar.txt';
-
-		$this->invokePrivate($this->storage, 'root_dir', [$storageRoot]);
-
-		$this->util->expects($this->once())->method('isSystemWideMountPoint')
-			->willReturn($isSystemWideMountPoint);
-		$this->util->expects($this->once())->method('getUidAndFilename')
-			->with($path)->willReturn([$owner, $relativePath]);
-
-		$this->assertSame($expected,
-			$this->invokePrivate($this->storage, 'getFileKeyDir', ['OC_DEFAULT_MODULE', $path])
-		);
-	}
-
-	public function dataTestGetFileKeyDir() {
-		return [
-			[false, '', '/user1/files_encryption/keys/foo/bar.txt/OC_DEFAULT_MODULE/'],
-			[true, '', '/files_encryption/keys/foo/bar.txt/OC_DEFAULT_MODULE/'],
-			[false, 'newStorageRoot', '/newStorageRoot/user1/files_encryption/keys/foo/bar.txt/OC_DEFAULT_MODULE/'],
-			[true, 'newStorageRoot', '/newStorageRoot/files_encryption/keys/foo/bar.txt/OC_DEFAULT_MODULE/'],
-		];
 	}
 
 

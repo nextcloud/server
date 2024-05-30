@@ -28,20 +28,21 @@ use OCA\Files_Trashbin\Helper;
 use OCA\Files_Trashbin\Storage;
 use OCA\Files_Trashbin\Trashbin;
 use OCP\Files\FileInfo;
+use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IStorage;
 use OCP\IUser;
+use OCP\IUserManager;
 
 class LegacyTrashBackend implements ITrashBackend {
 	/** @var array */
 	private $deletedFiles = [];
 
-	/** @var IRootFolder */
-	private $rootFolder;
-
-	public function __construct(IRootFolder $rootFolder) {
-		$this->rootFolder = $rootFolder;
+	public function __construct(
+		private IRootFolder $rootFolder,
+		private IUserManager $userManager,
+	) {
 	}
 
 	/**
@@ -50,7 +51,7 @@ class LegacyTrashBackend implements ITrashBackend {
 	 * @param ITrashItem $parent
 	 * @return ITrashItem[]
 	 */
-	private function mapTrashItems(array $items, IUser $user, ITrashItem $parent = null): array {
+	private function mapTrashItems(array $items, IUser $user, ?ITrashItem $parent = null): array {
 		$parentTrashPath = ($parent instanceof ITrashItem) ? $parent->getTrashPath() : '';
 		$isRoot = $parent === null;
 		return array_map(function (FileInfo $file) use ($parent, $parentTrashPath, $isRoot, $user) {
@@ -58,6 +59,8 @@ class LegacyTrashBackend implements ITrashBackend {
 			if (!$originalLocation) {
 				$originalLocation = $file->getName();
 			}
+			/** @psalm-suppress UndefinedInterfaceMethod */
+			$deletedBy = $this->userManager->get($file['deletedBy']) ?? $parent?->getDeletedBy();
 			$trashFilename = Trashbin::getTrashFilename($file->getName(), $file->getMtime());
 			return new TrashItem(
 				$this,
@@ -65,7 +68,8 @@ class LegacyTrashBackend implements ITrashBackend {
 				$file->getMTime(),
 				$parentTrashPath . '/' . ($isRoot ? $trashFilename : $file->getName()),
 				$file,
-				$user
+				$user,
+				$deletedBy,
 			);
 		}, $items);
 	}
@@ -78,7 +82,7 @@ class LegacyTrashBackend implements ITrashBackend {
 	public function listTrashFolder(ITrashItem $folder): array {
 		$user = $folder->getUser();
 		$entries = Helper::getTrashFiles($folder->getTrashPath(), $user->getUID());
-		return $this->mapTrashItems($entries, $user ,$folder);
+		return $this->mapTrashItems($entries, $user, $folder);
 	}
 
 	public function restoreItem(ITrashItem $item) {
@@ -121,11 +125,11 @@ class LegacyTrashBackend implements ITrashBackend {
 		try {
 			$userFolder = $this->rootFolder->getUserFolder($user->getUID());
 			$trash = $userFolder->getParent()->get('files_trashbin/files');
-			$trashFiles = $trash->getById($fileId);
-			if (!$trashFiles) {
+			if ($trash instanceof Folder) {
+				return $trash->getFirstNodeById($fileId);
+			} else {
 				return null;
 			}
-			return $trashFiles ? array_pop($trashFiles) : null;
 		} catch (NotFoundException $e) {
 			return null;
 		}

@@ -1,22 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2016 Robin Appelman <robin@icewind.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\Files\ObjectStore;
@@ -25,7 +10,7 @@ use Icewind\Streams\Wrapper;
 use OC\Files\ObjectStore\S3;
 
 class MultiPartUploadS3 extends S3 {
-	public function writeObject($urn, $stream, string $mimetype = null) {
+	public function writeObject($urn, $stream, ?string $mimetype = null) {
 		$this->getConnection()->upload($this->bucket, $urn, $stream, 'private', [
 			'mup_threshold' => 1,
 		]);
@@ -106,29 +91,30 @@ class S3Test extends ObjectStoreTest {
 	}
 
 	public function assertNoUpload($objectUrn) {
+		/** @var \OC\Files\ObjectStore\S3 */
 		$s3 = $this->getInstance();
 		$s3client = $s3->getConnection();
 		$uploads = $s3client->listMultipartUploads([
 			'Bucket' => $s3->getBucket(),
 			'Prefix' => $objectUrn,
 		]);
-		$this->assertArrayNotHasKey('Uploads', $uploads);
+		$this->assertArrayNotHasKey('Uploads', $uploads, 'Assert is not uploaded');
 	}
 
 	public function testEmptyUpload() {
 		$s3 = $this->getInstance();
 
 		$emptyStream = fopen("php://memory", "r");
-		fwrite($emptyStream, null);
+		fwrite($emptyStream, '');
 
 		$s3->writeObject('emptystream', $emptyStream);
 
 		$this->assertNoUpload('emptystream');
-		$this->assertTrue($s3->objectExists('emptystream'));
+		$this->assertTrue($s3->objectExists('emptystream'), 'Object exists on S3');
 
 		$thrown = false;
 		try {
-			self::assertFalse($s3->readObject('emptystream'));
+			self::assertFalse($s3->readObject('emptystream'), 'Reading empty stream object should return false');
 		} catch (\Exception $e) {
 			// An exception is expected here since 0 byte files are wrapped
 			// to be read from an empty memory stream in the ObjectStoreStorage
@@ -163,20 +149,20 @@ class S3Test extends ObjectStoreTest {
 		$s3->writeObject('testfilesizes', $sourceStream);
 
 		$this->assertNoUpload('testfilesizes');
-		self::assertTrue($s3->objectExists('testfilesizes'));
+		self::assertTrue($s3->objectExists('testfilesizes'), 'Object exists on S3');
 
 		$result = $s3->readObject('testfilesizes');
 
 		// compare first 100 bytes
-		self::assertEquals(str_repeat('A', 100), fread($result, 100));
+		self::assertEquals(str_repeat('A', 100), fread($result, 100), 'Compare first 100 bytes');
 
-		// compare 100 bytes
+		// compare last 100 bytes
 		fseek($result, $size - 100);
-		self::assertEquals(str_repeat('A', 100), fread($result, 100));
+		self::assertEquals(str_repeat('A', 100), fread($result, 100), 'Compare last 100 bytes');
 
 		// end of file reached
 		fseek($result, $size);
-		self::assertTrue(feof($result));
+		self::assertTrue(feof($result), 'End of file reached');
 
 		$this->assertNoUpload('testfilesizes');
 	}

@@ -7,10 +7,10 @@ OC.L10N.register(
     "Commuting" : "Lanerako bidean",
     "Out sick" : "Gaixorik",
     "Vacationing" : "Oporretan",
+    "Out of office" : "Bulegotik kanpo",
     "Working remotely" : "Urrutitik lanean",
     "In a call" : "Dei batean",
     "User status" : "Erabiltzaile-egoera",
-    "View profile" : "Ikusi profila",
     "Clear status after" : "Garbitu egoera honen ondoren",
     "Emoji for your status message" : "Zure egoera-mezurako emojia",
     "What is your status?" : "Zein da zure egoera?",
@@ -43,6 +43,6 @@ OC.L10N.register(
     "4 hours" : "4 ordu",
     "Mute all notifications" : "Mututu jakinarazpen guztiak",
     "Appear offline" : "Lineaz kanpo agertu",
-    "{status}, {timestamp}" : "{status}, {timestamp}"
+    "View profile" : "Ikusi profila"
 },
 "nplurals=2; plural=(n != 1);");

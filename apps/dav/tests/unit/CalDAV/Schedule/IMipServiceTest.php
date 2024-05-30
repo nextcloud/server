@@ -1,31 +1,8 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- * @copyright Copyright (c) 2017, Georg Ehrke
- *
- * @author brad2014 <brad2014@users.noreply.github.com>
- * @author Brad Rubenstein <brad@wbr.tech>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Thomas Citharel <nextcloud@tcit.fr>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 
 namespace OCA\DAV\Tests\unit\CalDAV\Schedule;
@@ -44,8 +21,7 @@ use Sabre\VObject\Component\VEvent;
 use Sabre\VObject\Property\ICalendar\DateTime;
 use Test\TestCase;
 
-class IMipServiceTest extends TestCase
-{
+class IMipServiceTest extends TestCase {
 	/** @var URLGenerator|MockObject */
 	private $urlGenerator;
 
@@ -67,8 +43,7 @@ class IMipServiceTest extends TestCase
 	/** @var IMipService */
 	private $service;
 
-	protected function setUp(): void
-	{
+	protected function setUp(): void {
 		$this->urlGenerator = $this->createMock(URLGenerator::class);
 		$this->config = $this->createMock(IConfig::class);
 		$this->db = $this->createMock(IDBConnection::class);
@@ -91,8 +66,7 @@ class IMipServiceTest extends TestCase
 		);
 	}
 
-	public function testGetFrom(): void
-	{
+	public function testGetFrom(): void {
 		$senderName = "Detective McQueen";
 		$default = "Twin Lakes Police Department - Darkside Division";
 		$expected = "Detective McQueen via Twin Lakes Police Department - Darkside Division";
@@ -105,8 +79,7 @@ class IMipServiceTest extends TestCase
 		$this->assertEquals($expected, $actual);
 	}
 
-	public function testBuildBodyDataCreated(): void
-	{
+	public function testBuildBodyDataCreated(): void {
 		$vCalendar = new VCalendar();
 		$oldVevent = null;
 		$newVevent = new VEvent($vCalendar, 'two', [
@@ -132,8 +105,7 @@ class IMipServiceTest extends TestCase
 		$this->assertEquals($expected, $actual);
 	}
 
-	public function testBuildBodyDataUpdate(): void
-	{
+	public function testBuildBodyDataUpdate(): void {
 		$vCalendar = new VCalendar();
 		$oldVevent = new VEvent($vCalendar, 'two', [
 			'UID' => 'uid-1234',
@@ -201,8 +173,7 @@ class IMipServiceTest extends TestCase
 		$this->assertEquals($expected, $actual);
 	}
 
-	public function testGetLastOccurrenceRRULE(): void
-	{
+	public function testGetLastOccurrenceRRULE(): void {
 		$vCalendar = new VCalendar();
 		$vCalendar->add('VEVENT', [
 			'UID' => 'uid-1234',
@@ -217,8 +188,7 @@ class IMipServiceTest extends TestCase
 		$this->assertEquals(1454284800, $occurrence);
 	}
 
-	public function testGetLastOccurrenceEndDate(): void
-	{
+	public function testGetLastOccurrenceEndDate(): void {
 		$vCalendar = new VCalendar();
 		$vCalendar->add('VEVENT', [
 			'UID' => 'uid-1234',
@@ -233,8 +203,7 @@ class IMipServiceTest extends TestCase
 		$this->assertEquals(1483228800, $occurrence);
 	}
 
-	public function testGetLastOccurrenceDuration(): void
-	{
+	public function testGetLastOccurrenceDuration(): void {
 		$vCalendar = new VCalendar();
 		$vCalendar->add('VEVENT', [
 			'UID' => 'uid-1234',
@@ -249,8 +218,7 @@ class IMipServiceTest extends TestCase
 		$this->assertEquals(1458864000, $occurrence);
 	}
 
-	public function testGetLastOccurrenceAllDay(): void
-	{
+	public function testGetLastOccurrenceAllDay(): void {
 		$vCalendar = new VCalendar();
 		$vEvent = $vCalendar->add('VEVENT', [
 			'UID' => 'uid-1234',
@@ -267,8 +235,7 @@ class IMipServiceTest extends TestCase
 		$this->assertEquals(1451692800, $occurrence);
 	}
 
-	public function testGetLastOccurrenceFallback(): void
-	{
+	public function testGetLastOccurrenceFallback(): void {
 		$vCalendar = new VCalendar();
 		$vCalendar->add('VEVENT', [
 			'UID' => 'uid-1234',

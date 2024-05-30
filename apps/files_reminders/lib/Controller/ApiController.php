@@ -59,7 +59,7 @@ class ApiController extends OCSController {
 	 * @return DataResponse<Http::STATUS_OK, array{dueDate: ?string}, array{}>|DataResponse<Http::STATUS_UNAUTHORIZED, array<empty>, array{}>
 	 *
 	 * 200: Reminder returned
-	 * 401: User not found
+	 * 401: Account not found
 	 */
 	#[NoAdminRequired]
 	public function get(int $fileId): DataResponse {
@@ -93,7 +93,7 @@ class ApiController extends OCSController {
 	 * 200: Reminder updated
 	 * 201: Reminder created successfully
 	 * 400: Creating reminder is not possible
-	 * 401: User not found
+	 * 401: Account not found
 	 * 404: File not found
 	 */
 	#[NoAdminRequired]
@@ -129,7 +129,7 @@ class ApiController extends OCSController {
 	 * @return DataResponse<Http::STATUS_OK|Http::STATUS_UNAUTHORIZED|Http::STATUS_NOT_FOUND, array<empty>, array{}>
 	 *
 	 * 200: Reminder deleted successfully
-	 * 401: User not found
+	 * 401: Account not found
 	 * 404: Reminder not found
 	 */
 	#[NoAdminRequired]

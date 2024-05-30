@@ -52,7 +52,7 @@ describe('Open in files action conditions tests', () => {
 
 		expect(action).toBeInstanceOf(FileAction)
 		expect(action.id).toBe('open-in-files-external-storage')
-		expect(action.displayName([storage], externalStorageView)).toBe('Open in files')
+		expect(action.displayName([storage], externalStorageView)).toBe('Open in Files')
 		expect(action.iconSvgInline([storage], externalStorageView)).toBe('')
 		expect(action.default).toBe(DefaultType.HIDDEN)
 		expect(action.order).toBe(-1000)
