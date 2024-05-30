@@ -157,6 +157,11 @@ interface IAccountManager {
 	public const PROPERTY_PROFILE_ENABLED = 'profile_enabled';
 
 	/**
+	 * @since 30.0.0
+	 */
+	public const PROPERTY_BIRTHDATE = 'birthdate';
+
+	/**
 	 * The list of allowed properties
 	 *
 	 * @since 25.0.0
@@ -175,6 +180,7 @@ interface IAccountManager {
 		self::PROPERTY_HEADLINE,
 		self::PROPERTY_BIOGRAPHY,
 		self::PROPERTY_PROFILE_ENABLED,
+		self::PROPERTY_BIRTHDATE,
 	];
 
 

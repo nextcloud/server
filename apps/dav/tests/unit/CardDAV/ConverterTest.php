@@ -18,6 +18,7 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class ConverterTest extends TestCase {
@@ -30,12 +31,16 @@ class ConverterTest extends TestCase {
 	/** @var IURLGenerator */
 	private $urlGenerator;
 
+	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
+	private $logger;
+
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->accountManager = $this->createMock(IAccountManager::class);
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 	}
 
 	/**
@@ -87,7 +92,7 @@ class ConverterTest extends TestCase {
 		$user = $this->getUserMock((string)$displayName, $eMailAddress, $cloudId);
 		$accountManager = $this->getAccountManager($user);
 
-		$converter = new Converter($accountManager, $this->userManager, $this->urlGenerator);
+		$converter = new Converter($accountManager, $this->userManager, $this->urlGenerator, $this->logger);
 		$vCard = $converter->createCardFromUser($user);
 		if ($expectedVCard !== null) {
 			$this->assertInstanceOf('Sabre\VObject\Component\VCard', $vCard);
@@ -108,7 +113,7 @@ class ConverterTest extends TestCase {
 			->willReturn('Manager');
 		$accountManager = $this->getAccountManager($user);
 
-		$converter = new Converter($accountManager, $this->userManager, $this->urlGenerator);
+		$converter = new Converter($accountManager, $this->userManager, $this->urlGenerator, $this->logger);
 		$vCard = $converter->createCardFromUser($user);
 
 		$this->compareData(
@@ -196,7 +201,7 @@ class ConverterTest extends TestCase {
 	 * @param $fullName
 	 */
 	public function testNameSplitter($expected, $fullName): void {
-		$converter = new Converter($this->accountManager, $this->userManager, $this->urlGenerator);
+		$converter = new Converter($this->accountManager, $this->userManager, $this->urlGenerator, $this->logger);
 		$r = $converter->splitFullName($fullName);
 		$r = implode(';', $r);
 		$this->assertEquals($expected, $r);

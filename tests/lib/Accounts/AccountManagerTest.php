@@ -617,6 +617,12 @@ class AccountManagerTest extends TestCase {
 			],
 
 			[
+				'name' => IAccountManager::PROPERTY_BIRTHDATE,
+				'value' => '',
+				'scope' => IAccountManager::SCOPE_LOCAL,
+			],
+
+			[
 				'name' => IAccountManager::PROPERTY_PROFILE_ENABLED,
 				'value' => '1',
 			],
