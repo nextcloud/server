@@ -42,6 +42,7 @@ class WebhookListener extends Entity implements \JsonSerializable {
 		$this->addType('httpMethod', 'string');
 		$this->addType('uri', 'string');
 		$this->addType('event', 'string');
+		$this->addType('eventFilter', 'json');
 		$this->addType('headers', 'json');
 		$this->addType('authMethod', 'string');
 		$this->addType('authData', 'json');

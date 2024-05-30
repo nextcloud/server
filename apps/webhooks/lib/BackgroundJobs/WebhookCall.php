@@ -26,14 +26,11 @@ class WebhookCall extends QueuedJob {
 	}
 
 	protected function run($argument): void {
-		[$event, $userId, $webhookId] = $argument;
+		[$data, $webhookId] = $argument;
 		$webhookListener = $this->mapper->getById($webhookId);
 		$client = $this->clientService->newClient();
 		$options = [];
-		$options['body'] = json_encode([
-			'event' => $event,
-			'userid' => $userId,
-		]);
+		$options['body'] = json_encode($data);
 		try {
 			$response = $client->request($webhookListener->getHttpMethod(), $webhookListener->getUri(), $options);
 			$statusCode = $response->getStatusCode();

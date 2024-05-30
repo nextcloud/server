@@ -51,6 +51,7 @@ class WebhookListenerMapperTest extends TestCase {
 			null,
 			null,
 			null,
+			null,
 		);
 
 		$listener2 = $this->mapper->getById($listener1->getId());

@@ -11,9 +11,12 @@ namespace OCA\Webhooks\Listener;
 
 use OCA\Webhooks\BackgroundJobs\WebhookCall;
 use OCA\Webhooks\Db\WebhookListenerMapper;
+use OCA\Webhooks\Service\PHPMongoQuery;
 use OCP\BackgroundJob\IJobList;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
+use OCP\EventDispatcher\JsonSerializer;
+use OCP\IUserSession;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -25,15 +28,31 @@ class WebhooksEventListener implements IEventListener {
 		private WebhookListenerMapper $mapper,
 		private IJobList $jobList,
 		private LoggerInterface $logger,
-		private ?string $userId,
+		private IUserSession $userSession,
 	) {
 	}
 
 	public function handle(Event $event): void {
 		$webhookListeners = $this->mapper->getByEvent($event::class);
+		/** @var IUser */
+		$user = $this->userSession->getUser();
 
 		foreach ($webhookListeners as $webhookListener) {
-			$this->jobList->add(WebhookCall::class, [$this->serializeEvent($event), $this->userId, $webhookListener->getId(), time()]);
+			// TODO add group membership to be able to filter on it
+			$data = [
+				'event' => $this->serializeEvent($event),
+				'user' => JsonSerializer::serializeUser($user),
+				'time' => time(),
+			];
+			if ($this->filterMatch($webhookListener->getEventFilter(), $data)) {
+				$this->jobList->add(
+					WebhookCall::class,
+					[
+						$data,
+						$webhookListener->getId(),
+					]
+				);
+			}
 		}
 	}
 
@@ -60,5 +79,12 @@ class WebhooksEventListener implements IEventListener {
 			$this->logger->debug('Webhook had to use fallback to serialize event '.$event::class);
 			return $data;
 		}
+	}
+
+	private function filterMatch(array $filter, array $data): bool {
+		if ($filter === []) {
+			return true;
+		}
+		return PHPMongoQuery::executeQuery($filter, $data);
 	}
 }

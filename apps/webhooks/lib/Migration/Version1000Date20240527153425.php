@@ -46,6 +46,9 @@ class Version1000Date20240527153425 extends SimpleMigrationStep {
 			$table->addColumn('event', Types::TEXT, [
 				'notnull' => true,
 			]);
+			$table->addColumn('event_filter', Types::TEXT, [
+				'notnull' => false,
+			]);
 			$table->addColumn('headers', Types::TEXT, [
 				'notnull' => false,
 			]);

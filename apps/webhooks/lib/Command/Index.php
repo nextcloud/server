@@ -31,7 +31,11 @@ class Index extends Base {
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$webhookListeners = array_map(
-			fn (WebhookListener $listener) => $listener->jsonSerialize(),
+			function (WebhookListener $listener): array {
+				$data = $listener->jsonSerialize();
+				$data['eventFilter'] = json_encode($data['eventFilter']);
+				return $data;
+			},
 			$this->mapper->getAll()
 		);
 		$this->writeTableInOutputFormat($input, $output, $webhookListeners);
