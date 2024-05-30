@@ -121,22 +121,6 @@ interface IRegistrationContext {
 	public function registerEventListener(string $event, string $listener, int $priority = 0): void;
 
 	/**
-	 * Register a webhook listener
-	 *
-	 * @psalm-template T of \OCP\EventDispatcher\Event
-	 * @param class-string<T> $event The fully-qualified class name of the Event sub class to listen for
-	 * @param string $method The HTTP method to use (usually 'GET' or 'POST')
-	 * @param string $listenerUri The absolute URI to contact
-	 * @param array $options Additional options for the request, {@see \OCP\Http\Client::request()}
-	 * @param int $priority The higher this value, the earlier an event
-	 *                      listener will be triggered in the chain (defaults to 0)
-	 *
-	 * @since 30.0.0
-	 */
-	public function registerWebhookEventListener(string $event, string $method, string $listenerUri, array $options = [], int $priority = 0): void;
-
-
-	/**
 	 * @param string $class
 	 * @param bool $global load this middleware also for requests of other apps? Added in Nextcloud 26
 	 * @psalm-param class-string<\OCP\AppFramework\Middleware> $class
