@@ -14,6 +14,7 @@ use bantu\IniGetWrapper\IniGetWrapper;
 use OC\AppScriptDependency;
 use OC\AppScriptSort;
 use OC\Security\CSRF\CsrfTokenManager;
+use OCP\L10N\IFactory;
 use OCP\Mail\IMailer;
 use OCP\Share\IManager;
 use Psr\Container\ContainerExceptionInterface;
@@ -208,7 +209,7 @@ class Util {
 	 */
 	public static function addTranslations($application, $languageCode = null, $init = false) {
 		if (is_null($languageCode)) {
-			$languageCode = \OC::$server->getL10NFactory()->findLanguage($application);
+			$languageCode = \OC::$server->get(IFactory::class)->findLanguage($application);
 		}
 		if (!empty($application)) {
 			$path = "$application/l10n/$languageCode";
