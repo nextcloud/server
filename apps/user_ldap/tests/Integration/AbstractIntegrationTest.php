@@ -35,6 +35,7 @@ use OCA\User_LDAP\Helper;
 use OCA\User_LDAP\LDAP;
 use OCA\User_LDAP\User\Manager;
 use OCA\User_LDAP\UserPluginManager;
+use OCP\IAvatarManager;
 use OCP\Share\IManager;
 use Psr\Log\LoggerInterface;
 
@@ -124,7 +125,7 @@ abstract class AbstractIntegrationTest {
 			\OC::$server->getConfig(),
 			new FilesystemHelper(),
 			\OC::$server->get(LoggerInterface::class),
-			\OC::$server->getAvatarManager(),
+			\OC::$server->get(IAvatarManager::class),
 			new \OCP\Image(),
 			\OC::$server->getUserManager(),
 			\OC::$server->getNotificationManager(),
