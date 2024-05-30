@@ -825,7 +825,7 @@ describe('OCA.Files.FileList tests', function() {
 			// element is renamed before the request finishes
 			$tr = fileList.findFileEl('Tu_after_three.txt');
 			expect($tr.length).toEqual(1);
-			expect(fileList.findFileEl('One.txt').length).toEqual(0);
+			expect($('.files-fileList tr').find('[data-name="One.txt"]').length).toEqual(0);
 			// file actions are hidden
 			expect($tr.hasClass('busy')).toEqual(true);
 
@@ -1426,7 +1426,7 @@ describe('OCA.Files.FileList tests', function() {
 				name: 'File with index 28b.txt'
 			});
 			expect($('.files-fileList tr').length).toEqual(20);
-			expect(fileList.findFileEl('File with index 28b.txt').length).toEqual(0);
+			expect($('.files-fileList tr').find('[data-name="File with index 28b.txt"]').length).toEqual(0);
 			fileList._nextPage(true);
 			expect($('.files-fileList tr').length).toEqual(40);
 			expect(fileList.findFileEl('File with index 28b.txt').index()).toEqual(29);
