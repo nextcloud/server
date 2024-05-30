@@ -113,7 +113,7 @@ class JobList implements IJobList {
 		}
 	}
 
-	protected function removeById(int $id): void {
+	public function removeById(int $id): void {
 		$query = $this->connection->getQueryBuilder();
 		$query->delete('jobs')
 			->where($query->expr()->eq('id', $query->createNamedParameter($id, IQueryBuilder::PARAM_INT)));

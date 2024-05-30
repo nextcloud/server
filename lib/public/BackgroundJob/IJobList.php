@@ -61,6 +61,14 @@ interface IJobList {
 	public function remove($job, $argument = null): void;
 
 	/**
+	 * Remove a job from the list by id
+	 *
+	 * @param int $id
+	 * @since 30.0.0
+	 */
+	public function removeById(int $id): void;
+
+	/**
 	 * check if a job is in the list
 	 *
 	 * @param IJob|class-string<IJob> $job
