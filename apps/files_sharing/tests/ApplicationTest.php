@@ -22,14 +22,13 @@
  */
 namespace OCA\Files_Sharing\Tests;
 
-use OCP\Files\Events\BeforeDirectFileDownloadEvent;
-use OCP\Files\Events\BeforeZipCreatedEvent;
-use Psr\Log\LoggerInterface;
-use OC\Share20\Manager;
 use OC\EventDispatcher\EventDispatcher;
+use OC\Share20\Manager;
 use OCA\Files_Sharing\AppInfo\Application;
 use OCA\Files_Sharing\SharedStorage;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\Events\BeforeDirectFileDownloadEvent;
+use OCP\Files\Events\BeforeZipCreatedEvent;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
@@ -39,6 +38,7 @@ use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Share\IAttributes;
 use OCP\Share\IShare;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcher as SymfonyDispatcher;
 use Test\TestCase;
 

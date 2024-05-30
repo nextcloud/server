@@ -65,6 +65,8 @@ OC.L10N.register(
     "Desktop client" : "桌面客户端",
     "Thunderbird & Outlook addons" : "Thunderbird & Outlook 插件",
     "Custom user agent" : "自定义用户代理",
+    "Select groups" : "选择用户组",
+    "Groups" : "用户组",
     "At least one event must be selected" : "必须至少选择一个事件",
     "Add new flow" : "添加新的流程",
     "When" : "时间",
@@ -106,10 +108,8 @@ OC.L10N.register(
     "between" : "之间",
     "not between" : "不在之间",
     "Request user agent" : "请求用户代理",
-    "User group membership" : "用户组成员资格",
     "is member of" : "是成员",
     "is not member of" : "不是成员",
-    "Predefined URLs" : "预定义 URL",
-    "Others" : "其它"
+    "User group membership" : "用户组成员资格"
 },
 "nplurals=1; plural=0;");

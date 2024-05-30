@@ -126,7 +126,7 @@ export default {
 		},
 		defaultMimeValue: {
 			type: String,
-			required: true,
+			default: '',
 		},
 		displayName: {
 			type: String,
@@ -182,9 +182,10 @@ export default {
 			const url = generateUrl('/apps/theming/ajax/uploadImage')
 			try {
 				this.showLoading = true
-				await axios.post(url, formData)
+				const { data } = await axios.post(url, formData)
 				this.showLoading = false
 				this.$emit('update:mime-value', file.type)
+				this.$emit('uploaded', data.data.url)
 				this.handleSuccess()
 			} catch (e) {
 				this.showLoading = false

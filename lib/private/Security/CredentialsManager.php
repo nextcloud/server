@@ -1,30 +1,10 @@
 <?php
 
 declare(strict_types=1);
-
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author J0WI <J0WI@users.noreply.github.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Security;
 
@@ -40,26 +20,16 @@ use OCP\Security\ICrypto;
 class CredentialsManager implements ICredentialsManager {
 	public const DB_TABLE = 'storages_credentials';
 
-	/** @var ICrypto */
-	protected $crypto;
-
-	/** @var IDBConnection */
-	protected $dbConnection;
-
-	/**
-	 * @param ICrypto $crypto
-	 * @param IDBConnection $dbConnection
-	 */
-	public function __construct(ICrypto $crypto, IDBConnection $dbConnection) {
-		$this->crypto = $crypto;
-		$this->dbConnection = $dbConnection;
+	public function __construct(
+		protected ICrypto $crypto,
+		protected IDBConnection $dbConnection,
+	) {
 	}
 
 	/**
 	 * Store a set of credentials
 	 *
 	 * @param string $userId empty string for system-wide credentials
-	 * @param string $identifier
 	 * @param mixed $credentials
 	 */
 	public function store(string $userId, string $identifier, $credentials): void {
@@ -77,10 +47,8 @@ class CredentialsManager implements ICredentialsManager {
 	 * Retrieve a set of credentials
 	 *
 	 * @param string $userId empty string for system-wide credentials
-	 * @param string $identifier
-	 * @return mixed
 	 */
-	public function retrieve(string $userId, string $identifier) {
+	public function retrieve(string $userId, string $identifier): mixed {
 		$qb = $this->dbConnection->getQueryBuilder();
 		$qb->select('credentials')
 			->from(self::DB_TABLE)
@@ -108,7 +76,6 @@ class CredentialsManager implements ICredentialsManager {
 	 * Delete a set of credentials
 	 *
 	 * @param string $userId empty string for system-wide credentials
-	 * @param string $identifier
 	 * @return int rows removed
 	 */
 	public function delete(string $userId, string $identifier): int {
@@ -128,7 +95,6 @@ class CredentialsManager implements ICredentialsManager {
 	/**
 	 * Erase all credentials stored for a user
 	 *
-	 * @param string $userId
 	 * @return int rows removed
 	 */
 	public function erase(string $userId): int {

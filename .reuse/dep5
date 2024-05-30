@@ -1,0 +1,180 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: nextcloud
+Upstream-Contact: Nextcloud <info@nextcloud.com>
+Source: https://github.com/nextcloud/server
+
+Files: lib/l10n/*.js lib/l10n/*.json core/l10n/*.js core/l10n/*.json apps/admin_audit/l10n/*.js apps/admin_audit/l10n/*.json apps/comments/l10n/*.js apps/comments/l10n/*.json apps/dav/l10n/*.js apps/dav/l10n/*.json apps/encryption/l10n/*.js apps/encryption/l10n/*.json apps/federatedfilesharing/l10n/*.js apps/federatedfilesharing/l10n/*.json apps/federation/l10n/*.js apps/federation/l10n/*.json apps/files/l10n/*.js apps/files/l10n/*.json apps/files_external/l10n/*.js apps/files_external/l10n/*.json apps/files_sharing/l10n/*.js apps/files_sharing/l10n/*.json apps/files_trashbin/l10n/*.js apps/files_trashbin/l10n/*.json apps/files_versions/l10n/*.js apps/files_versions/l10n/*.json apps/provisioning_api/l10n/*.js apps/provisioning_api/l10n/*.json apps/settings/l10n/*.js apps/settings/l10n/*.json apps/systemtags/l10n/*.js apps/systemtags/l10n/*.json apps/testing/l10n/*.js apps/testing/l10n/*.json apps/updatenotification/l10n/*.js apps/updatenotification/l10n/*.json apps/user_ldap/l10n/*.js apps/user_ldap/l10n/*.json lib/l10nm/*.js lib/l10nm/*.json
+Copyright: 2016 ownCloud, Inc., 2016-2024 Nextcloud translators
+License: AGPL-3.0-only OR AGPL-3.0-or-later
+
+Files: tests/data/block-aligned-plus-one.txt tests/data/block-aligned.txt tests/data/data.tar.gz tests/data/data.zip tests/data/desktopapp.png tests/data/desktopapp.svg tests/data/certificates/badCertificate.crt tests/data/certificates/expiredCertificate.crt tests/data/certificates/goodCertificate.crt tests/data/integritycheck/app/AnotherFile.txt tests/data/integritycheck/app/subfolder/file.txt tests/data/integritycheck/appWithInvalidData/AnotherFile.txt tests/data/integritycheck/appWithInvalidData/UnecessaryFile
+Copyright: 2015 ownCloud, Inc.
+License: AGPL-3.0-only
+
+Files: .tx/config
+Copyright: 2011-2012 ownCloud, Inc., 2017-2023 Nextcloud GmbH and Nextcloud contributors
+License: AGPL-3.0-only
+
+Files: .htaccess 
+Copyright: 2011-2016 ownCloud, Inc., 2016-2024 Nextcloud GmbH and Nextcloud contributors
+License: AGPL-3.0-only
+
+Files: core/templates/filetemplates/template.odp core/templates/filetemplates/template.ods core/templates/filetemplates/template.odt
+Copyright: 2013-2016 ownCloud, Inc.
+License: AGPL-3.0-only
+
+Files: .jshintrc
+Copyright: 2014 ownCloud, Inc., 2017 Nextcloud GmbH and Nextcloud contributors
+License: AGPL-3.0-only
+
+Files: .mailmap
+Copyright: 2015-2016 ownCloud, Inc., 2016-2021 Nextcloud GmbH and Nextcloud contributors
+License: AGPL-3.0-only
+
+Files: tests/data/integritycheck/htaccessUnmodified/.htaccess tests/data/integritycheck/htaccessUnmodified/subfolder/.htaccess tests/data/integritycheck/htaccessWithInvalidModifiedContent/.htaccess tests/data/integritycheck/htaccessWithValidModifiedContent/subfolder/.htaccess
+Copyright: 2016 ownCloud, Inc.
+License: AGPL-3.0-only
+
+Files: tests/data/l10n/cs.json tests/data/l10n/de.json tests/data/l10n/ru.json
+Copyright: 2015 ownCloud, Inc., 2021 Nextcloud GmbH and Nextcloud contributors
+License: AGPL-3.0-only
+
+Files: tests/data/lorem.txt apps/files/l10n/xgettextfiles
+Copyright: 2012 ownCloud, Inc.
+License: AGPL-3.0-only
+
+Files: robots.txt tests/data/testavatar.png tests/data/testimage.gif tests/data/testimage.jpg tests/data/testimage.png
+Copyright: 2013 ownCloud, Inc.
+License: AGPL-3.0-only
+
+Files: .tag tests/data/lorem-big.txt tests/data/strängé*filename*(duplicate*#2).txt tests/data/strõngÚ*filename*(duplicate*#2).txt
+Copyright: 2014 ownCloud, Inc.
+License: AGPL-3.0-only
+
+Files: tests/data/testimagelarge.svg
+Copyright: 2015 ownCloud, Inc., 2016 Nextcloud GmbH and Nextcloud contributors
+License: AGPL-3.0-only
+
+Files: tests/data/setUploadLimit/htaccess tests/data/setUploadLimit/user.ini
+Copyright: 2015 ownCloud, Inc., 2018 Nextcloud GmbH and Nextcloud contributors
+License: AGPL-3.0-only
+
+Files: tests/data/testimage-wide.png tests/data/testimage.eps tests/data/testimage.mp3 tests/data/testimage.mp4 tests/data/testimage.odt
+Copyright: 2015 ownCloud, Inc.
+License: AGPL-3.0-only
+
+Files: tests/data/testapp.zip tests/data/testapp2.zip tests/docker/mariadb/oc.cnf apps/dav/tests/travis/caldavtest/data/Resource/CalDAV/reports/put/1.txt apps/dav/tests/travis/caldavtest/data/Resource/CalDAV/reports/put/2.txt apps/dav/tests/travis/caldavtest/data/Resource/CalDAV/reports/put/3.txt apps/dav/tests/travis/caldavtest/data/Resource/CalDAV/reports/put/4.txt apps/dav/tests/travis/caldavtest/data/Resource/CalDAV/reports/put/5.txt apps/dav/tests/travis/caldavtest/data/Resource/CalDAV/reports/put/6.txt apps/dav/tests/travis/caldavtest/data/Resource/CalDAV/sharing/calendars/read-write/5.ics apps/dav/tests/travis/caldavtest/data/Resource/CalDAV/sharing/calendars/read-write/6.ics apps/dav/tests/travis/caldavtest/data/Resource/CalDAV/sharing/calendars/read-write/7.ics apps/dav/tests/travis/caldavtest/data/Resource/CalDAV/sharing/calendars/read-write/8.ics apps/dav/tests/travis/caldavtest/data/Resource/CalDAV/sharing/calendars/read-write/9.ics apps/dav/tests/travis/caldavtest/data/Resource/CardDAV/sharing/read-write/6.vcf apps/dav/tests/travis/caldavtest/data/Resource/CardDAV/sharing/read-write/7.vcf apps/dav/tests/travis/caldavtest/data/Resource/CardDAV/sharing/read-write/8.vcf apps/dav/tests/travis/caldavtest/data/Resource/CardDAV/sharing/read-write/9.vcf apps/dav/tests/travis/caldavtest/data/Resource/CardDAV/vreports/put/1.vcf apps/dav/tests/travis/caldavtest/data/Resource/CardDAV/vreports/put/2.vcf apps/dav/tests/travis/caldavtest/data/Resource/CardDAV/vreports/put/3.vcf
+Copyright: 2016 ownCloud, Inc.
+License: AGPL-3.0-only
+
+Files: tests/docker/mysqlmb4/mb4.cnf
+Copyright: 2016 ownCloud, Inc., 2017 Nextcloud GmbH and Nextcloud contributors
+License: AGPL-3.0-only
+
+Files: tests/data/integritycheck/htaccessWithValidModifiedContent/.htaccess
+Copyright: 2016 ownCloud, Inc., 2019 Nextcloud GmbH and Nextcloud contributors
+License: AGPL-3.0-only
+
+Files: core/img/favicon*.* core/img/logo/logo*.* tests/data/testimage.webp
+Copyright: 2016-2024 Nextcloud GmbH
+License: LicenseRef-NextcloudTrademarks
+
+Files: core/css/*.css core/css/*.css.map
+Copyright: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+License: AGPL-3.0-or-later
+
+Files: build/psalm-baseline-ocp.xml build/psalm-baseline.xml build/stubs/xsl.php build/stubs/gd.php build/stubs/imagick.php build/stubs/intl.php build/stubs/IntlChar.php build/stubs/ldap.php build/stubs/memcached.php build/stubs/redis.php build/stubs/redis_cluster.php build/stubs/sftp.php build/stubs/ssh2.php build/stubs/apcu.php
+Copyright: 2020 Nextcloud GmbH and Nextcloud contributors
+License: AGPL-3.0-or-later
+
+Files: cypress/tsconfig.json
+Copyright: 2022 Nextcloud GmbH and Nextcloud contributors
+License: AGPL-3.0-or-later
+
+Files: build/stubs/pcntl.php build/stubs/zip.php
+Copyright: 2022 JetBrains
+License: Apache-2.0
+
+Files: core/js/mimetypelist.js core/js/core.json themes/example/core/img
+Copyright: 2016 ownCloud, Inc., 2016-2024 Nextcloud GmbH and Nextcloud contributors
+License: AGPL-3.0-only
+
+Files: tests/data/testapp.0.8.tar.gz tests/data/testapp.tar.gz tests/data/testapp1.tar.gz
+Copyright: 2016 Nextcloud GmbH and Nextcloud contributors
+License: AGPL-3.0-or-later
+
+Files: core/js/merged-template-prepend.json tests/data/certificates/goodCertificate.crt tests/data/emails/new-account-email-custom-text-alternative.txt tests/data/emails/new-account-email-custom.html tests/data/emails/new-account-email-custom.txt tests/data/emails/new-account-email-single-button.html tests/data/emails/new-account-email-single-button.txt tests/data/emails/new-account-email.html tests/data/emails/new-account-email.txt
+Copyright: 2017 Nextcloud GmbH and Nextcloud contributors
+License: AGPL-3.0-or-later
+
+Files: core/src/systemtags/templates/result.handlebars core/src/systemtags/templates/result_form.handlebars core/src/systemtags/templates/selection.handlebars apps/files/js/templates.js apps/files/js/templates/detailsview.handlebars apps/files/js/templates/favorite_mark.handlebars apps/files/js/templates/file_action_trigger.handlebars apps/files/js/templates/fileactionsmenu.handlebars apps/files/js/templates/filemultiselectmenu.handlebars apps/files/js/templates/filesummary.handlebars apps/files/js/templates/mainfileinfodetailsview.handlebars apps/files/js/templates/newfilemenu.handlebars apps/files/js/templates/newfilemenu_filename_form.handlebars apps/files/js/templates/operationprogressbar.handlebars apps/files/js/templates/operationprogressbarlabel.handlebars apps/files/js/templates/template_addbutton.handlebars tests/data/testimage.heic package.json package-lock.json
+Copyright: 2018 Nextcloud GmbH and Nextcloud contributors
+License: AGPL-3.0-or-later
+
+Files: core/src/jquery/contactsmenu/jquery_entry.handlebars tests/data/integritycheck/mimetypeListModified/core/js/mimetypelist.js tests/data/integritycheck/mimetypeListModified/core/signature.json tests/data/guest_avatar_einstein_32.png tests/data/guest_avatar_einstein_32.svg tests/data/test.pdf
+Copyright: 2019 Nextcloud GmbH and Nextcloud contributors
+License: AGPL-3.0-or-later
+
+Files: .npmignore tests/data/testimage-badheader.jpg
+Copyright: 2021 Nextcloud GmbH and Nextcloud contributors
+License: AGPL-3.0-or-later
+
+Files: build/stubs/ftp.php tests/data/integritycheck/mimetypeListModified/coresignature.json
+Copyright: 2022 Nextcloud GmbH and Nextcloud contributors
+License: AGPL-3.0-or-later
+
+Files: build/stubs/app_api.php build/stubs/SensitiveParameter.phpstub build/stubs/psr_container.php tests/data/testimage-large.jpg apps/dav/tests/integration/UserMigration/assets/address_books/contact-complex.vcf apps/dav/tests/integration/UserMigration/assets/address_books/contact-multiple-complex.vcf apps/dav/tests/integration/UserMigration/assets/address_books/contact-multiple.vcf apps/dav/tests/integration/UserMigration/assets/address_books/contact.vcf apps/dav/tests/integration/UserMigration/assets/calendars/event-alarms.ics apps/dav/tests/integration/UserMigration/assets/calendars/event-attendees.ics apps/dav/tests/integration/UserMigration/assets/calendars/event-categories.ics apps/dav/tests/integration/UserMigration/assets/calendars/event-complex-alarm-recurring.ics apps/dav/tests/integration/UserMigration/assets/calendars/event-complex-recurrence.ics apps/dav/tests/integration/UserMigration/assets/calendars/event-custom-color.ics apps/dav/tests/integration/UserMigration/assets/calendars/event-multiple-recurring.ics apps/dav/tests/integration/UserMigration/assets/calendars/event-multiple.ics apps/dav/tests/integration/UserMigration/assets/calendars/event-recurring.ics apps/dav/tests/integration/UserMigration/assets/calendars/event-timed.ics apps/dav/tests/integration/UserMigration/assets/calendars/journal-todo-event.ics apps/dav/tests/integration/UserMigration/assets/calendars/journal.ics apps/dav/tests/integration/UserMigration/assets/calendars/todo.ics
+Copyright: 2023 Nextcloud GmbH and Nextcloud contributors
+License: AGPL-3.0-or-later
+
+Files: apps/cloud_federation_api/l10n/*.js apps/cloud_federation_api/l10n/*.json apps/contactsinteraction/l10n/*.js apps/contactsinteraction/l10n/*.json apps/dashboard/l10n/*.js apps/dashboard/l10n/*.json apps/files_reminders/l10n/*.js apps/files_reminders/l10n/*.json apps/lookup_server_connector/l10n/*.js apps/lookup_server_connector/l10n/*.json apps/oauth2 apps/sharebymail/l10n/*.js apps/oauth2 apps/sharebymail/l10n/*.json apps/theming/l10n/*.js apps/theming/l10n/*.json apps/twofactor_backupcodes/l10n/*.js apps/twofactor_backupcodes/l10n/*.json apps/user_status/l10n/*.js apps/user_status/l10n/*.json apps/weather_status/l10n/*.js apps/weather_status/l10n/*.json apps/workflowengine/l10n/*.js apps/workflowengine/l10n/*.json
+Copyright: 2016-2024 Nextcloud translators
+License: AGPL-3.0-or-later
+
+Files: .gitattributes composer.json composer.lock .github/CODEOWNERS __tests__/tsconfig.json tsconfig.json build/integration/composer.* build/integration/data/*.png vendor-bin/*/composer.json vendor-bin/*/composer.lock apps/*/composer/composer.json apps/*/composer/composer.lock apps/*/composer/composer/installed.json
+Copyright: 2011-2016 ownCloud, Inc., 2016-2024 Nextcloud GmbH and Nextcloud contributors
+License: AGPL-3.0-only OR AGPL-3.0-or-later
+
+Files: vendor-bin/*/composer.json vendor-bin/*/composer.lock
+Copyright: 2021 Nextcloud GmbH and Nextcloud contributors
+License: AGPL-3.0-or-later
+
+Files: lib/composer/* apps/*/composer/autoload.php apps/*/composer/composer/*.php
+Copyright: Nils Adermann, Jordi Boggiano
+License: MIT
+
+Files: core/vendor/zxcvbn/dist/zxcvbn.js
+Copyright: 2012-2016 Dan Wheeler and Dropbox, Inc.
+License: MIT
+
+Files: core/img/twitter.svg apps/federatedfilesharing/img/social-twitter.svg
+Copyright: X Corp. 
+License: LicenseRef-XTrademarks
+
+Files: core/img/facebook.svg apps/federatedfilesharing/img/social-facebook.svg
+Copyright: 2024 Meta
+License: LicenseRef-FacebookTrademarks
+
+Files: apps/federatedfilesharing/img/social-diaspora.svg
+Copyright: 2024 Diaspora
+License: LicenseRef-DiasporaTrademarks
+
+Files: core/img/mastodon.svg
+Copyright: 2024 Mastodon gGmbH
+License: LicenseRef-MastodonTrademarks
+
+Files: core/img/googleplay.png
+Copyright: 2024 Google LLC.
+License: LicenseRef-GooglePlayBadge
+
+Files: core/img/appstore.svg
+Copyright: 2024 Apple Inc.
+License: LicenseRef-AppleAppStoreBadge
+
+Files: core/img/fdroid.svg
+Copyright: 2016 Andrew Nayenko <relan@airpost.net>
+License: CC-BY-SA-3.0 OR GPL-3.0-or-later
+
+Files: cypress/fixtures/image.jpg
+Copyright: 2019 Tom Gainor <https://unsplash.com/@its_tgain> <https://unsplash.com/photos/mountain-cliff-under-starry-night-KidY3t8O4PE>
+License: LicenseRef-Unsplash

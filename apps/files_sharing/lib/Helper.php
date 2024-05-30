@@ -68,7 +68,7 @@ class Helper {
 	 * @param string|null $userId
 	 * @return string
 	 */
-	public static function getShareFolder(View $view = null, string $userId = null): string {
+	public static function getShareFolder(?View $view = null, ?string $userId = null): string {
 		if ($view === null) {
 			$view = Filesystem::getView();
 		}

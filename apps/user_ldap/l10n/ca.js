@@ -61,6 +61,8 @@ OC.L10N.register(
     "Your password will expire today." : "La contrasenya caducarà avui.",
     "_Your password will expire within %n day._::_Your password will expire within %n days._" : ["La vostra contrasenya expirarà en %n dies.","La vostra contrasenya caducarà d'aquí %n dies."],
     "LDAP/AD integration" : "Integració LDAP/AD",
+    "Invalid LDAP UUIDs" : "UUID no vàlid",
+    "None found" : "No s'ha trobat cap",
     "_%n group found_::_%n groups found_" : ["S'ha trobat %n grup","S’han trobat %n grups"],
     "> 1000 groups found" : "> 1000 grups trobats",
     "> 1000 users found" : "> 1000 usuaris trobats",
@@ -214,6 +216,7 @@ OC.L10N.register(
     "Username-LDAP User Mapping" : "Mapatge d'usuari Nom d'usuari-LDAP",
     "Usernames are used to store and assign metadata. In order to precisely identify and recognize users, each LDAP user will have an internal username. This requires a mapping from username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found. The internal username is used all over. Clearing the mappings will have leftovers everywhere. Clearing the mappings is not configuration sensitive, it affects all LDAP configurations! Never clear the mappings in a production environment, only in a testing or experimental stage." : "Els noms d'usuari son emprats per emmagatzemar i assignar metadades. Per tal d'identificar i reconèixer amb precisió als usuaris, cada usuari LDAP té un nom d'usuari intern. Això requereix una assignació de noms d'usuari interns per a cada un dels usuaris LDAP. Al nom d'usuari creat s'assigna el UUID de l'usuari LDAP. A més el DN es guarda en memòria cau per a reduir la interacció amb LDAP, però no s'utilitza per a identificació. Si el DN canvia, es trobaran els canvis. El nom d'usuari intern s'utilitza arreu. Netejar el mapa d'assignacions deixaria restes per totes bandes. Netejar el mapa d'assignacions no és que sigui sensible a la configuració, sinó que afecta a totes les configuracions LDAP! Mai netegeu el mapa d'assignacions en un entorn de producció, només en escenaris de proves o experimentals.",
     "Clear Username-LDAP User Mapping" : "Elimina el mapatge d'usuari Nom d'usuari-LDAP",
-    "Clear Groupname-LDAP Group Mapping" : "Suprimeix el mapatge de grup Nom de grup-LDAP"
+    "Clear Groupname-LDAP Group Mapping" : "Suprimeix el mapatge de grup Nom de grup-LDAP",
+    "Invalid UUIDs of LDAP users or groups have been found. Please review your \"Override UUID detection\" settings in the Expert part of the LDAP configuration and use \"occ ldap:update-uuid\" to update them." : "S'han trobat UUID no vàlids d'usuaris o grups LDAP. Reviseu els paràmetres de l'\"Anul·lació de detecció d'UUID\" a la part Experta de la configuració LDAP i utilitzeu \"occ ldap:update-uuid\" per actualitzar-los."
 },
 "nplurals=2; plural=(n != 1);");

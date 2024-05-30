@@ -1,50 +1,22 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Ari Selseng <ari@selseng.net>
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Jagszent <daniel@jagszent.de>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Martin Mattel <martin.mattel@diemattels.at>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Owen Winkler <a_github@midnightcircus.com>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Files\Cache;
 
 use Doctrine\DBAL\Exception;
 use OC\Files\Storage\Wrapper\Encryption;
+use OC\Files\Storage\Wrapper\Jail;
+use OC\Hooks\BasicEmitter;
 use OCP\Files\Cache\IScanner;
 use OCP\Files\ForbiddenException;
 use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IReliableEtagStorage;
 use OCP\IDBConnection;
 use OCP\Lock\ILockingProvider;
-use OC\Files\Storage\Wrapper\Jail;
-use OC\Hooks\BasicEmitter;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -96,7 +68,7 @@ class Scanner extends BasicEmitter implements IScanner {
 		$this->storageId = $this->storage->getId();
 		$this->cache = $storage->getCache();
 		$this->cacheActive = !\OC::$server->getConfig()->getSystemValueBool('filesystem_cache_readonly', false);
-		$this->lockingProvider = \OC::$server->getLockingProvider();
+		$this->lockingProvider = \OC::$server->get(ILockingProvider::class);
 		$this->connection = \OC::$server->get(IDBConnection::class);
 	}
 
@@ -203,7 +175,9 @@ class Scanner extends BasicEmitter implements IScanner {
 						$fileId = $cacheData['fileid'];
 						$data['fileid'] = $fileId;
 						// only reuse data if the file hasn't explicitly changed
-						if (isset($data['storage_mtime']) && isset($cacheData['storage_mtime']) && $data['storage_mtime'] === $cacheData['storage_mtime']) {
+						$mtimeUnchanged = isset($data['storage_mtime']) && isset($cacheData['storage_mtime']) && $data['storage_mtime'] === $cacheData['storage_mtime'];
+						// if the folder is marked as unscanned, never reuse etags
+						if ($mtimeUnchanged && $cacheData['size'] !== -1) {
 							$data['mtime'] = $cacheData['mtime'];
 							if (($reuseExisting & self::REUSE_SIZE) && ($data['size'] === -1)) {
 								$data['size'] = $cacheData['size'];
@@ -219,7 +193,13 @@ class Scanner extends BasicEmitter implements IScanner {
 						}
 
 						// Only update metadata that has changed
-						$newData = array_diff_assoc($data, $cacheData->getData());
+						// i.e. get all the values in $data that are not present in the cache already
+						$newData = $this->array_diff_assoc_multi($data, $cacheData->getData());
+						
+						// make it known to the caller that etag has been changed and needs propagation
+						if (isset($newData['etag'])) {
+							$data['etag_changed'] = true;
+						}
 					} else {
 						// we only updated unencrypted_size if it's already set
 						unset($data['unencrypted_size']);
@@ -363,6 +343,50 @@ class Scanner extends BasicEmitter implements IScanner {
 	}
 
 	/**
+	 * Compares $array1 against $array2 and returns all the values in $array1 that are not in $array2
+	 * Note this is a one-way check - i.e. we don't care about things that are in $array2 that aren't in $array1
+	 *
+	 * Supports multi-dimensional arrays
+	 * Also checks keys/indexes
+	 * Comparisons are strict just like array_diff_assoc
+	 * Order of keys/values does not matter
+	 *
+	 * @param array $array1
+	 * @param array $array2
+	 * @return array with the differences between $array1 and $array1
+	 * @throws \InvalidArgumentException if $array1 isn't an actual array
+	 *
+	 */
+	protected function array_diff_assoc_multi(array $array1, array $array2) {
+		
+		$result = [];
+
+		foreach ($array1 as $key => $value) {
+		
+			// if $array2 doesn't have the same key, that's a result
+			if (!array_key_exists($key, $array2)) {
+				$result[$key] = $value;
+				continue;
+			}
+		
+			// if $array2's value for the same key is different, that's a result
+			if ($array2[$key] !== $value && !is_array($value)) {
+				$result[$key] = $value;
+				continue;
+			}
+		
+			if (is_array($value)) {
+				$nestedDiff = $this->array_diff_assoc_multi($value, $array2[$key]);
+				if (!empty($nestedDiff)) {
+					$result[$key] = $nestedDiff;
+					continue;
+				}
+			}
+		}
+		return $result;
+	}
+
+	/**
 	 * Get the children currently in the cache
 	 *
 	 * @param int $folderId
@@ -385,19 +409,23 @@ class Scanner extends BasicEmitter implements IScanner {
 	 * @param int $reuse a combination of self::REUSE_*
 	 * @param int $folderId id for the folder to be scanned
 	 * @param bool $lock set to false to disable getting an additional read lock during scanning
-	 * @param int $oldSize the size of the folder before (re)scanning the children
+	 * @param int|float $oldSize the size of the folder before (re)scanning the children
 	 * @return int|float the size of the scanned folder or -1 if the size is unknown at this stage
 	 */
-	protected function scanChildren(string $path, $recursive, int $reuse, int $folderId, bool $lock, int $oldSize) {
+	protected function scanChildren(string $path, $recursive, int $reuse, int $folderId, bool $lock, int|float $oldSize, &$etagChanged = false) {
 		if ($reuse === -1) {
 			$reuse = ($recursive === self::SCAN_SHALLOW) ? self::REUSE_ETAG | self::REUSE_SIZE : self::REUSE_ETAG;
 		}
 		$this->emit('\OC\Files\Cache\Scanner', 'scanFolder', [$path, $this->storageId]);
 		$size = 0;
-		$childQueue = $this->handleChildren($path, $recursive, $reuse, $folderId, $lock, $size);
+		$childQueue = $this->handleChildren($path, $recursive, $reuse, $folderId, $lock, $size, $etagChanged);
 
 		foreach ($childQueue as $child => [$childId, $childSize]) {
-			$childSize = $this->scanChildren($child, $recursive, $reuse, $childId, $lock, $childSize);
+			// "etag changed" propagates up, but not down, so we pass `false` to the children even if we already know that the etag of the current folder changed
+			$childEtagChanged = false;
+			$childSize = $this->scanChildren($child, $recursive, $reuse, $childId, $lock, $childSize, $childEtagChanged);
+			$etagChanged |= $childEtagChanged;
+
 			if ($childSize === -1) {
 				$size = -1;
 			} elseif ($size !== -1) {
@@ -410,15 +438,27 @@ class Scanner extends BasicEmitter implements IScanner {
 		if ($this->storage->instanceOfStorage(Encryption::class)) {
 			$this->cache->calculateFolderSize($path);
 		} else {
-			if ($this->cacheActive && $oldSize !== $size) {
-				$this->cache->update($folderId, ['size' => $size]);
+			if ($this->cacheActive) {
+				$updatedData = [];
+				if ($oldSize !== $size) {
+					$updatedData['size'] = $size;
+				}
+				if ($etagChanged) {
+					$updatedData['etag'] = uniqid();
+				}
+				if ($updatedData) {
+					$this->cache->update($folderId, $updatedData);
+				}
 			}
 		}
 		$this->emit('\OC\Files\Cache\Scanner', 'postScanFolder', [$path, $this->storageId]);
 		return $size;
 	}
 
-	private function handleChildren($path, $recursive, $reuse, $folderId, $lock, &$size) {
+	/**
+	 * @param bool|IScanner::SCAN_RECURSIVE_INCOMPLETE $recursive
+	 */
+	private function handleChildren(string $path, $recursive, int $reuse, int $folderId, bool $lock, int|float &$size, bool &$etagChanged): array {
 		// we put this in it's own function so it cleans up the memory before we start recursing
 		$existingChildren = $this->getExistingChildren($folderId);
 		$newChildren = iterator_to_array($this->storage->getDirectoryContent($path));
@@ -436,7 +476,7 @@ class Scanner extends BasicEmitter implements IScanner {
 		$childQueue = [];
 		$newChildNames = [];
 		foreach ($newChildren as $fileMeta) {
-			$permissions = isset($fileMeta['scan_permissions']) ? $fileMeta['scan_permissions'] : $fileMeta['permissions'];
+			$permissions = $fileMeta['scan_permissions'] ?? $fileMeta['permissions'];
 			if ($permissions === 0) {
 				continue;
 			}
@@ -453,7 +493,7 @@ class Scanner extends BasicEmitter implements IScanner {
 			$newChildNames[] = $file;
 			$child = $path ? $path . '/' . $file : $file;
 			try {
-				$existingData = isset($existingChildren[$file]) ? $existingChildren[$file] : false;
+				$existingData = $existingChildren[$file] ?? false;
 				$data = $this->scanFile($child, $reuse, $folderId, $existingData, $lock, $fileMeta);
 				if ($data) {
 					if ($data['mimetype'] === 'httpd/unix-directory' && $recursive === self::SCAN_RECURSIVE) {
@@ -465,6 +505,10 @@ class Scanner extends BasicEmitter implements IScanner {
 						$size = -1;
 					} elseif ($size !== -1) {
 						$size += $data['size'];
+					}
+
+					if (isset($data['etag_changed']) && $data['etag_changed']) {
+						$etagChanged = true;
 					}
 				}
 			} catch (Exception $ex) {

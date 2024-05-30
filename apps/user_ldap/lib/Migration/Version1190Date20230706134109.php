@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2023 Your name <your@email.com>
+ * @copyright Copyright (c) 2023 Côme Chilliet <come.chilliet@nextcloud.com>
  *
- * @author Your name <your@email.com>
+ * @author Côme Chilliet <come.chilliet@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *

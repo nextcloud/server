@@ -26,12 +26,12 @@ use OCA\Theming\AppInfo\Application;
 use OCA\Theming\Controller\UserThemeController;
 use OCA\Theming\ITheme;
 use OCA\Theming\Service\BackgroundService;
+use OCA\Theming\Service\ThemesService;
 use OCA\Theming\Themes\DarkHighContrastTheme;
 use OCA\Theming\Themes\DarkTheme;
 use OCA\Theming\Themes\DefaultTheme;
 use OCA\Theming\Themes\DyslexiaFont;
 use OCA\Theming\Themes\HighContrastTheme;
-use OCA\Theming\Service\ThemesService;
 use OCA\Theming\Themes\LightTheme;
 use OCA\Theming\ThemingDefaults;
 use OCP\AppFramework\Http\DataResponse;
@@ -121,7 +121,7 @@ class UserThemeControllerTest extends TestCase {
 	 * @param string $themeId
 	 * @param string $exception
 	 */
-	public function testEnableTheme($themeId, string $exception = null) {
+	public function testEnableTheme($themeId, ?string $exception = null) {
 		$this->themesService
 			->expects($this->any())
 			->method('getThemes')
@@ -141,7 +141,7 @@ class UserThemeControllerTest extends TestCase {
 	 * @param string $themeId
 	 * @param string $exception
 	 */
-	public function testDisableTheme($themeId, string $exception = null) {
+	public function testDisableTheme($themeId, ?string $exception = null) {
 		$this->themesService
 			->expects($this->any())
 			->method('getThemes')

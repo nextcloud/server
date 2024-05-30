@@ -42,28 +42,32 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\DB\Exception;
 use OCP\IConfig;
 use OCP\IEmojiHelper;
+use OCP\IUserManager;
 use OCP\UserStatus\IUserStatus;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class StatusServiceTest extends TestCase {
 
-	/** @var UserStatusMapper|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var UserStatusMapper|MockObject */
 	private $mapper;
 
-	/** @var ITimeFactory|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var ITimeFactory|MockObject */
 	private $timeFactory;
 
-	/** @var PredefinedStatusService|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var PredefinedStatusService|MockObject */
 	private $predefinedStatusService;
 
-	/** @var IEmojiHelper|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IEmojiHelper|MockObject */
 	private $emojiHelper;
 
-	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IConfig|MockObject */
 	private $config;
 
-	/** @var StatusService */
-	private $service;
+	/** @var IUserManager|MockObject  */
+	private $userManager;
+
+	private StatusService $service;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -72,7 +76,7 @@ class StatusServiceTest extends TestCase {
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
 		$this->predefinedStatusService = $this->createMock(PredefinedStatusService::class);
 		$this->emojiHelper = $this->createMock(IEmojiHelper::class);
-
+		$this->userManager = $this->createMock(IUserManager::class);
 		$this->config = $this->createMock(IConfig::class);
 
 		$this->config->method('getAppValue')
@@ -85,7 +89,9 @@ class StatusServiceTest extends TestCase {
 			$this->timeFactory,
 			$this->predefinedStatusService,
 			$this->emojiHelper,
-			$this->config);
+			$this->config,
+			$this->userManager
+		);
 	}
 
 	public function testFindAll(): void {
@@ -139,7 +145,9 @@ class StatusServiceTest extends TestCase {
 			$this->timeFactory,
 			$this->predefinedStatusService,
 			$this->emojiHelper,
-			$this->config);
+			$this->config,
+			$this->userManager
+		);
 
 		$this->assertEquals([], $this->service->findAllRecentStatusChanges(20, 50));
 
@@ -156,19 +164,11 @@ class StatusServiceTest extends TestCase {
 			$this->timeFactory,
 			$this->predefinedStatusService,
 			$this->emojiHelper,
-			$this->config);
+			$this->config,
+			$this->userManager
+		);
 
 		$this->assertEquals([], $this->service->findAllRecentStatusChanges(20, 50));
-	}
-
-	public function testFindByUserId(): void {
-		$status = $this->createMock(UserStatus::class);
-		$this->mapper->expects($this->once())
-			->method('findByUserId')
-			->with('john.doe')
-			->willReturn($status);
-
-		$this->assertEquals($status, $this->service->findByUserId('john.doe'));
 	}
 
 	public function testFindByUserIdDoesNotExist(): void {
@@ -260,15 +260,15 @@ class StatusServiceTest extends TestCase {
 	 * @dataProvider setStatusDataProvider
 	 */
 	public function testSetStatus(string $userId,
-								  string $status,
-								  ?int $statusTimestamp,
-								  bool $isUserDefined,
-								  bool $expectExisting,
-								  bool $expectSuccess,
-								  bool $expectTimeFactory,
-								  bool $expectException,
-								  ?string $expectedExceptionClass,
-								  ?string $expectedExceptionMessage): void {
+		string $status,
+		?int $statusTimestamp,
+		bool $isUserDefined,
+		bool $expectExisting,
+		bool $expectSuccess,
+		bool $expectTimeFactory,
+		bool $expectException,
+		?string $expectedExceptionClass,
+		?string $expectedExceptionMessage): void {
 		$userStatus = new UserStatus();
 
 		if ($expectExisting) {
@@ -391,14 +391,14 @@ class StatusServiceTest extends TestCase {
 	 * @dataProvider setPredefinedMessageDataProvider
 	 */
 	public function testSetPredefinedMessage(string $userId,
-											 string $messageId,
-											 bool $isValidMessageId,
-											 ?int $clearAt,
-											 bool $expectExisting,
-											 bool $expectSuccess,
-											 bool $expectException,
-											 ?string $expectedExceptionClass,
-											 ?string $expectedExceptionMessage): void {
+		string $messageId,
+		bool $isValidMessageId,
+		?int $clearAt,
+		bool $expectExisting,
+		bool $expectSuccess,
+		bool $expectException,
+		?string $expectedExceptionClass,
+		?string $expectedExceptionMessage): void {
 		$userStatus = new UserStatus();
 
 		if ($expectExisting) {
@@ -489,15 +489,15 @@ class StatusServiceTest extends TestCase {
 	 * @dataProvider setCustomMessageDataProvider
 	 */
 	public function testSetCustomMessage(string $userId,
-										 ?string $statusIcon,
-										 bool $supportsEmoji,
-										 string $message,
-										 ?int $clearAt,
-										 bool $expectExisting,
-										 bool $expectSuccess,
-										 bool $expectException,
-										 ?string $expectedExceptionClass,
-										 ?string $expectedExceptionMessage): void {
+		?string $statusIcon,
+		bool $supportsEmoji,
+		string $message,
+		?int $clearAt,
+		bool $expectExisting,
+		bool $expectSuccess,
+		bool $expectException,
+		?string $expectedExceptionClass,
+		?string $expectedExceptionMessage): void {
 		$userStatus = new UserStatus();
 
 		if ($expectExisting) {

@@ -167,6 +167,10 @@ OCA = OCA || {};
 					$element: $('#ldap_attr_biography'),
 					setMethod: 'setBiographyAttribute'
 				},
+				ldap_attr_birthdate: {
+					$element: $('#ldap_attr_birthdate'),
+					setMethod: 'setBirthdateAttribute'
+				},
 			};
 			this.setManagedItems(items);
 		},
@@ -496,6 +500,15 @@ OCA = OCA || {};
 		 */
 		setBiographyAttribute: function(attribute) {
 			this.setElementValue(this.managedItems.ldap_attr_biography.$element, attribute);
+		},
+
+		/**
+		 * sets the attribute for the Nextcloud user profile birthday
+		 *
+		 * @param {string} attribute
+		 */
+		setBirthdateAttribute: function(attribute) {
+			this.setElementValue(this.managedItems.ldap_attr_birthdate.$element, attribute);
 		},
 
 		/**

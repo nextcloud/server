@@ -1,23 +1,6 @@
 /**
- * @copyright Copyright (c) 2023 John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import { basename } from 'path'
 import { expect } from '@jest/globals'
@@ -75,16 +58,16 @@ describe('Favorites view definition', () => {
 		expect(favoritesView?.name).toBe('Favorites')
 		expect(favoritesView?.caption).toBeDefined()
 		expect(favoritesView?.icon).toBe('<svg>SvgMock</svg>')
-		expect(favoritesView?.order).toBe(5)
+		expect(favoritesView?.order).toBe(15)
 		expect(favoritesView?.columns).toStrictEqual([])
 		expect(favoritesView?.getContents).toBeDefined()
 	})
 
 	test('Default with favorites', () => {
 		const favoriteFolders = [
-			'/foo',
-			'/bar',
-			'/foo/bar',
+			{ fileid: 1, path: '/foo' },
+			{ fileid: 2, path: '/bar' },
+			{ fileid: 3, path: '/foo/bar' },
 		]
 		jest.spyOn(initialState, 'loadState').mockReturnValue(favoriteFolders)
 		jest.spyOn(favoritesService, 'getContents').mockReturnValue(Promise.resolve({ folder: {} as Folder, contents: [] }))
@@ -102,11 +85,12 @@ describe('Favorites view definition', () => {
 			const favoriteView = favoriteFoldersViews[index]
 			expect(favoriteView).toBeDefined()
 			expect(favoriteView?.id).toBeDefined()
-			expect(favoriteView?.name).toBe(basename(folder))
+			expect(favoriteView?.name).toBe(basename(folder.path))
 			expect(favoriteView?.icon).toBe('<svg>SvgMock</svg>')
 			expect(favoriteView?.order).toBe(index)
 			expect(favoriteView?.params).toStrictEqual({
-				dir: folder,
+				dir: folder.path,
+				fileid: folder.fileid.toString(),
 				view: 'favorites',
 			})
 			expect(favoriteView?.parent).toBe('favorites')
@@ -157,7 +141,7 @@ describe('Dynamic update of favourite folders', () => {
 	test('Remove a favorite folder remove the entry from the navigation column', async () => {
 		jest.spyOn(eventBus, 'emit')
 		jest.spyOn(eventBus, 'subscribe')
-		jest.spyOn(initialState, 'loadState').mockReturnValue(['/Foo/Bar'])
+		jest.spyOn(initialState, 'loadState').mockReturnValue([{ fileid: 42, path: '/Foo/Bar' }])
 		jest.spyOn(favoritesService, 'getContents').mockReturnValue(Promise.resolve({ folder: {} as Folder, contents: [] }))
 
 		registerFavoritesView()

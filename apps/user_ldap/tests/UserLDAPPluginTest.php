@@ -91,7 +91,7 @@ class UserLDAPPluginTest extends \Test\TestCase {
 		$this->expectExceptionMessage('No plugin implements createUser in this LDAP Backend.');
 
 		$pluginManager = $this->getUserPluginManager();
-		$pluginManager->createUser('foo','bar');
+		$pluginManager->createUser('foo', 'bar');
 	}
 
 	public function testSetPassword() {
@@ -122,7 +122,7 @@ class UserLDAPPluginTest extends \Test\TestCase {
 		$this->expectExceptionMessage('No plugin implements setPassword in this LDAP Backend.');
 
 		$pluginManager = $this->getUserPluginManager();
-		$pluginManager->setPassword('foo','bar');
+		$pluginManager->setPassword('foo', 'bar');
 	}
 
 	public function testGetHome() {

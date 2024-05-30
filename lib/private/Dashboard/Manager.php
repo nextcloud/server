@@ -3,26 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2020 Julius Härtl <jus@bitgrid.net>
- *
- * @author Joas Schilling <coding@schilljs.com>
- * @author Julius Härtl <jus@bitgrid.net>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OC\Dashboard;
 
@@ -33,15 +15,15 @@ use OCP\Dashboard\IManager;
 use OCP\Dashboard\IWidget;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
-use Throwable;
 use Psr\Log\LoggerInterface;
+use Throwable;
 
 class Manager implements IManager {
 	/** @var array */
 	private $lazyWidgets = [];
 
-	/** @var IWidget[] */
-	private $widgets = [];
+	/** @var array<string, IWidget> */
+	private array $widgets = [];
 
 	private ContainerInterface $serverContainer;
 	private ?IAppManager $appManager = null;
@@ -115,7 +97,7 @@ class Manager implements IManager {
 				$endTime = microtime(true);
 				$duration = $endTime - $startTime;
 				if ($duration > 1) {
-					\OC::$server->get(LoggerInterface::class)->error(
+					\OC::$server->get(LoggerInterface::class)->info(
 						'Dashboard widget {widget} took {duration} seconds to load.',
 						[
 							'widget' => $widget->getId(),
@@ -134,6 +116,9 @@ class Manager implements IManager {
 		$this->lazyWidgets = [];
 	}
 
+	/**
+	 * @return array<string, IWidget>
+	 */
 	public function getWidgets(): array {
 		$this->loadLazyPanels();
 		return $this->widgets;

@@ -7,10 +7,10 @@ OC.L10N.register(
     "Commuting" : "Trajet",
     "Out sick" : "En congé de maladie",
     "Vacationing" : "En vacances",
+    "Out of office" : "Absent du bureau",
     "Working remotely" : "Travail à distance",
     "In a call" : "En communication",
     "User status" : "Statut utilisateur",
-    "View profile" : "Voir le profil",
     "Clear status after" : "Effacer l'état après",
     "Emoji for your status message" : "Emoji pour votre message de statut",
     "What is your status?" : "Quel est votre statut ?",
@@ -43,6 +43,6 @@ OC.L10N.register(
     "4 hours" : "4 heures",
     "Mute all notifications" : "Désactiver les notifications",
     "Appear offline" : "Apparaitre hors-ligne",
-    "{status}, {timestamp}" : "{status}, {timestamp}"
+    "View profile" : "Voir le profil"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

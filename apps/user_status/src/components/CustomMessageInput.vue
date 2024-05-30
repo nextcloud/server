@@ -22,23 +22,21 @@
 	<div class="custom-input" role="group">
 		<NcEmojiPicker container=".custom-input" @select="setIcon">
 			<NcButton type="tertiary"
-				class="custom-input__emoji-button"
 				:aria-label="t('user_status', 'Emoji for your status message')">
-				{{ visibleIcon }}
+				<template #icon>
+					{{ visibleIcon }}
+				</template>
 			</NcButton>
 		</NcEmojiPicker>
 		<div class="custom-input__container">
-			<label class="hidden-visually" for="user_status_message">
-				{{ t('user_status', 'What is your status?') }}
-			</label>
-			<input id="user_status_message"
-				ref="input"
+			<NcTextField ref="input"
 				maxlength="80"
 				:disabled="disabled"
-				:placeholder="$t('user_status', 'What is your status?')"
-				type="text"
+				:placeholder="t('user_status', 'What is your status?')"
 				:value="message"
-				@input="onChange">
+				type="text"
+				:label="t('user_status', 'What is your status?')"
+				@input="onChange" />
 		</div>
 	</div>
 </template>
@@ -46,11 +44,13 @@
 <script>
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import NcEmojiPicker from '@nextcloud/vue/dist/Components/NcEmojiPicker.js'
+import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
 
 export default {
 	name: 'CustomMessageInput',
 
 	components: {
+		NcTextField,
 		NcButton,
 		NcEmojiPicker,
 	},
@@ -73,8 +73,7 @@ export default {
 
 	emits: [
 		'change',
-		'submit',
-		'icon-selected',
+		'select-icon',
 	],
 
 	computed: {
@@ -112,28 +111,12 @@ export default {
 <style lang="scss" scoped>
 .custom-input {
 	display: flex;
+	align-items: flex-end;
+	gap: var(--default-grid-baseline);
 	width: 100%;
-
-	&__emoji-button {
-		min-height: 36px;
-		padding: 0;
-		border: 2px solid var(--color-border-maxcontrast);
-		border-right: none;
-		border-radius: var(--border-radius) 0 0 var(--border-radius);
-
-		&:hover {
-			border-color: var(--color-primary-element);
-		}
-	}
 
 	&__container {
 		width: 100%;
-
-		input {
-			width: 100%;
-			margin: 0;
-			border-radius: 0 var(--border-radius) var(--border-radius) 0;
-		}
 	}
 }
 </style>

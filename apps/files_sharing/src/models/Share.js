@@ -43,11 +43,11 @@ export default class Share {
 		ocsData.hide_download = !!ocsData.hide_download
 		ocsData.mail_send = !!ocsData.mail_send
 
-		if (ocsData.attributes) {
+		if (ocsData.attributes && typeof ocsData.attributes === 'string') {
 			try {
 				ocsData.attributes = JSON.parse(ocsData.attributes)
 			} catch (e) {
-				console.warn('Could not parse share attributes returned by server: "' + ocsData.attributes + '"')
+				console.warn('Could not parse share attributes returned by server', ocsData.attributes)
 			}
 		}
 		ocsData.attributes = ocsData.attributes ?? []
@@ -310,7 +310,7 @@ export default class Share {
 	 * @memberof Share
 	 */
 	get label() {
-		return this._share.label
+		return this._share.label ?? ''
 	}
 
 	/**
@@ -579,7 +579,7 @@ export default class Share {
 		for (const i in this._share.attributes) {
 			const attr = this._share.attributes[i]
 			if (attr.scope === attrUpdate.scope && attr.key === attrUpdate.key) {
-				this._share.attributes[i] = attrUpdate
+				this._share.attributes.splice(i, 1, attrUpdate)
 				return
 			}
 		}

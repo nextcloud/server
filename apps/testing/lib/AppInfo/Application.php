@@ -25,10 +25,21 @@
 namespace OCA\Testing\AppInfo;
 
 use OCA\Testing\AlternativeHomeUserBackend;
+use OCA\Testing\Listener\GetDeclarativeSettingsValueListener;
+use OCA\Testing\Listener\RegisterDeclarativeSettingsListener;
+use OCA\Testing\Listener\SetDeclarativeSettingsValueListener;
+use OCA\Testing\Provider\FakeText2ImageProvider;
+use OCA\Testing\Provider\FakeTextProcessingProvider;
+use OCA\Testing\Provider\FakeTextProcessingProviderSync;
+use OCA\Testing\Provider\FakeTranslationProvider;
+use OCA\Testing\Settings\DeclarativeSettingsForm;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
+use OCP\Settings\Events\DeclarativeSettingsGetValueEvent;
+use OCP\Settings\Events\DeclarativeSettingsRegisterFormEvent;
+use OCP\Settings\Events\DeclarativeSettingsSetValueEvent;
 
 class Application extends App implements IBootstrap {
 	public function __construct(array $urlParams = []) {
@@ -36,6 +47,15 @@ class Application extends App implements IBootstrap {
 	}
 
 	public function register(IRegistrationContext $context): void {
+		$context->registerTranslationProvider(FakeTranslationProvider::class);
+		$context->registerTextProcessingProvider(FakeTextProcessingProvider::class);
+		$context->registerTextProcessingProvider(FakeTextProcessingProviderSync::class);
+		$context->registerTextToImageProvider(FakeText2ImageProvider::class);
+
+		$context->registerDeclarativeSettings(DeclarativeSettingsForm::class);
+		$context->registerEventListener(DeclarativeSettingsRegisterFormEvent::class, RegisterDeclarativeSettingsListener::class);
+		$context->registerEventListener(DeclarativeSettingsGetValueEvent::class, GetDeclarativeSettingsValueListener::class);
+		$context->registerEventListener(DeclarativeSettingsSetValueEvent::class, SetDeclarativeSettingsValueListener::class);
 	}
 
 	public function boot(IBootContext $context): void {

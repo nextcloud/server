@@ -31,6 +31,7 @@
 			:clearable="false"
 			:options="visibilityOptions"
 			:value="visibilityObject"
+			label-outside
 			@option:selected="onVisibilityChange" />
 	</div>
 </template>
@@ -149,7 +150,7 @@ export default {
 <style lang="scss" scoped>
 .visibility-container {
 	display: flex;
-	width: max-content;
+	flex-wrap: wrap;
 
 	&.disabled {
 		filter: grayscale(1);

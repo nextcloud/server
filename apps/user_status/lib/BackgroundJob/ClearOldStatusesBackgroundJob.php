@@ -47,7 +47,7 @@ class ClearOldStatusesBackgroundJob extends TimedJob {
 	 * @param UserStatusMapper $mapper
 	 */
 	public function __construct(ITimeFactory $time,
-								UserStatusMapper $mapper) {
+		UserStatusMapper $mapper) {
 		parent::__construct($time);
 		$this->mapper = $mapper;
 

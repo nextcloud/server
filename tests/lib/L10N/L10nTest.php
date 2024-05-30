@@ -1,9 +1,8 @@
 <?php
 /**
- * Copyright (c) 2016 Joas Schilling <nickvergessen@owncloud.com>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\L10N;
@@ -11,6 +10,7 @@ namespace Test\L10N;
 use DateTime;
 use OC\L10N\Factory;
 use OC\L10N\L10N;
+use OCP\App\IAppManager;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IRequest;
@@ -34,7 +34,8 @@ class L10nTest extends TestCase {
 		/** @var IUserSession $userSession */
 		$userSession = $this->createMock(IUserSession::class);
 		$cacheFactory = $this->createMock(ICacheFactory::class);
-		return new Factory($config, $request, $userSession, $cacheFactory, \OC::$SERVERROOT);
+		$appManager = $this->createMock(IAppManager::class);
+		return new Factory($config, $request, $userSession, $cacheFactory, \OC::$SERVERROOT, $appManager);
 	}
 
 	public function testSimpleTranslationWithTrailingColon(): void {
@@ -201,12 +202,12 @@ class L10nTest extends TestCase {
 	}
 
 	public function testServiceGetLanguageCode() {
-		$l = \OC::$server->getL10N('lib', 'de');
+		$l = \OCP\Util::getL10N('lib', 'de');
 		$this->assertEquals('de', $l->getLanguageCode());
 	}
 
 	public function testWeekdayName() {
-		$l = \OC::$server->getL10N('lib', 'de');
+		$l = \OCP\Util::getL10N('lib', 'de');
 		$this->assertEquals('Mo.', $l->l('weekdayName', new \DateTime('2017-11-6'), ['width' => 'abbreviated']));
 	}
 

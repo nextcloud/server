@@ -1,9 +1,8 @@
 <?php
 /**
- * Copyright (c) 2013 Robin Appelman <icewind@owncloud.com>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
+ * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\BackgroundJob;
@@ -35,7 +34,7 @@ class DummyJobList extends \OC\BackgroundJob\JobList {
 	 * @param IJob|class-string<IJob> $job
 	 * @param mixed $argument
 	 */
-	public function add($job, $argument = null): void {
+	public function add($job, $argument = null, ?int $firstCheck = null): void {
 		if (is_string($job)) {
 			/** @var IJob $job */
 			$job = \OCP\Server::get($job);
@@ -44,6 +43,10 @@ class DummyJobList extends \OC\BackgroundJob\JobList {
 		if (!$this->has($job, null)) {
 			$this->jobs[] = $job;
 		}
+	}
+
+	public function scheduleAfter(string $job, int $runAfter, $argument = null): void {
+		$this->add($job, $argument, $runAfter);
 	}
 
 	/**
@@ -96,7 +99,7 @@ class DummyJobList extends \OC\BackgroundJob\JobList {
 	/**
 	 * get the next job in the list
 	 */
-	public function getNext(bool $onlyTimeSensitive = false): ?IJob {
+	public function getNext(bool $onlyTimeSensitive = false, ?array $jobClasses = null): ?IJob {
 		if (count($this->jobs) > 0) {
 			if ($this->last < (count($this->jobs) - 1)) {
 				$i = $this->last + 1;
@@ -112,7 +115,7 @@ class DummyJobList extends \OC\BackgroundJob\JobList {
 	/**
 	 * set the job that was last ran
 	 *
-	 * @param \OC\BackgroundJob\Job $job
+	 * @param \OCP\BackgroundJob\Job $job
 	 */
 	public function setLastJob(IJob $job): void {
 		$i = array_search($job, $this->jobs);

@@ -35,6 +35,6 @@ $helper = new \OCA\User_LDAP\Helper(\OC::$server->getConfig(), \OC::$server->get
 if ($helper->deleteServerConfiguration($prefix)) {
 	\OC_JSON::success();
 } else {
-	$l = \OC::$server->getL10N('user_ldap');
+	$l = \OCP\Util::getL10N('user_ldap');
 	\OC_JSON::error(['message' => $l->t('Failed to delete the server configuration')]);
 }

@@ -22,7 +22,6 @@
 import { getRequestToken } from '@nextcloud/auth'
 import Vue from 'vue'
 
-import { refreshStyles } from './helpers/refreshStyles.js'
 import App from './AdminTheming.vue'
 
 // eslint-disable-next-line camelcase
@@ -34,4 +33,3 @@ Vue.prototype.t = t
 const View = Vue.extend(App)
 const theming = new View()
 theming.$mount('#admin-theming')
-theming.$on('update:theming', refreshStyles)

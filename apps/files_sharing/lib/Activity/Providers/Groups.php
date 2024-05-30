@@ -51,13 +51,13 @@ class Groups extends Base {
 	protected $groupDisplayNames = [];
 
 	public function __construct(IFactory $languageFactory,
-								IURLGenerator $url,
-								IManager $activityManager,
-								IUserManager $userManager,
-								ICloudIdManager $cloudIdManager,
-								IContactsManager $contactsManager,
-								IEventMerger $eventMerger,
-								IGroupManager $groupManager) {
+		IURLGenerator $url,
+		IManager $activityManager,
+		IUserManager $userManager,
+		ICloudIdManager $cloudIdManager,
+		IContactsManager $contactsManager,
+		IEventMerger $eventMerger,
+		IGroupManager $groupManager) {
 		parent::__construct($languageFactory, $url, $activityManager, $userManager, $cloudIdManager, $contactsManager, $eventMerger);
 		$this->groupManager = $groupManager;
 	}
@@ -102,7 +102,7 @@ class Groups extends Base {
 	 * @throws \InvalidArgumentException
 	 * @since 11.0.0
 	 */
-	public function parseLongVersion(IEvent $event, IEvent $previousEvent = null) {
+	public function parseLongVersion(IEvent $event, ?IEvent $previousEvent = null) {
 		$parsedParameters = $this->getParsedParameters($event);
 
 		if ($event->getSubject() === self::SUBJECT_SHARED_GROUP_SELF) {

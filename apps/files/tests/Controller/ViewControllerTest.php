@@ -1,34 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Kesselberg <mail@danielkesselberg.de>
- * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Michael Weimann <mail@michael-weimann.eu>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Nina Pypchenko <22447785+nina-py@users.noreply.github.com>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files\Tests\Controller;
 
@@ -51,7 +26,6 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Share\IManager;
-use OCP\Template;
 use Test\TestCase;
 
 /**
@@ -72,9 +46,9 @@ class ViewControllerTest extends TestCase {
 	private $eventDispatcher;
 	/** @var ViewController|\PHPUnit\Framework\MockObject\MockObject */
 	private $viewController;
-	/** @var IUser */
+	/** @var IUser|\PHPUnit\Framework\MockObject\MockObject */
 	private $user;
-	/** @var IUserSession */
+	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
 	private $userSession;
 	/** @var IAppManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $appManager;
@@ -136,7 +110,6 @@ class ViewControllerTest extends TestCase {
 			])
 		->setMethods([
 			'getStorageInfo',
-			'renderScript'
 		])
 		->getMock();
 	}
@@ -153,6 +126,7 @@ class ViewControllerTest extends TestCase {
 				'owner' => 'MyName',
 				'ownerDisplayName' => 'MyDisplayName',
 			]);
+
 		$this->config
 			->method('getUserValue')
 			->willReturnMap([
@@ -163,7 +137,7 @@ class ViewControllerTest extends TestCase {
 				[$this->user->getUID(), 'files', 'crop_image_previews', true, true],
 				[$this->user->getUID(), 'files', 'show_grid', true],
 			]);
-		
+
 		$baseFolderFiles = $this->getMockBuilder(Folder::class)->getMock();
 
 		$this->rootFolder->expects($this->any())
@@ -179,9 +153,6 @@ class ViewControllerTest extends TestCase {
 		$expected = new Http\TemplateResponse(
 			'files',
 			'index',
-			[
-				'fileNotFound' => 0,
-			]
 		);
 		$policy = new Http\ContentSecurityPolicy();
 		$policy->addAllowedWorkerSrcDomain('\'self\'');
@@ -227,9 +198,9 @@ class ViewControllerTest extends TestCase {
 			->willReturn($baseFolderTrash);
 
 		$baseFolderFiles->expects($this->any())
-			->method('getById')
+			->method('getFirstNodeById')
 			->with(123)
-			->willReturn([]);
+			->willReturn(null);
 
 		$node = $this->getMockBuilder(File::class)->getMock();
 		$node->expects($this->once())
@@ -237,9 +208,9 @@ class ViewControllerTest extends TestCase {
 			->willReturn($parentNode);
 
 		$baseFolderTrash->expects($this->once())
-			->method('getById')
+			->method('getFirstNodeById')
 			->with(123)
-			->willReturn([$node]);
+			->willReturn($node);
 		$baseFolderTrash->expects($this->once())
 			->method('getRelativePath')
 			->with('testuser1/files_trashbin/files/test.d1462861890/sub')

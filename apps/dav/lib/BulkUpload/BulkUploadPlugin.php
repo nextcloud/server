@@ -1,37 +1,20 @@
 <?php
 /**
- * @copyright Copyright (c) 2021, Louis Chemineau <louis@chmn.me>
- *
- * @author Louis Chemineau <louis@chmn.me>
- * @author Côme Chilliet <come.chilliet@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 
 namespace OCA\DAV\BulkUpload;
 
+use OCA\DAV\Connector\Sabre\MtimeSanitizer;
+use OCP\AppFramework\Http;
+use OCP\Files\DavUtil;
+use OCP\Files\Folder;
 use Psr\Log\LoggerInterface;
 use Sabre\DAV\Server;
 use Sabre\DAV\ServerPlugin;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
-use OCP\Files\DavUtil;
-use OCP\Files\Folder;
-use OCP\AppFramework\Http;
-use OCA\DAV\Connector\Sabre\MtimeSanitizer;
 
 class BulkUploadPlugin extends ServerPlugin {
 	private Folder $userFolder;
@@ -65,7 +48,7 @@ class BulkUploadPlugin extends ServerPlugin {
 			return true;
 		}
 
-		$multiPartParser = new MultipartRequestParser($request);
+		$multiPartParser = new MultipartRequestParser($request, $this->logger);
 		$writtenFiles = [];
 
 		while (!$multiPartParser->isAtLastBoundary()) {
@@ -91,7 +74,7 @@ class BulkUploadPlugin extends ServerPlugin {
 
 				$node = $this->userFolder->newFile($headers['x-file-path'], $content);
 				$node->touch($mtime);
-				$node = $this->userFolder->getById($node->getId())[0];
+				$node = $this->userFolder->getFirstNodeById($node->getId());
 
 				$writtenFiles[$headers['x-file-path']] = [
 					"error" => false,

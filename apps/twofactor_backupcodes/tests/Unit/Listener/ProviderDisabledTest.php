@@ -29,22 +29,16 @@ namespace OCA\TwoFactorBackupCodes\Tests\Unit\Listener;
 use OCA\TwoFactorBackupCodes\BackgroundJob\RememberBackupCodesJob;
 use OCA\TwoFactorBackupCodes\Listener\ProviderDisabled;
 use OCP\Authentication\TwoFactorAuth\IRegistry;
-use OCP\Authentication\TwoFactorAuth\RegistryEvent;
+use OCP\Authentication\TwoFactorAuth\TwoFactorProviderForUserUnregistered;
 use OCP\BackgroundJob\IJobList;
 use OCP\EventDispatcher\Event;
 use OCP\IUser;
 use Test\TestCase;
 
 class ProviderDisabledTest extends TestCase {
-
-	/** @var IRegistry|\PHPUnit\Framework\MockObject\MockObject */
-	private $registy;
-
-	/** @var IJobList|\PHPUnit\Framework\MockObject\MockObject */
-	private $jobList;
-
-	/** @var ProviderDisabled */
-	private $listener;
+	private IRegistry $registy;
+	private IJobList $jobList;
+	private ProviderDisabled $listener;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -67,7 +61,7 @@ class ProviderDisabledTest extends TestCase {
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')
 			->willReturn('myUID');
-		$event = $this->createMock(RegistryEvent::class);
+		$event = $this->createMock(TwoFactorProviderForUserUnregistered::class);
 		$event->method('getUser')
 			->willReturn($user);
 
@@ -88,7 +82,7 @@ class ProviderDisabledTest extends TestCase {
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')
 			->willReturn('myUID');
-		$event = $this->createMock(RegistryEvent::class);
+		$event = $this->createMock(TwoFactorProviderForUserUnregistered::class);
 		$event->method('getUser')
 			->willReturn($user);
 
