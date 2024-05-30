@@ -240,7 +240,12 @@ class UsersControllerTest extends \Test\TestCase {
 			),
 			IAccountManager::PROPERTY_FEDIVERSE => $this->buildPropertyMock(
 				IAccountManager::PROPERTY_FEDIVERSE,
-				'Default twitter',
+				'Default fediverse',
+				IAccountManager::SCOPE_LOCAL,
+			),
+			IAccountManager::PROPERTY_BIRTHDATE => $this->buildPropertyMock(
+				IAccountManager::PROPERTY_BIRTHDATE,
+				'Default birthdate',
 				IAccountManager::SCOPE_LOCAL,
 			),
 		];

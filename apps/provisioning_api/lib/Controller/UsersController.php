@@ -225,13 +225,14 @@ class UsersController extends AUserData {
 	 *
 	 * Get the list of disabled users and their details
 	 *
+	 * @param string $search Text to search for
 	 * @param ?int $limit Limit the amount of users returned
 	 * @param int $offset Offset
 	 * @return DataResponse<Http::STATUS_OK, array{users: array<string, Provisioning_APIUserDetails|array{id: string}>}, array{}>
 	 *
 	 * 200: Disabled users details returned
 	 */
-	public function getDisabledUsersDetails(?int $limit = null, int $offset = 0): DataResponse {
+	public function getDisabledUsersDetails(string $search = '', ?int $limit = null, int $offset = 0): DataResponse {
 		$currentUser = $this->userSession->getUser();
 		if ($currentUser === null) {
 			return new DataResponse(['users' => []]);
@@ -249,7 +250,7 @@ class UsersController extends AUserData {
 		$uid = $currentUser->getUID();
 		$subAdminManager = $this->groupManager->getSubAdmin();
 		if ($this->groupManager->isAdmin($uid)) {
-			$users = $this->userManager->getDisabledUsers($limit, $offset);
+			$users = $this->userManager->getDisabledUsers($limit, $offset, $search);
 			$users = array_map(fn (IUser $user): string => $user->getUID(), $users);
 		} elseif ($subAdminManager->isSubAdmin($currentUser)) {
 			$subAdminOfGroups = $subAdminManager->getSubAdminsGroups($currentUser);
@@ -263,7 +264,7 @@ class UsersController extends AUserData {
 					array_map(
 						fn (IUser $user): string => $user->getUID(),
 						array_filter(
-							$group->searchUsers('', ($tempLimit === null ? null : $tempLimit - count($users))),
+							$group->searchUsers($search, ($tempLimit === null ? null : $tempLimit - count($users))),
 							fn (IUser $user): bool => !$user->isEnabled()
 						)
 					)
@@ -904,6 +905,7 @@ class UsersController extends AUserData {
 			$permittedFields[] = IAccountManager::PROPERTY_HEADLINE;
 			$permittedFields[] = IAccountManager::PROPERTY_BIOGRAPHY;
 			$permittedFields[] = IAccountManager::PROPERTY_PROFILE_ENABLED;
+			$permittedFields[] = IAccountManager::PROPERTY_BIRTHDATE;
 			$permittedFields[] = IAccountManager::PROPERTY_PHONE . self::SCOPE_SUFFIX;
 			$permittedFields[] = IAccountManager::PROPERTY_ADDRESS . self::SCOPE_SUFFIX;
 			$permittedFields[] = IAccountManager::PROPERTY_WEBSITE . self::SCOPE_SUFFIX;
@@ -914,6 +916,7 @@ class UsersController extends AUserData {
 			$permittedFields[] = IAccountManager::PROPERTY_HEADLINE . self::SCOPE_SUFFIX;
 			$permittedFields[] = IAccountManager::PROPERTY_BIOGRAPHY . self::SCOPE_SUFFIX;
 			$permittedFields[] = IAccountManager::PROPERTY_PROFILE_ENABLED . self::SCOPE_SUFFIX;
+			$permittedFields[] = IAccountManager::PROPERTY_BIRTHDATE . self::SCOPE_SUFFIX;
 
 			$permittedFields[] = IAccountManager::PROPERTY_AVATAR . self::SCOPE_SUFFIX;
 
@@ -1084,6 +1087,7 @@ class UsersController extends AUserData {
 			case IAccountManager::PROPERTY_ROLE:
 			case IAccountManager::PROPERTY_HEADLINE:
 			case IAccountManager::PROPERTY_BIOGRAPHY:
+			case IAccountManager::PROPERTY_BIRTHDATE:
 				$userAccount = $this->accountManager->getAccount($targetUser);
 				try {
 					$userProperty = $userAccount->getProperty($key);
@@ -1130,6 +1134,7 @@ class UsersController extends AUserData {
 			case IAccountManager::PROPERTY_HEADLINE . self::SCOPE_SUFFIX:
 			case IAccountManager::PROPERTY_BIOGRAPHY . self::SCOPE_SUFFIX:
 			case IAccountManager::PROPERTY_PROFILE_ENABLED . self::SCOPE_SUFFIX:
+			case IAccountManager::PROPERTY_BIRTHDATE . self::SCOPE_SUFFIX:
 			case IAccountManager::PROPERTY_AVATAR . self::SCOPE_SUFFIX:
 				$propertyName = substr($key, 0, strlen($key) - strlen(self::SCOPE_SUFFIX));
 				$userAccount = $this->accountManager->getAccount($targetUser);

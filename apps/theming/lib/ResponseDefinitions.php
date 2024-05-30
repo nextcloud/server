@@ -30,6 +30,7 @@ namespace OCA\Theming;
  * @psalm-type ThemingBackground = array{
  *     backgroundImage: ?string,
  *     backgroundColor: string,
+ *     primaryColor: string,
  *     version: int,
  * }
  */

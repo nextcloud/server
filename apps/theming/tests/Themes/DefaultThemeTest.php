@@ -69,15 +69,27 @@ class DefaultThemeTest extends AccessibleThemeTestCase {
 			$this->imageManager
 		);
 
+		$defaultBackground = BackgroundService::SHIPPED_BACKGROUNDS[BackgroundService::DEFAULT_BACKGROUND_IMAGE];
+
 		$this->themingDefaults
 			->expects($this->any())
 			->method('getColorPrimary')
-			->willReturn('#0082c9');
+			->willReturn($defaultBackground['primary_color']);
+
+		$this->themingDefaults
+			->expects($this->any())
+			->method('getColorBackground')
+			->willReturn($defaultBackground['background_color']);
 
 		$this->themingDefaults
 			->expects($this->any())
 			->method('getDefaultColorPrimary')
-			->willReturn('#0082c9');
+			->willReturn($defaultBackground['primary_color']);
+
+		$this->themingDefaults
+			->expects($this->any())
+			->method('getDefaultColorBackground')
+			->willReturn($defaultBackground['background_color']);
 
 		$this->themingDefaults
 			->expects($this->any())

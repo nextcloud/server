@@ -32,11 +32,13 @@
  */
 namespace OCA\User_LDAP\User;
 
+use InvalidArgumentException;
 use OC\Accounts\AccountManager;
 use OCA\User_LDAP\Access;
 use OCA\User_LDAP\Connection;
 use OCA\User_LDAP\Exceptions\AttributeNotSet;
 use OCA\User_LDAP\FilesystemHelper;
+use OCA\User_LDAP\Service\BirthdateParserService;
 use OCP\Accounts\IAccountManager;
 use OCP\Accounts\PropertyDoesNotExistException;
 use OCP\IAvatarManager;
@@ -107,6 +109,8 @@ class User {
 	 */
 	protected $avatarImage;
 
+	protected BirthdateParserService $birthdateParser;
+
 	/**
 	 * DB config keys for user preferences
 	 */
@@ -140,6 +144,7 @@ class User {
 		$this->avatarManager = $avatarManager;
 		$this->userManager = $userManager;
 		$this->notificationManager = $notificationManager;
+		$this->birthdateParser = new BirthdateParserService();
 
 		\OCP\Util::connectHook('OC_User', 'post_login', $this, 'handlePasswordExpiry');
 	}
@@ -323,6 +328,22 @@ class User {
 				}
 			} elseif (!empty($attr)) {	// configured, but not defined
 				$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_BIOGRAPHY] = "";
+			}
+			//User Profile Field - birthday
+			$attr = strtolower($this->connection->ldapAttributeBirthDate);
+			if (!empty($attr) && !empty($ldapEntry[$attr][0])) {
+				$value = $ldapEntry[$attr][0];
+				try {
+					$birthdate = $this->birthdateParser->parseBirthdate($value);
+					$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_BIRTHDATE]
+						= $birthdate->format("Y-m-d");
+				} catch (InvalidArgumentException $e) {
+					// Invalid date -> just skip the property
+					$this->logger->info("Failed to parse user's birthdate from LDAP: $value", [
+						'exception' => $e,
+						'userId' => $username,
+					]);
+				}
 			}
 			// check for changed data and cache just for TTL checking
 			$checksum = hash('sha256', json_encode($profileValues));

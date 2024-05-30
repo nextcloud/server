@@ -2,6 +2,9 @@
 #
 # https://github.com/nextcloud/.github
 # https://docs.github.com/en/actions/learn-github-actions/sharing-workflows-with-your-organization
+#
+# SPDX-FileCopyrightText: 2021-2024 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: MIT
 
 name: Block fixup and squash commits
 
@@ -28,6 +31,6 @@ jobs:
 
     steps:
       - name: Run check
-        uses: skjnldsv/block-fixup-merge-action@42d26e1b536ce61e5cf467d65fb76caf4aa85acf # v1
+        uses: skjnldsv/block-fixup-merge-action@c138ea99e45e186567b64cf065ce90f7158c236a # v2
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}

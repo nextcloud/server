@@ -64,12 +64,19 @@ class HttpsUrlGeneration implements ISetupCheck {
 		}
 		$generatedUrl = $this->urlGenerator->getAbsoluteURL('index.php');
 		if (!str_starts_with($generatedUrl, 'https://')) {
-			return SetupResult::warning(
-				$this->l10n->t('You are accessing your instance over a secure connection, however your instance is generating insecure URLs. This most likely means that you are behind a reverse proxy and the overwrite config variables are not set correctly.'),
-				$this->urlGenerator->linkToDocs('admin-reverse-proxy')
-			);
+			if (!\OC::$CLI) {
+				return SetupResult::warning(
+					$this->l10n->t('You are accessing your instance over a secure connection, however your instance is generating insecure URLs. This likely means that your instance is behind a reverse proxy and the Nextcloud `overwrite*` config values are not set correctly.'),
+					$this->urlGenerator->linkToDocs('admin-reverse-proxy')
+				);
+				/* We were called from CLI so we can't be 100% sure which scenario is applicable */
+			} else {
+				return SetupResult::info(
+					$this->l10n->t('Your instance is generating insecure URLs. If you access your instance over HTTPS, this likely means that your instance is behind a reverse proxy and the Nextcloud `overwrite*` config values are not set correctly.'),
+					$this->urlGenerator->linkToDocs('admin-reverse-proxy')
+				);
+			}
 		}
-
 		return SetupResult::success($this->l10n->t('You are accessing your instance over a secure connection, and your instance is generating secure URLs.'));
 	}
 }

@@ -62,14 +62,16 @@ class SupportedDatabase implements ISetupCheck {
 			$row = $result->fetch();
 			$version = $row['Value'];
 			$versionlc = strtolower($version);
-
+			// we only care about X.Y not X.Y.Z differences
+			[$major, $minor, ] = explode('.', $versionlc);
+			$versionConcern = $major . '.' . $minor;
 			if (str_contains($versionlc, 'mariadb')) {
-				if (version_compare($versionlc, '10.2', '<')) {
-					return SetupResult::warning($this->l10n->t('MariaDB version "%s" is used. Nextcloud 21 and higher do not support this version and require MariaDB 10.2 or higher.', $version));
+				if (version_compare($versionConcern, '10.3', '<') || version_compare($versionConcern, '10.11', '>')) {
+					return SetupResult::warning($this->l10n->t('MariaDB version "%s" detected. MariaDB >=10.3 and <=10.11 is suggested for best performance, stability and functionality with this version of Nextcloud.', $version));
 				}
 			} else {
-				if (version_compare($versionlc, '8', '<')) {
-					return SetupResult::warning($this->l10n->t('MySQL version "%s" is used. Nextcloud 21 and higher do not support this version and require MySQL 8.0 or MariaDB 10.2 or higher.', $version));
+				if (version_compare($versionConcern, '8.0', '<') || version_compare($versionConcern, '8.3', '>')) {
+					return SetupResult::warning($this->l10n->t('MySQL version "%s" detected. MySQL >=8.0 and <=8.3 is suggested for best performance, stability and functionality with this version of Nextcloud.', $version));
 				}
 			}
 		} elseif ($databasePlatform instanceof PostgreSQLPlatform) {
@@ -77,8 +79,12 @@ class SupportedDatabase implements ISetupCheck {
 			$result->execute();
 			$row = $result->fetch();
 			$version = $row['server_version'];
-			if (version_compare(strtolower($version), '9.6', '<')) {
-				return SetupResult::warning($this->l10n->t('PostgreSQL version "%s" is used. Nextcloud 21 and higher do not support this version and require PostgreSQL 9.6 or higher.', $version));
+			$versionlc = strtolower($version);
+			// we only care about X not X.Y or X.Y.Z differences
+			[$major, ] = explode('.', $versionlc);
+			$versionConcern = $major;
+			if (version_compare($versionConcern, '12', '<') || version_compare($versionConcern, '16', '>')) {
+				return SetupResult::warning($this->l10n->t('PostgreSQL version "%s" detected. PostgreSQL >=12 and <=16 is suggested for best performance, stability and functionality with this version of Nextcloud.', $version));
 			}
 		} elseif ($databasePlatform instanceof OraclePlatform) {
 			$version = 'Oracle';

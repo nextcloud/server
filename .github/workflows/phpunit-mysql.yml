@@ -2,6 +2,9 @@
 #
 # https://github.com/nextcloud/.github
 # https://docs.github.com/en/actions/learn-github-actions/sharing-workflows-with-your-organization
+#
+# SPDX-FileCopyrightText: 2022-2024 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: MIT
 
 name: PHPUnit mysql
 
@@ -81,7 +84,7 @@ jobs:
 
     steps:
       - name: Checkout server
-        uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633
+        uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29
         with:
           submodules: true
 

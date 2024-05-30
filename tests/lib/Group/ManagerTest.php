@@ -1,24 +1,9 @@
 <?php
 
 /**
- * @author Robin Appelman <icewind@owncloud.com>
- * @author Vincent Petry <pvince81@owncloud.com>
- *
- * @copyright Copyright (c) 2016, ownCloud GmbH.
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 
 namespace Test\Group;
@@ -239,6 +224,30 @@ class ManagerTest extends TestCase {
 
 		$group = $manager->createGroup('group1');
 		$this->assertEquals(null, $group);
+	}
+
+	public function testCreateTooLong() {
+		/**@var \PHPUnit\Framework\MockObject\MockObject|\OC\Group\Backend $backend */
+		$backendGroupCreated = false;
+		$backend = $this->getTestBackend(
+			GroupInterface::ADD_TO_GROUP |
+			GroupInterface::REMOVE_FROM_GOUP |
+			GroupInterface::COUNT_USERS |
+			GroupInterface::CREATE_GROUP |
+			GroupInterface::DELETE_GROUP |
+			GroupInterface::GROUP_DETAILS
+		);
+		$groupName = str_repeat('x', 256);
+		$backend->expects($this->any())
+			->method('groupExists')
+			->with($groupName)
+			->willReturn(false);
+
+		$manager = new \OC\Group\Manager($this->userManager, $this->dispatcher, $this->logger, $this->cache);
+		$manager->addBackend($backend);
+
+		$this->expectException(\Exception::class);
+		$group = $manager->createGroup($groupName);
 	}
 
 	public function testCreateExists() {

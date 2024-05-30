@@ -114,6 +114,7 @@ use Psr\Log\LoggerInterface;
  * @property string $ldapAttributeHeadline
  * @property string $ldapAttributeBiography
  * @property string $ldapAdminGroup
+ * @property string $ldapAttributeBirthDate
  */
 class Connection extends LDAPUtility {
 	private ?\LDAP\Connection $ldapConnectionRes = null;

@@ -2,6 +2,9 @@
 #
 # https://github.com/nextcloud/.github
 # https://docs.github.com/en/actions/learn-github-actions/sharing-workflows-with-your-organization
+#
+# SPDX-FileCopyrightText: 2023-2024 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: MIT
 
 name: Npm audit fix and compile
 
@@ -24,12 +27,12 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633 # v3.6.0
+        uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4.1.6
         with:
           ref: ${{ matrix.branches }}
 
       - name: Read package.json node and npm engines version
-        uses: skjnldsv/read-package-engines-version-actions@8205673bab74a63eb9b8093402fd9e0e018663a1 # v2.2
+        uses: skjnldsv/read-package-engines-version-actions@06d6baf7d8f41934ab630e97d9e6c0bc9c9ac5e4 # v3
         id: versions
         with:
           fallbackNode: '^20'
@@ -58,10 +61,10 @@ jobs:
 
       - name: Create Pull Request
         if: always()
-        uses: peter-evans/create-pull-request@70a41aba780001da0a30141984ae2a0c95d8704e # v5
+        uses: peter-evans/create-pull-request@6d6857d36972b65feb161a90e484f2984215f83e # v6.0.5
         with:
           token: ${{ secrets.COMMAND_BOT_PAT }}
-          commit-message: "chore(deps): fix npm audit"
+          commit-message: "fix(deps): fix npm audit"
           committer: GitHub <noreply@github.com>
           author: nextcloud-command <nextcloud-command@users.noreply.github.com>
           signoff: true

@@ -3,32 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Sascha Wiswedel <sascha.wiswedel@nextcloud.com>
- * @author Tobia De Koninck <LEDfan@users.noreply.github.com>
- * @author Ferdinand Thiessen <opensource@fthiessen.de>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OCA\Files\Service;
@@ -47,6 +23,7 @@ use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountManager;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\L10N\IFactory;
 use OCP\Share\IManager as IShareManager;
 use OCP\Share\IShare;
 use Symfony\Component\Console\Helper\ProgressBar;
@@ -69,6 +46,7 @@ class OwnershipTransferService {
 		private IMountManager $mountManager,
 		private IUserMountCache $userMountCache,
 		private IUserManager $userManager,
+		private IFactory $l10nFactory,
 	) {
 		$this->encryptionManager = $encryptionManager;
 	}
@@ -117,19 +95,15 @@ class OwnershipTransferService {
 		if ($move) {
 			$finalTarget = "$destinationUid/files/";
 		} else {
+			$l = $this->l10nFactory->get('files', $this->l10nFactory->getUserLanguage($destinationUser));
 			$date = date('Y-m-d H-i-s');
 
-			// Remove some characters which are prone to cause errors
-			$cleanUserName = str_replace(['\\', '/', ':', '.', '?', '#', '\'', '"'], '-', $sourceUser->getDisplayName());
-			// Replace multiple dashes with one dash
-			$cleanUserName = preg_replace('/-{2,}/s', '-', $cleanUserName);
-			$cleanUserName = $cleanUserName ?: $sourceUid;
-
-			$finalTarget = "$destinationUid/files/transferred from $cleanUserName on $date";
+			$cleanUserName = $this->sanitizeFolderName($sourceUser->getDisplayName()) ?: $sourceUid;
+			$finalTarget = "$destinationUid/files/" . $this->sanitizeFolderName($l->t('Transferred from %1$s on %2$s', [$cleanUserName, $date]));
 			try {
 				$view->verifyPath(dirname($finalTarget), basename($finalTarget));
 			} catch (InvalidPathException $e) {
-				$finalTarget = "$destinationUid/files/transferred from $sourceUid on $date";
+				$finalTarget = "$destinationUid/files/" . $this->sanitizeFolderName($l->t('Transferred from %1$s on %2$s', [$sourceUid, $date]));
 			}
 		}
 
@@ -207,6 +181,13 @@ class OwnershipTransferService {
 				$move
 			);
 		}
+	}
+
+	private function sanitizeFolderName(string $name): string {
+		// Remove some characters which are prone to cause errors
+		$name = str_replace(['\\', '/', ':', '.', '?', '#', '\'', '"'], '-', $name);
+		// Replace multiple dashes with one dash
+		return preg_replace('/-{2,}/s', '-', $name);
 	}
 
 	private function walkFiles(View $view, $path, Closure $callBack) {

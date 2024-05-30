@@ -1,48 +1,16 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Bart Visscher <bartv@thisnet.nl>
- * @author Bernhard Posselt <dev@bernhard-posselt.com>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Knut Ahlers <knut@ahlers.me>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author macjohnny <estebanmarin@gmx.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Roman Kreisel <mail@romankreisel.de>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <vincent@nextcloud.com>
- * @author Vinicius Cubas Brand <vinicius@eita.org.br>
- * @author voxsim "Simon Vocella"
- * @author Carl Schwan <carl@carlschwan.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Group;
 
 use OC\Hooks\PublicEmitter;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Group\Backend\IBatchMethodsBackend;
+use OCP\Group\Backend\ICreateNamedGroupBackend;
 use OCP\Group\Backend\IGroupDetailsBackend;
 use OCP\Group\Events\BeforeGroupCreatedEvent;
 use OCP\Group\Events\GroupCreatedEvent;
@@ -88,6 +56,8 @@ class Manager extends PublicEmitter implements IGroupManager {
 	private $subAdmin = null;
 
 	private DisplayNameCache $displayNameCache;
+
+	private const MAX_GROUP_LENGTH = 255;
 
 	public function __construct(\OC\User\Manager $userManager,
 		IEventDispatcher $dispatcher,
@@ -270,12 +240,22 @@ class Manager extends PublicEmitter implements IGroupManager {
 			return null;
 		} elseif ($group = $this->get($gid)) {
 			return $group;
+		} elseif (mb_strlen($gid) > self::MAX_GROUP_LENGTH) {
+			throw new \Exception('Group name is limited to '. self::MAX_GROUP_LENGTH.' characters');
 		} else {
 			$this->dispatcher->dispatchTyped(new BeforeGroupCreatedEvent($gid));
 			$this->emit('\OC\Group', 'preCreate', [$gid]);
 			foreach ($this->backends as $backend) {
 				if ($backend->implementsActions(Backend::CREATE_GROUP)) {
-					if ($backend->createGroup($gid)) {
+					if ($backend instanceof ICreateNamedGroupBackend) {
+						$groupName = $gid;
+						if (($gid = $backend->createGroup($groupName)) !== null) {
+							$group = $this->getGroupObject($gid);
+							$this->dispatcher->dispatchTyped(new GroupCreatedEvent($group));
+							$this->emit('\OC\Group', 'postCreate', [$group]);
+							return $group;
+						}
+					} elseif ($backend->createGroup($gid)) {
 						$group = $this->getGroupObject($gid);
 						$this->dispatcher->dispatchTyped(new GroupCreatedEvent($group));
 						$this->emit('\OC\Group', 'postCreate', [$group]);

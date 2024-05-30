@@ -26,6 +26,7 @@
 namespace OCA\Theming\Settings;
 
 use OCA\Theming\ITheme;
+use OCA\Theming\Service\BackgroundService;
 use OCA\Theming\Service\ThemesService;
 use OCA\Theming\ThemingDefaults;
 use OCP\App\IAppManager;
@@ -71,6 +72,26 @@ class Personal implements ISettings {
 		// Get the default app enforced by admin
 		$forcedDefaultApp = $this->appManager->getDefaultAppForUser(null, false);
 
+		/** List of all shipped backgrounds */
+		$this->initialStateService->provideInitialState('shippedBackgrounds', BackgroundService::SHIPPED_BACKGROUNDS);
+
+		/**
+		 * Admin theming
+		 */
+		$this->initialStateService->provideInitialState('themingDefaults', [
+			/** URL of admin configured background image */
+			'backgroundImage' => $this->themingDefaults->getBackground(),
+			/** `backgroundColor` if disabled, mime type if defined and empty by default */
+			'backgroundMime' => $this->config->getAppValue('theming', 'backgroundMime', ''),
+			/** Admin configured background color */
+			'backgroundColor' => $this->themingDefaults->getDefaultColorBackground(),
+			/** Admin configured primary color */
+			'primaryColor' => $this->themingDefaults->getDefaultColorPrimary(),
+			/** Nextcloud default background image */
+			'defaultShippedBackground' => BackgroundService::DEFAULT_BACKGROUND_IMAGE,
+		]);
+
+		$this->initialStateService->provideInitialState('userBackgroundImage', $this->config->getUserValue($this->userId, 'theming', 'background_image', BackgroundService::BACKGROUND_DEFAULT));
 		$this->initialStateService->provideInitialState('themes', array_values($themes));
 		$this->initialStateService->provideInitialState('enforceTheme', $enforcedTheme);
 		$this->initialStateService->provideInitialState('isUserThemingDisabled', $this->themingDefaults->isUserThemingDisabled());

@@ -162,17 +162,17 @@
                     "additional_mailScope": {
                         "type": "array",
                         "items": {
-                            "type": "string"
+                            "$ref": "#/components/schemas/UserDetailsScope"
                         }
                     },
                     "address": {
                         "type": "string"
                     },
                     "addressScope": {
-                        "type": "string"
+                        "$ref": "#/components/schemas/UserDetailsScope"
                     },
                     "avatarScope": {
-                        "type": "string"
+                        "$ref": "#/components/schemas/UserDetailsScope"
                     },
                     "backend": {
                         "type": "string"
@@ -196,7 +196,7 @@
                         "type": "string"
                     },
                     "biographyScope": {
-                        "type": "string"
+                        "$ref": "#/components/schemas/UserDetailsScope"
                     },
                     "display-name": {
                         "type": "string"
@@ -205,14 +205,14 @@
                         "type": "string"
                     },
                     "displaynameScope": {
-                        "type": "string"
+                        "$ref": "#/components/schemas/UserDetailsScope"
                     },
                     "email": {
                         "type": "string",
                         "nullable": true
                     },
                     "emailScope": {
-                        "type": "string"
+                        "$ref": "#/components/schemas/UserDetailsScope"
                     },
                     "enabled": {
                         "type": "boolean"
@@ -221,7 +221,7 @@
                         "type": "string"
                     },
                     "fediverseScope": {
-                        "type": "string"
+                        "$ref": "#/components/schemas/UserDetailsScope"
                     },
                     "groups": {
                         "type": "array",
@@ -233,7 +233,7 @@
                         "type": "string"
                     },
                     "headlineScope": {
-                        "type": "string"
+                        "$ref": "#/components/schemas/UserDetailsScope"
                     },
                     "id": {
                         "type": "string"
@@ -259,19 +259,19 @@
                         "type": "string"
                     },
                     "organisationScope": {
-                        "type": "string"
+                        "$ref": "#/components/schemas/UserDetailsScope"
                     },
                     "phone": {
                         "type": "string"
                     },
                     "phoneScope": {
-                        "type": "string"
+                        "$ref": "#/components/schemas/UserDetailsScope"
                     },
                     "profile_enabled": {
                         "type": "string"
                     },
                     "profile_enabledScope": {
-                        "type": "string"
+                        "$ref": "#/components/schemas/UserDetailsScope"
                     },
                     "quota": {
                         "$ref": "#/components/schemas/UserDetailsQuota"
@@ -280,7 +280,7 @@
                         "type": "string"
                     },
                     "roleScope": {
-                        "type": "string"
+                        "$ref": "#/components/schemas/UserDetailsScope"
                     },
                     "storageLocation": {
                         "type": "string"
@@ -295,13 +295,13 @@
                         "type": "string"
                     },
                     "twitterScope": {
-                        "type": "string"
+                        "$ref": "#/components/schemas/UserDetailsScope"
                     },
                     "website": {
                         "type": "string"
                     },
                     "websiteScope": {
-                        "type": "string"
+                        "$ref": "#/components/schemas/UserDetailsScope"
                     }
                 }
             },
@@ -372,6 +372,18 @@
                         ]
                     }
                 }
+            },
+            "UserDetailsScope": {
+                "type": "string",
+                "enum": [
+                    "v2-private",
+                    "v2-local",
+                    "v2-federated",
+                    "v2-published",
+                    "private",
+                    "contacts",
+                    "public"
+                ]
             }
         }
     },
@@ -1341,6 +1353,15 @@
                     }
                 ],
                 "parameters": [
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "Text to search for",
+                        "schema": {
+                            "type": "string",
+                            "default": ""
+                        }
+                    },
                     {
                         "name": "limit",
                         "in": "query",

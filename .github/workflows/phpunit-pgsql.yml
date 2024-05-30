@@ -2,8 +2,11 @@
 #
 # https://github.com/nextcloud/.github
 # https://docs.github.com/en/actions/learn-github-actions/sharing-workflows-with-your-organization
+#
+# SPDX-FileCopyrightText: 2022-2024 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: MIT
 
-name: PHPUnit pgsql
+name: PHPUnit PostgreSQL
 
 on:
   pull_request:
@@ -53,11 +56,11 @@ jobs:
     strategy:
       matrix:
         php-versions: ['8.1']
-        # To keep the matrix smaller we ignore PostgreSQL '11', '13', '14' as we already test 10 and 15 as lower and upper bound
-        postgres-versions: ['10', '15', '16']
+        # To keep the matrix smaller we ignore PostgreSQL '13', '14', and '15' as we already test 12 and 16 as lower and upper bound
+        postgres-versions: ['12', '16']
         include:
           - php-versions: '8.3'
-            postgres-versions: '15'
+            postgres-versions: '16'
             coverage: ${{ github.event_name != 'pull_request' }}
 
     name: PostgreSQL ${{ matrix.postgres-versions }} (PHP ${{ matrix.php-versions }}) - database tests
@@ -81,12 +84,12 @@ jobs:
 
     steps:
       - name: Checkout server
-        uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633
+        uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4.1.6
         with:
           submodules: true
 
       - name: Set up php ${{ matrix.php-versions }}
-        uses: shivammathur/setup-php@4bd44f22a98a19e0950cbad5f31095157cc9621b # v2
+        uses: shivammathur/setup-php@c665c7a15b5295c2488ac8a87af9cb806cd72198 # v2
         with:
           php-version: ${{ matrix.php-versions }}
           # https://docs.nextcloud.com/server/stable/admin_manual/installation/source_installation.html#prerequisites-for-manual-installation

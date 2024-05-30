@@ -184,6 +184,7 @@ OC.L10N.register(
     "Folder name" : "Nazwa katalogu",
     "This node is unavailable" : "Ten węzeł jest niedostępny",
     "Download file {name}" : "Pobierz plik {name}",
+    "Invalid file name" : "Nieprawidłowa nazwa pliku",
     "\"{name}\" is not an allowed filetype." : "\"{name}\" nie jest dozwolonym typem pliku.",
     "{newName} already exists." : "{newName} już istnieje.",
     "\"{char}\" is not allowed inside a file name." : "\"{char}\" jest niedozwolone w nazwie pliku.",

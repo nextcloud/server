@@ -1,16 +1,7 @@
 /**
- * @copyright Copyright (c) 2016, John Molakvoæ <skjnldsv@protonmail.com>
- * @copyright Copyright (c) 2016, Julius Haertl <jus@bitgrid.net>
- * @copyright Copyright (c) 2016, Lukas Reschke <lukas@statuscode.ch>
- * @copyright Copyright (c) 2016, Jos Poortvliet <jos@opensuse.org>
- * @copyright Copyright (c) 2016, Erik Pellikka <erik@pellikka.org>
- * @copyright Copyright (c) 2016, jowi <sjw@gmx.ch>
- * @copyright Copyright (c) 2015, Hendrik Leppelsack <hendrik@leppelsack.de>
- * @copyright Copyright (c) 2015, Volker E <volker.e@temporaer.net>
- * @copyright Copyright (c) 2014-2017, Jan-Christoph Borchardt <hey@jancborchardt.net>
- *
- * @license GNU AGPL version 3 or any later version
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 @use 'variables';
 
@@ -31,7 +22,7 @@
 		width: 12px;
 		height: 2px;
 		border-radius: 3px;
-		background-color: var(--color-primary-text);
+		background-color: var(--color-background-plain-text);
 		left: 50%;
 		opacity: 1;
 	}
@@ -171,16 +162,8 @@
 
 	/* Right header standard */
 	.header-right {
-		> .header-menu:not(.user-menu):not(.unified-search-menu) {
-			// For general
-			> .header-menu__trigger {
-				filter: var(--background-image-invert-if-bright);
-			}
-
-			// For assistant button
-			> .trigger {
-				filter: var(--background-image-invert-if-bright);
-			}
+		> .header-menu__trigger img {
+			filter: var(--background-image-invert-if-bright);
 		}
 		> div,
 		> form {

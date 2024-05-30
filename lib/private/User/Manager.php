@@ -1,35 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Chan <plus.vincchan@gmail.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\User;
 
@@ -333,7 +307,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	/**
 	 * @return IUser[]
 	 */
-	public function getDisabledUsers(?int $limit = null, int $offset = 0): array {
+	public function getDisabledUsers(?int $limit = null, int $offset = 0, string $search = ''): array {
 		$users = $this->config->getUsersForUserValue('core', 'enabled', 'false');
 		$users = array_combine(
 			$users,
@@ -342,6 +316,15 @@ class Manager extends PublicEmitter implements IUserManager {
 				$users
 			)
 		);
+		if ($search !== '') {
+			$users = array_filter(
+				$users,
+				fn (IUser $user): bool =>
+					mb_stripos($user->getUID(), $search) !== false ||
+					mb_stripos($user->getDisplayName(), $search) !== false ||
+					mb_stripos($user->getEMailAddress() ?? '', $search) !== false,
+			);
+		}
 
 		$tempLimit = ($limit === null ? null : $limit + $offset);
 		foreach ($this->backends as $backend) {
@@ -349,7 +332,7 @@ class Manager extends PublicEmitter implements IUserManager {
 				break;
 			}
 			if ($backend instanceof IProvideEnabledStateBackend) {
-				$backendUsers = $backend->getDisabledUserList(($tempLimit === null ? null : $tempLimit - count($users)));
+				$backendUsers = $backend->getDisabledUserList(($tempLimit === null ? null : $tempLimit - count($users)), 0, $search);
 				foreach ($backendUsers as $uid) {
 					$users[$uid] = new LazyUser($uid, $this, null, $backend);
 				}

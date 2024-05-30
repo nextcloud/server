@@ -1,4 +1,6 @@
-name: "Bug report: Nextcloud Server"
+# SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: AGPL-3.0-or-later
+name: "🐛 Bug report: Nextcloud Server"
 description: "Submit a report and help us improve Nextcloud Server"
 title: "[Bug]: "
 labels: ["bug", "0. Needs triage"]
@@ -9,6 +11,14 @@ body:
         ### 👍 Thank you for contributing to our project!
         Please note this is a **free and open-source** project. Most people take on their own time to help you, so please, be patient.
         You can obtain [Enterprise support](https://nextcloud.com/support/) if you run Nextcloud Server in a mission critical environment.
+  - type: markdown
+    attributes:
+      value: |
+        ### 🚨 SECURITY INFO
+        If you are reporting a security concern, please report it via [our HackerOne page](https://hackerone.com/nextcloud) instead and review our [security policy](https://nextcloud.com/security/).
+        This allows us to coordinate the fix and release without potentially exposing all Nextcloud servers and users in the meantime.
+        It also may qualify your report for a bug bounty reward.
+        Thank you for helping make Nextcloud more secure!
   - type: checkboxes
     id: before-posting
     attributes:
@@ -38,7 +48,7 @@ body:
       label: Steps to reproduce
       description: |
         Describe the steps to reproduce the bug.
-        The better your description is _(go 'here', click 'there'...)_ the fastest you'll get an _(accurate)_ answer. 
+        The better your description is _(go 'here', click 'there'...)_ the fastest you'll get an _(accurate)_ answer.
       value: |
         1.
         2.
@@ -197,7 +207,7 @@ body:
         Provide Nextcloud Signing status.
         First, login as Admin user into your Nextcloud, then access this URL:
         ```shell
-        https://yournextcloud.tld/index.php/settings/integrity/failed 
+        https://yournextcloud.tld/index.php/settings/integrity/failed
         ```
         > NOTE: This will be automatically formatted into code for better readability.
       render: shell

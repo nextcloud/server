@@ -1,54 +1,8 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- * @copyright Copyright (c) 2016, Lukas Reschke <lukas@statuscode.ch>
- *
- * @author Arne Hamann <kontakt+github@arne.email>
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Bart Visscher <bartv@thisnet.nl>
- * @author Bernhard Posselt <dev@bernhard-posselt.com>
- * @author Bernhard Reiter <ockham@raz.or.at>
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Christopher Schäpers <kondou@ts.unde.re>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Damjan Georgievski <gdamjan@gmail.com>
- * @author Daniel Kesselberg <mail@danielkesselberg.de>
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Julius Haertl <jus@bitgrid.net>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Lionel Elie Mamane <lionel@mamane.lu>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Maxence Lange <maxence@artificial-owl.com>
- * @author Michael Weimann <mail@michael-weimann.eu>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Piotr Mrówczyński <mrow4a@yahoo.com>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author root <root@localhost.localdomain>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Thomas Tanghus <thomas@tanghus.net>
- * @author Tobia De Koninck <tobia@ledfan.be>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC;
 
@@ -86,6 +40,7 @@ use OC\Diagnostics\QueryLogger;
 use OC\Federation\CloudFederationFactory;
 use OC\Federation\CloudFederationProviderManager;
 use OC\Federation\CloudIdManager;
+use OC\Files\Cache\FileAccess;
 use OC\Files\Config\MountProviderCollection;
 use OC\Files\Config\UserMountCache;
 use OC\Files\Config\UserMountCacheListener;
@@ -171,6 +126,7 @@ use OCA\Files_External\Service\GlobalStoragesService;
 use OCA\Files_External\Service\UserGlobalStoragesService;
 use OCA\Files_External\Service\UserStoragesService;
 use OCA\Theming\ImageManager;
+use OCA\Theming\Service\BackgroundService;
 use OCA\Theming\ThemingDefaults;
 use OCA\Theming\Util;
 use OCP\Accounts\IAccountManager;
@@ -194,6 +150,7 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\ICloudFederationFactory;
 use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Federation\ICloudIdManager;
+use OCP\Files\Cache\IFileAccess;
 use OCP\Files\Config\IMountProviderCollection;
 use OCP\Files\Config\IUserMountCache;
 use OCP\Files\IMimeTypeDetector;
@@ -449,6 +406,7 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerService(ISystemTagObjectMapper::class, function (ContainerInterface $c) {
 			return $c->get('SystemTagManagerFactory')->getObjectMapper();
 		});
+		$this->registerAlias(IFileAccess::class, FileAccess::class);
 		$this->registerService('RootFolder', function (ContainerInterface $c) {
 			$manager = \OC\Files\Filesystem::getMountManager();
 			$view = new View();
@@ -1184,13 +1142,20 @@ class Server extends ServerContainer implements IServerContainer {
 			}
 
 			if ($classExists && $c->get(\OCP\IConfig::class)->getSystemValueBool('installed', false) && $c->get(IAppManager::class)->isInstalled('theming') && $c->get(TrustedDomainHelper::class)->isTrustedDomain($c->getRequest()->getInsecureServerHost())) {
+				$backgroundService = new BackgroundService(
+					$c->get(IRootFolder::class),
+					$c->getAppDataDir('theming'),
+					$c->get(\OCP\IConfig::class),
+					$c->get(ISession::class)->get('user_id'),
+				);
 				$imageManager = new ImageManager(
 					$c->get(\OCP\IConfig::class),
 					$c->getAppDataDir('theming'),
 					$c->get(IURLGenerator::class),
-					$this->get(ICacheFactory::class),
-					$this->get(LoggerInterface::class),
-					$this->get(ITempManager::class)
+					$c->get(ICacheFactory::class),
+					$c->get(LoggerInterface::class),
+					$c->get(ITempManager::class),
+					$backgroundService,
 				);
 				return new ThemingDefaults(
 					$c->get(\OCP\IConfig::class),
@@ -1201,7 +1166,8 @@ class Server extends ServerContainer implements IServerContainer {
 					new Util($c->get(\OCP\IConfig::class), $this->get(IAppManager::class), $c->getAppDataDir('theming'), $imageManager),
 					$imageManager,
 					$c->get(IAppManager::class),
-					$c->get(INavigationManager::class)
+					$c->get(INavigationManager::class),
+					$backgroundService,
 				);
 			}
 			return new \OC_Defaults();
@@ -1432,6 +1398,8 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerAlias(IAvailabilityCoordinator::class, AvailabilityCoordinator::class);
 
 		$this->registerAlias(IDeclarativeManager::class, DeclarativeManager::class);
+
+		$this->registerAlias(\OCP\TaskProcessing\IManager::class, \OC\TaskProcessing\Manager::class);
 
 		$this->connectDispatcher();
 	}

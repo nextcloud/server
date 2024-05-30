@@ -27,7 +27,6 @@ namespace OCA\Theming\Themes;
 
 use OCA\Theming\ImageManager;
 use OCA\Theming\ITheme;
-use OCA\Theming\Service\BackgroundService;
 use OCA\Theming\ThemingDefaults;
 use OCA\Theming\Util;
 use OCP\App\IAppManager;
@@ -70,11 +69,6 @@ class DefaultTheme implements ITheme {
 
 		$this->defaultPrimaryColor = $this->themingDefaults->getDefaultColorPrimary();
 		$this->primaryColor = $this->themingDefaults->getColorPrimary();
-
-		// Override primary colors (if set) to improve accessibility
-		if ($this->primaryColor === BackgroundService::DEFAULT_COLOR) {
-			$this->primaryColor = BackgroundService::DEFAULT_ACCESSIBLE_COLOR;
-		}
 	}
 
 	public function getId(): string {
@@ -186,9 +180,13 @@ class DefaultTheme implements ITheme {
 			'--animation-slow' => '300ms',
 
 			// Default variables --------------------------------------------
+			// Border width for input elements such as text fields and selects
+			'--border-width-input' => '1px',
+			'--border-width-input-focused' => '2px',
 			'--border-radius' => '3px',
 			'--border-radius-large' => '10px',
 			'--border-radius-rounded' => '28px',
+			'--border-radius-element' => '10px',
 			// pill-style button, value is large so big buttons also have correct roundness
 			'--border-radius-pill' => '100px',
 

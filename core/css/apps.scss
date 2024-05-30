@@ -1,19 +1,7 @@
 /**
- * @copyright Copyright (c) 2016-2017, John Molakvoæ <skjnldsv@protonmail.com>
- * @copyright Copyright (c) 2016, Julius Haertl <jus@bitgrid.net>
- * @copyright Copyright (c) 2016, Morris Jobke <hey@morrisjobke.de>
- * @copyright Copyright (c) 2016, pgys <info@pexlab.space>
- * @copyright Copyright (c) 2016, Lukas Reschke <lukas@statuscode.ch>
- * @copyright Copyright (c) 2016, Stefan Weil <sw@weilnetz.de>
- * @copyright Copyright (c) 2016, Roeland Jago Douma <rullzer@owncloud.com>
- * @copyright Copyright (c) 2016, jowi <sjw@gmx.ch>
- * @copyright Copyright (c) 2015, Hendrik Leppelsack <hendrik@leppelsack.de>
- * @copyright Copyright (c) 2015, Thomas Müller <thomas.mueller@tmit.eu>
- * @copyright Copyright (c) 2015, Vincent Petry <pvince81@owncloud.com>
- * @copyright Copyright (c) 2014-2017, Jan-Christoph Borchardt <hey@jancborchardt.net>
- *
- * @license GNU AGPL version 3 or any later version
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 @use 'variables';
 @use 'sass:math';
@@ -41,15 +29,15 @@ html {
 	width: 100%;
 	height: 100%;
 	position: absolute;
-	// color-background-plain should always be defined. It is the primary user colour
+	// color-background-plain should always be defined.
 	background-color: var(--color-background-plain, var(--color-main-background));
 }
 
 body {
-	// color-background-plain should always be defined. It is the primary user colour
+	// color-background-plain should always be defined.
 	background-color: var(--color-background-plain, var(--color-main-background));
-	// user background, or plain colour and finally default admin background
-	background-image: var(--image-background, var(--image-background-plain, var(--image-background-default)));
+	// user background, or plain color
+	background-image: var(--image-background);
 	background-size: cover;
 	background-position: center;
 	position: fixed;

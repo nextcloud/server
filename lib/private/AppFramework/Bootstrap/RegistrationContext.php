@@ -3,28 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright 2020 Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OC\AppFramework\Bootstrap;
@@ -162,6 +142,12 @@ class RegistrationContext {
 
 	/** @var ServiceRegistration<ITeamResourceProvider>[] */
 	private array $teamResourceProviders = [];
+
+	/** @var ServiceRegistration<\OCP\TaskProcessing\IProvider>[] */
+	private array $taskProcessingProviders = [];
+
+	/** @var ServiceRegistration<\OCP\TaskProcessing\ITaskType>[] */
+	private array $taskProcessingTaskTypes = [];
 
 	public function __construct(LoggerInterface $logger) {
 		$this->logger = $logger;
@@ -411,6 +397,20 @@ class RegistrationContext {
 					$declarativeSettingsClass
 				);
 			}
+
+			public function registerTaskProcessingProvider(string $taskProcessingProviderClass): void {
+				$this->context->registerTaskProcessingProvider(
+					$this->appId,
+					$taskProcessingProviderClass
+				);
+			}
+
+			public function registerTaskProcessingTaskType(string $taskProcessingTaskTypeClass): void {
+				$this->context->registerTaskProcessingTaskType(
+					$this->appId,
+					$taskProcessingTaskTypeClass
+				);
+			}
 		};
 	}
 
@@ -588,6 +588,20 @@ class RegistrationContext {
 	 */
 	public function registerDeclarativeSettings(string $appId, string $declarativeSettingsClass): void {
 		$this->declarativeSettings[] = new ServiceRegistration($appId, $declarativeSettingsClass);
+	}
+
+	/**
+	 * @psalm-param class-string<\OCP\TaskProcessing\IProvider> $declarativeSettingsClass
+	 */
+	public function registerTaskProcessingProvider(string $appId, string $taskProcessingProviderClass): void {
+		$this->taskProcessingProviders[] = new ServiceRegistration($appId, $taskProcessingProviderClass);
+	}
+
+	/**
+	 * @psalm-param class-string<\OCP\TaskProcessing\ITaskType> $declarativeSettingsClass
+	 */
+	public function registerTaskProcessingTaskType(string $appId, string $taskProcessingTaskTypeClass) {
+		$this->taskProcessingTaskTypes[] = new ServiceRegistration($appId, $taskProcessingTaskTypeClass);
 	}
 
 	/**
@@ -919,5 +933,19 @@ class RegistrationContext {
 	 */
 	public function getDeclarativeSettings(): array {
 		return $this->declarativeSettings;
+	}
+
+	/**
+	 * @return ServiceRegistration<\OCP\TaskProcessing\IProvider>[]
+	 */
+	public function getTaskProcessingProviders(): array {
+		return $this->taskProcessingProviders;
+	}
+
+	/**
+	 * @return ServiceRegistration<\OCP\TaskProcessing\ITaskType>[]
+	 */
+	public function getTaskProcessingTaskTypes(): array {
+		return $this->taskProcessingTaskTypes;
 	}
 }

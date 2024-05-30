@@ -160,17 +160,17 @@
 			<NcCheckboxRadioSwitch type="switch"
 				aria-controls="settings-sharing-privacy-user-enumeration"
 				:checked.sync="settings.allowShareDialogUserEnumeration">
-				{{ t('settings', 'Allow username autocompletion in share dialog and allow access to the system address book') }}
+				{{ t('settings', 'Allow account name autocompletion in share dialog and allow access to the system address book') }}
 			</NcCheckboxRadioSwitch>
 			<fieldset v-show="settings.allowShareDialogUserEnumeration" id="settings-sharing-privacy-user-enumeration" class="sharing__sub-section">
 				<em>
 					{{ t('settings', 'If autocompletion "same group" and "phone number integration" are enabled a match in either is enough to show the user.') }}
 				</em>
 				<NcCheckboxRadioSwitch :checked.sync="settings.restrictUserEnumerationToGroup">
-					{{ t('settings', 'Allow username autocompletion to users within the same groups and limit system address books to users in the same groups') }}
+					{{ t('settings', 'Allow account name autocompletion to users within the same groups and limit system address books to users in the same groups') }}
 				</NcCheckboxRadioSwitch>
 				<NcCheckboxRadioSwitch :checked.sync="settings.restrictUserEnumerationToPhone">
-					{{ t('settings', 'Allow username autocompletion to users based on phone number integration') }}
+					{{ t('settings', 'Allow account name autocompletion to users based on phone number integration') }}
 				</NcCheckboxRadioSwitch>
 			</fieldset>
 

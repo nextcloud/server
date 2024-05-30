@@ -1,37 +1,10 @@
 <?php
 
 declare(strict_types=1);
-
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Bart Visscher <bartv@thisnet.nl>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Ole Ostergaard <ole.c.ostergaard@gmail.com>
- * @author Ole Ostergaard <ole.ostergaard@knime.com>
- * @author Philipp Schaffrath <github@philipp.schaffrath.email>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\DB;
 
@@ -58,6 +31,7 @@ use OCP\Profiler\IProfiler;
 use OCP\Server;
 use Psr\Clock\ClockInterface;
 use Psr\Log\LoggerInterface;
+use function count;
 use function in_array;
 
 class Connection extends PrimaryReadReplicaConnection {
@@ -100,7 +74,7 @@ class Connection extends PrimaryReadReplicaConnection {
 	 * @throws \Exception
 	 */
 	public function __construct(
-		array $params,
+		private array $params,
 		Driver $driver,
 		?Configuration $config = null,
 		?EventManager $eventManager = null
@@ -134,6 +108,8 @@ class Connection extends PrimaryReadReplicaConnection {
 			$this->dbDataCollector->setDebugStack($debugStack);
 			$this->_config->setSQLLogger($debugStack);
 		}
+
+		$this->setNestTransactionsWithSavepoints(true);
 	}
 
 	/**
@@ -161,6 +137,15 @@ class Connection extends PrimaryReadReplicaConnection {
 			// throw a new exception to prevent leaking info from the stacktrace
 			throw new Exception('Failed to connect to the database: ' . $e->getMessage(), $e->getCode());
 		}
+	}
+
+	protected function performConnect(?string $connectionName = null): bool {
+		if (($connectionName ?? 'replica') === 'replica'
+			&& count($this->params['replica']) === 1
+			&& $this->params['primary'] === $this->params['replica'][0]) {
+			return parent::performConnect('primary');
+		}
+		return parent::performConnect($connectionName);
 	}
 
 	public function getStats(): array {
@@ -707,7 +692,7 @@ class Connection extends PrimaryReadReplicaConnection {
 			$timeTook = microtime(true) - $this->transactionActiveSince;
 			$this->transactionActiveSince = null;
 			if ($timeTook > 1) {
-				$this->logger->warning('Transaction took ' . $timeTook . 's', ['exception' => new \Exception('Transaction took ' . $timeTook . 's')]);
+				$this->logger->debug('Transaction took ' . $timeTook . 's', ['exception' => new \Exception('Transaction took ' . $timeTook . 's')]);
 			}
 		}
 		return $result;
@@ -719,7 +704,7 @@ class Connection extends PrimaryReadReplicaConnection {
 			$timeTook = microtime(true) - $this->transactionActiveSince;
 			$this->transactionActiveSince = null;
 			if ($timeTook > 1) {
-				$this->logger->warning('Transaction rollback took longer than 1s: ' . $timeTook, ['exception' => new \Exception('Long running transaction rollback')]);
+				$this->logger->debug('Transaction rollback took longer than 1s: ' . $timeTook, ['exception' => new \Exception('Long running transaction rollback')]);
 			}
 		}
 		return $result;

@@ -1,7 +1,18 @@
+# This workflow is provided via the organization template repository
+#
+# https://github.com/nextcloud/.github
+# https://docs.github.com/en/actions/learn-github-actions/sharing-workflows-with-your-organization
+#
+# SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+# SPDX-FileCopyrightText: 2024 Arthur Schiwon <blizzz@arthur-schiwon.de>
+# SPDX-License-Identifier: MIT
+
 name: OpenAPI
 
-on:
-  pull_request:
+on: pull_request
+
+permissions:
+  contents: read
 
 concurrency:
   group: openapi-${{ github.head_ref || github.run_id }}
@@ -15,10 +26,10 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633
+        uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4.1.6
 
       - name: Set up php
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@c665c7a15b5295c2488ac8a87af9cb806cd72198 # v2
         with:
           php-version: '8.2'
           extensions: xml
