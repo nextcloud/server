@@ -8,8 +8,6 @@ declare(strict_types=1);
  */
 namespace OCP\Security;
 
-use OCP\Security\ISecureRandom;
-
 /**
  * Class SecureRandom provides a wrapper around the random_int function to generate
  * secure random strings. For PHP 7 the native CSPRNG is used, older versions do
