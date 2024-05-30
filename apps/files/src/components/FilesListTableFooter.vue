@@ -41,18 +41,18 @@
 </template>
 
 <script lang="ts">
+import type { Node } from '@nextcloud/files'
+import type { PropType } from 'vue'
+
 import { formatFileSize } from '@nextcloud/files'
 import { translate } from '@nextcloud/l10n'
-import Vue from 'vue'
+import { defineComponent } from 'vue'
 
 import { useFilesStore } from '../store/files.ts'
 import { usePathsStore } from '../store/paths.ts'
 
-export default Vue.extend({
+export default defineComponent({
 	name: 'FilesListTableFooter',
-
-	components: {
-	},
 
 	props: {
 		isMtimeAvailable: {
@@ -64,7 +64,7 @@ export default Vue.extend({
 			default: false,
 		},
 		nodes: {
-			type: Array,
+			type: Array as PropType<Node[]>,
 			required: true,
 		},
 		summary: {
@@ -104,7 +104,7 @@ export default Vue.extend({
 			if (this.dir === '/') {
 				return this.filesStore.getRoot(this.currentView.id)
 			}
-			const fileId = this.pathsStore.getPath(this.currentView.id, this.dir)
+			const fileId = this.pathsStore.getPath(this.currentView.id, this.dir)!
 			return this.filesStore.getNode(fileId)
 		},
 
@@ -123,7 +123,7 @@ export default Vue.extend({
 			}
 
 			// Otherwise let's compute it
-			return formatFileSize(this.nodes.reduce((total, node) => total + node.size || 0, 0), true)
+			return formatFileSize(this.nodes.reduce((total, node) => total + (node.size ?? 0), 0), true)
 		},
 	},
 
