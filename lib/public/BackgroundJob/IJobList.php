@@ -83,7 +83,7 @@ interface IJobList {
 	 * Remove a job from the list by id
 	 *
 	 * @param int $id
-	 * @since 30.0.0
+	 * @since 29.0.4
 	 */
 	public function removeById(int $id): void;
 
