@@ -22,6 +22,7 @@ use OCP\Federation\ICloudFederationFactory;
 use OCP\Files\IRootFolder;
 use OCP\Http\Client\IClientService;
 use OCP\IServerContainer;
+use OCP\Mail\IMailer;
 use OCP\Security\IHasher;
 use OCP\Share\IManager;
 use OCP\Share\IProviderFactory;
@@ -79,7 +80,7 @@ class ProviderFactory implements IProviderFactory {
 				$this->serverContainer->getUserManager(),
 				$this->serverContainer->getGroupManager(),
 				$this->serverContainer->get(IRootFolder::class),
-				$this->serverContainer->getMailer(),
+				$this->serverContainer->get(IMailer::class),
 				$this->serverContainer->query(Defaults::class),
 				$this->serverContainer->getL10NFactory(),
 				$this->serverContainer->getURLGenerator(),
@@ -172,7 +173,7 @@ class ProviderFactory implements IProviderFactory {
 				$this->serverContainer->get(IRootFolder::class),
 				$this->serverContainer->getL10N('sharebymail'),
 				$this->serverContainer->get(LoggerInterface::class),
-				$this->serverContainer->getMailer(),
+				$this->serverContainer->get(IMailer::class),
 				$this->serverContainer->getURLGenerator(),
 				$this->serverContainer->getActivityManager(),
 				$settingsManager,
