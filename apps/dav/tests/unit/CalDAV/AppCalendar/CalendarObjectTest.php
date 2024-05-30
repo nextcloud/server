@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
 namespace OCA\DAV\Tests\unit\CalDAV\AppCalendar;
 
 use OCA\DAV\CalDAV\AppCalendar\AppCalendar;
@@ -9,7 +13,6 @@ use OCP\Calendar\ICreateFromString;
 use OCP\Constants;
 use PHPUnit\Framework\MockObject\MockObject;
 use Sabre\VObject\Component\VCalendar;
-use Sabre\VObject\Component\VEvent;
 use Test\TestCase;
 
 class CalendarObjectTest extends TestCase {
@@ -145,7 +148,7 @@ class CalendarObjectTest extends TestCase {
 
 		$backend->expects($this->once())
 			->method('createFromString')
-			->with('someid.ics', self::callback(fn($data): bool => preg_match('/BEGIN:VEVENT(.|\r\n)+STATUS:CANCELLED/', $data) === 1));
+			->with('someid.ics', self::callback(fn ($data): bool => preg_match('/BEGIN:VEVENT(.|\r\n)+STATUS:CANCELLED/', $data) === 1));
 
 		$calendarObject->delete();
 	}

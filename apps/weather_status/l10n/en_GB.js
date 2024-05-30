@@ -7,7 +7,7 @@ OC.L10N.register(
     "Error" : "Error",
     "Weather status" : "Weather status",
     "Weather status in your dashboard" : "Weather status in your dashboard",
-    "Weather status integrated in the Dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Weather status integrated in the Dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app.",
+    "Weather status integrated in the Dashboard app.\n    The geographic location can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Weather status integrated in the Dashboard app.\n    The geographic location can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app.",
     "Detect location" : "Detect location",
     "Set custom address" : "Set custom address",
     "Favorites" : "Favourites",
@@ -45,6 +45,7 @@ OC.L10N.register(
     "There was an error setting the location." : "There was an error setting the location.",
     "There was an error saving the mode." : "There was an error saving the mode.",
     "There was an error using personal address." : "There was an error using personal address.",
-    "Set location for weather" : "Set location for weather"
+    "Set location for weather" : "Set location for weather",
+    "Weather status integrated in the Dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Weather status integrated in the Dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app."
 },
 "nplurals=2; plural=(n != 1);");

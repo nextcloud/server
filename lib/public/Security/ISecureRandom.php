@@ -1,30 +1,10 @@
 <?php
 
 declare(strict_types=1);
-
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Fabrizio Steiner <fabrizio.steiner@gmail.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCP\Security;
 
@@ -43,17 +23,36 @@ use OCP\Security\ISecureRandom;
 interface ISecureRandom {
 	/**
 	 * Flags for characters that can be used for <code>generate($length, $characters)</code>
+	 * @since 8.0.0
 	 */
 	public const CHAR_UPPER = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+	/**
+	 * @since 8.0.0
+	 */
 	public const CHAR_LOWER = 'abcdefghijklmnopqrstuvwxyz';
+
+	/**
+	 * @since 8.0.0
+	 */
 	public const CHAR_DIGITS = '0123456789';
+
+	/**
+	 * @since 8.0.0
+	 */
 	public const CHAR_SYMBOLS = '!\"#$%&\\\'()*+,-./:;<=>?@[\]^_`{|}~';
+
+	/**
+	 * @since 12.0.0
+	 */
 	public const CHAR_ALPHANUMERIC = self::CHAR_UPPER . self::CHAR_LOWER . self::CHAR_DIGITS;
 
 	/**
 	 * Characters that can be used for <code>generate($length, $characters)</code>, to
-	 * generate human readable random strings. Lower- and upper-case characters and digits
+	 * generate human-readable random strings. Lower- and upper-case characters and digits
 	 * are included. Characters which are ambiguous are excluded, such as I, l, and 1 and so on.
+	 *
+	 * @since 23.0.0
 	 */
 	public const CHAR_HUMAN_READABLE = 'abcdefgijkmnopqrstwxyzABCDEFGHJKLMNPQRSTWXYZ23456789';
 
@@ -66,5 +65,5 @@ interface ISecureRandom {
 	 * @since 8.0.0
 	 */
 	public function generate(int $length,
-							 string $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'): string;
+		string $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'): string;
 }

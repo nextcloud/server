@@ -5,10 +5,10 @@
     "Commuting" : "En desplaçament",
     "Out sick" : "No disponible per malaltia",
     "Vacationing" : "De vacances",
+    "Out of office" : "Fora de l'oficina",
     "Working remotely" : "Treballant en remot",
     "In a call" : "En una trucada",
     "User status" : "Estat de l'usuari",
-    "View profile" : "Visualitza el perfil",
     "Clear status after" : "Esborra l'estat després de",
     "Emoji for your status message" : "Emoji per al missatge d'estat",
     "What is your status?" : "Quin és el vostre estat?",
@@ -41,6 +41,6 @@
     "4 hours" : "4 hores",
     "Mute all notifications" : "Silencieu totes les notificacions",
     "Appear offline" : "Apareixeu fora de línia",
-    "{status}, {timestamp}" : "{status}, {timestamp}"
+    "View profile" : "Visualitza el perfil"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

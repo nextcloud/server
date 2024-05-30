@@ -1,31 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCP\Share;
 
@@ -256,9 +234,10 @@ interface IManager {
 	 *  |-folder2 (32)
 	 *   |-fileA (42)
 	 *
-	 * fileA is shared with user1 and user1@server1
+	 * fileA is shared with user1 and user1@server1 and email1@maildomain1
 	 * folder2 is shared with group2 (user4 is a member of group2)
 	 * folder1 is shared with user2 (renamed to "folder (1)") and user2@server2
+	 *                        and email2@maildomain2
 	 *
 	 * Then the access list to '/folder1/folder2/fileA' with $currentAccess is:
 	 * [
@@ -272,15 +251,17 @@ interface IManager {
 	 *      'user2@server2' => ['node_id' => 23, 'token' => 'FooBaR'],
 	 *  ],
 	 *  public => bool
-	 *  mail => bool
-	 * ]
+	 *  mail => [
+	 *      'email1@maildomain1' => ['node_id' => 42, 'token' => 'aBcDeFg'],
+	 *      'email2@maildomain2' => ['node_id' => 23, 'token' => 'hIjKlMn'],
+	 *  ]
 	 *
 	 * The access list to '/folder1/folder2/fileA' **without** $currentAccess is:
 	 * [
 	 *  users  => ['user1', 'user2', 'user4'],
 	 *  remote => bool,
 	 *  public => bool
-	 *  mail => bool
+	 *  mail => ['email1@maildomain1', 'email2@maildomain2']
 	 * ]
 	 *
 	 * This is required for encryption/activity
@@ -414,6 +395,15 @@ interface IManager {
 	 * @since 9.0.0
 	 */
 	public function shareWithGroupMembersOnly();
+
+	/**
+	 * If shareWithGroupMembersOnly is enabled, return an optional
+	 * list of groups that must be excluded from the principle of
+	 * belonging to the same group.
+	 * @return array
+	 * @since 27.0.0
+	 */
+	public function shareWithGroupMembersOnlyExcludeGroupsList();
 
 	/**
 	 * Check if users can share with groups

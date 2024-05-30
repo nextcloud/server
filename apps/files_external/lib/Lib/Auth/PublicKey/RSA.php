@@ -47,7 +47,7 @@ class RSA extends AuthMechanism {
 			->setScheme(self::SCHEME_PUBLICKEY)
 			->setText($l->t('RSA public key'))
 			->addParameters([
-				new DefinitionParameter('user', $l->t('Username')),
+				new DefinitionParameter('user', $l->t('Login')),
 				new DefinitionParameter('public_key', $l->t('Public key')),
 				(new DefinitionParameter('private_key', 'private_key'))
 					->setType(DefinitionParameter::VALUE_HIDDEN),
@@ -56,7 +56,10 @@ class RSA extends AuthMechanism {
 		;
 	}
 
-	public function manipulateStorageConfig(StorageConfig &$storage, IUser $user = null) {
+	/**
+	 * @return void
+	 */
+	public function manipulateStorageConfig(StorageConfig &$storage, ?IUser $user = null) {
 		$auth = new RSACrypt();
 		$auth->setPassword($this->config->getSystemValue('secret', ''));
 		if (!$auth->loadKey($storage->getBackendOption('private_key'))) {

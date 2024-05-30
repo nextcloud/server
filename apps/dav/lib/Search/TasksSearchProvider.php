@@ -3,28 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2020, Georg Ehrke
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\DAV\Search;
 
@@ -41,7 +21,6 @@ use Sabre\VObject\Component;
  * @package OCA\DAV\Search
  */
 class TasksSearchProvider extends ACalendarSearchProvider {
-
 	/**
 	 * @var string[]
 	 */
@@ -78,18 +57,21 @@ class TasksSearchProvider extends ACalendarSearchProvider {
 	/**
 	 * @inheritDoc
 	 */
-	public function getOrder(string $route, array $routeParameters): int {
-		if ($route === 'tasks.Page.index') {
-			return -1;
+	public function getOrder(string $route, array $routeParameters): ?int {
+		if ($this->appManager->isEnabledForUser('tasks')) {
+			return $route === 'tasks.Page.index' ? -1 : 35;
 		}
-		return 35;
+
+		return null;
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	public function search(IUser $user,
-						   ISearchQuery $query): SearchResult {
+	public function search(
+		IUser $user,
+		ISearchQuery $query,
+	): SearchResult {
 		if (!$this->appManager->isEnabledForUser('tasks', $user)) {
 			return SearchResult::complete($this->getName(), []);
 		}
@@ -100,13 +82,15 @@ class TasksSearchProvider extends ACalendarSearchProvider {
 
 		$searchResults = $this->backend->searchPrincipalUri(
 			$principalUri,
-			$query->getTerm(),
+			$query->getFilter('term')?->get() ?? '',
 			[self::$componentType],
 			self::$searchProperties,
 			self::$searchParameters,
 			[
 				'limit' => $query->getLimit(),
 				'offset' => $query->getCursor(),
+				'since' => $query->getFilter('since'),
+				'until' => $query->getFilter('until'),
 			]
 		);
 		$formattedResults = \array_map(function (array $taskRow) use ($calendarsById, $subscriptionsById):SearchResultEntry {
@@ -131,13 +115,10 @@ class TasksSearchProvider extends ACalendarSearchProvider {
 		);
 	}
 
-	/**
-	 * @param string $calendarUri
-	 * @param string $taskUri
-	 * @return string
-	 */
-	protected function getDeepLinkToTasksApp(string $calendarUri,
-											 string $taskUri): string {
+	protected function getDeepLinkToTasksApp(
+		string $calendarUri,
+		string $taskUri,
+	): string {
 		return $this->urlGenerator->getAbsoluteURL(
 			$this->urlGenerator->linkToRoute('tasks.page.index')
 			. '#/calendars/'
@@ -147,10 +128,6 @@ class TasksSearchProvider extends ACalendarSearchProvider {
 		);
 	}
 
-	/**
-	 * @param Component $taskComponent
-	 * @return string
-	 */
 	protected function generateSubline(Component $taskComponent): string {
 		if ($taskComponent->COMPLETED) {
 			$completedDateTime = new \DateTime($taskComponent->COMPLETED->getDateTime()->format(\DateTimeInterface::ATOM));

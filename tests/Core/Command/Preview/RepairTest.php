@@ -1,5 +1,8 @@
 <?php
-
+/**
+ * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
 namespace Tests\Core\Command\Preview;
 
 use bantu\IniGetWrapper\IniGetWrapper;
@@ -10,11 +13,11 @@ use OCP\Files\Node;
 use OCP\IConfig;
 use OCP\Lock\ILockingProvider;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Formatter\OutputFormatterInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
-use Psr\Log\LoggerInterface;
 
 class RepairTest extends TestCase {
 	/** @var IConfig|MockObject */
@@ -142,7 +145,7 @@ class RepairTest extends TestCase {
 		$previewFolder->expects($this->once())
 			->method('getDirectoryListing')
 			->willReturn($directories);
-		$this->rootFolder->expects($this->at(0))
+		$this->rootFolder->expects($this->once())
 			->method('get')
 			->with("appdata_/preview")
 			->willReturn($previewFolder);

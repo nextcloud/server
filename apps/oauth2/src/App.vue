@@ -26,9 +26,20 @@
 		<table v-if="clients.length > 0" class="grid">
 			<thead>
 				<tr>
-					<th id="headerContent" />
-					<th id="headerRemove">
-&nbsp;
+					<th>
+						{{ t('oauth2', 'Name') }}
+					</th>
+					<th>
+						{{ t('oauth2', 'Redirection URI') }}
+					</th>
+					<th>
+						{{ t('oauth2', 'Client Identifier') }}
+					</th>
+					<th>
+						{{ t('oauth2', 'Secret key') }}
+					</th>
+					<th>
+						{{ t('oauth2', 'Delete client') }}
 					</th>
 				</tr>
 			</thead>
@@ -43,17 +54,21 @@
 		<br>
 		<h3>{{ t('oauth2', 'Add client') }}</h3>
 		<span v-if="newClient.error" class="msg error">{{ newClient.errorMsg }}</span>
-		<form @submit.prevent="addClient">
-			<input id="name"
-				v-model="newClient.name"
+		<form class="oauth2-form" @submit.prevent="addClient">
+			<NcTextField id="name"
+				:value.sync="newClient.name"
 				type="text"
+				class="oauth2-form--input"
 				name="name"
-				:placeholder="t('oauth2', 'Name')">
-			<input id="redirectUri"
-				v-model="newClient.redirectUri"
+				:label="t('oauth2', 'Name')"
+				:placeholder="t('oauth2', 'Name')" />
+			<NcTextField id="redirectUri"
+				:value.sync="newClient.redirectUri"
 				type="url"
+				class="oauth2-form--input"
 				name="redirectUri"
-				:placeholder="t('oauth2', 'Redirection URI')">
+				:label="t('oauth2', 'Redirection URI')"
+				:placeholder="t('oauth2', 'Redirection URI')" />
 			<NcButton native-type="submit" class="inline-button">
 				{{ t('oauth2', 'Add') }}
 			</NcButton>
@@ -69,6 +84,7 @@ import { getCapabilities } from '@nextcloud/capabilities'
 import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection.js'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import { loadState } from '@nextcloud/initial-state'
+import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
 
 export default {
 	name: 'App',
@@ -76,6 +92,7 @@ export default {
 		OAuthItem,
 		NcSettingsSection,
 		NcButton,
+		NcTextField,
 	},
 	props: {
 		clients: {
@@ -115,7 +132,7 @@ export default {
 				{
 					name: this.newClient.name,
 					redirectUri: this.newClient.redirectUri,
-				}
+				},
 			).then(response => {
 				// eslint-disable-next-line vue/no-mutating-props
 				this.clients.push(response.data)
@@ -139,5 +156,13 @@ export default {
 	.inline-button {
 		min-height: 34px !important;
 		display: inline-flex !important;
+	}
+	.oauth2-form {
+		display: flex;
+		flex-direction: row;
+	}
+	.oauth2-form--input {
+		max-width: 200px;
+		margin-right: 10px;
 	}
 </style>

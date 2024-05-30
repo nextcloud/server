@@ -2,24 +2,8 @@
 
 declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2022 Julius Härtl <jus@bitgrid.net>
- *
- * @author Julius Härtl <jus@bitgrid.net>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OC\Collaboration\Reference;
@@ -46,33 +30,22 @@ class ReferenceManager implements IReferenceManager {
 	/** @var IReferenceProvider[]|null */
 	private ?array $providers = null;
 	private ICache $cache;
-	private Coordinator $coordinator;
-	private ContainerInterface $container;
-	private LinkReferenceProvider $linkReferenceProvider;
-	private LoggerInterface $logger;
-	private IConfig $config;
-	private IUserSession $userSession;
 
-	public function __construct(LinkReferenceProvider $linkReferenceProvider,
-								ICacheFactory $cacheFactory,
-								Coordinator $coordinator,
-								ContainerInterface $container,
-								LoggerInterface $logger,
-								IConfig $config,
-								IUserSession $userSession) {
-		$this->linkReferenceProvider = $linkReferenceProvider;
+	public function __construct(
+		private LinkReferenceProvider $linkReferenceProvider,
+		ICacheFactory $cacheFactory,
+		private Coordinator $coordinator,
+		private ContainerInterface $container,
+		private LoggerInterface $logger,
+		private IConfig $config,
+		private IUserSession $userSession,
+	) {
 		$this->cache = $cacheFactory->createDistributed('reference');
-		$this->coordinator = $coordinator;
-		$this->container = $container;
-		$this->logger = $logger;
-		$this->config = $config;
-		$this->userSession = $userSession;
 	}
 
 	/**
 	 * Extract a list of URLs from a text
 	 *
-	 * @param string $text
 	 * @return string[]
 	 */
 	public function extractReferences(string $text): array {
@@ -85,9 +58,6 @@ class ReferenceManager implements IReferenceManager {
 
 	/**
 	 * Try to get a cached reference object from a reference string
-	 *
-	 * @param string $referenceId
-	 * @return IReference|null
 	 */
 	public function getReferenceFromCache(string $referenceId): ?IReference {
 		$matchedProvider = $this->getMatchedProvider($referenceId);
@@ -102,9 +72,6 @@ class ReferenceManager implements IReferenceManager {
 
 	/**
 	 * Try to get a cached reference object from a full cache key
-	 *
-	 * @param string $cacheKey
-	 * @return IReference|null
 	 */
 	public function getReferenceByCacheKey(string $cacheKey): ?IReference {
 		$cached = $this->cache->get($cacheKey);
@@ -118,9 +85,6 @@ class ReferenceManager implements IReferenceManager {
 	/**
 	 * Get a reference object from a reference string with a matching provider
 	 * Use a cached reference if possible
-	 *
-	 * @param string $referenceId
-	 * @return IReference|null
 	 */
 	public function resolveReference(string $referenceId): ?IReference {
 		$matchedProvider = $this->getMatchedProvider($referenceId);
@@ -137,6 +101,11 @@ class ReferenceManager implements IReferenceManager {
 
 		$reference = $matchedProvider->resolveReference($referenceId);
 		if ($reference) {
+			$cachePrefix = $matchedProvider->getCachePrefix($referenceId);
+			if ($cachePrefix !== '') {
+				// If a prefix is used we set an additional key to know when we need to delete by prefix during invalidateCache()
+				$this->cache->set('hasPrefix-' . md5($cachePrefix), true, self::CACHE_TTL);
+			}
 			$this->cache->set($cacheKey, Reference::toCache($reference), self::CACHE_TTL);
 			return $reference;
 		}
@@ -148,7 +117,6 @@ class ReferenceManager implements IReferenceManager {
 	 * Try to match a reference string with all the registered providers
 	 * Fallback to the link reference provider (using OpenGraph)
 	 *
-	 * @param string $referenceId
 	 * @return IReferenceProvider|null the first matching provider
 	 */
 	private function getMatchedProvider(string $referenceId): ?IReferenceProvider {
@@ -169,10 +137,6 @@ class ReferenceManager implements IReferenceManager {
 
 	/**
 	 * Get a hashed full cache key from a key and prefix given by a provider
-	 *
-	 * @param IReferenceProvider $provider
-	 * @param string $referenceId
-	 * @return string
 	 */
 	private function getFullCacheKey(IReferenceProvider $provider, string $referenceId): string {
 		$cacheKey = $provider->getCacheKey($referenceId);
@@ -183,14 +147,14 @@ class ReferenceManager implements IReferenceManager {
 
 	/**
 	 * Remove a specific cache entry from its key+prefix
-	 *
-	 * @param string $cachePrefix
-	 * @param string|null $cacheKey
-	 * @return void
 	 */
 	public function invalidateCache(string $cachePrefix, ?string $cacheKey = null): void {
 		if ($cacheKey === null) {
-			$this->cache->clear(md5($cachePrefix));
+			// clear might be a heavy operation, so we only do it if there have actually been keys set
+			if ($this->cache->remove('hasPrefix-' . md5($cachePrefix))) {
+				$this->cache->clear(md5($cachePrefix));
+			}
+
 			return;
 		}
 

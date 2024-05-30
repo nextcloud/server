@@ -26,10 +26,10 @@ declare(strict_types=1);
  */
 namespace OCA\OAuth2\Migration;
 
-use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Token\IProvider as TokenProvider;
 use OCA\OAuth2\Db\AccessToken;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\IDBConnection;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
@@ -46,8 +46,8 @@ class SetTokenExpiration implements IRepairStep {
 	private $tokenProvider;
 
 	public function __construct(IDBConnection $connection,
-								ITimeFactory $timeFactory,
-								TokenProvider $tokenProvider) {
+		ITimeFactory $timeFactory,
+		TokenProvider $tokenProvider) {
 		$this->connection = $connection;
 		$this->time = $timeFactory;
 		$this->tokenProvider = $tokenProvider;

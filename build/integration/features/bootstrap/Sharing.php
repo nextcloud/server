@@ -1,35 +1,8 @@
 <?php
 /**
- * @copyright Copyright (c) 2016 Sergio Bertolin <sbertolin@solidgear.es>
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Sergio Bertolin <sbertolin@solidgear.es>
- * @author Sergio Bertolín <sbertolin@solidgear.es>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 use Behat\Gherkin\Node\TableNode;
 use GuzzleHttp\Client;
@@ -81,7 +54,9 @@ trait Sharing {
 			$fd = $body->getRowsHash();
 			if (array_key_exists('expireDate', $fd)) {
 				$dateModification = $fd['expireDate'];
-				$fd['expireDate'] = date('Y-m-d', strtotime($dateModification));
+				if (!empty($dateModification)) {
+					$fd['expireDate'] = date('Y-m-d', strtotime($dateModification));
+				}
 			}
 			$options['form_params'] = $fd;
 		}
@@ -187,8 +162,8 @@ trait Sharing {
 			$token = $this->lastShareData->data->token;
 		}
 
-		$fullUrl = substr($this->baseUrl, 0, -4) . "public.php/webdav";
-		$this->checkDownload($fullUrl, [$token, $password], 'text/plain');
+		$fullUrl = substr($this->baseUrl, 0, -4) . "public.php/dav/files/$token/";
+		$this->checkDownload($fullUrl, ['', $password], 'text/plain');
 	}
 
 	private function checkDownload($url, $auth = null, $mimeType = null) {
@@ -270,13 +245,13 @@ trait Sharing {
 	}
 
 	public function createShare($user,
-								$path = null,
-								$shareType = null,
-								$shareWith = null,
-								$publicUpload = null,
-								$password = null,
-								$permissions = null,
-								$viewOnly = false) {
+		$path = null,
+		$shareType = null,
+		$shareWith = null,
+		$publicUpload = null,
+		$password = null,
+		$permissions = null,
+		$viewOnly = false) {
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/apps/files_sharing/api/v{$this->sharingApiVersion}/shares";
 		$client = new Client();
 		$options = [
@@ -328,7 +303,9 @@ trait Sharing {
 	public function isFieldInResponse($field, $contentExpected) {
 		$data = simplexml_load_string($this->response->getBody())->data[0];
 		if ((string)$field == 'expiration') {
-			$contentExpected = date('Y-m-d', strtotime($contentExpected)) . " 00:00:00";
+			if(!empty($contentExpected)) {
+				$contentExpected = date('Y-m-d', strtotime($contentExpected)) . " 00:00:00";
+			}
 		}
 		if (count($data->element) > 0) {
 			foreach ($data as $element) {
@@ -353,7 +330,7 @@ trait Sharing {
 				return is_numeric((string)$data->$field);
 			} elseif ($contentExpected == "AN_URL") {
 				return $this->isExpectedUrl((string)$data->$field, "index.php/s/");
-			} elseif ($data->$field == $contentExpected) {
+			} elseif ($contentExpected == $data->$field) {
 				return true;
 			}
 			return false;

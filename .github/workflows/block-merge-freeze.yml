@@ -2,6 +2,9 @@
 #
 # https://github.com/nextcloud/.github
 # https://docs.github.com/en/actions/learn-github-actions/sharing-workflows-with-your-organization
+#
+# SPDX-FileCopyrightText: 2022-2024 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: MIT
 
 name: Block merges during freezes
 
@@ -22,7 +25,7 @@ jobs:
 
     if: github.event.pull_request.draft == false
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest-low
 
     steps:
       - name: Download version.php from ${{ github.base_ref }}

@@ -28,9 +28,9 @@
  */
 namespace OCA\Files_Sharing;
 
-use OCP\Cache\CappedMemoryCache;
 use OC\Files\View;
 use OCA\Files_Sharing\Event\ShareMountedEvent;
+use OCP\Cache\CappedMemoryCache;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Config\IMountProvider;
 use OCP\Files\Storage\IStorageFactory;

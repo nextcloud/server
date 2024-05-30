@@ -31,80 +31,72 @@
 
 		<NcEmptyContent v-if="filteredUsers.length === 0"
 			class="empty"
-			:name="isInitialLoad && loading.users ? null : t('settings', 'No users')">
+			:name="isInitialLoad && loading.users ? null : t('settings', 'No accounts')">
 			<template #icon>
 				<NcLoadingIcon v-if="isInitialLoad && loading.users"
-					:name="t('settings', 'Loading users …')"
+					:name="t('settings', 'Loading accounts …')"
 					:size="64" />
-				<NcIconSvgWrapper v-else
-					:svg="usersSvg" />
+				<NcIconSvgWrapper v-else :path="mdiAccountGroup" :size="64" />
 			</template>
 		</NcEmptyContent>
 
-		<RecycleScroller v-else
-			ref="scroller"
-			class="user-list"
+		<VirtualList v-else
+			:data-component="UserRow"
+			:data-sources="filteredUsers"
+			data-key="id"
+			data-cy-user-list
+			:item-height="rowHeight"
 			:style="style"
-			:items="filteredUsers"
-			key-field="id"
-			role="table"
-			list-tag="tbody"
-			list-class="user-list__body"
-			item-tag="tr"
-			item-class="user-list__row"
-			:item-size="rowHeight"
-			@hook:mounted="handleMounted"
+			:extra-props="{
+				users,
+				settings,
+				hasObfuscated,
+				groups,
+				subAdminsGroups,
+				quotaOptions,
+				languages,
+				externalActions,
+			}"
 			@scroll-end="handleScrollEnd">
 			<template #before>
 				<caption class="hidden-visually">
-					{{ t('settings', 'List of users. This list is not fully rendered for performance reasons. The users will be rendered as you navigate through the list.') }}
+					{{ t('settings', 'List of accounts. This list is not fully rendered for performance reasons. The accounts will be rendered as you navigate through the list.') }}
 				</caption>
+			</template>
+
+			<template #header>
 				<UserListHeader :has-obfuscated="hasObfuscated" />
 			</template>
 
-			<template #default="{ item: user }">
-				<UserRow :user="user"
-					:users="users"
-					:settings="settings"
-					:has-obfuscated="hasObfuscated"
-					:groups="groups"
-					:sub-admins-groups="subAdminsGroups"
-					:quota-options="quotaOptions"
-					:languages="languages"
-					:external-actions="externalActions" />
-			</template>
-
-			<template #after>
+			<template #footer>
 				<UserListFooter :loading="loading.users"
 					:filtered-users="filteredUsers" />
 			</template>
-		</RecycleScroller>
+		</VirtualList>
 	</Fragment>
 </template>
 
 <script>
-import Vue from 'vue'
+import { mdiAccountGroup } from '@mdi/js'
+import { showError } from '@nextcloud/dialogs'
+import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { Fragment } from 'vue-frag'
-import { RecycleScroller } from 'vue-virtual-scroller'
 
+import Vue from 'vue'
 import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
 import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
 import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
 
-import { subscribe, unsubscribe } from '@nextcloud/event-bus'
-import { showError } from '@nextcloud/dialogs'
-
+import VirtualList from './Users/VirtualList.vue'
 import NewUserModal from './Users/NewUserModal.vue'
 import UserListFooter from './Users/UserListFooter.vue'
 import UserListHeader from './Users/UserListHeader.vue'
 import UserRow from './Users/UserRow.vue'
 
 import { defaultQuota, isObfuscated, unlimitedQuota } from '../utils/userUtils.ts'
-import logger from '../logger.js'
+import logger from '../logger.ts'
 
-import usersSvg from '../../img/users.svg?raw'
-
-const newUser = {
+const newUser = Object.freeze({
 	id: '',
 	displayName: '',
 	password: '',
@@ -117,7 +109,7 @@ const newUser = {
 		code: 'en',
 		name: t('settings', 'Default language'),
 	},
-}
+})
 
 export default {
 	name: 'UserList',
@@ -128,10 +120,9 @@ export default {
 		NcIconSvgWrapper,
 		NcLoadingIcon,
 		NewUserModal,
-		RecycleScroller,
 		UserListFooter,
 		UserListHeader,
-		UserRow,
+		VirtualList,
 	},
 
 	props: {
@@ -145,6 +136,16 @@ export default {
 		},
 	},
 
+	setup() {
+		// non reactive properties
+		return {
+			mdiAccountGroup,
+			rowHeight: 55,
+
+			UserRow,
+		}
+	},
+
 	data() {
 		return {
 			loading: {
@@ -152,11 +153,9 @@ export default {
 				groups: false,
 				users: false,
 			},
+			newUser: { ...newUser },
 			isInitialLoad: true,
-			rowHeight: 55,
-			usersSvg,
 			searchQuery: '',
-			newUser: Object.assign({}, newUser),
 		}
 	},
 
@@ -228,6 +227,14 @@ export default {
 			return this.$store.getters.getUsersLimit
 		},
 
+		disabledUsersOffset() {
+			return this.$store.getters.getDisabledUsersOffset
+		},
+
+		disabledUsersLimit() {
+			return this.$store.getters.getDisabledUsersLimit
+		},
+
 		usersCount() {
 			return this.users.length
 		},
@@ -249,7 +256,7 @@ export default {
 
 	watch: {
 		// watch url change and group select
-		async selectedGroup(val, old) {
+		async selectedGroup(val) {
 			this.isInitialLoad = true
 			// if selected is the disabled group but it's empty
 			await this.redirectIfDisabled()
@@ -295,16 +302,6 @@ export default {
 	},
 
 	methods: {
-		async handleMounted() {
-			// Add proper semantics to the recycle scroller slots
-			const header = this.$refs.scroller.$refs.before
-			const footer = this.$refs.scroller.$refs.after
-			header.classList.add('user-list__header')
-			header.setAttribute('role', 'rowgroup')
-			footer.classList.add('user-list__footer')
-			footer.setAttribute('role', 'rowgroup')
-		},
-
 		async handleScrollEnd() {
 			await this.loadUsers()
 		},
@@ -312,16 +309,24 @@ export default {
 		async loadUsers() {
 			this.loading.users = true
 			try {
-				await this.$store.dispatch('getUsers', {
-					offset: this.usersOffset,
-					limit: this.usersLimit,
-					group: this.selectedGroup !== 'disabled' ? this.selectedGroup : '',
-					search: this.searchQuery,
-				})
+				if (this.selectedGroup === 'disabled') {
+					await this.$store.dispatch('getDisabledUsers', {
+						offset: this.disabledUsersOffset,
+						limit: this.disabledUsersLimit,
+						search: this.searchQuery,
+					})
+				} else {
+					await this.$store.dispatch('getUsers', {
+						offset: this.usersOffset,
+						limit: this.usersLimit,
+						group: this.selectedGroup,
+						search: this.searchQuery,
+					})
+				}
 				logger.debug(`${this.users.length} total user(s) loaded`)
 			} catch (error) {
-				logger.error('Failed to load users', { error })
-				showError('Failed to load users')
+				logger.error('Failed to load accounts', { error })
+				showError('Failed to load accounts')
 			}
 			this.loading.users = false
 			this.isInitialLoad = false
@@ -368,7 +373,7 @@ export default {
 
 		setNewUserDefaultGroup(value) {
 			if (value && value.length > 0) {
-				// setting new user default group to the current selected one
+				// setting new account default group to the current selected one
 				const currentGroup = this.groups.find(group => group.id === value)
 				if (currentGroup) {
 					this.newUser.groups = [currentGroup]
@@ -410,59 +415,6 @@ export default {
 			svg {
 				max-width: 64px;
 				max-height: 64px;
-			}
-		}
-	}
-}
-
-.user-list {
-	--avatar-cell-width: 48px;
-	--cell-padding: 7px;
-	--cell-width: 200px;
-	--cell-min-width: calc(var(--cell-width) - (2 * var(--cell-padding)));
-
-	display: block;
-	overflow: auto;
-	height: 100%;
-
-	:deep {
-		.user-list {
-			&__body {
-				display: flex;
-				flex-direction: column;
-				width: 100%;
-				// Necessary for virtual scrolling absolute
-				position: relative;
-				margin-top: var(--row-height);
-			}
-
-			&__row {
-				@include row;
-				border-bottom: 1px solid var(--color-border);
-
-				&:hover {
-					background-color: var(--color-background-hover);
-
-					.row__cell:not(.row__cell--actions) {
-						background-color: var(--color-background-hover);
-					}
-				}
-			}
-		}
-
-		.vue-recycle-scroller__slot {
-			&.user-list__header,
-			&.user-list__footer {
-				position: sticky;
-			}
-
-			&.user-list__header {
-				top: 0;
-				z-index: 10;
-			}
-
-			&.user-list__footer {
-				left: 0;
 			}
 		}
 	}

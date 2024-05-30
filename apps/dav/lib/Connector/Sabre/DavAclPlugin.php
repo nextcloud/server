@@ -1,31 +1,14 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\DAV\Connector\Sabre;
 
+use OCA\DAV\CalDAV\CachedSubscription;
+use OCA\DAV\CalDAV\Calendar;
 use OCA\DAV\CardDAV\AddressBook;
 use Sabre\CalDAV\Principal\User;
 use Sabre\DAV\Exception\NotFound;
@@ -57,6 +40,10 @@ class DavAclPlugin extends \Sabre\DAVACL\Plugin {
 			switch (get_class($node)) {
 				case AddressBook::class:
 					$type = 'Addressbook';
+					break;
+				case Calendar::class:
+				case CachedSubscription::class:
+					$type = 'Calendar';
 					break;
 				default:
 					$type = 'Node';
@@ -105,11 +92,15 @@ class DavAclPlugin extends \Sabre\DAVACL\Plugin {
 
 		parent::beforeMethod($request, $response);
 
-		$createAddressbookOrCalendarRequest = ($request->getMethod() === 'MKCALENDAR' || $request->getMethod() === 'MKCOL')
-			&& (str_starts_with($path, 'addressbooks/') || str_starts_with($path, 'calendars/'));
+		if (!str_starts_with($path, 'addressbooks/') && !str_starts_with($path, 'calendars/')) {
+			return;
+		}
 
-		if ($createAddressbookOrCalendarRequest) {
-			[$parentName] = \Sabre\Uri\split($path);
+		[$parentName] = \Sabre\Uri\split($path);
+		if ($request->getMethod() === 'REPORT') {
+			// is calendars/users/bob or addressbooks/users/bob readable?
+			$this->checkPrivileges($parentName, '{DAV:}read');
+		} elseif ($request->getMethod() === 'MKCALENDAR' || $request->getMethod() === 'MKCOL') {
 			// is calendars/users/bob or addressbooks/users/bob writeable?
 			$this->checkPrivileges($parentName, '{DAV:}write');
 		}

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -29,6 +30,7 @@ namespace OCA\Theming;
  * @psalm-type ThemingBackground = array{
  *     backgroundImage: ?string,
  *     backgroundColor: string,
+ *     primaryColor: string,
  *     version: int,
  * }
  */

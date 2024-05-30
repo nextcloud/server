@@ -3,24 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2023 Marcel Klehr <mklehr@gmx.net>
- *
- * @author Marcel Klehr <mklehr@gmx.net>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OCP\TextProcessing;
@@ -28,13 +12,12 @@ namespace OCP\TextProcessing;
 /**
  * This is a text processing task
  * @since 27.1.0
- * @psalm-template T of ITaskType
- * @psalm-template S as class-string<T>
- * @psalm-template P as IProvider<T>
+ * @psalm-template-covariant T of ITaskType
  */
 final class Task implements \JsonSerializable {
 	protected ?int $id = null;
 	protected ?string $output = null;
+	private ?\DateTime $completionExpectedAt = null;
 
 	/**
 	 * @since 27.1.0
@@ -73,7 +56,7 @@ final class Task implements \JsonSerializable {
 	protected int $status = self::STATUS_UNKNOWN;
 
 	/**
-	 * @psalm-param S $type
+	 * @psalm-param class-string<T> $type
 	 * @param string $type
 	 * @param string $input
 	 * @param string $appId
@@ -91,13 +74,16 @@ final class Task implements \JsonSerializable {
 	}
 
 	/**
-	 * @psalm-param P $provider
+	 * @psalm-param IProvider<T> $provider
 	 * @param IProvider $provider
 	 * @return string
 	 * @since 27.1.0
 	 */
 	public function visitProvider(IProvider $provider): string {
 		if ($this->canUseProvider($provider)) {
+			if ($provider instanceof IProviderWithUserId) {
+				$provider->setUserId($this->getUserId());
+			}
 			return $provider->process($this->getInput());
 		} else {
 			throw new \RuntimeException('Task of type ' . $this->getType() . ' cannot visit provider with task type ' . $provider->getTaskType());
@@ -105,7 +91,7 @@ final class Task implements \JsonSerializable {
 	}
 
 	/**
-	 * @psalm-param P $provider
+	 * @psalm-param IProvider<T> $provider
 	 * @param IProvider $provider
 	 * @return bool
 	 * @since 27.1.0
@@ -115,7 +101,7 @@ final class Task implements \JsonSerializable {
 	}
 
 	/**
-	 * @psalm-return S
+	 * @psalm-return class-string<T>
 	 * @since 27.1.0
 	 */
 	final public function getType(): string {
@@ -203,7 +189,7 @@ final class Task implements \JsonSerializable {
 	}
 
 	/**
-	 * @psalm-return array{id: ?int, type: S, status: 0|1|2|3|4, userId: ?string, appId: string, input: string, output: ?string, identifier: string}
+	 * @psalm-return array{id: ?int, type: class-string<T>, status: 0|1|2|3|4, userId: ?string, appId: string, input: string, output: ?string, identifier: string, completionExpectedAt: ?int}
 	 * @since 27.1.0
 	 */
 	public function jsonSerialize(): array {
@@ -216,6 +202,24 @@ final class Task implements \JsonSerializable {
 			'input' => $this->getInput(),
 			'output' => $this->getOutput(),
 			'identifier' => $this->getIdentifier(),
+			'completionExpectedAt' => $this->getCompletionExpectedAt()?->getTimestamp(),
 		];
+	}
+
+	/**
+	 * @param null|\DateTime $completionExpectedAt
+	 * @return void
+	 * @since 28.0.0
+	 */
+	final public function setCompletionExpectedAt(?\DateTime $completionExpectedAt): void {
+		$this->completionExpectedAt = $completionExpectedAt;
+	}
+
+	/**
+	 * @return \DateTime|null
+	 * @since 28.0.0
+	 */
+	final public function getCompletionExpectedAt(): ?\DateTime {
+		return $this->completionExpectedAt;
 	}
 }

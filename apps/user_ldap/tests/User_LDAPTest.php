@@ -48,9 +48,9 @@ use OCP\HintException;
 use OCP\IConfig;
 use OCP\IUser;
 use OCP\Notification\IManager as INotificationManager;
-use Test\TestCase;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
+use Test\TestCase;
 
 /**
  * Class Test_User_Ldap_Direct
@@ -320,7 +320,7 @@ class User_LDAPTest extends TestCase {
 			->willReturn($mapping);
 		$this->connection->expects($this->any())
 			->method('getConnectionResource')
-			->willReturn('this is an ldap link');
+			->willReturn(ldap_connect('ldap://example.com'));
 
 		$this->deletedUsersIndex->expects($this->once())
 		->method('isUserMarked')

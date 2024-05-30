@@ -61,11 +61,11 @@ class Notifier implements INotifier {
 	protected $url;
 
 	public function __construct(IFactory $l10nFactory,
-								IManager $shareManager,
-								IRootFolder $rootFolder,
-								IGroupManager $groupManager,
-								IUserManager $userManager,
-								IURLGenerator $url) {
+		IManager $shareManager,
+		IRootFolder $rootFolder,
+		IGroupManager $groupManager,
+		IUserManager $userManager,
+		IURLGenerator $url) {
 		$this->l10nFactory = $l10nFactory;
 		$this->shareManager = $shareManager;
 		$this->rootFolder = $rootFolder;
@@ -249,7 +249,7 @@ class Notifier implements INotifier {
 		$notification->addParsedAction($acceptAction);
 
 		$rejectAction = $notification->createAction();
-		$rejectAction->setParsedLabel($l->t('Reject'))
+		$rejectAction->setParsedLabel($l->t('Decline'))
 			->setLink($this->url->linkToOCSRouteAbsolute('files_sharing.ShareAPI.deleteShare', ['id' => $share->getId()]), 'DELETE')
 			->setPrimary(false);
 		$notification->addParsedAction($rejectAction);

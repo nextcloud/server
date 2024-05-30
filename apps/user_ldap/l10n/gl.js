@@ -3,9 +3,9 @@ OC.L10N.register(
     {
     "Failed to clear the mappings." : "Non foi posíbel limpar as asignacións.",
     "Failed to delete the server configuration" : "Non foi posíbel eliminar a configuración do servidor",
-    "Invalid configuration: Anonymous binding is not allowed." : "A configuración non é correcta: o vínculo non está permitido.",
+    "Invalid configuration: Anonymous binding is not allowed." : "A configuración non é correcta: a vinculación non está permitida.",
     "Valid configuration, connection established!" : "A configuración é correcta, estabeleceuse a conexión!",
-    "Valid configuration, but binding failed. Please check the server settings and credentials." : "A configuración é correcta, mais o vínculo fallou. Comprobe os axustes do servidor e as credenciais.",
+    "Valid configuration, but binding failed. Please check the server settings and credentials." : "A configuración é correcta, mais fallou a vinculación. Comprobe os axustes do servidor e as credenciais.",
     "Invalid configuration. Please have a look at the logs for further details." : "A configuración non é correcta. Bótelle unha ollada aos rexistros para obter máis detalles.",
     "No action specified" : "Non se especificou unha acción",
     "No configuration specified" : "Non se especificou unha configuración",
@@ -61,6 +61,8 @@ OC.L10N.register(
     "Your password will expire today." : "O seu contrasinal caducará hoxe.",
     "_Your password will expire within %n day._::_Your password will expire within %n days._" : ["O seu contrasinal caducará en %n día.","O seu contrasinal caducará en %n días."],
     "LDAP/AD integration" : "Integración de LDAP/AD",
+    "Invalid LDAP UUIDs" : "UUID de LDAP incorrectos",
+    "None found" : "Non se atopou ningún",
     "_%n group found_::_%n groups found_" : ["Atopouse %n grupo","Atopáronse %n grupos"],
     "> 1000 groups found" : "> 1000 grupos atopados",
     "> 1000 users found" : "> 1000 usuarios atopados",
@@ -214,6 +216,7 @@ OC.L10N.register(
     "Username-LDAP User Mapping" : "Asignación do usuario ao «nome de usuario LDAP»",
     "Usernames are used to store and assign metadata. In order to precisely identify and recognize users, each LDAP user will have an internal username. This requires a mapping from username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found. The internal username is used all over. Clearing the mappings will have leftovers everywhere. Clearing the mappings is not configuration sensitive, it affects all LDAP configurations! Never clear the mappings in a production environment, only in a testing or experimental stage." : "Os nomes de usuario empréganse para almacenar e asignar metadatos. Coa fin de identificar con precisión e recoñecer aos usuarios, cada usuario LDAP terá un nome interno de usuario. Isto precisa dunha asignación do nome de usuario a usuario LDAP. O nome de usuario creado asignase ao UUID do usuario LDAP. Ademais o DN almacenase na caché, para así reducir a interacción do LDAP, mais non se utiliza para a identificación. Se o DN cambia, os cambios poden ser atopados. O nome interno do usuario utilizase para todo. A limpeza das asignacións deixará rastros en todas partes. A limpeza das asignacións non é sensíbel á configuración, afecta a todas as configuracións de LDAP! Non limpar nunca as asignacións nun contorno de produción. Limpar as asignacións só en fases de proba ou experimentais.",
     "Clear Username-LDAP User Mapping" : "Limpar a asignación do usuario ao «nome de usuario LDAP»",
-    "Clear Groupname-LDAP Group Mapping" : "Limpar a asignación do grupo ao «nome de grupo LDAP»"
+    "Clear Groupname-LDAP Group Mapping" : "Limpar a asignación do grupo ao «nome de grupo LDAP»",
+    "Invalid UUIDs of LDAP users or groups have been found. Please review your \"Override UUID detection\" settings in the Expert part of the LDAP configuration and use \"occ ldap:update-uuid\" to update them." : "Atopáronse UUID incorrectos de usuarios ou grupos LDAP. Revise a súa configuración de «Anular a detección de UUID» na parte Experto da configuración LDAP e utilice «occ ldap:update-uuid» para actualizalos."
 },
 "nplurals=2; plural=(n != 1);");

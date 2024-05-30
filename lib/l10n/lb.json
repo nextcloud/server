@@ -17,7 +17,6 @@
     "_%n hour ago_::_%n hours ago_" : ["%n Stonn hier","%n Stonnen hier"],
     "seconds ago" : "Sekonnen hir",
     "__language_name__" : "Lëtzebuergesch",
-    "Help" : "Hëllef",
     "Apps" : "Applikatiounen",
     "Settings" : "Astellungen",
     "Log out" : "Ofmellen",
@@ -66,6 +65,7 @@
     "Nov." : "Nov.",
     "Dec." : "Dez.",
     "Authentication error" : "Authentifikatioun's Fehler",
-    "Storage is temporarily not available" : "Späicherplaatz temporär net erreeschbar"
+    "Storage is temporarily not available" : "Späicherplaatz temporär net erreeschbar",
+    "Help" : "Hëllef"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

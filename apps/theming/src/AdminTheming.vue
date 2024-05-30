@@ -44,32 +44,50 @@
 					:placeholder="field.placeholder"
 					:type="field.type"
 					:value.sync="field.value"
-					@update:theming="$emit('update:theming')" />
+					@update:theming="refreshStyles" />
 
 				<!-- Primary color picker -->
-				<ColorPickerField :name="colorPickerField.name"
-					:default-value="colorPickerField.defaultValue"
-					:display-name="colorPickerField.displayName"
-					:value.sync="colorPickerField.value"
+				<ColorPickerField :name="primaryColorPickerField.name"
+					:description="primaryColorPickerField.description"
+					:default-value="primaryColorPickerField.defaultValue"
+					:display-name="primaryColorPickerField.displayName"
+					:value.sync="primaryColorPickerField.value"
 					data-admin-theming-setting-primary-color
-					@update:theming="$emit('update:theming')" />
+					@update:theming="refreshStyles" />
+
+				<!-- Background color picker -->
+				<ColorPickerField name="background_color"
+					:description="t('theming', 'Instead of a background image you can also configure a plain background color. If you use a background image changing this color will influence the color of the app menu icons.')"
+					:default-value.sync="defaultBackgroundColor"
+					:display-name="t('theming', 'Background color')"
+					:value.sync="backgroundColor"
+					data-admin-theming-setting-background-color
+					@update:theming="refreshStyles" />
 
 				<!-- Default background picker -->
-				<FileInputField v-for="field in fileInputFields"
-					:key="field.name"
-					:aria-label="field.ariaLabel"
-					:data-admin-theming-setting-file="field.name"
-					:default-mime-value="field.defaultMimeValue"
-					:display-name="field.displayName"
-					:mime-name="field.mimeName"
-					:mime-value.sync="field.mimeValue"
-					:name="field.name"
-					@update:theming="$emit('update:theming')" />
+				<FileInputField :aria-label="t('theming', 'Upload new logo')"
+					data-admin-theming-setting-file="logo"
+					:display-name="t('theming', 'Logo')"
+					mime-name="logoMime"
+					:mime-value.sync="logoMime"
+					name="logo"
+					@update:theming="refreshStyles" />
+
+				<FileInputField :aria-label="t('theming', 'Upload new background and login image')"
+					data-admin-theming-setting-file="background"
+					:display-name="t('theming', 'Background and login image')"
+					mime-name="backgroundMime"
+					:mime-value.sync="backgroundMime"
+					name="background"
+					@uploaded="backgroundURL = $event"
+					@update:theming="refreshStyles" />
+
 				<div class="admin-theming__preview" data-admin-theming-preview>
 					<div class="admin-theming__preview-logo" data-admin-theming-preview-logo />
 				</div>
 			</div>
 		</NcSettingsSection>
+
 		<NcSettingsSection :name="t('theming', 'Advanced options')">
 			<div class="admin-theming-advanced">
 				<TextField v-for="field in advancedTextFields"
@@ -81,7 +99,7 @@
 					:display-name="field.displayName"
 					:placeholder="field.placeholder"
 					:maxlength="field.maxlength"
-					@update:theming="$emit('update:theming')" />
+					@update:theming="refreshStyles" />
 				<FileInputField v-for="field in advancedFileInputFields"
 					:key="field.name"
 					:name="field.name"
@@ -90,7 +108,7 @@
 					:default-mime-value="field.defaultMimeValue"
 					:display-name="field.displayName"
 					:aria-label="field.ariaLabel"
-					@update:theming="$emit('update:theming')" />
+					@update:theming="refreshStyles" />
 				<CheckboxField :name="userThemingField.name"
 					:value="userThemingField.value"
 					:default-value="userThemingField.defaultValue"
@@ -98,7 +116,7 @@
 					:label="userThemingField.label"
 					:description="userThemingField.description"
 					data-admin-theming-setting-disable-user-theming
-					@update:theming="$emit('update:theming')" />
+					@update:theming="refreshStyles" />
 				<a v-if="!canThemeIcons"
 					:href="docUrlIcons"
 					rel="noreferrer noopener">
@@ -106,11 +124,13 @@
 				</a>
 			</div>
 		</NcSettingsSection>
+		<AppMenuSection :default-apps.sync="defaultApps" />
 	</section>
 </template>
 
 <script>
 import { loadState } from '@nextcloud/initial-state'
+import { refreshStyles } from './helpers/refreshStyles.js'
 
 import NcNoteCard from '@nextcloud/vue/dist/Components/NcNoteCard.js'
 import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection.js'
@@ -118,11 +138,15 @@ import CheckboxField from './components/admin/CheckboxField.vue'
 import ColorPickerField from './components/admin/ColorPickerField.vue'
 import FileInputField from './components/admin/FileInputField.vue'
 import TextField from './components/admin/TextField.vue'
+import AppMenuSection from './components/admin/AppMenuSection.vue'
 
 const {
+	defaultBackgroundURL,
+
 	backgroundMime,
+	backgroundURL,
+	backgroundColor,
 	canThemeIcons,
-	color,
 	docUrl,
 	docUrlIcons,
 	faviconMime,
@@ -132,10 +156,12 @@ const {
 	logoMime,
 	name,
 	notThemableErrorMessage,
+	primaryColor,
 	privacyPolicyUrl,
 	slogan,
 	url,
 	userThemingDisabled,
+	defaultApps,
 } = loadState('theming', 'adminThemingParameters')
 
 const textFields = [
@@ -168,31 +194,13 @@ const textFields = [
 	},
 ]
 
-const colorPickerField = {
-	name: 'color',
-	value: color,
+const primaryColorPickerField = {
+	name: 'primary_color',
+	value: primaryColor,
 	defaultValue: '#0082c9',
-	displayName: t('theming', 'Color'),
+	displayName: t('theming', 'Primary color'),
+	description: t('theming', 'The primary color is used for highlighting elements like important buttons. It might get slightly adjusted depending on the current color schema.'),
 }
-
-const fileInputFields = [
-	{
-		name: 'logo',
-		mimeName: 'logoMime',
-		mimeValue: logoMime,
-		defaultMimeValue: '',
-		displayName: t('theming', 'Logo'),
-		ariaLabel: t('theming', 'Upload new logo'),
-	},
-	{
-		name: 'background',
-		mimeName: 'backgroundMime',
-		mimeValue: backgroundMime,
-		defaultMimeValue: '',
-		displayName: t('theming', 'Background and login image'),
-		ariaLabel: t('theming', 'Upload new background and login image'),
-	},
-]
 
 const advancedTextFields = [
 	{
@@ -247,6 +255,7 @@ export default {
 	name: 'AdminTheming',
 
 	components: {
+		AppMenuSection,
 		CheckboxField,
 		ColorPickerField,
 		FileInputField,
@@ -255,18 +264,21 @@ export default {
 		TextField,
 	},
 
-	emits: [
-		'update:theming',
-	],
-
 	data() {
 		return {
+			backgroundMime,
+			backgroundURL,
+			backgroundColor,
+			defaultBackgroundColor: '#0069c3',
+
+			logoMime,
+
 			textFields,
-			colorPickerField,
-			fileInputFields,
+			primaryColorPickerField,
 			advancedTextFields,
 			advancedFileInputFields,
 			userThemingField,
+			defaultApps,
 
 			canThemeIcons,
 			docUrl,
@@ -274,6 +286,64 @@ export default {
 			isThemable,
 			notThemableErrorMessage,
 		}
+	},
+
+	computed: {
+		cssBackgroundImage() {
+			if (this.backgroundURL) {
+				return `url('${this.backgroundURL}')`
+			}
+			return 'unset'
+		},
+	},
+
+	watch: {
+		backgroundMime() {
+			if (this.backgroundMime === '') {
+				// Reset URL to default value for preview
+				this.backgroundURL = defaultBackgroundURL
+			} else if (this.backgroundMime === 'backgroundColor') {
+				// Reset URL to empty image when only color is configured
+				this.backgroundURL = ''
+			}
+		},
+		async backgroundURL() {
+			// When the background is changed we need to emulate the background color change
+			if (this.backgroundURL !== '') {
+				const color = await this.calculateDefaultBackground()
+				this.defaultBackgroundColor = color
+				this.backgroundColor = color
+			}
+		},
+	},
+
+	async mounted() {
+		if (this.backgroundURL) {
+			this.defaultBackgroundColor = await this.calculateDefaultBackground()
+		}
+	},
+
+	methods: {
+		refreshStyles,
+
+		/**
+		 * Same as on server - if a user uploads an image the mean color will be set as the background color
+		 */
+		calculateDefaultBackground() {
+			const toHex = (num) => `00${num.toString(16)}`.slice(-2)
+
+			return new Promise((resolve, reject) => {
+				const img = new Image()
+				img.src = this.backgroundURL
+				img.onload = () => {
+					const context = document.createElement('canvas').getContext('2d')
+					context.imageSmoothingEnabled = true
+					context.drawImage(img, 0, 0, 1, 1)
+					resolve('#' + [...context.getImageData(0, 0, 1, 1).data.slice(0, 3)].map(toHex).join(''))
+				}
+				img.onerror = reject
+			})
+		},
 	},
 }
 </script>
@@ -294,15 +364,8 @@ export default {
 		background-position: center;
 		text-align: center;
 		margin-top: 10px;
-		/* This is basically https://github.com/nextcloud/server/blob/master/core/css/guest.css
-		   But without the user variables. That way the admin can preview the render as guest*/
-		/* As guest, there is no user color color-background-plain */
-		background-color: var(--color-primary-element-default, #0082c9);
-		/* As guest, there is no user background (--image-background)
-		1. Empty background if defined
-		2. Else default background
-		3. Finally default gradient (should not happened, the background is always defined anyway) */
-		background-image: var(--image-background-plain, var(--image-background-default, linear-gradient(40deg, #0082c9 0%, #30b6ff 100%)));
+		background-color: v-bind('backgroundColor');
+		background-image: v-bind('cssBackgroundImage');
 
 		&-logo {
 			width: 20%;

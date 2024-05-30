@@ -39,7 +39,6 @@ use OCP\Defaults;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\FileInfo;
 use OCP\Files\Folder;
-use OCP\Files\NotFoundException;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IPreview;
@@ -47,8 +46,8 @@ use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
-use OCP\Share\IShare;
 use OCP\Share\IPublicShareTemplateProvider;
+use OCP\Share\IShare;
 use OCP\Template;
 use OCP\Util;
 

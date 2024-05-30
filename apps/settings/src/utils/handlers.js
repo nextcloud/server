@@ -23,7 +23,7 @@
 import { showError } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
 
-import logger from '../logger.js'
+import logger from '../logger.ts'
 
 /**
  * @param {import('axios').AxiosError} error the error

@@ -4,6 +4,7 @@
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
+ * @author Ferdinand Thiessen <opensource@fthiessen.de>
  * @author Gary Kim <gary@garykim.dev>
  * @author Jacob Neplokh <me@jacobneplokh.com>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
@@ -42,38 +43,22 @@ use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\ICacheFactory;
 use OCP\IConfig;
-use OCP\ILogger;
 use OCP\ITempManager;
 use OCP\IURLGenerator;
+use Psr\Log\LoggerInterface;
 
 class ImageManager {
 	public const SUPPORTED_IMAGE_KEYS = ['background', 'logo', 'logoheader', 'favicon'];
 
-	/** @var IConfig */
-	private $config;
-	/** @var IAppData */
-	private $appData;
-	/** @var IURLGenerator */
-	private $urlGenerator;
-	/** @var ICacheFactory */
-	private $cacheFactory;
-	/** @var ILogger */
-	private $logger;
-	/** @var ITempManager */
-	private $tempManager;
-
-	public function __construct(IConfig $config,
-								IAppData $appData,
-								IURLGenerator $urlGenerator,
-								ICacheFactory $cacheFactory,
-								ILogger $logger,
-								ITempManager $tempManager) {
-		$this->config = $config;
-		$this->urlGenerator = $urlGenerator;
-		$this->cacheFactory = $cacheFactory;
-		$this->logger = $logger;
-		$this->tempManager = $tempManager;
-		$this->appData = $appData;
+	public function __construct(
+		private IConfig $config,
+		private IAppData $appData,
+		private IURLGenerator $urlGenerator,
+		private ICacheFactory $cacheFactory,
+		private LoggerInterface $logger,
+		private ITempManager $tempManager,
+		private BackgroundService $backgroundService,
+	) {
 	}
 
 	/**
@@ -94,7 +79,11 @@ class ImageManager {
 			case 'favicon':
 				return $this->urlGenerator->imagePath('core', 'logo/logo.png') . '?v=' . $cacheBusterCounter;
 			case 'background':
-				return $this->urlGenerator->linkTo(Application::APP_ID, 'img/background/' . BackgroundService::DEFAULT_BACKGROUND_IMAGE);
+				// Removing the background defines its mime as 'backgroundColor'
+				$mimeSetting = $this->config->getAppValue('theming', 'backgroundMime', '');
+				if ($mimeSetting !== 'backgroundColor') {
+					return $this->urlGenerator->linkTo(Application::APP_ID, 'img/background/' . BackgroundService::DEFAULT_BACKGROUND_IMAGE);
+				}
 		}
 		return '';
 	}
@@ -114,10 +103,10 @@ class ImageManager {
 	 * @throws NotPermittedException
 	 */
 	public function getImage(string $key, bool $useSvg = true): ISimpleFile {
-		$logo = $this->config->getAppValue('theming', $key . 'Mime', '');
+		$mime = $this->config->getAppValue('theming', $key . 'Mime', '');
 		$folder = $this->getRootFolder()->getFolder('images');
 
-		if ($logo === '' || !$folder->fileExists($key)) {
+		if ($mime === '' || !$folder->fileExists($key)) {
 			throw new NotFoundException();
 		}
 
@@ -144,7 +133,8 @@ class ImageManager {
 
 	public function hasImage(string $key): bool {
 		$mimeSetting = $this->config->getAppValue('theming', $key . 'Mime', '');
-		return $mimeSetting !== '';
+		// Removing the background defines its mime as 'backgroundColor'
+		return $mimeSetting !== '' && $mimeSetting !== 'backgroundColor';
 	}
 
 	/**
@@ -243,47 +233,56 @@ class ImageManager {
 			throw new \Exception('Unsupported image type: ' . $detectedMimeType);
 		}
 
-		if ($key === 'background' && $this->shouldOptimizeBackgroundImage($detectedMimeType, filesize($tmpFile))) {
-			try {
-				// Optimize the image since some people may upload images that will be
-				// either to big or are not progressive rendering.
-				$newImage = @imagecreatefromstring(file_get_contents($tmpFile));
-				if ($newImage === false) {
-					throw new \Exception('Could not read background image, possibly corrupted.');
-				}
-
-				// Preserve transparency
-				imagesavealpha($newImage, true);
-				imagealphablending($newImage, true);
-
-				$newWidth = (int)(imagesx($newImage) < 4096 ? imagesx($newImage) : 4096);
-				$newHeight = (int)(imagesy($newImage) / (imagesx($newImage) / $newWidth));
-				$outputImage = imagescale($newImage, $newWidth, $newHeight);
-				if ($outputImage === false) {
-					throw new \Exception('Could not scale uploaded background image.');
-				}
-
-				$newTmpFile = $this->tempManager->getTemporaryFile();
-				imageinterlace($outputImage, 1);
-				// Keep jpeg images encoded as jpeg
-				if (str_contains($detectedMimeType, 'image/jpeg')) {
-					if (!imagejpeg($outputImage, $newTmpFile, 90)) {
-						throw new \Exception('Could not recompress background image as JPEG');
+		if ($key === 'background') {
+			if ($this->shouldOptimizeBackgroundImage($detectedMimeType, filesize($tmpFile))) {
+				try {
+					// Optimize the image since some people may upload images that will be
+					// either to big or are not progressive rendering.
+					$newImage = @imagecreatefromstring(file_get_contents($tmpFile));
+					if ($newImage === false) {
+						throw new \Exception('Could not read background image, possibly corrupted.');
 					}
-				} else {
-					if (!imagepng($outputImage, $newTmpFile, 8)) {
-						throw new \Exception('Could not recompress background image as PNG');
+
+					// Preserve transparency
+					imagesavealpha($newImage, true);
+					imagealphablending($newImage, true);
+
+					$imageWidth = imagesx($newImage);
+					$imageHeight = imagesy($newImage);
+
+					/** @var int */
+					$newWidth = min(4096, $imageWidth);
+					$newHeight = intval($imageHeight / ($imageWidth / $newWidth));
+					$outputImage = imagescale($newImage, $newWidth, $newHeight);
+					if ($outputImage === false) {
+						throw new \Exception('Could not scale uploaded background image.');
 					}
-				}
-				$tmpFile = $newTmpFile;
-				imagedestroy($outputImage);
-			} catch (\Exception $e) {
-				if (is_resource($outputImage) || $outputImage instanceof \GdImage) {
+
+					$newTmpFile = $this->tempManager->getTemporaryFile();
+					imageinterlace($outputImage, true);
+					// Keep jpeg images encoded as jpeg
+					if (str_contains($detectedMimeType, 'image/jpeg')) {
+						if (!imagejpeg($outputImage, $newTmpFile, 90)) {
+							throw new \Exception('Could not recompress background image as JPEG');
+						}
+					} else {
+						if (!imagepng($outputImage, $newTmpFile, 8)) {
+							throw new \Exception('Could not recompress background image as PNG');
+						}
+					}
+					$tmpFile = $newTmpFile;
 					imagedestroy($outputImage);
-				}
+				} catch (\Exception $e) {
+					if (isset($outputImage) && is_resource($outputImage) || $outputImage instanceof \GdImage) {
+						imagedestroy($outputImage);
+					}
 
-				$this->logger->debug($e->getMessage());
+					$this->logger->debug($e->getMessage());
+				}
 			}
+
+			// For background images we need to announce it
+			$this->backgroundService->setGlobalBackground($tmpFile);
 		}
 
 		$target->putContent(file_get_contents($tmpFile));

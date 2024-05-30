@@ -50,7 +50,7 @@ class Expiration {
 	/** @var bool */
 	private $canPurgeToSaveSpace;
 
-	public function __construct(IConfig $config,ITimeFactory $timeFactory) {
+	public function __construct(IConfig $config, ITimeFactory $timeFactory) {
 		$this->timeFactory = $timeFactory;
 		$this->setRetentionObligation($config->getSystemValue('trashbin_retention_obligation', 'auto'));
 	}

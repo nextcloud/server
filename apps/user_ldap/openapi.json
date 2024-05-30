@@ -67,16 +67,17 @@
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
+                        "description": "Required to be true for the API request to pass",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "default": "true"
+                            "type": "boolean",
+                            "default": true
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Config created successfully",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -139,7 +140,11 @@
                         "description": "Whether to show the password",
                         "schema": {
                             "type": "integer",
-                            "default": 0
+                            "default": 0,
+                            "enum": [
+                                0,
+                                1
+                            ]
                         }
                     },
                     {
@@ -154,10 +159,11 @@
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
+                        "description": "Required to be true for the API request to pass",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "default": "true"
+                            "type": "boolean",
+                            "default": true
                         }
                     }
                 ],
@@ -198,9 +204,27 @@
                     "404": {
                         "description": "Config not found",
                         "content": {
-                            "text/plain": {
+                            "application/json": {
                                 "schema": {
-                                    "type": "string"
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -244,10 +268,11 @@
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
+                        "description": "Required to be true for the API request to pass",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "default": "true"
+                            "type": "boolean",
+                            "default": true
                         }
                     }
                 ],
@@ -283,9 +308,27 @@
                     "400": {
                         "description": "Modifying config is not possible",
                         "content": {
-                            "text/plain": {
+                            "application/json": {
                                 "schema": {
-                                    "type": "string"
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -293,9 +336,27 @@
                     "404": {
                         "description": "Config not found",
                         "content": {
-                            "text/plain": {
+                            "application/json": {
                                 "schema": {
-                                    "type": "string"
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -330,10 +391,11 @@
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
+                        "description": "Required to be true for the API request to pass",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "default": "true"
+                            "type": "boolean",
+                            "default": true
                         }
                     }
                 ],
@@ -369,9 +431,27 @@
                     "404": {
                         "description": "Config not found",
                         "content": {
-                            "text/plain": {
+                            "application/json": {
                                 "schema": {
-                                    "type": "string"
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }

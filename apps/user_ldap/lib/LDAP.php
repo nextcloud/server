@@ -33,11 +33,11 @@
  */
 namespace OCA\User_LDAP;
 
-use OCP\IConfig;
-use OCP\Profiler\IProfiler;
 use OC\ServerNotAvailableException;
 use OCA\User_LDAP\DataCollector\LdapDataCollector;
 use OCA\User_LDAP\Exceptions\ConstraintViolationException;
+use OCP\IConfig;
+use OCP\Profiler\IProfiler;
 use Psr\Log\LoggerInterface;
 
 class LDAP implements ILDAPWrapper {
@@ -204,6 +204,7 @@ class LDAP implements ILDAPWrapper {
 			$serverControls = [];
 		}
 
+		/** @psalm-suppress UndefinedVariable $oldHandler is defined when the closure is called but psalm fails to get that */
 		$oldHandler = set_error_handler(function ($no, $message, $file, $line) use (&$oldHandler) {
 			if (str_contains($message, 'Partial search results returned: Sizelimit exceeded')) {
 				return true;
@@ -318,7 +319,7 @@ class LDAP implements ILDAPWrapper {
 
 	private function preFunctionCall(string $functionName, array $args): void {
 		$this->curArgs = $args;
-		if(strcasecmp($functionName, 'ldap_bind') === 0) {
+		if(strcasecmp($functionName, 'ldap_bind') === 0 || strcasecmp($functionName, 'ldap_exop_passwd') === 0) {
 			// The arguments are not key value pairs
 			// \OCA\User_LDAP\LDAP::bind passes 3 arguments, the 3rd being the pw
 			// Remove it via direct array access for now, although a better solution could be found mebbe?
@@ -360,7 +361,7 @@ class LDAP implements ILDAPWrapper {
 	/**
 	 * Analyzes the returned LDAP error and acts accordingly if not 0
 	 *
-	 * @param resource|\LDAP\Connection $resource the LDAP Connection resource
+	 * @param \LDAP\Connection $resource the LDAP Connection resource
 	 * @throws ConstraintViolationException
 	 * @throws ServerNotAvailableException
 	 * @throws \Exception

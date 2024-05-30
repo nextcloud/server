@@ -33,7 +33,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class UpdateConfig extends Command {
 	public const SUPPORTED_KEYS = [
-		'name', 'url', 'imprintUrl', 'privacyUrl', 'slogan', 'color', 'disable-user-theming'
+		'name', 'url', 'imprintUrl', 'privacyUrl', 'slogan', 'color', 'primary_color', 'disable-user-theming'
 	];
 
 	private $themingDefaults;
@@ -128,8 +128,13 @@ class UpdateConfig extends Command {
 			$value = $this->imageManager->updateImage($key, $value);
 			$key = $key . 'Mime';
 		}
+	
+		if ($key === 'color') {
+			$output->writeln('<warning>Using "color" is depreacted, use "primary_color" instead');
+			$key = 'primary_color';
+		}
 
-		if ($key === 'color' && !preg_match('/^\#([0-9a-f]{3}|[0-9a-f]{6})$/i', $value)) {
+		if ($key === 'primary_color' && !preg_match('/^\#([0-9a-f]{3}|[0-9a-f]{6})$/i', $value)) {
 			$output->writeln('<error>The given color is invalid: ' . $value . '</error>');
 			return 1;
 		}

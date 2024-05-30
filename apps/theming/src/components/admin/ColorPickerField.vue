@@ -27,23 +27,33 @@
 			<NcColorPicker :value.sync="localValue"
 				:advanced-fields="true"
 				@update:value="debounceSave">
-				<NcButton class="field__button"
+				<NcButton :id="id"
+					class="field__button"
 					type="primary"
-					:id="id"
 					:aria-label="t('theming', 'Select a custom color')"
-					data-admin-theming-setting-primary-color-picker>
+					data-admin-theming-setting-color-picker>
+					<template #icon>
+						<NcLoadingIcon v-if="loading"
+							:appearance="calculatedTextColor === '#ffffff' ? 'light' : 'dark'"
+							:size="20" />
+						<Palette v-else :size="20" />
+					</template>
 					{{ value }}
 				</NcButton>
 			</NcColorPicker>
+			<div class="field__color-preview" data-admin-theming-setting-color />
 			<NcButton v-if="value !== defaultValue"
 				type="tertiary"
 				:aria-label="t('theming', 'Reset to default')"
-				data-admin-theming-setting-primary-color-reset
+				data-admin-theming-setting-color-reset
 				@click="undo">
 				<template #icon>
 					<Undo :size="20" />
 				</template>
 			</NcButton>
+		</div>
+		<div v-if="description" class="description">
+			{{ description }}
 		</div>
 
 		<NcNoteCard v-if="errorMessage"
@@ -56,10 +66,13 @@
 
 <script>
 import { debounce } from 'debounce'
+import { colord } from 'colord'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import NcColorPicker from '@nextcloud/vue/dist/Components/NcColorPicker.js'
+import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
 import NcNoteCard from '@nextcloud/vue/dist/Components/NcNoteCard.js'
 import Undo from 'vue-material-design-icons/UndoVariant.vue'
+import Palette from 'vue-material-design-icons/Palette.vue'
 
 import TextValueMixin from '../../mixins/admin/TextValueMixin.js'
 
@@ -69,8 +82,10 @@ export default {
 	components: {
 		NcButton,
 		NcColorPicker,
+		NcLoadingIcon,
 		NcNoteCard,
 		Undo,
+		Palette,
 	},
 
 	mixins: [
@@ -82,9 +97,17 @@ export default {
 			type: String,
 			required: true,
 		},
+		description: {
+			type: String,
+			default: '',
+		},
 		value: {
 			type: String,
 			required: true,
+		},
+		textColor: {
+			type: String,
+			default: null,
 		},
 		defaultValue: {
 			type: String,
@@ -96,9 +119,33 @@ export default {
 		},
 	},
 
+	emits: ['update:theming'],
+
+	data() {
+		return {
+			loading: false,
+		}
+	},
+
+	computed: {
+		calculatedTextColor() {
+			const color = colord(this.value)
+			return color.isLight() ? '#000000' : '#ffffff'
+		},
+		usedTextColor() {
+			if (this.textColor) {
+				return this.textColor
+			}
+			return this.calculatedTextColor
+		},
+	},
+
 	methods: {
 		debounceSave: debounce(async function() {
+			this.loading = true
 			await this.save()
+			this.$emit('update:theming')
+			this.loading = false
 		}, 200),
 	},
 }
@@ -106,30 +153,20 @@ export default {
 
 <style lang="scss" scoped>
 @import './shared/field.scss';
+.description {
+	color: var(--color-text-maxcontrast);
+}
 
 .field {
-	// Override default NcButton styles
 	&__button {
-		width: 230px !important;
-		border-radius: var(--border-radius-large) !important;
-		background-color: var(--color-primary-default) !important;
+		background-color: v-bind('value') !important;
+		color: v-bind('usedTextColor') !important;
+	}
 
-		// emulated hover state because it would not make sense
-		// to create a dedicated global variable for the color-primary-default
-		&:hover::after {
-			background-color: white;
-			content: "";
-			position: absolute;
-			width: 100%;
-			height: 100%;
-			opacity: .2;
-			filter: var(--primary-invert-if-bright);
-		}
-
-		// Above the ::after
-		&::v-deep * {
-			z-index: 1;
-		}
+	&__color-preview {
+		width: var(--default-clickable-area);
+		border-radius: var(--border-radius-large);
+		background-color: v-bind('value');
 	}
 }
 </style>

@@ -26,14 +26,15 @@ declare(strict_types=1);
 namespace OCA\UserStatus\Listener;
 
 use OCA\UserStatus\Service\StatusService;
-use OCP\EventDispatcher\IEventListener;
 use OCP\EventDispatcher\Event;
+use OCP\EventDispatcher\IEventListener;
 use OCP\User\Events\UserDeletedEvent;
 
 /**
  * Class UserDeletedListener
  *
  * @package OCA\UserStatus\Listener
+ * @template-implements IEventListener<UserDeletedEvent>
  */
 class UserDeletedListener implements IEventListener {
 

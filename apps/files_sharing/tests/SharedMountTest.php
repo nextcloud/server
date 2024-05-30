@@ -377,14 +377,14 @@ class SharedMountTest extends TestCase {
 		$caches = [];
 		$cacheFactory = $this->createMock(ICacheFactory::class);
 		$cacheFactory->method('createLocal')
-			->willReturnCallback(function(string $prefix) use (&$caches) {
+			->willReturnCallback(function (string $prefix) use (&$caches) {
 				if (!isset($caches[$prefix])) {
 					$caches[$prefix] = new ArrayCache($prefix);
 				}
 				return $caches[$prefix];
 			});
 		$cacheFactory->method('createDistributed')
-			->willReturnCallback(function(string $prefix) use (&$caches) {
+			->willReturnCallback(function (string $prefix) use (&$caches) {
 				if (!isset($caches[$prefix])) {
 					$caches[$prefix] = new ArrayCache($prefix);
 				}

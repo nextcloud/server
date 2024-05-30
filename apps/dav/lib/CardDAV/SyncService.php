@@ -1,36 +1,13 @@
 <?php
 
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Thomas Citharel <nextcloud@tcit.fr>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Anna Larch <anna.larch@gmx.net>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\DAV\CardDAV;
 
-use OC\Accounts\AccountManager;
 use OCP\AppFramework\Db\TTransactional;
 use OCP\AppFramework\Http;
 use OCP\IDBConnection;
@@ -57,10 +34,10 @@ class SyncService {
 	protected string $certPath;
 
 	public function __construct(CardDavBackend $backend,
-								IUserManager $userManager,
-								IDBConnection $dbConnection,
-								LoggerInterface $logger,
-								Converter $converter) {
+		IUserManager $userManager,
+		IDBConnection $dbConnection,
+		LoggerInterface $logger,
+		Converter $converter) {
 		$this->backend = $backend;
 		$this->userManager = $userManager;
 		$this->logger = $logger;
@@ -97,7 +74,7 @@ class SyncService {
 			$cardUri = basename($resource);
 			if (isset($status[200])) {
 				$vCard = $this->download($url, $userName, $sharedSecret, $resource);
-				$this->atomic(function() use ($addressBookId, $cardUri, $vCard) {
+				$this->atomic(function () use ($addressBookId, $cardUri, $vCard) {
 					$existingCard = $this->backend->getCard($addressBookId, $cardUri);
 					if ($existingCard === false) {
 						$this->backend->createCard($addressBookId, $cardUri, $vCard['body']);
@@ -117,7 +94,7 @@ class SyncService {
 	 * @throws \Sabre\DAV\Exception\BadRequest
 	 */
 	public function ensureSystemAddressBookExists(string $principal, string $uri, array $properties): ?array {
-		return $this->atomic(function() use ($principal, $uri, $properties) {
+		return $this->atomic(function () use ($principal, $uri, $properties) {
 			$book = $this->backend->getAddressBooksByUri($principal, $uri);
 			if (!is_null($book)) {
 				return $book;
@@ -157,7 +134,7 @@ class SyncService {
 		$certPath = $this->getCertPath();
 		$client->setThrowExceptions(true);
 
-		if ($certPath !== '' && strpos($url, 'http://') !== 0) {
+		if ($certPath !== '' && !str_starts_with($url, 'http://')) {
 			$client->addCurlSetting(CURLOPT_CAINFO, $this->certPath);
 		}
 
@@ -226,7 +203,7 @@ class SyncService {
 
 		$cardId = self::getCardUri($user);
 		if ($user->isEnabled()) {
-			$this->atomic(function() use ($addressBookId, $cardId, $user) {
+			$this->atomic(function () use ($addressBookId, $cardId, $user) {
 				$card = $this->backend->getCard($addressBookId, $cardId);
 				if ($card === false) {
 					$vCard = $this->converter->createCardFromUser($user);
@@ -272,7 +249,10 @@ class SyncService {
 		return $this->localSystemAddressBook;
 	}
 
-	public function syncInstance(\Closure $progressCallback = null) {
+	/**
+	 * @return void
+	 */
+	public function syncInstance(?\Closure $progressCallback = null) {
 		$systemAddressBook = $this->getLocalSystemAddressBook();
 		$this->userManager->callForAllUsers(function ($user) use ($systemAddressBook, $progressCallback) {
 			$this->updateUser($user);

@@ -1,35 +1,10 @@
 <?php
 
 declare(strict_types=1);
-
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Kesselberg <mail@danielkesselberg.de>
- * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Tobias Kaminsky <tobias@kaminsky.me>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files\AppInfo;
 
@@ -40,10 +15,12 @@ use OCA\Files\Collaboration\Resources\Listener;
 use OCA\Files\Collaboration\Resources\ResourceProvider;
 use OCA\Files\Controller\ApiController;
 use OCA\Files\DirectEditingCapabilities;
-use OCA\Files\Event\LoadAdditionalScriptsEvent;
+use OCA\Files\Event\LoadSearchPlugins;
 use OCA\Files\Event\LoadSidebar;
+use OCA\Files\Listener\LoadSearchPluginsListener;
 use OCA\Files\Listener\LoadSidebarListener;
 use OCA\Files\Listener\RenderReferenceEventListener;
+use OCA\Files\Listener\SyncLivePhotosListener;
 use OCA\Files\Notification\Notifier;
 use OCA\Files\Search\FilesSearchProvider;
 use OCA\Files\Service\TagService;
@@ -57,11 +34,15 @@ use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\Collaboration\Reference\RenderReferenceEvent;
 use OCP\Collaboration\Resources\IProviderManager;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\Cache\CacheEntryRemovedEvent;
+use OCP\Files\Events\Node\BeforeNodeCopiedEvent;
+use OCP\Files\Events\Node\BeforeNodeDeletedEvent;
+use OCP\Files\Events\Node\BeforeNodeRenamedEvent;
+use OCP\Files\Events\Node\NodeCopiedEvent;
 use OCP\IConfig;
-use OCP\IL10N;
 use OCP\IPreview;
-use OCP\ISearch;
 use OCP\IRequest;
+use OCP\ISearch;
 use OCP\IServerContainer;
 use OCP\ITagManager;
 use OCP\IUserSession;
@@ -122,6 +103,12 @@ class Application extends App implements IBootstrap {
 
 		$context->registerEventListener(LoadSidebar::class, LoadSidebarListener::class);
 		$context->registerEventListener(RenderReferenceEvent::class, RenderReferenceEventListener::class);
+		$context->registerEventListener(BeforeNodeRenamedEvent::class, SyncLivePhotosListener::class);
+		$context->registerEventListener(BeforeNodeDeletedEvent::class, SyncLivePhotosListener::class);
+		$context->registerEventListener(CacheEntryRemovedEvent::class, SyncLivePhotosListener::class);
+		$context->registerEventListener(BeforeNodeCopiedEvent::class, SyncLivePhotosListener::class);
+		$context->registerEventListener(NodeCopiedEvent::class, SyncLivePhotosListener::class);
+		$context->registerEventListener(LoadSearchPlugins::class, LoadSearchPluginsListener::class);
 
 		$context->registerSearchProvider(FilesSearchProvider::class);
 

@@ -1,40 +1,10 @@
 <?php
-/**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author J0WI <J0WI@users.noreply.github.com>
- * @author jknockaert <jasper@knockaert.nl>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Piotr M <mrow4a@yahoo.com>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Tigran Mkrtchyan <tigran.mkrtchyan@desy.de>
- * @author Vincent Petry <vincent@nextcloud.com>
- * @author Richard Steinmetz <richard@steinmetz.cloud>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
- */
 
+/**
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
 namespace OC\Files\Storage\Wrapper;
 
 use OC\Encryption\Exceptions\ModuleDoesNotExistsException;
@@ -100,20 +70,22 @@ class Encryption extends Wrapper {
 	/** @var CappedMemoryCache<bool> */
 	private CappedMemoryCache $encryptedPaths;
 
+	private $enabled = true;
+
 	/**
 	 * @param array $parameters
 	 */
 	public function __construct(
 		$parameters,
-		IManager $encryptionManager = null,
-		Util $util = null,
-		LoggerInterface $logger = null,
-		IFile $fileHelper = null,
+		?IManager $encryptionManager = null,
+		?Util $util = null,
+		?LoggerInterface $logger = null,
+		?IFile $fileHelper = null,
 		$uid = null,
-		IStorage $keyStorage = null,
-		Update $update = null,
-		Manager $mountManager = null,
-		ArrayCache $arrayCache = null
+		?IStorage $keyStorage = null,
+		?Update $update = null,
+		?Manager $mountManager = null,
+		?ArrayCache $arrayCache = null
 	) {
 		$this->mountPoint = $parameters['mountPoint'];
 		$this->mount = $parameters['mount'];
@@ -389,6 +361,10 @@ class Encryption extends Wrapper {
 		// decrypt it
 		if ($this->arrayCache->hasKey('encryption_copy_version_' . $path)) {
 			$this->arrayCache->remove('encryption_copy_version_' . $path);
+			return $this->storage->fopen($path, $mode);
+		}
+
+		if (!$this->enabled) {
 			return $this->storage->fopen($path, $mode);
 		}
 
@@ -938,34 +914,6 @@ class Encryption extends Wrapper {
 	}
 
 	/**
-	 * parse raw header to array
-	 *
-	 * @param string $rawHeader
-	 * @return array
-	 */
-	protected function parseRawHeader($rawHeader) {
-		$result = [];
-		if (str_starts_with($rawHeader, Util::HEADER_START)) {
-			$header = $rawHeader;
-			$endAt = strpos($header, Util::HEADER_END);
-			if ($endAt !== false) {
-				$header = substr($header, 0, $endAt + strlen(Util::HEADER_END));
-
-				// +1 to not start with an ':' which would result in empty element at the beginning
-				$exploded = explode(':', substr($header, strlen(Util::HEADER_START) + 1));
-
-				$element = array_shift($exploded);
-				while ($element !== Util::HEADER_END) {
-					$result[$element] = array_shift($exploded);
-					$element = array_shift($exploded);
-				}
-			}
-		}
-
-		return $result;
-	}
-
-	/**
 	 * read header from file
 	 *
 	 * @param string $path
@@ -988,7 +936,7 @@ class Encryption extends Wrapper {
 
 		if ($isEncrypted) {
 			$firstBlock = $this->readFirstBlock($path);
-			$result = $this->parseRawHeader($firstBlock);
+			$result = $this->util->parseRawHeader($firstBlock);
 
 			// if the header doesn't contain a encryption module we check if it is a
 			// legacy file. If true, we add the default encryption module
@@ -1084,7 +1032,7 @@ class Encryption extends Wrapper {
 		return $encryptionModule->shouldEncrypt($fullPath);
 	}
 
-	public function writeStream(string $path, $stream, int $size = null): int {
+	public function writeStream(string $path, $stream, ?int $size = null): int {
 		// always fall back to fopen
 		$target = $this->fopen($path, 'w');
 		[$count, $result] = \OC_Helper::streamCopy($stream, $target);
@@ -1093,7 +1041,7 @@ class Encryption extends Wrapper {
 
 		// object store, stores the size after write and doesn't update this during scan
 		// manually store the unencrypted size
-		if ($result && $this->getWrapperStorage()->instanceOfStorage(ObjectStoreStorage::class)) {
+		if ($result && $this->getWrapperStorage()->instanceOfStorage(ObjectStoreStorage::class) && $this->shouldEncrypt($path)) {
 			$this->getCache()->put($path, ['unencrypted_size' => $count]);
 		}
 
@@ -1102,5 +1050,15 @@ class Encryption extends Wrapper {
 
 	public function clearIsEncryptedCache(): void {
 		$this->encryptedPaths->clear();
+	}
+
+	/**
+	 * Allow temporarily disabling the wrapper
+	 *
+	 * @param bool $enabled
+	 * @return void
+	 */
+	public function setEnabled(bool $enabled): void {
+		$this->enabled = $enabled;
 	}
 }

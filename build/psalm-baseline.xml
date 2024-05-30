@@ -1,119 +1,97 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="5.9.0@8b9ad1eb9e8b7d3101f949291da2b9f7767cd163">
+<files psalm-version="5.24.0@462c80e31c34e58cc4f750c656be3927e80e550e">
   <file src="3rdparty/sabre/dav/lib/CalDAV/Calendar.php">
     <MoreSpecificImplementedParamType>
-      <code>$calendarData</code>
+      <code><![CDATA[$data]]></code>
     </MoreSpecificImplementedParamType>
   </file>
   <file src="3rdparty/sabre/dav/lib/CalDAV/CalendarHome.php">
     <MoreSpecificImplementedParamType>
-      <code>$data</code>
+      <code><![CDATA[$data]]></code>
     </MoreSpecificImplementedParamType>
   </file>
   <file src="3rdparty/sabre/dav/lib/CalDAV/Principal/User.php">
     <MoreSpecificImplementedParamType>
-      <code>$data</code>
+      <code><![CDATA[$data]]></code>
     </MoreSpecificImplementedParamType>
   </file>
   <file src="3rdparty/sabre/dav/lib/CardDAV/AddressBook.php">
     <MoreSpecificImplementedParamType>
-      <code>$vcardData</code>
+      <code><![CDATA[$data]]></code>
     </MoreSpecificImplementedParamType>
   </file>
   <file src="3rdparty/sabre/dav/lib/CardDAV/AddressBookHome.php">
     <InvalidPropertyAssignmentValue>
-      <code>$principalUri</code>
+      <code><![CDATA[$principalUri]]></code>
     </InvalidPropertyAssignmentValue>
     <MoreSpecificImplementedParamType>
-      <code>$data</code>
+      <code><![CDATA[$data]]></code>
     </MoreSpecificImplementedParamType>
   </file>
   <file src="3rdparty/sabre/dav/lib/CardDAV/Card.php">
     <MoreSpecificImplementedParamType>
-      <code>$cardData</code>
+      <code><![CDATA[$cardData]]></code>
     </MoreSpecificImplementedParamType>
+  </file>
+  <file src="3rdparty/sabre/dav/lib/DAV/SimpleCollection.php">
+    <NoValue>
+      <code><![CDATA[$child]]></code>
+      <code><![CDATA[$child]]></code>
+    </NoValue>
   </file>
   <file src="3rdparty/sabre/dav/lib/DAVACL/AbstractPrincipalCollection.php">
     <LessSpecificImplementedReturnType>
-      <code>array</code>
+      <code><![CDATA[array]]></code>
     </LessSpecificImplementedReturnType>
   </file>
-  <file src="apps/admin_audit/lib/Listener/CriticalActionPerformedEventListener.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
-  </file>
-  <file src="apps/comments/lib/Listener/CommentsEntityEventListener.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
-  </file>
-  <file src="apps/comments/lib/Listener/LoadAdditionalScripts.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
-  </file>
-  <file src="apps/comments/lib/Listener/LoadSidebarScripts.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
-  </file>
-  <file src="apps/comments/lib/Notification/Listener.php">
-    <LessSpecificReturnStatement>
-      <code>$uids</code>
-    </LessSpecificReturnStatement>
-    <MoreSpecificReturnType>
-      <code><![CDATA[list<string>]]></code>
-    </MoreSpecificReturnType>
-  </file>
-  <file src="apps/contactsinteraction/lib/Listeners/ContactInteractionListener.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
+  <file src="3rdparty/symfony/routing/Route.php">
+    <MethodSignatureMustProvideReturnType>
+      <code><![CDATA[unserialize]]></code>
+    </MethodSignatureMustProvideReturnType>
   </file>
   <file src="apps/dav/appinfo/v1/caldav.php">
     <UndefinedGlobalVariable>
-      <code>$baseuri</code>
+      <code><![CDATA[$baseuri]]></code>
     </UndefinedGlobalVariable>
   </file>
   <file src="apps/dav/appinfo/v1/carddav.php">
     <UndefinedGlobalVariable>
-      <code>$baseuri</code>
+      <code><![CDATA[$baseuri]]></code>
     </UndefinedGlobalVariable>
   </file>
   <file src="apps/dav/appinfo/v1/publicwebdav.php">
     <InternalMethod>
-      <code>\OC\Files\Filesystem::logWarningWhenAddingStorageWrapper($previousLog)</code>
-      <code>\OC\Files\Filesystem::logWarningWhenAddingStorageWrapper(false)</code>
+      <code><![CDATA[\OC\Files\Filesystem::logWarningWhenAddingStorageWrapper($previousLog)]]></code>
+      <code><![CDATA[\OC\Files\Filesystem::logWarningWhenAddingStorageWrapper(false)]]></code>
     </InternalMethod>
     <UndefinedGlobalVariable>
-      <code>$baseuri</code>
+      <code><![CDATA[$baseuri]]></code>
     </UndefinedGlobalVariable>
   </file>
   <file src="apps/dav/appinfo/v1/webdav.php">
     <UndefinedGlobalVariable>
-      <code>$baseuri</code>
+      <code><![CDATA[$baseuri]]></code>
     </UndefinedGlobalVariable>
   </file>
   <file src="apps/dav/appinfo/v2/direct.php">
     <UndefinedGlobalVariable>
-      <code>$baseuri</code>
+      <code><![CDATA[$baseuri]]></code>
     </UndefinedGlobalVariable>
   </file>
   <file src="apps/dav/appinfo/v2/remote.php">
     <UndefinedGlobalVariable>
-      <code>$baseuri</code>
+      <code><![CDATA[$baseuri]]></code>
     </UndefinedGlobalVariable>
   </file>
   <file src="apps/dav/lib/AppInfo/Application.php">
     <InvalidArgument>
-      <code>CalendarDeletionDefaultUpdaterListener::class</code>
+      <code><![CDATA[registerEventListener]]></code>
     </InvalidArgument>
   </file>
   <file src="apps/dav/lib/CalDAV/BirthdayService.php">
     <UndefinedMethod>
-      <code>setDateTime</code>
-      <code>setDateTime</code>
+      <code><![CDATA[setDateTime]]></code>
+      <code><![CDATA[setDateTime]]></code>
     </UndefinedMethod>
     <UndefinedPropertyFetch>
       <code><![CDATA[$existingBirthday->VEVENT->DTSTART]]></code>
@@ -122,152 +100,66 @@
       <code><![CDATA[$newCalendarData->VEVENT->SUMMARY]]></code>
     </UndefinedPropertyFetch>
   </file>
-  <file src="apps/dav/lib/CalDAV/CachedSubscription.php">
-    <ParamNameMismatch>
-      <code>$calendarData</code>
-    </ParamNameMismatch>
-  </file>
   <file src="apps/dav/lib/CalDAV/CachedSubscriptionObject.php">
     <NullableReturnStatement>
       <code><![CDATA[$this->objectData['calendardata']]]></code>
     </NullableReturnStatement>
     <ParamNameMismatch>
-      <code>$calendarData</code>
-      <code>$calendarData</code>
+      <code><![CDATA[$calendarData]]></code>
+      <code><![CDATA[$calendarData]]></code>
     </ParamNameMismatch>
   </file>
   <file src="apps/dav/lib/CalDAV/CalDavBackend.php">
     <InvalidNullableReturnType>
-      <code>array</code>
-      <code>array</code>
+      <code><![CDATA[array]]></code>
     </InvalidNullableReturnType>
     <LessSpecificReturnStatement>
-      <code>Reader::read($objectData)</code>
+      <code><![CDATA[Reader::read($objectData)]]></code>
     </LessSpecificReturnStatement>
     <MoreSpecificImplementedParamType>
-      <code>$objectData</code>
-      <code>$uris</code>
-      <code>$uris</code>
+      <code><![CDATA[$objectData]]></code>
+      <code><![CDATA[$uris]]></code>
+      <code><![CDATA[$uris]]></code>
     </MoreSpecificImplementedParamType>
     <MoreSpecificReturnType>
-      <code>VCalendar</code>
+      <code><![CDATA[VCalendar]]></code>
     </MoreSpecificReturnType>
     <NullableReturnStatement>
-      <code><![CDATA[$this->atomic(function () use ($calendarId, $syncToken, $syncLevel, $limit, $calendarType) {
-			// Current synctoken
-			$qb = $this->db->getQueryBuilder();
-			$qb->select('synctoken')
-				->from('calendars')
-				->where(
-					$qb->expr()->eq('id', $qb->createNamedParameter($calendarId))
-				);
-			$stmt = $qb->executeQuery();
-			$currentToken = $stmt->fetchOne();
-
-			if ($currentToken === false) {
-				return null;
-			}
-
-			$result = [
-				'syncToken' => $currentToken,
-				'added' => [],
-				'modified' => [],
-				'deleted' => [],
-			];
-
-			if ($syncToken) {
-				$qb = $this->db->getQueryBuilder();
-
-				$qb->select('uri', 'operation')
-					->from('calendarchanges')
-					->where(
-						$qb->expr()->andX(
-							$qb->expr()->gte('synctoken', $qb->createNamedParameter($syncToken)),
-							$qb->expr()->lt('synctoken', $qb->createNamedParameter($currentToken)),
-							$qb->expr()->eq('calendarid', $qb->createNamedParameter($calendarId)),
-							$qb->expr()->eq('calendartype', $qb->createNamedParameter($calendarType))
-						)
-					)->orderBy('synctoken');
-				if (is_int($limit) && $limit > 0) {
-					$qb->setMaxResults($limit);
-				}
-
-				// Fetching all changes
-				$stmt = $qb->executeQuery();
-				$changes = [];
-
-				// This loop ensures that any duplicates are overwritten, only the
-				// last change on a node is relevant.
-				while ($row = $stmt->fetch()) {
-					$changes[$row['uri']] = $row['operation'];
-				}
-				$stmt->closeCursor();
-
-				foreach ($changes as $uri => $operation) {
-					switch ($operation) {
-						case 1:
-							$result['added'][] = $uri;
-							break;
-						case 2:
-							$result['modified'][] = $uri;
-							break;
-						case 3:
-							$result['deleted'][] = $uri;
-							break;
-					}
-				}
-			} else {
-				// No synctoken supplied, this is the initial sync.
-				$qb = $this->db->getQueryBuilder();
-				$qb->select('uri')
-					->from('calendarobjects')
-					->where(
-						$qb->expr()->andX(
-							$qb->expr()->eq('calendarid', $qb->createNamedParameter($calendarId)),
-							$qb->expr()->eq('calendartype', $qb->createNamedParameter($calendarType))
-						)
-					);
-				$stmt = $qb->executeQuery();
-				$result['added'] = $stmt->fetchAll(\PDO::FETCH_COLUMN);
-				$stmt->closeCursor();
-			}
-			return $result;
-		}, $this->db)]]></code>
-      <code>null</code>
+      <code><![CDATA[null]]></code>
     </NullableReturnStatement>
   </file>
   <file src="apps/dav/lib/CalDAV/CalendarHome.php">
     <InvalidNullableReturnType>
-      <code>INode</code>
+      <code><![CDATA[INode]]></code>
     </InvalidNullableReturnType>
     <LessSpecificImplementedReturnType>
-      <code>INode</code>
+      <code><![CDATA[INode]]></code>
     </LessSpecificImplementedReturnType>
     <NullableReturnStatement>
       <code><![CDATA[$calendarPlugin->getCalendarInCalendarHome($this->principalInfo['uri'], $calendarUri)]]></code>
     </NullableReturnStatement>
     <UndefinedInterfaceMethod>
-      <code>calendarSearch</code>
+      <code><![CDATA[calendarSearch]]></code>
     </UndefinedInterfaceMethod>
   </file>
   <file src="apps/dav/lib/CalDAV/CalendarRoot.php">
     <ParamNameMismatch>
-      <code>$principal</code>
+      <code><![CDATA[$principal]]></code>
     </ParamNameMismatch>
   </file>
   <file src="apps/dav/lib/CalDAV/Plugin.php">
     <ImplementedReturnTypeMismatch>
-      <code>string|null</code>
+      <code><![CDATA[string|null]]></code>
     </ImplementedReturnTypeMismatch>
   </file>
   <file src="apps/dav/lib/CalDAV/Principal/Collection.php">
     <ParamNameMismatch>
-      <code>$principalInfo</code>
+      <code><![CDATA[$principalInfo]]></code>
     </ParamNameMismatch>
   </file>
   <file src="apps/dav/lib/CalDAV/PublicCalendar.php">
     <MoreSpecificImplementedParamType>
-      <code>$paths</code>
+      <code><![CDATA[$paths]]></code>
     </MoreSpecificImplementedParamType>
   </file>
   <file src="apps/dav/lib/CalDAV/Reminder/NotificationProvider/AbstractProvider.php">
@@ -275,47 +167,47 @@
       <code><![CDATA[$vevent->DTEND]]></code>
     </LessSpecificReturnStatement>
     <UndefinedMethod>
-      <code>hasTime</code>
-      <code>isFloating</code>
-      <code>isFloating</code>
+      <code><![CDATA[hasTime]]></code>
+      <code><![CDATA[isFloating]]></code>
+      <code><![CDATA[isFloating]]></code>
     </UndefinedMethod>
   </file>
   <file src="apps/dav/lib/CalDAV/Reminder/NotificationProvider/EmailProvider.php">
     <LessSpecificReturnStatement>
-      <code>$emailAddresses</code>
+      <code><![CDATA[$emailAddresses]]></code>
     </LessSpecificReturnStatement>
     <MoreSpecificReturnType>
       <code><![CDATA[array<string, array{LANG?: string}>]]></code>
     </MoreSpecificReturnType>
     <UndefinedMethod>
-      <code>getDateTime</code>
-      <code>getDateTime</code>
-      <code>isFloating</code>
+      <code><![CDATA[getDateTime]]></code>
+      <code><![CDATA[getDateTime]]></code>
+      <code><![CDATA[isFloating]]></code>
     </UndefinedMethod>
   </file>
   <file src="apps/dav/lib/CalDAV/Reminder/NotificationProviderManager.php">
     <UndefinedConstant>
-      <code>$provider::NOTIFICATION_TYPE</code>
+      <code><![CDATA[$provider::NOTIFICATION_TYPE]]></code>
     </UndefinedConstant>
   </file>
   <file src="apps/dav/lib/CalDAV/Reminder/Notifier.php">
     <TypeDoesNotContainType>
-      <code>$diff === false</code>
+      <code><![CDATA[$diff === false]]></code>
     </TypeDoesNotContainType>
   </file>
   <file src="apps/dav/lib/CalDAV/Reminder/ReminderService.php">
     <LessSpecificReturnStatement>
-      <code>$vevents</code>
-      <code>VObject\Reader::read($calendarData,
-				VObject\Reader::OPTION_FORGIVING)</code>
+      <code><![CDATA[$vevents]]></code>
+      <code><![CDATA[VObject\Reader::read($calendarData,
+				VObject\Reader::OPTION_FORGIVING)]]></code>
     </LessSpecificReturnStatement>
     <MoreSpecificReturnType>
-      <code>VObject\Component\VCalendar|null</code>
-      <code>VObject\Component\VEvent[]</code>
+      <code><![CDATA[VObject\Component\VCalendar|null]]></code>
+      <code><![CDATA[VObject\Component\VEvent[]]]></code>
     </MoreSpecificReturnType>
     <UndefinedMethod>
-      <code>getDateTime</code>
-      <code>getDateTime</code>
+      <code><![CDATA[getDateTime]]></code>
+      <code><![CDATA[getDateTime]]></code>
     </UndefinedMethod>
     <UndefinedPropertyFetch>
       <code><![CDATA[$valarm->parent->UID]]></code>
@@ -323,17 +215,17 @@
   </file>
   <file src="apps/dav/lib/CalDAV/ResourceBooking/AbstractPrincipalBackend.php">
     <InvalidNullableReturnType>
-      <code>array</code>
+      <code><![CDATA[array]]></code>
     </InvalidNullableReturnType>
     <InvalidReturnStatement>
-      <code>$principals</code>
+      <code><![CDATA[$principals]]></code>
     </InvalidReturnStatement>
     <InvalidReturnType>
-      <code>string[]</code>
+      <code><![CDATA[string[]]]></code>
     </InvalidReturnType>
     <NullableReturnStatement>
-      <code>null</code>
-      <code>null</code>
+      <code><![CDATA[null]]></code>
+      <code><![CDATA[null]]></code>
     </NullableReturnStatement>
   </file>
   <file src="apps/dav/lib/CalDAV/Schedule/IMipPlugin.php">
@@ -342,38 +234,38 @@
     </RedundantCast>
     <RedundantCondition>
       <code><![CDATA[!empty($modified['old']) && is_array($modified['old'])]]></code>
-      <code>is_array($modified['old'])</code>
+      <code><![CDATA[is_array($modified['old'])]]></code>
     </RedundantCondition>
   </file>
   <file src="apps/dav/lib/CalDAV/Schedule/IMipService.php">
     <UndefinedMethod>
-      <code>getNormalizedValue</code>
-      <code>getNormalizedValue</code>
+      <code><![CDATA[getNormalizedValue]]></code>
+      <code><![CDATA[getNormalizedValue]]></code>
     </UndefinedMethod>
   </file>
   <file src="apps/dav/lib/CalDAV/Schedule/Plugin.php">
     <InvalidArgument>
-      <code>[$aclPlugin, 'propFind']</code>
-      <code>[$aclPlugin, 'propFind']</code>
+      <code><![CDATA[[$aclPlugin, 'propFind']]]></code>
+      <code><![CDATA[[$aclPlugin, 'propFind']]]></code>
     </InvalidArgument>
     <LessSpecificReturnStatement>
       <code><![CDATA[$vevent->DTEND]]></code>
     </LessSpecificReturnStatement>
     <UndefinedInterfaceMethod>
-      <code>get</code>
-      <code>getChildren</code>
+      <code><![CDATA[get]]></code>
+      <code><![CDATA[getChildren]]></code>
     </UndefinedInterfaceMethod>
     <UndefinedMethod>
-      <code>getDateTime</code>
-      <code>hasTime</code>
-      <code>isFloating</code>
-      <code>isFloating</code>
-      <code>principalSearch</code>
+      <code><![CDATA[getDateTime]]></code>
+      <code><![CDATA[hasTime]]></code>
+      <code><![CDATA[isFloating]]></code>
+      <code><![CDATA[isFloating]]></code>
+      <code><![CDATA[principalSearch]]></code>
     </UndefinedMethod>
   </file>
   <file src="apps/dav/lib/CalDAV/Search/SearchPlugin.php">
     <InvalidNullableReturnType>
-      <code>bool</code>
+      <code><![CDATA[bool]]></code>
     </InvalidNullableReturnType>
   </file>
   <file src="apps/dav/lib/CalDAV/Search/Xml/Filter/ParamFilter.php">
@@ -384,22 +276,22 @@
 		]]]></code>
     </InvalidReturnStatement>
     <InvalidReturnType>
-      <code>string</code>
+      <code><![CDATA[string]]></code>
     </InvalidReturnType>
   </file>
   <file src="apps/dav/lib/CalDAV/Search/Xml/Request/CalendarSearchReport.php">
     <TypeDoesNotContainType>
-      <code>!is_array($newProps['filters']['comps'])</code>
-      <code>!is_array($newProps['filters']['params'])</code>
-      <code>!is_array($newProps['filters']['props'])</code>
-      <code>!isset($newProps['filters']['comps']) || !is_array($newProps['filters']['comps'])</code>
-      <code>!isset($newProps['filters']['params']) || !is_array($newProps['filters']['params'])</code>
-      <code>!isset($newProps['filters']['props']) || !is_array($newProps['filters']['props'])</code>
+      <code><![CDATA[!is_array($newProps['filters']['comps'])]]></code>
+      <code><![CDATA[!is_array($newProps['filters']['params'])]]></code>
+      <code><![CDATA[!is_array($newProps['filters']['props'])]]></code>
+      <code><![CDATA[!isset($newProps['filters']['comps']) || !is_array($newProps['filters']['comps'])]]></code>
+      <code><![CDATA[!isset($newProps['filters']['params']) || !is_array($newProps['filters']['params'])]]></code>
+      <code><![CDATA[!isset($newProps['filters']['props']) || !is_array($newProps['filters']['props'])]]></code>
     </TypeDoesNotContainType>
   </file>
   <file src="apps/dav/lib/CalDAV/WebcalCaching/RefreshWebcalService.php">
     <InvalidArgument>
-      <code>$webcalData</code>
+      <code><![CDATA[$webcalData]]></code>
     </InvalidArgument>
   </file>
   <file src="apps/dav/lib/CardDAV/AddressBookImpl.php">
@@ -408,65 +300,40 @@
       <code><![CDATA[$this->getKey()]]></code>
     </InvalidArgument>
     <LessSpecificReturnStatement>
-      <code>Reader::read($cardData)</code>
+      <code><![CDATA[Reader::read($cardData)]]></code>
     </LessSpecificReturnStatement>
     <MoreSpecificReturnType>
-      <code>VCard</code>
+      <code><![CDATA[VCard]]></code>
     </MoreSpecificReturnType>
   </file>
   <file src="apps/dav/lib/CardDAV/AddressBookRoot.php">
     <ParamNameMismatch>
-      <code>$principal</code>
+      <code><![CDATA[$principal]]></code>
     </ParamNameMismatch>
   </file>
   <file src="apps/dav/lib/CardDAV/CardDavBackend.php">
     <FalsableReturnStatement>
-      <code>false</code>
+      <code><![CDATA[false]]></code>
     </FalsableReturnStatement>
     <LessSpecificReturnStatement>
-      <code>Reader::read($cardData)</code>
+      <code><![CDATA[Reader::read($cardData)]]></code>
     </LessSpecificReturnStatement>
     <MoreSpecificReturnType>
-      <code>VCard</code>
+      <code><![CDATA[VCard]]></code>
     </MoreSpecificReturnType>
     <TypeDoesNotContainType>
-      <code>$addressBooks[$row['id']][$readOnlyPropertyName] === 0</code>
+      <code><![CDATA[$addressBooks[$row['id']][$readOnlyPropertyName] === 0]]></code>
     </TypeDoesNotContainType>
   </file>
   <file src="apps/dav/lib/CardDAV/MultiGetExportPlugin.php">
     <InvalidNullableReturnType>
-      <code>bool</code>
+      <code><![CDATA[bool]]></code>
     </InvalidNullableReturnType>
-  </file>
-  <file src="apps/dav/lib/CardDAV/PhotoCache.php">
-    <InvalidNullableReturnType>
-      <code>string</code>
-    </InvalidNullableReturnType>
-    <LessSpecificReturnStatement>
-      <code><![CDATA[[
-				'Content-Type' => $type,
-				'body' => $val
-			]]]></code>
-    </LessSpecificReturnStatement>
-    <MoreSpecificReturnType>
-      <code>false|array{body: string, Content-Type: string}</code>
-    </MoreSpecificReturnType>
-    <NullableReturnStatement>
-      <code>$type</code>
-    </NullableReturnStatement>
   </file>
   <file src="apps/dav/lib/CardDAV/Plugin.php">
     <ImplementedReturnTypeMismatch>
-      <code>string|null</code>
+      <code><![CDATA[string|null]]></code>
     </ImplementedReturnTypeMismatch>
-  </file>
-  <file src="apps/dav/lib/CardDAV/SystemAddressbook.php">
-    <InvalidNullableReturnType>
-      <code>getChanges</code>
-    </InvalidNullableReturnType>
-    <NullableReturnStatement>
-      <code>null</code>
-    </NullableReturnStatement>
   </file>
   <file src="apps/dav/lib/CardDAV/UserAddressBooks.php">
     <InvalidArgument>
@@ -476,91 +343,86 @@
   </file>
   <file src="apps/dav/lib/CardDAV/Xml/Groups.php">
     <InvalidPropertyAssignmentValue>
-      <code>$groups</code>
+      <code><![CDATA[$groups]]></code>
     </InvalidPropertyAssignmentValue>
   </file>
   <file src="apps/dav/lib/Comments/CommentsPlugin.php">
     <UndefinedFunction>
-      <code>\Sabre\HTTP\toDate($value)</code>
+      <code><![CDATA[\Sabre\HTTP\toDate($value)]]></code>
     </UndefinedFunction>
   </file>
   <file src="apps/dav/lib/Connector/Sabre/AnonymousOptionsPlugin.php">
     <InvalidNullableReturnType>
-      <code>bool</code>
+      <code><![CDATA[bool]]></code>
     </InvalidNullableReturnType>
   </file>
   <file src="apps/dav/lib/Connector/Sabre/Auth.php">
     <LessSpecificReturnStatement>
-      <code>$data</code>
+      <code><![CDATA[$data]]></code>
     </LessSpecificReturnStatement>
     <MoreSpecificReturnType>
-      <code>array{bool, string}</code>
+      <code><![CDATA[array{bool, string}]]></code>
     </MoreSpecificReturnType>
   </file>
   <file src="apps/dav/lib/Connector/Sabre/BearerAuth.php">
     <UndefinedInterfaceMethod>
-      <code>tryTokenLogin</code>
+      <code><![CDATA[tryTokenLogin]]></code>
     </UndefinedInterfaceMethod>
   </file>
   <file src="apps/dav/lib/Connector/Sabre/Directory.php">
     <InvalidPropertyAssignmentValue>
-      <code>$nodes</code>
+      <code><![CDATA[$nodes]]></code>
     </InvalidPropertyAssignmentValue>
     <InvalidReturnStatement>
       <code><![CDATA[$this->dirContent]]></code>
     </InvalidReturnStatement>
     <InvalidReturnType>
-      <code>\Sabre\DAV\INode[]</code>
+      <code><![CDATA[\Sabre\DAV\INode[]]]></code>
     </InvalidReturnType>
     <LessSpecificReturnStatement>
       <code><![CDATA[$this->node]]></code>
     </LessSpecificReturnStatement>
     <MoreSpecificReturnType>
-      <code>Folder</code>
+      <code><![CDATA[Folder]]></code>
     </MoreSpecificReturnType>
     <NullArgument>
-      <code>null</code>
-      <code>null</code>
-      <code>null</code>
+      <code><![CDATA[null]]></code>
+      <code><![CDATA[null]]></code>
+      <code><![CDATA[null]]></code>
     </NullArgument>
     <ParamNameMismatch>
-      <code>$fullSourcePath</code>
+      <code><![CDATA[$fullSourcePath]]></code>
     </ParamNameMismatch>
   </file>
   <file src="apps/dav/lib/Connector/Sabre/File.php">
     <LessSpecificReturnStatement>
       <code><![CDATA[$this->node]]></code>
     </LessSpecificReturnStatement>
-    <MoreSpecificImplementedParamType>
-      <code>$data</code>
-    </MoreSpecificImplementedParamType>
     <MoreSpecificReturnType>
-      <code>\OCP\Files\File</code>
+      <code><![CDATA[\OCP\Files\File]]></code>
     </MoreSpecificReturnType>
   </file>
   <file src="apps/dav/lib/Connector/Sabre/FilesReportPlugin.php">
     <InvalidArgument>
-      <code>0</code>
-      <code>200</code>
+      <code><![CDATA[0]]></code>
     </InvalidArgument>
     <InvalidNullableReturnType>
-      <code>bool</code>
+      <code><![CDATA[bool]]></code>
     </InvalidNullableReturnType>
     <TooManyArguments>
-      <code>new PreconditionFailed('Cannot filter by non-existing tag', 0, $e)</code>
+      <code><![CDATA[new PreconditionFailed('Cannot filter by non-existing tag', 0, $e)]]></code>
     </TooManyArguments>
     <UndefinedClass>
-      <code>\OCA\Circles\Api\v1\Circles</code>
+      <code><![CDATA[\OCA\Circles\Api\v1\Circles]]></code>
     </UndefinedClass>
     <UndefinedInterfaceMethod>
-      <code>getById</code>
-      <code>getPath</code>
+      <code><![CDATA[getPath]]></code>
     </UndefinedInterfaceMethod>
   </file>
   <file src="apps/dav/lib/Connector/Sabre/Node.php">
     <InvalidNullableReturnType>
-      <code>int</code>
-      <code>integer</code>
+      <code><![CDATA[int]]></code>
+      <code><![CDATA[integer]]></code>
     </InvalidNullableReturnType>
     <NullableReturnStatement>
       <code><![CDATA[$this->info->getId()]]></code>
@@ -569,47 +431,41 @@
   </file>
   <file src="apps/dav/lib/Connector/Sabre/Principal.php">
     <InvalidNullableReturnType>
-      <code>array</code>
+      <code><![CDATA[array]]></code>
     </InvalidNullableReturnType>
     <InvalidReturnStatement>
-      <code>$principals</code>
+      <code><![CDATA[$principals]]></code>
     </InvalidReturnStatement>
     <InvalidReturnType>
-      <code>string[]</code>
+      <code><![CDATA[string[]]]></code>
     </InvalidReturnType>
     <InvalidScalarArgument>
-      <code>$results</code>
+      <code><![CDATA[$results]]></code>
     </InvalidScalarArgument>
     <NullableReturnStatement>
       <code><![CDATA[$this->circleToPrincipal($decodedName)
 					?: $this->circleToPrincipal($name)]]></code>
-      <code>null</code>
-      <code>null</code>
-      <code>null</code>
-      <code>null</code>
-      <code>null</code>
-      <code>null</code>
-      <code>null</code>
+      <code><![CDATA[null]]></code>
+      <code><![CDATA[null]]></code>
+      <code><![CDATA[null]]></code>
+      <code><![CDATA[null]]></code>
+      <code><![CDATA[null]]></code>
+      <code><![CDATA[null]]></code>
+      <code><![CDATA[null]]></code>
     </NullableReturnStatement>
     <UndefinedClass>
-      <code>\OCA\Circles\Api\v1\Circles</code>
-      <code>\OCA\Circles\Api\v1\Circles</code>
+      <code><![CDATA[\OCA\Circles\Api\v1\Circles]]></code>
+      <code><![CDATA[\OCA\Circles\Api\v1\Circles]]></code>
     </UndefinedClass>
-  </file>
-  <file src="apps/dav/lib/Connector/Sabre/QuotaPlugin.php">
-    <UndefinedInterfaceMethod>
-      <code>getPath</code>
-      <code>getPath</code>
-    </UndefinedInterfaceMethod>
   </file>
   <file src="apps/dav/lib/Connector/Sabre/ServerFactory.php">
     <TooManyArguments>
-      <code>new \OCA\DAV\Connector\Sabre\QuotaPlugin($view, true)</code>
+      <code><![CDATA[new \OCA\DAV\Connector\Sabre\QuotaPlugin($view, true)]]></code>
     </TooManyArguments>
   </file>
   <file src="apps/dav/lib/Connector/Sabre/ShareTypeList.php">
     <InvalidArgument>
-      <code>$shareType</code>
+      <code><![CDATA[$shareType]]></code>
     </InvalidArgument>
   </file>
   <file src="apps/dav/lib/Connector/Sabre/ShareeList.php">
@@ -619,10 +475,10 @@
   </file>
   <file src="apps/dav/lib/Connector/Sabre/TagsPlugin.php">
     <NullableReturnStatement>
-      <code>null</code>
+      <code><![CDATA[null]]></code>
     </NullableReturnStatement>
     <UndefinedInterfaceMethod>
-      <code>getId</code>
+      <code><![CDATA[getId]]></code>
     </UndefinedInterfaceMethod>
   </file>
   <file src="apps/dav/lib/Controller/InvitationResponseController.php">
@@ -632,39 +488,39 @@
   </file>
   <file src="apps/dav/lib/DAV/CustomPropertiesBackend.php">
     <InvalidArgument>
-      <code>$whereValues</code>
+      <code><![CDATA[$whereValues]]></code>
     </InvalidArgument>
   </file>
   <file src="apps/dav/lib/DAV/GroupPrincipalBackend.php">
     <InvalidNullableReturnType>
-      <code>array</code>
-      <code>string</code>
+      <code><![CDATA[array]]></code>
+      <code><![CDATA[string]]></code>
     </InvalidNullableReturnType>
     <InvalidReturnStatement>
-      <code>$principals</code>
+      <code><![CDATA[$principals]]></code>
     </InvalidReturnStatement>
     <InvalidReturnType>
-      <code>string[]</code>
+      <code><![CDATA[string[]]]></code>
     </InvalidReturnType>
     <MoreSpecificImplementedParamType>
-      <code>$members</code>
+      <code><![CDATA[$members]]></code>
     </MoreSpecificImplementedParamType>
     <NullableReturnStatement>
-      <code>null</code>
-      <code>null</code>
-      <code>null</code>
-      <code>null</code>
-      <code>null</code>
-      <code>null</code>
-      <code>null</code>
+      <code><![CDATA[null]]></code>
+      <code><![CDATA[null]]></code>
+      <code><![CDATA[null]]></code>
+      <code><![CDATA[null]]></code>
+      <code><![CDATA[null]]></code>
+      <code><![CDATA[null]]></code>
+      <code><![CDATA[null]]></code>
     </NullableReturnStatement>
   </file>
   <file src="apps/dav/lib/DAV/SystemPrincipalBackend.php">
     <InvalidNullableReturnType>
-      <code>array</code>
+      <code><![CDATA[array]]></code>
     </InvalidNullableReturnType>
     <NullableReturnStatement>
-      <code>null</code>
+      <code><![CDATA[null]]></code>
     </NullableReturnStatement>
   </file>
   <file src="apps/dav/lib/Direct/Server.php">
@@ -674,13 +530,13 @@
   </file>
   <file src="apps/dav/lib/Files/FileSearchBackend.php">
     <InvalidReturnStatement>
-      <code>$value</code>
+      <code><![CDATA[$value]]></code>
     </InvalidReturnStatement>
     <InvalidReturnType>
-      <code>?string</code>
+      <code><![CDATA[?string]]></code>
     </InvalidReturnType>
     <ParamNameMismatch>
-      <code>$search</code>
+      <code><![CDATA[$search]]></code>
     </ParamNameMismatch>
     <RedundantCondition>
       <code><![CDATA[$date->getTimestamp() !== false]]></code>
@@ -695,7 +551,7 @@
       <code><![CDATA[$this->backend->getArbiterPath()]]></code>
     </InvalidReturnStatement>
     <InvalidReturnType>
-      <code>bool</code>
+      <code><![CDATA[bool]]></code>
     </InvalidReturnType>
   </file>
   <file src="apps/dav/lib/HookManager.php">
@@ -704,74 +560,14 @@
       <code><![CDATA[$this->usersToDelete]]></code>
     </InvalidPropertyAssignmentValue>
   </file>
-  <file src="apps/dav/lib/Listener/ActivityUpdaterListener.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
-  </file>
-  <file src="apps/dav/lib/Listener/AddressbookListener.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
-  </file>
-  <file src="apps/dav/lib/Listener/BirthdayListener.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
-  </file>
-  <file src="apps/dav/lib/Listener/CalendarContactInteractionListener.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
-  </file>
-  <file src="apps/dav/lib/Listener/CalendarObjectReminderUpdaterListener.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
-  </file>
-  <file src="apps/dav/lib/Listener/CalendarPublicationListener.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
-  </file>
-  <file src="apps/dav/lib/Listener/CalendarShareUpdateListener.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
-  </file>
-  <file src="apps/dav/lib/Listener/CardListener.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
-  </file>
-  <file src="apps/dav/lib/Listener/ClearPhotoCacheListener.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
-  </file>
-  <file src="apps/dav/lib/Listener/SubscriptionListener.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
-  </file>
-  <file src="apps/dav/lib/Listener/TrustedServerRemovedListener.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
-  </file>
-  <file src="apps/dav/lib/Listener/UserPreferenceListener.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
-  </file>
   <file src="apps/dav/lib/Migration/BuildCalendarSearchIndexBackgroundJob.php">
     <ParamNameMismatch>
-      <code>$arguments</code>
+      <code><![CDATA[$arguments]]></code>
     </ParamNameMismatch>
   </file>
   <file src="apps/dav/lib/Migration/BuildSocialSearchIndexBackgroundJob.php">
     <ParamNameMismatch>
-      <code>$arguments</code>
+      <code><![CDATA[$arguments]]></code>
     </ParamNameMismatch>
   </file>
   <file src="apps/dav/lib/Search/ContactsSearchProvider.php">
@@ -796,14 +592,14 @@
       <code><![CDATA[$this->l10n->l('date', $startDateTime, ['width' => 'medium'])]]></code>
     </InvalidReturnStatement>
     <InvalidReturnType>
-      <code>string</code>
+      <code><![CDATA[string]]></code>
     </InvalidReturnType>
     <UndefinedMethod>
-      <code>getDateTime</code>
-      <code>getDateTime</code>
-      <code>hasTime</code>
-      <code>isFloating</code>
-      <code>isFloating</code>
+      <code><![CDATA[getDateTime]]></code>
+      <code><![CDATA[getDateTime]]></code>
+      <code><![CDATA[hasTime]]></code>
+      <code><![CDATA[isFloating]]></code>
+      <code><![CDATA[isFloating]]></code>
     </UndefinedMethod>
   </file>
   <file src="apps/dav/lib/Search/TasksSearchProvider.php">
@@ -811,52 +607,52 @@
       <code><![CDATA[$query->getCursor()]]></code>
     </InvalidOperand>
     <UndefinedMethod>
-      <code>getDateTime</code>
-      <code>getDateTime</code>
-      <code>hasTime</code>
+      <code><![CDATA[getDateTime]]></code>
+      <code><![CDATA[getDateTime]]></code>
+      <code><![CDATA[hasTime]]></code>
     </UndefinedMethod>
   </file>
   <file src="apps/dav/lib/SystemTag/SystemTagsObjectMappingCollection.php">
     <ParamNameMismatch>
-      <code>$tagId</code>
-      <code>$tagName</code>
+      <code><![CDATA[$tagId]]></code>
+      <code><![CDATA[$tagName]]></code>
     </ParamNameMismatch>
   </file>
   <file src="apps/dav/lib/SystemTag/SystemTagsObjectTypeCollection.php">
     <ParamNameMismatch>
-      <code>$objectName</code>
+      <code><![CDATA[$objectName]]></code>
     </ParamNameMismatch>
   </file>
   <file src="apps/dav/lib/Traits/PrincipalProxyTrait.php">
     <MoreSpecificImplementedParamType>
-      <code>$members</code>
+      <code><![CDATA[$members]]></code>
     </MoreSpecificImplementedParamType>
   </file>
   <file src="apps/dav/lib/Upload/AssemblyStream.php">
     <FalsableReturnStatement>
-      <code>false</code>
+      <code><![CDATA[false]]></code>
     </FalsableReturnStatement>
     <InvalidPropertyAssignmentValue>
       <code><![CDATA[$this->currentStream]]></code>
     </InvalidPropertyAssignmentValue>
     <InvalidReturnStatement>
-      <code>$context</code>
+      <code><![CDATA[$context]]></code>
     </InvalidReturnStatement>
     <InvalidReturnType>
-      <code>array</code>
+      <code><![CDATA[array]]></code>
     </InvalidReturnType>
     <RedundantFunctionCall>
-      <code>array_values</code>
+      <code><![CDATA[array_values]]></code>
     </RedundantFunctionCall>
   </file>
   <file src="apps/dav/lib/Upload/ChunkingV2Plugin.php">
     <UndefinedInterfaceMethod>
-      <code>getId</code>
-      <code>getId</code>
-      <code>getId</code>
-      <code>getInternalPath</code>
-      <code>getNode</code>
-      <code>getSize</code>
+      <code><![CDATA[getId]]></code>
+      <code><![CDATA[getId]]></code>
+      <code><![CDATA[getId]]></code>
+      <code><![CDATA[getInternalPath]]></code>
+      <code><![CDATA[getNode]]></code>
+      <code><![CDATA[getSize]]></code>
     </UndefinedInterfaceMethod>
   </file>
   <file src="apps/dav/lib/UserMigration/ContactsMigrator.php">
@@ -869,7 +665,7 @@
 		]]]></code>
     </LessSpecificReturnStatement>
     <MoreSpecificReturnType>
-      <code>array{name: string, displayName: string, description: ?string, vCards: VCard[]}</code>
+      <code><![CDATA[array{name: string, displayName: string, description: ?string, vCards: VCard[]}]]></code>
     </MoreSpecificReturnType>
   </file>
   <file src="apps/encryption/lib/Command/FixKeyLocation.php">
@@ -879,22 +675,22 @@
   </file>
   <file src="apps/encryption/lib/Crypto/Crypt.php">
     <TypeDoesNotContainType>
-      <code>get_class($res) === 'OpenSSLAsymmetricKey'</code>
+      <code><![CDATA[get_class($res) === 'OpenSSLAsymmetricKey']]></code>
     </TypeDoesNotContainType>
   </file>
   <file src="apps/encryption/lib/Crypto/Encryption.php">
     <ImplementedParamTypeMismatch>
-      <code>$position</code>
+      <code><![CDATA[$position]]></code>
     </ImplementedParamTypeMismatch>
   </file>
   <file src="apps/encryption/lib/KeyManager.php">
     <InvalidThrow>
-      <code>throw $exception;</code>
+      <code><![CDATA[throw $exception;]]></code>
     </InvalidThrow>
   </file>
   <file src="apps/encryption/lib/Session.php">
     <TooManyArguments>
-      <code>new Exceptions\PrivateKeyMissingException('please try to log-out and log-in again', 0)</code>
+      <code><![CDATA[new Exceptions\PrivateKeyMissingException('please try to log-out and log-in again', 0)]]></code>
     </TooManyArguments>
   </file>
   <file src="apps/encryption/lib/Util.php">
@@ -902,100 +698,71 @@
       <code><![CDATA[$this->files->getMount($path)->getStorage()]]></code>
     </LessSpecificReturnStatement>
     <MoreSpecificReturnType>
-      <code>\OC\Files\Storage\Storage|null</code>
+      <code><![CDATA[\OC\Files\Storage\Storage|null]]></code>
     </MoreSpecificReturnType>
   </file>
   <file src="apps/federatedfilesharing/lib/Controller/RequestHandlerController.php">
     <InvalidArgument>
-      <code>$id</code>
-      <code>$id</code>
-      <code>$id</code>
-      <code>$id</code>
-      <code>$id</code>
-      <code>$id</code>
-      <code>$remoteId</code>
+      <code><![CDATA[$id]]></code>
+      <code><![CDATA[$id]]></code>
+      <code><![CDATA[$id]]></code>
+      <code><![CDATA[$id]]></code>
+      <code><![CDATA[$id]]></code>
+      <code><![CDATA[$id]]></code>
+      <code><![CDATA[$remoteId]]></code>
     </InvalidArgument>
   </file>
   <file src="apps/federatedfilesharing/lib/FederatedShareProvider.php">
     <InvalidArgument>
-      <code>$shareId</code>
-      <code>$shareId</code>
-      <code>$shareId</code>
-      <code>$shareId</code>
-      <code>(int)$data['id']</code>
+      <code><![CDATA[$shareId]]></code>
+      <code><![CDATA[$shareId]]></code>
+      <code><![CDATA[$shareId]]></code>
+      <code><![CDATA[$shareId]]></code>
+      <code><![CDATA[(int)$data['id']]]></code>
     </InvalidArgument>
-    <LessSpecificReturnStatement>
-      <code>$nodes[0]</code>
-    </LessSpecificReturnStatement>
-    <MoreSpecificReturnType>
-      <code>\OCP\Files\File|\OCP\Files\Folder</code>
-    </MoreSpecificReturnType>
-  </file>
-  <file src="apps/federatedfilesharing/lib/Listeners/LoadAdditionalScriptsListener.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
   </file>
   <file src="apps/federatedfilesharing/lib/Notifications.php">
     <InvalidReturnType>
-      <code>bool</code>
-      <code>bool</code>
-      <code>bool</code>
+      <code><![CDATA[bool]]></code>
+      <code><![CDATA[bool]]></code>
+      <code><![CDATA[bool]]></code>
     </InvalidReturnType>
   </file>
   <file src="apps/federatedfilesharing/lib/OCM/CloudFederationProviderFiles.php">
     <InvalidArgument>
-      <code>$id</code>
-      <code>$id</code>
-      <code>$id</code>
-      <code>$id</code>
+      <code><![CDATA[$id]]></code>
+      <code><![CDATA[$id]]></code>
+      <code><![CDATA[$id]]></code>
+      <code><![CDATA[$id]]></code>
     </InvalidArgument>
     <InvalidReturnStatement>
-      <code>$shareId</code>
+      <code><![CDATA[$shareId]]></code>
     </InvalidReturnStatement>
     <InvalidReturnType>
-      <code>string</code>
+      <code><![CDATA[string]]></code>
     </InvalidReturnType>
     <InvalidScalarArgument>
-      <code>(int)$share['id']</code>
+      <code><![CDATA[(int)$share['id']]]></code>
     </InvalidScalarArgument>
   </file>
   <file src="apps/federation/lib/DbHandler.php">
     <LessSpecificReturnStatement>
-      <code>$result</code>
+      <code><![CDATA[$result]]></code>
     </LessSpecificReturnStatement>
     <MoreSpecificReturnType>
       <code><![CDATA[list<array{id: int, url: string, url_hash: string, shared_secret: ?string, status: int, sync_token: ?string}>]]></code>
     </MoreSpecificReturnType>
-  </file>
-  <file src="apps/federation/lib/Listener/SabrePluginAuthInitListener.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
-  </file>
-  <file src="apps/federation/lib/TrustedServers.php">
-    <LessSpecificReturnStatement>
-      <code><![CDATA[$this->dbHandler->getAllServer()]]></code>
-    </LessSpecificReturnStatement>
-    <MoreSpecificReturnType>
-      <code><![CDATA[list<array{id: int, url: string, url_hash: string, shared_secret: string, status: int, sync_token: string}>]]></code>
-    </MoreSpecificReturnType>
-  </file>
-  <file src="apps/files/ajax/download.php">
-    <InvalidArgument>
-      <code>$files_list</code>
-    </InvalidArgument>
   </file>
   <file src="apps/files/lib/Activity/Provider.php">
     <FalsableReturnStatement>
       <code><![CDATA[$this->fileEncrypted[$fileId]]]></code>
     </FalsableReturnStatement>
     <LessSpecificReturnStatement>
-      <code>$folder</code>
+      <code><![CDATA[$folder]]></code>
       <code><![CDATA[$this->fileEncrypted[$fileId]]]></code>
     </LessSpecificReturnStatement>
     <MoreSpecificReturnType>
-      <code>Folder</code>
+      <code><![CDATA[Folder]]></code>
     </MoreSpecificReturnType>
     <TypeDoesNotContainType>
       <code><![CDATA[$this->fileIsEncrypted]]></code>
@@ -1016,63 +783,50 @@
   </file>
   <file src="apps/files/lib/Command/ScanAppData.php">
     <NullArgument>
-      <code>null</code>
-      <code>null</code>
+      <code><![CDATA[null]]></code>
+      <code><![CDATA[null]]></code>
     </NullArgument>
   </file>
   <file src="apps/files/lib/Controller/DirectEditingController.php">
     <InvalidArgument>
-      <code>$templateId</code>
+      <code><![CDATA[$templateId]]></code>
     </InvalidArgument>
     <UndefinedInterfaceMethod>
-      <code>getTemplates</code>
-      <code>open</code>
+      <code><![CDATA[getTemplates]]></code>
+      <code><![CDATA[open]]></code>
     </UndefinedInterfaceMethod>
   </file>
   <file src="apps/files/lib/Helper.php">
     <UndefinedInterfaceMethod>
-      <code>$file</code>
-      <code>$i</code>
-      <code>$i</code>
-      <code>$i</code>
-      <code>$i</code>
-      <code>$i</code>
-      <code>$i</code>
-      <code>$i</code>
-      <code>$i</code>
-      <code>$i</code>
-      <code>$i</code>
-      <code>$i</code>
-      <code>$i</code>
+      <code><![CDATA[$file]]></code>
+      <code><![CDATA[$i]]></code>
+      <code><![CDATA[$i]]></code>
+      <code><![CDATA[$i]]></code>
+      <code><![CDATA[$i]]></code>
+      <code><![CDATA[$i]]></code>
+      <code><![CDATA[$i]]></code>
+      <code><![CDATA[$i]]></code>
+      <code><![CDATA[$i]]></code>
+      <code><![CDATA[$i]]></code>
+      <code><![CDATA[$i]]></code>
+      <code><![CDATA[$i]]></code>
+      <code><![CDATA[$i]]></code>
     </UndefinedInterfaceMethod>
   </file>
-  <file src="apps/files/lib/Listener/LoadSidebarListener.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
-  </file>
-  <file src="apps/files/lib/Listener/RenderReferenceEventListener.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
-  </file>
   <file src="apps/files/lib/Service/OwnershipTransferService.php">
-    <TypeDoesNotContainType>
-      <code>empty($encryptedFiles)</code>
-    </TypeDoesNotContainType>
     <UndefinedInterfaceMethod>
-      <code>isReadyForUser</code>
+      <code><![CDATA[isReadyForUser]]></code>
     </UndefinedInterfaceMethod>
   </file>
   <file src="apps/files_external/appinfo/routes.php">
     <InvalidScope>
-      <code>$this</code>
+      <code><![CDATA[$this]]></code>
     </InvalidScope>
   </file>
   <file src="apps/files_external/lib/Controller/StoragesController.php">
     <RedundantCast>
       <code><![CDATA[(int)$e->getCode()]]></code>
-      <code>(int)$status</code>
+      <code><![CDATA[(int)$status]]></code>
     </RedundantCast>
   </file>
   <file src="apps/files_external/lib/Lib/Backend/Backend.php">
@@ -1085,7 +839,7 @@
   </file>
   <file src="apps/files_external/lib/Lib/Storage/SFTP.php">
     <InternalMethod>
-      <code>put</code>
+      <code><![CDATA[put]]></code>
     </InternalMethod>
   </file>
   <file src="apps/files_external/lib/Lib/Storage/SMB.php">
@@ -1104,99 +858,55 @@
       <code><![CDATA[$object->lastModified]]></code>
     </InvalidArgument>
     <InvalidNullableReturnType>
-      <code>filetype</code>
-      <code>fopen</code>
+      <code><![CDATA[filetype]]></code>
+      <code><![CDATA[fopen]]></code>
     </InvalidNullableReturnType>
-  </file>
-  <file src="apps/files_external/lib/Listener/GroupDeletedListener.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
-  </file>
-  <file src="apps/files_external/lib/Listener/StorePasswordListener.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
-  </file>
-  <file src="apps/files_external/lib/Listener/UserDeletedListener.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
   </file>
   <file src="apps/files_external/lib/Migration/DummyUserSession.php">
     <InvalidReturnType>
-      <code>login</code>
+      <code><![CDATA[login]]></code>
     </InvalidReturnType>
   </file>
   <file src="apps/files_external/lib/MountConfig.php">
     <InternalMethod>
-      <code>decrypt</code>
-      <code>encrypt</code>
-      <code>setIV</code>
-      <code>setIV</code>
+      <code><![CDATA[decrypt]]></code>
+      <code><![CDATA[encrypt]]></code>
+      <code><![CDATA[setIV]]></code>
+      <code><![CDATA[setIV]]></code>
+      <code><![CDATA[setKey]]></code>
     </InternalMethod>
     <TooManyArguments>
-      <code>test</code>
+      <code><![CDATA[test]]></code>
     </TooManyArguments>
   </file>
   <file src="apps/files_sharing/lib/Controller/ShareAPIController.php">
     <RedundantCast>
-      <code>(int)$code</code>
-      <code>(int)$code</code>
+      <code><![CDATA[(int)$code]]></code>
+      <code><![CDATA[(int)$code]]></code>
     </RedundantCast>
     <UndefinedClass>
-      <code>\OCA\Circles\Api\v1\Circles</code>
-      <code>\OCA\Circles\Api\v1\Circles</code>
+      <code><![CDATA[\OCA\Circles\Api\v1\Circles]]></code>
+      <code><![CDATA[\OCA\Circles\Api\v1\Circles]]></code>
     </UndefinedClass>
     <UndefinedDocblockClass>
       <code><![CDATA[$this->getRoomShareHelper()]]></code>
       <code><![CDATA[$this->getRoomShareHelper()]]></code>
       <code><![CDATA[$this->getRoomShareHelper()]]></code>
-      <code>\OCA\Talk\Share\Helper\ShareAPIController</code>
+      <code><![CDATA[\OCA\Talk\Share\Helper\ShareAPIController]]></code>
     </UndefinedDocblockClass>
-  </file>
-  <file src="apps/files_sharing/lib/Controller/ShareController.php">
-    <InvalidArgument>
-      <code>$files_list</code>
-    </InvalidArgument>
   </file>
   <file src="apps/files_sharing/lib/External/Manager.php">
     <LessSpecificReturnStatement>
-      <code>$mount</code>
+      <code><![CDATA[$mount]]></code>
     </LessSpecificReturnStatement>
     <MoreSpecificReturnType>
-      <code>Mount</code>
+      <code><![CDATA[Mount]]></code>
     </MoreSpecificReturnType>
   </file>
   <file src="apps/files_sharing/lib/External/Scanner.php">
     <MoreSpecificImplementedParamType>
-      <code>$cacheData</code>
+      <code><![CDATA[$cacheData]]></code>
     </MoreSpecificImplementedParamType>
-  </file>
-  <file src="apps/files_sharing/lib/Listener/LoadAdditionalListener.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
-  </file>
-  <file src="apps/files_sharing/lib/Listener/LoadSidebarListener.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
-  </file>
-  <file src="apps/files_sharing/lib/Listener/ShareInteractionListener.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
-  </file>
-  <file src="apps/files_sharing/lib/Listener/UserAddedToGroupListener.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
-  </file>
-  <file src="apps/files_sharing/lib/Listener/UserShareAcceptanceListener.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
   </file>
   <file src="apps/files_sharing/lib/Middleware/SharingCheckMiddleware.php">
     <InvalidArgument>
@@ -1205,26 +915,26 @@
   </file>
   <file src="apps/files_sharing/lib/MountProvider.php">
     <RedundantFunctionCall>
-      <code>array_values</code>
+      <code><![CDATA[array_values]]></code>
     </RedundantFunctionCall>
   </file>
   <file src="apps/files_sharing/lib/ShareBackend/File.php">
     <InvalidArgument>
-      <code>$itemSource</code>
-      <code>$itemSource</code>
+      <code><![CDATA[$itemSource]]></code>
+      <code><![CDATA[$itemSource]]></code>
     </InvalidArgument>
     <MoreSpecificImplementedParamType>
-      <code>$shareWith</code>
+      <code><![CDATA[$shareWith]]></code>
     </MoreSpecificImplementedParamType>
   </file>
   <file src="apps/files_sharing/lib/ShareBackend/Folder.php">
     <UndefinedInterfaceMethod>
-      <code>fetchRow</code>
+      <code><![CDATA[fetchRow]]></code>
     </UndefinedInterfaceMethod>
   </file>
   <file src="apps/files_sharing/lib/SharedMount.php">
     <InvalidReturnType>
-      <code>bool</code>
+      <code><![CDATA[bool]]></code>
     </InvalidReturnType>
   </file>
   <file src="apps/files_sharing/lib/SharedStorage.php">
@@ -1232,10 +942,10 @@
       <code><![CDATA[$this->sourceRootInfo]]></code>
     </FalsableReturnStatement>
     <InvalidNullableReturnType>
-      <code>ICacheEntry</code>
+      <code><![CDATA[ICacheEntry]]></code>
     </InvalidNullableReturnType>
     <InvalidReturnStatement>
-      <code>new FailedCache()</code>
+      <code><![CDATA[new FailedCache()]]></code>
     </InvalidReturnStatement>
     <NullableReturnStatement>
       <code><![CDATA[$this->sourceRootInfo]]></code>
@@ -1243,23 +953,18 @@
   </file>
   <file src="apps/files_sharing/lib/Updater.php">
     <UndefinedMethod>
-      <code>moveMount</code>
+      <code><![CDATA[moveMount]]></code>
     </UndefinedMethod>
   </file>
   <file src="apps/files_sharing/templates/public.php">
     <RedundantCondition>
-      <code>$_['hideFileList'] !== true</code>
+      <code><![CDATA[$_['hideFileList'] !== true]]></code>
       <code><![CDATA[isset($_['hideFileList']) && $_['hideFileList'] !== true]]></code>
     </RedundantCondition>
   </file>
-  <file src="apps/files_trashbin/lib/Listeners/LoadAdditionalScripts.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
-  </file>
   <file src="apps/files_trashbin/lib/Sabre/AbstractTrash.php">
     <InvalidNullableReturnType>
-      <code>int</code>
+      <code><![CDATA[int]]></code>
     </InvalidNullableReturnType>
     <NullableReturnStatement>
       <code><![CDATA[$this->data->getId()]]></code>
@@ -1267,88 +972,66 @@
   </file>
   <file src="apps/files_trashbin/lib/Sabre/AbstractTrashFolder.php">
     <InvalidReturnStatement>
-      <code>$entry</code>
+      <code><![CDATA[$entry]]></code>
     </InvalidReturnStatement>
     <InvalidReturnType>
-      <code>ITrash</code>
+      <code><![CDATA[ITrash]]></code>
     </InvalidReturnType>
   </file>
   <file src="apps/files_trashbin/lib/Sabre/RestoreFolder.php">
     <InvalidNullableReturnType>
-      <code>getChild</code>
+      <code><![CDATA[getChild]]></code>
     </InvalidNullableReturnType>
     <NullableReturnStatement>
-      <code>null</code>
+      <code><![CDATA[null]]></code>
     </NullableReturnStatement>
   </file>
   <file src="apps/files_trashbin/lib/Sabre/RootCollection.php">
     <MismatchingDocblockReturnType>
-      <code>INode</code>
+      <code><![CDATA[INode]]></code>
     </MismatchingDocblockReturnType>
   </file>
   <file src="apps/files_trashbin/lib/Sabre/TrashRoot.php">
     <InvalidReturnStatement>
-      <code>$entry</code>
+      <code><![CDATA[$entry]]></code>
     </InvalidReturnStatement>
     <InvalidReturnType>
-      <code>ITrash</code>
+      <code><![CDATA[ITrash]]></code>
     </InvalidReturnType>
   </file>
   <file src="apps/files_trashbin/lib/Trash/LegacyTrashBackend.php">
-    <RedundantCondition>
-      <code>$trashFiles</code>
-    </RedundantCondition>
-    <TypeDoesNotContainType>
-      <code>null</code>
-    </TypeDoesNotContainType>
     <UndefinedInterfaceMethod>
-      <code>$file</code>
-      <code>getById</code>
+      <code><![CDATA[$file]]></code>
     </UndefinedInterfaceMethod>
   </file>
   <file src="apps/files_trashbin/lib/Trashbin.php">
     <FalsableReturnStatement>
-      <code>false</code>
+      <code><![CDATA[false]]></code>
     </FalsableReturnStatement>
     <InvalidArgument>
-      <code>$timestamp</code>
+      <code><![CDATA[$timestamp]]></code>
     </InvalidArgument>
     <InvalidScalarArgument>
-      <code>$timestamp</code>
+      <code><![CDATA[$timestamp]]></code>
     </InvalidScalarArgument>
   </file>
   <file src="apps/files_versions/appinfo/routes.php">
     <InvalidScope>
-      <code>$this</code>
-      <code>$this</code>
+      <code><![CDATA[$this]]></code>
+      <code><![CDATA[$this]]></code>
     </InvalidScope>
-  </file>
-  <file src="apps/files_versions/lib/Listener/FileEventsListener.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
-  </file>
-  <file src="apps/files_versions/lib/Listener/LoadAdditionalListener.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
-  </file>
-  <file src="apps/files_versions/lib/Listener/LoadSidebarListener.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
   </file>
   <file src="apps/files_versions/lib/Sabre/RestoreFolder.php">
     <InvalidNullableReturnType>
-      <code>getChild</code>
+      <code><![CDATA[getChild]]></code>
     </InvalidNullableReturnType>
     <NullableReturnStatement>
-      <code>null</code>
+      <code><![CDATA[null]]></code>
     </NullableReturnStatement>
   </file>
   <file src="apps/files_versions/lib/Sabre/VersionHome.php">
     <InvalidNullableReturnType>
-      <code>getChild</code>
+      <code><![CDATA[getChild]]></code>
     </InvalidNullableReturnType>
   </file>
   <file src="apps/files_versions/lib/Storage.php">
@@ -1368,31 +1051,23 @@
   </file>
   <file src="apps/provisioning_api/lib/Controller/UsersController.php">
     <TypeDoesNotContainNull>
-      <code>$groupid === null</code>
-      <code>$groupid === null</code>
+      <code><![CDATA[$groupid === null]]></code>
+      <code><![CDATA[$groupid === null]]></code>
     </TypeDoesNotContainNull>
-  </file>
-  <file src="apps/provisioning_api/lib/Listener/UserDeletedListener.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
   </file>
   <file src="apps/provisioning_api/lib/Middleware/ProvisioningApiMiddleware.php">
     <InvalidReturnType>
-      <code>Response</code>
+      <code><![CDATA[Response]]></code>
     </InvalidReturnType>
   </file>
   <file src="apps/settings/lib/AppInfo/Application.php">
-    <InvalidArgument>
-      <code>AppPasswordCreatedActivityListener::class</code>
-    </InvalidArgument>
     <UndefinedInterfaceMethod>
-      <code>getSettingsManager</code>
+      <code><![CDATA[getSettingsManager]]></code>
     </UndefinedInterfaceMethod>
   </file>
   <file src="apps/settings/lib/Controller/AppSettingsController.php">
     <UndefinedInterfaceMethod>
-      <code>ignoreNextcloudRequirementForApp</code>
+      <code><![CDATA[ignoreNextcloudRequirementForApp]]></code>
     </UndefinedInterfaceMethod>
   </file>
   <file src="apps/settings/lib/Hooks.php">
@@ -1400,42 +1075,21 @@
       <code><![CDATA[[$user->getEMailAddress() => $user->getDisplayName()]]]></code>
     </InvalidArrayOffset>
   </file>
-  <file src="apps/settings/lib/Listener/GroupRemovedListener.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
-  </file>
-  <file src="apps/settings/lib/Listener/UserAddedToGroupActivityListener.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
-  </file>
-  <file src="apps/settings/lib/Listener/UserRemovedFromGroupActivityListener.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
-  </file>
   <file src="apps/settings/lib/Settings/Admin/Security.php">
     <UndefinedInterfaceMethod>
-      <code>isReady</code>
+      <code><![CDATA[isReady]]></code>
     </UndefinedInterfaceMethod>
   </file>
   <file src="apps/settings/lib/Settings/Admin/Sharing.php">
     <NullArgument>
-      <code>null</code>
+      <code><![CDATA[null]]></code>
     </NullArgument>
   </file>
   <file src="apps/sharebymail/lib/ShareByMailProvider.php">
     <InvalidArgument>
       <code><![CDATA[$share->getId()]]></code>
-      <code>(int)$data['id']</code>
+      <code><![CDATA[(int)$data['id']]]></code>
     </InvalidArgument>
-    <LessSpecificReturnStatement>
-      <code>$nodes[0]</code>
-    </LessSpecificReturnStatement>
-    <MoreSpecificReturnType>
-      <code>\OCP\Files\File|\OCP\Files\Folder</code>
-    </MoreSpecificReturnType>
   </file>
   <file src="apps/systemtags/lib/Activity/Listener.php">
     <InvalidArgument>
@@ -1443,84 +1097,31 @@
       <code><![CDATA[$event->getObjectId()]]></code>
     </InvalidArgument>
   </file>
-  <file src="apps/theming/lib/Jobs/MigrateBackgroundImages.php">
-    <OverriddenInterfaceConstant>
-      <code>TIME_SENSITIVE</code>
-    </OverriddenInterfaceConstant>
-  </file>
-  <file src="apps/theming/lib/Listener/BeforePreferenceListener.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
-  </file>
-  <file src="apps/theming/lib/Listener/BeforeTemplateRenderedListener.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
-  </file>
   <file src="apps/theming/lib/Util.php">
     <InvalidReturnStatement>
       <code><![CDATA[array_values($color->getRgb())]]></code>
     </InvalidReturnStatement>
     <InvalidReturnType>
-      <code>array{0: int, 1: int, 2: int}</code>
+      <code><![CDATA[array{0: int, 1: int, 2: int}]]></code>
     </InvalidReturnType>
-  </file>
-  <file src="apps/twofactor_backupcodes/lib/Listener/ActivityPublisher.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
-  </file>
-  <file src="apps/twofactor_backupcodes/lib/Listener/ClearNotifications.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
-  </file>
-  <file src="apps/twofactor_backupcodes/lib/Listener/ProviderDisabled.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
-  </file>
-  <file src="apps/twofactor_backupcodes/lib/Listener/ProviderEnabled.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
-  </file>
-  <file src="apps/twofactor_backupcodes/lib/Listener/RegistryUpdater.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
-  </file>
-  <file src="apps/twofactor_backupcodes/lib/Listener/UserDeleted.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
-  </file>
-  <file src="apps/updatenotification/lib/Notification/BackgroundJob.php">
-    <InvalidArgument>
-      <code>false</code>
-    </InvalidArgument>
-    <InvalidPropertyAssignmentValue>
-      <code><![CDATA[$this->users]]></code>
-    </InvalidPropertyAssignmentValue>
   </file>
   <file src="apps/user_ldap/ajax/getNewServerConfigPrefix.php">
     <InvalidScalarArgument>
-      <code>$ln + 1</code>
+      <code><![CDATA[$ln + 1]]></code>
     </InvalidScalarArgument>
   </file>
   <file src="apps/user_ldap/appinfo/routes.php">
     <InvalidScope>
-      <code>$this</code>
+      <code><![CDATA[$this]]></code>
     </InvalidScope>
   </file>
   <file src="apps/user_ldap/lib/Access.php">
     <InvalidReturnStatement>
-      <code>$uuid</code>
-      <code>$values</code>
+      <code><![CDATA[$uuid]]></code>
+      <code><![CDATA[$values]]></code>
     </InvalidReturnStatement>
     <InvalidReturnType>
-      <code>string[]</code>
+      <code><![CDATA[string[]]]></code>
     </InvalidReturnType>
     <RedundantCast>
       <code><![CDATA[(int)$e->getCode()]]></code>
@@ -1528,48 +1129,43 @@
   </file>
   <file src="apps/user_ldap/lib/Connection.php">
     <NoValue>
-      <code>$subj</code>
+      <code><![CDATA[$subj]]></code>
     </NoValue>
     <ParadoxicalCondition>
-      <code>default:
+      <code><![CDATA[default:
 						$subj = $key;
-						break;</code>
+						break;]]></code>
     </ParadoxicalCondition>
   </file>
   <file src="apps/user_ldap/lib/Group_LDAP.php">
     <InvalidScalarArgument>
-      <code>$groupID</code>
+      <code><![CDATA[$groupID]]></code>
     </InvalidScalarArgument>
   </file>
   <file src="apps/user_ldap/lib/Group_Proxy.php">
     <ParamNameMismatch>
-      <code>$gid</code>
+      <code><![CDATA[$gid]]></code>
     </ParamNameMismatch>
   </file>
   <file src="apps/user_ldap/lib/Jobs/Sync.php">
     <InvalidOperand>
-      <code>$i</code>
+      <code><![CDATA[$i]]></code>
     </InvalidOperand>
     <NullArgument>
-      <code>null</code>
+      <code><![CDATA[null]]></code>
     </NullArgument>
   </file>
   <file src="apps/user_ldap/lib/Mapping/AbstractMapping.php">
     <RedundantCondition>
-      <code>isset($qb)</code>
+      <code><![CDATA[isset($qb)]]></code>
     </RedundantCondition>
     <TypeDoesNotContainNull>
-      <code>isset($qb)</code>
+      <code><![CDATA[isset($qb)]]></code>
     </TypeDoesNotContainNull>
-  </file>
-  <file src="apps/user_ldap/lib/Proxy.php">
-    <InvalidDocblock>
-      <code>protected function handleRequest($id, $method, $parameters, $passOnWhen = false) {</code>
-    </InvalidDocblock>
   </file>
   <file src="apps/user_ldap/lib/User/Manager.php">
     <InvalidDocblock>
-      <code>public function setLdapAccess(Access $access) {</code>
+      <code><![CDATA[public function setLdapAccess(Access $access) {]]></code>
     </InvalidDocblock>
   </file>
   <file src="apps/user_ldap/lib/User/User.php">
@@ -1580,7 +1176,7 @@
       <code><![CDATA[$this->refreshedFeatures]]></code>
     </InvalidPropertyAssignmentValue>
     <InvalidReturnType>
-      <code>null</code>
+      <code><![CDATA[null]]></code>
     </InvalidReturnType>
     <RedundantCondition>
       <code><![CDATA[$aQuota && (count($aQuota) > 0)]]></code>
@@ -1588,53 +1184,38 @@
   </file>
   <file src="apps/user_ldap/lib/User_LDAP.php">
     <ImplementedReturnTypeMismatch>
-      <code>string|false</code>
+      <code><![CDATA[string|false]]></code>
     </ImplementedReturnTypeMismatch>
     <MoreSpecificImplementedParamType>
-      <code>$limit</code>
-      <code>$offset</code>
+      <code><![CDATA[$limit]]></code>
+      <code><![CDATA[$offset]]></code>
     </MoreSpecificImplementedParamType>
     <NullableReturnStatement>
-      <code>null</code>
+      <code><![CDATA[null]]></code>
     </NullableReturnStatement>
     <RedundantCondition>
       <code><![CDATA[$displayName && (count($displayName) > 0)]]></code>
-      <code>is_string($dn)</code>
+      <code><![CDATA[is_string($dn)]]></code>
     </RedundantCondition>
   </file>
   <file src="apps/user_ldap/lib/User_Proxy.php">
     <ParamNameMismatch>
-      <code>$uid</code>
+      <code><![CDATA[$uid]]></code>
     </ParamNameMismatch>
   </file>
   <file src="apps/user_ldap/lib/Wizard.php">
     <InvalidArrayOffset>
-      <code>$possibleAttrs[$i]</code>
+      <code><![CDATA[$possibleAttrs[$i]]]></code>
     </InvalidArrayOffset>
   </file>
   <file src="apps/user_status/lib/AppInfo/Application.php">
     <UndefinedInterfaceMethod>
-      <code>registerProvider</code>
+      <code><![CDATA[registerProvider]]></code>
     </UndefinedInterfaceMethod>
-  </file>
-  <file src="apps/user_status/lib/Listener/BeforeTemplateRenderedListener.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
-  </file>
-  <file src="apps/user_status/lib/Listener/UserDeletedListener.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
-  </file>
-  <file src="apps/user_status/lib/Listener/UserLiveStatusListener.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
   </file>
   <file src="apps/workflowengine/lib/Check/AbstractStringCheck.php">
     <NullArgument>
-      <code>null</code>
+      <code><![CDATA[null]]></code>
     </NullArgument>
   </file>
   <file src="apps/workflowengine/lib/Check/FileSize.php">
@@ -1642,13 +1223,13 @@
       <code><![CDATA[$this->size]]></code>
     </FalsableReturnStatement>
     <InvalidPropertyAssignmentValue>
-      <code>$size</code>
+      <code><![CDATA[$size]]></code>
     </InvalidPropertyAssignmentValue>
     <InvalidReturnStatement>
       <code><![CDATA[$this->size]]></code>
     </InvalidReturnStatement>
     <InvalidReturnType>
-      <code>string</code>
+      <code><![CDATA[string]]></code>
     </InvalidReturnType>
   </file>
   <file src="apps/workflowengine/lib/Check/FileSystemTags.php">
@@ -1658,16 +1239,16 @@
   </file>
   <file src="apps/workflowengine/lib/Check/RequestRemoteAddress.php">
     <InvalidArgument>
-      <code>$decodedValue[1]</code>
-      <code>$decodedValue[1]</code>
-      <code>$decodedValue[1]</code>
-      <code>$decodedValue[1]</code>
+      <code><![CDATA[$decodedValue[1]]]></code>
+      <code><![CDATA[$decodedValue[1]]]></code>
+      <code><![CDATA[$decodedValue[1]]]></code>
+      <code><![CDATA[$decodedValue[1]]]></code>
     </InvalidArgument>
   </file>
   <file src="apps/workflowengine/lib/Check/RequestTime.php">
     <InvalidScalarArgument>
-      <code>$hour1</code>
-      <code>$minute1</code>
+      <code><![CDATA[$hour1]]></code>
+      <code><![CDATA[$minute1]]></code>
     </InvalidScalarArgument>
   </file>
   <file src="apps/workflowengine/lib/Check/TFileCheck.php">
@@ -1677,74 +1258,46 @@
   </file>
   <file src="apps/workflowengine/lib/Entity/File.php">
     <InvalidReturnType>
-      <code>string</code>
+      <code><![CDATA[string]]></code>
     </InvalidReturnType>
-    <ParamNameMismatch>
-      <code>$uid</code>
-    </ParamNameMismatch>
-  </file>
-  <file src="apps/workflowengine/lib/Listener/LoadAdditionalSettingsScriptsListener.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
   </file>
   <file src="apps/workflowengine/lib/Manager.php">
     <InvalidArgument>
-      <code>$missingCheck</code>
+      <code><![CDATA[$missingCheck]]></code>
     </InvalidArgument>
     <InvalidOperand>
-      <code>$result</code>
+      <code><![CDATA[$result]]></code>
     </InvalidOperand>
     <InvalidReturnStatement>
-      <code>$result</code>
+      <code><![CDATA[$result]]></code>
     </InvalidReturnStatement>
     <InvalidReturnType>
-      <code>bool</code>
+      <code><![CDATA[bool]]></code>
     </InvalidReturnType>
   </file>
   <file src="apps/workflowengine/lib/Service/RuleMatcher.php">
     <UndefinedInterfaceMethod>
-      <code>getAllConfiguredScopesForOperation</code>
-      <code>getChecks</code>
-      <code>getOperations</code>
-      <code>getOperations</code>
-      <code>isUserScopeEnabled</code>
+      <code><![CDATA[getAllConfiguredScopesForOperation]]></code>
+      <code><![CDATA[getChecks]]></code>
+      <code><![CDATA[getOperations]]></code>
+      <code><![CDATA[getOperations]]></code>
+      <code><![CDATA[isUserScopeEnabled]]></code>
     </UndefinedInterfaceMethod>
-  </file>
-  <file src="core/BackgroundJobs/BackgroundCleanupUpdaterBackupsJob.php">
-    <ParamNameMismatch>
-      <code>$arguments</code>
-    </ParamNameMismatch>
   </file>
   <file src="core/BackgroundJobs/CheckForUserCertificates.php">
     <ParamNameMismatch>
-      <code>$arguments</code>
+      <code><![CDATA[$arguments]]></code>
     </ParamNameMismatch>
-  </file>
-  <file src="core/BackgroundJobs/LookupServerSendCheckBackgroundJob.php">
-    <ParamNameMismatch>
-      <code>$arguments</code>
-    </ParamNameMismatch>
-  </file>
-  <file src="core/Command/App/Install.php">
-    <TypeDoesNotContainType>
-      <code>$result === false</code>
-    </TypeDoesNotContainType>
   </file>
   <file src="core/Command/App/ListApps.php">
     <LessSpecificImplementedReturnType>
-      <code>array</code>
+      <code><![CDATA[array]]></code>
     </LessSpecificImplementedReturnType>
-  </file>
-  <file src="core/Command/App/Update.php">
-    <RedundantCondition>
-      <code>$result === true</code>
-    </RedundantCondition>
   </file>
   <file src="core/Command/Config/Import.php">
     <InvalidScalarArgument>
-      <code>0</code>
-      <code>1</code>
+      <code><![CDATA[0]]></code>
+      <code><![CDATA[1]]></code>
     </InvalidScalarArgument>
   </file>
   <file src="core/Command/Config/ListConfigs.php">
@@ -1752,31 +1305,31 @@
       <code><![CDATA[$this->appConfig->getValues($app, false)]]></code>
     </FalsableReturnStatement>
     <TooManyArguments>
-      <code>getFilteredValues</code>
+      <code><![CDATA[getFilteredValues]]></code>
     </TooManyArguments>
   </file>
   <file src="core/Command/Db/ConvertType.php">
     <InvalidScalarArgument>
-      <code>0</code>
-      <code>1</code>
+      <code><![CDATA[0]]></code>
+      <code><![CDATA[1]]></code>
     </InvalidScalarArgument>
   </file>
   <file src="core/Command/Encryption/Enable.php">
     <NullArgument>
-      <code>null</code>
+      <code><![CDATA[null]]></code>
     </NullArgument>
   </file>
   <file src="core/Command/Log/File.php">
     <InvalidReturnStatement>
-      <code>[0]</code>
+      <code><![CDATA[[0]]]></code>
     </InvalidReturnStatement>
     <InvalidReturnType>
-      <code>string[]</code>
+      <code><![CDATA[string[]]]></code>
     </InvalidReturnType>
   </file>
   <file src="core/Command/Log/Manage.php">
     <InvalidArgument>
-      <code>$levelNum</code>
+      <code><![CDATA[$levelNum]]></code>
     </InvalidArgument>
   </file>
   <file src="core/Command/Maintenance/DataFingerprint.php">
@@ -1786,39 +1339,29 @@
   </file>
   <file src="core/Command/Maintenance/Mimetype/UpdateDB.php">
     <UndefinedInterfaceMethod>
-      <code>getAllMappings</code>
-      <code>updateFilecache</code>
+      <code><![CDATA[getAllMappings]]></code>
+      <code><![CDATA[updateFilecache]]></code>
     </UndefinedInterfaceMethod>
-  </file>
-  <file src="core/Command/Maintenance/RepairShareOwnership.php">
-    <LessSpecificReturnStatement>
-      <code>$found</code>
-      <code>$found</code>
-    </LessSpecificReturnStatement>
-    <MoreSpecificReturnType>
-      <code>array{shareId: int, fileTarget: string, initiator: string, receiver: string, owner: string, mountOwner: string}[]</code>
-      <code>array{shareId: int, fileTarget: string, initiator: string, receiver: string, owner: string, mountOwner: string}[]</code>
-    </MoreSpecificReturnType>
   </file>
   <file src="core/Command/Preview/Repair.php">
     <UndefinedInterfaceMethod>
-      <code>section</code>
-      <code>section</code>
+      <code><![CDATA[section]]></code>
+      <code><![CDATA[section]]></code>
     </UndefinedInterfaceMethod>
   </file>
   <file src="core/Command/Preview/ResetRenderedTexts.php">
     <InvalidReturnStatement>
-      <code>[]</code>
+      <code><![CDATA[[]]]></code>
     </InvalidReturnStatement>
   </file>
   <file src="core/Controller/ClientFlowLoginV2Controller.php">
     <TypeDoesNotContainType>
-      <code>!is_string($stateToken)</code>
+      <code><![CDATA[!is_string($stateToken)]]></code>
     </TypeDoesNotContainType>
   </file>
   <file src="core/Controller/CollaborationResourcesController.php">
     <UndefinedInterfaceMethod>
-      <code>searchCollections</code>
+      <code><![CDATA[searchCollections]]></code>
     </UndefinedInterfaceMethod>
   </file>
   <file src="core/Controller/LostController.php">
@@ -1828,13 +1371,8 @@
   </file>
   <file src="core/Controller/UnifiedSearchController.php">
     <UndefinedInterfaceMethod>
-      <code>findMatchingRoute</code>
+      <code><![CDATA[findMatchingRoute]]></code>
     </UndefinedInterfaceMethod>
-  </file>
-  <file src="core/Listener/BeforeTemplateRenderedListener.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
   </file>
   <file src="core/Middleware/TwoFactorMiddleware.php">
     <NoInterfaceProperties>
@@ -1843,14 +1381,13 @@
   </file>
   <file src="core/routes.php">
     <InvalidScope>
-      <code>$this</code>
-      <code>$this</code>
+      <code><![CDATA[$this]]></code>
       <code><![CDATA[$this->create('core_ajax_update', '/core/ajax/update.php')]]></code>
     </InvalidScope>
   </file>
   <file src="core/templates/layout.public.php">
     <UndefinedInterfaceMethod>
-      <code>getIcon</code>
+      <code><![CDATA[getIcon]]></code>
     </UndefinedInterfaceMethod>
   </file>
   <file src="lib/autoloader.php">
@@ -1860,13 +1397,8 @@
   </file>
   <file src="lib/base.php">
     <InvalidArgument>
-      <code>$restrictions</code>
+      <code><![CDATA[$restrictions]]></code>
     </InvalidArgument>
-  </file>
-  <file src="lib/private/Activity/Event.php">
-    <ParamNameMismatch>
-      <code>$affectedUser</code>
-    </ParamNameMismatch>
   </file>
   <file src="lib/private/Activity/Manager.php">
     <InvalidPropertyAssignmentValue>
@@ -1878,57 +1410,51 @@
       <code><![CDATA[$this->settings]]></code>
     </LessSpecificReturnStatement>
     <MoreSpecificReturnType>
-      <code>ActivitySettings[]</code>
+      <code><![CDATA[ActivitySettings[]]]></code>
     </MoreSpecificReturnType>
-    <TypeDoesNotContainType>
-      <code><![CDATA[!is_string($currentUserId) && $currentUserId !== null]]></code>
-    </TypeDoesNotContainType>
   </file>
   <file src="lib/private/AllConfig.php">
     <MoreSpecificImplementedParamType>
-      <code>$key</code>
+      <code><![CDATA[$key]]></code>
     </MoreSpecificImplementedParamType>
     <TypeDoesNotContainType>
-      <code>!is_array($userIds)</code>
+      <code><![CDATA[!is_array($userIds)]]></code>
     </TypeDoesNotContainType>
   </file>
   <file src="lib/private/App/AppManager.php">
     <LessSpecificImplementedReturnType>
-      <code>array</code>
-      <code>array</code>
+      <code><![CDATA[array]]></code>
+      <code><![CDATA[array]]></code>
     </LessSpecificImplementedReturnType>
   </file>
   <file src="lib/private/App/AppStore/Fetcher/Fetcher.php">
     <TooManyArguments>
-      <code>fetch</code>
+      <code><![CDATA[fetch]]></code>
     </TooManyArguments>
   </file>
   <file src="lib/private/App/DependencyAnalyzer.php">
     <InvalidNullableReturnType>
-      <code>bool</code>
+      <code><![CDATA[bool]]></code>
     </InvalidNullableReturnType>
     <NullableReturnStatement>
-      <code>version_compare($first, $second, $operator)</code>
+      <code><![CDATA[version_compare($first, $second, $operator)]]></code>
     </NullableReturnStatement>
   </file>
   <file src="lib/private/App/InfoParser.php">
     <InvalidArrayOffset>
-      <code>$array[$element][]</code>
-      <code>$array[$element][]</code>
+      <code><![CDATA[$array[$element][]]]></code>
+      <code><![CDATA[$array[$element][]]]></code>
     </InvalidArrayOffset>
     <InvalidReturnStatement>
-      <code>(string)$xml</code>
+      <code><![CDATA[(string)$xml]]></code>
     </InvalidReturnStatement>
     <InvalidReturnType>
-      <code>array</code>
+      <code><![CDATA[array]]></code>
     </InvalidReturnType>
   </file>
   <file src="lib/private/AppConfig.php">
-    <FalsableReturnStatement>
-      <code>$values</code>
-    </FalsableReturnStatement>
     <NullableReturnStatement>
-      <code>$default</code>
+      <code><![CDATA[$this->fastCache[$app][$key] ?? $default]]></code>
     </NullableReturnStatement>
   </file>
   <file src="lib/private/AppFramework/Bootstrap/Coordinator.php">
@@ -1938,22 +1464,21 @@
   </file>
   <file src="lib/private/AppFramework/Bootstrap/FunctionInjector.php">
     <UndefinedMethod>
-      <code>getName</code>
+      <code><![CDATA[getName]]></code>
     </UndefinedMethod>
   </file>
   <file src="lib/private/AppFramework/DependencyInjection/DIContainer.php">
     <ImplementedReturnTypeMismatch>
-      <code>boolean|null</code>
+      <code><![CDATA[boolean|null]]></code>
     </ImplementedReturnTypeMismatch>
     <InvalidReturnStatement>
       <code><![CDATA[$this->server]]></code>
     </InvalidReturnStatement>
     <InvalidReturnType>
-      <code>\OCP\IServerContainer</code>
-      <code>mixed</code>
+      <code><![CDATA[\OCP\IServerContainer]]></code>
     </InvalidReturnType>
     <UndefinedInterfaceMethod>
-      <code>getAppDataDir</code>
+      <code><![CDATA[getAppDataDir]]></code>
     </UndefinedInterfaceMethod>
   </file>
   <file src="lib/private/AppFramework/Http/Dispatcher.php">
@@ -1961,48 +1486,41 @@
       <code><![CDATA[$this->request->method]]></code>
     </NoInterfaceProperties>
     <NullArgument>
-      <code>null</code>
+      <code><![CDATA[null]]></code>
     </NullArgument>
   </file>
   <file src="lib/private/AppFramework/Http/Output.php">
     <InvalidReturnStatement>
-      <code>@readfile($path)</code>
-      <code>http_response_code()</code>
+      <code><![CDATA[@readfile($path)]]></code>
+      <code><![CDATA[http_response_code()]]></code>
     </InvalidReturnStatement>
     <InvalidReturnType>
-      <code>bool</code>
-      <code>int</code>
+      <code><![CDATA[bool]]></code>
+      <code><![CDATA[int]]></code>
     </InvalidReturnType>
   </file>
   <file src="lib/private/AppFramework/Http/Request.php">
-    <MissingTemplateParam>
-      <code>\ArrayAccess</code>
-    </MissingTemplateParam>
     <NullableReturnStatement>
-      <code>$name</code>
-      <code>$remoteAddress</code>
       <code><![CDATA[$this->getOverwriteHost()]]></code>
-      <code><![CDATA[$this->method]]></code>
-      <code>$uri</code>
       <code><![CDATA[isset($this->cookies[$key]) ? $this->cookies[$key] : null]]></code>
       <code><![CDATA[isset($this->env[$key]) ? $this->env[$key] : null]]></code>
       <code><![CDATA[isset($this->files[$key]) ? $this->files[$key] : null]]></code>
     </NullableReturnStatement>
     <RedundantCondition>
-      <code>\is_array($params)</code>
+      <code><![CDATA[\is_array($params)]]></code>
     </RedundantCondition>
     <UndefinedFunction>
-      <code>\Sabre\HTTP\decodePath($pathInfo)</code>
+      <code><![CDATA[\Sabre\HTTP\decodePath($pathInfo)]]></code>
     </UndefinedFunction>
   </file>
   <file src="lib/private/AppFramework/Logger.php">
     <InvalidReturnType>
-      <code>log</code>
+      <code><![CDATA[log]]></code>
     </InvalidReturnType>
   </file>
   <file src="lib/private/AppFramework/Middleware/OCSMiddleware.php">
     <InternalMethod>
-      <code>setOCSVersion</code>
+      <code><![CDATA[setOCSVersion]]></code>
     </InternalMethod>
   </file>
   <file src="lib/private/AppFramework/Middleware/Security/CORSMiddleware.php">
@@ -2016,17 +1534,17 @@
       <code><![CDATA[$this->request->server]]></code>
     </NoInterfaceProperties>
     <UndefinedClass>
-      <code>\OCA\Talk\Controller\PageController</code>
+      <code><![CDATA[\OCA\Talk\Controller\PageController]]></code>
     </UndefinedClass>
   </file>
   <file src="lib/private/AppFramework/Routing/RouteConfig.php">
     <InvalidArrayOffset>
-      <code>$action['url-postfix']</code>
+      <code><![CDATA[$action['url-postfix']]]></code>
     </InvalidArrayOffset>
   </file>
   <file src="lib/private/AppFramework/Services/AppConfig.php">
     <MoreSpecificImplementedParamType>
-      <code>$default</code>
+      <code><![CDATA[$default]]></code>
     </MoreSpecificImplementedParamType>
   </file>
   <file src="lib/private/AppFramework/Utility/SimpleContainer.php">
@@ -2057,6 +1575,11 @@
 					try {
 						return $this->query($resolveName);
 					} catch (QueryException $e2) {
+						// Pass null if typed and nullable
+						if ($parameter->allowsNull() && ($parameterType instanceof ReflectionNamedType)) {
+							return null;
+						}
+
 						// don't lose the error we got while trying to query by type
 						throw new QueryException($e->getMessage(), (int) $e->getCode(), $e);
 					}
@@ -2067,10 +1590,10 @@
 		}, $constructor->getParameters()))]]></code>
     </LessSpecificReturnStatement>
     <MissingTemplateParam>
-      <code>ArrayAccess</code>
+      <code><![CDATA[ArrayAccess]]></code>
     </MissingTemplateParam>
     <MoreSpecificReturnType>
-      <code>\stdClass</code>
+      <code><![CDATA[\stdClass]]></code>
     </MoreSpecificReturnType>
     <RedundantCast>
       <code><![CDATA[(int) $e->getCode()]]></code>
@@ -2081,63 +1604,30 @@
       <code><![CDATA[$this->tar->extractInString($path)]]></code>
     </UndefinedDocblockClass>
   </file>
-  <file src="lib/private/Authentication/Listeners/UserDeletedFilesCleanupListener.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
-  </file>
-  <file src="lib/private/Authentication/Listeners/UserDeletedWebAuthnCleanupListener.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
-  </file>
   <file src="lib/private/Authentication/LoginCredentials/Store.php">
     <RedundantCondition>
-      <code>$trySession</code>
+      <code><![CDATA[$trySession]]></code>
     </RedundantCondition>
-  </file>
-  <file src="lib/private/Authentication/Token/IToken.php">
-    <AmbiguousConstantInheritance>
-      <code>DO_NOT_REMEMBER</code>
-      <code>PERMANENT_TOKEN</code>
-      <code>REMEMBER</code>
-      <code>TEMPORARY_TOKEN</code>
-      <code>WIPE_TOKEN</code>
-    </AmbiguousConstantInheritance>
   </file>
   <file src="lib/private/Authentication/Token/PublicKeyToken.php">
     <UndefinedMagicMethod>
-      <code>getExpires</code>
-      <code>getLastCheck</code>
-      <code>getLoginName</code>
-      <code>getName</code>
-      <code>getPassword</code>
-      <code>getRemember</code>
-      <code>getScope</code>
-      <code>setExpires</code>
-      <code>setLastCheck</code>
-      <code>setName</code>
-      <code>setPassword</code>
-      <code>setPasswordInvalid</code>
-      <code>setScope</code>
-      <code>setScope</code>
-      <code>setToken</code>
-      <code>setType</code>
+      <code><![CDATA[getExpires]]></code>
+      <code><![CDATA[getLastCheck]]></code>
+      <code><![CDATA[getLoginName]]></code>
+      <code><![CDATA[getName]]></code>
+      <code><![CDATA[getPassword]]></code>
+      <code><![CDATA[getRemember]]></code>
+      <code><![CDATA[getScope]]></code>
+      <code><![CDATA[setExpires]]></code>
+      <code><![CDATA[setLastCheck]]></code>
+      <code><![CDATA[setName]]></code>
+      <code><![CDATA[setPassword]]></code>
+      <code><![CDATA[setPasswordInvalid]]></code>
+      <code><![CDATA[setScope]]></code>
+      <code><![CDATA[setScope]]></code>
+      <code><![CDATA[setToken]]></code>
+      <code><![CDATA[setType]]></code>
     </UndefinedMagicMethod>
-  </file>
-  <file src="lib/private/Authentication/TwoFactorAuth/Db/ProviderUserAssignmentDao.php">
-    <LessSpecificReturnStatement>
-      <code><![CDATA[array_map(function (array $row) {
-			return [
-				'provider_id' => $row['provider_id'],
-				'uid' => $row['uid'],
-				'enabled' => 1 === (int) $row['enabled'],
-			];
-		}, $rows)]]></code>
-    </LessSpecificReturnStatement>
-    <MoreSpecificReturnType>
-      <code><![CDATA[list<array{provider_id: string, uid: string, enabled: bool}>]]></code>
-    </MoreSpecificReturnType>
   </file>
   <file src="lib/private/Authentication/TwoFactorAuth/ProviderSet.php">
     <InvalidArgument>
@@ -2145,33 +1635,27 @@
     </InvalidArgument>
     <InvalidPropertyAssignmentValue>
       <code><![CDATA[$this->providers]]></code>
-      <code>[]</code>
+      <code><![CDATA[[]]]></code>
     </InvalidPropertyAssignmentValue>
     <InvalidReturnStatement>
       <code><![CDATA[$this->providers]]></code>
     </InvalidReturnStatement>
     <InvalidReturnType>
-      <code>IProvider[]</code>
+      <code><![CDATA[IProvider[]]]></code>
     </InvalidReturnType>
     <UndefinedInterfaceMethod>
       <code><![CDATA[$this->providers]]></code>
     </UndefinedInterfaceMethod>
   </file>
-  <file src="lib/private/BackgroundJob/QueuedJob.php">
-    <MoreSpecificImplementedParamType>
-      <code>$jobList</code>
-      <code>$jobList</code>
-    </MoreSpecificImplementedParamType>
-  </file>
   <file src="lib/private/Cache/CappedMemoryCache.php">
     <MissingTemplateParam>
-      <code>\ArrayAccess</code>
+      <code><![CDATA[\ArrayAccess]]></code>
     </MissingTemplateParam>
   </file>
   <file src="lib/private/Cache/File.php">
     <LessSpecificImplementedReturnType>
-      <code>bool|mixed</code>
-      <code>bool|mixed</code>
+      <code><![CDATA[bool|mixed]]></code>
+      <code><![CDATA[bool|mixed]]></code>
     </LessSpecificImplementedReturnType>
   </file>
   <file src="lib/private/Calendar/Manager.php">
@@ -2193,7 +1677,7 @@
 		)]]></code>
     </LessSpecificReturnStatement>
     <MoreSpecificReturnType>
-      <code>ICreateFromString[]</code>
+      <code><![CDATA[ICreateFromString[]]]></code>
     </MoreSpecificReturnType>
     <NamedArgumentNotAllowed>
       <code><![CDATA[array_map(function ($registration) use ($principalUri, $calendarUris) {
@@ -2213,25 +1697,17 @@
   </file>
   <file src="lib/private/Command/CallableJob.php">
     <ParamNameMismatch>
-      <code>$serializedCallable</code>
+      <code><![CDATA[$serializedCallable]]></code>
     </ParamNameMismatch>
   </file>
   <file src="lib/private/Command/ClosureJob.php">
     <InvalidArgument>
-      <code>[LaravelClosure::class, OpisClosure::class]</code>
+      <code><![CDATA[[LaravelClosure::class]]]></code>
     </InvalidArgument>
-    <ParamNameMismatch>
-      <code>$serializedCallable</code>
-    </ParamNameMismatch>
-  </file>
-  <file src="lib/private/Command/CommandJob.php">
-    <ParamNameMismatch>
-      <code>$serializedCommand</code>
-    </ParamNameMismatch>
   </file>
   <file src="lib/private/Comments/Manager.php">
     <RedundantCast>
-      <code>(string)$id</code>
+      <code><![CDATA[(string)$id]]></code>
     </RedundantCast>
   </file>
   <file src="lib/private/Config.php">
@@ -2240,8 +1716,8 @@
       <code><![CDATA[$this->set($key, $value)]]></code>
     </InvalidOperand>
     <UndefinedVariable>
-      <code>$CONFIG</code>
-      <code>$CONFIG</code>
+      <code><![CDATA[$CONFIG]]></code>
+      <code><![CDATA[$CONFIG]]></code>
     </UndefinedVariable>
   </file>
   <file src="lib/private/Console/Application.php">
@@ -2251,123 +1727,79 @@
   </file>
   <file src="lib/private/ContactsManager.php">
     <InvalidArgument>
-      <code>$searchOptions</code>
+      <code><![CDATA[$searchOptions]]></code>
     </InvalidArgument>
-    <InvalidNullableReturnType>
-      <code>IAddressBook</code>
-      <code>array</code>
-      <code>bool</code>
-    </InvalidNullableReturnType>
-    <NullableReturnStatement>
-      <code>null</code>
-      <code>null</code>
-      <code>null</code>
-      <code>null</code>
-      <code>null</code>
-    </NullableReturnStatement>
-    <ParamNameMismatch>
-      <code>$addressBook</code>
-      <code>$addressBook</code>
-    </ParamNameMismatch>
-  </file>
-  <file src="lib/private/DB/Adapter.php">
-    <InvalidReturnStatement>
-      <code><![CDATA[$builder->execute()]]></code>
-    </InvalidReturnStatement>
-    <InvalidReturnType>
-      <code>int</code>
-    </InvalidReturnType>
   </file>
   <file src="lib/private/DB/AdapterMySQL.php">
     <InternalMethod>
-      <code>getParams</code>
+      <code><![CDATA[getParams]]></code>
     </InternalMethod>
     <InvalidArrayOffset>
-      <code>$params['collation']</code>
+      <code><![CDATA[$params['collation']]]></code>
     </InvalidArrayOffset>
   </file>
   <file src="lib/private/DB/Connection.php">
     <InternalMethod>
-      <code>getParams</code>
+      <code><![CDATA[getParams]]></code>
     </InternalMethod>
     <InvalidArgument>
-      <code>$params</code>
+      <code><![CDATA[$params]]></code>
     </InvalidArgument>
     <InvalidArrayOffset>
-      <code>$params['adapter']</code>
-      <code>$params['tablePrefix']</code>
+      <code><![CDATA[$params['adapter']]]></code>
+      <code><![CDATA[$params['tablePrefix']]]></code>
     </InvalidArrayOffset>
-    <InvalidReturnStatement>
-      <code><![CDATA[$this->adapter->lastInsertId($seqName)]]></code>
-    </InvalidReturnStatement>
-    <InvalidReturnType>
-      <code>string</code>
-    </InvalidReturnType>
-    <ParamNameMismatch>
-      <code>$seqName</code>
-      <code>$statement</code>
-    </ParamNameMismatch>
   </file>
   <file src="lib/private/DB/Exceptions/DbalException.php">
     <RedundantCondition>
       <code><![CDATA[is_int($original->getCode())]]></code>
     </RedundantCondition>
     <TypeDoesNotContainType>
-      <code>0</code>
+      <code><![CDATA[0]]></code>
     </TypeDoesNotContainType>
   </file>
   <file src="lib/private/DB/MigrationService.php">
-    <InvalidOperand>
-      <code>$offset</code>
-      <code>$offset</code>
-    </InvalidOperand>
     <LessSpecificReturnStatement>
-      <code>$s</code>
+      <code><![CDATA[$s]]></code>
     </LessSpecificReturnStatement>
     <MoreSpecificReturnType>
-      <code>IMigrationStep</code>
+      <code><![CDATA[IMigrationStep]]></code>
     </MoreSpecificReturnType>
-  </file>
-  <file src="lib/private/DB/OracleConnection.php">
-    <InvalidArrayAccess>
-      <code>$key[0]</code>
-    </InvalidArrayAccess>
   </file>
   <file src="lib/private/DB/QueryBuilder/ExpressionBuilder/ExpressionBuilder.php">
     <ImplicitToStringCast>
       <code><![CDATA[$this->functionBuilder->lower($x)]]></code>
     </ImplicitToStringCast>
     <InvalidArgument>
-      <code>$y</code>
-      <code>$y</code>
+      <code><![CDATA[$y]]></code>
+      <code><![CDATA[$y]]></code>
     </InvalidArgument>
   </file>
   <file src="lib/private/DB/QueryBuilder/ExpressionBuilder/MySqlExpressionBuilder.php">
     <InternalMethod>
-      <code>getParams</code>
+      <code><![CDATA[getParams]]></code>
     </InternalMethod>
     <InvalidArrayOffset>
-      <code>$params['collation']</code>
+      <code><![CDATA[$params['collation']]]></code>
     </InvalidArrayOffset>
   </file>
   <file src="lib/private/DB/QueryBuilder/QueryBuilder.php">
     <InvalidNullableReturnType>
-      <code>string</code>
+      <code><![CDATA[string]]></code>
     </InvalidNullableReturnType>
     <NullableReturnStatement>
-      <code>$alias</code>
+      <code><![CDATA[$alias]]></code>
     </NullableReturnStatement>
     <ParamNameMismatch>
-      <code>$groupBys</code>
-      <code>$selects</code>
+      <code><![CDATA[$selects]]></code>
     </ParamNameMismatch>
   </file>
   <file src="lib/private/DB/QueryBuilder/QuoteHelper.php">
     <InvalidNullableReturnType>
-      <code>string</code>
+      <code><![CDATA[string]]></code>
     </InvalidNullableReturnType>
     <NullableReturnStatement>
-      <code>$string</code>
+      <code><![CDATA[$string]]></code>
     </NullableReturnStatement>
   </file>
   <file src="lib/private/DateTimeFormatter.php">
@@ -2376,35 +1808,31 @@
 			'width' => $format,
 		])]]></code>
     </FalsableReturnStatement>
-    <InvalidDocblock>
-      <code>public function formatDateSpan($timestamp, $baseTimestamp = null, \OCP\IL10N $l = null) {</code>
-      <code>public function formatTimeSpan($timestamp, $baseTimestamp = null, \OCP\IL10N $l = null) {</code>
-    </InvalidDocblock>
     <InvalidReturnStatement>
       <code><![CDATA[$l->l($type, $timestamp, [
 			'width' => $format,
 		])]]></code>
     </InvalidReturnStatement>
     <InvalidReturnType>
-      <code>string</code>
+      <code><![CDATA[string]]></code>
     </InvalidReturnType>
   </file>
   <file src="lib/private/DateTimeZone.php">
     <InvalidScalarArgument>
-      <code>$timestamp</code>
+      <code><![CDATA[$timestamp]]></code>
     </InvalidScalarArgument>
   </file>
   <file src="lib/private/Diagnostics/Query.php">
     <ImplementedReturnTypeMismatch>
-      <code>float</code>
+      <code><![CDATA[float]]></code>
     </ImplementedReturnTypeMismatch>
   </file>
   <file src="lib/private/Diagnostics/QueryLogger.php">
     <InvalidArgument>
-      <code>microtime(true)</code>
+      <code><![CDATA[microtime(true)]]></code>
     </InvalidArgument>
     <InvalidReturnType>
-      <code>stopQuery</code>
+      <code><![CDATA[stopQuery]]></code>
     </InvalidReturnType>
   </file>
   <file src="lib/private/DirectEditing/Manager.php">
@@ -2412,14 +1840,14 @@
       <code><![CDATA[$query->execute()]]></code>
     </InvalidReturnStatement>
     <InvalidReturnType>
-      <code>TemplateResponse</code>
-      <code>int</code>
+      <code><![CDATA[TemplateResponse]]></code>
+      <code><![CDATA[int]]></code>
     </InvalidReturnType>
     <UndefinedMethod>
-      <code>$template</code>
-      <code>$template</code>
-      <code>$template</code>
-      <code>$template</code>
+      <code><![CDATA[$template]]></code>
+      <code><![CDATA[$template]]></code>
+      <code><![CDATA[$template]]></code>
+      <code><![CDATA[$template]]></code>
     </UndefinedMethod>
   </file>
   <file src="lib/private/DirectEditing/Token.php">
@@ -2427,35 +1855,27 @@
       <code><![CDATA[$this->manager->getFileForToken($this->data['user_id'], $this->data['file_id'], $this->data['file_path'])]]></code>
     </LessSpecificReturnStatement>
     <UndefinedMethod>
-      <code>getShareForToken</code>
+      <code><![CDATA[getShareForToken]]></code>
     </UndefinedMethod>
-  </file>
-  <file src="lib/private/Encryption/File.php">
-    <LessSpecificReturnStatement>
-      <code><![CDATA[['users' => $uniqueUserIds, 'public' => $public]]]></code>
-    </LessSpecificReturnStatement>
-    <MoreSpecificReturnType>
-      <code>array{users: string[], public: bool}</code>
-    </MoreSpecificReturnType>
   </file>
   <file src="lib/private/Encryption/Keys/Storage.php">
     <InvalidNullableReturnType>
-      <code>deleteUserKey</code>
+      <code><![CDATA[deleteUserKey]]></code>
     </InvalidNullableReturnType>
     <NullArgument>
-      <code>null</code>
-      <code>null</code>
-      <code>null</code>
+      <code><![CDATA[null]]></code>
+      <code><![CDATA[null]]></code>
+      <code><![CDATA[null]]></code>
     </NullArgument>
   </file>
   <file src="lib/private/Encryption/Manager.php">
     <ImplementedReturnTypeMismatch>
-      <code>bool</code>
+      <code><![CDATA[bool]]></code>
     </ImplementedReturnTypeMismatch>
   </file>
   <file src="lib/private/Federation/CloudFederationProviderManager.php">
     <ParamNameMismatch>
-      <code>$providerId</code>
+      <code><![CDATA[$providerId]]></code>
     </ParamNameMismatch>
   </file>
   <file src="lib/private/Files/AppData/AppData.php">
@@ -2463,61 +1883,61 @@
       <code><![CDATA[$this->folder]]></code>
     </LessSpecificReturnStatement>
     <MoreSpecificReturnType>
-      <code>Folder</code>
+      <code><![CDATA[Folder]]></code>
     </MoreSpecificReturnType>
   </file>
   <file src="lib/private/Files/Cache/Cache.php">
     <InvalidArgument>
-      <code>$parentData</code>
+      <code><![CDATA[$parentData]]></code>
     </InvalidArgument>
     <InvalidNullableReturnType>
-      <code>array</code>
+      <code><![CDATA[array]]></code>
     </InvalidNullableReturnType>
     <InvalidScalarArgument>
-      <code>$path</code>
-      <code>\OC_Util::normalizeUnicode($path)</code>
+      <code><![CDATA[$path]]></code>
+      <code><![CDATA[\OC_Util::normalizeUnicode($path)]]></code>
     </InvalidScalarArgument>
     <NullableReturnStatement>
-      <code>null</code>
-      <code>null</code>
+      <code><![CDATA[null]]></code>
+      <code><![CDATA[null]]></code>
     </NullableReturnStatement>
     <ParamNameMismatch>
-      <code>$searchQuery</code>
+      <code><![CDATA[$searchQuery]]></code>
     </ParamNameMismatch>
   </file>
   <file src="lib/private/Files/Cache/FailedCache.php">
     <InvalidReturnStatement>
-      <code>[]</code>
+      <code><![CDATA[[]]]></code>
     </InvalidReturnStatement>
     <InvalidReturnType>
-      <code>getIncomplete</code>
-      <code>insert</code>
-      <code>put</code>
+      <code><![CDATA[getIncomplete]]></code>
+      <code><![CDATA[insert]]></code>
+      <code><![CDATA[put]]></code>
     </InvalidReturnType>
   </file>
   <file src="lib/private/Files/Cache/HomeCache.php">
     <FalsableReturnStatement>
-      <code>$data</code>
+      <code><![CDATA[$data]]></code>
     </FalsableReturnStatement>
     <MoreSpecificImplementedParamType>
-      <code>$file</code>
-      <code>$file</code>
+      <code><![CDATA[$file]]></code>
+      <code><![CDATA[$file]]></code>
     </MoreSpecificImplementedParamType>
   </file>
   <file src="lib/private/Files/Cache/Scanner.php">
     <InvalidArgument>
-      <code>self::SCAN_RECURSIVE_INCOMPLETE</code>
+      <code><![CDATA[self::SCAN_RECURSIVE_INCOMPLETE]]></code>
     </InvalidArgument>
     <InvalidReturnStatement>
-      <code>$existingChildren</code>
+      <code><![CDATA[$existingChildren]]></code>
     </InvalidReturnStatement>
     <InvalidReturnType>
-      <code>array[]</code>
+      <code><![CDATA[array[]]]></code>
     </InvalidReturnType>
   </file>
   <file src="lib/private/Files/Cache/Storage.php">
     <InvalidNullableReturnType>
-      <code>array</code>
+      <code><![CDATA[array]]></code>
     </InvalidNullableReturnType>
     <NullableReturnStatement>
       <code><![CDATA[self::getGlobalCache()->getStorageInfo($storageId)]]></code>
@@ -2530,43 +1950,38 @@
   </file>
   <file src="lib/private/Files/Cache/Wrapper/CacheWrapper.php">
     <LessSpecificImplementedReturnType>
-      <code>array</code>
-      <code>array</code>
+      <code><![CDATA[array]]></code>
+      <code><![CDATA[array]]></code>
     </LessSpecificImplementedReturnType>
     <ParamNameMismatch>
-      <code>$searchQuery</code>
+      <code><![CDATA[$searchQuery]]></code>
     </ParamNameMismatch>
   </file>
   <file src="lib/private/Files/Config/MountProviderCollection.php">
     <InvalidOperand>
-      <code>$user</code>
+      <code><![CDATA[$user]]></code>
     </InvalidOperand>
     <RedundantCondition>
-      <code>get_class($provider) !== 'OCA\Files_Sharing\MountProvider'</code>
+      <code><![CDATA[get_class($provider) !== 'OCA\Files_Sharing\MountProvider']]></code>
     </RedundantCondition>
     <TypeDoesNotContainType>
-      <code>get_class($provider) === 'OCA\Files_Sharing\MountProvider'</code>
+      <code><![CDATA[get_class($provider) === 'OCA\Files_Sharing\MountProvider']]></code>
     </TypeDoesNotContainType>
   </file>
   <file src="lib/private/Files/Config/UserMountCache.php">
     <InvalidReturnType>
-      <code>remoteStorageMounts</code>
-      <code>removeUserStorageMount</code>
+      <code><![CDATA[remoteStorageMounts]]></code>
+      <code><![CDATA[removeUserStorageMount]]></code>
     </InvalidReturnType>
     <LessSpecificImplementedReturnType>
-      <code>array</code>
+      <code><![CDATA[array]]></code>
     </LessSpecificImplementedReturnType>
     <LessSpecificReturnStatement>
       <code><![CDATA[$this->cacheInfoCache[$fileId]]]></code>
     </LessSpecificReturnStatement>
     <MoreSpecificReturnType>
-      <code>array{int, string, int}</code>
+      <code><![CDATA[array{int, string, int}]]></code>
     </MoreSpecificReturnType>
-  </file>
-  <file src="lib/private/Files/FileInfo.php">
-    <MissingTemplateParam>
-      <code>\ArrayAccess</code>
-    </MissingTemplateParam>
   </file>
   <file src="lib/private/Files/Filesystem.php">
     <LessSpecificReturnStatement>
@@ -2575,25 +1990,25 @@
       <code><![CDATA[self::getMountManager()->findByStorageId($id)]]></code>
     </LessSpecificReturnStatement>
     <MoreSpecificReturnType>
-      <code>Mount\MountPoint[]</code>
-      <code>Mount\MountPoint[]</code>
-      <code>\OC\Files\Storage\Storage|null</code>
+      <code><![CDATA[Mount\MountPoint[]]]></code>
+      <code><![CDATA[Mount\MountPoint[]]]></code>
+      <code><![CDATA[\OC\Files\Storage\Storage|null]]></code>
     </MoreSpecificReturnType>
     <TooManyArguments>
-      <code>addStorageWrapper</code>
+      <code><![CDATA[addStorageWrapper]]></code>
     </TooManyArguments>
   </file>
   <file src="lib/private/Files/Mount/MountPoint.php">
     <UndefinedInterfaceMethod>
-      <code>wrap</code>
+      <code><![CDATA[wrap]]></code>
     </UndefinedInterfaceMethod>
   </file>
   <file src="lib/private/Files/Mount/ObjectHomeMountProvider.php">
     <InvalidNullableReturnType>
-      <code>\OCP\Files\Mount\IMountPoint</code>
+      <code><![CDATA[\OCP\Files\Mount\IMountPoint]]></code>
     </InvalidNullableReturnType>
     <NullableReturnStatement>
-      <code>null</code>
+      <code><![CDATA[null]]></code>
     </NullableReturnStatement>
   </file>
   <file src="lib/private/Files/Node/File.php">
@@ -2601,41 +2016,39 @@
       <code><![CDATA[$this->view->hash($type, $this->path, $raw)]]></code>
     </InvalidReturnStatement>
     <InvalidReturnType>
-      <code>string</code>
+      <code><![CDATA[string]]></code>
     </InvalidReturnType>
   </file>
   <file src="lib/private/Files/Node/Folder.php">
     <LessSpecificReturnStatement>
       <code><![CDATA[$this->root->get($this->getFullPath($path))]]></code>
-      <code><![CDATA[$this->root->getByIdInPath((int)$id, $this->getPath())]]></code>
       <code><![CDATA[array_map(function (FileInfo $file) {
 			return $this->createNode($file->getPath(), $file);
 		}, $files)]]></code>
     </LessSpecificReturnStatement>
     <MoreSpecificImplementedParamType>
-      <code>$node</code>
+      <code><![CDATA[$node]]></code>
     </MoreSpecificImplementedParamType>
     <MoreSpecificReturnType>
-      <code>\OC\Files\Node\Node</code>
-      <code>\OC\Files\Node\Node[]</code>
-      <code>\OC\Files\Node\Node[]</code>
+      <code><![CDATA[\OC\Files\Node\Node]]></code>
+      <code><![CDATA[\OC\Files\Node\Node[]]]></code>
     </MoreSpecificReturnType>
   </file>
   <file src="lib/private/Files/Node/HookConnector.php">
     <UndefinedInterfaceMethod>
-      <code>emit</code>
-      <code>emit</code>
-      <code>emit</code>
-      <code>emit</code>
-      <code>emit</code>
-      <code>emit</code>
-      <code>emit</code>
-      <code>emit</code>
-      <code>emit</code>
-      <code>emit</code>
-      <code>emit</code>
-      <code>emit</code>
-      <code>emit</code>
+      <code><![CDATA[emit]]></code>
+      <code><![CDATA[emit]]></code>
+      <code><![CDATA[emit]]></code>
+      <code><![CDATA[emit]]></code>
+      <code><![CDATA[emit]]></code>
+      <code><![CDATA[emit]]></code>
+      <code><![CDATA[emit]]></code>
+      <code><![CDATA[emit]]></code>
+      <code><![CDATA[emit]]></code>
+      <code><![CDATA[emit]]></code>
+      <code><![CDATA[emit]]></code>
+      <code><![CDATA[emit]]></code>
+      <code><![CDATA[emit]]></code>
     </UndefinedInterfaceMethod>
   </file>
   <file src="lib/private/Files/Node/LazyFolder.php">
@@ -2645,30 +2058,30 @@
   </file>
   <file src="lib/private/Files/Node/LazyUserFolder.php">
     <LessSpecificReturnStatement>
-      <code>$node</code>
+      <code><![CDATA[$node]]></code>
     </LessSpecificReturnStatement>
     <MoreSpecificReturnType>
-      <code>Folder</code>
+      <code><![CDATA[Folder]]></code>
     </MoreSpecificReturnType>
   </file>
   <file src="lib/private/Files/Node/Node.php">
     <InvalidNullableReturnType>
-      <code>FileInfo</code>
+      <code><![CDATA[FileInfo]]></code>
     </InvalidNullableReturnType>
     <InvalidReturnType>
-      <code>getChecksum</code>
+      <code><![CDATA[getChecksum]]></code>
     </InvalidReturnType>
     <LessSpecificReturnStatement>
       <code><![CDATA[$this->parent]]></code>
     </LessSpecificReturnStatement>
     <MoreSpecificReturnType>
-      <code>INode|IRootFolder</code>
+      <code><![CDATA[INode|IRootFolder]]></code>
     </MoreSpecificReturnType>
     <NullableReturnStatement>
       <code><![CDATA[$this->fileInfo]]></code>
     </NullableReturnStatement>
     <ParamNameMismatch>
-      <code>$type</code>
+      <code><![CDATA[$type]]></code>
     </ParamNameMismatch>
     <UndefinedInterfaceMethod>
       <code><![CDATA[$this->fileInfo]]></code>
@@ -2677,7 +2090,7 @@
   </file>
   <file src="lib/private/Files/Node/Root.php">
     <LessSpecificReturnStatement>
-      <code>$folders</code>
+      <code><![CDATA[$folders]]></code>
       <code><![CDATA[$this->createNode($fullPath, $fileInfo, false)]]></code>
       <code><![CDATA[$this->mountManager->findByNumericId($numericId)]]></code>
       <code><![CDATA[$this->mountManager->findByStorageId($storageId)]]></code>
@@ -2685,68 +2098,63 @@
       <code><![CDATA[$this->user]]></code>
     </LessSpecificReturnStatement>
     <MoreSpecificReturnType>
-      <code>MountPoint[]</code>
-      <code>Node</code>
-      <code>\OC\Files\Mount\MountPoint[]</code>
-      <code>\OC\Files\Mount\MountPoint[]</code>
-      <code>\OC\User\User</code>
+      <code><![CDATA[MountPoint[]]]></code>
+      <code><![CDATA[Node]]></code>
+      <code><![CDATA[\OC\Files\Mount\MountPoint[]]]></code>
+      <code><![CDATA[\OC\Files\Mount\MountPoint[]]]></code>
+      <code><![CDATA[\OC\User\User]]></code>
     </MoreSpecificReturnType>
     <NullableReturnStatement>
       <code><![CDATA[$this->user]]></code>
     </NullableReturnStatement>
     <UndefinedMethod>
-      <code>remove</code>
+      <code><![CDATA[remove]]></code>
     </UndefinedMethod>
-  </file>
-  <file src="lib/private/Files/ObjectStore/HomeObjectStoreStorage.php">
-    <ImplementedReturnTypeMismatch>
-      <code>false|string</code>
-    </ImplementedReturnTypeMismatch>
   </file>
   <file src="lib/private/Files/ObjectStore/ObjectStoreStorage.php">
     <InvalidScalarArgument>
-      <code>$source</code>
+      <code><![CDATA[$source]]></code>
     </InvalidScalarArgument>
   </file>
   <file src="lib/private/Files/ObjectStore/S3ConnectionTrait.php">
     <InternalClass>
-      <code>ClientResolver::_default_signature_provider()</code>
-      <code>ClientResolver::_default_signature_provider()</code>
+      <code><![CDATA[ClientResolver::_default_signature_provider()]]></code>
+      <code><![CDATA[ClientResolver::_default_signature_provider()]]></code>
     </InternalClass>
     <InternalMethod>
-      <code>ClientResolver::_default_signature_provider()</code>
+      <code><![CDATA[ClientResolver::_default_signature_provider()]]></code>
     </InternalMethod>
     <UndefinedFunction>
-      <code>Promise\promise_for(
+      <code><![CDATA[Promise\promise_for(
 					new Credentials($key, $secret)
-				)</code>
-      <code>\Aws\or_chain([self::class, 'legacySignatureProvider'], ClientResolver::_default_signature_provider())</code>
+				)]]></code>
+      <code><![CDATA[\Aws\or_chain([self::class, 'legacySignatureProvider'], ClientResolver::_default_signature_provider())]]></code>
     </UndefinedFunction>
   </file>
   <file src="lib/private/Files/ObjectStore/S3ObjectTrait.php">
     <InternalMethod>
-      <code>upload</code>
+      <code><![CDATA[upload]]></code>
     </InternalMethod>
     <UndefinedFunction>
-      <code>\Aws\serialize($command)</code>
+      <code><![CDATA[\Aws\serialize($command)]]></code>
     </UndefinedFunction>
   </file>
   <file src="lib/private/Files/ObjectStore/S3Signature.php">
     <NullArgument>
-      <code>null</code>
+      <code><![CDATA[null]]></code>
     </NullArgument>
   </file>
   <file src="lib/private/Files/ObjectStore/StorageObjectStore.php">
     <InvalidReturnType>
-      <code>string</code>
+      <code><![CDATA[string]]></code>
     </InvalidReturnType>
   </file>
   <file src="lib/private/Files/Storage/Common.php">
     <ImplementedReturnTypeMismatch>
-      <code>string|false</code>
+      <code><![CDATA[string|false]]></code>
     </ImplementedReturnTypeMismatch>
     <InvalidOperand>
-      <code>!$permissions</code>
+      <code><![CDATA[!$permissions]]></code>
       <code><![CDATA[$this->copyFromStorage($sourceStorage, $sourceInternalPath . '/' . $file, $targetInternalPath . '/' . $file)]]></code>
     </InvalidOperand>
     <NoInterfaceProperties>
@@ -2762,39 +2170,39 @@
   </file>
   <file src="lib/private/Files/Storage/DAV.php">
     <InvalidClass>
-      <code>ArrayCache</code>
-      <code>ArrayCache</code>
+      <code><![CDATA[ArrayCache]]></code>
+      <code><![CDATA[ArrayCache]]></code>
     </InvalidClass>
     <InvalidReturnStatement>
       <code><![CDATA[$response->getBody()]]></code>
     </InvalidReturnStatement>
     <InvalidReturnType>
-      <code>fopen</code>
+      <code><![CDATA[fopen]]></code>
     </InvalidReturnType>
     <NullableReturnStatement>
-      <code>null</code>
+      <code><![CDATA[null]]></code>
     </NullableReturnStatement>
   </file>
   <file src="lib/private/Files/Storage/FailedStorage.php">
     <InvalidReturnStatement>
-      <code>new FailedCache()</code>
-      <code>true</code>
+      <code><![CDATA[new FailedCache()]]></code>
+      <code><![CDATA[true]]></code>
     </InvalidReturnStatement>
     <InvalidReturnType>
-      <code>getCache</code>
-      <code>verifyPath</code>
+      <code><![CDATA[getCache]]></code>
+      <code><![CDATA[verifyPath]]></code>
     </InvalidReturnType>
   </file>
   <file src="lib/private/Files/Storage/Local.php">
     <ImplicitToStringCast>
-      <code>$file</code>
+      <code><![CDATA[$file]]></code>
     </ImplicitToStringCast>
     <TypeDoesNotContainNull>
-      <code>$space === false || is_null($space)</code>
-      <code>is_null($space)</code>
+      <code><![CDATA[$space === false || is_null($space)]]></code>
+      <code><![CDATA[is_null($space)]]></code>
     </TypeDoesNotContainNull>
     <TypeDoesNotContainType>
-      <code>$stat === false</code>
+      <code><![CDATA[$stat === false]]></code>
     </TypeDoesNotContainType>
   </file>
   <file src="lib/private/Files/Storage/LocalRootStorage.php">
@@ -2805,9 +2213,9 @@
   </file>
   <file src="lib/private/Files/Storage/Wrapper/Encoding.php">
     <InvalidArgument>
-      <code>\Normalizer::FORM_C</code>
-      <code>\Normalizer::FORM_C</code>
-      <code>\Normalizer::FORM_D</code>
+      <code><![CDATA[\Normalizer::FORM_C]]></code>
+      <code><![CDATA[\Normalizer::FORM_C]]></code>
+      <code><![CDATA[\Normalizer::FORM_D]]></code>
     </InvalidArgument>
     <UndefinedInterfaceMethod>
       <code><![CDATA[$this->namesCache]]></code>
@@ -2831,21 +2239,21 @@
   </file>
   <file src="lib/private/Files/Storage/Wrapper/Encryption.php">
     <InvalidOperand>
-      <code>$result</code>
-      <code>$result</code>
+      <code><![CDATA[$result]]></code>
+      <code><![CDATA[$result]]></code>
       <code><![CDATA[$this->copyFromStorage($sourceStorage, $sourceInternalPath . '/' . $file, $targetInternalPath . '/' . $file, false, $isRename)]]></code>
     </InvalidOperand>
     <InvalidReturnStatement>
-      <code>$newUnencryptedSize</code>
-      <code>$result</code>
+      <code><![CDATA[$newUnencryptedSize]]></code>
+      <code><![CDATA[$result]]></code>
     </InvalidReturnStatement>
     <InvalidReturnType>
-      <code>bool</code>
-      <code>int</code>
+      <code><![CDATA[bool]]></code>
+      <code><![CDATA[int]]></code>
     </InvalidReturnType>
     <InvalidScalarArgument>
-      <code>$lastChunkPos</code>
-      <code>$size</code>
+      <code><![CDATA[$lastChunkPos]]></code>
+      <code><![CDATA[$size]]></code>
     </InvalidScalarArgument>
   </file>
   <file src="lib/private/Files/Storage/Wrapper/Jail.php">
@@ -2853,7 +2261,7 @@
       <code><![CDATA[$this->getWrapperStorage()->filetype($this->getUnjailedPath($path))]]></code>
     </InvalidReturnStatement>
     <InvalidReturnType>
-      <code>bool</code>
+      <code><![CDATA[bool]]></code>
     </InvalidReturnType>
   </file>
   <file src="lib/private/Files/Storage/Wrapper/Wrapper.php">
@@ -2861,23 +2269,23 @@
       <code><![CDATA[$this->getWrapperStorage()->test()]]></code>
     </InvalidReturnStatement>
     <InvalidReturnType>
-      <code>true</code>
+      <code><![CDATA[true]]></code>
     </InvalidReturnType>
   </file>
   <file src="lib/private/Files/Stream/SeekableHttpStream.php">
     <InvalidReturnType>
-      <code>stream_close</code>
-      <code>stream_flush</code>
+      <code><![CDATA[stream_close]]></code>
+      <code><![CDATA[stream_flush]]></code>
     </InvalidReturnType>
   </file>
   <file src="lib/private/Files/Template/TemplateManager.php">
     <RedundantCondition>
-      <code>!$isDefaultTemplates</code>
+      <code><![CDATA[!$isDefaultTemplates]]></code>
     </RedundantCondition>
   </file>
   <file src="lib/private/Files/Type/Detection.php">
     <ParamNameMismatch>
-      <code>$mimetype</code>
+      <code><![CDATA[$mimetype]]></code>
     </ParamNameMismatch>
   </file>
   <file src="lib/private/Files/Type/Loader.php">
@@ -2885,25 +2293,25 @@
       <code><![CDATA[$update->execute()]]></code>
     </InvalidReturnStatement>
     <InvalidReturnType>
-      <code>int</code>
+      <code><![CDATA[int]]></code>
     </InvalidReturnType>
   </file>
   <file src="lib/private/Files/Utils/Scanner.php">
     <LessSpecificReturnStatement>
-      <code>$mounts</code>
+      <code><![CDATA[$mounts]]></code>
     </LessSpecificReturnStatement>
     <MoreSpecificReturnType>
-      <code>\OC\Files\Mount\MountPoint[]</code>
+      <code><![CDATA[\OC\Files\Mount\MountPoint[]]]></code>
     </MoreSpecificReturnType>
   </file>
   <file src="lib/private/Files/View.php">
     <InvalidScalarArgument>
-      <code>$mtime</code>
+      <code><![CDATA[$mtime]]></code>
     </InvalidScalarArgument>
     <UndefinedInterfaceMethod>
-      <code>acquireLock</code>
-      <code>changeLock</code>
-      <code>releaseLock</code>
+      <code><![CDATA[acquireLock]]></code>
+      <code><![CDATA[changeLock]]></code>
+      <code><![CDATA[releaseLock]]></code>
     </UndefinedInterfaceMethod>
   </file>
   <file src="lib/private/FullTextSearch/Model/IndexDocument.php">
@@ -2911,36 +2319,18 @@
       <code><![CDATA[is_null($this->getContent())]]></code>
     </TypeDoesNotContainNull>
   </file>
-  <file src="lib/private/Group/Database.php">
-    <InvalidArrayOffset>
-      <code><![CDATA[$this->groupCache[$gid]['displayname']]]></code>
-    </InvalidArrayOffset>
-    <InvalidPropertyAssignmentValue>
-      <code><![CDATA[$this->groupCache]]></code>
-      <code><![CDATA[$this->groupCache]]></code>
-      <code><![CDATA[$this->groupCache]]></code>
-    </InvalidPropertyAssignmentValue>
-  </file>
-  <file src="lib/private/Group/DisplayNameCache.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
-  </file>
   <file src="lib/private/Group/Group.php">
     <InvalidArgument>
-      <code>bool</code>
+      <code><![CDATA[bool]]></code>
     </InvalidArgument>
     <InvalidOperand>
-      <code>$hide</code>
+      <code><![CDATA[$hide]]></code>
     </InvalidOperand>
     <LessSpecificReturnStatement>
-      <code>$users</code>
+      <code><![CDATA[$users]]></code>
     </LessSpecificReturnStatement>
-    <MoreSpecificImplementedParamType>
-      <code>$user</code>
-    </MoreSpecificImplementedParamType>
     <MoreSpecificReturnType>
-      <code>\OC\User\User[]</code>
+      <code><![CDATA[\OC\User\User[]]]></code>
     </MoreSpecificReturnType>
     <RedundantCondition>
       <code><![CDATA[$this->emitter]]></code>
@@ -2948,31 +2338,31 @@
       <code><![CDATA[$this->emitter]]></code>
     </RedundantCondition>
     <UndefinedMethod>
-      <code>addToGroup</code>
-      <code>countUsersInGroup</code>
-      <code>deleteGroup</code>
-      <code>removeFromGroup</code>
+      <code><![CDATA[addToGroup]]></code>
+      <code><![CDATA[countUsersInGroup]]></code>
+      <code><![CDATA[deleteGroup]]></code>
+      <code><![CDATA[removeFromGroup]]></code>
     </UndefinedMethod>
   </file>
   <file src="lib/private/Group/Manager.php">
     <LessSpecificReturnStatement>
-      <code>$groups</code>
-      <code>array_values($groups)</code>
-      <code>array_values($groups)</code>
+      <code><![CDATA[$groups]]></code>
+      <code><![CDATA[array_values($groups)]]></code>
+      <code><![CDATA[array_values($groups)]]></code>
     </LessSpecificReturnStatement>
     <MoreSpecificReturnType>
-      <code>\OC\Group\Group[]</code>
-      <code>\OC\Group\Group[]</code>
+      <code><![CDATA[\OC\Group\Group[]]]></code>
+      <code><![CDATA[\OC\Group\Group[]]]></code>
     </MoreSpecificReturnType>
     <UndefinedInterfaceMethod>
-      <code>createGroup</code>
-      <code>getGroupDetails</code>
-      <code>isAdmin</code>
+      <code><![CDATA[createGroup]]></code>
+      <code><![CDATA[getGroupDetails]]></code>
+      <code><![CDATA[isAdmin]]></code>
     </UndefinedInterfaceMethod>
   </file>
   <file src="lib/private/Http/Client/Response.php">
     <InvalidNullableReturnType>
-      <code>string|resource</code>
+      <code><![CDATA[string|resource]]></code>
     </InvalidNullableReturnType>
     <NullableReturnStatement>
       <code><![CDATA[$this->stream ?
@@ -2981,19 +2371,16 @@
     </NullableReturnStatement>
   </file>
   <file src="lib/private/Installer.php">
-    <FalsableReturnStatement>
-      <code>false</code>
-    </FalsableReturnStatement>
     <InvalidArgument>
-      <code>false</code>
-      <code>false</code>
+      <code><![CDATA[false]]></code>
+      <code><![CDATA[false]]></code>
     </InvalidArgument>
     <InvalidArrayOffset>
-      <code>$app['path']</code>
-      <code>$app['path']</code>
+      <code><![CDATA[$app['path']]]></code>
+      <code><![CDATA[$app['path']]]></code>
     </InvalidArrayOffset>
     <NullArgument>
-      <code>null</code>
+      <code><![CDATA[null]]></code>
     </NullArgument>
   </file>
   <file src="lib/private/IntegrityCheck/Checker.php">
@@ -3003,41 +2390,41 @@
       <code><![CDATA[$x509->getDN(true)['CN']]]></code>
     </InvalidArrayAccess>
     <UndefinedInterfaceMethod>
-      <code>getOnlyDefaultAliases</code>
+      <code><![CDATA[getOnlyDefaultAliases]]></code>
     </UndefinedInterfaceMethod>
   </file>
   <file src="lib/private/IntegrityCheck/Iterator/ExcludeFileByNameFilterIterator.php">
     <MissingTemplateParam>
-      <code>ExcludeFileByNameFilterIterator</code>
+      <code><![CDATA[ExcludeFileByNameFilterIterator]]></code>
     </MissingTemplateParam>
   </file>
   <file src="lib/private/IntegrityCheck/Iterator/ExcludeFoldersByPathFilterIterator.php">
     <MissingTemplateParam>
-      <code>ExcludeFoldersByPathFilterIterator</code>
+      <code><![CDATA[ExcludeFoldersByPathFilterIterator]]></code>
     </MissingTemplateParam>
   </file>
   <file src="lib/private/L10N/Factory.php">
     <ImplementedReturnTypeMismatch>
-      <code>null|string</code>
+      <code><![CDATA[null|string]]></code>
     </ImplementedReturnTypeMismatch>
     <LessSpecificImplementedReturnType>
-      <code>array|mixed</code>
+      <code><![CDATA[array|mixed]]></code>
     </LessSpecificImplementedReturnType>
   </file>
   <file src="lib/private/LargeFileHelper.php">
     <InvalidOperand>
-      <code>$matches[1]</code>
+      <code><![CDATA[$matches[1]]]></code>
     </InvalidOperand>
   </file>
   <file src="lib/private/Lockdown/Filesystem/NullCache.php">
     <InvalidNullableReturnType>
-      <code>get</code>
+      <code><![CDATA[get]]></code>
     </InvalidNullableReturnType>
     <InvalidReturnStatement>
-      <code>[]</code>
+      <code><![CDATA[[]]]></code>
     </InvalidReturnStatement>
     <InvalidReturnType>
-      <code>getIncomplete</code>
+      <code><![CDATA[getIncomplete]]></code>
     </InvalidReturnType>
     <NullableReturnStatement>
       <code><![CDATA[$file !== '' ? null :
@@ -3058,52 +2445,47 @@
   </file>
   <file src="lib/private/Lockdown/Filesystem/NullStorage.php">
     <InvalidNullableReturnType>
-      <code>getOwner</code>
-      <code>getPermissions</code>
+      <code><![CDATA[getOwner]]></code>
+      <code><![CDATA[getPermissions]]></code>
     </InvalidNullableReturnType>
     <InvalidReturnStatement>
-      <code>new IteratorDirectory([])</code>
-      <code>new NullCache()</code>
+      <code><![CDATA[new IteratorDirectory([])]]></code>
+      <code><![CDATA[new NullCache()]]></code>
     </InvalidReturnStatement>
     <InvalidReturnType>
-      <code>getCache</code>
-      <code>opendir</code>
+      <code><![CDATA[getCache]]></code>
+      <code><![CDATA[opendir]]></code>
     </InvalidReturnType>
     <NullableReturnStatement>
-      <code>null</code>
-      <code>null</code>
+      <code><![CDATA[null]]></code>
+      <code><![CDATA[null]]></code>
     </NullableReturnStatement>
     <TooManyArguments>
-      <code>new IteratorDirectory([])</code>
+      <code><![CDATA[new IteratorDirectory([])]]></code>
     </TooManyArguments>
   </file>
   <file src="lib/private/Lockdown/LockdownManager.php">
     <InvalidFunctionCall>
-      <code>$callback()</code>
+      <code><![CDATA[$callback()]]></code>
     </InvalidFunctionCall>
     <InvalidPropertyAssignmentValue>
-      <code>$sessionCallback</code>
+      <code><![CDATA[$sessionCallback]]></code>
     </InvalidPropertyAssignmentValue>
   </file>
   <file src="lib/private/Log.php">
     <RedundantCondition>
-      <code>$request</code>
+      <code><![CDATA[$request]]></code>
     </RedundantCondition>
   </file>
   <file src="lib/private/Log/File.php">
     <TypeDoesNotContainNull>
-      <code>$limit === null</code>
+      <code><![CDATA[$limit === null]]></code>
     </TypeDoesNotContainNull>
   </file>
   <file src="lib/private/Log/LogDetails.php">
     <RedundantCondition>
       <code><![CDATA[is_string($request->getMethod())]]></code>
     </RedundantCondition>
-  </file>
-  <file src="lib/private/Log/Rotate.php">
-    <ParamNameMismatch>
-      <code>$dummy</code>
-    </ParamNameMismatch>
   </file>
   <file src="lib/private/Log/Systemdlog.php">
     <UndefinedFunction>
@@ -3117,78 +2499,58 @@
       <code><![CDATA[apcu_add($this->getPrefix() . $key, $value, $ttl)]]></code>
     </InvalidReturnStatement>
     <InvalidReturnType>
-      <code>bool</code>
+      <code><![CDATA[bool]]></code>
     </InvalidReturnType>
   </file>
   <file src="lib/private/Memcache/Cache.php">
     <LessSpecificImplementedReturnType>
-      <code>mixed</code>
-      <code>mixed</code>
-      <code>mixed</code>
-      <code>mixed</code>
+      <code><![CDATA[mixed]]></code>
+      <code><![CDATA[mixed]]></code>
+      <code><![CDATA[mixed]]></code>
+      <code><![CDATA[mixed]]></code>
     </LessSpecificImplementedReturnType>
-    <MissingTemplateParam>
-      <code>\ArrayAccess</code>
-    </MissingTemplateParam>
-  </file>
-  <file src="lib/private/Memcache/ProfilerWrapperCache.php">
-    <MissingTemplateParam>
-      <code>\ArrayAccess</code>
-    </MissingTemplateParam>
-  </file>
-  <file src="lib/private/NavigationManager.php">
-    <ParamNameMismatch>
-      <code>$id</code>
-    </ParamNameMismatch>
   </file>
   <file src="lib/private/Preview/BackgroundCleanupJob.php">
     <InvalidReturnStatement>
-      <code>[]</code>
+      <code><![CDATA[[]]]></code>
     </InvalidReturnStatement>
   </file>
   <file src="lib/private/Preview/Generator.php">
     <InvalidArgument>
-      <code>$maxPreviewImage</code>
-      <code>$semId</code>
+      <code><![CDATA[$maxPreviewImage]]></code>
     </InvalidArgument>
-    <InvalidReturnStatement>
-      <code>$sem</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType>
-      <code>false|resource</code>
-    </InvalidReturnType>
     <LessSpecificReturnType>
-      <code>null|string</code>
+      <code><![CDATA[null|string]]></code>
     </LessSpecificReturnType>
     <MismatchingDocblockParamType>
-      <code>ISimpleFile</code>
+      <code><![CDATA[ISimpleFile]]></code>
     </MismatchingDocblockParamType>
     <UndefinedInterfaceMethod>
-      <code>height</code>
-      <code>height</code>
-      <code>preciseResizeCopy</code>
-      <code>resizeCopy</code>
-      <code>valid</code>
-      <code>width</code>
-      <code>width</code>
+      <code><![CDATA[height]]></code>
+      <code><![CDATA[height]]></code>
+      <code><![CDATA[preciseResizeCopy]]></code>
+      <code><![CDATA[resizeCopy]]></code>
+      <code><![CDATA[valid]]></code>
+      <code><![CDATA[width]]></code>
+      <code><![CDATA[width]]></code>
     </UndefinedInterfaceMethod>
   </file>
   <file src="lib/private/Preview/ProviderV1Adapter.php">
     <InvalidReturnStatement>
-      <code>$thumbnail === false ? null: $thumbnail</code>
+      <code><![CDATA[$thumbnail === false ? null: $thumbnail]]></code>
     </InvalidReturnStatement>
     <InvalidReturnType>
-      <code>?IImage</code>
+      <code><![CDATA[?IImage]]></code>
     </InvalidReturnType>
   </file>
   <file src="lib/private/RedisFactory.php">
     <InvalidArgument>
-      <code>\RedisCluster::OPT_SLAVE_FAILOVER</code>
+      <code><![CDATA[\RedisCluster::OPT_SLAVE_FAILOVER]]></code>
     </InvalidArgument>
   </file>
   <file src="lib/private/Remote/Api/OCS.php">
     <ImplementedReturnTypeMismatch>
-      <code>array</code>
+      <code><![CDATA[array]]></code>
     </ImplementedReturnTypeMismatch>
   </file>
   <file src="lib/private/Remote/Instance.php">
@@ -3196,29 +2558,26 @@
       <code><![CDATA[$request->getBody()]]></code>
     </InvalidReturnStatement>
     <InvalidReturnType>
-      <code>bool|string</code>
+      <code><![CDATA[bool|string]]></code>
     </InvalidReturnType>
     <InvalidScalarArgument>
-      <code>$response</code>
+      <code><![CDATA[$response]]></code>
     </InvalidScalarArgument>
   </file>
   <file src="lib/private/Repair/Owncloud/CleanPreviews.php">
     <InvalidArgument>
-      <code>false</code>
+      <code><![CDATA[false]]></code>
     </InvalidArgument>
   </file>
   <file src="lib/private/Repair/Owncloud/CleanPreviewsBackgroundJob.php">
     <ParamNameMismatch>
-      <code>$arguments</code>
+      <code><![CDATA[$arguments]]></code>
     </ParamNameMismatch>
   </file>
   <file src="lib/private/Repair/Owncloud/MoveAvatarsBackgroundJob.php">
     <ParamNameMismatch>
-      <code>$arguments</code>
+      <code><![CDATA[$arguments]]></code>
     </ParamNameMismatch>
-    <TypeDoesNotContainType>
-      <code>$counter % 100 === 0</code>
-    </TypeDoesNotContainType>
   </file>
   <file src="lib/private/Repair/RemoveLinkShares.php">
     <InvalidPropertyAssignmentValue>
@@ -3227,25 +2586,20 @@
   </file>
   <file src="lib/private/Repair/RepairInvalidShares.php">
     <ParamNameMismatch>
-      <code>$out</code>
+      <code><![CDATA[$out]]></code>
     </ParamNameMismatch>
   </file>
   <file src="lib/private/Repair/RepairMimeTypes.php">
     <ParamNameMismatch>
-      <code>$out</code>
-    </ParamNameMismatch>
-  </file>
-  <file src="lib/private/Repair/SqliteAutoincrement.php">
-    <ParamNameMismatch>
-      <code>$out</code>
+      <code><![CDATA[$out]]></code>
     </ParamNameMismatch>
   </file>
   <file src="lib/private/Route/Router.php">
     <InvalidClass>
-      <code>\OC_APP</code>
+      <code><![CDATA[\OC_APP]]></code>
     </InvalidClass>
     <InvalidNullableReturnType>
-      <code>string</code>
+      <code><![CDATA[string]]></code>
     </InvalidNullableReturnType>
     <NullableReturnStatement>
       <code><![CDATA[$this->collectionName]]></code>
@@ -3253,7 +2607,7 @@
   </file>
   <file src="lib/private/Search.php">
     <RedundantCondition>
-      <code>$provider instanceof Provider</code>
+      <code><![CDATA[$provider instanceof Provider]]></code>
     </RedundantCondition>
   </file>
   <file src="lib/private/Search/Result/File.php">
@@ -3266,7 +2620,7 @@
   </file>
   <file src="lib/private/Security/Bruteforce/Throttler.php">
     <NullArgument>
-      <code>null</code>
+      <code><![CDATA[null]]></code>
     </NullArgument>
   </file>
   <file src="lib/private/Security/CSP/ContentSecurityPolicyNonceManager.php">
@@ -3285,25 +2639,25 @@
       <code><![CDATA[$qb->execute()]]></code>
     </InvalidReturnStatement>
     <InvalidReturnType>
-      <code>int</code>
-      <code>int</code>
+      <code><![CDATA[int]]></code>
+      <code><![CDATA[int]]></code>
     </InvalidReturnType>
   </file>
   <file src="lib/private/Security/Crypto.php">
     <InternalMethod>
-      <code>decrypt</code>
-      <code>encrypt</code>
-      <code>setIV</code>
-      <code>setIV</code>
-      <code>setPassword</code>
-      <code>setPassword</code>
+      <code><![CDATA[decrypt]]></code>
+      <code><![CDATA[encrypt]]></code>
+      <code><![CDATA[setIV]]></code>
+      <code><![CDATA[setIV]]></code>
+      <code><![CDATA[setPassword]]></code>
+      <code><![CDATA[setPassword]]></code>
     </InternalMethod>
   </file>
   <file src="lib/private/Server.php">
     <ImplementedReturnTypeMismatch>
-      <code>\OCP\Calendar\Resource\IManager</code>
-      <code>\OCP\Calendar\Room\IManager</code>
-      <code>\OCP\Files\Folder|null</code>
+      <code><![CDATA[\OCP\Calendar\Resource\IManager]]></code>
+      <code><![CDATA[\OCP\Calendar\Room\IManager]]></code>
+      <code><![CDATA[\OCP\Files\Folder|null]]></code>
     </ImplementedReturnTypeMismatch>
     <LessSpecificReturnStatement>
       <code><![CDATA[$this->get(IFile::class)]]></code>
@@ -3314,15 +2668,15 @@
       <code><![CDATA[$this->get(\OCP\Encryption\IManager::class)]]></code>
     </LessSpecificReturnStatement>
     <MoreSpecificReturnType>
-      <code>\OC\Encryption\File</code>
-      <code>\OC\Encryption\Manager</code>
-      <code>\OC\Group\Manager</code>
-      <code>\OC\NavigationManager</code>
-      <code>\OC\User\Manager</code>
-      <code>\OC\User\Session</code>
+      <code><![CDATA[\OC\Encryption\File]]></code>
+      <code><![CDATA[\OC\Encryption\Manager]]></code>
+      <code><![CDATA[\OC\Group\Manager]]></code>
+      <code><![CDATA[\OC\NavigationManager]]></code>
+      <code><![CDATA[\OC\User\Manager]]></code>
+      <code><![CDATA[\OC\User\Session]]></code>
     </MoreSpecificReturnType>
     <UndefinedDocblockClass>
-      <code>\OC\OCSClient</code>
+      <code><![CDATA[\OC\OCSClient]]></code>
     </UndefinedDocblockClass>
   </file>
   <file src="lib/private/ServerContainer.php">
@@ -3333,33 +2687,22 @@
       <code><![CDATA[return $this->appContainers[$namespace];]]></code>
     </NoValue>
   </file>
-  <file src="lib/private/Session/CryptoSessionData.php">
-    <MissingTemplateParam>
-      <code>\ArrayAccess</code>
-    </MissingTemplateParam>
-  </file>
   <file src="lib/private/Session/Internal.php">
     <MoreSpecificImplementedParamType>
-      <code>$value</code>
+      <code><![CDATA[$value]]></code>
     </MoreSpecificImplementedParamType>
   </file>
   <file src="lib/private/Session/Memory.php">
     <MoreSpecificImplementedParamType>
-      <code>$value</code>
+      <code><![CDATA[$value]]></code>
     </MoreSpecificImplementedParamType>
-  </file>
-  <file src="lib/private/Session/Session.php">
-    <MissingTemplateParam>
-      <code>\ArrayAccess</code>
-    </MissingTemplateParam>
   </file>
   <file src="lib/private/Setup.php">
     <RedundantCondition>
-      <code>$content !== ''</code>
-      <code>$type === 'pdo'</code>
+      <code><![CDATA[$type === 'pdo']]></code>
     </RedundantCondition>
     <UndefinedVariable>
-      <code>$vendor</code>
+      <code><![CDATA[$vendor]]></code>
     </UndefinedVariable>
   </file>
   <file src="lib/private/Setup/AbstractDatabase.php">
@@ -3373,197 +2716,174 @@
       <code><![CDATA[$this->dbprettyname]]></code>
     </UndefinedThisPropertyFetch>
   </file>
-  <file src="lib/private/Share/Share.php">
-    <InvalidOperand>
-      <code>!self::isResharingAllowed()</code>
-    </InvalidOperand>
-    <UndefinedInterfaceMethod>
-      <code>getParents</code>
-      <code>getParents</code>
-    </UndefinedInterfaceMethod>
-  </file>
   <file src="lib/private/Share20/DefaultShareProvider.php">
     <InvalidArgument>
       <code><![CDATA[$share->getId()]]></code>
       <code><![CDATA[$share->getId()]]></code>
-      <code>(int)$data['id']</code>
+      <code><![CDATA[(int)$data['id']]]></code>
     </InvalidArgument>
     <TooManyArguments>
-      <code>set</code>
+      <code><![CDATA[set]]></code>
     </TooManyArguments>
     <UndefinedInterfaceMethod>
-      <code>getParent</code>
+      <code><![CDATA[getParent]]></code>
     </UndefinedInterfaceMethod>
   </file>
   <file src="lib/private/Share20/Manager.php">
     <InvalidArgument>
-      <code>$id</code>
+      <code><![CDATA[$id]]></code>
     </InvalidArgument>
     <TooManyArguments>
-      <code>update</code>
+      <code><![CDATA[update]]></code>
     </TooManyArguments>
     <UndefinedClass>
-      <code>\OCA\Circles\Api\v1\Circles</code>
+      <code><![CDATA[\OCA\Circles\Api\v1\Circles]]></code>
     </UndefinedClass>
     <UndefinedInterfaceMethod>
-      <code>getChildren</code>
+      <code><![CDATA[getChildren]]></code>
     </UndefinedInterfaceMethod>
   </file>
   <file src="lib/private/Share20/ProviderFactory.php">
     <InvalidNullableReturnType>
-      <code>FederatedShareProvider</code>
-      <code>ShareByMailProvider</code>
+      <code><![CDATA[FederatedShareProvider]]></code>
+      <code><![CDATA[ShareByMailProvider]]></code>
     </InvalidNullableReturnType>
     <InvalidReturnStatement>
-      <code>$provider</code>
-      <code>$provider</code>
+      <code><![CDATA[$provider]]></code>
+      <code><![CDATA[$provider]]></code>
       <code><![CDATA[$this->shareByCircleProvider]]></code>
     </InvalidReturnStatement>
     <InvalidReturnType>
-      <code>getProviderForType</code>
+      <code><![CDATA[getProviderForType]]></code>
     </InvalidReturnType>
     <NullableReturnStatement>
-      <code>null</code>
-      <code>null</code>
-      <code>null</code>
-      <code>null</code>
-      <code>null</code>
-      <code>null</code>
+      <code><![CDATA[null]]></code>
+      <code><![CDATA[null]]></code>
+      <code><![CDATA[null]]></code>
+      <code><![CDATA[null]]></code>
+      <code><![CDATA[null]]></code>
+      <code><![CDATA[null]]></code>
     </NullableReturnStatement>
     <ParamNameMismatch>
-      <code>$shareProviderClass</code>
+      <code><![CDATA[$shareProviderClass]]></code>
     </ParamNameMismatch>
     <UndefinedClass>
-      <code>\OCA\Circles\ShareByCircleProvider</code>
+      <code><![CDATA[\OCA\Circles\ShareByCircleProvider]]></code>
     </UndefinedClass>
     <UndefinedDocblockClass>
-      <code>RoomShareProvider</code>
-      <code>\OCA\Circles\ShareByCircleProvider</code>
-      <code>\OCA\Talk\Share\RoomShareProvider</code>
-      <code>private $roomShareProvider = null;</code>
-      <code>private $shareByCircleProvider = null;</code>
+      <code><![CDATA[RoomShareProvider]]></code>
+      <code><![CDATA[\OCA\Circles\ShareByCircleProvider]]></code>
+      <code><![CDATA[\OCA\Talk\Share\RoomShareProvider]]></code>
+      <code><![CDATA[private $roomShareProvider = null;]]></code>
+      <code><![CDATA[private $shareByCircleProvider = null;]]></code>
     </UndefinedDocblockClass>
-    <UndefinedInterfaceMethod>
-      <code>getLazyRootFolder</code>
-      <code>getLazyRootFolder</code>
-      <code>getLazyRootFolder</code>
-      <code>getLazyRootFolder</code>
-    </UndefinedInterfaceMethod>
   </file>
   <file src="lib/private/Share20/Share.php">
     <LessSpecificReturnStatement>
       <code><![CDATA[$this->node]]></code>
     </LessSpecificReturnStatement>
     <MoreSpecificReturnType>
-      <code>getNode</code>
+      <code><![CDATA[getNode]]></code>
     </MoreSpecificReturnType>
   </file>
   <file src="lib/private/Streamer.php">
-    <InvalidArgument>
-      <code>$stream</code>
-    </InvalidArgument>
     <UndefinedInterfaceMethod>
-      <code>get</code>
+      <code><![CDATA[get]]></code>
     </UndefinedInterfaceMethod>
   </file>
   <file src="lib/private/SubAdmin.php">
     <UndefinedInterfaceMethod>
-      <code>listen</code>
-      <code>listen</code>
+      <code><![CDATA[listen]]></code>
+      <code><![CDATA[listen]]></code>
     </UndefinedInterfaceMethod>
   </file>
   <file src="lib/private/Support/Subscription/Registry.php">
     <UndefinedInterfaceMethod>
-      <code>getSupportedApps</code>
+      <code><![CDATA[getSupportedApps]]></code>
     </UndefinedInterfaceMethod>
   </file>
   <file src="lib/private/TagManager.php">
     <InvalidNullableReturnType>
-      <code>\OCP\ITags</code>
+      <code><![CDATA[\OCP\ITags]]></code>
     </InvalidNullableReturnType>
     <NullableReturnStatement>
-      <code>null</code>
+      <code><![CDATA[null]]></code>
     </NullableReturnStatement>
   </file>
   <file src="lib/private/Tags.php">
     <InvalidScalarArgument>
-      <code>$from</code>
-      <code>$names</code>
+      <code><![CDATA[$from]]></code>
+      <code><![CDATA[$names]]></code>
     </InvalidScalarArgument>
     <MoreSpecificImplementedParamType>
-      <code>$tag</code>
+      <code><![CDATA[$tag]]></code>
     </MoreSpecificImplementedParamType>
   </file>
   <file src="lib/private/TempManager.php">
     <FalsableReturnStatement>
-      <code>false</code>
-      <code>false</code>
+      <code><![CDATA[false]]></code>
+      <code><![CDATA[false]]></code>
     </FalsableReturnStatement>
   </file>
   <file src="lib/private/Template/CSSResourceLocator.php">
     <ParamNameMismatch>
-      <code>$style</code>
-      <code>$style</code>
+      <code><![CDATA[$style]]></code>
+      <code><![CDATA[$style]]></code>
     </ParamNameMismatch>
   </file>
   <file src="lib/private/Template/JSConfigHelper.php">
     <NullArgument>
-      <code>null</code>
-      <code>null</code>
+      <code><![CDATA[null]]></code>
+      <code><![CDATA[null]]></code>
     </NullArgument>
   </file>
   <file src="lib/private/Template/JSResourceLocator.php">
     <InvalidArgument>
-      <code>false</code>
+      <code><![CDATA[false]]></code>
     </InvalidArgument>
     <ParamNameMismatch>
-      <code>$script</code>
-      <code>$script</code>
+      <code><![CDATA[$script]]></code>
+      <code><![CDATA[$script]]></code>
     </ParamNameMismatch>
   </file>
   <file src="lib/private/TemplateLayout.php">
     <InvalidParamDefault>
-      <code>string</code>
-      <code>string</code>
+      <code><![CDATA[string]]></code>
+      <code><![CDATA[string]]></code>
     </InvalidParamDefault>
     <InvalidScalarArgument>
-      <code>$appName</code>
-      <code>$appName</code>
+      <code><![CDATA[$appName]]></code>
+      <code><![CDATA[$appName]]></code>
     </InvalidScalarArgument>
     <UndefinedInterfaceMethod>
-      <code>getInitialStates</code>
+      <code><![CDATA[getInitialStates]]></code>
     </UndefinedInterfaceMethod>
   </file>
   <file src="lib/private/URLGenerator.php">
     <InvalidReturnStatement>
-      <code>$path</code>
+      <code><![CDATA[$path]]></code>
     </InvalidReturnStatement>
   </file>
   <file src="lib/private/User/Database.php">
     <FalsableReturnStatement>
-      <code>false</code>
+      <code><![CDATA[false]]></code>
     </FalsableReturnStatement>
-  </file>
-  <file src="lib/private/User/DisplayNameCache.php">
-    <MissingTemplateParam>
-      <code>IEventListener</code>
-    </MissingTemplateParam>
   </file>
   <file src="lib/private/User/Manager.php">
     <ImplementedReturnTypeMismatch>
-      <code>IUser|false</code>
+      <code><![CDATA[IUser|false]]></code>
     </ImplementedReturnTypeMismatch>
     <InvalidArgument>
-      <code>$backend</code>
+      <code><![CDATA[$backend]]></code>
     </InvalidArgument>
     <UndefinedInterfaceMethod>
-      <code>createUser</code>
-      <code>getUsersForUserValueCaseInsensitive</code>
+      <code><![CDATA[createUser]]></code>
+      <code><![CDATA[getUsersForUserValueCaseInsensitive]]></code>
     </UndefinedInterfaceMethod>
   </file>
   <file src="lib/private/User/Session.php">
     <ImplementedReturnTypeMismatch>
-      <code>boolean|null</code>
+      <code><![CDATA[boolean|null]]></code>
     </ImplementedReturnTypeMismatch>
     <NoInterfaceProperties>
       <code><![CDATA[$request->server]]></code>
@@ -3572,80 +2892,77 @@
   </file>
   <file src="lib/private/User/User.php">
     <UndefinedInterfaceMethod>
-      <code>emit</code>
-      <code>emit</code>
-      <code>emit</code>
-      <code>emit</code>
-      <code>emit</code>
+      <code><![CDATA[emit]]></code>
+      <code><![CDATA[emit]]></code>
+      <code><![CDATA[emit]]></code>
+      <code><![CDATA[emit]]></code>
+      <code><![CDATA[emit]]></code>
     </UndefinedInterfaceMethod>
   </file>
   <file src="lib/private/legacy/OC_API.php">
     <InvalidNullableReturnType>
-      <code>int</code>
+      <code><![CDATA[int]]></code>
     </InvalidNullableReturnType>
     <NullableReturnStatement>
-      <code>null</code>
+      <code><![CDATA[null]]></code>
     </NullableReturnStatement>
   </file>
   <file src="lib/private/legacy/OC_App.php">
     <InvalidArgument>
-      <code>$groupsList</code>
+      <code><![CDATA[$groupsList]]></code>
     </InvalidArgument>
     <InvalidArrayOffset>
-      <code>$dir['path']</code>
-      <code>$dir['url']</code>
+      <code><![CDATA[$dir['path']]]></code>
+      <code><![CDATA[$dir['url']]]></code>
     </InvalidArrayOffset>
     <NullArgument>
-      <code>null</code>
+      <code><![CDATA[null]]></code>
     </NullArgument>
-    <NullableReturnStatement>
-      <code>null</code>
-    </NullableReturnStatement>
     <TypeDoesNotContainNull>
-      <code>$appId === null</code>
-      <code>$appId === null</code>
+      <code><![CDATA[$appId === null]]></code>
+      <code><![CDATA[$appId === null]]></code>
     </TypeDoesNotContainNull>
   </file>
   <file src="lib/private/legacy/OC_FileChunking.php">
     <UndefinedDocblockClass>
-      <code>\OC\InsufficientStorageException</code>
+      <code><![CDATA[\OC\InsufficientStorageException]]></code>
     </UndefinedDocblockClass>
   </file>
   <file src="lib/private/legacy/OC_Files.php">
     <RedundantCondition>
-      <code>$getType === self::ZIP_DIR</code>
-      <code>$getType === self::ZIP_DIR</code>
+      <code><![CDATA[$getType === self::ZIP_DIR]]></code>
+      <code><![CDATA[$getType === self::ZIP_DIR]]></code>
     </RedundantCondition>
     <UndefinedInterfaceMethod>
-      <code>get</code>
-      <code>get</code>
+      <code><![CDATA[get]]></code>
+      <code><![CDATA[get]]></code>
     </UndefinedInterfaceMethod>
   </file>
   <file src="lib/private/legacy/OC_Helper.php">
     <InvalidArrayOffset>
-      <code>$matches[0][$last_match]</code>
-      <code>$matches[1][$last_match]</code>
+      <code><![CDATA[$matches[0][$last_match]]]></code>
+      <code><![CDATA[$matches[1][$last_match]]]></code>
     </InvalidArrayOffset>
     <InvalidScalarArgument>
-      <code>$path</code>
+      <code><![CDATA[$path]]></code>
     </InvalidScalarArgument>
     <UndefinedInterfaceMethod>
-      <code>getQuota</code>
+      <code><![CDATA[getQuota]]></code>
     </UndefinedInterfaceMethod>
   </file>
   <file src="lib/private/legacy/OC_Template.php">
     <InvalidReturnType>
-      <code>bool|string</code>
+      <code><![CDATA[bool|string]]></code>
     </InvalidReturnType>
   </file>
   <file src="lib/private/legacy/OC_User.php">
     <UndefinedClass>
-      <code>\Test\Util\User\Dummy</code>
+      <code><![CDATA[\Test\Util\User\Dummy]]></code>
     </UndefinedClass>
   </file>
   <file src="lib/private/legacy/OC_Util.php">
     <InvalidReturnType>
-      <code>void</code>
+      <code><![CDATA[void]]></code>
     </InvalidReturnType>
   </file>
   <file src="lib/public/AppFramework/ApiController.php">
@@ -3660,10 +2977,10 @@
   </file>
   <file src="lib/public/AppFramework/Db/Entity.php">
     <InvalidNullableReturnType>
-      <code>string</code>
+      <code><![CDATA[string]]></code>
     </InvalidNullableReturnType>
     <NullableReturnStatement>
-      <code>$column</code>
+      <code><![CDATA[$column]]></code>
     </NullableReturnStatement>
   </file>
   <file src="lib/public/AppFramework/Http/Response.php">
@@ -3671,51 +2988,41 @@
       <code><![CDATA[array_merge($mergeWith, $this->headers)]]></code>
     </LessSpecificReturnStatement>
     <MoreSpecificReturnType>
-      <code>array{X-Request-Id: string, Cache-Control: string, Content-Security-Policy: string, Feature-Policy: string, X-Robots-Tag: string, Last-Modified?: string, ETag?: string, ...H}</code>
+      <code><![CDATA[array{X-Request-Id: string, Cache-Control: string, Content-Security-Policy: string, Feature-Policy: string, X-Robots-Tag: string, Last-Modified?: string, ETag?: string, ...H}]]></code>
     </MoreSpecificReturnType>
-  </file>
-  <file src="lib/public/Cache/CappedMemoryCache.php">
-    <MissingTemplateParam>
-      <code>\ArrayAccess</code>
-    </MissingTemplateParam>
   </file>
   <file src="lib/public/Color.php">
     <LessSpecificReturnStatement>
-      <code>$step</code>
+      <code><![CDATA[$step]]></code>
     </LessSpecificReturnStatement>
     <MoreSpecificReturnType>
-      <code>array{0: int, 1: int, 2: int}</code>
+      <code><![CDATA[array{0: int, 1: int, 2: int}]]></code>
     </MoreSpecificReturnType>
   </file>
   <file src="lib/public/Diagnostics/IQueryLogger.php">
     <LessSpecificImplementedReturnType>
-      <code>mixed</code>
+      <code><![CDATA[mixed]]></code>
     </LessSpecificImplementedReturnType>
   </file>
   <file src="lib/public/EventDispatcher/GenericEvent.php">
     <MissingTemplateParam>
-      <code>ArrayAccess</code>
-      <code>IteratorAggregate</code>
+      <code><![CDATA[ArrayAccess]]></code>
+      <code><![CDATA[IteratorAggregate]]></code>
     </MissingTemplateParam>
   </file>
   <file src="lib/public/Files.php">
     <FalsableReturnStatement>
-      <code>\OC_App::getStorage($app)</code>
+      <code><![CDATA[\OC_App::getStorage($app)]]></code>
     </FalsableReturnStatement>
-  </file>
-  <file src="lib/public/Files/Cache/ICacheEntry.php">
-    <MissingTemplateParam>
-      <code>ArrayAccess</code>
-    </MissingTemplateParam>
   </file>
   <file src="lib/public/Files/Storage.php">
     <InvalidParamDefault>
-      <code>array</code>
+      <code><![CDATA[array]]></code>
     </InvalidParamDefault>
   </file>
   <file src="lib/public/L10N/ILanguageIterator.php">
     <MissingTemplateParam>
-      <code>\Iterator</code>
+      <code><![CDATA[\Iterator]]></code>
     </MissingTemplateParam>
   </file>
   <file src="lib/public/Preview/BeforePreviewFetchedEvent.php">
@@ -3723,7 +3030,7 @@
       <code><![CDATA[$this->mode]]></code>
     </LessSpecificReturnStatement>
     <MoreSpecificReturnType>
-      <code>null|IPreview::MODE_FILL|IPreview::MODE_COVER</code>
+      <code><![CDATA[null|IPreview::MODE_FILL|IPreview::MODE_COVER]]></code>
     </MoreSpecificReturnType>
   </file>
 </files>

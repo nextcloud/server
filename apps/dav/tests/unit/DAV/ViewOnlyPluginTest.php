@@ -1,40 +1,28 @@
 <?php
+
 /**
- * @author Piotr Mrowczynski piotr@owncloud.com
- *
- * @copyright Copyright (c) 2019, ownCloud GmbH
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2022-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2019 ownCloud GmbH
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\DAV\Tests\unit\DAV;
 
+use OCA\DAV\Connector\Sabre\Exception\Forbidden;
+use OCA\DAV\Connector\Sabre\File as DavFile;
 use OCA\DAV\DAV\ViewOnlyPlugin;
 use OCA\Files_Sharing\SharedStorage;
-use OCA\DAV\Connector\Sabre\File as DavFile;
-use OCA\Files_Versions\Versions\IVersion;
 use OCA\Files_Versions\Sabre\VersionFile;
+use OCA\Files_Versions\Versions\IVersion;
 use OCP\Files\File;
+use OCP\Files\Folder;
 use OCP\Files\Storage\IStorage;
+use OCP\IUser;
 use OCP\Share\IAttributes;
 use OCP\Share\IShare;
-use Psr\Log\LoggerInterface;
 use Sabre\DAV\Server;
 use Sabre\DAV\Tree;
-use Test\TestCase;
 use Sabre\HTTP\RequestInterface;
-use OCA\DAV\Connector\Sabre\Exception\Forbidden;
+use Test\TestCase;
 
 class ViewOnlyPluginTest extends TestCase {
 
@@ -43,10 +31,13 @@ class ViewOnlyPluginTest extends TestCase {
 	private $tree;
 	/** @var RequestInterface | \PHPUnit\Framework\MockObject\MockObject */
 	private $request;
+	/** @var Folder | \PHPUnit\Framework\MockObject\MockObject */
+	private $userFolder;
 
 	public function setUp(): void {
+		$this->userFolder = $this->createMock(Folder::class);
 		$this->plugin = new ViewOnlyPlugin(
-			$this->createMock(LoggerInterface::class)
+			$this->userFolder,
 		);
 		$this->request = $this->createMock(RequestInterface::class);
 		$this->tree = $this->createMock(Tree::class);
@@ -111,6 +102,26 @@ class ViewOnlyPluginTest extends TestCase {
 			$davNode->expects($this->once())
 				->method('getVersion')
 				->willReturn($version);
+
+			$currentUser = $this->createMock(IUser::class);
+			$currentUser->expects($this->once())
+				->method('getUID')
+				->willReturn('alice');
+			$nodeInfo->expects($this->once())
+				->method('getOwner')
+				->willReturn($currentUser);
+
+			$nodeInfo = $this->createMock(File::class);
+			$owner = $this->createMock(IUser::class);
+			$owner->expects($this->once())
+				->method('getUID')
+				->willReturn('bob');
+			$this->userFolder->expects($this->once())
+				->method('getById')
+				->willReturn([$nodeInfo]);
+			$this->userFolder->expects($this->once())
+				->method('getOwner')
+				->willReturn($owner);
 		} else {
 			$davPath = 'files/path/to/file.odt';
 			$davNode = $this->createMock(DavFile::class);

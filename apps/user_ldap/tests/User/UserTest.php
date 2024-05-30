@@ -585,9 +585,17 @@ class UserTest extends \Test\TestCase {
 		$avatar = $this->createMock(IAvatar::class);
 		$avatar->expects($this->never())
 			->method('set');
+		$avatar->expects($this->any())
+			->method('exists')
+			->willReturn(true);
+		$avatar->expects($this->any())
+			->method('isCustomAvatar')
+			->willReturn(true);
 
-		$this->avatarManager->expects($this->never())
-			->method('getAvatar');
+		$this->avatarManager->expects($this->any())
+			->method('getAvatar')
+			->with($this->uid)
+			->willReturn($avatar);
 
 		$this->connection->expects($this->any())
 			->method('resolveRule')
@@ -829,7 +837,7 @@ class UserTest extends \Test\TestCase {
 	/**
 	 * @dataProvider extStorageHomeDataProvider
 	 */
-	public function testUpdateExtStorageHome(string $expected, string $valueFromLDAP = null, bool $isSet = true) {
+	public function testUpdateExtStorageHome(string $expected, ?string $valueFromLDAP = null, bool $isSet = true) {
 		if ($valueFromLDAP === null) {
 			$this->connection->expects($this->once())
 				->method('__get')

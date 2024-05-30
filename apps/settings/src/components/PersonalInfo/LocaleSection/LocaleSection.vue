@@ -25,12 +25,11 @@
 		<HeaderBar :input-id="inputId"
 			:readable="propertyReadable" />
 
-		<template v-if="isEditable">
-			<Locale :input-id="inputId"
-				:locales-for-language="localesForLanguage"
-				:other-locales="otherLocales"
-				:locale.sync="locale" />
-		</template>
+		<Locale v-if="isEditable"
+			:input-id="inputId"
+			:locales-for-language="localesForLanguage"
+			:other-locales="otherLocales"
+			:locale.sync="locale" />
 
 		<span v-else>
 			{{ t('settings', 'No locale set') }}
@@ -80,9 +79,5 @@ export default {
 <style lang="scss" scoped>
 section {
 	padding: 10px 10px;
-
-	&::v-deep button:disabled {
-		cursor: default;
-	}
 }
 </style>
