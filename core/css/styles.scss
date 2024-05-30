@@ -1,17 +1,7 @@
 /**
- * @copyright Copyright (c) 2016, John Molakvoæ <skjnldsv@protonmail.com>
- * @copyright Copyright (c) 2016, Lukas Reschke <lukas@statuscode.ch>
- * @copyright Copyright (c) 2016, Robin Appelman <robin@icewind.nl>
- * @copyright Copyright (c) 2016, Julius Haertl <jus@bitgrid.net>
- * @copyright Copyright (c) 2016, Joas Schilling <coding@schilljs.com>
- * @copyright Copyright (c) 2016, Morris Jobke <hey@morrisjobke.de>
- * @copyright Copyright (c) 2016, Christoph Wurst <christoph@winzerhof-wurst.at>
- * @copyright Copyright (c) 2016, Raghu Nayyar <hey@raghunayyar.com>
- * @copyright Copyright (c) 2011-2017, Jan-Christoph Borchardt <hey@jancborchardt.net>
- * @copyright Copyright (c) 2019-2020, Gary Kim <gary@garykim.dev>
- *
- * @license GNU AGPL version 3 or any later version
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 @use 'sass:math';
 @use 'variables';
@@ -34,8 +24,7 @@ html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pr
 }
 
 /** Let vue apps handle the focus themselves */
-.content:not(#content-vue) :focus-visible,
-.app-navigation:not(#app-navigation-vue) :focus-visible {
+.content:not(#content-vue) :focus-visible {
 	box-shadow: inset 0 0 0 2px var(--color-primary-element);
 	outline: none;
 }

@@ -3,31 +3,16 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2019 Robin Appelman <robin@icewind.nl>
- *
- * @author Robin Appelman <robin@icewind.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OC\Files\Cache;
 
 use OC\DB\QueryBuilder\QueryBuilder;
 use OC\SystemConfig;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\FilesMetadata\IFilesMetadataManager;
+use OCP\FilesMetadata\IMetadataQuery;
 use OCP\IDBConnection;
 use Psr\Log\LoggerInterface;
 
@@ -35,9 +20,14 @@ use Psr\Log\LoggerInterface;
  * Query builder with commonly used helpers for filecache queries
  */
 class CacheQueryBuilder extends QueryBuilder {
-	private $alias = null;
+	private ?string $alias = null;
 
-	public function __construct(IDBConnection $connection, SystemConfig $systemConfig, LoggerInterface $logger) {
+	public function __construct(
+		IDBConnection $connection,
+		SystemConfig $systemConfig,
+		LoggerInterface $logger,
+		private IFilesMetadataManager $filesMetadataManager,
+	) {
 		parent::__construct($connection, $systemConfig, $logger);
 	}
 
@@ -60,10 +50,10 @@ class CacheQueryBuilder extends QueryBuilder {
 		return $this;
 	}
 
-	public function selectFileCache(string $alias = null, bool $joinExtendedCache = true) {
+	public function selectFileCache(?string $alias = null, bool $joinExtendedCache = true) {
 		$name = $alias ?: 'filecache';
 		$this->select("$name.fileid", 'storage', 'path', 'path_hash', "$name.parent", "$name.name", 'mimetype', 'mimepart', 'size', 'mtime',
-			'storage_mtime', 'encrypted', 'etag', 'permissions', 'checksum', 'unencrypted_size')
+			'storage_mtime', 'encrypted', 'etag', "$name.permissions", 'checksum', 'unencrypted_size')
 			->from('filecache', $name);
 
 		if ($joinExtendedCache) {
@@ -125,5 +115,16 @@ class CacheQueryBuilder extends QueryBuilder {
 		$this->andWhere($this->expr()->in("{$alias}parent", $this->createParameter($parameter)));
 
 		return $this;
+	}
+
+	/**
+	 * join metadata to current query builder and returns an helper
+	 *
+	 * @return IMetadataQuery
+	 */
+	public function selectMetadata(): IMetadataQuery {
+		$metadataQuery = $this->filesMetadataManager->getMetadataQuery($this, $this->alias, 'fileid');
+		$metadataQuery->retrieveMetadata();
+		return $metadataQuery;
 	}
 }

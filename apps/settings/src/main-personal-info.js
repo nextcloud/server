@@ -24,7 +24,6 @@ import Vue from 'vue'
 import { getRequestToken } from '@nextcloud/auth'
 import { loadState } from '@nextcloud/initial-state'
 import { translate as t } from '@nextcloud/l10n'
-import '@nextcloud/dialogs/dist/index.css'
 
 import AvatarSection from './components/PersonalInfo/AvatarSection.vue'
 import DetailsSection from './components/PersonalInfo/DetailsSection.vue'
@@ -43,6 +42,7 @@ import RoleSection from './components/PersonalInfo/RoleSection.vue'
 import HeadlineSection from './components/PersonalInfo/HeadlineSection.vue'
 import BiographySection from './components/PersonalInfo/BiographySection.vue'
 import ProfileVisibilitySection from './components/PersonalInfo/ProfileVisibilitySection/ProfileVisibilitySection.vue'
+import BirthdaySection from './components/PersonalInfo/BirthdaySection.vue'
 
 __webpack_nonce__ = btoa(getRequestToken())
 
@@ -65,6 +65,7 @@ const TwitterView = Vue.extend(TwitterSection)
 const FediverseView = Vue.extend(FediverseSection)
 const LanguageView = Vue.extend(LanguageSection)
 const LocaleView = Vue.extend(LocaleSection)
+const BirthdayView = Vue.extend(BirthdaySection)
 
 new AvatarView().$mount('#vue-avatar-section')
 new DetailsView().$mount('#vue-details-section')
@@ -77,6 +78,7 @@ new TwitterView().$mount('#vue-twitter-section')
 new FediverseView().$mount('#vue-fediverse-section')
 new LanguageView().$mount('#vue-language-section')
 new LocaleView().$mount('#vue-locale-section')
+new BirthdayView().$mount('#vue-birthday-section')
 
 if (profileEnabledGlobally) {
 	const ProfileView = Vue.extend(ProfileSection)

@@ -25,7 +25,7 @@ import type { StorageConfig } from '../services/externalStorage'
 import { generateUrl } from '@nextcloud/router'
 import { translate as t } from '@nextcloud/l10n'
 
-import { registerFileAction, FileAction, DefaultType } from '@nextcloud/files'
+import { FileAction, DefaultType } from '@nextcloud/files'
 import { STORAGE_STATUS } from '../utils/credentialsUtils'
 
 export const action = new FileAction({
@@ -35,7 +35,7 @@ export const action = new FileAction({
 		if (config.status !== STORAGE_STATUS.SUCCESS) {
 			return t('files_external', 'Examine this faulty external storage configuration')
 		}
-		return t('files', 'Open in files')
+		return t('files', 'Open in Files')
 	},
 	iconSvgInline: () => '',
 
@@ -71,5 +71,3 @@ export const action = new FileAction({
 	order: -1000,
 	default: DefaultType.HIDDEN,
 })
-
-registerFileAction(action)

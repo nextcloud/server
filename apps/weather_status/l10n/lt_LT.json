@@ -5,7 +5,6 @@
     "Error" : "Klaida",
     "Weather status" : "Orų būsena",
     "Weather status in your dashboard" : "Orų būsena jūsų skydelyje",
-    "Weather status integrated in the Dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Orų būsena, integruota į skydelio programėlę.\n    Naudotojo vieta gali būti nustatyta automatiškai arba apibrėžta rankiniu būdu. Tuomet yra rodoma 6 valandų orų prognozė.\n    Ši būsena taip pat gali būti integruota kitose vietose, kaip, pavyzdžiui, kalendoriaus programėlėje.",
     "Detect location" : "Aptikti vietą",
     "Set custom address" : "Nustatyti tinkintą adresą",
     "Favorites" : "Mėgstamos",
@@ -43,6 +42,7 @@
     "There was an error setting the location." : "Nustatant vietą, įvyko klaida.",
     "There was an error saving the mode." : "Įrašant veikseną, įvyko klaida.",
     "There was an error using personal address." : "Naudojant asmeninį adresą, įvyko klaida.",
-    "Set location for weather" : "Nustatyti vietą orams"
+    "Set location for weather" : "Nustatyti vietą orams",
+    "Weather status integrated in the Dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Orų būsena, integruota į skydelio programėlę.\n    Naudotojo vieta gali būti nustatyta automatiškai arba apibrėžta rankiniu būdu. Tuomet yra rodoma 6 valandų orų prognozė.\n    Ši būsena taip pat gali būti integruota kitose vietose, kaip, pavyzdžiui, kalendoriaus programėlėje."
 },"pluralForm" :"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);"
 }

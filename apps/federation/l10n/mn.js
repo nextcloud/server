@@ -7,9 +7,9 @@ OC.L10N.register(
     "Could not add server" : " сервер нэмж чадаагүй ",
     "Trusted servers" : "найдвартай сервер",
     "Federation" : "холбоо",
-    "Federation allows you to connect with other trusted servers to exchange the user directory. For example this will be used to auto-complete external users for federated sharing." : "Холбоо нь хэрэглэгчийн санг солилцох бусад найдвартай серверүүд уруу холбогдох боломжийг олгоно. Жишээ нь үүнийг холбооны хуваарилалт авто бүрэн гадны хэрэглэгчдэд ашиглаж болно",
     "+ Add trusted server" : "+ найдвартай сервер нэмэх",
     "Trusted server" : "найдвартай сервер",
-    "Add" : "нэмэх"
+    "Add" : "нэмэх",
+    "Federation allows you to connect with other trusted servers to exchange the user directory. For example this will be used to auto-complete external users for federated sharing." : "Холбоо нь хэрэглэгчийн санг солилцох бусад найдвартай серверүүд уруу холбогдох боломжийг олгоно. Жишээ нь үүнийг холбооны хуваарилалт авто бүрэн гадны хэрэглэгчдэд ашиглаж болно"
 },
 "nplurals=2; plural=(n != 1);");

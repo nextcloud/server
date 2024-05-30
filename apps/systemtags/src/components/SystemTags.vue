@@ -26,9 +26,8 @@
 			:name="t('systemtags', 'Loading collaborative tags …')"
 			:size="32" />
 		<template v-else>
-			<label for="system-tags-input">{{ t('systemtags', 'Search or create collaborative tags') }}</label>
 			<NcSelectTags class="system-tags__select"
-				input-id="system-tags-input"
+				:input-label="t('systemtags', 'Search or create collaborative tags')"
 				:placeholder="t('systemtags', 'Collaborative tags …')"
 				:options="sortedTags"
 				:value="selectedTags"
@@ -59,22 +58,16 @@ import NcSelectTags from '@nextcloud/vue/dist/Components/NcSelectTags.js'
 import { translate as t } from '@nextcloud/l10n'
 import { showError } from '@nextcloud/dialogs'
 
+import { defaultBaseTag } from '../utils.js'
+import { fetchLastUsedTagIds, fetchTags } from '../services/api.js'
 import {
-	createTag,
-	deleteTag,
-	fetchLastUsedTagIds,
-	fetchSelectedTags,
-	fetchTags,
-	selectTag,
-} from '../services/api.js'
+	createTagForFile,
+	deleteTagForFile,
+	fetchTagsForFile,
+	setTagForFile,
+} from '../services/files.js'
 
-import type { BaseTag, Tag, TagWithId } from '../types.js'
-
-const defaultBaseTag: BaseTag = {
-	userVisible: true,
-	userAssignable: true,
-	canAssign: true,
-}
+import type { Tag, TagWithId } from '../types.js'
 
 export default Vue.extend({
 	name: 'SystemTags',
@@ -133,7 +126,7 @@ export default Vue.extend({
 			async handler() {
 				this.loadingTags = true
 				try {
-					this.selectedTags = await fetchSelectedTags(this.fileId)
+					this.selectedTags = await fetchTagsForFile(this.fileId)
 					this.$emit('has-tags', this.selectedTags.length > 0)
 				} catch (error) {
 					showError(t('systemtags', 'Failed to load selected tags'))
@@ -175,14 +168,15 @@ export default Vue.extend({
 		},
 
 		async handleSelect(tags: Tag[]) {
-			const selectedTag = tags[tags.length - 1]
-			if (!selectedTag.id) {
+			const lastTag = tags[tags.length - 1]
+			if (!lastTag.id) {
 				// Ignore created tags handled by `handleCreate()`
 				return
 			}
+			const selectedTag = lastTag as TagWithId
 			this.loading = true
 			try {
-				await selectTag(this.fileId, selectedTag)
+				await setTagForFile(selectedTag, this.fileId)
 				const sortToFront = (a: TagWithId, b: TagWithId) => {
 					if (a.id === selectedTag.id) {
 						return -1
@@ -201,7 +195,7 @@ export default Vue.extend({
 		async handleCreate(tag: Tag) {
 			this.loading = true
 			try {
-				const id = await createTag(this.fileId, tag)
+				const id = await createTagForFile(tag, this.fileId)
 				const createdTag = { ...tag, id }
 				this.sortedTags.unshift(createdTag)
 				this.selectedTags.push(createdTag)
@@ -211,10 +205,10 @@ export default Vue.extend({
 			this.loading = false
 		},
 
-		async handleDeselect(tag: Tag) {
+		async handleDeselect(tag: TagWithId) {
 			this.loading = true
 			try {
-				await deleteTag(this.fileId, tag)
+				await deleteTagForFile(tag, this.fileId)
 			} catch (error) {
 				showError(t('systemtags', 'Failed to delete tag'))
 			}
@@ -229,10 +223,7 @@ export default Vue.extend({
 	display: flex;
 	flex-direction: column;
 
-	label[for="system-tags-input"] {
-		margin-bottom: 2px;
-	}
-
+	// Fix issue with AppSidebar styles overwriting NcSelect styles
 	&__select {
 		width: 100%;
 		:deep {

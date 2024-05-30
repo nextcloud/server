@@ -1,9 +1,8 @@
 <?php
 /**
- * Copyright (c) 2012 Robin Appelman <icewind@owncloud.com>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\Files\Cache;
@@ -403,5 +402,49 @@ class ScannerTest extends TestCase {
 			['foo.txt', false],
 			['/sub/folder/foo.txt', false],
 		];
+	}
+
+	public function testNoETagUnscannedFolder() {
+		$this->fillTestFolders();
+
+		$this->scanner->scan('');
+
+		$oldFolderEntry = $this->cache->get('folder');
+		// create a new file in a folder by keeping the mtime unchanged, but mark the folder as unscanned
+		$this->storage->file_put_contents('folder/new.txt', 'foo');
+		$this->storage->touch('folder', $oldFolderEntry->getMTime());
+		$this->cache->update($oldFolderEntry->getId(), ['size' => -1]);
+
+		$this->scanner->scan('');
+
+		$this->cache->inCache('folder/new.txt');
+
+		$newFolderEntry = $this->cache->get('folder');
+		$this->assertNotEquals($newFolderEntry->getEtag(), $oldFolderEntry->getEtag());
+	}
+
+	public function testNoETagUnscannedSubFolder() {
+		$this->fillTestFolders();
+		$this->storage->mkdir('folder/sub');
+
+		$this->scanner->scan('');
+
+		$oldFolderEntry1 = $this->cache->get('folder');
+		$oldFolderEntry2 = $this->cache->get('folder/sub');
+		// create a new file in a folder by keeping the mtime unchanged, but mark the folder as unscanned
+		$this->storage->file_put_contents('folder/sub/new.txt', 'foo');
+		$this->storage->touch('folder/sub', $oldFolderEntry1->getMTime());
+
+		// we only mark the direct parent as unscanned, which is the current "notify" behavior
+		$this->cache->update($oldFolderEntry2->getId(), ['size' => -1]);
+
+		$this->scanner->scan('');
+
+		$this->cache->inCache('folder/new.txt');
+
+		$newFolderEntry1 = $this->cache->get('folder');
+		$this->assertNotEquals($newFolderEntry1->getEtag(), $oldFolderEntry1->getEtag());
+		$newFolderEntry2 = $this->cache->get('folder/sub');
+		$this->assertNotEquals($newFolderEntry2->getEtag(), $oldFolderEntry2->getEtag());
 	}
 }

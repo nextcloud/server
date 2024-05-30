@@ -1,35 +1,18 @@
 <?php
 /**
- * @copyright Copyright (c) 2020, Nextcloud, GmbH.
- *
- * @author Vincent Petry <vincent@nextcloud.com>
- * @author Carl Schwan <carl@carlschwan.eu>
- *
- * @license AGPL-3.0-or-later
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OC\Preview;
 
+use OC\StreamImage;
 use OCP\Files\File;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\IImage;
-use OCP\Image;
 
-use OC\StreamImage;
+use OCP\Image;
 use Psr\Log\LoggerInterface;
 
 class Imaginary extends ProviderV2 {
@@ -78,6 +61,9 @@ class Imaginary extends ProviderV2 {
 
 		// Object store
 		$stream = $file->fopen('r');
+		if (!$stream || !is_resource($stream) || feof($stream)) {
+			return null;
+		}
 
 		$httpClient = $this->service->newClient();
 
@@ -106,6 +92,15 @@ class Imaginary extends ProviderV2 {
 				$mimeType = 'jpeg';
 		}
 
+		$preview_format = $this->config->getSystemValueString('preview_format', 'jpeg');
+
+		switch ($preview_format) { // Change the format to the correct one
+			case 'webp':
+				$mimeType = 'webp';
+				break;
+			default:
+		}
+
 		$operations = [];
 
 		if ($convert) {
@@ -121,7 +116,16 @@ class Imaginary extends ProviderV2 {
 			];
 		}
 
-		$quality = $this->config->getAppValue('preview', 'jpeg_quality', '80');
+		switch ($mimeType) {
+			case 'jpeg':
+				$quality = $this->config->getAppValue('preview', 'jpeg_quality', '80');
+				break;
+			case 'webp':
+				$quality = $this->config->getAppValue('preview', 'webp_quality', '80');
+				break;
+			default:
+				$quality = $this->config->getAppValue('preview', 'jpeg_quality', '80');
+		}
 
 		$operations[] = [
 			'operation' => ($crop ? 'smartcrop' : 'fit'),
@@ -147,7 +151,7 @@ class Imaginary extends ProviderV2 {
 					'timeout' => 120,
 					'connect_timeout' => 3,
 				]);
-		} catch (\Exception $e) {
+		} catch (\Throwable $e) {
 			$this->logger->info('Imaginary preview generation failed: ' . $e->getMessage(), [
 				'exception' => $e,
 			]);

@@ -1,47 +1,34 @@
 <!--
-  - @copyright Copyright (c) 2023 John Molakvoæ <skjnldsv@protonmail.com>
-  -
-  - @author John Molakvoæ <skjnldsv@protonmail.com>
-  -
-  - @license GNU AGPL version 3 or any later version
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program. If not, see <http://www.gnu.org/licenses/>.
-  -
-  -->
+  - SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <template>
-	<NcButton :aria-label="sortAriaLabel(name)"
-		:class="{'files-list__column-sort-button--active': sortingMode === mode}"
-		class="files-list__column-sort-button"
+	<NcButton :class="['files-list__column-sort-button', {
+			'files-list__column-sort-button--active': sortingMode === mode,
+			'files-list__column-sort-button--size': sortingMode === 'size',
+		}]"
+		:alignment="mode === 'size' ? 'end' : 'start-reverse'"
 		type="tertiary"
-		@click.stop.prevent="toggleSortBy(mode)">
-		<!-- Sort icon before text as size is align right -->
-		<MenuUp v-if="sortingMode !== mode || isAscSorting" slot="icon" />
-		<MenuDown v-else slot="icon" />
-		{{ name }}
+		@click="toggleSortBy(mode)">
+		<template #icon>
+			<MenuUp v-if="sortingMode !== mode || isAscSorting" class="files-list__column-sort-button-icon" />
+			<MenuDown v-else class="files-list__column-sort-button-icon" />
+		</template>
+		<span class="files-list__column-sort-button-text">{{ name }}</span>
 	</NcButton>
 </template>
 
 <script lang="ts">
 import { translate } from '@nextcloud/l10n'
+import { defineComponent } from 'vue'
+
 import MenuDown from 'vue-material-design-icons/MenuDown.vue'
 import MenuUp from 'vue-material-design-icons/MenuUp.vue'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import Vue from 'vue'
 
 import filesSortingMixin from '../mixins/filesSorting.ts'
 
-export default Vue.extend({
+export default defineComponent({
 	name: 'FilesListTableHeaderButton',
 
 	components: {
@@ -66,57 +53,38 @@ export default Vue.extend({
 	},
 
 	methods: {
-		sortAriaLabel(column) {
-			const direction = this.isAscSorting
-				? this.t('files', 'ascending')
-				: this.t('files', 'descending')
-			return this.t('files', 'Sort list by {column} ({direction})', {
-				column,
-				direction,
-			})
-		},
-
 		t: translate,
 	},
 })
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 .files-list__column-sort-button {
 	// Compensate for cells margin
 	margin: 0 calc(var(--cell-margin) * -1);
-	// Reverse padding
-	padding: 0 4px 0 16px !important;
+	min-width: calc(100% - 3 * var(--cell-margin))!important;
 
-	// Icon after text
-	.button-vue__wrapper {
-		flex-direction: row-reverse;
-		// Take max inner width for text overflow ellipsis
-		// Remove when https://github.com/nextcloud/nextcloud-vue/pull/3936 is merged
-		width: 100%;
+	&-text {
+		color: var(--color-text-maxcontrast);
+		font-weight: normal;
 	}
 
-	.button-vue__icon {
-		transition-timing-function: linear;
-		transition-duration: .1s;
-		transition-property: opacity;
+	&-icon {
+		color: var(--color-text-maxcontrast);
 		opacity: 0;
+		transition: opacity var(--animation-quick);
+		inset-inline-start: -10px;
 	}
 
-	// Remove when https://github.com/nextcloud/nextcloud-vue/pull/3936 is merged
-	.button-vue__text {
-		overflow: hidden;
-		white-space: nowrap;
-		text-overflow: ellipsis;
+	&--size &-icon {
+		inset-inline-start: 10px;
 	}
 
-	&--active,
-	&:hover,
-	&:focus,
-	&:active {
-		.button-vue__icon {
-			opacity: 1 !important;
-		}
+	&--active &-icon,
+	&:hover &-icon,
+	&:focus &-icon,
+	&:active &-icon {
+		opacity: 1;
 	}
 }
 </style>

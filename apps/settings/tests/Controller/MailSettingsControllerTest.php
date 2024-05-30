@@ -35,10 +35,10 @@ use OCP\AppFramework\Http;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
+use OCP\IURLGenerator;
 use OCP\IUserSession;
 use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
-use OCP\IURLGenerator;
 
 /**
  * @package Tests\Settings\Controller
@@ -171,7 +171,7 @@ class MailSettingsControllerTest extends \Test\TestCase {
 		// Ensure that it fails when no mail address has been specified
 		$response = $this->mailController->sendTestMail();
 		$this->assertSame(Http::STATUS_BAD_REQUEST, $response->getStatus());
-		$this->assertSame('You need to set your user email before being able to send test emails. Go to  for that.', $response->getData());
+		$this->assertSame('You need to set your account email before being able to send test emails. Go to  for that.', $response->getData());
 
 		// If no exception is thrown it should work
 		$this->config

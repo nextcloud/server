@@ -1,23 +1,6 @@
 /**
- * @copyright Copyright (c) 2022 John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 /* eslint-disable n/no-unpublished-import */
 import axios from '@nextcloud/axios'
@@ -25,6 +8,7 @@ import { addCommands, User } from '@nextcloud/cypress'
 import { basename } from 'path'
 
 // Add custom commands
+import 'cypress-if'
 import 'cypress-wait-until'
 addCommands()
 
@@ -48,7 +32,18 @@ declare global {
 			 * Upload a raw content to a given user storage.
 			 * **Warning**: Using this function will reset the previous session
 			 */
-			uploadContent(user: User, content: Blob, mimeType: string, target: string): Cypress.Chainable<void>,
+			uploadContent(user: User, content: Blob, mimeType: string, target: string, mtime?: number): Cypress.Chainable<AxiosResponse>,
+
+			/**
+			 * Create a new directory
+			 * **Warning**: Using this function will reset the previous session
+			 */
+			mkdir(user: User, target: string): Cypress.Chainable<void>,
+
+			/**
+			 * Set a file as favorite (or remove from favorite)
+			 */
+			setFileAsFavorite(user: User, target: string, favorite?: boolean): Cypress.Chainable<void>,
 
 			/**
 			 * Reset the admin theming entirely.
@@ -66,7 +61,7 @@ declare global {
 			/**
 			 * Run an occ command in the docker container.
 			 */
-			runOccCommand(command: string): Cypress.Chainable<void>,
+			runOccCommand(command: string, options?: Partial<Cypress.ExecOptions>): Cypress.Chainable<Cypress.Exec>,
 		}
 	}
 }
@@ -120,6 +115,63 @@ Cypress.Commands.add('uploadFile', (user, fixture = 'image.jpg', mimeType = 'ima
 	})
 })
 
+Cypress.Commands.add('setFileAsFavorite', (user: User, target: string, favorite = true) => {
+	// eslint-disable-next-line cypress/unsafe-to-chain-command
+	cy.clearAllCookies()
+		.then(async () => {
+			try {
+				const rootPath = `${Cypress.env('baseUrl')}/remote.php/dav/files/${encodeURIComponent(user.userId)}`
+				const filePath = target.split('/').map(encodeURIComponent).join('/')
+				const response = await axios({
+					url: `${rootPath}${filePath}`,
+					method: 'PROPPATCH',
+					auth: {
+						username: user.userId,
+						password: user.password,
+					},
+					headers: {
+						'Content-Type': 'application/xml',
+					},
+					data: `<?xml version="1.0"?>
+					<d:propertyupdate xmlns:d="DAV:" xmlns:oc="http://owncloud.org/ns">
+						<d:set>
+							<d:prop>
+								<oc:favorite>${favorite ? 1 : 0}</oc:favorite>
+							</d:prop>
+					  </d:set>
+					</d:propertyupdate>`,
+				})
+				cy.log(`Created directory ${target}`, response)
+			} catch (error) {
+				cy.log('error', error)
+				throw new Error('Unable to process fixture')
+			}
+		})
+})
+
+Cypress.Commands.add('mkdir', (user: User, target: string) => {
+	// eslint-disable-next-line cypress/unsafe-to-chain-command
+	cy.clearCookies()
+		.then(async () => {
+			try {
+				const rootPath = `${Cypress.env('baseUrl')}/remote.php/dav/files/${encodeURIComponent(user.userId)}`
+				const filePath = target.split('/').map(encodeURIComponent).join('/')
+				const response = await axios({
+					url: `${rootPath}${filePath}`,
+					method: 'MKCOL',
+					auth: {
+						username: user.userId,
+						password: user.password,
+					},
+				})
+				cy.log(`Created directory ${target}`, response)
+			} catch (error) {
+				cy.log('error', error)
+				throw new Error('Unable to create directory')
+			}
+		})
+})
+
 /**
  * cy.uploadedContent - uploads a raw content
  * TODO: standardise in @nextcloud/cypress
@@ -129,34 +181,36 @@ Cypress.Commands.add('uploadFile', (user, fixture = 'image.jpg', mimeType = 'ima
  * @param {string} mimeType e.g. image/png
  * @param {string} target the target of the file relative to the user root
  */
-Cypress.Commands.add('uploadContent', (user, blob, mimeType, target) => {
+Cypress.Commands.add('uploadContent', (user: User, blob: Blob, mimeType: string, target: string, mtime?: number) => {
 	cy.clearCookies()
-		.then(async () => {
-			const fileName = basename(target)
+	return cy.then(async () => {
+		const fileName = basename(target)
 
-			// Process paths
-			const rootPath = `${Cypress.env('baseUrl')}/remote.php/dav/files/${encodeURIComponent(user.userId)}`
-			const filePath = target.split('/').map(encodeURIComponent).join('/')
-			try {
-				const file = new File([blob], fileName, { type: mimeType })
-				const response = await axios({
-					url: `${rootPath}${filePath}`,
-					method: 'PUT',
-					data: file,
-					headers: {
-						'Content-Type': mimeType,
-					},
-					auth: {
-						username: user.userId,
-						password: user.password,
-					},
-				})
-				cy.log(`Uploaded content as ${fileName}`, response)
-			} catch (error) {
-				cy.log('error', error)
-				throw new Error('Unable to process fixture')
-			}
-		})
+		// Process paths
+		const rootPath = `${Cypress.env('baseUrl')}/remote.php/dav/files/${encodeURIComponent(user.userId)}`
+		const filePath = target.split('/').map(encodeURIComponent).join('/')
+		try {
+			const file = new File([blob], fileName, { type: mimeType })
+			const response = await axios({
+				url: `${rootPath}${filePath}`,
+				method: 'PUT',
+				data: file,
+				headers: {
+					'Content-Type': mimeType,
+					'X-OC-MTime': mtime ? `${mtime}` : undefined,
+				},
+				auth: {
+					username: user.userId,
+					password: user.password,
+				},
+			})
+			cy.log(`Uploaded content as ${fileName}`, response)
+			return response
+		} catch (error) {
+			cy.log('error', error)
+			throw new Error('Unable to process fixture')
+		}
+	})
 })
 
 /**
@@ -215,6 +269,7 @@ Cypress.Commands.add('resetUserTheming', (user?: User) => {
 	}
 })
 
-Cypress.Commands.add('runOccCommand', (command: string) => {
-	cy.exec(`docker exec --user www-data nextcloud-cypress-tests-server php ./occ ${command}`)
+Cypress.Commands.add('runOccCommand', (command: string, options?: Partial<Cypress.ExecOptions>) => {
+	const env = Object.entries(options?.env ?? {}).map(([name, value]) => `-e '${name}=${value}'`).join(' ')
+	return cy.exec(`docker exec --user www-data ${env} nextcloud-cypress-tests-server php ./occ ${command}`, options)
 })

@@ -26,7 +26,7 @@
 			:checked.sync="isProfileEnabled"
 			:loading="loading"
 			@update:checked="saveEnableProfile">
-			{{ t('settings', 'Enable Profile') }}
+			{{ t('settings', 'Enable profile') }}
 		</NcCheckboxRadioSwitch>
 	</div>
 </template>

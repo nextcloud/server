@@ -27,20 +27,22 @@ declare(strict_types=1);
  */
 namespace OCA\Files_Trashbin\Sabre;
 
+use OCA\DAV\Connector\Sabre\FilesPlugin;
 use OCP\IPreview;
 use Sabre\DAV\INode;
-use Sabre\DAV\Server;
 use Sabre\DAV\PropFind;
+use Sabre\DAV\Server;
 use Sabre\DAV\ServerPlugin;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
-use OCA\DAV\Connector\Sabre\FilesPlugin;
 
 class TrashbinPlugin extends ServerPlugin {
 	public const TRASHBIN_FILENAME = '{http://nextcloud.org/ns}trashbin-filename';
 	public const TRASHBIN_ORIGINAL_LOCATION = '{http://nextcloud.org/ns}trashbin-original-location';
 	public const TRASHBIN_DELETION_TIME = '{http://nextcloud.org/ns}trashbin-deletion-time';
 	public const TRASHBIN_TITLE = '{http://nextcloud.org/ns}trashbin-title';
+	public const TRASHBIN_DELETED_BY_ID = '{http://nextcloud.org/ns}trashbin-deleted-by-id';
+	public const TRASHBIN_DELETED_BY_DISPLAY_NAME = '{http://nextcloud.org/ns}trashbin-deleted-by-display-name';
 
 	/** @var Server */
 	private $server;
@@ -81,6 +83,14 @@ class TrashbinPlugin extends ServerPlugin {
 
 		$propFind->handle(self::TRASHBIN_DELETION_TIME, function () use ($node) {
 			return $node->getDeletionTime();
+		});
+
+		$propFind->handle(self::TRASHBIN_DELETED_BY_ID, function () use ($node) {
+			return $node->getDeletedBy()?->getUID();
+		});
+
+		$propFind->handle(self::TRASHBIN_DELETED_BY_DISPLAY_NAME, function () use ($node) {
+			return $node->getDeletedBy()?->getDisplayName();
 		});
 
 		$propFind->handle(FilesPlugin::SIZE_PROPERTYNAME, function () use ($node) {

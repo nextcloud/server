@@ -3,30 +3,17 @@
 declare(strict_types=1);
 
 /**
- * @copyright 2020 Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OC\DB;
 
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
+use Doctrine\DBAL\Platforms\MySQLPlatform;
+use Doctrine\DBAL\Platforms\OraclePlatform;
+use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
+use Doctrine\DBAL\Platforms\SqlitePlatform;
 use Doctrine\DBAL\Schema\Schema;
 use OC\DB\Exceptions\DbalException;
 use OCP\DB\IPreparedStatement;
@@ -87,13 +74,13 @@ class ConnectionAdapter implements IDBConnection {
 
 	public function lastInsertId(string $table): int {
 		try {
-			return (int)$this->inner->lastInsertId($table);
+			return $this->inner->lastInsertId($table);
 		} catch (Exception $e) {
 			throw DbalException::wrap($e);
 		}
 	}
 
-	public function insertIfNotExist(string $table, array $input, array $compare = null) {
+	public function insertIfNotExist(string $table, array $input, ?array $compare = null) {
 		try {
 			return $this->inner->insertIfNotExist($table, $input, $compare);
 		} catch (Exception $e) {
@@ -241,5 +228,20 @@ class ConnectionAdapter implements IDBConnection {
 
 	public function getInner(): Connection {
 		return $this->inner;
+	}
+
+	public function getDatabaseProvider(): string {
+		$platform = $this->inner->getDatabasePlatform();
+		if ($platform instanceof MySQLPlatform) {
+			return IDBConnection::PLATFORM_MYSQL;
+		} elseif ($platform instanceof OraclePlatform) {
+			return IDBConnection::PLATFORM_ORACLE;
+		} elseif ($platform instanceof PostgreSQLPlatform) {
+			return IDBConnection::PLATFORM_POSTGRES;
+		} elseif ($platform instanceof SqlitePlatform) {
+			return IDBConnection::PLATFORM_SQLITE;
+		} else {
+			throw new \Exception('Database ' . $platform::class . ' not supported');
+		}
 	}
 }

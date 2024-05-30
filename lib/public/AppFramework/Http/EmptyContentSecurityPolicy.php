@@ -1,28 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Pavel Krasikov <klonishe@gmail.com>
- * @author Pierre Rudloff <contact@rudloff.pro>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Citharel <nextcloud@tcit.fr>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCP\AppFramework\Http;
 
@@ -37,10 +18,12 @@ namespace OCP\AppFramework\Http;
  * @since 9.0.0
  */
 class EmptyContentSecurityPolicy {
-	/** @var string Whether JS nonces should be used */
-	protected $useJsNonce = null;
+	/** @var ?string JS nonce to be used */
+	protected ?string $jsNonce = null;
 	/** @var bool Whether strict-dynamic should be used */
 	protected $strictDynamicAllowed = null;
+	/** @var bool Whether strict-dynamic should be used on script-src-elem */
+	protected $strictDynamicAllowedOnScripts = null;
 	/**
 	 * @var bool Whether eval in JS scripts is allowed
 	 * TODO: Disallow per default
@@ -94,6 +77,18 @@ class EmptyContentSecurityPolicy {
 	}
 
 	/**
+	 * In contrast to `useStrictDynamic` this only sets strict-dynamic on script-src-elem
+	 * Meaning only grants trust to all imports of scripts that were loaded in `<script>` tags, and thus weakens less the CSP.
+	 * @param bool $state
+	 * @return EmptyContentSecurityPolicy
+	 * @since 28.0.0
+	 */
+	public function useStrictDynamicOnScripts(bool $state = false): self {
+		$this->strictDynamicAllowedOnScripts = $state;
+		return $this;
+	}
+
+	/**
 	 * Use the according JS nonce
 	 * This method is only for CSPMiddleware, custom values are ignored in mergePolicies of ContentSecurityPolicyManager
 	 *
@@ -102,7 +97,7 @@ class EmptyContentSecurityPolicy {
 	 * @since 11.0.0
 	 */
 	public function useJsNonce($nonce) {
-		$this->useJsNonce = $nonce;
+		$this->jsNonce = $nonce;
 		return $this;
 	}
 
@@ -446,29 +441,37 @@ class EmptyContentSecurityPolicy {
 		$policy .= "base-uri 'none';";
 		$policy .= "manifest-src 'self';";
 
-		if (!empty($this->allowedScriptDomains) || $this->evalScriptAllowed || $this->evalWasmAllowed) {
+		if (!empty($this->allowedScriptDomains) || $this->evalScriptAllowed || $this->evalWasmAllowed || is_string($this->jsNonce)) {
 			$policy .= 'script-src ';
-			if (is_string($this->useJsNonce)) {
+			$scriptSrc = '';
+			if (is_string($this->jsNonce)) {
 				if ($this->strictDynamicAllowed) {
-					$policy .= '\'strict-dynamic\' ';
+					$scriptSrc .= '\'strict-dynamic\' ';
 				}
-				$policy .= '\'nonce-'.base64_encode($this->useJsNonce).'\'';
+				$scriptSrc .= '\'nonce-'.base64_encode($this->jsNonce).'\'';
 				$allowedScriptDomains = array_flip($this->allowedScriptDomains);
 				unset($allowedScriptDomains['\'self\'']);
 				$this->allowedScriptDomains = array_flip($allowedScriptDomains);
 				if (count($allowedScriptDomains) !== 0) {
-					$policy .= ' ';
+					$scriptSrc .= ' ';
 				}
 			}
 			if (is_array($this->allowedScriptDomains)) {
-				$policy .= implode(' ', $this->allowedScriptDomains);
+				$scriptSrc .= implode(' ', $this->allowedScriptDomains);
 			}
 			if ($this->evalScriptAllowed) {
-				$policy .= ' \'unsafe-eval\'';
+				$scriptSrc .= ' \'unsafe-eval\'';
 			}
 			if ($this->evalWasmAllowed) {
-				$policy .= ' \'wasm-unsafe-eval\'';
+				$scriptSrc .= ' \'wasm-unsafe-eval\'';
 			}
+			$policy .= $scriptSrc . ';';
+		}
+
+		// We only need to set this if 'strictDynamicAllowed' is not set because otherwise we can simply fall back to script-src
+		if ($this->strictDynamicAllowedOnScripts && is_string($this->jsNonce) && !$this->strictDynamicAllowed) {
+			$policy .= 'script-src-elem \'strict-dynamic\' ';
+			$policy .= $scriptSrc ?? '';
 			$policy .= ';';
 		}
 

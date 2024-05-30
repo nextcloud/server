@@ -1,6 +1,5 @@
 { "translations": {
     "Files" : "Ifuyla",
-    "Help" : "Tallalt",
     "Apps" : "Isnasen",
     "Settings" : "Iɣewwaṛen",
     "Log out" : "Senser",
@@ -11,6 +10,6 @@
     "Website" : "Asmel web",
     "Address" : "Adresse",
     "About" : "Γef",
-    "Full name" : "Isem inek ummid"
+    "Help" : "Tallalt"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

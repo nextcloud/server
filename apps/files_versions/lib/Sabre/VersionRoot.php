@@ -75,13 +75,11 @@ class VersionRoot implements ICollection {
 		$userFolder = $this->rootFolder->getUserFolder($this->user->getUID());
 
 		$fileId = (int)$name;
-		$nodes = $userFolder->getById($fileId);
+		$node = $userFolder->getFirstNodeById($fileId);
 
-		if ($nodes === []) {
+		if (!$node) {
 			throw new NotFound();
 		}
-
-		$node = array_pop($nodes);
 
 		if (!$node instanceof File) {
 			throw new NotFound();

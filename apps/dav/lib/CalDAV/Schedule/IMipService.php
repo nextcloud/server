@@ -1,25 +1,9 @@
 <?php
+
 declare(strict_types=1);
-/*
- * DAV App
- *
- * @copyright 2022 Anna Larch <anna.larch@gmx.net>
- *
- * @author Anna Larch <anna.larch@gmx.net>
- * @author Richard Steinmetz <richard@steinmetz.cloud>
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
- * License as published by the Free Software Foundation; either
- * version 3 of the License, or any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
- *
- * You should have received a copy of the GNU Affero General Public
- * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
+/**
+ * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OCA\DAV\CalDAV\Schedule;
@@ -57,10 +41,10 @@ class IMipService {
 	];
 
 	public function __construct(URLGenerator $urlGenerator,
-								IConfig $config,
-								IDBConnection $db,
-								ISecureRandom $random,
-								L10NFactory $l10nFactory) {
+		IConfig $config,
+		IDBConnection $db,
+		ISecureRandom $random,
+		L10NFactory $l10nFactory) {
 		$this->urlGenerator = $urlGenerator;
 		$this->config = $config;
 		$this->db = $db;
@@ -99,7 +83,7 @@ class IMipService {
 			return $default;
 		}
 		$newstring = $vevent->$property->getValue();
-		if(isset($oldVEvent->$property) && $oldVEvent->$property->getValue() !== $newstring ) {
+		if(isset($oldVEvent->$property) && $oldVEvent->$property->getValue() !== $newstring) {
 			$oldstring = $oldVEvent->$property->getValue();
 			return sprintf($strikethrough, $oldstring, $newstring);
 		}
@@ -162,7 +146,7 @@ class IMipService {
 
 		if(!empty($oldVEvent)) {
 			$oldMeetingWhen = $this->generateWhenString($oldVEvent);
-			$data['meeting_title_html']	= $this->generateDiffString($vEvent, $oldVEvent, 'SUMMARY', $data['meeting_title']);
+			$data['meeting_title_html'] = $this->generateDiffString($vEvent, $oldVEvent, 'SUMMARY', $data['meeting_title']);
 			$data['meeting_description_html'] = $this->generateDiffString($vEvent, $oldVEvent, 'DESCRIPTION', $data['meeting_description']);
 			$data['meeting_location_html'] = $this->generateLinkifiedDiffString($vEvent, $oldVEvent, 'LOCATION', $data['meeting_location']);
 
@@ -281,7 +265,8 @@ class IMipService {
 		$strikethrough = "<span style='text-decoration: line-through'>%s</span>";
 
 		$newMeetingWhen = $this->generateWhenString($vEvent);
-		$newSummary = isset($vEvent->SUMMARY) && (string)$vEvent->SUMMARY !== '' ? (string)$vEvent->SUMMARY : $this->l10n->t('Untitled event');;
+		$newSummary = isset($vEvent->SUMMARY) && (string)$vEvent->SUMMARY !== '' ? (string)$vEvent->SUMMARY : $this->l10n->t('Untitled event');
+		;
 		$newDescription = isset($vEvent->DESCRIPTION) && (string)$vEvent->DESCRIPTION !== '' ? (string)$vEvent->DESCRIPTION : $defaultVal;
 		$newUrl = isset($vEvent->URL) && (string)$vEvent->URL !== '' ? sprintf('<a href="%1$s">%1$s</a>', $vEvent->URL) : $defaultVal;
 		$newLocation = isset($vEvent->LOCATION) && (string)$vEvent->LOCATION !== '' ? (string)$vEvent->LOCATION : $defaultVal;
@@ -483,7 +468,7 @@ class IMipService {
 				htmlspecialchars($organizer->getNormalizedValue()),
 				htmlspecialchars($organizerName ?: $organizerEmail));
 			$organizerText = sprintf('%s <%s>', $organizerName, $organizerEmail);
-			if(isset($organizer['PARTSTAT']) ) {
+			if(isset($organizer['PARTSTAT'])) {
 				/** @var Parameter $partstat */
 				$partstat = $organizer['PARTSTAT'];
 				if(strcasecmp($partstat->getValue(), 'ACCEPTED') === 0) {
@@ -537,7 +522,7 @@ class IMipService {
 			$data['meeting_title_html'] ?? $data['meeting_title'], $this->l10n->t('Title:'),
 			$this->getAbsoluteImagePath('caldav/title.png'), $data['meeting_title'], '', IMipPlugin::IMIP_INDENT);
 		if ($data['meeting_when'] !== '') {
-			$template->addBodyListItem($data['meeting_when_html'] ?? $data['meeting_when'], $this->l10n->t('Time:'),
+			$template->addBodyListItem($data['meeting_when_html'] ?? $data['meeting_when'], $this->l10n->t('Date and time:'),
 				$this->getAbsoluteImagePath('caldav/time.png'), $data['meeting_when'], '', IMipPlugin::IMIP_INDENT);
 		}
 		if ($data['meeting_location'] !== '') {
@@ -672,5 +657,18 @@ class IMipService {
 			}
 		}
 		return null;
+	}
+
+	public function isRoomOrResource(Property $attendee): bool {
+		$cuType = $attendee->offsetGet('CUTYPE');
+		if(!$cuType instanceof Parameter) {
+			return false;
+		}
+		$type = $cuType->getValue() ?? 'INDIVIDUAL';
+		if (\in_array(strtoupper($type), ['RESOURCE', 'ROOM'], true)) {
+			// Don't send emails to things
+			return true;
+		}
+		return false;
 	}
 }

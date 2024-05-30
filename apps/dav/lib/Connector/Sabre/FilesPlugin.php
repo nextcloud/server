@@ -1,56 +1,31 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Michael Jobst <mjobst+github@tecratech.de>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Tobias Kaminsky <tobias@kaminsky.me>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\DAV\Connector\Sabre;
 
 use OC\AppFramework\Http\Request;
-use OC\Metadata\IMetadataManager;
 use OCP\Constants;
 use OCP\Files\ForbiddenException;
 use OCP\Files\StorageNotAvailableException;
+use OCP\FilesMetadata\Exceptions\FilesMetadataException;
+use OCP\FilesMetadata\Exceptions\FilesMetadataNotFoundException;
+use OCP\FilesMetadata\IFilesMetadataManager;
+use OCP\FilesMetadata\Model\IMetadataValueWrapper;
 use OCP\IConfig;
 use OCP\IPreview;
 use OCP\IRequest;
 use OCP\IUserSession;
-use Psr\Log\LoggerInterface;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\IFile;
-use Sabre\DAV\INode;
 use Sabre\DAV\PropFind;
 use Sabre\DAV\PropPatch;
-use Sabre\DAV\ServerPlugin;
 use Sabre\DAV\Server;
+use Sabre\DAV\ServerPlugin;
 use Sabre\DAV\Tree;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
@@ -77,6 +52,7 @@ class FilesPlugin extends ServerPlugin {
 	public const DATA_FINGERPRINT_PROPERTYNAME = '{http://owncloud.org/ns}data-fingerprint';
 	public const HAS_PREVIEW_PROPERTYNAME = '{http://nextcloud.org/ns}has-preview';
 	public const MOUNT_TYPE_PROPERTYNAME = '{http://nextcloud.org/ns}mount-type';
+	public const MOUNT_ROOT_PROPERTYNAME = '{http://nextcloud.org/ns}is-mount-root';
 	public const IS_ENCRYPTED_PROPERTYNAME = '{http://nextcloud.org/ns}is-encrypted';
 	public const METADATA_ETAG_PROPERTYNAME = '{http://nextcloud.org/ns}metadata_etag';
 	public const UPLOAD_TIME_PROPERTYNAME = '{http://nextcloud.org/ns}upload_time';
@@ -84,17 +60,8 @@ class FilesPlugin extends ServerPlugin {
 	public const SHARE_NOTE = '{http://nextcloud.org/ns}note';
 	public const SUBFOLDER_COUNT_PROPERTYNAME = '{http://nextcloud.org/ns}contained-folder-count';
 	public const SUBFILE_COUNT_PROPERTYNAME = '{http://nextcloud.org/ns}contained-file-count';
-	public const FILE_METADATA_SIZE = '{http://nextcloud.org/ns}file-metadata-size';
-	public const FILE_METADATA_GPS = '{http://nextcloud.org/ns}file-metadata-gps';
-
-	public const ALL_METADATA_PROPS = [
-		self::FILE_METADATA_SIZE => 'size',
-		self::FILE_METADATA_GPS => 'gps',
-	];
-	public const METADATA_MIMETYPES = [
-		'size' => 'image',
-		'gps' => 'image',
-	];
+	public const FILE_METADATA_PREFIX = '{http://nextcloud.org/ns}metadata-';
+	public const HIDDEN_PROPERTYNAME = '{http://nextcloud.org/ns}hidden';
 
 	/** Reference to main server object */
 	private ?Server $server = null;
@@ -112,12 +79,12 @@ class FilesPlugin extends ServerPlugin {
 	private IPreview $previewManager;
 
 	public function __construct(Tree $tree,
-								IConfig $config,
-								IRequest $request,
-								IPreview $previewManager,
-								IUserSession $userSession,
-								bool $isPublic = false,
-								bool $downloadAttachment = true) {
+		IConfig $config,
+		IRequest $request,
+		IPreview $previewManager,
+		IUserSession $userSession,
+		bool $isPublic = false,
+		bool $downloadAttachment = true) {
 		$this->tree = $tree;
 		$this->config = $config;
 		$this->request = $request;
@@ -368,6 +335,16 @@ class FilesPlugin extends ServerPlugin {
 				return $node->getFileInfo()->getMountPoint()->getMountType();
 			});
 
+			/**
+			 * This is a special property which is used to determine if a node
+			 * is a mount root or not, e.g. a shared folder.
+			 * If so, then the node can only be unshared and not deleted.
+			 * @see https://github.com/nextcloud/server/blob/cc75294eb6b16b916a342e69998935f89222619d/lib/private/Files/View.php#L696-L698
+			 */
+			$propFind->handle(self::MOUNT_ROOT_PROPERTYNAME, function () use ($node) {
+				return $node->getNode()->getInternalPath() === '' ? 'true' : 'false';
+			});
+
 			$propFind->handle(self::SHARE_NOTE, function () use ($node, $httpRequest): ?string {
 				$user = $this->userSession->getUser();
 				if ($user === null) {
@@ -389,6 +366,17 @@ class FilesPlugin extends ServerPlugin {
 			$propFind->handle(self::CREATION_TIME_PROPERTYNAME, function () use ($node) {
 				return $node->getFileInfo()->getCreationTime();
 			});
+
+			foreach ($node->getFileInfo()->getMetadata() as $metadataKey => $metadataValue) {
+				$propFind->handle(self::FILE_METADATA_PREFIX . $metadataKey, $metadataValue);
+			}
+
+			$propFind->handle(self::HIDDEN_PROPERTYNAME, function () use ($node) {
+				$isLivePhoto = isset($node->getFileInfo()->getMetadata()['files-live-photo']);
+				$isMovFile = $node->getFileInfo()->getMimetype() === 'video/quicktime';
+				return ($isLivePhoto && $isMovFile) ? 'true' : 'false';
+			});
+
 			/**
 			 * Return file/folder name as displayname. The primary reason to
 			 * implement it this way is to avoid costly fallback to
@@ -427,31 +415,6 @@ class FilesPlugin extends ServerPlugin {
 			$propFind->handle(self::UPLOAD_TIME_PROPERTYNAME, function () use ($node) {
 				return $node->getFileInfo()->getUploadTime();
 			});
-
-			if ($this->config->getSystemValueBool('enable_file_metadata', true)) {
-				foreach (self::ALL_METADATA_PROPS as $prop => $meta) {
-					$propFind->handle($prop, function () use ($node, $meta) {
-						if ($node->getFileInfo()->getMimePart() !== self::METADATA_MIMETYPES[$meta]) {
-							return [];
-						}
-
-						if ($node->hasMetadata($meta)) {
-							$metadata = $node->getMetadata($meta);
-						} else {
-							// This code path should not be called since we try to preload
-							// the metadata when loading the folder or the search results
-							// in one go
-							$metadataManager = \OC::$server->get(IMetadataManager::class);
-							$metadata = $metadataManager->fetchMetadataFor($meta, [$node->getId()])[$node->getId()];
-
-							// TODO would be nice to display this in the profiler...
-							\OC::$server->get(LoggerInterface::class)->debug('Inefficient fetching of metadata');
-						}
-
-						return $metadata->getValue();
-					});
-				}
-			}
 		}
 
 		if ($node instanceof Directory) {
@@ -464,39 +427,6 @@ class FilesPlugin extends ServerPlugin {
 			});
 
 			$requestProperties = $propFind->getRequestedProperties();
-
-			$requestedMetaData = [];
-			foreach ($requestProperties as $requestProperty) {
-				if (isset(self::ALL_METADATA_PROPS[$requestProperty])) {
-					$requestedMetaData[] = self::ALL_METADATA_PROPS[$requestProperty];
-				}
-			}
-			if (
-				$this->config->getSystemValueBool('enable_file_metadata', true) &&
-				$propFind->getDepth() === 1 &&
-				$requestedMetaData
-			) {
-				$children = $node->getChildren();
-				// Preloading of the metadata
-
-				/** @var IMetaDataManager $metadataManager */
-				$metadataManager = \OC::$server->get(IMetadataManager::class);
-
-				foreach ($requestedMetaData as $requestedMeta) {
-					$relevantMimeType = self::METADATA_MIMETYPES[$requestedMeta];
-					$childrenForMeta = array_filter($children, function (INode $child) use ($relevantMimeType) {
-						return $child instanceof File && $child->getFileInfo()->getMimePart() === $relevantMimeType;
-					});
-					$fileIds = array_map(function (File $child) {
-						return $child->getFileInfo()->getId();
-					}, $childrenForMeta);
-					$preloadedMetadata = $metadataManager->fetchMetadataFor($requestedMeta, $fileIds);
-
-					foreach ($childrenForMeta as $child) {
-						$child->setMetadata($requestedMeta, $preloadedMetadata[$child->getFileInfo()->getId()]);
-					}
-				}
-			}
 
 			if (in_array(self::SUBFILE_COUNT_PROPERTYNAME, $requestProperties, true)
 				|| in_array(self::SUBFOLDER_COUNT_PROPERTYNAME, $requestProperties, true)) {
@@ -583,6 +513,9 @@ class FilesPlugin extends ServerPlugin {
 			$node->setCreationTime((int) $time);
 			return true;
 		});
+
+		$this->handleUpdatePropertiesMetadata($propPatch, $node);
+
 		/**
 		 * Disable modification of the displayname property for files and
 		 * folders via PROPPATCH. See PROPFIND for more information.
@@ -592,12 +525,123 @@ class FilesPlugin extends ServerPlugin {
 		});
 	}
 
+
+	/**
+	 * handle the update of metadata from PROPPATCH requests
+	 *
+	 * @param PropPatch $propPatch
+	 * @param Node $node
+	 *
+	 * @throws FilesMetadataException
+	 */
+	private function handleUpdatePropertiesMetadata(PropPatch $propPatch, Node $node): void {
+		$userId = $this->userSession->getUser()?->getUID();
+		if ($userId === null) {
+			return;
+		}
+
+		$accessRight = $this->getMetadataFileAccessRight($node, $userId);
+		$filesMetadataManager = $this->initFilesMetadataManager();
+		$knownMetadata = $filesMetadataManager->getKnownMetadata();
+
+		foreach ($propPatch->getRemainingMutations() as $mutation) {
+			if (!str_starts_with($mutation, self::FILE_METADATA_PREFIX)) {
+				continue;
+			}
+
+			$propPatch->handle(
+				$mutation,
+				function (mixed $value) use ($accessRight, $knownMetadata, $node, $mutation, $filesMetadataManager): bool {
+					$metadata = $filesMetadataManager->getMetadata((int)$node->getFileId(), true);
+					$metadataKey = substr($mutation, strlen(self::FILE_METADATA_PREFIX));
+
+					// confirm metadata key is editable via PROPPATCH
+					if ($knownMetadata->getEditPermission($metadataKey) < $accessRight) {
+						throw new FilesMetadataException('you do not have enough rights to update \'' . $metadataKey . '\' on this node');
+					}
+
+					// If the metadata is unknown, it defaults to string.
+					try {
+						$type = $knownMetadata->getType($metadataKey);
+					} catch (FilesMetadataNotFoundException) {
+						$type = IMetadataValueWrapper::TYPE_STRING;
+					}
+
+					switch ($type) {
+						case IMetadataValueWrapper::TYPE_STRING:
+							$metadata->setString($metadataKey, $value, $knownMetadata->isIndex($metadataKey));
+							break;
+						case IMetadataValueWrapper::TYPE_INT:
+							$metadata->setInt($metadataKey, $value, $knownMetadata->isIndex($metadataKey));
+							break;
+						case IMetadataValueWrapper::TYPE_FLOAT:
+							$metadata->setFloat($metadataKey, $value);
+							break;
+						case IMetadataValueWrapper::TYPE_BOOL:
+							$metadata->setBool($metadataKey, $value, $knownMetadata->isIndex($metadataKey));
+							break;
+						case IMetadataValueWrapper::TYPE_ARRAY:
+							$metadata->setArray($metadataKey, $value);
+							break;
+						case IMetadataValueWrapper::TYPE_STRING_LIST:
+							$metadata->setStringList($metadataKey, $value, $knownMetadata->isIndex($metadataKey));
+							break;
+						case IMetadataValueWrapper::TYPE_INT_LIST:
+							$metadata->setIntList($metadataKey, $value, $knownMetadata->isIndex($metadataKey));
+							break;
+					}
+
+					$filesMetadataManager->saveMetadata($metadata);
+
+					return true;
+				}
+			);
+		}
+	}
+
+	/**
+	 * init default internal metadata
+	 *
+	 * @return IFilesMetadataManager
+	 */
+	private function initFilesMetadataManager(): IFilesMetadataManager {
+		/** @var IFilesMetadataManager $manager */
+		$manager = \OCP\Server::get(IFilesMetadataManager::class);
+		$manager->initMetadata('files-live-photo', IMetadataValueWrapper::TYPE_STRING, false, IMetadataValueWrapper::EDIT_REQ_OWNERSHIP);
+
+		return $manager;
+	}
+
+	/**
+	 * based on owner and shares, returns the bottom limit to update related metadata
+	 *
+	 * @param Node $node
+	 * @param string $userId
+	 *
+	 * @return int
+	 */
+	private function getMetadataFileAccessRight(Node $node, string $userId): int {
+		if ($node->getOwner()?->getUID() === $userId) {
+			return IMetadataValueWrapper::EDIT_REQ_OWNERSHIP;
+		} else {
+			$filePermissions = $node->getSharePermissions($userId);
+			if ($filePermissions & Constants::PERMISSION_UPDATE) {
+				return IMetadataValueWrapper::EDIT_REQ_WRITE_PERMISSION;
+			}
+		}
+
+		return IMetadataValueWrapper::EDIT_REQ_READ_PERMISSION;
+	}
+
+
+
 	/**
 	 * @param string $filePath
-	 * @param \Sabre\DAV\INode $node
+	 * @param ?\Sabre\DAV\INode $node
+	 * @return void
 	 * @throws \Sabre\DAV\Exception\BadRequest
 	 */
-	public function sendFileIdHeader($filePath, \Sabre\DAV\INode $node = null) {
+	public function sendFileIdHeader($filePath, ?\Sabre\DAV\INode $node = null) {
 		// chunked upload handling
 		if (isset($_SERVER['HTTP_OC_CHUNKED'])) {
 			[$path, $name] = \Sabre\Uri\split($filePath);

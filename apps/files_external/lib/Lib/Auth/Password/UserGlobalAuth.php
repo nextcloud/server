@@ -52,7 +52,7 @@ class UserGlobalAuth extends AuthMechanism {
 			->setIdentifier('password::global::user')
 			->setVisibility(BackendService::VISIBILITY_DEFAULT)
 			->setScheme(self::SCHEME_PASSWORD)
-			->setText($l->t('Global credentials, user entered'));
+			->setText($l->t('Global credentials, manually entered'));
 	}
 
 	public function saveBackendOptions(IUser $user, $id, $backendOptions) {
@@ -69,7 +69,10 @@ class UserGlobalAuth extends AuthMechanism {
 		$this->credentialsManager->store($user->getUID(), self::CREDENTIALS_IDENTIFIER, $credentials);
 	}
 
-	public function manipulateStorageConfig(StorageConfig &$storage, IUser $user = null) {
+	/**
+	 * @return void
+	 */
+	public function manipulateStorageConfig(StorageConfig &$storage, ?IUser $user = null) {
 		if ($user === null) {
 			throw new InsufficientDataForMeaningfulAnswerException('No credentials saved');
 		}

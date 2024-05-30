@@ -1,13 +1,12 @@
 <?php
 /**
- * Copyright (c) 2012 Robin Appelman <icewind@owncloud.com>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file. */
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
 
 namespace Test\Files;
 
-use OCP\Cache\CappedMemoryCache;
 use OC\Files\Cache\Watcher;
 use OC\Files\Filesystem;
 use OC\Files\Mount\MountPoint;
@@ -16,6 +15,8 @@ use OC\Files\Storage\Common;
 use OC\Files\Storage\Storage;
 use OC\Files\Storage\Temporary;
 use OC\Files\View;
+use OC\Share20\ShareDisableChecker;
+use OCP\Cache\CappedMemoryCache;
 use OCP\Constants;
 use OCP\Files\Config\IMountProvider;
 use OCP\Files\FileInfo;
@@ -25,6 +26,7 @@ use OCP\Files\Storage\IStorage;
 use OCP\IDBConnection;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
+use OCP\Share\IManager as IShareManager;
 use OCP\Share\IShare;
 use OCP\Util;
 use Test\HookHelper;
@@ -296,7 +298,7 @@ class ViewTest extends \Test\TestCase {
 	 */
 	public function testRemoveSharePermissionWhenSharingDisabledForUser($excludeGroups, $excludeGroupsList, $expectedShareable) {
 		// Reset sharing disabled for users cache
-		self::invokePrivate(\OC::$server->getShareManager(), 'sharingDisabledForUsersCache', [new CappedMemoryCache()]);
+		self::invokePrivate(\OC::$server->get(ShareDisableChecker::class), 'sharingDisabledForUsersCache', [new CappedMemoryCache()]);
 
 		$config = \OC::$server->getConfig();
 		$oldExcludeGroupsFlag = $config->getAppValue('core', 'shareapi_exclude_groups', 'no');
@@ -321,7 +323,7 @@ class ViewTest extends \Test\TestCase {
 		$config->setAppValue('core', 'shareapi_exclude_groups_list', $oldExcludeGroupsList);
 
 		// Reset sharing disabled for users cache
-		self::invokePrivate(\OC::$server->getShareManager(), 'sharingDisabledForUsersCache', [new CappedMemoryCache()]);
+		self::invokePrivate(\OC::$server->get(ShareDisableChecker::class), 'sharingDisabledForUsersCache', [new CappedMemoryCache()]);
 	}
 
 	public function testCacheIncompleteFolder() {
@@ -1387,7 +1389,7 @@ class ViewTest extends \Test\TestCase {
 	 * Test that locks are on mount point paths instead of mount root
 	 */
 	public function testLockLocalMountPointPathInsteadOfStorageRoot() {
-		$lockingProvider = \OC::$server->getLockingProvider();
+		$lockingProvider = \OC::$server->get(ILockingProvider::class);
 		$view = new View('/testuser/files/');
 		$storage = new Temporary([]);
 		Filesystem::mount($storage, [], '/');
@@ -1417,7 +1419,7 @@ class ViewTest extends \Test\TestCase {
 	 * Test that locks are on mount point paths and also mount root when requested
 	 */
 	public function testLockStorageRootButNotLocalMountPoint() {
-		$lockingProvider = \OC::$server->getLockingProvider();
+		$lockingProvider = \OC::$server->get(ILockingProvider::class);
 		$view = new View('/testuser/files/');
 		$storage = new Temporary([]);
 		Filesystem::mount($storage, [], '/');
@@ -1447,7 +1449,7 @@ class ViewTest extends \Test\TestCase {
 	 * Test that locks are on mount point paths and also mount root when requested
 	 */
 	public function testLockMountPointPathFailReleasesBoth() {
-		$lockingProvider = \OC::$server->getLockingProvider();
+		$lockingProvider = \OC::$server->get(ILockingProvider::class);
 		$view = new View('/testuser/files/');
 		$storage = new Temporary([]);
 		Filesystem::mount($storage, [], '/');
@@ -1683,14 +1685,12 @@ class ViewTest extends \Test\TestCase {
 
 		$userFolder = \OC::$server->getUserFolder($this->user);
 		$shareDir = $userFolder->get('shareddir');
-		$shareManager = \OC::$server->getShareManager();
+		$shareManager = \OC::$server->get(IShareManager::class);
 		$share = $shareManager->newShare();
 		$share->setSharedWith('test2')
 			->setSharedBy($this->user)
 			->setShareType(IShare::TYPE_USER)
 			->setPermissions(\OCP\Constants::PERMISSION_READ)
-			->setId(42)
-			->setProviderId('foo')
 			->setNode($shareDir);
 		$shareManager->createShare($share);
 

@@ -1,26 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\DAV\DAV\Sharing;
 
@@ -113,7 +96,7 @@ class Plugin extends ServerPlugin {
 		$this->server->xml->elementMap['{' . Plugin::NS_OWNCLOUD . '}invite'] = Invite::class;
 
 		$this->server->on('method:POST', [$this, 'httpPost']);
-		$this->server->on('propFind',    [$this, 'propFind']);
+		$this->server->on('propFind', [$this, 'propFind']);
 	}
 
 	/**
@@ -127,8 +110,8 @@ class Plugin extends ServerPlugin {
 		$path = $request->getPath();
 
 		// Only handling xml
-		$contentType = $request->getHeader('Content-Type');
-		if (strpos($contentType, 'application/xml') === false && strpos($contentType, 'text/xml') === false) {
+		$contentType = (string) $request->getHeader('Content-Type');
+		if (!str_contains($contentType, 'application/xml') && !str_contains($contentType, 'text/xml')) {
 			return;
 		}
 

@@ -3,29 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2019, Thomas Citharel
- * @copyright Copyright (c) 2019, Georg Ehrke
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Citharel <nextcloud@tcit.fr>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\DAV\Tests\unit\CalDAV\Reminder;
 
@@ -142,6 +121,14 @@ class NotifierTest extends TestCase {
 		$this->notifier->prepare($notification, 'en');
 	}
 
+	private static function hasPhpDatetimeDiffBug(): bool {
+		$d1 = \DateTime::createFromFormat(\DateTimeInterface::ATOM, '2023-11-22T11:52:00+01:00');
+		$d2 = new \DateTime('2023-11-22T10:52:03', new \DateTimeZone('UTC'));
+
+		// The difference is 3 seconds, not -1year+11months+…
+		return $d1->diff($d2)->y < 0;
+	}
+
 	public function dataPrepare(): array {
 		return [
 			[
@@ -150,7 +137,7 @@ class NotifierTest extends TestCase {
 					'title' => 'Title of this event',
 					'start_atom' => '2005-08-15T15:52:01+02:00'
 				],
-				'Title of this event (in 1 hour, 52 minutes)',
+				self::hasPhpDatetimeDiffBug() ? 'Title of this event' : 'Title of this event (in 1 hour, 52 minutes)',
 				[
 					'title' => 'Title of this event',
 					'description' => null,
@@ -172,7 +159,7 @@ class NotifierTest extends TestCase {
 					'title' => 'Title of this event',
 					'start_atom' => '2005-08-15T13:00:00+02:00',
 				],
-				'Title of this event (1 hour ago)',
+				self::hasPhpDatetimeDiffBug() ? 'Title of this event' : 'Title of this event (1 hour ago)',
 				[
 					'title' => 'Title of this event',
 					'description' => null,
@@ -281,7 +268,7 @@ class NotifierTest extends TestCase {
 
 		$notification->expects($this->once())
 			->method('setParsedSubject')
-			->with('Title of this event (6 hours ago)')
+			->with(self::hasPhpDatetimeDiffBug() ? 'Title of this event' : 'Title of this event (6 hours ago)')
 			->willReturnSelf();
 
 		$this->expectException(AlreadyProcessedException::class);

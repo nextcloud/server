@@ -167,7 +167,7 @@ class Swift extends \OC\Files\Storage\Common {
 			or (empty($params['user']) && empty($params['userid'])) or empty($params['bucket'])
 			or empty($params['region'])
 		) {
-			throw new StorageBadConfigException("API Key or password, Username, Bucket and Region have to be configured.");
+			throw new StorageBadConfigException("API Key or password, Login, Bucket and Region have to be configured.");
 		}
 
 		$user = $params['user'];
@@ -296,7 +296,7 @@ class Swift extends \OC\Files\Storage\Common {
 			$path .= '/';
 		}
 
-//		$path = str_replace('%23', '#', $path); // the prefix is sent as a query param, so revert the encoding of #
+		//		$path = str_replace('%23', '#', $path); // the prefix is sent as a query param, so revert the encoding of #
 
 		try {
 			$files = [];

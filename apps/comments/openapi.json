@@ -41,58 +41,6 @@
             }
         }
     },
-    "paths": {
-        "/index.php/apps/comments/notifications/view/{id}": {
-            "get": {
-                "operationId": "notifications-view",
-                "summary": "View a notification",
-                "tags": [
-                    "notifications"
-                ],
-                "security": [
-                    {},
-                    {
-                        "bearer_auth": []
-                    },
-                    {
-                        "basic_auth": []
-                    }
-                ],
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "ID of the notification",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "responses": {
-                    "303": {
-                        "description": "Redirected to notification",
-                        "headers": {
-                            "Location": {
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Notification not found",
-                        "content": {
-                            "text/html": {
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    },
+    "paths": {},
     "tags": []
 }

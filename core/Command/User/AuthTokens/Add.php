@@ -3,26 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2020, NextCloud, Inc.
- *
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Sean Molenaar <sean@seanmolenaar.eu>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OC\Core\Command\User\AuthTokens;
 
@@ -54,11 +36,11 @@ class Add extends Command {
 		$this
 			->setName('user:auth-tokens:add')
 			->setAliases(['user:add-app-password'])
-			->setDescription('Add app password for the named user')
+			->setDescription('Add app password for the named account')
 			->addArgument(
 				'user',
 				InputArgument::REQUIRED,
-				'Username to add app password for'
+				'Login to add app password for'
 			)
 			->addOption(
 				'password-from-env',
@@ -75,7 +57,7 @@ class Add extends Command {
 
 		$user = $this->userManager->get($username);
 		if (is_null($user)) {
-			$output->writeln('<error>User does not exist</error>');
+			$output->writeln('<error>Account does not exist</error>');
 			return 1;
 		}
 
@@ -89,7 +71,7 @@ class Add extends Command {
 			/** @var QuestionHelper $helper */
 			$helper = $this->getHelper('question');
 
-			$question = new Question('Enter the user password: ');
+			$question = new Question('Enter the account password: ');
 			$question->setHidden(true);
 			/** @var null|string $password */
 			$password = $helper->ask($input, $output, $question);

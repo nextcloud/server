@@ -2,6 +2,7 @@
 	- @copyright 2021, Christopher Ng <chrng8@gmail.com>
 	-
 	- @author Christopher Ng <chrng8@gmail.com>
+	- @author Grigorii K. Shartsev <me@shgk.me>
 	-
 	- @license GNU AGPL version 3 or any later version
 	-
@@ -22,62 +23,57 @@
 
 <template>
 	<div>
-		<div class="email">
-			<input :id="inputId"
-				ref="email"
-				type="email"
-				autocomplete="email"
-				:placeholder="inputPlaceholder"
-				:value="email"
-				:aria-describedby="helperText ? `${inputId}-helper-text` : ''"
-				autocapitalize="none"
-				autocorrect="off"
-				@input="onEmailChange">
+		<div class="email" :class="{ 'email--additional': !primary }">
+			<div v-if="!primary" class="email__label-container">
+				<label :for="inputIdWithDefault">{{ inputPlaceholder }}</label>
+				<FederationControl v-if="!federationDisabled && !primary"
+					:readable="propertyReadable"
+					:additional="true"
+					:additional-value="email"
+					:disabled="federationDisabled"
+					:handle-additional-scope-change="saveAdditionalEmailScope"
+					:scope.sync="localScope"
+					@update:scope="onScopeChange" />
+			</div>
+			<div class="email__input-container">
+				<NcTextField :id="inputIdWithDefault"
+					ref="email"
+					class="email__input"
+					autocapitalize="none"
+					autocomplete="email"
+					:error="hasError || !!helperText"
+					:helper-text="helperTextWithNonConfirmed"
+					label-outside
+					:placeholder="inputPlaceholder"
+					spellcheck="false"
+					:success="isSuccess"
+					type="email"
+					:value.sync="emailAddress" />
 
-			<div class="email__actions-container">
-				<transition name="fade">
-					<Check v-if="showCheckmarkIcon" :size="20" />
-					<AlertOctagon v-else-if="showErrorIcon" :size="20" />
-				</transition>
-
-				<template v-if="!primary">
-					<FederationControl :readable="propertyReadable"
-						:additional="true"
-						:additional-value="email"
-						:disabled="federationDisabled"
-						:handle-additional-scope-change="saveAdditionalEmailScope"
-						:scope.sync="localScope"
-						@update:scope="onScopeChange" />
-				</template>
-
-				<NcActions class="email__actions"
-					:aria-label="t('settings', 'Email options')"
-					:force-menu="true">
-					<NcActionButton :aria-label="deleteEmailLabel"
-						:close-after-click="true"
-						:disabled="deleteDisabled"
-						icon="icon-delete"
-						@click.stop.prevent="deleteEmail">
-						{{ deleteEmailLabel }}
-					</NcActionButton>
-					<NcActionButton v-if="!primary || !isNotificationEmail"
-						:aria-label="setNotificationMailLabel"
-						:close-after-click="true"
-						:disabled="setNotificationMailDisabled"
-						icon="icon-favorite"
-						@click.stop.prevent="setNotificationMail">
-						{{ setNotificationMailLabel }}
-					</NcActionButton>
-				</NcActions>
+				<div class="email__actions">
+					<NcActions :aria-label="actionsLabel">
+						<NcActionButton v-if="!primary || !isNotificationEmail"
+							close-after-click
+							:disabled="!isConfirmedAddress"
+							@click="setNotificationMail">
+							<template #icon>
+								<NcIconSvgWrapper v-if="isNotificationEmail" :path="mdiStar" />
+								<NcIconSvgWrapper v-else :path="mdiStarOutline" />
+							</template>
+							{{ setNotificationMailLabel }}
+						</NcActionButton>
+						<NcActionButton close-after-click
+							:disabled="deleteDisabled"
+							@click="deleteEmail">
+							<template #icon>
+								<NcIconSvgWrapper :path="mdiTrashCan" />
+							</template>
+							{{ deleteEmailLabel }}
+						</NcActionButton>
+					</NcActions>
+				</div>
 			</div>
 		</div>
-
-		<p v-if="helperText"
-			:id="`${inputId}-helper-text`"
-			class="email__helper-text-message email__helper-text-message--error">
-			<AlertCircle class="email__helper-text-message__icon" :size="18" />
-			{{ helperText }}
-		</p>
 
 		<em v-if="isNotificationEmail">
 			{{ t('settings', 'Primary email for password reset and notifications') }}
@@ -88,10 +84,12 @@
 <script>
 import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
 import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
-import AlertCircle from 'vue-material-design-icons/AlertCircleOutline.vue'
-import AlertOctagon from 'vue-material-design-icons/AlertOctagon.vue'
-import Check from 'vue-material-design-icons/Check.vue'
+import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
+import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
+
 import debounce from 'debounce'
+
+import { mdiArrowLeft, mdiLock, mdiStar, mdiStarOutline, mdiTrashCan } from '@mdi/js'
 
 import FederationControl from '../shared/FederationControl.vue'
 import { handleError } from '../../../utils/handlers.js'
@@ -113,9 +111,8 @@ export default {
 	components: {
 		NcActions,
 		NcActionButton,
-		AlertCircle,
-		AlertOctagon,
-		Check,
+		NcIconSvgWrapper,
+		NcTextField,
 		FederationControl,
 	},
 
@@ -144,21 +141,45 @@ export default {
 			type: Number,
 			default: VERIFICATION_ENUM.NOT_VERIFIED,
 		},
+		inputId: {
+			type: String,
+			required: false,
+			default: '',
+		},
+	},
+
+	setup() {
+		return {
+			mdiArrowLeft,
+			mdiLock,
+			mdiStar,
+			mdiStarOutline,
+			mdiTrashCan,
+			saveAdditionalEmailScope,
+		}
 	},
 
 	data() {
 		return {
-			propertyReadable: ACCOUNT_PROPERTY_READABLE_ENUM.EMAIL,
-			initialEmail: this.email,
-			localScope: this.scope,
-			saveAdditionalEmailScope,
+			hasError: false,
 			helperText: null,
-			showCheckmarkIcon: false,
-			showErrorIcon: false,
+			initialEmail: this.email,
+			isSuccess: false,
+			localScope: this.scope,
+			propertyReadable: ACCOUNT_PROPERTY_READABLE_ENUM.EMAIL,
+			showFederationSettings: false,
 		}
 	},
 
 	computed: {
+		actionsLabel() {
+			if (this.primary) {
+				return t('settings', 'Email options')
+			} else {
+				return t('settings', 'Options for additional email address {index}', { index: this.index + 1 })
+			}
+		},
+
 		deleteDisabled() {
 			if (this.primary) {
 				// Disable for empty primary email as there is nothing to delete
@@ -177,15 +198,27 @@ export default {
 			return t('settings', 'Delete email')
 		},
 
-	  setNotificationMailDisabled() {
-			return !this.primary && this.localVerificationState !== VERIFICATION_ENUM.VERIFIED
+		isConfirmedAddress() {
+			return this.primary || this.localVerificationState === VERIFICATION_ENUM.VERIFIED
 		},
 
-	  setNotificationMailLabel() {
+		isNotConfirmedHelperText() {
+			if (!this.isConfirmedAddress) {
+				return t('settings', 'This address is not confirmed')
+			}
+			return ''
+		},
+
+		helperTextWithNonConfirmed() {
+			if (this.helperText || this.hasError || this.isSuccess) {
+				return this.helperText || ''
+			}
+			return this.isNotConfirmedHelperText
+		},
+
+		setNotificationMailLabel() {
 			if (this.isNotificationEmail) {
 				return t('settings', 'Unset as primary email')
-			} else if (!this.primary && this.localVerificationState !== VERIFICATION_ENUM.VERIFIED) {
-				return t('settings', 'This address is not confirmed')
 			}
 			return t('settings', 'Set as primary email')
 		},
@@ -194,43 +227,44 @@ export default {
 			return !this.initialEmail
 		},
 
-		inputId() {
-			if (this.primary) {
-				return 'email'
-			}
-			return `email-${this.index}`
+		inputIdWithDefault() {
+			return this.inputId || `account-property-email--${this.index}`
 		},
 
 		inputPlaceholder() {
-			if (this.primary) {
-				return t('settings', 'Your email address')
-			}
-			return t('settings', 'Additional email address {index}', { index: this.index + 1 })
+			// Primary email has implicit linked <label>
+			return !this.primary ? t('settings', 'Additional email address {index}', { index: this.index + 1 }) : undefined
 		},
 
 		isNotificationEmail() {
 			return (this.email && this.email === this.activeNotificationEmail)
 				|| (this.primary && this.activeNotificationEmail === '')
 		},
+
+		emailAddress: {
+			get() {
+				return this.email
+			},
+			set(value) {
+				this.$emit('update:email', value)
+				this.debounceEmailChange(value.trim())
+			},
+		},
 	},
 
 	mounted() {
 		if (!this.primary && this.initialEmail === '') {
-			// $nextTick is needed here, otherwise it may not always work https://stackoverflow.com/questions/51922767/autofocus-input-on-mount-vue-ios/63485725#63485725
+			// $nextTick is needed here, otherwise it may not always work
+			// https://stackoverflow.com/questions/51922767/autofocus-input-on-mount-vue-ios/63485725#63485725
 			this.$nextTick(() => this.$refs.email?.focus())
 		}
 	},
 
 	methods: {
-		onEmailChange(e) {
-			this.$emit('update:email', e.target.value)
-			this.debounceEmailChange(e.target.value.trim())
-		},
-
 		debounceEmailChange: debounce(async function(email) {
-			this.helperText = null
-			if (this.$refs.email?.validationMessage) {
-				this.helperText = this.$refs.email.validationMessage
+			// TODO: provide method to get native input in NcTextField
+			this.helperText = this.$refs.email.$refs.inputField.$refs.input.validationMessage || null
+			if (this.helperText !== null) {
 				return
 			}
 			if (validateEmail(email) || email === '') {
@@ -355,12 +389,12 @@ export default {
 				} else if (notificationEmail !== undefined) {
 					this.$emit('update:notification-email', notificationEmail)
 				}
-				this.showCheckmarkIcon = true
-				setTimeout(() => { this.showCheckmarkIcon = false }, 2000)
+				this.isSuccess = true
+				setTimeout(() => { this.isSuccess = false }, 2000)
 			} else {
 				handleError(error, errorMessage)
-				this.showErrorIcon = true
-				setTimeout(() => { this.showErrorIcon = false }, 2000)
+				this.hasError = true
+				setTimeout(() => { this.hasError = false }, 2000)
 			}
 		},
 
@@ -373,68 +407,29 @@ export default {
 
 <style lang="scss" scoped>
 .email {
-	display: grid;
-	align-items: center;
-
-	input {
-		grid-area: 1 / 1;
-		width: 100%;
-	}
-
-	.email__actions-container {
-		grid-area: 1 / 1;
-		justify-self: flex-end;
-		height: 30px;
-
+	&__label-container {
+		height: var(--default-clickable-area);
 		display: flex;
-		gap: 0 2px;
-		margin-right: 5px;
-
-		.email__actions {
-			opacity: 0.4 !important;
-
-			&:hover,
-			&:focus,
-			&:active {
-				opacity: 0.8 !important;
-			}
-
-			&::v-deep button {
-				height: 30px !important;
-				min-height: 30px !important;
-				width: 30px !important;
-				min-width: 30px !important;
-			}
-		}
-	}
-
-	&__helper-text-message {
-		padding: 4px 0;
-		display: flex;
+		flex-direction: row;
 		align-items: center;
+		gap: calc(var(--default-grid-baseline) * 2);
+	}
 
-		&__icon {
-			margin-right: 8px;
-			align-self: start;
-			margin-top: 4px;
-		}
+	&__input-container {
+		position: relative;
+	}
 
-		&--error {
-			color: var(--color-error);
+	&__input {
+		// TODO: provide a way to hide status icon or combine it with trailing button in NcInputField
+		:deep(.input-field__icon--trailing) {
+			display: none;
 		}
 	}
-}
 
-.fade-enter,
-.fade-leave-to {
-	opacity: 0;
-}
-
-.fade-enter-active {
-	transition: opacity 200ms ease-out;
-}
-
-.fade-leave-active {
-	transition: opacity 300ms ease-out;
+	&__actions {
+		position: absolute;
+		inset-block-start: 0;
+		inset-inline-end: 0;
+	}
 }
 </style>
