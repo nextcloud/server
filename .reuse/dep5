@@ -99,7 +99,7 @@ Files: core/js/mimetypelist.js core/js/core.json themes/example/core/img
 Copyright: 2016 ownCloud, Inc., 2016-2024 Nextcloud GmbH and Nextcloud contributors
 License: AGPL-3.0-only
 
-Files: tests/data/testapp.0.8.tar.gz tests/data/testapp.tar.gz tests/data/testapp1.tar.gz
+Files: tests/data/testapp.0.8.tar.gz tests/data/testapp.tar.gz tests/data/testapp1.tar.gz apps/updatenotification/img/app.svg apps/updatenotification/img/notification.svg
 Copyright: 2016 Nextcloud GmbH and Nextcloud contributors
 License: AGPL-3.0-or-later
 
@@ -111,14 +111,13 @@ Files: core/src/systemtags/templates/result.handlebars core/src/systemtags/templ
 Copyright: 2018 Nextcloud GmbH and Nextcloud contributors
 License: AGPL-3.0-or-later
 
-Files: core/src/jquery/contactsmenu/jquery_entry.handlebars tests/data/integritycheck/mimetypeListModified/core/js/mimetypelist.js tests/data/integritycheck/mimetypeListModified/core/signature.json tests/data/guest_avatar_einstein_32.png tests/data/guest_avatar_einstein_32.svg tests/data/test.pdf
+Files: core/src/jquery/contactsmenu/jquery_entry.handlebars tests/data/integritycheck/mimetypeListModified/core/js/mimetypelist.js tests/data/integritycheck/mimetypeListModified/core/signature.json tests/data/guest_avatar_einstein_32.png tests/data/guest_avatar_einstein_32.svg tests/data/test.pdf apps/workflowengine/img/app.svg apps/workflowengine/img/app-dark.svg
 Copyright: 2019 Nextcloud GmbH and Nextcloud contributors
 License: AGPL-3.0-or-later
 
 Files:  apps/user_status/img/app-dark.svg apps/user_status/img/app.svg
 Copyright: 2020 Nextcloud GmbH and Nextcloud contributors
 License: AGPL-3.0-or-later
-
 
 Files: .npmignore tests/data/testimage-badheader.jpg
 Copyright: 2021 Nextcloud GmbH and Nextcloud contributors
@@ -128,7 +127,7 @@ Files: build/stubs/ftp.php tests/data/integritycheck/mimetypeListModified/coresi
 Copyright: 2022 Nextcloud GmbH and Nextcloud contributors
 License: AGPL-3.0-or-later
 
-Files: build/stubs/app_api.php build/stubs/SensitiveParameter.phpstub build/stubs/psr_container.php tests/data/testimage-large.jpg apps/dav/tests/integration/UserMigration/assets/address_books/contact-complex.vcf apps/dav/tests/integration/UserMigration/assets/address_books/contact-multiple-complex.vcf apps/dav/tests/integration/UserMigration/assets/address_books/contact-multiple.vcf apps/dav/tests/integration/UserMigration/assets/address_books/contact.vcf apps/dav/tests/integration/UserMigration/assets/calendars/event-alarms.ics apps/dav/tests/integration/UserMigration/assets/calendars/event-attendees.ics apps/dav/tests/integration/UserMigration/assets/calendars/event-categories.ics apps/dav/tests/integration/UserMigration/assets/calendars/event-complex-alarm-recurring.ics apps/dav/tests/integration/UserMigration/assets/calendars/event-complex-recurrence.ics apps/dav/tests/integration/UserMigration/assets/calendars/event-custom-color.ics apps/dav/tests/integration/UserMigration/assets/calendars/event-multiple-recurring.ics apps/dav/tests/integration/UserMigration/assets/calendars/event-multiple.ics apps/dav/tests/integration/UserMigration/assets/calendars/event-recurring.ics apps/dav/tests/integration/UserMigration/assets/calendars/event-timed.ics apps/dav/tests/integration/UserMigration/assets/calendars/journal-todo-event.ics apps/dav/tests/integration/UserMigration/assets/calendars/journal.ics apps/dav/tests/integration/UserMigration/assets/calendars/todo.ics
+Files: build/stubs/app_api.php build/stubs/SensitiveParameter.phpstub build/stubs/psr_container.php tests/data/testimage-large.jpg apps/dav/tests/integration/UserMigration/assets/address_books/contact-complex.vcf apps/dav/tests/integration/UserMigration/assets/address_books/contact-multiple-complex.vcf apps/dav/tests/integration/UserMigration/assets/address_books/contact-multiple.vcf apps/dav/tests/integration/UserMigration/assets/address_books/contact.vcf apps/dav/tests/integration/UserMigration/assets/calendars/event-alarms.ics apps/dav/tests/integration/UserMigration/assets/calendars/event-attendees.ics apps/dav/tests/integration/UserMigration/assets/calendars/event-categories.ics apps/dav/tests/integration/UserMigration/assets/calendars/event-complex-alarm-recurring.ics apps/dav/tests/integration/UserMigration/assets/calendars/event-complex-recurrence.ics apps/dav/tests/integration/UserMigration/assets/calendars/event-custom-color.ics apps/dav/tests/integration/UserMigration/assets/calendars/event-multiple-recurring.ics apps/dav/tests/integration/UserMigration/assets/calendars/event-multiple.ics apps/dav/tests/integration/UserMigration/assets/calendars/event-recurring.ics apps/dav/tests/integration/UserMigration/assets/calendars/event-timed.ics apps/dav/tests/integration/UserMigration/assets/calendars/journal-todo-event.ics apps/dav/tests/integration/UserMigration/assets/calendars/journal.ics apps/dav/tests/integration/UserMigration/assets/calendars/todo.ics apps/workflowengine/img/workflow-off.svg
 Copyright: 2023 Nextcloud GmbH and Nextcloud contributors
 License: AGPL-3.0-or-later
 
@@ -144,7 +143,7 @@ Files: vendor-bin/*/composer.json vendor-bin/*/composer.lock
 Copyright: 2021 Nextcloud GmbH and Nextcloud contributors
 License: AGPL-3.0-or-later
 
-Files: apps/user_ldap/img/app-dark.svg apps/user_ldap/img/app.svg
+Files: apps/user_ldap/img/app-dark.svg apps/user_ldap/img/app.svg  apps/comments/img/comments-dark.svg apps/comments/img/comments.svg
 Copyright: 2018-2024 Google LLC
 License: Apache-2.0
 

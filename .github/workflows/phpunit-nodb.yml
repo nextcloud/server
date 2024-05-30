@@ -2,8 +2,12 @@
 #
 # https://github.com/nextcloud/.github
 # https://docs.github.com/en/actions/learn-github-actions/sharing-workflows-with-your-organization
-
+#
+# SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: MIT
+#
 # This is the testsuite running all non-database agnostic unit tests
+
 name: PHPUnit nodb
 
 on:
