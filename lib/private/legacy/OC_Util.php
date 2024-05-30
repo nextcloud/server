@@ -1,70 +1,12 @@
 <?php
-/**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Bart Visscher <bartv@thisnet.nl>
- * @author Bernhard Posselt <dev@bernhard-posselt.com>
- * @author Birk Borkason <daniel.niccoli@gmail.com>
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Brice Maron <brice@bmaron.net>
- * @author Christopher Schäpers <kondou@ts.unde.re>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Clark Tomlinson <fallen013@gmail.com>
- * @author cmeh <cmeh@users.noreply.github.com>
- * @author Eric Masseran <rico.masseran@gmail.com>
- * @author Felix Epp <work@felixepp.de>
- * @author Florin Peter <github@florin-peter.de>
- * @author Frank Karlitschek <frank@karlitschek.de>
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author helix84 <helix84@centrum.sk>
- * @author Ilja Neumann <ineumann@owncloud.com>
- * @author Individual IT Services <info@individual-it.net>
- * @author Jakob Sack <mail@jakobsack.de>
- * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Kawohl <john@owncloud.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Markus Goetz <markus@woboq.com>
- * @author Martin Mattel <martin.mattel@diemattels.at>
- * @author Marvin Thomas Rabe <mrabe@marvinrabe.de>
- * @author Michael Gapczynski <GapczynskiM@gmail.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author rakekniven <mark.ziegler@rakekniven.de>
- * @author Robert Dailey <rcdailey@gmail.com>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Sebastian Wessalowski <sebastian@wessalowski.org>
- * @author Stefan Rado <owncloud@sradonia.net>
- * @author Stefan Weil <sw@weilnetz.de>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Thomas Tanghus <thomas@tanghus.net>
- * @author Valdnet <47037905+Valdnet@users.noreply.github.com>
- * @author Victor Dubiniuk <dubiniuk@owncloud.com>
- * @author Vincent Petry <vincent@nextcloud.com>
- * @author Volkan Gezer <volkangezer@gmail.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
- */
 
+/**
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
 use bantu\IniGetWrapper\IniGetWrapper;
+use OC\Authentication\TwoFactorAuth\Manager as TwoFactorAuthManager;
 use OC\Files\SetupManager;
 use OCP\Files\Template\ITemplateManager;
 use OCP\Http\Client\IClientService;
@@ -326,9 +268,10 @@ class OC_Util {
 			return;
 		}
 
+		$timestamp = filemtime(OC::$SERVERROOT . '/version.php');
 		require OC::$SERVERROOT . '/version.php';
 		/** @var int $timestamp */
-		self::$versionCache['OC_Version_Timestamp'] = \OC::$VERSION_MTIME;
+		self::$versionCache['OC_Version_Timestamp'] = $timestamp;
 		/** @var string $OC_Version */
 		self::$versionCache['OC_Version'] = $OC_Version;
 		/** @var string $OC_VersionString */
@@ -513,15 +456,7 @@ class OC_Util {
 		}
 
 		$webServerRestart = false;
-		$setup = new \OC\Setup(
-			$config,
-			\OC::$server->get(IniGetWrapper::class),
-			\OC::$server->getL10N('lib'),
-			\OC::$server->get(\OCP\Defaults::class),
-			\OC::$server->get(LoggerInterface::class),
-			\OC::$server->getSecureRandom(),
-			\OC::$server->get(\OC\Installer::class)
-		);
+		$setup = \OCP\Server::get(\OC\Setup::class);
 
 		$urlGenerator = \OC::$server->getURLGenerator();
 
@@ -740,8 +675,8 @@ class OC_Util {
 			if ($perms[2] !== '0') {
 				$l = \OC::$server->getL10N('lib');
 				return [[
-					'error' => $l->t('Your data directory is readable by other users.'),
-					'hint' => $l->t('Please change the permissions to 0770 so that the directory cannot be listed by other users.'),
+					'error' => $l->t('Your data directory is readable by other people.'),
+					'hint' => $l->t('Please change the permissions to 0770 so that the directory cannot be listed by other people.'),
 				]];
 			}
 		}
@@ -793,7 +728,7 @@ class OC_Util {
 			exit();
 		}
 		// Redirect to 2FA challenge selection if 2FA challenge was not solved yet
-		if (\OC::$server->getTwoFactorAuthManager()->needsSecondFactor(\OC::$server->getUserSession()->getUser())) {
+		if (\OC::$server->get(TwoFactorAuthManager::class)->needsSecondFactor(\OC::$server->getUserSession()->getUser())) {
 			header('Location: ' . \OC::$server->getURLGenerator()->linkToRoute('core.TwoFactorChallenge.selectChallenge'));
 			exit();
 		}
@@ -977,11 +912,11 @@ class OC_Util {
 	 */
 	private static function isNonUTF8Locale() {
 		if (function_exists('escapeshellcmd')) {
-			return '' === escapeshellcmd('§');
+			return escapeshellcmd('§') === '';
 		} elseif (function_exists('escapeshellarg')) {
-			return '\'\'' === escapeshellarg('§');
+			return escapeshellarg('§') === '\'\'';
 		} else {
-			return 0 === preg_match('/utf-?8/i', setlocale(LC_CTYPE, 0));
+			return preg_match('/utf-?8/i', setlocale(LC_CTYPE, 0)) === 0;
 		}
 	}
 
@@ -1120,8 +1055,8 @@ class OC_Util {
 			return false;
 		}
 
-		foreach (str_split($trimmed) as $char) {
-			if (str_contains(\OCP\Constants::FILENAME_INVALID_CHARS, $char)) {
+		foreach (\OCP\Util::getForbiddenFileNameChars() as $char) {
+			if (str_contains($trimmed, $char)) {
 				return false;
 			}
 		}

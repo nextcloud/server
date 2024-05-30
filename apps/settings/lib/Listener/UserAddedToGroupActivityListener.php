@@ -34,6 +34,7 @@ use OCP\Group\Events\UserAddedEvent;
 use OCP\IUser;
 use OCP\IUserSession;
 
+/** @template-implements IEventListener<UserAddedEvent> */
 class UserAddedToGroupActivityListener implements IEventListener {
 
 	/** @var Manager */

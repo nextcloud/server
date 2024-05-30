@@ -11,7 +11,6 @@ OC.L10N.register(
     "Couldn't establish a federated share." : "Não foi possível estabelecer uma partilha federada.",
     "Couldn't establish a federated share, maybe the password was wrong." : "Não foi possível estabelecer a partilha federada, a palavra-passe talvez esteja incorrecta.",
     "Federated Share request sent, you will receive an invitation. Check your notifications." : "Pedido de Partilha Federada enviado, irá receber o convite. Confira as suas notificações.",
-    "Not allowed to create a federated share with the same user" : "Não é possível criar uma partilha federada com o mesmo utilizador",
     "File is already shared with %s" : "O ficheiro já foi partilhado com %s",
     "Could not find share" : "Não foi possível encontrar partilha",
     "Federated sharing" : "Partilha Federada",
@@ -23,9 +22,6 @@ OC.L10N.register(
     "Sharing" : "Partilha",
     "Federated file sharing" : "Partilha federada de ficheiros",
     "Provide federated file sharing across servers" : "Permita a partilha federada de ficheiros entre servidores",
-    "Allow users on this server to receive shares from other servers" : "Permitir que os utilizadores neste servidor recebam as partilhas de outros servidores",
-    "Search global and public address book for users" : "Pesquisar lista global e pública de contactos de utilizadores  ",
-    "Allow users to publish their data to a global and public address book" : "Permitir que  os utilizadores publiquem os seus dados para uma lista de contactos global e pública",
     "Federated Cloud" : "Nuvem Federada",
     "Your Federated Cloud ID:" : "A sua id. da Nuvem Federada:",
     "Share it so your friends can share files with you:" : "Partilhe para que os seus amigos possam partilhar ficheiros consigo:",
@@ -36,6 +32,9 @@ OC.L10N.register(
     "Share with me through my #Nextcloud Federated Cloud ID" : "Partilhe comigo através da minha Id. da Nuvem Federada #Nextcloud",
     "Copy to clipboard" : "Copiar para área de transferência",
     "Copied!" : "Copiado!",
-    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Partilhe comigo através da minha Id. da Nuvem Federada #Nextcloud, veja %s"
+    "Not allowed to create a federated share with the same user" : "Não é possível criar uma partilha federada com o mesmo utilizador",
+    "Allow users on this server to receive shares from other servers" : "Permitir que os utilizadores neste servidor recebam as partilhas de outros servidores",
+    "Search global and public address book for users" : "Pesquisar lista global e pública de contactos de utilizadores  ",
+    "Allow users to publish their data to a global and public address book" : "Permitir que  os utilizadores publiquem os seus dados para uma lista de contactos global e pública"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

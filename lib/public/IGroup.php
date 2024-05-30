@@ -1,30 +1,10 @@
 <?php
+
+declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Joas Schilling <coding@schilljs.com>
- * @author Johannes Leuker <j.leuker@hosting.de>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCP;
 
@@ -38,7 +18,7 @@ interface IGroup {
 	 * @return string
 	 * @since 8.0.0
 	 */
-	public function getGID();
+	public function getGID(): string;
 
 	/**
 	 * Returns the group display name
@@ -46,7 +26,7 @@ interface IGroup {
 	 * @return string
 	 * @since 12.0.0
 	 */
-	public function getDisplayName();
+	public function getDisplayName(): string;
 
 	/**
 	 * Set the group display name
@@ -60,43 +40,47 @@ interface IGroup {
 	/**
 	 * get all users in the group
 	 *
-	 * @return \OCP\IUser[]
+	 * @return IUser[]
 	 * @since 8.0.0
 	 */
-	public function getUsers();
+	public function getUsers(): array;
 
 	/**
 	 * check if a user is in the group
 	 *
-	 * @param \OCP\IUser $user
+	 * @param IUser $user
+	 *
 	 * @return bool
 	 * @since 8.0.0
 	 */
-	public function inGroup(IUser $user);
+	public function inGroup(IUser $user): bool;
 
 	/**
 	 * add a user to the group
 	 *
-	 * @param \OCP\IUser $user
+	 * @param IUser $user
+	 *
 	 * @since 8.0.0
 	 */
-	public function addUser(IUser $user);
+	public function addUser(IUser $user): void;
 
 	/**
-	 * remove a user from the group
+	 * Remove a user from the group
 	 *
-	 * @param \OCP\IUser $user
+	 * @param IUser $user
+	 *
 	 * @since 8.0.0
 	 */
-	public function removeUser($user);
+	public function removeUser(IUser $user): void;
 
 	/**
 	 * search for users in the group by userid
 	 *
 	 * @param string $search
-	 * @param int $limit
-	 * @param int $offset
-	 * @return \OCP\IUser[]
+	 * @param int|null $limit
+	 * @param int|null $offset
+	 *
+	 * @return IUser[]
 	 * @since 8.0.0
 	 */
 	public function searchUsers(string $search, ?int $limit = null, ?int $offset = null): array;
@@ -108,7 +92,7 @@ interface IGroup {
 	 * @return int|bool
 	 * @since 8.0.0
 	 */
-	public function count($search = '');
+	public function count(string $search = ''): int|bool;
 
 	/**
 	 * returns the number of disabled users
@@ -116,18 +100,19 @@ interface IGroup {
 	 * @return int|bool
 	 * @since 14.0.0
 	 */
-	public function countDisabled();
+	public function countDisabled(): int|bool;
 
 	/**
-	 * search for users in the group by displayname
+	 * Search for users in the group by displayname
 	 *
 	 * @param string $search
-	 * @param int $limit
-	 * @param int $offset
-	 * @return \OCP\IUser[]
+	 * @param int|null $limit
+	 * @param int|null $offset
+	 *
+	 * @return IUser[]
 	 * @since 8.0.0
 	 */
-	public function searchDisplayName($search, $limit = null, $offset = null);
+	public function searchDisplayName(string $search, ?int $limit = null, ?int $offset = null): array;
 
 	/**
 	 * Get the names of the backends the group is connected to
@@ -135,27 +120,27 @@ interface IGroup {
 	 * @return string[]
 	 * @since 22.0.0
 	 */
-	public function getBackendNames();
+	public function getBackendNames(): array;
 
 	/**
-	 * delete the group
+	 * Delete the group
 	 *
 	 * @return bool
 	 * @since 8.0.0
 	 */
-	public function delete();
+	public function delete(): bool;
 
 	/**
 	 * @return bool
 	 * @since 14.0.0
 	 */
-	public function canRemoveUser();
+	public function canRemoveUser(): bool;
 
 	/**
 	 * @return bool
 	 * @since 14.0.0
 	 */
-	public function canAddUser();
+	public function canAddUser(): bool;
 
 	/**
 	 * @return bool

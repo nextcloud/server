@@ -12,8 +12,8 @@ OC.L10N.register(
     "Edit comment" : "تبصره سمول",
     "Delete comment" : "تبسره ړنګول",
     "No comments yet, start the conversation!" : "تر اوسه تبصره نشته!",
-    "_%n unread comment_::_%n unread comments_" : ["%n نالوستلې تبصره","%n نالوستلې تبصرې"],
     "Comment" : "تبصره",
-    "%1$s commented" : "%1$s تبصره کړې"
+    "%1$s commented" : "%1$s تبصره کړې",
+    "_%n unread comment_::_%n unread comments_" : ["%n نالوستلې تبصره","%n نالوستلې تبصرې"]
 },
 "nplurals=2; plural=(n != 1);");

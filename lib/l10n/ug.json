@@ -3,7 +3,6 @@
     "today" : "بۈگۈن",
     "yesterday" : "تۈنۈگۈن",
     "__language_name__" : "ئۇيغۇرچە",
-    "Help" : "ياردەم",
     "Apps" : "ئەپلەر",
     "Settings" : "تەڭشەكلەر",
     "Log out" : "تىزىمدىن چىق",
@@ -50,7 +49,8 @@
     "Nov." : "ئوغلاق",
     "Dec." : "كۆنەك",
     "A valid password must be provided" : "چوقۇم ئىناۋەتلىك ئىم تەمىنلەش كېرەك",
-    "A valid username must be provided" : "چوقۇم ئىناۋەتلىك ئىشلەتكۈچى ئىسمىدىن بىرنى تەمىنلەش كېرەك",
-    "Authentication error" : "سالاھىيەت دەلىللەش خاتالىقى"
+    "Authentication error" : "سالاھىيەت دەلىللەش خاتالىقى",
+    "Help" : "ياردەم",
+    "A valid username must be provided" : "چوقۇم ئىناۋەتلىك ئىشلەتكۈچى ئىسمىدىن بىرنى تەمىنلەش كېرەك"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

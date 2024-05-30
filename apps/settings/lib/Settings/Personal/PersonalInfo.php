@@ -36,6 +36,7 @@ declare(strict_types=1);
 
 namespace OCA\Settings\Settings\Personal;
 
+use OC\Profile\ProfileManager;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCP\Accounts\IAccount;
 use OCP\Accounts\IAccountManager;
@@ -51,7 +52,6 @@ use OCP\IL10N;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
-use OC\Profile\ProfileManager;
 use OCP\Notification\IManager;
 use OCP\Settings\ISettings;
 
@@ -167,6 +167,7 @@ class PersonalInfo implements ISettings {
 			'role' => $this->getProperty($account, IAccountManager::PROPERTY_ROLE),
 			'headline' => $this->getProperty($account, IAccountManager::PROPERTY_HEADLINE),
 			'biography' => $this->getProperty($account, IAccountManager::PROPERTY_BIOGRAPHY),
+			'birthdate' => $this->getProperty($account, IAccountManager::PROPERTY_BIRTHDATE),
 		];
 
 		$accountParameters = [

@@ -1,26 +1,21 @@
 <?php
 
 /**
- * Copyright (c) 2014 Robin Appelman <icewind@owncloud.com>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
+ * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\DB;
 
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\ParameterType;
-use Doctrine\DBAL\Platforms\MySQLPlatform;
 use Doctrine\DBAL\Platforms\OraclePlatform;
-use Doctrine\DBAL\Platforms\PostgreSQL94Platform;
 use Doctrine\DBAL\Platforms\SqlitePlatform;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\SchemaConfig;
 use OC\DB\Migrator;
-use OC\DB\MySQLMigrator;
 use OC\DB\OracleMigrator;
-use OC\DB\PostgreSqlMigrator;
 use OC\DB\SQLiteMigrator;
 use OCP\DB\Types;
 use OCP\IConfig;
@@ -67,10 +62,6 @@ class MigratorTest extends \Test\TestCase {
 			return new SQLiteMigrator($this->connection, $this->config, $dispatcher);
 		} elseif ($platform instanceof OraclePlatform) {
 			return new OracleMigrator($this->connection, $this->config, $dispatcher);
-		} elseif ($platform instanceof MySQLPlatform) {
-			return new MySQLMigrator($this->connection, $this->config, $dispatcher);
-		} elseif ($platform instanceof PostgreSQL94Platform) {
-			return new PostgreSqlMigrator($this->connection, $this->config, $dispatcher);
 		}
 		return new Migrator($this->connection, $this->config, $dispatcher);
 	}
@@ -136,14 +127,6 @@ class MigratorTest extends \Test\TestCase {
 		$config = new SchemaConfig();
 		$config->setName($this->connection->getDatabase());
 		return $config;
-	}
-
-	private function isSQLite() {
-		return $this->connection->getDatabasePlatform() instanceof SqlitePlatform;
-	}
-
-	private function isMySQL() {
-		return $this->connection->getDatabasePlatform() instanceof MySQLPlatform;
 	}
 
 	public function testUpgrade() {

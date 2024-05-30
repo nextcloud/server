@@ -1,28 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Kesselberg <mail@danielkesselberg.de>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\DB\QueryBuilder\ExpressionBuilder;
 
@@ -117,8 +98,8 @@ class ExpressionBuilder implements IExpressionBuilder {
 	 * @return string
 	 */
 	public function comparison($x, string $operator, $y, $type = null): string {
-		$x = $this->helper->quoteColumnName($x);
-		$y = $this->helper->quoteColumnName($y);
+		$x = $this->prepareColumn($x, $type);
+		$y = $this->prepareColumn($y, $type);
 		return $this->expressionBuilder->comparison($x, $operator, $y);
 	}
 
@@ -140,8 +121,8 @@ class ExpressionBuilder implements IExpressionBuilder {
 	 * @return string
 	 */
 	public function eq($x, $y, $type = null): string {
-		$x = $this->helper->quoteColumnName($x);
-		$y = $this->helper->quoteColumnName($y);
+		$x = $this->prepareColumn($x, $type);
+		$y = $this->prepareColumn($y, $type);
 		return $this->expressionBuilder->eq($x, $y);
 	}
 
@@ -162,8 +143,8 @@ class ExpressionBuilder implements IExpressionBuilder {
 	 * @return string
 	 */
 	public function neq($x, $y, $type = null): string {
-		$x = $this->helper->quoteColumnName($x);
-		$y = $this->helper->quoteColumnName($y);
+		$x = $this->prepareColumn($x, $type);
+		$y = $this->prepareColumn($y, $type);
 		return $this->expressionBuilder->neq($x, $y);
 	}
 
@@ -184,8 +165,8 @@ class ExpressionBuilder implements IExpressionBuilder {
 	 * @return string
 	 */
 	public function lt($x, $y, $type = null): string {
-		$x = $this->helper->quoteColumnName($x);
-		$y = $this->helper->quoteColumnName($y);
+		$x = $this->prepareColumn($x, $type);
+		$y = $this->prepareColumn($y, $type);
 		return $this->expressionBuilder->lt($x, $y);
 	}
 
@@ -206,8 +187,8 @@ class ExpressionBuilder implements IExpressionBuilder {
 	 * @return string
 	 */
 	public function lte($x, $y, $type = null): string {
-		$x = $this->helper->quoteColumnName($x);
-		$y = $this->helper->quoteColumnName($y);
+		$x = $this->prepareColumn($x, $type);
+		$y = $this->prepareColumn($y, $type);
 		return $this->expressionBuilder->lte($x, $y);
 	}
 
@@ -228,8 +209,8 @@ class ExpressionBuilder implements IExpressionBuilder {
 	 * @return string
 	 */
 	public function gt($x, $y, $type = null): string {
-		$x = $this->helper->quoteColumnName($x);
-		$y = $this->helper->quoteColumnName($y);
+		$x = $this->prepareColumn($x, $type);
+		$y = $this->prepareColumn($y, $type);
 		return $this->expressionBuilder->gt($x, $y);
 	}
 
@@ -250,8 +231,8 @@ class ExpressionBuilder implements IExpressionBuilder {
 	 * @return string
 	 */
 	public function gte($x, $y, $type = null): string {
-		$x = $this->helper->quoteColumnName($x);
-		$y = $this->helper->quoteColumnName($y);
+		$x = $this->prepareColumn($x, $type);
+		$y = $this->prepareColumn($y, $type);
 		return $this->expressionBuilder->gte($x, $y);
 	}
 
@@ -434,5 +415,14 @@ class ExpressionBuilder implements IExpressionBuilder {
 		return new QueryFunction(
 			$this->helper->quoteColumnName($column)
 		);
+	}
+
+	/**
+	 * @param mixed $column
+	 * @param mixed|null $type
+	 * @return array|IQueryFunction|string
+	 */
+	protected function prepareColumn($column, $type) {
+		return $this->helper->quoteColumnNames($column);
 	}
 }

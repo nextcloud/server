@@ -1,9 +1,8 @@
 <?php
 /**
- * Copyright (c) 2014 Georg Ehrke <georg@owncloud.com>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test;
@@ -51,7 +50,7 @@ class InstallerTest extends TestCase {
 		$this->appstore = $config->setSystemValue('appstoreenabled', true);
 		$config->setSystemValue('appstoreenabled', true);
 		$installer = new Installer(
-			\OC::$server->getAppFetcher(),
+			\OC::$server->get(AppFetcher::class),
 			\OC::$server->get(IClientService::class),
 			\OC::$server->getTempManager(),
 			\OC::$server->get(LoggerInterface::class),
@@ -74,7 +73,7 @@ class InstallerTest extends TestCase {
 
 	protected function tearDown(): void {
 		$installer = new Installer(
-			\OC::$server->getAppFetcher(),
+			\OC::$server->get(AppFetcher::class),
 			\OC::$server->get(IClientService::class),
 			\OC::$server->getTempManager(),
 			\OC::$server->get(LoggerInterface::class),
@@ -98,7 +97,7 @@ class InstallerTest extends TestCase {
 
 		// Install app
 		$installer = new Installer(
-			\OC::$server->getAppFetcher(),
+			\OC::$server->get(AppFetcher::class),
 			\OC::$server->get(IClientService::class),
 			\OC::$server->getTempManager(),
 			\OC::$server->get(LoggerInterface::class),
@@ -576,30 +575,30 @@ MPLX6f5V9tCJtlH6ztmEcDROfvuVc0U3rEhqx2hphoyo+MZrPFpdcJL8KkIdMKbY
 			],
 		];
 		$this->appFetcher
-			->expects($this->atLeastOnce())
+			->expects($this->once())
 			->method('get')
-			->willReturnOnConsecutiveCalls($appArray);
+			->willReturn($appArray);
 		$realTmpFile = \OC::$server->getTempManager()->getTemporaryFile('.tar.gz');
 		copy(__DIR__ . '/../data/testapp.tar.gz', $realTmpFile);
 		$this->tempManager
-			->expects($this->atLeastOnce())
+			->expects($this->once())
 			->method('getTemporaryFile')
 			->with('.tar.gz')
-			->willReturnOnConsecutiveCalls($realTmpFile);
+			->willReturn($realTmpFile);
 		$realTmpFolder = \OC::$server->getTempManager()->getTemporaryFolder();
 		$this->tempManager
-			->expects($this->atLeastOnce())
+			->expects($this->once())
 			->method('getTemporaryFolder')
-			->willReturnOnConsecutiveCalls($realTmpFolder);
+			->willReturn($realTmpFolder);
 		$client = $this->createMock(IClient::class);
 		$client
 			->expects($this->once())
 			->method('get')
 			->with('https://example.com', ['sink' => $realTmpFile, 'timeout' => 120]);
 		$this->clientService
-			->expects($this->atLeastOnce())
+			->expects($this->once())
 			->method('newClient')
-			->willReturnOnConsecutiveCalls($client);
+			->willReturn($client);
 
 		$installer = $this->getInstaller();
 		$installer->downloadApp('testapp');
@@ -610,6 +609,14 @@ MPLX6f5V9tCJtlH6ztmEcDROfvuVc0U3rEhqx2hphoyo+MZrPFpdcJL8KkIdMKbY
 
 
 	public function testDownloadAppWithDowngrade() {
+		// Use previous test to download the application in version 0.9
+		$this->testDownloadAppSuccessful();
+
+		// Reset mocks
+		$this->appFetcher = $this->createMock(AppFetcher::class);
+		$this->clientService = $this->createMock(IClientService::class);
+		$this->tempManager = $this->createMock(ITempManager::class);
+
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('App for id testapp has version 0.9 and tried to update to lower version 0.8');
 
@@ -662,19 +669,19 @@ JXhrdaWDZ8fzpUjugrtC3qslsqL0dzgU37anS3HwrT8=',
 			],
 		];
 		$this->appFetcher
-			->expects($this->at(1))
+			->expects($this->once())
 			->method('get')
 			->willReturn($appArray);
 		$realTmpFile = \OC::$server->getTempManager()->getTemporaryFile('.tar.gz');
 		copy(__DIR__ . '/../data/testapp.0.8.tar.gz', $realTmpFile);
 		$this->tempManager
-			->expects($this->at(2))
+			->expects($this->once())
 			->method('getTemporaryFile')
 			->with('.tar.gz')
 			->willReturn($realTmpFile);
 		$realTmpFolder = \OC::$server->getTempManager()->getTemporaryFolder();
 		$this->tempManager
-			->expects($this->at(3))
+			->expects($this->once())
 			->method('getTemporaryFolder')
 			->willReturn($realTmpFolder);
 		$client = $this->createMock(IClient::class);
@@ -683,10 +690,9 @@ JXhrdaWDZ8fzpUjugrtC3qslsqL0dzgU37anS3HwrT8=',
 			->method('get')
 			->with('https://example.com', ['sink' => $realTmpFile, 'timeout' => 120]);
 		$this->clientService
-			->expects($this->at(1))
+			->expects($this->once())
 			->method('newClient')
 			->willReturn($client);
-		$this->testDownloadAppSuccessful();
 		$this->assertTrue(file_exists(__DIR__ . '/../../apps/testapp/appinfo/info.xml'));
 		$this->assertEquals('0.9', \OC_App::getAppVersionByPath(__DIR__ . '/../../apps/testapp/'));
 

@@ -9,7 +9,6 @@ OC.L10N.register(
     "%1$s commented on %2$s" : "%1$s kommenteeris %2$s",
     "{author} commented on {file}" : "{author} kommenteeris faili {file}",
     "<strong>Comments</strong> for files" : "<strong>Kommentaarid</strong> failidele",
-    "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "Sind mainis faili \"{file}\" kommentaaris kasutaja, kes on praeguseks kustutatud.",
     "{user} mentioned you in a comment on \"{file}\"" : "{user} mainis sind faili \"{file}\" kommentaaris",
     "Files app plugin to add comments to files" : "Failid rakenduse laiendus failidele kommentaaride lisamiseks",
     "Edit comment" : "Muuda kommentaari",
@@ -21,13 +20,13 @@ OC.L10N.register(
     "Retry" : "Proovi uuesti",
     "Failed to mark comments as read" : "Kommentaaride loetuks märkimine ebaõnnestus",
     "Unable to load the comments list" : "Kommentaaride loendi laadimine ebaõnnestus",
-    "_%n unread comment_::_%n unread comments_" : ["%n lugemata kommentaar","%n lugemata kommentaari"],
     "_1 new comment_::_{unread} new comments_" : ["1 uus kommentaar","{unread} uus kommentaar"],
     "Comment" : "Kommentaar",
     "An error occurred while trying to edit the comment" : "Kommentaari muutmisel tekkis tõrge",
     "Comment deleted" : "Kommentaar kustutatud",
     "An error occurred while trying to delete the comment" : "Kommentaari kustutamisel tekkis tõrge",
     "An error occurred while trying to create the comment" : "Kommentaari lisamisel tekkis tõrge",
-    "%1$s commented" : "%1$s kommenteeris"
+    "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "Sind mainis faili \"{file}\" kommentaaris kasutaja, kes on praeguseks kustutatud.",
+    "_%n unread comment_::_%n unread comments_" : ["%n lugemata kommentaar","%n lugemata kommentaari"]
 },
 "nplurals=2; plural=(n != 1);");

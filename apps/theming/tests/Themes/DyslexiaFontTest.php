@@ -22,7 +22,6 @@
  */
 namespace OCA\Theming\Tests\Service;
 
-use OC\App\AppManager;
 use OC\Route\Router;
 use OCA\Theming\ImageManager;
 use OCA\Theming\ITheme;
@@ -93,6 +92,16 @@ class DyslexiaFontTest extends TestCase {
 		$this->themingDefaults
 			->expects($this->any())
 			->method('getDefaultColorPrimary')
+			->willReturn('#0082c9');
+
+		$this->themingDefaults
+			->expects($this->any())
+			->method('getColorBackground')
+			->willReturn('#0082c9');
+
+		$this->themingDefaults
+			->expects($this->any())
+			->method('getDefaultColorBackground')
 			->willReturn('#0082c9');
 
 		$this->l10n

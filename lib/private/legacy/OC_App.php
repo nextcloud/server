@@ -1,69 +1,24 @@
 <?php
 
 declare(strict_types=1);
-
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- * @copyright Copyright (c) 2016, Lukas Reschke <lukas@statuscode.ch>
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Bart Visscher <bartv@thisnet.nl>
- * @author Bernhard Posselt <dev@bernhard-posselt.com>
- * @author Borjan Tchakaloff <borjan@tchakaloff.fr>
- * @author Brice Maron <brice@bmaron.net>
- * @author Christopher Schäpers <kondou@ts.unde.re>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Rudolf <github.com@daniel-rudolf.de>
- * @author Frank Karlitschek <frank@karlitschek.de>
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Jakob Sack <mail@jakobsack.de>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Julius Haertl <jus@bitgrid.net>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Kamil Domanski <kdomanski@kdemail.net>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Markus Goetz <markus@woboq.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author RealRancor <Fisch.666@gmx.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Sam Tuke <mail@samtuke.com>
- * @author Sebastian Wessalowski <sebastian@wessalowski.org>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Thomas Tanghus <thomas@tanghus.net>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
-
+use OC\App\DependencyAnalyzer;
+use OC\App\Platform;
+use OC\AppFramework\Bootstrap\Coordinator;
+use OC\DB\MigrationService;
+use OC\Installer;
+use OC\Repair;
+use OC\Repair\Events\RepairErrorEvent;
 use OCP\App\Events\AppUpdateEvent;
 use OCP\App\IAppManager;
 use OCP\App\ManagerEvent;
 use OCP\Authentication\IAlternativeLogin;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\ILogger;
-use OC\AppFramework\Bootstrap\Coordinator;
-use OC\App\DependencyAnalyzer;
-use OC\App\Platform;
-use OC\DB\MigrationService;
-use OC\Installer;
-use OC\Repair;
-use OC\Repair\Events\RepairErrorEvent;
+use OCP\IAppConfig;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Log\LoggerInterface;
 
@@ -117,6 +72,8 @@ class OC_App {
 	 * exists.
 	 *
 	 * if $types is set to non-empty array, only apps of those types will be loaded
+	 *
+	 * @deprecated 29.0.0 use IAppManager::loadApps instead
 	 */
 	public static function loadApps(array $types = []): bool {
 		if (!\OC::$server->getSystemConfig()->getValue('installed', false)) {
@@ -252,7 +209,7 @@ class OC_App {
 	 * This function set an app as enabled in appconfig.
 	 */
 	public function enable(string $appId,
-						   array $groups = []) {
+		array $groups = []) {
 		// Check if app is already downloaded
 		/** @var Installer $installer */
 		$installer = \OCP\Server::get(Installer::class);
@@ -282,17 +239,15 @@ class OC_App {
 
 	/**
 	 * Get the path where to install apps
-	 *
-	 * @return string|false
 	 */
-	public static function getInstallPath() {
+	public static function getInstallPath(): string|null {
 		foreach (OC::$APPSROOTS as $dir) {
 			if (isset($dir['writable']) && $dir['writable'] === true) {
 				return $dir['path'];
 			}
 		}
 
-		\OCP\Util::writeLog('core', 'No application directories are marked as writable.', ILogger::ERROR);
+		\OCP\Server::get(LoggerInterface::class)->error('No application directories are marked as writable.', ['app' => 'core']);
 		return null;
 	}
 
@@ -354,7 +309,7 @@ class OC_App {
 	 * @param string $appId
 	 * @param bool $refreshAppPath should be set to true only during install/upgrade
 	 * @return string|false
-	 * @deprecated 11.0.0 use \OC::$server->getAppManager()->getAppPath()
+	 * @deprecated 11.0.0 use \OCP\Server::get(IAppManager)->getAppPath()
 	 */
 	public static function getAppPath(string $appId, bool $refreshAppPath = false) {
 		if ($appId === null || trim($appId) === '') {
@@ -391,7 +346,7 @@ class OC_App {
 	public static function getAppVersionByPath(string $path): string {
 		$infoFile = $path . '/appinfo/info.xml';
 		$appData = \OC::$server->getAppManager()->getAppInfo($infoFile, true);
-		return isset($appData['version']) ? $appData['version'] : '';
+		return $appData['version'] ?? '';
 	}
 
 	/**
@@ -517,7 +472,7 @@ class OC_App {
 
 		foreach (OC::$APPSROOTS as $apps_dir) {
 			if (!is_readable($apps_dir['path'])) {
-				\OCP\Util::writeLog('core', 'unable to read app folder : ' . $apps_dir['path'], ILogger::WARN);
+				\OCP\Server::get(LoggerInterface::class)->warning('unable to read app folder : ' . $apps_dir['path'], ['app' => 'core']);
 				continue;
 			}
 			$dh = opendir($apps_dir['path']);
@@ -565,15 +520,15 @@ class OC_App {
 		$supportedApps = $this->getSupportedApps();
 
 		foreach ($installedApps as $app) {
-			if (array_search($app, $blacklist) === false) {
+			if (!in_array($app, $blacklist)) {
 				$info = $appManager->getAppInfo($app, false, $langCode);
 				if (!is_array($info)) {
-					\OCP\Util::writeLog('core', 'Could not read app info file for app "' . $app . '"', ILogger::ERROR);
+					\OCP\Server::get(LoggerInterface::class)->error('Could not read app info file for app "' . $app . '"', ['app' => 'core']);
 					continue;
 				}
 
 				if (!isset($info['name'])) {
-					\OCP\Util::writeLog('core', 'App id "' . $app . '" has no name in appinfo', ILogger::ERROR);
+					\OCP\Server::get(LoggerInterface::class)->error('App id "' . $app . '" has no name in appinfo', ['app' => 'core']);
 					continue;
 				}
 
@@ -731,8 +686,9 @@ class OC_App {
 		static $versions;
 
 		if (!$versions) {
-			$appConfig = \OC::$server->getAppConfig();
-			$versions = $appConfig->getValues(false, 'installed_version');
+			/** @var IAppConfig $appConfig */
+			$appConfig = \OCP\Server::get(IAppConfig::class);
+			$versions = $appConfig->searchValues('installed_version');
 		}
 		return $versions;
 	}
@@ -824,7 +780,7 @@ class OC_App {
 		$dispatcher = \OC::$server->get(IEventDispatcher::class);
 
 		// load the steps
-		$r = new Repair([], $dispatcher, \OC::$server->get(LoggerInterface::class));
+		$r = \OCP\Server::get(Repair::class);
 		foreach ($steps as $step) {
 			try {
 				$r->addStep($step);
@@ -870,11 +826,11 @@ class OC_App {
 				}
 				return new \OC\Files\View('/' . OC_User::getUser() . '/' . $appId);
 			} else {
-				\OCP\Util::writeLog('core', 'Can\'t get app storage, app ' . $appId . ', user not logged in', ILogger::ERROR);
+				\OCP\Server::get(LoggerInterface::class)->error('Can\'t get app storage, app ' . $appId . ', user not logged in', ['app' => 'core']);
 				return false;
 			}
 		} else {
-			\OCP\Util::writeLog('core', 'Can\'t get app storage, app ' . $appId . ' not enabled', ILogger::ERROR);
+			\OCP\Server::get(LoggerInterface::class)->error('Can\'t get app storage, app ' . $appId . ' not enabled', ['app' => 'core']);
 			return false;
 		}
 	}

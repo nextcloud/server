@@ -41,18 +41,11 @@ class TestConfig extends Command {
 	protected const BINDFAILURE = 2;
 	protected const SEARCHFAILURE = 3;
 
-	protected AccessFactory $accessFactory;
-	protected Helper $helper;
-	protected ILDAPWrapper $ldap;
-
 	public function __construct(
-		AccessFactory $accessFactory,
-		Helper $helper,
-		ILDAPWrapper $ldap
+		protected AccessFactory $accessFactory,
+		protected Helper $helper,
+		protected ILDAPWrapper $ldap,
 	) {
-		$this->accessFactory = $accessFactory;
-		$this->helper = $helper;
-		$this->ldap = $ldap;
 		parent::__construct();
 	}
 
@@ -73,28 +66,24 @@ class TestConfig extends Command {
 		$configID = $input->getArgument('configID');
 		if (!in_array($configID, $availableConfigs)) {
 			$output->writeln('Invalid configID');
-			return 1;
+			return self::FAILURE;
 		}
 
 		$result = $this->testConfig($configID);
-		switch ($result) {
-			case static::ESTABLISHED:
-				$output->writeln('The configuration is valid and the connection could be established!');
-				return 0;
-			case static::CONF_INVALID:
-				$output->writeln('The configuration is invalid. Please have a look at the logs for further details.');
-				break;
-			case static::BINDFAILURE:
-				$output->writeln('The configuration is valid, but the bind failed. Please check the server settings and credentials.');
-				break;
-			case static::SEARCHFAILURE:
-				$output->writeln('The configuration is valid and the bind passed, but a simple search on the base fails. Please check the server base setting.');
-				break;
-			default:
-				$output->writeln('Your LDAP server was kidnapped by aliens.');
-				break;
-		}
-		return 1;
+
+		$message = match ($result) {
+			static::ESTABLISHED => 'The configuration is valid and the connection could be established!',
+			static::CONF_INVALID => 'The configuration is invalid. Please have a look at the logs for further details.',
+			static::BINDFAILURE => 'The configuration is valid, but the bind failed. Please check the server settings and credentials.',
+			static::SEARCHFAILURE => 'The configuration is valid and the bind passed, but a simple search on the base fails. Please check the server base setting.',
+			default => 'Your LDAP server was kidnapped by aliens.',
+		};
+
+		$output->writeln($message);
+
+		return $result === static::ESTABLISHED
+			? self::SUCCESS
+			: self::FAILURE;
 	}
 
 	/**

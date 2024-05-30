@@ -1,29 +1,8 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Encryption\Keys;
 
@@ -98,14 +77,14 @@ class Storage implements IStorage {
 	 */
 	public function getFileKey($path, $keyId, $encryptionModuleId) {
 		$realFile = $this->util->stripPartialFileExtension($path);
-		$keyDir = $this->getFileKeyDir($encryptionModuleId, $realFile);
+		$keyDir = $this->util->getFileKeyDir($encryptionModuleId, $realFile);
 		$key = $this->getKey($keyDir . $keyId)['key'];
 
 		if ($key === '' && $realFile !== $path) {
 			// Check if the part file has keys and use them, if no normal keys
 			// exist. This is required to fix copyBetweenStorage() when we
 			// rename a .part file over storage borders.
-			$keyDir = $this->getFileKeyDir($encryptionModuleId, $path);
+			$keyDir = $this->util->getFileKeyDir($encryptionModuleId, $path);
 			$key = $this->getKey($keyDir . $keyId)['key'];
 		}
 
@@ -135,7 +114,7 @@ class Storage implements IStorage {
 	 * @inheritdoc
 	 */
 	public function setFileKey($path, $keyId, $key, $encryptionModuleId) {
-		$keyDir = $this->getFileKeyDir($encryptionModuleId, $path);
+		$keyDir = $this->util->getFileKeyDir($encryptionModuleId, $path);
 		return $this->setKey($keyDir . $keyId, [
 			'key' => base64_encode($key),
 		]);
@@ -177,7 +156,7 @@ class Storage implements IStorage {
 	 * @inheritdoc
 	 */
 	public function deleteFileKey($path, $keyId, $encryptionModuleId) {
-		$keyDir = $this->getFileKeyDir($encryptionModuleId, $path);
+		$keyDir = $this->util->getFileKeyDir($encryptionModuleId, $path);
 		return !$this->view->file_exists($keyDir . $keyId) || $this->view->unlink($keyDir . $keyId);
 	}
 
@@ -185,7 +164,7 @@ class Storage implements IStorage {
 	 * @inheritdoc
 	 */
 	public function deleteAllFileKeys($path) {
-		$keyDir = $this->getFileKeyDir('', $path);
+		$keyDir = $this->util->getFileKeyDir('', $path);
 		return !$this->view->file_exists($keyDir) || $this->view->deleteAll($keyDir);
 	}
 
@@ -353,26 +332,6 @@ class Storage implements IStorage {
 		}
 
 		return false;
-	}
-
-	/**
-	 * get path to key folder for a given file
-	 *
-	 * @param string $encryptionModuleId
-	 * @param string $path path to the file, relative to data/
-	 * @return string
-	 */
-	private function getFileKeyDir($encryptionModuleId, $path) {
-		[$owner, $filename] = $this->util->getUidAndFilename($path);
-
-		// in case of system wide mount points the keys are stored directly in the data directory
-		if ($this->util->isSystemWideMountPoint($filename, $owner)) {
-			$keyPath = $this->root_dir . '/' . $this->keys_base_dir . $filename . '/';
-		} else {
-			$keyPath = $this->root_dir . '/' . $owner . $this->keys_base_dir . $filename . '/';
-		}
-
-		return Filesystem::normalizePath($keyPath . $encryptionModuleId . '/', false);
 	}
 
 	/**

@@ -14,6 +14,7 @@
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Kate Döen <kate.doeen@nextcloud.com>
+ * @author Ferdinand Thiessen <opensource@fthiessen.de>
  *
  * @license AGPL-3.0
  *
@@ -33,6 +34,7 @@
 namespace OCA\Settings\Controller;
 
 use OC\App\AppStore\Bundles\BundleFetcher;
+use OC\App\AppStore\Fetcher\AppDiscoverFetcher;
 use OC\App\AppStore\Fetcher\AppFetcher;
 use OC\App\AppStore\Fetcher\CategoryFetcher;
 use OC\App\AppStore\Version\VersionParser;
@@ -40,13 +42,25 @@ use OC\App\DependencyAnalyzer;
 use OC\App\Platform;
 use OC\Installer;
 use OC_App;
+use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
-use OCP\AppFramework\Http\Attribute\IgnoreOpenAPI;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
+use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Http\JSONResponse;
+use OCP\AppFramework\Http\NotFoundResponse;
+use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Services\IInitialState;
+use OCP\Files\AppData\IAppDataFactory;
+use OCP\Files\IAppData;
+use OCP\Files\NotFoundException;
+use OCP\Files\NotPermittedException;
+use OCP\Files\SimpleFS\ISimpleFile;
+use OCP\Files\SimpleFS\ISimpleFolder;
+use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\INavigationManager;
@@ -55,75 +69,35 @@ use OCP\IURLGenerator;
 use OCP\L10N\IFactory;
 use Psr\Log\LoggerInterface;
 
-#[IgnoreOpenAPI]
+#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class AppSettingsController extends Controller {
-
-	/** @var \OCP\IL10N */
-	private $l10n;
-	/** @var IConfig */
-	private $config;
-	/** @var INavigationManager */
-	private $navigationManager;
-	/** @var IAppManager */
-	private $appManager;
-	/** @var CategoryFetcher */
-	private $categoryFetcher;
-	/** @var AppFetcher */
-	private $appFetcher;
-	/** @var IFactory */
-	private $l10nFactory;
-	/** @var BundleFetcher */
-	private $bundleFetcher;
-	/** @var Installer */
-	private $installer;
-	/** @var IURLGenerator */
-	private $urlGenerator;
-	/** @var LoggerInterface */
-	private $logger;
 
 	/** @var array */
 	private $allApps = [];
 
-	/**
-	 * @param string $appName
-	 * @param IRequest $request
-	 * @param IL10N $l10n
-	 * @param IConfig $config
-	 * @param INavigationManager $navigationManager
-	 * @param IAppManager $appManager
-	 * @param CategoryFetcher $categoryFetcher
-	 * @param AppFetcher $appFetcher
-	 * @param IFactory $l10nFactory
-	 * @param BundleFetcher $bundleFetcher
-	 * @param Installer $installer
-	 * @param IURLGenerator $urlGenerator
-	 * @param LoggerInterface $logger
-	 */
-	public function __construct(string $appName,
-								IRequest $request,
-								IL10N $l10n,
-								IConfig $config,
-								INavigationManager $navigationManager,
-								IAppManager $appManager,
-								CategoryFetcher $categoryFetcher,
-								AppFetcher $appFetcher,
-								IFactory $l10nFactory,
-								BundleFetcher $bundleFetcher,
-								Installer $installer,
-								IURLGenerator $urlGenerator,
-								LoggerInterface $logger) {
+	private IAppData $appData;
+
+	public function __construct(
+		string $appName,
+		IRequest $request,
+		IAppDataFactory $appDataFactory,
+		private IL10N $l10n,
+		private IConfig $config,
+		private INavigationManager $navigationManager,
+		private IAppManager $appManager,
+		private CategoryFetcher $categoryFetcher,
+		private AppFetcher $appFetcher,
+		private IFactory $l10nFactory,
+		private BundleFetcher $bundleFetcher,
+		private Installer $installer,
+		private IURLGenerator $urlGenerator,
+		private LoggerInterface $logger,
+		private IInitialState $initialState,
+		private AppDiscoverFetcher $discoverFetcher,
+		private IClientService $clientService,
+	) {
 		parent::__construct($appName, $request);
-		$this->l10n = $l10n;
-		$this->config = $config;
-		$this->navigationManager = $navigationManager;
-		$this->appManager = $appManager;
-		$this->categoryFetcher = $categoryFetcher;
-		$this->appFetcher = $appFetcher;
-		$this->l10nFactory = $l10nFactory;
-		$this->bundleFetcher = $bundleFetcher;
-		$this->installer = $installer;
-		$this->urlGenerator = $urlGenerator;
-		$this->logger = $logger;
+		$this->appData = $appDataFactory->get('appstore');
 	}
 
 	/**
@@ -132,19 +106,110 @@ class AppSettingsController extends Controller {
 	 * @return TemplateResponse
 	 */
 	public function viewApps(): TemplateResponse {
-		$params = [];
-		$params['appstoreEnabled'] = $this->config->getSystemValueBool('appstoreenabled', true);
-		$params['updateCount'] = count($this->getAppsWithUpdates());
-		$params['developerDocumentation'] = $this->urlGenerator->linkToDocs('developer-manual');
-		$params['bundles'] = $this->getBundles();
 		$this->navigationManager->setActiveEntry('core_apps');
 
-		$templateResponse = new TemplateResponse('settings', 'settings-vue', ['serverData' => $params, 'pageTitle' => $this->l10n->t('Apps')]);
+		$this->initialState->provideInitialState('appstoreEnabled', $this->config->getSystemValueBool('appstoreenabled', true));
+		$this->initialState->provideInitialState('appstoreBundles', $this->getBundles());
+		$this->initialState->provideInitialState('appstoreDeveloperDocs', $this->urlGenerator->linkToDocs('developer-manual'));
+		$this->initialState->provideInitialState('appstoreUpdateCount', count($this->getAppsWithUpdates()));
+
 		$policy = new ContentSecurityPolicy();
 		$policy->addAllowedImageDomain('https://usercontent.apps.nextcloud.com');
+
+		$templateResponse = new TemplateResponse('settings', 'settings/empty', ['pageTitle' => $this->l10n->t('Settings')]);
 		$templateResponse->setContentSecurityPolicy($policy);
 
+		\OCP\Util::addStyle('settings', 'settings');
+		\OCP\Util::addScript('settings', 'vue-settings-apps-users-management');
+
 		return $templateResponse;
+	}
+
+	/**
+	 * Get all active entries for the app discover section
+	 *
+	 * @NoCSRFRequired
+	 */
+	public function getAppDiscoverJSON(): JSONResponse {
+		$data = $this->discoverFetcher->get(true);
+		return new JSONResponse($data);
+	}
+
+	/**
+	 * @PublicPage
+	 * @NoCSRFRequired
+	 *
+	 * Get a image for the app discover section - this is proxied for privacy and CSP reasons
+	 *
+	 * @param string $image
+	 * @throws \Exception
+	 */
+	public function getAppDiscoverMedia(string $fileName): Response {
+		$etag = $this->discoverFetcher->getETag() ?? date('Y-m');
+		$folder = null;
+		try {
+			$folder = $this->appData->getFolder('app-discover-cache');
+			$this->cleanUpImageCache($folder, $etag);
+		} catch (\Throwable $e) {
+			$folder = $this->appData->newFolder('app-discover-cache');
+		}
+
+		// Get the current cache folder
+		try {
+			$folder = $folder->getFolder($etag);
+		} catch (NotFoundException $e) {
+			$folder = $folder->newFolder($etag);
+		}
+
+		$info = pathinfo($fileName);
+		$hashName = md5($fileName);
+		$allFiles = $folder->getDirectoryListing();
+		// Try to find the file
+		$file = array_filter($allFiles, function (ISimpleFile $file) use ($hashName) {
+			return str_starts_with($file->getName(), $hashName);
+		});
+		// Get the first entry
+		$file = reset($file);
+		// If not found request from Web
+		if ($file === false) {
+			try {
+				$client = $this->clientService->newClient();
+				$fileResponse = $client->get($fileName);
+				$contentType = $fileResponse->getHeader('Content-Type');
+				$extension = $info['extension'] ?? '';
+				$file = $folder->newFile($hashName . '.' . base64_encode($contentType) . '.' . $extension, $fileResponse->getBody());
+			} catch (\Throwable $e) {
+				$this->logger->warning('Could not load media file for app discover section', ['media_src' => $fileName, 'exception' => $e]);
+				return new NotFoundResponse();
+			}
+		} else {
+			// File was found so we can get the content type from the file name
+			$contentType = base64_decode(explode('.', $file->getName())[1] ?? '');
+		}
+
+		$response = new FileDisplayResponse($file, Http::STATUS_OK, ['Content-Type' => $contentType]);
+		// cache for 7 days
+		$response->cacheFor(604800, false, true);
+		return $response;
+	}
+
+	/**
+	 * Remove orphaned folders from the image cache that do not match the current etag
+	 * @param ISimpleFolder $folder The folder to clear
+	 * @param string $etag The etag (directory name) to keep
+	 */
+	private function cleanUpImageCache(ISimpleFolder $folder, string $etag): void {
+		// Cleanup old cache folders
+		$allFiles = $folder->getDirectoryListing();
+		foreach ($allFiles as $dir) {
+			try {
+				if ($dir->getName() !== $etag) {
+					$dir->delete();
+				}
+			} catch (NotPermittedException $e) {
+				// ignore folder for now
+			}
+		}
 	}
 
 	private function getAppsWithUpdates() {
@@ -184,17 +249,11 @@ class AppSettingsController extends Controller {
 	private function getAllCategories() {
 		$currentLanguage = substr($this->l10nFactory->findLanguage(), 0, 2);
 
-		$formattedCategories = [];
 		$categories = $this->categoryFetcher->get();
-		foreach ($categories as $category) {
-			$formattedCategories[] = [
-				'id' => $category['id'],
-				'ident' => $category['id'],
-				'displayName' => $category['translations'][$currentLanguage]['name'] ?? $category['translations']['en']['name'],
-			];
-		}
-
-		return $formattedCategories;
+		return array_map(fn ($category) => [
+			'id' => $category['id'],
+			'displayName' => $category['translations'][$currentLanguage]['name'] ?? $category['translations']['en']['name'],
+		], $categories);
 	}
 
 	private function fetchApps() {
@@ -237,6 +296,7 @@ class AppSettingsController extends Controller {
 	private function getAllApps() {
 		return $this->allApps;
 	}
+
 	/**
 	 * Get all available apps in a category
 	 *
@@ -338,7 +398,14 @@ class AppSettingsController extends Controller {
 				$nextCloudVersionDependencies['nextcloud']['@attributes']['max-version'] = $nextCloudVersion->getMaximumVersion();
 			}
 			$phpVersion = $versionParser->getVersion($app['releases'][0]['rawPhpVersionSpec']);
-			$existsLocally = \OC_App::getAppPath($app['id']) !== false;
+
+			try {
+				$this->appManager->getAppPath($app['id']);
+				$existsLocally = true;
+			} catch (AppPathNotFoundException) {
+				$existsLocally = false;
+			}
+
 			$phpDependencies = [];
 			if ($phpVersion->getMinimumVersion() !== '') {
 				$phpDependencies['php']['@attributes']['min-version'] = $phpVersion->getMinimumVersion();
@@ -357,7 +424,7 @@ class AppSettingsController extends Controller {
 				}
 			}
 
-			$currentLanguage = substr(\OC::$server->getL10NFactory()->findLanguage(), 0, 2);
+			$currentLanguage = substr($this->l10nFactory->findLanguage(), 0, 2);
 			$enabledValue = $this->config->getAppValue($app['id'], 'enabled', 'no');
 			$groups = null;
 			if ($enabledValue !== 'no' && $enabledValue !== 'yes') {
@@ -368,7 +435,7 @@ class AppSettingsController extends Controller {
 			if ($this->appManager->isInstalled($app['id'])) {
 				$currentVersion = $this->appManager->getAppVersion($app['id']);
 			} else {
-				$currentLanguage = $app['releases'][0]['version'];
+				$currentVersion = $app['releases'][0]['version'];
 			}
 
 			$formattedApps[] = [
@@ -444,7 +511,7 @@ class AppSettingsController extends Controller {
 
 				// Check if app is already downloaded
 				/** @var Installer $installer */
-				$installer = \OC::$server->query(Installer::class);
+				$installer = \OC::$server->get(Installer::class);
 				$isDownloaded = $installer->isDownloaded($appId);
 
 				if (!$isDownloaded) {
@@ -463,7 +530,7 @@ class AppSettingsController extends Controller {
 				}
 			}
 			return new JSONResponse(['data' => ['update_required' => $updateRequired]]);
-		} catch (\Exception $e) {
+		} catch (\Throwable $e) {
 			$this->logger->error('could not enable apps', ['exception' => $e]);
 			return new JSONResponse(['data' => ['message' => $e->getMessage()]], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}

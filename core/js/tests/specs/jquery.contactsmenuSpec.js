@@ -1,11 +1,6 @@
 /**
- * Copyright (c) 2017 Georg Ehrke <oc.list@georgehrke.com>
- *
- * This file is licensed under the Affero General Public License version 3
- * or later.
- *
- * See the COPYING-README file.
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 describe('jquery.contactsMenu tests', function() {

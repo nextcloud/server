@@ -22,10 +22,11 @@
 -->
 
 <template>
-	<NcActions :aria-label="t('settings', 'Toggle user actions menu')"
+	<NcActions :aria-label="t('settings', 'Toggle account actions menu')"
 		:disabled="disabled"
 		:inline="1">
-		<NcActionButton :disabled="disabled"
+		<NcActionButton :data-cy-user-list-action-toggle-edit="`${edit}`"
+			:disabled="disabled"
 			@click="toggleEdit">
 			{{ edit ? t('settings', 'Done') : t('settings', 'Edit') }}
 			<template #icon>
@@ -37,14 +38,15 @@
 			:disabled="disabled"
 			:aria-label="text"
 			:icon="icon"
-			@click="action">
+			@click="(event) => action(event, { ...user })">
 			{{ text }}
 		</NcActionButton>
 	</NcActions>
 </template>
 
 <script lang="ts">
-import { PropType, defineComponent } from 'vue'
+import type { PropType } from 'vue'
+import { defineComponent } from 'vue'
 
 import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
 import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
@@ -53,7 +55,7 @@ import SvgCheck from '@mdi/svg/svg/check.svg?raw'
 import SvgPencil from '@mdi/svg/svg/pencil.svg?raw'
 
 interface UserAction {
-	action: (event: MouseEvent) => void,
+	action: (event: MouseEvent, user: Record<string, unknown>) => void,
 	icon: string,
 	text: string
 }
@@ -87,6 +89,14 @@ export default defineComponent({
 		 */
 		edit: {
 			type: Boolean,
+			required: true,
+		},
+
+		/**
+		 * Target of this actions
+		 */
+		user: {
+			type: Object,
 			required: true,
 		},
 	},

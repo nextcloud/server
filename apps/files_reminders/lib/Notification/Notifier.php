@@ -42,7 +42,8 @@ class Notifier implements INotifier {
 		protected IFactory $l10nFactory,
 		protected IURLGenerator $urlGenerator,
 		protected IRootFolder $root,
-	) {}
+	) {
+	}
 
 	public function getID(): string {
 		return Application::APP_ID;
@@ -68,11 +69,10 @@ class Notifier implements INotifier {
 				$params = $notification->getSubjectParameters();
 				$fileId = $params['fileId'];
 
-				$nodes = $this->root->getUserFolder($notification->getUser())->getById($fileId);
-				if (empty($nodes)) {
+				$node = $this->root->getUserFolder($notification->getUser())->getFirstNodeById($fileId);
+				if (!$node) {
 					throw new InvalidArgumentException();
 				}
-				$node = reset($nodes);
 
 				$path = rtrim($node->getPath(), '/');
 				if (strpos($path, '/' . $notification->getUser() . '/files/') === 0) {

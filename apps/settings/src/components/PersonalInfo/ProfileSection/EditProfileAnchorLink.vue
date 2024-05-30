@@ -69,7 +69,9 @@ html {
 a {
 	display: block;
 	height: 44px;
-	width: 290px;
+	width: min(100%, 290px);
+	overflow: hidden;
+	text-overflow: ellipsis;
 	line-height: 44px;
 	padding: 0 16px;
 	margin: 14px auto;

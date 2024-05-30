@@ -31,7 +31,7 @@
 \OC_JSON::checkAppEnabled('user_ldap');
 \OC_JSON::callCheck();
 
-$l = \OC::$server->getL10N('user_ldap');
+$l = \OCP\Util::getL10N('user_ldap');
 
 if (!isset($_POST['action'])) {
 	\OC_JSON::error(['message' => $l->t('No action specified')]);
@@ -48,7 +48,7 @@ $configuration = new \OCA\User_LDAP\Configuration($prefix);
 
 $con = new \OCA\User_LDAP\Connection($ldapWrapper, $prefix, null);
 $con->setConfiguration($configuration->getConfiguration());
-$con->ldapConfigurationActive = true;
+$con->ldapConfigurationActive = (string)true;
 $con->setIgnoreValidation(true);
 
 $factory = \OC::$server->get(\OCA\User_LDAP\AccessFactory::class);
@@ -105,8 +105,8 @@ switch ($action) {
 	}
 
 	case 'save':
-		$key = isset($_POST['cfgkey']) ? $_POST['cfgkey'] : false;
-		$val = isset($_POST['cfgval']) ? $_POST['cfgval'] : null;
+		$key = $_POST['cfgkey'] ?? false;
+		$val = $_POST['cfgval'] ?? null;
 		if ($key === false || is_null($val)) {
 			\OC_JSON::error(['message' => $l->t('No data specified')]);
 			exit;

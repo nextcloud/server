@@ -20,7 +20,7 @@
   -->
 
 <template>
-	<div class="webauthn-device">
+	<li class="webauthn-device">
 		<span class="icon-webauthn-device" />
 		{{ name || t('settings', 'Unnamed device') }}
 		<NcActions :force-menu="true">
@@ -28,7 +28,7 @@
 				{{ t('settings', 'Delete') }}
 			</NcActionButton>
 		</NcActions>
-	</div>
+	</li>
 </template>
 
 <script>

@@ -1,9 +1,7 @@
 <?php
 /**
- * Copyright (c) 2023 Marcel Klehr <mklehr@gmx.net>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\TextProcessing;
@@ -24,13 +22,13 @@ use OCP\Common\Exception\NotFoundException;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IServerContainer;
+use OCP\PreConditionNotMetException;
 use OCP\TextProcessing\Events\TaskFailedEvent;
 use OCP\TextProcessing\Events\TaskSuccessfulEvent;
 use OCP\TextProcessing\FreePromptTaskType;
 use OCP\TextProcessing\IManager;
 use OCP\TextProcessing\IProvider;
 use OCP\TextProcessing\SummaryTaskType;
-use OCP\PreConditionNotMetException;
 use OCP\TextProcessing\Task;
 use OCP\TextProcessing\TopicsTaskType;
 use PHPUnit\Framework\Constraint\IsInstanceOf;

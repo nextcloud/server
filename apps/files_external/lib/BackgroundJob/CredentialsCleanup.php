@@ -31,9 +31,9 @@ use OCA\Files_External\Service\UserGlobalStoragesService;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJob;
 use OCP\BackgroundJob\TimedJob;
-use OCP\Security\ICredentialsManager;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\Security\ICredentialsManager;
 
 class CredentialsCleanup extends TimedJob {
 	private $credentialsManager;

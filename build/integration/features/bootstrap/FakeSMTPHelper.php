@@ -1,25 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2016 Daniel Calviño Sánchez <danxuliu@gmail.com>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 // Code below modified from https://github.com/axllent/fake-smtp/blob/f0856f8a0df6f4ca5a573cf31428c09ebc5b9ea3/fakeSMTP.php,
 // which is under the MIT license (https://github.com/axllent/fake-smtp/blob/f0856f8a0df6f4ca5a573cf31428c09ebc5b9ea3/LICENSE)

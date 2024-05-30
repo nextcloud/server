@@ -1,20 +1,19 @@
 <?php
 /**
- * Copyright (c) 2014 Vincent Petry <pvince81@owncloud.com>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test;
 
-use OCP\EventDispatcher\IEventDispatcher;
-use OCP\Migration\IRepairStep;
 use OC\Repair;
+use OC\Repair\Events\RepairErrorEvent;
 use OC\Repair\Events\RepairInfoEvent;
 use OC\Repair\Events\RepairStepEvent;
 use OC\Repair\Events\RepairWarningEvent;
-use OC\Repair\Events\RepairErrorEvent;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Migration\IRepairStep;
 use Psr\Log\LoggerInterface;
 
 class TestRepairStep implements IRepairStep {
@@ -46,7 +45,7 @@ class RepairTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 		$dispatcher = \OC::$server->get(IEventDispatcher::class);
-		$this->repair = new \OC\Repair([], $dispatcher, $this->createMock(LoggerInterface::class));
+		$this->repair = new Repair($dispatcher, $this->createMock(LoggerInterface::class));
 
 		$dispatcher->addListener(RepairWarningEvent::class, function (RepairWarningEvent $event) {
 			$this->outputArray[] = 'warning: ' . $event->getMessage();

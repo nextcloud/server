@@ -32,22 +32,17 @@ const getAllStatusOptions = () => {
 	return [{
 		type: 'online',
 		label: t('user_status', 'Online'),
-		icon: 'icon-user-status-online',
 	}, {
 		type: 'away',
 		label: t('user_status', 'Away'),
-		icon: 'icon-user-status-away',
 	}, {
 		type: 'dnd',
 		label: t('user_status', 'Do not disturb'),
 		subline: t('user_status', 'Mute all notifications'),
-		icon: 'icon-user-status-dnd',
-
 	}, {
 		type: 'invisible',
 		label: t('user_status', 'Invisible'),
 		subline: t('user_status', 'Appear offline'),
-		icon: 'icon-user-status-invisible',
 	}]
 }
 

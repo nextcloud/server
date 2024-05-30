@@ -29,6 +29,8 @@ namespace OCA\Theming\Tests\Settings;
 
 use OCA\Theming\AppInfo\Application;
 use OCA\Theming\ImageManager;
+use OCA\Theming\ITheme;
+use OCA\Theming\Service\BackgroundService;
 use OCA\Theming\Service\ThemesService;
 use OCA\Theming\Settings\Personal;
 use OCA\Theming\Themes\DarkHighContrastTheme;
@@ -39,7 +41,6 @@ use OCA\Theming\Themes\HighContrastTheme;
 use OCA\Theming\Themes\LightTheme;
 use OCA\Theming\ThemingDefaults;
 use OCA\Theming\Util;
-use OCA\Theming\ITheme;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
@@ -54,6 +55,7 @@ class PersonalTest extends TestCase {
 	private ThemesService $themesService;
 	private IInitialState $initialStateService;
 	private ThemingDefaults $themingDefaults;
+	private IAppManager $appManager;
 	private Personal $admin;
 
 	/** @var ITheme[] */
@@ -65,6 +67,7 @@ class PersonalTest extends TestCase {
 		$this->themesService = $this->createMock(ThemesService::class);
 		$this->initialStateService = $this->createMock(IInitialState::class);
 		$this->themingDefaults = $this->createMock(ThemingDefaults::class);
+		$this->appManager = $this->createMock(IAppManager::class);
 
 		$this->initThemes();
 
@@ -75,10 +78,12 @@ class PersonalTest extends TestCase {
 
 		$this->admin = new Personal(
 			Application::APP_ID,
+			'admin',
 			$this->config,
 			$this->themesService,
 			$this->initialStateService,
 			$this->themingDefaults,
+			$this->appManager,
 		);
 	}
 
@@ -112,12 +117,27 @@ class PersonalTest extends TestCase {
 			->with('enforce_theme', '')
 			->willReturn($enforcedTheme);
 
-		$this->initialStateService->expects($this->exactly(3))
+		$this->config->expects($this->any())
+			->method('getUserValue')
+			->willReturnMap([
+				['admin', 'core', 'apporder', '[]', '[]'],
+				['admin', 'theming', 'background_image', BackgroundService::BACKGROUND_DEFAULT],
+			]);
+
+		$this->appManager->expects($this->once())
+			->method('getDefaultAppForUser')
+			->willReturn('forcedapp');
+
+		$this->initialStateService->expects($this->exactly(7))
 			->method('provideInitialState')
 			->withConsecutive(
+				['shippedBackgrounds', BackgroundService::SHIPPED_BACKGROUNDS],
+				['themingDefaults'],
+				['userBackgroundImage'],
 				['themes', $themesState],
 				['enforceTheme', $enforcedTheme],
-				['isUserThemingDisabled', false]
+				['isUserThemingDisabled', false],
+				['navigationBar', ['userAppOrder' => [], 'enforcedDefaultApp' => 'forcedapp']],
 			);
 
 		$expected = new TemplateResponse('theming', 'settings-personal');

@@ -1,29 +1,13 @@
 /**
- * @copyright Copyright (c) 2020 John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import { showError, showUndo, TOAST_UNDO_TIMEOUT } from '@nextcloud/dialogs'
 import NewComment from '../services/NewComment.js'
 import DeleteComment from '../services/DeleteComment.js'
 import EditComment from '../services/EditComment.js'
-import { showError, showUndo, TOAST_UNDO_TIMEOUT } from '@nextcloud/dialogs'
+import logger from '../logger.js'
 
 export default {
 	props: {
@@ -35,9 +19,13 @@ export default {
 			type: String,
 			default: '',
 		},
-		ressourceId: {
+		resourceId: {
 			type: [String, Number],
 			required: true,
+		},
+		resourceType: {
+			type: String,
+			default: 'files',
 		},
 	},
 
@@ -62,8 +50,8 @@ export default {
 		async onEditComment(message) {
 			this.loading = true
 			try {
-				await EditComment(this.commentsType, this.ressourceId, this.id, message)
-				this.logger.debug('Comment edited', { commentsType: this.commentsType, ressourceId: this.ressourceId, id: this.id, message })
+				await EditComment(this.resourceType, this.resourceId, this.id, message)
+				logger.debug('Comment edited', { resourceType: this.resourceType, resourceId: this.resourceId, id: this.id, message })
 				this.$emit('update:message', message)
 				this.editing = false
 			} catch (error) {
@@ -85,8 +73,8 @@ export default {
 		},
 		async onDelete() {
 			try {
-				await DeleteComment(this.commentsType, this.ressourceId, this.id)
-				this.logger.debug('Comment deleted', { commentsType: this.commentsType, ressourceId: this.ressourceId, id: this.id })
+				await DeleteComment(this.resourceType, this.resourceId, this.id)
+				logger.debug('Comment deleted', { resourceType: this.resourceType, resourceId: this.resourceId, id: this.id })
 				this.$emit('delete', this.id)
 			} catch (error) {
 				showError(t('comments', 'An error occurred while trying to delete the comment'))
@@ -99,8 +87,8 @@ export default {
 		async onNewComment(message) {
 			this.loading = true
 			try {
-				const newComment = await NewComment(this.commentsType, this.ressourceId, message)
-				this.logger.debug('New comment posted', { commentsType: this.commentsType, ressourceId: this.ressourceId, newComment })
+				const newComment = await NewComment(this.resourceType, this.resourceId, message)
+				logger.debug('New comment posted', { resourceType: this.resourceType, resourceId: this.resourceId, newComment })
 				this.$emit('new', newComment)
 
 				// Clear old content

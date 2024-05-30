@@ -2,25 +2,8 @@
 
 declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2018, Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Tests\Core\Controller;
@@ -29,6 +12,7 @@ use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Token\IProvider;
 use OC\Authentication\Token\IToken;
 use OC\Core\Controller\AppPasswordController;
+use OC\User\Session;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\Authentication\Exceptions\CredentialsUnavailableException;
@@ -38,6 +22,8 @@ use OCP\Authentication\LoginCredentials\IStore;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IRequest;
 use OCP\ISession;
+use OCP\IUserManager;
+use OCP\Security\Bruteforce\IThrottler;
 use OCP\Security\ISecureRandom;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
@@ -61,6 +47,15 @@ class AppPasswordControllerTest extends TestCase {
 	/** @var IEventDispatcher|\PHPUnit\Framework\MockObject\MockObject */
 	private $eventDispatcher;
 
+	/** @var Session|MockObject */
+	private $userSession;
+
+	/** @var IUserManager|MockObject */
+	private $userManager;
+
+	/** @var IThrottler|MockObject */
+	private $throttler;
+
 	/** @var AppPasswordController */
 	private $controller;
 
@@ -73,6 +68,9 @@ class AppPasswordControllerTest extends TestCase {
 		$this->credentialStore = $this->createMock(IStore::class);
 		$this->request = $this->createMock(IRequest::class);
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
+		$this->userSession = $this->createMock(Session::class);
+		$this->userManager = $this->createMock(IUserManager::class);
+		$this->throttler = $this->createMock(IThrottler::class);
 
 		$this->controller = new AppPasswordController(
 			'core',
@@ -81,7 +79,10 @@ class AppPasswordControllerTest extends TestCase {
 			$this->random,
 			$this->tokenProvider,
 			$this->credentialStore,
-			$this->eventDispatcher
+			$this->eventDispatcher,
+			$this->userSession,
+			$this->userManager,
+			$this->throttler
 		);
 	}
 

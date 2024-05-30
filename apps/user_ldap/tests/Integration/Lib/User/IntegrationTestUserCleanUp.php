@@ -92,7 +92,7 @@ class IntegrationTestUserCleanUp extends AbstractIntegrationTest {
 		}
 		$user->delete();
 
-		return null === \OC::$server->getUserManager()->get($username);
+		return \OC::$server->getUserManager()->get($username) === null;
 	}
 }
 

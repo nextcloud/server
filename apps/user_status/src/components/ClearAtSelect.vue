@@ -97,6 +97,7 @@ export default {
 
 	&__select {
 		flex-grow: 1;
+		min-width: 215px;
 	}
 }
 </style>

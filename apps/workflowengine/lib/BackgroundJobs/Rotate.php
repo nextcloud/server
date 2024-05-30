@@ -23,9 +23,9 @@
  */
 namespace OCA\WorkflowEngine\BackgroundJobs;
 
+use OCA\WorkflowEngine\AppInfo\Application;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\TimedJob;
-use OCA\WorkflowEngine\AppInfo\Application;
 use OCP\Log\RotationTrait;
 
 class Rotate extends TimedJob {

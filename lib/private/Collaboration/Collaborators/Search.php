@@ -1,29 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2017 Arthur Schiwon <blizzz@arthur-schiwon.de>
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author onehappycat <one.happy.cat@gmx.com>
- * @author Robin Appelman <robin@icewind.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OC\Collaboration\Collaborators;
 
@@ -35,32 +13,28 @@ use OCP\IContainer;
 use OCP\Share;
 
 class Search implements ISearch {
-	/** @var IContainer */
-	private $c;
+	protected array $pluginList = [];
 
-	protected $pluginList = [];
-
-	public function __construct(IContainer $c) {
-		$this->c = $c;
+	public function __construct(
+		private IContainer $container,
+	) {
 	}
 
 	/**
 	 * @param string $search
-	 * @param array $shareTypes
 	 * @param bool $lookup
 	 * @param int|null $limit
 	 * @param int|null $offset
-	 * @return array
 	 * @throws \OCP\AppFramework\QueryException
 	 */
-	public function search($search, array $shareTypes, $lookup, $limit, $offset) {
+	public function search($search, array $shareTypes, $lookup, $limit, $offset): array {
 		$hasMoreResults = false;
 
 		// Trim leading and trailing whitespace characters, e.g. when query is copy-pasted
 		$search = trim($search);
 
 		/** @var ISearchResult $searchResult */
-		$searchResult = $this->c->resolve(SearchResult::class);
+		$searchResult = $this->container->resolve(SearchResult::class);
 
 		foreach ($shareTypes as $type) {
 			if (!isset($this->pluginList[$type])) {
@@ -68,14 +42,14 @@ class Search implements ISearch {
 			}
 			foreach ($this->pluginList[$type] as $plugin) {
 				/** @var ISearchPlugin $searchPlugin */
-				$searchPlugin = $this->c->resolve($plugin);
+				$searchPlugin = $this->container->resolve($plugin);
 				$hasMoreResults = $searchPlugin->search($search, $limit, $offset, $searchResult) || $hasMoreResults;
 			}
 		}
 
 		// Get from lookup server, not a separate share type
 		if ($lookup) {
-			$searchPlugin = $this->c->resolve(LookupPlugin::class);
+			$searchPlugin = $this->container->resolve(LookupPlugin::class);
 			$hasMoreResults = $searchPlugin->search($search, $limit, $offset, $searchResult) || $hasMoreResults;
 		}
 
@@ -105,7 +79,7 @@ class Search implements ISearch {
 		return [$searchResult->asArray(), $hasMoreResults];
 	}
 
-	public function registerPlugin(array $pluginInfo) {
+	public function registerPlugin(array $pluginInfo): void {
 		$shareType = constant(Share::class . '::' . $pluginInfo['shareType']);
 		if ($shareType === null) {
 			throw new \InvalidArgumentException('Provided ShareType is invalid');

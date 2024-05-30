@@ -52,8 +52,8 @@ use OCP\L10N\IFactory;
 use Psr\Log\LoggerInterface;
 
 /**
- * @psalm-import-type ProvisioningApiGroupDetails from ResponseDefinitions
- * @psalm-import-type ProvisioningApiUserDetails from ResponseDefinitions
+ * @psalm-import-type Provisioning_APIGroupDetails from ResponseDefinitions
+ * @psalm-import-type Provisioning_APIUserDetails from ResponseDefinitions
  */
 class GroupsController extends AUserData {
 
@@ -61,14 +61,14 @@ class GroupsController extends AUserData {
 	private $logger;
 
 	public function __construct(string $appName,
-								IRequest $request,
-								IUserManager $userManager,
-								IConfig $config,
-								IGroupManager $groupManager,
-								IUserSession $userSession,
-								IAccountManager $accountManager,
-								IFactory $l10nFactory,
-								LoggerInterface $logger) {
+		IRequest $request,
+		IUserManager $userManager,
+		IConfig $config,
+		IGroupManager $groupManager,
+		IUserSession $userSession,
+		IAccountManager $accountManager,
+		IFactory $l10nFactory,
+		LoggerInterface $logger) {
 		parent::__construct($appName,
 			$request,
 			$userManager,
@@ -91,6 +91,8 @@ class GroupsController extends AUserData {
 	 * @param ?int $limit Limit the amount of groups returned
 	 * @param int $offset Offset for searching for groups
 	 * @return DataResponse<Http::STATUS_OK, array{groups: string[]}, array{}>
+	 *
+	 * 200: Groups returned
 	 */
 	public function getGroups(string $search = '', ?int $limit = null, int $offset = 0): DataResponse {
 		$groups = $this->groupManager->search($search, $limit, $offset);
@@ -111,9 +113,11 @@ class GroupsController extends AUserData {
 	 * @param string $search Text to search for
 	 * @param ?int $limit Limit the amount of groups returned
 	 * @param int $offset Offset for searching for groups
-	 * @return DataResponse<Http::STATUS_OK, array{groups: ProvisioningApiGroupDetails[]}, array{}>
+	 * @return DataResponse<Http::STATUS_OK, array{groups: Provisioning_APIGroupDetails[]}, array{}>
+	 *
+	 * 200: Groups details returned
 	 */
-	public function getGroupsDetails(string $search = '', int $limit = null, int $offset = 0): DataResponse {
+	public function getGroupsDetails(string $search = '', ?int $limit = null, int $offset = 0): DataResponse {
 		$groups = $this->groupManager->search($search, $limit, $offset);
 		$groups = array_map(function ($group) {
 			/** @var IGroup $group */
@@ -140,6 +144,8 @@ class GroupsController extends AUserData {
 	 * @throws OCSException
 	 *
 	 * @deprecated 14 Use getGroupUsers
+	 *
+	 * 200: Group users returned
 	 */
 	public function getGroup(string $groupId): DataResponse {
 		return $this->getGroupUsers($groupId);
@@ -198,10 +204,12 @@ class GroupsController extends AUserData {
 	 * @param int|null $limit Limit the amount of groups returned
 	 * @param int $offset Offset for searching for groups
 	 *
-	 * @return DataResponse<Http::STATUS_OK, array{users: array<string, ProvisioningApiUserDetails|array{id: string}>}, array{}>
+	 * @return DataResponse<Http::STATUS_OK, array{users: array<string, Provisioning_APIUserDetails|array{id: string}>}, array{}>
 	 * @throws OCSException
+	 *
+	 * 200: Group users details returned
 	 */
-	public function getGroupUsersDetails(string $groupId, string $search = '', int $limit = null, int $offset = 0): DataResponse {
+	public function getGroupUsersDetails(string $groupId, string $search = '', ?int $limit = null, int $offset = 0): DataResponse {
 		$groupId = urldecode($groupId);
 		$currentUser = $this->userSession->getUser();
 
@@ -251,6 +259,8 @@ class GroupsController extends AUserData {
 	 * @param string $displayname Display name of the group
 	 * @return DataResponse<Http::STATUS_OK, array<empty>, array{}>
 	 * @throws OCSException
+	 *
+	 * 200: Group created successfully
 	 */
 	public function addGroup(string $groupid, string $displayname = ''): DataResponse {
 		// Validate name
@@ -282,6 +292,8 @@ class GroupsController extends AUserData {
 	 * @param string $value New value for the key
 	 * @return DataResponse<Http::STATUS_OK, array<empty>, array{}>
 	 * @throws OCSException
+	 *
+	 * 200: Group updated successfully
 	 */
 	public function updateGroup(string $groupId, string $key, string $value): DataResponse {
 		$groupId = urldecode($groupId);
@@ -309,6 +321,8 @@ class GroupsController extends AUserData {
 	 * @param string $groupId ID of the group
 	 * @return DataResponse<Http::STATUS_OK, array<empty>, array{}>
 	 * @throws OCSException
+	 *
+	 * 200: Group deleted successfully
 	 */
 	public function deleteGroup(string $groupId): DataResponse {
 		$groupId = urldecode($groupId);
@@ -330,6 +344,8 @@ class GroupsController extends AUserData {
 	 * @param string $groupId ID of the group
 	 * @return DataResponse<Http::STATUS_OK, string[], array{}>
 	 * @throws OCSException
+	 *
+	 * 200: Sub admins returned
 	 */
 	public function getSubAdminsOfGroup(string $groupId): DataResponse {
 		// Check group exists
