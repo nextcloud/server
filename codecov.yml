@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: AGPL-3.0-or-later
 codecov:
   branch: master
   ci:
@@ -5,3 +7,10 @@ codecov:
   - '!scrutinizer-ci.com'
 
 comment: false
+
+# Ignore project status check as our CI only runs PHP tests for PHP PRs and JS tests for JS PRs
+# Otherwise it will warn about project coverage drops
+coverage:
+  status:
+    project: off
+    patch: off

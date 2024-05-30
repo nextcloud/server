@@ -19,18 +19,25 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+import type { OCSResponse } from '@nextcloud/typings/ocs'
 import { expect } from '@jest/globals'
-import axios from '@nextcloud/axios'
 import { Type } from '@nextcloud/sharing'
 import * as auth from '@nextcloud/auth'
+import axios from '@nextcloud/axios'
 
-import { getContents, type OCSResponse } from './SharingService'
+import { getContents } from './SharingService'
 import { File, Folder } from '@nextcloud/files'
 import logger from './logger'
 
 global.window.OC = {
 	TAG_FAVORITE: '_$!<Favorite>!$_',
 }
+
+// Mock webroot variable
+beforeAll(() => {
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	(window as any)._oc_webroot = ''
+})
 
 describe('SharingService methods definitions', () => {
 	beforeAll(() => {

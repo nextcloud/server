@@ -24,6 +24,7 @@
 namespace OCA\User_LDAP;
 
 use OCP\GroupInterface;
+use Psr\Log\LoggerInterface;
 
 class GroupPluginManager {
 	private int $respondToActions = 0;
@@ -58,7 +59,7 @@ class GroupPluginManager {
 		foreach ($this->which as $action => $v) {
 			if ((bool)($respondToActions & $action)) {
 				$this->which[$action] = $plugin;
-				\OC::$server->getLogger()->debug("Registered action ".$action." to plugin ".get_class($plugin), ['app' => 'user_ldap']);
+				\OCP\Server::get(LoggerInterface::class)->debug("Registered action ".$action." to plugin ".get_class($plugin), ['app' => 'user_ldap']);
 			}
 		}
 	}
@@ -164,7 +165,7 @@ class GroupPluginManager {
 		$plugin = $this->which[GroupInterface::COUNT_USERS];
 
 		if ($plugin) {
-			return $plugin->countUsersInGroup($gid,$search);
+			return $plugin->countUsersInGroup($gid, $search);
 		}
 		throw new \Exception('No plugin implements countUsersInGroup in this LDAP Backend.');
 	}

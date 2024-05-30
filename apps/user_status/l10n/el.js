@@ -7,10 +7,10 @@ OC.L10N.register(
     "Commuting" : "Μετακίνηση προς την εργασία",
     "Out sick" : "Αναρρωτική άδεια",
     "Vacationing" : "Διακοπάρω",
+    "Out of office" : "Εκτός γραφείου",
     "Working remotely" : "Εργασία εξ αποστάσεως",
     "In a call" : "Σε μια κλήση",
     "User status" : "Κατάσταση χρήστη",
-    "View profile" : "Προβολή προφίλ",
     "Clear status after" : "Εκκαθάριση κατάστασης μετά από",
     "What is your status?" : "Ποια είναι η κατάστασή σας;",
     "Set status" : "Ορισμός κατάστασης",
@@ -34,6 +34,6 @@ OC.L10N.register(
     "4 hours" : "4 ώρες",
     "Mute all notifications" : "Σίγαση όλων των ειδοποιήσεων",
     "Appear offline" : "Εμφάνιση εκτός σύνδεσης",
-    "{status}, {timestamp}" : "{status}, {timestamp}"
+    "View profile" : "Προβολή προφίλ"
 },
 "nplurals=2; plural=(n != 1);");

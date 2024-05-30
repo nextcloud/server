@@ -1,6 +1,7 @@
 #!/bin/bash
 #
-# ownCloud
+# SPDX-FileCopyrightText: 2015 ownCloud, Inc.
+# SPDX-License-Identifier: AGPL-3.0-only
 #
 # @author Joas Schilling
 # @author Thomas Müller

@@ -1,31 +1,23 @@
 <?php
 /**
- * @copyright Copyright (c) 2021, Louis Chemineau <louis@chmn.me>
- *
- * @author Louis Chemineau <louis@chmn.me>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 
 namespace OCA\DAV\Tests\unit\DAV;
 
+use OCA\DAV\BulkUpload\MultipartRequestParser;
+use Psr\Log\LoggerInterface;
 use Test\TestCase;
-use \OCA\DAV\BulkUpload\MultipartRequestParser;
 
 class MultipartRequestParserTest extends TestCase {
+
+	protected LoggerInterface $logger;
+
+	protected function setUp(): void {
+		$this->logger = $this->createMock(LoggerInterface::class);
+	}
+
 	private function getValidBodyObject() {
 		return [
 			[
@@ -65,7 +57,7 @@ class MultipartRequestParserTest extends TestCase {
 
 		$body .= '--'.$boundary."--";
 
-		$stream = fopen('php://temp','r+');
+		$stream = fopen('php://temp', 'r+');
 		fwrite($stream, $body);
 		rewind($stream);
 
@@ -73,7 +65,7 @@ class MultipartRequestParserTest extends TestCase {
 			->method('getBody')
 			->willReturn($stream);
 
-		return new MultipartRequestParser($request);
+		return new MultipartRequestParser($request, $this->logger);
 	}
 
 
@@ -90,7 +82,7 @@ class MultipartRequestParserTest extends TestCase {
 			->willReturn($bodyStream);
 
 		$this->expectExceptionMessage('Body should be of type resource');
-		new MultipartRequestParser($request);
+		new MultipartRequestParser($request, $this->logger);
 	}
 
 	/**

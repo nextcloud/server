@@ -46,13 +46,14 @@ namespace OCA\Files_Sharing\Controller;
 use OC\Security\CSP\ContentSecurityPolicy;
 use OC_Files;
 use OC_Util;
+use OCA\DAV\Connector\Sabre\PublicAuth;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\Files_Sharing\Activity\Providers\Downloads;
 use OCA\Files_Sharing\Event\BeforeTemplateRenderedEvent;
 use OCA\Files_Sharing\Event\ShareLinkAccessedEvent;
 use OCP\Accounts\IAccountManager;
 use OCP\AppFramework\AuthPublicShareController;
-use OCP\AppFramework\Http\Attribute\IgnoreOpenAPI;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Defaults;
@@ -71,14 +72,14 @@ use OCP\Security\ISecureRandom;
 use OCP\Share;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager as ShareManager;
-use OCP\Share\IShare;
 use OCP\Share\IPublicShareTemplateFactory;
+use OCP\Share\IShare;
 use OCP\Template;
 
 /**
  * @package OCA\Files_Sharing\Controllers
  */
-#[IgnoreOpenAPI]
+#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class ShareController extends AuthPublicShareController {
 	protected ?Share\IShare $share = null;
 
@@ -203,7 +204,7 @@ class ShareController extends AuthPublicShareController {
 		return $this->shareManager->checkPassword($this->share, $password);
 	}
 
-	protected function getPasswordHash(): string {
+	protected function getPasswordHash(): ?string {
 		return $this->share->getPassword();
 	}
 
@@ -222,8 +223,12 @@ class ShareController extends AuthPublicShareController {
 	}
 
 	protected function authSucceeded() {
+		if ($this->share === null) {
+			throw new NotFoundException();
+		}
+
 		// For share this was always set so it is still used in other apps
-		$this->session->set('public_link_authenticated', (string)$this->share->getId());
+		$this->session->set(PublicAuth::DAV_AUTHENTICATED, $this->share->getId());
 	}
 
 	protected function authFailed() {
@@ -522,8 +527,7 @@ class ShareController extends AuthPublicShareController {
 		$fileId = $node->getId();
 
 		$userFolder = $this->rootFolder->getUserFolder($share->getSharedBy());
-		$userNodeList = $userFolder->getById($fileId);
-		$userNode = $userNodeList[0];
+		$userNode = $userFolder->getFirstNodeById($fileId);
 		$ownerFolder = $this->rootFolder->getUserFolder($share->getShareOwner());
 		$userPath = $userFolder->getRelativePath($userNode->getPath());
 		$ownerPath = $ownerFolder->getRelativePath($node->getPath());
@@ -569,10 +573,10 @@ class ShareController extends AuthPublicShareController {
 	 * @param string $filePath
 	 */
 	protected function publishActivity($subject,
-										array $parameters,
-										$affectedUser,
-										$fileId,
-										$filePath) {
+		array $parameters,
+		$affectedUser,
+		$fileId,
+		$filePath) {
 		$event = $this->activityManager->generateEvent();
 		$event->setApp('files_sharing')
 			->setType('public_links')

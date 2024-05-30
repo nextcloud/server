@@ -1,27 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\FederatedFileSharing;
 
@@ -130,9 +112,9 @@ class AddressHandler {
 	 * @return string
 	 */
 	public function removeProtocolFromUrl($url) {
-		if (strpos($url, 'https://') === 0) {
+		if (str_starts_with($url, 'https://')) {
 			return substr($url, strlen('https://'));
-		} elseif (strpos($url, 'http://') === 0) {
+		} elseif (str_starts_with($url, 'http://')) {
 			return substr($url, strlen('http://'));
 		}
 
@@ -146,8 +128,8 @@ class AddressHandler {
 	 * @return bool
 	 */
 	public function urlContainProtocol($url) {
-		if (strpos($url, 'https://') === 0 ||
-			strpos($url, 'http://') === 0) {
+		if (str_starts_with($url, 'https://') ||
+			str_starts_with($url, 'http://')) {
 			return true;
 		}
 

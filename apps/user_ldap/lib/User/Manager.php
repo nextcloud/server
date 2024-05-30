@@ -29,9 +29,9 @@
  */
 namespace OCA\User_LDAP\User;
 
-use OCP\Cache\CappedMemoryCache;
 use OCA\User_LDAP\Access;
 use OCA\User_LDAP\FilesystemHelper;
+use OCP\Cache\CappedMemoryCache;
 use OCP\IAvatarManager;
 use OCP\IConfig;
 use OCP\IDBConnection;
@@ -162,6 +162,7 @@ class Manager {
 			$this->access->getConnection()->ldapAttributeRole,
 			$this->access->getConnection()->ldapAttributeHeadline,
 			$this->access->getConnection()->ldapAttributeBiography,
+			$this->access->getConnection()->ldapAttributeBirthDate,
 		];
 
 		$homeRule = (string)$this->access->getConnection()->homeFolderNamingRule;

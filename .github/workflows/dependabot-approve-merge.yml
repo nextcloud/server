@@ -2,6 +2,9 @@
 #
 # https://github.com/nextcloud/.github
 # https://docs.github.com/en/actions/learn-github-actions/sharing-workflows-with-your-organization
+#
+# SPDX-FileCopyrightText: 2021-2024 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: MIT
 
 name: Dependabot
 
@@ -21,8 +24,8 @@ concurrency:
 
 jobs:
   auto-approve-merge:
-    if: github.actor == 'dependabot[bot]'
-    runs-on: ubuntu-latest
+    if: github.actor == 'dependabot[bot]' || github.actor == 'renovate[bot]'
+    runs-on: ubuntu-latest-low
     permissions:
       # for hmarr/auto-approve-action to approve PRs
       pull-requests: write

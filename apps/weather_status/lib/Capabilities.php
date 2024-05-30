@@ -25,9 +25,9 @@ declare(strict_types=1);
  */
 namespace OCA\WeatherStatus;
 
-use OCP\Capabilities\ICapability;
-
 use OCA\WeatherStatus\AppInfo\Application;
+
+use OCP\Capabilities\ICapability;
 
 /**
  * Class Capabilities

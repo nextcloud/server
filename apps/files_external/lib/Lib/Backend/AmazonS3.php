@@ -56,6 +56,9 @@ class AmazonS3 extends Backend {
 					->setType(DefinitionParameter::VALUE_BOOLEAN),
 				(new DefinitionParameter('legacy_auth', $l->t('Legacy (v2) authentication')))
 					->setType(DefinitionParameter::VALUE_BOOLEAN),
+				(new DefinitionParameter('useMultipartCopy', $l->t('Enable multipart copy')))
+					->setType(DefinitionParameter::VALUE_BOOLEAN)
+					->setDefaultValue(true),
 			])
 			->addAuthScheme(AccessKey::SCHEME_AMAZONS3_ACCESSKEY)
 			->addAuthScheme(AuthMechanism::SCHEME_NULL)

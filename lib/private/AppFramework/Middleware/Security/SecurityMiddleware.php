@@ -1,40 +1,11 @@
 <?php
 
 declare(strict_types=1);
-
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Bernhard Posselt <dev@bernhard-posselt.com>
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Kesselberg <mail@danielkesselberg.de>
- * @author Holger Hees <holger.hees@gmail.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Julien Veyssier <eneiluj@posteo.net>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Stefan Weil <sw@weilnetz.de>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Thomas Tanghus <thomas@tanghus.net>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
-
 namespace OC\AppFramework\Middleware\Security;
 
 use OC\AppFramework\Middleware\Security\Exceptions\AppNotEnabledException;
@@ -104,18 +75,18 @@ class SecurityMiddleware extends Middleware {
 	private $userSession;
 
 	public function __construct(IRequest $request,
-								ControllerMethodReflector $reflector,
-								INavigationManager $navigationManager,
-								IURLGenerator $urlGenerator,
-								LoggerInterface $logger,
-								string $appName,
-								bool $isLoggedIn,
-								bool $isAdminUser,
-								bool $isSubAdmin,
-								IAppManager $appManager,
-								IL10N $l10n,
-								AuthorizedGroupMapper $mapper,
-								IUserSession $userSession
+		ControllerMethodReflector $reflector,
+		INavigationManager $navigationManager,
+		IURLGenerator $urlGenerator,
+		LoggerInterface $logger,
+		string $appName,
+		bool $isLoggedIn,
+		bool $isAdminUser,
+		bool $isSubAdmin,
+		IAppManager $appManager,
+		IL10N $l10n,
+		AuthorizedGroupMapper $mapper,
+		IUserSession $userSession
 	) {
 		$this->navigationManager = $navigationManager;
 		$this->request = $request;
@@ -180,20 +151,20 @@ class SecurityMiddleware extends Middleware {
 					}
 				}
 				if (!$authorized) {
-					throw new NotAdminException($this->l10n->t('Logged in user must be an admin, a sub admin or gotten special right to access this setting'));
+					throw new NotAdminException($this->l10n->t('Logged in account must be an admin, a sub admin or gotten special right to access this setting'));
 				}
 			}
 			if ($this->hasAnnotationOrAttribute($reflectionMethod, 'SubAdminRequired', SubAdminRequired::class)
 				&& !$this->isSubAdmin
 				&& !$this->isAdminUser
 				&& !$authorized) {
-				throw new NotAdminException($this->l10n->t('Logged in user must be an admin or sub admin'));
+				throw new NotAdminException($this->l10n->t('Logged in account must be an admin or sub admin'));
 			}
 			if (!$this->hasAnnotationOrAttribute($reflectionMethod, 'SubAdminRequired', SubAdminRequired::class)
 				&& !$this->hasAnnotationOrAttribute($reflectionMethod, 'NoAdminRequired', NoAdminRequired::class)
 				&& !$this->isAdminUser
 				&& !$authorized) {
-				throw new NotAdminException($this->l10n->t('Logged in user must be an admin'));
+				throw new NotAdminException($this->l10n->t('Logged in account must be an admin'));
 			}
 		}
 

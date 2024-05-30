@@ -1,36 +1,15 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- * @copyright Copyright (C) 2012 entreCables S.L. All rights reserved.
- * @copyright Copyright (C) 2012 entreCables S.L. All rights reserved.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Felix Moeller <mail@felixmoeller.de>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author scambra <sergio@entrecables.com>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-FileCopyrightText: 2012 entreCables S.L. All rights reserved
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\DAV\Connector\Sabre;
 
 use OCA\DAV\Upload\FutureFile;
+use OCA\DAV\Upload\UploadFolder;
 use OCP\Files\StorageNotAvailableException;
 use Sabre\DAV\Exception\InsufficientStorage;
 use Sabre\DAV\Exception\ServiceUnavailable;
@@ -90,6 +69,19 @@ class QuotaPlugin extends \Sabre\DAV\ServerPlugin {
 	 * @param bool $modified modified
 	 */
 	public function beforeCreateFile($uri, $data, INode $parent, $modified) {
+		$request = $this->server->httpRequest;
+		if ($parent instanceof UploadFolder && $request->getHeader('Destination')) {
+			// If chunked upload and Total-Length header is set, use that
+			// value for quota check. This allows us to also check quota while
+			// uploading chunks and not only when the file is assembled.
+			$length = $request->getHeader('OC-Total-Length');
+			$destinationPath = $this->server->calculateUri($request->getHeader('Destination'));
+			$quotaPath = $this->getPathForDestination($destinationPath);
+			if ($quotaPath && is_numeric($length)) {
+				return $this->checkQuota($quotaPath, (int)$length);
+			}
+		}
+
 		if (!$parent instanceof Node) {
 			return;
 		}
@@ -114,29 +106,20 @@ class QuotaPlugin extends \Sabre\DAV\ServerPlugin {
 	}
 
 	/**
-	 * Check if we're moving a Futurefile in which case we need to check
+	 * Check if we're moving a FutureFile in which case we need to check
 	 * the quota on the target destination.
-	 *
-	 * @param string $source source path
-	 * @param string $destination destination path
 	 */
-	public function beforeMove($source, $destination) {
-		$sourceNode = $this->server->tree->getNodeForPath($source);
+	public function beforeMove(string $sourcePath, string $destinationPath): bool {
+		$sourceNode = $this->server->tree->getNodeForPath($sourcePath);
 		if (!$sourceNode instanceof FutureFile) {
-			return;
+			return true;
 		}
 
-		// get target node for proper path conversion
-		if ($this->server->tree->nodeExists($destination)) {
-			$destinationNode = $this->server->tree->getNodeForPath($destination);
-			$path = $destinationNode->getPath();
-		} else {
-			$parent = dirname($destination);
-			if ($parent === '.') {
-				$parent = '';
-			}
-			$parentNode = $this->server->tree->getNodeForPath($parent);
-			$path = $parentNode->getPath();
+		try {
+			// The final path is not known yet, we check the quota on the parent
+			$path = $this->getPathForDestination($destinationPath);
+		} catch (\Exception $e) {
+			return true;
 		}
 
 		return $this->checkQuota($path, $sourceNode->getSize());
@@ -151,26 +134,36 @@ class QuotaPlugin extends \Sabre\DAV\ServerPlugin {
 			return true;
 		}
 
+		try {
+			$path = $this->getPathForDestination($destinationPath);
+		} catch (\Exception $e) {
+			return true;
+		}
+
+		return $this->checkQuota($path, $sourceNode->getSize());
+	}
+
+	private function getPathForDestination(string $destinationPath): string {
 		// get target node for proper path conversion
 		if ($this->server->tree->nodeExists($destinationPath)) {
 			$destinationNode = $this->server->tree->getNodeForPath($destinationPath);
 			if (!$destinationNode instanceof Node) {
-				return true;
+				throw new \Exception('Invalid destination node');
 			}
-			$path = $destinationNode->getPath();
-		} else {
-			$parent = dirname($destinationPath);
-			if ($parent === '.') {
-				$parent = '';
-			}
-			$parentNode = $this->server->tree->getNodeForPath($parent);
-			if (!$parentNode instanceof Node) {
-				return true;
-			}
-			$path = $parentNode->getPath();
+			return $destinationNode->getPath();
 		}
 
-		return $this->checkQuota($path, $sourceNode->getSize());
+		$parent = dirname($destinationPath);
+		if ($parent === '.') {
+			$parent = '';
+		}
+
+		$parentNode = $this->server->tree->getNodeForPath($parent);
+		if (!$parentNode instanceof Node) {
+			throw new \Exception('Invalid destination node');
+		}
+
+		return $parentNode->getPath();
 	}
 
 
@@ -182,7 +175,7 @@ class QuotaPlugin extends \Sabre\DAV\ServerPlugin {
 	 * @throws InsufficientStorage
 	 * @return bool
 	 */
-	public function checkQuota($path, $length = null) {
+	public function checkQuota(string $path, $length = null) {
 		if ($length === null) {
 			$length = $this->getLength();
 		}
@@ -193,6 +186,8 @@ class QuotaPlugin extends \Sabre\DAV\ServerPlugin {
 				$parentPath = '';
 			}
 			$req = $this->server->httpRequest;
+
+			// If LEGACY chunked upload
 			if ($req->getHeader('OC-Chunked')) {
 				$info = \OC_FileChunking::decodeName($newName);
 				$chunkHandler = $this->getFileChunking($info);
@@ -202,14 +197,20 @@ class QuotaPlugin extends \Sabre\DAV\ServerPlugin {
 				// use target file name for free space check in case of shared files
 				$path = rtrim($parentPath, '/') . '/' . $info['name'];
 			}
+
+			// Strip any duplicate slashes
+			$path = str_replace('//', '/', $path);
+
 			$freeSpace = $this->getFreeSpace($path);
 			if ($freeSpace >= 0 && $length > $freeSpace) {
+				// If LEGACY chunked upload, clean up
 				if (isset($chunkHandler)) {
 					$chunkHandler->cleanup();
 				}
 				throw new InsufficientStorage("Insufficient space in $path, $length required, $freeSpace available");
 			}
 		}
+
 		return true;
 	}
 
@@ -227,11 +228,13 @@ class QuotaPlugin extends \Sabre\DAV\ServerPlugin {
 		}
 
 		$ocLength = $req->getHeader('OC-Total-Length');
-		if (is_numeric($length) && is_numeric($ocLength)) {
-			return max($length, $ocLength);
+		if (!is_numeric($ocLength)) {
+			return $length;
 		}
-
-		return $length;
+		if (!is_numeric($length)) {
+			return $ocLength;
+		}
+		return max($length, $ocLength);
 	}
 
 	/**

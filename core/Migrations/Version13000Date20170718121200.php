@@ -1,39 +1,13 @@
 <?php
 /**
- * @copyright Copyright (c) 2017 Joas Schilling <coding@schilljs.com>
- *
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Kesselberg <mail@danielkesselberg.de>
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Mario Danic <mario@lovelyhq.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OC\Core\Migrations;
 
 use Doctrine\DBAL\Platforms\PostgreSQL94Platform;
-use OCP\DB\Types;
 use OCP\DB\ISchemaWrapper;
+use OCP\DB\Types;
 use OCP\IDBConnection;
 use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
@@ -261,6 +235,7 @@ class Version13000Date20170718121200 extends SimpleMigrationStep {
 			$table->addIndex(['storage', 'size', 'fileid'], 'fs_storage_size');
 			$table->addIndex(['fileid', 'storage', 'size'], 'fs_id_storage_size');
 			$table->addIndex(['parent'], 'fs_parent');
+			$table->addIndex(['name'], 'fs_name_hash');
 			$table->addIndex(['mtime'], 'fs_mtime');
 			$table->addIndex(['size'], 'fs_size');
 			if (!$schema->getDatabasePlatform() instanceof PostgreSQL94Platform) {
@@ -360,7 +335,8 @@ class Version13000Date20170718121200 extends SimpleMigrationStep {
 				'notnull' => true,
 			]);
 			$table->setPrimaryKey(['id']);
-			$table->addIndex(['userid'], 'property_index');
+			// Dropped in Version29000Date20240131122720 because property_index is redundant with properties_path_index
+			// $table->addIndex(['userid'], 'property_index');
 			$table->addIndex(['userid', 'propertypath'], 'properties_path_index');
 			$table->addIndex(['propertypath'], 'properties_pathonly_index');
 		} else {
@@ -751,7 +727,7 @@ class Version13000Date20170718121200 extends SimpleMigrationStep {
 				'unsigned' => true,
 			]);
 			$table->setPrimaryKey(['objecttype', 'objectid', 'systemtagid'], 'som_pk');
-//			$table->addUniqueIndex(['objecttype', 'objectid', 'systemtagid'], 'mapping');
+			//			$table->addUniqueIndex(['objecttype', 'objectid', 'systemtagid'], 'mapping');
 			$table->addIndex(['systemtagid', 'objecttype'], 'systag_by_tagid');
 		}
 
@@ -888,25 +864,25 @@ class Version13000Date20170718121200 extends SimpleMigrationStep {
 			]);
 			$table->addIndex(['object_type', 'object_id'], 'comments_marker_object_index');
 			$table->setPrimaryKey(['user_id', 'object_type', 'object_id'], 'crm_pk');
-//			$table->addUniqueIndex(['user_id', 'object_type', 'object_id'], 'comments_marker_index');
+			//			$table->addUniqueIndex(['user_id', 'object_type', 'object_id'], 'comments_marker_index');
 		}
 
-//		if (!$schema->hasTable('credentials')) {
-//			$table = $schema->createTable('credentials');
-//			$table->addColumn('user', 'string', [
-//				'notnull' => false,
-//				'length' => 64,
-//			]);
-//			$table->addColumn('identifier', 'string', [
-//				'notnull' => true,
-//				'length' => 64,
-//			]);
-//			$table->addColumn('credentials', 'text', [
-//				'notnull' => false,
-//			]);
-//			$table->setPrimaryKey(['user', 'identifier']);
-//			$table->addIndex(['user'], 'credentials_user');
-//		}
+		//		if (!$schema->hasTable('credentials')) {
+		//			$table = $schema->createTable('credentials');
+		//			$table->addColumn('user', 'string', [
+		//				'notnull' => false,
+		//				'length' => 64,
+		//			]);
+		//			$table->addColumn('identifier', 'string', [
+		//				'notnull' => true,
+		//				'length' => 64,
+		//			]);
+		//			$table->addColumn('credentials', 'text', [
+		//				'notnull' => false,
+		//			]);
+		//			$table->setPrimaryKey(['user', 'identifier']);
+		//			$table->addIndex(['user'], 'credentials_user');
+		//		}
 
 		if (!$schema->hasTable('admin_sections')) {
 			$table = $schema->createTable('admin_sections');

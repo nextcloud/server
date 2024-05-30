@@ -1,26 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Comments\Notification;
 
@@ -36,24 +19,13 @@ use OCP\Notification\INotification;
 use OCP\Notification\INotifier;
 
 class Notifier implements INotifier {
-	protected IFactory $l10nFactory;
-	protected IRootFolder $rootFolder;
-	protected ICommentsManager $commentsManager;
-	protected IURLGenerator $url;
-	protected IUserManager $userManager;
-
 	public function __construct(
-		IFactory $l10nFactory,
-		IRootFolder $rootFolder,
-		ICommentsManager $commentsManager,
-		IURLGenerator $url,
-		IUserManager $userManager
+		protected IFactory $l10nFactory,
+		protected IRootFolder $rootFolder,
+		protected ICommentsManager $commentsManager,
+		protected IURLGenerator $url,
+		protected IUserManager $userManager
 	) {
-		$this->l10nFactory = $l10nFactory;
-		$this->rootFolder = $rootFolder;
-		$this->commentsManager = $commentsManager;
-		$this->url = $url;
-		$this->userManager = $userManager;
 	}
 
 	/**
@@ -134,7 +106,7 @@ class Notifier implements INotifier {
 				];
 
 				if ($isDeletedActor) {
-					$subject = $l->t('You were mentioned on "{file}", in a comment by a user that has since been deleted');
+					$subject = $l->t('You were mentioned on "{file}", in a comment by an account that has since been deleted');
 				} else {
 					$subject = $l->t('{user} mentioned you in a comment on "{file}"');
 					$subjectParameters['user'] = [

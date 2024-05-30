@@ -1,51 +1,30 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Johannes Leuker <j.leuker@hosting.de>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Loki3000 <github@labcms.ru>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author tgrant <tom.grant760@gmail.com>
- * @author Tom Grant <TomG736@users.noreply.github.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Group;
 
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
+use OC\User\LazyUser;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Group\Backend\ABackend;
 use OCP\Group\Backend\IAddToGroupBackend;
+use OCP\Group\Backend\IBatchMethodsBackend;
 use OCP\Group\Backend\ICountDisabledInGroup;
 use OCP\Group\Backend\ICountUsersBackend;
-use OCP\Group\Backend\ICreateGroupBackend;
+use OCP\Group\Backend\ICreateNamedGroupBackend;
 use OCP\Group\Backend\IDeleteGroupBackend;
 use OCP\Group\Backend\IGetDisplayNameBackend;
 use OCP\Group\Backend\IGroupDetailsBackend;
+use OCP\Group\Backend\INamedBackend;
 use OCP\Group\Backend\IRemoveFromGroupBackend;
 use OCP\Group\Backend\ISearchableGroupBackend;
 use OCP\Group\Backend\ISetDisplayNameBackend;
-use OCP\Group\Backend\INamedBackend;
 use OCP\IDBConnection;
 use OCP\IUserManager;
-use OC\User\LazyUser;
 
 /**
  * Class for group management in a SQL Database (e.g. MySQL, SQLite)
@@ -54,26 +33,25 @@ class Database extends ABackend implements
 	IAddToGroupBackend,
 	ICountDisabledInGroup,
 	ICountUsersBackend,
-	ICreateGroupBackend,
+	ICreateNamedGroupBackend,
 	IDeleteGroupBackend,
 	IGetDisplayNameBackend,
 	IGroupDetailsBackend,
 	IRemoveFromGroupBackend,
 	ISetDisplayNameBackend,
 	ISearchableGroupBackend,
+	IBatchMethodsBackend,
 	INamedBackend {
-	/** @var string[] */
+	/** @var array<string, array{gid: string, displayname: string}> */
 	private $groupCache = [];
-
-	/** @var IDBConnection */
-	private $dbConn;
+	private ?IDBConnection $dbConn;
 
 	/**
 	 * \OC\Group\Database constructor.
 	 *
 	 * @param IDBConnection|null $dbConn
 	 */
-	public function __construct(IDBConnection $dbConn = null) {
+	public function __construct(?IDBConnection $dbConn = null) {
 		$this->dbConn = $dbConn;
 	}
 
@@ -86,35 +64,28 @@ class Database extends ABackend implements
 		}
 	}
 
-	/**
-	 * Try to create a new group
-	 * @param string $gid The name of the group to create
-	 * @return bool
-	 *
-	 * Tries to create a new group. If the group name already exists, false will
-	 * be returned.
-	 */
-	public function createGroup(string $gid): bool {
+	public function createGroup(string $name): ?string {
 		$this->fixDI();
 
+		$gid = $this->computeGid($name);
 		try {
 			// Add group
 			$builder = $this->dbConn->getQueryBuilder();
 			$result = $builder->insert('groups')
 				->setValue('gid', $builder->createNamedParameter($gid))
-				->setValue('displayname', $builder->createNamedParameter($gid))
+				->setValue('displayname', $builder->createNamedParameter($name))
 				->execute();
 		} catch (UniqueConstraintViolationException $e) {
-			$result = 0;
+			return null;
 		}
 
 		// Add to cache
 		$this->groupCache[$gid] = [
 			'gid' => $gid,
-			'displayname' => $gid
+			'displayname' => $name
 		];
 
-		return $result === 1;
+		return $gid;
 	}
 
 	/**
@@ -270,7 +241,7 @@ class Database extends ABackend implements
 		$this->fixDI();
 
 		$query = $this->dbConn->getQueryBuilder();
-		$query->select('gid')
+		$query->select('gid', 'displayname')
 			->from('groups')
 			->orderBy('gid', 'ASC');
 
@@ -293,6 +264,10 @@ class Database extends ABackend implements
 
 		$groups = [];
 		while ($row = $result->fetch()) {
+			$this->groupCache[$row['gid']] = [
+				'displayname' => $row['displayname'],
+				'gid' => $row['gid'],
+			];
 			$groups[] = $row['gid'];
 		}
 		$result->closeCursor();
@@ -329,6 +304,43 @@ class Database extends ABackend implements
 			return true;
 		}
 		return false;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function groupsExists(array $gids): array {
+		$notFoundGids = [];
+		$existingGroups = [];
+
+		// In case the data is already locally accessible, not need to do SQL query
+		// or do a SQL query but with a smaller in clause
+		foreach ($gids as $gid) {
+			if (isset($this->groupCache[$gid])) {
+				$existingGroups[] = $gid;
+			} else {
+				$notFoundGids[] = $gid;
+			}
+		}
+
+		$qb = $this->dbConn->getQueryBuilder();
+		$qb->select('gid', 'displayname')
+				->from('groups')
+				->where($qb->expr()->in('gid', $qb->createParameter('ids')));
+		foreach (array_chunk($notFoundGids, 1000) as $chunk) {
+			$qb->setParameter('ids', $chunk, IQueryBuilder::PARAM_STR_ARRAY);
+			$result = $qb->executeQuery();
+			while ($row = $result->fetch()) {
+				$this->groupCache[(string)$row['gid']] = [
+					'displayname' => (string)$row['displayname'],
+					'gid' => (string)$row['gid'],
+				];
+				$existingGroups[] = (string)$row['gid'];
+			}
+			$result->closeCursor();
+		}
+
+		return $existingGroups;
 	}
 
 	/**
@@ -488,6 +500,43 @@ class Database extends ABackend implements
 		return [];
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getGroupsDetails(array $gids): array {
+		$notFoundGids = [];
+		$details = [];
+
+		// In case the data is already locally accessible, not need to do SQL query
+		// or do a SQL query but with a smaller in clause
+		foreach ($gids as $gid) {
+			if (isset($this->groupCache[$gid])) {
+				$details[$gid] = ['displayName' => $this->groupCache[$gid]['displayname']];
+			} else {
+				$notFoundGids[] = $gid;
+			}
+		}
+
+		foreach (array_chunk($notFoundGids, 1000) as $chunk) {
+			$query = $this->dbConn->getQueryBuilder();
+			$query->select('gid', 'displayname')
+				->from('groups')
+				->where($query->expr()->in('gid', $query->createNamedParameter($chunk, IQueryBuilder::PARAM_STR_ARRAY)));
+
+			$result = $query->executeQuery();
+			while ($row = $result->fetch()) {
+				$details[(string)$row['gid']] = ['displayName' => (string)$row['displayname']];
+				$this->groupCache[(string)$row['gid']] = [
+					'displayname' => (string)$row['displayname'],
+					'gid' => (string)$row['gid'],
+				];
+			}
+			$result->closeCursor();
+		}
+
+		return $details;
+	}
+
 	public function setDisplayName(string $gid, string $displayName): bool {
 		if (!$this->groupExists($gid)) {
 			return false;
@@ -516,5 +565,14 @@ class Database extends ABackend implements
 	 */
 	public function getBackendName(): string {
 		return 'Database';
+	}
+
+	/**
+	 * Compute group ID from display name (GIDs are limited to 64 characters in database)
+	 */
+	private function computeGid(string $displayName): string {
+		return mb_strlen($displayName) > 64
+			? hash('sha256', $displayName)
+			: $displayName;
 	}
 }

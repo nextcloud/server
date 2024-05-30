@@ -1,9 +1,8 @@
 <?php
 /**
- * Copyright (c) 2014 Robin Appelman <icewind@owncloud.com>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\Files\Cache\Wrapper;
@@ -11,6 +10,7 @@ namespace Test\Files\Cache\Wrapper;
 use OC\Files\Cache\Wrapper\CacheJail;
 use OC\Files\Search\SearchComparison;
 use OC\Files\Search\SearchQuery;
+use OC\Files\Storage\Wrapper\Jail;
 use OC\User\User;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Search\ISearchComparison;
@@ -217,5 +217,34 @@ class CacheJailTest extends CacheTest {
 		$result = $nested->search('%asd%');
 		$this->assertCount(1, $result);
 		$this->assertEquals('foo/bar/asd', $result[0]['path']);
+	}
+
+	public function testWatcher() {
+		$storage = new Jail([
+			'storage' => $this->storage,
+			'root' => 'foo'
+		]);
+		$storage->getScanner()->scan('');
+		$storage->file_put_contents('bar', 'asd');
+
+		$this->assertFalse($this->cache->inCache('bar'));
+		$storage->getWatcher()->update('bar', ['mimetype' => 'text/plain']);
+		$this->assertTrue($this->cache->inCache('bar'));
+	}
+
+	public function testWatcherAfterInnerWatcher() {
+		$storage = new Jail([
+			'storage' => $this->storage,
+			'root' => 'foo'
+		]);
+		$storage->getScanner()->scan('');
+		$storage->file_put_contents('bar', 'asd');
+
+		// let the underlying storage create it's watcher first
+		$this->storage->getWatcher();
+
+		$this->assertFalse($this->cache->inCache('bar'));
+		$storage->getWatcher()->update('bar', ['mimetype' => 'text/plain']);
+		$this->assertTrue($this->cache->inCache('bar'));
 	}
 }

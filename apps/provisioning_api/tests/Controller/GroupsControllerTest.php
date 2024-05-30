@@ -507,7 +507,7 @@ class GroupsControllerTest extends \Test\TestCase {
 		$this->userManager->expects($this->any())
 			->method('get')
 			->willReturnCallback(function (string $uid) use ($users) {
-				return isset($users[$uid]) ? $users[$uid] : null;
+				return $users[$uid] ?? null;
 			});
 
 		$group = $this->createGroup($gid);
@@ -552,7 +552,7 @@ class GroupsControllerTest extends \Test\TestCase {
 		$this->userManager->expects($this->any())
 			->method('get')
 			->willReturnCallback(function (string $uid) use ($users) {
-				return isset($users[$uid]) ? $users[$uid] : null;
+				return $users[$uid] ?? null;
 			});
 
 		$group = $this->createGroup($gid);

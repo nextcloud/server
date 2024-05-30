@@ -1,32 +1,17 @@
 <?php
 /**
- * @copyright Copyright (c) 2021, Louis Chemineau <louis@chmn.me>
- *
- * @author Louis Chemineau <louis@chmn.me>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 
 namespace OCA\DAV\BulkUpload;
 
-use Sabre\HTTP\RequestInterface;
+use OCP\AppFramework\Http;
+use Psr\Log\LoggerInterface;
 use Sabre\DAV\Exception;
 use Sabre\DAV\Exception\BadRequest;
 use Sabre\DAV\Exception\LengthRequired;
-use OCP\AppFramework\Http;
+use Sabre\HTTP\RequestInterface;
 
 class MultipartRequestParser {
 
@@ -42,7 +27,10 @@ class MultipartRequestParser {
 	/**
 	 * @throws BadRequest
 	 */
-	public function __construct(RequestInterface $request) {
+	public function __construct(
+		RequestInterface $request,
+		protected LoggerInterface $logger,
+	) {
 		$stream = $request->getBody();
 		$contentType = $request->getHeader('Content-Type');
 
@@ -78,7 +66,7 @@ class MultipartRequestParser {
 		$boundaryValue = trim($boundaryValue);
 
 		// Remove potential quotes around boundary value.
-		if (substr($boundaryValue, 0, 1) == '"' && substr($boundaryValue, -1) == '"') {
+		if (str_starts_with($boundaryValue, '"') && str_ends_with($boundaryValue, '"')) {
 			$boundaryValue = substr($boundaryValue, 1, -1);
 		}
 
@@ -177,6 +165,11 @@ class MultipartRequestParser {
 		while (($line = fgets($this->stream)) !== "\r\n") {
 			if ($line === false) {
 				throw new Exception('An error occurred while reading headers of a part');
+			}
+
+			if (!str_contains($line, ':')) {
+				$this->logger->error('Header missing ":" on bulk request: ' . json_encode($line));
+				throw new Exception('An error occurred while reading headers of a part', Http::STATUS_BAD_REQUEST);
 			}
 
 			try {

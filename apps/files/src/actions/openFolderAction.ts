@@ -1,26 +1,8 @@
 /**
- * @copyright Copyright (c) 2023 John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { join } from 'path'
-import { Permission, Node, FileType, View, registerFileAction, FileAction, DefaultType } from '@nextcloud/files'
+import { Permission, Node, FileType, View, FileAction, DefaultType } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 import FolderSvg from '@mdi/svg/svg/folder.svg?raw'
 
@@ -49,15 +31,15 @@ export const action = new FileAction({
 			&& (node.permissions & Permission.READ) !== 0
 	},
 
-	async exec(node: Node, view: View, dir: string) {
+	async exec(node: Node, view: View) {
 		if (!node || node.type !== FileType.Folder) {
 			return false
 		}
 
 		window.OCP.Files.Router.goToRoute(
 			null,
-			{ view: view.id, fileid: undefined },
-			{ dir: join(dir, node.basename), fileid: undefined },
+			{ view: view.id, fileid: node.fileid },
+			{ dir: node.path },
 		)
 		return null
 	},
@@ -66,5 +48,3 @@ export const action = new FileAction({
 	default: DefaultType.HIDDEN,
 	order: -100,
 })
-
-registerFileAction(action)

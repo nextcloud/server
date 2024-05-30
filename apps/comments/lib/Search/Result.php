@@ -1,26 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2018 Joas Schilling <coding@schilljs.com>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Michał Węgrzynek <michal.wegrzynek@malloc.com.pl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\Comments\Search;
 
@@ -47,7 +28,7 @@ class Result extends BaseResult {
 	/**
 	 * @deprecated 20.0.0
 	 */
-	public $authorName;
+	public string $authorName;
 	/**
 	 * @deprecated 20.0.0
 	 */
@@ -61,14 +42,16 @@ class Result extends BaseResult {
 	 * @throws NotFoundException
 	 * @deprecated 20.0.0
 	 */
-	public function __construct(string $search,
-								IComment $comment,
-								string $authorName,
-								string $path) {
+	public function __construct(
+		string $search,
+		IComment $comment,
+		string $authorName,
+		string $path,
+	) {
 		parent::__construct(
 			$comment->getId(),
 			$comment->getMessage()
-		/* @todo , [link to file] */
+			/* @todo , [link to file] */
 		);
 
 		$this->comment = $this->getRelevantMessagePart($comment->getMessage(), $search);

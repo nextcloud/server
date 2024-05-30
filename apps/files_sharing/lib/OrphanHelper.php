@@ -23,6 +23,7 @@ declare(strict_types=1);
 
 namespace OCA\Files_Sharing;
 
+use OC\User\NoUserException;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\IRootFolder;
 use OCP\IDBConnection;
@@ -40,9 +41,13 @@ class OrphanHelper {
 	}
 
 	public function isShareValid(string $owner, int $fileId): bool {
-		$userFolder = $this->rootFolder->getUserFolder($owner);
-		$nodes = $userFolder->getById($fileId);
-		return count($nodes) > 0;
+		try {
+			$userFolder = $this->rootFolder->getUserFolder($owner);
+		} catch (NoUserException $e) {
+			return false;
+		}
+		$node = $userFolder->getFirstNodeById($fileId);
+		return $node !== null;
 	}
 
 	/**

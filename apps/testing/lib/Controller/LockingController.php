@@ -64,12 +64,12 @@ class LockingController extends OCSController {
 	 * @param IRootFolder $rootFolder
 	 */
 	public function __construct($appName,
-								IRequest $request,
-								ILockingProvider $lockingProvider,
-								FakeDBLockingProvider $fakeDBLockingProvider,
-								IDBConnection $connection,
-								IConfig $config,
-								IRootFolder $rootFolder) {
+		IRequest $request,
+		ILockingProvider $lockingProvider,
+		FakeDBLockingProvider $fakeDBLockingProvider,
+		IDBConnection $connection,
+		IConfig $config,
+		IRootFolder $rootFolder) {
 		parent::__construct($appName, $request);
 
 		$this->lockingProvider = $lockingProvider;
@@ -199,7 +199,7 @@ class LockingController extends OCSController {
 		throw new OCSException('', Http::STATUS_LOCKED);
 	}
 
-	public function releaseAll(int $type = null): DataResponse {
+	public function releaseAll(?int $type = null): DataResponse {
 		$lockingProvider = $this->getLockingProvider();
 
 		foreach ($this->config->getAppKeys('testing') as $lock) {

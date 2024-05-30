@@ -23,14 +23,13 @@ declare(strict_types=1);
 
 namespace OCA\Files_Sharing\Command;
 
-
-use Symfony\Component\Console\Question\ConfirmationQuestion;
 use OC\Core\Command\Base;
 use OCA\Files_Sharing\OrphanHelper;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 class DeleteOrphanShares extends Base {
 	private OrphanHelper $orphanHelper;

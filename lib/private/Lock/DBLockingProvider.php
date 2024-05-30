@@ -1,30 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Individual IT Services <info@individual-it.net>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Ole Ostergaard <ole.c.ostergaard@gmail.com>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Carl Schwan <carl@carlschwan.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Lock;
 
@@ -39,21 +18,15 @@ use OCP\Lock\LockedException;
  * Locking provider that stores the locks in the database
  */
 class DBLockingProvider extends AbstractLockingProvider {
-	private IDBConnection $connection;
-	private ITimeFactory $timeFactory;
 	private array $sharedLocks = [];
-	private bool $cacheSharedLocks;
 
 	public function __construct(
-		IDBConnection $connection,
-		ITimeFactory $timeFactory,
+		private IDBConnection $connection,
+		private ITimeFactory $timeFactory,
 		int $ttl = 3600,
-		bool $cacheSharedLocks = true
+		private bool $cacheSharedLocks = true
 	) {
-		$this->connection = $connection;
-		$this->timeFactory = $timeFactory;
-		$this->ttl = $ttl;
-		$this->cacheSharedLocks = $cacheSharedLocks;
+		parent::__construct($ttl);
 	}
 
 	/**
