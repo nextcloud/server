@@ -16,6 +16,10 @@ namespace OCA\Webhooks;
  *     httpMethod: string,
  *     uri: string,
  *     event?: string,
+ *     eventFilter?: array<mixed>,
+ *     headers?: array<string,string>,
+ *     authMethod: string,
+ *     authData?: array<string,mixed>,
  * }
  */
 class ResponseDefinitions {

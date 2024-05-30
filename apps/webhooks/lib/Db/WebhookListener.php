@@ -28,6 +28,9 @@ class WebhookListener extends Entity implements \JsonSerializable {
 	/** @var string */
 	protected $event;
 
+	/** @var array */
+	protected $eventFilter;
+
 	/** @var ?string */
 	protected $headers;
 

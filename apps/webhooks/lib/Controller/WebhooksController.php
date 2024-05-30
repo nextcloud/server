@@ -73,6 +73,7 @@ class WebhooksController extends OCSController {
 	 * @param string $httpMethod HTTP method to use to contact the webhook
 	 * @param string $uri Webhook URI endpoint
 	 * @param string $event Event class name to listen to
+	 * @param ?array<mixed> $eventFilter Mongo filter to apply to the serialized data to decide if firing
 	 * @param ?array<string,string> $headers Array of headers to send
 	 * @param ?string $authMethod Authentication method to use. TODO
 	 * @param ?array<string,mixed> $authData Array of data for authentication
@@ -125,6 +126,7 @@ class WebhooksController extends OCSController {
 	 * @param string $httpMethod HTTP method to use to contact the webhook
 	 * @param string $uri Webhook URI endpoint
 	 * @param string $event Event class name to listen to
+	 * @param ?array<string,mixed> $eventFilter Mongo filter to apply to the serialized data to decide if firing
 	 * @param ?array<string,string> $headers Array of headers to send
 	 * @param ?string $authMethod Authentication method to use. TODO
 	 * @param ?array<string,mixed> $authData Array of data for authentication

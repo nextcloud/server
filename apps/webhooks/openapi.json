@@ -181,6 +181,18 @@
                         }
                     },
                     {
+                        "name": "eventFilter[]",
+                        "in": "query",
+                        "description": "Mongo filter to apply to the serialized data to decide if firing",
+                        "schema": {
+                            "type": "array",
+                            "nullable": true,
+                            "items": {
+                                "type": "object"
+                            }
+                        }
+                    },
+                    {
                         "name": "headers",
                         "in": "query",
                         "description": "Array of headers to send",
@@ -420,6 +432,15 @@
                         "required": true,
                         "schema": {
                             "type": "string"
+                        }
+                    },
+                    {
+                        "name": "eventFilter",
+                        "in": "query",
+                        "description": "Mongo filter to apply to the serialized data to decide if firing",
+                        "schema": {
+                            "type": "string",
+                            "nullable": true
                         }
                     },
                     {
