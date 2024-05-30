@@ -281,6 +281,7 @@ return array(
     'OCP\\EventDispatcher\\GenericEvent' => $baseDir . '/lib/public/EventDispatcher/GenericEvent.php',
     'OCP\\EventDispatcher\\IEventDispatcher' => $baseDir . '/lib/public/EventDispatcher/IEventDispatcher.php',
     'OCP\\EventDispatcher\\IEventListener' => $baseDir . '/lib/public/EventDispatcher/IEventListener.php',
+    'OCP\\EventDispatcher\\JsonSerializer' => $baseDir . '/lib/public/EventDispatcher/JsonSerializer.php',
     'OCP\\Exceptions\\AbortedEventException' => $baseDir . '/lib/public/Exceptions/AbortedEventException.php',
     'OCP\\Exceptions\\AppConfigException' => $baseDir . '/lib/public/Exceptions/AppConfigException.php',
     'OCP\\Exceptions\\AppConfigIncorrectTypeException' => $baseDir . '/lib/public/Exceptions/AppConfigIncorrectTypeException.php',
