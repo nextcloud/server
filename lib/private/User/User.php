@@ -8,10 +8,10 @@
 namespace OC\User;
 
 use InvalidArgumentException;
-use OC_Helper;
 use OC\Accounts\AccountManager;
 use OC\Avatar\AvatarManager;
 use OC\Hooks\Emitter;
+use OC_Helper;
 use OCP\Accounts\IAccountManager;
 use OCP\Comments\ICommentsManager;
 use OCP\EventDispatcher\IEventDispatcher;
