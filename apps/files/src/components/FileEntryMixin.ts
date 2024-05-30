@@ -139,15 +139,6 @@ export default defineComponent({
 				return this.actionsMenuStore.opened === this.uniqueId.toString()
 			},
 			set(opened) {
-				// Only reset when opening a new menu
-				if (opened) {
-					// Reset any right click position override on close
-					// Wait for css animation to be done
-					const root = this.$el?.closest('main.app-content') as HTMLElement
-					root.style.removeProperty('--mouse-pos-x')
-					root.style.removeProperty('--mouse-pos-y')
-				}
-
 				this.actionsMenuStore.opened = opened ? this.uniqueId.toString() : null
 			},
 		},
@@ -198,6 +189,11 @@ export default defineComponent({
 				// 200 = max width of the menu
 				root.style.setProperty('--mouse-pos-x', Math.max(0, event.clientX - contentRect.left - 200) + 'px')
 				root.style.setProperty('--mouse-pos-y', Math.max(0, event.clientY - contentRect.top) + 'px')
+			} else {
+				// Reset any right menu position potentially set
+				const root = this.$el?.closest('main.app-content') as HTMLElement
+				root.style.removeProperty('--mouse-pos-x')
+				root.style.removeProperty('--mouse-pos-y')
 			}
 
 			// If the clicked row is in the selection, open global menu
