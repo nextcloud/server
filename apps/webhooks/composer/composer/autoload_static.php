@@ -31,6 +31,7 @@ class ComposerStaticInitWebhooks
         'OCA\\Webhooks\\Listener\\WebhooksEventListener' => __DIR__ . '/..' . '/../lib/Listener/WebhooksEventListener.php',
         'OCA\\Webhooks\\Migration\\Version1000Date20240527153425' => __DIR__ . '/..' . '/../lib/Migration/Version1000Date20240527153425.php',
         'OCA\\Webhooks\\ResponseDefinitions' => __DIR__ . '/..' . '/../lib/ResponseDefinitions.php',
+        'OCA\\Webhooks\\Settings\\Admin' => __DIR__ . '/..' . '/../lib/Settings/Admin.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

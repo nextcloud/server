@@ -16,4 +16,5 @@ return array(
     'OCA\\Webhooks\\Listener\\WebhooksEventListener' => $baseDir . '/../lib/Listener/WebhooksEventListener.php',
     'OCA\\Webhooks\\Migration\\Version1000Date20240527153425' => $baseDir . '/../lib/Migration/Version1000Date20240527153425.php',
     'OCA\\Webhooks\\ResponseDefinitions' => $baseDir . '/../lib/ResponseDefinitions.php',
+    'OCA\\Webhooks\\Settings\\Admin' => $baseDir . '/../lib/Settings/Admin.php',
 );

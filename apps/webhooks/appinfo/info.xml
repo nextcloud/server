@@ -26,4 +26,8 @@
 	<commands>
 		<command>OCA\Webhooks\Command\Index</command>
 	</commands>
+
+	<settings>
+		<admin>OCA\Webhooks\Settings\Admin</admin>
+	</settings>
 </info>

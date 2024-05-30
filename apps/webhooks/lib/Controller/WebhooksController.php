@@ -12,6 +12,7 @@ namespace OCA\Webhooks\Controller;
 use Doctrine\DBAL\Exception;
 use OCA\Webhooks\Db\WebhookListenerMapper;
 use OCP\AppFramework\Http\Attribute\ApiRoute;
+use OCP\AppFramework\Http\Attribute\AuthorizedAdminSetting;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSBadRequestException;
@@ -44,6 +45,7 @@ class WebhooksController extends OCSController {
 	 * 200: Webhook registrations returned
 	 */
 	#[ApiRoute(verb: 'GET', url: '/api/v1/webhooks')]
+	#[AuthorizedAdminSetting(settings:'OCA\Webhooks\Settings\Admin')]
 	public function index(): DataResponse {
 		$webhookListeners = $this->mapper->getAll();
 
@@ -60,6 +62,7 @@ class WebhooksController extends OCSController {
 	 * 200: Webhook registration returned
 	 */
 	#[ApiRoute(verb: 'GET', url: '/api/v1/webhooks/{id}')]
+	#[AuthorizedAdminSetting(settings:'OCA\Webhooks\Settings\Admin')]
 	public function show(int $id): DataResponse {
 		return new DataResponse($this->mapper->getById($id));
 	}
@@ -83,6 +86,7 @@ class WebhooksController extends OCSController {
 	 * @throws OCSException Other error
 	 */
 	#[ApiRoute(verb: 'POST', url: '/api/v1/webhooks')]
+	#[AuthorizedAdminSetting(settings:'OCA\Webhooks\Settings\Admin')]
 	public function create(
 		string $httpMethod,
 		string $uri,
@@ -132,6 +136,7 @@ class WebhooksController extends OCSController {
 	 * @throws OCSException Other error
 	 */
 	#[ApiRoute(verb: 'POST', url: '/api/v1/webhooks/{id}')]
+	#[AuthorizedAdminSetting(settings:'OCA\Webhooks\Settings\Admin')]
 	public function update(
 		int $id,
 		string $httpMethod,
@@ -177,6 +182,7 @@ class WebhooksController extends OCSController {
 	 * @throws OCSException Other error
 	 */
 	#[ApiRoute(verb: 'DELETE', url: '/api/v1/webhooks/{id}')]
+	#[AuthorizedAdminSetting(settings:'OCA\Webhooks\Settings\Admin')]
 	public function destroy(int $id): DataResponse {
 		try {
 			$deleted = $this->mapper->deleteById($id);
