@@ -51,7 +51,7 @@ class CommandLineContext implements \Behat\Behat\Context\Context {
 		foreach ($results as $path => $data) {
 			$path = rawurldecode($path);
 			$parts = explode(' ', $path);
-			if (basename($parts[0]) !== 'transferred') {
+			if (basename($parts[0]) !== 'Transferred') {
 				continue;
 			}
 			if (isset($parts[2]) && $parts[2] === $sourceUser) {

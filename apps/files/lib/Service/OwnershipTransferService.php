@@ -23,6 +23,7 @@ use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountManager;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\L10N\IFactory;
 use OCP\Share\IManager as IShareManager;
 use OCP\Share\IShare;
 use Symfony\Component\Console\Helper\ProgressBar;
@@ -45,6 +46,7 @@ class OwnershipTransferService {
 		private IMountManager $mountManager,
 		private IUserMountCache $userMountCache,
 		private IUserManager $userManager,
+		private IFactory $l10nFactory,
 	) {
 		$this->encryptionManager = $encryptionManager;
 	}
@@ -93,19 +95,15 @@ class OwnershipTransferService {
 		if ($move) {
 			$finalTarget = "$destinationUid/files/";
 		} else {
+			$l = $this->l10nFactory->get('files', $this->l10nFactory->getUserLanguage($destinationUser));
 			$date = date('Y-m-d H-i-s');
 
-			// Remove some characters which are prone to cause errors
-			$cleanUserName = str_replace(['\\', '/', ':', '.', '?', '#', '\'', '"'], '-', $sourceUser->getDisplayName());
-			// Replace multiple dashes with one dash
-			$cleanUserName = preg_replace('/-{2,}/s', '-', $cleanUserName);
-			$cleanUserName = $cleanUserName ?: $sourceUid;
-
-			$finalTarget = "$destinationUid/files/transferred from $cleanUserName on $date";
+			$cleanUserName = $this->sanitizeFolderName($sourceUser->getDisplayName()) ?: $sourceUid;
+			$finalTarget = "$destinationUid/files/" . $this->sanitizeFolderName($l->t('Transferred from %1$s on %2$s', [$cleanUserName, $date]));
 			try {
 				$view->verifyPath(dirname($finalTarget), basename($finalTarget));
 			} catch (InvalidPathException $e) {
-				$finalTarget = "$destinationUid/files/transferred from $sourceUid on $date";
+				$finalTarget = "$destinationUid/files/" . $this->sanitizeFolderName($l->t('Transferred from %1$s on %2$s', [$sourceUid, $date]));
 			}
 		}
 
@@ -183,6 +181,13 @@ class OwnershipTransferService {
 				$move
 			);
 		}
+	}
+
+	private function sanitizeFolderName(string $name): string {
+		// Remove some characters which are prone to cause errors
+		$name = str_replace(['\\', '/', ':', '.', '?', '#', '\'', '"'], '-', $name);
+		// Replace multiple dashes with one dash
+		return preg_replace('/-{2,}/s', '-', $name);
 	}
 
 	private function walkFiles(View $view, $path, Closure $callBack) {
