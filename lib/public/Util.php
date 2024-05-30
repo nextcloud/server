@@ -16,7 +16,7 @@ use OC\AppScriptSort;
 use OCP\L10N\IFactory;
 use OCP\Share\IManager;
 use Psr\Container\ContainerExceptionInterface;
-use Psr\Log\LoggerInterface
+use Psr\Log\LoggerInterface;
 
 /**
  * This class provides different helper functions to make the life of a developer easier
