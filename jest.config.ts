@@ -33,6 +33,7 @@ const ignorePatterns = [
 	'char-regex',
 	'hot-patcher',
 	'is-svg',
+	'layerr',
 	'mime',
 	'p-cancelable',
 	'p-limit',
