@@ -20,7 +20,7 @@
  *
  */
 
-import type { PropType } from 'vue'
+import type { ComponentPublicInstance, PropType } from 'vue'
 
 import { showError } from '@nextcloud/dialogs'
 import { FileType, Permission, Folder, File as NcFile, NodeStatus, Node, View } from '@nextcloud/files'
@@ -35,6 +35,7 @@ import { getDragAndDropPreview } from '../utils/dragUtils.ts'
 import { hashCode } from '../utils/hashUtils.ts'
 import { dataTransferToFileTree, onDropExternalFiles, onDropInternalFiles } from '../services/DropService.ts'
 import logger from '../logger.js'
+import FileEntryActions from '../components/FileEntry/FileEntryActions.vue'
 
 Vue.directive('onClickOutside', vOnClickOutside)
 
@@ -233,7 +234,8 @@ export default defineComponent({
 				return false
 			}
 
-			this.$refs.actions.execDefaultAction(event)
+			const actions = this.$refs.actions as ComponentPublicInstance<typeof FileEntryActions>
+			actions.execDefaultAction(event)
 		},
 
 		openDetailsIfAvailable(event) {
