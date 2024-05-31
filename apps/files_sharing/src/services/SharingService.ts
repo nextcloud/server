@@ -42,7 +42,9 @@ const ocsEntryToNode = function(ocsEntry: any): Folder | File | null {
 		const hasPreview = ocsEntry?.has_preview === true
 		const Node = isFolder ? Folder : File
 
-		const fileid = ocsEntry.file_source
+		const fileid = ocsEntry.file_source ?? ocsEntry.file_id
+		console.log('Entry', ocsEntry) // WIP stuff
+
 
 		// Generate path and strip double slashes
 		const path = ocsEntry?.path || ocsEntry.file_target
@@ -58,7 +60,7 @@ const ocsEntryToNode = function(ocsEntry: any): Folder | File | null {
 			id: fileid,
 			source,
 			owner: ocsEntry?.uid_owner,
-			mime: ocsEntry?.mimetype,
+			mime: ocsEntry?.mimetype ?? 'application/octet-stream',
 			mtime,
 			size: ocsEntry?.item_size,
 			permissions: ocsEntry?.item_permissions || ocsEntry?.permissions,

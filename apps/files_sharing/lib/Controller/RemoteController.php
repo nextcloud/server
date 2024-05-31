@@ -66,7 +66,10 @@ class RemoteController extends OCSController {
 	 * 200: Pending remote shares returned
 	 */
 	public function getOpenShares() {
-		return new DataResponse($this->externalManager->getOpenShares());
+		// WIP: Changes seem unhelpful since, $info = $view->getFileInfo($share['mountpoint']);
+		// WIP: in self::extendShareInfo returns false
+		$openShares = $this->externalManager->getOpenShares();
+		return new DataResponse(array_map('self::extendShareInfo', $openShares));
 	}
 
 	/**

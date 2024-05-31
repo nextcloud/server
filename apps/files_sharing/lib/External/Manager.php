@@ -812,6 +812,15 @@ class Manager {
 				if ((int)$share['share_type'] === IShare::TYPE_GROUP && (int)$share['parent'] > 0) {
 					$toRemove[] = $share['parent'];
 				}
+
+				// Create share object and attempt to get and sent node data?
+				$shareObject = new Share($this->rootFolder, $this->userManager);
+				$shareObject->setId((int)$share['id'])
+					->setShareType((int)$share['share_type'])
+					->setPermissions((int)$share['permissions'])
+					->setTarget($share['file_target']) // Not available, should break this
+					->setMailSend((bool)$share['mail_send'])
+					->setToken($share['share_token']);
 			}
 			$shares = array_filter($shares, function ($share) use ($toRemove) {
 				return !in_array($share['id'], $toRemove, true);
