@@ -21,16 +21,18 @@
 -->
 
 <template>
-	<NcModal class="modal"
+	<NcDialog class="dialog"
 		size="small"
+		:name="t('settings', 'New account')"
+		out-transition
 		v-on="$listeners">
-		<form class="modal__form"
+		<form id="new-user-form"
+			class="dialog__form"
 			data-test="form"
 			:disabled="loading.all"
 			@submit.prevent="createUser">
-			<h2>{{ t('settings', 'New user') }}</h2>
 			<NcTextField ref="username"
-				class="modal__item"
+				class="dialog__item"
 				data-test="username"
 				:value.sync="newUser.id"
 				:disabled="settings.newUserGenerateUserID"
@@ -40,7 +42,7 @@
 				spellcheck="false"
 				pattern="[a-zA-Z0-9 _\.@\-']+"
 				required />
-			<NcTextField class="modal__item"
+			<NcTextField class="dialog__item"
 				data-test="displayName"
 				:value.sync="newUser.displayName"
 				:label="t('settings', 'Display name')"
@@ -49,11 +51,11 @@
 				spellcheck="false" />
 			<span v-if="!settings.newUserRequireEmail"
 				id="password-email-hint"
-				class="modal__hint">
+				class="dialog__hint">
 				{{ t('settings', 'Either password or email is required') }}
 			</span>
 			<NcPasswordField ref="password"
-				class="modal__item"
+				class="dialog__item"
 				data-test="password"
 				:value.sync="newUser.password"
 				:minlength="minPasswordLength"
@@ -64,7 +66,7 @@
 				autocomplete="new-password"
 				spellcheck="false"
 				:required="newUser.mailAddress === ''" />
-			<NcTextField class="modal__item"
+			<NcTextField class="dialog__item"
 				data-test="email"
 				type="email"
 				:value.sync="newUser.mailAddress"
@@ -74,14 +76,10 @@
 				autocomplete="off"
 				spellcheck="false"
 				:required="newUser.password === '' || settings.newUserRequireEmail" />
-			<div class="modal__item">
-				<label class="modal__label"
-					for="new-user-groups">
-					{{ !settings.isAdmin ? t('settings', 'Groups (required)') : t('settings', 'Groups') }}
-				</label>
-				<NcSelect class="modal__select"
-					input-id="new-user-groups"
-					:placeholder="t('settings', 'Set user groups')"
+			<div class="dialog__item">
+				<NcSelect class="dialog__select"
+					:input-label="!settings.isAdmin ? t('settings', 'Groups (required)') : t('settings', 'Groups')"
+					:placeholder="t('settings', 'Set account groups')"
 					:disabled="loading.groups || loading.all"
 					:options="canAddGroups"
 					:value="newUser.groups"
@@ -97,43 +95,31 @@
 						Therefore, empty select is forbidden -->
 			</div>
 			<div v-if="subAdminsGroups.length > 0"
-				class="modal__item">
-				<label class="modal__label"
-					for="new-user-sub-admin">
-					{{ t('settings', 'Administered groups') }}
-				</label>
+				class="dialog__item">
 				<NcSelect v-model="newUser.subAdminsGroups"
-					class="modal__select"
-					input-id="new-user-sub-admin"
-					:placeholder="t('settings', 'Set user as admin for …')"
+					class="dialog__select"
+					:input-label="t('settings', 'Administered groups')"
+					:placeholder="t('settings', 'Set account as admin for …')"
 					:options="subAdminsGroups"
 					:close-on-select="false"
 					:multiple="true"
 					label="name" />
 			</div>
-			<div class="modal__item">
-				<label class="modal__label"
-					for="new-user-quota">
-					{{ t('settings', 'Quota') }}
-				</label>
+			<div class="dialog__item">
 				<NcSelect v-model="newUser.quota"
-					class="modal__select"
-					input-id="new-user-quota"
-					:placeholder="t('settings', 'Set user quota')"
+					class="dialog__select"
+					:input-label="t('settings', 'Quota')"
+					:placeholder="t('settings', 'Set account quota')"
 					:options="quotaOptions"
 					:clearable="false"
 					:taggable="true"
 					:create-option="validateQuota" />
 			</div>
 			<div v-if="showConfig.showLanguages"
-				class="modal__item">
-				<label class="modal__label"
-					for="new-user-language">
-					{{ t('settings', 'Language') }}
-				</label>
+				class="dialog__item">
 				<NcSelect	v-model="newUser.language"
-					class="modal__select"
-					input-id="new-user-language"
+					class="dialog__select"
+					:input-label="t('settings', 'Language')"
 					:placeholder="t('settings', 'Set default language')"
 					:clearable="false"
 					:selectable="option => !option.languages"
@@ -141,44 +127,43 @@
 					:options="languages"
 					label="name" />
 			</div>
-			<div :class="['modal__item managers', { 'icon-loading-small': loading.manager }]">
-				<label class="modal__label"
-					for="new-user-manager">
-					<!-- TRANSLATORS This string describes a manager in the context of an organization -->
-					{{ t('settings', 'Manager') }}
-				</label>
+			<div :class="['dialog__item dialog__managers', { 'icon-loading-small': loading.manager }]">
 				<NcSelect v-model="newUser.manager"
-					class="modal__select"
-					input-id="new-user-manager"
+					class="dialog__select"
+					:input-label="managerInputLabel"
 					:placeholder="managerLabel"
 					:options="possibleManagers"
 					:user-select="true"
 					label="displayname"
 					@search="searchUserManager" />
 			</div>
-			<NcButton class="modal__submit"
+		</form>
+
+		<template #actions>
+			<NcButton class="dialog__submit"
 				data-test="submit"
+				form="new-user-form"
 				type="primary"
 				native-type="submit">
-				{{ t('settings', 'Add new user') }}
+				{{ t('settings', 'Add new account') }}
 			</NcButton>
-		</form>
-	</NcModal>
+		</template>
+	</NcDialog>
 </template>
 
 <script>
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import NcModal from '@nextcloud/vue/dist/Components/NcModal.js'
+import NcDialog from '@nextcloud/vue/dist/Components/NcDialog.js'
 import NcPasswordField from '@nextcloud/vue/dist/Components/NcPasswordField.js'
 import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
 import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
 
 export default {
-	name: 'NewUserModal',
+	name: 'NewUserDialog',
 
 	components: {
 		NcButton,
-		NcModal,
+		NcDialog,
 		NcPasswordField,
 		NcSelect,
 		NcTextField,
@@ -205,7 +190,9 @@ export default {
 		return {
 			possibleManagers: [],
 			// TRANSLATORS This string describes a manager in the context of an organization
-			managerLabel: t('settings', 'Set user manager'),
+			managerInputLabel: t('settings', 'Manager'),
+			// TRANSLATORS This string describes a manager in the context of an organization
+			managerLabel: t('settings', 'Set account manager'),
 		}
 	},
 
@@ -272,6 +259,10 @@ export default {
 		await this.searchUserManager()
 	},
 
+	mounted() {
+		this.$refs.username?.focus?.()
+	},
+
 	methods: {
 		async createUser() {
 			this.loading.all = true
@@ -289,18 +280,18 @@ export default {
 				})
 
 				this.$emit('reset')
-				this.$refs.username?.$refs?.inputField?.$refs?.input?.focus?.()
-				this.$emit('close')
+				this.$refs.username?.focus?.()
+				this.$emit('closing')
 			} catch (error) {
 				this.loading.all = false
 				if (error.response && error.response.data && error.response.data.ocs && error.response.data.ocs.meta) {
 					const statuscode = error.response.data.ocs.meta.statuscode
 					if (statuscode === 102) {
 						// wrong username
-						this.$refs.username?.$refs?.inputField?.$refs?.input?.focus?.()
+						this.$refs.username?.focus?.()
 					} else if (statuscode === 107) {
 						// wrong password
-						this.$refs.password?.$refs?.inputField?.$refs?.input?.focus?.()
+						this.$refs.password?.focus?.()
 					}
 				}
 			}
@@ -383,12 +374,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.modal {
+.dialog {
 	&__form {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		padding: 20px;
+		padding: 0 8px;
 		gap: 4px 0;
 	}
 
@@ -415,8 +406,19 @@ export default {
 		width: 100%;
 	}
 
+	&__managers {
+		margin-bottom: 12px;
+	}
+
 	&__submit {
-		margin-top: 20px;
+		margin-top: 4px;
+		margin-bottom: 8px;
+	}
+
+	:deep {
+		.dialog__actions {
+			margin: auto;
+		}
 	}
 }
 </style>

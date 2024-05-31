@@ -120,7 +120,7 @@
 			<template v-if="editing">
 				<label class="hidden-visually"
 					:for="'groups' + uniqueId">
-					{{ t('settings', 'Add user to group') }}
+					{{ t('settings', 'Add account to group') }}
 				</label>
 				<NcSelect data-cy-user-list-input-groups
 					:data-loading="loading.groups || undefined"

@@ -28,7 +28,7 @@
 		</th>
 		<td class="footer__cell footer__cell--loading">
 			<NcLoadingIcon v-if="loading"
-				:title="t('settings', 'Loading users …')"
+				:title="t('settings', 'Loading accounts …')"
 				:size="32" />
 		</td>
 		<td class="footer__cell footer__cell--count footer__cell--multiline">
@@ -73,8 +73,8 @@ export default Vue.extend({
 			if (this.loading) {
 				return this.n(
 					'settings',
-					'{userCount} user …',
-					'{userCount} users …',
+					'{userCount} account …',
+					'{userCount} accounts …',
 					this.filteredUsers.length,
 					{
 						userCount: this.filteredUsers.length,
@@ -83,8 +83,8 @@ export default Vue.extend({
 			}
 			return this.n(
 				'settings',
-				'{userCount} user',
-				'{userCount} users',
+				'{userCount} account',
+				'{userCount} accounts',
 				 this.filteredUsers.length,
 				{
 					userCount: this.filteredUsers.length,
