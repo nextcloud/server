@@ -23,6 +23,7 @@ use OCP\IImage;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserBackend;
+use OCP\Notification\IManager as INotificationManager;
 use OCP\User\Backend\IGetHomeBackend;
 use OCP\User\Backend\IProvideAvatarBackend;
 use OCP\User\Backend\IProvideEnabledStateBackend;
@@ -271,9 +272,9 @@ class User implements IUser {
 			$avatarManager = \OCP\Server::get(AvatarManager::class);
 			$avatarManager->deleteUserAvatar($this->uid);
 
-			$notification = \OC::$server->getNotificationManager()->createNotification();
+			$notification = \OC::$server->get(INotificationManager::class)->createNotification();
 			$notification->setUser($this->uid);
-			\OC::$server->getNotificationManager()->markProcessed($notification);
+			\OC::$server->get(INotificationManager::class)->markProcessed($notification);
 
 			/** @var AccountManager $accountManager */
 			$accountManager = \OCP\Server::get(AccountManager::class);
