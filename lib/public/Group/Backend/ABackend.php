@@ -48,7 +48,7 @@ abstract class ABackend implements GroupInterface, IBatchMethodsBackend {
 		if ($this instanceof ICountUsersBackend) {
 			$implements |= GroupInterface::COUNT_USERS;
 		}
-		if ($this instanceof ICreateGroupBackend) {
+		if ($this instanceof ICreateGroupBackend || $this instanceof ICreateNamedGroupBackend) {
 			$implements |= GroupInterface::CREATE_GROUP;
 		}
 		if ($this instanceof IDeleteGroupBackend) {
