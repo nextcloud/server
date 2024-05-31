@@ -1,3 +1,4 @@
+/* eslint-disable import/no-named-as-default-member */
 /**
  * @copyright Copyright (c) 2023 John Molakvoæ <skjnldsv@protonmail.com>
  *
@@ -22,7 +23,7 @@
 import { basename } from 'path'
 import { expect } from '@jest/globals'
 import { Folder, Navigation, getNavigation } from '@nextcloud/files'
-import * as eventBus from '@nextcloud/event-bus'
+import eventBus from '@nextcloud/event-bus'
 import * as initialState from '@nextcloud/initial-state'
 
 import { action } from '../actions/favoriteAction'
