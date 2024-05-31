@@ -84,86 +84,34 @@ use Psr\Log\LoggerInterface;
  * This class is the communication hub for all sharing related operations.
  */
 class Manager implements IManager {
-	/** @var IProviderFactory */
-	private $factory;
-	private LoggerInterface $logger;
-	/** @var IConfig */
-	private $config;
-	/** @var ISecureRandom */
-	private $secureRandom;
-	/** @var IHasher */
-	private $hasher;
-	/** @var IMountManager */
-	private $mountManager;
-	/** @var IGroupManager */
-	private $groupManager;
-	/** @var IL10N */
-	private $l;
-	/** @var IFactory */
-	private $l10nFactory;
-	/** @var IUserManager */
-	private $userManager;
-	/** @var IRootFolder */
-	private $rootFolder;
-	/** @var LegacyHooks */
-	private $legacyHooks;
-	/** @var IMailer */
-	private $mailer;
-	/** @var IURLGenerator */
-	private $urlGenerator;
-	/** @var \OC_Defaults */
-	private $defaults;
-	/** @var IEventDispatcher */
-	private $dispatcher;
-	/** @var IUserSession */
-	private $userSession;
-	/** @var KnownUserService */
-	private $knownUserService;
-	private ShareDisableChecker $shareDisableChecker;
-	private IDateTimeZone $dateTimeZone;
+
+	private IL10N|null $l;
+	private LegacyHooks $legacyHooks;
 
 	public function __construct(
-		LoggerInterface $logger,
-		IConfig $config,
-		ISecureRandom $secureRandom,
-		IHasher $hasher,
-		IMountManager $mountManager,
-		IGroupManager $groupManager,
-		IFactory $l10nFactory,
-		IProviderFactory $factory,
-		IUserManager $userManager,
-		IRootFolder $rootFolder,
-		IMailer $mailer,
-		IURLGenerator $urlGenerator,
-		\OC_Defaults $defaults,
-		IEventDispatcher $dispatcher,
-		IUserSession $userSession,
-		KnownUserService $knownUserService,
-		ShareDisableChecker $shareDisableChecker,
-		IDateTimeZone $dateTimeZone,
+		private LoggerInterface $logger,
+		private IConfig $config,
+		private ISecureRandom $secureRandom,
+		private IHasher $hasher,
+		private IMountManager $mountManager,
+		private IGroupManager $groupManager,
+		private IFactory $l10nFactory,
+		private IProviderFactory $factory,
+		private IUserManager $userManager,
+		private IRootFolder $rootFolder,
+		private IMailer $mailer,
+		private IURLGenerator $urlGenerator,
+		private \OC_Defaults $defaults,
+		private IEventDispatcher $dispatcher,
+		private IUserSession $userSession,
+		private KnownUserService $knownUserService,
+		private ShareDisableChecker $shareDisableChecker,
+		private IDateTimeZone $dateTimeZone
 	) {
-		$this->logger = $logger;
-		$this->config = $config;
-		$this->secureRandom = $secureRandom;
-		$this->hasher = $hasher;
-		$this->mountManager = $mountManager;
-		$this->groupManager = $groupManager;
-		$this->l = $l10nFactory->get('lib');
-		$this->l10nFactory = $l10nFactory;
-		$this->factory = $factory;
-		$this->userManager = $userManager;
-		$this->rootFolder = $rootFolder;
+		$this->l = $this->l10nFactory->get('lib');
 		// The constructor of LegacyHooks registers the listeners of share events
 		// do not remove if those are not properly migrated
-		$this->legacyHooks = new LegacyHooks($dispatcher);
-		$this->mailer = $mailer;
-		$this->urlGenerator = $urlGenerator;
-		$this->defaults = $defaults;
-		$this->dispatcher = $dispatcher;
-		$this->userSession = $userSession;
-		$this->knownUserService = $knownUserService;
-		$this->shareDisableChecker = $shareDisableChecker;
-		$this->dateTimeZone = $dateTimeZone;
+		$this->legacyHooks = new LegacyHooks($this->dispatcher);
 	}
 
 	/**
@@ -348,26 +296,6 @@ class Manager implements IManager {
 
 		$expirationDate = $share->getExpirationDate();
 
-		if ($expirationDate !== null) {
-			$expirationDate->setTimezone($this->dateTimeZone->getTimeZone());
-			$expirationDate->setTime(0, 0, 0);
-
-			$date = new \DateTime('now', $this->dateTimeZone->getTimeZone());
-			$date->setTime(0, 0, 0);
-			if ($date >= $expirationDate) {
-				$message = $this->l->t('Expiration date is in the past');
-				throw new GenericShareException($message, $message, 404);
-			}
-		}
-
-		// If expiredate is empty set a default one if there is a default
-		$fullId = null;
-		try {
-			$fullId = $share->getFullId();
-		} catch (\UnexpectedValueException $e) {
-			// This is a new share
-		}
-
 		if ($isRemote) {
 			$defaultExpireDate = $this->shareApiRemoteDefaultExpireDate();
 			$defaultExpireDays = $this->shareApiRemoteDefaultExpireDays();
@@ -379,28 +307,53 @@ class Manager implements IManager {
 			$configProp = 'internal_defaultExpDays';
 			$isEnforced = $this->shareApiInternalDefaultExpireDateEnforced();
 		}
-		if ($fullId === null && $expirationDate === null && $defaultExpireDate) {
-			$expirationDate = new \DateTime('now', $this->dateTimeZone->getTimeZone());
-			$expirationDate->setTime(0, 0, 0);
-			$days = (int)$this->config->getAppValue('core', $configProp, (string)$defaultExpireDays);
-			if ($days > $defaultExpireDays) {
-				$days = $defaultExpireDays;
-			}
-			$expirationDate->add(new \DateInterval('P' . $days . 'D'));
-		}
 
-		// If we enforce the expiration date check that is does not exceed
-		if ($isEnforced) {
-			if ($expirationDate === null) {
-				throw new \InvalidArgumentException('Expiration date is enforced');
+		// If $expirationDate is falsy, noExpirationDate is true and expiration not enforced
+		// Then skip expiration date validation as null is accepted
+		if(!($share->getNoExpirationDate() && !$isEnforced)) {
+			if ($expirationDate != null) {
+				$expirationDate->setTimezone($this->dateTimeZone->getTimeZone());
+				$expirationDate->setTime(0, 0, 0);
+
+				$date = new \DateTime('now', $this->dateTimeZone->getTimeZone());
+				$date->setTime(0, 0, 0);
+				if ($date >= $expirationDate) {
+					$message = $this->l->t('Expiration date is in the past');
+					throw new GenericShareException($message, $message, 404);
+				}
 			}
 
-			$date = new \DateTime('now', $this->dateTimeZone->getTimeZone());
-			$date->setTime(0, 0, 0);
-			$date->add(new \DateInterval('P' . $defaultExpireDays . 'D'));
-			if ($date < $expirationDate) {
-				$message = $this->l->n('Cannot set expiration date more than %n day in the future', 'Cannot set expiration date more than %n days in the future', $defaultExpireDays);
-				throw new GenericShareException($message, $message, 404);
+			// If expiredate is empty set a default one if there is a default
+			$fullId = null;
+			try {
+				$fullId = $share->getFullId();
+			} catch (\UnexpectedValueException $e) {
+				// This is a new share
+			}
+
+			if ($fullId === null && $expirationDate === null && $defaultExpireDate) {
+				$expirationDate = new \DateTime('now', $this->dateTimeZone->getTimeZone());
+				$expirationDate->setTime(0, 0, 0);
+				$days = (int)$this->config->getAppValue('core', $configProp, (string)$defaultExpireDays);
+				if ($days > $defaultExpireDays) {
+					$days = $defaultExpireDays;
+				}
+				$expirationDate->add(new \DateInterval('P' . $days . 'D'));
+			}
+
+			// If we enforce the expiration date check that is does not exceed
+			if ($isEnforced) {
+				if (empty($expirationDate)) {
+					throw new \InvalidArgumentException('Expiration date is enforced');
+				}
+
+				$date = new \DateTime('now', $this->dateTimeZone->getTimeZone());
+				$date->setTime(0, 0, 0);
+				$date->add(new \DateInterval('P' . $defaultExpireDays . 'D'));
+				if ($date < $expirationDate) {
+					$message = $this->l->n('Cannot set expiration date more than %n day in the future', 'Cannot set expiration date more than %n days in the future', $defaultExpireDays);
+					throw new GenericShareException($message, $message, 404);
+				}
 			}
 		}
 
@@ -433,51 +386,57 @@ class Manager implements IManager {
 	 */
 	protected function validateExpirationDateLink(IShare $share) {
 		$expirationDate = $share->getExpirationDate();
+		$isEnforced = $this->shareApiLinkDefaultExpireDateEnforced();
 
-		if ($expirationDate !== null) {
-			$expirationDate->setTimezone($this->dateTimeZone->getTimeZone());
-			$expirationDate->setTime(0, 0, 0);
-
-			$date = new \DateTime('now', $this->dateTimeZone->getTimeZone());
-			$date->setTime(0, 0, 0);
-			if ($date >= $expirationDate) {
-				$message = $this->l->t('Expiration date is in the past');
-				throw new GenericShareException($message, $message, 404);
-			}
-		}
-
-		// If expiredate is empty set a default one if there is a default
-		$fullId = null;
-		try {
-			$fullId = $share->getFullId();
-		} catch (\UnexpectedValueException $e) {
-			// This is a new share
-		}
-
-		if ($fullId === null && $expirationDate === null && $this->shareApiLinkDefaultExpireDate()) {
-			$expirationDate = new \DateTime('now', $this->dateTimeZone->getTimeZone());
-			$expirationDate->setTime(0, 0, 0);
-
-			$days = (int)$this->config->getAppValue('core', 'link_defaultExpDays', (string)$this->shareApiLinkDefaultExpireDays());
-			if ($days > $this->shareApiLinkDefaultExpireDays()) {
-				$days = $this->shareApiLinkDefaultExpireDays();
-			}
-			$expirationDate->add(new \DateInterval('P' . $days . 'D'));
-		}
-
-		// If we enforce the expiration date check that is does not exceed
-		if ($this->shareApiLinkDefaultExpireDateEnforced()) {
-			if ($expirationDate === null) {
-				throw new \InvalidArgumentException('Expiration date is enforced');
+		// If $expirationDate is falsy, noExpirationDate is true and expiration not enforced
+		// Then skip expiration date validation as null is accepted
+		if(!($share->getNoExpirationDate() && !$isEnforced)) {
+			if ($expirationDate !== null) {
+				$expirationDate->setTimezone($this->dateTimeZone->getTimeZone());
+				$expirationDate->setTime(0, 0, 0);
+	
+				$date = new \DateTime('now', $this->dateTimeZone->getTimeZone());
+				$date->setTime(0, 0, 0);
+				if ($date >= $expirationDate) {
+					$message = $this->l->t('Expiration date is in the past');
+					throw new GenericShareException($message, $message, 404);
+				}
 			}
 
-			$date = new \DateTime('now', $this->dateTimeZone->getTimeZone());
-			$date->setTime(0, 0, 0);
-			$date->add(new \DateInterval('P' . $this->shareApiLinkDefaultExpireDays() . 'D'));
-			if ($date < $expirationDate) {
-				$message = $this->l->n('Cannot set expiration date more than %n day in the future', 'Cannot set expiration date more than %n days in the future', $this->shareApiLinkDefaultExpireDays());
-				throw new GenericShareException($message, $message, 404);
+			// If expiredate is empty set a default one if there is a default
+			$fullId = null;
+			try {
+				$fullId = $share->getFullId();
+			} catch (\UnexpectedValueException $e) {
+				// This is a new share
 			}
+	
+			if ($fullId === null && $expirationDate === null && $this->shareApiLinkDefaultExpireDate()) {
+				$expirationDate = new \DateTime('now', $this->dateTimeZone->getTimeZone());
+				$expirationDate->setTime(0, 0, 0);
+	
+				$days = (int)$this->config->getAppValue('core', 'link_defaultExpDays', (string)$this->shareApiLinkDefaultExpireDays());
+				if ($days > $this->shareApiLinkDefaultExpireDays()) {
+					$days = $this->shareApiLinkDefaultExpireDays();
+				}
+				$expirationDate->add(new \DateInterval('P' . $days . 'D'));
+			}
+	
+			// If we enforce the expiration date check that is does not exceed
+			if ($isEnforced) {
+				if (empty($expirationDate)) {
+					throw new \InvalidArgumentException('Expiration date is enforced');
+				}
+	
+				$date = new \DateTime('now', $this->dateTimeZone->getTimeZone());
+				$date->setTime(0, 0, 0);
+				$date->add(new \DateInterval('P' . $this->shareApiLinkDefaultExpireDays() . 'D'));
+				if ($date < $expirationDate) {
+					$message = $this->l->n('Cannot set expiration date more than %n day in the future', 'Cannot set expiration date more than %n days in the future', $this->shareApiLinkDefaultExpireDays());
+					throw new GenericShareException($message, $message, 404);
+				}
+			}
+
 		}
 
 		$accepted = true;
