@@ -28,6 +28,7 @@ use OCP\Diagnostics\IEventLogger;
 use OCP\IRequestId;
 use OCP\PreConditionNotMetException;
 use OCP\Profiler\IProfiler;
+use OCP\Security\ISecureRandom;
 use OCP\Server;
 use Psr\Clock\ClockInterface;
 use Psr\Log\LoggerInterface;
@@ -666,7 +667,7 @@ class Connection extends PrimaryReadReplicaConnection {
 
 	private function getMigrator() {
 		// TODO properly inject those dependencies
-		$random = \OC::$server->getSecureRandom();
+		$random = \OC::$server->get(ISecureRandom::class);
 		$platform = $this->getDatabasePlatform();
 		$config = \OC::$server->getConfig();
 		$dispatcher = Server::get(\OCP\EventDispatcher\IEventDispatcher::class);
