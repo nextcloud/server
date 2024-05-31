@@ -1873,12 +1873,18 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		$outerQuery = $this->db->getQueryBuilder();
 		$innerQuery = $this->db->getQueryBuilder();
 
+		if (isset($calendarInfo['source'])) {
+			$calendarType = self::CALENDAR_TYPE_SUBSCRIPTION;
+		} else {
+			$calendarType = self::CALENDAR_TYPE_CALENDAR;
+		}
+
 		$innerQuery->selectDistinct('op.objectid')
 			->from($this->dbObjectPropertiesTable, 'op')
 			->andWhere($innerQuery->expr()->eq('op.calendarid',
 				$outerQuery->createNamedParameter($calendarInfo['id'])))
 			->andWhere($innerQuery->expr()->eq('op.calendartype',
-				$outerQuery->createNamedParameter(self::CALENDAR_TYPE_CALENDAR)));
+				$outerQuery->createNamedParameter($calendarType)));
 
 		$outerQuery->select('c.id', 'c.calendardata', 'c.componenttype', 'c.uid', 'c.uri')
 			->from('calendarobjects', 'c')

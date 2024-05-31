@@ -26,6 +26,7 @@
 namespace OCA\DAV\Tests\unit\CalDAV;
 
 use OCA\DAV\AppInfo\PluginManager;
+use OCA\DAV\CalDAV\CachedSubscription;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\CalendarHome;
 use OCA\DAV\CalDAV\Integration\ExternalCalendar;
@@ -35,6 +36,7 @@ use OCA\DAV\CalDAV\Trashbin\TrashbinHome;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Sabre\CalDAV\Schedule\Inbox;
+use Sabre\CalDAV\Subscriptions\Subscription;
 use Sabre\DAV\MkCol;
 use Test\TestCase;
 
@@ -68,7 +70,8 @@ class CalendarHomeTest extends TestCase {
 		$this->calendarHome = new CalendarHome(
 			$this->backend,
 			$this->principalInfo,
-			$this->logger
+			$this->logger,
+			false
 		);
 
 		// Replace PluginManager with our mock
@@ -248,5 +251,127 @@ class CalendarHomeTest extends TestCase {
 
 		$actual = $this->calendarHome->getChild('app-generated--calendar_plugin_2--calendar-uri-from-backend');
 		$this->assertEquals($externalCalendarMock, $actual);
+	}
+
+	public function testGetChildrenSubscriptions(): void {
+		$this->backend
+			->expects(self::once())
+			->method('getCalendarsForUser')
+			->with('user-principal-123')
+			->willReturn([]);
+
+		$this->backend
+			->expects(self::once())
+			->method('getSubscriptionsForUser')
+			->with('user-principal-123')
+			->willReturn([
+				[
+					'id' => 'subscription-1',
+					'uri' => 'subscription-1',
+					'principaluri' => 'user-principal-123',
+					'source' => 'https://localhost/subscription-1',
+					// A subscription array has actually more properties.
+				],
+				[
+					'id' => 'subscription-2',
+					'uri' => 'subscription-2',
+					'principaluri' => 'user-principal-123',
+					'source' => 'https://localhost/subscription-2',
+					// A subscription array has actually more properties.
+				]
+			]);
+
+		/*
+		 * @FIXME: PluginManager should be injected via constructor.
+		 */
+
+		$pluginManager = $this->createMock(PluginManager::class);
+		$pluginManager
+			->expects(self::once())
+			->method('getCalendarPlugins')
+			->with()
+			->willReturn([]);
+
+		$calendarHome = new CalendarHome(
+			$this->backend,
+			$this->principalInfo,
+			$this->logger,
+			false
+		);
+
+		$reflection = new \ReflectionClass($calendarHome);
+		$reflectionProperty = $reflection->getProperty('pluginManager');
+		$reflectionProperty->setAccessible(true);
+		$reflectionProperty->setValue($calendarHome, $pluginManager);
+
+		$actual = $calendarHome->getChildren();
+
+		$this->assertCount(5, $actual);
+		$this->assertInstanceOf(Inbox::class, $actual[0]);
+		$this->assertInstanceOf(Outbox::class, $actual[1]);
+		$this->assertInstanceOf(TrashbinHome::class, $actual[2]);
+		$this->assertInstanceOf(Subscription::class, $actual[3]);
+		$this->assertInstanceOf(Subscription::class, $actual[4]);
+	}
+
+	public function testGetChildrenCachedSubscriptions(): void {
+		$this->backend
+			->expects(self::once())
+			->method('getCalendarsForUser')
+			->with('user-principal-123')
+			->willReturn([]);
+
+		$this->backend
+			->expects(self::once())
+			->method('getSubscriptionsForUser')
+			->with('user-principal-123')
+			->willReturn([
+				[
+					'id' => 'subscription-1',
+					'uri' => 'subscription-1',
+					'principaluris' => 'user-principal-123',
+					'source' => 'https://localhost/subscription-1',
+					// A subscription array has actually more properties.
+				],
+				[
+					'id' => 'subscription-2',
+					'uri' => 'subscription-2',
+					'principaluri' => 'user-principal-123',
+					'source' => 'https://localhost/subscription-2',
+					// A subscription array has actually more properties.
+				]
+			]);
+
+		/*
+		 * @FIXME: PluginManager should be injected via constructor.
+		 */
+
+		$pluginManager = $this->createMock(PluginManager::class);
+		$pluginManager
+			->expects(self::once())
+			->method('getCalendarPlugins')
+			->with()
+			->willReturn([]);
+
+		$calendarHome = new CalendarHome(
+			$this->backend,
+			$this->principalInfo,
+			$this->logger,
+			true
+		);
+
+		$reflection = new \ReflectionClass($calendarHome);
+		$reflectionProperty = $reflection->getProperty('pluginManager');
+		$reflectionProperty->setAccessible(true);
+		$reflectionProperty->setValue($calendarHome, $pluginManager);
+
+		$actual = $calendarHome->getChildren();
+
+		$this->assertCount(5, $actual);
+		$this->assertInstanceOf(Inbox::class, $actual[0]);
+		$this->assertInstanceOf(Outbox::class, $actual[1]);
+		$this->assertInstanceOf(TrashbinHome::class, $actual[2]);
+		$this->assertInstanceOf(CachedSubscription::class, $actual[3]);
+		$this->assertInstanceOf(CachedSubscription::class, $actual[4]);
 	}
 }

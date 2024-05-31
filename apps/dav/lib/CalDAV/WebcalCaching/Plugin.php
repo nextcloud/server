@@ -26,7 +26,7 @@ declare(strict_types=1);
  */
 namespace OCA\DAV\CalDAV\WebcalCaching;
 
-use OCA\DAV\CalDAV\CalendarHome;
+use OCA\DAV\CalDAV\CalendarRoot;
 use OCP\IRequest;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\Server;
@@ -71,6 +71,11 @@ class Plugin extends ServerPlugin {
 		if ($magicHeader === 'On') {
 			$this->enabled = true;
 		}
+
+		$isExportRequest = $request->getMethod() === 'GET' && array_key_exists('export', $request->getParams());
+		if ($isExportRequest) {
+			$this->enabled = true;
+		}
 	}
 
 	/**
@@ -85,7 +90,7 @@ class Plugin extends ServerPlugin {
 	 */
 	public function initialize(Server $server) {
 		$this->server = $server;
-		$server->on('beforeMethod:*', [$this, 'beforeMethod']);
+		$server->on('beforeMethod:*', [$this, 'beforeMethod'], 15);
 	}
 
 	/**
@@ -103,16 +108,11 @@ class Plugin extends ServerPlugin {
 			return;
 		}
 
-		// $calendarHomePath will look like: calendars/username
-		$calendarHomePath = $pathParts[0] . '/' . $pathParts[1];
 		try {
-			$calendarHome = $this->server->tree->getNodeForPath($calendarHomePath);
-			if (!($calendarHome instanceof CalendarHome)) {
-				//how did we end up here?
-				return;
+			$calendarRoot = $this->server->tree->getNodeForPath($pathParts[0]);
+			if ($calendarRoot instanceof CalendarRoot) {
+				$calendarRoot->enableReturnCachedSubscriptions($pathParts[1]);
 			}
-
-			$calendarHome->enableCachedSubscriptionsForThisRequest();
 		} catch (NotFound $ex) {
 			return;
 		}
