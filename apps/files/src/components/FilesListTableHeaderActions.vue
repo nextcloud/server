@@ -27,18 +27,22 @@
 			:inline="inlineActions"
 			:menu-name="inlineActions <= 1 ? t('files', 'Actions') : null"
 			:open.sync="openedMenu">
-			<NcActionButton v-for="action in enabledToplevelMenuActions"
+			<NcActions v-for="action in enabledToplevelMenuActions"
 				:key="action.id"
-				:class="'files-list__row-actions-batch-' + action.id"
-				:close-after-click="false"
-				:is-menu="true"
-				@click="onActionClick(action)">
-				<template #icon>
-					<NcLoadingIcon v-if="loading === action.id" :size="18" />
-					<NcIconSvgWrapper v-else :svg="action.iconSvgInline(nodes, currentView)" />
-				</template>
-				{{ action.displayName(nodes, currentView) }}
-			</NcActionButton>
+				:menuName="action.displayName(nodes, currentView)" >
+				<NcActionButton v-for="action in enabledSubLevelMenuActions(action)"
+					:key="action.id"
+					:class="'files-list__row-actions-batch-' + action.id"
+					:close-after-click="true"
+					:is-menu="false"
+					@click="onActionClick(action)">
+					<template #icon>
+						<NcLoadingIcon v-if="loading === action.id" :size="18" />
+						<NcIconSvgWrapper v-else :svg="action.iconSvgInline(nodes, currentView)" />
+					</template>
+					{{ action.displayName(nodes, currentView) }}
+				</NcActionButton>
+			</NcActions>
 			<NcActionButton v-for="action in enabledToplevelNonMenuActions"
 				:key="action.id"
 				:class="'files-list__row-actions-batch-' + action.id"
@@ -104,7 +108,6 @@ export default defineComponent({
 		const actionsMenuStore = useActionsMenuStore()
 		const filesStore = useFilesStore()
 		const selectionStore = useSelectionStore()
-		console.log('CYRILLE', actions)
 		return {
 			actionsMenuStore,
 			filesStore,
@@ -132,7 +135,7 @@ export default defineComponent({
 
 		enabledToplevelMenuActions() {
 			return this.enabledActions
-				.filter(action => !action.parent)
+				.filter(action => typeof action.parent === 'undefined')
 				.filter(action => this.isMenu(action.id))
 				.sort((a, b) => (a.order || 0) - (b.order || 0))
 		},
@@ -202,6 +205,12 @@ export default defineComponent({
 
 		isMenu(id: string) {
 			return this.enabledSubmenuActions[id]?.length > 0
+		},
+
+		enabledSubLevelMenuActions(action) {
+			return this.enabledActions
+				.filter(subAction => subAction.parent === action.id)
+				.sort((a, b) => (a.order || 0) - (b.order || 0))
 		},
 
 		async onActionClick(action) {
