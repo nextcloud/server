@@ -93,7 +93,11 @@ export default {
 	methods: {
 		async copyLink() {
 			try {
-				await navigator.clipboard.writeText(this.internalLink)
+				if (window.isSecureContext) {
+					await navigator.clipboard.writeText(this.internalLink)
+				} else { // nothing to lose by trying the fallback
+					document.execCommand('copy')
+				}
 				showSuccess(t('files_sharing', 'Link copied'))
 				this.$refs.shareEntrySimple.$refs.actionsComponent.$el.focus()
 				this.copySuccess = true
