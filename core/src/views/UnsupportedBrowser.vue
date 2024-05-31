@@ -48,8 +48,11 @@
 </template>
 
 <script>
-import { generateUrl } from '@nextcloud/router'
+// eslint-disable-next-line n/no-extraneous-import
+import { agents } from 'caniuse-lite/dist/unpacker/agents.js'
+import { generateUrl, getRootUrl } from '@nextcloud/router'
 import { translate as t, translatePlural as n } from '@nextcloud/l10n'
+
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
 import Web from 'vue-material-design-icons/Web.vue'
