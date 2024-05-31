@@ -41,20 +41,24 @@
 </template>
 
 <script lang="ts">
-import { formatFileSize } from '@nextcloud/files'
+import type { Node } from '@nextcloud/files'
+import type { PropType } from 'vue'
+
+import { View, formatFileSize } from '@nextcloud/files'
 import { translate } from '@nextcloud/l10n'
-import Vue from 'vue'
+import { defineComponent } from 'vue'
 
 import { useFilesStore } from '../store/files.ts'
 import { usePathsStore } from '../store/paths.ts'
 
-export default Vue.extend({
+export default defineComponent({
 	name: 'FilesListTableFooter',
 
-	components: {
-	},
-
 	props: {
+		currentView: {
+			type: View,
+			required: true,
+		},
 		isMtimeAvailable: {
 			type: Boolean,
 			default: false,
@@ -64,7 +68,7 @@ export default Vue.extend({
 			default: false,
 		},
 		nodes: {
-			type: Array,
+			type: Array as PropType<Node[]>,
 			required: true,
 		},
 		summary: {
@@ -87,10 +91,6 @@ export default Vue.extend({
 	},
 
 	computed: {
-		currentView() {
-			return this.$navigation.active
-		},
-
 		dir() {
 			// Remove any trailing slash but leave root slash
 			return (this.$route?.query?.dir || '/').replace(/^(.+)\/$/, '$1')
@@ -104,7 +104,7 @@ export default Vue.extend({
 			if (this.dir === '/') {
 				return this.filesStore.getRoot(this.currentView.id)
 			}
-			const fileId = this.pathsStore.getPath(this.currentView.id, this.dir)
+			const fileId = this.pathsStore.getPath(this.currentView.id, this.dir)!
 			return this.filesStore.getNode(fileId)
 		},
 
@@ -123,7 +123,7 @@ export default Vue.extend({
 			}
 
 			// Otherwise let's compute it
-			return formatFileSize(this.nodes.reduce((total, node) => total + node.size || 0, 0), true)
+			return formatFileSize(this.nodes.reduce((total, node) => total + (node.size ?? 0), 0), true)
 		},
 	},
 
