@@ -176,7 +176,7 @@ export default defineComponent({
 			if (this.filesListWidth < 768) {
 				return false
 			}
-			return this.nodes.some(node => node.attributes.size !== undefined)
+			return this.nodes.some(node => node.size !== undefined)
 		},
 
 		sortedHeaders() {

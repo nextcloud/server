@@ -27,7 +27,7 @@ import { File, Folder, davParsePermissions, davGetDefaultPropfind } from '@nextc
 import { generateRemoteUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
 
-import { getClient, rootPath } from './WebdavClient'
+import { getClient, rootPath } from './WebdavClient.ts'
 import { hashCode } from '../utils/hashUtils'
 import logger from '../logger'
 
