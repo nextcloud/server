@@ -75,7 +75,7 @@ Files: tests/data/integritycheck/htaccessWithValidModifiedContent/.htaccess
 Copyright: 2016 ownCloud, Inc., 2019 Nextcloud GmbH and Nextcloud contributors
 License: AGPL-3.0-only
 
-Files: core/img/favicon*.* core/img/logo/logo*.* tests/data/testimage.webp
+Files: core/img/favicon*.* core/img/logo/logo*.* tests/data/testimage.webp apps/testing/img/logo.png
 Copyright: 2016-2024 Nextcloud GmbH
 License: LicenseRef-NextcloudTrademarks
 
@@ -99,11 +99,11 @@ Files: core/js/mimetypelist.js core/js/core.json themes/example/core/img
 Copyright: 2016 ownCloud, Inc., 2016-2024 Nextcloud GmbH and Nextcloud contributors
 License: AGPL-3.0-only
 
-Files: tests/data/testapp.0.8.tar.gz tests/data/testapp.tar.gz tests/data/testapp1.tar.gz apps/updatenotification/img/app.svg apps/updatenotification/img/notification.svg
+Files: tests/data/testapp.0.8.tar.gz tests/data/testapp.tar.gz tests/data/testapp1.tar.gz apps/theming/tests/data/favicon-original.ico apps/theming/tests/data/touch-comments.png apps/theming/tests/data/touch-core-red.png apps/theming/tests/data/touch-original-png.png apps/theming/tests/data/touch-original.png apps/theming/tests/data/touch-testing-red.png apps/updatenotification/img/app.svg apps/updatenotification/img/notification.svg
 Copyright: 2016 Nextcloud GmbH and Nextcloud contributors
 License: AGPL-3.0-or-later
 
-Files: core/js/merged-template-prepend.json tests/data/certificates/goodCertificate.crt tests/data/emails/new-account-email-custom-text-alternative.txt tests/data/emails/new-account-email-custom.html tests/data/emails/new-account-email-custom.txt tests/data/emails/new-account-email-single-button.html tests/data/emails/new-account-email-single-button.txt tests/data/emails/new-account-email.html tests/data/emails/new-account-email.txt
+Files: core/js/merged-template-prepend.json apps/theming/img/app-dark.svg apps/theming/img/app.svg tests/data/certificates/goodCertificate.crt tests/data/emails/new-account-email-custom-text-alternative.txt tests/data/emails/new-account-email-custom.html tests/data/emails/new-account-email-custom.txt tests/data/emails/new-account-email-single-button.html tests/data/emails/new-account-email-single-button.txt tests/data/emails/new-account-email.html tests/data/emails/new-account-email.txt
 Copyright: 2017 Nextcloud GmbH and Nextcloud contributors
 License: AGPL-3.0-or-later
 
@@ -123,7 +123,7 @@ Files: .npmignore tests/data/testimage-badheader.jpg
 Copyright: 2021 Nextcloud GmbH and Nextcloud contributors
 License: AGPL-3.0-or-later
 
-Files: build/stubs/ftp.php tests/data/integritycheck/mimetypeListModified/coresignature.json
+Files: apps/theming/img/dark-highcontrast.jpg apps/theming/img/dark.jpg apps/theming/img/default-source.svg apps/theming/img/default.jpg apps/theming/img/light-highcontrast.jpg apps/theming/img/light.jpg apps/theming/img/opendyslexic.jpg build/stubs/ftp.php tests/data/integritycheck/mimetypeListModified/coresignature.json
 Copyright: 2022 Nextcloud GmbH and Nextcloud contributors
 License: AGPL-3.0-or-later
 
@@ -143,7 +143,7 @@ Files: vendor-bin/*/composer.json vendor-bin/*/composer.lock
 Copyright: 2021 Nextcloud GmbH and Nextcloud contributors
 License: AGPL-3.0-or-later
 
-Files: apps/user_ldap/img/app-dark.svg apps/user_ldap/img/app.svg  apps/comments/img/comments-dark.svg apps/comments/img/comments.svg
+Files: apps/user_ldap/img/app-dark.svg apps/user_ldap/img/app.svg  apps/comments/img/comments-dark.svg apps/comments/img/comments.svg apps/files_versions/img/app-dark.svg apps/files_versions/img/app.svg apps/files_trashbin/img/app-dark.svg apps/files_trashbin/img/app.svg apps/theming/img/accessibility-dark.svg apps/testing/img/app.svg apps/sharebymail/img/app.svg apps/systemtags/img/app.svg apps/provisioning_api/img/app.svg
 Copyright: 2018-2024 Google LLC
 License: Apache-2.0
 
@@ -186,3 +186,79 @@ License: CC-BY-SA-3.0 OR GPL-3.0-or-later
 Files: cypress/fixtures/image.jpg
 Copyright: 2019 Tom Gainor <https://unsplash.com/@its_tgain> <https://unsplash.com/photos/mountain-cliff-under-starry-night-KidY3t8O4PE>
 License: LicenseRef-Unsplash
+
+Files: apps/theming/img/background/anatoly-mikhaltsov-butterfly-wing-scale.jpg apps/theming/img/background/preview/anatoly-mikhaltsov-butterfly-wing-scale.jpg
+Copyright: 2015 Anatoly Mikhaltsov <https://commons.wikimedia.org/wiki/File:%D0%A7%D0%B5%D1%88%D1%83%D0%B9%D0%BA%D0%B8_%D0%BA%D1%80%D1%8B%D0%BB%D0%B0_%D0%B1%D0%B0%D0%B1%D0%BE%D1%87%D0%BA%D0%B8.jpg>
+License: CC-BY-SA-4.0
+
+Files: apps/theming/img/background/bernard-spragg-new-zealand-fern.jpg apps/theming/img/background/preview/bernard-spragg-new-zealand-fern.jpg
+Copyright: 2013 Bernard Spragg <https://commons.wikimedia.org/wiki/File:NZ_Fern.(Blechnum_chambersii)_(11263534936).jpg>
+License: CC0-1.0
+
+Files: apps/theming/img/background/bernie-cetonia-aurata-take-off-composition.jpg apps/theming/img/background/preview/bernie-cetonia-aurata-take-off-composition.jpg
+Copyright: Bernie Kohl <https://commons.wikimedia.org/wiki/File:Cetonia_aurata_take_off_composition_05172009.jpg>
+License: CC0-1.0
+
+Files: apps/theming/img/background/dejan-krsmanovic-ribbed-red-metal.jpg apps/theming/img/background/preview/dejan-krsmanovic-ribbed-red-metal.jpg
+Copyright: 2018 Dejan Krsmanovic <https://www.flickr.com/photos/dejankrsmanovic/42971456774/>
+License: CC-BY-2.0
+
+Files: apps/theming/img/background/eduardo-neves-pedra-azul.jpg apps/theming/img/background/preview/eduardo-neves-pedra-azul.jpg
+Copyright: 2017 Eduardo Menezes dos Santos Neves <https://commons.wikimedia.org/wiki/File:Pedra_Azul_Milky_Way.jpg>
+License: CC-BY-SA-4.0
+
+Files: apps/theming/img/background/european-space-agency-barents-bloom.jpg apps/theming/img/background/preview/european-space-agency-barents-bloom.jpg
+Copyright: 2016 Contains modified Copernicus Sentinel data (2016), processed by ESA <https://www.esa.int/ESA_Multimedia/Images/2016/08/Barents_bloom>
+License: CC-BY-SA-3.0-IGO
+
+Files: apps/theming/img/background/hannah-maclean-soft-floral.jpg apps/theming/img/background/preview/hannah-maclean-soft-floral.jpg
+Copyright: Hannah MacLean <https://stocksnap.io/photo/soft-floral-XOYWCCW5PA>
+License: CC0-1.0
+
+Files: apps/theming/img/background/hannes-fritz-flippity-floppity.jpg apps/theming/img/background/preview/hannes-fritz-flippity-floppity.jpg
+Copyright: 2015 Hannes Fritz <http://hannes.photos/flippity-floppity>
+License: CC-BY-SA-4.0
+
+Files: apps/theming/img/background/hannes-fritz-roulette.jpg apps/theming/img/background/preview/hannes-fritz-roulette.jpg
+Copyright: 2015 Hannes Fritz <http://hannes.photos/roulette>
+License: CC-BY-SA-4.0
+
+Files: apps/theming/img/background/hannes-fritz-sea-spray.jpg apps/theming/img/background/preview/hannes-fritz-sea-spray.jpg
+Copyright: 2015 Hannes Fritz <http://hannes.photos/sea-spray>
+License: CC-BY-SA-4.0
+
+Files: apps/theming/img/background/lali-masriera-yellow-bricks.jpg apps/theming/img/background/preview/lali-masriera-yellow-bricks.jpg
+Copyright: 2009 Lali Masriera <https://www.flickr.com/photos/visualpanic/3982464447>
+License: CC-BY-2.0
+
+Files: apps/theming/img/background/nasa-waxing-crescent-moon.jpg apps/theming/img/background/preview/nasa-waxing-crescent-moon.jpg
+Copyright: 2020 Nasa <https://www.nasa.gov/image-article/waxing-crescent-moon-2/>
+License: LicenseRef-Nasa
+
+Files: apps/theming/img/background/rawpixel-pink-tapioca-bubbles.jpg apps/theming/img/background/preview/rawpixel-pink-tapioca-bubbles.jpg
+Copyright: 2018 Rawpixel Ltd <https://www.flickr.com/photos/byrawpixel/27665140298/in/photostream/>
+License: CC-BY-2.0
+
+Files: apps/theming/img/background/stefanus-martanto-setyo-husodo-underwater-ocean.jpg apps/theming/img/background/preview/stefanus-martanto-setyo-husodo-underwater-ocean.jpg
+Copyright: Stefanus Martanto Setyo Husodo <https://stocksnap.io/photo/underwater-ocean-TJA9LBH4WS>
+License: CC0-1.0
+
+Files: apps/theming/img/background/ted-moravec-morning-fog.jpg apps/theming/img/background/preview/ted-moravec-morning-fog.jpg
+Copyright: 2022 Ted Moravec <https://flickr.com/photos/tmoravec/52392410261>
+License: CC0-1.0
+
+Files: apps/theming/img/background/tommy-chau-already.jpg apps/theming/img/background/preview/tommy-chau-already.jpg
+Copyright: 2015 tommy@chau <https://www.flickr.com/photos/90975693@N05/16910999368>
+License: CC-BY-2.0
+
+Files: apps/theming/img/background/tommy-chau-lion-rock-hill.jpg apps/theming/img/background/preview/tommy-chau-lion-rock-hill.jpg
+Copyright: 2015 tommy@chau <https://www.flickr.com/photos/90975693@N05/17136440246>
+License: CC-BY-2.0
+
+Files: apps/theming/img/background/zoltan-voros-rhythm-and-blues.jpg apps/theming/img/background/preview/zoltan-voros-rhythm-and-blues.jpg
+Copyright: 2021 Zoltán Vörös <https://flickr.com/photos/v923z/51634409289/>
+License: CC-BY-2.0
+
+Files: apps/theming/fonts/OpenDyslexic-Bold.otf apps/theming/fonts/OpenDyslexic-Bold.ttf apps/theming/fonts/OpenDyslexic-Bold.woff apps/theming/fonts/OpenDyslexic-Regular.otf apps/theming/fonts/OpenDyslexic-Regular.ttf apps/theming/fonts/OpenDyslexic-Regular.woff
+Copyright: 2012-2019 Abbie Gonzalez <https://abbiecod.es|support@abbiecod.es<, with Reserved Font Name OpenDyslexic.
+License: OFL-1.1-RFN
