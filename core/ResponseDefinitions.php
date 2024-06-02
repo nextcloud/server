@@ -70,7 +70,7 @@ namespace OCA\Core;
  *
  * @psalm-type CoreResource = array{
  *     richObjectType: string,
- *     richObject: array<string, mixed>,
+ *     richObject: array<string, ?mixed>,
  *     openGraphObject: CoreOpenGraphObject,
  *     accessible: bool,
  * }
@@ -83,7 +83,7 @@ namespace OCA\Core;
  *
  * @psalm-type CoreReference = array{
  *     richObjectType: string,
- *     richObject: array<string, mixed>,
+ *     richObject: array<string, ?mixed>,
  *     openGraphObject: CoreOpenGraphObject,
  *     accessible: bool,
  * }

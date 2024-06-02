@@ -298,7 +298,8 @@
                     "richObject": {
                         "type": "object",
                         "additionalProperties": {
-                            "type": "object"
+                            "type": "object",
+                            "nullable": true
                         }
                     },
                     "openGraphObject": {
@@ -356,7 +357,8 @@
                     "richObject": {
                         "type": "object",
                         "additionalProperties": {
-                            "type": "object"
+                            "type": "object",
+                            "nullable": true
                         }
                     },
                     "openGraphObject": {
