@@ -10,6 +10,7 @@ OC.L10N.register(
     "Error saving image" : "Errorea irudia gordetzean",
     "Unsaved changes" : "Gorde gabeko aldaketak",
     "Drop changes" : "Jaregin aldaketak",
+    "Play the live photo" : "Erreproduzitu zuzeneko argazkia",
     "LIVE" : "ZUZENEAN",
     "Your browser does not support videos." : "Zure nabigatzaileak ez ditu bideoak onartzen.",
     "Edit" : "Aldatu",
