@@ -24,6 +24,13 @@ jobs:
         id: scrape
         with:
           website: 'https://nextcloud.com/team/'
+
+      - name: Get blocklist
+        id: blocklist
+        run: |
+          blocklist=$(curl https://raw.githubusercontent.com/nextcloud/.github/master/non-community-usernames.txt | paste -s -d, -)
+          echo "blocklist=$blocklist" >> "$GITHUB_OUTPUT"
+
       - uses: marcelklehr/pr-feedback-action@1883b38a033fb16f576875e0cf45f98b857655c4
         with:
           feedback-message: |
@@ -35,7 +42,9 @@ jobs:
             Your feedback is valuable to us as we continuously strive to improve our community developer experience. Please take a moment to complete our short survey by clicking on the following link: https://cloud.nextcloud.com/apps/forms/s/i9Ago4EQRZ7TWxjfmeEpPkf6
 
             Thank you for contributing to Nextcloud and we hope to hear from you soon!
+
+            (If you believe you should not receive this message, you can add yourself to the [blocklist](https://github.com/nextcloud/.github/blob/master/non-community-usernames.txt).)
           days-before-feedback: 14
           start-date: "2024-04-30"
-          exempt-authors: "${{ steps.scrape.outputs.users }},nextcloud-command,nextcloud-android-bot,skjnldsv,datenangebot,susnux,joshtrichards"
+          exempt-authors: "${{ steps.blocklist.outputs.blocklist }},${{ steps.scrape.outputs.users }},nextcloud-command,nextcloud-android-bot"
           exempt-bots: true
