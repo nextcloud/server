@@ -67,7 +67,7 @@ class AppCalendarPlugin implements ICalendarProvider {
 		return array_values(
 			array_filter($this->manager->getCalendarsForPrincipal($principalUri, $calendarUris), function ($c) {
 				// We must not provide a wrapper for DAV calendars
-				return ! ($c instanceof \OCA\DAV\CalDAV\CalendarImpl);
+				return ! (($c instanceof \OCA\DAV\CalDAV\CalendarImpl) || ($c instanceof \OCA\DAV\CalDAV\CachedSubscriptionImpl));
 			})
 		);
 	}
