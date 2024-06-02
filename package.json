@@ -92,7 +92,7 @@
     "pinia": "^2.1.7",
     "query-string": "^9.0.0",
     "regenerator-runtime": "^0.14.1",
-    "select2": "3.5.1",
+    "select2": "4.0.8",
     "snap.js": "^2.0.9",
     "strengthify": "github:nextcloud/strengthify#0.5.9",
     "throttle-debounce": "^5.0.0",
