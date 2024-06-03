@@ -30,8 +30,10 @@ window.OCA.Files = window.OCA.Files ?? {}
 window.OCP.Files = window.OCP.Files ?? {}
 
 // Expose router
-const Router = new RouterService(router)
-Object.assign(window.OCP.Files, { Router })
+if (!window.OCP.Files.Router) {
+	const Router = new RouterService(router)
+	Object.assign(window.OCP.Files, { Router })
+}
 
 // Init Pinia store
 Vue.use(PiniaVuePlugin)
@@ -48,6 +50,6 @@ Object.assign(window.OCA.Files.Settings, { Setting: SettingsModel })
 
 const FilesAppVue = Vue.extend(FilesApp)
 new FilesAppVue({
-	router,
+	router: window.OCP.Files.Router.router,
 	pinia,
 }).$mount('#content')

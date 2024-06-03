@@ -18,14 +18,12 @@ const axios = vi.hoisted(() => ({ get: vi.fn() }))
 vi.mock('@nextcloud/auth')
 vi.mock('@nextcloud/axios', () => ({ default: axios }))
 
-// Mock web root variable
+// Mock TAG
 beforeAll(() => {
 	window.OC = {
 		...window.OC,
 		TAG_FAVORITE,
 	}
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	;(window as any)._oc_webroot = ''
 })
 
 describe('SharingService methods definitions', () => {

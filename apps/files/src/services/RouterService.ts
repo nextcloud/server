@@ -27,6 +27,14 @@ export default class RouterService {
 	}
 
 	/**
+	 * This is a protected getter only for internal use
+	 * @private
+	 */
+	get router() {
+		return this._router
+	}
+
+	/**
 	 * Trigger a route change on the files app
 	 *
 	 * @param path the url path, eg: '/trashbin?dir=/Deleted'
