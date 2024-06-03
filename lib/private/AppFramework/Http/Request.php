@@ -555,14 +555,14 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * @return string IP address
 	 */
 	public function getRemoteAddress(): string {
-		return $this->getRemoateAdressAndProxyChain()['remote_address'];
+		return $this->getRemoteAddressAndProxyChain()['remote_address'];
 	}
 
 	/**
 	 * Returns the remote address and the trusted proxy chain from the `forwarded_for_headers`
 	 * @return [string remoate_address, [string proxies]]
 	 */
-	public function getRemoateAdressAndProxyChain(): array {
+	public function getRemoteAddressAndProxyChain(): array {
 		$remoteAddress = $this->server['REMOTE_ADDR'] ?? '';
 
 		$trustedProxies = $this->config->getSystemValue('trusted_proxies', []);
@@ -643,7 +643,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 			return true;
 		}
 
-		$remoteAddressAndProxyChain = $this->getRemoateAdressAndProxyChain();
+		$remoteAddressAndProxyChain = $this->getRemoteAddressAndProxyChain();
 		$remoteAddress = $remoteAddressAndProxyChain['remote_address'];
 		$proxies = $remoteAddressAndProxyChain['proxies'];
 
