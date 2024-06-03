@@ -22,7 +22,7 @@
 
 <template>
 	<div id="profile-settings"
-		class="section">
+		class="settings-section">
 		<h2 class="inlineblock">
 			{{ t('settings', 'Profile') }}
 		</h2>

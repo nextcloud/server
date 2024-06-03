@@ -36,7 +36,7 @@ script('settings', [
 ]);
 ?>
 <?php if (!$_['isFairUseOfFreePushService']) : ?>
-	<div class="section">
+	<div class="settings-section">
 		<div class="warning">
 			<?php p($l->t('This community release of Nextcloud is unsupported and instant notifications are unavailable.')); ?>
 		</div>

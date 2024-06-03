@@ -1,4 +1,4 @@
-<div class="section development-notice">
+<div class="settings-section development-notice">
 	<p>
 		<a href="<?php p($_['reasons-use-nextcloud-pdf-link']); ?>" id="open-reasons-use-nextcloud-pdf" class="link-button icon-file" target="_blank"><?php p($l->t('Reasons to use Nextcloud in your organization'));?></a>
 	</p>

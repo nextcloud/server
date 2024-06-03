@@ -105,7 +105,7 @@ function writeParameterInput($parameter, $options, $classes = []) {
 <?php
 	$canCreateNewLocalStorage = \OC::$server->getConfig()->getSystemValue('files_external_allow_create_new_local', true);
 ?>
-<form data-can-create="<?php echo $canCreateMounts?'true':'false' ?>" data-can-create-local="<?php echo $canCreateNewLocalStorage?'true':'false' ?>" id="files_external" class="section" data-encryption-enabled="<?php echo $_['encryptionEnabled']?'true': 'false'; ?>">
+<form data-can-create="<?php echo $canCreateMounts?'true':'false' ?>" data-can-create-local="<?php echo $canCreateNewLocalStorage?'true':'false' ?>" id="files_external" class="settings-section" data-encryption-enabled="<?php echo $_['encryptionEnabled']?'true': 'false'; ?>">
 	<h2 class="inlineblock" data-anchor-name="external-storage"><?php p($l->t('External storage')); ?></h2>
 	<a target="_blank" rel="noreferrer" class="icon-info" title="<?php p($l->t('Open documentation'));?>" href="<?php p(link_to_docs('admin-external-storage')); ?>"></a>
 	<p class="settings-hint"><?php p($l->t('External storage enables you to mount external storage services and devices as secondary Nextcloud storage devices. You may also allow people to mount their own external storage services.')); ?></p>

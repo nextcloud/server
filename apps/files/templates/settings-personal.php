@@ -8,5 +8,5 @@
 script(\OCA\Files\AppInfo\Application::APP_ID, 'personal-settings');
 
 ?>
-<div id="files-personal-settings" class="section">
+<div id="files-personal-settings" class="settings-section">
 </div>

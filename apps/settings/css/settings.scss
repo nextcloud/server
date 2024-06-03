@@ -559,8 +559,11 @@ span.usersLastLoginTooltip {
 }
 
 /* SETTINGS SECTIONS */
-.section {
-	margin-bottom: 0;
+.settings-section:not(.settings-vue), .section {
+	display: block;
+	padding: 0 0 calc(var(--default-grid-baseline)* 5) 0;
+	margin: calc(var(--default-grid-baseline)* 7);
+	width: min(900px, 100% - var(--default-grid-baseline)* 7* 2);
 	/* section divider lines, none needed for last one */
 	&:not(:last-child) {
 		border-bottom: 1px solid var(--color-border);
@@ -577,6 +580,7 @@ span.usersLastLoginTooltip {
 		}
 	}
 }
+
 
 /* LOG */
 #log {
