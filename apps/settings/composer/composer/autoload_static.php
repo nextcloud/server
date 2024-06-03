@@ -132,6 +132,7 @@ class ComposerStaticInitSettings
         'OCA\\Settings\\SetupChecks\\PushService' => __DIR__ . '/..' . '/../lib/SetupChecks/PushService.php',
         'OCA\\Settings\\SetupChecks\\RandomnessSecure' => __DIR__ . '/..' . '/../lib/SetupChecks/RandomnessSecure.php',
         'OCA\\Settings\\SetupChecks\\ReadOnlyConfig' => __DIR__ . '/..' . '/../lib/SetupChecks/ReadOnlyConfig.php',
+        'OCA\\Settings\\SetupChecks\\SchedulingTableSize' => __DIR__ . '/..' . '/../lib/SetupChecks/SchedulingTableSize.php',
         'OCA\\Settings\\SetupChecks\\SecurityHeaders' => __DIR__ . '/..' . '/../lib/SetupChecks/SecurityHeaders.php',
         'OCA\\Settings\\SetupChecks\\SupportedDatabase' => __DIR__ . '/..' . '/../lib/SetupChecks/SupportedDatabase.php',
         'OCA\\Settings\\SetupChecks\\SystemIs64bit' => __DIR__ . '/..' . '/../lib/SetupChecks/SystemIs64bit.php',
