@@ -49,9 +49,10 @@ import type { PropType } from 'vue'
 import type { UserConfig } from '../../types.ts'
 
 import { Node, FileType } from '@nextcloud/files'
-import { generateUrl } from '@nextcloud/router'
 import { translate as t } from '@nextcloud/l10n'
+import { generateUrl } from '@nextcloud/router'
 import { ShareType } from '@nextcloud/sharing'
+import { getSharingToken, isPublicShare } from '@nextcloud/sharing/public'
 import { decode } from 'blurhash'
 import { defineComponent } from 'vue'
 
@@ -107,8 +108,14 @@ export default defineComponent({
 
 	setup() {
 		const userConfigStore = useUserConfigStore()
+		const isPublic = isPublicShare()
+		const publicSharingToken = getSharingToken()
+
 		return {
 			userConfigStore,
+
+			isPublic,
+			publicSharingToken,
 		}
 	},
 
@@ -120,9 +127,6 @@ export default defineComponent({
 	},
 
 	computed: {
-		fileid() {
-			return this.source?.fileid?.toString?.()
-		},
 		isFavorite(): boolean {
 			return this.source.attributes.favorite === 1
 		},
@@ -145,9 +149,15 @@ export default defineComponent({
 
 			try {
 				const previewUrl = this.source.attributes.previewUrl
-					|| generateUrl('/core/preview?fileId={fileid}', {
-						fileid: this.fileid,
-					})
+					|| (this.isPublic
+						? generateUrl('/apps/files_sharing/publicpreview/{token}?file={file}', {
+							token: this.publicSharingToken,
+							file: this.source.path,
+						})
+						: generateUrl('/core/preview?fileId={fileid}', {
+							fileid: String(this.source.fileid),
+						})
+					)
 				const url = new URL(window.location.origin + previewUrl)
 
 				// Request tiny previews
