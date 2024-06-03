@@ -1,8 +1,7 @@
 <!--
- - SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+ - SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
-
 <template>
 	<section>
 		<HeaderBar :scope="birthdate.scope"
