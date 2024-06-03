@@ -67,6 +67,10 @@ Files: tests/data/testapp.zip tests/data/testapp2.zip tests/docker/mariadb/oc.cn
 Copyright: 2016 ownCloud, Inc.
 License: AGPL-3.0-only
 
+Files: apps/settings/js/templates.js
+Copyright: 2016 ownCloud, Inc., 2016-2024 Nextcloud GmbH and Nextcloud contributors
+License: AGPL-3.0-or-later
+
 Files: tests/docker/mysqlmb4/mb4.cnf
 Copyright: 2016 ownCloud, Inc., 2017 Nextcloud GmbH and Nextcloud contributors
 License: AGPL-3.0-only
@@ -77,6 +81,10 @@ License: AGPL-3.0-only
 
 Files: core/img/favicon*.* core/img/logo/logo*.* tests/data/testimage.webp apps/testing/img/logo.png
 Copyright: 2016-2024 Nextcloud GmbH
+License: LicenseRef-NextcloudTrademarks
+
+Files: apps/settings/data/Reasons to use Nextcloud.pdf
+Copyright: 2020 Nextcloud GmbH
 License: LicenseRef-NextcloudTrademarks
 
 Files: core/css/*.css core/css/*.css.map
@@ -111,7 +119,7 @@ Files: core/src/systemtags/templates/result.handlebars core/src/systemtags/templ
 Copyright: 2018 Nextcloud GmbH and Nextcloud contributors
 License: AGPL-3.0-or-later
 
-Files: core/src/jquery/contactsmenu/jquery_entry.handlebars tests/data/integritycheck/mimetypeListModified/core/js/mimetypelist.js tests/data/integritycheck/mimetypeListModified/core/signature.json tests/data/guest_avatar_einstein_32.png tests/data/guest_avatar_einstein_32.svg tests/data/test.pdf apps/workflowengine/img/app.svg apps/workflowengine/img/app-dark.svg
+Files: core/src/jquery/contactsmenu/jquery_entry.handlebars tests/data/integritycheck/mimetypeListModified/core/js/mimetypelist.js tests/data/integritycheck/mimetypeListModified/core/signature.json tests/data/guest_avatar_einstein_32.png tests/data/guest_avatar_einstein_32.svg tests/data/test.pdf apps/workflowengine/img/app.svg apps/workflowengine/img/app-dark.svg apps/settings/js/templates/federationscopemenu.handlebars
 Copyright: 2019 Nextcloud GmbH and Nextcloud contributors
 License: AGPL-3.0-or-later
 
@@ -123,7 +131,7 @@ Files: .npmignore tests/data/testimage-badheader.jpg
 Copyright: 2021 Nextcloud GmbH and Nextcloud contributors
 License: AGPL-3.0-or-later
 
-Files: apps/theming/img/dark-highcontrast.jpg apps/theming/img/dark.jpg apps/theming/img/default-source.svg apps/theming/img/default.jpg apps/theming/img/light-highcontrast.jpg apps/theming/img/light.jpg apps/theming/img/opendyslexic.jpg build/stubs/ftp.php tests/data/integritycheck/mimetypeListModified/coresignature.json
+Files: apps/theming/img/dark-highcontrast.jpg apps/theming/img/dark.jpg apps/theming/img/default-source.svg apps/theming/img/default.jpg apps/theming/img/light-highcontrast.jpg apps/theming/img/light.jpg apps/theming/img/opendyslexic.jpg build/stubs/ftp.php tests/data/integritycheck/mimetypeListModified/coresignature.json apps/settings/tests/UserMigration/assets/account-complex-config.json apps/settings/tests/UserMigration/assets/account-complex.json apps/settings/tests/UserMigration/assets/account-config.json apps/settings/tests/UserMigration/assets/account.json
 Copyright: 2022 Nextcloud GmbH and Nextcloud contributors
 License: AGPL-3.0-or-later
 
@@ -143,8 +151,12 @@ Files: vendor-bin/*/composer.json vendor-bin/*/composer.lock
 Copyright: 2021 Nextcloud GmbH and Nextcloud contributors
 License: AGPL-3.0-or-later
 
-Files: apps/user_ldap/img/app-dark.svg apps/user_ldap/img/app.svg  apps/comments/img/comments-dark.svg apps/comments/img/comments.svg apps/files_versions/img/app-dark.svg apps/files_versions/img/app.svg apps/files_trashbin/img/app-dark.svg apps/files_trashbin/img/app.svg apps/theming/img/accessibility-dark.svg apps/testing/img/app.svg apps/sharebymail/img/app.svg apps/systemtags/img/app.svg apps/provisioning_api/img/app.svg
+Files: apps/user_ldap/img/app-dark.svg apps/user_ldap/img/app.svg  apps/comments/img/comments-dark.svg apps/comments/img/comments.svg apps/files_versions/img/app-dark.svg apps/files_versions/img/app.svg apps/files_trashbin/img/app-dark.svg apps/files_trashbin/img/app.svg apps/theming/img/accessibility-dark.svg apps/testing/img/app.svg apps/sharebymail/img/app.svg apps/systemtags/img/app.svg apps/provisioning_api/img/app.svg apps/settings/img/apps.svg apps/settings/img/change.svg apps/settings/img/help.svg apps/settings/img/password.svg apps/settings/img/personal.png apps/settings/img/personal.svg apps/settings/img/share.svg apps/settings/img/users-white.svg apps/settings/img/users.svg
 Copyright: 2018-2024 Google LLC
+License: Apache-2.0
+
+Files: apps/settings/img/ai.svg
+Copyright: 2019 GreenTurtwig <https://pictogrammers.com/contributor/GreenTurtwig/>
 License: Apache-2.0
 
 Files: lib/composer/* apps/*/composer/autoload.php apps/*/composer/composer/*.php
