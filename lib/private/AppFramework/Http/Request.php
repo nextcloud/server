@@ -555,39 +555,63 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * @return string IP address
 	 */
 	public function getRemoteAddress(): string {
-		$remoteAddress = isset($this->server['REMOTE_ADDR']) ? $this->server['REMOTE_ADDR'] : '';
+		$remoteAddress = $this->server['REMOTE_ADDR'] ?? '';
+
 		$trustedProxies = $this->config->getSystemValue('trusted_proxies', []);
+		if (count($trustedProxies) == 0 || $this->isTrustedProxy($trustedProxies, $remoteAddress)) {
+			return $remoteAddress;
+		}
+		$forwardedForHeaders = $this->config->getSystemValue('forwarded_for_headers', [
+			'HTTP_X_FORWARDED_FOR',  // de-facto standard to keep track of the proxy chain
+			'HTTP_FORWARDED',        // new standard to keep track of the proxy chain
+		]);
 
-		if (\is_array($trustedProxies) && $this->isTrustedProxy($trustedProxies, $remoteAddress)) {
-			$forwardedForHeaders = $this->config->getSystemValue('forwarded_for_headers', [
-				'HTTP_X_FORWARDED_FOR'
-				// only have one default, so we cannot ship an insecure product out of the box
-			]);
+		foreach ($forwardedForHeaders as $header) {
+			if (isset($this->server[$header])) {
+				$headerContent = $this->server[$header];
 
-			// Read the x-forwarded-for headers and values in reverse order as per
-			// https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-For#selecting_an_ip_address
-			foreach (array_reverse($forwardedForHeaders) as $header) {
-				if (isset($this->server[$header])) {
-					foreach (array_reverse(explode(',', $this->server[$header])) as $IP) {
-						$IP = trim($IP);
-						$colons = substr_count($IP, ':');
-						if ($colons > 1) {
-							// Extract IP from string with brackets and optional port
-							if (preg_match('/^\[(.+?)\](?::\d+)?$/', $IP, $matches) && isset($matches[1])) {
-								$IP = $matches[1];
+				$IPs = [];
+				if (str_contains($headerContent, 'for')) {
+					// newer HTTP_FORWARDED format
+					$proxyEntries = explode(',', $headerContent);
+					foreach ($proxyEntries as $proxy) {
+						$parts = explode(';', $proxy);
+						foreach ($parts as $part) {
+							if (str_starts_with(strtolower(ltrim($part)), 'for') && substr_count($part, '=') !== false) {
+								$part = substr($part, strpos($part, '=') + 1, strlen($part));
+								$IPs = array_merge($IPs, explode(',', $part));
 							}
-						} elseif ($colons === 1) {
-							// IPv4 with port
-							$IP = substr($IP, 0, strpos($IP, ':'));
 						}
+					}
+				} else {
+					// old school HTTP_X_FORWARDED_FOR format
+					$IPs = explode(',', $headerContent);
+				}
 
-						if ($this->isTrustedProxy($trustedProxies, $IP)) {
-							continue;
+				// Read the x-forwarded-for headers and values in reverse order as per
+				// https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-For#selecting_an_ip_address
+				foreach (array_reverse($IPs) as $IP) {
+					$IP = trim($IP);
+					$colons = substr_count($IP, ':');
+					// $colons == 0 -> IPv4 without port, nothing to do
+					if ($colons === 1) {
+						// IPv4 with port
+						$IP = substr($IP, 0, strpos($IP, ':'));
+					} elseif ($colons > 1) {
+						// Extract IPv6 from string with brackets and optional port
+						if (preg_match('/^\[(.+?)\](?::\d+)?$/', $IP, $matches) && isset($matches[1])) {
+							$IP = $matches[1];
 						}
+					}
 
-						if (filter_var($IP, FILTER_VALIDATE_IP) !== false) {
-							return $IP;
-						}
+					if (filter_var($IP, FILTER_VALIDATE_IP) === false) {
+						// TODO: What to do with spoofed values?
+						break;
+					}
+
+					if (!$this->isTrustedProxy($trustedProxies, $IP)) {
+						$remoteAddress = $IP;
+						break;
 					}
 				}
 			}
@@ -595,6 +619,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 
 		return $remoteAddress;
 	}
+
 
 	/**
 	 * Check overwrite condition

@@ -546,162 +546,128 @@ class RequestTest extends \Test\TestCase {
 
 	public function dataGetRemoteAddress(): array {
 		return [
-			'IPv4 without trusted remote' => [
+			'IPv4 with untrusted remote & no headers' => [
 				[
-					'REMOTE_ADDR' => '10.0.0.2',
-					'HTTP_X_FORWARDED' => '10.4.0.5, 10.4.0.4',
-					'HTTP_X_FORWARDED_FOR' => '192.168.0.233',
+					'REMOTE_ADDR' => '10.0.0.10',
 				],
 				[],
 				[],
-				'10.0.0.2',
+				'10.0.0.10',
 			],
-			'IPv4 without trusted headers' => [
+			'IPv4 with trusted remote & no headers' => [
 				[
-					'REMOTE_ADDR' => '10.0.0.2',
-					'HTTP_X_FORWARDED' => '10.4.0.5, 10.4.0.4',
-					'HTTP_X_FORWARDED_FOR' => '192.168.0.233',
+					'REMOTE_ADDR' => '10.0.0.10',
 				],
-				['10.0.0.2'],
+				['10.10.10.10'],
 				[],
-				'10.0.0.2',
+				'10.0.0.10',
 			],
-			'IPv4 with single trusted remote' => [
+			'IPv4 with untrusted remote & untrusted headers' => [
 				[
-					'REMOTE_ADDR' => '10.0.0.2',
-					'HTTP_X_FORWARDED' => '10.4.0.5, 10.4.0.4',
-					'HTTP_X_FORWARDED_FOR' => '192.168.0.233',
+					'REMOTE_ADDR' => '10.0.0.10',
+					'HTTP_X_FORWARDED_FOR' => '10.0.0.10, 172.16.0.2, 172.16.0.3',
+					'HTTP_FORWARDED' => 'for=10.0.0.10, for=172.16.0.2, for=172.16.0.3',
 				],
-				['10.0.0.2'],
-				['HTTP_X_FORWARDED'],
-				'10.4.0.4',
+				[],
+				['HTTP_X_FORWARDED_FOR', 'HTTP_FORWARDED'],
+				'10.0.0.10',
 			],
-			'IPv6 with single trusted remote' => [
+			'IPv4 with trusted remote & untrusted headers' => [
 				[
-					'REMOTE_ADDR' => '2001:db8:85a3:8d3:1319:8a2e:370:7348',
-					'HTTP_X_FORWARDED' => '10.4.0.5, 10.4.0.4',
-					'HTTP_X_FORWARDED_FOR' => '192.168.0.233',
+					'REMOTE_ADDR' => '10.0.0.10',
+					'HTTP_X_FORWARDED_FOR' => '10.0.0.10, 172.16.0.2, 172.16.0.3',
+					'HTTP_FORWARDED' => 'for=10.0.0.10, for=172.16.0.2, for=172.16.0.3',
 				],
-				['2001:db8:85a3:8d3:1319:8a2e:370:7348'],
-				['HTTP_X_FORWARDED'],
-				'10.4.0.4',
+				['10.0.0.10'],
+				['HTTP_X_FORWARDED_FOR', 'HTTP_FORWARDED'],
+				'10.0.0.10',
 			],
-			'IPv4 with multiple trusted remotes' => [
+			'IPv4 with trusted remote & trusted X-FORWARDED-FOR' => [
 				[
-					'REMOTE_ADDR' => '10.0.0.2',
-					'HTTP_X_FORWARDED' => '10.4.0.5, 10.4.0.4, ::1',
-					'HTTP_X_FORWARDED_FOR' => '192.168.0.233',
+					'REMOTE_ADDR' => '10.0.0.10',
+					'HTTP_X_FORWARDED_FOR' => '10.0.0.10, 172.16.0.2, 172.16.0.3',
+					'HTTP_FORWARDED' => 'for=10.0.0.10, for=172.16.0.2, for=172.16.0.3',
 				],
-				['10.0.0.2', '::1'],
-				['HTTP_X_FORWARDED'],
-				'10.4.0.4',
+				['10.0.0.10', '172.16.0.2', '172.16.0.3'],
+				['X-FORWARD-FOR'],
+				'10.0.0.10',
 			],
-			'IPv4 order of forwarded-for headers' => [
+			'IPv4 with trusted remote & trusted FORWARDED' => [
 				[
-					'REMOTE_ADDR' => '10.0.0.2',
-					'HTTP_X_FORWARDED' => '10.4.0.5, 10.4.0.4',
-					'HTTP_X_FORWARDED_FOR' => '192.168.0.233',
+					'REMOTE_ADDR' => '10.0.0.10',
+					'HTTP_X_FORWARDED_FOR' => '10.0.0.10, 172.16.0.2, 172.16.0.3',
+					'HTTP_FORWARDED' => 'for=10.0.0.10, by=10.0.0.10;for=172.16.0.2, for=172.16.0.3;by=172.16.0.2',
 				],
-				['10.0.0.2'],
-				[
-					'HTTP_X_FORWARDED',
-					'HTTP_X_FORWARDED_FOR',
-					'HTTP_CLIENT_IP',
-				],
-				'192.168.0.233',
+				['10.0.0.10', '172.16.0.2', '172.16.0.3'],
+				['HTTP_FORWARDED'],
+				'10.0.0.10',
 			],
-			'IPv4 order of forwarded-for headers (reversed)' => [
+			'IPv4 with untrusted remote & partally trusted X-FORWARDED-FOR' => [
 				[
-					'REMOTE_ADDR' => '10.0.0.2',
-					'HTTP_X_FORWARDED' => '10.4.0.5, 10.4.0.4',
-					'HTTP_X_FORWARDED_FOR' => '192.168.0.233',
+					'REMOTE_ADDR' => '10.0.0.10',
+					'HTTP_X_FORWARDED_FOR' => '10.0.0.10, 172.16.0.2, 172.16.0.3',
+					'HTTP_FORWARDED' => 'for=10.0.0.10, for=172.16.0.2, for=172.16.0.3',
 				],
-				['10.0.0.2'],
-				[
-					'HTTP_CLIENT_IP',
-					'HTTP_X_FORWARDED_FOR',
-					'HTTP_X_FORWARDED',
-				],
-				'10.4.0.4',
-			],
-			'IPv6 order of forwarded-for headers' => [
-				[
-					'REMOTE_ADDR' => '2001:db8:85a3:8d3:1319:8a2e:370:7348',
-					'HTTP_X_FORWARDED' => '10.4.0.5, 10.4.0.4',
-					'HTTP_X_FORWARDED_FOR' => '192.168.0.233',
-				],
-				['2001:db8:85a3:8d3:1319:8a2e:370:7348'],
-				[
-					'HTTP_X_FORWARDED',
-					'HTTP_X_FORWARDED_FOR',
-					'HTTP_CLIENT_IP',
-				],
-				'192.168.0.233',
-			],
-			'IPv4 matching CIDR of trusted proxy' => [
-				[
-					'REMOTE_ADDR' => '192.168.3.99',
-					'HTTP_X_FORWARDED' => '10.4.0.5, 10.4.0.4',
-					'HTTP_X_FORWARDED_FOR' => '192.168.0.233',
-				],
-				['192.168.2.0/24'],
+				['172.16.0.3'],
 				['HTTP_X_FORWARDED_FOR'],
-				'192.168.3.99',
+				'172.16.0.2',
 			],
-			'IPv6 matching CIDR of trusted proxy' => [
+			'IPv4 with untrusted remote & partially trusted FORWARDED' => [
 				[
-					'REMOTE_ADDR' => '2001:db8:85a3:8d3:1319:8a21:370:7348',
-					'HTTP_X_FORWARDED' => '10.4.0.5, 10.4.0.4',
-					'HTTP_X_FORWARDED_FOR' => '192.168.0.233',
+					'REMOTE_ADDR' => '10.0.0.10',
+					'HTTP_X_FORWARDED_FOR' => '10.0.0.10, 172.16.0.2, 172.16.0.3',
+					'HTTP_FORWARDED' => 'for=10.0.0.10, for=172.16.0.2, for=172.16.0.3',
 				],
-				['2001:db8:85a3:8d3:1319:8a20::/95'],
+				['172.16.0.3'],
+				['HTTP_FORWARDED'],
+				'172.16.0.2',
+			],
+			'IPv4 with trusted remote & partially trusted headers' => [
+				[
+					'REMOTE_ADDR' => '10.0.0.10',
+					'HTTP_X_FORWARDED_FOR' => '10.0.0.10, 172.16.0.2, 172.16.0.3',
+					'HTTP_FORWARDED' => 'for=10.0.0.10, for=172.16.0.2, for=172.16.0.3',
+				],
+				['10.0.0.10', '172.16.0.3'],
+				['HTTP_X_FORWARDED_FOR', 'HTTP_FORWARDED'],
+				'10.0.0.10',
+			],
+			'IPv4 with untrusted remote & and invalid X-FORWARDED-FOR' => [
+				[
+					'REMOTE_ADDR' => '10.0.0.10',
+					'HTTP_X_FORWARDED_FOR' => '10.0.0.10, nope, 172.16.0.3',
+					'HTTP_FORWARDED' => 'for=10.0.0.10, for=1172.16.0.2, for=1172.16.0.3',
+				],
+				['172.16.0.3'],
 				['HTTP_X_FORWARDED_FOR'],
-				'192.168.0.233',
+				'10.0.0.10',
 			],
-			'IPv6 not matching CIDR of trusted proxy' => [
+			'Trusted chain of different formats within X-FORWARDED-FOR' => [
 				[
-					'REMOTE_ADDR' => '2001:db8:85a3:8d3:1319:8a2e:370:7348',
-					'HTTP_X_FORWARDED' => '10.4.0.5, 10.4.0.4',
-					'HTTP_X_FORWARDED_FOR' => '192.168.0.233',
+					'REMOTE_ADDR' => '10.0.0.10',
+					'HTTP_X_FORWARDED_FOR' => '10.0.0.20, [fdd8:44e6:ce84:22c3:2222:2222:2222:2222]:8080, fdd8:44e6:ce84:22c3:1111:1111:1111:1111, 2001:db8:85a3:8d3:1319:8a2e:370:7348, 172.16.0.2:80, 172.16.0.3',
+					'HTTP_FORWARDED' => 'for=10.0.0.10, for=172.16.0.2, for=172.16.0.3',
 				],
-				['fd::/8'],
-				[],
-				'2001:db8:85a3:8d3:1319:8a2e:370:7348',
+				['172.16.0.0/24', '2001:db8:85a3:8d3:1319:8a2e:370:7348', 'fdd8:44e6:ce84:22c3::/64'],
+				['HTTP_X_FORWARDED_FOR'],
+				'10.0.0.20',
 			],
-			'IPv6 with invalid trusted proxy' => [
+			'Trusted chain of different formats within FORWARDED' => [
 				[
-					'REMOTE_ADDR' => '2001:db8:85a3:8d3:1319:8a2e:370:7348',
-					'HTTP_X_FORWARDED' => '10.4.0.5, 10.4.0.4',
-					'HTTP_X_FORWARDED_FOR' => '192.168.0.233',
+					'REMOTE_ADDR' => '10.0.0.10',
+					'HTTP_X_FORWARDED_FOR' => '10.0.0.10, 172.16.0.2, 172.16.0.3',
+					'HTTP_FORWARDED' => 'for=10.0.0.20, for=[fdd8:44e6:ce84:22c3:2222:2222:2222:2222]:8080, for=fdd8:44e6:ce84:22c3:1111:1111:1111:1111, for=2001:db8:85a3:8d3:1319:8a2e:370:7348, for=172.16.0.2:80, for=172.16.0.3',
 				],
-				['fx::/8'],
-				[],
-				'2001:db8:85a3:8d3:1319:8a2e:370:7348',
+				['172.16.0.0/24', '2001:db8:85a3:8d3:1319:8a2e:370:7348', 'fdd8:44e6:ce84:22c3::/64'],
+				['HTTP_FORWARDED'],
+				'10.0.0.20',
 			],
 			'IPv4 forwarded for IPv6' => [
 				[
 					'REMOTE_ADDR' => '192.168.2.99',
 					'HTTP_X_FORWARDED_FOR' => '[2001:db8:85a3:8d3:1319:8a2e:370:7348]',
 				],
-				['192.168.2.0/24'],
-				['HTTP_X_FORWARDED_FOR'],
-				'2001:db8:85a3:8d3:1319:8a2e:370:7348',
-			],
-			'IPv4 with port' => [
-				[
-					'REMOTE_ADDR' => '2001:db8:85a3:8d3:1319:8a2e:370:7348',
-					'HTTP_X_FORWARDED_FOR' => '192.168.2.99:8080',
-				],
-				['2001:db8::/8'],
-				['HTTP_X_FORWARDED_FOR'],
-				'192.168.2.99',
-			],
-			'IPv6 with port' => [
-				[
-					'REMOTE_ADDR' => '192.168.2.99',
-					'HTTP_X_FORWARDED_FOR' => '[2001:db8:85a3:8d3:1319:8a2e:370:7348]:8080',
-				],
-				['192.168.2.0/24'],
+				['192.168.20.0/24'],
 				['HTTP_X_FORWARDED_FOR'],
 				'2001:db8:85a3:8d3:1319:8a2e:370:7348',
 			],
