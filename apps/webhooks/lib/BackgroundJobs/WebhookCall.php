@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OCA\Webhooks\BackgroundJobs;
 
+use OCA\Webhooks\Db\AuthMethod;
 use OCA\Webhooks\Db\WebhookListenerMapper;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\QueuedJob;
@@ -31,7 +32,16 @@ class WebhookCall extends QueuedJob {
 		$client = $this->clientService->newClient();
 		$options = [];
 		$options['body'] = json_encode($data);
+		$options['headers'] = $webhookListener->getHeaders();
 		try {
+			switch ($webhookListener->getAuthMethodEnum()) {
+				case AuthMethod::None:
+					break;
+				case AuthMethod::Header:
+					$authHeaders = $webhookListener->getAuthDataClear();
+					$options['headers'] = array_merge($options['headers'], $authHeaders);
+					break;
+			}
 			$response = $client->request($webhookListener->getHttpMethod(), $webhookListener->getUri(), $options);
 			$statusCode = $response->getStatusCode();
 			if ($statusCode >= 200 && $statusCode < 300) {

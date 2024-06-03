@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OCA\Webhooks\Tests\Db;
 
+use OCA\Webhooks\Db\AuthMethod;
 use OCA\Webhooks\Db\WebhookListenerMapper;
 use OCP\IDBConnection;
 use OCP\User\Events\UserCreatedEvent;
@@ -51,8 +52,27 @@ class WebhookListenerMapperTest extends TestCase {
 			UserCreatedEvent::class,
 			null,
 			null,
+			AuthMethod::None,
+			null,
+		);
+
+		$listener2 = $this->mapper->getById($listener1->getId());
+
+		$listener1->resetUpdatedFields();
+		$this->assertEquals($listener1, $listener2);
+	}
+
+	public function testInsertListenerAndGetItWithAuthData() {
+		$listener1 = $this->mapper->addWebhookListener(
+			null,
+			'bob',
+			'POST',
+			'https://webhook.example.com/endpoint',
+			UserCreatedEvent::class,
 			null,
 			null,
+			AuthMethod::Header,
+			['secretHeader' => 'header'],
 		);
 
 		$listener2 = $this->mapper->getById($listener1->getId());

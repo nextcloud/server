@@ -64,7 +64,7 @@ class WebhookListenerMapper extends QBMapper {
 		string $event,
 		?array $eventFilter,
 		?array $headers,
-		?string $authMethod,
+		AuthMethod $authMethod,
 		?array $authData,
 	) {
 		$webhookListener = WebhookListener::fromParams(
@@ -76,10 +76,10 @@ class WebhookListenerMapper extends QBMapper {
 				'event' => $event,
 				'eventFilter' => $eventFilter ?? [],
 				'headers' => $headers,
-				'authMethod' => $authMethod ?? 'none',
-				'authData' => $authData,
+				'authMethod' => $authMethod->value,
 			]
 		);
+		$webhookListener->setAuthDataClear($authData);
 		return $this->insert($webhookListener);
 	}
 
@@ -92,7 +92,7 @@ class WebhookListenerMapper extends QBMapper {
 		string $event,
 		?array $eventFilter,
 		?array $headers,
-		?string $authMethod,
+		AuthMethod $authMethod,
 		?array $authData,
 	) {
 		$webhookListener = WebhookListener::fromParams(
@@ -105,10 +105,10 @@ class WebhookListenerMapper extends QBMapper {
 				'event' => $event,
 				'eventFilter' => $eventFilter ?? [],
 				'headers' => $headers,
-				'authMethod' => $authMethod,
-				'authData' => $authData,
+				'authMethod' => $authMethod->value,
 			]
 		);
+		$webhookListener->setAuthDataClear($authData);
 		return $this->update($webhookListener);
 	}
 

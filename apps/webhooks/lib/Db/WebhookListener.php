@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OCA\Webhooks\Db;
 
 use OCP\AppFramework\Db\Entity;
+use OCP\Security\ICrypto;
 
 /**
  * @method void setUserId(string $userId)
@@ -34,7 +35,7 @@ class WebhookListener extends Entity implements \JsonSerializable {
 	/** @var array */
 	protected $eventFilter;
 
-	/** @var ?string */
+	/** @var ?array */
 	protected $headers;
 
 	/** @var ?string */
@@ -43,7 +44,15 @@ class WebhookListener extends Entity implements \JsonSerializable {
 	/** @var ?string */
 	protected $authData;
 
-	public function __construct() {
+	private ICrypto $crypto;
+
+	public function __construct(
+		?ICrypto $crypto = null,
+	) {
+		if ($crypto === null) {
+			$crypto = \OCP\Server::get(ICrypto::class);
+		}
+		$this->crypto = $crypto;
 		$this->addType('appId', 'string');
 		$this->addType('userId', 'string');
 		$this->addType('httpMethod', 'string');
@@ -52,7 +61,26 @@ class WebhookListener extends Entity implements \JsonSerializable {
 		$this->addType('eventFilter', 'json');
 		$this->addType('headers', 'json');
 		$this->addType('authMethod', 'string');
-		$this->addType('authData', 'json');
+		$this->addType('authData', 'string');
+	}
+
+	public function getAuthMethodEnum(): AuthMethod {
+		return AuthMethod::from(parent::getAuthMethod());
+	}
+
+	public function getAuthDataClear(): array {
+		if ($this->authData === null) {
+			return [];
+		}
+		return json_decode($this->crypto->decrypt($this->getAuthData()), associative:true, flags:JSON_THROW_ON_ERROR);
+	}
+
+	public function setAuthDataClear(?array $data): void {
+		if ($data === null) {
+			$this->setAuthData(null);
+			return;
+		}
+		$this->setAuthData($this->crypto->encrypt(json_encode($data)));
 	}
 
 	public function jsonSerialize(): array {

@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OCA\Webhooks\Controller;
 
 use Doctrine\DBAL\Exception;
+use OCA\Webhooks\Db\AuthMethod;
 use OCA\Webhooks\Db\WebhookListenerMapper;
 use OCP\AppFramework\Http\Attribute\ApiRoute;
 use OCP\AppFramework\Http\Attribute\AuthorizedAdminSetting;
@@ -112,7 +113,7 @@ class WebhooksController extends OCSController {
 				$event,
 				$eventFilter,
 				$headers,
-				$authMethod,
+				AuthMethod::from($authMethod ?? AuthMethod::None->value),
 				$authData,
 			);
 			return new DataResponse($webhookListener);
@@ -172,7 +173,7 @@ class WebhooksController extends OCSController {
 				$event,
 				$eventFilter,
 				$headers,
-				$authMethod,
+				AuthMethod::from($authMethod ?? AuthMethod::None->value),
 				$authData,
 			);
 			return new DataResponse($webhookListener);
