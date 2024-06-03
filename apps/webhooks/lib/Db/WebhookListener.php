@@ -16,7 +16,10 @@ use OCP\AppFramework\Db\Entity;
  * @method string getUserId()
  */
 class WebhookListener extends Entity implements \JsonSerializable {
-	/** @var string  id of the user who added the webhook listener */
+	/** @var ?string id of the app_api application who added the webhook listener */
+	protected $appId;
+
+	/** @var string id of the user who added the webhook listener */
 	protected $userId;
 
 	/** @var string */
@@ -41,6 +44,7 @@ class WebhookListener extends Entity implements \JsonSerializable {
 	protected $authData;
 
 	public function __construct() {
+		$this->addType('appId', 'string');
 		$this->addType('userId', 'string');
 		$this->addType('httpMethod', 'string');
 		$this->addType('uri', 'string');

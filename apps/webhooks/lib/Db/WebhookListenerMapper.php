@@ -57,6 +57,7 @@ class WebhookListenerMapper extends QBMapper {
 	}
 
 	public function addWebhookListener(
+		?string $appId,
 		string $userId,
 		string $httpMethod,
 		string $uri,
@@ -68,6 +69,7 @@ class WebhookListenerMapper extends QBMapper {
 	) {
 		$webhookListener = WebhookListener::fromParams(
 			[
+				'appId' => $appId,
 				'userId' => $userId,
 				'httpMethod' => $httpMethod,
 				'uri' => $uri,
@@ -83,6 +85,7 @@ class WebhookListenerMapper extends QBMapper {
 
 	public function updateWebhookListener(
 		int $id,
+		?string $appId,
 		string $userId,
 		string $httpMethod,
 		string $uri,
@@ -95,6 +98,7 @@ class WebhookListenerMapper extends QBMapper {
 		$webhookListener = WebhookListener::fromParams(
 			[
 				'id' => $id,
+				'appId' => $appId,
 				'userId' => $userId,
 				'httpMethod' => $httpMethod,
 				'uri' => $uri,

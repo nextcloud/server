@@ -20,6 +20,7 @@ use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\AppFramework\OCSController;
 use OCP\IRequest;
+use OCP\ISession;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -33,6 +34,7 @@ class WebhooksController extends OCSController {
 		private LoggerInterface $logger,
 		private WebhookListenerMapper $mapper,
 		private ?string $userId,
+		private ISession $session,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -97,8 +99,13 @@ class WebhooksController extends OCSController {
 		?string $authMethod,
 		?array $authData,
 	): DataResponse {
+		$appId = null;
+		if ($this->session->get('app_api') === true) {
+			$appId = $this->request->getHeader('EX-APP-ID');
+		}
 		try {
 			$webhookListener = $this->mapper->addWebhookListener(
+				$appId,
 				$this->userId,
 				$httpMethod,
 				$uri,
@@ -151,9 +158,14 @@ class WebhooksController extends OCSController {
 		?string $authMethod,
 		?array $authData,
 	): DataResponse {
+		$appId = null;
+		if ($this->session->get('app_api') === true) {
+			$appId = $this->request->getHeader('EX-APP-ID');
+		}
 		try {
 			$webhookListener = $this->mapper->updateWebhookListener(
 				$id,
+				$appId,
 				$this->userId,
 				$httpMethod,
 				$uri,

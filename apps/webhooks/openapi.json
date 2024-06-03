@@ -26,7 +26,8 @@
                     "id",
                     "userId",
                     "httpMethod",
-                    "uri"
+                    "uri",
+                    "authMethod"
                 ],
                 "properties": {
                     "id": {
@@ -43,6 +44,27 @@
                     },
                     "event": {
                         "type": "string"
+                    },
+                    "eventFilter": {
+                        "type": "array",
+                        "items": {
+                            "type": "object"
+                        }
+                    },
+                    "headers": {
+                        "type": "object",
+                        "additionalProperties": {
+                            "type": "string"
+                        }
+                    },
+                    "authMethod": {
+                        "type": "string"
+                    },
+                    "authData": {
+                        "type": "object",
+                        "additionalProperties": {
+                            "type": "object"
+                        }
                     }
                 }
             },

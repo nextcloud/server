@@ -31,6 +31,10 @@ class Version1000Date20240527153425 extends SimpleMigrationStep {
 				'notnull' => true,
 				'length' => 4,
 			]);
+			$table->addColumn('app_id', Types::STRING, [
+				'notnull' => false,
+				'length' => 64,
+			]);
 			$table->addColumn('user_id', Types::STRING, [
 				'notnull' => true,
 				'length' => 64,

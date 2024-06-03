@@ -44,6 +44,7 @@ class WebhookListenerMapperTest extends TestCase {
 
 	public function testInsertListenerAndGetIt() {
 		$listener1 = $this->mapper->addWebhookListener(
+			null,
 			'bob',
 			'POST',
 			'https://webhook.example.com/endpoint',
