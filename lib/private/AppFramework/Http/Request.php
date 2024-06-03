@@ -555,19 +555,30 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * @return string IP address
 	 */
 	public function getRemoteAddress(): string {
+		return $this->getRemoateAdressAndProxyChain()['remote_address'];
+	}
+
+	/**
+	 * Returns the remote address and the trusted proxy chain from the `forwarded_for_headers`
+	 * @return [string remoate_address, [string proxies]]
+	 */
+	public function getRemoateAdressAndProxyChain(): array {
 		$remoteAddress = $this->server['REMOTE_ADDR'] ?? '';
 
 		$trustedProxies = $this->config->getSystemValue('trusted_proxies', []);
-		if (count($trustedProxies) == 0 || $this->isTrustedProxy($trustedProxies, $remoteAddress)) {
-			return $remoteAddress;
+		if (!is_array($trustedProxies) || count($trustedProxies) == 0 || $this->isTrustedProxy($trustedProxies, $remoteAddress)) {
+			return ['remote_address' => $remoteAddress, 'proxies' => []];
 		}
 		$forwardedForHeaders = $this->config->getSystemValue('forwarded_for_headers', [
 			'HTTP_X_FORWARDED_FOR',  // de-facto standard to keep track of the proxy chain
 			'HTTP_FORWARDED',        // new standard to keep track of the proxy chain
 		]);
+		$proxies = [];
 
 		foreach ($forwardedForHeaders as $header) {
 			if (isset($this->server[$header])) {
+				$proxies = []; // reset for each possible header
+
 				$headerContent = $this->server[$header];
 
 				$IPs = [];
@@ -605,7 +616,6 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 					}
 
 					if (filter_var($IP, FILTER_VALIDATE_IP) === false) {
-						// TODO: What to do with spoofed values?
 						break;
 					}
 
@@ -613,11 +623,13 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 						$remoteAddress = $IP;
 						break;
 					}
+
+					$proxies[] = $IP;
 				}
 			}
 		}
 
-		return $remoteAddress;
+		return ['remote_address' => $remoteAddress, 'proxies' => $proxies];
 	}
 
 
@@ -627,8 +639,25 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 */
 	private function isOverwriteCondition(): bool {
 		$regex = '/' . $this->config->getSystemValueString('overwritecondaddr', '')  . '/';
-		$remoteAddr = isset($this->server['REMOTE_ADDR']) ? $this->server['REMOTE_ADDR'] : '';
-		return $regex === '//' || preg_match($regex, $remoteAddr) === 1;
+		if ($regex === '//') {
+			return true;
+		}
+
+		$remoteAddressAndProxyChain = $this->getRemoateAdressAndProxyChain();
+		$remoteAddress = $remoteAddressAndProxyChain['remote_address'];
+		$proxies = $remoteAddressAndProxyChain['proxies'];
+
+		if(preg_match($regex, $remoteAddress) === 1) {
+			return true;
+		}
+
+		foreach ($proxies as $proxy) {
+			if(preg_match($regex, $proxy) === 1) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	/**
