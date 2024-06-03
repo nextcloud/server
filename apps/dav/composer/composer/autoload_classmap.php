@@ -139,6 +139,7 @@ return array(
     'OCA\\DAV\\Command\\CreateAddressBook' => $baseDir . '/../lib/Command/CreateAddressBook.php',
     'OCA\\DAV\\Command\\CreateCalendar' => $baseDir . '/../lib/Command/CreateCalendar.php',
     'OCA\\DAV\\Command\\DeleteCalendar' => $baseDir . '/../lib/Command/DeleteCalendar.php',
+    'OCA\\DAV\\Command\\FixCalendarSyncCommand' => $baseDir . '/../lib/Command/FixCalendarSyncCommand.php',
     'OCA\\DAV\\Command\\ListCalendars' => $baseDir . '/../lib/Command/ListCalendars.php',
     'OCA\\DAV\\Command\\MoveCalendar' => $baseDir . '/../lib/Command/MoveCalendar.php',
     'OCA\\DAV\\Command\\RemoveInvalidShares' => $baseDir . '/../lib/Command/RemoveInvalidShares.php',
