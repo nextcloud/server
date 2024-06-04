@@ -1,3 +1,8 @@
+<!--
+ - SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ - SPDX-FileCopyrightText: 2015 ownCloud, Inc.
+ - SPDX-License-Identifier: AGPL-3.0-only
+ -->
 # Requirements #
 
 Have (as in do copy if not already done) the following files from https://github.com/owncloud/administration/tree/master/ldap-testing copied into the directory "setup-scripts":

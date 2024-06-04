@@ -1,3 +1,4 @@
+/* eslint-disable import/no-named-as-default-member */
 /**
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -5,7 +6,7 @@
 import { basename } from 'path'
 import { expect } from '@jest/globals'
 import { Folder, Navigation, getNavigation } from '@nextcloud/files'
-import * as eventBus from '@nextcloud/event-bus'
+import eventBus from '@nextcloud/event-bus'
 import * as initialState from '@nextcloud/initial-state'
 
 import { action } from '../actions/favoriteAction'

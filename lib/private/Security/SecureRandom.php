@@ -16,7 +16,7 @@ use OCP\Security\ISecureRandom;
  * use a fallback.
  *
  * Usage:
- * \OC::$server->getSecureRandom()->generate(10);
+ * \OC::$server->get(ISecureRandom::class)->generate(10);
  * @package OC\Security
  */
 class SecureRandom implements ISecureRandom {

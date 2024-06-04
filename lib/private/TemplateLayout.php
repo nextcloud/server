@@ -20,6 +20,7 @@ use OCP\IInitialStateService;
 use OCP\INavigationManager;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
+use OCP\L10N\IFactory;
 use OCP\Support\Subscription\IRegistry;
 use OCP\Util;
 
@@ -97,7 +98,7 @@ class TemplateLayout extends \OC_Template {
 			// Set default app name
 			$defaultApp = \OC::$server->getAppManager()->getDefaultAppForUser();
 			$defaultAppInfo = \OC::$server->getAppManager()->getAppInfo($defaultApp);
-			$l10n = \OC::$server->getL10NFactory()->get($defaultApp);
+			$l10n = \OC::$server->get(IFactory::class)->get($defaultApp);
 			$this->assign('defaultAppName', $l10n->t($defaultAppInfo['name']));
 
 			// Add navigation entry
@@ -189,8 +190,8 @@ class TemplateLayout extends \OC_Template {
 			parent::__construct('core', 'layout.base');
 		}
 		// Send the language and the locale to our layouts
-		$lang = \OC::$server->getL10NFactory()->findLanguage();
-		$locale = \OC::$server->getL10NFactory()->findLocale($lang);
+		$lang = \OC::$server->get(IFactory::class)->findLanguage();
+		$locale = \OC::$server->get(IFactory::class)->findLocale($lang);
 
 		$lang = str_replace('_', '-', $lang);
 		$this->assign('language', $lang);

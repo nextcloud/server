@@ -14,7 +14,7 @@ namespace OCP\Security;
  * use a fallback.
  *
  * Usage:
- * \OC::$server->getSecureRandom()->generate(10);
+ * \OC::$server->get(ISecureRandom::class)->generate(10);
  *
  * @since 8.0.0
  */

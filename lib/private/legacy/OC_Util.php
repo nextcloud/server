@@ -9,10 +9,13 @@ use bantu\IniGetWrapper\IniGetWrapper;
 use OC\Authentication\TwoFactorAuth\Manager as TwoFactorAuthManager;
 use OC\Files\SetupManager;
 use OCP\Files\Template\ITemplateManager;
+use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IURLGenerator;
 use OCP\IUser;
+use OCP\L10N\IFactory;
+use OCP\Security\ISecureRandom;
 use OCP\Share\IManager;
 use Psr\Log\LoggerInterface;
 
@@ -126,7 +129,7 @@ class OC_Util {
 		$logger = \OC::$server->get(LoggerInterface::class);
 
 		$plainSkeletonDirectory = \OC::$server->getConfig()->getSystemValueString('skeletondirectory', \OC::$SERVERROOT . '/core/skeleton');
-		$userLang = \OC::$server->getL10NFactory()->findLanguage();
+		$userLang = \OC::$server->get(IFactory::class)->findLanguage();
 		$skeletonDirectory = str_replace('{lang}', $userLang, $plainSkeletonDirectory);
 
 		if (!file_exists($skeletonDirectory)) {
@@ -346,7 +349,7 @@ class OC_Util {
 	 */
 	public static function addTranslations($application, $languageCode = null, $prepend = false) {
 		if (is_null($languageCode)) {
-			$languageCode = \OC::$server->getL10NFactory()->findLanguage($application);
+			$languageCode = \OC::$server->get(IFactory::class)->findLanguage($application);
 		}
 		if (!empty($application)) {
 			$path = "$application/l10n/$languageCode";
@@ -780,7 +783,7 @@ class OC_Util {
 		$id = \OC::$server->getSystemConfig()->getValue('instanceid', null);
 		if (is_null($id)) {
 			// We need to guarantee at least one letter in instanceid so it can be used as the session_name
-			$id = 'oc' . \OC::$server->getSecureRandom()->generate(10, \OCP\Security\ISecureRandom::CHAR_LOWER.\OCP\Security\ISecureRandom::CHAR_DIGITS);
+			$id = 'oc' . \OC::$server->get(ISecureRandom::class)->generate(10, \OCP\Security\ISecureRandom::CHAR_LOWER.\OCP\Security\ISecureRandom::CHAR_DIGITS);
 			\OC::$server->getSystemConfig()->setValue('instanceid', $id);
 		}
 		return $id;
@@ -877,7 +880,7 @@ class OC_Util {
 		// accessing the file via http
 		$url = \OC::$server->getURLGenerator()->getAbsoluteURL(OC::$WEBROOT . '/data' . $fileName);
 		try {
-			$content = \OC::$server->getHTTPClientService()->newClient()->get($url)->getBody();
+			$content = \OC::$server->get(IClientService::class)->newClient()->get($url)->getBody();
 		} catch (\Exception $e) {
 			$content = false;
 		}
@@ -889,7 +892,7 @@ class OC_Util {
 		}
 
 		try {
-			$fallbackContent = \OC::$server->getHTTPClientService()->newClient()->get($url)->getBody();
+			$fallbackContent = \OC::$server->get(IClientService::class)->newClient()->get($url)->getBody();
 		} catch (\Exception $e) {
 			$fallbackContent = false;
 		}

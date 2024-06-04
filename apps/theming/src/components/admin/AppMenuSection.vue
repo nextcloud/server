@@ -1,3 +1,7 @@
+<!--
+  - SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <template>
 	<NcSettingsSection :name="t('theming', 'Navigation bar settings')">
 		<h3>{{ t('theming', 'Default app') }}</h3>

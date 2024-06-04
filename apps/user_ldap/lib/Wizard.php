@@ -1,41 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Alexander Bergolth <leo@strike.wu.ac.at>
- * @author Allan Nordhøy <epost@anotheragency.no>
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Bart Visscher <bartv@thisnet.nl>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Jean-Louis Dupond <jean-louis@dupond.be>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Nicolas Grekas <nicolas.grekas@gmail.com>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Stefan Weil <sw@weilnetz.de>
- * @author Tobias Perschon <tobias@perschon.at>
- * @author Victor Dubiniuk <dubiniuk@owncloud.com>
- * @author Xuanwo <xuanwo@yunify.com>
- * @author Vincent Van Houtte <vvh@aplusv.be>
- * @author Côme Chilliet <come.chilliet@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 
 namespace OCA\User_LDAP;

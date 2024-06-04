@@ -25,6 +25,7 @@ use OCP\AppFramework\Http\Events\BeforeTemplateRenderedEvent;
 use OCP\DB\Events\AddMissingIndicesEvent;
 use OCP\DB\Events\AddMissingPrimaryKeyEvent;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Notification\IManager as INotificationManager;
 use OCP\User\Events\BeforeUserDeletedEvent;
 use OCP\User\Events\UserDeletedEvent;
 use OCP\Util;
@@ -48,7 +49,7 @@ class Application extends App {
 		/** @var IEventDispatcher $eventDispatcher */
 		$eventDispatcher = $server->get(IEventDispatcher::class);
 
-		$notificationManager = $server->getNotificationManager();
+		$notificationManager = $server->get(INotificationManager::class);
 		$notificationManager->registerNotifierService(CoreNotifier::class);
 		$notificationManager->registerNotifierService(AuthenticationNotifier::class);
 
@@ -168,6 +169,12 @@ class Application extends App {
 				'schedulingobjects',
 				'schedulobj_principuri_index',
 				['principaluri']
+			);
+
+			$event->addMissingIndex(
+				'schedulingobjects',
+				'schedulobj_lastmodified_idx',
+				['lastmodified']
 			);
 
 			$event->addMissingIndex(

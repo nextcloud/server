@@ -54,12 +54,14 @@ use OC\Repair\RepairDavShares;
 use OC\Repair\RepairInvalidShares;
 use OC\Repair\RepairMimeTypes;
 use OC\Template\JSCombiner;
+use OCA\DAV\Migration\DeleteSchedulingObjects;
 use OCP\AppFramework\QueryException;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Collaboration\Resources\IManager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
+use OCP\Notification\IManager as INotificationManager;
 use Psr\Log\LoggerInterface;
 use Throwable;
 
@@ -168,7 +170,7 @@ class Repair implements IOutput {
 			new AddCleanupUpdaterBackupsJob(\OC::$server->getJobList()),
 			new CleanupCardDAVPhotoCache(\OC::$server->getConfig(), \OC::$server->getAppDataDir('dav-photocache'), \OC::$server->get(LoggerInterface::class)),
 			new AddClenupLoginFlowV2BackgroundJob(\OC::$server->getJobList()),
-			new RemoveLinkShares(\OC::$server->getDatabaseConnection(), \OC::$server->getConfig(), \OC::$server->getGroupManager(), \OC::$server->getNotificationManager(), \OCP\Server::get(ITimeFactory::class)),
+			new RemoveLinkShares(\OC::$server->getDatabaseConnection(), \OC::$server->getConfig(), \OC::$server->getGroupManager(), \OC::$server->get(INotificationManager::class), \OCP\Server::get(ITimeFactory::class)),
 			new ClearCollectionsAccessCache(\OC::$server->getConfig(), \OCP\Server::get(IManager::class)),
 			\OCP\Server::get(ResetGeneratedAvatarFlag::class),
 			\OCP\Server::get(EncryptionLegacyCipher::class),
@@ -197,6 +199,7 @@ class Repair implements IOutput {
 		return [
 			new OldGroupMembershipShares(\OC::$server->getDatabaseConnection(), \OC::$server->getGroupManager()),
 			\OC::$server->get(ValidatePhoneNumber::class),
+			\OC::$server->get(DeleteSchedulingObjects::class),
 		];
 	}
 

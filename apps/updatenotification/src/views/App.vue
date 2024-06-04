@@ -1,3 +1,7 @@
+<!--
+  - SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <template>
 	<NcContent app-name="updatenotification">
 		<NcAppContent :page-heading="t('updatenotification', 'Changelog for app {app}', { app: appName })">

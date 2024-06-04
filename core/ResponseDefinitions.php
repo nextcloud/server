@@ -26,11 +26,13 @@ namespace OCA\Core;
  *
  * @psalm-type CoreNavigationEntry = array{
  *     id: string,
- *     order: int|string,
+ *     order?: int,
  *     href: string,
  *     icon: string,
  *     type: string,
  *     name: string,
+ *     app?: string,
+ *     default?: bool,
  *     active: bool,
  *     classes: string,
  *     unread: int,
@@ -53,7 +55,7 @@ namespace OCA\Core;
  *
  * @psalm-type CoreResource = array{
  *     richObjectType: string,
- *     richObject: array<string, mixed>,
+ *     richObject: array<string, ?mixed>,
  *     openGraphObject: CoreOpenGraphObject,
  *     accessible: bool,
  * }
@@ -66,7 +68,7 @@ namespace OCA\Core;
  *
  * @psalm-type CoreReference = array{
  *     richObjectType: string,
- *     richObject: array<string, mixed>,
+ *     richObject: array<string, ?mixed>,
  *     openGraphObject: CoreOpenGraphObject,
  *     accessible: bool,
  * }

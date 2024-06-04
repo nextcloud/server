@@ -8,7 +8,6 @@
 namespace OC\DB;
 
 class AdapterPgSql extends Adapter {
-	protected $compatModePre9_5 = null;
 
 	public function lastInsertId($table) {
 		$result = $this->conn->executeQuery('SELECT lastval()');
@@ -25,10 +24,6 @@ class AdapterPgSql extends Adapter {
 	}
 
 	public function insertIgnoreConflict(string $table, array $values) : int {
-		if ($this->isPre9_5CompatMode() === true) {
-			return parent::insertIgnoreConflict($table, $values);
-		}
-
 		// "upsert" is only available since PgSQL 9.5, but the generic way
 		// would leave error logs in the DB.
 		$builder = $this->conn->getQueryBuilder();
@@ -38,18 +33,5 @@ class AdapterPgSql extends Adapter {
 		}
 		$queryString = $builder->getSQL() . ' ON CONFLICT DO NOTHING';
 		return $this->conn->executeUpdate($queryString, $builder->getParameters(), $builder->getParameterTypes());
-	}
-
-	protected function isPre9_5CompatMode(): bool {
-		if ($this->compatModePre9_5 !== null) {
-			return $this->compatModePre9_5;
-		}
-
-		$result = $this->conn->executeQuery('SHOW SERVER_VERSION');
-		$version = $result->fetchOne();
-		$result->free();
-		$this->compatModePre9_5 = version_compare($version, '9.5', '<');
-
-		return $this->compatModePre9_5;
 	}
 }

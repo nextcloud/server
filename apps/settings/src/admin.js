@@ -1,3 +1,7 @@
+/**
+ * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
 window.addEventListener('DOMContentLoaded', () => {
 	$('#loglevel').change(function() {
 		$.post(OC.generateUrl('/settings/admin/log/level'), { level: $(this).val() }, () => {

@@ -39,6 +39,9 @@ describe('Settings: Create and delete accounts', function() {
 			cy.get('input[type="password"]').type(john.password)
 			// see that the password is 123456
 			cy.get('input[type="password"]').should('have.value', john.password)
+		})
+
+		cy.get('form[data-test="form"]').parents('[role="dialog"]').within(() => {
 			// submit the new user form
 			cy.get('button[type="submit"]').click({ force: true })
 		})
@@ -73,6 +76,9 @@ describe('Settings: Create and delete accounts', function() {
 			cy.get('input[type="password"]').should('exist').and('have.value', '')
 			cy.get('input[type="password"]').type(john.password)
 			cy.get('input[type="password"]').should('have.value', john.password)
+		})
+
+		cy.get('form[data-test="form"]').parents('[role="dialog"]').within(() => {
 			// submit the new user form
 			cy.get('button[type="submit"]').click({ force: true })
 		})
