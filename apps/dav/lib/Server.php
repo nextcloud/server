@@ -39,6 +39,7 @@ namespace OCA\DAV;
 use OCA\DAV\AppInfo\PluginManager;
 use OCA\DAV\BulkUpload\BulkUploadPlugin;
 use OCA\DAV\CalDAV\BirthdayService;
+use OCA\DAV\CalDAV\DefaultCalendarValidator;
 use OCA\DAV\CalDAV\Security\RateLimitingPlugin;
 use OCA\DAV\CalDAV\Validation\CalDavValidatePlugin;
 use OCA\DAV\CardDAV\HasPhotoPlugin;
@@ -181,7 +182,7 @@ class Server {
 		if ($this->requestIsForSubtree(['calendars', 'public-calendars', 'system-calendars', 'principals'])) {
 			$this->server->addPlugin(new \OCA\DAV\CalDAV\Plugin());
 			$this->server->addPlugin(new \OCA\DAV\CalDAV\ICSExportPlugin\ICSExportPlugin(\OC::$server->getConfig(), $logger));
-			$this->server->addPlugin(new \OCA\DAV\CalDAV\Schedule\Plugin(\OC::$server->getConfig(), \OC::$server->get(LoggerInterface::class)));
+			$this->server->addPlugin(new \OCA\DAV\CalDAV\Schedule\Plugin(\OC::$server->getConfig(), \OC::$server->get(LoggerInterface::class), \OC::$server->get(DefaultCalendarValidator::class)));
 			if (\OC::$server->getConfig()->getAppValue('dav', 'sendInvitations', 'yes') === 'yes') {
 				$this->server->addPlugin(\OC::$server->query(\OCA\DAV\CalDAV\Schedule\IMipPlugin::class));
 			}
@@ -286,7 +287,8 @@ class Server {
 							$this->server,
 							$this->server->tree,
 							\OC::$server->getDatabaseConnection(),
-							\OC::$server->getUserSession()->getUser()
+							\OC::$server->getUserSession()->getUser(),
+							\OC::$server->get(DefaultCalendarValidator::class),
 						)
 					)
 				);

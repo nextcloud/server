@@ -32,6 +32,7 @@
 namespace OCA\DAV\Connector\Sabre;
 
 use OCA\DAV\AppInfo\PluginManager;
+use OCA\DAV\CalDAV\DefaultCalendarValidator;
 use OCA\DAV\DAV\ViewOnlyPlugin;
 use OCA\DAV\Files\BrowserErrorPagePlugin;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -191,7 +192,8 @@ class ServerFactory {
 							$server,
 							$objectTree,
 							$this->databaseConnection,
-							$this->userSession->getUser()
+							$this->userSession->getUser(),
+							\OC::$server->get(DefaultCalendarValidator::class),
 						)
 					)
 				);
