@@ -178,7 +178,16 @@ export const getContents = async (sharedWithYou = true, sharedWithOthers = true,
 	// Also check the sharingStatusAction.ts code
 	contents = groupBy(contents, 'source').map((nodes) => {
 		const node = nodes[0]
-		node.attributes['share-types'] = nodes.map(node => node.attributes['share-types'])
+		const mtime = node.mtime
+		const shareTypes = nodes.map(node => node.attributes['share-types'])
+
+		// Updating attributes will reset the mtime
+		node.attributes['share-types'] = shareTypes
+
+		// Restore mtime to the most recent share
+		// @ts-expect-error _data is private, mtime is readonly
+		node._data.mtime = mtime
+
 		return node
 	})
 
