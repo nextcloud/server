@@ -11,6 +11,7 @@ use OC\Files\Filesystem;
 use OC\Files\Storage\Wrapper\Encryption;
 use OC\Files\View;
 use OC\Memcache\ArrayCache;
+use OCP\Encryption\IFile;
 use OCP\Encryption\Keys\IStorage as EncryptionKeysStorage;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Storage\IDisableEncryptionStorage;
@@ -65,7 +66,7 @@ class EncryptionWrapper {
 			$user = \OC::$server->getUserSession()->getUser();
 			$mountManager = Filesystem::getMountManager();
 			$uid = $user ? $user->getUID() : null;
-			$fileHelper = \OC::$server->getEncryptionFilesHelper();
+			$fileHelper = \OC::$server->get(IFile::class);
 			$keyStorage = \OC::$server->get(EncryptionKeysStorage::class);
 
 			$util = new Util(
